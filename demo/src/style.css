@@ -1,0 +1,56 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0b1220;
+  color: #e5eefb;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hud {
+  position: fixed;
+  z-index: 2;
+  left: 16px;
+  top: 16px;
+  min-width: 260px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(10, 18, 31, 0.82), rgba(8, 13, 24, 0.72));
+  backdrop-filter: blur(10px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 750;
+  letter-spacing: 0.01em;
+}
+
+.copy {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #a7bedb;
+}
+
+.status {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #7dd3fc;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}

@@ -1,0 +1,9 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "moduleResolution": "Bundler",
+    "types": ["bun", "node"]
+  },
+  "include": ["*.ts"]
+}

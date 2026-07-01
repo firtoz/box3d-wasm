@@ -1,0 +1,23 @@
+{
+  "name": "box3d-wasm",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "bun run build:wasm && bunx tsc -p tsconfig.json --noEmit",
+    "build:wasm": "bun scripts/build-wasm.ts",
+    "dev": "bun run dev:bootstrap && bun run watch",
+    "dev:bootstrap": "bun scripts/build-wasm.ts",
+    "watch": "bunx chokidar 'src/**/*.ts' 'cmake/**/*.c' 'cmake/**/*.txt' 'scripts/**/*.ts' -c 'bun run build:wasm'",
+    "typecheck": "bunx tsc -p tsconfig.json --noEmit",
+    "lint": "bunx tsc -p tsconfig.json --noEmit",
+    "clean": "rm -rf dist build-web ../../demo/public/wasm"
+  },
+  "devDependencies": {
+    "chokidar-cli": "^3.0.0",
+    "typescript": "catalog:"
+  }
+}

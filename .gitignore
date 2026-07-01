@@ -1,0 +1,10 @@
+node_modules/
+dist/
+build/
+build-web/
+.turbo/
+*.log
+.DS_Store
+.fetchcontent-cache/
+demo/public/wasm/
+packages/box3d-wasm/generated/

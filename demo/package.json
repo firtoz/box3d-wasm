@@ -1,0 +1,22 @@
+{
+  "name": "box3d-wasm-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --force",
+    "build": "vite build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "three": "^0.185.1",
+    "stats.js": "^0.17.0",
+    "box3d-wasm": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "vite": "^7.3.6",
+    "@types/three": "catalog:"
+  }
+}

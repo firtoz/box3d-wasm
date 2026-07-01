@@ -1,0 +1,28 @@
+{
+  "name": "box3d-wasm-workspace",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.2.0",
+  "workspaces": [
+    "packages/*",
+    "demo"
+  ],
+  "catalog": {
+    "typescript": "7.0.1-rc",
+    "@types/bun": "^1.3.14",
+    "@types/node": "^24.13.2",
+    "@types/three": "^0.185.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "bun run typecheck:workspace && bun run typecheck:scripts",
+    "clean": "turbo run clean",
+    "typecheck:scripts": "bunx tsc -p packages/box3d-wasm/scripts/tsconfig.json --noEmit",
+    "typecheck:workspace": "bunx tsc -p packages/box3d-wasm/tsconfig.json --noEmit && bunx tsc -p demo/tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "turbo": "^2.10.2"
+  }
+}
