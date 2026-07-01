@@ -1,0 +1,16 @@
+{
+  "$schema": "https://oxc.rs/oxlint/schema.json",
+  "env": {
+    "es2022": true,
+    "browser": true,
+    "node": true
+  },
+  "globals": {
+    "Bun": "readonly"
+  },
+  "rules": {
+    "no-debugger": "warn",
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "no-var": "error"
+  }
+}

@@ -1,7 +1,7 @@
-import { mkdir, writeFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
+import { mkdir, writeFile } from "node:fs/promises";
+import { dirname, resolve } from "node:path";
 
-const outFile = resolve(new URL('../generated/index.ts', import.meta.url).pathname);
+const outFile = resolve(new URL("../generated/index.ts", import.meta.url).pathname);
 
 const source = `export type Vec3 = [number, number, number];
 export type Quat = [number, number, number, number];

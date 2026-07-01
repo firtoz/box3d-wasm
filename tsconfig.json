@@ -1,8 +1,5 @@
 {
   "extends": "./tsconfig.base.json",
   "files": [],
-  "references": [
-    { "path": "./packages/box3d-wasm" },
-    { "path": "./demo" }
-  ]
+  "references": [{ "path": "./packages/box3d-wasm" }, { "path": "./demo" }]
 }

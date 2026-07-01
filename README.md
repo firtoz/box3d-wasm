@@ -2,15 +2,16 @@
 
 Box3D compiled to WebAssembly, with TypeScript bindings and a browser demo.
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)](https://www.typescriptlang.org/)
-[![Bun](https://img.shields.io/badge/Bun-1.x-black)](https://bun.sh/)
-[![Turborepo](https://img.shields.io/badge/Turborepo-2.x-EF4444)](https://turbo.build/repo)
+[![Bun](https://img.shields.io/badge/Bun-1.2.0-black)](https://bun.sh/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-7.0.1--rc-blue)](https://www.typescriptlang.org/)
+[![Turborepo](https://img.shields.io/badge/Turborepo-2.10.2-EF4444)](https://turbo.build/repo)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green)](./LICENSE)
 
 ## What You Get
 
-- A publishable npm package for Box3D wasm bindings.
-- A browser demo showing Box3D + Three.js.
-- A Turborepo workspace that keeps the package, demo, docs, and tests separate.
+- A `box3d-wasm` package with TypeScript entrypoints for the wasm bindings.
+- A browser demo built with Vite and Three.js.
+- A Turborepo workspace that keeps the package and demo in sync.
 
 ## Goals
 
@@ -22,37 +23,43 @@ Box3D compiled to WebAssembly, with TypeScript bindings and a browser demo.
 ## Layout
 
 - `box3d/`: git submodule checkout of the upstream engine source.
-- `packages/box3d-wasm`: package source and generated bindings.
+- `packages/box3d-wasm/`: package source, wasm build scripts, and generated artifacts.
 - `demo/`: browser demo and showcase.
-- `docs/`: API notes and usage docs.
+- `docs/`: notes and usage docs.
 - `integration-test/`: smoke tests and harnesses.
 
 ## Quick Start
-
-This repo is still being bootstrapped, but the intended flow is:
 
 ```bash
 bun install
 bun run dev
 ```
 
-## Monorepo Scripts
+## Scripts
 
-- `bun run dev` - run the demo workspace
-- `bun run build` - build the full workspace
-- `bun run typecheck` - typecheck all packages
-- `bun run lint` - lint all packages
-- `bun run clean` - clear build output
+- `bun run dev` - run the full workspace in development mode.
+- `bun run build` - build the full workspace.
+- `bun run typecheck` - typecheck workspace packages and scripts.
+- `bun run lint` - run workspace lint checks.
+- `bun run clean` - clear build output.
+- `bun run format` - format repo-owned files while skipping the `box3d/` submodule and generated output.
 
-## Baseline Tools
+## Requirements
 
-- `bun`
-- `cmake`
-- `emscripten`
-- a C/C++ compiler toolchain
-- `git submodule update --init --recursive`
+- Bun 1.2.0
+- A C/C++ toolchain
+- CMake
+- Emscripten
+- Git submodules initialized with `git submodule update --init --recursive`
 
-The intended flow is to keep the upstream `box3d` repo pinned as a submodule and layer wasm-specific glue on top in this repo.
+## Notes
+
+The upstream `box3d` engine is pinned as a submodule, and this repo layers wasm-specific build tooling and demo code on top.
+
+## License
+
+This repository is MIT licensed under `./LICENSE`.
+The vendored `box3d/` submodule is licensed separately under Erin Catto's MIT license.
 
 ## Inspiration
 

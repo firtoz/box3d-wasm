@@ -1,0 +1,9 @@
+{
+  "$schema": "https://oxc.rs/oxfmt/schema.json",
+  "formatter": {
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "quoteStyle": "single",
+    "semi": true
+  }
+}

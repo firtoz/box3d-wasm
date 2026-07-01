@@ -1,3 +1,3 @@
-declare module 'virtual:wasm-version' {
+declare module "virtual:wasm-version" {
   export const wasmBuildVersion: string;
 }

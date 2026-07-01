@@ -10,13 +10,13 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "three": "^0.185.1",
+    "box3d-wasm": "workspace:*",
     "stats.js": "^0.17.0",
-    "box3d-wasm": "workspace:*"
+    "three": "^0.185.1"
   },
   "devDependencies": {
+    "@types/three": "catalog:",
     "typescript": "catalog:",
-    "vite": "^7.3.6",
-    "@types/three": "catalog:"
+    "vite": "^7.3.6"
   }
 }

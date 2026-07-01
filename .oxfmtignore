@@ -1,0 +1,8 @@
+box3d/**
+node_modules/**
+dist/**
+build/**
+build-web/**
+.turbo/**
+demo/public/wasm/**
+packages/box3d-wasm/generated/**

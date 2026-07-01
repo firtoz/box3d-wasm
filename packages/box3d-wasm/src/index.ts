@@ -61,7 +61,11 @@ export interface RuntimeAPI {
 }
 
 type CModule = {
-  cwrap(name: string, returnType: 'number', argTypes: readonly string[]): (...args: number[]) => number;
+  cwrap(
+    name: string,
+    returnType: "number",
+    argTypes: readonly string[],
+  ): (...args: number[]) => number;
   cwrap(name: string, returnType: null, argTypes: readonly string[]): (...args: number[]) => void;
   HEAPF32: Float32Array;
   _malloc(size: number): number;
@@ -69,16 +73,59 @@ type CModule = {
 };
 
 type CreateWorldFn = (gravityX: number, gravityY: number, gravityZ: number) => number;
-type CreateBodyFn = (worldHandle: number, bodyType: number, px: number, py: number, pz: number, enableSleep: number, awake: number) => number;
+type CreateBodyFn = (
+  worldHandle: number,
+  bodyType: number,
+  px: number,
+  py: number,
+  pz: number,
+  enableSleep: number,
+  awake: number,
+) => number;
 type DestroyWorldFn = (worldHandle: number) => void;
-type CreateBoxFn = (worldHandle: number, px: number, py: number, pz: number, hx: number, hy: number, hz: number, isStatic: number, density: number) => number;
-type CreateSphereFn = (worldHandle: number, px: number, py: number, pz: number, radius: number, vx: number, vy: number, vz: number, density: number) => number;
+type CreateBoxFn = (
+  worldHandle: number,
+  px: number,
+  py: number,
+  pz: number,
+  hx: number,
+  hy: number,
+  hz: number,
+  isStatic: number,
+  density: number,
+) => number;
+type CreateSphereFn = (
+  worldHandle: number,
+  px: number,
+  py: number,
+  pz: number,
+  radius: number,
+  vx: number,
+  vy: number,
+  vz: number,
+  density: number,
+) => number;
 type DestroyBodyFn = (bodyHandle: number) => void;
 type DestroyJointFn = (jointHandle: number) => void;
-type SetBodyTransformFn = (bodyHandle: number, px: number, py: number, pz: number, qx: number, qy: number, qz: number, qw: number) => void;
+type SetBodyTransformFn = (
+  bodyHandle: number,
+  px: number,
+  py: number,
+  pz: number,
+  qx: number,
+  qy: number,
+  qz: number,
+  qw: number,
+) => void;
 type SetBodyAwakeFn = (bodyHandle: number, awake: number) => void;
 type SetBodyDampingFn = (bodyHandle: number, linearDamping: number, angularDamping: number) => void;
-type GetBodyLocalPointFn = (bodyHandle: number, worldX: number, worldY: number, worldZ: number, outPoint: number) => void;
+type GetBodyLocalPointFn = (
+  bodyHandle: number,
+  worldX: number,
+  worldY: number,
+  worldZ: number,
+  outPoint: number,
+) => void;
 type CreateMotorJointFn = (
   worldHandle: number,
   bodyAHandle: number,
@@ -119,26 +166,29 @@ function vec3(x = 0, y = 0, z = 0): Vec3 {
 
 function versionedUrl(url: string, version: string | undefined): string {
   if (version === undefined || version.length === 0) return url;
-  const separator = url.includes('?') ? '&' : '?';
+  const separator = url.includes("?") ? "&" : "?";
   return `${url}${separator}v=${encodeURIComponent(version)}`;
 }
 
 export class Box3DRuntime implements RuntimeAPI {
   static async load(options: RuntimeLoadOptions = {}): Promise<Box3DRuntime> {
-    const baseUrl = typeof document === 'undefined' ? '/' : new URL('.', window.location.href).pathname;
+    const baseUrl =
+      typeof document === "undefined" ? "/" : new URL(".", window.location.href).pathname;
     const moduleUrl = versionedUrl(`${baseUrl}wasm/box3d-web.js`, options.version);
     console.log(`[box3d-wasm] loading JS wrapper: ${moduleUrl}`);
-    const response = await fetch(moduleUrl, { cache: 'no-store' });
+    const response = await fetch(moduleUrl, { cache: "no-store" });
     if (!response.ok) {
       throw new Error(`Failed to load ${moduleUrl}: ${response.status} ${response.statusText}`);
     }
 
     const source = await response.text();
-    if (source.startsWith('<!doctype html>') || source.startsWith('<html')) {
-      throw new Error(`Expected JS at ${moduleUrl}, got HTML instead. First bytes: ${source.slice(0, 80)}`);
+    if (source.startsWith("<!doctype html>") || source.startsWith("<html")) {
+      throw new Error(
+        `Expected JS at ${moduleUrl}, got HTML instead. First bytes: ${source.slice(0, 80)}`,
+      );
     }
     console.log(`[box3d-wasm] fetched JS wrapper (${source.length} bytes)`);
-    const blobUrl = URL.createObjectURL(new Blob([source], { type: 'text/javascript' }));
+    const blobUrl = URL.createObjectURL(new Blob([source], { type: "text/javascript" }));
     const moduleImport = (await import(/* @vite-ignore */ blobUrl)) as ModuleImport;
     URL.revokeObjectURL(blobUrl);
 
@@ -173,20 +223,71 @@ export class Box3DRuntime implements RuntimeAPI {
 
   constructor(module: CModule) {
     this.module = module;
-    this.createWorldFn = module.cwrap('b3wCreateWorld', 'number', ['number', 'number', 'number']);
-    this.createBodyFn = module.cwrap('b3wCreateBody', 'number', ['number', 'number', 'number', 'number', 'number', 'number', 'number']);
-    this.destroyWorldFn = module.cwrap('b3wDestroyWorld', null, ['number']);
-    this.createBoxFn = module.cwrap('b3wCreateBox', 'number', ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number']);
-    this.createSphereFn = module.cwrap('b3wCreateSphere', 'number', ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number']);
-    this.destroyBodyFn = module.cwrap('b3wDestroyBody', null, ['number']);
-    this.destroyJointFn = module.cwrap('b3wDestroyJoint', null, ['number']);
-    this.setBodyTransformFn = module.cwrap('b3wSetBodyTransform', null, ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number']);
-    this.setBodyAwakeFn = module.cwrap('b3wSetBodyAwake', null, ['number', 'number']);
-    this.setBodyDampingFn = module.cwrap('b3wSetBodyDamping', null, ['number', 'number', 'number']);
-    this.getBodyLocalPointFn = module.cwrap('b3wGetBodyLocalPoint', null, ['number', 'number', 'number', 'number', 'number']);
-    this.createMotorJointFn = module.cwrap('b3wCreateMotorJoint', 'number', ['number', 'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number']);
-    this.stepFn = module.cwrap('b3wStep', null, ['number', 'number', 'number']);
-    this.getBodyTransformFn = module.cwrap('b3wGetBodyTransform', null, ['number', 'number']);
+    this.createWorldFn = module.cwrap("b3wCreateWorld", "number", ["number", "number", "number"]);
+    this.createBodyFn = module.cwrap("b3wCreateBody", "number", [
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+    ]);
+    this.destroyWorldFn = module.cwrap("b3wDestroyWorld", null, ["number"]);
+    this.createBoxFn = module.cwrap("b3wCreateBox", "number", [
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+    ]);
+    this.createSphereFn = module.cwrap("b3wCreateSphere", "number", [
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+    ]);
+    this.destroyBodyFn = module.cwrap("b3wDestroyBody", null, ["number"]);
+    this.destroyJointFn = module.cwrap("b3wDestroyJoint", null, ["number"]);
+    this.setBodyTransformFn = module.cwrap("b3wSetBodyTransform", null, [
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+    ]);
+    this.setBodyAwakeFn = module.cwrap("b3wSetBodyAwake", null, ["number", "number"]);
+    this.setBodyDampingFn = module.cwrap("b3wSetBodyDamping", null, ["number", "number", "number"]);
+    this.getBodyLocalPointFn = module.cwrap("b3wGetBodyLocalPoint", null, [
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+    ]);
+    this.createMotorJointFn = module.cwrap("b3wCreateMotorJoint", "number", [
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+      "number",
+    ]);
+    this.stepFn = module.cwrap("b3wStep", null, ["number", "number", "number"]);
+    this.getBodyTransformFn = module.cwrap("b3wGetBodyTransform", null, ["number", "number"]);
     this.transformPtr = module._malloc(7 * 4);
     this.pointPtr = module._malloc(3 * 4);
   }
@@ -207,19 +308,47 @@ export class Box3DRuntime implements RuntimeAPI {
     const type = options.type ?? BodyType.Static;
     const enableSleep = options.enableSleep ?? true;
     const awake = options.awake ?? true;
-    return this.createBodyFn(worldHandle, type, position[0], position[1], position[2], enableSleep ? 1 : 0, awake ? 1 : 0);
+    return this.createBodyFn(
+      worldHandle,
+      type,
+      position[0],
+      position[1],
+      position[2],
+      enableSleep ? 1 : 0,
+      awake ? 1 : 0,
+    );
   }
 
   createBox(worldHandle: number, options: Required<BoxOptions>): number {
     const size = options.size;
     const position = options.position;
-    return this.createBoxFn(worldHandle, position[0], position[1], position[2], size[0], size[1], size[2], options.static ? 1 : 0, options.density);
+    return this.createBoxFn(
+      worldHandle,
+      position[0],
+      position[1],
+      position[2],
+      size[0],
+      size[1],
+      size[2],
+      options.static ? 1 : 0,
+      options.density,
+    );
   }
 
   createSphere(worldHandle: number, options: Required<SphereOptions>): number {
     const position = options.position;
     const velocity = options.velocity;
-    return this.createSphereFn(worldHandle, position[0], position[1], position[2], options.radius, velocity[0], velocity[1], velocity[2], options.density);
+    return this.createSphereFn(
+      worldHandle,
+      position[0],
+      position[1],
+      position[2],
+      options.radius,
+      velocity[0],
+      velocity[1],
+      velocity[2],
+      options.density,
+    );
   }
 
   destroyBody(bodyHandle: number): void {
@@ -231,7 +360,16 @@ export class Box3DRuntime implements RuntimeAPI {
   }
 
   setBodyTransform(bodyHandle: number, position: Vec3, rotation: Quat = [0, 0, 0, 1]): void {
-    this.setBodyTransformFn(bodyHandle, position[0], position[1], position[2], rotation[0], rotation[1], rotation[2], rotation[3]);
+    this.setBodyTransformFn(
+      bodyHandle,
+      position[0],
+      position[1],
+      position[2],
+      rotation[0],
+      rotation[1],
+      rotation[2],
+      rotation[3],
+    );
   }
 
   setBodyAwake(bodyHandle: number, awake: boolean): void {
@@ -243,13 +381,24 @@ export class Box3DRuntime implements RuntimeAPI {
   }
 
   getBodyLocalPoint(bodyHandle: number, worldPoint: Vec3): Vec3 {
-    this.getBodyLocalPointFn(bodyHandle, worldPoint[0], worldPoint[1], worldPoint[2], this.pointPtr);
+    this.getBodyLocalPointFn(
+      bodyHandle,
+      worldPoint[0],
+      worldPoint[1],
+      worldPoint[2],
+      this.pointPtr,
+    );
     const heap = this.module.HEAPF32;
     const base = this.pointPtr >> 2;
     return [heap[base + 0], heap[base + 1], heap[base + 2]];
   }
 
-  createMotorJoint(worldHandle: number, bodyAHandle: number, bodyBHandle: number, options: MotorJointOptions = {}): number {
+  createMotorJoint(
+    worldHandle: number,
+    bodyAHandle: number,
+    bodyBHandle: number,
+    options: MotorJointOptions = {},
+  ): number {
     const localFrameA = options.localFrameA ?? vec3();
     const localFrameB = options.localFrameB ?? vec3();
     const linearVelocity = options.linearVelocity ?? vec3();
@@ -301,7 +450,10 @@ export class Box3DRuntime implements RuntimeAPI {
 }
 
 export class PhysicsWorld {
-  constructor(private readonly runtime: Box3DRuntime, public readonly handle: number) {}
+  constructor(
+    private readonly runtime: Box3DRuntime,
+    public readonly handle: number,
+  ) {}
 
   createBody(options: BodyOptions = {}): number {
     return this.runtime.createBody(this.handle, options);
@@ -349,7 +501,11 @@ export class PhysicsWorld {
     return this.runtime.getBodyLocalPoint(bodyHandle, worldPoint);
   }
 
-  createMotorJoint(bodyAHandle: number, bodyBHandle: number, options: MotorJointOptions = {}): number {
+  createMotorJoint(
+    bodyAHandle: number,
+    bodyBHandle: number,
+    options: MotorJointOptions = {},
+  ): number {
     return this.runtime.createMotorJoint(this.handle, bodyAHandle, bodyBHandle, options);
   }
 
