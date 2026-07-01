@@ -2,6 +2,12 @@
 
 Box3D compiled to WebAssembly, with TypeScript bindings and a browser demo.
 
+
+
+https://github.com/user-attachments/assets/1c161c46-1dae-45a0-8d77-cb8df45819e8
+
+
+
 [![Bun](https://img.shields.io/badge/Bun-1.2.0-black)](https://bun.sh/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-7.0.1--rc-blue)](https://www.typescriptlang.org/)
 [![Turborepo](https://img.shields.io/badge/Turborepo-2.10.2-EF4444)](https://turbo.build/repo)
