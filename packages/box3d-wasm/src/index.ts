@@ -88,7 +88,7 @@ export interface ShapeHandle { bodyHandle: number; shapeHandle: number; }
 export interface RuntimeLoadOptions { version?: string; }
 export interface RuntimeAPI { createWorld(options?: WorldOptions): PhysicsWorld; }
 
-type CModule = { cwrap(name: string, returnType: "number", argTypes: readonly string[]): (...args: number[]) => number; cwrap(name: string, returnType: null, argTypes: readonly string[]): (...args: number[]) => void; HEAPF32: Float32Array; _malloc(size: number): number; _free(ptr: number): void; };
+type CModule = { cwrap(name: string, returnType: "number", argTypes: readonly string[]): (...args: number[]) => number; cwrap(name: string, returnType: null, argTypes: readonly string[]): (...args: number[]) => void; HEAPF32: Float32Array; HEAPU8: Uint8Array; _malloc(size: number): number; _free(ptr: number): void; };
 type CreateWorldFn = (gravityX: number, gravityY: number, gravityZ: number, workerCount: number) => number;
 type CreateBodyFn = (worldHandle: number, bodyType: number, px: number, py: number, pz: number, enableSleep: number, awake: number) => number;
 type DestroyWorldFn = (worldHandle: number) => void;
@@ -153,6 +153,8 @@ type ShapeSetDensityFn = (shapeHandle: number, density: number, updateBodyMass: 
 type GetWorldCountersFn = (worldHandle: number, outCounters: number) => void;
 type GetWorldProfileFn = (worldHandle: number, outProfile: number) => void;
 type WriteBodyTransformsFn = (count: number, bodyHandles: number, outPositions: number, outRotations: number, outAwake: number) => void;
+type RayCastClosestFn = (worldHandle: number, ox: number, oy: number, oz: number, tx: number, ty: number, tz: number, categoryBits: number, maskBits: number, outShapeHandle: number, outPoint: number, outNormal: number, outFraction: number) => void;
+type GetShapeBodyHandleFn = (shapeHandle: number) => number;
 type ShapeSetFrictionFn = (shapeHandle: number, friction: number) => void;
 type ShapeSetRestitutionFn = (shapeHandle: number, restitution: number) => void;
 
@@ -261,6 +263,8 @@ export class Box3DRuntime implements RuntimeAPI {
   private readonly getWorldCountersFn: GetWorldCountersFn;
   private readonly getWorldProfileFn: GetWorldProfileFn;
   private readonly writeBodyTransformsFn: WriteBodyTransformsFn;
+  private readonly rayCastClosestFn: RayCastClosestFn;
+  private readonly getShapeBodyHandleFn: GetShapeBodyHandleFn;
   private readonly setDensityFn: ShapeSetDensityFn;
   private readonly setFrictionFn: ShapeSetFrictionFn;
   private readonly setRestitutionFn: ShapeSetRestitutionFn;
@@ -311,6 +315,8 @@ export class Box3DRuntime implements RuntimeAPI {
     this.getWorldCountersFn = module.cwrap("b3wGetWorldCounters", null, ["number", "number"]);
     this.getWorldProfileFn = module.cwrap("b3wGetWorldProfile", null, ["number", "number"]);
     this.writeBodyTransformsFn = module.cwrap("b3wWriteBodyTransforms", null, ["number", "number", "number", "number", "number"]);
+    this.rayCastClosestFn = module.cwrap("b3wRayCastClosest", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
+    this.getShapeBodyHandleFn = module.cwrap("b3wGetShapeBodyHandle", "number", ["number"]);
     this.stepFn = module.cwrap("b3wStep", null, ["number", "number", "number"]);
     this.getBodyTransformFn = module.cwrap("b3wGetBodyTransform", null, ["number", "number"]);
     this.setDensityFn = module.cwrap("b3wShapeSetDensity", null, ["number", "number", "number"]);
@@ -520,6 +526,30 @@ export class Box3DRuntime implements RuntimeAPI {
   getWorldCounters(worldHandle: number): WorldCounters { const ptr = this.module._malloc(7 * 4); this.getWorldCountersFn(worldHandle, ptr); const heap32 = new Int32Array(this.module.HEAPF32.buffer); const base = ptr >> 2; const counters = { bodyCount: heap32[base + 0], shapeCount: heap32[base + 1], contactCount: heap32[base + 2], jointCount: heap32[base + 3], islandCount: heap32[base + 4], staticTreeHeight: heap32[base + 5], treeHeight: heap32[base + 6] }; this.module._free(ptr); return counters; }
   getWorldProfile(worldHandle: number): WorldProfile { this.getWorldProfileFn(worldHandle, this.profilePtr); const heap = this.module.HEAPF32; const base = this.profilePtr >> 2; return { step: heap[base + 0], pairs: heap[base + 1], collide: heap[base + 2], solve: heap[base + 3], solverSetup: heap[base + 4], constraints: heap[base + 5], prepareConstraints: heap[base + 6], integrateVelocities: heap[base + 7], warmStart: heap[base + 8], solveImpulses: heap[base + 9], integratePositions: heap[base + 10], relaxImpulses: heap[base + 11], applyRestitution: heap[base + 12], storeImpulses: heap[base + 13], splitIslands: heap[base + 14], transforms: heap[base + 15], sensorHits: heap[base + 16], jointEvents: heap[base + 17], hitEvents: heap[base + 18], refit: heap[base + 19], bullets: heap[base + 20], sleepIslands: heap[base + 21], sensors: heap[base + 22] }; }
 
+  rayCastClosest(worldHandle: number, origin: Vec3, translation: Vec3, categoryBits = U64_MAX, maskBits = U64_MAX): { shapeHandle: number; bodyHandle: number; point: Vec3; normal: Vec3; fraction: number } | null {
+    const outShapePtr = this.module._malloc(4);
+    const outPointPtr = this.module._malloc(3 * 4);
+    const outNormalPtr = this.module._malloc(3 * 4);
+    const outFractionPtr = this.module._malloc(4);
+    this.rayCastClosestFn(worldHandle, origin[0], origin[1], origin[2], translation[0], translation[1], translation[2], categoryBits, maskBits, outShapePtr, outPointPtr, outNormalPtr, outFractionPtr);
+    const heap32 = new Int32Array(this.module.HEAPF32.buffer);
+    const heap = this.module.HEAPF32;
+    const sBase = outShapePtr >> 2;
+    const pBase = outPointPtr >> 2;
+    const nBase = outNormalPtr >> 2;
+    const fBase = outFractionPtr >> 2;
+    const shapeHandle = heap32[sBase + 0];
+    const fraction = heap[fBase + 0];
+    if (shapeHandle === 0 || fraction <= 0) {
+      this.module._free(outShapePtr); this.module._free(outPointPtr); this.module._free(outNormalPtr); this.module._free(outFractionPtr);
+      return null;
+    }
+    const bodyHandle = this.getShapeBodyHandleFn(shapeHandle);
+    const result = { shapeHandle, bodyHandle, point: [heap[pBase + 0], heap[pBase + 1], heap[pBase + 2]] as Vec3, normal: [heap[nBase + 0], heap[nBase + 1], heap[nBase + 2]] as Vec3, fraction };
+    this.module._free(outShapePtr); this.module._free(outPointPtr); this.module._free(outNormalPtr); this.module._free(outFractionPtr);
+    return result;
+  }
+
   // Batched transform read: writes transforms + awake flags for all bodies at once.
   // Buffers must be pre-allocated with _malloc.
   writeBodyTransforms(count: number, bodyHandlesPtr: number, outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number): void {
@@ -541,7 +571,7 @@ export class Box3DRuntime implements RuntimeAPI {
   setShapeCapsule(shapeHandle: number | ShapeHandle, a: Vec3, b: Vec3, radius: number): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setShapeCapsuleFn(handle, a[0], a[1], a[2], b[0], b[1], b[2], radius); }
   applyShapeWind(shapeHandle: number | ShapeHandle, wind: Vec3, drag: number, lift: number, maxSpeed: number, wake = true): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.applyShapeWindFn(handle, wind[0], wind[1], wind[2], drag, lift, maxSpeed, wake ? 1 : 0); }
   setBodyType(bodyHandle: number, type: BodyType): void { this.setBodyTypeFn(bodyHandle, type); }
-  setBodyName(bodyHandle: number, name: string): void { const ptr = this.module._malloc(name.length + 1); const heap8 = new Uint8Array(this.module.HEAPF32.buffer); for (let i = 0; i < name.length; i++) heap8[ptr + i] = name.charCodeAt(i); heap8[ptr + name.length] = 0; this.setBodyNameFn(bodyHandle, ptr); this.module._free(ptr); }
+  setBodyName(bodyHandle: number, name: string): void { const ptr = this.module._malloc(name.length + 1); const heap8 = new Uint8Array(this.module.HEAPU8.buffer); for (let i = 0; i < name.length; i++) heap8[ptr + i] = name.charCodeAt(i); heap8[ptr + name.length] = 0; this.setBodyNameFn(bodyHandle, ptr); this.module._free(ptr); }
   setBodyGravityScale(bodyHandle: number, scale: number): void { this.setBodyGravityScaleFn(bodyHandle, scale); }
   setBodySleepThreshold(bodyHandle: number, threshold: number): void { this.setBodySleepThresholdFn(bodyHandle, threshold); }
   enableBodySleep(bodyHandle: number, enable: boolean): void { this.enableBodySleepFn(bodyHandle, enable ? 1 : 0); }
@@ -590,6 +620,7 @@ export class PhysicsWorld {
   getBodyTransform(bodyHandle: number): BodyTransform { return this.runtime.readBodyTransform(bodyHandle); }
   getCounters(): WorldCounters { return this.runtime.getWorldCounters(this.handle); }
   getProfile(): WorldProfile { return this.runtime.getWorldProfile(this.handle); }
+  rayCastClosest(origin: Vec3, translation: Vec3, categoryBits = U64_MAX, maskBits = U64_MAX): { shapeHandle: number; bodyHandle: number; point: Vec3; normal: Vec3; fraction: number } | null { return this.runtime.rayCastClosest(this.handle, origin, translation, categoryBits, maskBits); }
   writeBodyTransforms(count: number, bodyHandlesPtr: number, outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number): void {
     this.runtime.writeBodyTransforms(count, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr);
   }

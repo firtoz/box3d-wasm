@@ -70,3 +70,42 @@ B3W_EXPORT void b3wGetWorldProfile(int worldHandle, float* outProfile)
 	outProfile[21] = profile.sleepIslands;
 	outProfile[22] = profile.sensors;
 }
+
+B3W_EXPORT void b3wRayCastClosest(int worldHandle, float originX, float originY, float originZ, float translationX, float translationY, float translationZ, int categoryBits, int maskBits, int* outShapeHandle, float* outPoint, float* outNormal, float* outFraction)
+{
+	if (outShapeHandle != NULL) *outShapeHandle = 0;
+	if (outPoint != NULL)
+	{
+		outPoint[0] = 0.0f;
+		outPoint[1] = 0.0f;
+		outPoint[2] = 0.0f;
+	}
+	if (outNormal != NULL)
+	{
+		outNormal[0] = 0.0f;
+		outNormal[1] = 0.0f;
+		outNormal[2] = 0.0f;
+	}
+	if (outFraction != NULL) *outFraction = 1.0f;
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	b3QueryFilter filter = b3DefaultQueryFilter();
+	filter.categoryBits = (uint64_t)categoryBits;
+	filter.maskBits = (uint64_t)maskBits;
+	b3RayResult result = b3World_CastRayClosest(slot->worldId, (b3Pos){ originX, originY, originZ }, (b3Vec3){ translationX, translationY, translationZ }, filter);
+	if (b3Shape_IsValid(result.shapeId) == false) return;
+	if (outShapeHandle != NULL) *outShapeHandle = result.shapeId.index1;
+	if (outPoint != NULL)
+	{
+		outPoint[0] = result.point.x;
+		outPoint[1] = result.point.y;
+		outPoint[2] = result.point.z;
+	}
+	if (outNormal != NULL)
+	{
+		outNormal[0] = result.normal.x;
+		outNormal[1] = result.normal.y;
+		outNormal[2] = result.normal.z;
+	}
+	if (outFraction != NULL) *outFraction = result.fraction;
+}

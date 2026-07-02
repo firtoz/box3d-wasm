@@ -367,12 +367,13 @@ function bodyFromPointer(e: PointerEvent): { body: DemoBody; point: THREE.Vector
   if (activeSample === null) return null;
   setPointerFromEvent(e);
   raycaster.setFromCamera(pointerNdc, camera);
-  const meshes = activeSample.bodies.map((b) => b.mesh);
-  const hits = raycaster.intersectObjects(meshes, false);
-  if (hits.length === 0) return null;
-  const hit = hits[0];
-  const body = activeSample.bodies.find((b) => b.mesh === hit.object);
-  return body === undefined ? null : { body, point: hit.point };
+  const origin = [raycaster.ray.origin.x, raycaster.ray.origin.y, raycaster.ray.origin.z] as [number, number, number];
+  const translation = [raycaster.ray.direction.x * 1000, raycaster.ray.direction.y * 1000, raycaster.ray.direction.z * 1000] as [number, number, number];
+  const hit = activeSample.world.rayCastClosest(origin, translation);
+  if (hit === null || hit.bodyHandle === 0) return null;
+  const body = activeSample.bodies.find((b) => b.handle === hit.bodyHandle);
+  if (body === undefined) return null;
+  return { body, point: new THREE.Vector3(hit.point[0], hit.point[1], hit.point[2]) };
 }
 
 function setSelectedBody(body: DemoBody | null): void {

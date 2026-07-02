@@ -161,6 +161,15 @@ B3W_EXPORT void b3wShapeSetFilter(int shapeHandle, int categoryBits, int maskBit
 	b3Shape_SetFilter(*shapeId, filter, invokeContacts != 0);
 }
 
+B3W_EXPORT int b3wGetShapeBodyHandle(int shapeHandle)
+{
+	b3ShapeId* shapeId = resolve_shape(shapeHandle);
+	if (shapeId == NULL) return 0;
+	b3BodyId bodyId = b3Shape_GetBody(*shapeId);
+	if (b3Body_IsValid(bodyId) == false) return 0;
+	return bodyId.index1;
+}
+
 B3W_EXPORT void b3wShapeEnableSensorEvents(int shapeHandle, int flag)
 {
 	b3ShapeId* shapeId = resolve_shape(shapeHandle);

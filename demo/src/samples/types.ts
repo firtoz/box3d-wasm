@@ -20,6 +20,7 @@ export type DemoSampleInstance = {
   launchSpeed?: number;
   info?: string;
   camera?: { position: [number, number, number]; target: [number, number, number] };
+  profile?: boolean;
   step(dt: number): void;
   dispose(): void;
 };

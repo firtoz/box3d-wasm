@@ -82,7 +82,9 @@ export const dominoesSample: DemoSample = {
       world,
       bodies,
       controls: [],
+      profile: true,
       info: `30 rings of dominoes`,
+      _profileTick: 0,
       step(dt) {
         world.step(dt, 4);
 
@@ -141,6 +143,12 @@ export const dominoesSample: DemoSample = {
           const t = world.getBodyTransform(bodies[i].handle);
           bodies[i].mesh.position.set(t.position[0], t.position[1], t.position[2]);
           bodies[i].mesh.quaternion.set(t.rotation[0], t.rotation[1], t.rotation[2], t.rotation[3]);
+        }
+
+        this._profileTick = (this._profileTick + 1) % 20;
+        if (this._profileTick === 0) {
+          const p = world.getProfile();
+          this.info = `30 rings of dominoes | step ${p.step.toFixed(2)}ms solve ${p.solve.toFixed(2)}ms collide ${p.collide.toFixed(2)}ms pairs ${p.pairs.toFixed(2)}ms`;
         }
       },
       dispose() {
