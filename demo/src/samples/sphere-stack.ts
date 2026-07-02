@@ -17,7 +17,7 @@ export const sphereStackSample: DemoSample = {
     for (let i = 0; i < 30; i++) {
       const p: [number, number, number] = [0, y, 0];
       const bodyHandle = world.createBody({ type: 2, position: p, awake: true });
-      runtime.createSphereShape(bodyHandle, { radius: r, rollingResistance: 0.1 });
+      runtime.createSphereShape(bodyHandle, [0, 0, 0], r, { rollingResistance: 0.1 });
       const mesh = new THREE.Mesh(
         new THREE.SphereGeometry(r, 24, 16),
         new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.6 }),

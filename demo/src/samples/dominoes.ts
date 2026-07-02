@@ -26,7 +26,7 @@ export const dominoesSample: DemoSample = {
         const pz = radius * sn - (deg / 630) * nz;
         const p: [number, number, number] = [px, 0.8, pz];
         const bodyHandle = world.createBody({ type: 2, position: p, awake: true });
-        runtime.createHullShape(bodyHandle, { size: [0.2, 0.8, 0.05] });
+        runtime.createHullShape(bodyHandle, [0.2, 0.8, 0.05]);
         const mesh = new THREE.Mesh(
           new THREE.BoxGeometry(0.4, 1.6, 0.1),
           new THREE.MeshStandardMaterial({ color: 0xfbbf24, roughness: 0.75 }),

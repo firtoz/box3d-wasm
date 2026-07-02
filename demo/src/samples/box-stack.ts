@@ -16,7 +16,7 @@ export const boxStackSample: DemoSample = {
     for (let i = 0; i < 40; i++) {
       const p: [number, number, number] = [0, 1.5 * a + 2.5 * a * i, 0];
       const bodyHandle = world.createBody({ type: 2, position: p, awake: true });
-      runtime.createHullShape(bodyHandle, { size: [a, a, a], rollingResistance: 0.1 });
+      runtime.createHullShape(bodyHandle, [a, a, a], { rollingResistance: 0.1 });
       const mesh = new THREE.Mesh(
         new THREE.BoxGeometry(2 * a, 2 * a, 2 * a),
         new THREE.MeshStandardMaterial({ color: 0x60a5fa + (i % 10) * 0x010101, roughness: 0.75 }),

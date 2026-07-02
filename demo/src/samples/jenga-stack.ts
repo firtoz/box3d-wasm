@@ -29,9 +29,9 @@ function buildStack(runtime: Box3DRuntime, world: PhysicsWorld, scene: THREE.Sce
       world.setBodyTransform(bodyHandle, p, [0, qy, 0, qwY]);
 
       if (useCapsule) {
-        runtime.createCapsuleShape(bodyHandle, [-2.5, 0, 0], [2.5, 0, 0], capsuleR, { density: 1 });
+        runtime.createCapsuleShape(bodyHandle, [-2.5, 0, 0], [2.5, 0, 0], capsuleR, { density: 1000 });
       } else {
-        runtime.createHullShape(bodyHandle, { size: hullSize });
+        runtime.createHullShape(bodyHandle, hullSize);
       }
 
       const mesh = useCapsule

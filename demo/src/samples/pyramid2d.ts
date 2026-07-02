@@ -21,7 +21,7 @@ export const pyramid2dSample: DemoSample = {
         const py = (1.5 + 2.5 * row) * a;
         const p: [number, number, number] = [px, py, 0];
         const bodyHandle = world.createBody({ type: 2, position: p, awake: true });
-        runtime.createHullShape(bodyHandle, { size: [a, a, a] });
+        runtime.createHullShape(bodyHandle, [a, a, a]);
         runtime.setBodyMotionLocks(bodyHandle, { lockLinearZ: true, lockRotationX: true, lockRotationY: true });
         const mesh = new THREE.Mesh(
           new THREE.BoxGeometry(a * 2, a * 2, a * 2),

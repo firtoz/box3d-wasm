@@ -327,6 +327,7 @@ canvas {
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
   font-size: 12px;
   user-select: none;
+  overflow: auto;
 }
 
 .controls-dialog-header {

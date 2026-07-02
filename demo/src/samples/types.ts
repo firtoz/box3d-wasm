@@ -19,6 +19,7 @@ export type DemoSampleInstance = {
   controls: ControlSpec[];
   launchSpeed?: number;
   info?: string;
+  camera?: { position: [number, number, number]; target: [number, number, number] };
   step(dt: number): void;
   dispose(): void;
 };

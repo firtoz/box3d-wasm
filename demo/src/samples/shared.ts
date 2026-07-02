@@ -15,7 +15,7 @@ export function addBox(
   color: number,
   isStatic = false,
 ): DemoBody {
-  const handle = world.createBox({ size, position, static: isStatic, density: isStatic ? 0 : 1 });
+  const handle = world.createBox({ size, position, static: isStatic, density: isStatic ? 0 : 1000 });
   const mesh = new THREE.Mesh(
     new THREE.BoxGeometry(size[0] * 2, size[1] * 2, size[2] * 2),
     new THREE.MeshStandardMaterial({ color, roughness: 0.75 }),
@@ -37,7 +37,7 @@ export function addSphere(
   position: Vec3,
   color: number,
 ): DemoBody {
-  const handle = world.createSphere({ radius, position, density: 1 });
+  const handle = world.createSphere({ radius, position, density: 1000 });
   const mesh = new THREE.Mesh(
     new THREE.SphereGeometry(radius, 24, 16),
     new THREE.MeshStandardMaterial({ color, roughness: 0.6 }),
@@ -62,7 +62,7 @@ export function addHull(
   rollingResistance = 0,
   createHullShape?: (world: PhysicsWorld, size: Vec3, position: Vec3, friction: number, rollingResistance: number) => number,
 ): DemoBody {
-  const handle = createHullShape === undefined ? world.createBox({ size, position, static: false, density: 1 }) : createHullShape(world, size, position, friction, rollingResistance);
+  const handle = createHullShape === undefined ? world.createBox({ size, position, static: false, density: 1000 }) : createHullShape(world, size, position, friction, rollingResistance);
   const mesh = new THREE.Mesh(
     new THREE.BoxGeometry(size[0] * 2, size[1] * 2, size[2] * 2),
     new THREE.MeshStandardMaterial({ color, roughness: 0.75 }),

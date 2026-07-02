@@ -244,36 +244,23 @@ function spawnProjectile(spin = false, ragdoll = false): void {
     return;
   }
 
-  const speed = 20 * launchSpeed * (spin ? 2.5 : 1);
+  const speed = 20 * launchSpeed;
   const color = spin ? 0x8b5cf6 : 0xf59e0b;
 
-  if (spin) {
-    const bodyHandle = activeSample.world.createBody({ type: 2, position: [origin.x, origin.y, origin.z] });
-    runtime.createCapsuleShape(bodyHandle, [0, -0.2, 0], [0, 0.2, 0], 0.08, { density: 6 });
-    runtime.setBodyLinearVelocity(bodyHandle, [dir.x * speed, dir.y * speed, dir.z * speed]);
-    runtime.setBodyAngularVelocity(bodyHandle, [dir.x * 30, dir.y * 30, dir.z * 30]);
-    const mesh = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.08, 0.08, 0.4, 8),
-      new THREE.MeshStandardMaterial({ color, roughness: 0.4, metalness: 0.5 }),
-    );
-    mesh.castShadow = true;
-    scene.add(mesh);
-    activeSample.bodies.push({ handle: bodyHandle, mesh, type: 2 });
-  } else {
-    const bodyHandle = runtime.createSphere(activeSample.world.handle, {
-      radius: 0.25,
-      position: [origin.x, origin.y, origin.z],
-      velocity: [dir.x * speed, dir.y * speed, dir.z * speed],
-      density: 4,
-    });
-    const mesh = new THREE.Mesh(
-      new THREE.SphereGeometry(0.25, 16, 12),
-      new THREE.MeshStandardMaterial({ color, roughness: 0.6 }),
-    );
-    mesh.castShadow = true;
-    scene.add(mesh);
-    activeSample.bodies.push({ handle: bodyHandle, mesh, type: 2 });
-  }
+  const bodyHandle = runtime.createSphere(activeSample.world.handle, {
+    radius: 0.25,
+    position: [origin.x, origin.y, origin.z],
+    velocity: [dir.x * speed, dir.y * speed, dir.z * speed],
+    density: 4000,
+    isBullet: true,
+  });
+  const mesh = new THREE.Mesh(
+    new THREE.SphereGeometry(0.25, 16, 12),
+    new THREE.MeshStandardMaterial({ color, roughness: 0.6 }),
+  );
+  mesh.castShadow = true;
+  scene.add(mesh);
+  activeSample.bodies.push({ handle: bodyHandle, mesh, type: 2 });
 }
 
 function clearScene(): void {
@@ -496,6 +483,11 @@ function activateSample(index: number): void {
   activeSampleIndex = index;
   activeSample = samples[index].create(runtime, scene);
   launchSpeed = activeSample.launchSpeed ?? 5.0;
+  if (activeSample.camera) {
+    camera.position.set(activeSample.camera.position[0], activeSample.camera.position[1], activeSample.camera.position[2]);
+    orbit.target.set(activeSample.camera.target[0], activeSample.camera.target[1], activeSample.camera.target[2]);
+    orbit.update();
+  }
   paused = false;
   singleStep = 0;
   renderControls(activeSample.controls);
@@ -589,6 +581,58 @@ controlsBtn.addEventListener("click", () => {
   controlsBtn.textContent = controlsVisible ? "Controls" : "Controls";
 });
 
+const DIALOG_WIDTH = 340;
+const POS_STORAGE_KEY = "controlsDialogPos";
+
+function saveControlsDialogPos(): void {
+  const r = controlsDialog!.getBoundingClientRect();
+  const cr = canvas!.getBoundingClientRect();
+  try {
+    localStorage.setItem(POS_STORAGE_KEY, JSON.stringify({
+      left: Math.round(r.left - cr.left),
+      top: Math.round(r.top - cr.top),
+    }));
+  } catch { /* storage unavailable */ }
+}
+
+function loadControlsDialogPos(): { left: number; top: number } | null {
+  try {
+    const v = localStorage.getItem(POS_STORAGE_KEY);
+    if (v) return JSON.parse(v);
+  } catch { /* ignore */ }
+  return null;
+}
+
+function constrainControlsDialog(): void {
+  const cr = canvas!.getBoundingClientRect();
+  const naturalW = Math.min(DIALOG_WIDTH, window.innerWidth - 32);
+  const fullW = naturalW > cr.width;
+
+  if (fullW) {
+    controlsDialog!.style.left = `${cr.left}px`;
+    controlsDialog!.style.width = `${cr.width}px`;
+  } else {
+    controlsDialog!.style.width = "";
+    let l = parseFloat(controlsDialog!.style.left) || 0;
+    l = Math.max(cr.left, Math.min(l, cr.right - naturalW));
+    controlsDialog!.style.left = `${l}px`;
+  }
+  controlsDialog!.style.right = "auto";
+
+  const dh = controlsDialog!.offsetHeight;
+  if (dh > cr.height) {
+    controlsDialog!.style.top = `${cr.top}px`;
+    controlsDialog!.style.maxHeight = `${cr.height}px`;
+    controlsDialog!.style.bottom = "auto";
+  } else {
+    controlsDialog!.style.maxHeight = "";
+    let t = parseFloat(controlsDialog!.style.top) || 0;
+    t = Math.max(cr.top, Math.min(t, cr.bottom - dh));
+    controlsDialog!.style.top = `${t}px`;
+    controlsDialog!.style.bottom = "auto";
+  }
+}
+
 let dragStart = { x: 0, y: 0 };
 let dragOffset = { x: 0, y: 0 };
 let dragging = false;
@@ -613,7 +657,10 @@ controlsDialogHeader.addEventListener("pointermove", (e) => {
 });
 
 controlsDialogHeader.addEventListener("pointerup", () => {
+  if (!dragging) return;
   dragging = false;
+  constrainControlsDialog();
+  saveControlsDialogPos();
 });
 
 controlsDialogClose.addEventListener("pointerdown", (e) => {
@@ -629,19 +676,36 @@ controlsDialogClose.addEventListener("click", () => {
   controlsDialog.style.display = "none";
 });
 
+window.addEventListener("resize", () => {
+  if (showControlsDialog) {
+    constrainControlsDialog();
+  }
+});
+
 function toggleControlsDialog(): void {
   if (!controlsDialog) return;
   showControlsDialog = !showControlsDialog;
   controlsDialog.style.display = showControlsDialog ? "block" : "none";
   if (showControlsDialog) {
-    const halfW = controlsDialog.offsetWidth * 0.5;
-    const halfH = controlsDialog.offsetHeight * 0.5;
-    controlsDialog.style.left = `${window.innerWidth * 0.5 - halfW}px`;
-    controlsDialog.style.top = `${window.innerHeight * 0.35 - halfH}px`;
-    controlsDialog.style.right = "auto";
-    controlsDialog.style.bottom = "auto";
-    dragOffset.x = halfW;
-    dragOffset.y = 0;
+    const saved = loadControlsDialogPos();
+    if (saved) {
+      controlsDialog.style.left = `${saved.left}px`;
+      controlsDialog.style.top = `${saved.top}px`;
+      controlsDialog.style.right = "auto";
+      controlsDialog.style.bottom = "auto";
+      dragOffset.x = 0;
+      dragOffset.y = 0;
+    } else {
+      const halfW = controlsDialog.offsetWidth * 0.5;
+      const halfH = controlsDialog.offsetHeight * 0.5;
+      controlsDialog.style.left = `${window.innerWidth * 0.5 - halfW}px`;
+      controlsDialog.style.top = `${window.innerHeight * 0.35 - halfH}px`;
+      controlsDialog.style.right = "auto";
+      controlsDialog.style.bottom = "auto";
+      dragOffset.x = halfW;
+      dragOffset.y = 0;
+    }
+    constrainControlsDialog();
   }
 }
 

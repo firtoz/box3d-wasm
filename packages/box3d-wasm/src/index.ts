@@ -4,12 +4,71 @@ export type Quat = [number, number, number, number];
 export enum BodyType { Static = 0, Kinematic = 1, Dynamic = 2 }
 
 export interface WorldOptions { gravity?: Vec3; }
-export interface BoxOptions { size?: Vec3; position?: Vec3; static?: boolean; density?: number; }
-export interface SphereOptions { radius?: number; position?: Vec3; velocity?: Vec3; density?: number; }
-export interface BodyOptions { type?: BodyType; position?: Vec3; enableSleep?: boolean; awake?: boolean; }
-export interface HullOptions { size?: Vec3; density?: number; friction?: number; restitution?: number; rollingResistance?: number; }
+
+export interface BodyDef {
+  type?: BodyType;
+  position?: Vec3;
+  rotation?: Quat;
+  linearVelocity?: Vec3;
+  angularVelocity?: Vec3;
+  linearDamping?: number;
+  angularDamping?: number;
+  gravityScale?: number;
+  sleepThreshold?: number;
+  isBullet?: boolean;
+  isEnabled?: boolean;
+  allowFastRotation?: boolean;
+  enableSleep?: boolean;
+  isAwake?: boolean;
+  enableContactRecycling?: boolean;
+}
+
+export interface ShapeDef {
+  density?: number;
+  friction?: number;
+  restitution?: number;
+  rollingResistance?: number;
+  tangentVelocity?: Vec3;
+  isSensor?: boolean;
+  enableSensorEvents?: boolean;
+  enableContactEvents?: boolean;
+  enableHitEvents?: boolean;
+  enablePreSolveEvents?: boolean;
+  categoryBits?: number;
+  maskBits?: number;
+  groupIndex?: number;
+  enableCustomFiltering?: boolean;
+  updateBodyMass?: boolean;
+}
+
+export interface SphereOptions {
+  radius: number;
+  position?: Vec3;
+  velocity?: Vec3;
+  density?: number;
+  friction?: number;
+  restitution?: number;
+  rollingResistance?: number;
+  isBullet?: boolean;
+  isSensor?: boolean;
+  enableContactEvents?: boolean;
+  enableHitEvents?: boolean;
+}
+
+export interface BoxOptions {
+  size: Vec3;
+  position?: Vec3;
+  static?: boolean;
+  density?: number;
+  friction?: number;
+  restitution?: number;
+  rollingResistance?: number;
+  isSensor?: boolean;
+  enableContactEvents?: boolean;
+  enableHitEvents?: boolean;
+}
+
 export interface SurfaceMaterial { friction?: number; restitution?: number; rollingResistance?: number; tangentVelocity?: Vec3; }
-export interface SphereShapeOptions { radius?: number; position?: Vec3; density?: number; friction?: number; restitution?: number; rollingResistance?: number; }
 export interface MotorJointOptions { localFrameA?: Vec3; localFrameB?: Vec3; linearVelocity?: Vec3; angularVelocity?: Vec3; maxVelocityForce?: number; maxVelocityTorque?: number; linearHertz?: number; linearDampingRatio?: number; maxSpringForce?: number; angularHertz?: number; angularDampingRatio?: number; maxSpringTorque?: number; }
 export interface BodyTransform { position: Vec3; rotation: Quat; }
 export interface WorldCounters { bodyCount: number; shapeCount: number; contactCount: number; jointCount: number; islandCount: number; staticTreeHeight: number; treeHeight: number; }
@@ -88,6 +147,10 @@ type ModuleImport = { default: ModuleFactory };
 
 function vec3(x = 0, y = 0, z = 0): Vec3 { return [x, y, z]; }
 function versionedUrl(url: string, version: string | undefined): string { if (!version) return url; return `${url}${url.includes("?") ? "&" : "?"}v=${encodeURIComponent(version)}`; }
+
+const U64_MAX = 0xFFFFFFFF;
+
+function defaults<T>(val: T | undefined, def: T): T { return val !== undefined ? val : def; }
 
 export class Box3DRuntime implements RuntimeAPI {
   static async load(options: RuntimeLoadOptions = {}): Promise<Box3DRuntime> {
@@ -249,14 +312,106 @@ export class Box3DRuntime implements RuntimeAPI {
 
   createWorld(options: WorldOptions = {}): PhysicsWorld { const gravity = options.gravity ?? vec3(0, -9.81, 0); return new PhysicsWorld(this, this.createWorldFn(gravity[0], gravity[1], gravity[2])); }
   destroy(): void { this.module._free(this.transformPtr); this.module._free(this.pointPtr); }
-  createBody(worldHandle: number, options: BodyOptions = {}): number { const p = options.position ?? vec3(); const type = options.type ?? BodyType.Static; return this.createBodyFn(worldHandle, type, p[0], p[1], p[2], options.enableSleep ?? true ? 1 : 0, options.awake ?? true ? 1 : 0); }
-  createBox(worldHandle: number, options: Required<BoxOptions>): number { const s = options.size; const p = options.position; return this.createBoxFn(worldHandle, p[0], p[1], p[2], s[0], s[1], s[2], options.static ? 1 : 0, options.density); }
-  createSphere(worldHandle: number, options: Required<SphereOptions>): number { const p = options.position; const v = options.velocity; return this.createSphereFn(worldHandle, p[0], p[1], p[2], options.radius, v[0], v[1], v[2], options.density); }
-  createHullShape(bodyHandle: number, options: HullOptions = {}): ShapeHandle { const size = options.size ?? [1,1,1]; const shapeHandle = this.createHullShapeFn(bodyHandle, options.density ?? 1, options.friction ?? 0.5, options.restitution ?? 0, options.rollingResistance ?? 0, 0, 0, 0, 0, 0, 0, 1, size[0], size[1], size[2]); return { bodyHandle, shapeHandle }; }
-  createTransformedHullShape(bodyHandle: number, options: HullOptions & { transform?: { position?: Vec3; rotation?: Quat }; scale?: Vec3 } = {}): ShapeHandle { const size = options.size ?? [1,1,1]; const position = options.transform?.position ?? [0,0,0]; const rotation = options.transform?.rotation ?? [0,0,0,1]; const scale = options.scale ?? [1,1,1]; const shapeHandle = this.createTransformedHullShapeFn(bodyHandle, options.density ?? 1, options.friction ?? 0.5, options.restitution ?? 0, options.rollingResistance ?? 0, position[0], position[1], position[2], rotation[0], rotation[1], rotation[2], rotation[3], size[0], size[1], size[2], scale[0], scale[1], scale[2]); return { bodyHandle, shapeHandle }; }
-  createSphereShape(bodyHandle: number, options: SphereShapeOptions = {}): ShapeHandle { const p = options.position ?? [0,0,0]; const shapeHandle = this.createSphereShapeFn(bodyHandle, options.density ?? 1, options.friction ?? 0.5, options.restitution ?? 0, options.rollingResistance ?? 0, p[0], p[1], p[2], options.radius ?? 0.5); return { bodyHandle, shapeHandle }; }
-  createCapsuleShape(bodyHandle: number, a: Vec3, b: Vec3, radius: number, options: { density?: number; friction?: number; restitution?: number; rollingResistance?: number } = {}): ShapeHandle { const shapeHandle = this.createCapsuleShapeFn(bodyHandle, options.density ?? 1, options.friction ?? 0.5, options.restitution ?? 0, options.rollingResistance ?? 0, a[0], a[1], a[2], b[0], b[1], b[2], radius); return { bodyHandle, shapeHandle }; }
-  createShapeFromHull(bodyHandle: number, hullHandle: number, options: { density?: number; friction?: number; restitution?: number; rollingResistance?: number } = {}): number { return this.createShapeFromHullFn(bodyHandle, hullHandle, options.density ?? 1, options.friction ?? 0.5, options.restitution ?? 0, options.rollingResistance ?? 0); }
+
+  private applyBodyDef(bodyHandle: number, def: BodyDef): void {
+    if (def.rotation) this.setBodyTransform(bodyHandle, def.position ?? vec3(), def.rotation);
+    if (def.linearVelocity) this.setBodyLinearVelocity(bodyHandle, def.linearVelocity);
+    if (def.angularVelocity) this.setBodyAngularVelocity(bodyHandle, def.angularVelocity);
+    if (def.linearDamping !== undefined || def.angularDamping !== undefined) this.setBodyDamping(bodyHandle, def.linearDamping ?? 0, def.angularDamping ?? 0);
+    if (def.gravityScale !== undefined) this.setBodyGravityScale(bodyHandle, def.gravityScale);
+    if (def.sleepThreshold !== undefined) this.setBodySleepThreshold(bodyHandle, def.sleepThreshold);
+    if (def.isBullet !== undefined) this.setBodyBullet(bodyHandle, def.isBullet);
+    if (def.isEnabled !== undefined && !def.isEnabled) this.setBodyType(bodyHandle, BodyType.Static); // approximate
+    if (def.allowFastRotation !== undefined) {} // not exposed in bindings
+    if (def.enableSleep !== undefined) this.enableBodySleep(bodyHandle, def.enableSleep);
+    if (def.isAwake !== undefined) this.setBodyAwake(bodyHandle, def.isAwake);
+    if (def.enableContactRecycling !== undefined) this.enableBodyContactRecycling(bodyHandle, def.enableContactRecycling);
+  }
+
+  private applyShapeDef(shapeHandle: number, def: ShapeDef): void {
+    this.setShapeSurfaceMaterial(shapeHandle, {
+      friction: def.friction,
+      restitution: def.restitution,
+      rollingResistance: def.rollingResistance,
+      tangentVelocity: def.tangentVelocity,
+    });
+    if (def.isSensor) { this.enableShapeSensorEvents(shapeHandle, true); /* isSensor not directly settable after creation */ }
+    if (def.enableSensorEvents !== undefined) this.enableShapeSensorEvents(shapeHandle, def.enableSensorEvents);
+    if (def.enableContactEvents !== undefined) this.enableShapeContactEvents(shapeHandle, def.enableContactEvents);
+    if (def.enableHitEvents !== undefined) this.enableShapeHitEvents(shapeHandle, def.enableHitEvents);
+    if (def.enablePreSolveEvents !== undefined) this.enableShapePreSolveEvents(shapeHandle, def.enablePreSolveEvents);
+    if (def.categoryBits !== undefined || def.maskBits !== undefined || def.groupIndex !== undefined) {
+      this.setShapeFilter(shapeHandle, def.categoryBits ?? U64_MAX, def.maskBits ?? U64_MAX, def.groupIndex ?? 0, false);
+    }
+  }
+
+  createBody(worldHandle: number, def: BodyDef = {}): number {
+    const p = def.position ?? vec3();
+    const bodyHandle = this.createBodyFn(worldHandle, def.type ?? BodyType.Static, p[0], p[1], p[2], defaults(def.enableSleep, true) ? 1 : 0, defaults(def.isAwake, true) ? 1 : 0);
+    if (bodyHandle) this.applyBodyDef(bodyHandle, def);
+    return bodyHandle;
+  }
+
+  createBox(worldHandle: number, options: BoxOptions): number {
+    const s = options.size;
+    const p = options.position ?? vec3();
+    const bodyHandle = this.createBoxFn(worldHandle, p[0], p[1], p[2], s[0], s[1], s[2], options.static ? 1 : 0, options.density ?? 1);
+    if (bodyHandle && (options.friction !== undefined || options.restitution !== undefined || options.rollingResistance !== undefined || options.isSensor || options.enableContactEvents || options.enableHitEvents)) {
+      const shape = { bodyHandle, shapeHandle: bodyHandle } as ShapeHandle; // createBox returns body handle, shape is implicit
+      if (options.friction !== undefined || options.restitution !== undefined || options.rollingResistance !== undefined)
+        this.setShapeSurfaceMaterial(shape, { friction: options.friction, restitution: options.restitution, rollingResistance: options.rollingResistance });
+    }
+    return bodyHandle;
+  }
+
+  createSphere(worldHandle: number, options: SphereOptions): number {
+    const p = options.position ?? vec3();
+    const v = options.velocity ?? vec3();
+    const bodyHandle = this.createSphereFn(worldHandle, p[0], p[1], p[2], options.radius, v[0], v[1], v[2], options.density ?? 1);
+    if (bodyHandle) {
+      if (options.isBullet) this.setBodyBullet(bodyHandle, true);
+      if (options.friction !== undefined || options.restitution !== undefined || options.rollingResistance !== undefined)
+        this.setShapeSurfaceMaterial(bodyHandle as any, { friction: options.friction, restitution: options.restitution, rollingResistance: options.rollingResistance });
+    }
+    return bodyHandle;
+  }
+
+  createSphereShape(bodyHandle: number, center: Vec3, radius: number, def: ShapeDef = {}): ShapeHandle {
+    const shapeHandle = this.createSphereShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.5, def.restitution ?? 0, def.rollingResistance ?? 0, center[0], center[1], center[2], radius);
+    const shape = { bodyHandle, shapeHandle };
+    this.applyShapeDef(shapeHandle, def);
+    return shape;
+  }
+
+  createCapsuleShape(bodyHandle: number, center1: Vec3, center2: Vec3, radius: number, def: ShapeDef = {}): ShapeHandle {
+    const shapeHandle = this.createCapsuleShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.5, def.restitution ?? 0, def.rollingResistance ?? 0, center1[0], center1[1], center1[2], center2[0], center2[1], center2[2], radius);
+    const shape = { bodyHandle, shapeHandle };
+    this.applyShapeDef(shapeHandle, def);
+    return shape;
+  }
+
+  createHullShape(bodyHandle: number, halfWidths: Vec3, def: ShapeDef = {}): ShapeHandle {
+    const shapeHandle = this.createHullShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.5, def.restitution ?? 0, def.rollingResistance ?? 0, 0, 0, 0, 0, 0, 0, 1, halfWidths[0], halfWidths[1], halfWidths[2]);
+    const shape = { bodyHandle, shapeHandle };
+    this.applyShapeDef(shapeHandle, def);
+    return shape;
+  }
+
+  createTransformedHullShape(bodyHandle: number, halfWidths: Vec3, transform: { position?: Vec3; rotation?: Quat } = {}, scale: Vec3 = [1,1,1], def: ShapeDef = {}): ShapeHandle {
+    const pos = transform.position ?? vec3();
+    const rot = transform.rotation ?? [0,0,0,1];
+    const shapeHandle = this.createTransformedHullShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.5, def.restitution ?? 0, def.rollingResistance ?? 0, pos[0], pos[1], pos[2], rot[0], rot[1], rot[2], rot[3], halfWidths[0], halfWidths[1], halfWidths[2], scale[0], scale[1], scale[2]);
+    const shape = { bodyHandle, shapeHandle };
+    this.applyShapeDef(shapeHandle, def);
+    return shape;
+  }
+
+  createShapeFromHull(bodyHandle: number, hullHandle: number, def: ShapeDef = {}): number {
+    const shapeHandle = this.createShapeFromHullFn(bodyHandle, hullHandle, def.density ?? 1000, def.friction ?? 0.5, def.restitution ?? 0, def.rollingResistance ?? 0);
+    this.applyShapeDef(shapeHandle, def);
+    return shapeHandle;
+  }
+
   createCylinder(height: number, radius: number, yOffset = 0, sides = 12): number { return this.createCylinderFn(height, radius, yOffset, sides); }
   destroyHull(hullHandle: number): void { this.destroyHullFn(hullHandle); }
   createCompound(capsules: number, hulls: number, meshes: number, spheres: number): number { return this.createCompoundFn(capsules, hulls, meshes, spheres, 0, 0, 0, 0); }
@@ -357,12 +512,14 @@ export class Box3DRuntime implements RuntimeAPI {
 
 export class PhysicsWorld {
   constructor(private readonly runtime: Box3DRuntime, public readonly handle: number) {}
-  createBody(options: BodyOptions = {}): number { return this.runtime.createBody(this.handle, options); }
-  createBox(options: BoxOptions = {}): number { return this.runtime.createBox(this.handle, { size: options.size ?? [1,1,1], position: options.position ?? [0,0,0], static: options.static ?? false, density: options.density ?? 1 }); }
-  createSphere(options: SphereOptions = {}): number { return this.runtime.createSphere(this.handle, { radius: options.radius ?? 0.5, position: options.position ?? [0,0,0], velocity: options.velocity ?? [0,0,0], density: options.density ?? 1 }); }
-  createCapsuleShape(bodyHandle: number, a: Vec3, b: Vec3, radius: number, options: { density?: number; friction?: number; restitution?: number; rollingResistance?: number } = {}): ShapeHandle { return this.runtime.createCapsuleShape(bodyHandle, a, b, radius, options); }
-  createCompoundFromHulls(entries: CompoundHullEntry[]): number { return this.runtime.createCompoundFromHulls(entries); }
-  createCompoundFromSpheres(entries: CompoundSphereEntry[]): number { return this.runtime.createCompoundFromSpheres(entries); }
+  createBody(def: BodyDef = {}): number { return this.runtime.createBody(this.handle, def); }
+  createBox(options: BoxOptions): number { return this.runtime.createBox(this.handle, options); }
+  createSphere(options: SphereOptions): number { return this.runtime.createSphere(this.handle, options); }
+  createSphereShape(bodyHandle: number, center: Vec3, radius: number, def: ShapeDef = {}): ShapeHandle { return this.runtime.createSphereShape(bodyHandle, center, radius, def); }
+  createCapsuleShape(bodyHandle: number, center1: Vec3, center2: Vec3, radius: number, def: ShapeDef = {}): ShapeHandle { return this.runtime.createCapsuleShape(bodyHandle, center1, center2, radius, def); }
+  createHullShape(bodyHandle: number, halfWidths: Vec3, def: ShapeDef = {}): ShapeHandle { return this.runtime.createHullShape(bodyHandle, halfWidths, def); }
+  createTransformedHullShape(bodyHandle: number, halfWidths: Vec3, transform?: { position?: Vec3; rotation?: Quat }, scale?: Vec3, def?: ShapeDef): ShapeHandle { return this.runtime.createTransformedHullShape(bodyHandle, halfWidths, transform, scale, def); }
+  createShapeFromHull(bodyHandle: number, hullHandle: number, def?: ShapeDef): number { return this.runtime.createShapeFromHull(bodyHandle, hullHandle, def); }
   createCompoundShape(bodyHandle: number, compoundHandle: number, density = 1): number { return this.runtime.createCompoundShape(bodyHandle, compoundHandle, density); }
   getCompoundTreeHeight(compoundHandle: number): number { return this.runtime.getCompoundTreeHeight(compoundHandle); }
   destroyCompound(compoundHandle: number): void { this.runtime.destroyCompound(compoundHandle); }

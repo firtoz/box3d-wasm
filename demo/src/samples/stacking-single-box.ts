@@ -12,11 +12,12 @@ export const singleBoxSample: DemoSample = {
 
     addBox(world, scene, bodies, [20, 1, 20], [0, -1, 0], 0x222222, true);
 
-    const cube = addBox(world, scene, bodies, [1, 1, 1], [0, 1, 0], 0xf59e0b);
+    const cube = addBox(world, scene, bodies, [0.5, 0.5, 0.5], [0, 0.5, 0], 0xf59e0b);
     runtime.setBodyAngularVelocity(cube.handle, [0, 10, 0]);
     return {
       world,
       bodies,
+      camera: { position: [0, 4.226, 9.063], target: [0, 0, 0] },
       controls: [],
       step(dt) {
         world.step(dt, 4);

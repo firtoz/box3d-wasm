@@ -1,0 +1,5 @@
+CompileFlags:
+  Add:
+    - -Ibox3d/include
+    - -Ibox3d/shared
+    - -Ipackages/box3d-wasm/cmake

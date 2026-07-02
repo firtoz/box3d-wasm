@@ -14,7 +14,7 @@ export const cylinderSample: DemoSample = {
 
     const hullHandle = runtime.createCylinder(1, 0.25, 0, 12);
     const bodyHandle = world.createBody({ type: 2, position: [0, 2, 0], awake: true });
-    runtime.createShapeFromHull(bodyHandle, hullHandle, { density: 1, rollingResistance: 0.05 });
+    runtime.createShapeFromHull(bodyHandle, hullHandle, { density: 1000, rollingResistance: 0.05 });
     runtime.destroyHull(hullHandle);
 
     const cylGeo = new THREE.CylinderGeometry(0.25, 0.25, 1, 12);
