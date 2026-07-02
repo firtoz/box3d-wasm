@@ -13,7 +13,7 @@ export const cylinderSample: DemoSample = {
     addBox(world, scene, bodies, [10, 1, 10], [0, -1, 0], 0x222222, true);
 
     const hullHandle = runtime.createCylinder(1, 0.25, 0, 12);
-    const bodyHandle = world.createBody({ type: 2, position: [0, 2, 0], awake: true });
+    const bodyHandle = world.createBody({ type: 2, position: [0, 2, 0], isAwake: true });
     runtime.createShapeFromHull(bodyHandle, hullHandle, { density: 1000, rollingResistance: 0.05 });
     runtime.destroyHull(hullHandle);
 

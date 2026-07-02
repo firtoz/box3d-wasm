@@ -13,7 +13,7 @@ export const shapesInclinedPlaneSample: DemoSample = {
     addBox(world, scene, bodies, [50, 1, 50], [0, -1, 0], 0x111827, true);
 
     const angle = 40 * Math.PI / 180;
-    const planeBody = world.createBody({ type: 0, position: [0, 7.5, -5], awake: true });
+    const planeBody = world.createBody({ type: 0, position: [0, 7.5, -5], isAwake: true });
     runtime.setBodyTransform(planeBody, [0, 7.5, -5], [Math.sin(angle / 2), 0, 0, Math.cos(angle / 2)]);
     runtime.createHullShape(planeBody, [16, 0.5, 10], { friction: 1 });
 
@@ -28,7 +28,7 @@ export const shapesInclinedPlaneSample: DemoSample = {
 
     for (let i = 0; i < 5; i++) {
       const p: [number, number, number] = [-10 + 5 * i, 15.75, -10.6];
-      const bodyHandle = world.createBody({ type: 2, position: p, awake: true });
+      const bodyHandle = world.createBody({ type: 2, position: p, isAwake: true });
       runtime.createHullShape(bodyHandle, [1, 1, 1], { friction: (i + 1) * (i + 1) * 0.04 });
       const mesh = new THREE.Mesh(
         new THREE.BoxGeometry(2, 2, 2),

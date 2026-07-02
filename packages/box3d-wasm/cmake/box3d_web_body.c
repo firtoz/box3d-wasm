@@ -42,6 +42,20 @@ B3W_EXPORT void b3wSetBodyAngularVelocity(int bodyHandle, float x, float y, floa
 	b3Body_SetAngularVelocity(slot->bodyId, (b3Vec3){ x, y, z });
 }
 
+B3W_EXPORT void b3wApplyLinearImpulse(int bodyHandle, float ix, float iy, float iz, float px, float py, float pz, int wake)
+{
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL) return;
+	b3Body_ApplyLinearImpulse(slot->bodyId, (b3Vec3){ ix, iy, iz }, (b3Pos){ px, py, pz }, wake != 0);
+}
+
+B3W_EXPORT void b3wApplyLinearImpulseToCenter(int bodyHandle, float ix, float iy, float iz, int wake)
+{
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL) return;
+	b3Body_ApplyLinearImpulseToCenter(slot->bodyId, (b3Vec3){ ix, iy, iz }, wake != 0);
+}
+
 B3W_EXPORT void b3wSetBodyAwake(int bodyHandle, int awake)
 {
 	b3wBodySlot* slot = b3wGetBody(bodyHandle);
@@ -196,4 +210,35 @@ B3W_EXPORT int b3wGetBodyType(int bodyHandle)
 	b3wBodySlot* slot = b3wGetBody(bodyHandle);
 	if (slot == NULL) return 0;
 	return (int)b3Body_GetType(slot->bodyId);
+}
+
+B3W_EXPORT void b3wWriteBodyTransforms(int count, const int* bodyHandles, float* outPositions, float* outRotations, char* outAwake)
+{
+	for (int i = 0; i < count; ++i)
+	{
+		int handle = bodyHandles[i];
+		b3wBodySlot* slot = b3wGetBody(handle);
+		if (slot == NULL)
+		{
+			outPositions[i * 3 + 0] = 0.0f;
+			outPositions[i * 3 + 1] = 0.0f;
+			outPositions[i * 3 + 2] = 0.0f;
+			outRotations[i * 4 + 0] = 0.0f;
+			outRotations[i * 4 + 1] = 0.0f;
+			outRotations[i * 4 + 2] = 0.0f;
+			outRotations[i * 4 + 3] = 1.0f;
+			outAwake[i] = 0;
+			continue;
+		}
+		b3Vec3 position = b3Body_GetPosition(slot->bodyId);
+		outPositions[i * 3 + 0] = position.x;
+		outPositions[i * 3 + 1] = position.y;
+		outPositions[i * 3 + 2] = position.z;
+		b3Quat rotation = b3Body_GetRotation(slot->bodyId);
+		outRotations[i * 4 + 0] = rotation.v.x;
+		outRotations[i * 4 + 1] = rotation.v.y;
+		outRotations[i * 4 + 2] = rotation.v.z;
+		outRotations[i * 4 + 3] = rotation.s;
+		outAwake[i] = b3Body_IsAwake(slot->bodyId) ? 1 : 0;
+	}
 }

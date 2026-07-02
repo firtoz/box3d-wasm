@@ -1,7 +1,7 @@
 #pragma once
 
-#include "box3d/box3d.h"
-#include "human.h"
+#include "box3d/box3d.h"  // IWYU pragma: export
+#include "human.h"  // IWYU pragma: export
 
 #include <stdbool.h>
 
@@ -13,13 +13,13 @@
 
 enum
 {
-	B3W_MAX_WORLDS = 8,
-	B3W_MAX_BODIES = 256,
-	B3W_MAX_JOINTS = 256,
-	B3W_MAX_HULLS = 256,
-	B3W_MAX_SHAPES = 1024,
-	B3W_MAX_COMPOUNDS = 128,
-	B3W_MAX_HUMANS = 64,
+	B3W_MAX_WORLDS = 128,
+	B3W_MAX_BODIES = 65536,
+	B3W_MAX_JOINTS = 65536,
+	B3W_MAX_HULLS = 65536,
+	B3W_MAX_SHAPES = 65536,
+	B3W_MAX_COMPOUNDS = 4096,
+	B3W_MAX_HUMANS = 256,
 };
 
 typedef struct b3wWorldSlot

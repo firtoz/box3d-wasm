@@ -3,7 +3,17 @@ export type Quat = [number, number, number, number];
 
 export enum BodyType { Static = 0, Kinematic = 1, Dynamic = 2 }
 
-export interface WorldOptions { gravity?: Vec3; }
+export interface WorldOptions { gravity?: Vec3; workerCount?: number; }
+
+export interface WorldProfile {
+  step: number; pairs: number; collide: number; solve: number;
+  solverSetup: number; constraints: number; prepareConstraints: number;
+  integrateVelocities: number; warmStart: number; solveImpulses: number;
+  integratePositions: number; relaxImpulses: number; applyRestitution: number;
+  storeImpulses: number; splitIslands: number; transforms: number;
+  sensorHits: number; jointEvents: number; hitEvents: number;
+  refit: number; bullets: number; sleepIslands: number; sensors: number;
+}
 
 export interface BodyDef {
   type?: BodyType;
@@ -79,7 +89,7 @@ export interface RuntimeLoadOptions { version?: string; }
 export interface RuntimeAPI { createWorld(options?: WorldOptions): PhysicsWorld; }
 
 type CModule = { cwrap(name: string, returnType: "number", argTypes: readonly string[]): (...args: number[]) => number; cwrap(name: string, returnType: null, argTypes: readonly string[]): (...args: number[]) => void; HEAPF32: Float32Array; _malloc(size: number): number; _free(ptr: number): void; };
-type CreateWorldFn = (gravityX: number, gravityY: number, gravityZ: number) => number;
+type CreateWorldFn = (gravityX: number, gravityY: number, gravityZ: number, workerCount: number) => number;
 type CreateBodyFn = (worldHandle: number, bodyType: number, px: number, py: number, pz: number, enableSleep: number, awake: number) => number;
 type DestroyWorldFn = (worldHandle: number) => void;
 type CreateBoxFn = (worldHandle: number, px: number, py: number, pz: number, hx: number, hy: number, hz: number, isStatic: number, density: number) => number;
@@ -137,8 +147,12 @@ type BodySetMotionLocksFn = (bodyHandle: number, lockBodyX: number, lockBodyY: n
 type BodySetMassDataFn = (bodyHandle: number, mass: number, cx: number, cy: number, cz: number) => void;
 type BodyApplyMassFromShapesFn = (bodyHandle: number) => void;
 type BodySetTargetTransformFn = (bodyHandle: number, px: number, py: number, pz: number, qx: number, qy: number, qz: number, qw: number, timeStep: number, wake: number) => void;
+type ApplyLinearImpulseFn = (bodyHandle: number, ix: number, iy: number, iz: number, px: number, py: number, pz: number, wake: number) => void;
+type ApplyLinearImpulseToCenterFn = (bodyHandle: number, ix: number, iy: number, iz: number, wake: number) => void;
 type ShapeSetDensityFn = (shapeHandle: number, density: number, updateBodyMass: number) => void;
 type GetWorldCountersFn = (worldHandle: number, outCounters: number) => void;
+type GetWorldProfileFn = (worldHandle: number, outProfile: number) => void;
+type WriteBodyTransformsFn = (count: number, bodyHandles: number, outPositions: number, outRotations: number, outAwake: number) => void;
 type ShapeSetFrictionFn = (shapeHandle: number, friction: number) => void;
 type ShapeSetRestitutionFn = (shapeHandle: number, restitution: number) => void;
 
@@ -156,13 +170,25 @@ export class Box3DRuntime implements RuntimeAPI {
   static async load(options: RuntimeLoadOptions = {}): Promise<Box3DRuntime> {
     const baseUrl = typeof document === "undefined" ? "/" : new URL(".", window.location.href).pathname;
     const moduleUrl = versionedUrl(`${baseUrl}wasm/box3d-web.js`, options.version);
+    // Fetch as text and create blob URL to bypass Vite's restriction on importing from /public/.
+    // We set __wasmBaseURL so the pthread worker URL resolution (patched in build step) uses
+    // the real server URL instead of the blob URL (which new URL() rejects as a base).
     const response = await fetch(moduleUrl, { cache: "no-store" });
     if (!response.ok) throw new Error(`Failed to load ${moduleUrl}: ${response.status} ${response.statusText}`);
     const source = await response.text();
-    const blobUrl = URL.createObjectURL(new Blob([source], { type: "text/javascript" }));
+    // The emscripten-generated module uses `new URL("box3d-web.js", import.meta.url)` for
+    // pthread worker creation. When loaded from a blob URL, import.meta.url is the blob URL
+    // which cannot be used as a base URL. We replace the pattern directly with an absolute
+    // URL so workers load from the real server.
+    const absServerUrl = new URL(moduleUrl, window.location.href).href;
+    const patchedSource = source.replace(
+      `new URL("box3d-web.js", import.meta.url)`,
+      `new URL("box3d-web.js", ${JSON.stringify(absServerUrl)})`,
+    );
+    const blobUrl = URL.createObjectURL(new Blob([patchedSource], { type: "text/javascript" }));
     const moduleImport = (await import(/* @vite-ignore */ blobUrl)) as ModuleImport;
     URL.revokeObjectURL(blobUrl);
-    const module = await moduleImport.default({ locateFile(path: string): string { return versionedUrl(new URL(path, moduleUrl).href, options.version); } });
+    const module = await moduleImport.default({ locateFile(path: string): string { return versionedUrl(new URL(path, absServerUrl).href, options.version); } });
     return new Box3DRuntime(module);
   }
 
@@ -230,16 +256,21 @@ export class Box3DRuntime implements RuntimeAPI {
   private readonly setBodyMassDataFn: BodySetMassDataFn;
   private readonly applyBodyMassFromShapesFn: BodyApplyMassFromShapesFn;
   private readonly setBodyTargetTransformFn: BodySetTargetTransformFn;
+  private readonly applyLinearImpulseFn: ApplyLinearImpulseFn;
+  private readonly applyLinearImpulseToCenterFn: ApplyLinearImpulseToCenterFn;
   private readonly getWorldCountersFn: GetWorldCountersFn;
+  private readonly getWorldProfileFn: GetWorldProfileFn;
+  private readonly writeBodyTransformsFn: WriteBodyTransformsFn;
   private readonly setDensityFn: ShapeSetDensityFn;
   private readonly setFrictionFn: ShapeSetFrictionFn;
   private readonly setRestitutionFn: ShapeSetRestitutionFn;
   private readonly transformPtr: number;
   private readonly pointPtr: number;
+  private readonly profilePtr: number;
 
   constructor(module: CModule) {
     this.module = module;
-    this.createWorldFn = module.cwrap("b3wCreateWorld", "number", ["number", "number", "number"]);
+    this.createWorldFn = module.cwrap("b3wCreateWorld", "number", ["number", "number", "number", "number"]);
     this.createBodyFn = module.cwrap("b3wCreateBody", "number", ["number", "number", "number", "number", "number", "number", "number"]);
     this.destroyWorldFn = module.cwrap("b3wDestroyWorld", null, ["number"]);
     this.createBoxFn = module.cwrap("b3wCreateBox", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
@@ -278,6 +309,8 @@ export class Box3DRuntime implements RuntimeAPI {
     this.humanSetJointSpringHertzFn = module.cwrap("b3wHumanSetJointSpringHertz", null, ["number","number"]);
     this.humanSetJointDampingRatioFn = module.cwrap("b3wHumanSetJointDampingRatio", null, ["number","number"]);
     this.getWorldCountersFn = module.cwrap("b3wGetWorldCounters", null, ["number", "number"]);
+    this.getWorldProfileFn = module.cwrap("b3wGetWorldProfile", null, ["number", "number"]);
+    this.writeBodyTransformsFn = module.cwrap("b3wWriteBodyTransforms", null, ["number", "number", "number", "number", "number"]);
     this.stepFn = module.cwrap("b3wStep", null, ["number", "number", "number"]);
     this.getBodyTransformFn = module.cwrap("b3wGetBodyTransform", null, ["number", "number"]);
     this.setDensityFn = module.cwrap("b3wShapeSetDensity", null, ["number", "number", "number"]);
@@ -306,12 +339,15 @@ export class Box3DRuntime implements RuntimeAPI {
     this.setBodyMassDataFn = module.cwrap("b3wSetBodyMassData", null, ["number", "number", "number", "number", "number"]);
     this.applyBodyMassFromShapesFn = module.cwrap("b3wApplyBodyMassFromShapes", null, ["number"]);
     this.setBodyTargetTransformFn = module.cwrap("b3wSetBodyTargetTransform", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
+    this.applyLinearImpulseFn = module.cwrap("b3wApplyLinearImpulse", null, ["number", "number", "number", "number", "number", "number", "number", "number"]);
+    this.applyLinearImpulseToCenterFn = module.cwrap("b3wApplyLinearImpulseToCenter", null, ["number", "number", "number", "number", "number"]);
     this.transformPtr = module._malloc(7 * 4);
     this.pointPtr = module._malloc(3 * 4);
+    this.profilePtr = module._malloc(23 * 4);
   }
 
-  createWorld(options: WorldOptions = {}): PhysicsWorld { const gravity = options.gravity ?? vec3(0, -9.81, 0); return new PhysicsWorld(this, this.createWorldFn(gravity[0], gravity[1], gravity[2])); }
-  destroy(): void { this.module._free(this.transformPtr); this.module._free(this.pointPtr); }
+  createWorld(options: WorldOptions = {}): PhysicsWorld { const gravity = options.gravity ?? vec3(0, -9.81, 0); const workerCount = options.workerCount ?? 4; return new PhysicsWorld(this, this.createWorldFn(gravity[0], gravity[1], gravity[2], workerCount)); }
+  destroy(): void { this.module._free(this.transformPtr); this.module._free(this.pointPtr); this.module._free(this.profilePtr); }
 
   private applyBodyDef(bodyHandle: number, def: BodyDef): void {
     if (def.rotation) this.setBodyTransform(bodyHandle, def.position ?? vec3(), def.rotation);
@@ -482,6 +518,14 @@ export class Box3DRuntime implements RuntimeAPI {
   setHumanJointDampingRatio(humanHandle: number, dampingRatio: number): void { this.humanSetJointDampingRatioFn(humanHandle, dampingRatio); }
   readBodyTransform(bodyHandle: number): BodyTransform { this.getBodyTransformFn(bodyHandle, this.transformPtr); const heap = this.module.HEAPF32; const base = this.transformPtr >> 2; return { position: [heap[base + 0], heap[base + 1], heap[base + 2]], rotation: [heap[base + 3], heap[base + 4], heap[base + 5], heap[base + 6]] }; }
   getWorldCounters(worldHandle: number): WorldCounters { const ptr = this.module._malloc(7 * 4); this.getWorldCountersFn(worldHandle, ptr); const heap32 = new Int32Array(this.module.HEAPF32.buffer); const base = ptr >> 2; const counters = { bodyCount: heap32[base + 0], shapeCount: heap32[base + 1], contactCount: heap32[base + 2], jointCount: heap32[base + 3], islandCount: heap32[base + 4], staticTreeHeight: heap32[base + 5], treeHeight: heap32[base + 6] }; this.module._free(ptr); return counters; }
+  getWorldProfile(worldHandle: number): WorldProfile { this.getWorldProfileFn(worldHandle, this.profilePtr); const heap = this.module.HEAPF32; const base = this.profilePtr >> 2; return { step: heap[base + 0], pairs: heap[base + 1], collide: heap[base + 2], solve: heap[base + 3], solverSetup: heap[base + 4], constraints: heap[base + 5], prepareConstraints: heap[base + 6], integrateVelocities: heap[base + 7], warmStart: heap[base + 8], solveImpulses: heap[base + 9], integratePositions: heap[base + 10], relaxImpulses: heap[base + 11], applyRestitution: heap[base + 12], storeImpulses: heap[base + 13], splitIslands: heap[base + 14], transforms: heap[base + 15], sensorHits: heap[base + 16], jointEvents: heap[base + 17], hitEvents: heap[base + 18], refit: heap[base + 19], bullets: heap[base + 20], sleepIslands: heap[base + 21], sensors: heap[base + 22] }; }
+
+  // Batched transform read: writes transforms + awake flags for all bodies at once.
+  // Buffers must be pre-allocated with _malloc.
+  writeBodyTransforms(count: number, bodyHandlesPtr: number, outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number): void {
+    this.writeBodyTransformsFn(count, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr);
+  }
+
   step(worldHandle: number, dt: number, substeps: number): void { this.stepFn(worldHandle, dt, substeps); }
   destroyWorld(worldHandle: number): void { this.destroyWorldFn(worldHandle); }
   setShapeDensity(shapeHandle: number | ShapeHandle, density: number, updateBodyMass = true): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setDensityFn(handle, density, updateBodyMass ? 1 : 0); }
@@ -508,6 +552,9 @@ export class Box3DRuntime implements RuntimeAPI {
   setBodyMassData(bodyHandle: number, mass: number, center: Vec3): void { this.setBodyMassDataFn(bodyHandle, mass, center[0], center[1], center[2]); }
   applyBodyMassFromShapes(bodyHandle: number): void { this.applyBodyMassFromShapesFn(bodyHandle); }
   setBodyTargetTransform(bodyHandle: number, position: Vec3, rotation: Quat, timeStep: number, wake = true): void { this.setBodyTargetTransformFn(bodyHandle, position[0], position[1], position[2], rotation[0], rotation[1], rotation[2], rotation[3], timeStep, wake ? 1 : 0); }
+
+  applyLinearImpulse(bodyHandle: number, impulse: Vec3, point: Vec3, wake = true): void { this.applyLinearImpulseFn(bodyHandle, impulse[0], impulse[1], impulse[2], point[0], point[1], point[2], wake ? 1 : 0); }
+  applyLinearImpulseToCenter(bodyHandle: number, impulse: Vec3, wake = true): void { this.applyLinearImpulseToCenterFn(bodyHandle, impulse[0], impulse[1], impulse[2], wake ? 1 : 0); }
 }
 
 export class PhysicsWorld {
@@ -528,6 +575,8 @@ export class PhysicsWorld {
   setBodyTransform(bodyHandle: number, position: Vec3, rotation: Quat = [0,0,0,1]): void { this.runtime.setBodyTransform(bodyHandle, position, rotation); }
   setBodyLinearVelocity(bodyHandle: number, velocity: Vec3): void { this.runtime.setBodyLinearVelocity(bodyHandle, velocity); }
   setBodyAngularVelocity(bodyHandle: number, velocity: Vec3): void { this.runtime.setBodyAngularVelocity(bodyHandle, velocity); }
+  applyLinearImpulse(bodyHandle: number, impulse: Vec3, point: Vec3, wake = true): void { this.runtime.applyLinearImpulse(bodyHandle, impulse, point, wake); }
+  applyLinearImpulseToCenter(bodyHandle: number, impulse: Vec3, wake = true): void { this.runtime.applyLinearImpulseToCenter(bodyHandle, impulse, wake); }
   bodyIsAwake(bodyHandle: number): boolean { return this.runtime.bodyIsAwake(bodyHandle); }
   getBodyType(bodyHandle: number): BodyType { return this.runtime.getBodyType(bodyHandle); }
   setBodyAwake(bodyHandle: number, awake: boolean): void { this.runtime.setBodyAwake(bodyHandle, awake); }
@@ -540,6 +589,10 @@ export class PhysicsWorld {
   createHuman(position: Vec3, options: { frictionTorque?: number; hertz?: number; dampingRatio?: number; groupIndex?: number; colorize?: boolean } = {}): number { return this.runtime.createHuman(this.handle, position, options); }
   getBodyTransform(bodyHandle: number): BodyTransform { return this.runtime.readBodyTransform(bodyHandle); }
   getCounters(): WorldCounters { return this.runtime.getWorldCounters(this.handle); }
+  getProfile(): WorldProfile { return this.runtime.getWorldProfile(this.handle); }
+  writeBodyTransforms(count: number, bodyHandlesPtr: number, outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number): void {
+    this.runtime.writeBodyTransforms(count, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr);
+  }
   step(dt = 1 / 60, substeps = 4): void { this.runtime.step(this.handle, dt, substeps); }
   destroy(): void { this.runtime.destroyWorld(this.handle); }
 }

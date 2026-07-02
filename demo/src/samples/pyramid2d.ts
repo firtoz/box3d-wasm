@@ -20,7 +20,7 @@ export const pyramid2dSample: DemoSample = {
         const px = (-10 + 2 * col + row) * a;
         const py = (1.5 + 2.5 * row) * a;
         const p: [number, number, number] = [px, py, 0];
-        const bodyHandle = world.createBody({ type: 2, position: p, awake: true });
+        const bodyHandle = world.createBody({ type: 2, position: p, isAwake: true });
         runtime.createHullShape(bodyHandle, [a, a, a]);
         runtime.setBodyMotionLocks(bodyHandle, { lockLinearZ: true, lockRotationX: true, lockRotationY: true });
         const mesh = new THREE.Mesh(

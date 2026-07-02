@@ -25,7 +25,7 @@ function buildStack(runtime: Box3DRuntime, world: PhysicsWorld, scene: THREE.Sce
       const p: [number, number, number] = [sx, 0.5 * i + 0.25, sz];
       const qy = Math.sin(alpha / 2);
       const qwY = Math.cos(alpha / 2);
-      const bodyHandle = world.createBody({ type: 2, position: p, awake: true });
+      const bodyHandle = world.createBody({ type: 2, position: p, isAwake: true });
       world.setBodyTransform(bodyHandle, p, [0, qy, 0, qwY]);
 
       if (useCapsule) {
