@@ -1,205 +1,105 @@
 export type Vec3 = [number, number, number];
 export type Quat = [number, number, number, number];
 
-export enum BodyType {
-  Static = 0,
-  Kinematic = 1,
-  Dynamic = 2,
-}
+export enum BodyType { Static = 0, Kinematic = 1, Dynamic = 2 }
 
-export interface WorldOptions {
-  gravity?: Vec3;
-}
+export interface WorldOptions { gravity?: Vec3; }
+export interface BoxOptions { size?: Vec3; position?: Vec3; static?: boolean; density?: number; }
+export interface SphereOptions { radius?: number; position?: Vec3; velocity?: Vec3; density?: number; }
+export interface BodyOptions { type?: BodyType; position?: Vec3; enableSleep?: boolean; awake?: boolean; }
+export interface HullOptions { size?: Vec3; density?: number; friction?: number; restitution?: number; rollingResistance?: number; }
+export interface SurfaceMaterial { friction?: number; restitution?: number; rollingResistance?: number; tangentVelocity?: Vec3; }
+export interface SphereShapeOptions { radius?: number; position?: Vec3; density?: number; friction?: number; restitution?: number; rollingResistance?: number; }
+export interface MotorJointOptions { localFrameA?: Vec3; localFrameB?: Vec3; linearVelocity?: Vec3; angularVelocity?: Vec3; maxVelocityForce?: number; maxVelocityTorque?: number; linearHertz?: number; linearDampingRatio?: number; maxSpringForce?: number; angularHertz?: number; angularDampingRatio?: number; maxSpringTorque?: number; }
+export interface BodyTransform { position: Vec3; rotation: Quat; }
+export interface WorldCounters { bodyCount: number; shapeCount: number; contactCount: number; jointCount: number; islandCount: number; staticTreeHeight: number; treeHeight: number; }
+export interface CompoundHullEntry { halfWidths: Vec3; transform: BodyTransform; friction?: number; restitution?: number; rollingResistance?: number; }
+export interface CompoundSphereEntry { center: Vec3; radius: number; friction?: number; restitution?: number; rollingResistance?: number; }
+export interface ShapeHandle { bodyHandle: number; shapeHandle: number; }
+export interface RuntimeLoadOptions { version?: string; }
+export interface RuntimeAPI { createWorld(options?: WorldOptions): PhysicsWorld; }
 
-export interface BoxOptions {
-  size?: Vec3;
-  position?: Vec3;
-  static?: boolean;
-  density?: number;
-}
-
-export interface SphereOptions {
-  radius?: number;
-  position?: Vec3;
-  velocity?: Vec3;
-  density?: number;
-}
-
-export interface BodyOptions {
-  type?: BodyType;
-  position?: Vec3;
-  enableSleep?: boolean;
-  awake?: boolean;
-}
-
-export interface MotorJointOptions {
-  localFrameA?: Vec3;
-  localFrameB?: Vec3;
-  linearVelocity?: Vec3;
-  angularVelocity?: Vec3;
-  maxVelocityForce?: number;
-  maxVelocityTorque?: number;
-  linearHertz?: number;
-  linearDampingRatio?: number;
-  maxSpringForce?: number;
-  angularHertz?: number;
-  angularDampingRatio?: number;
-  maxSpringTorque?: number;
-}
-
-export interface BodyTransform {
-  position: Vec3;
-  rotation: Quat;
-}
-
-export interface RuntimeLoadOptions {
-  version?: string;
-}
-
-export interface RuntimeAPI {
-  createWorld(options?: WorldOptions): PhysicsWorld;
-}
-
-type CModule = {
-  cwrap(
-    name: string,
-    returnType: "number",
-    argTypes: readonly string[],
-  ): (...args: number[]) => number;
-  cwrap(name: string, returnType: null, argTypes: readonly string[]): (...args: number[]) => void;
-  HEAPF32: Float32Array;
-  _malloc(size: number): number;
-  _free(ptr: number): void;
-};
-
+type CModule = { cwrap(name: string, returnType: "number", argTypes: readonly string[]): (...args: number[]) => number; cwrap(name: string, returnType: null, argTypes: readonly string[]): (...args: number[]) => void; HEAPF32: Float32Array; _malloc(size: number): number; _free(ptr: number): void; };
 type CreateWorldFn = (gravityX: number, gravityY: number, gravityZ: number) => number;
-type CreateBodyFn = (
-  worldHandle: number,
-  bodyType: number,
-  px: number,
-  py: number,
-  pz: number,
-  enableSleep: number,
-  awake: number,
-) => number;
+type CreateBodyFn = (worldHandle: number, bodyType: number, px: number, py: number, pz: number, enableSleep: number, awake: number) => number;
 type DestroyWorldFn = (worldHandle: number) => void;
-type CreateBoxFn = (
-  worldHandle: number,
-  px: number,
-  py: number,
-  pz: number,
-  hx: number,
-  hy: number,
-  hz: number,
-  isStatic: number,
-  density: number,
-) => number;
-type CreateSphereFn = (
-  worldHandle: number,
-  px: number,
-  py: number,
-  pz: number,
-  radius: number,
-  vx: number,
-  vy: number,
-  vz: number,
-  density: number,
-) => number;
+type CreateBoxFn = (worldHandle: number, px: number, py: number, pz: number, hx: number, hy: number, hz: number, isStatic: number, density: number) => number;
+type CreateSphereFn = (worldHandle: number, px: number, py: number, pz: number, radius: number, vx: number, vy: number, vz: number, density: number) => number;
+type CreateHullShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, hx: number, hy: number, hz: number) => number;
+type CreateTransformedHullShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, hx: number, hy: number, hz: number, sx: number, sy: number, sz: number) => number;
+type CreateSphereShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, px: number, py: number, pz: number, radius: number) => number;
+type CreateCapsuleShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, ax: number, ay: number, az: number, bx: number, by: number, bz: number, radius: number) => number;
+type CreateShapeFromHullFn = (bodyHandle: number, hullHandle: number, density: number, friction: number, restitution: number, rollingResistance: number) => number;
+type CreateCylinderFn = (height: number, radius: number, yOffset: number, sides: number) => number;
+type DestroyHullFn = (hullHandle: number) => void;
+type CreateCompoundFn = (capsuleCount: number, hullCount: number, meshCount: number, sphereCount: number, capsules: number, hulls: number, meshes: number, spheres: number) => number;
+type CreateCompoundFromHullsFn = (hullCount: number, hullData: number, strideFloats: number) => number;
+type CreateCompoundFromSpheresFn = (sphereCount: number, sphereData: number, strideFloats: number) => number;
+type DestroyCompoundFn = (compoundHandle: number) => void;
+type GetCompoundTreeHeightFn = (compoundHandle: number) => number;
+type CreateCompoundShapeFn = (bodyHandle: number, compoundHandle: number, density: number) => number;
 type DestroyBodyFn = (bodyHandle: number) => void;
 type DestroyJointFn = (jointHandle: number) => void;
-type SetBodyTransformFn = (
-  bodyHandle: number,
-  px: number,
-  py: number,
-  pz: number,
-  qx: number,
-  qy: number,
-  qz: number,
-  qw: number,
-) => void;
+type SetBodyTransformFn = (bodyHandle: number, px: number, py: number, pz: number, qx: number, qy: number, qz: number, qw: number) => void;
+type SetBodyLinearVelocityFn = (bodyHandle: number, x: number, y: number, z: number) => void;
+type SetBodyAngularVelocityFn = (bodyHandle: number, x: number, y: number, z: number) => void;
 type SetBodyAwakeFn = (bodyHandle: number, awake: number) => void;
 type SetBodyDampingFn = (bodyHandle: number, linearDamping: number, angularDamping: number) => void;
-type GetBodyLocalPointFn = (
-  bodyHandle: number,
-  worldX: number,
-  worldY: number,
-  worldZ: number,
-  outPoint: number,
-) => void;
-type CreateMotorJointFn = (
-  worldHandle: number,
-  bodyAHandle: number,
-  bodyBHandle: number,
-  localAx: number,
-  localAy: number,
-  localAz: number,
-  localBx: number,
-  localBy: number,
-  localBz: number,
-  linearVx: number,
-  linearVy: number,
-  linearVz: number,
-  maxVelocityForce: number,
-  angularVx: number,
-  angularVy: number,
-  angularVz: number,
-  maxVelocityTorque: number,
-  linearHertz: number,
-  linearDampingRatio: number,
-  maxSpringForce: number,
-  angularHertz: number,
-  angularDampingRatio: number,
-  maxSpringTorque: number,
-) => number;
+type GetBodyLocalPointFn = (bodyHandle: number, worldX: number, worldY: number, worldZ: number, outPoint: number) => void;
+type CreateMotorJointFn = (worldHandle: number, bodyAHandle: number, bodyBHandle: number, localAx: number, localAy: number, localAz: number, localBx: number, localBy: number, localBz: number, linearVx: number, linearVy: number, linearVz: number, maxVelocityForce: number, angularVx: number, angularVy: number, angularVz: number, maxVelocityTorque: number, linearHertz: number, linearDampingRatio: number, maxSpringForce: number, angularHertz: number, angularDampingRatio: number, maxSpringTorque: number) => number;
+type CreateFilterJointFn = (worldHandle: number, bodyAHandle: number, bodyBHandle: number) => number;
+type CreateRevoluteJointFn = (worldHandle: number, bodyAHandle: number, bodyBHandle: number, localAx: number, localAy: number, localAz: number, localAqx: number, localAqy: number, localAqz: number, localAqw: number, localBx: number, localBy: number, localBz: number, localBqx: number, localBqy: number, localBqz: number, localBqw: number, targetAngle: number, enableSpring: number, hertz: number, dampingRatio: number, enableLimit: number, lowerAngle: number, upperAngle: number, enableMotor: number, maxMotorTorque: number, motorSpeed: number) => number;
+type CreateSphericalJointFn = (worldHandle: number, bodyAHandle: number, bodyBHandle: number, localAx: number, localAy: number, localAz: number, localAqx: number, localAqy: number, localAqz: number, localAqw: number, localBx: number, localBy: number, localBz: number, localBqx: number, localBqy: number, localBqz: number, localBqw: number, enableSpring: number, hertz: number, dampingRatio: number, targetQx: number, targetQy: number, targetQz: number, targetQw: number, enableConeLimit: number, coneAngle: number, enableTwistLimit: number, lowerTwistAngle: number, upperTwistAngle: number, enableMotor: number, maxMotorTorque: number, motorVx: number, motorVy: number, motorVz: number) => number;
+type CreateHumanFn = (worldHandle: number, px: number, py: number, pz: number, frictionTorque: number, hertz: number, dampingRatio: number, groupIndex: number, colorize: number) => number;
+type GetHumanBoneBodyFn = (humanHandle: number, boneIndex: number) => number;
+type GetHumanBoneCountFn = () => number;
+type HumanSetVelocityFn = (humanHandle: number, x: number, y: number, z: number) => void;
+type HumanSetBulletFn = (humanHandle: number, flag: number) => void;
+type HumanSetJointFloatFn = (humanHandle: number, value: number) => void;
 type StepFn = (worldHandle: number, timeStep: number, subStepCount: number) => void;
 type GetBodyTransformFn = (bodyHandle: number, outTransform: number) => void;
+type ShapeSetSurfaceMaterialFn = (shapeHandle: number, friction: number, restitution: number, rollingResistance: number) => void;
+type ShapeSetFilterFn = (shapeHandle: number, categoryBits: number, maskBits: number, groupIndex: number, invokeContacts: number) => void;
+type ShapeEnableBoolFn = (shapeHandle: number, flag: number) => void;
+type ShapeSetSphereFn = (shapeHandle: number, px: number, py: number, pz: number, radius: number) => void;
+type ShapeSetCapsuleFn = (shapeHandle: number, ax: number, ay: number, az: number, bx: number, by: number, bz: number, radius: number) => void;
+type ShapeApplyWindFn = (shapeHandle: number, windX: number, windY: number, windZ: number, drag: number, lift: number, maxSpeed: number, wake: number) => void;
+type BodyIsAwakeFn = (bodyHandle: number) => number;
+type GetBodyTypeFn = (bodyHandle: number) => number;
+type BodySetTypeFn = (bodyHandle: number, type: number) => void;
+type BodySetNameFn = (bodyHandle: number, name: number) => void;
+type BodySetGravityScaleFn = (bodyHandle: number, scale: number) => void;
+type BodySetSleepThresholdFn = (bodyHandle: number, threshold: number) => void;
+type BodyEnableSleepFn = (bodyHandle: number, enableSleep: number) => void;
+type BodySetBulletFn = (bodyHandle: number, flag: number) => void;
+type BodyEnableContactRecyclingFn = (bodyHandle: number, flag: number) => void;
+type BodyEnableHitEventsFn = (bodyHandle: number, flag: number) => void;
+type BodySetMotionLocksFn = (bodyHandle: number, lockBodyX: number, lockBodyY: number, lockBodyRotationX: number, lockBodyRotationY: number, lockBodyRotationZ: number, lockLinearZ: number) => void;
+type BodySetMassDataFn = (bodyHandle: number, mass: number, cx: number, cy: number, cz: number) => void;
+type BodyApplyMassFromShapesFn = (bodyHandle: number) => void;
+type BodySetTargetTransformFn = (bodyHandle: number, px: number, py: number, pz: number, qx: number, qy: number, qz: number, qw: number, timeStep: number, wake: number) => void;
+type ShapeSetDensityFn = (shapeHandle: number, density: number, updateBodyMass: number) => void;
+type GetWorldCountersFn = (worldHandle: number, outCounters: number) => void;
+type ShapeSetFrictionFn = (shapeHandle: number, friction: number) => void;
+type ShapeSetRestitutionFn = (shapeHandle: number, restitution: number) => void;
 
 type ModuleFactory = (options: { locateFile(path: string): string }) => Promise<CModule>;
+type ModuleImport = { default: ModuleFactory };
 
-type ModuleImport = {
-  default: ModuleFactory;
-};
-
-function vec3(x = 0, y = 0, z = 0): Vec3 {
-  return [x, y, z];
-}
-
-function versionedUrl(url: string, version: string | undefined): string {
-  if (version === undefined || version.length === 0) return url;
-  const separator = url.includes("?") ? "&" : "?";
-  return `${url}${separator}v=${encodeURIComponent(version)}`;
-}
+function vec3(x = 0, y = 0, z = 0): Vec3 { return [x, y, z]; }
+function versionedUrl(url: string, version: string | undefined): string { if (!version) return url; return `${url}${url.includes("?") ? "&" : "?"}v=${encodeURIComponent(version)}`; }
 
 export class Box3DRuntime implements RuntimeAPI {
   static async load(options: RuntimeLoadOptions = {}): Promise<Box3DRuntime> {
-    const baseUrl =
-      typeof document === "undefined" ? "/" : new URL(".", window.location.href).pathname;
+    const baseUrl = typeof document === "undefined" ? "/" : new URL(".", window.location.href).pathname;
     const moduleUrl = versionedUrl(`${baseUrl}wasm/box3d-web.js`, options.version);
-    console.log(`[box3d-wasm] loading JS wrapper: ${moduleUrl}`);
     const response = await fetch(moduleUrl, { cache: "no-store" });
-    if (!response.ok) {
-      throw new Error(`Failed to load ${moduleUrl}: ${response.status} ${response.statusText}`);
-    }
-
+    if (!response.ok) throw new Error(`Failed to load ${moduleUrl}: ${response.status} ${response.statusText}`);
     const source = await response.text();
-    if (source.startsWith("<!doctype html>") || source.startsWith("<html")) {
-      throw new Error(
-        `Expected JS at ${moduleUrl}, got HTML instead. First bytes: ${source.slice(0, 80)}`,
-      );
-    }
-    console.log(`[box3d-wasm] fetched JS wrapper (${source.length} bytes)`);
     const blobUrl = URL.createObjectURL(new Blob([source], { type: "text/javascript" }));
     const moduleImport = (await import(/* @vite-ignore */ blobUrl)) as ModuleImport;
     URL.revokeObjectURL(blobUrl);
-
-    const module = await moduleImport.default({
-      locateFile(path: string): string {
-        const resolved = versionedUrl(new URL(path, moduleUrl).href, options.version);
-        console.log(`[box3d-wasm] locateFile(${path}) -> ${resolved}`);
-        return resolved;
-      },
-    });
-
+    const module = await moduleImport.default({ locateFile(path: string): string { return versionedUrl(new URL(path, moduleUrl).href, options.version); } });
     return new Box3DRuntime(module);
   }
 
@@ -209,315 +109,280 @@ export class Box3DRuntime implements RuntimeAPI {
   private readonly destroyWorldFn: DestroyWorldFn;
   private readonly createBoxFn: CreateBoxFn;
   private readonly createSphereFn: CreateSphereFn;
+  private readonly createHullShapeFn: CreateHullShapeFn;
+  private readonly createTransformedHullShapeFn: CreateTransformedHullShapeFn;
+  private readonly createSphereShapeFn: CreateSphereShapeFn;
+  private readonly createCapsuleShapeFn: CreateCapsuleShapeFn;
+  private readonly createShapeFromHullFn: CreateShapeFromHullFn;
+  private readonly createCylinderFn: CreateCylinderFn;
+  private readonly destroyHullFn: DestroyHullFn;
+  private readonly createCompoundFn: CreateCompoundFn;
+  private readonly createCompoundFromHullsFn: CreateCompoundFromHullsFn;
+  private readonly createCompoundFromSpheresFn: CreateCompoundFromSpheresFn;
+  private readonly destroyCompoundFn: DestroyCompoundFn;
+  private readonly getCompoundTreeHeightFn: GetCompoundTreeHeightFn;
+  private readonly createCompoundShapeFn: CreateCompoundShapeFn;
   private readonly destroyBodyFn: DestroyBodyFn;
   private readonly destroyJointFn: DestroyJointFn;
   private readonly setBodyTransformFn: SetBodyTransformFn;
+  private readonly setBodyLinearVelocityFn: SetBodyLinearVelocityFn;
+  private readonly setBodyAngularVelocityFn: SetBodyAngularVelocityFn;
   private readonly setBodyAwakeFn: SetBodyAwakeFn;
   private readonly setBodyDampingFn: SetBodyDampingFn;
   private readonly getBodyLocalPointFn: GetBodyLocalPointFn;
   private readonly createMotorJointFn: CreateMotorJointFn;
+  private readonly createFilterJointFn: CreateFilterJointFn;
+  private readonly createRevoluteJointFn: CreateRevoluteJointFn;
+  private readonly createSphericalJointFn: CreateSphericalJointFn;
+  private readonly createHumanFn: CreateHumanFn;
+  private readonly getHumanBoneBodyFn: GetHumanBoneBodyFn;
+  private readonly getHumanBoneCountFn: GetHumanBoneCountFn;
+  private readonly humanSetVelocityFn: HumanSetVelocityFn;
+  private readonly humanSetBulletFn: HumanSetBulletFn;
+  private readonly humanSetJointFrictionTorqueFn: HumanSetJointFloatFn;
+  private readonly humanSetJointSpringHertzFn: HumanSetJointFloatFn;
+  private readonly humanSetJointDampingRatioFn: HumanSetJointFloatFn;
   private readonly stepFn: StepFn;
   private readonly getBodyTransformFn: GetBodyTransformFn;
+  private readonly setSurfaceMaterialFn: ShapeSetSurfaceMaterialFn;
+  private readonly setFilterFn: ShapeSetFilterFn;
+  private readonly enableShapeSensorEventsFn: ShapeEnableBoolFn;
+  private readonly enableShapeContactEventsFn: ShapeEnableBoolFn;
+  private readonly enableShapePreSolveEventsFn: ShapeEnableBoolFn;
+  private readonly enableShapeHitEventsFn: ShapeEnableBoolFn;
+  private readonly setShapeSphereFn: ShapeSetSphereFn;
+  private readonly setShapeCapsuleFn: ShapeSetCapsuleFn;
+  private readonly applyShapeWindFn: ShapeApplyWindFn;
+  private readonly bodyIsAwakeFn: BodyIsAwakeFn;
+  private readonly getBodyTypeFn: GetBodyTypeFn;
+  private readonly setBodyTypeFn: BodySetTypeFn;
+  private readonly setBodyNameFn: BodySetNameFn;
+  private readonly setBodyGravityScaleFn: BodySetGravityScaleFn;
+  private readonly setBodySleepThresholdFn: BodySetSleepThresholdFn;
+  private readonly enableBodySleepFn: BodyEnableSleepFn;
+  private readonly setBodyBulletFn: BodySetBulletFn;
+  private readonly enableBodyContactRecyclingFn: BodyEnableContactRecyclingFn;
+  private readonly enableBodyHitEventsFn: BodyEnableHitEventsFn;
+  private readonly setBodyMotionLocksFn: BodySetMotionLocksFn;
+  private readonly setBodyMassDataFn: BodySetMassDataFn;
+  private readonly applyBodyMassFromShapesFn: BodyApplyMassFromShapesFn;
+  private readonly setBodyTargetTransformFn: BodySetTargetTransformFn;
+  private readonly getWorldCountersFn: GetWorldCountersFn;
+  private readonly setDensityFn: ShapeSetDensityFn;
+  private readonly setFrictionFn: ShapeSetFrictionFn;
+  private readonly setRestitutionFn: ShapeSetRestitutionFn;
   private readonly transformPtr: number;
   private readonly pointPtr: number;
 
   constructor(module: CModule) {
     this.module = module;
     this.createWorldFn = module.cwrap("b3wCreateWorld", "number", ["number", "number", "number"]);
-    this.createBodyFn = module.cwrap("b3wCreateBody", "number", [
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-    ]);
+    this.createBodyFn = module.cwrap("b3wCreateBody", "number", ["number", "number", "number", "number", "number", "number", "number"]);
     this.destroyWorldFn = module.cwrap("b3wDestroyWorld", null, ["number"]);
-    this.createBoxFn = module.cwrap("b3wCreateBox", "number", [
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-    ]);
-    this.createSphereFn = module.cwrap("b3wCreateSphere", "number", [
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-    ]);
+    this.createBoxFn = module.cwrap("b3wCreateBox", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
+    this.createSphereFn = module.cwrap("b3wCreateSphere", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
+    this.createHullShapeFn = module.cwrap("b3wCreateHullShape", "number", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+    this.createTransformedHullShapeFn = module.cwrap("b3wCreateTransformedHullShape", "number", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+    this.createSphereShapeFn = module.cwrap("b3wCreateSphereShape", "number", ["number","number","number","number","number","number","number","number","number"]);
+    this.createCapsuleShapeFn = module.cwrap("b3wCreateCapsuleShape", "number", ["number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+    this.createShapeFromHullFn = module.cwrap("b3wCreateShapeFromHull", "number", ["number","number","number","number","number","number"]);
+    this.createCylinderFn = module.cwrap("b3wCreateCylinder", "number", ["number","number","number","number"]);
+    this.destroyHullFn = module.cwrap("b3wDestroyHull", null, ["number"]);
+    this.createCompoundFn = module.cwrap("b3wCreateCompound", "number", ["number","number","number","number","number","number","number","number"]);
+    this.createCompoundFromHullsFn = module.cwrap("b3wCreateCompoundFromHulls", "number", ["number","number","number"]);
+    this.createCompoundFromSpheresFn = module.cwrap("b3wCreateCompoundFromSpheres", "number", ["number","number","number"]);
+    this.destroyCompoundFn = module.cwrap("b3wDestroyCompound", null, ["number"]);
+    this.getCompoundTreeHeightFn = module.cwrap("b3wGetCompoundTreeHeight", "number", ["number"]);
+    this.createCompoundShapeFn = module.cwrap("b3wCreateCompoundShape", "number", ["number","number","number"]);
     this.destroyBodyFn = module.cwrap("b3wDestroyBody", null, ["number"]);
     this.destroyJointFn = module.cwrap("b3wDestroyJoint", null, ["number"]);
-    this.setBodyTransformFn = module.cwrap("b3wSetBodyTransform", null, [
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-    ]);
-    this.setBodyAwakeFn = module.cwrap("b3wSetBodyAwake", null, ["number", "number"]);
-    this.setBodyDampingFn = module.cwrap("b3wSetBodyDamping", null, ["number", "number", "number"]);
-    this.getBodyLocalPointFn = module.cwrap("b3wGetBodyLocalPoint", null, [
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-    ]);
-    this.createMotorJointFn = module.cwrap("b3wCreateMotorJoint", "number", [
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-      "number",
-    ]);
+    this.setBodyTransformFn = module.cwrap("b3wSetBodyTransform", null, ["number","number","number","number","number","number","number","number"]);
+    this.setBodyLinearVelocityFn = module.cwrap("b3wSetBodyLinearVelocity", null, ["number","number","number","number"]);
+    this.setBodyAngularVelocityFn = module.cwrap("b3wSetBodyAngularVelocity", null, ["number","number","number","number"]);
+    this.setBodyAwakeFn = module.cwrap("b3wSetBodyAwake", null, ["number","number"]);
+    this.setBodyDampingFn = module.cwrap("b3wSetBodyDamping", null, ["number","number","number"]);
+    this.getBodyLocalPointFn = module.cwrap("b3wGetBodyLocalPoint", null, ["number","number","number","number","number"]);
+    this.createMotorJointFn = module.cwrap("b3wCreateMotorJoint", "number", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+    this.createFilterJointFn = module.cwrap("b3wCreateFilterJoint", "number", ["number","number","number"]);
+    this.createRevoluteJointFn = module.cwrap("b3wCreateRevoluteJoint", "number", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+    this.createSphericalJointFn = module.cwrap("b3wCreateSphericalJoint", "number", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+    this.createHumanFn = module.cwrap("b3wCreateHuman", "number", ["number","number","number","number","number","number","number","number","number"]);
+    this.getHumanBoneBodyFn = module.cwrap("b3wGetHumanBoneBody", "number", ["number","number"]);
+    this.getHumanBoneCountFn = module.cwrap("b3wGetHumanBoneCount", "number", []);
+    this.humanSetVelocityFn = module.cwrap("b3wHumanSetVelocity", null, ["number","number","number","number"]);
+    this.humanSetBulletFn = module.cwrap("b3wHumanSetBullet", null, ["number","number"]);
+    this.humanSetJointFrictionTorqueFn = module.cwrap("b3wHumanSetJointFrictionTorque", null, ["number","number"]);
+    this.humanSetJointSpringHertzFn = module.cwrap("b3wHumanSetJointSpringHertz", null, ["number","number"]);
+    this.humanSetJointDampingRatioFn = module.cwrap("b3wHumanSetJointDampingRatio", null, ["number","number"]);
+    this.getWorldCountersFn = module.cwrap("b3wGetWorldCounters", null, ["number", "number"]);
     this.stepFn = module.cwrap("b3wStep", null, ["number", "number", "number"]);
     this.getBodyTransformFn = module.cwrap("b3wGetBodyTransform", null, ["number", "number"]);
+    this.setDensityFn = module.cwrap("b3wShapeSetDensity", null, ["number", "number", "number"]);
+    this.setFrictionFn = module.cwrap("b3wShapeSetFriction", null, ["number", "number"]);
+    this.setRestitutionFn = module.cwrap("b3wShapeSetRestitution", null, ["number", "number"]);
+    this.setSurfaceMaterialFn = module.cwrap("b3wShapeSetSurfaceMaterial", null, ["number", "number", "number", "number"]);
+    this.setFilterFn = module.cwrap("b3wShapeSetFilter", null, ["number", "number", "number", "number", "number"]);
+    this.enableShapeSensorEventsFn = module.cwrap("b3wShapeEnableSensorEvents", null, ["number", "number"]);
+    this.enableShapeContactEventsFn = module.cwrap("b3wShapeEnableContactEvents", null, ["number", "number"]);
+    this.enableShapePreSolveEventsFn = module.cwrap("b3wShapeEnablePreSolveEvents", null, ["number", "number"]);
+    this.enableShapeHitEventsFn = module.cwrap("b3wShapeEnableHitEvents", null, ["number", "number"]);
+    this.setShapeSphereFn = module.cwrap("b3wShapeSetSphere", null, ["number", "number", "number", "number", "number"]);
+    this.setShapeCapsuleFn = module.cwrap("b3wShapeSetCapsule", null, ["number", "number", "number", "number", "number", "number", "number", "number"]);
+    this.applyShapeWindFn = module.cwrap("b3wShapeApplyWind", null, ["number", "number", "number", "number", "number", "number", "number", "number"]);
+    this.bodyIsAwakeFn = module.cwrap("b3wBodyIsAwake", "number", ["number"]);
+    this.getBodyTypeFn = module.cwrap("b3wGetBodyType", "number", ["number"]);
+    this.setBodyTypeFn = module.cwrap("b3wSetBodyType", null, ["number", "number"]);
+    this.setBodyNameFn = module.cwrap("b3wSetBodyName", null, ["number", "number"]);
+    this.setBodyGravityScaleFn = module.cwrap("b3wSetBodyGravityScale", null, ["number", "number"]);
+    this.setBodySleepThresholdFn = module.cwrap("b3wSetBodySleepThreshold", null, ["number", "number"]);
+    this.enableBodySleepFn = module.cwrap("b3wEnableBodySleep", null, ["number", "number"]);
+    this.setBodyBulletFn = module.cwrap("b3wSetBodyBullet", null, ["number", "number"]);
+    this.enableBodyContactRecyclingFn = module.cwrap("b3wEnableBodyContactRecycling", null, ["number", "number"]);
+    this.enableBodyHitEventsFn = module.cwrap("b3wEnableBodyHitEvents", null, ["number", "number"]);
+    this.setBodyMotionLocksFn = module.cwrap("b3wSetBodyMotionLocks", null, ["number", "number", "number", "number", "number", "number", "number"]);
+    this.setBodyMassDataFn = module.cwrap("b3wSetBodyMassData", null, ["number", "number", "number", "number", "number"]);
+    this.applyBodyMassFromShapesFn = module.cwrap("b3wApplyBodyMassFromShapes", null, ["number"]);
+    this.setBodyTargetTransformFn = module.cwrap("b3wSetBodyTargetTransform", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
     this.transformPtr = module._malloc(7 * 4);
     this.pointPtr = module._malloc(3 * 4);
   }
 
-  createWorld(options: WorldOptions = {}): PhysicsWorld {
-    const gravity = options.gravity ?? vec3(0, -9.81, 0);
-    const handle = this.createWorldFn(gravity[0], gravity[1], gravity[2]);
-    return new PhysicsWorld(this, handle);
-  }
-
-  destroy(): void {
-    this.module._free(this.transformPtr);
-    this.module._free(this.pointPtr);
-  }
-
-  createBody(worldHandle: number, options: BodyOptions = {}): number {
-    const position = options.position ?? vec3();
-    const type = options.type ?? BodyType.Static;
-    const enableSleep = options.enableSleep ?? true;
-    const awake = options.awake ?? true;
-    return this.createBodyFn(
-      worldHandle,
-      type,
-      position[0],
-      position[1],
-      position[2],
-      enableSleep ? 1 : 0,
-      awake ? 1 : 0,
-    );
-  }
-
-  createBox(worldHandle: number, options: Required<BoxOptions>): number {
-    const size = options.size;
-    const position = options.position;
-    return this.createBoxFn(
-      worldHandle,
-      position[0],
-      position[1],
-      position[2],
-      size[0],
-      size[1],
-      size[2],
-      options.static ? 1 : 0,
-      options.density,
-    );
-  }
-
-  createSphere(worldHandle: number, options: Required<SphereOptions>): number {
-    const position = options.position;
-    const velocity = options.velocity;
-    return this.createSphereFn(
-      worldHandle,
-      position[0],
-      position[1],
-      position[2],
-      options.radius,
-      velocity[0],
-      velocity[1],
-      velocity[2],
-      options.density,
-    );
-  }
-
-  destroyBody(bodyHandle: number): void {
-    this.destroyBodyFn(bodyHandle);
-  }
-
-  destroyJoint(jointHandle: number): void {
-    this.destroyJointFn(jointHandle);
-  }
-
-  setBodyTransform(bodyHandle: number, position: Vec3, rotation: Quat = [0, 0, 0, 1]): void {
-    this.setBodyTransformFn(
-      bodyHandle,
-      position[0],
-      position[1],
-      position[2],
-      rotation[0],
-      rotation[1],
-      rotation[2],
-      rotation[3],
-    );
-  }
-
-  setBodyAwake(bodyHandle: number, awake: boolean): void {
-    this.setBodyAwakeFn(bodyHandle, awake ? 1 : 0);
-  }
-
-  setBodyDamping(bodyHandle: number, linearDamping: number, angularDamping: number): void {
-    this.setBodyDampingFn(bodyHandle, linearDamping, angularDamping);
-  }
-
-  getBodyLocalPoint(bodyHandle: number, worldPoint: Vec3): Vec3 {
-    this.getBodyLocalPointFn(
-      bodyHandle,
-      worldPoint[0],
-      worldPoint[1],
-      worldPoint[2],
-      this.pointPtr,
-    );
+  createWorld(options: WorldOptions = {}): PhysicsWorld { const gravity = options.gravity ?? vec3(0, -9.81, 0); return new PhysicsWorld(this, this.createWorldFn(gravity[0], gravity[1], gravity[2])); }
+  destroy(): void { this.module._free(this.transformPtr); this.module._free(this.pointPtr); }
+  createBody(worldHandle: number, options: BodyOptions = {}): number { const p = options.position ?? vec3(); const type = options.type ?? BodyType.Static; return this.createBodyFn(worldHandle, type, p[0], p[1], p[2], options.enableSleep ?? true ? 1 : 0, options.awake ?? true ? 1 : 0); }
+  createBox(worldHandle: number, options: Required<BoxOptions>): number { const s = options.size; const p = options.position; return this.createBoxFn(worldHandle, p[0], p[1], p[2], s[0], s[1], s[2], options.static ? 1 : 0, options.density); }
+  createSphere(worldHandle: number, options: Required<SphereOptions>): number { const p = options.position; const v = options.velocity; return this.createSphereFn(worldHandle, p[0], p[1], p[2], options.radius, v[0], v[1], v[2], options.density); }
+  createHullShape(bodyHandle: number, options: HullOptions = {}): ShapeHandle { const size = options.size ?? [1,1,1]; const shapeHandle = this.createHullShapeFn(bodyHandle, options.density ?? 1, options.friction ?? 0.5, options.restitution ?? 0, options.rollingResistance ?? 0, 0, 0, 0, 0, 0, 0, 1, size[0], size[1], size[2]); return { bodyHandle, shapeHandle }; }
+  createTransformedHullShape(bodyHandle: number, options: HullOptions & { transform?: { position?: Vec3; rotation?: Quat }; scale?: Vec3 } = {}): ShapeHandle { const size = options.size ?? [1,1,1]; const position = options.transform?.position ?? [0,0,0]; const rotation = options.transform?.rotation ?? [0,0,0,1]; const scale = options.scale ?? [1,1,1]; const shapeHandle = this.createTransformedHullShapeFn(bodyHandle, options.density ?? 1, options.friction ?? 0.5, options.restitution ?? 0, options.rollingResistance ?? 0, position[0], position[1], position[2], rotation[0], rotation[1], rotation[2], rotation[3], size[0], size[1], size[2], scale[0], scale[1], scale[2]); return { bodyHandle, shapeHandle }; }
+  createSphereShape(bodyHandle: number, options: SphereShapeOptions = {}): ShapeHandle { const p = options.position ?? [0,0,0]; const shapeHandle = this.createSphereShapeFn(bodyHandle, options.density ?? 1, options.friction ?? 0.5, options.restitution ?? 0, options.rollingResistance ?? 0, p[0], p[1], p[2], options.radius ?? 0.5); return { bodyHandle, shapeHandle }; }
+  createCapsuleShape(bodyHandle: number, a: Vec3, b: Vec3, radius: number, options: { density?: number; friction?: number; restitution?: number; rollingResistance?: number } = {}): ShapeHandle { const shapeHandle = this.createCapsuleShapeFn(bodyHandle, options.density ?? 1, options.friction ?? 0.5, options.restitution ?? 0, options.rollingResistance ?? 0, a[0], a[1], a[2], b[0], b[1], b[2], radius); return { bodyHandle, shapeHandle }; }
+  createShapeFromHull(bodyHandle: number, hullHandle: number, options: { density?: number; friction?: number; restitution?: number; rollingResistance?: number } = {}): number { return this.createShapeFromHullFn(bodyHandle, hullHandle, options.density ?? 1, options.friction ?? 0.5, options.restitution ?? 0, options.rollingResistance ?? 0); }
+  createCylinder(height: number, radius: number, yOffset = 0, sides = 12): number { return this.createCylinderFn(height, radius, yOffset, sides); }
+  destroyHull(hullHandle: number): void { this.destroyHullFn(hullHandle); }
+  createCompound(capsules: number, hulls: number, meshes: number, spheres: number): number { return this.createCompoundFn(capsules, hulls, meshes, spheres, 0, 0, 0, 0); }
+  createCompoundFromHulls(entries: CompoundHullEntry[]): number {
+    const stride = 13;
+    const floatCount = entries.length * stride;
+    const ptr = this.module._malloc(floatCount * 4);
     const heap = this.module.HEAPF32;
-    const base = this.pointPtr >> 2;
-    return [heap[base + 0], heap[base + 1], heap[base + 2]];
+    const base = ptr >> 2;
+    for (let i = 0; i < entries.length; i++) {
+      const e = entries[i];
+      const off = i * stride;
+      const hw = e.halfWidths; const t = e.transform.position; const r = e.transform.rotation;
+      heap[base + off + 0] = hw[0]; heap[base + off + 1] = hw[1]; heap[base + off + 2] = hw[2];
+      heap[base + off + 3] = t[0]; heap[base + off + 4] = t[1]; heap[base + off + 5] = t[2];
+      heap[base + off + 6] = r[0]; heap[base + off + 7] = r[1]; heap[base + off + 8] = r[2]; heap[base + off + 9] = r[3];
+      heap[base + off + 10] = e.friction ?? 0.5;
+      heap[base + off + 11] = e.restitution ?? 0;
+      heap[base + off + 12] = e.rollingResistance ?? 0;
+    }
+    const result = this.createCompoundFromHullsFn(entries.length, ptr, stride);
+    this.module._free(ptr);
+    return result;
   }
-
-  createMotorJoint(
-    worldHandle: number,
-    bodyAHandle: number,
-    bodyBHandle: number,
-    options: MotorJointOptions = {},
-  ): number {
-    const localFrameA = options.localFrameA ?? vec3();
-    const localFrameB = options.localFrameB ?? vec3();
-    const linearVelocity = options.linearVelocity ?? vec3();
-    const angularVelocity = options.angularVelocity ?? vec3();
-    return this.createMotorJointFn(
-      worldHandle,
-      bodyAHandle,
-      bodyBHandle,
-      localFrameA[0],
-      localFrameA[1],
-      localFrameA[2],
-      localFrameB[0],
-      localFrameB[1],
-      localFrameB[2],
-      linearVelocity[0],
-      linearVelocity[1],
-      linearVelocity[2],
-      options.maxVelocityForce ?? 0,
-      angularVelocity[0],
-      angularVelocity[1],
-      angularVelocity[2],
-      options.maxVelocityTorque ?? 0,
-      options.linearHertz ?? 0,
-      options.linearDampingRatio ?? 0,
-      options.maxSpringForce ?? 0,
-      options.angularHertz ?? 0,
-      options.angularDampingRatio ?? 0,
-      options.maxSpringTorque ?? 0,
-    );
-  }
-
-  readBodyTransform(bodyHandle: number): BodyTransform {
-    this.getBodyTransformFn(bodyHandle, this.transformPtr);
+  createCompoundFromSpheres(entries: CompoundSphereEntry[]): number {
+    const stride = 7;
+    const floatCount = entries.length * stride;
+    const ptr = this.module._malloc(floatCount * 4);
     const heap = this.module.HEAPF32;
-    const base = this.transformPtr >> 2;
-    return {
-      position: [heap[base + 0], heap[base + 1], heap[base + 2]],
-      rotation: [heap[base + 3], heap[base + 4], heap[base + 5], heap[base + 6]],
-    };
+    const base = ptr >> 2;
+    for (let i = 0; i < entries.length; i++) {
+      const e = entries[i];
+      const off = i * stride;
+      heap[base + off + 0] = e.center[0]; heap[base + off + 1] = e.center[1]; heap[base + off + 2] = e.center[2];
+      heap[base + off + 3] = e.radius;
+      heap[base + off + 4] = e.friction ?? 0.5;
+      heap[base + off + 5] = e.restitution ?? 0;
+      heap[base + off + 6] = e.rollingResistance ?? 0;
+    }
+    const result = this.createCompoundFromSpheresFn(entries.length, ptr, stride);
+    this.module._free(ptr);
+    return result;
   }
-
-  step(worldHandle: number, dt: number, substeps: number): void {
-    this.stepFn(worldHandle, dt, substeps);
-  }
-
-  destroyWorld(worldHandle: number): void {
-    this.destroyWorldFn(worldHandle);
-  }
+  destroyCompound(compoundHandle: number): void { this.destroyCompoundFn(compoundHandle); }
+  getCompoundTreeHeight(compoundHandle: number): number { return this.getCompoundTreeHeightFn(compoundHandle); }
+  createCompoundShape(bodyHandle: number, compoundHandle: number, density = 1): number { return this.createCompoundShapeFn(bodyHandle, compoundHandle, density); }
+  destroyBody(bodyHandle: number): void { this.destroyBodyFn(bodyHandle); }
+  destroyJoint(jointHandle: number): void { this.destroyJointFn(jointHandle); }
+  setBodyTransform(bodyHandle: number, position: Vec3, rotation: Quat = [0,0,0,1]): void { this.setBodyTransformFn(bodyHandle, position[0], position[1], position[2], rotation[0], rotation[1], rotation[2], rotation[3]); }
+  setBodyLinearVelocity(bodyHandle: number, velocity: Vec3): void { this.setBodyLinearVelocityFn(bodyHandle, velocity[0], velocity[1], velocity[2]); }
+  setBodyAngularVelocity(bodyHandle: number, velocity: Vec3): void { this.setBodyAngularVelocityFn(bodyHandle, velocity[0], velocity[1], velocity[2]); }
+  bodyIsAwake(bodyHandle: number): boolean { return this.bodyIsAwakeFn(bodyHandle) !== 0; }
+  getBodyType(bodyHandle: number): BodyType { return this.getBodyTypeFn(bodyHandle) as BodyType; }
+  setBodyAwake(bodyHandle: number, awake: boolean): void { this.setBodyAwakeFn(bodyHandle, awake ? 1 : 0); }
+  setBodyDamping(bodyHandle: number, linearDamping: number, angularDamping: number): void { this.setBodyDampingFn(bodyHandle, linearDamping, angularDamping); }
+  getBodyLocalPoint(bodyHandle: number, worldPoint: Vec3): Vec3 { this.getBodyLocalPointFn(bodyHandle, worldPoint[0], worldPoint[1], worldPoint[2], this.pointPtr); const heap = this.module.HEAPF32; const base = this.pointPtr >> 2; return [heap[base + 0], heap[base + 1], heap[base + 2]]; }
+  createMotorJoint(worldHandle: number, bodyAHandle: number, bodyBHandle: number, options: MotorJointOptions = {}): number { const a = options.localFrameA ?? vec3(); const b = options.localFrameB ?? vec3(); const lv = options.linearVelocity ?? vec3(); const av = options.angularVelocity ?? vec3(); return this.createMotorJointFn(worldHandle, bodyAHandle, bodyBHandle, a[0], a[1], a[2], b[0], b[1], b[2], lv[0], lv[1], lv[2], options.maxVelocityForce ?? 0, av[0], av[1], av[2], options.maxVelocityTorque ?? 0, options.linearHertz ?? 0, options.linearDampingRatio ?? 0, options.maxSpringForce ?? 0, options.angularHertz ?? 0, options.angularDampingRatio ?? 0, options.maxSpringTorque ?? 0); }
+  createFilterJoint(worldHandle: number, bodyAHandle: number, bodyBHandle: number): number { return this.createFilterJointFn(worldHandle, bodyAHandle, bodyBHandle); }
+  createRevoluteJoint(worldHandle: number, bodyAHandle: number, bodyBHandle: number, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; targetAngle?: number; enableSpring?: boolean; hertz?: number; dampingRatio?: number; enableLimit?: boolean; lowerAngle?: number; upperAngle?: number; enableMotor?: boolean; maxMotorTorque?: number; motorSpeed?: number } = {}): number { const a = options.localFrameA?.position ?? vec3(); const aq = options.localFrameA?.rotation ?? [0, 0, 0, 1]; const b = options.localFrameB?.position ?? vec3(); const bq = options.localFrameB?.rotation ?? [0, 0, 0, 1]; return this.createRevoluteJointFn(worldHandle, bodyAHandle, bodyBHandle, a[0], a[1], a[2], aq[0], aq[1], aq[2], aq[3], b[0], b[1], b[2], bq[0], bq[1], bq[2], bq[3], options.targetAngle ?? 0, options.enableSpring ? 1 : 0, options.hertz ?? 0, options.dampingRatio ?? 0, options.enableLimit ? 1 : 0, options.lowerAngle ?? 0, options.upperAngle ?? 0, options.enableMotor ? 1 : 0, options.maxMotorTorque ?? 0, options.motorSpeed ?? 0); }
+  createSphericalJoint(worldHandle: number, bodyAHandle: number, bodyBHandle: number, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; enableSpring?: boolean; hertz?: number; dampingRatio?: number; targetRotation?: Quat; enableConeLimit?: boolean; coneAngle?: number; enableTwistLimit?: boolean; lowerTwistAngle?: number; upperTwistAngle?: number; enableMotor?: boolean; maxMotorTorque?: number; motorVelocity?: Vec3 } = {}): number { const a = options.localFrameA?.position ?? vec3(); const aq = options.localFrameA?.rotation ?? [0, 0, 0, 1]; const b = options.localFrameB?.position ?? vec3(); const bq = options.localFrameB?.rotation ?? [0, 0, 0, 1]; const tq = options.targetRotation ?? [0, 0, 0, 1]; const mv = options.motorVelocity ?? vec3(); return this.createSphericalJointFn(worldHandle, bodyAHandle, bodyBHandle, a[0], a[1], a[2], aq[0], aq[1], aq[2], aq[3], b[0], b[1], b[2], bq[0], bq[1], bq[2], bq[3], options.enableSpring ? 1 : 0, options.hertz ?? 0, options.dampingRatio ?? 0, tq[0], tq[1], tq[2], tq[3], options.enableConeLimit ? 1 : 0, options.coneAngle ?? 0, options.enableTwistLimit ? 1 : 0, options.lowerTwistAngle ?? 0, options.upperTwistAngle ?? 0, options.enableMotor ? 1 : 0, options.maxMotorTorque ?? 0, mv[0], mv[1], mv[2]); }
+  createHuman(worldHandle: number, position: Vec3, options: { frictionTorque?: number; hertz?: number; dampingRatio?: number; groupIndex?: number; colorize?: boolean } = {}): number { return this.createHumanFn(worldHandle, position[0], position[1], position[2], options.frictionTorque ?? 1, options.hertz ?? 1, options.dampingRatio ?? 1, options.groupIndex ?? 0, options.colorize ?? true ? 1 : 0); }
+  getHumanBoneBody(humanHandle: number, boneIndex: number): number { return this.getHumanBoneBodyFn(humanHandle, boneIndex); }
+  getHumanBoneCount(): number { return this.getHumanBoneCountFn(); }
+  setHumanVelocity(humanHandle: number, velocity: Vec3): void { this.humanSetVelocityFn(humanHandle, velocity[0], velocity[1], velocity[2]); }
+  setHumanBullet(humanHandle: number, flag: boolean): void { this.humanSetBulletFn(humanHandle, flag ? 1 : 0); }
+  setHumanJointFrictionTorque(humanHandle: number, torque: number): void { this.humanSetJointFrictionTorqueFn(humanHandle, torque); }
+  setHumanJointSpringHertz(humanHandle: number, hertz: number): void { this.humanSetJointSpringHertzFn(humanHandle, hertz); }
+  setHumanJointDampingRatio(humanHandle: number, dampingRatio: number): void { this.humanSetJointDampingRatioFn(humanHandle, dampingRatio); }
+  readBodyTransform(bodyHandle: number): BodyTransform { this.getBodyTransformFn(bodyHandle, this.transformPtr); const heap = this.module.HEAPF32; const base = this.transformPtr >> 2; return { position: [heap[base + 0], heap[base + 1], heap[base + 2]], rotation: [heap[base + 3], heap[base + 4], heap[base + 5], heap[base + 6]] }; }
+  getWorldCounters(worldHandle: number): WorldCounters { const ptr = this.module._malloc(7 * 4); this.getWorldCountersFn(worldHandle, ptr); const heap32 = new Int32Array(this.module.HEAPF32.buffer); const base = ptr >> 2; const counters = { bodyCount: heap32[base + 0], shapeCount: heap32[base + 1], contactCount: heap32[base + 2], jointCount: heap32[base + 3], islandCount: heap32[base + 4], staticTreeHeight: heap32[base + 5], treeHeight: heap32[base + 6] }; this.module._free(ptr); return counters; }
+  step(worldHandle: number, dt: number, substeps: number): void { this.stepFn(worldHandle, dt, substeps); }
+  destroyWorld(worldHandle: number): void { this.destroyWorldFn(worldHandle); }
+  setShapeDensity(shapeHandle: number | ShapeHandle, density: number, updateBodyMass = true): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setDensityFn(handle, density, updateBodyMass ? 1 : 0); }
+  setShapeFriction(shapeHandle: number | ShapeHandle, friction: number): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setFrictionFn(handle, friction); }
+  setShapeRestitution(shapeHandle: number | ShapeHandle, restitution: number): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setRestitutionFn(handle, restitution); }
+  setShapeSurfaceMaterial(shapeHandle: number | ShapeHandle, material: SurfaceMaterial = {}): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setSurfaceMaterialFn(handle, material.friction ?? 0.5, material.restitution ?? 0, material.rollingResistance ?? 0); }
+  setShapeFilter(shapeHandle: number | ShapeHandle, categoryBits: number, maskBits: number, groupIndex = 0, invokeContacts = false): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setFilterFn(handle, categoryBits, maskBits, groupIndex, invokeContacts ? 1 : 0); }
+  enableShapeSensorEvents(shapeHandle: number | ShapeHandle, flag: boolean): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.enableShapeSensorEventsFn(handle, flag ? 1 : 0); }
+  enableShapeContactEvents(shapeHandle: number | ShapeHandle, flag: boolean): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.enableShapeContactEventsFn(handle, flag ? 1 : 0); }
+  enableShapePreSolveEvents(shapeHandle: number | ShapeHandle, flag: boolean): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.enableShapePreSolveEventsFn(handle, flag ? 1 : 0); }
+  enableShapeHitEvents(shapeHandle: number | ShapeHandle, flag: boolean): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.enableShapeHitEventsFn(handle, flag ? 1 : 0); }
+  setShapeSphere(shapeHandle: number | ShapeHandle, position: Vec3, radius: number): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setShapeSphereFn(handle, position[0], position[1], position[2], radius); }
+  setShapeCapsule(shapeHandle: number | ShapeHandle, a: Vec3, b: Vec3, radius: number): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setShapeCapsuleFn(handle, a[0], a[1], a[2], b[0], b[1], b[2], radius); }
+  applyShapeWind(shapeHandle: number | ShapeHandle, wind: Vec3, drag: number, lift: number, maxSpeed: number, wake = true): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.applyShapeWindFn(handle, wind[0], wind[1], wind[2], drag, lift, maxSpeed, wake ? 1 : 0); }
+  setBodyType(bodyHandle: number, type: BodyType): void { this.setBodyTypeFn(bodyHandle, type); }
+  setBodyName(bodyHandle: number, name: string): void { const ptr = this.module._malloc(name.length + 1); const heap8 = new Uint8Array(this.module.HEAPF32.buffer); for (let i = 0; i < name.length; i++) heap8[ptr + i] = name.charCodeAt(i); heap8[ptr + name.length] = 0; this.setBodyNameFn(bodyHandle, ptr); this.module._free(ptr); }
+  setBodyGravityScale(bodyHandle: number, scale: number): void { this.setBodyGravityScaleFn(bodyHandle, scale); }
+  setBodySleepThreshold(bodyHandle: number, threshold: number): void { this.setBodySleepThresholdFn(bodyHandle, threshold); }
+  enableBodySleep(bodyHandle: number, enable: boolean): void { this.enableBodySleepFn(bodyHandle, enable ? 1 : 0); }
+  setBodyBullet(bodyHandle: number, flag: boolean): void { this.setBodyBulletFn(bodyHandle, flag ? 1 : 0); }
+  enableBodyContactRecycling(bodyHandle: number, flag: boolean): void { this.enableBodyContactRecyclingFn(bodyHandle, flag ? 1 : 0); }
+  enableBodyHitEvents(bodyHandle: number, flag: boolean): void { this.enableBodyHitEventsFn(bodyHandle, flag ? 1 : 0); }
+  setBodyMotionLocks(bodyHandle: number, locks: { lockX?: boolean; lockY?: boolean; lockRotationX?: boolean; lockRotationY?: boolean; lockRotationZ?: boolean; lockLinearZ?: boolean } = {}): void { this.setBodyMotionLocksFn(bodyHandle, locks.lockX ? 1 : 0, locks.lockY ? 1 : 0, locks.lockRotationX ? 1 : 0, locks.lockRotationY ? 1 : 0, locks.lockRotationZ ? 1 : 0, locks.lockLinearZ ? 1 : 0); }
+  setBodyMassData(bodyHandle: number, mass: number, center: Vec3): void { this.setBodyMassDataFn(bodyHandle, mass, center[0], center[1], center[2]); }
+  applyBodyMassFromShapes(bodyHandle: number): void { this.applyBodyMassFromShapesFn(bodyHandle); }
+  setBodyTargetTransform(bodyHandle: number, position: Vec3, rotation: Quat, timeStep: number, wake = true): void { this.setBodyTargetTransformFn(bodyHandle, position[0], position[1], position[2], rotation[0], rotation[1], rotation[2], rotation[3], timeStep, wake ? 1 : 0); }
 }
 
 export class PhysicsWorld {
-  constructor(
-    private readonly runtime: Box3DRuntime,
-    public readonly handle: number,
-  ) {}
-
-  createBody(options: BodyOptions = {}): number {
-    return this.runtime.createBody(this.handle, options);
-  }
-
-  createBox(options: BoxOptions = {}): number {
-    return this.runtime.createBox(this.handle, {
-      size: options.size ?? [1, 1, 1],
-      position: options.position ?? [0, 0, 0],
-      static: options.static ?? false,
-      density: options.density ?? 1,
-    });
-  }
-
-  createSphere(options: SphereOptions = {}): number {
-    return this.runtime.createSphere(this.handle, {
-      radius: options.radius ?? 0.5,
-      position: options.position ?? [0, 0, 0],
-      velocity: options.velocity ?? [0, 0, 0],
-      density: options.density ?? 1,
-    });
-  }
-
-  destroyBody(bodyHandle: number): void {
-    this.runtime.destroyBody(bodyHandle);
-  }
-
-  destroyJoint(jointHandle: number): void {
-    this.runtime.destroyJoint(jointHandle);
-  }
-
-  setBodyTransform(bodyHandle: number, position: Vec3, rotation: Quat = [0, 0, 0, 1]): void {
-    this.runtime.setBodyTransform(bodyHandle, position, rotation);
-  }
-
-  setBodyAwake(bodyHandle: number, awake: boolean): void {
-    this.runtime.setBodyAwake(bodyHandle, awake);
-  }
-
-  setBodyDamping(bodyHandle: number, linearDamping: number, angularDamping: number): void {
-    this.runtime.setBodyDamping(bodyHandle, linearDamping, angularDamping);
-  }
-
-  getBodyLocalPoint(bodyHandle: number, worldPoint: Vec3): Vec3 {
-    return this.runtime.getBodyLocalPoint(bodyHandle, worldPoint);
-  }
-
-  createMotorJoint(
-    bodyAHandle: number,
-    bodyBHandle: number,
-    options: MotorJointOptions = {},
-  ): number {
-    return this.runtime.createMotorJoint(this.handle, bodyAHandle, bodyBHandle, options);
-  }
-
-  getBodyTransform(bodyHandle: number): BodyTransform {
-    return this.runtime.readBodyTransform(bodyHandle);
-  }
-
-  step(dt = 1 / 60, substeps = 4): void {
-    this.runtime.step(this.handle, dt, substeps);
-  }
-
-  destroy(): void {
-    this.runtime.destroyWorld(this.handle);
-  }
+  constructor(private readonly runtime: Box3DRuntime, public readonly handle: number) {}
+  createBody(options: BodyOptions = {}): number { return this.runtime.createBody(this.handle, options); }
+  createBox(options: BoxOptions = {}): number { return this.runtime.createBox(this.handle, { size: options.size ?? [1,1,1], position: options.position ?? [0,0,0], static: options.static ?? false, density: options.density ?? 1 }); }
+  createSphere(options: SphereOptions = {}): number { return this.runtime.createSphere(this.handle, { radius: options.radius ?? 0.5, position: options.position ?? [0,0,0], velocity: options.velocity ?? [0,0,0], density: options.density ?? 1 }); }
+  createCapsuleShape(bodyHandle: number, a: Vec3, b: Vec3, radius: number, options: { density?: number; friction?: number; restitution?: number; rollingResistance?: number } = {}): ShapeHandle { return this.runtime.createCapsuleShape(bodyHandle, a, b, radius, options); }
+  createCompoundFromHulls(entries: CompoundHullEntry[]): number { return this.runtime.createCompoundFromHulls(entries); }
+  createCompoundFromSpheres(entries: CompoundSphereEntry[]): number { return this.runtime.createCompoundFromSpheres(entries); }
+  createCompoundShape(bodyHandle: number, compoundHandle: number, density = 1): number { return this.runtime.createCompoundShape(bodyHandle, compoundHandle, density); }
+  getCompoundTreeHeight(compoundHandle: number): number { return this.runtime.getCompoundTreeHeight(compoundHandle); }
+  destroyCompound(compoundHandle: number): void { this.runtime.destroyCompound(compoundHandle); }
+  destroyBody(bodyHandle: number): void { this.runtime.destroyBody(bodyHandle); }
+  destroyJoint(jointHandle: number): void { this.runtime.destroyJoint(jointHandle); }
+  setBodyTransform(bodyHandle: number, position: Vec3, rotation: Quat = [0,0,0,1]): void { this.runtime.setBodyTransform(bodyHandle, position, rotation); }
+  setBodyLinearVelocity(bodyHandle: number, velocity: Vec3): void { this.runtime.setBodyLinearVelocity(bodyHandle, velocity); }
+  setBodyAngularVelocity(bodyHandle: number, velocity: Vec3): void { this.runtime.setBodyAngularVelocity(bodyHandle, velocity); }
+  bodyIsAwake(bodyHandle: number): boolean { return this.runtime.bodyIsAwake(bodyHandle); }
+  getBodyType(bodyHandle: number): BodyType { return this.runtime.getBodyType(bodyHandle); }
+  setBodyAwake(bodyHandle: number, awake: boolean): void { this.runtime.setBodyAwake(bodyHandle, awake); }
+  setBodyDamping(bodyHandle: number, linearDamping: number, angularDamping: number): void { this.runtime.setBodyDamping(bodyHandle, linearDamping, angularDamping); }
+  getBodyLocalPoint(bodyHandle: number, worldPoint: Vec3): Vec3 { return this.runtime.getBodyLocalPoint(bodyHandle, worldPoint); }
+  createMotorJoint(bodyAHandle: number, bodyBHandle: number, options: MotorJointOptions = {}): number { return this.runtime.createMotorJoint(this.handle, bodyAHandle, bodyBHandle, options); }
+  createFilterJoint(bodyAHandle: number, bodyBHandle: number): number { return this.runtime.createFilterJoint(this.handle, bodyAHandle, bodyBHandle); }
+  createRevoluteJoint(bodyAHandle: number, bodyBHandle: number, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; targetAngle?: number; enableSpring?: boolean; hertz?: number; dampingRatio?: number; enableLimit?: boolean; lowerAngle?: number; upperAngle?: number; enableMotor?: boolean; maxMotorTorque?: number; motorSpeed?: number } = {}): number { return this.runtime.createRevoluteJoint(this.handle, bodyAHandle, bodyBHandle, options); }
+  createSphericalJoint(bodyAHandle: number, bodyBHandle: number, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; enableSpring?: boolean; hertz?: number; dampingRatio?: number; targetRotation?: Quat; enableConeLimit?: boolean; coneAngle?: number; enableTwistLimit?: boolean; lowerTwistAngle?: number; upperTwistAngle?: number; enableMotor?: boolean; maxMotorTorque?: number; motorVelocity?: Vec3 } = {}): number { return this.runtime.createSphericalJoint(this.handle, bodyAHandle, bodyBHandle, options); }
+  createHuman(position: Vec3, options: { frictionTorque?: number; hertz?: number; dampingRatio?: number; groupIndex?: number; colorize?: boolean } = {}): number { return this.runtime.createHuman(this.handle, position, options); }
+  getBodyTransform(bodyHandle: number): BodyTransform { return this.runtime.readBodyTransform(bodyHandle); }
+  getCounters(): WorldCounters { return this.runtime.getWorldCounters(this.handle); }
+  step(dt = 1 / 60, substeps = 4): void { this.runtime.step(this.handle, dt, substeps); }
+  destroy(): void { this.runtime.destroyWorld(this.handle); }
 }

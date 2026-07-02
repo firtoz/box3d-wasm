@@ -1,0 +1,32 @@
+import type * as THREE from "three";
+import type { Box3DRuntime, PhysicsWorld } from "box3d-wasm";
+
+export type DemoBody = { handle: number; mesh: THREE.Mesh; extraMeshes?: THREE.Mesh[]; shapeIds?: number[]; type: number; preserveColor?: boolean }; // type: 0=static, 1=kinematic, 2=dynamic
+
+export type ControlSpec = {
+  key: string;
+  label: string;
+  min: number;
+  max: number;
+  step: number;
+  value: number;
+  onChange?: (value: number) => void;
+};
+
+export type DemoSampleInstance = {
+  world: PhysicsWorld;
+  bodies: DemoBody[];
+  controls: ControlSpec[];
+  launchSpeed?: number;
+  info?: string;
+  step(dt: number): void;
+  dispose(): void;
+};
+
+export type DemoSample = {
+  id: string;
+  name: string;
+  create(runtime: Box3DRuntime, scene: THREE.Scene): DemoSampleInstance;
+};
+
+export type SampleId = DemoSample["id"];

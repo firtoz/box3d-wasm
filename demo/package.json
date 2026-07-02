@@ -12,11 +12,12 @@
   "dependencies": {
     "box3d-wasm": "workspace:*",
     "stats.js": "^0.17.0",
-    "three": "^0.185.1"
+    "three": "^0.185.1",
+    "tweakpane": "4.0.5"
   },
   "devDependencies": {
     "@types/three": "catalog:",
     "typescript": "catalog:",
-    "vite": "^7.3.6"
+    "vite": "^8.1.2"
   }
 }

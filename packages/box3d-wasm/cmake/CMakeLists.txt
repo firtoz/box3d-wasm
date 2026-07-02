@@ -13,8 +13,19 @@ endif()
 
 add_subdirectory("${BOX3D_SOURCE_DIR}" box3d-build)
 
-add_executable(box3d_web box3d_web.c)
-target_include_directories(box3d_web PRIVATE "${BOX3D_SOURCE_DIR}/include")
+add_executable(box3d_web
+	box3d_web.c
+	box3d_web_slots.c
+	box3d_web_world.c
+	box3d_web_body.c
+	box3d_web_shape.c
+	box3d_web_hull.c
+	box3d_web_compound.c
+	box3d_web_joint.c
+	box3d_web_human.c
+	"${BOX3D_SOURCE_DIR}/shared/human.c"
+)
+target_include_directories(box3d_web PRIVATE "${BOX3D_SOURCE_DIR}/include" "${BOX3D_SOURCE_DIR}/shared")
 target_link_libraries(box3d_web PRIVATE box3d)
 
 set_target_properties(box3d_web PROPERTIES
@@ -33,5 +44,6 @@ set_target_properties(box3d_web PROPERTIES
 		"SHELL:-sALLOW_MEMORY_GROWTH=1"
 		"SHELL:-sNO_EXIT_RUNTIME=1"
 		"SHELL:-sEXPORTED_RUNTIME_METHODS=['cwrap','HEAPF32']"
-		"SHELL:-sEXPORTED_FUNCTIONS=['_main','_malloc','_free','_b3wCreateWorld','_b3wDestroyWorld','_b3wCreateBody','_b3wCreateBox','_b3wCreateSphere','_b3wDestroyBody','_b3wDestroyJoint','_b3wSetBodyTransform','_b3wSetBodyAwake','_b3wSetBodyDamping','_b3wGetBodyLocalPoint','_b3wCreateMotorJoint','_b3wStep','_b3wGetBodyTransform']"
+		"SHELL:-sEXPORTED_FUNCTIONS=['_main','_malloc','_free']"
+		"SHELL:-sEXPORT_KEEPALIVE=1"
 	)
