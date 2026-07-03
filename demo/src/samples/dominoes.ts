@@ -164,6 +164,12 @@ export function createDominoesSample(multiplier: number): DemoSample {
         stopMouseDrag() {
           worker.postMessage({ type: "drag-end" });
         },
+        setPaused(paused) {
+          worker.postMessage({ type: "set-paused", paused });
+        },
+        sendSolverParams(params) {
+          worker.postMessage({ type: "set-solver-params", params });
+        },
         step() {
           if (positions === null || rotations === null || awake === null || state === null || awCache === null) return;
           const version = Atomics.load(state, SNAPSHOT_VERSION_INDEX);

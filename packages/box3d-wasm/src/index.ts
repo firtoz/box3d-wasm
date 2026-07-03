@@ -154,6 +154,10 @@ type BodySetTargetTransformFn = (bodyHandle: number, px: number, py: number, pz:
 type ApplyLinearImpulseFn = (bodyHandle: number, ix: number, iy: number, iz: number, px: number, py: number, pz: number, wake: number) => void;
 type ApplyLinearImpulseToCenterFn = (bodyHandle: number, ix: number, iy: number, iz: number, wake: number) => void;
 type ShapeSetDensityFn = (shapeHandle: number, density: number, updateBodyMass: number) => void;
+type WorldEnableBoolFn = (worldHandle: number, flag: number) => void;
+type WorldSetContactTuningFn = (worldHandle: number, hertz: number, dampingRatio: number, contactSpeed: number) => void;
+type WorldSetFloatFn = (worldHandle: number, value: number) => void;
+type WorldSetWorkerCountFn = (worldHandle: number, count: number) => void;
 type GetWorldCountersFn = (worldHandle: number, outCounters: number) => void;
 type GetWorldProfileFn = (worldHandle: number, outProfile: number) => void;
 type GetWorldAwakeBodyCountFn = (worldHandle: number) => number;
@@ -253,6 +257,12 @@ export class Box3DRuntime implements RuntimeAPI {
   private readonly setBodyTargetTransformFn: BodySetTargetTransformFn;
   private readonly applyLinearImpulseFn: ApplyLinearImpulseFn;
   private readonly applyLinearImpulseToCenterFn: ApplyLinearImpulseToCenterFn;
+  private readonly enableWorldSleepFn: WorldEnableBoolFn;
+  private readonly enableWorldContinuousFn: WorldEnableBoolFn;
+  private readonly enableWorldWarmStartingFn: WorldEnableBoolFn;
+  private readonly setWorldContactTuningFn: WorldSetContactTuningFn;
+  private readonly setWorldContactRecycleDistanceFn: WorldSetFloatFn;
+  private readonly setWorldWorkerCountFn: WorldSetWorkerCountFn;
   private readonly getWorldCountersFn: GetWorldCountersFn;
   private readonly getWorldProfileFn: GetWorldProfileFn;
   private readonly getWorldAwakeBodyCountFn: GetWorldAwakeBodyCountFn;
@@ -310,6 +320,12 @@ export class Box3DRuntime implements RuntimeAPI {
     this.humanSetJointFrictionTorqueFn = module.cwrap("b3wHumanSetJointFrictionTorque", null, ["number","number"]);
     this.humanSetJointSpringHertzFn = module.cwrap("b3wHumanSetJointSpringHertz", null, ["number","number"]);
     this.humanSetJointDampingRatioFn = module.cwrap("b3wHumanSetJointDampingRatio", null, ["number","number"]);
+    this.enableWorldSleepFn = module.cwrap("b3wEnableSleeping", null, ["number", "number"]);
+    this.enableWorldContinuousFn = module.cwrap("b3wEnableContinuous", null, ["number", "number"]);
+    this.enableWorldWarmStartingFn = module.cwrap("b3wEnableWarmStarting", null, ["number", "number"]);
+    this.setWorldContactTuningFn = module.cwrap("b3wSetContactTuning", null, ["number", "number", "number", "number"]);
+    this.setWorldContactRecycleDistanceFn = module.cwrap("b3wSetContactRecycleDistance", null, ["number", "number"]);
+    this.setWorldWorkerCountFn = module.cwrap("b3wSetWorkerCount", null, ["number", "number"]);
     this.getWorldCountersFn = module.cwrap("b3wGetWorldCounters", null, ["number", "number"]);
     this.getWorldProfileFn = module.cwrap("b3wGetWorldProfile", null, ["number", "number"]);
     this.getWorldAwakeBodyCountFn = module.cwrap("b3wGetWorldAwakeBodyCount", "number", ["number"]);
@@ -570,6 +586,12 @@ export class Box3DRuntime implements RuntimeAPI {
   getWorldProfile(worldHandle: number): WorldProfile { this.getWorldProfileFn(worldHandle, this.profilePtr); const heap = this.module.HEAPF32; const base = this.profilePtr >> 2; return { step: heap[base + 0], pairs: heap[base + 1], collide: heap[base + 2], solve: heap[base + 3], solverSetup: heap[base + 4], constraints: heap[base + 5], prepareConstraints: heap[base + 6], integrateVelocities: heap[base + 7], warmStart: heap[base + 8], solveImpulses: heap[base + 9], integratePositions: heap[base + 10], relaxImpulses: heap[base + 11], applyRestitution: heap[base + 12], storeImpulses: heap[base + 13], splitIslands: heap[base + 14], transforms: heap[base + 15], sensorHits: heap[base + 16], jointEvents: heap[base + 17], hitEvents: heap[base + 18], refit: heap[base + 19], bullets: heap[base + 20], sleepIslands: heap[base + 21], sensors: heap[base + 22] }; }
   checkThreadingSupport(): number { return this.checkThreadingSupportFn(); }
   getWorldWorkerCount(worldHandle: number): number { return this.getWorldWorkerCountFn(worldHandle); }
+  enableWorldSleeping(worldHandle: number, flag: boolean): void { this.enableWorldSleepFn(worldHandle, flag ? 1 : 0); }
+  enableWorldContinuous(worldHandle: number, flag: boolean): void { this.enableWorldContinuousFn(worldHandle, flag ? 1 : 0); }
+  enableWorldWarmStarting(worldHandle: number, flag: boolean): void { this.enableWorldWarmStartingFn(worldHandle, flag ? 1 : 0); }
+  setWorldContactTuning(worldHandle: number, hertz: number, dampingRatio: number, contactSpeed: number): void { this.setWorldContactTuningFn(worldHandle, hertz, dampingRatio, contactSpeed); }
+  setWorldContactRecycleDistance(worldHandle: number, distance: number): void { this.setWorldContactRecycleDistanceFn(worldHandle, distance); }
+  setWorldWorkerCount(worldHandle: number, count: number): void { this.setWorldWorkerCountFn(worldHandle, count); }
 
   rayCastClosest(worldHandle: number, origin: Vec3, translation: Vec3, categoryBits = U64_MAX, maskBits = U64_MAX): { shapeHandle: number; bodyHandle: number; point: Vec3; normal: Vec3; fraction: number } | null {
     const outShapePtr = this.module._malloc(4);
@@ -676,5 +698,11 @@ export class PhysicsWorld {
     this.runtime.writeBodyTransforms(count, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr);
   }
   step(dt = 1 / 60, substeps = 4): void { this.runtime.step(this.handle, dt, substeps); }
+  enableSleeping(flag: boolean): void { this.runtime.enableWorldSleeping(this.handle, flag); }
+  enableContinuous(flag: boolean): void { this.runtime.enableWorldContinuous(this.handle, flag); }
+  enableWarmStarting(flag: boolean): void { this.runtime.enableWorldWarmStarting(this.handle, flag); }
+  setContactTuning(hertz: number, dampingRatio: number, contactSpeed: number): void { this.runtime.setWorldContactTuning(this.handle, hertz, dampingRatio, contactSpeed); }
+  setContactRecycleDistance(distance: number): void { this.runtime.setWorldContactRecycleDistance(this.handle, distance); }
+  setWorkerCount(count: number): void { this.runtime.setWorldWorkerCount(this.handle, count); }
   destroy(): void { this.runtime.destroyWorld(this.handle); }
 }

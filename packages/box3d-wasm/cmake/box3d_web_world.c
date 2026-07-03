@@ -89,6 +89,48 @@ B3W_EXPORT int b3wCheckThreadingSupport(void)
 }
 #endif
 
+B3W_EXPORT void b3wEnableSleeping(int worldHandle, int flag)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	b3World_EnableSleeping(slot->worldId, flag);
+}
+
+B3W_EXPORT void b3wEnableContinuous(int worldHandle, int flag)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	b3World_EnableContinuous(slot->worldId, flag);
+}
+
+B3W_EXPORT void b3wEnableWarmStarting(int worldHandle, int flag)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	b3World_EnableWarmStarting(slot->worldId, flag);
+}
+
+B3W_EXPORT void b3wSetContactTuning(int worldHandle, float hertz, float dampingRatio, float contactSpeed)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	b3World_SetContactTuning(slot->worldId, hertz, dampingRatio, contactSpeed);
+}
+
+B3W_EXPORT void b3wSetContactRecycleDistance(int worldHandle, float distance)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	b3World_SetContactRecycleDistance(slot->worldId, distance);
+}
+
+B3W_EXPORT void b3wSetWorkerCount(int worldHandle, int count)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	b3World_SetWorkerCount(slot->worldId, count);
+}
+
 B3W_EXPORT int b3wGetWorldAwakeBodyCount(int worldHandle)
 {
 	b3wWorldSlot* slot = b3wGetWorld(worldHandle);

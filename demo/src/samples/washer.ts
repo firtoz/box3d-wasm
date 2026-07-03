@@ -10,46 +10,148 @@ const dummy = new THREE.Object3D();
 const awakeColor = new THREE.Color(0xd2b48c);
 const sleepColor = new THREE.Color(0x778899);
 
-function rotZ2(v: [number, number], angle: number): [number, number] {
-  const c = Math.cos(angle), s = Math.sin(angle);
-  return [v[0] * c - v[1] * s, v[0] * s + v[1] * c];
-}
-
 const ANGLE_STEP = Math.PI / 18;
 const QO_ANGLE = 0.1 * ANGLE_STEP;
 const R0 = 14, R1 = 16, R2 = 18;
 
-function computeHullPoints(
+function hullVertices(
   rInner: number, rOuter: number,
-  e1: [number, number], e2: [number, number]
+  e1x: number, e1y: number,
+  e2x: number, e2y: number
 ): [number, number, number][] {
   return [
-    [rInner * e1[0], rInner * e1[1], -10],
-    [rOuter * e1[0], rOuter * e1[1], -10],
-    [rInner * e2[0], rInner * e2[1], -10],
-    [rOuter * e2[0], rOuter * e2[1], -10],
-    [rInner * e1[0], rInner * e1[1], 10],
-    [rOuter * e1[0], rOuter * e1[1], 10],
-    [rInner * e2[0], rInner * e2[1], 10],
-    [rOuter * e2[0], rOuter * e2[1], 10],
+    [rInner * e1x, rInner * e1y, -10],
+    [rOuter * e1x, rOuter * e1y, -10],
+    [rInner * e2x, rInner * e2y, -10],
+    [rOuter * e2x, rOuter * e2y, -10],
+    [rInner * e1x, rInner * e1y,  10],
+    [rOuter * e1x, rOuter * e1y,  10],
+    [rInner * e2x, rInner * e2y,  10],
+    [rOuter * e2x, rOuter * e2y,  10],
   ];
 }
 
-function hullFromPoints(points: [number, number, number][]): THREE.BufferGeometry {
-  const positions = points.flat();
-  const indices = [
-    0, 3, 1,   0, 2, 3,
-    4, 5, 7,   4, 7, 6,
-    0, 4, 6,   0, 6, 2,
-    1, 3, 7,   1, 7, 5,
-    0, 1, 5,   0, 5, 4,
-    2, 6, 7,   2, 7, 3,
-  ];
+// Each quad defines a face of the hexahedron hull: 2 triangles (v0,v1,v2) and (v0,v2,v3).
+// Winding must be CCW when viewed from outside for correct outward normals.
+const HULL_FACE_QUADS: [number, number, number, number][] = [
+  [0, 2, 3, 1],  // near (z=-10): outward -Z
+  [4, 5, 7, 6],  // far  (z=+10): outward +Z
+  [0, 4, 6, 2],  // inner (r=R1): inward radial
+  [1, 3, 7, 5],  // outer (r=R2): outward radial
+  [0, 1, 5, 4],  // e1 side (a1 dir): -azimuthal
+  [2, 6, 7, 3],  // e2 side (a2 dir): +azimuthal
+];
+
+const HULL_EDGE_PAIRS: [number, number][] = [
+  [0, 1], [1, 3], [3, 2], [2, 0],
+  [4, 5], [5, 7], [7, 6], [6, 4],
+  [0, 4], [1, 5], [2, 6], [3, 7],
+];
+
+function buildDrumMeshes(): { mesh: THREE.Mesh, edges: THREE.LineSegments } {
+  const vanePositions: number[] = [];
+  const vaneEdgePositions: number[] = [];
+  const vaneNormals: number[] = [];
+
+  const postPositions: number[] = [];
+  const postEdgePositions: number[] = [];
+  const postNormals: number[] = [];
+
+  for (let i = 0; i < 36; i++) {
+    const u1a = i * ANGLE_STEP;
+    const u2a = i === 35 ? 0 : (i + 1) * ANGLE_STEP;
+
+    const cu1 = Math.cos(u1a), su1 = Math.sin(u1a);
+    const cu2 = Math.cos(u2a), su2 = Math.sin(u2a);
+
+    const cq = Math.cos(QO_ANGLE), sq = Math.sin(QO_ANGLE);
+    const a1x = cu1 * cq + su1 * sq;
+    const a1y = -cu1 * sq + su1 * cq;
+    const a2x = cu2 * cq - su2 * sq;
+    const a2y = cu2 * sq + su2 * cq;
+
+    const pts = hullVertices(R1, R2, a1x, a1y, a2x, a2y);
+    for (const quad of HULL_FACE_QUADS) {
+      const v0 = pts[quad[0]], v1 = pts[quad[1]], v2 = pts[quad[2]], v3 = pts[quad[3]];
+
+      const ex1 = v1[0] - v0[0], ey1 = v1[1] - v0[1], ez1 = v1[2] - v0[2];
+      const ex2 = v2[0] - v0[0], ey2 = v2[1] - v0[1], ez2 = v2[2] - v0[2];
+      let nx = ey1 * ez2 - ez1 * ey2;
+      let ny = ez1 * ex2 - ex1 * ez2;
+      let nz = ex1 * ey2 - ey1 * ex2;
+      const len = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
+      nx /= len; ny /= len; nz /= len;
+
+      const pushTri = (a: [number, number, number], b: [number, number, number], c: [number, number, number]) => {
+        for (const p of [a, b, c]) {
+          vanePositions.push(p[0], p[1], p[2]);
+          vaneNormals.push(nx, ny, nz);
+        }
+      };
+      pushTri(v0, v1, v2);
+      pushTri(v0, v2, v3);
+    }
+
+    for (const [ea, eb] of HULL_EDGE_PAIRS) {
+      vaneEdgePositions.push(pts[ea][0], pts[ea][1], pts[ea][2]);
+      vaneEdgePositions.push(pts[eb][0], pts[eb][1], pts[eb][2]);
+    }
+
+    if (i % 9 === 0) {
+      const pts2 = hullVertices(R0, R1, cu1, su1, cu2, su2);
+      for (const quad of HULL_FACE_QUADS) {
+        const v0 = pts2[quad[0]], v1 = pts2[quad[1]], v2 = pts2[quad[2]], v3 = pts2[quad[3]];
+
+        const ex1 = v1[0] - v0[0], ey1 = v1[1] - v0[1], ez1 = v1[2] - v0[2];
+        const ex2 = v2[0] - v0[0], ey2 = v2[1] - v0[1], ez2 = v2[2] - v0[2];
+        let nx = ey1 * ez2 - ez1 * ey2;
+        let ny = ez1 * ex2 - ex1 * ez2;
+        let nz = ex1 * ey2 - ey1 * ex2;
+        const len = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
+        nx /= len; ny /= len; nz /= len;
+
+        const pushTri = (a: [number, number, number], b: [number, number, number], c: [number, number, number]) => {
+          for (const p of [a, b, c]) {
+            postPositions.push(p[0], p[1], p[2]);
+            postNormals.push(nx, ny, nz);
+          }
+        };
+        pushTri(v0, v1, v2);
+        pushTri(v0, v2, v3);
+      }
+
+      for (const [ea, eb] of HULL_EDGE_PAIRS) {
+        postEdgePositions.push(pts2[ea][0], pts2[ea][1], pts2[ea][2]);
+        postEdgePositions.push(pts2[eb][0], pts2[eb][1], pts2[eb][2]);
+      }
+    }
+  }
+
+  // Merge vane and post into single geometries
+  const allPos = new Float32Array([...vanePositions, ...postPositions]);
+  const allNormals = new Float32Array([...vaneNormals, ...postNormals]);
+  const allEdges = new Float32Array([...vaneEdgePositions, ...postEdgePositions]);
+
   const geo = new THREE.BufferGeometry();
-  geo.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-  geo.setIndex(indices);
-  geo.computeVertexNormals();
-  return geo;
+  geo.setAttribute("position", new THREE.BufferAttribute(allPos, 3));
+  geo.setAttribute("normal", new THREE.BufferAttribute(allNormals, 3));
+
+  const edgeGeo = new THREE.BufferGeometry();
+  edgeGeo.setAttribute("position", new THREE.BufferAttribute(allEdges, 3));
+
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0x555555,
+    roughness: 0.5,
+    metalness: 0.3,
+    side: THREE.DoubleSide,
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.castShadow = true;
+
+  const edgeMat = new THREE.LineBasicMaterial({ color: 0x888888 });
+  const edges = new THREE.LineSegments(edgeGeo, edgeMat);
+
+  return { mesh, edges };
 }
 
 const WASHER_CUBE_COUNT = 8000;
@@ -95,58 +197,9 @@ export function createWasherSample(): DemoSample {
       const drumGroup = new THREE.Group();
       drumGroup.position.set(0, 21, 0);
 
-      const wallMat = new THREE.MeshStandardMaterial({ color: 0x3a3a3a, metalness: 0.4, roughness: 0.5, side: THREE.DoubleSide, transparent: true, opacity: 0.8 });
-      const wallGeo = new THREE.CylinderGeometry(18, 18, 20, 48, 1, true);
-      const wallMesh = new THREE.Mesh(wallGeo, wallMat);
-      wallMesh.rotation.x = Math.PI / 2;
-      drumGroup.add(wallMesh);
-
-      const u1_0: [number, number] = [1, 0];
-      const u2_0: [number, number] = [Math.cos(ANGLE_STEP), Math.sin(ANGLE_STEP)];
-      const a1_0 = rotZ2(u1_0, -QO_ANGLE);
-      const a2_0 = rotZ2(u2_0, QO_ANGLE);
-
-      const vanePts = computeHullPoints(R1, R2, a1_0, a2_0);
-      const vaneGeom = hullFromPoints(vanePts);
-
-      const postPts = computeHullPoints(R0, R1, u1_0, u2_0);
-      const postGeom = hullFromPoints(postPts);
-
-      const vaneMat = new THREE.MeshStandardMaterial({ color: 0x555555, metalness: 0.5, roughness: 0.4 });
-      const vaneMesh = new THREE.InstancedMesh(vaneGeom, vaneMat, 36);
-      vaneMesh.castShadow = true;
-
-      const postMat = new THREE.MeshStandardMaterial({ color: 0x4a4a4a, metalness: 0.5, roughness: 0.4 });
-      const postMesh = new THREE.InstancedMesh(postGeom, postMat, 4);
-      postMesh.castShadow = true;
-
-      const vi = new THREE.Object3D();
-      let pi = 0;
-      for (let i = 0; i < 36; i++) {
-        const theta = i * ANGLE_STEP;
-        vi.quaternion.set(0, 0, Math.sin(theta / 2), Math.cos(theta / 2));
-        vi.position.set(0, 0, 0);
-        vi.scale.set(1, 1, 1);
-        vi.updateMatrix();
-        vaneMesh.setMatrixAt(i, vi.matrix);
-        if (i % 9 === 0) {
-          postMesh.setMatrixAt(pi, vi.matrix);
-          pi++;
-        }
-      }
-      vaneMesh.instanceMatrix.needsUpdate = true;
-      postMesh.instanceMatrix.needsUpdate = true;
-      drumGroup.add(vaneMesh);
-      drumGroup.add(postMesh);
-
-      const endCapMat = new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.3, roughness: 0.6, side: THREE.DoubleSide });
-      const backCapGeo = new THREE.RingGeometry(14, 18, 48);
-      const backCap = new THREE.Mesh(backCapGeo, endCapMat);
-      backCap.position.set(0, 0, -10);
-      drumGroup.add(backCap);
-      const frontCap = new THREE.Mesh(new THREE.RingGeometry(14, 18, 48), endCapMat);
-      frontCap.position.set(0, 0, 10);
-      drumGroup.add(frontCap);
+      const { mesh: drumMesh, edges: drumEdges } = buildDrumMeshes();
+      drumGroup.add(drumMesh);
+      drumGroup.add(drumEdges);
 
       scene.add(drumGroup);
       bodies.push({ handle: 1, mesh: drumGroup as unknown as THREE.Mesh, type: 2 });
@@ -265,6 +318,12 @@ export function createWasherSample(): DemoSample {
         stopMouseDrag() {
           worker.postMessage({ type: "drag-end" });
         },
+        setPaused(paused) {
+          worker.postMessage({ type: "set-paused", paused });
+        },
+        sendSolverParams(params) {
+          worker.postMessage({ type: "set-solver-params", params });
+        },
         step() {
           if (positions === null || rotations === null || awake === null || state === null || awCache === null) return;
           const version = Atomics.load(state, SNAPSHOT_VERSION_INDEX);
@@ -323,14 +382,10 @@ export function createWasherSample(): DemoSample {
           groundGeom.dispose();
           groundMat.dispose();
           scene.remove(drumGroup);
-          wallGeo.dispose();
-          wallMat.dispose();
-          vaneGeom.dispose();
-          vaneMat.dispose();
-          postGeom.dispose();
-          postMat.dispose();
-          backCapGeo.dispose();
-          endCapMat.dispose();
+          drumMesh.geometry.dispose();
+          (drumMesh.material as THREE.Material).dispose();
+          drumEdges.geometry.dispose();
+          (drumEdges.material as THREE.Material).dispose();
           scene.remove(mesh);
           cubeGeom.dispose();
           cubeMat.dispose();

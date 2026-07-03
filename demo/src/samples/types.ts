@@ -6,11 +6,23 @@ export type DemoBody = { handle: number; mesh: THREE.Mesh; extraMeshes?: THREE.M
 export type ControlSpec = {
   key: string;
   label: string;
-  min: number;
-  max: number;
-  step: number;
-  value: number;
-  onChange?: (value: number) => void;
+  type?: "range" | "toggle" | "button";
+  min?: number;
+  max?: number;
+  step?: number;
+  value?: number | boolean;
+  onChange?: (value: number | boolean) => void;
+  onClick?: () => void;
+};
+
+export type SolverParams = {
+  subSteps?: number;
+  hertz?: number;
+  recycleDistance?: number;
+  sleep?: boolean;
+  continuous?: boolean;
+  warmStart?: boolean;
+  workerCount?: number;
 };
 
 export type DemoSampleInstance = {
@@ -26,6 +38,8 @@ export type DemoSampleInstance = {
   updateMouseDragRay?: (origin: Vec3, translation: Vec3) => void;
   stopMouseDrag?: () => void;
   onKey?: (key: string) => void;
+  setPaused?(paused: boolean): void;
+  sendSolverParams?: (params: SolverParams) => void;
   step(dt: number): void;
   dispose(): void;
 };

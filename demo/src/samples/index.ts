@@ -11,7 +11,7 @@ import { pyramid2dSample } from "./pyramid2d";
 import { shapesInclinedPlaneSample } from "./shapes-inclined-plane";
 import { singleBoxSample } from "./stacking-single-box";
 import { sphereStackSample } from "./sphere-stack";
-export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId } from "./types";
+export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
 
 export const samples = [
   compoundSimpleSample,

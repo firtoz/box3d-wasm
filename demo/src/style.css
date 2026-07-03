@@ -240,6 +240,7 @@ canvas {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  padding: 2px 0;
 }
 
 .controls-panel .ctrl-header {
@@ -257,17 +258,96 @@ canvas {
 
 .controls-panel input[type="range"] {
   width: 100%;
-  height: 3px;
+  height: 2px;
   margin: 0;
   accent-color: #7dd3fc;
 }
 
 .controls-panel input[type="range"]::-webkit-slider-thumb {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: #7dd3fc;
   cursor: pointer;
+  appearance: none;
+}
+
+.controls-panel input[type="range"]::-moz-range-thumb {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #7dd3fc;
+  cursor: pointer;
+  border: none;
+}
+
+/* ─── solver section divider ─── */
+.controls-panel .ctrl-divider {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin: 4px 0;
+}
+
+.controls-panel .ctrl-section-title {
+  color: #5a6e8a;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 2px 0 4px;
+}
+
+/* ─── checkbox toggle ─── */
+.controls-panel .ctrl-toggle-row {
+  display: flex;
+  align-items: center;
+  padding: 1px 0;
+}
+
+.controls-panel .ctrl-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #a7bedb;
+  font-size: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.controls-panel .ctrl-toggle-label input[type="checkbox"] {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 3px;
+  background: rgba(255,255,255,0.04);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.controls-panel .ctrl-toggle-label input[type="checkbox"]:checked {
+  background: rgba(14,165,233,0.35);
+  border-color: #7dd3fc;
+}
+
+/* ─── restart button ─── */
+.controls-panel .ctrl-btn {
+  appearance: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  padding: 4px 8px;
+  background: rgba(255,255,255,0.04);
+  color: #a7bedb;
+  font-size: 10px;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+}
+
+.controls-panel .ctrl-btn:hover {
+  background: rgba(255,255,255,0.08);
+  color: #e5eefb;
 }
 
 /* ─── info text ─── */

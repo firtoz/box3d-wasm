@@ -69,7 +69,7 @@ export const jengaStackSample: DemoSample = {
         step: 1,
         value: 0,
         onChange(value) {
-          const newUseCapsule = value >= 0.5;
+          const newUseCapsule = (value as number) >= 0.5;
           if (newUseCapsule !== useCapsule) {
             useCapsule = newUseCapsule;
             disposeBodies(scene, bodies);

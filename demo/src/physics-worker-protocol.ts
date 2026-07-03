@@ -1,7 +1,17 @@
 import type { Vec3 } from "box3d-wasm";
 
+export type SolverParams = {
+  subSteps?: number;
+  hertz?: number;
+  recycleDistance?: number;
+  sleep?: boolean;
+  continuous?: boolean;
+  warmStart?: boolean;
+  workerCount?: number;
+};
+
 export type PhysicsWorkerCommand =
-  | { type: "init"; data: unknown; workerCount?: number; maxWorkers?: number }
+  | { type: "init"; data: unknown; workerCount?: number; maxWorkers?: number; solverParams?: SolverParams }
   | { type: "spawn-projectile"; origin: Vec3; velocity: Vec3 }
   | { type: "spawn-ragdoll"; origin: Vec3; velocity: Vec3 }
   | { type: "drag-start"; origin: Vec3; translation: Vec3 }
@@ -10,6 +20,7 @@ export type PhysicsWorkerCommand =
   | { type: "set-paused"; paused: boolean }
   | { type: "step-once" }
   | { type: "toggle-worker-count" }
+  | { type: "set-solver-params"; params: SolverParams }
   | { type: "dispose" };
 
 export type PhysicsWorkerReady = {

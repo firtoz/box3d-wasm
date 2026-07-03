@@ -3,7 +3,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Stats from "stats.js";
 import { Box3DRuntime, type Quat, type Vec3 } from "box3d-wasm";
 import { wasmBuildVersion } from "virtual:wasm-version";
-import { samples, type ControlSpec, type DemoBody, type DemoSampleInstance } from "./samples";
+import { samples, type ControlSpec, type DemoBody, type DemoSampleInstance, type SolverParams } from "./samples";
 import "./style.css";
 
 const app = document.querySelector<HTMLDivElement>("#app");
@@ -254,6 +254,14 @@ let activeSample: DemoSampleInstance | null = null;
 let rafId = 0;
 let lastTime = 0;
 let launchSpeed = 5.0;
+const solverParams: SolverParams = {
+  subSteps: 4,
+  hertz: 30,
+  recycleDistance: 0.05,
+  sleep: true,
+  warmStart: true,
+  continuous: true,
+};
 let paused = false;
 let singleStep = 0;
 let controlsVisible = true;
@@ -391,8 +399,101 @@ function clearScene(): void {
   activeSample = null;
 }
 
+function applySolverParams(): void {
+  if (activeSample === null || runtime === null) return;
+  if (activeSample.sendSolverParams !== undefined) {
+    activeSample.sendSolverParams(solverParams);
+    return;
+  }
+  const w = activeSample.world;
+  if (solverParams.hertz !== undefined) runtime.setWorldContactTuning(w.handle, solverParams.hertz, 10, 3);
+  if (solverParams.recycleDistance !== undefined) runtime.setWorldContactRecycleDistance(w.handle, solverParams.recycleDistance);
+  if (solverParams.sleep !== undefined) runtime.enableWorldSleeping(w.handle, solverParams.sleep);
+  if (solverParams.continuous !== undefined) runtime.enableWorldContinuous(w.handle, solverParams.continuous);
+  if (solverParams.warmStart !== undefined) runtime.enableWorldWarmStarting(w.handle, solverParams.warmStart);
+  if (solverParams.workerCount !== undefined && solverParams.workerCount > 0) w.setWorkerCount(solverParams.workerCount);
+}
+
+function renderSolverControls(): void {
+  const sections: { label: string; key: string; type: "range"; min: number; max: number; step: number; value: number; onChange: (v: number) => void }[] = [
+    { label: "Sub-steps", key: "subSteps", type: "range", min: 1, max: 8, step: 1, value: solverParams.subSteps ?? 4, onChange: (v) => { solverParams.subSteps = v; applySolverParams(); } },
+    { label: "Hertz", key: "hertz", type: "range", min: 1, max: 120, step: 1, value: solverParams.hertz ?? 30, onChange: (v) => { solverParams.hertz = v; applySolverParams(); } },
+    { label: "Recycle", key: "recycleDistance", type: "range", min: 0, max: 1, step: 0.01, value: solverParams.recycleDistance ?? 0.05, onChange: (v) => { solverParams.recycleDistance = v; applySolverParams(); } },
+    { label: "Workers", key: "workerCount", type: "range", min: 0, max: 128, step: 1, value: 0, onChange: (v) => { solverParams.workerCount = v; if (v > 0) applySolverParams(); } },
+  ];
+
+  const toggles: { label: string; key: "sleep" | "warmStart" | "continuous"; value: boolean; onChange: (v: boolean) => void }[] = [
+    { label: "Sleep", key: "sleep", value: solverParams.sleep ?? true, onChange: (v) => { solverParams.sleep = v; applySolverParams(); } },
+    { label: "Warm Starting", key: "warmStart", value: solverParams.warmStart ?? true, onChange: (v) => { solverParams.warmStart = v; applySolverParams(); } },
+    { label: "Continuous", key: "continuous", value: solverParams.continuous ?? true, onChange: (v) => { solverParams.continuous = v; applySolverParams(); } },
+  ];
+
+  const el = controlsElement;
+
+  const title = document.createElement("div");
+  title.className = "ctrl-section-title";
+  title.textContent = "Solver";
+  el.appendChild(title);
+
+  for (const s of sections) {
+    const row = document.createElement("div");
+    row.className = "ctrl-row";
+    row.innerHTML = `<div class="ctrl-header"><span>${s.label}</span><span class="ctrl-value">${s.value.toFixed(s.step < 1 ? 2 : 0)}</span></div>`;
+    const input = document.createElement("input");
+    input.type = "range";
+    input.min = String(s.min);
+    input.max = String(s.max);
+    input.step = String(s.step);
+    input.value = String(s.value);
+    input.addEventListener("input", () => {
+      const v = Number(input.value);
+      const vl = row.querySelector<HTMLSpanElement>(".ctrl-value");
+      if (vl !== null) vl.textContent = v.toFixed(s.step < 1 ? 2 : 0);
+      s.onChange(v);
+    });
+    row.appendChild(input);
+    el.appendChild(row);
+  }
+
+  for (const t of toggles) {
+    const row = document.createElement("div");
+    row.className = "ctrl-toggle-row";
+    const label = document.createElement("label");
+    label.className = "ctrl-toggle-label";
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.checked = t.value;
+    cb.addEventListener("change", () => {
+      const newVal = cb.checked;
+      solverParams[t.key] = newVal;
+      t.onChange(newVal);
+    });
+    label.appendChild(cb);
+    label.appendChild(document.createTextNode(" " + t.label));
+    row.appendChild(label);
+    el.appendChild(row);
+  }
+
+  const restartRow = document.createElement("div");
+  restartRow.className = "ctrl-row";
+  const restartBtn = document.createElement("button");
+  restartBtn.className = "ctrl-btn";
+  restartBtn.textContent = "Restart";
+  restartBtn.addEventListener("click", () => resetScene());
+  restartRow.appendChild(restartBtn);
+  el.appendChild(restartRow);
+}
+
 function renderControls(specs: ControlSpec[]): void {
   controlsElement.innerHTML = "";
+
+  renderSolverControls();
+
+  if (specs.length > 0) {
+    const divider = document.createElement("hr");
+    divider.className = "ctrl-divider";
+    controlsElement.appendChild(divider);
+  }
 
   const launchRow = document.createElement("div");
   launchRow.className = "ctrl-row";
@@ -412,15 +513,47 @@ function renderControls(specs: ControlSpec[]): void {
   controlsElement.appendChild(launchRow);
 
   for (const spec of specs) {
+    const t = spec.type ?? "range";
+    if (t === "button") {
+      const row = document.createElement("div");
+      row.className = "ctrl-row";
+      const btn = document.createElement("button");
+      btn.className = "ctrl-btn";
+      btn.textContent = spec.label;
+      btn.addEventListener("click", () => spec.onClick?.());
+      row.appendChild(btn);
+      controlsElement.appendChild(row);
+      continue;
+    }
+    if (t === "toggle") {
+      const row = document.createElement("div");
+      row.className = "ctrl-toggle-row";
+      const label = document.createElement("label");
+      label.className = "ctrl-toggle-label";
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = !!spec.value;
+      cb.addEventListener("change", () => {
+        const newVal = cb.checked;
+        spec.value = newVal;
+        spec.onChange?.(newVal);
+      });
+      label.appendChild(cb);
+      label.appendChild(document.createTextNode(" " + spec.label));
+      row.appendChild(label);
+      controlsElement.appendChild(row);
+      continue;
+    }
     const row = document.createElement("div");
     row.className = "ctrl-row";
-    row.innerHTML = `<div class="ctrl-header"><span>${spec.label}</span><span class="ctrl-value">${spec.value.toFixed(2)}</span></div>`;
+    const val = Number(spec.value);
+    row.innerHTML = `<div class="ctrl-header"><span>${spec.label}</span><span class="ctrl-value">${val.toFixed(2)}</span></div>`;
     const input = document.createElement("input");
     input.type = "range";
-    input.min = String(spec.min);
-    input.max = String(spec.max);
-    input.step = String(spec.step);
-    input.value = String(spec.value);
+    input.min = String(spec.min ?? 0);
+    input.max = String(spec.max ?? 1);
+    input.step = String(spec.step ?? 0.01);
+    input.value = String(val);
     input.addEventListener("input", () => {
       const value = Number(input.value);
       const valueLabel = row.querySelector<HTMLSpanElement>(".ctrl-value");
@@ -650,6 +783,7 @@ function resetScene(): void {
   paused = false;
   singleStep = 0;
   renderControls(activeSample.controls);
+  applySolverParams();
   infoElement.textContent = "";
   updateStatus();
 }
@@ -668,6 +802,8 @@ function activateSample(index: number): void {
   paused = false;
   singleStep = 0;
   renderControls(activeSample.controls);
+  applySolverParams();
+  activeSample?.setPaused?.(paused);
   infoElement.textContent = "";
   updateStatus();
   renderSamples();
@@ -731,7 +867,7 @@ function frame(time: number): void {
     activeSample?.step(dt);
     if (singleStep > 0) singleStep--;
   }
-  if (activeSample?.profile) {
+  if (!paused && activeSample?.profile) {
     const p = activeSample.world.getProfile();
     pushPhysProfile(p);
     physChartLabelTick = (physChartLabelTick + 1) % 15;
@@ -741,7 +877,7 @@ function frame(time: number): void {
       chartLabels[2].textContent = `${p.collide.toFixed(1)}ms`;
     }
   }
-  updateMetrics();
+  if (!paused) updateMetrics();
   drawPhysCharts();
   updateFlyMovement(dt);
   orbit.update();
@@ -1002,6 +1138,7 @@ window.addEventListener("keydown", (e) => {
   } else if (e.key === "p" || e.key === "P") {
     paused = !paused;
     singleStep = 0;
+    activeSample?.setPaused?.(paused);
     updateStatus();
   } else if (e.key === "o" || e.key === "O") {
     singleStep += e.shiftKey ? 5 : 1;

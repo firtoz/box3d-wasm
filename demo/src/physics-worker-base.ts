@@ -1,5 +1,5 @@
 import { Box3DRuntime, type BodyBatchBuffers, type PhysicsWorld, type Vec3 } from "box3d-wasm";
-import type { PhysicsWorkerCommand, PhysicsWorkerMessage } from "./physics-worker-protocol";
+import type { PhysicsWorkerCommand, PhysicsWorkerMessage, SolverParams } from "./physics-worker-protocol";
 import { MAX_PROJECTILES, RAGDOLL_RENDER_BONE_COUNT, SNAPSHOT_AWAKE_COUNT_INDEX, SNAPSHOT_CUMULATIVE_STEPS_INDEX, SNAPSHOT_DROPPED_MS_X100_INDEX, SNAPSHOT_LAG_MS_X100_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_STEP_MS_X100_INDEX, SNAPSHOT_STEPS_INDEX, SNAPSHOT_VERSION_INDEX, SNAPSHOT_STATE_COUNT } from "./physics-worker-protocol";
 
 const FIXED_TIME_STEP = 1 / 60;
@@ -33,6 +33,8 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   protected dragBody = 0;
   protected dragJoint = 0;
   protected dragDistance = 0;
+  protected subSteps = 4;
+  protected lastSolverParams: SolverParams = {};
 
   private initData!: TInit;
 
@@ -89,6 +91,9 @@ export abstract class PhysicsWorkerBase<TInit = void> {
       case "toggle-worker-count":
         this.toggleWorkerCount();
         break;
+      case "set-solver-params":
+        this.applySolverParams(cmd.params);
+        break;
       case "dispose":
         this.dispose();
         break;
@@ -110,6 +115,8 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.world = this.runtime.createWorld({ gravity: [0, -9.81, 0], workerCount: this.currentWorkerCount });
     console.log("[worker]", "checkThreadingSupport:", this.runtime.checkThreadingSupport());
     console.log("[worker]", "workerCount:", this.world.getWorkerCount());
+
+    if (cmd.solverParams) this.applySolverParams(cmd.solverParams);
 
     const groundBody = this.world.createBody({ type: 0, position: [0, -1, 0] });
     this.runtime.createHullShape(groundBody, this.groundSize);
@@ -172,7 +179,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   private stepPhysics(): number {
     if (this.world === null) return 0;
     const start = performance.now();
-    this.world.step(FIXED_TIME_STEP, 4);
+    this.world.step(FIXED_TIME_STEP, this.subSteps);
     return performance.now() - start;
   }
 
@@ -316,6 +323,19 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.world.setBodyTransform(this.dragBody, this.dragPoint(origin, translation));
   }
 
+  // --- Solver params ---
+
+  protected applySolverParams(params: SolverParams): void {
+    if (this.runtime === null || this.world === null) return;
+    if (params.subSteps !== undefined) { this.subSteps = params.subSteps; this.lastSolverParams.subSteps = params.subSteps; }
+    if (params.hertz !== undefined) { this.runtime.setWorldContactTuning(this.world.handle, params.hertz, 10, 3); this.lastSolverParams.hertz = params.hertz; }
+    if (params.recycleDistance !== undefined) { this.runtime.setWorldContactRecycleDistance(this.world.handle, params.recycleDistance); this.lastSolverParams.recycleDistance = params.recycleDistance; }
+    if (params.sleep !== undefined) { this.runtime.enableWorldSleeping(this.world.handle, params.sleep); this.lastSolverParams.sleep = params.sleep; }
+    if (params.continuous !== undefined) { this.runtime.enableWorldContinuous(this.world.handle, params.continuous); this.lastSolverParams.continuous = params.continuous; }
+    if (params.warmStart !== undefined) { this.runtime.enableWorldWarmStarting(this.world.handle, params.warmStart); this.lastSolverParams.warmStart = params.warmStart; }
+    if (params.workerCount !== undefined) { this.currentWorkerCount = params.workerCount; this.lastSolverParams.workerCount = params.workerCount; void this.restartScene(); }
+  }
+
   // --- Worker toggle ---
 
   private toggleWorkerCount(): void {
@@ -329,6 +349,8 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
     this.world = this.runtime!.createWorld({ gravity: [0, -9.81, 0], workerCount: this.currentWorkerCount });
     console.log("[worker]", "workerCount:", this.world.getWorkerCount());
+
+    this.applySolverParams(this.lastSolverParams);
 
     const groundBody = this.world.createBody({ type: 0, position: [0, -1, 0] });
     this.runtime!.createHullShape(groundBody, this.groundSize);
