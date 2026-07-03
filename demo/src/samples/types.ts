@@ -1,5 +1,5 @@
 import type * as THREE from "three";
-import type { Box3DRuntime, PhysicsWorld } from "box3d-wasm";
+import type { Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
 
 export type DemoBody = { handle: number; mesh: THREE.Mesh; extraMeshes?: THREE.Mesh[]; shapeIds?: number[]; type: number; preserveColor?: boolean }; // type: 0=static, 1=kinematic, 2=dynamic
 
@@ -21,6 +21,11 @@ export type DemoSampleInstance = {
   info?: string;
   camera?: { position: [number, number, number]; target: [number, number, number] };
   profile?: boolean;
+  spawnProjectile?: (origin: Vec3, velocity: Vec3, spin: boolean, ragdoll: boolean) => void;
+  startMouseDragRay?: (origin: Vec3, translation: Vec3) => boolean;
+  updateMouseDragRay?: (origin: Vec3, translation: Vec3) => void;
+  stopMouseDrag?: () => void;
+  onKey?: (key: string) => void;
   step(dt: number): void;
   dispose(): void;
 };

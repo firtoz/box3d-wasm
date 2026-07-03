@@ -71,6 +71,31 @@ B3W_EXPORT void b3wGetWorldProfile(int worldHandle, float* outProfile)
 	outProfile[22] = profile.sensors;
 }
 
+B3W_EXPORT int b3wGetWorldWorkerCount(int worldHandle)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return -1;
+	return b3World_GetWorkerCount(slot->worldId);
+}
+
+#if defined(__EMSCRIPTEN__)
+#include <emscripten/threading.h>
+B3W_EXPORT int b3wCheckThreadingSupport(void)
+{
+	// Returns bitmask: bit0=SharedArrayBuffer available, bit1=pthread_create works
+	int result = 0;
+	if (emscripten_has_threading_support()) result |= 1;
+	return result;
+}
+#endif
+
+B3W_EXPORT int b3wGetWorldAwakeBodyCount(int worldHandle)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return 0;
+	return b3World_GetAwakeBodyCount(slot->worldId);
+}
+
 B3W_EXPORT void b3wRayCastClosest(int worldHandle, float originX, float originY, float originZ, float translationX, float translationY, float translationZ, int categoryBits, int maskBits, int* outShapeHandle, float* outPoint, float* outNormal, float* outFraction)
 {
 	if (outShapeHandle != NULL) *outShapeHandle = 0;

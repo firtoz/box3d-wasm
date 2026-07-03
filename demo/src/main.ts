@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Stats from "stats.js";
-import { Box3DRuntime } from "box3d-wasm";
+import { Box3DRuntime, type Quat, type Vec3 } from "box3d-wasm";
 import { wasmBuildVersion } from "virtual:wasm-version";
 import { samples, type ControlSpec, type DemoBody, type DemoSampleInstance } from "./samples";
 import "./style.css";
@@ -134,6 +134,118 @@ stats.dom.style.pointerEvents = "none";
 stats.dom.style.opacity = "0.5";
 document.body.appendChild(stats.dom);
 
+const CHART_W = 240;
+const CHART_H = 120;
+const CHART_LEN = 600;
+const CHART_GAP = 8;
+
+const chartDefs = [
+  { key: "step" as const, color: "#00ff88", label: "step", desc: "Time Box3D took to run one physics step (ms). Higher = more CPU work." },
+  { key: "lag" as const, color: "#ffaa00", label: "lag", desc: "Accumulated time debt after catching up (ms). Rises when real-time outruns physics." },
+  { key: "dropped" as const, color: "#ff4444", label: "drop", desc: "Time discarded when debt exceeded the max catchup limit (ms). Sim skipped this much wall-clock time." },
+];
+
+const chartTooltip = document.createElement("div");
+chartTooltip.style.cssText = "position:fixed;z-index:30;pointer-events:none;background:rgba(0,0,0,0.85);color:#eee;font:11px sans-serif;padding:6px 10px;border-radius:4px;display:none;max-width:300px;line-height:1.4";
+document.body.appendChild(chartTooltip);
+
+const chartCtxs: CanvasRenderingContext2D[] = [];
+const chartLabels: HTMLSpanElement[] = [];
+
+function showChartTooltip(el: HTMLElement, text: string): void {
+  chartTooltip.textContent = text;
+  chartTooltip.style.display = "block";
+  const r = el.getBoundingClientRect();
+  chartTooltip.style.left = `${r.left}px`;
+  chartTooltip.style.top = `${r.bottom + 4}px`;
+}
+function hideChartTooltip(): void { chartTooltip.style.display = "none"; }
+
+for (let ci = 0; ci < chartDefs.length; ci++) {
+  const def = chartDefs[ci];
+  const right = 10 + ci * (CHART_W + CHART_GAP);
+
+  const cv = document.createElement("canvas");
+  cv.width = CHART_W;
+  cv.height = CHART_H;
+  cv.style.cssText = `position:fixed;right:${right}px;bottom:76px;z-index:20;pointer-events:none;opacity:0.7;width:${CHART_W}px;height:${CHART_H}px`;
+  document.body.appendChild(cv);
+  chartCtxs.push(cv.getContext("2d")!);
+
+  const lb = document.createElement("span");
+  lb.style.cssText = `position:fixed;right:${right}px;bottom:210px;z-index:20;pointer-events:none;color:${def.color};font:11px monospace;text-shadow:0 0 3px #000`;
+  lb.textContent = `0.0`;
+  document.body.appendChild(lb);
+  chartLabels.push(lb);
+
+  const infoBtn = document.createElement("span");
+  infoBtn.textContent = "?";
+  infoBtn.style.cssText = `position:fixed;right:${right + 4}px;bottom:204px;z-index:25;color:${def.color};font:10px monospace;cursor:help;opacity:0.6`;
+  infoBtn.addEventListener("mouseenter", () => showChartTooltip(infoBtn, def.desc));
+  infoBtn.addEventListener("mouseleave", hideChartTooltip);
+  document.body.appendChild(infoBtn);
+}
+
+let physChartLabelTick = 0;
+const physHistory: { step: number; steps: number; lag: number; dropped: number }[] = [];
+let physHistoryHead = 0;
+let physHistoryFilled = 0;
+
+function pushPhysProfile(p: { step: number; solve: number; pairs: number; collide: number }): void {
+  if (physHistory.length < CHART_LEN) physHistory.length = CHART_LEN;
+  physHistory[physHistoryHead] = { step: p.step, steps: p.solve, lag: p.pairs, dropped: p.collide };
+  physHistoryHead = (physHistoryHead + 1) % CHART_LEN;
+  if (physHistoryFilled < CHART_LEN) physHistoryFilled++;
+}
+
+function drawPhysCharts(): void {
+  const n = physHistoryFilled;
+  if (n < 2) return;
+  const maxVal = 2;
+  const pad = 14;
+  const bottomPad = 8;
+  const leftPad = 4;
+  const rightPad = 4;
+  const plotW = CHART_W - leftPad - rightPad;
+  const plotH = CHART_H - pad - bottomPad;
+  const start = Math.max(0, n - CHART_LEN);
+  const count = Math.min(n, CHART_LEN);
+  const xScale = plotW / (CHART_LEN - 1);
+
+  for (let ci = 0; ci < chartDefs.length; ci++) {
+    const { key, color, label } = chartDefs[ci];
+    const ctx = chartCtxs[ci];
+    ctx.fillStyle = "rgba(0,0,0,0.6)";
+    ctx.fillRect(0, 0, CHART_W, CHART_H);
+
+    let minVal = Infinity;
+    let maxVal = -Infinity;
+    for (let i = 0; i < count; i++) {
+      const idx = (physHistoryHead - count + i + CHART_LEN) % CHART_LEN;
+      const v = physHistory[idx][key];
+      if (v < minVal) minVal = v;
+      if (v > maxVal) maxVal = v;
+    }
+    const range = Math.max(maxVal - minVal, 0.001);
+    const padRatio = 0.1;
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 0.5;
+    ctx.beginPath();
+    for (let i = 0; i < count; i++) {
+      const idx = (physHistoryHead - count + i + CHART_LEN) % CHART_LEN;
+      const val = physHistory[idx][key];
+      const x = leftPad + i * xScale;
+      const y = pad + plotH - ((val - minVal) / range) * (1 - padRatio * 2) * plotH - padRatio * plotH;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.fillStyle = color;
+    ctx.font = "10px monospace";
+    ctx.fillText(label, 6, 9);
+  }
+}
+ 
 let runtime: Box3DRuntime | null = null;
 let activeSampleIndex = 0;
 let activeSample: DemoSampleInstance | null = null;
@@ -143,7 +255,7 @@ let launchSpeed = 5.0;
 let paused = false;
 let singleStep = 0;
 let controlsVisible = true;
-let showControlsDialog = false;
+let showControlsDialog = (() => { try { return localStorage.getItem(VISIBLE_STORAGE_KEY) === "1"; } catch { return false; } })();
 let selectedBody: DemoBody | null = null;
 let mouseDragBody = 0;
 let mouseDragJoint = 0;
@@ -155,18 +267,19 @@ const flyKeys = new Set<string>();
 const raycaster = new THREE.Raycaster();
 const pointerNdc = new THREE.Vector2();
 let lastPointerDown: PointerEvent | null = null;
+let metricsTick = 0;
 type RagdollBone = {
   name: string;
   parent: number;
-  position: [number, number, number];
-  rotation: [number, number, number, number];
-  a: [number, number, number];
-  b: [number, number, number];
+  position: Vec3;
+  rotation: Quat;
+  a: Vec3;
+  b: Vec3;
   radius: number;
   color: number;
   joint?:
-    | { kind: "spherical"; localFrameA: { position: [number, number, number]; rotation: [number, number, number, number] }; localFrameB: { position: [number, number, number]; rotation: [number, number, number, number] }; coneAngle: number; lowerTwist: number; upperTwist: number; hertz: number; damping: number; maxTorque: number }
-    | { kind: "revolute"; localFrameA: { position: [number, number, number]; rotation: [number, number, number, number] }; localFrameB: { position: [number, number, number]; rotation: [number, number, number, number] }; lowerAngle: number; upperAngle: number; hertz: number; damping: number; maxTorque: number };
+    | { kind: "spherical"; localFrameA: { position: Vec3; rotation: Quat }; localFrameB: { position: Vec3; rotation: Quat }; coneAngle: number; lowerTwist: number; upperTwist: number; hertz: number; damping: number; maxTorque: number }
+    | { kind: "revolute"; localFrameA: { position: Vec3; rotation: Quat }; localFrameB: { position: Vec3; rotation: Quat }; lowerAngle: number; upperAngle: number; hertz: number; damping: number; maxTorque: number };
 };
 
 const RAGDOLL_BONES: RagdollBone[] = [
@@ -186,7 +299,7 @@ const RAGDOLL_BONES: RagdollBone[] = [
   { name: "lower_arm_r", parent: 12, position: [-0.305614, 1.242907, -0.117599], rotation: [0.165048, -0.563437, 0.802002, 0.109959], a: [0, 0, 0], b: [0.142406, 0.039392, 0.261092], radius: 0.05, color: 0xffdead, joint: { kind: "revolute", localFrameA: { position: [0.095484, 0.039585, 0.240723], rotation: [-0.180627, 0.512487, -0.003744, -0.839474] }, localFrameB: { position: [0, 0, 0], rotation: [-0.029831, 0.503803, -0.094017, -0.858169] }, lowerAngle: -60 * Math.PI / 180, upperAngle: 5 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
 ];
 
-function ragdollCapsuleMesh(a: [number, number, number], b: [number, number, number], radius: number, color: number): THREE.Mesh {
+function ragdollCapsuleMesh(a: Vec3, b: Vec3, radius: number, color: number): THREE.Mesh {
   const va = new THREE.Vector3(...a);
   const vb = new THREE.Vector3(...b);
   const delta = vb.clone().sub(va);
@@ -239,18 +352,26 @@ function spawnProjectile(spin = false, ragdoll = false): void {
     ? camera.position.clone().add(dir.clone().multiplyScalar(2))
     : raycaster.ray.origin.clone().addScaledVector(raycaster.ray.direction, 2);
 
+  const projectileSpeed = ragdoll ? 10 * launchSpeed : 20 * launchSpeed;
+  const velocity: [number, number, number] = [dir.x * projectileSpeed, dir.y * projectileSpeed, dir.z * projectileSpeed];
+  const originTuple: [number, number, number] = [origin.x, origin.y, origin.z];
+
+  if (activeSample.spawnProjectile !== undefined) {
+    activeSample.spawnProjectile(originTuple, velocity, spin, ragdoll);
+    return;
+  }
+
   if (ragdoll) {
     spawnRagdoll(origin, dir.clone().multiplyScalar(10 * launchSpeed));
     return;
   }
 
-  const speed = 20 * launchSpeed;
   const color = spin ? 0x8b5cf6 : 0xf59e0b;
 
   const bodyHandle = runtime.createSphere(activeSample.world.handle, {
     radius: 0.25,
-    position: [origin.x, origin.y, origin.z],
-    velocity: [dir.x * speed, dir.y * speed, dir.z * speed],
+    position: originTuple,
+    velocity,
     density: 4000,
     isBullet: true,
   });
@@ -333,8 +454,18 @@ function updateStatus(): void {
 
 function updateMetrics(): void {
   if (activeSample === null) return;
+  metricsTick = (metricsTick + 1) % 15;
+  if (metricsTick !== 0) return;
   const c = activeSample.world.getCounters();
-  metricsElement.textContent = `Body:${c.bodyCount}  Shape:${c.shapeCount}  Contact:${c.contactCount}  Joint:${c.jointCount}  Island:${c.islandCount}  Tree:${c.treeHeight}  Static:${c.staticTreeHeight}`;
+  const awake = activeSample.world.getAwakeBodyCount();
+  const wc = activeSample.world.getWorkerCount();
+  let text = `Body:${c.bodyCount} Awake:${awake} Shape:${c.shapeCount} Contact:${c.contactCount} Joint:${c.jointCount} Island:${c.islandCount} Tree:${c.treeHeight} Static:${c.staticTreeHeight}`;
+  if (activeSample.profile) {
+    const p = activeSample.world.getProfile();
+    text += ` | Phys:${p.step.toFixed(2)}ms Steps:${p.solve.toFixed(0)} Lag:${p.pairs.toFixed(1)}ms Drop:${p.collide.toFixed(1)}ms`;
+  }
+  text += ` | Workers:${wc}`;
+  metricsElement.textContent = text;
 }
 
 function frameCamera(): void {
@@ -396,6 +527,18 @@ function pointOnPickRay(e: PointerEvent, distance: number): THREE.Vector3 {
 
 function startMouseDrag(e: PointerEvent): boolean {
   if (activeSample === null) return false;
+  if (activeSample.startMouseDragRay !== undefined) {
+    setPointerFromEvent(e);
+    raycaster.setFromCamera(pointerNdc, camera);
+    const origin = [raycaster.ray.origin.x, raycaster.ray.origin.y, raycaster.ray.origin.z] as [number, number, number];
+    const translation = [raycaster.ray.direction.x * 1000, raycaster.ray.direction.y * 1000, raycaster.ray.direction.z * 1000] as [number, number, number];
+    const started = activeSample.startMouseDragRay(origin, translation);
+    if (started) {
+      mouseDragBody = -1;
+      canvas!.setPointerCapture(e.pointerId);
+    }
+    return started;
+  }
   const hit = bodyFromPointer(e);
   if (hit === null || hit.body.type !== 2) return false;
   setSelectedBody(hit.body);
@@ -405,12 +548,12 @@ function startMouseDrag(e: PointerEvent): boolean {
   mouseDragJoint = activeSample.world.createMotorJoint(mouseDragBody, hit.body.handle, {
     localFrameA: [0, 0, 0],
     localFrameB: localBodyPoint,
-    linearHertz: 8,
-    linearDampingRatio: 1,
-    maxSpringForce: 1500,
-    angularHertz: 4,
+    linearHertz: 5,
+    linearDampingRatio: 0.9,
+    maxSpringForce: 800,
+    angularHertz: 2,
     angularDampingRatio: 1,
-    maxSpringTorque: 80,
+    maxSpringTorque: 35,
   });
   canvas!.setPointerCapture(e.pointerId);
   return true;
@@ -418,12 +561,26 @@ function startMouseDrag(e: PointerEvent): boolean {
 
 function updateMouseDrag(e: PointerEvent): void {
   if (activeSample === null || mouseDragBody === 0) return;
+  if (mouseDragBody === -1 && activeSample.updateMouseDragRay !== undefined) {
+    setPointerFromEvent(e);
+    raycaster.setFromCamera(pointerNdc, camera);
+    activeSample.updateMouseDragRay(
+      [raycaster.ray.origin.x, raycaster.ray.origin.y, raycaster.ray.origin.z],
+      [raycaster.ray.direction.x * 1000, raycaster.ray.direction.y * 1000, raycaster.ray.direction.z * 1000],
+    );
+    return;
+  }
   const p = pointOnPickRay(e, mouseDragDistance);
   activeSample.world.setBodyTransform(mouseDragBody, [p.x, p.y, p.z]);
 }
 
 function stopMouseDrag(): void {
   if (activeSample === null) return;
+  if (mouseDragBody === -1 && activeSample.stopMouseDrag !== undefined) {
+    activeSample.stopMouseDrag();
+    mouseDragBody = 0;
+    return;
+  }
   if (mouseDragJoint !== 0) {
     activeSample.world.destroyJoint(mouseDragJoint);
     mouseDragJoint = 0;
@@ -476,6 +633,23 @@ function updateFlyMovement(dt: number): void {
   delta.normalize().multiplyScalar(flySpeed * dt);
   camera.position.add(delta);
   orbit.target.add(delta);
+}
+
+function resetScene(): void {
+  if (runtime === null || activeSampleIndex < 0) return;
+  const camPos = camera.position.clone();
+  const camTarget = orbit.target.clone();
+  clearScene();
+  activeSample = samples[activeSampleIndex].create(runtime, scene);
+  launchSpeed = activeSample.launchSpeed ?? 5.0;
+  camera.position.copy(camPos);
+  orbit.target.copy(camTarget);
+  orbit.update();
+  paused = false;
+  singleStep = 0;
+  renderControls(activeSample.controls);
+  infoElement.textContent = "";
+  updateStatus();
 }
 
 function activateSample(index: number): void {
@@ -555,7 +729,18 @@ function frame(time: number): void {
     activeSample?.step(dt);
     if (singleStep > 0) singleStep--;
   }
+  if (activeSample?.profile) {
+    const p = activeSample.world.getProfile();
+    pushPhysProfile(p);
+    physChartLabelTick = (physChartLabelTick + 1) % 15;
+    if (physChartLabelTick === 0) {
+      chartLabels[0].textContent = `${p.step.toFixed(1)}ms`;
+      chartLabels[1].textContent = `${p.pairs.toFixed(1)}ms`;
+      chartLabels[2].textContent = `${p.collide.toFixed(1)}ms`;
+    }
+  }
   updateMetrics();
+  drawPhysCharts();
   updateFlyMovement(dt);
   orbit.update();
   renderer.render(scene, camera);
@@ -584,6 +769,7 @@ controlsBtn.addEventListener("click", () => {
 
 const DIALOG_WIDTH = 340;
 const POS_STORAGE_KEY = "controlsDialogPos";
+const VISIBLE_STORAGE_KEY = "controlsDialogVisible";
 
 function saveControlsDialogPos(): void {
   const r = controlsDialog!.getBoundingClientRect();
@@ -687,6 +873,7 @@ function toggleControlsDialog(): void {
   if (!controlsDialog) return;
   showControlsDialog = !showControlsDialog;
   controlsDialog.style.display = showControlsDialog ? "block" : "none";
+  try { localStorage.setItem(VISIBLE_STORAGE_KEY, showControlsDialog ? "1" : "0"); } catch { /* ignore */ }
   if (showControlsDialog) {
     const saved = loadControlsDialogPos();
     if (saved) {
@@ -796,6 +983,7 @@ window.addEventListener("keydown", (e) => {
     if (showControlsDialog) {
       showControlsDialog = false;
       controlsDialog.style.display = "none";
+      try { localStorage.setItem(VISIBLE_STORAGE_KEY, "0"); } catch { /* ignore */ }
     } else if (sampleListElement.classList.contains("open")) {
       sampleListElement.classList.remove("open");
       samplesBtn.classList.remove("open");
@@ -821,7 +1009,7 @@ window.addEventListener("keydown", (e) => {
     singleStep += e.shiftKey ? 5 : 1;
     if (paused) updateStatus();
   } else if (e.key === "r" || e.key === "R") {
-    activateSample(activeSampleIndex);
+    resetScene();
   } else if (e.key === "[") {
     const prev = (activeSampleIndex - 1 + samples.length) % samples.length;
     activateSample(prev);
@@ -837,6 +1025,9 @@ window.addEventListener("keydown", (e) => {
   } else if (e.key === "m" || e.key === "M") {
     metricsElement.style.display = metricsElement.style.display === "none" ? "" : "none";
   }
+  if (!e.defaultPrevented && activeSample?.onKey) {
+    activeSample.onKey(e.key);
+  }
 });
 
 window.addEventListener("keyup", (e) => {
@@ -849,6 +1040,17 @@ runtime = await Box3DRuntime.load({ version: wasmBuildVersion });
 const urlSampleId = new URL(window.location.href).searchParams.get("sample");
 const initialIndex = urlSampleId ? samples.findIndex((s) => s.id === urlSampleId) : -1;
 activateSample(initialIndex >= 0 ? initialIndex : 0);
+
+if (showControlsDialog) {
+  controlsDialog.style.display = "block";
+  const saved = loadControlsDialogPos();
+  if (saved) {
+    controlsDialog.style.left = `${saved.left}px`;
+    controlsDialog.style.top = `${saved.top}px`;
+    controlsDialog.style.right = "auto";
+    controlsDialog.style.bottom = "auto";
+  }
+}
 
 rafId = window.requestAnimationFrame(frame);
 

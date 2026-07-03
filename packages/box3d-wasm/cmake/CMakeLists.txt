@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.22)
 project(box3d_wasm_bridge C)
 
 if(EMSCRIPTEN)
-	add_compile_options(-matomics -mbulk-memory)
+	add_compile_options(-pthread)
 endif()
 
 
@@ -40,15 +40,16 @@ set_target_properties(box3d_web PROPERTIES
 	RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../../demo/public/wasm"
 )
 
-	target_link_options(box3d_web PRIVATE
-		"SHELL:-sMODULARIZE=1"
-		"SHELL:-sEXPORT_ES6=1"
-		"SHELL:-sENVIRONMENT=web"
-		"SHELL:-sALLOW_MEMORY_GROWTH=1"
-		"SHELL:-sNO_EXIT_RUNTIME=1"
-		"SHELL:-sEXPORTED_RUNTIME_METHODS=['cwrap','HEAPF32']"
+		target_link_options(box3d_web PRIVATE
+			"SHELL:-sMODULARIZE=1"
+			"SHELL:-sEXPORT_ES6=1"
+			"SHELL:-sENVIRONMENT=web,worker,node"
+			"SHELL:-sINITIAL_MEMORY=268435456"
+			"SHELL:-sNO_EXIT_RUNTIME=1"
+		"SHELL:-sEXPORTED_RUNTIME_METHODS=['cwrap','HEAPF32','HEAPU8','HEAP32']"
 		"SHELL:-sEXPORTED_FUNCTIONS=['_main','_malloc','_free']"
+		"SHELL:-sASSERTIONS=0"
 		"SHELL:-sEXPORT_KEEPALIVE=1"
 		"SHELL:-sUSE_PTHREADS=1"
-		"SHELL:-sPTHREAD_POOL_SIZE=4"
+		"SHELL:-sPTHREAD_POOL_SIZE=128"
 	)

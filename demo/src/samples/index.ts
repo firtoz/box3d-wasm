@@ -4,7 +4,7 @@ import { cardHouseThickSample } from "./card-house-thick";
 import { compoundSimpleSample } from "./compound-simple";
 import { compoundMaterialDedupSample } from "./compound-material-dedup";
 import { cylinderSample } from "./cylinder-sample";
-import { dominoesSample } from "./dominoes";
+import { dominoesSample, createDominoesSample } from "./dominoes";
 import { jengaStackSample } from "./jenga-stack";
 import { pyramid2dSample } from "./pyramid2d";
 import { shapesInclinedPlaneSample } from "./shapes-inclined-plane";
@@ -25,4 +25,5 @@ export const samples = [
   jengaStackSample,
   pyramid2dSample,
   capsuleStackSample,
+  createDominoesSample(2),
 ];

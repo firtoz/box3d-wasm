@@ -42,7 +42,7 @@ await run(
   [
     "bash",
     "-lc",
-    `${emcmakeCommand} cmake -S ${join(packageRoot, "cmake")} -B ${join(packageRoot, "build-web")} -DBOX3D_SOURCE_DIR=${box3dSourceDir} -DBOX3D_SAMPLES=OFF -DBOX3D_BENCHMARKS=OFF -DBOX3D_DOCS=OFF -DBOX3D_UNIT_TESTS=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${generatedDir} && cmake --build ${join(packageRoot, "build-web")}`,
+    `${emcmakeCommand} cmake -S ${join(packageRoot, "cmake")} -B ${join(packageRoot, "build-web")} -DBOX3D_SOURCE_DIR=${box3dSourceDir} -DBOX3D_SAMPLES=OFF -DBOX3D_BENCHMARKS=OFF -DBOX3D_DOCS=OFF -DBOX3D_UNIT_TESTS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${generatedDir} && cmake --build ${join(packageRoot, "build-web")}`,
   ],
   "Install Emscripten and ensure emcmake is available.",
 );

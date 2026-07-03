@@ -1,169 +1,252 @@
 import * as THREE from "three";
-import type { Box3DRuntime } from "box3d-wasm";
+import type { Box3DRuntime, PhysicsWorld } from "box3d-wasm";
 import type { DemoBody, DemoSample } from "./types";
+import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker-protocol";
+import { MAX_PROJECTILES, SNAPSHOT_AWAKE_COUNT_INDEX, SNAPSHOT_DROPPED_MS_X100_INDEX, SNAPSHOT_LAG_MS_X100_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_STEP_MS_X100_INDEX, SNAPSHOT_STEPS_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
+import { RAGDOLL_RENDER_BONES, ragdollCapsuleMesh } from "../ragdoll-render";
 
-const DOMINO_COUNT = 30 * 181;
 const dummy = new THREE.Object3D();
 const awakeColor = new THREE.Color(0xd2b48c);
 const sleepColor = new THREE.Color(0x778899);
 
-export const dominoesSample: DemoSample = {
-  id: "dominoes",
-  name: "Stacking / Dominoes",
-  create(runtime: Box3DRuntime, scene: THREE.Scene) {
-    const world = runtime.createWorld({ gravity: [0, -9.81, 0] });
-    const bodies: DemoBody[] = [];
+function createWorkerWorld(worker: Worker, getState: () => Int32Array | null, getCount: () => number, getWorkerCount: () => number): PhysicsWorld {
+  return {
+    handle: 0,
+    getCounters: () => {
+      const state = getState();
+      const count = getCount();
+      const projectileCount = state === null ? 0 : Atomics.load(state, SNAPSHOT_PROJECTILE_COUNT_INDEX);
+      return { bodyCount: count + 1 + projectileCount, shapeCount: count + 1 + projectileCount, contactCount: 0, jointCount: projectileCount, islandCount: 0, staticTreeHeight: 0, treeHeight: 0 };
+    },
+    getAwakeBodyCount: () => {
+      const state = getState();
+      const count = getCount();
+      return state === null ? count : Atomics.load(state, SNAPSHOT_AWAKE_COUNT_INDEX);
+    },
+    getProfile: () => {
+      const state = getState();
+      const step = state === null ? 0 : Atomics.load(state, SNAPSHOT_STEP_MS_X100_INDEX) / 100;
+      const lag = state === null ? 0 : Atomics.load(state, SNAPSHOT_LAG_MS_X100_INDEX) / 100;
+      const steps = state === null ? 0 : Atomics.load(state, SNAPSHOT_STEPS_INDEX);
+      const dropped = state === null ? 0 : Atomics.load(state, SNAPSHOT_DROPPED_MS_X100_INDEX) / 100;
+      return { step, pairs: lag, collide: dropped, solve: steps, solverSetup: 0, constraints: 0, prepareConstraints: 0, integrateVelocities: 0, warmStart: 0, solveImpulses: 0, integratePositions: 0, relaxImpulses: 0, applyRestitution: 0, storeImpulses: 0, splitIslands: 0, transforms: 0, sensorHits: 0, jointEvents: 0, hitEvents: 0, refit: 0, bullets: 0, sleepIslands: 0, sensors: 0 };
+    },
+    getWorkerCount: () => getWorkerCount(),
+    rayCastClosest: () => null,
+    destroy: () => worker.postMessage({ type: "dispose" }),
+  } as unknown as PhysicsWorld;
+}
 
-    const groundGeom = new THREE.BoxGeometry(160, 2, 160);
-    const groundMat = new THREE.MeshStandardMaterial({ color: 0x222222 });
-    const groundMesh = new THREE.Mesh(groundGeom, groundMat);
-    groundMesh.position.set(0, -1, 0);
-    groundMesh.receiveShadow = true;
-    scene.add(groundMesh);
+export function createDominoesSample(multiplier: number): DemoSample {
+  const ringCount = 30 * multiplier;
+  const dominoTotal = ringCount * 180;
 
-    const groundBody = world.createBody({ type: 0, position: [0, -1, 0] });
-    runtime.createHullShape(groundBody, [80, 1, 80]);
-    bodies.push({ handle: groundBody, mesh: groundMesh, type: 0 });
+  return {
+    id: multiplier === 1 ? "dominoes" : `dominoes-${multiplier}x`,
+    name: multiplier === 1 ? `Stacking / Dominoes` : `Bench / Dominoes ${multiplier}×`,
+    create(_runtime: Box3DRuntime, scene: THREE.Scene) {
+      const bodies: DemoBody[] = [];
+      let positions: Float32Array | null = null;
+      let rotations: Float32Array | null = null;
+      let awake: Uint8Array | null = null;
+      let projectilePositions: Float32Array | null = null;
+      let projectileRotations: Float32Array | null = null;
+      let projectileAwake: Uint8Array | null = null;
+      let state: Int32Array | null = null;
+      let lastVersion = -1;
+      const projectileMeshes: THREE.Mesh[] = [];
+      const projectileColors: THREE.Color[] = [];
+      const projectileAwakeCache = new Uint8Array(MAX_PROJECTILES);
+      let awCache: Uint8Array | null = null;
+      let count = dominoTotal;
+      const maxWorkers = Math.min(127, Math.max(1, (navigator.hardwareConcurrency || 8) - 1));
+      let wc = (() => { try { return Number(new URL(window.location.href).searchParams.get("workers")) || maxWorkers; } catch { return maxWorkers; } })();
 
-    const geometry = new THREE.BoxGeometry(0.4, 1.6, 0.1);
-    const material = new THREE.MeshStandardMaterial({ color: 0xfbbf24, roughness: 0.75 });
-    const mesh = new THREE.InstancedMesh(geometry, material, DOMINO_COUNT);
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    scene.add(mesh);
+      const worker = new Worker(new URL("../physics.worker.ts", import.meta.url), { type: "module" });
+      const world = createWorkerWorld(worker, () => state, () => count, () => wc);
 
-    let idx = 0;
-    for (let ring = 0; ring < 30; ring++) {
-      const radius = 7.0 + 1.1 * ring;
-      for (let deg = 0; deg <= 360; deg += 2) {
-        const rad = deg * Math.PI / 180;
-        const cs = Math.cos(rad);
-        const sn = Math.sin(rad);
-        const px = radius * cs - (deg / 630) * cs;
-        const pz = radius * sn - (deg / 630) * sn;
-        const p: [number, number, number] = [px, 0.8, pz];
-        const bodyHandle = world.createBody({ type: 2, position: p, rotation: [0, -Math.sin(rad / 2), 0, Math.cos(rad / 2)], isAwake: true });
-        runtime.createHullShape(bodyHandle, [0.2, 0.8, 0.05]);
-        dummy.position.set(p[0], p[1], p[2]);
-        dummy.quaternion.set(0, -Math.sin(rad / 2), 0, Math.cos(rad / 2));
-        dummy.updateMatrix();
-        mesh.setMatrixAt(idx, dummy.matrix);
-        mesh.setColorAt(idx, awakeColor);
-        bodies.push({ handle: bodyHandle, mesh, type: 2 });
-        if (Math.abs(deg) < 0.1) {
-          world.applyLinearImpulse(bodyHandle, [0, 0, 25], [p[0], p[1] + 0.8, p[2]]);
+      const groundGeom = new THREE.BoxGeometry(320, 2, 320);
+      const groundMat = new THREE.MeshStandardMaterial({ color: 0x222222 });
+      const groundMesh = new THREE.Mesh(groundGeom, groundMat);
+      groundMesh.position.set(0, -1, 0);
+      groundMesh.receiveShadow = true;
+      scene.add(groundMesh);
+      bodies.push({ handle: 0, mesh: groundMesh, type: 0 });
+
+      const geometry = new THREE.BoxGeometry(0.4, 1.6, 0.1);
+      const material = new THREE.MeshStandardMaterial({ color: 0xfbbf24, roughness: 0.75 });
+      const mesh = new THREE.InstancedMesh(geometry, material, dominoTotal);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      scene.add(mesh);
+
+      let idx = 0;
+      for (let ring = 0; ring < ringCount; ring++) {
+        const s = 0.5 + ring * 0.0585;
+        const radius = 7.0 + (1.5 + ring * 0.015) * ring;
+        const n = 1.515 + ring * 0.03;
+        for (let deg = 0; deg < 360; deg += 2) {
+          const rad = deg * Math.PI / 180;
+          const cs = Math.cos(rad);
+          const sn = Math.sin(rad);
+          const px = radius * cs + (deg * n / 716) * cs;
+          const pz = radius * sn + (deg * n / 716) * sn;
+          dummy.position.set(px, 0.8 * s, pz);
+          dummy.scale.set(s, s, s);
+          dummy.quaternion.set(0, -Math.sin(rad / 2), 0, Math.cos(rad / 2));
+          dummy.updateMatrix();
+          mesh.setMatrixAt(idx, dummy.matrix);
+          mesh.setColorAt(idx, awakeColor);
+          idx++;
         }
-        idx++;
       }
-    }
-    mesh.instanceMatrix.needsUpdate = true;
-    mesh.instanceColor!.needsUpdate = true;
+      mesh.instanceMatrix.needsUpdate = true;
+      mesh.instanceColor!.needsUpdate = true;
 
-    const dominoCount = idx;
-
-    // Pre-allocate WASM buffers for batched transform + awake read
-    // Positions: count * 3 floats, Rotations: count * 4 floats, Awake: count bytes
-    const mod = (runtime as any).module as any;
-    const bodyHandlesPtr = mod._malloc(dominoCount * 4);
-    const outPositionsPtr = mod._malloc(dominoCount * 3 * 4);
-    const outRotationsPtr = mod._malloc(dominoCount * 4 * 4);
-    const outAwakePtr = mod._malloc(dominoCount);
-
-    const heap32 = new Int32Array(mod.HEAPF32.buffer);
-    // Fill body handles array
-    for (let i = 0; i < dominoCount; i++) {
-      heap32[(bodyHandlesPtr >> 2) + i] = bodies[i + 1].handle;
-    }
-
-    // Awake state cache: track last seen awake flag per body
-    const awakeCache = new Uint8Array(dominoCount);
-
-    return {
-      world,
-      bodies,
-      controls: [],
-      profile: true,
-      info: `30 rings of dominoes`,
-      _profileTick: 0,
-      step(dt) {
-        world.step(dt, 4);
-
-        // Single WASM call for all domino transforms + awake state
-        world.writeBodyTransforms(dominoCount, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr);
-
-        const positions = new Float32Array(mod.HEAPF32.buffer, outPositionsPtr, dominoCount * 3);
-        const rotations = new Float32Array(mod.HEAPF32.buffer, outRotationsPtr, dominoCount * 4);
-        const awake = new Uint8Array(mod.HEAPF32.buffer, outAwakePtr, dominoCount);
-
-        let needsMatrixUpdate = false;
-        let needsColorUpdate = false;
-
-        for (let i = 0; i < dominoCount; i++) {
-          const pOff = i * 3;
-          const rOff = i * 4;
-          const isAwake = awake[i] !== 0;
-          const wasAwake = awakeCache[i];
-
-          if (wasAwake && !isAwake) {
-            // Just went to sleep — update color only
-            mesh.setColorAt(i, sleepColor);
-            awakeCache[i] = 0;
-            needsColorUpdate = true;
-            continue;
+      worker.addEventListener("message", (event: MessageEvent<PhysicsWorkerMessage>) => {
+        const message = event.data;
+        if (message.type === "ready") {
+          const ready = message as PhysicsWorkerReady;
+          count = ready.count;
+          wc = ready.workerCount;
+          const url = new URL(window.location.href);
+          if (Number(url.searchParams.get("workers")) !== wc) {
+            url.searchParams.set("workers", String(wc));
+            history.replaceState(null, "", url);
           }
+          positions = new Float32Array(ready.positions);
+          rotations = new Float32Array(ready.rotations);
+          awake = new Uint8Array(ready.awake);
+          projectilePositions = new Float32Array(ready.projectilePositions);
+          projectileRotations = new Float32Array(ready.projectileRotations);
+          projectileAwake = new Uint8Array(ready.projectileAwake);
+          state = new Int32Array(ready.state);
+          awCache = new Uint8Array(count);
+          awCache.fill(1);
+        } else if (message.type === "error") {
+          console.error(`Physics worker error: ${message.message}`);
+        }
+      });
+      worker.postMessage({ type: "init-dominoes", multiplier, workerCount: wc, maxWorkers });
 
-          if (!wasAwake && isAwake) {
-            // Just woke up — update matrix and color
-            dummy.position.set(positions[pOff], positions[pOff + 1], positions[pOff + 2]);
-            dummy.quaternion.set(rotations[rOff], rotations[rOff + 1], rotations[rOff + 2], rotations[rOff + 3]);
-            dummy.updateMatrix();
-            mesh.setMatrixAt(i, dummy.matrix);
-            mesh.setColorAt(i, awakeColor);
-            awakeCache[i] = 1;
-            needsMatrixUpdate = true;
-            needsColorUpdate = true;
-            continue;
+      return {
+        world,
+        bodies,
+        controls: [],
+        profile: true,
+        info: `${ringCount} rings of dominoes | worker simulation | ${wc} workers | dynamic cap ${MAX_PROJECTILES}`,
+        camera: { position: [0, 55, 75], target: [0, 0, 0] },
+        onKey(key: string) {
+          if (key === "t" || key === "T") {
+            worker.postMessage({ type: "toggle-worker-count" });
           }
-
-          if (isAwake) {
-            // Still awake — always update
-            dummy.position.set(positions[pOff], positions[pOff + 1], positions[pOff + 2]);
-            dummy.quaternion.set(rotations[rOff], rotations[rOff + 1], rotations[rOff + 2], rotations[rOff + 3]);
-            dummy.updateMatrix();
-            mesh.setMatrixAt(i, dummy.matrix);
-            needsMatrixUpdate = true;
+        },
+        spawnProjectile(origin, velocity, spin, ragdoll) {
+          if (projectileMeshes.length >= MAX_PROJECTILES) return;
+          if (ragdoll) {
+            const ragdollCount = Math.min(RAGDOLL_RENDER_BONES.length, MAX_PROJECTILES - projectileMeshes.length);
+            for (let i = 0; i < ragdollCount; i++) {
+              const bone = RAGDOLL_RENDER_BONES[i];
+              const ragdollMesh = ragdollCapsuleMesh(bone.a, bone.b, bone.radius, bone.color);
+              ragdollMesh.position.set(origin[0], origin[1], origin[2]);
+              scene.add(ragdollMesh);
+              projectileMeshes.push(ragdollMesh);
+              projectileColors.push(new THREE.Color(bone.color));
+              projectileAwakeCache[projectileMeshes.length - 1] = 1;
+            }
+            worker.postMessage({ type: "spawn-ragdoll", origin, velocity });
+            return;
           }
-        }
+          const projectileMesh = new THREE.Mesh(
+            new THREE.SphereGeometry(0.25, 16, 12),
+            new THREE.MeshStandardMaterial({ color: spin ? 0x8b5cf6 : 0xf59e0b, roughness: 0.6 }),
+          );
+          projectileMesh.castShadow = true;
+          projectileMesh.position.set(origin[0], origin[1], origin[2]);
+          scene.add(projectileMesh);
+          projectileMeshes.push(projectileMesh);
+          projectileColors.push(new THREE.Color(spin ? 0x8b5cf6 : 0xf59e0b));
+          projectileAwakeCache[projectileMeshes.length - 1] = 1;
+          worker.postMessage({ type: "spawn-projectile", origin, velocity });
+        },
+        startMouseDragRay(origin, translation) {
+          worker.postMessage({ type: "drag-start", origin, translation });
+          return true;
+        },
+        updateMouseDragRay(origin, translation) {
+          worker.postMessage({ type: "drag-update", origin, translation });
+        },
+        stopMouseDrag() {
+          worker.postMessage({ type: "drag-end" });
+        },
+        step() {
+          if (positions === null || rotations === null || awake === null || state === null || awCache === null) return;
+          const version = Atomics.load(state, SNAPSHOT_VERSION_INDEX);
+          if (version === lastVersion) return;
+          lastVersion = version;
 
-        if (needsMatrixUpdate) mesh.instanceMatrix.needsUpdate = true;
-        if (needsColorUpdate) mesh.instanceColor!.needsUpdate = true;
+          let needsMatrixUpdate = false;
+          let needsColorUpdate = false;
+          for (let i = 0; i < count; i++) {
+            const isAwake = awake[i] !== 0;
+            const wasAwake = awCache[i] !== 0;
+            if (isAwake) {
+              const pOff = i * 3;
+              const rOff = i * 4;
+              const s = 0.5 + Math.floor(i / 180) * 0.0585;
+              dummy.scale.set(s, s, s);
+              dummy.position.set(positions[pOff], positions[pOff + 1], positions[pOff + 2]);
+              dummy.quaternion.set(rotations[rOff], rotations[rOff + 1], rotations[rOff + 2], rotations[rOff + 3]);
+              dummy.updateMatrix();
+              mesh.setMatrixAt(i, dummy.matrix);
+              needsMatrixUpdate = true;
+            }
+            if (isAwake !== wasAwake) {
+              mesh.setColorAt(i, isAwake ? awakeColor : sleepColor);
+              awCache[i] = isAwake ? 1 : 0;
+              needsColorUpdate = true;
+            }
+          }
+          if (needsMatrixUpdate) mesh.instanceMatrix.needsUpdate = true;
+          if (needsColorUpdate) mesh.instanceColor!.needsUpdate = true;
 
-        // Sync extra bodies (projectile/ragdoll) individually
-        for (let i = dominoCount + 1; i < bodies.length; i++) {
-          const t = world.getBodyTransform(bodies[i].handle);
-          bodies[i].mesh.position.set(t.position[0], t.position[1], t.position[2]);
-          bodies[i].mesh.quaternion.set(t.rotation[0], t.rotation[1], t.rotation[2], t.rotation[3]);
-        }
+          if (projectilePositions !== null && projectileRotations !== null && projectileAwake !== null) {
+            const projectileCount = Math.min(Atomics.load(state, SNAPSHOT_PROJECTILE_COUNT_INDEX), projectileMeshes.length);
+            for (let i = 0; i < projectileCount; i++) {
+              const pOff = i * 3;
+              const rOff = i * 4;
+              projectileMeshes[i].position.set(projectilePositions[pOff], projectilePositions[pOff + 1], projectilePositions[pOff + 2]);
+              projectileMeshes[i].quaternion.set(projectileRotations[rOff], projectileRotations[rOff + 1], projectileRotations[rOff + 2], projectileRotations[rOff + 3]);
+              const isAwake = projectileAwake[i] !== 0;
+              const wasAwake = projectileAwakeCache[i] !== 0;
+              if (isAwake !== wasAwake) {
+                const material = projectileMeshes[i].material as THREE.MeshStandardMaterial;
+                material.color.copy(isAwake ? projectileColors[i] : sleepColor);
+                projectileAwakeCache[i] = isAwake ? 1 : 0;
+              }
+            }
+          }
+        },
+        dispose() {
+          worker.postMessage({ type: "dispose" });
+          worker.terminate();
+          scene.remove(mesh);
+          geometry.dispose();
+          material.dispose();
+          for (const projectileMesh of projectileMeshes) {
+            scene.remove(projectileMesh);
+            projectileMesh.geometry.dispose();
+            const projectileMaterial = projectileMesh.material;
+            if (Array.isArray(projectileMaterial)) projectileMaterial.forEach((entry) => entry.dispose());
+            else projectileMaterial.dispose();
+          }
+          scene.remove(groundMesh);
+          groundGeom.dispose();
+          groundMat.dispose();
+        },
+      };
+    },
+  };
+}
 
-        this._profileTick = (this._profileTick + 1) % 20;
-        if (this._profileTick === 0) {
-          const p = world.getProfile();
-          this.info = `30 rings of dominoes | step ${p.step.toFixed(2)}ms solve ${p.solve.toFixed(2)}ms collide ${p.collide.toFixed(2)}ms pairs ${p.pairs.toFixed(2)}ms`;
-        }
-      },
-      dispose() {
-        mod._free(bodyHandlesPtr);
-        mod._free(outPositionsPtr);
-        mod._free(outRotationsPtr);
-        mod._free(outAwakePtr);
-        scene.remove(mesh);
-        geometry.dispose();
-        material.dispose();
-        scene.remove(groundMesh);
-        groundGeom.dispose();
-        groundMat.dispose();
-        world.destroy();
-      },
-    };
-  },
-};
+export const dominoesSample = createDominoesSample(1);
