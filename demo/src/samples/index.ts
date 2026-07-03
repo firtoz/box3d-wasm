@@ -5,6 +5,7 @@ import { compoundSimpleSample } from "./compound-simple";
 import { compoundMaterialDedupSample } from "./compound-material-dedup";
 import { cylinderSample } from "./cylinder-sample";
 import { dominoesSample, createDominoesSample } from "./dominoes";
+import { createWasherSample } from "./washer";
 import { jengaStackSample } from "./jenga-stack";
 import { pyramid2dSample } from "./pyramid2d";
 import { shapesInclinedPlaneSample } from "./shapes-inclined-plane";
@@ -26,4 +27,5 @@ export const samples = [
   pyramid2dSample,
   capsuleStackSample,
   createDominoesSample(2),
+  createWasherSample(),
 ];

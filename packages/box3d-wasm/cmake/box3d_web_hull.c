@@ -6,6 +6,13 @@ B3W_EXPORT int b3wCreateCylinder(float height, float radius, float yOffset, int 
 	return b3wAllocHullSlot(hull);
 }
 
+B3W_EXPORT int b3wCreateHullFromPoints(int numPoints, float* points)
+{
+	b3Vec3* b3points = (b3Vec3*)points;
+	b3HullData* hull = b3CreateHull(b3points, numPoints, numPoints);
+	return b3wAllocHullSlot(hull);
+}
+
 B3W_EXPORT void b3wDestroyHull(int hullHandle)
 {
 	b3wHullSlot* slot = b3wGetHull(hullHandle);

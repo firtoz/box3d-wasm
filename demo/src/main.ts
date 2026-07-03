@@ -245,6 +245,8 @@ function drawPhysCharts(): void {
     ctx.fillText(label, 6, 9);
   }
 }
+
+const VISIBLE_STORAGE_KEY = "controlsDialogVisible";
  
 let runtime: Box3DRuntime | null = null;
 let activeSampleIndex = 0;
@@ -769,7 +771,6 @@ controlsBtn.addEventListener("click", () => {
 
 const DIALOG_WIDTH = 340;
 const POS_STORAGE_KEY = "controlsDialogPos";
-const VISIBLE_STORAGE_KEY = "controlsDialogVisible";
 
 function saveControlsDialogPos(): void {
   const r = controlsDialog!.getBoundingClientRect();

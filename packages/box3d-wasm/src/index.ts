@@ -103,6 +103,7 @@ type CreateSphereShapeFn = (bodyHandle: number, density: number, friction: numbe
 type CreateCapsuleShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, ax: number, ay: number, az: number, bx: number, by: number, bz: number, radius: number) => number;
 type CreateShapeFromHullFn = (bodyHandle: number, hullHandle: number, density: number, friction: number, restitution: number, rollingResistance: number) => number;
 type CreateCylinderFn = (height: number, radius: number, yOffset: number, sides: number) => number;
+type CreateHullFromPointsFn = (numPoints: number, points: number) => number;
 type DestroyHullFn = (hullHandle: number) => void;
 type CreateCompoundFn = (capsuleCount: number, hullCount: number, meshCount: number, sphereCount: number, capsules: number, hulls: number, meshes: number, spheres: number) => number;
 type CreateCompoundFromHullsFn = (hullCount: number, hullData: number, strideFloats: number) => number;
@@ -197,6 +198,7 @@ export class Box3DRuntime implements RuntimeAPI {
   private readonly createCapsuleShapeFn: CreateCapsuleShapeFn;
   private readonly createShapeFromHullFn: CreateShapeFromHullFn;
   private readonly createCylinderFn: CreateCylinderFn;
+  private readonly createHullFromPointsFn: CreateHullFromPointsFn;
   private readonly destroyHullFn: DestroyHullFn;
   private readonly createCompoundFn: CreateCompoundFn;
   private readonly createCompoundFromHullsFn: CreateCompoundFromHullsFn;
@@ -280,6 +282,7 @@ export class Box3DRuntime implements RuntimeAPI {
     this.createCapsuleShapeFn = module.cwrap("b3wCreateCapsuleShape", "number", ["number","number","number","number","number","number","number","number","number","number","number","number","number"]);
     this.createShapeFromHullFn = module.cwrap("b3wCreateShapeFromHull", "number", ["number","number","number","number","number","number"]);
     this.createCylinderFn = module.cwrap("b3wCreateCylinder", "number", ["number","number","number","number"]);
+    this.createHullFromPointsFn = module.cwrap("b3wCreateHullFromPoints", "number", ["number","number"]);
     this.destroyHullFn = module.cwrap("b3wDestroyHull", null, ["number"]);
     this.createCompoundFn = module.cwrap("b3wCreateCompound", "number", ["number","number","number","number","number","number","number","number"]);
     this.createCompoundFromHullsFn = module.cwrap("b3wCreateCompoundFromHulls", "number", ["number","number","number"]);
@@ -485,6 +488,15 @@ export class Box3DRuntime implements RuntimeAPI {
   }
 
   createCylinder(height: number, radius: number, yOffset = 0, sides = 12): number { return this.createCylinderFn(height, radius, yOffset, sides); }
+  createHullFromPoints(points: number[]): number {
+    const ptr = this.module._malloc(points.length * 4);
+    const heap = this.module.HEAPF32;
+    const base = ptr >> 2;
+    for (let i = 0; i < points.length; i++) heap[base + i] = points[i];
+    const hullHandle = this.createHullFromPointsFn(points.length / 3, ptr);
+    this.module._free(ptr);
+    return hullHandle;
+  }
   destroyHull(hullHandle: number): void { this.destroyHullFn(hullHandle); }
   createCompound(capsules: number, hulls: number, meshes: number, spheres: number): number { return this.createCompoundFn(capsules, hulls, meshes, spheres, 0, 0, 0, 0); }
   createCompoundFromHulls(entries: CompoundHullEntry[]): number {
