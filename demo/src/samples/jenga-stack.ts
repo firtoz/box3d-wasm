@@ -85,8 +85,8 @@ export const jengaStackSample: DemoSample = {
       world,
       bodies,
       controls,
-      step(dt) {
-        world.step(dt, 4);
+      step(dt, subSteps) {
+        world.step(dt, subSteps ?? 4);
         syncBodies(world, bodies);
       },
       dispose() {

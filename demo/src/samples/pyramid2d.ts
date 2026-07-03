@@ -40,8 +40,8 @@ export const pyramid2dSample: DemoSample = {
       bodies,
       controls: [],
       info: `${PYRAMID_SIZE} rows, 2D stacking (Z-locked)`,
-      step(dt) {
-        world.step(dt, 4);
+      step(dt, subSteps) {
+        world.step(dt, subSteps ?? 4);
         syncBodies(world, bodies);
       },
       dispose() {

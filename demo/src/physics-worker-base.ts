@@ -2,7 +2,6 @@ import { Box3DRuntime, type BodyBatchBuffers, type PhysicsWorld, type Vec3 } fro
 import type { PhysicsWorkerCommand, PhysicsWorkerMessage, SolverParams } from "./physics-worker-protocol";
 import { MAX_PROJECTILES, RAGDOLL_RENDER_BONE_COUNT, SNAPSHOT_AWAKE_COUNT_INDEX, SNAPSHOT_CUMULATIVE_STEPS_INDEX, SNAPSHOT_DROPPED_MS_X100_INDEX, SNAPSHOT_LAG_MS_X100_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_STEP_MS_X100_INDEX, SNAPSHOT_STEPS_INDEX, SNAPSHOT_VERSION_INDEX, SNAPSHOT_STATE_COUNT } from "./physics-worker-protocol";
 
-const FIXED_TIME_STEP = 1 / 60;
 const MAX_CATCHUP_STEPS = 4;
 
 export abstract class PhysicsWorkerBase<TInit = void> {
@@ -34,6 +33,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   protected dragJoint = 0;
   protected dragDistance = 0;
   protected subSteps = 4;
+  protected fixedTimeStep = 1 / 60;
   protected lastSolverParams: SolverParams = {};
 
   private initData!: TInit;
@@ -179,7 +179,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   private stepPhysics(): number {
     if (this.world === null) return 0;
     const start = performance.now();
-    this.world.step(FIXED_TIME_STEP, this.subSteps);
+    this.world.step(this.fixedTimeStep, this.subSteps);
     return performance.now() - start;
   }
 
@@ -200,14 +200,14 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
     let steps = 0;
     let stepMs = 0;
-    while (this.accumulator >= FIXED_TIME_STEP && steps < MAX_CATCHUP_STEPS) {
+    while (this.accumulator >= this.fixedTimeStep && steps < MAX_CATCHUP_STEPS) {
       stepMs = this.stepPhysics();
-      this.accumulator -= FIXED_TIME_STEP;
+      this.accumulator -= this.fixedTimeStep;
       steps++;
     }
 
     let droppedMs = 0;
-    if (steps === MAX_CATCHUP_STEPS && this.accumulator >= FIXED_TIME_STEP) {
+    if (steps === MAX_CATCHUP_STEPS && this.accumulator >= this.fixedTimeStep) {
       droppedMs = this.accumulator * 1000;
       this.accumulator = 0;
     }
@@ -328,7 +328,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   protected applySolverParams(params: SolverParams): void {
     if (this.runtime === null || this.world === null) return;
     if (params.subSteps !== undefined) { this.subSteps = params.subSteps; this.lastSolverParams.subSteps = params.subSteps; }
-    if (params.hertz !== undefined) { this.runtime.setWorldContactTuning(this.world.handle, params.hertz, 10, 3); this.lastSolverParams.hertz = params.hertz; }
+    if (params.hertz !== undefined) { this.fixedTimeStep = 1 / params.hertz; this.lastSolverParams.hertz = params.hertz; }
     if (params.recycleDistance !== undefined) { this.runtime.setWorldContactRecycleDistance(this.world.handle, params.recycleDistance); this.lastSolverParams.recycleDistance = params.recycleDistance; }
     if (params.sleep !== undefined) { this.runtime.enableWorldSleeping(this.world.handle, params.sleep); this.lastSolverParams.sleep = params.sleep; }
     if (params.continuous !== undefined) { this.runtime.enableWorldContinuous(this.world.handle, params.continuous); this.lastSolverParams.continuous = params.continuous; }

@@ -59,8 +59,8 @@ export const compoundSimpleSample: DemoSample = {
       launchSpeed: 1.0,
       controls: [],
       info: `compound tree height = ${world.getCompoundTreeHeight(compound)}`,
-      step(dt) {
-        world.step(dt, 4);
+      step(dt, subSteps) {
+        world.step(dt, subSteps ?? 4);
         syncBodies(world, bodies);
       },
       dispose() {

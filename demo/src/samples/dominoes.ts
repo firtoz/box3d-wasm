@@ -34,7 +34,7 @@ export function createDominoesSample(multiplier: number): DemoSample {
       let awCache: Uint8Array | null = null;
       let count = dominoTotal;
       const maxWorkers = Math.min(127, Math.max(1, (navigator.hardwareConcurrency || 8) - 1));
-      let wc = (() => { try { return Number(new URL(window.location.href).searchParams.get("workers")) || maxWorkers; } catch { return maxWorkers; } })();
+      let wc = maxWorkers;
 
       const worker = new Worker(new URL("./dominoes.worker.ts", import.meta.url), { type: "module" });
       const world = createWorkerWorld(worker, () => workerWorldState, () => wc);
@@ -94,11 +94,6 @@ export function createDominoesSample(multiplier: number): DemoSample {
             projectileAwake: new Uint8Array(ready.projectileAwake),
             state: new Int32Array(ready.state),
           };
-          const url = new URL(window.location.href);
-          if (Number(url.searchParams.get("workers")) !== wc) {
-            url.searchParams.set("workers", String(wc));
-            history.replaceState(null, "", url);
-          }
           positions = new Float32Array(ready.positions);
           rotations = new Float32Array(ready.rotations);
           awake = new Uint8Array(ready.awake);
@@ -170,7 +165,7 @@ export function createDominoesSample(multiplier: number): DemoSample {
         sendSolverParams(params) {
           worker.postMessage({ type: "set-solver-params", params });
         },
-        step() {
+        step(_dt?, _subSteps?) {
           if (positions === null || rotations === null || awake === null || state === null || awCache === null) return;
           const version = Atomics.load(state, SNAPSHOT_VERSION_INDEX);
           if (version === lastVersion) return;

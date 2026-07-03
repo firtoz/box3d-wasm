@@ -19,8 +19,8 @@ export const singleBoxSample: DemoSample = {
       bodies,
       camera: { position: [0, 4.226, 9.063], target: [0, 0, 0] },
       controls: [],
-      step(dt) {
-        world.step(dt, 4);
+      step(dt, subSteps) {
+        world.step(dt, subSteps ?? 4);
         syncBodies(world, bodies);
       },
       dispose() {

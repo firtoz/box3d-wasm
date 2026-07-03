@@ -162,8 +162,7 @@ export function createWasherSample(): DemoSample {
     name: "Benchmark / Washer",
     create(_runtime: Box3DRuntime, scene: THREE.Scene) {
       const maxWorkers = Math.min(127, Math.max(1, (navigator.hardwareConcurrency || 8) - 1));
-      const url = new URL(window.location.href);
-      let wc = Number(url.searchParams.get("workers")) || maxWorkers;
+      let wc = maxWorkers;
 
       let workerWorldState: WorkerWorldState | null = null;
       let count = WASHER_CUBE_COUNT;
@@ -251,11 +250,6 @@ export function createWasherSample(): DemoSample {
             projectileAwake: new Uint8Array(ready.projectileAwake),
             state: new Int32Array(ready.state),
           };
-          const u = new URL(window.location.href);
-          if (Number(u.searchParams.get("workers")) !== wc) {
-            u.searchParams.set("workers", String(wc));
-            history.replaceState(null, "", u);
-          }
           positions = new Float32Array(ready.positions);
           rotations = new Float32Array(ready.rotations);
           awake = new Uint8Array(ready.awake);
@@ -324,7 +318,7 @@ export function createWasherSample(): DemoSample {
         sendSolverParams(params) {
           worker.postMessage({ type: "set-solver-params", params });
         },
-        step() {
+        step(_dt?, _subSteps?) {
           if (positions === null || rotations === null || awake === null || state === null || awCache === null) return;
           const version = Atomics.load(state, SNAPSHOT_VERSION_INDEX);
           if (version === lastVersion) return;

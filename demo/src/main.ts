@@ -201,14 +201,12 @@ function pushPhysProfile(p: { step: number; solve: number; pairs: number; collid
 function drawPhysCharts(): void {
   const n = physHistoryFilled;
   if (n < 2) return;
-  const maxVal = 2;
   const pad = 14;
   const bottomPad = 8;
   const leftPad = 4;
   const rightPad = 4;
   const plotW = CHART_W - leftPad - rightPad;
   const plotH = CHART_H - pad - bottomPad;
-  const start = Math.max(0, n - CHART_LEN);
   const count = Math.min(n, CHART_LEN);
   const xScale = plotW / (CHART_LEN - 1);
 
@@ -256,7 +254,7 @@ let lastTime = 0;
 let launchSpeed = 5.0;
 const solverParams: SolverParams = {
   subSteps: 4,
-  hertz: 30,
+  hertz: 60,
   recycleDistance: 0.05,
   sleep: true,
   warmStart: true,
@@ -406,20 +404,19 @@ function applySolverParams(): void {
     return;
   }
   const w = activeSample.world;
-  if (solverParams.hertz !== undefined) runtime.setWorldContactTuning(w.handle, solverParams.hertz, 10, 3);
   if (solverParams.recycleDistance !== undefined) runtime.setWorldContactRecycleDistance(w.handle, solverParams.recycleDistance);
   if (solverParams.sleep !== undefined) runtime.enableWorldSleeping(w.handle, solverParams.sleep);
   if (solverParams.continuous !== undefined) runtime.enableWorldContinuous(w.handle, solverParams.continuous);
   if (solverParams.warmStart !== undefined) runtime.enableWorldWarmStarting(w.handle, solverParams.warmStart);
-  if (solverParams.workerCount !== undefined && solverParams.workerCount > 0) w.setWorkerCount(solverParams.workerCount);
+  if (solverParams.workerCount !== undefined) w.setWorkerCount(solverParams.workerCount);
 }
 
 function renderSolverControls(): void {
   const sections: { label: string; key: string; type: "range"; min: number; max: number; step: number; value: number; onChange: (v: number) => void }[] = [
-    { label: "Sub-steps", key: "subSteps", type: "range", min: 1, max: 8, step: 1, value: solverParams.subSteps ?? 4, onChange: (v) => { solverParams.subSteps = v; applySolverParams(); } },
-    { label: "Hertz", key: "hertz", type: "range", min: 1, max: 120, step: 1, value: solverParams.hertz ?? 30, onChange: (v) => { solverParams.hertz = v; applySolverParams(); } },
-    { label: "Recycle", key: "recycleDistance", type: "range", min: 0, max: 1, step: 0.01, value: solverParams.recycleDistance ?? 0.05, onChange: (v) => { solverParams.recycleDistance = v; applySolverParams(); } },
-    { label: "Workers", key: "workerCount", type: "range", min: 0, max: 128, step: 1, value: 0, onChange: (v) => { solverParams.workerCount = v; if (v > 0) applySolverParams(); } },
+    { label: "Sub-steps", key: "subSteps", type: "range", min: 1, max: 50, step: 1, value: solverParams.subSteps ?? 4, onChange: (v) => { solverParams.subSteps = v; applySolverParams(); } },
+    { label: "Hertz", key: "hertz", type: "range", min: 5, max: 240, step: 1, value: solverParams.hertz ?? 60, onChange: (v) => { solverParams.hertz = v; applySolverParams(); } },
+    { label: "Recycle", key: "recycleDistance", type: "range", min: 0, max: 10, step: 0.1, value: (solverParams.recycleDistance ?? 0.05) * 100, onChange: (v) => { solverParams.recycleDistance = v * 0.01; applySolverParams(); } },
+    { label: "Workers", key: "workerCount", type: "range", min: 1, max: 128, step: 1, value: solverParams.workerCount ?? (activeSample?.world.getWorkerCount() ?? 1), onChange: (v) => { solverParams.workerCount = v; } },
   ];
 
   const toggles: { label: string; key: "sleep" | "warmStart" | "continuous"; value: boolean; onChange: (v: boolean) => void }[] = [
@@ -435,10 +432,13 @@ function renderSolverControls(): void {
   title.textContent = "Solver";
   el.appendChild(title);
 
+  const stepDecimals = (step: number) => Math.max(0, (String(step).split('.')[1]?.length ?? 0));
   for (const s of sections) {
     const row = document.createElement("div");
     row.className = "ctrl-row";
-    row.innerHTML = `<div class="ctrl-header"><span>${s.label}</span><span class="ctrl-value">${s.value.toFixed(s.step < 1 ? 2 : 0)}</span></div>`;
+    const isWorkers = s.key === "workerCount";
+    const dec = stepDecimals(s.step);
+    row.innerHTML = `<div class="ctrl-header"><span>${s.label}</span><span class="ctrl-value">${s.value.toFixed(dec)}</span></div>`;
     const input = document.createElement("input");
     input.type = "range";
     input.min = String(s.min);
@@ -448,9 +448,12 @@ function renderSolverControls(): void {
     input.addEventListener("input", () => {
       const v = Number(input.value);
       const vl = row.querySelector<HTMLSpanElement>(".ctrl-value");
-      if (vl !== null) vl.textContent = v.toFixed(s.step < 1 ? 2 : 0);
+      if (vl !== null) vl.textContent = v.toFixed(dec);
       s.onChange(v);
     });
+    if (isWorkers) {
+      input.addEventListener("change", () => resetScene());
+    }
     row.appendChild(input);
     el.appendChild(row);
   }
@@ -864,7 +867,8 @@ function frame(time: number): void {
   const dt = lastTime === 0 ? 1 / 60 : Math.min((time - lastTime) / 1000, 1 / 30);
   lastTime = time;
   if (!paused || singleStep > 0) {
-    activeSample?.step(dt);
+    const physDt = 1 / (solverParams.hertz ?? 60);
+    activeSample?.step(physDt, solverParams.subSteps ?? 4);
     if (singleStep > 0) singleStep--;
   }
   if (!paused && activeSample?.profile) {

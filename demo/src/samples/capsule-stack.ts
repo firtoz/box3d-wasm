@@ -36,8 +36,8 @@ export const capsuleStackSample: DemoSample = {
       bodies,
       controls: [],
       info: "20 capsules, 2D-stacked (Z-locked, rotation locked)",
-      step(dt) {
-        world.step(dt, 4);
+      step(dt, subSteps) {
+        world.step(dt, subSteps ?? 4);
         syncBodies(world, bodies);
       },
       dispose() {

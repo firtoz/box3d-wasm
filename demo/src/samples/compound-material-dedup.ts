@@ -19,7 +19,7 @@ export const compoundMaterialDedupSample: DemoSample = {
       world,
       bodies,
       controls: [],
-      step(dt: number) { world.step(dt, 4); syncBodies(world, bodies); },
+      step(dt: number, subSteps?: number) { world.step(dt, subSteps ?? 4); syncBodies(world, bodies); },
       dispose() { disposeBodies(scene, bodies); world.destroy(); },
     };
   },

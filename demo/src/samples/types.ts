@@ -40,7 +40,7 @@ export type DemoSampleInstance = {
   onKey?: (key: string) => void;
   setPaused?(paused: boolean): void;
   sendSolverParams?: (params: SolverParams) => void;
-  step(dt: number): void;
+  step(dt?: number, subSteps?: number): void;
   dispose(): void;
 };
 
