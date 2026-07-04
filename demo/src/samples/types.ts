@@ -39,6 +39,7 @@ export type DemoSampleInstance = {
   stopMouseDrag?: () => void;
   onKey?: (key: string) => void;
   setPaused?(paused: boolean): void;
+  stepOnce?(): void;
   sendSolverParams?: (params: SolverParams) => void;
   step(dt?: number, subSteps?: number): void;
   dispose(): void;

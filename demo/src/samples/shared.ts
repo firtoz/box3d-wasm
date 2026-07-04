@@ -2,6 +2,20 @@ import * as THREE from "three";
 import type { DemoBody } from "./types";
 import type { BodyBatchBuffers, PhysicsWorld, Vec3 } from "box3d-wasm";
 
+const DEFAULT_WORKER_LOAD_FACTOR = 0.75;
+
+export function getWorkerCounts(): { defaultWorkerCount: number, maxWorkerCount: number } {
+  const available = Math.max(1, navigator.hardwareConcurrency || 4);
+  return {
+    defaultWorkerCount: Math.max(1, Math.floor(available * DEFAULT_WORKER_LOAD_FACTOR)),
+    maxWorkerCount: available,
+  };
+}
+
+export function getWasmVariant(): "release" | "profile" {
+  return new URL(globalThis.location.href).searchParams.get("wasm") === "profile" ? "profile" : "release";
+}
+
 function yToX(): THREE.Quaternion {
   return new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(1, 0, 0));
 }
@@ -95,7 +109,9 @@ export type BodySyncBatch = {
   positions: Float32Array;
   rotations: Float32Array;
   awake: Uint8Array;
+  colors: Uint32Array;
   awakeCache: Uint8Array;
+  colorCache: Uint32Array;
   count: number;
   firstHandle: number;
   lastHandle: number;
@@ -114,7 +130,9 @@ export function createBodySyncBatch(world: PhysicsWorld, bodies: DemoBody[]): Bo
     positions: new Float32Array(memory.heapF32.buffer, buffers.positionsPtr, count * 3),
     rotations: new Float32Array(memory.heapF32.buffer, buffers.rotationsPtr, count * 4),
     awake: new Uint8Array(memory.heapU8.buffer, buffers.awakePtr, count),
+    colors: new Uint32Array(memory.heap32.buffer, buffers.colorsPtr, count),
     awakeCache: new Uint8Array(count),
+    colorCache: new Uint32Array(count),
     count,
     firstHandle: count > 0 ? bodies[0].handle : 0,
     lastHandle: count > 0 ? bodies[count - 1].handle : 0,
@@ -134,11 +152,13 @@ function getCachedBodySyncBatch(world: PhysicsWorld, bodies: DemoBody[]): BodySy
 
 export function syncBodiesBatch(world: PhysicsWorld, bodies: DemoBody[], batch: BodySyncBatch): void {
   const count = bodies.length;
-  world.writeBodyTransforms(count, batch.buffers.bodyHandlesPtr, batch.buffers.positionsPtr, batch.buffers.rotationsPtr, batch.buffers.awakePtr);
+  world.writeBodyTransforms(count, batch.buffers.bodyHandlesPtr, batch.buffers.positionsPtr, batch.buffers.rotationsPtr, batch.buffers.awakePtr, batch.buffers.colorsPtr);
   const positions = batch.positions;
   const rotations = batch.rotations;
   const awake = batch.awake;
   const awakeCache = batch.awakeCache;
+  const colors = batch.colors;
+  const colorCache = batch.colorCache;
   for (let i = 0; i < count; i++) {
     const body = bodies[i];
     body.mesh.position.set(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
@@ -146,9 +166,11 @@ export function syncBodiesBatch(world: PhysicsWorld, bodies: DemoBody[], batch: 
     if (!body.preserveColor) {
       const nextAwake = awake[i] !== 0;
       const prevAwake = awakeCache[i] !== 0;
+      const colorHex = colors[i] & 0xffffff;
+      const prevColorHex = colorCache[i] & 0xffffff;
       awakeCache[i] = nextAwake ? 1 : 0;
-      if (prevAwake !== nextAwake || body.type === 0) {
-        const colorHex = body.type === 0 ? STATIC_COLOR : nextAwake ? AWAKE_COLOR : SLEEPING_COLOR;
+      colorCache[i] = colorHex;
+      if (prevAwake !== nextAwake || prevColorHex !== colorHex || body.type === 0) {
         const mat = body.mesh.material as THREE.MeshStandardMaterial;
         mat.color.setHex(colorHex);
       }

@@ -3,6 +3,8 @@ import type { PhysicsWorkerCommand, PhysicsWorkerMessage, SolverParams } from ".
 import { MAX_PROJECTILES, RAGDOLL_RENDER_BONE_COUNT, SNAPSHOT_AWAKE_COUNT_INDEX, SNAPSHOT_CUMULATIVE_STEPS_INDEX, SNAPSHOT_DROPPED_MS_X100_INDEX, SNAPSHOT_LAG_MS_X100_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_STEP_MS_X100_INDEX, SNAPSHOT_STEPS_INDEX, SNAPSHOT_VERSION_INDEX, SNAPSHOT_STATE_COUNT } from "./physics-worker-protocol";
 
 const MAX_CATCHUP_STEPS = 4;
+const MOUSE_FORCE_SCALE = 100;
+const GRAVITY_MAGNITUDE = 9.81;
 
 export abstract class PhysicsWorkerBase<TInit = void> {
   protected runtime: Box3DRuntime | null = null;
@@ -17,9 +19,11 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   protected positions: Float32Array | null = null;
   protected rotations: Float32Array | null = null;
   protected awake: Uint8Array | null = null;
+  protected colors: Uint32Array | null = null;
   protected projectilePositions: Float32Array | null = null;
   protected projectileRotations: Float32Array | null = null;
   protected projectileAwake: Uint8Array | null = null;
+  protected projectileColors: Uint32Array | null = null;
   protected state: Int32Array | null = null;
 
   protected timer: number | undefined;
@@ -58,6 +62,10 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
   protected handleCustomCommand(_cmd: PhysicsWorkerCommand): boolean {
     return false;
+  }
+
+  protected getGroundSize(_initData: TInit): Vec3 {
+    return this.groundSize;
   }
 
   // --- Command routing ---
@@ -111,7 +119,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.maxWorkerCount = cmd.maxWorkers ?? 127;
     this.currentWorkerCount = cmd.workerCount ?? 4;
 
-    this.runtime = await Box3DRuntime.load();
+    this.runtime = await Box3DRuntime.load({ version: cmd.wasmVersion, variant: cmd.wasmVariant });
     this.world = this.runtime.createWorld({ gravity: [0, -9.81, 0], workerCount: this.currentWorkerCount });
     console.log("[worker]", "checkThreadingSupport:", this.runtime.checkThreadingSupport());
     console.log("[worker]", "workerCount:", this.world.getWorkerCount());
@@ -119,7 +127,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     if (cmd.solverParams) this.applySolverParams(cmd.solverParams);
 
     const groundBody = this.world.createBody({ type: 0, position: [0, -1, 0] });
-    this.runtime.createHullShape(groundBody, this.groundSize);
+    this.runtime.createHullShape(groundBody, this.getGroundSize(this.initData));
 
     const handles = await this.buildScene(this.initData);
     this.bodyCount = handles.length;
@@ -131,7 +139,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.allocateSharedBuffers();
     this.totalSteps = 0;
 
-    this.stepOnce();
+    this.publishSnapshot(0, 0, 0, 0);
     this.postReady();
 
     this.lastTickTime = performance.now();
@@ -143,17 +151,21 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     const positionBuffer = new SharedArrayBuffer(this.bodyCount * 3 * 4);
     const rotationBuffer = new SharedArrayBuffer(this.bodyCount * 4 * 4);
     const awakeBuffer = new SharedArrayBuffer(this.bodyCount);
+    const colorBuffer = new SharedArrayBuffer(this.bodyCount * 4);
     const projectilePositionBuffer = new SharedArrayBuffer(MAX_PROJECTILES * 3 * 4);
     const projectileRotationBuffer = new SharedArrayBuffer(MAX_PROJECTILES * 4 * 4);
     const projectileAwakeBuffer = new SharedArrayBuffer(MAX_PROJECTILES);
+    const projectileColorBuffer = new SharedArrayBuffer(MAX_PROJECTILES * 4);
     const stateBuffer = new SharedArrayBuffer(SNAPSHOT_STATE_COUNT * 4);
 
     this.positions = new Float32Array(positionBuffer);
     this.rotations = new Float32Array(rotationBuffer);
     this.awake = new Uint8Array(awakeBuffer);
+    this.colors = new Uint32Array(colorBuffer);
     this.projectilePositions = new Float32Array(projectilePositionBuffer);
     this.projectileRotations = new Float32Array(projectileRotationBuffer);
     this.projectileAwake = new Uint8Array(projectileAwakeBuffer);
+    this.projectileColors = new Uint32Array(projectileColorBuffer);
     this.state = new Int32Array(stateBuffer);
   }
 
@@ -165,9 +177,11 @@ export abstract class PhysicsWorkerBase<TInit = void> {
       positions: (this.positions as Float32Array).buffer as SharedArrayBuffer,
       rotations: (this.rotations as Float32Array).buffer as SharedArrayBuffer,
       awake: (this.awake as Uint8Array).buffer as SharedArrayBuffer,
+      colors: (this.colors as Uint32Array).buffer as SharedArrayBuffer,
       projectilePositions: (this.projectilePositions as Float32Array).buffer as SharedArrayBuffer,
       projectileRotations: (this.projectileRotations as Float32Array).buffer as SharedArrayBuffer,
       projectileAwake: (this.projectileAwake as Uint8Array).buffer as SharedArrayBuffer,
+      projectileColors: (this.projectileColors as Uint32Array).buffer as SharedArrayBuffer,
       state: (this.state as Int32Array).buffer as SharedArrayBuffer,
       extra: this.getReadyExtra(),
     };
@@ -216,14 +230,15 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   }
 
   private publishSnapshot(stepMs: number, steps: number, lagMs: number, droppedMs: number): void {
-    if (this.world === null || this.bodyBatch === null || this.positions === null || this.rotations === null || this.awake === null || this.state === null) return;
+    if (this.world === null || this.bodyBatch === null || this.positions === null || this.rotations === null || this.awake === null || this.colors === null || this.state === null) return;
     this.totalSteps += steps;
-    this.world.writeBodyTransforms(this.bodyCount, this.bodyBatch.bodyHandlesPtr, this.bodyBatch.positionsPtr, this.bodyBatch.rotationsPtr, this.bodyBatch.awakePtr);
+    this.world.writeBodyTransforms(this.bodyCount, this.bodyBatch.bodyHandlesPtr, this.bodyBatch.positionsPtr, this.bodyBatch.rotationsPtr, this.bodyBatch.awakePtr, this.bodyBatch.colorsPtr);
     const memory = this.world.getMemoryView();
 
     this.positions.set(new Float32Array(memory.heapF32.buffer, this.bodyBatch.positionsPtr, this.bodyCount * 3));
     this.rotations.set(new Float32Array(memory.heapF32.buffer, this.bodyBatch.rotationsPtr, this.bodyCount * 4));
     this.awake.set(new Uint8Array(memory.heapU8.buffer, this.bodyBatch.awakePtr, this.bodyCount));
+    this.colors.set(new Uint32Array(memory.heap32.buffer, this.bodyBatch.colorsPtr, this.bodyCount));
 
     let awakeCount = 0;
     for (let i = 0; i < this.bodyCount; i++) {
@@ -231,11 +246,12 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     }
 
     const projectileCount = this.projectileHandles.length;
-    if (projectileCount > 0 && this.projectileBatch !== null && this.projectilePositions !== null && this.projectileRotations !== null && this.projectileAwake !== null) {
-      this.world.writeBodyTransforms(projectileCount, this.projectileBatch.bodyHandlesPtr, this.projectileBatch.positionsPtr, this.projectileBatch.rotationsPtr, this.projectileBatch.awakePtr);
+    if (projectileCount > 0 && this.projectileBatch !== null && this.projectilePositions !== null && this.projectileRotations !== null && this.projectileAwake !== null && this.projectileColors !== null) {
+      this.world.writeBodyTransforms(projectileCount, this.projectileBatch.bodyHandlesPtr, this.projectileBatch.positionsPtr, this.projectileBatch.rotationsPtr, this.projectileBatch.awakePtr, this.projectileBatch.colorsPtr);
       this.projectilePositions.set(new Float32Array(memory.heapF32.buffer, this.projectileBatch.positionsPtr, projectileCount * 3).subarray(0, projectileCount * 3));
       this.projectileRotations.set(new Float32Array(memory.heapF32.buffer, this.projectileBatch.rotationsPtr, projectileCount * 4).subarray(0, projectileCount * 4));
       this.projectileAwake.set(new Uint8Array(memory.heapU8.buffer, this.projectileBatch.awakePtr, projectileCount).subarray(0, projectileCount));
+      this.projectileColors.set(new Uint32Array(memory.heap32.buffer, this.projectileBatch.colorsPtr, projectileCount).subarray(0, projectileCount));
     }
 
     Atomics.store(this.state, SNAPSHOT_AWAKE_COUNT_INDEX, awakeCount);
@@ -304,18 +320,20 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     if (hit === null || hit.bodyHandle === 0 || this.world.getBodyType(hit.bodyHandle) !== 2) return;
     const point = hit.point;
     this.dragDistance = Math.hypot(point[0] - origin[0], point[1] - origin[1], point[2] - origin[2]);
-    this.dragBody = this.world.createBody({ type: 1, position: point });
+    this.dragBody = this.world.createBody({ type: 1, position: point, enableSleep: false });
     const localBodyPoint = this.world.getBodyLocalPoint(hit.bodyHandle, point);
+    const massData = this.world.getBodyMassData(hit.bodyHandle);
+    const mg = massData.mass * GRAVITY_MAGNITUDE;
+    const lever = massData.mass > 0 ? Math.sqrt(massData.inertiaTrace / (3 * massData.mass)) : 0;
     this.dragJoint = this.world.createMotorJoint(this.dragBody, hit.bodyHandle, {
       localFrameA: [0, 0, 0],
       localFrameB: localBodyPoint,
-      linearHertz: 5,
-      linearDampingRatio: 0.9,
-      maxSpringForce: 800,
-      angularHertz: 2,
-      angularDampingRatio: 1,
-      maxSpringTorque: 35,
+      linearHertz: 7.5,
+      linearDampingRatio: 1,
+      maxSpringForce: MOUSE_FORCE_SCALE * mg,
+      maxVelocityTorque: 0.5 * lever * mg,
     });
+    this.world.setBodyAwake(hit.bodyHandle, true);
   }
 
   private updateDrag(origin: Vec3, translation: Vec3): void {
@@ -353,7 +371,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.applySolverParams(this.lastSolverParams);
 
     const groundBody = this.world.createBody({ type: 0, position: [0, -1, 0] });
-    this.runtime!.createHullShape(groundBody, this.groundSize);
+    this.runtime!.createHullShape(groundBody, this.getGroundSize(this.initData));
 
     const handles = await this.buildScene(this.initData);
     this.bodyCount = handles.length;

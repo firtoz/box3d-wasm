@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.22)
 
 project(box3d_wasm_bridge C)
 
+option(BOX3D_WASM_PROFILE_NAMES "Emit wasm function names/source maps for Chromium profiling" OFF)
+
 if(EMSCRIPTEN)
 	add_compile_options(-pthread)
 endif()
@@ -29,7 +31,7 @@ add_executable(box3d_web
 	box3d_web_human.c
 	"${BOX3D_SOURCE_DIR}/shared/human.c"
 )
-target_include_directories(box3d_web PRIVATE "${BOX3D_SOURCE_DIR}/include" "${BOX3D_SOURCE_DIR}/shared")
+target_include_directories(box3d_web PRIVATE "${BOX3D_SOURCE_DIR}/include" "${BOX3D_SOURCE_DIR}/shared" "${BOX3D_SOURCE_DIR}/src")
 target_link_libraries(box3d_web PRIVATE box3d)
 
 set_target_properties(box3d_web PROPERTIES
@@ -37,7 +39,6 @@ set_target_properties(box3d_web PROPERTIES
 	C_STANDARD_REQUIRED YES
 	C_EXTENSIONS YES
 	OUTPUT_NAME box3d-web
-	RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../../demo/public/wasm"
 )
 
 		target_link_options(box3d_web PRIVATE
@@ -51,5 +52,15 @@ set_target_properties(box3d_web PROPERTIES
 		"SHELL:-sASSERTIONS=0"
 		"SHELL:-sEXPORT_KEEPALIVE=1"
 		"SHELL:-sUSE_PTHREADS=1"
-		"SHELL:-sPTHREAD_POOL_SIZE=128"
+		"SHELL:-sPTHREAD_POOL_SIZE=(globalThis.navigator?globalThis.navigator.hardwareConcurrency:4)"
 	)
+
+if(BOX3D_WASM_PROFILE_NAMES)
+	target_compile_options(box3d PRIVATE -g)
+	target_compile_options(box3d_web PRIVATE -g)
+	target_link_options(box3d_web PRIVATE
+		-g
+		-gsource-map
+		--profiling-funcs
+	)
+endif()

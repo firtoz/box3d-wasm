@@ -14,7 +14,7 @@
     "watch": "bunx chokidar 'src/**/*.ts' 'cmake/**/*.c' 'cmake/**/*.txt' 'scripts/**/*.ts' -c 'bun run build:wasm'",
     "typecheck": "bunx tsc -p tsconfig.json --noEmit",
     "lint": "bunx tsc -p tsconfig.json --noEmit",
-    "clean": "rm -rf dist build-web ../../demo/public/wasm"
+    "clean": "rm -rf dist build-web build-web-profile ../../demo/public/wasm"
   },
   "devDependencies": {
     "chokidar-cli": "^3.0.0",

@@ -2,12 +2,14 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Stats from "stats.js";
 import { Box3DRuntime, type Quat, type Vec3 } from "box3d-wasm";
-import { wasmBuildVersion } from "virtual:wasm-version";
 import { samples, type ControlSpec, type DemoBody, type DemoSampleInstance, type SolverParams } from "./samples";
+import { getWasmVariant, getWorkerCounts } from "./samples/shared";
 import "./style.css";
 
 const app = document.querySelector<HTMLDivElement>("#app");
 if (app === null) throw new Error("App container not found");
+
+const wasmVariant = getWasmVariant();
 
 app.innerHTML = `
   <div class="topbar">
@@ -24,6 +26,13 @@ app.innerHTML = `
       <span class="keys">R</span>
       <span class="sep">&bull;</span>
       <span class="keys">[</span> <span class="keys">]</span>
+      <span class="sep">&bull;</span>
+      <label class="wasm-variant-label">WASM
+        <select id="wasm-variant" class="wasm-variant-select">
+          <option value="release">release</option>
+          <option value="profile">profile</option>
+        </select>
+      </label>
       <span class="sep">&bull;</span>
       <span class="keys">Shift+Click</span>
       <div class="samples-dropdown">
@@ -83,10 +92,11 @@ const metrics = document.querySelector<HTMLDivElement>("#metrics");
 const info = document.querySelector<HTMLDivElement>("#info");
 const samplesToggle = document.querySelector<HTMLButtonElement>("#samples-toggle");
 const controlsToggle = document.querySelector<HTMLButtonElement>("#controls-toggle");
+const wasmVariantSelect = document.querySelector<HTMLSelectElement>("#wasm-variant");
 const controlsDialog = document.querySelector<HTMLDivElement>("#controls-dialog");
 const controlsDialogHeader = document.querySelector<HTMLDivElement>("#controls-dialog-header");
 const controlsDialogClose = document.querySelector<HTMLSpanElement>("#controls-dialog-close");
-if (!canvas || !status || !sampleList || !controls || !metrics || !info || !samplesToggle || !controlsToggle || !controlsDialog || !controlsDialogHeader || !controlsDialogClose) {
+if (!canvas || !status || !sampleList || !controls || !metrics || !info || !samplesToggle || !controlsToggle || !wasmVariantSelect || !controlsDialog || !controlsDialogHeader || !controlsDialogClose) {
   throw new Error("Required demo elements are missing");
 }
 const statusLabel = status;
@@ -94,6 +104,14 @@ const sampleListElement = sampleList;
 const controlsElement = controls;
 const metricsElement = metrics;
 const infoElement = info;
+
+wasmVariantSelect.value = wasmVariant;
+wasmVariantSelect.addEventListener("change", () => {
+  const url = new URL(window.location.href);
+  if (wasmVariantSelect.value === "profile") url.searchParams.set("wasm", "profile");
+  else url.searchParams.delete("wasm");
+  window.location.href = url.href;
+});
 const samplesBtn = samplesToggle;
 const controlsBtn = controlsToggle;
 
@@ -245,8 +263,11 @@ function drawPhysCharts(): void {
 }
 
 const VISIBLE_STORAGE_KEY = "controlsDialogVisible";
+const MOUSE_FORCE_SCALE = 100;
+const GRAVITY_MAGNITUDE = 9.81;
  
 let runtime: Box3DRuntime | null = null;
+const workerRuntimePlaceholder = null as unknown as Box3DRuntime;
 let activeSampleIndex = 0;
 let activeSample: DemoSampleInstance | null = null;
 let rafId = 0;
@@ -347,7 +368,7 @@ function spawnRagdoll(origin: THREE.Vector3, velocity: THREE.Vector3): void {
 }
 
 function spawnProjectile(spin = false, ragdoll = false): void {
-  if (runtime === null || activeSample === null) return;
+  if (activeSample === null) return;
   const dir = new THREE.Vector3();
   if (lastPointerDown !== null) {
     setPointerFromEvent(lastPointerDown);
@@ -368,6 +389,8 @@ function spawnProjectile(spin = false, ragdoll = false): void {
     activeSample.spawnProjectile(originTuple, velocity, spin, ragdoll);
     return;
   }
+
+  if (runtime === null) return;
 
   if (ragdoll) {
     spawnRagdoll(origin, dir.clone().multiplyScalar(10 * launchSpeed));
@@ -398,11 +421,12 @@ function clearScene(): void {
 }
 
 function applySolverParams(): void {
-  if (activeSample === null || runtime === null) return;
+  if (activeSample === null) return;
   if (activeSample.sendSolverParams !== undefined) {
     activeSample.sendSolverParams(solverParams);
     return;
   }
+  if (runtime === null) return;
   const w = activeSample.world;
   if (solverParams.recycleDistance !== undefined) runtime.setWorldContactRecycleDistance(w.handle, solverParams.recycleDistance);
   if (solverParams.sleep !== undefined) runtime.enableWorldSleeping(w.handle, solverParams.sleep);
@@ -412,11 +436,12 @@ function applySolverParams(): void {
 }
 
 function renderSolverControls(): void {
+  const { maxWorkerCount } = getWorkerCounts();
   const sections: { label: string; key: string; type: "range"; min: number; max: number; step: number; value: number; onChange: (v: number) => void }[] = [
     { label: "Sub-steps", key: "subSteps", type: "range", min: 1, max: 50, step: 1, value: solverParams.subSteps ?? 4, onChange: (v) => { solverParams.subSteps = v; applySolverParams(); } },
     { label: "Hertz", key: "hertz", type: "range", min: 5, max: 240, step: 1, value: solverParams.hertz ?? 60, onChange: (v) => { solverParams.hertz = v; applySolverParams(); } },
     { label: "Recycle", key: "recycleDistance", type: "range", min: 0, max: 10, step: 0.1, value: (solverParams.recycleDistance ?? 0.05) * 100, onChange: (v) => { solverParams.recycleDistance = v * 0.01; applySolverParams(); } },
-    { label: "Workers", key: "workerCount", type: "range", min: 1, max: 128, step: 1, value: solverParams.workerCount ?? (activeSample?.world.getWorkerCount() ?? 1), onChange: (v) => { solverParams.workerCount = v; } },
+    { label: "Workers", key: "workerCount", type: "range", min: 1, max: maxWorkerCount, step: 1, value: solverParams.workerCount ?? (activeSample?.world.getWorkerCount() ?? 1), onChange: (v) => { solverParams.workerCount = v; } },
   ];
 
   const toggles: { label: string; key: "sleep" | "warmStart" | "continuous"; value: boolean; onChange: (v: boolean) => void }[] = [
@@ -681,18 +706,20 @@ function startMouseDrag(e: PointerEvent): boolean {
   if (hit === null || hit.body.type !== 2) return false;
   setSelectedBody(hit.body);
   mouseDragDistance = camera.position.distanceTo(hit.point);
-  mouseDragBody = activeSample.world.createBody({ type: 1, position: [hit.point.x, hit.point.y, hit.point.z] });
+  mouseDragBody = activeSample.world.createBody({ type: 1, position: [hit.point.x, hit.point.y, hit.point.z], enableSleep: false });
   const localBodyPoint = activeSample.world.getBodyLocalPoint(hit.body.handle, [hit.point.x, hit.point.y, hit.point.z]);
+  const massData = activeSample.world.getBodyMassData(hit.body.handle);
+  const mg = massData.mass * GRAVITY_MAGNITUDE;
+  const lever = massData.mass > 0 ? Math.sqrt(massData.inertiaTrace / (3 * massData.mass)) : 0;
   mouseDragJoint = activeSample.world.createMotorJoint(mouseDragBody, hit.body.handle, {
     localFrameA: [0, 0, 0],
     localFrameB: localBodyPoint,
-    linearHertz: 5,
-    linearDampingRatio: 0.9,
-    maxSpringForce: 800,
-    angularHertz: 2,
-    angularDampingRatio: 1,
-    maxSpringTorque: 35,
+    linearHertz: 7.5,
+    linearDampingRatio: 1,
+    maxSpringForce: MOUSE_FORCE_SCALE * mg,
+    maxVelocityTorque: 0.5 * lever * mg,
   });
+  activeSample.world.setBodyAwake(hit.body.handle, true);
   canvas!.setPointerCapture(e.pointerId);
   return true;
 }
@@ -774,11 +801,11 @@ function updateFlyMovement(dt: number): void {
 }
 
 function resetScene(): void {
-  if (runtime === null || activeSampleIndex < 0) return;
+  if (activeSampleIndex < 0) return;
   const camPos = camera.position.clone();
   const camTarget = orbit.target.clone();
   clearScene();
-  activeSample = samples[activeSampleIndex].create(runtime, scene);
+  activeSample = samples[activeSampleIndex].create(runtime ?? workerRuntimePlaceholder, scene);
   launchSpeed = activeSample.launchSpeed ?? 5.0;
   camera.position.copy(camPos);
   orbit.target.copy(camTarget);
@@ -792,10 +819,9 @@ function resetScene(): void {
 }
 
 function activateSample(index: number): void {
-  if (runtime === null) return;
   clearScene();
   activeSampleIndex = index;
-  activeSample = samples[index].create(runtime, scene);
+  activeSample = samples[index].create(runtime ?? workerRuntimePlaceholder, scene);
   launchSpeed = activeSample.launchSpeed ?? 5.0;
   if (activeSample.camera) {
     camera.position.set(activeSample.camera.position[0], activeSample.camera.position[1], activeSample.camera.position[2]);
@@ -866,10 +892,20 @@ function frame(time: number): void {
   stats.begin();
   const dt = lastTime === 0 ? 1 / 60 : Math.min((time - lastTime) / 1000, 1 / 30);
   lastTime = time;
-  if (!paused || singleStep > 0) {
+  if (!paused) {
     const physDt = 1 / (solverParams.hertz ?? 60);
     activeSample?.step(physDt, solverParams.subSteps ?? 4);
-    if (singleStep > 0) singleStep--;
+  } else if (singleStep > 0) {
+    const physDt = 1 / (solverParams.hertz ?? 60);
+    if (activeSample?.stepOnce !== undefined) {
+      activeSample.stepOnce();
+      activeSample.step(physDt, solverParams.subSteps ?? 4);
+    } else {
+      activeSample?.step(physDt, solverParams.subSteps ?? 4);
+    }
+    singleStep--;
+  } else if (activeSample?.stepOnce !== undefined) {
+    activeSample.step();
   }
   if (!paused && activeSample?.profile) {
     const p = activeSample.world.getProfile();
@@ -1177,7 +1213,6 @@ window.addEventListener("keyup", (e) => {
 });
 
 statusLabel.textContent = "Loading...";
-runtime = await Box3DRuntime.load({ version: wasmBuildVersion });
 
 const urlSampleId = new URL(window.location.href).searchParams.get("sample");
 const initialIndex = urlSampleId ? samples.findIndex((s) => s.id === urlSampleId) : -1;
@@ -1199,5 +1234,4 @@ rafId = window.requestAnimationFrame(frame);
 window.addEventListener("beforeunload", () => {
   window.cancelAnimationFrame(rafId);
   clearScene();
-  runtime?.destroy();
 });

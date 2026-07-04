@@ -1,4 +1,4 @@
-import type { Vec3 } from "box3d-wasm";
+import type { RuntimeLoadOptions, Vec3 } from "box3d-wasm";
 
 export type SolverParams = {
   subSteps?: number;
@@ -11,7 +11,7 @@ export type SolverParams = {
 };
 
 export type PhysicsWorkerCommand =
-  | { type: "init"; data: unknown; workerCount?: number; maxWorkers?: number; solverParams?: SolverParams }
+  | { type: "init"; data: unknown; workerCount?: number; maxWorkers?: number; solverParams?: SolverParams; wasmVersion?: string; wasmVariant?: RuntimeLoadOptions["variant"] }
   | { type: "spawn-projectile"; origin: Vec3; velocity: Vec3 }
   | { type: "spawn-ragdoll"; origin: Vec3; velocity: Vec3 }
   | { type: "drag-start"; origin: Vec3; translation: Vec3 }
@@ -30,9 +30,11 @@ export type PhysicsWorkerReady = {
   positions: SharedArrayBuffer;
   rotations: SharedArrayBuffer;
   awake: SharedArrayBuffer;
+  colors: SharedArrayBuffer;
   projectilePositions: SharedArrayBuffer;
   projectileRotations: SharedArrayBuffer;
   projectileAwake: SharedArrayBuffer;
+  projectileColors: SharedArrayBuffer;
   state: SharedArrayBuffer;
   extra?: Record<string, unknown>;
 };

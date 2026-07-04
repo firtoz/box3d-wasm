@@ -5,6 +5,8 @@ import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker
 import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
 import { createWorkerWorld, type WorkerWorldState } from "../worker-world-bridge";
 import { RAGDOLL_RENDER_BONES, ragdollCapsuleMesh } from "../ragdoll-render";
+import { wasmBuildVersion } from "virtual:wasm-version";
+import { getWasmVariant, getWorkerCounts } from "./shared";
 
 const dummy = new THREE.Object3D();
 const awakeColor = new THREE.Color(0xd2b48c);
@@ -33,8 +35,8 @@ export function createDominoesSample(multiplier: number): DemoSample {
       const projectileAwakeCache = new Uint8Array(MAX_PROJECTILES);
       let awCache: Uint8Array | null = null;
       let count = dominoTotal;
-      const maxWorkers = Math.min(127, Math.max(1, (navigator.hardwareConcurrency || 8) - 1));
-      let wc = maxWorkers;
+      const { defaultWorkerCount, maxWorkerCount: maxWorkers } = getWorkerCounts();
+      let wc = defaultWorkerCount;
 
       const worker = new Worker(new URL("./dominoes.worker.ts", import.meta.url), { type: "module" });
       const world = createWorkerWorld(worker, () => workerWorldState, () => wc);
@@ -89,9 +91,11 @@ export function createDominoesSample(multiplier: number): DemoSample {
             positions: new Float32Array(ready.positions),
             rotations: new Float32Array(ready.rotations),
             awake: new Uint8Array(ready.awake),
+            colors: new Uint32Array(ready.colors),
             projectilePositions: new Float32Array(ready.projectilePositions),
             projectileRotations: new Float32Array(ready.projectileRotations),
             projectileAwake: new Uint8Array(ready.projectileAwake),
+            projectileColors: new Uint32Array(ready.projectileColors),
             state: new Int32Array(ready.state),
           };
           positions = new Float32Array(ready.positions);
@@ -107,7 +111,7 @@ export function createDominoesSample(multiplier: number): DemoSample {
           console.error(`Physics worker error: ${message.message}`);
         }
       });
-      worker.postMessage({ type: "init", data: { multiplier }, workerCount: wc, maxWorkers });
+      worker.postMessage({ type: "init", data: { multiplier }, workerCount: wc, maxWorkers, wasmVersion: wasmBuildVersion, wasmVariant: getWasmVariant() });
 
       return {
         world,
@@ -161,6 +165,9 @@ export function createDominoesSample(multiplier: number): DemoSample {
         },
         setPaused(paused) {
           worker.postMessage({ type: "set-paused", paused });
+        },
+        stepOnce() {
+          worker.postMessage({ type: "step-once" });
         },
         sendSolverParams(params) {
           worker.postMessage({ type: "set-solver-params", params });

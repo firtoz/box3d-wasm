@@ -2,6 +2,7 @@ node_modules/
 dist/
 build/
 build-web/
+build-web-profile/
 .turbo/
 *.log
 .DS_Store

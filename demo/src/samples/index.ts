@@ -1,17 +1,19 @@
-import { boxStackSample } from "./box-stack";
-import { capsuleStackSample } from "./capsule-stack";
-import { cardHouseThickSample } from "./card-house-thick";
-import { compoundSimpleSample } from "./compound-simple";
-import { compoundMaterialDedupSample } from "./compound-material-dedup";
-import { cylinderSample } from "./cylinder-sample";
 import { dominoesSample, createDominoesSample } from "./dominoes";
+import { createGenericWorkerSample } from "./generic-worker-sample";
 import { createWasherSample } from "./washer";
-import { jengaStackSample } from "./jenga-stack";
-import { pyramid2dSample } from "./pyramid2d";
-import { shapesInclinedPlaneSample } from "./shapes-inclined-plane";
-import { singleBoxSample } from "./stacking-single-box";
-import { sphereStackSample } from "./sphere-stack";
 export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
+
+const compoundSimpleSample = createGenericWorkerSample("compound-simple", "Compound / Simple");
+const compoundMaterialDedupSample = createGenericWorkerSample("compound-material-dedup", "Compound Material Dedup");
+const singleBoxSample = createGenericWorkerSample("single-box", "Stacking / Single Box");
+const cylinderSample = createGenericWorkerSample("cylinder", "Stacking / Cylinder");
+const sphereStackSample = createGenericWorkerSample("sphere-stack", "Stacking / Sphere Stack");
+const boxStackSample = createGenericWorkerSample("box-stack", "Stacking / Box Stack");
+const shapesInclinedPlaneSample = createGenericWorkerSample("shapes-inclined-plane", "Shapes / Inclined Plane");
+const cardHouseThickSample = createGenericWorkerSample("card-house-thick", "Stacking / Card House Thick");
+const jengaStackSample = createGenericWorkerSample("jenga-stack", "Stacking / Jenga Stack");
+const pyramid2dSample = createGenericWorkerSample("pyramid2d", "Stacking / Pyramid2D");
+const capsuleStackSample = createGenericWorkerSample("capsule-stack", "Stacking / Capsule Stack");
 
 export const samples = [
   compoundSimpleSample,

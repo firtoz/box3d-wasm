@@ -1,4 +1,77 @@
 #include "box3d_web_shared.h"
+#include "body.h"
+#include "physics_world.h"
+
+static b3HexColor GetBodyDebugColor( b3BodyId bodyId )
+{
+	b3World* world = b3GetWorld( bodyId.world0 );
+	if ( world == NULL )
+	{
+		return b3_colorBlack;
+	}
+
+	b3Body* body = b3GetBodyFullId( world, bodyId );
+	b3BodySim* bodySim = b3GetBodySim( world, body );
+
+	b3HexColor rgb;
+	b3DebugMaterial material = b3_debugMaterialDefault;
+
+	if ( body->type == b3_dynamicBody && body->mass == 0.0f )
+	{
+		rgb = b3_colorRed;
+	}
+	else if ( body->setIndex == b3_disabledSet )
+	{
+		rgb = b3_colorSlateGray;
+	}
+	else if ( body->flags & b3_hadTimeOfImpact )
+	{
+		rgb = b3_colorLime;
+	}
+	else if ( ( bodySim->flags & b3_isBullet ) && body->setIndex == b3_awakeSet )
+	{
+		rgb = b3_colorTurquoise;
+	}
+	else if ( body->flags & b3_isSpeedCapped )
+	{
+		rgb = b3_colorYellow;
+	}
+	else if ( bodySim->flags & b3_isFast )
+	{
+		rgb = b3_colorOrange;
+		material = b3_debugMaterialGlossy;
+	}
+	else if ( body->type == b3_staticBody )
+	{
+		rgb = b3_colorDarkGray;
+		material = b3_debugMaterialMatte;
+	}
+	else if ( body->type == b3_kinematicBody )
+	{
+		if ( body->setIndex == b3_awakeSet )
+		{
+			rgb = b3_colorSteelBlue;
+			material = b3_debugMaterialMetallic;
+		}
+		else
+		{
+			rgb = b3_colorLightSteelBlue;
+			material = b3_debugMaterialMatte;
+		}
+	}
+	else if ( body->setIndex == b3_awakeSet )
+	{
+		rgb = b3_colorTan;
+		material = b3_debugMaterialSoft;
+	}
+	else
+	{
+		rgb = b3_colorLightSlateGray;
+		material = b3_debugMaterialDead;
+	}
+
+	return (b3HexColor)b3MakeDebugColor( rgb, material );
+}
 
 B3W_EXPORT int b3wCreateBody(int worldHandle, int bodyType, float px, float py, float pz, int enableSleep, int awake)
 {
@@ -146,6 +219,22 @@ B3W_EXPORT void b3wSetBodyMassData(int bodyHandle, float mass, float cx, float c
 	b3Body_SetMassData(slot->bodyId, massData);
 }
 
+B3W_EXPORT void b3wGetBodyMassData(int bodyHandle, float* outMassData)
+{
+	if (outMassData == NULL) return;
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL)
+	{
+		outMassData[0] = 0.0f;
+		outMassData[1] = 0.0f;
+		return;
+	}
+
+	b3MassData massData = b3Body_GetMassData(slot->bodyId);
+	outMassData[0] = massData.mass;
+	outMassData[1] = massData.inertia.cx.x + massData.inertia.cy.y + massData.inertia.cz.z;
+}
+
 B3W_EXPORT void b3wApplyBodyMassFromShapes(int bodyHandle)
 {
 	b3wBodySlot* slot = b3wGetBody(bodyHandle);
@@ -212,7 +301,7 @@ B3W_EXPORT int b3wGetBodyType(int bodyHandle)
 	return (int)b3Body_GetType(slot->bodyId);
 }
 
-B3W_EXPORT void b3wWriteBodyTransforms(int count, const int* bodyHandles, float* outPositions, float* outRotations, char* outAwake)
+B3W_EXPORT void b3wWriteBodyTransforms(int count, const int* bodyHandles, float* outPositions, float* outRotations, char* outAwake, uint32_t* outColors)
 {
 	for (int i = 0; i < count; ++i)
 	{
@@ -228,6 +317,7 @@ B3W_EXPORT void b3wWriteBodyTransforms(int count, const int* bodyHandles, float*
 			outRotations[i * 4 + 2] = 0.0f;
 			outRotations[i * 4 + 3] = 1.0f;
 			outAwake[i] = 0;
+			outColors[i] = 0;
 			continue;
 		}
 		b3Vec3 position = b3Body_GetPosition(slot->bodyId);
@@ -240,5 +330,6 @@ B3W_EXPORT void b3wWriteBodyTransforms(int count, const int* bodyHandles, float*
 		outRotations[i * 4 + 2] = rotation.v.z;
 		outRotations[i * 4 + 3] = rotation.s;
 		outAwake[i] = b3Body_IsAwake(slot->bodyId) ? 1 : 0;
+		outColors[i] = (uint32_t)GetBodyDebugColor( slot->bodyId );
 	}
 }

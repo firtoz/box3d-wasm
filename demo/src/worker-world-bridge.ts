@@ -8,9 +8,11 @@ export type WorkerWorldState = {
   positions: Float32Array;
   rotations: Float32Array;
   awake: Uint8Array;
+  colors: Uint32Array;
   projectilePositions: Float32Array;
   projectileRotations: Float32Array;
   projectileAwake: Uint8Array;
+  projectileColors: Uint32Array;
   state: Int32Array;
   extra?: Record<string, unknown>;
 };

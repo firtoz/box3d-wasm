@@ -81,14 +81,15 @@ export interface BoxOptions {
 export interface SurfaceMaterial { friction?: number; restitution?: number; rollingResistance?: number; tangentVelocity?: Vec3; }
 export interface MotorJointOptions { localFrameA?: Vec3; localFrameB?: Vec3; linearVelocity?: Vec3; angularVelocity?: Vec3; maxVelocityForce?: number; maxVelocityTorque?: number; linearHertz?: number; linearDampingRatio?: number; maxSpringForce?: number; angularHertz?: number; angularDampingRatio?: number; maxSpringTorque?: number; }
 export interface BodyTransform { position: Vec3; rotation: Quat; }
+export interface BodyMassData { mass: number; inertiaTrace: number; }
 export interface WorldCounters { bodyCount: number; shapeCount: number; contactCount: number; jointCount: number; islandCount: number; staticTreeHeight: number; treeHeight: number; }
-export interface BodyBatchBuffers { bodyHandlesPtr: number; positionsPtr: number; rotationsPtr: number; awakePtr: number; capacity: number; }
+export interface BodyBatchBuffers { bodyHandlesPtr: number; positionsPtr: number; rotationsPtr: number; awakePtr: number; colorsPtr: number; capacity: number; }
 export interface RuntimeMemoryView { heapF32: Float32Array; heapU8: Uint8Array; }
 export interface RuntimeMemoryView32 extends RuntimeMemoryView { heap32: Int32Array; }
 export interface CompoundHullEntry { halfWidths: Vec3; transform: BodyTransform; friction?: number; restitution?: number; rollingResistance?: number; }
 export interface CompoundSphereEntry { center: Vec3; radius: number; friction?: number; restitution?: number; rollingResistance?: number; }
 export interface ShapeHandle { bodyHandle: number; shapeHandle: number; }
-export interface RuntimeLoadOptions { version?: string; }
+export interface RuntimeLoadOptions { version?: string; variant?: "release" | "profile"; }
 export interface RuntimeAPI { createWorld(options?: WorldOptions): PhysicsWorld; checkThreadingSupport(): number; }
 
 type CModule = { cwrap(name: string, returnType: "number", argTypes: readonly string[]): (...args: number[]) => number; cwrap(name: string, returnType: null, argTypes: readonly string[]): (...args: number[]) => void; HEAPF32: Float32Array; HEAPU8: Uint8Array; HEAP32: Int32Array; wasmMemory?: WebAssembly.Memory; _malloc(size: number): number; _free(ptr: number): void; };
@@ -149,6 +150,7 @@ type BodyEnableContactRecyclingFn = (bodyHandle: number, flag: number) => void;
 type BodyEnableHitEventsFn = (bodyHandle: number, flag: number) => void;
 type BodySetMotionLocksFn = (bodyHandle: number, lockBodyX: number, lockBodyY: number, lockBodyRotationX: number, lockBodyRotationY: number, lockBodyRotationZ: number, lockLinearZ: number) => void;
 type BodySetMassDataFn = (bodyHandle: number, mass: number, cx: number, cy: number, cz: number) => void;
+type BodyGetMassDataFn = (bodyHandle: number, outMassData: number) => void;
 type BodyApplyMassFromShapesFn = (bodyHandle: number) => void;
 type BodySetTargetTransformFn = (bodyHandle: number, px: number, py: number, pz: number, qx: number, qy: number, qz: number, qw: number, timeStep: number, wake: number) => void;
 type ApplyLinearImpulseFn = (bodyHandle: number, ix: number, iy: number, iz: number, px: number, py: number, pz: number, wake: number) => void;
@@ -163,7 +165,7 @@ type GetWorldProfileFn = (worldHandle: number, outProfile: number) => void;
 type GetWorldAwakeBodyCountFn = (worldHandle: number) => number;
 type CheckThreadingSupportFn = () => number;
 type GetWorldWorkerCountFn = (worldHandle: number) => number;
-type WriteBodyTransformsFn = (count: number, bodyHandles: number, outPositions: number, outRotations: number, outAwake: number) => void;
+type WriteBodyTransformsFn = (count: number, bodyHandles: number, outPositions: number, outRotations: number, outAwake: number, outColors: number) => void;
 type RayCastClosestFn = (worldHandle: number, ox: number, oy: number, oz: number, tx: number, ty: number, tz: number, categoryBits: number, maskBits: number, outShapeHandle: number, outPoint: number, outNormal: number, outFraction: number) => void;
 type GetShapeBodyHandleFn = (shapeHandle: number) => number;
 type ShapeSetFrictionFn = (shapeHandle: number, friction: number) => void;
@@ -174,6 +176,7 @@ type ModuleImport = { default: ModuleFactory };
 
 function vec3(x = 0, y = 0, z = 0): Vec3 { return [x, y, z]; }
 function versionedUrl(url: string, version: string | undefined): string { if (!version) return url; return `${url}${url.includes("?") ? "&" : "?"}v=${encodeURIComponent(version)}`; }
+function wasmDirectory(variant: RuntimeLoadOptions["variant"]): string { return variant === "profile" ? "wasm/profile" : "wasm"; }
 
 const U64_MAX = 0xFFFFFFFF;
 
@@ -183,7 +186,7 @@ export class Box3DRuntime implements RuntimeAPI {
   static async load(options: RuntimeLoadOptions = {}): Promise<Box3DRuntime> {
     const locationHref = typeof window !== "undefined" ? window.location.href : globalThis.location.href;
     const baseUrl = typeof document === "undefined" ? "/" : new URL(".", locationHref).pathname;
-    const moduleUrl = versionedUrl(`${baseUrl}wasm/box3d-web.js`, options.version);
+    const moduleUrl = versionedUrl(`${baseUrl}${wasmDirectory(options.variant)}/box3d-web.js`, options.version);
     const absServerUrl = new URL(moduleUrl, locationHref).href;
     const moduleImport = (await import(/* @vite-ignore */ absServerUrl)) as ModuleImport;
     const module = await moduleImport.default({ locateFile(path: string): string { return versionedUrl(new URL(path, absServerUrl).href, options.version); } });
@@ -253,6 +256,7 @@ export class Box3DRuntime implements RuntimeAPI {
   private readonly enableBodyHitEventsFn: BodyEnableHitEventsFn;
   private readonly setBodyMotionLocksFn: BodySetMotionLocksFn;
   private readonly setBodyMassDataFn: BodySetMassDataFn;
+  private readonly getBodyMassDataFn: BodyGetMassDataFn;
   private readonly applyBodyMassFromShapesFn: BodyApplyMassFromShapesFn;
   private readonly setBodyTargetTransformFn: BodySetTargetTransformFn;
   private readonly applyLinearImpulseFn: ApplyLinearImpulseFn;
@@ -276,6 +280,7 @@ export class Box3DRuntime implements RuntimeAPI {
   private readonly setRestitutionFn: ShapeSetRestitutionFn;
   private readonly transformPtr: number;
   private readonly pointPtr: number;
+  private readonly massDataPtr: number;
   private readonly profilePtr: number;
   private readonly bodyBatchBuffers = new Map<number, BodyBatchBuffers>();
 
@@ -331,7 +336,7 @@ export class Box3DRuntime implements RuntimeAPI {
     this.getWorldAwakeBodyCountFn = module.cwrap("b3wGetWorldAwakeBodyCount", "number", ["number"]);
     this.checkThreadingSupportFn = module.cwrap("b3wCheckThreadingSupport", "number", []);
     this.getWorldWorkerCountFn = module.cwrap("b3wGetWorldWorkerCount", "number", ["number"]);
-    this.writeBodyTransformsFn = module.cwrap("b3wWriteBodyTransforms", null, ["number", "number", "number", "number", "number"]);
+    this.writeBodyTransformsFn = module.cwrap("b3wWriteBodyTransforms", null, ["number", "number", "number", "number", "number", "number"]);
     this.rayCastClosestFn = module.cwrap("b3wRayCastClosest", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
     this.getShapeBodyHandleFn = module.cwrap("b3wGetShapeBodyHandle", "number", ["number"]);
     this.stepFn = module.cwrap("b3wStep", null, ["number", "number", "number"]);
@@ -360,17 +365,19 @@ export class Box3DRuntime implements RuntimeAPI {
     this.enableBodyHitEventsFn = module.cwrap("b3wEnableBodyHitEvents", null, ["number", "number"]);
     this.setBodyMotionLocksFn = module.cwrap("b3wSetBodyMotionLocks", null, ["number", "number", "number", "number", "number", "number", "number"]);
     this.setBodyMassDataFn = module.cwrap("b3wSetBodyMassData", null, ["number", "number", "number", "number", "number"]);
+    this.getBodyMassDataFn = module.cwrap("b3wGetBodyMassData", null, ["number", "number"]);
     this.applyBodyMassFromShapesFn = module.cwrap("b3wApplyBodyMassFromShapes", null, ["number"]);
     this.setBodyTargetTransformFn = module.cwrap("b3wSetBodyTargetTransform", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
     this.applyLinearImpulseFn = module.cwrap("b3wApplyLinearImpulse", null, ["number", "number", "number", "number", "number", "number", "number", "number"]);
     this.applyLinearImpulseToCenterFn = module.cwrap("b3wApplyLinearImpulseToCenter", null, ["number", "number", "number", "number", "number"]);
     this.transformPtr = module._malloc(7 * 4);
     this.pointPtr = module._malloc(3 * 4);
+    this.massDataPtr = module._malloc(2 * 4);
     this.profilePtr = module._malloc(23 * 4);
   }
 
   createWorld(options: WorldOptions = {}): PhysicsWorld { const gravity = options.gravity ?? vec3(0, -9.81, 0); const workerCount = options.workerCount ?? 4; return new PhysicsWorld(this, this.createWorldFn(gravity[0], gravity[1], gravity[2], workerCount)); }
-  destroy(): void { this.module._free(this.transformPtr); this.module._free(this.pointPtr); this.module._free(this.profilePtr); }
+  destroy(): void { this.module._free(this.transformPtr); this.module._free(this.pointPtr); this.module._free(this.massDataPtr); this.module._free(this.profilePtr); }
 
   allocBodyBatchBuffers(capacity: number): BodyBatchBuffers {
     const cached = this.bodyBatchBuffers.get(capacity);
@@ -380,6 +387,7 @@ export class Box3DRuntime implements RuntimeAPI {
       positionsPtr: this.module._malloc(capacity * 3 * 4),
       rotationsPtr: this.module._malloc(capacity * 4 * 4),
       awakePtr: this.module._malloc(capacity),
+      colorsPtr: this.module._malloc(capacity * 4),
       capacity,
     };
     this.bodyBatchBuffers.set(capacity, buffers);
@@ -392,6 +400,7 @@ export class Box3DRuntime implements RuntimeAPI {
     this.module._free(buffers.positionsPtr);
     this.module._free(buffers.rotationsPtr);
     this.module._free(buffers.awakePtr);
+    this.module._free(buffers.colorsPtr);
     this.bodyBatchBuffers.delete(buffers.capacity);
   }
 
@@ -482,7 +491,7 @@ export class Box3DRuntime implements RuntimeAPI {
   }
 
   createHullShape(bodyHandle: number, halfWidths: Vec3, def: ShapeDef = {}): ShapeHandle {
-    const shapeHandle = this.createHullShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.5, def.restitution ?? 0, def.rollingResistance ?? 0, 0, 0, 0, 0, 0, 0, 1, halfWidths[0], halfWidths[1], halfWidths[2]);
+    const shapeHandle = this.createHullShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, 0, 0, 0, 0, 0, 0, 1, halfWidths[0], halfWidths[1], halfWidths[2]);
     const shape = { bodyHandle, shapeHandle };
     this.applyShapeDef(shapeHandle, def);
     return shape;
@@ -491,14 +500,14 @@ export class Box3DRuntime implements RuntimeAPI {
   createTransformedHullShape(bodyHandle: number, halfWidths: Vec3, transform: { position?: Vec3; rotation?: Quat } = {}, scale: Vec3 = [1,1,1], def: ShapeDef = {}): ShapeHandle {
     const pos = transform.position ?? vec3();
     const rot = transform.rotation ?? [0,0,0,1];
-    const shapeHandle = this.createTransformedHullShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.5, def.restitution ?? 0, def.rollingResistance ?? 0, pos[0], pos[1], pos[2], rot[0], rot[1], rot[2], rot[3], halfWidths[0], halfWidths[1], halfWidths[2], scale[0], scale[1], scale[2]);
+    const shapeHandle = this.createTransformedHullShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, pos[0], pos[1], pos[2], rot[0], rot[1], rot[2], rot[3], halfWidths[0], halfWidths[1], halfWidths[2], scale[0], scale[1], scale[2]);
     const shape = { bodyHandle, shapeHandle };
     this.applyShapeDef(shapeHandle, def);
     return shape;
   }
 
   createShapeFromHull(bodyHandle: number, hullHandle: number, def: ShapeDef = {}): number {
-    const shapeHandle = this.createShapeFromHullFn(bodyHandle, hullHandle, def.density ?? 1000, def.friction ?? 0.5, def.restitution ?? 0, def.rollingResistance ?? 0);
+    const shapeHandle = this.createShapeFromHullFn(bodyHandle, hullHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0);
     this.applyShapeDef(shapeHandle, def);
     return shapeHandle;
   }
@@ -619,8 +628,8 @@ export class Box3DRuntime implements RuntimeAPI {
 
   // Batched transform read: writes transforms + awake flags for all bodies at once.
   // Buffers must be pre-allocated with _malloc.
-  writeBodyTransforms(count: number, bodyHandlesPtr: number, outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number): void {
-    this.writeBodyTransformsFn(count, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr);
+  writeBodyTransforms(count: number, bodyHandlesPtr: number, outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number, outColorsPtr: number): void {
+    this.writeBodyTransformsFn(count, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr, outColorsPtr);
   }
 
   step(worldHandle: number, dt: number, substeps: number): void { this.stepFn(worldHandle, dt, substeps); }
@@ -647,6 +656,7 @@ export class Box3DRuntime implements RuntimeAPI {
   enableBodyHitEvents(bodyHandle: number, flag: boolean): void { this.enableBodyHitEventsFn(bodyHandle, flag ? 1 : 0); }
   setBodyMotionLocks(bodyHandle: number, locks: { lockX?: boolean; lockY?: boolean; lockRotationX?: boolean; lockRotationY?: boolean; lockRotationZ?: boolean; lockLinearZ?: boolean } = {}): void { this.setBodyMotionLocksFn(bodyHandle, locks.lockX ? 1 : 0, locks.lockY ? 1 : 0, locks.lockRotationX ? 1 : 0, locks.lockRotationY ? 1 : 0, locks.lockRotationZ ? 1 : 0, locks.lockLinearZ ? 1 : 0); }
   setBodyMassData(bodyHandle: number, mass: number, center: Vec3): void { this.setBodyMassDataFn(bodyHandle, mass, center[0], center[1], center[2]); }
+  getBodyMassData(bodyHandle: number): BodyMassData { this.getBodyMassDataFn(bodyHandle, this.massDataPtr); const heap = this.module.HEAPF32; const base = this.massDataPtr >> 2; return { mass: heap[base], inertiaTrace: heap[base + 1] }; }
   applyBodyMassFromShapes(bodyHandle: number): void { this.applyBodyMassFromShapesFn(bodyHandle); }
   setBodyTargetTransform(bodyHandle: number, position: Vec3, rotation: Quat, timeStep: number, wake = true): void { this.setBodyTargetTransformFn(bodyHandle, position[0], position[1], position[2], rotation[0], rotation[1], rotation[2], rotation[3], timeStep, wake ? 1 : 0); }
 
@@ -685,6 +695,7 @@ export class PhysicsWorld {
   createSphericalJoint(bodyAHandle: number, bodyBHandle: number, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; enableSpring?: boolean; hertz?: number; dampingRatio?: number; targetRotation?: Quat; enableConeLimit?: boolean; coneAngle?: number; enableTwistLimit?: boolean; lowerTwistAngle?: number; upperTwistAngle?: number; enableMotor?: boolean; maxMotorTorque?: number; motorVelocity?: Vec3 } = {}): number { return this.runtime.createSphericalJoint(this.handle, bodyAHandle, bodyBHandle, options); }
   createHuman(position: Vec3, options: { frictionTorque?: number; hertz?: number; dampingRatio?: number; groupIndex?: number; colorize?: boolean } = {}): number { return this.runtime.createHuman(this.handle, position, options); }
   getBodyTransform(bodyHandle: number): BodyTransform { return this.runtime.readBodyTransform(bodyHandle); }
+  getBodyMassData(bodyHandle: number): BodyMassData { return this.runtime.getBodyMassData(bodyHandle); }
   getCounters(): WorldCounters { return this.runtime.getWorldCounters(this.handle); }
   getAwakeBodyCount(): number { return this.runtime.getWorldAwakeBodyCount(this.handle); }
   getWorkerCount(): number { return this.runtime.getWorldWorkerCount(this.handle); }
@@ -694,8 +705,8 @@ export class PhysicsWorld {
   freeBodyBatchBuffers(buffers: BodyBatchBuffers): void { this.runtime.freeBodyBatchBuffers(buffers); }
   getMemoryView(): RuntimeMemoryView32 { return this.runtime.getMemoryView(); }
   writeBodyHandles(buffers: BodyBatchBuffers, bodyHandles: readonly number[]): void { this.runtime.writeBodyHandles(buffers, bodyHandles); }
-  writeBodyTransforms(count: number, bodyHandlesPtr: number, outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number): void {
-    this.runtime.writeBodyTransforms(count, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr);
+  writeBodyTransforms(count: number, bodyHandlesPtr: number, outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number, outColorsPtr: number): void {
+    this.runtime.writeBodyTransforms(count, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr, outColorsPtr);
   }
   step(dt = 1 / 60, substeps = 4): void { this.runtime.step(this.handle, dt, substeps); }
   enableSleeping(flag: boolean): void { this.runtime.enableWorldSleeping(this.handle, flag); }
