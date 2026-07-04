@@ -11,7 +11,7 @@ export type SolverParams = {
 };
 
 export type PhysicsWorkerCommand =
-  | { type: "init"; data: unknown; workerCount?: number; maxWorkers?: number; solverParams?: SolverParams; wasmVersion?: string; wasmVariant?: RuntimeLoadOptions["variant"] }
+  | { type: "init"; data: unknown; workerCount?: number; maxWorkers?: number; poolSize?: number; solverParams?: SolverParams; wasmVersion?: string; wasmVariant?: RuntimeLoadOptions["variant"] }
   | { type: "spawn-projectile"; origin: Vec3; velocity: Vec3 }
   | { type: "spawn-ragdoll"; origin: Vec3; velocity: Vec3 }
   | { type: "drag-start"; origin: Vec3; translation: Vec3 }
@@ -53,6 +53,7 @@ export const SNAPSHOT_LAG_MS_X100_INDEX = 4;
 export const SNAPSHOT_STEPS_INDEX = 5;
 export const SNAPSHOT_DROPPED_MS_X100_INDEX = 6;
 export const SNAPSHOT_CUMULATIVE_STEPS_INDEX = 7;
+export const SNAPSHOT_PUBLISH_MS_X100_INDEX = 8;
 export const SNAPSHOT_STATE_COUNT = 10;
 export const MAX_PROJECTILES = 2048;
 export const RAGDOLL_RENDER_BONE_COUNT = 14;

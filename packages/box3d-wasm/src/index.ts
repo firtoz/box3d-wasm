@@ -1,6 +1,8 @@
 export type Vec3 = [number, number, number];
 export type Quat = [number, number, number, number];
 
+declare global { var BOX3D_POOL_SIZE: number | undefined; }
+
 export enum BodyType { Static = 0, Kinematic = 1, Dynamic = 2 }
 
 export interface WorldOptions { gravity?: Vec3; workerCount?: number; }
@@ -89,7 +91,7 @@ export interface RuntimeMemoryView32 extends RuntimeMemoryView { heap32: Int32Ar
 export interface CompoundHullEntry { halfWidths: Vec3; transform: BodyTransform; friction?: number; restitution?: number; rollingResistance?: number; }
 export interface CompoundSphereEntry { center: Vec3; radius: number; friction?: number; restitution?: number; rollingResistance?: number; }
 export interface ShapeHandle { bodyHandle: number; shapeHandle: number; }
-export interface RuntimeLoadOptions { version?: string; variant?: "release" | "profile"; }
+export interface RuntimeLoadOptions { version?: string; variant?: "release" | "profile"; poolSize?: number; }
 export interface RuntimeAPI { createWorld(options?: WorldOptions): PhysicsWorld; checkThreadingSupport(): number; }
 
 type CModule = { cwrap(name: string, returnType: "number", argTypes: readonly string[]): (...args: number[]) => number; cwrap(name: string, returnType: null, argTypes: readonly string[]): (...args: number[]) => void; HEAPF32: Float32Array; HEAPU8: Uint8Array; HEAP32: Int32Array; wasmMemory?: WebAssembly.Memory; _malloc(size: number): number; _free(ptr: number): void; };
@@ -166,6 +168,7 @@ type GetWorldAwakeBodyCountFn = (worldHandle: number) => number;
 type CheckThreadingSupportFn = () => number;
 type GetWorldWorkerCountFn = (worldHandle: number) => number;
 type WriteBodyTransformsFn = (count: number, bodyHandles: number, outPositions: number, outRotations: number, outAwake: number, outColors: number) => void;
+type WriteBodyTransformsLightFn = WriteBodyTransformsFn;
 type RayCastClosestFn = (worldHandle: number, ox: number, oy: number, oz: number, tx: number, ty: number, tz: number, categoryBits: number, maskBits: number, outShapeHandle: number, outPoint: number, outNormal: number, outFraction: number) => void;
 type GetShapeBodyHandleFn = (shapeHandle: number) => number;
 type ShapeSetFrictionFn = (shapeHandle: number, friction: number) => void;
@@ -184,6 +187,7 @@ function defaults<T>(val: T | undefined, def: T): T { return val !== undefined ?
 
 export class Box3DRuntime implements RuntimeAPI {
   static async load(options: RuntimeLoadOptions = {}): Promise<Box3DRuntime> {
+    if (options.poolSize !== undefined) globalThis.BOX3D_POOL_SIZE = options.poolSize;
     const locationHref = typeof window !== "undefined" ? window.location.href : globalThis.location.href;
     const baseUrl = typeof document === "undefined" ? "/" : new URL(".", locationHref).pathname;
     const moduleUrl = versionedUrl(`${baseUrl}${wasmDirectory(options.variant)}/box3d-web.js`, options.version);
@@ -273,6 +277,7 @@ export class Box3DRuntime implements RuntimeAPI {
   private readonly checkThreadingSupportFn: CheckThreadingSupportFn;
   private readonly getWorldWorkerCountFn: GetWorldWorkerCountFn;
   private readonly writeBodyTransformsFn: WriteBodyTransformsFn;
+  private readonly writeBodyTransformsLightFn: WriteBodyTransformsLightFn;
   private readonly rayCastClosestFn: RayCastClosestFn;
   private readonly getShapeBodyHandleFn: GetShapeBodyHandleFn;
   private readonly setDensityFn: ShapeSetDensityFn;
@@ -337,6 +342,7 @@ export class Box3DRuntime implements RuntimeAPI {
     this.checkThreadingSupportFn = module.cwrap("b3wCheckThreadingSupport", "number", []);
     this.getWorldWorkerCountFn = module.cwrap("b3wGetWorldWorkerCount", "number", ["number"]);
     this.writeBodyTransformsFn = module.cwrap("b3wWriteBodyTransforms", null, ["number", "number", "number", "number", "number", "number"]);
+    this.writeBodyTransformsLightFn = module.cwrap("b3wWriteBodyTransformsLight", null, ["number", "number", "number", "number", "number", "number"]);
     this.rayCastClosestFn = module.cwrap("b3wRayCastClosest", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
     this.getShapeBodyHandleFn = module.cwrap("b3wGetShapeBodyHandle", "number", ["number"]);
     this.stepFn = module.cwrap("b3wStep", null, ["number", "number", "number"]);
@@ -632,6 +638,10 @@ export class Box3DRuntime implements RuntimeAPI {
     this.writeBodyTransformsFn(count, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr, outColorsPtr);
   }
 
+  writeBodyTransformsLight(count: number, bodyHandlesPtr: number, outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number, outColorsPtr: number): void {
+    this.writeBodyTransformsLightFn(count, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr, outColorsPtr);
+  }
+
   step(worldHandle: number, dt: number, substeps: number): void { this.stepFn(worldHandle, dt, substeps); }
   destroyWorld(worldHandle: number): void { this.destroyWorldFn(worldHandle); }
   setShapeDensity(shapeHandle: number | ShapeHandle, density: number, updateBodyMass = true): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setDensityFn(handle, density, updateBodyMass ? 1 : 0); }
@@ -707,6 +717,10 @@ export class PhysicsWorld {
   writeBodyHandles(buffers: BodyBatchBuffers, bodyHandles: readonly number[]): void { this.runtime.writeBodyHandles(buffers, bodyHandles); }
   writeBodyTransforms(count: number, bodyHandlesPtr: number, outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number, outColorsPtr: number): void {
     this.runtime.writeBodyTransforms(count, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr, outColorsPtr);
+  }
+
+  writeBodyTransformsLight(count: number, bodyHandlesPtr: number, outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number, outColorsPtr: number): void {
+    this.runtime.writeBodyTransformsLight(count, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr, outColorsPtr);
   }
   step(dt = 1 / 60, substeps = 4): void { this.runtime.step(this.handle, dt, substeps); }
   enableSleeping(flag: boolean): void { this.runtime.enableWorldSleeping(this.handle, flag); }

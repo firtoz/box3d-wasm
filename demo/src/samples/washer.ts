@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import type { Box3DRuntime } from "box3d-wasm";
-import type { DemoBody, DemoSample } from "./types";
+import type { DemoBody, DemoSample, SolverParams } from "./types";
 import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker-protocol";
 import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
 import { createWorkerWorld, type WorkerWorldState } from "../worker-world-bridge";
@@ -11,6 +11,7 @@ import { getWasmVariant, getWorkerCounts } from "./shared";
 const dummy = new THREE.Object3D();
 const awakeColor = new THREE.Color(0xd2b48c);
 const debugColor = new THREE.Color();
+type WasherRenderMode = "matrix" | "shader";
 
 const B3_PI = 3.14159265359;
 const ANGLE_STEP = B3_PI / 18;
@@ -159,13 +160,107 @@ function buildDrumMeshes(): { mesh: THREE.Mesh, edges: THREE.LineSegments } {
 
 const WASHER_CUBE_COUNT = 8000;
 
-export function createWasherSample(): DemoSample {
+function getWasherRenderMode(): WasherRenderMode {
+  const configured = (globalThis as { __BOX3D_WASHER_RENDER_MODE?: unknown }).__BOX3D_WASHER_RENDER_MODE;
+  if (configured === "matrix" || configured === "shader") return configured;
+  const param = new URL(globalThis.location.href).searchParams.get("washerRender");
+  return param === "matrix" ? "matrix" : "shader";
+}
+
+function hexToRgb(hex: number, out: Float32Array, offset: number): void {
+  out[offset] = ((hex >> 16) & 0xff) / 255;
+  out[offset + 1] = ((hex >> 8) & 0xff) / 255;
+  out[offset + 2] = (hex & 0xff) / 255;
+}
+
+function createShaderCubeMesh(count: number): {
+  mesh: THREE.Mesh;
+  positionArray: Float32Array;
+  quaternionArray: Float32Array;
+  colorArray: Float32Array;
+  positionAttribute: THREE.InstancedBufferAttribute;
+  quaternionAttribute: THREE.InstancedBufferAttribute;
+  colorAttribute: THREE.InstancedBufferAttribute;
+  dispose(): void;
+} {
+  const baseGeometry = new THREE.BoxGeometry(0.4, 0.4, 0.4);
+  const geometry = new THREE.InstancedBufferGeometry();
+  geometry.index = baseGeometry.index;
+  geometry.setAttribute("position", baseGeometry.getAttribute("position"));
+  geometry.setAttribute("normal", baseGeometry.getAttribute("normal"));
+  geometry.instanceCount = count;
+
+  const positionArray = new Float32Array(count * 3);
+  const quaternionArray = new Float32Array(count * 4);
+  const colorArray = new Float32Array(count * 3);
+  const positionAttribute = new THREE.InstancedBufferAttribute(positionArray, 3);
+  const quaternionAttribute = new THREE.InstancedBufferAttribute(quaternionArray, 4);
+  const colorAttribute = new THREE.InstancedBufferAttribute(colorArray, 3);
+  positionAttribute.setUsage(THREE.DynamicDrawUsage);
+  quaternionAttribute.setUsage(THREE.DynamicDrawUsage);
+  colorAttribute.setUsage(THREE.DynamicDrawUsage);
+  geometry.setAttribute("instancePosition", positionAttribute);
+  geometry.setAttribute("instanceQuaternion", quaternionAttribute);
+  geometry.setAttribute("instanceColor", colorAttribute);
+
+  const material = new THREE.ShaderMaterial({
+    vertexShader: `
+      attribute vec3 instancePosition;
+      attribute vec4 instanceQuaternion;
+      attribute vec3 instanceColor;
+      varying vec3 vColor;
+      varying vec3 vNormal;
+      vec3 applyQuat(vec3 v, vec4 q) {
+        return v + 2.0 * cross(q.xyz, cross(q.xyz, v) + q.w * v);
+      }
+      void main() {
+        vColor = instanceColor;
+        vNormal = normalize(normalMatrix * applyQuat(normal, instanceQuaternion));
+        vec3 transformed = applyQuat(position, instanceQuaternion) + instancePosition;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
+      }
+    `,
+    fragmentShader: `
+      varying vec3 vColor;
+      varying vec3 vNormal;
+      void main() {
+        vec3 lightDir = normalize(vec3(0.45, 0.8, 0.35));
+        float diffuse = max(dot(normalize(vNormal), lightDir), 0.0);
+        vec3 color = vColor * (0.35 + 0.65 * diffuse);
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `,
+  });
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+
   return {
-    id: "washer",
-    name: "Benchmark / Washer",
-    create(_runtime: Box3DRuntime, scene: THREE.Scene) {
-      const { defaultWorkerCount, maxWorkerCount: maxWorkers } = getWorkerCounts();
-      let wc = defaultWorkerCount;
+    mesh,
+    positionArray,
+    quaternionArray,
+    colorArray,
+    positionAttribute,
+    quaternionAttribute,
+    colorAttribute,
+    dispose() {
+      geometry.dispose();
+      material.dispose();
+      baseGeometry.dispose();
+    },
+  };
+}
+
+export function createWasherSample(forcedRenderMode?: WasherRenderMode, options: { physicsCharts?: boolean; idSuffix?: string; nameSuffix?: string } = {}): DemoSample {
+  const id = `${forcedRenderMode === undefined ? "washer" : `washer-${forcedRenderMode}`}${options.idSuffix ?? ""}`;
+  const suffix = options.nameSuffix ?? (forcedRenderMode === "shader" ? " (optimized)" : forcedRenderMode === "matrix" ? " (legacy matrix)" : " (optimized)");
+  const physicsCharts = options.physicsCharts ?? true;
+  return {
+    id,
+    name: `Benchmark / Washer${suffix}`,
+    create(_runtime: Box3DRuntime, scene: THREE.Scene, initialSolverParams?: SolverParams) {
+      const { defaultWorkerCount, maxWorkerCount: maxWorkers, poolSize } = getWorkerCounts();
+      let wc = Math.min(maxWorkers, Math.max(1, initialSolverParams?.workerCount ?? defaultWorkerCount));
 
       let workerWorldState: WorkerWorldState | null = null;
       let bodyCount = WASHER_CUBE_COUNT + 1;
@@ -180,6 +275,7 @@ export function createWasherSample(): DemoSample {
       let projectileDebugColors: Uint32Array | null = null;
       let lastVersion = -1;
       let colorCache: Uint32Array | null = null;
+      const renderMode = forcedRenderMode ?? getWasherRenderMode();
 
       const projectileMeshes: THREE.Mesh[] = [];
       const projectileColorCache = new Uint32Array(MAX_PROJECTILES);
@@ -208,12 +304,16 @@ export function createWasherSample(): DemoSample {
       scene.add(drumGroup);
       bodies.push({ handle: 1, mesh: drumGroup as unknown as THREE.Mesh, type: 2 });
 
-      const cubeGeom = new THREE.BoxGeometry(0.4, 0.4, 0.4);
-      const cubeMat = new THREE.MeshStandardMaterial({ color: 0xd2b48c });
-      const mesh = new THREE.InstancedMesh(cubeGeom, cubeMat, WASHER_CUBE_COUNT);
-      mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
+      const cubeGeom = renderMode === "matrix" ? new THREE.BoxGeometry(0.4, 0.4, 0.4) : null;
+      const cubeMat = renderMode === "matrix" ? new THREE.MeshStandardMaterial({ color: 0xd2b48c }) : null;
+      const matrixMesh = cubeGeom !== null && cubeMat !== null ? new THREE.InstancedMesh(cubeGeom, cubeMat, WASHER_CUBE_COUNT) : null;
+      const shaderMesh = renderMode === "shader" ? createShaderCubeMesh(WASHER_CUBE_COUNT) : null;
+      const mesh = matrixMesh ?? shaderMesh!.mesh;
+      if (matrixMesh !== null) {
+        matrixMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        matrixMesh.castShadow = true;
+        matrixMesh.receiveShadow = true;
+      }
 
       const a = 0.2;
       const gridCount = 20;
@@ -224,18 +324,37 @@ export function createWasherSample(): DemoSample {
           const y = -2 * a * gridCount + 21 + j * 4 * a;
           for (let k = 0; k < gridCount; k++) {
             const z = -2 * a * gridCount + k * 4 * a;
-            dummy.position.set(x, y, z);
-            dummy.scale.set(1, 1, 1);
-            dummy.quaternion.set(0, 0, 0, 1);
-            dummy.updateMatrix();
-            mesh.setMatrixAt(idx, dummy.matrix);
-            mesh.setColorAt(idx, awakeColor);
+            if (matrixMesh !== null) {
+              dummy.position.set(x, y, z);
+              dummy.scale.set(1, 1, 1);
+              dummy.quaternion.set(0, 0, 0, 1);
+              dummy.updateMatrix();
+              matrixMesh.setMatrixAt(idx, dummy.matrix);
+              matrixMesh.setColorAt(idx, awakeColor);
+            } else if (shaderMesh !== null) {
+              const pOff = idx * 3;
+              const qOff = idx * 4;
+              shaderMesh.positionArray[pOff] = x;
+              shaderMesh.positionArray[pOff + 1] = y;
+              shaderMesh.positionArray[pOff + 2] = z;
+              shaderMesh.quaternionArray[qOff] = 0;
+              shaderMesh.quaternionArray[qOff + 1] = 0;
+              shaderMesh.quaternionArray[qOff + 2] = 0;
+              shaderMesh.quaternionArray[qOff + 3] = 1;
+              hexToRgb(0xd2b48c, shaderMesh.colorArray, pOff);
+            }
             idx++;
           }
         }
       }
-      mesh.instanceMatrix.needsUpdate = true;
-      mesh.instanceColor!.needsUpdate = true;
+      if (matrixMesh !== null) {
+        matrixMesh.instanceMatrix.needsUpdate = true;
+        matrixMesh.instanceColor!.needsUpdate = true;
+      } else if (shaderMesh !== null) {
+        shaderMesh.positionAttribute.needsUpdate = true;
+        shaderMesh.quaternionAttribute.needsUpdate = true;
+        shaderMesh.colorAttribute.needsUpdate = true;
+      }
       scene.add(mesh);
 
       worker.addEventListener("message", (event: MessageEvent<PhysicsWorkerMessage>) => {
@@ -271,14 +390,14 @@ export function createWasherSample(): DemoSample {
           console.error(`Physics worker error: ${message.message}`);
         }
       });
-      worker.postMessage({ type: "init", data: {}, workerCount: wc, maxWorkers, wasmVersion: wasmBuildVersion, wasmVariant: getWasmVariant() });
+      worker.postMessage({ type: "init", data: {}, workerCount: wc, maxWorkers, poolSize, solverParams: initialSolverParams, wasmVersion: wasmBuildVersion, wasmVariant: getWasmVariant() });
 
       return {
         world,
         bodies,
         controls: [],
-        profile: true,
-        info: `Washer | ${WASHER_CUBE_COUNT} cubes | worker simulation | ${wc} workers`,
+        profile: physicsCharts,
+        info: `Washer | ${WASHER_CUBE_COUNT} cubes | worker simulation | ${wc} workers | ${renderMode} render`,
         camera: { position: [25, 20, 55], target: [0, 15, 0] },
         onKey(key: string) {
           if (key === "t" || key === "T") {
@@ -342,25 +461,50 @@ export function createWasherSample(): DemoSample {
           for (let i = 0; i < cubeCount; i++) {
             const bodyIndex = i + 1;
             const isAwake = awake[bodyIndex] !== 0;
-            if (isAwake) {
+            if (matrixMesh !== null && isAwake) {
               const pOff = bodyIndex * 3;
               const rOff = bodyIndex * 4;
               dummy.scale.set(1, 1, 1);
               dummy.position.set(positions[pOff], positions[pOff + 1], positions[pOff + 2]);
               dummy.quaternion.set(rotations[rOff], rotations[rOff + 1], rotations[rOff + 2], rotations[rOff + 3]);
               dummy.updateMatrix();
-              mesh.setMatrixAt(i, dummy.matrix);
+              matrixMesh.setMatrixAt(i, dummy.matrix);
+              needsMatrixUpdate = true;
+            } else if (shaderMesh !== null) {
+              const pOff = bodyIndex * 3;
+              const rOff = bodyIndex * 4;
+              const instanceP = i * 3;
+              const instanceQ = i * 4;
+              shaderMesh.positionArray[instanceP] = positions[pOff];
+              shaderMesh.positionArray[instanceP + 1] = positions[pOff + 1];
+              shaderMesh.positionArray[instanceP + 2] = positions[pOff + 2];
+              shaderMesh.quaternionArray[instanceQ] = rotations[rOff];
+              shaderMesh.quaternionArray[instanceQ + 1] = rotations[rOff + 1];
+              shaderMesh.quaternionArray[instanceQ + 2] = rotations[rOff + 2];
+              shaderMesh.quaternionArray[instanceQ + 3] = rotations[rOff + 3];
               needsMatrixUpdate = true;
             }
             const colorHex = colors[bodyIndex] & 0xffffff;
             if ((colorCache[i] & 0xffffff) !== colorHex) {
-              mesh.setColorAt(i, debugColor.setHex(colorHex));
+              if (matrixMesh !== null) {
+                matrixMesh.setColorAt(i, debugColor.setHex(colorHex));
+              } else if (shaderMesh !== null) {
+                hexToRgb(colorHex, shaderMesh.colorArray, i * 3);
+              }
               colorCache[i] = colorHex;
               needsColorUpdate = true;
             }
           }
-          if (needsMatrixUpdate) mesh.instanceMatrix.needsUpdate = true;
-          if (needsColorUpdate) mesh.instanceColor!.needsUpdate = true;
+          if (matrixMesh !== null) {
+            if (needsMatrixUpdate) matrixMesh.instanceMatrix.needsUpdate = true;
+            if (needsColorUpdate) matrixMesh.instanceColor!.needsUpdate = true;
+          } else if (shaderMesh !== null) {
+            if (needsMatrixUpdate) {
+              shaderMesh.positionAttribute.needsUpdate = true;
+              shaderMesh.quaternionAttribute.needsUpdate = true;
+            }
+            if (needsColorUpdate) shaderMesh.colorAttribute.needsUpdate = true;
+          }
 
           if (projectilePositions !== null && projectileRotations !== null && projectileAwake !== null && projectileDebugColors !== null) {
             const projectileCount = Math.min(Atomics.load(state, SNAPSHOT_PROJECTILE_COUNT_INDEX), projectileMeshes.length);
@@ -390,8 +534,9 @@ export function createWasherSample(): DemoSample {
           drumEdges.geometry.dispose();
           (drumEdges.material as THREE.Material).dispose();
           scene.remove(mesh);
-          cubeGeom.dispose();
-          cubeMat.dispose();
+          cubeGeom?.dispose();
+          cubeMat?.dispose();
+          shaderMesh?.dispose();
           for (const projectileMesh of projectileMeshes) {
             scene.remove(projectileMesh);
             projectileMesh.geometry.dispose();

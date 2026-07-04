@@ -333,3 +333,36 @@ B3W_EXPORT void b3wWriteBodyTransforms(int count, const int* bodyHandles, float*
 		outColors[i] = (uint32_t)GetBodyDebugColor( slot->bodyId );
 	}
 }
+
+B3W_EXPORT void b3wWriteBodyTransformsLight(int count, const int* bodyHandles, float* outPositions, float* outRotations, char* outAwake, uint32_t* outColors)
+{
+	for (int i = 0; i < count; ++i)
+	{
+		int handle = bodyHandles[i];
+		b3wBodySlot* slot = b3wGetBody(handle);
+		if (slot == NULL)
+		{
+			outPositions[i * 3 + 0] = 0.0f;
+			outPositions[i * 3 + 1] = 0.0f;
+			outPositions[i * 3 + 2] = 0.0f;
+			outRotations[i * 4 + 0] = 0.0f;
+			outRotations[i * 4 + 1] = 0.0f;
+			outRotations[i * 4 + 2] = 0.0f;
+			outRotations[i * 4 + 3] = 1.0f;
+			outAwake[i] = 0;
+			outColors[i] = 0;
+			continue;
+		}
+		b3Vec3 position = b3Body_GetPosition(slot->bodyId);
+		outPositions[i * 3 + 0] = position.x;
+		outPositions[i * 3 + 1] = position.y;
+		outPositions[i * 3 + 2] = position.z;
+		b3Quat rotation = b3Body_GetRotation(slot->bodyId);
+		outRotations[i * 4 + 0] = rotation.v.x;
+		outRotations[i * 4 + 1] = rotation.v.y;
+		outRotations[i * 4 + 2] = rotation.v.z;
+		outRotations[i * 4 + 3] = rotation.s;
+		outAwake[i] = b3Body_IsAwake(slot->bodyId) ? 1 : 0;
+		outColors[i] = outAwake[i] ? 0xd2b48c : 0x778899;
+	}
+}

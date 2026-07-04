@@ -284,6 +284,47 @@ canvas {
   accent-color: #7dd3fc;
 }
 
+.controls-panel .ctrl-select {
+  width: 100%;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  background: #1a1a2e;
+  color: #a7bedb;
+  font-size: 10px;
+  padding: 3px 6px;
+}
+
+.controls-panel .ctrl-note {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  margin-left: 5px;
+  border: 1px solid rgba(125,211,252,0.35);
+  border-radius: 50%;
+  color: #7dd3fc;
+  font-size: 8px;
+  line-height: 1;
+  cursor: help;
+}
+
+.controls-panel .ctrl-reset {
+  align-self: flex-end;
+  appearance: none;
+  border: 1px solid rgba(251,191,36,0.25);
+  border-radius: 4px;
+  padding: 2px 6px;
+  background: rgba(251,191,36,0.06);
+  color: #fbbf24;
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.controls-panel .ctrl-reset:hover {
+  background: rgba(251,191,36,0.12);
+}
+
 .controls-panel input[type="range"]::-webkit-slider-thumb {
   width: 8px;
   height: 8px;

@@ -52,7 +52,9 @@ set_target_properties(box3d_web PROPERTIES
 		"SHELL:-sASSERTIONS=0"
 		"SHELL:-sEXPORT_KEEPALIVE=1"
 		"SHELL:-sUSE_PTHREADS=1"
-		"SHELL:-sPTHREAD_POOL_SIZE=(globalThis.navigator?globalThis.navigator.hardwareConcurrency:4)"
+		"SHELL:-sPTHREAD_POOL_SIZE=(globalThis.BOX3D_POOL_SIZE||(globalThis.navigator?globalThis.navigator.hardwareConcurrency:4))"
+		"SHELL:-sSTACK_SIZE=2097152"
+		"SHELL:-sDEFAULT_PTHREAD_STACK_SIZE=1048576"
 	)
 
 if(BOX3D_WASM_PROFILE_NAMES)

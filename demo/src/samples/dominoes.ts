@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import type { Box3DRuntime } from "box3d-wasm";
-import type { DemoBody, DemoSample } from "./types";
+import type { DemoBody, DemoSample, SolverParams } from "./types";
 import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker-protocol";
 import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
 import { createWorkerWorld, type WorkerWorldState } from "../worker-world-bridge";
@@ -19,7 +19,7 @@ export function createDominoesSample(multiplier: number): DemoSample {
   return {
     id: multiplier === 1 ? "dominoes" : `dominoes-${multiplier}x`,
     name: multiplier === 1 ? `Stacking / Dominoes` : `Bench / Dominoes ${multiplier}\u00d7`,
-    create(_runtime: Box3DRuntime, scene: THREE.Scene) {
+    create(_runtime: Box3DRuntime, scene: THREE.Scene, initialSolverParams?: SolverParams) {
       const bodies: DemoBody[] = [];
       let workerWorldState: WorkerWorldState | null = null;
       let positions: Float32Array | null = null;
@@ -35,8 +35,8 @@ export function createDominoesSample(multiplier: number): DemoSample {
       const projectileAwakeCache = new Uint8Array(MAX_PROJECTILES);
       let awCache: Uint8Array | null = null;
       let count = dominoTotal;
-      const { defaultWorkerCount, maxWorkerCount: maxWorkers } = getWorkerCounts();
-      let wc = defaultWorkerCount;
+      const { defaultWorkerCount, maxWorkerCount: maxWorkers, poolSize } = getWorkerCounts();
+      let wc = Math.min(maxWorkers, Math.max(1, initialSolverParams?.workerCount ?? defaultWorkerCount));
 
       const worker = new Worker(new URL("./dominoes.worker.ts", import.meta.url), { type: "module" });
       const world = createWorkerWorld(worker, () => workerWorldState, () => wc);
@@ -111,7 +111,7 @@ export function createDominoesSample(multiplier: number): DemoSample {
           console.error(`Physics worker error: ${message.message}`);
         }
       });
-      worker.postMessage({ type: "init", data: { multiplier }, workerCount: wc, maxWorkers, wasmVersion: wasmBuildVersion, wasmVariant: getWasmVariant() });
+      worker.postMessage({ type: "init", data: { multiplier }, workerCount: wc, maxWorkers, poolSize, solverParams: initialSolverParams, wasmVersion: wasmBuildVersion, wasmVariant: getWasmVariant() });
 
       return {
         world,

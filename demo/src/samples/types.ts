@@ -48,7 +48,7 @@ export type DemoSampleInstance = {
 export type DemoSample = {
   id: string;
   name: string;
-  create(runtime: Box3DRuntime, scene: THREE.Scene): DemoSampleInstance;
+  create(runtime: Box3DRuntime, scene: THREE.Scene, solverParams?: SolverParams): DemoSampleInstance;
 };
 
 export type SampleId = DemoSample["id"];

@@ -10,8 +10,48 @@ const app = document.querySelector<HTMLDivElement>("#app");
 if (app === null) throw new Error("App container not found");
 
 const wasmVariant = getWasmVariant();
+const urlParams = new URL(window.location.href).searchParams;
+const benchRunnerMode = window.location.pathname === "/bench";
+const benchmarkMode = benchRunnerMode || urlParams.get("bench") === "1";
+const SETTINGS_STORAGE_KEY = "box3d-demo-settings";
 
-app.innerHTML = `
+type PersistedSettings = {
+  solver?: Partial<SolverParams>;
+  chartsEnabled?: boolean;
+  chartHz?: number;
+  shadowsEnabled?: boolean;
+};
+
+function loadPersistedSettings(): PersistedSettings {
+  try {
+    const raw = localStorage.getItem(SETTINGS_STORAGE_KEY);
+    if (raw === null) return {};
+    const parsed = JSON.parse(raw) as PersistedSettings;
+    return parsed !== null && typeof parsed === "object" ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+function savePersistedSettings(settings: PersistedSettings): void {
+  try { localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings)); } catch { /* ignore */ }
+}
+
+const persistedSettings = loadPersistedSettings();
+const defaultChartHz = 15;
+const defaultChartsEnabled = !benchmarkMode;
+const initialChartsEnabled = urlParams.has("charts") ? urlParams.get("charts") !== "0" : (persistedSettings.chartsEnabled ?? defaultChartsEnabled);
+const statsEnabled = urlParams.has("stats") ? urlParams.get("stats") !== "0" : !benchmarkMode;
+const metricsEnabled = urlParams.has("metrics") ? urlParams.get("metrics") !== "0" : statsEnabled;
+const defaultShadowsEnabled = !benchmarkMode;
+let shadowsEnabled = urlParams.has("shadows") ? urlParams.get("shadows") !== "0" : persistedSettings.shadowsEnabled ?? defaultShadowsEnabled;
+const timingsEnabled = urlParams.get("timings") === "1";
+const chartHzParam = urlParams.get("chartHz");
+let chartsEnabled = initialChartsEnabled;
+let currentChartHz = chartHzParam !== null ? Math.max(0, Number(chartHzParam) || defaultChartHz) : persistedSettings.chartHz ?? defaultChartHz;
+let chartIntervalMs = chartsEnabled && currentChartHz > 0 ? 1000 / currentChartHz : 0;
+
+app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
   <div class="topbar">
     <div class="topbar-left">
       <span class="sample-name" id="status">Loading...</span>
@@ -84,26 +124,23 @@ app.innerHTML = `
   <canvas id="view"></canvas>
 `;
 
-const canvas = document.querySelector<HTMLCanvasElement>("#view");
-const status = document.querySelector<HTMLDivElement>("#status");
-const sampleList = document.querySelector<HTMLDivElement>("#sample-list");
-const controls = document.querySelector<HTMLDivElement>("#controls");
-const metrics = document.querySelector<HTMLDivElement>("#metrics");
-const info = document.querySelector<HTMLDivElement>("#info");
-const samplesToggle = document.querySelector<HTMLButtonElement>("#samples-toggle");
-const controlsToggle = document.querySelector<HTMLButtonElement>("#controls-toggle");
-const wasmVariantSelect = document.querySelector<HTMLSelectElement>("#wasm-variant");
-const controlsDialog = document.querySelector<HTMLDivElement>("#controls-dialog");
-const controlsDialogHeader = document.querySelector<HTMLDivElement>("#controls-dialog-header");
-const controlsDialogClose = document.querySelector<HTMLSpanElement>("#controls-dialog-close");
-if (!canvas || !status || !sampleList || !controls || !metrics || !info || !samplesToggle || !controlsToggle || !wasmVariantSelect || !controlsDialog || !controlsDialogHeader || !controlsDialogClose) {
-  throw new Error("Required demo elements are missing");
+function detachedElement<K extends keyof HTMLElementTagNameMap>(tagName: K): HTMLElementTagNameMap[K] {
+  return document.createElement(tagName);
 }
-const statusLabel = status;
-const sampleListElement = sampleList;
-const controlsElement = controls;
-const metricsElement = metrics;
-const infoElement = info;
+
+const canvas = document.querySelector<HTMLCanvasElement>("#view");
+if (!canvas) throw new Error("Required demo canvas is missing");
+const statusLabel = document.querySelector<HTMLDivElement>("#status") ?? detachedElement("div");
+const sampleListElement = document.querySelector<HTMLDivElement>("#sample-list") ?? detachedElement("div");
+const controlsElement = document.querySelector<HTMLDivElement>("#controls") ?? detachedElement("div");
+const metricsElement = document.querySelector<HTMLDivElement>("#metrics") ?? detachedElement("div");
+const infoElement = document.querySelector<HTMLDivElement>("#info") ?? detachedElement("div");
+const samplesToggle = document.querySelector<HTMLButtonElement>("#samples-toggle") ?? detachedElement("button");
+const controlsToggle = document.querySelector<HTMLButtonElement>("#controls-toggle") ?? detachedElement("button");
+const wasmVariantSelect = document.querySelector<HTMLSelectElement>("#wasm-variant") ?? detachedElement("select");
+const controlsDialog = document.querySelector<HTMLDivElement>("#controls-dialog") ?? detachedElement("div");
+const controlsDialogHeader = document.querySelector<HTMLDivElement>("#controls-dialog-header") ?? detachedElement("div");
+const controlsDialogClose = document.querySelector<HTMLSpanElement>("#controls-dialog-close") ?? detachedElement("span");
 
 wasmVariantSelect.value = wasmVariant;
 wasmVariantSelect.addEventListener("change", () => {
@@ -117,11 +154,11 @@ const controlsBtn = controlsToggle;
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.shadowMap.enabled = true;
+renderer.shadowMap.enabled = shadowsEnabled;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0b1220);
+scene.background = new THREE.Color(benchRunnerMode ? 0x000000 : 0x0b1220);
 
 const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(14, 10, 14);
@@ -150,7 +187,8 @@ stats.dom.style.left = "auto";
 stats.dom.style.zIndex = "20";
 stats.dom.style.pointerEvents = "none";
 stats.dom.style.opacity = "0.5";
-document.body.appendChild(stats.dom);
+if (statsEnabled) document.body.appendChild(stats.dom);
+if (!metricsEnabled) metricsElement.style.display = "none";
 
 const CHART_W = 240;
 const CHART_H = 120;
@@ -159,59 +197,87 @@ const CHART_GAP = 8;
 
 const chartDefs = [
   { key: "step" as const, color: "#00ff88", label: "step", desc: "Time Box3D took to run one physics step (ms). Higher = more CPU work." },
+  { key: "publish" as const, color: "#88ccff", label: "pub", desc: "Time to copy transforms from wasm heap to shared buffers (ms). Overhead of the JS bridge." },
   { key: "lag" as const, color: "#ffaa00", label: "lag", desc: "Accumulated time debt after catching up (ms). Rises when real-time outruns physics." },
   { key: "dropped" as const, color: "#ff4444", label: "drop", desc: "Time discarded when debt exceeded the max catchup limit (ms). Sim skipped this much wall-clock time." },
 ];
 
 const chartTooltip = document.createElement("div");
 chartTooltip.style.cssText = "position:fixed;z-index:30;pointer-events:none;background:rgba(0,0,0,0.85);color:#eee;font:11px sans-serif;padding:6px 10px;border-radius:4px;display:none;max-width:300px;line-height:1.4";
-document.body.appendChild(chartTooltip);
 
 const chartCtxs: CanvasRenderingContext2D[] = [];
 const chartLabels: HTMLSpanElement[] = [];
+const chartElements: HTMLElement[] = [];
 
 function showChartTooltip(el: HTMLElement, text: string): void {
   chartTooltip.textContent = text;
   chartTooltip.style.display = "block";
   const r = el.getBoundingClientRect();
-  chartTooltip.style.left = `${r.left}px`;
+  const tw = chartTooltip.offsetWidth;
+  chartTooltip.style.left = `${Math.min(r.left, window.innerWidth - tw - 8)}px`;
   chartTooltip.style.top = `${r.bottom + 4}px`;
 }
 function hideChartTooltip(): void { chartTooltip.style.display = "none"; }
 
-for (let ci = 0; ci < chartDefs.length; ci++) {
-  const def = chartDefs[ci];
-  const right = 10 + ci * (CHART_W + CHART_GAP);
+function ensurePhysCharts(): void {
+  if (chartCtxs.length > 0) return;
+  document.body.appendChild(chartTooltip);
+  for (let ci = 0; ci < chartDefs.length; ci++) {
+    const def = chartDefs[ci];
+    const right = 10 + ci * (CHART_W + CHART_GAP);
 
-  const cv = document.createElement("canvas");
-  cv.width = CHART_W;
-  cv.height = CHART_H;
-  cv.style.cssText = `position:fixed;right:${right}px;bottom:76px;z-index:20;pointer-events:none;opacity:0.7;width:${CHART_W}px;height:${CHART_H}px`;
-  document.body.appendChild(cv);
-  chartCtxs.push(cv.getContext("2d")!);
+    const cv = document.createElement("canvas");
+    cv.width = CHART_W;
+    cv.height = CHART_H;
+    cv.style.cssText = `position:fixed;right:${right}px;bottom:76px;z-index:20;pointer-events:none;opacity:0.7;width:${CHART_W}px;height:${CHART_H}px`;
+    document.body.appendChild(cv);
+    chartElements.push(cv);
+    chartCtxs.push(cv.getContext("2d")!);
 
-  const lb = document.createElement("span");
-  lb.style.cssText = `position:fixed;right:${right}px;bottom:210px;z-index:20;pointer-events:none;color:${def.color};font:11px monospace;text-shadow:0 0 3px #000`;
-  lb.textContent = `0.0`;
-  document.body.appendChild(lb);
-  chartLabels.push(lb);
+    const lb = document.createElement("span");
+    lb.style.cssText = `position:fixed;right:${right}px;bottom:210px;z-index:20;pointer-events:none;color:${def.color};font:11px monospace;text-shadow:0 0 3px #000`;
+    lb.textContent = `0.0`;
+    document.body.appendChild(lb);
+    chartElements.push(lb);
 
-  const infoBtn = document.createElement("span");
-  infoBtn.textContent = "?";
-  infoBtn.style.cssText = `position:fixed;right:${right + 4}px;bottom:204px;z-index:25;color:${def.color};font:10px monospace;cursor:help;opacity:0.6`;
-  infoBtn.addEventListener("mouseenter", () => showChartTooltip(infoBtn, def.desc));
-  infoBtn.addEventListener("mouseleave", hideChartTooltip);
-  document.body.appendChild(infoBtn);
+    const infoBtn = document.createElement("span");
+    infoBtn.textContent = "?";
+    infoBtn.style.cssText = `position:fixed;right:${right}px;bottom:228px;z-index:25;color:${def.color};font:10px monospace;cursor:help;opacity:0.6`;
+    infoBtn.addEventListener("mouseenter", () => showChartTooltip(infoBtn, def.desc));
+    infoBtn.addEventListener("mouseleave", hideChartTooltip);
+    document.body.appendChild(infoBtn);
+    chartElements.push(infoBtn);
+    chartLabels.push(lb);
+  }
 }
 
-let physChartLabelTick = 0;
-const physHistory: { step: number; steps: number; lag: number; dropped: number }[] = [];
+function setPhysChartsVisible(visible: boolean): void {
+  if (visible) ensurePhysCharts();
+  for (const el of chartElements) el.style.display = visible ? "" : "none";
+  if (!visible) hideChartTooltip();
+}
+
+function updatePhysChartVisibility(): void {
+  setPhysChartsVisible(chartsEnabled && (activeSample?.profile ?? false));
+}
+
+if (chartsEnabled) ensurePhysCharts();
+
+let lastChartDrawTime = 0;
+let lastProfileSample: { step: number; solve: number; pairs: number; collide: number; solverSetup: number } | null = null;
+let timingLastLog = 0;
+let timingFrames = 0;
+let timingStepMs = 0;
+let timingChartsMs = 0;
+let timingRenderMs = 0;
+let benchTimingActive = false;
+const physHistory: { step: number; steps: number; lag: number; dropped: number; publish: number }[] = [];
 let physHistoryHead = 0;
 let physHistoryFilled = 0;
 
-function pushPhysProfile(p: { step: number; solve: number; pairs: number; collide: number }): void {
+function pushPhysProfile(p: { step: number; solve: number; pairs: number; collide: number; solverSetup: number }): void {
   if (physHistory.length < CHART_LEN) physHistory.length = CHART_LEN;
-  physHistory[physHistoryHead] = { step: p.step, steps: p.solve, lag: p.pairs, dropped: p.collide };
+  physHistory[physHistoryHead] = { step: p.step, steps: p.solve, lag: p.pairs, dropped: p.collide, publish: p.solverSetup };
   physHistoryHead = (physHistoryHead + 1) % CHART_LEN;
   if (physHistoryFilled < CHART_LEN) physHistoryFilled++;
 }
@@ -231,7 +297,8 @@ function drawPhysCharts(): void {
   for (let ci = 0; ci < chartDefs.length; ci++) {
     const { key, color, label } = chartDefs[ci];
     const ctx = chartCtxs[ci];
-    ctx.fillStyle = "rgba(0,0,0,0.6)";
+    ctx.clearRect(0, 0, CHART_W, CHART_H);
+    ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, CHART_W, CHART_H);
 
     let minVal = Infinity;
@@ -281,6 +348,15 @@ const solverParams: SolverParams = {
   warmStart: true,
   continuous: true,
 };
+const defaultSolverParams: Required<Omit<SolverParams, "workerCount">> = {
+  subSteps: 4,
+  hertz: 60,
+  recycleDistance: 0.05,
+  sleep: true,
+  warmStart: true,
+  continuous: true,
+};
+Object.assign(solverParams, persistedSettings.solver);
 let paused = false;
 let singleStep = 0;
 let controlsVisible = true;
@@ -297,6 +373,7 @@ const raycaster = new THREE.Raycaster();
 const pointerNdc = new THREE.Vector2();
 let lastPointerDown: PointerEvent | null = null;
 let metricsTick = 0;
+let benchCancelRequested = false;
 type RagdollBone = {
   name: string;
   parent: number;
@@ -418,6 +495,7 @@ function spawnProjectile(spin = false, ragdoll = false): void {
 function clearScene(): void {
   activeSample?.dispose();
   activeSample = null;
+  updatePhysChartVisibility();
 }
 
 function applySolverParams(): void {
@@ -435,22 +513,137 @@ function applySolverParams(): void {
   if (solverParams.workerCount !== undefined) w.setWorkerCount(solverParams.workerCount);
 }
 
+function persistSettings(): void {
+  savePersistedSettings({ solver: { ...solverParams }, chartsEnabled, chartHz: currentChartHz, shadowsEnabled });
+}
+
+function setShadowsEnabled(enabled: boolean): void {
+  shadowsEnabled = enabled;
+  renderer.shadowMap.enabled = shadowsEnabled;
+  persistSettings();
+}
+
+function setChartsEnabled(enabled: boolean): void {
+  chartsEnabled = enabled;
+  chartIntervalMs = chartsEnabled && currentChartHz > 0 ? 1000 / currentChartHz : 0;
+  updatePhysChartVisibility();
+  persistSettings();
+}
+
+function setChartHz(hz: number): void {
+  currentChartHz = Math.max(0, hz);
+  chartIntervalMs = chartsEnabled && currentChartHz > 0 ? 1000 / currentChartHz : 0;
+  lastChartDrawTime = 0;
+  persistSettings();
+}
+
+function resetSolverParam(key: keyof SolverParams, value: number | boolean | undefined): void {
+  if (value === undefined) delete solverParams[key];
+  else (solverParams as Record<string, number | boolean>)[key] = value;
+  persistSettings();
+  if (key === "workerCount") resetScene();
+  else applySolverParams();
+  renderControls(activeSample?.controls ?? []);
+}
+
+function controlNote(text: string): HTMLSpanElement {
+  const note = document.createElement("span");
+  note.className = "ctrl-note";
+  note.textContent = "?";
+  note.title = text;
+  return note;
+}
+
+function addResetButton(row: HTMLElement, show: boolean, onClick: () => void): void {
+  if (!show) return;
+  const btn = document.createElement("button");
+  btn.className = "ctrl-reset";
+  btn.type = "button";
+  btn.textContent = "Reset";
+  btn.addEventListener("click", onClick);
+  row.appendChild(btn);
+}
+
 function renderSolverControls(): void {
-  const { maxWorkerCount } = getWorkerCounts();
-  const sections: { label: string; key: string; type: "range"; min: number; max: number; step: number; value: number; onChange: (v: number) => void }[] = [
-    { label: "Sub-steps", key: "subSteps", type: "range", min: 1, max: 50, step: 1, value: solverParams.subSteps ?? 4, onChange: (v) => { solverParams.subSteps = v; applySolverParams(); } },
-    { label: "Hertz", key: "hertz", type: "range", min: 5, max: 240, step: 1, value: solverParams.hertz ?? 60, onChange: (v) => { solverParams.hertz = v; applySolverParams(); } },
-    { label: "Recycle", key: "recycleDistance", type: "range", min: 0, max: 10, step: 0.1, value: (solverParams.recycleDistance ?? 0.05) * 100, onChange: (v) => { solverParams.recycleDistance = v * 0.01; applySolverParams(); } },
-    { label: "Workers", key: "workerCount", type: "range", min: 1, max: maxWorkerCount, step: 1, value: solverParams.workerCount ?? (activeSample?.world.getWorkerCount() ?? 1), onChange: (v) => { solverParams.workerCount = v; } },
+  const { defaultWorkerCount, maxWorkerCount } = getWorkerCounts();
+  const sections: { label: string; key: keyof SolverParams; min: number; max: number; step: number; value: number; defaultValue: number; note: string; toParam: (v: number) => void; resetValue?: number | boolean }[] = [
+    { label: "Sub-steps", key: "subSteps", min: 1, max: 50, step: 1, value: solverParams.subSteps ?? defaultSolverParams.subSteps, defaultValue: defaultSolverParams.subSteps, note: "Higher values can improve stability but directly increase physics work. For performance, keep this near the default unless a scene needs more stability.", toParam: (v) => { solverParams.subSteps = v; }, resetValue: defaultSolverParams.subSteps },
+    { label: "Hertz", key: "hertz", min: 5, max: 240, step: 1, value: solverParams.hertz ?? defaultSolverParams.hertz, defaultValue: defaultSolverParams.hertz, note: "Higher hertz runs physics more often and can cost a lot. 60 Hz is the performance-oriented default.", toParam: (v) => { solverParams.hertz = v; }, resetValue: defaultSolverParams.hertz },
+    { label: "Recycle", key: "recycleDistance", min: 0, max: 10, step: 0.1, value: (solverParams.recycleDistance ?? defaultSolverParams.recycleDistance) * 100, defaultValue: defaultSolverParams.recycleDistance * 100, note: "Contact recycling can reduce churn. Very different values may change contact behavior and performance.", toParam: (v) => { solverParams.recycleDistance = v * 0.01; }, resetValue: defaultSolverParams.recycleDistance },
+    { label: "Workers", key: "workerCount", min: 1, max: maxWorkerCount, step: 1, value: Math.min(maxWorkerCount, solverParams.workerCount ?? (activeSample?.world.getWorkerCount() ?? defaultWorkerCount)), defaultValue: defaultWorkerCount, note: "More workers can speed heavy scenes, but too many can add scheduling/publish overhead. Best value depends on CPU and scene.", toParam: (v) => { solverParams.workerCount = v; } },
   ];
 
   const toggles: { label: string; key: "sleep" | "warmStart" | "continuous"; value: boolean; onChange: (v: boolean) => void }[] = [
-    { label: "Sleep", key: "sleep", value: solverParams.sleep ?? true, onChange: (v) => { solverParams.sleep = v; applySolverParams(); } },
-    { label: "Warm Starting", key: "warmStart", value: solverParams.warmStart ?? true, onChange: (v) => { solverParams.warmStart = v; applySolverParams(); } },
-    { label: "Continuous", key: "continuous", value: solverParams.continuous ?? true, onChange: (v) => { solverParams.continuous = v; applySolverParams(); } },
+    { label: "Sleep", key: "sleep", value: solverParams.sleep ?? defaultSolverParams.sleep, onChange: (v) => { solverParams.sleep = v; applySolverParams(); } },
+    { label: "Warm Starting", key: "warmStart", value: solverParams.warmStart ?? defaultSolverParams.warmStart, onChange: (v) => { solverParams.warmStart = v; applySolverParams(); } },
+    { label: "Continuous", key: "continuous", value: solverParams.continuous ?? defaultSolverParams.continuous, onChange: (v) => { solverParams.continuous = v; applySolverParams(); } },
   ];
 
   const el = controlsElement;
+
+  const chartTitle = document.createElement("div");
+  chartTitle.className = "ctrl-section-title";
+  chartTitle.textContent = "Charts";
+  el.appendChild(chartTitle);
+
+  const chartToggleRow = document.createElement("div");
+  chartToggleRow.className = "ctrl-toggle-row";
+  const chartLabel = document.createElement("label");
+  chartLabel.className = "ctrl-toggle-label";
+  const chartCb = document.createElement("input");
+  chartCb.type = "checkbox";
+  chartCb.checked = chartsEnabled;
+  chartCb.addEventListener("change", () => setChartsEnabled(chartCb.checked));
+  chartLabel.appendChild(chartCb);
+  chartLabel.appendChild(document.createTextNode(" Physics charts"));
+  chartLabel.appendChild(controlNote("Physics charts poll profile data and draw canvases. Turn them off for the cleanest performance; 15 Hz is the default compromise."));
+  chartToggleRow.appendChild(chartLabel);
+  addResetButton(chartToggleRow, chartsEnabled !== defaultChartsEnabled, () => { setChartsEnabled(defaultChartsEnabled); renderControls(activeSample?.controls ?? []); });
+  el.appendChild(chartToggleRow);
+
+  const chartRateRow = document.createElement("div");
+  chartRateRow.className = "ctrl-row";
+  chartRateRow.innerHTML = `<div class="ctrl-header"><span>Chart Rate</span><span class="ctrl-value">${currentChartHz === 0 ? "Full" : `${currentChartHz} Hz`}</span></div>`;
+  chartRateRow.querySelector(".ctrl-header span")?.appendChild(controlNote("Full-rate charting has measurable overhead. 10-15 Hz is usually a good compromise if you want the physics charts visible."));
+  const rateSelect = document.createElement("select");
+  rateSelect.className = "ctrl-select";
+  for (const hz of [0, 30, 15, 10, 5, 1]) {
+    const option = document.createElement("option");
+    option.value = String(hz);
+    option.textContent = hz === 0 ? "Full-rate" : `${hz} Hz`;
+    option.selected = currentChartHz === hz;
+    rateSelect.appendChild(option);
+  }
+  rateSelect.addEventListener("change", () => {
+    setChartHz(Number(rateSelect.value));
+    renderControls(activeSample?.controls ?? []);
+  });
+  chartRateRow.appendChild(rateSelect);
+  addResetButton(chartRateRow, currentChartHz !== defaultChartHz, () => { setChartHz(defaultChartHz); renderControls(activeSample?.controls ?? []); });
+  el.appendChild(chartRateRow);
+
+  const renderTitle = document.createElement("div");
+  renderTitle.className = "ctrl-section-title";
+  renderTitle.textContent = "Rendering";
+  el.appendChild(renderTitle);
+
+  const shadowsRow = document.createElement("div");
+  shadowsRow.className = "ctrl-toggle-row";
+  const shadowsLabel = document.createElement("label");
+  shadowsLabel.className = "ctrl-toggle-label";
+  const shadowsCb = document.createElement("input");
+  shadowsCb.type = "checkbox";
+  shadowsCb.checked = shadowsEnabled;
+  shadowsCb.addEventListener("change", () => {
+    setShadowsEnabled(shadowsCb.checked);
+    renderControls(activeSample?.controls ?? []);
+  });
+  shadowsLabel.appendChild(shadowsCb);
+  shadowsLabel.appendChild(document.createTextNode(" Shadows"));
+  shadowsLabel.appendChild(controlNote("Shadows increase render/GPU work. Turn them off for cleaner performance measurements."));
+  shadowsRow.appendChild(shadowsLabel);
+  addResetButton(shadowsRow, shadowsEnabled !== defaultShadowsEnabled, () => { setShadowsEnabled(defaultShadowsEnabled); renderControls(activeSample?.controls ?? []); });
+  el.appendChild(shadowsRow);
 
   const title = document.createElement("div");
   title.className = "ctrl-section-title";
@@ -464,6 +657,7 @@ function renderSolverControls(): void {
     const isWorkers = s.key === "workerCount";
     const dec = stepDecimals(s.step);
     row.innerHTML = `<div class="ctrl-header"><span>${s.label}</span><span class="ctrl-value">${s.value.toFixed(dec)}</span></div>`;
+    row.querySelector(".ctrl-header span")?.appendChild(controlNote(s.note));
     const input = document.createElement("input");
     input.type = "range";
     input.min = String(s.min);
@@ -474,12 +668,17 @@ function renderSolverControls(): void {
       const v = Number(input.value);
       const vl = row.querySelector<HTMLSpanElement>(".ctrl-value");
       if (vl !== null) vl.textContent = v.toFixed(dec);
-      s.onChange(v);
+      s.toParam(v);
+      persistSettings();
+      if (!isWorkers) applySolverParams();
     });
     if (isWorkers) {
       input.addEventListener("change", () => resetScene());
+    } else {
+      input.addEventListener("change", () => renderControls(activeSample?.controls ?? []));
     }
     row.appendChild(input);
+    addResetButton(row, s.value !== s.defaultValue, () => resetSolverParam(s.key, s.resetValue));
     el.appendChild(row);
   }
 
@@ -495,10 +694,15 @@ function renderSolverControls(): void {
       const newVal = cb.checked;
       solverParams[t.key] = newVal;
       t.onChange(newVal);
+      persistSettings();
+      renderControls(activeSample?.controls ?? []);
     });
     label.appendChild(cb);
     label.appendChild(document.createTextNode(" " + t.label));
+    const note = t.key === "sleep" ? "Sleeping usually helps performance in settled scenes. Turning it off can keep more bodies active." : t.key === "warmStart" ? "Warm starting usually improves solver convergence. Turning it off was slower in washer traces." : "Continuous collision can cost extra. Turning it off may help some scenes but can alter collision quality.";
+    label.appendChild(controlNote(note));
     row.appendChild(label);
+    addResetButton(row, t.value !== defaultSolverParams[t.key], () => resetSolverParam(t.key, defaultSolverParams[t.key]));
     el.appendChild(row);
   }
 
@@ -607,6 +811,11 @@ function renderControls(specs: ControlSpec[]): void {
 }
 
 function updateStatus(): void {
+  if (activeSampleIndex < 0) {
+    statusLabel.textContent = "Box3D / Washer Bench Runner";
+    statusLabel.className = "sample-name";
+    return;
+  }
   const name = samples[activeSampleIndex].name;
   const icon = paused ? "\u23f8" : "";
   const parts = name.split(" / ");
@@ -616,6 +825,7 @@ function updateStatus(): void {
 }
 
 function updateMetrics(): void {
+  if (!metricsEnabled || metricsElement.style.display === "none") return;
   if (activeSample === null) return;
   metricsTick = (metricsTick + 1) % 15;
   if (metricsTick !== 0) return;
@@ -623,9 +833,9 @@ function updateMetrics(): void {
   const awake = activeSample.world.getAwakeBodyCount();
   const wc = activeSample.world.getWorkerCount();
   let text = `Body:${c.bodyCount} Awake:${awake} Shape:${c.shapeCount} Contact:${c.contactCount} Joint:${c.jointCount} Island:${c.islandCount} Tree:${c.treeHeight} Static:${c.staticTreeHeight}`;
-  if (activeSample.profile) {
-    const p = activeSample.world.getProfile();
-    text += ` | Phys:${p.step.toFixed(2)}ms Steps:${p.solve.toFixed(0)} Lag:${p.pairs.toFixed(1)}ms Drop:${p.collide.toFixed(1)}ms`;
+  if (chartsEnabled && activeSample.profile && lastProfileSample !== null) {
+    const p = lastProfileSample;
+    text += ` | Phys:${p.step.toFixed(2)}ms Pub:${p.solverSetup.toFixed(2)}ms Steps:${p.solve.toFixed(0)} Lag:${p.pairs.toFixed(1)}ms Drop:${p.collide.toFixed(1)}ms`;
   }
   text += ` | Workers:${wc}`;
   metricsElement.textContent = text;
@@ -800,28 +1010,47 @@ function updateFlyMovement(dt: number): void {
   orbit.target.add(delta);
 }
 
+function resetFrameTimings(): void {
+  timingFrames = 0;
+  timingStepMs = 0;
+  timingChartsMs = 0;
+  timingRenderMs = 0;
+}
+
+function frameTimingSummary(): { frames: number; sampleStepMs: number; chartsMs: number; renderMs: number } {
+  const inv = timingFrames > 0 ? 1 / timingFrames : 0;
+  return {
+    frames: timingFrames,
+    sampleStepMs: timingStepMs * inv,
+    chartsMs: timingChartsMs * inv,
+    renderMs: timingRenderMs * inv,
+  };
+}
+
 function resetScene(): void {
   if (activeSampleIndex < 0) return;
   const camPos = camera.position.clone();
   const camTarget = orbit.target.clone();
   clearScene();
-  activeSample = samples[activeSampleIndex].create(runtime ?? workerRuntimePlaceholder, scene);
+  activeSample = samples[activeSampleIndex].create(runtime ?? workerRuntimePlaceholder, scene, solverParams);
   launchSpeed = activeSample.launchSpeed ?? 5.0;
   camera.position.copy(camPos);
   orbit.target.copy(camTarget);
   orbit.update();
   paused = false;
   singleStep = 0;
+  lastProfileSample = null;
   renderControls(activeSample.controls);
-  applySolverParams();
+  if (!benchRunnerMode) applySolverParams();
   infoElement.textContent = "";
+  updatePhysChartVisibility();
   updateStatus();
 }
 
 function activateSample(index: number): void {
   clearScene();
   activeSampleIndex = index;
-  activeSample = samples[index].create(runtime ?? workerRuntimePlaceholder, scene);
+  activeSample = samples[index].create(runtime ?? workerRuntimePlaceholder, scene, solverParams);
   launchSpeed = activeSample.launchSpeed ?? 5.0;
   if (activeSample.camera) {
     camera.position.set(activeSample.camera.position[0], activeSample.camera.position[1], activeSample.camera.position[2]);
@@ -830,15 +1059,19 @@ function activateSample(index: number): void {
   }
   paused = false;
   singleStep = 0;
-  renderControls(activeSample.controls);
-  applySolverParams();
+  lastProfileSample = null;
+  if (!benchRunnerMode) renderControls(activeSample.controls);
+  if (!benchRunnerMode) applySolverParams();
   activeSample?.setPaused?.(paused);
   infoElement.textContent = "";
-  updateStatus();
-  renderSamples();
-  const url = new URL(window.location.href);
-  url.searchParams.set("sample", samples[index].id);
-  history.replaceState(null, "", url);
+  updatePhysChartVisibility();
+  if (!benchRunnerMode) {
+    updateStatus();
+    renderSamples();
+    const url = new URL(window.location.href);
+    url.searchParams.set("sample", samples[index].id);
+    history.replaceState(null, "", url);
+  }
 }
 
 function renderSamples(): void {
@@ -875,7 +1108,8 @@ function renderSamples(): void {
       btn.dataset.index = String(item.index);
       btn.addEventListener("click", () => {
         activateSample(item.index);
-        sampleListElement.style.display = "none";
+        sampleListElement.classList.remove("open");
+        samplesBtn.classList.remove("open");
       });
       sampleListElement.appendChild(btn);
     }
@@ -889,12 +1123,17 @@ function resize(): void {
 }
 
 function frame(time: number): void {
-  stats.begin();
+  if (statsEnabled) stats.begin();
+  const collectTimings = timingsEnabled || benchTimingActive;
   const dt = lastTime === 0 ? 1 / 60 : Math.min((time - lastTime) / 1000, 1 / 30);
   lastTime = time;
+  const stepStart = collectTimings ? performance.now() : 0;
+  let didStep = false;
+  let wasSingleStep = false;
   if (!paused) {
     const physDt = 1 / (solverParams.hertz ?? 60);
     activeSample?.step(physDt, solverParams.subSteps ?? 4);
+    didStep = true;
   } else if (singleStep > 0) {
     const physDt = 1 / (solverParams.hertz ?? 60);
     if (activeSample?.stepOnce !== undefined) {
@@ -904,31 +1143,230 @@ function frame(time: number): void {
       activeSample?.step(physDt, solverParams.subSteps ?? 4);
     }
     singleStep--;
+    didStep = true;
+    wasSingleStep = true;
   } else if (activeSample?.stepOnce !== undefined) {
     activeSample.step();
   }
-  if (!paused && activeSample?.profile) {
-    const p = activeSample.world.getProfile();
-    pushPhysProfile(p);
-    physChartLabelTick = (physChartLabelTick + 1) % 15;
-    if (physChartLabelTick === 0) {
-      chartLabels[0].textContent = `${p.step.toFixed(1)}ms`;
-      chartLabels[1].textContent = `${p.pairs.toFixed(1)}ms`;
-      chartLabels[2].textContent = `${p.collide.toFixed(1)}ms`;
-    }
+  if (collectTimings) timingStepMs += performance.now() - stepStart;
+  const chartStart = collectTimings ? performance.now() : 0;
+  const shouldSample = didStep && (wasSingleStep || chartIntervalMs === 0 || time - lastChartDrawTime >= chartIntervalMs);
+  if (shouldSample && chartsEnabled && activeSample?.profile) {
+    lastProfileSample = activeSample.world.getProfile();
+    pushPhysProfile(lastProfileSample);
+    ensurePhysCharts();
+    chartLabels[0].textContent = `${lastProfileSample.step.toFixed(1)}ms`;
+    chartLabels[1].textContent = `${lastProfileSample.solverSetup.toFixed(1)}ms`;
+    chartLabels[2].textContent = `${lastProfileSample.pairs.toFixed(1)}ms`;
+    chartLabels[3].textContent = `${lastProfileSample.collide.toFixed(1)}ms`;
+    drawPhysCharts();
+    lastChartDrawTime = time;
   }
-  if (!paused) updateMetrics();
-  drawPhysCharts();
+  if (collectTimings) timingChartsMs += performance.now() - chartStart;
+  if (didStep || !paused) updateMetrics();
   updateFlyMovement(dt);
   orbit.update();
+  const renderStart = collectTimings ? performance.now() : 0;
   renderer.render(scene, camera);
-  stats.end();
+  if (collectTimings) {
+    timingRenderMs += performance.now() - renderStart;
+    timingFrames++;
+    if (timingsEnabled && !benchTimingActive && time - timingLastLog >= 1000) {
+      const inv = timingFrames > 0 ? 1 / timingFrames : 0;
+      console.log(`[perf] frames=${timingFrames} step=${(timingStepMs * inv).toFixed(2)}ms charts=${(timingChartsMs * inv).toFixed(2)}ms render=${(timingRenderMs * inv).toFixed(2)}ms`);
+      timingLastLog = time;
+      timingFrames = 0;
+      timingStepMs = 0;
+      timingChartsMs = 0;
+      timingRenderMs = 0;
+    }
+  }
+  if (statsEnabled) stats.end();
   rafId = window.requestAnimationFrame(frame);
 }
 
 window.addEventListener("resize", resize);
 resize();
-renderSamples();
+if (!benchRunnerMode) renderSamples();
+
+type BenchVariant = {
+  id: string;
+  label: string;
+  params?: Partial<SolverParams>;
+  shadows?: boolean;
+  renderMode?: "matrix" | "shader";
+  physicsCharts?: boolean;
+  chartHz?: number | null;
+};
+
+function benchStamp(label: string): void {
+  console.log(`[bench] ${label}`);
+  console.timeStamp?.(`[bench] ${label}`);
+  performance.mark(`bench:${label}`);
+}
+
+function uniqueNumbers(values: number[]): number[] {
+  return [...new Set(values.filter((v) => Number.isFinite(v) && v >= 1))];
+}
+
+function createBenchVariants(): BenchVariant[] {
+  const { defaultWorkerCount, maxWorkerCount } = getWorkerCounts();
+  const workerCounts = uniqueNumbers([1, 2, 4, 6, 8, 10, 12, 14, 16, maxWorkerCount]).filter((v) => v <= maxWorkerCount && v !== defaultWorkerCount);
+  const baseParams: SolverParams = { workerCount: defaultWorkerCount, subSteps: 4, hertz: 60, recycleDistance: 0.05, continuous: true, warmStart: true, sleep: true };
+  return [
+    { id: "default-shader", label: `Default shader (${defaultWorkerCount} workers)`, params: { ...baseParams }, shadows: false, renderMode: "shader" },
+    { id: "charts-full", label: `Physics charts full-rate (${defaultWorkerCount} workers)`, params: { ...baseParams }, shadows: false, renderMode: "shader", physicsCharts: true, chartHz: null },
+    { id: "charts-30hz", label: `Physics charts 30 Hz (${defaultWorkerCount} workers)`, params: { ...baseParams }, shadows: false, renderMode: "shader", physicsCharts: true, chartHz: 30 },
+    { id: "charts-15hz", label: `Physics charts 15 Hz (${defaultWorkerCount} workers)`, params: { ...baseParams }, shadows: false, renderMode: "shader", physicsCharts: true, chartHz: 15 },
+    { id: "charts-10hz", label: `Physics charts 10 Hz (${defaultWorkerCount} workers)`, params: { ...baseParams }, shadows: false, renderMode: "shader", physicsCharts: true, chartHz: 10 },
+    { id: "charts-5hz", label: `Physics charts 5 Hz (${defaultWorkerCount} workers)`, params: { ...baseParams }, shadows: false, renderMode: "shader", physicsCharts: true, chartHz: 5 },
+    { id: "default-matrix", label: `Default matrix (${defaultWorkerCount} workers)`, params: { ...baseParams }, shadows: false, renderMode: "matrix" },
+    ...workerCounts.map((workerCount) => ({ id: `workers-${workerCount}`, label: `${workerCount} worker${workerCount === 1 ? "" : "s"}`, params: { ...baseParams, workerCount }, shadows: false, renderMode: "shader" as const })),
+    { id: "continuous-off", label: "Continuous collision off", params: { ...baseParams, continuous: false }, shadows: false, renderMode: "shader" },
+    { id: "shadows-on", label: "Shadows on", params: { ...baseParams }, shadows: true, renderMode: "shader" },
+  ];
+}
+
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+
+function applyBenchVariant(variant: BenchVariant): void {
+  if (variant.params !== undefined) Object.assign(solverParams, variant.params);
+  renderer.shadowMap.enabled = variant.shadows ?? false;
+  chartsEnabled = variant.physicsCharts ?? false;
+  chartIntervalMs = chartsEnabled && variant.chartHz !== undefined && variant.chartHz !== null ? 1000 / Math.max(1, variant.chartHz) : 0;
+  (globalThis as { __BOX3D_WASHER_RENDER_MODE?: "matrix" | "shader" }).__BOX3D_WASHER_RENDER_MODE = variant.renderMode ?? "shader";
+  const washerIndex = samples.findIndex((sample) => sample.id === "washer");
+  if (washerIndex >= 0 && activeSampleIndex !== washerIndex) {
+    activateSample(washerIndex);
+  } else {
+    resetScene();
+  }
+  if (activeSample !== null) activeSample.profile = chartsEnabled;
+  updatePhysChartVisibility();
+}
+
+function unloadBenchVariant(): void {
+  clearScene();
+  activeSampleIndex = -1;
+  updateStatus();
+}
+
+function setupBenchRunner(): void {
+  if (!benchRunnerMode) return;
+
+  controlsVisible = false;
+  controlsElement.classList.add("hidden");
+  controlsDialog!.style.display = "none";
+  showControlsDialog = false;
+  document.querySelector<HTMLElement>(".topbar")?.remove();
+  document.querySelector<HTMLElement>(".metrics-bar")?.remove();
+  sampleListElement.classList.remove("open");
+  sampleListElement.style.display = "none";
+  controlsElement.style.display = "none";
+
+  const variants = createBenchVariants();
+  const panel = document.createElement("div");
+  panel.style.cssText = "position:fixed;left:16px;top:64px;z-index:40;width:min(420px,calc(100vw - 32px));background:rgba(3,7,18,0.92);border:1px solid rgba(148,163,184,0.35);border-radius:12px;color:#e5e7eb;font:13px system-ui,sans-serif;padding:14px;box-shadow:0 20px 60px rgba(0,0,0,0.35)";
+  panel.innerHTML = `
+    <div style="font-weight:700;font-size:16px;margin-bottom:8px">Washer Bench Runner</div>
+    <div style="color:#a5b4fc;line-height:1.45;margin-bottom:10px">Start Chrome performance recording, then press Start. The runner emits User Timing marks and console timestamps for each variant.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <label>Settle seconds<br><input id="bench-settle" type="number" min="0" step="0.5" value="1" style="width:100%"></label>
+      <label>Capture seconds<br><input id="bench-run" type="number" min="1" step="0.5" value="3" style="width:100%"></label>
+    </div>
+    <label style="display:block;margin-bottom:10px;color:#cbd5e1"><input id="bench-hide-ui" type="checkbox"> Hide runner UI while sequence runs</label>
+    <div style="display:flex;gap:8px;margin-bottom:10px">
+      <button id="bench-start" style="flex:1;padding:8px 10px;border-radius:8px;border:0;background:#22c55e;color:#03110a;font-weight:700;cursor:pointer">Start Sequence</button>
+      <button id="bench-stop" style="padding:8px 10px;border-radius:8px;border:1px solid rgba(248,113,113,0.55);background:transparent;color:#fecaca;cursor:pointer">Stop</button>
+    </div>
+    <div id="bench-status" style="white-space:pre-wrap;line-height:1.45;color:#cbd5e1">Idle. Variants: ${variants.length}</div>
+    <ol id="bench-list" style="margin:10px 0 0 20px;padding:0;max-height:260px;overflow:auto;color:#94a3b8"></ol>
+  `;
+  document.body.appendChild(panel);
+
+  const list = panel.querySelector<HTMLOListElement>("#bench-list")!;
+  for (const variant of variants) {
+    const item = document.createElement("li");
+    item.textContent = `${variant.id}: ${variant.label}`;
+    item.dataset.variant = variant.id;
+    list.appendChild(item);
+  }
+
+  const status = panel.querySelector<HTMLDivElement>("#bench-status")!;
+  const startButton = panel.querySelector<HTMLButtonElement>("#bench-start")!;
+  const stopButton = panel.querySelector<HTMLButtonElement>("#bench-stop")!;
+  const settleInput = panel.querySelector<HTMLInputElement>("#bench-settle")!;
+  const runInput = panel.querySelector<HTMLInputElement>("#bench-run")!;
+  const hideUiInput = panel.querySelector<HTMLInputElement>("#bench-hide-ui")!;
+
+  stopButton.addEventListener("click", () => {
+    benchCancelRequested = true;
+    status.textContent = "Stop requested. Current variant will finish shortly.";
+  });
+
+  startButton.addEventListener("click", () => {
+    if (startButton.disabled) return;
+    benchCancelRequested = false;
+    startButton.disabled = true;
+    void (async () => {
+      const settleMs = Math.max(0, Number(settleInput.value) || 0) * 1000;
+      const runMs = Math.max(1, Number(runInput.value) || 8) * 1000;
+      benchStamp("sequence-start");
+      status.textContent = `Running ${variants.length} variants...`;
+      if (hideUiInput.checked) panel.style.display = "none";
+
+      for (let i = 0; i < variants.length; i++) {
+        if (benchCancelRequested) break;
+        const variant = variants[i];
+        for (const item of list.querySelectorAll("li")) item.style.color = item.getAttribute("data-variant") === variant.id ? "#fbbf24" : "#64748b";
+        status.textContent = `Variant ${i + 1}/${variants.length}: ${variant.label}\nConfiguring...`;
+        benchStamp(`${variant.id}:config-start`);
+        console.log("[bench] variant config", variant.id, { params: variant.params, shadows: variant.shadows ?? false, renderMode: variant.renderMode ?? "shader" });
+        applyBenchVariant(variant);
+        benchStamp(`${variant.id}:config-end`);
+
+        status.textContent = `Variant ${i + 1}/${variants.length}: ${variant.label}\nSettling ${Math.round(settleMs / 100) / 10}s...`;
+        await delay(settleMs);
+        if (benchCancelRequested) break;
+
+        const captureStartMark = `bench:${variant.id}:capture-start`;
+        const captureEndMark = `bench:${variant.id}:capture-end`;
+        status.textContent = `Variant ${i + 1}/${variants.length}: ${variant.label}\nCAPTURING ${Math.round(runMs / 100) / 10}s...`;
+        resetFrameTimings();
+        benchTimingActive = true;
+        benchStamp(`${variant.id}:capture-start`);
+        await delay(runMs);
+        benchStamp(`${variant.id}:capture-end`);
+        benchTimingActive = false;
+        performance.measure(`bench:${variant.id}:capture`, captureStartMark, captureEndMark);
+
+        const p = activeSample?.world.getProfile();
+        const frameStats = frameTimingSummary();
+        const summary = p === undefined ? "" : ` step=${p.step.toFixed(2)}ms publish=${p.solverSetup.toFixed(2)}ms lag=${p.pairs.toFixed(1)}ms dropped=${p.collide.toFixed(1)}ms`;
+        const frameSummary = ` frames=${frameStats.frames} sampleStep=${frameStats.sampleStepMs.toFixed(2)}ms render=${frameStats.renderMs.toFixed(2)}ms charts=${frameStats.chartsMs.toFixed(2)}ms`;
+        console.log(`[bench] ${variant.id} summary${summary}${frameSummary}`);
+        console.timeStamp?.(`[bench] ${variant.id} summary${summary}${frameSummary}`);
+        benchStamp(`${variant.id}:unload-start`);
+        unloadBenchVariant();
+        benchStamp(`${variant.id}:unload-end`);
+      }
+
+      unloadBenchVariant();
+      benchStamp(benchCancelRequested ? "sequence-cancelled" : "sequence-end");
+      panel.style.display = "block";
+      for (const item of list.querySelectorAll("li")) item.style.color = "#94a3b8";
+      status.textContent = benchCancelRequested ? "Cancelled. Stop the Chrome recording and save the trace if useful." : "Done. Stop the Chrome recording and save/export the trace.";
+      startButton.disabled = false;
+    })().catch((error) => {
+      panel.style.display = "block";
+      console.error("[bench] sequence failed", error);
+      status.textContent = `Failed: ${error instanceof Error ? error.message : String(error)}`;
+      startButton.disabled = false;
+    });
+  });
+}
 
 function toggleSamples(): void {
   const shown = sampleListElement.classList.toggle("open");
@@ -1038,6 +1476,7 @@ controlsDialogClose.addEventListener("pointerup", (e) => {
 controlsDialogClose.addEventListener("click", () => {
   showControlsDialog = false;
   controlsDialog.style.display = "none";
+  try { localStorage.setItem(VISIBLE_STORAGE_KEY, "0"); } catch { /* ignore */ }
 });
 
 window.addEventListener("resize", () => {
@@ -1046,9 +1485,9 @@ window.addEventListener("resize", () => {
   }
 });
 
-function toggleControlsDialog(): void {
+function toggleControlsDialog(force?: boolean): void {
   if (!controlsDialog) return;
-  showControlsDialog = !showControlsDialog;
+  showControlsDialog = force ?? !showControlsDialog;
   controlsDialog.style.display = showControlsDialog ? "block" : "none";
   try { localStorage.setItem(VISIBLE_STORAGE_KEY, showControlsDialog ? "1" : "0"); } catch { /* ignore */ }
   if (showControlsDialog) {
@@ -1074,7 +1513,7 @@ function toggleControlsDialog(): void {
   }
 }
 
-toggleControlsDialog();
+toggleControlsDialog(showControlsDialog);
 
 canvas.addEventListener("pointerdown", (e) => {
   lastPointerDown = e;
@@ -1216,17 +1655,12 @@ statusLabel.textContent = "Loading...";
 
 const urlSampleId = new URL(window.location.href).searchParams.get("sample");
 const initialIndex = urlSampleId ? samples.findIndex((s) => s.id === urlSampleId) : -1;
-activateSample(initialIndex >= 0 ? initialIndex : 0);
-
-if (showControlsDialog) {
-  controlsDialog.style.display = "block";
-  const saved = loadControlsDialogPos();
-  if (saved) {
-    controlsDialog.style.left = `${saved.left}px`;
-    controlsDialog.style.top = `${saved.top}px`;
-    controlsDialog.style.right = "auto";
-    controlsDialog.style.bottom = "auto";
-  }
+if (benchRunnerMode) {
+  activeSampleIndex = -1;
+  statusLabel.textContent = "Box3D / Washer Bench Runner";
+  setupBenchRunner();
+} else {
+  activateSample(initialIndex >= 0 ? initialIndex : 0);
 }
 
 rafId = window.requestAnimationFrame(frame);

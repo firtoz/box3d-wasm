@@ -2,13 +2,16 @@ import * as THREE from "three";
 import type { DemoBody } from "./types";
 import type { BodyBatchBuffers, PhysicsWorld, Vec3 } from "box3d-wasm";
 
-const DEFAULT_WORKER_LOAD_FACTOR = 0.75;
+const MAX_WEB_WORKERS = 16;
 
-export function getWorkerCounts(): { defaultWorkerCount: number, maxWorkerCount: number } {
-  const available = Math.max(1, navigator.hardwareConcurrency || 4);
+export function getWorkerCounts(): { defaultWorkerCount: number, maxWorkerCount: number, poolSize: number } {
+  const available = Math.min(MAX_WEB_WORKERS, Math.max(1, navigator.hardwareConcurrency || 4));
+  const poolParam = typeof globalThis.location !== "undefined" ? new URL(globalThis.location.href).searchParams.get("pool") : null;
+  const poolFromUrl = poolParam !== null ? Math.max(1, parseInt(poolParam, 10) || 1) : 0;
   return {
-    defaultWorkerCount: Math.max(1, Math.floor(available * DEFAULT_WORKER_LOAD_FACTOR)),
+    defaultWorkerCount: Math.max(1, Math.floor(available * 0.75)),
     maxWorkerCount: available,
+    poolSize: poolFromUrl || available,
   };
 }
 

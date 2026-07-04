@@ -1,6 +1,6 @@
 import { Box3DRuntime, type BodyBatchBuffers, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { PhysicsWorkerCommand, PhysicsWorkerMessage, SolverParams } from "./physics-worker-protocol";
-import { MAX_PROJECTILES, RAGDOLL_RENDER_BONE_COUNT, SNAPSHOT_AWAKE_COUNT_INDEX, SNAPSHOT_CUMULATIVE_STEPS_INDEX, SNAPSHOT_DROPPED_MS_X100_INDEX, SNAPSHOT_LAG_MS_X100_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_STEP_MS_X100_INDEX, SNAPSHOT_STEPS_INDEX, SNAPSHOT_VERSION_INDEX, SNAPSHOT_STATE_COUNT } from "./physics-worker-protocol";
+import { MAX_PROJECTILES, RAGDOLL_RENDER_BONE_COUNT, SNAPSHOT_AWAKE_COUNT_INDEX, SNAPSHOT_CUMULATIVE_STEPS_INDEX, SNAPSHOT_DROPPED_MS_X100_INDEX, SNAPSHOT_LAG_MS_X100_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_PUBLISH_MS_X100_INDEX, SNAPSHOT_STEP_MS_X100_INDEX, SNAPSHOT_STEPS_INDEX, SNAPSHOT_VERSION_INDEX, SNAPSHOT_STATE_COUNT } from "./physics-worker-protocol";
 
 const MAX_CATCHUP_STEPS = 4;
 const MOUSE_FORCE_SCALE = 100;
@@ -31,6 +31,9 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   protected lastTickTime = 0;
   protected accumulator = 0;
   protected totalSteps = 0;
+  protected lastPublishTime = 0;
+  protected publishIntervalMs = 15;
+  protected useLightTransforms = true;
 
   protected projectileHandles: number[] = [];
   protected dragBody = 0;
@@ -117,14 +120,15 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   private async handleInit(cmd: PhysicsWorkerCommand & { type: "init" }): Promise<void> {
     this.initData = cmd.data as TInit;
     this.maxWorkerCount = cmd.maxWorkers ?? 127;
-    this.currentWorkerCount = cmd.workerCount ?? 4;
+    this.currentWorkerCount = cmd.workerCount ?? this.currentWorkerCount;
 
-    this.runtime = await Box3DRuntime.load({ version: cmd.wasmVersion, variant: cmd.wasmVariant });
+    this.runtime = await Box3DRuntime.load({ version: cmd.wasmVersion, variant: cmd.wasmVariant, poolSize: cmd.poolSize });
     this.world = this.runtime.createWorld({ gravity: [0, -9.81, 0], workerCount: this.currentWorkerCount });
     console.log("[worker]", "checkThreadingSupport:", this.runtime.checkThreadingSupport());
     console.log("[worker]", "workerCount:", this.world.getWorkerCount());
 
     if (cmd.solverParams) this.applySolverParams(cmd.solverParams);
+    console.log("[worker]", "solverParams:", this.lastSolverParams);
 
     const groundBody = this.world.createBody({ type: 0, position: [0, -1, 0] });
     this.runtime.createHullShape(groundBody, this.getGroundSize(this.initData));
@@ -144,7 +148,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
     this.lastTickTime = performance.now();
     this.accumulator = 0;
-    this.timer = self.setInterval(() => this.tick(), 1000 / 120);
+    this.timer = self.setInterval(() => this.tick(), 1000 / 60);
   }
 
   private allocateSharedBuffers(): void {
@@ -199,6 +203,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
   private stepOnce(): void {
     const stepMs = this.stepPhysics();
+    this.lastPublishTime = 0;
     this.publishSnapshot(stepMs, 1, this.accumulator * 1000, 0);
   }
 
@@ -226,13 +231,24 @@ export abstract class PhysicsWorkerBase<TInit = void> {
       this.accumulator = 0;
     }
 
-    if (steps > 0) this.publishSnapshot(stepMs, steps, this.accumulator * 1000, droppedMs);
+    if (steps > 0 && this.shouldPublish()) this.publishSnapshot(stepMs, steps, this.accumulator * 1000, droppedMs);
+  }
+
+  private shouldPublish(): boolean {
+    const now = performance.now();
+    if (now - this.lastPublishTime >= this.publishIntervalMs) {
+      return true;
+    }
+    return false;
   }
 
   private publishSnapshot(stepMs: number, steps: number, lagMs: number, droppedMs: number): void {
     if (this.world === null || this.bodyBatch === null || this.positions === null || this.rotations === null || this.awake === null || this.colors === null || this.state === null) return;
     this.totalSteps += steps;
-    this.world.writeBodyTransforms(this.bodyCount, this.bodyBatch.bodyHandlesPtr, this.bodyBatch.positionsPtr, this.bodyBatch.rotationsPtr, this.bodyBatch.awakePtr, this.bodyBatch.colorsPtr);
+    const publishStart = performance.now();
+
+    const writeFn = this.useLightTransforms ? this.world.writeBodyTransformsLight.bind(this.world) : this.world.writeBodyTransforms.bind(this.world);
+    writeFn(this.bodyCount, this.bodyBatch.bodyHandlesPtr, this.bodyBatch.positionsPtr, this.bodyBatch.rotationsPtr, this.bodyBatch.awakePtr, this.bodyBatch.colorsPtr);
     const memory = this.world.getMemoryView();
 
     this.positions.set(new Float32Array(memory.heapF32.buffer, this.bodyBatch.positionsPtr, this.bodyCount * 3));
@@ -240,10 +256,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.awake.set(new Uint8Array(memory.heapU8.buffer, this.bodyBatch.awakePtr, this.bodyCount));
     this.colors.set(new Uint32Array(memory.heap32.buffer, this.bodyBatch.colorsPtr, this.bodyCount));
 
-    let awakeCount = 0;
-    for (let i = 0; i < this.bodyCount; i++) {
-      if (this.awake[i] !== 0) awakeCount++;
-    }
+    const awakeCount = this.world.getAwakeBodyCount();
 
     const projectileCount = this.projectileHandles.length;
     if (projectileCount > 0 && this.projectileBatch !== null && this.projectilePositions !== null && this.projectileRotations !== null && this.projectileAwake !== null && this.projectileColors !== null) {
@@ -254,14 +267,19 @@ export abstract class PhysicsWorkerBase<TInit = void> {
       this.projectileColors.set(new Uint32Array(memory.heap32.buffer, this.projectileBatch.colorsPtr, projectileCount).subarray(0, projectileCount));
     }
 
+    const publishMs = performance.now() - publishStart;
+
     Atomics.store(this.state, SNAPSHOT_AWAKE_COUNT_INDEX, awakeCount);
     Atomics.store(this.state, SNAPSHOT_PROJECTILE_COUNT_INDEX, projectileCount);
     Atomics.store(this.state, SNAPSHOT_STEP_MS_X100_INDEX, Math.round(stepMs * 100));
+    Atomics.store(this.state, SNAPSHOT_PUBLISH_MS_X100_INDEX, Math.round(publishMs * 100));
     Atomics.store(this.state, SNAPSHOT_LAG_MS_X100_INDEX, Math.round(lagMs * 100));
     Atomics.store(this.state, SNAPSHOT_STEPS_INDEX, steps);
     Atomics.store(this.state, SNAPSHOT_DROPPED_MS_X100_INDEX, Math.round(droppedMs * 100));
     Atomics.store(this.state, SNAPSHOT_CUMULATIVE_STEPS_INDEX, this.totalSteps);
     Atomics.add(this.state, SNAPSHOT_VERSION_INDEX, 1);
+
+    this.lastPublishTime = performance.now();
   }
 
   // --- Projectiles ---
@@ -351,7 +369,12 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     if (params.sleep !== undefined) { this.runtime.enableWorldSleeping(this.world.handle, params.sleep); this.lastSolverParams.sleep = params.sleep; }
     if (params.continuous !== undefined) { this.runtime.enableWorldContinuous(this.world.handle, params.continuous); this.lastSolverParams.continuous = params.continuous; }
     if (params.warmStart !== undefined) { this.runtime.enableWorldWarmStarting(this.world.handle, params.warmStart); this.lastSolverParams.warmStart = params.warmStart; }
-    if (params.workerCount !== undefined) { this.currentWorkerCount = params.workerCount; this.lastSolverParams.workerCount = params.workerCount; void this.restartScene(); }
+    if (params.workerCount !== undefined) {
+      const changed = params.workerCount !== this.currentWorkerCount;
+      this.currentWorkerCount = params.workerCount;
+      this.lastSolverParams.workerCount = params.workerCount;
+      if (changed) void this.restartScene();
+    }
   }
 
   // --- Worker toggle ---
@@ -407,6 +430,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.dragJoint = 0;
     this.dragDistance = 0;
     this.totalSteps = 0;
+    this.lastPublishTime = 0;
     this.positions = null;
     this.rotations = null;
     this.awake = null;
