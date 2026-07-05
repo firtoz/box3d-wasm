@@ -41,21 +41,22 @@ set_target_properties(box3d_web PROPERTIES
 	OUTPUT_NAME box3d-web
 )
 
-		target_link_options(box3d_web PRIVATE
-			"SHELL:-sMODULARIZE=1"
-			"SHELL:-sEXPORT_ES6=1"
-			"SHELL:-sENVIRONMENT=web,worker,node"
-			"SHELL:-sINITIAL_MEMORY=268435456"
-			"SHELL:-sNO_EXIT_RUNTIME=1"
-		"SHELL:-sEXPORTED_RUNTIME_METHODS=['cwrap','HEAPF32','HEAPU8','HEAP32']"
-		"SHELL:-sEXPORTED_FUNCTIONS=['_main','_malloc','_free']"
-		"SHELL:-sASSERTIONS=0"
-		"SHELL:-sEXPORT_KEEPALIVE=1"
-		"SHELL:-sUSE_PTHREADS=1"
-		"SHELL:-sPTHREAD_POOL_SIZE=(globalThis.BOX3D_POOL_SIZE||(globalThis.navigator?globalThis.navigator.hardwareConcurrency:4))"
-		"SHELL:-sSTACK_SIZE=2097152"
-		"SHELL:-sDEFAULT_PTHREAD_STACK_SIZE=1048576"
-	)
+target_link_options(box3d_web PRIVATE
+	"SHELL:-sMODULARIZE=1"
+	"SHELL:-sEXPORT_ES6=1"
+	"SHELL:-sENVIRONMENT=web,worker,node"
+	"SHELL:-sINITIAL_MEMORY=268435456"
+	"SHELL:-sNO_EXIT_RUNTIME=1"
+	"SHELL:-sEXPORTED_RUNTIME_METHODS=['cwrap','HEAPF32','HEAPU8','HEAP32']"
+	"SHELL:-sEXPORTED_FUNCTIONS=['_main','_malloc','_free']"
+	"SHELL:-sASSERTIONS=0"
+	"SHELL:-sEXPORT_KEEPALIVE=1"
+	"SHELL:-sUSE_PTHREADS=1"
+	"SHELL:-sPTHREAD_POOL_SIZE=(globalThis.BOX3D_POOL_SIZE||(globalThis.navigator?globalThis.navigator.hardwareConcurrency:4))"
+	"SHELL:-sSTACK_SIZE=2097152"
+	"SHELL:-sDEFAULT_PTHREAD_STACK_SIZE=1048576"
+	"SHELL:-sFILESYSTEM=0"
+)
 
 if(BOX3D_WASM_PROFILE_NAMES)
 	target_compile_options(box3d PRIVATE -g)

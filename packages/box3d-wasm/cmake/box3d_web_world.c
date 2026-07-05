@@ -138,6 +138,19 @@ B3W_EXPORT int b3wGetWorldAwakeBodyCount(int worldHandle)
 	return b3World_GetAwakeBodyCount(slot->worldId);
 }
 
+B3W_EXPORT void b3wWorldExplode(int worldHandle, float px, float py, float pz, float radius, float falloff, float impulsePerArea, uint64_t maskBits)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	b3ExplosionDef def = b3DefaultExplosionDef();
+	def.position = (b3Pos){ px, py, pz };
+	def.radius = radius;
+	def.falloff = falloff;
+	def.impulsePerArea = impulsePerArea;
+	def.maskBits = maskBits;
+	b3World_Explode(slot->worldId, &def);
+}
+
 B3W_EXPORT void b3wRayCastClosest(int worldHandle, float originX, float originY, float originZ, float translationX, float translationY, float translationZ, int categoryBits, int maskBits, int* outShapeHandle, float* outPoint, float* outNormal, float* outFraction)
 {
 	if (outShapeHandle != NULL) *outShapeHandle = 0;

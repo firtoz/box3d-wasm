@@ -164,12 +164,44 @@ canvas {
 }
 
 .sample-menu-header {
-  padding: 5px 12px 3px;
+  padding: 5px 12px 3px 22px;
   font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #5a6e8a;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+.sample-menu-header::before {
+  content: "\25b6";
+  position: absolute;
+  left: 9px;
+  top: 5px;
+  font-size: 8px;
+  transition: transform 0.15s;
+}
+
+.sample-menu-header.collapsed::before {
+  transform: rotate(0deg);
+}
+
+.sample-menu-header:not(.collapsed)::before {
+  transform: rotate(90deg);
+}
+
+.sample-menu-header:hover {
+  color: #8aa4c4;
+}
+
+.sample-menu-items {
+  display: none;
+}
+
+.sample-menu-items.open {
+  display: block;
 }
 
 .sample-menu-item {

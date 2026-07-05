@@ -101,22 +101,22 @@ When adding an API binding:
 - [ ] Apply force to center: `b3Body_ApplyForceToCenter`
 - [ ] Apply torque: `b3Body_ApplyTorque`
 - [ ] Apply angular impulse: `b3Body_ApplyAngularImpulse`
-- [ ] Get mass: `b3Body_GetMass`
+- [x] Get mass: `b3Body_GetMass`
 - [ ] Get inverse mass: `b3Body_GetInverseMass`
-- [ ] Get local/world center of mass
-- [ ] Get local rotational inertia
+- [x] Get world center of mass: `b3Body_GetWorldCenter`
+- [x] Get local rotational inertia: `b3Body_GetLocalRotationalInertia`
 - [ ] Get world inverse rotational inertia
 - [ ] Get/set linear damping as separate getter/setter pair
 - [ ] Get/set angular damping as separate getter/setter pair
 - [ ] Get gravity scale
 - [ ] Get sleep threshold
 - [ ] Is sleep enabled
-- [ ] Enable/disable body: `b3Body_Enable`, `b3Body_Disable`, `b3Body_IsEnabled`
+- [x] Enable/disable body: `b3Body_Enable`, `b3Body_Disable`, `b3Body_IsEnabled`
 - [ ] Is bullet
 - [ ] Get motion locks
 - [ ] Is contact recycling enabled
 - [ ] Local/world vector transforms
-- [ ] Local/world point velocity
+- [x] Local/world point velocity: `b3Body_GetLocalPointVelocity`, `b3Body_GetWorldPointVelocity`
 - [ ] Compute body AABB
 - [ ] Get body shapes: `b3Body_GetShapes`
 - [ ] Get body joints: `b3Body_GetJoints`
@@ -222,9 +222,9 @@ When adding an API binding:
 - [x] Create revolute joint: `b3CreateRevoluteJoint`
 - [x] Create spherical joint: `b3CreateSphericalJoint`
 - [ ] Create distance joint: `b3CreateDistanceJoint`
-- [ ] Create prismatic joint: `b3CreatePrismaticJoint`
+- [x] Create prismatic joint: `b3CreatePrismaticJoint`
 - [ ] Create wheel joint: `b3CreateWheelJoint`
-- [ ] Create weld joint: `b3CreateWeldJoint`
+- [x] Create weld joint: `b3CreateWeldJoint`
 - [ ] Create parallel joint: `b3CreateParallelJoint`
 - [ ] Common joint validity/type/body/world/frame/collide/force/torque accessors
 - [ ] Joint wake bodies: `b3Joint_WakeBodies`
@@ -306,7 +306,7 @@ When adding an API binding:
 ## Explosion
 
 - [ ] Default explosion definition
-- [ ] World explode: `b3World_Explode`
+- [x] World explode: `b3World_Explode`
 
 ## Debug Draw
 

@@ -5,14 +5,17 @@ import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker
 import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
 import { createWorkerWorld, type WorkerWorldState } from "../worker-world-bridge";
 import { RAGDOLL_RENDER_BONES, ragdollCapsuleMesh } from "../ragdoll-render";
-import type { DemoBody, DemoSample, SolverParams } from "./types";
+import type { ControlSpec, DemoBody, DemoSample, SolverParams } from "./types";
 import { capsuleMesh, disposeBodies, getWasmVariant, getWorkerCounts } from "./shared";
 
 const dummy = new THREE.Object3D();
 
 export type RenderBodyBase = { position: [number, number, number]; rotation?: [number, number, number, number]; color: number; type?: BodyType };
 export type RenderBody = RenderBodyBase & ({ kind: "box"; size: [number, number, number] } | { kind: "sphere"; radius: number } | { kind: "cylinder"; radius: number; height: number } | { kind: "capsule"; radius: number; length: number });
-export type RenderSpec = { groundSize: [number, number, number]; bodies: RenderBody[]; info?: string; camera?: { position: [number, number, number]; target: [number, number, number] }; launchSpeed?: number };
+export type RenderControlButton = { type: "button"; label: string; message: Record<string, unknown> };
+export type RenderControlToggle = { type: "toggle"; label: string; message: Record<string, unknown>; value: boolean };
+export type RenderControl = RenderControlButton | RenderControlToggle;
+export type RenderSpec = { groundSize: [number, number, number]; bodies: RenderBody[]; info?: string; camera?: { position: [number, number, number]; target: [number, number, number] }; launchSpeed?: number; controls?: RenderControl[] };
 
 export function meshFor(body: RenderBody): THREE.Mesh {
   const mat = new THREE.MeshStandardMaterial({ color: body.color, roughness: 0.75 });
@@ -207,7 +210,12 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
       return {
         world,
         bodies,
-        controls: [],
+        controls: (spec.controls ?? []).map((c): ControlSpec => {
+          if (c.type === "button") {
+            return { key: c.label.toLowerCase().replace(/\s+/g, "-"), label: c.label, type: "button", onClick: () => worker.postMessage(c.message) };
+          }
+          return { key: c.label.toLowerCase().replace(/\s+/g, "-"), label: c.label, type: "toggle", value: c.value, onChange: (v) => worker.postMessage({ ...c.message, value: v }) };
+        }),
         profile: true,
         launchSpeed: spec.launchSpeed,
         camera: spec.camera,

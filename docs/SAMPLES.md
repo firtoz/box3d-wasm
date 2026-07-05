@@ -14,15 +14,15 @@ Legend:
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Body Type** | [ ] | `b3Body_SetType`, `b3Body_Enable`, `b3Body_Disable`, `b3Body_IsEnabled`, `b3Body_SetLinearVelocity`, `b3Body_SetAngularVelocity`, `b3Body_GetPosition`, `b3Body_GetLinearVelocity`, `b3CreateRevoluteJoint`, `b3CreatePrismaticJoint`, `b3DefaultPrismaticJointDef`, `b3DefaultRevoluteJointDef`, `b3MakeTransformedBoxHull` | 🔧 Most APIs exist, `b3Body_SetType` exists, `b3Body_Enable`/`Disable`/`IsEnabled` exist. Check `b3CreatePrismaticJoint` — not in WASM. `b3MakeTransformedBoxHull` exists as `createTransformedHullShape`. Need prismatic joint. |
+| **Body Type** | [x] | `b3Body_SetType`, `b3Body_Enable`, `b3Body_Disable`, `b3Body_IsEnabled`, `b3Body_SetLinearVelocity`, `b3Body_SetAngularVelocity`, `b3CreateRevoluteJoint`, `b3CreatePrismaticJoint`, `b3DefaultPrismaticJointDef`, `b3DefaultRevoluteJointDef`, `b3MakeTransformedBoxHull` | 🔧 All APIs exist. 6 bodies, prismatic + revolute joints, kinematic oscillation. |
 | **Spinning Book** | [x] | `b3BodyDef.gravityScale`, `b3BodyDef.angularVelocity`, `b3MakeBoxHull` | 🔧 All exist. Three boxes with gravity disabled and different angular velocities. |
-| **Gyroscopic Torque** | [ ] | `b3CreateCylinder`, `b3CreateHullShape` (multiple on same body), `b3Body_ApplyMassFromShapes`, `b3Body_GetWorldCenter`, `shapeDef.updateBodyMass = false` | 🔧 `createCylinder` exists, `createHullShape` exists, `setBodyAngularVelocity` exists. Need `applyMassFromShapes` — check if exists in WASM. `getWorldCenter` — need to verify. |
-| **Weeble** | [ ] | `b3Body_GetMass`, `b3Body_GetLocalRotationalInertia`, `b3Body_SetMassData`, `b3Body_SetTransform`, `b3Body_SetAwake`, `b3Body_GetWorldPoint`, `b3Body_GetLocalPointVelocity`, `b3Body_GetWorldPointVelocity`, `b3World_Explode` | 🔧 `setBodyMassData` exists. Need `getBodyMass` (not exposed), `getLocalRotationalInertia` (not exposed), `bodySetTransform` exists, `setBodyAwake` exists, `worldExplode` — not in WASM. |
-| **Disable** | [ ] | `b3Body_Enable`, `b3Body_Disable`, `b3Body_IsEnabled`, `b3Body_ApplyLinearImpulseToCenter`, `b3CreateWeldJoint`, `b3DefaultWeldJointDef` | 🚧 Need `createWeldJoint` + weld joint def. Enable/disable APIs exist. |
+| **Gyroscopic Torque** | [x] | `b3CreateCylinder`, `b3CreateHullShape` (multiple on same body), `b3Body_ApplyMassFromShapes`, `b3Body_GetWorldCenter`, `shapeDef.updateBodyMass = false` | 🔧 All APIs exist. Dzhanibekov effect: cylinder + box on gravityScale=0 body with angular velocity. |
+| **Weeble** | [x] | `b3Body_GetMass`, `b3Body_GetLocalRotationalInertia`, `b3Body_SetMassData`, `b3Body_SetTransform`, `b3Body_SetAwake`, `b3Body_GetWorldPoint`, `b3Body_GetLocalPointVelocity`, `b3Body_GetWorldPointVelocity`, `b3World_Explode` | 🔧 All APIs now wrapped. Capsule with shifted COM + Teleport/Explode buttons. |
+| **Disable** | [x] | `b3Body_Enable`, `b3Body_Disable`, `b3Body_IsEnabled`, `b3Body_ApplyLinearImpulseToCenter`, `b3CreateWeldJoint` | 🔧 All APIs now wrapped. 4-link chain with weld joints + ball, enable/disable toggles. |
 | **Cast** | [ ] | `b3Body_CastRay`, `b3Body_CastShape`, `b3Body_OverlapShape`, `b3Body_CollideMover`, `b3CreateCylinder` | 🚧 Needs body-level cast/overlap/collide APIs. Low-level query APIs not yet wrapped. |
-| **Kinematic** | [ ] | `b3Body_SetTargetTransform`, `b3BodyDef.type = kinematic` | 🔧 `setBodyTargetTransform` exists. Kinematic body type exists. |
-| **Lock Mixing** | [ ] | `bodyDef.motionLocks.angularX/Y/Z`, `bodyDef.motionLocks.linearX/Y/Z` | 🔧 `setBodyMotionLocks` exists, can set at body creation via `bodyDef.motionLocks`? Actually in TS we use `setBodyMotionLocks` after creation. |
-| **Fixed Rotation** | [ ] | `bodyDef.motionLocks.angularX/Y/Z`, `bodyDef.gravityScale` | 🔧 All exist. |
+| **Kinematic** | [x] | `b3Body_SetTargetTransform`, `b3BodyDef.type = kinematic` | 🔧 `setBodyTargetTransform` exists. Kinematic body type exists. |
+| **Lock Mixing** | [x] | `bodyDef.motionLocks.angularX/Y/Z`, `bodyDef.motionLocks.linearX/Y/Z` | 🔧 `setBodyMotionLocks` exists, can set at body creation via `bodyDef.motionLocks`? Actually in TS we use `setBodyMotionLocks` after creation. |
+| **Fixed Rotation** | [x] | `bodyDef.motionLocks.angularX/Y/Z`, `bodyDef.gravityScale` | 🔧 All exist. |
 
 ## Character (`sample_character.cpp`)
 
@@ -97,10 +97,10 @@ Legend:
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Box Hull** | [ ] | `b3MakeBoxHull`, hull debug draw | 🔧 Trivial. |
-| **Hull** | [ ] | `b3CreateHull` from points, hull debug draw | 🔧 `createHullFromPoints` exists. |
-| **Hull Reduction** | [ ] | `b3CreateHull` with many points → reduction | 🔧 Maybe works. |
-| **Hull Transform** | [ ] | `b3MakeTransformedBoxHull`, hull transform debug | 🔧 Most APIs exist. |
+| **Box Hull** | [x] | `b3MakeBoxHull`, hull debug draw | 🔧 Trivial. |
+| **Hull** | [x] | `b3CreateHull` from points, hull debug draw | 🔧 `createHullFromPoints` exists. |
+| **Hull Reduction** | [x] | `b3CreateHull` with many points → reduction | 🔧 Maybe works. |
+| **Hull Transform** | [x] | `b3MakeTransformedBoxHull`, hull transform debug | 🔧 Most APIs exist. |
 | **Capsule Mass** | [ ] | `b3Body_GetMass`, `b3Body_GetLocalRotationalInertia`, `b3Body_SetMassData` | 🚧 `getMass`, `getLocalRotationalInertia` not exposed. |
 
 ## Issues (`sample_issues.cpp`)
@@ -108,10 +108,10 @@ Legend:
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
 | **Dump Loader** | [ ] | World dump/load | 🚧 |
-| **Crash** | [ ] | Regression test scene | 🔧 Simple bodies. |
+| **Crash** | [ ] | `b3CreateGridMesh`, `b3CreateMeshShape` | 🚧 Mesh APIs not wrapped. Uses mesh ground — not simple bodies despite 🔧 note. |
 | **Multiple Prismatic** | [ ] | `b3CreatePrismaticJoint` | 🚧 Prismatic joint not wrapped. |
-| **Hull Crash** | [ ] | Hull creation | 🔧 Should work. |
-| **Convex Jitter** | [ ] | Hull creation + stacking | 🔧 Should work. |
+| **Hull Crash** | [x] | Hull creation | 🔧 Hull from 5 regression points. |
+| **Convex Jitter** | [x] | Hull creation + stacking | 🔧 Two custom hulls from point clouds. |
 | **s&box mover** | [ ] | Mover/character system | 🚧 |
 | **Capsule Mesh** | [ ] | Capsule + mesh collision | 🧩 |
 
@@ -123,11 +123,11 @@ Legend:
 | **Filter** | [ ] | `b3CreateFilterJoint` | 🔧 `createFilterJoint` exists! |
 | **Motor Joint** | [ ] | `b3CreateMotorJoint` | 🔧 `createMotorJoint` exists. |
 | **Top Down Friction** | [ ] | Motor joint + friction | 🔧 Should work. |
-| **Prismatic** | [ ] | `b3CreatePrismaticJoint` | 🚧 Not in WASM. |
+| **Prismatic** | [ ] | `b3CreatePrismaticJoint` | 🔧 Now in WASM. |
 | **Spherical** | [ ] | `b3CreateSphericalJoint` | 🔧 `createSphericalJoint` exists. |
 | **Parallel Spring** | [ ] | Distance joint with spring params | 🚧 |
 | **Revolute** | [ ] | `b3CreateRevoluteJoint` | 🔧 `createRevoluteJoint` exists. |
-| **Weld** | [ ] | `b3CreateWeldJoint` | 🚧 Not in WASM. |
+| **Weld** | [ ] | `b3CreateWeldJoint` | 🔧 Now in WASM. |
 | **Wheel** | [ ] | `b3CreateWheelJoint` | 🚧 Not in WASM. |
 | **Ball and Chain** | [ ] | Spherical joint chain | 🔧 Should work with spherical joint. |
 | **Door** | [ ] | Revolute joint with limit | 🔧 Should work. |
@@ -178,10 +178,10 @@ Legend:
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **HighMassRatio1** | [ ] | High density ratios | 🔧 Simple stacking. |
-| **Tiny Pyramid** | [ ] | Tiny scale pyramid | 🔧 Simple scene. |
-| **Overlap Recovery** | [ ] | Bodies starting in overlap | 🔧 Should work. |
-| **Overflow Color Pile** | [ ] | Many bodies + color debug | 🔧 May hit buffer limits. |
+| **HighMassRatio1** | [x] | High density ratios | 🔧 Three pyramids with heavy top boxes. |
+| **Tiny Pyramid** | [x] | Tiny scale pyramid | 🔧 30-base pyramid of 2.5cm boxes. |
+| **Overlap Recovery** | [x] | Bodies starting in overlap | 🔧 25% overlap with contact tuning. |
+| **Overflow Color Pile** | [x] | Many bodies + color debug | 🔧 Hub + 24 neighbors for graph color overflow. |
 
 ## Shapes (`sample_shapes.cpp`)
 
@@ -229,9 +229,9 @@ Legend:
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Far Stack** | [ ] | Stack far from origin | 🔧 Simple — just offset coordinates. |
-| **Far Pyramid** | [ ] | Pyramid far from origin | 🔧 Simple. |
-| **Far Ragdolls** | [ ] | Ragdolls far from origin | 🔧 Simple. |
+| **Far Stack** | [x] | Stack far from origin | 🔧 10000km offset box column. |
+| **Far Pyramid** | [x] | Pyramid far from origin | 🔧 10000km offset 40-base pyramid. |
+| **Far Ragdolls** | [x] | Ragdolls far from origin | 🔧 20 ragdolls at 1000km offset. |
 | **Far Mesh Drop** | [ ] | Mesh + far origin | 🧩 |
 
 ## Benchmark (`sample_benchmark.cpp`)
@@ -261,20 +261,51 @@ Legend:
 ## Summary
 
 - **Total C++ samples**: ~136
-- **TS implemented (matching C++)**: 13
+- **TS implemented (matching C++)**: 33
 - **TS implemented (TS-only)**: 2 (dominoes variant, washer variant, material-dedup)
-- **Easy next ports** (all APIs exist, simple scenes):
+- **Implemented samples**:
   1. Bodies / Spinning Book
   2. Bodies / Fixed Rotation
   3. Bodies / Lock Mixing
   4. Bodies / Kinematic
-  5. Stacking / Cylinder Stack
-  6. Stacking / Wedge
-  7. Stacking / Arch
-  8. Stacking / Double Domino
-  9. Stacking / Card House
-  10. Shapes / Rolling Resistance
-  11. Shapes / Restitution
-  12. Shapes / Isotropic Friction
-  13. Compound / Spheres
-  14. Compound / Hulls
+  5. Bodies / Gyroscopic Torque
+  6. Bodies / Body Type
+  7. Bodies / Weeble
+  8. Bodies / Disable
+  9. Geometry / Box Hull
+  10. Geometry / Hull
+  11. Geometry / Hull Reduction
+  12. Geometry / Hull Transform
+  13. Issues / Hull Crash
+  14. Issues / Convex Jitter
+  15. Robustness / High Mass Ratio 1
+  16. Robustness / Tiny Pyramid
+  17. Robustness / Overlap Recovery
+  18. Robustness / Overflow Color Pile
+  19. World / Far Stack
+  20. World / Far Pyramid
+  21. World / Far Ragdolls
+  22. Compound / Simple
+  23. Compound / Material Dedup
+  24. Single / Box
+  25. Cylinder
+  26. Sphere / Stack
+  27. Box / Stack
+  28. Shapes / Inclined Plane
+  29. Dominoes
+  30. Card / House Thick
+  31. Jenga / Stack
+  32. Pyramid 2D
+  33. Capsule / Stack
+
+- **Easy next ports** (all APIs exist, simple scenes):
+  1. Stacking / Cylinder Stack
+  2. Stacking / Wedge
+  3. Stacking / Arch
+  4. Stacking / Double Domino
+  5. Stacking / Card House
+  6. Shapes / Rolling Resistance
+  7. Shapes / Restitution
+  8. Shapes / Isotropic Friction
+  9. Compound / Spheres
+  10. Compound / Hulls

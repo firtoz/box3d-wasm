@@ -13,5 +13,5 @@ const spec: RenderSpec = {
 
 export const spinningBookSample = createGenericSample(
   "bodies/spinning-book", "Bodies / Spinning Book", spec,
-  () => new Worker(new URL("./bodies/spinning-book.worker.ts", import.meta.url), { type: "module" }),
+  () => new Worker(new URL("./spinning-book.worker.ts", import.meta.url), { type: "module" }),
 );

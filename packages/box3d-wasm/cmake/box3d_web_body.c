@@ -169,6 +169,101 @@ B3W_EXPORT void b3wSetBodyType(int bodyHandle, int type)
 	b3Body_SetType(slot->bodyId, (b3BodyType)type);
 }
 
+B3W_EXPORT void b3wBodyEnable(int bodyHandle)
+{
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL) return;
+	b3Body_Enable(slot->bodyId);
+}
+
+B3W_EXPORT void b3wBodyDisable(int bodyHandle)
+{
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL) return;
+	b3Body_Disable(slot->bodyId);
+}
+
+B3W_EXPORT int b3wBodyIsEnabled(int bodyHandle)
+{
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL) return 0;
+	return b3Body_IsEnabled(slot->bodyId) ? 1 : 0;
+}
+
+B3W_EXPORT float b3wGetBodyMass(int bodyHandle)
+{
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL) return 0.0f;
+	return b3Body_GetMass(slot->bodyId);
+}
+
+B3W_EXPORT void b3wGetBodyLocalRotationalInertia(int bodyHandle, float* outInertia)
+{
+	if (outInertia == NULL) return;
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL)
+	{
+		for (int i = 0; i < 9; ++i) outInertia[i] = 0.0f;
+		return;
+	}
+	b3Matrix3 inertia = b3Body_GetLocalRotationalInertia(slot->bodyId);
+	outInertia[0] = inertia.cx.x; outInertia[1] = inertia.cx.y; outInertia[2] = inertia.cx.z;
+	outInertia[3] = inertia.cy.x; outInertia[4] = inertia.cy.y; outInertia[5] = inertia.cy.z;
+	outInertia[6] = inertia.cz.x; outInertia[7] = inertia.cz.y; outInertia[8] = inertia.cz.z;
+}
+
+B3W_EXPORT void b3wGetBodyWorldCenter(int bodyHandle, float* outPoint)
+{
+	if (outPoint == NULL) return;
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL)
+	{
+		outPoint[0] = 0.0f; outPoint[1] = 0.0f; outPoint[2] = 0.0f;
+		return;
+	}
+	b3Pos center = b3Body_GetWorldCenter(slot->bodyId);
+	outPoint[0] = center.x; outPoint[1] = center.y; outPoint[2] = center.z;
+}
+
+B3W_EXPORT void b3wGetBodyWorldPoint(int bodyHandle, float lx, float ly, float lz, float* outPoint)
+{
+	if (outPoint == NULL) return;
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL)
+	{
+		outPoint[0] = 0.0f; outPoint[1] = 0.0f; outPoint[2] = 0.0f;
+		return;
+	}
+	b3Pos worldPoint = b3Body_GetWorldPoint(slot->bodyId, (b3Vec3){ lx, ly, lz });
+	outPoint[0] = worldPoint.x; outPoint[1] = worldPoint.y; outPoint[2] = worldPoint.z;
+}
+
+B3W_EXPORT void b3wGetBodyLocalPointVelocity(int bodyHandle, float lx, float ly, float lz, float* outVelocity)
+{
+	if (outVelocity == NULL) return;
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL)
+	{
+		outVelocity[0] = 0.0f; outVelocity[1] = 0.0f; outVelocity[2] = 0.0f;
+		return;
+	}
+	b3Vec3 v = b3Body_GetLocalPointVelocity(slot->bodyId, (b3Vec3){ lx, ly, lz });
+	outVelocity[0] = v.x; outVelocity[1] = v.y; outVelocity[2] = v.z;
+}
+
+B3W_EXPORT void b3wGetBodyWorldPointVelocity(int bodyHandle, float wx, float wy, float wz, float* outVelocity)
+{
+	if (outVelocity == NULL) return;
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL)
+	{
+		outVelocity[0] = 0.0f; outVelocity[1] = 0.0f; outVelocity[2] = 0.0f;
+		return;
+	}
+	b3Vec3 v = b3Body_GetWorldPointVelocity(slot->bodyId, (b3Pos){ wx, wy, wz });
+	outVelocity[0] = v.x; outVelocity[1] = v.y; outVelocity[2] = v.z;
+}
+
 B3W_EXPORT void b3wSetBodyName(int bodyHandle, const char* name)
 {
 	b3wBodySlot* slot = b3wGetBody(bodyHandle);
@@ -226,14 +321,24 @@ B3W_EXPORT void b3wSetBodyMotionLocks(int bodyHandle, int lockBodyX, int lockBod
 	b3Body_SetMotionLocks(slot->bodyId, locks);
 }
 
-B3W_EXPORT void b3wSetBodyMassData(int bodyHandle, float mass, float cx, float cy, float cz)
+B3W_EXPORT void b3wSetBodyMassData(int bodyHandle, float mass, float cx, float cy, float cz, float* inertia)
 {
 	b3wBodySlot* slot = b3wGetBody(bodyHandle);
 	if (slot == NULL) return;
 	b3MassData massData;
 	massData.mass = mass;
 	massData.center = (b3Vec3){ cx, cy, cz };
-	massData.inertia = b3Mat3_identity;
+	if (inertia != NULL)
+	{
+		massData.inertia = (b3Matrix3){
+			{ inertia[0], inertia[1], inertia[2] },
+			{ inertia[3], inertia[4], inertia[5] },
+			{ inertia[6], inertia[7], inertia[8] } };
+	}
+	else
+	{
+		massData.inertia = b3Mat3_identity;
+	}
 	b3Body_SetMassData(slot->bodyId, massData);
 }
 

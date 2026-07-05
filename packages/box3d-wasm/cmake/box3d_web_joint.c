@@ -174,6 +174,98 @@ B3W_EXPORT int b3wCreateSphericalJoint(
 	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
 }
 
+B3W_EXPORT int b3wCreatePrismaticJoint(
+	int worldHandle,
+	int bodyAHandle,
+	int bodyBHandle,
+	float localAx,
+	float localAy,
+	float localAz,
+	float localAqx,
+	float localAqy,
+	float localAqz,
+	float localAqw,
+	float localBx,
+	float localBy,
+	float localBz,
+	float localBqx,
+	float localBqy,
+	float localBqz,
+	float localBqw,
+	int enableSpring,
+	float hertz,
+	float dampingRatio,
+	float targetTranslation,
+	int enableLimit,
+	float lowerTranslation,
+	float upperTranslation,
+	int enableMotor,
+	float maxMotorForce,
+	float motorSpeed)
+{
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
+	b3wBodySlot* bodyB = b3wGetBody(bodyBHandle);
+	if (world == NULL || bodyA == NULL || bodyB == NULL) return 0;
+	b3PrismaticJointDef jointDef = b3DefaultPrismaticJointDef();
+	jointDef.base.bodyIdA = bodyA->bodyId;
+	jointDef.base.bodyIdB = bodyB->bodyId;
+	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, { { localAqx, localAqy, localAqz }, localAqw } };
+	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
+	jointDef.enableSpring = enableSpring != 0;
+	jointDef.hertz = hertz;
+	jointDef.dampingRatio = dampingRatio;
+	jointDef.targetTranslation = targetTranslation;
+	jointDef.enableLimit = enableLimit != 0;
+	jointDef.lowerTranslation = lowerTranslation;
+	jointDef.upperTranslation = upperTranslation;
+	jointDef.enableMotor = enableMotor != 0;
+	jointDef.maxMotorForce = maxMotorForce;
+	jointDef.motorSpeed = motorSpeed;
+	b3JointId jointId = b3CreatePrismaticJoint(world->worldId, &jointDef);
+	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
+}
+
+B3W_EXPORT int b3wCreateWeldJoint(
+	int worldHandle,
+	int bodyAHandle,
+	int bodyBHandle,
+	float localAx,
+	float localAy,
+	float localAz,
+	float localAqx,
+	float localAqy,
+	float localAqz,
+	float localAqw,
+	float localBx,
+	float localBy,
+	float localBz,
+	float localBqx,
+	float localBqy,
+	float localBqz,
+	float localBqw,
+	float linearHertz,
+	float angularHertz,
+	float linearDampingRatio,
+	float angularDampingRatio)
+{
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
+	b3wBodySlot* bodyB = b3wGetBody(bodyBHandle);
+	if (world == NULL || bodyA == NULL || bodyB == NULL) return 0;
+	b3WeldJointDef jointDef = b3DefaultWeldJointDef();
+	jointDef.base.bodyIdA = bodyA->bodyId;
+	jointDef.base.bodyIdB = bodyB->bodyId;
+	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, { { localAqx, localAqy, localAqz }, localAqw } };
+	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
+	jointDef.linearHertz = linearHertz;
+	jointDef.angularHertz = angularHertz;
+	jointDef.linearDampingRatio = linearDampingRatio;
+	jointDef.angularDampingRatio = angularDampingRatio;
+	b3JointId jointId = b3CreateWeldJoint(world->worldId, &jointDef);
+	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
+}
+
 B3W_EXPORT void b3wDestroyJoint(int jointHandle)
 {
 	if (jointHandle <= 0 || jointHandle > B3W_MAX_JOINTS) return;

@@ -196,7 +196,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
   // --- Tick ---
 
-  private stepPhysics(): number {
+  protected stepPhysics(): number {
     if (this.world === null) return 0;
     const start = performance.now();
     this.world.step(this.fixedTimeStep, this.subSteps);

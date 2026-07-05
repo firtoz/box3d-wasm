@@ -1113,20 +1113,21 @@ function renderSamples(): void {
 
   sampleListElement.innerHTML = "";
 
-  let first = true;
+  const activeGroup = (() => {
+    const parts = samples[activeSampleIndex].name.split(" / ");
+    return parts.length > 1 ? parts[0] : "General";
+  })();
+
   for (const [group, items] of groups) {
-    if (!first) {
-      const hr = document.createElement("div");
-      hr.style.borderTop = "1px solid rgba(255,255,255,0.06)";
-      hr.style.margin = "2px 8px";
-      sampleListElement.appendChild(hr);
-    }
-    first = false;
+    const wrapper = document.createElement("div");
+    wrapper.className = "sample-menu-group";
 
     const header = document.createElement("div");
     header.className = "sample-menu-header";
     header.textContent = group;
-    sampleListElement.appendChild(header);
+
+    const itemsDiv = document.createElement("div");
+    itemsDiv.className = "sample-menu-items";
 
     for (const item of items) {
       const btn = document.createElement("button");
@@ -1138,8 +1139,21 @@ function renderSamples(): void {
         sampleListElement.classList.remove("open");
         samplesBtn.classList.remove("open");
       });
-      sampleListElement.appendChild(btn);
+      itemsDiv.appendChild(btn);
     }
+
+    const isActive = group === activeGroup;
+    itemsDiv.classList.toggle("open", isActive);
+    header.classList.toggle("collapsed", !isActive);
+
+    header.addEventListener("click", () => {
+      const nowOpen = itemsDiv.classList.toggle("open");
+      header.classList.toggle("collapsed", !nowOpen);
+    });
+
+    wrapper.appendChild(header);
+    wrapper.appendChild(itemsDiv);
+    sampleListElement.appendChild(wrapper);
   }
 }
 

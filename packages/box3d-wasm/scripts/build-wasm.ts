@@ -39,7 +39,7 @@ async function buildVariant(label: string, buildDir: string, outputDir: string, 
     [
       "bash",
       "-lc",
-      `${emcmakeCommand} cmake -S ${join(packageRoot, "cmake")} -B ${buildDir} -DBOX3D_SOURCE_DIR=${box3dSourceDir} -DBOX3D_SAMPLES=OFF -DBOX3D_BENCHMARKS=OFF -DBOX3D_DOCS=OFF -DBOX3D_UNIT_TESTS=OFF -DBOX3D_WASM_PROFILE_NAMES=${profileNames ? "ON" : "OFF"} -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${outputDir} && cmake --build ${buildDir}`,
+      `${emcmakeCommand} cmake -S ${join(packageRoot, "cmake")} -B ${buildDir} -DBOX3D_SOURCE_DIR=${box3dSourceDir} -DBOX3D_SAMPLES=OFF -DBOX3D_BENCHMARKS=OFF -DBOX3D_DOCS=OFF -DBOX3D_UNIT_TESTS=OFF -DBOX3D_VALIDATE=OFF -DBOX3D_DISABLE_SIMD=OFF -DBOX3D_WASM_PROFILE_NAMES=${profileNames ? "ON" : "OFF"} -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${outputDir} && cmake --build ${buildDir}`,
     ],
     "Install Emscripten and ensure emcmake is available.",
   );
