@@ -53,6 +53,16 @@ Port all samples, then add extra samples for any API not covered by upstream sam
 
 ## Sample rendering guidance
 
+Ported upstream samples should match the C++ sample behavior and visible geometry exactly unless the user explicitly approves a variation. The known exception is Dominoes, where the current variation is intentional.
+
+Be careful with Box3D geometry conventions when building Three.js render specs:
+
+- `b3MakeBoxHull(hx, hy, hz)` uses half-extents. Three.js `BoxGeometry(x, y, z)` uses full dimensions, so render boxes as `[2 * hx, 2 * hy, 2 * hz]`.
+- `b3CreateCylinder(height, radius, yOffset, sides)` creates a Y-axis hull from local `y = yOffset` to `y = yOffset + height`. Three.js `CylinderGeometry(radius, radius, height)` is Y-axis but centered at local origin, so render it with local position `[0, yOffset + 0.5 * height, 0]` when it is part of a compound body.
+- Preserve upstream body transforms. If the C++ sample sets `bodyDef.rotation`, put the same quaternion in both the worker body definition and the host render spec.
+
+For one physics body with multiple visible shapes, use the generic host compound render spec (`kind: "compound", parts: [...]`) instead of adding fake render bodies. Fake bodies break worker snapshot/body-index mapping and picking.
+
 For benchmark-heavy samples (many bodies), prefer the **washer approach** (custom `ShaderMaterial` with per-instance quaternion attribute, ~7 floats per instance) over the **dominoes approach** (InstancedMesh with `setMatrixAt`, ~16 floats per instance). See `demo/src/samples/washer.ts` for the pattern.
 
 Simple stacking/shape samples can use the generic host (`demo/src/samples/generic-host.ts`).

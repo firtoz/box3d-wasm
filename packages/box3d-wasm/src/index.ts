@@ -101,11 +101,11 @@ type CreateBodyFn = (worldHandle: number, bodyType: number, px: number, py: numb
 type DestroyWorldFn = (worldHandle: number) => void;
 type CreateBoxFn = (worldHandle: number, px: number, py: number, pz: number, hx: number, hy: number, hz: number, isStatic: number, density: number) => number;
 type CreateSphereFn = (worldHandle: number, px: number, py: number, pz: number, radius: number, vx: number, vy: number, vz: number, density: number) => number;
-type CreateHullShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, hx: number, hy: number, hz: number) => number;
+type CreateHullShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, hx: number, hy: number, hz: number) => number;
 type CreateTransformedHullShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, hx: number, hy: number, hz: number, sx: number, sy: number, sz: number) => number;
 type CreateSphereShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, px: number, py: number, pz: number, radius: number) => number;
 type CreateCapsuleShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, ax: number, ay: number, az: number, bx: number, by: number, bz: number, radius: number) => number;
-type CreateShapeFromHullFn = (bodyHandle: number, hullHandle: number, density: number, friction: number, restitution: number, rollingResistance: number) => number;
+type CreateShapeFromHullFn = (bodyHandle: number, hullHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number) => number;
 type CreateCylinderFn = (height: number, radius: number, yOffset: number, sides: number) => number;
 type CreateHullFromPointsFn = (numPoints: number, points: number) => number;
 type DestroyHullFn = (hullHandle: number) => void;
@@ -323,11 +323,11 @@ export class Box3DRuntime implements RuntimeAPI {
     this.destroyWorldFn = module.cwrap("b3wDestroyWorld", null, ["number"]);
     this.createBoxFn = module.cwrap("b3wCreateBox", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
     this.createSphereFn = module.cwrap("b3wCreateSphere", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
-    this.createHullShapeFn = module.cwrap("b3wCreateHullShape", "number", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+    this.createHullShapeFn = module.cwrap("b3wCreateHullShape", "number", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
     this.createTransformedHullShapeFn = module.cwrap("b3wCreateTransformedHullShape", "number", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
     this.createSphereShapeFn = module.cwrap("b3wCreateSphereShape", "number", ["number","number","number","number","number","number","number","number","number"]);
     this.createCapsuleShapeFn = module.cwrap("b3wCreateCapsuleShape", "number", ["number","number","number","number","number","number","number","number","number","number","number","number","number"]);
-    this.createShapeFromHullFn = module.cwrap("b3wCreateShapeFromHull", "number", ["number","number","number","number","number","number"]);
+    this.createShapeFromHullFn = module.cwrap("b3wCreateShapeFromHull", "number", ["number","number","number","number","number","number","number"]);
     this.createCylinderFn = module.cwrap("b3wCreateCylinder", "number", ["number","number","number","number"]);
     this.createHullFromPointsFn = module.cwrap("b3wCreateHullFromPoints", "number", ["number","number"]);
     this.destroyHullFn = module.cwrap("b3wDestroyHull", null, ["number"]);
@@ -538,7 +538,7 @@ export class Box3DRuntime implements RuntimeAPI {
   }
 
   createHullShape(bodyHandle: number, halfWidths: Vec3, def: ShapeDef = {}): ShapeHandle {
-    const shapeHandle = this.createHullShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, 0, 0, 0, 0, 0, 0, 1, halfWidths[0], halfWidths[1], halfWidths[2]);
+    const shapeHandle = this.createHullShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, def.updateBodyMass === false ? 0 : 1, 0, 0, 0, 0, 0, 0, 1, halfWidths[0], halfWidths[1], halfWidths[2]);
     const shape = { bodyHandle, shapeHandle };
     this.applyShapeDef(shapeHandle, def);
     return shape;
@@ -554,7 +554,7 @@ export class Box3DRuntime implements RuntimeAPI {
   }
 
   createShapeFromHull(bodyHandle: number, hullHandle: number, def: ShapeDef = {}): number {
-    const shapeHandle = this.createShapeFromHullFn(bodyHandle, hullHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0);
+    const shapeHandle = this.createShapeFromHullFn(bodyHandle, hullHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, def.updateBodyMass === false ? 0 : 1);
     this.applyShapeDef(shapeHandle, def);
     return shapeHandle;
   }

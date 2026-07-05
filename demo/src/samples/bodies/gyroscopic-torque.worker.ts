@@ -3,13 +3,14 @@ import { BodyType, type Vec3 } from "box3d-wasm";
 
 class GyroscopicTorqueWorker extends PhysicsWorkerBase {
   protected getGroundSize(): Vec3 {
-    return [10, 1, 10];
+    return [20, 1, 20];
   }
 
   protected async buildScene(): Promise<number[]> {
     const body = this.world!.createBody({
       type: BodyType.Dynamic,
       position: [0, 2, 0],
+      rotation: [-0.7071067811865475, 0, 0, 0.7071067811865476],
       gravityScale: 0,
     });
 

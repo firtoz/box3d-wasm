@@ -9,17 +9,41 @@ import type { ControlSpec, DemoBody, DemoSample, SolverParams } from "./types";
 import { capsuleMesh, disposeBodies, getWasmVariant, getWorkerCounts } from "./shared";
 
 const dummy = new THREE.Object3D();
+const localOffset = new THREE.Vector3();
+const localRotation = new THREE.Quaternion();
 
-export type RenderBodyBase = { position: [number, number, number]; rotation?: [number, number, number, number]; color: number; type?: BodyType };
-export type RenderBody = RenderBodyBase & ({ kind: "box"; size: [number, number, number] } | { kind: "sphere"; radius: number } | { kind: "cylinder"; radius: number; height: number } | { kind: "capsule"; radius: number; length: number });
+export type RenderBodyBase = { position: [number, number, number]; rotation?: [number, number, number, number]; type?: BodyType };
+export type RenderShape = { color: number } & ({ kind: "box"; size: [number, number, number] } | { kind: "sphere"; radius: number } | { kind: "cylinder"; radius: number; height: number; segments?: number } | { kind: "capsule"; radius: number; length: number });
+export type RenderPart = RenderShape & { position?: [number, number, number]; rotation?: [number, number, number, number] };
+export type RenderBody = (RenderBodyBase & RenderShape) | (RenderBodyBase & { kind: "compound"; parts: [RenderPart, ...RenderPart[]] });
 export type RenderControlButton = { type: "button"; label: string; message: Record<string, unknown> };
 export type RenderControlToggle = { type: "toggle"; label: string; message: Record<string, unknown>; value: boolean };
 export type RenderControl = RenderControlButton | RenderControlToggle;
 export type RenderSpec = { groundSize: [number, number, number]; bodies: RenderBody[]; info?: string; camera?: { position: [number, number, number]; target: [number, number, number] }; launchSpeed?: number; controls?: RenderControl[] };
 
+function meshForShape(shape: RenderShape): THREE.Mesh {
+  if (shape.kind === "capsule") return capsuleMesh(shape.radius, shape.length, shape.color);
+  const mat = new THREE.MeshStandardMaterial({ color: shape.color, roughness: 0.75 });
+  return shape.kind === "box" ? new THREE.Mesh(new THREE.BoxGeometry(...shape.size), mat) : shape.kind === "sphere" ? new THREE.Mesh(new THREE.SphereGeometry(shape.radius, 24, 16), mat) : new THREE.Mesh(new THREE.CylinderGeometry(shape.radius, shape.radius, shape.height, shape.segments ?? 12), mat);
+}
+
+function setLocalTransform(mesh: THREE.Mesh, basePosition: THREE.Vector3, baseRotation: THREE.Quaternion): void {
+  mesh.position.copy(basePosition);
+  mesh.quaternion.copy(baseRotation);
+  const partPosition = mesh.userData.localPosition as [number, number, number] | undefined;
+  if (partPosition !== undefined) {
+    localOffset.set(partPosition[0], partPosition[1], partPosition[2]).applyQuaternion(baseRotation);
+    mesh.position.add(localOffset);
+  }
+  const partRotation = mesh.userData.localRotation as [number, number, number, number] | undefined;
+  if (partRotation !== undefined) {
+    localRotation.set(partRotation[0], partRotation[1], partRotation[2], partRotation[3]);
+    mesh.quaternion.multiply(localRotation);
+  }
+}
+
 export function meshFor(body: RenderBody): THREE.Mesh {
-  const mat = new THREE.MeshStandardMaterial({ color: body.color, roughness: 0.75 });
-  const mesh = body.kind === "box" ? new THREE.Mesh(new THREE.BoxGeometry(...body.size), mat) : body.kind === "sphere" ? new THREE.Mesh(new THREE.SphereGeometry(body.radius, 24, 16), mat) : body.kind === "cylinder" ? new THREE.Mesh(new THREE.CylinderGeometry(body.radius, body.radius, body.height, 12), mat) : capsuleMesh(body.radius, body.length, body.color);
+  const mesh = meshForShape(body.kind === "compound" ? body.parts[0] : body);
   mesh.position.set(body.position[0], body.position[1], body.position[2]);
   if (body.rotation !== undefined) mesh.quaternion.set(body.rotation[0], body.rotation[1], body.rotation[2], body.rotation[3]);
   mesh.castShadow = body.type !== BodyType.Static;
@@ -58,9 +82,27 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
       scene.add(groundMesh);
       const bodies: DemoBody[] = [];
       for (let i = 0; i < spec.bodies.length; i++) {
-        const mesh = meshFor(spec.bodies[i]);
+        const bodySpec = spec.bodies[i];
+        const mesh = meshFor(bodySpec);
+        const bodyPosition = new THREE.Vector3(bodySpec.position[0], bodySpec.position[1], bodySpec.position[2]);
+        const bodyRotation = bodySpec.rotation === undefined ? new THREE.Quaternion() : new THREE.Quaternion(bodySpec.rotation[0], bodySpec.rotation[1], bodySpec.rotation[2], bodySpec.rotation[3]);
+        if (bodySpec.kind === "compound") {
+          mesh.userData.localPosition = bodySpec.parts[0].position;
+          mesh.userData.localRotation = bodySpec.parts[0].rotation;
+          setLocalTransform(mesh, bodyPosition, bodyRotation);
+        }
         scene.add(mesh);
-        bodies.push({ handle: i + 1, mesh, type: spec.bodies[i].type ?? BodyType.Dynamic });
+        const extraMeshes = bodySpec.kind === "compound" ? bodySpec.parts.slice(1).map((shape) => {
+          const extra = meshForShape(shape);
+          extra.userData.localPosition = shape.position;
+          extra.userData.localRotation = shape.rotation;
+          setLocalTransform(extra, bodyPosition, bodyRotation);
+          extra.castShadow = mesh.castShadow;
+          extra.receiveShadow = true;
+          scene.add(extra);
+          return extra;
+        }) : undefined;
+        bodies.push({ handle: i + 1, mesh, extraMeshes, type: bodySpec.type ?? BodyType.Dynamic });
       }
 
       worker.addEventListener("message", (event: MessageEvent<PhysicsWorkerMessage>) => {
@@ -160,18 +202,26 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
         if (version === lastVersion) return;
         lastVersion = version;
         for (let i = 0; i < bodies.length; i++) {
+          const body = bodies[i];
           if (awake[i] !== 0) {
             const p = i * 3, r = i * 4;
             dummy.position.set(positions[p], positions[p + 1], positions[p + 2]);
             dummy.quaternion.set(rotations[r], rotations[r + 1], rotations[r + 2], rotations[r + 3]);
-            dummy.scale.set(1, 1, 1);
-            dummy.updateMatrix();
-            bodies[i].mesh.matrix.copy(dummy.matrix);
-            bodies[i].mesh.matrix.decompose(bodies[i].mesh.position, bodies[i].mesh.quaternion, bodies[i].mesh.scale);
+            setLocalTransform(body.mesh, dummy.position, dummy.quaternion);
+            if (body.extraMeshes !== undefined) {
+              for (const extra of body.extraMeshes) {
+                setLocalTransform(extra, dummy.position, dummy.quaternion);
+              }
+            }
           }
           const colorHex = colors[i] & 0xffffff;
           if ((colorCache[i] & 0xffffff) !== colorHex) {
-            (bodies[i].mesh.material as THREE.MeshStandardMaterial).color.setHex(colorHex);
+            (body.mesh.material as THREE.MeshStandardMaterial).color.setHex(colorHex);
+            if (body.extraMeshes !== undefined) {
+              for (const extra of body.extraMeshes) {
+                (extra.material as THREE.MeshStandardMaterial).color.setHex(colorHex);
+              }
+            }
             colorCache[i] = colorHex;
           }
         }

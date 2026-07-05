@@ -39,7 +39,7 @@ B3W_EXPORT int b3wCreateSphere(int worldHandle, float px, float py, float pz, fl
 	return b3wAllocBodySlot(worldHandle, bodyId);
 }
 
-B3W_EXPORT int b3wCreateHullShape(int bodyHandle, float density, float friction, float restitution, float rollingResistance, float tx, float ty, float tz,
+B3W_EXPORT int b3wCreateHullShape(int bodyHandle, float density, float friction, float restitution, float rollingResistance, int updateBodyMass, float tx, float ty, float tz,
 					   float qx, float qy, float qz, float qw, float hx, float hy, float hz)
 {
 	b3wBodySlot* slot = b3wGetBody(bodyHandle);
@@ -49,6 +49,7 @@ B3W_EXPORT int b3wCreateHullShape(int bodyHandle, float density, float friction,
 	shapeDef.baseMaterial.friction = friction;
 	shapeDef.baseMaterial.restitution = restitution;
 	shapeDef.baseMaterial.rollingResistance = rollingResistance;
+	shapeDef.updateBodyMass = updateBodyMass != 0;
 	b3BoxHull hull = b3MakeBoxHull(hx, hy, hz);
 	b3Transform transform = { { tx, ty, tz }, { { qx, qy, qz }, qw } };
 	(void)transform;
@@ -104,7 +105,7 @@ B3W_EXPORT int b3wCreateCapsuleShape(int bodyHandle, float density, float fricti
 	return b3wAllocShapeSlot(shapeId);
 }
 
-B3W_EXPORT int b3wCreateShapeFromHull(int bodyHandle, int hullHandle, float density, float friction, float restitution, float rollingResistance)
+B3W_EXPORT int b3wCreateShapeFromHull(int bodyHandle, int hullHandle, float density, float friction, float restitution, float rollingResistance, int updateBodyMass)
 {
 	b3wBodySlot* body = b3wGetBody(bodyHandle);
 	b3wHullSlot* hull = b3wGetHull(hullHandle);
@@ -114,6 +115,7 @@ B3W_EXPORT int b3wCreateShapeFromHull(int bodyHandle, int hullHandle, float dens
 	shapeDef.baseMaterial.friction = friction;
 	shapeDef.baseMaterial.restitution = restitution;
 	shapeDef.baseMaterial.rollingResistance = rollingResistance;
+	shapeDef.updateBodyMass = updateBodyMass != 0;
 	b3ShapeId shapeId = b3CreateHullShape(body->bodyId, &shapeDef, hull->hull);
 	return b3wAllocShapeSlot(shapeId);
 }
