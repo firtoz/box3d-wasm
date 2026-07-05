@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import type { Box3DRuntime } from "box3d-wasm";
+import { BodyType, type Box3DRuntime } from "box3d-wasm";
 import type { DemoBody, DemoSample } from "./types";
 import { addBox, disposeBodies, syncBodies } from "./shared";
 
@@ -16,7 +16,7 @@ export const sphereStackSample: DemoSample = {
     let y = 1.5 * r;
     for (let i = 0; i < 30; i++) {
       const p: [number, number, number] = [0, y, 0];
-      const bodyHandle = world.createBody({ type: 2, position: p, isAwake: true });
+      const bodyHandle = world.createBody({ type: BodyType.Dynamic, position: p, isAwake: true });
       runtime.createSphereShape(bodyHandle, [0, 0, 0], r, { rollingResistance: 0.1 });
       const mesh = new THREE.Mesh(
         new THREE.SphereGeometry(r, 24, 16),
@@ -26,7 +26,7 @@ export const sphereStackSample: DemoSample = {
       mesh.castShadow = true;
       mesh.receiveShadow = true;
       scene.add(mesh);
-      bodies.push({ handle: bodyHandle, mesh, type: 2 });
+      bodies.push({ handle: bodyHandle, mesh, type: BodyType.Dynamic });
       y += 3.0 * r;
     }
 

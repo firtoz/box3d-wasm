@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import type { Box3DRuntime, PhysicsWorld } from "box3d-wasm";
+import { BodyType, type Box3DRuntime, type PhysicsWorld } from "box3d-wasm";
 import type { DemoBody, DemoSample, ControlSpec } from "./types";
 import { addBox, capsuleMesh, disposeBodies, syncBodies } from "./shared";
 
@@ -25,7 +25,7 @@ function buildStack(runtime: Box3DRuntime, world: PhysicsWorld, scene: THREE.Sce
       const p: [number, number, number] = [sx, 0.5 * i + 0.25, sz];
       const qy = Math.sin(alpha / 2);
       const qwY = Math.cos(alpha / 2);
-      const bodyHandle = world.createBody({ type: 2, position: p, isAwake: true });
+      const bodyHandle = world.createBody({ type: BodyType.Dynamic, position: p, isAwake: true });
       world.setBodyTransform(bodyHandle, p, [0, qy, 0, qwY]);
 
       if (useCapsule) {
@@ -46,7 +46,7 @@ function buildStack(runtime: Box3DRuntime, world: PhysicsWorld, scene: THREE.Sce
       mesh.receiveShadow = true;
       scene.add(mesh);
 
-      bodies.push({ handle: bodyHandle, mesh, type: 2 });
+      bodies.push({ handle: bodyHandle, mesh, type: BodyType.Dynamic });
     }
   }
 }

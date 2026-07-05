@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import type { Box3DRuntime, PhysicsWorld } from "box3d-wasm";
+import { BodyType, type Box3DRuntime, type PhysicsWorld } from "box3d-wasm";
 import type { DemoBody, DemoSample } from "./types";
 import { addBox, disposeBodies, syncBodies } from "./shared";
 
@@ -19,7 +19,7 @@ function addVerticalPair(
     const p: [number, number, number] = [startX + sign * offsetX, startY, 0];
     const qz = Math.sin(sign * alpha / 2);
     const qwZ = Math.cos(sign * alpha / 2);
-    const bodyHandle = world.createBody({ type: 2, position: p, isAwake: true });
+    const bodyHandle = world.createBody({ type: BodyType.Dynamic, position: p, isAwake: true });
     world.setBodyTransform(bodyHandle, p, [0, 0, qz, qwZ]);
     runtime.createHullShape(bodyHandle, [CARD_HALF_DEPTH, CARD_HALF_HEIGHT, CARD_HALF_WIDTH], { friction: 0.8 });
     const mesh = new THREE.Mesh(
@@ -31,7 +31,7 @@ function addVerticalPair(
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     scene.add(mesh);
-    bodies.push({ handle: bodyHandle, mesh, type: 2 });
+    bodies.push({ handle: bodyHandle, mesh, type: BodyType.Dynamic });
   }
 }
 
@@ -42,7 +42,7 @@ function addHorizontalRow(
   const color = 0xfde68a;
   for (let i = 0; i < count; i++) {
     const p: [number, number, number] = [startX + i * offsetX, startY, 0];
-    const bodyHandle = world.createBody({ type: 2, position: p, isAwake: true });
+    const bodyHandle = world.createBody({ type: BodyType.Dynamic, position: p, isAwake: true });
     world.setBodyTransform(bodyHandle, p, [0, 0, Math.sin(Math.PI / 4), Math.cos(Math.PI / 4)]);
     runtime.createHullShape(bodyHandle, [CARD_HALF_DEPTH, CARD_HALF_HEIGHT, CARD_HALF_WIDTH], { friction: 0.8 });
     const mesh = new THREE.Mesh(
@@ -54,7 +54,7 @@ function addHorizontalRow(
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     scene.add(mesh);
-    bodies.push({ handle: bodyHandle, mesh, type: 2 });
+    bodies.push({ handle: bodyHandle, mesh, type: BodyType.Dynamic });
   }
 }
 

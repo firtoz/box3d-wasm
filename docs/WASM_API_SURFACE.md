@@ -22,6 +22,7 @@ Source files:
 - Current binding style: manual `b3w*` C bridge functions plus TypeScript wrapper classes
 - Current focus: sample-driven API growth rather than a full 1:1 upstream C API mirror
 - Threading: Emscripten pthreads enabled in WASM build, with world worker-count controls exposed
+- Usage guide: see [`TYPESCRIPT_API.md`](./TYPESCRIPT_API.md) for public TypeScript examples and conventions
 
 ## Maintenance Checklist
 

@@ -1,5 +1,5 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Quat, Vec3 } from "box3d-wasm";
+import { BodyType, type Quat, type Vec3 } from "box3d-wasm";
 
 const PI = Math.PI;
 
@@ -29,12 +29,12 @@ class CompoundSimpleWorker extends PhysicsWorkerBase {
 
     // Static body with compound shape
     const q: Quat = [0, Math.sin(PI / 8), 0, Math.cos(PI / 8)];
-    const body = this.world!.createBody({ type: 0, position: [2, -1, 0], rotation: q });
+    const body = this.world!.createBody({ type: BodyType.Static, position: [2, -1, 0], rotation: q });
     this.runtime!.createCompoundShape(body, this.compound);
     handles.push(body);
 
     // Dynamic sphere
-    const sphere = this.world!.createBody({ type: 2, position: [0, 2, 0], isAwake: true });
+    const sphere = this.world!.createBody({ type: BodyType.Dynamic, position: [0, 2, 0], isAwake: true });
     this.runtime!.createSphereShape(sphere, [0, 0, 0], 0.25);
     handles.push(sphere);
 

@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import type { Box3DRuntime } from "box3d-wasm";
+import { BodyType, type Box3DRuntime } from "box3d-wasm";
 import type { DemoBody, DemoSample } from "./types";
 import { addSphere, disposeBodies, syncBodies } from "./shared";
 
@@ -23,7 +23,7 @@ export const compoundSimpleSample: DemoSample = {
     ]);
 
     const groundBody = world.createBody({
-      type: 0,
+      type: BodyType.Static,
       position: [2, -1, 0],
     });
     world.setBodyTransform(groundBody, [2, -1, 0], [0, Math.sin(Math.PI / 8), 0, Math.cos(Math.PI / 8)]);

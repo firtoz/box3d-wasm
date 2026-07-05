@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import type { Box3DRuntime } from "box3d-wasm";
+import { BodyType, type Box3DRuntime } from "box3d-wasm";
 import type { DemoBody, DemoSample, SolverParams } from "./types";
 import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker-protocol";
 import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
@@ -47,7 +47,7 @@ export function createDominoesSample(multiplier: number): DemoSample {
       groundMesh.position.set(0, -1, 0);
       groundMesh.receiveShadow = true;
       scene.add(groundMesh);
-      bodies.push({ handle: 0, mesh: groundMesh, type: 0 });
+      bodies.push({ handle: 0, mesh: groundMesh, type: BodyType.Static });
 
       const geometry = new THREE.BoxGeometry(0.4, 1.6, 0.1);
       const material = new THREE.MeshStandardMaterial({ color: 0xfbbf24, roughness: 0.75 });

@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import type { Box3DRuntime } from "box3d-wasm";
+import { BodyType, type Box3DRuntime } from "box3d-wasm";
 import type { DemoBody, DemoSample } from "./types";
 import { addBox, disposeBodies, syncBodies } from "./shared";
 
@@ -13,7 +13,7 @@ export const cylinderSample: DemoSample = {
     addBox(world, scene, bodies, [10, 1, 10], [0, -1, 0], 0x222222, true);
 
     const hullHandle = runtime.createCylinder(1, 0.25, 0, 12);
-    const bodyHandle = world.createBody({ type: 2, position: [0, 2, 0], isAwake: true });
+    const bodyHandle = world.createBody({ type: BodyType.Dynamic, position: [0, 2, 0], isAwake: true });
     runtime.createShapeFromHull(bodyHandle, hullHandle, { density: 1000, rollingResistance: 0.05 });
     runtime.destroyHull(hullHandle);
 
@@ -23,7 +23,7 @@ export const cylinderSample: DemoSample = {
     cylMesh.castShadow = true;
     cylMesh.receiveShadow = true;
     scene.add(cylMesh);
-    bodies.push({ handle: bodyHandle, mesh: cylMesh, type: 2 });
+    bodies.push({ handle: bodyHandle, mesh: cylMesh, type: BodyType.Dynamic });
 
     return {
       world,

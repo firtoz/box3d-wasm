@@ -1,4 +1,5 @@
 import { PhysicsWorkerBase } from "../physics-worker-base";
+import { BodyType } from "box3d-wasm";
 
 class DominoesWorker extends PhysicsWorkerBase<{ multiplier?: number }> {
   protected async buildScene(initData: { multiplier?: number }): Promise<number[]> {
@@ -17,7 +18,7 @@ class DominoesWorker extends PhysicsWorkerBase<{ multiplier?: number }> {
         const px = radius * cs + (deg * n / 716) * cs;
         const pz = radius * sn + (deg * n / 716) * sn;
         const p: [number, number, number] = [px, 0.8 * scale, pz];
-        const bodyHandle = this.world!.createBody({ type: 2, position: p, rotation: [0, -Math.sin(rad / 2), 0, Math.cos(rad / 2)], isAwake: true });
+        const bodyHandle = this.world!.createBody({ type: BodyType.Dynamic, position: p, rotation: [0, -Math.sin(rad / 2), 0, Math.cos(rad / 2)], isAwake: true });
         this.runtime!.createHullShape(bodyHandle, [0.2 * scale, 0.8 * scale, 0.05 * scale]);
         handles[idx] = bodyHandle;
         if (ring % 2 === 0 ? Math.abs(deg - 358) < 0.1 : Math.abs(deg) < 0.1) {

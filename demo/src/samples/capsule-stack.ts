@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import type { Box3DRuntime } from "box3d-wasm";
+import { BodyType, type Box3DRuntime } from "box3d-wasm";
 import type { DemoBody, DemoSample } from "./types";
 import { addBox, capsuleMesh, disposeBodies, syncBodies } from "./shared";
 
@@ -19,7 +19,7 @@ export const capsuleStackSample: DemoSample = {
 
     for (let i = 0; i < 20; i++) {
       const p: [number, number, number] = [0, y, 0];
-      const bodyHandle = world.createBody({ type: 2, position: p });
+      const bodyHandle = world.createBody({ type: BodyType.Dynamic, position: p });
       world.createCapsuleShape(bodyHandle, [-1, 0, 0], [1, 0, 0], r);
       runtime.setBodyMotionLocks(bodyHandle, { lockLinearZ: true, lockRotationX: true, lockRotationY: true, lockRotationZ: true });
 
@@ -27,7 +27,7 @@ export const capsuleStackSample: DemoSample = {
       mesh.position.set(0, y, 0);
       scene.add(mesh);
 
-      bodies.push({ handle: bodyHandle, mesh, type: 2 });
+      bodies.push({ handle: bodyHandle, mesh, type: BodyType.Dynamic });
       y += 2.0 * r;
     }
 

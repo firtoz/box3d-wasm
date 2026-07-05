@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Stats from "stats.js";
-import { Box3DRuntime, type Quat, type Vec3 } from "box3d-wasm";
+import { BodyType, Box3DRuntime, type Quat, type Vec3 } from "box3d-wasm";
 import { samples, type ControlSpec, type DemoBody, type DemoSampleInstance, type SolverParams } from "./samples";
 import { getWasmVariant, getWorkerCounts } from "./samples/shared";
 import "./style.css";
@@ -426,7 +426,7 @@ function spawnRagdoll(origin: THREE.Vector3, velocity: THREE.Vector3): void {
     if (handle === 0) continue;
     const mesh = ragdollCapsuleMesh(bone.a, bone.b, bone.radius, bone.color);
     scene.add(mesh);
-    activeSample.bodies.push({ handle, mesh, type: 2, preserveColor: true });
+    activeSample.bodies.push({ handle, mesh, type: BodyType.Dynamic, preserveColor: true });
   }
 }
 
@@ -475,7 +475,7 @@ function spawnProjectile(spin = false, ragdoll = false): void {
   );
   mesh.castShadow = true;
   scene.add(mesh);
-  activeSample.bodies.push({ handle: bodyHandle, mesh, type: 2 });
+  activeSample.bodies.push({ handle: bodyHandle, mesh, type: BodyType.Dynamic });
 }
 
 function clearScene(): void {
@@ -943,7 +943,7 @@ function startMouseDrag(e: PointerEvent): boolean {
   if (hit === null || hit.body.type !== 2) return false;
   setSelectedBody(hit.body);
   mouseDragDistance = camera.position.distanceTo(hit.point);
-  mouseDragBody = activeSample.world.createBody({ type: 1, position: [hit.point.x, hit.point.y, hit.point.z], enableSleep: false });
+  mouseDragBody = activeSample.world.createBody({ type: BodyType.Kinematic, position: [hit.point.x, hit.point.y, hit.point.z], enableSleep: false });
   const localBodyPoint = activeSample.world.getBodyLocalPoint(hit.body.handle, [hit.point.x, hit.point.y, hit.point.z]);
   const massData = activeSample.world.getBodyMassData(hit.body.handle);
   const mg = massData.mass * GRAVITY_MAGNITUDE;

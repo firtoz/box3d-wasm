@@ -1,5 +1,5 @@
 import { PhysicsWorkerBase } from "../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
+import { BodyType, type Vec3 } from "box3d-wasm";
 
 const B3_PI = 3.14159265359;
 const f = Math.fround;
@@ -24,7 +24,7 @@ class WasherWorker extends PhysicsWorkerBase {
     const angleRad = f(f(B3_PI / 180) * motorSpeed);
 
     const drumBody = this.world!.createBody({
-      type: 1,
+      type: BodyType.Kinematic,
       position: [0, 21, 0],
       rotation: [0, 0, 0, 1],
       angularVelocity: [0, 0, angleRad],
@@ -91,7 +91,7 @@ class WasherWorker extends PhysicsWorkerBase {
       for (let j = 0; j < gridCount; j++) {
         let z = f(f(f(-2) * a) * gridCount);
         for (let k = 0; k < gridCount; k++) {
-          const bodyHandle = this.world!.createBody({ type: 2, position: [x, y, z], isAwake: true });
+          const bodyHandle = this.world!.createBody({ type: BodyType.Dynamic, position: [x, y, z], isAwake: true });
           this.runtime!.createShapeFromHull(bodyHandle, cubeHandle);
           handles[idx + 1] = bodyHandle;
           idx++;

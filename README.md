@@ -62,7 +62,7 @@ bun run dev
 
 The upstream `box3d` engine is pinned as a submodule, and this repo layers wasm-specific build tooling and demo code on top.
 
-See [`docs/WASM_API_SURFACE.md`](./docs/WASM_API_SURFACE.md) for the current JavaScript/TypeScript binding checklist and API expansion TODOs.
+Start with [`docs/TYPESCRIPT_API.md`](./docs/TYPESCRIPT_API.md) for TypeScript usage examples, then use [`docs/WASM_API_SURFACE.md`](./docs/WASM_API_SURFACE.md) for the current binding checklist and API expansion TODOs.
 
 ## License
 

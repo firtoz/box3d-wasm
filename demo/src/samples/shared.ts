@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import type { DemoBody } from "./types";
-import type { BodyBatchBuffers, PhysicsWorld, Vec3 } from "box3d-wasm";
+import { BodyType, type BodyBatchBuffers, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 
 const MAX_WEB_WORKERS = 16;
 
@@ -41,7 +41,7 @@ export function addBox(
   mesh.castShadow = !isStatic;
   mesh.receiveShadow = true;
   scene.add(mesh);
-  const body = { handle, mesh, type: isStatic ? 0 : 2 };
+  const body = { handle, mesh, type: isStatic ? BodyType.Static : BodyType.Dynamic };
   bodies.push(body);
   return body;
 }
@@ -63,7 +63,7 @@ export function addSphere(
   mesh.castShadow = true;
   mesh.receiveShadow = true;
   scene.add(mesh);
-  const body = { handle, mesh, type: 2 };
+  const body = { handle, mesh, type: BodyType.Dynamic };
   bodies.push(body);
   return body;
 }
@@ -88,7 +88,7 @@ export function addHull(
   mesh.castShadow = true;
   mesh.receiveShadow = true;
   scene.add(mesh);
-  const body = { handle, mesh, type: 2 };
+  const body = { handle, mesh, type: BodyType.Dynamic };
   bodies.push(body);
   return body;
 }

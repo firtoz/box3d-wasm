@@ -115,7 +115,7 @@ Key details:
 
 - **Toolchain**: Emscripten, CMake, Bun, TypeScript, Vite, and Turborepo
 - **Binding method**: Manual C bridge functions with `b3w*` prefixes, wrapped by TypeScript classes (`Box3DRuntime`, `PhysicsWorld`)
-- **API style**: Mid-level TypeScript API using numeric handles and tuple vectors, e.g. `createBody`, `createSphereShape`, `createHullShape`, `step`, `rayCastClosest`
+- **API style**: Mid-level TypeScript API using named enums, typed option objects, numeric handles, and tuple vectors, e.g. `createBody`, `createSphereShape`, `createHullShape`, `step`, `rayCastClosest`
 - **Renderer**: Included Three.js browser demo
 - **Samples**: 13 C++ sample scenes currently ported to TypeScript, with a tracking document for the remaining ~136 upstream samples
 - **Build flavours**: Release and profile builds
@@ -170,7 +170,7 @@ He framed the PR primarily as a **showcase**: a browser-hosted version of the na
 | Nature | WASM library + 28+ examples | WASM library + separate demo | TS-first workspace + bundled demo | Full native app port |
 | C++ compilation | Box3D library only | Box3D library only | Box3D library only | Entire app: Box3D + sokol + imgui + samples |
 | Binding method | Embind 1:1 C API mirror + JS facade | Embind class wrapper | Manual C bridge + TypeScript wrapper | No reusable JS binding layer |
-| JS API style | Low-level C API mirror | Fluent object API | Mid-level TypeScript handles/classes | N/A; runs native app |
+| JS API style | Low-level C API mirror | Fluent object API | Mid-level TypeScript handles/classes with named enums | N/A; runs native app |
 | Samples/examples | 28+ API-focused examples | Custom Three.js demo scenes | 13/136 C++ samples ported | All ~136 native samples |
 | Renderer | Per-example custom rendering | Three.js in separate demo repo | Three.js included in repo | Native sokol/WebGPU |
 | UI | Example-specific UI | Demo-specific UI | HTML/CSS/Three.js demo UI | imgui from native testbed |

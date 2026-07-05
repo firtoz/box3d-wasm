@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import type { Box3DRuntime } from "box3d-wasm";
+import { BodyType, type Box3DRuntime } from "box3d-wasm";
 import { wasmBuildVersion } from "virtual:wasm-version";
 import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker-protocol";
 import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
@@ -10,7 +10,7 @@ import { capsuleMesh, disposeBodies, getWasmVariant, getWorkerCounts } from "./s
 
 const dummy = new THREE.Object3D();
 
-export type RenderBodyBase = { position: [number, number, number]; rotation?: [number, number, number, number]; color: number; type?: number };
+export type RenderBodyBase = { position: [number, number, number]; rotation?: [number, number, number, number]; color: number; type?: BodyType };
 export type RenderBody = RenderBodyBase & ({ kind: "box"; size: [number, number, number] } | { kind: "sphere"; radius: number } | { kind: "cylinder"; radius: number; height: number } | { kind: "capsule"; radius: number; length: number });
 export type RenderSpec = { groundSize: [number, number, number]; bodies: RenderBody[]; info?: string; camera?: { position: [number, number, number]; target: [number, number, number] }; launchSpeed?: number };
 
@@ -19,7 +19,7 @@ export function meshFor(body: RenderBody): THREE.Mesh {
   const mesh = body.kind === "box" ? new THREE.Mesh(new THREE.BoxGeometry(...body.size), mat) : body.kind === "sphere" ? new THREE.Mesh(new THREE.SphereGeometry(body.radius, 24, 16), mat) : body.kind === "cylinder" ? new THREE.Mesh(new THREE.CylinderGeometry(body.radius, body.radius, body.height, 12), mat) : capsuleMesh(body.radius, body.length, body.color);
   mesh.position.set(body.position[0], body.position[1], body.position[2]);
   if (body.rotation !== undefined) mesh.quaternion.set(body.rotation[0], body.rotation[1], body.rotation[2], body.rotation[3]);
-  mesh.castShadow = body.type !== 0;
+  mesh.castShadow = body.type !== BodyType.Static;
   mesh.receiveShadow = true;
   return mesh;
 }
@@ -57,7 +57,7 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
       for (let i = 0; i < spec.bodies.length; i++) {
         const mesh = meshFor(spec.bodies[i]);
         scene.add(mesh);
-        bodies.push({ handle: i + 1, mesh, type: spec.bodies[i].type ?? 2 });
+        bodies.push({ handle: i + 1, mesh, type: spec.bodies[i].type ?? BodyType.Dynamic });
       }
 
       worker.addEventListener("message", (event: MessageEvent<PhysicsWorkerMessage>) => {

@@ -1,4 +1,4 @@
-import { Box3DRuntime, type BodyBatchBuffers, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { BodyType, Box3DRuntime, type BodyBatchBuffers, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { PhysicsWorkerCommand, PhysicsWorkerMessage, SolverParams } from "./physics-worker-protocol";
 import { MAX_PROJECTILES, RAGDOLL_RENDER_BONE_COUNT, SNAPSHOT_AWAKE_COUNT_INDEX, SNAPSHOT_CUMULATIVE_STEPS_INDEX, SNAPSHOT_DROPPED_MS_X100_INDEX, SNAPSHOT_LAG_MS_X100_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_PUBLISH_MS_X100_INDEX, SNAPSHOT_STEP_MS_X100_INDEX, SNAPSHOT_STEPS_INDEX, SNAPSHOT_VERSION_INDEX, SNAPSHOT_STATE_COUNT } from "./physics-worker-protocol";
 
@@ -132,7 +132,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     if (cmd.solverParams) this.applySolverParams(cmd.solverParams);
     console.log("[worker]", "solverParams:", this.lastSolverParams);
 
-    const groundBody = this.world.createBody({ type: 0, position: [0, -1, 0] });
+    const groundBody = this.world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
     this.runtime.createHullShape(groundBody, this.getGroundSize(this.initData));
 
     const handles = await this.buildScene(this.initData);
@@ -337,10 +337,10 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     if (this.world === null) return;
     this.endDrag();
     const hit = this.world.rayCastClosest(origin, translation);
-    if (hit === null || hit.bodyHandle === 0 || this.world.getBodyType(hit.bodyHandle) !== 2) return;
+    if (hit === null || hit.bodyHandle === 0 || this.world.getBodyType(hit.bodyHandle) !== BodyType.Dynamic) return;
     const point = hit.point;
     this.dragDistance = Math.hypot(point[0] - origin[0], point[1] - origin[1], point[2] - origin[2]);
-    this.dragBody = this.world.createBody({ type: 1, position: point, enableSleep: false });
+    this.dragBody = this.world.createBody({ type: BodyType.Kinematic, position: point, enableSleep: false });
     const localBodyPoint = this.world.getBodyLocalPoint(hit.bodyHandle, point);
     const massData = this.world.getBodyMassData(hit.bodyHandle);
     const mg = massData.mass * GRAVITY_MAGNITUDE;
@@ -399,7 +399,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
     this.applySolverParams(this.lastSolverParams);
 
-    const groundBody = this.world.createBody({ type: 0, position: [0, -1, 0] });
+    const groundBody = this.world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
     this.runtime!.createHullShape(groundBody, this.getGroundSize(this.initData));
 
     const handles = await this.buildScene(this.initData);
