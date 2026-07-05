@@ -67,13 +67,6 @@ app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
       <span class="sep">&bull;</span>
       <span class="keys">[</span> <span class="keys">]</span>
       <span class="sep">&bull;</span>
-      <label class="wasm-variant-label">WASM
-        <select id="wasm-variant" class="wasm-variant-select">
-          <option value="release">release</option>
-          <option value="profile">profile</option>
-        </select>
-      </label>
-      <span class="sep">&bull;</span>
       <span class="keys">Shift+Click</span>
       <div class="samples-dropdown">
         <button class="samples-btn" id="samples-toggle">Samples \u25be</button>
@@ -96,6 +89,7 @@ app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
           <tr><td class="cd-key">R</td><td>Restart sample</td></tr>
           <tr><td class="cd-key">[  ]</td><td>Previous / next sample</td></tr>
           <tr><td class="cd-key">Ctrl+O</td><td>Open sample picker</td></tr>
+          <tr><td class="cd-key">C</td><td>Toggle simple / detailed color mode</td></tr>
           <tr><td class="cd-key">F</td><td>Frame selection / world</td></tr>
           <tr><td class="cd-key">?</td><td>Show / hide controls</td></tr>
           <tr><td class="cd-key">Esc</td><td>Cancel / close</td></tr>
@@ -137,18 +131,9 @@ const metricsElement = document.querySelector<HTMLDivElement>("#metrics") ?? det
 const infoElement = document.querySelector<HTMLDivElement>("#info") ?? detachedElement("div");
 const samplesToggle = document.querySelector<HTMLButtonElement>("#samples-toggle") ?? detachedElement("button");
 const controlsToggle = document.querySelector<HTMLButtonElement>("#controls-toggle") ?? detachedElement("button");
-const wasmVariantSelect = document.querySelector<HTMLSelectElement>("#wasm-variant") ?? detachedElement("select");
 const controlsDialog = document.querySelector<HTMLDivElement>("#controls-dialog") ?? detachedElement("div");
 const controlsDialogHeader = document.querySelector<HTMLDivElement>("#controls-dialog-header") ?? detachedElement("div");
 const controlsDialogClose = document.querySelector<HTMLSpanElement>("#controls-dialog-close") ?? detachedElement("span");
-
-wasmVariantSelect.value = wasmVariant;
-wasmVariantSelect.addEventListener("change", () => {
-  const url = new URL(window.location.href);
-  if (wasmVariantSelect.value === "profile") url.searchParams.set("wasm", "profile");
-  else url.searchParams.delete("wasm");
-  window.location.href = url.href;
-});
 const samplesBtn = samplesToggle;
 const controlsBtn = controlsToggle;
 
@@ -361,6 +346,7 @@ let paused = false;
 let singleStep = 0;
 let controlsVisible = true;
 let showControlsDialog = (() => { try { return localStorage.getItem(VISIBLE_STORAGE_KEY) === "1"; } catch { return false; } })();
+let colorMode = localStorage.getItem("box3d:color-mode") === "light" ? "light" : "full";
 let selectedBody: DemoBody | null = null;
 let mouseDragBody = 0;
 let mouseDragJoint = 0;
@@ -390,18 +376,18 @@ type RagdollBone = {
 
 const RAGDOLL_BONES: RagdollBone[] = [
   { name: "pelvis", parent: -1, position: [0, 0.932087, -0.051708], rotation: [0.739169, 0, 0, 0.67352], a: [0.07, 0, -0.08], b: [-0.07, 0, -0.08], radius: 0.13, color: 0x1e90ff },
-  { name: "spine_01", parent: 0, position: [0, 1.113505, -0.03481], rotation: [0.739973, 0, 0, 0.672637], a: [0.06, 0, -0.052264], b: [-0.06, 0, -0.052264], radius: 0.12, color: 0x7dd3fc, joint: { kind: "spherical", localFrameA: { position: [0, 0, -0.182204], rotation: [-0.999999, 0, 0, 0.001194] }, localFrameB: { position: [0, 0, -0.007736], rotation: [-1, 0, 0, 0] }, coneAngle: 25 * Math.PI / 180, lowerTwist: -15 * Math.PI / 180, upperTwist: 15 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
-  { name: "spine_02", parent: 1, position: [0, 1.194336, -0.027087], rotation: [0.703611, 0, 0, 0.710586], a: [0.08, -0.015133, -0.091801], b: [-0.08, -0.015133, -0.091801], radius: 0.1, color: 0x7dd3fc, joint: { kind: "spherical", localFrameA: { position: [0, 0, -0.088935], rotation: [-0.998619, 0, 0, -0.05254] }, localFrameB: { position: [0, 0, -0.008199], rotation: [-1, 0, 0, 0] }, coneAngle: 25 * Math.PI / 180, lowerTwist: -15 * Math.PI / 180, upperTwist: 15 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
-  { name: "spine_03", parent: 2, position: [0, 1.31043, -0.028232], rotation: [0.669856, 0.000001, -0.000001, 0.742491], a: [0.11, -0.039753, -0.13], b: [-0.11, -0.039753, -0.13], radius: 0.145, color: 0x7dd3fc, joint: { kind: "spherical", localFrameA: { position: [0, 0, -0.124298], rotation: [-0.998921, 0.000001, -0.000001, -0.046434] }, localFrameB: { position: [0, 0, 0], rotation: [-1, 0, 0, 0] }, coneAngle: 15 * Math.PI / 180, lowerTwist: -10 * Math.PI / 180, upperTwist: 10 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
+  { name: "spine_01", parent: 0, position: [0, 1.113505, -0.03481], rotation: [0.739973, 0, 0, 0.672637], a: [0.06, 0, -0.052264], b: [-0.06, 0, -0.052264], radius: 0.12, color: 0x48d1cc, joint: { kind: "spherical", localFrameA: { position: [0, 0, -0.182204], rotation: [-0.999999, 0, 0, 0.001194] }, localFrameB: { position: [0, 0, -0.007736], rotation: [-1, 0, 0, 0] }, coneAngle: 25 * Math.PI / 180, lowerTwist: -15 * Math.PI / 180, upperTwist: 15 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
+  { name: "spine_02", parent: 1, position: [0, 1.194336, -0.027087], rotation: [0.703611, 0, 0, 0.710586], a: [0.08, -0.015133, -0.091801], b: [-0.08, -0.015133, -0.091801], radius: 0.1, color: 0x48d1cc, joint: { kind: "spherical", localFrameA: { position: [0, 0, -0.088935], rotation: [-0.998619, 0, 0, -0.05254] }, localFrameB: { position: [0, 0, -0.008199], rotation: [-1, 0, 0, 0] }, coneAngle: 25 * Math.PI / 180, lowerTwist: -15 * Math.PI / 180, upperTwist: 15 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
+  { name: "spine_03", parent: 2, position: [0, 1.31043, -0.028232], rotation: [0.669856, 0.000001, -0.000001, 0.742491], a: [0.11, -0.039753, -0.13], b: [-0.11, -0.039753, -0.13], radius: 0.145, color: 0x48d1cc, joint: { kind: "spherical", localFrameA: { position: [0, 0, -0.124298], rotation: [-0.998921, 0.000001, -0.000001, -0.046434] }, localFrameB: { position: [0, 0, 0], rotation: [-1, 0, 0, 0] }, coneAngle: 15 * Math.PI / 180, lowerTwist: -10 * Math.PI / 180, upperTwist: 10 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
   { name: "neck", parent: 3, position: [0, 1.575582, -0.055837], rotation: [0.879922, 0, 0, 0.475118], a: [-0.000001, 0, -0.02], b: [0, -0.005, -0.08], radius: 0.07, color: 0xffdead, joint: { kind: "spherical", localFrameA: { position: [0.000001, -0.000259, -0.266585], rotation: [-0.942192, -0.000001, 0, 0.335074] }, localFrameB: { position: [0, 0, 0], rotation: [-1, 0, 0, 0] }, coneAngle: 45 * Math.PI / 180, lowerTwist: -15 * Math.PI / 180, upperTwist: 15 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 0.8 } },
   { name: "head", parent: 4, position: [0, 1.653348, -0.003241], rotation: [0.750288, 0, 0, 0.661111], a: [-0.000001, 0.016892, -0.05869], b: [0, -0.003629, -0.115072], radius: 0.0975, color: 0xffdead, joint: { kind: "spherical", localFrameA: { position: [0, 0.001321, -0.093873], rotation: [-0.974301, 0, 0, -0.225251] }, localFrameB: { position: [0, 0.001268, -0.005104], rotation: [-1, 0, 0, 0] }, coneAngle: 15 * Math.PI / 180, lowerTwist: -15 * Math.PI / 180, upperTwist: 15 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 0.4 } },
   { name: "thigh_l", parent: 0, position: [0.090416, 0.986104, -0.03509], rotation: [-0.703287, -0.070715, 0.053866, 0.705327], a: [0.023719, 0.006008, -0.039068], b: [-0.064492, -0.004664, -0.424718], radius: 0.09, color: 0x1e90ff, joint: { kind: "spherical", localFrameA: { position: [0.05, 0.011537, -0.055325], rotation: [-0.714896, -0.022305, -0.698361, -0.02679] }, localFrameB: { position: [0, 0, 0], rotation: [-0.002064, 0.758987, 0.017046, 0.65088] }, coneAngle: 10 * Math.PI / 180, lowerTwist: -60 * Math.PI / 180, upperTwist: 40 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
   { name: "calf_l", parent: 6, position: [0.101198, 0.527027, -0.037374], rotation: [-0.653328, -0.06686, 0.058582, 0.751838], a: [0.001778, 0, 0.009841], b: [-0.078577, 0.014707, -0.41816], radius: 0.075, color: 0x1e90ff, joint: { kind: "revolute", localFrameA: { position: [-0.069989, 0.000253, -0.453844], rotation: [-0.000677, 0.760087, 0.105674, 0.641171] }, localFrameB: { position: [0, 0, 0], rotation: [-0.044589, 0.76554, 0.053368, 0.639619] }, lowerAngle: -5 * Math.PI / 180, upperAngle: 45 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
   { name: "thigh_r", parent: 0, position: [-0.090416, 0.986104, -0.03509], rotation: [-0.703287, 0.070715, -0.053865, 0.705326], a: [-0.023719, 0.006008, -0.039068], b: [0.064492, -0.004664, -0.424718], radius: 0.09, color: 0x1e90ff, joint: { kind: "spherical", localFrameA: { position: [-0.05, 0.011537, -0.055326], rotation: [-0.039089, -0.714094, 0.043177, 0.697623] }, localFrameB: { position: [0, 0, 0], rotation: [0.758805, -0.019886, -0.651012, -0.001759] }, coneAngle: 10 * Math.PI / 180, lowerTwist: -30 * Math.PI / 180, upperTwist: 60 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
   { name: "calf_r", parent: 8, position: [-0.101198, 0.527027, -0.037373], rotation: [-0.653327, 0.06686, -0.058582, 0.751839], a: [-0.00182, 0, 0.010071], b: [0.077883, 0.014825, -0.418047], radius: 0.075, color: 0x1e90ff, joint: { kind: "revolute", localFrameA: { position: [0.069988, 0.000253, -0.453844], rotation: [0.760086, -0.000675, -0.641171, -0.105676] }, localFrameB: { position: [0, 0, 0], rotation: [0.76554, -0.044589, -0.639619, -0.053368] }, lowerAngle: -45 * Math.PI / 180, upperAngle: 5 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
-  { name: "upper_arm_l", parent: 3, position: [0.20378, 1.484275, -0.115897], rotation: [0.143082, 0.69598, -0.69013, 0.13733], a: [0, 0, 0], b: [-0.091118, 0.037775, 0.229719], radius: 0.075, color: 0x7dd3fc, joint: { kind: "spherical", localFrameA: { position: [0.20378, -0.069369, -0.181921], rotation: [-0.278486, 0.4456, -0.097014, 0.845266] }, localFrameB: { position: [0, 0, 0], rotation: [-0.201396, -0.001586, 0.90185, 0.382234] }, coneAngle: 60 * Math.PI / 180, lowerTwist: -5 * Math.PI / 180, upperTwist: 5 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
+  { name: "upper_arm_l", parent: 3, position: [0.20378, 1.484275, -0.115897], rotation: [0.143082, 0.69598, -0.69013, 0.13733], a: [0, 0, 0], b: [-0.091118, 0.037775, 0.229719], radius: 0.075, color: 0x48d1cc, joint: { kind: "spherical", localFrameA: { position: [0.20378, -0.069369, -0.181921], rotation: [-0.278486, 0.4456, -0.097014, 0.845266] }, localFrameB: { position: [0, 0, 0], rotation: [-0.201396, -0.001586, 0.90185, 0.382234] }, coneAngle: 60 * Math.PI / 180, lowerTwist: -5 * Math.PI / 180, upperTwist: 5 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
   { name: "lower_arm_l", parent: 10, position: [0.305614, 1.242908, -0.117599], rotation: [0.165048, 0.563437, -0.802002, 0.109959], a: [0, 0, 0], b: [-0.142406, 0.039392, 0.261092], radius: 0.05, color: 0xffdead, joint: { kind: "revolute", localFrameA: { position: [-0.095482, 0.039584, 0.240723], rotation: [0.512487, -0.180629, 0.839474, 0.003742] }, localFrameB: { position: [0, 0, 0], rotation: [0.503803, -0.029831, 0.858168, 0.094017] }, lowerAngle: -5 * Math.PI / 180, upperAngle: 60 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
-  { name: "upper_arm_r", parent: 3, position: [-0.20378, 1.484276, -0.115899], rotation: [0.143083, -0.695978, 0.690132, 0.137329], a: [0, 0, 0], b: [0.091118, 0.037775, 0.229718], radius: 0.075, color: 0x7dd3fc, joint: { kind: "spherical", localFrameA: { position: [-0.203779, -0.069371, -0.181922], rotation: [-0.253621, -0.414842, 0.106962, 0.867261] }, localFrameB: { position: [0, 0, 0], rotation: [-0.201397, 0.001587, -0.90185, 0.382233] }, coneAngle: 60 * Math.PI / 180, lowerTwist: -5 * Math.PI / 180, upperTwist: 5 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
+  { name: "upper_arm_r", parent: 3, position: [-0.20378, 1.484276, -0.115899], rotation: [0.143083, -0.695978, 0.690132, 0.137329], a: [0, 0, 0], b: [0.091118, 0.037775, 0.229718], radius: 0.075, color: 0x48d1cc, joint: { kind: "spherical", localFrameA: { position: [-0.203779, -0.069371, -0.181922], rotation: [-0.253621, -0.414842, 0.106962, 0.867261] }, localFrameB: { position: [0, 0, 0], rotation: [-0.201397, 0.001587, -0.90185, 0.382233] }, coneAngle: 60 * Math.PI / 180, lowerTwist: -5 * Math.PI / 180, upperTwist: 5 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
   { name: "lower_arm_r", parent: 12, position: [-0.305614, 1.242907, -0.117599], rotation: [0.165048, -0.563437, 0.802002, 0.109959], a: [0, 0, 0], b: [0.142406, 0.039392, 0.261092], radius: 0.05, color: 0xffdead, joint: { kind: "revolute", localFrameA: { position: [0.095484, 0.039585, 0.240723], rotation: [-0.180627, 0.512487, -0.003744, -0.839474] }, localFrameB: { position: [0, 0, 0], rotation: [-0.029831, 0.503803, -0.094017, -0.858169] }, lowerAngle: -60 * Math.PI / 180, upperAngle: 5 * Math.PI / 180, hertz: 1, damping: 1, maxTorque: 1 } },
 ];
 
@@ -622,6 +608,28 @@ function renderSolverControls(): void {
   addResetButton(chartRateRow, currentChartHz !== defaultChartHz, () => { setChartHz(defaultChartHz); renderControls(activeSample?.controls ?? []); });
   el.appendChild(chartRateRow);
 
+  const wasmRow = document.createElement("div");
+  wasmRow.className = "ctrl-row";
+  wasmRow.innerHTML = `<div class="ctrl-header"><span>WASM Variant</span><span class="ctrl-value">${wasmVariant}</span></div>`;
+  const wasmSelect = document.createElement("select");
+  wasmSelect.className = "ctrl-select";
+  wasmSelect.id = "wasm-variant";
+  for (const v of ["release", "profile"]) {
+    const option = document.createElement("option");
+    option.value = v;
+    option.textContent = v;
+    option.selected = wasmVariant === v;
+    wasmSelect.appendChild(option);
+  }
+  wasmSelect.addEventListener("change", () => {
+    const url = new URL(window.location.href);
+    if (wasmSelect.value === "profile") url.searchParams.set("wasm", "profile");
+    else url.searchParams.delete("wasm");
+    window.location.href = url.href;
+  });
+  wasmRow.appendChild(wasmSelect);
+  el.appendChild(wasmRow);
+
   const renderTitle = document.createElement("div");
   renderTitle.className = "ctrl-section-title";
   renderTitle.textContent = "Rendering";
@@ -644,6 +652,25 @@ function renderSolverControls(): void {
   shadowsRow.appendChild(shadowsLabel);
   addResetButton(shadowsRow, shadowsEnabled !== defaultShadowsEnabled, () => { setShadowsEnabled(defaultShadowsEnabled); renderControls(activeSample?.controls ?? []); });
   el.appendChild(shadowsRow);
+
+  const colorModeRow = document.createElement("div");
+  colorModeRow.className = "ctrl-toggle-row";
+  const colorModeLabel = document.createElement("label");
+  colorModeLabel.className = "ctrl-toggle-label";
+  const colorModeCb = document.createElement("input");
+  colorModeCb.type = "checkbox";
+  colorModeCb.id = "color-mode-cb";
+  colorModeCb.checked = colorMode === "light";
+  colorModeCb.addEventListener("change", () => {
+    colorMode = colorModeCb.checked ? "light" : "full";
+    localStorage.setItem("box3d:color-mode", colorMode);
+    activeSample?.onKey?.("c");
+  });
+  colorModeLabel.appendChild(colorModeCb);
+  colorModeLabel.appendChild(document.createTextNode(" Simple colors"));
+  colorModeLabel.appendChild(controlNote("Uses simple transform transfers to reduce native WASM calls. Toggle with the C key."));
+  colorModeRow.appendChild(colorModeLabel);
+  el.appendChild(colorModeRow);
 
   const title = document.createElement("div");
   title.className = "ctrl-section-title";
@@ -1641,6 +1668,12 @@ window.addEventListener("keydown", (e) => {
     if (metricsBar) metricsBar.style.display = metricsBar.style.display === "none" ? "" : "none";
   } else if (e.key === "m" || e.key === "M") {
     metricsElement.style.display = metricsElement.style.display === "none" ? "" : "none";
+  } else if (e.key === "c" || e.key === "C") {
+    colorMode = colorMode === "full" ? "light" : "full";
+    localStorage.setItem("box3d:color-mode", colorMode);
+    activeSample?.onKey?.("c");
+    const colorCb = document.querySelector<HTMLInputElement>("#color-mode-cb");
+    if (colorCb) colorCb.checked = colorMode === "light";
   }
   if (!e.defaultPrevented && activeSample?.onKey) {
     activeSample.onKey(e.key);

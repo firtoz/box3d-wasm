@@ -21,6 +21,7 @@ export type PhysicsWorkerCommand =
   | { type: "step-once" }
   | { type: "toggle-worker-count" }
   | { type: "set-solver-params"; params: SolverParams }
+  | { type: "set-color-mode"; mode: "light" | "full" }
   | { type: "dispose" };
 
 export type PhysicsWorkerReady = {

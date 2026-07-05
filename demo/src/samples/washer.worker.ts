@@ -17,7 +17,6 @@ function invRotZ(v: Vec3, angle: number): Vec3 {
 const WASHER_COUNT = 8000;
 
 class WasherWorker extends PhysicsWorkerBase {
-  protected useLightTransforms = true;
   protected groundSize: Vec3 = [60, 1, 60];
 
   protected async buildScene(): Promise<number[]> {

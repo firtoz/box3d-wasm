@@ -1,5 +1,6 @@
 #include "box3d_web_shared.h"
 #include "body.h"
+#include "shape.h"
 #include "physics_world.h"
 
 static b3HexColor GetBodyDebugColor( b3BodyId bodyId )
@@ -12,6 +13,23 @@ static b3HexColor GetBodyDebugColor( b3BodyId bodyId )
 
 	b3Body* body = b3GetBodyFullId( world, bodyId );
 	b3BodySim* bodySim = b3GetBodySim( world, body );
+
+	// Check for customColor on any shape. If set, return it as-is so
+	// user-assigned per-bone ragdoll colors survive the pipeline.
+	{
+		int shapeId = body->headShapeId;
+		while ( shapeId != B3_NULL_INDEX )
+		{
+			b3Shape* shape = b3Array_Get( world->shapes, shapeId );
+			const b3SurfaceMaterial* sm = b3GetShapeMaterials( shape );
+			if ( sm[0].customColor != 0 )
+			{
+				// May already carry a packed material preset, pass through unchanged
+				return (b3HexColor)sm[0].customColor;
+			}
+			shapeId = shape->nextShapeId;
+		}
+	}
 
 	b3HexColor rgb;
 	b3DebugMaterial material = b3_debugMaterialDefault;
@@ -285,6 +303,13 @@ B3W_EXPORT void b3wGetBodyTransform(int bodyHandle, float* outTransform)
 	outTransform[4] = rotation.v.y;
 	outTransform[5] = rotation.v.z;
 	outTransform[6] = rotation.s;
+}
+
+B3W_EXPORT uint32_t b3wGetBodyDebugColor(int bodyHandle)
+{
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL) return 0;
+	return (uint32_t)GetBodyDebugColor(slot->bodyId);
 }
 
 B3W_EXPORT int b3wBodyIsAwake(int bodyHandle)

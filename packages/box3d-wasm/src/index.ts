@@ -141,6 +141,7 @@ type ShapeSetSphereFn = (shapeHandle: number, px: number, py: number, pz: number
 type ShapeSetCapsuleFn = (shapeHandle: number, ax: number, ay: number, az: number, bx: number, by: number, bz: number, radius: number) => void;
 type ShapeApplyWindFn = (shapeHandle: number, windX: number, windY: number, windZ: number, drag: number, lift: number, maxSpeed: number, wake: number) => void;
 type BodyIsAwakeFn = (bodyHandle: number) => number;
+type GetBodyDebugColorFn = (bodyHandle: number) => number;
 type GetBodyTypeFn = (bodyHandle: number) => number;
 type BodySetTypeFn = (bodyHandle: number, type: number) => void;
 type BodySetNameFn = (bodyHandle: number, name: number) => void;
@@ -249,6 +250,7 @@ export class Box3DRuntime implements RuntimeAPI {
   private readonly setShapeCapsuleFn: ShapeSetCapsuleFn;
   private readonly applyShapeWindFn: ShapeApplyWindFn;
   private readonly bodyIsAwakeFn: BodyIsAwakeFn;
+  private readonly getBodyDebugColorFn: GetBodyDebugColorFn;
   private readonly getBodyTypeFn: GetBodyTypeFn;
   private readonly setBodyTypeFn: BodySetTypeFn;
   private readonly setBodyNameFn: BodySetNameFn;
@@ -360,6 +362,7 @@ export class Box3DRuntime implements RuntimeAPI {
     this.setShapeCapsuleFn = module.cwrap("b3wShapeSetCapsule", null, ["number", "number", "number", "number", "number", "number", "number", "number"]);
     this.applyShapeWindFn = module.cwrap("b3wShapeApplyWind", null, ["number", "number", "number", "number", "number", "number", "number", "number"]);
     this.bodyIsAwakeFn = module.cwrap("b3wBodyIsAwake", "number", ["number"]);
+    this.getBodyDebugColorFn = module.cwrap("b3wGetBodyDebugColor", "number", ["number"]);
     this.getBodyTypeFn = module.cwrap("b3wGetBodyType", "number", ["number"]);
     this.setBodyTypeFn = module.cwrap("b3wSetBodyType", null, ["number", "number"]);
     this.setBodyNameFn = module.cwrap("b3wSetBodyName", null, ["number", "number"]);
@@ -579,6 +582,7 @@ export class Box3DRuntime implements RuntimeAPI {
   setBodyLinearVelocity(bodyHandle: number, velocity: Vec3): void { this.setBodyLinearVelocityFn(bodyHandle, velocity[0], velocity[1], velocity[2]); }
   setBodyAngularVelocity(bodyHandle: number, velocity: Vec3): void { this.setBodyAngularVelocityFn(bodyHandle, velocity[0], velocity[1], velocity[2]); }
   bodyIsAwake(bodyHandle: number): boolean { return this.bodyIsAwakeFn(bodyHandle) !== 0; }
+  getBodyDebugColor(bodyHandle: number): number { return this.getBodyDebugColorFn(bodyHandle); }
   getBodyType(bodyHandle: number): BodyType { return this.getBodyTypeFn(bodyHandle) as BodyType; }
   setBodyAwake(bodyHandle: number, awake: boolean): void { this.setBodyAwakeFn(bodyHandle, awake ? 1 : 0); }
   setBodyDamping(bodyHandle: number, linearDamping: number, angularDamping: number): void { this.setBodyDampingFn(bodyHandle, linearDamping, angularDamping); }
@@ -695,6 +699,7 @@ export class PhysicsWorld {
   applyLinearImpulse(bodyHandle: number, impulse: Vec3, point: Vec3, wake = true): void { this.runtime.applyLinearImpulse(bodyHandle, impulse, point, wake); }
   applyLinearImpulseToCenter(bodyHandle: number, impulse: Vec3, wake = true): void { this.runtime.applyLinearImpulseToCenter(bodyHandle, impulse, wake); }
   bodyIsAwake(bodyHandle: number): boolean { return this.runtime.bodyIsAwake(bodyHandle); }
+  getBodyDebugColor(bodyHandle: number): number { return this.runtime.getBodyDebugColor(bodyHandle); }
   getBodyType(bodyHandle: number): BodyType { return this.runtime.getBodyType(bodyHandle); }
   setBodyAwake(bodyHandle: number, awake: boolean): void { this.runtime.setBodyAwake(bodyHandle, awake); }
   setBodyDamping(bodyHandle: number, linearDamping: number, angularDamping: number): void { this.runtime.setBodyDamping(bodyHandle, linearDamping, angularDamping); }

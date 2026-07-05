@@ -34,7 +34,6 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   protected lastPublishTime = 0;
   protected publishIntervalMs = 15;
   protected useLightTransforms = true;
-
   protected projectileHandles: number[] = [];
   protected dragBody = 0;
   protected dragJoint = 0;
@@ -104,6 +103,9 @@ export abstract class PhysicsWorkerBase<TInit = void> {
         break;
       case "set-solver-params":
         this.applySolverParams(cmd.params);
+        break;
+      case "set-color-mode":
+        this.setColorMode(cmd.mode);
         break;
       case "dispose":
         this.dispose();
@@ -383,6 +385,10 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     const newCount = this.currentWorkerCount === 1 ? this.maxWorkerCount : 1;
     this.currentWorkerCount = newCount;
     void this.restartScene();
+  }
+
+  private setColorMode(mode: "light" | "full"): void {
+    this.useLightTransforms = mode === "light";
   }
 
   private async restartScene(): Promise<void> {

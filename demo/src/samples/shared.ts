@@ -103,10 +103,6 @@ export function capsuleMesh(radius: number, length: number, color: number, rough
   return mesh;
 }
 
-const AWAKE_COLOR = 0xd2b48c;
-const SLEEPING_COLOR = 0x778899;
-const STATIC_COLOR = 0xa9a9a9;
-
 export type BodySyncBatch = {
   buffers: BodyBatchBuffers;
   positions: Float32Array;
@@ -196,8 +192,7 @@ export function syncBodies(world: PhysicsWorld, bodies: DemoBody[]): void {
       transform.rotation[3],
     );
     if (!body.preserveColor) {
-      const awake = body.type === 0 ? false : world.bodyIsAwake(body.handle);
-      const colorHex = body.type === 0 ? STATIC_COLOR : awake ? AWAKE_COLOR : SLEEPING_COLOR;
+      const colorHex = world.getBodyDebugColor(body.handle) & 0xffffff;
       const mat = body.mesh.material as THREE.MeshStandardMaterial;
       mat.color.setHex(colorHex);
       if (body.extraMeshes !== undefined) {

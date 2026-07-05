@@ -276,6 +276,7 @@ export function createWasherSample(forcedRenderMode?: WasherRenderMode, options:
       let lastVersion = -1;
       let colorCache: Uint32Array | null = null;
       const renderMode = forcedRenderMode ?? getWasherRenderMode();
+      let colorMode = localStorage.getItem("box3d:color-mode") === "light" ? "light" : "full";
 
       const projectileMeshes: THREE.Mesh[] = [];
       const projectileColorCache = new Uint32Array(MAX_PROJECTILES);
@@ -391,160 +392,187 @@ export function createWasherSample(forcedRenderMode?: WasherRenderMode, options:
         }
       });
       worker.postMessage({ type: "init", data: {}, workerCount: wc, maxWorkers, poolSize, solverParams: initialSolverParams, wasmVersion: wasmBuildVersion, wasmVariant: getWasmVariant() });
+      worker.postMessage({ type: "set-color-mode", mode: colorMode });
+
+      function onKey(key: string): void {
+        if (key === "t" || key === "T") {
+          worker.postMessage({ type: "toggle-worker-count" });
+        } else if (key === "c" || key === "C") {
+          colorMode = colorMode === "full" ? "light" : "full";
+          localStorage.setItem("box3d:color-mode", colorMode);
+          worker.postMessage({ type: "set-color-mode", mode: colorMode });
+          console.log(`[washer] color mode: ${colorMode}`);
+        }
+      }
+
+      function spawnProjectile(origin: [number, number, number], velocity: [number, number, number], spin: boolean, ragdoll: boolean): void {
+        if (projectileMeshes.length >= MAX_PROJECTILES) return;
+        if (ragdoll) {
+          const ragdollCount = Math.min(RAGDOLL_RENDER_BONES.length, MAX_PROJECTILES - projectileMeshes.length);
+          for (let i = 0; i < ragdollCount; i++) {
+            const bone = RAGDOLL_RENDER_BONES[i];
+            const ragdollMesh = ragdollCapsuleMesh(bone.a, bone.b, bone.radius, bone.color);
+            ragdollMesh.position.set(origin[0] + bone.position[0], origin[1] + bone.position[1], origin[2] + bone.position[2]);
+            ragdollMesh.quaternion.set(bone.rotation[0], bone.rotation[1], bone.rotation[2], bone.rotation[3]);
+            scene.add(ragdollMesh);
+            projectileMeshes.push(ragdollMesh);
+            projectileColorCache[projectileMeshes.length - 1] = bone.color;
+          }
+          worker.postMessage({ type: "spawn-ragdoll", origin, velocity });
+          return;
+        }
+        const projectileMesh = new THREE.Mesh(new THREE.SphereGeometry(0.3, 12, 8), new THREE.MeshStandardMaterial({ color: 0xf59e0b }));
+        projectileMesh.castShadow = true;
+        projectileMesh.position.set(origin[0], origin[1], origin[2]);
+        scene.add(projectileMesh);
+        projectileMeshes.push(projectileMesh);
+        projectileColorCache[projectileMeshes.length - 1] = spin ? 0x8b5cf6 : 0xf59e0b;
+        worker.postMessage({ type: "spawn-projectile", origin, velocity });
+      }
+
+      function startMouseDragRay(origin: [number, number, number], translation: [number, number, number]): boolean {
+        worker.postMessage({ type: "drag-start", origin, translation });
+        return true;
+      }
+
+      function updateMouseDragRay(origin: [number, number, number], translation: [number, number, number]): void {
+        worker.postMessage({ type: "drag-update", origin, translation });
+      }
+
+      function stopMouseDrag(): void {
+        worker.postMessage({ type: "drag-end" });
+      }
+
+      function setPaused(paused: boolean): void {
+        worker.postMessage({ type: "set-paused", paused });
+      }
+
+      function stepOnce(): void {
+        worker.postMessage({ type: "step-once" });
+      }
+
+      function sendSolverParams(params: SolverParams): void {
+        worker.postMessage({ type: "set-solver-params", params });
+      }
+
+      function step(): void {
+        if (positions === null || rotations === null || awake === null || colors === null || state === null || colorCache === null) return;
+        const version = Atomics.load(state, SNAPSHOT_VERSION_INDEX);
+        if (version === lastVersion) return;
+        lastVersion = version;
+
+        let needsMatrixUpdate = false;
+        let needsColorUpdate = false;
+        drumGroup.position.set(positions[0], positions[1], positions[2]);
+        drumGroup.quaternion.set(rotations[0], rotations[1], rotations[2], rotations[3]);
+
+        const cubeCount = Math.min(WASHER_CUBE_COUNT, Math.max(0, bodyCount - 1));
+        for (let i = 0; i < cubeCount; i++) {
+          const bodyIndex = i + 1;
+          const isAwake = awake[bodyIndex] !== 0;
+          if (matrixMesh !== null && isAwake) {
+            const pOff = bodyIndex * 3;
+            const rOff = bodyIndex * 4;
+            dummy.scale.set(1, 1, 1);
+            dummy.position.set(positions[pOff], positions[pOff + 1], positions[pOff + 2]);
+            dummy.quaternion.set(rotations[rOff], rotations[rOff + 1], rotations[rOff + 2], rotations[rOff + 3]);
+            dummy.updateMatrix();
+            matrixMesh.setMatrixAt(i, dummy.matrix);
+            needsMatrixUpdate = true;
+          } else if (shaderMesh !== null) {
+            const pOff = bodyIndex * 3;
+            const rOff = bodyIndex * 4;
+            const instanceP = i * 3;
+            const instanceQ = i * 4;
+            shaderMesh.positionArray[instanceP] = positions[pOff];
+            shaderMesh.positionArray[instanceP + 1] = positions[pOff + 1];
+            shaderMesh.positionArray[instanceP + 2] = positions[pOff + 2];
+            shaderMesh.quaternionArray[instanceQ] = rotations[rOff];
+            shaderMesh.quaternionArray[instanceQ + 1] = rotations[rOff + 1];
+            shaderMesh.quaternionArray[instanceQ + 2] = rotations[rOff + 2];
+            shaderMesh.quaternionArray[instanceQ + 3] = rotations[rOff + 3];
+            needsMatrixUpdate = true;
+          }
+          const colorHex = colors[bodyIndex] & 0xffffff;
+          if ((colorCache[i] & 0xffffff) !== colorHex) {
+            if (matrixMesh !== null) {
+              matrixMesh.setColorAt(i, debugColor.setHex(colorHex));
+            } else if (shaderMesh !== null) {
+              hexToRgb(colorHex, shaderMesh.colorArray, i * 3);
+            }
+            colorCache[i] = colorHex;
+            needsColorUpdate = true;
+          }
+        }
+        if (matrixMesh !== null) {
+          if (needsMatrixUpdate) matrixMesh.instanceMatrix.needsUpdate = true;
+          if (needsColorUpdate) matrixMesh.instanceColor!.needsUpdate = true;
+        } else if (shaderMesh !== null) {
+          if (needsMatrixUpdate) {
+            shaderMesh.positionAttribute.needsUpdate = true;
+            shaderMesh.quaternionAttribute.needsUpdate = true;
+          }
+          if (needsColorUpdate) shaderMesh.colorAttribute.needsUpdate = true;
+        }
+
+        if (projectilePositions !== null && projectileRotations !== null && projectileAwake !== null && projectileDebugColors !== null) {
+          const projectileCount = Math.min(Atomics.load(state, SNAPSHOT_PROJECTILE_COUNT_INDEX), projectileMeshes.length);
+          for (let i = 0; i < projectileCount; i++) {
+            const pOff = i * 3;
+            const rOff = i * 4;
+            projectileMeshes[i].position.set(projectilePositions[pOff], projectilePositions[pOff + 1], projectilePositions[pOff + 2]);
+            projectileMeshes[i].quaternion.set(projectileRotations[rOff], projectileRotations[rOff + 1], projectileRotations[rOff + 2], projectileRotations[rOff + 3]);
+            const colorHex = projectileDebugColors[i] & 0xffffff;
+            if ((projectileColorCache[i] & 0xffffff) !== colorHex) {
+              const material = projectileMeshes[i].material as THREE.MeshStandardMaterial;
+              material.color.setHex(colorHex);
+              projectileColorCache[i] = colorHex;
+            }
+          }
+        }
+      }
+
+      function dispose(): void {
+        worker.postMessage({ type: "dispose" });
+        worker.terminate();
+        scene.remove(groundMesh);
+        groundGeom.dispose();
+        groundMat.dispose();
+        scene.remove(drumGroup);
+        drumMesh.geometry.dispose();
+        (drumMesh.material as THREE.Material).dispose();
+        drumEdges.geometry.dispose();
+        (drumEdges.material as THREE.Material).dispose();
+        scene.remove(mesh);
+        cubeGeom?.dispose();
+        cubeMat?.dispose();
+        shaderMesh?.dispose();
+        for (const projectileMesh of projectileMeshes) {
+          scene.remove(projectileMesh);
+          projectileMesh.geometry.dispose();
+          const projectileMaterial = projectileMesh.material;
+          if (Array.isArray(projectileMaterial)) projectileMaterial.forEach((entry) => entry.dispose());
+          else projectileMaterial.dispose();
+        }
+      }
 
       return {
         world,
         bodies,
         controls: [],
         profile: physicsCharts,
-        info: `Washer | ${WASHER_CUBE_COUNT} cubes | worker simulation | ${wc} workers | ${renderMode} render`,
+        info: `Washer | ${WASHER_CUBE_COUNT} cubes | worker simulation | ${wc} workers | ${renderMode} render | ${colorMode} colors`,
         camera: { position: [25, 20, 55], target: [0, 15, 0] },
-        onKey(key: string) {
-          if (key === "t" || key === "T") {
-            worker.postMessage({ type: "toggle-worker-count" });
-          }
-        },
-        spawnProjectile(origin, velocity, spin, ragdoll) {
-          if (projectileMeshes.length >= MAX_PROJECTILES) return;
-          if (ragdoll) {
-            const ragdollCount = Math.min(RAGDOLL_RENDER_BONES.length, MAX_PROJECTILES - projectileMeshes.length);
-            for (let i = 0; i < ragdollCount; i++) {
-              const bone = RAGDOLL_RENDER_BONES[i];
-              const ragdollMesh = ragdollCapsuleMesh(bone.a, bone.b, bone.radius, bone.color);
-              ragdollMesh.position.set(origin[0] + i * 0.5, origin[1], origin[2]);
-              scene.add(ragdollMesh);
-              projectileMeshes.push(ragdollMesh);
-              projectileColorCache[projectileMeshes.length - 1] = bone.color;
-            }
-            worker.postMessage({ type: "spawn-ragdoll", origin, velocity });
-            return;
-          }
-          const projectileMesh = new THREE.Mesh(new THREE.SphereGeometry(0.3, 12, 8), new THREE.MeshStandardMaterial({ color: 0xf59e0b }));
-          projectileMesh.castShadow = true;
-          projectileMesh.position.set(origin[0], origin[1], origin[2]);
-          scene.add(projectileMesh);
-          projectileMeshes.push(projectileMesh);
-          projectileColorCache[projectileMeshes.length - 1] = spin ? 0x8b5cf6 : 0xf59e0b;
-          worker.postMessage({ type: "spawn-projectile", origin, velocity });
-        },
-        startMouseDragRay(origin, translation) {
-          worker.postMessage({ type: "drag-start", origin, translation });
-          return true;
-        },
-        updateMouseDragRay(origin, translation) {
-          worker.postMessage({ type: "drag-update", origin, translation });
-        },
-        stopMouseDrag() {
-          worker.postMessage({ type: "drag-end" });
-        },
-        setPaused(paused) {
-          worker.postMessage({ type: "set-paused", paused });
-        },
-        stepOnce() {
-          worker.postMessage({ type: "step-once" });
-        },
-        sendSolverParams(params) {
-          worker.postMessage({ type: "set-solver-params", params });
-        },
-        step(_dt?, _subSteps?) {
-          if (positions === null || rotations === null || awake === null || colors === null || state === null || colorCache === null) return;
-          const version = Atomics.load(state, SNAPSHOT_VERSION_INDEX);
-          if (version === lastVersion) return;
-          lastVersion = version;
-
-          let needsMatrixUpdate = false;
-          let needsColorUpdate = false;
-          drumGroup.position.set(positions[0], positions[1], positions[2]);
-          drumGroup.quaternion.set(rotations[0], rotations[1], rotations[2], rotations[3]);
-
-          const cubeCount = Math.min(WASHER_CUBE_COUNT, Math.max(0, bodyCount - 1));
-          for (let i = 0; i < cubeCount; i++) {
-            const bodyIndex = i + 1;
-            const isAwake = awake[bodyIndex] !== 0;
-            if (matrixMesh !== null && isAwake) {
-              const pOff = bodyIndex * 3;
-              const rOff = bodyIndex * 4;
-              dummy.scale.set(1, 1, 1);
-              dummy.position.set(positions[pOff], positions[pOff + 1], positions[pOff + 2]);
-              dummy.quaternion.set(rotations[rOff], rotations[rOff + 1], rotations[rOff + 2], rotations[rOff + 3]);
-              dummy.updateMatrix();
-              matrixMesh.setMatrixAt(i, dummy.matrix);
-              needsMatrixUpdate = true;
-            } else if (shaderMesh !== null) {
-              const pOff = bodyIndex * 3;
-              const rOff = bodyIndex * 4;
-              const instanceP = i * 3;
-              const instanceQ = i * 4;
-              shaderMesh.positionArray[instanceP] = positions[pOff];
-              shaderMesh.positionArray[instanceP + 1] = positions[pOff + 1];
-              shaderMesh.positionArray[instanceP + 2] = positions[pOff + 2];
-              shaderMesh.quaternionArray[instanceQ] = rotations[rOff];
-              shaderMesh.quaternionArray[instanceQ + 1] = rotations[rOff + 1];
-              shaderMesh.quaternionArray[instanceQ + 2] = rotations[rOff + 2];
-              shaderMesh.quaternionArray[instanceQ + 3] = rotations[rOff + 3];
-              needsMatrixUpdate = true;
-            }
-            const colorHex = colors[bodyIndex] & 0xffffff;
-            if ((colorCache[i] & 0xffffff) !== colorHex) {
-              if (matrixMesh !== null) {
-                matrixMesh.setColorAt(i, debugColor.setHex(colorHex));
-              } else if (shaderMesh !== null) {
-                hexToRgb(colorHex, shaderMesh.colorArray, i * 3);
-              }
-              colorCache[i] = colorHex;
-              needsColorUpdate = true;
-            }
-          }
-          if (matrixMesh !== null) {
-            if (needsMatrixUpdate) matrixMesh.instanceMatrix.needsUpdate = true;
-            if (needsColorUpdate) matrixMesh.instanceColor!.needsUpdate = true;
-          } else if (shaderMesh !== null) {
-            if (needsMatrixUpdate) {
-              shaderMesh.positionAttribute.needsUpdate = true;
-              shaderMesh.quaternionAttribute.needsUpdate = true;
-            }
-            if (needsColorUpdate) shaderMesh.colorAttribute.needsUpdate = true;
-          }
-
-          if (projectilePositions !== null && projectileRotations !== null && projectileAwake !== null && projectileDebugColors !== null) {
-            const projectileCount = Math.min(Atomics.load(state, SNAPSHOT_PROJECTILE_COUNT_INDEX), projectileMeshes.length);
-            for (let i = 0; i < projectileCount; i++) {
-              const pOff = i * 3;
-              const rOff = i * 4;
-              projectileMeshes[i].position.set(projectilePositions[pOff], projectilePositions[pOff + 1], projectilePositions[pOff + 2]);
-              projectileMeshes[i].quaternion.set(projectileRotations[rOff], projectileRotations[rOff + 1], projectileRotations[rOff + 2], projectileRotations[rOff + 3]);
-              const colorHex = projectileDebugColors[i] & 0xffffff;
-              if ((projectileColorCache[i] & 0xffffff) !== colorHex) {
-                const material = projectileMeshes[i].material as THREE.MeshStandardMaterial;
-                material.color.setHex(colorHex);
-                projectileColorCache[i] = colorHex;
-              }
-            }
-          }
-        },
-        dispose() {
-          worker.postMessage({ type: "dispose" });
-          worker.terminate();
-          scene.remove(groundMesh);
-          groundGeom.dispose();
-          groundMat.dispose();
-          scene.remove(drumGroup);
-          drumMesh.geometry.dispose();
-          (drumMesh.material as THREE.Material).dispose();
-          drumEdges.geometry.dispose();
-          (drumEdges.material as THREE.Material).dispose();
-          scene.remove(mesh);
-          cubeGeom?.dispose();
-          cubeMat?.dispose();
-          shaderMesh?.dispose();
-          for (const projectileMesh of projectileMeshes) {
-            scene.remove(projectileMesh);
-            projectileMesh.geometry.dispose();
-            const projectileMaterial = projectileMesh.material;
-            if (Array.isArray(projectileMaterial)) projectileMaterial.forEach((entry) => entry.dispose());
-            else projectileMaterial.dispose();
-          }
-        },
+        onKey,
+        spawnProjectile,
+        startMouseDragRay,
+        updateMouseDragRay,
+        stopMouseDrag,
+        setPaused,
+        stepOnce,
+        sendSolverParams,
+        step,
+        dispose,
       };
     },
   };

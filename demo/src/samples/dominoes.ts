@@ -111,18 +111,25 @@ export function createDominoesSample(multiplier: number): DemoSample {
           console.error(`Physics worker error: ${message.message}`);
         }
       });
+      let colorMode = localStorage.getItem("box3d:color-mode") === "light" ? "light" : "full";
       worker.postMessage({ type: "init", data: { multiplier }, workerCount: wc, maxWorkers, poolSize, solverParams: initialSolverParams, wasmVersion: wasmBuildVersion, wasmVariant: getWasmVariant() });
+      worker.postMessage({ type: "set-color-mode", mode: colorMode });
 
       return {
         world,
         bodies,
         controls: [],
         profile: true,
-        info: `${ringCount} rings of dominoes | worker simulation | ${wc} workers | dynamic cap ${MAX_PROJECTILES}`,
+        info: `${ringCount} rings of dominoes | worker simulation | ${wc} workers | dynamic cap ${MAX_PROJECTILES} | ${colorMode} colors`,
         camera: { position: [0, 55, 75], target: [0, 0, 0] },
         onKey(key: string) {
           if (key === "t" || key === "T") {
             worker.postMessage({ type: "toggle-worker-count" });
+          } else if (key === "c" || key === "C") {
+            colorMode = colorMode === "full" ? "light" : "full";
+            localStorage.setItem("box3d:color-mode", colorMode);
+            worker.postMessage({ type: "set-color-mode", mode: colorMode });
+            console.log(`[dominoes] color mode: ${colorMode}`);
           }
         },
         spawnProjectile(origin, velocity, spin, ragdoll) {
@@ -132,7 +139,8 @@ export function createDominoesSample(multiplier: number): DemoSample {
             for (let i = 0; i < ragdollCount; i++) {
               const bone = RAGDOLL_RENDER_BONES[i];
               const ragdollMesh = ragdollCapsuleMesh(bone.a, bone.b, bone.radius, bone.color);
-              ragdollMesh.position.set(origin[0], origin[1], origin[2]);
+              ragdollMesh.position.set(origin[0] + bone.position[0], origin[1] + bone.position[1], origin[2] + bone.position[2]);
+              ragdollMesh.quaternion.set(bone.rotation[0], bone.rotation[1], bone.rotation[2], bone.rotation[3]);
               scene.add(ragdollMesh);
               projectileMeshes.push(ragdollMesh);
               projectileColors.push(new THREE.Color(bone.color));
