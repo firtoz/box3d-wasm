@@ -5,7 +5,6 @@ import { performance } from "node:perf_hooks";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const wasmDir = path.resolve(__dirname, "..", "public", "wasm");
 
-const DOMINO_COUNT = 30 * 181;
 const SUBSTEPS = 4;
 const WARMUP = 10;
 const BENCH = 30;

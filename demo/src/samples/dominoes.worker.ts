@@ -4,7 +4,7 @@ class DominoesWorker extends PhysicsWorkerBase<{ multiplier?: number }> {
   protected async buildScene(initData: { multiplier?: number }): Promise<number[]> {
     const rings = 30 * (initData.multiplier ?? 1);
     const count = rings * 180;
-    const handles = new Array<number>(count);
+    const handles = Array.from({ length: count }) as number[];
     let idx = 0;
     for (let ring = 0; ring < rings; ring++) {
       const scale = 0.5 + ring * 0.0585;

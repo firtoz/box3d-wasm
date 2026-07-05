@@ -82,7 +82,7 @@ class WasherWorker extends PhysicsWorkerBase {
       -a, -a, -a,  a, -a, -a,  a, a, -a,  -a, a, -a,
       -a, -a,  a,  a, -a,  a,  a, a,  a,  -a, a,  a,
     ]);
-    const handles = new Array<number>(WASHER_COUNT + 1);
+    const handles = Array.from({ length: WASHER_COUNT + 1 }) as number[];
     handles[0] = drumBody;
     let idx = 0;
     let x = f(f(f(-2) * a) * gridCount);

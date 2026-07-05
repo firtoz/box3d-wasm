@@ -11,9 +11,11 @@ import { cardHouseThickSample } from "./card/house-thick";
 import { jengaStackSample } from "./jenga/stack";
 import { pyramid2dSample } from "./pyramid2d";
 import { capsuleStackSample } from "./capsule/stack";
+import { spinningBookSample } from "./bodies/spinning-book";
 export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
 
 export const samples = [
+  spinningBookSample,
   compoundSimpleSample,
   compoundMaterialDedupSample,
   singleBoxSample,

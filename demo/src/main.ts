@@ -305,7 +305,7 @@ function drawPhysCharts(): void {
       const val = physHistory[idx][key];
       const x = leftPad + i * xScale;
       const y = pad + plotH - ((val - minVal) / range) * (1 - padRatio * 2) * plotH - padRatio * plotH;
-      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     }
     ctx.stroke();
     ctx.fillStyle = color;
