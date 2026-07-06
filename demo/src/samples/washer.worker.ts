@@ -1,7 +1,6 @@
 import { PhysicsWorkerBase } from "../physics-worker-base";
-import { BodyType, type Vec3 } from "box3d-wasm";
+import { B3_PI, BodyType, type Vec3 } from "box3d-wasm";
 
-const B3_PI = 3.14159265359;
 const f = Math.fround;
 
 function rotZ(v: Vec3, angle: number): Vec3 {

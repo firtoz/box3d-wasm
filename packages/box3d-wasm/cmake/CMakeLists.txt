@@ -24,6 +24,7 @@ add_executable(box3d_web
 	box3d_web_slots.c
 	box3d_web_world.c
 	box3d_web_body.c
+	box3d_web_math.c
 	box3d_web_shape.c
 	box3d_web_hull.c
 	box3d_web_compound.c

@@ -1,8 +1,6 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { B3_AXIS_Z, B3_DEG_TO_RAD, B3_PI, BodyType, quatFromAxisAngle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
-const B3_PI = 3.14159265359;
-const B3_DEG_TO_RAD = 0.01745329251;
 const ALPHA = 25 * B3_DEG_TO_RAD;
 const CARD_HALF_DEPTH = 0.04;
 const CARD_HALF_HEIGHT = 0.49;
@@ -63,8 +61,6 @@ export function cardHouseThickGroundSize(): Vec3 {
   return [10, 1, 10];
 }
 
-function qz(angle: number): [number, number, number, number] { return [0, 0, Math.sin(angle / 2), Math.cos(angle / 2)]; }
-
 export function createCardHouseThickBodies(): RenderBody[] {
   const alpha = 25 * Math.PI / 180;
   const ox = 0.5 * 0.98 * Math.sin(alpha) + 0.045;
@@ -72,12 +68,12 @@ export function createCardHouseThickBodies(): RenderBody[] {
   const bodies: RenderBody[] = [];
   const addPair = (x: number, y: number, count: number) => {
     for (let j = 0; j < count; j++) {
-      for (const s of [-1, 1]) bodies.push({ kind: "box", size: [0.08, 0.98, 0.38], position: [x + s * ox, y, 0], rotation: qz(s * alpha), color: 0xfde68a });
+      for (const s of [-1, 1]) bodies.push({ kind: "box", size: [0.08, 0.98, 0.38], position: [x + s * ox, y, 0], rotation: quatFromAxisAngle(B3_AXIS_Z, s * alpha), color: 0xfde68a });
       x += 4 * ox;
     }
   };
   const addRow = (x: number, y: number, c: number) => {
-    for (let i = 0; i < c; i++) bodies.push({ kind: "box", size: [0.08, 0.98, 0.38], position: [x + i * 4 * ox, y, 0], rotation: qz(Math.PI / 2), color: 0xfde68a });
+    for (let i = 0; i < c; i++) bodies.push({ kind: "box", size: [0.08, 0.98, 0.38], position: [x + i * 4 * ox, y, 0], rotation: quatFromAxisAngle(B3_AXIS_Z, Math.PI / 2), color: 0xfde68a });
   };
   addPair(-6 * ox, oy, 4); addRow(-4 * ox, 2 * oy + 0.04, 3); addPair(-4 * ox, 3 * oy + 0.08, 3); addRow(-2 * ox, 4 * oy + 0.12, 2); addPair(-2 * ox, 5 * oy + 0.16, 2); addRow(0, 6 * oy + 0.20, 1); addPair(0, 7 * oy + 0.24, 1);
   return bodies;

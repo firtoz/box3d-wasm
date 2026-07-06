@@ -1,10 +1,10 @@
 import * as THREE from "three";
-import { BodyType, type Box3DRuntime, type PhysicsWorld } from "box3d-wasm";
+import { B3_AXIS_Z, B3_DEG_TO_RAD, B3_PI, BodyType, type Box3DRuntime, type PhysicsWorld } from "box3d-wasm";
 import type { DemoBody, DemoSample } from "./types";
 import { addBox, disposeBodies, syncBodies } from "./shared";
 
 const ALPHA_DEG = 25;
-const ALPHA = ALPHA_DEG * Math.PI / 180;
+const ALPHA = ALPHA_DEG * B3_DEG_TO_RAD;
 const CARD_HALF_DEPTH = 0.04;
 const CARD_HALF_HEIGHT = 0.49;
 const CARD_HALF_WIDTH = 0.19;
@@ -17,17 +17,16 @@ function addVerticalPair(
   for (let i = 0; i < 2; i++) {
     const sign = i === 0 ? -1 : 1;
     const p: [number, number, number] = [startX + sign * offsetX, startY, 0];
-    const qz = Math.sin(sign * alpha / 2);
-    const qwZ = Math.cos(sign * alpha / 2);
+    const rotation = runtime.makeQuatFromAxisAngle(B3_AXIS_Z, sign * alpha);
     const bodyHandle = world.createBody({ type: BodyType.Dynamic, position: p, isAwake: true });
-    world.setBodyTransform(bodyHandle, p, [0, 0, qz, qwZ]);
+    world.setBodyTransform(bodyHandle, p, rotation);
     runtime.createHullShape(bodyHandle, [CARD_HALF_DEPTH, CARD_HALF_HEIGHT, CARD_HALF_WIDTH], { friction: 0.8 });
     const mesh = new THREE.Mesh(
       new THREE.BoxGeometry(CARD_HALF_DEPTH * 2, CARD_HALF_HEIGHT * 2, CARD_HALF_WIDTH * 2),
       new THREE.MeshStandardMaterial({ color, roughness: 0.5 }),
     );
     mesh.position.set(p[0], p[1], p[2]);
-    mesh.quaternion.set(0, 0, qz, qwZ);
+    mesh.quaternion.set(...rotation);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     scene.add(mesh);
@@ -42,15 +41,16 @@ function addHorizontalRow(
   const color = 0xfde68a;
   for (let i = 0; i < count; i++) {
     const p: [number, number, number] = [startX + i * offsetX, startY, 0];
+    const rotation = runtime.makeQuatFromAxisAngle(B3_AXIS_Z, 0.5 * B3_PI);
     const bodyHandle = world.createBody({ type: BodyType.Dynamic, position: p, isAwake: true });
-    world.setBodyTransform(bodyHandle, p, [0, 0, Math.sin(Math.PI / 4), Math.cos(Math.PI / 4)]);
+    world.setBodyTransform(bodyHandle, p, rotation);
     runtime.createHullShape(bodyHandle, [CARD_HALF_DEPTH, CARD_HALF_HEIGHT, CARD_HALF_WIDTH], { friction: 0.8 });
     const mesh = new THREE.Mesh(
       new THREE.BoxGeometry(CARD_HALF_DEPTH * 2, CARD_HALF_HEIGHT * 2, CARD_HALF_WIDTH * 2),
       new THREE.MeshStandardMaterial({ color, roughness: 0.5 }),
     );
     mesh.position.set(p[0], p[1], p[2]);
-    mesh.quaternion.set(0, 0, Math.sin(Math.PI / 4), Math.cos(Math.PI / 4));
+    mesh.quaternion.set(...rotation);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     scene.add(mesh);

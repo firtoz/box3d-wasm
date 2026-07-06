@@ -45,6 +45,7 @@ Port all samples, then add extra samples for any API not covered by upstream sam
 1. Pick a sample from `docs/SAMPLES.md` (start with "Easy next ports")
 2. If it needs WASM bindings that don't exist yet, add them:
    - Add C bridge function in `packages/box3d-wasm/cmake/box3d_web_*.c`
+   - Put new C bridge functions in the domain-specific bridge file (`box3d_web_body.c`, `box3d_web_shape.c`, `box3d_web_joint.c`, `box3d_web_math.c`, etc.). If no good domain file exists, add one and wire it into `CMakeLists.txt`; do not pile unrelated helpers into the nearest existing file.
    - Add TypeScript `cwrap` signature and wrapper in `packages/box3d-wasm/src/index.ts`
    - Rebuild WASM, check gzipped size, update `docs/OTHER_PROJECTS.md`
    - Update `docs/WASM_API_SURFACE.md` and `docs/SAMPLES.md`

@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { BodyType, type Box3DRuntime } from "box3d-wasm";
+import { B3_AXIS_X, B3_DEG_TO_RAD, BodyType, type Box3DRuntime } from "box3d-wasm";
 import type { DemoBody, DemoSample } from "./types";
 import { addBox, disposeBodies, syncBodies } from "./shared";
 
@@ -12,9 +12,9 @@ export const shapesInclinedPlaneSample: DemoSample = {
 
     addBox(world, scene, bodies, [50, 1, 50], [0, -1, 0], 0x111827, true);
 
-    const angle = 40 * Math.PI / 180;
+    const angle = 40 * B3_DEG_TO_RAD;
     const planeBody = world.createBody({ type: BodyType.Static, position: [0, 7.5, -5], isAwake: true });
-    runtime.setBodyTransform(planeBody, [0, 7.5, -5], [Math.sin(angle / 2), 0, 0, Math.cos(angle / 2)]);
+    runtime.setBodyTransform(planeBody, [0, 7.5, -5], runtime.makeQuatFromAxisAngle(B3_AXIS_X, angle));
     runtime.createHullShape(planeBody, [16, 0.5, 10], { friction: 1 });
 
     const planeGeo = new THREE.BoxGeometry(32, 1, 20);

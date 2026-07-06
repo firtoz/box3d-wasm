@@ -332,10 +332,10 @@ When adding an API binding:
 - [ ] Rotate/inverse rotate vector
 - [ ] Transform point
 - [ ] Transform multiply/inverse multiply
-- [ ] Quaternion helpers
+- [x] Quaternion from axis-angle: `b3MakeQuatFromAxisAngle`
 - [ ] AABB union/area/center/extents/closest point
 - [ ] Plane validation helpers
-- [ ] Cos/sin helper
+- [x] Cos/sin helper: `b3Sin`, `b3Cos`
 - [ ] Length-and-normalize helper
 
 ## Demo-Specific Helpers

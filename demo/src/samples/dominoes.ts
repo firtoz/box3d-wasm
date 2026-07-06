@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { BodyType, type Box3DRuntime } from "box3d-wasm";
+import { B3_AXIS_Y, B3_DEG_TO_RAD, BodyType, quatFromAxisAngle, type Box3DRuntime } from "box3d-wasm";
 import type { DemoBody, DemoSample, SolverParams } from "./types";
 import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker-protocol";
 import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
@@ -62,14 +62,14 @@ export function createDominoesSample(multiplier: number): DemoSample {
         const radius = 7.0 + (1.5 + ring * 0.015) * ring;
         const n = 1.515 + ring * 0.03;
         for (let deg = 0; deg < 360; deg += 2) {
-          const rad = deg * Math.PI / 180;
+          const rad = deg * B3_DEG_TO_RAD;
           const cs = Math.cos(rad);
           const sn = Math.sin(rad);
           const px = radius * cs + (deg * n / 716) * cs;
           const pz = radius * sn + (deg * n / 716) * sn;
           dummy.position.set(px, 0.8 * s, pz);
           dummy.scale.set(s, s, s);
-          dummy.quaternion.set(0, -Math.sin(rad / 2), 0, Math.cos(rad / 2));
+          dummy.quaternion.set(...quatFromAxisAngle(B3_AXIS_Y, -rad));
           dummy.updateMatrix();
           mesh.setMatrixAt(idx, dummy.matrix);
           mesh.setColorAt(idx, awakeColor);

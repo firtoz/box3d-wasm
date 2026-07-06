@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Quat, type Vec3 } from "box3d-wasm";
+import { B3_AXIS_Z, BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const AMPLITUDE = 2;
@@ -23,8 +23,7 @@ export function stepKinematic(_world: PhysicsWorld, runtime: Box3DRuntime, bodyI
       AMPLITUDE * (Math.sin(2 * t) + 1) + 1,
       0,
     ];
-    const a = t;
-    const rotation: Quat = [0, 0, runtime.b3wSin(a), runtime.b3wCos(a)];
+    const rotation = runtime.makeQuatFromAxisAngle(B3_AXIS_Z, 2 * t);
     runtime.setBodyTargetTransform(bodyId, point, rotation, dt, true);
   }
   return Math.fround(time + dt);

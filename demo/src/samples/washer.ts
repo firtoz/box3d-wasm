@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { BodyType, type Box3DRuntime } from "box3d-wasm";
+import { B3_PI, BodyType, type Box3DRuntime } from "box3d-wasm";
 import type { DemoBody, DemoSample, SolverParams } from "./types";
 import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker-protocol";
 import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
@@ -13,7 +13,6 @@ const awakeColor = new THREE.Color(0xd2b48c);
 const debugColor = new THREE.Color();
 type WasherRenderMode = "matrix" | "shader";
 
-const B3_PI = 3.14159265359;
 const ANGLE_STEP = B3_PI / 18;
 const QO_ANGLE = 0.1 * ANGLE_STEP;
 const R0 = 14, R1 = 16, R2 = 18;

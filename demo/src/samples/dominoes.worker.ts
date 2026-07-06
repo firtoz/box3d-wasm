@@ -1,5 +1,5 @@
 import { PhysicsWorkerBase } from "../physics-worker-base";
-import { BodyType } from "box3d-wasm";
+import { B3_AXIS_Y, B3_DEG_TO_RAD, BodyType } from "box3d-wasm";
 
 class DominoesWorker extends PhysicsWorkerBase<{ multiplier?: number }> {
   protected async buildScene(initData: { multiplier?: number }): Promise<number[]> {
@@ -12,13 +12,13 @@ class DominoesWorker extends PhysicsWorkerBase<{ multiplier?: number }> {
       const radius = 7.0 + (1.5 + ring * 0.015) * ring;
       const n = 1.515 + ring * 0.03;
       for (let deg = 0; deg < 360; deg += 2) {
-        const rad = deg * Math.PI / 180;
+        const rad = deg * B3_DEG_TO_RAD;
         const cs = Math.cos(rad);
         const sn = Math.sin(rad);
         const px = radius * cs + (deg * n / 716) * cs;
         const pz = radius * sn + (deg * n / 716) * sn;
         const p: [number, number, number] = [px, 0.8 * scale, pz];
-        const bodyHandle = this.world!.createBody({ type: BodyType.Dynamic, position: p, rotation: [0, -Math.sin(rad / 2), 0, Math.cos(rad / 2)], isAwake: true });
+        const bodyHandle = this.world!.createBody({ type: BodyType.Dynamic, position: p, rotation: this.runtime!.makeQuatFromAxisAngle(B3_AXIS_Y, -rad), isAwake: true });
         this.runtime!.createHullShape(bodyHandle, [0.2 * scale, 0.8 * scale, 0.05 * scale]);
         handles[idx] = bodyHandle;
         if (ring % 2 === 0 ? Math.abs(deg - 358) < 0.1 : Math.abs(deg) < 0.1) {

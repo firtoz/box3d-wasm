@@ -119,6 +119,19 @@ window.addEventListener("beforeunload", () => {
 
 The important API shape is `Box3DRuntime.load()` → `createWorld()` → create bodies/shapes → `world.step()` → `world.getBodyTransform()`.
 
+## Deterministic Math Helpers
+
+Most applications can use normal JavaScript or Three.js math helpers. For C++/WASM dump parity or deterministic fixtures, shared helpers such as `B3_PI`, `B3_DEG_TO_RAD`, `B3_AXIS_X/Y/Z`, `quatFromAxisAngle`, `runtime.makeQuatFromAxisAngle`, `runtime.b3wSin`, and `runtime.b3wCos` make sample code clearer and keep common constants in one place.
+
+```ts
+import { B3_AXIS_X, B3_PI, quatFromAxisAngle } from "box3d-wasm";
+
+const renderRotation = quatFromAxisAngle(B3_AXIS_X, -0.5 * B3_PI);
+const physicsRotation = runtime.makeQuatFromAxisAngle(B3_AXIS_X, -0.5 * B3_PI);
+```
+
+These helpers are mainly for exact numeric parity work. Ordinary gameplay and rendering code does not need them. Use pure `quatFromAxisAngle` for static render specs or general TS code; use runtime-backed `makeQuatFromAxisAngle` when matching Box3D physics setup. For highly sensitive dump comparisons, still verify the sample: matching upstream half-angle rounding with `b3wSin`/`b3wCos` can occasionally be more stable than replacing existing code with `makeQuatFromAxisAngle`.
+
 ## Headless Smoke Test
 
 If you want to verify physics without a renderer, step a single body and log its transform.

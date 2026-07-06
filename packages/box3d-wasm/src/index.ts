@@ -1,6 +1,18 @@
 export type Vec3 = [number, number, number];
 export type Quat = [number, number, number, number];
 
+export const B3_PI = 3.14159265359;
+export const B3_DEG_TO_RAD = 0.01745329251;
+export const B3_AXIS_X: Vec3 = [1, 0, 0];
+export const B3_AXIS_Y: Vec3 = [0, 1, 0];
+export const B3_AXIS_Z: Vec3 = [0, 0, 1];
+
+export function quatFromAxisAngle(axis: Vec3, radians: number): Quat {
+  const halfAngle = 0.5 * radians;
+  const sine = Math.sin(halfAngle);
+  return [axis[0] * sine, axis[1] * sine, axis[2] * sine, Math.cos(halfAngle)];
+}
+
 declare global { var BOX3D_POOL_SIZE: number | undefined; }
 
 export enum BodyType { Static = 0, Kinematic = 1, Dynamic = 2 }
@@ -160,6 +172,7 @@ type BodyApplyMassFromShapesFn = (bodyHandle: number) => void;
 type BodySetTargetTransformFn = (bodyHandle: number, px: number, py: number, pz: number, qx: number, qy: number, qz: number, qw: number, timeStep: number, wake: number) => void;
 type ApplyLinearImpulseFn = (bodyHandle: number, ix: number, iy: number, iz: number, px: number, py: number, pz: number, wake: number) => void;
 type ApplyLinearImpulseToCenterFn = (bodyHandle: number, ix: number, iy: number, iz: number, wake: number) => void;
+type MakeQuatFromAxisAngleFn = (axisX: number, axisY: number, axisZ: number, radians: number, outQuat: number) => void;
 type ShapeSetDensityFn = (shapeHandle: number, density: number, updateBodyMass: number) => void;
 type WorldEnableBoolFn = (worldHandle: number, flag: number) => void;
 type WorldSetContactTuningFn = (worldHandle: number, hertz: number, dampingRatio: number, contactSpeed: number) => void;
@@ -314,6 +327,7 @@ export class Box3DRuntime implements RuntimeAPI {
   private readonly setRestitutionFn: ShapeSetRestitutionFn;
   private readonly b3wSinFn: (radians: number) => number;
   private readonly b3wCosFn: (radians: number) => number;
+  private readonly makeQuatFromAxisAngleFn: MakeQuatFromAxisAngleFn;
   private readonly transformPtr: number;
   private readonly pointPtr: number;
   private readonly massDataPtr: number;
@@ -425,6 +439,7 @@ export class Box3DRuntime implements RuntimeAPI {
     this.applyLinearImpulseToCenterFn = module.cwrap("b3wApplyLinearImpulseToCenter", null, ["number", "number", "number", "number", "number"]);
     this.b3wSinFn = module.cwrap("b3wSin", "number", ["number"]);
     this.b3wCosFn = module.cwrap("b3wCos", "number", ["number"]);
+    this.makeQuatFromAxisAngleFn = module.cwrap("b3wMakeQuatFromAxisAngle", null, ["number", "number", "number", "number", "number"]);
     this.transformPtr = module._malloc(7 * 4);
     this.pointPtr = module._malloc(3 * 4);
     this.massDataPtr = module._malloc(2 * 4);
@@ -585,6 +600,12 @@ export class Box3DRuntime implements RuntimeAPI {
   b3wSin(radians: number): number { return this.b3wSinFn(radians); }
   /** Match Box3D's b3Cos deterministically using Bhāskara I approximation. */
   b3wCos(radians: number): number { return this.b3wCosFn(radians); }
+  makeQuatFromAxisAngle(axis: Vec3, radians: number): Quat {
+    this.makeQuatFromAxisAngleFn(axis[0], axis[1], axis[2], radians, this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return [heap[base + 0], heap[base + 1], heap[base + 2], heap[base + 3]];
+  }
   createCompound(capsules: number, hulls: number, meshes: number, spheres: number): number { return this.createCompoundFn(capsules, hulls, meshes, spheres, 0, 0, 0, 0); }
   createCompoundFromHulls(entries: CompoundHullEntry[]): number {
     const stride = 13;

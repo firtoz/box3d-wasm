@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { BodyType, type Box3DRuntime, type PhysicsWorld } from "box3d-wasm";
+import { B3_AXIS_Y, B3_PI, BodyType, type Box3DRuntime, type PhysicsWorld } from "box3d-wasm";
 import type { DemoBody, DemoSample, ControlSpec } from "./types";
 import { addBox, capsuleMesh, disposeBodies, syncBodies } from "./shared";
 
@@ -15,7 +15,7 @@ function buildStack(runtime: Box3DRuntime, world: PhysicsWorld, scene: THREE.Sce
 
   for (let i = 0; i < STACK_SIZE; i++) {
     const even = (i & 1) === 0;
-    const alpha = even ? 0.5 * Math.PI : 0;
+    const alpha = even ? 0.5 * B3_PI : 0;
     const x = even ? 1.75 : 0;
     const z = even ? 0 : 1.75;
 
@@ -23,10 +23,9 @@ function buildStack(runtime: Box3DRuntime, world: PhysicsWorld, scene: THREE.Sce
       const sx = side === 0 ? x : -x;
       const sz = side === 0 ? z : -z;
       const p: [number, number, number] = [sx, 0.5 * i + 0.25, sz];
-      const qy = Math.sin(alpha / 2);
-      const qwY = Math.cos(alpha / 2);
+      const rotation = runtime.makeQuatFromAxisAngle(B3_AXIS_Y, alpha);
       const bodyHandle = world.createBody({ type: BodyType.Dynamic, position: p, isAwake: true });
-      world.setBodyTransform(bodyHandle, p, [0, qy, 0, qwY]);
+      world.setBodyTransform(bodyHandle, p, rotation);
 
       if (useCapsule) {
         runtime.createCapsuleShape(bodyHandle, [-2.5, 0, 0], [2.5, 0, 0], capsuleR, { density: 1000 });
@@ -41,7 +40,7 @@ function buildStack(runtime: Box3DRuntime, world: PhysicsWorld, scene: THREE.Sce
             new THREE.MeshStandardMaterial({ color, roughness: 0.75 }),
           );
       mesh.position.set(p[0], p[1], p[2]);
-      mesh.quaternion.set(0, qy, 0, qwY);
+      mesh.quaternion.set(...rotation);
       mesh.castShadow = true;
       mesh.receiveShadow = true;
       scene.add(mesh);

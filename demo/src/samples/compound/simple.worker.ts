@@ -1,7 +1,5 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import { BodyType, type Quat, type Vec3 } from "box3d-wasm";
-
-const PI = Math.PI;
+import { B3_AXIS_Y, B3_PI, BodyType, type Vec3 } from "box3d-wasm";
 
 class CompoundSimpleWorker extends PhysicsWorkerBase {
   private compound = 0;
@@ -28,7 +26,7 @@ class CompoundSimpleWorker extends PhysicsWorkerBase {
     ]);
 
     // Static body with compound shape
-    const q: Quat = [0, Math.sin(PI / 8), 0, Math.cos(PI / 8)];
+    const q = this.runtime!.makeQuatFromAxisAngle(B3_AXIS_Y, 0.25 * B3_PI);
     const body = this.world!.createBody({ type: BodyType.Static, position: [2, -1, 0], rotation: q });
     this.runtime!.createCompoundShape(body, this.compound);
     handles.push(body);
