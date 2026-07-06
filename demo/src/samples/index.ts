@@ -42,6 +42,16 @@ import { overflowColorPileSample } from "./robustness/overflow-color-pile";
 import { farStackSample } from "./world/far-stack";
 import { farPyramidSample } from "./world/far-pyramid";
 import { farRagdollsSample } from "./world/far-ragdolls";
+import { filterJointSample } from "./joints/filter";
+import { motorJointSample } from "./joints/motor-joint";
+import { prismaticJointSample } from "./joints/prismatic";
+import { revoluteJointSample } from "./joints/revolute";
+import { weldJointSample } from "./joints/weld";
+import { topDownFrictionSample } from "./joints/top-down-friction";
+import { sphericalJointSample } from "./joints/spherical";
+import { ballAndChainSample } from "./joints/ball-and-chain";
+import { doorSample } from "./joints/door";
+import { bridgeSample } from "./joints/bridge";
 export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
 
 export const samples = [
@@ -63,6 +73,16 @@ export const samples = [
   tinyPyramidSample,
   overlapRecoverySample,
   overflowColorPileSample,
+  filterJointSample,
+  motorJointSample,
+  prismaticJointSample,
+  revoluteJointSample,
+  weldJointSample,
+  topDownFrictionSample,
+  sphericalJointSample,
+  ballAndChainSample,
+  doorSample,
+  bridgeSample,
   farStackSample,
   farPyramidSample,
   farRagdollsSample,

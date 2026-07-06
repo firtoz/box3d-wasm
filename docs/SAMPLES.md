@@ -261,7 +261,7 @@ Legend:
 ## Summary
 
 - **Total C++ samples**: ~136
-- **TS implemented (matching C++)**: 33
+- **TS implemented (matching C++)**: 43
 - **TS implemented (TS-only)**: 2 (dominoes variant, washer variant, material-dedup)
 - **Implemented samples**:
   1. Bodies / Spinning Book
@@ -297,15 +297,25 @@ Legend:
   31. Jenga / Stack
   32. Pyramid 2D
   33. Capsule / Stack
+  34. Joints / Filter
+  35. Joints / Motor Joint
+  36. Joints / Prismatic
+  37. Joints / Revolute
+  38. Joints / Weld
+  39. Joints / Top Down Friction
+  40. Joints / Spherical
+  41. Joints / Ball and Chain
+  42. Joints / Door
+  43. Joints / Bridge
 
 - **Easy next ports** (all APIs exist, simple scenes):
-  1. Stacking / Cylinder Stack
-  2. Stacking / Wedge
-  3. Stacking / Arch
-  4. Stacking / Double Domino
-  5. Stacking / Card House
-  6. Shapes / Rolling Resistance
-  7. Shapes / Restitution
-  8. Shapes / Isotropic Friction
-  9. Compound / Spheres
-  10. Compound / Hulls
+  1. Shapes / High Resistance
+  2. Shapes / Slide Twist
+  3. Shapes / Wind Drop
+  4. Determinism / Falling Ragdolls
+  5. World / Sensor
+  6. Joints / Motion Locks
+  7. Joints / Top Down Friction controls parity
+  8. Joints / Door controls parity
+  9. Robustness / Falling Boxes
+  10. Robustness / Candy Cups

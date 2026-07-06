@@ -117,7 +117,7 @@ Key details:
 - **Binding method**: Manual C bridge functions with `b3w*` prefixes, wrapped by TypeScript classes (`Box3DRuntime`, `PhysicsWorld`)
 - **API style**: Mid-level TypeScript API using named enums, branded handles, typed option objects, and tuple vectors, plus an opt-in object wrapper layer for `BodyRef`/`ShapeRef` ergonomics
 - **Renderer**: Included Three.js browser demo
-- **Samples**: 13 C++ sample scenes currently ported to TypeScript, with a tracking document for the remaining ~136 upstream samples
+- **Samples**: 43 C++ sample scenes currently ported to TypeScript, with a tracking document for the remaining ~136 upstream samples
 - **Build flavours**: Release and profile builds
 - **Threading model**: Emscripten pthreads are enabled in the WASM build (`USE_PTHREADS=1`), with Box3D worker-count controls exposed; the demo also runs simulation work through browser workers around that runtime
 - **WASM size**: **~217KB gzipped (513KB raw)** for the release binary, built with `-O3`, pthreads, and WASM SIMD enabled
@@ -171,7 +171,7 @@ He framed the PR primarily as a **showcase**: a browser-hosted version of the na
 | C++ compilation | Box3D library only | Box3D library only | Box3D library only | Entire app: Box3D + sokol + imgui + samples |
 | Binding method | Embind 1:1 C API mirror + JS facade | Embind class wrapper | Manual C bridge + TypeScript wrapper | No reusable JS binding layer |
 | JS API style | Low-level C API mirror | Fluent object API | Mid-level TypeScript branded handles plus opt-in object refs | N/A; runs native app |
-| Samples/examples | 28+ API-focused examples | Custom Three.js demo scenes | 13/136 C++ samples ported | All ~136 native samples |
+| Samples/examples | 28+ API-focused examples | Custom Three.js demo scenes | 43/136 C++ samples ported | All ~136 native samples |
 | Renderer | Per-example custom rendering | Three.js in separate demo repo | Three.js included in repo | Native sokol/WebGPU |
 | UI | Example-specific UI | Demo-specific UI | HTML/CSS/Three.js demo UI | imgui from native testbed |
 | npm package | `box3d.js` | `box3d-wasm` | Not published yet | No |
@@ -206,7 +206,7 @@ This table focuses on APIs callable directly from JavaScript. ErikSom's project 
 | **Mesh construction/generators** | ✓ | ✗ | ✗ | N/A |
 | **Compound construction** | ✓ | ✗ | ✓ | N/A |
 | **Heightfield construction** | ✓ | ✗ | ✗ | N/A |
-| **Joint types available** | 9/9 | 9/9 | 4/9 | N/A |
+| **Joint types available** | 9/9 | 9/9 | 6/9 | N/A |
 | **Joint runtime controls** | ✓ | ✓ | ◐ | N/A |
 | **World queries** (raycast closest/all, shapecast, overlap AABB/shape) | 5/5 | 1/5 | 1/5 | N/A |
 | **Body queries** (raycast, shapecast, overlap) | ✓ | ◐ | ✗ | N/A |
@@ -231,8 +231,8 @@ This table focuses on APIs callable directly from JavaScript. ErikSom's project 
 
 | Metric | Isaac (`box3d.js`) | Monteslu | [`@firtoz/box3d-wasm`](https://github.com/firtoz/box3d-wasm) | ErikSom |
 |--------|---------------------|----------|------------------------|---------|
-| Approx. JS-callable functions/methods | ~280 (250+ embind + ~30 facade helpers) | ~140 | ~70 | 0 reusable JS API |
-| Joint types exposed | 9/9 | 9/9 | 4/9 | 0 |
+| Approx. JS-callable functions/methods | ~280 (250+ embind + ~30 facade helpers) | ~140 | ~95 | 0 reusable JS API |
+| Joint types exposed | 9/9 | 9/9 | 6/9 | 0 |
 | World query types | 5/5 | 1/5 | 1/5 | 0 |
 | Event groups exposed | 4/4 | 3/4 | 0/4 | 0 |
 | Body force/impulse groups | 4/4 | 4/4 | 2/4 | 0 |

@@ -319,7 +319,7 @@ const MOUSE_FORCE_SCALE = 100;
 const GRAVITY_MAGNITUDE = 9.81;
  
 let runtime: Box3DRuntime | null = null;
-const workerRuntimePlaceholder = null as unknown as Box3DRuntime;
+let runtimePromise: Promise<Box3DRuntime> | null = null;
 let activeSampleIndex = 0;
 let activeSample: DemoSampleInstance | null = null;
 let rafId = 0;
@@ -1056,36 +1056,30 @@ function frameTimingSummary(): { frames: number; sampleStepMs: number; chartsMs:
   };
 }
 
-function resetScene(): void {
-  if (activeSampleIndex < 0) return;
-  const camPos = camera.position.clone();
-  const camTarget = orbit.target.clone();
-  clearScene();
-  activeSample = samples[activeSampleIndex].create(runtime ?? workerRuntimePlaceholder, scene, solverParams);
-  launchSpeed = activeSample.launchSpeed ?? 5.0;
-  camera.position.copy(camPos);
-  orbit.target.copy(camTarget);
-  orbit.update();
-  paused = false;
-  singleStep = 0;
-  lastProfileSample = null;
-  renderControls(activeSample.controls);
-  if (!benchRunnerMode) applySolverParams();
-  infoElement.textContent = "";
-  updatePhysChartVisibility();
-  updateStatus();
+async function ensureRuntimeLoaded(): Promise<Box3DRuntime> {
+  if (runtime !== null) return runtime;
+  if (runtimePromise === null) {
+    const { poolSize } = getWorkerCounts();
+    runtimePromise = Box3DRuntime.load({ variant: wasmVariant, poolSize });
+  }
+  runtime = await runtimePromise;
+  return runtime;
 }
 
-function activateSample(index: number): void {
-  clearScene();
-  activeSampleIndex = index;
-  activeSample = samples[index].create(runtime ?? workerRuntimePlaceholder, scene, solverParams);
+async function createAndInstallSample(index: number, sceneWasReset: boolean, camPos?: THREE.Vector3, camTarget?: THREE.Vector3): Promise<void> {
+  const loadedRuntime = await ensureRuntimeLoaded();
+  if (index !== activeSampleIndex) return;
+  if (!sceneWasReset) clearScene();
+  activeSample = samples[index].create(loadedRuntime, scene, solverParams);
   launchSpeed = activeSample.launchSpeed ?? 5.0;
   if (activeSample.camera) {
     camera.position.set(activeSample.camera.position[0], activeSample.camera.position[1], activeSample.camera.position[2]);
     orbit.target.set(activeSample.camera.target[0], activeSample.camera.target[1], activeSample.camera.target[2]);
-    orbit.update();
+  } else if (camPos !== undefined && camTarget !== undefined) {
+    camera.position.copy(camPos);
+    orbit.target.copy(camTarget);
   }
+  orbit.update();
   paused = false;
   singleStep = 0;
   lastProfileSample = null;
@@ -1101,6 +1095,20 @@ function activateSample(index: number): void {
     url.searchParams.set("sample", samples[index].id);
     history.replaceState(null, "", url);
   }
+}
+
+function resetScene(): void {
+  if (activeSampleIndex < 0) return;
+  const camPos = camera.position.clone();
+  const camTarget = orbit.target.clone();
+  clearScene();
+  void createAndInstallSample(activeSampleIndex, true, camPos, camTarget);
+}
+
+function activateSample(index: number): void {
+  clearScene();
+  activeSampleIndex = index;
+  void createAndInstallSample(index, true);
 }
 
 function renderSamples(): void {

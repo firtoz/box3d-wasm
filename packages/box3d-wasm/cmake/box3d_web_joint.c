@@ -18,6 +18,7 @@ B3W_EXPORT int b3wCreateMotorJoint(
 	float angularVy,
 	float angularVz,
 	float maxVelocityTorque,
+	int collideConnected,
 	float linearHertz,
 	float linearDampingRatio,
 	float maxSpringForce,
@@ -34,6 +35,7 @@ B3W_EXPORT int b3wCreateMotorJoint(
 	jointDef.base.bodyIdB = bodyB->bodyId;
 	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, b3Quat_identity };
 	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, b3Quat_identity };
+	jointDef.base.collideConnected = collideConnected != 0;
 	jointDef.linearVelocity = (b3Vec3){ linearVx, linearVy, linearVz };
 	jointDef.angularVelocity = (b3Vec3){ angularVx, angularVy, angularVz };
 	jointDef.maxVelocityForce = maxVelocityForce;
