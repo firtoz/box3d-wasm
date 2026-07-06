@@ -1,46 +1,50 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { ObjectRuntime } from "box3d-wasm/objects";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const PI = Math.PI;
 
 // Ground body is handle 1 (first body created in the world).
-const groundHandle = 1;
+const groundHandle = 1 as BodyHandle;
 
-export function buildBodyTypeDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildBodyTypeDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+  const handles: BodyHandle[] = [];
+  const objectRuntime = ObjectRuntime.fromRuntime(runtime);
+  const objectWorld = objectRuntime.wrapWorld(world);
+  const ground = objectWorld.body(groundHandle);
 
-  const a = world.createBody({ type: BodyType.Dynamic, position: [-2, 3, 0] });
-  runtime.createHullShape(a, [0.5, 2, 0.5], { density: 1 });
-  handles.push(a);
+  const a = objectWorld.createBody({ type: BodyType.Dynamic, position: [-2, 3, 0] });
+  a.createHullShape([0.5, 2, 0.5], { density: 1 });
+  handles.push(a.handle);
 
-  const b = world.createBody({ type: BodyType.Dynamic, position: [3, 3, 0] });
-  runtime.createHullShape(b, [0.5, 2, 0.5], { density: 1 });
-  handles.push(b);
+  const b = objectWorld.createBody({ type: BodyType.Dynamic, position: [3, 3, 0] });
+  b.createHullShape([0.5, 2, 0.5], { density: 1 });
+  handles.push(b.handle);
 
-  const p = world.createBody({ type: BodyType.Dynamic, position: [-4, 5, 0] });
-  runtime.createTransformedHullShape(p, [0.5, 4, 0.5], {
+  const p = objectWorld.createBody({ type: BodyType.Dynamic, position: [-4, 5, 0] });
+  p.createTransformedHullShape([0.5, 4, 0.5], {
     position: [4, 0, 0],
     rotation: [0, 0, Math.sin(PI / 4), Math.cos(PI / 4)],
   }, undefined, { density: 2 });
-  handles.push(p);
+  handles.push(p.handle);
 
-  world.createRevoluteJoint(a, p, {
-    localFrameA: { position: runtime.getBodyLocalPoint(a, [-2, 5, 0] as Vec3) },
-    localFrameB: { position: runtime.getBodyLocalPoint(p, [-2, 5, 0] as Vec3) },
+  objectWorld.createRevoluteJoint(a, p, {
+    localFrameA: { position: a.getLocalPoint([-2, 5, 0]) },
+    localFrameB: { position: p.getLocalPoint([-2, 5, 0]) },
     enableMotor: true,
     maxMotorTorque: 50,
   });
 
-  world.createRevoluteJoint(b, p, {
-    localFrameA: { position: runtime.getBodyLocalPoint(b, [3, 5, 0] as Vec3) },
-    localFrameB: { position: runtime.getBodyLocalPoint(p, [3, 5, 0] as Vec3) },
+  objectWorld.createRevoluteJoint(b, p, {
+    localFrameA: { position: b.getLocalPoint([3, 5, 0]) },
+    localFrameB: { position: p.getLocalPoint([3, 5, 0]) },
     enableMotor: true,
     maxMotorTorque: 50,
   });
 
-  world.createPrismaticJoint(groundHandle, p, {
-    localFrameA: { position: runtime.getBodyLocalPoint(groundHandle, [0, 5, 0] as Vec3) },
-    localFrameB: { position: runtime.getBodyLocalPoint(p, [0, 5, 0] as Vec3) },
+  objectWorld.createPrismaticJoint(ground, p, {
+    localFrameA: { position: ground.getLocalPoint([0, 5, 0]) },
+    localFrameB: { position: p.getLocalPoint([0, 5, 0]) },
     enableMotor: true,
     maxMotorForce: 1000,
     motorSpeed: 0,
@@ -49,21 +53,21 @@ export function buildBodyTypeDynamicBodies(world: PhysicsWorld, runtime: Box3DRu
     upperTranslation: 10,
   });
 
-  const c = world.createBody({ type: BodyType.Dynamic, position: [-3, 8, 0] });
-  runtime.createHullShape(c, [0.75, 0.75, 0.75], { density: 2 });
-  handles.push(c);
+  const c = objectWorld.createBody({ type: BodyType.Dynamic, position: [-3, 8, 0] });
+  c.createHullShape([0.75, 0.75, 0.75], { density: 2 });
+  handles.push(c.handle);
 
-  const d = world.createBody({ type: BodyType.Dynamic, position: [2, 8, 0] });
-  runtime.createHullShape(d, [0.75, 0.75, 0.75], { density: 2 });
-  handles.push(d);
+  const d = objectWorld.createBody({ type: BodyType.Dynamic, position: [2, 8, 0] });
+  d.createHullShape([0.75, 0.75, 0.75], { density: 2 });
+  handles.push(d.handle);
 
-  const e = world.createBody({ type: BodyType.Dynamic, position: [8, 0.2, 0] });
-  runtime.createCapsuleShape(e, [0, 0, 0], [1, 0, 0], 0.25, { density: 2 });
-  handles.push(e);
+  const e = objectWorld.createBody({ type: BodyType.Dynamic, position: [8, 0.2, 0] });
+  e.createCapsuleShape([0, 0, 0], [1, 0, 0], 0.25, { density: 2 });
+  handles.push(e.handle);
 
-  const f = world.createBody({ type: BodyType.Dynamic, position: [-8, 12, 0], gravityScale: 0 });
-  runtime.createSphereShape(f, [0, 0.5, 0], 0.25, { density: 2 });
-  handles.push(f);
+  const f = objectWorld.createBody({ type: BodyType.Dynamic, position: [-8, 12, 0], gravityScale: 0 });
+  f.createSphereShape([0, 0.5, 0], 0.25, { density: 2 });
+  handles.push(f.handle);
 
   return handles;
 }
@@ -88,7 +92,7 @@ export const bodyTypeHandleIndex = {
 export function stepBodyType(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
-  platformId: number,
+  platformId: BodyHandle,
   bodyType: number,
   platformVx: number,
 ): number {

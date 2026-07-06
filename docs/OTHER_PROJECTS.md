@@ -115,12 +115,12 @@ Key details:
 
 - **Toolchain**: Emscripten, CMake, Bun, TypeScript, Vite, and Turborepo
 - **Binding method**: Manual C bridge functions with `b3w*` prefixes, wrapped by TypeScript classes (`Box3DRuntime`, `PhysicsWorld`)
-- **API style**: Mid-level TypeScript API using named enums, typed option objects, numeric handles, and tuple vectors, e.g. `createBody`, `createSphereShape`, `createHullShape`, `step`, `rayCastClosest`
+- **API style**: Mid-level TypeScript API using named enums, branded handles, typed option objects, and tuple vectors, plus an opt-in object wrapper layer for `BodyRef`/`ShapeRef` ergonomics
 - **Renderer**: Included Three.js browser demo
 - **Samples**: 13 C++ sample scenes currently ported to TypeScript, with a tracking document for the remaining ~136 upstream samples
 - **Build flavours**: Release and profile builds
 - **Threading model**: Emscripten pthreads are enabled in the WASM build (`USE_PTHREADS=1`), with Box3D worker-count controls exposed; the demo also runs simulation work through browser workers around that runtime
-- **WASM size**: **~216KB gzipped (510KB raw)** for the release binary, built with `-O3`, pthreads, and WASM SIMD enabled
+- **WASM size**: **~217KB gzipped (513KB raw)** for the release binary, built with `-O3`, pthreads, and WASM SIMD enabled
 - **Distinct feature**: Includes a custom human/ragdoll helper API (`createHuman`, bone access, human velocity/joint tuning) that is not exposed by the other JS library bindings in this comparison
 
 This project is currently less complete as a general-purpose Box3D API wrapper than Isaac's or Monteslu's packages, but the API is actively growing. Its present smaller surface keeps the WASM output compact while the demo retains direct TypeScript ownership over sample-specific behavior.
@@ -170,7 +170,7 @@ He framed the PR primarily as a **showcase**: a browser-hosted version of the na
 | Nature | WASM library + 28+ examples | WASM library + separate demo | TS-first workspace + bundled demo | Full native app port |
 | C++ compilation | Box3D library only | Box3D library only | Box3D library only | Entire app: Box3D + sokol + imgui + samples |
 | Binding method | Embind 1:1 C API mirror + JS facade | Embind class wrapper | Manual C bridge + TypeScript wrapper | No reusable JS binding layer |
-| JS API style | Low-level C API mirror | Fluent object API | Mid-level TypeScript handles/classes with named enums | N/A; runs native app |
+| JS API style | Low-level C API mirror | Fluent object API | Mid-level TypeScript branded handles plus opt-in object refs | N/A; runs native app |
 | Samples/examples | 28+ API-focused examples | Custom Three.js demo scenes | 13/136 C++ samples ported | All ~136 native samples |
 | Renderer | Per-example custom rendering | Three.js in separate demo repo | Three.js included in repo | Native sokol/WebGPU |
 | UI | Example-specific UI | Demo-specific UI | HTML/CSS/Three.js demo UI | imgui from native testbed |
@@ -180,7 +180,7 @@ He framed the PR primarily as a **showcase**: a browser-hosted version of the na
 | Events | Zero-GC typed-array buffers for events and contacts | JS arrays from embind (`getContactEvents`, `getSensorEvents`, `getBodyEvents`) | Event toggles exist; event buffers/callbacks not exposed | Native app internals |
 | Queries | Raycast, shapecast, overlap, mover queries | Raycast closest only | Raycast closest only | Native app internals |
 | Advanced geometry | Meshes, heightfields, compounds, generators, GJK | Not exposed | Compounds; no mesh/heightfield yet | Native app internals |
-| WASM size | ~309KB gzipped (806KB raw) | ~211KB gzipped (521KB raw) standard; ~218KB gzipped (533KB raw) deluxe | ~216KB gzipped (510KB raw) | Large app binary, fixed 512MB heap |
+| WASM size | ~309KB gzipped (806KB raw) | ~211KB gzipped (521KB raw) standard; ~218KB gzipped (533KB raw) deluxe | ~217KB gzipped (513KB raw) | Large app binary, fixed 512MB heap |
 | Best fit | Comprehensive low-level Box3D API for JS | Ergonomic JS physics library | Growing TS-first wrapper + sample-porting playground | Browser-hosted native testbed/showcase |
 
 <a id="api-coverage"></a>
@@ -238,6 +238,6 @@ This table focuses on APIs callable directly from JavaScript. ErikSom's project 
 | Body force/impulse groups | 4/4 | 4/4 | 2/4 | 0 |
 | Mass/inertia accessor groups | 8/8 | ~3/8 | ~2/8 | 0 |
 | Advanced shape families (mesh/compound/heightfield) | 3/3 | 0/3 | 1/3 | 0 |
-| WASM gzipped | ~309KB | ~211KB standard; ~218KB deluxe | ~216KB | N/A |
+| WASM gzipped | ~309KB | ~211KB standard; ~218KB deluxe | ~217KB | N/A |
 
 Isaac's larger WASM size is largely explained by the much larger exposed API surface. Each embind binding, value object, callback adapter, and facade helper adds marshalling code to the generated module. Monteslu's package is also embind-based, but it wraps a smaller practical set. [`@firtoz/box3d-wasm`](https://github.com/firtoz/box3d-wasm) sits between Monteslu's single-threaded standard build and threaded deluxe build in gzipped size. These rows should not be read as a direct performance comparison; the binaries differ in binding layer, exported runtime surface, threading/memory choices, and exact build inputs.

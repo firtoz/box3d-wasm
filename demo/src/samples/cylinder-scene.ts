@@ -14,7 +14,7 @@ export function cylinderGroundSize(): Vec3 {
 }
 
 export const cylinderBodies: RenderBody[] = [
-  { kind: "cylinder", radius: 0.25, height: 1, position: [0, 2, 0], color: 0x38bdf8 },
+  { kind: "cylinder", radius: 0.25, height: 1, yOffset: 0.5, position: [0, 2, 0], color: 0x38bdf8 },
 ];
 
 export const dumpSampleName = "Cylinder";

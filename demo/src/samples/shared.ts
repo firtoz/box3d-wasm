@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import type { DemoBody } from "./types";
-import { BodyType, type BodyBatchBuffers, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { BodyType, type BodyBatchBuffers, type BodyHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 
 const MAX_WEB_WORKERS = 16;
 
@@ -32,7 +32,8 @@ export function addBox(
   color: number,
   isStatic = false,
 ): DemoBody {
-  const handle = world.createBox({ size, position, static: isStatic, density: isStatic ? 0 : 1000 });
+  const created = world.createBoxWithShape({ size, position, static: isStatic, density: isStatic ? 0 : 1000 });
+  const handle = created.bodyHandle;
   const mesh = new THREE.Mesh(
     new THREE.BoxGeometry(size[0] * 2, size[1] * 2, size[2] * 2),
     new THREE.MeshStandardMaterial({ color, roughness: 0.75 }),
@@ -41,7 +42,7 @@ export function addBox(
   mesh.castShadow = !isStatic;
   mesh.receiveShadow = true;
   scene.add(mesh);
-  const body = { handle, mesh, type: isStatic ? BodyType.Static : BodyType.Dynamic };
+  const body = { handle, mesh, shapeIds: [created.shapeHandle], type: isStatic ? BodyType.Static : BodyType.Dynamic };
   bodies.push(body);
   return body;
 }
@@ -54,7 +55,8 @@ export function addSphere(
   position: Vec3,
   color: number,
 ): DemoBody {
-  const handle = world.createSphere({ radius, position, density: 1000 });
+  const created = world.createSphereWithShape({ radius, position, density: 1000 });
+  const handle = created.bodyHandle;
   const mesh = new THREE.Mesh(
     new THREE.SphereGeometry(radius, 24, 16),
     new THREE.MeshStandardMaterial({ color, roughness: 0.6 }),
@@ -63,7 +65,7 @@ export function addSphere(
   mesh.castShadow = true;
   mesh.receiveShadow = true;
   scene.add(mesh);
-  const body = { handle, mesh, type: BodyType.Dynamic };
+  const body = { handle, mesh, shapeIds: [created.shapeHandle], type: BodyType.Dynamic };
   bodies.push(body);
   return body;
 }
@@ -77,9 +79,10 @@ export function addHull(
   color: number,
   friction = 0.5,
   rollingResistance = 0,
-  createHullShape?: (world: PhysicsWorld, size: Vec3, position: Vec3, friction: number, rollingResistance: number) => number,
+  createHullShape?: (world: PhysicsWorld, size: Vec3, position: Vec3, friction: number, rollingResistance: number) => BodyHandle,
 ): DemoBody {
-  const handle = createHullShape === undefined ? world.createBox({ size, position, static: false, density: 1000 }) : createHullShape(world, size, position, friction, rollingResistance);
+  const created = createHullShape === undefined ? world.createBoxWithShape({ size, position, static: false, density: 1000 }) : null;
+  const handle = created === null ? createHullShape!(world, size, position, friction, rollingResistance) : created.bodyHandle;
   const mesh = new THREE.Mesh(
     new THREE.BoxGeometry(size[0] * 2, size[1] * 2, size[2] * 2),
     new THREE.MeshStandardMaterial({ color, roughness: 0.75 }),
@@ -88,7 +91,7 @@ export function addHull(
   mesh.castShadow = true;
   mesh.receiveShadow = true;
   scene.add(mesh);
-  const body = { handle, mesh, type: BodyType.Dynamic };
+  const body = { handle, mesh, shapeIds: created === null ? world.getBodyShapes(handle) : [created.shapeHandle], type: BodyType.Dynamic };
   bodies.push(body);
   return body;
 }

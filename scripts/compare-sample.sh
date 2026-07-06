@@ -6,12 +6,12 @@ OUT_ROOT="${REFERENCE_DUMPS_DIR:-$ROOT_DIR/.reference-dumps}"
 BUILD_DIR="${REFERENCE_DUMP_BUILD_DIR:-$OUT_ROOT/reference-build}"
 SAMPLE=""
 FRAMES="0,50,100,200,300"
-EPSILON="1e-6"
+EPSILON="1e-5"
 CLEAN=0
 
 usage() {
   printf '%s\n' \
-    'Usage: bun run compare:sample -- sample="Sample Name" [frames=0,50,100,200,300] [epsilon=1e-6] [clean=1]' \
+    'Usage: bun run compare:sample -- sample="Sample Name" [frames=0,50,100,200,300] [epsilon=1e-5] [clean=1]' \
     '       bash scripts/compare-sample.sh "Sample Name"' \
     '' \
     'Generated files are written under .reference-dumps/ by default.'

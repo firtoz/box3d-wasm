@@ -87,6 +87,7 @@ int b3wAllocBodySlot(int worldHandle, b3BodyId bodyId);
 int b3wAllocJointSlot(int worldHandle, b3JointId jointId);
 int b3wAllocHullSlot(b3HullData* hull);
 int b3wAllocShapeSlot(b3ShapeId shapeId);
+int b3wFindShapeHandle(b3ShapeId shapeId);
 int b3wAllocCompoundSlot(b3CompoundData* compound);
 int b3wAllocHumanSlot(int worldHandle, Human human);
 void b3wClearWorldSlots(int worldHandle);

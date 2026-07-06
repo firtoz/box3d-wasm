@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Stats from "stats.js";
-import { BodyType, Box3DRuntime, type Quat, type Vec3 } from "box3d-wasm";
+import { BodyType, Box3DRuntime, type BodyHandle, type JointHandle, type Quat, type Vec3 } from "box3d-wasm";
 import { samples, type ControlSpec, type DemoBody, type DemoSampleInstance, type SolverParams } from "./samples";
 import { getWasmVariant, getWorkerCounts } from "./samples/shared";
 import "./style.css";
@@ -348,8 +348,8 @@ let controlsVisible = true;
 let showControlsDialog = (() => { try { return localStorage.getItem(VISIBLE_STORAGE_KEY) === "1"; } catch { return false; } })();
 let colorMode = localStorage.getItem("box3d:color-mode") === "light" ? "light" : "full";
 let selectedBody: DemoBody | null = null;
-let mouseDragBody = 0;
-let mouseDragJoint = 0;
+let mouseDragBody: BodyHandle | 0 | -1 = 0;
+let mouseDragJoint: JointHandle | 0 = 0;
 let mouseDragDistance = 0;
 let flyLook = false;
 let flyPointerId = -1;
@@ -972,8 +972,10 @@ function updateMouseDrag(e: PointerEvent): void {
     );
     return;
   }
+  if (mouseDragBody < 0) return;
+  const dragBody = mouseDragBody as BodyHandle;
   const p = pointOnPickRay(e, mouseDragDistance);
-  activeSample.world.setBodyTransform(mouseDragBody, [p.x, p.y, p.z]);
+  activeSample.world.setBodyTransform(dragBody, [p.x, p.y, p.z]);
 }
 
 function stopMouseDrag(): void {
@@ -987,8 +989,8 @@ function stopMouseDrag(): void {
     activeSample.world.destroyJoint(mouseDragJoint);
     mouseDragJoint = 0;
   }
-  if (mouseDragBody !== 0) {
-    activeSample.world.destroyBody(mouseDragBody);
+  if (mouseDragBody > 0) {
+    activeSample.world.destroyBody(mouseDragBody as BodyHandle);
     mouseDragBody = 0;
   }
 }

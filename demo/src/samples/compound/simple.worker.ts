@@ -1,15 +1,15 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import { B3_AXIS_Y, B3_PI, BodyType, type Vec3 } from "box3d-wasm";
+import { B3_AXIS_Y, B3_PI, BodyType, type BodyHandle, type CompoundHandle, type Vec3 } from "box3d-wasm";
 
 class CompoundSimpleWorker extends PhysicsWorkerBase {
-  private compound = 0;
+  private compound: CompoundHandle | 0 = 0;
 
   protected getGroundSize(): Vec3 {
     return [20, 1, 20];
   }
 
-  protected async buildScene(): Promise<number[]> {
-    const handles: number[] = [];
+  protected async buildScene(): Promise<BodyHandle[]> {
+    const handles: BodyHandle[] = [];
 
     // Clean up previous compound on restart
     if (this.compound !== 0) {

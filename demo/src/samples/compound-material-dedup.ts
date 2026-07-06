@@ -12,9 +12,12 @@ export const compoundMaterialDedupSample: DemoSample = {
     addBox(world, scene, bodies, [12, 0.5, 12], [0, -1, 0], 0x334155, true);
     const box = addBox(world, scene, bodies, [1, 1, 1], [-2, 4, 0], 0x38bdf8);
     const other = addBox(world, scene, bodies, [1, 1, 1], [2, 4, 0], 0xf97316);
-    runtime.setShapeFriction(box.handle, 0.3);
-    runtime.setShapeRestitution(other.handle, 0.5);
-    runtime.setShapeDensity(box.handle, 3.0, true);
+    if (box.shapeIds === undefined || box.shapeIds[0] === undefined || other.shapeIds === undefined || other.shapeIds[0] === undefined) {
+      throw new Error("Expected simple box bodies to expose their shape handles");
+    }
+    runtime.setShapeFriction(box.shapeIds[0], 0.3);
+    runtime.setShapeRestitution(other.shapeIds[0], 0.5);
+    runtime.setShapeDensity(box.shapeIds[0], 3.0, true);
     return {
       world,
       bodies,

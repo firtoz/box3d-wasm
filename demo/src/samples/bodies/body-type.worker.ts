@@ -1,15 +1,15 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import { BodyType, type Vec3 } from "box3d-wasm";
+import { BodyType, type BodyHandle, type Vec3 } from "box3d-wasm";
 import type { PhysicsWorkerCommand } from "../../physics-worker-protocol";
 import { buildBodyTypeDynamicBodies, bodyTypeGroundSize, bodyTypeHandleIndex, stepBodyType } from "./body-type-scene";
 
 class BodyTypeWorker extends PhysicsWorkerBase {
-  private attachmentId = 0;
-  private secondAttachmentId = 0;
-  private platformId = 0;
-  private secondPayloadId = 0;
-  private touchingBodyId = 0;
-  private floatingBodyId = 0;
+  private attachmentId: BodyHandle | null = null;
+  private secondAttachmentId: BodyHandle | null = null;
+  private platformId: BodyHandle | null = null;
+  private secondPayloadId: BodyHandle | null = null;
+  private touchingBodyId: BodyHandle | null = null;
+  private floatingBodyId: BodyHandle | null = null;
   private bodyType = BodyType.Dynamic;
   private speed = 3;
   private platformVx = -3;
@@ -18,7 +18,7 @@ class BodyTypeWorker extends PhysicsWorkerBase {
     return bodyTypeGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyHandle[]> {
     const handles = buildBodyTypeDynamicBodies(this.world!, this.runtime!);
     this.attachmentId = handles[bodyTypeHandleIndex.attachmentId];
     this.secondAttachmentId = handles[bodyTypeHandleIndex.secondAttachmentId];
@@ -30,6 +30,7 @@ class BodyTypeWorker extends PhysicsWorkerBase {
   }
 
   protected stepPhysics(): number {
+    if (this.platformId === null) return 0;
     const start = performance.now();
     this.world!.step(this.fixedTimeStep, this.subSteps);
     this.platformVx = stepBodyType(this.world!, this.runtime!, this.platformId, this.bodyType, this.platformVx);
@@ -41,6 +42,7 @@ class BodyTypeWorker extends PhysicsWorkerBase {
     const R = this.runtime!;
     switch (msg.type) {
       case "setBodyType": {
+        if (this.platformId === null || this.secondAttachmentId === null || this.secondPayloadId === null || this.touchingBodyId === null || this.floatingBodyId === null) return false;
         this.bodyType = msg.bodyType as number;
         const bodies = [this.platformId, this.secondAttachmentId, this.secondPayloadId, this.touchingBodyId, this.floatingBodyId];
         for (const b of bodies) R.setBodyType(b, this.bodyType);
@@ -54,6 +56,7 @@ class BodyTypeWorker extends PhysicsWorkerBase {
         return true;
       }
       case "setEnabled": {
+        if (this.attachmentId === null || this.secondPayloadId === null || this.floatingBodyId === null) return false;
         if (msg.enabled) {
           R.bodyEnable(this.attachmentId);
           R.bodyEnable(this.secondPayloadId);

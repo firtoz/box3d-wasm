@@ -1,7 +1,7 @@
 import type * as THREE from "three";
-import type { BodyType, Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
+import type { BodyHandle, BodyType, Box3DRuntime, PhysicsWorld, ShapeId, Vec3 } from "box3d-wasm";
 
-export type DemoBody = { handle: number; mesh: THREE.Mesh; extraMeshes?: THREE.Mesh[]; shapeIds?: number[]; type: BodyType; preserveColor?: boolean };
+export type DemoBody = { handle: BodyHandle; mesh: THREE.Mesh; extraMeshes?: THREE.Mesh[]; shapeIds?: ShapeId[]; type: BodyType; preserveColor?: boolean };
 
 export type ControlSpec = {
   key: string;

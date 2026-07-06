@@ -1,4 +1,4 @@
-import { BodyType, Box3DRuntime, type BodyBatchBuffers, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { BodyType, Box3DRuntime, type BodyBatchBuffers, type BodyHandle, type JointHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { PhysicsWorkerCommand, PhysicsWorkerMessage, SolverParams } from "./physics-worker-protocol";
 import { MAX_PROJECTILES, RAGDOLL_RENDER_BONE_COUNT, SNAPSHOT_AWAKE_COUNT_INDEX, SNAPSHOT_CUMULATIVE_STEPS_INDEX, SNAPSHOT_DROPPED_MS_X100_INDEX, SNAPSHOT_LAG_MS_X100_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_PUBLISH_MS_X100_INDEX, SNAPSHOT_STEP_MS_X100_INDEX, SNAPSHOT_STEPS_INDEX, SNAPSHOT_VERSION_INDEX, SNAPSHOT_STATE_COUNT } from "./physics-worker-protocol";
 
@@ -35,8 +35,8 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   protected publishIntervalMs = 15;
   protected useLightTransforms = true;
   protected projectileHandles: number[] = [];
-  protected dragBody = 0;
-  protected dragJoint = 0;
+  protected dragBody: BodyHandle | 0 = 0;
+  protected dragJoint: JointHandle | 0 = 0;
   protected dragDistance = 0;
   protected subSteps = 4;
   protected fixedTimeStep = 1 / 60;

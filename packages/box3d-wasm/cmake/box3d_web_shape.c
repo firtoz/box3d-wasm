@@ -1,9 +1,17 @@
 #include "box3d_web_shared.h"
 
+#include <stdlib.h>
+
 static b3ShapeId* resolve_shape(int shapeHandle)
 {
 	b3wShapeSlot* slot = b3wGetShape(shapeHandle);
 	return slot ? &slot->shapeId : NULL;
+}
+
+static int alloc_or_find_shape_handle(b3ShapeId shapeId)
+{
+	int handle = b3wFindShapeHandle(shapeId);
+	return handle != 0 ? handle : b3wAllocShapeSlot(shapeId);
 }
 
 B3W_EXPORT int b3wCreateBox(int worldHandle, float px, float py, float pz, float hx, float hy, float hz, int isStatic, float density)
@@ -188,6 +196,43 @@ B3W_EXPORT int b3wGetShapeBodyHandle(int shapeHandle)
 	b3BodyId bodyId = b3Shape_GetBody(*shapeId);
 	if (b3Body_IsValid(bodyId) == false) return 0;
 	return bodyId.index1;
+}
+
+B3W_EXPORT int b3wGetBodyShapeCount(int bodyHandle)
+{
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL) return 0;
+	return b3Body_GetShapeCount(slot->bodyId);
+}
+
+B3W_EXPORT int b3wGetBodyShapes(int bodyHandle, int* outShapeHandles, int capacity)
+{
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL || outShapeHandles == NULL || capacity <= 0) return 0;
+
+	int count = b3Body_GetShapeCount(slot->bodyId);
+	if (count <= 0) return 0;
+	if (count > capacity) count = capacity;
+
+	b3ShapeId* shapeIds = malloc((size_t)count * sizeof(b3ShapeId));
+	if (shapeIds == NULL) return 0;
+
+	int written = b3Body_GetShapes(slot->bodyId, shapeIds, count);
+	for (int i = 0; i < written; ++i)
+	{
+		outShapeHandles[i] = alloc_or_find_shape_handle(shapeIds[i]);
+	}
+	free(shapeIds);
+
+	return written;
+}
+
+B3W_EXPORT void b3wDestroyShape(int shapeHandle, int updateBodyMass)
+{
+	b3wShapeSlot* slot = b3wGetShape(shapeHandle);
+	if (slot == NULL) return;
+	b3DestroyShape(slot->shapeId, updateBodyMass != 0);
+	slot->active = false;
 }
 
 B3W_EXPORT void b3wShapeEnableSensorEvents(int shapeHandle, int flag)

@@ -18,7 +18,7 @@ Source files:
 
 ## Current Shape
 
-- Approximate JS-callable surface: ~70 TypeScript methods
+- Approximate JS-callable surface: ~75 TypeScript methods
 - Current binding style: manual `b3w*` C bridge functions plus TypeScript wrapper classes
 - Current focus: sample-driven API growth rather than a full 1:1 upstream C API mirror
 - Threading: Emscripten pthreads enabled in WASM build, with world worker-count controls exposed
@@ -118,7 +118,7 @@ When adding an API binding:
 - [ ] Local/world vector transforms
 - [x] Local/world point velocity: `b3Body_GetLocalPointVelocity`, `b3Body_GetWorldPointVelocity`
 - [ ] Compute body AABB
-- [ ] Get body shapes: `b3Body_GetShapes`
+- [x] Get body shapes: `b3Body_GetShapes`
 - [ ] Get body joints: `b3Body_GetJoints`
 - [ ] Get body world: `b3Body_GetWorld`
 - [ ] Get body name
@@ -147,7 +147,7 @@ When adding an API binding:
 - [x] Set capsule geometry: `b3Shape_SetCapsule`
 - [x] Apply wind: `b3Shape_ApplyWind`
 - [ ] Shape validity: `b3Shape_IsValid`
-- [ ] Destroy shape: `b3DestroyShape`
+- [x] Destroy shape: `b3DestroyShape`
 - [ ] Shape type: `b3Shape_GetType`
 - [ ] Shape world: `b3Shape_GetWorld`
 - [ ] Sensor status: `b3Shape_IsSensor`

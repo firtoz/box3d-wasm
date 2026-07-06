@@ -4,7 +4,7 @@ Project docs are split by audience and purpose. Prefer updating an existing doc 
 
 ## Getting Started
 
-- [`TYPESCRIPT_API.md`](./TYPESCRIPT_API.md) - user-facing TypeScript API guide with a cube tower getting-started scene, headless smoke test, query, tuning, and cleanup examples.
+- [`TYPESCRIPT_API.md`](./TYPESCRIPT_API.md) - user-facing TypeScript API guide covering the branded-handle primitive API, the opt-in object wrapper API, and browser/headless usage examples.
 - [`../README.md`](../README.md) - repository overview, setup, scripts, requirements, and high-level links.
 
 ## Implementation Tracking

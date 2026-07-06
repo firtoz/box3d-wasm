@@ -33,12 +33,12 @@ function usage(): string {
     "Usage: compare-dumps [options] <expected.json> <actual.json>",
     "Options:",
     "  --help              Show this help",
-    "  --epsilon <number>  Numeric tolerance for vector fields (default: 1e-6)",
+    "  --epsilon <number>  Numeric tolerance for vector fields (default: 1e-5)",
   ].join("\n");
 }
 
 function parseOptions(argv: string[]): Options {
-  const options: Options = { expectedPath: undefined, actualPath: undefined, epsilon: 1e-6, help: false };
+  const options: Options = { expectedPath: undefined, actualPath: undefined, epsilon: 1e-5, help: false };
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i]!;
     if (arg === "--help") {

@@ -1,11 +1,11 @@
-import { B3_AXIS_Z, BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { B3_AXIS_Z, BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const AMPLITUDE = 2;
 const DELAY = 2;
 const GROUND_HALF: Vec3 = [20, 1, 20];
 
-export function buildKinematicDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+export function buildKinematicDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
   const body = world.createBody({ type: BodyType.Kinematic, position: [2 * AMPLITUDE, AMPLITUDE + 1, 0] });
   runtime.createHullShape(body, [0.1, 1.0, 0.2]);
   return [body];
@@ -15,7 +15,7 @@ export function kinematicGroundSize(): Vec3 {
   return GROUND_HALF;
 }
 
-export function stepKinematic(_world: PhysicsWorld, runtime: Box3DRuntime, bodyId: number, time: number, dt: number): number {
+export function stepKinematic(_world: PhysicsWorld, runtime: Box3DRuntime, bodyId: BodyHandle, time: number, dt: number): number {
   if (dt > 0 && time > DELAY) {
     const t = time - DELAY;
     const point: Vec3 = [
@@ -42,6 +42,6 @@ export const dumpGroundSize = kinematicGroundSize;
 export const dumpBuildDynamicBodies = buildKinematicDynamicBodies;
 
 let _kt = 0;
-export function dumpStep(world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], _frame: number, dt: number): void {
+export function dumpStep(world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly BodyHandle[], _frame: number, dt: number): void {
   _kt = stepKinematic(world, runtime, handles[1], _kt, dt);
 }

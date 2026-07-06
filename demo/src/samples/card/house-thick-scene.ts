@@ -5,15 +5,16 @@ const ALPHA = 25 * B3_DEG_TO_RAD;
 const CARD_HALF_DEPTH = 0.04;
 const CARD_HALF_HEIGHT = 0.49;
 const CARD_HALF_WIDTH = 0.19;
+const f = Math.fround;
 
 function addVerticalPair(
   world: PhysicsWorld, runtime: Box3DRuntime, handles: number[],
   startX: number, offsetX: number, startY: number,
 ): void {
-  const sine = runtime.b3wSin(0.5 * ALPHA);
-  const cosine = runtime.b3wCos(0.5 * ALPHA);
+  const qNeg = runtime.makeQuatFromAxisAngle(B3_AXIS_Z, -ALPHA);
+  const qPos = runtime.makeQuatFromAxisAngle(B3_AXIS_Z, ALPHA);
   for (const sign of [-1, 1]) {
-    const body = world.createBody({ type: BodyType.Dynamic, position: [startX + sign * offsetX, startY, 0], rotation: [0, 0, sign * sine, cosine], isAwake: true });
+    const body = world.createBody({ type: BodyType.Dynamic, position: [f(startX + sign * offsetX), f(startY), 0], rotation: sign < 0 ? qNeg : qPos, isAwake: true });
     runtime.createHullShape(body, [CARD_HALF_DEPTH, CARD_HALF_HEIGHT, CARD_HALF_WIDTH], { friction: 0.8 });
     handles.push(body);
   }
@@ -23,10 +24,9 @@ function addHorizontalRow(
   world: PhysicsWorld, runtime: Box3DRuntime, handles: number[],
   startX: number, offsetX: number, startY: number, count: number,
 ): void {
-  const sine = runtime.b3wSin(0.25 * B3_PI);
-  const cosine = runtime.b3wCos(0.25 * B3_PI);
+  const q = runtime.makeQuatFromAxisAngle(B3_AXIS_Z, 0.5 * B3_PI);
   for (let i = 0; i < count; i++) {
-    const body = world.createBody({ type: BodyType.Dynamic, position: [startX + i * offsetX, startY, 0], rotation: [0, 0, sine, cosine], isAwake: true });
+    const body = world.createBody({ type: BodyType.Dynamic, position: [f(startX + i * offsetX), f(startY), 0], rotation: q, isAwake: true });
     runtime.createHullShape(body, [CARD_HALF_DEPTH, CARD_HALF_HEIGHT, CARD_HALF_WIDTH], { friction: 0.8 });
     handles.push(body);
   }
@@ -43,16 +43,16 @@ function addVerticalRow(
 
 export function buildCardHouseThickDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
   const handles: number[] = [];
-  const offsetX = 0.5 * 0.98 * runtime.b3wSin(ALPHA) + 0.045;
-  const offsetY = 0.5 * 0.98 * runtime.b3wCos(ALPHA) + 0.035;
+  const offsetX = f(0.5 * 0.98 * runtime.b3wSin(ALPHA) + 0.045);
+  const offsetY = f(0.5 * 0.98 * runtime.b3wCos(ALPHA) + 0.035);
 
-  addVerticalRow(world, runtime, handles, 4, -6 * offsetX, offsetX, offsetY);
-  addHorizontalRow(world, runtime, handles, -4 * offsetX, 4 * offsetX, 2 * offsetY + 0.04, 3);
-  addVerticalRow(world, runtime, handles, 3, -4 * offsetX, offsetX, 3 * offsetY + 0.08);
-  addHorizontalRow(world, runtime, handles, -2 * offsetX, 4 * offsetX, 4 * offsetY + 0.12, 2);
-  addVerticalRow(world, runtime, handles, 2, -2 * offsetX, offsetX, 5 * offsetY + 0.16);
-  addHorizontalRow(world, runtime, handles, 0, 4 * offsetX, 6 * offsetY + 0.20, 1);
-  addVerticalRow(world, runtime, handles, 1, 0, offsetX, 7 * offsetY + 0.24);
+  addVerticalRow(world, runtime, handles, 4, f(-6 * offsetX), offsetX, offsetY);
+  addHorizontalRow(world, runtime, handles, f(-4 * offsetX), f(4 * offsetX), f(2 * offsetY + 0.04), 3);
+  addVerticalRow(world, runtime, handles, 3, f(-4 * offsetX), offsetX, f(3 * offsetY + 0.08));
+  addHorizontalRow(world, runtime, handles, f(-2 * offsetX), f(4 * offsetX), f(4 * offsetY + 0.12), 2);
+  addVerticalRow(world, runtime, handles, 2, f(-2 * offsetX), offsetX, f(5 * offsetY + 0.16));
+  addHorizontalRow(world, runtime, handles, 0, f(4 * offsetX), f(6 * offsetY + 0.20), 1);
+  addVerticalRow(world, runtime, handles, 1, 0, offsetX, f(7 * offsetY + 0.24));
 
   return handles;
 }

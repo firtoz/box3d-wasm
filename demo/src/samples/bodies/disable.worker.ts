@@ -1,17 +1,17 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import { type Vec3 } from "box3d-wasm";
+import { type BodyHandle, type Vec3 } from "box3d-wasm";
 import type { PhysicsWorkerCommand } from "../../physics-worker-protocol";
 import { buildDisableDynamicBodies, disableGroundSize } from "./disable-scene";
 
 class DisableWorker extends PhysicsWorkerBase {
-  private linkIds: number[] = [];
-  private ballId = 0;
+  private linkIds: BodyHandle[] = [];
+  private ballId: BodyHandle | null = null;
 
   protected getGroundSize(): Vec3 {
     return disableGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyHandle[]> {
     const handles = buildDisableDynamicBodies(this.world!, this.runtime!);
     // handles[0..3] = links 0..3, handles[4] = ball
     this.linkIds = [handles[0], handles[1], handles[2], handles[3]];
@@ -34,6 +34,7 @@ class DisableWorker extends PhysicsWorkerBase {
         return true;
       }
       case "enableBall": {
+        if (this.ballId === null) return false;
         if (msg.value) { R.bodyEnable(this.ballId); } else { R.bodyDisable(this.ballId); }
         return true;
       }

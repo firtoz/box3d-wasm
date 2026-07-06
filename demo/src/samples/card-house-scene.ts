@@ -1,4 +1,4 @@
-import { B3_PI, BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { B3_AXIS_Z, B3_PI, BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "./generic-host";
 
 const cardHeight = 0.2;
@@ -36,9 +36,9 @@ function createCardHouseDefs(): CardDef[] {
 
 export function buildCardHouseDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
   const handles: number[] = [];
-  const q0: [number, number, number, number] = [0, 0, runtime.b3wSin(0.5 * angle0), runtime.b3wCos(0.5 * angle0)];
-  const q1: [number, number, number, number] = [0, 0, runtime.b3wSin(0.5 * angle1), runtime.b3wCos(0.5 * angle1)];
-  const q2: [number, number, number, number] = [0, 0, runtime.b3wSin(0.5 * angle2), runtime.b3wCos(0.5 * angle2)];
+  const q0 = runtime.makeQuatFromAxisAngle(B3_AXIS_Z, angle0);
+  const q1 = runtime.makeQuatFromAxisAngle(B3_AXIS_Z, angle1);
+  const q2 = runtime.makeQuatFromAxisAngle(B3_AXIS_Z, angle2);
   for (const def of createCardHouseDefs()) {
     const body = world.createBody({
       type: BodyType.Dynamic,

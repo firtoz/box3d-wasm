@@ -22,8 +22,8 @@ https://github.com/user-attachments/assets/1c161c46-1dae-45a0-8d77-cb8df45819e8
 ## Goals
 
 - Keep the wasm-facing API small and stable.
-- Expose primitive Box3D bindings first.
-- Layer a nicer TS API on top.
+- Expose primitive Box3D bindings first, with branded handle types for safety.
+- Layer an opt-in object-oriented TS API on top.
 - Keep the demo and package buildable from the same repo.
 
 ## Layout
@@ -62,7 +62,7 @@ bun run dev
 
 The upstream `box3d` engine is pinned as a submodule, and this repo layers wasm-specific build tooling and demo code on top.
 
-Start with [`docs/TYPESCRIPT_API.md`](./docs/TYPESCRIPT_API.md) for TypeScript usage examples, then use [`docs/WASM_API_SURFACE.md`](./docs/WASM_API_SURFACE.md) for the current binding checklist and API expansion TODOs.
+Start with [`docs/TYPESCRIPT_API.md`](./docs/TYPESCRIPT_API.md) for TypeScript usage examples across both the primitive and object APIs, then use [`docs/WASM_API_SURFACE.md`](./docs/WASM_API_SURFACE.md) for the current binding checklist and API expansion TODOs.
 
 ## License
 

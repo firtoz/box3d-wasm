@@ -22,7 +22,7 @@ Legend:
 | **Cast** | [ ] | `b3Body_CastRay`, `b3Body_CastShape`, `b3Body_OverlapShape`, `b3Body_CollideMover`, `b3CreateCylinder` | 🚧 Needs body-level cast/overlap/collide APIs. Low-level query APIs not yet wrapped. |
 | **Kinematic** | [x] | `b3Body_SetTargetTransform`, `bodyDef.type = kinematic` | 🔧 `setBodyTargetTransform` exists. Kinematic body type exists. C++/WASM dump parity verified at epsilon=1e-6 across all 5 checkpoints (frames 0,50,100,200,300) — stationary for 2s delay then circular motion at radius 4. Uses `makeQuatFromAxisAngle` for rotation quaternion, standard `Math.cos`/`Math.sin` for position (matching C++ `cosf`/`sinf`), and `Math.fround` for float32-equivalent time accumulation. |
 | **Lock Mixing** | [x] | `bodyDef.motionLocks.angularX/Y/Z`, `bodyDef.motionLocks.linearX/Y/Z` | 🔧 `setBodyMotionLocks` exists, can set at body creation via `bodyDef.motionLocks`? Actually in TS we use `setBodyMotionLocks` after creation. |
-| **Fixed Rotation** | [x] | `bodyDef.motionLocks.angularX/Y/Z`, `bodyDef.gravityScale` | 🔧 All exist. |
+| **Fixed Rotation** | [x] | `bodyDef.motionLocks.angularX/Y/Z`, `bodyDef.gravityScale` | 🔧 All exist. C++/WASM dump parity verified with the default 5-second comparison window after matching the upstream vertical capsule setup exactly. |
 
 ## Character (`sample_character.cpp`)
 
@@ -205,7 +205,7 @@ Legend:
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
 | **Card House Thick** | [x] | Standard stacking | Implemented; C++/WASM dump parity verified at epsilon=1e-5 (chaotic stacking, 27 bodies, 3 checkpoints). |
-| **Card House** | [x] | Thin card stacking (tiny thickness hull) | 🔧 All exist. Exact C++ layout with thin card hulls. |
+| **Card House** | [x] | Thin card stacking (tiny thickness hull) | 🔧 All exist. Exact C++ layout with thin card hulls. C++/WASM dump parity verified at epsilon=1e-5. |
 | **Sphere Stack** | [x] | Sphere stacking | Implemented; C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Capsule Stack** | [x] | Capsule stacking with motion locks | Implemented; C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Single Box** | [x] | Single dynamic box | Implemented. |
@@ -214,9 +214,9 @@ Legend:
 | **Box Stack** | [x] | Box stacking | Implemented; C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Jenga Stack** | [x] | Jenga tower | Implemented. |
 | **Dominoes** | [x] | Domino ring | Implemented. |
-| **Wedge** | [x] | `b3CreateHull` from custom points | 🔧 `createHullFromPoints` exists. Custom hull render matches the physics wedge. |
-| **Arch** | [x] | `b3CreateHull` from custom points, per-body hulls | 🔧 All exist. Custom hull render matches the physics arch. |
-| **Double Domino** | [x] | Domino row with impulse | 🔧 Simple. Initial impulse applied at creation matches the C++ sample. |
+| **Wedge** | [x] | `b3CreateHull` from custom points | 🔧 `createHullFromPoints` exists. Custom hull render matches the physics wedge. C++/WASM dump parity verified with the default 5-second-or-sleep window. |
+| **Arch** | [x] | `b3CreateHull` from custom points, per-body hulls | 🔧 All exist. Custom hull render matches the physics arch. C++/WASM dump parity verified with the default 5-second-or-sleep window. |
+| **Double Domino** | [x] | Domino row with impulse | 🔧 Simple. Initial impulse applied at creation matches the C++ sample. C++/WASM dump parity verified with the default 5-second comparison window. |
 | **Pyramid2D** | [x] | 2D pyramid stacking | Implemented; C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 
 ## Tree (`sample_tree.cpp`)

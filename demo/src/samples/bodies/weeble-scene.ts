@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Mat3, type Vec3 } from "box3d-wasm";
+import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Mat3, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 function steinerAdjustedInertia(inertia: Mat3, mass: number, offset: Vec3): Mat3 {
@@ -12,7 +12,7 @@ function steinerAdjustedInertia(inertia: Mat3, mass: number, offset: Vec3): Mat3
   return out;
 }
 
-export function buildWeebleDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+export function buildWeebleDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
   const body = world.createBody({ type: BodyType.Dynamic, position: [0, 3, 0] });
 
   runtime.createCapsuleShape(body, [0, -1, 0], [0, 1, 0], 1, {

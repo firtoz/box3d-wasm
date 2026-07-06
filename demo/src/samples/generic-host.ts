@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { ConvexGeometry } from "three/examples/jsm/geometries/ConvexGeometry.js";
-import { BodyType, type Box3DRuntime } from "box3d-wasm";
+import { BodyType, type BodyHandle, type Box3DRuntime } from "box3d-wasm";
 import { wasmBuildVersion } from "virtual:wasm-version";
 import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker-protocol";
 import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
@@ -14,7 +14,7 @@ const localOffset = new THREE.Vector3();
 const localRotation = new THREE.Quaternion();
 
 export type RenderBodyBase = { position: [number, number, number]; rotation?: [number, number, number, number]; scale?: [number, number, number]; type?: BodyType };
-export type RenderShape = { color: number } & ({ kind: "box"; size: [number, number, number] } | { kind: "sphere"; radius: number } | { kind: "cylinder"; radius: number; height: number; segments?: number } | { kind: "capsule"; radius: number; length: number } | { kind: "hull"; points: [number, number, number][] });
+export type RenderShape = { color: number } & ({ kind: "box"; size: [number, number, number] } | { kind: "sphere"; radius: number } | { kind: "cylinder"; radius: number; height: number; segments?: number; yOffset?: number } | { kind: "capsule"; radius: number; length: number } | { kind: "hull"; points: [number, number, number][] });
 export type RenderPart = RenderShape & { position?: [number, number, number]; rotation?: [number, number, number, number] };
 export type RenderBody = (RenderBodyBase & RenderShape) | (RenderBodyBase & { kind: "compound"; parts: [RenderPart, ...RenderPart[]] });
 export type RenderControlButton = { type: "button"; label: string; message: Record<string, unknown> };
@@ -52,6 +52,7 @@ export function meshFor(body: RenderBody): THREE.Mesh {
   mesh.position.set(body.position[0], body.position[1], body.position[2]);
   if (body.rotation !== undefined) mesh.quaternion.set(body.rotation[0], body.rotation[1], body.rotation[2], body.rotation[3]);
   if (body.scale !== undefined) mesh.scale.set(body.scale[0], body.scale[1], body.scale[2]);
+  if (body.kind === "cylinder" && body.yOffset !== undefined) mesh.userData.localPosition = [0, body.yOffset, 0] as const;
   mesh.castShadow = body.type !== BodyType.Static;
   mesh.receiveShadow = true;
   return mesh;
@@ -96,6 +97,8 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
           mesh.userData.localPosition = bodySpec.parts[0].position;
           mesh.userData.localRotation = bodySpec.parts[0].rotation;
           setLocalTransform(mesh, bodyPosition, bodyRotation);
+        } else if (mesh.userData.localPosition !== undefined || mesh.userData.localRotation !== undefined) {
+          setLocalTransform(mesh, bodyPosition, bodyRotation);
         }
         scene.add(mesh);
         const extraMeshes = bodySpec.kind === "compound" ? bodySpec.parts.slice(1).map((shape) => {
@@ -108,7 +111,7 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
           scene.add(extra);
           return extra;
         }) : undefined;
-        bodies.push({ handle: i + 1, mesh, extraMeshes, type: bodySpec.type ?? BodyType.Dynamic });
+        bodies.push({ handle: (i + 1) as BodyHandle, mesh, extraMeshes, type: bodySpec.type ?? BodyType.Dynamic });
       }
 
       worker.addEventListener("message", (event: MessageEvent<PhysicsWorkerMessage>) => {

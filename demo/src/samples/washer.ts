@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { B3_PI, BodyType, type Box3DRuntime } from "box3d-wasm";
+import { B3_PI, BodyType, type BodyHandle, type Box3DRuntime } from "box3d-wasm";
 import type { DemoBody, DemoSample, SolverParams } from "./types";
 import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker-protocol";
 import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
@@ -291,7 +291,7 @@ export function createWasherSample(forcedRenderMode?: WasherRenderMode, options:
       groundMesh.position.set(0, -1, 0);
       groundMesh.receiveShadow = true;
       scene.add(groundMesh);
-      bodies.push({ handle: 0, mesh: groundMesh, type: BodyType.Static });
+      bodies.push({ handle: 0 as BodyHandle, mesh: groundMesh, type: BodyType.Static });
 
       const drumGroup = new THREE.Group();
       drumGroup.position.set(0, 21, 0);
@@ -302,7 +302,7 @@ export function createWasherSample(forcedRenderMode?: WasherRenderMode, options:
       drumGroup.add(drumEdges);
 
       scene.add(drumGroup);
-      bodies.push({ handle: 1, mesh: drumGroup as unknown as THREE.Mesh, type: BodyType.Dynamic });
+      bodies.push({ handle: 1 as BodyHandle, mesh: drumGroup as unknown as THREE.Mesh, type: BodyType.Dynamic });
 
       const cubeGeom = renderMode === "matrix" ? new THREE.BoxGeometry(0.4, 0.4, 0.4) : null;
       const cubeMat = renderMode === "matrix" ? new THREE.MeshStandardMaterial({ color: 0xd2b48c }) : null;

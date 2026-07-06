@@ -126,6 +126,24 @@ int b3wAllocShapeSlot(b3ShapeId shapeId)
 	return 0;
 }
 
+int b3wFindShapeHandle(b3ShapeId shapeId)
+{
+	for (int i = 0; i < B3W_MAX_SHAPES; ++i)
+	{
+		if (!g_shapes[i].active)
+		{
+			continue;
+		}
+
+		if (B3_ID_EQUALS(g_shapes[i].shapeId, shapeId))
+		{
+			return i + 1;
+		}
+	}
+
+	return 0;
+}
+
 int b3wAllocCompoundSlot(b3CompoundData* compound)
 {
 	for (int i = 0; i < B3W_MAX_COMPOUNDS; ++i)

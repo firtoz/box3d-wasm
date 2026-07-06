@@ -8,7 +8,7 @@ For the exhaustive binding checklist, see [`WASM_API_SURFACE.md`](./WASM_API_SUR
 
 - `Box3DRuntime.load()` loads the WASM module and returns the runtime wrapper.
 - `runtime.createWorld()` creates a `PhysicsWorld` wrapper for one Box3D world.
-- Bodies, shapes, joints, hulls, compounds, and humans are represented by numeric handles.
+- Bodies, shapes, joints, hulls, compounds, and humans are represented by branded numeric handles.
 - Vectors are tuple types: `Vec3` is `[x, y, z]`, and `Quat` is `[x, y, z, w]`.
 - Body types use the exported `BodyType` enum, not raw Box3D numbers.
 - Call `world.destroy()` when a world is no longer needed.
@@ -119,6 +119,56 @@ window.addEventListener("beforeunload", () => {
 
 The important API shape is `Box3DRuntime.load()` → `createWorld()` → create bodies/shapes → `world.step()` → `world.getBodyTransform()`.
 
+## Primitive And Object Styles
+
+The default API is the primitive one from `box3d-wasm`: bodies, shapes, joints, hulls, and humans are opaque branded handles. This keeps the wrapper close to the underlying WASM API, works well with batching APIs, and adds compile-time protection against mixing handle kinds.
+
+```ts
+const body = world.createBody({ type: BodyType.Dynamic, position: [0, 4, 0] });
+const shape = world.createHullShape(body, [0.5, 0.5, 0.5], { density: 1000 });
+
+world.setBodyLinearVelocity(body, [1, 0, 0]);
+world.setShapeFriction(shape, 0.7);
+```
+
+For one-shape convenience bodies where you know you will want the shape immediately, use the paired helpers:
+
+```ts
+const box = world.createBoxWithShape({
+  size: [0.5, 0.5, 0.5],
+  position: [0, 2, 0],
+  density: 1000,
+});
+
+world.setBodyAngularVelocity(box.bodyHandle, [0, 4, 0]);
+world.setShapeFriction(box.shapeHandle, 0.8);
+```
+
+If you prefer a more object-oriented authoring style, use the opt-in `box3d-wasm/objects` entry point. It wraps the primitive API with `BodyRef`, `ShapeRef`, `JointRef`, and `HullRef` objects and adds `dispose()` lifecycle methods.
+
+```ts
+import { ObjectRuntime } from "box3d-wasm/objects";
+
+const runtime = await ObjectRuntime.load();
+const world = runtime.createWorld({ gravity: [0, -9.81, 0] });
+
+const body = world.createBody({ type: BodyType.Dynamic, position: [0, 4, 0] });
+const shape = body.createHullShape([0.5, 0.5, 0.5], { density: 1000 });
+
+body.setLinearVelocity([1, 0, 0]);
+shape.setFriction(0.7);
+const local = body.getLocalPoint([0, 5, 0]);
+const shapes = body.getShapes();
+
+shape.dispose();
+body.dispose();
+world.dispose();
+runtime.dispose();
+```
+
+Prefer the primitive API for heavy scenes, hot loops, workers, and batched transform reads. The object API is for ergonomics, not peak throughput.
+Object methods accept object refs, not raw handles; if you need to cross from the primitive layer into the object layer, use `objectWorld.body(handle)` explicitly.
+
 ## Deterministic Math Helpers
 
 Most applications can use normal JavaScript or Three.js math helpers. For C++/WASM dump parity or deterministic fixtures, shared helpers such as `B3_PI`, `B3_DEG_TO_RAD`, `B3_AXIS_X/Y/Z`, `quatFromAxisAngle`, `runtime.makeQuatFromAxisAngle`, `runtime.b3wSin`, and `runtime.b3wCos` make sample code clearer and keep common constants in one place.
@@ -170,6 +220,14 @@ const ball = world.createSphere({
   density: 1000,
   restitution: 0.4,
 });
+
+const pairedBall = world.createSphereWithShape({
+  radius: 0.5,
+  position: [2, 3, 0],
+  density: 1000,
+});
+
+world.setShapeRestitution(pairedBall.shapeHandle, 0.4);
 ```
 
 Use `createBody` plus explicit shape creation when you need more control or multiple shapes on one body.
@@ -187,7 +245,20 @@ const shape = world.createHullShape(body, [0.4, 0.8, 0.2], {
   friction: 0.7,
   rollingResistance: 0.05,
 });
+
+const [primaryShape] = world.getBodyShapes(body);
+world.setShapeFriction(primaryShape, 0.8);
+
+const localPoint = world.getBodyLocalPoint(body, [0, 5, 0]);
+const worldPoint = world.getBodyWorldPoint(body, [0, 0.5, 0]);
+const center = world.getBodyWorldCenter(body);
+
+const scratch: Vec3 = [0, 0, 0];
+world.getBodyLocalPointTo(body, [0, 5, 0], scratch);
+world.getBodyWorldPointVelocityXYZTo(body, 0, 0.5, 0, scratch);
 ```
+
+Tuple-based helpers are the default API. For hot loops or repeated queries where you want to reduce short-lived allocations, use the `To(out)` or `XYZTo(out)` variants instead. Matching `XYZ(...)` variants are also available when scalar inputs are more convenient.
 
 ## Body Types
 
@@ -287,9 +358,10 @@ Destroy temporary resources that are not owned by the world.
 ```ts
 const hull = runtime.createCylinder(1, 0.25, 0, 16);
 const body = world.createBody({ type: BodyType.Dynamic, position: [0, 2, 0] });
-world.createShapeFromHull(body, hull, { density: 1000 });
+const shape = world.createShapeFromHull(body, hull, { density: 1000 });
 runtime.destroyHull(hull);
 
+world.destroyShape(shape);
 world.destroyBody(body);
 world.destroy();
 ```

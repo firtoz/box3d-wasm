@@ -1,37 +1,42 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { ObjectRuntime } from "box3d-wasm/objects";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const linkRadius = 0.1;
 const linkLength = 5 * linkRadius;
 const e_count = 4;
 
-export function buildDisableDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildDisableDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+  const handles: BodyHandle[] = [];
+  const objectRuntime = ObjectRuntime.fromRuntime(runtime);
+  const objectWorld = objectRuntime.wrapWorld(world);
+  const links = [];
 
   for (let link = 0; link < e_count; ++link) {
     const y = (e_count - link) * linkLength + 1.0;
-    const body = world.createBody({
+    const body = objectWorld.createBody({
       type: link === 0 ? BodyType.Kinematic : BodyType.Dynamic,
       position: [0, y, 0],
     });
-    runtime.createCapsuleShape(body, [0, 0, 0], [0, -linkLength, 0], linkRadius);
-    handles.push(body);
+    body.createCapsuleShape([0, 0, 0], [0, -linkLength, 0], linkRadius);
+    links.push(body);
+    handles.push(body.handle);
   }
 
   for (let link = 0; link < e_count - 1; ++link) {
-    world.createWeldJoint(handles[link], handles[link + 1], {
-      localFrameA: { position: [0, -linkLength, 0] as Vec3 },
+    objectWorld.createWeldJoint(links[link], links[link + 1], {
+      localFrameA: { position: [0, -linkLength, 0] },
       angularHertz: 10,
       angularDampingRatio: 1,
     });
   }
 
-  const ball = world.createBody({
+  const ball = objectWorld.createBody({
     type: BodyType.Dynamic,
     position: [3, 3, 0],
   });
-  runtime.createSphereShape(ball, [0, 0, 0], 0.5);
-  handles.push(ball);
+  ball.createSphereShape([0, 0, 0], 0.5);
+  handles.push(ball.handle);
 
   return handles;
 }
@@ -46,7 +51,7 @@ export function disableGroundSize(): Vec3 {
 export function stepDisable(
   _world: PhysicsWorld,
   runtime: Box3DRuntime,
-  handles: readonly number[],
+  handles: readonly BodyHandle[],
   _frame: number,
   _dt: number,
 ): void {

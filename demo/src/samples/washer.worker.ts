@@ -39,7 +39,7 @@ class WasherWorker extends PhysicsWorkerBase {
 
     let u1: Vec3 = [1, 0, 0];
     for (let i = 0; i < 36; i++) {
-      const u2 = i === 35 ? [1, 0, 0] as Vec3 : rotZ(u1, angle);
+      const u2: Vec3 = i === 35 ? [1, 0, 0] : rotZ(u1, angle);
 
       const a1 = invRotZ(u1, qoAngle);
       const a2 = rotZ(u2, qoAngle);

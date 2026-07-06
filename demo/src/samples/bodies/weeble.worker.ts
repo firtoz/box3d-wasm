@@ -1,16 +1,16 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import { type Vec3 } from "box3d-wasm";
+import { type BodyHandle, type Vec3 } from "box3d-wasm";
 import type { PhysicsWorkerCommand } from "../../physics-worker-protocol";
 import { buildWeebleDynamicBodies, weebleGroundSize } from "./weeble-scene";
 
 class WeebleWorker extends PhysicsWorkerBase {
-  private weebleId = 0;
+  private weebleId: BodyHandle | null = null;
 
   protected getGroundSize(): Vec3 {
     return weebleGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyHandle[]> {
     const handles = buildWeebleDynamicBodies(this.world!, this.runtime!);
     this.weebleId = handles[0];
     return handles;
@@ -22,6 +22,7 @@ class WeebleWorker extends PhysicsWorkerBase {
     const W = this.world!;
     switch (msg.type) {
       case "teleport": {
+        if (this.weebleId === null) return false;
         R.setBodyTransform(this.weebleId, [0, 20, 0], [0, 0, 0, 1]);
         R.setBodyAwake(this.weebleId, true);
         return true;
