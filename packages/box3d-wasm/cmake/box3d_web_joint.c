@@ -81,6 +81,8 @@ B3W_EXPORT int b3wCreateRevoluteJoint(
 	float localBqy,
 	float localBqz,
 	float localBqw,
+	float constraintHertz,
+	float constraintDampingRatio,
 	float targetAngle,
 	int enableSpring,
 	float hertz,
@@ -101,6 +103,8 @@ B3W_EXPORT int b3wCreateRevoluteJoint(
 	jointDef.base.bodyIdB = bodyB->bodyId;
 	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, { { localAqx, localAqy, localAqz }, localAqw } };
 	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
+	jointDef.base.constraintHertz = constraintHertz;
+	jointDef.base.constraintDampingRatio = constraintDampingRatio;
 	jointDef.targetAngle = targetAngle;
 	jointDef.enableSpring = enableSpring != 0;
 	jointDef.hertz = hertz;
