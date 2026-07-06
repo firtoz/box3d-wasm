@@ -118,6 +118,7 @@ type CreateTransformedHullShapeFn = (bodyHandle: number, density: number, fricti
 type CreateSphereShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, px: number, py: number, pz: number, radius: number) => number;
 type CreateCapsuleShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, ax: number, ay: number, az: number, bx: number, by: number, bz: number, radius: number) => number;
 type CreateShapeFromHullFn = (bodyHandle: number, hullHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number) => number;
+type CreateTransformedShapeFromHullFn = (bodyHandle: number, hullHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, sx: number, sy: number, sz: number) => number;
 type CreateCylinderFn = (height: number, radius: number, yOffset: number, sides: number) => number;
 type CreateHullFromPointsFn = (numPoints: number, points: number) => number;
 type DestroyHullFn = (hullHandle: number) => void;
@@ -235,6 +236,7 @@ export class Box3DRuntime implements RuntimeAPI {
   private readonly createSphereShapeFn: CreateSphereShapeFn;
   private readonly createCapsuleShapeFn: CreateCapsuleShapeFn;
   private readonly createShapeFromHullFn: CreateShapeFromHullFn;
+  private readonly createTransformedShapeFromHullFn: CreateTransformedShapeFromHullFn;
   private readonly createCylinderFn: CreateCylinderFn;
   private readonly createHullFromPointsFn: CreateHullFromPointsFn;
   private readonly destroyHullFn: DestroyHullFn;
@@ -347,6 +349,7 @@ export class Box3DRuntime implements RuntimeAPI {
     this.createSphereShapeFn = module.cwrap("b3wCreateSphereShape", "number", ["number","number","number","number","number","number","number","number","number"]);
     this.createCapsuleShapeFn = module.cwrap("b3wCreateCapsuleShape", "number", ["number","number","number","number","number","number","number","number","number","number","number","number","number"]);
     this.createShapeFromHullFn = module.cwrap("b3wCreateShapeFromHull", "number", ["number","number","number","number","number","number","number"]);
+    this.createTransformedShapeFromHullFn = module.cwrap("b3wCreateTransformedShapeFromHull", "number", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
     this.createCylinderFn = module.cwrap("b3wCreateCylinder", "number", ["number","number","number","number"]);
     this.createHullFromPointsFn = module.cwrap("b3wCreateHullFromPoints", "number", ["number","number"]);
     this.destroyHullFn = module.cwrap("b3wDestroyHull", null, ["number"]);
@@ -581,6 +584,14 @@ export class Box3DRuntime implements RuntimeAPI {
 
   createShapeFromHull(bodyHandle: number, hullHandle: number, def: ShapeDef = {}): number {
     const shapeHandle = this.createShapeFromHullFn(bodyHandle, hullHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, def.updateBodyMass === false ? 0 : 1);
+    this.applyShapeDef(shapeHandle, def);
+    return shapeHandle;
+  }
+
+  createTransformedShapeFromHull(bodyHandle: number, hullHandle: number, transform: { position?: Vec3; rotation?: Quat } = {}, scale: Vec3 = [1, 1, 1], def: ShapeDef = {}): number {
+    const pos = transform.position ?? vec3();
+    const rot = transform.rotation ?? [0, 0, 0, 1];
+    const shapeHandle = this.createTransformedShapeFromHullFn(bodyHandle, hullHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, def.updateBodyMass === false ? 0 : 1, pos[0], pos[1], pos[2], rot[0], rot[1], rot[2], rot[3], scale[0], scale[1], scale[2]);
     this.applyShapeDef(shapeHandle, def);
     return shapeHandle;
   }

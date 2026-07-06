@@ -55,8 +55,8 @@ Legend:
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
 | **Simple** | [x] | `b3CreateCompound`, `b3CreateCompoundShape`, `b3DestroyCompound` | Recent fix uses `createCompoundFromHulls`. |
-| **Spheres** | [ ] | `b3CreateCompound` with spheres, `b3CreateCompoundShape`, `b3DestroyCompound` | 🔧 `createCompoundFromSpheres` exists. |
-| **Hulls** | [ ] | `b3CreateCompound` with multiple hulls | 🔧 `createCompoundFromHulls` exists. |
+| **Spheres** | [x] | `b3CreateCompound` with spheres, `b3CreateCompoundShape`, `b3DestroyCompound` | 🔧 `createCompoundFromSpheres` exists. |
+| **Hulls** | [x] | `b3CreateCompound` with multiple hulls | 🔧 `createCompoundFromHulls` exists. |
 | **Tile Floor** | [ ] | Compound with many hull instances | 🔧 Same API, just many entries. |
 | **Mesh Tile** | [ ] | `b3CreateMesh`, `b3CreateCompound` with meshes | 🚧 Mesh compound not wrapped. |
 | **Village** | [ ] | Compound with hulls + capsules + spheres + meshes, mesh loading | 🧩🚧 Most complex compound sample. |
@@ -188,11 +188,11 @@ Legend:
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
 | **Inclined Plane** | [x] | Standard APIs | Implemented. |
-| **Rolling Resistance** | [ ] | `shapeDef.baseMaterial.rollingResistance`, spheres + capsules on plane | 🔧 All exist. |
+| **Rolling Resistance** | [x] | `shapeDef.baseMaterial.rollingResistance`, spheres + capsules on plane | 🔧 All exist. |
 | **High Resistance** | [ ] | High rolling resistance capsules | 🔧 All exist. |
-| **Isotropic Friction** | [ ] | Friction sweep with boxes on circle | 🔧 All exist. |
+| **Isotropic Friction** | [x] | Friction sweep with boxes on circle | 🔧 All exist. |
 | **Slide Twist** | [ ] | Friction + twisting | 🔧 All exist. |
-| **Restitution** | [ ] | Bounciness sweep | 🔧 All exist. |
+| **Restitution** | [x] | Bounciness sweep | 🔧 All exist. |
 | **Static Invoke** | [ ] | `shapeDef.invokeContactCreation` | 🔧 `invokeContactCreation` not exposed. |
 | **Conveyor Belt** | [ ] | `shapeDef.baseMaterial.tangentVelocity` | 🔧 `tangentVelocity` exists in `ShapeDef`. |
 | **Conveyor Mesh** | [ ] | Mesh + tangent velocities per-material | 🧩🚧 Mesh + material per triangle. |
@@ -205,18 +205,18 @@ Legend:
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
 | **Card House Thick** | [x] | Standard stacking | Implemented; C++/WASM dump parity verified at epsilon=1e-5 (chaotic stacking, 27 bodies, 3 checkpoints). |
-| **Card House** | [ ] | Thin card stacking (tiny thickness hull) | 🔧 All exist. |
+| **Card House** | [x] | Thin card stacking (tiny thickness hull) | 🔧 All exist. Exact C++ layout with thin card hulls. |
 | **Sphere Stack** | [x] | Sphere stacking | Implemented; C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Capsule Stack** | [x] | Capsule stacking with motion locks | Implemented; C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Single Box** | [x] | Single dynamic box | Implemented. |
 | **Cylinder** | [x] | Cylinder hull | Implemented (offset fix done); C++/WASM dump parity verified with the default 5-second-or-sleep window. |
-| **Cylinder Stack** | [ ] | `b3CreateTransformedHullShape` with scaling | 🔧 `createTransformedHullShape` exists. |
+| **Cylinder Stack** | [x] | `b3CreateTransformedHullShape` with scaling | 🔧 `createTransformedHullShape` exists. Cylinder stack parity verified at epsilon=1e-5. |
 | **Box Stack** | [x] | Box stacking | Implemented; C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Jenga Stack** | [x] | Jenga tower | Implemented. |
 | **Dominoes** | [x] | Domino ring | Implemented. |
-| **Wedge** | [ ] | `b3CreateHull` from custom points | 🔧 `createHullFromPoints` exists. |
-| **Arch** | [ ] | `b3CreateHull` from custom points, per-body hulls | 🔧 All exist. |
-| **Double Domino** | [ ] | Domino row with impulse | 🔧 Simple. |
+| **Wedge** | [x] | `b3CreateHull` from custom points | 🔧 `createHullFromPoints` exists. Custom hull render matches the physics wedge. |
+| **Arch** | [x] | `b3CreateHull` from custom points, per-body hulls | 🔧 All exist. Custom hull render matches the physics arch. |
+| **Double Domino** | [x] | Domino row with impulse | 🔧 Simple. Initial impulse applied at creation matches the C++ sample. |
 | **Pyramid2D** | [x] | 2D pyramid stacking | Implemented; C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 
 ## Tree (`sample_tree.cpp`)

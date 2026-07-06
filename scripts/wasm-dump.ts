@@ -36,6 +36,7 @@ interface SceneDumpModule {
   dumpSampleId?: string;
   dumpSampleName?: string;
   dumpCppSampleName?: string;
+  dumpCreate?: (runtime: Box3DRuntime) => { world: PhysicsWorld; handles: number[] };
   dumpGroundSize?: () => Vec3;
   dumpBuildDynamicBodies?: (world: PhysicsWorld, runtime: Box3DRuntime) => number[];
   dumpStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number) => void;
@@ -219,7 +220,8 @@ async function loadWasmDumpSamples(): Promise<WasmDumpSample[]> {
   const sceneById = new Map<string, SceneDumpModule>();
   for (const file of await findSceneFiles(samplesDir)) {
     const scene = (await import(pathToFileURL(file).href)) as SceneDumpModule;
-    if (scene.dumpSampleId === undefined || scene.dumpGroundSize === undefined || scene.dumpBuildDynamicBodies === undefined) continue;
+    if (scene.dumpSampleId === undefined) continue;
+    if (scene.dumpCreate === undefined && (scene.dumpGroundSize === undefined || scene.dumpBuildDynamicBodies === undefined)) continue;
     sceneById.set(scene.dumpSampleId, scene);
   }
 
@@ -232,6 +234,7 @@ async function loadWasmDumpSamples(): Promise<WasmDumpSample[]> {
       name: frontendSample.name,
       cppName: scene.dumpCppSampleName ?? scene.dumpSampleName ?? frontendSample.name,
       create(runtime) {
+        if (scene.dumpCreate !== undefined) return scene.dumpCreate(runtime);
         const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
         const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
         runtime.createHullShape(ground, scene.dumpGroundSize!());

@@ -1,9 +1,19 @@
 import { dominoesSample, createDominoesSample } from "./dominoes";
 import { createWasherSample } from "./washer";
 import { compoundSimpleSample } from "./compound/simple";
+import { compoundSpheresSample } from "./compound/spheres";
+import { compoundHullsSample } from "./compound/hulls";
 import { compoundMaterialDedupSample } from "./compound/material-dedup";
 import { singleBoxSample } from "./single/box";
 import { cylinderSample } from "./cylinder";
+import { cylinderStackSample } from "./cylinder-stack";
+import { wedgeSample } from "./wedge";
+import { archSample } from "./arch";
+import { doubleDominoSample } from "./double-domino";
+import { cardHouseSample } from "./card-house";
+import { rollingResistanceSample } from "./rolling-resistance";
+import { restitutionSample } from "./restitution";
+import { isotropicFrictionSample } from "./isotropic-friction";
 import { sphereStackSample } from "./sphere/stack";
 import { boxStackSample } from "./box/stack";
 import { shapesInclinedPlaneSample } from "./shapes/inclined-plane";
@@ -57,9 +67,19 @@ export const samples = [
   farPyramidSample,
   farRagdollsSample,
   compoundSimpleSample,
+  compoundSpheresSample,
+  compoundHullsSample,
   compoundMaterialDedupSample,
   singleBoxSample,
   cylinderSample,
+  cylinderStackSample,
+  wedgeSample,
+  archSample,
+  doubleDominoSample,
+  cardHouseSample,
+  rollingResistanceSample,
+  restitutionSample,
+  isotropicFrictionSample,
   sphereStackSample,
   boxStackSample,
   shapesInclinedPlaneSample,

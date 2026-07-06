@@ -120,6 +120,24 @@ B3W_EXPORT int b3wCreateShapeFromHull(int bodyHandle, int hullHandle, float dens
 	return b3wAllocShapeSlot(shapeId);
 }
 
+B3W_EXPORT int b3wCreateTransformedShapeFromHull(int bodyHandle, int hullHandle, float density, float friction, float restitution, float rollingResistance,
+	int updateBodyMass, float tx, float ty, float tz, float qx, float qy, float qz, float qw, float sx, float sy, float sz)
+{
+	b3wBodySlot* body = b3wGetBody(bodyHandle);
+	b3wHullSlot* hull = b3wGetHull(hullHandle);
+	if (body == NULL || hull == NULL) return 0;
+	b3ShapeDef shapeDef = b3DefaultShapeDef();
+	shapeDef.density = density;
+	shapeDef.baseMaterial.friction = friction;
+	shapeDef.baseMaterial.restitution = restitution;
+	shapeDef.baseMaterial.rollingResistance = rollingResistance;
+	shapeDef.updateBodyMass = updateBodyMass != 0;
+	b3Transform transform = { { tx, ty, tz }, { { qx, qy, qz }, qw } };
+	b3Vec3 scale = { sx, sy, sz };
+	b3ShapeId shapeId = b3CreateTransformedHullShape(body->bodyId, &shapeDef, hull->hull, transform, scale);
+	return b3wAllocShapeSlot(shapeId);
+}
+
 B3W_EXPORT void b3wShapeSetDensity(int shapeHandle, float density, int updateBodyMass)
 {
 	b3ShapeId* shapeId = resolve_shape(shapeHandle);
