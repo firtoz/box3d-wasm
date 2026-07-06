@@ -1,13 +1,12 @@
 import { createGenericSample } from "./generic-host";
-import type { RenderBody, RenderSpec } from "./generic-host";
+import type { RenderSpec } from "./generic-host";
+import { createPyramid2dBodies, pyramid2dGroundSize } from "./pyramid2d-scene";
+
+const half = pyramid2dGroundSize();
 
 const spec: RenderSpec = {
-  groundSize: [80, 2, 80],
-  bodies: (() => {
-    const bodies: RenderBody[] = [];
-    for (let row = 0; row < 12; row++) for (let col = 0; col < 12 - row; col++) bodies.push({ kind: "box", size: [2, 2, 2], position: [-10 + 2 * col + row, 1.5 + 2.5 * row, 0], color: 0x60a5fa + (row % 10) * 0x010101 });
-    return bodies;
-  })(),
+  groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
+  bodies: createPyramid2dBodies(),
   info: "12 rows, 2D stacking (Z-locked)",
 };
 

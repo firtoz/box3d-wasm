@@ -522,3 +522,13 @@ B3W_EXPORT void b3wWriteBodyTransformsLight(int count, const int* bodyHandles, f
 		outColors[i] = outAwake[i] ? 0xd2b48c : 0x778899;
 	}
 }
+
+B3W_EXPORT float b3wSin(float radians)
+{
+	return b3Sin(radians);
+}
+
+B3W_EXPORT float b3wCos(float radians)
+{
+	return b3Cos(radians);
+}

@@ -312,6 +312,8 @@ export class Box3DRuntime implements RuntimeAPI {
   private readonly setDensityFn: ShapeSetDensityFn;
   private readonly setFrictionFn: ShapeSetFrictionFn;
   private readonly setRestitutionFn: ShapeSetRestitutionFn;
+  private readonly b3wSinFn: (radians: number) => number;
+  private readonly b3wCosFn: (radians: number) => number;
   private readonly transformPtr: number;
   private readonly pointPtr: number;
   private readonly massDataPtr: number;
@@ -421,6 +423,8 @@ export class Box3DRuntime implements RuntimeAPI {
     this.setBodyTargetTransformFn = module.cwrap("b3wSetBodyTargetTransform", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
     this.applyLinearImpulseFn = module.cwrap("b3wApplyLinearImpulse", null, ["number", "number", "number", "number", "number", "number", "number", "number"]);
     this.applyLinearImpulseToCenterFn = module.cwrap("b3wApplyLinearImpulseToCenter", null, ["number", "number", "number", "number", "number"]);
+    this.b3wSinFn = module.cwrap("b3wSin", "number", ["number"]);
+    this.b3wCosFn = module.cwrap("b3wCos", "number", ["number"]);
     this.transformPtr = module._malloc(7 * 4);
     this.pointPtr = module._malloc(3 * 4);
     this.massDataPtr = module._malloc(2 * 4);
@@ -577,6 +581,10 @@ export class Box3DRuntime implements RuntimeAPI {
     return hullHandle;
   }
   destroyHull(hullHandle: number): void { this.destroyHullFn(hullHandle); }
+  /** Match Box3D's b3Sin deterministically using Bhāskara I approximation. */
+  b3wSin(radians: number): number { return this.b3wSinFn(radians); }
+  /** Match Box3D's b3Cos deterministically using Bhāskara I approximation. */
+  b3wCos(radians: number): number { return this.b3wCosFn(radians); }
   createCompound(capsules: number, hulls: number, meshes: number, spheres: number): number { return this.createCompoundFn(capsules, hulls, meshes, spheres, 0, 0, 0, 0); }
   createCompoundFromHulls(entries: CompoundHullEntry[]): number {
     const stride = 13;

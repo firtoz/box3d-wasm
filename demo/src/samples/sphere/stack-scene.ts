@@ -1,4 +1,5 @@
 import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import type { RenderBody, RenderSpec } from "../generic-host";
 
 export function buildSphereStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
   const handles: number[] = [];
@@ -13,6 +14,14 @@ export function buildSphereStackDynamicBodies(world: PhysicsWorld, runtime: Box3
 export function sphereStackGroundSize(): Vec3 {
   return [15, 1, 15];
 }
+
+export function createSphereStackBodies(): RenderBody[] {
+  const bodies: RenderBody[] = [];
+  for (let i = 0, y = 0.75; i < 30; i++, y += 1.5) bodies.push({ kind: "sphere", radius: 0.5, position: [0, y, 0], color: 0x38bdf8 });
+  return bodies;
+}
+
+export const sphereStackCamera: RenderSpec["camera"] = { position: [0, 22.94, 48.30], target: [0, 10, 0] };
 
 export const dumpSampleName = "Sphere Stack";
 export const dumpSampleId = "sphere-stack";

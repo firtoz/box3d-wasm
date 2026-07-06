@@ -1,14 +1,13 @@
 import { createGenericSample } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
+import { spinningBookBodies, spinningBookCamera, spinningBookGroundSize } from "./spinning-book-scene";
+
+const half = spinningBookGroundSize();
 
 const spec: RenderSpec = {
-  groundSize: [20, 2, 20],
-  bodies: [
-    { kind: "box", size: [0.7, 0.16, 1], position: [-2, 2, 0], color: 0x3b82f6 },
-    { kind: "box", size: [0.7, 0.16, 1], position: [0, 2, 0], color: 0x22c55e },
-    { kind: "box", size: [0.7, 0.16, 1], position: [2, 2, 0], color: 0xef4444 },
-  ],
-  camera: { position: [0, 6, 8.66], target: [0, 1, 0] },
+  groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
+  bodies: spinningBookBodies,
+  camera: spinningBookCamera,
 };
 
 export const spinningBookSample = createGenericSample(

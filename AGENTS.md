@@ -65,6 +65,33 @@ For one physics body with multiple visible shapes, use the generic host compound
 
 For benchmark-heavy samples (many bodies), prefer the **washer approach** (custom `ShaderMaterial` with per-instance quaternion attribute, ~7 floats per instance) over the **dominoes approach** (InstancedMesh with `setMatrixAt`, ~16 floats per instance). See `demo/src/samples/washer.ts` for the pattern.
 
+## Scene file pattern
+
+Every sample should have a single `*-scene.ts` file as the single source of truth for both the physics worker and the render host. It exports:
+
+- `build*DynamicBodies(world, runtime)` — creates physics bodies on the worker
+- `*GroundSize()` — returns ground **half-extents** (`Vec3`)
+- `*Bodies` (static array) or `create*Bodies()` (procedural) — render body descriptors
+- `*Camera` (optional) — camera config `{ position, target }`
+- Dump metadata: `dumpSampleName`, `dumpSampleId`, `dumpCppSampleName`, `dumpGroundSize = *GroundSize`, `dumpBuildDynamicBodies = build*DynamicBodies`
+
+The worker imports the builder and ground size from the scene file:
+```ts
+import { buildXxxDynamicBodies, xxxGroundSize } from "./xxx-scene";
+```
+
+The render spec imports render bodies, camera, and ground size, doubling the half-extents for Three.js `BoxGeometry`:
+```ts
+const half = xxxGroundSize();
+const spec: RenderSpec = {
+  groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
+  bodies: xxxBodies,
+  camera: xxxCamera,
+};
+```
+
+This ensures positions, sizes, and camera never drift between the physics and render sides.
+
 Simple stacking/shape samples can use the generic host (`demo/src/samples/generic-host.ts`).
 
 ## WASM binary size

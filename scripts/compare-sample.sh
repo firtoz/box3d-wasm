@@ -79,7 +79,13 @@ mkdir -p "$SAMPLE_DIR" "$BUILD_DIR"
 cmake -S "$ROOT_DIR/tools/reference-dump" -B "$BUILD_DIR" -DBOX3D_DOUBLE_PRECISION=OFF
 cmake --build "$BUILD_DIR" -j"$(nproc)"
 
-"$BUILD_DIR/reference-dump" --frames "$FRAMES" "$CPP_SAMPLE_NAME" "$CPP_DUMP"
+SLEEP_FLAG=""
+# Samples with per-frame step callbacks (dumpStep) need to stay awake
+case "$SAMPLE_ID" in
+  bodies/kinematic) SLEEP_FLAG="--disable-sleep-term" ;;
+esac
+
+"$BUILD_DIR/reference-dump" $SLEEP_FLAG --frames "$FRAMES" "$CPP_SAMPLE_NAME" "$CPP_DUMP"
 bun "$ROOT_DIR/scripts/wasm-dump.ts" --frames "$FRAMES" "$SAMPLE_ID" "$WASM_DUMP"
 bun "$ROOT_DIR/scripts/compare-dumps.ts" --epsilon "$EPSILON" "$CPP_DUMP" "$WASM_DUMP"
 

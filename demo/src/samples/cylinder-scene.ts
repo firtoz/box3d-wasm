@@ -1,4 +1,5 @@
 import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import type { RenderBody } from "./generic-host";
 
 export function buildCylinderDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
   const hull = runtime.createCylinder(1, 0.25, 0, 12);
@@ -11,6 +12,10 @@ export function buildCylinderDynamicBodies(world: PhysicsWorld, runtime: Box3DRu
 export function cylinderGroundSize(): Vec3 {
   return [10, 1, 10];
 }
+
+export const cylinderBodies: RenderBody[] = [
+  { kind: "cylinder", radius: 0.25, height: 1, position: [0, 2, 0], color: 0x38bdf8 },
+];
 
 export const dumpSampleName = "Cylinder";
 export const dumpSampleId = "cylinder";

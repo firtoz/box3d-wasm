@@ -1,4 +1,5 @@
 import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import type { RenderBody, RenderSpec } from "../generic-host";
 
 export function buildCapsuleStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
   const handles: number[] = [];
@@ -14,6 +15,14 @@ export function buildCapsuleStackDynamicBodies(world: PhysicsWorld, runtime: Box
 export function capsuleStackGroundSize(): Vec3 {
   return [40, 1, 40];
 }
+
+export function createCapsuleStackBodies(): RenderBody[] {
+  const bodies: RenderBody[] = [];
+  for (let i = 0, y = 0.75; i < 20; i++, y += 1) bodies.push({ kind: "capsule", radius: 0.5, length: 2, position: [0, y, 0], color: 0x38bdf8 });
+  return bodies;
+}
+
+export const capsuleStackCamera: RenderSpec["camera"] = { position: [0, 22.94, 48.30], target: [0, 10, 0] };
 
 export const dumpSampleName = "Capsule Stack";
 export const dumpSampleId = "capsule-stack";

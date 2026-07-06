@@ -29,6 +29,7 @@ interface WasmDumpSample {
   name: string;
   cppName: string;
   create(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[] };
+  step?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number) => void;
 }
 
 interface SceneDumpModule {
@@ -37,6 +38,7 @@ interface SceneDumpModule {
   dumpCppSampleName?: string;
   dumpGroundSize?: () => Vec3;
   dumpBuildDynamicBodies?: (world: PhysicsWorld, runtime: Box3DRuntime) => number[];
+  dumpStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number) => void;
 }
 
 interface FrontendSampleMeta {
@@ -235,6 +237,7 @@ async function loadWasmDumpSamples(): Promise<WasmDumpSample[]> {
         runtime.createHullShape(ground, scene.dumpGroundSize!());
         return { world, handles: [ground, ...scene.dumpBuildDynamicBodies!(world, runtime)] };
       },
+      step: scene.dumpStep,
     });
   }
   return samples;
@@ -279,10 +282,13 @@ async function main(): Promise<void> {
   const output: DumpOutput = { checkpoints: [] };
 
   for (let frame = 0; frame <= options.maxFrame; frame++) {
-    if (frame > 0) world.step(1 / 60, 4);
+    if (frame > 0) {
+      sample.step?.(world, runtime, handles, frame, 1 / 60);
+      world.step(1 / 60, 4);
+    }
     if (shouldDumpFrame(options, frame)) {
       output.checkpoints.push({ frame, bodies: dumpBodies(world, handles) });
-      if (world.getAwakeBodyCount() === 0 && frame >= 100) {
+      if (sample.step === undefined && world.getAwakeBodyCount() === 0 && frame >= 100) {
         console.error(`All bodies asleep at frame ${frame}, terminating.`);
         break;
       }

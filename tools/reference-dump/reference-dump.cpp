@@ -21,6 +21,7 @@ struct Options
   bool listJson = false;
   bool help = false;
   bool maxFrameExplicit = false;
+  bool disableSleepTerm = false;
   std::vector<int> exactFrames;
 };
 
@@ -197,6 +198,10 @@ static bool parse_options(int argc, char* argv[], Options* options)
         }
       }
     }
+    else if (strcmp(arg, "--disable-sleep-term") == 0)
+    {
+      options->disableSleepTerm = true;
+    }
     else if (arg[0] == '-')
     {
       fprintf(stderr, "Unknown option: %s\n", arg);
@@ -309,7 +314,7 @@ int main(int argc, char* argv[])
       dump_bodies(out, sample->m_worldId, frame, checkpointCount > 0);
       checkpointCount++;
 
-      if (all_bodies_asleep(sample->m_worldId) && frame >= 100)
+      if (!options.disableSleepTerm && all_bodies_asleep(sample->m_worldId) && frame >= 100)
       {
         fprintf(stderr, "All bodies asleep at frame %d, terminating.\n", frame);
         break;

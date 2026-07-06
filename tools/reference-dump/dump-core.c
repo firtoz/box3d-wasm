@@ -45,7 +45,7 @@ static void dump_body(FILE* out, const b3World* world, int bodyIndex, int first)
   int isAwake = body->setIndex == b3_awakeSet;
   int bodyType = (int)body->type;
 
-  fprintf(out, "%s{\"p\":[%.9g,%.9g,%.9g],\"q\":[%.9g,%.9g,%.9g,%.9g],\"v\":[%.9g,%.9g,%.9g],\"w\":[%.9g,%.9g,%.9g],\"t\":%d,\"a\":%s}",
+  fprintf(out, "%s{\"p\":[%.17g,%.17g,%.17g],\"q\":[%.17g,%.17g,%.17g,%.17g],\"v\":[%.17g,%.17g,%.17g],\"w\":[%.17g,%.17g,%.17g],\"t\":%d,\"a\":%s}",
     first ? "" : ",",
     (double)pos.x, (double)pos.y, (double)pos.z,
     (double)rot.v.x, (double)rot.v.y, (double)rot.v.z, (double)rot.s,
