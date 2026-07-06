@@ -1,17 +1,12 @@
 import { createGenericSample } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
-import { BodyType } from "box3d-wasm";
+import { disableBodies, disableCamera, disableGroundSize } from "./disable-scene";
 
+const half = disableGroundSize();
 const spec: RenderSpec = {
-  groundSize: [10, 1, 10],
-  bodies: [
-    { kind: "capsule", radius: 0.25, length: 1, position: [0, 8, 0], type: BodyType.Kinematic, color: 0x3b82f6 },
-    { kind: "capsule", radius: 0.25, length: 1, position: [0, 5.5, 0], type: BodyType.Dynamic, color: 0x22c55e },
-    { kind: "capsule", radius: 0.25, length: 1, position: [0, 3, 0], type: BodyType.Dynamic, color: 0xf97316 },
-    { kind: "capsule", radius: 0.25, length: 1, position: [0, 0.5, 0], type: BodyType.Dynamic, color: 0xef4444 },
-    { kind: "sphere", radius: 0.3, position: [-5, 4, 0], type: BodyType.Dynamic, color: 0xf59e0b },
-  ],
-  camera: { position: [8, 6, 12], target: [0, 4, 0] },
+  groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
+  bodies: disableBodies,
+  camera: disableCamera,
   info: "Chain with weld joints. Toggle enables/disables link[2] and the ball.",
   controls: [
     { type: "toggle", label: "Link[2]", message: { type: "enableLink2" }, value: true },

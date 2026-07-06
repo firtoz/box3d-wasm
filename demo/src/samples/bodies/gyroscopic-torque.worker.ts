@@ -1,38 +1,14 @@
+import { type Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import { BodyType, type Vec3 } from "box3d-wasm";
+import { buildGyroscopicTorqueDynamicBodies, gyroscopicTorqueGroundSize } from "./gyroscopic-torque-scene";
 
 class GyroscopicTorqueWorker extends PhysicsWorkerBase {
   protected getGroundSize(): Vec3 {
-    return [20, 1, 20];
+    return gyroscopicTorqueGroundSize();
   }
 
   protected async buildScene(): Promise<number[]> {
-    const body = this.world!.createBody({
-      type: BodyType.Dynamic,
-      position: [0, 2, 0],
-      rotation: [-0.7071067811865475, 0, 0, 0.7071067811865476],
-      gravityScale: 0,
-    });
-
-    const cylinder = this.runtime!.createCylinder(0.6, 0.15, 0, 32);
-
-    this.runtime!.createShapeFromHull(body, cylinder, {
-      density: 1,
-      updateBodyMass: false,
-    });
-
-    this.runtime!.createHullShape(body, [1, 0.05, 0.1], {
-      density: 1,
-      updateBodyMass: false,
-    });
-
-    this.runtime!.applyBodyMassFromShapes(body);
-
-    this.runtime!.setBodyAngularVelocity(body, [0.01, 0.01, 10]);
-
-    this.runtime!.destroyHull(cylinder);
-
-    return [body];
+    return buildGyroscopicTorqueDynamicBodies(this.world!, this.runtime!);
   }
 }
 

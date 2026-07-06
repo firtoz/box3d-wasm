@@ -1,14 +1,13 @@
 import { createGenericSample } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
-import { BodyType } from "box3d-wasm";
+import { weebleBodies, weebleCamera, weebleGroundSize } from "./weeble-scene";
 
+const half = weebleGroundSize();
 const spec: RenderSpec = {
-  groundSize: [10, 1, 10],
-  bodies: [
-    { kind: "capsule", radius: 0.25, length: 1, position: [0, 10, 0], type: BodyType.Dynamic, color: 0x3b82f6 },
-  ],
-  camera: { position: [5, 12, 10], target: [0, 5, 0] },
-  info: "Center of mass shifted upward — weeble rights itself",
+  groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
+  bodies: weebleBodies,
+  camera: weebleCamera,
+  info: "Weeble wobbles but doesn't fall down.",
   controls: [
     { type: "button", label: "Teleport", message: { type: "teleport" } },
     { type: "button", label: "Explode", message: { type: "explode" } },
