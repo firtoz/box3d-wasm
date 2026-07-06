@@ -82,7 +82,7 @@ cmake --build "$BUILD_DIR" -j"$(nproc)"
 SLEEP_FLAG=""
 # Samples with per-frame step callbacks (dumpStep) need to stay awake
 case "$SAMPLE_ID" in
-  bodies/kinematic|bodies/disable) SLEEP_FLAG="--disable-sleep-term" ;;
+  bodies/kinematic|bodies/disable|joints/motor-joint|joints/door|joints/top-down-friction) SLEEP_FLAG="--disable-sleep-term" ;;
 esac
 
 "$BUILD_DIR/reference-dump" $SLEEP_FLAG --frames "$FRAMES" "$CPP_SAMPLE_NAME" "$CPP_DUMP"

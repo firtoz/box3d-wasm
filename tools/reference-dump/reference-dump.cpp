@@ -25,6 +25,38 @@ struct Options
   std::vector<int> exactFrames;
 };
 
+struct ScheduledInteraction
+{
+  int frame;
+  DumpInteraction interaction;
+};
+
+static std::vector<ScheduledInteraction> get_interaction_schedule(const char* sampleName)
+{
+  if (strcmp(sampleName, "Motor Joint") == 0)
+  {
+    return {
+      {100, {"set-speed", {1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}}},
+    };
+  }
+
+  if (strcmp(sampleName, "Door") == 0)
+  {
+    return {
+      {1, {"impulse", {50000.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}}},
+    };
+  }
+
+  if (strcmp(sampleName, "Top Down Friction") == 0)
+  {
+    return {
+      {1, {"explode", {0.0f, 10.0f, 0.0f, 10.0f, 5.0f, 10000.0f}}},
+    };
+  }
+
+  return {};
+}
+
 static int find_sample_index(const char* name)
 {
   for (int i = 0; i < g_sampleCount; i++)
@@ -301,9 +333,24 @@ int main(int argc, char* argv[])
 
   fprintf(out, "{\"checkpoints\":[");
 
+  const std::vector<ScheduledInteraction> interactions = get_interaction_schedule(options.sampleName);
   int checkpointCount = 0;
   for (int frame = 0; frame <= options.maxFrame; frame++)
   {
+    for (const ScheduledInteraction& scheduled : interactions)
+    {
+      if (scheduled.frame == frame)
+      {
+        if (!sample->ApplyDumpInteraction(scheduled.interaction))
+        {
+          fprintf(stderr, "Sample '%s' did not handle dump interaction '%s' at frame %d\n", options.sampleName, scheduled.interaction.action, frame);
+          if (out != stdout) fclose(out);
+          delete sample;
+          return 1;
+        }
+      }
+    }
+
     if (frame > 0)
     {
       sample->Step();
@@ -314,7 +361,7 @@ int main(int argc, char* argv[])
       dump_bodies(out, sample->m_worldId, frame, checkpointCount > 0);
       checkpointCount++;
 
-      if (!options.disableSleepTerm && all_bodies_asleep(sample->m_worldId) && frame >= 100)
+      if (!options.disableSleepTerm && interactions.empty() && all_bodies_asleep(sample->m_worldId) && frame >= 100)
       {
         fprintf(stderr, "All bodies asleep at frame %d, terminating.\n", frame);
         break;

@@ -24,22 +24,38 @@ interface DumpOutput {
   checkpoints: DumpCheckpoint[];
 }
 
+interface DumpInteraction {
+  frame: number;
+  action: string;
+  args?: readonly number[];
+}
+
+interface WasmDumpInstance {
+  world: PhysicsWorld;
+  handles: number[];
+  state?: unknown;
+}
+
 interface WasmDumpSample {
   id: string;
   name: string;
   cppName: string;
-  create(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[] };
-  step?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number) => void;
+  create(runtime: Box3DRuntime): WasmDumpInstance;
+  step?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
+  interactionSchedule: readonly DumpInteraction[];
+  runInteraction?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], interaction: DumpInteraction, frame: number, state: unknown) => void;
 }
 
 interface SceneDumpModule {
   dumpSampleId?: string;
   dumpSampleName?: string;
   dumpCppSampleName?: string;
-  dumpCreate?: (runtime: Box3DRuntime) => { world: PhysicsWorld; handles: number[] };
+  dumpCreate?: (runtime: Box3DRuntime) => WasmDumpInstance;
   dumpGroundSize?: () => Vec3;
   dumpBuildDynamicBodies?: (world: PhysicsWorld, runtime: Box3DRuntime) => number[];
-  dumpStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number) => void;
+  dumpStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
+  dumpInteractionSchedule?: readonly DumpInteraction[];
+  dumpRunInteraction?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], interaction: DumpInteraction, frame: number, state: unknown) => void;
 }
 
 interface FrontendSampleMeta {
@@ -241,6 +257,8 @@ async function loadWasmDumpSamples(): Promise<WasmDumpSample[]> {
         return { world, handles: [ground, ...scene.dumpBuildDynamicBodies!(world, runtime)] };
       },
       step: scene.dumpStep,
+      interactionSchedule: scene.dumpInteractionSchedule ?? [],
+      runInteraction: scene.dumpRunInteraction,
     });
   }
   return samples;
@@ -281,17 +299,24 @@ async function main(): Promise<void> {
 
   console.error(`Running WASM sample: ${sample.name}`);
   const runtime = await loadRuntime();
-  const { world, handles } = sample.create(runtime);
+  const { world, handles, state } = sample.create(runtime);
   const output: DumpOutput = { checkpoints: [] };
+  const dt = Math.fround(1 / 60);
 
   for (let frame = 0; frame <= options.maxFrame; frame++) {
+    for (const interaction of sample.interactionSchedule) {
+      if (interaction.frame === frame) {
+        if (sample.runInteraction === undefined) throw new Error(`Sample ${sample.id} is missing dumpRunInteraction for action ${interaction.action} at frame ${frame}`);
+        sample.runInteraction(world, runtime, handles, interaction, frame, state);
+      }
+    }
     if (frame > 0) {
-      sample.step?.(world, runtime, handles, frame, 1 / 60);
-      world.step(1 / 60, 4);
+      sample.step?.(world, runtime, handles, frame, dt, state);
+      world.step(dt, 4);
     }
     if (shouldDumpFrame(options, frame)) {
       output.checkpoints.push({ frame, bodies: dumpBodies(world, handles) });
-      if (sample.step === undefined && world.getAwakeBodyCount() === 0 && frame >= 100) {
+      if (sample.step === undefined && sample.interactionSchedule.length === 0 && world.getAwakeBodyCount() === 0 && frame >= 100) {
         console.error(`All bodies asleep at frame ${frame}, terminating.`);
         break;
       }

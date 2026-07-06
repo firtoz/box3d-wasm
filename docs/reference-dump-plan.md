@@ -19,9 +19,13 @@ Goal: compare upstream C++ Box3D sample behavior against TypeScript/WASM ports b
 - `scripts/compare-dumps.ts` compares dump files; current dump-enabled samples all match at the default `1e-5` tolerance. Many stable scenes still match at `1e-6`; more chaotic stacks such as `Cylinder Stack`, `Card House`, and `Card House Thick` currently need the looser threshold.
 - `scripts/compare-sample.sh` builds/runs both dumpers for a requested sample and writes generated outputs under ignored `.reference-dumps/`.
 - `scripts/wasm-dump.ts` uses the same `demo/src/samples/index.ts` sample list as the frontend for IDs and display names, then enables C++ comparison for samples whose `*-scene.ts` module exports `dumpSampleId`, `dumpCppSampleName`, `dumpGroundSize`, and `dumpBuildDynamicBodies`.
+- Dump-enabled scenes can now also export `dumpInteractionSchedule` plus `dumpRunInteraction`, letting both dumpers apply deterministic scripted actions at exact frames before stepping that frame.
+- The C++ reference dumper mirrors those scripted interactions through a small sample-name schedule map plus a per-sample `ApplyDumpInteraction(...)` hook on the upstream sample classes.
+- Interactive dump parity is now covered for `Motor Joint` (delayed speed change), `Door` (impulse), and `Top Down Friction` (explosion), not just passive default stepping.
 - No generated dump fixtures are committed. Clear `.reference-dumps/` whenever stale outputs are no longer useful.
 - The previous `Single Box` drift was caused by the TypeScript wrapper overwriting native shape friction defaults after shape creation. Omitted material fields now preserve the native defaults.
 - `Pyramid2D` exposed a motion-lock bridge bug: the WASM C bridge initialized `b3MotionLocks` in the wrong field order, causing `lockLinearZ` to become `angularZ`. The bridge and TypeScript argument order now match upstream `b3MotionLocks`.
+- `Door` interactive parity exposed a real WASM scene/API gap: the revolute joint frame rotation was wrong in the port, and the bridge did not expose `constraintHertz` / `constraintDampingRatio` on revolute-joint creation. Both now match upstream well enough for the default `1e-5` dump tolerance.
 
 ## Build And Smoke Test
 
@@ -70,6 +74,7 @@ Generated files are written under `.reference-dumps/<sample>/` by default. Use `
 - Step at the same timestep and substep count as upstream samples. Done for the currently dump-enabled samples listed above.
 - Emit the same JSON shape as `reference-dump`. Done.
 - Stop early when all dynamic bodies are asleep, matching the C++ runner behavior. Done.
+- Apply deterministic scripted interactions at exact frames. Done for `Motor Joint`, `Door`, and `Top Down Friction`.
 
 ### 3. Refactor Sample Workers
 
@@ -89,6 +94,7 @@ Generated files are written under `.reference-dumps/<sample>/` by default. Use `
 
 - Keep generated dump files out of git. Done via ignored `.reference-dumps/`.
 - Compare any requested sample with `bun run compare:sample -- sample="Sample Name"` as long as the frontend sample has a deterministic `*-scene.ts` module with the dump exports. The sample argument can be the frontend ID, frontend display name, or upstream C++ sample name.
+- If a sample needs interactive parity, keep the schedule explicit and small: a scene-exported frame/action list on the WASM side, and a matching sample-name schedule in `reference-dump.cpp`.
 - Keep generated C++ and WASM outputs side by side for diagnosis, then delete `.reference-dumps/` when no longer needed.
 
 ### 6. Add CI Coverage

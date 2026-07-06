@@ -72,4 +72,14 @@ export const topDownFrictionGroundParts = [
 export const dumpSampleName = "Top Down Friction";
 export const dumpSampleId = "joints/top-down-friction";
 export const dumpCppSampleName = "Top Down Friction";
+export const dumpInteractionSchedule = [
+  { frame: 1, action: "explode", args: [0, 10, 0, 10, 5, 10000] },
+] as const;
+
+export function dumpRunInteraction(world: PhysicsWorld, _runtime: Box3DRuntime, _handles: readonly BodyHandle[], interaction: { action: string; args?: readonly number[] }): void {
+  if (interaction.action !== "explode") throw new Error(`Unsupported top-down-friction dump action: ${interaction.action}`);
+  const [x = 0, y = 10, z = 0, radius = 10, falloff = 5, impulsePerArea = 10000] = interaction.args ?? [];
+  world.explode([x, y, z], radius, falloff, impulsePerArea, 0xFFFFFFFFn as unknown as number);
+}
+
 export const dumpCreate = createTopDownFriction;

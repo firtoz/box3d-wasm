@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { B3_AXIS_Z, BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import { ObjectRuntime } from "box3d-wasm/objects";
 
 export const motorJointTargetIndex = 1;
@@ -51,3 +51,34 @@ export const dumpSampleId = "joints/motor-joint";
 export const dumpCppSampleName = "Motor Joint";
 export const dumpGroundSize = motorJointGroundSize;
 export const dumpBuildDynamicBodies = buildMotorJointDynamicBodies;
+
+interface MotorJointDumpState {
+  speed: number;
+  time: number;
+}
+
+export const dumpInteractionSchedule = [
+  { frame: 100, action: "set-speed", args: [1] },
+] as const;
+
+export function dumpRunInteraction(_world: PhysicsWorld, _runtime: Box3DRuntime, _handles: readonly BodyHandle[], interaction: { action: string; args?: readonly number[] }, _frame: number, state: MotorJointDumpState): void {
+  if (interaction.action !== "set-speed") throw new Error(`Unsupported motor-joint dump action: ${interaction.action}`);
+  state.speed = Math.fround(interaction.args?.[0] ?? 0);
+}
+
+export function dumpCreate(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyHandle[]; state: MotorJointDumpState } {
+  const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
+  const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
+  runtime.createHullShape(ground, motorJointGroundSize());
+  return { world, handles: [ground, ...buildMotorJointDynamicBodies(world, runtime)], state: { speed: 0, time: 0 } };
+}
+
+export function dumpStep(_world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly BodyHandle[], _frame: number, dt: number, state: MotorJointDumpState): void {
+  if (dt <= 0) return;
+  const timeStep = Math.fround(dt);
+  state.time = Math.fround(state.time + Math.fround(state.speed * timeStep));
+  const angularOffset = Math.fround(2 * state.time);
+  const position: Vec3 = [Math.fround(6 * Math.sin(angularOffset)), Math.fround(10 + 4 * Math.sin(state.time)), 0];
+  const rotation = runtime.makeQuatFromAxisAngle(B3_AXIS_Z, angularOffset);
+  runtime.setBodyTargetTransform(handles[motorJointTargetIndex + 1]!, position, rotation, timeStep, true);
+}

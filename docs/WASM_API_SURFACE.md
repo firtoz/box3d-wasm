@@ -219,7 +219,7 @@ When adding an API binding:
 - [x] Destroy joint: `b3DestroyJoint`
 - [x] Create motor joint: `b3CreateMotorJoint`
 - [x] Create filter joint: `b3CreateFilterJoint`
-- [x] Create revolute joint: `b3CreateRevoluteJoint`
+- [x] Create revolute joint: `b3CreateRevoluteJoint` (including creation-time local frames and base constraint tuning)
 - [x] Create spherical joint: `b3CreateSphericalJoint`
 - [ ] Create distance joint: `b3CreateDistanceJoint`
 - [x] Create prismatic joint: `b3CreatePrismaticJoint`

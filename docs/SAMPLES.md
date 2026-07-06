@@ -121,8 +121,8 @@ Legend:
 |--------|----|-------------|-------|
 | **Distance Joint** | [ ] | `b3CreateDistanceJoint`, `b3DefaultDistanceJointDef` | 🚧 Not in WASM. |
 | **Filter** | [ ] | `b3CreateFilterJoint` | 🔧 `createFilterJoint` exists! |
-| **Motor Joint** | [ ] | `b3CreateMotorJoint` | 🔧 `createMotorJoint` exists. |
-| **Top Down Friction** | [ ] | Motor joint + friction | 🔧 Should work. |
+| **Motor Joint** | [x] | `b3CreateMotorJoint` | 🔧 `createMotorJoint` exists. Interactive C++/WASM dump parity now covers scripted target motion via a deterministic frame schedule. |
+| **Top Down Friction** | [x] | Motor joint + friction | 🔧 Interactive C++/WASM dump parity now covers the sample's scripted explosion. |
 | **Prismatic** | [ ] | `b3CreatePrismaticJoint` | 🔧 Now in WASM. |
 | **Spherical** | [ ] | `b3CreateSphericalJoint` | 🔧 `createSphericalJoint` exists. |
 | **Parallel Spring** | [ ] | Distance joint with spring params | 🚧 |
@@ -130,7 +130,7 @@ Legend:
 | **Weld** | [ ] | `b3CreateWeldJoint` | 🔧 Now in WASM. |
 | **Wheel** | [ ] | `b3CreateWheelJoint` | 🚧 Not in WASM. |
 | **Ball and Chain** | [ ] | Spherical joint chain | 🔧 Should work with spherical joint. |
-| **Door** | [ ] | Revolute joint with limit | 🔧 Should work. |
+| **Door** | [x] | Revolute joint with limit | 🔧 Interactive C++/WASM dump parity now covers the door impulse. Matching upstream required fixing the revolute joint frame rotation in the scene and exposing revolute creation-time `constraintHertz` / `constraintDampingRatio` in WASM. |
 | **Bridge** | [ ] | Revolute joint chain | 🔧 Should work. |
 | **Motion Locks** | [ ] | `b3Body_SetMotionLocks` | 🔧 Exists. |
 | **Driving** | [ ] | Multiple joints + vehicle | 🔧 Complex but uses existing joints. |
@@ -315,7 +315,5 @@ Legend:
   4. Determinism / Falling Ragdolls
   5. World / Sensor
   6. Joints / Motion Locks
-  7. Joints / Top Down Friction controls parity
-  8. Joints / Door controls parity
-  9. Robustness / Falling Boxes
-  10. Robustness / Candy Cups
+  7. Robustness / Falling Boxes
+  8. Robustness / Candy Cups
