@@ -1,12 +1,19 @@
-import { B3_AXIS_Z, BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { B3_AXIS_Z, BodyType, type BodyHandle, type Box3DRuntime, type JointHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import { ObjectRuntime } from "box3d-wasm/objects";
 
 export const motorJointTargetIndex = 1;
 export const motorJointBodyIndex = 2;
 export const motorJointSpringBodyIndex = 3;
+export const motorJointControlledJointIndex = 0;
 
-export function buildMotorJointDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export interface MotorJointScene {
+  handles: BodyHandle[];
+  joints: JointHandle[];
+}
+
+export function createMotorJointScene(world: PhysicsWorld, runtime: Box3DRuntime): MotorJointScene {
   const objectWorld = ObjectRuntime.fromRuntime(runtime).wrapWorld(world);
+  const joints: JointHandle[] = [];
 
   const hiddenGround = objectWorld.createBody({ position: [0, -1, 0] });
 
@@ -14,18 +21,18 @@ export function buildMotorJointDynamicBodies(world: PhysicsWorld, runtime: Box3D
 
   const body = objectWorld.createBody({ type: BodyType.Dynamic, position: [0, 10, 0] });
   body.createHullShape([1, 0.25, 0.25]);
-  objectWorld.createMotorJoint(target, body, {
+  joints.push(objectWorld.createMotorJoint(target, body, {
     linearHertz: 4,
     linearDampingRatio: 0.7,
     angularHertz: 4,
     angularDampingRatio: 0.7,
     maxSpringForce: 400000,
     maxSpringTorque: 500000,
-  });
+  }).handle);
 
   const springBody = objectWorld.createBody({ type: BodyType.Dynamic, position: [-2, 2, 0] });
   springBody.createHullShape([0.5, 0.5, 0.5]);
-  objectWorld.createMotorJoint(hiddenGround, springBody, {
+  joints.push(objectWorld.createMotorJoint(hiddenGround, springBody, {
     localFrameA: [-1.75, 3.25, 0],
     localFrameB: [0.25, 0.25, 0],
     linearHertz: 7.5,
@@ -34,9 +41,13 @@ export function buildMotorJointDynamicBodies(world: PhysicsWorld, runtime: Box3D
     angularDampingRatio: 0.7,
     maxSpringForce: 200000,
     maxSpringTorque: 10000,
-  });
+  }).handle);
 
-  return [hiddenGround.handle, target.handle, body.handle, springBody.handle];
+  return { handles: [hiddenGround.handle, target.handle, body.handle, springBody.handle], joints };
+}
+
+export function buildMotorJointDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+  return createMotorJointScene(world, runtime).handles;
 }
 
 export const motorJointGroundSize = (): Vec3 => [20, 1, 20];

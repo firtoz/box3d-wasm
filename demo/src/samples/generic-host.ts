@@ -13,17 +13,27 @@ const dummy = new THREE.Object3D();
 const localOffset = new THREE.Vector3();
 const localRotation = new THREE.Quaternion();
 
-export type RenderBodyBase = { position: [number, number, number]; rotation?: [number, number, number, number]; scale?: [number, number, number]; type?: BodyType };
-export type RenderShape = { color: number } & ({ kind: "box"; size: [number, number, number] } | { kind: "sphere"; radius: number } | { kind: "cylinder"; radius: number; height: number; segments?: number; yOffset?: number } | { kind: "capsule"; radius: number; length: number } | { kind: "hull"; points: [number, number, number][] });
-export type RenderPart = RenderShape & { position?: [number, number, number]; rotation?: [number, number, number, number] };
+export type RenderLocalTransform = { position?: [number, number, number]; rotation?: [number, number, number, number] };
+export type RenderWorldTransform = { position: [number, number, number]; rotation?: [number, number, number, number] };
+export type RenderBodyBase = RenderWorldTransform & { localPosition?: [number, number, number]; localRotation?: [number, number, number, number]; scale?: [number, number, number]; type?: BodyType };
+
+// These shape descriptors are render-space conventions, not raw Box3D API inputs.
+// In particular:
+// - capsules declare their render axis explicitly (`x`, `y`, or `z`)
+// - cylinders are Y-axis meshes and may need a local yOffset when the physics hull is not centered
+export type RenderShape = { color: number } & ({ kind: "box"; size: [number, number, number] } | { kind: "sphere"; radius: number } | { kind: "cylinder"; radius: number; height: number; segments?: number; yOffset?: number } | { kind: "capsule"; radius: number; length: number; axis?: "x" | "y" | "z" } | { kind: "hull"; points: [number, number, number][] });
+export type RenderPart = RenderShape & RenderLocalTransform;
 export type RenderBody = (RenderBodyBase & RenderShape) | (RenderBodyBase & { kind: "compound"; parts: [RenderPart, ...RenderPart[]] });
 export type RenderControlButton = { type: "button"; label: string; message: Record<string, unknown> };
 export type RenderControlToggle = { type: "toggle"; label: string; message: Record<string, unknown>; value: boolean };
-export type RenderControl = RenderControlButton | RenderControlToggle;
-export type RenderSpec = { groundSize: [number, number, number]; bodies: RenderBody[]; info?: string; camera?: { position: [number, number, number]; target: [number, number, number] }; launchSpeed?: number; controls?: RenderControl[] };
+export type RenderControlRange = { type: "range"; label: string; message: Record<string, unknown>; min: number; max: number; step: number; value: number };
+export type RenderControl = RenderControlButton | RenderControlToggle | RenderControlRange;
+export type RenderOverlayContext = { bodies: DemoBody[]; workerState: WorkerWorldState | null };
+export type RenderOverlay = { update(context: RenderOverlayContext): void; dispose(): void };
+export type RenderSpec = { groundSize: [number, number, number]; bodies: RenderBody[]; info?: string; getInfo?: (workerState: WorkerWorldState | null) => string | undefined; camera?: { position: [number, number, number]; target: [number, number, number] }; launchSpeed?: number; controls?: RenderControl[]; overlay?: (scene: THREE.Scene) => RenderOverlay };
 
 function meshForShape(shape: RenderShape): THREE.Mesh {
-  if (shape.kind === "capsule") return capsuleMesh(shape.radius, shape.length, shape.color);
+  if (shape.kind === "capsule") return capsuleMesh(shape.radius, shape.length, shape.color, 0.75, shape.axis ?? "x");
   const mat = new THREE.MeshStandardMaterial({ color: shape.color, roughness: 0.75 });
   if (shape.kind === "box") return new THREE.Mesh(new THREE.BoxGeometry(...shape.size), mat);
   if (shape.kind === "sphere") return new THREE.Mesh(new THREE.SphereGeometry(shape.radius, 24, 16), mat);
@@ -47,12 +57,26 @@ function setLocalTransform(mesh: THREE.Mesh, basePosition: THREE.Vector3, baseRo
   }
 }
 
+function hasLocalRenderTransform(mesh: THREE.Mesh): boolean {
+  return mesh.userData.localPosition !== undefined || mesh.userData.localRotation !== undefined;
+}
+
+function setMeshLocalRenderTransform(mesh: THREE.Mesh, transform: RenderLocalTransform): void {
+  mesh.userData.localPosition = transform.position;
+  mesh.userData.localRotation = transform.rotation;
+}
+
 export function meshFor(body: RenderBody): THREE.Mesh {
   const mesh = meshForShape(body.kind === "compound" ? body.parts[0] : body);
   mesh.position.set(body.position[0], body.position[1], body.position[2]);
-  if (body.rotation !== undefined) mesh.quaternion.set(body.rotation[0], body.rotation[1], body.rotation[2], body.rotation[3]);
+  if (body.localPosition !== undefined || body.localRotation !== undefined) {
+    setMeshLocalRenderTransform(mesh, { position: body.localPosition, rotation: body.localRotation });
+  }
+  if (body.rotation !== undefined) {
+    mesh.quaternion.set(body.rotation[0], body.rotation[1], body.rotation[2], body.rotation[3]);
+  }
   if (body.scale !== undefined) mesh.scale.set(body.scale[0], body.scale[1], body.scale[2]);
-  if (body.kind === "cylinder" && body.yOffset !== undefined) mesh.userData.localPosition = [0, body.yOffset, 0] as const;
+  if (body.kind === "cylinder" && body.yOffset !== undefined) setMeshLocalRenderTransform(mesh, { position: [0, body.yOffset, 0] as const, rotation: mesh.userData.localRotation as [number, number, number, number] | undefined });
   mesh.castShadow = body.type !== BodyType.Static;
   mesh.receiveShadow = true;
   return mesh;
@@ -88,23 +112,22 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
       groundMesh.receiveShadow = true;
       scene.add(groundMesh);
       const bodies: DemoBody[] = [];
+      const overlay = spec.overlay?.(scene);
       for (let i = 0; i < spec.bodies.length; i++) {
         const bodySpec = spec.bodies[i];
         const mesh = meshFor(bodySpec);
         const bodyPosition = new THREE.Vector3(bodySpec.position[0], bodySpec.position[1], bodySpec.position[2]);
         const bodyRotation = bodySpec.rotation === undefined ? new THREE.Quaternion() : new THREE.Quaternion(bodySpec.rotation[0], bodySpec.rotation[1], bodySpec.rotation[2], bodySpec.rotation[3]);
         if (bodySpec.kind === "compound") {
-          mesh.userData.localPosition = bodySpec.parts[0].position;
-          mesh.userData.localRotation = bodySpec.parts[0].rotation;
+          setMeshLocalRenderTransform(mesh, bodySpec.parts[0]);
           setLocalTransform(mesh, bodyPosition, bodyRotation);
-        } else if (mesh.userData.localPosition !== undefined || mesh.userData.localRotation !== undefined) {
-          setLocalTransform(mesh, bodyPosition, bodyRotation);
+        } else if (hasLocalRenderTransform(mesh)) {
+          setLocalTransform(mesh, bodyPosition, new THREE.Quaternion());
         }
         scene.add(mesh);
         const extraMeshes = bodySpec.kind === "compound" ? bodySpec.parts.slice(1).map((shape) => {
           const extra = meshForShape(shape);
-          extra.userData.localPosition = shape.position;
-          extra.userData.localRotation = shape.rotation;
+          setMeshLocalRenderTransform(extra, shape);
           setLocalTransform(extra, bodyPosition, bodyRotation);
           extra.castShadow = mesh.castShadow;
           extra.receiveShadow = true;
@@ -130,6 +153,7 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
             projectileAwake: new Uint8Array(ready.projectileAwake),
             projectileColors: new Uint32Array(ready.projectileColors),
             state: new Int32Array(ready.state),
+            extra: ready.extra,
           };
           positions = workerWorldState.positions;
           rotations = workerWorldState.rotations;
@@ -216,7 +240,12 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
             const p = i * 3, r = i * 4;
             dummy.position.set(positions[p], positions[p + 1], positions[p + 2]);
             dummy.quaternion.set(rotations[r], rotations[r + 1], rotations[r + 2], rotations[r + 3]);
-            setLocalTransform(body.mesh, dummy.position, dummy.quaternion);
+            if (hasLocalRenderTransform(body.mesh)) {
+              setLocalTransform(body.mesh, dummy.position, dummy.quaternion);
+            } else {
+              body.mesh.position.copy(dummy.position);
+              body.mesh.quaternion.copy(dummy.quaternion);
+            }
             if (body.extraMeshes !== undefined) {
               for (const extra of body.extraMeshes) {
                 setLocalTransform(extra, dummy.position, dummy.quaternion);
@@ -248,6 +277,8 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
             }
           }
         }
+
+        overlay?.update({ bodies, workerState: workerWorldState });
       }
 
       function dispose(): void {
@@ -257,6 +288,7 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
         groundGeom.dispose();
         groundMat.dispose();
         disposeBodies(scene, bodies);
+        overlay?.dispose();
         for (const mesh of projectileMeshes) {
           scene.remove(mesh);
           mesh.geometry.dispose();
@@ -273,12 +305,25 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
           if (c.type === "button") {
             return { key: c.label.toLowerCase().replace(/\s+/g, "-"), label: c.label, type: "button", onClick: () => worker.postMessage(c.message) };
           }
+          if (c.type === "range") {
+            return {
+              key: c.label.toLowerCase().replace(/\s+/g, "-"),
+              label: c.label,
+              type: "range",
+              min: c.min,
+              max: c.max,
+              step: c.step,
+              value: c.value,
+              onChange: (v) => { if (typeof v === "number") worker.postMessage({ ...c.message, value: v }); },
+            };
+          }
           return { key: c.label.toLowerCase().replace(/\s+/g, "-"), label: c.label, type: "toggle", value: c.value, onChange: (v) => worker.postMessage({ ...c.message, value: v }) };
         }),
         profile: true,
         launchSpeed: spec.launchSpeed,
         camera: spec.camera,
         info: `${spec.info ?? name} | worker simulation | ${wc} workers | ${colorMode} colors`,
+        getInfo: spec.getInfo === undefined ? undefined : () => spec.getInfo!(workerWorldState),
         onKey(key: string) {
           if (key === "c" || key === "C") {
             colorMode = colorMode === "full" ? "light" : "full";

@@ -1,15 +1,23 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { BodyType, type BodyHandle, type Box3DRuntime, type JointHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import { ObjectRuntime } from "box3d-wasm/objects";
 
 export const doorBodyIndex = 0;
+export const doorLowerJointIndex = 0;
+export const doorUpperJointIndex = 1;
 
-export function buildDoorDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime, groundHandle: BodyHandle): BodyHandle[] {
+export interface DoorScene {
+  handles: BodyHandle[];
+  joints: JointHandle[];
+}
+
+export function createDoorScene(world: PhysicsWorld, runtime: Box3DRuntime, groundHandle: BodyHandle): DoorScene {
   const objectWorld = ObjectRuntime.fromRuntime(runtime).wrapWorld(world);
   const ground = objectWorld.body(groundHandle);
   const axisQuat = runtime.makeQuatFromAxisAngle([1, 0, 0], -Math.PI / 2);
+  const joints: JointHandle[] = [];
   const door = objectWorld.createBody({ type: BodyType.Dynamic, position: [0, 1.5, 0], gravityScale: 2 });
   door.createHullShape([0.75, 1.5, 0.1], { density: 1000 });
-  objectWorld.createRevoluteJoint(ground, door, {
+  joints.push(objectWorld.createRevoluteJoint(ground, door, {
     localFrameA: { position: [-0.75, 1, 0], rotation: axisQuat },
     localFrameB: { position: [-0.75, -1.5, 0], rotation: axisQuat },
     constraintHertz: 120,
@@ -23,8 +31,8 @@ export function buildDoorDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntim
     enableMotor: false,
     maxMotorTorque: 100,
     motorSpeed: 0,
-  });
-  objectWorld.createRevoluteJoint(ground, door, {
+  }).handle);
+  joints.push(objectWorld.createRevoluteJoint(ground, door, {
     localFrameA: { position: [-0.75, 4, 0], rotation: axisQuat },
     localFrameB: { position: [-0.75, 1.5, 0], rotation: axisQuat },
     constraintHertz: 120,
@@ -38,8 +46,12 @@ export function buildDoorDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntim
     enableMotor: false,
     maxMotorTorque: 100,
     motorSpeed: 0,
-  });
-  return [door.handle];
+  }).handle);
+  return { handles: [door.handle], joints };
+}
+
+export function buildDoorDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime, groundHandle: BodyHandle): BodyHandle[] {
+  return createDoorScene(world, runtime, groundHandle).handles;
 }
 
 export const doorGroundSize = (): Vec3 => [20, 1, 20];

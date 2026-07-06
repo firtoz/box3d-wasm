@@ -62,6 +62,8 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     return {};
   }
 
+  protected publishExtra(): void {}
+
   protected handleCustomCommand(_cmd: PhysicsWorkerCommand): boolean {
     return false;
   }
@@ -270,6 +272,8 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     }
 
     const publishMs = performance.now() - publishStart;
+
+    this.publishExtra();
 
     Atomics.store(this.state, SNAPSHOT_AWAKE_COUNT_INDEX, awakeCount);
     Atomics.store(this.state, SNAPSHOT_PROJECTILE_COUNT_INDEX, projectileCount);

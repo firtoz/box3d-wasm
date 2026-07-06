@@ -59,10 +59,10 @@ export function stepDisable(
 }
 
 export const disableBodies: RenderBody[] = [
-  { kind: "capsule", radius: 0.1, length: 0.5, position: [0, 3, 0], type: BodyType.Kinematic, color: 0x3b82f6 },
-  { kind: "capsule", radius: 0.1, length: 0.5, position: [0, 2.5, 0], type: BodyType.Dynamic, color: 0x22c55e },
-  { kind: "capsule", radius: 0.1, length: 0.5, position: [0, 2, 0], type: BodyType.Dynamic, color: 0xf97316 },
-  { kind: "capsule", radius: 0.1, length: 0.5, position: [0, 1.5, 0], type: BodyType.Dynamic, color: 0xef4444 },
+  { kind: "capsule", radius: 0.1, length: 0.5, axis: "y", position: [0, 3, 0], localPosition: [0, -0.25, 0], type: BodyType.Kinematic, color: 0x3b82f6 },
+  { kind: "capsule", radius: 0.1, length: 0.5, axis: "y", position: [0, 2.5, 0], localPosition: [0, -0.25, 0], type: BodyType.Dynamic, color: 0x22c55e },
+  { kind: "capsule", radius: 0.1, length: 0.5, axis: "y", position: [0, 2, 0], localPosition: [0, -0.25, 0], type: BodyType.Dynamic, color: 0xf97316 },
+  { kind: "capsule", radius: 0.1, length: 0.5, axis: "y", position: [0, 1.5, 0], localPosition: [0, -0.25, 0], type: BodyType.Dynamic, color: 0xef4444 },
   { kind: "sphere", radius: 0.5, position: [3, 3, 0], type: BodyType.Dynamic, color: 0xf59e0b },
 ];
 

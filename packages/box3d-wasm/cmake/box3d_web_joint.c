@@ -280,3 +280,33 @@ B3W_EXPORT void b3wDestroyJoint(int jointHandle)
 	b3DestroyJoint(slot->jointId, true);
 	slot->active = false;
 }
+
+B3W_EXPORT void b3wGetJointConstraintForce(int jointHandle, float* outForce)
+{
+	if (outForce == NULL || jointHandle <= 0 || jointHandle > B3W_MAX_JOINTS) return;
+	b3wJointSlot* slot = &g_joints[jointHandle - 1];
+	if (!slot->active) return;
+	b3Vec3 force = b3Joint_GetConstraintForce(slot->jointId);
+	outForce[0] = force.x;
+	outForce[1] = force.y;
+	outForce[2] = force.z;
+}
+
+B3W_EXPORT void b3wGetJointConstraintTorque(int jointHandle, float* outTorque)
+{
+	if (outTorque == NULL || jointHandle <= 0 || jointHandle > B3W_MAX_JOINTS) return;
+	b3wJointSlot* slot = &g_joints[jointHandle - 1];
+	if (!slot->active) return;
+	b3Vec3 torque = b3Joint_GetConstraintTorque(slot->jointId);
+	outTorque[0] = torque.x;
+	outTorque[1] = torque.y;
+	outTorque[2] = torque.z;
+}
+
+B3W_EXPORT float b3wGetJointLinearSeparation(int jointHandle)
+{
+	if (jointHandle <= 0 || jointHandle > B3W_MAX_JOINTS) return 0.0f;
+	b3wJointSlot* slot = &g_joints[jointHandle - 1];
+	if (!slot->active) return 0.0f;
+	return b3Joint_GetLinearSeparation(slot->jointId);
+}

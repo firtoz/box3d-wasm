@@ -23,6 +23,10 @@ function yToX(): THREE.Quaternion {
   return new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(1, 0, 0));
 }
 
+function yToZ(): THREE.Quaternion {
+  return new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 1));
+}
+
 export function addBox(
   world: PhysicsWorld,
   scene: THREE.Scene,
@@ -96,9 +100,12 @@ export function addHull(
   return body;
 }
 
-export function capsuleMesh(radius: number, length: number, color: number, roughness = 0.75): THREE.Mesh {
+export function capsuleMesh(radius: number, length: number, color: number, roughness = 0.75, axis: "x" | "y" | "z" = "x"): THREE.Mesh {
   const geom = new (THREE as any).CapsuleGeometry(radius, length, 6, 12) as THREE.BufferGeometry;
-  geom.applyQuaternion(yToX());
+  // Three.js capsules are Y-axis by default. Match the requested render axis
+  // explicitly so scene specs can declare capsule orientation directly.
+  if (axis === "x") geom.applyQuaternion(yToX());
+  else if (axis === "z") geom.applyQuaternion(yToZ());
   const mat = new THREE.MeshStandardMaterial({ color, roughness });
   const mesh = new THREE.Mesh(geom, mat);
   mesh.castShadow = true;

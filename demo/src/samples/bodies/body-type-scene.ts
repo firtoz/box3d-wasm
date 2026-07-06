@@ -121,7 +121,7 @@ export const bodyTypeBodies: RenderBody[] = [
   },
   { kind: "box", size: [1.5, 1.5, 1.5], position: [-3, 8, 0], color: 0xef4444 },
   { kind: "box", size: [1.5, 1.5, 1.5], position: [2, 8, 0], color: 0xa855f7 },
-  { kind: "capsule", radius: 0.25, length: 1, position: [8, 0.2, 0], color: 0xf59e0b },
+  { kind: "capsule", radius: 0.25, length: 1, axis: "x", position: [8, 0.2, 0], localPosition: [0.5, 0, 0], color: 0xf59e0b },
   { kind: "sphere", radius: 0.25, position: [-8, 12, 0], color: 0x888888 },
 ];
 

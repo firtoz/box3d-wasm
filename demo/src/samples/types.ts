@@ -31,6 +31,7 @@ export type DemoSampleInstance = {
   controls: ControlSpec[];
   launchSpeed?: number;
   info?: string;
+  getInfo?(): string | undefined;
   camera?: { position: [number, number, number]; target: [number, number, number] };
   profile?: boolean;
   spawnProjectile?: (origin: Vec3, velocity: Vec3, spin: boolean, ragdoll: boolean) => void;

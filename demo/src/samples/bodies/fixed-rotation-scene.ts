@@ -26,8 +26,8 @@ export function fixedRotationGroundSize(): Vec3 {
 }
 
 export const fixedRotationBodies: RenderBody[] = [
-  { kind: "capsule", radius: 0.3, length: 1, position: [0, 0.5, 0], color: 0x888888, type: BodyType.Static },
-  { kind: "capsule", radius: 0.2, length: 1, position: [0.3, 0.5, 0], color: 0x3b82f6 },
+  { kind: "capsule", radius: 0.3, length: 1, axis: "y", position: [0, 0.5, 0], localPosition: [0, 0.5, 0], color: 0x888888, type: BodyType.Static },
+  { kind: "capsule", radius: 0.2, length: 1, axis: "y", position: [0.3, 0.5, 0], localPosition: [0, 0.5, 0], color: 0x3b82f6 },
 ];
 
 export const fixedRotationCamera: RenderSpec["camera"] = { position: [0, 15, 10], target: [0, 0, 0] };

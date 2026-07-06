@@ -60,7 +60,15 @@ Be careful with Box3D geometry conventions when building Three.js render specs:
 
 - `b3MakeBoxHull(hx, hy, hz)` uses half-extents. Three.js `BoxGeometry(x, y, z)` uses full dimensions, so render boxes as `[2 * hx, 2 * hy, 2 * hz]`.
 - `b3CreateCylinder(height, radius, yOffset, sides)` creates a Y-axis hull from local `y = yOffset` to `y = yOffset + height`. Three.js `CylinderGeometry(radius, radius, height)` is Y-axis but centered at local origin, so render it with local position `[0, yOffset + 0.5 * height, 0]` when it is part of a compound body.
+- The shared capsule render helper defaults to X-axis. If a physics capsule is built along Y or Z, set the render spec capsule `axis` field to match instead of sneaking in an unrelated body rotation.
+- For simple render bodies, remember that some physics shapes are not centered on the body origin. If the physics shape endpoints or transformed hull center are offset in local space, set the render body's `localPosition` (and `localRotation` if needed) to match the actual local geometry instead of shifting the body transform.
 - Preserve upstream body transforms. If the C++ sample sets `bodyDef.rotation`, put the same quaternion in both the worker body definition and the host render spec.
+
+Match upstream defaults, not just visible geometry:
+
+- Do not override `b3DefaultShapeDef`, `b3DefaultBodyDef`, `b3DefaultWorldDef`, or joint-def defaults unless the upstream sample actually changes that field.
+- Be especially careful with density, gravity, gravity scale, joint base constraint tuning, damping, restitution, friction, rolling resistance, sleep/awake flags, and explosion parameters. A single wrong default can make a sample look "basically right" at rest but behave very differently under impulses, explosions, motors, or dump comparison.
+- If a TS port needs an explicit value, verify it against the upstream sample code first rather than guessing from the visual result.
 
 For one physics body with multiple visible shapes, use the generic host compound render spec (`kind: "compound", parts: [...]`) instead of adding fake render bodies. Fake bodies break worker snapshot/body-index mapping and picking.
 

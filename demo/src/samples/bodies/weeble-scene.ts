@@ -16,7 +16,6 @@ export function buildWeebleDynamicBodies(world: PhysicsWorld, runtime: Box3DRunt
   const body = world.createBody({ type: BodyType.Dynamic, position: [0, 3, 0] });
 
   runtime.createCapsuleShape(body, [0, -1, 0], [0, 1, 0], 1, {
-    density: 1,
     rollingResistance: 0.1,
   });
 
@@ -34,8 +33,12 @@ export function teleportWeeble(runtime: Box3DRuntime, body: BodyHandle): void {
   runtime.setBodyAwake(body, true);
 }
 
-export function explodeWeeble(world: PhysicsWorld): void {
-  world.explode([0, -0.1, 0], 8, 0.1, 20000, 0xFFFFFFFFn as unknown as number);
+export const WEEBLE_EXPLOSION_DEFAULT = 20000;
+export const WEEBLE_EXPLOSION_MIN = -100000;
+export const WEEBLE_EXPLOSION_MAX = 100000;
+
+export function explodeWeeble(world: PhysicsWorld, magnitude = WEEBLE_EXPLOSION_DEFAULT): void {
+  world.explode([0, -0.1, 0], 8, 0.1, magnitude, 0xFFFFFFFFn as unknown as number);
 }
 
 export function weebleGroundSize(): Vec3 {
@@ -43,7 +46,7 @@ export function weebleGroundSize(): Vec3 {
 }
 
 export const weebleBodies: RenderBody[] = [
-  { kind: "capsule", radius: 1, length: 2, position: [0, 3, 0], color: 0x3b82f6 },
+  { kind: "capsule", radius: 1, length: 2, axis: "y", position: [0, 3, 0], color: 0x3b82f6 },
 ];
 
 export const weebleCamera: RenderSpec["camera"] = { position: [45, 25, 25], target: [0, 0, 0] };

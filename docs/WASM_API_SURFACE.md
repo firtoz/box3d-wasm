@@ -226,7 +226,7 @@ When adding an API binding:
 - [ ] Create wheel joint: `b3CreateWheelJoint`
 - [x] Create weld joint: `b3CreateWeldJoint`
 - [ ] Create parallel joint: `b3CreateParallelJoint`
-- [ ] Common joint validity/type/body/world/frame/collide/force/torque accessors
+- [~] Common joint validity/type/body/world/frame/collide/force/torque accessors (`constraint force`, `constraint torque`, and `linear separation` now exposed)
 - [ ] Joint wake bodies: `b3Joint_WakeBodies`
 - [ ] Constraint tuning: `b3Joint_SetConstraintTuning`
 - [ ] Force/torque thresholds and joint break support

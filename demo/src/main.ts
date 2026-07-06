@@ -136,6 +136,7 @@ const controlsDialogHeader = document.querySelector<HTMLDivElement>("#controls-d
 const controlsDialogClose = document.querySelector<HTMLSpanElement>("#controls-dialog-close") ?? detachedElement("span");
 const samplesBtn = samplesToggle;
 const controlsBtn = controlsToggle;
+let controlsInfoRow: HTMLDivElement | null = null;
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -823,11 +824,14 @@ function renderControls(specs: ControlSpec[]): void {
     controlsElement.appendChild(row);
   }
 
-  if (activeSample?.info) {
+  if (activeSample?.info || activeSample?.getInfo !== undefined) {
     const infoRow = document.createElement("div");
     infoRow.className = "info-text";
-    infoRow.textContent = activeSample.info;
+    infoRow.textContent = activeSample.info ?? activeSample.getInfo?.() ?? "";
     controlsElement.appendChild(infoRow);
+    controlsInfoRow = infoRow;
+  } else {
+    controlsInfoRow = null;
   }
 
   if (controlsVisible) {
@@ -1215,6 +1219,10 @@ function frame(time: number): void {
   }
   if (collectTimings) timingChartsMs += performance.now() - chartStart;
   if (didStep || !paused) updateMetrics();
+  if (controlsInfoRow !== null && activeSample?.getInfo !== undefined) {
+    const nextInfo = activeSample.getInfo();
+    if (nextInfo !== undefined) controlsInfoRow.textContent = nextInfo;
+  }
   updateFlyMovement(dt);
   orbit.update();
   const renderStart = collectTimings ? performance.now() : 0;

@@ -68,9 +68,10 @@ export function addVisibleJointCapsule(
   length: number,
   position: readonly [number, number, number],
   color: number,
+  axis: "x" | "y" | "z" = "x",
   type: BodyType = BodyType.Dynamic,
 ): DemoBody {
-  const mesh = capsuleMesh(radius, length, color);
+  const mesh = capsuleMesh(radius, length, color, 0.75, axis);
   mesh.position.set(position[0], position[1], position[2]);
   mesh.castShadow = type !== BodyType.Static;
   mesh.receiveShadow = true;
