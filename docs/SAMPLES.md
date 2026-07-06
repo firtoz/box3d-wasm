@@ -17,7 +17,7 @@ Legend:
 | **Body Type** | [x] | `b3Body_SetType`, `b3Body_Enable`, `b3Body_Disable`, `b3Body_IsEnabled`, `b3Body_SetLinearVelocity`, `b3Body_SetAngularVelocity`, `b3CreateRevoluteJoint`, `b3CreatePrismaticJoint`, `b3DefaultPrismaticJointDef`, `b3DefaultRevoluteJointDef`, `b3MakeTransformedBoxHull` | 🔧 All APIs exist. 6 bodies, prismatic + revolute joints, kinematic oscillation. |
 | **Spinning Book** | [x] | `b3BodyDef.gravityScale`, `b3BodyDef.angularVelocity`, `b3MakeBoxHull` | 🔧 All exist. Three boxes with gravity disabled and different angular velocities. C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Gyroscopic Torque** | [x] | `b3CreateCylinder`, `b3CreateHullShape` (multiple on same body), `b3Body_ApplyMassFromShapes`, `b3Body_GetWorldCenter`, `shapeDef.updateBodyMass = false` | 🔧 All APIs exist. Dzhanibekov effect: cylinder + box on gravityScale=0 body with angular velocity. C++/WASM dump parity verified with the default 5-second comparison window. Render uses generic host `compound` parts; box dimensions are doubled from `b3MakeBoxHull` half-extents and cylinder is locally offset by `0.5 * height`. |
-| **Weeble** | [x] | `b3Body_GetMass`, `b3Body_GetLocalRotationalInertia`, `b3Body_SetMassData`, `b3Body_SetTransform`, `b3Body_SetAwake`, `b3Body_GetWorldPoint`, `b3Body_GetLocalPointVelocity`, `b3Body_GetWorldPointVelocity`, `b3World_Explode` | 🔧 All APIs now wrapped. Capsule with shifted COM + Teleport/Explode buttons. |
+| **Weeble** | [x] | `b3Body_GetMass`, `b3Body_GetLocalRotationalInertia`, `b3Body_SetMassData`, `b3Body_SetTransform`, `b3Body_SetAwake`, `b3Body_GetWorldPoint`, `b3Body_GetLocalPointVelocity`, `b3Body_GetWorldPointVelocity`, `b3World_Explode` | 🔧 All APIs now wrapped. Capsule with shifted COM + Teleport/Explode buttons. Interactive C++/WASM dump parity now covers a scripted teleport; the demo control params were also aligned with upstream while adding parity. |
 | **Disable** | [x] | `b3Body_Enable`, `b3Body_Disable`, `b3Body_IsEnabled`, `b3Body_ApplyLinearImpulseToCenter`, `b3CreateWeldJoint` | 🔧 All APIs now wrapped. 4-link chain with weld joints + ball, enable/disable toggles. |
 | **Cast** | [ ] | `b3Body_CastRay`, `b3Body_CastShape`, `b3Body_OverlapShape`, `b3Body_CollideMover`, `b3CreateCylinder` | 🚧 Needs body-level cast/overlap/collide APIs. Low-level query APIs not yet wrapped. |
 | **Kinematic** | [x] | `b3Body_SetTargetTransform`, `bodyDef.type = kinematic` | 🔧 `setBodyTargetTransform` exists. Kinematic body type exists. C++/WASM dump parity verified at epsilon=1e-6 across all 5 checkpoints (frames 0,50,100,200,300) — stationary for 2s delay then circular motion at radius 4. Uses `makeQuatFromAxisAngle` for rotation quaternion, standard `Math.cos`/`Math.sin` for position (matching C++ `cosf`/`sinf`), and `Math.fround` for float32-equivalent time accumulation. |
@@ -120,18 +120,18 @@ Legend:
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
 | **Distance Joint** | [ ] | `b3CreateDistanceJoint`, `b3DefaultDistanceJointDef` | 🚧 Not in WASM. |
-| **Filter** | [ ] | `b3CreateFilterJoint` | 🔧 `createFilterJoint` exists! |
+| **Filter** | [x] | `b3CreateFilterJoint` | 🔧 `createFilterJoint` exists. Passive C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Motor Joint** | [x] | `b3CreateMotorJoint` | 🔧 `createMotorJoint` exists. Interactive C++/WASM dump parity now covers scripted target motion via a deterministic frame schedule. |
 | **Top Down Friction** | [x] | Motor joint + friction | 🔧 Interactive C++/WASM dump parity now covers the sample's scripted explosion. |
-| **Prismatic** | [ ] | `b3CreatePrismaticJoint` | 🔧 Now in WASM. |
-| **Spherical** | [ ] | `b3CreateSphericalJoint` | 🔧 `createSphericalJoint` exists. |
+| **Prismatic** | [x] | `b3CreatePrismaticJoint` | 🔧 Passive C++/WASM dump parity verified with the default 5-second-or-sleep window. |
+| **Spherical** | [x] | `b3CreateSphericalJoint` | 🔧 Passive C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Parallel Spring** | [ ] | Distance joint with spring params | 🚧 |
-| **Revolute** | [ ] | `b3CreateRevoluteJoint` | 🔧 `createRevoluteJoint` exists. |
-| **Weld** | [ ] | `b3CreateWeldJoint` | 🔧 Now in WASM. |
+| **Revolute** | [x] | `b3CreateRevoluteJoint` | 🔧 Passive C++/WASM dump parity verified with the default 5-second-or-sleep window. Preserving upstream revolute joint base constraint defaults (`60 Hz`, `2.0`) in the WASM wrapper was required for a clean match. |
+| **Weld** | [x] | `b3CreateWeldJoint` | 🔧 Passive C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Wheel** | [ ] | `b3CreateWheelJoint` | 🚧 Not in WASM. |
-| **Ball and Chain** | [ ] | Spherical joint chain | 🔧 Should work with spherical joint. |
+| **Ball and Chain** | [x] | Spherical joint chain | 🔧 Passive C++/WASM dump parity verified with the default 5-second comparison window. |
 | **Door** | [x] | Revolute joint with limit | 🔧 Interactive C++/WASM dump parity now covers the door impulse. Matching upstream required fixing the revolute joint frame rotation in the scene and exposing revolute creation-time `constraintHertz` / `constraintDampingRatio` in WASM. |
-| **Bridge** | [ ] | Revolute joint chain | 🔧 Should work. |
+| **Bridge** | [x] | Revolute joint chain | 🔧 Passive C++/WASM dump parity verified with the default 5-second comparison window. |
 | **Motion Locks** | [ ] | `b3Body_SetMotionLocks` | 🔧 Exists. |
 | **Driving** | [ ] | Multiple joints + vehicle | 🔧 Complex but uses existing joints. |
 | **Gear Lift** | [ ] | Gear joint or equivalent | 🚧 |

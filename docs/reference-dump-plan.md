@@ -22,6 +22,8 @@ Goal: compare upstream C++ Box3D sample behavior against TypeScript/WASM ports b
 - Dump-enabled scenes can now also export `dumpInteractionSchedule` plus `dumpRunInteraction`, letting both dumpers apply deterministic scripted actions at exact frames before stepping that frame.
 - The C++ reference dumper mirrors those scripted interactions through a small sample-name schedule map plus a per-sample `ApplyDumpInteraction(...)` hook on the upstream sample classes.
 - Interactive dump parity is now covered for `Motor Joint` (delayed speed change), `Door` (impulse), and `Top Down Friction` (explosion), not just passive default stepping.
+- Interactive dump parity is also covered for `Weeble` via a scripted teleport that triggers the characteristic wobble response.
+- Additional passive joint parity is now verified for `Filter`, `Prismatic`, `Revolute`, `Weld`, `Spherical`, `Ball and Chain`, and `Bridge`.
 - No generated dump fixtures are committed. Clear `.reference-dumps/` whenever stale outputs are no longer useful.
 - The previous `Single Box` drift was caused by the TypeScript wrapper overwriting native shape friction defaults after shape creation. Omitted material fields now preserve the native defaults.
 - `Pyramid2D` exposed a motion-lock bridge bug: the WASM C bridge initialized `b3MotionLocks` in the wrong field order, causing `lockLinearZ` to become `angularZ`. The bridge and TypeScript argument order now match upstream `b3MotionLocks`.

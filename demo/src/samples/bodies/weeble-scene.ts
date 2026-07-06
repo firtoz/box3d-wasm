@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Mat3, type Vec3 } from "box3d-wasm";
+import { B3_AXIS_Z, BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Mat3, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 function steinerAdjustedInertia(inertia: Mat3, mass: number, offset: Vec3): Mat3 {
@@ -29,6 +29,15 @@ export function buildWeebleDynamicBodies(world: PhysicsWorld, runtime: Box3DRunt
   return [body];
 }
 
+export function teleportWeeble(runtime: Box3DRuntime, body: BodyHandle): void {
+  runtime.setBodyTransform(body, [0, 5, 0], runtime.makeQuatFromAxisAngle(B3_AXIS_Z, 0.95 * Math.PI));
+  runtime.setBodyAwake(body, true);
+}
+
+export function explodeWeeble(world: PhysicsWorld): void {
+  world.explode([0, -0.1, 0], 8, 0.1, 20000, 0xFFFFFFFFn as unknown as number);
+}
+
 export function weebleGroundSize(): Vec3 {
   return [30, 1, 30];
 }
@@ -44,3 +53,11 @@ export const dumpSampleId = "bodies/weeble";
 export const dumpCppSampleName = "Weeble";
 export const dumpGroundSize = weebleGroundSize;
 export const dumpBuildDynamicBodies = buildWeebleDynamicBodies;
+export const dumpInteractionSchedule = [
+  { frame: 250, action: "teleport" },
+] as const;
+
+export function dumpRunInteraction(_world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly BodyHandle[], interaction: { action: string }): void {
+  if (interaction.action !== "teleport") throw new Error(`Unsupported weeble dump action: ${interaction.action}`);
+  teleportWeeble(runtime, handles[1]!);
+}

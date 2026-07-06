@@ -37,7 +37,6 @@ set(STUBS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/stubs")
 # Sample source files from upstream (excluding main.cpp, sample.cpp, host/, gfx/,
 # mesh_loader.cpp, jsmn.h, and other non-sample files)
 set(SAMPLE_FILES
-  "${SAMPLE_SRC_DIR}/sample_bodies.cpp"
   "${SAMPLE_SRC_DIR}/sample_benchmark.cpp"
   "${SAMPLE_SRC_DIR}/sample_character.cpp"
   "${SAMPLE_SRC_DIR}/sample_collision.cpp"
@@ -47,7 +46,6 @@ set(SAMPLE_FILES
   "${SAMPLE_SRC_DIR}/sample_events.cpp"
   "${SAMPLE_SRC_DIR}/sample_geometry.cpp"
   "${SAMPLE_SRC_DIR}/sample_issues.cpp"
-  "${SAMPLE_SRC_DIR}/sample_joint.cpp"
   "${SAMPLE_SRC_DIR}/sample_manifold.cpp"
   "${SAMPLE_SRC_DIR}/sample_mesh.cpp"
   "${SAMPLE_SRC_DIR}/sample_ragdoll.cpp"
@@ -62,6 +60,8 @@ set(SAMPLE_FILES
 set(REFERENCE_DUMP_SOURCES
   "${CMAKE_CURRENT_SOURCE_DIR}/dump-core.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/dump-core.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/dump-interaction-overrides.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/dump-interaction-overrides.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/reference-dump.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/sample-stubs.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/stubs.cpp"

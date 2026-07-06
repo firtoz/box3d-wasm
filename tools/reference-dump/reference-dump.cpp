@@ -1,5 +1,6 @@
 #include "sample.h"
 #include "dump-core.h"
+#include "dump-interaction-overrides.h"
 
 #include "box3d/box3d.h"
 
@@ -51,6 +52,13 @@ static std::vector<ScheduledInteraction> get_interaction_schedule(const char* sa
   {
     return {
       {1, {"explode", {0.0f, 10.0f, 0.0f, 10.0f, 5.0f, 10000.0f}}},
+    };
+  }
+
+  if (strcmp(sampleName, "Weeble") == 0)
+  {
+    return {
+      {250, {"teleport", {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}}},
     };
   }
 
@@ -270,6 +278,8 @@ static bool parse_options(int argc, char* argv[], Options* options)
 
 int main(int argc, char* argv[])
 {
+  patch_dump_sample_entries();
+
   Options options;
   if (!parse_options(argc, argv, &options))
   {
@@ -341,7 +351,7 @@ int main(int argc, char* argv[])
     {
       if (scheduled.frame == frame)
       {
-        if (!sample->ApplyDumpInteraction(scheduled.interaction))
+        if (!apply_dump_interaction(sample, options.sampleName, scheduled.interaction))
         {
           fprintf(stderr, "Sample '%s' did not handle dump interaction '%s' at frame %d\n", options.sampleName, scheduled.interaction.action, frame);
           if (out != stdout) fclose(out);

@@ -1,7 +1,7 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
 import { type BodyHandle, type Vec3 } from "box3d-wasm";
 import type { PhysicsWorkerCommand } from "../../physics-worker-protocol";
-import { buildWeebleDynamicBodies, weebleGroundSize } from "./weeble-scene";
+import { buildWeebleDynamicBodies, explodeWeeble, teleportWeeble, weebleGroundSize } from "./weeble-scene";
 
 class WeebleWorker extends PhysicsWorkerBase {
   private weebleId: BodyHandle | null = null;
@@ -23,12 +23,11 @@ class WeebleWorker extends PhysicsWorkerBase {
     switch (msg.type) {
       case "teleport": {
         if (this.weebleId === null) return false;
-        R.setBodyTransform(this.weebleId, [0, 20, 0], [0, 0, 0, 1]);
-        R.setBodyAwake(this.weebleId, true);
+        teleportWeeble(R, this.weebleId);
         return true;
       }
       case "explode": {
-        W.explode([0, 0, 0], 30, 2, 10);
+        explodeWeeble(W);
         return true;
       }
     }
