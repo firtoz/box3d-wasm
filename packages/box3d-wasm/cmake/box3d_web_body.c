@@ -133,6 +133,32 @@ B3W_EXPORT void b3wSetBodyAngularVelocity(int bodyHandle, float x, float y, floa
 	b3Body_SetAngularVelocity(slot->bodyId, (b3Vec3){ x, y, z });
 }
 
+B3W_EXPORT void b3wGetBodyLinearVelocity(int bodyHandle, float* outVelocity)
+{
+	if (outVelocity == NULL) return;
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL)
+	{
+		outVelocity[0] = 0.0f; outVelocity[1] = 0.0f; outVelocity[2] = 0.0f;
+		return;
+	}
+	b3Vec3 v = b3Body_GetLinearVelocity(slot->bodyId);
+	outVelocity[0] = v.x; outVelocity[1] = v.y; outVelocity[2] = v.z;
+}
+
+B3W_EXPORT void b3wGetBodyAngularVelocity(int bodyHandle, float* outVelocity)
+{
+	if (outVelocity == NULL) return;
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL)
+	{
+		outVelocity[0] = 0.0f; outVelocity[1] = 0.0f; outVelocity[2] = 0.0f;
+		return;
+	}
+	b3Vec3 v = b3Body_GetAngularVelocity(slot->bodyId);
+	outVelocity[0] = v.x; outVelocity[1] = v.y; outVelocity[2] = v.z;
+}
+
 B3W_EXPORT void b3wApplyLinearImpulse(int bodyHandle, float ix, float iy, float iz, float px, float py, float pz, int wake)
 {
 	b3wBodySlot* slot = b3wGetBody(bodyHandle);
@@ -313,11 +339,11 @@ B3W_EXPORT void b3wEnableBodyHitEvents(int bodyHandle, int flag)
 	b3Body_EnableHitEvents(slot->bodyId, flag != 0);
 }
 
-B3W_EXPORT void b3wSetBodyMotionLocks(int bodyHandle, int lockBodyX, int lockBodyY, int lockBodyRotationX, int lockBodyRotationY, int lockBodyRotationZ, int lockLinearZ)
+B3W_EXPORT void b3wSetBodyMotionLocks(int bodyHandle, int lockLinearX, int lockLinearY, int lockLinearZ, int lockAngularX, int lockAngularY, int lockAngularZ)
 {
 	b3wBodySlot* slot = b3wGetBody(bodyHandle);
 	if (slot == NULL) return;
-	b3MotionLocks locks = { lockBodyX != 0, lockBodyY != 0, lockBodyRotationX != 0, lockBodyRotationY != 0, lockBodyRotationZ != 0, lockLinearZ != 0 };
+	b3MotionLocks locks = { lockLinearX != 0, lockLinearY != 0, lockLinearZ != 0, lockAngularX != 0, lockAngularY != 0, lockAngularZ != 0 };
 	b3Body_SetMotionLocks(slot->bodyId, locks);
 }
 

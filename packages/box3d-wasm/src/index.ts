@@ -120,6 +120,7 @@ type DestroyJointFn = (jointHandle: number) => void;
 type SetBodyTransformFn = (bodyHandle: number, px: number, py: number, pz: number, qx: number, qy: number, qz: number, qw: number) => void;
 type SetBodyLinearVelocityFn = (bodyHandle: number, x: number, y: number, z: number) => void;
 type SetBodyAngularVelocityFn = (bodyHandle: number, x: number, y: number, z: number) => void;
+type GetBodyVelocityFn = (bodyHandle: number, outVelocity: number) => void;
 type SetBodyAwakeFn = (bodyHandle: number, awake: number) => void;
 type SetBodyDampingFn = (bodyHandle: number, linearDamping: number, angularDamping: number) => void;
 type GetBodyLocalPointFn = (bodyHandle: number, worldX: number, worldY: number, worldZ: number, outPoint: number) => void;
@@ -235,6 +236,8 @@ export class Box3DRuntime implements RuntimeAPI {
   private readonly setBodyTransformFn: SetBodyTransformFn;
   private readonly setBodyLinearVelocityFn: SetBodyLinearVelocityFn;
   private readonly setBodyAngularVelocityFn: SetBodyAngularVelocityFn;
+  private readonly getBodyLinearVelocityFn: GetBodyVelocityFn;
+  private readonly getBodyAngularVelocityFn: GetBodyVelocityFn;
   private readonly setBodyAwakeFn: SetBodyAwakeFn;
   private readonly setBodyDampingFn: SetBodyDampingFn;
   private readonly getBodyLocalPointFn: GetBodyLocalPointFn;
@@ -342,6 +345,8 @@ export class Box3DRuntime implements RuntimeAPI {
     this.setBodyTransformFn = module.cwrap("b3wSetBodyTransform", null, ["number","number","number","number","number","number","number","number"]);
     this.setBodyLinearVelocityFn = module.cwrap("b3wSetBodyLinearVelocity", null, ["number","number","number","number"]);
     this.setBodyAngularVelocityFn = module.cwrap("b3wSetBodyAngularVelocity", null, ["number","number","number","number"]);
+    this.getBodyLinearVelocityFn = module.cwrap("b3wGetBodyLinearVelocity", null, ["number", "number"]);
+    this.getBodyAngularVelocityFn = module.cwrap("b3wGetBodyAngularVelocity", null, ["number", "number"]);
     this.setBodyAwakeFn = module.cwrap("b3wSetBodyAwake", null, ["number","number"]);
     this.setBodyDampingFn = module.cwrap("b3wSetBodyDamping", null, ["number","number","number"]);
     this.getBodyLocalPointFn = module.cwrap("b3wGetBodyLocalPoint", null, ["number","number","number","number","number"]);
@@ -476,12 +481,14 @@ export class Box3DRuntime implements RuntimeAPI {
   }
 
   private applyShapeDef(shapeHandle: number, def: ShapeDef): void {
-    this.setShapeSurfaceMaterial(shapeHandle, {
-      friction: def.friction,
-      restitution: def.restitution,
-      rollingResistance: def.rollingResistance,
-      tangentVelocity: def.tangentVelocity,
-    });
+    if (def.friction !== undefined || def.restitution !== undefined || def.rollingResistance !== undefined || def.tangentVelocity !== undefined) {
+      this.setShapeSurfaceMaterial(shapeHandle, {
+        friction: def.friction,
+        restitution: def.restitution,
+        rollingResistance: def.rollingResistance,
+        tangentVelocity: def.tangentVelocity,
+      });
+    }
     if (def.isSensor) { this.enableShapeSensorEvents(shapeHandle, true); /* isSensor not directly settable after creation */ }
     if (def.enableSensorEvents !== undefined) this.enableShapeSensorEvents(shapeHandle, def.enableSensorEvents);
     if (def.enableContactEvents !== undefined) this.enableShapeContactEvents(shapeHandle, def.enableContactEvents);
@@ -524,14 +531,14 @@ export class Box3DRuntime implements RuntimeAPI {
   }
 
   createSphereShape(bodyHandle: number, center: Vec3, radius: number, def: ShapeDef = {}): ShapeHandle {
-    const shapeHandle = this.createSphereShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.5, def.restitution ?? 0, def.rollingResistance ?? 0, center[0], center[1], center[2], radius);
+    const shapeHandle = this.createSphereShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, center[0], center[1], center[2], radius);
     const shape = { bodyHandle, shapeHandle };
     this.applyShapeDef(shapeHandle, def);
     return shape;
   }
 
   createCapsuleShape(bodyHandle: number, center1: Vec3, center2: Vec3, radius: number, def: ShapeDef = {}): ShapeHandle {
-    const shapeHandle = this.createCapsuleShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.5, def.restitution ?? 0, def.rollingResistance ?? 0, center1[0], center1[1], center1[2], center2[0], center2[1], center2[2], radius);
+    const shapeHandle = this.createCapsuleShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, center1[0], center1[1], center1[2], center2[0], center2[1], center2[2], radius);
     const shape = { bodyHandle, shapeHandle };
     this.applyShapeDef(shapeHandle, def);
     return shape;
@@ -619,6 +626,8 @@ export class Box3DRuntime implements RuntimeAPI {
   setBodyTransform(bodyHandle: number, position: Vec3, rotation: Quat = [0,0,0,1]): void { this.setBodyTransformFn(bodyHandle, position[0], position[1], position[2], rotation[0], rotation[1], rotation[2], rotation[3]); }
   setBodyLinearVelocity(bodyHandle: number, velocity: Vec3): void { this.setBodyLinearVelocityFn(bodyHandle, velocity[0], velocity[1], velocity[2]); }
   setBodyAngularVelocity(bodyHandle: number, velocity: Vec3): void { this.setBodyAngularVelocityFn(bodyHandle, velocity[0], velocity[1], velocity[2]); }
+  getBodyLinearVelocity(bodyHandle: number): Vec3 { this.getBodyLinearVelocityFn(bodyHandle, this.pointPtr); const heap = this.module.HEAPF32; const base = this.pointPtr >> 2; return [heap[base + 0], heap[base + 1], heap[base + 2]]; }
+  getBodyAngularVelocity(bodyHandle: number): Vec3 { this.getBodyAngularVelocityFn(bodyHandle, this.pointPtr); const heap = this.module.HEAPF32; const base = this.pointPtr >> 2; return [heap[base + 0], heap[base + 1], heap[base + 2]]; }
   bodyIsAwake(bodyHandle: number): boolean { return this.bodyIsAwakeFn(bodyHandle) !== 0; }
   getBodyDebugColor(bodyHandle: number): number { return this.getBodyDebugColorFn(bodyHandle); }
   getBodyType(bodyHandle: number): BodyType { return this.getBodyTypeFn(bodyHandle) as BodyType; }
@@ -689,7 +698,7 @@ export class Box3DRuntime implements RuntimeAPI {
   setShapeDensity(shapeHandle: number | ShapeHandle, density: number, updateBodyMass = true): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setDensityFn(handle, density, updateBodyMass ? 1 : 0); }
   setShapeFriction(shapeHandle: number | ShapeHandle, friction: number): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setFrictionFn(handle, friction); }
   setShapeRestitution(shapeHandle: number | ShapeHandle, restitution: number): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setRestitutionFn(handle, restitution); }
-  setShapeSurfaceMaterial(shapeHandle: number | ShapeHandle, material: SurfaceMaterial = {}): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setSurfaceMaterialFn(handle, material.friction ?? 0.5, material.restitution ?? 0, material.rollingResistance ?? 0); }
+  setShapeSurfaceMaterial(shapeHandle: number | ShapeHandle, material: SurfaceMaterial = {}): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setSurfaceMaterialFn(handle, material.friction ?? 0.6, material.restitution ?? 0, material.rollingResistance ?? 0); }
   setShapeFilter(shapeHandle: number | ShapeHandle, categoryBits: number, maskBits: number, groupIndex = 0, invokeContacts = false): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setFilterFn(handle, categoryBits, maskBits, groupIndex, invokeContacts ? 1 : 0); }
   enableShapeSensorEvents(shapeHandle: number | ShapeHandle, flag: boolean): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.enableShapeSensorEventsFn(handle, flag ? 1 : 0); }
   enableShapeContactEvents(shapeHandle: number | ShapeHandle, flag: boolean): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.enableShapeContactEventsFn(handle, flag ? 1 : 0); }
@@ -706,7 +715,7 @@ export class Box3DRuntime implements RuntimeAPI {
   setBodyBullet(bodyHandle: number, flag: boolean): void { this.setBodyBulletFn(bodyHandle, flag ? 1 : 0); }
   enableBodyContactRecycling(bodyHandle: number, flag: boolean): void { this.enableBodyContactRecyclingFn(bodyHandle, flag ? 1 : 0); }
   enableBodyHitEvents(bodyHandle: number, flag: boolean): void { this.enableBodyHitEventsFn(bodyHandle, flag ? 1 : 0); }
-  setBodyMotionLocks(bodyHandle: number, locks: { lockX?: boolean; lockY?: boolean; lockRotationX?: boolean; lockRotationY?: boolean; lockRotationZ?: boolean; lockLinearZ?: boolean } = {}): void { this.setBodyMotionLocksFn(bodyHandle, locks.lockX ? 1 : 0, locks.lockY ? 1 : 0, locks.lockRotationX ? 1 : 0, locks.lockRotationY ? 1 : 0, locks.lockRotationZ ? 1 : 0, locks.lockLinearZ ? 1 : 0); }
+  setBodyMotionLocks(bodyHandle: number, locks: { lockX?: boolean; lockY?: boolean; lockRotationX?: boolean; lockRotationY?: boolean; lockRotationZ?: boolean; lockLinearZ?: boolean } = {}): void { this.setBodyMotionLocksFn(bodyHandle, locks.lockX ? 1 : 0, locks.lockY ? 1 : 0, locks.lockLinearZ ? 1 : 0, locks.lockRotationX ? 1 : 0, locks.lockRotationY ? 1 : 0, locks.lockRotationZ ? 1 : 0); }
   setBodyMassData(bodyHandle: number, mass: number, center: Vec3, inertia?: Mat3): void { if (inertia) { const heap = this.module.HEAPF32; const base = this.inertiaPtr >> 2; for (let i = 0; i < 9; i++) heap[base + i] = inertia[i]; this.setBodyMassDataFn(bodyHandle, mass, center[0], center[1], center[2], this.inertiaPtr); } else { this.setBodyMassDataFn(bodyHandle, mass, center[0], center[1], center[2], 0); } }
   getBodyMassData(bodyHandle: number): BodyMassData { this.getBodyMassDataFn(bodyHandle, this.massDataPtr); const heap = this.module.HEAPF32; const base = this.massDataPtr >> 2; return { mass: heap[base], inertiaTrace: heap[base + 1] }; }
   applyBodyMassFromShapes(bodyHandle: number): void { this.applyBodyMassFromShapesFn(bodyHandle); }
@@ -746,6 +755,8 @@ export class PhysicsWorld {
   setBodyTransform(bodyHandle: number, position: Vec3, rotation: Quat = [0,0,0,1]): void { this.runtime.setBodyTransform(bodyHandle, position, rotation); }
   setBodyLinearVelocity(bodyHandle: number, velocity: Vec3): void { this.runtime.setBodyLinearVelocity(bodyHandle, velocity); }
   setBodyAngularVelocity(bodyHandle: number, velocity: Vec3): void { this.runtime.setBodyAngularVelocity(bodyHandle, velocity); }
+  getBodyLinearVelocity(bodyHandle: number): Vec3 { return this.runtime.getBodyLinearVelocity(bodyHandle); }
+  getBodyAngularVelocity(bodyHandle: number): Vec3 { return this.runtime.getBodyAngularVelocity(bodyHandle); }
   applyLinearImpulse(bodyHandle: number, impulse: Vec3, point: Vec3, wake = true): void { this.runtime.applyLinearImpulse(bodyHandle, impulse, point, wake); }
   applyLinearImpulseToCenter(bodyHandle: number, impulse: Vec3, wake = true): void { this.runtime.applyLinearImpulseToCenter(bodyHandle, impulse, wake); }
   bodyIsAwake(bodyHandle: number): boolean { return this.runtime.bodyIsAwake(bodyHandle); }

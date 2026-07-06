@@ -1,19 +1,14 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import { BodyType, type Vec3 } from "box3d-wasm";
+import type { Vec3 } from "box3d-wasm";
+import { buildSphereStackDynamicBodies, sphereStackGroundSize } from "./stack-scene";
 
 class SphereStackWorker extends PhysicsWorkerBase {
   protected getGroundSize(): Vec3 {
-    return [15, 1, 15];
+    return sphereStackGroundSize();
   }
 
   protected async buildScene(): Promise<number[]> {
-    const handles: number[] = [];
-    for (let i = 0, y = 0.75; i < 30; i++, y += 1.5) {
-      const body = this.world!.createBody({ type: BodyType.Dynamic, position: [0, y, 0], isAwake: true });
-      this.runtime!.createSphereShape(body, [0, 0, 0], 0.5, { rollingResistance: 0.1 });
-      handles.push(body);
-    }
-    return handles;
+    return buildSphereStackDynamicBodies(this.world!, this.runtime!);
   }
 }
 

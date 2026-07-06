@@ -9,3 +9,4 @@ build-web-profile/
 .fetchcontent-cache/
 demo/public/wasm/
 packages/box3d-wasm/generated/
+.reference-dumps/

@@ -11,7 +11,11 @@
     "build": "turbo run build",
     "lint": "oxlint .",
     "format": "oxfmt . --write --ignore-path .oxfmtignore",
+    "dump:wasm": "bun scripts/wasm-dump.ts",
+    "compare:dumps": "bun scripts/compare-dumps.ts",
+    "compare:sample": "bash scripts/compare-sample.sh",
     "typecheck": "bun run typecheck:workspace && bun run typecheck:scripts",
+    "test:reference-dump": "bash scripts/reference-dump-smoke.sh",
     "clean": "turbo run clean",
     "typecheck:scripts": "bunx tsc -p packages/box3d-wasm/scripts/tsconfig.json --noEmit",
     "typecheck:workspace": "bunx tsc -p packages/box3d-wasm/tsconfig.json --noEmit && bunx tsc -p demo/tsconfig.json --noEmit"

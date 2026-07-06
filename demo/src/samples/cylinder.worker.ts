@@ -1,19 +1,14 @@
 import { PhysicsWorkerBase } from "../physics-worker-base";
-import { BodyType, type Vec3 } from "box3d-wasm";
+import type { Vec3 } from "box3d-wasm";
+import { buildCylinderDynamicBodies, cylinderGroundSize } from "./cylinder-scene";
 
 class CylinderWorker extends PhysicsWorkerBase {
   protected getGroundSize(): Vec3 {
-    return [10, 1, 10];
+    return cylinderGroundSize();
   }
 
   protected async buildScene(): Promise<number[]> {
-    const handles: number[] = [];
-    const hull = this.runtime!.createCylinder(1, 0.25, 0, 12);
-    const body = this.world!.createBody({ type: BodyType.Dynamic, position: [0, 2, 0], isAwake: true });
-    this.runtime!.createShapeFromHull(body, hull, { density: 1000, rollingResistance: 0.05 });
-    this.runtime!.destroyHull(hull);
-    handles.push(body);
-    return handles;
+    return buildCylinderDynamicBodies(this.world!, this.runtime!);
   }
 }
 

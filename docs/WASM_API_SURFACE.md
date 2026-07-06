@@ -95,8 +95,8 @@ When adding an API binding:
 - [ ] Body validity: `b3Body_IsValid`
 - [ ] Get position: `b3Body_GetPosition` as direct wrapper
 - [ ] Get rotation: `b3Body_GetRotation` as direct wrapper
-- [ ] Get linear velocity: `b3Body_GetLinearVelocity`
-- [ ] Get angular velocity: `b3Body_GetAngularVelocity`
+- [x] Get linear velocity: `b3Body_GetLinearVelocity`
+- [x] Get angular velocity: `b3Body_GetAngularVelocity`
 - [ ] Apply force: `b3Body_ApplyForce`
 - [ ] Apply force to center: `b3Body_ApplyForceToCenter`
 - [ ] Apply torque: `b3Body_ApplyTorque`

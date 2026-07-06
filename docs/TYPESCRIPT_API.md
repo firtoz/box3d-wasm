@@ -135,6 +135,8 @@ world.createHullShape(body, [0.5, 0.5, 0.5], { density: 1000 });
 for (let i = 0; i < 120; i++) world.step(1 / 60, 4);
 
 console.log(world.getBodyTransform(body));
+console.log(world.getBodyLinearVelocity(body));
+console.log(world.getBodyAngularVelocity(body));
 world.destroy();
 ```
 
@@ -158,6 +160,7 @@ const ball = world.createSphere({
 ```
 
 Use `createBody` plus explicit shape creation when you need more control or multiple shapes on one body.
+Omitted shape material fields keep Box3D defaults, including friction `0.6`, restitution `0`, and rolling resistance `0`.
 
 ```ts
 const body = world.createBody({

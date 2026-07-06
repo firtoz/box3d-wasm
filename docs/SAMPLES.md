@@ -15,7 +15,7 @@ Legend:
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
 | **Body Type** | [x] | `b3Body_SetType`, `b3Body_Enable`, `b3Body_Disable`, `b3Body_IsEnabled`, `b3Body_SetLinearVelocity`, `b3Body_SetAngularVelocity`, `b3CreateRevoluteJoint`, `b3CreatePrismaticJoint`, `b3DefaultPrismaticJointDef`, `b3DefaultRevoluteJointDef`, `b3MakeTransformedBoxHull` | 🔧 All APIs exist. 6 bodies, prismatic + revolute joints, kinematic oscillation. |
-| **Spinning Book** | [x] | `b3BodyDef.gravityScale`, `b3BodyDef.angularVelocity`, `b3MakeBoxHull` | 🔧 All exist. Three boxes with gravity disabled and different angular velocities. |
+| **Spinning Book** | [x] | `b3BodyDef.gravityScale`, `b3BodyDef.angularVelocity`, `b3MakeBoxHull` | 🔧 All exist. Three boxes with gravity disabled and different angular velocities. C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Gyroscopic Torque** | [x] | `b3CreateCylinder`, `b3CreateHullShape` (multiple on same body), `b3Body_ApplyMassFromShapes`, `b3Body_GetWorldCenter`, `shapeDef.updateBodyMass = false` | 🔧 All APIs exist. Dzhanibekov effect: cylinder + box on gravityScale=0 body with angular velocity. Render uses generic host `compound` parts; box dimensions are doubled from `b3MakeBoxHull` half-extents and cylinder is locally offset by `0.5 * height`. |
 | **Weeble** | [x] | `b3Body_GetMass`, `b3Body_GetLocalRotationalInertia`, `b3Body_SetMassData`, `b3Body_SetTransform`, `b3Body_SetAwake`, `b3Body_GetWorldPoint`, `b3Body_GetLocalPointVelocity`, `b3Body_GetWorldPointVelocity`, `b3World_Explode` | 🔧 All APIs now wrapped. Capsule with shifted COM + Teleport/Explode buttons. |
 | **Disable** | [x] | `b3Body_Enable`, `b3Body_Disable`, `b3Body_IsEnabled`, `b3Body_ApplyLinearImpulseToCenter`, `b3CreateWeldJoint` | 🔧 All APIs now wrapped. 4-link chain with weld joints + ball, enable/disable toggles. |
@@ -206,18 +206,18 @@ Legend:
 |--------|----|-------------|-------|
 | **Card House Thick** | [x] | Standard stacking | Implemented. |
 | **Card House** | [ ] | Thin card stacking (tiny thickness hull) | 🔧 All exist. |
-| **Sphere Stack** | [x] | Sphere stacking | Implemented. |
-| **Capsule Stack** | [x] | Capsule stacking with motion locks | Implemented. |
+| **Sphere Stack** | [x] | Sphere stacking | Implemented; C++/WASM dump parity verified with the default 5-second-or-sleep window. |
+| **Capsule Stack** | [x] | Capsule stacking with motion locks | Implemented; C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Single Box** | [x] | Single dynamic box | Implemented. |
-| **Cylinder** | [x] | Cylinder hull | Implemented (offset fix done). |
+| **Cylinder** | [x] | Cylinder hull | Implemented (offset fix done); C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Cylinder Stack** | [ ] | `b3CreateTransformedHullShape` with scaling | 🔧 `createTransformedHullShape` exists. |
-| **Box Stack** | [x] | Box stacking | Implemented. |
+| **Box Stack** | [x] | Box stacking | Implemented; C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Jenga Stack** | [x] | Jenga tower | Implemented. |
 | **Dominoes** | [x] | Domino ring | Implemented. |
 | **Wedge** | [ ] | `b3CreateHull` from custom points | 🔧 `createHullFromPoints` exists. |
 | **Arch** | [ ] | `b3CreateHull` from custom points, per-body hulls | 🔧 All exist. |
 | **Double Domino** | [ ] | Domino row with impulse | 🔧 Simple. |
-| **Pyramid2D** | [x] | 2D pyramid stacking | Implemented. |
+| **Pyramid2D** | [x] | 2D pyramid stacking | Implemented; C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 
 ## Tree (`sample_tree.cpp`)
 
