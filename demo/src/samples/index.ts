@@ -52,6 +52,13 @@ import { sphericalJointSample } from "./joints/spherical";
 import { ballAndChainSample } from "./joints/ball-and-chain";
 import { doorSample } from "./joints/door";
 import { bridgeSample } from "./joints/bridge";
+import { highResistanceSample } from "./shapes/high-resistance";
+import { slideTwistSample } from "./shapes/slide-twist";
+import { conveyorBeltSample } from "./shapes/conveyor-belt";
+import { windDropSample } from "./shapes/wind-drop";
+import { thinWallSample } from "./continuous/thin-wall";
+import { bounceHouseSample } from "./continuous/bounce-house";
+import { largePyramidSample } from "./benchmark/large-pyramid";
 export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
 
 export const samples = [
@@ -110,4 +117,11 @@ export const samples = [
   capsuleStackSample,
   createDominoesSample(2),
   createWasherSample(),
+  highResistanceSample,
+  slideTwistSample,
+  conveyorBeltSample,
+  windDropSample,
+  thinWallSample,
+  bounceHouseSample,
+  largePyramidSample,
 ];

@@ -167,7 +167,8 @@ B3W_EXPORT void b3wShapeSetRestitution(int shapeHandle, float restitution)
 	b3Shape_SetRestitution(*shapeId, restitution);
 }
 
-B3W_EXPORT void b3wShapeSetSurfaceMaterial(int shapeHandle, float friction, float restitution, float rollingResistance)
+B3W_EXPORT void b3wShapeSetSurfaceMaterial(int shapeHandle, float friction, float restitution, float rollingResistance,
+	float tvx, float tvy, float tvz)
 {
 	b3ShapeId* shapeId = resolve_shape(shapeHandle);
 	if (shapeId == NULL) return;
@@ -175,6 +176,7 @@ B3W_EXPORT void b3wShapeSetSurfaceMaterial(int shapeHandle, float friction, floa
 	material.friction = friction;
 	material.restitution = restitution;
 	material.rollingResistance = rollingResistance;
+	material.tangentVelocity = (b3Vec3){ tvx, tvy, tvz };
 	b3Shape_SetSurfaceMaterial(*shapeId, material);
 }
 

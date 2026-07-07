@@ -42,6 +42,7 @@ interface WasmDumpSample {
   cppName: string;
   create(runtime: Box3DRuntime): WasmDumpInstance;
   step?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
+  postStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
   interactionSchedule: readonly DumpInteraction[];
   runInteraction?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], interaction: DumpInteraction, frame: number, state: unknown) => void;
 }
@@ -56,6 +57,7 @@ interface SceneDumpModule {
   dumpBuildDynamicBodies?: (world: PhysicsWorld, runtime: Box3DRuntime) => number[];
   dumpNoPhysics?: boolean;
   dumpStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
+  dumpPostStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
   dumpInteractionSchedule?: readonly DumpInteraction[];
   dumpRunInteraction?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], interaction: DumpInteraction, frame: number, state: unknown) => void;
 }
@@ -263,6 +265,7 @@ async function loadWasmDumpSamples(): Promise<WasmDumpSample[]> {
         return { world, handles: [ground, ...scene.dumpBuildDynamicBodies!(world, runtime)] };
       },
       step: scene.dumpStep,
+      postStep: scene.dumpPostStep,
       interactionSchedule: scene.dumpInteractionSchedule ?? [],
       runInteraction: scene.dumpRunInteraction,
     });
@@ -319,6 +322,7 @@ async function main(): Promise<void> {
     if (frame > 0) {
       sample.step?.(world, runtime, handles, frame, dt, state);
       world.step(dt, 4);
+      sample.postStep?.(world, runtime, handles, frame, dt, state);
     }
     if (shouldDumpFrame(options, frame)) {
       output.checkpoints.push({ frame, bodies: dumpBodies(world, handles) });

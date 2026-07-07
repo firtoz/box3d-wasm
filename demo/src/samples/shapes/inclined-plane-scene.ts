@@ -6,6 +6,7 @@ const B3_DEG_TO_RAD_F32 = f32(0.01745329251);
 const B3_AXIS_X: Vec3 = [1, 0, 0];
 const INCLINED_ANGLE_F32 = f32(40 * B3_DEG_TO_RAD_F32);
 const INCLINED_RAMP_Q: [number, number, number, number] = [Math.sin(INCLINED_ANGLE_F32 / 2), 0, 0, Math.cos(INCLINED_ANGLE_F32 / 2)];
+const FRICTION_STEP_F32 = f32(0.04);
 
 export function buildInclinedPlaneDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
   const handles: number[] = [];
@@ -18,7 +19,7 @@ export function buildInclinedPlaneDynamicBodies(world: PhysicsWorld, runtime: Bo
   for (let i = 0; i < 5; i++) {
     const iF32 = f32(i);
     const x = f32(-10 + f32(5 * iF32));
-    const friction = f32(f32(f32(iF32 + 1) * f32(iF32 + 1)) * 0.04);
+    const friction = f32(f32(f32(iF32 + 1) * f32(iF32 + 1)) * FRICTION_STEP_F32);
     const body = world.createBody({ type: 2 as BodyType, position: [x, 15.75, -10.6], rotation: q });
     runtime.createHullShape(body, [1, 1, 1], { friction });
     handles.push(body);

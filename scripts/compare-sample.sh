@@ -76,7 +76,7 @@ WASM_DUMP="$SAMPLE_DIR/wasm.json"
 
 mkdir -p "$SAMPLE_DIR" "$BUILD_DIR"
 
-cmake -S "$ROOT_DIR/tools/reference-dump" -B "$BUILD_DIR" -DBOX3D_DOUBLE_PRECISION=OFF
+cmake -S "$ROOT_DIR/tools/reference-dump" -B "$BUILD_DIR" -DBOX3D_DOUBLE_PRECISION=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
 cmake --build "$BUILD_DIR" -j"$(nproc)"
 
 SLEEP_FLAG=""

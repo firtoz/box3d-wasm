@@ -33,3 +33,14 @@ B3W_EXPORT void b3wMakeQuatFromAxisAngle(float axisX, float axisY, float axisZ, 
 	outQuat[2] = q.v.z;
 	outQuat[3] = q.s;
 }
+
+B3W_EXPORT void b3wRotateVector(float qx, float qy, float qz, float qs, float vx, float vy, float vz, float* outVec)
+{
+	if (outVec == NULL) return;
+	b3Quat q = { { qx, qy, qz }, qs };
+	b3Vec3 v = { vx, vy, vz };
+	b3Vec3 r = b3RotateVector(q, v);
+	outVec[0] = r.x;
+	outVec[1] = r.y;
+	outVec[2] = r.z;
+}

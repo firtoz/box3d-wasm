@@ -166,7 +166,7 @@ type HumanSetBulletFn = (humanHandle: number, flag: number) => void;
 type HumanSetJointFloatFn = (humanHandle: number, value: number) => void;
 type StepFn = (worldHandle: number, timeStep: number, subStepCount: number) => void;
 type GetBodyTransformFn = (bodyHandle: number, outTransform: number) => void;
-type ShapeSetSurfaceMaterialFn = (shapeHandle: number, friction: number, restitution: number, rollingResistance: number) => void;
+type ShapeSetSurfaceMaterialFn = (shapeHandle: number, friction: number, restitution: number, rollingResistance: number, tvx: number, tvy: number, tvz: number) => void;
 type ShapeSetFilterFn = (shapeHandle: number, categoryBits: number, maskBits: number, groupIndex: number, invokeContacts: number) => void;
 type GetBodyShapeCountFn = (bodyHandle: number) => number;
 type GetBodyShapesFn = (bodyHandle: number, outShapeHandles: number, capacity: number) => number;
@@ -194,6 +194,7 @@ type BodySetTargetTransformFn = (bodyHandle: number, px: number, py: number, pz:
 type ApplyLinearImpulseFn = (bodyHandle: number, ix: number, iy: number, iz: number, px: number, py: number, pz: number, wake: number) => void;
 type ApplyLinearImpulseToCenterFn = (bodyHandle: number, ix: number, iy: number, iz: number, wake: number) => void;
 type MakeQuatFromAxisAngleFn = (axisX: number, axisY: number, axisZ: number, radians: number, outQuat: number) => void;
+type RotateVectorFn = (qx: number, qy: number, qz: number, qs: number, vx: number, vy: number, vz: number, outVec: number) => void;
 type ShapeSetDensityFn = (shapeHandle: number, density: number, updateBodyMass: number) => void;
 type WorldEnableBoolFn = (worldHandle: number, flag: number) => void;
 type WorldSetContactTuningFn = (worldHandle: number, hertz: number, dampingRatio: number, contactSpeed: number) => void;
@@ -355,7 +356,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly setDensityFn = this.wrapVoid<ShapeSetDensityFn>("b3wShapeSetDensity", ["number", "number", "number"]);
   private readonly setFrictionFn = this.wrapVoid<ShapeSetFrictionFn>("b3wShapeSetFriction", ["number", "number"]);
   private readonly setRestitutionFn = this.wrapVoid<ShapeSetRestitutionFn>("b3wShapeSetRestitution", ["number", "number"]);
-  private readonly setSurfaceMaterialFn = this.wrapVoid<ShapeSetSurfaceMaterialFn>("b3wShapeSetSurfaceMaterial", ["number", "number", "number", "number"]);
+  private readonly setSurfaceMaterialFn = this.wrapVoid<ShapeSetSurfaceMaterialFn>("b3wShapeSetSurfaceMaterial", ["number", "number", "number", "number", "number", "number", "number"]);
   private readonly setFilterFn = this.wrapVoid<ShapeSetFilterFn>("b3wShapeSetFilter", ["number", "number", "number", "number", "number"]);
   private readonly getBodyShapeCountFn = this.wrapNumber<GetBodyShapeCountFn>("b3wGetBodyShapeCount", ["number"]);
   private readonly getBodyShapesFn = this.wrapNumber<GetBodyShapesFn>("b3wGetBodyShapes", ["number", "number", "number"]);
@@ -390,6 +391,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly b3wCosfFn = this.wrapNumber<(radians: number) => number>("b3wCosf", ["number"]);
   private readonly b3wSinfFn = this.wrapNumber<(radians: number) => number>("b3wSinf", ["number"]);
   private readonly makeQuatFromAxisAngleFn = this.wrapVoid<MakeQuatFromAxisAngleFn>("b3wMakeQuatFromAxisAngle", ["number", "number", "number", "number", "number"]);
+  private readonly rotateVectorFn = this.wrapVoid<RotateVectorFn>("b3wRotateVector", ["number", "number", "number", "number", "number", "number", "number", "number"]);
   private readonly transformPtr: number;
   private readonly pointPtr: number;
   private readonly massDataPtr: number;
@@ -604,6 +606,12 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     const base = this.transformPtr >> 2;
     return [heap[base + 0], heap[base + 1], heap[base + 2], heap[base + 3]];
   }
+  rotateVector(quat: Quat, vec: Vec3): Vec3 {
+    this.rotateVectorFn(quat[0], quat[1], quat[2], quat[3], vec[0], vec[1], vec[2], this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return [heap[base + 0], heap[base + 1], heap[base + 2]];
+  }
   createCompound(capsules: number, hulls: number, meshes: number, spheres: number): CompoundHandle { return asCompoundHandle(this.createCompoundFn(capsules, hulls, meshes, spheres, 0, 0, 0, 0)); }
   createCompoundFromHulls(entries: CompoundHullEntry[]): CompoundHandle {
     const stride = 13;
@@ -750,7 +758,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   setShapeDensity(shapeHandle: ShapeId | ShapeHandle, density: number, updateBodyMass = true): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setDensityFn(handle, density, updateBodyMass ? 1 : 0); }
   setShapeFriction(shapeHandle: ShapeId | ShapeHandle, friction: number): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setFrictionFn(handle, friction); }
   setShapeRestitution(shapeHandle: ShapeId | ShapeHandle, restitution: number): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setRestitutionFn(handle, restitution); }
-  setShapeSurfaceMaterial(shapeHandle: ShapeId | ShapeHandle, material: SurfaceMaterial = {}): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setSurfaceMaterialFn(handle, material.friction ?? 0.6, material.restitution ?? 0, material.rollingResistance ?? 0); }
+  setShapeSurfaceMaterial(shapeHandle: ShapeId | ShapeHandle, material: SurfaceMaterial = {}): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; const tv = material.tangentVelocity ?? [0,0,0]; this.setSurfaceMaterialFn(handle, material.friction ?? 0.6, material.restitution ?? 0, material.rollingResistance ?? 0, tv[0], tv[1], tv[2]); }
   setShapeFilter(shapeHandle: ShapeId | ShapeHandle, categoryBits: number, maskBits: number, groupIndex = 0, invokeContacts = false): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.setFilterFn(handle, categoryBits, maskBits, groupIndex, invokeContacts ? 1 : 0); }
   enableShapeSensorEvents(shapeHandle: ShapeId | ShapeHandle, flag: boolean): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.enableShapeSensorEventsFn(handle, flag ? 1 : 0); }
   enableShapeContactEvents(shapeHandle: ShapeId | ShapeHandle, flag: boolean): void { const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle; this.enableShapeContactEventsFn(handle, flag ? 1 : 0); }

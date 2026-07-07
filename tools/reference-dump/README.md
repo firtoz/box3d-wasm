@@ -5,7 +5,7 @@ Headless C++ reference dumper for upstream Box3D samples. It compiles the upstre
 Build into the ignored local dump workspace to avoid generated files in `tools/`:
 
 ```sh
-cmake -S tools/reference-dump -B .reference-dumps/reference-build -DBOX3D_DOUBLE_PRECISION=OFF
+cmake -S tools/reference-dump -B .reference-dumps/reference-build -DBOX3D_DOUBLE_PRECISION=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
 cmake --build .reference-dumps/reference-build -j$(nproc)
 ```
 

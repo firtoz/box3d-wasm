@@ -8,7 +8,7 @@ OUT_DIR="${REFERENCE_DUMP_OUT_DIR:-/tmp/reference-dump-smoke}"
 rm -rf "$BUILD_DIR" "$OUT_DIR"
 mkdir -p "$BUILD_DIR" "$OUT_DIR"
 
-cmake -S "$ROOT_DIR/tools/reference-dump" -B "$BUILD_DIR" -DBOX3D_DOUBLE_PRECISION=OFF
+cmake -S "$ROOT_DIR/tools/reference-dump" -B "$BUILD_DIR" -DBOX3D_DOUBLE_PRECISION=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
 cmake --build "$BUILD_DIR" -j"$(nproc)"
 
 "$BUILD_DIR/reference-dump" --list-json > "$OUT_DIR/samples.json"

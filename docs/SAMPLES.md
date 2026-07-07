@@ -231,7 +231,7 @@ Legend:
 |--------|----|-------------|-------|
 | **Far Stack** | [x] | Stack far from origin | 🔧 10000km offset box column. |
 | **Far Pyramid** | [x] | Pyramid far from origin | 🔧 10000km offset 40-base pyramid. |
-| **Far Ragdolls** | [x] | Ragdolls far from origin | 🔧 20 ragdolls at 1000km offset. Uses `createGridMesh` + `createMeshShape` for the upstream mesh floor. Frame 0 matches exactly; remaining dump mismatch appears to be simulation drift. |
+| **Far Ragdolls** | [x] | Ragdolls far from origin | 🔧 20 ragdolls at 1000km offset. Uses `createGridMesh` + `createMeshShape` for the upstream mesh floor. Frame 0–20 match exactly; remaining dump mismatch is native-vs-WASM solver FP divergence in the chaotic ragdoll pile, not a setup bug. Verified via controlled experiments: origin-offset and box-ground variants still diverge. |
 | **Far Mesh Drop** | [ ] | Mesh + far origin | 🧩 |
 
 ## Benchmark (`sample_benchmark.cpp`)
