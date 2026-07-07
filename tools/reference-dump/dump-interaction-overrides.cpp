@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "sample_bodies.cpp"
+#include "sample_continuous.cpp"
 #include "sample_joint.cpp"
 
 class DumpMotorJoint : public MotorJoint
@@ -103,6 +104,28 @@ public:
 	}
 };
 
+class DumpBulletVersusStack : public BulletVersusStack
+{
+public:
+	using BulletVersusStack::BulletVersusStack;
+
+	static Sample* Create( SampleContext* context )
+	{
+		return new DumpBulletVersusStack( context );
+	}
+
+	bool ApplyDumpInteraction( const DumpInteraction& interaction )
+	{
+		if ( strcmp( interaction.action, "launch" ) == 0 )
+		{
+			Launch();
+			return true;
+		}
+
+		return false;
+	}
+};
+
 static void patch_sample_entry( const char* name, SampleCreateFcn* createFcn )
 {
 	for ( int i = 0; i < g_sampleCount; ++i )
@@ -121,6 +144,7 @@ void patch_dump_sample_entries()
 	patch_sample_entry( "Top Down Friction", DumpTopDownFriction::Create );
 	patch_sample_entry( "Door", DumpDoor::Create );
 	patch_sample_entry( "Weeble", DumpWeeble::Create );
+	patch_sample_entry( "Bullet vs Stack", DumpBulletVersusStack::Create );
 }
 
 bool apply_dump_interaction( Sample* sample, const char* sampleName, const DumpInteraction& interaction )
@@ -143,6 +167,11 @@ bool apply_dump_interaction( Sample* sample, const char* sampleName, const DumpI
 	if ( strcmp( sampleName, "Weeble" ) == 0 )
 	{
 		return static_cast<DumpWeeble*>( sample )->ApplyDumpInteraction( interaction );
+	}
+
+	if ( strcmp( sampleName, "Bullet vs Stack" ) == 0 )
+	{
+		return static_cast<DumpBulletVersusStack*>( sample )->ApplyDumpInteraction( interaction );
 	}
 
 	return false;

@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 project(reference-dump C CXX)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Determine precision. Default to single (the Box3D default).
 option(BOX3D_DOUBLE_PRECISION "Enable double precision for large worlds" OFF)
 

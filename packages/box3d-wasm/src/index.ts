@@ -195,6 +195,9 @@ type ApplyLinearImpulseFn = (bodyHandle: number, ix: number, iy: number, iz: num
 type ApplyLinearImpulseToCenterFn = (bodyHandle: number, ix: number, iy: number, iz: number, wake: number) => void;
 type MakeQuatFromAxisAngleFn = (axisX: number, axisY: number, axisZ: number, radians: number, outQuat: number) => void;
 type RotateVectorFn = (qx: number, qy: number, qz: number, qs: number, vx: number, vy: number, vz: number, outVec: number) => void;
+type RandomVec3Fn = (lox: number, loy: number, loz: number, hix: number, hiy: number, hiz: number, outVec: number) => void;
+type LerpVec3Fn = (ax: number, ay: number, az: number, bx: number, by: number, bz: number, alpha: number, outVec: number) => void;
+type GetLengthAndNormalizeFn = (vx: number, vy: number, vz: number, outDirection: number) => number;
 type ShapeSetDensityFn = (shapeHandle: number, density: number, updateBodyMass: number) => void;
 type WorldEnableBoolFn = (worldHandle: number, flag: number) => void;
 type WorldSetContactTuningFn = (worldHandle: number, hertz: number, dampingRatio: number, contactSpeed: number) => void;
@@ -221,6 +224,7 @@ type CreateWeldJointFn = (worldHandle: number, bodyAHandle: number, bodyBHandle:
 type WorldExplodeFn = (worldHandle: number, px: number, py: number, pz: number, radius: number, falloff: number, impulsePerArea: number, maskBits: number) => void;
 type GetJointVec3Fn = (jointHandle: number, outVec3: number) => void;
 type GetJointLinearSeparationFn = (jointHandle: number) => number;
+type RevoluteJointSetTargetAngleFn = (jointHandle: number, targetRadians: number) => void;
 type GetShapeBodyHandleFn = (shapeHandle: number) => number;
 type ShapeSetFrictionFn = (shapeHandle: number, friction: number) => void;
 type ShapeSetRestitutionFn = (shapeHandle: number, restitution: number) => void;
@@ -350,6 +354,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly getJointConstraintForceFn = this.wrapVoid<GetJointVec3Fn>("b3wGetJointConstraintForce", ["number", "number"]);
   private readonly getJointConstraintTorqueFn = this.wrapVoid<GetJointVec3Fn>("b3wGetJointConstraintTorque", ["number", "number"]);
   private readonly getJointLinearSeparationFn = this.wrapNumber<GetJointLinearSeparationFn>("b3wGetJointLinearSeparation", ["number"]);
+  private readonly revoluteJointSetTargetAngleFn = this.wrapVoid<RevoluteJointSetTargetAngleFn>("b3wRevoluteJointSetTargetAngle", ["number", "number"]);
   private readonly getShapeBodyHandleFn = this.wrapNumber<GetShapeBodyHandleFn>("b3wGetShapeBodyHandle", ["number"]);
   private readonly stepFn = this.wrapVoid<StepFn>("b3wStep", ["number", "number", "number"]);
   private readonly getBodyTransformFn = this.wrapVoid<GetBodyTransformFn>("b3wGetBodyTransform", ["number", "number"]);
@@ -392,6 +397,9 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly b3wSinfFn = this.wrapNumber<(radians: number) => number>("b3wSinf", ["number"]);
   private readonly makeQuatFromAxisAngleFn = this.wrapVoid<MakeQuatFromAxisAngleFn>("b3wMakeQuatFromAxisAngle", ["number", "number", "number", "number", "number"]);
   private readonly rotateVectorFn = this.wrapVoid<RotateVectorFn>("b3wRotateVector", ["number", "number", "number", "number", "number", "number", "number", "number"]);
+  private readonly randomVec3Fn = this.wrapVoid<RandomVec3Fn>("b3wRandomVec3", ["number", "number", "number", "number", "number", "number", "number"]);
+  private readonly lerpVec3Fn = this.wrapVoid<LerpVec3Fn>("b3wLerpVec3", ["number", "number", "number", "number", "number", "number", "number", "number"]);
+  private readonly getLengthAndNormalizeFn = this.wrapNumber<GetLengthAndNormalizeFn>("b3wGetLengthAndNormalize", ["number", "number", "number", "number"]);
   private readonly transformPtr: number;
   private readonly pointPtr: number;
   private readonly massDataPtr: number;
@@ -612,6 +620,27 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     const base = this.transformPtr >> 2;
     return [heap[base + 0], heap[base + 1], heap[base + 2]];
   }
+  /** Box3D shared RNG (seed 12345), matching upstream RandomVec3. */
+  randomVec3(lo: Vec3, hi: Vec3): Vec3 {
+    this.randomVec3Fn(lo[0], lo[1], lo[2], hi[0], hi[1], hi[2], this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return [heap[base + 0], heap[base + 1], heap[base + 2]];
+  }
+  /** Box3D b3Lerp for Vec3. */
+  lerpVec3(a: Vec3, b: Vec3, alpha: number): Vec3 {
+    this.lerpVec3Fn(a[0], a[1], a[2], b[0], b[1], b[2], alpha, this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return [heap[base + 0], heap[base + 1], heap[base + 2]];
+  }
+  /** Box3D b3GetLengthAndNormalize: returns length and writes the normalized direction. */
+  getLengthAndNormalize(vec: Vec3): { length: number; direction: Vec3 } {
+    const length = this.getLengthAndNormalizeFn(vec[0], vec[1], vec[2], this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return { length, direction: [heap[base + 0], heap[base + 1], heap[base + 2]] };
+  }
   createCompound(capsules: number, hulls: number, meshes: number, spheres: number): CompoundHandle { return asCompoundHandle(this.createCompoundFn(capsules, hulls, meshes, spheres, 0, 0, 0, 0)); }
   createCompoundFromHulls(entries: CompoundHullEntry[]): CompoundHandle {
     const stride = 13;
@@ -802,6 +831,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   getJointConstraintForce(jointHandle: JointHandle): Vec3 { this.getJointConstraintForceFn(jointHandle, this.pointPtr); return this.readPointInto([0, 0, 0]); }
   getJointConstraintTorque(jointHandle: JointHandle): Vec3 { this.getJointConstraintTorqueFn(jointHandle, this.pointPtr); return this.readPointInto([0, 0, 0]); }
   getJointLinearSeparation(jointHandle: JointHandle): number { return this.getJointLinearSeparationFn(jointHandle); }
+  setRevoluteJointTargetAngle(jointHandle: JointHandle, targetRadians: number): void { this.revoluteJointSetTargetAngleFn(jointHandle, targetRadians); }
   createPrismaticJoint(worldHandle: WorldHandle, bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; enableSpring?: boolean; hertz?: number; dampingRatio?: number; targetTranslation?: number; enableLimit?: boolean; lowerTranslation?: number; upperTranslation?: number; enableMotor?: boolean; maxMotorForce?: number; motorSpeed?: number } = {}): JointHandle { const la = options.localFrameA?.position ?? [0,0,0]; const laq = options.localFrameA?.rotation ?? [0,0,0,1]; const lb = options.localFrameB?.position ?? [0,0,0]; const lbq = options.localFrameB?.rotation ?? [0,0,0,1]; return asJointHandle(this.createPrismaticJointFn(worldHandle, bodyAHandle, bodyBHandle, la[0], la[1], la[2], laq[0], laq[1], laq[2], laq[3], lb[0], lb[1], lb[2], lbq[0], lbq[1], lbq[2], lbq[3], options.enableSpring ? 1 : 0, options.hertz ?? 0, options.dampingRatio ?? 0, options.targetTranslation ?? 0, options.enableLimit ? 1 : 0, options.lowerTranslation ?? 0, options.upperTranslation ?? 0, options.enableMotor ? 1 : 0, options.maxMotorForce ?? 0, options.motorSpeed ?? 0)); }
   createWeldJoint(worldHandle: WorldHandle, bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; linearHertz?: number; angularHertz?: number; linearDampingRatio?: number; angularDampingRatio?: number } = {}): JointHandle { const la = options.localFrameA?.position ?? [0,0,0]; const laq = options.localFrameA?.rotation ?? [0,0,0,1]; const lb = options.localFrameB?.position ?? [0,0,0]; const lbq = options.localFrameB?.rotation ?? [0,0,0,1]; return asJointHandle(this.createWeldJointFn(worldHandle, bodyAHandle, bodyBHandle, la[0], la[1], la[2], laq[0], laq[1], laq[2], laq[3], lb[0], lb[1], lb[2], lbq[0], lbq[1], lbq[2], lbq[3], options.linearHertz ?? 0, options.angularHertz ?? 0, options.linearDampingRatio ?? 0, options.angularDampingRatio ?? 0)); }
   worldExplode(worldHandle: WorldHandle, position: Vec3, radius: number, falloff: number, impulsePerArea: number, maskBits = 0xFFFFFFFFFFFFFFFF): void { this.worldExplodeFn(worldHandle, position[0], position[1], position[2], radius, falloff, impulsePerArea, maskBits); }
@@ -879,6 +909,7 @@ export class PhysicsWorld {
   getJointConstraintForce(jointHandle: JointHandle): Vec3 { return this.runtime.getJointConstraintForce(jointHandle); }
   getJointConstraintTorque(jointHandle: JointHandle): Vec3 { return this.runtime.getJointConstraintTorque(jointHandle); }
   getJointLinearSeparation(jointHandle: JointHandle): number { return this.runtime.getJointLinearSeparation(jointHandle); }
+  setRevoluteJointTargetAngle(jointHandle: JointHandle, targetRadians: number): void { this.runtime.setRevoluteJointTargetAngle(jointHandle, targetRadians); }
   createPrismaticJoint(bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; enableSpring?: boolean; hertz?: number; dampingRatio?: number; targetTranslation?: number; enableLimit?: boolean; lowerTranslation?: number; upperTranslation?: number; enableMotor?: boolean; maxMotorForce?: number; motorSpeed?: number } = {}): JointHandle { return this.runtime.createPrismaticJoint(this.handle, bodyAHandle, bodyBHandle, options); }
   createWeldJoint(bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; linearHertz?: number; angularHertz?: number; linearDampingRatio?: number; angularDampingRatio?: number } = {}): JointHandle { return this.runtime.createWeldJoint(this.handle, bodyAHandle, bodyBHandle, options); }
   explode(position: Vec3, radius: number, falloff: number, impulsePerArea: number, maskBits = 0xFFFFFFFFFFFFFFFF): void { this.runtime.worldExplode(this.handle, position, radius, falloff, impulsePerArea, maskBits); }

@@ -10,3 +10,5 @@ build-web-profile/
 demo/public/wasm/
 packages/box3d-wasm/generated/
 .reference-dumps/
+packages/box3d-wasm/build-native/
+compile_commands.json

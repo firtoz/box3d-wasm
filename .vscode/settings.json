@@ -1,6 +1,7 @@
 {
-    "cmake.sourceDirectory": "${workspaceFolder}/packages/box3d-wasm/cmake",
-    "cmake.configureArgs": [
-        "-DBOX3D_SOURCE_DIR=${workspaceFolder}/box3d"
-    ]
+  "cmake.sourceDirectory": "${workspaceFolder}/packages/box3d-wasm/cmake",
+  "cmake.configureArgs": [
+    "-DBOX3D_SOURCE_DIR=${workspaceFolder}/box3d"
+  ],
+  "clangd.checkUpdates": false
 }

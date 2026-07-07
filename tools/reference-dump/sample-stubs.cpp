@@ -22,6 +22,15 @@ void SampleContext::Load() {}
 
 int RegisterSample(const char* category, const char* name, SampleCreateFcn* fcn)
 {
+  for (int i = 0; i < g_sampleCount; i++)
+  {
+    if (strcmp(g_sampleEntries[i].Category, category) == 0 &&
+        strcmp(g_sampleEntries[i].Name, name) == 0)
+    {
+      return i;
+    }
+  }
+
   if (g_sampleCount >= MAX_SAMPLES) return -1;
   g_sampleEntries[g_sampleCount].Category = category;
   g_sampleEntries[g_sampleCount].Name = name;

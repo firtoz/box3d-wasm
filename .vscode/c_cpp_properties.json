@@ -1,16 +1,36 @@
 {
-    "configurations": [
-        {
-            "name": "Linux",
-            "includePath": [
-                "${workspaceFolder}/box3d/include",
-                "${workspaceFolder}/box3d/shared"
-            ],
-            "defines": [],
-            "compilerPath": "/usr/bin/gcc",
-            "cStandard": "c17",
-            "intelliSenseMode": "linux-gcc-x64"
-        }
-    ],
-    "version": 4
+  "configurations": [
+    {
+      "name": "reference-dump",
+      "compileCommands": "${workspaceFolder}/.reference-dumps/reference-build/compile_commands.json",
+      "compilerPath": "/usr/bin/clang++",
+      "cStandard": "c17",
+      "cppStandard": "c++20",
+      "intelliSenseMode": "linux-clang-x64"
+    },
+    {
+      "name": "wasm-bridge",
+      "compileCommands": "${workspaceFolder}/packages/box3d-wasm/build-native/compile_commands.json",
+      "compilerPath": "/usr/bin/clang",
+      "cStandard": "c17",
+      "intelliSenseMode": "linux-clang-x64"
+    },
+    {
+      "name": "fallback",
+      "includePath": [
+        "${workspaceFolder}/box3d/include",
+        "${workspaceFolder}/box3d/shared",
+        "${workspaceFolder}/box3d/src",
+        "${workspaceFolder}/box3d/samples",
+        "${workspaceFolder}/box3d/data",
+        "${workspaceFolder}/tools/reference-dump",
+        "${workspaceFolder}/tools/reference-dump/stubs"
+      ],
+      "compilerPath": "/usr/bin/clang",
+      "cStandard": "c17",
+      "cppStandard": "c++20",
+      "intelliSenseMode": "linux-clang-x64"
+    }
+  ],
+  "version": 4
 }

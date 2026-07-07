@@ -5,6 +5,7 @@ Headless C++ reference dumper for upstream Box3D samples. It compiles the upstre
 Build into the ignored local dump workspace to avoid generated files in `tools/`:
 
 ```sh
+bun run prepare:clangd   # optional: IDE/clangd compile databases (reference-dump + WASM bridge)
 cmake -S tools/reference-dump -B .reference-dumps/reference-build -DBOX3D_DOUBLE_PRECISION=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
 cmake --build .reference-dumps/reference-build -j$(nproc)
 ```
@@ -21,6 +22,12 @@ Useful options:
 .reference-dumps/reference-build/reference-dump --list-json
 .reference-dumps/reference-build/reference-dump --checkpoint-interval 25 --max-frames 200 "Single Box" .reference-dumps/single-box/cpp.json
 .reference-dumps/reference-build/reference-dump --frames 0,1,2 "Single Box" .reference-dumps/single-box/cpp.json
+```
+
+Sample names match upstream `RegisterSample` names by default. When multiple categories share the same name (e.g. Mesh/Box vs Ragdoll/Box), pass `Category/Name`:
+
+```sh
+.reference-dumps/reference-build/reference-dump "Ragdoll/Box" .reference-dumps/ragdoll-box/cpp.json
 ```
 
 Compare a WASM port against the C++ reference from the repository root:

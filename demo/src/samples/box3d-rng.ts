@@ -18,7 +18,7 @@ export class Box3DRng {
   randomFloatRange(lo: number, hi: number): number {
     let r = this.randomInt() & RAND_LIMIT;
     r /= RAND_LIMIT;
-    return (hi - lo) * r + lo;
+    return Math.fround((hi - lo) * r + lo);
   }
 
   randomVec3(lo: Vec3, hi: Vec3): Vec3 {

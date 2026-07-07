@@ -310,3 +310,11 @@ B3W_EXPORT float b3wGetJointLinearSeparation(int jointHandle)
 	if (!slot->active) return 0.0f;
 	return b3Joint_GetLinearSeparation(slot->jointId);
 }
+
+B3W_EXPORT void b3wRevoluteJointSetTargetAngle(int jointHandle, float targetRadians)
+{
+	if (jointHandle <= 0 || jointHandle > B3W_MAX_JOINTS) return;
+	b3wJointSlot* slot = &g_joints[jointHandle - 1];
+	if (!slot->active) return;
+	b3RevoluteJoint_SetTargetAngle(slot->jointId, targetRadians);
+}

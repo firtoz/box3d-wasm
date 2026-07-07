@@ -21,7 +21,7 @@ export type RenderBodyBase = RenderWorldTransform & { localPosition?: [number, n
 // In particular:
 // - capsules declare their render axis explicitly (`x`, `y`, or `z`)
 // - cylinders are Y-axis meshes and may need a local yOffset when the physics hull is not centered
-export type RenderShape = { color: number } & ({ kind: "box"; size: [number, number, number] } | { kind: "sphere"; radius: number } | { kind: "cylinder"; radius: number; height: number; segments?: number; yOffset?: number } | { kind: "capsule"; radius: number; length: number; axis?: "x" | "y" | "z" } | { kind: "hull"; points: [number, number, number][] });
+export type RenderShape = { color: number } & ({ kind: "box"; size: [number, number, number] } | { kind: "sphere"; radius: number } | { kind: "cylinder"; radius: number; height: number; segments?: number; yOffset?: number } | { kind: "capsule"; radius: number; length: number; axis?: "x" | "y" | "z" } | { kind: "ragdoll-capsule"; a: [number, number, number]; b: [number, number, number]; radius: number } | { kind: "hull"; points: [number, number, number][] });
 export type RenderPart = RenderShape & RenderLocalTransform;
 export type RenderBody = (RenderBodyBase & RenderShape) | (RenderBodyBase & { kind: "compound"; parts: [RenderPart, ...RenderPart[]] });
 export type RenderControlButton = { type: "button"; label: string; message: Record<string, unknown> };
@@ -33,6 +33,7 @@ export type RenderOverlay = { update(context: RenderOverlayContext): void; dispo
 export type RenderSpec = { groundSize: [number, number, number]; groundPosition?: [number, number, number]; groundKind?: "box" | "plane"; bodies: RenderBody[]; info?: string; getInfo?: (workerState: WorkerWorldState | null) => string | undefined; camera?: { position: [number, number, number]; target: [number, number, number] }; launchSpeed?: number; controls?: RenderControl[]; overlay?: (scene: THREE.Scene) => RenderOverlay };
 
 function meshForShape(shape: RenderShape): THREE.Mesh {
+  if (shape.kind === "ragdoll-capsule") return ragdollCapsuleMesh(shape.a, shape.b, shape.radius, shape.color);
   if (shape.kind === "capsule") return capsuleMesh(shape.radius, shape.length, shape.color, 0.75, shape.axis ?? "x");
   const mat = new THREE.MeshStandardMaterial({ color: shape.color, roughness: 0.75 });
   if (shape.kind === "box") return new THREE.Mesh(new THREE.BoxGeometry(...shape.size), mat);

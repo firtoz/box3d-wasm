@@ -32,6 +32,7 @@ add_executable(box3d_web
 	box3d_web_joint.c
 	box3d_web_human.c
 	"${BOX3D_SOURCE_DIR}/shared/human.c"
+	"${BOX3D_SOURCE_DIR}/shared/utils.c"
 )
 target_include_directories(box3d_web PRIVATE "${BOX3D_SOURCE_DIR}/include" "${BOX3D_SOURCE_DIR}/shared" "${BOX3D_SOURCE_DIR}/src")
 target_link_libraries(box3d_web PRIVATE box3d)

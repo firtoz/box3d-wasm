@@ -232,6 +232,7 @@ When adding an API binding:
 - [ ] Force/torque thresholds and joint break support
 - [ ] Distance joint runtime controls
 - [ ] Revolute joint runtime controls after creation
+- [x] Revolute joint target angle: `b3RevoluteJoint_SetTargetAngle` (`setRevoluteJointTargetAngle`)
 - [ ] Prismatic joint runtime controls
 - [ ] Wheel joint runtime controls
 - [ ] Weld joint runtime controls
@@ -337,7 +338,8 @@ When adding an API binding:
 - [ ] Plane validation helpers
 - [x] Cos/sin helper: `b3Sin`, `b3Cos` (Box3D Bhāskara I approximation)
 - [x] Float32 cos/sin from `<math.h>`: `b3wCosf`, `b3wSinf` (match upstream C++ `cosf`/`sinf`)
-- [ ] Length-and-normalize helper
+- [x] Shared RNG + lerp helpers: `randomVec3`, `lerpVec3` (wrap `RandomVec3` / `b3Lerp`, seed 12345)
+- [x] Length-and-normalize helper: `getLengthAndNormalize` (`b3GetLengthAndNormalize`)
 
 ## Demo-Specific Helpers
 

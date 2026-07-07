@@ -58,6 +58,7 @@ export const hullCamera: RenderSpec["camera"] = { position: [0, 15, 5], target: 
 
 export const dumpSampleName = "Hull";
 export const dumpSampleId = "geometry/hull";
+export const dumpCppSampleName = "Geometry/Hull";
 export const dumpNoPhysics = true;
 export const dumpGroundSize = hullGroundSize;
 export const dumpBuildDynamicBodies = buildHullDynamicBodies;

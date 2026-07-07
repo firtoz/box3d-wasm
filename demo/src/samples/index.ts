@@ -58,9 +58,19 @@ import { conveyorBeltSample } from "./shapes/conveyor-belt";
 import { windDropSample } from "./shapes/wind-drop";
 import { thinWallSample } from "./continuous/thin-wall";
 import { bounceHouseSample } from "./continuous/bounce-house";
+import { spinningStickSample } from "./continuous/spinning-stick";
+import { isFastSample } from "./continuous/is-fast";
+import { bulletVsStackSample } from "./continuous/bullet-vs-stack";
 import { largePyramidSample } from "./benchmark/large-pyramid";
 import { widePyramidSample } from "./benchmark/wide-pyramid";
 import { fallingBoxesSample } from "./benchmark/falling-boxes";
+import { manyPyramidsSample } from "./benchmark/many-pyramids";
+import { jointGridSample } from "./benchmark/joint-grid";
+import { tileFloorSample } from "./compound/tile-floor";
+import { ragdollBoxSample } from "./ragdoll/box";
+import { ragdollPileSample } from "./ragdoll/pile";
+import { windSample } from "./shapes/wind";
+import { windFlapSample } from "./shapes/wind-flap";
 export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
 
 export const samples = [
@@ -99,6 +109,9 @@ export const samples = [
   compoundSpheresSample,
   compoundHullsSample,
   compoundMaterialDedupSample,
+  tileFloorSample,
+  ragdollBoxSample,
+  ragdollPileSample,
   singleBoxSample,
   cylinderSample,
   cylinderStackSample,
@@ -123,9 +136,16 @@ export const samples = [
   slideTwistSample,
   conveyorBeltSample,
   windDropSample,
+  windSample,
+  windFlapSample,
   thinWallSample,
   bounceHouseSample,
+  spinningStickSample,
+  isFastSample,
+  bulletVsStackSample,
   largePyramidSample,
   widePyramidSample,
   fallingBoxesSample,
+  manyPyramidsSample,
+  jointGridSample,
 ];

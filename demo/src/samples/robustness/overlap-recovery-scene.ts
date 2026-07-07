@@ -1,33 +1,34 @@
 import type { BodyType, Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
+import { f32 } from "../f32";
 
 export function buildOverlapRecoveryDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
   const handles: number[] = [];
   const baseCount = 4;
-  const extent = 0.5;
-  const overlap = 0.25;
-  const fraction = 1 - overlap;
+  const extent = f32(0.5);
+  const overlap = f32(0.25);
+  const fraction = f32(1 - overlap);
   const half: Vec3 = [extent, extent, extent];
 
   world.setContactTuning(30, 10, 3);
 
   let y = extent;
   for (let i = 0; i < baseCount; i++) {
-    let x = fraction * extent * (i - baseCount);
+    let x = f32(fraction * extent * f32(i - baseCount));
     for (let j = i; j < baseCount; j++) {
       const body = world.createBody({ type: 2 as BodyType, position: [x, y, 0] });
-      runtime.createHullShape(body, half, {});
+      runtime.createHullShape(body, half, { density: 1 });
       handles.push(body);
-      x += 2 * fraction * extent;
+      x = f32(x + f32(2 * fraction * extent));
     }
-    y += 2 * fraction * extent;
+    y = f32(y + f32(2 * fraction * extent));
   }
 
   return handles;
 }
 
 export function overlapRecoveryGroundSize(): Vec3 {
-  return [10, 1, 10];
+  return [20, 1, 20];
 }
 
 export const overlapRecoveryBodies: RenderBody[] = (() => {

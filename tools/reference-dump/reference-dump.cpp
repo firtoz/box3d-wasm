@@ -62,17 +62,48 @@ static std::vector<ScheduledInteraction> get_interaction_schedule(const char* sa
     };
   }
 
+  if (strcmp(sampleName, "Bullet vs Stack") == 0)
+  {
+    return {
+      {1, {"launch", {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}}},
+    };
+  }
+
   return {};
 }
 
-static int find_sample_index(const char* name)
+static int find_sample_index(const char* query)
 {
+  const char* slash = strchr(query, '/');
+  if (slash != NULL)
+  {
+    const size_t categoryLen = static_cast<size_t>(slash - query);
+    const char* sampleName = slash + 1;
+    for (int i = 0; i < g_sampleCount; i++)
+    {
+      if (strncmp(g_sampleEntries[i].Category, query, categoryLen) == 0 &&
+          g_sampleEntries[i].Category[categoryLen] == '\0' &&
+          strcmp(g_sampleEntries[i].Name, sampleName) == 0)
+      {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  int firstMatch = -1;
+  int matchCount = 0;
   for (int i = 0; i < g_sampleCount; i++)
   {
-    if (strcmp(g_sampleEntries[i].Name, name) == 0)
-      return i;
+    if (strcmp(g_sampleEntries[i].Name, query) == 0)
+    {
+      if (matchCount == 0)
+        firstMatch = i;
+      matchCount += 1;
+    }
   }
-  return -1;
+
+  return matchCount == 1 ? firstMatch : -1;
 }
 
 static void print_usage(FILE* out)

@@ -28,7 +28,7 @@ export function buildHighMassRatio1DynamicBodies(world: PhysicsWorld, runtime: B
 }
 
 export function highMassRatio1GroundSize(): Vec3 {
-  return [25, 1, 25];
+  return [50, 1, 50];
 }
 
 export const highMassRatio1Bodies: RenderBody[] = Array.from({ length: 165 }, () => ({

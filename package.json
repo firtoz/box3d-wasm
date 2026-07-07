@@ -16,6 +16,7 @@
     "compare:sample": "bash scripts/compare-sample.sh",
     "typecheck": "bun run typecheck:workspace && bun run typecheck:scripts",
     "test:reference-dump": "bash scripts/reference-dump-smoke.sh",
+    "prepare:clangd": "bash scripts/prepare-clangd.sh",
     "clean": "turbo run clean",
     "typecheck:scripts": "bunx tsc -p packages/box3d-wasm/scripts/tsconfig.json --noEmit",
     "typecheck:workspace": "bunx tsc -p packages/box3d-wasm/tsconfig.json --noEmit && bunx tsc -p demo/tsconfig.json --noEmit"
