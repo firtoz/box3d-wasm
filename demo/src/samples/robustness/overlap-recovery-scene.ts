@@ -30,7 +30,30 @@ export function overlapRecoveryGroundSize(): Vec3 {
   return [10, 1, 10];
 }
 
-export const overlapRecoveryBodies: RenderBody[] = [];
+export const overlapRecoveryBodies: RenderBody[] = (() => {
+  const bodies: RenderBody[] = [];
+  const baseCount = 4;
+  const extent = 0.5;
+  const overlap = 0.25;
+  const fraction = 1 - overlap;
+
+  let y = extent;
+  for (let i = 0; i < baseCount; i++) {
+    let x = fraction * extent * (i - baseCount);
+    for (let j = i; j < baseCount; j++) {
+      bodies.push({
+        kind: "box",
+        size: [1, 1, 1],
+        position: [x, y, 0],
+        color: 0x60a5fa,
+      });
+      x += 2 * fraction * extent;
+    }
+    y += 2 * fraction * extent;
+  }
+
+  return bodies;
+})();
 
 export const overlapRecoveryCamera: RenderSpec["camera"] = { position: [45, 20, 15], target: [0, 0, 0] };
 

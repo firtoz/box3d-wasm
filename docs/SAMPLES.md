@@ -187,7 +187,7 @@ Legend:
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Inclined Plane** | [x] | Standard APIs | Implemented. |
+| **Inclined Plane** | [x] | Standard APIs | Implemented. Frame 0 matches exactly; remaining dump mismatch appears to be simulation drift rather than setup parity. |
 | **Rolling Resistance** | [x] | `shapeDef.baseMaterial.rollingResistance`, spheres + capsules on plane | 🔧 All exist. |
 | **High Resistance** | [ ] | High rolling resistance capsules | 🔧 All exist. |
 | **Isotropic Friction** | [x] | Friction sweep with boxes on circle | 🔧 All exist. |
@@ -231,7 +231,7 @@ Legend:
 |--------|----|-------------|-------|
 | **Far Stack** | [x] | Stack far from origin | 🔧 10000km offset box column. |
 | **Far Pyramid** | [x] | Pyramid far from origin | 🔧 10000km offset 40-base pyramid. |
-| **Far Ragdolls** | [x] | Ragdolls far from origin | 🔧 20 ragdolls at 1000km offset. |
+| **Far Ragdolls** | [x] | Ragdolls far from origin | 🔧 20 ragdolls at 1000km offset. Uses `createGridMesh` + `createMeshShape` for the upstream mesh floor. Frame 0 matches exactly; remaining dump mismatch appears to be simulation drift. |
 | **Far Mesh Drop** | [ ] | Mesh + far origin | 🧩 |
 
 ## Benchmark (`sample_benchmark.cpp`)

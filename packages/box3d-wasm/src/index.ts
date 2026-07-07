@@ -10,6 +10,7 @@ export type BodyHandle = Handle<"BodyHandle">;
 export type ShapeId = Handle<"ShapeId">;
 export type JointHandle = Handle<"JointHandle">;
 export type HullHandle = Handle<"HullHandle">;
+export type MeshHandle = Handle<"MeshHandle">;
 export type CompoundHandle = Handle<"CompoundHandle">;
 export type HumanHandle = Handle<"HumanHandle">;
 
@@ -116,6 +117,7 @@ export interface RuntimeMemoryView32 extends RuntimeMemoryView { heap32: Int32Ar
 export interface CompoundHullEntry { halfWidths: Vec3; transform: BodyTransform; friction?: number; restitution?: number; rollingResistance?: number; }
 export interface CompoundSphereEntry { center: Vec3; radius: number; friction?: number; restitution?: number; rollingResistance?: number; }
 export interface ShapeHandle { bodyHandle: BodyHandle; shapeHandle: ShapeId; }
+export interface MeshShapeOptions extends ShapeDef { scale?: Vec3; }
 export interface RuntimeLoadOptions { version?: string; variant?: "release" | "profile"; poolSize?: number; }
 export interface RuntimeAPI { createWorld(options?: WorldOptions): PhysicsWorld; checkThreadingSupport(): number; }
 
@@ -132,6 +134,9 @@ type CreateCapsuleShapeFn = (bodyHandle: number, density: number, friction: numb
 type CreateShapeFromHullFn = (bodyHandle: number, hullHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number) => number;
 type CreateTransformedShapeFromHullFn = (bodyHandle: number, hullHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, sx: number, sy: number, sz: number) => number;
 type CreateCylinderFn = (height: number, radius: number, yOffset: number, sides: number) => number;
+type CreateGridMeshFn = (worldHandle: number, xCount: number, zCount: number, cellWidth: number, materialCount: number, identifyEdges: number) => number;
+type DestroyMeshFn = (meshHandle: number) => void;
+type CreateMeshShapeFn = (bodyHandle: number, meshHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, sx: number, sy: number, sz: number) => number;
 type CreateHullFromPointsFn = (numPoints: number, points: number) => number;
 type DestroyHullFn = (hullHandle: number) => void;
 type CreateCompoundFn = (capsuleCount: number, hullCount: number, meshCount: number, sphereCount: number, capsules: number, hulls: number, meshes: number, spheres: number) => number;
@@ -231,6 +236,7 @@ function asBodyHandle(handle: number): BodyHandle { return handle as BodyHandle;
 function asShapeId(handle: number): ShapeId { return handle as ShapeId; }
 function asJointHandle(handle: number): JointHandle { return handle as JointHandle; }
 function asHullHandle(handle: number): HullHandle { return handle as HullHandle; }
+function asMeshHandle(handle: number): MeshHandle { return handle as MeshHandle; }
 function asCompoundHandle(handle: number): CompoundHandle { return handle as CompoundHandle; }
 function asHumanHandle(handle: number): HumanHandle { return handle as HumanHandle; }
 
@@ -281,6 +287,9 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly createShapeFromHullFn = this.wrapNumber<CreateShapeFromHullFn>("b3wCreateShapeFromHull", ["number","number","number","number","number","number","number"]);
   private readonly createTransformedShapeFromHullFn = this.wrapNumber<CreateTransformedShapeFromHullFn>("b3wCreateTransformedShapeFromHull", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createCylinderFn = this.wrapNumber<CreateCylinderFn>("b3wCreateCylinder", ["number","number","number","number"]);
+  private readonly createGridMeshFn = this.wrapNumber<CreateGridMeshFn>("b3wCreateGridMesh", ["number","number","number","number","number","number"]);
+  private readonly destroyMeshFn = this.wrapVoid<DestroyMeshFn>("b3wDestroyMesh", ["number"]);
+  private readonly createMeshShapeFn = this.wrapNumber<CreateMeshShapeFn>("b3wCreateMeshShape", ["number","number","number","number","number","number","number","number","number"]);
   private readonly createHullFromPointsFn = this.wrapNumber<CreateHullFromPointsFn>("b3wCreateHullFromPoints", ["number","number"]);
   private readonly destroyHullFn = this.wrapVoid<DestroyHullFn>("b3wDestroyHull", ["number"]);
   private readonly createCompoundFn = this.wrapNumber<CreateCompoundFn>("b3wCreateCompound", ["number","number","number","number","number","number","number","number"]);
@@ -567,6 +576,10 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   }
 
   createCylinder(height: number, radius: number, yOffset = 0, sides = 12): HullHandle { return asHullHandle(this.createCylinderFn(height, radius, yOffset, sides)); }
+  createGridMesh(worldHandle: WorldHandle, xCount: number, zCount: number, cellWidth: number, materialCount = 1, identifyEdges = true): MeshHandle {
+    return asMeshHandle(this.createGridMeshFn(worldHandle, xCount, zCount, cellWidth, materialCount, identifyEdges ? 1 : 0));
+  }
+  destroyMesh(meshHandle: MeshHandle): void { this.destroyMeshFn(meshHandle); }
   createHullFromPoints(points: number[]): HullHandle {
     const ptr = this.module._malloc(points.length * 4);
     const heap = this.module.HEAPF32;
@@ -635,6 +648,13 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   destroyCompound(compoundHandle: CompoundHandle): void { this.destroyCompoundFn(compoundHandle); }
   getCompoundTreeHeight(compoundHandle: CompoundHandle): number { return this.getCompoundTreeHeightFn(compoundHandle); }
   createCompoundShape(bodyHandle: BodyHandle, compoundHandle: CompoundHandle, density = 1): ShapeId { return asShapeId(this.createCompoundShapeFn(bodyHandle, compoundHandle, density)); }
+  createMeshShape(bodyHandle: BodyHandle, meshHandle: MeshHandle, def: MeshShapeOptions = {}): ShapeHandle {
+    const scale = def.scale ?? [1, 1, 1];
+    const shapeHandle = this.createMeshShapeFn(bodyHandle, meshHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, scale[0], scale[1], scale[2]);
+    const shape = { bodyHandle, shapeHandle: asShapeId(shapeHandle) };
+    this.applyShapeDef(asShapeId(shapeHandle), def);
+    return shape;
+  }
   getBodyShapes(bodyHandle: BodyHandle): ShapeId[] {
     const count = this.getBodyShapeCountFn(bodyHandle);
     if (count <= 0) return [];
@@ -794,6 +814,9 @@ export class PhysicsWorld {
   createHullShape(bodyHandle: BodyHandle, halfWidths: Vec3, def: ShapeDef = {}): ShapeHandle { return this.runtime.createHullShape(bodyHandle, halfWidths, def); }
   createTransformedHullShape(bodyHandle: BodyHandle, halfWidths: Vec3, transform?: { position?: Vec3; rotation?: Quat }, scale?: Vec3, def?: ShapeDef): ShapeHandle { return this.runtime.createTransformedHullShape(bodyHandle, halfWidths, transform, scale, def); }
   createShapeFromHull(bodyHandle: BodyHandle, hullHandle: HullHandle, def?: ShapeDef): ShapeId { return this.runtime.createShapeFromHull(bodyHandle, hullHandle, def); }
+  createGridMesh(xCount: number, zCount: number, cellWidth: number, materialCount = 1, identifyEdges = true): MeshHandle { return this.runtime.createGridMesh(this.handle, xCount, zCount, cellWidth, materialCount, identifyEdges); }
+  destroyMesh(meshHandle: MeshHandle): void { this.runtime.destroyMesh(meshHandle); }
+  createMeshShape(bodyHandle: BodyHandle, meshHandle: MeshHandle, def: MeshShapeOptions = {}): ShapeHandle { return this.runtime.createMeshShape(bodyHandle, meshHandle, def); }
   createCompoundShape(bodyHandle: BodyHandle, compoundHandle: CompoundHandle, density = 1): ShapeId { return this.runtime.createCompoundShape(bodyHandle, compoundHandle, density); }
   getBodyShapes(bodyHandle: BodyHandle): ShapeId[] { return this.runtime.getBodyShapes(bodyHandle); }
   getCompoundTreeHeight(compoundHandle: CompoundHandle): number { return this.runtime.getCompoundTreeHeight(compoundHandle); }

@@ -10,7 +10,9 @@ import {
   type HullHandle,
   type HumanHandle,
   type JointHandle,
+  type MeshHandle,
   type Mat3,
+  type MeshShapeOptions,
   type MotorJointOptions,
   type PhysicsWorld,
   type Quat,
@@ -62,6 +64,11 @@ export class ObjectRuntime {
   createHullFromPoints(points: number[]): HullRef {
     this.assertActive();
     return new HullRef(this, this.runtime.createHullFromPoints(points));
+  }
+
+  wrapMesh(meshHandle: MeshHandle): MeshRef {
+    this.assertActive();
+    return new MeshRef(this, meshHandle);
   }
 
   dispose(): void {
@@ -121,6 +128,11 @@ export class ObjectWorld {
     this.assertActive();
     const shape = this.world.createSphereWithShape(options);
     return { body: new BodyRef(this, shape.bodyHandle), shape: new ShapeRef(this, shape) };
+  }
+
+  createGridMesh(xCount: number, zCount: number, cellWidth: number, materialCount = 1, identifyEdges = true): MeshRef {
+    this.assertActive();
+    return new MeshRef(this.runtime, this.world.createGridMesh(xCount, zCount, cellWidth, materialCount, identifyEdges));
   }
 
   body(handle: BodyHandle): BodyRef {
@@ -270,6 +282,12 @@ export class BodyRef {
   createCompoundShape(compound: CompoundHandle, density = 1): ShapeRef {
     this.assertActive();
     return new ShapeRef(this.world, { bodyHandle: this.handle, shapeHandle: this.world.raw.createCompoundShape(this.handle, compound, density) });
+  }
+
+  createMeshShape(mesh: MeshHandle | MeshRef, def: MeshShapeOptions = {}): ShapeRef {
+    this.assertActive();
+    const handle = mesh instanceof MeshRef ? mesh.handle : mesh;
+    return new ShapeRef(this.world, this.world.raw.createMeshShape(this.handle, handle, def));
   }
 
   getShapes(): ShapeRef[] {
@@ -618,6 +636,23 @@ export class HullRef {
     if (this.runtime.isDisposed) throw new Error("ObjectRuntime has been disposed");
     this.disposed = true;
     this.runtime.raw.destroyHull(this.handle);
+  }
+}
+
+export class MeshRef {
+  private disposed = false;
+
+  constructor(private readonly runtime: ObjectRuntime, public readonly handle: MeshHandle) {}
+
+  get isDisposed(): boolean {
+    return this.disposed;
+  }
+
+  dispose(): void {
+    if (this.disposed) return;
+    if (this.runtime.isDisposed) throw new Error("ObjectRuntime has been disposed");
+    this.disposed = true;
+    this.runtime.raw.destroyMesh(this.handle);
   }
 }
 

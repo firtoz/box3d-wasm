@@ -260,6 +260,20 @@ world.getBodyWorldPointVelocityXYZTo(body, 0, 0.5, 0, scratch);
 
 Tuple-based helpers are the default API. For hot loops or repeated queries where you want to reduce short-lived allocations, use the `To(out)` or `XYZTo(out)` variants instead. Matching `XYZ(...)` variants are also available when scalar inputs are more convenient.
 
+## Mesh Ground
+
+Grid meshes are available for cases like terrain-style floors and upstream sample parity.
+
+```ts
+const world = runtime.createWorld({ gravity: [0, -10, 0] });
+
+const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
+const mesh = world.createGridMesh(20, 20, 1, 1, true);
+world.createMeshShape(ground, mesh, { scale: [1, 1, 1] });
+```
+
+Use `runtime.destroyMesh(mesh)` or `world.destroyMesh(mesh)` if you create standalone mesh handles outside normal world teardown.
+
 ## Body Types
 
 `BodyType` mirrors Box3D's body categories while keeping application code readable.

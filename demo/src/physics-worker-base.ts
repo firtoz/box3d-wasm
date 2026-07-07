@@ -72,6 +72,11 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     return this.groundSize;
   }
 
+  protected setupGround(_initData: TInit): void {
+    const groundBody = this.world!.createBody({ type: BodyType.Static, position: [0, -1, 0] });
+    this.runtime!.createHullShape(groundBody, this.getGroundSize(this.initData));
+  }
+
   // --- Command routing ---
 
   private handleCommand(cmd: PhysicsWorkerCommand): void {
@@ -134,8 +139,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     if (cmd.solverParams) this.applySolverParams(cmd.solverParams);
     console.log("[worker]", "solverParams:", this.lastSolverParams);
 
-    const groundBody = this.world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
-    this.runtime.createHullShape(groundBody, this.getGroundSize(this.initData));
+    this.setupGround(this.initData);
 
     const handles = await this.buildScene(this.initData);
     this.bodyCount = handles.length;

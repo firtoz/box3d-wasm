@@ -30,7 +30,7 @@ export type RenderControlRange = { type: "range"; label: string; message: Record
 export type RenderControl = RenderControlButton | RenderControlToggle | RenderControlRange;
 export type RenderOverlayContext = { bodies: DemoBody[]; workerState: WorkerWorldState | null };
 export type RenderOverlay = { update(context: RenderOverlayContext): void; dispose(): void };
-export type RenderSpec = { groundSize: [number, number, number]; bodies: RenderBody[]; info?: string; getInfo?: (workerState: WorkerWorldState | null) => string | undefined; camera?: { position: [number, number, number]; target: [number, number, number] }; launchSpeed?: number; controls?: RenderControl[]; overlay?: (scene: THREE.Scene) => RenderOverlay };
+export type RenderSpec = { groundSize: [number, number, number]; groundPosition?: [number, number, number]; groundKind?: "box" | "plane"; bodies: RenderBody[]; info?: string; getInfo?: (workerState: WorkerWorldState | null) => string | undefined; camera?: { position: [number, number, number]; target: [number, number, number] }; launchSpeed?: number; controls?: RenderControl[]; overlay?: (scene: THREE.Scene) => RenderOverlay };
 
 function meshForShape(shape: RenderShape): THREE.Mesh {
   if (shape.kind === "capsule") return capsuleMesh(shape.radius, shape.length, shape.color, 0.75, shape.axis ?? "x");
@@ -105,10 +105,14 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
       const projectileColorCache = new Uint32Array(MAX_PROJECTILES);
       const worker = createWorker();
       const world = createWorkerWorld(worker, () => workerWorldState, () => wc);
-      const groundGeom = new THREE.BoxGeometry(...spec.groundSize);
+      const groundGeom = spec.groundKind === "plane"
+        ? new THREE.PlaneGeometry(spec.groundSize[0], spec.groundSize[2])
+        : new THREE.BoxGeometry(...spec.groundSize);
       const groundMat = new THREE.MeshStandardMaterial({ color: 0x222222 });
       const groundMesh = new THREE.Mesh(groundGeom, groundMat);
-      groundMesh.position.set(0, -1, 0);
+      const groundPos = spec.groundPosition ?? [0, -1, 0];
+      groundMesh.position.set(groundPos[0], groundPos[1], groundPos[2]);
+      if (spec.groundKind === "plane") groundMesh.rotation.x = -0.5 * Math.PI;
       groundMesh.receiveShadow = true;
       scene.add(groundMesh);
       const bodies: DemoBody[] = [];

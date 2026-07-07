@@ -5,6 +5,7 @@ b3wBodySlot g_bodies[B3W_MAX_BODIES];
 b3wJointSlot g_joints[B3W_MAX_JOINTS];
 b3wHullSlot g_hulls[B3W_MAX_HULLS];
 b3wShapeSlot g_shapes[B3W_MAX_SHAPES];
+b3wMeshSlot g_meshes[B3W_MAX_MESHES];
 b3wCompoundSlot g_compounds[B3W_MAX_COMPOUNDS];
 b3wHumanSlot g_humans[B3W_MAX_HUMANS];
 
@@ -33,6 +34,13 @@ b3wShapeSlot* b3wGetShape(int handle)
 {
 	if (handle <= 0 || handle > B3W_MAX_SHAPES) return NULL;
 	b3wShapeSlot* slot = &g_shapes[handle - 1];
+	return slot->active ? slot : NULL;
+}
+
+b3wMeshSlot* b3wGetMesh(int handle)
+{
+	if (handle <= 0 || handle > B3W_MAX_MESHES) return NULL;
+	b3wMeshSlot* slot = &g_meshes[handle - 1];
 	return slot->active ? slot : NULL;
 }
 
@@ -126,6 +134,22 @@ int b3wAllocShapeSlot(b3ShapeId shapeId)
 	return 0;
 }
 
+int b3wAllocMeshSlot(int worldHandle, b3MeshData* mesh)
+{
+	for (int i = 0; i < B3W_MAX_MESHES; ++i)
+	{
+		if (!g_meshes[i].active)
+		{
+			g_meshes[i].active = true;
+			g_meshes[i].worldHandle = worldHandle;
+			g_meshes[i].mesh = mesh;
+			return i + 1;
+		}
+	}
+	b3DestroyMesh(mesh);
+	return 0;
+}
+
 int b3wFindShapeHandle(b3ShapeId shapeId)
 {
 	for (int i = 0; i < B3W_MAX_SHAPES; ++i)
@@ -198,6 +222,17 @@ void b3wClearWorldSlots(int worldHandle)
 		if (g_humans[i].active && g_humans[i].worldHandle == worldHandle)
 		{
 			g_humans[i].active = false;
+		}
+	}
+
+	for (int i = 0; i < B3W_MAX_MESHES; ++i)
+	{
+		if (g_meshes[i].active && g_meshes[i].worldHandle == worldHandle)
+		{
+			b3DestroyMesh(g_meshes[i].mesh);
+			g_meshes[i].active = false;
+			g_meshes[i].worldHandle = 0;
+			g_meshes[i].mesh = NULL;
 		}
 	}
 }

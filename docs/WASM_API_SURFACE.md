@@ -163,7 +163,7 @@ When adding an API binding:
 - [ ] Compute shape mass data: `b3Shape_ComputeMassData`
 - [ ] Sensor data: `b3Shape_GetSensorData`
 - [ ] Shape hull vertices: `b3Shape_GetHullVertices`
-- [ ] Mesh shape creation: `b3CreateMeshShape`
+- [x] Mesh shape creation: `b3CreateMeshShape`
 - [ ] Heightfield shape creation: `b3CreateHeightFieldShape`
 
 ## Hulls
@@ -196,8 +196,8 @@ When adding an API binding:
 ## Meshes
 
 - [ ] Create mesh from definition: `b3CreateMesh`
-- [ ] Destroy mesh: `b3DestroyMesh`
-- [ ] Grid mesh: `b3CreateGridMesh`
+- [x] Destroy mesh: `b3DestroyMesh`
+- [x] Grid mesh: `b3CreateGridMesh`
 - [ ] Wave mesh: `b3CreateWaveMesh`
 - [ ] Torus mesh: `b3CreateTorusMesh`
 - [ ] Box mesh: `b3CreateBoxMesh`

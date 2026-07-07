@@ -18,6 +18,7 @@ enum
 	B3W_MAX_JOINTS = 65536,
 	B3W_MAX_HULLS = 65536,
 	B3W_MAX_SHAPES = 65536,
+	B3W_MAX_MESHES = 4096,
 	B3W_MAX_COMPOUNDS = 4096,
 	B3W_MAX_HUMANS = 256,
 };
@@ -54,6 +55,13 @@ typedef struct b3wShapeSlot
 	b3ShapeId shapeId;
 } b3wShapeSlot;
 
+typedef struct b3wMeshSlot
+{
+	bool active;
+	int worldHandle;
+	b3MeshData* mesh;
+} b3wMeshSlot;
+
 typedef struct b3wCompoundSlot
 {
 	bool active;
@@ -72,6 +80,7 @@ extern b3wBodySlot g_bodies[B3W_MAX_BODIES];
 extern b3wJointSlot g_joints[B3W_MAX_JOINTS];
 extern b3wHullSlot g_hulls[B3W_MAX_HULLS];
 extern b3wShapeSlot g_shapes[B3W_MAX_SHAPES];
+extern b3wMeshSlot g_meshes[B3W_MAX_MESHES];
 extern b3wCompoundSlot g_compounds[B3W_MAX_COMPOUNDS];
 extern b3wHumanSlot g_humans[B3W_MAX_HUMANS];
 
@@ -79,6 +88,7 @@ b3wWorldSlot* b3wGetWorld(int handle);
 b3wBodySlot* b3wGetBody(int handle);
 b3wHullSlot* b3wGetHull(int handle);
 b3wShapeSlot* b3wGetShape(int handle);
+b3wMeshSlot* b3wGetMesh(int handle);
 b3wCompoundSlot* b3wGetCompound(int handle);
 b3wHumanSlot* b3wGetHuman(int handle);
 
@@ -88,6 +98,7 @@ int b3wAllocJointSlot(int worldHandle, b3JointId jointId);
 int b3wAllocHullSlot(b3HullData* hull);
 int b3wAllocShapeSlot(b3ShapeId shapeId);
 int b3wFindShapeHandle(b3ShapeId shapeId);
+int b3wAllocMeshSlot(int worldHandle, b3MeshData* mesh);
 int b3wAllocCompoundSlot(b3CompoundData* compound);
 int b3wAllocHumanSlot(int worldHandle, Human human);
 void b3wClearWorldSlots(int worldHandle);

@@ -8,7 +8,6 @@ const PER_RING = 5;
 const f32 = Math.fround;
 const B3_PI_F32 = f32(Math.PI);
 const TWO_PI_F32 = f32(2 * B3_PI_F32);
-const RING_RADIUS_F32 = f32(0.5 + 0.2 - 0.03);
 
 export function buildOverflowColorPileDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
   const handles: number[] = [];
