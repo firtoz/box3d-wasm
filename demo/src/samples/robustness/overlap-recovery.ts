@@ -1,10 +1,13 @@
 import { createGenericSample } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
+import { overlapRecoveryBodies, overlapRecoveryCamera, overlapRecoveryGroundSize } from "./overlap-recovery-scene";
+
+const half = overlapRecoveryGroundSize();
 
 const spec: RenderSpec = {
-  groundSize: [20, 2, 20],
-  bodies: [],
-  camera: { position: [45, 20, 15], target: [0, 0, 0] },
+  groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
+  bodies: overlapRecoveryBodies,
+  camera: overlapRecoveryCamera,
   info: "bodies starting with 25% overlap",
 };
 

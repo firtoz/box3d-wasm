@@ -1076,12 +1076,12 @@ async function createAndInstallSample(index: number, sceneWasReset: boolean, cam
   if (!sceneWasReset) clearScene();
   activeSample = samples[index].create(loadedRuntime, scene, solverParams);
   launchSpeed = activeSample.launchSpeed ?? 5.0;
-  if (activeSample.camera) {
-    camera.position.set(activeSample.camera.position[0], activeSample.camera.position[1], activeSample.camera.position[2]);
-    orbit.target.set(activeSample.camera.target[0], activeSample.camera.target[1], activeSample.camera.target[2]);
-  } else if (camPos !== undefined && camTarget !== undefined) {
+  if (camPos !== undefined && camTarget !== undefined) {
     camera.position.copy(camPos);
     orbit.target.copy(camTarget);
+  } else if (activeSample.camera) {
+    camera.position.set(activeSample.camera.position[0], activeSample.camera.position[1], activeSample.camera.position[2]);
+    orbit.target.set(activeSample.camera.target[0], activeSample.camera.target[1], activeSample.camera.target[2]);
   }
   orbit.update();
   paused = false;

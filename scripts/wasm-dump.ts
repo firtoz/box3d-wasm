@@ -52,7 +52,9 @@ interface SceneDumpModule {
   dumpCppSampleName?: string;
   dumpCreate?: (runtime: Box3DRuntime) => WasmDumpInstance;
   dumpGroundSize?: () => Vec3;
+  dumpGroundPosition?: Vec3;
   dumpBuildDynamicBodies?: (world: PhysicsWorld, runtime: Box3DRuntime) => number[];
+  dumpNoPhysics?: boolean;
   dumpStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
   dumpInteractionSchedule?: readonly DumpInteraction[];
   dumpRunInteraction?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], interaction: DumpInteraction, frame: number, state: unknown) => void;
@@ -251,8 +253,12 @@ async function loadWasmDumpSamples(): Promise<WasmDumpSample[]> {
       cppName: scene.dumpCppSampleName ?? scene.dumpSampleName ?? frontendSample.name,
       create(runtime) {
         if (scene.dumpCreate !== undefined) return scene.dumpCreate(runtime);
+        if (scene.dumpNoPhysics) {
+          const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
+          return { world, handles: [] };
+        }
         const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
-        const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
+        const ground = world.createBody({ type: BodyType.Static, position: scene.dumpGroundPosition ?? [0, -1, 0] });
         runtime.createHullShape(ground, scene.dumpGroundSize!());
         return { world, handles: [ground, ...scene.dumpBuildDynamicBodies!(world, runtime)] };
       },

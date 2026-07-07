@@ -1,13 +1,13 @@
 import { createGenericSample } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
+import { boxHullBodies, boxHullCamera, boxHullGroundSize } from "./box-hull-scene";
+
+const half = boxHullGroundSize();
 
 const spec: RenderSpec = {
-  groundSize: [20, 2, 20],
-  bodies: [
-    { kind: "box", size: [1, 0.5, 0.25], position: [0, 2, 0], color: 0x3b82f6 },
-    { kind: "box", size: [1, 0.5, 0.25], position: [2, 2, 0], color: 0x22c55e },
-  ],
-  camera: { position: [0, 15, 5], target: [0, 0, 0] },
+  groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
+  bodies: boxHullBodies,
+  camera: boxHullCamera,
 };
 
 export const boxHullSample = createGenericSample(

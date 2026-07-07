@@ -1,12 +1,13 @@
 import { createGenericSample } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
+import { hullCrashBodies, hullCrashCamera, hullCrashGroundSize } from "./hull-crash-scene";
+
+const half = hullCrashGroundSize();
 
 const spec: RenderSpec = {
-  groundSize: [20, 2, 20],
-  bodies: [
-    { kind: "box", size: [0.5, 0.5, 0.5], position: [0, 1.5, 0], color: 0xef4444 },
-  ],
-  camera: { position: [0, 15, 5], target: [0, 0, 0] },
+  groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
+  bodies: hullCrashBodies,
+  camera: hullCrashCamera,
   info: "hull from 5-point regression case",
 };
 

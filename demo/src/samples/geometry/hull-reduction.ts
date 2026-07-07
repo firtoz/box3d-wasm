@@ -1,12 +1,13 @@
 import { createGenericSample } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
+import { hullReductionBodies, hullReductionCamera, hullReductionGroundSize } from "./hull-reduction-scene";
+
+const half = hullReductionGroundSize();
 
 const spec: RenderSpec = {
-  groundSize: [20, 2, 20],
-  bodies: [
-    { kind: "box", size: [0.5, 0.5, 0.5], position: [0, 1, 0], color: 0xf59e0b },
-  ],
-  camera: { position: [0, 15, 5], target: [0, 0, 0] },
+  groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
+  bodies: hullReductionBodies,
+  camera: hullReductionCamera,
   info: "hull reduced from 128 random sphere points",
 };
 

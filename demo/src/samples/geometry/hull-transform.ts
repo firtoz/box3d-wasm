@@ -1,12 +1,13 @@
 import { createGenericSample } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
+import { hullTransformBodies, hullTransformCamera, hullTransformGroundSize } from "./hull-transform-scene";
+
+const half = hullTransformGroundSize();
 
 const spec: RenderSpec = {
-  groundSize: [20, 2, 20],
-  bodies: [
-    { kind: "box", size: [1, 0.5, 0.5], position: [0, 1, 0], color: 0x8b5cf6 },
-  ],
-  camera: { position: [0, 15, 5], target: [0, 0, 0] },
+  groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
+  bodies: hullTransformBodies,
+  camera: hullTransformCamera,
   info: "transformed hull with offset and scale",
 };
 

@@ -335,7 +335,8 @@ When adding an API binding:
 - [x] Quaternion from axis-angle: `b3MakeQuatFromAxisAngle`
 - [ ] AABB union/area/center/extents/closest point
 - [ ] Plane validation helpers
-- [x] Cos/sin helper: `b3Sin`, `b3Cos`
+- [x] Cos/sin helper: `b3Sin`, `b3Cos` (Box3D Bhāskara I approximation)
+- [x] Float32 cos/sin from `<math.h>`: `b3wCosf`, `b3wSinf` (match upstream C++ `cosf`/`sinf`)
 - [ ] Length-and-normalize helper
 
 ## Demo-Specific Helpers

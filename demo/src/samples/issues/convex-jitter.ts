@@ -1,13 +1,13 @@
 import { createGenericSample } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
+import { convexJitterBodies, convexJitterCamera, convexJitterGroundSize } from "./convex-jitter-scene";
+
+const half = convexJitterGroundSize();
 
 const spec: RenderSpec = {
-  groundSize: [20, 2, 20],
-  bodies: [
-    { kind: "box", size: [0.5, 0.5, 0.5], position: [-0.6, 2, 0.27], color: 0x3b82f6 },
-    { kind: "box", size: [0.5, 0.5, 0.5], position: [0.4, 2, 0.16], color: 0xf59e0b },
-  ],
-  camera: { position: [0, 15, 10], target: [0, 2, 0] },
+  groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
+  bodies: convexJitterBodies,
+  camera: convexJitterCamera,
   info: "custom hull shapes from point clouds",
 };
 

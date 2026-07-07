@@ -1,12 +1,13 @@
 import { createGenericSample } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
+import { hullBodies, hullCamera, hullGroundSize } from "./hull-scene";
+
+const half = hullGroundSize();
 
 const spec: RenderSpec = {
-  groundSize: [20, 2, 20],
-  bodies: [
-    { kind: "box", size: [0.5, 0.5, 0.5], position: [0, 1, 0], color: 0x3b82f6 },
-  ],
-  camera: { position: [0, 15, 5], target: [0, 0, 0] },
+  groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
+  bodies: hullBodies,
+  camera: hullCamera,
   info: "hull created from 48 cloud points",
 };
 

@@ -1,10 +1,13 @@
 import { createGenericSample } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
+import { overflowColorPileBodies, overflowColorPileCamera, overflowColorPileGroundSize } from "./overflow-color-pile-scene";
+
+const half = overflowColorPileGroundSize();
 
 const spec: RenderSpec = {
-  groundSize: [50, 2, 50],
-  bodies: [],
-  camera: { position: [30, 35, 15], target: [0, 0, 0] },
+  groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
+  bodies: overflowColorPileBodies,
+  camera: overflowColorPileCamera,
   info: "constraint graph color overflow test",
 };
 

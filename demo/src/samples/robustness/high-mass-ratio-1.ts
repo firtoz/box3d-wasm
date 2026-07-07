@@ -1,13 +1,13 @@
 import { createGenericSample } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
+import { highMassRatio1Bodies, highMassRatio1Camera, highMassRatio1GroundSize } from "./high-mass-ratio-1-scene";
+
+const half = highMassRatio1GroundSize();
 
 const spec: RenderSpec = {
-  groundSize: [50, 2, 50],
-  bodies: Array.from({ length: 165 }, () => ({
-    kind: "box" as const, size: [1, 1, 1] as [number, number, number],
-    position: [0, 0, 0] as [number, number, number], color: 0x3b82f6,
-  })),
-  camera: { position: [30, 15, 70], target: [0, 0, 0] },
+  groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
+  bodies: highMassRatio1Bodies,
+  camera: highMassRatio1Camera,
   info: "3 high-mass-ratio pyramid stacks",
 };
 

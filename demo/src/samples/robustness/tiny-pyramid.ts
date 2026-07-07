@@ -1,10 +1,13 @@
 import { createGenericSample } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
+import { tinyPyramidBodies, tinyPyramidCamera, tinyPyramidGroundSize } from "./tiny-pyramid-scene";
+
+const half = tinyPyramidGroundSize();
 
 const spec: RenderSpec = {
-  groundSize: [20, 2, 20],
-  bodies: [],
-  camera: { position: [-30, 20, 10], target: [0, 0.5, 0] },
+  groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
+  bodies: tinyPyramidBodies,
+  camera: tinyPyramidCamera,
   info: "tiny 2.5cm box pyramid",
 };
 

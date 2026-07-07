@@ -378,6 +378,8 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly applyLinearImpulseToCenterFn = this.wrapVoid<ApplyLinearImpulseToCenterFn>("b3wApplyLinearImpulseToCenter", ["number", "number", "number", "number", "number"]);
   private readonly b3wSinFn = this.wrapNumber<(radians: number) => number>("b3wSin", ["number"]);
   private readonly b3wCosFn = this.wrapNumber<(radians: number) => number>("b3wCos", ["number"]);
+  private readonly b3wCosfFn = this.wrapNumber<(radians: number) => number>("b3wCosf", ["number"]);
+  private readonly b3wSinfFn = this.wrapNumber<(radians: number) => number>("b3wSinf", ["number"]);
   private readonly makeQuatFromAxisAngleFn = this.wrapVoid<MakeQuatFromAxisAngleFn>("b3wMakeQuatFromAxisAngle", ["number", "number", "number", "number", "number"]);
   private readonly transformPtr: number;
   private readonly pointPtr: number;
@@ -579,6 +581,10 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   b3wSin(radians: number): number { return this.b3wSinFn(radians); }
   /** Match Box3D's b3Cos deterministically using Bhāskara I approximation. */
   b3wCos(radians: number): number { return this.b3wCosFn(radians); }
+  /** Float32 cosf from math.h (not Box3D's approximation). Use when matching upstream C++ code that calls cosf directly. */
+  b3wCosf(radians: number): number { return this.b3wCosfFn(radians); }
+  /** Float32 sinf from math.h (not Box3D's approximation). Use when matching upstream C++ code that calls sinf directly. */
+  b3wSinf(radians: number): number { return this.b3wSinfFn(radians); }
   makeQuatFromAxisAngle(axis: Vec3, radians: number): Quat {
     this.makeQuatFromAxisAngleFn(axis[0], axis[1], axis[2], radians, this.transformPtr);
     const heap = this.module.HEAPF32;

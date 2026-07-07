@@ -179,9 +179,9 @@ Legend:
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
 | **HighMassRatio1** | [x] | High density ratios | 🔧 Three pyramids with heavy top boxes. |
-| **Tiny Pyramid** | [x] | Tiny scale pyramid | 🔧 30-base pyramid of 2.5cm boxes. |
+| **Tiny Pyramid** | [x] | Tiny scale pyramid | 🔧 30-base pyramid of 2.5cm boxes. C++/WASM dump parity verified at epsilon=0. Uses `Math.fround()` for float32 intermediate rounding to match upstream position arithmetic. Render bodies added (465 boxes). |
 | **Overlap Recovery** | [x] | Bodies starting in overlap | 🔧 25% overlap with contact tuning. |
-| **Overflow Color Pile** | [x] | Many bodies + color debug | 🔧 Hub + 24 neighbors for graph color overflow. |
+| **Overflow Color Pile** | [x] | Many bodies + color debug | 🔧 Hub + 24 neighbors for graph color overflow. C++/WASM dump parity verified at epsilon=1e-7. Uses `b3wCosf`/`b3wSinf` (float32 `<math.h>`) for initial positions to match upstream `cosf`/`sinf`. |
 
 ## Shapes (`sample_shapes.cpp`)
 
