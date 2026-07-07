@@ -3,7 +3,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Stats from "stats.js";
 import { BodyType, Box3DRuntime, type BodyHandle, type JointHandle, type Quat, type Vec3 } from "box3d-wasm";
 import { samples, type ControlSpec, type DemoBody, type DemoSampleInstance, type SolverParams } from "./samples";
-import { getWasmVariant, getWorkerCounts } from "./samples/shared";
+import { getWasmVariant, getWasmVariantOptions, getWorkerCounts } from "./samples/shared";
 import "./style.css";
 
 const app = document.querySelector<HTMLDivElement>("#app");
@@ -141,7 +141,7 @@ let controlsInfoRow: HTMLDivElement | null = null;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.shadowMap.enabled = shadowsEnabled;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.type = THREE.PCFShadowMap;
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(benchRunnerMode ? 0x000000 : 0x0b1220);
@@ -615,7 +615,7 @@ function renderSolverControls(): void {
   const wasmSelect = document.createElement("select");
   wasmSelect.className = "ctrl-select";
   wasmSelect.id = "wasm-variant";
-  for (const v of ["release", "profile"]) {
+  for (const v of getWasmVariantOptions()) {
     const option = document.createElement("option");
     option.value = v;
     option.textContent = v;
@@ -624,8 +624,8 @@ function renderSolverControls(): void {
   }
   wasmSelect.addEventListener("change", () => {
     const url = new URL(window.location.href);
-    if (wasmSelect.value === "profile") url.searchParams.set("wasm", "profile");
-    else url.searchParams.delete("wasm");
+    if (wasmSelect.value === "release") url.searchParams.delete("wasm");
+    else url.searchParams.set("wasm", wasmSelect.value);
     window.location.href = url.href;
   });
   wasmRow.appendChild(wasmSelect);

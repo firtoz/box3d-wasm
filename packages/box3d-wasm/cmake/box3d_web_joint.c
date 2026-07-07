@@ -92,7 +92,10 @@ B3W_EXPORT int b3wCreateRevoluteJoint(
 	float upperAngle,
 	int enableMotor,
 	float maxMotorTorque,
-	float motorSpeed)
+	float motorSpeed,
+	float forceThreshold,
+	float torqueThreshold,
+	int collideConnected)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
 	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
@@ -105,6 +108,9 @@ B3W_EXPORT int b3wCreateRevoluteJoint(
 	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
 	jointDef.base.constraintHertz = constraintHertz;
 	jointDef.base.constraintDampingRatio = constraintDampingRatio;
+	jointDef.base.forceThreshold = forceThreshold;
+	jointDef.base.torqueThreshold = torqueThreshold;
+	jointDef.base.collideConnected = collideConnected != 0;
 	jointDef.targetAngle = targetAngle;
 	jointDef.enableSpring = enableSpring != 0;
 	jointDef.hertz = hertz;
@@ -207,7 +213,10 @@ B3W_EXPORT int b3wCreatePrismaticJoint(
 	float upperTranslation,
 	int enableMotor,
 	float maxMotorForce,
-	float motorSpeed)
+	float motorSpeed,
+	float forceThreshold,
+	float torqueThreshold,
+	int collideConnected)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
 	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
@@ -218,6 +227,9 @@ B3W_EXPORT int b3wCreatePrismaticJoint(
 	jointDef.base.bodyIdB = bodyB->bodyId;
 	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, { { localAqx, localAqy, localAqz }, localAqw } };
 	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
+	jointDef.base.forceThreshold = forceThreshold;
+	jointDef.base.torqueThreshold = torqueThreshold;
+	jointDef.base.collideConnected = collideConnected != 0;
 	jointDef.enableSpring = enableSpring != 0;
 	jointDef.hertz = hertz;
 	jointDef.dampingRatio = dampingRatio;
@@ -253,7 +265,10 @@ B3W_EXPORT int b3wCreateWeldJoint(
 	float linearHertz,
 	float angularHertz,
 	float linearDampingRatio,
-	float angularDampingRatio)
+	float angularDampingRatio,
+	float forceThreshold,
+	float torqueThreshold,
+	int collideConnected)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
 	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
@@ -264,11 +279,54 @@ B3W_EXPORT int b3wCreateWeldJoint(
 	jointDef.base.bodyIdB = bodyB->bodyId;
 	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, { { localAqx, localAqy, localAqz }, localAqw } };
 	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
+	jointDef.base.forceThreshold = forceThreshold;
+	jointDef.base.torqueThreshold = torqueThreshold;
+	jointDef.base.collideConnected = collideConnected != 0;
 	jointDef.linearHertz = linearHertz;
 	jointDef.angularHertz = angularHertz;
 	jointDef.linearDampingRatio = linearDampingRatio;
 	jointDef.angularDampingRatio = angularDampingRatio;
 	b3JointId jointId = b3CreateWeldJoint(world->worldId, &jointDef);
+	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
+}
+
+B3W_EXPORT int b3wCreateDistanceJoint(
+	int worldHandle,
+	int bodyAHandle,
+	int bodyBHandle,
+	float localAx,
+	float localAy,
+	float localAz,
+	float localAqx,
+	float localAqy,
+	float localAqz,
+	float localAqw,
+	float localBx,
+	float localBy,
+	float localBz,
+	float localBqx,
+	float localBqy,
+	float localBqz,
+	float localBqw,
+	float length,
+	float forceThreshold,
+	float torqueThreshold,
+	int collideConnected)
+{
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
+	b3wBodySlot* bodyB = b3wGetBody(bodyBHandle);
+	if (world == NULL || bodyA == NULL || bodyB == NULL) return 0;
+	b3DistanceJointDef jointDef = b3DefaultDistanceJointDef();
+	jointDef.base.bodyIdA = bodyA->bodyId;
+	jointDef.base.bodyIdB = bodyB->bodyId;
+	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, { { localAqx, localAqy, localAqz }, localAqw } };
+	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
+	jointDef.base.forceThreshold = forceThreshold;
+	jointDef.base.torqueThreshold = torqueThreshold;
+	jointDef.base.collideConnected = collideConnected != 0;
+	jointDef.length = length;
+	b3JointId jointId = b3CreateDistanceJoint(world->worldId, &jointDef);
 	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
 }
 

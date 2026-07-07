@@ -74,13 +74,13 @@ Legend:
 | **Mesh Drop Unit Test** | [ ] | Same | 🧩 |
 | **Hump Mesh** | [ ] | Mesh + CCD | 🧩 |
 | **Is Fast** | [x] | Fast-spinning tall boxes (CCD stress) | 🔧 Three gravity-disabled boxes with different angular velocities. C++/WASM dump parity verified. |
-| **Stall** | [ ] | CCD stall behavior | 🔧 Maybe works. |
+| **Stall** | [x] | CCD stall behavior | Implemented. C++/WASM dump parity verified at epsilon=1e-5. Uses `createTorusMesh`, `createRock`, stall threshold bindings. |
 
 ## Determinism (`sample_determinism.cpp`)
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Falling Ragdolls** | [ ] | `b3CreateHuman`, ragdoll creation | 🔧 `createHuman` exists. |
+| **Falling Ragdolls** | [x] | `b3CreateHuman`, ragdoll creation | Implemented. C++/WASM dump parity verified at epsilon=1e-5 for frames 0–100; later frames drift like other ragdoll piles. Ground tile + human spawn order matches upstream. |
 
 ## Events (`sample_events.cpp`)
 
@@ -132,7 +132,7 @@ Legend:
 | **Ball and Chain** | [x] | Spherical joint chain | 🔧 Passive C++/WASM dump parity verified with the default 5-second comparison window. |
 | **Door** | [x] | Revolute joint with limit | 🔧 Interactive C++/WASM dump parity now covers the door impulse. Matching upstream required fixing the revolute joint frame rotation in the scene and exposing revolute creation-time `constraintHertz` / `constraintDampingRatio` in WASM. |
 | **Bridge** | [x] | Revolute joint chain | 🔧 Passive C++/WASM dump parity verified with the default 5-second comparison window. |
-| **Motion Locks** | [ ] | `b3Body_SetMotionLocks` | 🔧 Exists. |
+| **Motion Locks** | [x] | `b3Body_SetMotionLocks` | Implemented. C++/WASM dump parity verified at epsilon=1e-5. Uses new `createDistanceJoint` binding plus joint force/torque thresholds on prismatic/revolute/weld. |
 | **Driving** | [ ] | Multiple joints + vehicle | 🔧 Complex but uses existing joints. |
 | **Gear Lift** | [ ] | Gear joint or equivalent | 🚧 |
 
@@ -171,7 +171,7 @@ Legend:
 | **Box** | [x] | `b3CreateHuman` + drop on box | 🔧 Single human on box ground. C++ reference dump uses `Ragdoll/Box` (disambiguates Mesh/Box). C++/WASM dump parity verified. |
 | **Mesh** | [ ] | Human + mesh floor | 🧩 |
 | **Pile** | [x] | Multiple humans piling | 🔧 20 humans on mesh floor (release build count). Frame 0 matches exactly; frame 300+ divergence is native-vs-WASM solver FP drift in the chaotic ragdoll pile (same story as Far Ragdolls). |
-| **Incline** | [ ] | Human + inclined ramp | 🔧 Should work. |
+| **Incline** | [x] | Human + inclined ramp | Implemented. C++/WASM dump parity verified at epsilon=1e-5. Motor demotion at 2s via `dumpStep`. |
 | **Pose** | [ ] | Human posing | 🔧 |
 
 ## Robustness (`sample_robustness.cpp`)
@@ -241,7 +241,7 @@ Legend:
 | **Large Pyramid** | [x] | Many box pyramid | 🔧 90-base pyramid (4095 boxes), sleeping disabled. C++/WASM dump parity verified. |
 | **Wide Pyramid** | [x] | Wide pyramid | 🔧 15-layer 3D pyramid (~1190 boxes). C++/WASM dump parity verified. |
 | **Many Pyramids** | [x] | Multiple pyramids | 🔧 20 offset pyramids with `Box3DRng` layout (`Math.fround` on positions). Sleeping disabled. C++/WASM dump parity verified. |
-| **Rain** | [ ] | Many falling spheres | 🔧 |
+| **Rain** | [x] | Many falling ragdolls | Implemented. C++/WASM dump parity verified at epsilon=1e-5 for frames 0–64; chaotic drift afterward. `B3W_MAX_HUMANS` raised to 512 for full spawn count. |
 | **Large World** | [ ] | Large world scale | 🔧 |
 | **Joint Grid** | [x] | Grid of joints | 🔧 10×10 revolute joint grid with filter bits. Sleeping disabled. C++/WASM dump parity verified. |
 | **Falling Boxes** | [x] | Many boxes | 🔧 50×8×8 = 3200 boxes, sleeping enabled. C++/WASM dump parity verified. |

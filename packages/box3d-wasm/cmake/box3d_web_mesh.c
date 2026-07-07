@@ -9,6 +9,15 @@ B3W_EXPORT int b3wCreateGridMesh(int worldHandle, int xCount, int zCount, float 
 	return b3wAllocMeshSlot(worldHandle, mesh);
 }
 
+B3W_EXPORT int b3wCreateTorusMesh(int worldHandle, int radialResolution, int tubularResolution, float radius, float thickness)
+{
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	if (world == NULL) return 0;
+	b3MeshData* mesh = b3CreateTorusMesh(radialResolution, tubularResolution, radius, thickness);
+	if (mesh == NULL) return 0;
+	return b3wAllocMeshSlot(worldHandle, mesh);
+}
+
 B3W_EXPORT void b3wDestroyMesh(int meshHandle)
 {
 	b3wMeshSlot* slot = b3wGetMesh(meshHandle);

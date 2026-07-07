@@ -32,7 +32,7 @@ export function highMassRatio1GroundSize(): Vec3 {
 }
 
 export const highMassRatio1Bodies: RenderBody[] = Array.from({ length: 165 }, () => ({
-  kind: "box" as const, size: [1, 1, 1] as [number, number, number],
+  kind: "box" as const, size: [2, 2, 2] as [number, number, number],
   position: [0, 0, 0] as [number, number, number], color: 0x3b82f6,
 }));
 

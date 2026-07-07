@@ -380,6 +380,77 @@ world.destroyBody(body);
 world.destroy();
 ```
 
+## Scale, Limits, And Custom Builds
+
+The WASM bridge tracks every world/body/joint/hull/shape/mesh/compound/human you create through JavaScript handles. Those pools have **compile-time maximums** (`B3W_MAX_*` in `packages/box3d-wasm/cmake/CMakeLists.txt`). Defaults are sized for the ported upstream samples:
+
+| Pool | Default max |
+|------|-------------|
+| bodies / joints / shapes | 65536 |
+| hulls | 16384 |
+| humans | 512 |
+| meshes / compounds | 1024 |
+| worlds | 16 |
+
+When a pool is full, creation throws `SlotExhaustedError` instead of failing silently. Inspect usage at runtime:
+
+```ts
+const runtime = await Box3DRuntime.load();
+console.log(runtime.limits);
+console.log(runtime.getSlotUsage());
+```
+
+### Growable memory variant
+
+The demo ships two release binaries:
+
+- `wasm/box3d-web.wasm` — fixed 256MB heap (predictable for the demo)
+- `wasm/growable/box3d-web.wasm` — 64MB initial heap with `-sALLOW_MEMORY_GROWTH=1`
+
+Games that spawn large dynamic scenes should load the growable build:
+
+```ts
+const runtime = await Box3DRuntime.load({ variant: "growable" });
+```
+
+Slot limits are the same in both builds; growth only affects Box3D engine heap allocations.
+
+### World capacity hints
+
+Like upstream `b3Capacity`, you can pre-reserve engine memory when creating a world:
+
+```ts
+const world = runtime.createWorld({
+  gravity: [0, -10, 0],
+  capacity: {
+    dynamicBodyCount: 12000,
+    dynamicShapeCount: 12000,
+    contactCount: 60000,
+  },
+});
+```
+
+Omit a field or pass `0` to leave that capacity at the Box3D default minimum reserve. This does **not** raise bridge slot limits; it only reduces realloc churn inside the engine.
+
+### Rebuilding with higher slot limits
+
+Configure limits at CMake time, then rebuild WASM:
+
+```sh
+cd packages/box3d-wasm
+cmake -S cmake -B build-custom \
+  -DBOX3D_SOURCE_DIR=../../box3d \
+  -DB3W_MAX_HUMANS=2048 \
+  -DBOX3D_WASM_ALLOW_MEMORY_GROWTH=ON \
+  -DBOX3D_WASM_INITIAL_MEMORY=67108864 \
+  -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=../../demo/public/wasm/custom
+cmake --build build-custom
+```
+
+Load your custom output from your app’s static assets path, or replace `demo/public/wasm/` after `bun run build:wasm`.
+
+For very large games, prefer fewer tracked entities (compounds/meshes instead of thousands of separate bodies), worker-side simulation with packed snapshots, and simpler proxies instead of full ragdolls for crowds.
+
 ## Current Limitations
 
 The wrapper is sample-driven and does not yet mirror every upstream Box3D API. For example, several event buffers, query variants, mesh APIs, character mover APIs, and lower-level geometry utilities are still TODOs.

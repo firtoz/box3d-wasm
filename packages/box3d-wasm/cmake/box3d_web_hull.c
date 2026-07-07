@@ -13,6 +13,13 @@ B3W_EXPORT int b3wCreateHullFromPoints(int numPoints, float* points)
 	return b3wAllocHullSlot(hull);
 }
 
+B3W_EXPORT int b3wCreateRock(float radius)
+{
+	b3HullData* hull = b3CreateRock(radius);
+	if (hull == NULL) return 0;
+	return b3wAllocHullSlot(hull);
+}
+
 B3W_EXPORT void b3wDestroyHull(int hullHandle)
 {
 	b3wHullSlot* slot = b3wGetHull(hullHandle);

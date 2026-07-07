@@ -1,8 +1,7 @@
 node_modules/
 dist/
 build/
-build-web/
-build-web-profile/
+build-web*/
 .turbo/
 *.log
 .DS_Store

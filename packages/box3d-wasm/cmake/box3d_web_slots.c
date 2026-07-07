@@ -199,6 +199,144 @@ int b3wAllocHumanSlot(int worldHandle, Human human)
 	return 0;
 }
 
+static int b3wCountActiveWorldSlots(void)
+{
+	int count = 0;
+	for (int i = 0; i < B3W_MAX_WORLDS; ++i)
+	{
+		if (g_worlds[i].active)
+		{
+			count += 1;
+		}
+	}
+	return count;
+}
+
+static int b3wCountActiveBodySlots(void)
+{
+	int count = 0;
+	for (int i = 0; i < B3W_MAX_BODIES; ++i)
+	{
+		if (g_bodies[i].active)
+		{
+			count += 1;
+		}
+	}
+	return count;
+}
+
+static int b3wCountActiveJointSlots(void)
+{
+	int count = 0;
+	for (int i = 0; i < B3W_MAX_JOINTS; ++i)
+	{
+		if (g_joints[i].active)
+		{
+			count += 1;
+		}
+	}
+	return count;
+}
+
+static int b3wCountActiveHullSlots(void)
+{
+	int count = 0;
+	for (int i = 0; i < B3W_MAX_HULLS; ++i)
+	{
+		if (g_hulls[i].active)
+		{
+			count += 1;
+		}
+	}
+	return count;
+}
+
+static int b3wCountActiveShapeSlots(void)
+{
+	int count = 0;
+	for (int i = 0; i < B3W_MAX_SHAPES; ++i)
+	{
+		if (g_shapes[i].active)
+		{
+			count += 1;
+		}
+	}
+	return count;
+}
+
+static int b3wCountActiveMeshSlots(void)
+{
+	int count = 0;
+	for (int i = 0; i < B3W_MAX_MESHES; ++i)
+	{
+		if (g_meshes[i].active)
+		{
+			count += 1;
+		}
+	}
+	return count;
+}
+
+static int b3wCountActiveCompoundSlots(void)
+{
+	int count = 0;
+	for (int i = 0; i < B3W_MAX_COMPOUNDS; ++i)
+	{
+		if (g_compounds[i].active)
+		{
+			count += 1;
+		}
+	}
+	return count;
+}
+
+static int b3wCountActiveHumanSlots(void)
+{
+	int count = 0;
+	for (int i = 0; i < B3W_MAX_HUMANS; ++i)
+	{
+		if (g_humans[i].active)
+		{
+			count += 1;
+		}
+	}
+	return count;
+}
+
+B3W_EXPORT void b3wGetSlotLimits(int* outLimits)
+{
+	if (outLimits == NULL)
+	{
+		return;
+	}
+
+	outLimits[0] = B3W_MAX_WORLDS;
+	outLimits[1] = B3W_MAX_BODIES;
+	outLimits[2] = B3W_MAX_JOINTS;
+	outLimits[3] = B3W_MAX_HULLS;
+	outLimits[4] = B3W_MAX_SHAPES;
+	outLimits[5] = B3W_MAX_MESHES;
+	outLimits[6] = B3W_MAX_COMPOUNDS;
+	outLimits[7] = B3W_MAX_HUMANS;
+}
+
+B3W_EXPORT void b3wGetSlotUsage(int* outUsage)
+{
+	if (outUsage == NULL)
+	{
+		return;
+	}
+
+	outUsage[0] = b3wCountActiveWorldSlots();
+	outUsage[1] = b3wCountActiveBodySlots();
+	outUsage[2] = b3wCountActiveJointSlots();
+	outUsage[3] = b3wCountActiveHullSlots();
+	outUsage[4] = b3wCountActiveShapeSlots();
+	outUsage[5] = b3wCountActiveMeshSlots();
+	outUsage[6] = b3wCountActiveCompoundSlots();
+	outUsage[7] = b3wCountActiveHumanSlots();
+}
+
 void b3wClearWorldSlots(int worldHandle)
 {
 	for (int i = 0; i < B3W_MAX_BODIES; ++i)

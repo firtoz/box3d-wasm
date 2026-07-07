@@ -1,8 +1,9 @@
 import * as THREE from "three";
 import type { DemoBody } from "./types";
-import { BodyType, type BodyBatchBuffers, type BodyHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { BodyType, type BodyBatchBuffers, type BodyHandle, type PhysicsWorld, type RuntimeLoadOptions, type Vec3 } from "box3d-wasm";
 
 const MAX_WEB_WORKERS = 16;
+export type DemoWasmVariant = NonNullable<RuntimeLoadOptions["variant"]>;
 
 export function getWorkerCounts(): { defaultWorkerCount: number, maxWorkerCount: number, poolSize: number } {
   const available = Math.min(MAX_WEB_WORKERS, Math.max(1, navigator.hardwareConcurrency || 4));
@@ -15,8 +16,23 @@ export function getWorkerCounts(): { defaultWorkerCount: number, maxWorkerCount:
   };
 }
 
-export function getWasmVariant(): "release" | "profile" {
-  return new URL(globalThis.location.href).searchParams.get("wasm") === "profile" ? "profile" : "release";
+export function getWasmVariantOptions(): readonly DemoWasmVariant[] {
+  return __BOX3D_DEMO_WASM_VARIANTS__;
+}
+
+export function getWasmVariant(): DemoWasmVariant {
+  const options = getWasmVariantOptions();
+  const fallback = options.includes(__BOX3D_DEMO_WASM_VARIANT__)
+    ? __BOX3D_DEMO_WASM_VARIANT__
+    : (options[0] ?? "release");
+  const fromUrl = new URL(globalThis.location.href).searchParams.get("wasm");
+  if (fromUrl === "profile" || fromUrl === "growable" || fromUrl === "release") {
+    if (options.includes(fromUrl)) return fromUrl;
+    console.warn(
+      `[box3d-wasm] wasm variant "${fromUrl}" is not built (${options.join(", ")}). Using ${fallback}.`,
+    );
+  }
+  return fallback;
 }
 
 function yToX(): THREE.Quaternion {

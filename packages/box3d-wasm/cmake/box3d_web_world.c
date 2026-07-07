@@ -1,10 +1,21 @@
 #include "box3d_web_shared.h"
 
-B3W_EXPORT int b3wCreateWorld(float gravityX, float gravityY, float gravityZ, int workerCount)
+#include "box3d/constants.h"
+
+B3W_EXPORT int b3wCreateWorld(float gravityX, float gravityY, float gravityZ, int workerCount, int staticShapeCount,
+							  int dynamicShapeCount, int staticBodyCount, int dynamicBodyCount, int contactCount)
 {
 	b3WorldDef def = b3DefaultWorldDef();
 	def.gravity = (b3Vec3){ gravityX, gravityY, gravityZ };
 	def.workerCount = workerCount > 0 ? workerCount : 1;
+	if (staticShapeCount > 0 || dynamicShapeCount > 0 || staticBodyCount > 0 || dynamicBodyCount > 0 || contactCount > 0)
+	{
+		def.capacity.staticShapeCount = staticShapeCount;
+		def.capacity.dynamicShapeCount = dynamicShapeCount;
+		def.capacity.staticBodyCount = staticBodyCount;
+		def.capacity.dynamicBodyCount = dynamicBodyCount;
+		def.capacity.contactCount = contactCount;
+	}
 	b3WorldId worldId = b3CreateWorld(&def);
 	return b3wAllocWorldSlot(worldId);
 }
@@ -188,4 +199,14 @@ B3W_EXPORT void b3wRayCastClosest(int worldHandle, float originX, float originY,
 		outNormal[2] = result.normal.z;
 	}
 	if (outFraction != NULL) *outFraction = result.fraction;
+}
+
+B3W_EXPORT float b3wGetStallThreshold(void)
+{
+	return b3GetStallThreshold();
+}
+
+B3W_EXPORT void b3wSetStallThreshold(float seconds)
+{
+	b3SetStallThreshold(seconds);
 }

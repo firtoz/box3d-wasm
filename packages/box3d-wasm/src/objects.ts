@@ -135,6 +135,11 @@ export class ObjectWorld {
     return new MeshRef(this.runtime, this.world.createGridMesh(xCount, zCount, cellWidth, materialCount, identifyEdges));
   }
 
+  createTorusMesh(radialResolution: number, tubularResolution: number, radius: number, thickness: number): MeshRef {
+    this.assertActive();
+    return new MeshRef(this.runtime, this.world.createTorusMesh(radialResolution, tubularResolution, radius, thickness));
+  }
+
   body(handle: BodyHandle): BodyRef {
     this.assertActive();
     return new BodyRef(this, handle);
@@ -180,6 +185,13 @@ export class ObjectWorld {
     bodyA.assertActive();
     bodyB.assertActive();
     return new JointRef(this, this.world.createWeldJoint(bodyA.handle, bodyB.handle, options));
+  }
+
+  createDistanceJoint(bodyA: BodyRef, bodyB: BodyRef, options: Parameters<PhysicsWorld["createDistanceJoint"]>[2] = {}): JointRef {
+    this.assertActive();
+    bodyA.assertActive();
+    bodyB.assertActive();
+    return new JointRef(this, this.world.createDistanceJoint(bodyA.handle, bodyB.handle, options));
   }
 
   createHuman(position: Vec3, options: Parameters<PhysicsWorld["createHuman"]>[1] = {}): HumanRef {

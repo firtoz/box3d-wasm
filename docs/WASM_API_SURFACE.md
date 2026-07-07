@@ -38,7 +38,9 @@ When adding an API binding:
 
 ## World
 
-- [x] Create world: `b3CreateWorld` via `createWorld`
+- [x] Create world: `b3CreateWorld` via `createWorld` (gravity, worker count, optional `b3Capacity` hint)
+- [x] Bridge slot limits: `b3wGetSlotLimits` via `runtime.limits`
+- [x] Bridge slot usage: `b3wGetSlotUsage` via `runtime.getSlotUsage()`
 - [x] Destroy world: `b3DestroyWorld` via `destroyWorld` / `PhysicsWorld.destroy`
 - [x] Step world: `b3World_Step` via `step`
 - [x] Get counters: `b3World_GetCounters` via `getWorldCounters`
@@ -174,7 +176,7 @@ When adding an API binding:
 - [x] Box hull creation for shapes: `b3MakeBoxHull` via `createHullShape`
 - [x] Transformed/scaled box hull creation for shapes: `b3CreateTransformedHullShape` / `b3MakeScaledBoxHull`
 - [ ] Create cone: `b3CreateCone`
-- [ ] Create rock: `b3CreateRock`
+- [x] Create rock: `b3CreateRock`
 - [ ] Clone hull: `b3CloneHull`
 - [ ] Clone and transform hull: `b3CloneAndTransformHull`
 - [ ] Cube hull helper: `b3MakeCubeHull`
@@ -199,7 +201,7 @@ When adding an API binding:
 - [x] Destroy mesh: `b3DestroyMesh`
 - [x] Grid mesh: `b3CreateGridMesh`
 - [ ] Wave mesh: `b3CreateWaveMesh`
-- [ ] Torus mesh: `b3CreateTorusMesh`
+- [x] Torus mesh: `b3CreateTorusMesh`
 - [ ] Box mesh: `b3CreateBoxMesh`
 - [ ] Hollow box mesh: `b3CreateHollowBoxMesh`
 - [ ] Platform mesh: `b3CreatePlatformMesh`
@@ -219,17 +221,17 @@ When adding an API binding:
 - [x] Destroy joint: `b3DestroyJoint`
 - [x] Create motor joint: `b3CreateMotorJoint`
 - [x] Create filter joint: `b3CreateFilterJoint`
-- [x] Create revolute joint: `b3CreateRevoluteJoint` (including creation-time local frames and base constraint tuning)
+- [x] Create revolute joint: `b3CreateRevoluteJoint` (including creation-time local frames, base constraint tuning, and optional force/torque thresholds)
 - [x] Create spherical joint: `b3CreateSphericalJoint`
-- [ ] Create distance joint: `b3CreateDistanceJoint`
-- [x] Create prismatic joint: `b3CreatePrismaticJoint`
+- [x] Create distance joint: `b3CreateDistanceJoint`
+- [x] Create prismatic joint: `b3CreatePrismaticJoint` (optional force/torque thresholds and `collideConnected`)
 - [ ] Create wheel joint: `b3CreateWheelJoint`
-- [x] Create weld joint: `b3CreateWeldJoint`
+- [x] Create weld joint: `b3CreateWeldJoint` (optional force/torque thresholds and `collideConnected`)
 - [ ] Create parallel joint: `b3CreateParallelJoint`
 - [~] Common joint validity/type/body/world/frame/collide/force/torque accessors (`constraint force`, `constraint torque`, and `linear separation` now exposed)
 - [ ] Joint wake bodies: `b3Joint_WakeBodies`
 - [ ] Constraint tuning: `b3Joint_SetConstraintTuning`
-- [ ] Force/torque thresholds and joint break support
+- [~] Force/torque thresholds and joint break support (creation-time thresholds on distance/prismatic/revolute/weld joints)
 - [ ] Distance joint runtime controls
 - [ ] Revolute joint runtime controls after creation
 - [x] Revolute joint target angle: `b3RevoluteJoint_SetTargetAngle` (`setRevoluteJointTargetAngle`)
@@ -321,7 +323,7 @@ When adding an API binding:
 - [ ] Double precision check: `b3IsDoublePrecision`
 - [ ] Byte count: `b3GetByteCount`
 - [ ] Length units: `b3SetLengthUnitsPerMeter`, `b3GetLengthUnitsPerMeter`
-- [ ] Stall threshold: `b3SetStallThreshold`, `b3GetStallThreshold`
+- [x] Stall threshold: `b3SetStallThreshold`, `b3GetStallThreshold`
 - [ ] Timing helpers: ticks, milliseconds, reset
 - [ ] Log/assert callback hooks, if useful in web builds
 - [ ] Binary file helpers are intentionally low priority for browser builds

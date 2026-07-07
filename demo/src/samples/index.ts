@@ -69,6 +69,11 @@ import { jointGridSample } from "./benchmark/joint-grid";
 import { tileFloorSample } from "./compound/tile-floor";
 import { ragdollBoxSample } from "./ragdoll/box";
 import { ragdollPileSample } from "./ragdoll/pile";
+import { ragdollInclineSample } from "./ragdoll/incline";
+import { fallingRagdollsSample } from "./determinism/falling-ragdolls";
+import { stallSample } from "./continuous/stall";
+import { rainSample } from "./benchmark/rain";
+import { motionLocksSample } from "./joints/motion-locks";
 import { windSample } from "./shapes/wind";
 import { windFlapSample } from "./shapes/wind-flap";
 export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
@@ -112,6 +117,11 @@ export const samples = [
   tileFloorSample,
   ragdollBoxSample,
   ragdollPileSample,
+  ragdollInclineSample,
+  fallingRagdollsSample,
+  stallSample,
+  rainSample,
+  motionLocksSample,
   singleBoxSample,
   cylinderSample,
   cylinderStackSample,

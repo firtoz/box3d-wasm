@@ -43,8 +43,10 @@ bun run dev
 
 ## Scripts
 
-- `bun run dev` - run the full workspace in development mode.
-- `bun run build` - build the full workspace.
+- `bun run dev` - run the full workspace in development mode (builds the `release` WASM binary by default).
+- `BOX3D_WASM_VARIANT=profile bun run dev` - dev with the profiling WASM build (`wasm/profile/`).
+- `BOX3D_WASM_VARIANT=growable bun run dev` - dev with the growable-heap WASM build (`wasm/growable/`).
+- `bun run build` - build all WASM variants plus the demo.
 - `bun run typecheck` - typecheck workspace packages and scripts.
 - `bun run lint` - run workspace lint checks.
 - `bun run clean` - clear build output.

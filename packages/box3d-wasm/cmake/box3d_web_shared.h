@@ -11,17 +11,32 @@
 #define B3W_EXPORT
 #endif
 
-enum
-{
-	B3W_MAX_WORLDS = 128,
-	B3W_MAX_BODIES = 65536,
-	B3W_MAX_JOINTS = 65536,
-	B3W_MAX_HULLS = 65536,
-	B3W_MAX_SHAPES = 65536,
-	B3W_MAX_MESHES = 4096,
-	B3W_MAX_COMPOUNDS = 4096,
-	B3W_MAX_HUMANS = 256,
-};
+#ifndef B3W_MAX_WORLDS
+#define B3W_MAX_WORLDS 16
+#endif
+#ifndef B3W_MAX_BODIES
+#define B3W_MAX_BODIES 65536
+#endif
+#ifndef B3W_MAX_JOINTS
+#define B3W_MAX_JOINTS 65536
+#endif
+#ifndef B3W_MAX_HULLS
+#define B3W_MAX_HULLS 16384
+#endif
+#ifndef B3W_MAX_SHAPES
+#define B3W_MAX_SHAPES 65536
+#endif
+#ifndef B3W_MAX_MESHES
+#define B3W_MAX_MESHES 1024
+#endif
+#ifndef B3W_MAX_COMPOUNDS
+#define B3W_MAX_COMPOUNDS 1024
+#endif
+#ifndef B3W_MAX_HUMANS
+#define B3W_MAX_HUMANS 512
+#endif
+
+#define B3W_SLOT_KIND_COUNT 8
 
 typedef struct b3wWorldSlot
 {
@@ -102,3 +117,6 @@ int b3wAllocMeshSlot(int worldHandle, b3MeshData* mesh);
 int b3wAllocCompoundSlot(b3CompoundData* compound);
 int b3wAllocHumanSlot(int worldHandle, Human human);
 void b3wClearWorldSlots(int worldHandle);
+
+void b3wGetSlotLimits(int* outLimits);
+void b3wGetSlotUsage(int* outUsage);
