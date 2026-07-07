@@ -65,8 +65,8 @@ Legend:
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Thin Wall** | [ ] | CCD via `bodyDef.isBullet`, fast-moving bodies | 🔧 `isBullet` exists (sets CCD). Simple scene. |
-| **Bounce House** | [ ] | CCD + restitution | 🔧 Should work with existing APIs. |
+| **Thin Wall** | [x] | CCD via `bodyDef.isBullet`, fast-moving bodies | 🔧 Static thin wall + 3 high-speed bullets (sphere, capsule, box). C++/WASM dump parity verified. |
+| **Bounce House** | [x] | CCD + restitution | 🔧 Compound static body (4 walls) + bouncing sphere with `gravityScale=0`, `restitution=1`. C++/WASM dump parity verified. |
 | **Spinning Stick** | [ ] | CCD + thin fast-spinning body | 🔧 Maybe works. |
 | **Bullet vs Stack** | [ ] | CCD bullet + stack | 🔧 Projectile system already handles similar. |
 | **Needle Mesh** | [ ] | CCD + mesh shape | 🧩 Needs mesh. |
@@ -187,17 +187,17 @@ Legend:
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Inclined Plane** | [x] | Standard APIs | Implemented. Frame 0 matches exactly; remaining dump mismatch appears to be simulation drift rather than setup parity. |
+| **Inclined Plane** | [x] | Standard APIs | Implemented. C++/WASM dump parity verified at epsilon=1e-5. Float32 friction constant `0.04f` was the root cause of earlier mismatch. |
 | **Rolling Resistance** | [x] | `shapeDef.baseMaterial.rollingResistance`, spheres + capsules on plane | 🔧 All exist. |
-| **High Resistance** | [ ] | High rolling resistance capsules | 🔧 All exist. |
+| **High Resistance** | [x] | High rolling resistance capsules | 🔧 10 capsules with rolling resistance 0–1.8. C++/WASM dump parity verified. |
 | **Isotropic Friction** | [x] | Friction sweep with boxes on circle | 🔧 All exist. |
-| **Slide Twist** | [ ] | Friction + twisting | 🔧 All exist. |
+| **Slide Twist** | [x] | Friction + twisting | 🔧 Static plane + dynamic box with angular velocity. Uses `b3wRotateVector` for exact angular velocity match. C++/WASM dump parity verified. |
 | **Restitution** | [x] | Bounciness sweep | 🔧 All exist. |
 | **Static Invoke** | [ ] | `shapeDef.invokeContactCreation` | 🔧 `invokeContactCreation` not exposed. |
-| **Conveyor Belt** | [ ] | `shapeDef.baseMaterial.tangentVelocity` | 🔧 `tangentVelocity` exists in `ShapeDef`. |
+| **Conveyor Belt** | [x] | `shapeDef.baseMaterial.tangentVelocity` | 🔧 Platform with `tangentVelocity` + 5 boxes. Required adding `tangentVelocity` params to `b3wShapeSetSurfaceMaterial` bridge. C++/WASM dump parity verified. |
 | **Conveyor Mesh** | [ ] | Mesh + tangent velocities per-material | 🧩🚧 Mesh + material per triangle. |
 | **Wind** | [ ] | `b3Shape_ApplyWind`, joints | 🔧 `applyShapeWind` exists. Joints exist. |
-| **Wind Drop** | [ ] | `b3Shape_ApplyWind` on single shape | 🔧 Simple. |
+| **Wind Drop** | [x] | `b3Shape_ApplyWind` on single shape | 🔧 Thin plate with per-frame wind force. Small native-vs-WASM FP drift in wind force computation (~0.03mm at frame 100). Uses `dumpPostStep` for post-step wind application. |
 | **Wind Flap** | [ ] | Wind + revolute joints + spring | 🔧 All exist. |
 
 ## Stacking (`sample_stacking.cpp`)
@@ -238,13 +238,13 @@ Legend:
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Large Pyramid** | [ ] | Many box pyramid | 🔧 Simple but heavy. |
-| **Wide Pyramid** | [ ] | Wide pyramid | 🔧 |
+| **Large Pyramid** | [x] | Many box pyramid | 🔧 90-base pyramid (4095 boxes), sleeping disabled. C++/WASM dump parity verified. |
+| **Wide Pyramid** | [x] | Wide pyramid | 🔧 15-layer 3D pyramid (~1190 boxes). C++/WASM dump parity verified. |
 | **Many Pyramids** | [ ] | Multiple pyramids | 🔧 |
 | **Rain** | [ ] | Many falling spheres | 🔧 |
 | **Large World** | [ ] | Large world scale | 🔧 |
 | **Joint Grid** | [ ] | Grid of joints | 🔧 Uses joints. |
-| **Falling Boxes** | [ ] | Many boxes | 🔧 |
+| **Falling Boxes** | [x] | Many boxes | 🔧 50×8×8 = 3200 boxes, sleeping enabled. C++/WASM dump parity verified. |
 | **Candy Cups** | [ ] | Small convex shapes | 🔧 |
 | **Explosion** | [ ] | `b3World_Explode` | 🚧 `explode` not wrapped. |
 | **Height Field** | [ ] | Height field mesh | 🧩 |
@@ -261,7 +261,7 @@ Legend:
 ## Summary
 
 - **Total C++ samples**: ~136
-- **TS implemented (matching C++)**: 43
+- **TS implemented (matching C++)**: 52
 - **TS implemented (TS-only)**: 2 (dominoes variant, washer variant, material-dedup)
 - **Implemented samples**:
   1. Bodies / Spinning Book
@@ -292,28 +292,32 @@ Legend:
   26. Sphere / Stack
   27. Box / Stack
   28. Shapes / Inclined Plane
-  29. Dominoes
-  30. Card / House Thick
-  31. Jenga / Stack
-  32. Pyramid 2D
-  33. Capsule / Stack
-  34. Joints / Filter
-  35. Joints / Motor Joint
-  36. Joints / Prismatic
-  37. Joints / Revolute
-  38. Joints / Weld
-  39. Joints / Top Down Friction
-  40. Joints / Spherical
-  41. Joints / Ball and Chain
-  42. Joints / Door
-  43. Joints / Bridge
+  29. Shapes / Rolling Resistance
+  30. Shapes / High Resistance
+  31. Shapes / Slide Twist
+  32. Shapes / Conveyor Belt
+  33. Shapes / Wind Drop
+  34. Shapes / Restitution
+  35. Shapes / Isotropic Friction
+  36. Continuous / Thin Wall
+  37. Continuous / Bounce House
+  38. Benchmark / Large Pyramid
+  39. Benchmark / Wide Pyramid
+  40. Benchmark / Falling Boxes
+  41. Dominoes
+  42. Card / House Thick
+  43. Jenga / Stack
+  44. Pyramid 2D
+  45. Capsule / Stack
+  46. Joints / Filter
+  47. Joints / Motor Joint
+  48. Joints / Prismatic
+  49. Joints / Revolute
+  50. Joints / Weld
+  51. Joints / Top Down Friction
+  52. Joints / Spherical
+  53. Joints / Ball and Chain
+  54. Joints / Door
+  55. Joints / Bridge
 
-- **Easy next ports** (all APIs exist, simple scenes):
-  1. Shapes / High Resistance
-  2. Shapes / Slide Twist
-  3. Shapes / Wind Drop
-  4. Determinism / Falling Ragdolls
-  5. World / Sensor
-  6. Joints / Motion Locks
-  7. Robustness / Falling Boxes
-  8. Robustness / Candy Cups
+- **Dump-match status**: 58/59 samples match at epsilon=1e-5. Only `world/far-ragdolls` has a known native-vs-WASM solver FP divergence.

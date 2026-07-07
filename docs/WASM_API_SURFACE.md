@@ -136,7 +136,7 @@ When adding an API binding:
 - [x] Set density: `b3Shape_SetDensity`
 - [x] Set friction: `b3Shape_SetFriction`
 - [x] Set restitution: `b3Shape_SetRestitution`
-- [x] Set surface material: `b3Shape_SetSurfaceMaterial`
+- [x] Set surface material: `b3Shape_SetSurfaceMaterial` (with `tangentVelocity` support)
 - [x] Set filter: `b3Shape_SetFilter`
 - [x] Get shape body handle: `b3Shape_GetBody`
 - [x] Enable sensor events: `b3Shape_EnableSensorEvents`

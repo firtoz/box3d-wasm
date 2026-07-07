@@ -59,6 +59,8 @@ import { windDropSample } from "./shapes/wind-drop";
 import { thinWallSample } from "./continuous/thin-wall";
 import { bounceHouseSample } from "./continuous/bounce-house";
 import { largePyramidSample } from "./benchmark/large-pyramid";
+import { widePyramidSample } from "./benchmark/wide-pyramid";
+import { fallingBoxesSample } from "./benchmark/falling-boxes";
 export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
 
 export const samples = [
@@ -124,4 +126,6 @@ export const samples = [
   thinWallSample,
   bounceHouseSample,
   largePyramidSample,
+  widePyramidSample,
+  fallingBoxesSample,
 ];
