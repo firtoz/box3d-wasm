@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig, type Plugin, type ViteDevServer } from "vite";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
@@ -35,6 +35,41 @@ async function readWasmVersion(): Promise<string> {
   }
 }
 
+function wasmVersionPlugin(): Plugin {
+  return {
+    name: "wasm-version-module",
+    resolveId(id: string) {
+      if (id === "virtual:wasm-version") {
+        return "\0virtual:wasm-version";
+      }
+      return null;
+    },
+    async load(id: string) {
+      if (id !== "\0virtual:wasm-version") {
+        return null;
+      }
+      const version = await readWasmVersion();
+      return `export const wasmBuildVersion = ${JSON.stringify(version)};`;
+    },
+    configureServer(server: ViteDevServer) {
+      server.watcher.add(stampPath);
+      server.watcher.add(buildMetaPath);
+      const notifyWasmUpdate = async (file: string): Promise<void> => {
+        const resolved = resolve(file);
+        if (resolved === stampPath || resolved === buildMetaPath) {
+          const module = server.moduleGraph.getModuleById("\0virtual:wasm-version");
+          if (module !== undefined) {
+            server.moduleGraph.invalidateModule(module);
+          }
+          server.ws.send("box3d-wasm:update", { version: await readWasmVersion() });
+        }
+      };
+      server.watcher.on("add", notifyWasmUpdate);
+      server.watcher.on("change", notifyWasmUpdate);
+    },
+  };
+}
+
 export default defineConfig(async () => {
   const builtVariants = await readBuiltVariants();
   const devWasmVariant = resolveDevWasmVariant();
@@ -57,39 +92,6 @@ export default defineConfig(async () => {
     __BOX3D_DEMO_WASM_VARIANT__: JSON.stringify(defaultWasmVariant),
     __BOX3D_DEMO_WASM_VARIANTS__: JSON.stringify(builtVariants),
   },
-  plugins: [
-    {
-      name: "wasm-version-module",
-      resolveId(id) {
-        if (id === "virtual:wasm-version") {
-          return "\0virtual:wasm-version";
-        }
-        return null;
-      },
-      async load(id) {
-        if (id !== "\0virtual:wasm-version") {
-          return null;
-        }
-        const version = await readWasmVersion();
-        return `export const wasmBuildVersion = ${JSON.stringify(version)};`;
-      },
-      configureServer(server) {
-        server.watcher.add(stampPath);
-        server.watcher.add(buildMetaPath);
-        const notifyWasmUpdate = async (file: string): Promise<void> => {
-          const resolved = resolve(file);
-          if (resolved === stampPath || resolved === buildMetaPath) {
-            const module = server.moduleGraph.getModuleById("\0virtual:wasm-version");
-            if (module !== undefined) {
-              server.moduleGraph.invalidateModule(module);
-            }
-            server.ws.send("box3d-wasm:update", { version: await readWasmVersion() });
-          }
-        };
-        server.watcher.on("add", notifyWasmUpdate);
-        server.watcher.on("change", notifyWasmUpdate);
-      },
-    },
-  ],
+  plugins: [wasmVersionPlugin()],
 };
 });
