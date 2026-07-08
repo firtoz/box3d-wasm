@@ -20,6 +20,28 @@ export function getWasmVariantOptions(): readonly DemoWasmVariant[] {
   return __BOX3D_DEMO_WASM_VARIANTS__;
 }
 
+export function cameraFromSetView(
+  yawDegrees: number,
+  pitchDegrees: number,
+  radius: number,
+  pivot: [number, number, number],
+): { position: [number, number, number]; target: [number, number, number] } {
+  const yaw = yawDegrees * (Math.PI / 180);
+  const pitch = pitchDegrees * (Math.PI / 180);
+  const cp = Math.cos(pitch);
+  const forwardX = Math.sin(yaw) * cp;
+  const forwardY = Math.sin(pitch);
+  const forwardZ = Math.cos(yaw) * cp;
+  return {
+    position: [
+      pivot[0] + radius * forwardX,
+      pivot[1] + radius * forwardY,
+      pivot[2] + radius * forwardZ,
+    ],
+    target: pivot,
+  };
+}
+
 export function getWasmVariant(): DemoWasmVariant {
   const options = getWasmVariantOptions();
   const fallback = options.includes(__BOX3D_DEMO_WASM_VARIANT__)

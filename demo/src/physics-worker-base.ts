@@ -34,6 +34,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   protected lastPublishTime = 0;
   protected publishIntervalMs = 15;
   protected useLightTransforms = true;
+  protected snapshotTransformsOnly = false;
   protected projectileHandles: number[] = [];
   protected dragBody: BodyHandle | 0 = 0;
   protected dragJoint: JointHandle | 0 = 0;
@@ -76,6 +77,8 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     const groundBody = this.world!.createBody({ type: BodyType.Static, position: [0, -1, 0] });
     this.runtime!.createHullShape(groundBody, this.getGroundSize(this.initData));
   }
+
+  protected configureScene(_initData: TInit): void {}
 
   // --- Command routing ---
 
@@ -142,6 +145,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.setupGround(this.initData);
 
     const handles = await this.buildScene(this.initData);
+    this.configureScene(this.initData);
     this.bodyCount = handles.length;
 
     this.bodyBatch = this.world.allocBodyBatchBuffers(this.bodyCount);
@@ -261,8 +265,10 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
     this.positions.set(new Float32Array(memory.heapF32.buffer, this.bodyBatch.positionsPtr, this.bodyCount * 3));
     this.rotations.set(new Float32Array(memory.heapF32.buffer, this.bodyBatch.rotationsPtr, this.bodyCount * 4));
-    this.awake.set(new Uint8Array(memory.heapU8.buffer, this.bodyBatch.awakePtr, this.bodyCount));
-    this.colors.set(new Uint32Array(memory.heap32.buffer, this.bodyBatch.colorsPtr, this.bodyCount));
+    if (!this.snapshotTransformsOnly) {
+      this.awake.set(new Uint8Array(memory.heapU8.buffer, this.bodyBatch.awakePtr, this.bodyCount));
+      this.colors.set(new Uint32Array(memory.heap32.buffer, this.bodyBatch.colorsPtr, this.bodyCount));
+    }
 
     const awakeCount = this.world.getAwakeBodyCount();
 
@@ -411,6 +417,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.runtime!.createHullShape(groundBody, this.getGroundSize(this.initData));
 
     const handles = await this.buildScene(this.initData);
+    this.configureScene(this.initData);
     this.bodyCount = handles.length;
 
     this.bodyBatch = this.world.allocBodyBatchBuffers(this.bodyCount);
