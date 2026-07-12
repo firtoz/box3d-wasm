@@ -47,9 +47,10 @@ The user often runs short agent sessions: ask what's next → do one unit of wor
 1. Check `git status` for unfinished local work. If the tree is dirty, prefer finishing/committing that before starting a new sample (say so clearly).
 2. Read `docs/SAMPLES.md` → **Easy next ports** (top of that section is the queue).
 3. Recommend **one** primary next item (plus at most 1–2 alternates). Prefer:
-   - `[ ]` + `🔧` (APIs already wrapped) over `🚧` / `🧩`
-   - Small, dump-ready samples over mesh/mover/events megasamples
-   - Infra fixes only when they block ports or you just found a real bug
+ - `[ ]` + `🔧` (APIs already wrapped) over `🚧` / `🧩`
+ - Small, dump-ready samples over mesh/mover/events megasamples
+ - Infra fixes only when they block ports or you just found a real bug
+   Before recommending, skim the upstream C++ sample class (do not trust a `🔧` note alone). Confirm it creates bodies in `m_worldId` and is dumpable. Manifold collide demos, geometry editors, and similar no-body tools are not generic-host ports — see the Manifold section note in `docs/SAMPLES.md`.
 4. Answer briefly: what to do, why it's next, and what "done" means (sample + `SAMPLES.md` + dump compare when applicable).
 
 Do **not** invent a parallel todo list outside `docs/SAMPLES.md`. The Easy next ports list and status tables are the backlog.
