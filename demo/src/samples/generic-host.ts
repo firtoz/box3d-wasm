@@ -3,7 +3,7 @@ import { ConvexGeometry } from "three/examples/jsm/geometries/ConvexGeometry.js"
 import { BodyType, type BodyHandle, type Box3DRuntime } from "box3d-wasm";
 import { wasmBuildVersion } from "virtual:wasm-version";
 import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker-protocol";
-import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
+import { MAX_PROJECTILES, SNAPSHOT_BODY_COUNT_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
 import { createWorkerWorld, type WorkerWorldState } from "../worker-world-bridge";
 import { RAGDOLL_RENDER_BONES, ragdollCapsuleMesh } from "../ragdoll-render";
 import type { ControlSpec, DemoBody, DemoSample, SolverParams } from "./types";
@@ -30,7 +30,20 @@ export type RenderControlRange = { type: "range"; label: string; message: Record
 export type RenderControl = RenderControlButton | RenderControlToggle | RenderControlRange;
 export type RenderOverlayContext = { bodies: DemoBody[]; workerState: WorkerWorldState | null };
 export type RenderOverlay = { update(context: RenderOverlayContext): void; dispose(): void };
-export type RenderSpec = { groundSize: [number, number, number]; groundPosition?: [number, number, number]; groundKind?: "box" | "plane"; bodies: RenderBody[]; info?: string; getInfo?: (workerState: WorkerWorldState | null) => string | undefined; camera?: { position: [number, number, number]; target: [number, number, number] }; launchSpeed?: number; controls?: RenderControl[]; overlay?: (scene: THREE.Scene) => RenderOverlay };
+export type RenderSpec = {
+  groundSize: [number, number, number];
+  groundPosition?: [number, number, number];
+  groundKind?: "box" | "plane";
+  bodies: RenderBody[];
+  info?: string;
+  getInfo?: (workerState: WorkerWorldState | null) => string | undefined;
+  camera?: { position: [number, number, number]; target: [number, number, number] };
+  launchSpeed?: number;
+  controls?: RenderControl[];
+  /** Extra keyboard → worker messages (e.g. `{ keys: ["l","L"], message: { type: "launch" } }`). */
+  hotkeys?: { keys: string[]; message: Record<string, unknown> }[];
+  overlay?: (scene: THREE.Scene) => RenderOverlay;
+};
 
 function meshForShape(shape: RenderShape): THREE.Mesh {
   if (shape.kind === "ragdoll-capsule") return ragdollCapsuleMesh(shape.a, shape.b, shape.radius, shape.color);
@@ -239,8 +252,16 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
         const version = Atomics.load(state, SNAPSHOT_VERSION_INDEX);
         if (version === lastVersion) return;
         lastVersion = version;
+        const trackedCount = Atomics.load(state, SNAPSHOT_BODY_COUNT_INDEX);
+        const activeCount = trackedCount > 0 ? Math.min(bodies.length, trackedCount) : bodies.length;
         for (let i = 0; i < bodies.length; i++) {
           const body = bodies[i];
+          const visible = i < activeCount;
+          body.mesh.visible = visible;
+          if (body.extraMeshes !== undefined) {
+            for (const extra of body.extraMeshes) extra.visible = visible;
+          }
+          if (!visible) continue;
           if (awake[i] !== 0) {
             const p = i * 3, r = i * 4;
             dummy.position.set(positions[p], positions[p + 1], positions[p + 2]);
@@ -335,6 +356,9 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
             localStorage.setItem("box3d:color-mode", colorMode);
             worker.postMessage({ type: "set-color-mode", mode: colorMode });
             console.log(`[generic] color mode: ${colorMode}`);
+          }
+          for (const hotkey of spec.hotkeys ?? []) {
+            if (hotkey.keys.includes(key)) worker.postMessage(hotkey.message);
           }
         },
         spawnProjectile,

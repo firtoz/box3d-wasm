@@ -7,7 +7,7 @@ This is a WASM port of Erin Catto's [Box3D](https://github.com/erincatto/box3d) 
 Key docs:
 - `docs/README.md` — documentation index and placement guide
 - `docs/TYPESCRIPT_API.md` — public TypeScript API usage guide and examples
-- `docs/SAMPLES.md` — port status of ~136 upstream C++ samples (13 done)
+- `docs/SAMPLES.md` — port status of ~136 upstream C++ samples; **Easy next ports** queue + status tables
 - `docs/OTHER_PROJECTS.md` — comparison with other Box3D WASM projects (update WASM size here)
 - `docs/WASM_API_SURFACE.md` — API binding checklist (~70 TS methods, adding as we go)
 - `README.md` — project readme (may need updates for new features, build steps, etc.)
@@ -38,11 +38,41 @@ Every change should update all relevant docs to keep them accurate. As a rule: i
 
 When in doubt, grep for references to the file or API you changed.
 
+## What's next (session loop)
+
+The user often runs short agent sessions: ask what's next → do one unit of work → commit/push → new chat → repeat. Treat that as the default product workflow.
+
+### When the user asks "what's next"
+
+1. Check `git status` for unfinished local work. If the tree is dirty, prefer finishing/committing that before starting a new sample (say so clearly).
+2. Read `docs/SAMPLES.md` → **Easy next ports** (top of that section is the queue).
+3. Recommend **one** primary next item (plus at most 1–2 alternates). Prefer:
+   - `[ ]` + `🔧` (APIs already wrapped) over `🚧` / `🧩`
+   - Small, dump-ready samples over mesh/mover/events megasamples
+   - Infra fixes only when they block ports or you just found a real bug
+4. Answer briefly: what to do, why it's next, and what "done" means (sample + `SAMPLES.md` + dump compare when applicable).
+
+Do **not** invent a parallel todo list outside `docs/SAMPLES.md`. The Easy next ports list and status tables are the backlog.
+
+### When the user says "ok let's do it" (or similar)
+
+1. Do **one** queue item end-to-end (or the agreed alternate)—not a grab-bag of future ports.
+2. Follow Goal / scene / dump-match guidance below.
+3. Update `docs/SAMPLES.md` in the same change: mark the sample `[x]`, refresh notes, and rewrite **Easy next ports** so the finished item is gone and the new top entries are still the best next picks.
+4. When the user asks to commit (and push), do that; do not commit unless asked. After push, a fresh agent should be able to answer "what's next" from `docs/SAMPLES.md` alone.
+
+### Hand-off checklist (before ending a port session)
+
+- [ ] Sample registered and behaves like upstream (geometry + defaults)
+- [ ] `bun run compare:sample -- sample="<id-or-name>"` green when the sample is dump-enabled
+- [ ] `docs/SAMPLES.md` status + Easy next ports updated
+- [ ] Related binding/docs size updates if you touched WASM (`WASM_API_SURFACE.md`, `OTHER_PROJECTS.md`)
+
 ## Goal
 
 Port all samples, then add extra samples for any API not covered by upstream samples. Approach:
 
-1. Pick a sample from `docs/SAMPLES.md` (start with "Easy next ports")
+1. Pick the next sample from `docs/SAMPLES.md` → **Easy next ports** (or an explicit user choice)
 2. If it needs WASM bindings that don't exist yet, add them:
    - Add C bridge function in `packages/box3d-wasm/cmake/box3d_web_*.c`
    - Put new C bridge functions in the domain-specific bridge file (`box3d_web_body.c`, `box3d_web_shape.c`, `box3d_web_joint.c`, `box3d_web_math.c`, etc.). If no good domain file exists, add one and wire it into `CMakeLists.txt`; do not pile unrelated helpers into the nearest existing file.
@@ -50,7 +80,7 @@ Port all samples, then add extra samples for any API not covered by upstream sam
    - Rebuild WASM, check gzipped size, update `docs/OTHER_PROJECTS.md`
    - Update `docs/WASM_API_SURFACE.md` and `docs/SAMPLES.md`
 3. Implement sample: worker + host file, register in `demo/src/samples/index.ts`
-4. Update `docs/SAMPLES.md` status
+4. Update `docs/SAMPLES.md` status **and** the Easy next ports queue
 
 ## Sample rendering guidance
 
@@ -72,7 +102,7 @@ Match upstream defaults, not just visible geometry:
 
 For one physics body with multiple visible shapes, use the generic host compound render spec (`kind: "compound", parts: [...]`) instead of adding fake render bodies. Fake bodies break worker snapshot/body-index mapping and picking.
 
-For benchmark-heavy samples (many bodies), prefer the **washer approach** (custom `ShaderMaterial` with per-instance quaternion attribute, ~7 floats per instance) over the **dominoes approach** (InstancedMesh with `setMatrixAt`, ~16 floats per instance). See `demo/src/samples/washer.ts` for the pattern.
+For benchmark-heavy samples (many bodies), prefer the shared multi-layer **shader-instanced host** (`demo/src/samples/shader-instanced-host.ts`, ~7 floats per instance) over the **dominoes approach** (`InstancedMesh` with `setMatrixAt`, ~16 floats per instance). Box/sphere benches and Washer (shader path) / Rain already use it; see those samples for patterns.
 
 ## Scene file pattern
 

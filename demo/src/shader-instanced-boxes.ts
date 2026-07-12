@@ -6,11 +6,14 @@ export function hexToRgb(hex: number, out: Float32Array, offset: number): void {
   out[offset + 2] = (hex & 0xff) / 255;
 }
 
-export type ShaderBoxMeshOptions = {
+export type ShaderInstanceMeshOptions = {
   shadows?: boolean;
 };
 
-export type ShaderBoxMesh = {
+/** @deprecated Use ShaderInstanceMeshOptions */
+export type ShaderBoxMeshOptions = ShaderInstanceMeshOptions;
+
+export type ShaderInstanceMesh = {
   mesh: THREE.Mesh;
   positionArray: Float32Array;
   quaternionArray: Float32Array;
@@ -21,11 +24,14 @@ export type ShaderBoxMesh = {
   dispose(): void;
 };
 
+/** @deprecated Use ShaderInstanceMesh */
+export type ShaderBoxMesh = ShaderInstanceMesh;
+
 export function createShaderBoxMesh(
   count: number,
   size: number | [number, number, number] = 1,
-  options: ShaderBoxMeshOptions = {},
-): ShaderBoxMesh {
+  options: ShaderInstanceMeshOptions = {},
+): ShaderInstanceMesh {
   const dimensions = typeof size === "number" ? [size, size, size] as const : size;
   const baseGeometry = new THREE.BoxGeometry(...dimensions);
   const mesh = createShaderInstanceMesh(baseGeometry, count, options);
@@ -36,8 +42,8 @@ export function createShaderBoxMesh(
 export function createShaderInstanceMesh(
   baseGeometry: THREE.BufferGeometry,
   count: number,
-  options: ShaderBoxMeshOptions = {},
-): ShaderBoxMesh {
+  options: ShaderInstanceMeshOptions = {},
+): ShaderInstanceMesh {
   const shadows = options.shadows ?? false;
   const geometry = new THREE.InstancedBufferGeometry();
   if (baseGeometry.index !== null) geometry.index = baseGeometry.index.clone();
@@ -109,20 +115,23 @@ export function createShaderInstanceMesh(
 }
 
 export function bindSnapshotTransforms(
-  shaderMesh: ShaderBoxMesh,
+  shaderMesh: ShaderInstanceMesh,
   positions: Float32Array,
   rotations: Float32Array,
   count: number,
+  bodyOffset = 0,
 ): void {
   const geometry = shaderMesh.mesh.geometry as THREE.InstancedBufferGeometry;
-  const positionAttribute = new THREE.InstancedBufferAttribute(positions.subarray(0, count * 3), 3);
-  const quaternionAttribute = new THREE.InstancedBufferAttribute(rotations.subarray(0, count * 4), 4);
+  const pStart = bodyOffset * 3;
+  const qStart = bodyOffset * 4;
+  const positionAttribute = new THREE.InstancedBufferAttribute(positions.subarray(pStart, pStart + count * 3), 3);
+  const quaternionAttribute = new THREE.InstancedBufferAttribute(rotations.subarray(qStart, qStart + count * 4), 4);
   positionAttribute.setUsage(THREE.DynamicDrawUsage);
   quaternionAttribute.setUsage(THREE.DynamicDrawUsage);
   geometry.setAttribute("instancePosition", positionAttribute);
   geometry.setAttribute("instanceQuaternion", quaternionAttribute);
   shaderMesh.positionAttribute = positionAttribute;
   shaderMesh.quaternionAttribute = quaternionAttribute;
-  shaderMesh.positionArray = positions.subarray(0, count * 3);
-  shaderMesh.quaternionArray = rotations.subarray(0, count * 4);
+  shaderMesh.positionArray = positions.subarray(pStart, pStart + count * 3);
+  shaderMesh.quaternionArray = rotations.subarray(qStart, qStart + count * 4);
 }

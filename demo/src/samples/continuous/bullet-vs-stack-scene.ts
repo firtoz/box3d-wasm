@@ -3,6 +3,13 @@ import type { RenderBody, RenderSpec } from "../generic-host";
 import { f32, f32Add, f32Mul } from "../f32";
 
 const boxHalf: Vec3 = [f32(0.5), f32(0.5), f32(0.5)];
+const wallLocal: Vec3 = [f32(-1), f32(5), 0];
+const wallHalf: Vec3 = [f32(0.1), f32(5), f32(10)];
+/** Upstream `shapeDef.density *= 10` on default density 1000. */
+const BULLET_DENSITY = 10000;
+const BULLET_RADIUS = f32(0.25);
+const BULLET_POSITION: Vec3 = [f32(20.5), f32(5.5), 0];
+const BULLET_VELOCITY: Vec3 = [f32(-500), 0, 0];
 
 function stackBodyY(row: number): number {
   // Match upstream float32: 0.5f + 1.1f * row
@@ -10,9 +17,10 @@ function stackBodyY(row: number): number {
 }
 
 function buildStack(world: PhysicsWorld, runtime: Box3DRuntime, handles: number[]): void {
+  // Upstream attaches the wall hull to a static body at (0, -1, 0) via a local transform.
   const wallBody = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
   handles.push(wallBody);
-  runtime.createTransformedHullShape(wallBody, [f32(0.1), f32(5), f32(10)], { position: [-1, 5, 0] });
+  runtime.createTransformedHullShape(wallBody, wallHalf, { position: wallLocal });
 
   for (let row = 0; row < 10; row++) {
     const body = world.createBody({ type: BodyType.Dynamic, position: [0, stackBodyY(row), 0] });
@@ -25,10 +33,10 @@ export function launchBullet(world: PhysicsWorld, runtime: Box3DRuntime, handles
   const bullet = world.createBody({
     type: BodyType.Dynamic,
     isBullet: true,
-    position: [f32(20.5), f32(5.5), 0],
-    linearVelocity: [f32(-500), 0, 0],
+    position: BULLET_POSITION,
+    linearVelocity: BULLET_VELOCITY,
   });
-  runtime.createSphereShape(bullet, [0, 0, 0], f32(0.25), { density: 10000 });
+  runtime.createSphereShape(bullet, [0, 0, 0], BULLET_RADIUS, { density: BULLET_DENSITY });
   handles.push(bullet);
   return bullet;
 }
@@ -43,11 +51,25 @@ export function bulletVsStackGroundSize(): Vec3 { return [50, 1, 50]; }
 
 export function createBulletVsStackBodies(): RenderBody[] {
   const bodies: RenderBody[] = [
-    { kind: "box", size: [0.2, 10, 20], position: [-1, 5, 0], color: 0x94a3b8, type: BodyType.Static },
+    {
+      kind: "box",
+      size: [2 * wallHalf[0], 2 * wallHalf[1], 2 * wallHalf[2]],
+      position: [0, -1, 0],
+      localPosition: [...wallLocal] as [number, number, number],
+      color: 0x94a3b8,
+      type: BodyType.Static,
+    },
   ];
   for (let row = 0; row < 10; row++) {
     bodies.push({ kind: "box", size: [1, 1, 1], position: [0, stackBodyY(row), 0], color: 0x60a5fa });
   }
+  // Slot for the launched CCD bullet (hidden until the worker tracks it).
+  bodies.push({
+    kind: "sphere",
+    radius: BULLET_RADIUS,
+    position: [BULLET_POSITION[0], -1000, BULLET_POSITION[2]],
+    color: 0xef4444,
+  });
   return bodies;
 }
 

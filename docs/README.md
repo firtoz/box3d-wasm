@@ -10,7 +10,7 @@ Project docs are split by audience and purpose. Prefer updating an existing doc 
 ## Implementation Tracking
 
 - [`WASM_API_SURFACE.md`](./WASM_API_SURFACE.md) - binding checklist for C bridge and TypeScript wrapper coverage.
-- [`SAMPLES.md`](./SAMPLES.md) - upstream Box3D sample port status and missing API notes.
+- [`SAMPLES.md`](./SAMPLES.md) - upstream Box3D sample port status, **Easy next ports** queue, and missing API notes.
 - [`reference-dump-plan.md`](./reference-dump-plan.md) - plan for C++/WASM sample transform dumps, local generated comparisons, and CI coverage.
 
 ## Project Context

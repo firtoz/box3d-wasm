@@ -10,6 +10,25 @@ Legend:
 
 ---
 
+---
+
+## Easy next ports
+
+Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short (about 5–8 items), ordered by preference. After finishing a port, remove it here, mark it `[x]` in the tables below, and refill from remaining `[ ]` + `🔧` rows (skip `🚧` / `🧩` unless the user asks for bindings/mesh work).
+
+1. **Manifold / Sphere vs Sphere** — trivial two-shape scene; good generic-host warm-up.
+2. **Manifold / Capsule vs Sphere** — same pattern, capsule render axis care.
+3. **Manifold / Capsule vs Capsule** — 🔧
+4. **Manifold / Hull vs Sphere** / **Hull vs Hull** — 🔧 hull helpers already exist.
+5. **Collision / Long Ray Cast** — `rayCastClosest` already wrapped; visualization + dump schedule.
+6. **Ragdoll / Pose** — `b3CreateHuman` posing; no new mesh floor.
+7. **Benchmark / Chains** or **Candy Cups** — 🔧; use `shader-instanced-host` if body count is high.
+8. **Joints / Driving** — complex but existing joints; larger session.
+
+Defer for later sessions: events (`🚧` callbacks), character movers, and most `🧩` mesh samples.
+
+---
+
 ## Bodies (`sample_bodies.cpp`)
 
 | Sample | TS | APIs needed | Notes |
@@ -68,7 +87,7 @@ Legend:
 | **Thin Wall** | [x] | CCD via `bodyDef.isBullet`, fast-moving bodies | 🔧 Static thin wall + 3 high-speed bullets (sphere, capsule, box). C++/WASM dump parity verified. |
 | **Bounce House** | [x] | CCD + restitution | 🔧 Compound static body (4 walls) + bouncing sphere with `gravityScale=0`, `restitution=1`. C++/WASM dump parity verified. |
 | **Spinning Stick** | [x] | CCD + thin fast-spinning body | 🔧 Thin wall + fast stick with hardcoded angular velocity from upstream `RandomVec3` printf. C++/WASM dump parity verified. |
-| **Bullet vs Stack** | [x] | CCD bullet + stack | 🔧 Wall + 10-box stack + mouse-launched bullet. Scripted launch at frame 1 for dump compare. Stack Y uses float32 `0.5f + 1.1f * row` via `f32Add`/`f32Mul`. C++/WASM dump parity verified at epsilon=1e-5 across default checkpoints. |
+| **Bullet vs Stack** | [x] | CCD bullet + stack | 🔧 Thin wall (local shape offset on static body) + 10-box stack + Launch/L CCD sphere (`density *= 10`). Worker + generic host; dump launches at frame 1. Stack Y uses float32 `0.5f + 1.1f * row`. C++/WASM dump parity verified at epsilon=1e-5. |
 | **Needle Mesh** | [ ] | CCD + mesh shape | 🧩 Needs mesh. |
 | **Mesh Drop** | [ ] | Mesh + CCD | 🧩 |
 | **Mesh Drop Unit Test** | [ ] | Same | 🧩 |
@@ -238,19 +257,19 @@ Legend:
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Large Pyramid** | [x] | Many box pyramid | 🔧 90-base pyramid (4095 boxes); continuous off (upstream). Shader host applies awake/sleep debug colors (`C` toggles light/full; Sleep toggle enables sleeping). Dump create still disables sleep. C++/WASM dump parity verified. |
-| **Wide Pyramid** | [x] | Wide pyramid | 🔧 15-layer 3D pyramid (~1190 boxes), washer-style shader instancing. C++/WASM dump parity verified. |
-| **Many Pyramids** | [x] | Multiple pyramids | 🔧 14×14 pyramids (base 10 → 10780 boxes), `Math.fround` positions. Sleeping disabled. Washer-style shader instancing. C++/WASM dump parity verified. |
-| **Rain** | [x] | Many falling ragdolls | Implemented. Host uses washer-style instanced capsule shaders (14 bone draws × up to 300 humans). Worker pre-sizes transform snapshots and grows the tracked body set as columns spawn. C++/WASM dump parity verified at epsilon=1e-5 for frames 0–64; chaotic drift afterward. `B3W_MAX_HUMANS` raised to 512 for full spawn count. |
+| **Large Pyramid** | [x] | Many box pyramid | 🔧 90-base pyramid (4095 boxes); continuous off (upstream). Shared multi-layer `shader-instanced-host` applies awake/sleep debug colors (`C` toggles light/full; Sleep toggle enables sleeping). Dump create still disables sleep. C++/WASM dump parity verified. |
+| **Wide Pyramid** | [x] | Wide pyramid | 🔧 15-layer 3D pyramid (~1190 boxes), shared `shader-instanced-host`. C++/WASM dump parity verified. |
+| **Many Pyramids** | [x] | Multiple pyramids | 🔧 14×14 pyramids (base 10 → 10780 boxes), `Math.fround` positions. Sleeping disabled. Shared `shader-instanced-host`. C++/WASM dump parity verified. |
+| **Rain** | [x] | Many falling ragdolls | Implemented. Host uses multi-layer `shader-instanced-host` gather draws (14 bone capsules × up to 300 humans). Worker pre-sizes transform snapshots and grows the tracked body set as columns spawn. C++/WASM dump parity verified at epsilon=1e-5 for frames 0–64; chaotic drift afterward. `B3W_MAX_HUMANS` raised to 512 for full spawn count. |
 | **Large World** | [ ] | Large world scale | 🔧 |
-| **Joint Grid** | [x] | Grid of joints | 🔧 100×100 spherical joint grid (10000 spheres) with filter bits. Sleeping disabled. Shader sphere instancing. C++/WASM dump parity verified. |
-| **Falling Boxes** | [x] | Many boxes | 🔧 50×8×8 = 3200 boxes, sleeping enabled. Washer-style shader instancing. C++/WASM dump parity verified. |
+| **Joint Grid** | [x] | Grid of joints | 🔧 100×100 spherical joint grid (10000 spheres) with filter bits. Sleeping disabled. Shared `shader-instanced-host` (spheres). C++/WASM dump parity verified. |
+| **Falling Boxes** | [x] | Many boxes | 🔧 50×8×8 = 3200 boxes, sleeping enabled. Shared `shader-instanced-host`. C++/WASM dump parity verified. |
 | **Candy Cups** | [ ] | Small convex shapes | 🔧 |
 | **Explosion** | [ ] | `b3World_Explode` | 🚧 `explode` not wrapped. |
 | **Height Field** | [ ] | Height field mesh | 🧩 |
 | **Falling Trees** | [ ] | Chains + trees | 🔧 |
 | **Sensor** | [ ] | Sensor shapes | 🔧 Maybe works. |
-| **Washer** | [x] | Custom convex hull | Implemented. |
+| **Washer** | [x] | Custom convex hull | Implemented. Shader path uses shared multi-layer `shader-instanced-host` (`bodyOffset: 1` + drum `setupScene`); matrix A/B path keeps `InstancedMesh` via shared `createWorkerSampleShell`. |
 | **Hull** | [ ] | Custom hulls | 🔧 |
 | **Chains** | [ ] | Joint chains | 🔧 Uses joints. |
 | **Destruction** | [ ] | Body destruction | 🔧 |

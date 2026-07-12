@@ -19,6 +19,7 @@ This tracks the current performance work for the WASM washer demo. Checkboxes sh
 - [x] Upload `7` floats per cube instead of `16` matrix floats per cube.
 - [ ] Keep drum, ground, camera, lights, controls, and projectiles compatible with existing Three.js scene flow.
 - [x] Add bench variants to compare shader path against current `InstancedMesh` path.
+- [x] Route the washer shader path through the shared multi-layer `shader-instanced-host` (drum via `setupScene`; matrix A/B still sample-local).
 
 ## Worker Publish Path
 
