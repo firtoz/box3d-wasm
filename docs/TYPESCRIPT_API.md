@@ -424,6 +424,15 @@ Games that spawn large dynamic scenes should load the growable build:
 const runtime = await Box3DRuntime.load({ variant: "growable" });
 ```
 
+When loading from a Web Worker or hosting under a subpath (for example GitHub Pages at `/repo/`), pass `baseUrl` so the runtime can find `wasm/`:
+
+```ts
+const runtime = await Box3DRuntime.load({
+  variant: "release",
+  baseUrl: import.meta.env.BASE_URL, // e.g. "/box3d-wasm/"
+});
+```
+
 Slot limits are the same in both builds; growth only affects Box3D engine heap allocations.
 
 ### World capacity hints

@@ -1,9 +1,10 @@
 import { BodyType, Box3DRuntime, type BodyBatchBuffers, type BodyHandle, type JointHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { PhysicsWorkerCommand, PhysicsWorkerMessage, SolverParams } from "./physics-worker-protocol";
-import { MAX_PROJECTILES, RAGDOLL_RENDER_BONE_COUNT, SNAPSHOT_AWAKE_COUNT_INDEX, SNAPSHOT_CUMULATIVE_STEPS_INDEX, SNAPSHOT_DROPPED_MS_X100_INDEX, SNAPSHOT_LAG_MS_X100_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_PUBLISH_MS_X100_INDEX, SNAPSHOT_STEP_MS_X100_INDEX, SNAPSHOT_STEPS_INDEX, SNAPSHOT_VERSION_INDEX, SNAPSHOT_STATE_COUNT } from "./physics-worker-protocol";
+import { MAX_PROJECTILES, RAGDOLL_RENDER_BONE_COUNT, SNAPSHOT_AWAKE_COUNT_INDEX, SNAPSHOT_COLLIDE_MS_X100_INDEX, SNAPSHOT_CUMULATIVE_STEPS_INDEX, SNAPSHOT_PAIRS_MS_X100_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_PUBLISH_MS_X100_INDEX, SNAPSHOT_SOLVE_MS_X100_INDEX, SNAPSHOT_STEP_MS_X100_INDEX, SNAPSHOT_STEPS_INDEX, SNAPSHOT_VERSION_INDEX, SNAPSHOT_STATE_COUNT } from "./physics-worker-protocol";
 
 const MAX_CATCHUP_STEPS = 4;
 const MOUSE_FORCE_SCALE = 100;
+const GRAVITY_MAGNITUDE = 10;
 /** Match upstream Box3D `b3DefaultWorldDef` gravity (`y = -10`). */
 const DEFAULT_GRAVITY: Vec3 = [0, -10, 0];
 
@@ -135,7 +136,12 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.maxWorkerCount = cmd.maxWorkers ?? 127;
     this.currentWorkerCount = cmd.workerCount ?? this.currentWorkerCount;
 
-    this.runtime = await Box3DRuntime.load({ version: cmd.wasmVersion, variant: cmd.wasmVariant, poolSize: cmd.poolSize });
+    this.runtime = await Box3DRuntime.load({
+      version: cmd.wasmVersion,
+      variant: cmd.wasmVariant,
+      poolSize: cmd.poolSize,
+      baseUrl: cmd.wasmBaseUrl,
+    });
     this.world = this.runtime.createWorld({ gravity: DEFAULT_GRAVITY, workerCount: this.currentWorkerCount });
     console.log("[worker]", "checkThreadingSupport:", this.runtime.checkThreadingSupport());
     console.log("[worker]", "workerCount:", this.world.getWorkerCount());
@@ -156,7 +162,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.allocateSharedBuffers();
     this.totalSteps = 0;
 
-    this.publishSnapshot(0, 0, 0, 0);
+    this.publishSnapshot(0, { step: 0, pairs: 0, collide: 0, solve: 0 });
     this.postReady();
 
     this.lastTickTime = performance.now();
@@ -207,20 +213,24 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
   // --- Tick ---
 
-  protected stepPhysics(): number {
-    if (this.world === null) return 0;
-    const start = performance.now();
+  protected stepPhysics(): void {
+    if (this.world === null) return;
     this.world.step(this.fixedTimeStep, this.subSteps);
     // Count every physics step here (not only on snapshot publish) so spawn/post-step
     // hooks stay aligned with upstream Sample::Step / m_stepCount cadence.
     this.totalSteps += 1;
-    return performance.now() - start;
+  }
+
+  private readProfileTotals(): { step: number; pairs: number; collide: number; solve: number } {
+    if (this.world === null) return { step: 0, pairs: 0, collide: 0, solve: 0 };
+    const p = this.world.getProfile();
+    return { step: p.step, pairs: p.pairs, collide: p.collide, solve: p.solve };
   }
 
   private stepOnce(): void {
-    const stepMs = this.stepPhysics();
+    this.stepPhysics();
     this.lastPublishTime = 0;
-    this.publishSnapshot(stepMs, 1, this.accumulator * 1000, 0);
+    this.publishSnapshot(1, this.readProfileTotals());
   }
 
   private tick(): void {
@@ -234,20 +244,26 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.lastTickTime = now;
 
     let steps = 0;
-    let stepMs = 0;
+    let step = 0;
+    let pairs = 0;
+    let collide = 0;
+    let solve = 0;
     while (this.accumulator >= this.fixedTimeStep && steps < MAX_CATCHUP_STEPS) {
-      stepMs = this.stepPhysics();
+      this.stepPhysics();
+      const p = this.readProfileTotals();
+      step += p.step;
+      pairs += p.pairs;
+      collide += p.collide;
+      solve += p.solve;
       this.accumulator -= this.fixedTimeStep;
       steps++;
     }
 
-    let droppedMs = 0;
     if (steps === MAX_CATCHUP_STEPS && this.accumulator >= this.fixedTimeStep) {
-      droppedMs = this.accumulator * 1000;
       this.accumulator = 0;
     }
 
-    if (steps > 0 && this.shouldPublish()) this.publishSnapshot(stepMs, steps, this.accumulator * 1000, droppedMs);
+    if (steps > 0 && this.shouldPublish()) this.publishSnapshot(steps, { step, pairs, collide, solve });
   }
 
   private shouldPublish(): boolean {
@@ -258,7 +274,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     return false;
   }
 
-  private publishSnapshot(stepMs: number, steps: number, lagMs: number, droppedMs: number): void {
+  private publishSnapshot(steps: number, profile: { step: number; pairs: number; collide: number; solve: number }): void {
     if (this.world === null || this.bodyBatch === null || this.positions === null || this.rotations === null || this.awake === null || this.colors === null || this.state === null) return;
     const publishStart = performance.now();
 
@@ -290,11 +306,12 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
     Atomics.store(this.state, SNAPSHOT_AWAKE_COUNT_INDEX, awakeCount);
     Atomics.store(this.state, SNAPSHOT_PROJECTILE_COUNT_INDEX, projectileCount);
-    Atomics.store(this.state, SNAPSHOT_STEP_MS_X100_INDEX, Math.round(stepMs * 100));
+    Atomics.store(this.state, SNAPSHOT_STEP_MS_X100_INDEX, Math.round(profile.step * 100));
+    Atomics.store(this.state, SNAPSHOT_PAIRS_MS_X100_INDEX, Math.round(profile.pairs * 100));
+    Atomics.store(this.state, SNAPSHOT_COLLIDE_MS_X100_INDEX, Math.round(profile.collide * 100));
+    Atomics.store(this.state, SNAPSHOT_SOLVE_MS_X100_INDEX, Math.round(profile.solve * 100));
     Atomics.store(this.state, SNAPSHOT_PUBLISH_MS_X100_INDEX, Math.round(publishMs * 100));
-    Atomics.store(this.state, SNAPSHOT_LAG_MS_X100_INDEX, Math.round(lagMs * 100));
     Atomics.store(this.state, SNAPSHOT_STEPS_INDEX, steps);
-    Atomics.store(this.state, SNAPSHOT_DROPPED_MS_X100_INDEX, Math.round(droppedMs * 100));
     Atomics.store(this.state, SNAPSHOT_CUMULATIVE_STEPS_INDEX, this.totalSteps);
     Atomics.add(this.state, SNAPSHOT_VERSION_INDEX, 1);
 

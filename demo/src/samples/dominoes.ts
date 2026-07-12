@@ -6,7 +6,7 @@ import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDE
 import { createWorkerWorld, type WorkerWorldState } from "../worker-world-bridge";
 import { RAGDOLL_RENDER_BONES, ragdollCapsuleMesh } from "../ragdoll-render";
 import { wasmBuildVersion } from "virtual:wasm-version";
-import { getWasmVariant, getWorkerCounts } from "./shared";
+import { getWasmBaseUrl, getWasmVariant, getWorkerCounts } from "./shared";
 
 const dummy = new THREE.Object3D();
 const awakeColor = new THREE.Color(0xd2b48c);
@@ -112,7 +112,7 @@ export function createDominoesSample(multiplier: number): DemoSample {
         }
       });
       let colorMode = localStorage.getItem("box3d:color-mode") === "light" ? "light" : "full";
-      worker.postMessage({ type: "init", data: { multiplier }, workerCount: wc, maxWorkers, poolSize, solverParams: initialSolverParams, wasmVersion: wasmBuildVersion, wasmVariant: getWasmVariant() });
+      worker.postMessage({ type: "init", data: { multiplier }, workerCount: wc, maxWorkers, poolSize, solverParams: initialSolverParams, wasmVersion: wasmBuildVersion, wasmVariant: getWasmVariant(), wasmBaseUrl: getWasmBaseUrl() });
       worker.postMessage({ type: "set-color-mode", mode: colorMode });
 
       return {

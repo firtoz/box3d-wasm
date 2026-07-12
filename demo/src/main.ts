@@ -3,7 +3,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Stats from "stats.js";
 import { BodyType, Box3DRuntime, type BodyHandle, type JointHandle, type Quat, type Vec3 } from "box3d-wasm";
 import { samples, type ControlSpec, type DemoBody, type DemoSampleInstance, type SolverParams } from "./samples";
-import { getWasmVariant, getWasmVariantOptions, getWorkerCounts } from "./samples/shared";
+import { getWasmBaseUrl, getWasmVariant, getWasmVariantOptions, getWorkerCounts } from "./samples/shared";
 import "./style.css";
 
 const app = document.querySelector<HTMLDivElement>("#app");
@@ -182,10 +182,10 @@ const CHART_LEN = 600;
 const CHART_GAP = 8;
 
 const chartDefs = [
-  { key: "step" as const, color: "#00ff88", label: "step", desc: "Time Box3D took to run one physics step (ms). Higher = more CPU work." },
-  { key: "publish" as const, color: "#88ccff", label: "pub", desc: "Time to copy transforms from wasm heap to shared buffers (ms). Overhead of the JS bridge." },
-  { key: "lag" as const, color: "#ffaa00", label: "lag", desc: "Accumulated time debt after catching up (ms). Rises when real-time outruns physics." },
-  { key: "dropped" as const, color: "#ff4444", label: "drop", desc: "Time discarded when debt exceeded the max catchup limit (ms). Sim skipped this much wall-clock time." },
+  { key: "step" as const, color: "#6699ff", label: "step", desc: "b3Profile.step — total Box3D world step time (ms). Same top-line metric as the C++ samples Profile tab." },
+  { key: "pairs" as const, color: "#dcdcdc", label: "pairs", desc: "b3Profile.pairs — broadphase pair finding (ms)." },
+  { key: "collide" as const, color: "#ff8c33", label: "collide", desc: "b3Profile.collide — narrowphase contact generation (ms)." },
+  { key: "solve" as const, color: "#66cc66", label: "solve", desc: "b3Profile.solve — constraint solve (ms)." },
 ];
 
 const chartTooltip = document.createElement("div");
@@ -250,20 +250,20 @@ function updatePhysChartVisibility(): void {
 if (chartsEnabled) ensurePhysCharts();
 
 let lastChartDrawTime = 0;
-let lastProfileSample: { step: number; solve: number; pairs: number; collide: number; solverSetup: number } | null = null;
+let lastProfileSample: { step: number; pairs: number; collide: number; solve: number; solverSetup: number; constraints: number } | null = null;
 let timingLastLog = 0;
 let timingFrames = 0;
 let timingStepMs = 0;
 let timingChartsMs = 0;
 let timingRenderMs = 0;
 let benchTimingActive = false;
-const physHistory: { step: number; steps: number; lag: number; dropped: number; publish: number }[] = [];
+const physHistory: { step: number; pairs: number; collide: number; solve: number }[] = [];
 let physHistoryHead = 0;
 let physHistoryFilled = 0;
 
-function pushPhysProfile(p: { step: number; solve: number; pairs: number; collide: number; solverSetup: number }): void {
+function pushPhysProfile(p: { step: number; pairs: number; collide: number; solve: number }): void {
   if (physHistory.length < CHART_LEN) physHistory.length = CHART_LEN;
-  physHistory[physHistoryHead] = { step: p.step, steps: p.solve, lag: p.pairs, dropped: p.collide, publish: p.solverSetup };
+  physHistory[physHistoryHead] = { step: p.step, pairs: p.pairs, collide: p.collide, solve: p.solve };
   physHistoryHead = (physHistoryHead + 1) % CHART_LEN;
   if (physHistoryFilled < CHART_LEN) physHistoryFilled++;
 }
@@ -866,7 +866,7 @@ function updateMetrics(): void {
   let text = `Body:${c.bodyCount} Awake:${awake} Shape:${c.shapeCount} Contact:${c.contactCount} Joint:${c.jointCount} Island:${c.islandCount} Tree:${c.treeHeight} Static:${c.staticTreeHeight}`;
   if (chartsEnabled && activeSample.profile && lastProfileSample !== null) {
     const p = lastProfileSample;
-    text += ` | Phys:${p.step.toFixed(2)}ms Pub:${p.solverSetup.toFixed(2)}ms Steps:${p.solve.toFixed(0)} Lag:${p.pairs.toFixed(1)}ms Drop:${p.collide.toFixed(1)}ms`;
+    text += ` | Step:${p.step.toFixed(2)}ms Pairs:${p.pairs.toFixed(2)}ms Collide:${p.collide.toFixed(2)}ms Solve:${p.solve.toFixed(2)}ms Pub:${p.solverSetup.toFixed(2)}ms Catchup:${p.constraints.toFixed(0)}`;
   }
   text += ` | Workers:${wc}`;
   metricsElement.textContent = text;
@@ -1064,7 +1064,7 @@ async function ensureRuntimeLoaded(): Promise<Box3DRuntime> {
   if (runtime !== null) return runtime;
   if (runtimePromise === null) {
     const { poolSize } = getWorkerCounts();
-    runtimePromise = Box3DRuntime.load({ variant: wasmVariant, poolSize });
+    runtimePromise = Box3DRuntime.load({ variant: wasmVariant, poolSize, baseUrl: getWasmBaseUrl() });
   }
   runtime = await runtimePromise;
   return runtime;
@@ -1211,9 +1211,9 @@ function frame(time: number): void {
     pushPhysProfile(lastProfileSample);
     ensurePhysCharts();
     chartLabels[0].textContent = `${lastProfileSample.step.toFixed(1)}ms`;
-    chartLabels[1].textContent = `${lastProfileSample.solverSetup.toFixed(1)}ms`;
-    chartLabels[2].textContent = `${lastProfileSample.pairs.toFixed(1)}ms`;
-    chartLabels[3].textContent = `${lastProfileSample.collide.toFixed(1)}ms`;
+    chartLabels[1].textContent = `${lastProfileSample.pairs.toFixed(1)}ms`;
+    chartLabels[2].textContent = `${lastProfileSample.collide.toFixed(1)}ms`;
+    chartLabels[3].textContent = `${lastProfileSample.solve.toFixed(1)}ms`;
     drawPhysCharts();
     lastChartDrawTime = time;
   }
@@ -1403,7 +1403,7 @@ function setupBenchRunner(): void {
 
         const p = activeSample?.world.getProfile();
         const frameStats = frameTimingSummary();
-        const summary = p === undefined ? "" : ` step=${p.step.toFixed(2)}ms publish=${p.solverSetup.toFixed(2)}ms lag=${p.pairs.toFixed(1)}ms dropped=${p.collide.toFixed(1)}ms`;
+        const summary = p === undefined ? "" : ` step=${p.step.toFixed(2)}ms pairs=${p.pairs.toFixed(2)}ms collide=${p.collide.toFixed(2)}ms solve=${p.solve.toFixed(2)}ms publish=${p.solverSetup.toFixed(2)}ms`;
         const frameSummary = ` frames=${frameStats.frames} sampleStep=${frameStats.sampleStepMs.toFixed(2)}ms render=${frameStats.renderMs.toFixed(2)}ms charts=${frameStats.chartsMs.toFixed(2)}ms`;
         console.log(`[bench] ${variant.id} summary${summary}${frameSummary}`);
         console.timeStamp?.(`[bench] ${variant.id} summary${summary}${frameSummary}`);

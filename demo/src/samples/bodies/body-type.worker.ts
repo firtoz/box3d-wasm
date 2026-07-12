@@ -29,13 +29,11 @@ class BodyTypeWorker extends PhysicsWorkerBase {
     return handles;
   }
 
-  protected stepPhysics(): number {
-    if (this.platformId === null) return 0;
-    const start = performance.now();
+  protected stepPhysics(): void {
+    if (this.platformId === null) return;
     this.world!.step(this.fixedTimeStep, this.subSteps);
     this.platformVx = stepBodyType(this.world!, this.runtime!, this.platformId, this.bodyType, this.platformVx);
     this.totalSteps += 1;
-    return performance.now() - start;
   }
 
   protected handleCustomCommand(cmd: PhysicsWorkerCommand): boolean {

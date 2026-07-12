@@ -16,14 +16,12 @@ class WindDropWorker extends PhysicsWorkerBase {
     return handles;
   }
 
-  protected stepPhysics(): number {
-    if (this.world === null) return 0;
-    const start = performance.now();
+  protected stepPhysics(): void {
+    if (this.world === null) return;
     // Match C++ / dump: step first, then ApplyWind with wake=true.
     this.world.step(this.fixedTimeStep, this.subSteps);
     dumpPostStep(this.world, this.runtime!, [], this.totalSteps + 1, this.fixedTimeStep, { shapeId: this.shapeId });
     this.totalSteps += 1;
-    return performance.now() - start;
   }
 }
 

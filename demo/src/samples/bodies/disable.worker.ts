@@ -19,11 +19,9 @@ class DisableWorker extends PhysicsWorkerBase {
     return handles;
   }
 
-  protected stepPhysics(): number {
-    const start = performance.now();
+  protected stepPhysics(): void {
     this.world!.step(this.fixedTimeStep, this.subSteps);
     this.totalSteps += 1;
-    return performance.now() - start;
   }
 
   protected handleCustomCommand(cmd: PhysicsWorkerCommand): boolean {

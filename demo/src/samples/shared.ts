@@ -57,6 +57,11 @@ export function getWasmVariant(): DemoWasmVariant {
   return fallback;
 }
 
+/** Vite asset base (`/` locally, `/box3d-wasm/` on GitHub Pages). Workers need this to find `wasm/`. */
+export function getWasmBaseUrl(): string {
+  return import.meta.env.BASE_URL;
+}
+
 function yToX(): THREE.Quaternion {
   return new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(1, 0, 0));
 }

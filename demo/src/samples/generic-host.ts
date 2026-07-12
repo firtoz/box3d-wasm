@@ -7,7 +7,7 @@ import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDE
 import { createWorkerWorld, type WorkerWorldState } from "../worker-world-bridge";
 import { RAGDOLL_RENDER_BONES, ragdollCapsuleMesh } from "../ragdoll-render";
 import type { ControlSpec, DemoBody, DemoSample, SolverParams } from "./types";
-import { capsuleMesh, disposeBodies, getWasmVariant, getWorkerCounts } from "./shared";
+import { capsuleMesh, disposeBodies, getWasmBaseUrl, getWasmVariant, getWorkerCounts } from "./shared";
 
 const dummy = new THREE.Object3D();
 const localOffset = new THREE.Vector3();
@@ -177,7 +177,7 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
       let colorMode = localStorage.getItem("box3d:color-mode") === "light" ? "light" : "full";
       worker.postMessage({
         type: "init", data: {}, workerCount: wc, maxWorkers, poolSize,
-        solverParams: initialSolverParams, wasmVersion: wasmBuildVersion, wasmVariant: getWasmVariant(),
+        solverParams: initialSolverParams, wasmVersion: wasmBuildVersion, wasmVariant: getWasmVariant(), wasmBaseUrl: getWasmBaseUrl(),
       });
       worker.postMessage({ type: "set-color-mode", mode: colorMode });
 

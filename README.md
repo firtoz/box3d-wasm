@@ -2,6 +2,7 @@
 
 Box3D compiled to WebAssembly, with TypeScript bindings and a browser demo.
 
+[Open the live samples and demo](https://firtoz.github.io/box3d-wasm/).
 
 
 https://github.com/user-attachments/assets/1c161c46-1dae-45a0-8d77-cb8df45819e8

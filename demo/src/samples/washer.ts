@@ -6,7 +6,7 @@ import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDE
 import { createWorkerWorld, type WorkerWorldState } from "../worker-world-bridge";
 import { RAGDOLL_RENDER_BONES, ragdollCapsuleMesh } from "../ragdoll-render";
 import { wasmBuildVersion } from "virtual:wasm-version";
-import { getWasmVariant, getWorkerCounts } from "./shared";
+import { getWasmBaseUrl, getWasmVariant, getWorkerCounts } from "./shared";
 import { createShaderBoxMesh, hexToRgb } from "../shader-instanced-boxes";
 
 const dummy = new THREE.Object3D();
@@ -307,7 +307,7 @@ export function createWasherSample(forcedRenderMode?: WasherRenderMode, options:
           console.error(`Physics worker error: ${message.message}`);
         }
       });
-      worker.postMessage({ type: "init", data: {}, workerCount: wc, maxWorkers, poolSize, solverParams: initialSolverParams, wasmVersion: wasmBuildVersion, wasmVariant: getWasmVariant() });
+      worker.postMessage({ type: "init", data: {}, workerCount: wc, maxWorkers, poolSize, solverParams: initialSolverParams, wasmVersion: wasmBuildVersion, wasmVariant: getWasmVariant(), wasmBaseUrl: getWasmBaseUrl() });
       worker.postMessage({ type: "set-color-mode", mode: colorMode });
 
       function onKey(key: string): void {

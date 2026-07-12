@@ -4,6 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Box3D wasm demo</title>
+    <script>
+      if (!window.crossOriginIsolated && window.isSecureContext && "serviceWorker" in navigator) {
+        navigator.serviceWorker.addEventListener("controllerchange", () => window.location.reload());
+        navigator.serviceWorker
+          .register("%BASE_URL%coi-serviceworker.js")
+          .then((registration) => {
+            if (registration.active && !navigator.serviceWorker.controller) {
+              window.location.reload();
+            }
+          })
+          .catch((error) => {
+            console.error("Failed to enable cross-origin isolation:", error);
+          });
+      }
+    </script>
   </head>
   <body>
     <div id="app"></div>

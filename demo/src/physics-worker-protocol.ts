@@ -11,7 +11,7 @@ export type SolverParams = {
 };
 
 export type PhysicsWorkerCommand =
-  | { type: "init"; data: unknown; workerCount?: number; maxWorkers?: number; poolSize?: number; solverParams?: SolverParams; wasmVersion?: string; wasmVariant?: RuntimeLoadOptions["variant"] }
+  | { type: "init"; data: unknown; workerCount?: number; maxWorkers?: number; poolSize?: number; solverParams?: SolverParams; wasmVersion?: string; wasmVariant?: RuntimeLoadOptions["variant"]; wasmBaseUrl?: string }
   | { type: "spawn-projectile"; origin: Vec3; velocity: Vec3 }
   | { type: "spawn-ragdoll"; origin: Vec3; velocity: Vec3 }
   | { type: "drag-start"; origin: Vec3; translation: Vec3 }
@@ -49,12 +49,19 @@ export type PhysicsWorkerMessage =
 export const SNAPSHOT_VERSION_INDEX = 0;
 export const SNAPSHOT_AWAKE_COUNT_INDEX = 1;
 export const SNAPSHOT_PROJECTILE_COUNT_INDEX = 2;
+/** b3Profile.step (ms × 100), summed across catch-up steps in a publish. */
 export const SNAPSHOT_STEP_MS_X100_INDEX = 3;
-export const SNAPSHOT_LAG_MS_X100_INDEX = 4;
-export const SNAPSHOT_STEPS_INDEX = 5;
-export const SNAPSHOT_DROPPED_MS_X100_INDEX = 6;
-export const SNAPSHOT_CUMULATIVE_STEPS_INDEX = 7;
-export const SNAPSHOT_PUBLISH_MS_X100_INDEX = 8;
+/** b3Profile.pairs (ms × 100) */
+export const SNAPSHOT_PAIRS_MS_X100_INDEX = 4;
+/** b3Profile.collide (ms × 100) */
+export const SNAPSHOT_COLLIDE_MS_X100_INDEX = 5;
+/** b3Profile.solve (ms × 100) */
+export const SNAPSHOT_SOLVE_MS_X100_INDEX = 6;
+/** Host-side transform publish cost (ms × 100); web-only, not from b3Profile. */
+export const SNAPSHOT_PUBLISH_MS_X100_INDEX = 7;
+/** Physics steps executed in the last published tick (catch-up count). */
+export const SNAPSHOT_STEPS_INDEX = 8;
+export const SNAPSHOT_CUMULATIVE_STEPS_INDEX = 9;
 export const SNAPSHOT_STATE_COUNT = 10;
 export const MAX_PROJECTILES = 2048;
 export const RAGDOLL_RENDER_BONE_COUNT = 14;

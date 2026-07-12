@@ -1,6 +1,15 @@
 import type { PhysicsWorld } from "box3d-wasm";
 import type { PhysicsWorkerCommand } from "./physics-worker-protocol";
-import { SNAPSHOT_AWAKE_COUNT_INDEX, SNAPSHOT_DROPPED_MS_X100_INDEX, SNAPSHOT_LAG_MS_X100_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_PUBLISH_MS_X100_INDEX, SNAPSHOT_STEP_MS_X100_INDEX, SNAPSHOT_STEPS_INDEX } from "./physics-worker-protocol";
+import {
+  SNAPSHOT_AWAKE_COUNT_INDEX,
+  SNAPSHOT_COLLIDE_MS_X100_INDEX,
+  SNAPSHOT_PAIRS_MS_X100_INDEX,
+  SNAPSHOT_PROJECTILE_COUNT_INDEX,
+  SNAPSHOT_PUBLISH_MS_X100_INDEX,
+  SNAPSHOT_SOLVE_MS_X100_INDEX,
+  SNAPSHOT_STEP_MS_X100_INDEX,
+  SNAPSHOT_STEPS_INDEX,
+} from "./physics-worker-protocol";
 
 export type WorkerWorldState = {
   count: number;
@@ -36,12 +45,34 @@ export function createWorkerWorld(
     },
     getProfile: () => {
       const st = getState();
-      const step = st === null ? 0 : Atomics.load(st.state, SNAPSHOT_STEP_MS_X100_INDEX) / 100;
-      const publish = st === null ? 0 : Atomics.load(st.state, SNAPSHOT_PUBLISH_MS_X100_INDEX) / 100;
-      const lag = st === null ? 0 : Atomics.load(st.state, SNAPSHOT_LAG_MS_X100_INDEX) / 100;
-      const steps = st === null ? 0 : Atomics.load(st.state, SNAPSHOT_STEPS_INDEX);
-      const dropped = st === null ? 0 : Atomics.load(st.state, SNAPSHOT_DROPPED_MS_X100_INDEX) / 100;
-      return { step, pairs: lag, collide: dropped, solve: steps, solverSetup: publish, constraints: 0, prepareConstraints: 0, integrateVelocities: 0, warmStart: 0, solveImpulses: 0, integratePositions: 0, relaxImpulses: 0, applyRestitution: 0, storeImpulses: 0, splitIslands: 0, transforms: 0, sensorHits: 0, jointEvents: 0, hitEvents: 0, refit: 0, bullets: 0, sleepIslands: 0, sensors: 0 };
+      const load = (index: number): number => (st === null ? 0 : Atomics.load(st.state, index) / 100);
+      return {
+        step: load(SNAPSHOT_STEP_MS_X100_INDEX),
+        pairs: load(SNAPSHOT_PAIRS_MS_X100_INDEX),
+        collide: load(SNAPSHOT_COLLIDE_MS_X100_INDEX),
+        solve: load(SNAPSHOT_SOLVE_MS_X100_INDEX),
+        // Web-only bridge publish cost, parked here so the HUD can show it without a second API.
+        solverSetup: load(SNAPSHOT_PUBLISH_MS_X100_INDEX),
+        // Catch-up step count for the last published tick (not milliseconds).
+        constraints: st === null ? 0 : Atomics.load(st.state, SNAPSHOT_STEPS_INDEX),
+        prepareConstraints: 0,
+        integrateVelocities: 0,
+        warmStart: 0,
+        solveImpulses: 0,
+        integratePositions: 0,
+        relaxImpulses: 0,
+        applyRestitution: 0,
+        storeImpulses: 0,
+        splitIslands: 0,
+        transforms: 0,
+        sensorHits: 0,
+        jointEvents: 0,
+        hitEvents: 0,
+        refit: 0,
+        bullets: 0,
+        sleepIslands: 0,
+        sensors: 0,
+      };
     },
     getWorkerCount: () => getWorkerCount(),
     rayCastClosest: () => null,

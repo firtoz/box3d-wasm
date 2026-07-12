@@ -165,7 +165,13 @@ export interface CompoundHullEntry { halfWidths: Vec3; transform: BodyTransform;
 export interface CompoundSphereEntry { center: Vec3; radius: number; friction?: number; restitution?: number; rollingResistance?: number; }
 export interface ShapeHandle { bodyHandle: BodyHandle; shapeHandle: ShapeId; }
 export interface MeshShapeOptions extends ShapeDef { scale?: Vec3; }
-export interface RuntimeLoadOptions { version?: string; variant?: "release" | "profile" | "growable"; poolSize?: number; }
+export interface RuntimeLoadOptions {
+  version?: string;
+  variant?: "release" | "profile" | "growable";
+  poolSize?: number;
+  /** Asset base path for `wasm/` (must end with `/`). Needed in workers and on subpath hosts like GitHub Pages. */
+  baseUrl?: string;
+}
 export interface RuntimeAPI {
   readonly limits: SlotLimits;
   createWorld(options?: WorldOptions): PhysicsWorld;
@@ -346,7 +352,15 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   static async load(options: RuntimeLoadOptions = {}): Promise<Box3DRuntime> {
     if (options.poolSize !== undefined) globalThis.BOX3D_POOL_SIZE = options.poolSize;
     const locationHref = typeof window !== "undefined" ? window.location.href : globalThis.location.href;
-    const baseUrl = typeof document === "undefined" ? "/" : new URL(".", locationHref).pathname;
+    const configuredBase = options.baseUrl?.trim();
+    const baseUrl =
+      configuredBase !== undefined && configuredBase.length > 0
+        ? configuredBase.endsWith("/")
+          ? configuredBase
+          : `${configuredBase}/`
+        : typeof document === "undefined"
+          ? "/"
+          : new URL(".", locationHref).pathname;
     const moduleUrl = versionedUrl(`${baseUrl}${wasmDirectory(options.variant)}/box3d-web.js`, options.version);
     const absServerUrl = new URL(moduleUrl, locationHref).href;
     const moduleImport = (await import(/* @vite-ignore */ absServerUrl)) as ModuleImport;

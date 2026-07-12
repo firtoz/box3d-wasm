@@ -15,14 +15,14 @@ class RagdollInclineWorker extends PhysicsWorkerBase {
     return handles;
   }
 
-  protected stepPhysics(): number {
+  protected stepPhysics(): void {
     if (this.human !== null && this.time > 2 && this.motorized) {
       this.runtime!.setHumanJointFrictionTorque(this.human, 0.5);
       this.runtime!.setHumanJointSpringHertz(this.human, 0.5);
       this.motorized = false;
     }
     this.time += this.fixedTimeStep;
-    return super.stepPhysics();
+    super.stepPhysics();
   }
 }
 

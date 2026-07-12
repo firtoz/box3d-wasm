@@ -16,13 +16,11 @@ class KinematicWorker extends PhysicsWorkerBase {
     return handles;
   }
 
-  protected stepPhysics(): number {
-    if (this.kinematicBodyId === null) return 0;
+  protected stepPhysics(): void {
+    if (this.kinematicBodyId === null) return;
     this.kinematicTime = stepKinematic(this.world!, this.runtime!, this.kinematicBodyId, this.kinematicTime, this.fixedTimeStep);
-    const start = performance.now();
     this.world!.step(this.fixedTimeStep, this.subSteps);
     this.totalSteps += 1;
-    return performance.now() - start;
   }
 }
 

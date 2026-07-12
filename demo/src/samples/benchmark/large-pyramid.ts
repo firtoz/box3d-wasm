@@ -7,7 +7,7 @@ import { createWorkerWorld, type WorkerWorldState } from "../../worker-world-bri
 import { RAGDOLL_RENDER_BONES, ragdollCapsuleMesh } from "../../ragdoll-render";
 import { bindSnapshotTransforms, createShaderBoxMesh, hexToRgb } from "../../shader-instanced-boxes";
 import { wasmBuildVersion } from "virtual:wasm-version";
-import { getWasmVariant, getWorkerCounts } from "../shared";
+import { getWasmBaseUrl, getWasmVariant, getWorkerCounts } from "../shared";
 import {
   forEachLargePyramidBox,
   LARGE_PYRAMID_BOX_COLOR,
@@ -105,7 +105,7 @@ export const largePyramidSample: DemoSample = {
     worker.postMessage({
       type: "init", data: {}, workerCount: wc, maxWorkers, poolSize,
       solverParams: { ...initialSolverParams, continuous: false },
-      wasmVersion: wasmBuildVersion, wasmVariant: getWasmVariant(),
+      wasmVersion: wasmBuildVersion, wasmVariant: getWasmVariant(), wasmBaseUrl: getWasmBaseUrl(),
     });
     worker.postMessage({ type: "set-color-mode", mode: colorMode });
 

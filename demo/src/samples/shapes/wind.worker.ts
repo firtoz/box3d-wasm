@@ -13,15 +13,13 @@ class WindWorker extends PhysicsWorkerBase {
     return built.handles;
   }
 
-  protected stepPhysics(): number {
-    if (this.world === null) return 0;
-    const start = performance.now();
+  protected stepPhysics(): void {
+    if (this.world === null) return;
     this.world.step(this.fixedTimeStep, this.subSteps);
     if (this.windState !== null && this.runtime !== null) {
       dumpPostStep(this.world, this.runtime, [], this.totalSteps + 1, this.fixedTimeStep, this.windState);
     }
     this.totalSteps += 1;
-    return performance.now() - start;
   }
 }
 

@@ -78,6 +78,7 @@ export default defineConfig(async () => {
     : (builtVariants[0] ?? "release");
 
   return {
+  base: process.env.VITE_BASE_PATH ?? "/",
   server: {
     host: "0.0.0.0",
     headers: {

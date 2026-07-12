@@ -13,9 +13,9 @@ class RainWorker extends PhysicsWorkerBase {
     return this.handles;
   }
 
-  protected stepPhysics(): number {
+  protected stepPhysics(): void {
     stepRain(this.world!, this.runtime!, this.handles, this.totalSteps, this.rainState);
-    return super.stepPhysics();
+    super.stepPhysics();
   }
 }
 
