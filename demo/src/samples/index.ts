@@ -74,6 +74,7 @@ import { fallingRagdollsSample } from "./determinism/falling-ragdolls";
 import { stallSample } from "./continuous/stall";
 import { rainSample } from "./benchmark/rain";
 import { candyCupsSample } from "./benchmark/candy-cups";
+import { explosionSample } from "./benchmark/explosion";
 import { motionLocksSample } from "./joints/motion-locks";
 import { windSample } from "./shapes/wind";
 import { windFlapSample } from "./shapes/wind-flap";
@@ -123,6 +124,7 @@ export const samples = [
   stallSample,
   rainSample,
   candyCupsSample,
+  explosionSample,
   motionLocksSample,
   singleBoxSample,
   cylinderSample,

@@ -113,6 +113,7 @@ export interface ShapeDef {
   restitution?: number;
   rollingResistance?: number;
   tangentVelocity?: Vec3;
+  explosionScale?: number;
   isSensor?: boolean;
   enableSensorEvents?: boolean;
   enableContactEvents?: boolean;
@@ -194,7 +195,7 @@ type CreateHullShapeFn = (bodyHandle: number, density: number, friction: number,
 type CreateTransformedHullShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, hx: number, hy: number, hz: number, sx: number, sy: number, sz: number) => number;
 type CreateSphereShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, px: number, py: number, pz: number, radius: number) => number;
 type CreateCapsuleShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, ax: number, ay: number, az: number, bx: number, by: number, bz: number, radius: number) => number;
-type CreateShapeFromHullFn = (bodyHandle: number, hullHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number) => number;
+type CreateShapeFromHullFn = (bodyHandle: number, hullHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number, explosionScale: number) => number;
 type CreateTransformedShapeFromHullFn = (bodyHandle: number, hullHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, sx: number, sy: number, sz: number) => number;
 type CreateCylinderFn = (height: number, radius: number, yOffset: number, sides: number) => number;
 type CreateGridMeshFn = (worldHandle: number, xCount: number, zCount: number, cellWidth: number, materialCount: number, identifyEdges: number) => number;
@@ -379,7 +380,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly createTransformedHullShapeFn = this.wrapNumber<CreateTransformedHullShapeFn>("b3wCreateTransformedHullShape", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createSphereShapeFn = this.wrapNumber<CreateSphereShapeFn>("b3wCreateSphereShape", ["number","number","number","number","number","number","number","number","number"]);
   private readonly createCapsuleShapeFn = this.wrapNumber<CreateCapsuleShapeFn>("b3wCreateCapsuleShape", ["number","number","number","number","number","number","number","number","number","number","number","number","number"]);
-  private readonly createShapeFromHullFn = this.wrapNumber<CreateShapeFromHullFn>("b3wCreateShapeFromHull", ["number","number","number","number","number","number","number"]);
+  private readonly createShapeFromHullFn = this.wrapNumber<CreateShapeFromHullFn>("b3wCreateShapeFromHull", ["number","number","number","number","number","number","number","number"]);
   private readonly createTransformedShapeFromHullFn = this.wrapNumber<CreateTransformedShapeFromHullFn>("b3wCreateTransformedShapeFromHull", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createCylinderFn = this.wrapNumber<CreateCylinderFn>("b3wCreateCylinder", ["number","number","number","number"]);
   private readonly createGridMeshFn = this.wrapNumber<CreateGridMeshFn>("b3wCreateGridMesh", ["number","number","number","number","number","number"]);
@@ -702,7 +703,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   }
 
   createShapeFromHull(bodyHandle: BodyHandle, hullHandle: HullHandle, def: ShapeDef = {}): ShapeId {
-    const shapeHandle = this.requireSlotHandle<number>(this.createShapeFromHullFn(bodyHandle, hullHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, def.updateBodyMass === false ? 0 : 1), "shapes");
+    const shapeHandle = this.requireSlotHandle<number>(this.createShapeFromHullFn(bodyHandle, hullHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, def.updateBodyMass === false ? 0 : 1, def.explosionScale ?? 1), "shapes");
     this.applyShapeDef(asShapeId(shapeHandle), def);
     return asShapeId(shapeHandle);
   }

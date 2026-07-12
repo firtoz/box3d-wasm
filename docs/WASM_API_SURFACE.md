@@ -133,7 +133,7 @@ When adding an API binding:
 - [x] Create transformed hull shape: `b3CreateTransformedHullShape`
 - [x] Create sphere shape: `b3CreateSphereShape`
 - [x] Create capsule shape: `b3CreateCapsuleShape`
-- [x] Create shape from existing hull: `b3CreateHullShape`
+- [x] Create shape from existing hull: `b3CreateHullShape` (optional `explosionScale` via `createShapeFromHull`)
 - [x] Create compound shape: `b3CreateCompoundShape`
 - [x] Set density: `b3Shape_SetDensity`
 - [x] Set friction: `b3Shape_SetFriction`

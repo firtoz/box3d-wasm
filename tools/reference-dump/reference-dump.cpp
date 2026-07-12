@@ -79,6 +79,14 @@ static std::vector<ScheduledInteraction> get_interaction_schedule(const char* sa
     };
   }
 
+  if (strcmp(sampleName, "Explosion") == 0)
+  {
+    // Match upstream Explode() defaults (impulse 1000).
+    return {
+      {1, {"explode", {0.0f, -4.0f, 0.0f, 16.0f, 0.0f, 1000.0f}}},
+    };
+  }
+
   return {};
 }
 

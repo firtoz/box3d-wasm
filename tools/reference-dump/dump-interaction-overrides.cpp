@@ -174,8 +174,9 @@ bool apply_dump_interaction( Sample* sample, const char* sampleName, const DumpI
 		return static_cast<DumpBulletVersusStack*>( sample )->ApplyDumpInteraction( interaction );
 	}
 
-	// Candy Cups (and any other body-only explode) only needs the world handle.
-	if ( strcmp( sampleName, "Candy Cups" ) == 0 && strcmp( interaction.action, "explode" ) == 0 )
+	// Candy Cups / Explosion only need the world handle for explode.
+	if ( ( strcmp( sampleName, "Candy Cups" ) == 0 || strcmp( sampleName, "Explosion" ) == 0 ) &&
+		 strcmp( interaction.action, "explode" ) == 0 )
 	{
 		b3ExplosionDef def = b3DefaultExplosionDef();
 		def.position = { interaction.args[0], interaction.args[1], interaction.args[2] };

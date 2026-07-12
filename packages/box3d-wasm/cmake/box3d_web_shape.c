@@ -113,7 +113,7 @@ B3W_EXPORT int b3wCreateCapsuleShape(int bodyHandle, float density, float fricti
 	return b3wAllocShapeSlot(shapeId);
 }
 
-B3W_EXPORT int b3wCreateShapeFromHull(int bodyHandle, int hullHandle, float density, float friction, float restitution, float rollingResistance, int updateBodyMass)
+B3W_EXPORT int b3wCreateShapeFromHull(int bodyHandle, int hullHandle, float density, float friction, float restitution, float rollingResistance, int updateBodyMass, float explosionScale)
 {
 	b3wBodySlot* body = b3wGetBody(bodyHandle);
 	b3wHullSlot* hull = b3wGetHull(hullHandle);
@@ -124,6 +124,7 @@ B3W_EXPORT int b3wCreateShapeFromHull(int bodyHandle, int hullHandle, float dens
 	shapeDef.baseMaterial.restitution = restitution;
 	shapeDef.baseMaterial.rollingResistance = rollingResistance;
 	shapeDef.updateBodyMass = updateBodyMass != 0;
+	shapeDef.explosionScale = explosionScale;
 	b3ShapeId shapeId = b3CreateHullShape(body->bodyId, &shapeDef, hull->hull);
 	return b3wAllocShapeSlot(shapeId);
 }
