@@ -7,7 +7,7 @@ export const compoundSimpleSample: DemoSample = {
   id: "compound-simple",
   name: "Compound / Simple",
   create(runtime: Box3DRuntime, scene: THREE.Scene) {
-    const world = runtime.createWorld({ gravity: [0, -9.81, 0] });
+    const world = runtime.createWorld({ gravity: [0, -10, 0] });
     const bodies: DemoBody[] = [];
 
     const a = 4;

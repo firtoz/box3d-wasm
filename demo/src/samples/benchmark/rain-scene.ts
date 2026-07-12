@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderSpec } from "../generic-host";
 import { buildBenchmarkTileGround, spawnHumanGroup } from "./benchmark-tile-shared";
 import { f32 } from "../f32";

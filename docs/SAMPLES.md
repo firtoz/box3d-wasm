@@ -68,7 +68,7 @@ Legend:
 | **Thin Wall** | [x] | CCD via `bodyDef.isBullet`, fast-moving bodies | 🔧 Static thin wall + 3 high-speed bullets (sphere, capsule, box). C++/WASM dump parity verified. |
 | **Bounce House** | [x] | CCD + restitution | 🔧 Compound static body (4 walls) + bouncing sphere with `gravityScale=0`, `restitution=1`. C++/WASM dump parity verified. |
 | **Spinning Stick** | [x] | CCD + thin fast-spinning body | 🔧 Thin wall + fast stick with hardcoded angular velocity from upstream `RandomVec3` printf. C++/WASM dump parity verified. |
-| **Bullet vs Stack** | [x] | CCD bullet + stack | 🔧 Wall + 10-box stack + mouse-launched bullet. Scripted launch at frame 1 for dump compare. Frames 0–1 match exactly; later divergence is chaotic bullet/stack interaction (same class as other CCD pile samples). |
+| **Bullet vs Stack** | [x] | CCD bullet + stack | 🔧 Wall + 10-box stack + mouse-launched bullet. Scripted launch at frame 1 for dump compare. Stack Y uses float32 `0.5f + 1.1f * row` via `f32Add`/`f32Mul`. C++/WASM dump parity verified at epsilon=1e-5 across default checkpoints. |
 | **Needle Mesh** | [ ] | CCD + mesh shape | 🧩 Needs mesh. |
 | **Mesh Drop** | [ ] | Mesh + CCD | 🧩 |
 | **Mesh Drop Unit Test** | [ ] | Same | 🧩 |
@@ -80,7 +80,7 @@ Legend:
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Falling Ragdolls** | [x] | `b3CreateHuman`, ragdoll creation | Implemented. C++/WASM dump parity verified at epsilon=1e-5 for frames 0–100; later frames drift like other ragdoll piles. Ground tile + human spawn order matches upstream. |
+| **Falling Ragdolls** | [x] | `b3CreateHuman`, ragdoll creation | Implemented. C++/WASM dump parity verified at epsilon=1e-5 for frames 0–200; frame 300 drifts like other multi-ragdoll piles. Ground tile + human spawn order matches upstream; spawn layout uses float32-safe helpers. |
 
 ## Events (`sample_events.cpp`)
 
@@ -170,7 +170,7 @@ Legend:
 |--------|----|-------------|-------|
 | **Box** | [x] | `b3CreateHuman` + drop on box | 🔧 Single human on box ground. C++ reference dump uses `Ragdoll/Box` (disambiguates Mesh/Box). C++/WASM dump parity verified. |
 | **Mesh** | [ ] | Human + mesh floor | 🧩 |
-| **Pile** | [x] | Multiple humans piling | 🔧 20 humans on mesh floor (release build count). Frame 0 matches exactly; frame 300+ divergence is native-vs-WASM solver FP drift in the chaotic ragdoll pile (same story as Far Ragdolls). |
+| **Pile** | [x] | Multiple humans piling | 🔧 20 humans on mesh floor (release build count). Spawn positions use float32-safe `0.1f * i` arithmetic (`f32Mul`/`f32Add`). Matches through frame ~46 at 1e-5; later divergence is native-vs-WASM solver FP drift in the multi-contact ragdoll pile (single-human `ragdoll/box` matches fully). |
 | **Incline** | [x] | Human + inclined ramp | Implemented. C++/WASM dump parity verified at epsilon=1e-5. Motor demotion at 2s via `dumpStep`. |
 | **Pose** | [ ] | Human posing | 🔧 |
 
@@ -197,8 +197,8 @@ Legend:
 | **Conveyor Belt** | [x] | `shapeDef.baseMaterial.tangentVelocity` | 🔧 Platform with `tangentVelocity` + 5 boxes. Required adding `tangentVelocity` params to `b3wShapeSetSurfaceMaterial` bridge. C++/WASM dump parity verified. |
 | **Conveyor Mesh** | [ ] | Mesh + tangent velocities per-material | 🧩🚧 Mesh + material per triangle. |
 | **Wind** | [x] | `b3Shape_ApplyWind`, spherical joint chain | 🔧 Ten box shapes on a spherical joint chain (not all anchored to ground). `dumpPostStep` uses WASM `randomVec3`, `lerpVec3`, and `getLengthAndNormalize` for bit-exact upstream noise/wind math. C++/WASM dump parity verified at epsilon=1e-5. |
-| **Wind Drop** | [x] | `b3Shape_ApplyWind` on single shape | 🔧 Thin plate with post-step wind (`wake=true`). Frames 0–100 close (~1e-5 on position); frame 300 angular velocity diverges in chaotic tumbling (lift=4). |
-| **Wind Flap** | [x] | Wind + revolute joints + spring | 🔧 Flapping wings driven by `setRevoluteJointTargetAngle` + `b3wSin`. Frames 0–200 match at 1e-5; frame 300 wing ω drift ~1.9e-5. |
+| **Wind Drop** | [x] | `b3Shape_ApplyWind` on single shape | 🔧 Thin plate with post-step wind (`wake=true`). Hull half-extents use float32 `4.0f * radius` via `f32Mul`. C++/WASM dump parity verified at epsilon=1e-5 across default checkpoints. |
+| **Wind Flap** | [x] | Wind + revolute joints + spring | 🔧 Flapping wings driven by `setRevoluteJointTargetAngle` + `b3wSin` with float32-safe angle/time updates. Frames 0–200 match at 1e-5; frame 300 wing ω/v drift ~1–3e-5 (cross-target solver FP, not a setup bug; SIMD on/off identical). |
 
 ## Stacking (`sample_stacking.cpp`)
 
@@ -231,7 +231,7 @@ Legend:
 |--------|----|-------------|-------|
 | **Far Stack** | [x] | Stack far from origin | 🔧 10000km offset box column. |
 | **Far Pyramid** | [x] | Pyramid far from origin | 🔧 10000km offset 40-base pyramid. |
-| **Far Ragdolls** | [x] | Ragdolls far from origin | 🔧 20 ragdolls at 1000km offset. Uses `createGridMesh` + `createMeshShape` for the upstream mesh floor. Frame 0–20 match exactly; remaining dump mismatch is native-vs-WASM solver FP divergence in the chaotic ragdoll pile, not a setup bug. Verified via controlled experiments: origin-offset and box-ground variants still diverge. |
+| **Far Ragdolls** | [x] | Ragdolls far from origin | 🔧 20 ragdolls at 1000km offset. Uses `createGridMesh` + `createMeshShape` for the upstream mesh floor. Spawn offsets use float32-safe helpers. Matches through ~frame 29 at 1e-5; later divergence is native-vs-WASM solver FP in the chaotic ragdoll pile (SIMD on/off identical on both targets; single-human samples match). |
 | **Far Mesh Drop** | [ ] | Mesh + far origin | 🧩 |
 
 ## Benchmark (`sample_benchmark.cpp`)
@@ -330,4 +330,5 @@ Legend:
   64. Shapes / Wind
   65. Shapes / Wind Flap
 
-- **Dump-match status**: 69/70 dump-enabled samples match at epsilon=1e-5 at all default checkpoints (frames 0,50,100,200,300). Known exceptions: `world/far-ragdolls` and `ragdoll/pile` (chaotic ragdoll FP divergence after early frames); `continuous/bullet-vs-stack` (frames 0–1 exact, later chaotic CCD stack); `shapes/wind-flap` (frames 0–200 exact; ~1.9e-5 ω drift on one wing at frame 300); `shapes/wind-drop` (frames 0–100 close on position; chaotic tumbling divergence by frame 300). `geometry/hull` uses `dumpNoPhysics` (upstream sample has no bodies).
+- **Dump-match status**: Nearly all dump-enabled samples match at epsilon=1e-5 on default checkpoints (frames 0,50,100,200,300). Recent fixes closed former setup bugs in `continuous/bullet-vs-stack` (stack Y float32) and `shapes/wind-drop` (hull half-extent float32). Remaining soft exceptions are multi-contact / long-horizon FP drift, not missed scene parameters: `ragdoll/pile` (matches through ~frame 46), `world/far-ragdolls` (matches through ~frame 29), `determinism/falling-ragdolls` (matches through frame 200; frame 300 drifts), `shapes/wind-flap` (frames 0–200 exact; ~1–3e-5 drift at frame 300). Native SIMD vs scalar dumps are bit-identical; WASM SIMD vs scalar dumps are bit-identical — residual drift is cross-target codegen/libm, not SSE vs wasm SIMD128. `geometry/hull` uses `dumpNoPhysics` (upstream sample has no bodies).
+- **New sample dump checklist**: When porting the next sample, follow `AGENTS.md` → Dump-match readiness (and `docs/reference-dump-plan.md` → New sample dump checklist) so gravity, float32 setup math, step/post-step order, and worker step cadence are dump-ready from day one.

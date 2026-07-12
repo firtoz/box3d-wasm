@@ -7,7 +7,7 @@ export const sphereStackSample: DemoSample = {
   id: "sphere-stack",
   name: "Stacking / Sphere Stack",
   create(runtime: Box3DRuntime, scene: THREE.Scene) {
-    const world = runtime.createWorld({ gravity: [0, -9.81, 0] });
+    const world = runtime.createWorld({ gravity: [0, -10, 0] });
     const bodies: DemoBody[] = [];
 
     addBox(world, scene, bodies, [15, 1, 15], [0, -1, 0], 0x222222, true);

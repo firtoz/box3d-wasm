@@ -1,29 +1,28 @@
 import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderSpec } from "../generic-host";
 import { createBenchmarkTileMeshes, spawnHumanGroup } from "../benchmark/benchmark-tile-shared";
-import { f32 } from "../f32";
+import { f32Add, f32Mul } from "../f32";
 
 const GRID_COUNT = 2;
 const GROUP_SIZE = 2;
-const GRID_SIZE = f32(15);
 const SPAWN_Y = 15;
 
 export function buildFallingRagdollsDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
   const { gridSize, gridMesh, torusMesh } = createBenchmarkTileMeshes(world);
   const handles: number[] = [];
-  const span = f32(gridSize * GRID_COUNT);
-  let x = f32(f32(-0.5) * span + f32(0.5) * gridSize);
+  const span = f32Mul(gridSize, GRID_COUNT);
+  let x = f32Add(f32Mul(-0.5, span), f32Mul(0.5, gridSize));
   for (let i = 0; i < GRID_COUNT; i++) {
-    let z = f32(f32(-0.5) * span + f32(0.5) * gridSize);
+    let z = f32Add(f32Mul(-0.5, span), f32Mul(0.5, gridSize));
     for (let j = 0; j < GRID_COUNT; j++) {
       const body = world.createBody({ type: BodyType.Static, position: [x, 0, z] });
       world.createMeshShape(body, gridMesh, { scale: [1, 1, 1] });
       world.createMeshShape(body, torusMesh, { scale: [1, 1, 1] });
       handles.push(body);
       spawnHumanGroup(world, runtime, handles, GRID_COUNT, gridSize, GROUP_SIZE, i, j, SPAWN_Y, 5, 1, 0.7);
-      z = f32(z + gridSize);
+      z = f32Add(z, gridSize);
     }
-    x = f32(x + gridSize);
+    x = f32Add(x, gridSize);
   }
   return handles;
 }

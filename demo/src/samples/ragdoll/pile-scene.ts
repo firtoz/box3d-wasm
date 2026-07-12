@@ -1,14 +1,20 @@
 import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { collectHumanBoneHandles, ragdollRenderBodies } from "./ragdoll-scene-shared";
-import { f32 } from "../f32";
+import { f32, f32Add, f32Mul } from "../f32";
 
 const COUNT = 20;
+
+function pileHumanPosition(i: number): Vec3 {
+  // Match upstream float32: { 0.1f * i, 2.0f + 0.5f * i, -0.1f * i }
+  const iF = f32(i);
+  return [f32Mul(0.1, iF), f32Add(2, f32Mul(0.5, iF)), f32Mul(-0.1, iF)];
+}
 
 export function buildRagdollPileDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
   const handles: number[] = [];
   for (let i = 0; i < COUNT; i++) {
-    const human = world.createHuman([f32(0.1 * i), f32(2 + 0.5 * i), f32(-0.1 * i)], {
+    const human = world.createHuman(pileHumanPosition(i), {
       frictionTorque: 10,
       hertz: 0.5,
       dampingRatio: 0.7,
@@ -32,7 +38,7 @@ export function ragdollPileGroundSize(): Vec3 { return [10, 0.5, 10]; }
 export function createRagdollPileBodies(): RenderBody[] {
   const bodies: RenderBody[] = [];
   for (let i = 0; i < COUNT; i++) {
-    bodies.push(...ragdollRenderBodies([0.1 * i, 2 + 0.5 * i, -0.1 * i]));
+    bodies.push(...ragdollRenderBodies(pileHumanPosition(i)));
   }
   return bodies;
 }

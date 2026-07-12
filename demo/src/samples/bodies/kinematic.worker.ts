@@ -21,6 +21,7 @@ class KinematicWorker extends PhysicsWorkerBase {
     this.kinematicTime = stepKinematic(this.world!, this.runtime!, this.kinematicBodyId, this.kinematicTime, this.fixedTimeStep);
     const start = performance.now();
     this.world!.step(this.fixedTimeStep, this.subSteps);
+    this.totalSteps += 1;
     return performance.now() - start;
   }
 }

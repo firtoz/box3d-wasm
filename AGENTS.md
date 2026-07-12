@@ -103,6 +103,46 @@ This ensures positions, sizes, and camera never drift between the physics and re
 
 Simple stacking/shape samples can use the generic host (`demo/src/samples/generic-host.ts`).
 
+## Dump-match readiness (new samples)
+
+When porting a sample, make the scene dump-ready in the same PR when practical. Goal: `bun run compare:sample -- sample="<id-or-name>"` is green at the default `1e-5` tolerance on checkpoints `0,50,100,200,300`.
+
+### Required scene exports
+
+In `*-scene.ts`, export:
+
+- `dumpSampleName`, `dumpSampleId`, `dumpCppSampleName`
+- `dumpGroundSize` / `dumpBuildDynamicBodies` **or** a full `dumpCreate` when ground/body setup is nonstandard
+- Optional: `dumpStep` / `dumpPostStep` when upstream does work around `Sample::Step`
+- Optional: `dumpInteractionSchedule` + `dumpRunInteraction` for scripted impulses/motors/explosions (mirror the same schedule in `tools/reference-dump/reference-dump.cpp`)
+
+Keep body creation order identical to upstream; dumps compare by enumeration order.
+
+### Match upstream physics defaults
+
+- World gravity is `b3DefaultWorldDef`: `[0, -10, 0]` (not Earth `-9.81`). Demo workers and `createWorld()` default to `-10`.
+- Do not invent density, friction, restitution, damping, sleep, gravity scale, or joint tuning — copy the C++ sample fields exactly (including omitted fields that leave native defaults).
+- Preserve pre/post-step order: if C++ applies wind/forces after `Step`, export `dumpPostStep` and call the same helper from the live worker after `world.step`.
+- If the sample uses `m_stepCount` for spawn or scripted actions, drive the live worker from a per-physics-step counter (`PhysicsWorkerBase.totalSteps` increments inside `stepPhysics`). Never key cadence off snapshot publish throttling.
+
+### Float32-safe setup math
+
+JavaScript `*`/`+` are float64. Prefer helpers from `demo/src/samples/f32.ts` (`f32`, `f32Mul`, `f32Add`, …) for any loop/index arithmetic that upstream writes with `float`/`0.1f`/`1.1f * i`. See `docs/TYPESCRIPT_API.md` (float32 helpers) and past fixes in Bullet vs Stack / Wind Drop / ragdoll piles.
+
+Use runtime `makeQuatFromAxisAngle` / `b3wSin`/`b3wCos` (or `b3wSinf`/`b3wCosf` when upstream calls `sinf`/`cosf` directly) for orientations that must match Box3D.
+
+### Verify before calling it done
+
+```sh
+bun run compare:sample -- sample="<sample id or name>"
+# denser diagnosis if needed:
+# bun run compare:sample -- sample="..." frames=0,1,2,...,50 epsilon=1e-5
+```
+
+Some multi-contact piles only match for an early window then drift (documented in `docs/SAMPLES.md`); that is acceptable only after setup/order/float32 bugs are ruled out. Use `--disable-sleep-term` via `compare-sample.sh` when sleep early-exit hides a later checkpoint (e.g. far ragdolls).
+
+Details: `docs/reference-dump-plan.md`, `tools/reference-dump/README.md`.
+
 ## WASM binary size
 
 The release WASM binary is at `demo/public/wasm/box3d-web.wasm`. When making changes that affect the compiled WASM output (adding new C API bindings, changing compile flags, etc.), rebuild and check the gzipped size:

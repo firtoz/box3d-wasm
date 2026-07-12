@@ -6,7 +6,7 @@ export type TopDownFrictionVisible =
   | ({ kind: "box"; size: Vec3 } & BodyTransform);
 
 export function createTopDownFriction(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyHandle[] } {
-  const world = runtime.createWorld({ gravity: [0, -9.81, 0] });
+  const world = runtime.createWorld({ gravity: [0, -10, 0] });
 
   const ground = world.createBody();
   world.createTransformedHullShape(ground, [10, 0.5, 4], { position: [0, 0, 0] });

@@ -75,6 +75,7 @@ interface Options {
   startFrame: number;
   exactFrames: number[];
   maxFrameExplicit: boolean;
+  disableSleepTerm: boolean;
   listJson: boolean;
   help: boolean;
 }
@@ -95,6 +96,7 @@ function usage(samples: readonly WasmDumpSample[] = []): string {
     "  --max-frames <frame>           Last frame to simulate (default: 300)",
     "  --start-frame <frame>          First frame eligible for dumping (default: 0)",
     "  --frames <a,b,c>               Dump exact frames instead of periodic checkpoints",
+    "  --disable-sleep-term           Keep simulating even after bodies sleep",
     "",
     `Supported samples: ${supported}`,
   ].join("\n");
@@ -112,13 +114,15 @@ function parseFrameList(value: string): number[] {
 }
 
 function parseOptions(argv: string[]): Options {
-  const options: Options = { sampleName: undefined, outputPath: undefined, checkpointInterval: 50, maxFrame: 300, startFrame: 0, exactFrames: [], maxFrameExplicit: false, listJson: false, help: false };
+  const options: Options = { sampleName: undefined, outputPath: undefined, checkpointInterval: 50, maxFrame: 300, startFrame: 0, exactFrames: [], maxFrameExplicit: false, disableSleepTerm: false, listJson: false, help: false };
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i]!;
     if (arg === "--help") {
       options.help = true;
     } else if (arg === "--list-json") {
       options.listJson = true;
+    } else if (arg === "--disable-sleep-term") {
+      options.disableSleepTerm = true;
     } else if (arg === "--checkpoint-interval" || arg === "--max-frames" || arg === "--start-frame" || arg === "--frames") {
       const value = argv[++i];
       if (value === undefined) throw new Error(`Missing value for ${arg}`);
@@ -326,7 +330,7 @@ async function main(): Promise<void> {
     }
     if (shouldDumpFrame(options, frame)) {
       output.checkpoints.push({ frame, bodies: dumpBodies(world, handles) });
-      if (sample.step === undefined && sample.interactionSchedule.length === 0 && world.getAwakeBodyCount() === 0 && frame >= 100) {
+      if (sample.step === undefined && sample.interactionSchedule.length === 0 && !options.disableSleepTerm && world.getAwakeBodyCount() === 0 && frame >= 100) {
         console.error(`All bodies asleep at frame ${frame}, terminating.`);
         break;
       }

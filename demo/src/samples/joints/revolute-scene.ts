@@ -34,7 +34,7 @@ export const dumpSampleName = "Revolute";
 export const dumpSampleId = "joints/revolute";
 export const dumpCppSampleName = "Revolute";
 export const dumpCreate = (runtime: Box3DRuntime) => {
-  const world = runtime.createWorld({ gravity: [0, -9.81, 0], workerCount: 1 });
+  const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
   runtime.createHullShape(ground, revoluteJointGroundSize());
   return { world, handles: [ground, ...buildRevoluteJointDynamicBodies(world, runtime)] };

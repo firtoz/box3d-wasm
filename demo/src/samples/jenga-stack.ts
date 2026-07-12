@@ -54,7 +54,7 @@ export const jengaStackSample: DemoSample = {
   id: "jenga-stack",
   name: "Stacking / Jenga Stack",
   create(runtime: Box3DRuntime, scene: THREE.Scene) {
-    const world = runtime.createWorld({ gravity: [0, -9.81, 0] });
+    const world = runtime.createWorld({ gravity: [0, -10, 0] });
     const bodies: DemoBody[] = [];
     let useCapsule = false;
     buildStack(runtime, world, scene, bodies, useCapsule);

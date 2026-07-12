@@ -1,6 +1,6 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
 import type { Vec3, ShapeId, BodyHandle } from "box3d-wasm";
-import { buildWindDropDynamicBodies, windDropGroundSize } from "./wind-drop-scene";
+import { buildWindDropDynamicBodies, dumpPostStep, windDropGroundSize } from "./wind-drop-scene";
 
 class WindDropWorker extends PhysicsWorkerBase {
   private shapeId: ShapeId | null = null;
@@ -19,10 +19,10 @@ class WindDropWorker extends PhysicsWorkerBase {
   protected stepPhysics(): number {
     if (this.world === null) return 0;
     const start = performance.now();
-    if (this.shapeId !== null) {
-      this.runtime!.applyShapeWind(this.shapeId, [0, 0, 0], 1.0, 4.0, 10.0, false);
-    }
+    // Match C++ / dump: step first, then ApplyWind with wake=true.
     this.world.step(this.fixedTimeStep, this.subSteps);
+    dumpPostStep(this.world, this.runtime!, [], this.totalSteps + 1, this.fixedTimeStep, { shapeId: this.shapeId });
+    this.totalSteps += 1;
     return performance.now() - start;
   }
 }

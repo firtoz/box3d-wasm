@@ -9,7 +9,7 @@ export const filterJointSample: DemoSample = {
   id: "joints/filter",
   name: "Joints / Filter",
   create(runtime: Box3DRuntime, scene: THREE.Scene) {
-    const world = runtime.createWorld({ gravity: [0, -9.81, 0] });
+    const world = runtime.createWorld({ gravity: [0, -10, 0] });
     const bodies: DemoBody[] = [];
     const half = filterJointGroundSize();
     addBox(world, scene, bodies, half, [0, -1, 0], 0x222222, true);

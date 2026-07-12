@@ -80,14 +80,18 @@ cmake -S "$ROOT_DIR/tools/reference-dump" -B "$BUILD_DIR" -DBOX3D_DOUBLE_PRECISI
 cmake --build "$BUILD_DIR" -j"$(nproc)"
 
 SLEEP_FLAG=""
+WASM_SLEEP_FLAG=""
 # Samples with per-frame step callbacks (dumpStep) need to stay awake
 case "$SAMPLE_ID" in
-  bodies/kinematic|bodies/disable|joints/motor-joint|joints/door|joints/top-down-friction|joints/motion-locks|benchmark/many-pyramids|benchmark/joint-grid|benchmark/rain|continuous/bullet-vs-stack|continuous/stall|ragdoll/box|ragdoll/pile|ragdoll/incline|determinism/falling-ragdolls) SLEEP_FLAG="--disable-sleep-term" ;;
+  bodies/kinematic|bodies/disable|joints/motor-joint|joints/door|joints/top-down-friction|joints/motion-locks|benchmark/many-pyramids|benchmark/joint-grid|benchmark/rain|continuous/bullet-vs-stack|continuous/stall|ragdoll/box|ragdoll/pile|ragdoll/incline|determinism/falling-ragdolls|world/far-ragdolls)
+    SLEEP_FLAG="--disable-sleep-term"
+    WASM_SLEEP_FLAG="--disable-sleep-term"
+    ;;
 esac
 
 "$BUILD_DIR/reference-dump" $SLEEP_FLAG --frames "$FRAMES" "$CPP_SAMPLE_NAME" "$CPP_DUMP"
-bun "$ROOT_DIR/scripts/wasm-dump.ts" --frames "$FRAMES" "$SAMPLE_ID" "$WASM_DUMP"
-bun "$ROOT_DIR/scripts/compare-dumps.ts" --epsilon "$EPSILON" "$CPP_DUMP" "$WASM_DUMP"
+bun "$ROOT_DIR/scripts/wasm-dump.ts" $WASM_SLEEP_FLAG --frames "$FRAMES" "$SAMPLE_ID" "$WASM_DUMP"
+bun "$ROOT_DIR/scripts/compare-dumps.ts" --summary --epsilon "$EPSILON" "$CPP_DUMP" "$WASM_DUMP"
 
 printf 'Compared %s (%s, C++: %s)\n' "$SAMPLE_NAME" "$SAMPLE_ID" "$CPP_SAMPLE_NAME"
 printf 'C++ dump:  %s\n' "$CPP_DUMP"

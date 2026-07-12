@@ -20,6 +20,7 @@ class WindFlapWorker extends PhysicsWorkerBase {
     if (this.flapState !== null && this.runtime !== null) {
       dumpPostStep(this.world, this.runtime, [], this.totalSteps + 1, this.fixedTimeStep, this.flapState);
     }
+    this.totalSteps += 1;
     return performance.now() - start;
   }
 }

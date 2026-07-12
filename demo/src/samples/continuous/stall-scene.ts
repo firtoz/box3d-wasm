@@ -1,6 +1,5 @@
 import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
-import { f32 } from "../f32";
 
 export function buildStallScene(world: PhysicsWorld, runtime: Box3DRuntime): { handles: number[]; torusMesh: number; savedThreshold: number } {
   const handles: number[] = [];
@@ -60,5 +59,5 @@ export function dumpCreate(runtime: Box3DRuntime): { world: PhysicsWorld; handle
   const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
   runtime.createHullShape(ground, stallGroundSize(), {});
   const { handles, savedThreshold } = buildStallScene(world, runtime);
-  return { world, handles: [ground, ...handles], state: { bullet: handles[1], savedThreshold } };
+  return { world, handles: [ground, ...handles], state: { bullet: handles[1] as BodyHandle, savedThreshold } };
 }

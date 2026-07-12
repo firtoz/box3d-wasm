@@ -20,6 +20,7 @@ class WindWorker extends PhysicsWorkerBase {
     if (this.windState !== null && this.runtime !== null) {
       dumpPostStep(this.world, this.runtime, [], this.totalSteps + 1, this.fixedTimeStep, this.windState);
     }
+    this.totalSteps += 1;
     return performance.now() - start;
   }
 }

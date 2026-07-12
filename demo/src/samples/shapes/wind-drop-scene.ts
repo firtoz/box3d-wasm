@@ -1,6 +1,6 @@
 import { B3_AXIS_X, BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type ShapeId, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
-import { f32 } from "../f32";
+import { f32, f32Mul } from "../f32";
 
 const radius = f32(0.1);
 const windAngle = f32(0.25);
@@ -15,7 +15,7 @@ export function buildWindDropDynamicBodies(world: PhysicsWorld, runtime: Box3DRu
     rotation,
     gravityScale: f32(0.5),
   });
-  runtime.createHullShape(body, [f32(4 * radius), f32(0.1 * radius), f32(4 * radius)], { density: 2 });
+  runtime.createHullShape(body, [f32Mul(4, radius), f32Mul(0.1, radius), f32Mul(4, radius)], { density: 2 });
   handles.push(body);
 
   return handles;

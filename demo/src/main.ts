@@ -317,7 +317,7 @@ function drawPhysCharts(): void {
 
 const VISIBLE_STORAGE_KEY = "controlsDialogVisible";
 const MOUSE_FORCE_SCALE = 100;
-const GRAVITY_MAGNITUDE = 9.81;
+const GRAVITY_MAGNITUDE = 10;
  
 let runtime: Box3DRuntime | null = null;
 let runtimePromise: Promise<Box3DRuntime> | null = null;

@@ -4,7 +4,8 @@ import { MAX_PROJECTILES, RAGDOLL_RENDER_BONE_COUNT, SNAPSHOT_AWAKE_COUNT_INDEX,
 
 const MAX_CATCHUP_STEPS = 4;
 const MOUSE_FORCE_SCALE = 100;
-const GRAVITY_MAGNITUDE = 9.81;
+/** Match upstream Box3D `b3DefaultWorldDef` gravity (`y = -10`). */
+const DEFAULT_GRAVITY: Vec3 = [0, -10, 0];
 
 export abstract class PhysicsWorkerBase<TInit = void> {
   protected runtime: Box3DRuntime | null = null;
@@ -135,7 +136,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.currentWorkerCount = cmd.workerCount ?? this.currentWorkerCount;
 
     this.runtime = await Box3DRuntime.load({ version: cmd.wasmVersion, variant: cmd.wasmVariant, poolSize: cmd.poolSize });
-    this.world = this.runtime.createWorld({ gravity: [0, -9.81, 0], workerCount: this.currentWorkerCount });
+    this.world = this.runtime.createWorld({ gravity: DEFAULT_GRAVITY, workerCount: this.currentWorkerCount });
     console.log("[worker]", "checkThreadingSupport:", this.runtime.checkThreadingSupport());
     console.log("[worker]", "workerCount:", this.world.getWorkerCount());
 
@@ -210,6 +211,9 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     if (this.world === null) return 0;
     const start = performance.now();
     this.world.step(this.fixedTimeStep, this.subSteps);
+    // Count every physics step here (not only on snapshot publish) so spawn/post-step
+    // hooks stay aligned with upstream Sample::Step / m_stepCount cadence.
+    this.totalSteps += 1;
     return performance.now() - start;
   }
 
@@ -256,7 +260,6 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
   private publishSnapshot(stepMs: number, steps: number, lagMs: number, droppedMs: number): void {
     if (this.world === null || this.bodyBatch === null || this.positions === null || this.rotations === null || this.awake === null || this.colors === null || this.state === null) return;
-    this.totalSteps += steps;
     const publishStart = performance.now();
 
     const writeFn = this.useLightTransforms ? this.world.writeBodyTransformsLight.bind(this.world) : this.world.writeBodyTransforms.bind(this.world);
@@ -408,7 +411,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   private async restartScene(): Promise<void> {
     this.disposeWorld();
 
-    this.world = this.runtime!.createWorld({ gravity: [0, -9.81, 0], workerCount: this.currentWorkerCount });
+    this.world = this.runtime!.createWorld({ gravity: DEFAULT_GRAVITY, workerCount: this.currentWorkerCount });
     console.log("[worker]", "workerCount:", this.world.getWorkerCount());
 
     this.applySolverParams(this.lastSolverParams);

@@ -74,7 +74,7 @@ export function dumpRunInteraction(world: PhysicsWorld, _runtime: Box3DRuntime, 
 }
 
 export const dumpCreate = (runtime: Box3DRuntime) => {
-  const world = runtime.createWorld({ gravity: [0, -9.81, 0] });
+  const world = runtime.createWorld({ gravity: [0, -10, 0] });
   const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
   world.createHullShape(ground, [20, 1, 20]);
   return { world, handles: [ground, ...buildDoorDynamicBodies(world, runtime, ground)] };

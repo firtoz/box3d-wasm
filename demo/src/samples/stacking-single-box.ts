@@ -44,7 +44,7 @@ export const singleBoxSample: DemoSample = {
   name: "Stacking / Single Box",
   create(runtime: Box3DRuntime, scene: THREE.Scene) {
     const objectRuntime = ObjectRuntime.fromRuntime(runtime);
-    const world = objectRuntime.createWorld({ gravity: [0, -9.81, 0] });
+    const world = objectRuntime.createWorld({ gravity: [0, -10, 0] });
     const bodies: DemoBody[] = [];
 
     addObjectBox(world, scene, bodies, [20, 1, 20], [0, -1, 0], 0x222222, true);

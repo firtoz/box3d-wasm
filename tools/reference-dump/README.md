@@ -22,7 +22,10 @@ Useful options:
 .reference-dumps/reference-build/reference-dump --list-json
 .reference-dumps/reference-build/reference-dump --checkpoint-interval 25 --max-frames 200 "Single Box" .reference-dumps/single-box/cpp.json
 .reference-dumps/reference-build/reference-dump --frames 0,1,2 "Single Box" .reference-dumps/single-box/cpp.json
+.reference-dumps/reference-build/reference-dump --disable-sleep-term --frames 0,50,100,200,300 "Pile" out.json
 ```
+
+`compare-dumps.ts` supports `--summary` for first-divergence / worst-abs / worst-ulp reporting. `wasm-dump.ts` accepts the same `--disable-sleep-term` flag as the C++ dumper; `compare:sample` wires both sides for samples that need a full window.
 
 Sample names match upstream `RegisterSample` names by default. When multiple categories share the same name (e.g. Mesh/Box vs Ragdoll/Box), pass `Category/Name`:
 
@@ -39,6 +42,8 @@ bun run compare:sample -- sample="Sphere Stack"
 ```
 
 The compare script resolves sample arguments through the frontend `demo/src/samples/index.ts` list. You can pass the frontend ID, frontend display name, or upstream C++ sample name for dump-enabled samples.
+
+When enabling dump support for a new port, follow the checklist in `AGENTS.md` (Dump-match readiness) and `docs/reference-dump-plan.md` (New sample dump checklist): gravity `-10`, float32-safe setup math, shared `dumpStep`/`dumpPostStep` helpers, and dual-maintained interaction schedules.
 
 Smoke test from the repository root:
 

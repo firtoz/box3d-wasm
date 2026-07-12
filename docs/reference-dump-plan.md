@@ -16,7 +16,7 @@ Goal: compare upstream C++ Box3D sample behavior against TypeScript/WASM ports b
 - Verified with `Single Box`: checkpoints at `0,50,100`, two bodies, valid JSON.
 - `scripts/reference-dump-smoke.sh` builds in `/tmp`, checks `--list-json`, and validates `Single Box` exact-frame JSON.
 - `scripts/wasm-dump.ts` emits the same JSON shape for the WASM `Single Box` port.
-- `scripts/compare-dumps.ts` compares dump files; current dump-enabled samples all match at the default `1e-5` tolerance. Many stable scenes still match at `1e-6`; more chaotic stacks such as `Cylinder Stack`, `Card House`, and `Card House Thick` currently need the looser threshold.
+- `scripts/compare-dumps.ts` compares dump files; supports `--summary` for first-divergence / worst abs / worst ULP reporting. Current dump-enabled samples mostly match at the default `1e-5` tolerance. Many stable scenes still match at `1e-6`; more chaotic stacks such as `Cylinder Stack`, `Card House`, and `Card House Thick` currently need the looser threshold. Remaining soft multi-contact exceptions are documented in `docs/SAMPLES.md`.
 - `scripts/compare-sample.sh` builds/runs both dumpers for a requested sample and writes generated outputs under ignored `.reference-dumps/`.
 - `scripts/wasm-dump.ts` uses the same `demo/src/samples/index.ts` sample list as the frontend for IDs and display names, then enables C++ comparison for samples whose `*-scene.ts` module exports `dumpSampleId`, `dumpCppSampleName`, `dumpGroundSize`, and `dumpBuildDynamicBodies`.
 - Dump-enabled scenes can now also export `dumpInteractionSchedule` plus `dumpRunInteraction`, letting both dumpers apply deterministic scripted actions at exact frames before stepping that frame.
@@ -117,3 +117,15 @@ Generated files are written under `.reference-dumps/<sample>/` by default. Use `
 - Keep C++ body enumeration inside C files, not C++, because Box3D internal C headers contain inline code that is not C++-clean.
 - Keep generated dump and CMake output in ignored `.reference-dumps/` for ad-hoc comparisons. The smoke script may still use `/tmp` for disposable CI-style validation.
 - If C bridge bindings are added later for dump support, update `docs/WASM_API_SURFACE.md`, `docs/TYPESCRIPT_API.md`, and `docs/OTHER_PROJECTS.md` as needed.
+
+## New sample dump checklist
+
+When adding or finishing a port, wire dump support in the same change when possible (see also `AGENTS.md` → Dump-match readiness):
+
+1. **Scene exports** — `dumpSampleName`, `dumpSampleId`, `dumpCppSampleName`, plus either `dumpGroundSize`+`dumpBuildDynamicBodies` or `dumpCreate`.
+2. **Gravity / defaults** — use `[0, -10, 0]` and copy upstream body/shape/joint fields; do not substitute Earth gravity or guessed materials.
+3. **Step hooks** — if upstream mutates the world around `Sample::Step`, export `dumpStep`/`dumpPostStep` and reuse those helpers from the demo worker so live and dump paths cannot diverge.
+4. **Interactions** — for impulses/motors/explosions, keep `dumpInteractionSchedule` + `dumpRunInteraction` dual-maintained with `reference-dump.cpp`.
+5. **Float32 setup** — use `demo/src/samples/f32.ts` for `0.1f * i`-style arithmetic; use Box3D quat/sin helpers when orientations must match.
+6. **Worker cadence** — spawn/scripted logic must key off per-physics-step counts, not render snapshot publish rate.
+7. **Verify** — `bun run compare:sample -- sample="<id>"` at default epsilon/`0,50,100,200,300`. Document soft multi-contact drift windows in `docs/SAMPLES.md` only after setup bugs are eliminated.

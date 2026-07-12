@@ -7,7 +7,7 @@ For the exhaustive binding checklist, see [`WASM_API_SURFACE.md`](./WASM_API_SUR
 ## Runtime Model
 
 - `Box3DRuntime.load()` loads the WASM module and returns the runtime wrapper.
-- `runtime.createWorld()` creates a `PhysicsWorld` wrapper for one Box3D world.
+- `runtime.createWorld()` creates a `PhysicsWorld` wrapper for one Box3D world. Omitted `gravity` defaults to `[0, -10, 0]` (same as upstream `b3DefaultWorldDef`).
 - Bodies, shapes, joints, hulls, compounds, and humans are represented by branded numeric handles.
 - Vectors are tuple types: `Vec3` is `[x, y, z]`, and `Quat` is `[x, y, z, w]`.
 - Body types use the exported `BodyType` enum, not raw Box3D numbers.
@@ -49,7 +49,7 @@ sun.castShadow = true;
 scene.add(sun);
 
 const runtime = await Box3DRuntime.load();
-const world = runtime.createWorld({ gravity: [0, -9.81, 0] });
+const world = runtime.createWorld({ gravity: [0, -10, 0] });
 
 const bodies: Array<{ handle: number; mesh: THREE.Mesh }> = [];
 
@@ -150,7 +150,7 @@ If you prefer a more object-oriented authoring style, use the opt-in `box3d-wasm
 import { ObjectRuntime } from "box3d-wasm/objects";
 
 const runtime = await ObjectRuntime.load();
-const world = runtime.createWorld({ gravity: [0, -9.81, 0] });
+const world = runtime.createWorld({ gravity: [0, -10, 0] });
 
 const body = world.createBody({ type: BodyType.Dynamic, position: [0, 4, 0] });
 const shape = body.createHullShape([0.5, 0.5, 0.5], { density: 1000 });
@@ -182,6 +182,17 @@ const physicsRotation = runtime.makeQuatFromAxisAngle(B3_AXIS_X, -0.5 * B3_PI);
 
 These helpers are mainly for exact numeric parity work. Ordinary gameplay and rendering code does not need them. Use pure `quatFromAxisAngle` for static render specs or general TS code; use runtime-backed `makeQuatFromAxisAngle` when matching Box3D physics setup. For highly sensitive dump comparisons, still verify the sample: matching upstream half-angle rounding with `b3wSin`/`b3wCos` can occasionally be more stable than replacing existing code with `makeQuatFromAxisAngle`. When upstream C++ code calls `cosf`/`sinf` directly (rather than Box3D's Bhāskara I approximation used by `b3wSin`/`b3wCos`), use `b3wCosf`/`b3wSinf` with `Math.fround` on intermediate values to match float32 arithmetic exactly.
 
+JavaScript always evaluates `*`/`+` in float64, so `Math.fround(0.1 * i)` is **not** the same as C `0.1f * i`. Demo sample scenes that need C float32 evaluation order use helpers from `demo/src/samples/f32.ts`:
+
+```ts
+import { f32, f32Add, f32Mul } from "../f32";
+
+// Match upstream: 0.5f + 1.1f * row
+const y = f32Add(0.5, f32Mul(1.1, row));
+```
+
+`f32Mul`/`f32Add`/`f32Sub`/`f32Div` round operands to float32, then round the result — matching IEEE float32 ops for values whose exact product fits in a double mantissa.
+
 ## Headless Smoke Test
 
 If you want to verify physics without a renderer, step a single body and log its transform.
@@ -190,7 +201,7 @@ If you want to verify physics without a renderer, step a single body and log its
 import { BodyType, Box3DRuntime } from "box3d-wasm";
 
 const runtime = await Box3DRuntime.load();
-const world = runtime.createWorld({ gravity: [0, -9.81, 0] });
+const world = runtime.createWorld({ gravity: [0, -10, 0] });
 const body = world.createBody({ type: BodyType.Dynamic, position: [0, 4, 0] });
 
 world.createHullShape(body, [0.5, 0.5, 0.5], { density: 1000 });
@@ -297,7 +308,7 @@ import * as THREE from "three";
 import { BodyType, Box3DRuntime, type Vec3 } from "box3d-wasm";
 
 const runtime = await Box3DRuntime.load();
-const world = runtime.createWorld({ gravity: [0, -9.81, 0] });
+const world = runtime.createWorld({ gravity: [0, -10, 0] });
 
 const bodies: Array<{ handle: number; mesh: THREE.Mesh }> = [];
 

@@ -9,7 +9,7 @@ export const sphericalJointSample: DemoSample = {
   id: "joints/spherical",
   name: "Joints / Spherical",
   create(runtime: Box3DRuntime, scene: THREE.Scene) {
-    const world = runtime.createWorld({ gravity: [0, -9.81, 0] });
+    const world = runtime.createWorld({ gravity: [0, -10, 0] });
     const bodies: DemoBody[] = [];
     addBox(world, scene, bodies, sphericalJointGroundSize(), [0, -1, 0], 0x222222, true);
     const handles = buildSphericalJointDynamicBodies(world, runtime);

@@ -33,7 +33,7 @@ function bench(module, workerCount, label) {
   console.log(`\n${label} (requested workerCount=${workerCount})`);
   console.log(`  b3wCheckThreadingSupport: ${threadingSupport} ${threadingSupport ? "(SharedArrayBuffer OK)" : "(NO SharedArrayBuffer)"}`);
 
-  const worldHandle = cw(0, -9.81, 0, workerCount);
+  const worldHandle = cw(0, -10, 0, workerCount);
   const actualCount = gwc(worldHandle);
   console.log(`  b3wGetWorldWorkerCount: ${actualCount} (requested ${workerCount})`);
 

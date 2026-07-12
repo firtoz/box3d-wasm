@@ -34,6 +34,7 @@ class BodyTypeWorker extends PhysicsWorkerBase {
     const start = performance.now();
     this.world!.step(this.fixedTimeStep, this.subSteps);
     this.platformVx = stepBodyType(this.world!, this.runtime!, this.platformId, this.bodyType, this.platformVx);
+    this.totalSteps += 1;
     return performance.now() - start;
   }
 

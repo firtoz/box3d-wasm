@@ -514,7 +514,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   }
 
   createWorld(options: WorldOptions = {}): PhysicsWorld {
-    const gravity = options.gravity ?? vec3(0, -9.81, 0);
+    const gravity = options.gravity ?? vec3(0, -10, 0);
     const workerCount = options.workerCount ?? 4;
     const capacity = options.capacity ?? {};
     const worldHandle = this.createWorldFn(

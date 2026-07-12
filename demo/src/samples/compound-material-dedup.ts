@@ -7,7 +7,7 @@ export const compoundMaterialDedupSample: DemoSample = {
   id: "compound-material-dedup",
   name: "Compound Material Dedup",
   create(runtime: Box3DRuntime, scene: THREE.Scene) {
-    const world = runtime.createWorld({ gravity: [0, -9.81, 0] });
+    const world = runtime.createWorld({ gravity: [0, -10, 0] });
     const bodies: DemoBody[] = [];
     addBox(world, scene, bodies, [12, 0.5, 12], [0, -1, 0], 0x334155, true);
     const box = addBox(world, scene, bodies, [1, 1, 1], [-2, 4, 0], 0x38bdf8);

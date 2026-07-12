@@ -1,10 +1,13 @@
 import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
-import { f32 } from "../f32";
+import { f32, f32Add, f32Mul } from "../f32";
 
 const boxHalf: Vec3 = [f32(0.5), f32(0.5), f32(0.5)];
-const stackSpacing = f32(1.1);
-const stackBaseY = f32(0.5);
+
+function stackBodyY(row: number): number {
+  // Match upstream float32: 0.5f + 1.1f * row
+  return f32Add(0.5, f32Mul(1.1, row));
+}
 
 function buildStack(world: PhysicsWorld, runtime: Box3DRuntime, handles: number[]): void {
   const wallBody = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
@@ -12,7 +15,7 @@ function buildStack(world: PhysicsWorld, runtime: Box3DRuntime, handles: number[
   runtime.createTransformedHullShape(wallBody, [f32(0.1), f32(5), f32(10)], { position: [-1, 5, 0] });
 
   for (let row = 0; row < 10; row++) {
-    const body = world.createBody({ type: BodyType.Dynamic, position: [0, f32(stackBaseY + stackSpacing * row), 0] });
+    const body = world.createBody({ type: BodyType.Dynamic, position: [0, stackBodyY(row), 0] });
     runtime.createHullShape(body, boxHalf, {});
     handles.push(body);
   }
@@ -43,7 +46,7 @@ export function createBulletVsStackBodies(): RenderBody[] {
     { kind: "box", size: [0.2, 10, 20], position: [-1, 5, 0], color: 0x94a3b8, type: BodyType.Static },
   ];
   for (let row = 0; row < 10; row++) {
-    bodies.push({ kind: "box", size: [1, 1, 1], position: [0, 0.5 + 1.1 * row, 0], color: 0x60a5fa });
+    bodies.push({ kind: "box", size: [1, 1, 1], position: [0, stackBodyY(row), 0], color: 0x60a5fa });
   }
   return bodies;
 }
