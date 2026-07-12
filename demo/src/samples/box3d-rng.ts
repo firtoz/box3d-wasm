@@ -15,6 +15,11 @@ export class Box3DRng {
     return x % (RAND_LIMIT + 1);
   }
 
+  /** Match upstream `RandomIntRange(lo, hi)` (returns float-valued ints). */
+  randomIntRange(lo: number, hi: number): number {
+    return lo + (this.randomInt() % (hi - lo + 1));
+  }
+
   randomFloatRange(lo: number, hi: number): number {
     let r = this.randomInt() & RAND_LIMIT;
     r /= RAND_LIMIT;

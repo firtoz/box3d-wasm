@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { BodyType, type BodyHandle, type Box3DRuntime } from "box3d-wasm";
-import type { DemoBody, DemoSample, DemoSampleInstance, SolverParams } from "./types";
+import type { ControlSpec, DemoBody, DemoSample, DemoSampleInstance, SolverParams } from "./types";
+import type { RenderControl } from "./generic-host";
 import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker-protocol";
 import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
 import { createWorkerWorld, type WorkerWorldState } from "../worker-world-bridge";
@@ -70,6 +71,8 @@ export type ShaderInstancedHostSpec = {
   setupScene?: (scene: THREE.Scene) => ShaderSceneSetup;
   resolveBodyCount?: (state: Int32Array, readyCount: number) => number;
   onKey?: (key: string, api: { worker: Worker }) => void;
+  /** Sample panel controls (Explode button, sliders, …) — same shape as generic-host. */
+  controls?: RenderControl[];
   /** Default projectile radius/color; rain uses a slightly smaller orange ball. */
   projectile?: { radius?: number; color?: number; metalness?: number };
 };
@@ -500,10 +503,44 @@ export function createShaderInstancedSample(input: ShaderInstancedHostSpec | Sha
         return { workerCount: shell.getWorkerCount(), colorMode, bodyCount };
       }
 
+      function mapControls(): ControlSpec[] {
+        return (spec.controls ?? []).map((c): ControlSpec => {
+          if (c.type === "button") {
+            return {
+              key: c.label.toLowerCase().replace(/\s+/g, "-"),
+              label: c.label,
+              type: "button",
+              onClick: () => shell.worker.postMessage(c.message),
+            };
+          }
+          if (c.type === "range") {
+            return {
+              key: c.label.toLowerCase().replace(/\s+/g, "-"),
+              label: c.label,
+              type: "range",
+              min: c.min,
+              max: c.max,
+              step: c.step,
+              value: c.value,
+              onChange: (v) => {
+                if (typeof v === "number") shell.worker.postMessage({ ...c.message, value: v });
+              },
+            };
+          }
+          return {
+            key: c.label.toLowerCase().replace(/\s+/g, "-"),
+            label: c.label,
+            type: "toggle",
+            value: c.value,
+            onChange: (v) => shell.worker.postMessage({ ...c.message, value: v }),
+          };
+        });
+      }
+
       return {
         world: shell.world,
         bodies,
-        controls: [],
+        controls: mapControls(),
         profile: spec.profile ?? true,
         info: typeof spec.info === "function" ? spec.info(infoCtx()) : spec.info,
         getInfo: spec.getInfo !== undefined ? () => spec.getInfo!(infoCtx()) : undefined,

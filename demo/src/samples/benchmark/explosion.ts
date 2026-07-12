@@ -6,6 +6,8 @@ import {
   EXPLOSION_CYLINDER_HEIGHT,
   EXPLOSION_CYLINDER_RADIUS,
   EXPLOSION_IMPULSE,
+  EXPLOSION_IMPULSE_MAX,
+  EXPLOSION_IMPULSE_MIN,
   explosionCamera,
   explosionGroundSize,
   forEachExplosionCylinder,
@@ -67,11 +69,15 @@ export const explosionSample = createShaderInstancedSample({
       },
     };
   },
+  controls: [
+    { type: "range", label: "Magnitude", message: { type: "set-explosion-magnitude" }, min: EXPLOSION_IMPULSE_MIN, max: EXPLOSION_IMPULSE_MAX, step: 10, value: EXPLOSION_IMPULSE },
+    { type: "button", label: "Explode", message: { type: "explode" } },
+  ],
   onKey(key, { worker }) {
     if (key === "e" || key === "E") {
-      worker.postMessage({ type: "explode", impulse: EXPLOSION_IMPULSE });
+      worker.postMessage({ type: "explode" });
     }
   },
   info: ({ workerCount, colorMode }) =>
-    `${EXPLOSION_CYLINDER_COUNT} cylinders | E explode | shader render | ${workerCount} workers | ${colorMode} colors (C)`,
+    `${EXPLOSION_CYLINDER_COUNT} cylinders | Explode button or E | shader render | ${workerCount} workers | ${colorMode} colors (C)`,
 });

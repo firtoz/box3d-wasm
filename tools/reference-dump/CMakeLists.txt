@@ -39,7 +39,7 @@ set(STUBS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/stubs")
 # Sample source files from upstream (excluding main.cpp, sample.cpp, host/, gfx/,
 # mesh_loader.cpp, jsmn.h, and other non-sample files)
 set(SAMPLE_FILES
-  "${SAMPLE_SRC_DIR}/sample_benchmark.cpp"
+  # sample_benchmark.cpp is included from dump-interaction-overrides.cpp so DumpDestruction can subclass it.
   "${SAMPLE_SRC_DIR}/sample_character.cpp"
   "${SAMPLE_SRC_DIR}/sample_collision.cpp"
   "${SAMPLE_SRC_DIR}/sample_compound.cpp"

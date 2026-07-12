@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "sample_bodies.cpp"
+#include "sample_benchmark.cpp"
 #include "sample_continuous.cpp"
 #include "sample_joint.cpp"
 
@@ -126,6 +127,24 @@ public:
 	}
 };
 
+// Skip mid-run destroy/respawn so dump body order stays aligned with WASM handle order.
+// Live demo still respawns every 140 steps; explode-at-create is enough for dump parity.
+class DumpDestruction : public BenchmarkDestruction
+{
+public:
+	using BenchmarkDestruction::BenchmarkDestruction;
+
+	static Sample* Create( SampleContext* context )
+	{
+		return new DumpDestruction( context );
+	}
+
+	void Step() override
+	{
+		Sample::Step();
+	}
+};
+
 static void patch_sample_entry( const char* name, SampleCreateFcn* createFcn )
 {
 	for ( int i = 0; i < g_sampleCount; ++i )
@@ -145,6 +164,7 @@ void patch_dump_sample_entries()
 	patch_sample_entry( "Door", DumpDoor::Create );
 	patch_sample_entry( "Weeble", DumpWeeble::Create );
 	patch_sample_entry( "Bullet vs Stack", DumpBulletVersusStack::Create );
+	patch_sample_entry( "Destruction", DumpDestruction::Create );
 }
 
 bool apply_dump_interaction( Sample* sample, const char* sampleName, const DumpInteraction& interaction )

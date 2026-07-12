@@ -11,6 +11,8 @@ export const EXPLOSION_CYLINDER_COLOR = 0x60a5fa;
 export const EXPLOSION_CYLINDER_RADIUS = 0.2;
 export const EXPLOSION_CYLINDER_HEIGHT = 0.5;
 export const EXPLOSION_IMPULSE = 1000;
+export const EXPLOSION_IMPULSE_MIN = 0;
+export const EXPLOSION_IMPULSE_MAX = 2000;
 
 export function forEachExplosionCylinder(callback: (position: Vec3) => void): void {
   for (let i = -N; i <= N; i++) {
