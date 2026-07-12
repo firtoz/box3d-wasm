@@ -3,7 +3,7 @@
 #include "shape.h"
 #include "physics_world.h"
 
-static b3HexColor GetBodyDebugColor( b3BodyId bodyId )
+b3HexColor b3wGetBodyDebugColorForId( b3BodyId bodyId )
 {
 	b3World* world = b3GetWorld( bodyId.world0 );
 	if ( world == NULL )
@@ -108,8 +108,9 @@ B3W_EXPORT void b3wDestroyBody(int bodyHandle)
 {
 	b3wBodySlot* slot = b3wGetBody(bodyHandle);
 	if (slot == NULL) return;
+	b3wReleaseBodyShapeSlots(slot->bodyId);
 	b3DestroyBody(slot->bodyId);
-	slot->active = false;
+	b3wFreeBodySlot(bodyHandle);
 }
 
 B3W_EXPORT void b3wSetBodyTransform(int bodyHandle, float px, float py, float pz, float qx, float qy, float qz, float qw)
@@ -440,7 +441,7 @@ B3W_EXPORT uint32_t b3wGetBodyDebugColor(int bodyHandle)
 {
 	b3wBodySlot* slot = b3wGetBody(bodyHandle);
 	if (slot == NULL) return 0;
-	return (uint32_t)GetBodyDebugColor(slot->bodyId);
+	return (uint32_t)b3wGetBodyDebugColorForId(slot->bodyId);
 }
 
 B3W_EXPORT int b3wBodyIsAwake(int bodyHandle)
@@ -476,17 +477,16 @@ B3W_EXPORT void b3wWriteBodyTransforms(int count, const int* bodyHandles, float*
 			outColors[i] = 0;
 			continue;
 		}
-		b3Vec3 position = b3Body_GetPosition(slot->bodyId);
-		outPositions[i * 3 + 0] = position.x;
-		outPositions[i * 3 + 1] = position.y;
-		outPositions[i * 3 + 2] = position.z;
-		b3Quat rotation = b3Body_GetRotation(slot->bodyId);
-		outRotations[i * 4 + 0] = rotation.v.x;
-		outRotations[i * 4 + 1] = rotation.v.y;
-		outRotations[i * 4 + 2] = rotation.v.z;
-		outRotations[i * 4 + 3] = rotation.s;
+		b3WorldTransform xf = b3Body_GetTransform(slot->bodyId);
+		outPositions[i * 3 + 0] = xf.p.x;
+		outPositions[i * 3 + 1] = xf.p.y;
+		outPositions[i * 3 + 2] = xf.p.z;
+		outRotations[i * 4 + 0] = xf.q.v.x;
+		outRotations[i * 4 + 1] = xf.q.v.y;
+		outRotations[i * 4 + 2] = xf.q.v.z;
+		outRotations[i * 4 + 3] = xf.q.s;
 		outAwake[i] = b3Body_IsAwake(slot->bodyId) ? 1 : 0;
-		outColors[i] = (uint32_t)GetBodyDebugColor( slot->bodyId );
+		outColors[i] = (uint32_t)b3wGetBodyDebugColorForId( slot->bodyId );
 	}
 }
 
@@ -509,15 +509,14 @@ B3W_EXPORT void b3wWriteBodyTransformsLight(int count, const int* bodyHandles, f
 			outColors[i] = 0;
 			continue;
 		}
-		b3Vec3 position = b3Body_GetPosition(slot->bodyId);
-		outPositions[i * 3 + 0] = position.x;
-		outPositions[i * 3 + 1] = position.y;
-		outPositions[i * 3 + 2] = position.z;
-		b3Quat rotation = b3Body_GetRotation(slot->bodyId);
-		outRotations[i * 4 + 0] = rotation.v.x;
-		outRotations[i * 4 + 1] = rotation.v.y;
-		outRotations[i * 4 + 2] = rotation.v.z;
-		outRotations[i * 4 + 3] = rotation.s;
+		b3WorldTransform xf = b3Body_GetTransform(slot->bodyId);
+		outPositions[i * 3 + 0] = xf.p.x;
+		outPositions[i * 3 + 1] = xf.p.y;
+		outPositions[i * 3 + 2] = xf.p.z;
+		outRotations[i * 4 + 0] = xf.q.v.x;
+		outRotations[i * 4 + 1] = xf.q.v.y;
+		outRotations[i * 4 + 2] = xf.q.v.z;
+		outRotations[i * 4 + 3] = xf.q.s;
 		outAwake[i] = b3Body_IsAwake(slot->bodyId) ? 1 : 0;
 		outColors[i] = outAwake[i] ? 0xd2b48c : 0x778899;
 	}

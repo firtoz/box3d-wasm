@@ -24,6 +24,8 @@ export type WorkerWorldState = {
   projectileAwake: Uint8Array;
   projectileColors: Uint32Array;
   state: Int32Array;
+  publishLock: Int32Array;
+  snapshotBacking: "heap" | "external";
   extra?: Record<string, unknown>;
 };
 

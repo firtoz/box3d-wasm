@@ -13,7 +13,7 @@
     "build:wasm:all": "BOX3D_WASM_VARIANT=all bun scripts/build-wasm.ts",
     "dev": "bun run dev:bootstrap && bun run watch",
     "dev:bootstrap": "bun scripts/build-wasm.ts",
-    "watch": "bunx chokidar 'src/**/*.ts' 'cmake/**/*.c' 'cmake/**/*.h' 'cmake/**/*.txt' 'scripts/**/*.ts' -c 'bun run build:wasm'",
+    "watch": "bunx chokidar 'src/**/*.ts' 'cmake/**/*.c' 'cmake/**/*.h' 'cmake/**/*.txt' 'scripts/**/*.ts' '../../patches/box3d/**/*.patch' -c 'bun run build:wasm'",
     "typecheck": "bunx tsc -p tsconfig.json --noEmit",
     "lint": "bunx tsc -p tsconfig.json --noEmit",
     "clean": "rm -rf dist build-web build-web-growable build-web-profile ../../demo/public/wasm"

@@ -21,13 +21,31 @@ endif()
 
 
 if(NOT DEFINED BOX3D_SOURCE_DIR)
+	# Prefer the prepare-box3d.ts output (clean submodule + patches/box3d). Fallback is legacy.
 	set(BOX3D_SOURCE_DIR "$ENV{HOME}/.cache/box3d-wasm/box3d")
 endif()
 
 if(NOT EXISTS "${BOX3D_SOURCE_DIR}/CMakeLists.txt")
-	message(FATAL_ERROR "BOX3D_SOURCE_DIR does not point at a box3d checkout: ${BOX3D_SOURCE_DIR}")
+	message(FATAL_ERROR
+		"BOX3D_SOURCE_DIR does not point at a box3d checkout: ${BOX3D_SOURCE_DIR}\n"
+		"Run: bun packages/box3d-wasm/scripts/prepare-box3d.ts\n"
+		"(or bun run build:wasm). Patches live under patches/box3d/ — see AGENTS.md.")
 endif()
 
+# Fail early if the profile-levels patch (or equivalent) was not applied.
+if(NOT EXISTS "${BOX3D_SOURCE_DIR}/include/box3d/types.h")
+	message(FATAL_ERROR "BOX3D_SOURCE_DIR is missing include/box3d/types.h: ${BOX3D_SOURCE_DIR}")
+endif()
+file(READ "${BOX3D_SOURCE_DIR}/include/box3d/types.h" _box3d_types_h)
+string(FIND "${_box3d_types_h}" "b3ProfileLevel" _box3d_profile_level_pos)
+if(_box3d_profile_level_pos EQUAL -1)
+	message(FATAL_ERROR
+		"BOX3D_SOURCE_DIR is missing b3ProfileLevel (expected patches/box3d profile-levels patch).\n"
+		"Source: ${BOX3D_SOURCE_DIR}\n"
+		"Run prepare-box3d.ts so patches under patches/box3d/ are applied. See AGENTS.md.")
+endif()
+unset(_box3d_types_h)
+unset(_box3d_profile_level_pos)
 add_subdirectory("${BOX3D_SOURCE_DIR}" box3d-build)
 
 add_executable(box3d_web
@@ -35,6 +53,7 @@ add_executable(box3d_web
 	box3d_web_slots.c
 	box3d_web_world.c
 	box3d_web_body.c
+	box3d_web_events.c
 	box3d_web_math.c
 	box3d_web_shape.c
 	box3d_web_mesh.c

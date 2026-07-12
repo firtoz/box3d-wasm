@@ -8,10 +8,10 @@ static b3ShapeId* resolve_shape(int shapeHandle)
 	return slot ? &slot->shapeId : NULL;
 }
 
-static int alloc_or_find_shape_handle(b3ShapeId shapeId)
+static int alloc_or_find_shape_handle(int worldHandle, b3ShapeId shapeId)
 {
 	int handle = b3wFindShapeHandle(shapeId);
-	return handle != 0 ? handle : b3wAllocShapeSlot(shapeId);
+	return handle != 0 ? handle : b3wAllocShapeSlot(worldHandle, shapeId);
 }
 
 B3W_EXPORT int b3wCreateBox(int worldHandle, float px, float py, float pz, float hx, float hy, float hz, int isStatic, float density)
@@ -62,7 +62,7 @@ B3W_EXPORT int b3wCreateHullShape(int bodyHandle, float density, float friction,
 	b3Transform transform = { { tx, ty, tz }, { { qx, qy, qz }, qw } };
 	(void)transform;
 	b3ShapeId shapeId = b3CreateHullShape(slot->bodyId, &shapeDef, &hull.base);
-	return b3wAllocShapeSlot(shapeId);
+	return b3wAllocShapeSlot(slot->worldHandle, shapeId);
 }
 
 B3W_EXPORT int b3wCreateTransformedHullShape(int bodyHandle, float density, float friction, float restitution, float rollingResistance,
@@ -80,7 +80,7 @@ B3W_EXPORT int b3wCreateTransformedHullShape(int bodyHandle, float density, floa
 	b3Transform transform = { { tx, ty, tz }, { { qx, qy, qz }, qw } };
 	b3Vec3 scale = { sx, sy, sz };
 	b3ShapeId shapeId = b3CreateTransformedHullShape(slot->bodyId, &shapeDef, &hull.base, transform, scale);
-	return b3wAllocShapeSlot(shapeId);
+	return b3wAllocShapeSlot(slot->worldHandle, shapeId);
 }
 
 B3W_EXPORT int b3wCreateSphereShape(int bodyHandle, float density, float friction, float restitution, float rollingResistance, float px, float py, float pz,
@@ -96,7 +96,7 @@ B3W_EXPORT int b3wCreateSphereShape(int bodyHandle, float density, float frictio
 	shapeDef.invokeContactCreation = invokeContactCreation != 0;
 	b3Sphere sphere = { { px, py, pz }, radius };
 	b3ShapeId shapeId = b3CreateSphereShape(slot->bodyId, &shapeDef, &sphere);
-	return b3wAllocShapeSlot(shapeId);
+	return b3wAllocShapeSlot(slot->worldHandle, shapeId);
 }
 
 B3W_EXPORT int b3wCreateCapsuleShape(int bodyHandle, float density, float friction, float restitution, float rollingResistance,
@@ -111,7 +111,7 @@ B3W_EXPORT int b3wCreateCapsuleShape(int bodyHandle, float density, float fricti
 	shapeDef.baseMaterial.rollingResistance = rollingResistance;
 	b3Capsule capsule = { { ax, ay, az }, { bx, by, bz }, radius };
 	b3ShapeId shapeId = b3CreateCapsuleShape(slot->bodyId, &shapeDef, &capsule);
-	return b3wAllocShapeSlot(shapeId);
+	return b3wAllocShapeSlot(slot->worldHandle, shapeId);
 }
 
 B3W_EXPORT int b3wCreateShapeFromHull(int bodyHandle, int hullHandle, float density, float friction, float restitution, float rollingResistance, int updateBodyMass, float explosionScale)
@@ -127,7 +127,7 @@ B3W_EXPORT int b3wCreateShapeFromHull(int bodyHandle, int hullHandle, float dens
 	shapeDef.updateBodyMass = updateBodyMass != 0;
 	shapeDef.explosionScale = explosionScale;
 	b3ShapeId shapeId = b3CreateHullShape(body->bodyId, &shapeDef, hull->hull);
-	return b3wAllocShapeSlot(shapeId);
+	return b3wAllocShapeSlot(body->worldHandle, shapeId);
 }
 
 B3W_EXPORT int b3wCreateTransformedShapeFromHull(int bodyHandle, int hullHandle, float density, float friction, float restitution, float rollingResistance,
@@ -145,7 +145,7 @@ B3W_EXPORT int b3wCreateTransformedShapeFromHull(int bodyHandle, int hullHandle,
 	b3Transform transform = { { tx, ty, tz }, { { qx, qy, qz }, qw } };
 	b3Vec3 scale = { sx, sy, sz };
 	b3ShapeId shapeId = b3CreateTransformedHullShape(body->bodyId, &shapeDef, hull->hull, transform, scale);
-	return b3wAllocShapeSlot(shapeId);
+	return b3wAllocShapeSlot(body->worldHandle, shapeId);
 }
 
 B3W_EXPORT void b3wShapeSetDensity(int shapeHandle, float density, int updateBodyMass)
@@ -224,7 +224,7 @@ B3W_EXPORT int b3wGetBodyShapes(int bodyHandle, int* outShapeHandles, int capaci
 	int written = b3Body_GetShapes(slot->bodyId, shapeIds, count);
 	for (int i = 0; i < written; ++i)
 	{
-		outShapeHandles[i] = alloc_or_find_shape_handle(shapeIds[i]);
+		outShapeHandles[i] = alloc_or_find_shape_handle(slot->worldHandle, shapeIds[i]);
 	}
 	free(shapeIds);
 
@@ -236,7 +236,7 @@ B3W_EXPORT void b3wDestroyShape(int shapeHandle, int updateBodyMass)
 	b3wShapeSlot* slot = b3wGetShape(shapeHandle);
 	if (slot == NULL) return;
 	b3DestroyShape(slot->shapeId, updateBodyMass != 0);
-	slot->active = false;
+	b3wFreeShapeSlot(shapeHandle);
 }
 
 B3W_EXPORT void b3wShapeEnableSensorEvents(int shapeHandle, int flag)

@@ -4,6 +4,7 @@ import { BodyType, type BodyHandle, type Box3DRuntime } from "box3d-wasm";
 import { wasmBuildVersion } from "virtual:wasm-version";
 import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker-protocol";
 import { MAX_PROJECTILES, SNAPSHOT_BODY_COUNT_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
+import { createWorkerSnapshotViews, releasePublishLock, tryAcquirePublishLock } from "../snapshot-views";
 import { createWorkerWorld, type WorkerWorldState } from "../worker-world-bridge";
 import { RAGDOLL_RENDER_BONES, ragdollCapsuleMesh } from "../ragdoll-render";
 import type { ControlSpec, DemoBody, DemoSample, SolverParams } from "./types";
@@ -124,6 +125,7 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
       let awake: Uint8Array | null = null;
       let colors: Uint32Array | null = null;
       let state: Int32Array | null = null;
+      let publishLock: Int32Array | null = null;
       let lastVersion = -1;
       let colorCache: Uint32Array | null = null;
       let projectilePositions: Float32Array | null = null;
@@ -181,17 +183,21 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
         if (message.type === "ready") {
           const ready = message as PhysicsWorkerReady;
           wc = ready.workerCount;
+          const views = createWorkerSnapshotViews(ready);
           workerWorldState = {
-            count: ready.count, workerCount: ready.workerCount,
-            positions: new Float32Array(ready.positions),
-            rotations: new Float32Array(ready.rotations),
-            awake: new Uint8Array(ready.awake),
-            colors: new Uint32Array(ready.colors),
-            projectilePositions: new Float32Array(ready.projectilePositions),
-            projectileRotations: new Float32Array(ready.projectileRotations),
-            projectileAwake: new Uint8Array(ready.projectileAwake),
-            projectileColors: new Uint32Array(ready.projectileColors),
-            state: new Int32Array(ready.state),
+            count: ready.count,
+            workerCount: ready.workerCount,
+            positions: views.positions,
+            rotations: views.rotations,
+            awake: views.awake,
+            colors: views.colors,
+            projectilePositions: views.projectilePositions,
+            projectileRotations: views.projectileRotations,
+            projectileAwake: views.projectileAwake,
+            projectileColors: views.projectileColors,
+            state: views.state,
+            publishLock: views.publishLock,
+            snapshotBacking: views.snapshotBacking,
             extra: ready.extra,
           };
           positions = workerWorldState.positions;
@@ -203,6 +209,7 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
           projectileAwake = workerWorldState.projectileAwake;
           projectileDebugColors = workerWorldState.projectileColors;
           state = workerWorldState.state;
+          publishLock = workerWorldState.publishLock;
           colorCache = new Uint32Array(ready.count);
         } else if (message.type === "error") {
           console.error(`Physics worker error: ${message.message}`);
@@ -269,63 +276,68 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
       }
 
       function step(): void {
-        if (positions === null || rotations === null || awake === null || colors === null || state === null || colorCache === null) return;
+        if (positions === null || rotations === null || awake === null || colors === null || state === null || publishLock === null || colorCache === null) return;
         const version = Atomics.load(state, SNAPSHOT_VERSION_INDEX);
         if (version === lastVersion) return;
+        if (!tryAcquirePublishLock(publishLock)) return;
         lastVersion = version;
-        const trackedCount = Atomics.load(state, SNAPSHOT_BODY_COUNT_INDEX);
-        const activeCount = trackedCount > 0 ? Math.min(bodies.length, trackedCount) : bodies.length;
-        for (let i = 0; i < bodies.length; i++) {
-          const body = bodies[i];
-          const visible = i < activeCount;
-          body.mesh.visible = visible;
-          if (body.extraMeshes !== undefined) {
-            for (const extra of body.extraMeshes) extra.visible = visible;
-          }
-          if (!visible) continue;
-          if (awake[i] !== 0) {
-            const p = i * 3, r = i * 4;
-            dummy.position.set(positions[p], positions[p + 1], positions[p + 2]);
-            dummy.quaternion.set(rotations[r], rotations[r + 1], rotations[r + 2], rotations[r + 3]);
-            if (hasLocalRenderTransform(body.mesh)) {
-              setLocalTransform(body.mesh, dummy.position, dummy.quaternion);
-            } else {
-              body.mesh.position.copy(dummy.position);
-              body.mesh.quaternion.copy(dummy.quaternion);
-            }
+        try {
+          const trackedCount = Atomics.load(state, SNAPSHOT_BODY_COUNT_INDEX);
+          const activeCount = trackedCount > 0 ? Math.min(bodies.length, trackedCount) : bodies.length;
+          for (let i = 0; i < bodies.length; i++) {
+            const body = bodies[i];
+            const visible = i < activeCount;
+            body.mesh.visible = visible;
             if (body.extraMeshes !== undefined) {
-              for (const extra of body.extraMeshes) {
-                setLocalTransform(extra, dummy.position, dummy.quaternion);
+              for (const extra of body.extraMeshes) extra.visible = visible;
+            }
+            if (!visible) continue;
+            if (awake[i] !== 0) {
+              const p = i * 3, r = i * 4;
+              dummy.position.set(positions[p], positions[p + 1], positions[p + 2]);
+              dummy.quaternion.set(rotations[r], rotations[r + 1], rotations[r + 2], rotations[r + 3]);
+              if (hasLocalRenderTransform(body.mesh)) {
+                setLocalTransform(body.mesh, dummy.position, dummy.quaternion);
+              } else {
+                body.mesh.position.copy(dummy.position);
+                body.mesh.quaternion.copy(dummy.quaternion);
+              }
+              if (body.extraMeshes !== undefined) {
+                for (const extra of body.extraMeshes) {
+                  setLocalTransform(extra, dummy.position, dummy.quaternion);
+                }
+              }
+            }
+            const colorHex = colors[i] & 0xffffff;
+            if ((colorCache[i] & 0xffffff) !== colorHex) {
+              (body.mesh.material as THREE.MeshStandardMaterial).color.setHex(colorHex);
+              if (body.extraMeshes !== undefined) {
+                for (const extra of body.extraMeshes) {
+                  (extra.material as THREE.MeshStandardMaterial).color.setHex(colorHex);
+                }
+              }
+              colorCache[i] = colorHex;
+            }
+          }
+
+          if (projectilePositions !== null && projectileRotations !== null && projectileAwake !== null && projectileDebugColors !== null) {
+            const count = Math.min(Atomics.load(state, SNAPSHOT_PROJECTILE_COUNT_INDEX), projectileMeshes.length);
+            for (let i = 0; i < count; i++) {
+              const p = i * 3, r = i * 4;
+              projectileMeshes[i].position.set(projectilePositions[p], projectilePositions[p + 1], projectilePositions[p + 2]);
+              projectileMeshes[i].quaternion.set(projectileRotations[r], projectileRotations[r + 1], projectileRotations[r + 2], projectileRotations[r + 3]);
+              const colorHex = projectileDebugColors[i] & 0xffffff;
+              if ((projectileColorCache[i] & 0xffffff) !== colorHex) {
+                (projectileMeshes[i].material as THREE.MeshStandardMaterial).color.setHex(colorHex);
+                projectileColorCache[i] = colorHex;
               }
             }
           }
-          const colorHex = colors[i] & 0xffffff;
-          if ((colorCache[i] & 0xffffff) !== colorHex) {
-            (body.mesh.material as THREE.MeshStandardMaterial).color.setHex(colorHex);
-            if (body.extraMeshes !== undefined) {
-              for (const extra of body.extraMeshes) {
-                (extra.material as THREE.MeshStandardMaterial).color.setHex(colorHex);
-              }
-            }
-            colorCache[i] = colorHex;
-          }
-        }
 
-        if (projectilePositions !== null && projectileRotations !== null && projectileAwake !== null && projectileDebugColors !== null) {
-          const count = Math.min(Atomics.load(state, SNAPSHOT_PROJECTILE_COUNT_INDEX), projectileMeshes.length);
-          for (let i = 0; i < count; i++) {
-            const p = i * 3, r = i * 4;
-            projectileMeshes[i].position.set(projectilePositions[p], projectilePositions[p + 1], projectilePositions[p + 2]);
-            projectileMeshes[i].quaternion.set(projectileRotations[r], projectileRotations[r + 1], projectileRotations[r + 2], projectileRotations[r + 3]);
-            const colorHex = projectileDebugColors[i] & 0xffffff;
-            if ((projectileColorCache[i] & 0xffffff) !== colorHex) {
-              (projectileMeshes[i].material as THREE.MeshStandardMaterial).color.setHex(colorHex);
-              projectileColorCache[i] = colorHex;
-            }
-          }
+          overlay?.update({ bodies, workerState: workerWorldState });
+        } finally {
+          releasePublishLock(publishLock);
         }
-
-        overlay?.update({ bodies, workerState: workerWorldState });
       }
 
       function dispose(): void {
@@ -396,10 +408,8 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
         getInfo: spec.getInfo === undefined ? undefined : () => spec.getInfo!(workerWorldState),
         onKey(key: string) {
           if (key === "c" || key === "C") {
-            colorMode = colorMode === "full" ? "light" : "full";
-            localStorage.setItem("box3d:color-mode", colorMode);
+            colorMode = localStorage.getItem("box3d:color-mode") === "light" ? "light" : "full";
             worker.postMessage({ type: "set-color-mode", mode: colorMode });
-            console.log(`[generic] color mode: ${colorMode}`);
           }
           for (const hotkey of spec.hotkeys ?? []) {
             if (hotkey.keys.includes(key)) worker.postMessage(hotkey.message);

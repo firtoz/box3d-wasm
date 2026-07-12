@@ -29,7 +29,8 @@ https://github.com/user-attachments/assets/1c161c46-1dae-45a0-8d77-cb8df45819e8
 
 ## Layout
 
-- `box3d/`: git submodule checkout of the upstream engine source.
+- `box3d/`: git submodule checkout of the upstream engine source (keep clean).
+- `patches/box3d/`: optional local patches applied onto a build copy during WASM compile (see `patches/box3d/README.md`).
 - `packages/box3d-wasm/`: package source, wasm build scripts, and generated artifacts.
 - `demo/`: browser demo and showcase.
 - `docs/`: notes and usage docs.
@@ -63,7 +64,7 @@ bun run dev
 
 ## Notes
 
-The upstream `box3d` engine is pinned as a submodule, and this repo layers wasm-specific build tooling and demo code on top.
+The upstream `box3d` engine is pinned as a submodule. Keep that tree clean; WASM-only engine tweaks (for example profile levels) live under `patches/box3d/` and are applied to `packages/box3d-wasm/.box3d-patched/` at build time. A patch that fails to apply fails the build — refresh patches when bumping the submodule.
 
 Start with [`docs/TYPESCRIPT_API.md`](./docs/TYPESCRIPT_API.md) for TypeScript usage examples across both the primitive and object APIs, then use [`docs/WASM_API_SURFACE.md`](./docs/WASM_API_SURFACE.md) for the current binding checklist and API expansion TODOs.
 

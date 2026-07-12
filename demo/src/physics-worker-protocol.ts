@@ -1,4 +1,8 @@
-import type { RuntimeLoadOptions, Vec3 } from "box3d-wasm";
+import type { ProfileLevel, RuntimeLoadOptions, Vec3 } from "box3d-wasm";
+
+export type { ProfileLevel };
+
+export type PublishMode = "auto" | "dense" | "sparse";
 
 export type SolverParams = {
   subSteps?: number;
@@ -8,6 +12,8 @@ export type SolverParams = {
   continuous?: boolean;
   warmStart?: boolean;
   workerCount?: number;
+  profileLevel?: ProfileLevel;
+  publishMode?: PublishMode;
 };
 
 export type PhysicsWorkerCommand =
@@ -21,22 +27,42 @@ export type PhysicsWorkerCommand =
   | { type: "step-once" }
   | { type: "toggle-worker-count" }
   | { type: "set-solver-params"; params: SolverParams }
+  | { type: "set-profile-level"; level: ProfileLevel }
+  | { type: "set-publish-mode"; mode: PublishMode }
   | { type: "set-color-mode"; mode: "light" | "full" }
   | { type: "dispose" };
+
+export type HeapSnapshotOffsets = {
+  positions: number;
+  rotations: number;
+  awake: number;
+  colors: number;
+  projectilePositions: number;
+  projectileRotations: number;
+  projectileAwake: number;
+  projectileColors: number;
+};
 
 export type PhysicsWorkerReady = {
   type: "ready";
   count: number;
   workerCount: number;
-  positions: SharedArrayBuffer;
-  rotations: SharedArrayBuffer;
-  awake: SharedArrayBuffer;
-  colors: SharedArrayBuffer;
-  projectilePositions: SharedArrayBuffer;
-  projectileRotations: SharedArrayBuffer;
-  projectileAwake: SharedArrayBuffer;
-  projectileColors: SharedArrayBuffer;
+  /** "heap" = views into wasm SharedArrayBuffer; "external" = separate SABs (growable fallback) */
+  snapshotBacking: "heap" | "external";
+  wasmMemory?: SharedArrayBuffer;
+  heap?: HeapSnapshotOffsets;
+  /** Present when snapshotBacking === "external" (growable fallback). */
+  positions?: SharedArrayBuffer;
+  rotations?: SharedArrayBuffer;
+  awake?: SharedArrayBuffer;
+  colors?: SharedArrayBuffer;
+  projectilePositions?: SharedArrayBuffer;
+  projectileRotations?: SharedArrayBuffer;
+  projectileAwake?: SharedArrayBuffer;
+  projectileColors?: SharedArrayBuffer;
   state: SharedArrayBuffer;
+  /** Int32 length >= 1; index 0 is publication try-lock (0=free, 1=held) */
+  publishLock: SharedArrayBuffer;
   extra?: Record<string, unknown>;
 };
 
@@ -64,6 +90,10 @@ export const SNAPSHOT_STEPS_INDEX = 8;
 export const SNAPSHOT_CUMULATIVE_STEPS_INDEX = 9;
 /** Active tracked body count written into the shared snapshot (may grow up to ready.count). */
 export const SNAPSHOT_BODY_COUNT_INDEX = 10;
-export const SNAPSHOT_STATE_COUNT = 11;
+/** Body move-event count from the last sparse/dense publish. */
+export const SNAPSHOT_MOVE_COUNT_INDEX = 11;
+/** 0 = dense publish, 1 = sparse publish. */
+export const SNAPSHOT_PUBLISH_MODE_INDEX = 12;
+export const SNAPSHOT_STATE_COUNT = 13;
 export const MAX_PROJECTILES = 2048;
 export const RAGDOLL_RENDER_BONE_COUNT = 14;

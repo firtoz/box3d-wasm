@@ -24,9 +24,10 @@ B3W_EXPORT void b3wDestroyWorld(int worldHandle)
 {
 	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
 	if (slot == NULL) return;
-	b3DestroyWorld(slot->worldId);
+	// Free bridge slots (including shapes) before destroying the engine world.
 	b3wClearWorldSlots(worldHandle);
-	slot->active = false;
+	b3DestroyWorld(slot->worldId);
+	b3wFreeWorldSlot(worldHandle);
 }
 
 B3W_EXPORT void b3wStep(int worldHandle, float timeStep, int subStepCount)
@@ -119,6 +120,24 @@ B3W_EXPORT void b3wEnableWarmStarting(int worldHandle, int flag)
 	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
 	if (slot == NULL) return;
 	b3World_EnableWarmStarting(slot->worldId, flag);
+}
+
+B3W_EXPORT void b3wSetProfileLevel(int worldHandle, int level)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	b3ProfileLevel profileLevel = b3_profileFull;
+	if (level <= 0) profileLevel = b3_profileOff;
+	else if (level == 1) profileLevel = b3_profileCoarse;
+	else profileLevel = b3_profileFull;
+	b3World_SetProfileLevel(slot->worldId, profileLevel);
+}
+
+B3W_EXPORT int b3wGetProfileLevel(int worldHandle)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return (int)b3_profileFull;
+	return (int)b3World_GetProfileLevel(slot->worldId);
 }
 
 B3W_EXPORT void b3wSetContactTuning(int worldHandle, float hertz, float dampingRatio, float contactSpeed)

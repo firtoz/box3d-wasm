@@ -452,6 +452,50 @@ const world = runtime.createWorld({
 
 Omit a field or pass `0` to leave that capacity at the Box3D default minimum reserve. This does **not** raise bridge slot limits; it only reduces realloc churn inside the engine.
 
+### Profile levels
+
+Box3D supports demand-driven profiling via `world.setProfileLevel(level)` where `level` is `"off" | "coarse" | "full"` (default `"full"` so existing `getProfile()` callers keep full detail). This API comes from a local engine patch (`patches/box3d/0001-profile-levels.patch`) applied at WASM build time until/unless upstream lands the same feature.
+
+| Level | Behavior |
+|-------|----------|
+| `off` | No engine timers; `getProfile()` stays zeroed |
+| `coarse` | Top-level step timers only (`step`, `pairs`, `collide`, `solve`, `sensors`) |
+| `full` | Detailed solver/island timers + CCD stall clocks (previous default) |
+
+The demo maps charts off → `"off"` and charts on → `"coarse"`. Prefer `"full"` only for deep diagnostics.
+
+### Batched transforms and move-event scatter
+
+For render sync, allocate heap batch buffers once and reuse them:
+
+```ts
+const batch = world.allocBodyBatchBuffers(handles.length);
+world.writeBodyHandles(batch, handles);
+
+// Dense gather (all tracked bodies):
+world.writeBodyTransformsLight(
+  handles.length,
+  batch.bodyHandlesPtr,
+  batch.positionsPtr,
+  batch.rotationsPtr,
+  batch.awakePtr,
+  batch.colorsPtr,
+);
+
+// Sparse scatter after a step (moved bodies only). Configure a stable render index map first:
+world.configureBodyMoveTracking(handles.length, batch.bodyHandlesPtr);
+world.step();
+const moveCount = world.scatterBodyMoveEvents(
+  batch.positionsPtr,
+  batch.rotationsPtr,
+  batch.awakePtr,
+  batch.colorsPtr,
+  true, // light colors
+);
+```
+
+Read results with `world.getMemoryView()` (or, in the threaded demo, bind Three.js attributes directly to the pthread `SharedArrayBuffer` heap). The demo worker uses heap-backed zero-copy publication for release/profile WASM and keeps an external-SAB copy path for the growable variant.
+
 ### Rebuilding with higher slot limits
 
 Configure limits at CMake time, then rebuild WASM:

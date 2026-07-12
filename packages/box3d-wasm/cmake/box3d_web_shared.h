@@ -37,16 +37,19 @@
 #endif
 
 #define B3W_SLOT_KIND_COUNT 8
+#define B3W_SLOT_FREE_NONE (-1)
 
 typedef struct b3wWorldSlot
 {
 	bool active;
+	int nextFree;
 	b3WorldId worldId;
 } b3wWorldSlot;
 
 typedef struct b3wBodySlot
 {
 	bool active;
+	int nextFree;
 	int worldHandle;
 	b3BodyId bodyId;
 } b3wBodySlot;
@@ -54,6 +57,7 @@ typedef struct b3wBodySlot
 typedef struct b3wJointSlot
 {
 	bool active;
+	int nextFree;
 	int worldHandle;
 	b3JointId jointId;
 } b3wJointSlot;
@@ -61,18 +65,22 @@ typedef struct b3wJointSlot
 typedef struct b3wHullSlot
 {
 	bool active;
+	int nextFree;
 	b3HullData* hull;
 } b3wHullSlot;
 
 typedef struct b3wShapeSlot
 {
 	bool active;
+	int nextFree;
+	int worldHandle;
 	b3ShapeId shapeId;
 } b3wShapeSlot;
 
 typedef struct b3wMeshSlot
 {
 	bool active;
+	int nextFree;
 	int worldHandle;
 	b3MeshData* mesh;
 } b3wMeshSlot;
@@ -80,12 +88,14 @@ typedef struct b3wMeshSlot
 typedef struct b3wCompoundSlot
 {
 	bool active;
+	int nextFree;
 	b3CompoundData* compound;
 } b3wCompoundSlot;
 
 typedef struct b3wHumanSlot
 {
 	bool active;
+	int nextFree;
 	int worldHandle;
 	Human human;
 } b3wHumanSlot;
@@ -111,12 +121,26 @@ int b3wAllocWorldSlot(b3WorldId worldId);
 int b3wAllocBodySlot(int worldHandle, b3BodyId bodyId);
 int b3wAllocJointSlot(int worldHandle, b3JointId jointId);
 int b3wAllocHullSlot(b3HullData* hull);
-int b3wAllocShapeSlot(b3ShapeId shapeId);
+int b3wAllocShapeSlot(int worldHandle, b3ShapeId shapeId);
 int b3wFindShapeHandle(b3ShapeId shapeId);
 int b3wAllocMeshSlot(int worldHandle, b3MeshData* mesh);
 int b3wAllocCompoundSlot(b3CompoundData* compound);
 int b3wAllocHumanSlot(int worldHandle, Human human);
+
+void b3wFreeWorldSlot(int handle);
+void b3wFreeBodySlot(int handle);
+void b3wFreeJointSlot(int handle);
+void b3wFreeHullSlot(int handle);
+void b3wFreeShapeSlot(int handle);
+void b3wFreeMeshSlot(int handle);
+void b3wFreeCompoundSlot(int handle);
+void b3wFreeHumanSlot(int handle);
+
+void b3wReleaseBodyShapeSlots(b3BodyId bodyId);
 void b3wClearWorldSlots(int worldHandle);
 
 void b3wGetSlotLimits(int* outLimits);
 void b3wGetSlotUsage(int* outUsage);
+
+/** Debug draw color for a native body id (shared by dense gather + move events). */
+b3HexColor b3wGetBodyDebugColorForId(b3BodyId bodyId);

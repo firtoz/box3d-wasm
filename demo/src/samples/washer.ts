@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { B3_PI, BodyType, type BodyHandle, type Box3DRuntime } from "box3d-wasm";
 import type { DemoBody, DemoSample, SolverParams } from "./types";
 import { SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
+import { tryAcquirePublishLock, releasePublishLock } from "../snapshot-views";
 import {
   createShaderInstancedSample,
   createWorkerSampleShell,
@@ -256,7 +257,7 @@ function createWasherMatrixSample(
     id,
     name,
     create(_runtime: Box3DRuntime, scene: THREE.Scene, initialSolverParams?: SolverParams) {
-      let colorMode: "light" | "full" = localStorage.getItem("box3d:color-mode") === "full" ? "full" : "light";
+      let colorMode: "light" | "full" = localStorage.getItem("box3d:color-mode") === "light" ? "light" : "full";
       let bodyCount = WASHER_CUBE_COUNT + 1;
       const bodies: DemoBody[] = [];
       const colorCache = new Uint32Array(WASHER_CUBE_COUNT);
@@ -314,10 +315,8 @@ function createWasherMatrixSample(
           if (key === "t" || key === "T") {
             shell.worker.postMessage({ type: "toggle-worker-count" });
           } else if (key === "c" || key === "C") {
-            colorMode = colorMode === "full" ? "light" : "full";
-            localStorage.setItem("box3d:color-mode", colorMode);
+            colorMode = localStorage.getItem("box3d:color-mode") === "light" ? "light" : "full";
             shell.worker.postMessage({ type: "set-color-mode", mode: colorMode });
-            console.log(`[washer] color mode: ${colorMode}`);
           }
         },
         spawnProjectile: shell.spawnProjectile,
@@ -332,37 +331,41 @@ function createWasherMatrixSample(
           if (snap === null) return;
           const version = Atomics.load(snap.state, SNAPSHOT_VERSION_INDEX);
           if (version === shell.getLastVersion()) return;
+          if (!tryAcquirePublishLock(snap.publishLock)) return;
           shell.setLastVersion(version);
+          try {
+            drum.sync(snap.positions, snap.rotations);
 
-          drum.sync(snap.positions, snap.rotations);
+            let needsMatrixUpdate = false;
+            let needsColorUpdate = false;
+            const cubeCount = Math.min(WASHER_CUBE_COUNT, Math.max(0, bodyCount - 1));
+            for (let i = 0; i < cubeCount; i++) {
+              const bodyIndex = i + 1;
+              const isAwake = snap.awake[bodyIndex] !== 0;
+              if (isAwake) {
+                const pOff = bodyIndex * 3;
+                const rOff = bodyIndex * 4;
+                dummy.scale.set(1, 1, 1);
+                dummy.position.set(snap.positions[pOff], snap.positions[pOff + 1], snap.positions[pOff + 2]);
+                dummy.quaternion.set(snap.rotations[rOff], snap.rotations[rOff + 1], snap.rotations[rOff + 2], snap.rotations[rOff + 3]);
+                dummy.updateMatrix();
+                matrixMesh.setMatrixAt(i, dummy.matrix);
+                needsMatrixUpdate = true;
+              }
+              const colorHex = snap.colors[bodyIndex] & 0xffffff;
+              if ((colorCache[i] & 0xffffff) !== colorHex) {
+                matrixMesh.setColorAt(i, debugColor.setHex(colorHex));
+                colorCache[i] = colorHex;
+                needsColorUpdate = true;
+              }
+            }
+            if (needsMatrixUpdate) matrixMesh.instanceMatrix.needsUpdate = true;
+            if (needsColorUpdate) matrixMesh.instanceColor!.needsUpdate = true;
 
-          let needsMatrixUpdate = false;
-          let needsColorUpdate = false;
-          const cubeCount = Math.min(WASHER_CUBE_COUNT, Math.max(0, bodyCount - 1));
-          for (let i = 0; i < cubeCount; i++) {
-            const bodyIndex = i + 1;
-            const isAwake = snap.awake[bodyIndex] !== 0;
-            if (isAwake) {
-              const pOff = bodyIndex * 3;
-              const rOff = bodyIndex * 4;
-              dummy.scale.set(1, 1, 1);
-              dummy.position.set(snap.positions[pOff], snap.positions[pOff + 1], snap.positions[pOff + 2]);
-              dummy.quaternion.set(snap.rotations[rOff], snap.rotations[rOff + 1], snap.rotations[rOff + 2], snap.rotations[rOff + 3]);
-              dummy.updateMatrix();
-              matrixMesh.setMatrixAt(i, dummy.matrix);
-              needsMatrixUpdate = true;
-            }
-            const colorHex = snap.colors[bodyIndex] & 0xffffff;
-            if ((colorCache[i] & 0xffffff) !== colorHex) {
-              matrixMesh.setColorAt(i, debugColor.setHex(colorHex));
-              colorCache[i] = colorHex;
-              needsColorUpdate = true;
-            }
+            shell.syncProjectiles(shell.projectileMeshes, shell.projectileColorCache);
+          } finally {
+            releasePublishLock(snap.publishLock);
           }
-          if (needsMatrixUpdate) matrixMesh.instanceMatrix.needsUpdate = true;
-          if (needsColorUpdate) matrixMesh.instanceColor!.needsUpdate = true;
-
-          shell.syncProjectiles(shell.projectileMeshes, shell.projectileColorCache);
         },
         dispose() {
           shell.disposeProjectiles(scene, shell.projectileMeshes);

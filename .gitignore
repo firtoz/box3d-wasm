@@ -8,6 +8,7 @@ build-web*/
 .fetchcontent-cache/
 demo/public/wasm/
 packages/box3d-wasm/generated/
+packages/box3d-wasm/.box3d-patched/
 .reference-dumps/
 packages/box3d-wasm/build-native/
 compile_commands.json

@@ -20,13 +20,11 @@ export const fallingTreesSample: DemoSample = {
   create(runtime, scene, solverParams) {
     let waveVisual: THREE.Group | null = null;
     let overlayScene: THREE.Scene | null = null;
-    let currentCm: TreeScaleCm = 100;
 
     function rebuildWave(cm: TreeScaleCm): void {
       if (overlayScene === null) return;
       if (waveVisual !== null) disposeObject3D(overlayScene, waveVisual);
       waveVisual = createWaveMeshVisual(overlayScene, waveMeshParams(treeScaleFromCm(cm)));
-      currentCm = cm;
     }
 
     const spec: RenderSpec = {

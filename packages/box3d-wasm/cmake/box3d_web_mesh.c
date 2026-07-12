@@ -43,9 +43,7 @@ B3W_EXPORT void b3wDestroyMesh(int meshHandle)
 	b3wMeshSlot* slot = b3wGetMesh(meshHandle);
 	if (slot == NULL) return;
 	b3DestroyMesh(slot->mesh);
-	slot->active = false;
-	slot->worldHandle = 0;
-	slot->mesh = NULL;
+	b3wFreeMeshSlot(meshHandle);
 }
 
 B3W_EXPORT int b3wCreateMeshShape(int bodyHandle, int meshHandle, float density, float friction, float restitution, float rollingResistance,
@@ -61,7 +59,7 @@ B3W_EXPORT int b3wCreateMeshShape(int bodyHandle, int meshHandle, float density,
 	shapeDef.baseMaterial.rollingResistance = rollingResistance;
 	b3Vec3 scale = { sx, sy, sz };
 	b3ShapeId shapeId = b3CreateMeshShape(body->bodyId, &shapeDef, mesh->mesh, scale);
-	return b3wAllocShapeSlot(shapeId);
+	return b3wAllocShapeSlot(body->worldHandle, shapeId);
 }
 
 B3W_EXPORT void b3wShapeSetMesh(int shapeHandle, int meshHandle, float sx, float sy, float sz)

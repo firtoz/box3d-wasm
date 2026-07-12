@@ -340,7 +340,7 @@ B3W_EXPORT void b3wDestroyJoint(int jointHandle)
 	b3wJointSlot* slot = &g_joints[jointHandle - 1];
 	if (!slot->active) return;
 	b3DestroyJoint(slot->jointId, true);
-	slot->active = false;
+	b3wFreeJointSlot(jointHandle);
 }
 
 B3W_EXPORT void b3wGetJointConstraintForce(int jointHandle, float* outForce)

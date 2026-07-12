@@ -3,6 +3,7 @@ import { B3_AXIS_Y, B3_DEG_TO_RAD, BodyType, quatFromAxisAngle, type BodyHandle,
 import type { DemoBody, DemoSample, SolverParams } from "./types";
 import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker-protocol";
 import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
+import { createWorkerSnapshotViews, releasePublishLock, tryAcquirePublishLock } from "../snapshot-views";
 import { createWorkerWorld, type WorkerWorldState } from "../worker-world-bridge";
 import { RAGDOLL_RENDER_BONES, ragdollCapsuleMesh } from "../ragdoll-render";
 import { wasmBuildVersion } from "virtual:wasm-version";
@@ -29,6 +30,7 @@ export function createDominoesSample(multiplier: number): DemoSample {
       let projectileRotations: Float32Array | null = null;
       let projectileAwake: Uint8Array | null = null;
       let state: Int32Array | null = null;
+      let publishLock: Int32Array | null = null;
       let lastVersion = -1;
       const projectileMeshes: THREE.Mesh[] = [];
       const projectileColors: THREE.Color[] = [];
@@ -85,26 +87,30 @@ export function createDominoesSample(multiplier: number): DemoSample {
           const ready = message as PhysicsWorkerReady;
           count = ready.count;
           wc = ready.workerCount;
+          const views = createWorkerSnapshotViews(ready);
           workerWorldState = {
             count: ready.count,
             workerCount: ready.workerCount,
-            positions: new Float32Array(ready.positions),
-            rotations: new Float32Array(ready.rotations),
-            awake: new Uint8Array(ready.awake),
-            colors: new Uint32Array(ready.colors),
-            projectilePositions: new Float32Array(ready.projectilePositions),
-            projectileRotations: new Float32Array(ready.projectileRotations),
-            projectileAwake: new Uint8Array(ready.projectileAwake),
-            projectileColors: new Uint32Array(ready.projectileColors),
-            state: new Int32Array(ready.state),
+            positions: views.positions,
+            rotations: views.rotations,
+            awake: views.awake,
+            colors: views.colors,
+            projectilePositions: views.projectilePositions,
+            projectileRotations: views.projectileRotations,
+            projectileAwake: views.projectileAwake,
+            projectileColors: views.projectileColors,
+            state: views.state,
+            publishLock: views.publishLock,
+            snapshotBacking: views.snapshotBacking,
           };
-          positions = new Float32Array(ready.positions);
-          rotations = new Float32Array(ready.rotations);
-          awake = new Uint8Array(ready.awake);
-          projectilePositions = new Float32Array(ready.projectilePositions);
-          projectileRotations = new Float32Array(ready.projectileRotations);
-          projectileAwake = new Uint8Array(ready.projectileAwake);
-          state = new Int32Array(ready.state);
+          positions = views.positions;
+          rotations = views.rotations;
+          awake = views.awake;
+          projectilePositions = views.projectilePositions;
+          projectileRotations = views.projectileRotations;
+          projectileAwake = views.projectileAwake;
+          state = views.state;
+          publishLock = views.publishLock;
           awCache = new Uint8Array(count);
           awCache.fill(1);
         } else if (message.type === "error") {
@@ -126,10 +132,8 @@ export function createDominoesSample(multiplier: number): DemoSample {
           if (key === "t" || key === "T") {
             worker.postMessage({ type: "toggle-worker-count" });
           } else if (key === "c" || key === "C") {
-            colorMode = colorMode === "full" ? "light" : "full";
-            localStorage.setItem("box3d:color-mode", colorMode);
+            colorMode = localStorage.getItem("box3d:color-mode") === "light" ? "light" : "full";
             worker.postMessage({ type: "set-color-mode", mode: colorMode });
-            console.log(`[dominoes] color mode: ${colorMode}`);
           }
         },
         spawnProjectile(origin, velocity, spin, ragdoll) {
@@ -181,51 +185,55 @@ export function createDominoesSample(multiplier: number): DemoSample {
           worker.postMessage({ type: "set-solver-params", params });
         },
         step(_dt?, _subSteps?) {
-          if (positions === null || rotations === null || awake === null || state === null || awCache === null) return;
+          if (positions === null || rotations === null || awake === null || state === null || publishLock === null || awCache === null) return;
           const version = Atomics.load(state, SNAPSHOT_VERSION_INDEX);
           if (version === lastVersion) return;
+          if (!tryAcquirePublishLock(publishLock)) return;
           lastVersion = version;
-
-          let needsMatrixUpdate = false;
-          let needsColorUpdate = false;
-          for (let i = 0; i < count; i++) {
-            const isAwake = awake[i] !== 0;
-            const wasAwake = awCache[i] !== 0;
-            if (isAwake) {
-              const pOff = i * 3;
-              const rOff = i * 4;
-              const s = 0.5 + Math.floor(i / 180) * 0.0585;
-              dummy.scale.set(s, s, s);
-              dummy.position.set(positions[pOff], positions[pOff + 1], positions[pOff + 2]);
-              dummy.quaternion.set(rotations[rOff], rotations[rOff + 1], rotations[rOff + 2], rotations[rOff + 3]);
-              dummy.updateMatrix();
-              mesh.setMatrixAt(i, dummy.matrix);
-              needsMatrixUpdate = true;
-            }
-            if (isAwake !== wasAwake) {
-              mesh.setColorAt(i, isAwake ? awakeColor : sleepColor);
-              awCache[i] = isAwake ? 1 : 0;
-              needsColorUpdate = true;
-            }
-          }
-          if (needsMatrixUpdate) mesh.instanceMatrix.needsUpdate = true;
-          if (needsColorUpdate) mesh.instanceColor!.needsUpdate = true;
-
-          if (projectilePositions !== null && projectileRotations !== null && projectileAwake !== null) {
-            const projectileCount = Math.min(Atomics.load(state, SNAPSHOT_PROJECTILE_COUNT_INDEX), projectileMeshes.length);
-            for (let i = 0; i < projectileCount; i++) {
-              const pOff = i * 3;
-              const rOff = i * 4;
-              projectileMeshes[i].position.set(projectilePositions[pOff], projectilePositions[pOff + 1], projectilePositions[pOff + 2]);
-              projectileMeshes[i].quaternion.set(projectileRotations[rOff], projectileRotations[rOff + 1], projectileRotations[rOff + 2], projectileRotations[rOff + 3]);
-              const isAwake = projectileAwake[i] !== 0;
-              const wasAwake = projectileAwakeCache[i] !== 0;
+          try {
+            let needsMatrixUpdate = false;
+            let needsColorUpdate = false;
+            for (let i = 0; i < count; i++) {
+              const isAwake = awake[i] !== 0;
+              const wasAwake = awCache[i] !== 0;
+              if (isAwake) {
+                const pOff = i * 3;
+                const rOff = i * 4;
+                const s = 0.5 + Math.floor(i / 180) * 0.0585;
+                dummy.scale.set(s, s, s);
+                dummy.position.set(positions[pOff], positions[pOff + 1], positions[pOff + 2]);
+                dummy.quaternion.set(rotations[rOff], rotations[rOff + 1], rotations[rOff + 2], rotations[rOff + 3]);
+                dummy.updateMatrix();
+                mesh.setMatrixAt(i, dummy.matrix);
+                needsMatrixUpdate = true;
+              }
               if (isAwake !== wasAwake) {
-                const material = projectileMeshes[i].material as THREE.MeshStandardMaterial;
-                material.color.copy(isAwake ? projectileColors[i] : sleepColor);
-                projectileAwakeCache[i] = isAwake ? 1 : 0;
+                mesh.setColorAt(i, isAwake ? awakeColor : sleepColor);
+                awCache[i] = isAwake ? 1 : 0;
+                needsColorUpdate = true;
               }
             }
+            if (needsMatrixUpdate) mesh.instanceMatrix.needsUpdate = true;
+            if (needsColorUpdate) mesh.instanceColor!.needsUpdate = true;
+
+            if (projectilePositions !== null && projectileRotations !== null && projectileAwake !== null) {
+              const projectileCount = Math.min(Atomics.load(state, SNAPSHOT_PROJECTILE_COUNT_INDEX), projectileMeshes.length);
+              for (let i = 0; i < projectileCount; i++) {
+                const pOff = i * 3;
+                const rOff = i * 4;
+                projectileMeshes[i].position.set(projectilePositions[pOff], projectilePositions[pOff + 1], projectilePositions[pOff + 2]);
+                projectileMeshes[i].quaternion.set(projectileRotations[rOff], projectileRotations[rOff + 1], projectileRotations[rOff + 2], projectileRotations[rOff + 3]);
+                const isAwake = projectileAwake[i] !== 0;
+                const wasAwake = projectileAwakeCache[i] !== 0;
+                if (isAwake !== wasAwake) {
+                  const material = projectileMeshes[i].material as THREE.MeshStandardMaterial;
+                  material.color.copy(isAwake ? projectileColors[i] : sleepColor);
+                  projectileAwakeCache[i] = isAwake ? 1 : 0;
+                }
+              }
+            }
+          } finally {
+            releasePublishLock(publishLock);
           }
         },
         dispose() {

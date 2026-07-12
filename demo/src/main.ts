@@ -333,8 +333,10 @@ const solverParams: SolverParams = {
   sleep: true,
   warmStart: true,
   continuous: true,
+  profileLevel: initialChartsEnabled ? "coarse" : "off",
+  publishMode: "auto",
 };
-const defaultSolverParams: Required<Omit<SolverParams, "workerCount">> = {
+const defaultSolverParams: Required<Omit<SolverParams, "workerCount" | "profileLevel" | "publishMode">> = {
   subSteps: 4,
   hertz: 60,
   recycleDistance: 0.05,
@@ -343,6 +345,8 @@ const defaultSolverParams: Required<Omit<SolverParams, "workerCount">> = {
   continuous: true,
 };
 Object.assign(solverParams, persistedSettings.solver);
+solverParams.profileLevel = chartsEnabled ? "coarse" : "off";
+if (solverParams.publishMode === undefined) solverParams.publishMode = "auto";
 let paused = false;
 let singleStep = 0;
 let controlsVisible = true;
@@ -513,6 +517,8 @@ function setShadowsEnabled(enabled: boolean): void {
 function setChartsEnabled(enabled: boolean): void {
   chartsEnabled = enabled;
   chartIntervalMs = chartsEnabled && currentChartHz > 0 ? 1000 / currentChartHz : 0;
+  solverParams.profileLevel = chartsEnabled ? "coarse" : "off";
+  applySolverParams();
   updatePhysChartVisibility();
   persistSettings();
 }
@@ -665,6 +671,7 @@ function renderSolverControls(): void {
   colorModeCb.addEventListener("change", () => {
     colorMode = colorModeCb.checked ? "light" : "full";
     localStorage.setItem("box3d:color-mode", colorMode);
+    // Samples sync from localStorage (do not toggle again).
     activeSample?.onKey?.("c");
   });
   colorModeLabel.appendChild(colorModeCb);
@@ -1317,6 +1324,7 @@ function applyBenchVariant(variant: BenchVariant): void {
   renderer.shadowMap.enabled = variant.shadows ?? false;
   chartsEnabled = variant.physicsCharts ?? false;
   chartIntervalMs = chartsEnabled && variant.chartHz !== undefined && variant.chartHz !== null ? 1000 / Math.max(1, variant.chartHz) : 0;
+  solverParams.profileLevel = chartsEnabled ? "coarse" : "off";
   (globalThis as { __BOX3D_WASHER_RENDER_MODE?: "matrix" | "shader" }).__BOX3D_WASHER_RENDER_MODE = variant.renderMode ?? "shader";
   const washerIndex = samples.findIndex((sample) => sample.id === "washer");
   if (washerIndex >= 0 && activeSampleIndex !== washerIndex) {
@@ -1723,7 +1731,6 @@ window.addEventListener("keydown", (e) => {
   } else if (e.key === "c" || e.key === "C") {
     colorMode = colorMode === "full" ? "light" : "full";
     localStorage.setItem("box3d:color-mode", colorMode);
-    activeSample?.onKey?.("c");
     const colorCb = document.querySelector<HTMLInputElement>("#color-mode-cb");
     if (colorCb) colorCb.checked = colorMode === "light";
   }

@@ -1,0 +1,660 @@
+diff --git a/include/box3d/box3d.h b/include/box3d/box3d.h
+index 05b69dd..20ffaf5 100644
+--- a/include/box3d/box3d.h
++++ b/include/box3d/box3d.h
+@@ -209,6 +209,12 @@ B3_API int b3World_GetAwakeBodyCount( b3WorldId worldId );
+ /// Get the current world performance profile
+ B3_API b3Profile b3World_GetProfile( b3WorldId worldId );
+ 
++/// Set the profiling detail level. Default is b3_profileFull.
++B3_API void b3World_SetProfileLevel( b3WorldId worldId, b3ProfileLevel level );
++
++/// Get the profiling detail level
++B3_API b3ProfileLevel b3World_GetProfileLevel( b3WorldId worldId );
++
+ /// Get world counters and sizes
+ B3_API b3Counters b3World_GetCounters( b3WorldId worldId );
+ 
+diff --git a/include/box3d/types.h b/include/box3d/types.h
+index b0a8bb8..9c03684 100644
+--- a/include/box3d/types.h
++++ b/include/box3d/types.h
+@@ -526,6 +526,15 @@ typedef struct b3ShapeDef
+ B3_API b3ShapeDef b3DefaultShapeDef( void );
+ 
+ //! @cond
++/// Profiling detail level. Controls which timers run during b3World_Step.
++/// @ingroup world
++typedef enum b3ProfileLevel
++{
++	b3_profileOff = 0,
++	b3_profileCoarse = 1,
++	b3_profileFull = 2,
++} b3ProfileLevel;
++
+ /// Profiling data. Times are in milliseconds.
+ /// @ingroup world
+ typedef struct b3Profile
+diff --git a/src/island.c b/src/island.c
+index 6a17909..8f95163 100644
+--- a/src/island.c
++++ b/src/island.c
+@@ -659,15 +659,23 @@ void b3SplitIslandTask( void* context )
+ {
+ 	b3TracyCZoneNC( split, "Split Island", b3_colorOlive, true );
+ 
+-	uint64_t ticks = b3GetTicks();
+ 	b3World* world = context;
++	uint64_t ticks = 0;
++	bool profileFull = world->profileLevel >= b3_profileFull;
++	if ( profileFull )
++	{
++		ticks = b3GetTicks();
++	}
+ 
+ 	B3_ASSERT( world->splitIslandId != B3_NULL_INDEX );
+ 
+ 	b3SplitIsland( world, world->splitIslandId );
+ 
+ 	world->splitIslandId = B3_NULL_INDEX;
+-	world->profile.splitIslands += b3GetMilliseconds( ticks );
++	if ( profileFull )
++	{
++		world->profile.splitIslands += b3GetMilliseconds( ticks );
++	}
+ 	b3TracyCZoneEnd( split );
+ }
+ 
+diff --git a/src/physics_world.c b/src/physics_world.c
+index 2a065aa..06208e3 100644
+--- a/src/physics_world.c
++++ b/src/physics_world.c
+@@ -351,6 +351,7 @@ b3WorldId b3CreateWorld( const b3WorldDef* def )
+ 	world->enableWarmStarting = true;
+ 	world->enableContinuous = def->enableContinuous;
+ 	world->enableSpeculative = true;
++	world->profileLevel = b3_profileFull;
+ 	world->userTreeTask = NULL;
+ 	world->userData = def->userData;
+ 
+@@ -1065,7 +1066,12 @@ void b3World_Step( b3WorldId worldId, float timeStep, int subStepCount )
+ 		b3ResetScheduler( world->scheduler );
+ 	}
+ 
+-	uint64_t stepTicks = b3GetTicks();
++	bool profileCoarse = world->profileLevel >= b3_profileCoarse;
++	uint64_t stepTicks = 0;
++	if ( profileCoarse )
++	{
++		stepTicks = b3GetTicks();
++	}
+ 
+ 	{
+ 		b3Capacity* c = &world->maxCapacity;
+@@ -1085,9 +1091,16 @@ void b3World_Step( b3WorldId worldId, float timeStep, int subStepCount )
+ 
+ 	// Update collision pairs and create contacts
+ 	{
+-		uint64_t pairTicks = b3GetTicks();
++		uint64_t pairTicks = 0;
++		if ( profileCoarse )
++		{
++			pairTicks = b3GetTicks();
++		}
+ 		b3UpdateBroadPhasePairs( world );
+-		world->profile.pairs = b3GetMilliseconds( pairTicks );
++		if ( profileCoarse )
++		{
++			world->profile.pairs = b3GetMilliseconds( pairTicks );
++		}
+ 	}
+ 
+ 	b3SolverSet* awakeSet = b3Array_Get( world->solverSets, b3_awakeSet );
+@@ -1125,17 +1138,31 @@ void b3World_Step( b3WorldId worldId, float timeStep, int subStepCount )
+ 
+ 	// Narrow phase : update contacts
+ 	{
+-		uint64_t collideTicks = b3GetTicks();
++		uint64_t collideTicks = 0;
++		if ( profileCoarse )
++		{
++			collideTicks = b3GetTicks();
++		}
+ 		b3Collide( &context );
+-		world->profile.collide = b3GetMilliseconds( collideTicks );
++		if ( profileCoarse )
++		{
++			world->profile.collide = b3GetMilliseconds( collideTicks );
++		}
+ 	}
+ 
+ 	// Integrate velocities, solve velocity constraints, and integrate positions.
+ 	if ( timeStep > 0.0f )
+ 	{
+-		uint64_t solveTicks = b3GetTicks();
++		uint64_t solveTicks = 0;
++		if ( profileCoarse )
++		{
++			solveTicks = b3GetTicks();
++		}
+ 		b3Solve( world, &context );
+-		world->profile.solve = b3GetMilliseconds( solveTicks );
++		if ( profileCoarse )
++		{
++			world->profile.solve = b3GetMilliseconds( solveTicks );
++		}
+ 	}
+ 
+ 	// Finish the tree task in case b3Solve didn't finish it
+@@ -1148,12 +1175,22 @@ void b3World_Step( b3WorldId worldId, float timeStep, int subStepCount )
+ 
+ 	// Update sensors
+ 	{
+-		uint64_t sensorTicks = b3GetTicks();
++		uint64_t sensorTicks = 0;
++		if ( profileCoarse )
++		{
++			sensorTicks = b3GetTicks();
++		}
+ 		b3OverlapSensors( world );
+-		world->profile.sensors = b3GetMilliseconds( sensorTicks );
++		if ( profileCoarse )
++		{
++			world->profile.sensors = b3GetMilliseconds( sensorTicks );
++		}
+ 	}
+ 
+-	world->profile.step = b3GetMilliseconds( stepTicks );
++	if ( profileCoarse )
++	{
++		world->profile.step = b3GetMilliseconds( stepTicks );
++	}
+ 
+ 	B3_ASSERT( world->stack.allocation == 0 );
+ 
+@@ -2157,6 +2194,27 @@ b3Profile b3World_GetProfile( b3WorldId worldId )
+ 	return world->profile;
+ }
+ 
++void b3World_SetProfileLevel( b3WorldId worldId, b3ProfileLevel level )
++{
++	b3World* world = b3GetUnlockedWorldFromId( worldId );
++	if ( world == NULL )
++	{
++		return;
++	}
++
++	world->profileLevel = level;
++}
++
++b3ProfileLevel b3World_GetProfileLevel( b3WorldId worldId )
++{
++	b3World* world = b3GetUnlockedWorldFromId( worldId );
++	if ( world == NULL )
++	{
++		return b3_profileOff;
++	}
++	return world->profileLevel;
++}
++
+ b3Counters b3World_GetCounters( b3WorldId worldId )
+ {
+ 	b3World* world = b3GetUnlockedWorldFromId( worldId );
+diff --git a/src/physics_world.h b/src/physics_world.h
+index 12f1695..5765039 100644
+--- a/src/physics_world.h
++++ b/src/physics_world.h
+@@ -240,6 +240,7 @@ typedef struct b3World
+ 	uint16_t generation;
+ 
+ 	b3Profile profile;
++	b3ProfileLevel profileLevel;
+ 	int satCallCount;
+ 	int satCacheHitCount;
+ 	int manifoldCounts[B3_CONTACT_MANIFOLD_COUNT_BUCKETS];
+diff --git a/src/shape.c b/src/shape.c
+index e4d9d9e..17bd3bf 100644
+--- a/src/shape.c
++++ b/src/shape.c
+@@ -2256,7 +2256,13 @@ b3TOIOutput b3ShapeTimeOfImpact( b3Shape* shapeA, b3Shape* shapeB, b3Sweep* swee
+ 		// todo implement b3MeshTimeOfImpact and b3HeightFieldTimeOfImpact
+ 		// Note: assuming mesh is static
+ 
+-		uint64_t ticks = b3GetTicks();
++		// Shape has no world pointer; only time stalls when a threshold is configured.
++		bool timeStall = b3GetStallThreshold() < FLT_MAX;
++		uint64_t ticks = 0;
++		if ( timeStall )
++		{
++			ticks = b3GetTicks();
++		}
+ 
+ 		b3MeshImpactContext context = { 0 };
+ 		context.toiInput.sweepA = *sweepA;
+@@ -2307,10 +2313,13 @@ b3TOIOutput b3ShapeTimeOfImpact( b3Shape* shapeA, b3Shape* shapeB, b3Sweep* swee
+ 			b3QueryHeightField( shapeA->heightField, localBounds, b3MeshTimeOfImpactFcn, &context );
+ 		}
+ 
+-		float ms = b3GetMilliseconds( ticks );
+-		if ( ms > 1000.0f * b3GetStallThreshold() )
++		if ( timeStall )
+ 		{
+-			b3Log( "CCD stall: visited %d triangles", context.visitCount );
++			float ms = b3GetMilliseconds( ticks );
++			if ( ms > 1000.0f * b3GetStallThreshold() )
++			{
++				b3Log( "CCD stall: visited %d triangles", context.visitCount );
++			}
+ 		}
+ 
+ 		return context.toiOutput;
+diff --git a/src/solver.c b/src/solver.c
+index 0fde035..b40aa0f 100644
+--- a/src/solver.c
++++ b/src/solver.c
+@@ -411,7 +411,12 @@ static bool b3ContinuousQueryCallback( int proxyId, uint64_t userData, void* con
+ 		}
+ 	}
+ 
+-	uint64_t ticks = b3GetTicks();
++	uint64_t ticks = 0;
++	bool timeStall = world->profileLevel >= b3_profileFull;
++	if ( timeStall )
++	{
++		ticks = b3GetTicks();
++	}
+ 
+ 	// todo does having a sweep on shapeA help with bullets?
+ 	b3Sweep sweepA = b3MakeRelativeSweep( bodySim, continuousContext->base );
+@@ -458,12 +463,15 @@ static bool b3ContinuousQueryCallback( int proxyId, uint64_t userData, void* con
+ 		}
+ 	}
+ 
+-	float ms = b3GetMilliseconds( ticks );
+-	if ( ms > 1000.0f * b3GetStallThreshold() )
++	if ( timeStall )
+ 	{
+-		const char* nameFast = b3FindNameWithDefault( &world->names, fastBody->nameId, "NULL" );
+-		const char* name = b3FindNameWithDefault( &world->names, body->nameId, "NULL" );
+-		b3Log( "CCD stall: duration %.1f ms for %s versus %s", ms, nameFast, name );
++		float ms = b3GetMilliseconds( ticks );
++		if ( ms > 1000.0f * b3GetStallThreshold() )
++		{
++			const char* nameFast = b3FindNameWithDefault( &world->names, fastBody->nameId, "NULL" );
++			const char* name = b3FindNameWithDefault( &world->names, body->nameId, "NULL" );
++			b3Log( "CCD stall: duration %.1f ms for %s versus %s", ms, nameFast, name );
++		}
+ 	}
+ 
+ 	// Continue query
+@@ -475,7 +483,12 @@ static void b3SolveContinuous( b3World* world, int bodySimIndex, b3TaskContext*
+ {
+ 	b3TracyCZoneNC( ccd, "CCD", b3_colorDarkGoldenRod, true );
+ 
+-	uint64_t ticks = b3GetTicks();
++	uint64_t ticks = 0;
++	bool timeStall = world->profileLevel >= b3_profileFull;
++	if ( timeStall )
++	{
++		ticks = b3GetTicks();
++	}
+ 
+ 	b3SolverSet* awakeSet = b3Array_Get( world->solverSets, b3_awakeSet );
+ 	b3BodySim* fastBodySim = b3Array_Get( awakeSet->bodySims, bodySimIndex );
+@@ -641,15 +654,18 @@ static void b3SolveContinuous( b3World* world, int bodySimIndex, b3TaskContext*
+ 	taskContext->pushBackIterations = b3MaxInt( taskContext->pushBackIterations, context.pushBackIterations );
+ 	taskContext->rootIterations = b3MaxInt( taskContext->rootIterations, context.rootIterations );
+ 
+-	float ms = b3GetMilliseconds( ticks );
+-	if ( ms > 1000.0f * b3GetStallThreshold() )
++	if ( timeStall )
+ 	{
+-		const char* nameFast = b3FindNameWithDefault( &world->names, fastBody->nameId, "NULL" );
+-		b3Vec3 c1 = sweep.c1;
+-		b3Vec3 c2 = sweep.c2;
+-		int vc = context.visitCount;
+-		b3Log( "CCD stall: duration %.1f ms and visit count %d for %s: c1 = (%g, %g, %g), c2 = (%g, %g, %g)", ms, vc, nameFast,
+-			   c1.x, c1.y, c1.z, c2.x, c2.y, c2.z );
++		float ms = b3GetMilliseconds( ticks );
++		if ( ms > 1000.0f * b3GetStallThreshold() )
++		{
++			const char* nameFast = b3FindNameWithDefault( &world->names, fastBody->nameId, "NULL" );
++			b3Vec3 c1 = sweep.c1;
++			b3Vec3 c2 = sweep.c2;
++			int vc = context.visitCount;
++			b3Log( "CCD stall: duration %.1f ms and visit count %d for %s: c1 = (%g, %g, %g), c2 = (%g, %g, %g)", ms, vc, nameFast,
++				   c1.x, c1.y, c1.z, c2.x, c2.y, c2.z );
++		}
+ 	}
+ 
+ 	b3TracyCZoneEnd( ccd );
+@@ -1192,7 +1208,12 @@ static void b3SolverTask( void* taskContext )
+ 		b3_stageStoreImpulses
+ 		*/
+ 
+-		uint64_t ticks = b3GetTicks();
++		bool profileFull = context->world->profileLevel >= b3_profileFull;
++		uint64_t ticks = 0;
++		if ( profileFull )
++		{
++			ticks = b3GetTicks();
++		}
+ 
+ 		int bodySyncIndex = 1;
+ 		int stageIndex = 0;
+@@ -1225,7 +1246,10 @@ static void b3SolverTask( void* taskContext )
+ 		b3PrepareJoints_Overflow( context );
+ 		b3PrepareContacts_Overflow( context );
+ 
+-		profile->prepareConstraints += b3GetMillisecondsAndReset( &ticks );
++		if ( profileFull )
++		{
++			profile->prepareConstraints += b3GetMillisecondsAndReset( &ticks );
++		}
+ 
+ 		int graphSyncIndex = 1;
+ 		int subStepCount = context->subStepCount;
+@@ -1242,7 +1266,10 @@ static void b3SolverTask( void* taskContext )
+ 			iterationStageIndex += 1;
+ 			bodySyncIndex += 1;
+ 
+-			profile->integrateVelocities += b3GetMillisecondsAndReset( &ticks );
++			if ( profileFull )
++			{
++				profile->integrateVelocities += b3GetMillisecondsAndReset( &ticks );
++			}
+ 
+ 			// Warm start constraints
+ 			b3WarmStartJoints_Overflow( context );
+@@ -1257,7 +1284,10 @@ static void b3SolverTask( void* taskContext )
+ 			}
+ 			graphSyncIndex += 1;
+ 
+-			profile->warmStart += b3GetMillisecondsAndReset( &ticks );
++			if ( profileFull )
++			{
++				profile->warmStart += b3GetMillisecondsAndReset( &ticks );
++			}
+ 
+ 			// Solve constraints
+ 			bool useBias = true;
+@@ -1277,7 +1307,10 @@ static void b3SolverTask( void* taskContext )
+ 				graphSyncIndex += 1;
+ 			}
+ 
+-			profile->solveImpulses += b3GetMillisecondsAndReset( &ticks );
++			if ( profileFull )
++			{
++				profile->solveImpulses += b3GetMillisecondsAndReset( &ticks );
++			}
+ 
+ 			// Integrate positions
+ 			B3_ASSERT( stages[iterationStageIndex].type == b3_stageIntegratePositions );
+@@ -1286,7 +1319,10 @@ static void b3SolverTask( void* taskContext )
+ 			iterationStageIndex += 1;
+ 			bodySyncIndex += 1;
+ 
+-			profile->integratePositions += b3GetMillisecondsAndReset( &ticks );
++			if ( profileFull )
++			{
++				profile->integratePositions += b3GetMillisecondsAndReset( &ticks );
++			}
+ 
+ 			// Relax constraints
+ 			useBias = false;
+@@ -1305,7 +1341,10 @@ static void b3SolverTask( void* taskContext )
+ 				graphSyncIndex += 1;
+ 			}
+ 
+-			profile->relaxImpulses += b3GetMillisecondsAndReset( &ticks );
++			if ( profileFull )
++			{
++				profile->relaxImpulses += b3GetMillisecondsAndReset( &ticks );
++			}
+ 		}
+ 
+ 		// Advance the stage according to the sub-stepping tasks just completed
+@@ -1328,7 +1367,10 @@ static void b3SolverTask( void* taskContext )
+ 			stageIndex += activeColorCount;
+ 		}
+ 
+-		profile->applyRestitution += b3GetMillisecondsAndReset( &ticks );
++		if ( profileFull )
++		{
++			profile->applyRestitution += b3GetMillisecondsAndReset( &ticks );
++		}
+ 
+ 		// Store impulses
+ 		b3StoreImpulses_Overflow( context );
+@@ -1343,7 +1385,10 @@ static void b3SolverTask( void* taskContext )
+ 		b3ExecuteMainStage( stages + stageIndex, context, syncBits );
+ 		stageIndex += 1;
+ 
+-		profile->storeImpulses += b3GetMillisecondsAndReset( &ticks );
++		if ( profileFull )
++		{
++			profile->storeImpulses += b3GetMillisecondsAndReset( &ticks );
++		}
+ 
+ 		// Signal workers to finish
+ 		b3AtomicStoreU32( &context->atomicSyncBits, UINT_MAX );
+@@ -1448,7 +1493,12 @@ void b3Solve( b3World* world, b3StepContext* stepContext )
+ 	// Solve constraints using graph coloring
+ 	{
+ 		b3TracyCZoneNC( solver_setup, "Solver Setup", b3_colorDarkOrange, true );
+-		uint64_t setupTicks = b3GetTicks();
++		bool profileFull = world->profileLevel >= b3_profileFull;
++		uint64_t setupTicks = 0;
++		if ( profileFull )
++		{
++			setupTicks = b3GetTicks();
++		}
+ 
+ 		// Prepare buffers for continuous collision (fast bodies)
+ 		b3AtomicStoreInt( &stepContext->bulletBodyCount, 0 );
+@@ -1801,11 +1851,18 @@ void b3Solve( b3World* world, b3StepContext* stepContext )
+ 		b3AtomicStoreU32( &stepContext->atomicSyncBits, 0 );
+ 		b3AtomicStoreInt( &stepContext->mainClaimed, 0 );
+ 
+-		world->profile.solverSetup = b3GetMillisecondsAndReset( &setupTicks );
++		if ( profileFull )
++		{
++			world->profile.solverSetup = b3GetMillisecondsAndReset( &setupTicks );
++		}
+ 		b3TracyCZoneEnd( solver_setup );
+ 
+ 		b3TracyCZoneNC( solve_constraints, "Solve Constraints", b3_colorIndigo, true );
+-		uint64_t constraintTicks = b3GetTicks();
++		uint64_t constraintTicks = 0;
++		if ( profileFull )
++		{
++			constraintTicks = b3GetTicks();
++		}
+ 
+ 		int jointIdCapacity = b3GetIdCapacity( &world->jointIdPool );
+ 		int contactIdCapacity = b3GetIdCapacity( &world->contactIdPool );
+@@ -1862,11 +1919,18 @@ void b3Solve( b3World* world, b3StepContext* stepContext )
+ 		}
+ 		world->splitIslandId = B3_NULL_INDEX;
+ 
+-		world->profile.constraints = b3GetMillisecondsAndReset( &constraintTicks );
++		if ( profileFull )
++		{
++			world->profile.constraints = b3GetMillisecondsAndReset( &constraintTicks );
++		}
+ 		b3TracyCZoneEnd( solve_constraints );
+ 
+ 		b3TracyCZoneNC( update_transforms, "Update Transforms", b3_colorMediumSeaGreen, true );
+-		uint64_t transformTicks = b3GetTicks();
++		uint64_t transformTicks = 0;
++		if ( profileFull )
++		{
++			transformTicks = b3GetTicks();
++		}
+ 
+ 		// Prepare contact, enlarged body, and island bit sets used in body finalization.
+ 		int awakeIslandCount = awakeSet->islandSims.count;
+@@ -1896,14 +1960,22 @@ void b3Solve( b3World* world, b3StepContext* stepContext )
+ 		b3StackFree( &world->stack, contactConstraints );
+ 		b3StackFree( &world->stack, wideConstraints );
+ 
+-		world->profile.transforms = b3GetMilliseconds( transformTicks );
++		if ( profileFull )
++		{
++			world->profile.transforms = b3GetMilliseconds( transformTicks );
++		}
+ 		b3TracyCZoneEnd( update_transforms );
+ 	}
+ 
+ 	// Report joint events
+ 	{
+ 		b3TracyCZoneNC( joint_events, "Joint Events", b3_colorPeru, true );
+-		uint64_t jointEventTicks = b3GetTicks();
++		bool profileFull = world->profileLevel >= b3_profileFull;
++		uint64_t jointEventTicks = 0;
++		if ( profileFull )
++		{
++			jointEventTicks = b3GetTicks();
++		}
+ 
+ 		// Gather bits for all joints that have force/torque events
+ 		b3BitSet* jointStateBitSet = &world->taskContexts.data[0].jointStateBitSet;
+@@ -1951,14 +2023,22 @@ void b3Solve( b3World* world, b3StepContext* stepContext )
+ 			}
+ 		}
+ 
+-		world->profile.jointEvents = b3GetMilliseconds( jointEventTicks );
++		if ( profileFull )
++		{
++			world->profile.jointEvents = b3GetMilliseconds( jointEventTicks );
++		}
+ 		b3TracyCZoneEnd( joint_events );
+ 	}
+ 
+ 	// Report hit events
+ 	{
+ 		b3TracyCZoneNC( hit_events, "Hit Events", b3_colorRosyBrown, true );
+-		uint64_t hitTicks = b3GetTicks();
++		bool profileFull = world->profileLevel >= b3_profileFull;
++		uint64_t hitTicks = 0;
++		if ( profileFull )
++		{
++			hitTicks = b3GetTicks();
++		}
+ 
+ 		B3_ASSERT( world->contactHitEvents.count == 0 );
+ 
+@@ -2063,13 +2143,21 @@ void b3Solve( b3World* world, b3StepContext* stepContext )
+ 			}
+ 		}
+ 
+-		world->profile.hitEvents = b3GetMilliseconds( hitTicks );
++		if ( profileFull )
++		{
++			world->profile.hitEvents = b3GetMilliseconds( hitTicks );
++		}
+ 		b3TracyCZoneEnd( hit_events );
+ 	}
+ 
+ 	{
+ 		b3TracyCZoneNC( refit_bvh, "Refit BVH", b3_colorFireBrick, true );
+-		uint64_t refitTicks = b3GetTicks();
++		bool profileFull = world->profileLevel >= b3_profileFull;
++		uint64_t refitTicks = 0;
++		if ( profileFull )
++		{
++			refitTicks = b3GetTicks();
++		}
+ 
+ 		// Finish the user tree task that was queued earlier in the time step. This must be complete before touching the
+ 		// broad-phase.
+@@ -2158,7 +2246,10 @@ void b3Solve( b3World* world, b3StepContext* stepContext )
+ 
+ 		b3ValidateBroadPhase( &world->broadPhase );
+ 
+-		world->profile.refit = b3GetMilliseconds( refitTicks );
++		if ( profileFull )
++		{
++			world->profile.refit = b3GetMilliseconds( refitTicks );
++		}
+ 		b3TracyCZoneEnd( refit_bvh );
+ 	}
+ 
+@@ -2166,7 +2257,12 @@ void b3Solve( b3World* world, b3StepContext* stepContext )
+ 	if ( bulletBodyCount > 0 )
+ 	{
+ 		b3TracyCZoneNC( bullets, "Bullets", b3_colorDarkGoldenRod, true );
+-		uint64_t bulletTicks = b3GetTicks();
++		bool profileFull = world->profileLevel >= b3_profileFull;
++		uint64_t bulletTicks = 0;
++		if ( profileFull )
++		{
++			bulletTicks = b3GetTicks();
++		}
+ 
+ 		// Fast bullet bodies
+ 		// Note: a bullet body may be moving slow
+@@ -2227,7 +2323,10 @@ void b3Solve( b3World* world, b3StepContext* stepContext )
+ 			}
+ 		}
+ 
+-		world->profile.bullets = b3GetMilliseconds( bulletTicks );
++		if ( profileFull )
++		{
++			world->profile.bullets = b3GetMilliseconds( bulletTicks );
++		}
+ 		b3TracyCZoneEnd( bullets );
+ 	}
+ 
+@@ -2238,7 +2337,12 @@ void b3Solve( b3World* world, b3StepContext* stepContext )
+ 	// Report sensor hits. This may include bullets sensor hits.
+ 	{
+ 		b3TracyCZoneNC( sensor_hits, "Sensor Hits", b3_colorPowderBlue, true );
+-		uint64_t sensorHitTicks = b3GetTicks();
++		bool profileFull = world->profileLevel >= b3_profileFull;
++		uint64_t sensorHitTicks = 0;
++		if ( profileFull )
++		{
++			sensorHitTicks = b3GetTicks();
++		}
+ 
+ 		int workerCount = world->workerCount;
+ 		B3_ASSERT( workerCount == world->taskContexts.count );
+@@ -2264,7 +2368,10 @@ void b3Solve( b3World* world, b3StepContext* stepContext )
+ 			}
+ 		}
+ 
+-		world->profile.sensorHits = b3GetMilliseconds( sensorHitTicks );
++		if ( profileFull )
++		{
++			world->profile.sensorHits = b3GetMilliseconds( sensorHitTicks );
++		}
+ 		b3TracyCZoneEnd( sensor_hits );
+ 	}
+ 
+@@ -2274,7 +2381,12 @@ void b3Solve( b3World* world, b3StepContext* stepContext )
+ 	if ( world->enableSleep == true )
+ 	{
+ 		b3TracyCZoneNC( sleep_islands, "Island Sleep", b3_colorLightSlateGray, true );
+-		uint64_t sleepTicks = b3GetTicks();
++		bool profileFull = world->profileLevel >= b3_profileFull;
++		uint64_t sleepTicks = 0;
++		if ( profileFull )
++		{
++			sleepTicks = b3GetTicks();
++		}
+ 
+ 		// Collect split island candidate for the next time step. No need to split if sleeping is disabled.
+ 		B3_ASSERT( world->splitIslandId == B3_NULL_INDEX );
+@@ -2322,7 +2434,10 @@ void b3Solve( b3World* world, b3StepContext* stepContext )
+ 
+ 		b3ValidateSolverSets( world );
+ 
+-		world->profile.sleepIslands = b3GetMilliseconds( sleepTicks );
++		if ( profileFull )
++		{
++			world->profile.sleepIslands = b3GetMilliseconds( sleepTicks );
++		}
+ 		b3TracyCZoneEnd( sleep_islands );
+ 	}
+ }

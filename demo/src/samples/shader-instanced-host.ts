@@ -4,6 +4,7 @@ import type { ControlSpec, DemoBody, DemoSample, DemoSampleInstance, SolverParam
 import type { RenderControl } from "./generic-host";
 import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker-protocol";
 import { MAX_PROJECTILES, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
+import { createWorkerSnapshotViews, releasePublishLock, tryAcquirePublishLock } from "../snapshot-views";
 import { createWorkerWorld, type WorkerWorldState } from "../worker-world-bridge";
 import { RAGDOLL_RENDER_BONES, ragdollCapsuleMesh } from "../ragdoll-render";
 import {
@@ -113,6 +114,7 @@ export type WorkerSampleShell = {
   getLastVersion: () => number;
   setLastVersion: (version: number) => void;
   consumeSnapshotVersion: () => boolean;
+  releaseSnapshotLock: () => void;
   spawnProjectile: DemoSampleInstance["spawnProjectile"];
   startMouseDragRay: NonNullable<DemoSampleInstance["startMouseDragRay"]>;
   updateMouseDragRay: NonNullable<DemoSampleInstance["updateMouseDragRay"]>;
@@ -151,18 +153,21 @@ export function createWorkerSampleShell(
     if (message.type === "ready") {
       const ready = message as PhysicsWorkerReady;
       wc = ready.workerCount;
+      const views = createWorkerSnapshotViews(ready);
       workerWorldState = {
         count: ready.count,
         workerCount: ready.workerCount,
-        positions: new Float32Array(ready.positions),
-        rotations: new Float32Array(ready.rotations),
-        awake: new Uint8Array(ready.awake),
-        colors: new Uint32Array(ready.colors),
-        projectilePositions: new Float32Array(ready.projectilePositions),
-        projectileRotations: new Float32Array(ready.projectileRotations),
-        projectileAwake: new Uint8Array(ready.projectileAwake),
-        projectileColors: new Uint32Array(ready.projectileColors),
-        state: new Int32Array(ready.state),
+        positions: views.positions,
+        rotations: views.rotations,
+        awake: views.awake,
+        colors: views.colors,
+        projectilePositions: views.projectilePositions,
+        projectileRotations: views.projectileRotations,
+        projectileAwake: views.projectileAwake,
+        projectileColors: views.projectileColors,
+        state: views.state,
+        publishLock: views.publishLock,
+        snapshotBacking: views.snapshotBacking,
       };
       options.onReady?.(ready, workerWorldState);
     } else if (message.type === "error") {
@@ -236,8 +241,12 @@ export function createWorkerSampleShell(
       if (workerWorldState === null) return false;
       const version = Atomics.load(workerWorldState.state, SNAPSHOT_VERSION_INDEX);
       if (version === lastVersion) return false;
+      if (!tryAcquirePublishLock(workerWorldState.publishLock)) return false;
       lastVersion = version;
       return true;
+    },
+    releaseSnapshotLock: () => {
+      if (workerWorldState !== null) releasePublishLock(workerWorldState.publishLock);
     },
     spawnProjectile,
     startMouseDragRay(origin, translation) {
@@ -440,7 +449,7 @@ export function createShaderInstancedSample(input: ShaderInstancedHostSpec | Sha
     id: spec.id,
     name: spec.name,
     create(_runtime: Box3DRuntime, scene: THREE.Scene, initialSolverParams?: SolverParams) {
-      let colorMode: "light" | "full" = localStorage.getItem("box3d:color-mode") === "full" ? "full" : "light";
+      let colorMode: "light" | "full" = localStorage.getItem("box3d:color-mode") === "light" ? "light" : "full";
       let bodyCount = 0;
       const bodies: DemoBody[] = [];
 
@@ -494,8 +503,14 @@ export function createShaderInstancedSample(input: ShaderInstancedHostSpec | Sha
             colors: state.colors,
             state: state.state,
           };
-          for (const layer of layers) syncLayer(layer, ctx);
-          sceneSetup?.sync?.(ctx);
+          if (tryAcquirePublishLock(state.publishLock)) {
+            try {
+              for (const layer of layers) syncLayer(layer, ctx);
+              sceneSetup?.sync?.(ctx);
+            } finally {
+              releasePublishLock(state.publishLock);
+            }
+          }
         },
       });
 
@@ -547,8 +562,8 @@ export function createShaderInstancedSample(input: ShaderInstancedHostSpec | Sha
         camera: spec.camera,
         onKey(key: string) {
           if (key === "c" || key === "C") {
-            colorMode = colorMode === "full" ? "light" : "full";
-            localStorage.setItem("box3d:color-mode", colorMode);
+            // Sync from localStorage — main.ts owns the toggle and may invoke onKey more than once.
+            colorMode = localStorage.getItem("box3d:color-mode") === "light" ? "light" : "full";
             shell.worker.postMessage({ type: "set-color-mode", mode: colorMode });
           }
           spec.onKey?.(key, { worker: shell.worker });
@@ -564,19 +579,23 @@ export function createShaderInstancedSample(input: ShaderInstancedHostSpec | Sha
           const snap = shell.getSnapshot();
           if (snap === null) return;
           if (!shell.consumeSnapshotVersion()) return;
-          bodyCount = spec.resolveBodyCount !== undefined
-            ? spec.resolveBodyCount(snap.state, snap.count)
-            : snap.count;
-          const ctx: ShaderSyncContext = {
-            bodyCount,
-            positions: snap.positions,
-            rotations: snap.rotations,
-            colors: snap.colors,
-            state: snap.state,
-          };
-          for (const layer of layers) syncLayer(layer, ctx);
-          sceneSetup?.sync?.(ctx);
-          shell.syncProjectiles(shell.projectileMeshes, shell.projectileColorCache);
+          try {
+            bodyCount = spec.resolveBodyCount !== undefined
+              ? spec.resolveBodyCount(snap.state, snap.count)
+              : snap.count;
+            const ctx: ShaderSyncContext = {
+              bodyCount,
+              positions: snap.positions,
+              rotations: snap.rotations,
+              colors: snap.colors,
+              state: snap.state,
+            };
+            for (const layer of layers) syncLayer(layer, ctx);
+            sceneSetup?.sync?.(ctx);
+            shell.syncProjectiles(shell.projectileMeshes, shell.projectileColorCache);
+          } finally {
+            shell.releaseSnapshotLock();
+          }
         },
         dispose() {
           shell.disposeProjectiles(scene, shell.projectileMeshes);

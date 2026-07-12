@@ -1,12 +1,32 @@
-import { BodyType, Box3DRuntime, type BodyBatchBuffers, type BodyHandle, type JointHandle, type PhysicsWorld, type Vec3, type WorldCapacity } from "box3d-wasm";
-import type { PhysicsWorkerCommand, PhysicsWorkerMessage, SolverParams } from "./physics-worker-protocol";
-import { MAX_PROJECTILES, RAGDOLL_RENDER_BONE_COUNT, SNAPSHOT_AWAKE_COUNT_INDEX, SNAPSHOT_BODY_COUNT_INDEX, SNAPSHOT_COLLIDE_MS_X100_INDEX, SNAPSHOT_CUMULATIVE_STEPS_INDEX, SNAPSHOT_PAIRS_MS_X100_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_PUBLISH_MS_X100_INDEX, SNAPSHOT_SOLVE_MS_X100_INDEX, SNAPSHOT_STEP_MS_X100_INDEX, SNAPSHOT_STEPS_INDEX, SNAPSHOT_VERSION_INDEX, SNAPSHOT_STATE_COUNT } from "./physics-worker-protocol";
+import { BodyType, Box3DRuntime, type BodyBatchBuffers, type BodyHandle, type JointHandle, type PhysicsWorld, type ProfileLevel, type RuntimeLoadOptions, type Vec3, type WorldCapacity } from "box3d-wasm";
+import type { PhysicsWorkerCommand, PhysicsWorkerMessage, PublishMode, SolverParams } from "./physics-worker-protocol";
+import {
+  MAX_PROJECTILES,
+  RAGDOLL_RENDER_BONE_COUNT,
+  SNAPSHOT_AWAKE_COUNT_INDEX,
+  SNAPSHOT_BODY_COUNT_INDEX,
+  SNAPSHOT_COLLIDE_MS_X100_INDEX,
+  SNAPSHOT_CUMULATIVE_STEPS_INDEX,
+  SNAPSHOT_MOVE_COUNT_INDEX,
+  SNAPSHOT_PAIRS_MS_X100_INDEX,
+  SNAPSHOT_PROJECTILE_COUNT_INDEX,
+  SNAPSHOT_PUBLISH_MODE_INDEX,
+  SNAPSHOT_PUBLISH_MS_X100_INDEX,
+  SNAPSHOT_SOLVE_MS_X100_INDEX,
+  SNAPSHOT_STEP_MS_X100_INDEX,
+  SNAPSHOT_STEPS_INDEX,
+  SNAPSHOT_VERSION_INDEX,
+  SNAPSHOT_STATE_COUNT,
+  type HeapSnapshotOffsets,
+} from "./physics-worker-protocol";
+import { releasePublishLock, tryAcquirePublishLock } from "./snapshot-views";
 
 const MAX_CATCHUP_STEPS = 4;
 const DEFAULT_MOUSE_FORCE_SCALE = 100;
 const GRAVITY_MAGNITUDE = 10;
 /** Match upstream Box3D `b3DefaultWorldDef` gravity (`y = -10`). */
 const DEFAULT_GRAVITY: Vec3 = [0, -10, 0];
+const ZERO_PROFILE = { step: 0, pairs: 0, collide: 0, solve: 0 };
 
 export abstract class PhysicsWorkerBase<TInit = void> {
   protected runtime: Box3DRuntime | null = null;
@@ -29,6 +49,10 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   protected projectileAwake: Uint8Array | null = null;
   protected projectileColors: Uint32Array | null = null;
   protected state: Int32Array | null = null;
+  protected publishLock: Int32Array | null = null;
+  protected snapshotBacking: "heap" | "external" = "external";
+  protected wasmMemorySab: SharedArrayBuffer | null = null;
+  protected heapOffsets: HeapSnapshotOffsets | null = null;
 
   protected timer: number | undefined;
   protected paused = false;
@@ -37,7 +61,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   protected totalSteps = 0;
   protected lastPublishTime = 0;
   protected publishIntervalMs = 15;
-  protected useLightTransforms = true;
+  protected useLightTransforms = false;
   protected snapshotTransformsOnly = false;
   protected projectileHandles: number[] = [];
   protected dragBody: BodyHandle | 0 = 0;
@@ -46,6 +70,11 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   protected subSteps = 4;
   protected fixedTimeStep = 1 / 60;
   protected lastSolverParams: SolverParams = {};
+  protected profileLevel: ProfileLevel = "off";
+  protected publishMode: PublishMode = "auto";
+  protected forceDenseNext = true;
+  protected didSuccessfulDense = false;
+  protected wasmVariant: RuntimeLoadOptions["variant"] = "release";
 
   private initData!: TInit;
 
@@ -106,6 +135,8 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     }
     this.bodyCount = handles.length;
     this.world.writeBodyHandles(this.bodyBatch, handles);
+    this.syncMoveTracking();
+    this.forceDenseNext = true;
   }
 
   // --- Command routing ---
@@ -142,6 +173,12 @@ export abstract class PhysicsWorkerBase<TInit = void> {
       case "set-solver-params":
         this.applySolverParams(cmd.params);
         break;
+      case "set-profile-level":
+        this.setProfileLevel(cmd.level);
+        break;
+      case "set-publish-mode":
+        this.setPublishMode(cmd.mode);
+        break;
       case "set-color-mode":
         this.setColorMode(cmd.mode);
         break;
@@ -161,6 +198,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.initData = cmd.data as TInit;
     this.maxWorkerCount = cmd.maxWorkers ?? 127;
     this.currentWorkerCount = cmd.workerCount ?? this.currentWorkerCount;
+    this.wasmVariant = cmd.wasmVariant ?? "release";
 
     this.runtime = await Box3DRuntime.load({
       version: cmd.wasmVersion,
@@ -189,11 +227,14 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.bodyBatch = this.world.allocBodyBatchBuffers(this.trackedBodyCapacity);
     this.world.writeBodyHandles(this.bodyBatch, handles);
     this.projectileBatch = this.world.allocBodyBatchBuffers(MAX_PROJECTILES);
+    this.syncMoveTracking();
 
     this.allocateSharedBuffers();
     this.totalSteps = 0;
+    this.forceDenseNext = true;
+    this.didSuccessfulDense = false;
 
-    this.publishSnapshot(0, { step: 0, pairs: 0, collide: 0, solve: 0 });
+    this.publishSnapshot(0, ZERO_PROFILE);
     this.postReady();
 
     this.lastTickTime = performance.now();
@@ -201,8 +242,46 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.timer = self.setInterval(() => this.tick(), 1000 / 60);
   }
 
+  private canUseHeapBacking(): boolean {
+    const memory = this.runtime?.getWasmMemory();
+    return this.wasmVariant !== "growable" && memory?.buffer instanceof SharedArrayBuffer;
+  }
+
   private allocateSharedBuffers(): void {
     const capacity = Math.max(this.trackedBodyCapacity, this.bodyCount);
+    const stateBuffer = new SharedArrayBuffer(SNAPSHOT_STATE_COUNT * 4);
+    const lockBuffer = new SharedArrayBuffer(4);
+    this.state = new Int32Array(stateBuffer);
+    this.publishLock = new Int32Array(lockBuffer);
+
+    if (this.canUseHeapBacking() && this.bodyBatch !== null && this.projectileBatch !== null) {
+      const sab = this.runtime!.getWasmMemory()!.buffer as unknown as SharedArrayBuffer;
+      this.snapshotBacking = "heap";
+      this.wasmMemorySab = sab;
+      this.heapOffsets = {
+        positions: this.bodyBatch.positionsPtr,
+        rotations: this.bodyBatch.rotationsPtr,
+        awake: this.bodyBatch.awakePtr,
+        colors: this.bodyBatch.colorsPtr,
+        projectilePositions: this.projectileBatch.positionsPtr,
+        projectileRotations: this.projectileBatch.rotationsPtr,
+        projectileAwake: this.projectileBatch.awakePtr,
+        projectileColors: this.projectileBatch.colorsPtr,
+      };
+      this.positions = new Float32Array(sab, this.bodyBatch.positionsPtr, capacity * 3);
+      this.rotations = new Float32Array(sab, this.bodyBatch.rotationsPtr, capacity * 4);
+      this.awake = new Uint8Array(sab, this.bodyBatch.awakePtr, capacity);
+      this.colors = new Uint32Array(sab, this.bodyBatch.colorsPtr, capacity);
+      this.projectilePositions = new Float32Array(sab, this.projectileBatch.positionsPtr, MAX_PROJECTILES * 3);
+      this.projectileRotations = new Float32Array(sab, this.projectileBatch.rotationsPtr, MAX_PROJECTILES * 4);
+      this.projectileAwake = new Uint8Array(sab, this.projectileBatch.awakePtr, MAX_PROJECTILES);
+      this.projectileColors = new Uint32Array(sab, this.projectileBatch.colorsPtr, MAX_PROJECTILES);
+      return;
+    }
+
+    this.snapshotBacking = "external";
+    this.wasmMemorySab = null;
+    this.heapOffsets = null;
     const positionBuffer = new SharedArrayBuffer(capacity * 3 * 4);
     const rotationBuffer = new SharedArrayBuffer(capacity * 4 * 4);
     const awakeBuffer = new SharedArrayBuffer(capacity);
@@ -211,7 +290,6 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     const projectileRotationBuffer = new SharedArrayBuffer(MAX_PROJECTILES * 4 * 4);
     const projectileAwakeBuffer = new SharedArrayBuffer(MAX_PROJECTILES);
     const projectileColorBuffer = new SharedArrayBuffer(MAX_PROJECTILES * 4);
-    const stateBuffer = new SharedArrayBuffer(SNAPSHOT_STATE_COUNT * 4);
 
     this.positions = new Float32Array(positionBuffer);
     this.rotations = new Float32Array(rotationBuffer);
@@ -221,7 +299,6 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.projectileRotations = new Float32Array(projectileRotationBuffer);
     this.projectileAwake = new Uint8Array(projectileAwakeBuffer);
     this.projectileColors = new Uint32Array(projectileColorBuffer);
-    this.state = new Int32Array(stateBuffer);
   }
 
   private postReady(): void {
@@ -229,17 +306,26 @@ export abstract class PhysicsWorkerBase<TInit = void> {
       type: "ready",
       count: this.trackedBodyCapacity,
       workerCount: this.currentWorkerCount,
-      positions: (this.positions as Float32Array).buffer as SharedArrayBuffer,
-      rotations: (this.rotations as Float32Array).buffer as SharedArrayBuffer,
-      awake: (this.awake as Uint8Array).buffer as SharedArrayBuffer,
-      colors: (this.colors as Uint32Array).buffer as SharedArrayBuffer,
-      projectilePositions: (this.projectilePositions as Float32Array).buffer as SharedArrayBuffer,
-      projectileRotations: (this.projectileRotations as Float32Array).buffer as SharedArrayBuffer,
-      projectileAwake: (this.projectileAwake as Uint8Array).buffer as SharedArrayBuffer,
-      projectileColors: (this.projectileColors as Uint32Array).buffer as SharedArrayBuffer,
+      snapshotBacking: this.snapshotBacking,
       state: (this.state as Int32Array).buffer as SharedArrayBuffer,
+      publishLock: (this.publishLock as Int32Array).buffer as SharedArrayBuffer,
       extra: this.getReadyExtra(),
     };
+
+    if (this.snapshotBacking === "heap" && this.wasmMemorySab !== null && this.heapOffsets !== null) {
+      message.wasmMemory = this.wasmMemorySab;
+      message.heap = this.heapOffsets;
+    } else {
+      message.positions = (this.positions as Float32Array).buffer as SharedArrayBuffer;
+      message.rotations = (this.rotations as Float32Array).buffer as SharedArrayBuffer;
+      message.awake = (this.awake as Uint8Array).buffer as SharedArrayBuffer;
+      message.colors = (this.colors as Uint32Array).buffer as SharedArrayBuffer;
+      message.projectilePositions = (this.projectilePositions as Float32Array).buffer as SharedArrayBuffer;
+      message.projectileRotations = (this.projectileRotations as Float32Array).buffer as SharedArrayBuffer;
+      message.projectileAwake = (this.projectileAwake as Uint8Array).buffer as SharedArrayBuffer;
+      message.projectileColors = (this.projectileColors as Uint32Array).buffer as SharedArrayBuffer;
+    }
+
     self.postMessage(message);
   }
 
@@ -254,7 +340,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   }
 
   private readProfileTotals(): { step: number; pairs: number; collide: number; solve: number } {
-    if (this.world === null) return { step: 0, pairs: 0, collide: 0, solve: 0 };
+    if (this.world === null || this.profileLevel === "off") return ZERO_PROFILE;
     const p = this.world.getProfile();
     return { step: p.step, pairs: p.pairs, collide: p.collide, solve: p.solve };
   }
@@ -276,17 +362,8 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.lastTickTime = now;
 
     let steps = 0;
-    let step = 0;
-    let pairs = 0;
-    let collide = 0;
-    let solve = 0;
     while (this.accumulator >= this.fixedTimeStep && steps < MAX_CATCHUP_STEPS) {
       this.stepPhysics();
-      const p = this.readProfileTotals();
-      step += p.step;
-      pairs += p.pairs;
-      collide += p.collide;
-      solve += p.solve;
       this.accumulator -= this.fixedTimeStep;
       steps++;
     }
@@ -295,7 +372,9 @@ export abstract class PhysicsWorkerBase<TInit = void> {
       this.accumulator = 0;
     }
 
-    if (steps > 0 && this.shouldPublish()) this.publishSnapshot(steps, { step, pairs, collide, solve });
+    if (steps > 0 && this.shouldPublish()) {
+      this.publishSnapshot(steps, this.readProfileTotals());
+    }
   }
 
   private shouldPublish(): boolean {
@@ -306,49 +385,110 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     return false;
   }
 
-  private publishSnapshot(steps: number, profile: { step: number; pairs: number; collide: number; solve: number }): void {
-    if (this.world === null || this.bodyBatch === null || this.positions === null || this.rotations === null || this.awake === null || this.colors === null || this.state === null) return;
-    const publishStart = performance.now();
+  private wantsSparsePublish(): boolean {
+    if (this.publishMode === "dense" || this.forceDenseNext || !this.didSuccessfulDense) return false;
+    if (this.publishMode === "sparse") return true;
+    // auto
+    if (this.world === null || this.bodyCount <= 0) return false;
+    const moveCount = this.world.getBodyMoveEventCount();
+    if (moveCount > this.bodyCount * 0.5) return false;
+    return true;
+  }
 
-    const writeFn = this.useLightTransforms ? this.world.writeBodyTransformsLight.bind(this.world) : this.world.writeBodyTransforms.bind(this.world);
-    writeFn(this.bodyCount, this.bodyBatch.bodyHandlesPtr, this.bodyBatch.positionsPtr, this.bodyBatch.rotationsPtr, this.bodyBatch.awakePtr, this.bodyBatch.colorsPtr);
+  private syncMoveTracking(): void {
+    if (this.world === null || this.bodyBatch === null) return;
+    if (this.publishMode === "dense") {
+      this.world.clearBodyMoveTracking();
+      return;
+    }
+    this.world.configureBodyMoveTracking(this.bodyCount, this.bodyBatch.bodyHandlesPtr);
+  }
+
+  private copyBodyBatchToExternal(): void {
+    if (this.snapshotBacking !== "external" || this.world === null || this.bodyBatch === null) return;
+    if (this.positions === null || this.rotations === null || this.awake === null || this.colors === null) return;
     const memory = this.world.getMemoryView();
-
     this.positions.set(new Float32Array(memory.heapF32.buffer, this.bodyBatch.positionsPtr, this.bodyCount * 3));
     this.rotations.set(new Float32Array(memory.heapF32.buffer, this.bodyBatch.rotationsPtr, this.bodyCount * 4));
     if (!this.snapshotTransformsOnly) {
       this.awake.set(new Uint8Array(memory.heapU8.buffer, this.bodyBatch.awakePtr, this.bodyCount));
       this.colors.set(new Uint32Array(memory.heap32.buffer, this.bodyBatch.colorsPtr, this.bodyCount));
     }
+  }
 
-    const awakeCount = this.world.getAwakeBodyCount();
+  private copyProjectilesToExternal(projectileCount: number): void {
+    if (this.snapshotBacking !== "external" || this.world === null || this.projectileBatch === null) return;
+    if (this.projectilePositions === null || this.projectileRotations === null || this.projectileAwake === null || this.projectileColors === null) return;
+    const memory = this.world.getMemoryView();
+    this.projectilePositions.set(new Float32Array(memory.heapF32.buffer, this.projectileBatch.positionsPtr, projectileCount * 3));
+    this.projectileRotations.set(new Float32Array(memory.heapF32.buffer, this.projectileBatch.rotationsPtr, projectileCount * 4));
+    this.projectileAwake.set(new Uint8Array(memory.heapU8.buffer, this.projectileBatch.awakePtr, projectileCount));
+    this.projectileColors.set(new Uint32Array(memory.heap32.buffer, this.projectileBatch.colorsPtr, projectileCount));
+  }
 
-    const projectileCount = this.projectileHandles.length;
-    if (projectileCount > 0 && this.projectileBatch !== null && this.projectilePositions !== null && this.projectileRotations !== null && this.projectileAwake !== null && this.projectileColors !== null) {
-      this.world.writeBodyTransforms(projectileCount, this.projectileBatch.bodyHandlesPtr, this.projectileBatch.positionsPtr, this.projectileBatch.rotationsPtr, this.projectileBatch.awakePtr, this.projectileBatch.colorsPtr);
-      this.projectilePositions.set(new Float32Array(memory.heapF32.buffer, this.projectileBatch.positionsPtr, projectileCount * 3).subarray(0, projectileCount * 3));
-      this.projectileRotations.set(new Float32Array(memory.heapF32.buffer, this.projectileBatch.rotationsPtr, projectileCount * 4).subarray(0, projectileCount * 4));
-      this.projectileAwake.set(new Uint8Array(memory.heapU8.buffer, this.projectileBatch.awakePtr, projectileCount).subarray(0, projectileCount));
-      this.projectileColors.set(new Uint32Array(memory.heap32.buffer, this.projectileBatch.colorsPtr, projectileCount).subarray(0, projectileCount));
+  private publishSnapshot(steps: number, profile: { step: number; pairs: number; collide: number; solve: number }): void {
+    if (this.world === null || this.bodyBatch === null || this.positions === null || this.rotations === null || this.awake === null || this.colors === null || this.state === null || this.publishLock === null) return;
+
+    const useSparse = this.wantsSparsePublish();
+    if (!tryAcquirePublishLock(this.publishLock)) {
+      if (useSparse) this.forceDenseNext = true;
+      return;
     }
 
-    const publishMs = performance.now() - publishStart;
+    const publishStart = performance.now();
+    let moveCount = 0;
+    let publishedSparse = false;
 
-    this.publishExtra();
+    try {
+      if (useSparse) {
+        moveCount = this.world.scatterBodyMoveEvents(
+          this.bodyBatch.positionsPtr,
+          this.bodyBatch.rotationsPtr,
+          this.bodyBatch.awakePtr,
+          this.bodyBatch.colorsPtr,
+          this.useLightTransforms,
+        );
+        publishedSparse = true;
+        this.copyBodyBatchToExternal();
+      } else {
+        const writeFn = this.useLightTransforms ? this.world.writeBodyTransformsLight.bind(this.world) : this.world.writeBodyTransforms.bind(this.world);
+        writeFn(this.bodyCount, this.bodyBatch.bodyHandlesPtr, this.bodyBatch.positionsPtr, this.bodyBatch.rotationsPtr, this.bodyBatch.awakePtr, this.bodyBatch.colorsPtr);
+        moveCount = this.bodyCount;
+        this.copyBodyBatchToExternal();
+        this.forceDenseNext = false;
+        this.didSuccessfulDense = true;
+      }
 
-    Atomics.store(this.state, SNAPSHOT_AWAKE_COUNT_INDEX, awakeCount);
-    Atomics.store(this.state, SNAPSHOT_PROJECTILE_COUNT_INDEX, projectileCount);
-    Atomics.store(this.state, SNAPSHOT_BODY_COUNT_INDEX, this.bodyCount);
-    Atomics.store(this.state, SNAPSHOT_STEP_MS_X100_INDEX, Math.round(profile.step * 100));
-    Atomics.store(this.state, SNAPSHOT_PAIRS_MS_X100_INDEX, Math.round(profile.pairs * 100));
-    Atomics.store(this.state, SNAPSHOT_COLLIDE_MS_X100_INDEX, Math.round(profile.collide * 100));
-    Atomics.store(this.state, SNAPSHOT_SOLVE_MS_X100_INDEX, Math.round(profile.solve * 100));
-    Atomics.store(this.state, SNAPSHOT_PUBLISH_MS_X100_INDEX, Math.round(publishMs * 100));
-    Atomics.store(this.state, SNAPSHOT_STEPS_INDEX, steps);
-    Atomics.store(this.state, SNAPSHOT_CUMULATIVE_STEPS_INDEX, this.totalSteps);
-    Atomics.add(this.state, SNAPSHOT_VERSION_INDEX, 1);
+      const awakeCount = this.world.getAwakeBodyCount();
 
-    this.lastPublishTime = performance.now();
+      const projectileCount = this.projectileHandles.length;
+      if (projectileCount > 0 && this.projectileBatch !== null && this.projectilePositions !== null && this.projectileRotations !== null && this.projectileAwake !== null && this.projectileColors !== null) {
+        this.world.writeBodyTransforms(projectileCount, this.projectileBatch.bodyHandlesPtr, this.projectileBatch.positionsPtr, this.projectileBatch.rotationsPtr, this.projectileBatch.awakePtr, this.projectileBatch.colorsPtr);
+        this.copyProjectilesToExternal(projectileCount);
+      }
+
+      const publishMs = performance.now() - publishStart;
+
+      this.publishExtra();
+
+      Atomics.store(this.state, SNAPSHOT_AWAKE_COUNT_INDEX, awakeCount);
+      Atomics.store(this.state, SNAPSHOT_PROJECTILE_COUNT_INDEX, projectileCount);
+      Atomics.store(this.state, SNAPSHOT_BODY_COUNT_INDEX, this.bodyCount);
+      Atomics.store(this.state, SNAPSHOT_MOVE_COUNT_INDEX, moveCount);
+      Atomics.store(this.state, SNAPSHOT_PUBLISH_MODE_INDEX, publishedSparse ? 1 : 0);
+      Atomics.store(this.state, SNAPSHOT_STEP_MS_X100_INDEX, Math.round(profile.step * 100));
+      Atomics.store(this.state, SNAPSHOT_PAIRS_MS_X100_INDEX, Math.round(profile.pairs * 100));
+      Atomics.store(this.state, SNAPSHOT_COLLIDE_MS_X100_INDEX, Math.round(profile.collide * 100));
+      Atomics.store(this.state, SNAPSHOT_SOLVE_MS_X100_INDEX, Math.round(profile.solve * 100));
+      Atomics.store(this.state, SNAPSHOT_PUBLISH_MS_X100_INDEX, Math.round(publishMs * 100));
+      Atomics.store(this.state, SNAPSHOT_STEPS_INDEX, steps);
+      Atomics.store(this.state, SNAPSHOT_CUMULATIVE_STEPS_INDEX, this.totalSteps);
+      Atomics.add(this.state, SNAPSHOT_VERSION_INDEX, 1);
+
+      this.lastPublishTime = performance.now();
+    } finally {
+      releasePublishLock(this.publishLock);
+    }
   }
 
   // --- Projectiles ---
@@ -426,18 +566,40 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   private updateDrag(origin: Vec3, translation: Vec3): void {
     if (this.world === null || this.dragBody === 0) return;
     this.world.setBodyTransform(this.dragBody, this.dragPoint(origin, translation));
+    this.forceDenseNext = true;
   }
 
   // --- Solver params ---
+
+  private setProfileLevel(level: ProfileLevel): void {
+    this.profileLevel = level;
+    this.lastSolverParams.profileLevel = level;
+    this.world?.setProfileLevel(level);
+  }
+
+  private setPublishMode(mode: PublishMode): void {
+    this.publishMode = mode;
+    this.lastSolverParams.publishMode = mode;
+    this.forceDenseNext = true;
+    this.didSuccessfulDense = false;
+    this.syncMoveTracking();
+  }
 
   protected applySolverParams(params: SolverParams): void {
     if (this.runtime === null || this.world === null) return;
     if (params.subSteps !== undefined) { this.subSteps = params.subSteps; this.lastSolverParams.subSteps = params.subSteps; }
     if (params.hertz !== undefined) { this.fixedTimeStep = 1 / params.hertz; this.lastSolverParams.hertz = params.hertz; }
-    if (params.recycleDistance !== undefined) { this.runtime.setWorldContactRecycleDistance(this.world.handle, params.recycleDistance); this.lastSolverParams.recycleDistance = params.recycleDistance; }
+    if (params.recycleDistance !== undefined) {
+      const changed = params.recycleDistance !== this.lastSolverParams.recycleDistance;
+      this.runtime.setWorldContactRecycleDistance(this.world.handle, params.recycleDistance);
+      this.lastSolverParams.recycleDistance = params.recycleDistance;
+      if (changed) this.forceDenseNext = true;
+    }
     if (params.sleep !== undefined) { this.runtime.enableWorldSleeping(this.world.handle, params.sleep); this.lastSolverParams.sleep = params.sleep; }
     if (params.continuous !== undefined) { this.runtime.enableWorldContinuous(this.world.handle, params.continuous); this.lastSolverParams.continuous = params.continuous; }
     if (params.warmStart !== undefined) { this.runtime.enableWorldWarmStarting(this.world.handle, params.warmStart); this.lastSolverParams.warmStart = params.warmStart; }
+    if (params.profileLevel !== undefined) this.setProfileLevel(params.profileLevel);
+    if (params.publishMode !== undefined && params.publishMode !== this.publishMode) this.setPublishMode(params.publishMode);
     if (params.workerCount !== undefined) {
       const changed = params.workerCount !== this.currentWorkerCount;
       this.currentWorkerCount = params.workerCount;
@@ -456,6 +618,8 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
   private setColorMode(mode: "light" | "full"): void {
     this.useLightTransforms = mode === "light";
+    // Full vs light rewrite the color channels; force a dense snapshot so every body picks up the new palette.
+    this.forceDenseNext = true;
   }
 
   protected async restartScene(): Promise<void> {
@@ -480,11 +644,14 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.bodyBatch = this.world.allocBodyBatchBuffers(this.trackedBodyCapacity);
     this.world.writeBodyHandles(this.bodyBatch, handles);
     this.projectileBatch = this.world.allocBodyBatchBuffers(MAX_PROJECTILES);
+    this.syncMoveTracking();
 
     this.projectileHandles.length = 0;
 
     this.allocateSharedBuffers();
     this.totalSteps = 0;
+    this.forceDenseNext = true;
+    this.didSuccessfulDense = false;
 
     this.stepOnce();
     this.postReady();
@@ -501,6 +668,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     if (this.timer !== undefined) self.clearInterval(this.timer);
     this.timer = undefined;
     this.onBeforeDisposeWorld();
+    this.runtime?.clearBodyMoveTracking();
     if (this.world !== null && this.bodyBatch !== null) this.world.freeBodyBatchBuffers(this.bodyBatch);
     if (this.world !== null && this.projectileBatch !== null) this.world.freeBodyBatchBuffers(this.projectileBatch);
     this.world?.destroy();
@@ -516,10 +684,15 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.positions = null;
     this.rotations = null;
     this.awake = null;
+    this.colors = null;
     this.projectilePositions = null;
     this.projectileRotations = null;
     this.projectileAwake = null;
+    this.projectileColors = null;
     this.state = null;
+    this.publishLock = null;
+    this.wasmMemorySab = null;
+    this.heapOffsets = null;
     this.lastTickTime = 0;
     this.accumulator = 0;
     this.paused = false;

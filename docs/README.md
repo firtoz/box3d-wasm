@@ -6,6 +6,7 @@ Project docs are split by audience and purpose. Prefer updating an existing doc 
 
 - [`TYPESCRIPT_API.md`](./TYPESCRIPT_API.md) - user-facing TypeScript API guide covering the branded-handle primitive API, the opt-in object wrapper API, and browser/headless usage examples.
 - [`../README.md`](../README.md) - repository overview, setup, scripts, requirements, and high-level links.
+- [`../patches/box3d/README.md`](../patches/box3d/README.md) - local Box3D patches applied during WASM builds (keep `box3d/` clean).
 
 ## Implementation Tracking
 

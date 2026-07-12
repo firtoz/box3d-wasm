@@ -11,6 +11,16 @@ Key docs:
 - `docs/OTHER_PROJECTS.md` — comparison with other Box3D WASM projects (update WASM size here)
 - `docs/WASM_API_SURFACE.md` — API binding checklist (~70 TS methods, adding as we go)
 - `README.md` — project readme (may need updates for new features, build steps, etc.)
+- `patches/box3d/README.md` — local patches applied on top of the clean `box3d/` submodule for WASM builds
+
+## Box3D patches (keep the submodule clean)
+
+Do **not** leave lasting dirty edits in `box3d/`. Engine changes that we need before upstream has them live as patches under `patches/box3d/*.patch`.
+
+- WASM build runs `packages/box3d-wasm/scripts/prepare-box3d.ts`, which exports a clean `git archive` of the submodule into `packages/box3d-wasm/.box3d-patched/` and applies those patches.
+- **Apply failure fails the build** on purpose. If you bump the `box3d` submodule and a patch no longer applies, refresh or drop the patch, update `patches/box3d/BASE_SHA`, and rebuild.
+- Prefer contributing durable engine APIs upstream when practical; keep patches small and documented in `patches/box3d/README.md`.
+- Regenerating: edit under `box3d/`, `git diff > ../patches/box3d/<name>.patch`, write `BASE_SHA`, then `git checkout -- .` so the submodule is clean again.
 
 ## Documentation structure
 
@@ -184,4 +194,4 @@ gzip -c demo/public/wasm/box3d-web.wasm | wc -c
 
 Then update the `WASM size` row in `docs/OTHER_PROJECTS.md` (both the per-project comparison table and the 4-way table).
 
-Current size: ~235KB gzipped (553KB raw).
+Current size: ~237KB gzipped (553KB raw).

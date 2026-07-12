@@ -58,7 +58,7 @@ export const largeWorldSample = createShaderInstancedSample({
       },
     };
   },
-  info: `debug ${LARGE_WORLD_GRID}×${LARGE_WORLD_GRID} tiles (release C++ is 1000×1000) + up to ${LARGE_WORLD_SPHERES} spheres`,
+  info: `${LARGE_WORLD_GRID}×${LARGE_WORLD_GRID} tiles (~${largeWorldTileCount()} statics; release C++ is 1000×1000) + up to ${LARGE_WORLD_SPHERES} spheres`,
   getInfo: ({ workerCount, colorMode, bodyCount }) =>
-    `debug ${LARGE_WORLD_GRID}×${LARGE_WORLD_GRID} tiles (release C++ is 1000×1000) + ${bodyCount}/${LARGE_WORLD_SPHERES} spheres | ${workerCount} workers | ${colorMode} colors (C)`,
+    `${LARGE_WORLD_GRID}×${LARGE_WORLD_GRID} tiles + ${bodyCount}/${LARGE_WORLD_SPHERES} spheres | ${workerCount} workers | ${colorMode} colors (C)`,
 });

@@ -6,7 +6,8 @@ import { getWasmBuildMode, variantsToBuild, type WasmBuildVariant } from "./wasm
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = join(scriptDir, "..", "..", "..");
 const packageRoot = join(repoRoot, "packages", "box3d-wasm");
-const box3dSourceDir = join(repoRoot, "box3d");
+/** Clean submodule is archived + patched here by prepare-box3d.ts (keep box3d/ clean). */
+const box3dSourceDir = join(packageRoot, ".box3d-patched");
 const generatedDir = join(repoRoot, "demo", "public", "wasm");
 const emcmakeCommand =
   process.platform === "win32"
@@ -120,7 +121,7 @@ await mkdir(generatedDir, { recursive: true });
 await Bun.write(join(generatedDir, ".gitkeep"), "");
 
 console.log("[box3d-wasm] ensuring upstream box3d source is available");
-await run(["bun", "scripts/prepare-box3d.ts"], "Failed to prepare the upstream engine checkout.");
+await run(["bun", join(scriptDir, "prepare-box3d.ts")], "Failed to prepare the upstream engine checkout.");
 console.log("[box3d-wasm] configuring and building wasm target");
 for (const label of variants) {
   const spec = VARIANT_SPECS[label];

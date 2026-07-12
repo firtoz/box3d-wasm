@@ -1,5 +1,6 @@
 import type * as THREE from "three";
 import type { BodyHandle, BodyType, Box3DRuntime, PhysicsWorld, ShapeId, Vec3 } from "box3d-wasm";
+import type { ProfileLevel, PublishMode, SolverParams as ProtocolSolverParams } from "../physics-worker-protocol";
 
 export type DemoBody = { handle: BodyHandle; mesh: THREE.Mesh; extraMeshes?: THREE.Mesh[]; shapeIds?: ShapeId[]; type: BodyType; preserveColor?: boolean };
 
@@ -15,15 +16,8 @@ export type ControlSpec = {
   onClick?: () => void;
 };
 
-export type SolverParams = {
-  subSteps?: number;
-  hertz?: number;
-  recycleDistance?: number;
-  sleep?: boolean;
-  continuous?: boolean;
-  warmStart?: boolean;
-  workerCount?: number;
-};
+export type SolverParams = ProtocolSolverParams;
+export type { ProfileLevel, PublishMode };
 
 export type DemoSampleInstance = {
   world: PhysicsWorld;

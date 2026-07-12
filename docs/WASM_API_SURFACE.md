@@ -45,6 +45,7 @@ When adding an API binding:
 - [x] Step world: `b3World_Step` via `step`
 - [x] Get counters: `b3World_GetCounters` via `getWorldCounters`
 - [x] Get profile: `b3World_GetProfile` via `getWorldProfile`
+- [x] Set/get profile level: `b3World_SetProfileLevel` / `b3World_GetProfileLevel` via `setProfileLevel` / `getProfileLevel` (`off` | `coarse` | `full`, default `full`)
 - [x] Get awake body count: `b3World_GetAwakeBodyCount`
 - [x] Set/get worker count: `b3World_SetWorkerCount`, `b3World_GetWorkerCount`
 - [x] Threading support check: Emscripten threading support via `checkThreadingSupport`
@@ -259,7 +260,7 @@ When adding an API binding:
 ## Events And Callbacks
 
 - [~] Shape event toggles are exposed: sensor/contact/pre-solve/hit enable flags
-- [ ] Body move events: `b3World_GetBodyEvents`
+- [x] Body move events: `b3World_GetBodyEvents` via `configureBodyMoveTracking` / `scatterBodyMoveEvents` / `getBodyMoveEventCount` (stable render-index map; does not use Box3D `userData`)
 - [ ] Contact events: `b3World_GetContactEvents`
 - [ ] Sensor events: `b3World_GetSensorEvents`
 - [ ] Joint events: `b3World_GetJointEvents`

@@ -25,5 +25,5 @@ B3W_EXPORT void b3wDestroyHull(int hullHandle)
 	b3wHullSlot* slot = b3wGetHull(hullHandle);
 	if (slot == NULL) return;
 	b3DestroyHull(slot->hull);
-	slot->active = false;
+	b3wFreeHullSlot(hullHandle);
 }

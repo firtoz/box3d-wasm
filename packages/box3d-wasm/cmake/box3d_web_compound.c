@@ -88,7 +88,7 @@ B3W_EXPORT void b3wDestroyCompound(int compoundHandle)
 	b3wCompoundSlot* slot = b3wGetCompound(compoundHandle);
 	if (slot == NULL) return;
 	b3DestroyCompound(slot->compound);
-	slot->active = false;
+	b3wFreeCompoundSlot(compoundHandle);
 }
 
 B3W_EXPORT int b3wGetCompoundTreeHeight(int compoundHandle)
@@ -106,5 +106,5 @@ B3W_EXPORT int b3wCreateCompoundShape(int bodyHandle, int compoundHandle, float 
 	b3ShapeDef shapeDef = b3DefaultShapeDef();
 	shapeDef.density = density;
 	b3ShapeId shapeId = b3CreateCompoundShape(body->bodyId, &shapeDef, compound->compound);
-	return b3wAllocShapeSlot(shapeId);
+	return b3wAllocShapeSlot(body->worldHandle, shapeId);
 }

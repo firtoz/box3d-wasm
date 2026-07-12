@@ -2,23 +2,25 @@ import { PhysicsWorkerBase } from "../../physics-worker-base";
 import type { Vec3, WorldCapacity } from "box3d-wasm";
 import {
   buildLargeWorldFloor,
+  LARGE_WORLD_GRID,
   LARGE_WORLD_SPHERES,
   largeWorldCapacity,
   largeWorldGroundSize,
+  largeWorldLiveScale,
   stepLargeWorld,
   type LargeWorldState,
 } from "./large-world-scene";
 
 class LargeWorldWorker extends PhysicsWorkerBase {
   private sphereHandles: number[] = [];
-  private largeWorldState: LargeWorldState = { spheresDropped: 0 };
+  private largeWorldState: LargeWorldState = { spheresDropped: 0, scale: largeWorldLiveScale };
 
   protected setupGround(): void {
-    buildLargeWorldFloor(this.world!, this.runtime!);
+    buildLargeWorldFloor(this.world!, this.runtime!, LARGE_WORLD_GRID);
   }
 
   protected getGroundSize(): Vec3 {
-    return largeWorldGroundSize();
+    return largeWorldGroundSize(LARGE_WORLD_GRID);
   }
 
   protected getWorldCapacity(): WorldCapacity {
@@ -31,7 +33,7 @@ class LargeWorldWorker extends PhysicsWorkerBase {
 
   protected async buildScene(): Promise<number[]> {
     this.sphereHandles = [];
-    this.largeWorldState = { spheresDropped: 0 };
+    this.largeWorldState = { spheresDropped: 0, scale: largeWorldLiveScale };
     return this.sphereHandles;
   }
 
@@ -44,7 +46,7 @@ class LargeWorldWorker extends PhysicsWorkerBase {
 
   protected onBeforeDisposeWorld(): void {
     this.sphereHandles = [];
-    this.largeWorldState = { spheresDropped: 0 };
+    this.largeWorldState = { spheresDropped: 0, scale: largeWorldLiveScale };
   }
 }
 

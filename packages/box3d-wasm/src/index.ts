@@ -79,6 +79,20 @@ export class SlotExhaustedError extends Error {
   }
 }
 
+export type ProfileLevel = "off" | "coarse" | "full";
+
+export function profileLevelToInt(level: ProfileLevel): number {
+  if (level === "off") return 0;
+  if (level === "coarse") return 1;
+  return 2;
+}
+
+export function profileLevelFromInt(level: number): ProfileLevel {
+  if (level <= 0) return "off";
+  if (level === 1) return "coarse";
+  return "full";
+}
+
 export interface WorldProfile {
   step: number; pairs: number; collide: number; solve: number;
   solverSetup: number; constraints: number; prepareConstraints: number;
@@ -271,6 +285,8 @@ type LerpVec3Fn = (ax: number, ay: number, az: number, bx: number, by: number, b
 type GetLengthAndNormalizeFn = (vx: number, vy: number, vz: number, outDirection: number) => number;
 type ShapeSetDensityFn = (shapeHandle: number, density: number, updateBodyMass: number) => void;
 type WorldEnableBoolFn = (worldHandle: number, flag: number) => void;
+type WorldSetProfileLevelFn = (worldHandle: number, level: number) => void;
+type WorldGetProfileLevelFn = (worldHandle: number) => number;
 type WorldSetContactTuningFn = (worldHandle: number, hertz: number, dampingRatio: number, contactSpeed: number) => void;
 type WorldSetFloatFn = (worldHandle: number, value: number) => void;
 type WorldSetWorkerCountFn = (worldHandle: number, count: number) => void;
@@ -281,6 +297,10 @@ type CheckThreadingSupportFn = () => number;
 type GetWorldWorkerCountFn = (worldHandle: number) => number;
 type WriteBodyTransformsFn = (count: number, bodyHandles: number, outPositions: number, outRotations: number, outAwake: number, outColors: number) => void;
 type WriteBodyTransformsLightFn = WriteBodyTransformsFn;
+type ConfigureBodyMoveTrackingFn = (count: number, bodyHandles: number) => void;
+type ClearBodyMoveTrackingFn = () => void;
+type ScatterBodyMoveEventsFn = (worldHandle: number, outPositions: number, outRotations: number, outAwake: number, outColors: number, useLightColors: number) => number;
+type GetBodyMoveEventCountFn = (worldHandle: number) => number;
 type RayCastClosestFn = (worldHandle: number, ox: number, oy: number, oz: number, tx: number, ty: number, tz: number, categoryBits: number, maskBits: number, outShapeHandle: number, outPoint: number, outNormal: number, outFraction: number) => void;
 type BodyEnableFn = (bodyHandle: number) => void;
 type BodyIsEnabledFn = (bodyHandle: number) => number;
@@ -429,6 +449,8 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly enableWorldSleepFn = this.wrapVoid<WorldEnableBoolFn>("b3wEnableSleeping", ["number", "number"]);
   private readonly enableWorldContinuousFn = this.wrapVoid<WorldEnableBoolFn>("b3wEnableContinuous", ["number", "number"]);
   private readonly enableWorldWarmStartingFn = this.wrapVoid<WorldEnableBoolFn>("b3wEnableWarmStarting", ["number", "number"]);
+  private readonly setWorldProfileLevelFn = this.wrapVoid<WorldSetProfileLevelFn>("b3wSetProfileLevel", ["number", "number"]);
+  private readonly getWorldProfileLevelFn = this.wrapNumber<WorldGetProfileLevelFn>("b3wGetProfileLevel", ["number"]);
   private readonly setWorldContactTuningFn = this.wrapVoid<WorldSetContactTuningFn>("b3wSetContactTuning", ["number", "number", "number", "number"]);
   private readonly setWorldContactRecycleDistanceFn = this.wrapVoid<WorldSetFloatFn>("b3wSetContactRecycleDistance", ["number", "number"]);
   private readonly setWorldWorkerCountFn = this.wrapVoid<WorldSetWorkerCountFn>("b3wSetWorkerCount", ["number", "number"]);
@@ -439,6 +461,10 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly getWorldWorkerCountFn = this.wrapNumber<GetWorldWorkerCountFn>("b3wGetWorldWorkerCount", ["number"]);
   private readonly writeBodyTransformsFn = this.wrapVoid<WriteBodyTransformsFn>("b3wWriteBodyTransforms", ["number", "number", "number", "number", "number", "number"]);
   private readonly writeBodyTransformsLightFn = this.wrapVoid<WriteBodyTransformsLightFn>("b3wWriteBodyTransformsLight", ["number", "number", "number", "number", "number", "number"]);
+  private readonly configureBodyMoveTrackingFn = this.wrapVoid<ConfigureBodyMoveTrackingFn>("b3wConfigureBodyMoveTracking", ["number", "number"]);
+  private readonly clearBodyMoveTrackingFn = this.wrapVoid<ClearBodyMoveTrackingFn>("b3wClearBodyMoveTracking", []);
+  private readonly scatterBodyMoveEventsFn = this.wrapNumber<ScatterBodyMoveEventsFn>("b3wScatterBodyMoveEvents", ["number", "number", "number", "number", "number", "number"]);
+  private readonly getBodyMoveEventCountFn = this.wrapNumber<GetBodyMoveEventCountFn>("b3wGetBodyMoveEventCount", ["number"]);
   private readonly rayCastClosestFn = this.wrapVoid<RayCastClosestFn>("b3wRayCastClosest", ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
   private readonly bodyEnableFn = this.wrapVoid<BodyEnableFn>("b3wBodyEnable", ["number"]);
   private readonly bodyDisableFn = this.wrapVoid<BodyEnableFn>("b3wBodyDisable", ["number"]);
@@ -593,6 +619,11 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
 
   getMemoryView(): RuntimeMemoryView32 {
     return { heapF32: this.module.HEAPF32, heapU8: this.module.HEAPU8, heap32: this.module.HEAP32 };
+  }
+
+  /** Shared WASM memory when built with pthreads (fixed or profile variants). Undefined/growable may still expose it. */
+  getWasmMemory(): WebAssembly.Memory | undefined {
+    return this.module.wasmMemory;
   }
 
   writeBodyHandles(buffers: BodyBatchBuffers, bodyHandles: readonly number[]): void {
@@ -910,6 +941,8 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   enableWorldSleeping(worldHandle: WorldHandle, flag: boolean): void { this.enableWorldSleepFn(worldHandle, flag ? 1 : 0); }
   enableWorldContinuous(worldHandle: WorldHandle, flag: boolean): void { this.enableWorldContinuousFn(worldHandle, flag ? 1 : 0); }
   enableWorldWarmStarting(worldHandle: WorldHandle, flag: boolean): void { this.enableWorldWarmStartingFn(worldHandle, flag ? 1 : 0); }
+  setWorldProfileLevel(worldHandle: WorldHandle, level: ProfileLevel): void { this.setWorldProfileLevelFn(worldHandle, profileLevelToInt(level)); }
+  getWorldProfileLevel(worldHandle: WorldHandle): ProfileLevel { return profileLevelFromInt(this.getWorldProfileLevelFn(worldHandle)); }
   setWorldContactTuning(worldHandle: WorldHandle, hertz: number, dampingRatio: number, contactSpeed: number): void { this.setWorldContactTuningFn(worldHandle, hertz, dampingRatio, contactSpeed); }
   setWorldContactRecycleDistance(worldHandle: WorldHandle, distance: number): void { this.setWorldContactRecycleDistanceFn(worldHandle, distance); }
   setWorldWorkerCount(worldHandle: WorldHandle, count: number): void { this.setWorldWorkerCountFn(worldHandle, count); }
@@ -946,6 +979,22 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
 
   writeBodyTransformsLight(count: number, bodyHandlesPtr: number, outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number, outColorsPtr: number): void {
     this.writeBodyTransformsLightFn(count, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr, outColorsPtr);
+  }
+
+  configureBodyMoveTracking(count: number, bodyHandlesPtr: number): void {
+    this.configureBodyMoveTrackingFn(count, bodyHandlesPtr);
+  }
+
+  clearBodyMoveTracking(): void {
+    this.clearBodyMoveTrackingFn();
+  }
+
+  scatterBodyMoveEvents(worldHandle: WorldHandle, outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number, outColorsPtr: number, useLightColors: boolean): number {
+    return this.scatterBodyMoveEventsFn(worldHandle, outPositionsPtr, outRotationsPtr, outAwakePtr, outColorsPtr, useLightColors ? 1 : 0);
+  }
+
+  getBodyMoveEventCount(worldHandle: WorldHandle): number {
+    return this.getBodyMoveEventCountFn(worldHandle);
   }
 
   step(worldHandle: WorldHandle, dt: number, substeps: number): void { this.stepFn(worldHandle, dt, substeps); }
@@ -1093,6 +1142,7 @@ export class PhysicsWorld {
   allocBodyBatchBuffers(capacity: number): BodyBatchBuffers { return this.runtime.allocBodyBatchBuffers(capacity); }
   freeBodyBatchBuffers(buffers: BodyBatchBuffers): void { this.runtime.freeBodyBatchBuffers(buffers); }
   getMemoryView(): RuntimeMemoryView32 { return this.runtime.getMemoryView(); }
+  getWasmMemory(): WebAssembly.Memory | undefined { return this.runtime.getWasmMemory(); }
   writeBodyHandles(buffers: BodyBatchBuffers, bodyHandles: readonly number[]): void { this.runtime.writeBodyHandles(buffers, bodyHandles); }
   writeBodyTransforms(count: number, bodyHandlesPtr: number, outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number, outColorsPtr: number): void {
     this.runtime.writeBodyTransforms(count, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr, outColorsPtr);
@@ -1101,10 +1151,29 @@ export class PhysicsWorld {
   writeBodyTransformsLight(count: number, bodyHandlesPtr: number, outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number, outColorsPtr: number): void {
     this.runtime.writeBodyTransformsLight(count, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr, outColorsPtr);
   }
+
+  configureBodyMoveTracking(count: number, bodyHandlesPtr: number): void {
+    this.runtime.configureBodyMoveTracking(count, bodyHandlesPtr);
+  }
+
+  clearBodyMoveTracking(): void {
+    this.runtime.clearBodyMoveTracking();
+  }
+
+  scatterBodyMoveEvents(outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number, outColorsPtr: number, useLightColors = true): number {
+    return this.runtime.scatterBodyMoveEvents(this.handle, outPositionsPtr, outRotationsPtr, outAwakePtr, outColorsPtr, useLightColors);
+  }
+
+  getBodyMoveEventCount(): number {
+    return this.runtime.getBodyMoveEventCount(this.handle);
+  }
+
   step(dt = 1 / 60, substeps = 4): void { this.runtime.step(this.handle, dt, substeps); }
   enableSleeping(flag: boolean): void { this.runtime.enableWorldSleeping(this.handle, flag); }
   enableContinuous(flag: boolean): void { this.runtime.enableWorldContinuous(this.handle, flag); }
   enableWarmStarting(flag: boolean): void { this.runtime.enableWorldWarmStarting(this.handle, flag); }
+  setProfileLevel(level: ProfileLevel): void { this.runtime.setWorldProfileLevel(this.handle, level); }
+  getProfileLevel(): ProfileLevel { return this.runtime.getWorldProfileLevel(this.handle); }
   setContactTuning(hertz: number, dampingRatio: number, contactSpeed: number): void { this.runtime.setWorldContactTuning(this.handle, hertz, dampingRatio, contactSpeed); }
   setContactRecycleDistance(distance: number): void { this.runtime.setWorldContactRecycleDistance(this.handle, distance); }
   setWorkerCount(count: number): void { this.runtime.setWorldWorkerCount(this.handle, count); }
