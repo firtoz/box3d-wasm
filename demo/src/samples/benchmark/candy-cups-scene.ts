@@ -113,3 +113,22 @@ export const dumpSampleId = "benchmark/candy-cups";
 export const dumpCppSampleName = "Candy Cups";
 export const dumpGroundSize = candyCupsGroundSize;
 export const dumpBuildDynamicBodies = buildCandyCupsDynamicBodies;
+
+/** Center of the 16×16×16 cup grid: mid of `-10 + 2.5 * [0..15]` in X/Z. */
+const DUMP_EXPLODE_POS = [8.75, 5, 8.75] as const;
+/** Wake the settled pile mid-run so later checkpoints exercise the solver after a shared disturbance. */
+export const dumpInteractionSchedule = [
+  { frame: 200, action: "explode", args: [...DUMP_EXPLODE_POS, 25, 12.5, 2000] },
+] as const;
+
+export function dumpRunInteraction(
+  world: PhysicsWorld,
+  _runtime: Box3DRuntime,
+  _handles: readonly number[],
+  interaction: { action: string; args?: readonly number[] },
+): void {
+  if (interaction.action !== "explode") throw new Error(`Unsupported candy-cups dump action: ${interaction.action}`);
+  const [x = DUMP_EXPLODE_POS[0], y = DUMP_EXPLODE_POS[1], z = DUMP_EXPLODE_POS[2], radius = 25, falloff = 12.5, impulsePerArea = 2000] =
+    interaction.args ?? [];
+  world.explode([x, y, z], radius, falloff, impulsePerArea, 0xFFFFFFFFn as unknown as number);
+}

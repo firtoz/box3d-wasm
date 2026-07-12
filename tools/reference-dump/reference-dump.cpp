@@ -69,6 +69,16 @@ static std::vector<ScheduledInteraction> get_interaction_schedule(const char* sa
     };
   }
 
+  if (strcmp(sampleName, "Candy Cups") == 0)
+  {
+    // Mid-pile explode after settle so checkpoints 0–100 stay quiet, then 200 captures
+    // one post-blast step. Later chaotic drift may appear (same class as other piles).
+    // Center of `-10 + 2.5 * [0..15]` grid; radius covers the cup block.
+    return {
+      {200, {"explode", {8.75f, 5.0f, 8.75f, 25.0f, 12.5f, 2000.0f}}},
+    };
+  }
+
   return {};
 }
 

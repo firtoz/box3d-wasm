@@ -174,5 +174,17 @@ bool apply_dump_interaction( Sample* sample, const char* sampleName, const DumpI
 		return static_cast<DumpBulletVersusStack*>( sample )->ApplyDumpInteraction( interaction );
 	}
 
+	// Candy Cups (and any other body-only explode) only needs the world handle.
+	if ( strcmp( sampleName, "Candy Cups" ) == 0 && strcmp( interaction.action, "explode" ) == 0 )
+	{
+		b3ExplosionDef def = b3DefaultExplosionDef();
+		def.position = { interaction.args[0], interaction.args[1], interaction.args[2] };
+		def.radius = interaction.args[3];
+		def.falloff = interaction.args[4];
+		def.impulsePerArea = interaction.args[5];
+		b3World_Explode( sample->m_worldId, &def );
+		return true;
+	}
+
 	return false;
 }
