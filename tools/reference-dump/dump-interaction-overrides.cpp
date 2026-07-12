@@ -175,6 +175,110 @@ public:
 	}
 };
 
+// Release CreateLargeWorld is 1000×1000 statics — not dumpable. Mirror BENCHMARK_DEBUG scale.
+class DumpLargeWorld : public Sample
+{
+public:
+	explicit DumpLargeWorld( SampleContext* context )
+		: Sample( context )
+	{
+		b3Capacity capacity = {};
+		capacity.staticShapeCount = 1024;
+		capacity.staticBodyCount = 1024;
+		capacity.dynamicShapeCount = 16;
+		capacity.dynamicBodyCount = 16;
+		capacity.contactCount = 1024 < 8 * 16 ? 8 * 16 : 1024;
+		CreateWorld( &capacity );
+
+		const float cell = 10.0f;
+		const int gridCount = 32;
+		const float halfSpan = 0.5f * cell * gridCount;
+
+		b3BoxHull box = b3MakeBoxHull( 0.5f * cell, 0.25f, 0.5f * cell );
+		b3BodyDef bodyDef = b3DefaultBodyDef();
+		b3ShapeDef shapeDef = b3DefaultShapeDef();
+		shapeDef.invokeContactCreation = true;
+
+		for ( int i = 0; i < gridCount; ++i )
+		{
+			float x = -halfSpan + ( i + 0.5f ) * cell;
+			for ( int j = 0; j < gridCount; ++j )
+			{
+				float z = -halfSpan + ( j + 0.5f ) * cell;
+				bodyDef.position = (b3Pos){ x, 0.0f, z };
+				b3BodyId body = b3CreateBody( m_worldId, &bodyDef );
+				b3CreateHullShape( body, &shapeDef, &box.base );
+			}
+		}
+	}
+
+	void Step() override
+	{
+		StepDebugLargeWorld();
+		Sample::Step();
+	}
+
+	static Sample* Create( SampleContext* context )
+	{
+		return new DumpLargeWorld( context );
+	}
+
+private:
+	void StepDebugLargeWorld()
+	{
+		const int sphereCount = 16;
+		const int dropInterval = 8;
+		const float cell = 10.0f;
+		const int gridCount = 32;
+
+		if ( m_spheresDropped >= sphereCount )
+		{
+			return;
+		}
+
+		if ( m_stepCount == 0 )
+		{
+			return;
+		}
+
+		if ( ( m_stepCount % dropInterval ) != 0 )
+		{
+			return;
+		}
+
+		int side = 1;
+		while ( side * side < sphereCount )
+		{
+			side += 1;
+		}
+
+		int idx = m_spheresDropped;
+		int gi = idx % side;
+		int gj = idx / side;
+
+		float halfSpan = 0.5f * cell * gridCount;
+		float inset = 0.1f * 2.0f * halfSpan;
+		float usable = 2.0f * halfSpan - 2.0f * inset;
+		float x = -halfSpan + inset + ( gi + 0.5f ) * ( usable / side );
+		float z = -halfSpan + inset + ( gj + 0.5f ) * ( usable / side );
+
+		b3BodyDef bodyDef = b3DefaultBodyDef();
+		bodyDef.type = b3_dynamicBody;
+		bodyDef.position = (b3Pos){ x, 1.5f, z };
+
+		b3ShapeDef shapeDef = b3DefaultShapeDef();
+		b3Sphere sphere = { { 0.0f, 0.0f, 0.0f }, 0.5f };
+
+		b3BodyId body = b3CreateBody( m_worldId, &bodyDef );
+		b3CreateSphereShape( body, &shapeDef, &sphere );
+		(void)body;
+
+		m_spheresDropped += 1;
+	}
+
+	int m_spheresDropped = 0;
+};
+
 class DumpRayCurtain : public RayCurtain
 {
 public:
@@ -297,6 +401,7 @@ void patch_dump_sample_entries()
 	RegisterSample( "Issues", "Crash Joint Awake", DumpCrash::Create );
 	RegisterSample( "Issues", "Crash Joint Asleep", DumpCrash::Create );
 	patch_sample_entry( "Ray Curtain", DumpRayCurtain::Create );
+	patch_sample_entry( "Large World", DumpLargeWorld::Create );
 }
 
 bool apply_dump_interaction( Sample* sample, const char* sampleName, const DumpInteraction& interaction )

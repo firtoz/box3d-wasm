@@ -18,6 +18,26 @@ B3W_EXPORT int b3wCreateTorusMesh(int worldHandle, int radialResolution, int tub
 	return b3wAllocMeshSlot(worldHandle, mesh);
 }
 
+B3W_EXPORT int b3wCreateWaveMesh(int worldHandle, int xCount, int zCount, float cellWidth, float amplitude, float rowFrequency, float columnFrequency)
+{
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	if (world == NULL) return 0;
+	b3MeshData* mesh = b3CreateWaveMesh(xCount, zCount, cellWidth, amplitude, rowFrequency, columnFrequency);
+	if (mesh == NULL) return 0;
+	return b3wAllocMeshSlot(worldHandle, mesh);
+}
+
+B3W_EXPORT int b3wCreateBoxMesh(int worldHandle, float cx, float cy, float cz, float ex, float ey, float ez, int identifyEdges)
+{
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	if (world == NULL) return 0;
+	b3Vec3 center = { cx, cy, cz };
+	b3Vec3 extent = { ex, ey, ez };
+	b3MeshData* mesh = b3CreateBoxMesh(center, extent, identifyEdges != 0);
+	if (mesh == NULL) return 0;
+	return b3wAllocMeshSlot(worldHandle, mesh);
+}
+
 B3W_EXPORT void b3wDestroyMesh(int meshHandle)
 {
 	b3wMeshSlot* slot = b3wGetMesh(meshHandle);

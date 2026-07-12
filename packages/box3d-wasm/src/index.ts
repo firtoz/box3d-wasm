@@ -201,6 +201,8 @@ type CreateShapeFromHullFn = (bodyHandle: number, hullHandle: number, density: n
 type CreateTransformedShapeFromHullFn = (bodyHandle: number, hullHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, sx: number, sy: number, sz: number) => number;
 type CreateCylinderFn = (height: number, radius: number, yOffset: number, sides: number) => number;
 type CreateGridMeshFn = (worldHandle: number, xCount: number, zCount: number, cellWidth: number, materialCount: number, identifyEdges: number) => number;
+type CreateWaveMeshFn = (worldHandle: number, xCount: number, zCount: number, cellWidth: number, amplitude: number, rowFrequency: number, columnFrequency: number) => number;
+type CreateBoxMeshFn = (worldHandle: number, cx: number, cy: number, cz: number, ex: number, ey: number, ez: number, identifyEdges: number) => number;
 type CreateTorusMeshFn = (worldHandle: number, radialResolution: number, tubularResolution: number, radius: number, thickness: number) => number;
 type DestroyMeshFn = (meshHandle: number) => void;
 type CreateMeshShapeFn = (bodyHandle: number, meshHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, sx: number, sy: number, sz: number) => number;
@@ -387,6 +389,8 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly createTransformedShapeFromHullFn = this.wrapNumber<CreateTransformedShapeFromHullFn>("b3wCreateTransformedShapeFromHull", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createCylinderFn = this.wrapNumber<CreateCylinderFn>("b3wCreateCylinder", ["number","number","number","number"]);
   private readonly createGridMeshFn = this.wrapNumber<CreateGridMeshFn>("b3wCreateGridMesh", ["number","number","number","number","number","number"]);
+  private readonly createWaveMeshFn = this.wrapNumber<CreateWaveMeshFn>("b3wCreateWaveMesh", ["number","number","number","number","number","number","number"]);
+  private readonly createBoxMeshFn = this.wrapNumber<CreateBoxMeshFn>("b3wCreateBoxMesh", ["number","number","number","number","number","number","number","number"]);
   private readonly createTorusMeshFn = this.wrapNumber<CreateTorusMeshFn>("b3wCreateTorusMesh", ["number","number","number","number","number"]);
   private readonly destroyMeshFn = this.wrapVoid<DestroyMeshFn>("b3wDestroyMesh", ["number"]);
   private readonly createMeshShapeFn = this.wrapNumber<CreateMeshShapeFn>("b3wCreateMeshShape", ["number","number","number","number","number","number","number","number","number"]);
@@ -726,6 +730,12 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   createGridMesh(worldHandle: WorldHandle, xCount: number, zCount: number, cellWidth: number, materialCount = 1, identifyEdges = true): MeshHandle {
     return this.requireSlotHandle<MeshHandle>(this.createGridMeshFn(worldHandle, xCount, zCount, cellWidth, materialCount, identifyEdges ? 1 : 0), "meshes");
   }
+  createWaveMesh(worldHandle: WorldHandle, xCount: number, zCount: number, cellWidth: number, amplitude: number, rowFrequency: number, columnFrequency: number): MeshHandle {
+    return this.requireSlotHandle<MeshHandle>(this.createWaveMeshFn(worldHandle, xCount, zCount, cellWidth, amplitude, rowFrequency, columnFrequency), "meshes");
+  }
+  createBoxMesh(worldHandle: WorldHandle, center: Vec3, extent: Vec3, identifyEdges = true): MeshHandle {
+    return this.requireSlotHandle<MeshHandle>(this.createBoxMeshFn(worldHandle, center[0], center[1], center[2], extent[0], extent[1], extent[2], identifyEdges ? 1 : 0), "meshes");
+  }
   createTorusMesh(worldHandle: WorldHandle, radialResolution: number, tubularResolution: number, radius: number, thickness: number): MeshHandle {
     return this.requireSlotHandle<MeshHandle>(this.createTorusMeshFn(worldHandle, radialResolution, tubularResolution, radius, thickness), "meshes");
   }
@@ -1010,6 +1020,8 @@ export class PhysicsWorld {
   createTransformedHullShape(bodyHandle: BodyHandle, halfWidths: Vec3, transform?: { position?: Vec3; rotation?: Quat }, scale?: Vec3, def?: ShapeDef): ShapeHandle { return this.runtime.createTransformedHullShape(bodyHandle, halfWidths, transform, scale, def); }
   createShapeFromHull(bodyHandle: BodyHandle, hullHandle: HullHandle, def?: ShapeDef): ShapeId { return this.runtime.createShapeFromHull(bodyHandle, hullHandle, def); }
   createGridMesh(xCount: number, zCount: number, cellWidth: number, materialCount = 1, identifyEdges = true): MeshHandle { return this.runtime.createGridMesh(this.handle, xCount, zCount, cellWidth, materialCount, identifyEdges); }
+  createWaveMesh(xCount: number, zCount: number, cellWidth: number, amplitude: number, rowFrequency: number, columnFrequency: number): MeshHandle { return this.runtime.createWaveMesh(this.handle, xCount, zCount, cellWidth, amplitude, rowFrequency, columnFrequency); }
+  createBoxMesh(center: Vec3, extent: Vec3, identifyEdges = true): MeshHandle { return this.runtime.createBoxMesh(this.handle, center, extent, identifyEdges); }
   createTorusMesh(radialResolution: number, tubularResolution: number, radius: number, thickness: number): MeshHandle { return this.runtime.createTorusMesh(this.handle, radialResolution, tubularResolution, radius, thickness); }
   destroyMesh(meshHandle: MeshHandle): void { this.runtime.destroyMesh(meshHandle); }
   createMeshShape(bodyHandle: BodyHandle, meshHandle: MeshHandle, def: MeshShapeOptions = {}): ShapeHandle { return this.runtime.createMeshShape(bodyHandle, meshHandle, def); }

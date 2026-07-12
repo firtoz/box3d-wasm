@@ -83,7 +83,11 @@ import { windSample } from "./shapes/wind";
 import { windFlapSample } from "./shapes/wind-flap";
 import { staticInvokeSample } from "./shapes/static-invoke";
 import { meshGridSample } from "./mesh/grid";
+import { bigBoxSample } from "./mesh/big-box";
 import { rayCurtainSample } from "./collision/ray-curtain";
+import { junkyardSample } from "./benchmark/junkyard";
+import { fallingTreesSample } from "./benchmark/falling-trees";
+import { largeWorldSample } from "./benchmark/large-world";
 export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
 
 export const samples = [
@@ -163,6 +167,7 @@ export const samples = [
   windFlapSample,
   staticInvokeSample,
   meshGridSample,
+  bigBoxSample,
   rayCurtainSample,
   thinWallSample,
   bounceHouseSample,
@@ -174,4 +179,7 @@ export const samples = [
   fallingBoxesSample,
   manyPyramidsSample,
   jointGridSample,
+  junkyardSample,
+  fallingTreesSample,
+  largeWorldSample,
 ];

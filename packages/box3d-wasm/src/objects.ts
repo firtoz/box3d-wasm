@@ -135,6 +135,16 @@ export class ObjectWorld {
     return new MeshRef(this.runtime, this.world.createGridMesh(xCount, zCount, cellWidth, materialCount, identifyEdges));
   }
 
+  createWaveMesh(xCount: number, zCount: number, cellWidth: number, amplitude: number, rowFrequency: number, columnFrequency: number): MeshRef {
+    this.assertActive();
+    return new MeshRef(this.runtime, this.world.createWaveMesh(xCount, zCount, cellWidth, amplitude, rowFrequency, columnFrequency));
+  }
+
+  createBoxMesh(center: Vec3, extent: Vec3, identifyEdges = true): MeshRef {
+    this.assertActive();
+    return new MeshRef(this.runtime, this.world.createBoxMesh(center, extent, identifyEdges));
+  }
+
   createTorusMesh(radialResolution: number, tubularResolution: number, radius: number, thickness: number): MeshRef {
     this.assertActive();
     return new MeshRef(this.runtime, this.world.createTorusMesh(radialResolution, tubularResolution, radius, thickness));

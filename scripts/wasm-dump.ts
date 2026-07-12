@@ -361,7 +361,7 @@ async function main(): Promise<void> {
     if (shouldDumpFrame(options, frame)) {
       const extras = sample.checkpointExtras?.(world, runtime, handles, frame, state) ?? {};
       output.checkpoints.push({ frame, bodies: dumpBodies(world, handles), ...extras });
-      if (sample.step === undefined && sample.interactionSchedule.length === 0 && !options.disableSleepTerm && world.getAwakeBodyCount() === 0 && frame >= 100) {
+      if (sample.interactionSchedule.length === 0 && !options.disableSleepTerm && world.getAwakeBodyCount() === 0 && frame >= 100) {
         console.error(`All bodies asleep at frame ${frame}, terminating.`);
         break;
       }

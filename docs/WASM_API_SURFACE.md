@@ -201,9 +201,9 @@ When adding an API binding:
 - [ ] Create mesh from definition: `b3CreateMesh`
 - [x] Destroy mesh: `b3DestroyMesh`
 - [x] Grid mesh: `b3CreateGridMesh`
-- [ ] Wave mesh: `b3CreateWaveMesh`
+- [x] Wave mesh: `b3CreateWaveMesh`
 - [x] Torus mesh: `b3CreateTorusMesh`
-- [ ] Box mesh: `b3CreateBoxMesh`
+- [x] Box mesh: `b3CreateBoxMesh`
 - [ ] Hollow box mesh: `b3CreateHollowBoxMesh`
 - [ ] Platform mesh: `b3CreatePlatformMesh`
 - [ ] Mesh vertices/triangles/material indices/flags accessors

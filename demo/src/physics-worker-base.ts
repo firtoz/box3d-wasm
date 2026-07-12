@@ -458,7 +458,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.useLightTransforms = mode === "light";
   }
 
-  private async restartScene(): Promise<void> {
+  protected async restartScene(): Promise<void> {
     this.disposeWorld();
 
     this.world = this.runtime!.createWorld({
