@@ -238,13 +238,13 @@ Legend:
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Large Pyramid** | [x] | Many box pyramid | 🔧 90-base pyramid (4095 boxes), sleeping disabled. C++/WASM dump parity verified. |
-| **Wide Pyramid** | [x] | Wide pyramid | 🔧 15-layer 3D pyramid (~1190 boxes). C++/WASM dump parity verified. |
-| **Many Pyramids** | [x] | Multiple pyramids | 🔧 20 offset pyramids with `Box3DRng` layout (`Math.fround` on positions). Sleeping disabled. C++/WASM dump parity verified. |
-| **Rain** | [x] | Many falling ragdolls | Implemented. C++/WASM dump parity verified at epsilon=1e-5 for frames 0–64; chaotic drift afterward. `B3W_MAX_HUMANS` raised to 512 for full spawn count. |
+| **Large Pyramid** | [x] | Many box pyramid | 🔧 90-base pyramid (4095 boxes); continuous off (upstream). Shader host applies awake/sleep debug colors (`C` toggles light/full; Sleep toggle enables sleeping). Dump create still disables sleep. C++/WASM dump parity verified. |
+| **Wide Pyramid** | [x] | Wide pyramid | 🔧 15-layer 3D pyramid (~1190 boxes), washer-style shader instancing. C++/WASM dump parity verified. |
+| **Many Pyramids** | [x] | Multiple pyramids | 🔧 14×14 pyramids (base 10 → 10780 boxes), `Math.fround` positions. Sleeping disabled. Washer-style shader instancing. C++/WASM dump parity verified. |
+| **Rain** | [x] | Many falling ragdolls | Implemented. Host uses washer-style instanced capsule shaders (14 bone draws × up to 300 humans). Worker pre-sizes transform snapshots and grows the tracked body set as columns spawn. C++/WASM dump parity verified at epsilon=1e-5 for frames 0–64; chaotic drift afterward. `B3W_MAX_HUMANS` raised to 512 for full spawn count. |
 | **Large World** | [ ] | Large world scale | 🔧 |
-| **Joint Grid** | [x] | Grid of joints | 🔧 10×10 revolute joint grid with filter bits. Sleeping disabled. C++/WASM dump parity verified. |
-| **Falling Boxes** | [x] | Many boxes | 🔧 50×8×8 = 3200 boxes, sleeping enabled. C++/WASM dump parity verified. |
+| **Joint Grid** | [x] | Grid of joints | 🔧 100×100 spherical joint grid (10000 spheres) with filter bits. Sleeping disabled. Shader sphere instancing. C++/WASM dump parity verified. |
+| **Falling Boxes** | [x] | Many boxes | 🔧 50×8×8 = 3200 boxes, sleeping enabled. Washer-style shader instancing. C++/WASM dump parity verified. |
 | **Candy Cups** | [ ] | Small convex shapes | 🔧 |
 | **Explosion** | [ ] | `b3World_Explode` | 🚧 `explode` not wrapped. |
 | **Height Field** | [ ] | Height field mesh | 🧩 |

@@ -3,6 +3,20 @@ import type { RenderBody, RenderSpec } from "../generic-host";
 
 const N = 100;
 
+export const JOINT_GRID_SPHERE_COUNT = N * N;
+export const JOINT_GRID_SPHERE_RADIUS = 0.4;
+export const JOINT_GRID_DYNAMIC_COLOR = 0x60a5fa;
+export const JOINT_GRID_STATIC_COLOR = 0x94a3b8;
+
+export function forEachJointGridSphere(callback: (position: Vec3, color: number, isStatic: boolean) => void): void {
+  for (let k = 0; k < N; k++) {
+    for (let i = 0; i < N; i++) {
+      const isStatic = i === 0;
+      callback([k, -i, 0], isStatic ? JOINT_GRID_STATIC_COLOR : JOINT_GRID_DYNAMIC_COLOR, isStatic);
+    }
+  }
+}
+
 export function buildJointGridDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
   const handles: number[] = new Array(N * N);
   let index = 0;
@@ -14,7 +28,7 @@ export function buildJointGridDynamicBodies(world: PhysicsWorld, runtime: Box3DR
         position: [k, -i, 0],
         enableSleep: false,
       });
-      runtime.createSphereShape(body, [0, 0, 0], 0.4, {
+      runtime.createSphereShape(body, [0, 0, 0], JOINT_GRID_SPHERE_RADIUS, {
         categoryBits: 2,
         maskBits: ~2 >>> 0,
       });
@@ -44,17 +58,15 @@ export function jointGridGroundSize(): Vec3 { return [120, 1, 120]; }
 
 export function createJointGridBodies(): RenderBody[] {
   const bodies: RenderBody[] = [];
-  for (let k = 0; k < N; k++) {
-    for (let i = 0; i < N; i++) {
-      bodies.push({
-        kind: "sphere",
-        radius: 0.4,
-        position: [k, -i, 0],
-        color: i === 0 ? 0x94a3b8 : 0x60a5fa,
-        type: i === 0 ? BodyType.Static : BodyType.Dynamic,
-      });
-    }
-  }
+  forEachJointGridSphere((position, color, isStatic) => {
+    bodies.push({
+      kind: "sphere",
+      radius: JOINT_GRID_SPHERE_RADIUS,
+      position,
+      color,
+      type: isStatic ? BodyType.Static : BodyType.Dynamic,
+    });
+  });
   return bodies;
 }
 

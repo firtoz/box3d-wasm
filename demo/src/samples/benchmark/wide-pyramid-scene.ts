@@ -7,10 +7,10 @@ const HALF_BOX_SIZE = 0.5 * BOX_SIZE;
 const PYRAMID_HEIGHT = 15;
 const h = HALF_BOX_SIZE - 0.025;
 
-export function buildWidePyramidDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
-  const half: Vec3 = [h, h, h];
+export const WIDE_PYRAMID_BOX_COLOR = 0x60a5fa;
+export const WIDE_PYRAMID_BOX_SIZE = 2 * h;
 
+export function forEachWidePyramidBox(callback: (position: Vec3) => void): void {
   for (let i = 0; i < PYRAMID_HEIGHT; i++) {
     const jStart = Math.floor(i / 2);
     const jEnd = PYRAMID_HEIGHT - Math.floor((i + 1) / 2);
@@ -19,12 +19,29 @@ export function buildWidePyramidDynamicBodies(world: PhysicsWorld, runtime: Box3
         const x = -PYRAMID_HEIGHT + BOX_SIZE * j + (i & 1 ? HALF_BOX_SIZE : 0);
         const y = 1 + (BOX_SIZE + BOX_SEPARATION) * i;
         const z = -PYRAMID_HEIGHT + BOX_SIZE * k + (i & 1 ? HALF_BOX_SIZE : 0);
-        const body = world.createBody({ type: BodyType.Dynamic, position: [x, y, z] });
-        runtime.createHullShape(body, half, {});
-        handles.push(body);
+        callback([x, y, z]);
       }
     }
   }
+}
+
+export const WIDE_PYRAMID_BOX_COUNT = (() => {
+  let count = 0;
+  forEachWidePyramidBox(() => {
+    count += 1;
+  });
+  return count;
+})();
+
+export function buildWidePyramidDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+  const handles: number[] = [];
+  const half: Vec3 = [h, h, h];
+
+  forEachWidePyramidBox((position) => {
+    const body = world.createBody({ type: BodyType.Dynamic, position });
+    runtime.createHullShape(body, half, {});
+    handles.push(body);
+  });
 
   return handles;
 }
@@ -33,18 +50,9 @@ export function widePyramidGroundSize(): Vec3 { return [100, 1, 100]; }
 
 export function createWidePyramidBodies(): RenderBody[] {
   const bodies: RenderBody[] = [];
-  for (let i = 0; i < PYRAMID_HEIGHT; i++) {
-    const jStart = Math.floor(i / 2);
-    const jEnd = PYRAMID_HEIGHT - Math.floor((i + 1) / 2);
-    for (let j = jStart; j < jEnd; j++) {
-      for (let k = jStart; k < jEnd; k++) {
-        const x = -PYRAMID_HEIGHT + BOX_SIZE * j + (i & 1 ? HALF_BOX_SIZE : 0);
-        const y = 1 + (BOX_SIZE + BOX_SEPARATION) * i;
-        const z = -PYRAMID_HEIGHT + BOX_SIZE * k + (i & 1 ? HALF_BOX_SIZE : 0);
-        bodies.push({ kind: "box", size: [2 * h, 2 * h, 2 * h], position: [x, y, z], color: 0x60a5fa });
-      }
-    }
-  }
+  forEachWidePyramidBox((position) => {
+    bodies.push({ kind: "box", size: [WIDE_PYRAMID_BOX_SIZE, WIDE_PYRAMID_BOX_SIZE, WIDE_PYRAMID_BOX_SIZE], position, color: WIDE_PYRAMID_BOX_COLOR });
+  });
   return bodies;
 }
 

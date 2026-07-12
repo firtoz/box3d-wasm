@@ -2,6 +2,7 @@ import type { PhysicsWorld } from "box3d-wasm";
 import type { PhysicsWorkerCommand } from "./physics-worker-protocol";
 import {
   SNAPSHOT_AWAKE_COUNT_INDEX,
+  SNAPSHOT_BODY_COUNT_INDEX,
   SNAPSHOT_COLLIDE_MS_X100_INDEX,
   SNAPSHOT_PAIRS_MS_X100_INDEX,
   SNAPSHOT_PROJECTILE_COUNT_INDEX,
@@ -35,9 +36,9 @@ export function createWorkerWorld(
     handle: 0,
     getCounters: () => {
       const st = getState();
-      const c = st?.count ?? 0;
+      const c = st === null ? 0 : Atomics.load(st.state, SNAPSHOT_BODY_COUNT_INDEX);
       const pc = st === null ? 0 : Atomics.load(st.state, SNAPSHOT_PROJECTILE_COUNT_INDEX);
-      return { bodyCount: c + 1 + pc, shapeCount: c + 1 + pc, contactCount: 0, jointCount: pc, islandCount: 0, staticTreeHeight: 0, treeHeight: 0 };
+      return { bodyCount: c + pc, shapeCount: c + pc, contactCount: 0, jointCount: pc, islandCount: 0, staticTreeHeight: 0, treeHeight: 0 };
     },
     getAwakeBodyCount: () => {
       const st = getState();

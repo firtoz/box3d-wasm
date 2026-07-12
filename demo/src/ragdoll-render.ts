@@ -28,15 +28,21 @@ export const RAGDOLL_RENDER_BONES: RagdollRenderBone[] = [
 ];
 
 export function ragdollCapsuleMesh(a: Vec3, b: Vec3, radius: number, color: number): THREE.Mesh {
-  const va = new THREE.Vector3(...a);
-  const vb = new THREE.Vector3(...b);
-  const delta = vb.clone().sub(va);
-  const length = delta.length();
-  const geom = new (THREE as any).CapsuleGeometry(radius, length, 6, 12) as THREE.BufferGeometry;
-  geom.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), delta.normalize()));
-  geom.translate((a[0] + b[0]) * 0.5, (a[1] + b[1]) * 0.5, (a[2] + b[2]) * 0.5);
+  const geom = ragdollCapsuleGeometry(a, b, radius);
   const mesh = new THREE.Mesh(geom, new THREE.MeshStandardMaterial({ color, roughness: 0.75 }));
   mesh.castShadow = true;
   mesh.receiveShadow = true;
   return mesh;
+}
+
+/** Capsule geometry with bone endpoints baked into local space (for instanced body transforms). */
+export function ragdollCapsuleGeometry(a: Vec3, b: Vec3, radius: number): THREE.BufferGeometry {
+  const va = new THREE.Vector3(...a);
+  const vb = new THREE.Vector3(...b);
+  const delta = vb.clone().sub(va);
+  const length = delta.length();
+  const geom = new (THREE as any).CapsuleGeometry(radius, length, 4, 8) as THREE.BufferGeometry;
+  geom.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), delta.normalize()));
+  geom.translate((a[0] + b[0]) * 0.5, (a[1] + b[1]) * 0.5, (a[2] + b[2]) * 0.5);
+  return geom;
 }

@@ -27,11 +27,15 @@ export const largePyramidSample: DemoSample = {
     let bodyCount = LARGE_PYRAMID_BOX_COUNT;
     let positions: Float32Array | null = null;
     let rotations: Float32Array | null = null;
+    let colors: Uint32Array | null = null;
     let state: Int32Array | null = null;
     let projectilePositions: Float32Array | null = null;
     let projectileRotations: Float32Array | null = null;
     let projectileDebugColors: Uint32Array | null = null;
     let lastVersion = -1;
+    let colorCache: Uint32Array | null = null;
+    // Light mode = tan awake / slate sleep; full mode = GetBodyDebugColor.
+    let colorMode: "light" | "full" = localStorage.getItem("box3d:color-mode") === "full" ? "full" : "light";
     const projectileMeshes: THREE.Mesh[] = [];
     const projectileColorCache = new Uint32Array(MAX_PROJECTILES);
     const bodies: DemoBody[] = [];
@@ -89,10 +93,12 @@ export const largePyramidSample: DemoSample = {
         };
         positions = workerWorldState.positions;
         rotations = workerWorldState.rotations;
+        colors = workerWorldState.colors;
         projectilePositions = workerWorldState.projectilePositions;
         projectileRotations = workerWorldState.projectileRotations;
         projectileDebugColors = workerWorldState.projectileColors;
         state = workerWorldState.state;
+        colorCache = new Uint32Array(LARGE_PYRAMID_BOX_COUNT);
         bindSnapshotTransforms(shaderMesh, positions, rotations, Math.min(LARGE_PYRAMID_BOX_COUNT, bodyCount));
         shaderMesh.positionAttribute.needsUpdate = true;
         shaderMesh.quaternionAttribute.needsUpdate = true;
@@ -101,9 +107,9 @@ export const largePyramidSample: DemoSample = {
       }
     });
 
-    const colorMode = "light";
     worker.postMessage({
       type: "init", data: {}, workerCount: wc, maxWorkers, poolSize,
+      // Match upstream CreateLargePyramid continuous off; sleep follows the UI Sleep toggle.
       solverParams: { ...initialSolverParams, continuous: false },
       wasmVersion: wasmBuildVersion, wasmVariant: getWasmVariant(), wasmBaseUrl: getWasmBaseUrl(),
     });
@@ -159,16 +165,36 @@ export const largePyramidSample: DemoSample = {
     }
 
     function sendSolverParams(params: SolverParams): void {
-      worker.postMessage({ type: "set-solver-params", params });
+      worker.postMessage({ type: "set-solver-params", params: { ...params, continuous: false } });
+    }
+
+    function onKey(key: string): void {
+      if (key === "c" || key === "C") {
+        colorMode = colorMode === "full" ? "light" : "full";
+        localStorage.setItem("box3d:color-mode", colorMode);
+        worker.postMessage({ type: "set-color-mode", mode: colorMode });
+      }
     }
 
     function step(): void {
-      if (positions === null || rotations === null || state === null) return;
+      if (positions === null || rotations === null || colors === null || state === null || colorCache === null) return;
       const version = Atomics.load(state, SNAPSHOT_VERSION_INDEX);
       if (version === lastVersion) return;
       lastVersion = version;
       shaderMesh.positionAttribute.needsUpdate = true;
       shaderMesh.quaternionAttribute.needsUpdate = true;
+
+      const count = Math.min(LARGE_PYRAMID_BOX_COUNT, bodyCount);
+      let needsColorUpdate = false;
+      for (let i = 0; i < count; i++) {
+        const colorHex = colors[i] & 0xffffff;
+        if ((colorCache[i] & 0xffffff) !== colorHex) {
+          hexToRgb(colorHex, shaderMesh.colorArray, i * 3);
+          colorCache[i] = colorHex;
+          needsColorUpdate = true;
+        }
+      }
+      if (needsColorUpdate) shaderMesh.colorAttribute.needsUpdate = true;
 
       if (projectilePositions !== null && projectileRotations !== null && projectileDebugColors !== null) {
         const projectileCount = Math.min(Atomics.load(state, SNAPSHOT_PROJECTILE_COUNT_INDEX), projectileMeshes.length);
@@ -207,10 +233,10 @@ export const largePyramidSample: DemoSample = {
       world,
       bodies,
       controls: [],
-      profile: false,
-      info: `90-base pyramid (${LARGE_PYRAMID_BOX_COUNT} boxes), sleeping disabled | shader render | continuous off | ${wc} workers`,
+      profile: true,
+      info: `90-base pyramid (${LARGE_PYRAMID_BOX_COUNT} boxes) | shader render | continuous off | ${wc} workers | ${colorMode} colors (C) | Sleep toggle for awake/sleep`,
       camera: largePyramidCamera,
-      onKey(_key: string) {},
+      onKey,
       spawnProjectile,
       startMouseDragRay,
       updateMouseDragRay,

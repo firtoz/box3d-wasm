@@ -62,6 +62,8 @@ export const SNAPSHOT_PUBLISH_MS_X100_INDEX = 7;
 /** Physics steps executed in the last published tick (catch-up count). */
 export const SNAPSHOT_STEPS_INDEX = 8;
 export const SNAPSHOT_CUMULATIVE_STEPS_INDEX = 9;
-export const SNAPSHOT_STATE_COUNT = 10;
+/** Active tracked body count written into the shared snapshot (may grow up to ready.count). */
+export const SNAPSHOT_BODY_COUNT_INDEX = 10;
+export const SNAPSHOT_STATE_COUNT = 11;
 export const MAX_PROJECTILES = 2048;
 export const RAGDOLL_RENDER_BONE_COUNT = 14;

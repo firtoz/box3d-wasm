@@ -1,6 +1,6 @@
 import { BodyType, Box3DRuntime, type BodyBatchBuffers, type BodyHandle, type JointHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { PhysicsWorkerCommand, PhysicsWorkerMessage, SolverParams } from "./physics-worker-protocol";
-import { MAX_PROJECTILES, RAGDOLL_RENDER_BONE_COUNT, SNAPSHOT_AWAKE_COUNT_INDEX, SNAPSHOT_COLLIDE_MS_X100_INDEX, SNAPSHOT_CUMULATIVE_STEPS_INDEX, SNAPSHOT_PAIRS_MS_X100_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_PUBLISH_MS_X100_INDEX, SNAPSHOT_SOLVE_MS_X100_INDEX, SNAPSHOT_STEP_MS_X100_INDEX, SNAPSHOT_STEPS_INDEX, SNAPSHOT_VERSION_INDEX, SNAPSHOT_STATE_COUNT } from "./physics-worker-protocol";
+import { MAX_PROJECTILES, RAGDOLL_RENDER_BONE_COUNT, SNAPSHOT_AWAKE_COUNT_INDEX, SNAPSHOT_BODY_COUNT_INDEX, SNAPSHOT_COLLIDE_MS_X100_INDEX, SNAPSHOT_CUMULATIVE_STEPS_INDEX, SNAPSHOT_PAIRS_MS_X100_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_PUBLISH_MS_X100_INDEX, SNAPSHOT_SOLVE_MS_X100_INDEX, SNAPSHOT_STEP_MS_X100_INDEX, SNAPSHOT_STEPS_INDEX, SNAPSHOT_VERSION_INDEX, SNAPSHOT_STATE_COUNT } from "./physics-worker-protocol";
 
 const MAX_CATCHUP_STEPS = 4;
 const MOUSE_FORCE_SCALE = 100;
@@ -14,6 +14,8 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   protected bodyBatch: BodyBatchBuffers | null = null;
   protected projectileBatch: BodyBatchBuffers | null = null;
   protected bodyCount = 0;
+  /** Shared-buffer / batch capacity. Defaults to the initial handle count; override for growing scenes. */
+  protected trackedBodyCapacity = 0;
   protected currentWorkerCount = 4;
   protected maxWorkerCount = 127;
   protected groundSize: Vec3 = [160, 1, 160];
@@ -81,6 +83,20 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   }
 
   protected configureScene(_initData: TInit): void {}
+
+  /** Override when the tracked body set grows after init (e.g. rain spawning). */
+  protected getTrackedBodyCapacity(initialHandles: number[]): number {
+    return initialHandles.length;
+  }
+
+  protected setTrackedBodies(handles: number[]): void {
+    if (this.world === null || this.bodyBatch === null) return;
+    if (handles.length > this.trackedBodyCapacity) {
+      throw new Error(`Tracked body count ${handles.length} exceeds capacity ${this.trackedBodyCapacity}`);
+    }
+    this.bodyCount = handles.length;
+    this.world.writeBodyHandles(this.bodyBatch, handles);
+  }
 
   // --- Command routing ---
 
@@ -153,9 +169,10 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
     const handles = await this.buildScene(this.initData);
     this.configureScene(this.initData);
+    this.trackedBodyCapacity = Math.max(handles.length, this.getTrackedBodyCapacity(handles));
     this.bodyCount = handles.length;
 
-    this.bodyBatch = this.world.allocBodyBatchBuffers(this.bodyCount);
+    this.bodyBatch = this.world.allocBodyBatchBuffers(this.trackedBodyCapacity);
     this.world.writeBodyHandles(this.bodyBatch, handles);
     this.projectileBatch = this.world.allocBodyBatchBuffers(MAX_PROJECTILES);
 
@@ -171,10 +188,11 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   }
 
   private allocateSharedBuffers(): void {
-    const positionBuffer = new SharedArrayBuffer(this.bodyCount * 3 * 4);
-    const rotationBuffer = new SharedArrayBuffer(this.bodyCount * 4 * 4);
-    const awakeBuffer = new SharedArrayBuffer(this.bodyCount);
-    const colorBuffer = new SharedArrayBuffer(this.bodyCount * 4);
+    const capacity = Math.max(this.trackedBodyCapacity, this.bodyCount);
+    const positionBuffer = new SharedArrayBuffer(capacity * 3 * 4);
+    const rotationBuffer = new SharedArrayBuffer(capacity * 4 * 4);
+    const awakeBuffer = new SharedArrayBuffer(capacity);
+    const colorBuffer = new SharedArrayBuffer(capacity * 4);
     const projectilePositionBuffer = new SharedArrayBuffer(MAX_PROJECTILES * 3 * 4);
     const projectileRotationBuffer = new SharedArrayBuffer(MAX_PROJECTILES * 4 * 4);
     const projectileAwakeBuffer = new SharedArrayBuffer(MAX_PROJECTILES);
@@ -195,7 +213,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   private postReady(): void {
     const message: PhysicsWorkerMessage = {
       type: "ready",
-      count: this.bodyCount,
+      count: this.trackedBodyCapacity,
       workerCount: this.currentWorkerCount,
       positions: (this.positions as Float32Array).buffer as SharedArrayBuffer,
       rotations: (this.rotations as Float32Array).buffer as SharedArrayBuffer,
@@ -306,6 +324,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
     Atomics.store(this.state, SNAPSHOT_AWAKE_COUNT_INDEX, awakeCount);
     Atomics.store(this.state, SNAPSHOT_PROJECTILE_COUNT_INDEX, projectileCount);
+    Atomics.store(this.state, SNAPSHOT_BODY_COUNT_INDEX, this.bodyCount);
     Atomics.store(this.state, SNAPSHOT_STEP_MS_X100_INDEX, Math.round(profile.step * 100));
     Atomics.store(this.state, SNAPSHOT_PAIRS_MS_X100_INDEX, Math.round(profile.pairs * 100));
     Atomics.store(this.state, SNAPSHOT_COLLIDE_MS_X100_INDEX, Math.round(profile.collide * 100));
@@ -438,9 +457,10 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
     const handles = await this.buildScene(this.initData);
     this.configureScene(this.initData);
+    this.trackedBodyCapacity = Math.max(handles.length, this.getTrackedBodyCapacity(handles));
     this.bodyCount = handles.length;
 
-    this.bodyBatch = this.world.allocBodyBatchBuffers(this.bodyCount);
+    this.bodyBatch = this.world.allocBodyBatchBuffers(this.trackedBodyCapacity);
     this.world.writeBodyHandles(this.bodyBatch, handles);
     this.projectileBatch = this.world.allocBodyBatchBuffers(MAX_PROJECTILES);
 

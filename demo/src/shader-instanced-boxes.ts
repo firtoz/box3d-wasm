@@ -26,13 +26,23 @@ export function createShaderBoxMesh(
   size: number | [number, number, number] = 1,
   options: ShaderBoxMeshOptions = {},
 ): ShaderBoxMesh {
-  const shadows = options.shadows ?? false;
   const dimensions = typeof size === "number" ? [size, size, size] as const : size;
   const baseGeometry = new THREE.BoxGeometry(...dimensions);
+  const mesh = createShaderInstanceMesh(baseGeometry, count, options);
+  baseGeometry.dispose();
+  return mesh;
+}
+
+export function createShaderInstanceMesh(
+  baseGeometry: THREE.BufferGeometry,
+  count: number,
+  options: ShaderBoxMeshOptions = {},
+): ShaderBoxMesh {
+  const shadows = options.shadows ?? false;
   const geometry = new THREE.InstancedBufferGeometry();
-  geometry.index = baseGeometry.index;
-  geometry.setAttribute("position", baseGeometry.getAttribute("position"));
-  geometry.setAttribute("normal", baseGeometry.getAttribute("normal"));
+  if (baseGeometry.index !== null) geometry.index = baseGeometry.index.clone();
+  geometry.setAttribute("position", baseGeometry.getAttribute("position").clone());
+  geometry.setAttribute("normal", baseGeometry.getAttribute("normal").clone());
   geometry.instanceCount = count;
 
   const positionArray = new Float32Array(count * 3);
@@ -94,7 +104,6 @@ export function createShaderBoxMesh(
     dispose() {
       geometry.dispose();
       material.dispose();
-      baseGeometry.dispose();
     },
   };
 }

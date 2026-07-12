@@ -1115,7 +1115,8 @@ function activateSample(index: number): void {
   void createAndInstallSample(index, true);
 }
 
-function renderSamples(): void {
+/** Category → sample indices in the same order as the Samples menu tree. */
+function getSampleMenuGroups(): Map<string, { index: number; label: string }[]> {
   const groups = new Map<string, { index: number; label: string }[]>();
   for (let i = 0; i < samples.length; i++) {
     const parts = samples[i].name.split(" / ");
@@ -1124,6 +1125,27 @@ function renderSamples(): void {
     if (!groups.has(group)) groups.set(group, []);
     groups.get(group)!.push({ index: i, label });
   }
+  return groups;
+}
+
+function getSampleMenuOrder(): number[] {
+  const order: number[] = [];
+  for (const items of getSampleMenuGroups().values()) {
+    for (const item of items) order.push(item.index);
+  }
+  return order;
+}
+
+function activateAdjacentSample(delta: number): void {
+  const order = getSampleMenuOrder();
+  if (order.length === 0) return;
+  const pos = order.indexOf(activeSampleIndex);
+  const from = pos >= 0 ? pos : 0;
+  activateSample(order[(from + delta + order.length) % order.length]);
+}
+
+function renderSamples(): void {
+  const groups = getSampleMenuGroups();
 
   sampleListElement.innerHTML = "";
 
@@ -1687,11 +1709,9 @@ window.addEventListener("keydown", (e) => {
   } else if (e.key === "r" || e.key === "R") {
     resetScene();
   } else if (e.key === "[") {
-    const prev = (activeSampleIndex - 1 + samples.length) % samples.length;
-    activateSample(prev);
+    activateAdjacentSample(-1);
   } else if (e.key === "]") {
-    const next = (activeSampleIndex + 1) % samples.length;
-    activateSample(next);
+    activateAdjacentSample(1);
   } else if (e.key === "Tab") {
     e.preventDefault();
     const topbar = document.querySelector<HTMLDivElement>(".topbar");
