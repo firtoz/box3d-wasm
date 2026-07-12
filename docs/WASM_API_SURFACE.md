@@ -131,7 +131,7 @@ When adding an API binding:
 - [x] Create convenience sphere body + shape: `createSphere`
 - [x] Create hull shape from box half-widths: `b3CreateHullShape` with `b3MakeBoxHull`
 - [x] Create transformed hull shape: `b3CreateTransformedHullShape`
-- [x] Create sphere shape: `b3CreateSphereShape`
+- [x] Create sphere shape: `b3CreateSphereShape` (creation-time `invokeContactCreation`; default true matches native)
 - [x] Create capsule shape: `b3CreateCapsuleShape`
 - [x] Create shape from existing hull: `b3CreateHullShape` (optional `explosionScale` via `createShapeFromHull`)
 - [x] Create compound shape: `b3CreateCompoundShape`
@@ -166,6 +166,7 @@ When adding an API binding:
 - [ ] Sensor data: `b3Shape_GetSensorData`
 - [ ] Shape hull vertices: `b3Shape_GetHullVertices`
 - [x] Mesh shape creation: `b3CreateMeshShape`
+- [x] Set mesh on shape: `b3Shape_SetMesh` (`setMesh`)
 - [ ] Heightfield shape creation: `b3CreateHeightFieldShape`
 
 ## Hulls
@@ -224,7 +225,7 @@ When adding an API binding:
 - [x] Create revolute joint: `b3CreateRevoluteJoint` (including creation-time local frames, base constraint tuning, and optional force/torque thresholds)
 - [x] Create spherical joint: `b3CreateSphericalJoint`
 - [x] Create distance joint: `b3CreateDistanceJoint`
-- [x] Create prismatic joint: `b3CreatePrismaticJoint` (optional force/torque thresholds and `collideConnected`)
+- [x] Create prismatic joint: `b3CreatePrismaticJoint` (creation-time `constraintHertz` / `constraintDampingRatio`, optional force/torque thresholds and `collideConnected`)
 - [ ] Create wheel joint: `b3CreateWheelJoint`
 - [x] Create weld joint: `b3CreateWeldJoint` (optional force/torque thresholds and `collideConnected`)
 - [ ] Create parallel joint: `b3CreateParallelJoint`

@@ -84,7 +84,7 @@ B3W_EXPORT int b3wCreateTransformedHullShape(int bodyHandle, float density, floa
 }
 
 B3W_EXPORT int b3wCreateSphereShape(int bodyHandle, float density, float friction, float restitution, float rollingResistance, float px, float py, float pz,
-					    float radius)
+					    float radius, int invokeContactCreation)
 {
 	b3wBodySlot* slot = b3wGetBody(bodyHandle);
 	if (slot == NULL) return 0;
@@ -93,6 +93,7 @@ B3W_EXPORT int b3wCreateSphereShape(int bodyHandle, float density, float frictio
 	shapeDef.baseMaterial.friction = friction;
 	shapeDef.baseMaterial.restitution = restitution;
 	shapeDef.baseMaterial.rollingResistance = rollingResistance;
+	shapeDef.invokeContactCreation = invokeContactCreation != 0;
 	b3Sphere sphere = { { px, py, pz }, radius };
 	b3ShapeId shapeId = b3CreateSphereShape(slot->bodyId, &shapeDef, &sphere);
 	return b3wAllocShapeSlot(shapeId);

@@ -18,10 +18,10 @@ Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short
 
 **Before adding or recommending a queue item:** open the upstream C++ sample class. Prefer samples that create bodies in `m_worldId` and can dump-compare. Do **not** treat Manifold / pure geometry editors / collide-debug tools as generic-host warm-ups — they need pairwise collide bindings and a custom host, and usually have no dumpable bodies.
 
-1. **Collision / Ray Curtain** — `createTorusMesh` + `createMeshShape` + `rayCastClosest` exist; visualization-heavy.
-2. **Benchmark / Junkyard** or **Falling Trees** — larger session; shared upstream benchmark helpers.
-3. **Mesh / Grid** — `createGridMesh` + `createMeshShape` exist; mesh-render/host sample.
-4. **Benchmark / Large World** — rain-scale helpers; larger session.
+1. **Benchmark / Junkyard** — `createRock` + kinematic pusher; ~10k bodies; `shader-instanced-host`.
+2. **Benchmark / Falling Trees** — needs `createWaveMesh` binding first, then compound cylinder trees.
+3. **Benchmark / Large World** — needs hull `invokeContactCreation` at create; ship debug-scale (not release 1M statics) unless capacity policy changes.
+4. **Mesh / Big Box** or other remaining mesh samples — after Grid patterns.
 
 Defer for later sessions: **Joints / Driving** (heightfield `🚧`), **Manifold** (pairwise `b3Collide*` helpers `🚧`), **Long Ray Cast** (wave mesh + heightfield), **Ragdoll / Pose** (pose-control bindings), **Chains** (`createWaveMesh` not wrapped), events (`🚧` callbacks), character movers, and most `🧩` mesh samples.
 
@@ -54,7 +54,7 @@ Defer for later sessions: **Joints / Driving** (heightfield `🚧`), **Manifold*
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Ray Curtain** | [ ] | `b3World_CastRayClosest`, `b3CreateTorusMesh`, `b3CreateMeshShape` | 🔧 `rayCastClosest`, `createTorusMesh`, and `createMeshShape` exist. Visualization-heavy (curtain of rays). |
+| **Ray Curtain** | [x] | `b3World_CastRayClosest`, `b3CreateTorusMesh`, `b3CreateMeshShape` | 🔧 4 kinematic targets (sphere/capsule/box/torus); no physics ground; host draws full yellow rays + hit normals + DrawGroundGrid/axes. Dump compares body poses **and** per-ray hit/fraction/point/normal (`rays` checkpoint field). |
 | **Cast World** | [ ] | `b3World_CastRayClosest`, `b3World_CastShape`, `b3World_OverlapShape`, custom callbacks | 🚧 World-level cast/overlap with callbacks not wrapped. |
 | **Mesh Scale** | [ ] | Mesh scaling + collision queries | 🧩 |
 | **Shape Cast** | [ ] | `b3World_CastShape` | 🚧 |
@@ -91,7 +91,7 @@ Defer for later sessions: **Joints / Driving** (heightfield `🚧`), **Manifold*
 | **Mesh Drop Unit Test** | [ ] | Same | 🧩 |
 | **Hump Mesh** | [ ] | Mesh + CCD | 🧩 |
 | **Is Fast** | [x] | Fast-spinning tall boxes (CCD stress) | 🔧 Three gravity-disabled boxes with different angular velocities. C++/WASM dump parity verified. |
-| **Stall** | [x] | CCD stall behavior | Implemented. C++/WASM dump parity verified at epsilon=1e-5. Uses `createTorusMesh`, `createRock`, stall threshold bindings. |
+| **Stall** | [x] | CCD stall behavior | Dense 200×200 torus + rock CCD bullet (`isBullet`, vel 600). Stall threshold 0.001s restored on dispose. Launch respawns bullet. Camera matches `SetView(130,15,15)`. Dump parity verified. |
 
 ## Determinism (`sample_determinism.cpp`)
 
@@ -125,8 +125,8 @@ Defer for later sessions: **Joints / Driving** (heightfield `🚧`), **Manifold*
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
 | **Dump Loader** | [ ] | World dump/load | 🚧 |
-| **Crash** | [ ] | `b3CreateGridMesh`, `b3CreateMeshShape` | 🚧 Mesh APIs not wrapped. Uses mesh ground — not simple bodies despite 🔧 note. |
-| **Multiple Prismatic** | [ ] | `b3CreatePrismaticJoint` | 🚧 Prismatic joint not wrapped. |
+| **Crash** | [x] | `b3CreateGridMesh`, `b3CreateMeshShape`, weld | 🔧 Mesh floor visual (`createGridMesh(20,20,2)` at y=-1) + two boxes; **Add Joint** welds them. Dump variants: baseline (no joint), `issues/crash-joint-awake` (weld @ frame 10), `issues/crash-joint-asleep` (weld @ frame 200 while sleeping — no yank). |
+| **Multiple Prismatic** | [x] | `b3CreatePrismaticJoint` (`constraintHertz`) | 🔧 Empty static anchor (no ground hull/visual); 6 stacked boxes; prismatic limits ±6, `constraintHertz=240`; mouse force 1e6. C++/WASM dump parity verified. |
 | **Hull Crash** | [x] | Hull creation | 🔧 Hull from 5 regression points. |
 | **Convex Jitter** | [x] | Hull creation + stacking | 🔧 Two custom hulls from point clouds. |
 | **s&box mover** | [ ] | Mover/character system | 🚧 |
@@ -173,7 +173,7 @@ These are **not** physics-world body scenes. Upstream samples inherit a Manifold
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Grid** | [ ] | `b3CreateGridMesh`, `b3CreateMeshShape` | 🔧 `createGridMesh` + `createMeshShape` exist; still a mesh-render/host sample rather than a tiny body stack. |
+| **Grid** | [x] | `b3CreateGridMesh`, `b3CreateMeshShape`, `b3Shape_SetMesh` | 🔧 20×20 grid mesh floor (wireframe visual) scale `[2,2,2]`; Scale X/Z `[-2,2]` via `setMesh` (host mesh scales too); Sphere/Capsule/Box/Cylinder radios; DrawAxes. C++/WASM dump parity verified at default cylinder. |
 | **Big Box** | [ ] | `b3CreateBoxMesh`, `b3CreateMeshShape` | 🧩 |
 | **Box** | [ ] | Same | 🧩 |
 | **Reflection** | [ ] | Mesh with negative scale | 🧩 |
@@ -212,7 +212,7 @@ These are **not** physics-world body scenes. Upstream samples inherit a Manifold
 | **Isotropic Friction** | [x] | Friction sweep with boxes on circle | 🔧 All exist. |
 | **Slide Twist** | [x] | Friction + twisting | 🔧 Static plane + dynamic box with angular velocity. Uses `b3wRotateVector` for exact angular velocity match. C++/WASM dump parity verified. |
 | **Restitution** | [x] | Bounciness sweep | 🔧 All exist. |
-| **Static Invoke** | [ ] | `shapeDef.invokeContactCreation` | 🚧 `invokeContactCreation` not exposed on shape create. |
+| **Static Invoke** | [x] | `shapeDef.invokeContactCreation` | 🔧 Dynamic sphere + Invoke/Passive + Create/Destroy (Create recreates); auto-create at step 20. Sphere create takes `invokeContactCreation`. C++/WASM dump parity verified. |
 | **Conveyor Belt** | [x] | `shapeDef.baseMaterial.tangentVelocity` | 🔧 Platform with `tangentVelocity` + 5 boxes. Required adding `tangentVelocity` params to `b3wShapeSetSurfaceMaterial` bridge. C++/WASM dump parity verified. |
 | **Conveyor Mesh** | [ ] | Mesh + tangent velocities per-material | 🧩🚧 Mesh + material per triangle. |
 | **Wind** | [x] | `b3Shape_ApplyWind`, spherical joint chain | 🔧 Ten box shapes on a spherical joint chain (not all anchored to ground). `dumpPostStep` uses WASM `randomVec3`, `lerpVec3`, and `getLengthAndNormalize` for bit-exact upstream noise/wind math. C++/WASM dump parity verified at epsilon=1e-5. |
@@ -280,7 +280,7 @@ These are **not** physics-world body scenes. Upstream samples inherit a Manifold
 ## Summary
 
 - **Total C++ samples**: ~136
-- **TS implemented (matching C++)**: 68
+- **TS implemented (matching C++)**: 73
 - **TS implemented (TS-only)**: 2 (dominoes variant, washer variant, material-dedup)
 - **Implemented samples**:
   1. Bodies / Spinning Book
@@ -351,6 +351,11 @@ These are **not** physics-world body scenes. Upstream samples inherit a Manifold
   66. Benchmark / Candy Cups
   67. Benchmark / Explosion
   68. Benchmark / Destruction
+  69. Issues / Multiple Prismatic
+  70. Issues / Crash
+  71. Mesh / Grid
+  72. Shapes / Static Invoke
+  73. Collision / Ray Curtain
 
 - **Dump-match status**: Nearly all dump-enabled samples match at epsilon=1e-5 on default checkpoints (frames 0,50,100,200,300). Recent fixes closed former setup bugs in `continuous/bullet-vs-stack` (stack Y float32) and `shapes/wind-drop` (hull half-extent float32). Remaining soft exceptions are multi-contact / long-horizon FP drift, not missed scene parameters: `ragdoll/pile` (matches through ~frame 46), `world/far-ragdolls` (matches through ~frame 29), `determinism/falling-ragdolls` (matches through frame 200; frame 300 drifts), `shapes/wind-flap` (frames 0–200 exact; ~1–3e-5 drift at frame 300), `benchmark/candy-cups` (scripted explode at frame 200; frames 0–200 match including post-blast; frame 300 drifts), `benchmark/explosion` (scripted explode at frame 1; frames 0–20 match; drift from ~frame 30). `benchmark/destruction` matches default checkpoints (dump skips mid-run respawn). Native SIMD vs scalar dumps are bit-identical; WASM SIMD vs scalar dumps are bit-identical — residual drift is cross-target codegen/libm, not SSE vs wasm SIMD128. `geometry/hull` uses `dumpNoPhysics` (upstream sample has no bodies).
 - **New sample dump checklist**: When porting the next sample, follow `AGENTS.md` → Dump-match readiness (and `docs/reference-dump-plan.md` → New sample dump checklist) so gravity, float32 setup math, step/post-step order, and worker step cadence are dump-ready from day one.

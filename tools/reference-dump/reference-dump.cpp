@@ -87,6 +87,22 @@ static std::vector<ScheduledInteraction> get_interaction_schedule(const char* sa
     };
   }
 
+  if (strcmp(sampleName, "Crash Joint Awake") == 0)
+  {
+    // Add weld while boxes are still falling / awake.
+    return {
+      {10, {"add-joint", {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}}},
+    };
+  }
+
+  if (strcmp(sampleName, "Crash Joint Asleep") == 0)
+  {
+    // Add weld after settle; both asleep so joint stays dormant (no visual yank).
+    return {
+      {200, {"add-joint", {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}}},
+    };
+  }
+
   return {};
 }
 
@@ -417,7 +433,8 @@ int main(int argc, char* argv[])
 
     if (should_dump_frame(options, frame))
     {
-      dump_bodies(out, sample->m_worldId, frame, checkpointCount > 0);
+      dump_bodies_with_extras(out, sample->m_worldId, frame, checkpointCount > 0,
+                              get_dump_checkpoint_extras(sample, options.sampleName));
       checkpointCount++;
 
       if (!options.disableSleepTerm && interactions.empty() && all_bodies_asleep(sample->m_worldId) && frame >= 100)

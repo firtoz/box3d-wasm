@@ -79,8 +79,8 @@ export function explodeDestruction(world: PhysicsWorld): void {
   );
 }
 
-export function destroyDestructionBodies(world: PhysicsWorld, handles: number[]): void {
-  for (const handle of handles) world.destroyBody(handle);
+export function destroyDestructionBodies(world: PhysicsWorld, handles: readonly number[]): void {
+  for (const handle of handles) world.destroyBody(handle as import("box3d-wasm").BodyHandle);
 }
 
 export function buildDestructionDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {

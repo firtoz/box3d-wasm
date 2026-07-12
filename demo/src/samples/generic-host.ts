@@ -21,19 +21,28 @@ export type RenderBodyBase = RenderWorldTransform & { localPosition?: [number, n
 // In particular:
 // - capsules declare their render axis explicitly (`x`, `y`, or `z`)
 // - cylinders are Y-axis meshes and may need a local yOffset when the physics hull is not centered
-export type RenderShape = { color: number } & ({ kind: "box"; size: [number, number, number] } | { kind: "sphere"; radius: number } | { kind: "cylinder"; radius: number; height: number; segments?: number; yOffset?: number } | { kind: "capsule"; radius: number; length: number; axis?: "x" | "y" | "z" } | { kind: "ragdoll-capsule"; a: [number, number, number]; b: [number, number, number]; radius: number } | { kind: "hull"; points: [number, number, number][] });
+// - torus matches Box3D `b3CreateTorusMesh` (major ring in XY, hole along Z)
+export type RenderShape = { color: number } & (
+  | { kind: "box"; size: [number, number, number] }
+  | { kind: "sphere"; radius: number }
+  | { kind: "cylinder"; radius: number; height: number; segments?: number; yOffset?: number }
+  | { kind: "capsule"; radius: number; length: number; axis?: "x" | "y" | "z" }
+  | { kind: "ragdoll-capsule"; a: [number, number, number]; b: [number, number, number]; radius: number }
+  | { kind: "hull"; points: [number, number, number][] }
+  | { kind: "torus"; radius: number; tube: number; radialSegments?: number; tubularSegments?: number }
+);
 export type RenderPart = RenderShape & RenderLocalTransform;
 export type RenderBody = (RenderBodyBase & RenderShape) | (RenderBodyBase & { kind: "compound"; parts: [RenderPart, ...RenderPart[]] });
-export type RenderControlButton = { type: "button"; label: string; message: Record<string, unknown> };
-export type RenderControlToggle = { type: "toggle"; label: string; message: Record<string, unknown>; value: boolean };
-export type RenderControlRange = { type: "range"; label: string; message: Record<string, unknown>; min: number; max: number; step: number; value: number };
+export type RenderControlButton = { type: "button"; label: string; message: Record<string, unknown>; onHostClick?: () => void };
+export type RenderControlToggle = { type: "toggle"; label: string; message: Record<string, unknown>; value: boolean; onHostChange?: (value: boolean) => void };
+export type RenderControlRange = { type: "range"; label: string; message: Record<string, unknown>; min: number; max: number; step: number; value: number; onHostChange?: (value: number) => void };
 export type RenderControl = RenderControlButton | RenderControlToggle | RenderControlRange;
 export type RenderOverlayContext = { bodies: DemoBody[]; workerState: WorkerWorldState | null };
 export type RenderOverlay = { update(context: RenderOverlayContext): void; dispose(): void };
 export type RenderSpec = {
   groundSize: [number, number, number];
   groundPosition?: [number, number, number];
-  groundKind?: "box" | "plane";
+  groundKind?: "box" | "plane" | "none";
   bodies: RenderBody[];
   info?: string;
   getInfo?: (workerState: WorkerWorldState | null) => string | undefined;
@@ -53,6 +62,12 @@ function meshForShape(shape: RenderShape): THREE.Mesh {
   if (shape.kind === "sphere") return new THREE.Mesh(new THREE.SphereGeometry(shape.radius, 24, 16), mat);
   if (shape.kind === "cylinder") return new THREE.Mesh(new THREE.CylinderGeometry(shape.radius, shape.radius, shape.height, shape.segments ?? 12), mat);
   if (shape.kind === "hull") return new THREE.Mesh(new ConvexGeometry(shape.points.map((point) => new THREE.Vector3(point[0], point[1], point[2]))), mat);
+  if (shape.kind === "torus") {
+    return new THREE.Mesh(
+      new THREE.TorusGeometry(shape.radius, shape.tube, shape.radialSegments ?? 10, shape.tubularSegments ?? 12),
+      mat,
+    );
+  }
   throw new Error("Unsupported render shape");
 }
 
@@ -119,16 +134,22 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
       const projectileColorCache = new Uint32Array(MAX_PROJECTILES);
       const worker = createWorker();
       const world = createWorkerWorld(worker, () => workerWorldState, () => wc);
-      const groundGeom = spec.groundKind === "plane"
-        ? new THREE.PlaneGeometry(spec.groundSize[0], spec.groundSize[2])
-        : new THREE.BoxGeometry(...spec.groundSize);
-      const groundMat = new THREE.MeshStandardMaterial({ color: 0x222222 });
-      const groundMesh = new THREE.Mesh(groundGeom, groundMat);
-      const groundPos = spec.groundPosition ?? [0, -1, 0];
-      groundMesh.position.set(groundPos[0], groundPos[1], groundPos[2]);
-      if (spec.groundKind === "plane") groundMesh.rotation.x = -0.5 * Math.PI;
-      groundMesh.receiveShadow = true;
-      scene.add(groundMesh);
+      const groundKind = spec.groundKind ?? "box";
+      let groundGeom: THREE.BufferGeometry | null = null;
+      let groundMat: THREE.MeshStandardMaterial | null = null;
+      let groundMesh: THREE.Mesh | null = null;
+      if (groundKind !== "none") {
+        groundGeom = groundKind === "plane"
+          ? new THREE.PlaneGeometry(spec.groundSize[0], spec.groundSize[2])
+          : new THREE.BoxGeometry(...spec.groundSize);
+        groundMat = new THREE.MeshStandardMaterial({ color: 0x222222 });
+        groundMesh = new THREE.Mesh(groundGeom, groundMat);
+        const groundPos = spec.groundPosition ?? (groundKind === "plane" ? [0, 0, 0] : [0, -1, 0]);
+        groundMesh.position.set(groundPos[0], groundPos[1], groundPos[2]);
+        if (groundKind === "plane") groundMesh.rotation.x = -0.5 * Math.PI;
+        groundMesh.receiveShadow = true;
+        scene.add(groundMesh);
+      }
       const bodies: DemoBody[] = [];
       const overlay = spec.overlay?.(scene);
       for (let i = 0; i < spec.bodies.length; i++) {
@@ -310,9 +331,11 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
       function dispose(): void {
         worker.postMessage({ type: "dispose" });
         worker.terminate();
-        scene.remove(groundMesh);
-        groundGeom.dispose();
-        groundMat.dispose();
+        if (groundMesh !== null && groundGeom !== null && groundMat !== null) {
+          scene.remove(groundMesh);
+          groundGeom.dispose();
+          groundMat.dispose();
+        }
         disposeBodies(scene, bodies);
         overlay?.dispose();
         for (const mesh of projectileMeshes) {
@@ -329,7 +352,15 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
         bodies,
         controls: (spec.controls ?? []).map((c): ControlSpec => {
           if (c.type === "button") {
-            return { key: c.label.toLowerCase().replace(/\s+/g, "-"), label: c.label, type: "button", onClick: () => worker.postMessage(c.message) };
+            return {
+              key: c.label.toLowerCase().replace(/\s+/g, "-"),
+              label: c.label,
+              type: "button",
+              onClick: () => {
+                worker.postMessage(c.message);
+                c.onHostClick?.();
+              },
+            };
           }
           if (c.type === "range") {
             return {
@@ -340,10 +371,23 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
               max: c.max,
               step: c.step,
               value: c.value,
-              onChange: (v) => { if (typeof v === "number") worker.postMessage({ ...c.message, value: v }); },
+              onChange: (v) => {
+                if (typeof v !== "number") return;
+                worker.postMessage({ ...c.message, value: v });
+                c.onHostChange?.(v);
+              },
             };
           }
-          return { key: c.label.toLowerCase().replace(/\s+/g, "-"), label: c.label, type: "toggle", value: c.value, onChange: (v) => worker.postMessage({ ...c.message, value: v }) };
+          return {
+            key: c.label.toLowerCase().replace(/\s+/g, "-"),
+            label: c.label,
+            type: "toggle",
+            value: c.value,
+            onChange: (v) => {
+              worker.postMessage({ ...c.message, value: v });
+              if (typeof v === "boolean") c.onHostChange?.(v);
+            },
+          };
         }),
         profile: true,
         launchSpeed: spec.launchSpeed,

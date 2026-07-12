@@ -34,6 +34,8 @@ import { hullSample } from "./geometry/hull";
 import { hullReductionSample } from "./geometry/hull-reduction";
 import { hullTransformSample } from "./geometry/hull-transform";
 import { hullCrashSample } from "./issues/hull-crash";
+import { multiplePrismaticSample } from "./issues/multiple-prismatic";
+import { crashSample } from "./issues/crash";
 import { convexJitterSample } from "./issues/convex-jitter";
 import { highMassRatio1Sample } from "./robustness/high-mass-ratio-1";
 import { tinyPyramidSample } from "./robustness/tiny-pyramid";
@@ -79,6 +81,9 @@ import { destructionSample } from "./benchmark/destruction";
 import { motionLocksSample } from "./joints/motion-locks";
 import { windSample } from "./shapes/wind";
 import { windFlapSample } from "./shapes/wind-flap";
+import { staticInvokeSample } from "./shapes/static-invoke";
+import { meshGridSample } from "./mesh/grid";
+import { rayCurtainSample } from "./collision/ray-curtain";
 export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
 
 export const samples = [
@@ -95,6 +100,8 @@ export const samples = [
   hullReductionSample,
   hullTransformSample,
   hullCrashSample,
+  multiplePrismaticSample,
+  crashSample,
   convexJitterSample,
   highMassRatio1Sample,
   tinyPyramidSample,
@@ -154,6 +161,9 @@ export const samples = [
   windDropSample,
   windSample,
   windFlapSample,
+  staticInvokeSample,
+  meshGridSample,
+  rayCurtainSample,
   thinWallSample,
   bounceHouseSample,
   spinningStickSample,

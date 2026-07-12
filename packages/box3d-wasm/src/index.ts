@@ -124,6 +124,8 @@ export interface ShapeDef {
   groupIndex?: number;
   enableCustomFiltering?: boolean;
   updateBodyMass?: boolean;
+  /** When true, creating/updating this shape forces contact creation (static-vs-dynamic overlaps). */
+  invokeContactCreation?: boolean;
 }
 
 export interface SphereOptions {
@@ -193,7 +195,7 @@ type CreateBoxFn = (worldHandle: number, px: number, py: number, pz: number, hx:
 type CreateSphereFn = (worldHandle: number, px: number, py: number, pz: number, radius: number, vx: number, vy: number, vz: number, density: number) => number;
 type CreateHullShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, hx: number, hy: number, hz: number) => number;
 type CreateTransformedHullShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, hx: number, hy: number, hz: number, sx: number, sy: number, sz: number) => number;
-type CreateSphereShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, px: number, py: number, pz: number, radius: number) => number;
+type CreateSphereShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, px: number, py: number, pz: number, radius: number, invokeContactCreation: number) => number;
 type CreateCapsuleShapeFn = (bodyHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, ax: number, ay: number, az: number, bx: number, by: number, bz: number, radius: number) => number;
 type CreateShapeFromHullFn = (bodyHandle: number, hullHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number, explosionScale: number) => number;
 type CreateTransformedShapeFromHullFn = (bodyHandle: number, hullHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, sx: number, sy: number, sz: number) => number;
@@ -202,6 +204,7 @@ type CreateGridMeshFn = (worldHandle: number, xCount: number, zCount: number, ce
 type CreateTorusMeshFn = (worldHandle: number, radialResolution: number, tubularResolution: number, radius: number, thickness: number) => number;
 type DestroyMeshFn = (meshHandle: number) => void;
 type CreateMeshShapeFn = (bodyHandle: number, meshHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, sx: number, sy: number, sz: number) => number;
+type ShapeSetMeshFn = (shapeHandle: number, meshHandle: number, sx: number, sy: number, sz: number) => void;
 type CreateHullFromPointsFn = (numPoints: number, points: number) => number;
 type CreateRockFn = (radius: number) => number;
 type DestroyHullFn = (hullHandle: number) => void;
@@ -285,7 +288,7 @@ type GetBodyWorldCenterFn = (bodyHandle: number, outPoint: number) => void;
 type GetBodyWorldPointFn = (bodyHandle: number, lx: number, ly: number, lz: number, outPoint: number) => void;
 type GetBodyLocalPointVelocityFn = (bodyHandle: number, lx: number, ly: number, lz: number, outVelocity: number) => void;
 type GetBodyWorldPointVelocityFn = (bodyHandle: number, wx: number, wy: number, wz: number, outVelocity: number) => void;
-type CreatePrismaticJointFn = (worldHandle: number, bodyAHandle: number, bodyBHandle: number, localAx: number, localAy: number, localAz: number, localAqx: number, localAqy: number, localAqz: number, localAqw: number, localBx: number, localBy: number, localBz: number, localBqx: number, localBqy: number, localBqz: number, localBqw: number, enableSpring: number, hertz: number, dampingRatio: number, targetTranslation: number, enableLimit: number, lowerTranslation: number, upperTranslation: number, enableMotor: number, maxMotorForce: number, motorSpeed: number, forceThreshold: number, torqueThreshold: number, collideConnected: number) => number;
+type CreatePrismaticJointFn = (worldHandle: number, bodyAHandle: number, bodyBHandle: number, localAx: number, localAy: number, localAz: number, localAqx: number, localAqy: number, localAqz: number, localAqw: number, localBx: number, localBy: number, localBz: number, localBqx: number, localBqy: number, localBqz: number, localBqw: number, constraintHertz: number, constraintDampingRatio: number, enableSpring: number, hertz: number, dampingRatio: number, targetTranslation: number, enableLimit: number, lowerTranslation: number, upperTranslation: number, enableMotor: number, maxMotorForce: number, motorSpeed: number, forceThreshold: number, torqueThreshold: number, collideConnected: number) => number;
 type CreateWeldJointFn = (worldHandle: number, bodyAHandle: number, bodyBHandle: number, localAx: number, localAy: number, localAz: number, localAqx: number, localAqy: number, localAqz: number, localAqw: number, localBx: number, localBy: number, localBz: number, localBqx: number, localBqy: number, localBqz: number, localBqw: number, linearHertz: number, angularHertz: number, linearDampingRatio: number, angularDampingRatio: number, forceThreshold: number, torqueThreshold: number, collideConnected: number) => number;
 type CreateDistanceJointFn = (worldHandle: number, bodyAHandle: number, bodyBHandle: number, localAx: number, localAy: number, localAz: number, localAqx: number, localAqy: number, localAqz: number, localAqw: number, localBx: number, localBy: number, localBz: number, localBqx: number, localBqy: number, localBqz: number, localBqw: number, length: number, forceThreshold: number, torqueThreshold: number, collideConnected: number) => number;
 type GetStallThresholdFn = () => number;
@@ -378,7 +381,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly createSphereFn = this.wrapNumber<CreateSphereFn>("b3wCreateSphere", ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
   private readonly createHullShapeFn = this.wrapNumber<CreateHullShapeFn>("b3wCreateHullShape", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createTransformedHullShapeFn = this.wrapNumber<CreateTransformedHullShapeFn>("b3wCreateTransformedHullShape", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
-  private readonly createSphereShapeFn = this.wrapNumber<CreateSphereShapeFn>("b3wCreateSphereShape", ["number","number","number","number","number","number","number","number","number"]);
+  private readonly createSphereShapeFn = this.wrapNumber<CreateSphereShapeFn>("b3wCreateSphereShape", ["number","number","number","number","number","number","number","number","number","number"]);
   private readonly createCapsuleShapeFn = this.wrapNumber<CreateCapsuleShapeFn>("b3wCreateCapsuleShape", ["number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createShapeFromHullFn = this.wrapNumber<CreateShapeFromHullFn>("b3wCreateShapeFromHull", ["number","number","number","number","number","number","number","number"]);
   private readonly createTransformedShapeFromHullFn = this.wrapNumber<CreateTransformedShapeFromHullFn>("b3wCreateTransformedShapeFromHull", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
@@ -387,6 +390,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly createTorusMeshFn = this.wrapNumber<CreateTorusMeshFn>("b3wCreateTorusMesh", ["number","number","number","number","number"]);
   private readonly destroyMeshFn = this.wrapVoid<DestroyMeshFn>("b3wDestroyMesh", ["number"]);
   private readonly createMeshShapeFn = this.wrapNumber<CreateMeshShapeFn>("b3wCreateMeshShape", ["number","number","number","number","number","number","number","number","number"]);
+  private readonly shapeSetMeshFn = this.wrapVoid<ShapeSetMeshFn>("b3wShapeSetMesh", ["number","number","number","number","number"]);
   private readonly createHullFromPointsFn = this.wrapNumber<CreateHullFromPointsFn>("b3wCreateHullFromPoints", ["number","number"]);
   private readonly createRockFn = this.wrapNumber<CreateRockFn>("b3wCreateRock", ["number"]);
   private readonly destroyHullFn = this.wrapVoid<DestroyHullFn>("b3wDestroyHull", ["number"]);
@@ -441,7 +445,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly getBodyWorldPointFn = this.wrapVoid<GetBodyWorldPointFn>("b3wGetBodyWorldPoint", ["number", "number", "number", "number", "number"]);
   private readonly getBodyLocalPointVelocityFn = this.wrapVoid<GetBodyLocalPointVelocityFn>("b3wGetBodyLocalPointVelocity", ["number", "number", "number", "number", "number"]);
   private readonly getBodyWorldPointVelocityFn = this.wrapVoid<GetBodyWorldPointVelocityFn>("b3wGetBodyWorldPointVelocity", ["number", "number", "number", "number", "number"]);
-  private readonly createPrismaticJointFn = this.wrapNumber<CreatePrismaticJointFn>("b3wCreatePrismaticJoint", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly createPrismaticJointFn = this.wrapNumber<CreatePrismaticJointFn>("b3wCreatePrismaticJoint", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createWeldJointFn = this.wrapNumber<CreateWeldJointFn>("b3wCreateWeldJoint", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createDistanceJointFn = this.wrapNumber<CreateDistanceJointFn>("b3wCreateDistanceJoint", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly getStallThresholdFn = this.wrapNumber<GetStallThresholdFn>("b3wGetStallThreshold", []);
@@ -621,8 +625,8 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     if (def.enableContactEvents !== undefined) this.enableShapeContactEvents(shapeHandle, def.enableContactEvents);
     if (def.enableHitEvents !== undefined) this.enableShapeHitEvents(shapeHandle, def.enableHitEvents);
     if (def.enablePreSolveEvents !== undefined) this.enableShapePreSolveEvents(shapeHandle, def.enablePreSolveEvents);
-    if (def.categoryBits !== undefined || def.maskBits !== undefined || def.groupIndex !== undefined) {
-      this.setShapeFilter(shapeHandle, def.categoryBits ?? U64_MAX, def.maskBits ?? U64_MAX, def.groupIndex ?? 0, false);
+    if (def.categoryBits !== undefined || def.maskBits !== undefined || def.groupIndex !== undefined || def.invokeContactCreation !== undefined) {
+      this.setShapeFilter(shapeHandle, def.categoryBits ?? U64_MAX, def.maskBits ?? U64_MAX, def.groupIndex ?? 0, def.invokeContactCreation ?? false);
     }
   }
 
@@ -673,7 +677,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   }
 
   createSphereShape(bodyHandle: BodyHandle, center: Vec3, radius: number, def: ShapeDef = {}): ShapeHandle {
-    const shapeHandle = this.requireSlotHandle<number>(this.createSphereShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, center[0], center[1], center[2], radius), "shapes");
+    const shapeHandle = this.requireSlotHandle<number>(this.createSphereShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, center[0], center[1], center[2], radius, def.invokeContactCreation === false ? 0 : 1), "shapes");
     const shape = { bodyHandle, shapeHandle: asShapeId(shapeHandle) };
     this.applyShapeDef(asShapeId(shapeHandle), def);
     return shape;
@@ -835,6 +839,10 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     this.applyShapeDef(asShapeId(shapeHandle), def);
     return shape;
   }
+  setMesh(shapeHandle: ShapeId | ShapeHandle, meshHandle: MeshHandle, scale: Vec3 = [1, 1, 1]): void {
+    const handle = typeof shapeHandle === "number" ? shapeHandle : shapeHandle.shapeHandle;
+    this.shapeSetMeshFn(handle, meshHandle, scale[0], scale[1], scale[2]);
+  }
   getBodyShapes(bodyHandle: BodyHandle): ShapeId[] {
     const count = this.getBodyShapeCountFn(bodyHandle);
     if (count <= 0) return [];
@@ -980,7 +988,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   getJointConstraintTorque(jointHandle: JointHandle): Vec3 { this.getJointConstraintTorqueFn(jointHandle, this.pointPtr); return this.readPointInto([0, 0, 0]); }
   getJointLinearSeparation(jointHandle: JointHandle): number { return this.getJointLinearSeparationFn(jointHandle); }
   setRevoluteJointTargetAngle(jointHandle: JointHandle, targetRadians: number): void { this.revoluteJointSetTargetAngleFn(jointHandle, targetRadians); }
-  createPrismaticJoint(worldHandle: WorldHandle, bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; enableSpring?: boolean; hertz?: number; dampingRatio?: number; targetTranslation?: number; enableLimit?: boolean; lowerTranslation?: number; upperTranslation?: number; enableMotor?: boolean; maxMotorForce?: number; motorSpeed?: number; forceThreshold?: number; torqueThreshold?: number; collideConnected?: boolean } = {}): JointHandle { const la = options.localFrameA?.position ?? [0,0,0]; const laq = options.localFrameA?.rotation ?? [0,0,0,1]; const lb = options.localFrameB?.position ?? [0,0,0]; const lbq = options.localFrameB?.rotation ?? [0,0,0,1]; const [forceThreshold, torqueThreshold, collideConnected] = jointThresholdArgs(options); return this.requireSlotHandle<JointHandle>(this.createPrismaticJointFn(worldHandle, bodyAHandle, bodyBHandle, la[0], la[1], la[2], laq[0], laq[1], laq[2], laq[3], lb[0], lb[1], lb[2], lbq[0], lbq[1], lbq[2], lbq[3], options.enableSpring ? 1 : 0, options.hertz ?? 0, options.dampingRatio ?? 0, options.targetTranslation ?? 0, options.enableLimit ? 1 : 0, options.lowerTranslation ?? 0, options.upperTranslation ?? 0, options.enableMotor ? 1 : 0, options.maxMotorForce ?? 0, options.motorSpeed ?? 0, forceThreshold, torqueThreshold, collideConnected), "joints"); }
+  createPrismaticJoint(worldHandle: WorldHandle, bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; constraintHertz?: number; constraintDampingRatio?: number; enableSpring?: boolean; hertz?: number; dampingRatio?: number; targetTranslation?: number; enableLimit?: boolean; lowerTranslation?: number; upperTranslation?: number; enableMotor?: boolean; maxMotorForce?: number; motorSpeed?: number; forceThreshold?: number; torqueThreshold?: number; collideConnected?: boolean } = {}): JointHandle { const la = options.localFrameA?.position ?? [0,0,0]; const laq = options.localFrameA?.rotation ?? [0,0,0,1]; const lb = options.localFrameB?.position ?? [0,0,0]; const lbq = options.localFrameB?.rotation ?? [0,0,0,1]; const [forceThreshold, torqueThreshold, collideConnected] = jointThresholdArgs(options); return this.requireSlotHandle<JointHandle>(this.createPrismaticJointFn(worldHandle, bodyAHandle, bodyBHandle, la[0], la[1], la[2], laq[0], laq[1], laq[2], laq[3], lb[0], lb[1], lb[2], lbq[0], lbq[1], lbq[2], lbq[3], options.constraintHertz ?? 60, options.constraintDampingRatio ?? 2, options.enableSpring ? 1 : 0, options.hertz ?? 0, options.dampingRatio ?? 0, options.targetTranslation ?? 0, options.enableLimit ? 1 : 0, options.lowerTranslation ?? 0, options.upperTranslation ?? 0, options.enableMotor ? 1 : 0, options.maxMotorForce ?? 0, options.motorSpeed ?? 0, forceThreshold, torqueThreshold, collideConnected), "joints"); }
   createWeldJoint(worldHandle: WorldHandle, bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; linearHertz?: number; angularHertz?: number; linearDampingRatio?: number; angularDampingRatio?: number; forceThreshold?: number; torqueThreshold?: number; collideConnected?: boolean } = {}): JointHandle { const la = options.localFrameA?.position ?? [0,0,0]; const laq = options.localFrameA?.rotation ?? [0,0,0,1]; const lb = options.localFrameB?.position ?? [0,0,0]; const lbq = options.localFrameB?.rotation ?? [0,0,0,1]; const [forceThreshold, torqueThreshold, collideConnected] = jointThresholdArgs(options); return this.requireSlotHandle<JointHandle>(this.createWeldJointFn(worldHandle, bodyAHandle, bodyBHandle, la[0], la[1], la[2], laq[0], laq[1], laq[2], laq[3], lb[0], lb[1], lb[2], lbq[0], lbq[1], lbq[2], lbq[3], options.linearHertz ?? 0, options.angularHertz ?? 0, options.linearDampingRatio ?? 0, options.angularDampingRatio ?? 0, forceThreshold, torqueThreshold, collideConnected), "joints"); }
   createDistanceJoint(worldHandle: WorldHandle, bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; length?: number; forceThreshold?: number; torqueThreshold?: number; collideConnected?: boolean } = {}): JointHandle { const la = options.localFrameA?.position ?? [0,0,0]; const laq = options.localFrameA?.rotation ?? [0,0,0,1]; const lb = options.localFrameB?.position ?? [0,0,0]; const lbq = options.localFrameB?.rotation ?? [0,0,0,1]; const [forceThreshold, torqueThreshold, collideConnected] = jointThresholdArgs(options); return this.requireSlotHandle<JointHandle>(this.createDistanceJointFn(worldHandle, bodyAHandle, bodyBHandle, la[0], la[1], la[2], laq[0], laq[1], laq[2], laq[3], lb[0], lb[1], lb[2], lbq[0], lbq[1], lbq[2], lbq[3], options.length ?? 0, forceThreshold, torqueThreshold, collideConnected), "joints"); }
   worldExplode(worldHandle: WorldHandle, position: Vec3, radius: number, falloff: number, impulsePerArea: number, maskBits = U64_MAX): void { this.worldExplodeFn(worldHandle, position[0], position[1], position[2], radius, falloff, impulsePerArea, maskBits); }
@@ -1005,6 +1013,7 @@ export class PhysicsWorld {
   createTorusMesh(radialResolution: number, tubularResolution: number, radius: number, thickness: number): MeshHandle { return this.runtime.createTorusMesh(this.handle, radialResolution, tubularResolution, radius, thickness); }
   destroyMesh(meshHandle: MeshHandle): void { this.runtime.destroyMesh(meshHandle); }
   createMeshShape(bodyHandle: BodyHandle, meshHandle: MeshHandle, def: MeshShapeOptions = {}): ShapeHandle { return this.runtime.createMeshShape(bodyHandle, meshHandle, def); }
+  setMesh(shapeHandle: ShapeId | ShapeHandle, meshHandle: MeshHandle, scale: Vec3 = [1, 1, 1]): void { this.runtime.setMesh(shapeHandle, meshHandle, scale); }
   createCompoundShape(bodyHandle: BodyHandle, compoundHandle: CompoundHandle, density = 1): ShapeId { return this.runtime.createCompoundShape(bodyHandle, compoundHandle, density); }
   getBodyShapes(bodyHandle: BodyHandle): ShapeId[] { return this.runtime.getBodyShapes(bodyHandle); }
   getCompoundTreeHeight(compoundHandle: CompoundHandle): number { return this.runtime.getCompoundTreeHeight(compoundHandle); }
@@ -1060,7 +1069,7 @@ export class PhysicsWorld {
   getJointConstraintTorque(jointHandle: JointHandle): Vec3 { return this.runtime.getJointConstraintTorque(jointHandle); }
   getJointLinearSeparation(jointHandle: JointHandle): number { return this.runtime.getJointLinearSeparation(jointHandle); }
   setRevoluteJointTargetAngle(jointHandle: JointHandle, targetRadians: number): void { this.runtime.setRevoluteJointTargetAngle(jointHandle, targetRadians); }
-  createPrismaticJoint(bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; enableSpring?: boolean; hertz?: number; dampingRatio?: number; targetTranslation?: number; enableLimit?: boolean; lowerTranslation?: number; upperTranslation?: number; enableMotor?: boolean; maxMotorForce?: number; motorSpeed?: number } = {}): JointHandle { return this.runtime.createPrismaticJoint(this.handle, bodyAHandle, bodyBHandle, options); }
+  createPrismaticJoint(bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; constraintHertz?: number; constraintDampingRatio?: number; enableSpring?: boolean; hertz?: number; dampingRatio?: number; targetTranslation?: number; enableLimit?: boolean; lowerTranslation?: number; upperTranslation?: number; enableMotor?: boolean; maxMotorForce?: number; motorSpeed?: number } = {}): JointHandle { return this.runtime.createPrismaticJoint(this.handle, bodyAHandle, bodyBHandle, options); }
   createWeldJoint(bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; linearHertz?: number; angularHertz?: number; linearDampingRatio?: number; angularDampingRatio?: number; forceThreshold?: number; torqueThreshold?: number; collideConnected?: boolean } = {}): JointHandle { return this.runtime.createWeldJoint(this.handle, bodyAHandle, bodyBHandle, options); }
   createDistanceJoint(bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; length?: number; forceThreshold?: number; torqueThreshold?: number; collideConnected?: boolean } = {}): JointHandle { return this.runtime.createDistanceJoint(this.handle, bodyAHandle, bodyBHandle, options); }
   explode(position: Vec3, radius: number, falloff: number, impulsePerArea: number, maskBits = U64_MAX): void { this.runtime.worldExplode(this.handle, position, radius, falloff, impulsePerArea, maskBits); }

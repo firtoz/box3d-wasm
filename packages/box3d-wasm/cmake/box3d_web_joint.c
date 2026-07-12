@@ -204,6 +204,8 @@ B3W_EXPORT int b3wCreatePrismaticJoint(
 	float localBqy,
 	float localBqz,
 	float localBqw,
+	float constraintHertz,
+	float constraintDampingRatio,
 	int enableSpring,
 	float hertz,
 	float dampingRatio,
@@ -227,6 +229,8 @@ B3W_EXPORT int b3wCreatePrismaticJoint(
 	jointDef.base.bodyIdB = bodyB->bodyId;
 	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, { { localAqx, localAqy, localAqz }, localAqw } };
 	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
+	jointDef.base.constraintHertz = constraintHertz;
+	jointDef.base.constraintDampingRatio = constraintDampingRatio;
 	jointDef.base.forceThreshold = forceThreshold;
 	jointDef.base.torqueThreshold = torqueThreshold;
 	jointDef.base.collideConnected = collideConnected != 0;

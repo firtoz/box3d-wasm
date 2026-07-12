@@ -12,9 +12,22 @@ interface DumpBody {
   a: boolean;
 }
 
+interface DumpRayHit {
+  h: number;
+  f: number;
+  p: Vec3;
+  n: Vec3;
+}
+
+interface DumpRays {
+  o: number;
+  r: DumpRayHit[];
+}
+
 interface DumpCheckpoint {
   frame: number;
   bodies: DumpBody[];
+  rays?: DumpRays;
 }
 
 interface DumpOutput {
@@ -147,6 +160,76 @@ function compareArray(
   return { deltas };
 }
 
+function compareScalar(
+  frame: number,
+  label: string,
+  expected: number,
+  actual: number,
+  epsilon: number,
+): { finding?: string; deltas: FieldDelta[] } {
+  const absDelta = Math.abs(expected - actual);
+  const deltas: FieldDelta[] = [{
+    label: `frame ${frame} ${label}`,
+    frame,
+    body: -1,
+    field: label,
+    index: 0,
+    expected,
+    actual,
+    absDelta,
+    ulpDelta: ulpDelta(expected, actual),
+  }];
+  if (absDelta > epsilon) {
+    return {
+      finding: `checkpoint frame ${frame} ${label}: delta ${absDelta} (${deltas[0]!.ulpDelta} ulp), expected ${expected}, got ${actual}`,
+      deltas,
+    };
+  }
+  return { deltas };
+}
+
+function compareRays(
+  frame: number,
+  expected: DumpRays | undefined,
+  actual: DumpRays | undefined,
+  epsilon: number,
+): { findings: string[]; deltas: FieldDelta[] } {
+  const findings: string[] = [];
+  const deltas: FieldDelta[] = [];
+  if (expected === undefined && actual === undefined) return { findings, deltas };
+  if (expected === undefined || actual === undefined) {
+    findings.push(`checkpoint frame ${frame}: rays presence mismatch expected ${expected !== undefined}, got ${actual !== undefined}`);
+    return { findings, deltas };
+  }
+  {
+    const result = compareScalar(frame, "rays.o", expected.o, actual.o, epsilon);
+    deltas.push(...result.deltas);
+    if (result.finding !== undefined) findings.push(result.finding);
+  }
+  if (expected.r.length !== actual.r.length) {
+    findings.push(`checkpoint frame ${frame}: ray count mismatch expected ${expected.r.length}, got ${actual.r.length}`);
+    return { findings, deltas };
+  }
+  for (let i = 0; i < expected.r.length; i++) {
+    const e = expected.r[i]!;
+    const a = actual.r[i]!;
+    if (e.h !== a.h) findings.push(`checkpoint frame ${frame} ray[${i}].h: expected ${e.h}, got ${a.h}`);
+    {
+      const result = compareScalar(frame, `ray[${i}].f`, e.f, a.f, epsilon);
+      deltas.push(...result.deltas);
+      if (result.finding !== undefined) findings.push(result.finding);
+    }
+    for (const key of ["p", "n"] as const) {
+      const result = compareArray(frame, i, `ray.${key}`, e[key], a[key], epsilon);
+      deltas.push(...result.deltas.map((d) => ({ ...d, field: `ray[${i}].${key}`, label: `frame ${frame} ray[${i}].${key}[${d.index}]` })));
+      if (result.finding !== undefined) {
+        findings.push(result.finding.replace(`body[${i}].ray.${key}`, `ray[${i}].${key}`));
+      }
+    }
+  }
+  return { findings, deltas };
+}
+
 function compareDumps(expected: DumpOutput, actual: DumpOutput, epsilon: number): { findings: string[]; deltas: FieldDelta[] } {
   const findings: string[] = [];
   const deltas: FieldDelta[] = [];
@@ -180,6 +263,10 @@ function compareDumps(expected: DumpOutput, actual: DumpOutput, epsilon: number)
         if (result.finding !== undefined) findings.push(result.finding);
       }
     }
+
+    const rayCompare = compareRays(eCheckpoint.frame, eCheckpoint.rays, aCheckpoint.rays, epsilon);
+    findings.push(...rayCompare.findings);
+    deltas.push(...rayCompare.deltas);
   }
 
   return { findings, deltas };

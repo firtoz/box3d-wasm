@@ -18,6 +18,7 @@ interface DumpBody {
 interface DumpCheckpoint {
   frame: number;
   bodies: DumpBody[];
+  rays?: unknown;
 }
 
 interface DumpOutput {
@@ -34,6 +35,8 @@ interface WasmDumpInstance {
   world: PhysicsWorld;
   handles: number[];
   state?: unknown;
+  /** Optional cleanup after `world.destroy` (e.g. restore global stall threshold). */
+  dispose?: () => void;
 }
 
 interface WasmDumpSample {
@@ -45,6 +48,7 @@ interface WasmDumpSample {
   postStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
   interactionSchedule: readonly DumpInteraction[];
   runInteraction?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], interaction: DumpInteraction, frame: number, state: unknown) => void;
+  checkpointExtras?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, state: unknown) => Record<string, unknown> | undefined;
 }
 
 interface SceneDumpModule {
@@ -60,6 +64,13 @@ interface SceneDumpModule {
   dumpPostStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
   dumpInteractionSchedule?: readonly DumpInteraction[];
   dumpRunInteraction?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], interaction: DumpInteraction, frame: number, state: unknown) => void;
+  dumpCheckpointExtras?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, state: unknown) => Record<string, unknown> | undefined;
+  dumpVariants?: readonly {
+    id: string;
+    name: string;
+    cppName: string;
+    interactionSchedule: readonly DumpInteraction[];
+  }[];
 }
 
 interface FrontendSampleMeta {
@@ -249,6 +260,20 @@ async function loadWasmDumpSamples(): Promise<WasmDumpSample[]> {
     sceneById.set(scene.dumpSampleId, scene);
   }
 
+  function makeCreate(scene: SceneDumpModule): (runtime: Box3DRuntime) => WasmDumpInstance {
+    return (runtime) => {
+      if (scene.dumpCreate !== undefined) return scene.dumpCreate(runtime);
+      if (scene.dumpNoPhysics) {
+        const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
+        return { world, handles: [] };
+      }
+      const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
+      const ground = world.createBody({ type: BodyType.Static, position: scene.dumpGroundPosition ?? [0, -1, 0] });
+      runtime.createHullShape(ground, scene.dumpGroundSize!());
+      return { world, handles: [ground, ...scene.dumpBuildDynamicBodies!(world, runtime)] };
+    };
+  }
+
   const samples: WasmDumpSample[] = [];
   for (const frontendSample of await loadFrontendSampleMetadata()) {
     const scene = sceneById.get(frontendSample.id);
@@ -257,22 +282,26 @@ async function loadWasmDumpSamples(): Promise<WasmDumpSample[]> {
       id: frontendSample.id,
       name: frontendSample.name,
       cppName: scene.dumpCppSampleName ?? scene.dumpSampleName ?? frontendSample.name,
-      create(runtime) {
-        if (scene.dumpCreate !== undefined) return scene.dumpCreate(runtime);
-        if (scene.dumpNoPhysics) {
-          const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
-          return { world, handles: [] };
-        }
-        const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
-        const ground = world.createBody({ type: BodyType.Static, position: scene.dumpGroundPosition ?? [0, -1, 0] });
-        runtime.createHullShape(ground, scene.dumpGroundSize!());
-        return { world, handles: [ground, ...scene.dumpBuildDynamicBodies!(world, runtime)] };
-      },
+      create: makeCreate(scene),
       step: scene.dumpStep,
       postStep: scene.dumpPostStep,
       interactionSchedule: scene.dumpInteractionSchedule ?? [],
       runInteraction: scene.dumpRunInteraction,
+      checkpointExtras: scene.dumpCheckpointExtras,
     });
+    for (const variant of scene.dumpVariants ?? []) {
+      samples.push({
+        id: variant.id,
+        name: variant.name,
+        cppName: variant.cppName,
+        create: makeCreate(scene),
+        step: scene.dumpStep,
+        postStep: scene.dumpPostStep,
+        interactionSchedule: variant.interactionSchedule,
+        runInteraction: scene.dumpRunInteraction,
+        checkpointExtras: scene.dumpCheckpointExtras,
+      });
+    }
   }
   return samples;
 }
@@ -312,7 +341,8 @@ async function main(): Promise<void> {
 
   console.error(`Running WASM sample: ${sample.name}`);
   const runtime = await loadRuntime();
-  const { world, handles, state } = sample.create(runtime);
+  const instance = sample.create(runtime);
+  const { world, handles, state } = instance;
   const output: DumpOutput = { checkpoints: [] };
   const dt = Math.fround(1 / 60);
 
@@ -329,7 +359,8 @@ async function main(): Promise<void> {
       sample.postStep?.(world, runtime, handles, frame, dt, state);
     }
     if (shouldDumpFrame(options, frame)) {
-      output.checkpoints.push({ frame, bodies: dumpBodies(world, handles) });
+      const extras = sample.checkpointExtras?.(world, runtime, handles, frame, state) ?? {};
+      output.checkpoints.push({ frame, bodies: dumpBodies(world, handles), ...extras });
       if (sample.step === undefined && sample.interactionSchedule.length === 0 && !options.disableSleepTerm && world.getAwakeBodyCount() === 0 && frame >= 100) {
         console.error(`All bodies asleep at frame ${frame}, terminating.`);
         break;
@@ -338,6 +369,7 @@ async function main(): Promise<void> {
   }
 
   world.destroy();
+  instance.dispose?.();
   runtime.destroy();
 
   const json = `${JSON.stringify(output)}\n`;

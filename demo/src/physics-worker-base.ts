@@ -3,7 +3,7 @@ import type { PhysicsWorkerCommand, PhysicsWorkerMessage, SolverParams } from ".
 import { MAX_PROJECTILES, RAGDOLL_RENDER_BONE_COUNT, SNAPSHOT_AWAKE_COUNT_INDEX, SNAPSHOT_BODY_COUNT_INDEX, SNAPSHOT_COLLIDE_MS_X100_INDEX, SNAPSHOT_CUMULATIVE_STEPS_INDEX, SNAPSHOT_PAIRS_MS_X100_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_PUBLISH_MS_X100_INDEX, SNAPSHOT_SOLVE_MS_X100_INDEX, SNAPSHOT_STEP_MS_X100_INDEX, SNAPSHOT_STEPS_INDEX, SNAPSHOT_VERSION_INDEX, SNAPSHOT_STATE_COUNT } from "./physics-worker-protocol";
 
 const MAX_CATCHUP_STEPS = 4;
-const MOUSE_FORCE_SCALE = 100;
+const DEFAULT_MOUSE_FORCE_SCALE = 100;
 const GRAVITY_MAGNITUDE = 10;
 /** Match upstream Box3D `b3DefaultWorldDef` gravity (`y = -10`). */
 const DEFAULT_GRAVITY: Vec3 = [0, -10, 0];
@@ -83,6 +83,11 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   }
 
   protected configureScene(_initData: TInit): void {}
+
+  /** Override to match upstream Sample::m_mouseForceScale (default 100). */
+  protected getMouseForceScale(): number {
+    return DEFAULT_MOUSE_FORCE_SCALE;
+  }
 
   /** Override when the tracked body set grows after init (e.g. rain spawning). */
   protected getTrackedBodyCapacity(initialHandles: number[]): number {
@@ -412,7 +417,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
       localFrameB: localBodyPoint,
       linearHertz: 7.5,
       linearDampingRatio: 1,
-      maxSpringForce: MOUSE_FORCE_SCALE * mg,
+      maxSpringForce: this.getMouseForceScale() * mg,
       maxVelocityTorque: 0.5 * lever * mg,
     });
     this.world.setBodyAwake(hit.bodyHandle, true);
@@ -489,9 +494,13 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
   // --- Dispose ---
 
+  /** Called before the world is destroyed (restart or full dispose). */
+  protected onBeforeDisposeWorld(): void {}
+
   private disposeWorld(): void {
     if (this.timer !== undefined) self.clearInterval(this.timer);
     this.timer = undefined;
+    this.onBeforeDisposeWorld();
     if (this.world !== null && this.bodyBatch !== null) this.world.freeBodyBatchBuffers(this.bodyBatch);
     if (this.world !== null && this.projectileBatch !== null) this.world.freeBodyBatchBuffers(this.projectileBatch);
     this.world?.destroy();

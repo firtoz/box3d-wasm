@@ -55,7 +55,7 @@ static void dump_body(FILE* out, const b3World* world, int bodyIndex, int first)
     isAwake ? "true" : "false");
 }
 
-int dump_bodies(FILE* out, b3WorldId worldId, int frame, int emitComma)
+int dump_bodies_with_extras(FILE* out, b3WorldId worldId, int frame, int emitComma, const char* extraFieldsJson)
 {
   if (!b3World_IsValid(worldId))
     return 0;
@@ -73,8 +73,18 @@ int dump_bodies(FILE* out, b3WorldId worldId, int frame, int emitComma)
     firstBody = 0;
   }
 
-  fprintf(out, "]}");
+  fprintf(out, "]");
+  if (extraFieldsJson != NULL && extraFieldsJson[0] != '\0')
+  {
+    fprintf(out, ",%s", extraFieldsJson);
+  }
+  fprintf(out, "}");
   return 1;
+}
+
+int dump_bodies(FILE* out, b3WorldId worldId, int frame, int emitComma)
+{
+  return dump_bodies_with_extras(out, worldId, frame, emitComma, NULL);
 }
 
 int all_bodies_asleep(b3WorldId worldId)

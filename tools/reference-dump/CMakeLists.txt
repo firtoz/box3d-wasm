@@ -41,13 +41,13 @@ set(STUBS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/stubs")
 set(SAMPLE_FILES
   # sample_benchmark.cpp is included from dump-interaction-overrides.cpp so DumpDestruction can subclass it.
   "${SAMPLE_SRC_DIR}/sample_character.cpp"
-  "${SAMPLE_SRC_DIR}/sample_collision.cpp"
+  # sample_collision.cpp is included from dump-interaction-overrides.cpp so DumpRayCurtain can subclass it.
   "${SAMPLE_SRC_DIR}/sample_compound.cpp"
   "${SAMPLE_SRC_DIR}/sample_continuous.cpp"
   "${SAMPLE_SRC_DIR}/sample_determinism.cpp"
   "${SAMPLE_SRC_DIR}/sample_events.cpp"
   "${SAMPLE_SRC_DIR}/sample_geometry.cpp"
-  "${SAMPLE_SRC_DIR}/sample_issues.cpp"
+  # sample_issues.cpp is included from dump-interaction-overrides.cpp so DumpCrash can subclass it.
   "${SAMPLE_SRC_DIR}/sample_manifold.cpp"
   "${SAMPLE_SRC_DIR}/sample_mesh.cpp"
   "${SAMPLE_SRC_DIR}/sample_ragdoll.cpp"

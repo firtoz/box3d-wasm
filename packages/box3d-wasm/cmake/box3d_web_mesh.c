@@ -43,3 +43,12 @@ B3W_EXPORT int b3wCreateMeshShape(int bodyHandle, int meshHandle, float density,
 	b3ShapeId shapeId = b3CreateMeshShape(body->bodyId, &shapeDef, mesh->mesh, scale);
 	return b3wAllocShapeSlot(shapeId);
 }
+
+B3W_EXPORT void b3wShapeSetMesh(int shapeHandle, int meshHandle, float sx, float sy, float sz)
+{
+	b3wShapeSlot* shape = b3wGetShape(shapeHandle);
+	b3wMeshSlot* mesh = b3wGetMesh(meshHandle);
+	if (shape == NULL || mesh == NULL) return;
+	b3Vec3 scale = { sx, sy, sz };
+	b3Shape_SetMesh(shape->shapeId, mesh->mesh, scale);
+}
