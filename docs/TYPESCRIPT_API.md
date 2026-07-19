@@ -503,7 +503,7 @@ Configure limits at CMake time, then rebuild WASM:
 ```sh
 cd packages/box3d-wasm
 cmake -S cmake -B build-custom \
-  -DBOX3D_SOURCE_DIR=../../box3d \
+  -DBOX3D_SOURCE_DIR=./.box3d-patched \
   -DB3W_MAX_HUMANS=2048 \
   -DBOX3D_WASM_ALLOW_MEMORY_GROWTH=ON \
   -DBOX3D_WASM_INITIAL_MEMORY=67108864 \

@@ -4,10 +4,11 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 REFERENCE_BUILD_DIR="${REFERENCE_DUMP_BUILD_DIR:-$ROOT_DIR/.reference-dumps/reference-build}"
 NATIVE_BRIDGE_BUILD_DIR="$ROOT_DIR/packages/box3d-wasm/build-native"
-BOX3D_SOURCE_DIR="$ROOT_DIR/box3d"
+BOX3D_SOURCE_DIR="$ROOT_DIR/packages/box3d-wasm/.box3d-patched"
 
 if [ ! -f "$BOX3D_SOURCE_DIR/CMakeLists.txt" ]; then
-  printf 'Missing box3d checkout at %s\n' "$BOX3D_SOURCE_DIR" >&2
+  printf 'Missing patched box3d at %s\n' "$BOX3D_SOURCE_DIR" >&2
+  printf 'Run: bun packages/box3d-wasm/scripts/prepare-box3d.ts\n' >&2
   exit 1
 fi
 
