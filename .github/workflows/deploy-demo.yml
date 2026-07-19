@@ -30,7 +30,9 @@ jobs:
       - name: Set up Emscripten
         uses: emscripten-core/setup-emsdk@v16
         with:
-          version: latest
+          # Pin: `latest` tip-of-tree clang can ICE on -msimd128 (shape.c / b3CreateShape).
+          # 6.0.2 matches the locally verified toolchain.
+          version: 6.0.2
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
