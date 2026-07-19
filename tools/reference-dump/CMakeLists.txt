@@ -57,6 +57,8 @@ set(SAMPLE_FILES
   "${SAMPLE_SRC_DIR}/sample_stacking.cpp"
   "${SAMPLE_SRC_DIR}/sample_tree.cpp"
   "${SAMPLE_SRC_DIR}/sample_world.cpp"
+  # Extra sample kept after upstream removed it (matches demo card-house-thick).
+  "${CMAKE_CURRENT_SOURCE_DIR}/sample_card_house_thick.cpp"
 )
 
 set(REFERENCE_DUMP_SOURCES

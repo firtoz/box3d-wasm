@@ -387,6 +387,25 @@ int b3wFindShapeHandle(b3ShapeId shapeId)
 	return 0;
 }
 
+int b3wFindBodyHandle(b3BodyId bodyId)
+{
+	b3wInitPools();
+	for (int i = 0; i < B3W_MAX_BODIES; ++i)
+	{
+		if (!g_bodies[i].active)
+		{
+			continue;
+		}
+
+		if (B3_ID_EQUALS(g_bodies[i].bodyId, bodyId))
+		{
+			return i + 1;
+		}
+	}
+
+	return 0;
+}
+
 int b3wAllocMeshSlot(int worldHandle, b3MeshData* mesh)
 {
 	b3wInitPools();

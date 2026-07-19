@@ -1,4 +1,4 @@
-import type { BodyType, Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
+import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 export function buildFarStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
@@ -9,7 +9,7 @@ export function buildFarStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRu
   for (let i = 0; i < 6; i++) {
     const skew = 0.02 * (i & 1 ? 1 : -1);
     const body = world.createBody({
-      type: 2 as BodyType,
+      type: BodyType.Dynamic,
       position: [offset + skew, 0.5 + 1 * i, 0],
     });
     runtime.createHullShape(body, half, {});

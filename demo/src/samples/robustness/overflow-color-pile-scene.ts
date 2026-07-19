@@ -1,4 +1,4 @@
-import type { BodyType, Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
+import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const RING_COUNT = 5;
@@ -15,7 +15,7 @@ export function buildOverflowColorPileDynamicBodies(world: PhysicsWorld, runtime
   // Tall heavy hub
   const hubHalfY = 2.5;
   const hub = world.createBody({
-    type: 2 as BodyType, position: [0, hubHalfY, 0],
+    type: BodyType.Dynamic, position: [0, hubHalfY, 0],
   });
   runtime.createHullShape(hub, [0.5, hubHalfY, 0.5], { density: 50 });
   handles.push(hub);
@@ -43,7 +43,7 @@ export function buildOverflowColorPileDynamicBodies(world: PhysicsWorld, runtime
       const x = f32(ringRadiusF32 * runtime.b3wCosf(theta));
       const z = f32(ringRadiusF32 * runtime.b3wSinf(theta));
       const body = world.createBody({
-        type: 2 as BodyType, position: [x, y, z],
+        type: BodyType.Dynamic, position: [x, y, z],
       });
       runtime.createHullShape(body, [neighborHalf, neighborHalf, neighborHalf], {});
       handles.push(body);

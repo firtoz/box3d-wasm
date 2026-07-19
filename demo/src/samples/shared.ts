@@ -197,6 +197,9 @@ function getCachedBodySyncBatch(world: PhysicsWorld, bodies: DemoBody[]): BodySy
   if (cached !== undefined && cached.count === count && cached.firstHandle === (count > 0 ? bodies[0].handle : 0) && cached.lastHandle === (count > 0 ? bodies[count - 1].handle : 0)) {
     return cached;
   }
+  if (cached !== undefined) {
+    world.freeBodyBatchBuffers(cached.buffers);
+  }
   const next = createBodySyncBatch(world, bodies);
   syncBatchCache.set(bodies, next);
   return next;
@@ -204,6 +207,11 @@ function getCachedBodySyncBatch(world: PhysicsWorld, bodies: DemoBody[]): BodySy
 
 export function syncBodiesBatch(world: PhysicsWorld, bodies: DemoBody[], batch: BodySyncBatch): void {
   const count = bodies.length;
+  // Keep WASM handle scratch in sync with `bodies` (each list has its own batch buffers).
+  const memory = world.getMemoryView();
+  const handles = new Int32Array(memory.heap32.buffer, batch.buffers.bodyHandlesPtr, count);
+  for (let i = 0; i < count; i++) handles[i] = bodies[i]!.handle;
+
   world.writeBodyTransforms(count, batch.buffers.bodyHandlesPtr, batch.buffers.positionsPtr, batch.buffers.rotationsPtr, batch.buffers.awakePtr, batch.buffers.colorsPtr);
   const positions = batch.positions;
   const rotations = batch.rotations;
@@ -222,7 +230,7 @@ export function syncBodiesBatch(world: PhysicsWorld, bodies: DemoBody[], batch: 
       const prevColorHex = colorCache[i] & 0xffffff;
       awakeCache[i] = nextAwake ? 1 : 0;
       colorCache[i] = colorHex;
-      if (prevAwake !== nextAwake || prevColorHex !== colorHex || body.type === 0) {
+      if (prevAwake !== nextAwake || prevColorHex !== colorHex || body.type === BodyType.Static) {
         const mat = body.mesh.material as THREE.MeshStandardMaterial;
         mat.color.setHex(colorHex);
       }

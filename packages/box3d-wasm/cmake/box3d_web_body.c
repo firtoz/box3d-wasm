@@ -326,6 +326,20 @@ B3W_EXPORT void b3wSetBodyBullet(int bodyHandle, int flag)
 	b3Body_SetBullet(slot->bodyId, flag != 0);
 }
 
+B3W_EXPORT void b3wAllowBodyFastRotation(int bodyHandle, int flag)
+{
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL) return;
+	b3Body_AllowFastRotation(slot->bodyId, flag != 0);
+}
+
+B3W_EXPORT int b3wIsBodyFastRotationAllowed(int bodyHandle)
+{
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL) return 0;
+	return b3Body_IsFastRotationAllowed(slot->bodyId) ? 1 : 0;
+}
+
 B3W_EXPORT void b3wEnableBodyContactRecycling(int bodyHandle, int flag)
 {
 	b3wBodySlot* slot = b3wGetBody(bodyHandle);

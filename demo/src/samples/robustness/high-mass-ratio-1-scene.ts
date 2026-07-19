@@ -1,4 +1,4 @@
-import type { BodyType, Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
+import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 export function buildHighMassRatio1DynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
@@ -15,7 +15,7 @@ export function buildHighMassRatio1DynamicBodies(world: PhysicsWorld, runtime: B
         const coeff = i - 0.5 * count;
         const yy = count === 1 ? y + 2 : y;
         const density = count === 1 ? (j + 1) * 100 : 1;
-        const body = world.createBody({ type: 2 as BodyType, position: [2 * coeff * extent + offset, yy, 0] });
+        const body = world.createBody({ type: BodyType.Dynamic, position: [2 * coeff * extent + offset, yy, 0] });
         runtime.createHullShape(body, half, { density });
         handles.push(body);
       }

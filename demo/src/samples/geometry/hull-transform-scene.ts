@@ -1,12 +1,12 @@
-import type { BodyType, Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
+import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 export function buildHullTransformDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
   const handles: number[] = [];
-  let body = world.createBody({ type: 2 as BodyType, position: [-1.5, 2, 0] });
+  let body = world.createBody({ type: BodyType.Dynamic, position: [-1.5, 2, 0] });
   runtime.createHullShape(body, [0.5, 0.5, 0.5], {});
   handles.push(body);
-  body = world.createBody({ type: 2 as BodyType, position: [1.5, 2, 0] });
+  body = world.createBody({ type: BodyType.Dynamic, position: [1.5, 2, 0] });
   runtime.createTransformedHullShape(body, [0.5, 0.25, 0.125], { position: [0.5, 0.3, 0], rotation: [0, 0, 0.382683, 0.92388] }, [1.5, 1, 0.5], {});
   handles.push(body);
   return handles;

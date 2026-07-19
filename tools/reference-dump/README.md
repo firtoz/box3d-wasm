@@ -43,6 +43,8 @@ bun run compare:sample -- sample="Sphere Stack"
 
 The compare script resolves sample arguments through the frontend `demo/src/samples/index.ts` list. You can pass the frontend ID, frontend display name, or upstream C++ sample name for dump-enabled samples.
 
+Extra local samples (not in upstream `box3d/samples/` anymore) can live beside this README and be listed in `CMakeLists.txt`. Currently: `sample_card_house_thick.cpp` for the removed Stacking / Card House Thick scene.
+
 When enabling dump support for a new port, follow the checklist in `AGENTS.md` (Dump-match readiness) and `docs/reference-dump-plan.md` (New sample dump checklist): gravity `-10`, float32-safe setup math, shared `dumpStep`/`dumpPostStep` helpers, and dual-maintained interaction schedules.
 
 Smoke test from the repository root:

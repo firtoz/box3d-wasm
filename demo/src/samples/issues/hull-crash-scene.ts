@@ -1,4 +1,4 @@
-import type { BodyType, Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
+import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const raw = [
@@ -21,7 +21,7 @@ function makePoints(): number[] {
 export function buildHullCrashDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
   const handles: number[] = [];
   const hullHandle = runtime.createHullFromPoints(makePoints());
-  const body = world.createBody({ type: 2 as BodyType, position: [0, 1.5, 0] });
+  const body = world.createBody({ type: BodyType.Dynamic, position: [0, 1.5, 0] });
   runtime.createShapeFromHull(body, hullHandle, {});
   runtime.destroyHull(hullHandle);
   handles.push(body);

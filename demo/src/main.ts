@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Stats from "stats.js";
-import { BodyType, Box3DRuntime, type BodyHandle, type JointHandle, type Quat, type Vec3 } from "box3d-wasm";
+import { BodyType, Box3DRuntime, type BodyHandle, type JointHandle, type PhysicsWorld, type Quat, type Vec3 } from "box3d-wasm";
 import { samples, type ControlSpec, type DemoBody, type DemoSampleInstance, type SolverParams } from "./samples";
 import { getWasmBaseUrl, getWasmVariant, getWasmVariantOptions, getWorkerCounts } from "./samples/shared";
 import "./style.css";
@@ -356,6 +356,7 @@ let selectedBody: DemoBody | null = null;
 let mouseDragBody: BodyHandle | 0 | -1 = 0;
 let mouseDragJoint: JointHandle | 0 = 0;
 let mouseDragDistance = 0;
+let mouseDragWorld: PhysicsWorld | null = null;
 let flyLook = false;
 let flyPointerId = -1;
 let flySpeed = 8;
@@ -831,7 +832,10 @@ function renderControls(specs: ControlSpec[]): void {
     controlsElement.appendChild(row);
   }
 
-  if (activeSample?.info || activeSample?.getInfo !== undefined) {
+  if (activeSample?.infoPanel !== undefined) {
+    controlsElement.appendChild(activeSample.infoPanel);
+    controlsInfoRow = null;
+  } else if (activeSample?.info || activeSample?.getInfo !== undefined) {
     const infoRow = document.createElement("div");
     infoRow.className = "info-text";
     infoRow.textContent = activeSample.info ?? activeSample.getInfo?.() ?? "";
@@ -903,19 +907,37 @@ function setPointerFromEvent(e: PointerEvent): void {
   const rect = canvas!.getBoundingClientRect();
   pointerNdc.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
   pointerNdc.y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+  activeSample?.remapPointerNdc?.(pointerNdc);
+}
+
+function withPickCamera<T>(fn: () => T): T {
+  const pickAspect = activeSample?.pickCameraAspect?.();
+  if (pickAspect === undefined) return fn();
+  const prevAspect = camera.aspect;
+  camera.aspect = pickAspect;
+  camera.updateProjectionMatrix();
+  try {
+    return fn();
+  } finally {
+    camera.aspect = prevAspect;
+    camera.updateProjectionMatrix();
+  }
 }
 
 function bodyFromPointer(e: PointerEvent): { body: DemoBody; point: THREE.Vector3 } | null {
   if (activeSample === null) return null;
   setPointerFromEvent(e);
-  raycaster.setFromCamera(pointerNdc, camera);
-  const origin = [raycaster.ray.origin.x, raycaster.ray.origin.y, raycaster.ray.origin.z] as [number, number, number];
-  const translation = [raycaster.ray.direction.x * 1000, raycaster.ray.direction.y * 1000, raycaster.ray.direction.z * 1000] as [number, number, number];
-  const hit = activeSample.world.rayCastClosest(origin, translation);
-  if (hit === null || hit.bodyHandle === 0) return null;
-  const body = activeSample.bodies.find((b) => b.handle === hit.bodyHandle);
-  if (body === undefined) return null;
-  return { body, point: new THREE.Vector3(hit.point[0], hit.point[1], hit.point[2]) };
+  return withPickCamera(() => {
+    raycaster.setFromCamera(pointerNdc, camera);
+    const origin = [raycaster.ray.origin.x, raycaster.ray.origin.y, raycaster.ray.origin.z] as [number, number, number];
+    const translation = [raycaster.ray.direction.x * 1000, raycaster.ray.direction.y * 1000, raycaster.ray.direction.z * 1000] as [number, number, number];
+    const world = activeSample!.pickWorld?.() ?? activeSample!.world;
+    const hit = world.rayCastClosest(origin, translation);
+    if (hit === null || hit.bodyHandle === 0) return null;
+    const body = activeSample!.bodies.find((b) => b.handle === hit.bodyHandle);
+    if (body === undefined) return null;
+    return { body, point: new THREE.Vector3(hit.point[0], hit.point[1], hit.point[2]) };
+  });
 }
 
 function setSelectedBody(body: DemoBody | null): void {
@@ -932,18 +954,22 @@ function setSelectedBody(body: DemoBody | null): void {
 
 function pointOnPickRay(e: PointerEvent, distance: number): THREE.Vector3 {
   setPointerFromEvent(e);
-  raycaster.setFromCamera(pointerNdc, camera);
-  return raycaster.ray.origin.clone().addScaledVector(raycaster.ray.direction, distance);
+  return withPickCamera(() => {
+    raycaster.setFromCamera(pointerNdc, camera);
+    return raycaster.ray.origin.clone().addScaledVector(raycaster.ray.direction, distance);
+  });
 }
 
 function startMouseDrag(e: PointerEvent): boolean {
   if (activeSample === null) return false;
   if (activeSample.startMouseDragRay !== undefined) {
     setPointerFromEvent(e);
-    raycaster.setFromCamera(pointerNdc, camera);
-    const origin = [raycaster.ray.origin.x, raycaster.ray.origin.y, raycaster.ray.origin.z] as [number, number, number];
-    const translation = [raycaster.ray.direction.x * 1000, raycaster.ray.direction.y * 1000, raycaster.ray.direction.z * 1000] as [number, number, number];
-    const started = activeSample.startMouseDragRay(origin, translation);
+    const started = withPickCamera(() => {
+      raycaster.setFromCamera(pointerNdc, camera);
+      const origin = [raycaster.ray.origin.x, raycaster.ray.origin.y, raycaster.ray.origin.z] as [number, number, number];
+      const translation = [raycaster.ray.direction.x * 1000, raycaster.ray.direction.y * 1000, raycaster.ray.direction.z * 1000] as [number, number, number];
+      return activeSample!.startMouseDragRay!(origin, translation);
+    });
     if (started) {
       mouseDragBody = -1;
       canvas!.setPointerCapture(e.pointerId);
@@ -951,15 +977,16 @@ function startMouseDrag(e: PointerEvent): boolean {
     return started;
   }
   const hit = bodyFromPointer(e);
-  if (hit === null || hit.body.type !== 2) return false;
+  if (hit === null || hit.body.type !== BodyType.Dynamic) return false;
   setSelectedBody(hit.body);
   mouseDragDistance = camera.position.distanceTo(hit.point);
-  mouseDragBody = activeSample.world.createBody({ type: BodyType.Kinematic, position: [hit.point.x, hit.point.y, hit.point.z], enableSleep: false });
-  const localBodyPoint = activeSample.world.getBodyLocalPoint(hit.body.handle, [hit.point.x, hit.point.y, hit.point.z]);
-  const massData = activeSample.world.getBodyMassData(hit.body.handle);
+  mouseDragWorld = activeSample.pickWorld?.() ?? activeSample.world;
+  mouseDragBody = mouseDragWorld.createBody({ type: BodyType.Kinematic, position: [hit.point.x, hit.point.y, hit.point.z], enableSleep: false });
+  const localBodyPoint = mouseDragWorld.getBodyLocalPoint(hit.body.handle, [hit.point.x, hit.point.y, hit.point.z]);
+  const massData = mouseDragWorld.getBodyMassData(hit.body.handle);
   const mg = massData.mass * GRAVITY_MAGNITUDE;
   const lever = massData.mass > 0 ? Math.sqrt(massData.inertiaTrace / (3 * massData.mass)) : 0;
-  mouseDragJoint = activeSample.world.createMotorJoint(mouseDragBody, hit.body.handle, {
+  mouseDragJoint = mouseDragWorld.createMotorJoint(mouseDragBody, hit.body.handle, {
     localFrameA: [0, 0, 0],
     localFrameB: localBodyPoint,
     linearHertz: 7.5,
@@ -967,7 +994,7 @@ function startMouseDrag(e: PointerEvent): boolean {
     maxSpringForce: MOUSE_FORCE_SCALE * mg,
     maxVelocityTorque: 0.5 * lever * mg,
   });
-  activeSample.world.setBodyAwake(hit.body.handle, true);
+  mouseDragWorld.setBodyAwake(hit.body.handle, true);
   canvas!.setPointerCapture(e.pointerId);
   return true;
 }
@@ -976,17 +1003,19 @@ function updateMouseDrag(e: PointerEvent): void {
   if (activeSample === null || mouseDragBody === 0) return;
   if (mouseDragBody === -1 && activeSample.updateMouseDragRay !== undefined) {
     setPointerFromEvent(e);
-    raycaster.setFromCamera(pointerNdc, camera);
-    activeSample.updateMouseDragRay(
-      [raycaster.ray.origin.x, raycaster.ray.origin.y, raycaster.ray.origin.z],
-      [raycaster.ray.direction.x * 1000, raycaster.ray.direction.y * 1000, raycaster.ray.direction.z * 1000],
-    );
+    withPickCamera(() => {
+      raycaster.setFromCamera(pointerNdc, camera);
+      activeSample!.updateMouseDragRay!(
+        [raycaster.ray.origin.x, raycaster.ray.origin.y, raycaster.ray.origin.z],
+        [raycaster.ray.direction.x * 1000, raycaster.ray.direction.y * 1000, raycaster.ray.direction.z * 1000],
+      );
+    });
     return;
   }
-  if (mouseDragBody < 0) return;
+  if (mouseDragBody < 0 || mouseDragWorld === null) return;
   const dragBody = mouseDragBody as BodyHandle;
   const p = pointOnPickRay(e, mouseDragDistance);
-  activeSample.world.setBodyTransform(dragBody, [p.x, p.y, p.z]);
+  mouseDragWorld.setBodyTransform(dragBody, [p.x, p.y, p.z]);
 }
 
 function stopMouseDrag(): void {
@@ -994,14 +1023,21 @@ function stopMouseDrag(): void {
   if (mouseDragBody === -1 && activeSample.stopMouseDrag !== undefined) {
     activeSample.stopMouseDrag();
     mouseDragBody = 0;
+    mouseDragWorld = null;
     return;
   }
-  if (mouseDragJoint !== 0) {
-    activeSample.world.destroyJoint(mouseDragJoint);
+  if (mouseDragWorld !== null) {
+    if (mouseDragJoint !== 0) {
+      mouseDragWorld.destroyJoint(mouseDragJoint);
+      mouseDragJoint = 0;
+    }
+    if (mouseDragBody > 0) {
+      mouseDragWorld.destroyBody(mouseDragBody as BodyHandle);
+      mouseDragBody = 0;
+    }
+    mouseDragWorld = null;
+  } else {
     mouseDragJoint = 0;
-  }
-  if (mouseDragBody > 0) {
-    activeSample.world.destroyBody(mouseDragBody as BodyHandle);
     mouseDragBody = 0;
   }
 }
@@ -1255,7 +1291,9 @@ function frame(time: number): void {
   updateFlyMovement(dt);
   orbit.update();
   const renderStart = collectTimings ? performance.now() : 0;
-  renderer.render(scene, camera);
+  if (activeSample?.render?.(renderer, camera) !== true) {
+    renderer.render(scene, camera);
+  }
   if (collectTimings) {
     timingRenderMs += performance.now() - renderStart;
     timingFrames++;

@@ -85,6 +85,7 @@ When adding an API binding:
 - [x] Set sleep threshold: `b3Body_SetSleepThreshold`
 - [x] Enable sleep: `b3Body_EnableSleep`
 - [x] Set bullet: `b3Body_SetBullet`
+- [x] Allow fast rotation: `b3Body_AllowFastRotation` / `b3Body_IsFastRotationAllowed`
 - [x] Enable contact recycling: `b3Body_EnableContactRecycling`
 - [x] Enable hit events: `b3Body_EnableHitEvents`
 - [x] Set motion locks: `b3Body_SetMotionLocks`
@@ -135,7 +136,7 @@ When adding an API binding:
 - [x] Create sphere shape: `b3CreateSphereShape` (creation-time `invokeContactCreation`; default true matches native)
 - [x] Create capsule shape: `b3CreateCapsuleShape`
 - [x] Create shape from existing hull: `b3CreateHullShape` (optional `explosionScale` via `createShapeFromHull`)
-- [x] Create compound shape: `b3CreateCompoundShape`
+- [x] Create baked compound shape: `b3CreateBakedCompoundShape` (`createCompoundShape`)
 - [x] Set density: `b3Shape_SetDensity`
 - [x] Set friction: `b3Shape_SetFriction`
 - [x] Set restitution: `b3Shape_SetRestitution`
@@ -192,7 +193,7 @@ When adding an API binding:
 - [x] Create compound from sphere entries: `createCompoundFromSpheres`
 - [x] Destroy compound: `b3DestroyCompound`
 - [x] Get compound tree height: internal/demo helper
-- [x] Create compound shape: `b3CreateCompoundShape`
+- [x] Create baked compound shape: `b3CreateBakedCompoundShape` (`createCompoundShape`)
 - [ ] Compound capsules in high-level TS wrapper
 - [ ] Compound meshes in high-level TS wrapper
 - [ ] General compound spec mirroring upstream `b3CompoundDef`

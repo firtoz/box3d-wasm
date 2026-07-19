@@ -1,4 +1,4 @@
-import type { BodyType, Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
+import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const f32 = Math.fround;
@@ -12,7 +12,7 @@ export function buildInclinedPlaneDynamicBodies(world: PhysicsWorld, runtime: Bo
   const handles: number[] = [];
   const q = runtime.makeQuatFromAxisAngle(B3_AXIS_X, INCLINED_ANGLE_F32);
 
-  const ramp = world.createBody({ type: 0 as BodyType, position: [0, 7.5, -5], rotation: q });
+  const ramp = world.createBody({ type: BodyType.Static, position: [0, 7.5, -5], rotation: q });
   runtime.createHullShape(ramp, [16, 0.5, 10], { friction: 1 });
   handles.push(ramp);
 
@@ -20,7 +20,7 @@ export function buildInclinedPlaneDynamicBodies(world: PhysicsWorld, runtime: Bo
     const iF32 = f32(i);
     const x = f32(-10 + f32(5 * iF32));
     const friction = f32(f32(f32(iF32 + 1) * f32(iF32 + 1)) * FRICTION_STEP_F32);
-    const body = world.createBody({ type: 2 as BodyType, position: [x, 15.75, -10.6], rotation: q });
+    const body = world.createBody({ type: BodyType.Dynamic, position: [x, 14.25, -10.6], rotation: q });
     runtime.createHullShape(body, [1, 1, 1], { friction });
     handles.push(body);
   }
@@ -33,10 +33,10 @@ export function inclinedPlaneGroundSize(): Vec3 {
 }
 
 export const inclinedPlaneBodies: RenderBody[] = [
-  { kind: "box", size: [32, 1, 20], position: [0, 7.5, -5], rotation: INCLINED_RAMP_Q, color: 0x94a3b8, type: 0 as BodyType },
+  { kind: "box", size: [32, 1, 20], position: [0, 7.5, -5], rotation: INCLINED_RAMP_Q, color: 0x94a3b8, type: BodyType.Static },
   ...Array.from({ length: 5 }, (_, i) => ({
     kind: "box" as const, size: [2, 2, 2] as [number, number, number],
-    position: [-10 + 5 * i, 15.75, -10.6] as [number, number, number],
+    position: [-10 + 5 * i, 14.25, -10.6] as [number, number, number],
     rotation: INCLINED_RAMP_Q,
     color: (0x60a5fa + i * 0x050505) as number,
   })),

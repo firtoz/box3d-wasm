@@ -1,4 +1,4 @@
-import type { BodyType, Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
+import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const FAR_PYRAMID_OFFSET = 10_000_000;
@@ -17,7 +17,7 @@ export function buildFarPyramidDynamicBodies(world: PhysicsWorld, runtime: Box3D
     const y = (2 * i + 1) * shift;
     for (let j = i; j < baseCount; j++) {
       const x = (i + 1) * shift + 2 * (j - i) * shift - h * baseCount + offset;
-      const body = world.createBody({ type: 2 as BodyType, position: [x, y, 0] });
+      const body = world.createBody({ type: BodyType.Dynamic, position: [x, y, 0] });
       runtime.createHullShape(body, half, { density: 100 });
       handles.push(body);
     }
@@ -33,7 +33,7 @@ export function farPyramidGroundSize(): Vec3 {
 export const farPyramidGroundPosition: Vec3 = [FAR_PYRAMID_OFFSET, -1, 0];
 
 export function buildFarPyramidGround(world: PhysicsWorld, runtime: Box3DRuntime): number {
-  const ground = world.createBody({ type: 0 as BodyType, position: farPyramidGroundPosition });
+  const ground = world.createBody({ type: BodyType.Static, position: farPyramidGroundPosition });
   runtime.createHullShape(ground, farPyramidGroundSize(), {});
   return ground;
 }

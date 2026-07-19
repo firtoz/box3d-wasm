@@ -423,6 +423,211 @@ canvas {
   color: #e5eefb;
 }
 
+/* ─── object asserts bench split viewports ─── */
+.assert-bench-split {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  pointer-events: none;
+}
+
+.assert-bench-lane-label {
+  padding: 52px 10px 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #f8fafc;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
+  border-left: 2px solid rgba(255, 255, 255, 0.25);
+  box-sizing: border-box;
+}
+
+.assert-bench-lane-label:first-child {
+  border-left: none;
+}
+
+/* ─── object asserts bench results panel ─── */
+.assert-bench-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.assert-bench-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.assert-bench-title {
+  color: #e2e8f0;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.assert-bench-sub,
+.assert-bench-hint,
+.assert-bench-foot {
+  color: #7a8ea8;
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.assert-bench-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.assert-bench-pill {
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #a7bedb;
+  font-size: 9px;
+  font-family: monospace;
+}
+
+.assert-bench-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.assert-bench-section {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.assert-bench-section-title {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.assert-bench-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto;
+  column-gap: 6px;
+  row-gap: 2px;
+}
+
+.assert-bench-label {
+  grid-column: 1;
+  color: #a7bedb;
+  font-size: 10px;
+}
+
+.assert-bench-rel {
+  grid-column: 2;
+  color: #64748b;
+  font-size: 9px;
+  font-family: monospace;
+  text-align: right;
+}
+
+.assert-bench-track {
+  grid-column: 1 / -1;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.assert-bench-bar {
+  height: 100%;
+  border-radius: 4px;
+  min-width: 4px;
+  transition: width 0.25s ease;
+}
+
+.assert-bench-value {
+  grid-column: 1 / -1;
+  font-family: monospace;
+  font-size: 10px;
+}
+
+.assert-bench-delta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.assert-bench-delta-label {
+  color: #a7bedb;
+  font-size: 10px;
+}
+
+.assert-bench-delta-value {
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.assert-bench-delta-value small {
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.assert-bench-panel .tone-good,
+.assert-bench-panel .tone-good .assert-bench-delta-value {
+  color: #4ade80;
+}
+.assert-bench-panel .assert-bench-bar.tone-good {
+  background: linear-gradient(90deg, #16a34a, #4ade80);
+}
+.assert-bench-panel .tone-ok,
+.assert-bench-panel .tone-ok .assert-bench-delta-value {
+  color: #fbbf24;
+}
+.assert-bench-panel .assert-bench-bar.tone-ok {
+  background: linear-gradient(90deg, #d97706, #fbbf24);
+}
+.assert-bench-panel .tone-bad,
+.assert-bench-panel .tone-bad .assert-bench-delta-value {
+  color: #f87171;
+}
+.assert-bench-panel .assert-bench-bar.tone-bad {
+  background: linear-gradient(90deg, #dc2626, #f87171);
+}
+.assert-bench-pill.tone-good {
+  background: rgba(74, 222, 128, 0.12);
+  color: #4ade80;
+}
+.assert-bench-pill.tone-ok {
+  background: rgba(251, 191, 36, 0.12);
+  color: #fbbf24;
+}
+.assert-bench-delta.tone-good {
+  background: rgba(74, 222, 128, 0.08);
+  border: 1px solid rgba(74, 222, 128, 0.2);
+}
+.assert-bench-delta.tone-ok {
+  background: rgba(251, 191, 36, 0.08);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+}
+.assert-bench-delta.tone-bad {
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.22);
+}
+
 /* ─── info text ─── */
 .info-text {
   margin-top: 2px;

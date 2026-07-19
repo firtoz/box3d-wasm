@@ -20,7 +20,8 @@
     "clean": "turbo run clean",
     "typecheck:scripts": "bunx tsc -p packages/box3d-wasm/scripts/tsconfig.json --noEmit",
     "typecheck:workspace": "bunx tsc -p packages/box3d-wasm/tsconfig.json --noEmit && bunx tsc -p demo/tsconfig.json --noEmit",
-    "bench:junkyard": "bun packages/box3d-wasm/scripts/bench-junkyard.ts"
+    "bench:junkyard": "bun packages/box3d-wasm/scripts/bench-junkyard.ts",
+    "bench:object-asserts": "bun packages/box3d-wasm/scripts/bench-object-asserts.ts"
   },
   "devDependencies": {
     "oxfmt": "0.57.0",

@@ -45,7 +45,7 @@ export function buildCardHouseDynamicBodies(world: PhysicsWorld, runtime: Box3DR
       position: def.position,
       rotation: def.angle === angle0 ? q0 : def.angle === angle1 ? q1 : q2,
     });
-    runtime.createHullShape(body, [cardThickness, cardHeight, cardDepth], { friction: 0.7 });
+    runtime.createHullShape(body, [cardThickness, cardHeight, cardDepth], { friction: 0.7, rollingResistance: 0.05 });
     handles.push(body);
   }
   return handles;

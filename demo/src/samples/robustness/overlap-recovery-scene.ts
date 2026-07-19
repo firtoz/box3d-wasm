@@ -1,4 +1,4 @@
-import type { BodyType, Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
+import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { f32 } from "../f32";
 
@@ -16,7 +16,7 @@ export function buildOverlapRecoveryDynamicBodies(world: PhysicsWorld, runtime: 
   for (let i = 0; i < baseCount; i++) {
     let x = f32(fraction * extent * f32(i - baseCount));
     for (let j = i; j < baseCount; j++) {
-      const body = world.createBody({ type: 2 as BodyType, position: [x, y, 0] });
+      const body = world.createBody({ type: BodyType.Dynamic, position: [x, y, 0] });
       runtime.createHullShape(body, half, { density: 1 });
       handles.push(body);
       x = f32(x + f32(2 * fraction * extent));

@@ -27,7 +27,7 @@ export const shapesInclinedPlaneSample: DemoSample = {
     bodies.push({ handle: planeBody, mesh: planeMesh, type: BodyType.Static });
 
     for (let i = 0; i < 5; i++) {
-      const p: [number, number, number] = [-10 + 5 * i, 15.75, -10.6];
+      const p: [number, number, number] = [-10 + 5 * i, 14.25, -10.6];
       const bodyHandle = world.createBody({ type: BodyType.Dynamic, position: p, isAwake: true });
       runtime.createHullShape(bodyHandle, [1, 1, 1], { friction: (i + 1) * (i + 1) * 0.04 });
       const mesh = new THREE.Mesh(

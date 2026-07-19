@@ -38,7 +38,11 @@ export function quatFromAxisAngle(axis: Vec3, radians: number): Quat {
 
 declare global { var BOX3D_POOL_SIZE: number | undefined; }
 
-export enum BodyType { Static = 0, Kinematic = 1, Dynamic = 2 }
+export enum BodyType {
+  Static = 0,
+  Kinematic = 1,
+  Dynamic = 2,
+}
 
 export interface WorldCapacity {
   staticShapeCount?: number;
@@ -269,6 +273,8 @@ type BodySetGravityScaleFn = (bodyHandle: number, scale: number) => void;
 type BodySetSleepThresholdFn = (bodyHandle: number, threshold: number) => void;
 type BodyEnableSleepFn = (bodyHandle: number, enableSleep: number) => void;
 type BodySetBulletFn = (bodyHandle: number, flag: number) => void;
+type BodyAllowFastRotationFn = (bodyHandle: number, flag: number) => void;
+type BodyIsFastRotationAllowedFn = (bodyHandle: number) => number;
 type BodyEnableContactRecyclingFn = (bodyHandle: number, flag: number) => void;
 type BodyEnableHitEventsFn = (bodyHandle: number, flag: number) => void;
 type BodySetMotionLocksFn = (bodyHandle: number, lockBodyX: number, lockBodyY: number, lockBodyRotationX: number, lockBodyRotationY: number, lockBodyRotationZ: number, lockLinearZ: number) => void;
@@ -512,6 +518,8 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly setBodySleepThresholdFn = this.wrapVoid<BodySetSleepThresholdFn>("b3wSetBodySleepThreshold", ["number", "number"]);
   private readonly enableBodySleepFn = this.wrapVoid<BodyEnableSleepFn>("b3wEnableBodySleep", ["number", "number"]);
   private readonly setBodyBulletFn = this.wrapVoid<BodySetBulletFn>("b3wSetBodyBullet", ["number", "number"]);
+  private readonly allowBodyFastRotationFn = this.wrapVoid<BodyAllowFastRotationFn>("b3wAllowBodyFastRotation", ["number", "number"]);
+  private readonly isBodyFastRotationAllowedFn = this.wrapNumber<BodyIsFastRotationAllowedFn>("b3wIsBodyFastRotationAllowed", ["number"]);
   private readonly enableBodyContactRecyclingFn = this.wrapVoid<BodyEnableContactRecyclingFn>("b3wEnableBodyContactRecycling", ["number", "number"]);
   private readonly enableBodyHitEventsFn = this.wrapVoid<BodyEnableHitEventsFn>("b3wEnableBodyHitEvents", ["number", "number"]);
   private readonly setBodyMotionLocksFn = this.wrapVoid<BodySetMotionLocksFn>("b3wSetBodyMotionLocks", ["number", "number", "number", "number", "number", "number", "number"]);
@@ -537,7 +545,6 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly inertiaPtr: number;
   private readonly slotCountsPtr: number;
   readonly limits: SlotLimits;
-  private readonly bodyBatchBuffers = new Map<number, BodyBatchBuffers>();
 
   constructor(module: CModule) {
     super(module);
@@ -586,10 +593,13 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     this.module._free(this.inertiaPtr);
   }
 
+  /**
+   * Allocate transform-batch scratch for one body list.
+   * Must not share buffers across lists: caching by capacity alone breaks multi-world
+   * sync (same count ⇒ last writer’s handles win, every mesh gets that world’s poses).
+   */
   allocBodyBatchBuffers(capacity: number): BodyBatchBuffers {
-    const cached = this.bodyBatchBuffers.get(capacity);
-    if (cached !== undefined) return cached;
-    const buffers = {
+    return {
       bodyHandlesPtr: this.module._malloc(capacity * 4),
       positionsPtr: this.module._malloc(capacity * 3 * 4),
       rotationsPtr: this.module._malloc(capacity * 4 * 4),
@@ -597,18 +607,14 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
       colorsPtr: this.module._malloc(capacity * 4),
       capacity,
     };
-    this.bodyBatchBuffers.set(capacity, buffers);
-    return buffers;
   }
 
   freeBodyBatchBuffers(buffers: BodyBatchBuffers): void {
-    if (this.bodyBatchBuffers.get(buffers.capacity) !== buffers) return;
     this.module._free(buffers.bodyHandlesPtr);
     this.module._free(buffers.positionsPtr);
     this.module._free(buffers.rotationsPtr);
     this.module._free(buffers.awakePtr);
     this.module._free(buffers.colorsPtr);
-    this.bodyBatchBuffers.delete(buffers.capacity);
   }
 
   private readPointInto(out: Vec3): Vec3 {
@@ -640,7 +646,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     if (def.sleepThreshold !== undefined) this.setBodySleepThreshold(bodyHandle, def.sleepThreshold);
     if (def.isBullet !== undefined) this.setBodyBullet(bodyHandle, def.isBullet);
     if (def.isEnabled !== undefined && !def.isEnabled) this.setBodyType(bodyHandle, BodyType.Static); // approximate
-    if (def.allowFastRotation !== undefined) {} // not exposed in bindings
+    if (def.allowFastRotation !== undefined) this.allowBodyFastRotation(bodyHandle, def.allowFastRotation);
     if (def.enableSleep !== undefined) this.enableBodySleep(bodyHandle, def.enableSleep);
     if (def.isAwake !== undefined) this.setBodyAwake(bodyHandle, def.isAwake);
     if (def.enableContactRecycling !== undefined) this.enableBodyContactRecycling(bodyHandle, def.enableContactRecycling);
@@ -1017,6 +1023,8 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   setBodySleepThreshold(bodyHandle: BodyHandle, threshold: number): void { this.setBodySleepThresholdFn(bodyHandle, threshold); }
   enableBodySleep(bodyHandle: BodyHandle, enable: boolean): void { this.enableBodySleepFn(bodyHandle, enable ? 1 : 0); }
   setBodyBullet(bodyHandle: BodyHandle, flag: boolean): void { this.setBodyBulletFn(bodyHandle, flag ? 1 : 0); }
+  allowBodyFastRotation(bodyHandle: BodyHandle, flag: boolean): void { this.allowBodyFastRotationFn(bodyHandle, flag ? 1 : 0); }
+  isBodyFastRotationAllowed(bodyHandle: BodyHandle): boolean { return this.isBodyFastRotationAllowedFn(bodyHandle) !== 0; }
   enableBodyContactRecycling(bodyHandle: BodyHandle, flag: boolean): void { this.enableBodyContactRecyclingFn(bodyHandle, flag ? 1 : 0); }
   enableBodyHitEvents(bodyHandle: BodyHandle, flag: boolean): void { this.enableBodyHitEventsFn(bodyHandle, flag ? 1 : 0); }
   setBodyMotionLocks(bodyHandle: BodyHandle, locks: { lockX?: boolean; lockY?: boolean; lockRotationX?: boolean; lockRotationY?: boolean; lockRotationZ?: boolean; lockLinearZ?: boolean } = {}): void { this.setBodyMotionLocksFn(bodyHandle, locks.lockX ? 1 : 0, locks.lockY ? 1 : 0, locks.lockLinearZ ? 1 : 0, locks.lockRotationX ? 1 : 0, locks.lockRotationY ? 1 : 0, locks.lockRotationZ ? 1 : 0); }

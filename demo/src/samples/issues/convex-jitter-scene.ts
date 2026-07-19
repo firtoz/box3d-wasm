@@ -1,4 +1,4 @@
-import type { Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
+import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 function scalePoints(points: number[][], s: number): number[] {
@@ -36,7 +36,7 @@ export function buildConvexJitterDynamicBodies(world: PhysicsWorld, runtime: Box
     const b: [number, number, number] = [-459.292877, 217.398331, 1.00115335];
     const hull = runtime.createHullFromPoints(scalePoints(raw, s));
     const body = world.createBody({
-      type: 0 as const,
+      type: BodyType.Static,
       position: [s * b[0], s * b[2] + 2, s * b[1]],
       rotation: [0, -0.707106769, 0, 0.707106769],
     });
@@ -70,7 +70,7 @@ export function buildConvexJitterDynamicBodies(world: PhysicsWorld, runtime: Box
     const b: [number, number, number] = [-402.321838, 157.310364, 16.816925];
     const hull = runtime.createHullFromPoints(scalePoints(raw, s));
     const body = world.createBody({
-      type: 2 as const,
+      type: BodyType.Dynamic,
       position: [s * b[0], s * b[2] + 2, s * b[1]],
       rotation: [0, -0.00152086187, 0, 0.999998868],
     });

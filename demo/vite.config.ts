@@ -92,6 +92,8 @@ export default defineConfig(async () => {
   define: {
     __BOX3D_DEMO_WASM_VARIANT__: JSON.stringify(defaultWasmVariant),
     __BOX3D_DEMO_WASM_VARIANTS__: JSON.stringify(builtVariants),
+    // Strip objects-API dispose asserts when BOX3D_OBJECT_ASSERTS=0 (default: enabled).
+    __BOX3D_OBJECT_ASSERTS__: JSON.stringify(process.env.BOX3D_OBJECT_ASSERTS !== "0"),
   },
   plugins: [wasmVersionPlugin()],
 };

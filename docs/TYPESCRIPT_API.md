@@ -169,6 +169,21 @@ runtime.dispose();
 Prefer the primitive API for heavy scenes, hot loops, workers, and batched transform reads. The object API is for ergonomics, not peak throughput.
 Object methods accept object refs, not raw handles; if you need to cross from the primitive layer into the object layer, use `objectWorld.body(handle)` explicitly.
 
+Disposed-object checks (`assertActive`) are authored as bare class methods, then wrapped once at module load when asserts are compiled in (see `object-assert-guards.ts` + method name lists in `objects.ts`).
+
+- **Dev (default):** guards installed → full `assertActive` on listed methods.
+- **Prod squeeze:** `setObjectAssertGuardsEnabled(false)` restores bare prototypes (no assert call), or compile-strip with `__BOX3D_OBJECT_ASSERTS__=false` / demo `BOX3D_OBJECT_ASSERTS=0` so guards never install.
+- There is **no** runtime early-out flag — that path cost almost as much as asserts-on.
+- Check with `areObjectAssertsCompiledIn()` / `areObjectAssertGuardsInstalled()`.
+
+Microbench A/B/C (CLI + demo **Extra / Object Asserts Bench**): raw handles · objects bare · asserts on.
+
+```sh
+bun run bench:object-asserts
+# strip in the demo build:
+BOX3D_OBJECT_ASSERTS=0 bun run demo   # or whatever starts Vite
+```
+
 ## Deterministic Math Helpers
 
 Most applications can use normal JavaScript or Three.js math helpers. For C++/WASM dump parity or deterministic fixtures, shared helpers such as `B3_PI`, `B3_DEG_TO_RAD`, `B3_AXIS_X/Y/Z`, `quatFromAxisAngle`, `runtime.makeQuatFromAxisAngle`, `runtime.b3wSin`, `runtime.b3wCos`, `runtime.randomVec3`, `runtime.lerpVec3`, and `runtime.getLengthAndNormalize` make sample code clearer and keep common constants in one place. When upstream C++ samples use `cosf`/`sinf` from `<math.h>` (rather than Box3D's Bhāskara I approximation), use `runtime.b3wCosf`/`runtime.b3wSinf` instead.

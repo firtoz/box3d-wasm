@@ -1,4 +1,4 @@
-import type { BodyType, Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
+import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const f32 = Math.fround;
@@ -21,7 +21,7 @@ export function buildTinyPyramidDynamicBodies(world: PhysicsWorld, runtime: Box3
       // Each operation independently rounded to float32 via f32()
       const t2 = f32(2 * f32(j - i) * EXTENT_F32);
       const x = f32(f32(t1 + t2) - BASE_COUNT_EXTENT_F32);
-      const body = world.createBody({ type: 2 as BodyType, position: [x, y, 0] });
+      const body = world.createBody({ type: BodyType.Dynamic, position: [x, y, 0] });
       runtime.createHullShape(body, half, {});
       handles.push(body);
     }

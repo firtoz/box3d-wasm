@@ -199,7 +199,7 @@ B3W_EXPORT int b3wGetShapeBodyHandle(int shapeHandle)
 	if (shapeId == NULL) return 0;
 	b3BodyId bodyId = b3Shape_GetBody(*shapeId);
 	if (b3Body_IsValid(bodyId) == false) return 0;
-	return bodyId.index1;
+	return b3wFindBodyHandle(bodyId);
 }
 
 B3W_EXPORT int b3wGetBodyShapeCount(int bodyHandle)

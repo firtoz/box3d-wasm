@@ -1,4 +1,4 @@
-import { type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { Box3DRng } from "../box3d-rng";
 
@@ -40,7 +40,7 @@ export function compoundSpheresGroundSize(): Vec3 {
 }
 
 export function createCompoundSpheresBodies(): RenderBody[] {
-  return [{ kind: "compound", position: [0, 0, 0], type: 0, parts: createSphereDefs().map((def) => ({ kind: "sphere", radius: def.radius, position: def.center, color: 0x38bdf8 })) as [any, ...any[]] }];
+  return [{ kind: "compound", position: [0, 0, 0], type: BodyType.Static, parts: createSphereDefs().map((def) => ({ kind: "sphere", radius: def.radius, position: def.center, color: 0x38bdf8 })) as [any, ...any[]] }];
 }
 
 export const compoundSpheresCamera: RenderSpec["camera"] = { position: [45, 30, 45], target: [0, 0, 0] };

@@ -1,4 +1,4 @@
-import type { BodyType, Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
+import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 function mulberry32(a: number): () => number {
@@ -21,7 +21,7 @@ export function buildHullReductionDynamicBodies(world: PhysicsWorld, runtime: Bo
     points.push(Math.sin(phi) * Math.cos(theta), Math.sin(phi) * Math.sin(theta), Math.cos(phi));
   }
   const hullHandle = runtime.createHullFromPoints(points);
-  const body = world.createBody({ type: 2 as BodyType, position: [0, 1, 0] });
+  const body = world.createBody({ type: BodyType.Dynamic, position: [0, 1, 0] });
   runtime.createShapeFromHull(body, hullHandle, {});
   runtime.destroyHull(hullHandle);
   handles.push(body);

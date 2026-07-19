@@ -204,7 +204,15 @@ B3W_EXPORT void b3wRayCastClosest(int worldHandle, float originX, float originY,
 	filter.maskBits = (uint64_t)maskBits;
 	b3RayResult result = b3World_CastRayClosest(slot->worldId, (b3Pos){ originX, originY, originZ }, (b3Vec3){ translationX, translationY, translationZ }, filter);
 	if (b3Shape_IsValid(result.shapeId) == false) return;
-	if (outShapeHandle != NULL) *outShapeHandle = result.shapeId.index1;
+	if (outShapeHandle != NULL)
+	{
+		int handle = b3wFindShapeHandle(result.shapeId);
+		if (handle == 0)
+		{
+			handle = b3wAllocShapeSlot(worldHandle, result.shapeId);
+		}
+		*outShapeHandle = handle;
+	}
 	if (outPoint != NULL)
 	{
 		outPoint[0] = result.point.x;

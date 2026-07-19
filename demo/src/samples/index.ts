@@ -88,6 +88,7 @@ import { rayCurtainSample } from "./collision/ray-curtain";
 import { junkyardSample } from "./benchmark/junkyard";
 import { fallingTreesSample } from "./benchmark/falling-trees";
 import { largeWorldSample } from "./benchmark/large-world";
+import { objectAssertsBenchSample } from "./object-asserts-bench";
 export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
 
 export const samples = [
@@ -182,4 +183,5 @@ export const samples = [
   junkyardSample,
   fallingTreesSample,
   largeWorldSample,
+  objectAssertsBenchSample,
 ];

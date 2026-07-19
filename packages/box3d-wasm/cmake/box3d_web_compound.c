@@ -105,6 +105,6 @@ B3W_EXPORT int b3wCreateCompoundShape(int bodyHandle, int compoundHandle, float 
 	if (body == NULL || compound == NULL) return 0;
 	b3ShapeDef shapeDef = b3DefaultShapeDef();
 	shapeDef.density = density;
-	b3ShapeId shapeId = b3CreateCompoundShape(body->bodyId, &shapeDef, compound->compound);
+	b3ShapeId shapeId = b3CreateBakedCompoundShape(body->bodyId, &shapeDef, compound->compound);
 	return b3wAllocShapeSlot(body->worldHandle, shapeId);
 }
