@@ -18,13 +18,13 @@ Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short
 
 **Before adding or recommending a queue item:** open the upstream C++ sample class. Prefer samples that create bodies in `m_worldId` and can dump-compare. Do **not** treat Manifold / pure geometry editors / collide-debug tools as generic-host warm-ups — they need pairwise collide bindings and a custom host, and usually have no dumpable bodies.
 
-1. **Stacking / Edge Crossing** — thin boxes at edge angles; dump-ready, all APIs exist.
-2. **Issues / Restitution Overshoot** — single bouncing box + restitution=1; dump-ready regression scene.
-3. **Bodies / Gyroscopic Precession** — hull tops + `allowFastRotation` (now wrapped); dump-ready spinning tops.
-4. **Benchmark / Chains** — capsule chains + `createWaveMesh` ground + wind (`createWaveMesh` now wrapped).
-5. **Mesh / Box** — `createBoxMesh` now wrapped; mirror Big Box / Grid patterns.
-6. **Issues / Slide Twist Off Center Shape** — needs `b3MakeOffsetBoxHull` wrap (`🚧`), then dump-ready.
-7. **Ragdoll / Pose** — needs pose-control bindings (`🚧`).
+1. **Bodies / Gyroscopic Precession** — hull tops + `allowFastRotation` (now wrapped); dump-ready spinning tops.
+2. **Benchmark / Chains** — capsule chains + `createWaveMesh` ground + wind (`createWaveMesh` now wrapped).
+3. **Mesh / Box** — `createBoxMesh` now wrapped; mirror Big Box / Grid patterns.
+4. **Mesh / Reflection** — box/grid mesh with negative scale (API exists via `setMesh`).
+5. **Continuous / Needle Mesh** or other remaining mesh CCD samples — after Box.
+6. **Ragdoll / Pose** — needs pose-control bindings (`🚧`).
+7. **Determinism / Wave Pile** — shared determinism scenario; APIs mostly exist.
 
 Defer for later sessions: **Joints / Driving** (heightfield `🚧`), **Manifold** (pairwise `b3Collide*` helpers `🚧`), **Long Ray Cast** (wave mesh exists; heightfield still `🚧`), events (`🚧` callbacks), character movers, and most remaining `🧩` mesh samples.
 
@@ -138,8 +138,8 @@ Defer for later sessions: **Joints / Driving** (heightfield `🚧`), **Manifold*
 | **Capsule Mesh** | [ ] | Capsule + mesh collision | 🧩 |
 | **s&box Ghost Collisions** | [ ] | Large custom hull / mesh regression | 🧩 Large vertex cloud from upstream issue report. |
 | **GMod Wheel Stack** | [ ] | Multi-piece wheel hulls + `SetContactTuning` | 🔧 `setContactTuning` exists; wheel uses large hardcoded hull vertex tables (heavy scene file). |
-| **Restitution Overshoot** | [ ] | Restitution=1 drop box | 🔧 Static floor + dynamic box; checks bounce does not exceed drop height. |
-| **Slide Twist Off Center Shape** | [ ] | Offset hull + sliding | 🚧 Needs `b3MakeOffsetBoxHull` wrap; then dump-ready. |
+| **Restitution Overshoot** | [x] | Restitution=1 drop box | 🔧 Custom small floor (no AddGroundBox) + dynamic box; bounce HUD is display-only. C++/WASM dump parity verified. |
+| **Slide Twist Off Center Shape** | [x] | Offset hull + sliding | 🔧 Uses `createOffsetHullShape` (`b3MakeOffsetBoxHull`). C++/WASM dump parity verified. |
 
 ## Joints (`sample_joint.cpp`)
 
@@ -246,7 +246,7 @@ These are **not** physics-world body scenes. Upstream samples inherit a Manifold
 | **Arch** | [x] | `b3CreateHull` from custom points, per-body hulls | 🔧 All exist. Custom hull render matches the physics arch. C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Double Domino** | [x] | Domino row with impulse | 🔧 Simple. Initial impulse applied at creation matches the C++ sample. C++/WASM dump parity verified with the default 5-second comparison window. |
 | **Pyramid2D** | [x] | 2D pyramid stacking | Implemented; C++/WASM dump parity verified with the default 5-second-or-sleep window. |
-| **Edge Crossing** | [ ] | Thin boxes crossing at edge angles | 🔧 Three rows of base+falling thin hulls; dump-ready. |
+| **Edge Crossing** | [x] | Thin boxes crossing at edge angles | 🔧 Three rows of base+falling thin hulls; float32 angle/`Random`-free setup. C++/WASM dump parity verified. |
 
 ## Tree (`sample_tree.cpp`)
 

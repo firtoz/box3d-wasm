@@ -261,6 +261,10 @@ export class BodyRef {
     return new ShapeRef(this.world, this.world.raw.createTransformedHullShape(this.handle, halfWidths, transform, scale, def));
   }
 
+  createOffsetHullShape(halfWidths: Vec3, offset: Vec3, def: ShapeDef = {}): ShapeRef {
+    return new ShapeRef(this.world, this.world.raw.createOffsetHullShape(this.handle, halfWidths, offset, def));
+  }
+
   createShapeFromHull(hull: HullHandle | HullRef, def: ShapeDef = {}): ShapeRef {
     const handle = hull instanceof HullRef ? hull.handle : hull;
     return new ShapeRef(this.world, { bodyHandle: this.handle, shapeHandle: this.world.raw.createShapeFromHull(this.handle, handle, def) });
@@ -680,6 +684,7 @@ const BODY_REF_ASSERTED_METHODS = [
   "createSphereShape",
   "createCapsuleShape",
   "createTransformedHullShape",
+  "createOffsetHullShape",
   "createShapeFromHull",
   "createCompoundShape",
   "createMeshShape",

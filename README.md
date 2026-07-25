@@ -59,7 +59,7 @@ bun run dev
 - Bun 1.2.0
 - A C/C++ toolchain
 - CMake
-- Emscripten
+- Emscripten (**prefer 6.0.2**). System packages like Manjaro/Arch `6.0.3` currently ICE compiling Box3D `shape.c` with `-msimd128`. For this repo, install a local pin with `bun run setup:emsdk` (downloads into gitignored `.emsdk/`; WASM builds prefer it automatically). Override with `BOX3D_EMSDK_DIR` / `BOX3D_EMSDK_VERSION`, or set `BOX3D_DISABLE_SIMD=1` as a last-resort workaround.
 - Git submodules initialized with `git submodule update --init --recursive`
 
 ## Notes

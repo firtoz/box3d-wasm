@@ -1,4 +1,4 @@
-import { mkdir, readFile } from "node:fs/promises";
+import { access, mkdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { getWasmBuildMode, variantsToBuild, type WasmBuildVariant } from "./wasm-variant";
@@ -9,13 +9,44 @@ const packageRoot = join(repoRoot, "packages", "box3d-wasm");
 /** Clean submodule is archived + patched here by prepare-box3d.ts (keep box3d/ clean). */
 const box3dSourceDir = join(packageRoot, ".box3d-patched");
 const generatedDir = join(repoRoot, "demo", "public", "wasm");
-const emcmakeCommand =
-  process.platform === "win32"
-    ? "emcmake"
-    : "source /etc/profile.d/emscripten.sh 2>/dev/null || true; emcmake";
+const emsdkDir = process.env.BOX3D_EMSDK_DIR?.trim() || join(repoRoot, ".emsdk");
+const emsdkEnvSh = join(emsdkDir, "emsdk_env.sh");
 
 const buildMode = getWasmBuildMode();
 const variants = variantsToBuild(buildMode);
+
+const disableSimd =
+  process.env.BOX3D_DISABLE_SIMD === "1" ||
+  process.env.BOX3D_DISABLE_SIMD === "ON" ||
+  process.env.BOX3D_DISABLE_SIMD === "true";
+if (disableSimd) {
+  console.warn(
+    "[box3d-wasm] BOX3D_DISABLE_SIMD set — building without -msimd128 (workaround for emscripten 6.0.3 clang ICE on shape.c).",
+  );
+}
+
+async function pathExists(path: string): Promise<boolean> {
+  try {
+    await access(path);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Prefer repo-local emsdk (tools/emsdk-version) over the system package. */
+async function resolveEmcmakePrefix(): Promise<string> {
+  if (process.platform === "win32") {
+    return "";
+  }
+  if (await pathExists(emsdkEnvSh)) {
+    console.log(`[box3d-wasm] using repo-local emsdk: ${emsdkDir}`);
+    // Quote path; silence emsdk_env chatter but keep failures visible via set -e in bash -lc.
+    return `source "${emsdkEnvSh}" >/dev/null && `;
+  }
+  console.log("[box3d-wasm] repo-local .emsdk not found; using system emcmake (run: bun run setup:emsdk)");
+  return "source /etc/profile.d/emscripten.sh 2>/dev/null || true; ";
+}
 
 console.log("[box3d-wasm] preparing upstream engine checkout");
 console.log(`[box3d-wasm] script: ${scriptDir}`);
@@ -86,19 +117,19 @@ async function verifyWasmGlue(outputDir: string, label: WasmBuildVariant): Promi
   }
 }
 
-async function buildVariant(spec: VariantSpec): Promise<void> {
+async function buildVariant(spec: VariantSpec, emcmakePrefix: string): Promise<void> {
   console.log(`[box3d-wasm] building ${spec.label} wasm target`);
   await mkdir(spec.outputDir, { recursive: true });
   await Bun.write(join(spec.outputDir, ".gitkeep"), "");
   const cmakeArgs = [
-    `${emcmakeCommand} cmake -S ${join(packageRoot, "cmake")} -B ${spec.buildDir}`,
+    `${emcmakePrefix}emcmake cmake -S ${join(packageRoot, "cmake")} -B ${spec.buildDir}`,
     `-DBOX3D_SOURCE_DIR=${box3dSourceDir}`,
     "-DBOX3D_SAMPLES=OFF",
     "-DBOX3D_BENCHMARKS=OFF",
     "-DBOX3D_DOCS=OFF",
     "-DBOX3D_UNIT_TESTS=OFF",
     "-DBOX3D_VALIDATE=OFF",
-    "-DBOX3D_DISABLE_SIMD=OFF",
+    "-DBOX3D_DISABLE_SIMD=" + (disableSimd ? "ON" : "OFF"),
     `-DBOX3D_WASM_PROFILE_NAMES=${spec.options.profileNames ? "ON" : "OFF"}`,
     `-DBOX3D_WASM_ALLOW_MEMORY_GROWTH=${spec.options.allowMemoryGrowth ? "ON" : "OFF"}`,
     `-DBOX3D_WASM_INITIAL_MEMORY=${spec.options.initialMemory}`,
@@ -109,13 +140,15 @@ async function buildVariant(spec: VariantSpec): Promise<void> {
   ].join(" ");
   await run(
     ["bash", "-lc", cmakeArgs],
-    "Install Emscripten and ensure emcmake is available.",
+    "Install Emscripten (bun run setup:emsdk) and ensure emcmake is available.",
   );
   await verifyWasmGlue(spec.outputDir, spec.label);
 }
 
 await run(["cmake", "--version"], "Install CMake first.");
 await run(["git", "--version"], "Install Git first.");
+
+const emcmakePrefix = await resolveEmcmakePrefix();
 
 await mkdir(generatedDir, { recursive: true });
 await Bun.write(join(generatedDir, ".gitkeep"), "");
@@ -125,7 +158,7 @@ await run(["bun", join(scriptDir, "prepare-box3d.ts")], "Failed to prepare the u
 console.log("[box3d-wasm] configuring and building wasm target");
 for (const label of variants) {
   const spec = VARIANT_SPECS[label];
-  await buildVariant({ label, ...spec });
+  await buildVariant({ label, ...spec }, emcmakePrefix);
 }
 await Bun.write(join(generatedDir, ".build-stamp"), `${Date.now()}\n`);
 await Bun.write(

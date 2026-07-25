@@ -37,6 +37,9 @@ import { hullCrashSample } from "./issues/hull-crash";
 import { multiplePrismaticSample } from "./issues/multiple-prismatic";
 import { crashSample } from "./issues/crash";
 import { convexJitterSample } from "./issues/convex-jitter";
+import { restitutionOvershootSample } from "./issues/restitution-overshoot";
+import { slideTwistOffCenterSample } from "./issues/slide-twist-off-center";
+import { edgeCrossingSample } from "./edge-crossing";
 import { highMassRatio1Sample } from "./robustness/high-mass-ratio-1";
 import { tinyPyramidSample } from "./robustness/tiny-pyramid";
 import { overlapRecoverySample } from "./robustness/overlap-recovery";
@@ -108,6 +111,8 @@ export const samples = [
   multiplePrismaticSample,
   crashSample,
   convexJitterSample,
+  restitutionOvershootSample,
+  slideTwistOffCenterSample,
   highMassRatio1Sample,
   tinyPyramidSample,
   overlapRecoverySample,
@@ -157,6 +162,7 @@ export const samples = [
   cardHouseThickSample,
   jengaStackSample,
   pyramid2dSample,
+  edgeCrossingSample,
   capsuleStackSample,
   createDominoesSample(2),
   createWasherSample(),

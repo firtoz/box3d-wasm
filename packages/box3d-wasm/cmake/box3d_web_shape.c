@@ -83,6 +83,23 @@ B3W_EXPORT int b3wCreateTransformedHullShape(int bodyHandle, float density, floa
 	return b3wAllocShapeSlot(slot->worldHandle, shapeId);
 }
 
+/// Match upstream `b3MakeOffsetBoxHull` + `b3CreateHullShape` (offset baked into hull verts).
+B3W_EXPORT int b3wCreateOffsetHullShape(int bodyHandle, float density, float friction, float restitution, float rollingResistance,
+							 int updateBodyMass, float hx, float hy, float hz, float ox, float oy, float oz)
+{
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL) return 0;
+	b3ShapeDef shapeDef = b3DefaultShapeDef();
+	shapeDef.density = density;
+	shapeDef.baseMaterial.friction = friction;
+	shapeDef.baseMaterial.restitution = restitution;
+	shapeDef.baseMaterial.rollingResistance = rollingResistance;
+	shapeDef.updateBodyMass = updateBodyMass != 0;
+	b3BoxHull hull = b3MakeOffsetBoxHull(hx, hy, hz, (b3Vec3){ ox, oy, oz });
+	b3ShapeId shapeId = b3CreateHullShape(slot->bodyId, &shapeDef, &hull.base);
+	return b3wAllocShapeSlot(slot->worldHandle, shapeId);
+}
+
 B3W_EXPORT int b3wCreateSphereShape(int bodyHandle, float density, float friction, float restitution, float rollingResistance, float px, float py, float pz,
 					    float radius, int invokeContactCreation)
 {

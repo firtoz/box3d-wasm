@@ -117,10 +117,10 @@ Key details:
 - **Binding method**: Manual C bridge functions with `b3w*` prefixes, wrapped by TypeScript classes (`Box3DRuntime`, `PhysicsWorld`)
 - **API style**: Mid-level TypeScript API using named enums, branded handles, typed option objects, and tuple vectors, plus an opt-in object wrapper layer for `BodyRef`/`ShapeRef` ergonomics
 - **Renderer**: Included Three.js browser demo
-- **Samples**: 57 C++ sample scenes currently ported to TypeScript, with a tracking document for the remaining ~136 upstream samples
+- **Samples**: 90 C++ sample scenes currently ported to TypeScript, with a tracking document for the remaining ~136 upstream samples
 - **Build flavours**: Release (fixed 256MB heap), growable release (64MB initial heap with `ALLOW_MEMORY_GROWTH=1`), and profile builds
 - **Threading model**: Emscripten pthreads are enabled in the WASM build (`USE_PTHREADS=1`), with Box3D worker-count controls exposed; the demo also runs simulation work through browser workers around that runtime
-- **WASM size**: **~240KB gzipped (561KB raw)** for the release binary, built with `-O3`, pthreads, and WASM SIMD enabled
+- **WASM size**: **~240KB gzipped (562KB raw)** for the release binary, built with `-O3`, pthreads, and WASM SIMD enabled
 - **Memory**: Default demo build uses a fixed 256MB heap; games can load the growable variant via `Box3DRuntime.load({ variant: "growable" })`. Bridge slot pools use O(1) freelists; TypeScript exposes `runtime.limits`, `runtime.getSlotUsage()`, and throws `SlotExhaustedError` when a pool fills. World/body destroy releases shape slots so restarting large scenes no longer leaks handles.
 - **Distinct feature**: Includes a custom human/ragdoll helper API (`createHuman`, bone access, human velocity/joint tuning) that is not exposed by the other JS library bindings in this comparison
 
@@ -172,7 +172,7 @@ He framed the PR primarily as a **showcase**: a browser-hosted version of the na
 | C++ compilation | Box3D library only | Box3D library only | Box3D library only | Entire app: Box3D + sokol + imgui + samples |
 | Binding method | Embind 1:1 C API mirror + JS facade | Embind class wrapper | Manual C bridge + TypeScript wrapper | No reusable JS binding layer |
 | JS API style | Low-level C API mirror | Fluent object API | Mid-level TypeScript branded handles plus opt-in object refs | N/A; runs native app |
-| Samples/examples | 28+ API-focused examples | Custom Three.js demo scenes | 52/136 C++ samples ported | All ~136 native samples |
+| Samples/examples | 28+ API-focused examples | Custom Three.js demo scenes | 90/136 C++ samples ported | All ~136 native samples |
 | Renderer | Per-example custom rendering | Three.js in separate demo repo | Three.js included in repo | Native sokol/WebGPU |
 | UI | Example-specific UI | Demo-specific UI | HTML/CSS/Three.js demo UI | imgui from native testbed |
 | npm package | `box3d.js` | `box3d-wasm` | Not published yet | No |
@@ -181,7 +181,7 @@ He framed the PR primarily as a **showcase**: a browser-hosted version of the na
 | Events | Zero-GC typed-array buffers for events and contacts | JS arrays from embind (`getContactEvents`, `getSensorEvents`, `getBodyEvents`) | Event toggles exist; event buffers/callbacks not exposed | Native app internals |
 | Queries | Raycast, shapecast, overlap, mover queries | Raycast closest only | Raycast closest only | Native app internals |
 | Advanced geometry | Meshes, heightfields, compounds, generators, GJK | Not exposed | Compounds plus basic mesh construction/mesh shape binding; no heightfield yet | Native app internals |
-| WASM size | ~309KB gzipped (806KB raw) | ~211KB gzipped (521KB raw) standard; ~218KB gzipped (533KB raw) deluxe | ~240KB gzipped (561KB raw) | Large app binary, fixed 512MB heap |
+| WASM size | ~309KB gzipped (806KB raw) | ~211KB gzipped (521KB raw) standard; ~218KB gzipped (533KB raw) deluxe | ~240KB gzipped (562KB raw) | Large app binary, fixed 512MB heap |
 | Best fit | Comprehensive low-level Box3D API for JS | Ergonomic JS physics library | Growing TS-first wrapper + sample-porting playground | Browser-hosted native testbed/showcase |
 
 <a id="api-coverage"></a>
