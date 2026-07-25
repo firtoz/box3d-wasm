@@ -26,6 +26,7 @@ import { fixedRotationSample } from "./bodies/fixed-rotation";
 import { lockMixingSample } from "./bodies/lock-mixing";
 import { kinematicSample } from "./bodies/kinematic";
 import { gyroscopicTorqueSample } from "./bodies/gyroscopic-torque";
+import { gyroscopicPrecessionSample } from "./bodies/gyroscopic-precession";
 import { bodyTypeSample } from "./bodies/body-type";
 import { weebleSample } from "./bodies/weeble";
 import { disableSample } from "./bodies/disable";
@@ -38,6 +39,7 @@ import { multiplePrismaticSample } from "./issues/multiple-prismatic";
 import { crashSample } from "./issues/crash";
 import { convexJitterSample } from "./issues/convex-jitter";
 import { restitutionOvershootSample } from "./issues/restitution-overshoot";
+import { gmodWheelStackSample } from "./issues/gmod-wheel-stack";
 import { slideTwistOffCenterSample } from "./issues/slide-twist-off-center";
 import { edgeCrossingSample } from "./edge-crossing";
 import { highMassRatio1Sample } from "./robustness/high-mass-ratio-1";
@@ -82,14 +84,19 @@ import { candyCupsSample } from "./benchmark/candy-cups";
 import { explosionSample } from "./benchmark/explosion";
 import { destructionSample } from "./benchmark/destruction";
 import { motionLocksSample } from "./joints/motion-locks";
+import { distanceJointSample } from "./joints/distance-joint";
+import { parallelSpringSample } from "./joints/parallel-spring";
 import { windSample } from "./shapes/wind";
 import { windFlapSample } from "./shapes/wind-flap";
 import { staticInvokeSample } from "./shapes/static-invoke";
 import { meshGridSample } from "./mesh/grid";
 import { bigBoxSample } from "./mesh/big-box";
+import { meshBoxSample } from "./mesh/box";
 import { rayCurtainSample } from "./collision/ray-curtain";
 import { junkyardSample } from "./benchmark/junkyard";
 import { fallingTreesSample } from "./benchmark/falling-trees";
+import { chainsSample } from "./benchmark/chains";
+import { convexPileSample } from "./benchmark/convex-pile";
 import { largeWorldSample } from "./benchmark/large-world";
 import { objectAssertsBenchSample } from "./object-asserts-bench";
 export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
@@ -100,6 +107,7 @@ export const samples = [
   lockMixingSample,
   kinematicSample,
   gyroscopicTorqueSample,
+  gyroscopicPrecessionSample,
   bodyTypeSample,
   weebleSample,
   disableSample,
@@ -112,6 +120,7 @@ export const samples = [
   crashSample,
   convexJitterSample,
   restitutionOvershootSample,
+  gmodWheelStackSample,
   slideTwistOffCenterSample,
   highMassRatio1Sample,
   tinyPyramidSample,
@@ -145,6 +154,8 @@ export const samples = [
   explosionSample,
   destructionSample,
   motionLocksSample,
+  distanceJointSample,
+  parallelSpringSample,
   singleBoxSample,
   cylinderSample,
   cylinderStackSample,
@@ -175,6 +186,7 @@ export const samples = [
   staticInvokeSample,
   meshGridSample,
   bigBoxSample,
+  meshBoxSample,
   rayCurtainSample,
   thinWallSample,
   bounceHouseSample,
@@ -188,6 +200,8 @@ export const samples = [
   jointGridSample,
   junkyardSample,
   fallingTreesSample,
+  chainsSample,
+  convexPileSample,
   largeWorldSample,
   objectAssertsBenchSample,
 ];

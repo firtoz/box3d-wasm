@@ -182,6 +182,9 @@ export class ObjectWorld {
   createDistanceJoint(bodyA: BodyRef, bodyB: BodyRef, options: Parameters<PhysicsWorld["createDistanceJoint"]>[2] = {}): JointRef {
     return new JointRef(this, this.world.createDistanceJoint(bodyA.handle, bodyB.handle, options));
   }
+  createParallelJoint(bodyA: BodyRef, bodyB: BodyRef, options: Parameters<PhysicsWorld["createParallelJoint"]>[2] = {}): JointRef {
+    return new JointRef(this, this.world.createParallelJoint(bodyA.handle, bodyB.handle, options));
+  }
 
   createHuman(position: Vec3, options: Parameters<PhysicsWorld["createHuman"]>[1] = {}): HumanRef {
     return new HumanRef(this, this.world.createHuman(position, options));
@@ -677,6 +680,7 @@ const OBJECT_WORLD_BODY_PAIR_METHODS = [
   "createPrismaticJoint",
   "createWeldJoint",
   "createDistanceJoint",
+  "createParallelJoint",
 ] as const;
 
 const BODY_REF_ASSERTED_METHODS = [

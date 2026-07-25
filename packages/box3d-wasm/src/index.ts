@@ -290,6 +290,8 @@ type RotateVectorFn = (qx: number, qy: number, qz: number, qs: number, vx: numbe
 type RandomVec3Fn = (lox: number, loy: number, loz: number, hix: number, hiy: number, hiz: number, outVec: number) => void;
 type LerpVec3Fn = (ax: number, ay: number, az: number, bx: number, by: number, bz: number, alpha: number, outVec: number) => void;
 type GetLengthAndNormalizeFn = (vx: number, vy: number, vz: number, outDirection: number) => number;
+type ComputeQuatBetweenUnitVectorsFn = (ax: number, ay: number, az: number, bx: number, by: number, bz: number, outQuat: number) => void;
+type InvMulQuatFn = (aqx: number, aqy: number, aqz: number, aqs: number, bqx: number, bqy: number, bqz: number, bqs: number, outQuat: number) => void;
 type ShapeSetDensityFn = (shapeHandle: number, density: number, updateBodyMass: number) => void;
 type WorldEnableBoolFn = (worldHandle: number, flag: number) => void;
 type WorldSetProfileLevelFn = (worldHandle: number, level: number) => void;
@@ -320,6 +322,7 @@ type GetBodyWorldPointVelocityFn = (bodyHandle: number, wx: number, wy: number, 
 type CreatePrismaticJointFn = (worldHandle: number, bodyAHandle: number, bodyBHandle: number, localAx: number, localAy: number, localAz: number, localAqx: number, localAqy: number, localAqz: number, localAqw: number, localBx: number, localBy: number, localBz: number, localBqx: number, localBqy: number, localBqz: number, localBqw: number, constraintHertz: number, constraintDampingRatio: number, enableSpring: number, hertz: number, dampingRatio: number, targetTranslation: number, enableLimit: number, lowerTranslation: number, upperTranslation: number, enableMotor: number, maxMotorForce: number, motorSpeed: number, forceThreshold: number, torqueThreshold: number, collideConnected: number) => number;
 type CreateWeldJointFn = (worldHandle: number, bodyAHandle: number, bodyBHandle: number, localAx: number, localAy: number, localAz: number, localAqx: number, localAqy: number, localAqz: number, localAqw: number, localBx: number, localBy: number, localBz: number, localBqx: number, localBqy: number, localBqz: number, localBqw: number, linearHertz: number, angularHertz: number, linearDampingRatio: number, angularDampingRatio: number, forceThreshold: number, torqueThreshold: number, collideConnected: number) => number;
 type CreateDistanceJointFn = (worldHandle: number, bodyAHandle: number, bodyBHandle: number, localAx: number, localAy: number, localAz: number, localAqx: number, localAqy: number, localAqz: number, localAqw: number, localBx: number, localBy: number, localBz: number, localBqx: number, localBqy: number, localBqz: number, localBqw: number, length: number, forceThreshold: number, torqueThreshold: number, collideConnected: number) => number;
+type CreateParallelJointFn = (worldHandle: number, bodyAHandle: number, bodyBHandle: number, localAx: number, localAy: number, localAz: number, localAqx: number, localAqy: number, localAqz: number, localAqw: number, localBx: number, localBy: number, localBz: number, localBqx: number, localBqy: number, localBqz: number, localBqw: number, hertz: number, dampingRatio: number, maxTorque: number, forceThreshold: number, torqueThreshold: number, collideConnected: number) => number;
 type GetStallThresholdFn = () => number;
 type SetStallThresholdFn = (seconds: number) => void;
 type WorldExplodeFn = (worldHandle: number, px: number, py: number, pz: number, radius: number, falloff: number, impulsePerArea: number, maskBits: number) => void;
@@ -486,6 +489,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly createPrismaticJointFn = this.wrapNumber<CreatePrismaticJointFn>("b3wCreatePrismaticJoint", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createWeldJointFn = this.wrapNumber<CreateWeldJointFn>("b3wCreateWeldJoint", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createDistanceJointFn = this.wrapNumber<CreateDistanceJointFn>("b3wCreateDistanceJoint", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly createParallelJointFn = this.wrapNumber<CreateParallelJointFn>("b3wCreateParallelJoint", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly getStallThresholdFn = this.wrapNumber<GetStallThresholdFn>("b3wGetStallThreshold", []);
   private readonly setStallThresholdFn = this.wrapVoid<SetStallThresholdFn>("b3wSetStallThreshold", ["number"]);
   private readonly worldExplodeFn = this.wrapVoid<WorldExplodeFn>("b3wWorldExplode", ["number", "number", "number", "number", "number", "number", "number", "number"]);
@@ -540,6 +544,8 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly randomVec3Fn = this.wrapVoid<RandomVec3Fn>("b3wRandomVec3", ["number", "number", "number", "number", "number", "number", "number"]);
   private readonly lerpVec3Fn = this.wrapVoid<LerpVec3Fn>("b3wLerpVec3", ["number", "number", "number", "number", "number", "number", "number", "number"]);
   private readonly getLengthAndNormalizeFn = this.wrapNumber<GetLengthAndNormalizeFn>("b3wGetLengthAndNormalize", ["number", "number", "number", "number"]);
+  private readonly computeQuatBetweenUnitVectorsFn = this.wrapVoid<ComputeQuatBetweenUnitVectorsFn>("b3wComputeQuatBetweenUnitVectors", ["number", "number", "number", "number", "number", "number", "number"]);
+  private readonly invMulQuatFn = this.wrapVoid<InvMulQuatFn>("b3wInvMulQuat", ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
   private readonly transformPtr: number;
   private readonly pointPtr: number;
   private readonly massDataPtr: number;
@@ -841,6 +847,20 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     const base = this.transformPtr >> 2;
     return { length, direction: [heap[base + 0], heap[base + 1], heap[base + 2]] };
   }
+  /** Box3D `b3ComputeQuatBetweenUnitVectors`. */
+  computeQuatBetweenUnitVectors(from: Vec3, to: Vec3): Quat {
+    this.computeQuatBetweenUnitVectorsFn(from[0], from[1], from[2], to[0], to[1], to[2], this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return [heap[base + 0], heap[base + 1], heap[base + 2], heap[base + 3]];
+  }
+  /** Box3D `b3InvMulQuat(q1, q2)`. */
+  invMulQuat(q1: Quat, q2: Quat): Quat {
+    this.invMulQuatFn(q1[0], q1[1], q1[2], q1[3], q2[0], q2[1], q2[2], q2[3], this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return [heap[base + 0], heap[base + 1], heap[base + 2], heap[base + 3]];
+  }
   createCompound(capsules: number, hulls: number, meshes: number, spheres: number): CompoundHandle {
     return this.requireSlotHandle<CompoundHandle>(this.createCompoundFn(capsules, hulls, meshes, spheres, 0, 0, 0, 0), "compounds");
   }
@@ -1068,6 +1088,23 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   createPrismaticJoint(worldHandle: WorldHandle, bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; constraintHertz?: number; constraintDampingRatio?: number; enableSpring?: boolean; hertz?: number; dampingRatio?: number; targetTranslation?: number; enableLimit?: boolean; lowerTranslation?: number; upperTranslation?: number; enableMotor?: boolean; maxMotorForce?: number; motorSpeed?: number; forceThreshold?: number; torqueThreshold?: number; collideConnected?: boolean } = {}): JointHandle { const la = options.localFrameA?.position ?? [0,0,0]; const laq = options.localFrameA?.rotation ?? [0,0,0,1]; const lb = options.localFrameB?.position ?? [0,0,0]; const lbq = options.localFrameB?.rotation ?? [0,0,0,1]; const [forceThreshold, torqueThreshold, collideConnected] = jointThresholdArgs(options); return this.requireSlotHandle<JointHandle>(this.createPrismaticJointFn(worldHandle, bodyAHandle, bodyBHandle, la[0], la[1], la[2], laq[0], laq[1], laq[2], laq[3], lb[0], lb[1], lb[2], lbq[0], lbq[1], lbq[2], lbq[3], options.constraintHertz ?? 60, options.constraintDampingRatio ?? 2, options.enableSpring ? 1 : 0, options.hertz ?? 0, options.dampingRatio ?? 0, options.targetTranslation ?? 0, options.enableLimit ? 1 : 0, options.lowerTranslation ?? 0, options.upperTranslation ?? 0, options.enableMotor ? 1 : 0, options.maxMotorForce ?? 0, options.motorSpeed ?? 0, forceThreshold, torqueThreshold, collideConnected), "joints"); }
   createWeldJoint(worldHandle: WorldHandle, bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; linearHertz?: number; angularHertz?: number; linearDampingRatio?: number; angularDampingRatio?: number; forceThreshold?: number; torqueThreshold?: number; collideConnected?: boolean } = {}): JointHandle { const la = options.localFrameA?.position ?? [0,0,0]; const laq = options.localFrameA?.rotation ?? [0,0,0,1]; const lb = options.localFrameB?.position ?? [0,0,0]; const lbq = options.localFrameB?.rotation ?? [0,0,0,1]; const [forceThreshold, torqueThreshold, collideConnected] = jointThresholdArgs(options); return this.requireSlotHandle<JointHandle>(this.createWeldJointFn(worldHandle, bodyAHandle, bodyBHandle, la[0], la[1], la[2], laq[0], laq[1], laq[2], laq[3], lb[0], lb[1], lb[2], lbq[0], lbq[1], lbq[2], lbq[3], options.linearHertz ?? 0, options.angularHertz ?? 0, options.linearDampingRatio ?? 0, options.angularDampingRatio ?? 0, forceThreshold, torqueThreshold, collideConnected), "joints"); }
   createDistanceJoint(worldHandle: WorldHandle, bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; length?: number; forceThreshold?: number; torqueThreshold?: number; collideConnected?: boolean } = {}): JointHandle { const la = options.localFrameA?.position ?? [0,0,0]; const laq = options.localFrameA?.rotation ?? [0,0,0,1]; const lb = options.localFrameB?.position ?? [0,0,0]; const lbq = options.localFrameB?.rotation ?? [0,0,0,1]; const [forceThreshold, torqueThreshold, collideConnected] = jointThresholdArgs(options); return this.requireSlotHandle<JointHandle>(this.createDistanceJointFn(worldHandle, bodyAHandle, bodyBHandle, la[0], la[1], la[2], laq[0], laq[1], laq[2], laq[3], lb[0], lb[1], lb[2], lbq[0], lbq[1], lbq[2], lbq[3], options.length ?? 0, forceThreshold, torqueThreshold, collideConnected), "joints"); }
+  createParallelJoint(worldHandle: WorldHandle, bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; hertz?: number; dampingRatio?: number; maxTorque?: number; forceThreshold?: number; torqueThreshold?: number; collideConnected?: boolean } = {}): JointHandle {
+    const la = options.localFrameA?.position ?? [0, 0, 0];
+    const laq = options.localFrameA?.rotation ?? [0, 0, 0, 1];
+    const lb = options.localFrameB?.position ?? [0, 0, 0];
+    const lbq = options.localFrameB?.rotation ?? [0, 0, 0, 1];
+    const [forceThreshold, torqueThreshold, collideConnected] = jointThresholdArgs(options);
+    return this.requireSlotHandle<JointHandle>(
+      this.createParallelJointFn(
+        worldHandle, bodyAHandle, bodyBHandle,
+        la[0], la[1], la[2], laq[0], laq[1], laq[2], laq[3],
+        lb[0], lb[1], lb[2], lbq[0], lbq[1], lbq[2], lbq[3],
+        options.hertz ?? 1, options.dampingRatio ?? 1, options.maxTorque ?? DEFAULT_JOINT_FORCE_THRESHOLD,
+        forceThreshold, torqueThreshold, collideConnected,
+      ),
+      "joints",
+    );
+  }
   worldExplode(worldHandle: WorldHandle, position: Vec3, radius: number, falloff: number, impulsePerArea: number, maskBits = U64_MAX): void { this.worldExplodeFn(worldHandle, position[0], position[1], position[2], radius, falloff, impulsePerArea, maskBits); }
 
   applyLinearImpulse(bodyHandle: BodyHandle, impulse: Vec3, point: Vec3, wake = true): void { this.applyLinearImpulseFn(bodyHandle, impulse[0], impulse[1], impulse[2], point[0], point[1], point[2], wake ? 1 : 0); }
@@ -1152,6 +1189,7 @@ export class PhysicsWorld {
   createPrismaticJoint(bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; constraintHertz?: number; constraintDampingRatio?: number; enableSpring?: boolean; hertz?: number; dampingRatio?: number; targetTranslation?: number; enableLimit?: boolean; lowerTranslation?: number; upperTranslation?: number; enableMotor?: boolean; maxMotorForce?: number; motorSpeed?: number } = {}): JointHandle { return this.runtime.createPrismaticJoint(this.handle, bodyAHandle, bodyBHandle, options); }
   createWeldJoint(bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; linearHertz?: number; angularHertz?: number; linearDampingRatio?: number; angularDampingRatio?: number; forceThreshold?: number; torqueThreshold?: number; collideConnected?: boolean } = {}): JointHandle { return this.runtime.createWeldJoint(this.handle, bodyAHandle, bodyBHandle, options); }
   createDistanceJoint(bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; length?: number; forceThreshold?: number; torqueThreshold?: number; collideConnected?: boolean } = {}): JointHandle { return this.runtime.createDistanceJoint(this.handle, bodyAHandle, bodyBHandle, options); }
+  createParallelJoint(bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; hertz?: number; dampingRatio?: number; maxTorque?: number; forceThreshold?: number; torqueThreshold?: number; collideConnected?: boolean } = {}): JointHandle { return this.runtime.createParallelJoint(this.handle, bodyAHandle, bodyBHandle, options); }
   explode(position: Vec3, radius: number, falloff: number, impulsePerArea: number, maskBits = U64_MAX): void { this.runtime.worldExplode(this.handle, position, radius, falloff, impulsePerArea, maskBits); }
   getCounters(): WorldCounters { return this.runtime.getWorldCounters(this.handle); }
   getAwakeBodyCount(): number { return this.runtime.getWorldAwakeBodyCount(this.handle); }

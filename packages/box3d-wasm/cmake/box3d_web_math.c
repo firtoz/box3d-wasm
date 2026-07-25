@@ -77,3 +77,31 @@ B3W_EXPORT float b3wGetLengthAndNormalize( float vx, float vy, float vz, float* 
 	}
 	return length;
 }
+
+B3W_EXPORT void b3wComputeQuatBetweenUnitVectors(
+	float ax, float ay, float az,
+	float bx, float by, float bz,
+	float* outQuat)
+{
+	if (outQuat == NULL) return;
+	b3Quat q = b3ComputeQuatBetweenUnitVectors((b3Vec3){ ax, ay, az }, (b3Vec3){ bx, by, bz });
+	outQuat[0] = q.v.x;
+	outQuat[1] = q.v.y;
+	outQuat[2] = q.v.z;
+	outQuat[3] = q.s;
+}
+
+B3W_EXPORT void b3wInvMulQuat(
+	float aqx, float aqy, float aqz, float aqs,
+	float bqx, float bqy, float bqz, float bqs,
+	float* outQuat)
+{
+	if (outQuat == NULL) return;
+	b3Quat a = { { aqx, aqy, aqz }, aqs };
+	b3Quat b = { { bqx, bqy, bqz }, bqs };
+	b3Quat q = b3InvMulQuat(a, b);
+	outQuat[0] = q.v.x;
+	outQuat[1] = q.v.y;
+	outQuat[2] = q.v.z;
+	outQuat[3] = q.s;
+}

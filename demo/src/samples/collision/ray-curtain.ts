@@ -1,7 +1,13 @@
 import * as THREE from "three";
 import { createGenericSample } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
-import { createDebugLine, disposeDebugObject, updateDebugLine } from "../debug-overlay";
+import {
+  createDebugLine,
+  createDebugPoint,
+  disposeDebugObject,
+  updateDebugLine,
+  updateDebugPoint,
+} from "../debug-overlay";
 import {
   RAY_CURTAIN_HEADER_FLOATS,
   RAY_CURTAIN_RAY_COUNT,
@@ -12,22 +18,6 @@ import {
 } from "./ray-curtain-scene";
 
 const half = rayCurtainGroundSize();
-
-function createDebugPoint(scene: THREE.Scene, color: number): THREE.Points {
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(3), 3));
-  const material = new THREE.PointsMaterial({ color, size: 4, sizeAttenuation: false, toneMapped: false });
-  const points = new THREE.Points(geometry, material);
-  scene.add(points);
-  return points;
-}
-
-function updateDebugPoint(points: THREE.Points, position: readonly number[]): void {
-  const attr = points.geometry.getAttribute("position") as THREE.BufferAttribute;
-  attr.setXYZ(0, position[0]!, position[1]!, position[2]!);
-  attr.needsUpdate = true;
-  points.geometry.computeBoundingSphere();
-}
 
 const spec: RenderSpec = {
   groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],

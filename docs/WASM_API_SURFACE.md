@@ -230,7 +230,7 @@ When adding an API binding:
 - [x] Create prismatic joint: `b3CreatePrismaticJoint` (creation-time `constraintHertz` / `constraintDampingRatio`, optional force/torque thresholds and `collideConnected`)
 - [ ] Create wheel joint: `b3CreateWheelJoint`
 - [x] Create weld joint: `b3CreateWeldJoint` (optional force/torque thresholds and `collideConnected`)
-- [ ] Create parallel joint: `b3CreateParallelJoint`
+- [x] Create parallel joint: `b3CreateParallelJoint`
 - [~] Common joint validity/type/body/world/frame/collide/force/torque accessors (`constraint force`, `constraint torque`, and `linear separation` now exposed)
 - [ ] Joint wake bodies: `b3Joint_WakeBodies`
 - [ ] Constraint tuning: `b3Joint_SetConstraintTuning`
@@ -345,6 +345,8 @@ When adding an API binding:
 - [x] Float32 cos/sin from `<math.h>`: `b3wCosf`, `b3wSinf` (match upstream C++ `cosf`/`sinf`)
 - [x] Shared RNG + lerp helpers: `randomVec3`, `lerpVec3` (wrap `RandomVec3` / `b3Lerp`, seed 12345)
 - [x] Length-and-normalize helper: `getLengthAndNormalize` (`b3GetLengthAndNormalize`)
+- [x] Quat between unit vectors: `computeQuatBetweenUnitVectors` (`b3ComputeQuatBetweenUnitVectors`)
+- [x] Inverse multiply quats: `invMulQuat` (`b3InvMulQuat`)
 
 ## Demo-Specific Helpers
 

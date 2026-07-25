@@ -17,6 +17,22 @@ export function updateDebugLine(line: THREE.Line, start: readonly number[], end:
   line.geometry.computeBoundingSphere();
 }
 
+export function createDebugPoint(scene: THREE.Scene, color: number, size = 4): THREE.Points {
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(3), 3));
+  const material = new THREE.PointsMaterial({ color, size, sizeAttenuation: false, toneMapped: false });
+  const points = new THREE.Points(geometry, material);
+  scene.add(points);
+  return points;
+}
+
+export function updateDebugPoint(points: THREE.Points, position: readonly number[]): void {
+  const attr = points.geometry.getAttribute("position") as THREE.BufferAttribute;
+  attr.setXYZ(0, position[0]!, position[1]!, position[2]!);
+  attr.needsUpdate = true;
+  points.geometry.computeBoundingSphere();
+}
+
 export function createWireSphere(scene: THREE.Scene, radius: number, color: number): THREE.Mesh {
   const mesh = new THREE.Mesh(
     new THREE.SphereGeometry(radius, 24, 16),

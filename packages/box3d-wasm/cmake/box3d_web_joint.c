@@ -334,6 +334,50 @@ B3W_EXPORT int b3wCreateDistanceJoint(
 	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
 }
 
+B3W_EXPORT int b3wCreateParallelJoint(
+	int worldHandle,
+	int bodyAHandle,
+	int bodyBHandle,
+	float localAx,
+	float localAy,
+	float localAz,
+	float localAqx,
+	float localAqy,
+	float localAqz,
+	float localAqw,
+	float localBx,
+	float localBy,
+	float localBz,
+	float localBqx,
+	float localBqy,
+	float localBqz,
+	float localBqw,
+	float hertz,
+	float dampingRatio,
+	float maxTorque,
+	float forceThreshold,
+	float torqueThreshold,
+	int collideConnected)
+{
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
+	b3wBodySlot* bodyB = b3wGetBody(bodyBHandle);
+	if (world == NULL || bodyA == NULL || bodyB == NULL) return 0;
+	b3ParallelJointDef jointDef = b3DefaultParallelJointDef();
+	jointDef.base.bodyIdA = bodyA->bodyId;
+	jointDef.base.bodyIdB = bodyB->bodyId;
+	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, { { localAqx, localAqy, localAqz }, localAqw } };
+	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
+	jointDef.base.forceThreshold = forceThreshold;
+	jointDef.base.torqueThreshold = torqueThreshold;
+	jointDef.base.collideConnected = collideConnected != 0;
+	jointDef.hertz = hertz;
+	jointDef.dampingRatio = dampingRatio;
+	jointDef.maxTorque = maxTorque;
+	b3JointId jointId = b3CreateParallelJoint(world->worldId, &jointDef);
+	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
+}
+
 B3W_EXPORT void b3wDestroyJoint(int jointHandle)
 {
 	if (jointHandle <= 0 || jointHandle > B3W_MAX_JOINTS) return;
