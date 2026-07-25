@@ -1,20 +1,30 @@
 import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
+import { Box3DRng } from "../box3d-rng";
 import { collectHumanBoneHandles, ragdollRenderBodies } from "./ragdoll-scene-shared";
-import { f32, f32Add, f32Mul } from "../f32";
+import { f32Mul } from "../f32";
 
 const COUNT = 20;
 
-function pileHumanPosition(i: number): Vec3 {
-  // Match upstream float32: { 0.1f * i, 2.0f + 0.5f * i, -0.1f * i }
-  const iF = f32(i);
-  return [f32Mul(0.1, iF), f32Add(2, f32Mul(0.5, iF)), f32Mul(-0.1, iF)];
+/** Upstream RagdollPile: `g_randomSeed = 42` then RandomVec3 in [-0.1*count, 0.1*count], y=2. */
+function pileHumanPositions(): Vec3[] {
+  const rng = new Box3DRng(42);
+  const a = f32Mul(0.1, COUNT);
+  const lower: Vec3 = [-a, -a, -a];
+  const upper: Vec3 = [a, a, a];
+  const positions: Vec3[] = [];
+  for (let i = 0; i < COUNT; i++) {
+    const offset = rng.randomVec3(lower, upper);
+    positions.push([offset[0], 2, offset[2]]);
+  }
+  return positions;
 }
 
 export function buildRagdollPileDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
   const handles: number[] = [];
+  const positions = pileHumanPositions();
   for (let i = 0; i < COUNT; i++) {
-    const human = world.createHuman(pileHumanPosition(i), {
+    const human = world.createHuman(positions[i], {
       frictionTorque: 10,
       hertz: 0.5,
       dampingRatio: 0.7,
@@ -37,8 +47,8 @@ export function ragdollPileGroundSize(): Vec3 { return [10, 0.5, 10]; }
 
 export function createRagdollPileBodies(): RenderBody[] {
   const bodies: RenderBody[] = [];
-  for (let i = 0; i < COUNT; i++) {
-    bodies.push(...ragdollRenderBodies(pileHumanPosition(i)));
+  for (const position of pileHumanPositions()) {
+    bodies.push(...ragdollRenderBodies(position));
   }
   return bodies;
 }

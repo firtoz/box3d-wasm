@@ -1,4 +1,5 @@
 #include "sample.h"
+#include "mover.h"
 
 #include "box3d/box3d.h"
 #include "gfx/debug_adapter.h"

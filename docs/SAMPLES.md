@@ -18,13 +18,13 @@ Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short
 
 **Before adding or recommending a queue item:** open the upstream C++ sample class. Prefer samples that create bodies in `m_worldId` and can dump-compare. Do **not** treat Manifold / pure geometry editors / collide-debug tools as generic-host warm-ups — they need pairwise collide bindings and a custom host, and usually have no dumpable bodies.
 
-1. **Bodies / Gyroscopic Precession** — hull tops + `allowFastRotation` (now wrapped); dump-ready spinning tops.
-2. **Benchmark / Chains** — capsule chains + `createWaveMesh` ground + wind (`createWaveMesh` now wrapped).
-3. **Mesh / Box** — `createBoxMesh` now wrapped; mirror Big Box / Grid patterns.
-4. **Mesh / Reflection** — box/grid mesh with negative scale (API exists via `setMesh`).
-5. **Continuous / Needle Mesh** or other remaining mesh CCD samples — after Box.
-6. **Ragdoll / Pose** — needs pose-control bindings (`🚧`).
-7. **Determinism / Wave Pile** — shared determinism scenario; APIs mostly exist.
+1. **Stacking / Edge Crossing** — thin boxes at edge angles; dump-ready, all APIs exist.
+2. **Issues / Restitution Overshoot** — single bouncing box + restitution=1; dump-ready regression scene.
+3. **Bodies / Gyroscopic Precession** — hull tops + `allowFastRotation` (now wrapped); dump-ready spinning tops.
+4. **Benchmark / Chains** — capsule chains + `createWaveMesh` ground + wind (`createWaveMesh` now wrapped).
+5. **Mesh / Box** — `createBoxMesh` now wrapped; mirror Big Box / Grid patterns.
+6. **Issues / Slide Twist Off Center Shape** — needs `b3MakeOffsetBoxHull` wrap (`🚧`), then dump-ready.
+7. **Ragdoll / Pose** — needs pose-control bindings (`🚧`).
 
 Defer for later sessions: **Joints / Driving** (heightfield `🚧`), **Manifold** (pairwise `b3Collide*` helpers `🚧`), **Long Ray Cast** (wave mesh exists; heightfield still `🚧`), events (`🚧` callbacks), character movers, and most remaining `🧩` mesh samples.
 
@@ -136,6 +136,10 @@ Defer for later sessions: **Joints / Driving** (heightfield `🚧`), **Manifold*
 | **Convex Jitter** | [x] | Hull creation + stacking | 🔧 Two custom hulls from point clouds. |
 | **s&box mover** | [ ] | Mover/character system | 🚧 |
 | **Capsule Mesh** | [ ] | Capsule + mesh collision | 🧩 |
+| **s&box Ghost Collisions** | [ ] | Large custom hull / mesh regression | 🧩 Large vertex cloud from upstream issue report. |
+| **GMod Wheel Stack** | [ ] | Multi-piece wheel hulls + `SetContactTuning` | 🔧 `setContactTuning` exists; wheel uses large hardcoded hull vertex tables (heavy scene file). |
+| **Restitution Overshoot** | [ ] | Restitution=1 drop box | 🔧 Static floor + dynamic box; checks bounce does not exceed drop height. |
+| **Slide Twist Off Center Shape** | [ ] | Offset hull + sliding | 🚧 Needs `b3MakeOffsetBoxHull` wrap; then dump-ready. |
 
 ## Joints (`sample_joint.cpp`)
 
@@ -167,12 +171,12 @@ These are **not** physics-world body scenes. Upstream samples inherit a Manifold
 | **Sphere vs Sphere** | [ ] | `b3CollideSpheres` | 🚧 Interactive collide demo (two spheres at transforms A/B). |
 | **Capsule vs Sphere** | [ ] | `b3CollideCapsuleAndSphere` | 🚧 Same pattern; capsule endpoints along X. |
 | **Hull vs Sphere** | [ ] | `b3CollideHullAndSphere` | 🚧 Same pattern; box hull + sphere. |
-| **Triangle vs Sphere** | [ ] | `b3CollideSphereAndTriangle` | 🚧🧩 Triangle + sphere collide. |
+| **Triangle vs Sphere** | [ ] | `b3CollideTriangleAndSphere` | 🚧🧩 Triangle + sphere collide (upstream renamed from `b3CollideSphereAndTriangle`). |
 | **Capsule vs Capsule** | [ ] | `b3CollideCapsules` | 🚧 Same pattern; two capsules. |
 | **Capsule vs Hull** | [ ] | `b3CollideHullAndCapsule` | 🚧 Same pattern. |
-| **Triangle vs Capsule** | [ ] | `b3CollideCapsuleAndTriangle` | 🚧🧩 |
+| **Triangle vs Capsule** | [ ] | `b3CollideTriangleAndCapsule` | 🚧🧩 Upstream renamed from `b3CollideCapsuleAndTriangle`. |
 | **Hull vs Hull** | [ ] | `b3CollideHulls` | 🚧 Same pattern; uses SAT cache. |
-| **Triangle vs Hull** | [ ] | `b3CollideHullAndTriangle` | 🚧🧩 |
+| **Triangle vs Hull** | [ ] | `b3CollideTriangleAndHull` | 🚧🧩 Upstream renamed from `b3CollideHullAndTriangle`. |
 
 ## Mesh (`sample_mesh.cpp`)
 
@@ -194,7 +198,7 @@ These are **not** physics-world body scenes. Upstream samples inherit a Manifold
 |--------|----|-------------|-------|
 | **Box** | [x] | `b3CreateHuman` + drop on box | 🔧 Single human on box ground. C++ reference dump uses `Ragdoll/Box` (disambiguates Mesh/Box). C++/WASM dump parity verified. |
 | **Mesh** | [ ] | Human + mesh floor | 🧩 |
-| **Pile** | [x] | Multiple humans piling | 🔧 20 humans on mesh floor (release build count). Spawn positions use float32-safe `0.1f * i` arithmetic (`f32Mul`/`f32Add`). Matches through frame ~46 at 1e-5; later divergence is native-vs-WASM solver FP drift in the multi-contact ragdoll pile (single-human `ragdoll/box` matches fully). |
+| **Pile** | [x] | Multiple humans piling | 🔧 20 humans on mesh floor (release build count). Upstream now seeds `g_randomSeed=42` and places each human via `RandomVec3` at y=2 (TS uses `Box3DRng(42)`). Frame 0 dump matches; diverges from frame 1+ like other multi-ragdoll piles (native-vs-WASM solver FP). |
 | **Incline** | [x] | Human + inclined ramp | Implemented. C++/WASM dump parity verified at epsilon=1e-5. Motor demotion at 2s via `dumpStep`. |
 | **Pose** | [ ] | `b3CreateHuman` + pose/motor control + grid mesh floor | 🚧 Human spawn exists; pose-control / motor-adjust bindings not wrapped. Uses `createGridMesh` floor (API exists). |
 
@@ -242,6 +246,7 @@ These are **not** physics-world body scenes. Upstream samples inherit a Manifold
 | **Arch** | [x] | `b3CreateHull` from custom points, per-body hulls | 🔧 All exist. Custom hull render matches the physics arch. C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Double Domino** | [x] | Domino row with impulse | 🔧 Simple. Initial impulse applied at creation matches the C++ sample. C++/WASM dump parity verified with the default 5-second comparison window. |
 | **Pyramid2D** | [x] | 2D pyramid stacking | Implemented; C++/WASM dump parity verified with the default 5-second-or-sleep window. |
+| **Edge Crossing** | [ ] | Thin boxes crossing at edge angles | 🔧 Three rows of base+falling thin hulls; dump-ready. |
 
 ## Tree (`sample_tree.cpp`)
 

@@ -4,7 +4,11 @@ const RAND_LIMIT = 32767;
 const RAND_SEED = 12345;
 
 export class Box3DRng {
-  private seed = RAND_SEED >>> 0;
+  private seed: number;
+
+  constructor(seed: number = RAND_SEED) {
+    this.seed = seed >>> 0;
+  }
 
   randomInt(): number {
     let x = this.seed >>> 0;

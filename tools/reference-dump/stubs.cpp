@@ -88,12 +88,18 @@ b3MeshData* CreateMeshData(const char* path, float scale, bool zUp, bool useMedi
   return NULL;
 }
 
-void LoadTempMesh(const char* path, TempMesh* tempMesh, float scale, bool zUp)
+bool LoadTempMesh(const char* path, TempMesh* tempMesh, float scale, bool zUp)
 {
   (void)path;
   (void)tempMesh;
   (void)scale;
   (void)zUp;
+  return false;
+}
+
+void DestroyMeshData(b3MeshData* meshData)
+{
+  (void)meshData;
 }
 
 // --- sokol_app.h -----------------------------------------------------------
