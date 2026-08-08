@@ -1,0 +1,16 @@
+{
+  "name": "box3d-wasm",
+  "install": "bash .cursor/install.sh",
+  "terminals": [
+    {
+      "name": "dev",
+      "command": "export PATH=\"$HOME/.bun/bin:$PATH\" && bun run dev"
+    }
+  ],
+  "ports": [
+    {
+      "name": "demo",
+      "port": 5173
+    }
+  ]
+}
