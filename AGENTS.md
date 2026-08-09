@@ -195,8 +195,4 @@ gzip -c demo/public/wasm/box3d-web.wasm | wc -c
 
 Then update the `WASM size` row in `docs/OTHER_PROJECTS.md` (both the per-project comparison table and the 4-way table).
 
-<<<<<<< HEAD
-Current size: ~254KB gzipped (597KB raw).
-=======
 Current size: ~254KB gzipped (596KB raw).
->>>>>>> 57a306f (Docs and Body Type fix for native bigint BodyId migration)

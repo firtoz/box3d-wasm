@@ -26,6 +26,7 @@
     "bench:object-asserts": "bun packages/box3d-wasm/scripts/bench-object-asserts.ts"
   },
   "devDependencies": {
+    "@types/node": "26.2.0",
     "oxfmt": "0.57.0",
     "oxlint": "1.72.0",
     "turbo": "^2.10.2"

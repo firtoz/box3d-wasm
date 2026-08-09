@@ -1,5 +1,5 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { MeshHandle, Vec3 } from "box3d-wasm";
+import type { MeshHandle, Vec3 , BodyId} from "box3d-wasm";
 import { buildCapsuleMeshDynamicBodiesAsync, capsuleMeshGroundSize } from "./capsule-mesh-scene";
 
 class CapsuleMeshWorker extends PhysicsWorkerBase {
@@ -13,7 +13,7 @@ class CapsuleMeshWorker extends PhysicsWorkerBase {
     return capsuleMeshGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { handles, meshes } = await buildCapsuleMeshDynamicBodiesAsync(this.world!, this.runtime!);
     this.meshes = meshes;
     return handles;

@@ -1,5 +1,5 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { HeightFieldHandle, MeshHandle, Vec3 } from "box3d-wasm";
+import type { HeightFieldHandle, MeshHandle, Vec3 , BodyId} from "box3d-wasm";
 import { buildOverlapWorldScene, overlapWorldGroundSize } from "./overlap-world-scene";
 
 class OverlapWorldWorker extends PhysicsWorkerBase {
@@ -18,7 +18,7 @@ class OverlapWorldWorker extends PhysicsWorkerBase {
     return overlapWorldGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { handles, resources } = buildOverlapWorldScene(this.world!, this.runtime!);
     this.mesh = resources.mesh;
     this.heightField = resources.heightField;

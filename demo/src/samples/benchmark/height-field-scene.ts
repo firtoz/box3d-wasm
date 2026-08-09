@@ -1,5 +1,5 @@
 import {
-  type BodyHandle,
+  type BodyId,
   type Box3DRuntime,
   type HeightFieldHandle,
   type PhysicsWorld,
@@ -25,7 +25,7 @@ export function benchmarkHeightFieldGroundPosition(): Vec3 {
 }
 
 export interface BenchmarkHeightFieldScene {
-  ground: BodyHandle;
+  ground: BodyId;
   heightField: HeightFieldHandle;
 }
 
@@ -44,7 +44,7 @@ export function createBenchmarkHeightFieldScene(world: PhysicsWorld): BenchmarkH
 }
 
 /** Upstream BenchmarkHeightField only creates the static heightfield ground. */
-export function buildBenchmarkHeightFieldDynamicBodies(world: PhysicsWorld, _runtime: Box3DRuntime): BodyHandle[] {
+export function buildBenchmarkHeightFieldDynamicBodies(world: PhysicsWorld, _runtime: Box3DRuntime): BodyId[] {
   createBenchmarkHeightFieldScene(world);
   return [];
 }
@@ -78,7 +78,7 @@ export const dumpCppSampleName = "Benchmark/Height Field";
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: { heightField: HeightFieldHandle };
   dispose: () => void;
 } {

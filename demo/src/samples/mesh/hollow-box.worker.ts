@@ -1,5 +1,5 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
+import type { Vec3 , BodyId} from "box3d-wasm";
 import { buildHollowBoxDynamicBodies, buildHollowBoxGround, hollowBoxGroundSize } from "./hollow-box-scene";
 
 class HollowBoxWorker extends PhysicsWorkerBase {
@@ -11,7 +11,7 @@ class HollowBoxWorker extends PhysicsWorkerBase {
     return hollowBoxGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildHollowBoxDynamicBodies(this.world!, this.runtime!);
   }
 }

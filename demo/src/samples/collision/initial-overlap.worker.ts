@@ -1,5 +1,5 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { MeshHandle, Vec3 } from "box3d-wasm";
+import type { MeshHandle, Vec3 , BodyId} from "box3d-wasm";
 import { buildInitialOverlapScene, initialOverlapGroundSize } from "./initial-overlap-scene";
 
 class InitialOverlapWorker extends PhysicsWorkerBase {
@@ -13,7 +13,7 @@ class InitialOverlapWorker extends PhysicsWorkerBase {
     return initialOverlapGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { body, mesh } = buildInitialOverlapScene(this.world!, this.runtime!);
     this.mesh = mesh;
     return [body];
