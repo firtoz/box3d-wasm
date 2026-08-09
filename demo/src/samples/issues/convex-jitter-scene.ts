@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 function scalePoints(points: number[][], s: number): number[] {
@@ -9,8 +9,8 @@ function scalePoints(points: number[][], s: number): number[] {
   return out;
 }
 
-export function buildConvexJitterDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildConvexJitterDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const s = 0.01;
 
   // Body 1: static hull with convex jitter points

@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import {
   advanceRayCurtainOffset,
   buildRayCurtainDynamicBodies,
@@ -25,7 +25,7 @@ class RayCurtainWorker extends PhysicsWorkerBase {
     return rayCurtainGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const floats = RAY_CURTAIN_HEADER_FLOATS + RAY_CURTAIN_RAY_COUNT * RAY_CURTAIN_RAY_STRIDE_FLOATS;
     this.rayBuffer = new SharedArrayBuffer(floats * 4);
     this.rayValues = new Float32Array(this.rayBuffer);

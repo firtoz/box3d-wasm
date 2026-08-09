@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type JointHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type JointId, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 
@@ -16,12 +16,12 @@ const jointOptions = {
 } as const;
 
 export interface JointEventScene {
-  anchor: BodyHandle;
-  bodies: BodyHandle[];
-  joints: JointHandle[];
+  anchor: BodyId;
+  bodies: BodyId[];
+  joints: JointId[];
 }
 
-function createJointBox(world: PhysicsWorld, runtime: Box3DRuntime, position: Vec3): BodyHandle {
+function createJointBox(world: PhysicsWorld, runtime: Box3DRuntime, position: Vec3): BodyId {
   const body = world.createBody({
     type: BodyType.Dynamic,
     position,
@@ -33,8 +33,8 @@ function createJointBox(world: PhysicsWorld, runtime: Box3DRuntime, position: Ve
 
 export function createJointEventScene(world: PhysicsWorld, runtime: Box3DRuntime): JointEventScene {
   const anchor = world.createBody({ type: BodyType.Static });
-  const bodies: BodyHandle[] = [];
-  const joints: JointHandle[] = [];
+  const bodies: BodyId[] = [];
+  const joints: JointId[] = [];
 
   let position: Vec3 = [...START_POSITION];
 
@@ -102,7 +102,7 @@ export function createJointEventScene(world: PhysicsWorld, runtime: Box3DRuntime
   return { anchor, bodies, joints };
 }
 
-export function buildJointEventDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildJointEventDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const scene = createJointEventScene(world, runtime);
   return [scene.anchor, ...scene.bodies];
 }
@@ -129,7 +129,7 @@ export const dumpBuildDynamicBodies = buildJointEventDynamicBodies;
 export function dumpPostStep(
   world: PhysicsWorld,
   _runtime: Box3DRuntime,
-  _handles: readonly number[],
+  _handles: readonly BodyId[],
   _frame: number,
   _dt: number,
   _state: unknown,

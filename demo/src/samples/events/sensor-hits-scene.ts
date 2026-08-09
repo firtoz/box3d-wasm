@@ -1,16 +1,4 @@
-import {
-  B3_AXIS_Z,
-  B3_PI,
-  BodyType,
-  quatFromAxisAngle,
-  type BodyHandle,
-  type Box3DRuntime,
-  type JointHandle,
-  type MeshHandle,
-  type PhysicsWorld,
-  type Quat,
-  type Vec3,
-} from "box3d-wasm";
+import {B3_AXIS_Z, B3_PI, BodyType, quatFromAxisAngle, type BodyId, type Box3DRuntime, type JointId, type MeshHandle, type PhysicsWorld, type Quat, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { f32, f32Mul } from "../f32";
 import { cameraFromSetView } from "../shared";
@@ -27,12 +15,12 @@ const GRID_CELL_WIDTH = f32(5);
 
 export interface SensorHitsState {
   mesh: MeshHandle;
-  wallBody: BodyHandle;
-  staticSensorBody: BodyHandle;
-  kinematicBody: BodyHandle;
-  dynamicBody: BodyHandle;
-  launchBody: BodyHandle;
-  joint: JointHandle;
+  wallBody: BodyId;
+  staticSensorBody: BodyId;
+  kinematicBody: BodyId;
+  dynamicBody: BodyId;
+  launchBody: BodyId;
+  joint: JointId;
 }
 
 export function sensorHitsSensorRotation(runtime: Box3DRuntime): Quat {
@@ -42,7 +30,7 @@ export function sensorHitsSensorRotation(runtime: Box3DRuntime): Quat {
 export function buildSensorHitsDynamicBodies(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
-): { handles: BodyHandle[]; state: SensorHitsState } {
+): { handles: BodyId[]; state: SensorHitsState } {
   // Extra wall hull on a dedicated static body (joint anchor). Upstream also calls AddGroundBox(10)
   // before this — dumpCreate / worker setupGround provide that ground.
   const wallBody = world.createBody({ type: BodyType.Static });
@@ -184,7 +172,7 @@ export const dumpCppSampleName = "Sensor Hits";
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: SensorHitsState;
   dispose: () => void;
 } {
@@ -205,7 +193,7 @@ export function dumpCreate(runtime: Box3DRuntime): {
 export function dumpStep(
   world: PhysicsWorld,
   _runtime: Box3DRuntime,
-  _handles: readonly number[],
+  _handles: readonly BodyId[],
   _frame: number,
   _dt: number,
   state: unknown,

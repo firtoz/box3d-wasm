@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildOverlapRecoveryDynamicBodies, overlapRecoveryGroundSize } from "./overlap-recovery-scene";
 
 class OverlapRecoveryWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class OverlapRecoveryWorker extends PhysicsWorkerBase {
     return overlapRecoveryGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildOverlapRecoveryDynamicBodies(this.world!, this.runtime!);
   }
 }

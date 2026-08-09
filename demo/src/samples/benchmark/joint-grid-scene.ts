@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const N = 100;
@@ -17,8 +17,8 @@ export function forEachJointGridSphere(callback: (position: Vec3, color: number,
   }
 }
 
-export function buildJointGridDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = new Array(N * N);
+export function buildJointGridDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = new Array(N * N);
   let index = 0;
 
   for (let k = 0; k < N; k++) {
@@ -35,13 +35,13 @@ export function buildJointGridDynamicBodies(world: PhysicsWorld, runtime: Box3DR
       handles[index] = body;
 
       if (i > 0) {
-        world.createSphericalJoint(handles[index - 1]! as BodyHandle, body, {
+        world.createSphericalJoint(handles[index - 1]! as BodyId, body, {
           localFrameA: { position: [0, -0.5, 0] },
           localFrameB: { position: [0, 0.5, 0] },
         });
       }
       if (k > 0) {
-        world.createSphericalJoint(handles[index - N]! as BodyHandle, body, {
+        world.createSphericalJoint(handles[index - N]! as BodyId, body, {
           localFrameA: { position: [0.5, 0, 0] },
           localFrameB: { position: [-0.5, 0, 0] },
         });
@@ -78,7 +78,7 @@ export const dumpCppSampleName = "Joint Grid";
 export const dumpGroundSize = jointGridGroundSize;
 export const dumpBuildDynamicBodies = buildJointGridDynamicBodies;
 
-export function createJointGrid(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[] } {
+export function createJointGrid(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   world.enableSleeping(false);
   return { world, handles: buildJointGridDynamicBodies(world, runtime) };

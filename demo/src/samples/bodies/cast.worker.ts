@@ -1,5 +1,5 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
+import type { Vec3 , BodyId} from "box3d-wasm";
 import { buildBodyCastDynamicBodies, bodyCastGroundSize } from "./cast-scene";
 
 class BodyCastWorker extends PhysicsWorkerBase {
@@ -11,7 +11,7 @@ class BodyCastWorker extends PhysicsWorkerBase {
     return bodyCastGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildBodyCastDynamicBodies(this.world!, this.runtime!);
   }
 }

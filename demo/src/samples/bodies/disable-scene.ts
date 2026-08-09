@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import { ObjectRuntime } from "box3d-wasm/objects";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
@@ -6,8 +6,8 @@ const linkRadius = 0.1;
 const linkLength = 5 * linkRadius;
 const e_count = 4;
 
-export function buildDisableDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
-  const handles: BodyHandle[] = [];
+export function buildDisableDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const objectRuntime = ObjectRuntime.fromRuntime(runtime);
   const objectWorld = objectRuntime.wrapWorld(world);
   const links = [];
@@ -51,7 +51,7 @@ export function disableGroundSize(): Vec3 {
 export function stepDisable(
   _world: PhysicsWorld,
   runtime: Box3DRuntime,
-  handles: readonly BodyHandle[],
+  handles: readonly BodyId[],
   _frame: number,
   _dt: number,
 ): void {

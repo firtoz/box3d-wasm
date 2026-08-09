@@ -1,11 +1,11 @@
 import { PhysicsWorkerBase } from "../physics-worker-base";
-import { B3_AXIS_Y, B3_DEG_TO_RAD, BodyType } from "box3d-wasm";
+import {B3_AXIS_Y, B3_DEG_TO_RAD, BodyType, type BodyId} from "box3d-wasm";
 
 class DominoesWorker extends PhysicsWorkerBase<{ multiplier?: number }> {
-  protected async buildScene(initData: { multiplier?: number }): Promise<number[]> {
+  protected async buildScene(initData: { multiplier?: number }): Promise<BodyId[]> {
     const rings = 30 * (initData.multiplier ?? 1);
     const count = rings * 180;
-    const handles = Array.from({ length: count }) as number[];
+    const handles = Array.from({ length: count }) as BodyId[];
     let idx = 0;
     for (let ring = 0; ring < rings; ring++) {
       const scale = 0.5 + ring * 0.0585;

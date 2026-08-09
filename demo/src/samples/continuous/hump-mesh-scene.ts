@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type MeshHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type MeshHandle, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Add, f32Mul } from "../f32";
@@ -42,8 +42,8 @@ export function createHumpMeshData(world: PhysicsWorld, cellWidth: number = CELL
 }
 
 export interface HumpMeshScene {
-  humpBody: number;
-  dynamic: number;
+  humpBody: BodyId;
+  dynamic: BodyId;
   mesh: MeshHandle;
 }
 
@@ -62,7 +62,7 @@ export function buildHumpMeshScene(world: PhysicsWorld, runtime: Box3DRuntime): 
 }
 
 /** After AddGroundBox: [humpBody, dynamic] — dump order matches C++. */
-export function buildHumpMeshDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+export function buildHumpMeshDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const { humpBody, dynamic } = buildHumpMeshScene(world, runtime);
   return [humpBody, dynamic];
 }

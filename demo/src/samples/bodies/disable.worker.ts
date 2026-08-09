@@ -1,17 +1,17 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import { type BodyHandle, type Vec3 } from "box3d-wasm";
+import {type BodyId, type Vec3} from "box3d-wasm";
 import type { PhysicsWorkerCommand } from "../../physics-worker-protocol";
 import { buildDisableDynamicBodies, disableGroundSize } from "./disable-scene";
 
 class DisableWorker extends PhysicsWorkerBase {
-  private linkIds: BodyHandle[] = [];
-  private ballId: BodyHandle | null = null;
+  private linkIds: BodyId[] = [];
+  private ballId: BodyId | null = null;
 
   protected getGroundSize(): Vec3 {
     return disableGroundSize();
   }
 
-  protected async buildScene(): Promise<BodyHandle[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const handles = buildDisableDynamicBodies(this.world!, this.runtime!);
     // handles[0..3] = links 0..3, handles[4] = ball
     this.linkIds = [handles[0], handles[1], handles[2], handles[3]];

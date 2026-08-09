@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import {
   buildCapsuleCastRayDynamicBodies,
   CAPSULE_CAST_RAY_HEADER_FLOATS,
@@ -9,7 +9,7 @@ import {
 } from "./capsule-cast-ray-scene";
 
 class CapsuleCastRayWorker extends PhysicsWorkerBase {
-  private handles: number[] = [];
+  private handles: BodyId[] = [];
   private rayBuffer: SharedArrayBuffer | null = null;
   private rayValues: Float32Array | null = null;
 
@@ -21,7 +21,7 @@ class CapsuleCastRayWorker extends PhysicsWorkerBase {
     return capsuleCastRayGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const floats = CAPSULE_CAST_RAY_HEADER_FLOATS + CAPSULE_CAST_RAY_STRIDE_FLOATS;
     this.rayBuffer = new SharedArrayBuffer(floats * 4);
     this.rayValues = new Float32Array(this.rayBuffer);

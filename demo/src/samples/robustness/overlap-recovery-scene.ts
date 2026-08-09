@@ -1,9 +1,9 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { f32 } from "../f32";
 
-export function buildOverlapRecoveryDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildOverlapRecoveryDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const baseCount = 4;
   const extent = f32(0.5);
   const overlap = f32(0.25);

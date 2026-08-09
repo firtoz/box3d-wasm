@@ -1,11 +1,11 @@
-import { B3_AXIS_Y, B3_PI, BodyType, quatFromAxisAngle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {B3_AXIS_Y, B3_PI, BodyType, quatFromAxisAngle, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "./generic-host";
 
 const boxCount = 32;
 const f = Math.fround;
 
-export function buildIsotropicFrictionDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildIsotropicFrictionDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
 
   for (let index = 0; index < boxCount; ++index) {
     const alpha = f(f(B3_PI / 16.0) * index);

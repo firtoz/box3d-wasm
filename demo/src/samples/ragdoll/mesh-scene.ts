@@ -1,6 +1,6 @@
 import {
   BodyType,
-  type BodyHandle,
+  type BodyId,
   type Box3DRuntime,
   type MeshHandle,
   type PhysicsWorld,
@@ -22,7 +22,7 @@ const WALL_SPECS: ReadonlyArray<{ position: Vec3; halfExtents: Vec3 }> = [
   { position: [20, 5, 0], halfExtents: [0.1, 5, 20] },
 ];
 
-export function buildRagdollMeshGround(world: PhysicsWorld, runtime: Box3DRuntime): { ground: BodyHandle; mesh: MeshHandle } {
+export function buildRagdollMeshGround(world: PhysicsWorld, runtime: Box3DRuntime): { ground: BodyId; mesh: MeshHandle } {
   const ground = world.createBody({ type: BodyType.Static, position: [0, 0, 0] });
   const mesh = world.createGridMesh(20, 20, 2, 2, true);
   world.createMeshShape(ground, mesh, { scale: [1, 1, 1] });
@@ -34,7 +34,7 @@ export function buildRagdollMeshGround(world: PhysicsWorld, runtime: Box3DRuntim
   return { ground, mesh };
 }
 
-export function buildRagdollMeshDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+export function buildRagdollMeshDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const human = world.createHuman(HUMAN_ORIGIN, {
     frictionTorque: 5,
     hertz: 2,
@@ -63,7 +63,7 @@ export const dumpGroundSize = ragdollMeshGroundSize;
 
 export function createRagdollMesh(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   dispose: () => void;
 } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });

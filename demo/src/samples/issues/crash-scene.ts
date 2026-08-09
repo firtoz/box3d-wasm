@@ -1,18 +1,18 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 
 const BOX_HALF = 0.5;
 const BOX_SIZE: [number, number, number] = [2 * BOX_HALF, 2 * BOX_HALF, 2 * BOX_HALF];
 
-export function buildCrashGround(world: PhysicsWorld): BodyHandle {
+export function buildCrashGround(world: PhysicsWorld): BodyId {
   const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
   const mesh = world.createGridMesh(20, 20, 2, 0, true);
   world.createMeshShape(ground, mesh, { scale: [1, 1, 1] });
   return ground;
 }
 
-export function buildCrashDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildCrashDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const body1 = world.createBody({ type: BodyType.Dynamic, position: [2, 4, 0] });
   runtime.createHullShape(body1, [BOX_HALF, BOX_HALF, BOX_HALF]);
   const body2 = world.createBody({ type: BodyType.Dynamic, position: [-2, 4, 0] });
@@ -20,7 +20,7 @@ export function buildCrashDynamicBodies(world: PhysicsWorld, runtime: Box3DRunti
   return [body1, body2];
 }
 
-export function createCrash(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyHandle[] } {
+export function createCrash(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   const ground = buildCrashGround(world);
   return { world, handles: [ground, ...buildCrashDynamicBodies(world, runtime)] };
@@ -46,7 +46,7 @@ export const dumpCreate = createCrash;
 export function dumpRunInteraction(
   world: PhysicsWorld,
   _runtime: Box3DRuntime,
-  handles: readonly BodyHandle[],
+  handles: readonly BodyId[],
   interaction: { action: string },
 ): void {
   if (interaction.action !== "add-joint") throw new Error(`Unsupported crash dump action: ${interaction.action}`);

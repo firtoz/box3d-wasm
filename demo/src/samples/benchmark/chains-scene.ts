@@ -1,12 +1,4 @@
-import {
-  BodyType,
-  type BodyHandle,
-  type Box3DRuntime,
-  type MeshHandle,
-  type PhysicsWorld,
-  type ShapeHandle,
-  type Vec3,
-} from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type MeshHandle, type PhysicsWorld, type ShapeHandle, type Vec3} from "box3d-wasm";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Add, f32Mul, f32Sub } from "../f32";
 
@@ -33,13 +25,13 @@ export interface ChainsState {
 export function buildChainsScene(
   world: PhysicsWorld,
   _runtime: Box3DRuntime,
-): { ground: BodyHandle; links: BodyHandle[]; state: ChainsState } {
+): { ground: BodyId; links: BodyId[]; state: ChainsState } {
   const ground = world.createBody({ type: BodyType.Static });
   const mesh = world.createWaveMesh(80, 80, 1, 0.5, 0.05, 0.01);
   world.createMeshShape(ground, mesh, { scale: [1, 1, 1] });
 
   const tipShapeIds: ShapeHandle[] = [];
-  const links: BodyHandle[] = [];
+  const links: BodyId[] = [];
   const linkExtent = CHAINS_LINK_EXTENT;
   const linkRadius = CHAINS_LINK_RADIUS;
 
@@ -47,7 +39,7 @@ export function buildChainsScene(
   for (let rowIndex = 0; rowIndex < CHAINS_GRID_COUNT; rowIndex++) {
     let z = f32Mul(-1, CHAINS_GRID_COUNT);
     for (let columnIndex = 0; columnIndex < CHAINS_GRID_COUNT; columnIndex++) {
-      let prevBody: BodyHandle | null = null;
+      let prevBody: BodyId | null = null;
       for (let i = 0; i < CHAINS_LINK_COUNT; i++) {
         const y = f32Add(f32Mul(f32Sub(1, f32Mul(2, i)), linkExtent), 3);
         const body = world.createBody({
@@ -115,7 +107,7 @@ export const dumpCppSampleName = "Chains";
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: ChainsState;
   dispose: () => void;
 } {
@@ -135,7 +127,7 @@ export function dumpCreate(runtime: Box3DRuntime): {
 export function dumpStep(
   _world: PhysicsWorld,
   runtime: Box3DRuntime,
-  _handles: readonly BodyHandle[],
+  _handles: readonly BodyId[],
   _frame: number,
   _dt: number,
   state: ChainsState,

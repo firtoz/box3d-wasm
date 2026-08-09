@@ -1,5 +1,5 @@
+import { BodyId, MeshHandle, ShapeHandle, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { BodyHandle, MeshHandle, ShapeHandle, Vec3 } from "box3d-wasm";
 import type { PhysicsWorkerCommand } from "../../physics-worker-protocol";
 import {
   buildMeshBoxDynamicBodies,
@@ -21,8 +21,8 @@ class MeshBoxWorker extends PhysicsWorkerBase {
   private meshShape: ShapeHandle | null = null;
   private scale: Vec3 = [...MESH_BOX_DEFAULT_SCALE];
   private shapeType: MeshBoxShapeType = "box";
-  private dynamic: BodyHandle | null = null;
-  private platform: BodyHandle | null = null;
+  private dynamic: BodyId | null = null;
+  private platform: BodyId | null = null;
 
   protected setupGround(): void {
     buildMeshBoxGroundBox(this.world!, this.runtime!);
@@ -32,7 +32,7 @@ class MeshBoxWorker extends PhysicsWorkerBase {
     return meshBoxGroundSize();
   }
 
-  protected async buildScene(): Promise<BodyHandle[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const built = buildMeshBoxPlatform(this.world!, this.runtime!, this.scale);
     this.platform = built.platform;
     this.mesh = built.mesh;

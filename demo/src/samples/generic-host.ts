@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { ConvexGeometry } from "three/examples/jsm/geometries/ConvexGeometry.js";
-import { BodyType, type BodyHandle, type Box3DRuntime } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime} from "box3d-wasm";
 import { wasmBuildVersion } from "virtual:wasm-version";
 import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker-protocol";
 import { MAX_PROJECTILES, SNAPSHOT_BODY_COUNT_INDEX, SNAPSHOT_PROJECTILE_COUNT_INDEX, SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
@@ -175,7 +175,7 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
           scene.add(extra);
           return extra;
         }) : undefined;
-        bodies.push({ handle: (i + 1) as BodyHandle, mesh, extraMeshes, type: bodySpec.type ?? BodyType.Dynamic });
+        bodies.push({ handle: BigInt(i + 1) as BodyId, mesh, extraMeshes, type: bodySpec.type ?? BodyType.Dynamic });
       }
 
       worker.addEventListener("message", (event: MessageEvent<PhysicsWorkerMessage>) => {

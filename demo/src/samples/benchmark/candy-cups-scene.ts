@@ -1,4 +1,4 @@
-import { B3_PI, BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {B3_PI, BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Add, f32Div, f32Mul, f32Sub } from "../f32";
@@ -90,8 +90,8 @@ export function forEachCandyCup(callback: (position: Vec3) => void): void {
   }
 }
 
-export function buildCandyCupsDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildCandyCupsDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const hull = runtime.createHullFromPoints(candyCupPoints());
   forEachCandyCup((position) => {
     const body = world.createBody({ type: BodyType.Dynamic, position });
@@ -124,7 +124,7 @@ export const dumpInteractionSchedule = [
 export function dumpRunInteraction(
   world: PhysicsWorld,
   _runtime: Box3DRuntime,
-  _handles: readonly number[],
+  _handles: readonly BodyId[],
   interaction: { action: string; args?: readonly number[] },
 ): void {
   if (interaction.action !== "explode") throw new Error(`Unsupported candy-cups dump action: ${interaction.action}`);

@@ -1,13 +1,4 @@
-import {
-  BodyType,
-  type BodyHandle,
-  type Box3DRuntime,
-  type HeightFieldHandle,
-  type HullHandle,
-  type MeshHandle,
-  type PhysicsWorld,
-  type Vec3,
-} from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type HeightFieldHandle, type HullHandle, type MeshHandle, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { rockHullPoints } from "../continuous/stall-scene";
 import { f32, f32Mul } from "../f32";
@@ -35,12 +26,12 @@ export function longRayCastTargetX(i: number): number {
 export function buildLongRayCastScene(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
-): { handles: BodyHandle[]; resources: LongRayCastResources } {
+): { handles: BodyId[]; resources: LongRayCastResources } {
   const hull = runtime.createRock(f32(1));
   const mesh = world.createWaveMesh(8, 8, f32(0.5), f32(0.25), f32(0.2), f32(0.2));
   const heightField = world.createWave(HF_COUNT, HF_COUNT, HF_SCALE, HF_ROW_FREQUENCY, HF_COLUMN_FREQUENCY, false);
 
-  const handles: BodyHandle[] = [];
+  const handles: BodyId[] = [];
 
   // Sphere
   {
@@ -86,7 +77,7 @@ export function buildLongRayCastScene(
   return { handles, resources: { hull, mesh, heightField } };
 }
 
-export function buildLongRayCastDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildLongRayCastDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   return buildLongRayCastScene(world, runtime).handles;
 }
 
@@ -167,7 +158,7 @@ export const dumpCppSampleName = "Long Ray Cast";
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   dispose: () => void;
 } {
   const world = runtime.createWorld({ gravity: [0, 0, 0], workerCount: 1 });

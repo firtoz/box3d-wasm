@@ -1,5 +1,5 @@
+import { BodyId, MeshHandle, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { MeshHandle, Vec3 } from "box3d-wasm";
 import { buildNeedleMeshScene, needleMeshGroundSize } from "./needle-mesh-scene";
 
 class NeedleMeshWorker extends PhysicsWorkerBase {
@@ -13,7 +13,7 @@ class NeedleMeshWorker extends PhysicsWorkerBase {
     return needleMeshGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { dynamic, meshes } = buildNeedleMeshScene(this.world!, this.runtime!);
     this.meshes = meshes;
     return [dynamic];

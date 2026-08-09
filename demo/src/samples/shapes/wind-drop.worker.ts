@@ -1,5 +1,5 @@
+import { BodyId, Vec3, ShapeId } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3, ShapeId, BodyHandle } from "box3d-wasm";
 import { buildWindDropDynamicBodies, dumpPostStep, windDropGroundSize } from "./wind-drop-scene";
 
 class WindDropWorker extends PhysicsWorkerBase {
@@ -7,10 +7,10 @@ class WindDropWorker extends PhysicsWorkerBase {
 
   protected getGroundSize(): Vec3 { return windDropGroundSize(); }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const handles = buildWindDropDynamicBodies(this.world!, this.runtime!);
     if (handles.length > 0) {
-      const shapes = this.world!.getBodyShapes(handles[0] as BodyHandle);
+      const shapes = this.world!.getBodyShapes(handles[0] as BodyId);
       this.shapeId = shapes[0] ?? null;
     }
     return handles;

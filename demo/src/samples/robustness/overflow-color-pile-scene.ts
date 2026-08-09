@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const RING_COUNT = 5;
@@ -9,8 +9,8 @@ const f32 = Math.fround;
 const B3_PI_F32 = f32(Math.PI);
 const TWO_PI_F32 = f32(2 * B3_PI_F32);
 
-export function buildOverflowColorPileDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildOverflowColorPileDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
 
   // Tall heavy hub
   const hubHalfY = 2.5;

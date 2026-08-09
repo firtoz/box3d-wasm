@@ -1,12 +1,12 @@
-import { B3_DEG_TO_RAD, BodyType, quatFromAxisAngle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {B3_DEG_TO_RAD, BodyType, quatFromAxisAngle, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const count = 10;
 const tiltAngle = 30 * B3_DEG_TO_RAD;
 const tiltQuat = quatFromAxisAngle([0, 0, 1], tiltAngle);
 
-export function buildHighResistanceDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildHighResistanceDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const rotation = runtime.makeQuatFromAxisAngle([0, 0, 1], tiltAngle);
 
   for (let i = 0; i < count; i++) {

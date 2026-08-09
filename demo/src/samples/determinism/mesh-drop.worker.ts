@@ -1,5 +1,5 @@
+import { BodyId, MeshHandle, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { MeshHandle, Vec3 } from "box3d-wasm";
 import { buildMeshDropDeterminism, meshDropDeterminismGroundSize } from "./mesh-drop-scene";
 
 class MeshDropDeterminismWorker extends PhysicsWorkerBase {
@@ -13,7 +13,7 @@ class MeshDropDeterminismWorker extends PhysicsWorkerBase {
     return meshDropDeterminismGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { bodies, mesh } = buildMeshDropDeterminism(this.world!, this.runtime!);
     this.mesh = mesh;
     return bodies;

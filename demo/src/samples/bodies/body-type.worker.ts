@@ -1,15 +1,15 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import { BodyType, type BodyHandle, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Vec3} from "box3d-wasm";
 import type { PhysicsWorkerCommand } from "../../physics-worker-protocol";
 import { buildBodyTypeDynamicBodies, bodyTypeGroundSize, bodyTypeHandleIndex, stepBodyType } from "./body-type-scene";
 
 class BodyTypeWorker extends PhysicsWorkerBase {
-  private attachmentId: BodyHandle | null = null;
-  private secondAttachmentId: BodyHandle | null = null;
-  private platformId: BodyHandle | null = null;
-  private secondPayloadId: BodyHandle | null = null;
-  private touchingBodyId: BodyHandle | null = null;
-  private floatingBodyId: BodyHandle | null = null;
+  private attachmentId: BodyId | null = null;
+  private secondAttachmentId: BodyId | null = null;
+  private platformId: BodyId | null = null;
+  private secondPayloadId: BodyId | null = null;
+  private touchingBodyId: BodyId | null = null;
+  private floatingBodyId: BodyId | null = null;
   private bodyType = BodyType.Dynamic;
   private speed = 3;
   private platformVx = -3;
@@ -18,8 +18,8 @@ class BodyTypeWorker extends PhysicsWorkerBase {
     return bodyTypeGroundSize();
   }
 
-  protected async buildScene(): Promise<BodyHandle[]> {
-    const handles = buildBodyTypeDynamicBodies(this.world!, this.runtime!);
+  protected async buildScene(): Promise<BodyId[]> {
+    const handles = buildBodyTypeDynamicBodies(this.world!, this.runtime!, this.groundBodyId);
     this.attachmentId = handles[bodyTypeHandleIndex.attachmentId];
     this.secondAttachmentId = handles[bodyTypeHandleIndex.secondAttachmentId];
     this.platformId = handles[bodyTypeHandleIndex.platformId];

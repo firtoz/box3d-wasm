@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildCylinderDynamicBodies, cylinderGroundSize } from "./cylinder-scene";
 
 class CylinderWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class CylinderWorker extends PhysicsWorkerBase {
     return cylinderGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildCylinderDynamicBodies(this.world!, this.runtime!);
   }
 }

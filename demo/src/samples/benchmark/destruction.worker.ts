@@ -1,5 +1,5 @@
+import { BodyId, Vec3, WorldCapacity } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3, WorldCapacity } from "box3d-wasm";
 import { Box3DRng } from "../box3d-rng";
 import {
   buildDestructionGround,
@@ -12,7 +12,7 @@ import {
 } from "./destruction-scene";
 
 class DestructionWorker extends PhysicsWorkerBase {
-  private handles: number[] = [];
+  private handles: BodyId[] = [];
   private rng = new Box3DRng();
 
   protected setupGround(): void {
@@ -31,7 +31,7 @@ class DestructionWorker extends PhysicsWorkerBase {
     return DESTRUCTION_MAX_BODY_COUNT;
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     this.rng = new Box3DRng();
     this.handles = spawnDestructionBodies(this.world!, this.runtime!, this.rng);
     return this.handles;

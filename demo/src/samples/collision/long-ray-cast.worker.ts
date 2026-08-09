@@ -1,5 +1,5 @@
+import { BodyId, HeightFieldHandle, HullHandle, MeshHandle, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { HeightFieldHandle, HullHandle, MeshHandle, Vec3 } from "box3d-wasm";
 import { buildLongRayCastScene, longRayCastGroundSize } from "./long-ray-cast-scene";
 
 class LongRayCastWorker extends PhysicsWorkerBase {
@@ -19,7 +19,7 @@ class LongRayCastWorker extends PhysicsWorkerBase {
     return longRayCastGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { handles, resources } = buildLongRayCastScene(this.world!, this.runtime!);
     this.hull = resources.hull;
     this.mesh = resources.mesh;

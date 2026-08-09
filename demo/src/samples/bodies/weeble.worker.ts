@@ -1,10 +1,10 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import { type BodyHandle, type Vec3 } from "box3d-wasm";
+import {type BodyId, type Vec3} from "box3d-wasm";
 import type { PhysicsWorkerCommand } from "../../physics-worker-protocol";
 import { buildWeebleDynamicBodies, explodeWeeble, teleportWeeble, weebleGroundSize } from "./weeble-scene";
 
 class WeebleWorker extends PhysicsWorkerBase {
-  private weebleId: BodyHandle | null = null;
+  private weebleId: BodyId | null = null;
   private debugBuffer: SharedArrayBuffer | null = null;
   private debugValues: Float32Array | null = null;
   private explosionMagnitude = 20000;
@@ -13,7 +13,7 @@ class WeebleWorker extends PhysicsWorkerBase {
     return weebleGroundSize();
   }
 
-  protected async buildScene(): Promise<BodyHandle[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const handles = buildWeebleDynamicBodies(this.world!, this.runtime!);
     this.weebleId = handles[0];
     this.debugBuffer = new SharedArrayBuffer(10 * 4);

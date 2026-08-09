@@ -1,4 +1,4 @@
-import type { Vec3 } from "box3d-wasm";
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
 import {
   createSensorVisitScene,
@@ -19,7 +19,7 @@ class SensorVisitWorker extends PhysicsWorkerBase {
     return sensorVisitGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const scene = createSensorVisitScene(this.world!, this.runtime!);
     this.sensorVisit = createSensorVisitState(scene);
     // Live render order tracks the persistent sensor first so the visitor can be hidden after destruction.

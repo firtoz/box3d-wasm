@@ -1,5 +1,5 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { HeightFieldHandle, Vec3 } from "box3d-wasm";
+import type { HeightFieldHandle, Vec3 , BodyId} from "box3d-wasm";
 import { benchmarkHeightFieldGroundSize, createBenchmarkHeightFieldScene } from "./height-field-scene";
 
 class BenchmarkHeightFieldWorker extends PhysicsWorkerBase {
@@ -13,7 +13,7 @@ class BenchmarkHeightFieldWorker extends PhysicsWorkerBase {
     return benchmarkHeightFieldGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { heightField } = createBenchmarkHeightFieldScene(this.world!);
     this.heightField = heightField;
     return [];

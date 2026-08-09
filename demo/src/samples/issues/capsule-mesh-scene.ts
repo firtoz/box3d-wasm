@@ -32,10 +32,10 @@ export function buildCapsuleMeshScene(world: PhysicsWorld, runtime: Box3DRuntime
   const capsule = world.createBody({
     type: BodyType.Dynamic,
     position: CAPSULE_POS,
-    motionLocks: { angularX: true, angularY: true, angularZ: true },
     enableSleep: false,
     enableContactRecycling: false,
   });
+  runtime.setBodyMotionLocks(capsule, { lockRotationX: true, lockRotationY: true, lockRotationZ: true });
   runtime.createCapsuleShape(capsule, CAPSULE_CENTER1, CAPSULE_CENTER2, CAPSULE_RADIUS, { friction: 0.3 });
 
   return { handles: [ground, building.body, capsule], meshes };
@@ -103,10 +103,10 @@ export function dumpCreate(runtime: Box3DRuntime): {
   const capsule = world.createBody({
     type: BodyType.Dynamic,
     position: CAPSULE_POS,
-    motionLocks: { angularX: true, angularY: true, angularZ: true },
     enableSleep: false,
     enableContactRecycling: false,
   });
+  runtime.setBodyMotionLocks(capsule, { lockRotationX: true, lockRotationY: true, lockRotationZ: true });
   runtime.createCapsuleShape(capsule, CAPSULE_CENTER1, CAPSULE_CENTER2, CAPSULE_RADIUS, { friction: 0.3 });
 
   return { world, handles: [ground, capsule] };

@@ -1,5 +1,5 @@
+import { BodyId, Vec3, WorldCapacity } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3, WorldCapacity } from "box3d-wasm";
 import {
   buildConvexPileDynamicBodies,
   buildConvexPileGround,
@@ -25,7 +25,7 @@ class ConvexPileWorker extends PhysicsWorkerBase {
     return CONVEX_PILE_BODY_COUNT;
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildConvexPileDynamicBodies(this.world!, this.runtime!);
   }
 }

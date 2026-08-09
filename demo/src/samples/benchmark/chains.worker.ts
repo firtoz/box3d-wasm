@@ -1,5 +1,5 @@
+import { BodyId, MeshHandle, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { MeshHandle, Vec3 } from "box3d-wasm";
 import {
   buildChainsScene,
   chainsGroundSize,
@@ -19,7 +19,7 @@ class ChainsWorker extends PhysicsWorkerBase {
     return chainsGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { links, state } = buildChainsScene(this.world!, this.runtime!);
     this.chainsState = state;
     this.mesh = state.mesh;

@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { BodyHandle, Vec3 } from "box3d-wasm";
 import type { PhysicsWorkerCommand } from "../../physics-worker-protocol";
 import {
   buildStaticInvokeDynamicBodies,
@@ -9,8 +9,8 @@ import {
 
 class StaticInvokeWorker extends PhysicsWorkerBase {
   private invoke = false;
-  private staticBody: BodyHandle | null = null;
-  private handles: BodyHandle[] = [];
+  private staticBody: BodyId | null = null;
+  private handles: BodyId[] = [];
 
   protected getGroundSize(): Vec3 {
     return staticInvokeGroundSize();
@@ -20,7 +20,7 @@ class StaticInvokeWorker extends PhysicsWorkerBase {
     return 2;
   }
 
-  protected async buildScene(): Promise<BodyHandle[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     this.handles = buildStaticInvokeDynamicBodies(this.world!, this.runtime!);
     return this.handles;
   }

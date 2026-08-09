@@ -1,14 +1,15 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import { ObjectRuntime } from "box3d-wasm/objects";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const PI = Math.PI;
 
-// Ground body is handle 1 (first body created in the world).
-const groundHandle = 1 as BodyHandle;
-
-export function buildBodyTypeDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
-  const handles: BodyHandle[] = [];
+export function buildBodyTypeDynamicBodies(
+  world: PhysicsWorld,
+  runtime: Box3DRuntime,
+  groundHandle: BodyId,
+): BodyId[] {
+  const handles: BodyId[] = [];
   const objectRuntime = ObjectRuntime.fromRuntime(runtime);
   const objectWorld = objectRuntime.wrapWorld(world);
   const ground = objectWorld.body(groundHandle);
@@ -92,7 +93,7 @@ export const bodyTypeHandleIndex = {
 export function stepBodyType(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
-  platformId: BodyHandle,
+  platformId: BodyId,
   bodyType: number,
   platformVx: number,
 ): number {
@@ -130,5 +131,10 @@ export const bodyTypeCamera: RenderSpec["camera"] = { position: [0, 30, 30], tar
 export const dumpSampleName = "Body Type";
 export const dumpSampleId = "bodies/body-type";
 export const dumpCppSampleName = "Body Type";
-export const dumpGroundSize = bodyTypeGroundSize;
-export const dumpBuildDynamicBodies = buildBodyTypeDynamicBodies;
+
+export function dumpCreate(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
+  const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
+  const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
+  runtime.createHullShape(ground, bodyTypeGroundSize());
+  return { world, handles: [ground, ...buildBodyTypeDynamicBodies(world, runtime, ground)] };
+}

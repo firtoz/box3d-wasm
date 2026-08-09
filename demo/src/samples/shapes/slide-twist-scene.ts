@@ -1,12 +1,12 @@
-import { B3_AXIS_X, BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {B3_AXIS_X, BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const f32 = Math.fround;
 const B3_DEG_TO_RAD_F32 = f32(0.01745329251);
 const angle = f32(20 * B3_DEG_TO_RAD_F32);
 
-export function buildSlideTwistDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildSlideTwistDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const rotation = runtime.makeQuatFromAxisAngle(B3_AXIS_X, angle);
 
   const plane = world.createBody({ type: BodyType.Static, position: [0, 4, 0], rotation });

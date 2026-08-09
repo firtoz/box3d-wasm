@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32 } from "../f32";
@@ -23,7 +23,7 @@ export function forEachExplosionCylinder(callback: (position: Vec3) => void): vo
 }
 
 /** Static arena: grid mesh floor + four walls on one body (matches upstream order). */
-export function buildExplosionGround(world: PhysicsWorld, runtime: Box3DRuntime): number {
+export function buildExplosionGround(world: PhysicsWorld, runtime: Box3DRuntime): BodyId {
   const ground = world.createBody({ type: BodyType.Static, position: [0, 0, 0] });
   const mesh = world.createGridMesh(40, 40, 1, 0, true);
   world.createMeshShape(ground, mesh, { scale: [1, 1, 1] });
@@ -36,8 +36,8 @@ export function buildExplosionGround(world: PhysicsWorld, runtime: Box3DRuntime)
   return ground;
 }
 
-export function buildExplosionDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildExplosionDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const cylinder = runtime.createCylinder(EXPLOSION_CYLINDER_HEIGHT, EXPLOSION_CYLINDER_RADIUS, 0, 15);
   forEachExplosionCylinder((position) => {
     const body = world.createBody({ type: BodyType.Dynamic, position });
@@ -48,7 +48,7 @@ export function buildExplosionDynamicBodies(world: PhysicsWorld, runtime: Box3DR
   return handles;
 }
 
-export function createExplosion(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[] } {
+export function createExplosion(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   const ground = buildExplosionGround(world, runtime);
   return { world, handles: [ground, ...buildExplosionDynamicBodies(world, runtime)] };
@@ -73,7 +73,7 @@ export const dumpInteractionSchedule = [
 export function dumpRunInteraction(
   world: PhysicsWorld,
   _runtime: Box3DRuntime,
-  _handles: readonly number[],
+  _handles: readonly BodyId[],
   interaction: { action: string; args?: readonly number[] },
 ): void {
   if (interaction.action !== "explode") throw new Error(`Unsupported explosion dump action: ${interaction.action}`);

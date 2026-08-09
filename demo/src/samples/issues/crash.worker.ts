@@ -1,10 +1,10 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { BodyHandle, Vec3 } from "box3d-wasm";
 import type { PhysicsWorkerCommand } from "../../physics-worker-protocol";
 import { buildCrashDynamicBodies, buildCrashGround, crashGroundSize } from "./crash-scene";
 
 class CrashWorker extends PhysicsWorkerBase {
-  private boxes: BodyHandle[] = [];
+  private boxes: BodyId[] = [];
 
   protected setupGround(): void {
     buildCrashGround(this.world!);
@@ -14,7 +14,7 @@ class CrashWorker extends PhysicsWorkerBase {
     return crashGroundSize();
   }
 
-  protected async buildScene(): Promise<BodyHandle[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     this.boxes = buildCrashDynamicBodies(this.world!, this.runtime!);
     return this.boxes;
   }

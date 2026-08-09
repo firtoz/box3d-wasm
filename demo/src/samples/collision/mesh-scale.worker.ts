@@ -1,5 +1,5 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { MeshHandle, Vec3 } from "box3d-wasm";
+import type { MeshHandle, Vec3 , BodyId} from "box3d-wasm";
 import { buildMeshScaleScene, meshScaleGroundSize } from "./mesh-scale-scene";
 
 class MeshScaleWorker extends PhysicsWorkerBase {
@@ -13,7 +13,7 @@ class MeshScaleWorker extends PhysicsWorkerBase {
     return meshScaleGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { body, mesh } = buildMeshScaleScene(this.world!, this.runtime!);
     this.mesh = mesh;
     return [body];

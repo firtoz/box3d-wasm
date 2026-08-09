@@ -1,5 +1,5 @@
+import { BodyId, HumanHandle, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { HumanHandle, Vec3 } from "box3d-wasm";
 import { buildRagdollInclineScene, ragdollInclineGroundSize } from "./incline-scene";
 
 class RagdollInclineWorker extends PhysicsWorkerBase {
@@ -9,7 +9,7 @@ class RagdollInclineWorker extends PhysicsWorkerBase {
 
   protected getGroundSize(): Vec3 { return ragdollInclineGroundSize(); }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { handles, human } = buildRagdollInclineScene(this.world!, this.runtime!);
     this.human = human;
     return handles;

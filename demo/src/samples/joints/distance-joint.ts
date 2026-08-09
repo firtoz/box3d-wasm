@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { createGenericSample } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
-import { BodyType } from "box3d-wasm";
+import {BodyType} from "box3d-wasm";
 import {
   createDebugLine,
   createDebugPoint,

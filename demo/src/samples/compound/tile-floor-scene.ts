@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type CompoundHullEntry, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type CompoundHullEntry, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { Box3DRng } from "../box3d-rng";
 
@@ -20,8 +20,8 @@ function createTileEntries(): CompoundHullEntry[] {
   return entries;
 }
 
-export function buildTileFloorDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildTileFloorDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const compound = runtime.createCompoundFromHulls(createTileEntries());
   const ground = world.createBody({ type: BodyType.Static, position: [-2, 1, -3] });
   runtime.createCompoundShape(ground, compound);
@@ -51,7 +51,7 @@ export const dumpCppSampleName = "Tile Floor";
 export const dumpGroundSize = tileFloorGroundSize;
 export const dumpBuildDynamicBodies = buildTileFloorDynamicBodies;
 
-export function createTileFloor(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[] } {
+export function createTileFloor(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   return { world, handles: buildTileFloorDynamicBodies(world, runtime) };
 }

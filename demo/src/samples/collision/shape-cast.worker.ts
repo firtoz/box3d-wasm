@@ -1,5 +1,5 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { MeshHandle, Vec3 } from "box3d-wasm";
+import type { MeshHandle, Vec3 , BodyId} from "box3d-wasm";
 import { buildShapeCastScene, shapeCastGroundSize } from "./shape-cast-scene";
 
 class ShapeCastWorker extends PhysicsWorkerBase {
@@ -17,7 +17,7 @@ class ShapeCastWorker extends PhysicsWorkerBase {
     return shapeCastGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const mesh = this.world!.createTorusMesh(10, 12, 0.65, 0.35);
     this.mesh = mesh;
     return buildShapeCastScene(this.world!, this.runtime!, mesh);

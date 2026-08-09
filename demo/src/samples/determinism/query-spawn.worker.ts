@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import {
   QUERY_SPAWN_COUNT,
   QUERY_SPAWN_SEED,
@@ -28,7 +28,7 @@ class QuerySpawnWorker extends PhysicsWorkerBase {
     return QUERY_SPAWN_COUNT;
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     this.runtime!.setRandomSeed(QUERY_SPAWN_SEED);
     this.queryState = createQuerySpawnState();
     return this.queryState.bodies;

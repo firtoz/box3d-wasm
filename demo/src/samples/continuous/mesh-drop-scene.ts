@@ -1,11 +1,4 @@
-import {
-  BodyType,
-  type BodyHandle,
-  type Box3DRuntime,
-  type MeshHandle,
-  type PhysicsWorld,
-  type Vec3,
-} from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type MeshHandle, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { Box3DRng } from "../box3d-rng";
 import { cameraFromSetView } from "../shared";
@@ -21,12 +14,12 @@ const BOX_HALF: Vec3 = [f32(0.02), f32(0.2), f32(0.04)];
 const GROUND_AMP = f32(0.5);
 
 export interface ContinuousMeshDropResult {
-  ground: BodyHandle;
-  bodies: BodyHandle[];
+  ground: BodyId;
+  bodies: BodyId[];
   mesh: MeshHandle;
 }
 
-function createGroundWithWalls(world: PhysicsWorld, runtime: Box3DRuntime, mesh: MeshHandle): BodyHandle {
+function createGroundWithWalls(world: PhysicsWorld, runtime: Box3DRuntime, mesh: MeshHandle): BodyId {
   const ground = world.createBody({ type: BodyType.Static, position: [0, 0, 0] });
   const filter = { categoryBits: 1 };
   world.createMeshShape(ground, mesh, { scale: [1, 1, 1], ...filter });
@@ -91,7 +84,7 @@ export function createContinuousMeshDrop(
   const rng = new Box3DRng(seed);
   const grid = CONTINUOUS_MESH_DROP_GRID;
   const halfGrid = f32Mul(0.5, grid);
-  const bodies: BodyHandle[] = [];
+  const bodies: BodyId[] = [];
 
   // m_collide = true → do not apply category/mask filter (boxes collide with each other).
   for (let i = 0; i < grid; i++) {
@@ -171,7 +164,7 @@ export const dumpCppSampleName = "Continuous Mesh Drop";
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: { mesh: MeshHandle };
   dispose: () => void;
 } {

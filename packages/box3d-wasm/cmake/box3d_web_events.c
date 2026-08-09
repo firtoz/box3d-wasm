@@ -3,10 +3,13 @@
 #include <stdint.h>
 #include <string.h>
 
-// Open-addressing map: native body id key -> render index.
-// Capacity is 2x max bodies so load stays reasonable when fully tracked.
+// Open-addressing map: packed native body id key -> render index.
+// Capacity is 2x max tracked bodies so load stays reasonable when fully tracked.
 // Empty slots use key == 0 (null body ids are never inserted).
-#define B3W_MOVE_MAP_CAPACITY (B3W_MAX_BODIES * 2)
+#ifndef B3W_MOVE_MAP_MAX_BODIES
+#define B3W_MOVE_MAP_MAX_BODIES 65536
+#endif
+#define B3W_MOVE_MAP_CAPACITY (B3W_MOVE_MAP_MAX_BODIES * 2)
 #define B3W_MOVE_MAP_EMPTY (-1)
 
 static uint64_t g_moveKeys[B3W_MOVE_MAP_CAPACITY];
@@ -23,7 +26,7 @@ static uint32_t b3wMoveMapHash(uint64_t key)
 
 static void b3wMoveMapInsert(uint64_t key, int renderIndex)
 {
-	if (key == 0 || g_moveMapCount >= B3W_MAX_BODIES)
+	if (key == 0 || g_moveMapCount >= B3W_MOVE_MAP_MAX_BODIES)
 	{
 		return;
 	}
@@ -77,28 +80,28 @@ B3W_EXPORT void b3wClearBodyMoveTracking(void)
 	g_moveMapCount = 0;
 }
 
-B3W_EXPORT void b3wConfigureBodyMoveTracking(int count, const int* bodyHandles)
+B3W_EXPORT void b3wConfigureBodyMoveTracking(int count, const uint64_t* bodyPackedIds)
 {
 	b3wClearBodyMoveTracking();
-	if (bodyHandles == NULL || count <= 0)
+	if (bodyPackedIds == NULL || count <= 0)
 	{
 		return;
 	}
 
 	int n = count;
-	if (n > B3W_MAX_BODIES)
+	if (n > B3W_MOVE_MAP_MAX_BODIES)
 	{
-		n = B3W_MAX_BODIES;
+		n = B3W_MOVE_MAP_MAX_BODIES;
 	}
 
 	for (int i = 0; i < n; ++i)
 	{
-		b3wBodySlot* slot = b3wGetBody(bodyHandles[i]);
-		if (slot == NULL)
+		uint64_t key = bodyPackedIds[i];
+		if (key == 0)
 		{
 			continue;
 		}
-		uint64_t key = b3StoreBodyId(slot->bodyId);
+		// Keys ARE the packed body ids (no slot lookup).
 		b3wMoveMapInsert(key, i);
 	}
 }
@@ -170,26 +173,22 @@ B3W_EXPORT int b3wGetSensorBeginEventCount(int worldHandle)
 	return events.beginCount;
 }
 
-B3W_EXPORT int b3wGetSensorBeginEvent(int worldHandle, int index, int* outSensorShapeHandle, int* outVisitorShapeHandle)
+B3W_EXPORT int b3wGetSensorBeginEvent(int worldHandle, int index, uint64_t* outSensorShapePacked, uint64_t* outVisitorShapePacked)
 {
-	if (outSensorShapeHandle != NULL) *outSensorShapeHandle = 0;
-	if (outVisitorShapeHandle != NULL) *outVisitorShapeHandle = 0;
+	if (outSensorShapePacked != NULL) *outSensorShapePacked = 0;
+	if (outVisitorShapePacked != NULL) *outVisitorShapePacked = 0;
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
 	if (world == NULL) return 0;
 	b3SensorEvents events = b3World_GetSensorEvents(world->worldId);
 	if (index < 0 || index >= events.beginCount) return 0;
 	const b3SensorBeginTouchEvent* event = events.beginEvents + index;
-	if (outSensorShapeHandle != NULL)
+	if (outSensorShapePacked != NULL)
 	{
-		int handle = b3wFindShapeHandle(event->sensorShapeId);
-		if (handle == 0) handle = b3wAllocShapeSlot(worldHandle, event->sensorShapeId);
-		*outSensorShapeHandle = handle;
+		*outSensorShapePacked = b3StoreShapeId(event->sensorShapeId);
 	}
-	if (outVisitorShapeHandle != NULL)
+	if (outVisitorShapePacked != NULL)
 	{
-		int handle = b3wFindShapeHandle(event->visitorShapeId);
-		if (handle == 0) handle = b3wAllocShapeSlot(worldHandle, event->visitorShapeId);
-		*outVisitorShapeHandle = handle;
+		*outVisitorShapePacked = b3StoreShapeId(event->visitorShapeId);
 	}
 	return 1;
 }
@@ -210,7 +209,7 @@ B3W_EXPORT int b3wGetJointEventCount(int worldHandle)
 	return events.count;
 }
 
-B3W_EXPORT int b3wGetJointEventHandle(int worldHandle, int index)
+B3W_EXPORT uint64_t b3wGetJointEventHandle(int worldHandle, int index)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
 	if (world == NULL) return 0;
@@ -218,7 +217,5 @@ B3W_EXPORT int b3wGetJointEventHandle(int worldHandle, int index)
 	if (index < 0 || index >= events.count) return 0;
 	b3JointId jointId = events.jointEvents[index].jointId;
 	if (b3Joint_IsValid(jointId) == false) return 0;
-	int handle = b3wFindJointHandle(jointId);
-	if (handle == 0) handle = b3wAllocJointSlot(worldHandle, jointId);
-	return handle;
+	return b3StoreJointId(jointId);
 }

@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody } from "./generic-host";
 
 const f = Math.fround;
@@ -10,8 +10,8 @@ const scales: [Vec3, Vec3, Vec3, Vec3] = [
   [f(0.9), f(0.9), f(0.9)],
 ];
 
-export function buildCylinderStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildCylinderStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const hull = runtime.createCylinder(1, 0.5, 0, 15);
 
   for (let i = 0; i < 10; i++) {

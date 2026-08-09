@@ -30,18 +30,18 @@ B3W_EXPORT void b3wDestroyHeightField(int heightFieldHandle)
 	b3wFreeHeightFieldSlot(heightFieldHandle);
 }
 
-B3W_EXPORT int b3wCreateHeightFieldShape(int bodyHandle, int heightFieldHandle, float density, float friction,
+B3W_EXPORT uint64_t b3wCreateHeightFieldShape(uint64_t bodyPacked, int heightFieldHandle, float density, float friction,
 	float restitution, float rollingResistance, int isSensor)
 {
-	b3wBodySlot* body = b3wGetBody(bodyHandle);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
 	b3wHeightFieldSlot* heightField = b3wGetHeightField(heightFieldHandle);
-	if (body == NULL || heightField == NULL) return 0;
+	if (!b3Body_IsValid(bodyId) || heightField == NULL) return 0;
 	b3ShapeDef shapeDef = b3DefaultShapeDef();
 	shapeDef.density = density;
 	shapeDef.baseMaterial.friction = friction;
 	shapeDef.baseMaterial.restitution = restitution;
 	shapeDef.baseMaterial.rollingResistance = rollingResistance;
 	shapeDef.isSensor = isSensor != 0;
-	b3ShapeId shapeId = b3CreateHeightFieldShape(body->bodyId, &shapeDef, heightField->heightField);
-	return b3wAllocShapeSlot(body->worldHandle, shapeId);
+	b3ShapeId shapeId = b3CreateHeightFieldShape(bodyId, &shapeDef, heightField->heightField);
+	return b3StoreShapeId(shapeId);
 }

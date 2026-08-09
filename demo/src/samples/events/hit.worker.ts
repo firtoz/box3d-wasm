@@ -1,5 +1,5 @@
+import { BodyId, MeshHandle, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { MeshHandle, Vec3 } from "box3d-wasm";
 import { buildHitEventScene, hitEventGroundSize } from "./hit-scene";
 
 class HitEventWorker extends PhysicsWorkerBase {
@@ -13,7 +13,7 @@ class HitEventWorker extends PhysicsWorkerBase {
     return hitEventGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { bodies, mesh } = buildHitEventScene(this.world!, this.runtime!);
     this.mesh = mesh;
     return bodies;

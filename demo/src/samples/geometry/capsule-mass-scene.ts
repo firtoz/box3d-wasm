@@ -1,7 +1,7 @@
-import type { Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
+import { BodyId, Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
-export function buildCapsuleMassDynamicBodies(_world: PhysicsWorld, _runtime: Box3DRuntime): number[] {
+export function buildCapsuleMassDynamicBodies(_world: PhysicsWorld, _runtime: Box3DRuntime): BodyId[] {
   return [];
 }
 

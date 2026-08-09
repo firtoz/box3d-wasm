@@ -91,7 +91,7 @@ b3HexColor b3wGetBodyDebugColorForId( b3BodyId bodyId )
 	return (b3HexColor)b3MakeDebugColor( rgb, material );
 }
 
-B3W_EXPORT int b3wCreateBody(int worldHandle, int bodyType, float px, float py, float pz, int enableSleep, int awake)
+B3W_EXPORT uint64_t b3wCreateBody(int worldHandle, int bodyType, float px, float py, float pz, int enableSleep, int awake)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
 	if (world == NULL) return 0;
@@ -101,271 +101,269 @@ B3W_EXPORT int b3wCreateBody(int worldHandle, int bodyType, float px, float py, 
 	bodyDef.enableSleep = enableSleep != 0;
 	bodyDef.isAwake = awake != 0;
 	b3BodyId bodyId = b3CreateBody(world->worldId, &bodyDef);
-	return b3wAllocBodySlot(worldHandle, bodyId);
+	return b3StoreBodyId(bodyId);
 }
 
-B3W_EXPORT void b3wDestroyBody(int bodyHandle)
+B3W_EXPORT void b3wDestroyBody(uint64_t bodyPacked)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3wReleaseBodyShapeSlots(slot->bodyId);
-	b3DestroyBody(slot->bodyId);
-	b3wFreeBodySlot(bodyHandle);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3DestroyBody(bodyId);
 }
 
-B3W_EXPORT void b3wSetBodyTransform(int bodyHandle, float px, float py, float pz, float qx, float qy, float qz, float qw)
+B3W_EXPORT void b3wSetBodyTransform(uint64_t bodyPacked, float px, float py, float pz, float qx, float qy, float qz, float qw)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_SetTransform(slot->bodyId, (b3Pos){ px, py, pz }, (b3Quat){ { qx, qy, qz }, qw });
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_SetTransform(bodyId, (b3Pos){ px, py, pz }, (b3Quat){ { qx, qy, qz }, qw });
 }
 
-B3W_EXPORT void b3wSetBodyLinearVelocity(int bodyHandle, float x, float y, float z)
+B3W_EXPORT void b3wSetBodyLinearVelocity(uint64_t bodyPacked, float x, float y, float z)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_SetLinearVelocity(slot->bodyId, (b3Vec3){ x, y, z });
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_SetLinearVelocity(bodyId, (b3Vec3){ x, y, z });
 }
 
-B3W_EXPORT void b3wSetBodyAngularVelocity(int bodyHandle, float x, float y, float z)
+B3W_EXPORT void b3wSetBodyAngularVelocity(uint64_t bodyPacked, float x, float y, float z)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_SetAngularVelocity(slot->bodyId, (b3Vec3){ x, y, z });
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_SetAngularVelocity(bodyId, (b3Vec3){ x, y, z });
 }
 
-B3W_EXPORT void b3wGetBodyLinearVelocity(int bodyHandle, float* outVelocity)
+B3W_EXPORT void b3wGetBodyLinearVelocity(uint64_t bodyPacked, float* outVelocity)
 {
 	if (outVelocity == NULL) return;
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL)
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId))
 	{
 		outVelocity[0] = 0.0f; outVelocity[1] = 0.0f; outVelocity[2] = 0.0f;
 		return;
 	}
-	b3Vec3 v = b3Body_GetLinearVelocity(slot->bodyId);
+	b3Vec3 v = b3Body_GetLinearVelocity(bodyId);
 	outVelocity[0] = v.x; outVelocity[1] = v.y; outVelocity[2] = v.z;
 }
 
-B3W_EXPORT void b3wGetBodyAngularVelocity(int bodyHandle, float* outVelocity)
+B3W_EXPORT void b3wGetBodyAngularVelocity(uint64_t bodyPacked, float* outVelocity)
 {
 	if (outVelocity == NULL) return;
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL)
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId))
 	{
 		outVelocity[0] = 0.0f; outVelocity[1] = 0.0f; outVelocity[2] = 0.0f;
 		return;
 	}
-	b3Vec3 v = b3Body_GetAngularVelocity(slot->bodyId);
+	b3Vec3 v = b3Body_GetAngularVelocity(bodyId);
 	outVelocity[0] = v.x; outVelocity[1] = v.y; outVelocity[2] = v.z;
 }
 
-B3W_EXPORT void b3wApplyLinearImpulse(int bodyHandle, float ix, float iy, float iz, float px, float py, float pz, int wake)
+B3W_EXPORT void b3wApplyLinearImpulse(uint64_t bodyPacked, float ix, float iy, float iz, float px, float py, float pz, int wake)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_ApplyLinearImpulse(slot->bodyId, (b3Vec3){ ix, iy, iz }, (b3Pos){ px, py, pz }, wake != 0);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_ApplyLinearImpulse(bodyId, (b3Vec3){ ix, iy, iz }, (b3Pos){ px, py, pz }, wake != 0);
 }
 
-B3W_EXPORT void b3wApplyLinearImpulseToCenter(int bodyHandle, float ix, float iy, float iz, int wake)
+B3W_EXPORT void b3wApplyLinearImpulseToCenter(uint64_t bodyPacked, float ix, float iy, float iz, int wake)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_ApplyLinearImpulseToCenter(slot->bodyId, (b3Vec3){ ix, iy, iz }, wake != 0);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_ApplyLinearImpulseToCenter(bodyId, (b3Vec3){ ix, iy, iz }, wake != 0);
 }
 
-B3W_EXPORT void b3wSetBodyAwake(int bodyHandle, int awake)
+B3W_EXPORT void b3wSetBodyAwake(uint64_t bodyPacked, int awake)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_SetAwake(slot->bodyId, awake != 0);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_SetAwake(bodyId, awake != 0);
 }
 
-B3W_EXPORT void b3wSetBodyDamping(int bodyHandle, float linearDamping, float angularDamping)
+B3W_EXPORT void b3wSetBodyDamping(uint64_t bodyPacked, float linearDamping, float angularDamping)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_SetLinearDamping(slot->bodyId, linearDamping);
-	b3Body_SetAngularDamping(slot->bodyId, angularDamping);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_SetLinearDamping(bodyId, linearDamping);
+	b3Body_SetAngularDamping(bodyId, angularDamping);
 }
 
-B3W_EXPORT void b3wSetBodyType(int bodyHandle, int type)
+B3W_EXPORT void b3wSetBodyType(uint64_t bodyPacked, int type)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_SetType(slot->bodyId, (b3BodyType)type);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_SetType(bodyId, (b3BodyType)type);
 }
 
-B3W_EXPORT void b3wBodyEnable(int bodyHandle)
+B3W_EXPORT void b3wBodyEnable(uint64_t bodyPacked)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_Enable(slot->bodyId);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_Enable(bodyId);
 }
 
-B3W_EXPORT void b3wBodyDisable(int bodyHandle)
+B3W_EXPORT void b3wBodyDisable(uint64_t bodyPacked)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_Disable(slot->bodyId);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_Disable(bodyId);
 }
 
-B3W_EXPORT int b3wBodyIsEnabled(int bodyHandle)
+B3W_EXPORT int b3wBodyIsEnabled(uint64_t bodyPacked)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return 0;
-	return b3Body_IsEnabled(slot->bodyId) ? 1 : 0;
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return 0;
+	return b3Body_IsEnabled(bodyId) ? 1 : 0;
 }
 
-B3W_EXPORT float b3wGetBodyMass(int bodyHandle)
+B3W_EXPORT float b3wGetBodyMass(uint64_t bodyPacked)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return 0.0f;
-	return b3Body_GetMass(slot->bodyId);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return 0.0f;
+	return b3Body_GetMass(bodyId);
 }
 
-B3W_EXPORT void b3wGetBodyLocalRotationalInertia(int bodyHandle, float* outInertia)
+B3W_EXPORT void b3wGetBodyLocalRotationalInertia(uint64_t bodyPacked, float* outInertia)
 {
 	if (outInertia == NULL) return;
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL)
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId))
 	{
 		for (int i = 0; i < 9; ++i) outInertia[i] = 0.0f;
 		return;
 	}
-	b3Matrix3 inertia = b3Body_GetLocalRotationalInertia(slot->bodyId);
+	b3Matrix3 inertia = b3Body_GetLocalRotationalInertia(bodyId);
 	outInertia[0] = inertia.cx.x; outInertia[1] = inertia.cx.y; outInertia[2] = inertia.cx.z;
 	outInertia[3] = inertia.cy.x; outInertia[4] = inertia.cy.y; outInertia[5] = inertia.cy.z;
 	outInertia[6] = inertia.cz.x; outInertia[7] = inertia.cz.y; outInertia[8] = inertia.cz.z;
 }
 
-B3W_EXPORT void b3wGetBodyWorldCenter(int bodyHandle, float* outPoint)
+B3W_EXPORT void b3wGetBodyWorldCenter(uint64_t bodyPacked, float* outPoint)
 {
 	if (outPoint == NULL) return;
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL)
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId))
 	{
 		outPoint[0] = 0.0f; outPoint[1] = 0.0f; outPoint[2] = 0.0f;
 		return;
 	}
-	b3Pos center = b3Body_GetWorldCenter(slot->bodyId);
+	b3Pos center = b3Body_GetWorldCenter(bodyId);
 	outPoint[0] = center.x; outPoint[1] = center.y; outPoint[2] = center.z;
 }
 
-B3W_EXPORT void b3wGetBodyWorldPoint(int bodyHandle, float lx, float ly, float lz, float* outPoint)
+B3W_EXPORT void b3wGetBodyWorldPoint(uint64_t bodyPacked, float lx, float ly, float lz, float* outPoint)
 {
 	if (outPoint == NULL) return;
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL)
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId))
 	{
 		outPoint[0] = 0.0f; outPoint[1] = 0.0f; outPoint[2] = 0.0f;
 		return;
 	}
-	b3Pos worldPoint = b3Body_GetWorldPoint(slot->bodyId, (b3Vec3){ lx, ly, lz });
+	b3Pos worldPoint = b3Body_GetWorldPoint(bodyId, (b3Vec3){ lx, ly, lz });
 	outPoint[0] = worldPoint.x; outPoint[1] = worldPoint.y; outPoint[2] = worldPoint.z;
 }
 
-B3W_EXPORT void b3wGetBodyLocalPointVelocity(int bodyHandle, float lx, float ly, float lz, float* outVelocity)
+B3W_EXPORT void b3wGetBodyLocalPointVelocity(uint64_t bodyPacked, float lx, float ly, float lz, float* outVelocity)
 {
 	if (outVelocity == NULL) return;
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL)
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId))
 	{
 		outVelocity[0] = 0.0f; outVelocity[1] = 0.0f; outVelocity[2] = 0.0f;
 		return;
 	}
-	b3Vec3 v = b3Body_GetLocalPointVelocity(slot->bodyId, (b3Vec3){ lx, ly, lz });
+	b3Vec3 v = b3Body_GetLocalPointVelocity(bodyId, (b3Vec3){ lx, ly, lz });
 	outVelocity[0] = v.x; outVelocity[1] = v.y; outVelocity[2] = v.z;
 }
 
-B3W_EXPORT void b3wGetBodyWorldPointVelocity(int bodyHandle, float wx, float wy, float wz, float* outVelocity)
+B3W_EXPORT void b3wGetBodyWorldPointVelocity(uint64_t bodyPacked, float wx, float wy, float wz, float* outVelocity)
 {
 	if (outVelocity == NULL) return;
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL)
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId))
 	{
 		outVelocity[0] = 0.0f; outVelocity[1] = 0.0f; outVelocity[2] = 0.0f;
 		return;
 	}
-	b3Vec3 v = b3Body_GetWorldPointVelocity(slot->bodyId, (b3Pos){ wx, wy, wz });
+	b3Vec3 v = b3Body_GetWorldPointVelocity(bodyId, (b3Pos){ wx, wy, wz });
 	outVelocity[0] = v.x; outVelocity[1] = v.y; outVelocity[2] = v.z;
 }
 
-B3W_EXPORT void b3wSetBodyName(int bodyHandle, const char* name)
+B3W_EXPORT void b3wSetBodyName(uint64_t bodyPacked, const char* name)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_SetName(slot->bodyId, name);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_SetName(bodyId, name);
 }
 
-B3W_EXPORT void b3wSetBodyGravityScale(int bodyHandle, float scale)
+B3W_EXPORT void b3wSetBodyGravityScale(uint64_t bodyPacked, float scale)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_SetGravityScale(slot->bodyId, scale);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_SetGravityScale(bodyId, scale);
 }
 
-B3W_EXPORT void b3wSetBodySleepThreshold(int bodyHandle, float threshold)
+B3W_EXPORT void b3wSetBodySleepThreshold(uint64_t bodyPacked, float threshold)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_SetSleepThreshold(slot->bodyId, threshold);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_SetSleepThreshold(bodyId, threshold);
 }
 
-B3W_EXPORT void b3wEnableBodySleep(int bodyHandle, int enableSleep)
+B3W_EXPORT void b3wEnableBodySleep(uint64_t bodyPacked, int enableSleep)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_EnableSleep(slot->bodyId, enableSleep != 0);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_EnableSleep(bodyId, enableSleep != 0);
 }
 
-B3W_EXPORT void b3wSetBodyBullet(int bodyHandle, int flag)
+B3W_EXPORT void b3wSetBodyBullet(uint64_t bodyPacked, int flag)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_SetBullet(slot->bodyId, flag != 0);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_SetBullet(bodyId, flag != 0);
 }
 
-B3W_EXPORT void b3wAllowBodyFastRotation(int bodyHandle, int flag)
+B3W_EXPORT void b3wAllowBodyFastRotation(uint64_t bodyPacked, int flag)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_AllowFastRotation(slot->bodyId, flag != 0);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_AllowFastRotation(bodyId, flag != 0);
 }
 
-B3W_EXPORT int b3wIsBodyFastRotationAllowed(int bodyHandle)
+B3W_EXPORT int b3wIsBodyFastRotationAllowed(uint64_t bodyPacked)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return 0;
-	return b3Body_IsFastRotationAllowed(slot->bodyId) ? 1 : 0;
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return 0;
+	return b3Body_IsFastRotationAllowed(bodyId) ? 1 : 0;
 }
 
-B3W_EXPORT void b3wEnableBodyContactRecycling(int bodyHandle, int flag)
+B3W_EXPORT void b3wEnableBodyContactRecycling(uint64_t bodyPacked, int flag)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_EnableContactRecycling(slot->bodyId, flag != 0);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_EnableContactRecycling(bodyId, flag != 0);
 }
 
-B3W_EXPORT void b3wEnableBodyHitEvents(int bodyHandle, int flag)
+B3W_EXPORT void b3wEnableBodyHitEvents(uint64_t bodyPacked, int flag)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_EnableHitEvents(slot->bodyId, flag != 0);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_EnableHitEvents(bodyId, flag != 0);
 }
 
-B3W_EXPORT void b3wSetBodyMotionLocks(int bodyHandle, int lockLinearX, int lockLinearY, int lockLinearZ, int lockAngularX, int lockAngularY, int lockAngularZ)
+B3W_EXPORT void b3wSetBodyMotionLocks(uint64_t bodyPacked, int lockLinearX, int lockLinearY, int lockLinearZ, int lockAngularX, int lockAngularY, int lockAngularZ)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
 	b3MotionLocks locks = { lockLinearX != 0, lockLinearY != 0, lockLinearZ != 0, lockAngularX != 0, lockAngularY != 0, lockAngularZ != 0 };
-	b3Body_SetMotionLocks(slot->bodyId, locks);
+	b3Body_SetMotionLocks(bodyId, locks);
 }
 
-B3W_EXPORT void b3wSetBodyMassData(int bodyHandle, float mass, float cx, float cy, float cz, float* inertia)
+B3W_EXPORT void b3wSetBodyMassData(uint64_t bodyPacked, float mass, float cx, float cy, float cz, float* inertia)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
 	b3MassData massData;
 	massData.mass = mass;
 	massData.center = (b3Vec3){ cx, cy, cz };
@@ -380,68 +378,68 @@ B3W_EXPORT void b3wSetBodyMassData(int bodyHandle, float mass, float cx, float c
 	{
 		massData.inertia = b3Mat3_identity;
 	}
-	b3Body_SetMassData(slot->bodyId, massData);
+	b3Body_SetMassData(bodyId, massData);
 }
 
-B3W_EXPORT void b3wGetBodyMassData(int bodyHandle, float* outMassData)
+B3W_EXPORT void b3wGetBodyMassData(uint64_t bodyPacked, float* outMassData)
 {
 	if (outMassData == NULL) return;
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL)
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId))
 	{
 		outMassData[0] = 0.0f;
 		outMassData[1] = 0.0f;
 		return;
 	}
 
-	b3MassData massData = b3Body_GetMassData(slot->bodyId);
+	b3MassData massData = b3Body_GetMassData(bodyId);
 	outMassData[0] = massData.mass;
 	outMassData[1] = massData.inertia.cx.x + massData.inertia.cy.y + massData.inertia.cz.z;
 }
 
-B3W_EXPORT void b3wApplyBodyMassFromShapes(int bodyHandle)
+B3W_EXPORT void b3wApplyBodyMassFromShapes(uint64_t bodyPacked)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
-	b3Body_ApplyMassFromShapes(slot->bodyId);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_ApplyMassFromShapes(bodyId);
 }
 
-B3W_EXPORT void b3wSetBodyTargetTransform(int bodyHandle, float px, float py, float pz, float qx, float qy, float qz, float qw, float timeStep, int wake)
+B3W_EXPORT void b3wSetBodyTargetTransform(uint64_t bodyPacked, float px, float py, float pz, float qx, float qy, float qz, float qw, float timeStep, int wake)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return;
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
 	b3WorldTransform target = { { px, py, pz }, { { qx, qy, qz }, qw } };
-	b3Body_SetTargetTransform(slot->bodyId, target, timeStep, wake != 0);
+	b3Body_SetTargetTransform(bodyId, target, timeStep, wake != 0);
 }
 
-B3W_EXPORT void b3wGetBodyLocalPoint(int bodyHandle, float worldX, float worldY, float worldZ, float* outPoint)
+B3W_EXPORT void b3wGetBodyLocalPoint(uint64_t bodyPacked, float worldX, float worldY, float worldZ, float* outPoint)
 {
 	if (outPoint == NULL) return;
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL)
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId))
 	{
 		outPoint[0] = 0.0f;
 		outPoint[1] = 0.0f;
 		outPoint[2] = 0.0f;
 		return;
 	}
-	b3Vec3 localPoint = b3Body_GetLocalPoint(slot->bodyId, (b3Pos){ worldX, worldY, worldZ });
+	b3Vec3 localPoint = b3Body_GetLocalPoint(bodyId, (b3Pos){ worldX, worldY, worldZ });
 	outPoint[0] = localPoint.x;
 	outPoint[1] = localPoint.y;
 	outPoint[2] = localPoint.z;
 }
 
-B3W_EXPORT void b3wGetBodyTransform(int bodyHandle, float* outTransform)
+B3W_EXPORT void b3wGetBodyTransform(uint64_t bodyPacked, float* outTransform)
 {
 	if (outTransform == NULL) return;
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL)
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId))
 	{
 		for (int i = 0; i < 7; ++i) outTransform[i] = 0.0f;
 		return;
 	}
-	b3Vec3 position = b3Body_GetPosition(slot->bodyId);
-	b3Quat rotation = b3Body_GetRotation(slot->bodyId);
+	b3Vec3 position = b3Body_GetPosition(bodyId);
+	b3Quat rotation = b3Body_GetRotation(bodyId);
 	outTransform[0] = position.x;
 	outTransform[1] = position.y;
 	outTransform[2] = position.z;
@@ -451,34 +449,33 @@ B3W_EXPORT void b3wGetBodyTransform(int bodyHandle, float* outTransform)
 	outTransform[6] = rotation.s;
 }
 
-B3W_EXPORT uint32_t b3wGetBodyDebugColor(int bodyHandle)
+B3W_EXPORT uint32_t b3wGetBodyDebugColor(uint64_t bodyPacked)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return 0;
-	return (uint32_t)b3wGetBodyDebugColorForId(slot->bodyId);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return 0;
+	return (uint32_t)b3wGetBodyDebugColorForId(bodyId);
 }
 
-B3W_EXPORT int b3wBodyIsAwake(int bodyHandle)
+B3W_EXPORT int b3wBodyIsAwake(uint64_t bodyPacked)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return 0;
-	return b3Body_IsAwake(slot->bodyId) ? 1 : 0;
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return 0;
+	return b3Body_IsAwake(bodyId) ? 1 : 0;
 }
 
-B3W_EXPORT int b3wGetBodyType(int bodyHandle)
+B3W_EXPORT int b3wGetBodyType(uint64_t bodyPacked)
 {
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return 0;
-	return (int)b3Body_GetType(slot->bodyId);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return 0;
+	return (int)b3Body_GetType(bodyId);
 }
 
-B3W_EXPORT void b3wWriteBodyTransforms(int count, const int* bodyHandles, float* outPositions, float* outRotations, char* outAwake, uint32_t* outColors)
+B3W_EXPORT void b3wWriteBodyTransforms(int count, const uint64_t* bodyPackedIds, float* outPositions, float* outRotations, char* outAwake, uint32_t* outColors)
 {
 	for (int i = 0; i < count; ++i)
 	{
-		int handle = bodyHandles[i];
-		b3wBodySlot* slot = b3wGetBody(handle);
-		if (slot == NULL)
+		b3BodyId bodyId = b3LoadBodyId(bodyPackedIds[i]);
+		if (!b3Body_IsValid(bodyId))
 		{
 			outPositions[i * 3 + 0] = 0.0f;
 			outPositions[i * 3 + 1] = 0.0f;
@@ -491,7 +488,7 @@ B3W_EXPORT void b3wWriteBodyTransforms(int count, const int* bodyHandles, float*
 			outColors[i] = 0;
 			continue;
 		}
-		b3WorldTransform xf = b3Body_GetTransform(slot->bodyId);
+		b3WorldTransform xf = b3Body_GetTransform(bodyId);
 		outPositions[i * 3 + 0] = xf.p.x;
 		outPositions[i * 3 + 1] = xf.p.y;
 		outPositions[i * 3 + 2] = xf.p.z;
@@ -499,18 +496,17 @@ B3W_EXPORT void b3wWriteBodyTransforms(int count, const int* bodyHandles, float*
 		outRotations[i * 4 + 1] = xf.q.v.y;
 		outRotations[i * 4 + 2] = xf.q.v.z;
 		outRotations[i * 4 + 3] = xf.q.s;
-		outAwake[i] = b3Body_IsAwake(slot->bodyId) ? 1 : 0;
-		outColors[i] = (uint32_t)b3wGetBodyDebugColorForId( slot->bodyId );
+		outAwake[i] = b3Body_IsAwake(bodyId) ? 1 : 0;
+		outColors[i] = (uint32_t)b3wGetBodyDebugColorForId( bodyId );
 	}
 }
 
-B3W_EXPORT void b3wWriteBodyTransformsLight(int count, const int* bodyHandles, float* outPositions, float* outRotations, char* outAwake, uint32_t* outColors)
+B3W_EXPORT void b3wWriteBodyTransformsLight(int count, const uint64_t* bodyPackedIds, float* outPositions, float* outRotations, char* outAwake, uint32_t* outColors)
 {
 	for (int i = 0; i < count; ++i)
 	{
-		int handle = bodyHandles[i];
-		b3wBodySlot* slot = b3wGetBody(handle);
-		if (slot == NULL)
+		b3BodyId bodyId = b3LoadBodyId(bodyPackedIds[i]);
+		if (!b3Body_IsValid(bodyId))
 		{
 			outPositions[i * 3 + 0] = 0.0f;
 			outPositions[i * 3 + 1] = 0.0f;
@@ -523,7 +519,7 @@ B3W_EXPORT void b3wWriteBodyTransformsLight(int count, const int* bodyHandles, f
 			outColors[i] = 0;
 			continue;
 		}
-		b3WorldTransform xf = b3Body_GetTransform(slot->bodyId);
+		b3WorldTransform xf = b3Body_GetTransform(bodyId);
 		outPositions[i * 3 + 0] = xf.p.x;
 		outPositions[i * 3 + 1] = xf.p.y;
 		outPositions[i * 3 + 2] = xf.p.z;
@@ -531,17 +527,17 @@ B3W_EXPORT void b3wWriteBodyTransformsLight(int count, const int* bodyHandles, f
 		outRotations[i * 4 + 1] = xf.q.v.y;
 		outRotations[i * 4 + 2] = xf.q.v.z;
 		outRotations[i * 4 + 3] = xf.q.s;
-		outAwake[i] = b3Body_IsAwake(slot->bodyId) ? 1 : 0;
+		outAwake[i] = b3Body_IsAwake(bodyId) ? 1 : 0;
 		outColors[i] = outAwake[i] ? 0xd2b48c : 0x778899;
 	}
 }
 
-B3W_EXPORT int b3wBodyIsValid(int bodyHandle)
+B3W_EXPORT int b3wBodyIsValid(uint64_t bodyPacked)
 {
-	return b3wGetBody(bodyHandle) != NULL ? 1 : 0;
+	return b3Body_IsValid(b3LoadBodyId(bodyPacked)) ? 1 : 0;
 }
 
-B3W_EXPORT int b3wBodyCastRay(int bodyHandle, float originX, float originY, float originZ, float translationX,
+B3W_EXPORT int b3wBodyCastRay(uint64_t bodyPacked, float originX, float originY, float originZ, float translationX,
 	float translationY, float translationZ, int categoryBits, int maskBits, float maxFraction,
 	float bodyPx, float bodyPy, float bodyPz, float bodyQx, float bodyQy, float bodyQz, float bodyQw,
 	int* outHit, float* outPoint, float* outNormal, float* outFraction)
@@ -550,13 +546,13 @@ B3W_EXPORT int b3wBodyCastRay(int bodyHandle, float originX, float originY, floa
 	if (outFraction != NULL) *outFraction = 1.0f;
 	if (outPoint != NULL) { outPoint[0] = outPoint[1] = outPoint[2] = 0.0f; }
 	if (outNormal != NULL) { outNormal[0] = outNormal[1] = outNormal[2] = 0.0f; }
-	b3wBodySlot* slot = b3wGetBody(bodyHandle);
-	if (slot == NULL) return 0;
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return 0;
 	b3QueryFilter filter = b3DefaultQueryFilter();
 	filter.categoryBits = (uint64_t)categoryBits;
 	filter.maskBits = (uint64_t)maskBits;
 	b3WorldTransform bodyTransform = { { bodyPx, bodyPy, bodyPz }, { { bodyQx, bodyQy, bodyQz }, bodyQw } };
-	b3BodyCastResult result = b3Body_CastRay(slot->bodyId, (b3Pos){ originX, originY, originZ },
+	b3BodyCastResult result = b3Body_CastRay(bodyId, (b3Pos){ originX, originY, originZ },
 		(b3Vec3){ translationX, translationY, translationZ }, filter, maxFraction, bodyTransform);
 	if (result.hit == false) return 0;
 	if (outHit != NULL) *outHit = 1;

@@ -1,11 +1,11 @@
-import { BodyType, quatFromAxisAngle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, quatFromAxisAngle, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const tiltAngle = 0.2;
 const tiltQuat = quatFromAxisAngle([0, 1, 0], tiltAngle);
 
-export function buildConveyorBeltDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildConveyorBeltDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const rotation = runtime.makeQuatFromAxisAngle([0, 1, 0], tiltAngle);
 
   const platform = world.createBody({ type: BodyType.Static, position: [-5, 5, 0], rotation });

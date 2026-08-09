@@ -1,5 +1,5 @@
+import { BodyId, MeshHandle, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { MeshHandle, Vec3 } from "box3d-wasm";
 import { buildFarMeshDrop, farMeshDropGroundSize } from "./far-mesh-drop-scene";
 
 class FarMeshDropWorker extends PhysicsWorkerBase {
@@ -13,7 +13,7 @@ class FarMeshDropWorker extends PhysicsWorkerBase {
     return farMeshDropGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { bodies, mesh } = buildFarMeshDrop(this.world!, this.runtime!);
     this.mesh = mesh;
     return bodies;

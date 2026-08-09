@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildFarPyramidDynamicBodies, buildFarPyramidGround, farPyramidGroundSize } from "./far-pyramid-scene";
 
 class FarPyramidWorker extends PhysicsWorkerBase {
@@ -11,7 +11,7 @@ class FarPyramidWorker extends PhysicsWorkerBase {
     buildFarPyramidGround(this.world!, this.runtime!);
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildFarPyramidDynamicBodies(this.world!, this.runtime!);
   }
 }

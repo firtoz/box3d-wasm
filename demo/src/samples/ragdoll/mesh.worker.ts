@@ -1,5 +1,5 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
+import type { Vec3 , BodyId} from "box3d-wasm";
 import {
   buildRagdollMeshDynamicBodies,
   buildRagdollMeshGround,
@@ -15,7 +15,7 @@ class RagdollMeshWorker extends PhysicsWorkerBase {
     return ragdollMeshGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildRagdollMeshDynamicBodies(this.world!, this.runtime!);
   }
 }

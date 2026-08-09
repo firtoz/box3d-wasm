@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildCompoundSimpleDynamicBodies, compoundSimpleGroundSize } from "./simple-scene";
 
 class CompoundSimpleWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class CompoundSimpleWorker extends PhysicsWorkerBase {
     return compoundSimpleGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildCompoundSimpleDynamicBodies(this.world!, this.runtime!);
   }
 }

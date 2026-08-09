@@ -1,7 +1,7 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
-export function buildSingleBoxDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+export function buildSingleBoxDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const body = world.createBody({ type: BodyType.Dynamic, position: [0, 0.5, 0], rotation: [0, 0, 0, 1], isAwake: true });
   runtime.createHullShape(body, [0.5, 0.5, 0.5]);
   return [body];

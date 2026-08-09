@@ -1,4 +1,4 @@
-import { type Box3DRuntime, type MeshHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {type Box3DRuntime, type MeshHandle, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import {
@@ -31,7 +31,7 @@ export const dumpCppSampleName = "Determinism Mesh Drop";
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: { mesh: MeshHandle };
   dispose: () => void;
 } {

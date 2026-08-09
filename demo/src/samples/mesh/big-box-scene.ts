@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type HullHandle, type MeshHandle, type PhysicsWorld, type ShapeHandle, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type HullHandle, type MeshHandle, type PhysicsWorld, type ShapeHandle, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 
@@ -13,7 +13,7 @@ export type BigBoxShapeType = "sphere" | "capsule" | "box" | "cylinder";
 export function buildBigBoxGround(
   world: PhysicsWorld,
   scale: Vec3 = BIG_BOX_DEFAULT_SCALE,
-): { ground: BodyHandle; mesh: MeshHandle; shape: ShapeHandle } {
+): { ground: BodyId; mesh: MeshHandle; shape: ShapeHandle } {
   const ground = world.createBody({ type: BodyType.Static, position: [0, 0, 0] });
   const mesh = world.createBoxMesh(BIG_BOX_CENTER, BIG_BOX_EXTENT, true);
   const shape = world.createMeshShape(ground, mesh, { friction: 0.5, scale });
@@ -25,7 +25,7 @@ export function spawnBigBoxBody(
   runtime: Box3DRuntime,
   shapeType: BigBoxShapeType = "cylinder",
   cylinderHull?: HullHandle | null,
-): BodyHandle {
+): BodyId {
   const body = world.createBody({
     type: BodyType.Dynamic,
     position: [0.5, 0, 0],
@@ -52,13 +52,13 @@ export function spawnBigBoxBody(
   return body;
 }
 
-export function buildBigBoxDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildBigBoxDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   return [spawnBigBoxBody(world, runtime, "cylinder")];
 }
 
 export function createBigBox(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: BodyHandle[];
+  handles: BodyId[];
   dispose: () => void;
 } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });

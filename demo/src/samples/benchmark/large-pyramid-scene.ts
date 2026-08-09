@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { f32, f32Add, f32Mul, f32Sub } from "../f32";
 import { cameraFromSetView } from "../shared";
@@ -26,9 +26,9 @@ export function forEachLargePyramidBox(callback: (position: Vec3) => void): void
   }
 }
 
-export function buildLargePyramidDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+export function buildLargePyramidDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   // Match upstream `b3MakeBoxHull(h,h,h)` + `b3CreateHullShape` (not QHull from points).
-  const handles: number[] = [];
+  const handles: BodyId[] = [];
   forEachLargePyramidBox((position) => {
     const body = world.createBody({ type: BodyType.Dynamic, position });
     runtime.createHullShape(body, [H, H, H], { density: 100 });
@@ -56,7 +56,7 @@ export const dumpGroundSize = largePyramidGroundSize;
 export const dumpBuildDynamicBodies = buildLargePyramidDynamicBodies;
 export const dumpNoPhysics = false;
 
-export function createLargePyramid(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[] } {
+export function createLargePyramid(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   world.enableSleeping(false);
   const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });

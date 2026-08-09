@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const BOX_SIZE = 2.0;
@@ -33,8 +33,8 @@ export const WIDE_PYRAMID_BOX_COUNT = (() => {
   return count;
 })();
 
-export function buildWidePyramidDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildWidePyramidDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const half: Vec3 = [h, h, h];
 
   forEachWidePyramidBox((position) => {

@@ -1,5 +1,5 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import { type BodyHandle, type Vec3 } from "box3d-wasm";
+import {type BodyId, type Vec3} from "box3d-wasm";
 import type { PhysicsWorkerCommand } from "../../physics-worker-protocol";
 import {
   buildBulletVsStackDynamicBodies,
@@ -8,19 +8,19 @@ import {
 } from "./bullet-vs-stack-scene";
 
 class BulletVsStackWorker extends PhysicsWorkerBase {
-  private baseHandles: number[] = [];
-  private bulletId: BodyHandle | 0 = 0;
+  private baseHandles: BodyId[] = [];
+  private bulletId: BodyId | 0n = 0n;
 
   protected getGroundSize(): Vec3 {
     return bulletVsStackGroundSize();
   }
 
-  protected getTrackedBodyCapacity(initialHandles: number[]): number {
+  protected getTrackedBodyCapacity(initialHandles: BodyId[]): number {
     // Stack bodies + one CCD bullet created on Launch.
     return initialHandles.length + 1;
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     this.baseHandles = buildBulletVsStackDynamicBodies(this.world!, this.runtime!);
     return this.baseHandles;
   }
@@ -30,13 +30,13 @@ class BulletVsStackWorker extends PhysicsWorkerBase {
     if (msg.type !== "launch") return false;
     if (this.world === null || this.runtime === null) return false;
 
-    if (this.bulletId !== 0) {
+    if (this.bulletId !== 0n) {
       this.setTrackedBodies(this.baseHandles);
       this.world.destroyBody(this.bulletId);
-      this.bulletId = 0;
+      this.bulletId = 0n;
     }
 
-    const scratch: number[] = [];
+    const scratch: BodyId[] = [];
     this.bulletId = launchBullet(this.world, this.runtime, scratch);
     this.setTrackedBodies([...this.baseHandles, this.bulletId]);
     return true;

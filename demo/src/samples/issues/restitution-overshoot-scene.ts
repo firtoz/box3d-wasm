@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 
@@ -7,7 +7,7 @@ const FLOOR_HALF_XZ = 0.375;
 const FLOOR_HALF_Y = 0.25;
 const DROP_HEIGHT = 10;
 
-export function buildRestitutionOvershootBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildRestitutionOvershootBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const floor = world.createBody({
     type: BodyType.Static,
     position: [0, -FLOOR_HALF_Y, 0],
@@ -23,7 +23,7 @@ export function buildRestitutionOvershootBodies(world: PhysicsWorld, runtime: Bo
   return [floor, box];
 }
 
-export function createRestitutionOvershoot(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyHandle[] } {
+export function createRestitutionOvershoot(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   return { world, handles: buildRestitutionOvershootBodies(world, runtime) };
 }

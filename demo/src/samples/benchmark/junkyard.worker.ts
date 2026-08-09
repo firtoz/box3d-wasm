@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import {
   buildJunkyardGround,
   buildJunkyardRocksAndPusher,
@@ -19,7 +19,7 @@ class JunkyardWorker extends PhysicsWorkerBase {
     return junkyardGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { rocks, pusher, state } = buildJunkyardRocksAndPusher(this.world!, this.runtime!);
     this.junkyardState = state;
     return [...rocks, pusher];

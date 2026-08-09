@@ -1,5 +1,5 @@
+import { BodyId, MeshHandle, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { MeshHandle, Vec3 } from "box3d-wasm";
 import { buildHumpMeshScene, humpMeshGroundSize } from "./hump-mesh-scene";
 
 class HumpMeshWorker extends PhysicsWorkerBase {
@@ -9,7 +9,7 @@ class HumpMeshWorker extends PhysicsWorkerBase {
     return humpMeshGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { dynamic, mesh } = buildHumpMeshScene(this.world!, this.runtime!);
     this.mesh = mesh;
     return [dynamic];

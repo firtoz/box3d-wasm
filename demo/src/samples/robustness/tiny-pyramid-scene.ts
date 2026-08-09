@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const f32 = Math.fround;
@@ -6,8 +6,8 @@ const EXTENT_F32 = f32(0.025);
 const BASE_COUNT = 30;
 const BASE_COUNT_EXTENT_F32 = f32(BASE_COUNT * EXTENT_F32);
 
-export function buildTinyPyramidDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildTinyPyramidDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const half: Vec3 = [EXTENT_F32, EXTENT_F32, EXTENT_F32];
 
   for (let i = 0; i < BASE_COUNT; i++) {

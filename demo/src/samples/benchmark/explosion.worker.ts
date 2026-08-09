@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import type { PhysicsWorkerCommand } from "../../physics-worker-protocol";
 import { buildExplosionDynamicBodies, buildExplosionGround, EXPLOSION_IMPULSE, explosionGroundSize } from "./explosion-scene";
 
@@ -14,7 +14,7 @@ class ExplosionWorker extends PhysicsWorkerBase {
     return explosionGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildExplosionDynamicBodies(this.world!, this.runtime!);
   }
 

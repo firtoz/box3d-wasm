@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3, type WorldCapacity } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3, type WorldCapacity} from "box3d-wasm";
 import type { RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Add, f32Div, f32Mul, f32Sub } from "../f32";
@@ -83,8 +83,8 @@ export function buildLargeWorldFloor(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
   grid = LARGE_WORLD_GRID,
-): BodyHandle[] {
-  const handles: BodyHandle[] = [];
+): BodyId[] {
+  const handles: BodyId[] = [];
   const half = f32Mul(0.5, LARGE_WORLD_CELL);
 
   forEachLargeWorldTile((position) => {
@@ -98,7 +98,7 @@ export function buildLargeWorldFloor(
 export function stepLargeWorld(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
-  handles: number[],
+  handles: BodyId[],
   stepCount: number,
   state: LargeWorldState,
 ): void {
@@ -143,7 +143,7 @@ export const dumpCppSampleName = "Large World";
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: LargeWorldState;
 } {
   const scale = largeWorldDumpScale;
@@ -159,10 +159,10 @@ export function dumpCreate(runtime: Box3DRuntime): {
 export function dumpStep(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
-  handles: readonly number[],
+  handles: readonly BodyId[],
   frame: number,
   _dt: number,
   state: LargeWorldState,
 ): void {
-  stepLargeWorld(world, runtime, handles as number[], frame - 1, state);
+  stepLargeWorld(world, runtime, handles as BodyId[], frame - 1, state);
 }

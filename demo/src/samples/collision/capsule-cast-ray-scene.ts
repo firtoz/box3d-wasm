@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 
@@ -25,14 +25,14 @@ export const capsuleCastRayOrigin: Vec3 = [-1, 0.5, 0];
 export const capsuleCastRayTranslation: Vec3 = [2, 0, 0];
 const capsuleCastRayIdentity = { position: [0, 0, 0] as Vec3, rotation: [0, 0, 0, 1] as [number, number, number, number] };
 
-export function buildCapsuleCastRayDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+export function buildCapsuleCastRayDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const body = world.createBody({ type: BodyType.Kinematic });
   runtime.createCapsuleShape(body, [0, 0, 0], [0, 1, 0], 0.5);
   return [body];
 }
 
-export function collectCapsuleCastRay(world: PhysicsWorld, bodyHandle: number): CapsuleCastRayRaysDump {
-  const result = world.bodyCastRay(bodyHandle as BodyHandle, capsuleCastRayOrigin, capsuleCastRayTranslation, {
+export function collectCapsuleCastRay(world: PhysicsWorld, bodyHandle: BodyId): CapsuleCastRayRaysDump {
+  const result = world.bodyCastRay(bodyHandle, capsuleCastRayOrigin, capsuleCastRayTranslation, {
     maxFraction: 1,
     bodyTransform: capsuleCastRayIdentity,
   });
@@ -47,11 +47,11 @@ export function collectCapsuleCastRay(world: PhysicsWorld, bodyHandle: number): 
   return { o: 0, r: [hit] };
 }
 
-export function captureCapsuleCastRay(world: PhysicsWorld, handles: readonly number[], state: CapsuleCastRayDumpState): void {
+export function captureCapsuleCastRay(world: PhysicsWorld, handles: readonly BodyId[], state: CapsuleCastRayDumpState): void {
   state.rays = collectCapsuleCastRay(world, handles[0]!);
 }
 
-export function createCapsuleCastRayDumpState(world: PhysicsWorld, handles: readonly number[]): CapsuleCastRayDumpState {
+export function createCapsuleCastRayDumpState(world: PhysicsWorld, handles: readonly BodyId[]): CapsuleCastRayDumpState {
   const state: CapsuleCastRayDumpState = { rays: { o: 0, r: [{ h: 0, f: 1, p: [1, 0.5, 0], n: [0, 1, 0] }] } };
   captureCapsuleCastRay(world, handles, state);
   return state;
@@ -59,7 +59,7 @@ export function createCapsuleCastRayDumpState(world: PhysicsWorld, handles: read
 
 export function createCapsuleCastRay(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: CapsuleCastRayDumpState;
 } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
@@ -82,14 +82,14 @@ export function writeCapsuleCastRayBuffer(rays: CapsuleCastRayRaysDump, out: Flo
   out[base + 7] = ray.n[2];
 }
 
-export function castCapsuleCastRay(world: PhysicsWorld, handles: readonly number[], out: Float32Array): void {
+export function castCapsuleCastRay(world: PhysicsWorld, handles: readonly BodyId[], out: Float32Array): void {
   writeCapsuleCastRayBuffer(collectCapsuleCastRay(world, handles[0]!), out);
 }
 
 export function dumpPostStepCapsuleCastRay(
   world: PhysicsWorld,
   _runtime: Box3DRuntime,
-  handles: readonly number[],
+  handles: readonly BodyId[],
   _frame: number,
   _dt: number,
   state: CapsuleCastRayDumpState,
@@ -100,7 +100,7 @@ export function dumpPostStepCapsuleCastRay(
 export function dumpCheckpointExtrasCapsuleCastRay(
   _world: PhysicsWorld,
   _runtime: Box3DRuntime,
-  _handles: readonly number[],
+  _handles: readonly BodyId[],
   _frame: number,
   state: CapsuleCastRayDumpState,
 ): Record<string, unknown> {

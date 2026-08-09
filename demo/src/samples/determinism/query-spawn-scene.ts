@@ -1,10 +1,4 @@
-import {
-  BodyType,
-  type BodyHandle,
-  type Box3DRuntime,
-  type PhysicsWorld,
-  type Vec3,
-} from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Add, f32Mul } from "../f32";
@@ -18,7 +12,7 @@ export interface QuerySpawnState {
   spawnCount: number;
   /** Matches sample `m_frameCount` — spawn on frames where `(frameCount % 10) === 1`. */
   frameCount: number;
-  bodies: BodyHandle[];
+  bodies: BodyId[];
 }
 
 export function createQuerySpawnState(): QuerySpawnState {
@@ -93,7 +87,7 @@ export function querySpawnOnce(world: PhysicsWorld, runtime: Box3DRuntime, state
 export function querySpawnDumpStep(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
-  _handles: readonly number[],
+  _handles: readonly BodyId[],
   _frame: number,
   _dt: number,
   state: QuerySpawnState,
@@ -106,14 +100,14 @@ export function querySpawnDumpStep(
 
 export function createQuerySpawn(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: QuerySpawnState;
 } {
   const world = runtime.createWorld({ gravity: [0, 0, 0], workerCount: 1 });
   runtime.setRandomSeed(QUERY_SPAWN_SEED);
   const state = createQuerySpawnState();
   // handles grow as bodies spawn; dumpBodies filters by validity — expose mutable array via state.bodies
-  return { world, handles: state.bodies as unknown as number[], state };
+  return { world, handles: state.bodies, state };
 }
 
 export function querySpawnGroundSize(): Vec3 {

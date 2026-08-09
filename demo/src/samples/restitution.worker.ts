@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildRestitutionDynamicBodies, restitutionGroundSize } from "./restitution-scene";
 
 class RestitutionWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class RestitutionWorker extends PhysicsWorkerBase {
     return restitutionGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildRestitutionDynamicBodies(this.world!, this.runtime!);
   }
 }

@@ -3,6 +3,7 @@
 #include "human.h"
 
 #include <stddef.h>
+#include <stdint.h>
 
 B3W_EXPORT int b3wCreateHuman(
 	int worldHandle,
@@ -17,12 +18,6 @@ B3W_EXPORT int b3wCreateHuman(
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
 	if (world == NULL) return 0;
-	int freeBodySlots = 0;
-	for (int i = 0; i < B3W_MAX_BODIES; ++i)
-	{
-		freeBodySlots += g_bodies[i].active ? 0 : 1;
-	}
-	if (freeBodySlots < bone_count) return 0;
 
 	bool hasHumanSlot = false;
 	for (int i = 0; i < B3W_MAX_HUMANS; ++i)
@@ -38,24 +33,17 @@ B3W_EXPORT int b3wCreateHuman(
 	Human human = { 0 };
 	CreateHuman(&human, world->worldId, (b3Pos){ px, py, pz }, frictionTorque, hertz, dampingRatio, groupIndex, NULL,
 		colorize != 0);
-	for (int i = 0; i < bone_count; ++i)
-	{
-		b3wAllocBodySlot(worldHandle, human.bones[i].bodyId);
-	}
 
 	return b3wAllocHumanSlot(worldHandle, human);
 }
 
-B3W_EXPORT int b3wGetHumanBoneBody(int humanHandle, int boneIndex)
+B3W_EXPORT uint64_t b3wGetHumanBoneBody(int humanHandle, int boneIndex)
 {
 	b3wHumanSlot* slot = b3wGetHuman(humanHandle);
 	if (slot == NULL || boneIndex < 0 || boneIndex >= bone_count) return 0;
 	b3BodyId bodyId = slot->human.bones[boneIndex].bodyId;
-	for (int i = 0; i < B3W_MAX_BODIES; ++i)
-	{
-		if (g_bodies[i].active && B3_ID_EQUALS(g_bodies[i].bodyId, bodyId)) return i + 1;
-	}
-	return 0;
+	if (!b3Body_IsValid(bodyId)) return 0;
+	return b3StoreBodyId(bodyId);
 }
 
 B3W_EXPORT int b3wGetHumanBoneCount(void)
@@ -104,26 +92,15 @@ B3W_EXPORT void b3wHumanCreateParallelAnchors(int humanHandle)
 	if (slot == NULL) return;
 	b3wWorldSlot* world = b3wGetWorld(slot->worldHandle);
 	if (world == NULL) return;
-
+	// Creates anchor bodies/joints in the engine; bridge uses packed native IDs (no slot alloc).
 	Human_CreateParallelAnchors(&slot->human, world->worldId);
-
-	for (int i = 0; i < bone_count; ++i)
-	{
-		Bone* bone = slot->human.bones + i;
-		if (!B3_IS_NULL(bone->anchorId))
-		{
-			b3wAllocBodySlot(slot->worldHandle, bone->anchorId);
-		}
-		if (!B3_IS_NULL(bone->anchorJointId))
-		{
-			b3wAllocJointSlot(slot->worldHandle, bone->anchorJointId);
-		}
-	}
 }
 
-B3W_EXPORT int b3wGetHumanAnchorBody(int humanHandle, int boneIndex)
+B3W_EXPORT uint64_t b3wGetHumanAnchorBody(int humanHandle, int boneIndex)
 {
 	b3wHumanSlot* slot = b3wGetHuman(humanHandle);
 	if (slot == NULL || boneIndex < 0 || boneIndex >= bone_count) return 0;
-	return b3wFindBodyHandle(slot->human.bones[boneIndex].anchorId);
+	b3BodyId bodyId = slot->human.bones[boneIndex].anchorId;
+	if (!b3Body_IsValid(bodyId)) return 0;
+	return b3StoreBodyId(bodyId);
 }

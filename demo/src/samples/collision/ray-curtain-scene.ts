@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Add, f32Mul } from "../f32";
@@ -27,9 +27,9 @@ export type RayCurtainDumpState = {
   rays: RayCurtainRaysDump;
 };
 
-export function buildRayCurtainDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+export function buildRayCurtainDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const ang: Vec3 = [0.8, 0.4, 0.8];
-  const handles: number[] = [];
+  const handles: BodyId[] = [];
 
   const sphere = world.createBody({
     type: BodyType.Kinematic,
@@ -69,7 +69,7 @@ export function buildRayCurtainDynamicBodies(world: PhysicsWorld, runtime: Box3D
 
 export function createRayCurtain(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: RayCurtainDumpState;
 } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
@@ -146,7 +146,7 @@ export function castRayCurtain(world: PhysicsWorld, offset: number, out: Float32
 export function dumpPostStepRayCurtain(
   world: PhysicsWorld,
   _runtime: Box3DRuntime,
-  _handles: readonly number[],
+  _handles: readonly BodyId[],
   _frame: number,
   _dt: number,
   state: RayCurtainDumpState,
@@ -159,7 +159,7 @@ export function dumpPostStepRayCurtain(
 export function dumpCheckpointExtrasRayCurtain(
   _world: PhysicsWorld,
   _runtime: Box3DRuntime,
-  _handles: readonly number[],
+  _handles: readonly BodyId[],
   _frame: number,
   state: RayCurtainDumpState,
 ): Record<string, unknown> {

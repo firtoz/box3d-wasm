@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import { ObjectRuntime } from "box3d-wasm/objects";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
@@ -9,7 +9,7 @@ const Y_OFFSET = f32(20);
 const RADIUS = f32(0.25);
 const DENSITY = f32(20);
 
-export function buildDistanceJointDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildDistanceJointDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const objectWorld = ObjectRuntime.fromRuntime(runtime).wrapWorld(world);
   const anchor = objectWorld.createBody();
   const body = objectWorld.createBody({

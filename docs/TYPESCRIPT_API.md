@@ -8,7 +8,8 @@ For the exhaustive binding checklist, see [`WASM_API_SURFACE.md`](./WASM_API_SUR
 
 - `Box3DRuntime.load()` loads the WASM module and returns the runtime wrapper.
 - `runtime.createWorld()` creates a `PhysicsWorld` wrapper for one Box3D world. Omitted `gravity` defaults to `[0, -10, 0]` (same as upstream `b3DefaultWorldDef`).
-- Bodies, shapes, joints, hulls, compounds, and humans are represented by branded numeric handles.
+- Bodies, shapes, and joints use packed native Box3D IDs (`BodyId` / `ShapeId` / `JointId` as branded `bigint`, null `0n`) — the same opaque IDs as C++.
+- Hulls, meshes, compounds, humans, height fields, and worlds use branded integer slot handles.
 - Vectors are tuple types: `Vec3` is `[x, y, z]`, and `Quat` is `[x, y, z, w]`.
 - Body types use the exported `BodyType` enum, not raw Box3D numbers.
 - Call `world.destroy()` when a world is no longer needed.
@@ -23,7 +24,7 @@ This is the smallest useful browser scene: import the runtime, create a Three.js
 
 ```ts
 import * as THREE from "three";
-import { BodyType, Box3DRuntime, type Vec3 } from "box3d-wasm";
+import { BodyType, Box3DRuntime, type BodyId, type Vec3 } from "box3d-wasm";
 
 const app = document.querySelector<HTMLDivElement>("#app");
 if (app === null) throw new Error("#app not found");
@@ -51,9 +52,9 @@ scene.add(sun);
 const runtime = await Box3DRuntime.load();
 const world = runtime.createWorld({ gravity: [0, -10, 0] });
 
-const bodies: Array<{ handle: number; mesh: THREE.Mesh }> = [];
+const bodies: Array<{ handle: BodyId; mesh: THREE.Mesh }> = [];
 
-function addBox(halfSize: Vec3, position: Vec3, dynamic: boolean, color: number): number {
+function addBox(halfSize: Vec3, position: Vec3, dynamic: boolean, color: number): BodyId {
   const handle = world.createBody({
     type: dynamic ? BodyType.Dynamic : BodyType.Static,
     position,
@@ -121,7 +122,7 @@ The important API shape is `Box3DRuntime.load()` → `createWorld()` → create 
 
 ## Primitive And Object Styles
 
-The default API is the primitive one from `box3d-wasm`: bodies, shapes, joints, hulls, and humans are opaque branded handles. This keeps the wrapper close to the underlying WASM API, works well with batching APIs, and adds compile-time protection against mixing handle kinds.
+The default API is the primitive one from `box3d-wasm`: bodies/shapes/joints are packed native IDs (`bigint`), while hulls/meshes/humans/worlds are branded int slot handles. This stays close to the underlying WASM/C API, works with batching (`writeBodyHandles` writes `BigUint64Array`), and adds compile-time protection against mixing handle kinds.
 
 ```ts
 const body = world.createBody({ type: BodyType.Dynamic, position: [0, 4, 0] });
@@ -320,12 +321,12 @@ The runtime does not own rendering. A typical Three.js integration stores body h
 
 ```ts
 import * as THREE from "three";
-import { BodyType, Box3DRuntime, type Vec3 } from "box3d-wasm";
+import { BodyType, Box3DRuntime, type BodyId, type Vec3 } from "box3d-wasm";
 
 const runtime = await Box3DRuntime.load();
 const world = runtime.createWorld({ gravity: [0, -10, 0] });
 
-const bodies: Array<{ handle: number; mesh: THREE.Mesh }> = [];
+const bodies: Array<{ handle: BodyId; mesh: THREE.Mesh }> = [];
 
 function addBox(size: Vec3, position: Vec3, dynamic = true): void {
   const handle = world.createBody({
@@ -410,14 +411,16 @@ world.destroy();
 
 ## Scale, Limits, And Custom Builds
 
-The WASM bridge tracks every world/body/joint/hull/shape/mesh/compound/human you create through JavaScript handles. Those pools have **compile-time maximums** (`B3W_MAX_*` in `packages/box3d-wasm/cmake/CMakeLists.txt`). Defaults are sized for the ported upstream samples:
+Body, shape, and joint IDs are packed native `uint64` values (`BodyId` / `ShapeId` / `JointId` as branded `bigint`, null sentinel `0n`). They are **not** bridge slot handles.
+
+The WASM bridge still tracks worlds/hulls/meshes/compounds/humans/height-fields through JavaScript int handles. Those pools have **compile-time maximums** (`B3W_MAX_*` in `packages/box3d-wasm/cmake/CMakeLists.txt`). Defaults are sized for the ported upstream samples:
 
 | Pool | Default max |
 |------|-------------|
-| bodies / joints / shapes | 65536 |
 | hulls | 16384 |
 | humans | 512 |
 | meshes / compounds | 1024 |
+| height fields | 256 |
 | worlds | 16 |
 
 When a pool is full, creation throws `SlotExhaustedError` instead of failing silently. Inspect usage at runtime:

@@ -1,4 +1,4 @@
-import { B3_AXIS_Y, B3_PI, BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {B3_AXIS_Y, B3_PI, BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { f32, f32Add, f32Mul, f32Sub } from "../f32";
 import { cameraFromSetView } from "../shared";
@@ -21,8 +21,8 @@ function layerPose(i: number): { x: number; z: number; alpha: number; y: number 
   return { x, z, alpha, y };
 }
 
-export function buildJengaStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildJengaStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
 
   for (let i = 0; i < COUNT; i++) {
     const { x, z, alpha, y } = layerPose(i);

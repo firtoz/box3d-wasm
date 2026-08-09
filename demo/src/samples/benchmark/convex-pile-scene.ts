@@ -1,11 +1,4 @@
-import {
-  BodyType,
-  type BodyHandle,
-  type Box3DRuntime,
-  type PhysicsWorld,
-  type Vec3,
-  type WorldCapacity,
-} from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3, type WorldCapacity} from "box3d-wasm";
 import type { RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Add, f32Div, f32Mul, f32Sub } from "../f32";
@@ -94,15 +87,15 @@ export function forEachConvexPileBody(callback: (position: Vec3) => void): void 
   }
 }
 
-export function buildConvexPileGround(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle {
+export function buildConvexPileGround(world: PhysicsWorld, runtime: Box3DRuntime): BodyId {
   const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
   runtime.createHullShape(ground, [250, 1, 250]);
   return ground;
 }
 
-export function buildConvexPileDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildConvexPileDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const hull = runtime.createHullFromPoints(convexPilePoints());
-  const handles: BodyHandle[] = [];
+  const handles: BodyId[] = [];
   forEachConvexPileBody((position) => {
     const body = world.createBody({ type: BodyType.Dynamic, position });
     runtime.createShapeFromHull(body, hull, {});
@@ -124,7 +117,7 @@ export const dumpCppSampleName = "Convex Pile";
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: BodyHandle[];
+  handles: BodyId[];
   dispose: () => void;
 } {
   const world = runtime.createWorld({

@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { boxStackGroundSize, buildBoxStackDynamicBodies } from "./stack-scene";
 
 class BoxStackWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class BoxStackWorker extends PhysicsWorkerBase {
     return boxStackGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildBoxStackDynamicBodies(this.world!, this.runtime!);
   }
 }

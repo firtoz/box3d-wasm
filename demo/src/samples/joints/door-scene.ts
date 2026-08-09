@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type JointHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type JointId, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import { ObjectRuntime } from "box3d-wasm/objects";
 
 export const doorBodyIndex = 0;
@@ -6,15 +6,15 @@ export const doorLowerJointIndex = 0;
 export const doorUpperJointIndex = 1;
 
 export interface DoorScene {
-  handles: BodyHandle[];
-  joints: JointHandle[];
+  handles: BodyId[];
+  joints: JointId[];
 }
 
-export function createDoorScene(world: PhysicsWorld, runtime: Box3DRuntime, groundHandle: BodyHandle): DoorScene {
+export function createDoorScene(world: PhysicsWorld, runtime: Box3DRuntime, groundHandle: BodyId): DoorScene {
   const objectWorld = ObjectRuntime.fromRuntime(runtime).wrapWorld(world);
   const ground = objectWorld.body(groundHandle);
   const axisQuat = runtime.makeQuatFromAxisAngle([1, 0, 0], -Math.PI / 2);
-  const joints: JointHandle[] = [];
+  const joints: JointId[] = [];
   const door = objectWorld.createBody({ type: BodyType.Dynamic, position: [0, 1.5, 0], gravityScale: 2 });
   door.createHullShape([0.75, 1.5, 0.1], { density: 1000 });
   joints.push(objectWorld.createRevoluteJoint(ground, door, {
@@ -50,7 +50,7 @@ export function createDoorScene(world: PhysicsWorld, runtime: Box3DRuntime, grou
   return { handles: [door.handle], joints };
 }
 
-export function buildDoorDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime, groundHandle: BodyHandle): BodyHandle[] {
+export function buildDoorDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime, groundHandle: BodyId): BodyId[] {
   return createDoorScene(world, runtime, groundHandle).handles;
 }
 
@@ -67,7 +67,7 @@ export const dumpInteractionSchedule = [
   { frame: 1, action: "impulse", args: [50000] },
 ] as const;
 
-export function dumpRunInteraction(world: PhysicsWorld, _runtime: Box3DRuntime, handles: readonly BodyHandle[], interaction: { action: string; args?: readonly number[] }): void {
+export function dumpRunInteraction(world: PhysicsWorld, _runtime: Box3DRuntime, handles: readonly BodyId[], interaction: { action: string; args?: readonly number[] }): void {
   if (interaction.action !== "impulse") throw new Error(`Unsupported door dump action: ${interaction.action}`);
   const doorHandle = handles[1]!;
   world.applyLinearImpulse(doorHandle, [0, 0, -(interaction.args?.[0] ?? 50000)], world.getBodyWorldPoint(doorHandle, [0.75, 0, 0]), true);

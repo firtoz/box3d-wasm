@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Add, f32Mul } from "../f32";
@@ -7,9 +7,9 @@ const BOX_HALF = 0.5;
 const BOX_COUNT = 6;
 const BOX_COLORS = [0x60a5fa, 0x34d399, 0xfbbf24, 0xf472b6, 0xa78bfa, 0xfb7185] as const;
 
-export function buildMultiplePrismaticDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime, ground: BodyHandle): BodyHandle[] {
-  const handles: BodyHandle[] = [];
-  let bodyA: BodyHandle = ground;
+export function buildMultiplePrismaticDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime, ground: BodyId): BodyId[] {
+  const handles: BodyId[] = [];
+  let bodyA: BodyId = ground;
   let localFrameA: Vec3 = [0, 0, 0];
 
   for (let i = 0; i < BOX_COUNT; i++) {
@@ -31,7 +31,7 @@ export function buildMultiplePrismaticDynamicBodies(world: PhysicsWorld, runtime
   return handles;
 }
 
-export function createMultiplePrismatic(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyHandle[] } {
+export function createMultiplePrismatic(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   const ground = world.createBody({ type: BodyType.Static, position: [0, 0, 0] });
   return { world, handles: [ground, ...buildMultiplePrismaticDynamicBodies(world, runtime, ground)] };

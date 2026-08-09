@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Div, f32Mul, f32Sub } from "../f32";
@@ -8,7 +8,7 @@ const BOX_HALF: Vec3 = [0.5, 10, 0.5];
 const BOX_OFFSET: Vec3 = [0, 10, 0];
 const LINEAR_V: Vec3 = [f32(-10), 0, 0];
 
-export function buildMoveEventDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildMoveEventDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const body = world.createBody({
     type: BodyType.Dynamic,
     position: PIVOT,

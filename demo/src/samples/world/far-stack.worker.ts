@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildFarStackDynamicBodies, farStackGroundSize } from "./far-stack-scene";
 
 class FarStackWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class FarStackWorker extends PhysicsWorkerBase {
     return farStackGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildFarStackDynamicBodies(this.world!, this.runtime!);
   }
 }

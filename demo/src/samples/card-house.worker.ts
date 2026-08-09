@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildCardHouseDynamicBodies, cardHouseGroundSize } from "./card-house-scene";
 
 class CardHouseWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class CardHouseWorker extends PhysicsWorkerBase {
     return cardHouseGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildCardHouseDynamicBodies(this.world!, this.runtime!);
   }
 }

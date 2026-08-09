@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildPyramid2dDynamicBodies, pyramid2dGroundSize } from "./pyramid2d-scene";
 
 class Pyramid2dWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class Pyramid2dWorker extends PhysicsWorkerBase {
     return pyramid2dGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildPyramid2dDynamicBodies(this.world!, this.runtime!);
   }
 }

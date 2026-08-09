@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type CompoundMeshEntry, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type CompoundMeshEntry, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { Box3DRng } from "../box3d-rng";
 import { cameraFromSetView } from "../shared";
@@ -36,7 +36,7 @@ function createMeshTileEntries(meshHandle: CompoundMeshEntry["meshHandle"]): Com
   }));
 }
 
-export function buildMeshTileDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+export function buildMeshTileDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const mesh = world.createBoxMesh([0, 0, 0], EXTENTS, true);
   const compound = runtime.createCompoundFromMeshes(createMeshTileEntries(mesh));
   world.destroyMesh(mesh);
@@ -47,7 +47,7 @@ export function buildMeshTileDynamicBodies(world: PhysicsWorld, runtime: Box3DRu
   return [ground];
 }
 
-export function createMeshTile(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[] } {
+export function createMeshTile(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   return { world, handles: buildMeshTileDynamicBodies(world, runtime) };
 }

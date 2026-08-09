@@ -1,4 +1,4 @@
-import { type Vec3 } from "box3d-wasm";
+import {type Vec3, type BodyId} from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
 import { buildGyroscopicTorqueDynamicBodies, gyroscopicTorqueGroundSize } from "./gyroscopic-torque-scene";
 
@@ -7,7 +7,7 @@ class GyroscopicTorqueWorker extends PhysicsWorkerBase {
     return gyroscopicTorqueGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildGyroscopicTorqueDynamicBodies(this.world!, this.runtime!);
   }
 }

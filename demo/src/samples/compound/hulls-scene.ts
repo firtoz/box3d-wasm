@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { Box3DRng } from "../box3d-rng";
 
@@ -26,7 +26,7 @@ function createHullDefs(): HullDef[] {
   return defs;
 }
 
-export function buildCompoundHullsDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+export function buildCompoundHullsDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const defs = createHullDefs();
   const compound = runtime.createCompoundFromHulls(defs.map((def) => ({ halfWidths: def.halfWidths, transform: { position: def.position, rotation: def.rotation } })));
   const body = world.createBody();
@@ -35,7 +35,7 @@ export function buildCompoundHullsDynamicBodies(world: PhysicsWorld, runtime: Bo
   return [body];
 }
 
-export function dumpCreate(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[] } {
+export function dumpCreate(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   return { world, handles: buildCompoundHullsDynamicBodies(world, runtime) };
 }

@@ -1,4 +1,4 @@
-import { B3_PI, BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Quat, type Vec3 } from "box3d-wasm";
+import {B3_PI, BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Quat, type Vec3} from "box3d-wasm";
 import type { RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Add, f32Div, f32Mul, f32Sub } from "../f32";
@@ -66,12 +66,12 @@ function computeCosSin(radians: number): { cosine: number; sine: number } {
 }
 
 export interface JunkyardState {
-  pusher: BodyHandle;
+  pusher: BodyId;
   degrees: number;
   radius: number;
 }
 
-export function buildJunkyardGround(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle {
+export function buildJunkyardGround(world: PhysicsWorld, runtime: Box3DRuntime): BodyId {
   const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
   runtime.createHullShape(ground, [120, 1, 120]);
   runtime.createTransformedHullShape(ground, [1, 8, 50], { position: [-50, 8, 0] });
@@ -99,8 +99,8 @@ export function forEachJunkyardRock(callback: (position: Vec3) => void): void {
 export function buildJunkyardRocksAndPusher(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
-): { rocks: BodyHandle[]; pusher: BodyHandle; state: JunkyardState } {
-  const rocks: BodyHandle[] = [];
+): { rocks: BodyId[]; pusher: BodyId; state: JunkyardState } {
+  const rocks: BodyId[] = [];
   const rockHull = runtime.createRock(JUNKYARD_ROCK_RADIUS);
   forEachJunkyardRock((position) => {
     const body = world.createBody({ type: BodyType.Dynamic, position });
@@ -125,7 +125,7 @@ export function buildJunkyardRocksAndPusher(
   };
 }
 
-export function buildJunkyardDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildJunkyardDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const { rocks, pusher } = buildJunkyardRocksAndPusher(world, runtime);
   return [...rocks, pusher];
 }
@@ -154,7 +154,7 @@ export const dumpCppSampleName = "Junkyard";
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: JunkyardState;
 } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
@@ -166,7 +166,7 @@ export function dumpCreate(runtime: Box3DRuntime): {
 export function dumpStep(
   _world: PhysicsWorld,
   runtime: Box3DRuntime,
-  _handles: readonly number[],
+  _handles: readonly BodyId[],
   _frame: number,
   _dt: number,
   state: JunkyardState,

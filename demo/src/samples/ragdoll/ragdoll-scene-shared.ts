@@ -1,28 +1,28 @@
-import type { Box3DRuntime, HumanHandle, Vec3 } from "box3d-wasm";
+import { type BodyId, type Box3DRuntime, type HumanHandle, type Vec3 } from "box3d-wasm";
 import type { RenderBody } from "../generic-host";
 import { RAGDOLL_RENDER_BONES } from "../../ragdoll-render";
 
-export function collectHumanBoneHandles(runtime: Box3DRuntime, human: HumanHandle): number[] {
-  const handles: number[] = [];
+export function collectHumanBoneHandles(runtime: Box3DRuntime, human: HumanHandle): BodyId[] {
+  const handles: BodyId[] = [];
   const boneCount = runtime.getHumanBoneCount();
   for (let i = 0; i < boneCount; i++) {
     const boneBody = runtime.getHumanBoneBody(human, i);
-    if (boneBody !== 0) handles.push(boneBody);
+    if (boneBody !== 0n) handles.push(boneBody);
   }
   return handles;
 }
 
-export function collectHumanAnchorHandles(runtime: Box3DRuntime, human: HumanHandle): number[] {
-  const handles: number[] = [];
+export function collectHumanAnchorHandles(runtime: Box3DRuntime, human: HumanHandle): BodyId[] {
+  const handles: BodyId[] = [];
   const boneCount = runtime.getHumanBoneCount();
   for (let i = 0; i < boneCount; i++) {
     const anchorBody = runtime.getHumanAnchorBody(human, i);
-    if (anchorBody !== 0) handles.push(anchorBody);
+    if (anchorBody !== 0n) handles.push(anchorBody);
   }
   return handles;
 }
 
-export function collectHumanBoneAndAnchorHandles(runtime: Box3DRuntime, human: HumanHandle): number[] {
+export function collectHumanBoneAndAnchorHandles(runtime: Box3DRuntime, human: HumanHandle): BodyId[] {
   return [...collectHumanBoneHandles(runtime, human), ...collectHumanAnchorHandles(runtime, human)];
 }
 

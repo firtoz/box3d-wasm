@@ -1,13 +1,4 @@
-import {
-  B3_AXIS_Z,
-  B3_PI,
-  BodyType,
-  quatFromAxisAngle,
-  type BodyHandle,
-  type Box3DRuntime,
-  type PhysicsWorld,
-  type Vec3,
-} from "box3d-wasm";
+import {B3_AXIS_Z, B3_PI, BodyType, quatFromAxisAngle, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Div, f32Mul } from "../f32";
@@ -32,13 +23,13 @@ function topHullPoints(runtime: Box3DRuntime): number[] {
   return points;
 }
 
-export function buildGyroscopicPrecessionDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildGyroscopicPrecessionDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const points = topHullPoints(runtime);
   const hull = runtime.createHullFromPoints(points);
   const rotation = runtime.makeQuatFromAxisAngle(B3_AXIS_Z, TILT_RAD);
   const angularVelocity = runtime.rotateVector(rotation, SPIN_OMEGA);
   const halfCount = (COUNT / 2) | 0;
-  const handles: BodyHandle[] = [];
+  const handles: BodyId[] = [];
 
   for (let x = 0; x < COUNT; x++) {
     for (let z = 0; z < COUNT; z++) {

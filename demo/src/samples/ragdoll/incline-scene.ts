@@ -1,4 +1,4 @@
-import { B3_AXIS_Z, B3_PI, BodyType, type Box3DRuntime, type HumanHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {B3_AXIS_Z, B3_PI, BodyType, type Box3DRuntime, type HumanHandle, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { collectHumanBoneHandles, ragdollRenderBodies } from "./ragdoll-scene-shared";
 import { f32 } from "../f32";
@@ -13,12 +13,12 @@ const INCLINE_RAMP_Q: [number, number, number, number] = [
 ];
 const INCLINE_Q = (runtime: Box3DRuntime) => runtime.makeQuatFromAxisAngle(B3_AXIS_Z, INCLINE_ANGLE);
 
-export function buildRagdollInclineDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+export function buildRagdollInclineDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   return buildRagdollInclineScene(world, runtime).handles;
 }
 
-export function buildRagdollInclineScene(world: PhysicsWorld, runtime: Box3DRuntime): { handles: number[]; human: HumanHandle } {
-  const handles: number[] = [];
+export function buildRagdollInclineScene(world: PhysicsWorld, runtime: Box3DRuntime): { handles: BodyId[]; human: HumanHandle } {
+  const handles: BodyId[] = [];
   const mesh = world.createGridMesh(4, 4, 2, 1, true);
   const inclineQ = INCLINE_Q(runtime);
 
@@ -64,13 +64,13 @@ interface InclineDumpState {
   motorized: boolean;
 }
 
-export function dumpCreate(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[]; state: InclineDumpState } {
+export function dumpCreate(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[]; state: InclineDumpState } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   const { handles, human } = buildRagdollInclineScene(world, runtime);
   return { world, handles, state: { human, time: 0, motorized: true } };
 }
 
-export function dumpStep(_world: PhysicsWorld, runtime: Box3DRuntime, _handles: readonly number[], _frame: number, dt: number, state: InclineDumpState): void {
+export function dumpStep(_world: PhysicsWorld, runtime: Box3DRuntime, _handles: readonly BodyId[], _frame: number, dt: number, state: InclineDumpState): void {
   if (state.time > 2 && state.motorized) {
     runtime.setHumanJointFrictionTorque(state.human, 0.5);
     runtime.setHumanJointSpringHertz(state.human, 0.5);

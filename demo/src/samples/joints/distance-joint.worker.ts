@@ -1,4 +1,4 @@
-import { type Vec3 } from "box3d-wasm";
+import {type Vec3, type BodyId} from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
 import { buildDistanceJointDynamicBodies, distanceJointGroundSize } from "./distance-joint-scene";
 
@@ -7,7 +7,7 @@ class DistanceJointWorker extends PhysicsWorkerBase {
     return distanceJointGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildDistanceJointDynamicBodies(this.world!, this.runtime!);
   }
 }

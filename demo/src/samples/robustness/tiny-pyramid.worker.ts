@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildTinyPyramidDynamicBodies, tinyPyramidGroundSize } from "./tiny-pyramid-scene";
 
 class TinyPyramidWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class TinyPyramidWorker extends PhysicsWorkerBase {
     return tinyPyramidGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildTinyPyramidDynamicBodies(this.world!, this.runtime!);
   }
 }

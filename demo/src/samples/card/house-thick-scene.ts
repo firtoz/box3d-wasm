@@ -1,4 +1,4 @@
-import { B3_AXIS_Z, B3_DEG_TO_RAD, B3_PI, BodyType, quatFromAxisAngle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {B3_AXIS_Z, B3_DEG_TO_RAD, B3_PI, BodyType, quatFromAxisAngle, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const ALPHA = 25 * B3_DEG_TO_RAD;
@@ -8,7 +8,7 @@ const CARD_HALF_WIDTH = 0.19;
 const f = Math.fround;
 
 function addVerticalPair(
-  world: PhysicsWorld, runtime: Box3DRuntime, handles: number[],
+  world: PhysicsWorld, runtime: Box3DRuntime, handles: BodyId[],
   startX: number, offsetX: number, startY: number,
 ): void {
   const qNeg = runtime.makeQuatFromAxisAngle(B3_AXIS_Z, -ALPHA);
@@ -21,7 +21,7 @@ function addVerticalPair(
 }
 
 function addHorizontalRow(
-  world: PhysicsWorld, runtime: Box3DRuntime, handles: number[],
+  world: PhysicsWorld, runtime: Box3DRuntime, handles: BodyId[],
   startX: number, offsetX: number, startY: number, count: number,
 ): void {
   const q = runtime.makeQuatFromAxisAngle(B3_AXIS_Z, 0.5 * B3_PI);
@@ -33,7 +33,7 @@ function addHorizontalRow(
 }
 
 function addVerticalRow(
-  world: PhysicsWorld, runtime: Box3DRuntime, handles: number[],
+  world: PhysicsWorld, runtime: Box3DRuntime, handles: BodyId[],
   n: number, startX: number, offsetX: number, startY: number,
 ): void {
   for (let j = 0; j < n; j++) {
@@ -41,8 +41,8 @@ function addVerticalRow(
   }
 }
 
-export function buildCardHouseThickDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildCardHouseThickDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const offsetX = f(0.5 * 0.98 * runtime.b3wSin(ALPHA) + 0.045);
   const offsetY = f(0.5 * 0.98 * runtime.b3wCos(ALPHA) + 0.035);
 

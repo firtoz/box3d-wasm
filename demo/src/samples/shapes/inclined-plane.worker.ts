@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildInclinedPlaneDynamicBodies, inclinedPlaneGroundSize } from "./inclined-plane-scene";
 
 class ShapesInclinedPlaneWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class ShapesInclinedPlaneWorker extends PhysicsWorkerBase {
     return inclinedPlaneGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildInclinedPlaneDynamicBodies(this.world!, this.runtime!);
   }
 }

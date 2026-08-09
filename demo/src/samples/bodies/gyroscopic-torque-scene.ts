@@ -1,7 +1,7 @@
-import { B3_AXIS_X, B3_PI, BodyType, quatFromAxisAngle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {B3_AXIS_X, B3_PI, BodyType, quatFromAxisAngle, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
-export function buildGyroscopicTorqueDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+export function buildGyroscopicTorqueDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const body = world.createBody({
     type: BodyType.Dynamic,
     position: [0, 2, 0],

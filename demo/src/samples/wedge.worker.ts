@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildWedgeDynamicBodies, wedgeGroundSize } from "./wedge-scene";
 
 class WedgeWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class WedgeWorker extends PhysicsWorkerBase {
     return wedgeGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildWedgeDynamicBodies(this.world!, this.runtime!);
   }
 }
