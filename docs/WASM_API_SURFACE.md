@@ -96,7 +96,7 @@ When adding an API binding:
 - [x] Get local point: `b3Body_GetLocalPoint`
 - [~] Get debug color: demo helper, not a general Box3D public C API item
 - [~] Batch body transform read: demo helper for render sync
-- [ ] Body validity: `b3Body_IsValid`
+- [x] Body validity: `b3Body_IsValid` (`bodyIsValid`)
 - [ ] Get position: `b3Body_GetPosition` as direct wrapper
 - [ ] Get rotation: `b3Body_GetRotation` as direct wrapper
 - [x] Get linear velocity: `b3Body_GetLinearVelocity`
@@ -344,7 +344,7 @@ When adding an API binding:
 - [ ] Plane validation helpers
 - [x] Cos/sin helper: `b3Sin`, `b3Cos` (Box3D Bhāskara I approximation)
 - [x] Float32 cos/sin from `<math.h>`: `b3wCosf`, `b3wSinf` (match upstream C++ `cosf`/`sinf`)
-- [x] Shared RNG + lerp helpers: `randomVec3`, `lerpVec3` (wrap `RandomVec3` / `b3Lerp`, seed 12345)
+- [x] Shared RNG + lerp helpers: `setRandomSeed`, `randomFloatRange`, `randomVec3`, `randomVec3Uniform`, `randomUnitVector`, `randomQuat`, `lerpVec3` (wrap shared `Random*` / `b3Lerp`)
 - [x] Length-and-normalize helper: `getLengthAndNormalize` (`b3GetLengthAndNormalize`)
 - [x] Quat between unit vectors: `computeQuatBetweenUnitVectors` (`b3ComputeQuatBetweenUnitVectors`)
 - [x] Inverse multiply quats: `invMulQuat` (`b3InvMulQuat`)
