@@ -8,7 +8,8 @@ For the exhaustive binding checklist, see [`WASM_API_SURFACE.md`](./WASM_API_SUR
 
 - `Box3DRuntime.load()` loads the WASM module and returns the runtime wrapper.
 - `runtime.createWorld()` creates a `PhysicsWorld` wrapper for one Box3D world. Omitted `gravity` defaults to `[0, -10, 0]` (same as upstream `b3DefaultWorldDef`).
-- Bodies, shapes, joints, hulls, compounds, and humans are represented by branded numeric handles.
+- Bodies, shapes, and joints use packed native Box3D IDs (`BodyId` / `ShapeId` / `JointId` as branded `bigint`, null `0n`) — the same opaque IDs as C++.
+- Hulls, meshes, compounds, humans, height fields, and worlds use branded integer slot handles.
 - Vectors are tuple types: `Vec3` is `[x, y, z]`, and `Quat` is `[x, y, z, w]`.
 - Body types use the exported `BodyType` enum, not raw Box3D numbers.
 - Call `world.destroy()` when a world is no longer needed.
@@ -121,7 +122,7 @@ The important API shape is `Box3DRuntime.load()` → `createWorld()` → create 
 
 ## Primitive And Object Styles
 
-The default API is the primitive one from `box3d-wasm`: bodies, shapes, joints, hulls, and humans are opaque branded handles. This keeps the wrapper close to the underlying WASM API, works well with batching APIs, and adds compile-time protection against mixing handle kinds.
+The default API is the primitive one from `box3d-wasm`: bodies/shapes/joints are packed native IDs (`bigint`), while hulls/meshes/humans/worlds are branded int slot handles. This stays close to the underlying WASM/C API, works with batching (`writeBodyHandles` writes `BigUint64Array`), and adds compile-time protection against mixing handle kinds.
 
 ```ts
 const body = world.createBody({ type: BodyType.Dynamic, position: [0, 4, 0] });

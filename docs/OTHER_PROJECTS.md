@@ -115,12 +115,16 @@ Key details:
 
 - **Toolchain**: Emscripten, CMake, Bun, TypeScript, Vite, and Turborepo
 - **Binding method**: Manual C bridge functions with `b3w*` prefixes, wrapped by TypeScript classes (`Box3DRuntime`, `PhysicsWorld`)
-- **API style**: Mid-level TypeScript API using named enums, branded handles, typed option objects, and tuple vectors, plus an opt-in object wrapper layer for `BodyRef`/`ShapeRef` ergonomics
+- **API style**: Mid-level TypeScript API using named enums, packed native bigint IDs for bodies/shapes/joints, branded int handles for pointer resources, typed option objects, and tuple vectors, plus an opt-in object wrapper layer for `BodyRef`/`ShapeRef` ergonomics
 - **Renderer**: Included Three.js browser demo
 - **Samples**: 118 C++ sample scenes currently ported to TypeScript (~159 unique upstream `RegisterSample`s), with a tracking document for the remaining samples
 - **Build flavours**: Release (fixed 256MB heap), growable release (64MB initial heap with `ALLOW_MEMORY_GROWTH=1`), and profile builds
 - **Threading model**: Emscripten pthreads are enabled in the WASM build (`USE_PTHREADS=1`), with Box3D worker-count controls exposed; the demo also runs simulation work through browser workers around that runtime
+<<<<<<< HEAD
 - **WASM size**: **~254KB gzipped (597KB raw)** for the release binary, built with `-O3`, pthreads, WASM SIMD, and `WASM_BIGINT` enabled
+=======
+- **WASM size**: **~254KB gzipped (596KB raw)** for the release binary, built with `-O3`, pthreads, WASM SIMD, and `WASM_BIGINT` enabled
+>>>>>>> 57a306f (Docs and Body Type fix for native bigint BodyId migration)
 - **Memory**: Default demo build uses a fixed 256MB heap; games can load the growable variant via `Box3DRuntime.load({ variant: "growable" })`. Body/shape/joint IDs are packed native `uint64` (`bigint` in TypeScript). Bridge slot pools remain for worlds/hulls/meshes/compounds/humans/height-fields (O(1) freelists); TypeScript exposes `runtime.limits`, `runtime.getSlotUsage()`, and throws `SlotExhaustedError` when a pool fills.
 - **Distinct feature**: Includes a custom human/ragdoll helper API (`createHuman`, bone access, human velocity/joint tuning) that is not exposed by the other JS library bindings in this comparison
 
@@ -181,7 +185,11 @@ He framed the PR primarily as a **showcase**: a browser-hosted version of the na
 | Events | Zero-GC typed-array buffers for events and contacts | JS arrays from embind (`getContactEvents`, `getSensorEvents`, `getBodyEvents`) | Event toggles exist; event buffers/callbacks not exposed | Native app internals |
 | Queries | Raycast, shapecast, overlap, mover queries | Raycast closest only | Raycast closest only | Native app internals |
 | Advanced geometry | Meshes, heightfields, compounds, generators, GJK | Not exposed | Compounds plus basic mesh construction/mesh shape binding; no heightfield yet | Native app internals |
+<<<<<<< HEAD
 | WASM size | ~309KB gzipped (806KB raw) | ~211KB gzipped (521KB raw) standard; ~218KB gzipped (533KB raw) deluxe | ~254KB gzipped (597KB raw) | Large app binary, fixed 512MB heap |
+=======
+| WASM size | ~309KB gzipped (806KB raw) | ~211KB gzipped (521KB raw) standard; ~218KB gzipped (533KB raw) deluxe | ~254KB gzipped (596KB raw) | Large app binary, fixed 512MB heap |
+>>>>>>> 57a306f (Docs and Body Type fix for native bigint BodyId migration)
 | Best fit | Comprehensive low-level Box3D API for JS | Ergonomic JS physics library | Growing TS-first wrapper + sample-porting playground | Browser-hosted native testbed/showcase |
 
 <a id="api-coverage"></a>

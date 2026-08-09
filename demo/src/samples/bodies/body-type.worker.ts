@@ -19,7 +19,7 @@ class BodyTypeWorker extends PhysicsWorkerBase {
   }
 
   protected async buildScene(): Promise<BodyId[]> {
-    const handles = buildBodyTypeDynamicBodies(this.world!, this.runtime!);
+    const handles = buildBodyTypeDynamicBodies(this.world!, this.runtime!, this.groundBodyId);
     this.attachmentId = handles[bodyTypeHandleIndex.attachmentId];
     this.secondAttachmentId = handles[bodyTypeHandleIndex.secondAttachmentId];
     this.platformId = handles[bodyTypeHandleIndex.platformId];

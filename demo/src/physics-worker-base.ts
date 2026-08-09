@@ -111,9 +111,12 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     return DEFAULT_GRAVITY;
   }
 
+  protected groundBodyId: BodyId = 0n as BodyId;
+
   protected setupGround(_initData: TInit): void {
     const groundBody = this.world!.createBody({ type: BodyType.Static, position: [0, -1, 0] });
     this.runtime!.createHullShape(groundBody, this.getGroundSize(this.initData));
+    this.groundBodyId = groundBody as BodyId;
   }
 
   protected configureScene(_initData: TInit): void {}

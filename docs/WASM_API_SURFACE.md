@@ -20,6 +20,7 @@ Source files:
 
 - Approximate JS-callable surface: ~75 TypeScript methods
 - Current binding style: manual `b3w*` C bridge functions plus TypeScript wrapper classes
+- Body/shape/joint public IDs are packed native `uint64` (`BodyId`/`ShapeId`/`JointId` as branded `bigint`); worlds/hulls/meshes/compounds/humans/height-fields use int slot handles
 - Current focus: sample-driven API growth rather than a full 1:1 upstream C API mirror
 - Threading: Emscripten pthreads enabled in WASM build, with world worker-count controls exposed
 - Usage guide: see [`TYPESCRIPT_API.md`](./TYPESCRIPT_API.md) for public TypeScript examples and conventions
@@ -142,7 +143,7 @@ When adding an API binding:
 - [x] Set restitution: `b3Shape_SetRestitution`
 - [x] Set surface material: `b3Shape_SetSurfaceMaterial` (with `tangentVelocity` support)
 - [x] Set filter: `b3Shape_SetFilter`
-- [x] Get shape body handle: `b3Shape_GetBody`
+- [x] Get shape body id: `b3Shape_GetBody` (returns packed `BodyId`)
 - [x] Enable sensor events: `b3Shape_EnableSensorEvents`
 - [x] Enable contact events: `b3Shape_EnableContactEvents`
 - [x] Enable pre-solve events: `b3Shape_EnablePreSolveEvents`
