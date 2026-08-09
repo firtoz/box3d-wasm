@@ -105,3 +105,46 @@ B3W_EXPORT void b3wInvMulQuat(
 	outQuat[2] = q.v.z;
 	outQuat[3] = q.s;
 }
+
+B3W_EXPORT void b3wSetRandomSeed(unsigned int seed)
+{
+	g_randomSeed = seed;
+}
+
+B3W_EXPORT unsigned int b3wGetRandomSeed(void)
+{
+	return g_randomSeed;
+}
+
+B3W_EXPORT float b3wRandomFloatRange(float lo, float hi)
+{
+	return RandomFloatRange(lo, hi);
+}
+
+B3W_EXPORT void b3wRandomVec3Uniform(float lo, float hi, float* outVec)
+{
+	if (outVec == NULL) return;
+	b3Vec3 v = RandomVec3Uniform(lo, hi);
+	outVec[0] = v.x;
+	outVec[1] = v.y;
+	outVec[2] = v.z;
+}
+
+B3W_EXPORT void b3wRandomUnitVector(float* outVec)
+{
+	if (outVec == NULL) return;
+	b3Vec3 v = RandomUnitVector();
+	outVec[0] = v.x;
+	outVec[1] = v.y;
+	outVec[2] = v.z;
+}
+
+B3W_EXPORT void b3wRandomQuat(float* outQuat)
+{
+	if (outQuat == NULL) return;
+	b3Quat q = RandomQuat();
+	outQuat[0] = q.v.x;
+	outQuat[1] = q.v.y;
+	outQuat[2] = q.v.z;
+	outQuat[3] = q.s;
+}

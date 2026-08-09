@@ -13,6 +13,7 @@ set(B3W_MAX_SHAPES 65536 CACHE STRING "Maximum tracked shape handles in the WASM
 set(B3W_MAX_MESHES 1024 CACHE STRING "Maximum tracked mesh handles in the WASM bridge")
 set(B3W_MAX_COMPOUNDS 1024 CACHE STRING "Maximum tracked compound handles in the WASM bridge")
 set(B3W_MAX_HUMANS 512 CACHE STRING "Maximum tracked human handles in the WASM bridge")
+set(B3W_MAX_HEIGHT_FIELDS 256 CACHE STRING "Maximum tracked height-field handles in the WASM bridge")
 set(BOX3D_WASM_INITIAL_MEMORY 268435456 CACHE STRING "Initial WASM heap size in bytes")
 
 if(EMSCRIPTEN)
@@ -57,6 +58,7 @@ add_executable(box3d_web
 	box3d_web_math.c
 	box3d_web_shape.c
 	box3d_web_mesh.c
+	box3d_web_heightfield.c
 	box3d_web_hull.c
 	box3d_web_compound.c
 	box3d_web_joint.c
@@ -75,6 +77,7 @@ target_compile_definitions(box3d_web PRIVATE
 	B3W_MAX_MESHES=${B3W_MAX_MESHES}
 	B3W_MAX_COMPOUNDS=${B3W_MAX_COMPOUNDS}
 	B3W_MAX_HUMANS=${B3W_MAX_HUMANS}
+	B3W_MAX_HEIGHT_FIELDS=${B3W_MAX_HEIGHT_FIELDS}
 )
 
 set_target_properties(box3d_web PROPERTIES

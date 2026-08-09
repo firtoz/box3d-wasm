@@ -35,8 +35,11 @@
 #ifndef B3W_MAX_HUMANS
 #define B3W_MAX_HUMANS 512
 #endif
+#ifndef B3W_MAX_HEIGHT_FIELDS
+#define B3W_MAX_HEIGHT_FIELDS 256
+#endif
 
-#define B3W_SLOT_KIND_COUNT 8
+#define B3W_SLOT_KIND_COUNT 9
 #define B3W_SLOT_FREE_NONE (-1)
 
 typedef struct b3wWorldSlot
@@ -100,6 +103,14 @@ typedef struct b3wHumanSlot
 	Human human;
 } b3wHumanSlot;
 
+typedef struct b3wHeightFieldSlot
+{
+	bool active;
+	int nextFree;
+	int worldHandle;
+	b3HeightFieldData* heightField;
+} b3wHeightFieldSlot;
+
 extern b3wWorldSlot g_worlds[B3W_MAX_WORLDS];
 extern b3wBodySlot g_bodies[B3W_MAX_BODIES];
 extern b3wJointSlot g_joints[B3W_MAX_JOINTS];
@@ -108,6 +119,7 @@ extern b3wShapeSlot g_shapes[B3W_MAX_SHAPES];
 extern b3wMeshSlot g_meshes[B3W_MAX_MESHES];
 extern b3wCompoundSlot g_compounds[B3W_MAX_COMPOUNDS];
 extern b3wHumanSlot g_humans[B3W_MAX_HUMANS];
+extern b3wHeightFieldSlot g_heightFields[B3W_MAX_HEIGHT_FIELDS];
 
 b3wWorldSlot* b3wGetWorld(int handle);
 b3wBodySlot* b3wGetBody(int handle);
@@ -116,6 +128,7 @@ b3wShapeSlot* b3wGetShape(int handle);
 b3wMeshSlot* b3wGetMesh(int handle);
 b3wCompoundSlot* b3wGetCompound(int handle);
 b3wHumanSlot* b3wGetHuman(int handle);
+b3wHeightFieldSlot* b3wGetHeightField(int handle);
 
 int b3wAllocWorldSlot(b3WorldId worldId);
 int b3wAllocBodySlot(int worldHandle, b3BodyId bodyId);
@@ -124,9 +137,11 @@ int b3wAllocHullSlot(b3HullData* hull);
 int b3wAllocShapeSlot(int worldHandle, b3ShapeId shapeId);
 int b3wFindShapeHandle(b3ShapeId shapeId);
 int b3wFindBodyHandle(b3BodyId bodyId);
+int b3wFindJointHandle(b3JointId jointId);
 int b3wAllocMeshSlot(int worldHandle, b3MeshData* mesh);
 int b3wAllocCompoundSlot(b3CompoundData* compound);
 int b3wAllocHumanSlot(int worldHandle, Human human);
+int b3wAllocHeightFieldSlot(int worldHandle, b3HeightFieldData* heightField);
 
 void b3wFreeWorldSlot(int handle);
 void b3wFreeBodySlot(int handle);
@@ -136,6 +151,7 @@ void b3wFreeShapeSlot(int handle);
 void b3wFreeMeshSlot(int handle);
 void b3wFreeCompoundSlot(int handle);
 void b3wFreeHumanSlot(int handle);
+void b3wFreeHeightFieldSlot(int handle);
 
 void b3wReleaseBodyShapeSlots(b3BodyId bodyId);
 void b3wClearWorldSlots(int worldHandle);
