@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type BodyId} from "box3d-wasm";
 import { collectHumanBoneHandles } from "../ragdoll/ragdoll-scene-shared";
 import { f32, f32Add, f32Div, f32Mul } from "../f32";
 
@@ -11,9 +11,9 @@ export function createBenchmarkTileMeshes(world: PhysicsWorld) {
   return { gridSize, gridMesh, torusMesh };
 }
 
-export function buildBenchmarkTileGround(world: PhysicsWorld, gridCount: number): number[] {
+export function buildBenchmarkTileGround(world: PhysicsWorld, gridCount: number): BodyId[] {
   const { gridSize, gridMesh, torusMesh } = createBenchmarkTileMeshes(world);
-  const handles: number[] = [];
+  const handles: BodyId[] = [];
   const span = f32Mul(gridSize, gridCount);
   let x = f32Add(f32Mul(-0.5, span), f32Mul(0.5, gridSize));
   for (let i = 0; i < gridCount; i++) {
@@ -33,7 +33,7 @@ export function buildBenchmarkTileGround(world: PhysicsWorld, gridCount: number)
 export function spawnHumanGroup(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
-  handles: number[],
+  handles: BodyId[],
   gridCount: number,
   gridSize: number,
   groupSize: number,

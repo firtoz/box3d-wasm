@@ -1,9 +1,9 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
-export function buildSpinningStickDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+export function buildSpinningStickDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const stickOmega: Vec3 = [41.000092, -42.434464, -37.792595];
-  const handles: number[] = [];
+  const handles: BodyId[] = [];
 
   const wall = world.createBody({ type: BodyType.Static, position: [0, 0.5, 0] });
   runtime.createHullShape(wall, [0.125, 0.5, 10], {});

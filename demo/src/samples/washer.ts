@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { B3_PI, BodyType, type BodyHandle, type Box3DRuntime } from "box3d-wasm";
+import {B3_PI, BodyType, type BodyId, type Box3DRuntime} from "box3d-wasm";
 import type { DemoBody, DemoSample, SolverParams } from "./types";
 import { SNAPSHOT_VERSION_INDEX } from "../physics-worker-protocol";
 import { tryAcquirePublishLock, releasePublishLock } from "../snapshot-views";
@@ -268,10 +268,10 @@ function createWasherMatrixSample(
       groundMesh.position.set(0, -1, 0);
       groundMesh.receiveShadow = true;
       scene.add(groundMesh);
-      bodies.push({ handle: 0 as BodyHandle, mesh: groundMesh, type: BodyType.Static });
+      bodies.push({ handle: 0n as BodyId, mesh: groundMesh, type: BodyType.Static });
 
       const drum = attachWasherDrum(scene);
-      bodies.push({ handle: 1 as BodyHandle, mesh: drum.drumGroup as unknown as THREE.Mesh, type: BodyType.Dynamic });
+      bodies.push({ handle: 1n as BodyId, mesh: drum.drumGroup as unknown as THREE.Mesh, type: BodyType.Dynamic });
 
       const cubeGeom = new THREE.BoxGeometry(0.4, 0.4, 0.4);
       const cubeMat = new THREE.MeshStandardMaterial({ color: WASHER_CUBE_COLOR });

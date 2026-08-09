@@ -1,8 +1,8 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 
-export function buildStaticInvokeDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildStaticInvokeDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const body = world.createBody({ type: BodyType.Dynamic, position: [0.25, 1, 0] });
   runtime.createSphereShape(body, [0, 0, 0], 0.5, { rollingResistance: 0.2 });
   return [body];
@@ -12,7 +12,7 @@ export function createStaticInvokeStatic(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
   invoke: boolean,
-): BodyHandle {
+): BodyId {
   const body = world.createBody({ type: BodyType.Static, position: [0, 0.5, 0] });
   runtime.createSphereShape(body, [0, 0, 0], 0.5, { invokeContactCreation: invoke });
   return body;
@@ -20,8 +20,8 @@ export function createStaticInvokeStatic(
 
 export function createStaticInvoke(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: BodyHandle[];
-  state: { staticBody: BodyHandle | null; invoke: boolean };
+  handles: BodyId[];
+  state: { staticBody: BodyId | null; invoke: boolean };
 } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
@@ -36,10 +36,10 @@ export function createStaticInvoke(runtime: Box3DRuntime): {
 export function dumpPostStepStaticInvoke(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
-  handles: BodyHandle[],
+  handles: BodyId[],
   frame: number,
   _dt: number,
-  state: { staticBody: BodyHandle | null; invoke: boolean },
+  state: { staticBody: BodyId | null; invoke: boolean },
 ): void {
   // Upstream CreateStatic after Sample::Step when m_stepCount == 20.
   if (frame !== 20 || state.staticBody !== null) return;

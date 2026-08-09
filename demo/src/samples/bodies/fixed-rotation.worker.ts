@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildFixedRotationDynamicBodies, fixedRotationGroundSize } from "./fixed-rotation-scene";
 
 class FixedRotationWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class FixedRotationWorker extends PhysicsWorkerBase {
     return fixedRotationGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildFixedRotationDynamicBodies(this.world!, this.runtime!);
   }
 }

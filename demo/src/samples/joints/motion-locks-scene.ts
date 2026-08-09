@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import { ObjectRuntime } from "box3d-wasm/objects";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
@@ -7,10 +7,10 @@ const FORCE_THRESHOLD = 20000;
 const TORQUE_THRESHOLD = 10000;
 const JOINT_OPTS = { forceThreshold: FORCE_THRESHOLD, torqueThreshold: TORQUE_THRESHOLD, collideConnected: true } as const;
 
-export function buildMotionLocksDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildMotionLocksDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const objectWorld = ObjectRuntime.fromRuntime(runtime).wrapWorld(world);
   const anchor = objectWorld.createBody();
-  const handles: BodyHandle[] = [anchor.handle];
+  const handles: BodyId[] = [anchor.handle];
 
   const positions = [-12.5, -7.5, -2.5, 2.5] as const;
   for (let index = 0; index < positions.length; index++) {
@@ -72,7 +72,7 @@ export const dumpCppSampleName = "Motion Locks";
 export const dumpGroundSize = motionLocksGroundSize;
 export const dumpBuildDynamicBodies = buildMotionLocksDynamicBodies;
 
-export function dumpCreate(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyHandle[] } {
+export function dumpCreate(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
   runtime.createHullShape(ground, motionLocksGroundSize(), {});

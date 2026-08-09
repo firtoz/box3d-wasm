@@ -1,9 +1,9 @@
-import type { Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
+import { BodyId, Box3DRuntime, PhysicsWorld, Vec3 } from "box3d-wasm";
 import type { RenderBody } from "../generic-host";
 import { addBox } from "../shared-worker";
 
-export function buildBoxStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildBoxStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   for (let i = 0; i < 40; i++) {
     addBox(world, runtime, handles, [0, 0.75 + 1.25 * i, 0], [0.5, 0.5, 0.5], [0, 0, 0, 1], { rollingResistance: 0.1 });
   }

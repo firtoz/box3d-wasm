@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const f32 = Math.fround;
@@ -8,8 +8,8 @@ const INCLINED_ANGLE_F32 = f32(40 * B3_DEG_TO_RAD_F32);
 const INCLINED_RAMP_Q: [number, number, number, number] = [Math.sin(INCLINED_ANGLE_F32 / 2), 0, 0, Math.cos(INCLINED_ANGLE_F32 / 2)];
 const FRICTION_STEP_F32 = f32(0.04);
 
-export function buildInclinedPlaneDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildInclinedPlaneDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const q = runtime.makeQuatFromAxisAngle(B3_AXIS_X, INCLINED_ANGLE_F32);
 
   const ramp = world.createBody({ type: BodyType.Static, position: [0, 7.5, -5], rotation: q });

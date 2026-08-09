@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type HullHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type HullHandle, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Add, f32Mul } from "../f32";
@@ -30,10 +30,10 @@ function createWrappingWheelHull(runtime: Box3DRuntime): HullHandle {
   return runtime.createHullFromPoints(buffer);
 }
 
-export function buildGmodWheelStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildGmodWheelStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   // Multi-piece shapes are commented out upstream; a single wrapping hull is used for simulation.
   const hull = createWrappingWheelHull(runtime);
-  const handles: BodyHandle[] = [];
+  const handles: BodyId[] = [];
 
   for (let i = 0; i < WHEEL_COUNT; i++) {
     const body = world.createBody({

@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildMeshTileDynamicBodies, meshTileGroundSize } from "./mesh-tile-scene";
 
 class MeshTileWorker extends PhysicsWorkerBase {
@@ -11,7 +11,7 @@ class MeshTileWorker extends PhysicsWorkerBase {
     return meshTileGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildMeshTileDynamicBodies(this.world!, this.runtime!);
   }
 }

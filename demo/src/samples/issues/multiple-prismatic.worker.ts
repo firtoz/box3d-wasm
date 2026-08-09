@@ -1,9 +1,9 @@
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import { BodyType, type BodyHandle, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Vec3} from "box3d-wasm";
 import { buildMultiplePrismaticDynamicBodies, multiplePrismaticGroundSize } from "./multiple-prismatic-scene";
 
 class MultiplePrismaticWorker extends PhysicsWorkerBase {
-  private anchor: BodyHandle = 0 as BodyHandle;
+  private anchor: BodyId = 0n as BodyId;
 
   protected setupGround(): void {
     // Upstream uses an empty static body as the first prismatic anchor (no hull).
@@ -19,7 +19,7 @@ class MultiplePrismaticWorker extends PhysicsWorkerBase {
     return 1_000_000;
   }
 
-  protected async buildScene(): Promise<BodyHandle[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildMultiplePrismaticDynamicBodies(this.world!, this.runtime!, this.anchor);
   }
 }

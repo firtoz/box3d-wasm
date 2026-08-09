@@ -1,12 +1,12 @@
 import * as THREE from "three";
-import { BodyType, type BodyHandle } from "box3d-wasm";
+import {BodyType, type BodyId} from "box3d-wasm";
 import type { DemoBody } from "../types";
 import { capsuleMesh } from "../shared";
 
 export function addVisibleJointBox(
   scene: THREE.Scene,
   bodies: DemoBody[],
-  handle: BodyHandle,
+  handle: BodyId,
   size: readonly [number, number, number],
   position: readonly [number, number, number],
   color: number,
@@ -28,7 +28,7 @@ export function addVisibleJointBox(
 export function addVisibleJointBodies(
   scene: THREE.Scene,
   bodies: DemoBody[],
-  handles: readonly BodyHandle[],
+  handles: readonly BodyId[],
   specs: readonly { index: number; size: readonly [number, number, number]; position: readonly [number, number, number]; color: number; type?: BodyType }[],
 ): void {
   for (const spec of specs) {
@@ -41,7 +41,7 @@ export function addVisibleJointBodies(
 export function addVisibleJointSphere(
   scene: THREE.Scene,
   bodies: DemoBody[],
-  handle: BodyHandle,
+  handle: BodyId,
   radius: number,
   position: readonly [number, number, number],
   color: number,
@@ -63,7 +63,7 @@ export function addVisibleJointSphere(
 export function addVisibleJointCapsule(
   scene: THREE.Scene,
   bodies: DemoBody[],
-  handle: BodyHandle,
+  handle: BodyId,
   radius: number,
   length: number,
   position: readonly [number, number, number],

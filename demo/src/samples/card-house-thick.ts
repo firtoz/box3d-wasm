@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { B3_AXIS_Z, B3_DEG_TO_RAD, B3_PI, BodyType, type Box3DRuntime, type PhysicsWorld } from "box3d-wasm";
+import {B3_AXIS_Z, B3_DEG_TO_RAD, B3_PI, BodyType, type Box3DRuntime, type PhysicsWorld} from "box3d-wasm";
 import type { DemoBody, DemoSample } from "./types";
 import { addBox, disposeBodies, syncBodies } from "./shared";
 

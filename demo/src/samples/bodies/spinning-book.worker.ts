@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildSpinningBookDynamicBodies, spinningBookGroundSize } from "./spinning-book-scene";
 
 class SpinningBookWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class SpinningBookWorker extends PhysicsWorkerBase {
     return spinningBookGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildSpinningBookDynamicBodies(this.world!, this.runtime!);
   }
 }

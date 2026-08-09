@@ -1,11 +1,4 @@
-import {
-  BodyType,
-  type BodyHandle,
-  type Box3DRuntime,
-  type MeshHandle,
-  type PhysicsWorld,
-  type Vec3,
-} from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type MeshHandle, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 
@@ -23,7 +16,7 @@ export interface PersistentContactState {
 export function buildPersistentContactScene(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
-): { ground: BodyHandle; sphere: BodyHandle; mesh: MeshHandle } {
+): { ground: BodyId; sphere: BodyId; mesh: MeshHandle } {
   const ground = world.createBody({ type: BodyType.Static });
   const mesh = world.createGridMesh(GRID_CELL_COUNT, GRID_CELL_COUNT, GRID_CELL_WIDTH, GRID_MATERIAL_COUNT, true);
   world.createMeshShape(ground, mesh, { scale: [1, 1, 1] });
@@ -42,7 +35,7 @@ export function buildPersistentContactScene(
   return { ground, sphere, mesh };
 }
 
-export function buildPersistentContactDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildPersistentContactDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   return [buildPersistentContactScene(world, runtime).sphere];
 }
 
@@ -67,7 +60,7 @@ export const dumpCppSampleName = "Persistent Contact";
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: PersistentContactState;
   dispose: () => void;
 } {

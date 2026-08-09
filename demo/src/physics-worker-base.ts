@@ -1,4 +1,4 @@
-import { BodyType, Box3DRuntime, type BodyBatchBuffers, type BodyHandle, type JointHandle, type PhysicsWorld, type ProfileLevel, type RuntimeLoadOptions, type Vec3, type WorldCapacity } from "box3d-wasm";
+import {BodyType, Box3DRuntime, type BodyBatchBuffers, type BodyId, type JointId, type PhysicsWorld, type ProfileLevel, type RuntimeLoadOptions, type Vec3, type WorldCapacity} from "box3d-wasm";
 import type { PhysicsWorkerCommand, PhysicsWorkerMessage, PublishMode, SolverParams } from "./physics-worker-protocol";
 import {
   MAX_PROJECTILES,
@@ -63,9 +63,9 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   protected publishIntervalMs = 15;
   protected useLightTransforms = false;
   protected snapshotTransformsOnly = false;
-  protected projectileHandles: number[] = [];
-  protected dragBody: BodyHandle | 0 = 0;
-  protected dragJoint: JointHandle | 0 = 0;
+  protected projectileHandles: BodyId[] = [];
+  protected dragBody: BodyId | 0n = 0n;
+  protected dragJoint: JointId | 0n = 0n;
   protected dragDistance = 0;
   protected subSteps = 4;
   protected fixedTimeStep = 1 / 60;
@@ -90,7 +90,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
   // --- Subclass hooks ---
 
-  protected abstract buildScene(initData: TInit): Promise<number[]>;
+  protected abstract buildScene(initData: TInit): Promise<BodyId[]>;
 
   protected getReadyExtra(): Record<string, unknown> {
     return {};
@@ -124,7 +124,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   }
 
   /** Override when the tracked body set grows after init (e.g. rain spawning). */
-  protected getTrackedBodyCapacity(initialHandles: number[]): number {
+  protected getTrackedBodyCapacity(initialHandles: BodyId[]): number {
     return initialHandles.length;
   }
 
@@ -133,7 +133,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     return undefined;
   }
 
-  protected setTrackedBodies(handles: number[]): void {
+  protected setTrackedBodies(handles: BodyId[]): void {
     if (this.world === null || this.bodyBatch === null) return;
     if (handles.length > this.trackedBodyCapacity) {
       throw new Error(`Tracked body count ${handles.length} exceeds capacity ${this.trackedBodyCapacity}`);
@@ -520,7 +520,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     const boneCount = Math.min(this.runtime.getHumanBoneCount(), RAGDOLL_RENDER_BONE_COUNT);
     for (let i = 0; i < boneCount && this.projectileHandles.length < MAX_PROJECTILES; i++) {
       const bodyHandle = this.runtime.getHumanBoneBody(humanHandle, i);
-      if (bodyHandle !== 0) this.projectileHandles.push(bodyHandle);
+      if (bodyHandle !== 0n) this.projectileHandles.push(bodyHandle);
     }
     this.world.writeBodyHandles(this.projectileBatch, this.projectileHandles);
   }
@@ -529,13 +529,13 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
   private endDrag(): void {
     if (this.world === null) return;
-    if (this.dragJoint !== 0) {
+    if (this.dragJoint !== 0n) {
       this.world.destroyJoint(this.dragJoint);
-      this.dragJoint = 0;
+      this.dragJoint = 0n;
     }
-    if (this.dragBody !== 0) {
+    if (this.dragBody !== 0n) {
       this.world.destroyBody(this.dragBody);
-      this.dragBody = 0;
+      this.dragBody = 0n;
     }
   }
 
@@ -549,7 +549,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     if (this.world === null) return;
     this.endDrag();
     const hit = this.world.rayCastClosest(origin, translation);
-    if (hit === null || hit.bodyHandle === 0 || this.world.getBodyType(hit.bodyHandle) !== BodyType.Dynamic) return;
+    if (hit === null || hit.bodyHandle === 0n || this.world.getBodyType(hit.bodyHandle) !== BodyType.Dynamic) return;
     const point = hit.point;
     this.dragDistance = Math.hypot(point[0] - origin[0], point[1] - origin[1], point[2] - origin[2]);
     this.dragBody = this.world.createBody({ type: BodyType.Kinematic, position: point, enableSleep: false });
@@ -569,7 +569,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   }
 
   private updateDrag(origin: Vec3, translation: Vec3): void {
-    if (this.world === null || this.dragBody === 0) return;
+    if (this.world === null || this.dragBody === 0n) return;
     this.world.setBodyTransform(this.dragBody, this.dragPoint(origin, translation));
     this.forceDenseNext = true;
   }
@@ -681,8 +681,8 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.bodyBatch = null;
     this.projectileBatch = null;
     this.projectileHandles.length = 0;
-    this.dragBody = 0;
-    this.dragJoint = 0;
+    this.dragBody = 0n;
+    this.dragJoint = 0n;
     this.dragDistance = 0;
     this.totalSteps = 0;
     this.lastPublishTime = 0;

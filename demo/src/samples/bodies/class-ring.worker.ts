@@ -1,4 +1,4 @@
-import { type Vec3 } from "box3d-wasm";
+import {type Vec3, type BodyId} from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
 import { buildClassRingDynamicBodies, classRingGroundSize, stepClassRing } from "./class-ring-scene";
 
@@ -7,7 +7,7 @@ class ClassRingWorker extends PhysicsWorkerBase {
     return classRingGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildClassRingDynamicBodies(this.world!, this.runtime!);
   }
 

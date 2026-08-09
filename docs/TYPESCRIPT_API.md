@@ -23,7 +23,7 @@ This is the smallest useful browser scene: import the runtime, create a Three.js
 
 ```ts
 import * as THREE from "three";
-import { BodyType, Box3DRuntime, type Vec3 } from "box3d-wasm";
+import { BodyType, Box3DRuntime, type BodyId, type Vec3 } from "box3d-wasm";
 
 const app = document.querySelector<HTMLDivElement>("#app");
 if (app === null) throw new Error("#app not found");
@@ -51,9 +51,9 @@ scene.add(sun);
 const runtime = await Box3DRuntime.load();
 const world = runtime.createWorld({ gravity: [0, -10, 0] });
 
-const bodies: Array<{ handle: number; mesh: THREE.Mesh }> = [];
+const bodies: Array<{ handle: BodyId; mesh: THREE.Mesh }> = [];
 
-function addBox(halfSize: Vec3, position: Vec3, dynamic: boolean, color: number): number {
+function addBox(halfSize: Vec3, position: Vec3, dynamic: boolean, color: number): BodyId {
   const handle = world.createBody({
     type: dynamic ? BodyType.Dynamic : BodyType.Static,
     position,
@@ -320,12 +320,12 @@ The runtime does not own rendering. A typical Three.js integration stores body h
 
 ```ts
 import * as THREE from "three";
-import { BodyType, Box3DRuntime, type Vec3 } from "box3d-wasm";
+import { BodyType, Box3DRuntime, type BodyId, type Vec3 } from "box3d-wasm";
 
 const runtime = await Box3DRuntime.load();
 const world = runtime.createWorld({ gravity: [0, -10, 0] });
 
-const bodies: Array<{ handle: number; mesh: THREE.Mesh }> = [];
+const bodies: Array<{ handle: BodyId; mesh: THREE.Mesh }> = [];
 
 function addBox(size: Vec3, position: Vec3, dynamic = true): void {
   const handle = world.createBody({
@@ -410,14 +410,16 @@ world.destroy();
 
 ## Scale, Limits, And Custom Builds
 
-The WASM bridge tracks every world/body/joint/hull/shape/mesh/compound/human you create through JavaScript handles. Those pools have **compile-time maximums** (`B3W_MAX_*` in `packages/box3d-wasm/cmake/CMakeLists.txt`). Defaults are sized for the ported upstream samples:
+Body, shape, and joint IDs are packed native `uint64` values (`BodyId` / `ShapeId` / `JointId` as branded `bigint`, null sentinel `0n`). They are **not** bridge slot handles.
+
+The WASM bridge still tracks worlds/hulls/meshes/compounds/humans/height-fields through JavaScript int handles. Those pools have **compile-time maximums** (`B3W_MAX_*` in `packages/box3d-wasm/cmake/CMakeLists.txt`). Defaults are sized for the ported upstream samples:
 
 | Pool | Default max |
 |------|-------------|
-| bodies / joints / shapes | 65536 |
 | hulls | 16384 |
 | humans | 512 |
 | meshes / compounds | 1024 |
+| height fields | 256 |
 | worlds | 16 |
 
 When a pool is full, creation throws `SlotExhaustedError` instead of failing silently. Inspect usage at runtime:

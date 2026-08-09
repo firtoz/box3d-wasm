@@ -1,4 +1,4 @@
-import { B3_AXIS_Z, B3_PI, BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {B3_AXIS_Z, B3_PI, BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import { f32, f32Add, f32Div, f32Mul, f32Sub } from "./f32";
 import type { RenderBody, RenderSpec } from "./generic-host";
 
@@ -47,8 +47,8 @@ function createCardHouseDefs(): CardDef[] {
   return defs;
 }
 
-export function buildCardHouseDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildCardHouseDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const q0 = runtime.makeQuatFromAxisAngle(B3_AXIS_Z, angle0);
   const q1 = runtime.makeQuatFromAxisAngle(B3_AXIS_Z, angle1);
   const q2 = runtime.makeQuatFromAxisAngle(B3_AXIS_Z, angle2);

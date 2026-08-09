@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type ShapeId, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type ShapeId, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 
@@ -8,16 +8,16 @@ const SENSOR_HALF: Vec3 = [2, 2, 2];
 const SENSOR_POSITION: Vec3 = [0, 2, 0];
 
 export interface SensorVisitScene {
-  visitorBody: BodyHandle;
-  sensorBody: BodyHandle;
+  visitorBody: BodyId;
+  sensorBody: BodyId;
   visitorShape: ShapeId;
   sensorShape: ShapeId;
 }
 
 export interface SensorVisitState {
-  visitorBody: BodyHandle | null;
+  visitorBody: BodyId | null;
   visitorShape: ShapeId | null;
-  sensorBody: BodyHandle;
+  sensorBody: BodyId;
   sensorShape: ShapeId;
 }
 
@@ -51,7 +51,7 @@ export function createSensorVisitState(scene: SensorVisitScene): SensorVisitStat
   };
 }
 
-export function buildSensorVisitDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildSensorVisitDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const scene = createSensorVisitScene(world, runtime);
   return [scene.visitorBody, scene.sensorBody];
 }
@@ -99,7 +99,7 @@ export function processSensorVisitPostStep(world: PhysicsWorld, state: SensorVis
 export function dumpPostStep(
   world: PhysicsWorld,
   _runtime: Box3DRuntime,
-  _handles: readonly number[],
+  _handles: readonly BodyId[],
   _frame: number,
   _dt: number,
   state: unknown,
@@ -109,7 +109,7 @@ export function dumpPostStep(
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: SensorVisitState;
 } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });

@@ -1,11 +1,11 @@
-import { BodyType, type BodyHandle, type BodyTransform, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type BodyTransform, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 
 export type TopDownFrictionVisible =
   | ({ kind: "capsule"; radius: number; length: number } & BodyTransform)
   | ({ kind: "sphere"; radius: number } & BodyTransform)
   | ({ kind: "box"; size: Vec3 } & BodyTransform);
 
-export function createTopDownFriction(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyHandle[] } {
+export function createTopDownFriction(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0] });
 
   const ground = world.createBody();
@@ -14,7 +14,7 @@ export function createTopDownFriction(runtime: Box3DRuntime): { world: PhysicsWo
   world.createTransformedHullShape(ground, [0.5, 10, 4], { position: [10, 10, 0] });
   world.createTransformedHullShape(ground, [10, 0.5, 4], { position: [0, 20, 0] });
 
-  const handles: BodyHandle[] = [ground];
+  const handles: BodyId[] = [ground];
   const capsuleRadius = 0.25;
   const sphereRadius = 0.35;
   const cubeHalf: Vec3 = [0.35, 0.35, 0.35];
@@ -76,7 +76,7 @@ export const dumpInteractionSchedule = [
   { frame: 1, action: "explode", args: [0, 10, 0, 10, 5, 10000] },
 ] as const;
 
-export function dumpRunInteraction(world: PhysicsWorld, _runtime: Box3DRuntime, _handles: readonly BodyHandle[], interaction: { action: string; args?: readonly number[] }): void {
+export function dumpRunInteraction(world: PhysicsWorld, _runtime: Box3DRuntime, _handles: readonly BodyId[], interaction: { action: string; args?: readonly number[] }): void {
   if (interaction.action !== "explode") throw new Error(`Unsupported top-down-friction dump action: ${interaction.action}`);
   const [x = 0, y = 10, z = 0, radius = 10, falloff = 5, impulsePerArea = 10000] = interaction.args ?? [];
   world.explode([x, y, z], radius, falloff, impulsePerArea, 0xFFFFFFFFn as unknown as number);

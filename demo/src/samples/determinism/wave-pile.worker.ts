@@ -1,5 +1,5 @@
+import { BodyId, HeightFieldHandle, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { HeightFieldHandle, Vec3 } from "box3d-wasm";
 import { createWavePile, wavePileGroundSize } from "./wave-pile-scene";
 
 class WavePileWorker extends PhysicsWorkerBase {
@@ -13,7 +13,7 @@ class WavePileWorker extends PhysicsWorkerBase {
     return wavePileGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { bodies, heightField } = createWavePile(this.world!, this.runtime!);
     this.heightField = heightField;
     return bodies;

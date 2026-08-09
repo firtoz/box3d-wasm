@@ -1,13 +1,4 @@
-import {
-  B3_AXIS_X,
-  B3_PI,
-  BodyType,
-  quatFromAxisAngle,
-  type BodyHandle,
-  type Box3DRuntime,
-  type PhysicsWorld,
-  type Vec3,
-} from "box3d-wasm";
+import {B3_AXIS_X, B3_PI, BodyType, quatFromAxisAngle, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderPart, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Add, f32Div, f32Mul, f32Sub } from "../f32";
@@ -88,7 +79,7 @@ function ringVertices(): Vec3[] {
   return verts;
 }
 
-export function buildClassRingDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildClassRingDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const rotation = runtime.makeQuatFromAxisAngle(B3_AXIS_X, TILT_RAD);
   const body = world.createBody({
     type: BodyType.Dynamic,

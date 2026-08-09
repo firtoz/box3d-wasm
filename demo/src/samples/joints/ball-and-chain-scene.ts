@@ -1,11 +1,11 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld} from "box3d-wasm";
 import { ObjectRuntime } from "box3d-wasm/objects";
 
-export function createBallAndChain(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyHandle[] } {
+export function createBallAndChain(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0] });
   const objectWorld = ObjectRuntime.fromRuntime(runtime).wrapWorld(world);
   const ground = objectWorld.createBody();
-  const handles: BodyHandle[] = [ground.handle];
+  const handles: BodyId[] = [ground.handle];
 
   const linkRadius = 0.125;
   const linkExtent = 0.5;

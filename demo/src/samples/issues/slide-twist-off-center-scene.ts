@@ -1,4 +1,4 @@
-import { B3_AXIS_X, B3_DEG_TO_RAD, BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {B3_AXIS_X, B3_DEG_TO_RAD, BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32Mul, f32Sub } from "../f32";
@@ -6,8 +6,8 @@ import { f32Mul, f32Sub } from "../f32";
 const ANGLE = f32Mul(20, B3_DEG_TO_RAD);
 const BOX_LOCAL_CENTER: Vec3 = [1, 0.5, 1];
 
-export function buildSlideTwistOffCenterDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildSlideTwistOffCenterDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const orientation = runtime.makeQuatFromAxisAngle(B3_AXIS_X, ANGLE);
 
   const plane = world.createBody({ type: BodyType.Static, position: [0, 4, 0], rotation: orientation });

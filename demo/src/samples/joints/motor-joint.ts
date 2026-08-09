@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { B3_AXIS_Z, type Box3DRuntime } from "box3d-wasm";
+import {B3_AXIS_Z, type Box3DRuntime} from "box3d-wasm";
 import { disposeDebugObject } from "../debug-overlay";
 import type { DemoBody, DemoSample } from "../types";
 import { addBox, disposeBodies, syncBodies } from "../shared";

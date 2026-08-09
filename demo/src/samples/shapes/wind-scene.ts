@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type ShapeId, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type ShapeId, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { f32 } from "../f32";
 
@@ -15,8 +15,8 @@ export interface WindState {
   noise: Vec3;
 }
 
-export function buildWindDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): { handles: number[]; state: WindState } {
-  const handles: number[] = [];
+export function buildWindDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): { handles: BodyId[]; state: WindState } {
+  const handles: BodyId[] = [];
   const shapeIds: ShapeId[] = [];
 
   const anchor = world.createBody({ type: BodyType.Static });
@@ -66,7 +66,7 @@ export const dumpSampleName = "Wind";
 export const dumpSampleId = "shapes/wind";
 export const dumpCppSampleName = "Wind";
 
-export function createWind(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[]; state: WindState } {
+export function createWind(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[]; state: WindState } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
   runtime.createHullShape(ground, windGroundSize(), {});
@@ -76,7 +76,7 @@ export function createWind(runtime: Box3DRuntime): { world: PhysicsWorld; handle
 
 export const dumpCreate = createWind;
 
-export function dumpPostStep(_world: PhysicsWorld, runtime: Box3DRuntime, _handles: readonly BodyHandle[], _frame: number, _dt: number, state: unknown): void {
+export function dumpPostStep(_world: PhysicsWorld, runtime: Box3DRuntime, _handles: readonly BodyId[], _frame: number, _dt: number, state: unknown): void {
   const s = state as WindState;
   const { length: speed, direction } = runtime.getLengthAndNormalize(WIND);
   const windVec: Vec3 = [

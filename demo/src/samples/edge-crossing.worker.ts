@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildEdgeCrossingDynamicBodies, edgeCrossingGroundSize } from "./edge-crossing-scene";
 
 class EdgeCrossingWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class EdgeCrossingWorker extends PhysicsWorkerBase {
     return edgeCrossingGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildEdgeCrossingDynamicBodies(this.world!, this.runtime!);
   }
 }

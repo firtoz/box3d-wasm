@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildHighMassRatio1DynamicBodies, highMassRatio1GroundSize } from "./high-mass-ratio-1-scene";
 
 class HighMassRatio1Worker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class HighMassRatio1Worker extends PhysicsWorkerBase {
     return highMassRatio1GroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildHighMassRatio1DynamicBodies(this.world!, this.runtime!);
   }
 }

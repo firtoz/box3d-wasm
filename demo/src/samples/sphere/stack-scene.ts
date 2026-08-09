@@ -1,8 +1,8 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
-export function buildSphereStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildSphereStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   for (let i = 0, y = 0.75; i < 30; i++, y += 1.5) {
     const body = world.createBody({ type: BodyType.Dynamic, position: [0, y, 0], isAwake: true, angularVelocity: [0, 0, 0] });
     runtime.createSphereShape(body, [0, 0, 0], 0.5, { rollingResistance: 0.1 });

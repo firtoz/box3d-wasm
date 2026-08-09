@@ -1,11 +1,11 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "./generic-host";
 
 const dominoHalf: Vec3 = [0.125, 0.5, 0.25];
 const f = Math.fround;
 
-export function buildDoubleDominoDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildDoubleDominoDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   let x = f(-7.5);
 
   for (let i = 0; i < 15; i++) {

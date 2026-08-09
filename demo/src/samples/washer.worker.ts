@@ -1,5 +1,5 @@
 import { PhysicsWorkerBase } from "../physics-worker-base";
-import { B3_PI, BodyType, type Vec3 } from "box3d-wasm";
+import {B3_PI, BodyType, type Vec3, type BodyId} from "box3d-wasm";
 
 const f = Math.fround;
 
@@ -18,7 +18,7 @@ const WASHER_COUNT = 8000;
 class WasherWorker extends PhysicsWorkerBase {
   protected groundSize: Vec3 = [60, 1, 60];
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const motorSpeed = f(25);
     const angleRad = f(f(B3_PI / 180) * motorSpeed);
 
@@ -81,7 +81,7 @@ class WasherWorker extends PhysicsWorkerBase {
       -a, -a, -a,  a, -a, -a,  a, a, -a,  -a, a, -a,
       -a, -a,  a,  a, -a,  a,  a, a,  a,  -a, a,  a,
     ]);
-    const handles = Array.from({ length: WASHER_COUNT + 1 }) as number[];
+    const handles = Array.from({ length: WASHER_COUNT + 1 }) as BodyId[];
     handles[0] = drumBody;
     let idx = 0;
     let x = f(f(f(-2) * a) * gridCount);

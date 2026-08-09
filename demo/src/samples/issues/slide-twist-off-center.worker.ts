@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import {
   buildSlideTwistOffCenterDynamicBodies,
   slideTwistOffCenterGroundSize,
@@ -10,7 +10,7 @@ class SlideTwistOffCenterWorker extends PhysicsWorkerBase {
     return slideTwistOffCenterGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildSlideTwistOffCenterDynamicBodies(this.world!, this.runtime!);
   }
 }

@@ -1,5 +1,5 @@
+import { BodyId, MeshHandle, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { MeshHandle, Vec3 } from "box3d-wasm";
 import {
   buildSensorHitsDynamicBodies,
   sensorHitsGroundSize,
@@ -15,7 +15,7 @@ class SensorHitsWorker extends PhysicsWorkerBase {
     return sensorHitsGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { handles, state } = buildSensorHitsDynamicBodies(this.world!, this.runtime!);
     this.sensorHits = state;
     this.mesh = state.mesh;

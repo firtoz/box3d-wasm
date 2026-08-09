@@ -1,4 +1,4 @@
-import { B3_PI, BodyType, type Box3DRuntime, type PhysicsWorld, type Quat, type Vec3 } from "box3d-wasm";
+import {B3_PI, BodyType, type Box3DRuntime, type PhysicsWorld, type Quat, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "./generic-host";
 import { cameraFromSetView } from "./shared";
 import { f32, f32Add, f32Mul } from "./f32";
@@ -38,8 +38,8 @@ function edgeCrossingSpawns(runtime: Box3DRuntime): Spawn[] {
   return spawns;
 }
 
-export function buildEdgeCrossingDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildEdgeCrossingDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   for (const spawn of edgeCrossingSpawns(runtime)) {
     const body = world.createBody({
       type: BodyType.Dynamic,

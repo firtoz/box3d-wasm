@@ -1,5 +1,5 @@
+import type { BodyId, Vec3, WorldCapacity } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3, WorldCapacity } from "box3d-wasm";
 import {
   buildLargeWorldFloor,
   LARGE_WORLD_GRID,
@@ -12,7 +12,7 @@ import {
 } from "./large-world-scene";
 
 class LargeWorldWorker extends PhysicsWorkerBase {
-  private sphereHandles: number[] = [];
+  private sphereHandles: BodyId[] = [];
   private largeWorldState: LargeWorldState = { spheresDropped: 0, scale: largeWorldLiveScale };
 
   protected setupGround(): void {
@@ -31,7 +31,7 @@ class LargeWorldWorker extends PhysicsWorkerBase {
     return LARGE_WORLD_SPHERES;
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     this.sphereHandles = [];
     this.largeWorldState = { spheresDropped: 0, scale: largeWorldLiveScale };
     return this.sphereHandles;

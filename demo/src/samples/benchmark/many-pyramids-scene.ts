@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const BASE_COUNT = 10;
@@ -36,7 +36,7 @@ export function forEachManyPyramidsBox(callback: (position: Vec3) => void): void
   }
 }
 
-function createSmallPyramid(world: PhysicsWorld, runtime: Box3DRuntime, centerX: number, baseZ: number, handles: number[]): void {
+function createSmallPyramid(world: PhysicsWorld, runtime: Box3DRuntime, centerX: number, baseZ: number, handles: BodyId[]): void {
   const half: Vec3 = [EXTENT, EXTENT, EXTENT];
   forEachSmallPyramidBoxes(centerX, baseZ, ([x, y, z]) => {
     const body = world.createBody({ type: BodyType.Dynamic, position: [x, y, z], enableSleep: false });
@@ -45,8 +45,8 @@ function createSmallPyramid(world: PhysicsWorld, runtime: Box3DRuntime, centerX:
   });
 }
 
-export function buildManyPyramidsDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildManyPyramidsDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const groundExtent = f32(EXTENT * COLUMN_COUNT * (BASE_COUNT + 1));
   const baseWidth = f32(2 * EXTENT * BASE_COUNT);
   let baseZ = f32(-groundExtent + 2 * EXTENT);
@@ -84,7 +84,7 @@ export const dumpCppSampleName = "Many Pyramids";
 export const dumpGroundSize = manyPyramidsGroundSize;
 export const dumpBuildDynamicBodies = buildManyPyramidsDynamicBodies;
 
-export function createManyPyramids(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[] } {
+export function createManyPyramids(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   world.enableSleeping(false);
   const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });

@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { f32, f32Add, f32Div, f32Mul, f32Sub } from "../f32";
 import { cameraFromSetView } from "../shared";
@@ -30,7 +30,7 @@ export function rockHullPoints(radius: number): [number, number, number][] {
   return points;
 }
 
-export function createStallBullet(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle {
+export function createStallBullet(world: PhysicsWorld, runtime: Box3DRuntime): BodyId {
   const bullet = world.createBody({
     type: BodyType.Dynamic,
     isBullet: true,
@@ -44,7 +44,7 @@ export function createStallBullet(world: PhysicsWorld, runtime: Box3DRuntime): B
   return bullet;
 }
 
-export function buildStallScene(world: PhysicsWorld, runtime: Box3DRuntime): { handles: number[]; savedThreshold: number } {
+export function buildStallScene(world: PhysicsWorld, runtime: Box3DRuntime): { handles: BodyId[]; savedThreshold: number } {
   const savedThreshold = runtime.getStallThreshold();
   // Log any CCD that takes longer than 1 ms (matches upstream Stall).
   runtime.setStallThreshold(0.001);
@@ -57,7 +57,7 @@ export function buildStallScene(world: PhysicsWorld, runtime: Box3DRuntime): { h
   return { handles: [torus, bullet], savedThreshold };
 }
 
-export function buildStallDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+export function buildStallDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   return buildStallScene(world, runtime).handles;
 }
 
@@ -91,13 +91,13 @@ export const dumpCppSampleName = "Stall";
 export const dumpGroundSize = stallGroundSize;
 
 interface StallDumpState {
-  bullet?: BodyHandle;
+  bullet?: BodyId;
   savedThreshold: number;
 }
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: StallDumpState;
   dispose: () => void;
 } {
@@ -108,7 +108,7 @@ export function dumpCreate(runtime: Box3DRuntime): {
   return {
     world,
     handles: [ground, ...handles],
-    state: { bullet: handles[1] as BodyHandle, savedThreshold },
+    state: { bullet: handles[1] as BodyId, savedThreshold },
     dispose: () => runtime.setStallThreshold(savedThreshold),
   };
 }

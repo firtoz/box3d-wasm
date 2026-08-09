@@ -1,5 +1,5 @@
+import { BodyId, HullHandle, MeshHandle, ShapeHandle, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { BodyHandle, HullHandle, MeshHandle, ShapeHandle, Vec3 } from "box3d-wasm";
 import type { PhysicsWorkerCommand } from "../../physics-worker-protocol";
 import {
   BIG_BOX_DEFAULT_SCALE,
@@ -19,7 +19,7 @@ class BigBoxWorker extends PhysicsWorkerBase {
   private meshShape: ShapeHandle | null = null;
   private scale: Vec3 = [...BIG_BOX_DEFAULT_SCALE];
   private shapeType: BigBoxShapeType = "cylinder";
-  private dynamic: BodyHandle | null = null;
+  private dynamic: BodyId | null = null;
   private cylinderHull: HullHandle | null = null;
 
   protected setupGround(): void {
@@ -32,7 +32,7 @@ class BigBoxWorker extends PhysicsWorkerBase {
     return bigBoxGroundSize();
   }
 
-  protected async buildScene(): Promise<BodyHandle[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     this.cylinderHull = this.runtime!.createCylinder(0.3, 0.15, 0, 32);
     this.dynamic = spawnBigBoxBody(this.world!, this.runtime!, this.shapeType, this.cylinderHull);
     return [this.dynamic];

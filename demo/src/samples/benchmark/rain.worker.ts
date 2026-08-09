@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { RAGDOLL_RENDER_BONE_COUNT } from "../../physics-worker-protocol";
 import {
   buildRainDynamicBodies,
@@ -10,7 +10,7 @@ import {
 } from "./rain-scene";
 
 class RainWorker extends PhysicsWorkerBase {
-  private handles: number[] = [];
+  private handles: BodyId[] = [];
   private rainState = { columnCount: 0 };
 
   protected setupGround(): void {
@@ -25,7 +25,7 @@ class RainWorker extends PhysicsWorkerBase {
     return rainTileCount() + rainMaxHumanCount() * RAGDOLL_RENDER_BONE_COUNT;
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     this.handles = buildRainDynamicBodies(this.world!, this.runtime!);
     return this.handles;
   }

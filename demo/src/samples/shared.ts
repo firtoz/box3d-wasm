@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import type { DemoBody } from "./types";
-import { BodyType, type BodyBatchBuffers, type BodyHandle, type PhysicsWorld, type RuntimeLoadOptions, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyBatchBuffers, type BodyId, type PhysicsWorld, type RuntimeLoadOptions, type Vec3} from "box3d-wasm";
 
 const MAX_WEB_WORKERS = 16;
 export type DemoWasmVariant = NonNullable<RuntimeLoadOptions["variant"]>;
@@ -126,7 +126,7 @@ export function addHull(
   color: number,
   friction = 0.5,
   rollingResistance = 0,
-  createHullShape?: (world: PhysicsWorld, size: Vec3, position: Vec3, friction: number, rollingResistance: number) => BodyHandle,
+  createHullShape?: (world: PhysicsWorld, size: Vec3, position: Vec3, friction: number, rollingResistance: number) => BodyId,
 ): DemoBody {
   const created = createHullShape === undefined ? world.createBoxWithShape({ size, position, static: false, density: 1000 }) : null;
   const handle = created === null ? createHullShape!(world, size, position, friction, rollingResistance) : created.bodyHandle;
@@ -165,8 +165,8 @@ export type BodySyncBatch = {
   awakeCache: Uint8Array;
   colorCache: Uint32Array;
   count: number;
-  firstHandle: number;
-  lastHandle: number;
+  firstHandle: BodyId | 0n;
+  lastHandle: BodyId | 0n;
 };
 
 const syncBatchCache = new WeakMap<DemoBody[], BodySyncBatch>();
@@ -175,8 +175,7 @@ export function createBodySyncBatch(world: PhysicsWorld, bodies: DemoBody[]): Bo
   const count = bodies.length;
   const buffers = world.allocBodyBatchBuffers(count);
   const memory = world.getMemoryView();
-  const handles = new Int32Array(memory.heap32.buffer, buffers.bodyHandlesPtr, count);
-  for (let i = 0; i < count; i++) handles[i] = bodies[i].handle;
+  world.writeBodyHandles(buffers, bodies.map((b) => b.handle));
   return {
     buffers,
     positions: new Float32Array(memory.heapF32.buffer, buffers.positionsPtr, count * 3),
@@ -186,15 +185,15 @@ export function createBodySyncBatch(world: PhysicsWorld, bodies: DemoBody[]): Bo
     awakeCache: new Uint8Array(count),
     colorCache: new Uint32Array(count),
     count,
-    firstHandle: count > 0 ? bodies[0].handle : 0,
-    lastHandle: count > 0 ? bodies[count - 1].handle : 0,
+    firstHandle: count > 0 ? bodies[0].handle : 0n,
+    lastHandle: count > 0 ? bodies[count - 1].handle : 0n,
   };
 }
 
 function getCachedBodySyncBatch(world: PhysicsWorld, bodies: DemoBody[]): BodySyncBatch {
   const cached = syncBatchCache.get(bodies);
   const count = bodies.length;
-  if (cached !== undefined && cached.count === count && cached.firstHandle === (count > 0 ? bodies[0].handle : 0) && cached.lastHandle === (count > 0 ? bodies[count - 1].handle : 0)) {
+  if (cached !== undefined && cached.count === count && cached.firstHandle === (count > 0 ? bodies[0].handle : 0n) && cached.lastHandle === (count > 0 ? bodies[count - 1].handle : 0n)) {
     return cached;
   }
   if (cached !== undefined) {
@@ -208,9 +207,7 @@ function getCachedBodySyncBatch(world: PhysicsWorld, bodies: DemoBody[]): BodySy
 export function syncBodiesBatch(world: PhysicsWorld, bodies: DemoBody[], batch: BodySyncBatch): void {
   const count = bodies.length;
   // Keep WASM handle scratch in sync with `bodies` (each list has its own batch buffers).
-  const memory = world.getMemoryView();
-  const handles = new Int32Array(memory.heap32.buffer, batch.buffers.bodyHandlesPtr, count);
-  for (let i = 0; i < count; i++) handles[i] = bodies[i]!.handle;
+  world.writeBodyHandles(batch.buffers, bodies.map((b) => b.handle));
 
   world.writeBodyTransforms(count, batch.buffers.bodyHandlesPtr, batch.buffers.positionsPtr, batch.buffers.rotationsPtr, batch.buffers.awakePtr, batch.buffers.colorsPtr);
   const positions = batch.positions;

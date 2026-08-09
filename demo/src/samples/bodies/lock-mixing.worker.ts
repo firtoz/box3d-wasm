@@ -1,4 +1,4 @@
-import { type Vec3 } from "box3d-wasm";
+import {type Vec3, type BodyId} from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
 import { buildLockMixingDynamicBodies, lockMixingGroundSize } from "./lock-mixing-scene";
 
@@ -7,7 +7,7 @@ class LockMixingWorker extends PhysicsWorkerBase {
     return lockMixingGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildLockMixingDynamicBodies(this.world!, this.runtime!);
   }
 }

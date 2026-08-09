@@ -1,6 +1,6 @@
 import { createGenericSample } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
-import { BodyType } from "box3d-wasm";
+import {BodyType} from "box3d-wasm";
 import { bodyTypeBodies, bodyTypeCamera, bodyTypeGroundSize } from "./body-type-scene";
 
 const half = bodyTypeGroundSize();

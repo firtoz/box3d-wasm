@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildConvexJitterDynamicBodies, convexJitterGroundSize } from "./convex-jitter-scene";
 
 class ConvexJitterWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class ConvexJitterWorker extends PhysicsWorkerBase {
     return convexJitterGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildConvexJitterDynamicBodies(this.world!, this.runtime!);
   }
 }

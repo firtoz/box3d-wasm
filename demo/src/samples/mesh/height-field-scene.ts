@@ -1,10 +1,4 @@
-import {
-  type BodyHandle,
-  type Box3DRuntime,
-  type HeightFieldHandle,
-  type PhysicsWorld,
-  type Vec3,
-} from "box3d-wasm";
+import {type BodyId, type Box3DRuntime, type HeightFieldHandle, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { f32, f32Mul } from "../f32";
 import { cameraFromSetView } from "../shared";
@@ -31,7 +25,7 @@ export function heightFieldGroundPosition(): Vec3 {
 }
 
 export interface HeightFieldScene {
-  ground: BodyHandle;
+  ground: BodyId;
   heightField: HeightFieldHandle;
 }
 
@@ -51,7 +45,7 @@ export function createHeightFieldScene(world: PhysicsWorld, _runtime: Box3DRunti
 }
 
 /** Upstream dynamic bodies are `#if 0` disabled — dump/live only have the heightfield ground. */
-export function buildHeightFieldDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildHeightFieldDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   createHeightFieldScene(world, runtime);
   return [];
 }
@@ -85,7 +79,7 @@ export const dumpCppSampleName = "Mesh/Height Field";
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: { heightField: HeightFieldHandle };
   dispose: () => void;
 } {

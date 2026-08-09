@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildDoubleDominoDynamicBodies, doubleDominoGroundSize } from "./double-domino-scene";
 
 class DoubleDominoWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class DoubleDominoWorker extends PhysicsWorkerBase {
     return doubleDominoGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildDoubleDominoDynamicBodies(this.world!, this.runtime!);
   }
 }

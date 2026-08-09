@@ -1,11 +1,11 @@
-import { B3_AXIS_X, B3_DEG_TO_RAD, BodyType, quatFromAxisAngle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {B3_AXIS_X, B3_DEG_TO_RAD, BodyType, quatFromAxisAngle, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "./generic-host";
 
 const count = 5;
 const planeAngle = 10 * B3_DEG_TO_RAD;
 
-export function buildRollingResistanceDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildRollingResistanceDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const planeRotation = runtime.makeQuatFromAxisAngle(B3_AXIS_X, planeAngle);
 
   const planeBody = world.createBody({ position: [0, 2, -20], rotation: planeRotation });

@@ -1,9 +1,9 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import { ObjectRuntime } from "box3d-wasm/objects";
 
 export const prismaticJointBodyIndex = 1;
 
-export function buildPrismaticJointDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildPrismaticJointDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const objectWorld = ObjectRuntime.fromRuntime(runtime).wrapWorld(world);
   const hiddenGround = objectWorld.createBody({ position: [0, -1, 0] });
   const body = objectWorld.createBody({ type: BodyType.Dynamic, position: [0, 4, 0], gravityScale: 0 });

@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildIsotropicFrictionDynamicBodies, isotropicFrictionGroundSize } from "./isotropic-friction-scene";
 
 class IsotropicFrictionWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class IsotropicFrictionWorker extends PhysicsWorkerBase {
     return isotropicFrictionGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildIsotropicFrictionDynamicBodies(this.world!, this.runtime!);
   }
 }

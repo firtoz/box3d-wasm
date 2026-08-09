@@ -1,4 +1,4 @@
-import { B3_AXIS_X, B3_PI, BodyType, type BodyHandle, type Box3DRuntime, type JointHandle, type PhysicsWorld, type ShapeId, type Vec3 } from "box3d-wasm";
+import {B3_AXIS_X, B3_PI, BodyType, type BodyId, type Box3DRuntime, type JointId, type PhysicsWorld, type ShapeId, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { f32, f32Add, f32Div, f32Mul } from "../f32";
 
@@ -15,13 +15,13 @@ const upperLimit = f32Div(f32Mul(30, B3_PI), 180);
 export interface WindFlapState {
   shapeId1: ShapeId;
   shapeId2: ShapeId;
-  jointId1: JointHandle;
-  jointId2: JointHandle;
+  jointId1: JointId;
+  jointId2: JointId;
   time: number;
 }
 
-export function buildWindFlapDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): { handles: number[]; state: WindFlapState } {
-  const handles: number[] = [];
+export function buildWindFlapDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): { handles: BodyId[]; state: WindFlapState } {
+  const handles: BodyId[] = [];
   const wingRotation = runtime.makeQuatFromAxisAngle(B3_AXIS_X, wingAngle);
 
   const wing1 = world.createBody({ type: BodyType.Dynamic, position: [f32Mul(-2, A), Y, 0] });
@@ -88,7 +88,7 @@ export const dumpSampleName = "Wind Flap";
 export const dumpSampleId = "shapes/wind-flap";
 export const dumpCppSampleName = "Wind Flap";
 
-export function createWindFlap(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[]; state: WindFlapState } {
+export function createWindFlap(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[]; state: WindFlapState } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
   runtime.createHullShape(ground, windFlapGroundSize(), {});
@@ -98,7 +98,7 @@ export function createWindFlap(runtime: Box3DRuntime): { world: PhysicsWorld; ha
 
 export const dumpCreate = createWindFlap;
 
-export function dumpPostStep(_world: PhysicsWorld, runtime: Box3DRuntime, _handles: readonly BodyHandle[], _frame: number, dt: number, state: unknown): void {
+export function dumpPostStep(_world: PhysicsWorld, runtime: Box3DRuntime, _handles: readonly BodyId[], _frame: number, _dt: number, state: unknown): void {
   const s = state as WindFlapState;
   runtime.applyShapeWind(s.shapeId1, [0, 0, 0], DRAG, LIFT, 10, false);
   runtime.applyShapeWind(s.shapeId2, [0, 0, 0], DRAG, LIFT, 10, false);

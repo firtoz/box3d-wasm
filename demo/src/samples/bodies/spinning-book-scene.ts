@@ -1,8 +1,8 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
-export function buildSpinningBookDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildSpinningBookDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const halfWidths: Vec3 = [0.35, 0.08, 0.5];
   const bodies: Array<{ position: Vec3; angularVelocity: Vec3 }> = [
     { position: [-2, 2, 0], angularVelocity: [5, 0.01, 0.01] },

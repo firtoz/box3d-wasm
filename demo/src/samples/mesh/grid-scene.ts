@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type MeshHandle, type PhysicsWorld, type ShapeHandle, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type MeshHandle, type PhysicsWorld, type ShapeHandle, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 
@@ -14,7 +14,7 @@ export type MeshGridShapeType = "sphere" | "capsule" | "box" | "cylinder";
 export function buildMeshGridGround(
   world: PhysicsWorld,
   scale: Vec3 = MESH_GRID_DEFAULT_SCALE,
-): { ground: BodyHandle; mesh: MeshHandle; shape: ShapeHandle } {
+): { ground: BodyId; mesh: MeshHandle; shape: ShapeHandle } {
   const ground = world.createBody({ type: BodyType.Static, position: [0, 0, 0] });
   const mesh = world.createGridMesh(MESH_GRID_CELL_COUNT, MESH_GRID_CELL_COUNT, MESH_GRID_CELL_WIDTH, 0, true);
   const shape = world.createMeshShape(ground, mesh, { scale });
@@ -25,7 +25,7 @@ export function spawnMeshGridBody(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
   shapeType: MeshGridShapeType = "cylinder",
-): BodyHandle {
+): BodyId {
   const body = world.createBody({
     type: BodyType.Dynamic,
     position: [0.1, 1.0, -0.1],
@@ -53,11 +53,11 @@ export function spawnMeshGridBody(
   return body;
 }
 
-export function buildMeshGridDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildMeshGridDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   return [spawnMeshGridBody(world, runtime, "cylinder")];
 }
 
-export function createMeshGrid(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyHandle[] } {
+export function createMeshGrid(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   const { ground } = buildMeshGridGround(world);
   return { world, handles: [ground, ...buildMeshGridDynamicBodies(world, runtime)] };

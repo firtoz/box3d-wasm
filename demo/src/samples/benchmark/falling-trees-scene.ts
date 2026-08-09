@@ -1,11 +1,4 @@
-import {
-  BodyType,
-  type BodyHandle,
-  type Box3DRuntime,
-  type MeshHandle,
-  type PhysicsWorld,
-  type Vec3,
-} from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type MeshHandle, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderPart, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Add, f32Div, f32Mul, f32Sub } from "../f32";
@@ -68,7 +61,7 @@ export function buildFallingTreesScene(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
   scale = 1,
-): { ground: BodyHandle; trees: BodyHandle[]; mesh: MeshHandle } {
+): { ground: BodyId; trees: BodyId[]; mesh: MeshHandle } {
   const ground = world.createBody({ type: BodyType.Static, position: [0, 0, 0] });
   const params = waveMeshParams(scale);
   const mesh = world.createWaveMesh(
@@ -93,7 +86,7 @@ export function buildFallingTreesScene(
     updateBodyMass: false as const,
   };
 
-  const handles: BodyHandle[] = [];
+  const handles: BodyId[] = [];
   let angularVelocity = f32(-0.5);
   let z = f32(-70);
   for (let bodyIndex = 0; bodyIndex < FALLING_TREES_BODY_COUNT; bodyIndex++) {
@@ -128,7 +121,7 @@ export function buildFallingTreesScene(
   return { ground, trees: handles, mesh };
 }
 
-export function buildFallingTreesDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildFallingTreesDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   return buildFallingTreesScene(world, runtime, 1).trees;
 }
 
@@ -167,7 +160,7 @@ export const dumpCppSampleName = "Falling Trees";
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: FallingTreesState;
   dispose: () => void;
 } {

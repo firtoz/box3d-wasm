@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { BodyType, B3_AXIS_Y, B3_PI, quatFromAxisAngle } from "box3d-wasm";
+import {BodyType, B3_AXIS_Y, B3_PI, quatFromAxisAngle} from "box3d-wasm";
 import { createGenericSample, meshFor } from "../generic-host";
 import type { RenderSpec } from "../generic-host";
 import type { DemoBody, DemoSample } from "../types";

@@ -120,8 +120,8 @@ Key details:
 - **Samples**: 118 C++ sample scenes currently ported to TypeScript (~159 unique upstream `RegisterSample`s), with a tracking document for the remaining samples
 - **Build flavours**: Release (fixed 256MB heap), growable release (64MB initial heap with `ALLOW_MEMORY_GROWTH=1`), and profile builds
 - **Threading model**: Emscripten pthreads are enabled in the WASM build (`USE_PTHREADS=1`), with Box3D worker-count controls exposed; the demo also runs simulation work through browser workers around that runtime
-- **WASM size**: **~254KB gzipped (597KB raw)** for the release binary, built with `-O3`, pthreads, and WASM SIMD enabled
-- **Memory**: Default demo build uses a fixed 256MB heap; games can load the growable variant via `Box3DRuntime.load({ variant: "growable" })`. Bridge slot pools use O(1) freelists; TypeScript exposes `runtime.limits`, `runtime.getSlotUsage()`, and throws `SlotExhaustedError` when a pool fills. World/body destroy releases shape slots so restarting large scenes no longer leaks handles.
+- **WASM size**: **~254KB gzipped (597KB raw)** for the release binary, built with `-O3`, pthreads, WASM SIMD, and `WASM_BIGINT` enabled
+- **Memory**: Default demo build uses a fixed 256MB heap; games can load the growable variant via `Box3DRuntime.load({ variant: "growable" })`. Body/shape/joint IDs are packed native `uint64` (`bigint` in TypeScript). Bridge slot pools remain for worlds/hulls/meshes/compounds/humans/height-fields (O(1) freelists); TypeScript exposes `runtime.limits`, `runtime.getSlotUsage()`, and throws `SlotExhaustedError` when a pool fills.
 - **Distinct feature**: Includes a custom human/ragdoll helper API (`createHuman`, bone access, human velocity/joint tuning) that is not exposed by the other JS library bindings in this comparison
 
 This project is currently less complete as a general-purpose Box3D API wrapper than Isaac's or Monteslu's packages, but the API is actively growing. Its present smaller surface keeps the WASM output compact while the demo retains direct TypeScript ownership over sample-specific behavior.

@@ -1,7 +1,7 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import { ObjectRuntime } from "box3d-wasm/objects";
 
-export function buildFilterJointDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildFilterJointDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const objectWorld = ObjectRuntime.fromRuntime(runtime).wrapWorld(world);
   const a = objectWorld.createBody({ type: BodyType.Dynamic, position: [2, 4, 0] });
   a.createHullShape([0.5, 0.5, 0.5]);

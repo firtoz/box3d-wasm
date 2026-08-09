@@ -1,5 +1,5 @@
+import { BodyId, MeshHandle, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { MeshHandle, Vec3 } from "box3d-wasm";
 import { buildPersistentContactScene, persistentContactGroundSize } from "./persistent-contact-scene";
 
 class PersistentContactWorker extends PhysicsWorkerBase {
@@ -13,7 +13,7 @@ class PersistentContactWorker extends PhysicsWorkerBase {
     return persistentContactGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { sphere, mesh } = buildPersistentContactScene(this.world!, this.runtime!);
     this.mesh = mesh;
     return [sphere];

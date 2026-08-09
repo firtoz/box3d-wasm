@@ -1,11 +1,4 @@
-import {
-  BodyType,
-  type BodyHandle,
-  type Box3DRuntime,
-  type HeightFieldHandle,
-  type PhysicsWorld,
-  type Vec3,
-} from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type HeightFieldHandle, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { rockHullPoints } from "../continuous/stall-scene";
 import { f32, f32Add, f32Mul, f32Sub } from "../f32";
@@ -26,8 +19,8 @@ const WAVE_PILE_DYNAMIC_SHAPE = { rollingResistance: f32(0.3) } as const;
 const ZERO_JITTER: Vec3 = [0, 0, 0];
 
 export interface WavePileResult {
-  ground: BodyHandle;
-  bodies: BodyHandle[];
+  ground: BodyId;
+  bodies: BodyId[];
   heightField: HeightFieldHandle;
 }
 
@@ -67,7 +60,7 @@ export function createWavePile(world: PhysicsWorld, runtime: Box3DRuntime): Wave
   world.createHeightFieldShape(ground, heightField, {});
 
   const rock = runtime.createRock(f32(0.55));
-  const bodies: BodyHandle[] = [];
+  const bodies: BodyId[] = [];
   try {
     for (let layer = 0; layer < WAVE_PILE_LAYERS; layer++) {
       for (let i = 0; i < WAVE_PILE_GRID; i++) {
@@ -154,7 +147,7 @@ export const dumpCppSampleName = "Wave Pile";
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: { heightField: HeightFieldHandle };
   dispose: () => void;
 } {

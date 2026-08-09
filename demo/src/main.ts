@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Stats from "stats.js";
-import { BodyType, Box3DRuntime, type BodyHandle, type JointHandle, type PhysicsWorld, type Quat, type Vec3 } from "box3d-wasm";
+import {BodyType, Box3DRuntime, type BodyId, type JointId, type PhysicsWorld, type Quat, type Vec3} from "box3d-wasm";
 import { samples, type ControlSpec, type DemoBody, type DemoSampleInstance, type SolverParams } from "./samples";
 import { getWasmBaseUrl, getWasmVariant, getWasmVariantOptions, getWorkerCounts } from "./samples/shared";
 import "./style.css";
@@ -353,8 +353,8 @@ let controlsVisible = true;
 let showControlsDialog = (() => { try { return localStorage.getItem(VISIBLE_STORAGE_KEY) === "1"; } catch { return false; } })();
 let colorMode = localStorage.getItem("box3d:color-mode") === "light" ? "light" : "full";
 let selectedBody: DemoBody | null = null;
-let mouseDragBody: BodyHandle | 0 | -1 = 0;
-let mouseDragJoint: JointHandle | 0 = 0;
+let mouseDragBody: BodyId | 0n | -1 = 0n;
+let mouseDragJoint: JointId | 0n = 0n;
 let mouseDragDistance = 0;
 let mouseDragWorld: PhysicsWorld | null = null;
 let flyLook = false;
@@ -429,7 +429,7 @@ function spawnRagdoll(origin: THREE.Vector3, velocity: THREE.Vector3): void {
   for (let i = 0; i < boneCount; i++) {
     const bone = RAGDOLL_BONES[i];
     const handle = runtime.getHumanBoneBody(humanHandle, i);
-    if (handle === 0) continue;
+    if (handle === 0n) continue;
     const mesh = ragdollCapsuleMesh(bone.a, bone.b, bone.radius, bone.color);
     scene.add(mesh);
     activeSample.bodies.push({ handle, mesh, type: BodyType.Dynamic, preserveColor: true });
@@ -933,7 +933,7 @@ function bodyFromPointer(e: PointerEvent): { body: DemoBody; point: THREE.Vector
     const translation = [raycaster.ray.direction.x * 1000, raycaster.ray.direction.y * 1000, raycaster.ray.direction.z * 1000] as [number, number, number];
     const world = activeSample!.pickWorld?.() ?? activeSample!.world;
     const hit = world.rayCastClosest(origin, translation);
-    if (hit === null || hit.bodyHandle === 0) return null;
+    if (hit === null || hit.bodyHandle === 0n) return null;
     const body = activeSample!.bodies.find((b) => b.handle === hit.bodyHandle);
     if (body === undefined) return null;
     return { body, point: new THREE.Vector3(hit.point[0], hit.point[1], hit.point[2]) };
@@ -1000,7 +1000,7 @@ function startMouseDrag(e: PointerEvent): boolean {
 }
 
 function updateMouseDrag(e: PointerEvent): void {
-  if (activeSample === null || mouseDragBody === 0) return;
+  if (activeSample === null || mouseDragBody === 0n) return;
   if (mouseDragBody === -1 && activeSample.updateMouseDragRay !== undefined) {
     setPointerFromEvent(e);
     withPickCamera(() => {
@@ -1013,7 +1013,7 @@ function updateMouseDrag(e: PointerEvent): void {
     return;
   }
   if (mouseDragBody < 0 || mouseDragWorld === null) return;
-  const dragBody = mouseDragBody as BodyHandle;
+  const dragBody = mouseDragBody as BodyId;
   const p = pointOnPickRay(e, mouseDragDistance);
   mouseDragWorld.setBodyTransform(dragBody, [p.x, p.y, p.z]);
 }
@@ -1022,23 +1022,23 @@ function stopMouseDrag(): void {
   if (activeSample === null) return;
   if (mouseDragBody === -1 && activeSample.stopMouseDrag !== undefined) {
     activeSample.stopMouseDrag();
-    mouseDragBody = 0;
+    mouseDragBody = 0n;
     mouseDragWorld = null;
     return;
   }
   if (mouseDragWorld !== null) {
-    if (mouseDragJoint !== 0) {
+    if (mouseDragJoint !== 0n) {
       mouseDragWorld.destroyJoint(mouseDragJoint);
-      mouseDragJoint = 0;
+      mouseDragJoint = 0n;
     }
     if (mouseDragBody > 0) {
-      mouseDragWorld.destroyBody(mouseDragBody as BodyHandle);
-      mouseDragBody = 0;
+      mouseDragWorld.destroyBody(mouseDragBody as BodyId);
+      mouseDragBody = 0n;
     }
     mouseDragWorld = null;
   } else {
-    mouseDragJoint = 0;
-    mouseDragBody = 0;
+    mouseDragJoint = 0n;
+    mouseDragBody = 0n;
   }
 }
 
@@ -1677,7 +1677,7 @@ canvas.addEventListener("pointerdown", (e) => {
 }, true);
 
 canvas.addEventListener("pointermove", (e) => {
-  if (mouseDragBody !== 0) {
+  if (mouseDragBody !== 0n) {
     e.preventDefault();
     e.stopImmediatePropagation();
     updateMouseDrag(e);
@@ -1691,7 +1691,7 @@ canvas.addEventListener("pointermove", (e) => {
 }, true);
 
 canvas.addEventListener("pointerup", (e) => {
-  if (mouseDragBody !== 0) {
+  if (mouseDragBody !== 0n) {
     e.preventDefault();
     e.stopImmediatePropagation();
     stopMouseDrag();

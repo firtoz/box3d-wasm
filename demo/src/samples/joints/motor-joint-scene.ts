@@ -1,4 +1,4 @@
-import { B3_AXIS_Z, BodyType, type BodyHandle, type Box3DRuntime, type JointHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {B3_AXIS_Z, BodyType, type BodyId, type Box3DRuntime, type JointId, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import { ObjectRuntime } from "box3d-wasm/objects";
 
 export const motorJointTargetIndex = 1;
@@ -7,13 +7,13 @@ export const motorJointSpringBodyIndex = 3;
 export const motorJointControlledJointIndex = 0;
 
 export interface MotorJointScene {
-  handles: BodyHandle[];
-  joints: JointHandle[];
+  handles: BodyId[];
+  joints: JointId[];
 }
 
 export function createMotorJointScene(world: PhysicsWorld, runtime: Box3DRuntime): MotorJointScene {
   const objectWorld = ObjectRuntime.fromRuntime(runtime).wrapWorld(world);
-  const joints: JointHandle[] = [];
+  const joints: JointId[] = [];
 
   const hiddenGround = objectWorld.createBody({ position: [0, -1, 0] });
 
@@ -46,7 +46,7 @@ export function createMotorJointScene(world: PhysicsWorld, runtime: Box3DRuntime
   return { handles: [hiddenGround.handle, target.handle, body.handle, springBody.handle], joints };
 }
 
-export function buildMotorJointDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildMotorJointDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   return createMotorJointScene(world, runtime).handles;
 }
 
@@ -72,19 +72,19 @@ export const dumpInteractionSchedule = [
   { frame: 100, action: "set-speed", args: [1] },
 ] as const;
 
-export function dumpRunInteraction(_world: PhysicsWorld, _runtime: Box3DRuntime, _handles: readonly BodyHandle[], interaction: { action: string; args?: readonly number[] }, _frame: number, state: MotorJointDumpState): void {
+export function dumpRunInteraction(_world: PhysicsWorld, _runtime: Box3DRuntime, _handles: readonly BodyId[], interaction: { action: string; args?: readonly number[] }, _frame: number, state: MotorJointDumpState): void {
   if (interaction.action !== "set-speed") throw new Error(`Unsupported motor-joint dump action: ${interaction.action}`);
   state.speed = Math.fround(interaction.args?.[0] ?? 0);
 }
 
-export function dumpCreate(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyHandle[]; state: MotorJointDumpState } {
+export function dumpCreate(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[]; state: MotorJointDumpState } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
   runtime.createHullShape(ground, motorJointGroundSize());
   return { world, handles: [ground, ...buildMotorJointDynamicBodies(world, runtime)], state: { speed: 0, time: 0 } };
 }
 
-export function dumpStep(_world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly BodyHandle[], _frame: number, dt: number, state: MotorJointDumpState): void {
+export function dumpStep(_world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly BodyId[], _frame: number, dt: number, state: MotorJointDumpState): void {
   if (dt <= 0) return;
   const timeStep = Math.fround(dt);
   state.time = Math.fround(state.time + Math.fround(state.speed * timeStep));

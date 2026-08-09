@@ -712,7 +712,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     return this.module.wasmMemory;
   }
 
-  writeBodyIds(buffers: BodyBatchBuffers, bodyHandles: readonly BodyId[]): void {
+  writeBodyHandles(buffers: BodyBatchBuffers, bodyHandles: readonly BodyId[]): void {
     const heap = this.module.HEAPU64;
     const base = buffers.bodyHandlesPtr >>> 3; // byte offset / 8
     for (let i = 0; i < bodyHandles.length; i++) heap[base + i] = bodyHandles[i];
@@ -1575,7 +1575,7 @@ export class PhysicsWorld {
   freeBodyBatchBuffers(buffers: BodyBatchBuffers): void { this.runtime.freeBodyBatchBuffers(buffers); }
   getMemoryView(): RuntimeMemoryView32 { return this.runtime.getMemoryView(); }
   getWasmMemory(): WebAssembly.Memory | undefined { return this.runtime.getWasmMemory(); }
-  writeBodyIds(buffers: BodyBatchBuffers, bodyHandles: readonly BodyId[]): void { this.runtime.writeBodyIds(buffers, bodyHandles); }
+  writeBodyHandles(buffers: BodyBatchBuffers, bodyHandles: readonly BodyId[]): void { this.runtime.writeBodyHandles(buffers, bodyHandles); }
   writeBodyTransforms(count: number, bodyHandlesPtr: number, outPositionsPtr: number, outRotationsPtr: number, outAwakePtr: number, outColorsPtr: number): void {
     this.runtime.writeBodyTransforms(count, bodyHandlesPtr, outPositionsPtr, outRotationsPtr, outAwakePtr, outColorsPtr);
   }

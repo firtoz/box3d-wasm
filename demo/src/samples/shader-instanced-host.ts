@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { BodyType, type BodyHandle, type Box3DRuntime } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime} from "box3d-wasm";
 import type { ControlSpec, DemoBody, DemoSample, DemoSampleInstance, SolverParams } from "./types";
 import type { RenderControl } from "./generic-host";
 import type { PhysicsWorkerMessage, PhysicsWorkerReady } from "../physics-worker-protocol";
@@ -480,7 +480,7 @@ export function createShaderInstancedSample(input: ShaderInstancedHostSpec | Sha
         if (groundKind === "plane") groundMesh.rotation.x = -0.5 * Math.PI;
         groundMesh.receiveShadow = true;
         scene.add(groundMesh);
-        bodies.push({ handle: 0 as BodyHandle, mesh: groundMesh, type: BodyType.Static });
+        bodies.push({ handle: 0n as BodyId, mesh: groundMesh, type: BodyType.Static });
       }
 
       const sceneSetup = spec.setupScene?.(scene);

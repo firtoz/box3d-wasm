@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import {
   buildRestitutionOvershootBodies,
   restitutionOvershootGroundSize,
@@ -14,7 +14,7 @@ class RestitutionOvershootWorker extends PhysicsWorkerBase {
     return restitutionOvershootGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildRestitutionOvershootBodies(this.world!, this.runtime!);
   }
 }

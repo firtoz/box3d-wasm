@@ -1,7 +1,7 @@
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { BodyType, Box3DRuntime, type PhysicsWorld, type Quat, type Vec3 } from "../packages/box3d-wasm/src/index";
+import { BodyType, Box3DRuntime, type BodyId, type PhysicsWorld, type Quat, type Vec3 } from "../packages/box3d-wasm/src/index";
 
 type ModuleFactory = (options: { wasmBinary: ArrayBuffer; locateFile(path: string): string }) => Promise<unknown>;
 type ModuleImport = { default: ModuleFactory };
@@ -33,7 +33,7 @@ interface DumpInteraction {
 
 interface WasmDumpInstance {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state?: unknown;
   /** Optional cleanup after `world.destroy` (e.g. restore global stall threshold). */
   dispose?: () => void;
@@ -44,12 +44,12 @@ interface WasmDumpSample {
   name: string;
   cppName: string;
   create(runtime: Box3DRuntime): WasmDumpInstance;
-  step?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
+  step?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly BodyId[], frame: number, dt: number, state: unknown) => void;
   ownsStep?: boolean;
-  postStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
+  postStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly BodyId[], frame: number, dt: number, state: unknown) => void;
   interactionSchedule: readonly DumpInteraction[];
-  runInteraction?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], interaction: DumpInteraction, frame: number, state: unknown) => void;
-  checkpointExtras?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, state: unknown) => Record<string, unknown> | undefined;
+  runInteraction?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly BodyId[], interaction: DumpInteraction, frame: number, state: unknown) => void;
+  checkpointExtras?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly BodyId[], frame: number, state: unknown) => Record<string, unknown> | undefined;
 }
 
 interface SceneDumpModule {
@@ -59,15 +59,15 @@ interface SceneDumpModule {
   dumpCreate?: (runtime: Box3DRuntime) => WasmDumpInstance;
   dumpGroundSize?: () => Vec3;
   dumpGroundPosition?: Vec3;
-  dumpBuildDynamicBodies?: (world: PhysicsWorld, runtime: Box3DRuntime) => number[];
+  dumpBuildDynamicBodies?: (world: PhysicsWorld, runtime: Box3DRuntime) => BodyId[];
   dumpNoPhysics?: boolean;
-  dumpStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
+  dumpStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly BodyId[], frame: number, dt: number, state: unknown) => void;
   /** When true, `dumpStep` performs the full physics step and the default `world.step(dt, 4)` is skipped. */
   dumpOwnsStep?: boolean;
-  dumpPostStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
+  dumpPostStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly BodyId[], frame: number, dt: number, state: unknown) => void;
   dumpInteractionSchedule?: readonly DumpInteraction[];
-  dumpRunInteraction?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], interaction: DumpInteraction, frame: number, state: unknown) => void;
-  dumpCheckpointExtras?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, state: unknown) => Record<string, unknown> | undefined;
+  dumpRunInteraction?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly BodyId[], interaction: DumpInteraction, frame: number, state: unknown) => void;
+  dumpCheckpointExtras?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly BodyId[], frame: number, state: unknown) => Record<string, unknown> | undefined;
   dumpVariants?: readonly {
     id: string;
     name: string;
@@ -328,7 +328,7 @@ function findSample(samples: readonly WasmDumpSample[], name: string): WasmDumpS
   return samples.find((sample) => sample.id === name || sample.name === name || sample.cppName === name);
 }
 
-function dumpBodies(world: PhysicsWorld, handles: readonly number[]): DumpBody[] {
+function dumpBodies(world: PhysicsWorld, handles: readonly BodyId[]): DumpBody[] {
   return handles
     .filter((handle) => world.bodyIsValid(handle as never))
     .map((handle) => {

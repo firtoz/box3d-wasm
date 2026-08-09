@@ -1,14 +1,4 @@
-import {
-  B3_AXIS_Y,
-  B3_PI,
-  BodyType,
-  type BodyHandle,
-  type Box3DRuntime,
-  type MeshHandle,
-  type PhysicsWorld,
-  type ShapeHandle,
-  type Vec3,
-} from "box3d-wasm";
+import {B3_AXIS_Y, B3_PI, BodyType, type BodyId, type Box3DRuntime, type MeshHandle, type PhysicsWorld, type ShapeHandle, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Mul } from "../f32";
@@ -26,7 +16,7 @@ export function meshBoxPlatformRotation(runtime: Box3DRuntime): [number, number,
   return runtime.makeQuatFromAxisAngle(B3_AXIS_Y, f32Mul(0.25, B3_PI));
 }
 
-export function buildMeshBoxGroundBox(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle {
+export function buildMeshBoxGroundBox(world: PhysicsWorld, runtime: Box3DRuntime): BodyId {
   const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
   runtime.createHullShape(ground, [20, 1, 20]);
   return ground;
@@ -36,7 +26,7 @@ export function buildMeshBoxPlatform(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
   scale: Vec3 = MESH_BOX_DEFAULT_SCALE,
-): { platform: BodyHandle; mesh: MeshHandle; shape: ShapeHandle } {
+): { platform: BodyId; mesh: MeshHandle; shape: ShapeHandle } {
   const platform = world.createBody({
     type: BodyType.Static,
     position: MESH_BOX_PLATFORM_POS,
@@ -51,7 +41,7 @@ export function spawnMeshBoxBody(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
   shapeType: MeshBoxShapeType = "box",
-): BodyHandle {
+): BodyId {
   const position: Vec3 = [0, f32(1.5), 0];
   if (shapeType === "cylinder") {
     position[1] = f32(position[1] - 0.5);
@@ -79,13 +69,13 @@ export function spawnMeshBoxBody(
   return body;
 }
 
-export function buildMeshBoxDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildMeshBoxDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   return [spawnMeshBoxBody(world, runtime, "box")];
 }
 
 export function createMeshBox(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: BodyHandle[];
+  handles: BodyId[];
   dispose: () => void;
 } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });

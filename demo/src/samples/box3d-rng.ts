@@ -1,4 +1,4 @@
-import { B3_PI, type Quat, type Vec3 } from "box3d-wasm";
+import {B3_PI, type Quat, type Vec3} from "box3d-wasm";
 import { f32, f32Add, f32Div, f32Mul, f32Sub } from "./f32";
 
 const RAND_LIMIT = 32767;

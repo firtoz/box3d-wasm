@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildSingleBoxDynamicBodies, singleBoxGroundSize } from "./box-scene";
 
 class SingleBoxWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class SingleBoxWorker extends PhysicsWorkerBase {
     return singleBoxGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildSingleBoxDynamicBodies(this.world!, this.runtime!);
   }
 }

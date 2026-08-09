@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { Box3DRng } from "../box3d-rng";
 import { collectHumanBoneHandles, ragdollRenderBodies } from "./ragdoll-scene-shared";
@@ -20,8 +20,8 @@ function pileHumanPositions(): Vec3[] {
   return positions;
 }
 
-export function buildRagdollPileDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildRagdollPileDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const positions = pileHumanPositions();
   for (let i = 0; i < COUNT; i++) {
     const human = world.createHuman(positions[i], {
@@ -36,7 +36,7 @@ export function buildRagdollPileDynamicBodies(world: PhysicsWorld, runtime: Box3
   return handles;
 }
 
-export function buildRagdollPileGround(world: PhysicsWorld): number {
+export function buildRagdollPileGround(world: PhysicsWorld): BodyId {
   const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
   const mesh = world.createGridMesh(20, 20, 1, 1, true);
   world.createMeshShape(ground, mesh, { scale: [1, 1, 1] });
@@ -60,7 +60,7 @@ export const dumpSampleId = "ragdoll/pile";
 export const dumpCppSampleName = "Pile";
 export const dumpGroundSize = ragdollPileGroundSize;
 
-export function createRagdollPile(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[] } {
+export function createRagdollPile(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   const ground = buildRagdollPileGround(world);
   return { world, handles: [ground, ...buildRagdollPileDynamicBodies(world, runtime)] };

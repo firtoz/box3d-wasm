@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildBoxHullDynamicBodies, boxHullGroundSize } from "./box-hull-scene";
 
 class BoxHullWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class BoxHullWorker extends PhysicsWorkerBase {
     return boxHullGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     return buildBoxHullDynamicBodies(this.world!, this.runtime!);
   }
 }

@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { BodyType, type Box3DRuntime } from "box3d-wasm";
+import {BodyType, type Box3DRuntime} from "box3d-wasm";
 import type { DemoBody, DemoSample } from "../types";
 import { disposeBodies, syncBodies } from "../shared";
 import { addVisibleJointBox, addVisibleJointCapsule, addVisibleJointSphere } from "./shared";

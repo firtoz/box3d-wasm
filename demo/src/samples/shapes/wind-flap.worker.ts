@@ -1,5 +1,5 @@
+import { BodyId, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 } from "box3d-wasm";
 import { buildWindFlapDynamicBodies, dumpPostStep, windFlapGroundSize, type WindFlapState } from "./wind-flap-scene";
 
 class WindFlapWorker extends PhysicsWorkerBase {
@@ -7,7 +7,7 @@ class WindFlapWorker extends PhysicsWorkerBase {
 
   protected getGroundSize(): Vec3 { return windFlapGroundSize(); }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const built = buildWindFlapDynamicBodies(this.world!, this.runtime!);
     this.flapState = built.state;
     return built.handles;

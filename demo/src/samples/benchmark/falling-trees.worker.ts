@@ -1,5 +1,5 @@
+import { BodyId, MeshHandle, Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { MeshHandle, Vec3 } from "box3d-wasm";
 import type { PhysicsWorkerCommand } from "../../physics-worker-protocol";
 import {
   buildFallingTreesScene,
@@ -20,7 +20,7 @@ class FallingTreesWorker extends PhysicsWorkerBase {
     return fallingTreesGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const { trees, mesh } = buildFallingTreesScene(
       this.world!,
       this.runtime!,

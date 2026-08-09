@@ -1,10 +1,10 @@
+import { BodyId, BodyType, Box3DRuntime, PhysicsWorld, ShapeId, Vec3 } from "box3d-wasm";
 import type * as THREE from "three";
-import type { BodyHandle, BodyType, Box3DRuntime, PhysicsWorld, ShapeId, Vec3 } from "box3d-wasm";
 import type { ProfileLevel, PublishMode, SolverParams as ProtocolSolverParams } from "../physics-worker-protocol";
 
 export type SampleRenderFn = (renderer: THREE.WebGLRenderer, camera: THREE.Camera) => boolean;
 
-export type DemoBody = { handle: BodyHandle; mesh: THREE.Mesh; extraMeshes?: THREE.Mesh[]; shapeIds?: ShapeId[]; type: BodyType; preserveColor?: boolean };
+export type DemoBody = { handle: BodyId; mesh: THREE.Mesh; extraMeshes?: THREE.Mesh[]; shapeIds?: ShapeId[]; type: BodyType; preserveColor?: boolean };
 
 export type ControlSpec = {
   key: string;

@@ -1,13 +1,13 @@
-import type { Box3DRuntime, HumanHandle, Vec3 } from "box3d-wasm";
+import { BodyId, Box3DRuntime, HumanHandle, Vec3 } from "box3d-wasm";
 import type { RenderBody } from "../generic-host";
 import { RAGDOLL_RENDER_BONES } from "../../ragdoll-render";
 
-export function collectHumanBoneHandles(runtime: Box3DRuntime, human: HumanHandle): number[] {
-  const handles: number[] = [];
+export function collectHumanBoneHandles(runtime: Box3DRuntime, human: HumanHandle): BodyId[] {
+  const handles: BodyId[] = [];
   const boneCount = runtime.getHumanBoneCount();
   for (let i = 0; i < boneCount; i++) {
     const boneBody = runtime.getHumanBoneBody(human, i);
-    if (boneBody !== 0) handles.push(boneBody);
+    if (boneBody !== 0n) handles.push(boneBody);
   }
   return handles;
 }

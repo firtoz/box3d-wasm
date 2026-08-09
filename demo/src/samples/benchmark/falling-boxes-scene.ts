@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const N = 50;
@@ -21,8 +21,8 @@ export function forEachFallingBox(callback: (position: Vec3) => void): void {
   }
 }
 
-export function buildFallingBoxesDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildFallingBoxesDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const half: Vec3 = [a, a, a];
 
   forEachFallingBox(([x, y, z]) => {

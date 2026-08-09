@@ -1,4 +1,4 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { f32, f32Add, f32Mul } from "../f32";
 
@@ -16,7 +16,7 @@ function stackBodyY(row: number): number {
   return f32Add(0.5, f32Mul(1.1, row));
 }
 
-function buildStack(world: PhysicsWorld, runtime: Box3DRuntime, handles: number[]): void {
+function buildStack(world: PhysicsWorld, runtime: Box3DRuntime, handles: BodyId[]): void {
   // Upstream attaches the wall hull to a static body at (0, -1, 0) via a local transform.
   const wallBody = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
   handles.push(wallBody);
@@ -29,7 +29,7 @@ function buildStack(world: PhysicsWorld, runtime: Box3DRuntime, handles: number[
   }
 }
 
-export function launchBullet(world: PhysicsWorld, runtime: Box3DRuntime, handles: number[]): BodyHandle {
+export function launchBullet(world: PhysicsWorld, runtime: Box3DRuntime, handles: BodyId[]): BodyId {
   const bullet = world.createBody({
     type: BodyType.Dynamic,
     isBullet: true,
@@ -41,8 +41,8 @@ export function launchBullet(world: PhysicsWorld, runtime: Box3DRuntime, handles
   return bullet;
 }
 
-export function buildBulletVsStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildBulletVsStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   buildStack(world, runtime, handles);
   return handles;
 }
@@ -80,7 +80,7 @@ export const dumpSampleId = "continuous/bullet-vs-stack";
 export const dumpCppSampleName = "Bullet vs Stack";
 export const dumpGroundSize = bulletVsStackGroundSize;
 
-export function dumpCreate(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[] } {
+export function dumpCreate(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
   runtime.createHullShape(ground, bulletVsStackGroundSize(), {});
@@ -90,7 +90,7 @@ export function dumpCreate(runtime: Box3DRuntime): { world: PhysicsWorld; handle
 
 export const dumpInteractionSchedule = [{ frame: 1, action: "launch" }] as const;
 
-export function dumpRunInteraction(world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], interaction: { action: string }): void {
+export function dumpRunInteraction(world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly BodyId[], interaction: { action: string }): void {
   if (interaction.action !== "launch") throw new Error(`Unsupported bullet-vs-stack dump action: ${interaction.action}`);
-  launchBullet(world, runtime, handles as number[]);
+  launchBullet(world, runtime, handles as BodyId[]);
 }

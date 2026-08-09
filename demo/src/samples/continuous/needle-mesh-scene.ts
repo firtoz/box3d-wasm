@@ -1,11 +1,4 @@
-import {
-  B3_PI,
-  BodyType,
-  type Box3DRuntime,
-  type MeshHandle,
-  type PhysicsWorld,
-  type Vec3,
-} from "box3d-wasm";
+import {B3_PI, BodyType, type Box3DRuntime, type MeshHandle, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Add, f32Div, f32Mul } from "../f32";
@@ -54,8 +47,8 @@ export function createNeedleMesh(
 }
 
 export interface NeedleMeshScene {
-  ground: number;
-  dynamic: number;
+  ground: BodyId;
+  dynamic: BodyId;
   meshes: MeshHandle[];
 }
 
@@ -104,7 +97,7 @@ export const dumpCppSampleName = "Needle Mesh";
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: { meshes: MeshHandle[] };
   dispose: () => void;
 } {

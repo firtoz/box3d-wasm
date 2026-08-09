@@ -1,11 +1,4 @@
-import {
-  BodyType,
-  type BodyHandle,
-  type Box3DRuntime,
-  type MeshHandle,
-  type PhysicsWorld,
-  type Vec3,
-} from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type MeshHandle, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderPart, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Add, f32Mul, f32Sub } from "../f32";
@@ -24,7 +17,7 @@ export interface HitEventState {
 function buildCapsuleChain(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
-): { bodies: BodyHandle[]; capsules: { a: Vec3; b: Vec3; radius: number }[][] } {
+): { bodies: BodyId[]; capsules: { a: Vec3; b: Vec3; radius: number }[][] } {
   let r = f32(0.75);
   let y = r;
   const l = f32(1.5);
@@ -37,11 +30,11 @@ function buildCapsuleChain(
   };
 
   const origin: Vec3 = [0, 0, 0];
-  const bodies: BodyHandle[] = [];
+  const bodies: BodyId[] = [];
   const capsules: { a: Vec3; b: Vec3; radius: number }[][] = [];
   let currentCapsules: { a: Vec3; b: Vec3; radius: number }[] = [];
 
-  let prevBody: BodyHandle | 0 = 0;
+  let prevBody: BodyId | 0n = 0n;
   let body = world.createBody({
     type: BodyType.Dynamic,
     position: origin,
@@ -76,7 +69,7 @@ function buildCapsuleChain(
         });
         bodies.push(body);
 
-        if (prevBody !== 0) {
+        if (prevBody !== 0n) {
           const jointY = f32Add(y, f32Add(l, r));
           world.createWeldJoint(prevBody, body, {
             localFrameA: { position: [0, jointY, 0] },
@@ -101,7 +94,7 @@ function buildCapsuleChain(
 export function buildHitEventScene(
   world: PhysicsWorld,
   runtime: Box3DRuntime,
-): { ground: BodyHandle; bodies: BodyHandle[]; mesh: MeshHandle; capsules: { a: Vec3; b: Vec3; radius: number }[][] } {
+): { ground: BodyId; bodies: BodyId[]; mesh: MeshHandle; capsules: { a: Vec3; b: Vec3; radius: number }[][] } {
   const ground = world.createBody({ type: BodyType.Static });
   const mesh = world.createGridMesh(GRID_CELL_COUNT, GRID_CELL_COUNT, GRID_CELL_WIDTH, GRID_MATERIAL_COUNT, true);
   world.createMeshShape(ground, mesh, { scale: [1, 1, 1] });
@@ -110,7 +103,7 @@ export function buildHitEventScene(
   return { ground, bodies, mesh, capsules };
 }
 
-export function buildHitEventDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildHitEventDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   return buildHitEventScene(world, runtime).bodies;
 }
 
@@ -163,7 +156,7 @@ export const dumpCppSampleName = "Hit";
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
-  handles: number[];
+  handles: BodyId[];
   state: HitEventState;
   dispose: () => void;
 } {

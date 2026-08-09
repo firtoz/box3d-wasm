@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { BodyType, type BodyHandle, type Box3DRuntime, type JointHandle, type PhysicsWorld, type Quat, type Vec3 } from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type JointId, type PhysicsWorld, type Quat, type Vec3} from "box3d-wasm";
 import {
   ObjectRuntime,
   areObjectAssertsCompiledIn,
@@ -210,7 +210,7 @@ function timeShockwaveWrites(
   const world = lane.world;
   if (refs.length !== n) throw new Error("kick plan length must match lane body count");
 
-  const handles: BodyHandle[] = refs.map((r) => r.handle);
+  const handles: BodyId[] = refs.map((r) => r.handle);
 
   const applyRaw = () => {
     for (let i = 0; i < n; i++) {
@@ -461,7 +461,7 @@ function populateLane(
   const dynamicRefs: BodyRef[] = [];
   const spawns: SpawnPose[] = [];
 
-  const addMesh = (mesh: THREE.Mesh, handle: BodyHandle, type: BodyType) => {
+  const addMesh = (mesh: THREE.Mesh, handle: BodyId, type: BodyType) => {
     mesh.castShadow = false;
     mesh.receiveShadow = false;
     laneScene.add(mesh);
@@ -623,9 +623,9 @@ export const objectAssertsBenchSample: DemoSample = {
     let drag:
       | {
           world: PhysicsWorld;
-          body: BodyHandle;
-          target: BodyHandle;
-          joint: JointHandle;
+          body: BodyId;
+          target: BodyId;
+          joint: JointId;
           distance: number;
         }
       | null = null;
@@ -778,7 +778,7 @@ export const objectAssertsBenchSample: DemoSample = {
         }
         if (body === undefined || point === undefined) {
           const hit = lane.world.rayCastClosest(origin, translation);
-          if (hit === null || hit.bodyHandle === 0) return false;
+          if (hit === null || hit.bodyHandle === 0n) return false;
           body = lane.bodies.find((b) => b.handle === hit.bodyHandle);
           if (body === undefined || body.type !== BodyType.Dynamic) return false;
           point = new THREE.Vector3(hit.point[0], hit.point[1], hit.point[2]);

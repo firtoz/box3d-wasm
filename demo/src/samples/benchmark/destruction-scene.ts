@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type WorldCapacity } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type WorldCapacity, type BodyId} from "box3d-wasm";
 import type { RenderSpec } from "../generic-host";
 import { Box3DRng } from "../box3d-rng";
 import { cameraFromSetView } from "../shared";
@@ -49,15 +49,15 @@ export function forEachDestructionBox(rng: Box3DRng, callback: (position: Vec3) 
   return count;
 }
 
-export function buildDestructionGround(world: PhysicsWorld): number {
+export function buildDestructionGround(world: PhysicsWorld): BodyId {
   const ground = world.createBody({ type: BodyType.Static, position: [0, 0, 0] });
   const mesh = world.createGridMesh(40, 40, 1, 0, true);
   world.createMeshShape(ground, mesh, { scale: [1, 1, 1] });
   return ground;
 }
 
-export function spawnDestructionBodies(world: PhysicsWorld, runtime: Box3DRuntime, rng: Box3DRng): number[] {
-  const handles: number[] = [];
+export function spawnDestructionBodies(world: PhysicsWorld, runtime: Box3DRuntime, rng: Box3DRng): BodyId[] {
+  const handles: BodyId[] = [];
   const hx = destructionBoxHalfExtent();
   forEachDestructionBox(rng, (position) => {
     const body = world.createBody({ type: BodyType.Dynamic, position });
@@ -79,15 +79,15 @@ export function explodeDestruction(world: PhysicsWorld): void {
   );
 }
 
-export function destroyDestructionBodies(world: PhysicsWorld, handles: readonly number[]): void {
-  for (const handle of handles) world.destroyBody(handle as import("box3d-wasm").BodyHandle);
+export function destroyDestructionBodies(world: PhysicsWorld, handles: readonly BodyId[]): void {
+  for (const handle of handles) world.destroyBody(handle as import("box3d-wasm").BodyId);
 }
 
-export function buildDestructionDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+export function buildDestructionDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   return spawnDestructionBodies(world, runtime, new Box3DRng());
 }
 
-export function createDestruction(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[] } {
+export function createDestruction(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({
     gravity: [0, -10, 0],
     workerCount: 1,

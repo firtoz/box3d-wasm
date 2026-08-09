@@ -1,11 +1,4 @@
-import {
-  BodyType,
-  type BodyHandle,
-  type Box3DRuntime,
-  type MeshHandle,
-  type PhysicsWorld,
-  type Vec3,
-} from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type MeshHandle, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import { Box3DRng } from "./box3d-rng";
 import { f32, f32Add, f32Mul, f32Sub } from "./f32";
 
@@ -26,8 +19,8 @@ export const MESH_DROP_WAVE = {
 const BOX_HALF: Vec3 = [f32(0.02), f32(0.2), f32(0.04)];
 
 export interface MeshDropResult {
-  ground: BodyHandle;
-  bodies: BodyHandle[];
+  ground: BodyId;
+  bodies: BodyId[];
   mesh: MeshHandle;
 }
 
@@ -55,7 +48,7 @@ export function createMeshDrop(
   const rng = new Box3DRng(seed);
   const grid = MESH_DROP_GRID_COUNT;
   const halfGrid = f32Mul(0.5, grid);
-  const bodies: BodyHandle[] = [];
+  const bodies: BodyId[] = [];
 
   for (let i = 0; i < grid; i++) {
     for (let j = 0; j < grid; j++) {

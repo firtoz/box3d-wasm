@@ -1,4 +1,4 @@
-import { type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderSpec } from "../generic-host";
 import { buildBenchmarkTileGround, spawnHumanGroup } from "./benchmark-tile-shared";
 import { f32 } from "../f32";
@@ -21,11 +21,11 @@ export function rainMaxHumanCount(): number {
   return RAIN_GRID_COUNT * RAIN_GRID_COUNT * RAIN_GROUP_SIZE;
 }
 
-export function buildRainGround(world: PhysicsWorld): number[] {
+export function buildRainGround(world: PhysicsWorld): BodyId[] {
   return buildBenchmarkTileGround(world, RAIN_GRID_COUNT);
 }
 
-export function stepRain(world: PhysicsWorld, runtime: Box3DRuntime, handles: number[], stepCount: number, state: RainDumpState): void {
+export function stepRain(world: PhysicsWorld, runtime: Box3DRuntime, handles: BodyId[], stepCount: number, state: RainDumpState): void {
   if ((stepCount & STEP_DELAY) !== 0) return;
   if (state.columnCount >= RAIN_GRID_COUNT) return;
   for (let i = 0; i < RAIN_GRID_COUNT; i++) {
@@ -34,7 +34,7 @@ export function stepRain(world: PhysicsWorld, runtime: Box3DRuntime, handles: nu
   state.columnCount += 1;
 }
 
-export function buildRainDynamicBodies(world: PhysicsWorld, _runtime: Box3DRuntime): number[] {
+export function buildRainDynamicBodies(world: PhysicsWorld, _runtime: Box3DRuntime): BodyId[] {
   return buildRainGround(world);
 }
 
@@ -47,12 +47,12 @@ export const dumpSampleId = "benchmark/rain";
 export const dumpCppSampleName = "Rain";
 export const dumpGroundSize = rainGroundSize;
 
-export function dumpCreate(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[]; state: RainDumpState } {
+export function dumpCreate(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[]; state: RainDumpState } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   const tileHandles = buildRainGround(world);
   return { world, handles: tileHandles, state: { columnCount: 0 } };
 }
 
-export function dumpStep(world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, _dt: number, state: RainDumpState): void {
-  stepRain(world, runtime, handles as number[], frame - 1, state);
+export function dumpStep(world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly BodyId[], frame: number, _dt: number, state: RainDumpState): void {
+  stepRain(world, runtime, handles as BodyId[], frame - 1, state);
 }

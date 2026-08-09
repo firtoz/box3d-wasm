@@ -1,12 +1,12 @@
-import { B3_AXIS_X, B3_DEG_TO_RAD, BodyType, quatFromAxisAngle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {B3_AXIS_X, B3_DEG_TO_RAD, BodyType, quatFromAxisAngle, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 
 const wallAngle = 90 * B3_DEG_TO_RAD;
 const wallQuat = quatFromAxisAngle(B3_AXIS_X, wallAngle);
 const bulletVel: Vec3 = [0, 0, -180];
 
-export function buildThinWallDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildThinWallDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
   const wallRotation = runtime.makeQuatFromAxisAngle(B3_AXIS_X, wallAngle);
 
   const wall = world.createBody({ type: BodyType.Static, position: [0, 10, 0], rotation: wallRotation });

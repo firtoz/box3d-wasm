@@ -1,16 +1,4 @@
-import {
-  B3_AXIS_X,
-  B3_AXIS_Y,
-  B3_AXIS_Z,
-  B3_PI,
-  BodyType,
-  quatFromAxisAngle,
-  type BodyHandle,
-  type Box3DRuntime,
-  type PhysicsWorld,
-  type Quat,
-  type Vec3,
-} from "box3d-wasm";
+import {B3_AXIS_X, B3_AXIS_Y, B3_AXIS_Z, B3_PI, BodyType, quatFromAxisAngle, type BodyId, type Box3DRuntime, type PhysicsWorld, type Quat, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 
@@ -22,7 +10,7 @@ const BODY_POS: Vec3 = [0, 2, 0];
 /** Matches `b3ComputeQuatBetweenUnitVectors(Y, Z)` for render (body rotation). */
 export const WHEEL_BODY_ROTATION: Quat = quatFromAxisAngle(B3_AXIS_X, -0.5 * B3_PI);
 
-export function buildWheelDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
+export function buildWheelDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   // Empty static body for the joint (no shape) — included in dump handles.
   const groundId = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
 

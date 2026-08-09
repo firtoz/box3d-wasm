@@ -1,4 +1,4 @@
-import { B3_AXIS_Y, B3_PI, type BodyHandle, type Vec3 } from "box3d-wasm";
+import {B3_AXIS_Y, B3_PI, type BodyId, type Vec3} from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
 import {
   buildGyroscopicPrecessionDynamicBodies,
@@ -9,7 +9,7 @@ import {
 const DEBUG_FLOATS = 3;
 
 class GyroscopicPrecessionWorker extends PhysicsWorkerBase {
-  private topId: BodyHandle | null = null;
+  private topId: BodyId | null = null;
   private debugBuffer: SharedArrayBuffer | null = null;
   private debugValues: Float32Array | null = null;
 
@@ -17,7 +17,7 @@ class GyroscopicPrecessionWorker extends PhysicsWorkerBase {
     return gyroscopicPrecessionGroundSize();
   }
 
-  protected async buildScene(): Promise<number[]> {
+  protected async buildScene(): Promise<BodyId[]> {
     const handles = buildGyroscopicPrecessionDynamicBodies(this.world!, this.runtime!);
     this.topId = handles[0] ?? null;
     this.debugBuffer = new SharedArrayBuffer(DEBUG_FLOATS * 4);

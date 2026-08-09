@@ -1,4 +1,4 @@
-import { BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { collectHumanBoneHandles, ragdollRenderBodies } from "../ragdoll/ragdoll-scene-shared";
 import { f32, f32Add, f32Mul, f32Sub } from "../f32";
@@ -17,8 +17,8 @@ function farRagdollPosition(i: number): Vec3 {
   return [x, y, z];
 }
 
-export function buildFarRagdollsDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
-  const handles: number[] = [];
+export function buildFarRagdollsDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  const handles: BodyId[] = [];
 
   for (let i = 0; i < COUNT; i++) {
     const human = world.createHuman(farRagdollPosition(i), {
@@ -34,14 +34,14 @@ export function buildFarRagdollsDynamicBodies(world: PhysicsWorld, runtime: Box3
   return handles;
 }
 
-export function buildFarRagdollsGround(world: PhysicsWorld): number {
+export function buildFarRagdollsGround(world: PhysicsWorld): BodyId {
   const ground = world.createBody({ type: BodyType.Static, position: [OFFSET_F32, -1, 0] });
   const mesh = world.createGridMesh(20, 20, 1, 1, true);
   world.createMeshShape(ground, mesh, { scale: [1, 1, 1] });
   return ground;
 }
 
-export function createFarRagdolls(runtime: Box3DRuntime): { world: PhysicsWorld; handles: number[] } {
+export function createFarRagdolls(runtime: Box3DRuntime): { world: PhysicsWorld; handles: BodyId[] } {
   const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
   const ground = buildFarRagdollsGround(world);
   return { world, handles: [ground, ...buildFarRagdollsDynamicBodies(world, runtime)] };
