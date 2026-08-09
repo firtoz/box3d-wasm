@@ -1,6 +1,6 @@
 import { BodyType, type BodyHandle, type Box3DRuntime, type MeshHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
-import { cameraFromSetView } from "../shared";
+import { cameraFromSetView, getWasmBaseUrl } from "../shared";
 import { getBuildingMeshData } from "../meshes/building-mesh";
 import { parseObjText } from "../meshes/parse-obj";
 
@@ -50,7 +50,7 @@ export async function buildCapsuleMeshDynamicBodiesAsync(world: PhysicsWorld, ru
   handles: BodyHandle[];
   meshes: MeshHandle[];
 }> {
-  const response = await fetch("/meshes/building.obj");
+  const response = await fetch(`${getWasmBaseUrl()}meshes/building.obj`);
   const text = await response.text();
   const { vertices, indices } = parseObjText(text);
   return buildCapsuleMeshScene(world, runtime, vertices, indices);

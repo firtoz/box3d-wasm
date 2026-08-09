@@ -57,7 +57,7 @@ export function getWasmVariant(): DemoWasmVariant {
   return fallback;
 }
 
-/** Vite asset base (`/` locally, `/box3d-wasm/` on GitHub Pages). Workers need this to find `wasm/`. */
+/** Vite asset base (`/` locally, `/box3d-wasm/` on GitHub Pages). Workers need this for `wasm/` and other `public/` assets. */
 export function getWasmBaseUrl(): string {
   return import.meta.env.BASE_URL;
 }
