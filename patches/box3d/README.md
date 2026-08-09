@@ -18,6 +18,7 @@ The submodule itself should stay **clean**. `packages/box3d-wasm/scripts/prepare
 2. Run `bun run build:wasm` (or `bun packages/box3d-wasm/scripts/prepare-box3d.ts`).
 3. If a patch fails to apply: refresh or drop it, update `BASE_SHA`, rebuild.
 4. Do **not** leave lasting dirty edits in `box3d/` — fold them into a new/updated patch instead.
+5. Follow the full post-bump checklist in [`docs/box3d-submodule-bump.md`](../../docs/box3d-submodule-bump.md) (API/sample inventory, reference-dump rebuild, dump-enabled compare sweep, `SAMPLES.md` coverage).
 
 ## Regenerating a patch
 

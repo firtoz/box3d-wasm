@@ -118,6 +118,10 @@ Generated files are written under `.reference-dumps/<sample>/` by default. Use `
 - Keep generated dump and CMake output in ignored `.reference-dumps/` for ad-hoc comparisons. The smoke script may still use `/tmp` for disposable CI-style validation.
 - If C bridge bindings are added later for dump support, update `docs/WASM_API_SURFACE.md`, `docs/TYPESCRIPT_API.md`, and `docs/OTHER_PROJECTS.md` as needed.
 
+## After a `box3d` submodule bump
+
+Engine bumps can change solver/defaults/samples without touching our TypeScript ports. Use [`box3d-submodule-bump.md`](./box3d-submodule-bump.md): refresh patches, rebuild WASM + `reference-dump`, then re-run dump compares across the dump-enabled set (`bun scripts/wasm-dump.ts --list-json`) before treating the bump as done.
+
 ## New sample dump checklist
 
 When adding or finishing a port, wire dump support in the same change when possible (see also `AGENTS.md` → Dump-match readiness):
