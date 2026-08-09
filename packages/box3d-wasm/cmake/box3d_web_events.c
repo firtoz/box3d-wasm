@@ -161,3 +161,64 @@ B3W_EXPORT int b3wScatterBodyMoveEvents(
 
 	return events.moveCount;
 }
+
+B3W_EXPORT int b3wGetSensorBeginEventCount(int worldHandle)
+{
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	if (world == NULL) return -1;
+	b3SensorEvents events = b3World_GetSensorEvents(world->worldId);
+	return events.beginCount;
+}
+
+B3W_EXPORT int b3wGetSensorBeginEvent(int worldHandle, int index, int* outSensorShapeHandle, int* outVisitorShapeHandle)
+{
+	if (outSensorShapeHandle != NULL) *outSensorShapeHandle = 0;
+	if (outVisitorShapeHandle != NULL) *outVisitorShapeHandle = 0;
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	if (world == NULL) return 0;
+	b3SensorEvents events = b3World_GetSensorEvents(world->worldId);
+	if (index < 0 || index >= events.beginCount) return 0;
+	const b3SensorBeginTouchEvent* event = events.beginEvents + index;
+	if (outSensorShapeHandle != NULL)
+	{
+		int handle = b3wFindShapeHandle(event->sensorShapeId);
+		if (handle == 0) handle = b3wAllocShapeSlot(worldHandle, event->sensorShapeId);
+		*outSensorShapeHandle = handle;
+	}
+	if (outVisitorShapeHandle != NULL)
+	{
+		int handle = b3wFindShapeHandle(event->visitorShapeId);
+		if (handle == 0) handle = b3wAllocShapeSlot(worldHandle, event->visitorShapeId);
+		*outVisitorShapeHandle = handle;
+	}
+	return 1;
+}
+
+B3W_EXPORT int b3wGetSensorEndEventCount(int worldHandle)
+{
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	if (world == NULL) return -1;
+	b3SensorEvents events = b3World_GetSensorEvents(world->worldId);
+	return events.endCount;
+}
+
+B3W_EXPORT int b3wGetJointEventCount(int worldHandle)
+{
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	if (world == NULL) return -1;
+	b3JointEvents events = b3World_GetJointEvents(world->worldId);
+	return events.count;
+}
+
+B3W_EXPORT int b3wGetJointEventHandle(int worldHandle, int index)
+{
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	if (world == NULL) return 0;
+	b3JointEvents events = b3World_GetJointEvents(world->worldId);
+	if (index < 0 || index >= events.count) return 0;
+	b3JointId jointId = events.jointEvents[index].jointId;
+	if (b3Joint_IsValid(jointId) == false) return 0;
+	int handle = b3wFindJointHandle(jointId);
+	if (handle == 0) handle = b3wAllocJointSlot(worldHandle, jointId);
+	return handle;
+}

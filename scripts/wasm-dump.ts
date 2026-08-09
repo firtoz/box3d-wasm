@@ -329,17 +329,19 @@ function findSample(samples: readonly WasmDumpSample[], name: string): WasmDumpS
 }
 
 function dumpBodies(world: PhysicsWorld, handles: readonly number[]): DumpBody[] {
-  return handles.map((handle) => {
-    const transform = world.getBodyTransform(handle);
-    return {
-      p: transform.position,
-      q: transform.rotation,
-      v: world.getBodyLinearVelocity(handle),
-      w: world.getBodyAngularVelocity(handle),
-      t: world.getBodyType(handle),
-      a: world.bodyIsAwake(handle),
-    };
-  });
+  return handles
+    .filter((handle) => world.bodyIsValid(handle as never))
+    .map((handle) => {
+      const transform = world.getBodyTransform(handle as never);
+      return {
+        p: transform.position,
+        q: transform.rotation,
+        v: world.getBodyLinearVelocity(handle as never),
+        w: world.getBodyAngularVelocity(handle as never),
+        t: world.getBodyType(handle as never),
+        a: world.bodyIsAwake(handle as never),
+      };
+    });
 }
 
 async function main(): Promise<void> {

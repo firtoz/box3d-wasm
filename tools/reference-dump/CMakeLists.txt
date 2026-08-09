@@ -46,7 +46,7 @@ set(SAMPLE_FILES
   # sample_continuous.cpp is included from dump-interaction-overrides.cpp so DumpContinuousMeshDrop /
   # DumpBulletVersusStack can subclass Continuous samples.
   "${SAMPLE_SRC_DIR}/sample_determinism.cpp"
-  "${SAMPLE_SRC_DIR}/sample_events.cpp"
+  # sample_events.cpp is included from dump-interaction-overrides.cpp so DumpSensorHits can subclass it.
   "${SAMPLE_SRC_DIR}/sample_geometry.cpp"
   # sample_issues.cpp is included from dump-interaction-overrides.cpp so DumpCrash can subclass it.
   "${SAMPLE_SRC_DIR}/sample_manifold.cpp"

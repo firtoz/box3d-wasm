@@ -66,7 +66,7 @@ B3W_EXPORT void b3wDestroyMesh(int meshHandle)
 }
 
 B3W_EXPORT int b3wCreateMeshShape(int bodyHandle, int meshHandle, float density, float friction, float restitution, float rollingResistance,
-	float sx, float sy, float sz)
+	float sx, float sy, float sz, int isSensor)
 {
 	b3wBodySlot* body = b3wGetBody(bodyHandle);
 	b3wMeshSlot* mesh = b3wGetMesh(meshHandle);
@@ -76,6 +76,7 @@ B3W_EXPORT int b3wCreateMeshShape(int bodyHandle, int meshHandle, float density,
 	shapeDef.baseMaterial.friction = friction;
 	shapeDef.baseMaterial.restitution = restitution;
 	shapeDef.baseMaterial.rollingResistance = rollingResistance;
+	shapeDef.isSensor = isSensor != 0;
 	b3Vec3 scale = { sx, sy, sz };
 	b3ShapeId shapeId = b3CreateMeshShape(body->bodyId, &shapeDef, mesh->mesh, scale);
 	return b3wAllocShapeSlot(body->worldHandle, shapeId);

@@ -535,3 +535,43 @@ B3W_EXPORT void b3wWriteBodyTransformsLight(int count, const int* bodyHandles, f
 		outColors[i] = outAwake[i] ? 0xd2b48c : 0x778899;
 	}
 }
+
+B3W_EXPORT int b3wBodyIsValid(int bodyHandle)
+{
+	return b3wGetBody(bodyHandle) != NULL ? 1 : 0;
+}
+
+B3W_EXPORT int b3wBodyCastRay(int bodyHandle, float originX, float originY, float originZ, float translationX,
+	float translationY, float translationZ, int categoryBits, int maskBits, float maxFraction,
+	float bodyPx, float bodyPy, float bodyPz, float bodyQx, float bodyQy, float bodyQz, float bodyQw,
+	int* outHit, float* outPoint, float* outNormal, float* outFraction)
+{
+	if (outHit != NULL) *outHit = 0;
+	if (outFraction != NULL) *outFraction = 1.0f;
+	if (outPoint != NULL) { outPoint[0] = outPoint[1] = outPoint[2] = 0.0f; }
+	if (outNormal != NULL) { outNormal[0] = outNormal[1] = outNormal[2] = 0.0f; }
+	b3wBodySlot* slot = b3wGetBody(bodyHandle);
+	if (slot == NULL) return 0;
+	b3QueryFilter filter = b3DefaultQueryFilter();
+	filter.categoryBits = (uint64_t)categoryBits;
+	filter.maskBits = (uint64_t)maskBits;
+	b3WorldTransform bodyTransform = { { bodyPx, bodyPy, bodyPz }, { { bodyQx, bodyQy, bodyQz }, bodyQw } };
+	b3BodyCastResult result = b3Body_CastRay(slot->bodyId, (b3Pos){ originX, originY, originZ },
+		(b3Vec3){ translationX, translationY, translationZ }, filter, maxFraction, bodyTransform);
+	if (result.hit == false) return 0;
+	if (outHit != NULL) *outHit = 1;
+	if (outFraction != NULL) *outFraction = result.fraction;
+	if (outPoint != NULL)
+	{
+		outPoint[0] = result.point.x;
+		outPoint[1] = result.point.y;
+		outPoint[2] = result.point.z;
+	}
+	if (outNormal != NULL)
+	{
+		outNormal[0] = result.normal.x;
+		outNormal[1] = result.normal.y;
+		outNormal[2] = result.normal.z;
+	}
+	return 1;
+}

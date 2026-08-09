@@ -108,3 +108,56 @@ B3W_EXPORT int b3wCreateCompoundShape(int bodyHandle, int compoundHandle, float 
 	b3ShapeId shapeId = b3CreateBakedCompoundShape(body->bodyId, &shapeDef, compound->compound);
 	return b3wAllocShapeSlot(body->worldHandle, shapeId);
 }
+
+B3W_EXPORT int b3wCreateCompoundFromMeshes(int meshCount, const float* meshData, int strideFloats)
+{
+	if (meshCount <= 0 || meshData == NULL) return 0;
+
+	b3CompoundMeshDef* meshDefs = (b3CompoundMeshDef*)malloc(sizeof(b3CompoundMeshDef) * (size_t)meshCount);
+	b3SurfaceMaterial* materials = (b3SurfaceMaterial*)malloc(sizeof(b3SurfaceMaterial) * (size_t)meshCount);
+	if (meshDefs == NULL || materials == NULL)
+	{
+		free(meshDefs);
+		free(materials);
+		return 0;
+	}
+
+	for (int i = 0; i < meshCount; ++i)
+	{
+		const float* d = meshData + i * strideFloats;
+		int meshHandle = (int)d[0];
+		b3wMeshSlot* mesh = b3wGetMesh(meshHandle);
+		if (mesh == NULL)
+		{
+			free(meshDefs);
+			free(materials);
+			return 0;
+		}
+		materials[i] = b3DefaultSurfaceMaterial();
+		materials[i].friction = d[11];
+		materials[i].restitution = d[12];
+		materials[i].rollingResistance = d[13];
+		meshDefs[i].meshData = mesh->mesh;
+		meshDefs[i].transform.p.x = d[1];
+		meshDefs[i].transform.p.y = d[2];
+		meshDefs[i].transform.p.z = d[3];
+		meshDefs[i].transform.q.v.x = d[4];
+		meshDefs[i].transform.q.v.y = d[5];
+		meshDefs[i].transform.q.v.z = d[6];
+		meshDefs[i].transform.q.s = d[7];
+		meshDefs[i].scale.x = d[8];
+		meshDefs[i].scale.y = d[9];
+		meshDefs[i].scale.z = d[10];
+		meshDefs[i].materials = &materials[i];
+		meshDefs[i].materialCount = 1;
+	}
+
+	b3CompoundDef def = { 0 };
+	def.meshes = meshDefs;
+	def.meshCount = meshCount;
+	b3CompoundData* compound = b3CreateCompound(&def);
+	free(meshDefs);
+	free(materials);
+	if (compound == NULL) return 0;
+	return b3wAllocCompoundSlot(compound);
+}

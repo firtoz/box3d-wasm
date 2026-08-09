@@ -106,6 +106,11 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     return this.groundSize;
   }
 
+  /** Override for samples that use non-default world gravity (e.g. zero-g query demos). */
+  protected getWorldGravity(): Vec3 {
+    return DEFAULT_GRAVITY;
+  }
+
   protected setupGround(_initData: TInit): void {
     const groundBody = this.world!.createBody({ type: BodyType.Static, position: [0, -1, 0] });
     this.runtime!.createHullShape(groundBody, this.getGroundSize(this.initData));
@@ -207,7 +212,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
       baseUrl: cmd.wasmBaseUrl,
     });
     this.world = this.runtime.createWorld({
-      gravity: DEFAULT_GRAVITY,
+      gravity: this.getWorldGravity(),
       workerCount: this.currentWorkerCount,
       capacity: this.getWorldCapacity(),
     });
@@ -626,7 +631,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.disposeWorld();
 
     this.world = this.runtime!.createWorld({
-      gravity: DEFAULT_GRAVITY,
+      gravity: this.getWorldGravity(),
       workerCount: this.currentWorkerCount,
       capacity: this.getWorldCapacity(),
     });

@@ -169,7 +169,7 @@ When adding an API binding:
 - [ ] Shape hull vertices: `b3Shape_GetHullVertices`
 - [x] Mesh shape creation: `b3CreateMeshShape`
 - [x] Set mesh on shape: `b3Shape_SetMesh` (`setMesh`)
-- [ ] Heightfield shape creation: `b3CreateHeightFieldShape`
+- [x] Heightfield shape creation: `b3CreateHeightFieldShape`
 
 ## Hulls
 
@@ -196,7 +196,7 @@ When adding an API binding:
 - [x] Get compound tree height: internal/demo helper
 - [x] Create baked compound shape: `b3CreateBakedCompoundShape` (`createCompoundShape`)
 - [ ] Compound capsules in high-level TS wrapper
-- [ ] Compound meshes in high-level TS wrapper
+- [x] Compound meshes in high-level TS wrapper (`createCompoundFromMeshes`)
 - [ ] General compound spec mirroring upstream `b3CompoundDef`
 
 ## Meshes
@@ -214,10 +214,10 @@ When adding an API binding:
 
 ## Heightfields
 
-- [ ] Create heightfield: `b3CreateHeightField`
-- [ ] Destroy heightfield: `b3DestroyHeightField`
-- [ ] Grid heightfield helper
-- [ ] Wave heightfield helper
+- [x] Create heightfield: `b3CreateHeightField` (via wave/grid helpers + slot pool)
+- [x] Destroy heightfield: `b3DestroyHeightField`
+- [x] Grid heightfield helper (`createGridHeightField`)
+- [x] Wave heightfield helper (`createWave`)
 - [ ] Heightfield compressed heights/material/flags accessors
 
 ## Joints
@@ -239,7 +239,7 @@ When adding an API binding:
 - [ ] Distance joint runtime controls
 - [ ] Revolute joint runtime controls after creation
 - [x] Revolute joint target angle: `b3RevoluteJoint_SetTargetAngle` (`setRevoluteJointTargetAngle`)
-- [ ] Prismatic joint runtime controls
+- [x] Prismatic joint runtime controls (`setPrismaticMotorSpeed`, `getPrismaticTranslation`)
 - [ ] Wheel joint runtime controls
 - [ ] Weld joint runtime controls
 - [ ] Spherical joint runtime controls after creation
@@ -250,10 +250,10 @@ When adding an API binding:
 
 - [x] World raycast closest: `b3World_CastRayClosest`
 - [ ] World raycast all hits: `b3World_CastRay`
-- [ ] World shapecast: `b3World_CastShape`
-- [ ] World AABB overlap: `b3World_OverlapAABB`
+- [~] World shapecast: `b3World_CastShape` (`castShapeSphere` sphere-proxy helper)
+- [x] World AABB overlap: `b3World_OverlapAABB` (`overlapAABB` returns hit count)
 - [ ] World shape overlap: `b3World_OverlapShape`
-- [ ] Body raycast: `b3Body_CastRay`
+- [x] Body raycast: `b3Body_CastRay` (`bodyCastRay`)
 - [ ] Body shapecast: `b3Body_CastShape`
 - [ ] Body shape overlap: `b3Body_OverlapShape`
 - [ ] Cast mover: `b3World_CastMover`
@@ -264,8 +264,8 @@ When adding an API binding:
 - [~] Shape event toggles are exposed: sensor/contact/pre-solve/hit enable flags
 - [x] Body move events: `b3World_GetBodyEvents` via `configureBodyMoveTracking` / `scatterBodyMoveEvents` / `getBodyMoveEventCount` (stable render-index map; does not use Box3D `userData`)
 - [ ] Contact events: `b3World_GetContactEvents`
-- [ ] Sensor events: `b3World_GetSensorEvents`
-- [ ] Joint events: `b3World_GetJointEvents`
+- [x] Sensor events: `b3World_GetSensorEvents` (`getSensorBeginEvents`)
+- [x] Joint events: `b3World_GetJointEvents` (`getJointEventHandles`)
 - [ ] Zero-allocation event buffers for JS reads
 - [ ] Contact/manifold buffer for current contacts
 - [ ] Custom filter callback: `b3World_SetCustomFilterCallback`

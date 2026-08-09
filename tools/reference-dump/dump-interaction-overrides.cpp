@@ -12,6 +12,7 @@
 #include "sample_benchmark.cpp"
 #include "sample_collision.cpp"
 #include "sample_continuous.cpp"
+#include "sample_events.cpp"
 #include "sample_issues.cpp"
 #include "sample_joint.cpp"
 
@@ -523,6 +524,87 @@ private:
 	std::string m_extrasJson;
 };
 
+class DumpCapsuleCastRay : public CapsuleCastRay
+{
+public:
+	explicit DumpCapsuleCastRay( SampleContext* context )
+		: CapsuleCastRay( context )
+	{
+		CaptureRay();
+	}
+
+	static Sample* Create( SampleContext* context )
+	{
+		return new DumpCapsuleCastRay( context );
+	}
+
+	void Step() override
+	{
+		Sample::Step();
+		CaptureRay();
+	}
+
+	const char* CheckpointExtrasJson()
+	{
+		m_extrasJson.clear();
+		char buf[256];
+		snprintf( buf, sizeof( buf ), "\"rays\":{\"o\":0,\"r\":[" );
+		m_extrasJson += buf;
+		snprintf( buf, sizeof( buf ),
+				  "{\"h\":%d,\"f\":%.17g,\"p\":[%.17g,%.17g,%.17g],\"n\":[%.17g,%.17g,%.17g]}",
+				  m_hit, (double)m_fraction, (double)m_point.x, (double)m_point.y, (double)m_point.z, (double)m_normal.x,
+				  (double)m_normal.y, (double)m_normal.z );
+		m_extrasJson += buf;
+		m_extrasJson += "]}";
+		return m_extrasJson.c_str();
+	}
+
+private:
+	void CaptureRay()
+	{
+		b3Pos origin = { -1.0f, 0.5f, 0.0f };
+		b3Vec3 translation = { 2.0f, 0.0f, 0.0f };
+		b3BodyCastResult result =
+			b3Body_CastRay( m_bodyId, origin, translation, b3DefaultQueryFilter(), 1.0f, b3WorldTransform_identity );
+		if ( result.hit )
+		{
+			m_hit = 1;
+			m_fraction = result.fraction;
+			m_point = result.point;
+			m_normal = result.normal;
+		}
+		else
+		{
+			m_hit = 0;
+			m_fraction = 1.0f;
+			m_point = b3OffsetPos( origin, translation );
+			m_normal = { 0.0f, 1.0f, 0.0f };
+		}
+	}
+
+	int m_hit = 0;
+	float m_fraction = 1.0f;
+	b3Pos m_point = { 1.0f, 0.5f, 0.0f };
+	b3Vec3 m_normal = { 0.0f, 1.0f, 0.0f };
+	std::string m_extrasJson;
+};
+
+// Upstream SensorHits::Launch uses RandomFloatRange(200, 300). Dump uses fixed speed 250.
+class DumpSensorHits : public SensorHits
+{
+public:
+	explicit DumpSensorHits( SampleContext* context )
+		: SensorHits( context )
+	{
+		b3Body_SetLinearVelocity( m_bodyId, { 250.0f, 0.0f } );
+	}
+
+	static Sample* Create( SampleContext* context )
+	{
+		return new DumpSensorHits( context );
+	}
+};
+
 static void patch_sample_entry( const char* name, SampleCreateFcn* createFcn )
 {
 	for ( int i = 0; i < g_sampleCount; ++i )
@@ -551,7 +633,9 @@ void patch_dump_sample_entries()
 	RegisterSample( "Determinism", "Determinism Mesh Drop", DumpCreateMeshDrop::Create );
 	RegisterSample( "Continuous", "Continuous Mesh Drop", DumpContinuousMeshDrop::Create );
 	patch_sample_entry( "Ray Curtain", DumpRayCurtain::Create );
+	patch_sample_entry( "Capsule Cast Ray", DumpCapsuleCastRay::Create );
 	patch_sample_entry( "Large World", DumpLargeWorld::Create );
+	patch_sample_entry( "Sensor Hits", DumpSensorHits::Create );
 }
 
 bool apply_dump_interaction( Sample* sample, const char* sampleName, const DumpInteraction& interaction )
@@ -609,6 +693,10 @@ const char* get_dump_checkpoint_extras( Sample* sample, const char* sampleName )
 	if ( strcmp( sampleName, "Ray Curtain" ) == 0 )
 	{
 		return static_cast<DumpRayCurtain*>( sample )->CheckpointExtrasJson();
+	}
+	if ( strcmp( sampleName, "Capsule Cast Ray" ) == 0 )
+	{
+		return static_cast<DumpCapsuleCastRay*>( sample )->CheckpointExtrasJson();
 	}
 	(void)sample;
 	return nullptr;

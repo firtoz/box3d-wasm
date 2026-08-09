@@ -237,3 +237,69 @@ B3W_EXPORT void b3wSetStallThreshold(float seconds)
 {
 	b3SetStallThreshold(seconds);
 }
+
+typedef struct b3wOverlapCountContext
+{
+	int count;
+} b3wOverlapCountContext;
+
+static bool b3wOverlapCountCallback(b3ShapeId shapeId, void* context)
+{
+	(void)shapeId;
+	b3wOverlapCountContext* ctx = (b3wOverlapCountContext*)context;
+	ctx->count += 1;
+	return true;
+}
+
+B3W_EXPORT int b3wOverlapAABB(int worldHandle, float minX, float minY, float minZ, float maxX, float maxY, float maxZ,
+	int categoryBits, int maskBits)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return -1;
+	b3QueryFilter filter = b3DefaultQueryFilter();
+	filter.categoryBits = (uint64_t)categoryBits;
+	filter.maskBits = (uint64_t)maskBits;
+	b3AABB aabb;
+	aabb.lowerBound = (b3Vec3){ minX, minY, minZ };
+	aabb.upperBound = (b3Vec3){ maxX, maxY, maxZ };
+	b3wOverlapCountContext ctx = { 0 };
+	b3World_OverlapAABB(slot->worldId, aabb, filter, b3wOverlapCountCallback, &ctx);
+	return ctx.count;
+}
+
+typedef struct b3wCastShapeClosestContext
+{
+	float fraction;
+	int hit;
+} b3wCastShapeClosestContext;
+
+static float b3wCastShapeClosestCallback(b3ShapeId shapeId, b3Pos point, b3Vec3 normal, float fraction, uint64_t userMaterialId,
+	int triangleIndex, int childIndex, void* context)
+{
+	(void)shapeId;
+	(void)point;
+	(void)normal;
+	(void)userMaterialId;
+	(void)triangleIndex;
+	(void)childIndex;
+	b3wCastShapeClosestContext* ctx = (b3wCastShapeClosestContext*)context;
+	ctx->hit = 1;
+	ctx->fraction = fraction;
+	return fraction;
+}
+
+B3W_EXPORT float b3wCastShapeSphere(int worldHandle, float originX, float originY, float originZ, float translationX,
+	float translationY, float translationZ, float radius, int categoryBits, int maskBits)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return 1.0f;
+	b3QueryFilter filter = b3DefaultQueryFilter();
+	filter.categoryBits = (uint64_t)categoryBits;
+	filter.maskBits = (uint64_t)maskBits;
+	b3Vec3 proxyPoint = b3Vec3_zero;
+	b3ShapeProxy proxy = { &proxyPoint, 1, radius };
+	b3wCastShapeClosestContext ctx = { 1.0f, 0 };
+	b3World_CastShape(slot->worldId, (b3Pos){ originX, originY, originZ }, &proxy,
+		(b3Vec3){ translationX, translationY, translationZ }, filter, b3wCastShapeClosestCallback, &ctx);
+	return ctx.fraction;
+}
