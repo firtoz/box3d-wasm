@@ -12,6 +12,20 @@ export function collectHumanBoneHandles(runtime: Box3DRuntime, human: HumanHandl
   return handles;
 }
 
+export function collectHumanAnchorHandles(runtime: Box3DRuntime, human: HumanHandle): number[] {
+  const handles: number[] = [];
+  const boneCount = runtime.getHumanBoneCount();
+  for (let i = 0; i < boneCount; i++) {
+    const anchorBody = runtime.getHumanAnchorBody(human, i);
+    if (anchorBody !== 0) handles.push(anchorBody);
+  }
+  return handles;
+}
+
+export function collectHumanBoneAndAnchorHandles(runtime: Box3DRuntime, human: HumanHandle): number[] {
+  return [...collectHumanBoneHandles(runtime, human), ...collectHumanAnchorHandles(runtime, human)];
+}
+
 /** Match thrown-ragdoll rendering: capsule geometry baked from bone local endpoints. */
 export function ragdollRenderBodies(origin: Vec3): RenderBody[] {
   const [ox, oy, oz] = origin;

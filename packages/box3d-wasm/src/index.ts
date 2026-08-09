@@ -451,6 +451,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly createGridMeshFn = this.wrapNumber<CreateGridMeshFn>("b3wCreateGridMesh", ["number","number","number","number","number","number"]);
   private readonly createWaveMeshFn = this.wrapNumber<CreateWaveMeshFn>("b3wCreateWaveMesh", ["number","number","number","number","number","number","number"]);
   private readonly createBoxMeshFn = this.wrapNumber<CreateBoxMeshFn>("b3wCreateBoxMesh", ["number","number","number","number","number","number","number","number"]);
+  private readonly createHollowBoxMeshFn = this.wrapNumber<(worldHandle: number, cx: number, cy: number, cz: number, ex: number, ey: number, ez: number) => number>("b3wCreateHollowBoxMesh", ["number","number","number","number","number","number","number"]);
   private readonly createTorusMeshFn = this.wrapNumber<CreateTorusMeshFn>("b3wCreateTorusMesh", ["number","number","number","number","number"]);
   private readonly createMeshFn = this.wrapNumber<CreateMeshFn>("b3wCreateMesh", ["number","number","number","number","number","number","number"]);
   private readonly destroyMeshFn = this.wrapVoid<DestroyMeshFn>("b3wDestroyMesh", ["number"]);
@@ -508,6 +509,8 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly humanSetJointFrictionTorqueFn = this.wrapVoid<HumanSetJointFloatFn>("b3wHumanSetJointFrictionTorque", ["number","number"]);
   private readonly humanSetJointSpringHertzFn = this.wrapVoid<HumanSetJointFloatFn>("b3wHumanSetJointSpringHertz", ["number","number"]);
   private readonly humanSetJointDampingRatioFn = this.wrapVoid<HumanSetJointFloatFn>("b3wHumanSetJointDampingRatio", ["number","number"]);
+  private readonly humanCreateParallelAnchorsFn = this.wrapVoid<(humanHandle: number) => void>("b3wHumanCreateParallelAnchors", ["number"]);
+  private readonly getHumanAnchorBodyFn = this.wrapNumber<GetHumanBoneBodyFn>("b3wGetHumanAnchorBody", ["number","number"]);
   private readonly enableWorldSleepFn = this.wrapVoid<WorldEnableBoolFn>("b3wEnableSleeping", ["number", "number"]);
   private readonly enableWorldContinuousFn = this.wrapVoid<WorldEnableBoolFn>("b3wEnableContinuous", ["number", "number"]);
   private readonly enableWorldWarmStartingFn = this.wrapVoid<WorldEnableBoolFn>("b3wEnableWarmStarting", ["number", "number"]);
@@ -843,6 +846,9 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   createBoxMesh(worldHandle: WorldHandle, center: Vec3, extent: Vec3, identifyEdges = true): MeshHandle {
     return this.requireSlotHandle<MeshHandle>(this.createBoxMeshFn(worldHandle, center[0], center[1], center[2], extent[0], extent[1], extent[2], identifyEdges ? 1 : 0), "meshes");
   }
+  createHollowBoxMesh(worldHandle: WorldHandle, center: Vec3, extent: Vec3): MeshHandle {
+    return this.requireSlotHandle<MeshHandle>(this.createHollowBoxMeshFn(worldHandle, center[0], center[1], center[2], extent[0], extent[1], extent[2]), "meshes");
+  }
   createTorusMesh(worldHandle: WorldHandle, radialResolution: number, tubularResolution: number, radius: number, thickness: number): MeshHandle {
     return this.requireSlotHandle<MeshHandle>(this.createTorusMeshFn(worldHandle, radialResolution, tubularResolution, radius, thickness), "meshes");
   }
@@ -1126,6 +1132,8 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   setHumanJointFrictionTorque(humanHandle: number, torque: number): void { this.humanSetJointFrictionTorqueFn(humanHandle, torque); }
   setHumanJointSpringHertz(humanHandle: number, hertz: number): void { this.humanSetJointSpringHertzFn(humanHandle, hertz); }
   setHumanJointDampingRatio(humanHandle: number, dampingRatio: number): void { this.humanSetJointDampingRatioFn(humanHandle, dampingRatio); }
+  createHumanParallelAnchors(humanHandle: HumanHandle): void { this.humanCreateParallelAnchorsFn(humanHandle); }
+  getHumanAnchorBody(humanHandle: HumanHandle, boneIndex: number): BodyHandle { return asBodyHandle(this.getHumanAnchorBodyFn(humanHandle, boneIndex)); }
   readBodyTransform(bodyHandle: BodyHandle): BodyTransform { this.getBodyTransformFn(bodyHandle, this.transformPtr); const heap = this.module.HEAPF32; const base = this.transformPtr >> 2; return { position: [heap[base + 0], heap[base + 1], heap[base + 2]], rotation: [heap[base + 3], heap[base + 4], heap[base + 5], heap[base + 6]] }; }
   getWorldCounters(worldHandle: WorldHandle): WorldCounters { const ptr = this.module._malloc(7 * 4); this.getWorldCountersFn(worldHandle, ptr); const heap32 = new Int32Array(this.module.HEAPF32.buffer); const base = ptr >> 2; const counters = { bodyCount: heap32[base + 0], shapeCount: heap32[base + 1], contactCount: heap32[base + 2], jointCount: heap32[base + 3], islandCount: heap32[base + 4], staticTreeHeight: heap32[base + 5], treeHeight: heap32[base + 6] }; this.module._free(ptr); return counters; }
   getWorldAwakeBodyCount(worldHandle: WorldHandle): number { return this.getWorldAwakeBodyCountFn(worldHandle); }
@@ -1417,6 +1425,7 @@ export class PhysicsWorld {
   createGridMesh(xCount: number, zCount: number, cellWidth: number, materialCount = 1, identifyEdges = true): MeshHandle { return this.runtime.createGridMesh(this.handle, xCount, zCount, cellWidth, materialCount, identifyEdges); }
   createWaveMesh(xCount: number, zCount: number, cellWidth: number, amplitude: number, rowFrequency: number, columnFrequency: number): MeshHandle { return this.runtime.createWaveMesh(this.handle, xCount, zCount, cellWidth, amplitude, rowFrequency, columnFrequency); }
   createBoxMesh(center: Vec3, extent: Vec3, identifyEdges = true): MeshHandle { return this.runtime.createBoxMesh(this.handle, center, extent, identifyEdges); }
+  createHollowBoxMesh(center: Vec3, extent: Vec3): MeshHandle { return this.runtime.createHollowBoxMesh(this.handle, center, extent); }
   createTorusMesh(radialResolution: number, tubularResolution: number, radius: number, thickness: number): MeshHandle { return this.runtime.createTorusMesh(this.handle, radialResolution, tubularResolution, radius, thickness); }
   createMesh(vertices: ArrayLike<number>, indices: ArrayLike<number>, options?: { useMedianSplit?: boolean; identifyEdges?: boolean }): MeshHandle {
     return this.runtime.createMesh(this.handle, vertices, indices, options);

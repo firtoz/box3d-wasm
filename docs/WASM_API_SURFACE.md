@@ -207,7 +207,7 @@ When adding an API binding:
 - [x] Wave mesh: `b3CreateWaveMesh`
 - [x] Torus mesh: `b3CreateTorusMesh`
 - [x] Box mesh: `b3CreateBoxMesh`
-- [ ] Hollow box mesh: `b3CreateHollowBoxMesh`
+- [x] Hollow box mesh: `b3CreateHollowBoxMesh`
 - [ ] Platform mesh: `b3CreatePlatformMesh`
 - [ ] Mesh vertices/triangles/material indices/flags accessors
 - [ ] Mesh height/tree height helpers
@@ -356,5 +356,6 @@ When adding an API binding:
 - [x] Human velocity: `setHumanVelocity`
 - [x] Human bullet toggle: `setHumanBullet`
 - [x] Human joint friction/spring/damping tuning
+- [x] Human parallel anchor bodies: `createHumanParallelAnchors`, `getHumanAnchorBody`
 - [x] Batched render transform reads
 - [x] Debug color read for render visualization

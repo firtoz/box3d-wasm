@@ -10,5 +10,9 @@
   "benchmark/convex-pile": {
     "matchThroughFrame": 50,
     "note": "Frames 0–50 match; soft multi-contact drift by ~frame 75–100."
+  },
+  "mesh/hollow-box": {
+    "matchThroughFrame": 0,
+    "note": "Frame 0 exact at 1e-5; frame 1+ drifts in the hollow-shell multi-contact pile (native vs WASM solver FP)."
   }
 }
