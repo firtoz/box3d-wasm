@@ -80,7 +80,8 @@ export const heightFieldVisual = {
 
 export const dumpSampleName = "Height Field";
 export const dumpSampleId = "mesh/height-field";
-export const dumpCppSampleName = "Height Field";
+/** Disambiguate from Benchmark / Height Field (reference-dump accepts Category/Name). */
+export const dumpCppSampleName = "Mesh/Height Field";
 
 export function dumpCreate(runtime: Box3DRuntime): {
   world: PhysicsWorld;
