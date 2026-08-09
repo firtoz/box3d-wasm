@@ -11,6 +11,8 @@ RUN apt-get update \
 		curl \
 		git \
 		sudo \
+		unzip \
+		xz-utils \
 		build-essential \
 		cmake \
 		ninja-build \
