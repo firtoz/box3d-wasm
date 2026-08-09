@@ -482,3 +482,19 @@ B3W_EXPORT void b3wRevoluteJointSetTargetAngle(int jointHandle, float targetRadi
 	if (!slot->active) return;
 	b3RevoluteJoint_SetTargetAngle(slot->jointId, targetRadians);
 }
+
+B3W_EXPORT void b3wPrismaticJointSetMotorSpeed(int jointHandle, float motorSpeed)
+{
+	if (jointHandle <= 0 || jointHandle > B3W_MAX_JOINTS) return;
+	b3wJointSlot* slot = &g_joints[jointHandle - 1];
+	if (!slot->active) return;
+	b3PrismaticJoint_SetMotorSpeed(slot->jointId, motorSpeed);
+}
+
+B3W_EXPORT float b3wPrismaticJointGetTranslation(int jointHandle)
+{
+	if (jointHandle <= 0 || jointHandle > B3W_MAX_JOINTS) return 0.0f;
+	b3wJointSlot* slot = &g_joints[jointHandle - 1];
+	if (!slot->active) return 0.0f;
+	return b3PrismaticJoint_GetTranslation(slot->jointId);
+}

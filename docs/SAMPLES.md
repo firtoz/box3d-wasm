@@ -17,12 +17,10 @@ Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short
 **Before adding or recommending a queue item:** open the upstream C++ sample class. Prefer samples that create bodies in `m_worldId` and can dump-compare. Do **not** treat Manifold / pure geometry editors / collide-debug tools as generic-host warm-ups — they need pairwise collide bindings and a custom host, and usually have no dumpable bodies.
 
 1. **Mesh / Reflection** — negative scale mesh + building.obj (`🧩` mesh load) + humans.
-2. **Determinism / Wave Pile** — needs heightfield (`b3CreateWave` / `b3CreateHeightFieldShape` `🚧`).
-3. **Ragdoll / Pose** — needs pose-control bindings (`🚧`).
-4. **Joints / Driving** — wheel/suspension + heightfield (`🚧`).
-5. **Events / Sensor Visit** — needs sensor event callbacks (`🚧`).
-6. **Events / Joint** — joint break events (`🚧`).
-7. **Long Ray Cast** — wave mesh exists; heightfield still `🚧`.
+2. **Ragdoll / Pose** — needs pose-control bindings (`🚧`).
+3. **Joints / Driving** — wheel/suspension + heightfield.
+4. **Bodies / Cast** — body-level cast/overlap APIs still `🚧`.
+5. **Character / CapsulePlane** — mover collide APIs still `🚧`.
 
 Defer for later sessions: **Manifold** (pairwise `b3Collide*` helpers `🚧`), remaining events that need callback bindings, character movers, and most remaining `🧩` mesh samples.
 
@@ -62,13 +60,13 @@ Defer for later sessions: **Manifold** (pairwise `b3Collide*` helpers `🚧`), r
 | **Mesh Scale** | [ ] | Mesh scaling + collision queries | 🧩 |
 | **Shape Cast** | [ ] | `b3World_CastShape` | 🚧 |
 | **Overlap World** | [ ] | `b3World_OverlapShape` | 🚧 |
-| **Long Ray Cast** | [ ] | `b3World_CastRayClosest`, `b3CreateRock`, `b3CreateWaveMesh`, `b3CreateWave` / heightfield | 🚧 Wave mesh wrapped; heightfield still missing. Not a simple ray demo: static sphere/capsule/hull/mesh/heightfield targets + long-range accuracy trail. |
+| **Long Ray Cast** | [x] | `b3World_CastRayClosest`, `b3CreateRock`, `b3CreateWaveMesh`, `b3CreateWave` / heightfield | 🔧 Five static targets (sphere/capsule/rock/wave mesh/heightfield); zero gravity. Live demo draws mesh/heightfield overlays; dump compares bodies only (no ray extras). |
 | **Initial Overlap** | [ ] | Overlap queries | 🚧 |
 | **Shape Cast Debug** | [ ] | `b3World_CastShape` + debug draw | 🚧 |
 | **Distance Debug** | [ ] | `b3World_ComputeDistance` | 🚧 Not exposed. |
 | **Shape Distance** | [ ] | Distance queries | 🚧 |
 | **Time of Impact** | [ ] | `b3World_ComputeTOI` | 🚧 Not exposed. |
-| **Capsule Cast Ray** | [ ] | Ray cast with capsule proxy | 🚧 |
+| **Capsule Cast Ray** | [x] | `b3Body_CastRay`, `b3CreateCapsuleShape` | 🔧 Kinematic Y-axis capsule with one horizontal body ray; no physics ground. Dump compares body pose plus the ray hit/fraction/point/normal in the `rays` checkpoint field. |
 
 ## Compound (`sample_compound.cpp`)
 
@@ -78,7 +76,7 @@ Defer for later sessions: **Manifold** (pairwise `b3Collide*` helpers `🚧`), r
 | **Spheres** | [x] | `b3CreateCompound` with spheres, `b3CreateBakedCompoundShape`, `b3DestroyCompound` | 🔧 `createCompoundFromSpheres` exists. |
 | **Hulls** | [x] | `b3CreateCompound` with multiple hulls | 🔧 `createCompoundFromHulls` exists. |
 | **Tile Floor** | [x] | Compound with many hull instances | 🔧 50×50 compound tile floor with `Box3DRng` Y offsets (seed 12345). Worker skips default ground box. C++/WASM dump parity verified. |
-| **Mesh Tile** | [ ] | `b3CreateMesh`, `b3CreateCompound` with meshes | 🚧 Mesh compound not wrapped. |
+| **Mesh Tile** | [x] | `b3CreateBoxMesh`, `b3CreateCompound` with meshes, `b3CreateBakedCompoundShape` | 🔧 2×2 shared box mesh compound using `Box3DRng` Y offsets (seed 12345). Worker skips default ground; dump uses custom `dumpCreate`. |
 | **Village** | [ ] | Compound with hulls + capsules + spheres + meshes, mesh loading | 🧩🚧 Most complex compound sample. |
 
 ## Continuous (`sample_continuous.cpp`)
@@ -100,20 +98,20 @@ Defer for later sessions: **Manifold** (pairwise `b3Collide*` helpers `🚧`), r
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
 | **Falling Ragdolls** | [x] | `b3CreateHuman`, ragdoll creation | Implemented. C++/WASM dump parity verified at epsilon=1e-5 for frames 0–200; frame 300 drifts like other multi-ragdoll piles. Ground tile + human spawn order matches upstream; spawn layout uses float32-safe helpers. |
-| **Wave Pile** | [ ] | Shared `CreateWavePile` scenario + sleep hash | 🔧 Bodies/APIs exist; shared determinism helpers live in upstream `shared/determinism.c`. |
-| **Query Spawn** | [ ] | Spawn + ray/overlap/sphere-cast queries + hashes | 🚧 Needs world query wrappers used by `CreateQuerySpawn`. |
+| **Wave Pile** | [x] | Shared `CreateWavePile` scenario + sleep hash | 🔧 100 mixed sphere/capsule/box/rock bodies on `b3CreateWave` heightfield; seed 52977 via WASM Random, RR=0.3. Custom worker/dumpCreate skip default ground and keep heightfield lifetime explicit. C++/WASM dump parity verified. |
+| **Query Spawn** | [x] | Spawn + ray/overlap/sphere-cast queries + hashes | 🔧 Zero-g spawn every 10 steps (`frameCount % 10 == 1`); seed 71689. Host uses 50 placeholder spheres; worker grows tracked bodies. Dump uses `dumpPostStep` to match C++ post-`Sample::Step` spawn. |
 | **Mesh Drop** | [x] | Shared `CreateMeshDrop` | 🔧 Wave mesh 40×40 + 20×20 boxes (seed 3963634789, filter cat=2/mask=1). Dump alias `Determinism Mesh Drop` (name collides with Continuous). Shared builder `mesh-drop-shared.ts`. |
 
 ## Events (`sample_events.cpp`)
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Sensor Visit** | [ ] | `shapeDef.isSensor`, `shapeDef.enableSensorEvents`, sensor event callbacks | 🚧 Sensor events not wrapped. Shape can be sensor via `isSensor`. |
+| **Sensor Visit** | [x] | `shapeDef.isSensor`, `shapeDef.enableSensorEvents`, sensor begin events | 🔧 No physics ground (DrawGroundGrid only); dynamic visitor box at `{0,12.5,0}` is destroyed in post-step when the kinematic sensor box at `{0,2,0}` receives a begin event. Dump via `dumpCreate`; C++/WASM dump parity verified at epsilon=1e-5. |
 | **Hit** | [x] | `shapeDef.enableHitEvents`, weld capsule chain, grid mesh ground | 🔧 Grid mesh 20×20 cell 8; welded capsule chain (`shapesPerBody=3`, angularHertz=10); hit events + RR=0.2; dump via `dumpCreate`. Event HUD not ported. C++/WASM dump parity verified at epsilon=1e-5. |
 | **Move** | [x] | Tall transformed box + hit events + named body | 🔧 `AddGroundBox(40)`; transformed hull (0.5,10,0.5) offset `{0,10,0}`; pivot velocity math; `setBodyName("big box")`. Move-event HUD not ported. C++/WASM dump parity verified at epsilon=1e-5. |
-| **Joint** | [ ] | Joint events | 🚧 |
+| **Joint** | [x] | Joint break events, joint force/torque thresholds | 🔧 `AddGroundBox(20)` + hidden static joint anchor; active distance/prismatic/revolute/weld joints break at force=3000 or torque=10000, while motor/wheel slots remain skipped like upstream. Dump post-step destroys reported joint handles; C++/WASM dump parity verified at epsilon=1e-5. |
 | **Persistent Contact** | [x] | Dense sphere + contact events on grid mesh | 🔧 Grid mesh 20×20 cell 2; sphere density=20 RR=0.01 at `{-18,1,0.5}` vel `{4,0,0}`; dump via `dumpCreate`. Contact impulse HUD not ported. C++/WASM dump parity verified at epsilon=1e-5. |
-| **Sensor Hits** | [ ] | Sensor + hit combined | 🚧 |
+| **Sensor Hits** | [x] | Sensor mesh/capsule + prismatic motor reverse | 🔧 AddGroundBox(10) + wall + static/kinematic mesh sensors + dynamic capsule sensor on prismatic motor; launch bullet sphere. Dump uses fixed speed 250 via `DumpSensorHits`. `setPrismaticMotorSpeed` / `getPrismaticTranslation` wrapped. `dumpStep` mirrors C++ pre-step reverse logic. |
 
 ## Geometry (`sample_geometry.cpp`)
 
@@ -123,7 +121,7 @@ Defer for later sessions: **Manifold** (pairwise `b3Collide*` helpers `🚧`), r
 | **Hull** | [x] | `b3CreateHull` from points, hull debug draw | 🔧 `createHullFromPoints` exists. |
 | **Hull Reduction** | [x] | `b3CreateHull` with many points → reduction | 🔧 Maybe works. |
 | **Hull Transform** | [x] | `b3MakeTransformedBoxHull`, hull transform debug | 🔧 Most APIs exist. |
-| **Capsule Mass** | [ ] | `b3Body_GetMass`, `b3Body_GetLocalRotationalInertia`, `b3Body_SetMassData` | 🚧 `getMass`, `getLocalRotationalInertia` not exposed. |
+| **Capsule Mass** | [x] | Geometry mass visualization | 🔧 Geometry-only sample with no world bodies; host draws capsule/box/axes overlay and dump uses `dumpNoPhysics`. |
 
 ## Issues (`sample_issues.cpp`)
 
@@ -185,7 +183,7 @@ These are **not** physics-world body scenes. Upstream samples inherit a Manifold
 | **Big Box** | [x] | `b3CreateBoxMesh`, `b3CreateMeshShape`, `b3Shape_SetMesh` | 🔧 Box mesh floor center `(0,-1,0)` extent `[50,1,50]` friction 0.5; Scale X/Z `[-2,2]`; Sphere/Capsule/Box/Cylinder (default cylinder `0.3×0.15` sides 32, rollingResistance 0.05; capsule RR 0.1). Visual `BoxGeometry(100,2,100)` + AxesHelper. Dump default cylinder. |
 | **Box** | [x] | `b3CreateBoxMesh`, `b3CreateMeshShape`, `b3Shape_SetMesh` | 🔧 `AddGroundBox(20)` + small box-mesh platform at `(0,-1,0)` rot Y `0.25π` + dynamic default box. Scale X/Z + shape radios. C++ dump name is ambiguous (`Box` also under Ragdoll) — use `Mesh/Box`. C++/WASM dump parity verified at default box. |
 | **Reflection** | [ ] | Mesh with negative scale | 🧩 |
-| **Height Field** | [ ] | `b3CreateWave`, `b3CreateHeightFieldShape` | 🚧 Not in WASM. |
+| **Height Field** | [x] | `b3CreateWave`, `b3CreateHeightFieldShape` | 🔧 NDEBUG 400×400 wave (`amplitude=0.75`, holes=false); dynamics `#if 0` disabled. Host heightfield overlay; dumpCreate disposes heightfield. |
 | **Viewer** | [ ] | Mesh file loader | 🧩 |
 | **Creation Benchmark** | [ ] | Mesh creation perf | 🧩 |
 | **Voxel** | [ ] | Voxel mesh | 🧩 |
@@ -296,9 +294,9 @@ These are **not** physics-world body scenes. Upstream samples inherit a Manifold
 ## Summary
 
 - **Total C++ samples**: **159** unique upstream `RegisterSample`s (160 registration lines; Benchmark / Large World registered twice)
-- **TS implemented (matching C++)**: **108** (~67.9%)
+- **TS implemented (matching C++)**: **114** (~71.7%)
 - **TS implemented (TS-only)**: 2 extras in the tables (Card House Thick, Object Asserts Bench) plus demo-only variants (dominoes, washer, material-dedup)
 - Status tables above are authoritative; the Easy next ports queue tracks what to port next.
 
-- **Dump-match status**: Dump-enabled set is **106/109** hard-green at default checkpoints `0,50,100,200,300` / `1e-5` after the 10-sample port batch (Class Ring, Events Move/Hit/Persistent Contact, Determinism/Continuous/Far Mesh Drop, Hump/Needle Mesh, Wheel) plus earlier setup fixes. Use `bun run compare:all` for the full sweep; soft windows live in `scripts/dump-soft-exceptions.json`. Remaining soft default-checkpoint exceptions (early window still required green): `shapes/wind-flap` (0–200 exact; ~1e-5 velocity drift at frame 300), `benchmark/junkyard` (0–100 match; drift ~frame 130 when pusher engages), `benchmark/convex-pile` (0–50 match; drift ~frame 75–100). Other long-horizon notes that still pass default checkpoints today: `determinism/falling-ragdolls` (frame 300 drifts), `benchmark/candy-cups` / `benchmark/explosion` (post-scripted-blast later drift), `world/far-ragdolls` (~frame 29 window). Native SIMD vs scalar dumps are bit-identical; WASM SIMD vs scalar dumps are bit-identical — residual soft drift is cross-target codegen/libm. `geometry/hull` uses `dumpNoPhysics` (upstream sample has no bodies). Continuous Mesh Drop dump uses fixed seed `1910133196` via dump alias `Continuous Mesh Drop`; Determinism Mesh Drop uses alias `Determinism Mesh Drop` (upstream name collision).
+- **Dump-match status**: Dump-enabled set is **112/115** hard-green at default checkpoints `0,50,100,200,300` / `1e-5` after recent port batches including Geometry / Capsule Mass, Compound / Mesh Tile, Collision / Capsule Cast Ray, Determinism / Wave Pile, and Events / Sensor Visit + Joint. Use `bun run compare:all` for the full sweep; soft windows live in `scripts/dump-soft-exceptions.json`. Remaining soft default-checkpoint exceptions (early window still required green): `shapes/wind-flap` (0–200 exact; ~1e-5 velocity drift at frame 300), `benchmark/junkyard` (0–100 match; drift ~frame 130 when pusher engages), `benchmark/convex-pile` (0–50 match; drift ~frame 75–100). Other long-horizon notes that still pass default checkpoints today: `determinism/falling-ragdolls` (frame 300 drifts), `benchmark/candy-cups` / `benchmark/explosion` (post-scripted-blast later drift), `world/far-ragdolls` (~frame 29 window). Native SIMD vs scalar dumps are bit-identical; WASM SIMD vs scalar dumps are bit-identical — residual soft drift is cross-target codegen/libm. `geometry/hull` and `geometry/capsule-mass` use `dumpNoPhysics` (upstream samples have no bodies). Continuous Mesh Drop dump uses fixed seed `1910133196` via dump alias `Continuous Mesh Drop`; Determinism Mesh Drop uses alias `Determinism Mesh Drop` (upstream name collision).
 - **New sample dump checklist**: When porting the next sample, follow `AGENTS.md` → Dump-match readiness (and `docs/reference-dump-plan.md` → New sample dump checklist) so gravity, float32 setup math, step/post-step order, and worker step cadence are dump-ready from day one.

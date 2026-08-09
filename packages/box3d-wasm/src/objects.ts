@@ -562,6 +562,16 @@ export class JointRef {
     return this.disposed;
   }
 
+  setPrismaticMotorSpeed(motorSpeed: number): void {
+    if (objectAssertsEnabled()) this.world.assertActive();
+    this.world.raw.setPrismaticMotorSpeed(this.handle, motorSpeed);
+  }
+
+  getPrismaticTranslation(): number {
+    if (objectAssertsEnabled()) this.world.assertActive();
+    return this.world.raw.getPrismaticTranslation(this.handle);
+  }
+
   dispose(): void {
     if (this.disposed) return;
     if (objectAssertsEnabled()) this.world.assertActive();

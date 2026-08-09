@@ -32,12 +32,15 @@ import { bodyTypeSample } from "./bodies/body-type";
 import { weebleSample } from "./bodies/weeble";
 import { disableSample } from "./bodies/disable";
 import { moveEventSample } from "./events/move";
+import { sensorVisitSample } from "./events/sensor-visit";
 import { hitEventSample } from "./events/hit";
 import { persistentContactSample } from "./events/persistent-contact";
+import { jointEventSample } from "./events/joint";
 import { boxHullSample } from "./geometry/box-hull";
 import { hullSample } from "./geometry/hull";
 import { hullReductionSample } from "./geometry/hull-reduction";
 import { hullTransformSample } from "./geometry/hull-transform";
+import { capsuleMassSample } from "./geometry/capsule-mass";
 import { hullCrashSample } from "./issues/hull-crash";
 import { multiplePrismaticSample } from "./issues/multiple-prismatic";
 import { crashSample } from "./issues/crash";
@@ -79,10 +82,12 @@ import { fallingBoxesSample } from "./benchmark/falling-boxes";
 import { manyPyramidsSample } from "./benchmark/many-pyramids";
 import { jointGridSample } from "./benchmark/joint-grid";
 import { tileFloorSample } from "./compound/tile-floor";
+import { meshTileSample } from "./compound/mesh-tile";
 import { ragdollBoxSample } from "./ragdoll/box";
 import { ragdollPileSample } from "./ragdoll/pile";
 import { ragdollInclineSample } from "./ragdoll/incline";
 import { fallingRagdollsSample } from "./determinism/falling-ragdolls";
+import { wavePileSample } from "./determinism/wave-pile";
 import { meshDropDeterminismSample } from "./determinism/mesh-drop";
 import { stallSample } from "./continuous/stall";
 import { continuousMeshDropSample } from "./continuous/mesh-drop";
@@ -102,13 +107,18 @@ import { staticInvokeSample } from "./shapes/static-invoke";
 import { meshGridSample } from "./mesh/grid";
 import { bigBoxSample } from "./mesh/big-box";
 import { meshBoxSample } from "./mesh/box";
+import { heightFieldSample } from "./mesh/height-field";
 import { rayCurtainSample } from "./collision/ray-curtain";
+import { capsuleCastRaySample } from "./collision/capsule-cast-ray";
+import { longRayCastSample } from "./collision/long-ray-cast";
 import { junkyardSample } from "./benchmark/junkyard";
 import { fallingTreesSample } from "./benchmark/falling-trees";
 import { chainsSample } from "./benchmark/chains";
 import { convexPileSample } from "./benchmark/convex-pile";
 import { largeWorldSample } from "./benchmark/large-world";
 import { objectAssertsBenchSample } from "./object-asserts-bench";
+import { querySpawnSample } from "./determinism/query-spawn";
+import { sensorHitsSample } from "./events/sensor-hits";
 export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
 
 export const samples = [
@@ -123,12 +133,16 @@ export const samples = [
   weebleSample,
   disableSample,
   moveEventSample,
+  sensorVisitSample,
+  sensorHitsSample,
   hitEventSample,
   persistentContactSample,
+  jointEventSample,
   boxHullSample,
   hullSample,
   hullReductionSample,
   hullTransformSample,
+  capsuleMassSample,
   hullCrashSample,
   multiplePrismaticSample,
   crashSample,
@@ -159,10 +173,13 @@ export const samples = [
   compoundHullsSample,
   compoundMaterialDedupSample,
   tileFloorSample,
+  meshTileSample,
   ragdollBoxSample,
   ragdollPileSample,
   ragdollInclineSample,
   fallingRagdollsSample,
+  wavePileSample,
+  querySpawnSample,
   meshDropDeterminismSample,
   stallSample,
   rainSample,
@@ -204,7 +221,10 @@ export const samples = [
   meshGridSample,
   bigBoxSample,
   meshBoxSample,
+  heightFieldSample,
   rayCurtainSample,
+  capsuleCastRaySample,
+  longRayCastSample,
   thinWallSample,
   bounceHouseSample,
   spinningStickSample,

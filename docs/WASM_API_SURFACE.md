@@ -239,7 +239,7 @@ When adding an API binding:
 - [ ] Distance joint runtime controls
 - [ ] Revolute joint runtime controls after creation
 - [x] Revolute joint target angle: `b3RevoluteJoint_SetTargetAngle` (`setRevoluteJointTargetAngle`)
-- [ ] Prismatic joint runtime controls
+- [~] Prismatic joint runtime controls (`setPrismaticMotorSpeed`, `getPrismaticTranslation`)
 - [ ] Wheel joint runtime controls
 - [ ] Weld joint runtime controls
 - [ ] Spherical joint runtime controls after creation
@@ -264,8 +264,8 @@ When adding an API binding:
 - [~] Shape event toggles are exposed: sensor/contact/pre-solve/hit enable flags
 - [x] Body move events: `b3World_GetBodyEvents` via `configureBodyMoveTracking` / `scatterBodyMoveEvents` / `getBodyMoveEventCount` (stable render-index map; does not use Box3D `userData`)
 - [ ] Contact events: `b3World_GetContactEvents`
-- [ ] Sensor events: `b3World_GetSensorEvents`
-- [ ] Joint events: `b3World_GetJointEvents`
+- [x] Sensor events: `b3World_GetSensorEvents` (`getSensorBeginEvents`)
+- [x] Joint events: `b3World_GetJointEvents` (`getJointEventHandles`)
 - [ ] Zero-allocation event buffers for JS reads
 - [ ] Contact/manifold buffer for current contacts
 - [ ] Custom filter callback: `b3World_SetCustomFilterCallback`
