@@ -51,4 +51,7 @@ export function createBodyCast(runtime: Box3DRuntime): { world: PhysicsWorld; ha
   return { world, handles: buildBodyCastDynamicBodies(world, runtime) };
 }
 
+/** Upstream `BodyCast::Step` never calls `Sample::Step`, so the world does not advance. */
+export const dumpOwnsStep = true;
+
 export const dumpCreate = createBodyCast;

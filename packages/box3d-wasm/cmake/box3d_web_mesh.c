@@ -38,6 +38,17 @@ B3W_EXPORT int b3wCreateBoxMesh(int worldHandle, float cx, float cy, float cz, f
 	return b3wAllocMeshSlot(worldHandle, mesh);
 }
 
+B3W_EXPORT int b3wCreateHollowBoxMesh(int worldHandle, float cx, float cy, float cz, float ex, float ey, float ez)
+{
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	if (world == NULL) return 0;
+	b3Vec3 center = { cx, cy, cz };
+	b3Vec3 extent = { ex, ey, ez };
+	b3MeshData* mesh = b3CreateHollowBoxMesh(center, extent);
+	if (mesh == NULL) return 0;
+	return b3wAllocMeshSlot(worldHandle, mesh);
+}
+
 B3W_EXPORT int b3wCreateMesh(int worldHandle, const float* vertices, int vertexCount, const int* indices, int triangleCount,
 	int useMedianSplit, int identifyEdges)
 {

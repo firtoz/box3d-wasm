@@ -119,6 +119,16 @@ import { largeWorldSample } from "./benchmark/large-world";
 import { objectAssertsBenchSample } from "./object-asserts-bench";
 import { querySpawnSample } from "./determinism/query-spawn";
 import { sensorHitsSample } from "./events/sensor-hits";
+import { ragdollMeshSample } from "./ragdoll/mesh";
+import { hollowBoxSample } from "./mesh/hollow-box";
+import { benchmarkHeightFieldSample } from "./benchmark/height-field-benchmark";
+import { bodyCastSample } from "./bodies/cast";
+import { shapeCastSample } from "./collision/shape-cast";
+import { overlapWorldSample } from "./collision/overlap-world";
+import { initialOverlapSample } from "./collision/initial-overlap";
+import { meshScaleSample } from "./collision/mesh-scale";
+import { drivingSample } from "./joints/driving";
+import { capsuleMeshSample } from "./issues/capsule-mesh";
 export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
 
 export const samples = [
@@ -175,6 +185,7 @@ export const samples = [
   tileFloorSample,
   meshTileSample,
   ragdollBoxSample,
+  ragdollMeshSample,
   ragdollPileSample,
   ragdollInclineSample,
   fallingRagdollsSample,
@@ -222,6 +233,7 @@ export const samples = [
   bigBoxSample,
   meshBoxSample,
   heightFieldSample,
+  hollowBoxSample,
   rayCurtainSample,
   capsuleCastRaySample,
   longRayCastSample,
@@ -243,5 +255,13 @@ export const samples = [
   chainsSample,
   convexPileSample,
   largeWorldSample,
+  benchmarkHeightFieldSample,
+  bodyCastSample,
+  shapeCastSample,
+  overlapWorldSample,
+  initialOverlapSample,
+  meshScaleSample,
+  drivingSample,
+  capsuleMeshSample,
   objectAssertsBenchSample,
 ];

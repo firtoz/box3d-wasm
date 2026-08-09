@@ -97,3 +97,33 @@ B3W_EXPORT void b3wHumanSetJointDampingRatio(int humanHandle, float dampingRatio
 	if (slot == NULL) return;
 	Human_SetJointDampingRatio(&slot->human, dampingRatio);
 }
+
+B3W_EXPORT void b3wHumanCreateParallelAnchors(int humanHandle)
+{
+	b3wHumanSlot* slot = b3wGetHuman(humanHandle);
+	if (slot == NULL) return;
+	b3wWorldSlot* world = b3wGetWorld(slot->worldHandle);
+	if (world == NULL) return;
+
+	Human_CreateParallelAnchors(&slot->human, world->worldId);
+
+	for (int i = 0; i < bone_count; ++i)
+	{
+		Bone* bone = slot->human.bones + i;
+		if (!B3_IS_NULL(bone->anchorId))
+		{
+			b3wAllocBodySlot(slot->worldHandle, bone->anchorId);
+		}
+		if (!B3_IS_NULL(bone->anchorJointId))
+		{
+			b3wAllocJointSlot(slot->worldHandle, bone->anchorJointId);
+		}
+	}
+}
+
+B3W_EXPORT int b3wGetHumanAnchorBody(int humanHandle, int boneIndex)
+{
+	b3wHumanSlot* slot = b3wGetHuman(humanHandle);
+	if (slot == NULL || boneIndex < 0 || boneIndex >= bone_count) return 0;
+	return b3wFindBodyHandle(slot->human.bones[boneIndex].anchorId);
+}
