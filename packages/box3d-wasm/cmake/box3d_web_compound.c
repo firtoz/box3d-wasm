@@ -98,15 +98,15 @@ B3W_EXPORT int b3wGetCompoundTreeHeight(int compoundHandle)
 	return b3DynamicTree_GetHeight(&compound->compound->tree);
 }
 
-B3W_EXPORT int b3wCreateCompoundShape(int bodyHandle, int compoundHandle, float density)
+B3W_EXPORT uint64_t b3wCreateCompoundShape(uint64_t bodyPacked, int compoundHandle, float density)
 {
-	b3wBodySlot* body = b3wGetBody(bodyHandle);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
 	b3wCompoundSlot* compound = b3wGetCompound(compoundHandle);
-	if (body == NULL || compound == NULL) return 0;
+	if (!b3Body_IsValid(bodyId) || compound == NULL) return 0;
 	b3ShapeDef shapeDef = b3DefaultShapeDef();
 	shapeDef.density = density;
-	b3ShapeId shapeId = b3CreateBakedCompoundShape(body->bodyId, &shapeDef, compound->compound);
-	return b3wAllocShapeSlot(body->worldHandle, shapeId);
+	b3ShapeId shapeId = b3CreateBakedCompoundShape(bodyId, &shapeDef, compound->compound);
+	return b3StoreShapeId(shapeId);
 }
 
 B3W_EXPORT int b3wCreateCompoundFromMeshes(int meshCount, const float* meshData, int strideFloats)

@@ -1,9 +1,9 @@
 #include "box3d_web_shared.h"
 
-B3W_EXPORT int b3wCreateMotorJoint(
+B3W_EXPORT uint64_t b3wCreateMotorJoint(
 	int worldHandle,
-	int bodyAHandle,
-	int bodyBHandle,
+	uint64_t bodyAPacked,
+	uint64_t bodyBPacked,
 	float localAx,
 	float localAy,
 	float localAz,
@@ -27,12 +27,12 @@ B3W_EXPORT int b3wCreateMotorJoint(
 	float maxSpringTorque)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
-	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
-	b3wBodySlot* bodyB = b3wGetBody(bodyBHandle);
-	if (world == NULL || bodyA == NULL || bodyB == NULL) return 0;
+	b3BodyId bodyAId = b3LoadBodyId(bodyAPacked);
+	b3BodyId bodyBId = b3LoadBodyId(bodyBPacked);
+	if (world == NULL || !b3Body_IsValid(bodyAId) || !b3Body_IsValid(bodyBId)) return 0;
 	b3MotorJointDef jointDef = b3DefaultMotorJointDef();
-	jointDef.base.bodyIdA = bodyA->bodyId;
-	jointDef.base.bodyIdB = bodyB->bodyId;
+	jointDef.base.bodyIdA = bodyAId;
+	jointDef.base.bodyIdB = bodyBId;
 	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, b3Quat_identity };
 	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, b3Quat_identity };
 	jointDef.base.collideConnected = collideConnected != 0;
@@ -47,26 +47,26 @@ B3W_EXPORT int b3wCreateMotorJoint(
 	jointDef.angularDampingRatio = angularDampingRatio;
 	jointDef.maxSpringTorque = maxSpringTorque;
 	b3JointId jointId = b3CreateMotorJoint(world->worldId, &jointDef);
-	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
+	return b3StoreJointId(jointId);
 }
 
-B3W_EXPORT int b3wCreateFilterJoint(int worldHandle, int bodyAHandle, int bodyBHandle)
+B3W_EXPORT uint64_t b3wCreateFilterJoint(int worldHandle, uint64_t bodyAPacked, uint64_t bodyBPacked)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
-	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
-	b3wBodySlot* bodyB = b3wGetBody(bodyBHandle);
-	if (world == NULL || bodyA == NULL || bodyB == NULL) return 0;
+	b3BodyId bodyAId = b3LoadBodyId(bodyAPacked);
+	b3BodyId bodyBId = b3LoadBodyId(bodyBPacked);
+	if (world == NULL || !b3Body_IsValid(bodyAId) || !b3Body_IsValid(bodyBId)) return 0;
 	b3FilterJointDef jointDef = b3DefaultFilterJointDef();
-	jointDef.base.bodyIdA = bodyA->bodyId;
-	jointDef.base.bodyIdB = bodyB->bodyId;
+	jointDef.base.bodyIdA = bodyAId;
+	jointDef.base.bodyIdB = bodyBId;
 	b3JointId jointId = b3CreateFilterJoint(world->worldId, &jointDef);
-	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
+	return b3StoreJointId(jointId);
 }
 
-B3W_EXPORT int b3wCreateRevoluteJoint(
+B3W_EXPORT uint64_t b3wCreateRevoluteJoint(
 	int worldHandle,
-	int bodyAHandle,
-	int bodyBHandle,
+	uint64_t bodyAPacked,
+	uint64_t bodyBPacked,
 	float localAx,
 	float localAy,
 	float localAz,
@@ -98,12 +98,12 @@ B3W_EXPORT int b3wCreateRevoluteJoint(
 	int collideConnected)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
-	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
-	b3wBodySlot* bodyB = b3wGetBody(bodyBHandle);
-	if (world == NULL || bodyA == NULL || bodyB == NULL) return 0;
+	b3BodyId bodyAId = b3LoadBodyId(bodyAPacked);
+	b3BodyId bodyBId = b3LoadBodyId(bodyBPacked);
+	if (world == NULL || !b3Body_IsValid(bodyAId) || !b3Body_IsValid(bodyBId)) return 0;
 	b3RevoluteJointDef jointDef = b3DefaultRevoluteJointDef();
-	jointDef.base.bodyIdA = bodyA->bodyId;
-	jointDef.base.bodyIdB = bodyB->bodyId;
+	jointDef.base.bodyIdA = bodyAId;
+	jointDef.base.bodyIdB = bodyBId;
 	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, { { localAqx, localAqy, localAqz }, localAqw } };
 	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
 	jointDef.base.constraintHertz = constraintHertz;
@@ -122,13 +122,13 @@ B3W_EXPORT int b3wCreateRevoluteJoint(
 	jointDef.maxMotorTorque = maxMotorTorque;
 	jointDef.motorSpeed = motorSpeed;
 	b3JointId jointId = b3CreateRevoluteJoint(world->worldId, &jointDef);
-	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
+	return b3StoreJointId(jointId);
 }
 
-B3W_EXPORT int b3wCreateSphericalJoint(
+B3W_EXPORT uint64_t b3wCreateSphericalJoint(
 	int worldHandle,
-	int bodyAHandle,
-	int bodyBHandle,
+	uint64_t bodyAPacked,
+	uint64_t bodyBPacked,
 	float localAx,
 	float localAy,
 	float localAz,
@@ -162,12 +162,12 @@ B3W_EXPORT int b3wCreateSphericalJoint(
 	float motorVz)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
-	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
-	b3wBodySlot* bodyB = b3wGetBody(bodyBHandle);
-	if (world == NULL || bodyA == NULL || bodyB == NULL) return 0;
+	b3BodyId bodyAId = b3LoadBodyId(bodyAPacked);
+	b3BodyId bodyBId = b3LoadBodyId(bodyBPacked);
+	if (world == NULL || !b3Body_IsValid(bodyAId) || !b3Body_IsValid(bodyBId)) return 0;
 	b3SphericalJointDef jointDef = b3DefaultSphericalJointDef();
-	jointDef.base.bodyIdA = bodyA->bodyId;
-	jointDef.base.bodyIdB = bodyB->bodyId;
+	jointDef.base.bodyIdA = bodyAId;
+	jointDef.base.bodyIdB = bodyBId;
 	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, { { localAqx, localAqy, localAqz }, localAqw } };
 	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
 	jointDef.enableSpring = enableSpring != 0;
@@ -183,13 +183,13 @@ B3W_EXPORT int b3wCreateSphericalJoint(
 	jointDef.maxMotorTorque = maxMotorTorque;
 	jointDef.motorVelocity = (b3Vec3){ motorVx, motorVy, motorVz };
 	b3JointId jointId = b3CreateSphericalJoint(world->worldId, &jointDef);
-	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
+	return b3StoreJointId(jointId);
 }
 
-B3W_EXPORT int b3wCreatePrismaticJoint(
+B3W_EXPORT uint64_t b3wCreatePrismaticJoint(
 	int worldHandle,
-	int bodyAHandle,
-	int bodyBHandle,
+	uint64_t bodyAPacked,
+	uint64_t bodyBPacked,
 	float localAx,
 	float localAy,
 	float localAz,
@@ -221,12 +221,12 @@ B3W_EXPORT int b3wCreatePrismaticJoint(
 	int collideConnected)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
-	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
-	b3wBodySlot* bodyB = b3wGetBody(bodyBHandle);
-	if (world == NULL || bodyA == NULL || bodyB == NULL) return 0;
+	b3BodyId bodyAId = b3LoadBodyId(bodyAPacked);
+	b3BodyId bodyBId = b3LoadBodyId(bodyBPacked);
+	if (world == NULL || !b3Body_IsValid(bodyAId) || !b3Body_IsValid(bodyBId)) return 0;
 	b3PrismaticJointDef jointDef = b3DefaultPrismaticJointDef();
-	jointDef.base.bodyIdA = bodyA->bodyId;
-	jointDef.base.bodyIdB = bodyB->bodyId;
+	jointDef.base.bodyIdA = bodyAId;
+	jointDef.base.bodyIdB = bodyBId;
 	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, { { localAqx, localAqy, localAqz }, localAqw } };
 	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
 	jointDef.base.constraintHertz = constraintHertz;
@@ -245,13 +245,13 @@ B3W_EXPORT int b3wCreatePrismaticJoint(
 	jointDef.maxMotorForce = maxMotorForce;
 	jointDef.motorSpeed = motorSpeed;
 	b3JointId jointId = b3CreatePrismaticJoint(world->worldId, &jointDef);
-	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
+	return b3StoreJointId(jointId);
 }
 
-B3W_EXPORT int b3wCreateWeldJoint(
+B3W_EXPORT uint64_t b3wCreateWeldJoint(
 	int worldHandle,
-	int bodyAHandle,
-	int bodyBHandle,
+	uint64_t bodyAPacked,
+	uint64_t bodyBPacked,
 	float localAx,
 	float localAy,
 	float localAz,
@@ -275,12 +275,12 @@ B3W_EXPORT int b3wCreateWeldJoint(
 	int collideConnected)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
-	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
-	b3wBodySlot* bodyB = b3wGetBody(bodyBHandle);
-	if (world == NULL || bodyA == NULL || bodyB == NULL) return 0;
+	b3BodyId bodyAId = b3LoadBodyId(bodyAPacked);
+	b3BodyId bodyBId = b3LoadBodyId(bodyBPacked);
+	if (world == NULL || !b3Body_IsValid(bodyAId) || !b3Body_IsValid(bodyBId)) return 0;
 	b3WeldJointDef jointDef = b3DefaultWeldJointDef();
-	jointDef.base.bodyIdA = bodyA->bodyId;
-	jointDef.base.bodyIdB = bodyB->bodyId;
+	jointDef.base.bodyIdA = bodyAId;
+	jointDef.base.bodyIdB = bodyBId;
 	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, { { localAqx, localAqy, localAqz }, localAqw } };
 	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
 	jointDef.base.forceThreshold = forceThreshold;
@@ -291,13 +291,13 @@ B3W_EXPORT int b3wCreateWeldJoint(
 	jointDef.linearDampingRatio = linearDampingRatio;
 	jointDef.angularDampingRatio = angularDampingRatio;
 	b3JointId jointId = b3CreateWeldJoint(world->worldId, &jointDef);
-	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
+	return b3StoreJointId(jointId);
 }
 
-B3W_EXPORT int b3wCreateDistanceJoint(
+B3W_EXPORT uint64_t b3wCreateDistanceJoint(
 	int worldHandle,
-	int bodyAHandle,
-	int bodyBHandle,
+	uint64_t bodyAPacked,
+	uint64_t bodyBPacked,
 	float localAx,
 	float localAy,
 	float localAz,
@@ -318,12 +318,12 @@ B3W_EXPORT int b3wCreateDistanceJoint(
 	int collideConnected)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
-	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
-	b3wBodySlot* bodyB = b3wGetBody(bodyBHandle);
-	if (world == NULL || bodyA == NULL || bodyB == NULL) return 0;
+	b3BodyId bodyAId = b3LoadBodyId(bodyAPacked);
+	b3BodyId bodyBId = b3LoadBodyId(bodyBPacked);
+	if (world == NULL || !b3Body_IsValid(bodyAId) || !b3Body_IsValid(bodyBId)) return 0;
 	b3DistanceJointDef jointDef = b3DefaultDistanceJointDef();
-	jointDef.base.bodyIdA = bodyA->bodyId;
-	jointDef.base.bodyIdB = bodyB->bodyId;
+	jointDef.base.bodyIdA = bodyAId;
+	jointDef.base.bodyIdB = bodyBId;
 	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, { { localAqx, localAqy, localAqz }, localAqw } };
 	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
 	jointDef.base.forceThreshold = forceThreshold;
@@ -331,13 +331,13 @@ B3W_EXPORT int b3wCreateDistanceJoint(
 	jointDef.base.collideConnected = collideConnected != 0;
 	jointDef.length = length;
 	b3JointId jointId = b3CreateDistanceJoint(world->worldId, &jointDef);
-	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
+	return b3StoreJointId(jointId);
 }
 
-B3W_EXPORT int b3wCreateParallelJoint(
+B3W_EXPORT uint64_t b3wCreateParallelJoint(
 	int worldHandle,
-	int bodyAHandle,
-	int bodyBHandle,
+	uint64_t bodyAPacked,
+	uint64_t bodyBPacked,
 	float localAx,
 	float localAy,
 	float localAz,
@@ -360,12 +360,12 @@ B3W_EXPORT int b3wCreateParallelJoint(
 	int collideConnected)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
-	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
-	b3wBodySlot* bodyB = b3wGetBody(bodyBHandle);
-	if (world == NULL || bodyA == NULL || bodyB == NULL) return 0;
+	b3BodyId bodyAId = b3LoadBodyId(bodyAPacked);
+	b3BodyId bodyBId = b3LoadBodyId(bodyBPacked);
+	if (world == NULL || !b3Body_IsValid(bodyAId) || !b3Body_IsValid(bodyBId)) return 0;
 	b3ParallelJointDef jointDef = b3DefaultParallelJointDef();
-	jointDef.base.bodyIdA = bodyA->bodyId;
-	jointDef.base.bodyIdB = bodyB->bodyId;
+	jointDef.base.bodyIdA = bodyAId;
+	jointDef.base.bodyIdB = bodyBId;
 	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, { { localAqx, localAqy, localAqz }, localAqw } };
 	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
 	jointDef.base.forceThreshold = forceThreshold;
@@ -375,52 +375,49 @@ B3W_EXPORT int b3wCreateParallelJoint(
 	jointDef.dampingRatio = dampingRatio;
 	jointDef.maxTorque = maxTorque;
 	b3JointId jointId = b3CreateParallelJoint(world->worldId, &jointDef);
-	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
+	return b3StoreJointId(jointId);
 }
 
-B3W_EXPORT void b3wDestroyJoint(int jointHandle)
+B3W_EXPORT void b3wDestroyJoint(uint64_t jointPacked)
 {
-	if (jointHandle <= 0 || jointHandle > B3W_MAX_JOINTS) return;
-	b3wJointSlot* slot = &g_joints[jointHandle - 1];
-	if (!slot->active) return;
-	b3DestroyJoint(slot->jointId, true);
-	b3wFreeJointSlot(jointHandle);
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3DestroyJoint(jointId, true);
 }
 
-B3W_EXPORT void b3wGetJointConstraintForce(int jointHandle, float* outForce)
+B3W_EXPORT void b3wGetJointConstraintForce(uint64_t jointPacked, float* outForce)
 {
-	if (outForce == NULL || jointHandle <= 0 || jointHandle > B3W_MAX_JOINTS) return;
-	b3wJointSlot* slot = &g_joints[jointHandle - 1];
-	if (!slot->active) return;
-	b3Vec3 force = b3Joint_GetConstraintForce(slot->jointId);
+	if (outForce == NULL) return;
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3Vec3 force = b3Joint_GetConstraintForce(jointId);
 	outForce[0] = force.x;
 	outForce[1] = force.y;
 	outForce[2] = force.z;
 }
 
-B3W_EXPORT void b3wGetJointConstraintTorque(int jointHandle, float* outTorque)
+B3W_EXPORT void b3wGetJointConstraintTorque(uint64_t jointPacked, float* outTorque)
 {
-	if (outTorque == NULL || jointHandle <= 0 || jointHandle > B3W_MAX_JOINTS) return;
-	b3wJointSlot* slot = &g_joints[jointHandle - 1];
-	if (!slot->active) return;
-	b3Vec3 torque = b3Joint_GetConstraintTorque(slot->jointId);
+	if (outTorque == NULL) return;
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3Vec3 torque = b3Joint_GetConstraintTorque(jointId);
 	outTorque[0] = torque.x;
 	outTorque[1] = torque.y;
 	outTorque[2] = torque.z;
 }
 
-B3W_EXPORT float b3wGetJointLinearSeparation(int jointHandle)
+B3W_EXPORT float b3wGetJointLinearSeparation(uint64_t jointPacked)
 {
-	if (jointHandle <= 0 || jointHandle > B3W_MAX_JOINTS) return 0.0f;
-	b3wJointSlot* slot = &g_joints[jointHandle - 1];
-	if (!slot->active) return 0.0f;
-	return b3Joint_GetLinearSeparation(slot->jointId);
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return 0.0f;
+	return b3Joint_GetLinearSeparation(jointId);
 }
 
-B3W_EXPORT int b3wCreateWheelJoint(
+B3W_EXPORT uint64_t b3wCreateWheelJoint(
 	int worldHandle,
-	int bodyAHandle,
-	int bodyBHandle,
+	uint64_t bodyAPacked,
+	uint64_t bodyBPacked,
 	float localAx, float localAy, float localAz,
 	float localAqx, float localAqy, float localAqz, float localAqw,
 	float localBx, float localBy, float localBz,
@@ -445,12 +442,12 @@ B3W_EXPORT int b3wCreateWheelJoint(
 	int collideConnected)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
-	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
-	b3wBodySlot* bodyB = b3wGetBody(bodyBHandle);
-	if (world == NULL || bodyA == NULL || bodyB == NULL) return 0;
+	b3BodyId bodyAId = b3LoadBodyId(bodyAPacked);
+	b3BodyId bodyBId = b3LoadBodyId(bodyBPacked);
+	if (world == NULL || !b3Body_IsValid(bodyAId) || !b3Body_IsValid(bodyBId)) return 0;
 	b3WheelJointDef jointDef = b3DefaultWheelJointDef();
-	jointDef.base.bodyIdA = bodyA->bodyId;
-	jointDef.base.bodyIdB = bodyB->bodyId;
+	jointDef.base.bodyIdA = bodyAId;
+	jointDef.base.bodyIdB = bodyBId;
 	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, { { localAqx, localAqy, localAqz }, localAqw } };
 	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
 	jointDef.base.collideConnected = collideConnected != 0;
@@ -472,29 +469,26 @@ B3W_EXPORT int b3wCreateWheelJoint(
 	jointDef.lowerSteeringLimit = lowerSteeringLimit;
 	jointDef.upperSteeringLimit = upperSteeringLimit;
 	b3JointId jointId = b3CreateWheelJoint(world->worldId, &jointDef);
-	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
+	return b3StoreJointId(jointId);
 }
 
-B3W_EXPORT void b3wRevoluteJointSetTargetAngle(int jointHandle, float targetRadians)
+B3W_EXPORT void b3wRevoluteJointSetTargetAngle(uint64_t jointPacked, float targetRadians)
 {
-	if (jointHandle <= 0 || jointHandle > B3W_MAX_JOINTS) return;
-	b3wJointSlot* slot = &g_joints[jointHandle - 1];
-	if (!slot->active) return;
-	b3RevoluteJoint_SetTargetAngle(slot->jointId, targetRadians);
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3RevoluteJoint_SetTargetAngle(jointId, targetRadians);
 }
 
-B3W_EXPORT void b3wPrismaticJointSetMotorSpeed(int jointHandle, float motorSpeed)
+B3W_EXPORT void b3wPrismaticJointSetMotorSpeed(uint64_t jointPacked, float motorSpeed)
 {
-	if (jointHandle <= 0 || jointHandle > B3W_MAX_JOINTS) return;
-	b3wJointSlot* slot = &g_joints[jointHandle - 1];
-	if (!slot->active) return;
-	b3PrismaticJoint_SetMotorSpeed(slot->jointId, motorSpeed);
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3PrismaticJoint_SetMotorSpeed(jointId, motorSpeed);
 }
 
-B3W_EXPORT float b3wPrismaticJointGetTranslation(int jointHandle)
+B3W_EXPORT float b3wPrismaticJointGetTranslation(uint64_t jointPacked)
 {
-	if (jointHandle <= 0 || jointHandle > B3W_MAX_JOINTS) return 0.0f;
-	b3wJointSlot* slot = &g_joints[jointHandle - 1];
-	if (!slot->active) return 0.0f;
-	return b3PrismaticJoint_GetTranslation(slot->jointId);
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return 0.0f;
+	return b3PrismaticJoint_GetTranslation(jointId);
 }

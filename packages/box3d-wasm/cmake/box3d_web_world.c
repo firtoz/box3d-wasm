@@ -2,6 +2,8 @@
 
 #include "box3d/constants.h"
 
+#include <stdint.h>
+
 B3W_EXPORT int b3wCreateWorld(float gravityX, float gravityY, float gravityZ, int workerCount, int staticShapeCount,
 							  int dynamicShapeCount, int staticBodyCount, int dynamicBodyCount, int contactCount)
 {
@@ -24,7 +26,7 @@ B3W_EXPORT void b3wDestroyWorld(int worldHandle)
 {
 	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
 	if (slot == NULL) return;
-	// Free bridge slots (including shapes) before destroying the engine world.
+	// Free bridge slots owned by this world (meshes/humans/heightfields) before destroying the engine world.
 	b3wClearWorldSlots(worldHandle);
 	b3DestroyWorld(slot->worldId);
 	b3wFreeWorldSlot(worldHandle);
@@ -181,9 +183,9 @@ B3W_EXPORT void b3wWorldExplode(int worldHandle, float px, float py, float pz, f
 	b3World_Explode(slot->worldId, &def);
 }
 
-B3W_EXPORT void b3wRayCastClosest(int worldHandle, float originX, float originY, float originZ, float translationX, float translationY, float translationZ, int categoryBits, int maskBits, int* outShapeHandle, float* outPoint, float* outNormal, float* outFraction)
+B3W_EXPORT void b3wRayCastClosest(int worldHandle, float originX, float originY, float originZ, float translationX, float translationY, float translationZ, int categoryBits, int maskBits, uint64_t* outShapePacked, float* outPoint, float* outNormal, float* outFraction)
 {
-	if (outShapeHandle != NULL) *outShapeHandle = 0;
+	if (outShapePacked != NULL) *outShapePacked = 0;
 	if (outPoint != NULL)
 	{
 		outPoint[0] = 0.0f;
@@ -204,14 +206,9 @@ B3W_EXPORT void b3wRayCastClosest(int worldHandle, float originX, float originY,
 	filter.maskBits = (uint64_t)maskBits;
 	b3RayResult result = b3World_CastRayClosest(slot->worldId, (b3Pos){ originX, originY, originZ }, (b3Vec3){ translationX, translationY, translationZ }, filter);
 	if (b3Shape_IsValid(result.shapeId) == false) return;
-	if (outShapeHandle != NULL)
+	if (outShapePacked != NULL)
 	{
-		int handle = b3wFindShapeHandle(result.shapeId);
-		if (handle == 0)
-		{
-			handle = b3wAllocShapeSlot(worldHandle, result.shapeId);
-		}
-		*outShapeHandle = handle;
+		*outShapePacked = b3StoreShapeId(result.shapeId);
 	}
 	if (outPoint != NULL)
 	{

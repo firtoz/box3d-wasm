@@ -76,12 +76,12 @@ B3W_EXPORT void b3wDestroyMesh(int meshHandle)
 	b3wFreeMeshSlot(meshHandle);
 }
 
-B3W_EXPORT int b3wCreateMeshShape(int bodyHandle, int meshHandle, float density, float friction, float restitution, float rollingResistance,
+B3W_EXPORT uint64_t b3wCreateMeshShape(uint64_t bodyPacked, int meshHandle, float density, float friction, float restitution, float rollingResistance,
 	float sx, float sy, float sz, int isSensor)
 {
-	b3wBodySlot* body = b3wGetBody(bodyHandle);
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
 	b3wMeshSlot* mesh = b3wGetMesh(meshHandle);
-	if (body == NULL || mesh == NULL) return 0;
+	if (!b3Body_IsValid(bodyId) || mesh == NULL) return 0;
 	b3ShapeDef shapeDef = b3DefaultShapeDef();
 	shapeDef.density = density;
 	shapeDef.baseMaterial.friction = friction;
@@ -89,15 +89,15 @@ B3W_EXPORT int b3wCreateMeshShape(int bodyHandle, int meshHandle, float density,
 	shapeDef.baseMaterial.rollingResistance = rollingResistance;
 	shapeDef.isSensor = isSensor != 0;
 	b3Vec3 scale = { sx, sy, sz };
-	b3ShapeId shapeId = b3CreateMeshShape(body->bodyId, &shapeDef, mesh->mesh, scale);
-	return b3wAllocShapeSlot(body->worldHandle, shapeId);
+	b3ShapeId shapeId = b3CreateMeshShape(bodyId, &shapeDef, mesh->mesh, scale);
+	return b3StoreShapeId(shapeId);
 }
 
-B3W_EXPORT void b3wShapeSetMesh(int shapeHandle, int meshHandle, float sx, float sy, float sz)
+B3W_EXPORT void b3wShapeSetMesh(uint64_t shapePacked, int meshHandle, float sx, float sy, float sz)
 {
-	b3wShapeSlot* shape = b3wGetShape(shapeHandle);
+	b3ShapeId shapeId = b3LoadShapeId(shapePacked);
 	b3wMeshSlot* mesh = b3wGetMesh(meshHandle);
-	if (shape == NULL || mesh == NULL) return;
+	if (!b3Shape_IsValid(shapeId) || mesh == NULL) return;
 	b3Vec3 scale = { sx, sy, sz };
-	b3Shape_SetMesh(shape->shapeId, mesh->mesh, scale);
+	b3Shape_SetMesh(shapeId, mesh->mesh, scale);
 }

@@ -6,10 +6,7 @@ option(BOX3D_WASM_PROFILE_NAMES "Emit wasm function names/source maps for Chromi
 option(BOX3D_WASM_ALLOW_MEMORY_GROWTH "Allow the WASM heap to grow at runtime" OFF)
 
 set(B3W_MAX_WORLDS 16 CACHE STRING "Maximum tracked world handles in the WASM bridge")
-set(B3W_MAX_BODIES 65536 CACHE STRING "Maximum tracked body handles in the WASM bridge")
-set(B3W_MAX_JOINTS 65536 CACHE STRING "Maximum tracked joint handles in the WASM bridge")
 set(B3W_MAX_HULLS 16384 CACHE STRING "Maximum tracked hull handles in the WASM bridge")
-set(B3W_MAX_SHAPES 65536 CACHE STRING "Maximum tracked shape handles in the WASM bridge")
 set(B3W_MAX_MESHES 1024 CACHE STRING "Maximum tracked mesh handles in the WASM bridge")
 set(B3W_MAX_COMPOUNDS 1024 CACHE STRING "Maximum tracked compound handles in the WASM bridge")
 set(B3W_MAX_HUMANS 512 CACHE STRING "Maximum tracked human handles in the WASM bridge")
@@ -70,10 +67,7 @@ target_include_directories(box3d_web PRIVATE "${BOX3D_SOURCE_DIR}/include" "${BO
 target_link_libraries(box3d_web PRIVATE box3d)
 target_compile_definitions(box3d_web PRIVATE
 	B3W_MAX_WORLDS=${B3W_MAX_WORLDS}
-	B3W_MAX_BODIES=${B3W_MAX_BODIES}
-	B3W_MAX_JOINTS=${B3W_MAX_JOINTS}
 	B3W_MAX_HULLS=${B3W_MAX_HULLS}
-	B3W_MAX_SHAPES=${B3W_MAX_SHAPES}
 	B3W_MAX_MESHES=${B3W_MAX_MESHES}
 	B3W_MAX_COMPOUNDS=${B3W_MAX_COMPOUNDS}
 	B3W_MAX_HUMANS=${B3W_MAX_HUMANS}
@@ -93,7 +87,7 @@ set(_box3d_wasm_link_options
 	"SHELL:-sENVIRONMENT=web,worker,node"
 	"SHELL:-sINITIAL_MEMORY=${BOX3D_WASM_INITIAL_MEMORY}"
 	"SHELL:-sNO_EXIT_RUNTIME=1"
-	"SHELL:-sEXPORTED_RUNTIME_METHODS=['cwrap','HEAPF32','HEAPU8','HEAP32']"
+	"SHELL:-sEXPORTED_RUNTIME_METHODS=['cwrap','HEAPF32','HEAPU8','HEAP32','HEAPU64']"
 	"SHELL:-sEXPORTED_FUNCTIONS=['_main','_malloc','_free']"
 	"SHELL:-sASSERTIONS=0"
 	"SHELL:-sEXPORT_KEEPALIVE=1"
@@ -102,6 +96,7 @@ set(_box3d_wasm_link_options
 	"SHELL:-sSTACK_SIZE=2097152"
 	"SHELL:-sDEFAULT_PTHREAD_STACK_SIZE=1048576"
 	"SHELL:-sFILESYSTEM=0"
+	"SHELL:-sWASM_BIGINT=1"
 )
 
 if(BOX3D_WASM_ALLOW_MEMORY_GROWTH)
