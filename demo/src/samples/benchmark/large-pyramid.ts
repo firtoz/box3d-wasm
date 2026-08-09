@@ -25,5 +25,5 @@ export const largePyramidSample = createShaderInstancedSample({
   initSolverParams: (params) => ({ ...params, continuous: false }),
   mapSolverParams: (params) => ({ ...params, continuous: false }),
   info: ({ workerCount, colorMode }) =>
-    `90-base pyramid (${LARGE_PYRAMID_BOX_COUNT} boxes) | shader render | continuous off | ${workerCount} workers | ${colorMode} colors (C) | Sleep toggle for awake/sleep`,
+    `100-base pyramid (${LARGE_PYRAMID_BOX_COUNT} boxes) | shader render | continuous off | ${workerCount} workers | ${colorMode} colors (C) | Sleep toggle for awake/sleep`,
 });

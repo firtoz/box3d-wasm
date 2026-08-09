@@ -40,6 +40,8 @@ Record `patches/box3d/BASE_SHA` after any successful bump+patch refresh.
 
 Pending work that landed with this bump: reference-dump stubs for `SAPP_KEYCODE_COMMA` / `PERIOD` and `Camera::SetTarget`; `SAMPLES.md` row + Easy next ports entry for **Bodies / Class Ring**.
 
+Post-bump dump sweep (99 dump-enabled scenes): **93** green at default checkpoints after fixing pre-existing Jenga (wrong layer count/size) and Large Pyramid (90 vs Release 100) setup bugs. Remaining fails are the known soft multi-contact exceptions listed in `SAMPLES.md`.
+
 ---
 
 ## After updating: required steps

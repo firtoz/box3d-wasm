@@ -241,7 +241,7 @@ These are **not** physics-world body scenes. Upstream samples inherit a Manifold
 | **Cylinder** | [x] | Cylinder hull | Implemented (offset fix done); C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Cylinder Stack** | [x] | `b3CreateTransformedHullShape` with scaling | 🔧 `createTransformedHullShape` exists. Cylinder stack parity verified at epsilon=1e-5. |
 | **Box Stack** | [x] | Box stacking | Implemented; C++/WASM dump parity verified with the default 5-second-or-sleep window. |
-| **Jenga Stack** | [x] | Jenga tower | Implemented. |
+| **Jenga Stack** | [x] | Jenga tower | 🔧 Matches upstream hull tower: 30 layers × 2 boxes (`h=1`, `r=0.1`, `rollingResistance=0.05`), `AddGroundBox(20)`, camera `SetView(35,15,12)`. C++/WASM dump parity verified at epsilon=1e-5. |
 | **Dominoes** | [x] | Domino ring | Implemented. |
 | **Wedge** | [x] | `b3CreateHull` from custom points | 🔧 `createHullFromPoints` exists. Custom hull render matches the physics wedge. C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Arch** | [x] | `b3CreateHull` from custom points, per-body hulls | 🔧 All exist. Custom hull render matches the physics arch. C++/WASM dump parity verified with the default 5-second-or-sleep window. |
@@ -268,7 +268,7 @@ These are **not** physics-world body scenes. Upstream samples inherit a Manifold
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Large Pyramid** | [x] | Many box pyramid | 🔧 90-base pyramid (4095 boxes); continuous off (upstream). Shared multi-layer `shader-instanced-host` applies awake/sleep debug colors (`C` toggles light/full; Sleep toggle enables sleeping). Dump create still disables sleep. C++/WASM dump parity verified. |
+| **Large Pyramid** | [x] | Many box pyramid | 🔧 Release upstream `CreateLargePyramid` baseCount **100** (5050 boxes); continuous off. Shared multi-layer `shader-instanced-host` applies awake/sleep debug colors (`C` toggles light/full; Sleep toggle enables sleeping). Dump create still disables sleep. Setup bit-exact (frame 0); soft multi-contact drift from ~frame 10 (same class as other large piles). |
 | **Wide Pyramid** | [x] | Wide pyramid | 🔧 15-layer 3D pyramid (~1190 boxes), shared `shader-instanced-host`. C++/WASM dump parity verified. |
 | **Many Pyramids** | [x] | Multiple pyramids | 🔧 14×14 pyramids (base 10 → 10780 boxes), `Math.fround` positions. Sleeping disabled. Shared `shader-instanced-host`. C++/WASM dump parity verified. |
 | **Rain** | [x] | Many falling ragdolls | Implemented. Host uses multi-layer `shader-instanced-host` gather draws (14 bone capsules × up to 300 humans). Worker pre-sizes transform snapshots and grows the tracked body set as columns spawn. C++/WASM dump parity verified at epsilon=1e-5 for frames 0–64; chaotic drift afterward. `B3W_MAX_HUMANS` raised to 512 for full spawn count. |
