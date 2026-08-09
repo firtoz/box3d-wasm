@@ -149,6 +149,7 @@ void Camera::OnEvent(const sapp_event* e) { (void)e; }
 void Camera::Update(float dt, int width, int height) { (void)dt; m_width = width; m_height = height; }
 b3Vec3 Camera::Position() const { return m_worldEye; }
 void Camera::SetOrbit(float yawRadians, float pitchRadians, float radius) { m_yaw = yawRadians; m_pitch = pitchRadians; m_radius = radius; }
+void Camera::SetTarget(b3Pos target) { m_pivot = target; }
 void Camera::SetView(float yawDegrees, float pitchDegrees, float radius, b3Pos pivot) { (void)yawDegrees; (void)pitchDegrees; m_radius = radius; m_pivot = pivot; }
 void Camera::Frame(b3AABB aabb, float aspect, float padding) { (void)aabb; (void)aspect; (void)padding; }
 void Camera::RebuildProj(float aspect) { (void)aspect; }

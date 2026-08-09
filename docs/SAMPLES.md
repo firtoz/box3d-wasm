@@ -18,12 +18,13 @@ Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short
 
 **Before adding or recommending a queue item:** open the upstream C++ sample class. Prefer samples that create bodies in `m_worldId` and can dump-compare. Do **not** treat Manifold / pure geometry editors / collide-debug tools as generic-host warm-ups — they need pairwise collide bindings and a custom host, and usually have no dumpable bodies.
 
-1. **Continuous / Mesh Drop** — wave mesh + CCD box grid; needs dump override (upstream `Generate()` seeds from `b3GetTicks()`).
-2. **Continuous / Needle Mesh** — CCD + procedural needle meshes (`b3CreateMesh` still unwrapped).
-3. **Mesh / Reflection** — negative scale mesh + building.obj (`🧩` mesh load) + humans.
-4. **Determinism / Wave Pile** — needs heightfield (`b3CreateWave` / `b3CreateHeightFieldShape` `🚧`).
-5. **Ragdoll / Pose** — needs pose-control bindings (`🚧`).
-6. **Joints / Driving** — wheel/suspension + heightfield (`🚧`).
+1. **Bodies / Class Ring** — 🔧 capsule ring + heavy gem; custom 960 Hz `Step` (needs worker/`dumpStep` cadence). New in upstream `Follow cam` (#107).
+2. **Continuous / Mesh Drop** — wave mesh + CCD box grid; needs dump override (upstream `Generate()` seeds from `b3GetTicks()`).
+3. **Continuous / Needle Mesh** — CCD + procedural needle meshes (`b3CreateMesh` still unwrapped).
+4. **Mesh / Reflection** — negative scale mesh + building.obj (`🧩` mesh load) + humans.
+5. **Determinism / Wave Pile** — needs heightfield (`b3CreateWave` / `b3CreateHeightFieldShape` `🚧`).
+6. **Ragdoll / Pose** — needs pose-control bindings (`🚧`).
+7. **Joints / Driving** — wheel/suspension + heightfield (`🚧`).
 
 Defer for later sessions: **Manifold** (pairwise `b3Collide*` helpers `🚧`), **Long Ray Cast** (wave mesh exists; heightfield still `🚧`), events (`🚧` callbacks), character movers, and most remaining `🧩` mesh samples.
 
@@ -43,6 +44,7 @@ Defer for later sessions: **Manifold** (pairwise `b3Collide*` helpers `🚧`), *
 | **Kinematic** | [x] | `b3Body_SetTargetTransform`, `bodyDef.type = kinematic` | 🔧 `setBodyTargetTransform` exists. Kinematic body type exists. C++/WASM dump parity verified at epsilon=1e-6 across all 5 checkpoints (frames 0,50,100,200,300) — stationary for 2s delay then circular motion at radius 4. Uses `makeQuatFromAxisAngle` for rotation quaternion, standard `Math.cos`/`Math.sin` for position (matching C++ `cosf`/`sinf`), and `Math.fround` for float32-equivalent time accumulation. |
 | **Lock Mixing** | [x] | `bodyDef.motionLocks.angularX/Y/Z`, `bodyDef.motionLocks.linearX/Y/Z` | 🔧 `setBodyMotionLocks` exists, can set at body creation via `bodyDef.motionLocks`? Actually in TS we use `setBodyMotionLocks` after creation. |
 | **Fixed Rotation** | [x] | `bodyDef.motionLocks.angularX/Y/Z`, `bodyDef.gravityScale` | 🔧 All exist. C++/WASM dump parity verified with the default 5-second comparison window after matching the upstream vertical capsule setup exactly. |
+| **Class Ring** | [ ] | Capsule loop + heavy gem, `allowFastRotation`, custom high-rate `Step` | 🔧 APIs exist. Upstream spins a 24-capsule ring + dense gem; sample steps at 960 Hz (16× hidden steps @ 8 substeps) so contacts keep up. Needs custom worker/`dumpStep` cadence when ported — not a generic-host default-step dump. |
 
 ## Character (`sample_character.cpp`)
 
@@ -295,7 +297,7 @@ These are **not** physics-world body scenes. Upstream samples inherit a Manifold
 
 ## Summary
 
-- **Total C++ samples**: ~135 upstream `RegisterSample`s
+- **Total C++ samples**: ~136 upstream `RegisterSample`s (includes Bodies / Class Ring from `Follow cam` #107)
 - **TS implemented (matching C++)**: **100**
 - **TS implemented (TS-only)**: 4 (dominoes variant, washer variant, material-dedup, object-asserts-bench)
 - Status tables above are authoritative; the Easy next ports queue tracks what to port next.

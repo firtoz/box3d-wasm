@@ -30,15 +30,15 @@ git log --oneline HEAD..origin/main
 
 Record `patches/box3d/BASE_SHA` after any successful bump+patch refresh.
 
-### Snapshot (2026-08-09)
+### Snapshot (after bump)
 
 | | |
 |--|--|
-| Local `box3d` | `781673b` (`Fixes 09`, #104) — also `patches/box3d/BASE_SHA` |
-| Upstream `origin/main` | `3fc20f5` (`Follow cam`, #107) |
-| Behind | **1 commit** |
+| Local `box3d` | `3fc20f5` (`Follow cam`, #107) — also `patches/box3d/BASE_SHA` |
+| Upstream `origin/main` | `3fc20f5` |
+| Behind | **0** |
 
-That commit is worth taking: mostly samples/gfx + replay follow-cam, but it also tightens sensors (“visitors must be convex”), tweaks `B3_MAX_SHAPE_CAST_POINTS`, adjusts FMA contraction CMake logic, and **adds Bodies / Class Ring**. Existing dump-enabled ports do not use sensors yet, so dump blast radius looks small — still run the full dump sweep after bumping.
+Pending work that landed with this bump: reference-dump stubs for `SAPP_KEYCODE_COMMA` / `PERIOD` and `Camera::SetTarget`; `SAMPLES.md` row + Easy next ports entry for **Bodies / Class Ring**.
 
 ---
 
