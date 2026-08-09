@@ -1,4 +1,5 @@
 import { B3_PI, type Quat, type Vec3 } from "box3d-wasm";
+import { f32, f32Add, f32Div, f32Mul, f32Sub } from "./f32";
 
 const RAND_LIMIT = 32767;
 const RAND_SEED = 12345;
@@ -15,8 +16,9 @@ export class Box3DRng {
     x ^= x << 13;
     x ^= x >>> 17;
     x ^= x << 5;
+    // Match upstream uint32 XorShift32: store and return unsigned modulo.
     this.seed = x >>> 0;
-    return x % (RAND_LIMIT + 1);
+    return this.seed % (RAND_LIMIT + 1);
   }
 
   /** Match upstream `RandomIntRange(lo, hi)` (returns float-valued ints). */
@@ -24,10 +26,12 @@ export class Box3DRng {
     return lo + (this.randomInt() % (hi - lo + 1));
   }
 
+  /** Match upstream `RandomFloatRange` float32 arithmetic exactly. */
   randomFloatRange(lo: number, hi: number): number {
-    let r = this.randomInt() & RAND_LIMIT;
-    r /= RAND_LIMIT;
-    return Math.fround((hi - lo) * r + lo);
+    // float r = (float)(RandomInt() & RAND_LIMIT); r /= RAND_LIMIT; r = (hi - lo) * r + lo;
+    let r = f32(this.randomInt() & RAND_LIMIT);
+    r = f32Div(r, RAND_LIMIT);
+    return f32Add(f32Mul(f32Sub(hi, lo), r), lo);
   }
 
   randomVec3(lo: Vec3, hi: Vec3): Vec3 {
