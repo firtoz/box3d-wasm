@@ -45,6 +45,7 @@ interface WasmDumpSample {
   cppName: string;
   create(runtime: Box3DRuntime): WasmDumpInstance;
   step?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
+  ownsStep?: boolean;
   postStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
   interactionSchedule: readonly DumpInteraction[];
   runInteraction?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], interaction: DumpInteraction, frame: number, state: unknown) => void;
@@ -61,6 +62,8 @@ interface SceneDumpModule {
   dumpBuildDynamicBodies?: (world: PhysicsWorld, runtime: Box3DRuntime) => number[];
   dumpNoPhysics?: boolean;
   dumpStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
+  /** When true, `dumpStep` performs the full physics step and the default `world.step(dt, 4)` is skipped. */
+  dumpOwnsStep?: boolean;
   dumpPostStep?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], frame: number, dt: number, state: unknown) => void;
   dumpInteractionSchedule?: readonly DumpInteraction[];
   dumpRunInteraction?: (world: PhysicsWorld, runtime: Box3DRuntime, handles: readonly number[], interaction: DumpInteraction, frame: number, state: unknown) => void;
@@ -297,6 +300,7 @@ async function loadWasmDumpSamples(): Promise<WasmDumpSample[]> {
       cppName: scene.dumpCppSampleName ?? scene.dumpSampleName ?? frontendSample.name,
       create: makeCreate(scene),
       step: scene.dumpStep,
+      ownsStep: scene.dumpOwnsStep === true,
       postStep: scene.dumpPostStep,
       interactionSchedule: scene.dumpInteractionSchedule ?? [],
       runInteraction: scene.dumpRunInteraction,
@@ -309,6 +313,7 @@ async function loadWasmDumpSamples(): Promise<WasmDumpSample[]> {
         cppName: variant.cppName,
         create: makeCreate(scene),
         step: scene.dumpStep,
+        ownsStep: scene.dumpOwnsStep === true,
         postStep: scene.dumpPostStep,
         interactionSchedule: variant.interactionSchedule,
         runInteraction: scene.dumpRunInteraction,
@@ -368,7 +373,9 @@ async function main(): Promise<void> {
     }
     if (frame > 0) {
       sample.step?.(world, runtime, handles, frame, dt, state);
-      world.step(dt, 4);
+      if (!sample.ownsStep) {
+        world.step(dt, 4);
+      }
       sample.postStep?.(world, runtime, handles, frame, dt, state);
     }
     if (shouldDumpFrame(options, frame)) {

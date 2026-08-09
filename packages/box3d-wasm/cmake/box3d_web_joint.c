@@ -417,6 +417,64 @@ B3W_EXPORT float b3wGetJointLinearSeparation(int jointHandle)
 	return b3Joint_GetLinearSeparation(slot->jointId);
 }
 
+B3W_EXPORT int b3wCreateWheelJoint(
+	int worldHandle,
+	int bodyAHandle,
+	int bodyBHandle,
+	float localAx, float localAy, float localAz,
+	float localAqx, float localAqy, float localAqz, float localAqw,
+	float localBx, float localBy, float localBz,
+	float localBqx, float localBqy, float localBqz, float localBqw,
+	int enableSuspensionSpring,
+	float suspensionHertz,
+	float suspensionDampingRatio,
+	int enableSuspensionLimit,
+	float lowerSuspensionLimit,
+	float upperSuspensionLimit,
+	int enableSpinMotor,
+	float maxSpinTorque,
+	float spinSpeed,
+	int enableSteering,
+	float steeringHertz,
+	float steeringDampingRatio,
+	float targetSteeringAngle,
+	float maxSteeringTorque,
+	int enableSteeringLimit,
+	float lowerSteeringLimit,
+	float upperSteeringLimit,
+	int collideConnected)
+{
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	b3wBodySlot* bodyA = b3wGetBody(bodyAHandle);
+	b3wBodySlot* bodyB = b3wGetBody(bodyBHandle);
+	if (world == NULL || bodyA == NULL || bodyB == NULL) return 0;
+	b3WheelJointDef jointDef = b3DefaultWheelJointDef();
+	jointDef.base.bodyIdA = bodyA->bodyId;
+	jointDef.base.bodyIdB = bodyB->bodyId;
+	jointDef.base.localFrameA = (b3Transform){ { localAx, localAy, localAz }, { { localAqx, localAqy, localAqz }, localAqw } };
+	jointDef.base.localFrameB = (b3Transform){ { localBx, localBy, localBz }, { { localBqx, localBqy, localBqz }, localBqw } };
+	jointDef.base.collideConnected = collideConnected != 0;
+	jointDef.enableSuspensionSpring = enableSuspensionSpring != 0;
+	jointDef.suspensionHertz = suspensionHertz;
+	jointDef.suspensionDampingRatio = suspensionDampingRatio;
+	jointDef.enableSuspensionLimit = enableSuspensionLimit != 0;
+	jointDef.lowerSuspensionLimit = lowerSuspensionLimit;
+	jointDef.upperSuspensionLimit = upperSuspensionLimit;
+	jointDef.enableSpinMotor = enableSpinMotor != 0;
+	jointDef.maxSpinTorque = maxSpinTorque;
+	jointDef.spinSpeed = spinSpeed;
+	jointDef.enableSteering = enableSteering != 0;
+	jointDef.steeringHertz = steeringHertz;
+	jointDef.steeringDampingRatio = steeringDampingRatio;
+	jointDef.targetSteeringAngle = targetSteeringAngle;
+	jointDef.maxSteeringTorque = maxSteeringTorque;
+	jointDef.enableSteeringLimit = enableSteeringLimit != 0;
+	jointDef.lowerSteeringLimit = lowerSteeringLimit;
+	jointDef.upperSteeringLimit = upperSteeringLimit;
+	b3JointId jointId = b3CreateWheelJoint(world->worldId, &jointDef);
+	return b3wAllocJointSlot(bodyA->worldHandle, jointId);
+}
+
 B3W_EXPORT void b3wRevoluteJointSetTargetAngle(int jointHandle, float targetRadians)
 {
 	if (jointHandle <= 0 || jointHandle > B3W_MAX_JOINTS) return;

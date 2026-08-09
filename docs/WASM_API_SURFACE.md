@@ -201,7 +201,7 @@ When adding an API binding:
 
 ## Meshes
 
-- [ ] Create mesh from definition: `b3CreateMesh`
+- [x] Create mesh from definition: `b3CreateMesh`
 - [x] Destroy mesh: `b3DestroyMesh`
 - [x] Grid mesh: `b3CreateGridMesh`
 - [x] Wave mesh: `b3CreateWaveMesh`
@@ -229,7 +229,7 @@ When adding an API binding:
 - [x] Create spherical joint: `b3CreateSphericalJoint`
 - [x] Create distance joint: `b3CreateDistanceJoint`
 - [x] Create prismatic joint: `b3CreatePrismaticJoint` (creation-time `constraintHertz` / `constraintDampingRatio`, optional force/torque thresholds and `collideConnected`)
-- [ ] Create wheel joint: `b3CreateWheelJoint`
+- [x] Create wheel joint: `b3CreateWheelJoint`
 - [x] Create weld joint: `b3CreateWeldJoint` (optional force/torque thresholds and `collideConnected`)
 - [x] Create parallel joint: `b3CreateParallelJoint`
 - [~] Common joint validity/type/body/world/frame/collide/force/torque accessors (`constraint force`, `constraint torque`, and `linear separation` now exposed)

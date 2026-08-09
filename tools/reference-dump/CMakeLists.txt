@@ -43,7 +43,8 @@ set(SAMPLE_FILES
   "${SAMPLE_SRC_DIR}/sample_character.cpp"
   # sample_collision.cpp is included from dump-interaction-overrides.cpp so DumpRayCurtain can subclass it.
   "${SAMPLE_SRC_DIR}/sample_compound.cpp"
-  "${SAMPLE_SRC_DIR}/sample_continuous.cpp"
+  # sample_continuous.cpp is included from dump-interaction-overrides.cpp so DumpContinuousMeshDrop /
+  # DumpBulletVersusStack can subclass Continuous samples.
   "${SAMPLE_SRC_DIR}/sample_determinism.cpp"
   "${SAMPLE_SRC_DIR}/sample_events.cpp"
   "${SAMPLE_SRC_DIR}/sample_geometry.cpp"
