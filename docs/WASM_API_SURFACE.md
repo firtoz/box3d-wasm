@@ -250,10 +250,10 @@ When adding an API binding:
 
 - [x] World raycast closest: `b3World_CastRayClosest`
 - [ ] World raycast all hits: `b3World_CastRay`
-- [ ] World shapecast: `b3World_CastShape`
-- [ ] World AABB overlap: `b3World_OverlapAABB`
+- [~] World shapecast: `b3World_CastShape` (`castShapeSphere` sphere-proxy helper)
+- [x] World AABB overlap: `b3World_OverlapAABB` (`overlapAABB` returns hit count)
 - [ ] World shape overlap: `b3World_OverlapShape`
-- [ ] Body raycast: `b3Body_CastRay`
+- [x] Body raycast: `b3Body_CastRay` (`bodyCastRay`)
 - [ ] Body shapecast: `b3Body_CastShape`
 - [ ] Body shape overlap: `b3Body_OverlapShape`
 - [ ] Cast mover: `b3World_CastMover`
