@@ -107,7 +107,7 @@ Confirm the new sample appears:
 There are ~99 dump-enabled scenes (`bun scripts/wasm-dump.ts --list-json`). After an engine bump:
 
 1. Smoke: `bun run compare:sample -- sample="Single Box" clean=1`
-2. Prefer a **full sweep** of every dump-enabled id (default frames `0,50,100,200,300`, epsilon `1e-5`). There is no `compare:all` script yet — loop the `--list-json` ids, or batch the previously green set and known soft-drift exceptions from `SAMPLES.md`.
+2. Prefer a **full sweep** with `bun run compare:all` (uses `scripts/dump-soft-exceptions.json` for known soft multi-contact windows). Soft samples must still pass their early exact-match window; unexpected hard fails fail the script.
 3. On mismatch:
    - Narrow frames (`frames=0,1,2,...,50`) and use `compare:dumps` summary / ULP output
    - Decide: setup/order/float32 bug in our port, intentional upstream behavior change (update TS), or soft multi-contact drift (document window in `SAMPLES.md` only after ruling out setup bugs)

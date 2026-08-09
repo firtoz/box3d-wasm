@@ -232,7 +232,7 @@ This table focuses on APIs callable directly from JavaScript. ErikSom's project 
 
 | Metric | Isaac (`box3d.js`) | Monteslu | [`@firtoz/box3d-wasm`](https://github.com/firtoz/box3d-wasm) | ErikSom |
 |--------|---------------------|----------|------------------------|---------|
-| Approx. JS-callable functions/methods | ~280 (250+ embind + ~30 facade helpers) | ~140 | ~95 | 0 reusable JS API |
+| Approx. JS-callable functions/methods | ~280 (250+ embind + ~30 facade helpers) | ~140 | ~97 | 0 reusable JS API |
 | Joint types exposed | 9/9 | 9/9 | 7/9 | 0 |
 | World query types | 5/5 | 1/5 | 1/5 | 0 |
 | Event groups exposed | 4/4 | 3/4 | 0/4 | 0 |

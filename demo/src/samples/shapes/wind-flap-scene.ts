@@ -102,9 +102,9 @@ export function dumpPostStep(_world: PhysicsWorld, runtime: Box3DRuntime, _handl
   const s = state as WindFlapState;
   runtime.applyShapeWind(s.shapeId1, [0, 0, 0], DRAG, LIFT, 10, false);
   runtime.applyShapeWind(s.shapeId2, [0, 0, 0], DRAG, LIFT, 10, false);
-  // Match upstream: angle = b3Sin(10.0f * m_time); m_time += 1/hertz
+  // Match upstream: angle = b3Sin(10.0f * m_time); m_time += 1.0f / hertz
   const angle = runtime.b3wSin(f32Mul(10, s.time));
   runtime.setRevoluteJointTargetAngle(s.jointId1, angle);
   runtime.setRevoluteJointTargetAngle(s.jointId2, f32Mul(-1, angle));
-  s.time = f32Add(s.time, dt);
+  s.time = f32Add(s.time, f32Div(1, 60));
 }

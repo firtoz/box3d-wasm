@@ -229,6 +229,8 @@ type ShapeSetMeshFn = (shapeHandle: number, meshHandle: number, sx: number, sy: 
 type CreateHullFromPointsFn = (numPoints: number, points: number) => number;
 type CreateRockFn = (radius: number) => number;
 type DestroyHullFn = (hullHandle: number) => void;
+type GetHullVertexCountFn = (hullHandle: number) => number;
+type GetHullPointsFn = (hullHandle: number, outPoints: number, capacityFloats: number) => number;
 type CreateCompoundFn = (capsuleCount: number, hullCount: number, meshCount: number, sphereCount: number, capsules: number, hulls: number, meshes: number, spheres: number) => number;
 type CreateCompoundFromHullsFn = (hullCount: number, hullData: number, strideFloats: number) => number;
 type CreateCompoundFromSpheresFn = (sphereCount: number, sphereData: number, strideFloats: number) => number;
@@ -429,6 +431,8 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly createHullFromPointsFn = this.wrapNumber<CreateHullFromPointsFn>("b3wCreateHullFromPoints", ["number","number"]);
   private readonly createRockFn = this.wrapNumber<CreateRockFn>("b3wCreateRock", ["number"]);
   private readonly destroyHullFn = this.wrapVoid<DestroyHullFn>("b3wDestroyHull", ["number"]);
+  private readonly getHullVertexCountFn = this.wrapNumber<GetHullVertexCountFn>("b3wGetHullVertexCount", ["number"]);
+  private readonly getHullPointsFn = this.wrapNumber<GetHullPointsFn>("b3wGetHullPoints", ["number","number","number"]);
   private readonly createCompoundFn = this.wrapNumber<CreateCompoundFn>("b3wCreateCompound", ["number","number","number","number","number","number","number","number"]);
   private readonly createCompoundFromHullsFn = this.wrapNumber<CreateCompoundFromHullsFn>("b3wCreateCompoundFromHulls", ["number","number","number"]);
   private readonly createCompoundFromSpheresFn = this.wrapNumber<CreateCompoundFromSpheresFn>("b3wCreateCompoundFromSpheres", ["number","number","number"]);
@@ -803,6 +807,21 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     return this.requireSlotHandle<HullHandle>(hullHandle, "hulls");
   }
   destroyHull(hullHandle: HullHandle): void { this.destroyHullFn(hullHandle); }
+  getHullVertexCount(hullHandle: HullHandle): number { return this.getHullVertexCountFn(hullHandle); }
+  /** Packed xyz floats from `b3GetHullPoints` (post-hull-construction vertices). */
+  getHullPoints(hullHandle: HullHandle): number[] {
+    const vertexCount = this.getHullVertexCountFn(hullHandle);
+    if (vertexCount <= 0) return [];
+    const floats = vertexCount * 3;
+    const ptr = this.module._malloc(floats * 4);
+    const written = this.getHullPointsFn(hullHandle, ptr, floats);
+    const heap = this.module.HEAPF32;
+    const base = ptr >> 2;
+    const points = new Array<number>(written * 3);
+    for (let i = 0; i < points.length; i++) points[i] = heap[base + i]!;
+    this.module._free(ptr);
+    return points;
+  }
   createRock(radius: number): HullHandle { return this.requireSlotHandle<HullHandle>(this.createRockFn(radius), "hulls"); }
   getStallThreshold(): number { return this.getStallThresholdFn(); }
   setStallThreshold(seconds: number): void { this.setStallThresholdFn(seconds); }

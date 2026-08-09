@@ -21,9 +21,7 @@ export const largePyramidSample = createShaderInstancedSample({
   forEachInstance: (callback) => {
     forEachLargePyramidBox((position) => callback(position, LARGE_PYRAMID_BOX_COLOR));
   },
-  // Match upstream CreateLargePyramid continuous off; sleep follows the UI Sleep toggle.
-  initSolverParams: (params) => ({ ...params, continuous: false }),
-  mapSolverParams: (params) => ({ ...params, continuous: false }),
+  // CreateLargePyramid only disables sleeping; continuous stays the world default (on).
   info: ({ workerCount, colorMode }) =>
-    `100-base pyramid (${LARGE_PYRAMID_BOX_COUNT} boxes) | shader render | continuous off | ${workerCount} workers | ${colorMode} colors (C) | Sleep toggle for awake/sleep`,
+    `100-base pyramid (${LARGE_PYRAMID_BOX_COUNT} boxes) | shader render | ${workerCount} workers | ${colorMode} colors (C) | Sleep toggle for awake/sleep`,
 });

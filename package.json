@@ -14,6 +14,7 @@
     "dump:wasm": "bun scripts/wasm-dump.ts",
     "compare:dumps": "bun scripts/compare-dumps.ts",
     "compare:sample": "bash scripts/compare-sample.sh",
+    "compare:all": "bash scripts/compare-all-samples.sh",
     "typecheck": "bun run typecheck:workspace && bun run typecheck:scripts",
     "test:reference-dump": "bash scripts/reference-dump-smoke.sh",
     "setup:emsdk": "bash scripts/ensure-emsdk.sh",

@@ -27,20 +27,13 @@ export function forEachLargePyramidBox(callback: (position: Vec3) => void): void
 }
 
 export function buildLargePyramidDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): number[] {
+  // Match upstream `b3MakeBoxHull(h,h,h)` + `b3CreateHullShape` (not QHull from points).
   const handles: number[] = [];
-  const a = H;
-  const hullHandle = runtime.createHullFromPoints([
-    -a, -a, -a,  a, -a, -a,  a, a, -a,  -a, a, -a,
-    -a, -a,  a,  a, -a,  a,  a, a,  a,  -a, a,  a,
-  ]);
-
   forEachLargePyramidBox((position) => {
     const body = world.createBody({ type: BodyType.Dynamic, position });
-    runtime.createShapeFromHull(body, hullHandle, { density: 100 });
+    runtime.createHullShape(body, [H, H, H], { density: 100 });
     handles.push(body);
   });
-
-  runtime.destroyHull(hullHandle);
   return handles;
 }
 

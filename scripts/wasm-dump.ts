@@ -181,6 +181,19 @@ async function loadRuntime(): Promise<Box3DRuntime> {
   const oldWindow = globalThis.window;
   const oldProcess = globalThis.process;
 
+  // Bun lacks WebAssembly.instantiateStreaming; Emscripten's web glue logs a
+  // scary fallback warning otherwise. Polyfill before loading the module.
+  const wasmGlobal = WebAssembly as typeof WebAssembly & {
+    instantiateStreaming?: (source: Response | PromiseLike<Response>, imports: WebAssembly.Imports) => Promise<WebAssembly.WebAssemblyInstantiatedSource>;
+  };
+  if (typeof wasmGlobal.instantiateStreaming !== "function") {
+    wasmGlobal.instantiateStreaming = async (source, imports) => {
+      const response = await source;
+      const buffer = await response.arrayBuffer();
+      return WebAssembly.instantiate(buffer, imports);
+    };
+  }
+
   // The current Emscripten artifact is web-only. Hide Node while importing,
   // but keep nextTick for Emscripten pthread startup internals under Bun.
   Object.assign(globalThis, { window: {} });
