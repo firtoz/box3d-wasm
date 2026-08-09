@@ -223,6 +223,7 @@ type CreateGridMeshFn = (worldHandle: number, xCount: number, zCount: number, ce
 type CreateWaveMeshFn = (worldHandle: number, xCount: number, zCount: number, cellWidth: number, amplitude: number, rowFrequency: number, columnFrequency: number) => number;
 type CreateBoxMeshFn = (worldHandle: number, cx: number, cy: number, cz: number, ex: number, ey: number, ez: number, identifyEdges: number) => number;
 type CreateTorusMeshFn = (worldHandle: number, radialResolution: number, tubularResolution: number, radius: number, thickness: number) => number;
+type CreateMeshFn = (worldHandle: number, vertices: number, vertexCount: number, indices: number, triangleCount: number, useMedianSplit: number, identifyEdges: number) => number;
 type DestroyMeshFn = (meshHandle: number) => void;
 type CreateMeshShapeFn = (bodyHandle: number, meshHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, sx: number, sy: number, sz: number) => number;
 type ShapeSetMeshFn = (shapeHandle: number, meshHandle: number, sx: number, sy: number, sz: number) => void;
@@ -325,6 +326,17 @@ type CreatePrismaticJointFn = (worldHandle: number, bodyAHandle: number, bodyBHa
 type CreateWeldJointFn = (worldHandle: number, bodyAHandle: number, bodyBHandle: number, localAx: number, localAy: number, localAz: number, localAqx: number, localAqy: number, localAqz: number, localAqw: number, localBx: number, localBy: number, localBz: number, localBqx: number, localBqy: number, localBqz: number, localBqw: number, linearHertz: number, angularHertz: number, linearDampingRatio: number, angularDampingRatio: number, forceThreshold: number, torqueThreshold: number, collideConnected: number) => number;
 type CreateDistanceJointFn = (worldHandle: number, bodyAHandle: number, bodyBHandle: number, localAx: number, localAy: number, localAz: number, localAqx: number, localAqy: number, localAqz: number, localAqw: number, localBx: number, localBy: number, localBz: number, localBqx: number, localBqy: number, localBqz: number, localBqw: number, length: number, forceThreshold: number, torqueThreshold: number, collideConnected: number) => number;
 type CreateParallelJointFn = (worldHandle: number, bodyAHandle: number, bodyBHandle: number, localAx: number, localAy: number, localAz: number, localAqx: number, localAqy: number, localAqz: number, localAqw: number, localBx: number, localBy: number, localBz: number, localBqx: number, localBqy: number, localBqz: number, localBqw: number, hertz: number, dampingRatio: number, maxTorque: number, forceThreshold: number, torqueThreshold: number, collideConnected: number) => number;
+type CreateWheelJointFn = (
+  worldHandle: number, bodyAHandle: number, bodyBHandle: number,
+  localAx: number, localAy: number, localAz: number, localAqx: number, localAqy: number, localAqz: number, localAqw: number,
+  localBx: number, localBy: number, localBz: number, localBqx: number, localBqy: number, localBqz: number, localBqw: number,
+  enableSuspensionSpring: number, suspensionHertz: number, suspensionDampingRatio: number,
+  enableSuspensionLimit: number, lowerSuspensionLimit: number, upperSuspensionLimit: number,
+  enableSpinMotor: number, maxSpinTorque: number, spinSpeed: number,
+  enableSteering: number, steeringHertz: number, steeringDampingRatio: number, targetSteeringAngle: number, maxSteeringTorque: number,
+  enableSteeringLimit: number, lowerSteeringLimit: number, upperSteeringLimit: number,
+  collideConnected: number,
+) => number;
 type GetStallThresholdFn = () => number;
 type SetStallThresholdFn = (seconds: number) => void;
 type WorldExplodeFn = (worldHandle: number, px: number, py: number, pz: number, radius: number, falloff: number, impulsePerArea: number, maskBits: number) => void;
@@ -425,6 +437,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly createWaveMeshFn = this.wrapNumber<CreateWaveMeshFn>("b3wCreateWaveMesh", ["number","number","number","number","number","number","number"]);
   private readonly createBoxMeshFn = this.wrapNumber<CreateBoxMeshFn>("b3wCreateBoxMesh", ["number","number","number","number","number","number","number","number"]);
   private readonly createTorusMeshFn = this.wrapNumber<CreateTorusMeshFn>("b3wCreateTorusMesh", ["number","number","number","number","number"]);
+  private readonly createMeshFn = this.wrapNumber<CreateMeshFn>("b3wCreateMesh", ["number","number","number","number","number","number","number"]);
   private readonly destroyMeshFn = this.wrapVoid<DestroyMeshFn>("b3wDestroyMesh", ["number"]);
   private readonly createMeshShapeFn = this.wrapNumber<CreateMeshShapeFn>("b3wCreateMeshShape", ["number","number","number","number","number","number","number","number","number"]);
   private readonly shapeSetMeshFn = this.wrapVoid<ShapeSetMeshFn>("b3wShapeSetMesh", ["number","number","number","number","number"]);
@@ -494,6 +507,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly createWeldJointFn = this.wrapNumber<CreateWeldJointFn>("b3wCreateWeldJoint", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createDistanceJointFn = this.wrapNumber<CreateDistanceJointFn>("b3wCreateDistanceJoint", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createParallelJointFn = this.wrapNumber<CreateParallelJointFn>("b3wCreateParallelJoint", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly createWheelJointFn = this.wrapNumber<CreateWheelJointFn>("b3wCreateWheelJoint", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly getStallThresholdFn = this.wrapNumber<GetStallThresholdFn>("b3wGetStallThreshold", []);
   private readonly setStallThresholdFn = this.wrapVoid<SetStallThresholdFn>("b3wSetStallThreshold", ["number"]);
   private readonly worldExplodeFn = this.wrapVoid<WorldExplodeFn>("b3wWorldExplode", ["number", "number", "number", "number", "number", "number", "number", "number"]);
@@ -795,6 +809,36 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   }
   createTorusMesh(worldHandle: WorldHandle, radialResolution: number, tubularResolution: number, radius: number, thickness: number): MeshHandle {
     return this.requireSlotHandle<MeshHandle>(this.createTorusMeshFn(worldHandle, radialResolution, tubularResolution, radius, thickness), "meshes");
+  }
+  /** Create a triangle mesh from packed xyz vertices and triangle indices (`b3CreateMesh`). */
+  createMesh(
+    worldHandle: WorldHandle,
+    vertices: ArrayLike<number>,
+    indices: ArrayLike<number>,
+    options: { useMedianSplit?: boolean; identifyEdges?: boolean } = {},
+  ): MeshHandle {
+    const vertexCount = Math.floor(vertices.length / 3);
+    const triangleCount = Math.floor(indices.length / 3);
+    const vertPtr = this.module._malloc(vertexCount * 3 * 4);
+    const indexPtr = this.module._malloc(triangleCount * 3 * 4);
+    const heapF = this.module.HEAPF32;
+    const heapI = this.module.HEAP32;
+    const vertBase = vertPtr >> 2;
+    const indexBase = indexPtr >> 2;
+    for (let i = 0; i < vertexCount * 3; i++) heapF[vertBase + i] = vertices[i]!;
+    for (let i = 0; i < triangleCount * 3; i++) heapI[indexBase + i] = indices[i]!;
+    const meshHandle = this.createMeshFn(
+      worldHandle,
+      vertPtr,
+      vertexCount,
+      indexPtr,
+      triangleCount,
+      options.useMedianSplit === false ? 0 : 1,
+      options.identifyEdges ? 1 : 0,
+    );
+    this.module._free(vertPtr);
+    this.module._free(indexPtr);
+    return this.requireSlotHandle<MeshHandle>(meshHandle, "meshes");
   }
   destroyMesh(meshHandle: MeshHandle): void { this.destroyMeshFn(meshHandle); }
   createHullFromPoints(points: number[]): HullHandle {
@@ -1124,6 +1168,59 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
       "joints",
     );
   }
+  createWheelJoint(worldHandle: WorldHandle, bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: {
+    localFrameA?: { position?: Vec3; rotation?: Quat };
+    localFrameB?: { position?: Vec3; rotation?: Quat };
+    enableSuspensionSpring?: boolean;
+    suspensionHertz?: number;
+    suspensionDampingRatio?: number;
+    enableSuspensionLimit?: boolean;
+    lowerSuspensionLimit?: number;
+    upperSuspensionLimit?: number;
+    enableSpinMotor?: boolean;
+    maxSpinTorque?: number;
+    spinSpeed?: number;
+    enableSteering?: boolean;
+    steeringHertz?: number;
+    steeringDampingRatio?: number;
+    targetSteeringAngle?: number;
+    maxSteeringTorque?: number;
+    enableSteeringLimit?: boolean;
+    lowerSteeringLimit?: number;
+    upperSteeringLimit?: number;
+    collideConnected?: boolean;
+  } = {}): JointHandle {
+    const la = options.localFrameA?.position ?? [0, 0, 0];
+    const laq = options.localFrameA?.rotation ?? [0, 0, 0, 1];
+    const lb = options.localFrameB?.position ?? [0, 0, 0];
+    const lbq = options.localFrameB?.rotation ?? [0, 0, 0, 1];
+    return this.requireSlotHandle<JointHandle>(
+      this.createWheelJointFn(
+        worldHandle, bodyAHandle, bodyBHandle,
+        la[0], la[1], la[2], laq[0], laq[1], laq[2], laq[3],
+        lb[0], lb[1], lb[2], lbq[0], lbq[1], lbq[2], lbq[3],
+        options.enableSuspensionSpring === false ? 0 : 1,
+        options.suspensionHertz ?? 1,
+        options.suspensionDampingRatio ?? 0.7,
+        options.enableSuspensionLimit ? 1 : 0,
+        options.lowerSuspensionLimit ?? 0,
+        options.upperSuspensionLimit ?? 0,
+        options.enableSpinMotor ? 1 : 0,
+        options.maxSpinTorque ?? 0,
+        options.spinSpeed ?? 0,
+        options.enableSteering ? 1 : 0,
+        options.steeringHertz ?? 1,
+        options.steeringDampingRatio ?? 0.7,
+        options.targetSteeringAngle ?? 0,
+        options.maxSteeringTorque ?? 0,
+        options.enableSteeringLimit ? 1 : 0,
+        options.lowerSteeringLimit ?? 0,
+        options.upperSteeringLimit ?? 0,
+        options.collideConnected ? 1 : 0,
+      ),
+      "joints",
+    );
+  }
   worldExplode(worldHandle: WorldHandle, position: Vec3, radius: number, falloff: number, impulsePerArea: number, maskBits = U64_MAX): void { this.worldExplodeFn(worldHandle, position[0], position[1], position[2], radius, falloff, impulsePerArea, maskBits); }
 
   applyLinearImpulse(bodyHandle: BodyHandle, impulse: Vec3, point: Vec3, wake = true): void { this.applyLinearImpulseFn(bodyHandle, impulse[0], impulse[1], impulse[2], point[0], point[1], point[2], wake ? 1 : 0); }
@@ -1147,6 +1244,9 @@ export class PhysicsWorld {
   createWaveMesh(xCount: number, zCount: number, cellWidth: number, amplitude: number, rowFrequency: number, columnFrequency: number): MeshHandle { return this.runtime.createWaveMesh(this.handle, xCount, zCount, cellWidth, amplitude, rowFrequency, columnFrequency); }
   createBoxMesh(center: Vec3, extent: Vec3, identifyEdges = true): MeshHandle { return this.runtime.createBoxMesh(this.handle, center, extent, identifyEdges); }
   createTorusMesh(radialResolution: number, tubularResolution: number, radius: number, thickness: number): MeshHandle { return this.runtime.createTorusMesh(this.handle, radialResolution, tubularResolution, radius, thickness); }
+  createMesh(vertices: ArrayLike<number>, indices: ArrayLike<number>, options?: { useMedianSplit?: boolean; identifyEdges?: boolean }): MeshHandle {
+    return this.runtime.createMesh(this.handle, vertices, indices, options);
+  }
   destroyMesh(meshHandle: MeshHandle): void { this.runtime.destroyMesh(meshHandle); }
   createMeshShape(bodyHandle: BodyHandle, meshHandle: MeshHandle, def: MeshShapeOptions = {}): ShapeHandle { return this.runtime.createMeshShape(bodyHandle, meshHandle, def); }
   setMesh(shapeHandle: ShapeId | ShapeHandle, meshHandle: MeshHandle, scale: Vec3 = [1, 1, 1]): void { this.runtime.setMesh(shapeHandle, meshHandle, scale); }
@@ -1209,6 +1309,9 @@ export class PhysicsWorld {
   createWeldJoint(bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; linearHertz?: number; angularHertz?: number; linearDampingRatio?: number; angularDampingRatio?: number; forceThreshold?: number; torqueThreshold?: number; collideConnected?: boolean } = {}): JointHandle { return this.runtime.createWeldJoint(this.handle, bodyAHandle, bodyBHandle, options); }
   createDistanceJoint(bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; length?: number; forceThreshold?: number; torqueThreshold?: number; collideConnected?: boolean } = {}): JointHandle { return this.runtime.createDistanceJoint(this.handle, bodyAHandle, bodyBHandle, options); }
   createParallelJoint(bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; hertz?: number; dampingRatio?: number; maxTorque?: number; forceThreshold?: number; torqueThreshold?: number; collideConnected?: boolean } = {}): JointHandle { return this.runtime.createParallelJoint(this.handle, bodyAHandle, bodyBHandle, options); }
+  createWheelJoint(bodyAHandle: BodyHandle, bodyBHandle: BodyHandle, options: Parameters<Box3DRuntime["createWheelJoint"]>[3] = {}): JointHandle {
+    return this.runtime.createWheelJoint(this.handle, bodyAHandle, bodyBHandle, options);
+  }
   explode(position: Vec3, radius: number, falloff: number, impulsePerArea: number, maskBits = U64_MAX): void { this.runtime.worldExplode(this.handle, position, radius, falloff, impulsePerArea, maskBits); }
   getCounters(): WorldCounters { return this.runtime.getWorldCounters(this.handle); }
   getAwakeBodyCount(): number { return this.runtime.getWorldAwakeBodyCount(this.handle); }

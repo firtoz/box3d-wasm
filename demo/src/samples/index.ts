@@ -27,9 +27,13 @@ import { lockMixingSample } from "./bodies/lock-mixing";
 import { kinematicSample } from "./bodies/kinematic";
 import { gyroscopicTorqueSample } from "./bodies/gyroscopic-torque";
 import { gyroscopicPrecessionSample } from "./bodies/gyroscopic-precession";
+import { classRingSample } from "./bodies/class-ring";
 import { bodyTypeSample } from "./bodies/body-type";
 import { weebleSample } from "./bodies/weeble";
 import { disableSample } from "./bodies/disable";
+import { moveEventSample } from "./events/move";
+import { hitEventSample } from "./events/hit";
+import { persistentContactSample } from "./events/persistent-contact";
 import { boxHullSample } from "./geometry/box-hull";
 import { hullSample } from "./geometry/hull";
 import { hullReductionSample } from "./geometry/hull-reduction";
@@ -49,6 +53,7 @@ import { overflowColorPileSample } from "./robustness/overflow-color-pile";
 import { farStackSample } from "./world/far-stack";
 import { farPyramidSample } from "./world/far-pyramid";
 import { farRagdollsSample } from "./world/far-ragdolls";
+import { farMeshDropSample } from "./world/far-mesh-drop";
 import { filterJointSample } from "./joints/filter";
 import { motorJointSample } from "./joints/motor-joint";
 import { prismaticJointSample } from "./joints/prismatic";
@@ -78,7 +83,11 @@ import { ragdollBoxSample } from "./ragdoll/box";
 import { ragdollPileSample } from "./ragdoll/pile";
 import { ragdollInclineSample } from "./ragdoll/incline";
 import { fallingRagdollsSample } from "./determinism/falling-ragdolls";
+import { meshDropDeterminismSample } from "./determinism/mesh-drop";
 import { stallSample } from "./continuous/stall";
+import { continuousMeshDropSample } from "./continuous/mesh-drop";
+import { humpMeshSample } from "./continuous/hump-mesh";
+import { needleMeshSample } from "./continuous/needle-mesh";
 import { rainSample } from "./benchmark/rain";
 import { candyCupsSample } from "./benchmark/candy-cups";
 import { explosionSample } from "./benchmark/explosion";
@@ -86,6 +95,7 @@ import { destructionSample } from "./benchmark/destruction";
 import { motionLocksSample } from "./joints/motion-locks";
 import { distanceJointSample } from "./joints/distance-joint";
 import { parallelSpringSample } from "./joints/parallel-spring";
+import { wheelSample } from "./joints/wheel";
 import { windSample } from "./shapes/wind";
 import { windFlapSample } from "./shapes/wind-flap";
 import { staticInvokeSample } from "./shapes/static-invoke";
@@ -108,9 +118,13 @@ export const samples = [
   kinematicSample,
   gyroscopicTorqueSample,
   gyroscopicPrecessionSample,
+  classRingSample,
   bodyTypeSample,
   weebleSample,
   disableSample,
+  moveEventSample,
+  hitEventSample,
+  persistentContactSample,
   boxHullSample,
   hullSample,
   hullReductionSample,
@@ -139,6 +153,7 @@ export const samples = [
   farStackSample,
   farPyramidSample,
   farRagdollsSample,
+  farMeshDropSample,
   compoundSimpleSample,
   compoundSpheresSample,
   compoundHullsSample,
@@ -148,6 +163,7 @@ export const samples = [
   ragdollPileSample,
   ragdollInclineSample,
   fallingRagdollsSample,
+  meshDropDeterminismSample,
   stallSample,
   rainSample,
   candyCupsSample,
@@ -156,6 +172,7 @@ export const samples = [
   motionLocksSample,
   distanceJointSample,
   parallelSpringSample,
+  wheelSample,
   singleBoxSample,
   cylinderSample,
   cylinderStackSample,
@@ -192,6 +209,9 @@ export const samples = [
   bounceHouseSample,
   spinningStickSample,
   isFastSample,
+  continuousMeshDropSample,
+  humpMeshSample,
+  needleMeshSample,
   bulletVsStackSample,
   largePyramidSample,
   widePyramidSample,

@@ -5,6 +5,9 @@
 #include <string>
 #include <vector>
 
+#include "stability.h"
+#include "utils.h"
+
 #include "sample_bodies.cpp"
 #include "sample_benchmark.cpp"
 #include "sample_collision.cpp"
@@ -173,6 +176,150 @@ public:
 
 		return false;
 	}
+};
+
+// Unique dump alias for Determinism CreateMeshDrop (upstream RegisterSample name "Mesh Drop"
+// collides with Continuous / Mesh Drop).
+class DumpCreateMeshDrop : public Sample
+{
+public:
+	explicit DumpCreateMeshDrop( SampleContext* context )
+		: Sample( context )
+	{
+		m_data = CreateMeshDrop( m_worldId, b3Pos_zero );
+	}
+
+	~DumpCreateMeshDrop() override
+	{
+		DestroyMeshDrop( &m_data );
+	}
+
+	static Sample* Create( SampleContext* context )
+	{
+		return new DumpCreateMeshDrop( context );
+	}
+
+	MeshDropData m_data;
+};
+
+// Continuous Mesh Drop with the commented fixed seed from upstream Generate().
+// Standalone (not subclassing MeshDrop) so body IDs are allocated once in creation order.
+class DumpContinuousMeshDrop : public Sample
+{
+public:
+	static constexpr int m_gridCount = 32;
+	static constexpr int m_bodyCount = m_gridCount * m_gridCount;
+
+	explicit DumpContinuousMeshDrop( SampleContext* context )
+		: Sample( context )
+	{
+		m_groundMesh = nullptr;
+		m_groundId = b3_nullBodyId;
+		CreateGround();
+
+		m_bodies = new b3BodyId[m_bodyCount];
+		memset( m_bodies, 0, m_bodyCount * sizeof( b3BodyId ) );
+
+		b3BoxHull box = b3MakeBoxHull( 0.02f, 0.2f, 0.04f );
+
+		b3BodyDef bodyDef = b3DefaultBodyDef();
+		bodyDef.type = b3_dynamicBody;
+
+		b3ShapeDef shapeDef = b3DefaultShapeDef();
+		shapeDef.baseMaterial.rollingResistance = 0.1f;
+		// m_collide = true → no category/mask filter on dynamics.
+
+		g_randomSeed = 1910133196;
+
+		int bodyIndex = 0;
+		for ( int i = 0; i < m_gridCount; ++i )
+		{
+			for ( int j = 0; j < m_gridCount; ++j )
+			{
+				b3Vec3 linearVelocity = RandomVec3Uniform( -1.0f, 1.0f );
+				b3Vec3 angularVelocity = RandomVec3Uniform( -5.0f, 5.0f );
+
+				bodyDef.position = { 0.5f * ( i - 0.5f * m_gridCount ), 5.0f, 0.5f * ( j - 0.5f * m_gridCount ) };
+				bodyDef.linearVelocity = linearVelocity;
+				bodyDef.angularVelocity = angularVelocity;
+				b3BodyId bodyId = b3CreateBody( m_worldId, &bodyDef );
+				b3CreateHullShape( bodyId, &shapeDef, &box.base );
+				m_bodies[bodyIndex] = bodyId;
+				bodyIndex += 1;
+			}
+		}
+	}
+
+	~DumpContinuousMeshDrop() override
+	{
+		delete[] m_bodies;
+		if ( m_groundMesh != nullptr )
+		{
+			b3DestroyMesh( m_groundMesh );
+			m_groundMesh = nullptr;
+		}
+	}
+
+	void CreateGround()
+	{
+		b3BodyDef bodyDef = b3DefaultBodyDef();
+		m_groundId = b3CreateBody( m_worldId, &bodyDef );
+
+		int gridCount = 40;
+		float cellWidth = 1.0f;
+		float rowHz = 0.1f;
+		float columnHz = 0.2f;
+		float groundAmplitude = 0.5f;
+
+		m_groundMesh = b3CreateWaveMesh( gridCount, gridCount, cellWidth, groundAmplitude, rowHz, columnHz );
+		b3ShapeDef shapeDef = b3DefaultShapeDef();
+		shapeDef.filter.categoryBits = 1;
+		b3CreateMeshShape( m_groundId, &shapeDef, m_groundMesh, b3Vec3_one );
+
+		float extent = 0.5f * gridCount * cellWidth;
+		float halfHeight = 1.0f;
+
+		{
+			b3Transform transform;
+			transform.p = { 0.0f, halfHeight, -extent };
+			transform.q = b3Quat_identity;
+			b3BoxHull wallBox = b3MakeTransformedBoxHull( extent, halfHeight, 0.1f, transform );
+			b3CreateHullShape( m_groundId, &shapeDef, &wallBox.base );
+		}
+
+		{
+			b3Transform transform;
+			transform.p = { 0.0f, halfHeight, extent };
+			transform.q = b3Quat_identity;
+			b3BoxHull wallBox = b3MakeTransformedBoxHull( extent, halfHeight, 0.1f, transform );
+			b3CreateHullShape( m_groundId, &shapeDef, &wallBox.base );
+		}
+
+		{
+			b3Transform transform;
+			transform.p = { -extent, halfHeight, 0.0f };
+			transform.q = b3Quat_identity;
+			b3BoxHull wallBox = b3MakeTransformedBoxHull( 0.1f, halfHeight, extent, transform );
+			b3CreateHullShape( m_groundId, &shapeDef, &wallBox.base );
+		}
+
+		{
+			b3Transform transform;
+			transform.p = { extent, halfHeight, 0.0f };
+			transform.q = b3Quat_identity;
+			b3BoxHull wallBox = b3MakeTransformedBoxHull( 0.1f, halfHeight, extent, transform );
+			b3CreateHullShape( m_groundId, &shapeDef, &wallBox.base );
+		}
+	}
+
+	static Sample* Create( SampleContext* context )
+	{
+		return new DumpContinuousMeshDrop( context );
+	}
+
+	b3MeshData* m_groundMesh;
+	b3BodyId m_groundId;
+	b3BodyId* m_bodies;
 };
 
 // Release CreateLargeWorld is 1000×1000 statics — not dumpable. Mirror BENCHMARK_DEBUG scale.
@@ -400,6 +547,9 @@ void patch_dump_sample_entries()
 	// Dump-only aliases sharing Crash construction with different interaction schedules.
 	RegisterSample( "Issues", "Crash Joint Awake", DumpCrash::Create );
 	RegisterSample( "Issues", "Crash Joint Asleep", DumpCrash::Create );
+	// Unique aliases: upstream Determinism and Continuous both RegisterSample(..., "Mesh Drop", ...).
+	RegisterSample( "Determinism", "Determinism Mesh Drop", DumpCreateMeshDrop::Create );
+	RegisterSample( "Continuous", "Continuous Mesh Drop", DumpContinuousMeshDrop::Create );
 	patch_sample_entry( "Ray Curtain", DumpRayCurtain::Create );
 	patch_sample_entry( "Large World", DumpLargeWorld::Create );
 }

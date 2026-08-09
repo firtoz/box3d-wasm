@@ -38,6 +38,25 @@ B3W_EXPORT int b3wCreateBoxMesh(int worldHandle, float cx, float cy, float cz, f
 	return b3wAllocMeshSlot(worldHandle, mesh);
 }
 
+B3W_EXPORT int b3wCreateMesh(int worldHandle, const float* vertices, int vertexCount, const int* indices, int triangleCount,
+	int useMedianSplit, int identifyEdges)
+{
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	if (world == NULL || vertices == NULL || indices == NULL || vertexCount < 3 || triangleCount < 1) return 0;
+
+	b3MeshDef def = { 0 };
+	def.vertices = (b3Vec3*)vertices;
+	def.indices = (int32_t*)indices;
+	def.vertexCount = vertexCount;
+	def.triangleCount = triangleCount;
+	def.useMedianSplit = useMedianSplit != 0;
+	def.identifyEdges = identifyEdges != 0;
+
+	b3MeshData* mesh = b3CreateMesh(&def, NULL, 0);
+	if (mesh == NULL) return 0;
+	return b3wAllocMeshSlot(worldHandle, mesh);
+}
+
 B3W_EXPORT void b3wDestroyMesh(int meshHandle)
 {
 	b3wMeshSlot* slot = b3wGetMesh(meshHandle);

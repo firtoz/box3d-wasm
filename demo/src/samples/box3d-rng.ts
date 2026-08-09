@@ -42,6 +42,15 @@ export class Box3DRng {
     ];
   }
 
+  /** Match upstream `RandomVec3Uniform(lo, hi)`. */
+  randomVec3Uniform(lo: number, hi: number): Vec3 {
+    return [
+      this.randomFloatRange(lo, hi),
+      this.randomFloatRange(lo, hi),
+      this.randomFloatRange(lo, hi),
+    ];
+  }
+
   randomQuat(): Quat {
     const u1 = this.randomFloatRange(0, 1);
     const u2 = this.randomFloatRange(0, 2 * B3_PI);
