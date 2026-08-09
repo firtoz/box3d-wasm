@@ -2,14 +2,14 @@ import {
   BodyType,
   Box3DRuntime,
   type BodyDef,
-  type BodyHandle,
+  type BodyId,
   type BodyMassData,
   type BodyTransform,
   type BoxOptions,
   type CompoundHandle,
   type HullHandle,
   type HumanHandle,
-  type JointHandle,
+  type JointId,
   type MeshHandle,
   type Mat3,
   type MeshShapeOptions,
@@ -151,7 +151,7 @@ export class ObjectWorld {
     return new MeshRef(this.runtime, this.world.createTorusMesh(radialResolution, tubularResolution, radius, thickness));
   }
 
-  body(handle: BodyHandle): BodyRef {
+  body(handle: BodyId): BodyRef {
     return new BodyRef(this, handle);
   }
 
@@ -242,7 +242,7 @@ export class ObjectWorld {
 export class BodyRef {
   private disposed = false;
 
-  constructor(private readonly world: ObjectWorld, public readonly handle: BodyHandle) {}
+  constructor(private readonly world: ObjectWorld, public readonly handle: BodyId) {}
 
   get isDisposed(): boolean {
     return this.disposed;
@@ -556,7 +556,7 @@ export class ShapeRef {
 export class JointRef {
   private disposed = false;
 
-  constructor(private readonly world: ObjectWorld, public readonly handle: JointHandle) {}
+  constructor(private readonly world: ObjectWorld, public readonly handle: JointId) {}
 
   get isDisposed(): boolean {
     return this.disposed;

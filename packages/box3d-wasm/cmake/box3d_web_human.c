@@ -46,28 +46,9 @@ B3W_EXPORT uint64_t b3wGetHumanBoneBody(int humanHandle, int boneIndex)
 	return b3StoreBodyId(bodyId);
 }
 
-B3W_EXPORT uint64_t b3wGetHumanBoneAnchorBody(int humanHandle, int boneIndex)
-{
-	b3wHumanSlot* slot = b3wGetHuman(humanHandle);
-	if (slot == NULL || boneIndex < 0 || boneIndex >= bone_count) return 0;
-	b3BodyId bodyId = slot->human.bones[boneIndex].anchorId;
-	if (!b3Body_IsValid(bodyId)) return 0;
-	return b3StoreBodyId(bodyId);
-}
-
 B3W_EXPORT int b3wGetHumanBoneCount(void)
 {
 	return bone_count;
-}
-
-B3W_EXPORT void b3wCreateParallelAnchors(int humanHandle)
-{
-	b3wHumanSlot* slot = b3wGetHuman(humanHandle);
-	if (slot == NULL) return;
-	b3wWorldSlot* world = b3wGetWorld(slot->worldHandle);
-	if (world == NULL) return;
-	// Creates anchor bodies/joints in the engine; bridge uses packed native IDs (no slot alloc).
-	Human_CreateParallelAnchors(&slot->human, world->worldId);
 }
 
 B3W_EXPORT void b3wHumanSetVelocity(int humanHandle, float x, float y, float z)
@@ -111,26 +92,15 @@ B3W_EXPORT void b3wHumanCreateParallelAnchors(int humanHandle)
 	if (slot == NULL) return;
 	b3wWorldSlot* world = b3wGetWorld(slot->worldHandle);
 	if (world == NULL) return;
-
+	// Creates anchor bodies/joints in the engine; bridge uses packed native IDs (no slot alloc).
 	Human_CreateParallelAnchors(&slot->human, world->worldId);
-
-	for (int i = 0; i < bone_count; ++i)
-	{
-		Bone* bone = slot->human.bones + i;
-		if (!B3_IS_NULL(bone->anchorId))
-		{
-			b3wAllocBodySlot(slot->worldHandle, bone->anchorId);
-		}
-		if (!B3_IS_NULL(bone->anchorJointId))
-		{
-			b3wAllocJointSlot(slot->worldHandle, bone->anchorJointId);
-		}
-	}
 }
 
-B3W_EXPORT int b3wGetHumanAnchorBody(int humanHandle, int boneIndex)
+B3W_EXPORT uint64_t b3wGetHumanAnchorBody(int humanHandle, int boneIndex)
 {
 	b3wHumanSlot* slot = b3wGetHuman(humanHandle);
 	if (slot == NULL || boneIndex < 0 || boneIndex >= bone_count) return 0;
-	return b3wFindBodyHandle(slot->human.bones[boneIndex].anchorId);
+	b3BodyId bodyId = slot->human.bones[boneIndex].anchorId;
+	if (!b3Body_IsValid(bodyId)) return 0;
+	return b3StoreBodyId(bodyId);
 }
