@@ -117,7 +117,7 @@ Key details:
 - **Binding method**: Manual C bridge functions with `b3w*` prefixes, wrapped by TypeScript classes (`Box3DRuntime`, `PhysicsWorld`)
 - **API style**: Mid-level TypeScript API using named enums, branded handles, typed option objects, and tuple vectors, plus an opt-in object wrapper layer for `BodyRef`/`ShapeRef` ergonomics
 - **Renderer**: Included Three.js browser demo
-- **Samples**: 100 C++ sample scenes currently ported to TypeScript (~135 upstream `RegisterSample`s), with a tracking document for the remaining samples
+- **Samples**: 100 C++ sample scenes currently ported to TypeScript (~136 upstream `RegisterSample`s), with a tracking document for the remaining samples
 - **Build flavours**: Release (fixed 256MB heap), growable release (64MB initial heap with `ALLOW_MEMORY_GROWTH=1`), and profile builds
 - **Threading model**: Emscripten pthreads are enabled in the WASM build (`USE_PTHREADS=1`), with Box3D worker-count controls exposed; the demo also runs simulation work through browser workers around that runtime
 - **WASM size**: **~241KB gzipped (564KB raw)** for the release binary, built with `-O3`, pthreads, and WASM SIMD enabled
@@ -232,7 +232,7 @@ This table focuses on APIs callable directly from JavaScript. ErikSom's project 
 
 | Metric | Isaac (`box3d.js`) | Monteslu | [`@firtoz/box3d-wasm`](https://github.com/firtoz/box3d-wasm) | ErikSom |
 |--------|---------------------|----------|------------------------|---------|
-| Approx. JS-callable functions/methods | ~280 (250+ embind + ~30 facade helpers) | ~140 | ~95 | 0 reusable JS API |
+| Approx. JS-callable functions/methods | ~280 (250+ embind + ~30 facade helpers) | ~140 | ~97 | 0 reusable JS API |
 | Joint types exposed | 9/9 | 9/9 | 7/9 | 0 |
 | World query types | 5/5 | 1/5 | 1/5 | 0 |
 | Event groups exposed | 4/4 | 3/4 | 0/4 | 0 |

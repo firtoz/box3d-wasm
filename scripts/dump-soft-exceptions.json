@@ -1,0 +1,14 @@
+{
+  "shapes/wind-flap": {
+    "matchThroughFrame": 200,
+    "note": "Frames 0–200 exact at 1e-5; ~1e-5 velocity drift by frame 300 (joint motor + wind long-horizon FP)."
+  },
+  "benchmark/junkyard": {
+    "matchThroughFrame": 100,
+    "note": "Frames 0–100 match; first divergence ~frame 130 as the kinematic pusher engages the 10k-contact pile."
+  },
+  "benchmark/convex-pile": {
+    "matchThroughFrame": 50,
+    "note": "Frames 0–50 match; soft multi-contact drift by ~frame 75–100."
+  }
+}

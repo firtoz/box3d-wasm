@@ -1,10 +1,16 @@
 {
   "name": "box3d-wasm",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "user": "ubuntu",
   "install": "bash .cursor/install.sh",
   "terminals": [
     {
       "name": "dev",
-      "command": "export PATH=\"$HOME/.bun/bin:$PATH\" && bun run dev"
+      "command": "export PATH=\"$HOME/.bun/bin:$PATH\" && bun run dev",
+      "description": "Vite demo + WASM rebuild watcher"
     }
   ],
   "ports": [

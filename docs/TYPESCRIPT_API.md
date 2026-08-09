@@ -399,6 +399,8 @@ Destroy temporary resources that are not owned by the world.
 const hull = runtime.createCylinder(1, 0.25, 0, 16);
 const body = world.createBody({ type: BodyType.Dynamic, position: [0, 2, 0] });
 const shape = world.createShapeFromHull(body, hull, { density: 1000 });
+// For custom point clouds, `createHullFromPoints` + optional `getHullPoints` (post-construction
+// vertices) match Box3D's `b3CreateHull` / `b3GetHullPoints` pipeline.
 runtime.destroyHull(hull);
 
 world.destroyShape(shape);

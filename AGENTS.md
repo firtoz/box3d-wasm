@@ -21,6 +21,7 @@ Do **not** leave lasting dirty edits in `box3d/`. Engine changes that we need be
 - **Apply failure fails the build** on purpose. If you bump the `box3d` submodule and a patch no longer applies, refresh or drop the patch, update `patches/box3d/BASE_SHA`, and rebuild.
 - Prefer contributing durable engine APIs upstream when practical; keep patches small and documented in `patches/box3d/README.md`.
 - Regenerating: edit under `box3d/`, `git diff > ../patches/box3d/<name>.patch`, write `BASE_SHA`, then `git checkout -- .` so the submodule is clean again.
+- After advancing the submodule pointer, follow `docs/box3d-submodule-bump.md` (dump revalidation + sample/API coverage), not only patch apply.
 
 ## Documentation structure
 

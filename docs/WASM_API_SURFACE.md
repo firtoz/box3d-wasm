@@ -184,7 +184,8 @@ When adding an API binding:
 - [ ] Clone and transform hull: `b3CloneAndTransformHull`
 - [ ] Cube hull helper: `b3MakeCubeHull`
 - [x] Offset box hull helper: `b3MakeOffsetBoxHull` (`createOffsetHullShape`)
-- [ ] Hull vertex/point/edge/face/plane accessors
+- [x] Hull vertex count / points: `b3GetHullPoints` (`getHullVertexCount`, `getHullPoints`)
+- [ ] Hull edge/face/plane accessors
 
 ## Compounds
 

@@ -1,8 +1,8 @@
-import { BodyType, type BodyHandle, type Box3DRuntime, type PhysicsWorld, type Vec3 } from "box3d-wasm";
+import { BodyType, type BodyHandle, type Box3DRuntime, type HullHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Add, f32Mul } from "../f32";
-import { METAL_WHEEL1_VERTS } from "./gmod-wheel-verts";
+import { METAL_WHEEL1_HULL_SPANS, METAL_WHEEL1_VERTS } from "./gmod-wheel-verts";
 
 const WHEEL_COUNT = 30;
 const HEIGHT = f32(0.171);
@@ -18,10 +18,21 @@ function wheelRenderPoints(): [number, number, number][] {
   return points;
 }
 
+/** Mirror upstream WheelStack: per-piece hulls → wrap their hull points → single shape hull. */
+function createWrappingWheelHull(runtime: Box3DRuntime): HullHandle {
+  const buffer: number[] = [];
+  for (const span of METAL_WHEEL1_HULL_SPANS) {
+    const piecePoints = METAL_WHEEL1_VERTS.slice(span.offset * 3, (span.offset + span.count) * 3);
+    const pieceHull = runtime.createHullFromPoints(piecePoints);
+    buffer.push(...runtime.getHullPoints(pieceHull));
+    runtime.destroyHull(pieceHull);
+  }
+  return runtime.createHullFromPoints(buffer);
+}
+
 export function buildGmodWheelStackDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
-  // Upstream builds per-piece hulls then wraps their points; wrapping the full vertex
-  // table yields the same convex hull used for shapes (multi-piece shapes are commented out).
-  const hull = runtime.createHullFromPoints(METAL_WHEEL1_VERTS);
+  // Multi-piece shapes are commented out upstream; a single wrapping hull is used for simulation.
+  const hull = createWrappingWheelHull(runtime);
   const handles: BodyHandle[] = [];
 
   for (let i = 0; i < WHEEL_COUNT; i++) {
