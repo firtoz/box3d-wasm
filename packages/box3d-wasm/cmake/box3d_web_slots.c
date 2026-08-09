@@ -10,6 +10,7 @@ b3wShapeSlot g_shapes[B3W_MAX_SHAPES];
 b3wMeshSlot g_meshes[B3W_MAX_MESHES];
 b3wCompoundSlot g_compounds[B3W_MAX_COMPOUNDS];
 b3wHumanSlot g_humans[B3W_MAX_HUMANS];
+b3wHeightFieldSlot g_heightFields[B3W_MAX_HEIGHT_FIELDS];
 
 static int g_worldFreeHead = B3W_SLOT_FREE_NONE;
 static int g_bodyFreeHead = B3W_SLOT_FREE_NONE;
@@ -19,6 +20,7 @@ static int g_shapeFreeHead = B3W_SLOT_FREE_NONE;
 static int g_meshFreeHead = B3W_SLOT_FREE_NONE;
 static int g_compoundFreeHead = B3W_SLOT_FREE_NONE;
 static int g_humanFreeHead = B3W_SLOT_FREE_NONE;
+static int g_heightFieldFreeHead = B3W_SLOT_FREE_NONE;
 
 static int g_worldActiveCount = 0;
 static int g_bodyActiveCount = 0;
@@ -28,6 +30,7 @@ static int g_shapeActiveCount = 0;
 static int g_meshActiveCount = 0;
 static int g_compoundActiveCount = 0;
 static int g_humanActiveCount = 0;
+static int g_heightFieldActiveCount = 0;
 
 static bool g_poolsReady = false;
 
@@ -110,6 +113,16 @@ static void b3wInitPools(void)
 	g_humanFreeHead = 0;
 	g_humanActiveCount = 0;
 
+	for (int i = 0; i < B3W_MAX_HEIGHT_FIELDS; ++i)
+	{
+		g_heightFields[i].active = false;
+		g_heightFields[i].nextFree = (i + 1 < B3W_MAX_HEIGHT_FIELDS) ? (i + 1) : B3W_SLOT_FREE_NONE;
+		g_heightFields[i].worldHandle = 0;
+		g_heightFields[i].heightField = NULL;
+	}
+	g_heightFieldFreeHead = 0;
+	g_heightFieldActiveCount = 0;
+
 	g_poolsReady = true;
 }
 
@@ -174,6 +187,14 @@ b3wHumanSlot* b3wGetHuman(int handle)
 	b3wInitPools();
 	if (handle <= 0 || handle > B3W_MAX_HUMANS) return NULL;
 	b3wHumanSlot* slot = &g_humans[handle - 1];
+	return slot->active ? slot : NULL;
+}
+
+b3wHeightFieldSlot* b3wGetHeightField(int handle)
+{
+	b3wInitPools();
+	if (handle <= 0 || handle > B3W_MAX_HEIGHT_FIELDS) return NULL;
+	b3wHeightFieldSlot* slot = &g_heightFields[handle - 1];
 	return slot->active ? slot : NULL;
 }
 
@@ -279,6 +300,20 @@ void b3wFreeHumanSlot(int handle)
 	slot->nextFree = g_humanFreeHead;
 	g_humanFreeHead = handle - 1;
 	g_humanActiveCount -= 1;
+}
+
+void b3wFreeHeightFieldSlot(int handle)
+{
+	b3wInitPools();
+	if (handle <= 0 || handle > B3W_MAX_HEIGHT_FIELDS) return;
+	b3wHeightFieldSlot* slot = &g_heightFields[handle - 1];
+	if (!slot->active) return;
+	slot->active = false;
+	slot->worldHandle = 0;
+	slot->heightField = NULL;
+	slot->nextFree = g_heightFieldFreeHead;
+	g_heightFieldFreeHead = handle - 1;
+	g_heightFieldActiveCount -= 1;
 }
 
 int b3wAllocWorldSlot(b3WorldId worldId)
@@ -406,6 +441,25 @@ int b3wFindBodyHandle(b3BodyId bodyId)
 	return 0;
 }
 
+int b3wFindJointHandle(b3JointId jointId)
+{
+	b3wInitPools();
+	for (int i = 0; i < B3W_MAX_JOINTS; ++i)
+	{
+		if (!g_joints[i].active)
+		{
+			continue;
+		}
+
+		if (B3_ID_EQUALS(g_joints[i].jointId, jointId))
+		{
+			return i + 1;
+		}
+	}
+
+	return 0;
+}
+
 int b3wAllocMeshSlot(int worldHandle, b3MeshData* mesh)
 {
 	b3wInitPools();
@@ -459,6 +513,24 @@ int b3wAllocHumanSlot(int worldHandle, Human human)
 	return index + 1;
 }
 
+int b3wAllocHeightFieldSlot(int worldHandle, b3HeightFieldData* heightField)
+{
+	b3wInitPools();
+	if (g_heightFieldFreeHead == B3W_SLOT_FREE_NONE)
+	{
+		b3DestroyHeightField(heightField);
+		return 0;
+	}
+	int index = g_heightFieldFreeHead;
+	g_heightFieldFreeHead = g_heightFields[index].nextFree;
+	g_heightFields[index].active = true;
+	g_heightFields[index].nextFree = B3W_SLOT_FREE_NONE;
+	g_heightFields[index].worldHandle = worldHandle;
+	g_heightFields[index].heightField = heightField;
+	g_heightFieldActiveCount += 1;
+	return index + 1;
+}
+
 void b3wReleaseBodyShapeSlots(b3BodyId bodyId)
 {
 	int count = b3Body_GetShapeCount(bodyId);
@@ -500,6 +572,7 @@ B3W_EXPORT void b3wGetSlotLimits(int* outLimits)
 	outLimits[5] = B3W_MAX_MESHES;
 	outLimits[6] = B3W_MAX_COMPOUNDS;
 	outLimits[7] = B3W_MAX_HUMANS;
+	outLimits[8] = B3W_MAX_HEIGHT_FIELDS;
 }
 
 B3W_EXPORT void b3wGetSlotUsage(int* outUsage)
@@ -518,6 +591,7 @@ B3W_EXPORT void b3wGetSlotUsage(int* outUsage)
 	outUsage[5] = g_meshActiveCount;
 	outUsage[6] = g_compoundActiveCount;
 	outUsage[7] = g_humanActiveCount;
+	outUsage[8] = g_heightFieldActiveCount;
 }
 
 void b3wClearWorldSlots(int worldHandle)
@@ -562,6 +636,15 @@ void b3wClearWorldSlots(int worldHandle)
 		{
 			b3DestroyMesh(g_meshes[i].mesh);
 			b3wFreeMeshSlot(i + 1);
+		}
+	}
+
+	for (int i = 0; i < B3W_MAX_HEIGHT_FIELDS; ++i)
+	{
+		if (g_heightFields[i].active && g_heightFields[i].worldHandle == worldHandle)
+		{
+			b3DestroyHeightField(g_heightFields[i].heightField);
+			b3wFreeHeightFieldSlot(i + 1);
 		}
 	}
 }
