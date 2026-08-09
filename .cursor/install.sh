@@ -30,7 +30,12 @@ ensure_native_cxx() {
     g++ \
     libstdc++-14-dev \
     pkg-config \
-    python3
+    python3 \
+    unzip \
+    xz-utils \
+    curl \
+    ca-certificates \
+    git
 
   test_bin="$(mktemp /tmp/box3d-cxx-link-XXXXXX)"
   if ! echo 'int main(){return 0;}' | clang++ -x c++ - -o "$test_bin"; then
