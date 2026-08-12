@@ -57,29 +57,42 @@ app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
       <span class="sample-name" id="status">Loading...</span>
     </div>
     <div class="topbar-right">
-      <button class="controls-toggle" id="controls-toggle" title="Toggle controls panel">Controls</button>
-      <span class="sep">&bull;</span>
-      <span class="keys">P</span>
-      <span class="sep">&bull;</span>
-      <span class="keys">.</span>
-      <span class="sep">&bull;</span>
-      <span class="keys">R</span>
-      <span class="sep">&bull;</span>
-      <span class="keys">[</span> <span class="keys">]</span>
-      <span class="sep">&bull;</span>
-      <span class="keys">Shift+Click</span>
+      <button class="controls-toggle" id="controls-toggle" title="Toggle controls panel" type="button">Controls</button>
+      <button class="help-toggle" id="help-toggle" title="Show help" type="button" aria-label="Help">?</button>
+      <span class="desktop-keys" aria-hidden="true">
+        <span class="sep">&bull;</span>
+        <span class="keys">P</span>
+        <span class="sep">&bull;</span>
+        <span class="keys">.</span>
+        <span class="sep">&bull;</span>
+        <span class="keys">R</span>
+        <span class="sep">&bull;</span>
+        <span class="keys">[</span> <span class="keys">]</span>
+        <span class="sep">&bull;</span>
+        <span class="keys">Shift+Click</span>
+      </span>
       <div class="samples-dropdown">
-        <button class="samples-btn" id="samples-toggle">Samples \u25be</button>
+        <button class="samples-btn" id="samples-toggle" type="button">Samples \u25be</button>
         <div class="samples-panel" id="sample-list"></div>
       </div>
     </div>
   </div>
-  <div class="samples-panel" id="sample-list" style="display:none"></div>
+  <div class="samples-backdrop" id="samples-backdrop" hidden></div>
+  <div class="controls-backdrop" id="controls-backdrop" hidden></div>
   <div class="controls-panel" id="controls"></div>
   <div class="controls-dialog" id="controls-dialog" style="display:none">
     <div class="controls-dialog-header" id="controls-dialog-header">Controls <span class="controls-dialog-close" id="controls-dialog-close">&times;</span></div>
     <div class="controls-dialog-body">
-      <div class="controls-dialog-section">
+      <div class="controls-dialog-section touch-help-section">
+        <div class="controls-dialog-section-title">Touch</div>
+        <table>
+          <tr><td class="cd-key">1 finger</td><td>Drag a dynamic body, or orbit on empty space</td></tr>
+          <tr><td class="cd-key">2 fingers</td><td>Pan and pinch-zoom</td></tr>
+          <tr><td class="cd-key">Shoot</td><td>Fire along the camera look direction</td></tr>
+          <tr><td class="cd-key">Spin / Doll</td><td>Special projectiles from the toolbar</td></tr>
+        </table>
+      </div>
+      <div class="controls-dialog-section desktop-help-section">
         <div class="controls-dialog-section-title">Keyboard</div>
         <table>
           <tr><td class="cd-key">Tab</td><td>Show / hide UI</td></tr>
@@ -96,7 +109,7 @@ app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
           <tr><td class="cd-key">Ctrl+Q</td><td>Quit</td></tr>
         </table>
       </div>
-      <div class="controls-dialog-section">
+      <div class="controls-dialog-section desktop-help-section">
         <div class="controls-dialog-section-title">Mouse</div>
         <table>
           <tr><td class="cd-key">Left click</td><td>Select body/shape</td></tr>
@@ -111,6 +124,15 @@ app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
       </div>
     </div>
   </div>
+  <div class="touch-toolbar" id="touch-toolbar" hidden>
+    <button type="button" class="touch-btn" id="touch-prev" title="Previous sample" aria-label="Previous sample">\u2039</button>
+    <button type="button" class="touch-btn" id="touch-pause" title="Pause / resume" aria-label="Pause">\u23F8</button>
+    <button type="button" class="touch-btn" id="touch-restart" title="Restart" aria-label="Restart">\u21BB</button>
+    <button type="button" class="touch-btn touch-btn-shoot" id="touch-shoot" title="Shoot" aria-label="Shoot">Shoot</button>
+    <button type="button" class="touch-btn touch-btn-alt" id="touch-spin" title="Shoot spinning ball" aria-label="Spin shoot">Spin</button>
+    <button type="button" class="touch-btn touch-btn-alt" id="touch-ragdoll" title="Shoot ragdoll" aria-label="Ragdoll shoot">Doll</button>
+    <button type="button" class="touch-btn" id="touch-next" title="Next sample" aria-label="Next sample">\u203A</button>
+  </div>
   <div class="metrics-bar">
     <div class="left" id="metrics"></div>
     <div class="right" id="info"></div>
@@ -124,6 +146,7 @@ function detachedElement<K extends keyof HTMLElementTagNameMap>(tagName: K): HTM
 
 const canvas = document.querySelector<HTMLCanvasElement>("#view");
 if (!canvas) throw new Error("Required demo canvas is missing");
+canvas.style.touchAction = "none";
 const statusLabel = document.querySelector<HTMLDivElement>("#status") ?? detachedElement("div");
 const sampleListElement = document.querySelector<HTMLDivElement>("#sample-list") ?? detachedElement("div");
 const controlsElement = document.querySelector<HTMLDivElement>("#controls") ?? detachedElement("div");
@@ -131,12 +154,26 @@ const metricsElement = document.querySelector<HTMLDivElement>("#metrics") ?? det
 const infoElement = document.querySelector<HTMLDivElement>("#info") ?? detachedElement("div");
 const samplesToggle = document.querySelector<HTMLButtonElement>("#samples-toggle") ?? detachedElement("button");
 const controlsToggle = document.querySelector<HTMLButtonElement>("#controls-toggle") ?? detachedElement("button");
+const helpToggle = document.querySelector<HTMLButtonElement>("#help-toggle") ?? detachedElement("button");
 const controlsDialog = document.querySelector<HTMLDivElement>("#controls-dialog") ?? detachedElement("div");
 const controlsDialogHeader = document.querySelector<HTMLDivElement>("#controls-dialog-header") ?? detachedElement("div");
 const controlsDialogClose = document.querySelector<HTMLSpanElement>("#controls-dialog-close") ?? detachedElement("span");
 const samplesBtn = samplesToggle;
 const controlsBtn = controlsToggle;
+const touchToolbar = document.querySelector<HTMLDivElement>("#touch-toolbar") ?? detachedElement("div");
+const touchPrevBtn = document.querySelector<HTMLButtonElement>("#touch-prev") ?? detachedElement("button");
+const touchPauseBtn = document.querySelector<HTMLButtonElement>("#touch-pause") ?? detachedElement("button");
+const touchRestartBtn = document.querySelector<HTMLButtonElement>("#touch-restart") ?? detachedElement("button");
+const touchShootBtn = document.querySelector<HTMLButtonElement>("#touch-shoot") ?? detachedElement("button");
+const touchSpinBtn = document.querySelector<HTMLButtonElement>("#touch-spin") ?? detachedElement("button");
+const touchRagdollBtn = document.querySelector<HTMLButtonElement>("#touch-ragdoll") ?? detachedElement("button");
+const touchNextBtn = document.querySelector<HTMLButtonElement>("#touch-next") ?? detachedElement("button");
+const samplesBackdrop = document.querySelector<HTMLDivElement>("#samples-backdrop") ?? detachedElement("div");
+const controlsBackdrop = document.querySelector<HTMLDivElement>("#controls-backdrop") ?? detachedElement("div");
 let controlsInfoRow: HTMLDivElement | null = null;
+
+const mobileUiQuery = window.matchMedia("(max-width: 900px), (pointer: coarse)");
+let mobileUi = !benchRunnerMode && mobileUiQuery.matches;
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -155,6 +192,8 @@ orbit.enableDamping = true;
 orbit.mouseButtons.LEFT = THREE.MOUSE.ROTATE;
 orbit.mouseButtons.MIDDLE = THREE.MOUSE.PAN;
 orbit.mouseButtons.RIGHT = THREE.MOUSE.DOLLY;
+orbit.touches.ONE = THREE.TOUCH.ROTATE;
+orbit.touches.TWO = THREE.TOUCH.DOLLY_PAN;
 
 scene.add(new THREE.HemisphereLight(0xe0f2fe, 0x0f172a, 1.15));
 const sun = new THREE.DirectionalLight(0xffffff, 2.5);
@@ -237,10 +276,13 @@ function ensurePhysCharts(): void {
   }
 }
 
+let physChartsWanted = false;
+
 function setPhysChartsVisible(visible: boolean): void {
+  physChartsWanted = visible;
   if (visible) ensurePhysCharts();
-  for (const el of chartElements) el.style.display = visible ? "" : "none";
   if (!visible) hideChartTooltip();
+  layoutCharts();
 }
 
 function updatePhysChartVisibility(): void {
@@ -349,7 +391,7 @@ solverParams.profileLevel = chartsEnabled ? "coarse" : "off";
 if (solverParams.publishMode === undefined) solverParams.publishMode = "auto";
 let paused = false;
 let singleStep = 0;
-let controlsVisible = true;
+let controlsVisible = !mobileUi;
 let showControlsDialog = (() => { try { return localStorage.getItem(VISIBLE_STORAGE_KEY) === "1"; } catch { return false; } })();
 let colorMode = localStorage.getItem("box3d:color-mode") === "light" ? "light" : "full";
 let selectedBody: DemoBody | null = null;
@@ -364,8 +406,97 @@ const flyKeys = new Set<string>();
 const raycaster = new THREE.Raycaster();
 const pointerNdc = new THREE.Vector2();
 let lastPointerDown: PointerEvent | null = null;
+let activeTouchPointers = 0;
 let metricsTick = 0;
 let benchCancelRequested = false;
+
+function isTouchLikePointer(e: PointerEvent): boolean {
+  return e.pointerType === "touch" || e.pointerType === "pen";
+}
+
+function syncMobileOverlays(): void {
+  if (!mobileUi) {
+    samplesBackdrop.hidden = true;
+    controlsBackdrop.hidden = true;
+    touchToolbar.hidden = true;
+    return;
+  }
+  const samplesOpen = sampleListElement.classList.contains("open");
+  const controlsOpen = controlsVisible && !controlsElement.classList.contains("hidden");
+  samplesBackdrop.hidden = !samplesOpen;
+  controlsBackdrop.hidden = !controlsOpen;
+  // Keep the canvas action bar clear while sheets are open.
+  touchToolbar.hidden = samplesOpen || controlsOpen;
+}
+
+function layoutCharts(): void {
+  if (chartElements.length === 0) return;
+  const showOverlayCharts = physChartsWanted && !mobileUi && window.innerWidth >= 1100;
+  for (const el of chartElements) {
+    el.style.display = showOverlayCharts ? "" : "none";
+  }
+  if (!showOverlayCharts) {
+    hideChartTooltip();
+    return;
+  }
+  const bottom = 76;
+  const labelBottom = 210;
+  let canvasIdx = 0;
+  for (const el of chartElements) {
+    if (el instanceof HTMLCanvasElement) {
+      const right = 10 + canvasIdx * (CHART_W + CHART_GAP);
+      el.style.right = `${right}px`;
+      el.style.bottom = `${bottom}px`;
+      canvasIdx++;
+    }
+  }
+  for (let i = 0; i < chartLabels.length; i++) {
+    const right = 10 + i * (CHART_W + CHART_GAP);
+    const lb = chartLabels[i]!;
+    lb.style.right = `${right}px`;
+    lb.style.bottom = `${labelBottom}px`;
+  }
+}
+
+function updateTouchPauseButton(): void {
+  touchPauseBtn.textContent = paused ? "\u25B6" : "\u23F8";
+  touchPauseBtn.title = paused ? "Resume" : "Pause / resume";
+  touchPauseBtn.setAttribute("aria-label", paused ? "Resume" : "Pause");
+}
+
+function setMobileUi(enabled: boolean): void {
+  const wasMobile = mobileUi;
+  mobileUi = enabled && !benchRunnerMode;
+  document.body.classList.toggle("mobile-ui", mobileUi);
+  if (mobileUi && !wasMobile) {
+    controlsVisible = false;
+    controlsElement.classList.add("hidden");
+    toggleSamples(false);
+  } else if (!mobileUi && wasMobile) {
+    controlsVisible = true;
+    controlsElement.classList.remove("hidden");
+  }
+  if (stats.dom.parentElement !== null) {
+    stats.dom.style.bottom = mobileUi ? "96px" : "26px";
+    stats.dom.style.opacity = mobileUi ? "0.35" : "0.5";
+  }
+  syncMobileOverlays();
+  layoutCharts();
+  updateTouchPauseButton();
+}
+
+function shootFromCamera(spin = false, ragdoll = false): void {
+  lastPointerDown = null;
+  spawnProjectile(spin, ragdoll);
+}
+
+function setPaused(next: boolean): void {
+  paused = next;
+  singleStep = 0;
+  activeSample?.setPaused?.(paused);
+  updateStatus();
+  updateTouchPauseButton();
+}
 type RagdollBone = {
   name: string;
   parent: number;
@@ -850,6 +981,7 @@ function renderControls(specs: ControlSpec[]): void {
   } else {
     controlsElement.classList.add("hidden");
   }
+  syncMobileOverlays();
 }
 
 function updateStatus(): void {
@@ -1215,8 +1347,7 @@ function renderSamples(): void {
       btn.dataset.index = String(item.index);
       btn.addEventListener("click", () => {
         activateSample(item.index);
-        sampleListElement.classList.remove("open");
-        samplesBtn.classList.remove("open");
+        toggleSamples(false);
       });
       itemsDiv.appendChild(btn);
     }
@@ -1495,20 +1626,50 @@ function setupBenchRunner(): void {
   });
 }
 
-function toggleSamples(): void {
-  const shown = sampleListElement.classList.toggle("open");
+function toggleSamples(force?: boolean): void {
+  const shown = force ?? !sampleListElement.classList.contains("open");
+  sampleListElement.classList.toggle("open", shown);
   samplesBtn.classList.toggle("open", shown);
+  syncMobileOverlays();
 }
 
-samplesBtn.addEventListener("click", toggleSamples);
+samplesBtn.addEventListener("click", () => toggleSamples());
 
-statusLabel.addEventListener("click", toggleSamples);
+statusLabel.addEventListener("click", () => toggleSamples());
+
+samplesBackdrop.addEventListener("click", () => toggleSamples(false));
+
+controlsBackdrop.addEventListener("click", () => {
+  controlsVisible = false;
+  controlsElement.classList.add("hidden");
+  syncMobileOverlays();
+});
 
 controlsBtn.addEventListener("click", () => {
   controlsVisible = !controlsVisible;
-  controlsElement.classList.toggle("hidden");
-  controlsBtn.textContent = controlsVisible ? "Controls" : "Controls";
+  controlsElement.classList.toggle("hidden", !controlsVisible);
+  syncMobileOverlays();
 });
+
+helpToggle.addEventListener("click", () => {
+  toggleControlsDialog();
+});
+
+touchPrevBtn.addEventListener("click", () => activateAdjacentSample(-1));
+touchNextBtn.addEventListener("click", () => activateAdjacentSample(1));
+touchRestartBtn.addEventListener("click", () => resetScene());
+touchPauseBtn.addEventListener("click", () => setPaused(!paused));
+touchShootBtn.addEventListener("click", () => shootFromCamera(false, false));
+touchSpinBtn.addEventListener("click", () => shootFromCamera(true, false));
+touchRagdollBtn.addEventListener("click", () => shootFromCamera(false, true));
+
+const onMobileUiChange = (): void => setMobileUi(mobileUiQuery.matches);
+if (typeof mobileUiQuery.addEventListener === "function") {
+  mobileUiQuery.addEventListener("change", onMobileUiChange);
+} else {
+  mobileUiQuery.addListener(onMobileUiChange);
+}
+setMobileUi(mobileUiQuery.matches);
 
 const DIALOG_WIDTH = 340;
 const POS_STORAGE_KEY = "controlsDialogPos";
@@ -1610,6 +1771,7 @@ window.addEventListener("resize", () => {
   if (showControlsDialog) {
     constrainControlsDialog();
   }
+  layoutCharts();
 });
 
 function toggleControlsDialog(force?: boolean): void {
@@ -1644,6 +1806,26 @@ toggleControlsDialog(showControlsDialog);
 
 canvas.addEventListener("pointerdown", (e) => {
   lastPointerDown = e;
+  if (isTouchLikePointer(e)) {
+    activeTouchPointers += 1;
+    if (mouseDragBody !== 0n) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return;
+    }
+    // Multi-touch: leave OrbitControls alone for pan / pinch-zoom.
+    if (activeTouchPointers > 1 || !e.isPrimary) {
+      return;
+    }
+    if (startMouseDrag(e)) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return;
+    }
+    // Empty space / non-dynamic hit: orbit with one finger.
+    setSelectedBody(null);
+    return;
+  }
   if (e.shiftKey && e.button === 0) {
     e.preventDefault();
     e.stopImmediatePropagation();
@@ -1691,6 +1873,9 @@ canvas.addEventListener("pointermove", (e) => {
 }, true);
 
 canvas.addEventListener("pointerup", (e) => {
+  if (isTouchLikePointer(e)) {
+    activeTouchPointers = Math.max(0, activeTouchPointers - 1);
+  }
   if (mouseDragBody !== 0n) {
     e.preventDefault();
     e.stopImmediatePropagation();
@@ -1701,6 +1886,14 @@ canvas.addEventListener("pointerup", (e) => {
     e.stopImmediatePropagation();
     stopFlyLook();
   }
+}, true);
+
+canvas.addEventListener("pointercancel", (e) => {
+  if (isTouchLikePointer(e)) {
+    activeTouchPointers = Math.max(0, activeTouchPointers - 1);
+  }
+  if (mouseDragBody !== 0n) stopMouseDrag();
+  if (flyLook && e.pointerId === flyPointerId) stopFlyLook();
 }, true);
 
 canvas.addEventListener("wheel", (e) => {
@@ -1728,8 +1921,11 @@ window.addEventListener("keydown", (e) => {
       controlsDialog.style.display = "none";
       try { localStorage.setItem(VISIBLE_STORAGE_KEY, "0"); } catch { /* ignore */ }
     } else if (sampleListElement.classList.contains("open")) {
-      sampleListElement.classList.remove("open");
-      samplesBtn.classList.remove("open");
+      toggleSamples(false);
+    } else if (mobileUi && controlsVisible && !controlsElement.classList.contains("hidden")) {
+      controlsVisible = false;
+      controlsElement.classList.add("hidden");
+      syncMobileOverlays();
     }
   } else if (e.ctrlKey && e.key === "o") {
     e.preventDefault();
@@ -1742,10 +1938,7 @@ window.addEventListener("keydown", (e) => {
       frameCamera();
     }
   } else if (e.key === "p" || e.key === "P") {
-    paused = !paused;
-    singleStep = 0;
-    activeSample?.setPaused?.(paused);
-    updateStatus();
+    setPaused(!paused);
   } else if (e.key === "o" || e.key === "O") {
     singleStep += e.shiftKey ? 5 : 1;
     if (paused) updateStatus();

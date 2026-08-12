@@ -17,7 +17,7 @@ https://github.com/user-attachments/assets/1c161c46-1dae-45a0-8d77-cb8df45819e8
 ## What You Get
 
 - A `box3d-wasm` package with TypeScript entrypoints for the wasm bindings.
-- A browser demo built with Vite and Three.js.
+- A browser demo built with Vite and Three.js (responsive layout with touch camera / body-drag / shoot controls on phones and tablets).
 - A Turborepo workspace that keeps the package and demo in sync.
 
 ## Goals
