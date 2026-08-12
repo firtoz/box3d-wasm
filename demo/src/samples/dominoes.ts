@@ -153,17 +153,22 @@ export function createDominoesSample(multiplier: number): DemoSample {
             worker.postMessage({ type: "spawn-ragdoll", origin, velocity });
             return;
           }
-          const projectileMesh = new THREE.Mesh(
-            new THREE.SphereGeometry(0.25, 16, 12),
-            new THREE.MeshStandardMaterial({ color: spin ? 0x8b5cf6 : 0xf59e0b, roughness: 0.6 }),
-          );
+          const projectileMesh = spin
+            ? new THREE.Mesh(
+              new THREE.CylinderGeometry(0.15, 0.15, 2, 6),
+              new THREE.MeshStandardMaterial({ color: 0x8b5cf6, roughness: 0.6 }),
+            )
+            : new THREE.Mesh(
+              new THREE.SphereGeometry(0.25, 16, 12),
+              new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.6 }),
+            );
           projectileMesh.castShadow = true;
           projectileMesh.position.set(origin[0], origin[1], origin[2]);
           scene.add(projectileMesh);
           projectileMeshes.push(projectileMesh);
           projectileColors.push(new THREE.Color(spin ? 0x8b5cf6 : 0xf59e0b));
           projectileAwakeCache[projectileMeshes.length - 1] = 1;
-          worker.postMessage({ type: "spawn-projectile", origin, velocity });
+          worker.postMessage({ type: "spawn-projectile", origin, velocity, spin });
         },
         startMouseDragRay(origin, translation) {
           worker.postMessage({ type: "drag-start", origin, translation });

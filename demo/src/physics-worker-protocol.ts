@@ -18,7 +18,7 @@ export type SolverParams = {
 
 export type PhysicsWorkerCommand =
   | { type: "init"; data: unknown; workerCount?: number; maxWorkers?: number; poolSize?: number; solverParams?: SolverParams; wasmVersion?: string; wasmVariant?: RuntimeLoadOptions["variant"]; wasmBaseUrl?: string }
-  | { type: "spawn-projectile"; origin: Vec3; velocity: Vec3 }
+  | { type: "spawn-projectile"; origin: Vec3; velocity: Vec3; spin?: boolean }
   | { type: "spawn-ragdoll"; origin: Vec3; velocity: Vec3 }
   | { type: "drag-start"; origin: Vec3; translation: Vec3 }
   | { type: "drag-update"; origin: Vec3; translation: Vec3 }
