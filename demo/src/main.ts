@@ -112,14 +112,14 @@ app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
       <div class="controls-dialog-section desktop-help-section">
         <div class="controls-dialog-section-title">Mouse</div>
         <table>
-          <tr><td class="cd-key">Left click</td><td>Select body/shape</td></tr>
-          <tr><td class="cd-key">Ctrl + left drag</td><td>Move bodies (mouse joint)</td></tr>
-          <tr><td class="cd-key">Alt + left drag</td><td>Orbit camera</td></tr>
-          <tr><td class="cd-key">Alt + middle drag</td><td>Pan camera</td></tr>
-          <tr><td class="cd-key">Alt + right drag</td><td>Zoom (dolly)</td></tr>
+          <tr><td class="cd-key">Left drag</td><td>Drag a dynamic body, or orbit on empty space</td></tr>
+          <tr><td class="cd-key">Middle drag</td><td>Pan camera</td></tr>
           <tr><td class="cd-key">Right drag</td><td>Fly look (WASD to move)</td></tr>
           <tr><td class="cd-key">Scroll</td><td>Zoom</td></tr>
+          <tr><td class="cd-key">Alt + left drag</td><td>Force orbit (even over bodies)</td></tr>
+          <tr><td class="cd-key">Alt + right drag</td><td>Zoom (dolly)</td></tr>
           <tr><td class="cd-key">Shift + left</td><td>Shoot (Ctrl spin, Alt ragdoll)</td></tr>
+          <tr><td class="cd-key">Ctrl + left drag</td><td>Move bodies (same as left drag on a body)</td></tr>
         </table>
       </div>
     </div>
@@ -1806,7 +1806,8 @@ toggleControlsDialog(showControlsDialog);
 
 canvas.addEventListener("pointerdown", (e) => {
   lastPointerDown = e;
-  if (isTouchLikePointer(e)) {
+  const touchLike = isTouchLikePointer(e);
+  if (touchLike) {
     activeTouchPointers += 1;
     if (mouseDragBody !== 0n) {
       e.preventDefault();
@@ -1817,45 +1818,38 @@ canvas.addEventListener("pointerdown", (e) => {
     if (activeTouchPointers > 1 || !e.isPrimary) {
       return;
     }
+  }
+
+  // Shared body-drag / orbit model for mouse + touch:
+  // drag dynamic bodies; empty space (and Alt+left) goes to OrbitControls.
+  if ((touchLike && e.isPrimary) || (e.pointerType === "mouse" && e.button === 0)) {
+    if (e.shiftKey && !touchLike) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      spawnProjectile(e.ctrlKey, e.altKey);
+      return;
+    }
+    // Alt+left always orbits (even over bodies).
+    if (!touchLike && e.altKey) {
+      return;
+    }
     if (startMouseDrag(e)) {
       e.preventDefault();
       e.stopImmediatePropagation();
       return;
     }
-    // Empty space / non-dynamic hit: orbit with one finger.
     setSelectedBody(null);
+    // Miss / non-dynamic: let OrbitControls orbit.
     return;
   }
-  if (e.shiftKey && e.button === 0) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    spawnProjectile(e.ctrlKey, e.altKey);
-    return;
-  }
-  if (e.ctrlKey && e.button === 0) {
-    if (startMouseDrag(e)) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-    }
-    return;
-  }
-  if (e.button === 0 && !e.altKey) {
-    const hit = bodyFromPointer(e);
-    setSelectedBody(hit?.body ?? null);
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    return;
-  }
+
   if (e.button === 2 && !e.altKey) {
     e.preventDefault();
     e.stopImmediatePropagation();
     startFlyLook(e);
     return;
   }
-  if (!e.altKey) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  }
+  // Middle mouse (and Alt+right dolly) — leave for OrbitControls.
 }, true);
 
 canvas.addEventListener("pointermove", (e) => {
