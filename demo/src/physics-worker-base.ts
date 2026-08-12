@@ -155,7 +155,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
         void this.handleInit(cmd).catch((err) => this.publishError(err));
         break;
       case "spawn-projectile":
-        this.spawnProjectile(cmd.origin, cmd.velocity);
+        this.spawnProjectile(cmd.origin, cmd.velocity, cmd.spin === true);
         break;
       case "spawn-ragdoll":
         this.spawnRagdoll(cmd.origin, cmd.velocity);
@@ -501,8 +501,23 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
   // --- Projectiles ---
 
-  private spawnProjectile(origin: Vec3, velocity: Vec3): void {
+  private spawnProjectile(origin: Vec3, velocity: Vec3, spin = false): void {
     if (this.runtime === null || this.world === null || this.projectileBatch === null || this.projectileHandles.length >= MAX_PROJECTILES) return;
+    if (spin) {
+      // Match C++ Shift+Ctrl shoot: hex cylinder, default density, 10× launch scale (caller).
+      const body = this.world.createBody({
+        type: BodyType.Dynamic,
+        position: origin,
+        linearVelocity: velocity,
+        isBullet: true,
+      });
+      const hull = this.runtime.createCylinder(2, 0.15, 0, 6);
+      this.runtime.createShapeFromHull(body, hull);
+      this.runtime.destroyHull(hull);
+      this.projectileHandles.push(body);
+      this.world.writeBodyHandles(this.projectileBatch, this.projectileHandles);
+      return;
+    }
     const bodyHandle = this.runtime.createSphere(this.world.handle, {
       radius: 0.25,
       position: origin,

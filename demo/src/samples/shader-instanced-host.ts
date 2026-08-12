@@ -209,20 +209,29 @@ export function createWorkerSampleShell(
       worker.postMessage({ type: "spawn-ragdoll", origin, velocity });
       return;
     }
-    const mesh = new THREE.Mesh(
-      new THREE.SphereGeometry(projectileRadius, 12, 8),
-      new THREE.MeshStandardMaterial({
-        color: spin ? 0x8b5cf6 : projectileColor,
-        metalness: projectileMetalness,
-        roughness: projectileMetalness > 0 ? 0.25 : 0.75,
-      }),
-    );
+    const mesh = spin
+      ? new THREE.Mesh(
+        new THREE.CylinderGeometry(0.15, 0.15, 2, 6),
+        new THREE.MeshStandardMaterial({
+          color: 0x8b5cf6,
+          metalness: projectileMetalness,
+          roughness: projectileMetalness > 0 ? 0.25 : 0.75,
+        }),
+      )
+      : new THREE.Mesh(
+        new THREE.SphereGeometry(projectileRadius, 12, 8),
+        new THREE.MeshStandardMaterial({
+          color: projectileColor,
+          metalness: projectileMetalness,
+          roughness: projectileMetalness > 0 ? 0.25 : 0.75,
+        }),
+      );
     mesh.castShadow = true;
     mesh.position.set(origin[0], origin[1], origin[2]);
     scene.add(mesh);
     projectileMeshes.push(mesh);
     projectileColorCache[projectileMeshes.length - 1] = spin ? 0x8b5cf6 : projectileColor;
-    worker.postMessage({ type: "spawn-projectile", origin, velocity });
+    worker.postMessage({ type: "spawn-projectile", origin, velocity, spin });
   }
 
   return {

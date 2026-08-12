@@ -73,11 +73,11 @@ app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
       </span>
       <div class="samples-dropdown">
         <button class="samples-btn" id="samples-toggle" type="button">Samples \u25be</button>
-        <div class="samples-panel" id="sample-list"></div>
       </div>
     </div>
   </div>
   <div class="samples-backdrop" id="samples-backdrop" hidden></div>
+  <div class="samples-panel" id="sample-list"></div>
   <div class="controls-backdrop" id="controls-backdrop" hidden></div>
   <div class="controls-panel" id="controls"></div>
   <div class="controls-dialog" id="controls-dialog" style="display:none">
@@ -88,8 +88,9 @@ app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
         <table>
           <tr><td class="cd-key">1 finger</td><td>Drag a dynamic body, or orbit on empty space</td></tr>
           <tr><td class="cd-key">2 fingers</td><td>Pan and pinch-zoom</td></tr>
-          <tr><td class="cd-key">Shoot</td><td>Fire along the camera look direction</td></tr>
-          <tr><td class="cd-key">Spin / Doll</td><td>Special projectiles from the toolbar</td></tr>
+          <tr><td class="cd-key">Shoot</td><td>Heavy sphere along the camera look</td></tr>
+          <tr><td class="cd-key">Spin</td><td>Fast cylinder projectile (C++ Ctrl+Shift)</td></tr>
+          <tr><td class="cd-key">Doll</td><td>Ragdoll projectile</td></tr>
         </table>
       </div>
       <div class="controls-dialog-section desktop-help-section">
@@ -112,14 +113,14 @@ app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
       <div class="controls-dialog-section desktop-help-section">
         <div class="controls-dialog-section-title">Mouse</div>
         <table>
-          <tr><td class="cd-key">Left click</td><td>Select body/shape</td></tr>
-          <tr><td class="cd-key">Ctrl + left drag</td><td>Move bodies (mouse joint)</td></tr>
-          <tr><td class="cd-key">Alt + left drag</td><td>Orbit camera</td></tr>
-          <tr><td class="cd-key">Alt + middle drag</td><td>Pan camera</td></tr>
-          <tr><td class="cd-key">Alt + right drag</td><td>Zoom (dolly)</td></tr>
+          <tr><td class="cd-key">Left drag</td><td>Drag a dynamic body, or orbit on empty space</td></tr>
+          <tr><td class="cd-key">Middle drag</td><td>Pan camera</td></tr>
           <tr><td class="cd-key">Right drag</td><td>Fly look (WASD to move)</td></tr>
           <tr><td class="cd-key">Scroll</td><td>Zoom</td></tr>
+          <tr><td class="cd-key">Alt + left drag</td><td>Force orbit (even over bodies)</td></tr>
+          <tr><td class="cd-key">Alt + right drag</td><td>Zoom (dolly)</td></tr>
           <tr><td class="cd-key">Shift + left</td><td>Shoot (Ctrl spin, Alt ragdoll)</td></tr>
+          <tr><td class="cd-key">Ctrl + left drag</td><td>Move bodies (same as left drag on a body)</td></tr>
         </table>
       </div>
     </div>
@@ -128,8 +129,8 @@ app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
     <button type="button" class="touch-btn" id="touch-prev" title="Previous sample" aria-label="Previous sample">\u2039</button>
     <button type="button" class="touch-btn" id="touch-pause" title="Pause / resume" aria-label="Pause">\u23F8</button>
     <button type="button" class="touch-btn" id="touch-restart" title="Restart" aria-label="Restart">\u21BB</button>
-    <button type="button" class="touch-btn touch-btn-shoot" id="touch-shoot" title="Shoot" aria-label="Shoot">Shoot</button>
-    <button type="button" class="touch-btn touch-btn-alt" id="touch-spin" title="Shoot spinning ball" aria-label="Spin shoot">Spin</button>
+    <button type="button" class="touch-btn touch-btn-shoot" id="touch-shoot" title="Shoot sphere" aria-label="Shoot">Shoot</button>
+    <button type="button" class="touch-btn touch-btn-alt" id="touch-spin" title="Shoot spinning cylinder" aria-label="Spin shoot">Spin</button>
     <button type="button" class="touch-btn touch-btn-alt" id="touch-ragdoll" title="Shoot ragdoll" aria-label="Ragdoll shoot">Doll</button>
     <button type="button" class="touch-btn" id="touch-next" title="Next sample" aria-label="Next sample">\u203A</button>
   </div>
@@ -364,6 +365,7 @@ const GRAVITY_MAGNITUDE = 10;
 let runtime: Box3DRuntime | null = null;
 let runtimePromise: Promise<Box3DRuntime> | null = null;
 let activeSampleIndex = 0;
+let sampleLoadId = 0;
 let activeSample: DemoSampleInstance | null = null;
 let rafId = 0;
 let lastTime = 0;
@@ -581,7 +583,8 @@ function spawnProjectile(spin = false, ragdoll = false): void {
     ? camera.position.clone().add(dir.clone().multiplyScalar(2))
     : raycaster.ray.origin.clone().addScaledVector(raycaster.ray.direction, 2);
 
-  const projectileSpeed = ragdoll ? 10 * launchSpeed : 20 * launchSpeed;
+  // Match C++ Sample::MouseDown: sphere @ 20×, cylinder/ragdoll @ 10× launch scale.
+  const projectileSpeed = (ragdoll || spin) ? 10 * launchSpeed : 20 * launchSpeed;
   const velocity: [number, number, number] = [dir.x * projectileSpeed, dir.y * projectileSpeed, dir.z * projectileSpeed];
   const originTuple: [number, number, number] = [origin.x, origin.y, origin.z];
 
@@ -597,7 +600,25 @@ function spawnProjectile(spin = false, ragdoll = false): void {
     return;
   }
 
-  const color = spin ? 0x8b5cf6 : 0xf59e0b;
+  if (spin) {
+    const body = activeSample.world.createBody({
+      type: BodyType.Dynamic,
+      position: originTuple,
+      linearVelocity: velocity,
+      isBullet: true,
+    });
+    const hull = runtime.createCylinder(2, 0.15, 0, 6);
+    runtime.createShapeFromHull(body, hull);
+    runtime.destroyHull(hull);
+    const mesh = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.15, 0.15, 2, 6),
+      new THREE.MeshStandardMaterial({ color: 0x8b5cf6, roughness: 0.6 }),
+    );
+    mesh.castShadow = true;
+    scene.add(mesh);
+    activeSample.bodies.push({ handle: body, mesh, type: BodyType.Dynamic });
+    return;
+  }
 
   const bodyHandle = runtime.createSphere(activeSample.world.handle, {
     radius: 0.25,
@@ -608,7 +629,7 @@ function spawnProjectile(spin = false, ragdoll = false): void {
   });
   const mesh = new THREE.Mesh(
     new THREE.SphereGeometry(0.25, 16, 12),
-    new THREE.MeshStandardMaterial({ color, roughness: 0.6 }),
+    new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.6 }),
   );
   mesh.castShadow = true;
   scene.add(mesh);
@@ -1072,6 +1093,39 @@ function bodyFromPointer(e: PointerEvent): { body: DemoBody; point: THREE.Vector
   });
 }
 
+/** Mesh pick for worker samples (physics raycast is main-thread stubbed). */
+function pickDynamicDemoBody(e: PointerEvent): DemoBody | null {
+  if (activeSample === null) return null;
+  setPointerFromEvent(e);
+  return withPickCamera(() => {
+    raycaster.setFromCamera(pointerNdc, camera);
+    const targets: THREE.Object3D[] = [];
+    const bodyByObject = new Map<THREE.Object3D, DemoBody>();
+    for (const body of activeSample!.bodies) {
+      if (body.type !== BodyType.Dynamic) continue;
+      targets.push(body.mesh);
+      bodyByObject.set(body.mesh, body);
+      if (body.extraMeshes !== undefined) {
+        for (const extra of body.extraMeshes) {
+          targets.push(extra);
+          bodyByObject.set(extra, body);
+        }
+      }
+    }
+    if (targets.length === 0) return null;
+    const hits = raycaster.intersectObjects(targets, true);
+    for (const hit of hits) {
+      let obj: THREE.Object3D | null = hit.object;
+      while (obj !== null) {
+        const body = bodyByObject.get(obj);
+        if (body !== undefined) return body;
+        obj = obj.parent;
+      }
+    }
+    return null;
+  });
+}
+
 function setSelectedBody(body: DemoBody | null): void {
   if (selectedBody !== null) {
     const mat = selectedBody.mesh.material as THREE.MeshStandardMaterial;
@@ -1095,6 +1149,10 @@ function pointOnPickRay(e: PointerEvent, distance: number): THREE.Vector3 {
 function startMouseDrag(e: PointerEvent): boolean {
   if (activeSample === null) return false;
   if (activeSample.startMouseDragRay !== undefined) {
+    // Worker worlds can't sync-raycast on the main thread. Require a visible
+    // dynamic mesh hit so empty-space touches reach OrbitControls (1-finger
+    // orbit / 2-finger pan+pinch).
+    if (pickDynamicDemoBody(e) === null) return false;
     setPointerFromEvent(e);
     const started = withPickCamera(() => {
       raycaster.setFromCamera(pointerNdc, camera);
@@ -1245,11 +1303,23 @@ async function ensureRuntimeLoaded(): Promise<Box3DRuntime> {
   return runtime;
 }
 
-async function createAndInstallSample(index: number, sceneWasReset: boolean, camPos?: THREE.Vector3, camTarget?: THREE.Vector3): Promise<void> {
+async function createAndInstallSample(index: number, sceneWasReset: boolean, camPos?: THREE.Vector3, camTarget?: THREE.Vector3, loadId = sampleLoadId): Promise<void> {
   const loadedRuntime = await ensureRuntimeLoaded();
-  if (index !== activeSampleIndex) return;
+  if (loadId !== sampleLoadId || index !== activeSampleIndex) return;
   if (!sceneWasReset) clearScene();
-  activeSample = samples[index].create(loadedRuntime, scene, solverParams);
+  let next: DemoSampleInstance;
+  try {
+    next = samples[index].create(loadedRuntime, scene, solverParams);
+  } catch (error) {
+    console.error("[demo] sample create failed", error);
+    statusLabel.textContent = `Failed to load sample: ${error instanceof Error ? error.message : String(error)}`;
+    return;
+  }
+  if (loadId !== sampleLoadId || index !== activeSampleIndex) {
+    next.dispose();
+    return;
+  }
+  activeSample = next;
   launchSpeed = activeSample.launchSpeed ?? 5.0;
   if (camPos !== undefined && camTarget !== undefined) {
     camera.position.copy(camPos);
@@ -1265,6 +1335,7 @@ async function createAndInstallSample(index: number, sceneWasReset: boolean, cam
   if (!benchRunnerMode) renderControls(activeSample.controls);
   if (!benchRunnerMode) applySolverParams();
   activeSample?.setPaused?.(paused);
+  updateTouchPauseButton();
   infoElement.textContent = "";
   updatePhysChartVisibility();
   if (!benchRunnerMode) {
@@ -1280,14 +1351,19 @@ function resetScene(): void {
   if (activeSampleIndex < 0) return;
   const camPos = camera.position.clone();
   const camTarget = orbit.target.clone();
+  if (mouseDragBody !== 0n) stopMouseDrag();
   clearScene();
-  void createAndInstallSample(activeSampleIndex, true, camPos, camTarget);
+  const loadId = ++sampleLoadId;
+  void createAndInstallSample(activeSampleIndex, true, camPos, camTarget, loadId);
 }
 
 function activateSample(index: number): void {
+  if (mouseDragBody !== 0n) stopMouseDrag();
   clearScene();
   activeSampleIndex = index;
-  void createAndInstallSample(index, true);
+  const loadId = ++sampleLoadId;
+  statusLabel.textContent = "Loading...";
+  void createAndInstallSample(index, true, undefined, undefined, loadId);
 }
 
 /** Category → sample indices in the same order as the Samples menu tree. */
@@ -1806,15 +1882,32 @@ toggleControlsDialog(showControlsDialog);
 
 canvas.addEventListener("pointerdown", (e) => {
   lastPointerDown = e;
-  if (isTouchLikePointer(e)) {
+  const touchLike = isTouchLikePointer(e);
+  if (touchLike) {
     activeTouchPointers += 1;
+    if (activeTouchPointers > 1 || !e.isPrimary) {
+      // Second finger: drop body-drag so multi-touch can reach OrbitControls next gesture.
+      if (mouseDragBody !== 0n) stopMouseDrag();
+      return;
+    }
     if (mouseDragBody !== 0n) {
       e.preventDefault();
       e.stopImmediatePropagation();
       return;
     }
-    // Multi-touch: leave OrbitControls alone for pan / pinch-zoom.
-    if (activeTouchPointers > 1 || !e.isPrimary) {
+  }
+
+  // Shared body-drag / orbit model for mouse + touch:
+  // drag dynamic bodies; empty space (and Alt+left) goes to OrbitControls.
+  if ((touchLike && e.isPrimary) || (e.pointerType === "mouse" && e.button === 0)) {
+    if (e.shiftKey && !touchLike) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      spawnProjectile(e.ctrlKey, e.altKey);
+      return;
+    }
+    // Alt+left always orbits (even over bodies).
+    if (!touchLike && e.altKey) {
       return;
     }
     if (startMouseDrag(e)) {
@@ -1822,40 +1915,18 @@ canvas.addEventListener("pointerdown", (e) => {
       e.stopImmediatePropagation();
       return;
     }
-    // Empty space / non-dynamic hit: orbit with one finger.
     setSelectedBody(null);
+    // Miss / non-dynamic: let OrbitControls orbit.
     return;
   }
-  if (e.shiftKey && e.button === 0) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    spawnProjectile(e.ctrlKey, e.altKey);
-    return;
-  }
-  if (e.ctrlKey && e.button === 0) {
-    if (startMouseDrag(e)) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-    }
-    return;
-  }
-  if (e.button === 0 && !e.altKey) {
-    const hit = bodyFromPointer(e);
-    setSelectedBody(hit?.body ?? null);
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    return;
-  }
+
   if (e.button === 2 && !e.altKey) {
     e.preventDefault();
     e.stopImmediatePropagation();
     startFlyLook(e);
     return;
   }
-  if (!e.altKey) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  }
+  // Middle mouse (and Alt+right dolly) — leave for OrbitControls.
 }, true);
 
 canvas.addEventListener("pointermove", (e) => {

@@ -238,16 +238,21 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
           worker.postMessage({ type: "spawn-ragdoll", origin, velocity });
           return;
         }
-        const mesh = new THREE.Mesh(
-          new THREE.SphereGeometry(0.3, 12, 8),
-          new THREE.MeshStandardMaterial({ color: spin ? 0x8b5cf6 : 0xf59e0b }),
-        );
+        const mesh = spin
+          ? new THREE.Mesh(
+            new THREE.CylinderGeometry(0.15, 0.15, 2, 6),
+            new THREE.MeshStandardMaterial({ color: 0x8b5cf6 }),
+          )
+          : new THREE.Mesh(
+            new THREE.SphereGeometry(0.3, 12, 8),
+            new THREE.MeshStandardMaterial({ color: 0xf59e0b }),
+          );
         mesh.castShadow = true;
         mesh.position.set(origin[0], origin[1], origin[2]);
         scene.add(mesh);
         projectileMeshes.push(mesh);
         projectileColorCache[projectileMeshes.length - 1] = spin ? 0x8b5cf6 : 0xf59e0b;
-        worker.postMessage({ type: "spawn-projectile", origin, velocity });
+        worker.postMessage({ type: "spawn-projectile", origin, velocity, spin });
       }
 
       function startMouseDragRay(origin: [number, number, number], translation: [number, number, number]): boolean {

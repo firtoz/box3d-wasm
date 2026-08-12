@@ -138,15 +138,19 @@ canvas {
 }
 
 .samples-panel {
-  position: absolute;
-  z-index: 20;
-  top: 100%;
-  right: 0;
-  min-width: 200px;
-  max-height: 60vh;
+  position: fixed;
+  z-index: 30;
+  top: 38px;
+  right: 12px;
+  min-width: 220px;
+  max-width: min(360px, calc(100vw - 24px));
+  max-height: min(60vh, calc(100vh - 80px));
+  overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   padding: 4px 0;
-  margin-top: 4px;
   background: rgba(11, 18, 32, 0.95);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -871,17 +875,22 @@ body.mobile-ui .samples-dropdown {
 
 body.mobile-ui .samples-panel {
   position: fixed;
-  top: calc(var(--topbar-h) + var(--safe-top));
+  top: calc(var(--topbar-h) + var(--safe-top) + 8px);
   left: 8px;
   right: 8px;
   bottom: auto;
-  max-height: min(70vh, calc(100dvh - var(--topbar-h) - var(--safe-top) - var(--touch-bar-h) - var(--metrics-h) - var(--safe-bottom) - 24px));
+  max-height: min(70dvh, calc(100dvh - var(--topbar-h) - var(--safe-top) - var(--touch-bar-h) - var(--metrics-h) - var(--safe-bottom) - 24px));
   min-width: 0;
+  max-width: none;
   width: auto;
-  margin-top: 8px;
+  margin-top: 0;
   border-radius: 12px;
   padding: 6px 0;
   z-index: 30;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 
 body.mobile-ui .sample-menu-header {
