@@ -1,7 +1,6 @@
 import { BodyType, type BodyHandle, type Box3DRuntime, type MeshHandle, type PhysicsWorld, type Vec3 } from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView, getWasmBaseUrl } from "../shared";
-import { getBuildingMeshData } from "../meshes/building-mesh";
 import { parseObjText } from "../meshes/parse-obj";
 
 const GROUND_HALF: Vec3 = [50, 0.1, 50];
@@ -39,11 +38,6 @@ export function buildCapsuleMeshScene(world: PhysicsWorld, runtime: Box3DRuntime
   runtime.createCapsuleShape(capsule, CAPSULE_CENTER1, CAPSULE_CENTER2, CAPSULE_RADIUS, { friction: 0.3 });
 
   return { handles: [ground, building.body, capsule], meshes };
-}
-
-export function buildCapsuleMeshDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyHandle[] {
-  const { vertices, indices } = getBuildingMeshData();
-  return buildCapsuleMeshScene(world, runtime, vertices, indices).handles;
 }
 
 export async function buildCapsuleMeshDynamicBodiesAsync(world: PhysicsWorld, runtime: Box3DRuntime): Promise<{

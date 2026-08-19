@@ -38,6 +38,7 @@ async function readWasmVersion(): Promise<string> {
 function wasmVersionPlugin(): Plugin {
   return {
     name: "wasm-version-module",
+    sharedDuringBuild: true,
     resolveId(id: string) {
       if (id === "virtual:wasm-version") {
         return "\0virtual:wasm-version";
@@ -96,5 +97,8 @@ export default defineConfig(async () => {
     __BOX3D_OBJECT_ASSERTS__: JSON.stringify(process.env.BOX3D_OBJECT_ASSERTS !== "0"),
   },
   plugins: [wasmVersionPlugin()],
+  worker: {
+    plugins: () => [wasmVersionPlugin()],
+  },
 };
 });

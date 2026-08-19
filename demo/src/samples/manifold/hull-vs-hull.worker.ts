@@ -1,4 +1,4 @@
-import { ManifoldWorker } from "./manifold-shared";
+import { ManifoldWorker } from "./manifold-worker";
 import { hullVsHullScene } from "./hull-vs-hull-scene";
 
 new ManifoldWorker(hullVsHullScene);

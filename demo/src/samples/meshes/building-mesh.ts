@@ -5,7 +5,7 @@ import { parseObjText, type ParsedObjMesh } from "./parse-obj";
 
 let cached: ParsedObjMesh | null = null;
 
-/** Parsed `building.obj` for dump + Node-side scene setup. */
+/** Parsed `building.obj` for Node-side dump tools. Do not import from browser/worker graphs (`node:fs`). */
 export function getBuildingMeshData(): ParsedObjMesh {
   if (cached !== null) return cached;
   const here = dirname(fileURLToPath(import.meta.url));
