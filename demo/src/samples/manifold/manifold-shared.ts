@@ -99,6 +99,13 @@ function poseDrawObject(object: THREE.Object3D, draw: ManifoldDraw, transform: W
   }
 }
 
+function applyDrawOpacity(mesh: THREE.Mesh, opacity: number | undefined): void {
+  if (opacity === undefined) return;
+  const material = mesh.material as THREE.MeshStandardMaterial;
+  material.transparent = true;
+  material.opacity = opacity;
+}
+
 function addDrawMeshes(scene: THREE.Scene, draws: readonly ManifoldDraw[]): THREE.Object3D[] {
   const objects: THREE.Object3D[] = [];
   for (const draw of draws) {
@@ -108,10 +115,9 @@ function addDrawMeshes(scene: THREE.Scene, draws: readonly ManifoldDraw[]): THRE
         new THREE.MeshStandardMaterial({
           color: draw.color,
           roughness: 0.75,
-          transparent: draw.opacity !== undefined,
-          opacity: draw.opacity ?? 1,
         }),
       );
+      applyDrawOpacity(mesh, draw.opacity);
       poseDrawObject(mesh, draw, draw.transform);
       mesh.visible = draw.followContactFrame !== true;
       scene.add(mesh);
@@ -122,7 +128,8 @@ function addDrawMeshes(scene: THREE.Scene, draws: readonly ManifoldDraw[]): THRE
         draw.center2[1] - draw.center1[1],
         draw.center2[2] - draw.center1[2],
       );
-      const mesh = capsuleMesh(draw.radius, length, draw.color, draw.opacity ?? 0.85, "x");
+      const mesh = capsuleMesh(draw.radius, length, draw.color, 0.75, "x");
+      applyDrawOpacity(mesh, draw.opacity);
       poseDrawObject(mesh, draw, draw.transform);
       mesh.visible = draw.followContactFrame !== true;
       scene.add(mesh);
