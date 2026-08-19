@@ -244,6 +244,8 @@ export interface RuntimeAPI {
   createWorld(options?: WorldOptions): PhysicsWorld;
   getSlotUsage(): SlotUsage;
   checkThreadingSupport(): number;
+  /** Kill this module's Emscripten pthread workers. Call only when unloading a DedicatedWorker runtime. */
+  terminatePthreads(): void;
 }
 
 type CModule = {
@@ -375,6 +377,7 @@ type GetWorldCountersFn = (worldHandle: number, outCounters: number) => void;
 type GetWorldProfileFn = (worldHandle: number, outProfile: number) => void;
 type GetWorldAwakeBodyCountFn = (worldHandle: number) => number;
 type CheckThreadingSupportFn = () => number;
+type TerminatePthreadsFn = () => void;
 type GetWorldWorkerCountFn = (worldHandle: number) => number;
 type WriteBodyTransformsFn = (count: number, bodyHandles: number, outPositions: number, outRotations: number, outAwake: number, outColors: number) => void;
 type WriteBodyTransformsLightFn = WriteBodyTransformsFn;
@@ -594,6 +597,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly getWorldProfileFn = this.wrapVoid<GetWorldProfileFn>("b3wGetWorldProfile", ["number", "number"]);
   private readonly getWorldAwakeBodyCountFn = this.wrapNumber<GetWorldAwakeBodyCountFn>("b3wGetWorldAwakeBodyCount", ["number"]);
   private readonly checkThreadingSupportFn = this.wrapNumber<CheckThreadingSupportFn>("b3wCheckThreadingSupport", []);
+  private readonly terminatePthreadsFn = this.wrapVoid<TerminatePthreadsFn>("b3wTerminatePthreads", []);
   private readonly getWorldWorkerCountFn = this.wrapNumber<GetWorldWorkerCountFn>("b3wGetWorldWorkerCount", ["number"]);
   private readonly writeBodyTransformsFn = this.wrapVoid<WriteBodyTransformsFn>("b3wWriteBodyTransforms", ["number", "number", "number", "number", "number", "number"]);
   private readonly writeBodyTransformsLightFn = this.wrapVoid<WriteBodyTransformsLightFn>("b3wWriteBodyTransformsLight", ["number", "number", "number", "number", "number", "number"]);
@@ -1403,6 +1407,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   getWorldAwakeBodyCount(worldHandle: WorldHandle): number { return this.getWorldAwakeBodyCountFn(worldHandle); }
   getWorldProfile(worldHandle: WorldHandle): WorldProfile { this.getWorldProfileFn(worldHandle, this.profilePtr); const heap = this.module.HEAPF32; const base = this.profilePtr >> 2; return { step: heap[base + 0], pairs: heap[base + 1], collide: heap[base + 2], solve: heap[base + 3], solverSetup: heap[base + 4], constraints: heap[base + 5], prepareConstraints: heap[base + 6], integrateVelocities: heap[base + 7], warmStart: heap[base + 8], solveImpulses: heap[base + 9], integratePositions: heap[base + 10], relaxImpulses: heap[base + 11], applyRestitution: heap[base + 12], storeImpulses: heap[base + 13], splitIslands: heap[base + 14], transforms: heap[base + 15], sensorHits: heap[base + 16], jointEvents: heap[base + 17], hitEvents: heap[base + 18], refit: heap[base + 19], bullets: heap[base + 20], sleepIslands: heap[base + 21], sensors: heap[base + 22] }; }
   checkThreadingSupport(): number { return this.checkThreadingSupportFn(); }
+  terminatePthreads(): void { this.terminatePthreadsFn(); }
   getWorldWorkerCount(worldHandle: WorldHandle): number { return this.getWorldWorkerCountFn(worldHandle); }
   enableWorldSleeping(worldHandle: WorldHandle, flag: boolean): void { this.enableWorldSleepFn(worldHandle, flag ? 1 : 0); }
   enableWorldContinuous(worldHandle: WorldHandle, flag: boolean): void { this.enableWorldContinuousFn(worldHandle, flag ? 1 : 0); }

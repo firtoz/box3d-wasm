@@ -4,6 +4,7 @@ import Stats from "stats.js";
 import {BodyType, Box3DRuntime, type BodyId, type JointId, type PhysicsWorld, type Quat, type Vec3} from "box3d-wasm";
 import { samples, type ControlSpec, type DemoBody, type DemoSampleInstance, type SolverParams } from "./samples";
 import { getWasmBaseUrl, getWasmVariant, getWasmVariantOptions, getWorkerCounts } from "./samples/shared";
+import { pendingPhysicsWorkerShutdown } from "./shutdown-physics-worker";
 import "./style.css";
 
 const app = document.querySelector<HTMLDivElement>("#app");
@@ -1305,6 +1306,7 @@ async function ensureRuntimeLoaded(): Promise<Box3DRuntime> {
 
 async function createAndInstallSample(index: number, sceneWasReset: boolean, camPos?: THREE.Vector3, camTarget?: THREE.Vector3, loadId = sampleLoadId): Promise<void> {
   const loadedRuntime = await ensureRuntimeLoaded();
+  await pendingPhysicsWorkerShutdown();
   if (loadId !== sampleLoadId || index !== activeSampleIndex) return;
   if (!sceneWasReset) clearScene();
   let next: DemoSampleInstance;

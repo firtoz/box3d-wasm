@@ -75,6 +75,8 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   protected forceDenseNext = true;
   protected didSuccessfulDense = false;
   protected wasmVariant: RuntimeLoadOptions["variant"] = "release";
+  private disposing = false;
+  private sceneGeneration = 0;
 
   private initData!: TInit;
 
@@ -203,10 +205,12 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   // --- Initialization ---
 
   private async handleInit(cmd: PhysicsWorkerCommand & { type: "init" }): Promise<void> {
+    if (this.disposing) return;
     this.initData = cmd.data as TInit;
     this.maxWorkerCount = cmd.maxWorkers ?? 127;
     this.currentWorkerCount = cmd.workerCount ?? this.currentWorkerCount;
     this.wasmVariant = cmd.wasmVariant ?? "release";
+    if (cmd.solverParams?.workerCount !== undefined) this.currentWorkerCount = cmd.solverParams.workerCount;
 
     this.runtime = await Box3DRuntime.load({
       version: cmd.wasmVersion,
@@ -214,6 +218,10 @@ export abstract class PhysicsWorkerBase<TInit = void> {
       poolSize: cmd.poolSize,
       baseUrl: cmd.wasmBaseUrl,
     });
+    if (this.disposing) {
+      this.teardownRuntime();
+      return;
+    }
     this.world = this.runtime.createWorld({
       gravity: this.getWorldGravity(),
       workerCount: this.currentWorkerCount,
@@ -224,10 +232,12 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
     if (cmd.solverParams) this.applySolverParams(cmd.solverParams);
     console.log("[worker]", "solverParams:", this.lastSolverParams);
+    if (this.disposing || this.world === null) return;
 
     this.setupGround(this.initData);
 
     const handles = await this.buildScene(this.initData);
+    if (this.disposing || this.world === null) return;
     this.configureScene(this.initData);
     this.trackedBodyCapacity = Math.max(handles.length, this.getTrackedBodyCapacity(handles));
     this.bodyCount = handles.length;
@@ -247,7 +257,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
 
     this.lastTickTime = performance.now();
     this.accumulator = 0;
-    this.timer = self.setInterval(() => this.tick(), 1000 / 60);
+    this.startTimer();
   }
 
   private canUseHeapBacking(): boolean {
@@ -627,7 +637,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
       const changed = params.workerCount !== this.currentWorkerCount;
       this.currentWorkerCount = params.workerCount;
       this.lastSolverParams.workerCount = params.workerCount;
-      if (changed) void this.restartScene();
+      if (changed && this.world !== null) void this.restartScene();
     }
   }
 
@@ -646,9 +656,12 @@ export abstract class PhysicsWorkerBase<TInit = void> {
   }
 
   protected async restartScene(): Promise<void> {
+    if (this.disposing || this.runtime === null) return;
+    const generation = ++this.sceneGeneration;
     this.disposeWorld();
+    if (this.disposing || generation !== this.sceneGeneration) return;
 
-    this.world = this.runtime!.createWorld({
+    this.world = this.runtime.createWorld({
       gravity: this.getWorldGravity(),
       workerCount: this.currentWorkerCount,
       capacity: this.getWorldCapacity(),
@@ -660,6 +673,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.setupGround(this.initData);
 
     const handles = await this.buildScene(this.initData);
+    if (this.disposing || generation !== this.sceneGeneration || this.world === null) return;
     this.configureScene(this.initData);
     this.trackedBodyCapacity = Math.max(handles.length, this.getTrackedBodyCapacity(handles));
     this.bodyCount = handles.length;
@@ -680,6 +694,7 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.postReady();
     this.lastTickTime = performance.now();
     this.accumulator = 0;
+    this.startTimer();
   }
 
   // --- Dispose ---
@@ -721,10 +736,33 @@ export abstract class PhysicsWorkerBase<TInit = void> {
     this.paused = false;
   }
 
-  private dispose(): void {
-    this.disposeWorld();
+  private startTimer(): void {
+    if (this.disposing || this.timer !== undefined) return;
+    this.timer = self.setInterval(() => this.tick(), 1000 / 60);
+  }
+
+  private teardownRuntime(): void {
+    try {
+      this.runtime?.terminatePthreads();
+    } catch {
+      /* module already tearing down */
+    }
     this.runtime?.destroy();
     this.runtime = null;
+  }
+
+  private dispose(): void {
+    if (this.disposing) return;
+    this.disposing = true;
+    this.sceneGeneration += 1;
+    this.disposeWorld();
+    this.teardownRuntime();
+    try {
+      self.postMessage({ type: "disposed" });
+    } catch {
+      /* host already gone */
+    }
+    self.close();
   }
 
   private publishError(error: unknown): void {

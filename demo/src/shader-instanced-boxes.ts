@@ -114,6 +114,30 @@ export function createShaderInstanceMesh(
   };
 }
 
+export function unbindSnapshotTransforms(shaderMesh: ShaderInstanceMesh): void {
+  const positionCount = shaderMesh.positionAttribute.count;
+  const quaternionCount = shaderMesh.quaternionAttribute.count;
+  const positionArray = new Float32Array(Math.max(0, positionCount) * 3);
+  const quaternionArray = new Float32Array(Math.max(0, quaternionCount) * 4);
+  try {
+    positionArray.set(shaderMesh.positionArray.subarray(0, positionArray.length));
+    quaternionArray.set(shaderMesh.quaternionArray.subarray(0, quaternionArray.length));
+  } catch {
+    /* WASM SAB already detached */
+  }
+  const geometry = shaderMesh.mesh.geometry as THREE.InstancedBufferGeometry;
+  const positionAttribute = new THREE.InstancedBufferAttribute(positionArray, 3);
+  const quaternionAttribute = new THREE.InstancedBufferAttribute(quaternionArray, 4);
+  positionAttribute.setUsage(THREE.DynamicDrawUsage);
+  quaternionAttribute.setUsage(THREE.DynamicDrawUsage);
+  geometry.setAttribute("instancePosition", positionAttribute);
+  geometry.setAttribute("instanceQuaternion", quaternionAttribute);
+  shaderMesh.positionAttribute = positionAttribute;
+  shaderMesh.quaternionAttribute = quaternionAttribute;
+  shaderMesh.positionArray = positionArray;
+  shaderMesh.quaternionArray = quaternionArray;
+}
+
 export function bindSnapshotTransforms(
   shaderMesh: ShaderInstanceMesh,
   positions: Float32Array,

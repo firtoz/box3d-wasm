@@ -8,6 +8,7 @@ import { createWorkerSnapshotViews, releasePublishLock, tryAcquirePublishLock } 
 import { createWorkerWorld, type WorkerWorldState } from "../worker-world-bridge";
 import { RAGDOLL_RENDER_BONES, ragdollCapsuleMesh } from "../ragdoll-render";
 import type { ControlSpec, DemoBody, DemoSample, SolverParams } from "./types";
+import { shutdownPhysicsWorker } from "../shutdown-physics-worker";
 import { capsuleMesh, disposeBodies, getWasmBaseUrl, getWasmVariant, getWorkerCounts } from "./shared";
 
 const dummy = new THREE.Object3D();
@@ -346,8 +347,7 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
       }
 
       function dispose(): void {
-        worker.postMessage({ type: "dispose" });
-        worker.terminate();
+        void shutdownPhysicsWorker(worker);
         if (groundMesh !== null && groundGeom !== null && groundMat !== null) {
           scene.remove(groundMesh);
           groundGeom.dispose();

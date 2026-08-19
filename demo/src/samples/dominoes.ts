@@ -8,6 +8,7 @@ import { createWorkerWorld, type WorkerWorldState } from "../worker-world-bridge
 import { RAGDOLL_RENDER_BONES, ragdollCapsuleMesh } from "../ragdoll-render";
 import { wasmBuildVersion } from "virtual:wasm-version";
 import { getWasmBaseUrl, getWasmVariant, getWorkerCounts } from "./shared";
+import { shutdownPhysicsWorker } from "../shutdown-physics-worker";
 
 const dummy = new THREE.Object3D();
 const awakeColor = new THREE.Color(0xd2b48c);
@@ -242,8 +243,7 @@ export function createDominoesSample(multiplier: number): DemoSample {
           }
         },
         dispose() {
-          worker.postMessage({ type: "dispose" });
-          worker.terminate();
+          void shutdownPhysicsWorker(worker);
           scene.remove(mesh);
           geometry.dispose();
           material.dispose();
