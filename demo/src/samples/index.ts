@@ -129,6 +129,16 @@ import { initialOverlapSample } from "./collision/initial-overlap";
 import { meshScaleSample } from "./collision/mesh-scale";
 import { drivingSample } from "./joints/driving";
 import { capsuleMeshSample } from "./issues/capsule-mesh";
+import { sphereVsSphereSample } from "./manifold/sphere-vs-sphere";
+import { capsuleVsSphereSample } from "./manifold/capsule-vs-sphere";
+import { hullVsSphereSample } from "./manifold/hull-vs-sphere";
+import { triangleVsSphereSample } from "./manifold/triangle-vs-sphere";
+import { capsuleVsCapsuleSample } from "./manifold/capsule-vs-capsule";
+import { capsuleVsHullSample } from "./manifold/capsule-vs-hull";
+import { triangleVsCapsuleSample } from "./manifold/triangle-vs-capsule";
+import { hullVsHullSample } from "./manifold/hull-vs-hull";
+import { triangleVsHullSample } from "./manifold/triangle-vs-hull";
+import { shapeCastDebugSample } from "./collision/shape-cast-debug";
 export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
 
 export const samples = [
@@ -263,5 +273,15 @@ export const samples = [
   meshScaleSample,
   drivingSample,
   capsuleMeshSample,
+  sphereVsSphereSample,
+  capsuleVsSphereSample,
+  hullVsSphereSample,
+  triangleVsSphereSample,
+  capsuleVsCapsuleSample,
+  capsuleVsHullSample,
+  triangleVsCapsuleSample,
+  hullVsHullSample,
+  triangleVsHullSample,
+  shapeCastDebugSample,
   objectAssertsBenchSample,
 ];

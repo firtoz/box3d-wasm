@@ -1,5 +1,7 @@
 #include "box3d_web_shared.h"
 
+#include <stdlib.h>
+
 B3W_EXPORT int b3wCreateCylinder(float height, float radius, float yOffset, int sides)
 {
 	b3HullData* hull = b3CreateCylinder(height, radius, yOffset, sides);
@@ -24,8 +26,53 @@ B3W_EXPORT void b3wDestroyHull(int hullHandle)
 {
 	b3wHullSlot* slot = b3wGetHull(hullHandle);
 	if (slot == NULL) return;
-	b3DestroyHull(slot->hull);
+	if (slot->boxStorage != NULL)
+	{
+		free(slot->boxStorage);
+		slot->boxStorage = NULL;
+		slot->hull = NULL;
+	}
+	else
+	{
+		b3DestroyHull(slot->hull);
+	}
 	b3wFreeHullSlot(hullHandle);
+}
+
+static int b3wAllocBoxHullStorage(b3BoxHull* box)
+{
+	if (box == NULL) return 0;
+	int handle = b3wTryAllocHullSlot(&box->base);
+	if (handle == 0)
+	{
+		free(box);
+		return 0;
+	}
+	b3wHullSlot* slot = b3wGetHull(handle);
+	if (slot == NULL)
+	{
+		free(box);
+		return 0;
+	}
+	slot->boxStorage = box;
+	return handle;
+}
+
+B3W_EXPORT int b3wMakeBoxHull(float hx, float hy, float hz)
+{
+	b3BoxHull* box = (b3BoxHull*)malloc(sizeof(b3BoxHull));
+	if (box == NULL) return 0;
+	*box = b3MakeBoxHull(hx, hy, hz);
+	return b3wAllocBoxHullStorage(box);
+}
+
+B3W_EXPORT int b3wMakeTransformedBoxHull(float hx, float hy, float hz, float px, float py, float pz, float qx, float qy, float qz, float qs)
+{
+	b3BoxHull* box = (b3BoxHull*)malloc(sizeof(b3BoxHull));
+	if (box == NULL) return 0;
+	b3Transform transform = { { px, py, pz }, { { qx, qy, qz }, qs } };
+	*box = b3MakeTransformedBoxHull(hx, hy, hz, transform);
+	return b3wAllocBoxHullStorage(box);
 }
 
 B3W_EXPORT int b3wGetHullVertexCount(int hullHandle)

@@ -15,6 +15,7 @@
 #include "sample_events.cpp"
 #include "sample_issues.cpp"
 #include "sample_joint.cpp"
+#include "sample_manifold.cpp"
 
 class DumpMotorJoint : public MotorJoint
 {
@@ -605,6 +606,115 @@ public:
 	}
 };
 
+static std::string manifold_extras_json( const b3LocalManifold& manifold )
+{
+	std::string json;
+	char buf[384];
+	snprintf( buf, sizeof( buf ),
+			  "\"manifold\":{\"n\":[%.17g,%.17g,%.17g],\"tn\":[%.17g,%.17g,%.17g],\"c\":%d,\"f\":%d,\"ti\":%d,\"i\":[%d,%d,%d],\"d\":%.17g,\"tf\":%d,\"pts\":[",
+			  (double)manifold.normal.x, (double)manifold.normal.y, (double)manifold.normal.z,
+			  (double)manifold.triangleNormal.x, (double)manifold.triangleNormal.y, (double)manifold.triangleNormal.z,
+			  manifold.pointCount, (int)manifold.feature, manifold.triangleIndex, manifold.i1, manifold.i2, manifold.i3,
+			  (double)manifold.squaredDistance, manifold.triangleFlags );
+	json = buf;
+	for ( int i = 0; i < manifold.pointCount; ++i )
+	{
+		const b3LocalManifoldPoint& point = manifold.points[i];
+		if ( i > 0 )
+		{
+			json += ",";
+		}
+		snprintf( buf, sizeof( buf ),
+				  "{\"p\":[%.17g,%.17g,%.17g],\"s\":%.17g,\"pr\":[%d,%d,%d,%d]}",
+				  (double)point.point.x, (double)point.point.y, (double)point.point.z, (double)point.separation,
+				  (int)point.pair.owner1, (int)point.pair.index1, (int)point.pair.owner2, (int)point.pair.index2 );
+		json += buf;
+	}
+	json += "]}";
+	return json;
+}
+
+#define B3W_DUMP_MANIFOLD_SAMPLE( ClassName, BaseName ) \
+	class ClassName : public BaseName \
+	{ \
+	public: \
+		using BaseName::BaseName; \
+		static Sample* Create( SampleContext* context ) { return new ClassName( context ); } \
+		const char* CheckpointExtrasJson() \
+		{ \
+			m_extrasJson = manifold_extras_json( m_manifold ); \
+			return m_extrasJson.c_str(); \
+		} \
+	private: \
+		std::string m_extrasJson; \
+	};
+
+B3W_DUMP_MANIFOLD_SAMPLE( DumpSphereAndSphere, SphereAndSphere )
+B3W_DUMP_MANIFOLD_SAMPLE( DumpCapsuleAndSphere, CapsuleAndSphere )
+B3W_DUMP_MANIFOLD_SAMPLE( DumpHullAndSphere, HullAndSphere )
+B3W_DUMP_MANIFOLD_SAMPLE( DumpTriangleAndSphere, TriangleAndSphere )
+B3W_DUMP_MANIFOLD_SAMPLE( DumpCapsuleAndCapsule, CapsuleAndCapsule )
+B3W_DUMP_MANIFOLD_SAMPLE( DumpCapsuleAndHull, CapsuleAndHull )
+B3W_DUMP_MANIFOLD_SAMPLE( DumpTriangleAndCapsule, TriangleAndCapsule )
+B3W_DUMP_MANIFOLD_SAMPLE( DumpHullAndHull, HullAndHull )
+B3W_DUMP_MANIFOLD_SAMPLE( DumpTriangleAndHull, TriangleAndHull )
+
+class DumpShapeCastDebug : public ShapeCastDebug
+{
+public:
+	explicit DumpShapeCastDebug( SampleContext* context )
+		: ShapeCastDebug( context )
+	{
+		Capture();
+	}
+
+	static Sample* Create( SampleContext* context )
+	{
+		return new DumpShapeCastDebug( context );
+	}
+
+	void Step() override
+	{
+		Sample::Step();
+		Capture();
+	}
+
+	const char* CheckpointExtrasJson()
+	{
+		m_extrasJson.clear();
+		char buf[384];
+		snprintf( buf, sizeof( buf ),
+				  "\"cast\":{\"h\":%d,\"f\":%.17g,\"p\":[%.17g,%.17g,%.17g],\"n\":[%.17g,%.17g,%.17g]}",
+				  m_hit, (double)m_fraction, (double)m_point.x, (double)m_point.y, (double)m_point.z,
+				  (double)m_normal.x, (double)m_normal.y, (double)m_normal.z );
+		m_extrasJson = buf;
+		return m_extrasJson.c_str();
+	}
+
+private:
+	void Capture()
+	{
+		b3ShapeCastPairInput input;
+		input.proxyA = { m_triangle, 3, 0.0f };
+		input.proxyB = { &m_capsule.center1, 2, m_capsule.radius };
+		input.transform = m_transform;
+		input.translationB = m_translation;
+		input.maxFraction = 0.970617533f;
+		input.canEncroach = false;
+		b3CastOutput output = b3ShapeCast( &input );
+		m_hit = output.hit ? 1 : 0;
+		m_fraction = output.fraction;
+		m_point = output.point;
+		m_normal = output.normal;
+	}
+
+	int m_hit = 0;
+	float m_fraction = 1.0f;
+	b3Vec3 m_point = {};
+	b3Vec3 m_normal = {};
+	std::string m_extrasJson;
+};
+
 static void patch_sample_entry( const char* name, SampleCreateFcn* createFcn )
 {
 	for ( int i = 0; i < g_sampleCount; ++i )
@@ -636,6 +746,16 @@ void patch_dump_sample_entries()
 	patch_sample_entry( "Capsule Cast Ray", DumpCapsuleCastRay::Create );
 	patch_sample_entry( "Large World", DumpLargeWorld::Create );
 	patch_sample_entry( "Sensor Hits", DumpSensorHits::Create );
+	patch_sample_entry( "Sphere vs Sphere", DumpSphereAndSphere::Create );
+	patch_sample_entry( "Capsule vs Sphere", DumpCapsuleAndSphere::Create );
+	patch_sample_entry( "Hull vs Sphere", DumpHullAndSphere::Create );
+	patch_sample_entry( "Triangle vs Sphere", DumpTriangleAndSphere::Create );
+	patch_sample_entry( "Capsule vs Capsule", DumpCapsuleAndCapsule::Create );
+	patch_sample_entry( "Capsule vs Hull", DumpCapsuleAndHull::Create );
+	patch_sample_entry( "Triangle vs Capsule", DumpTriangleAndCapsule::Create );
+	patch_sample_entry( "Hull vs Hull", DumpHullAndHull::Create );
+	patch_sample_entry( "Triangle vs Hull", DumpTriangleAndHull::Create );
+	patch_sample_entry( "Shape Cast Debug", DumpShapeCastDebug::Create );
 }
 
 bool apply_dump_interaction( Sample* sample, const char* sampleName, const DumpInteraction& interaction )
@@ -698,6 +818,16 @@ const char* get_dump_checkpoint_extras( Sample* sample, const char* sampleName )
 	{
 		return static_cast<DumpCapsuleCastRay*>( sample )->CheckpointExtrasJson();
 	}
+	if ( strcmp( sampleName, "Sphere vs Sphere" ) == 0 ) return static_cast<DumpSphereAndSphere*>( sample )->CheckpointExtrasJson();
+	if ( strcmp( sampleName, "Capsule vs Sphere" ) == 0 ) return static_cast<DumpCapsuleAndSphere*>( sample )->CheckpointExtrasJson();
+	if ( strcmp( sampleName, "Hull vs Sphere" ) == 0 ) return static_cast<DumpHullAndSphere*>( sample )->CheckpointExtrasJson();
+	if ( strcmp( sampleName, "Triangle vs Sphere" ) == 0 ) return static_cast<DumpTriangleAndSphere*>( sample )->CheckpointExtrasJson();
+	if ( strcmp( sampleName, "Capsule vs Capsule" ) == 0 ) return static_cast<DumpCapsuleAndCapsule*>( sample )->CheckpointExtrasJson();
+	if ( strcmp( sampleName, "Capsule vs Hull" ) == 0 ) return static_cast<DumpCapsuleAndHull*>( sample )->CheckpointExtrasJson();
+	if ( strcmp( sampleName, "Triangle vs Capsule" ) == 0 ) return static_cast<DumpTriangleAndCapsule*>( sample )->CheckpointExtrasJson();
+	if ( strcmp( sampleName, "Hull vs Hull" ) == 0 ) return static_cast<DumpHullAndHull*>( sample )->CheckpointExtrasJson();
+	if ( strcmp( sampleName, "Triangle vs Hull" ) == 0 ) return static_cast<DumpTriangleAndHull*>( sample )->CheckpointExtrasJson();
+	if ( strcmp( sampleName, "Shape Cast Debug" ) == 0 ) return static_cast<DumpShapeCastDebug*>( sample )->CheckpointExtrasJson();
 	(void)sample;
 	return nullptr;
 }

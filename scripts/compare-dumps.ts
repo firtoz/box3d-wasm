@@ -24,10 +24,37 @@ interface DumpRays {
   r: DumpRayHit[];
 }
 
+interface DumpManifoldPoint {
+  p: Vec3;
+  s: number;
+  pr: number[];
+}
+
+interface DumpManifold {
+  n: Vec3;
+  tn: Vec3;
+  c: number;
+  f: number;
+  ti: number;
+  i: number[];
+  d: number;
+  tf: number;
+  pts: DumpManifoldPoint[];
+}
+
+interface DumpCast {
+  h: number;
+  f: number;
+  p: Vec3;
+  n: Vec3;
+}
+
 interface DumpCheckpoint {
   frame: number;
   bodies: DumpBody[];
   rays?: DumpRays;
+  manifold?: DumpManifold;
+  cast?: DumpCast;
 }
 
 interface DumpOutput {
@@ -230,6 +257,91 @@ function compareRays(
   return { findings, deltas };
 }
 
+function compareManifolds(
+  frame: number,
+  expected: DumpManifold | undefined,
+  actual: DumpManifold | undefined,
+  epsilon: number,
+): { findings: string[]; deltas: FieldDelta[] } {
+  const findings: string[] = [];
+  const deltas: FieldDelta[] = [];
+  if (expected === undefined && actual === undefined) return { findings, deltas };
+  if (expected === undefined || actual === undefined) {
+    findings.push(`checkpoint frame ${frame}: manifold presence mismatch expected ${expected !== undefined}, got ${actual !== undefined}`);
+    return { findings, deltas };
+  }
+  if (expected.c !== actual.c) findings.push(`checkpoint frame ${frame} manifold.c: expected ${expected.c}, got ${actual.c}`);
+  if (expected.f !== actual.f) findings.push(`checkpoint frame ${frame} manifold.f: expected ${expected.f}, got ${actual.f}`);
+  if (expected.ti !== actual.ti) findings.push(`checkpoint frame ${frame} manifold.ti: expected ${expected.ti}, got ${actual.ti}`);
+  if (expected.tf !== actual.tf) findings.push(`checkpoint frame ${frame} manifold.tf: expected ${expected.tf}, got ${actual.tf}`);
+  for (const [label, e, a] of [["manifold.n", expected.n, actual.n], ["manifold.tn", expected.tn, actual.tn]] as const) {
+    const result = compareArray(frame, -1, label, e, a, epsilon);
+    deltas.push(...result.deltas);
+    if (result.finding !== undefined) findings.push(result.finding);
+  }
+  {
+    const result = compareScalar(frame, "manifold.d", expected.d, actual.d, epsilon);
+    deltas.push(...result.deltas);
+    if (result.finding !== undefined) findings.push(result.finding);
+  }
+  if (expected.i.length !== actual.i.length) {
+    findings.push(`checkpoint frame ${frame} manifold.i length mismatch`);
+  } else {
+    for (let i = 0; i < expected.i.length; i++) {
+      if (expected.i[i] !== actual.i[i]) findings.push(`checkpoint frame ${frame} manifold.i[${i}]: expected ${expected.i[i]}, got ${actual.i[i]}`);
+    }
+  }
+  const count = Math.min(expected.pts.length, actual.pts.length);
+  if (expected.pts.length !== actual.pts.length) {
+    findings.push(`checkpoint frame ${frame} manifold point count mismatch expected ${expected.pts.length}, got ${actual.pts.length}`);
+  }
+  for (let i = 0; i < count; i++) {
+    const e = expected.pts[i]!;
+    const a = actual.pts[i]!;
+    const p = compareArray(frame, i, `manifold.pts[${i}].p`, e.p, a.p, epsilon);
+    deltas.push(...p.deltas);
+    if (p.finding !== undefined) findings.push(p.finding);
+    const s = compareScalar(frame, `manifold.pts[${i}].s`, e.s, a.s, epsilon);
+    deltas.push(...s.deltas);
+    if (s.finding !== undefined) findings.push(s.finding);
+    if (e.pr.length !== a.pr.length) {
+      findings.push(`checkpoint frame ${frame} manifold.pts[${i}].pr length mismatch`);
+    } else {
+      for (let k = 0; k < e.pr.length; k++) {
+        if (e.pr[k] !== a.pr[k]) findings.push(`checkpoint frame ${frame} manifold.pts[${i}].pr[${k}]: expected ${e.pr[k]}, got ${a.pr[k]}`);
+      }
+    }
+  }
+  return { findings, deltas };
+}
+
+function compareCasts(
+  frame: number,
+  expected: DumpCast | undefined,
+  actual: DumpCast | undefined,
+  epsilon: number,
+): { findings: string[]; deltas: FieldDelta[] } {
+  const findings: string[] = [];
+  const deltas: FieldDelta[] = [];
+  if (expected === undefined && actual === undefined) return { findings, deltas };
+  if (expected === undefined || actual === undefined) {
+    findings.push(`checkpoint frame ${frame}: cast presence mismatch expected ${expected !== undefined}, got ${actual !== undefined}`);
+    return { findings, deltas };
+  }
+  if (expected.h !== actual.h) findings.push(`checkpoint frame ${frame} cast.h: expected ${expected.h}, got ${actual.h}`);
+  {
+    const result = compareScalar(frame, "cast.f", expected.f, actual.f, epsilon);
+    deltas.push(...result.deltas);
+    if (result.finding !== undefined) findings.push(result.finding);
+  }
+  for (const key of ["p", "n"] as const) {
+    const result = compareArray(frame, -1, `cast.${key}`, expected[key], actual[key], epsilon);
+    deltas.push(...result.deltas);
+    if (result.finding !== undefined) findings.push(result.finding);
+  }
+  return { findings, deltas };
+}
+
 function compareDumps(expected: DumpOutput, actual: DumpOutput, epsilon: number): { findings: string[]; deltas: FieldDelta[] } {
   const findings: string[] = [];
   const deltas: FieldDelta[] = [];
@@ -267,6 +379,12 @@ function compareDumps(expected: DumpOutput, actual: DumpOutput, epsilon: number)
     const rayCompare = compareRays(eCheckpoint.frame, eCheckpoint.rays, aCheckpoint.rays, epsilon);
     findings.push(...rayCompare.findings);
     deltas.push(...rayCompare.deltas);
+    const manifoldCompare = compareManifolds(eCheckpoint.frame, eCheckpoint.manifold, aCheckpoint.manifold, epsilon);
+    findings.push(...manifoldCompare.findings);
+    deltas.push(...manifoldCompare.deltas);
+    const castCompare = compareCasts(eCheckpoint.frame, eCheckpoint.cast, aCheckpoint.cast, epsilon);
+    findings.push(...castCompare.findings);
+    deltas.push(...castCompare.deltas);
   }
 
   return { findings, deltas };

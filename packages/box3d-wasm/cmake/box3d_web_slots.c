@@ -43,6 +43,7 @@ static void b3wInitPools(void)
 		g_hulls[i].active = false;
 		g_hulls[i].nextFree = (i + 1 < B3W_MAX_HULLS) ? (i + 1) : B3W_SLOT_FREE_NONE;
 		g_hulls[i].hull = NULL;
+		g_hulls[i].boxStorage = NULL;
 	}
 	g_hullFreeHead = 0;
 	g_hullActiveCount = 0;
@@ -164,6 +165,7 @@ void b3wFreeHullSlot(int handle)
 	if (!slot->active) return;
 	slot->active = false;
 	slot->hull = NULL;
+	slot->boxStorage = NULL;
 	slot->nextFree = g_hullFreeHead;
 	g_hullFreeHead = handle - 1;
 	g_hullActiveCount -= 1;
@@ -240,12 +242,11 @@ int b3wAllocWorldSlot(b3WorldId worldId)
 	return index + 1;
 }
 
-int b3wAllocHullSlot(b3HullData* hull)
+int b3wTryAllocHullSlot(b3HullData* hull)
 {
 	b3wInitPools();
 	if (g_hullFreeHead == B3W_SLOT_FREE_NONE)
 	{
-		b3DestroyHull(hull);
 		return 0;
 	}
 	int index = g_hullFreeHead;
@@ -253,8 +254,20 @@ int b3wAllocHullSlot(b3HullData* hull)
 	g_hulls[index].active = true;
 	g_hulls[index].nextFree = B3W_SLOT_FREE_NONE;
 	g_hulls[index].hull = hull;
+	g_hulls[index].boxStorage = NULL;
 	g_hullActiveCount += 1;
 	return index + 1;
+}
+
+int b3wAllocHullSlot(b3HullData* hull)
+{
+	int handle = b3wTryAllocHullSlot(hull);
+	if (handle == 0)
+	{
+		b3DestroyHull(hull);
+		return 0;
+	}
+	return handle;
 }
 
 int b3wAllocMeshSlot(int worldHandle, b3MeshData* mesh)
