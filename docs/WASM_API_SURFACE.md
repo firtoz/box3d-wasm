@@ -18,7 +18,7 @@ Source files:
 
 ## Current Shape
 
-- Approximate JS-callable surface: ~75 TypeScript methods
+- Approximate JS-callable surface: ~90 TypeScript methods
 - Current binding style: manual `b3w*` C bridge functions plus TypeScript wrapper classes
 - Body/shape/joint public IDs are packed native `uint64` (`BodyId`/`ShapeId`/`JointId` as branded `bigint`); worlds/hulls/meshes/compounds/humans/height-fields use int slot handles
 - Current focus: sample-driven API growth rather than a full 1:1 upstream C API mirror
@@ -178,6 +178,8 @@ When adding an API binding:
 - [x] Create hull from points: `b3CreateHull`
 - [x] Destroy hull: `b3DestroyHull`
 - [x] Box hull creation for shapes: `b3MakeBoxHull` via `createHullShape`
+- [x] Standalone box hull handle: `b3MakeBoxHull` (`makeBoxHull`, embedded storage, not `b3DestroyHull`)
+- [x] Standalone transformed box hull: `b3MakeTransformedBoxHull` (`makeTransformedBoxHull`)
 - [x] Transformed/scaled box hull creation for shapes: `b3CreateTransformedHullShape` / `b3MakeScaledBoxHull`
 - [ ] Create cone: `b3CreateCone`
 - [x] Create rock: `b3CreateRock`
@@ -274,10 +276,10 @@ When adding an API binding:
 
 ## Collision, GJK, And Mass Utilities
 
+- [x] Pairwise collide: `b3CollideSpheres`, `b3CollideCapsuleAndSphere`, `b3CollideHullAndSphere`, `b3CollideCapsules`, `b3CollideHullAndCapsule`, `b3CollideHulls`, `b3CollideTriangleAndSphere`, `b3CollideTriangleAndCapsule`, `b3CollideTriangleAndHull` (empty manifold on invalid hull; triangle-hull speculative opt-in)
+- [x] Shape cast (pair): `b3ShapeCast` (`shapeCast`)
 - [ ] Shape distance: `b3ShapeDistance`
-- [ ] Shape cast: `b3ShapeCast`
 - [ ] Time of impact: `b3TimeOfImpact`
-- [ ] Pairwise collision helpers for sphere/capsule/hull/triangle combinations
 - [ ] Compute sphere/capsule/hull mass without creating a body
 - [ ] Compute sphere/capsule/hull AABB without creating a body
 

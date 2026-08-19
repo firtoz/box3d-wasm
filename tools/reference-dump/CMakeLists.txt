@@ -49,7 +49,7 @@ set(SAMPLE_FILES
   # sample_events.cpp is included from dump-interaction-overrides.cpp so DumpSensorHits can subclass it.
   "${SAMPLE_SRC_DIR}/sample_geometry.cpp"
   # sample_issues.cpp is included from dump-interaction-overrides.cpp so DumpCrash can subclass it.
-  "${SAMPLE_SRC_DIR}/sample_manifold.cpp"
+  # sample_manifold.cpp is included from dump-interaction-overrides.cpp so DumpManifold extras can subclass collide samples.
   "${SAMPLE_SRC_DIR}/sample_mesh.cpp"
   "${SAMPLE_SRC_DIR}/sample_ragdoll.cpp"
   "${SAMPLE_SRC_DIR}/sample_replay.cpp"

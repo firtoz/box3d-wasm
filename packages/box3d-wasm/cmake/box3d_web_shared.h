@@ -48,6 +48,8 @@ typedef struct b3wHullSlot
 	bool active;
 	int nextFree;
 	b3HullData* hull;
+	/// Heap `b3BoxHull` for `b3Make*BoxHull`. Do not `b3DestroyHull` these.
+	void* boxStorage;
 } b3wHullSlot;
 
 typedef struct b3wMeshSlot
@@ -97,6 +99,8 @@ b3wHeightFieldSlot* b3wGetHeightField(int handle);
 
 int b3wAllocWorldSlot(b3WorldId worldId);
 int b3wAllocHullSlot(b3HullData* hull);
+/** Allocate a hull slot without destroying `hull` on overflow. */
+int b3wTryAllocHullSlot(b3HullData* hull);
 int b3wAllocMeshSlot(int worldHandle, b3MeshData* mesh);
 int b3wAllocCompoundSlot(b3CompoundData* compound);
 int b3wAllocHumanSlot(int worldHandle, Human human);

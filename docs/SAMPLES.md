@@ -14,15 +14,15 @@ Legend:
 
 Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short (about 5–8 items), ordered by preference. After finishing a port, remove it here, mark it `[x]` in the tables below, and refill from remaining `[ ]` + `🔧` rows (skip `🚧` / `🧩` unless the user asks for bindings/mesh work).
 
-**Before adding or recommending a queue item:** open the upstream C++ sample class. Prefer samples that create bodies in `m_worldId` and can dump-compare. Do **not** treat Manifold / pure geometry editors / collide-debug tools as generic-host warm-ups — they need pairwise collide bindings and a custom host, and usually have no dumpable bodies.
+**Before adding or recommending a queue item:** open the upstream C++ sample class. Prefer samples that create bodies in `m_worldId` and can dump-compare.
 
-1. **Mesh / Reflection** — negative scale mesh + building.obj (`🧩` mesh load) + humans.
-2. **Ragdoll / Pose** — needs pose-control bindings (`🚧`).
-3. **Joints / Gear Lift** — custom extruded mesh + revolute motor chain (`🚧` large port).
-4. **Character / CapsulePlane** — mover collide APIs still `🚧`.
-5. **Collision / Cast World** — world-level cast callbacks still `🚧`.
+**Defer for later sessions:** remaining events that need callback bindings, character movers, and most remaining `🧩` mesh samples. Manifold pairwise collide demos are ported.
 
-Defer for later sessions: **Manifold** (pairwise `b3Collide*` helpers `🚧`), remaining events that need callback bindings, character movers, and most remaining `🧩` mesh samples.
+1. **Character / CapsulePlane** — mover collide APIs still `🚧` (`b3World_CollideMover`, `b3SolvePlanes`).
+2. **Collision / Cast World** — world-level cast callbacks still `🚧`.
+3. **Ragdoll / Pose** — needs pose-control bindings (`🚧`).
+4. **Joints / Gear Lift** — custom extruded mesh + revolute motor chain (`🚧` large port).
+5. **Mesh / Reflection** — negative scale mesh + building.obj (`🧩` mesh load) + humans.
 
 ---
 
@@ -62,7 +62,7 @@ Defer for later sessions: **Manifold** (pairwise `b3Collide*` helpers `🚧`), r
 | **Overlap World** | [x] | `b3World_OverlapShape` | 🔧 15 static/kinematic/dynamic targets incl. mesh + heightfield; queries render-only. C++/WASM dump parity verified at epsilon=1e-5. |
 | **Long Ray Cast** | [x] | `b3World_CastRayClosest`, `b3CreateRock`, `b3CreateWaveMesh`, `b3CreateWave` / heightfield | 🔧 Five static targets (sphere/capsule/rock/wave mesh/heightfield); zero gravity. Live demo draws mesh/heightfield overlays; dump compares bodies only (no ray extras). |
 | **Initial Overlap** | [x] | Overlap queries | 🔧 Custom quad mesh + zero-length cast in `Step` (render-only); dump compares static body pose. C++/WASM dump parity verified at epsilon=1e-5. |
-| **Shape Cast Debug** | [ ] | `b3World_CastShape` + debug draw | 🚧 |
+| **Shape Cast Debug** | [x] | `b3ShapeCast` | 🔧 Capsule vs triangle regression; dump extras `cast` (hit/fraction/point/normal). |
 | **Distance Debug** | [ ] | `b3World_ComputeDistance` | 🚧 Not exposed. |
 | **Shape Distance** | [ ] | Distance queries | 🚧 |
 | **Time of Impact** | [ ] | `b3World_ComputeTOI` | 🚧 Not exposed. |
@@ -161,19 +161,19 @@ Defer for later sessions: **Manifold** (pairwise `b3Collide*` helpers `🚧`), r
 
 ## Manifold (`sample_manifold.cpp`)
 
-These are **not** physics-world body scenes. Upstream samples inherit a Manifold base that stores two world transforms, calls pairwise `b3Collide*` each step, draws contact points, and lets the user drag/rotate shape B. There is no stack of bodies for `generic-host` / dump-compare. Pairwise collide helpers are still unwrapped (`docs/WASM_API_SURFACE.md` → Collision, GJK, And Mass Utilities). Porting them means bindings + a custom interactive host; do not queue them as easy ports.
+These are pairwise collide demos (no physics bodies). The TS ports use a custom overlay host plus dump extras (`manifold` checkpoint field) so C++/WASM dump parity still applies.
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Sphere vs Sphere** | [ ] | `b3CollideSpheres` | 🚧 Interactive collide demo (two spheres at transforms A/B). |
-| **Capsule vs Sphere** | [ ] | `b3CollideCapsuleAndSphere` | 🚧 Same pattern; capsule endpoints along X. |
-| **Hull vs Sphere** | [ ] | `b3CollideHullAndSphere` | 🚧 Same pattern; box hull + sphere. |
-| **Triangle vs Sphere** | [ ] | `b3CollideTriangleAndSphere` | 🚧🧩 Triangle + sphere collide (upstream renamed from `b3CollideSphereAndTriangle`). |
-| **Capsule vs Capsule** | [ ] | `b3CollideCapsules` | 🚧 Same pattern; two capsules. |
-| **Capsule vs Hull** | [ ] | `b3CollideHullAndCapsule` | 🚧 Same pattern. |
-| **Triangle vs Capsule** | [ ] | `b3CollideTriangleAndCapsule` | 🚧🧩 Upstream renamed from `b3CollideCapsuleAndTriangle`. |
-| **Hull vs Hull** | [ ] | `b3CollideHulls` | 🚧 Same pattern; uses SAT cache. |
-| **Triangle vs Hull** | [ ] | `b3CollideTriangleAndHull` | 🚧🧩 Upstream renamed from `b3CollideHullAndTriangle`. |
+| **Sphere vs Sphere** | [x] | `b3CollideSpheres` | 🔧 Default Manifold poses; dump extras compare local manifold points. |
+| **Capsule vs Sphere** | [x] | `b3CollideCapsuleAndSphere` | 🔧 Capsule along X vs sphere. |
+| **Hull vs Sphere** | [x] | `b3CollideHullAndSphere` | 🔧 Box hull 2×0.5×0.5. |
+| **Triangle vs Sphere** | [x] | `b3CollideTriangleAndSphere` | 🔧 Triangle in B frame. |
+| **Capsule vs Capsule** | [x] | `b3CollideCapsules` | 🔧 Two X-axis capsules. |
+| **Capsule vs Hull** | [x] | `b3CollideHullAndCapsule` | 🔧 Upstream hardcoded capsule pose. |
+| **Triangle vs Capsule** | [x] | `b3CollideTriangleAndCapsule` | 🔧 Triangle in capsule frame. |
+| **Hull vs Hull** | [x] | `b3CollideHulls` | 🔧 Transformed box vs unit box, SAT cache cleared. |
+| **Triangle vs Hull** | [x] | `b3CollideTriangleAndHull` | 🔧 Speculative enabled; box hull. |
 
 ## Mesh (`sample_mesh.cpp`)
 
@@ -294,9 +294,9 @@ These are **not** physics-world body scenes. Upstream samples inherit a Manifold
 ## Summary
 
 - **Total C++ samples**: **159** unique upstream `RegisterSample`s (160 registration lines; Benchmark / Large World registered twice)
-- **TS implemented (matching C++)**: **128** (~80.5%)
+- **TS implemented (matching C++)**: **138** (~86.8%)
 - **TS implemented (TS-only)**: 2 extras in the tables (Card House Thick, Object Asserts Bench) plus demo-only variants (dominoes, washer, material-dedup)
 - Status tables above are authoritative; the Easy next ports queue tracks what to port next.
 
-- **Dump-match status**: Dump-enabled set is **125/129** hard-green at default checkpoints `0,50,100,200,300` / `1e-5` after this batch (Ragdoll/Mesh, Mesh/Hollow Box soft frame 0, Benchmark/Height Field, Bodies/Cast, Collision Shape Cast / Overlap World / Initial Overlap / Mesh Scale, Joints/Driving, Issues/Capsule Mesh). Use `bun run compare:all` for the full sweep; soft windows live in `scripts/dump-soft-exceptions.json`. Remaining soft default-checkpoint exceptions (early window still required green): `mesh/hollow-box` (frame 0 exact; drift from frame 50 in the hollow-shell pile), `shapes/wind-flap` (0–200 exact; ~1e-5 velocity drift at frame 300), `benchmark/junkyard` (0–100 match; drift ~frame 130 when pusher engages), `benchmark/convex-pile` (0–50 match; drift ~frame 75–100). Other long-horizon notes that still pass default checkpoints today: `determinism/falling-ragdolls` (frame 300 drifts), `benchmark/candy-cups` / `benchmark/explosion` (post-scripted-blast later drift), `world/far-ragdolls` (~frame 29 window). Native SIMD vs scalar dumps are bit-identical; WASM SIMD vs scalar dumps are bit-identical — residual soft drift is cross-target codegen/libm. `geometry/hull` and `geometry/capsule-mass` use `dumpNoPhysics` (upstream samples have no bodies). Continuous Mesh Drop dump uses fixed seed `1910133196` via dump alias `Continuous Mesh Drop`; Determinism Mesh Drop uses alias `Determinism Mesh Drop` (upstream name collision).
+- **Dump-match status**: Dump-enabled set is **135/139** hard-green at default checkpoints `0,50,100,200,300` / `1e-5` after this batch, including the nine Manifold collide samples (`manifold` extras) and Collision / Shape Cast Debug (`cast` extras). Use `bun run compare:all` for the full sweep; soft windows live in `scripts/dump-soft-exceptions.json`. Remaining soft default-checkpoint exceptions (early window still required green): `mesh/hollow-box` (frame 0 exact; drift from frame 50 in the hollow-shell pile), `shapes/wind-flap` (0–200 exact; ~1e-5 velocity drift at frame 300), `benchmark/junkyard` (0–100 match; drift ~frame 130 when pusher engages), `benchmark/convex-pile` (0–50 match; drift ~frame 75–100). Other long-horizon notes that still pass default checkpoints today: `determinism/falling-ragdolls` (frame 300 drifts), `benchmark/candy-cups` / `benchmark/explosion` (post-scripted-blast later drift), `world/far-ragdolls` (~frame 29 window). Native SIMD vs scalar dumps are bit-identical; WASM SIMD vs scalar dumps are bit-identical — residual soft drift is cross-target codegen/libm. `geometry/hull` and `geometry/capsule-mass` use `dumpNoPhysics` (upstream samples have no bodies). Manifold samples also have no bodies; dumps compare the `manifold` extras. Continuous Mesh Drop dump uses fixed seed `1910133196` via dump alias `Continuous Mesh Drop`; Determinism Mesh Drop uses alias `Determinism Mesh Drop` (upstream name collision).
 - **New sample dump checklist**: When porting the next sample, follow `AGENTS.md` → Dump-match readiness (and `docs/reference-dump-plan.md` → New sample dump checklist) so gravity, float32 setup math, step/post-step order, and worker step cadence are dump-ready from day one.

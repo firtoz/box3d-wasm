@@ -83,7 +83,7 @@ SLEEP_FLAG=""
 WASM_SLEEP_FLAG=""
 # Samples with per-frame step callbacks (dumpStep) need to stay awake
 case "$SAMPLE_ID" in
-  bodies/kinematic|bodies/disable|bodies/cast|joints/motor-joint|joints/door|joints/top-down-friction|joints/motion-locks|benchmark/many-pyramids|benchmark/joint-grid|benchmark/rain|continuous/bullet-vs-stack|continuous/stall|ragdoll/box|ragdoll/pile|ragdoll/incline|ragdoll/mesh|determinism/falling-ragdolls|world/far-ragdolls|geometry/capsule-mass|compound/mesh-tile|collision/ray-curtain|collision/capsule-cast-ray|mesh/hollow-box)
+  bodies/kinematic|bodies/disable|bodies/cast|joints/motor-joint|joints/door|joints/top-down-friction|joints/motion-locks|benchmark/many-pyramids|benchmark/joint-grid|benchmark/rain|continuous/bullet-vs-stack|continuous/stall|ragdoll/box|ragdoll/pile|ragdoll/incline|ragdoll/mesh|determinism/falling-ragdolls|world/far-ragdolls|geometry/capsule-mass|compound/mesh-tile|collision/ray-curtain|collision/capsule-cast-ray|collision/shape-cast-debug|mesh/hollow-box|manifold/*)
     SLEEP_FLAG="--disable-sleep-term"
     WASM_SLEEP_FLAG="--disable-sleep-term"
     ;;

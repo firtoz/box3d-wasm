@@ -1,6 +1,38 @@
 export type Vec3 = [number, number, number];
 export type Quat = [number, number, number, number];
 
+export type WorldTransform = { position: Vec3; rotation: Quat };
+
+export type LocalManifoldPoint = {
+  point: Vec3;
+  separation: number;
+  pair: [number, number, number, number];
+};
+
+export type LocalManifold = {
+  normal: Vec3;
+  triangleNormal: Vec3;
+  pointCount: number;
+  feature: number;
+  triangleIndex: number;
+  indices: [number, number, number];
+  squaredDistance: number;
+  triangleFlags: number;
+  points: LocalManifoldPoint[];
+};
+
+export type ShapeCastHit = {
+  hit: boolean;
+  fraction: number;
+  point: Vec3;
+  normal: Vec3;
+  iterations: number;
+};
+
+export const B3W_MANIFOLD_MAX_POINTS = 64;
+export const B3W_MANIFOLD_HEADER_FLOATS = 14;
+export const B3W_MANIFOLD_POINT_FLOATS = 8;
+
 declare const handleBrand: unique symbol;
 
 type NumberHandle<Name extends string> = number & { readonly [handleBrand]: Name };
@@ -254,6 +286,18 @@ type ShapeSetMeshFn = (shapeHandle: bigint, meshHandle: number, sx: number, sy: 
 type CreateHullFromPointsFn = (numPoints: number, points: number) => number;
 type CreateRockFn = (radius: number) => number;
 type DestroyHullFn = (hullHandle: number) => void;
+type MakeBoxHullFn = (hx: number, hy: number, hz: number) => number;
+type MakeTransformedBoxHullFn = (hx: number, hy: number, hz: number, px: number, py: number, pz: number, qx: number, qy: number, qz: number, qs: number) => number;
+type CollideSpheresFn = (ax: number, ay: number, az: number, ar: number, bx: number, by: number, bz: number, br: number, xfA: number, xfB: number, capacity: number, out: number, capacityFloats: number) => void;
+type CollideCapsuleSphereFn = (c1x: number, c1y: number, c1z: number, c2x: number, c2y: number, c2z: number, cr: number, sx: number, sy: number, sz: number, sr: number, xfA: number, xfB: number, capacity: number, out: number, capacityFloats: number) => void;
+type CollideHullSphereFn = (hullHandle: number, sx: number, sy: number, sz: number, sr: number, xfA: number, xfB: number, capacity: number, out: number, capacityFloats: number) => void;
+type CollideCapsulesFn = (a1x: number, a1y: number, a1z: number, a2x: number, a2y: number, a2z: number, ar: number, b1x: number, b1y: number, b1z: number, b2x: number, b2y: number, b2z: number, br: number, xfA: number, xfB: number, capacity: number, out: number, capacityFloats: number) => void;
+type CollideHullCapsuleFn = (hullHandle: number, c1x: number, c1y: number, c1z: number, c2x: number, c2y: number, c2z: number, cr: number, xfA: number, xfB: number, capacity: number, out: number, capacityFloats: number) => void;
+type CollideHullsFn = (hullA: number, hullB: number, xfA: number, xfB: number, capacity: number, out: number, capacityFloats: number) => void;
+type CollideTriangleSphereFn = (triangle: number, sx: number, sy: number, sz: number, sr: number, xfA: number, xfB: number, capacity: number, out: number, capacityFloats: number) => void;
+type CollideTriangleCapsuleFn = (triangle: number, c1x: number, c1y: number, c1z: number, c2x: number, c2y: number, c2z: number, cr: number, xfA: number, xfB: number, capacity: number, out: number, capacityFloats: number) => void;
+type CollideTriangleHullFn = (triangle: number, flags: number, hullHandle: number, xfA: number, xfB: number, capacity: number, enableSpeculative: number, out: number, capacityFloats: number) => void;
+type ShapeCastPairFn = (pointsA: number, countA: number, radiusA: number, pointsB: number, countB: number, radiusB: number, transform: number, translation: number, maxFraction: number, canEncroach: number, out: number) => void;
 type GetHullVertexCountFn = (hullHandle: number) => number;
 type GetHullPointsFn = (hullHandle: number, outPoints: number, capacityFloats: number) => number;
 type CreateCompoundFn = (capsuleCount: number, hullCount: number, meshCount: number, sphereCount: number, capsules: number, hulls: number, meshes: number, spheres: number) => number;
@@ -463,6 +507,18 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly createShapeFromHullFn = this.wrapBigInt<CreateShapeFromHullFn>("b3wCreateShapeFromHull", ["bigint","number","number","number","number","number","number","number","number"]);
   private readonly createTransformedShapeFromHullFn = this.wrapBigInt<CreateTransformedShapeFromHullFn>("b3wCreateTransformedShapeFromHull", ["bigint","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createCylinderFn = this.wrapNumber<CreateCylinderFn>("b3wCreateCylinder", ["number","number","number","number"]);
+  private readonly makeBoxHullFn = this.wrapNumber<MakeBoxHullFn>("b3wMakeBoxHull", ["number","number","number"]);
+  private readonly makeTransformedBoxHullFn = this.wrapNumber<MakeTransformedBoxHullFn>("b3wMakeTransformedBoxHull", ["number","number","number","number","number","number","number","number","number","number"]);
+  private readonly collideSpheresFn = this.wrapVoid<CollideSpheresFn>("b3wCollideSpheres", ["number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly collideCapsuleAndSphereFn = this.wrapVoid<CollideCapsuleSphereFn>("b3wCollideCapsuleAndSphere", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly collideHullAndSphereFn = this.wrapVoid<CollideHullSphereFn>("b3wCollideHullAndSphere", ["number","number","number","number","number","number","number","number","number","number"]);
+  private readonly collideCapsulesFn = this.wrapVoid<CollideCapsulesFn>("b3wCollideCapsules", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly collideHullAndCapsuleFn = this.wrapVoid<CollideHullCapsuleFn>("b3wCollideHullAndCapsule", ["number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly collideHullsFn = this.wrapVoid<CollideHullsFn>("b3wCollideHulls", ["number","number","number","number","number","number","number"]);
+  private readonly collideTriangleAndSphereFn = this.wrapVoid<CollideTriangleSphereFn>("b3wCollideTriangleAndSphere", ["number","number","number","number","number","number","number","number","number","number"]);
+  private readonly collideTriangleAndCapsuleFn = this.wrapVoid<CollideTriangleCapsuleFn>("b3wCollideTriangleAndCapsule", ["number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly collideTriangleAndHullFn = this.wrapVoid<CollideTriangleHullFn>("b3wCollideTriangleAndHull", ["number","number","number","number","number","number","number","number","number"]);
+  private readonly shapeCastPairFn = this.wrapVoid<ShapeCastPairFn>("b3wShapeCast", ["number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createGridMeshFn = this.wrapNumber<CreateGridMeshFn>("b3wCreateGridMesh", ["number","number","number","number","number","number"]);
   private readonly createWaveMeshFn = this.wrapNumber<CreateWaveMeshFn>("b3wCreateWaveMesh", ["number","number","number","number","number","number","number"]);
   private readonly createBoxMeshFn = this.wrapNumber<CreateBoxMeshFn>("b3wCreateBoxMesh", ["number","number","number","number","number","number","number","number"]);
@@ -624,6 +680,11 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly profilePtr: number;
   private readonly inertiaPtr: number;
   private readonly slotCountsPtr: number;
+  private readonly xfAPtr: number;
+  private readonly xfBPtr: number;
+  private readonly trianglePtr: number;
+  private readonly manifoldPtr: number;
+  private readonly shapeCastOutPtr: number;
   readonly limits: SlotLimits;
 
   constructor(module: CModule) {
@@ -636,6 +697,11 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     this.massDataPtr = module._malloc(2 * 4);
     this.profilePtr = module._malloc(23 * 4);
     this.inertiaPtr = module._malloc(9 * 4);
+    this.xfAPtr = module._malloc(7 * 4);
+    this.xfBPtr = module._malloc(7 * 4);
+    this.trianglePtr = module._malloc(9 * 4);
+    this.manifoldPtr = module._malloc((B3W_MANIFOLD_HEADER_FLOATS + B3W_MANIFOLD_MAX_POINTS * B3W_MANIFOLD_POINT_FLOATS) * 4);
+    this.shapeCastOutPtr = module._malloc(9 * 4);
   }
 
   getSlotUsage(): SlotUsage {
@@ -671,6 +737,11 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     this.module._free(this.massDataPtr);
     this.module._free(this.profilePtr);
     this.module._free(this.inertiaPtr);
+    this.module._free(this.xfAPtr);
+    this.module._free(this.xfBPtr);
+    this.module._free(this.trianglePtr);
+    this.module._free(this.manifoldPtr);
+    this.module._free(this.shapeCastOutPtr);
   }
 
   /**
@@ -919,6 +990,161 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     return this.requireSlotHandle<HullHandle>(hullHandle, "hulls");
   }
   destroyHull(hullHandle: HullHandle): void { this.destroyHullFn(hullHandle); }
+  makeBoxHull(halfWidths: Vec3): HullHandle {
+    return this.requireSlotHandle<HullHandle>(this.makeBoxHullFn(halfWidths[0], halfWidths[1], halfWidths[2]), "hulls");
+  }
+  makeTransformedBoxHull(halfWidths: Vec3, transform: { position?: Vec3; rotation?: Quat } = {}): HullHandle {
+    const pos = transform.position ?? [0, 0, 0];
+    const rot = transform.rotation ?? [0, 0, 0, 1];
+    return this.requireSlotHandle<HullHandle>(this.makeTransformedBoxHullFn(halfWidths[0], halfWidths[1], halfWidths[2], pos[0], pos[1], pos[2], rot[0], rot[1], rot[2], rot[3]), "hulls");
+  }
+
+  private writeWorldTransform(ptr: number, transform: WorldTransform): void {
+    const heap = this.module.HEAPF32;
+    const base = ptr >> 2;
+    heap[base + 0] = transform.position[0];
+    heap[base + 1] = transform.position[1];
+    heap[base + 2] = transform.position[2];
+    heap[base + 3] = transform.rotation[0];
+    heap[base + 4] = transform.rotation[1];
+    heap[base + 5] = transform.rotation[2];
+    heap[base + 6] = transform.rotation[3];
+  }
+
+  private writeTriangle(triangle: readonly [Vec3, Vec3, Vec3]): void {
+    const heap = this.module.HEAPF32;
+    const base = this.trianglePtr >> 2;
+    for (let i = 0; i < 3; i++) {
+      heap[base + i * 3 + 0] = triangle[i]![0];
+      heap[base + i * 3 + 1] = triangle[i]![1];
+      heap[base + i * 3 + 2] = triangle[i]![2];
+    }
+  }
+
+  private readLocalManifold(capacity: number): LocalManifold {
+    const heap = this.module.HEAPF32;
+    const base = this.manifoldPtr >> 2;
+    const pointCount = Math.max(0, Math.min(capacity, B3W_MANIFOLD_MAX_POINTS, Math.trunc(heap[base + 6]!)));
+    const points: LocalManifoldPoint[] = [];
+    for (let i = 0; i < pointCount; i++) {
+      const p = base + B3W_MANIFOLD_HEADER_FLOATS + i * B3W_MANIFOLD_POINT_FLOATS;
+      points.push({
+        point: [heap[p]!, heap[p + 1]!, heap[p + 2]!],
+        separation: heap[p + 3]!,
+        pair: [Math.trunc(heap[p + 4]!), Math.trunc(heap[p + 5]!), Math.trunc(heap[p + 6]!), Math.trunc(heap[p + 7]!)],
+      });
+    }
+    return {
+      normal: [heap[base]!, heap[base + 1]!, heap[base + 2]!],
+      triangleNormal: [heap[base + 3]!, heap[base + 4]!, heap[base + 5]!],
+      pointCount,
+      feature: Math.trunc(heap[base + 7]!),
+      triangleIndex: Math.trunc(heap[base + 8]!),
+      indices: [Math.trunc(heap[base + 9]!), Math.trunc(heap[base + 10]!), Math.trunc(heap[base + 11]!)],
+      squaredDistance: heap[base + 12]!,
+      triangleFlags: Math.trunc(heap[base + 13]!),
+      points,
+    };
+  }
+
+  private manifoldCapacityFloats(capacity: number): number {
+    return B3W_MANIFOLD_HEADER_FLOATS + Math.min(capacity, B3W_MANIFOLD_MAX_POINTS) * B3W_MANIFOLD_POINT_FLOATS;
+  }
+
+  collideSpheres(sphereA: { center: Vec3; radius: number }, sphereB: { center: Vec3; radius: number }, transformA: WorldTransform, transformB: WorldTransform, capacity = 64): LocalManifold {
+    this.writeWorldTransform(this.xfAPtr, transformA);
+    this.writeWorldTransform(this.xfBPtr, transformB);
+    this.collideSpheresFn(sphereA.center[0], sphereA.center[1], sphereA.center[2], sphereA.radius, sphereB.center[0], sphereB.center[1], sphereB.center[2], sphereB.radius, this.xfAPtr, this.xfBPtr, capacity, this.manifoldPtr, this.manifoldCapacityFloats(capacity));
+    return this.readLocalManifold(capacity);
+  }
+
+  collideCapsuleAndSphere(capsule: { center1: Vec3; center2: Vec3; radius: number }, sphere: { center: Vec3; radius: number }, transformA: WorldTransform, transformB: WorldTransform, capacity = 64): LocalManifold {
+    this.writeWorldTransform(this.xfAPtr, transformA);
+    this.writeWorldTransform(this.xfBPtr, transformB);
+    this.collideCapsuleAndSphereFn(capsule.center1[0], capsule.center1[1], capsule.center1[2], capsule.center2[0], capsule.center2[1], capsule.center2[2], capsule.radius, sphere.center[0], sphere.center[1], sphere.center[2], sphere.radius, this.xfAPtr, this.xfBPtr, capacity, this.manifoldPtr, this.manifoldCapacityFloats(capacity));
+    return this.readLocalManifold(capacity);
+  }
+
+  collideHullAndSphere(hullHandle: HullHandle, sphere: { center: Vec3; radius: number }, transformA: WorldTransform, transformB: WorldTransform, capacity = 64): LocalManifold {
+    this.writeWorldTransform(this.xfAPtr, transformA);
+    this.writeWorldTransform(this.xfBPtr, transformB);
+    this.collideHullAndSphereFn(hullHandle, sphere.center[0], sphere.center[1], sphere.center[2], sphere.radius, this.xfAPtr, this.xfBPtr, capacity, this.manifoldPtr, this.manifoldCapacityFloats(capacity));
+    return this.readLocalManifold(capacity);
+  }
+
+  collideCapsules(capsuleA: { center1: Vec3; center2: Vec3; radius: number }, capsuleB: { center1: Vec3; center2: Vec3; radius: number }, transformA: WorldTransform, transformB: WorldTransform, capacity = 64): LocalManifold {
+    this.writeWorldTransform(this.xfAPtr, transformA);
+    this.writeWorldTransform(this.xfBPtr, transformB);
+    this.collideCapsulesFn(capsuleA.center1[0], capsuleA.center1[1], capsuleA.center1[2], capsuleA.center2[0], capsuleA.center2[1], capsuleA.center2[2], capsuleA.radius, capsuleB.center1[0], capsuleB.center1[1], capsuleB.center1[2], capsuleB.center2[0], capsuleB.center2[1], capsuleB.center2[2], capsuleB.radius, this.xfAPtr, this.xfBPtr, capacity, this.manifoldPtr, this.manifoldCapacityFloats(capacity));
+    return this.readLocalManifold(capacity);
+  }
+
+  collideHullAndCapsule(hullHandle: HullHandle, capsule: { center1: Vec3; center2: Vec3; radius: number }, transformA: WorldTransform, transformB: WorldTransform, capacity = 64): LocalManifold {
+    this.writeWorldTransform(this.xfAPtr, transformA);
+    this.writeWorldTransform(this.xfBPtr, transformB);
+    this.collideHullAndCapsuleFn(hullHandle, capsule.center1[0], capsule.center1[1], capsule.center1[2], capsule.center2[0], capsule.center2[1], capsule.center2[2], capsule.radius, this.xfAPtr, this.xfBPtr, capacity, this.manifoldPtr, this.manifoldCapacityFloats(capacity));
+    return this.readLocalManifold(capacity);
+  }
+
+  collideHulls(hullA: HullHandle, hullB: HullHandle, transformA: WorldTransform, transformB: WorldTransform, capacity = 64): LocalManifold {
+    this.writeWorldTransform(this.xfAPtr, transformA);
+    this.writeWorldTransform(this.xfBPtr, transformB);
+    this.collideHullsFn(hullA, hullB, this.xfAPtr, this.xfBPtr, capacity, this.manifoldPtr, this.manifoldCapacityFloats(capacity));
+    return this.readLocalManifold(capacity);
+  }
+
+  collideTriangleAndSphere(triangle: readonly [Vec3, Vec3, Vec3], sphere: { center: Vec3; radius: number }, transformA: WorldTransform, transformB: WorldTransform, capacity = 8): LocalManifold {
+    this.writeTriangle(triangle);
+    this.writeWorldTransform(this.xfAPtr, transformA);
+    this.writeWorldTransform(this.xfBPtr, transformB);
+    this.collideTriangleAndSphereFn(this.trianglePtr, sphere.center[0], sphere.center[1], sphere.center[2], sphere.radius, this.xfAPtr, this.xfBPtr, capacity, this.manifoldPtr, this.manifoldCapacityFloats(capacity));
+    return this.readLocalManifold(capacity);
+  }
+
+  collideTriangleAndCapsule(triangle: readonly [Vec3, Vec3, Vec3], capsule: { center1: Vec3; center2: Vec3; radius: number }, transformA: WorldTransform, transformB: WorldTransform, capacity = 8): LocalManifold {
+    this.writeTriangle(triangle);
+    this.writeWorldTransform(this.xfAPtr, transformA);
+    this.writeWorldTransform(this.xfBPtr, transformB);
+    this.collideTriangleAndCapsuleFn(this.trianglePtr, capsule.center1[0], capsule.center1[1], capsule.center1[2], capsule.center2[0], capsule.center2[1], capsule.center2[2], capsule.radius, this.xfAPtr, this.xfBPtr, capacity, this.manifoldPtr, this.manifoldCapacityFloats(capacity));
+    return this.readLocalManifold(capacity);
+  }
+
+  collideTriangleAndHull(triangle: readonly [Vec3, Vec3, Vec3], hullHandle: HullHandle, transformA: WorldTransform, transformB: WorldTransform, options: { triangleFlags?: number; enableSpeculative?: boolean; capacity?: number } = {}): LocalManifold {
+    const capacity = options.capacity ?? 8;
+    this.writeTriangle(triangle);
+    this.writeWorldTransform(this.xfAPtr, transformA);
+    this.writeWorldTransform(this.xfBPtr, transformB);
+    this.collideTriangleAndHullFn(this.trianglePtr, options.triangleFlags ?? 0, hullHandle, this.xfAPtr, this.xfBPtr, capacity, options.enableSpeculative === true ? 1 : 0, this.manifoldPtr, this.manifoldCapacityFloats(capacity));
+    return this.readLocalManifold(capacity);
+  }
+
+  shapeCast(proxyA: { points: ArrayLike<number>; radius?: number }, proxyB: { points: ArrayLike<number>; radius?: number }, transformBtoA: WorldTransform, translationB: Vec3, options: { maxFraction?: number; canEncroach?: boolean } = {}): ShapeCastHit {
+    const countA = Math.trunc(proxyA.points.length / 3);
+    const countB = Math.trunc(proxyB.points.length / 3);
+    const ptrA = this.module._malloc(countA * 3 * 4);
+    const ptrB = this.module._malloc(countB * 3 * 4);
+    const heap = this.module.HEAPF32;
+    const baseA = ptrA >> 2;
+    const baseB = ptrB >> 2;
+    for (let i = 0; i < countA * 3; i++) heap[baseA + i] = proxyA.points[i]!;
+    for (let i = 0; i < countB * 3; i++) heap[baseB + i] = proxyB.points[i]!;
+    this.writeWorldTransform(this.xfAPtr, transformBtoA);
+    const tBase = this.pointPtr >> 2;
+    heap[tBase + 0] = translationB[0];
+    heap[tBase + 1] = translationB[1];
+    heap[tBase + 2] = translationB[2];
+    this.shapeCastPairFn(ptrA, countA, proxyA.radius ?? 0, ptrB, countB, proxyB.radius ?? 0, this.xfAPtr, this.pointPtr, options.maxFraction ?? 1, options.canEncroach ? 1 : 0, this.shapeCastOutPtr);
+    this.module._free(ptrA);
+    this.module._free(ptrB);
+    const out = this.shapeCastOutPtr >> 2;
+    return {
+      hit: heap[out]! !== 0,
+      fraction: heap[out + 1]!,
+      point: [heap[out + 2]!, heap[out + 3]!, heap[out + 4]!],
+      normal: [heap[out + 5]!, heap[out + 6]!, heap[out + 7]!],
+      iterations: heap[out + 8]!,
+    };
+  }
   getHullVertexCount(hullHandle: HullHandle): number { return this.getHullVertexCountFn(hullHandle); }
   /** Packed xyz floats from `b3GetHullPoints` (post-hull-construction vertices). */
   getHullPoints(hullHandle: HullHandle): number[] {

@@ -321,6 +321,22 @@ async function loadWasmDumpSamples(): Promise<WasmDumpSample[]> {
       });
     }
   }
+  const registeredIds = new Set(samples.map((sample) => sample.id));
+  for (const [id, scene] of sceneById) {
+    if (registeredIds.has(id) || scene.dumpSampleName === undefined) continue;
+    samples.push({
+      id,
+      name: scene.dumpSampleName,
+      cppName: scene.dumpCppSampleName ?? scene.dumpSampleName,
+      create: makeCreate(scene),
+      step: scene.dumpStep,
+      ownsStep: scene.dumpOwnsStep === true,
+      postStep: scene.dumpPostStep,
+      interactionSchedule: scene.dumpInteractionSchedule ?? [],
+      runInteraction: scene.dumpRunInteraction,
+      checkpointExtras: scene.dumpCheckpointExtras,
+    });
+  }
   return samples;
 }
 
