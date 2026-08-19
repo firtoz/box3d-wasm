@@ -24,6 +24,15 @@ static b3Transform b3wRelativeBtoA(const float* xfA, const float* xfB)
 	return b3InvMulWorldTransforms(b3wReadWorldTransform(xfA), b3wReadWorldTransform(xfB));
 }
 
+static void b3wWriteEmptyManifold(float* out, int capacityFloats)
+{
+	if (out == NULL || capacityFloats < B3W_MANIFOLD_HEADER_FLOATS)
+	{
+		return;
+	}
+	memset(out, 0, (size_t)B3W_MANIFOLD_HEADER_FLOATS * sizeof(float));
+}
+
 static void b3wWriteManifold(const b3LocalManifold* manifold, float* out, int capacityFloats)
 {
 	if (out == NULL || capacityFloats < B3W_MANIFOLD_HEADER_FLOATS)
@@ -139,6 +148,7 @@ B3W_EXPORT void b3wCollideHullAndSphere(
 	const b3HullData* hull = b3wRequireHull(hullHandle);
 	if (hull == NULL)
 	{
+		b3wWriteEmptyManifold(out, capacityFloats);
 		return;
 	}
 	b3LocalManifoldPoint points[B3W_MANIFOLD_MAX_POINTS];
@@ -184,6 +194,7 @@ B3W_EXPORT void b3wCollideHullAndCapsule(
 	const b3HullData* hull = b3wRequireHull(hullHandle);
 	if (hull == NULL)
 	{
+		b3wWriteEmptyManifold(out, capacityFloats);
 		return;
 	}
 	b3LocalManifoldPoint points[B3W_MANIFOLD_MAX_POINTS];
@@ -209,6 +220,7 @@ B3W_EXPORT void b3wCollideHulls(
 	const b3HullData* hullB = b3wRequireHull(hullBHandle);
 	if (hullA == NULL || hullB == NULL)
 	{
+		b3wWriteEmptyManifold(out, capacityFloats);
 		return;
 	}
 	b3LocalManifoldPoint points[B3W_MANIFOLD_MAX_POINTS];
@@ -285,6 +297,7 @@ B3W_EXPORT void b3wCollideTriangleAndHull(
 	const b3HullData* hull = b3wRequireHull(hullHandle);
 	if (hull == NULL)
 	{
+		b3wWriteEmptyManifold(out, capacityFloats);
 		return;
 	}
 	b3LocalManifoldPoint points[B3W_MANIFOLD_MAX_POINTS];

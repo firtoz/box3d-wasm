@@ -27,19 +27,25 @@ function addTriangle(scene: THREE.Scene, color: number): THREE.LineSegments {
   return lines;
 }
 
-function addCapsule(scene: THREE.Scene, color: number, position: readonly number[]): THREE.Mesh {
-  const length = Math.hypot(
-    shapeCastDebugCapsule.center2[0] - shapeCastDebugCapsule.center1[0],
-    shapeCastDebugCapsule.center2[1] - shapeCastDebugCapsule.center1[1],
-    shapeCastDebugCapsule.center2[2] - shapeCastDebugCapsule.center1[2],
+function addCapsule(scene: THREE.Scene, color: number, origin: readonly number[]): THREE.Mesh {
+  const c1 = new THREE.Vector3(
+    shapeCastDebugCapsule.center1[0],
+    shapeCastDebugCapsule.center1[1],
+    shapeCastDebugCapsule.center1[2],
   );
-  const mesh = capsuleMesh(shapeCastDebugCapsule.radius, length, color, 0.85, "x");
-  const mid = [
-    0.5 * (shapeCastDebugCapsule.center1[0] + shapeCastDebugCapsule.center2[0]),
-    0.5 * (shapeCastDebugCapsule.center1[1] + shapeCastDebugCapsule.center2[1]),
-    0.5 * (shapeCastDebugCapsule.center1[2] + shapeCastDebugCapsule.center2[2]),
-  ];
-  mesh.position.set(position[0] + mid[0], position[1] + mid[1], position[2] + mid[2]);
+  const c2 = new THREE.Vector3(
+    shapeCastDebugCapsule.center2[0],
+    shapeCastDebugCapsule.center2[1],
+    shapeCastDebugCapsule.center2[2],
+  );
+  const length = c1.distanceTo(c2);
+  const mesh = capsuleMesh(shapeCastDebugCapsule.radius, length, color, 0.85, "y");
+  const dir = c2.clone().sub(c1);
+  if (dir.lengthSq() > 0) {
+    mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize());
+  }
+  const mid = c1.clone().add(c2).multiplyScalar(0.5);
+  mesh.position.set(origin[0] + mid.x, origin[1] + mid.y, origin[2] + mid.z);
   scene.add(mesh);
   return mesh;
 }

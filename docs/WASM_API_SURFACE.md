@@ -276,7 +276,7 @@ When adding an API binding:
 
 ## Collision, GJK, And Mass Utilities
 
-- [x] Pairwise collide: `b3CollideSpheres`, `b3CollideCapsuleAndSphere`, `b3CollideHullAndSphere`, `b3CollideCapsules`, `b3CollideHullAndCapsule`, `b3CollideHulls`, `b3CollideTriangleAndSphere`, `b3CollideTriangleAndCapsule`, `b3CollideTriangleAndHull`
+- [x] Pairwise collide: `b3CollideSpheres`, `b3CollideCapsuleAndSphere`, `b3CollideHullAndSphere`, `b3CollideCapsules`, `b3CollideHullAndCapsule`, `b3CollideHulls`, `b3CollideTriangleAndSphere`, `b3CollideTriangleAndCapsule`, `b3CollideTriangleAndHull` (empty manifold on invalid hull; triangle-hull speculative opt-in)
 - [x] Shape cast (pair): `b3ShapeCast` (`shapeCast`)
 - [ ] Shape distance: `b3ShapeDistance`
 - [ ] Time of impact: `b3TimeOfImpact`

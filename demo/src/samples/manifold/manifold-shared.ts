@@ -37,20 +37,32 @@ export {
 } from "./manifold-dump";
 export type { ManifoldDraw, ManifoldResources, ManifoldScene } from "./manifold-dump";
 
-const CONTACT_HEADER = 4;
+const CONTACT_HEADER = 11;
 const CONTACT_STRIDE = 4;
 const MAX_CONTACTS = 64;
+const FRAME_POS = 0;
+const FRAME_ROT = 3;
+const COUNT_INDEX = 7;
+const NORMAL_INDEX = 8;
+const POINT_BASE = 11;
 
 function writeContactBuffer(runtime: Box3DRuntime, manifold: LocalManifold, frame: WorldTransform, out: Float32Array): void {
-  out[0] = manifold.pointCount;
+  out[FRAME_POS] = frame.position[0];
+  out[FRAME_POS + 1] = frame.position[1];
+  out[FRAME_POS + 2] = frame.position[2];
+  out[FRAME_ROT] = frame.rotation[0];
+  out[FRAME_ROT + 1] = frame.rotation[1];
+  out[FRAME_ROT + 2] = frame.rotation[2];
+  out[FRAME_ROT + 3] = frame.rotation[3];
+  out[COUNT_INDEX] = manifold.pointCount;
   const worldNormal = runtime.rotateVector(frame.rotation, manifold.normal);
-  out[1] = worldNormal[0];
-  out[2] = worldNormal[1];
-  out[3] = worldNormal[2];
+  out[NORMAL_INDEX] = worldNormal[0];
+  out[NORMAL_INDEX + 1] = worldNormal[1];
+  out[NORMAL_INDEX + 2] = worldNormal[2];
   for (let i = 0; i < manifold.pointCount && i < MAX_CONTACTS; i++) {
     const local = manifold.points[i]!;
     const rotated = runtime.rotateVector(frame.rotation, local.point);
-    const base = CONTACT_HEADER + i * CONTACT_STRIDE;
+    const base = POINT_BASE + i * CONTACT_STRIDE;
     out[base] = frame.position[0] + rotated[0];
     out[base + 1] = frame.position[1] + rotated[1];
     out[base + 2] = frame.position[2] + rotated[2];
@@ -69,6 +81,24 @@ function transformPoint(transform: WorldTransform, local: Vec3): Vec3 {
   return [transform.position[0] + v.x, transform.position[1] + v.y, transform.position[2] + v.z];
 }
 
+function poseDrawObject(object: THREE.Object3D, draw: ManifoldDraw, transform: WorldTransform): void {
+  applyWorldTransform(object, transform);
+  if (draw.kind === "sphere") {
+    const local = new THREE.Vector3(draw.center[0], draw.center[1], draw.center[2]).applyQuaternion(object.quaternion);
+    object.position.add(local);
+  } else if (draw.kind === "capsule") {
+    const mid = new THREE.Vector3(
+      0.5 * (draw.center1[0] + draw.center2[0]),
+      0.5 * (draw.center1[1] + draw.center2[1]),
+      0.5 * (draw.center1[2] + draw.center2[2]),
+    ).applyQuaternion(object.quaternion);
+    object.position.add(mid);
+  } else if (draw.kind === "box" && draw.localPosition !== undefined) {
+    const local = new THREE.Vector3(...draw.localPosition).applyQuaternion(object.quaternion);
+    object.position.add(local);
+  }
+}
+
 function addDrawMeshes(scene: THREE.Scene, draws: readonly ManifoldDraw[]): THREE.Object3D[] {
   const objects: THREE.Object3D[] = [];
   for (const draw of draws) {
@@ -82,9 +112,8 @@ function addDrawMeshes(scene: THREE.Scene, draws: readonly ManifoldDraw[]): THRE
           opacity: draw.opacity ?? 1,
         }),
       );
-      applyWorldTransform(mesh, draw.transform);
-      const local = new THREE.Vector3(draw.center[0], draw.center[1], draw.center[2]).applyQuaternion(mesh.quaternion);
-      mesh.position.add(local);
+      poseDrawObject(mesh, draw, draw.transform);
+      mesh.visible = draw.followContactFrame !== true;
       scene.add(mesh);
       objects.push(mesh);
     } else if (draw.kind === "capsule") {
@@ -94,13 +123,8 @@ function addDrawMeshes(scene: THREE.Scene, draws: readonly ManifoldDraw[]): THRE
         draw.center2[2] - draw.center1[2],
       );
       const mesh = capsuleMesh(draw.radius, length, draw.color, draw.opacity ?? 0.85, "x");
-      applyWorldTransform(mesh, draw.transform);
-      const mid = new THREE.Vector3(
-        0.5 * (draw.center1[0] + draw.center2[0]),
-        0.5 * (draw.center1[1] + draw.center2[1]),
-        0.5 * (draw.center1[2] + draw.center2[2]),
-      ).applyQuaternion(mesh.quaternion);
-      mesh.position.add(mid);
+      poseDrawObject(mesh, draw, draw.transform);
+      mesh.visible = draw.followContactFrame !== true;
       scene.add(mesh);
       objects.push(mesh);
     } else if (draw.kind === "box") {
@@ -108,11 +132,8 @@ function addDrawMeshes(scene: THREE.Scene, draws: readonly ManifoldDraw[]): THRE
         new THREE.BoxGeometry(draw.size[0], draw.size[1], draw.size[2]),
         new THREE.MeshStandardMaterial({ color: draw.color, roughness: 0.75 }),
       );
-      applyWorldTransform(mesh, draw.transform);
-      if (draw.localPosition !== undefined) {
-        const local = new THREE.Vector3(...draw.localPosition).applyQuaternion(mesh.quaternion);
-        mesh.position.add(local);
-      }
+      poseDrawObject(mesh, draw, draw.transform);
+      mesh.visible = draw.followContactFrame !== true;
       scene.add(mesh);
       objects.push(mesh);
     } else {
@@ -155,16 +176,28 @@ export function createManifoldHost(scene: ManifoldScene, createWorker: () => Wor
           const buffer = workerState?.extra?.manifold;
           if (!(buffer instanceof SharedArrayBuffer)) return;
           const values = new Float32Array(buffer);
-          const count = Math.min(MAX_CONTACTS, values[0] ?? 0);
-          const nx = values[1] ?? 0;
-          const ny = values[2] ?? 0;
-          const nz = values[3] ?? 0;
+          const frame: WorldTransform = {
+            position: [values[FRAME_POS]!, values[FRAME_POS + 1]!, values[FRAME_POS + 2]!],
+            rotation: [values[FRAME_ROT]!, values[FRAME_ROT + 1]!, values[FRAME_ROT + 2]!, values[FRAME_ROT + 3]!],
+          };
+          for (let i = 0; i < scene.draw.length; i++) {
+            const draw = scene.draw[i]!;
+            if (draw.followContactFrame !== true) continue;
+            const object = drawObjects[i];
+            if (object === undefined || draw.kind === "triangle") continue;
+            poseDrawObject(object, draw, frame);
+            object.visible = true;
+          }
+          const count = Math.min(MAX_CONTACTS, values[COUNT_INDEX] ?? 0);
+          const nx = values[NORMAL_INDEX] ?? 0;
+          const ny = values[NORMAL_INDEX + 1] ?? 0;
+          const nz = values[NORMAL_INDEX + 2] ?? 0;
           for (let i = 0; i < MAX_CONTACTS; i++) {
             const visible = i < count;
             contacts[i]!.point.visible = visible;
             contacts[i]!.normal.visible = visible;
             if (!visible) continue;
-            const base = CONTACT_HEADER + i * CONTACT_STRIDE;
+            const base = POINT_BASE + i * CONTACT_STRIDE;
             const p: Vec3 = [values[base]!, values[base + 1]!, values[base + 2]!];
             updateDebugPoint(contacts[i]!.point, p);
             updateDebugLine(contacts[i]!.normal, p, [p[0] + 0.5 * nx, p[1] + 0.5 * ny, p[2] + 0.5 * nz]);
@@ -236,6 +269,7 @@ export class ManifoldWorker extends PhysicsWorkerBase {
   }
 
   protected stepPhysics(): void {
+    this.totalSteps += 1;
     this.refresh();
   }
 

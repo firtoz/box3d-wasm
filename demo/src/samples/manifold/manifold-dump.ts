@@ -1,6 +1,4 @@
 import {
-  B3_AXIS_Y,
-  quatFromAxisAngle,
   type BodyId,
   type Box3DRuntime,
   type LocalManifold,
@@ -11,10 +9,7 @@ import {
 import { cameraFromSetView } from "../shared";
 
 export const IDENTITY_XF: WorldTransform = { position: [0, 0, 0], rotation: [0, 0, 0, 1] };
-export const DEFAULT_MANIFOLD_A: WorldTransform = {
-  position: [3.5, 0.5, 0],
-  rotation: quatFromAxisAngle(B3_AXIS_Y, 0.5 * Math.PI),
-};
+export const DEFAULT_MANIFOLD_A: WorldTransform = { position: [3.5, 0.5, 0], rotation: [0, 0, 0, 1] };
 export const DEFAULT_MANIFOLD_B: WorldTransform = { position: [0, 1.5, 3.5], rotation: [0, 0, 0, 1] };
 
 export function defaultManifoldA(runtime: Box3DRuntime): WorldTransform {
@@ -56,10 +51,10 @@ export function manifoldDumpJson(manifold: LocalManifold): Record<string, unknow
 }
 
 export type ManifoldDraw =
-  | { kind: "sphere"; transform: WorldTransform; center: Vec3; radius: number; color: number; opacity?: number }
-  | { kind: "capsule"; transform: WorldTransform; center1: Vec3; center2: Vec3; radius: number; color: number; opacity?: number }
-  | { kind: "box"; transform: WorldTransform; size: Vec3; color: number; localPosition?: Vec3 }
-  | { kind: "triangle"; transform: WorldTransform; vertices: readonly [Vec3, Vec3, Vec3]; color: number };
+  | { kind: "sphere"; transform: WorldTransform; center: Vec3; radius: number; color: number; opacity?: number; followContactFrame?: boolean }
+  | { kind: "capsule"; transform: WorldTransform; center1: Vec3; center2: Vec3; radius: number; color: number; opacity?: number; followContactFrame?: boolean }
+  | { kind: "box"; transform: WorldTransform; size: Vec3; color: number; localPosition?: Vec3; followContactFrame?: boolean }
+  | { kind: "triangle"; transform: WorldTransform; vertices: readonly [Vec3, Vec3, Vec3]; color: number; followContactFrame?: boolean };
 
 export type ManifoldResources = {
   collide: (runtime: Box3DRuntime) => LocalManifold;

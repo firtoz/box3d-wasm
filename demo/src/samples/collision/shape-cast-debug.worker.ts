@@ -24,6 +24,7 @@ class ShapeCastDebugWorker extends PhysicsWorkerBase {
   }
 
   protected stepPhysics(): void {
+    this.totalSteps += 1;
     this.refresh();
   }
 

@@ -19,7 +19,7 @@ export const sphereVsSphereScene: ManifoldScene = {
   info: "b3CollideSpheres at the default Manifold poses",
   camera: manifoldCamera(35, 30, 50),
   draw: [
-    { kind: "sphere", transform: DEFAULT_MANIFOLD_A, center: SPHERE.center, radius: SPHERE.radius, color: 0x22c55e },
+    { kind: "sphere", transform: DEFAULT_MANIFOLD_A, center: SPHERE.center, radius: SPHERE.radius, color: 0x22c55e, followContactFrame: true },
     { kind: "sphere", transform: DEFAULT_MANIFOLD_B, center: SPHERE.center, radius: SPHERE.radius, color: 0x22d3ee },
   ],
   create(runtime: Box3DRuntime) {

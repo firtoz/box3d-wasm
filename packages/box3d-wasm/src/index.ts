@@ -1114,7 +1114,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     this.writeTriangle(triangle);
     this.writeWorldTransform(this.xfAPtr, transformA);
     this.writeWorldTransform(this.xfBPtr, transformB);
-    this.collideTriangleAndHullFn(this.trianglePtr, options.triangleFlags ?? 0, hullHandle, this.xfAPtr, this.xfBPtr, capacity, options.enableSpeculative === false ? 0 : 1, this.manifoldPtr, this.manifoldCapacityFloats(capacity));
+    this.collideTriangleAndHullFn(this.trianglePtr, options.triangleFlags ?? 0, hullHandle, this.xfAPtr, this.xfBPtr, capacity, options.enableSpeculative === true ? 1 : 0, this.manifoldPtr, this.manifoldCapacityFloats(capacity));
     return this.readLocalManifold(capacity);
   }
 

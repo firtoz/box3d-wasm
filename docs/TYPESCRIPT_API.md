@@ -382,7 +382,7 @@ if (hit !== null) {
 
 ## Collision Queries
 
-Pairwise collide helpers and `b3ShapeCast` are available on `Box3DRuntime`. Transforms are world poses; the bridge computes `b3InvMulWorldTransforms` internally. Hull arguments use `makeBoxHull` / `makeTransformedBoxHull` slot handles (do not `b3DestroyHull` those; `destroyHull` frees the embedded box storage).
+Pairwise collide helpers and `b3ShapeCast` are available on `Box3DRuntime`. Transforms are world poses; the bridge computes `b3InvMulWorldTransforms` internally. Hull arguments use `makeBoxHull` / `makeTransformedBoxHull` slot handles (do not `b3DestroyHull` those; `destroyHull` frees the embedded box storage). Invalid hull handles yield an empty manifold (`pointCount` 0). `collideTriangleAndHull` leaves `enableSpeculative` off unless you pass `{ enableSpeculative: true }`.
 
 ```ts
 const xfA = { position: [0, 0, 0] as const, rotation: [0, 0, 0, 1] as const };
