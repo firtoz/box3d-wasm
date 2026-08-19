@@ -74,6 +74,16 @@ export type ManifoldScene = {
   create: (runtime: Box3DRuntime) => ManifoldResources;
 };
 
+/** SharedArrayBuffer layout for live host overlay (must match `ManifoldWorker`). */
+export const MANIFOLD_CONTACT_HEADER = 11;
+export const MANIFOLD_CONTACT_STRIDE = 4;
+export const MANIFOLD_MAX_CONTACTS = 64;
+export const MANIFOLD_FRAME_POS = 0;
+export const MANIFOLD_FRAME_ROT = 3;
+export const MANIFOLD_COUNT_INDEX = 7;
+export const MANIFOLD_NORMAL_INDEX = 8;
+export const MANIFOLD_POINT_BASE = 11;
+
 export function dumpCreateManifold(runtime: Box3DRuntime, scene: ManifoldScene): {
   world: PhysicsWorld;
   handles: BodyId[];

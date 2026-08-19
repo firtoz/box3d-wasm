@@ -161,7 +161,7 @@ Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short
 
 ## Manifold (`sample_manifold.cpp`)
 
-These are pairwise collide demos (no physics bodies). The TS ports use a custom overlay host plus dump extras (`manifold` checkpoint field) so C++/WASM dump parity still applies.
+These are pairwise collide demos (no physics bodies). The TS ports use a custom overlay host plus dump extras (`manifold` checkpoint field) so C++/WASM dump parity still applies. Physics workers import `manifold-worker.ts` only — not the Three.js host — so Vite worker bundles do not pull `virtual:wasm-version`.
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|

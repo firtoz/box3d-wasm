@@ -1,4 +1,4 @@
-import { ManifoldWorker } from "./manifold-shared";
+import { ManifoldWorker } from "./manifold-worker";
 import { triangleVsSphereScene } from "./triangle-vs-sphere-scene";
 
 new ManifoldWorker(triangleVsSphereScene);

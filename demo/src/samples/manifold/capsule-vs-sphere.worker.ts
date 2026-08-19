@@ -1,4 +1,4 @@
-import { ManifoldWorker } from "./manifold-shared";
+import { ManifoldWorker } from "./manifold-worker";
 import { capsuleVsSphereScene } from "./capsule-vs-sphere-scene";
 
 new ManifoldWorker(capsuleVsSphereScene);
