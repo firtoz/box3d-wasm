@@ -8,7 +8,7 @@ import {
   dumpStepManifold,
   manifoldCamera,
   type ManifoldScene,
-} from "./manifold-shared";
+} from "./manifold-dump";
 
 const SPHERE = { center: [0.5, 0, -0.25] as Vec3, radius: 2 };
 

@@ -1,24 +1,33 @@
 import { type Box3DRuntime, type PhysicsWorld, type Vec3, type WorldTransform } from "box3d-wasm";
-import type { RenderBody, RenderSpec } from "../generic-host";
+import { f32, f32Mul, f32Sub } from "../f32";
 import { cameraFromSetView } from "../shared";
 
-const SCALE = 0.01;
+const SCALE = f32(0.01);
+function s(x: number, y: number, z: number): Vec3 {
+  return [f32Mul(x, SCALE), f32Mul(y, SCALE), f32Mul(z, SCALE)];
+}
+
+const ORIGIN = s(0, 0, 0);
 const TRIANGLE: readonly [Vec3, Vec3, Vec3] = [
-  [0, 0, 0],
-  [0, -6400 * SCALE, 0],
-  [6400 * SCALE, 0, 22.609375 * SCALE],
+  [f32Sub(s(0, 0, 0)[0], ORIGIN[0]), f32Sub(s(0, 0, 0)[1], ORIGIN[1]), f32Sub(s(0, 0, 0)[2], ORIGIN[2])],
+  [f32Sub(s(0, -6400, 0)[0], ORIGIN[0]), f32Sub(s(0, -6400, 0)[1], ORIGIN[1]), f32Sub(s(0, -6400, 0)[2], ORIGIN[2])],
+  [f32Sub(s(6400, 0, 22.609375)[0], ORIGIN[0]), f32Sub(s(6400, 0, 22.609375)[1], ORIGIN[1]), f32Sub(s(6400, 0, 22.609375)[2], ORIGIN[2])],
 ];
 const CAPSULE = {
-  center1: [43616.2109375 * SCALE, -100213 * SCALE, 132631.8125 * SCALE] as Vec3,
-  center2: [342231.96875 * SCALE, 359711.6875 * SCALE, 132631.8125 * SCALE] as Vec3,
+  center1: s(43616.2109375, -100213, 132631.8125),
+  center2: s(342231.96875, 359711.6875, 132631.8125),
   radius: SCALE,
 };
 const TRANSFORM: WorldTransform = {
-  position: [-115200 * SCALE, -19200 * SCALE, -202755 * SCALE],
+  position: [
+    f32Sub(s(-115200, -19200, -202755)[0], ORIGIN[0]),
+    f32Sub(s(-115200, -19200, -202755)[1], ORIGIN[1]),
+    f32Sub(s(-115200, -19200, -202755)[2], ORIGIN[2]),
+  ],
   rotation: [0, 0, 0, 1],
 };
-const TRANSLATION: Vec3 = [0.008614914 * SCALE, 0, 72267.1171875 * SCALE];
-const MAX_FRACTION = 0.970617533;
+const TRANSLATION: Vec3 = s(0.008614914, 0, 72267.1171875);
+const MAX_FRACTION = f32(0.970617533);
 
 export type ShapeCastDebugDump = {
   h: number;
@@ -51,8 +60,8 @@ export function shapeCastDebugGroundSize(): Vec3 {
   return [10, 1, 10];
 }
 
-export const shapeCastDebugBodies: RenderBody[] = [];
-export const shapeCastDebugCamera: RenderSpec["camera"] = cameraFromSetView(120, 30, 20, [0, 1.5, 0]);
+export const shapeCastDebugBodies: never[] = [];
+export const shapeCastDebugCamera = cameraFromSetView(120, 30, 20, [0, 1.5, 0]);
 export const shapeCastDebugTriangle = TRIANGLE;
 export const shapeCastDebugCapsule = CAPSULE;
 export const shapeCastDebugTransform = TRANSFORM;

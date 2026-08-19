@@ -1031,18 +1031,18 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
       points.push({
         point: [heap[p]!, heap[p + 1]!, heap[p + 2]!],
         separation: heap[p + 3]!,
-        pair: [heap[p + 4]!, heap[p + 5]!, heap[p + 6]!, heap[p + 7]!],
+        pair: [Math.trunc(heap[p + 4]!), Math.trunc(heap[p + 5]!), Math.trunc(heap[p + 6]!), Math.trunc(heap[p + 7]!)],
       });
     }
     return {
       normal: [heap[base]!, heap[base + 1]!, heap[base + 2]!],
       triangleNormal: [heap[base + 3]!, heap[base + 4]!, heap[base + 5]!],
       pointCount,
-      feature: heap[base + 7]!,
-      triangleIndex: heap[base + 8]!,
-      indices: [heap[base + 9]!, heap[base + 10]!, heap[base + 11]!],
+      feature: Math.trunc(heap[base + 7]!),
+      triangleIndex: Math.trunc(heap[base + 8]!),
+      indices: [Math.trunc(heap[base + 9]!), Math.trunc(heap[base + 10]!), Math.trunc(heap[base + 11]!)],
       squaredDistance: heap[base + 12]!,
-      triangleFlags: heap[base + 13]!,
+      triangleFlags: Math.trunc(heap[base + 13]!),
       points,
     };
   }

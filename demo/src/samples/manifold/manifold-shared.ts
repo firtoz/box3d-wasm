@@ -1,9 +1,7 @@
 import * as THREE from "three";
 import {
   type Box3DRuntime,
-  type HullHandle,
   type LocalManifold,
-  type PhysicsWorld,
   type Vec3,
   type WorldTransform,
 } from "box3d-wasm";
@@ -17,109 +15,27 @@ import {
   updateDebugLine,
   updateDebugPoint,
 } from "../debug-overlay";
-import { cameraFromSetView, capsuleMesh } from "../shared";
-import { B3_AXIS_Y, quatFromAxisAngle } from "box3d-wasm";
+import { capsuleMesh } from "../shared";
 import type { BodyId } from "box3d-wasm";
+import {
+  IDENTITY_XF,
+  type ManifoldDraw,
+  type ManifoldScene,
+} from "./manifold-dump";
 
-export const IDENTITY_XF: WorldTransform = { position: [0, 0, 0], rotation: [0, 0, 0, 1] };
-export const DEFAULT_MANIFOLD_A: WorldTransform = {
-  position: [3.5, 0.5, 0],
-  rotation: quatFromAxisAngle(B3_AXIS_Y, 0.5 * B3_PI),
-};
-export const DEFAULT_MANIFOLD_B: WorldTransform = { position: [0, 1.5, 3.5], rotation: [0, 0, 0, 1] };
-
-export function defaultManifoldA(runtime: Box3DRuntime): WorldTransform {
-  return { position: [3.5, 0.5, 0], rotation: runtime.makeQuatFromAxisAngle([0, 1, 0], 0.5 * Math.PI) };
-}
-
-export function emptyLocalManifold(): LocalManifold {
-  return {
-    normal: [0, 0, 0],
-    triangleNormal: [0, 0, 0],
-    pointCount: 0,
-    feature: 0,
-    triangleIndex: 0,
-    indices: [0, 0, 0],
-    squaredDistance: 0,
-    triangleFlags: 0,
-    points: [],
-  };
-}
-
-export function manifoldDumpJson(manifold: LocalManifold): Record<string, unknown> {
-  return {
-    manifold: {
-      n: manifold.normal,
-      tn: manifold.triangleNormal,
-      c: manifold.pointCount,
-      f: manifold.feature,
-      ti: manifold.triangleIndex,
-      i: manifold.indices,
-      d: manifold.squaredDistance,
-      tf: manifold.triangleFlags,
-      pts: manifold.points.map((point) => ({ p: point.point, s: point.separation, pr: point.pair })),
-    },
-  };
-}
-
-export type ManifoldDraw =
-  | { kind: "sphere"; transform: WorldTransform; center: Vec3; radius: number; color: number; opacity?: number }
-  | { kind: "capsule"; transform: WorldTransform; center1: Vec3; center2: Vec3; radius: number; color: number; opacity?: number }
-  | { kind: "box"; transform: WorldTransform; size: Vec3; color: number; localPosition?: Vec3 }
-  | { kind: "triangle"; transform: WorldTransform; vertices: readonly [Vec3, Vec3, Vec3]; color: number };
-
-export type ManifoldResources = {
-  collide: (runtime: Box3DRuntime) => LocalManifold;
-  dispose: () => void;
-  contactFrame: WorldTransform;
-};
-
-export type ManifoldScene = {
-  id: string;
-  name: string;
-  cppName: string;
-  info: string;
-  camera: RenderSpec["camera"];
-  draw: ManifoldDraw[];
-  create: (runtime: Box3DRuntime) => ManifoldResources;
-};
-
-export function dumpCreateManifold(runtime: Box3DRuntime, scene: ManifoldScene): {
-  world: PhysicsWorld;
-  handles: BodyId[];
-  state: { manifold: LocalManifold; resources: ManifoldResources };
-  dispose: () => void;
-} {
-  const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
-  const resources = scene.create(runtime);
-  return {
-    world,
-    handles: [],
-    state: { manifold: emptyLocalManifold(), resources },
-    dispose: () => resources.dispose(),
-  };
-}
-
-export function dumpStepManifold(
-  _world: PhysicsWorld,
-  runtime: Box3DRuntime,
-  _handles: readonly BodyId[],
-  _frame: number,
-  _dt: number,
-  state: { manifold: LocalManifold; resources: ManifoldResources },
-): void {
-  state.manifold = state.resources.collide(runtime);
-}
-
-export function dumpCheckpointManifold(
-  _world: PhysicsWorld,
-  _runtime: Box3DRuntime,
-  _handles: readonly BodyId[],
-  _frame: number,
-  state: { manifold: LocalManifold; resources: ManifoldResources },
-): Record<string, unknown> {
-  return manifoldDumpJson(state.manifold);
-}
+export {
+  DEFAULT_MANIFOLD_A,
+  DEFAULT_MANIFOLD_B,
+  IDENTITY_XF,
+  defaultManifoldA,
+  dumpCheckpointManifold,
+  dumpCreateManifold,
+  dumpStepManifold,
+  emptyLocalManifold,
+  manifoldCamera,
+  manifoldDumpJson,
+} from "./manifold-dump";
+export type { ManifoldDraw, ManifoldResources, ManifoldScene } from "./manifold-dump";
 
 const CONTACT_HEADER = 4;
 const CONTACT_STRIDE = 4;
@@ -309,6 +225,12 @@ export class ManifoldWorker extends PhysicsWorkerBase {
     return [];
   }
 
+  protected onBeforeDisposeWorld(): void {
+    this.disposeResources?.();
+    this.disposeResources = null;
+    this.collide = null;
+  }
+
   protected getReadyExtra(): Record<string, unknown> {
     return this.buffer === null ? {} : { manifold: this.buffer };
   }
@@ -322,9 +244,3 @@ export class ManifoldWorker extends PhysicsWorkerBase {
     writeContactBuffer(this.runtime, this.collide(this.runtime), this.contactFrame, this.values);
   }
 }
-
-export function manifoldCamera(yaw: number, pitch: number, radius: number, pivot: Vec3 = [0, 5, 0]): RenderSpec["camera"] {
-  return cameraFromSetView(yaw, pitch, radius, pivot);
-}
-
-export type { HullHandle };

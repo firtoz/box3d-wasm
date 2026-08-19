@@ -6,7 +6,7 @@ import {
   IDENTITY_XF,
   manifoldCamera,
   type ManifoldScene,
-} from "./manifold-shared";
+} from "./manifold-dump";
 
 const XF = IDENTITY_XF;
 

@@ -6,7 +6,7 @@ import {
   IDENTITY_XF,
   manifoldCamera,
   type ManifoldScene,
-} from "./manifold-shared";
+} from "./manifold-dump";
 
 const TRIANGLE: readonly [Vec3, Vec3, Vec3] = [
   [0.299769998, -1.01549578, -0.744717002],

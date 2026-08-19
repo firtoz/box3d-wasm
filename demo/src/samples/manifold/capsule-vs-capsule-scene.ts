@@ -5,7 +5,7 @@ import {
   dumpStepManifold,
   manifoldCamera,
   type ManifoldScene,
-} from "./manifold-shared";
+} from "./manifold-dump";
 
 const CAPSULE = { center1: [-2, 0, 0] as Vec3, center2: [2, 0, 0] as Vec3, radius: 1 };
 const XF_A = { position: [1, 1, 0] as Vec3, rotation: [0, 0, 0, 1] as [number, number, number, number] };

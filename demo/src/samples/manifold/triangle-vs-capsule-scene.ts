@@ -6,7 +6,7 @@ import {
   IDENTITY_XF,
   manifoldCamera,
   type ManifoldScene,
-} from "./manifold-shared";
+} from "./manifold-dump";
 
 const CAPSULE = { center1: [-0.5, 0, 0] as Vec3, center2: [0.5, 0, 0] as Vec3, radius: 0.05 };
 const TRIANGLE: readonly [Vec3, Vec3, Vec3] = [

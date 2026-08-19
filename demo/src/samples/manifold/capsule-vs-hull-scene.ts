@@ -6,7 +6,7 @@ import {
   IDENTITY_XF,
   manifoldCamera,
   type ManifoldScene,
-} from "./manifold-shared";
+} from "./manifold-dump";
 
 const CAPSULE = { center1: [-1, 0, 0] as Vec3, center2: [1, 0, 0] as Vec3, radius: 0.15 };
 const XF_A = IDENTITY_XF;
