@@ -93,6 +93,7 @@ B3W_EXPORT int b3wGetWorldWorkerCount(int worldHandle)
 }
 
 #if defined(__EMSCRIPTEN__)
+#include <emscripten.h>
 #include <emscripten/threading.h>
 B3W_EXPORT int b3wCheckThreadingSupport(void)
 {
@@ -100,6 +101,22 @@ B3W_EXPORT int b3wCheckThreadingSupport(void)
 	int result = 0;
 	if (emscripten_has_threading_support()) result |= 1;
 	return result;
+}
+
+// PThread lives in the Emscripten glue closure, not on the exported Module object.
+EM_JS(void, b3w_js_terminate_pthreads, (), {
+	if (typeof PThread !== "undefined" && PThread.terminateAllThreads) {
+		PThread.terminateAllThreads();
+	}
+});
+
+B3W_EXPORT void b3wTerminatePthreads(void)
+{
+	b3w_js_terminate_pthreads();
+}
+#else
+B3W_EXPORT void b3wTerminatePthreads(void)
+{
 }
 #endif
 

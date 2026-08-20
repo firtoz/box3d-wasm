@@ -67,10 +67,12 @@ export type PhysicsWorkerReady = {
 };
 
 export type PhysicsWorkerError = { type: "error"; message: string };
+export type PhysicsWorkerDisposed = { type: "disposed" };
 
 export type PhysicsWorkerMessage =
   | PhysicsWorkerReady
-  | PhysicsWorkerError;
+  | PhysicsWorkerError
+  | PhysicsWorkerDisposed;
 
 export const SNAPSHOT_VERSION_INDEX = 0;
 export const SNAPSHOT_AWAKE_COUNT_INDEX = 1;

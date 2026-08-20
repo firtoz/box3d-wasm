@@ -50,6 +50,7 @@ When adding an API binding:
 - [x] Get awake body count: `b3World_GetAwakeBodyCount`
 - [x] Set/get worker count: `b3World_SetWorkerCount`, `b3World_GetWorkerCount`
 - [x] Threading support check: Emscripten threading support via `checkThreadingSupport`
+- [x] Terminate Emscripten pthread workers: `b3wTerminatePthreads` via `terminatePthreads()` (DedicatedWorker unload only)
 - [x] Enable sleeping: `b3World_EnableSleeping`
 - [x] Enable continuous collision: `b3World_EnableContinuous`
 - [x] Enable warm starting: `b3World_EnableWarmStarting`

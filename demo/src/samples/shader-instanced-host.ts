@@ -9,6 +9,7 @@ import { createWorkerWorld, type WorkerWorldState } from "../worker-world-bridge
 import { RAGDOLL_RENDER_BONES, ragdollCapsuleMesh } from "../ragdoll-render";
 import {
   bindSnapshotTransforms,
+  unbindSnapshotTransforms,
   createShaderBoxMesh,
   createShaderInstanceMesh,
   hexToRgb,
@@ -16,6 +17,7 @@ import {
 } from "../shader-instanced-boxes";
 import { wasmBuildVersion } from "virtual:wasm-version";
 import { getWasmBaseUrl, getWasmVariant, getWorkerCounts } from "./shared";
+import { shutdownPhysicsWorker } from "../shutdown-physics-worker";
 
 export type ShaderSyncContext = {
   bodyCount: number;
@@ -313,8 +315,8 @@ export function createWorkerSampleShell(
       meshes.length = 0;
     },
     dispose() {
-      worker.postMessage({ type: "dispose" });
-      worker.terminate();
+      workerWorldState = null;
+      void shutdownPhysicsWorker(worker);
     },
     projectileMeshes,
     projectileColorCache,
@@ -607,6 +609,11 @@ export function createShaderInstancedSample(input: ShaderInstancedHostSpec | Sha
           }
         },
         dispose() {
+          for (const layer of layers) {
+            unbindSnapshotTransforms(layer.mesh);
+            scene.remove(layer.mesh.mesh);
+            layer.mesh.dispose();
+          }
           shell.disposeProjectiles(scene, shell.projectileMeshes);
           shell.dispose();
           sceneSetup?.dispose();
@@ -614,10 +621,6 @@ export function createShaderInstancedSample(input: ShaderInstancedHostSpec | Sha
             scene.remove(groundMesh);
             groundGeom.dispose();
             groundMat.dispose();
-          }
-          for (const layer of layers) {
-            scene.remove(layer.mesh.mesh);
-            layer.mesh.dispose();
           }
         },
       };

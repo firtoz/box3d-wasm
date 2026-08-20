@@ -528,6 +528,8 @@ const moveCount = world.scatterBodyMoveEvents(
 
 Read results with `world.getMemoryView()` (or, in the threaded demo, bind Three.js attributes directly to the pthread `SharedArrayBuffer` heap). The demo worker uses heap-backed zero-copy publication for release/profile WASM and keeps an external-SAB copy path for the growable variant.
 
+When that worker is going away, destroy the world first, then call `runtime.terminatePthreads()` before `Worker.terminate()` / `self.close()`. Killing the parent worker mid-`world.step()` leaves Emscripten pthread children waiting and can freeze the next sample load. Unbind any Three.js attributes that alias the WASM heap before teardown.
+
 ### Rebuilding with higher slot limits
 
 Configure limits at CMake time, then rebuild WASM:
