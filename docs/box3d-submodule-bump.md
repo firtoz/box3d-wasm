@@ -34,13 +34,13 @@ Record `patches/box3d/BASE_SHA` after any successful bump+patch refresh.
 
 | | |
 |--|--|
-| Local `box3d` | `3fc20f5` (`Follow cam`, #107) — also `patches/box3d/BASE_SHA` |
-| Upstream `origin/main` | `3fc20f5` |
+| Local `box3d` | `30c67b5` (`Fixed the 64-bit hash function`, #129) — also `patches/box3d/BASE_SHA` |
+| Upstream `origin/main` | `30c67b5` |
 | Behind | **0** |
 
-Pending work that landed with this bump: reference-dump stubs for `SAPP_KEYCODE_COMMA` / `PERIOD` and `Camera::SetTarget`; `SAMPLES.md` row + Easy next ports entry for **Bodies / Class Ring**.
+Pending work that landed with this bump: 64-bit hull/mesh/height-field hashes (`rapidhash`); triangle/capsule manifold fixes; `b3RecPlayer_Create`/`Destroy` renamed to `b3CreatePlayer`/`b3DestroyPlayer`; **Bodies / Offset Kinematic** and **Events / Contact** sample rows; Gyroscopic Precession rolling resistance 0.1 in the TS port; `sample_replay.cpp` dropped from reference-dump.
 
-Post-bump dump sweep (99 dump-enabled scenes): **93** green at default checkpoints after fixing pre-existing Jenga (wrong layer count/size) and Large Pyramid (90 vs Release 100) setup bugs. Remaining fails are the known soft multi-contact exceptions listed in `SAMPLES.md`.
+Post-bump dump sweep (139 dump-enabled scenes): **128** hard-green at default checkpoints; **11** soft early-window OK (`dump-soft-exceptions.json`). Frame 0 exact on every previously failing pile — remaining drift is native-vs-WASM solver FP, a few frames earlier than `3fc20f5` on ragdoll/mesh/convex piles.
 
 ---
 
@@ -126,15 +126,17 @@ Do **not** call the bump done until the dump-enabled set is green at the documen
 
 ---
 
-## Notes for the pending `3fc20f5` bump specifically
+## Notes for the `30c67b5` bump
 
 | Area | Action |
 |------|--------|
-| Sensors | Visitors must be convex (`src/sensor.c`). No dump-enabled sensor ports yet; when porting Events / Sensor samples, only convex visitors. |
-| `B3_MAX_SHAPE_CAST_POINTS` | Now `B3_MAX_HULL_VERTICES`. Relevant once shape-cast APIs are wrapped. |
-| FMA CMake | Compiler-ID based `-ffp-contract=off`. Expect little dump delta on Linux clang/gcc (already covered). Rebuild native reference-dump anyway. |
-| **Class Ring** | New Bodies sample: capsule ring + heavy gem, `allowFastRotation`, internal 960 Hz stepping. Add to `SAMPLES.md` as `[ ]`; port later (custom step cadence → needs `dumpStep` / worker step hooks). |
-| gfx / world text / follow cam | Mostly reference-dump stub / include fallout; no TS demo obligation. |
+| 64-bit hashes | Hull/mesh/height-field `hash` is `uint64_t`; identity uses `rapidhash`. No TS binding reads those fields. |
+| Triangle/capsule | `triangle_manifold.c` contact-point/clip fixes — revalidate mesh/capsule dump samples. |
+| Replay API | `b3RecPlayer_Create`/`b3RecPlayer_Destroy` → `b3CreatePlayer`/`b3DestroyPlayer`. Recording still unwrapped. |
+| **Offset Kinematic** | New Bodies sample; dumpable; queued in Easy next ports. |
+| **Contact** | New Events sample (accretion); random spawn + WASD — not dump-generic yet. |
+| Gyroscopic Precession | Upstream set `rollingResistance = 0.1f`; TS port updated. |
+| gfx shadows | `sample_replay.cpp` excluded from reference-dump (pulls `sokol_gfx`); replay is not dump-compared. |
 
 ---
 

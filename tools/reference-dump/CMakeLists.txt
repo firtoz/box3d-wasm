@@ -52,7 +52,7 @@ set(SAMPLE_FILES
   # sample_manifold.cpp is included from dump-interaction-overrides.cpp so DumpManifold extras can subclass collide samples.
   "${SAMPLE_SRC_DIR}/sample_mesh.cpp"
   "${SAMPLE_SRC_DIR}/sample_ragdoll.cpp"
-  "${SAMPLE_SRC_DIR}/sample_replay.cpp"
+  # sample_replay.cpp pulls gfx/shadow.h + sokol_gfx (not dump-compared).
   "${SAMPLE_SRC_DIR}/sample_robustness.cpp"
   "${SAMPLE_SRC_DIR}/sample_shapes.cpp"
   "${SAMPLE_SRC_DIR}/sample_stacking.cpp"

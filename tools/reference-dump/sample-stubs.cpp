@@ -67,6 +67,8 @@ Sample::Sample(SampleContext* context)
     m_currentProfileIndex(0),
     m_profileReadIndex(0),
     m_profileWriteIndex(0),
+    m_shadowSplitNear(0.0f),
+    m_shadowSplitFar(0.0f),
     m_mouseLast(),
     m_mouseDelta(),
     m_didStep(false),

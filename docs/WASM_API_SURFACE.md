@@ -309,7 +309,7 @@ When adding an API binding:
 - [ ] Create/destroy recording
 - [ ] Start/stop world recording
 - [ ] Recording byte size/access helpers
-- [ ] Replay player create/destroy
+- [ ] Replay player create/destroy (`b3CreatePlayer` / `b3DestroyPlayer`; formerly `b3RecPlayer_Create` / `b3RecPlayer_Destroy`)
 - [ ] Replay step/restart/seek
 - [ ] Replay world/body accessors
 - [ ] Divergence checks

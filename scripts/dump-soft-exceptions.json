@@ -8,11 +8,39 @@
     "note": "Frames 0–100 match; first divergence ~frame 130 as the kinematic pusher engages the 10k-contact pile."
   },
   "benchmark/convex-pile": {
-    "matchThroughFrame": 50,
-    "note": "Frames 0–50 match; soft multi-contact drift by ~frame 75–100."
+    "matchThroughFrame": 40,
+    "note": "Frames 0–40 match at 1e-5 after the 30c67b5 bump; first divergence ~frame 45 in the 5k-convex pile."
   },
   "mesh/hollow-box": {
     "matchThroughFrame": 0,
     "note": "Frame 0 exact at 1e-5; frame 1+ drifts in the hollow-shell multi-contact pile (native vs WASM solver FP)."
+  },
+  "world/far-ragdolls": {
+    "matchThroughFrame": 20,
+    "note": "Frames 0–20 match at 1e-5; first divergence ~frame 25 at 1000km origin (native vs WASM solver FP)."
+  },
+  "ragdoll/pile": {
+    "matchThroughFrame": 45,
+    "note": "Frames 0–45 match at 1e-5; first divergence ~frame 50 in the 20-human pile."
+  },
+  "determinism/falling-ragdolls": {
+    "matchThroughFrame": 150,
+    "note": "Frames 0–150 match at 1e-5; first divergence ~frame 200 in the multi-ragdoll pile."
+  },
+  "determinism/wave-pile": {
+    "matchThroughFrame": 100,
+    "note": "Frames 0–100 match at 1e-5; first divergence ~frame 150 on the mixed-shape heightfield pile."
+  },
+  "benchmark/rain": {
+    "matchThroughFrame": 64,
+    "note": "Frames 0–64 match at 1e-5; first divergence ~frame 70 as later ragdoll columns land."
+  },
+  "benchmark/candy-cups": {
+    "matchThroughFrame": 200,
+    "note": "Frames 0–200 match at 1e-5 including the scripted explode; first divergence ~frame 250."
+  },
+  "benchmark/explosion": {
+    "matchThroughFrame": 20,
+    "note": "Frames 0–20 match at 1e-5 including the frame-1 explode; first divergence ~frame 25 in the cylinder pile."
   }
 }

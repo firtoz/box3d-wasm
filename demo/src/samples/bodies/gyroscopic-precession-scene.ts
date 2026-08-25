@@ -43,7 +43,7 @@ export function buildGyroscopicPrecessionDynamicBodies(world: PhysicsWorld, runt
         rotation,
         allowFastRotation: true,
       });
-      runtime.createShapeFromHull(body, hull);
+      runtime.createShapeFromHull(body, hull, { rollingResistance: 0.1 });
       runtime.setBodyAngularVelocity(body, angularVelocity);
       handles.push(body);
     }
