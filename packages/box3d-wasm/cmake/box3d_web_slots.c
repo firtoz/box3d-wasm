@@ -238,6 +238,8 @@ int b3wAllocWorldSlot(b3WorldId worldId)
 	g_worlds[index].active = true;
 	g_worlds[index].nextFree = B3W_SLOT_FREE_NONE;
 	g_worlds[index].worldId = worldId;
+	g_worlds[index].sensorFilterRow = 0;
+	g_worlds[index].sensorFilterEnabled = 0;
 	g_worldActiveCount += 1;
 	return index + 1;
 }

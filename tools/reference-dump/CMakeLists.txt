@@ -40,7 +40,7 @@ set(STUBS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/stubs")
 # mesh_loader.cpp, jsmn.h, and other non-sample files)
 set(SAMPLE_FILES
   # sample_benchmark.cpp is included from dump-interaction-overrides.cpp so DumpDestruction can subclass it.
-  "${SAMPLE_SRC_DIR}/sample_character.cpp"
+  # sample_character.cpp is included from dump-interaction-overrides.cpp so DumpRigidBodyCharacter can subclass it.
   # sample_collision.cpp is included from dump-interaction-overrides.cpp so DumpRayCurtain can subclass it.
   "${SAMPLE_SRC_DIR}/sample_compound.cpp"
   # sample_continuous.cpp is included from dump-interaction-overrides.cpp so DumpContinuousMeshDrop /

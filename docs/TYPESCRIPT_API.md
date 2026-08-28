@@ -400,11 +400,13 @@ const moverPlanes = world.collideMover([0, 1, 0.4], {
   radius: 0.25,
 });
 const solved = world.solvePlanes([0, 0, 0], moverPlanes.map((hit) => ({ plane: hit.plane })));
+const fraction = world.castMover([0, 1, 0], { center1: [0, -0.5, 0], center2: [0, 0.5, 0], radius: 0.3 }, [0, -0.1, 0]);
+const clipped = world.clipVector([0, -1, 0], moverPlanes.map((hit) => ({ plane: hit.plane })));
 ```
 
 ## Events
 
-Sensor begin-touch events and contact begin-touch events are available after `world.step()`. Only begin events are wrapped today (`getSensorBeginEvents`, `getContactBeginEvents`).
+Sensor begin- and end-touch events and contact begin-touch events are available after `world.step()` (`getSensorBeginEvents`, `getSensorEndEvents`, `getContactBeginEvents`). `setCustomSensorFilter(filterRow, true)` installs a world custom filter that allows a sensor if it is marked active in `userData` or its packed row is not `filterRow` (`(active ? 0x40000000 : 0) | row`).
 
 ```ts
 world.step();

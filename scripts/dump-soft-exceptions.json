@@ -50,5 +50,9 @@
   "mesh/reflection": {
     "matchThroughFrame": 50,
     "note": "Frames 0–50 match at 1e-5; first divergence ~frame 100 in the 20-human + box/capsule/sphere pile (native vs WASM solver FP)."
+  },
+  "character/rigid-body": {
+    "matchThroughFrame": 200,
+    "note": "DumpRigidBodyCharacter skips TraceBody (Sample::Step only). Frames 0–200 match at 1e-5; 1 ULP on character Y at frame 300 of free-fall."
   }
 }

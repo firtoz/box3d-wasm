@@ -171,5 +171,15 @@ These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exis
 - [x] `benchmark/hull` — Benchmark / Hull — timing HUD
 - [x] `mesh/reflection` — Mesh / Reflection — Neg/Pos X Y Z
 - [x] `mesh/voxel` — Mesh / Voxel — no C++ sample UI
+- [x] `mesh/viewer` — Mesh / Viewer — mesh index + median/edges/weld
+- [x] `mesh/creation-benchmark` — Mesh / Creation Benchmark — timing HUD
+- [x] `character/mover` — Character / Mover — WASD/pad + jump + clip toggle
+- [x] `character/rigid-body` — Character / Rigid Body — WASD/pad
+- [x] `compound/village` — Compound / Village — no C++ sample UI
+- [x] `issues/sbox-mover` — Issues / s&box mover — no C++ sample UI
+- [x] `issues/sbox-ghost-collisions` — Issues / s&box Ghost Collisions — walk-speed HUD not ported
+- [x] `benchmark/sensor` — Benchmark / Sensor — HUD not ported
+- [x] `tree/benchmark` — Tree / Benchmark — file slider
+- [x] `ragdoll/pose` — Ragdoll / Pose — no pose/motor UI (upstream `#if 0`)
 - [x] `shapes/conveyor-mesh` — Shapes / Conveyor Mesh — no C++ sample UI
 - [x] `extra/object-asserts-bench` — Extra / Object Asserts Bench — extra demo

@@ -16,6 +16,7 @@
 #include "sample_issues.cpp"
 #include "sample_joint.cpp"
 #include "sample_manifold.cpp"
+#include "sample_character.cpp"
 
 class DumpMotorJoint : public MotorJoint
 {
@@ -899,6 +900,139 @@ private:
 	std::string m_extrasJson;
 };
 
+class DumpRigidBodyCharacter : public RigidBodyCharacter
+{
+public:
+	explicit DumpRigidBodyCharacter( SampleContext* context )
+		: RigidBodyCharacter( context )
+	{
+	}
+
+	void Step() override
+	{
+		Sample::Step();
+	}
+
+	static Sample* Create( SampleContext* context )
+	{
+		return new DumpRigidBodyCharacter( context );
+	}
+};
+
+class DumpSensor : public BenchmarkSensor
+{
+public:
+	explicit DumpSensor( SampleContext* context )
+		: BenchmarkSensor( context )
+	{
+	}
+
+	void Step() override
+	{
+		Sample::Step();
+	}
+
+	static Sample* Create( SampleContext* context )
+	{
+		return new DumpSensor( context );
+	}
+};
+
+class DumpVillage : public Sample
+{
+public:
+	explicit DumpVillage( SampleContext* context )
+		: Sample( context )
+	{
+		constexpr int gridCount = 8;
+		constexpr float a = 4.0f;
+		constexpr int capsuleCapacity = gridCount * gridCount / 8 + 1;
+		constexpr int hullCount = gridCount * gridCount;
+		constexpr int sphereCapacity = gridCount * gridCount / 8 + 1;
+
+		b3Vec3 extents = { a, 0.5f * a, a };
+		b3SurfaceMaterial material = b3DefaultSurfaceMaterial();
+		b3BoxHull box = b3MakeBoxHull( extents.x, extents.y, extents.z );
+
+		b3CompoundCapsuleDef* capsules = new b3CompoundCapsuleDef[capsuleCapacity];
+		b3CompoundHullDef* hulls = new b3CompoundHullDef[hullCount];
+		b3CompoundSphereDef* spheres = new b3CompoundSphereDef[sphereCapacity];
+
+		b3Transform transform = b3Transform_identity;
+		int capsuleIndex = 0;
+		int hullIndex = 0;
+		int sphereIndex = 0;
+
+		for ( int i = 0; i < gridCount; ++i )
+		{
+			transform.p.x = ( 2.0f * i - gridCount ) * a;
+			for ( int j = 0; j < gridCount; ++j )
+			{
+				transform.p.z = ( 2.0f * j - gridCount ) * a;
+				transform.p.y = RandomFloatRange( -0.25f, 0.125f ) * a;
+
+				if ( ( i & 1 ) && ( j & 1 ) )
+				{
+					b3Vec3 p1 = transform.p + RandomVec3( { -a, a, -a }, { a, 2.0f * a, a } );
+					b3Vec3 p2 = transform.p + RandomVec3( { -a, a, -a }, { a, 2.0f * a, a } );
+					float radius = RandomFloatRange( 0.1f, 0.5f );
+					if ( capsuleIndex < sphereIndex )
+					{
+						capsules[capsuleIndex].capsule = { p1, p2, radius };
+						capsules[capsuleIndex].material = material;
+						capsuleIndex += 1;
+					}
+					else
+					{
+						spheres[sphereIndex].sphere = { p1, radius };
+						spheres[sphereIndex].material = material;
+						sphereIndex += 1;
+					}
+				}
+
+				hulls[hullIndex].hull = &box.base;
+				hulls[hullIndex].transform = transform;
+				hulls[hullIndex].material = material;
+				hullIndex += 1;
+			}
+		}
+
+		b3CompoundDef def = {};
+		def.capsules = capsules;
+		def.capsuleCount = capsuleIndex;
+		def.hulls = hulls;
+		def.hullCount = hullCount;
+		def.spheres = spheres;
+		def.sphereCount = sphereIndex;
+
+		m_compound = b3CreateCompound( &def );
+
+		b3BodyDef bodyDef = b3DefaultBodyDef();
+		bodyDef.position = { -1.0f, -0.5f, 2.0f };
+		bodyDef.rotation = b3MakeQuatFromAxisAngle( { 0.0f, 1.0f, 0.0f }, -1.15f * B3_PI );
+		b3BodyId groundId = b3CreateBody( m_worldId, &bodyDef );
+
+		b3ShapeDef shapeDef = b3DefaultShapeDef();
+		(void)b3CreateBakedCompoundShape( groundId, &shapeDef, m_compound );
+
+		delete[] capsules;
+		delete[] hulls;
+		delete[] spheres;
+	}
+
+	~DumpVillage() override
+	{
+		b3DestroyCompound( m_compound );
+	}
+
+	static Sample* Create( SampleContext* context )
+	{
+		return new DumpVillage( context );
+	}
+
+	b3CompoundData* m_compound;
+};
+
 static void patch_sample_entry( const char* name, SampleCreateFcn* createFcn )
 {
 	for ( int i = 0; i < g_sampleCount; ++i )
@@ -930,6 +1064,9 @@ void patch_dump_sample_entries()
 	patch_sample_entry( "Capsule Cast Ray", DumpCapsuleCastRay::Create );
 	patch_sample_entry( "Large World", DumpLargeWorld::Create );
 	patch_sample_entry( "Sensor Hits", DumpSensorHits::Create );
+	patch_sample_entry( "Sensor", DumpSensor::Create );
+	patch_sample_entry( "Rigid Body", DumpRigidBodyCharacter::Create );
+	patch_sample_entry( "Village", DumpVillage::Create );
 	patch_sample_entry( "Sphere vs Sphere", DumpSphereAndSphere::Create );
 	patch_sample_entry( "Capsule vs Sphere", DumpCapsuleAndSphere::Create );
 	patch_sample_entry( "Hull vs Sphere", DumpHullAndSphere::Create );

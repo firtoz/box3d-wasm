@@ -229,6 +229,73 @@ B3W_EXPORT int b3wGetSensorEndEventCount(int worldHandle)
 	return events.endCount;
 }
 
+B3W_EXPORT int b3wGetSensorEndEvent(int worldHandle, int index, uint64_t* outSensorShapePacked, uint64_t* outVisitorShapePacked)
+{
+	if (outSensorShapePacked != NULL) *outSensorShapePacked = 0;
+	if (outVisitorShapePacked != NULL) *outVisitorShapePacked = 0;
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	if (world == NULL) return 0;
+	b3SensorEvents events = b3World_GetSensorEvents(world->worldId);
+	if (index < 0 || index >= events.endCount) return 0;
+	const b3SensorEndTouchEvent* event = events.endEvents + index;
+	if (outSensorShapePacked != NULL)
+	{
+		*outSensorShapePacked = b3StoreShapeId(event->sensorShapeId);
+	}
+	if (outVisitorShapePacked != NULL)
+	{
+		*outVisitorShapePacked = b3StoreShapeId(event->visitorShapeId);
+	}
+	return 1;
+}
+
+static bool b3wSensorFilter(b3ShapeId idA, b3ShapeId idB, void* context)
+{
+	b3wWorldSlot* slot = (b3wWorldSlot*)context;
+	intptr_t data = 0;
+	int found = 0;
+	if (b3Shape_IsSensor(idA))
+	{
+		data = (intptr_t)b3Shape_GetUserData(idA);
+		found = 1;
+	}
+	else if (b3Shape_IsSensor(idB))
+	{
+		data = (intptr_t)b3Shape_GetUserData(idB);
+		found = 1;
+	}
+	if (found == 0)
+	{
+		return true;
+	}
+	int active = (int)((data >> 30) & 1);
+	int row = (int)(data & 0x3FFFFFFF);
+	return active != 0 || row != slot->sensorFilterRow;
+}
+
+B3W_EXPORT void b3wSetCustomSensorFilter(int worldHandle, int filterRow, int enabled)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	slot->sensorFilterRow = filterRow;
+	slot->sensorFilterEnabled = enabled != 0;
+	if (enabled != 0)
+	{
+		b3World_SetCustomFilterCallback(slot->worldId, b3wSensorFilter, slot);
+	}
+	else
+	{
+		b3World_SetCustomFilterCallback(slot->worldId, NULL, NULL);
+	}
+}
+
+B3W_EXPORT int b3wShapeIsSensor(uint64_t shapePacked)
+{
+	b3ShapeId shapeId = b3LoadShapeId(shapePacked);
+	if (!b3Shape_IsValid(shapeId)) return 0;
+	return b3Shape_IsSensor(shapeId) ? 1 : 0;
+}
+
 B3W_EXPORT int b3wGetJointEventCount(int worldHandle)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);

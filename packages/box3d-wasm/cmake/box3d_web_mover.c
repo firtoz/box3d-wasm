@@ -76,3 +76,45 @@ B3W_EXPORT void b3wSolvePlanes(float tx, float ty, float tz, const float* inPlan
 	outDelta[2] = result.delta.z;
 	outDelta[3] = (float)result.iterationCount;
 }
+
+static bool b3wCastMoverFilter(b3ShapeId shapeId, void* context)
+{
+	(void)shapeId;
+	(void)context;
+	return true;
+}
+
+B3W_EXPORT float b3wCastMover(int worldHandle, float ox, float oy, float oz, float c1x, float c1y, float c1z, float c2x, float c2y,
+	float c2z, float radius, float dx, float dy, float dz, unsigned int categoryBits, unsigned int maskBits)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return 1.0f;
+	b3Capsule capsule = { { c1x, c1y, c1z }, { c2x, c2y, c2z }, radius };
+	b3QueryFilter filter = b3DefaultQueryFilter();
+	filter.categoryBits = categoryBits;
+	filter.maskBits = maskBits;
+	b3Vec3 translation = { dx, dy, dz };
+	return b3World_CastMover(slot->worldId, (b3Pos){ ox, oy, oz }, &capsule, translation, filter, b3wCastMoverFilter, NULL);
+}
+
+B3W_EXPORT void b3wClipVector(float vx, float vy, float vz, const float* inPlanes, int count, float* out)
+{
+	if (out == NULL) return;
+	int n = count;
+	if (n > B3W_MOVER_PLANE_CAP) n = B3W_MOVER_PLANE_CAP;
+	if (n < 0) n = 0;
+	b3CollisionPlane planes[B3W_MOVER_PLANE_CAP];
+	for (int i = 0; i < n; ++i)
+	{
+		int o = i * 6;
+		planes[i].plane.normal = (b3Vec3){ inPlanes[o + 0], inPlanes[o + 1], inPlanes[o + 2] };
+		planes[i].plane.offset = inPlanes[o + 3];
+		planes[i].pushLimit = inPlanes[o + 4];
+		planes[i].push = 0.0f;
+		planes[i].clipVelocity = inPlanes[o + 5] != 0.0f;
+	}
+	b3Vec3 clipped = b3ClipVector((b3Vec3){ vx, vy, vz }, planes, n);
+	out[0] = clipped.x;
+	out[1] = clipped.y;
+	out[2] = clipped.z;
+}

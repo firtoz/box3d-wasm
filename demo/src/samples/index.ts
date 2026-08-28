@@ -86,6 +86,7 @@ import { manyPyramidsSample } from "./benchmark/many-pyramids";
 import { jointGridSample } from "./benchmark/joint-grid";
 import { tileFloorSample } from "./compound/tile-floor";
 import { meshTileSample } from "./compound/mesh-tile";
+import { villageSample } from "./compound/village";
 import { ragdollBoxSample } from "./ragdoll/box";
 import { ragdollPileSample } from "./ragdoll/pile";
 import { ragdollInclineSample } from "./ragdoll/incline";
@@ -116,6 +117,8 @@ import { capsuleCastRaySample } from "./collision/capsule-cast-ray";
 import { castWorldSample } from "./collision/cast-world";
 import { capsulePlaneSample } from "./character/capsule-plane";
 import { moverOverlapSample } from "./character/mover-overlap";
+import { moverSample } from "./character/mover";
+import { rigidBodySample } from "./character/rigid-body";
 import { longRayCastSample } from "./collision/long-ray-cast";
 import { junkyardSample } from "./benchmark/junkyard";
 import { fallingTreesSample } from "./benchmark/falling-trees";
@@ -126,9 +129,12 @@ import { objectAssertsBenchSample } from "./object-asserts-bench";
 import { querySpawnSample } from "./determinism/query-spawn";
 import { sensorHitsSample } from "./events/sensor-hits";
 import { ragdollMeshSample } from "./ragdoll/mesh";
+import { ragdollPoseSample } from "./ragdoll/pose";
 import { hollowBoxSample } from "./mesh/hollow-box";
 import { reflectionSample } from "./mesh/reflection";
 import { voxelSample } from "./mesh/voxel";
+import { meshViewerSample } from "./mesh/viewer";
+import { meshCreationBenchmarkSample } from "./mesh/creation-benchmark";
 import { benchmarkHeightFieldSample } from "./benchmark/height-field-benchmark";
 import { bodyCastSample } from "./bodies/cast";
 import { shapeCastSample } from "./collision/shape-cast";
@@ -138,6 +144,8 @@ import { meshScaleSample } from "./collision/mesh-scale";
 import { drivingSample } from "./joints/driving";
 import { gearLiftSample } from "./joints/gear-lift";
 import { capsuleMeshSample } from "./issues/capsule-mesh";
+import { sboxMoverSample } from "./issues/sbox-mover";
+import { sboxGhostCollisionsSample } from "./issues/sbox-ghost-collisions";
 import { sphereVsSphereSample } from "./manifold/sphere-vs-sphere";
 import { capsuleVsSphereSample } from "./manifold/capsule-vs-sphere";
 import { hullVsSphereSample } from "./manifold/hull-vs-sphere";
@@ -152,6 +160,8 @@ import { distanceDebugSample } from "./collision/distance-debug";
 import { shapeDistanceSample } from "./collision/shape-distance";
 import { timeOfImpactSample } from "./collision/time-of-impact";
 import { benchmarkHullSample } from "./benchmark/hull";
+import { benchmarkSensorSample } from "./benchmark/sensor";
+import { treeBenchmarkSample } from "./tree/benchmark";
 export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
 
 export const samples = [
@@ -209,10 +219,12 @@ export const samples = [
   compoundMaterialDedupSample,
   tileFloorSample,
   meshTileSample,
+  villageSample,
   ragdollBoxSample,
   ragdollMeshSample,
   ragdollPileSample,
   ragdollInclineSample,
+  ragdollPoseSample,
   fallingRagdollsSample,
   wavePileSample,
   querySpawnSample,
@@ -262,11 +274,15 @@ export const samples = [
   hollowBoxSample,
   reflectionSample,
   voxelSample,
+  meshViewerSample,
+  meshCreationBenchmarkSample,
   rayCurtainSample,
   capsuleCastRaySample,
   castWorldSample,
   capsulePlaneSample,
   moverOverlapSample,
+  moverSample,
+  rigidBodySample,
   longRayCastSample,
   thinWallSample,
   bounceHouseSample,
@@ -295,6 +311,8 @@ export const samples = [
   drivingSample,
   gearLiftSample,
   capsuleMeshSample,
+  sboxMoverSample,
+  sboxGhostCollisionsSample,
   sphereVsSphereSample,
   capsuleVsSphereSample,
   hullVsSphereSample,
@@ -309,5 +327,7 @@ export const samples = [
   shapeDistanceSample,
   timeOfImpactSample,
   benchmarkHullSample,
+  benchmarkSensorSample,
+  treeBenchmarkSample,
   objectAssertsBenchSample,
 ];

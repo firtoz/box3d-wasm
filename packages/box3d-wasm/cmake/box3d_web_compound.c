@@ -161,3 +161,120 @@ B3W_EXPORT int b3wCreateCompoundFromMeshes(int meshCount, const float* meshData,
 	if (compound == NULL) return 0;
 	return b3wAllocCompoundSlot(compound);
 }
+
+B3W_EXPORT int b3wCreateCompoundParts(int hullCount, const float* hullData, int hullStride, int sphereCount, const float* sphereData,
+	int sphereStride, int capsuleCount, const float* capsuleData, int capsuleStride)
+{
+	b3BoxHull* boxHulls = NULL;
+	b3CompoundHullDef* hullDefs = NULL;
+	b3CompoundSphereDef* sphereDefs = NULL;
+	b3CompoundCapsuleDef* capsuleDefs = NULL;
+
+	if (hullCount > 0)
+	{
+		if (hullData == NULL) return 0;
+		boxHulls = (b3BoxHull*)malloc(sizeof(b3BoxHull) * (size_t)hullCount);
+		hullDefs = (b3CompoundHullDef*)malloc(sizeof(b3CompoundHullDef) * (size_t)hullCount);
+		if (boxHulls == NULL || hullDefs == NULL)
+		{
+			free(boxHulls);
+			free(hullDefs);
+			return 0;
+		}
+		for (int i = 0; i < hullCount; ++i)
+		{
+			const float* d = hullData + i * hullStride;
+			boxHulls[i] = b3MakeBoxHull(d[0], d[1], d[2]);
+			hullDefs[i].hull = &boxHulls[i].base;
+			hullDefs[i].transform.p.x = d[3];
+			hullDefs[i].transform.p.y = d[4];
+			hullDefs[i].transform.p.z = d[5];
+			hullDefs[i].transform.q.v.x = d[6];
+			hullDefs[i].transform.q.v.y = d[7];
+			hullDefs[i].transform.q.v.z = d[8];
+			hullDefs[i].transform.q.s = d[9];
+			hullDefs[i].material = b3DefaultSurfaceMaterial();
+			hullDefs[i].material.friction = d[10];
+			hullDefs[i].material.restitution = d[11];
+			hullDefs[i].material.rollingResistance = d[12];
+		}
+	}
+
+	if (sphereCount > 0)
+	{
+		if (sphereData == NULL)
+		{
+			free(boxHulls);
+			free(hullDefs);
+			return 0;
+		}
+		sphereDefs = (b3CompoundSphereDef*)malloc(sizeof(b3CompoundSphereDef) * (size_t)sphereCount);
+		if (sphereDefs == NULL)
+		{
+			free(boxHulls);
+			free(hullDefs);
+			return 0;
+		}
+		for (int i = 0; i < sphereCount; ++i)
+		{
+			const float* d = sphereData + i * sphereStride;
+			sphereDefs[i].sphere.center.x = d[0];
+			sphereDefs[i].sphere.center.y = d[1];
+			sphereDefs[i].sphere.center.z = d[2];
+			sphereDefs[i].sphere.radius = d[3];
+			sphereDefs[i].material = b3DefaultSurfaceMaterial();
+			sphereDefs[i].material.friction = d[4];
+			sphereDefs[i].material.restitution = d[5];
+			sphereDefs[i].material.rollingResistance = d[6];
+		}
+	}
+
+	if (capsuleCount > 0)
+	{
+		if (capsuleData == NULL)
+		{
+			free(boxHulls);
+			free(hullDefs);
+			free(sphereDefs);
+			return 0;
+		}
+		capsuleDefs = (b3CompoundCapsuleDef*)malloc(sizeof(b3CompoundCapsuleDef) * (size_t)capsuleCount);
+		if (capsuleDefs == NULL)
+		{
+			free(boxHulls);
+			free(hullDefs);
+			free(sphereDefs);
+			return 0;
+		}
+		for (int i = 0; i < capsuleCount; ++i)
+		{
+			const float* d = capsuleData + i * capsuleStride;
+			capsuleDefs[i].capsule.center1.x = d[0];
+			capsuleDefs[i].capsule.center1.y = d[1];
+			capsuleDefs[i].capsule.center1.z = d[2];
+			capsuleDefs[i].capsule.center2.x = d[3];
+			capsuleDefs[i].capsule.center2.y = d[4];
+			capsuleDefs[i].capsule.center2.z = d[5];
+			capsuleDefs[i].capsule.radius = d[6];
+			capsuleDefs[i].material = b3DefaultSurfaceMaterial();
+			capsuleDefs[i].material.friction = d[7];
+			capsuleDefs[i].material.restitution = d[8];
+			capsuleDefs[i].material.rollingResistance = d[9];
+		}
+	}
+
+	b3CompoundDef def = { 0 };
+	def.hulls = hullDefs;
+	def.hullCount = hullCount;
+	def.spheres = sphereDefs;
+	def.sphereCount = sphereCount;
+	def.capsules = capsuleDefs;
+	def.capsuleCount = capsuleCount;
+	b3CompoundData* compound = b3CreateCompound(&def);
+	free(boxHulls);
+	free(hullDefs);
+	free(sphereDefs);
+	free(capsuleDefs);
+	if (compound == NULL) return 0;
+	return b3wAllocCompoundSlot(compound);
+}

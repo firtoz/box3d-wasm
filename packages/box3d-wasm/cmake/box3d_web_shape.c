@@ -37,7 +37,8 @@ B3W_EXPORT uint64_t b3wCreateSphere(int worldHandle, float px, float py, float p
 }
 
 B3W_EXPORT uint64_t b3wCreateHullShape(uint64_t bodyPacked, float density, float friction, float restitution, float rollingResistance, int updateBodyMass, float tx, float ty, float tz,
-					   float qx, float qy, float qz, float qw, float hx, float hy, float hz, int isSensor)
+					   float qx, float qy, float qz, float qw, float hx, float hy, float hz, int isSensor, int enableCustomFiltering,
+					   int enableSpeculativeContact)
 {
 	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
 	if (!b3Body_IsValid(bodyId)) return 0;
@@ -48,6 +49,8 @@ B3W_EXPORT uint64_t b3wCreateHullShape(uint64_t bodyPacked, float density, float
 	shapeDef.baseMaterial.rollingResistance = rollingResistance;
 	shapeDef.updateBodyMass = updateBodyMass != 0;
 	shapeDef.isSensor = isSensor != 0;
+	shapeDef.enableCustomFiltering = enableCustomFiltering != 0;
+	shapeDef.enableSpeculativeContact = enableSpeculativeContact != 0;
 	b3BoxHull hull = b3MakeBoxHull(hx, hy, hz);
 	b3Transform transform = { { tx, ty, tz }, { { qx, qy, qz }, qw } };
 	(void)transform;
@@ -91,7 +94,7 @@ B3W_EXPORT uint64_t b3wCreateOffsetHullShape(uint64_t bodyPacked, float density,
 }
 
 B3W_EXPORT uint64_t b3wCreateSphereShape(uint64_t bodyPacked, float density, float friction, float restitution, float rollingResistance, float px, float py, float pz,
-					    float radius, int invokeContactCreation)
+					    float radius, int invokeContactCreation, int isSensor, int enableCustomFiltering, int enableSpeculativeContact)
 {
 	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
 	if (!b3Body_IsValid(bodyId)) return 0;
@@ -101,6 +104,9 @@ B3W_EXPORT uint64_t b3wCreateSphereShape(uint64_t bodyPacked, float density, flo
 	shapeDef.baseMaterial.restitution = restitution;
 	shapeDef.baseMaterial.rollingResistance = rollingResistance;
 	shapeDef.invokeContactCreation = invokeContactCreation != 0;
+	shapeDef.isSensor = isSensor != 0;
+	shapeDef.enableCustomFiltering = enableCustomFiltering != 0;
+	shapeDef.enableSpeculativeContact = enableSpeculativeContact != 0;
 	b3Sphere sphere = { { px, py, pz }, radius };
 	b3ShapeId shapeId = b3CreateSphereShape(bodyId, &shapeDef, &sphere);
 	return b3StoreShapeId(shapeId);
@@ -196,6 +202,13 @@ B3W_EXPORT void b3wShapeSetUserData(uint64_t shapePacked, int value)
 	b3ShapeId shapeId = b3LoadShapeId(shapePacked);
 	if (!b3Shape_IsValid(shapeId)) return;
 	b3Shape_SetUserData(shapeId, (void*)(intptr_t)value);
+}
+
+B3W_EXPORT int b3wShapeGetUserData(uint64_t shapePacked)
+{
+	b3ShapeId shapeId = b3LoadShapeId(shapePacked);
+	if (!b3Shape_IsValid(shapeId)) return 0;
+	return (int)(intptr_t)b3Shape_GetUserData(shapeId);
 }
 
 B3W_EXPORT void b3wShapeSetUserMaterialId(uint64_t shapePacked, int userMaterialId)

@@ -256,6 +256,8 @@ export interface ShapeDef {
   maskBits?: number;
   groupIndex?: number;
   enableCustomFiltering?: boolean;
+  /** Hull-vs-triangle speculative contacts. Default true; ghost-collision samples set false. */
+  enableSpeculativeContact?: boolean;
   updateBodyMass?: boolean;
   /** When true, creating/updating this shape forces contact creation (static-vs-dynamic overlaps). */
   invokeContactCreation?: boolean;
@@ -304,6 +306,7 @@ export interface RuntimeMemoryView { heapF32: Float32Array; heapU8: Uint8Array; 
 export interface RuntimeMemoryView32 extends RuntimeMemoryView { heap32: Int32Array; }
 export interface CompoundHullEntry { halfWidths: Vec3; transform: BodyTransform; friction?: number; restitution?: number; rollingResistance?: number; }
 export interface CompoundSphereEntry { center: Vec3; radius: number; friction?: number; restitution?: number; rollingResistance?: number; }
+export interface CompoundCapsuleEntry { center1: Vec3; center2: Vec3; radius: number; friction?: number; restitution?: number; rollingResistance?: number; }
 export interface CompoundMeshEntry {
   meshHandle: MeshHandle;
   transform: BodyTransform;
@@ -353,10 +356,10 @@ type CreateBodyFn = (worldHandle: number, bodyType: number, px: number, py: numb
 type DestroyWorldFn = (worldHandle: number) => void;
 type CreateBoxFn = (worldHandle: number, px: number, py: number, pz: number, hx: number, hy: number, hz: number, isStatic: number, density: number) => bigint;
 type CreateSphereFn = (worldHandle: number, px: number, py: number, pz: number, radius: number, vx: number, vy: number, vz: number, density: number) => bigint;
-type CreateHullShapeFn = (bodyHandle: bigint, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, hx: number, hy: number, hz: number, isSensor: number) => bigint;
+type CreateHullShapeFn = (bodyHandle: bigint, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, hx: number, hy: number, hz: number, isSensor: number, enableCustomFiltering: number, enableSpeculativeContact: number) => bigint;
 type CreateTransformedHullShapeFn = (bodyHandle: bigint, density: number, friction: number, restitution: number, rollingResistance: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, hx: number, hy: number, hz: number, sx: number, sy: number, sz: number) => bigint;
 type CreateOffsetHullShapeFn = (bodyHandle: bigint, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number, hx: number, hy: number, hz: number, ox: number, oy: number, oz: number) => bigint;
-type CreateSphereShapeFn = (bodyHandle: bigint, density: number, friction: number, restitution: number, rollingResistance: number, px: number, py: number, pz: number, radius: number, invokeContactCreation: number) => bigint;
+type CreateSphereShapeFn = (bodyHandle: bigint, density: number, friction: number, restitution: number, rollingResistance: number, px: number, py: number, pz: number, radius: number, invokeContactCreation: number, isSensor: number, enableCustomFiltering: number, enableSpeculativeContact: number) => bigint;
 type CreateCapsuleShapeFn = (bodyHandle: bigint, density: number, friction: number, restitution: number, rollingResistance: number, ax: number, ay: number, az: number, bx: number, by: number, bz: number, radius: number, isSensor: number) => bigint;
 type CreateShapeFromHullFn = (bodyHandle: bigint, hullHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number, explosionScale: number, isSensor: number) => bigint;
 type CreateTransformedShapeFromHullFn = (bodyHandle: bigint, hullHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, updateBodyMass: number, tx: number, ty: number, tz: number, qx: number, qy: number, qz: number, qw: number, sx: number, sy: number, sz: number) => bigint;
@@ -599,10 +602,10 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly destroyWorldFn = this.wrapVoid<DestroyWorldFn>("b3wDestroyWorld", ["number"]);
   private readonly createBoxFn = this.wrapBigInt<CreateBoxFn>("b3wCreateBox", ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
   private readonly createSphereFn = this.wrapBigInt<CreateSphereFn>("b3wCreateSphere", ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
-  private readonly createHullShapeFn = this.wrapBigInt<CreateHullShapeFn>("b3wCreateHullShape", ["bigint","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly createHullShapeFn = this.wrapBigInt<CreateHullShapeFn>("b3wCreateHullShape", ["bigint","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createTransformedHullShapeFn = this.wrapBigInt<CreateTransformedHullShapeFn>("b3wCreateTransformedHullShape", ["bigint","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createOffsetHullShapeFn = this.wrapBigInt<CreateOffsetHullShapeFn>("b3wCreateOffsetHullShape", ["bigint","number","number","number","number","number","number","number","number","number","number","number"]);
-  private readonly createSphereShapeFn = this.wrapBigInt<CreateSphereShapeFn>("b3wCreateSphereShape", ["bigint","number","number","number","number","number","number","number","number","number"]);
+  private readonly createSphereShapeFn = this.wrapBigInt<CreateSphereShapeFn>("b3wCreateSphereShape", ["bigint","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createCapsuleShapeFn = this.wrapBigInt<CreateCapsuleShapeFn>("b3wCreateCapsuleShape", ["bigint","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createShapeFromHullFn = this.wrapBigInt<CreateShapeFromHullFn>("b3wCreateShapeFromHull", ["bigint","number","number","number","number","number","number","number","number"]);
   private readonly createTransformedShapeFromHullFn = this.wrapBigInt<CreateTransformedShapeFromHullFn>("b3wCreateTransformedShapeFromHull", ["bigint","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
@@ -630,6 +633,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly createGridMeshFn = this.wrapNumber<CreateGridMeshFn>("b3wCreateGridMesh", ["number","number","number","number","number","number"]);
   private readonly createWaveMeshFn = this.wrapNumber<CreateWaveMeshFn>("b3wCreateWaveMesh", ["number","number","number","number","number","number","number"]);
   private readonly createBoxMeshFn = this.wrapNumber<CreateBoxMeshFn>("b3wCreateBoxMesh", ["number","number","number","number","number","number","number","number"]);
+  private readonly createPlatformMeshFn = this.wrapNumber<(worldHandle: number, cx: number, cy: number, cz: number, height: number, topWidth: number, bottomWidth: number) => number>("b3wCreatePlatformMesh", ["number","number","number","number","number","number","number"]);
   private readonly createHollowBoxMeshFn = this.wrapNumber<(worldHandle: number, cx: number, cy: number, cz: number, ex: number, ey: number, ez: number) => number>("b3wCreateHollowBoxMesh", ["number","number","number","number","number","number","number"]);
   private readonly createTorusMeshFn = this.wrapNumber<CreateTorusMeshFn>("b3wCreateTorusMesh", ["number","number","number","number","number"]);
   private readonly createMeshFn = this.wrapNumber<CreateMeshFn>("b3wCreateMesh", ["number","number","number","number","number","number","number","number","number","number"]);
@@ -645,6 +649,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly worldCastFn = this.wrapNumber<(worldHandle: number, mode: number, initialOverlap: number, ox: number, oy: number, oz: number, tx: number, ty: number, tz: number, proxyType: number, radius: number, outHits: number) => number>("b3wWorldCast", ["number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly bodyComputeAABBFn = this.wrapVoid<(bodyHandle: bigint, outAabb: number) => void>("b3wBodyComputeAABB", ["bigint","number"]);
   private readonly shapeSetUserDataFn = this.wrapVoid<(shapeHandle: bigint, value: number) => void>("b3wShapeSetUserData", ["bigint","number"]);
+  private readonly shapeGetUserDataFn = this.wrapNumber<(shapeHandle: bigint) => number>("b3wShapeGetUserData", ["bigint"]);
   private readonly shapeSetUserMaterialIdFn = this.wrapVoid<(shapeHandle: bigint, userMaterialId: number) => void>("b3wShapeSetUserMaterialId", ["bigint","number"]);
   private readonly shapeSetCustomColorFn = this.wrapVoid<(shapeHandle: bigint, customColor: number) => void>("b3wShapeSetCustomColor", ["bigint","number"]);
   private readonly createHullFromPointsFn = this.wrapNumber<CreateHullFromPointsFn>("b3wCreateHullFromPoints", ["number","number","number"]);
@@ -656,6 +661,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly createCompoundFromHullsFn = this.wrapNumber<CreateCompoundFromHullsFn>("b3wCreateCompoundFromHulls", ["number","number","number"]);
   private readonly createCompoundFromSpheresFn = this.wrapNumber<CreateCompoundFromSpheresFn>("b3wCreateCompoundFromSpheres", ["number","number","number"]);
   private readonly createCompoundFromMeshesFn = this.wrapNumber<CreateCompoundFromMeshesFn>("b3wCreateCompoundFromMeshes", ["number","number","number"]);
+  private readonly createCompoundPartsFn = this.wrapNumber<(hullCount: number, hullData: number, hullStride: number, sphereCount: number, sphereData: number, sphereStride: number, capsuleCount: number, capsuleData: number, capsuleStride: number) => number>("b3wCreateCompoundParts", ["number","number","number","number","number","number","number","number","number"]);
   private readonly destroyCompoundFn = this.wrapVoid<DestroyCompoundFn>("b3wDestroyCompound", ["number"]);
   private readonly getCompoundTreeHeightFn = this.wrapNumber<GetCompoundTreeHeightFn>("b3wGetCompoundTreeHeight", ["number"]);
   private readonly createCompoundShapeFn = this.wrapBigInt<CreateCompoundShapeFn>("b3wCreateCompoundShape", ["bigint","number","number"]);
@@ -665,6 +671,10 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly destroyJointFn = this.wrapVoid<DestroyJointFn>("b3wDestroyJoint", ["bigint"]);
   private readonly getSensorBeginEventCountFn = this.wrapNumber<(worldHandle: number) => number>("b3wGetSensorBeginEventCount", ["number"]);
   private readonly getSensorBeginEventFn = this.wrapNumber<(worldHandle: number, index: number, outSensor: number, outVisitor: number) => number>("b3wGetSensorBeginEvent", ["number","number","number","number"]);
+  private readonly getSensorEndEventCountFn = this.wrapNumber<(worldHandle: number) => number>("b3wGetSensorEndEventCount", ["number"]);
+  private readonly getSensorEndEventFn = this.wrapNumber<(worldHandle: number, index: number, outSensor: number, outVisitor: number) => number>("b3wGetSensorEndEvent", ["number","number","number","number"]);
+  private readonly setCustomSensorFilterFn = this.wrapVoid<(worldHandle: number, filterRow: number, enabled: number) => void>("b3wSetCustomSensorFilter", ["number","number","number"]);
+  private readonly shapeIsSensorFn = this.wrapNumber<(shapeHandle: bigint) => number>("b3wShapeIsSensor", ["bigint"]);
   private readonly getContactBeginEventCountFn = this.wrapNumber<(worldHandle: number) => number>("b3wGetContactBeginEventCount", ["number"]);
   private readonly getContactBeginEventFn = this.wrapNumber<(worldHandle: number, index: number, outA: number, outB: number) => number>("b3wGetContactBeginEvent", ["number","number","number","number"]);
   private readonly getWorldBodyCountFn = this.wrapNumber<(worldHandle: number) => number>("b3wGetWorldBodyCount", ["number"]);
@@ -674,6 +684,8 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly overlapAABBFn = this.wrapNumber<(worldHandle: number, minX: number, minY: number, minZ: number, maxX: number, maxY: number, maxZ: number, categoryBits: number, maskBits: number) => number>("b3wOverlapAABB", ["number","number","number","number","number","number","number","number","number"]);
   private readonly castShapeSphereFn = this.wrapNumber<(worldHandle: number, originX: number, originY: number, originZ: number, translationX: number, translationY: number, translationZ: number, radius: number, categoryBits: number, maskBits: number) => number>("b3wCastShapeSphere", ["number","number","number","number","number","number","number","number","number","number"]);
   private readonly collideMoverFn = this.wrapNumber<(worldHandle: number, ox: number, oy: number, oz: number, c1x: number, c1y: number, c1z: number, c2x: number, c2y: number, c2z: number, radius: number, capacity: number, outPlanes: number) => number>("b3wCollideMover", ["number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly castMoverFn = this.wrapNumber<(worldHandle: number, ox: number, oy: number, oz: number, c1x: number, c1y: number, c1z: number, c2x: number, c2y: number, c2z: number, radius: number, dx: number, dy: number, dz: number, categoryBits: number, maskBits: number) => number>("b3wCastMover", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly clipVectorFn = this.wrapVoid<(vx: number, vy: number, vz: number, inPlanes: number, count: number, out: number) => void>("b3wClipVector", ["number","number","number","number","number","number"]);
   private readonly solvePlanesFn = this.wrapVoid<(tx: number, ty: number, tz: number, inPlanes: number, count: number, outDelta: number) => void>("b3wSolvePlanes", ["number","number","number","number","number","number"]);
   private readonly setRandomSeedFn = this.wrapVoid<(seed: number) => void>("b3wSetRandomSeed", ["number"]);
   private readonly getRandomSeedFn = this.wrapNumber<() => number>("b3wGetRandomSeed", []);
@@ -1076,7 +1088,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   }
 
   createSphereShape(bodyHandle: BodyId, center: Vec3, radius: number, def: ShapeDef = {}): ShapeHandle {
-    const shapeHandle = asShapeId(this.createSphereShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, center[0], center[1], center[2], radius, def.invokeContactCreation === false ? 0 : 1));
+    const shapeHandle = asShapeId(this.createSphereShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, center[0], center[1], center[2], radius, def.invokeContactCreation === false ? 0 : 1, def.isSensor ? 1 : 0, def.enableCustomFiltering ? 1 : 0, def.enableSpeculativeContact === false ? 0 : 1));
     if (shapeHandle === 0n) throw new Error("createSphereShapeFn failed");
     const shape = { bodyHandle, shapeHandle: asShapeId(shapeHandle) };
     this.applyShapeDef(asShapeId(shapeHandle), def);
@@ -1092,7 +1104,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   }
 
   createHullShape(bodyHandle: BodyId, halfWidths: Vec3, def: ShapeDef = {}): ShapeHandle {
-    const shapeHandle = asShapeId(this.createHullShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, def.updateBodyMass === false ? 0 : 1, 0, 0, 0, 0, 0, 0, 1, halfWidths[0], halfWidths[1], halfWidths[2], def.isSensor ? 1 : 0));
+    const shapeHandle = asShapeId(this.createHullShapeFn(bodyHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, def.updateBodyMass === false ? 0 : 1, 0, 0, 0, 0, 0, 0, 1, halfWidths[0], halfWidths[1], halfWidths[2], def.isSensor ? 1 : 0, def.enableCustomFiltering ? 1 : 0, def.enableSpeculativeContact === false ? 0 : 1));
     if (shapeHandle === 0n) throw new Error("createHullShapeFn failed");
     const shape = { bodyHandle, shapeHandle: asShapeId(shapeHandle) };
     this.applyShapeDef(asShapeId(shapeHandle), def);
@@ -1145,6 +1157,9 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   }
   createBoxMesh(worldHandle: WorldHandle, center: Vec3, extent: Vec3, identifyEdges = true): MeshHandle {
     return this.requireSlotHandle<MeshHandle>(this.createBoxMeshFn(worldHandle, center[0], center[1], center[2], extent[0], extent[1], extent[2], identifyEdges ? 1 : 0), "meshes");
+  }
+  createPlatformMesh(worldHandle: WorldHandle, center: Vec3, height: number, topWidth: number, bottomWidth: number): MeshHandle {
+    return this.requireSlotHandle<MeshHandle>(this.createPlatformMeshFn(worldHandle, center[0], center[1], center[2], height, topWidth, bottomWidth), "meshes");
   }
   createHollowBoxMesh(worldHandle: WorldHandle, center: Vec3, extent: Vec3): MeshHandle {
     return this.requireSlotHandle<MeshHandle>(this.createHollowBoxMeshFn(worldHandle, center[0], center[1], center[2], extent[0], extent[1], extent[2]), "meshes");
@@ -1634,6 +1649,62 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     this.module._free(ptr);
     return this.requireSlotHandle<CompoundHandle>(result, "compounds");
   }
+  createCompoundParts(parts: { hulls?: CompoundHullEntry[]; spheres?: CompoundSphereEntry[]; capsules?: CompoundCapsuleEntry[] }): CompoundHandle {
+    const hulls = parts.hulls ?? [];
+    const spheres = parts.spheres ?? [];
+    const capsules = parts.capsules ?? [];
+    const hullStride = 13;
+    const sphereStride = 7;
+    const capsuleStride = 10;
+    const hullPtr = hulls.length > 0 ? this.module._malloc(hulls.length * hullStride * 4) : 0;
+    const spherePtr = spheres.length > 0 ? this.module._malloc(spheres.length * sphereStride * 4) : 0;
+    const capsulePtr = capsules.length > 0 ? this.module._malloc(capsules.length * capsuleStride * 4) : 0;
+    const heap = this.module.HEAPF32;
+    if (hullPtr !== 0) {
+      const base = hullPtr >> 2;
+      for (let i = 0; i < hulls.length; i++) {
+        const e = hulls[i]!;
+        const off = i * hullStride;
+        const hw = e.halfWidths; const t = e.transform.position; const r = e.transform.rotation;
+        heap[base + off + 0] = hw[0]; heap[base + off + 1] = hw[1]; heap[base + off + 2] = hw[2];
+        heap[base + off + 3] = t[0]; heap[base + off + 4] = t[1]; heap[base + off + 5] = t[2];
+        heap[base + off + 6] = r[0]; heap[base + off + 7] = r[1]; heap[base + off + 8] = r[2]; heap[base + off + 9] = r[3];
+        heap[base + off + 10] = e.friction ?? 0.6;
+        heap[base + off + 11] = e.restitution ?? 0;
+        heap[base + off + 12] = e.rollingResistance ?? 0;
+      }
+    }
+    if (spherePtr !== 0) {
+      const base = spherePtr >> 2;
+      for (let i = 0; i < spheres.length; i++) {
+        const e = spheres[i]!;
+        const off = i * sphereStride;
+        heap[base + off + 0] = e.center[0]; heap[base + off + 1] = e.center[1]; heap[base + off + 2] = e.center[2];
+        heap[base + off + 3] = e.radius;
+        heap[base + off + 4] = e.friction ?? 0.6;
+        heap[base + off + 5] = e.restitution ?? 0;
+        heap[base + off + 6] = e.rollingResistance ?? 0;
+      }
+    }
+    if (capsulePtr !== 0) {
+      const base = capsulePtr >> 2;
+      for (let i = 0; i < capsules.length; i++) {
+        const e = capsules[i]!;
+        const off = i * capsuleStride;
+        heap[base + off + 0] = e.center1[0]; heap[base + off + 1] = e.center1[1]; heap[base + off + 2] = e.center1[2];
+        heap[base + off + 3] = e.center2[0]; heap[base + off + 4] = e.center2[1]; heap[base + off + 5] = e.center2[2];
+        heap[base + off + 6] = e.radius;
+        heap[base + off + 7] = e.friction ?? 0.6;
+        heap[base + off + 8] = e.restitution ?? 0;
+        heap[base + off + 9] = e.rollingResistance ?? 0;
+      }
+    }
+    const result = this.createCompoundPartsFn(hulls.length, hullPtr, hullStride, spheres.length, spherePtr, sphereStride, capsules.length, capsulePtr, capsuleStride);
+    if (hullPtr !== 0) this.module._free(hullPtr);
+    if (spherePtr !== 0) this.module._free(spherePtr);
+    if (capsulePtr !== 0) this.module._free(capsulePtr);
+    return this.requireSlotHandle<CompoundHandle>(result, "compounds");
+  }
   destroyCompound(compoundHandle: CompoundHandle): void { this.destroyCompoundFn(compoundHandle); }
   getCompoundTreeHeight(compoundHandle: CompoundHandle): number { return this.getCompoundTreeHeightFn(compoundHandle); }
   createCompoundShape(bodyHandle: BodyId, compoundHandle: CompoundHandle, density = 1): ShapeId {
@@ -1848,6 +1919,11 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     this.shapeSetUserDataFn(handle, value | 0);
   }
 
+  getShapeUserData(shapeHandle: ShapeId | ShapeHandle): number {
+    const handle = typeof shapeHandle === "bigint" ? shapeHandle : shapeHandle.shapeHandle;
+    return this.shapeGetUserDataFn(handle) | 0;
+  }
+
   setShapeUserMaterialId(shapeHandle: ShapeId | ShapeHandle, userMaterialId: number): void {
     const handle = typeof shapeHandle === "bigint" ? shapeHandle : shapeHandle.shapeHandle;
     this.shapeSetUserMaterialIdFn(handle, userMaterialId | 0);
@@ -1887,6 +1963,50 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     }
     this.module._free(outPtr);
     return planes;
+  }
+
+  castMover(
+    worldHandle: WorldHandle,
+    origin: Vec3,
+    capsule: { center1: Vec3; center2: Vec3; radius: number },
+    translation: Vec3,
+    categoryBits = 1,
+    maskBits = 0xFFFFFFFF,
+  ): number {
+    return this.castMoverFn(
+      worldHandle,
+      origin[0], origin[1], origin[2],
+      capsule.center1[0], capsule.center1[1], capsule.center1[2],
+      capsule.center2[0], capsule.center2[1], capsule.center2[2],
+      capsule.radius,
+      translation[0], translation[1], translation[2],
+      categoryBits >>> 0,
+      maskBits >>> 0,
+    );
+  }
+
+  clipVector(vector: Vec3, planes: readonly CollisionPlane[]): Vec3 {
+    const count = Math.min(64, planes.length);
+    const inPtr = this.module._malloc(Math.max(1, count) * 6 * 4);
+    const heap = this.module.HEAPF32;
+    const base = inPtr >> 2;
+    for (let i = 0; i < count; i++) {
+      const plane = planes[i]!;
+      const o = base + i * 6;
+      heap[o] = plane.plane.normal[0];
+      heap[o + 1] = plane.plane.normal[1];
+      heap[o + 2] = plane.plane.normal[2];
+      heap[o + 3] = plane.plane.offset;
+      heap[o + 4] = plane.pushLimit ?? B3_FLT_MAX;
+      heap[o + 5] = plane.clipVelocity === false ? 0 : 1;
+    }
+    const outPtr = this.module._malloc(3 * 4);
+    this.clipVectorFn(vector[0], vector[1], vector[2], inPtr, count, outPtr);
+    const outBase = outPtr >> 2;
+    const result: Vec3 = [heap[outBase]!, heap[outBase + 1]!, heap[outBase + 2]!];
+    this.module._free(inPtr);
+    this.module._free(outPtr);
+    return result;
   }
 
   solvePlanes(targetDelta: Vec3, planes: readonly CollisionPlane[]): PlaneSolverResult {
@@ -1972,6 +2092,34 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     this.module._free(sensorPtr);
     this.module._free(visitorPtr);
     return events;
+  }
+
+  getSensorEndEvents(worldHandle: WorldHandle): SensorBeginEvent[] {
+    const count = this.getSensorEndEventCountFn(worldHandle);
+    if (count <= 0) return [];
+    const events: SensorBeginEvent[] = [];
+    const sensorPtr = this.module._malloc(8);
+    const visitorPtr = this.module._malloc(8);
+    for (let i = 0; i < count; i++) {
+      this.getSensorEndEventFn(worldHandle, i, sensorPtr, visitorPtr);
+      const heap = this.module.HEAPU64;
+      events.push({
+        sensorShapeHandle: asShapeId(heap[sensorPtr >>> 3]!),
+        visitorShapeHandle: asShapeId(heap[visitorPtr >>> 3]!),
+      });
+    }
+    this.module._free(sensorPtr);
+    this.module._free(visitorPtr);
+    return events;
+  }
+
+  setCustomSensorFilter(worldHandle: WorldHandle, filterRow: number, enabled: boolean): void {
+    this.setCustomSensorFilterFn(worldHandle, filterRow | 0, enabled ? 1 : 0);
+  }
+
+  isShapeSensor(shapeHandle: ShapeId | ShapeHandle): boolean {
+    const handle = typeof shapeHandle === "bigint" ? shapeHandle : shapeHandle.shapeHandle;
+    return this.shapeIsSensorFn(handle) !== 0;
   }
 
   getContactBeginEvents(worldHandle: WorldHandle): ContactBeginEvent[] {
@@ -2303,6 +2451,9 @@ export class PhysicsWorld {
   createGridMesh(xCount: number, zCount: number, cellWidth: number, materialCount = 1, identifyEdges = true): MeshHandle { return this.runtime.createGridMesh(this.handle, xCount, zCount, cellWidth, materialCount, identifyEdges); }
   createWaveMesh(xCount: number, zCount: number, cellWidth: number, amplitude: number, rowFrequency: number, columnFrequency: number): MeshHandle { return this.runtime.createWaveMesh(this.handle, xCount, zCount, cellWidth, amplitude, rowFrequency, columnFrequency); }
   createBoxMesh(center: Vec3, extent: Vec3, identifyEdges = true): MeshHandle { return this.runtime.createBoxMesh(this.handle, center, extent, identifyEdges); }
+  createPlatformMesh(center: Vec3, height: number, topWidth: number, bottomWidth: number): MeshHandle {
+    return this.runtime.createPlatformMesh(this.handle, center, height, topWidth, bottomWidth);
+  }
   createHollowBoxMesh(center: Vec3, extent: Vec3): MeshHandle { return this.runtime.createHollowBoxMesh(this.handle, center, extent); }
   createTorusMesh(radialResolution: number, tubularResolution: number, radius: number, thickness: number): MeshHandle { return this.runtime.createTorusMesh(this.handle, radialResolution, tubularResolution, radius, thickness); }
   createMesh(vertices: ArrayLike<number>, indices: ArrayLike<number>, options?: { useMedianSplit?: boolean; identifyEdges?: boolean; weldVertices?: boolean; weldTolerance?: number; materialIndices?: ArrayLike<number> }): MeshHandle {
@@ -2322,6 +2473,9 @@ export class PhysicsWorld {
   }
   setMesh(shapeHandle: ShapeId | ShapeHandle, meshHandle: MeshHandle, scale: Vec3 = [1, 1, 1]): void { this.runtime.setMesh(shapeHandle, meshHandle, scale); }
   createCompoundShape(bodyHandle: BodyId, compoundHandle: CompoundHandle, density = 1): ShapeId { return this.runtime.createCompoundShape(bodyHandle, compoundHandle, density); }
+  createCompoundParts(parts: { hulls?: CompoundHullEntry[]; spheres?: CompoundSphereEntry[]; capsules?: CompoundCapsuleEntry[] }): CompoundHandle {
+    return this.runtime.createCompoundParts(parts);
+  }
   getBodyShapes(bodyHandle: BodyId): ShapeId[] { return this.runtime.getBodyShapes(bodyHandle); }
   getCompoundTreeHeight(compoundHandle: CompoundHandle): number { return this.runtime.getCompoundTreeHeight(compoundHandle); }
   destroyCompound(compoundHandle: CompoundHandle): void { this.runtime.destroyCompound(compoundHandle); }
@@ -2495,6 +2649,9 @@ export class PhysicsWorld {
   setShapeUserData(shapeHandle: ShapeId | ShapeHandle, value: number): void {
     this.runtime.setShapeUserData(shapeHandle, value);
   }
+  getShapeUserData(shapeHandle: ShapeId | ShapeHandle): number {
+    return this.runtime.getShapeUserData(shapeHandle);
+  }
   setShapeUserMaterialId(shapeHandle: ShapeId | ShapeHandle, userMaterialId: number): void {
     this.runtime.setShapeUserMaterialId(shapeHandle, userMaterialId);
   }
@@ -2503,6 +2660,12 @@ export class PhysicsWorld {
   }
   collideMover(origin: Vec3, capsule: { center1: Vec3; center2: Vec3; radius: number }, capacity = 32): PlaneResult[] {
     return this.runtime.collideMover(this.handle, origin, capsule, capacity);
+  }
+  castMover(origin: Vec3, capsule: { center1: Vec3; center2: Vec3; radius: number }, translation: Vec3, categoryBits = 1, maskBits = 0xFFFFFFFF): number {
+    return this.runtime.castMover(this.handle, origin, capsule, translation, categoryBits, maskBits);
+  }
+  clipVector(vector: Vec3, planes: readonly CollisionPlane[]): Vec3 {
+    return this.runtime.clipVector(vector, planes);
   }
   solvePlanes(targetDelta: Vec3, planes: readonly CollisionPlane[]): PlaneSolverResult {
     return this.runtime.solvePlanes(targetDelta, planes);
@@ -2516,6 +2679,9 @@ export class PhysicsWorld {
     return this.runtime.bodyCastRay(bodyHandle, origin, translation, options);
   }
   getSensorBeginEvents(): SensorBeginEvent[] { return this.runtime.getSensorBeginEvents(this.handle); }
+  getSensorEndEvents(): SensorBeginEvent[] { return this.runtime.getSensorEndEvents(this.handle); }
+  setCustomSensorFilter(filterRow: number, enabled: boolean): void { this.runtime.setCustomSensorFilter(this.handle, filterRow, enabled); }
+  isShapeSensor(shapeHandle: ShapeId | ShapeHandle): boolean { return this.runtime.isShapeSensor(shapeHandle); }
   getContactBeginEvents(): ContactBeginEvent[] { return this.runtime.getContactBeginEvents(this.handle); }
   getJointEventHandles(): JointId[] { return this.runtime.getJointEventHandles(this.handle); }
   allocBodyBatchBuffers(capacity: number): BodyBatchBuffers { return this.runtime.allocBodyBatchBuffers(capacity); }

@@ -41,6 +41,8 @@ typedef struct b3wWorldSlot
 	bool active;
 	int nextFree;
 	b3WorldId worldId;
+	int sensorFilterRow;
+	int sensorFilterEnabled;
 } b3wWorldSlot;
 
 typedef struct b3wHullSlot

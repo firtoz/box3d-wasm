@@ -206,7 +206,7 @@ When adding an API binding:
 - [x] Destroy compound: `b3DestroyCompound`
 - [x] Get compound tree height: internal/demo helper
 - [x] Create baked compound shape: `b3CreateBakedCompoundShape` (`createCompoundShape`)
-- [ ] Compound capsules in high-level TS wrapper
+- [x] Compound capsules in high-level TS wrapper (`createCompoundParts`)
 - [x] Compound meshes in high-level TS wrapper (`createCompoundFromMeshes`)
 - [ ] General compound spec mirroring upstream `b3CompoundDef`
 
@@ -220,7 +220,7 @@ When adding an API binding:
 - [x] Torus mesh: `b3CreateTorusMesh`
 - [x] Box mesh: `b3CreateBoxMesh`
 - [x] Hollow box mesh: `b3CreateHollowBoxMesh`
-- [ ] Platform mesh: `b3CreatePlatformMesh`
+- [x] Platform mesh: `b3CreatePlatformMesh` (`createPlatformMesh`)
 - [ ] Mesh vertices/triangles/material indices/flags accessors
 - [ ] Mesh height/tree height helpers
 
@@ -267,7 +267,8 @@ When adding an API binding:
 - [x] Body raycast: `b3Body_CastRay` (`bodyCastRay`)
 - [ ] Body shapecast: `b3Body_CastShape`
 - [ ] Body shape overlap: `b3Body_OverlapShape`
-- [ ] Cast mover: `b3World_CastMover`
+- [x] Cast mover: `b3World_CastMover` (`castMover`)
+- [x] Clip vector: `b3ClipVector` (`clipVector`)
 - [x] Collide mover: `b3World_CollideMover` (`collideMover`)
 
 ## Events And Callbacks
@@ -275,11 +276,11 @@ When adding an API binding:
 - [~] Shape event toggles are exposed: sensor/contact/pre-solve/hit enable flags
 - [x] Body move events: `b3World_GetBodyEvents` via `configureBodyMoveTracking` / `scatterBodyMoveEvents` / `getBodyMoveEventCount` (stable render-index map; does not use Box3D `userData`)
 - [x] Contact begin events: `b3World_GetContactEvents` (`getContactBeginEvents`)
-- [x] Sensor events: `b3World_GetSensorEvents` (`getSensorBeginEvents`)
+- [x] Sensor events: `b3World_GetSensorEvents` (`getSensorBeginEvents`, `getSensorEndEvents`)
 - [x] Joint events: `b3World_GetJointEvents` (`getJointEventHandles`)
 - [ ] Zero-allocation event buffers for JS reads
 - [ ] Contact/manifold buffer for current contacts
-- [ ] Custom filter callback: `b3World_SetCustomFilterCallback`
+- [x] Custom filter callback: `b3World_SetCustomFilterCallback` (`setCustomSensorFilter`; row+active packed in `shapeDef.userData`)
 - [ ] Pre-solve callback: `b3World_SetPreSolveCallback`
 
 ## Collision, GJK, And Mass Utilities

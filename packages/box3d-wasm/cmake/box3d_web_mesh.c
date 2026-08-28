@@ -27,6 +27,16 @@ B3W_EXPORT int b3wCreateWaveMesh(int worldHandle, int xCount, int zCount, float 
 	return b3wAllocMeshSlot(worldHandle, mesh);
 }
 
+B3W_EXPORT int b3wCreatePlatformMesh(int worldHandle, float cx, float cy, float cz, float height, float topWidth, float bottomWidth)
+{
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	if (world == NULL) return 0;
+	b3Vec3 center = { cx, cy, cz };
+	b3MeshData* mesh = b3CreatePlatformMesh(center, height, topWidth, bottomWidth);
+	if (mesh == NULL) return 0;
+	return b3wAllocMeshSlot(worldHandle, mesh);
+}
+
 B3W_EXPORT int b3wCreateBoxMesh(int worldHandle, float cx, float cy, float cz, float ex, float ey, float ez, int identifyEdges)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
