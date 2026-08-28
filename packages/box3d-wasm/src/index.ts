@@ -323,7 +323,7 @@ type CreateMeshFn = (worldHandle: number, vertices: number, vertexCount: number,
 type DestroyMeshFn = (meshHandle: number) => void;
 type CreateMeshShapeFn = (bodyHandle: bigint, meshHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, sx: number, sy: number, sz: number, isSensor: number) => bigint;
 type ShapeSetMeshFn = (shapeHandle: bigint, meshHandle: number, sx: number, sy: number, sz: number) => void;
-type CreateHullFromPointsFn = (numPoints: number, points: number) => number;
+type CreateHullFromPointsFn = (numPoints: number, points: number, maxVertexCount: number) => number;
 type CreateRockFn = (radius: number) => number;
 type DestroyHullFn = (hullHandle: number) => void;
 type MakeBoxHullFn = (hx: number, hy: number, hz: number) => number;
@@ -559,6 +559,11 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly createCylinderFn = this.wrapNumber<CreateCylinderFn>("b3wCreateCylinder", ["number","number","number","number"]);
   private readonly makeBoxHullFn = this.wrapNumber<MakeBoxHullFn>("b3wMakeBoxHull", ["number","number","number"]);
   private readonly makeTransformedBoxHullFn = this.wrapNumber<MakeTransformedBoxHullFn>("b3wMakeTransformedBoxHull", ["number","number","number","number","number","number","number","number","number","number"]);
+  private readonly makeScaledBoxHullFn = this.wrapNumber<(hx: number, hy: number, hz: number, px: number, py: number, pz: number, qx: number, qy: number, qz: number, qs: number, sx: number, sy: number, sz: number) => number>("b3wMakeScaledBoxHull", ["number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly cloneAndTransformHullFn = this.wrapNumber<(hullHandle: number, px: number, py: number, pz: number, qx: number, qy: number, qz: number, qs: number, sx: number, sy: number, sz: number) => number>("b3wCloneAndTransformHull", ["number","number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly getHullInfoFn = this.wrapVoid<(hullHandle: number, out: number) => void>("b3wGetHullInfo", ["number","number"]);
+  private readonly computeHullMassFn = this.wrapVoid<(hullHandle: number, density: number, out: number) => void>("b3wComputeHullMass", ["number","number","number"]);
+  private readonly computeCapsuleMassFn = this.wrapVoid<(ax: number, ay: number, az: number, bx: number, by: number, bz: number, radius: number, density: number, out: number) => void>("b3wComputeCapsuleMass", ["number","number","number","number","number","number","number","number","number"]);
   private readonly collideSpheresFn = this.wrapVoid<CollideSpheresFn>("b3wCollideSpheres", ["number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly collideCapsuleAndSphereFn = this.wrapVoid<CollideCapsuleSphereFn>("b3wCollideCapsuleAndSphere", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly collideHullAndSphereFn = this.wrapVoid<CollideHullSphereFn>("b3wCollideHullAndSphere", ["number","number","number","number","number","number","number","number","number","number"]);
@@ -588,7 +593,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly shapeSetUserDataFn = this.wrapVoid<(shapeHandle: bigint, value: number) => void>("b3wShapeSetUserData", ["bigint","number"]);
   private readonly shapeSetUserMaterialIdFn = this.wrapVoid<(shapeHandle: bigint, userMaterialId: number) => void>("b3wShapeSetUserMaterialId", ["bigint","number"]);
   private readonly shapeSetCustomColorFn = this.wrapVoid<(shapeHandle: bigint, customColor: number) => void>("b3wShapeSetCustomColor", ["bigint","number"]);
-  private readonly createHullFromPointsFn = this.wrapNumber<CreateHullFromPointsFn>("b3wCreateHullFromPoints", ["number","number"]);
+  private readonly createHullFromPointsFn = this.wrapNumber<CreateHullFromPointsFn>("b3wCreateHullFromPoints", ["number","number","number"]);
   private readonly createRockFn = this.wrapNumber<CreateRockFn>("b3wCreateRock", ["number"]);
   private readonly destroyHullFn = this.wrapVoid<DestroyHullFn>("b3wDestroyHull", ["number"]);
   private readonly getHullVertexCountFn = this.wrapNumber<GetHullVertexCountFn>("b3wGetHullVertexCount", ["number"]);
@@ -1107,12 +1112,12 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     return this.requireSlotHandle<MeshHandle>(meshHandle, "meshes");
   }
   destroyMesh(meshHandle: MeshHandle): void { this.destroyMeshFn(meshHandle); }
-  createHullFromPoints(points: number[]): HullHandle {
+  createHullFromPoints(points: number[], maxVertexCount?: number): HullHandle {
     const ptr = this.module._malloc(points.length * 4);
     const heap = this.module.HEAPF32;
     const base = ptr >> 2;
     for (let i = 0; i < points.length; i++) heap[base + i] = points[i];
-    const hullHandle = this.createHullFromPointsFn(points.length / 3, ptr);
+    const hullHandle = this.createHullFromPointsFn(points.length / 3, ptr, maxVertexCount ?? points.length / 3);
     this.module._free(ptr);
     return this.requireSlotHandle<HullHandle>(hullHandle, "hulls");
   }
@@ -1124,6 +1129,41 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     const pos = transform.position ?? [0, 0, 0];
     const rot = transform.rotation ?? [0, 0, 0, 1];
     return this.requireSlotHandle<HullHandle>(this.makeTransformedBoxHullFn(halfWidths[0], halfWidths[1], halfWidths[2], pos[0], pos[1], pos[2], rot[0], rot[1], rot[2], rot[3]), "hulls");
+  }
+  makeScaledBoxHull(halfWidths: Vec3, transform: { position?: Vec3; rotation?: Quat } = {}, postScale: Vec3 = [1, 1, 1]): HullHandle {
+    const pos = transform.position ?? [0, 0, 0];
+    const rot = transform.rotation ?? [0, 0, 0, 1];
+    return this.requireSlotHandle<HullHandle>(this.makeScaledBoxHullFn(halfWidths[0], halfWidths[1], halfWidths[2], pos[0], pos[1], pos[2], rot[0], rot[1], rot[2], rot[3], postScale[0], postScale[1], postScale[2]), "hulls");
+  }
+  cloneAndTransformHull(hullHandle: HullHandle, transform: { position?: Vec3; rotation?: Quat } = {}, scale: Vec3 = [1, 1, 1]): HullHandle {
+    const pos = transform.position ?? [0, 0, 0];
+    const rot = transform.rotation ?? [0, 0, 0, 1];
+    return this.requireSlotHandle<HullHandle>(this.cloneAndTransformHullFn(hullHandle, pos[0], pos[1], pos[2], rot[0], rot[1], rot[2], rot[3], scale[0], scale[1], scale[2]), "hulls");
+  }
+  getHullInfo(hullHandle: HullHandle): { vertexCount: number; faceCount: number; edgeCount: number; surfaceArea: number; volume: number; innerRadius: number } {
+    this.getHullInfoFn(hullHandle, this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return {
+      vertexCount: Math.trunc(heap[base]!),
+      faceCount: Math.trunc(heap[base + 1]!),
+      edgeCount: Math.trunc(heap[base + 2]!),
+      surfaceArea: heap[base + 3]!,
+      volume: heap[base + 4]!,
+      innerRadius: heap[base + 5]!,
+    };
+  }
+  computeHullMass(hullHandle: HullHandle, density = 1): { mass: number; ixx: number; iyy: number; izz: number } {
+    this.computeHullMassFn(hullHandle, density, this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return { mass: heap[base]!, ixx: heap[base + 1]!, iyy: heap[base + 2]!, izz: heap[base + 3]! };
+  }
+  computeCapsuleMass(capsule: { a: Vec3; b: Vec3; radius: number }, density = 1): { mass: number; ixx: number; iyy: number; izz: number } {
+    this.computeCapsuleMassFn(capsule.a[0], capsule.a[1], capsule.a[2], capsule.b[0], capsule.b[1], capsule.b[2], capsule.radius, density, this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return { mass: heap[base]!, ixx: heap[base + 1]!, iyy: heap[base + 2]!, izz: heap[base + 3]! };
   }
 
   private writeWorldTransform(ptr: number, transform: WorldTransform): void {

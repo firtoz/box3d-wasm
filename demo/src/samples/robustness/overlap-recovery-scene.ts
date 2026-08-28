@@ -2,15 +2,39 @@ import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} 
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { f32 } from "../f32";
 
-export function buildOverlapRecoveryDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+export type OverlapRecoveryParams = {
+  baseCount: number;
+  extent: number;
+  overlap: number;
+  speed: number;
+  hertz: number;
+  dampingRatio: number;
+};
+
+export function defaultOverlapRecoveryParams(): OverlapRecoveryParams {
+  return {
+    baseCount: 4,
+    extent: f32(0.5),
+    overlap: f32(0.25),
+    speed: 3,
+    hertz: 30,
+    dampingRatio: 10,
+  };
+}
+
+export function buildOverlapRecoveryDynamicBodies(
+  world: PhysicsWorld,
+  runtime: Box3DRuntime,
+  params: OverlapRecoveryParams = defaultOverlapRecoveryParams(),
+): BodyId[] {
   const handles: BodyId[] = [];
-  const baseCount = 4;
-  const extent = f32(0.5);
-  const overlap = f32(0.25);
+  const baseCount = params.baseCount;
+  const extent = f32(params.extent);
+  const overlap = f32(params.overlap);
   const fraction = f32(1 - overlap);
   const half: Vec3 = [extent, extent, extent];
 
-  world.setContactTuning(30, 10, 3);
+  world.setContactTuning(params.hertz, params.dampingRatio, params.speed);
 
   let y = extent;
   for (let i = 0; i < baseCount; i++) {

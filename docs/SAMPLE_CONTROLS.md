@@ -14,10 +14,8 @@ Global demo already covers pause / restart / shoot / spin / ragdoll / sample pic
 
 These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exist:
 
-- Geometry editors: Box Hull, Hull Reduction, Hull Transform, Capsule Mass.
 - Mesh / Height Field: columns/rows/amplitude/holes/ray sliders.
 - Shapes / Wind (shape/wind/drag/lift/count).
-- Robustness / Overlap Recovery: extent/count/overlap/speed/spring sliders.
 - Collision: Long Ray Cast, Mesh Scale, Shape Cast, Initial Overlap (partial vs C++).
 - Continuous / Mesh Drop: Type / Amplitude / generate.
 - Benchmark / Height Field: Radius.
@@ -42,11 +40,11 @@ These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exis
 - [x] `events/hit` — Events / Hit — no C++ DrawControls (Contact WASD is a different C++ sample)
 - [x] `events/persistent-contact` — Events / Persistent Contact — no C++ sample UI
 - [x] `events/joint` — Events / Joint — no C++ sample UI
-- [ ] `geometry/box-hull` — Geometry / Box Hull — C++ Refresh
+- [x] `geometry/box-hull` — Geometry / Box Hull — h/c/r/s sliders + Refresh
 - [x] `geometry/hull` — Geometry / Hull — no C++ sample UI
-- [ ] `geometry/hull-reduction` — Geometry / Hull Reduction — C++ Box/Sphere/count
-- [ ] `geometry/hull-transform` — Geometry / Hull Transform — C++ scale/rotate/translate
-- [ ] `geometry/capsule-mass` — Geometry / Capsule Mass — C++ sides
+- [x] `geometry/hull-reduction` — Geometry / Hull Reduction — Box/Sphere/count
+- [x] `geometry/hull-transform` — Geometry / Hull Transform — scale/rotate/translate + HUD
+- [x] `geometry/capsule-mass` — Geometry / Capsule Mass — sides + mass HUD
 - [x] `issues/hull-crash` — Issues / Hull Crash — no C++ sample UI
 - [x] `issues/multiple-prismatic` — Issues / Multiple Prismatic — no C++ sample UI
 - [x] `issues/crash` — Issues / Crash — Add Joint
@@ -56,7 +54,7 @@ These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exis
 - [x] `issues/slide-twist-off-center` — Issues / Slide Twist Off Center Shape — no C++ sample UI
 - [x] `robustness/high-mass-ratio-1` — Robustness / HighMassRatio1 — no C++ sample UI
 - [x] `robustness/tiny-pyramid` — Robustness / Tiny Pyramid — no C++ sample UI
-- [ ] `robustness/overlap-recovery` — Robustness / Overlap Recovery — C++ rebuild sliders
+- [x] `robustness/overlap-recovery` — Robustness / Overlap Recovery — Extent / Base Count / Overlap / Speed / Hertz / Damping / Reset
 - [x] `robustness/overflow-color-pile` — Robustness / Overflow Color Pile — no C++ sample UI
 - [x] `joints/filter` — Joints / Filter — no C++ sample UI
 - [x] `joints/motor-joint` — Joints / Motor Joint — Speed + Max Force/Torque + Impulse

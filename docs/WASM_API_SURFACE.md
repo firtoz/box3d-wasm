@@ -185,13 +185,16 @@ When adding an API binding:
 - [x] Standalone box hull handle: `b3MakeBoxHull` (`makeBoxHull`, embedded storage, not `b3DestroyHull`)
 - [x] Standalone transformed box hull: `b3MakeTransformedBoxHull` (`makeTransformedBoxHull`)
 - [x] Transformed/scaled box hull creation for shapes: `b3CreateTransformedHullShape` / `b3MakeScaledBoxHull`
+- [x] Standalone scaled box hull: `b3MakeScaledBoxHull` (`makeScaledBoxHull`)
 - [ ] Create cone: `b3CreateCone`
 - [x] Create rock: `b3CreateRock`
 - [ ] Clone hull: `b3CloneHull`
-- [ ] Clone and transform hull: `b3CloneAndTransformHull`
+- [x] Clone and transform hull: `b3CloneAndTransformHull` (`cloneAndTransformHull`)
 - [ ] Cube hull helper: `b3MakeCubeHull`
 - [x] Offset box hull helper: `b3MakeOffsetBoxHull` (`createOffsetHullShape`)
 - [x] Hull vertex count / points: `b3GetHullPoints` (`getHullVertexCount`, `getHullPoints`)
+- [x] Hull reduction: `b3CreateHull` max vertex count (`createHullFromPoints(points, maxVertexCount)`)
+- [x] Hull info: vertex/face/edge counts, surface area, volume, inner radius (`getHullInfo`)
 - [ ] Hull edge/face/plane accessors
 
 ## Compounds
@@ -283,7 +286,8 @@ When adding an API binding:
 - [x] Shape cast (pair): `b3ShapeCast` (`shapeCast`)
 - [ ] Shape distance: `b3ShapeDistance`
 - [ ] Time of impact: `b3TimeOfImpact`
-- [ ] Compute sphere/capsule/hull mass without creating a body
+- [x] Compute capsule/hull mass without creating a body: `b3ComputeCapsuleMass` / `b3ComputeHullMass`
+- [ ] Compute sphere mass without creating a body
 - [ ] Compute sphere/capsule/hull AABB without creating a body
 
 ## Character And Mover Helpers

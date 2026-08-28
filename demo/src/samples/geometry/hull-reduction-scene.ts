@@ -1,5 +1,6 @@
 import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
+import { cameraFromSetView } from "../shared";
 
 function mulberry32(a: number): () => number {
   return () => {
@@ -36,7 +37,7 @@ export const hullReductionBodies: RenderBody[] = [
   { kind: "box", size: [0.5, 0.5, 0.5], position: [0, 1, 0], color: 0xf59e0b },
 ];
 
-export const hullReductionCamera: RenderSpec["camera"] = { position: [0, 15, 5], target: [0, 0, 0] };
+export const hullReductionCamera: RenderSpec["camera"] = cameraFromSetView(0, 15, 5, [0, 0, 0]);
 
 export const dumpSampleName = "Hull Reduction";
 export const dumpSampleId = "geometry/hull-reduction";

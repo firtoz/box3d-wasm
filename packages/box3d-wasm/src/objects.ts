@@ -72,8 +72,8 @@ export class ObjectRuntime {
     return new HullRef(this, this.runtime.createCylinder(height, radius, yOffset, sides));
   }
 
-  createHullFromPoints(points: number[]): HullRef {
-    return new HullRef(this, this.runtime.createHullFromPoints(points));
+  createHullFromPoints(points: number[], maxVertexCount?: number): HullRef {
+    return new HullRef(this, this.runtime.createHullFromPoints(points, maxVertexCount));
   }
 
   wrapMesh(meshHandle: MeshHandle): MeshRef {

@@ -118,11 +118,11 @@ Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Box Hull** | [x] | `b3MakeBoxHull`, hull debug draw | 🔧 Trivial. |
+| **Box Hull** | [x] | `b3MakeBoxHull`, hull debug draw | Main-thread editor: yellow point hull vs cyan `makeScaledBoxHull`; h/c/r/s + Refresh. Dump uses `dumpNoPhysics`. |
 | **Hull** | [x] | `b3CreateHull` from points, hull debug draw | 🔧 `createHullFromPoints` exists. |
-| **Hull Reduction** | [x] | `b3CreateHull` with many points → reduction | 🔧 Maybe works. |
-| **Hull Transform** | [x] | `b3MakeTransformedBoxHull`, hull transform debug | 🔧 Most APIs exist. |
-| **Capsule Mass** | [x] | Geometry mass visualization | 🔧 Geometry-only sample with no world bodies; host draws capsule/box/axes overlay and dump uses `dumpNoPhysics`. |
+| **Hull Reduction** | [x] | `b3CreateHull` with many points → reduction | Main-thread editor: Box/Sphere + count; HUD v/f/e. Dump uses `dumpNoPhysics`. |
+| **Hull Transform** | [x] | `b3CloneAndTransformHull`, hull transform debug | Main-thread editor: sx/sy/sz, rx/ry/rz, px/py/pz; HUD area/volume/radius. Dump uses `dumpNoPhysics`. |
+| **Capsule Mass** | [x] | Geometry mass visualization | Main-thread editor: sides 3–6; hull/capsule/box mass HUD. Dump uses `dumpNoPhysics`. |
 
 ## Issues (`sample_issues.cpp`)
 
@@ -206,7 +206,7 @@ These are pairwise collide demos (no physics bodies). The TS ports use a custom 
 |--------|----|-------------|-------|
 | **HighMassRatio1** | [x] | High density ratios | 🔧 Three pyramids with heavy top boxes. Ground half-extent must be 50 (matches `AddGroundBox(50)`). C++/WASM dump parity verified at epsilon=1e-5. |
 | **Tiny Pyramid** | [x] | Tiny scale pyramid | 🔧 30-base pyramid of 2.5cm boxes. C++/WASM dump parity verified at epsilon=0. Uses `Math.fround()` for float32 intermediate rounding to match upstream position arithmetic. Render bodies added (465 boxes). |
-| **Overlap Recovery** | [x] | Bodies starting in overlap | 🔧 25% overlap with contact tuning. Ground half-extent must be 20 (matches `AddGroundBox(20)`). C++/WASM dump parity verified at epsilon=1e-5. |
+| **Overlap Recovery** | [x] | Bodies starting in overlap | Default 25% overlap + contact tuning. Live Extent/Base Count/Overlap/Speed/Hertz/Damping/Reset. Ground half-extent 20. Dump parity at epsilon=1e-5. |
 | **Overflow Color Pile** | [x] | Many bodies + color debug | 🔧 Hub + 24 neighbors for graph color overflow. C++/WASM dump parity verified at epsilon=1e-7. Uses `b3wCosf`/`b3wSinf` (float32 `<math.h>`) for initial positions to match upstream `cosf`/`sinf`. |
 
 ## Shapes (`sample_shapes.cpp`)

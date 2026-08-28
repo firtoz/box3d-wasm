@@ -1,5 +1,6 @@
 import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
+import { cameraFromSetView } from "../shared";
 
 export function buildBoxHullDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const handles: BodyId[] = [];
@@ -21,7 +22,7 @@ export const boxHullBodies: RenderBody[] = [
   { kind: "box", size: [1, 0.5, 0.25], position: [2, 2, 0], color: 0x22c55e },
 ];
 
-export const boxHullCamera: RenderSpec["camera"] = { position: [0, 15, 5], target: [0, 0, 0] };
+export const boxHullCamera: RenderSpec["camera"] = cameraFromSetView(0, 15, 5, [0, 0, 0]);
 
 export const dumpSampleName = "Box Hull";
 export const dumpSampleId = "geometry/box-hull";

@@ -1,5 +1,6 @@
 import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
+import { cameraFromSetView } from "../shared";
 
 export function buildHullTransformDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
   const handles: BodyId[] = [];
@@ -20,7 +21,7 @@ export const hullTransformBodies: RenderBody[] = [
   { kind: "box", size: [1, 0.5, 0.5], position: [0, 1, 0], color: 0x8b5cf6 },
 ];
 
-export const hullTransformCamera: RenderSpec["camera"] = { position: [0, 15, 5], target: [0, 0, 0] };
+export const hullTransformCamera: RenderSpec["camera"] = cameraFromSetView(0, 15, 5, [0, 0, 0]);
 
 export const dumpSampleName = "Hull Transform";
 export const dumpSampleId = "geometry/hull-transform";
