@@ -1,4 +1,4 @@
-import {B3_AXIS_Z, B3_PI, BodyType, quatFromAxisAngle, type BodyId, type Box3DRuntime, type JointId, type MeshHandle, type PhysicsWorld, type Quat, type Vec3} from "box3d-wasm";
+import {B3_AXIS_Z, B3_PI, BodyType, quatFromAxisAngle, type BodyId, type Box3DRuntime, type JointId, type MeshHandle, type PhysicsWorld, type Quat, type ShapeId, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { f32, f32Mul } from "../f32";
 import { cameraFromSetView } from "../shared";
@@ -20,6 +20,7 @@ export interface SensorHitsState {
   kinematicBody: BodyId;
   dynamicBody: BodyId;
   launchBody: BodyId;
+  launchShape: ShapeId;
   joint: JointId;
 }
 
@@ -78,7 +79,7 @@ export function buildSensorHitsDynamicBodies(
     linearVelocity: [SENSOR_HITS_LAUNCH_SPEED, 0, 0],
     isBullet: true,
   });
-  world.createSphereShape(launchBody, [0, 0, 0], f32(0.25), {
+  const launchShape = world.createSphereShape(launchBody, [0, 0, 0], f32(0.25), {
     enableSensorEvents: true,
     friction: f32(0.8),
     rollingResistance: f32(0.01),
@@ -94,6 +95,7 @@ export function buildSensorHitsDynamicBodies(
       kinematicBody,
       dynamicBody,
       launchBody,
+      launchShape: launchShape.shapeHandle,
       joint,
     },
   };

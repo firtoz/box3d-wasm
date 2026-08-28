@@ -87,6 +87,7 @@ export function processSensorVisitPostStep(world: PhysicsWorld, state: SensorVis
 
   for (const event of world.getSensorBeginEvents()) {
     if (event.sensorShapeHandle !== state.sensorShape || event.visitorShapeHandle !== state.visitorShape) continue;
+    world.setShapeCustomColor(state.sensorShape, 0xffff00);
     if (world.bodyIsValid(state.visitorBody)) world.destroyBody(state.visitorBody);
     state.visitorBody = null;
     state.visitorShape = null;

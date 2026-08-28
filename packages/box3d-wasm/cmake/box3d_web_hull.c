@@ -201,3 +201,47 @@ B3W_EXPORT void b3wComputeCapsuleMass(
 	out[2] = mass.inertia.cy.y;
 	out[3] = mass.inertia.cz.z;
 }
+
+B3W_EXPORT int b3wCreateCone(float height, float radius1, float radius2, int slices)
+{
+	b3HullData* hull = b3CreateCone(height, radius1, radius2, slices);
+	if (hull == NULL) return 0;
+	return b3wAllocHullSlot(hull);
+}
+
+B3W_EXPORT void b3wComputeSphereMass(float px, float py, float pz, float radius, float density, float* out)
+{
+	if (out == NULL) return;
+	b3Sphere sphere = { { px, py, pz }, radius };
+	b3MassData mass = b3ComputeSphereMass(&sphere, density);
+	out[0] = mass.mass;
+	out[1] = mass.inertia.cx.x;
+	out[2] = mass.inertia.cy.y;
+	out[3] = mass.inertia.cz.z;
+}
+
+B3W_EXPORT int b3wGetHullEdgeLines(int hullHandle, float* out, int capacityFloats)
+{
+	b3wHullSlot* slot = b3wGetHull(hullHandle);
+	if (slot == NULL || slot->hull == NULL || out == NULL || capacityFloats < 6) return 0;
+	const b3HullData* hull = slot->hull;
+	const b3Vec3* points = b3GetHullPoints(hull);
+	const b3HullHalfEdge* edges = b3GetHullEdges(hull);
+	if (points == NULL || edges == NULL) return 0;
+	int written = 0;
+	for (int i = 0; i < hull->edgeCount; ++i)
+	{
+		int twin = (int)edges[i].twin;
+		if (twin <= i) continue;
+		if (written + 6 > capacityFloats) break;
+		const b3Vec3* a = points + edges[i].origin;
+		const b3Vec3* b = points + edges[twin].origin;
+		out[written++] = a->x;
+		out[written++] = a->y;
+		out[written++] = a->z;
+		out[written++] = b->x;
+		out[written++] = b->y;
+		out[written++] = b->z;
+	}
+	return written;
+}

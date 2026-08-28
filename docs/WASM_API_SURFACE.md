@@ -18,9 +18,9 @@ Source files:
 
 ## Current Shape
 
-- Approximate JS-callable surface: ~120 TypeScript methods
+- Approximate JS-callable surface: ~160 TypeScript methods
 - Current binding style: manual `b3w*` C bridge functions plus TypeScript wrapper classes
-- Body/shape/joint public IDs are packed native `uint64` (`BodyId`/`ShapeId`/`JointId` as branded `bigint`); worlds/hulls/meshes/compounds/humans/height-fields use int slot handles
+- Body/shape/joint public IDs are packed native `uint64` (`BodyId`/`ShapeId`/`JointId` as branded `bigint`); worlds/hulls/meshes/compounds/humans/height-fields use int slot handles. Dynamic trees use a private 16-slot pool (`DynamicTree`).
 - Current focus: sample-driven API growth rather than a full 1:1 upstream C API mirror
 - Threading: Emscripten pthreads enabled in WASM build, with world worker-count controls exposed
 - Usage guide: see [`TYPESCRIPT_API.md`](./TYPESCRIPT_API.md) for public TypeScript examples and conventions
@@ -57,14 +57,14 @@ When adding an API binding:
 - [x] Enable warm starting: `b3World_EnableWarmStarting`
 - [x] Set contact tuning: `b3World_SetContactTuning`
 - [x] Set contact recycle distance: `b3World_SetContactRecycleDistance`
-- [ ] Get/set gravity after creation: `b3World_SetGravity`, `b3World_GetGravity`
+- [x] Get/set gravity after creation: `b3World_SetGravity`, `b3World_GetGravity` (`setGravity` / `getGravity`)
 - [ ] World bounds: `b3World_GetBounds`
-- [ ] Restitution threshold: `b3World_SetRestitutionThreshold`, `b3World_GetRestitutionThreshold`
-- [ ] Hit event threshold: `b3World_SetHitEventThreshold`, `b3World_GetHitEventThreshold`
-- [ ] Maximum linear speed: `b3World_SetMaximumLinearSpeed`, `b3World_GetMaximumLinearSpeed`
-- [ ] Contact recycle distance getter: `b3World_GetContactRecycleDistance`
-- [ ] Static tree rebuild: `b3World_RebuildStaticTree`
-- [ ] Speculative collision toggle: `b3World_EnableSpeculative`
+- [x] Restitution threshold: `b3World_SetRestitutionThreshold`, `b3World_GetRestitutionThreshold`
+- [x] Hit event threshold: `b3World_SetHitEventThreshold`, `b3World_GetHitEventThreshold`
+- [x] Maximum linear speed: `b3World_SetMaximumLinearSpeed`, `b3World_GetMaximumLinearSpeed`
+- [x] Contact recycle distance getter: `b3World_GetContactRecycleDistance`
+- [x] Static tree rebuild: `b3World_RebuildStaticTree` (`rebuildStaticTree`)
+- [x] Speculative collision toggle: `b3World_EnableSpeculative` (`enableSpeculative`)
 - [ ] Max capacity: `b3World_GetMaxCapacity`
 - [ ] Shape bounds dump/debug helpers
 
@@ -104,18 +104,18 @@ When adding an API binding:
 - [ ] Get rotation: `b3Body_GetRotation` as direct wrapper
 - [x] Get linear velocity: `b3Body_GetLinearVelocity`
 - [x] Get angular velocity: `b3Body_GetAngularVelocity`
-- [ ] Apply force: `b3Body_ApplyForce`
-- [ ] Apply force to center: `b3Body_ApplyForceToCenter`
+- [x] Apply force: `b3Body_ApplyForce`
+- [x] Apply force to center: `b3Body_ApplyForceToCenter`
 - [x] Apply torque: `b3Body_ApplyTorque`
-- [ ] Apply angular impulse: `b3Body_ApplyAngularImpulse`
+- [x] Apply angular impulse: `b3Body_ApplyAngularImpulse`
 - [x] Get mass: `b3Body_GetMass`
 - [ ] Get inverse mass: `b3Body_GetInverseMass`
 - [x] Get world center of mass: `b3Body_GetWorldCenter`
 - [x] Get local rotational inertia: `b3Body_GetLocalRotationalInertia`
 - [ ] Get world inverse rotational inertia
-- [ ] Get/set linear damping as separate getter/setter pair
-- [ ] Get/set angular damping as separate getter/setter pair
-- [ ] Get gravity scale
+- [x] Get linear damping: `b3Body_GetLinearDamping`
+- [x] Get angular damping: `b3Body_GetAngularDamping`
+- [x] Get gravity scale: `b3Body_GetGravityScale`
 - [ ] Get sleep threshold
 - [ ] Is sleep enabled
 - [x] Enable/disable body: `b3Body_Enable`, `b3Body_Disable`, `b3Body_IsEnabled`
@@ -158,15 +158,15 @@ When adding an API binding:
 - [x] Destroy shape: `b3DestroyShape`
 - [x] Shape type: `b3Shape_GetType`
 - [ ] Shape world: `b3Shape_GetWorld`
-- [ ] Sensor status: `b3Shape_IsSensor`
+- [x] Sensor status: `b3Shape_IsSensor` (`isShapeSensor`)
 - [ ] Event enabled getters: sensor/contact/pre-solve/hit
 - [ ] Shape AABB: `b3Shape_GetAABB`
 - [ ] Closest point: `b3Shape_GetClosestPoint`
 - [x] Get sphere geometry: `b3Shape_GetSphere`
 - [x] Get capsule geometry: `b3Shape_GetCapsule`
-- [ ] Get filter: `b3Shape_GetFilter`
+- [x] Get filter: `b3Shape_GetFilter` (`getShapeFilter`)
 - [ ] Get surface material: `b3Shape_GetSurfaceMaterial`
-- [ ] Get density/friction/restitution
+- [x] Get density/friction/restitution: `b3Shape_GetDensity` / `GetFriction` / `GetRestitution`
 - [ ] Shape raycast: `b3Shape_RayCast`
 - [ ] Compute shape mass data: `b3Shape_ComputeMassData`
 - [ ] Sensor data: `b3Shape_GetSensorData`
@@ -187,7 +187,7 @@ When adding an API binding:
 - [x] Standalone transformed box hull: `b3MakeTransformedBoxHull` (`makeTransformedBoxHull`)
 - [x] Transformed/scaled box hull creation for shapes: `b3CreateTransformedHullShape` / `b3MakeScaledBoxHull`
 - [x] Standalone scaled box hull: `b3MakeScaledBoxHull` (`makeScaledBoxHull`)
-- [ ] Create cone: `b3CreateCone`
+- [x] Create cone: `b3CreateCone` (`createCone`)
 - [x] Create rock: `b3CreateRock`
 - [x] Clone hull: `b3CloneHull` (`cloneAndTransformHull`, `cloneHullFromShape`)
 - [x] Clone and transform hull: `b3CloneAndTransformHull` (`cloneAndTransformHull`)
@@ -196,7 +196,8 @@ When adding an API binding:
 - [x] Hull vertex count / points: `b3GetHullPoints` (`getHullVertexCount`, `getHullPoints`)
 - [x] Hull reduction: `b3CreateHull` max vertex count (`createHullFromPoints(points, maxVertexCount)`)
 - [x] Hull info: vertex/face/edge counts, surface area, volume, inner radius (`getHullInfo`)
-- [ ] Hull edge/face/plane accessors
+- [x] Hull unique edge lines: `b3GetHullEdges` + points (`getHullEdgeLines`)
+- [ ] Hull face/plane accessors
 
 ## Compounds
 
@@ -263,10 +264,10 @@ When adding an API binding:
 - [x] World raycast callback modes: `b3World_CastRay` (`worldCast` any/closest/multiple/sorted, skip `userData==1` and optional initial overlap)
 - [x] World shapecast: `b3World_CastShape` (`worldCast` sphere/capsule/box proxies; `castShapeSphere` remains a fraction-only helper)
 - [x] World AABB overlap: `b3World_OverlapAABB` (`overlapAABB` returns hit count)
-- [ ] World shape overlap: `b3World_OverlapShape`
+- [x] World shape overlap: `b3World_OverlapShape` (`overlapShape` sphere/capsule/box proxies, packed shape ids)
 - [x] Body raycast: `b3Body_CastRay` (`bodyCastRay`)
-- [ ] Body shapecast: `b3Body_CastShape`
-- [ ] Body shape overlap: `b3Body_OverlapShape`
+- [x] Body shapecast: `b3Body_CastShape` (`bodyCastShape` sphere proxy)
+- [x] Body shape overlap: `b3Body_OverlapShape` (`bodyOverlapShape` capsule proxy)
 - [x] Cast mover: `b3World_CastMover` (`castMover`)
 - [x] Clip vector: `b3ClipVector` (`clipVector`)
 - [x] Collide mover: `b3World_CollideMover` (`collideMover`)
@@ -278,10 +279,10 @@ When adding an API binding:
 - [x] Contact begin events: `b3World_GetContactEvents` (`getContactBeginEvents`)
 - [x] Sensor events: `b3World_GetSensorEvents` (`getSensorBeginEvents`, `getSensorEndEvents`)
 - [x] Joint events: `b3World_GetJointEvents` (`getJointEventHandles`)
-- [ ] Zero-allocation event buffers for JS reads
-- [ ] Contact/manifold buffer for current contacts
+- [x] Zero-allocation event buffers for JS reads: `fillContactEvents` / `fillSensorEvents` (packed `uint64` pairs in a reused WASM heap view)
+- [x] Contact/manifold buffer for current contacts: `fillBodyContactData` (shape-id pairs) and `fillBodyContactManifolds` (world points, normals, separation, impulse)
 - [x] Custom filter callback: `b3World_SetCustomFilterCallback` (`setCustomSensorFilter`; row+active packed in `shapeDef.userData`)
-- [ ] Pre-solve callback: `b3World_SetPreSolveCallback`
+- [x] Pre-solve callback: `b3World_SetPreSolveCallback` via `setPreSolveOneWay` (C-side one-way platform policy; shape `userData` bit `B3W_ONE_WAY_USER_BIT`)
 
 ## Collision, GJK, And Mass Utilities
 
@@ -290,7 +291,7 @@ When adding an API binding:
 - [x] Shape distance: `b3ShapeDistance` (`shapeDistance`)
 - [x] Time of impact: `b3TimeOfImpact` (`timeOfImpact`) / sweep eval (`getSweepTransform`)
 - [x] Compute capsule/hull mass without creating a body: `b3ComputeCapsuleMass` / `b3ComputeHullMass`
-- [ ] Compute sphere mass without creating a body
+- [x] Compute sphere mass without creating a body: `b3ComputeSphereMass` (`computeSphereMass`)
 - [ ] Compute sphere/capsule/hull AABB without creating a body
 
 ## Character And Mover Helpers
@@ -301,15 +302,15 @@ When adding an API binding:
 
 ## Dynamic Tree
 
-- [ ] Create/destroy dynamic tree
-- [ ] Create/destroy/move/enlarge proxy
-- [ ] Proxy category bits get/set
-- [ ] Query
+- [x] Create/destroy dynamic tree (`createDynamicTree` / `DynamicTree.destroy`; private 16-slot pool)
+- [x] Create/destroy/move proxy
+- [ ] Enlarge proxy / proxy category bits get/set
+- [x] Query AABB (`queryAABB` + node/leaf visit stats)
 - [ ] Query closest
-- [ ] Raycast
+- [x] Raycast (first proxy hit)
 - [ ] Box cast
-- [ ] Rebuild
-- [ ] Height/area/root bounds/proxy count/byte count/stats
+- [x] Rebuild
+- [x] Height/area/root bounds/proxy count/byte count/query stats
 - [ ] Validate helpers
 - [ ] Save/load helpers, if wanted for web builds
 

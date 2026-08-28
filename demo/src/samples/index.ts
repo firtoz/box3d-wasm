@@ -125,6 +125,15 @@ import { fallingTreesSample } from "./benchmark/falling-trees";
 import { chainsSample } from "./benchmark/chains";
 import { convexPileSample } from "./benchmark/convex-pile";
 import { largeWorldSample } from "./benchmark/large-world";
+import { extraForcesSample } from "./extra/forces";
+import { extraWorldKnobsSample } from "./extra/world-knobs";
+import { extraConeMassSample } from "./extra/cone-mass";
+import { extraEventBufferSample } from "./extra/event-buffer";
+import { extraOneWaySample } from "./extra/one-way";
+import { extraSensorFilterSample } from "./extra/sensor-filter";
+import { extraCloneHullSample } from "./extra/clone-hull";
+import { extraParallelAnchorsSample } from "./extra/parallel-anchors";
+import { extraSlotExhaustionSample } from "./extra/slot-exhaustion";
 import { objectAssertsBenchSample } from "./object-asserts-bench";
 import { querySpawnSample } from "./determinism/query-spawn";
 import { sensorHitsSample } from "./events/sensor-hits";
@@ -330,4 +339,13 @@ export const samples = [
   benchmarkSensorSample,
   treeBenchmarkSample,
   objectAssertsBenchSample,
+  extraForcesSample,
+  extraWorldKnobsSample,
+  extraConeMassSample,
+  extraEventBufferSample,
+  extraOneWaySample,
+  extraSensorFilterSample,
+  extraCloneHullSample,
+  extraParallelAnchorsSample,
+  extraSlotExhaustionSample,
 ];

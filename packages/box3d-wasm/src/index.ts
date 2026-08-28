@@ -73,6 +73,8 @@ export type SurfaceMaterialOptions = {
 export const B3W_MANIFOLD_MAX_POINTS = 64;
 export const B3W_MANIFOLD_HEADER_FLOATS = 14;
 export const B3W_MANIFOLD_POINT_FLOATS = 8;
+/** uint64 slots: 3 counts + 256 begin/end/hit pairs */
+export const B3W_EVENT_BUFFER_U64 = 3 + 256 * 2;
 
 declare const handleBrand: unique symbol;
 
@@ -93,6 +95,12 @@ export type MeshHandle = NumberHandle<"MeshHandle">;
 export type CompoundHandle = NumberHandle<"CompoundHandle">;
 export type HumanHandle = NumberHandle<"HumanHandle">;
 export type HeightFieldHandle = NumberHandle<"HeightFieldHandle">;
+export type TreeHandle = NumberHandle<"TreeHandle">;
+
+/** Shape `userData` bit for `setPreSolveOneWay` platforms (does not overlap sensor-filter packing). */
+export const B3W_ONE_WAY_USER_BIT = 0x10000000;
+/** High bit in packed sensor-filter `userData`: `(active ? B3W_SENSOR_FILTER_ACTIVE_BIT : 0) | row`. */
+export const B3W_SENSOR_FILTER_ACTIVE_BIT = 0x40000000;
 
 export const B3_PI = 3.14159265359;
 export const B3_DEG_TO_RAD = 0.01745329251;
@@ -148,11 +156,11 @@ export interface SlotLimits {
 export type SlotUsage = SlotLimits;
 
 export class SlotExhaustedError extends Error {
-  readonly kind: SlotKind;
+  readonly kind: SlotKind | "trees";
   readonly used: number;
   readonly max: number;
 
-  constructor(kind: SlotKind, used: number, max: number) {
+  constructor(kind: SlotKind | "trees", used: number, max: number) {
     super(`Box3D WASM ${kind} slot pool exhausted (${used}/${max}). Rebuild with higher B3W_MAX_* limits, use the growable WASM variant, or reduce tracked entities.`);
     this.name = "SlotExhaustedError";
     this.kind = kind;
@@ -207,6 +215,9 @@ export const WorldCastMode = { Any: 0, Closest: 1, Multiple: 2, Sorted: 3 } as c
 export type WorldCastModeId = (typeof WorldCastMode)[keyof typeof WorldCastMode];
 export const WorldCastType = { Ray: 0, Sphere: 1, Capsule: 2, Box: 3 } as const;
 export type WorldCastTypeId = (typeof WorldCastType)[keyof typeof WorldCastType];
+/** Proxy kinds for `overlapShape` (`b3World_OverlapShape`). Matches the C bridge: 1=sphere, 2=capsule, else box. */
+export const OverlapProxyType = { Box: 0, Sphere: 1, Capsule: 2 } as const;
+export type OverlapProxyTypeId = (typeof OverlapProxyType)[keyof typeof OverlapProxyType];
 export const ShapeType = { Capsule: 0, Compound: 1, Height: 2, Hull: 3, Mesh: 4, Sphere: 5 } as const;
 export type ShapeTypeId = (typeof ShapeType)[keyof typeof ShapeType];
 
@@ -319,6 +330,25 @@ export interface ShapeHandle { bodyHandle: BodyId; shapeHandle: ShapeId; }
 export interface MeshShapeOptions extends ShapeDef { scale?: Vec3; }
 export interface SensorBeginEvent { sensorShapeHandle: ShapeId; visitorShapeHandle: ShapeId; }
 export interface ContactBeginEvent { shapeA: ShapeId; shapeB: ShapeId; }
+export interface PackedEventBuffer {
+  beginCount: number;
+  endCount: number;
+  hitCount: number;
+  /** Packed ShapeId pairs (A,B) for begin, then end, then hit. View into WASM heap — copy if you store it. */
+  pairs: BigUint64Array;
+}
+export interface ContactManifoldBuffer {
+  contactCount: number;
+  pointCount: number;
+  /** Layout per point: x,y,z, nx,ny,nz, separation, totalNormalImpulse. View into WASM heap — copy if you store it. */
+  points: Float32Array;
+}
+export interface TreeQueryResult {
+  proxyIds: number[];
+  nodeVisits: number;
+  leafVisits: number;
+}
+export interface ShapeFilter { categoryBits: bigint; maskBits: bigint; groupIndex: number; }
 export interface RuntimeLoadOptions {
   version?: string;
   variant?: "release" | "profile" | "growable";
@@ -559,6 +589,29 @@ function toU64Mask(maskBits: number | bigint): bigint {
 
 function defaults<T>(val: T | undefined, def: T): T { return val !== undefined ? val : def; }
 
+/** Private WASM-bridge dynamic tree (not the world's broad-phase). Max 16 trees. */
+export class DynamicTree {
+  constructor(private readonly runtime: Box3DRuntime, readonly handle: TreeHandle) {}
+  createProxy(min: Vec3, max: Vec3, categoryBits = 1, userData = 0): number {
+    return this.runtime.treeCreateProxy(this.handle, min, max, categoryBits, userData);
+  }
+  destroyProxy(proxyId: number): void { this.runtime.treeDestroyProxy(this.handle, proxyId); }
+  moveProxy(proxyId: number, min: Vec3, max: Vec3): void { this.runtime.treeMoveProxy(this.handle, proxyId, min, max); }
+  queryAABB(min: Vec3, max: Vec3, maxCount = 256): TreeQueryResult {
+    return this.runtime.treeQueryAABB(this.handle, min, max, maxCount);
+  }
+  rayCast(origin: Vec3, target: Vec3, maxFraction = 1): { proxyId: number; fraction: number } | null {
+    return this.runtime.treeRayCast(this.handle, origin, target, maxFraction);
+  }
+  getHeight(): number { return this.runtime.treeGetHeight(this.handle); }
+  getAreaRatio(): number { return this.runtime.treeGetAreaRatio(this.handle); }
+  getProxyCount(): number { return this.runtime.treeGetProxyCount(this.handle); }
+  rebuild(fullBuild = true): number { return this.runtime.treeRebuild(this.handle, fullBuild); }
+  getByteCount(): number { return this.runtime.treeGetByteCount(this.handle); }
+  getRootBounds(): { min: Vec3; max: Vec3 } { return this.runtime.treeGetRootBounds(this.handle); }
+  destroy(): void { this.runtime.destroyDynamicTree(this.handle); }
+}
+
 class RuntimeBindings {
   constructor(protected readonly module: CModule) {}
 
@@ -610,13 +663,16 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly createShapeFromHullFn = this.wrapBigInt<CreateShapeFromHullFn>("b3wCreateShapeFromHull", ["bigint","number","number","number","number","number","number","number","number"]);
   private readonly createTransformedShapeFromHullFn = this.wrapBigInt<CreateTransformedShapeFromHullFn>("b3wCreateTransformedShapeFromHull", ["bigint","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly createCylinderFn = this.wrapNumber<CreateCylinderFn>("b3wCreateCylinder", ["number","number","number","number"]);
+  private readonly createConeFn = this.wrapNumber<(height: number, radius1: number, radius2: number, slices: number) => number>("b3wCreateCone", ["number","number","number","number"]);
   private readonly makeBoxHullFn = this.wrapNumber<MakeBoxHullFn>("b3wMakeBoxHull", ["number","number","number"]);
   private readonly makeTransformedBoxHullFn = this.wrapNumber<MakeTransformedBoxHullFn>("b3wMakeTransformedBoxHull", ["number","number","number","number","number","number","number","number","number","number"]);
   private readonly makeScaledBoxHullFn = this.wrapNumber<(hx: number, hy: number, hz: number, px: number, py: number, pz: number, qx: number, qy: number, qz: number, qs: number, sx: number, sy: number, sz: number) => number>("b3wMakeScaledBoxHull", ["number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly cloneAndTransformHullFn = this.wrapNumber<(hullHandle: number, px: number, py: number, pz: number, qx: number, qy: number, qz: number, qs: number, sx: number, sy: number, sz: number) => number>("b3wCloneAndTransformHull", ["number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly getHullInfoFn = this.wrapVoid<(hullHandle: number, out: number) => void>("b3wGetHullInfo", ["number","number"]);
+  private readonly getHullEdgeLinesFn = this.wrapNumber<(hullHandle: number, out: number, capacity: number) => number>("b3wGetHullEdgeLines", ["number","number","number"]);
   private readonly computeHullMassFn = this.wrapVoid<(hullHandle: number, density: number, out: number) => void>("b3wComputeHullMass", ["number","number","number"]);
   private readonly computeCapsuleMassFn = this.wrapVoid<(ax: number, ay: number, az: number, bx: number, by: number, bz: number, radius: number, density: number, out: number) => void>("b3wComputeCapsuleMass", ["number","number","number","number","number","number","number","number","number"]);
+  private readonly computeSphereMassFn = this.wrapVoid<(px: number, py: number, pz: number, radius: number, density: number, out: number) => void>("b3wComputeSphereMass", ["number","number","number","number","number","number"]);
   private readonly collideSpheresFn = this.wrapVoid<CollideSpheresFn>("b3wCollideSpheres", ["number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly collideCapsuleAndSphereFn = this.wrapVoid<CollideCapsuleSphereFn>("b3wCollideCapsuleAndSphere", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly collideHullAndSphereFn = this.wrapVoid<CollideHullSphereFn>("b3wCollideHullAndSphere", ["number","number","number","number","number","number","number","number","number","number"]);
@@ -723,6 +779,38 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly getWorldProfileLevelFn = this.wrapNumber<WorldGetProfileLevelFn>("b3wGetProfileLevel", ["number"]);
   private readonly setWorldContactTuningFn = this.wrapVoid<WorldSetContactTuningFn>("b3wSetContactTuning", ["number", "number", "number", "number"]);
   private readonly setWorldContactRecycleDistanceFn = this.wrapVoid<WorldSetFloatFn>("b3wSetContactRecycleDistance", ["number", "number"]);
+  private readonly getWorldContactRecycleDistanceFn = this.wrapNumber<(worldHandle: number) => number>("b3wGetContactRecycleDistance", ["number"]);
+  private readonly setWorldGravityFn = this.wrapVoid<(worldHandle: number, gx: number, gy: number, gz: number) => void>("b3wSetGravity", ["number","number","number","number"]);
+  private readonly getWorldGravityFn = this.wrapVoid<(worldHandle: number, out: number) => void>("b3wGetGravity", ["number","number"]);
+  private readonly enableWorldSpeculativeFn = this.wrapVoid<WorldEnableBoolFn>("b3wEnableSpeculative", ["number", "number"]);
+  private readonly setWorldRestitutionThresholdFn = this.wrapVoid<WorldSetFloatFn>("b3wSetRestitutionThreshold", ["number", "number"]);
+  private readonly getWorldRestitutionThresholdFn = this.wrapNumber<(worldHandle: number) => number>("b3wGetRestitutionThreshold", ["number"]);
+  private readonly setWorldHitEventThresholdFn = this.wrapVoid<WorldSetFloatFn>("b3wSetHitEventThreshold", ["number", "number"]);
+  private readonly getWorldHitEventThresholdFn = this.wrapNumber<(worldHandle: number) => number>("b3wGetHitEventThreshold", ["number"]);
+  private readonly setWorldMaximumLinearSpeedFn = this.wrapVoid<WorldSetFloatFn>("b3wSetMaximumLinearSpeed", ["number", "number"]);
+  private readonly getWorldMaximumLinearSpeedFn = this.wrapNumber<(worldHandle: number) => number>("b3wGetMaximumLinearSpeed", ["number"]);
+  private readonly overlapShapeFn = this.wrapNumber<(worldHandle: number, ox: number, oy: number, oz: number, proxyType: number, radius: number, ax: number, ay: number, az: number, bx: number, by: number, bz: number, outShapes: number, maxCount: number) => number>("b3wOverlapShape", ["number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly fillContactEventsFn = this.wrapNumber<(worldHandle: number, out: number, capacity: number) => number>("b3wFillContactEvents", ["number","number","number"]);
+  private readonly fillSensorEventsFn = this.wrapNumber<(worldHandle: number, out: number, capacity: number) => number>("b3wFillSensorEvents", ["number","number","number"]);
+  private readonly fillBodyContactDataFn = this.wrapNumber<(bodyHandle: bigint, out: number, capacity: number) => number>("b3wFillBodyContactData", ["bigint","number","number"]);
+  private readonly fillBodyContactManifoldsFn = this.wrapNumber<(bodyHandle: bigint, out: number, capacity: number) => number>("b3wFillBodyContactManifolds", ["bigint","number","number"]);
+  private readonly rebuildStaticTreeFn = this.wrapVoid<(worldHandle: number) => void>("b3wRebuildStaticTree", ["number"]);
+  private readonly setPreSolveOneWayFn = this.wrapVoid<(worldHandle: number, enabled: number, minNormalY: number) => void>("b3wSetPreSolveOneWay", ["number","number","number"]);
+  private readonly getPreSolveStatsFn = this.wrapVoid<(worldHandle: number, outKeep: number, outSkip: number) => void>("b3wGetPreSolveStats", ["number","number","number"]);
+  private readonly getTreeSlotCountsFn = this.wrapVoid<(outUsed: number, outMax: number) => void>("b3wGetTreeSlotCounts", ["number","number"]);
+  private readonly createDynamicTreeFn = this.wrapNumber<(proxyCapacity: number) => number>("b3wCreateDynamicTree", ["number"]);
+  private readonly destroyDynamicTreeFn = this.wrapVoid<(handle: number) => void>("b3wDestroyDynamicTree", ["number"]);
+  private readonly treeCreateProxyFn = this.wrapNumber<(handle: number, minX: number, minY: number, minZ: number, maxX: number, maxY: number, maxZ: number, categoryBits: number, userData: number) => number>("b3wTreeCreateProxy", ["number","number","number","number","number","number","number","number","number"]);
+  private readonly treeDestroyProxyFn = this.wrapVoid<(handle: number, proxyId: number) => void>("b3wTreeDestroyProxy", ["number","number"]);
+  private readonly treeMoveProxyFn = this.wrapVoid<(handle: number, proxyId: number, minX: number, minY: number, minZ: number, maxX: number, maxY: number, maxZ: number) => void>("b3wTreeMoveProxy", ["number","number","number","number","number","number","number","number"]);
+  private readonly treeQueryAABBFn = this.wrapNumber<(handle: number, minX: number, minY: number, minZ: number, maxX: number, maxY: number, maxZ: number, outProxyIds: number, maxCount: number, outNodeVisits: number, outLeafVisits: number) => number>("b3wTreeQueryAABB", ["number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly treeRayCastFn = this.wrapNumber<(handle: number, ox: number, oy: number, oz: number, tx: number, ty: number, tz: number, maxFraction: number, outProxyId: number, outFraction: number) => number>("b3wTreeRayCast", ["number","number","number","number","number","number","number","number","number","number"]);
+  private readonly treeGetHeightFn = this.wrapNumber<(handle: number) => number>("b3wTreeGetHeight", ["number"]);
+  private readonly treeGetAreaRatioFn = this.wrapNumber<(handle: number) => number>("b3wTreeGetAreaRatio", ["number"]);
+  private readonly treeGetProxyCountFn = this.wrapNumber<(handle: number) => number>("b3wTreeGetProxyCount", ["number"]);
+  private readonly treeRebuildFn = this.wrapNumber<(handle: number, fullBuild: number) => number>("b3wTreeRebuild", ["number","number"]);
+  private readonly treeGetByteCountFn = this.wrapNumber<(handle: number) => number>("b3wTreeGetByteCount", ["number"]);
+  private readonly treeGetRootBoundsFn = this.wrapVoid<(handle: number, out: number) => void>("b3wTreeGetRootBounds", ["number","number"]);
   private readonly setWorldWorkerCountFn = this.wrapVoid<WorldSetWorkerCountFn>("b3wSetWorkerCount", ["number", "number"]);
   private readonly getWorldCountersFn = this.wrapVoid<GetWorldCountersFn>("b3wGetWorldCounters", ["number", "number"]);
   private readonly getWorldProfileFn = this.wrapVoid<GetWorldProfileFn>("b3wGetWorldProfile", ["number", "number"]);
@@ -862,6 +950,18 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly applyLinearImpulseFn = this.wrapVoid<ApplyLinearImpulseFn>("b3wApplyLinearImpulse", ["bigint","number","number","number","number","number","number","number"]);
   private readonly applyLinearImpulseToCenterFn = this.wrapVoid<ApplyLinearImpulseToCenterFn>("b3wApplyLinearImpulseToCenter", ["bigint","number","number","number","number"]);
   private readonly applyTorqueFn = this.wrapVoid<(bodyHandle: bigint, tx: number, ty: number, tz: number, wake: number) => void>("b3wApplyTorque", ["bigint","number","number","number","number"]);
+  private readonly applyForceFn = this.wrapVoid<(bodyHandle: bigint, fx: number, fy: number, fz: number, px: number, py: number, pz: number, wake: number) => void>("b3wApplyForce", ["bigint","number","number","number","number","number","number","number"]);
+  private readonly applyForceToCenterFn = this.wrapVoid<(bodyHandle: bigint, fx: number, fy: number, fz: number, wake: number) => void>("b3wApplyForceToCenter", ["bigint","number","number","number","number"]);
+  private readonly applyAngularImpulseFn = this.wrapVoid<(bodyHandle: bigint, ix: number, iy: number, iz: number, wake: number) => void>("b3wApplyAngularImpulse", ["bigint","number","number","number","number"]);
+  private readonly getLinearDampingFn = this.wrapNumber<(bodyHandle: bigint) => number>("b3wGetLinearDamping", ["bigint"]);
+  private readonly getAngularDampingFn = this.wrapNumber<(bodyHandle: bigint) => number>("b3wGetAngularDamping", ["bigint"]);
+  private readonly getGravityScaleFn = this.wrapNumber<(bodyHandle: bigint) => number>("b3wGetGravityScale", ["bigint"]);
+  private readonly bodyCastShapeFn = this.wrapNumber<(bodyHandle: bigint, ox: number, oy: number, oz: number, tx: number, ty: number, tz: number, radius: number, canEncroach: number, categoryBits: number, maskBits: number, maxFraction: number, bodyPx: number, bodyPy: number, bodyPz: number, bodyQx: number, bodyQy: number, bodyQz: number, bodyQw: number, outHit: number, outPoint: number, outNormal: number, outFraction: number) => number>("b3wBodyCastShape", ["bigint","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly bodyOverlapShapeFn = this.wrapNumber<(bodyHandle: bigint, ox: number, oy: number, oz: number, ax: number, ay: number, az: number, bx: number, by: number, bz: number, radius: number, bodyPx: number, bodyPy: number, bodyPz: number, bodyQx: number, bodyQy: number, bodyQz: number, bodyQw: number) => number>("b3wBodyOverlapShape", ["bigint","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly shapeGetDensityFn = this.wrapNumber<(shapeHandle: bigint) => number>("b3wShapeGetDensity", ["bigint"]);
+  private readonly shapeGetFrictionFn = this.wrapNumber<(shapeHandle: bigint) => number>("b3wShapeGetFriction", ["bigint"]);
+  private readonly shapeGetRestitutionFn = this.wrapNumber<(shapeHandle: bigint) => number>("b3wShapeGetRestitution", ["bigint"]);
+  private readonly shapeGetFilterFn = this.wrapVoid<(shapeHandle: bigint, outCategory: number, outMask: number, outGroup: number) => void>("b3wShapeGetFilter", ["bigint","number","number","number"]);
   private readonly b3wSinFn = this.wrapNumber<(radians: number) => number>("b3wSin", ["number"]);
   private readonly b3wCosFn = this.wrapNumber<(radians: number) => number>("b3wCos", ["number"]);
   private readonly b3wCosfFn = this.wrapNumber<(radians: number) => number>("b3wCosf", ["number"]);
@@ -893,6 +993,11 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly shapeCastOutPtr: number;
   private readonly sweepAPtr: number;
   private readonly sweepBPtr: number;
+  private readonly eventBufferPtr: number;
+  private readonly overlapShapePtr: number;
+  private readonly filterCategoryPtr: number;
+  private readonly filterMaskPtr: number;
+  private readonly filterGroupPtr: number;
   readonly limits: SlotLimits;
 
   constructor(module: CModule) {
@@ -912,6 +1017,11 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     this.shapeCastOutPtr = module._malloc(13 * 4);
     this.sweepAPtr = module._malloc(17 * 4);
     this.sweepBPtr = module._malloc(17 * 4);
+    this.eventBufferPtr = module._malloc(B3W_EVENT_BUFFER_U64 * 8);
+    this.overlapShapePtr = module._malloc(32 * 8);
+    this.filterCategoryPtr = module._malloc(8);
+    this.filterMaskPtr = module._malloc(8);
+    this.filterGroupPtr = module._malloc(4);
   }
 
   getSlotUsage(): SlotUsage {
@@ -954,6 +1064,11 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     this.module._free(this.shapeCastOutPtr);
     this.module._free(this.sweepAPtr);
     this.module._free(this.sweepBPtr);
+    this.module._free(this.eventBufferPtr);
+    this.module._free(this.overlapShapePtr);
+    this.module._free(this.filterCategoryPtr);
+    this.module._free(this.filterMaskPtr);
+    this.module._free(this.filterGroupPtr);
   }
 
   /**
@@ -1149,6 +1264,9 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   createCylinder(height: number, radius: number, yOffset = 0, sides = 12): HullHandle {
     return this.requireSlotHandle<HullHandle>(this.createCylinderFn(height, radius, yOffset, sides), "hulls");
   }
+  createCone(height: number, radius1: number, radius2: number, slices = 16): HullHandle {
+    return this.requireSlotHandle<HullHandle>(this.createConeFn(height, radius1, radius2, slices), "hulls");
+  }
   createGridMesh(worldHandle: WorldHandle, xCount: number, zCount: number, cellWidth: number, materialCount = 1, identifyEdges = true): MeshHandle {
     return this.requireSlotHandle<MeshHandle>(this.createGridMeshFn(worldHandle, xCount, zCount, cellWidth, materialCount, identifyEdges ? 1 : 0), "meshes");
   }
@@ -1249,6 +1367,19 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
       innerRadius: heap[base + 5]!,
     };
   }
+  /** Unique hull edges as packed xyz pairs (a then b). */
+  getHullEdgeLines(hullHandle: HullHandle): number[] {
+    const info = this.getHullInfo(hullHandle);
+    const cap = Math.max(info.edgeCount * 6, 6);
+    const ptr = this.module._malloc(cap * 4);
+    const written = this.getHullEdgeLinesFn(hullHandle, ptr, cap);
+    const heap = this.module.HEAPF32;
+    const base = ptr >> 2;
+    const lines = new Array<number>(written);
+    for (let i = 0; i < written; i++) lines[i] = heap[base + i]!;
+    this.module._free(ptr);
+    return lines;
+  }
   computeHullMass(hullHandle: HullHandle, density = 1): { mass: number; ixx: number; iyy: number; izz: number } {
     this.computeHullMassFn(hullHandle, density, this.transformPtr);
     const heap = this.module.HEAPF32;
@@ -1257,6 +1388,12 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   }
   computeCapsuleMass(capsule: { a: Vec3; b: Vec3; radius: number }, density = 1): { mass: number; ixx: number; iyy: number; izz: number } {
     this.computeCapsuleMassFn(capsule.a[0], capsule.a[1], capsule.a[2], capsule.b[0], capsule.b[1], capsule.b[2], capsule.radius, density, this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return { mass: heap[base]!, ixx: heap[base + 1]!, iyy: heap[base + 2]!, izz: heap[base + 3]! };
+  }
+  computeSphereMass(center: Vec3, radius: number, density = 1): { mass: number; ixx: number; iyy: number; izz: number } {
+    this.computeSphereMassFn(center[0], center[1], center[2], radius, density, this.transformPtr);
     const heap = this.module.HEAPF32;
     const base = this.transformPtr >> 2;
     return { mass: heap[base]!, ixx: heap[base + 1]!, iyy: heap[base + 2]!, izz: heap[base + 3]! };
@@ -1838,6 +1975,99 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   getWorldProfileLevel(worldHandle: WorldHandle): ProfileLevel { return profileLevelFromInt(this.getWorldProfileLevelFn(worldHandle)); }
   setWorldContactTuning(worldHandle: WorldHandle, hertz: number, dampingRatio: number, contactSpeed: number): void { this.setWorldContactTuningFn(worldHandle, hertz, dampingRatio, contactSpeed); }
   setWorldContactRecycleDistance(worldHandle: WorldHandle, distance: number): void { this.setWorldContactRecycleDistanceFn(worldHandle, distance); }
+  getWorldContactRecycleDistance(worldHandle: WorldHandle): number { return this.getWorldContactRecycleDistanceFn(worldHandle); }
+  setWorldGravity(worldHandle: WorldHandle, gravity: Vec3): void { this.setWorldGravityFn(worldHandle, gravity[0], gravity[1], gravity[2]); }
+  getWorldGravity(worldHandle: WorldHandle): Vec3 {
+    this.getWorldGravityFn(worldHandle, this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return [heap[base]!, heap[base + 1]!, heap[base + 2]!];
+  }
+  enableWorldSpeculative(worldHandle: WorldHandle, flag: boolean): void { this.enableWorldSpeculativeFn(worldHandle, flag ? 1 : 0); }
+  setWorldRestitutionThreshold(worldHandle: WorldHandle, value: number): void { this.setWorldRestitutionThresholdFn(worldHandle, value); }
+  getWorldRestitutionThreshold(worldHandle: WorldHandle): number { return this.getWorldRestitutionThresholdFn(worldHandle); }
+  setWorldHitEventThreshold(worldHandle: WorldHandle, value: number): void { this.setWorldHitEventThresholdFn(worldHandle, value); }
+  getWorldHitEventThreshold(worldHandle: WorldHandle): number { return this.getWorldHitEventThresholdFn(worldHandle); }
+  setWorldMaximumLinearSpeed(worldHandle: WorldHandle, value: number): void { this.setWorldMaximumLinearSpeedFn(worldHandle, value); }
+  getWorldMaximumLinearSpeed(worldHandle: WorldHandle): number { return this.getWorldMaximumLinearSpeedFn(worldHandle); }
+  rebuildStaticTree(worldHandle: WorldHandle): void { this.rebuildStaticTreeFn(worldHandle); }
+  setPreSolveOneWay(worldHandle: WorldHandle, enabled: boolean, minNormalY = 0.5): void {
+    this.setPreSolveOneWayFn(worldHandle, enabled ? 1 : 0, minNormalY);
+  }
+  getPreSolveStats(worldHandle: WorldHandle): { keep: number; skip: number } {
+    const ptr = this.module._malloc(8);
+    this.getPreSolveStatsFn(worldHandle, ptr, ptr + 4);
+    const heap = this.module.HEAP32;
+    const base = ptr >> 2;
+    const stats = { keep: heap[base]!, skip: heap[base + 1]! };
+    this.module._free(ptr);
+    return stats;
+  }
+  getTreeSlotUsage(): { used: number; max: number } {
+    const ptr = this.module._malloc(8);
+    this.getTreeSlotCountsFn(ptr, ptr + 4);
+    const heap = this.module.HEAP32;
+    const base = ptr >> 2;
+    const usage = { used: heap[base]!, max: heap[base + 1]! };
+    this.module._free(ptr);
+    return usage;
+  }
+  private requireTreeHandle(handle: number): TreeHandle {
+    if (handle !== 0) return handle as TreeHandle;
+    const usage = this.getTreeSlotUsage();
+    throw new SlotExhaustedError("trees", usage.used, usage.max);
+  }
+  createDynamicTree(proxyCapacity = 16): DynamicTree {
+    return new DynamicTree(this, this.requireTreeHandle(this.createDynamicTreeFn(proxyCapacity)));
+  }
+  destroyDynamicTree(handle: TreeHandle): void { this.destroyDynamicTreeFn(handle); }
+  treeCreateProxy(handle: TreeHandle, min: Vec3, max: Vec3, categoryBits = 1, userData = 0): number {
+    return this.treeCreateProxyFn(handle, min[0], min[1], min[2], max[0], max[1], max[2], categoryBits, userData);
+  }
+  treeDestroyProxy(handle: TreeHandle, proxyId: number): void { this.treeDestroyProxyFn(handle, proxyId); }
+  treeMoveProxy(handle: TreeHandle, proxyId: number, min: Vec3, max: Vec3): void {
+    this.treeMoveProxyFn(handle, proxyId, min[0], min[1], min[2], max[0], max[1], max[2]);
+  }
+  treeQueryAABB(handle: TreeHandle, min: Vec3, max: Vec3, maxCount = 256): TreeQueryResult {
+    const cap = Math.max(1, maxCount | 0);
+    const idsPtr = this.module._malloc(cap * 4);
+    const statsPtr = this.module._malloc(8);
+    const count = this.treeQueryAABBFn(handle, min[0], min[1], min[2], max[0], max[1], max[2], idsPtr, cap, statsPtr, statsPtr + 4);
+    const heap = this.module.HEAP32;
+    const idBase = idsPtr >> 2;
+    const proxyIds: number[] = [];
+    for (let i = 0; i < count; i++) proxyIds.push(heap[idBase + i]!);
+    const statsBase = statsPtr >> 2;
+    const result = { proxyIds, nodeVisits: heap[statsBase]!, leafVisits: heap[statsBase + 1]! };
+    this.module._free(idsPtr);
+    this.module._free(statsPtr);
+    return result;
+  }
+  treeRayCast(handle: TreeHandle, origin: Vec3, target: Vec3, maxFraction = 1): { proxyId: number; fraction: number } | null {
+    const ptr = this.module._malloc(8);
+    const hit = this.treeRayCastFn(handle, origin[0], origin[1], origin[2], target[0], target[1], target[2], maxFraction, ptr, ptr + 4);
+    const heap32 = this.module.HEAP32;
+    const heapf = this.module.HEAPF32;
+    const proxyId = heap32[ptr >> 2]!;
+    const fraction = heapf[(ptr + 4) >> 2]!;
+    this.module._free(ptr);
+    if (hit === 0) return null;
+    return { proxyId, fraction };
+  }
+  treeGetHeight(handle: TreeHandle): number { return this.treeGetHeightFn(handle); }
+  treeGetAreaRatio(handle: TreeHandle): number { return this.treeGetAreaRatioFn(handle); }
+  treeGetProxyCount(handle: TreeHandle): number { return this.treeGetProxyCountFn(handle); }
+  treeRebuild(handle: TreeHandle, fullBuild = true): number { return this.treeRebuildFn(handle, fullBuild ? 1 : 0); }
+  treeGetByteCount(handle: TreeHandle): number { return this.treeGetByteCountFn(handle); }
+  treeGetRootBounds(handle: TreeHandle): { min: Vec3; max: Vec3 } {
+    this.treeGetRootBoundsFn(handle, this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return {
+      min: [heap[base]!, heap[base + 1]!, heap[base + 2]!],
+      max: [heap[base + 3]!, heap[base + 4]!, heap[base + 5]!],
+    };
+  }
   setWorldWorkerCount(worldHandle: WorldHandle, count: number): void { this.setWorldWorkerCountFn(worldHandle, count); }
 
   rayCastClosest(worldHandle: WorldHandle, origin: Vec3, translation: Vec3, categoryBits = U64_MAX, maskBits = U64_MAX): { shapeHandle: ShapeId; bodyHandle: BodyId; point: Vec3; normal: Vec3; fraction: number } | null {
@@ -1865,6 +2095,30 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
 
   overlapAABB(worldHandle: WorldHandle, min: Vec3, max: Vec3, categoryBits = U64_MAX, maskBits = U64_MAX): number {
     return this.overlapAABBFn(worldHandle, min[0], min[1], min[2], max[0], max[1], max[2], categoryBits, maskBits);
+  }
+
+  overlapShape(
+    worldHandle: WorldHandle,
+    origin: Vec3,
+    options: { type?: OverlapProxyTypeId; radius?: number; a?: Vec3; b?: Vec3 } = {},
+  ): ShapeId[] {
+    const proxyType = options.type ?? OverlapProxyType.Sphere;
+    const radius = options.radius ?? 0.5;
+    const a = options.a ?? [0, 0, 0];
+    const b = options.b ?? [0, 0, 0];
+    const count = this.overlapShapeFn(
+      worldHandle,
+      origin[0], origin[1], origin[2],
+      proxyType, radius,
+      a[0], a[1], a[2], b[0], b[1], b[2],
+      this.overlapShapePtr, 32,
+    );
+    if (count <= 0) return [];
+    const heap = this.module.HEAPU64;
+    const base = this.overlapShapePtr >>> 3;
+    const shapes: ShapeId[] = [];
+    for (let i = 0; i < count; i++) shapes.push(asShapeId(heap[base + i]!));
+    return shapes;
   }
 
   castShapeSphere(worldHandle: WorldHandle, origin: Vec3, translation: Vec3, radius: number, categoryBits = U64_MAX, maskBits = U64_MAX): number {
@@ -2075,6 +2329,65 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     return result;
   }
 
+  bodyCastShape(
+    bodyHandle: BodyId,
+    origin: Vec3,
+    translation: Vec3,
+    options: { radius?: number; canEncroach?: boolean; categoryBits?: number; maskBits?: number; maxFraction?: number; bodyTransform?: BodyTransform } = {},
+  ): { hit: boolean; point: Vec3; normal: Vec3; fraction: number } {
+    const radius = options.radius ?? 0.2;
+    const canEncroach = options.canEncroach !== false ? 1 : 0;
+    const categoryBits = options.categoryBits ?? U64_MAX;
+    const maskBits = options.maskBits ?? U64_MAX;
+    const maxFraction = options.maxFraction ?? 1;
+    const xf = options.bodyTransform ?? { position: [0, 0, 0], rotation: [0, 0, 0, 1] };
+    const outHitPtr = this.module._malloc(4);
+    const outPointPtr = this.module._malloc(3 * 4);
+    const outNormalPtr = this.module._malloc(3 * 4);
+    const outFractionPtr = this.module._malloc(4);
+    this.bodyCastShapeFn(
+      bodyHandle,
+      origin[0], origin[1], origin[2],
+      translation[0], translation[1], translation[2],
+      radius, canEncroach, categoryBits, maskBits, maxFraction,
+      xf.position[0], xf.position[1], xf.position[2],
+      xf.rotation[0], xf.rotation[1], xf.rotation[2], xf.rotation[3],
+      outHitPtr, outPointPtr, outNormalPtr, outFractionPtr,
+    );
+    const heap32 = this.module.HEAP32;
+    const heap = this.module.HEAPF32;
+    const hit = heap32[outHitPtr >> 2] !== 0;
+    const pBase = outPointPtr >> 2;
+    const nBase = outNormalPtr >> 2;
+    const fraction = heap[outFractionPtr >> 2]!;
+    const result = {
+      hit,
+      point: [heap[pBase]!, heap[pBase + 1]!, heap[pBase + 2]!] as Vec3,
+      normal: [heap[nBase]!, heap[nBase + 1]!, heap[nBase + 2]!] as Vec3,
+      fraction,
+    };
+    this.module._free(outHitPtr); this.module._free(outPointPtr); this.module._free(outNormalPtr); this.module._free(outFractionPtr);
+    return result;
+  }
+
+  bodyOverlapShape(
+    bodyHandle: BodyId,
+    origin: Vec3,
+    capsule: { a: Vec3; b: Vec3; radius: number },
+    options: { bodyTransform?: BodyTransform } = {},
+  ): boolean {
+    const xf = options.bodyTransform ?? { position: [0, 0, 0], rotation: [0, 0, 0, 1] };
+    return this.bodyOverlapShapeFn(
+      bodyHandle,
+      origin[0], origin[1], origin[2],
+      capsule.a[0], capsule.a[1], capsule.a[2],
+      capsule.b[0], capsule.b[1], capsule.b[2],
+      capsule.radius,
+      xf.position[0], xf.position[1], xf.position[2],
+      xf.rotation[0], xf.rotation[1], xf.rotation[2], xf.rotation[3],
+    ) !== 0;
+  }
+
   getSensorBeginEvents(worldHandle: WorldHandle): SensorBeginEvent[] {
     const count = this.getSensorBeginEventCountFn(worldHandle);
     if (count <= 0) return [];
@@ -2139,6 +2452,62 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     this.module._free(aPtr);
     this.module._free(bPtr);
     return events;
+  }
+
+  private readPackedEventBuffer(): PackedEventBuffer {
+    const heap = this.module.HEAPU64;
+    const base = this.eventBufferPtr >>> 3;
+    const beginCount = Number(heap[base]!);
+    const endCount = Number(heap[base + 1]!);
+    const hitCount = Number(heap[base + 2]!);
+    const pairCount = beginCount + endCount + hitCount;
+    return {
+      beginCount,
+      endCount,
+      hitCount,
+      pairs: heap.subarray(base + 3, base + 3 + pairCount * 2),
+    };
+  }
+
+  /** Packed contact begin/end/hit pairs into a reused WASM heap view (no per-event malloc). */
+  fillContactEvents(worldHandle: WorldHandle): PackedEventBuffer {
+    this.fillContactEventsFn(worldHandle, this.eventBufferPtr, B3W_EVENT_BUFFER_U64);
+    return this.readPackedEventBuffer();
+  }
+
+  /** Packed sensor begin/end pairs; `hitCount` is always 0. Reused WASM heap view. */
+  fillSensorEvents(worldHandle: WorldHandle): PackedEventBuffer {
+    this.fillSensorEventsFn(worldHandle, this.eventBufferPtr, B3W_EVENT_BUFFER_U64);
+    return this.readPackedEventBuffer();
+  }
+
+  /** Packed current contacts on a body: `beginCount` is the contact count; pairs are shape A/B. */
+  fillBodyContactData(bodyHandle: BodyId): PackedEventBuffer {
+    this.fillBodyContactDataFn(bodyHandle, this.eventBufferPtr, B3W_EVENT_BUFFER_U64);
+    const heap = this.module.HEAPU64;
+    const base = this.eventBufferPtr >>> 3;
+    const count = Number(heap[base]!);
+    return {
+      beginCount: count,
+      endCount: 0,
+      hitCount: 0,
+      pairs: heap.subarray(base + 1, base + 1 + count * 2),
+    };
+  }
+
+  /** Current contacts on a body with world points, normals, separation, and accumulated impulse. */
+  fillBodyContactManifolds(bodyHandle: BodyId): ContactManifoldBuffer {
+    const cap = B3W_MANIFOLD_HEADER_FLOATS + B3W_MANIFOLD_MAX_POINTS * B3W_MANIFOLD_POINT_FLOATS;
+    this.fillBodyContactManifoldsFn(bodyHandle, this.manifoldPtr, cap);
+    const heap = this.module.HEAPF32;
+    const base = this.manifoldPtr >> 2;
+    const contactCount = Math.trunc(heap[base]!);
+    const pointCount = Math.trunc(heap[base + 1]!);
+    return {
+      contactCount,
+      pointCount,
+      points: heap.subarray(base + 2, base + 2 + pointCount * 8),
+    };
   }
 
   getJointEventHandles(worldHandle: WorldHandle): JointId[] {
@@ -2379,6 +2748,40 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   applyLinearImpulse(bodyHandle: BodyId, impulse: Vec3, point: Vec3, wake = true): void { this.applyLinearImpulseFn(bodyHandle, impulse[0], impulse[1], impulse[2], point[0], point[1], point[2], wake ? 1 : 0); }
   applyLinearImpulseToCenter(bodyHandle: BodyId, impulse: Vec3, wake = true): void { this.applyLinearImpulseToCenterFn(bodyHandle, impulse[0], impulse[1], impulse[2], wake ? 1 : 0); }
   applyTorque(bodyHandle: BodyId, torque: Vec3, wake = true): void { this.applyTorqueFn(bodyHandle, torque[0], torque[1], torque[2], wake ? 1 : 0); }
+  applyForce(bodyHandle: BodyId, force: Vec3, point: Vec3, wake = true): void {
+    this.applyForceFn(bodyHandle, force[0], force[1], force[2], point[0], point[1], point[2], wake ? 1 : 0);
+  }
+  applyForceToCenter(bodyHandle: BodyId, force: Vec3, wake = true): void {
+    this.applyForceToCenterFn(bodyHandle, force[0], force[1], force[2], wake ? 1 : 0);
+  }
+  applyAngularImpulse(bodyHandle: BodyId, impulse: Vec3, wake = true): void {
+    this.applyAngularImpulseFn(bodyHandle, impulse[0], impulse[1], impulse[2], wake ? 1 : 0);
+  }
+  getBodyLinearDamping(bodyHandle: BodyId): number { return this.getLinearDampingFn(bodyHandle); }
+  getBodyAngularDamping(bodyHandle: BodyId): number { return this.getAngularDampingFn(bodyHandle); }
+  getBodyGravityScale(bodyHandle: BodyId): number { return this.getGravityScaleFn(bodyHandle); }
+  getShapeDensity(shapeHandle: ShapeId | ShapeHandle): number {
+    const handle = typeof shapeHandle === "bigint" ? shapeHandle : shapeHandle.shapeHandle;
+    return this.shapeGetDensityFn(handle);
+  }
+  getShapeFriction(shapeHandle: ShapeId | ShapeHandle): number {
+    const handle = typeof shapeHandle === "bigint" ? shapeHandle : shapeHandle.shapeHandle;
+    return this.shapeGetFrictionFn(handle);
+  }
+  getShapeRestitution(shapeHandle: ShapeId | ShapeHandle): number {
+    const handle = typeof shapeHandle === "bigint" ? shapeHandle : shapeHandle.shapeHandle;
+    return this.shapeGetRestitutionFn(handle);
+  }
+  getShapeFilter(shapeHandle: ShapeId | ShapeHandle): ShapeFilter {
+    const handle = typeof shapeHandle === "bigint" ? shapeHandle : shapeHandle.shapeHandle;
+    this.shapeGetFilterFn(handle, this.filterCategoryPtr, this.filterMaskPtr, this.filterGroupPtr);
+    const heap = this.module.HEAPU64;
+    return {
+      categoryBits: heap[this.filterCategoryPtr >>> 3]!,
+      maskBits: heap[this.filterMaskPtr >>> 3]!,
+      groupIndex: this.module.HEAP32[this.filterGroupPtr >> 2]!,
+    };
+  }
   getShapeBody(shapeHandle: ShapeId | ShapeHandle): BodyId {
     const handle = typeof shapeHandle === "bigint" ? shapeHandle : shapeHandle.shapeHandle;
     return asBodyId(this.getShapeBodyHandleFn(handle));
@@ -2493,6 +2896,16 @@ export class PhysicsWorld {
   applyLinearImpulse(bodyHandle: BodyId, impulse: Vec3, point: Vec3, wake = true): void { this.runtime.applyLinearImpulse(bodyHandle, impulse, point, wake); }
   applyLinearImpulseToCenter(bodyHandle: BodyId, impulse: Vec3, wake = true): void { this.runtime.applyLinearImpulseToCenter(bodyHandle, impulse, wake); }
   applyTorque(bodyHandle: BodyId, torque: Vec3, wake = true): void { this.runtime.applyTorque(bodyHandle, torque, wake); }
+  applyForce(bodyHandle: BodyId, force: Vec3, point: Vec3, wake = true): void { this.runtime.applyForce(bodyHandle, force, point, wake); }
+  applyForceToCenter(bodyHandle: BodyId, force: Vec3, wake = true): void { this.runtime.applyForceToCenter(bodyHandle, force, wake); }
+  applyAngularImpulse(bodyHandle: BodyId, impulse: Vec3, wake = true): void { this.runtime.applyAngularImpulse(bodyHandle, impulse, wake); }
+  getBodyLinearDamping(bodyHandle: BodyId): number { return this.runtime.getBodyLinearDamping(bodyHandle); }
+  getBodyAngularDamping(bodyHandle: BodyId): number { return this.runtime.getBodyAngularDamping(bodyHandle); }
+  getBodyGravityScale(bodyHandle: BodyId): number { return this.runtime.getBodyGravityScale(bodyHandle); }
+  getShapeDensity(shapeHandle: ShapeId | ShapeHandle): number { return this.runtime.getShapeDensity(shapeHandle); }
+  getShapeFriction(shapeHandle: ShapeId | ShapeHandle): number { return this.runtime.getShapeFriction(shapeHandle); }
+  getShapeRestitution(shapeHandle: ShapeId | ShapeHandle): number { return this.runtime.getShapeRestitution(shapeHandle); }
+  getShapeFilter(shapeHandle: ShapeId | ShapeHandle): ShapeFilter { return this.runtime.getShapeFilter(shapeHandle); }
   applyBodyMassFromShapes(bodyHandle: BodyId): void { this.runtime.applyBodyMassFromShapes(bodyHandle); }
   getShapeBody(shapeHandle: ShapeId | ShapeHandle): BodyId { return this.runtime.getShapeBody(shapeHandle); }
   getShapeType(shapeHandle: ShapeId | ShapeHandle): ShapeTypeId { return this.runtime.getShapeType(shapeHandle); }
@@ -2678,11 +3091,34 @@ export class PhysicsWorld {
   ): { hit: boolean; point: Vec3; normal: Vec3; fraction: number } {
     return this.runtime.bodyCastRay(bodyHandle, origin, translation, options);
   }
+  bodyCastShape(
+    bodyHandle: BodyId,
+    origin: Vec3,
+    translation: Vec3,
+    options?: { radius?: number; canEncroach?: boolean; categoryBits?: number; maskBits?: number; maxFraction?: number; bodyTransform?: BodyTransform },
+  ): { hit: boolean; point: Vec3; normal: Vec3; fraction: number } {
+    return this.runtime.bodyCastShape(bodyHandle, origin, translation, options);
+  }
+  bodyOverlapShape(
+    bodyHandle: BodyId,
+    origin: Vec3,
+    capsule: { a: Vec3; b: Vec3; radius: number },
+    options?: { bodyTransform?: BodyTransform },
+  ): boolean {
+    return this.runtime.bodyOverlapShape(bodyHandle, origin, capsule, options);
+  }
+  overlapShape(origin: Vec3, options?: { type?: OverlapProxyTypeId; radius?: number; a?: Vec3; b?: Vec3 }): ShapeId[] {
+    return this.runtime.overlapShape(this.handle, origin, options);
+  }
   getSensorBeginEvents(): SensorBeginEvent[] { return this.runtime.getSensorBeginEvents(this.handle); }
   getSensorEndEvents(): SensorBeginEvent[] { return this.runtime.getSensorEndEvents(this.handle); }
   setCustomSensorFilter(filterRow: number, enabled: boolean): void { this.runtime.setCustomSensorFilter(this.handle, filterRow, enabled); }
   isShapeSensor(shapeHandle: ShapeId | ShapeHandle): boolean { return this.runtime.isShapeSensor(shapeHandle); }
   getContactBeginEvents(): ContactBeginEvent[] { return this.runtime.getContactBeginEvents(this.handle); }
+  fillContactEvents(): PackedEventBuffer { return this.runtime.fillContactEvents(this.handle); }
+  fillSensorEvents(): PackedEventBuffer { return this.runtime.fillSensorEvents(this.handle); }
+  fillBodyContactData(bodyHandle: BodyId): PackedEventBuffer { return this.runtime.fillBodyContactData(bodyHandle); }
+  fillBodyContactManifolds(bodyHandle: BodyId): ContactManifoldBuffer { return this.runtime.fillBodyContactManifolds(bodyHandle); }
   getJointEventHandles(): JointId[] { return this.runtime.getJointEventHandles(this.handle); }
   allocBodyBatchBuffers(capacity: number): BodyBatchBuffers { return this.runtime.allocBodyBatchBuffers(capacity); }
   freeBodyBatchBuffers(buffers: BodyBatchBuffers): void { this.runtime.freeBodyBatchBuffers(buffers); }
@@ -2717,10 +3153,23 @@ export class PhysicsWorld {
   enableSleeping(flag: boolean): void { this.runtime.enableWorldSleeping(this.handle, flag); }
   enableContinuous(flag: boolean): void { this.runtime.enableWorldContinuous(this.handle, flag); }
   enableWarmStarting(flag: boolean): void { this.runtime.enableWorldWarmStarting(this.handle, flag); }
+  enableSpeculative(flag: boolean): void { this.runtime.enableWorldSpeculative(this.handle, flag); }
+  setGravity(gravity: Vec3): void { this.runtime.setWorldGravity(this.handle, gravity); }
+  getGravity(): Vec3 { return this.runtime.getWorldGravity(this.handle); }
+  setRestitutionThreshold(value: number): void { this.runtime.setWorldRestitutionThreshold(this.handle, value); }
+  getRestitutionThreshold(): number { return this.runtime.getWorldRestitutionThreshold(this.handle); }
+  setHitEventThreshold(value: number): void { this.runtime.setWorldHitEventThreshold(this.handle, value); }
+  getHitEventThreshold(): number { return this.runtime.getWorldHitEventThreshold(this.handle); }
+  setMaximumLinearSpeed(value: number): void { this.runtime.setWorldMaximumLinearSpeed(this.handle, value); }
+  getMaximumLinearSpeed(): number { return this.runtime.getWorldMaximumLinearSpeed(this.handle); }
+  rebuildStaticTree(): void { this.runtime.rebuildStaticTree(this.handle); }
+  setPreSolveOneWay(enabled: boolean, minNormalY = 0.5): void { this.runtime.setPreSolveOneWay(this.handle, enabled, minNormalY); }
+  getPreSolveStats(): { keep: number; skip: number } { return this.runtime.getPreSolveStats(this.handle); }
   setProfileLevel(level: ProfileLevel): void { this.runtime.setWorldProfileLevel(this.handle, level); }
   getProfileLevel(): ProfileLevel { return this.runtime.getWorldProfileLevel(this.handle); }
   setContactTuning(hertz: number, dampingRatio: number, contactSpeed: number): void { this.runtime.setWorldContactTuning(this.handle, hertz, dampingRatio, contactSpeed); }
   setContactRecycleDistance(distance: number): void { this.runtime.setWorldContactRecycleDistance(this.handle, distance); }
+  getContactRecycleDistance(): number { return this.runtime.getWorldContactRecycleDistance(this.handle); }
   setWorkerCount(count: number): void { this.runtime.setWorldWorkerCount(this.handle, count); }
   destroy(): void { this.runtime.destroyWorld(this.handle); }
 }

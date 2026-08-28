@@ -15,7 +15,7 @@ const spec: RenderSpec = {
   groundKind: "none",
   bodies: sensorVisitBodies,
   camera: sensorVisitCamera,
-  info: "sensor box destroys the visitor on begin-touch",
+  info: "sensor destroys the falling box on begin-touch (sensor turns yellow)",
   overlay: (scene) => {
     const groundGrid = new THREE.GridHelper(10, 10, 0x4b5563, 0x4b5563);
     scene.add(groundGrid);

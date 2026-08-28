@@ -8,7 +8,13 @@ const spec: RenderSpec = {
   groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
   bodies: jointEventBodies,
   camera: jointEventCamera,
-  info: "four breakable joints: distance, prismatic, revolute, weld",
+  info: "four breakable joints: distance, prismatic, revolute, weld — shoot to snap",
+  getInfo: (workerState) => {
+    const buffer = workerState?.extra?.jointEventHud;
+    if (!(buffer instanceof SharedArrayBuffer)) return spec.info;
+    const v = new Int32Array(buffer);
+    return `break events this step = ${v[0] ?? 0}\ncumulative breaks = ${v[1] ?? 0}`;
+  },
 };
 
 export const jointEventSample = createGenericSample(

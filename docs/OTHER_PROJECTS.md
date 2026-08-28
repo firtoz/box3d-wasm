@@ -109,7 +109,7 @@ The [`@firtoz/box3d-wasm`](https://github.com/firtoz/box3d-wasm) project is a Ty
 
 ### Approach
 
-[`@firtoz/box3d-wasm`](https://github.com/firtoz/box3d-wasm) compiles the **Box3D C library only** into WASM and exposes a manual TypeScript wrapper over a custom C bridge. The current API surface is still comparatively small, but the project is expanding it incrementally as more samples and features are ported.
+[`@firtoz/box3d-wasm`](https://github.com/firtoz/box3d-wasm) compiles the **Box3D C library only** into WASM and exposes a manual TypeScript wrapper over a custom C bridge. Binding coverage is tracked in [`WASM_API_SURFACE.md`](./WASM_API_SURFACE.md); the comparison table below should match that checklist, not older snapshots.
 
 Key details:
 
@@ -117,14 +117,14 @@ Key details:
 - **Binding method**: Manual C bridge functions with `b3w*` prefixes, wrapped by TypeScript classes (`Box3DRuntime`, `PhysicsWorld`)
 - **API style**: Mid-level TypeScript API using named enums, packed native bigint IDs for bodies/shapes/joints, branded int handles for pointer resources, typed option objects, and tuple vectors, plus an opt-in object wrapper layer for `BodyRef`/`ShapeRef` ergonomics
 - **Renderer**: Included Three.js browser demo
-- **Samples**: 161 C++ sample scenes currently ported to TypeScript (all unique upstream `RegisterSample`s; Ragdoll / Pose is a live reconstruction of the `#if 0` upstream class)
+- **Samples**: 161 C++ sample scenes currently ported to TypeScript (all unique upstream `RegisterSample`s; Ragdoll / Pose is a live reconstruction of the `#if 0` upstream class), plus TS-only extras for remaining library APIs
 - **Build flavours**: Release (fixed 256MB heap), growable release (64MB initial heap with `ALLOW_MEMORY_GROWTH=1`), and profile builds
 - **Threading model**: Emscripten pthreads are enabled in the WASM build (`USE_PTHREADS=1`), with Box3D worker-count controls exposed; the demo also runs simulation work through browser workers around that runtime
-- **WASM size**: **~273KB gzipped (651KB raw)** for the release binary, built with `-O3`, pthreads, WASM SIMD, and `WASM_BIGINT` enabled
+- **WASM size**: **~272KB gzipped (656KB raw)** for the release binary, built with `-O3`, pthreads, WASM SIMD, and `WASM_BIGINT` enabled
 - **Memory**: Default demo build uses a fixed 256MB heap; games can load the growable variant via `Box3DRuntime.load({ variant: "growable" })`. Body/shape/joint IDs are packed native `uint64` (`bigint` in TypeScript). Bridge slot pools remain for worlds/hulls/meshes/compounds/humans/height-fields (O(1) freelists); TypeScript exposes `runtime.limits`, `runtime.getSlotUsage()`, and throws `SlotExhaustedError` when a pool fills.
 - **Distinct feature**: Includes a custom human/ragdoll helper API (`createHuman`, bone access, human velocity/joint tuning) that is not exposed by the other JS library bindings in this comparison
 
-This project is currently less complete as a general-purpose Box3D API wrapper than Isaac's or Monteslu's packages, but the API is actively growing. Its present smaller surface keeps the WASM output compact while the demo retains direct TypeScript ownership over sample-specific behavior.
+This project is a TS-first wrapper plus a full sample-port playground. Isaac still has a larger 1:1 C-API mirror (debug draw, dynamic tree, recording/replay, pre-solve). Binding details live in [`WASM_API_SURFACE.md`](./WASM_API_SURFACE.md).
 
 <a id="eriksom"></a>
 ## Erik Sombroek - box3d-wasm
@@ -178,10 +178,10 @@ He framed the PR primarily as a **showcase**: a browser-hosted version of the na
 | npm package | `box3d.js` | `box3d-wasm` | Not published yet | No |
 | Node.js support | Yes | Yes | Browser-focused currently | No reusable library API |
 | Multithreading | Single-threaded + threaded builds | Single-threaded + threaded builds | Emscripten pthread-enabled WASM + browser workers in demo/runtime | Emscripten pthread pool |
-| Events | Zero-GC typed-array buffers for events and contacts | JS arrays from embind (`getContactEvents`, `getSensorEvents`, `getBodyEvents`) | Event toggles exist; event buffers/callbacks not exposed | Native app internals |
-| Queries | Raycast, shapecast, overlap, mover queries | Raycast closest only | Raycast closest only | Native app internals |
-| Advanced geometry | Meshes, heightfields, compounds, generators, GJK | Not exposed | Compounds plus basic mesh construction/mesh shape binding; no heightfield yet | Native app internals |
-| WASM size | ~309KB gzipped (806KB raw) | ~211KB gzipped (521KB raw) standard; ~218KB gzipped (533KB raw) deluxe | ~273KB gzipped (651KB raw) | Large app binary, fixed 512MB heap |
+| Events | Zero-GC typed-array buffers for events and contacts | JS arrays from embind (`getContactEvents`, `getSensorEvents`, `getBodyEvents`) | Packed heap views (`fillContactEvents` / `fillSensorEvents` / `fillBodyContactData`) plus allocating getters; pre-solve callback not exposed | Native app internals |
+| Queries | Raycast, shapecast, overlap, mover queries | Raycast closest only | World ray/shapecast/AABB/shape overlap plus body ray/shape cast/overlap and mover queries | Native app internals |
+| Advanced geometry | Meshes, heightfields, compounds, generators, GJK | Not exposed | Meshes, heightfields, compounds, generators, GJK/manifolds | Native app internals |
+| WASM size | ~309KB gzipped (806KB raw) | ~211KB gzipped (521KB raw) standard; ~218KB gzipped (533KB raw) deluxe | ~272KB gzipped (656KB raw) | Large app binary, fixed 512MB heap |
 | Best fit | Comprehensive low-level Box3D API for JS | Ergonomic JS physics library | Growing TS-first wrapper + sample-porting playground | Browser-hosted native testbed/showcase |
 
 <a id="api-coverage"></a>
@@ -192,53 +192,53 @@ This table focuses on APIs callable directly from JavaScript. ErikSom's project 
 | API Area | Isaac (`box3d.js`) | Monteslu | [`@firtoz/box3d-wasm`](https://github.com/firtoz/box3d-wasm) | ErikSom |
 |----------|---------------------|----------|------------------------|---------|
 | **World lifecycle** (create, destroy, step, gravity, counters, profile) | ✓ | ✓ | ✓ | N/A |
-| **World settings** (sleep, CCD, warm start, contact tuning, workers, thresholds) | ✓ | ◐ | ◐ | N/A |
+| **World settings** (sleep, CCD, warm start, contact tuning, workers, thresholds) | ✓ | ◐ | ✓ | N/A |
 | **Body lifecycle** (create, destroy, type get/set) | ✓ | ✓ | ✓ | N/A |
 | **Body transforms** (position, rotation, transform get/set, target transform) | ✓ | ✓ | ◐ | N/A |
-| **Body velocity** (linear, angular get/set) | ✓ | ✓ | ◐ | N/A |
-| **Body forces** (force at point, force to center, torque) | ✓ | ✓ | ✗ | N/A |
-| **Body impulses** (linear impulse at point, to center, angular impulse) | ✓ | ✓ | ◐ | N/A |
+| **Body velocity** (linear, angular get/set) | ✓ | ✓ | ✓ | N/A |
+| **Body forces** (force at point, force to center, torque) | ✓ | ✓ | ✓ | N/A |
+| **Body impulses** (linear impulse at point, to center, angular impulse) | ✓ | ✓ | ✓ | N/A |
 | **Body mass/inertia** (mass, mass data, inertia, centers of mass) | ✓ | ◐ | ◐ | N/A |
-| **Body state/flags** (awake, sleep, enabled, bullet, locks, damping, gravity scale) | ✓ | ✓ | ◐ | N/A |
+| **Body state/flags** (awake, sleep, enabled, bullet, locks, damping, gravity scale) | ✓ | ✓ | ✓ | N/A |
 | **Body queries** (local/world point/vector, point velocity, AABB, shapes, joints) | ✓ | ◐ | ◐ | N/A |
 | **Basic shape creation** (sphere, capsule, box/hull, transformed hull) | ✓ | ✓ | ✓ | N/A |
-| **Advanced shape creation** (mesh, compound, heightfield) | ✓ | ✗ | ◐ | N/A |
-| **Hull construction** (points, cylinder, cone, rock, clone, vertices) | ✓ | ◐ | ◐ | N/A |
+| **Advanced shape creation** (mesh, compound, heightfield) | ✓ | ✗ | ✓ | N/A |
+| **Hull construction** (points, cylinder, cone, rock, clone, vertices) | ✓ | ◐ | ✓ | N/A |
 | **Mesh construction/generators** | ✓ | ✗ | ◐ | N/A |
 | **Compound construction** | ✓ | ✗ | ✓ | N/A |
-| **Heightfield construction** | ✓ | ✗ | ✗ | N/A |
-| **Joint types available** | 9/9 | 9/9 | 7/9 | N/A |
+| **Heightfield construction** | ✓ | ✗ | ✓ | N/A |
+| **Joint types available** | 9/9 | 9/9 | 9/9 | N/A |
 | **Joint runtime controls** | ✓ | ✓ | ◐ | N/A |
-| **World queries** (raycast closest/all, shapecast, overlap AABB/shape) | 5/5 | 1/5 | 1/5 | N/A |
-| **Body queries** (raycast, shapecast, overlap) | ✓ | ◐ | ✗ | N/A |
-| **Mover queries** (cast mover, collide mover) | ✓ | ✗ | ✗ | N/A |
-| **Contact events** (begin, end, hit) | ✓ | ✓ | ◐ | N/A |
-| **Sensor events** (begin, end) | ✓ | ✓ | ✗ | N/A |
-| **Body move events** | ✓ | ✓ | ✗ | N/A |
-| **Joint break events** | ✓ | ✗ | ✗ | N/A |
+| **World queries** (raycast closest/all, shapecast, overlap AABB/shape) | 5/5 | 1/5 | 5/5 | N/A |
+| **Body queries** (raycast, shapecast, overlap) | ✓ | ◐ | ✓ | N/A |
+| **Mover queries** (cast mover, collide mover) | ✓ | ✗ | ✓ | N/A |
+| **Contact events** (begin, end, hit) | ✓ | ✓ | ✓ | N/A |
+| **Sensor events** (begin, end) | ✓ | ✓ | ✓ | N/A |
+| **Body move events** | ✓ | ✓ | ✓ | N/A |
+| **Joint break events** | ✓ | ✗ | ◐ | N/A |
 | **Pre-solve callback** | ✓ | ✗ | ✗ | N/A |
-| **Custom filter callback** | ✓ | ✗ | ✗ | N/A |
-| **Explosion** | ✓ | ✓ | ✗ | N/A |
+| **Custom filter callback** | ✓ | ✗ | ◐ | N/A |
+| **Explosion** | ✓ | ✓ | ✓ | N/A |
 | **Debug draw** | ✓ | ✗ | ✗ | N/A |
-| **Dynamic tree** | ✓ | ✗ | ✗ | N/A |
+| **Dynamic tree** | ✓ | ✗ | ✓ | N/A |
 | **Recording/replay** | ✓ | ✗ | ✗ | N/A |
 | **GJK/collision geometry** | ✓ | ✗ | ✓ | N/A |
-| **Mass/AABB without body** | ✓ | ✗ | ✗ | N/A |
-| **Character/mover helpers** (solve planes, clip vector) | ✓ | ✗ | ✗ | N/A |
-| **Math utilities** | ✓ | ✗ | ✗ | N/A |
+| **Mass/AABB without body** | ✓ | ✗ | ◐ | N/A |
+| **Character/mover helpers** (solve planes, clip vector) | ✓ | ✗ | ✓ | N/A |
+| **Math utilities** | ✓ | ✗ | ◐ | N/A |
 | **Human/ragdoll helper** | ✗ | ✗ | ✓ | N/A |
 
 ### API Surface Summary
 
 | Metric | Isaac (`box3d.js`) | Monteslu | [`@firtoz/box3d-wasm`](https://github.com/firtoz/box3d-wasm) | ErikSom |
 |--------|---------------------|----------|------------------------|---------|
-| Approx. JS-callable functions/methods | ~280 (250+ embind + ~30 facade helpers) | ~140 | ~90 | 0 reusable JS API |
-| Joint types exposed | 9/9 | 9/9 | 8/9 | 0 |
-| World query types | 5/5 | 1/5 | 1/5 | 0 |
-| Event groups exposed | 4/4 | 3/4 | 0/4 | 0 |
-| Body force/impulse groups | 4/4 | 4/4 | 2/4 | 0 |
-| Mass/inertia accessor groups | 8/8 | ~3/8 | ~2/8 | 0 |
-| Advanced shape families (mesh/compound/heightfield) | 3/3 | 0/3 | 1/3 | 0 |
-| WASM gzipped | ~309KB | ~211KB standard; ~218KB deluxe | ~273KB | N/A |
+| Approx. JS-callable functions/methods | ~280 (250+ embind + ~30 facade helpers) | ~140 | ~160 | 0 reusable JS API |
+| Joint types exposed | 9/9 | 9/9 | 9/9 | 0 |
+| World query types | 5/5 | 1/5 | 5/5 | 0 |
+| Event groups exposed | 4/4 | 3/4 | 4/4 | 0 |
+| Body force/impulse groups | 4/4 | 4/4 | 4/4 | 0 |
+| Mass/inertia accessor groups | 8/8 | ~3/8 | ~5/8 | 0 |
+| Advanced shape families (mesh/compound/heightfield) | 3/3 | 0/3 | 3/3 | 0 |
+| WASM gzipped | ~309KB | ~211KB standard; ~218KB deluxe | ~272KB | N/A |
 
 Isaac's larger WASM size is largely explained by the much larger exposed API surface. Each embind binding, value object, callback adapter, and facade helper adds marshalling code to the generated module. Monteslu's package is also embind-based, but it wraps a smaller practical set. [`@firtoz/box3d-wasm`](https://github.com/firtoz/box3d-wasm) sits between Monteslu's single-threaded standard build and threaded deluxe build in gzipped size. These rows should not be read as a direct performance comparison; the binaries differ in binding layer, exported runtime surface, threading/memory choices, and exact build inputs.

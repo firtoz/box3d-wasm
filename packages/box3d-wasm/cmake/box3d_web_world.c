@@ -317,3 +317,195 @@ B3W_EXPORT float b3wCastShapeSphere(int worldHandle, float originX, float origin
 		(b3Vec3){ translationX, translationY, translationZ }, filter, b3wCastShapeClosestCallback, &ctx);
 	return ctx.fraction;
 }
+
+B3W_EXPORT void b3wSetGravity(int worldHandle, float gx, float gy, float gz)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	b3World_SetGravity(slot->worldId, (b3Vec3){ gx, gy, gz });
+}
+
+B3W_EXPORT void b3wGetGravity(int worldHandle, float* out)
+{
+	if (out == NULL) return;
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL)
+	{
+		out[0] = out[1] = out[2] = 0.0f;
+		return;
+	}
+	b3Vec3 g = b3World_GetGravity(slot->worldId);
+	out[0] = g.x;
+	out[1] = g.y;
+	out[2] = g.z;
+}
+
+B3W_EXPORT void b3wEnableSpeculative(int worldHandle, int flag)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	b3World_EnableSpeculative(slot->worldId, flag != 0);
+}
+
+B3W_EXPORT void b3wSetRestitutionThreshold(int worldHandle, float value)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	b3World_SetRestitutionThreshold(slot->worldId, value);
+}
+
+B3W_EXPORT float b3wGetRestitutionThreshold(int worldHandle)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return 0.0f;
+	return b3World_GetRestitutionThreshold(slot->worldId);
+}
+
+B3W_EXPORT void b3wSetHitEventThreshold(int worldHandle, float value)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	b3World_SetHitEventThreshold(slot->worldId, value);
+}
+
+B3W_EXPORT float b3wGetHitEventThreshold(int worldHandle)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return 0.0f;
+	return b3World_GetHitEventThreshold(slot->worldId);
+}
+
+B3W_EXPORT void b3wSetMaximumLinearSpeed(int worldHandle, float value)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	b3World_SetMaximumLinearSpeed(slot->worldId, value);
+}
+
+B3W_EXPORT float b3wGetMaximumLinearSpeed(int worldHandle)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return 0.0f;
+	return b3World_GetMaximumLinearSpeed(slot->worldId);
+}
+
+B3W_EXPORT float b3wGetContactRecycleDistance(int worldHandle)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return 0.0f;
+	return b3World_GetContactRecycleDistance(slot->worldId);
+}
+
+#define B3W_OVERLAP_MAX 32
+
+typedef struct b3wOverlapShapeContext
+{
+	uint64_t* out;
+	int capacity;
+	int count;
+} b3wOverlapShapeContext;
+
+static bool b3wOverlapShapeCallback(b3ShapeId shapeId, void* context)
+{
+	b3wOverlapShapeContext* ctx = (b3wOverlapShapeContext*)context;
+	if (ctx->count >= ctx->capacity) return false;
+	ctx->out[ctx->count++] = b3StoreShapeId(shapeId);
+	return ctx->count < ctx->capacity;
+}
+
+B3W_EXPORT int b3wOverlapShape(int worldHandle, float ox, float oy, float oz, int proxyType, float radius,
+	float ax, float ay, float az, float bx, float by, float bz, uint64_t* outShapes, int maxCount)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL || outShapes == NULL || maxCount <= 0) return 0;
+	int cap = maxCount < B3W_OVERLAP_MAX ? maxCount : B3W_OVERLAP_MAX;
+	b3Vec3 pointBuffer[8];
+	b3ShapeProxy proxy = { 0 };
+	b3BoxHull box = { 0 };
+	switch (proxyType)
+	{
+	case 1:
+		pointBuffer[0] = b3Vec3_zero;
+		proxy.points = pointBuffer;
+		proxy.count = 1;
+		proxy.radius = radius;
+		break;
+	case 2:
+		pointBuffer[0] = (b3Vec3){ ax, ay, az };
+		pointBuffer[1] = (b3Vec3){ bx, by, bz };
+		proxy.points = pointBuffer;
+		proxy.count = 2;
+		proxy.radius = radius;
+		break;
+	default:
+	{
+		b3Vec3 extent = { radius, 0.5f * radius, 0.25f * radius };
+		box = b3MakeTransformedBoxHull(extent.x, extent.y, extent.z, (b3Transform){ b3Vec3_zero, b3Quat_identity });
+		proxy.points = box.boxPoints;
+		proxy.count = box.base.vertexCount;
+		break;
+	}
+	}
+	b3wOverlapShapeContext ctx = { outShapes, cap, 0 };
+	b3World_OverlapShape(slot->worldId, (b3Pos){ ox, oy, oz }, &proxy, b3DefaultQueryFilter(), b3wOverlapShapeCallback, &ctx);
+	return ctx.count;
+}
+
+B3W_EXPORT void b3wRebuildStaticTree(int worldHandle)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	b3World_RebuildStaticTree(slot->worldId);
+}
+
+#define B3W_ONE_WAY_USER_BIT 0x10000000
+
+static bool b3wPreSolveOneWay(b3ShapeId shapeIdA, b3ShapeId shapeIdB, b3Pos point, b3Vec3 normal, void* context)
+{
+	(void)point;
+	b3wWorldSlot* slot = (b3wWorldSlot*)context;
+	intptr_t dataA = (intptr_t)b3Shape_GetUserData(shapeIdA);
+	intptr_t dataB = (intptr_t)b3Shape_GetUserData(shapeIdB);
+	int oneWayA = ((int)dataA & B3W_ONE_WAY_USER_BIT) != 0;
+	int oneWayB = ((int)dataB & B3W_ONE_WAY_USER_BIT) != 0;
+	float ny = normal.y;
+	int keep = 1;
+	if (oneWayA && !oneWayB)
+	{
+		keep = ny >= slot->preSolveMinNormalY;
+	}
+	else if (oneWayB && !oneWayA)
+	{
+		keep = -ny >= slot->preSolveMinNormalY;
+	}
+	if (keep)
+	{
+		slot->preSolveKeepCount += 1;
+		return true;
+	}
+	slot->preSolveSkipCount += 1;
+	return false;
+}
+
+B3W_EXPORT void b3wSetPreSolveOneWay(int worldHandle, int enabled, float minNormalY)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL) return;
+	slot->preSolveEnabled = enabled != 0;
+	slot->preSolveMinNormalY = minNormalY;
+	if (slot->preSolveEnabled)
+	{
+		b3World_SetPreSolveCallback(slot->worldId, b3wPreSolveOneWay, slot);
+	}
+	else
+	{
+		b3World_SetPreSolveCallback(slot->worldId, NULL, NULL);
+	}
+}
+
+B3W_EXPORT void b3wGetPreSolveStats(int worldHandle, int* outKeep, int* outSkip)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (outKeep != NULL) *outKeep = slot == NULL ? 0 : slot->preSolveKeepCount;
+	if (outSkip != NULL) *outSkip = slot == NULL ? 0 : slot->preSolveSkipCount;
+}

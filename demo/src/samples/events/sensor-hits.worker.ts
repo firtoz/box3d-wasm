@@ -11,6 +11,7 @@ import {
 class SensorHitsWorker extends PhysicsWorkerBase {
   private sensorHits: SensorHitsState | null = null;
   private mesh: MeshHandle | null = null;
+  private sensorOverlap = 0;
 
   protected getGroundSize(): Vec3 {
     return sensorHitsGroundSize();
@@ -20,6 +21,7 @@ class SensorHitsWorker extends PhysicsWorkerBase {
     const { handles, state } = buildSensorHitsDynamicBodies(this.world!, this.runtime!);
     this.sensorHits = state;
     this.mesh = state.mesh;
+    this.sensorOverlap = 0;
     return handles;
   }
 
@@ -27,6 +29,14 @@ class SensorHitsWorker extends PhysicsWorkerBase {
     if (this.world === null || this.sensorHits === null) return;
     sensorHitsPreStep(this.world, this.sensorHits);
     this.world.step(this.fixedTimeStep, this.subSteps);
+    const launchShape = this.sensorHits.launchShape;
+    for (const event of this.world.getSensorBeginEvents()) {
+      if (event.visitorShapeHandle === launchShape) this.sensorOverlap += 1;
+    }
+    for (const event of this.world.getSensorEndEvents()) {
+      if (event.visitorShapeHandle === launchShape) this.sensorOverlap = Math.max(0, this.sensorOverlap - 1);
+    }
+    this.world.setShapeCustomColor(launchShape, this.sensorOverlap > 0 ? 0x00ff00 : 0);
     this.totalSteps += 1;
   }
 
@@ -45,6 +55,8 @@ class SensorHitsWorker extends PhysicsWorkerBase {
       world.setBodyLinearVelocity(state.launchBody, [speed, 0, 0]);
       world.setBodyAngularVelocity(state.launchBody, [0, 0, 0]);
       world.setBodyAwake(state.launchBody, true);
+      world.setShapeCustomColor(state.launchShape, 0);
+      this.sensorOverlap = 0;
       return true;
     }
     return false;

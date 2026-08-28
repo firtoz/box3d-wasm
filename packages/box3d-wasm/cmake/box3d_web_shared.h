@@ -43,6 +43,10 @@ typedef struct b3wWorldSlot
 	b3WorldId worldId;
 	int sensorFilterRow;
 	int sensorFilterEnabled;
+	int preSolveEnabled;
+	float preSolveMinNormalY;
+	int preSolveKeepCount;
+	int preSolveSkipCount;
 } b3wWorldSlot;
 
 typedef struct b3wHullSlot

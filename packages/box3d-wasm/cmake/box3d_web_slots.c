@@ -240,6 +240,10 @@ int b3wAllocWorldSlot(b3WorldId worldId)
 	g_worlds[index].worldId = worldId;
 	g_worlds[index].sensorFilterRow = 0;
 	g_worlds[index].sensorFilterEnabled = 0;
+	g_worlds[index].preSolveEnabled = 0;
+	g_worlds[index].preSolveMinNormalY = 0.5f;
+	g_worlds[index].preSolveKeepCount = 0;
+	g_worlds[index].preSolveSkipCount = 0;
 	g_worldActiveCount += 1;
 	return index + 1;
 }

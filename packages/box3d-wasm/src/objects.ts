@@ -17,6 +17,7 @@ import {
   type PhysicsWorld,
   type Quat,
   type ShapeDef,
+  type ShapeFilter,
   type ShapeHandle,
   type SphereOptions,
   type Vec3,
@@ -330,6 +331,30 @@ export class BodyRef {
     this.world.raw.applyLinearImpulseToCenter(this.handle, impulse, wake);
   }
 
+  applyForce(force: Vec3, point: Vec3, wake = true): void {
+    this.world.raw.applyForce(this.handle, force, point, wake);
+  }
+
+  applyForceToCenter(force: Vec3, wake = true): void {
+    this.world.raw.applyForceToCenter(this.handle, force, wake);
+  }
+
+  applyAngularImpulse(impulse: Vec3, wake = true): void {
+    this.world.raw.applyAngularImpulse(this.handle, impulse, wake);
+  }
+
+  getLinearDamping(): number {
+    return this.world.raw.getBodyLinearDamping(this.handle);
+  }
+
+  getAngularDamping(): number {
+    return this.world.raw.getBodyAngularDamping(this.handle);
+  }
+
+  getGravityScale(): number {
+    return this.world.raw.getBodyGravityScale(this.handle);
+  }
+
   setAwake(awake: boolean): void {
     this.world.raw.setBodyAwake(this.handle, awake);
   }
@@ -546,6 +571,22 @@ export class ShapeRef {
     this.world.ownerRuntime.raw.applyShapeWind(this.handle, wind, drag, lift, maxSpeed, wake);
   }
 
+  getDensity(): number {
+    return this.world.raw.getShapeDensity(this.handle);
+  }
+
+  getFriction(): number {
+    return this.world.raw.getShapeFriction(this.handle);
+  }
+
+  getRestitution(): number {
+    return this.world.raw.getShapeRestitution(this.handle);
+  }
+
+  getFilter(): ShapeFilter {
+    return this.world.raw.getShapeFilter(this.handle);
+  }
+
   assertActive(): void {
     if (!objectAssertsEnabled()) return;
     this.world.assertActive();
@@ -713,6 +754,12 @@ const BODY_REF_ASSERTED_METHODS = [
   "getAngularVelocityTo",
   "applyLinearImpulse",
   "applyLinearImpulseToCenter",
+  "applyForce",
+  "applyForceToCenter",
+  "applyAngularImpulse",
+  "getLinearDamping",
+  "getAngularDamping",
+  "getGravityScale",
   "setAwake",
   "setDamping",
   "setGravityScale",
@@ -765,6 +812,10 @@ const SHAPE_REF_ASSERTED_METHODS = [
   "enablePreSolveEvents",
   "enableHitEvents",
   "applyWind",
+  "getDensity",
+  "getFriction",
+  "getRestitution",
+  "getFilter",
 ] as const;
 
 const HUMAN_REF_ASSERTED_METHODS = [

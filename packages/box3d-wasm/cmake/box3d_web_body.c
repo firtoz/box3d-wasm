@@ -184,6 +184,48 @@ B3W_EXPORT void b3wApplyTorque(uint64_t bodyPacked, float tx, float ty, float tz
 	b3Body_ApplyTorque(bodyId, (b3Vec3){ tx, ty, tz }, wake != 0);
 }
 
+B3W_EXPORT void b3wApplyForce(uint64_t bodyPacked, float fx, float fy, float fz, float px, float py, float pz, int wake)
+{
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_ApplyForce(bodyId, (b3Vec3){ fx, fy, fz }, (b3Pos){ px, py, pz }, wake != 0);
+}
+
+B3W_EXPORT void b3wApplyForceToCenter(uint64_t bodyPacked, float fx, float fy, float fz, int wake)
+{
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_ApplyForceToCenter(bodyId, (b3Vec3){ fx, fy, fz }, wake != 0);
+}
+
+B3W_EXPORT void b3wApplyAngularImpulse(uint64_t bodyPacked, float ix, float iy, float iz, int wake)
+{
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_ApplyAngularImpulse(bodyId, (b3Vec3){ ix, iy, iz }, wake != 0);
+}
+
+B3W_EXPORT float b3wGetLinearDamping(uint64_t bodyPacked)
+{
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return 0.0f;
+	return b3Body_GetLinearDamping(bodyId);
+}
+
+B3W_EXPORT float b3wGetAngularDamping(uint64_t bodyPacked)
+{
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return 0.0f;
+	return b3Body_GetAngularDamping(bodyId);
+}
+
+B3W_EXPORT float b3wGetGravityScale(uint64_t bodyPacked)
+{
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return 1.0f;
+	return b3Body_GetGravityScale(bodyId);
+}
+
 B3W_EXPORT void b3wSetBodyAwake(uint64_t bodyPacked, int awake)
 {
 	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
@@ -625,4 +667,53 @@ B3W_EXPORT int b3wBodyCastRay(uint64_t bodyPacked, float originX, float originY,
 		outNormal[2] = result.normal.z;
 	}
 	return 1;
+}
+
+B3W_EXPORT int b3wBodyCastShape(uint64_t bodyPacked, float originX, float originY, float originZ, float translationX,
+	float translationY, float translationZ, float radius, int canEncroach, int categoryBits, int maskBits, float maxFraction,
+	float bodyPx, float bodyPy, float bodyPz, float bodyQx, float bodyQy, float bodyQz, float bodyQw,
+	int* outHit, float* outPoint, float* outNormal, float* outFraction)
+{
+	if (outHit != NULL) *outHit = 0;
+	if (outFraction != NULL) *outFraction = 1.0f;
+	if (outPoint != NULL) { outPoint[0] = outPoint[1] = outPoint[2] = 0.0f; }
+	if (outNormal != NULL) { outNormal[0] = outNormal[1] = outNormal[2] = 0.0f; }
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return 0;
+	b3QueryFilter filter = b3DefaultQueryFilter();
+	filter.categoryBits = (uint64_t)categoryBits;
+	filter.maskBits = (uint64_t)maskBits;
+	b3Vec3 center = b3Vec3_zero;
+	b3ShapeProxy proxy = { &center, 1, radius };
+	b3WorldTransform bodyTransform = { { bodyPx, bodyPy, bodyPz }, { { bodyQx, bodyQy, bodyQz }, bodyQw } };
+	b3BodyCastResult result = b3Body_CastShape(bodyId, (b3Pos){ originX, originY, originZ }, &proxy,
+		(b3Vec3){ translationX, translationY, translationZ }, filter, maxFraction, canEncroach != 0, bodyTransform);
+	if (result.hit == false) return 0;
+	if (outHit != NULL) *outHit = 1;
+	if (outFraction != NULL) *outFraction = result.fraction;
+	if (outPoint != NULL)
+	{
+		outPoint[0] = result.point.x;
+		outPoint[1] = result.point.y;
+		outPoint[2] = result.point.z;
+	}
+	if (outNormal != NULL)
+	{
+		outNormal[0] = result.normal.x;
+		outNormal[1] = result.normal.y;
+		outNormal[2] = result.normal.z;
+	}
+	return 1;
+}
+
+B3W_EXPORT int b3wBodyOverlapShape(uint64_t bodyPacked, float originX, float originY, float originZ,
+	float ax, float ay, float az, float bx, float by, float bz, float radius,
+	float bodyPx, float bodyPy, float bodyPz, float bodyQx, float bodyQy, float bodyQz, float bodyQw)
+{
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return 0;
+	b3Vec3 points[2] = { { ax, ay, az }, { bx, by, bz } };
+	b3ShapeProxy proxy = { points, 2, radius };
+	b3WorldTransform bodyTransform = { { bodyPx, bodyPy, bodyPz }, { { bodyQx, bodyQy, bodyQz }, bodyQw } };
+	return b3Body_OverlapShape(bodyId, (b3Pos){ originX, originY, originZ }, &proxy, b3DefaultQueryFilter(), bodyTransform) ? 1 : 0;
 }

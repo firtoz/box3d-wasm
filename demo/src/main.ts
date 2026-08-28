@@ -3,6 +3,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Stats from "stats.js";
 import {BodyType, Box3DRuntime, type BodyId, type JointId, type PhysicsWorld, type Quat, type Vec3} from "box3d-wasm";
 import { samples, type ControlSpec, type DemoBody, type DemoSampleInstance, type SolverParams } from "./samples";
+import { sampleAboutText } from "./samples/about";
 import { getWasmBaseUrl, getWasmVariant, getWasmVariantOptions, getWorkerCounts } from "./samples/shared";
 import { pendingPhysicsWorkerShutdown } from "./shutdown-physics-worker";
 import "./style.css";
@@ -56,6 +57,7 @@ app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
   <div class="topbar">
     <div class="topbar-left">
       <span class="sample-name" id="status">Loading...</span>
+      <button class="sample-about-btn" id="sample-about-btn" title="About this sample" type="button" aria-label="About this sample" hidden>?</button>
     </div>
     <div class="topbar-right">
       <button class="controls-toggle" id="controls-toggle" title="Toggle controls panel" type="button">Controls</button>
@@ -76,6 +78,10 @@ app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
         <button class="samples-btn" id="samples-toggle" type="button">Samples \u25be</button>
       </div>
     </div>
+  </div>
+  <div class="sample-about-pop" id="sample-about-pop" hidden role="dialog" aria-labelledby="sample-about-title">
+    <div class="sample-about-title" id="sample-about-title"></div>
+    <div class="sample-about-body" id="sample-about-body"></div>
   </div>
   <div class="samples-backdrop" id="samples-backdrop" hidden></div>
   <div class="samples-panel" id="sample-list"></div>
@@ -107,7 +113,8 @@ app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
           <tr><td class="cd-key">Ctrl+O</td><td>Open sample picker</td></tr>
           <tr><td class="cd-key">C</td><td>Toggle simple / detailed color mode</td></tr>
           <tr><td class="cd-key">F</td><td>Frame selection / world</td></tr>
-          <tr><td class="cd-key">?</td><td>Show / hide controls</td></tr>
+          <tr><td class="cd-key">Title ?</td><td>About this sample</td></tr>
+          <tr><td class="cd-key">?</td><td>Show / hide keyboard help</td></tr>
           <tr><td class="cd-key">Esc</td><td>Cancel / close</td></tr>
           <tr><td class="cd-key">Ctrl+Q</td><td>Quit</td></tr>
         </table>
@@ -165,6 +172,10 @@ const infoElement = document.querySelector<HTMLDivElement>("#info") ?? detachedE
 const samplesToggle = document.querySelector<HTMLButtonElement>("#samples-toggle") ?? detachedElement("button");
 const controlsToggle = document.querySelector<HTMLButtonElement>("#controls-toggle") ?? detachedElement("button");
 const helpToggle = document.querySelector<HTMLButtonElement>("#help-toggle") ?? detachedElement("button");
+const sampleAboutBtn = document.querySelector<HTMLButtonElement>("#sample-about-btn") ?? detachedElement("button");
+const sampleAboutPop = document.querySelector<HTMLDivElement>("#sample-about-pop") ?? detachedElement("div");
+const sampleAboutTitle = document.querySelector<HTMLDivElement>("#sample-about-title") ?? detachedElement("div");
+const sampleAboutBody = document.querySelector<HTMLDivElement>("#sample-about-body") ?? detachedElement("div");
 const controlsDialog = document.querySelector<HTMLDivElement>("#controls-dialog") ?? detachedElement("div");
 const controlsDialogHeader = document.querySelector<HTMLDivElement>("#controls-dialog-header") ?? detachedElement("div");
 const controlsDialogClose = document.querySelector<HTMLSpanElement>("#controls-dialog-close") ?? detachedElement("span");
@@ -659,11 +670,12 @@ function spawnProjectile(spin = false, ragdoll = false): void {
     const hull = runtime.createCylinder(2, 0.15, 0, 6);
     runtime.createShapeFromHull(body, hull);
     runtime.destroyHull(hull);
-    const mesh = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.15, 0.15, 2, 6),
-      new THREE.MeshStandardMaterial({ color: 0x8b5cf6, roughness: 0.6 }),
-    );
-    mesh.castShadow = true;
+  const mesh = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.15, 0.15, 2, 6),
+    new THREE.MeshStandardMaterial({ color: 0x8b5cf6, roughness: 0.6 }),
+  );
+  mesh.position.set(origin.x, origin.y, origin.z);
+  mesh.castShadow = true;
     scene.add(mesh);
     activeSample.bodies.push({ handle: body, mesh, type: BodyType.Dynamic });
     return;
@@ -680,6 +692,7 @@ function spawnProjectile(spin = false, ragdoll = false): void {
     new THREE.SphereGeometry(0.25, 16, 12),
     new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.6 }),
   );
+  mesh.position.set(origin.x, origin.y, origin.z);
   mesh.castShadow = true;
   scene.add(mesh);
   activeSample.bodies.push({ handle: bodyHandle, mesh, type: BodyType.Dynamic });
@@ -1056,10 +1069,36 @@ function renderControls(specs: ControlSpec[]): void {
   syncMobileOverlays();
 }
 
+function closeSampleAbout(): void {
+  sampleAboutPop.hidden = true;
+  sampleAboutBtn.setAttribute("aria-expanded", "false");
+}
+
+function syncSampleAbout(): void {
+  if (activeSampleIndex < 0 || benchRunnerMode) {
+    sampleAboutBtn.hidden = true;
+    closeSampleAbout();
+    return;
+  }
+  const sample = samples[activeSampleIndex];
+  sampleAboutBtn.hidden = false;
+  sampleAboutTitle.textContent = sample.name;
+  sampleAboutBody.textContent = sampleAboutText(sample.id, sample.name);
+}
+
+function toggleSampleAbout(force?: boolean): void {
+  if (sampleAboutBtn.hidden) return;
+  const next = force ?? sampleAboutPop.hidden;
+  sampleAboutPop.hidden = !next;
+  sampleAboutBtn.setAttribute("aria-expanded", next ? "true" : "false");
+  if (next) syncSampleAbout();
+}
+
 function updateStatus(): void {
   if (activeSampleIndex < 0) {
     statusLabel.textContent = "Box3D / Washer Bench Runner";
     statusLabel.className = "sample-name";
+    syncSampleAbout();
     return;
   }
   const name = samples[activeSampleIndex].name;
@@ -1068,6 +1107,7 @@ function updateStatus(): void {
   const crumbs = ["Box3D", ...parts];
   statusLabel.innerHTML = icon + crumbs.map((c) => `<span class="crumb">${c}</span>`).join('<span class="sep">/</span>');
   statusLabel.className = "sample-name" + (paused ? " paused" : "");
+  syncSampleAbout();
 }
 
 function updateMetrics(): void {
@@ -1365,6 +1405,8 @@ async function createAndInstallSample(index: number, sceneWasReset: boolean, cam
   } catch (error) {
     console.error("[demo] sample create failed", error);
     statusLabel.textContent = `Failed to load sample: ${error instanceof Error ? error.message : String(error)}`;
+    sampleAboutBtn.hidden = true;
+    closeSampleAbout();
     return;
   }
   if (loadId !== sampleLoadId || index !== activeSampleIndex) {
@@ -1416,6 +1458,8 @@ function activateSample(index: number): void {
   activeSampleIndex = index;
   const loadId = ++sampleLoadId;
   statusLabel.textContent = "Loading...";
+  sampleAboutBtn.hidden = true;
+  closeSampleAbout();
   void createAndInstallSample(index, true, undefined, undefined, loadId);
 }
 
@@ -1790,6 +1834,16 @@ function toggleSamples(force?: boolean): void {
 samplesBtn.addEventListener("click", () => toggleSamples());
 
 statusLabel.addEventListener("click", () => toggleSamples());
+sampleAboutBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  toggleSampleAbout();
+});
+document.addEventListener("pointerdown", (e) => {
+  if (sampleAboutPop.hidden) return;
+  const t = e.target;
+  if (t instanceof Node && (sampleAboutPop.contains(t) || sampleAboutBtn.contains(t))) return;
+  closeSampleAbout();
+});
 
 samplesBackdrop.addEventListener("click", () => toggleSamples(false));
 
@@ -2085,7 +2139,9 @@ window.addEventListener("keydown", (e) => {
     e.preventDefault();
     toggleControlsDialog();
   } else if (e.key === "Escape") {
-    if (showControlsDialog) {
+    if (!sampleAboutPop.hidden) {
+      closeSampleAbout();
+    } else if (showControlsDialog) {
       showControlsDialog = false;
       controlsDialog.style.display = "none";
       try { localStorage.setItem(VISIBLE_STORAGE_KEY, "0"); } catch { /* ignore */ }

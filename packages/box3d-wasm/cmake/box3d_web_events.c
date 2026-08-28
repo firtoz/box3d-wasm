@@ -314,3 +314,163 @@ B3W_EXPORT uint64_t b3wGetJointEventHandle(int worldHandle, int index)
 	if (b3Joint_IsValid(jointId) == false) return 0;
 	return b3StoreJointId(jointId);
 }
+
+#define B3W_EVENT_HEADER 3
+
+B3W_EXPORT int b3wFillContactEvents(int worldHandle, uint64_t* out, int capacity)
+{
+	if (out == NULL || capacity < B3W_EVENT_HEADER) return 0;
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	if (world == NULL)
+	{
+		out[0] = out[1] = out[2] = 0;
+		return B3W_EVENT_HEADER;
+	}
+	b3ContactEvents events = b3World_GetContactEvents(world->worldId);
+	int maxPairs = (capacity - B3W_EVENT_HEADER) / 2;
+	int begin = events.beginCount;
+	int end = events.endCount;
+	int hit = events.hitCount;
+	if (begin + end + hit > maxPairs)
+	{
+		int remain = maxPairs;
+		if (begin > remain) begin = remain;
+		remain -= begin;
+		if (end > remain) end = remain;
+		remain -= end;
+		if (hit > remain) hit = remain;
+	}
+	out[0] = (uint64_t)begin;
+	out[1] = (uint64_t)end;
+	out[2] = (uint64_t)hit;
+	int written = B3W_EVENT_HEADER;
+	for (int i = 0; i < begin; ++i)
+	{
+		out[written++] = b3StoreShapeId(events.beginEvents[i].shapeIdA);
+		out[written++] = b3StoreShapeId(events.beginEvents[i].shapeIdB);
+	}
+	for (int i = 0; i < end; ++i)
+	{
+		out[written++] = b3StoreShapeId(events.endEvents[i].shapeIdA);
+		out[written++] = b3StoreShapeId(events.endEvents[i].shapeIdB);
+	}
+	for (int i = 0; i < hit; ++i)
+	{
+		out[written++] = b3StoreShapeId(events.hitEvents[i].shapeIdA);
+		out[written++] = b3StoreShapeId(events.hitEvents[i].shapeIdB);
+	}
+	return written;
+}
+
+B3W_EXPORT int b3wFillSensorEvents(int worldHandle, uint64_t* out, int capacity)
+{
+	if (out == NULL || capacity < B3W_EVENT_HEADER) return 0;
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	if (world == NULL)
+	{
+		out[0] = out[1] = out[2] = 0;
+		return B3W_EVENT_HEADER;
+	}
+	b3SensorEvents events = b3World_GetSensorEvents(world->worldId);
+	int maxPairs = (capacity - B3W_EVENT_HEADER) / 2;
+	int begin = events.beginCount;
+	int end = events.endCount;
+	if (begin + end > maxPairs)
+	{
+		int remain = maxPairs;
+		if (begin > remain) begin = remain;
+		remain -= begin;
+		if (end > remain) end = remain;
+	}
+	out[0] = (uint64_t)begin;
+	out[1] = (uint64_t)end;
+	out[2] = 0;
+	int written = B3W_EVENT_HEADER;
+	for (int i = 0; i < begin; ++i)
+	{
+		out[written++] = b3StoreShapeId(events.beginEvents[i].sensorShapeId);
+		out[written++] = b3StoreShapeId(events.beginEvents[i].visitorShapeId);
+	}
+	for (int i = 0; i < end; ++i)
+	{
+		out[written++] = b3StoreShapeId(events.endEvents[i].sensorShapeId);
+		out[written++] = b3StoreShapeId(events.endEvents[i].visitorShapeId);
+	}
+	return written;
+}
+
+B3W_EXPORT int b3wFillBodyContactData(uint64_t bodyPacked, uint64_t* out, int capacity)
+{
+	if (out == NULL || capacity < 1) return 0;
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId))
+	{
+		out[0] = 0;
+		return 1;
+	}
+	int maxPairs = (capacity - 1) / 2;
+	if (maxPairs < 1)
+	{
+		out[0] = 0;
+		return 1;
+	}
+	b3ContactData stack[32];
+	int n = maxPairs < 32 ? maxPairs : 32;
+	int count = b3Body_GetContactData(bodyId, stack, n);
+	out[0] = (uint64_t)count;
+	int written = 1;
+	for (int i = 0; i < count && written + 2 <= capacity; ++i)
+	{
+		out[written++] = b3StoreShapeId(stack[i].shapeIdA);
+		out[written++] = b3StoreShapeId(stack[i].shapeIdB);
+	}
+	return written;
+}
+
+#define B3W_CONTACT_POINT_FLOATS 8
+#define B3W_CONTACT_MAX_POINTS 32
+
+B3W_EXPORT int b3wFillBodyContactManifolds(uint64_t bodyPacked, float* out, int capacityFloats)
+{
+	if (out == NULL || capacityFloats < 2) return 0;
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId))
+	{
+		out[0] = 0;
+		out[1] = 0;
+		return 2;
+	}
+	b3ContactData stack[16];
+	int contactCount = b3Body_GetContactData(bodyId, stack, 16);
+	b3Pos center = b3Body_GetWorldCenter(bodyId);
+	int maxPoints = (capacityFloats - 2) / B3W_CONTACT_POINT_FLOATS;
+	if (maxPoints > B3W_CONTACT_MAX_POINTS) maxPoints = B3W_CONTACT_MAX_POINTS;
+	int points = 0;
+	int written = 2;
+	for (int c = 0; c < contactCount && points < maxPoints; ++c)
+	{
+		const b3Manifold* manifolds = stack[c].manifolds;
+		int manifoldCount = stack[c].manifoldCount;
+		if (manifolds == NULL) continue;
+		for (int m = 0; m < manifoldCount && points < maxPoints; ++m)
+		{
+			const b3Manifold* man = manifolds + m;
+			for (int p = 0; p < man->pointCount && points < maxPoints; ++p)
+			{
+				const b3ManifoldPoint* pt = man->points + p;
+				out[written++] = center.x + pt->anchorA.x;
+				out[written++] = center.y + pt->anchorA.y;
+				out[written++] = center.z + pt->anchorA.z;
+				out[written++] = man->normal.x;
+				out[written++] = man->normal.y;
+				out[written++] = man->normal.z;
+				out[written++] = pt->separation;
+				out[written++] = pt->totalNormalImpulse;
+				points += 1;
+			}
+		}
+	}
+	out[0] = (float)contactCount;
+	out[1] = (float)points;
+	return written;
+}

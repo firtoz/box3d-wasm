@@ -2,6 +2,8 @@
 
 Track C++ `DrawControls` / keyboard / hold-key parity and mobile/touch UX for every **demo** sample (`demo/src/samples/index.ts`).
 
+The top-left sample name has a **`?`** that opens a short description of what that sample demonstrates (distinct from the top-right / `?` key keyboard-help dialog).
+
 Mark `[x]` only after verifying:
 
 - C++ sample UI is present in the web demo (buttons/sliders/toggles), **or** upstream has no sample UI (global demo controls are enough).
@@ -34,7 +36,7 @@ These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exis
 - [x] `events/sensor-hits` — Events / Sensor Hits — Bullet + Launch (B)
 - [x] `events/hit` — Events / Hit — no C++ DrawControls (Contact WASD is a different C++ sample)
 - [x] `events/persistent-contact` — Events / Persistent Contact — no C++ sample UI
-- [x] `events/joint` — Events / Joint — no C++ sample UI
+- [x] `events/joint` — Events / Joint — break-count HUD
 - [x] `events/contact` — Events / Contact — torque slider + WASD/arrows + on-screen pad + shape-count HUD
 - [x] `geometry/box-hull` — Geometry / Box Hull — h/c/r/s sliders + Refresh
 - [x] `geometry/hull` — Geometry / Hull — no C++ sample UI
@@ -147,7 +149,7 @@ These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exis
 - [x] `benchmark/convex-pile` — Benchmark / Convex Pile — no C++ sample UI
 - [x] `benchmark/large-world` — Benchmark / Large World — no C++ sample UI
 - [x] `benchmark/height-field` — Benchmark / Height Field — Radius + cast HUD
-- [x] `bodies/cast` — Bodies / Cast — no C++ sample UI
+- [x] `bodies/cast` — Bodies / Cast — CastRay / CastShape / OverlapShape overlay (C++ is query HUD, no DrawControls)
 - [x] `collision/shape-cast` — Collision / Shape Cast — Initial Overlap + Offset Y/Z
 - [x] `collision/overlap-world` — Collision / Overlap World — no C++ sample UI
 - [x] `collision/initial-overlap` — Collision / Initial Overlap — initial overlap toggle
@@ -179,7 +181,16 @@ These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exis
 - [x] `issues/sbox-mover` — Issues / s&box mover — no C++ sample UI
 - [x] `issues/sbox-ghost-collisions` — Issues / s&box Ghost Collisions — walk-speed HUD not ported
 - [x] `benchmark/sensor` — Benchmark / Sensor — HUD not ported
-- [x] `tree/benchmark` — Tree / Benchmark — file slider
+- [x] `tree/benchmark` — Tree / Benchmark — file slider + WASM tree HUD
 - [x] `ragdoll/pose` — Ragdoll / Pose — no pose/motor UI (upstream `#if 0`)
 - [x] `shapes/conveyor-mesh` — Shapes / Conveyor Mesh — no C++ sample UI
 - [x] `extra/object-asserts-bench` — Extra / Object Asserts Bench — extra demo
+- [x] `extra/forces` — Extra / Forces — Impulse / Spin / Nudge
+- [x] `extra/world-knobs` — Extra / World Knobs — gravity Y + speculative + rebuild static tree + profile
+- [x] `extra/cone-mass` — Extra / Cone Mass — slices + mass/edge HUD
+- [x] `extra/event-buffer` — Extra / Event Buffer — packed event + manifold HUD
+- [x] `extra/one-way` — Extra / One-Way Platforms — drop / launch
+- [x] `extra/sensor-filter` — Extra / Sensor Filter — custom filter toggle + begin/end HUD
+- [x] `extra/clone-hull` — Extra / Clone Hull — no controls
+- [x] `extra/parallel-anchors` — Extra / Parallel Anchors — bone/anchor HUD
+- [x] `extra/slot-exhaustion` — Extra / Slot Exhaustion — cube grid fills one world every few frames

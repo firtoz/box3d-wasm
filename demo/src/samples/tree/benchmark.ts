@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import type { DynamicTree } from "box3d-wasm";
 import type { DemoSample } from "../types";
 import { getWasmBaseUrl } from "../shared";
 import { treeBenchmarkCamera } from "./benchmark-scene";
@@ -53,6 +54,7 @@ export const treeBenchmarkSample: DemoSample = {
     const world = runtime.createWorld({ gravity: [0, -10, 0] });
     let fileIndex = 0;
     let lines: THREE.LineSegments | null = null;
+    let tree: DynamicTree | null = null;
     let info = "loading…";
     const load = async () => {
       if (lines !== null) {
@@ -61,12 +63,41 @@ export const treeBenchmarkSample: DemoSample = {
         (lines.material as THREE.Material).dispose();
         lines = null;
       }
+      tree?.destroy();
+      tree = null;
       const file = FILES[fileIndex]!;
       const response = await fetch(`${getWasmBaseUrl()}trees/${file.name}`);
       const boxes = parseBounds(await response.text(), file.scale);
       lines = makeWireBoxes(boxes);
       scene.add(lines);
-      info = `${file.name} | ${boxes.length} AABBs (drawing ${Math.min(boxes.length, 4000)})`;
+      tree = runtime.createDynamicTree(Math.max(boxes.length, 16));
+      for (const box of boxes) {
+        tree.createProxy([box.min.x, box.min.y, box.min.z], [box.max.x, box.max.y, box.max.z]);
+      }
+      tree.rebuild(true);
+      const bounds = tree.getRootBounds();
+      const mid: [number, number, number] = [
+        0.5 * (bounds.min[0] + bounds.max[0]),
+        0.5 * (bounds.min[1] + bounds.max[1]),
+        0.5 * (bounds.min[2] + bounds.max[2]),
+      ];
+      const extent = Math.max(
+        bounds.max[0] - bounds.min[0],
+        bounds.max[1] - bounds.min[1],
+        bounds.max[2] - bounds.min[2],
+      );
+      const half = 0.05 * extent;
+      const query = tree.queryAABB(
+        [mid[0] - half, mid[1] - half, mid[2] - half],
+        [mid[0] + half, mid[1] + half, mid[2] + half],
+      );
+      const ray = tree.rayCast(bounds.min, bounds.max);
+      info = [
+        `${file.name} | ${boxes.length} AABBs (drawing ${Math.min(boxes.length, 4000)})`,
+        `tree height=${tree.getHeight()} areaRatio=${tree.getAreaRatio().toFixed(3)} proxies=${tree.getProxyCount()} bytes=${tree.getByteCount()}`,
+        `query hits=${query.proxyIds.length} nodeVisits=${query.nodeVisits} leafVisits=${query.leafVisits}`,
+        `ray ${ray === null ? "miss" : `proxy ${ray.proxyId}`}`,
+      ].join("\n");
     };
     void load();
     return {
@@ -84,8 +115,8 @@ export const treeBenchmarkSample: DemoSample = {
           lines.geometry.dispose();
           (lines.material as THREE.Material).dispose();
         }
+        tree?.destroy();
         world.destroy();
-        void runtime;
       },
     };
   },

@@ -13,7 +13,7 @@ const spec: RenderSpec = {
   groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
   bodies: sensorHitsBodies,
   camera: sensorHitsCamera,
-  info: `static/kinematic/dynamic sensors + launch sphere (dump speed ${SENSOR_HITS_LAUNCH_SPEED})`,
+  info: `launch sphere (B) turns lime while overlapping a sensor (dump speed ${SENSOR_HITS_LAUNCH_SPEED})`,
   hotkeys: [{ keys: ["b", "B"], message: { type: "launch" } }],
   controls: [
     { type: "toggle", label: "Bullet", message: { type: "set-bullet" }, value: true },

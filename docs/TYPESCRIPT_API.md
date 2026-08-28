@@ -318,6 +318,8 @@ const dynamicBody = world.createBody({ type: BodyType.Dynamic });
 world.setBodyTransform(staticBody, [0, 0, 0]);
 world.setBodyLinearVelocity(kinematicBody, [1, 0, 0]);
 world.applyLinearImpulseToCenter(dynamicBody, [0, 10, 0]);
+world.applyForceToCenter(dynamicBody, [0, 50, 0]);
+world.applyAngularImpulse(dynamicBody, [0, 0, 2]);
 ```
 
 ## Render Loop Shape
@@ -378,7 +380,7 @@ The demo uses the same idea, plus batched transform reads for heavy scenes. See 
 Use `rayCastClosest` for simple picking or visibility checks.
 
 ```ts
-import { WorldCastMode, WorldCastType } from "box3d-wasm";
+import { OverlapProxyType, WorldCastMode, WorldCastType } from "box3d-wasm";
 
 const hit = world.rayCastClosest([0, 10, 0], [0, -20, 0]);
 
@@ -402,14 +404,30 @@ const moverPlanes = world.collideMover([0, 1, 0.4], {
 const solved = world.solvePlanes([0, 0, 0], moverPlanes.map((hit) => ({ plane: hit.plane })));
 const fraction = world.castMover([0, 1, 0], { center1: [0, -0.5, 0], center2: [0, 0.5, 0], radius: 0.3 }, [0, -0.1, 0]);
 const clipped = world.clipVector([0, -1, 0], moverPlanes.map((hit) => ({ plane: hit.plane })));
+
+const overlapping = world.overlapShape([0, 2, 0], { type: OverlapProxyType.Sphere, radius: 1.5 });
+const bodyHit = world.bodyCastShape(dynamicBody, [-2, 1, 0], [4, 0, 0], { radius: 0.2, canEncroach: true });
+const overlapsBody = world.bodyOverlapShape(dynamicBody, [0, 1, 0], { a: [0, 0, 0], b: [0, 1, 0], radius: 0.25 });
 ```
 
 ## Events
 
-Sensor begin- and end-touch events and contact begin-touch events are available after `world.step()` (`getSensorBeginEvents`, `getSensorEndEvents`, `getContactBeginEvents`). `setCustomSensorFilter(filterRow, true)` installs a world custom filter that allows a sensor if it is marked active in `userData` or its packed row is not `filterRow` (`(active ? 0x40000000 : 0) | row`).
+Sensor begin- and end-touch events and contact begin-touch events are available after `world.step()` (`getSensorBeginEvents`, `getSensorEndEvents`, `getContactBeginEvents`). For hot paths, `fillContactEvents` / `fillSensorEvents` / `fillBodyContactData` copy counts and packed `ShapeId` pairs into a reused WASM heap view (`PackedEventBuffer.pairs`) so you can avoid allocating a JS object per event. `fillBodyContactManifolds` copies current contact points (world position, normal, separation, accumulated impulse) for a body. `setCustomSensorFilter(filterRow, true)` installs a world custom filter that allows a sensor if it is marked active in `userData` or its packed row is not `filterRow` (`(active ? B3W_SENSOR_FILTER_ACTIVE_BIT : 0) | row`).
+
+`setPreSolveOneWay(true, 0.5)` installs a C-side `b3World_SetPreSolveCallback` that drops contacts against shapes whose `userData` has `B3W_ONE_WAY_USER_BIT` unless the contact normal points sufficiently up (so you can jump through a platform from below). Enable `enablePreSolveEvents` on those shapes.
 
 ```ts
 world.step();
+const packed = world.fillContactEvents();
+for (let i = 0; i < packed.beginCount; i++) {
+  const shapeA = packed.pairs[i * 2]!;
+  const shapeB = packed.pairs[i * 2 + 1]!;
+}
+const manifolds = world.fillBodyContactManifolds(dynamicBody);
+for (let i = 0; i < manifolds.pointCount; i++) {
+  const x = manifolds.points[i * 8]!;
+  const impulse = manifolds.points[i * 8 + 7]!;
+}
 for (const event of world.getContactBeginEvents()) {
   const bodyA = world.getShapeBody(event.shapeA);
   const bodyB = world.getShapeBody(event.shapeB);
@@ -421,7 +439,7 @@ for (const event of world.getContactBeginEvents()) {
 
 ## Collision Queries
 
-Pairwise collide helpers, `b3ShapeCast`, `b3ShapeDistance`, and `b3TimeOfImpact` are available on `Box3DRuntime`. Distance/TOI take point-cloud proxies (packed xyz). Distance uses world poses of A and B (`b3InvMulWorldTransforms` in the bridge). `getSweepTransform` evaluates a `Sweep` at time `t`. Hull arguments use `makeBoxHull` / `makeTransformedBoxHull` / `makeScaledBoxHull` slot handles (do not `b3DestroyHull` those; `destroyHull` frees the embedded box storage). `cloneAndTransformHull` returns a heap hull (destroy with `destroyHull`). `getHullInfo` and `computeHullMass` / `computeCapsuleMass` inspect geometry without a body. Invalid hull handles yield an empty manifold (`pointCount` 0). `collideTriangleAndHull` leaves `enableSpeculative` off unless you pass `{ enableSpeculative: true }`. Mesh shapes may pass `surfaceMaterials` plus `createMesh(..., { materialIndices, weldVertices, weldTolerance })`.
+Pairwise collide helpers, `b3ShapeCast`, `b3ShapeDistance`, and `b3TimeOfImpact` are available on `Box3DRuntime`. Distance/TOI take point-cloud proxies (packed xyz). Distance uses world poses of A and B (`b3InvMulWorldTransforms` in the bridge). `getSweepTransform` evaluates a `Sweep` at time `t`. Hull arguments use `makeBoxHull` / `makeTransformedBoxHull` / `makeScaledBoxHull` slot handles (do not `b3DestroyHull` those; `destroyHull` frees the embedded box storage). `cloneAndTransformHull` returns a heap hull (destroy with `destroyHull`). `getHullInfo`, `getHullEdgeLines`, `computeHullMass` / `computeCapsuleMass` / `computeSphereMass`, and `createCone` inspect or build geometry without a body. `cloneHullFromShape` copies a live hull shape into a hull slot. Invalid hull handles yield an empty manifold (`pointCount` 0). `collideTriangleAndHull` leaves `enableSpeculative` off unless you pass `{ enableSpeculative: true }`. Mesh shapes may pass `surfaceMaterials` plus `createMesh(..., { materialIndices, weldVertices, weldTolerance })`.
 
 ```ts
 const xfA = { position: [0, 0, 0] as const, rotation: [0, 0, 0, 1] as const };
@@ -439,8 +457,12 @@ Common world-level toggles are exposed on `PhysicsWorld`.
 world.enableSleeping(true);
 world.enableContinuous(true);
 world.enableWarmStarting(true);
+world.enableSpeculative(true);
+world.setGravity([0, -10, 0]);
+world.rebuildStaticTree();
 world.setContactTuning(60, 10, 1);
 world.setWorkerCount(4);
+world.setProfileLevel("coarse");
 
 world.enableRevoluteLimit(joint, true);
 world.setRevoluteLimits(joint, -0.5, 0.5);
@@ -453,11 +475,14 @@ Destroy temporary resources that are not owned by the world.
 
 ```ts
 const hull = runtime.createCylinder(1, 0.25, 0, 16);
+const cone = runtime.createCone(2, 0.25, 1, 16);
+const sphereMass = runtime.computeSphereMass([0, 0, 0], 1);
 const body = world.createBody({ type: BodyType.Dynamic, position: [0, 2, 0] });
 const shape = world.createShapeFromHull(body, hull, { density: 1000 });
 // For custom point clouds, `createHullFromPoints` + optional `getHullPoints` (post-construction
 // vertices) match Box3D's `b3CreateHull` / `b3GetHullPoints` pipeline.
 runtime.destroyHull(hull);
+runtime.destroyHull(cone);
 
 world.destroyShape(shape);
 world.destroyBody(body);
@@ -484,6 +509,16 @@ When a pool is full, creation throws `SlotExhaustedError` instead of failing sil
 const runtime = await Box3DRuntime.load();
 console.log(runtime.limits);
 console.log(runtime.getSlotUsage());
+console.log(runtime.getTreeSlotUsage());
+```
+
+`createDynamicTree()` allocates from a private 16-tree pool (not part of `SlotLimits`). Filling it throws `SlotExhaustedError` with `kind: "trees"`.
+
+```ts
+const tree = runtime.createDynamicTree(64);
+tree.createProxy([-1, -1, -1], [1, 1, 1]);
+const hits = tree.queryAABB([-2, -2, -2], [2, 2, 2]);
+tree.destroy();
 ```
 
 ### Growable memory variant

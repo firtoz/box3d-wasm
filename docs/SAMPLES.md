@@ -12,7 +12,7 @@ Legend:
 
 ## Easy next ports
 
-All unique upstream `RegisterSample`s now have a TS demo. Extra work is polish (full TraceBody character, Pose APIs if upstream un-`#if 0`s them, mesh HUD) rather than new ports.
+All unique upstream `RegisterSample`s now have a TS demo. Extra TS-only samples cover remaining library APIs (pre-solve one-way platforms, sensor filter, clone hull, parallel anchors, slot exhaustion, plus earlier forces/knobs/cone/event buffers). Remaining polish is TraceBody character, Pose APIs if upstream un-`#if 0`s them, and mesh HUD.
 
 ---
 
@@ -26,7 +26,7 @@ All unique upstream `RegisterSample`s now have a TS demo. Extra work is polish (
 | **Gyroscopic Precession** | [x] | Hull tops + `bodyDef.allowFastRotation` | 🔧 8×8 tip-balanced 7-gon hull tops; tilt 15° about Z, spin about symmetry axis via `rotateVector`, `allowFastRotation`, rolling resistance 0.1. Yellow tip axis + spin/tilt HUD. C++/WASM dump parity verified at epsilon=1e-5. |
 | **Weeble** | [x] | `b3Body_GetMass`, `b3Body_GetLocalRotationalInertia`, `b3Body_SetMassData`, `b3Body_SetTransform`, `b3Body_SetAwake`, `b3Body_GetWorldPoint`, `b3Body_GetLocalPointVelocity`, `b3Body_GetWorldPointVelocity`, `b3World_Explode` | 🔧 All APIs now wrapped. Capsule with shifted COM + Teleport/Explode buttons. Interactive C++/WASM dump parity now covers a scripted teleport; the demo control params were also aligned with upstream while adding parity. |
 | **Disable** | [x] | `b3Body_Enable`, `b3Body_Disable`, `b3Body_IsEnabled`, `b3Body_ApplyLinearImpulseToCenter`, `b3CreateWeldJoint` | 🔧 All APIs now wrapped. 4-link chain with weld joints + ball, enable/disable toggles. |
-| **Cast** | [x] | `b3Body_CastRay`, `b3Body_CastShape`, `b3Body_OverlapShape`, `b3Body_CollideMover`, `b3CreateCylinder` | 🔧 Kinematic cylinder; upstream `BodyCast::Step` does not call `Sample::Step` (query-only). Dump uses `dumpOwnsStep` (no world advance). C++/WASM dump parity verified at epsilon=1e-5. Body-level cast/overlap bindings still `🚧` for live query HUD. |
+| **Cast** | [x] | `b3Body_CastRay`, `b3Body_CastShape`, `b3Body_OverlapShape`, `b3Body_CollideMover`, `b3CreateCylinder` | 🔧 Kinematic cylinder; upstream `BodyCast::Step` does not call `Sample::Step` (query-only). Dump uses `dumpOwnsStep` (no world advance). C++/WASM dump parity verified at epsilon=1e-5. Live overlay draws CastRay / CastShape / OverlapShape against the upstream query transform. |
 | **Kinematic** | [x] | `b3Body_SetTargetTransform`, `bodyDef.type = kinematic` | 🔧 `setBodyTargetTransform` exists. Kinematic body type exists. C++/WASM dump parity verified at epsilon=1e-6 across all 5 checkpoints (frames 0,50,100,200,300) — stationary for 2s delay then circular motion at radius 4. Uses `makeQuatFromAxisAngle` for rotation quaternion, standard `Math.cos`/`Math.sin` for position (matching C++ `cosf`/`sinf`), and `Math.fround` for float32-equivalent time accumulation. |
 | **Lock Mixing** | [x] | `bodyDef.motionLocks.angularX/Y/Z`, `bodyDef.motionLocks.linearX/Y/Z` | 🔧 `setBodyMotionLocks` exists, can set at body creation via `bodyDef.motionLocks`? Actually in TS we use `setBodyMotionLocks` after creation. |
 | **Fixed Rotation** | [x] | `bodyDef.motionLocks.angularX/Y/Z`, `bodyDef.gravityScale` | 🔧 All exist. C++/WASM dump parity verified with the default 5-second comparison window after matching the upstream vertical capsule setup exactly. |
@@ -97,12 +97,12 @@ All unique upstream `RegisterSample`s now have a TS demo. Extra work is polish (
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Sensor Visit** | [x] | `shapeDef.isSensor`, `shapeDef.enableSensorEvents`, sensor begin events | 🔧 No physics ground (DrawGroundGrid only); dynamic visitor box at `{0,12.5,0}` is destroyed in post-step when the kinematic sensor box at `{0,2,0}` receives a begin event. Dump via `dumpCreate`; C++/WASM dump parity verified at epsilon=1e-5. |
+| **Sensor Visit** | [x] | `shapeDef.isSensor`, `shapeDef.enableSensorEvents`, sensor begin events | 🔧 No physics ground (DrawGroundGrid only); dynamic visitor box at `{0,12.5,0}` is destroyed in post-step when the kinematic sensor box at `{0,2,0}` receives a begin event (sensor turns yellow). Dump via `dumpCreate`; C++/WASM dump parity verified at epsilon=1e-5. |
 | **Hit** | [x] | `shapeDef.enableHitEvents`, weld capsule chain, grid mesh ground | 🔧 Grid mesh 20×20 cell 8; welded capsule chain (`shapesPerBody=3`, angularHertz=10); hit events + RR=0.2; dump via `dumpCreate`. Event HUD not ported. C++/WASM dump parity verified at epsilon=1e-5. |
 | **Move** | [x] | Tall transformed box + hit events + named body | 🔧 `AddGroundBox(40)`; transformed hull (0.5,10,0.5) offset `{0,10,0}`; pivot velocity math; `setBodyName("big box")`. Move-event HUD not ported. C++/WASM dump parity verified at epsilon=1e-5. |
 | **Joint** | [x] | Joint break events, joint force/torque thresholds | 🔧 `AddGroundBox(20)` + hidden static joint anchor; active distance/prismatic/revolute/weld joints break at force=3000 or torque=10000, while motor/wheel slots remain skipped like upstream. Dump post-step destroys reported joint handles; C++/WASM dump parity verified at epsilon=1e-5. |
 | **Persistent Contact** | [x] | Dense sphere + contact events on grid mesh | 🔧 Grid mesh 20×20 cell 2; sphere density=20 RR=0.01 at `{-18,1,0.5}` vel `{4,0,0}`; dump via `dumpCreate`. Contact impulse HUD not ported. C++/WASM dump parity verified at epsilon=1e-5. |
-| **Sensor Hits** | [x] | Sensor mesh/capsule + prismatic motor reverse | 🔧 AddGroundBox(10) + wall + static/kinematic mesh sensors + dynamic capsule sensor on prismatic motor; launch bullet sphere. Dump uses fixed speed 250 via `DumpSensorHits`. `setPrismaticMotorSpeed` / `getPrismaticTranslation` wrapped. `dumpStep` mirrors C++ pre-step reverse logic. |
+| **Sensor Hits** | [x] | Sensor mesh/capsule + prismatic motor reverse | 🔧 AddGroundBox(10) + wall + static/kinematic mesh sensors + dynamic capsule sensor on prismatic motor; launch bullet sphere. The sphere turns lime while overlapping a sensor. Dump uses fixed speed 250 via `DumpSensorHits`. `setPrismaticMotorSpeed` / `getPrismaticTranslation` wrapped. `dumpStep` mirrors C++ pre-step reverse logic. |
 | **Contact** | [x] | `b3World_GetContactEvents`, `b3Body_ApplyTorque`, shape getters / transformed hull attach | 🔧 Katamari-style player sphere accretes debris on begin-contact; walls strip extra shapes. WASD/pad camera-relative torque (default 30000). Seeded spawn every 0.5s. C++/WASM dump parity verified at epsilon=1e-5. |
 
 ## Geometry (`sample_geometry.cpp`)
@@ -241,7 +241,7 @@ These are pairwise collide demos (no physics bodies). The TS ports use a custom 
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **Benchmark** | [x] | Bounds file AABB wires | 🔧 `dumpNoPhysics` (no physics bodies). Live draws up to 4000 AABBs from `bounds01..03.txt`. |
+| **Benchmark** | [x] | Bounds file AABB wires + WASM `DynamicTree` | 🔧 `dumpNoPhysics` (no physics bodies). Live draws up to 4000 AABBs, inserts them into `createDynamicTree`, HUD height/area/query/ray. |
 
 ## World (`sample_world.cpp`)
 
@@ -280,6 +280,15 @@ These are pairwise collide demos (no physics bodies). The TS ports use a custom 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
 | **Object Asserts Bench** | [x] | `box3d-wasm/objects` | Main-thread microbench (~425 dynamics × 3 lanes): A raw · B objects bare · C asserts on. Dev = guards on; prod squeeze = guards off or `BOX3D_OBJECT_ASSERTS=0`. CLI: `bun run bench:object-asserts`. |
+| **Forces** | [x] | `ApplyForce`, `ApplyForceToCenter`, `ApplyAngularImpulse` | TS-only. Hover force each step, one-shot linear/angular impulse, off-center `ApplyForce`. |
+| **World Knobs** | [x] | gravity, speculative, getters, `OverlapShape`, `RebuildStaticTree`, profile, stall, workers | TS-only. Gravity + speculative + rebuild static tree + profile level; HUD for thresholds, overlap, tree height, stall, workers. |
+| **Cone Mass** | [x] | `b3CreateCone`, `b3ComputeSphereMass`, `getHullInfo`, `getHullEdgeLines` | TS-only. Cone hull vs sphere mass plus edge overlay. |
+| **Event Buffer** | [x] | packed events + `fillBodyContactManifolds` | TS-only. Packed pair buffers plus manifold points/impulse HUD. |
+| **One-Way Platforms** | [x] | `setPreSolveOneWay` | TS-only. Mid-air platform with `B3W_ONE_WAY_USER_BIT`; drop from above / launch from below. |
+| **Sensor Filter** | [x] | `setCustomSensorFilter`, sensor begin/end | TS-only. Three sensors stacked on Y (grey / magenta / grey); falling cube turns lime on begin. Magenta row skipped until filter is toggled off. |
+| **Clone Hull** | [x] | `cloneHullFromShape` | TS-only. Live hull shape cloned to a slot hull. |
+| **Parallel Anchors** | [x] | `createHumanParallelAnchors`, `getHumanAnchorBody` | TS-only. One ragdoll; HUD bone vs non-zero anchor counts. |
+| **Slot Exhaustion** | [x] | `SlotExhaustedError`, `limits`, `getSlotUsage` | TS-only. 4×4 cubes; one extra `workerCount: 1` world every few frames until the pool throws (empty slots turn red). |
 
 ---
 
@@ -287,7 +296,7 @@ These are pairwise collide demos (no physics bodies). The TS ports use a custom 
 
 - **Total C++ samples**: **161** unique upstream `RegisterSample`s (162 registration lines; Benchmark / Large World registered twice)
 - **TS implemented (matching C++)**: **161** (~100%)
-- **TS implemented (TS-only)**: 2 extras in the tables (Card House Thick, Object Asserts Bench) plus demo-only variants (dominoes, washer, material-dedup)
+- **TS implemented (TS-only)**: extras in the Extra table (Object Asserts Bench, Forces, World Knobs, Cone Mass, Event Buffer, One-Way Platforms, Sensor Filter, Clone Hull, Parallel Anchors, Slot Exhaustion) plus demo-only variants (dominoes, washer, material-dedup)
 - Status tables above are authoritative. Extra work is polish, not new upstream ports.
 
 - **Dump-match status**: Dump-enabled set is **148/160** hard-green at default checkpoints `0,50,100,200,300` / `1e-5` (all unique C++ samples except Ragdoll / Pose). Compare allows abs `1e-5` **or** 1 float32 ULP (free-fall at large |y|). Soft windows: `scripts/dump-soft-exceptions.json` (12 scenes). Soft default-checkpoint exceptions: `mesh/reflection` (0–50), `shapes/wind-flap` (0–200), `benchmark/junkyard` (0–100), `benchmark/convex-pile` (0–40), `world/far-ragdolls` (0–20), `ragdoll/pile` (0–45), `determinism/falling-ragdolls` (0–150), `determinism/wave-pile` (0–100), `benchmark/rain` (0–64), `benchmark/candy-cups` (0–200), `benchmark/explosion` (0–20), `joints/gear-lift` (0–20). Remaining soft drift is multi-contact native-vs-WASM solver FP (SIMD on/off identical on each target). `geometry/hull`, `geometry/capsule-mass`, `mesh/creation-benchmark`, and `tree/benchmark` use `dumpNoPhysics`. Manifold samples compare `manifold` extras. Continuous Mesh Drop dump uses fixed seed `1910133196` via dump alias `Continuous Mesh Drop`; Determinism Mesh Drop uses alias `Determinism Mesh Drop` (upstream name collision).

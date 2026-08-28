@@ -393,3 +393,37 @@ B3W_EXPORT void b3wShapeApplyWind(uint64_t shapePacked, float windX, float windY
 	if (!b3Shape_IsValid(shapeId)) return;
 	b3Shape_ApplyWind(shapeId, (b3Vec3){ windX, windY, windZ }, drag, lift, maxSpeed, wake != 0);
 }
+
+B3W_EXPORT float b3wShapeGetDensity(uint64_t shapePacked)
+{
+	b3ShapeId shapeId = b3LoadShapeId(shapePacked);
+	if (!b3Shape_IsValid(shapeId)) return 0.0f;
+	return b3Shape_GetDensity(shapeId);
+}
+
+B3W_EXPORT float b3wShapeGetFriction(uint64_t shapePacked)
+{
+	b3ShapeId shapeId = b3LoadShapeId(shapePacked);
+	if (!b3Shape_IsValid(shapeId)) return 0.0f;
+	return b3Shape_GetFriction(shapeId);
+}
+
+B3W_EXPORT float b3wShapeGetRestitution(uint64_t shapePacked)
+{
+	b3ShapeId shapeId = b3LoadShapeId(shapePacked);
+	if (!b3Shape_IsValid(shapeId)) return 0.0f;
+	return b3Shape_GetRestitution(shapeId);
+}
+
+B3W_EXPORT void b3wShapeGetFilter(uint64_t shapePacked, uint64_t* outCategory, uint64_t* outMask, int* outGroup)
+{
+	if (outCategory != NULL) *outCategory = 0;
+	if (outMask != NULL) *outMask = 0;
+	if (outGroup != NULL) *outGroup = 0;
+	b3ShapeId shapeId = b3LoadShapeId(shapePacked);
+	if (!b3Shape_IsValid(shapeId)) return;
+	b3Filter filter = b3Shape_GetFilter(shapeId);
+	if (outCategory != NULL) *outCategory = filter.categoryBits;
+	if (outMask != NULL) *outMask = filter.maskBits;
+	if (outGroup != NULL) *outGroup = filter.groupIndex;
+}
