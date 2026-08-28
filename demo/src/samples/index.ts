@@ -72,6 +72,7 @@ import { bridgeSample } from "./joints/bridge";
 import { highResistanceSample } from "./shapes/high-resistance";
 import { slideTwistSample } from "./shapes/slide-twist";
 import { conveyorBeltSample } from "./shapes/conveyor-belt";
+import { conveyorMeshSample } from "./shapes/conveyor-mesh";
 import { windDropSample } from "./shapes/wind-drop";
 import { thinWallSample } from "./continuous/thin-wall";
 import { bounceHouseSample } from "./continuous/bounce-house";
@@ -126,6 +127,8 @@ import { querySpawnSample } from "./determinism/query-spawn";
 import { sensorHitsSample } from "./events/sensor-hits";
 import { ragdollMeshSample } from "./ragdoll/mesh";
 import { hollowBoxSample } from "./mesh/hollow-box";
+import { reflectionSample } from "./mesh/reflection";
+import { voxelSample } from "./mesh/voxel";
 import { benchmarkHeightFieldSample } from "./benchmark/height-field-benchmark";
 import { bodyCastSample } from "./bodies/cast";
 import { shapeCastSample } from "./collision/shape-cast";
@@ -145,6 +148,10 @@ import { triangleVsCapsuleSample } from "./manifold/triangle-vs-capsule";
 import { hullVsHullSample } from "./manifold/hull-vs-hull";
 import { triangleVsHullSample } from "./manifold/triangle-vs-hull";
 import { shapeCastDebugSample } from "./collision/shape-cast-debug";
+import { distanceDebugSample } from "./collision/distance-debug";
+import { shapeDistanceSample } from "./collision/shape-distance";
+import { timeOfImpactSample } from "./collision/time-of-impact";
+import { benchmarkHullSample } from "./benchmark/hull";
 export { type ControlSpec, type DemoBody, type DemoSample, type DemoSampleInstance, type SampleId, type SolverParams } from "./types";
 
 export const samples = [
@@ -243,6 +250,7 @@ export const samples = [
   highResistanceSample,
   slideTwistSample,
   conveyorBeltSample,
+  conveyorMeshSample,
   windDropSample,
   windSample,
   windFlapSample,
@@ -252,6 +260,8 @@ export const samples = [
   meshBoxSample,
   heightFieldSample,
   hollowBoxSample,
+  reflectionSample,
+  voxelSample,
   rayCurtainSample,
   capsuleCastRaySample,
   castWorldSample,
@@ -295,5 +305,9 @@ export const samples = [
   hullVsHullSample,
   triangleVsHullSample,
   shapeCastDebugSample,
+  distanceDebugSample,
+  shapeDistanceSample,
+  timeOfImpactSample,
+  benchmarkHullSample,
   objectAssertsBenchSample,
 ];

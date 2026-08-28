@@ -46,5 +46,9 @@
   "joints/gear-lift": {
     "matchThroughFrame": 20,
     "note": "Frames 0–20 match at 1e-5; first divergence ~frame 22 in the meshing-gear + chain + rock pile (native vs WASM solver FP)."
+  },
+  "mesh/reflection": {
+    "matchThroughFrame": 50,
+    "note": "Frames 0–50 match at 1e-5; first divergence ~frame 100 in the 20-human + box/capsule/sphere pile (native vs WASM solver FP)."
   }
 }

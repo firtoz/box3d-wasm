@@ -29,6 +29,47 @@ export type ShapeCastHit = {
   iterations: number;
 };
 
+export type ShapeDistanceResult = {
+  pointA: Vec3;
+  pointB: Vec3;
+  normal: Vec3;
+  distance: number;
+  iterations: number;
+  simplexCount: number;
+};
+
+export const ToiState = { Unknown: 0, Failed: 1, Overlapped: 2, Hit: 3, Separated: 4 } as const;
+export type ToiStateId = (typeof ToiState)[keyof typeof ToiState];
+
+export type Sweep = {
+  localCenter?: Vec3;
+  c1: Vec3;
+  c2: Vec3;
+  q1: Quat;
+  q2: Quat;
+};
+
+export type TimeOfImpactResult = {
+  state: ToiStateId;
+  point: Vec3;
+  normal: Vec3;
+  fraction: number;
+  distance: number;
+  distanceIterations: number;
+  pushBackIterations: number;
+  rootIterations: number;
+  usedFallback: boolean;
+};
+
+export type SurfaceMaterialOptions = {
+  friction?: number;
+  restitution?: number;
+  rollingResistance?: number;
+  tangentVelocity?: Vec3;
+  customColor?: number;
+  userMaterialId?: number;
+};
+
 export const B3W_MANIFOLD_MAX_POINTS = 64;
 export const B3W_MANIFOLD_HEADER_FLOATS = 14;
 export const B3W_MANIFOLD_POINT_FLOATS = 8;
@@ -202,6 +243,8 @@ export interface ShapeDef {
   userMaterialId?: number;
   /** Extra mesh/height-field triangle materials (`shapeDef.materials`). */
   extraUserMaterialIds?: readonly number[];
+  /** Full `shapeDef.materials` for mesh/height-field triangles. */
+  surfaceMaterials?: readonly SurfaceMaterialOptions[];
   /** Packed RGB (+ optional debug-material high byte). */
   customColor?: number;
   isSensor?: boolean;
@@ -322,7 +365,7 @@ type CreateGridMeshFn = (worldHandle: number, xCount: number, zCount: number, ce
 type CreateWaveMeshFn = (worldHandle: number, xCount: number, zCount: number, cellWidth: number, amplitude: number, rowFrequency: number, columnFrequency: number) => number;
 type CreateBoxMeshFn = (worldHandle: number, cx: number, cy: number, cz: number, ex: number, ey: number, ez: number, identifyEdges: number) => number;
 type CreateTorusMeshFn = (worldHandle: number, radialResolution: number, tubularResolution: number, radius: number, thickness: number) => number;
-type CreateMeshFn = (worldHandle: number, vertices: number, vertexCount: number, indices: number, triangleCount: number, useMedianSplit: number, identifyEdges: number) => number;
+type CreateMeshFn = (worldHandle: number, vertices: number, vertexCount: number, indices: number, triangleCount: number, useMedianSplit: number, identifyEdges: number, weldVertices: number, weldTolerance: number, materialIndices: number) => number;
 type DestroyMeshFn = (meshHandle: number) => void;
 type CreateMeshShapeFn = (bodyHandle: bigint, meshHandle: number, density: number, friction: number, restitution: number, rollingResistance: number, sx: number, sy: number, sz: number, isSensor: number) => bigint;
 type ShapeSetMeshFn = (shapeHandle: bigint, meshHandle: number, sx: number, sy: number, sz: number) => void;
@@ -341,6 +384,10 @@ type CollideTriangleSphereFn = (triangle: number, sx: number, sy: number, sz: nu
 type CollideTriangleCapsuleFn = (triangle: number, c1x: number, c1y: number, c1z: number, c2x: number, c2y: number, c2z: number, cr: number, xfA: number, xfB: number, capacity: number, out: number, capacityFloats: number) => void;
 type CollideTriangleHullFn = (triangle: number, flags: number, hullHandle: number, xfA: number, xfB: number, capacity: number, enableSpeculative: number, out: number, capacityFloats: number) => void;
 type ShapeCastPairFn = (pointsA: number, countA: number, radiusA: number, pointsB: number, countB: number, radiusB: number, transform: number, translation: number, maxFraction: number, canEncroach: number, out: number) => void;
+type ShapeDistanceFn = (pointsA: number, countA: number, radiusA: number, pointsB: number, countB: number, radiusB: number, xfA: number, xfB: number, useRadii: number, out: number) => void;
+type TimeOfImpactFn = (pointsA: number, countA: number, radiusA: number, pointsB: number, countB: number, radiusB: number, sweepA: number, sweepB: number, maxFraction: number, out: number) => void;
+type GetSweepTransformFn = (sweep: number, time: number, out: number) => void;
+type CreateMeshShapeMaterialsFn = (bodyHandle: bigint, meshHandle: number, density: number, sx: number, sy: number, sz: number, isSensor: number, materialCount: number, packed: number) => bigint;
 type GetHullVertexCountFn = (hullHandle: number) => number;
 type GetHullPointsFn = (hullHandle: number, outPoints: number, capacityFloats: number) => number;
 type CreateCompoundFn = (capsuleCount: number, hullCount: number, meshCount: number, sphereCount: number, capsules: number, hulls: number, meshes: number, spheres: number) => number;
@@ -577,14 +624,18 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly collideTriangleAndCapsuleFn = this.wrapVoid<CollideTriangleCapsuleFn>("b3wCollideTriangleAndCapsule", ["number","number","number","number","number","number","number","number","number","number","number","number","number"]);
   private readonly collideTriangleAndHullFn = this.wrapVoid<CollideTriangleHullFn>("b3wCollideTriangleAndHull", ["number","number","number","number","number","number","number","number","number"]);
   private readonly shapeCastPairFn = this.wrapVoid<ShapeCastPairFn>("b3wShapeCast", ["number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly shapeDistanceFn = this.wrapVoid<ShapeDistanceFn>("b3wShapeDistance", ["number","number","number","number","number","number","number","number","number","number"]);
+  private readonly timeOfImpactFn = this.wrapVoid<TimeOfImpactFn>("b3wTimeOfImpact", ["number","number","number","number","number","number","number","number","number","number"]);
+  private readonly getSweepTransformFn = this.wrapVoid<GetSweepTransformFn>("b3wGetSweepTransform", ["number","number","number"]);
   private readonly createGridMeshFn = this.wrapNumber<CreateGridMeshFn>("b3wCreateGridMesh", ["number","number","number","number","number","number"]);
   private readonly createWaveMeshFn = this.wrapNumber<CreateWaveMeshFn>("b3wCreateWaveMesh", ["number","number","number","number","number","number","number"]);
   private readonly createBoxMeshFn = this.wrapNumber<CreateBoxMeshFn>("b3wCreateBoxMesh", ["number","number","number","number","number","number","number","number"]);
   private readonly createHollowBoxMeshFn = this.wrapNumber<(worldHandle: number, cx: number, cy: number, cz: number, ex: number, ey: number, ez: number) => number>("b3wCreateHollowBoxMesh", ["number","number","number","number","number","number","number"]);
   private readonly createTorusMeshFn = this.wrapNumber<CreateTorusMeshFn>("b3wCreateTorusMesh", ["number","number","number","number","number"]);
-  private readonly createMeshFn = this.wrapNumber<CreateMeshFn>("b3wCreateMesh", ["number","number","number","number","number","number","number"]);
+  private readonly createMeshFn = this.wrapNumber<CreateMeshFn>("b3wCreateMesh", ["number","number","number","number","number","number","number","number","number","number"]);
   private readonly destroyMeshFn = this.wrapVoid<DestroyMeshFn>("b3wDestroyMesh", ["number"]);
   private readonly createMeshShapeFn = this.wrapBigInt<CreateMeshShapeFn>("b3wCreateMeshShape", ["bigint","number","number","number","number","number","number","number","number","number"]);
+  private readonly createMeshShapeMaterialsFn = this.wrapBigInt<CreateMeshShapeMaterialsFn>("b3wCreateMeshShapeMaterials", ["bigint","number","number","number","number","number","number","number","number"]);
   private readonly shapeSetMeshFn = this.wrapVoid<ShapeSetMeshFn>("b3wShapeSetMesh", ["bigint","number","number","number","number"]);
   private readonly createWaveFn = this.wrapNumber<(worldHandle: number, rowCount: number, columnCount: number, scaleX: number, scaleY: number, scaleZ: number, rowFrequency: number, columnFrequency: number, makeHoles: number) => number>("b3wCreateWave", ["number","number","number","number","number","number","number","number","number"]);
   private readonly createGridHeightFieldFn = this.wrapNumber<(worldHandle: number, rowCount: number, columnCount: number, scaleX: number, scaleY: number, scaleZ: number, makeHoles: number) => number>("b3wCreateGridHeightField", ["number","number","number","number","number","number","number"]);
@@ -828,6 +879,8 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly trianglePtr: number;
   private readonly manifoldPtr: number;
   private readonly shapeCastOutPtr: number;
+  private readonly sweepAPtr: number;
+  private readonly sweepBPtr: number;
   readonly limits: SlotLimits;
 
   constructor(module: CModule) {
@@ -844,7 +897,9 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     this.xfBPtr = module._malloc(7 * 4);
     this.trianglePtr = module._malloc(9 * 4);
     this.manifoldPtr = module._malloc((B3W_MANIFOLD_HEADER_FLOATS + B3W_MANIFOLD_MAX_POINTS * B3W_MANIFOLD_POINT_FLOATS) * 4);
-    this.shapeCastOutPtr = module._malloc(9 * 4);
+    this.shapeCastOutPtr = module._malloc(13 * 4);
+    this.sweepAPtr = module._malloc(17 * 4);
+    this.sweepBPtr = module._malloc(17 * 4);
   }
 
   getSlotUsage(): SlotUsage {
@@ -885,6 +940,8 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     this.module._free(this.trianglePtr);
     this.module._free(this.manifoldPtr);
     this.module._free(this.shapeCastOutPtr);
+    this.module._free(this.sweepAPtr);
+    this.module._free(this.sweepBPtr);
   }
 
   /**
@@ -1100,18 +1157,24 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     worldHandle: WorldHandle,
     vertices: ArrayLike<number>,
     indices: ArrayLike<number>,
-    options: { useMedianSplit?: boolean; identifyEdges?: boolean } = {},
+    options: { useMedianSplit?: boolean; identifyEdges?: boolean; weldVertices?: boolean; weldTolerance?: number; materialIndices?: ArrayLike<number> } = {},
   ): MeshHandle {
     const vertexCount = Math.floor(vertices.length / 3);
     const triangleCount = Math.floor(indices.length / 3);
     const vertPtr = this.module._malloc(vertexCount * 3 * 4);
     const indexPtr = this.module._malloc(triangleCount * 3 * 4);
+    const materials = options.materialIndices;
+    const matPtr = materials !== undefined && materials.length > 0 ? this.module._malloc(triangleCount) : 0;
     const heapF = this.module.HEAPF32;
     const heapI = this.module.HEAP32;
+    const heapU8 = this.module.HEAPU8;
     const vertBase = vertPtr >> 2;
     const indexBase = indexPtr >> 2;
     for (let i = 0; i < vertexCount * 3; i++) heapF[vertBase + i] = vertices[i]!;
     for (let i = 0; i < triangleCount * 3; i++) heapI[indexBase + i] = indices[i]!;
+    if (matPtr !== 0 && materials !== undefined) {
+      for (let i = 0; i < triangleCount; i++) heapU8[matPtr + i] = (materials[i] ?? 0) & 0xff;
+    }
     const meshHandle = this.createMeshFn(
       worldHandle,
       vertPtr,
@@ -1120,9 +1183,13 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
       triangleCount,
       options.useMedianSplit === false ? 0 : 1,
       options.identifyEdges ? 1 : 0,
+      options.weldVertices ? 1 : 0,
+      options.weldTolerance ?? 0,
+      matPtr,
     );
     this.module._free(vertPtr);
     this.module._free(indexPtr);
+    if (matPtr !== 0) this.module._free(matPtr);
     return this.requireSlotHandle<MeshHandle>(meshHandle, "meshes");
   }
   destroyMesh(meshHandle: MeshHandle): void { this.destroyMeshFn(meshHandle); }
@@ -1326,6 +1393,79 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
       iterations: heap[out + 8]!,
     };
   }
+  shapeDistance(proxyA: { points: ArrayLike<number>; radius?: number }, proxyB: { points: ArrayLike<number>; radius?: number }, transformA: WorldTransform, transformB: WorldTransform, useRadii = false): ShapeDistanceResult {
+    const countA = Math.trunc(proxyA.points.length / 3);
+    const countB = Math.trunc(proxyB.points.length / 3);
+    const ptrA = this.module._malloc(countA * 3 * 4);
+    const ptrB = this.module._malloc(countB * 3 * 4);
+    const heap = this.module.HEAPF32;
+    const baseA = ptrA >> 2;
+    const baseB = ptrB >> 2;
+    for (let i = 0; i < countA * 3; i++) heap[baseA + i] = proxyA.points[i]!;
+    for (let i = 0; i < countB * 3; i++) heap[baseB + i] = proxyB.points[i]!;
+    this.writeWorldTransform(this.xfAPtr, transformA);
+    this.writeWorldTransform(this.xfBPtr, transformB);
+    this.shapeDistanceFn(ptrA, countA, proxyA.radius ?? 0, ptrB, countB, proxyB.radius ?? 0, this.xfAPtr, this.xfBPtr, useRadii ? 1 : 0, this.shapeCastOutPtr);
+    this.module._free(ptrA);
+    this.module._free(ptrB);
+    const out = this.shapeCastOutPtr >> 2;
+    return {
+      pointA: [heap[out]!, heap[out + 1]!, heap[out + 2]!],
+      pointB: [heap[out + 3]!, heap[out + 4]!, heap[out + 5]!],
+      normal: [heap[out + 6]!, heap[out + 7]!, heap[out + 8]!],
+      distance: heap[out + 9]!,
+      iterations: heap[out + 10]!,
+      simplexCount: heap[out + 11]!,
+    };
+  }
+  private writeSweep(ptr: number, sweep: Sweep): void {
+    const heap = this.module.HEAPF32;
+    const base = ptr >> 2;
+    const local = sweep.localCenter ?? [0, 0, 0];
+    heap[base] = local[0]; heap[base + 1] = local[1]; heap[base + 2] = local[2];
+    heap[base + 3] = sweep.c1[0]; heap[base + 4] = sweep.c1[1]; heap[base + 5] = sweep.c1[2];
+    heap[base + 6] = sweep.c2[0]; heap[base + 7] = sweep.c2[1]; heap[base + 8] = sweep.c2[2];
+    heap[base + 9] = sweep.q1[0]; heap[base + 10] = sweep.q1[1]; heap[base + 11] = sweep.q1[2]; heap[base + 12] = sweep.q1[3];
+    heap[base + 13] = sweep.q2[0]; heap[base + 14] = sweep.q2[1]; heap[base + 15] = sweep.q2[2]; heap[base + 16] = sweep.q2[3];
+  }
+  getSweepTransform(sweep: Sweep, time: number): WorldTransform {
+    this.writeSweep(this.sweepAPtr, sweep);
+    this.getSweepTransformFn(this.sweepAPtr, time, this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return {
+      position: [heap[base]!, heap[base + 1]!, heap[base + 2]!],
+      rotation: [heap[base + 3]!, heap[base + 4]!, heap[base + 5]!, heap[base + 6]!],
+    };
+  }
+  timeOfImpact(proxyA: { points: ArrayLike<number>; radius?: number }, proxyB: { points: ArrayLike<number>; radius?: number }, sweepA: Sweep, sweepB: Sweep, maxFraction = 1): TimeOfImpactResult {
+    const countA = Math.trunc(proxyA.points.length / 3);
+    const countB = Math.trunc(proxyB.points.length / 3);
+    const ptrA = this.module._malloc(countA * 3 * 4);
+    const ptrB = this.module._malloc(countB * 3 * 4);
+    const heap = this.module.HEAPF32;
+    const baseA = ptrA >> 2;
+    const baseB = ptrB >> 2;
+    for (let i = 0; i < countA * 3; i++) heap[baseA + i] = proxyA.points[i]!;
+    for (let i = 0; i < countB * 3; i++) heap[baseB + i] = proxyB.points[i]!;
+    this.writeSweep(this.sweepAPtr, sweepA);
+    this.writeSweep(this.sweepBPtr, sweepB);
+    this.timeOfImpactFn(ptrA, countA, proxyA.radius ?? 0, ptrB, countB, proxyB.radius ?? 0, this.sweepAPtr, this.sweepBPtr, maxFraction, this.shapeCastOutPtr);
+    this.module._free(ptrA);
+    this.module._free(ptrB);
+    const out = this.shapeCastOutPtr >> 2;
+    return {
+      state: Math.trunc(heap[out]!) as ToiStateId,
+      point: [heap[out + 1]!, heap[out + 2]!, heap[out + 3]!],
+      normal: [heap[out + 4]!, heap[out + 5]!, heap[out + 6]!],
+      fraction: heap[out + 7]!,
+      distance: heap[out + 8]!,
+      distanceIterations: heap[out + 9]!,
+      pushBackIterations: heap[out + 10]!,
+      rootIterations: heap[out + 11]!,
+      usedFallback: heap[out + 12]! !== 0,
+    };
+  }
   getHullVertexCount(hullHandle: HullHandle): number { return this.getHullVertexCountFn(hullHandle); }
   /** Packed xyz floats from `b3GetHullPoints` (post-hull-construction vertices). */
   getHullPoints(hullHandle: HullHandle): number[] {
@@ -1503,7 +1643,30 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   }
   createMeshShape(bodyHandle: BodyId, meshHandle: MeshHandle, def: MeshShapeOptions = {}): ShapeHandle {
     const scale = def.scale ?? [1, 1, 1];
-    const shapeHandle = asShapeId(this.createMeshShapeFn(bodyHandle, meshHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, scale[0], scale[1], scale[2], def.isSensor ? 1 : 0));
+    const materials = def.surfaceMaterials;
+    let shapeHandle: ShapeId;
+    if (materials !== undefined && materials.length > 0) {
+      const packedPtr = this.module._malloc(materials.length * 8 * 4);
+      const heap = this.module.HEAPF32;
+      const base = packedPtr >> 2;
+      for (let i = 0; i < materials.length; i++) {
+        const m = materials[i]!;
+        const tv = m.tangentVelocity ?? [0, 0, 0];
+        const o = base + i * 8;
+        heap[o] = m.friction ?? 0.6;
+        heap[o + 1] = m.restitution ?? 0;
+        heap[o + 2] = m.rollingResistance ?? 0;
+        heap[o + 3] = tv[0];
+        heap[o + 4] = tv[1];
+        heap[o + 5] = tv[2];
+        heap[o + 6] = m.customColor ?? 0;
+        heap[o + 7] = m.userMaterialId ?? 0;
+      }
+      shapeHandle = asShapeId(this.createMeshShapeMaterialsFn(bodyHandle, meshHandle, def.density ?? 1000, scale[0], scale[1], scale[2], def.isSensor ? 1 : 0, materials.length, packedPtr));
+      this.module._free(packedPtr);
+    } else {
+      shapeHandle = asShapeId(this.createMeshShapeFn(bodyHandle, meshHandle, def.density ?? 1000, def.friction ?? 0.6, def.restitution ?? 0, def.rollingResistance ?? 0, scale[0], scale[1], scale[2], def.isSensor ? 1 : 0));
+    }
     if (shapeHandle === 0n) throw new Error("createMeshShapeFn failed");
     const shape = { bodyHandle, shapeHandle: asShapeId(shapeHandle) };
     this.applyShapeDef(asShapeId(shapeHandle), def);
@@ -2142,7 +2305,7 @@ export class PhysicsWorld {
   createBoxMesh(center: Vec3, extent: Vec3, identifyEdges = true): MeshHandle { return this.runtime.createBoxMesh(this.handle, center, extent, identifyEdges); }
   createHollowBoxMesh(center: Vec3, extent: Vec3): MeshHandle { return this.runtime.createHollowBoxMesh(this.handle, center, extent); }
   createTorusMesh(radialResolution: number, tubularResolution: number, radius: number, thickness: number): MeshHandle { return this.runtime.createTorusMesh(this.handle, radialResolution, tubularResolution, radius, thickness); }
-  createMesh(vertices: ArrayLike<number>, indices: ArrayLike<number>, options?: { useMedianSplit?: boolean; identifyEdges?: boolean }): MeshHandle {
+  createMesh(vertices: ArrayLike<number>, indices: ArrayLike<number>, options?: { useMedianSplit?: boolean; identifyEdges?: boolean; weldVertices?: boolean; weldTolerance?: number; materialIndices?: ArrayLike<number> }): MeshHandle {
     return this.runtime.createMesh(this.handle, vertices, indices, options);
   }
   destroyMesh(meshHandle: MeshHandle): void { this.runtime.destroyMesh(meshHandle); }

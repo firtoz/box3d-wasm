@@ -7,7 +7,7 @@ This is a WASM port of Erin Catto's [Box3D](https://github.com/erincatto/box3d) 
 Key docs:
 - `docs/README.md` — documentation index and placement guide
 - `docs/TYPESCRIPT_API.md` — public TypeScript API usage guide and examples
-- `docs/SAMPLES.md` — port status of 144 of ~161 unique upstream C++ samples; **Easy next ports** queue + status tables
+- `docs/SAMPLES.md` — port status of 151 of ~161 unique upstream C++ samples; **Easy next ports** queue + status tables
 - `docs/OTHER_PROJECTS.md` — comparison with other Box3D WASM projects (update WASM size here)
 - `docs/WASM_API_SURFACE.md` — API binding checklist (~70 TS methods, adding as we go)
 - `README.md` — project readme (may need updates for new features, build steps, etc.)
@@ -195,4 +195,4 @@ gzip -c demo/public/wasm/box3d-web.wasm | wc -c
 
 Then update the `WASM size` row in `docs/OTHER_PROJECTS.md` (both the per-project comparison table and the 4-way table).
 
-Current size: ~270KB gzipped (645KB raw).
+Current size: ~271KB gzipped (647KB raw).

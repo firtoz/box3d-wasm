@@ -165,4 +165,11 @@ These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exis
 - [x] `manifold/hull-vs-hull` — Manifold / Hull vs Hull
 - [x] `manifold/triangle-vs-hull` — Manifold / Triangle vs Hull
 - [x] `collision/shape-cast-debug` — Collision / Shape Cast Debug — debug viz (not C++ Shape Distance editor)
+- [x] `collision/distance-debug` — Collision / Distance Debug — HUD only (simplex slider not ported)
+- [x] `collision/shape-distance` — Collision / Shape Distance — shape A/B + radius (mouse drag not ported)
+- [x] `collision/time-of-impact` — Collision / Time of Impact — shape A/B
+- [x] `benchmark/hull` — Benchmark / Hull — timing HUD
+- [x] `mesh/reflection` — Mesh / Reflection — Neg/Pos X Y Z
+- [x] `mesh/voxel` — Mesh / Voxel — no C++ sample UI
+- [x] `shapes/conveyor-mesh` — Shapes / Conveyor Mesh — no C++ sample UI
 - [x] `extra/object-asserts-bench` — Extra / Object Asserts Bench — extra demo

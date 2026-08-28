@@ -212,7 +212,8 @@ When adding an API binding:
 
 ## Meshes
 
-- [x] Create mesh from definition: `b3CreateMesh`
+- [x] Create mesh from definition: `b3CreateMesh` (optional weld + per-triangle material indices)
+- [x] Create mesh shape: `b3CreateMeshShape` (optional `surfaceMaterials` array)
 - [x] Destroy mesh: `b3DestroyMesh`
 - [x] Grid mesh: `b3CreateGridMesh`
 - [x] Wave mesh: `b3CreateWaveMesh`
@@ -285,8 +286,8 @@ When adding an API binding:
 
 - [x] Pairwise collide: `b3CollideSpheres`, `b3CollideCapsuleAndSphere`, `b3CollideHullAndSphere`, `b3CollideCapsules`, `b3CollideHullAndCapsule`, `b3CollideHulls`, `b3CollideTriangleAndSphere`, `b3CollideTriangleAndCapsule`, `b3CollideTriangleAndHull` (empty manifold on invalid hull; triangle-hull speculative opt-in)
 - [x] Shape cast (pair): `b3ShapeCast` (`shapeCast`)
-- [ ] Shape distance: `b3ShapeDistance`
-- [ ] Time of impact: `b3TimeOfImpact`
+- [x] Shape distance: `b3ShapeDistance` (`shapeDistance`)
+- [x] Time of impact: `b3TimeOfImpact` (`timeOfImpact`) / sweep eval (`getSweepTransform`)
 - [x] Compute capsule/hull mass without creating a body: `b3ComputeCapsuleMass` / `b3ComputeHullMass`
 - [ ] Compute sphere mass without creating a body
 - [ ] Compute sphere/capsule/hull AABB without creating a body

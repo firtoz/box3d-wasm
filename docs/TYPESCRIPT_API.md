@@ -419,7 +419,7 @@ for (const event of world.getContactBeginEvents()) {
 
 ## Collision Queries
 
-Pairwise collide helpers and `b3ShapeCast` are available on `Box3DRuntime`. Transforms are world poses; the bridge computes `b3InvMulWorldTransforms` internally. Hull arguments use `makeBoxHull` / `makeTransformedBoxHull` / `makeScaledBoxHull` slot handles (do not `b3DestroyHull` those; `destroyHull` frees the embedded box storage). `cloneAndTransformHull` returns a heap hull (destroy with `destroyHull`). `getHullInfo` and `computeHullMass` / `computeCapsuleMass` inspect geometry without a body. Invalid hull handles yield an empty manifold (`pointCount` 0). `collideTriangleAndHull` leaves `enableSpeculative` off unless you pass `{ enableSpeculative: true }`.
+Pairwise collide helpers, `b3ShapeCast`, `b3ShapeDistance`, and `b3TimeOfImpact` are available on `Box3DRuntime`. Distance/TOI take point-cloud proxies (packed xyz). Distance uses world poses of A and B (`b3InvMulWorldTransforms` in the bridge). `getSweepTransform` evaluates a `Sweep` at time `t`. Hull arguments use `makeBoxHull` / `makeTransformedBoxHull` / `makeScaledBoxHull` slot handles (do not `b3DestroyHull` those; `destroyHull` frees the embedded box storage). `cloneAndTransformHull` returns a heap hull (destroy with `destroyHull`). `getHullInfo` and `computeHullMass` / `computeCapsuleMass` inspect geometry without a body. Invalid hull handles yield an empty manifold (`pointCount` 0). `collideTriangleAndHull` leaves `enableSpeculative` off unless you pass `{ enableSpeculative: true }`. Mesh shapes may pass `surfaceMaterials` plus `createMesh(..., { materialIndices, weldVertices, weldTolerance })`.
 
 ```ts
 const xfA = { position: [0, 0, 0] as const, rotation: [0, 0, 0, 1] as const };

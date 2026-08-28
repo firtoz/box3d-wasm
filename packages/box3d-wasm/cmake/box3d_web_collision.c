@@ -357,3 +357,115 @@ B3W_EXPORT void b3wShapeCast(
 	out[7] = result.normal.z;
 	out[8] = (float)result.iterations;
 }
+
+B3W_EXPORT void b3wShapeDistance(
+	const float* pointsA, int countA, float radiusA,
+	const float* pointsB, int countB, float radiusB,
+	const float* xfA, const float* xfB,
+	int useRadii,
+	float* out)
+{
+	if (out == NULL || pointsA == NULL || pointsB == NULL)
+	{
+		return;
+	}
+	b3DistanceInput input = { 0 };
+	input.proxyA.points = (const b3Vec3*)pointsA;
+	input.proxyA.count = countA;
+	input.proxyA.radius = radiusA;
+	input.proxyB.points = (const b3Vec3*)pointsB;
+	input.proxyB.count = countB;
+	input.proxyB.radius = radiusB;
+	input.transform = b3InvMulWorldTransforms(b3wReadWorldTransform(xfA), b3wReadWorldTransform(xfB));
+	input.useRadii = useRadii != 0;
+	b3SimplexCache cache = { 0 };
+	b3DistanceOutput result = b3ShapeDistance(&input, &cache, NULL, 0);
+	out[0] = result.pointA.x;
+	out[1] = result.pointA.y;
+	out[2] = result.pointA.z;
+	out[3] = result.pointB.x;
+	out[4] = result.pointB.y;
+	out[5] = result.pointB.z;
+	out[6] = result.normal.x;
+	out[7] = result.normal.y;
+	out[8] = result.normal.z;
+	out[9] = result.distance;
+	out[10] = (float)result.iterations;
+	out[11] = (float)result.simplexCount;
+}
+
+static void b3wReadSweep(const float* src, b3Sweep* sweep)
+{
+	sweep->localCenter.x = src[0];
+	sweep->localCenter.y = src[1];
+	sweep->localCenter.z = src[2];
+	sweep->c1.x = src[3];
+	sweep->c1.y = src[4];
+	sweep->c1.z = src[5];
+	sweep->c2.x = src[6];
+	sweep->c2.y = src[7];
+	sweep->c2.z = src[8];
+	sweep->q1.v.x = src[9];
+	sweep->q1.v.y = src[10];
+	sweep->q1.v.z = src[11];
+	sweep->q1.s = src[12];
+	sweep->q2.v.x = src[13];
+	sweep->q2.v.y = src[14];
+	sweep->q2.v.z = src[15];
+	sweep->q2.s = src[16];
+}
+
+B3W_EXPORT void b3wGetSweepTransform(const float* sweep, float time, float* out)
+{
+	if (sweep == NULL || out == NULL)
+	{
+		return;
+	}
+	b3Sweep s = { 0 };
+	b3wReadSweep(sweep, &s);
+	b3Transform transform = b3GetSweepTransform(&s, time);
+	out[0] = transform.p.x;
+	out[1] = transform.p.y;
+	out[2] = transform.p.z;
+	out[3] = transform.q.v.x;
+	out[4] = transform.q.v.y;
+	out[5] = transform.q.v.z;
+	out[6] = transform.q.s;
+}
+
+B3W_EXPORT void b3wTimeOfImpact(
+	const float* pointsA, int countA, float radiusA,
+	const float* pointsB, int countB, float radiusB,
+	const float* sweepA, const float* sweepB,
+	float maxFraction,
+	float* out)
+{
+	if (out == NULL || pointsA == NULL || pointsB == NULL || sweepA == NULL || sweepB == NULL)
+	{
+		return;
+	}
+	b3TOIInput input = { 0 };
+	input.proxyA.points = (const b3Vec3*)pointsA;
+	input.proxyA.count = countA;
+	input.proxyA.radius = radiusA;
+	input.proxyB.points = (const b3Vec3*)pointsB;
+	input.proxyB.count = countB;
+	input.proxyB.radius = radiusB;
+	b3wReadSweep(sweepA, &input.sweepA);
+	b3wReadSweep(sweepB, &input.sweepB);
+	input.maxFraction = maxFraction;
+	b3TOIOutput result = b3TimeOfImpact(&input);
+	out[0] = (float)result.state;
+	out[1] = result.point.x;
+	out[2] = result.point.y;
+	out[3] = result.point.z;
+	out[4] = result.normal.x;
+	out[5] = result.normal.y;
+	out[6] = result.normal.z;
+	out[7] = result.fraction;
+	out[8] = result.distance;
+	out[9] = (float)result.distanceIterations;
+	out[10] = (float)result.pushBackIterations;
+	out[11] = (float)result.rootIterations;
+	out[12] = result.usedFallback ? 1.0f : 0.0f;
+}

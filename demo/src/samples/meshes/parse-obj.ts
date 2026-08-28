@@ -29,3 +29,23 @@ export function parseObjText(text: string): ParsedObjMesh {
 
   return { vertices: positions, indices };
 }
+
+/** Match `LoadTempMesh` / `CreateMeshData` vertex scaling (`zUp` swaps to `{y,z,x}`). */
+export function transformObjVertices(vertices: number[], scale: number, zUp: boolean): number[] {
+  const out = new Array<number>(vertices.length);
+  for (let i = 0; i + 2 < vertices.length; i += 3) {
+    const x = scale * vertices[i]!;
+    const y = scale * vertices[i + 1]!;
+    const z = scale * vertices[i + 2]!;
+    if (zUp) {
+      out[i] = y;
+      out[i + 1] = z;
+      out[i + 2] = x;
+    } else {
+      out[i] = x;
+      out[i + 1] = y;
+      out[i + 2] = z;
+    }
+  }
+  return out;
+}

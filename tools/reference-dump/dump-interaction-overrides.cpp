@@ -715,6 +715,190 @@ private:
 	std::string m_extrasJson;
 };
 
+class DumpDistanceDebug : public DistanceDebug
+{
+public:
+	explicit DumpDistanceDebug( SampleContext* context )
+		: DistanceDebug( context )
+	{
+		Capture();
+	}
+
+	static Sample* Create( SampleContext* context )
+	{
+		return new DumpDistanceDebug( context );
+	}
+
+	void Step() override
+	{
+		Sample::Step();
+		Capture();
+	}
+
+	const char* CheckpointExtrasJson()
+	{
+		m_extrasJson.clear();
+		char buf[512];
+		snprintf( buf, sizeof( buf ),
+				  "\"distance\":{\"d\":%.17g,\"pA\":[%.17g,%.17g,%.17g],\"pB\":[%.17g,%.17g,%.17g],\"n\":[%.17g,%.17g,%.17g],\"i\":%d,\"s\":%d}",
+				  (double)m_distance, (double)m_pointA.x, (double)m_pointA.y, (double)m_pointA.z,
+				  (double)m_pointB.x, (double)m_pointB.y, (double)m_pointB.z, (double)m_normal.x, (double)m_normal.y,
+				  (double)m_normal.z, m_iterations, m_simplexesStored );
+		m_extrasJson = buf;
+		return m_extrasJson.c_str();
+	}
+
+private:
+	void Capture()
+	{
+		b3DistanceInput input;
+		input.proxyA = { m_boxA.boxPoints, 8, 0.0f };
+		input.proxyB = { m_boxB.boxPoints, 8, 0.0f };
+		input.transform = b3InvMulWorldTransforms( m_transformA, m_transformB );
+		input.useRadii = false;
+		b3SimplexCache cache = {};
+		b3DistanceOutput output = b3ShapeDistance( &input, &cache, NULL, 0 );
+		m_distance = output.distance;
+		m_pointA = output.pointA;
+		m_pointB = output.pointB;
+		m_normal = output.normal;
+		m_iterations = output.iterations;
+		m_simplexesStored = output.simplexCount;
+	}
+
+	float m_distance = 0.0f;
+	b3Vec3 m_pointA = {};
+	b3Vec3 m_pointB = {};
+	b3Vec3 m_normal = {};
+	int m_iterations = 0;
+	int m_simplexesStored = 0;
+	std::string m_extrasJson;
+};
+
+class DumpShapeDistance : public ShapeDistance
+{
+public:
+	explicit DumpShapeDistance( SampleContext* context )
+		: ShapeDistance( context )
+	{
+		Capture();
+	}
+
+	static Sample* Create( SampleContext* context )
+	{
+		return new DumpShapeDistance( context );
+	}
+
+	void Step() override
+	{
+		Sample::Step();
+		Capture();
+	}
+
+	const char* CheckpointExtrasJson()
+	{
+		m_extrasJson.clear();
+		char buf[512];
+		snprintf( buf, sizeof( buf ),
+				  "\"distance\":{\"d\":%.17g,\"pA\":[%.17g,%.17g,%.17g],\"pB\":[%.17g,%.17g,%.17g],\"n\":[%.17g,%.17g,%.17g],\"i\":%d,\"s\":%d}",
+				  (double)m_distance, (double)m_pointA.x, (double)m_pointA.y, (double)m_pointA.z,
+				  (double)m_pointB.x, (double)m_pointB.y, (double)m_pointB.z, (double)m_normal.x, (double)m_normal.y,
+				  (double)m_normal.z, m_iterations, m_simplexesStored );
+		m_extrasJson = buf;
+		return m_extrasJson.c_str();
+	}
+
+private:
+	void Capture()
+	{
+		b3DistanceInput input;
+		input.proxyA = m_proxyA;
+		input.proxyB = m_proxyB;
+		input.transform = b3InvMulWorldTransforms( m_transformA, m_transformB );
+		input.useRadii = m_radiusA > 0.0f || m_radiusB > 0.0f;
+		b3SimplexCache cache = {};
+		b3DistanceOutput output = b3ShapeDistance( &input, &cache, NULL, 0 );
+		m_distance = output.distance;
+		m_pointA = output.pointA;
+		m_pointB = output.pointB;
+		m_normal = output.normal;
+		m_iterations = output.iterations;
+		m_simplexesStored = output.simplexCount;
+	}
+
+	float m_distance = 0.0f;
+	b3Vec3 m_pointA = {};
+	b3Vec3 m_pointB = {};
+	b3Vec3 m_normal = {};
+	int m_iterations = 0;
+	int m_simplexesStored = 0;
+	std::string m_extrasJson;
+};
+
+class DumpTimeOfImpact : public TimeOfImpact
+{
+public:
+	explicit DumpTimeOfImpact( SampleContext* context )
+		: TimeOfImpact( context )
+	{
+		Capture();
+	}
+
+	static Sample* Create( SampleContext* context )
+	{
+		return new DumpTimeOfImpact( context );
+	}
+
+	void Step() override
+	{
+		Sample::Step();
+		Capture();
+	}
+
+	const char* CheckpointExtrasJson()
+	{
+		m_extrasJson.clear();
+		char buf[512];
+		snprintf( buf, sizeof( buf ),
+				  "\"toi\":{\"state\":%d,\"f\":%.17g,\"d\":%.17g,\"p\":[%.17g,%.17g,%.17g],\"n\":[%.17g,%.17g,%.17g],\"i\":[%d,%d,%d]}",
+				  m_state, (double)m_fraction, (double)m_distance, (double)m_point.x, (double)m_point.y, (double)m_point.z,
+				  (double)m_normal.x, (double)m_normal.y, (double)m_normal.z, m_distanceIterations, m_pushBackIterations,
+				  m_rootIterations );
+		m_extrasJson = buf;
+		return m_extrasJson.c_str();
+	}
+
+private:
+	void Capture()
+	{
+		b3TOIInput input = {};
+		input.proxyA = m_proxyA;
+		input.proxyB = m_proxyB;
+		input.sweepA = m_sweepA;
+		input.sweepB = m_sweepB;
+		input.maxFraction = 1.0f;
+		b3TOIOutput output = b3TimeOfImpact( &input );
+		m_state = (int)output.state;
+		m_fraction = output.fraction;
+		m_distance = output.distance;
+		m_point = output.point;
+		m_normal = output.normal;
+		m_distanceIterations = output.distanceIterations;
+		m_pushBackIterations = output.pushBackIterations;
+		m_rootIterations = output.rootIterations;
+	}
+
+	int m_state = 0;
+	float m_fraction = 1.0f;
+	float m_distance = 0.0f;
+	b3Vec3 m_point = {};
+	b3Vec3 m_normal = {};
+	int m_distanceIterations = 0;
+	int m_pushBackIterations = 0;
+	int m_rootIterations = 0;
+	std::string m_extrasJson;
+};
+
 static void patch_sample_entry( const char* name, SampleCreateFcn* createFcn )
 {
 	for ( int i = 0; i < g_sampleCount; ++i )
@@ -756,6 +940,9 @@ void patch_dump_sample_entries()
 	patch_sample_entry( "Hull vs Hull", DumpHullAndHull::Create );
 	patch_sample_entry( "Triangle vs Hull", DumpTriangleAndHull::Create );
 	patch_sample_entry( "Shape Cast Debug", DumpShapeCastDebug::Create );
+	patch_sample_entry( "Distance Debug", DumpDistanceDebug::Create );
+	patch_sample_entry( "Shape Distance", DumpShapeDistance::Create );
+	patch_sample_entry( "Time of Impact", DumpTimeOfImpact::Create );
 }
 
 bool apply_dump_interaction( Sample* sample, const char* sampleName, const DumpInteraction& interaction )
@@ -934,6 +1121,9 @@ const char* get_dump_checkpoint_extras( Sample* sample, const char* sampleName )
 	if ( strcmp( sampleName, "Hull vs Hull" ) == 0 ) return static_cast<DumpHullAndHull*>( sample )->CheckpointExtrasJson();
 	if ( strcmp( sampleName, "Triangle vs Hull" ) == 0 ) return static_cast<DumpTriangleAndHull*>( sample )->CheckpointExtrasJson();
 	if ( strcmp( sampleName, "Shape Cast Debug" ) == 0 ) return static_cast<DumpShapeCastDebug*>( sample )->CheckpointExtrasJson();
+	if ( strcmp( sampleName, "Distance Debug" ) == 0 ) return static_cast<DumpDistanceDebug*>( sample )->CheckpointExtrasJson();
+	if ( strcmp( sampleName, "Shape Distance" ) == 0 ) return static_cast<DumpShapeDistance*>( sample )->CheckpointExtrasJson();
+	if ( strcmp( sampleName, "Time of Impact" ) == 0 ) return static_cast<DumpTimeOfImpact*>( sample )->CheckpointExtrasJson();
 	(void)sample;
 	return nullptr;
 }

@@ -50,7 +50,7 @@ B3W_EXPORT int b3wCreateHollowBoxMesh(int worldHandle, float cx, float cy, float
 }
 
 B3W_EXPORT int b3wCreateMesh(int worldHandle, const float* vertices, int vertexCount, const int* indices, int triangleCount,
-	int useMedianSplit, int identifyEdges)
+	int useMedianSplit, int identifyEdges, int weldVertices, float weldTolerance, uint8_t* materialIndices)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);
 	if (world == NULL || vertices == NULL || indices == NULL || vertexCount < 3 || triangleCount < 1) return 0;
@@ -62,6 +62,9 @@ B3W_EXPORT int b3wCreateMesh(int worldHandle, const float* vertices, int vertexC
 	def.triangleCount = triangleCount;
 	def.useMedianSplit = useMedianSplit != 0;
 	def.identifyEdges = identifyEdges != 0;
+	def.weldVertices = weldVertices != 0;
+	def.weldTolerance = weldTolerance;
+	def.materialIndices = materialIndices;
 
 	b3MeshData* mesh = b3CreateMesh(&def, NULL, 0);
 	if (mesh == NULL) return 0;
@@ -87,6 +90,41 @@ B3W_EXPORT uint64_t b3wCreateMeshShape(uint64_t bodyPacked, int meshHandle, floa
 	shapeDef.baseMaterial.friction = friction;
 	shapeDef.baseMaterial.restitution = restitution;
 	shapeDef.baseMaterial.rollingResistance = rollingResistance;
+	shapeDef.isSensor = isSensor != 0;
+	b3Vec3 scale = { sx, sy, sz };
+	b3ShapeId shapeId = b3CreateMeshShape(bodyId, &shapeDef, mesh->mesh, scale);
+	return b3StoreShapeId(shapeId);
+}
+
+#define B3W_MAX_MESH_MATERIALS 16
+
+B3W_EXPORT uint64_t b3wCreateMeshShapeMaterials(uint64_t bodyPacked, int meshHandle, float density, float sx, float sy, float sz,
+	int isSensor, int materialCount, const float* packed)
+{
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	b3wMeshSlot* mesh = b3wGetMesh(meshHandle);
+	if (!b3Body_IsValid(bodyId) || mesh == NULL || packed == NULL || materialCount < 1) return 0;
+	int count = materialCount;
+	if (count > B3W_MAX_MESH_MATERIALS)
+	{
+		count = B3W_MAX_MESH_MATERIALS;
+	}
+	b3SurfaceMaterial materials[B3W_MAX_MESH_MATERIALS];
+	for (int i = 0; i < count; ++i)
+	{
+		const float* d = packed + i * 8;
+		materials[i] = b3DefaultSurfaceMaterial();
+		materials[i].friction = d[0];
+		materials[i].restitution = d[1];
+		materials[i].rollingResistance = d[2];
+		materials[i].tangentVelocity = (b3Vec3){ d[3], d[4], d[5] };
+		materials[i].customColor = (b3HexColor)(uint32_t)d[6];
+		materials[i].userMaterialId = (uint64_t)d[7];
+	}
+	b3ShapeDef shapeDef = b3DefaultShapeDef();
+	shapeDef.density = density;
+	shapeDef.materials = materials;
+	shapeDef.materialCount = count;
 	shapeDef.isSensor = isSensor != 0;
 	b3Vec3 scale = { sx, sy, sz };
 	b3ShapeId shapeId = b3CreateMeshShape(bodyId, &shapeDef, mesh->mesh, scale);
