@@ -1502,12 +1502,33 @@ function resize(): void {
   camera.updateProjectionMatrix();
 }
 
+const driveViewForward = new THREE.Vector3();
+const driveViewRight = new THREE.Vector3();
+
+function updateDriveView(): void {
+  const sample = activeSample;
+  if (sample?.setDriveView === undefined) return;
+  camera.getWorldDirection(driveViewForward);
+  driveViewForward.y = 0;
+  if (driveViewForward.lengthSq() < 1e-8) return;
+  driveViewForward.normalize();
+  driveViewRight.setFromMatrixColumn(camera.matrixWorld, 0);
+  driveViewRight.y = 0;
+  if (driveViewRight.lengthSq() < 1e-8) return;
+  driveViewRight.normalize();
+  sample.setDriveView(
+    [-driveViewForward.x, 0, -driveViewForward.z],
+    [driveViewRight.x, 0, driveViewRight.z],
+  );
+}
+
 function frame(time: number): void {
   if (statsEnabled) stats.begin();
   const collectTimings = timingsEnabled || benchTimingActive;
   const dt = lastTime === 0 ? 1 / 60 : Math.min((time - lastTime) / 1000, 1 / 30);
   lastTime = time;
   const stepStart = collectTimings ? performance.now() : 0;
+  updateDriveView();
   let didStep = false;
   let wasSingleStep = false;
   if (!paused) {

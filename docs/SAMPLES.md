@@ -112,7 +112,7 @@ Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short
 | **Joint** | [x] | Joint break events, joint force/torque thresholds | 🔧 `AddGroundBox(20)` + hidden static joint anchor; active distance/prismatic/revolute/weld joints break at force=3000 or torque=10000, while motor/wheel slots remain skipped like upstream. Dump post-step destroys reported joint handles; C++/WASM dump parity verified at epsilon=1e-5. |
 | **Persistent Contact** | [x] | Dense sphere + contact events on grid mesh | 🔧 Grid mesh 20×20 cell 2; sphere density=20 RR=0.01 at `{-18,1,0.5}` vel `{4,0,0}`; dump via `dumpCreate`. Contact impulse HUD not ported. C++/WASM dump parity verified at epsilon=1e-5. |
 | **Sensor Hits** | [x] | Sensor mesh/capsule + prismatic motor reverse | 🔧 AddGroundBox(10) + wall + static/kinematic mesh sensors + dynamic capsule sensor on prismatic motor; launch bullet sphere. Dump uses fixed speed 250 via `DumpSensorHits`. `setPrismaticMotorSpeed` / `getPrismaticTranslation` wrapped. `dumpStep` mirrors C++ pre-step reverse logic. |
-| **Contact** | [ ] | `b3World_GetContactEvents`, `enableContactEvents`, attach/destroy shapes | 🔧 Katamari-style player sphere accretes debris on begin-contact; walls strip extra shapes. WASD torque + `RandomPos` debris spawn — dumpable only with a seeded spawn schedule. |
+| **Contact** | [x] | `b3World_GetContactEvents`, `b3Body_ApplyTorque`, shape getters / transformed hull attach | 🔧 Katamari-style player sphere accretes debris on begin-contact; walls strip extra shapes. WASD/pad camera-relative torque (default 30000). Seeded spawn every 0.5s. C++/WASM dump parity verified at epsilon=1e-5. |
 
 ## Geometry (`sample_geometry.cpp`)
 

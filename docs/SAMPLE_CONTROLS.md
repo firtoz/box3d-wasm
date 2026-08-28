@@ -14,7 +14,7 @@ Global demo already covers pause / restart / shoot / spin / ragdoll / sample pic
 
 These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exist:
 
-- Events / Hit (C++ Contact WASD) if we add a kinematic pusher.
+- (none)
 
 ## Demo samples
 
@@ -35,6 +35,7 @@ These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exis
 - [x] `events/hit` — Events / Hit — no C++ DrawControls (Contact WASD is a different C++ sample)
 - [x] `events/persistent-contact` — Events / Persistent Contact — no C++ sample UI
 - [x] `events/joint` — Events / Joint — no C++ sample UI
+- [x] `events/contact` — Events / Contact — torque slider + WASD/arrows + on-screen pad + shape-count HUD
 - [x] `geometry/box-hull` — Geometry / Box Hull — h/c/r/s sliders + Refresh
 - [x] `geometry/hull` — Geometry / Hull — no C++ sample UI
 - [x] `geometry/hull-reduction` — Geometry / Hull Reduction — Box/Sphere/count

@@ -2,6 +2,11 @@
 #include "body.h"
 #include "shape.h"
 #include "physics_world.h"
+#include "id_pool.h"
+
+#ifndef B3_NULL_INDEX
+#define B3_NULL_INDEX (-1)
+#endif
 
 b3HexColor b3wGetBodyDebugColorForId( b3BodyId bodyId )
 {
@@ -170,6 +175,13 @@ B3W_EXPORT void b3wApplyLinearImpulseToCenter(uint64_t bodyPacked, float ix, flo
 	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
 	if (!b3Body_IsValid(bodyId)) return;
 	b3Body_ApplyLinearImpulseToCenter(bodyId, (b3Vec3){ ix, iy, iz }, wake != 0);
+}
+
+B3W_EXPORT void b3wApplyTorque(uint64_t bodyPacked, float tx, float ty, float tz, int wake)
+{
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	if (!b3Body_IsValid(bodyId)) return;
+	b3Body_ApplyTorque(bodyId, (b3Vec3){ tx, ty, tz }, wake != 0);
 }
 
 B3W_EXPORT void b3wSetBodyAwake(uint64_t bodyPacked, int awake)
@@ -535,6 +547,49 @@ B3W_EXPORT void b3wWriteBodyTransformsLight(int count, const uint64_t* bodyPacke
 B3W_EXPORT int b3wBodyIsValid(uint64_t bodyPacked)
 {
 	return b3Body_IsValid(b3LoadBodyId(bodyPacked)) ? 1 : 0;
+}
+
+static int b3wIsPoolIndexFree(const b3IdPool* pool, int index)
+{
+	for (int i = 0; i < pool->freeArray.count; i++)
+	{
+		if (pool->freeArray.data[i] == index)
+			return 1;
+	}
+	return 0;
+}
+
+B3W_EXPORT int b3wGetWorldBodyCount(int worldHandle)
+{
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL || !b3World_IsValid(slot->worldId))
+		return 0;
+	b3World* world = b3GetWorldFromId(slot->worldId);
+	int count = 0;
+	for (int i = 0; i < world->bodyIdPool.nextIndex; i++)
+	{
+		if (!b3wIsPoolIndexFree(&world->bodyIdPool, i))
+			count += 1;
+	}
+	return count;
+}
+
+B3W_EXPORT int b3wGetWorldBodies(int worldHandle, uint64_t* outPackedIds, int capacity)
+{
+	if (outPackedIds == NULL || capacity <= 0)
+		return 0;
+	b3wWorldSlot* slot = b3wGetWorld(worldHandle);
+	if (slot == NULL || !b3World_IsValid(slot->worldId))
+		return 0;
+	b3World* world = b3GetWorldFromId(slot->worldId);
+	int written = 0;
+	for (int i = 0; i < world->bodyIdPool.nextIndex && written < capacity; i++)
+	{
+		if (b3wIsPoolIndexFree(&world->bodyIdPool, i))
+			continue;
+		outPackedIds[written++] = b3StoreBodyId(b3MakeBodyId(world, i));
+	}
+	return written;
 }
 
 B3W_EXPORT int b3wBodyCastRay(uint64_t bodyPacked, float originX, float originY, float originZ, float translationX,

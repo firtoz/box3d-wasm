@@ -166,6 +166,8 @@ export const WorldCastMode = { Any: 0, Closest: 1, Multiple: 2, Sorted: 3 } as c
 export type WorldCastModeId = (typeof WorldCastMode)[keyof typeof WorldCastMode];
 export const WorldCastType = { Ray: 0, Sphere: 1, Capsule: 2, Box: 3 } as const;
 export type WorldCastTypeId = (typeof WorldCastType)[keyof typeof WorldCastType];
+export const ShapeType = { Capsule: 0, Compound: 1, Height: 2, Hull: 3, Mesh: 4, Sphere: 5 } as const;
+export type ShapeTypeId = (typeof ShapeType)[keyof typeof ShapeType];
 
 export type WorldCastHit = {
   fraction: number;
@@ -270,6 +272,7 @@ export interface CompoundMeshEntry {
 export interface ShapeHandle { bodyHandle: BodyId; shapeHandle: ShapeId; }
 export interface MeshShapeOptions extends ShapeDef { scale?: Vec3; }
 export interface SensorBeginEvent { sensorShapeHandle: ShapeId; visitorShapeHandle: ShapeId; }
+export interface ContactBeginEvent { shapeA: ShapeId; shapeB: ShapeId; }
 export interface RuntimeLoadOptions {
   version?: string;
   variant?: "release" | "profile" | "growable";
@@ -611,6 +614,10 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly destroyJointFn = this.wrapVoid<DestroyJointFn>("b3wDestroyJoint", ["bigint"]);
   private readonly getSensorBeginEventCountFn = this.wrapNumber<(worldHandle: number) => number>("b3wGetSensorBeginEventCount", ["number"]);
   private readonly getSensorBeginEventFn = this.wrapNumber<(worldHandle: number, index: number, outSensor: number, outVisitor: number) => number>("b3wGetSensorBeginEvent", ["number","number","number","number"]);
+  private readonly getContactBeginEventCountFn = this.wrapNumber<(worldHandle: number) => number>("b3wGetContactBeginEventCount", ["number"]);
+  private readonly getContactBeginEventFn = this.wrapNumber<(worldHandle: number, index: number, outA: number, outB: number) => number>("b3wGetContactBeginEvent", ["number","number","number","number"]);
+  private readonly getWorldBodyCountFn = this.wrapNumber<(worldHandle: number) => number>("b3wGetWorldBodyCount", ["number"]);
+  private readonly getWorldBodiesFn = this.wrapNumber<(worldHandle: number, outBodies: number, capacity: number) => number>("b3wGetWorldBodies", ["number","number","number"]);
   private readonly getJointEventCountFn = this.wrapNumber<(worldHandle: number) => number>("b3wGetJointEventCount", ["number"]);
   private readonly getJointEventHandleFn = this.wrapBigInt<(worldHandle: number, index: number) => bigint>("b3wGetJointEventHandle", ["number","number"]);
   private readonly overlapAABBFn = this.wrapNumber<(worldHandle: number, minX: number, minY: number, minZ: number, maxX: number, maxY: number, maxZ: number, categoryBits: number, maskBits: number) => number>("b3wOverlapAABB", ["number","number","number","number","number","number","number","number","number"]);
@@ -791,6 +798,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly setBodyTargetTransformFn = this.wrapVoid<BodySetTargetTransformFn>("b3wSetBodyTargetTransform", ["bigint","number","number","number","number","number","number","number","number","number"]);
   private readonly applyLinearImpulseFn = this.wrapVoid<ApplyLinearImpulseFn>("b3wApplyLinearImpulse", ["bigint","number","number","number","number","number","number","number"]);
   private readonly applyLinearImpulseToCenterFn = this.wrapVoid<ApplyLinearImpulseToCenterFn>("b3wApplyLinearImpulseToCenter", ["bigint","number","number","number","number"]);
+  private readonly applyTorqueFn = this.wrapVoid<(bodyHandle: bigint, tx: number, ty: number, tz: number, wake: number) => void>("b3wApplyTorque", ["bigint","number","number","number","number"]);
   private readonly b3wSinFn = this.wrapNumber<(radians: number) => number>("b3wSin", ["number"]);
   private readonly b3wCosFn = this.wrapNumber<(radians: number) => number>("b3wCos", ["number"]);
   private readonly b3wCosfFn = this.wrapNumber<(radians: number) => number>("b3wCosf", ["number"]);
@@ -803,6 +811,12 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly computeQuatBetweenUnitVectorsFn = this.wrapVoid<ComputeQuatBetweenUnitVectorsFn>("b3wComputeQuatBetweenUnitVectors", ["number", "number", "number", "number", "number", "number", "number"]);
   private readonly invMulQuatFn = this.wrapVoid<InvMulQuatFn>("b3wInvMulQuat", ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
   private readonly mulQuatFn = this.wrapVoid<InvMulQuatFn>("b3wMulQuat", ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
+  private readonly invMulBodyTransformsFn = this.wrapVoid<(bodyA: bigint, bodyB: bigint, outTransform: number) => void>("b3wInvMulBodyTransforms", ["bigint","bigint","number"]);
+  private readonly transformPointFn = this.wrapVoid<(px: number, py: number, pz: number, qx: number, qy: number, qz: number, qs: number, vx: number, vy: number, vz: number, outPoint: number) => void>("b3wTransformPoint", ["number","number","number","number","number","number","number","number","number","number","number"]);
+  private readonly getShapeTypeFn = this.wrapNumber<(shapeHandle: bigint) => number>("b3wGetShapeType", ["bigint"]);
+  private readonly getSphereFn = this.wrapVoid<(shapeHandle: bigint, outSphere: number) => void>("b3wGetSphere", ["bigint","number"]);
+  private readonly getCapsuleFn = this.wrapVoid<(shapeHandle: bigint, outCapsule: number) => void>("b3wGetCapsule", ["bigint","number"]);
+  private readonly cloneHullFromShapeFn = this.wrapNumber<(shapeHandle: bigint) => number>("b3wCloneHullFromShape", ["bigint"]);
   private readonly transformPtr: number;
   private readonly pointPtr: number;
   private readonly massDataPtr: number;
@@ -1797,6 +1811,25 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     return events;
   }
 
+  getContactBeginEvents(worldHandle: WorldHandle): ContactBeginEvent[] {
+    const count = this.getContactBeginEventCountFn(worldHandle);
+    if (count <= 0) return [];
+    const events: ContactBeginEvent[] = [];
+    const aPtr = this.module._malloc(8);
+    const bPtr = this.module._malloc(8);
+    for (let i = 0; i < count; i++) {
+      this.getContactBeginEventFn(worldHandle, i, aPtr, bPtr);
+      const heap = this.module.HEAPU64;
+      events.push({
+        shapeA: asShapeId(heap[aPtr >>> 3]!),
+        shapeB: asShapeId(heap[bPtr >>> 3]!),
+      });
+    }
+    this.module._free(aPtr);
+    this.module._free(bPtr);
+    return events;
+  }
+
   getJointEventHandles(worldHandle: WorldHandle): JointId[] {
     const count = this.getJointEventCountFn(worldHandle);
     if (count <= 0) return [];
@@ -2034,6 +2067,61 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
 
   applyLinearImpulse(bodyHandle: BodyId, impulse: Vec3, point: Vec3, wake = true): void { this.applyLinearImpulseFn(bodyHandle, impulse[0], impulse[1], impulse[2], point[0], point[1], point[2], wake ? 1 : 0); }
   applyLinearImpulseToCenter(bodyHandle: BodyId, impulse: Vec3, wake = true): void { this.applyLinearImpulseToCenterFn(bodyHandle, impulse[0], impulse[1], impulse[2], wake ? 1 : 0); }
+  applyTorque(bodyHandle: BodyId, torque: Vec3, wake = true): void { this.applyTorqueFn(bodyHandle, torque[0], torque[1], torque[2], wake ? 1 : 0); }
+  getShapeBody(shapeHandle: ShapeId | ShapeHandle): BodyId {
+    const handle = typeof shapeHandle === "bigint" ? shapeHandle : shapeHandle.shapeHandle;
+    return asBodyId(this.getShapeBodyHandleFn(handle));
+  }
+  getShapeType(shapeHandle: ShapeId | ShapeHandle): ShapeTypeId {
+    const handle = typeof shapeHandle === "bigint" ? shapeHandle : shapeHandle.shapeHandle;
+    return this.getShapeTypeFn(handle) as ShapeTypeId;
+  }
+  getSphere(shapeHandle: ShapeId | ShapeHandle): { center: Vec3; radius: number } {
+    const handle = typeof shapeHandle === "bigint" ? shapeHandle : shapeHandle.shapeHandle;
+    this.getSphereFn(handle, this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return { center: [heap[base]!, heap[base + 1]!, heap[base + 2]!], radius: heap[base + 3]! };
+  }
+  getCapsule(shapeHandle: ShapeId | ShapeHandle): { center1: Vec3; center2: Vec3; radius: number } {
+    const handle = typeof shapeHandle === "bigint" ? shapeHandle : shapeHandle.shapeHandle;
+    this.getCapsuleFn(handle, this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return {
+      center1: [heap[base]!, heap[base + 1]!, heap[base + 2]!],
+      center2: [heap[base + 3]!, heap[base + 4]!, heap[base + 5]!],
+      radius: heap[base + 6]!,
+    };
+  }
+  cloneHullFromShape(shapeHandle: ShapeId | ShapeHandle): HullHandle {
+    const handle = typeof shapeHandle === "bigint" ? shapeHandle : shapeHandle.shapeHandle;
+    return this.requireSlotHandle<HullHandle>(this.cloneHullFromShapeFn(handle), "hulls");
+  }
+  invMulBodyTransforms(bodyA: BodyId, bodyB: BodyId): BodyTransform {
+    this.invMulBodyTransformsFn(bodyA, bodyB, this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return { position: [heap[base]!, heap[base + 1]!, heap[base + 2]!], rotation: [heap[base + 3]!, heap[base + 4]!, heap[base + 5]!, heap[base + 6]!] };
+  }
+  transformPoint(transform: BodyTransform, point: Vec3): Vec3 {
+    const p = transform.position;
+    const q = transform.rotation;
+    this.transformPointFn(p[0], p[1], p[2], q[0], q[1], q[2], q[3], point[0], point[1], point[2], this.pointPtr);
+    return this.readPointInto([0, 0, 0]);
+  }
+  getWorldBodies(worldHandle: WorldHandle): BodyId[] {
+    const count = this.getWorldBodyCountFn(worldHandle);
+    if (count <= 0) return [];
+    const ptr = this.module._malloc(count * 8);
+    const written = this.getWorldBodiesFn(worldHandle, ptr, count);
+    const heap = this.module.HEAPU64;
+    const base = ptr >>> 3;
+    const handles: BodyId[] = [];
+    for (let i = 0; i < written; i++) handles.push(asBodyId(heap[base + i]!));
+    this.module._free(ptr);
+    return handles;
+  }
 }
 
 export class PhysicsWorld {
@@ -2087,6 +2175,19 @@ export class PhysicsWorld {
   getBodyAngularVelocityTo(bodyHandle: BodyId, out: Vec3): Vec3 { return this.runtime.getBodyAngularVelocityTo(bodyHandle, out); }
   applyLinearImpulse(bodyHandle: BodyId, impulse: Vec3, point: Vec3, wake = true): void { this.runtime.applyLinearImpulse(bodyHandle, impulse, point, wake); }
   applyLinearImpulseToCenter(bodyHandle: BodyId, impulse: Vec3, wake = true): void { this.runtime.applyLinearImpulseToCenter(bodyHandle, impulse, wake); }
+  applyTorque(bodyHandle: BodyId, torque: Vec3, wake = true): void { this.runtime.applyTorque(bodyHandle, torque, wake); }
+  applyBodyMassFromShapes(bodyHandle: BodyId): void { this.runtime.applyBodyMassFromShapes(bodyHandle); }
+  getShapeBody(shapeHandle: ShapeId | ShapeHandle): BodyId { return this.runtime.getShapeBody(shapeHandle); }
+  getShapeType(shapeHandle: ShapeId | ShapeHandle): ShapeTypeId { return this.runtime.getShapeType(shapeHandle); }
+  getSphere(shapeHandle: ShapeId | ShapeHandle): { center: Vec3; radius: number } { return this.runtime.getSphere(shapeHandle); }
+  getCapsule(shapeHandle: ShapeId | ShapeHandle): { center1: Vec3; center2: Vec3; radius: number } { return this.runtime.getCapsule(shapeHandle); }
+  cloneHullFromShape(shapeHandle: ShapeId | ShapeHandle): HullHandle { return this.runtime.cloneHullFromShape(shapeHandle); }
+  invMulBodyTransforms(bodyA: BodyId, bodyB: BodyId): BodyTransform { return this.runtime.invMulBodyTransforms(bodyA, bodyB); }
+  transformPoint(transform: BodyTransform, point: Vec3): Vec3 { return this.runtime.transformPoint(transform, point); }
+  getWorldBodies(): BodyId[] { return this.runtime.getWorldBodies(this.handle); }
+  createTransformedShapeFromHull(bodyHandle: BodyId, hullHandle: HullHandle, transform?: { position?: Vec3; rotation?: Quat }, scale?: Vec3, def?: ShapeDef): ShapeId {
+    return this.runtime.createTransformedShapeFromHull(bodyHandle, hullHandle, transform, scale, def);
+  }
   bodyIsAwake(bodyHandle: BodyId): boolean { return this.runtime.bodyIsAwake(bodyHandle); }
   getBodyDebugColor(bodyHandle: BodyId): number { return this.runtime.getBodyDebugColor(bodyHandle); }
   getBodyType(bodyHandle: BodyId): BodyType { return this.runtime.getBodyType(bodyHandle); }
@@ -2252,6 +2353,7 @@ export class PhysicsWorld {
     return this.runtime.bodyCastRay(bodyHandle, origin, translation, options);
   }
   getSensorBeginEvents(): SensorBeginEvent[] { return this.runtime.getSensorBeginEvents(this.handle); }
+  getContactBeginEvents(): ContactBeginEvent[] { return this.runtime.getContactBeginEvents(this.handle); }
   getJointEventHandles(): JointId[] { return this.runtime.getJointEventHandles(this.handle); }
   allocBodyBatchBuffers(capacity: number): BodyBatchBuffers { return this.runtime.allocBodyBatchBuffers(capacity); }
   freeBodyBatchBuffers(buffers: BodyBatchBuffers): void { this.runtime.freeBodyBatchBuffers(buffers); }

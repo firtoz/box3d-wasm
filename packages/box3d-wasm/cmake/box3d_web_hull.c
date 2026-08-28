@@ -24,6 +24,20 @@ B3W_EXPORT int b3wCreateRock(float radius)
 	return b3wAllocHullSlot(hull);
 }
 
+B3W_EXPORT int b3wCloneHullFromShape(uint64_t shapePacked)
+{
+	b3ShapeId shapeId = b3LoadShapeId(shapePacked);
+	if (!b3Shape_IsValid(shapeId) || b3Shape_GetType(shapeId) != b3_hullShape)
+		return 0;
+	const b3HullData* hull = b3Shape_GetHull(shapeId);
+	if (hull == NULL)
+		return 0;
+	b3HullData* clone = b3CloneHull(hull);
+	if (clone == NULL)
+		return 0;
+	return b3wAllocHullSlot(clone);
+}
+
 B3W_EXPORT void b3wDestroyHull(int hullHandle)
 {
 	b3wHullSlot* slot = b3wGetHull(hullHandle);

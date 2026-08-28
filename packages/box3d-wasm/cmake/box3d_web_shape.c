@@ -249,6 +249,51 @@ B3W_EXPORT uint64_t b3wGetShapeBodyHandle(uint64_t shapePacked)
 	return b3StoreBodyId(bodyId);
 }
 
+B3W_EXPORT int b3wGetShapeType(uint64_t shapePacked)
+{
+	b3ShapeId shapeId = b3LoadShapeId(shapePacked);
+	if (!b3Shape_IsValid(shapeId)) return -1;
+	return (int)b3Shape_GetType(shapeId);
+}
+
+B3W_EXPORT void b3wGetSphere(uint64_t shapePacked, float* outSphere)
+{
+	if (outSphere == NULL) return;
+	outSphere[0] = 0.0f;
+	outSphere[1] = 0.0f;
+	outSphere[2] = 0.0f;
+	outSphere[3] = 0.0f;
+	b3ShapeId shapeId = b3LoadShapeId(shapePacked);
+	if (!b3Shape_IsValid(shapeId) || b3Shape_GetType(shapeId) != b3_sphereShape) return;
+	b3Sphere sphere = b3Shape_GetSphere(shapeId);
+	outSphere[0] = sphere.center.x;
+	outSphere[1] = sphere.center.y;
+	outSphere[2] = sphere.center.z;
+	outSphere[3] = sphere.radius;
+}
+
+B3W_EXPORT void b3wGetCapsule(uint64_t shapePacked, float* outCapsule)
+{
+	if (outCapsule == NULL) return;
+	outCapsule[0] = 0.0f;
+	outCapsule[1] = 0.0f;
+	outCapsule[2] = 0.0f;
+	outCapsule[3] = 0.0f;
+	outCapsule[4] = 0.0f;
+	outCapsule[5] = 0.0f;
+	outCapsule[6] = 0.0f;
+	b3ShapeId shapeId = b3LoadShapeId(shapePacked);
+	if (!b3Shape_IsValid(shapeId) || b3Shape_GetType(shapeId) != b3_capsuleShape) return;
+	b3Capsule capsule = b3Shape_GetCapsule(shapeId);
+	outCapsule[0] = capsule.center1.x;
+	outCapsule[1] = capsule.center1.y;
+	outCapsule[2] = capsule.center1.z;
+	outCapsule[3] = capsule.center2.x;
+	outCapsule[4] = capsule.center2.y;
+	outCapsule[5] = capsule.center2.z;
+	outCapsule[6] = capsule.radius;
+}
+
 B3W_EXPORT int b3wGetBodyShapeCount(uint64_t bodyPacked)
 {
 	b3BodyId bodyId = b3LoadBodyId(bodyPacked);

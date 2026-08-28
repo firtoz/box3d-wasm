@@ -91,6 +91,43 @@ B3W_EXPORT void b3wComputeQuatBetweenUnitVectors(
 	outQuat[3] = q.s;
 }
 
+B3W_EXPORT void b3wInvMulBodyTransforms(uint64_t bodyAPacked, uint64_t bodyBPacked, float* outTransform)
+{
+	if (outTransform == NULL) return;
+	outTransform[0] = 0.0f;
+	outTransform[1] = 0.0f;
+	outTransform[2] = 0.0f;
+	outTransform[3] = 0.0f;
+	outTransform[4] = 0.0f;
+	outTransform[5] = 0.0f;
+	outTransform[6] = 1.0f;
+	b3BodyId bodyA = b3LoadBodyId(bodyAPacked);
+	b3BodyId bodyB = b3LoadBodyId(bodyBPacked);
+	if (!b3Body_IsValid(bodyA) || !b3Body_IsValid(bodyB)) return;
+	b3Transform xf = b3InvMulWorldTransforms(b3Body_GetTransform(bodyA), b3Body_GetTransform(bodyB));
+	outTransform[0] = xf.p.x;
+	outTransform[1] = xf.p.y;
+	outTransform[2] = xf.p.z;
+	outTransform[3] = xf.q.v.x;
+	outTransform[4] = xf.q.v.y;
+	outTransform[5] = xf.q.v.z;
+	outTransform[6] = xf.q.s;
+}
+
+B3W_EXPORT void b3wTransformPoint(
+	float px, float py, float pz,
+	float qx, float qy, float qz, float qs,
+	float vx, float vy, float vz,
+	float* outPoint)
+{
+	if (outPoint == NULL) return;
+	b3Transform xf = { { px, py, pz }, { { qx, qy, qz }, qs } };
+	b3Vec3 r = b3TransformPoint(xf, (b3Vec3){ vx, vy, vz });
+	outPoint[0] = r.x;
+	outPoint[1] = r.y;
+	outPoint[2] = r.z;
+}
+
 B3W_EXPORT void b3wInvMulQuat(
 	float aqx, float aqy, float aqz, float aqs,
 	float bqx, float bqy, float bqz, float bqs,

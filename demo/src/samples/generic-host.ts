@@ -455,6 +455,19 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
           driveKey(key, false);
         },
         drivePad: spec.drivePad === true,
+        setDriveView: spec.drivePad === true
+          ? (forward, right) => {
+              worker.postMessage({
+                type: "drive-view",
+                fx: forward[0],
+                fy: forward[1],
+                fz: forward[2],
+                rx: right[0],
+                ry: right[1],
+                rz: right[2],
+              });
+            }
+          : undefined,
         spawnProjectile,
         startMouseDragRay,
         startCastPickRay: spec.castPickRay === true ? startCastPickRay : undefined,

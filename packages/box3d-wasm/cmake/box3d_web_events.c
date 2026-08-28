@@ -165,6 +165,34 @@ B3W_EXPORT int b3wScatterBodyMoveEvents(
 	return events.moveCount;
 }
 
+B3W_EXPORT int b3wGetContactBeginEventCount(int worldHandle)
+{
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	if (world == NULL) return -1;
+	b3ContactEvents events = b3World_GetContactEvents(world->worldId);
+	return events.beginCount;
+}
+
+B3W_EXPORT int b3wGetContactBeginEvent(int worldHandle, int index, uint64_t* outShapeAPacked, uint64_t* outShapeBPacked)
+{
+	if (outShapeAPacked != NULL) *outShapeAPacked = 0;
+	if (outShapeBPacked != NULL) *outShapeBPacked = 0;
+	b3wWorldSlot* world = b3wGetWorld(worldHandle);
+	if (world == NULL) return 0;
+	b3ContactEvents events = b3World_GetContactEvents(world->worldId);
+	if (index < 0 || index >= events.beginCount) return 0;
+	const b3ContactBeginTouchEvent* event = events.beginEvents + index;
+	if (outShapeAPacked != NULL)
+	{
+		*outShapeAPacked = b3StoreShapeId(event->shapeIdA);
+	}
+	if (outShapeBPacked != NULL)
+	{
+		*outShapeBPacked = b3StoreShapeId(event->shapeIdB);
+	}
+	return 1;
+}
+
 B3W_EXPORT int b3wGetSensorBeginEventCount(int worldHandle)
 {
 	b3wWorldSlot* world = b3wGetWorld(worldHandle);

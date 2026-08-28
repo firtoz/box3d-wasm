@@ -44,6 +44,8 @@ export type DemoSampleInstance = {
   drivePad?: boolean;
   /** Orbit pivot follow (e.g. Driving third-person). Return world position or null. */
   followTarget?: () => [number, number, number] | null;
+  /** Camera-relative drive samples: host forwards flattened look/right each frame. */
+  setDriveView?: (forward: [number, number, number], right: [number, number, number]) => void;
   setPaused?(paused: boolean): void;
   stepOnce?(): void;
   sendSolverParams?: (params: SolverParams) => void;

@@ -18,7 +18,7 @@ Source files:
 
 ## Current Shape
 
-- Approximate JS-callable surface: ~110 TypeScript methods
+- Approximate JS-callable surface: ~120 TypeScript methods
 - Current binding style: manual `b3w*` C bridge functions plus TypeScript wrapper classes
 - Body/shape/joint public IDs are packed native `uint64` (`BodyId`/`ShapeId`/`JointId` as branded `bigint`); worlds/hulls/meshes/compounds/humans/height-fields use int slot handles
 - Current focus: sample-driven API growth rather than a full 1:1 upstream C API mirror
@@ -48,6 +48,7 @@ When adding an API binding:
 - [x] Get profile: `b3World_GetProfile` via `getWorldProfile`
 - [x] Set/get profile level: `b3World_SetProfileLevel` / `b3World_GetProfileLevel` via `setProfileLevel` / `getProfileLevel` (`off` | `coarse` | `full`, default `full`)
 - [x] Get awake body count: `b3World_GetAwakeBodyCount`
+- [~] Enumerate live bodies in id-pool order: `getWorldBodies` (matches C++ reference dump)
 - [x] Set/get worker count: `b3World_SetWorkerCount`, `b3World_GetWorkerCount`
 - [x] Threading support check: Emscripten threading support via `checkThreadingSupport`
 - [x] Terminate Emscripten pthread workers: `b3wTerminatePthreads` via `terminatePthreads()` (DedicatedWorker unload only)
@@ -105,7 +106,7 @@ When adding an API binding:
 - [x] Get angular velocity: `b3Body_GetAngularVelocity`
 - [ ] Apply force: `b3Body_ApplyForce`
 - [ ] Apply force to center: `b3Body_ApplyForceToCenter`
-- [ ] Apply torque: `b3Body_ApplyTorque`
+- [x] Apply torque: `b3Body_ApplyTorque`
 - [ ] Apply angular impulse: `b3Body_ApplyAngularImpulse`
 - [x] Get mass: `b3Body_GetMass`
 - [ ] Get inverse mass: `b3Body_GetInverseMass`
@@ -155,14 +156,14 @@ When adding an API binding:
 - [x] Apply wind: `b3Shape_ApplyWind`
 - [ ] Shape validity: `b3Shape_IsValid`
 - [x] Destroy shape: `b3DestroyShape`
-- [ ] Shape type: `b3Shape_GetType`
+- [x] Shape type: `b3Shape_GetType`
 - [ ] Shape world: `b3Shape_GetWorld`
 - [ ] Sensor status: `b3Shape_IsSensor`
 - [ ] Event enabled getters: sensor/contact/pre-solve/hit
 - [ ] Shape AABB: `b3Shape_GetAABB`
 - [ ] Closest point: `b3Shape_GetClosestPoint`
-- [ ] Get sphere geometry: `b3Shape_GetSphere`
-- [ ] Get capsule geometry: `b3Shape_GetCapsule`
+- [x] Get sphere geometry: `b3Shape_GetSphere`
+- [x] Get capsule geometry: `b3Shape_GetCapsule`
 - [ ] Get filter: `b3Shape_GetFilter`
 - [ ] Get surface material: `b3Shape_GetSurfaceMaterial`
 - [ ] Get density/friction/restitution
@@ -188,7 +189,7 @@ When adding an API binding:
 - [x] Standalone scaled box hull: `b3MakeScaledBoxHull` (`makeScaledBoxHull`)
 - [ ] Create cone: `b3CreateCone`
 - [x] Create rock: `b3CreateRock`
-- [ ] Clone hull: `b3CloneHull`
+- [x] Clone hull: `b3CloneHull` (`cloneAndTransformHull`, `cloneHullFromShape`)
 - [x] Clone and transform hull: `b3CloneAndTransformHull` (`cloneAndTransformHull`)
 - [ ] Cube hull helper: `b3MakeCubeHull`
 - [x] Offset box hull helper: `b3MakeOffsetBoxHull` (`createOffsetHullShape`)
@@ -272,7 +273,7 @@ When adding an API binding:
 
 - [~] Shape event toggles are exposed: sensor/contact/pre-solve/hit enable flags
 - [x] Body move events: `b3World_GetBodyEvents` via `configureBodyMoveTracking` / `scatterBodyMoveEvents` / `getBodyMoveEventCount` (stable render-index map; does not use Box3D `userData`)
-- [ ] Contact events: `b3World_GetContactEvents`
+- [x] Contact begin events: `b3World_GetContactEvents` (`getContactBeginEvents`)
 - [x] Sensor events: `b3World_GetSensorEvents` (`getSensorBeginEvents`)
 - [x] Joint events: `b3World_GetJointEvents` (`getJointEventHandles`)
 - [ ] Zero-allocation event buffers for JS reads

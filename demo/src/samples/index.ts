@@ -37,6 +37,7 @@ import { sensorVisitSample } from "./events/sensor-visit";
 import { hitEventSample } from "./events/hit";
 import { persistentContactSample } from "./events/persistent-contact";
 import { jointEventSample } from "./events/joint";
+import { contactEventSample } from "./events/contact";
 import { boxHullSample } from "./geometry/box-hull";
 import { hullSample } from "./geometry/hull";
 import { hullReductionSample } from "./geometry/hull-reduction";
@@ -164,6 +165,7 @@ export const samples = [
   hitEventSample,
   persistentContactSample,
   jointEventSample,
+  contactEventSample,
   boxHullSample,
   hullSample,
   hullReductionSample,
