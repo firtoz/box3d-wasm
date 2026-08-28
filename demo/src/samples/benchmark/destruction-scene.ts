@@ -75,7 +75,6 @@ export function explodeDestruction(world: PhysicsWorld): void {
     extent,
     f32Mul(f32(0.5), extent),
     DESTRUCTION_IMPULSE,
-    0xFFFFFFFFn as unknown as number,
   );
 }
 

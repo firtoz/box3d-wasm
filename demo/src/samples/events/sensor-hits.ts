@@ -14,6 +14,11 @@ const spec: RenderSpec = {
   bodies: sensorHitsBodies,
   camera: sensorHitsCamera,
   info: `static/kinematic/dynamic sensors + launch sphere (dump speed ${SENSOR_HITS_LAUNCH_SPEED})`,
+  hotkeys: [{ keys: ["b", "B"], message: { type: "launch" } }],
+  controls: [
+    { type: "toggle", label: "Bullet", message: { type: "set-bullet" }, value: true },
+    { type: "button", label: "Launch (B)", message: { type: "launch" } },
+  ],
 };
 
 export const sensorHitsSample = createGenericSample(

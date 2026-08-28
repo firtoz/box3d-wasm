@@ -50,8 +50,10 @@ static std::vector<ScheduledInteraction> get_interaction_schedule(const char* sa
 
   if (strcmp(sampleName, "Top Down Friction") == 0)
   {
+    // Motor joints rest through checkpoints 0 and 50; explode before the frame-100
+    // step so 100/200/300 capture post-blast motion (same C++ Explode defaults).
     return {
-      {1, {"explode", {0.0f, 10.0f, 0.0f, 10.0f, 5.0f, 10000.0f}}},
+      {100, {"explode", {0.0f, 10.0f, 0.0f, 10.0f, 5.0f, 10000.0f}}},
     };
   }
 

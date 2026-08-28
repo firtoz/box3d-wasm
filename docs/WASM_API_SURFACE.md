@@ -123,7 +123,7 @@ When adding an API binding:
 - [ ] Is contact recycling enabled
 - [ ] Local/world vector transforms
 - [x] Local/world point velocity: `b3Body_GetLocalPointVelocity`, `b3Body_GetWorldPointVelocity`
-- [ ] Compute body AABB
+- [x] Compute body AABB: `b3Body_ComputeAABB` (`computeBodyAABB`)
 - [x] Get body shapes: `b3Body_GetShapes`
 - [ ] Get body joints: `b3Body_GetJoints`
 - [ ] Get body world: `b3Body_GetWorld`
@@ -143,6 +143,7 @@ When adding an API binding:
 - [x] Set friction: `b3Shape_SetFriction`
 - [x] Set restitution: `b3Shape_SetRestitution`
 - [x] Set surface material: `b3Shape_SetSurfaceMaterial` (with `tangentVelocity` support)
+- [x] Set custom color: `b3Shape_SetCustomColor` via `setShapeCustomColor` (also writes mesh material 0 when present)
 - [x] Set filter: `b3Shape_SetFilter`
 - [x] Get shape body id: `b3Shape_GetBody` (returns packed `BodyId`)
 - [x] Enable sensor events: `b3Shape_EnableSensorEvents`
@@ -171,7 +172,9 @@ When adding an API binding:
 - [ ] Shape hull vertices: `b3Shape_GetHullVertices`
 - [x] Mesh shape creation: `b3CreateMeshShape`
 - [x] Set mesh on shape: `b3Shape_SetMesh` (`setMesh`)
-- [x] Heightfield shape creation: `b3CreateHeightFieldShape`
+- [x] Heightfield shape creation: `b3CreateHeightFieldShape` (optional extra triangle `userMaterialId`s)
+- [x] Shape user data: `b3Shape_SetUserData` (`setShapeUserData`, integer)
+- [x] Shape user material id: `b3Shape_SetSurfaceMaterial` / create-time `userMaterialId`
 
 ## Hulls
 
@@ -237,14 +240,14 @@ When adding an API binding:
 - [x] Create weld joint: `b3CreateWeldJoint` (optional force/torque thresholds and `collideConnected`)
 - [x] Create parallel joint: `b3CreateParallelJoint`
 - [~] Common joint validity/type/body/world/frame/collide/force/torque accessors (`constraint force`, `constraint torque`, and `linear separation` now exposed)
-- [ ] Joint wake bodies: `b3Joint_WakeBodies`
+- [x] Joint wake bodies: `b3Joint_WakeBodies` (`wakeJointBodies`)
 - [ ] Constraint tuning: `b3Joint_SetConstraintTuning`
 - [~] Force/torque thresholds and joint break support (creation-time thresholds on distance/prismatic/revolute/weld joints)
 - [ ] Distance joint runtime controls
-- [ ] Revolute joint runtime controls after creation
+- [x] Revolute joint runtime motor: `b3RevoluteJoint_EnableMotor`, `SetMotorSpeed`, `SetMaxMotorTorque`
 - [x] Revolute joint target angle: `b3RevoluteJoint_SetTargetAngle` (`setRevoluteJointTargetAngle`)
 - [x] Prismatic joint runtime controls (`setPrismaticMotorSpeed`, `getPrismaticTranslation`)
-- [ ] Wheel joint runtime controls
+- [x] Wheel joint runtime controls
 - [ ] Weld joint runtime controls
 - [ ] Spherical joint runtime controls after creation
 - [ ] Motor joint runtime controls after creation
@@ -253,15 +256,15 @@ When adding an API binding:
 ## Queries
 
 - [x] World raycast closest: `b3World_CastRayClosest`
-- [ ] World raycast all hits: `b3World_CastRay`
-- [~] World shapecast: `b3World_CastShape` (`castShapeSphere` sphere-proxy helper)
+- [x] World raycast callback modes: `b3World_CastRay` (`worldCast` any/closest/multiple/sorted, skip `userData==1` and optional initial overlap)
+- [x] World shapecast: `b3World_CastShape` (`worldCast` sphere/capsule/box proxies; `castShapeSphere` remains a fraction-only helper)
 - [x] World AABB overlap: `b3World_OverlapAABB` (`overlapAABB` returns hit count)
 - [ ] World shape overlap: `b3World_OverlapShape`
 - [x] Body raycast: `b3Body_CastRay` (`bodyCastRay`)
 - [ ] Body shapecast: `b3Body_CastShape`
 - [ ] Body shape overlap: `b3Body_OverlapShape`
 - [ ] Cast mover: `b3World_CastMover`
-- [ ] Collide mover: `b3World_CollideMover`
+- [x] Collide mover: `b3World_CollideMover` (`collideMover`)
 
 ## Events And Callbacks
 
@@ -286,7 +289,7 @@ When adding an API binding:
 
 ## Character And Mover Helpers
 
-- [ ] Solve planes: `b3SolvePlanes`
+- [x] Solve planes: `b3SolvePlanes` (`solvePlanes`)
 - [ ] Clip vector: `b3ClipVector`
 - [ ] Plane result buffer helpers for JS callbacks
 

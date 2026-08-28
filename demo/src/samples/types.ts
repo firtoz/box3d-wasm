@@ -34,9 +34,16 @@ export type DemoSampleInstance = {
   profile?: boolean;
   spawnProjectile?: (origin: Vec3, velocity: Vec3, spin: boolean, ragdoll: boolean) => void;
   startMouseDragRay?: (origin: Vec3, translation: Vec3) => boolean;
+  /** Ctrl+left empty-space pick (origin + 100 * unit direction). */
+  startCastPickRay?: (origin: Vec3, translation: Vec3) => boolean;
   updateMouseDragRay?: (origin: Vec3, translation: Vec3) => void;
   stopMouseDrag?: () => void;
   onKey?: (key: string) => void;
+  onKeyUp?: (key: string) => void;
+  /** When true, main shows a WASD/arrow hold pad (touch + desktop). */
+  drivePad?: boolean;
+  /** Orbit pivot follow (e.g. Driving third-person). Return world position or null. */
+  followTarget?: () => [number, number, number] | null;
   setPaused?(paused: boolean): void;
   stepOnce?(): void;
   sendSolverParams?: (params: SolverParams) => void;

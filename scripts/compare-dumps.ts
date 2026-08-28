@@ -49,12 +49,26 @@ interface DumpCast {
   n: Vec3;
 }
 
+interface DumpWorldCastHit {
+  f: number;
+  p: Vec3;
+  n: Vec3;
+  m: number;
+  t: number;
+}
+
+interface DumpWorldCast {
+  c: number;
+  h: DumpWorldCastHit[];
+}
+
 interface DumpCheckpoint {
   frame: number;
   bodies: DumpBody[];
   rays?: DumpRays;
   manifold?: DumpManifold;
   cast?: DumpCast;
+  worldCast?: DumpWorldCast;
 }
 
 interface DumpOutput {
@@ -342,6 +356,45 @@ function compareCasts(
   return { findings, deltas };
 }
 
+function compareWorldCasts(
+  frame: number,
+  expected: DumpWorldCast | undefined,
+  actual: DumpWorldCast | undefined,
+  epsilon: number,
+): { findings: string[]; deltas: FieldDelta[] } {
+  const findings: string[] = [];
+  const deltas: FieldDelta[] = [];
+  if (expected === undefined && actual === undefined) return { findings, deltas };
+  if (expected === undefined || actual === undefined) {
+    findings.push(`checkpoint frame ${frame}: worldCast presence mismatch expected ${expected !== undefined}, got ${actual !== undefined}`);
+    return { findings, deltas };
+  }
+  if (expected.c !== actual.c) findings.push(`checkpoint frame ${frame} worldCast.c: expected ${expected.c}, got ${actual.c}`);
+  if (expected.h.length !== actual.h.length) {
+    findings.push(`checkpoint frame ${frame} worldCast.h length mismatch expected ${expected.h.length}, got ${actual.h.length}`);
+    return { findings, deltas };
+  }
+  for (let i = 0; i < expected.h.length; i++) {
+    const e = expected.h[i]!;
+    const a = actual.h[i]!;
+    if (e.m !== a.m) findings.push(`checkpoint frame ${frame} worldCast.h[${i}].m: expected ${e.m}, got ${a.m}`);
+    if (e.t !== a.t) findings.push(`checkpoint frame ${frame} worldCast.h[${i}].t: expected ${e.t}, got ${a.t}`);
+    {
+      const result = compareScalar(frame, `worldCast.h[${i}].f`, e.f, a.f, epsilon);
+      deltas.push(...result.deltas);
+      if (result.finding !== undefined) findings.push(result.finding);
+    }
+    for (const key of ["p", "n"] as const) {
+      const result = compareArray(frame, i, `worldCast.h.${key}`, e[key], a[key], epsilon);
+      deltas.push(...result.deltas.map((d) => ({ ...d, field: `worldCast.h[${i}].${key}`, label: `frame ${frame} worldCast.h[${i}].${key}[${d.index}]` })));
+      if (result.finding !== undefined) {
+        findings.push(result.finding.replace(`body[${i}].worldCast.h.${key}`, `worldCast.h[${i}].${key}`));
+      }
+    }
+  }
+  return { findings, deltas };
+}
+
 function compareDumps(expected: DumpOutput, actual: DumpOutput, epsilon: number): { findings: string[]; deltas: FieldDelta[] } {
   const findings: string[] = [];
   const deltas: FieldDelta[] = [];
@@ -385,6 +438,9 @@ function compareDumps(expected: DumpOutput, actual: DumpOutput, epsilon: number)
     const castCompare = compareCasts(eCheckpoint.frame, eCheckpoint.cast, aCheckpoint.cast, epsilon);
     findings.push(...castCompare.findings);
     deltas.push(...castCompare.deltas);
+    const worldCastCompare = compareWorldCasts(eCheckpoint.frame, eCheckpoint.worldCast, aCheckpoint.worldCast, epsilon);
+    findings.push(...worldCastCompare.findings);
+    deltas.push(...worldCastCompare.deltas);
   }
 
   return { findings, deltas };

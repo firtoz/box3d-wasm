@@ -1,4 +1,4 @@
-import {B3_AXIS_X, B3_AXIS_Y, B3_AXIS_Z, B3_PI, BodyType, quatFromAxisAngle, type BodyId, type Box3DRuntime, type PhysicsWorld, type Quat, type Vec3} from "box3d-wasm";
+import {B3_AXIS_X, B3_AXIS_Y, B3_AXIS_Z, B3_PI, BodyType, quatFromAxisAngle, type BodyId, type Box3DRuntime, type JointId, type PhysicsWorld, type Quat, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 
@@ -10,7 +10,7 @@ const BODY_POS: Vec3 = [0, 2, 0];
 /** Matches `b3ComputeQuatBetweenUnitVectors(Y, Z)` for render (body rotation). */
 export const WHEEL_BODY_ROTATION: Quat = quatFromAxisAngle(B3_AXIS_X, -0.5 * B3_PI);
 
-export function buildWheelDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+export function buildWheelScene(world: PhysicsWorld, runtime: Box3DRuntime): { handles: BodyId[]; joint: JointId } {
   // Empty static body for the joint (no shape) — included in dump handles.
   const groundId = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
 
@@ -28,7 +28,7 @@ export function buildWheelDynamicBodies(world: PhysicsWorld, runtime: Box3DRunti
   const frameA = runtime.computeQuatBetweenUnitVectors(B3_AXIS_X, B3_AXIS_Y);
   const frameB = runtime.computeQuatBetweenUnitVectors(B3_AXIS_Z, B3_AXIS_Y);
 
-  world.createWheelJoint(groundId, body, {
+  const joint = world.createWheelJoint(groundId, body, {
     localFrameA: { position: [0, 3, 0], rotation: frameA },
     localFrameB: { position: [0, 0, 0], rotation: frameB },
     collideConnected: true,
@@ -40,7 +40,11 @@ export function buildWheelDynamicBodies(world: PhysicsWorld, runtime: Box3DRunti
     upperSuspensionLimit: 1,
   });
 
-  return [groundId, body];
+  return { handles: [groundId, body], joint };
+}
+
+export function buildWheelDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  return buildWheelScene(world, runtime).handles;
 }
 
 export function wheelGroundSize(): Vec3 {

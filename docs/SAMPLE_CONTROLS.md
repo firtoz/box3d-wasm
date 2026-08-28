@@ -1,0 +1,178 @@
+# Sample controls checklist
+
+Track C++ `DrawControls` / keyboard / hold-key parity and mobile/touch UX for every **demo** sample (`demo/src/samples/index.ts`).
+
+Mark `[x]` only after verifying:
+
+- C++ sample UI is present in the web demo (buttons/sliders/toggles), **or** upstream has no sample UI (global demo controls are enough).
+- Keyboard-only actions have an in-panel or on-canvas control (touch).
+- Driving-style hold keys also work via the on-screen pad and arrow keys.
+
+Global demo already covers pause / restart / shoot / spin / ragdoll / sample picker on mobile (`touch-toolbar`). Driving adds a WASD hold pad.
+
+## Still open (C++ UI not fully bound)
+
+These stay `[ ]` until joint/runtime sliders (or rebuild-the-scene controls) exist:
+
+- Joints: Revolute, Prismatic, Spherical, Weld, Distance Joint, Parallel Spring (C++ limit/motor/spring sliders).
+- Joints / Door: missing Limit, Two joints, constraint Hertz/Damping.
+- Joints / Motor Joint: missing Max Force / Max Torque.
+- Geometry editors: Box Hull, Hull Reduction, Hull Transform, Capsule Mass.
+- Ragdoll / Box and Mesh: Joint Friction / Hertz / Damping / Respawn.
+- Mesh / Height Field: columns/rows/amplitude/holes/ray sliders.
+- Shapes / Restitution (Sphere/Box), Shapes / Wind (shape/wind/drag/lift/count).
+- Robustness / Overlap Recovery: extent/count/overlap/speed/spring sliders.
+- Collision: Long Ray Cast, Mesh Scale, Shape Cast, Initial Overlap (partial vs C++).
+- Continuous / Mesh Drop: Type / Amplitude / generate.
+- Benchmark / Height Field: Radius.
+- Events / Hit (C++ Contact WASD) if we add a kinematic pusher.
+
+## Demo samples
+
+- [x] `bodies/spinning-book` — Bodies / Spinning Book — no C++ sample UI
+- [x] `bodies/fixed-rotation` — Bodies / Fixed Rotation — no C++ sample UI
+- [x] `bodies/lock-mixing` — Bodies / Lock Mixing — no C++ sample UI
+- [x] `bodies/kinematic` — Bodies / Kinematic — no C++ sample UI
+- [x] `bodies/offset-kinematic` — Bodies / Offset Kinematic — no C++ sample UI
+- [x] `bodies/gyroscopic-torque` — Bodies / Gyroscopic Torque — no C++ sample UI
+- [x] `bodies/gyroscopic-precession` — Bodies / Gyroscopic Precession — HUD only (matches C++ text)
+- [x] `bodies/class-ring` — Bodies / Class Ring — no C++ sample UI
+- [x] `bodies/body-type` — Bodies / Body Type — Static / Kinematic / Dynamic / Enabled
+- [x] `bodies/weeble` — Bodies / Weeble — Teleport / Explode / Magnitude
+- [x] `bodies/disable` — Bodies / Disable — Link / Ball toggles
+- [x] `events/move` — Events / Move — no C++ sample UI
+- [x] `events/sensor-visit` — Events / Sensor Visit — no C++ sample UI
+- [x] `events/sensor-hits` — Events / Sensor Hits — Bullet + Launch (B)
+- [x] `events/hit` — Events / Hit — no C++ DrawControls (Contact WASD is a different C++ sample)
+- [x] `events/persistent-contact` — Events / Persistent Contact — no C++ sample UI
+- [x] `events/joint` — Events / Joint — no C++ sample UI
+- [ ] `geometry/box-hull` — Geometry / Box Hull — C++ Refresh
+- [x] `geometry/hull` — Geometry / Hull — no C++ sample UI
+- [ ] `geometry/hull-reduction` — Geometry / Hull Reduction — C++ Box/Sphere/count
+- [ ] `geometry/hull-transform` — Geometry / Hull Transform — C++ scale/rotate/translate
+- [ ] `geometry/capsule-mass` — Geometry / Capsule Mass — C++ sides
+- [x] `issues/hull-crash` — Issues / Hull Crash — no C++ sample UI
+- [x] `issues/multiple-prismatic` — Issues / Multiple Prismatic — no C++ sample UI
+- [x] `issues/crash` — Issues / Crash — Add Joint
+- [x] `issues/convex-jitter` — Issues / Convex Jitter — no C++ sample UI
+- [x] `issues/restitution-overshoot` — Issues / Restitution Overshoot — no C++ sample UI
+- [x] `issues/gmod-wheel-stack` — Issues / GMod Wheel Stack — no C++ sample UI
+- [x] `issues/slide-twist-off-center` — Issues / Slide Twist Off Center Shape — no C++ sample UI
+- [x] `robustness/high-mass-ratio-1` — Robustness / HighMassRatio1 — no C++ sample UI
+- [x] `robustness/tiny-pyramid` — Robustness / Tiny Pyramid — no C++ sample UI
+- [ ] `robustness/overlap-recovery` — Robustness / Overlap Recovery — C++ rebuild sliders
+- [x] `robustness/overflow-color-pile` — Robustness / Overflow Color Pile — no C++ sample UI
+- [x] `joints/filter` — Joints / Filter — no C++ sample UI
+- [ ] `joints/motor-joint` — Joints / Motor Joint — Speed + Impulse; missing Max Force/Torque
+- [ ] `joints/prismatic` — Joints / Prismatic — C++ limit/motor/spring
+- [ ] `joints/revolute` — Joints / Revolute — C++ limit/motor/spring
+- [ ] `joints/weld` — Joints / Weld — C++ linear/angular hertz/damping
+- [x] `joints/top-down-friction` — Joints / Top Down Friction — Explode
+- [ ] `joints/spherical` — Joints / Spherical — C++ cone/twist/motor/spring
+- [x] `joints/ball-and-chain` — Joints / Ball and Chain — no C++ sample UI
+- [ ] `joints/door` — Joints / Door — Impulse + Magnitude; missing Limit / Two joints / Hertz / Damping
+- [x] `joints/bridge` — Joints / Bridge — Gravity scale
+- [x] `world/far-stack` — World / Far Stack — empty C++ DrawControls
+- [x] `world/far-pyramid` — World / Far Pyramid — no C++ sample UI
+- [x] `world/far-ragdolls` — World / Far Ragdolls — no C++ sample UI
+- [x] `world/far-mesh-drop` — World / Far Mesh Drop — no C++ sample UI
+- [x] `compound/simple` — Compound / Simple — no C++ sample UI
+- [x] `compound/spheres` — Compound / Spheres — no C++ sample UI
+- [x] `compound/hulls` — Compound / Hulls — no C++ sample UI
+- [x] `compound-material-dedup` — Compound Material Dedup — extra demo
+- [x] `compound/tile-floor` — Compound / Tile Floor — no C++ sample UI
+- [x] `compound/mesh-tile` — Compound / Mesh Tile — no C++ sample UI
+- [ ] `ragdoll/box` — Ragdoll / Box — C++ friction/hertz/damping/respawn
+- [ ] `ragdoll/mesh` — Ragdoll / Mesh — same
+- [x] `ragdoll/pile` — Ragdoll / Pile — no C++ sample UI
+- [x] `ragdoll/incline` — Ragdoll / Incline — no C++ sample UI
+- [x] `determinism/falling-ragdolls` — Determinism / Falling Ragdolls — no C++ sample UI
+- [x] `determinism/wave-pile` — Determinism / Wave Pile — no C++ sample UI
+- [x] `determinism/query-spawn` — Determinism / Query Spawn — no C++ sample UI
+- [x] `determinism/mesh-drop` — Determinism / Mesh Drop — no C++ sample UI
+- [x] `continuous/stall` — Continuous / Stall — Launch
+- [x] `benchmark/rain` — Benchmark / Rain — no C++ sample UI
+- [x] `benchmark/candy-cups` — Benchmark / Candy Cups — no C++ sample UI
+- [x] `benchmark/explosion` — Benchmark / Explosion — Magnitude + Explode
+- [x] `benchmark/destruction` — Benchmark / Destruction — no C++ sample UI
+- [x] `joints/motion-locks` — Joints / Motion Locks — lock toggles + Impulse (L)
+- [ ] `joints/distance-joint` — Joints / Distance Joint — C++ length/spring/limit
+- [ ] `joints/parallel-spring` — Joints / Parallel Spring — C++ Hertz/Damping
+- [x] `joints/wheel` — Joints / Wheel — suspension / spin / steering (touch sliders)
+- [x] `single-box` — Stacking / Single Box — no C++ sample UI
+- [x] `cylinder` — Stacking / Cylinder — no C++ sample UI
+- [x] `cylinder-stack` — Stacking / Cylinder Stack — no C++ sample UI
+- [x] `wedge` — Stacking / Wedge — no C++ sample UI
+- [x] `arch` — Stacking / Arch — no C++ sample UI
+- [x] `double-domino` — Stacking / Double Domino — no C++ sample UI
+- [x] `card-house` — Stacking / Card House — no C++ sample UI
+- [x] `rolling-resistance` — Shapes / Rolling Resistance — no C++ sample UI
+- [ ] `restitution` — Shapes / Restitution — C++ Sphere/Box
+- [x] `isotropic-friction` — Shapes / Isotropic Friction — no C++ sample UI
+- [x] `sphere-stack` — Stacking / Sphere Stack — no C++ sample UI
+- [x] `box-stack` — Stacking / Box Stack — no C++ sample UI
+- [x] `shapes/inclined-plane` — Shapes / Inclined Plane — no C++ sample UI
+- [x] `dominoes` — Stacking / Dominoes — no C++ sample UI
+- [x] `card-house-thick` — Stacking / Card House Thick — no C++ sample UI
+- [x] `jenga-stack` — Stacking / Jenga Stack — Capsule/Hull
+- [x] `pyramid2d` — Stacking / Pyramid2D — no C++ sample UI
+- [x] `edge-crossing` — Stacking / Edge Crossing — no C++ sample UI
+- [x] `capsule-stack` — Stacking / Capsule Stack — no C++ sample UI
+- [x] `dominoes-2x` — Bench / Dominoes 2× — extra demo
+- [x] `washer` — Benchmark / Washer — no C++ sample UI
+- [x] `shapes/high-resistance` — Shapes / High Resistance — no C++ sample UI
+- [x] `shapes/slide-twist` — Shapes / Slide Twist — no C++ sample UI
+- [x] `shapes/conveyor-belt` — Shapes / Conveyor Belt — no C++ sample UI
+- [x] `shapes/wind-drop` — Shapes / Wind Drop — no C++ sample UI
+- [ ] `shapes/wind` — Shapes / Wind — C++ shape/wind/drag/lift
+- [x] `shapes/wind-flap` — Shapes / Wind Flap — no C++ sample UI
+- [x] `shapes/static-invoke` — Shapes / Static Invoke — Invoke / Passive / Create / Destroy
+- [x] `mesh/grid` — Mesh / Grid — shape spawn + scale
+- [x] `mesh/big-box` — Mesh / Big Box — shape spawn + scale
+- [x] `mesh/box` — Mesh / Box — shape spawn + scale
+- [ ] `mesh/height-field` — Mesh / Height Field — C++ grid/ray sliders
+- [x] `mesh/hollow-box` — Mesh / Hollow Box — no C++ sample UI
+- [x] `collision/ray-curtain` — Collision / Ray Curtain — no C++ sample UI
+- [x] `collision/capsule-cast-ray` — Collision / Capsule Cast Ray — no C++ sample UI
+- [x] `collision/cast-world` — Collision / Cast World — type/radius/mode/spawn (matches C++)
+- [x] `character/capsule-plane` — Character / CapsulePlane — Solve
+- [x] `character/mover-overlap` — Character / MoverOverlap — empty C++ DrawControls
+- [ ] `collision/long-ray-cast` — Collision / Long Ray Cast — check length/cone vs C++
+- [x] `continuous/thin-wall` — Continuous / Thin Wall — no C++ sample UI
+- [x] `continuous/bounce-house` — Continuous / Bounce House — no C++ sample UI
+- [x] `continuous/spinning-stick` — Continuous / Spinning Stick — no C++ sample UI
+- [x] `continuous/is-fast` — Continuous / Is Fast — no C++ sample UI
+- [ ] `continuous/mesh-drop` — Continuous / Mesh Drop — C++ Type/Amplitude/generate
+- [x] `continuous/hump-mesh` — Continuous / Hump Mesh — no C++ sample UI
+- [x] `continuous/needle-mesh` — Continuous / Needle Mesh — no C++ sample UI
+- [x] `continuous/bullet-vs-stack` — Continuous / Bullet vs Stack — Launch
+- [x] `benchmark/large-pyramid` — Benchmark / Large Pyramid — no C++ sample UI
+- [x] `benchmark/wide-pyramid` — Benchmark / Wide Pyramid — no C++ sample UI
+- [x] `benchmark/falling-boxes` — Benchmark / Falling Boxes — no C++ sample UI
+- [x] `benchmark/many-pyramids` — Benchmark / Many Pyramids — no C++ sample UI
+- [x] `benchmark/joint-grid` — Benchmark / Joint Grid — no C++ sample UI
+- [x] `benchmark/junkyard` — Benchmark / Junkyard — no C++ sample UI
+- [x] `benchmark/falling-trees` — Benchmark / Falling Trees — 100/50/25 cm
+- [x] `benchmark/chains` — Benchmark / Chains — no C++ sample UI
+- [x] `benchmark/convex-pile` — Benchmark / Convex Pile — no C++ sample UI
+- [x] `benchmark/large-world` — Benchmark / Large World — no C++ sample UI
+- [ ] `benchmark/height-field` — Benchmark / Height Field — C++ Radius
+- [x] `bodies/cast` — Bodies / Cast — no C++ sample UI
+- [ ] `collision/shape-cast` — Collision / Shape Cast — C++ Initial Overlap
+- [x] `collision/overlap-world` — Collision / Overlap World — no C++ sample UI
+- [ ] `collision/initial-overlap` — Collision / Initial Overlap — C++ toggle
+- [ ] `collision/mesh-scale` — Collision / Mesh Scale — C++ scale/cast
+- [x] `joints/driving` — Joints / Driving — sliders + WASD/arrows + on-screen pad + HUD + Third Person
+- [x] `joints/gear-lift` — Joints / Gear Lift — Motor / Max Torque / Speed
+- [x] `issues/capsule-mesh` — Issues / Capsule Mesh — no C++ sample UI
+- [x] `manifold/sphere-vs-sphere` — Manifold / Sphere vs Sphere — geometry tool (not a body sim)
+- [x] `manifold/capsule-vs-sphere` — Manifold / Capsule vs Sphere
+- [x] `manifold/hull-vs-sphere` — Manifold / Hull vs Sphere
+- [x] `manifold/triangle-vs-sphere` — Manifold / Triangle vs Sphere
+- [x] `manifold/capsule-vs-capsule` — Manifold / Capsule vs Capsule
+- [x] `manifold/capsule-vs-hull` — Manifold / Capsule vs Hull
+- [x] `manifold/triangle-vs-capsule` — Manifold / Triangle vs Capsule
+- [x] `manifold/hull-vs-hull` — Manifold / Hull vs Hull
+- [x] `manifold/triangle-vs-hull` — Manifold / Triangle vs Hull
+- [x] `collision/shape-cast-debug` — Collision / Shape Cast Debug — debug viz (not C++ Shape Distance editor)
+- [x] `extra/object-asserts-bench` — Extra / Object Asserts Bench — extra demo

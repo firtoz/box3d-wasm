@@ -26,7 +26,7 @@ class ExplosionWorker extends PhysicsWorkerBase {
     }
     if (msg.type !== "explode") return false;
     const impulse = typeof msg.impulse === "number" ? msg.impulse : this.impulse;
-    this.world!.explode([0, -4, 0], 16, 0, impulse, 0xFFFFFFFFn as unknown as number);
+    this.world!.explode([0, -4, 0], 16, 0, impulse);
     return true;
   }
 }

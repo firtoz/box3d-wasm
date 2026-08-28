@@ -38,7 +38,7 @@ export const WEEBLE_EXPLOSION_MIN = -100000;
 export const WEEBLE_EXPLOSION_MAX = 100000;
 
 export function explodeWeeble(world: PhysicsWorld, magnitude = WEEBLE_EXPLOSION_DEFAULT): void {
-  world.explode([0, -0.1, 0], 8, 0.1, magnitude, 0xFFFFFFFFn as unknown as number);
+  world.explode([0, -0.1, 0], 8, 0.1, magnitude);
 }
 
 export function weebleGroundSize(): Vec3 {

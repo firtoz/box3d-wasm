@@ -25,6 +25,7 @@ import { spinningBookSample } from "./bodies/spinning-book";
 import { fixedRotationSample } from "./bodies/fixed-rotation";
 import { lockMixingSample } from "./bodies/lock-mixing";
 import { kinematicSample } from "./bodies/kinematic";
+import { offsetKinematicSample } from "./bodies/offset-kinematic";
 import { gyroscopicTorqueSample } from "./bodies/gyroscopic-torque";
 import { gyroscopicPrecessionSample } from "./bodies/gyroscopic-precession";
 import { classRingSample } from "./bodies/class-ring";
@@ -110,6 +111,9 @@ import { meshBoxSample } from "./mesh/box";
 import { heightFieldSample } from "./mesh/height-field";
 import { rayCurtainSample } from "./collision/ray-curtain";
 import { capsuleCastRaySample } from "./collision/capsule-cast-ray";
+import { castWorldSample } from "./collision/cast-world";
+import { capsulePlaneSample } from "./character/capsule-plane";
+import { moverOverlapSample } from "./character/mover-overlap";
 import { longRayCastSample } from "./collision/long-ray-cast";
 import { junkyardSample } from "./benchmark/junkyard";
 import { fallingTreesSample } from "./benchmark/falling-trees";
@@ -128,6 +132,7 @@ import { overlapWorldSample } from "./collision/overlap-world";
 import { initialOverlapSample } from "./collision/initial-overlap";
 import { meshScaleSample } from "./collision/mesh-scale";
 import { drivingSample } from "./joints/driving";
+import { gearLiftSample } from "./joints/gear-lift";
 import { capsuleMeshSample } from "./issues/capsule-mesh";
 import { sphereVsSphereSample } from "./manifold/sphere-vs-sphere";
 import { capsuleVsSphereSample } from "./manifold/capsule-vs-sphere";
@@ -146,6 +151,7 @@ export const samples = [
   fixedRotationSample,
   lockMixingSample,
   kinematicSample,
+  offsetKinematicSample,
   gyroscopicTorqueSample,
   gyroscopicPrecessionSample,
   classRingSample,
@@ -246,6 +252,9 @@ export const samples = [
   hollowBoxSample,
   rayCurtainSample,
   capsuleCastRaySample,
+  castWorldSample,
+  capsulePlaneSample,
+  moverOverlapSample,
   longRayCastSample,
   thinWallSample,
   bounceHouseSample,
@@ -272,6 +281,7 @@ export const samples = [
   initialOverlapSample,
   meshScaleSample,
   drivingSample,
+  gearLiftSample,
   capsuleMeshSample,
   sphereVsSphereSample,
   capsuleVsSphereSample,

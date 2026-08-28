@@ -45,3 +45,31 @@ B3W_EXPORT uint64_t b3wCreateHeightFieldShape(uint64_t bodyPacked, int heightFie
 	b3ShapeId shapeId = b3CreateHeightFieldShape(bodyId, &shapeDef, heightField->heightField);
 	return b3StoreShapeId(shapeId);
 }
+
+B3W_EXPORT uint64_t b3wCreateHeightFieldShapeMaterials(uint64_t bodyPacked, int heightFieldHandle, float density, float friction,
+	float restitution, float rollingResistance, int isSensor, int baseUserMaterialId, int extra0, int extra1, int extra2,
+	int extraCount)
+{
+	b3BodyId bodyId = b3LoadBodyId(bodyPacked);
+	b3wHeightFieldSlot* heightField = b3wGetHeightField(heightFieldHandle);
+	if (!b3Body_IsValid(bodyId) || heightField == NULL) return 0;
+	b3ShapeDef shapeDef = b3DefaultShapeDef();
+	shapeDef.density = density;
+	shapeDef.baseMaterial.friction = friction;
+	shapeDef.baseMaterial.restitution = restitution;
+	shapeDef.baseMaterial.rollingResistance = rollingResistance;
+	shapeDef.baseMaterial.userMaterialId = (uint64_t)baseUserMaterialId;
+	shapeDef.isSensor = isSensor != 0;
+	b3SurfaceMaterial materials[3] = { 0 };
+	materials[0].userMaterialId = (uint64_t)extra0;
+	materials[1].userMaterialId = (uint64_t)extra1;
+	materials[2].userMaterialId = (uint64_t)extra2;
+	if (extraCount > 0)
+	{
+		int count = extraCount > 3 ? 3 : extraCount;
+		shapeDef.materials = materials;
+		shapeDef.materialCount = count;
+	}
+	b3ShapeId shapeId = b3CreateHeightFieldShape(bodyId, &shapeDef, heightField->heightField);
+	return b3StoreShapeId(shapeId);
+}

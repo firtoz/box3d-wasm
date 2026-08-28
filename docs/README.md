@@ -12,6 +12,7 @@ Project docs are split by audience and purpose. Prefer updating an existing doc 
 
 - [`WASM_API_SURFACE.md`](./WASM_API_SURFACE.md) - binding checklist for C bridge and TypeScript wrapper coverage.
 - [`SAMPLES.md`](./SAMPLES.md) - upstream Box3D sample port status, **Easy next ports** queue, and missing API notes.
+- [`SAMPLE_CONTROLS.md`](./SAMPLE_CONTROLS.md) - per-sample C++ UI / keyboard / touch-control parity checklist.
 - [`reference-dump-plan.md`](./reference-dump-plan.md) - plan for C++/WASM sample transform dumps, local generated comparisons, and CI coverage.
 - [`box3d-submodule-bump.md`](./box3d-submodule-bump.md) - when to advance the `box3d` submodule, and the post-bump dump/API/sample coverage checklist.
 

@@ -61,6 +61,8 @@ add_executable(box3d_web
 	box3d_web_joint.c
 	box3d_web_human.c
 	box3d_web_collision.c
+	box3d_web_query.c
+	box3d_web_mover.c
 	"${BOX3D_SOURCE_DIR}/shared/human.c"
 	"${BOX3D_SOURCE_DIR}/shared/utils.c"
 )

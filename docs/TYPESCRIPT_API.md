@@ -297,6 +297,11 @@ const world = runtime.createWorld({ gravity: [0, -10, 0] });
 const ground = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
 const mesh = world.createGridMesh(20, 20, 1, 1, true);
 world.createMeshShape(ground, mesh, { scale: [1, 1, 1] });
+
+// Vertex/index meshes (Gear Lift stairwell, hump mesh, …) use the same shape helper.
+// Upstream `b3MeshDef def = {}` leaves `useMedianSplit` false; pass that explicitly.
+const extruded = world.createMesh(vertices, indices, { useMedianSplit: false, identifyEdges: true });
+world.createMeshShape(ground, extruded);
 ```
 
 Use `runtime.destroyMesh(mesh)` or `world.destroyMesh(mesh)` if you create standalone mesh handles outside normal world teardown.
@@ -373,11 +378,28 @@ The demo uses the same idea, plus batched transform reads for heavy scenes. See 
 Use `rayCastClosest` for simple picking or visibility checks.
 
 ```ts
+import { WorldCastMode, WorldCastType } from "box3d-wasm";
+
 const hit = world.rayCastClosest([0, 10, 0], [0, -20, 0]);
 
 if (hit !== null) {
   console.log(hit.bodyHandle, hit.point, hit.normal, hit.fraction);
 }
+
+const worldHits = world.worldCast({
+  origin: [-20, 10, 0],
+  translation: [20, 10, 0],
+  mode: WorldCastMode.Closest,
+  type: WorldCastType.Ray,
+  initialOverlap: false,
+});
+
+const moverPlanes = world.collideMover([0, 1, 0.4], {
+  center1: [0, -0.5, 0],
+  center2: [0, 0.5, 0],
+  radius: 0.25,
+});
+const solved = world.solvePlanes([0, 0, 0], moverPlanes.map((hit) => ({ plane: hit.plane })));
 ```
 
 ## Collision Queries

@@ -191,6 +191,44 @@ B3W_EXPORT void b3wShapeSetSurfaceMaterial(uint64_t shapePacked, float friction,
 	b3Shape_SetSurfaceMaterial(shapeId, material);
 }
 
+B3W_EXPORT void b3wShapeSetUserData(uint64_t shapePacked, int value)
+{
+	b3ShapeId shapeId = b3LoadShapeId(shapePacked);
+	if (!b3Shape_IsValid(shapeId)) return;
+	b3Shape_SetUserData(shapeId, (void*)(intptr_t)value);
+}
+
+B3W_EXPORT void b3wShapeSetUserMaterialId(uint64_t shapePacked, int userMaterialId)
+{
+	b3ShapeId shapeId = b3LoadShapeId(shapePacked);
+	if (!b3Shape_IsValid(shapeId)) return;
+	b3SurfaceMaterial material = b3Shape_GetSurfaceMaterial(shapeId);
+	material.userMaterialId = (uint64_t)userMaterialId;
+	b3Shape_SetSurfaceMaterial(shapeId, material);
+}
+
+B3W_EXPORT void b3wShapeSetCustomColor(uint64_t shapePacked, unsigned int customColor)
+{
+	b3ShapeId shapeId = b3LoadShapeId(shapePacked);
+	if (!b3Shape_IsValid(shapeId)) return;
+	b3SurfaceMaterial material = b3Shape_GetSurfaceMaterial(shapeId);
+	material.customColor = customColor;
+	b3Shape_SetSurfaceMaterial(shapeId, material);
+	if (b3Shape_GetMeshMaterialCount(shapeId) > 0)
+	{
+		b3Shape_SetMeshMaterial(shapeId, material, 0);
+	}
+}
+
+B3W_EXPORT void b3wShapeSetMeshMaterialId(uint64_t shapePacked, int index, int userMaterialId)
+{
+	b3ShapeId shapeId = b3LoadShapeId(shapePacked);
+	if (!b3Shape_IsValid(shapeId)) return;
+	b3SurfaceMaterial material = b3DefaultSurfaceMaterial();
+	material.userMaterialId = (uint64_t)userMaterialId;
+	b3Shape_SetMeshMaterial(shapeId, material, index);
+}
+
 B3W_EXPORT void b3wShapeSetFilter(uint64_t shapePacked, int categoryBits, int maskBits, int groupIndex, int invokeContacts)
 {
 	b3ShapeId shapeId = b3LoadShapeId(shapePacked);

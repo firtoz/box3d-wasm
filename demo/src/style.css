@@ -1140,6 +1140,56 @@ body.mobile-ui .assert-bench-lane-label {
   }
 }
 
+.drive-pad {
+  display: none;
+  position: fixed;
+  z-index: 13;
+  left: max(12px, env(safe-area-inset-left, 0px));
+  bottom: 40px;
+  grid-template-columns: 52px 52px 52px;
+  grid-template-rows: 52px 52px;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.drive-pad.visible {
+  display: grid;
+}
+
+.drive-pad.sheet-open {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.drive-pad-btn {
+  pointer-events: auto;
+  width: 52px;
+  height: 52px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.82);
+  color: #e2e8f0;
+  font: 600 14px/1 system-ui, sans-serif;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.drive-pad-btn[data-drive="w"] { grid-column: 2; grid-row: 1; }
+.drive-pad-btn[data-drive="a"] { grid-column: 1; grid-row: 2; }
+.drive-pad-btn[data-drive="s"] { grid-column: 2; grid-row: 2; }
+.drive-pad-btn[data-drive="d"] { grid-column: 3; grid-row: 2; }
+
+.drive-pad-btn.held,
+.drive-pad-btn:active {
+  background: rgba(56, 189, 248, 0.35);
+  border-color: rgba(56, 189, 248, 0.7);
+}
+
+body.mobile-ui .drive-pad {
+  bottom: calc(var(--metrics-h) + var(--touch-bar-h) + var(--safe-bottom) + 10px);
+}
+
 html,
 body {
   overscroll-behavior: none;

@@ -54,6 +54,10 @@ export type RenderSpec = {
   /** Extra keyboard → worker messages (e.g. `{ keys: ["l","L"], message: { type: "launch" } }`). */
   hotkeys?: { keys: string[]; message: Record<string, unknown> }[];
   overlay?: (scene: THREE.Scene) => RenderOverlay;
+  /** WASD / arrows + on-screen hold pad for vehicle samples. */
+  drivePad?: boolean;
+  /** When true, Ctrl+left pick sets a sample ray without requiring a mesh hit. */
+  castPickRay?: boolean;
 };
 
 function meshForShape(shape: RenderShape): THREE.Mesh {
@@ -261,6 +265,11 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
         return true;
       }
 
+      function startCastPickRay(origin: [number, number, number], translation: [number, number, number]): boolean {
+        worker.postMessage({ type: "cast-pick", origin, translation });
+        return true;
+      }
+
       function updateMouseDragRay(origin: [number, number, number], translation: [number, number, number]): void {
         worker.postMessage({ type: "drag-update", origin, translation });
       }
@@ -364,6 +373,27 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
         }
       }
 
+      const driveHeld = new Set<string>();
+      function emitDriveThrottle(): void {
+        if (spec.drivePad !== true) return;
+        let x = 0;
+        let y = 0;
+        if (driveHeld.has("w") || driveHeld.has("arrowup")) x += 1;
+        if (driveHeld.has("s") || driveHeld.has("arrowdown")) x -= 1;
+        if (driveHeld.has("a") || driveHeld.has("arrowleft")) y += 1;
+        if (driveHeld.has("d") || driveHeld.has("arrowright")) y -= 1;
+        worker.postMessage({ type: "drive-throttle", x, y });
+      }
+      function driveKey(key: string, down: boolean): boolean {
+        if (spec.drivePad !== true) return false;
+        const k = key.toLowerCase();
+        if (k !== "w" && k !== "a" && k !== "s" && k !== "d" && k !== "arrowup" && k !== "arrowdown" && k !== "arrowleft" && k !== "arrowright") return false;
+        if (down) driveHeld.add(k);
+        else driveHeld.delete(k);
+        emitDriveThrottle();
+        return true;
+      }
+
       return {
         world,
         bodies,
@@ -374,7 +404,7 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
               label: c.label,
               type: "button",
               onClick: () => {
-                worker.postMessage(c.message);
+                if (c.message.type !== "noop") worker.postMessage(c.message);
                 c.onHostClick?.();
               },
             };
@@ -390,7 +420,7 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
               value: c.value,
               onChange: (v) => {
                 if (typeof v !== "number") return;
-                worker.postMessage({ ...c.message, value: v });
+                if (c.message.type !== "noop") worker.postMessage({ ...c.message, value: v });
                 c.onHostChange?.(v);
               },
             };
@@ -401,7 +431,7 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
             type: "toggle",
             value: c.value,
             onChange: (v) => {
-              worker.postMessage({ ...c.message, value: v });
+              if (c.message.type !== "noop") worker.postMessage({ ...c.message, value: v });
               if (typeof v === "boolean") c.onHostChange?.(v);
             },
           };
@@ -419,9 +449,15 @@ export function createGenericSample(id: string, name: string, spec: RenderSpec, 
           for (const hotkey of spec.hotkeys ?? []) {
             if (hotkey.keys.includes(key)) worker.postMessage(hotkey.message);
           }
+          driveKey(key, true);
         },
+        onKeyUp(key: string) {
+          driveKey(key, false);
+        },
+        drivePad: spec.drivePad === true,
         spawnProjectile,
         startMouseDragRay,
+        startCastPickRay: spec.castPickRay === true ? startCastPickRay : undefined,
         updateMouseDragRay,
         stopMouseDrag,
         setPaused,

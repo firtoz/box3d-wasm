@@ -18,12 +18,10 @@ Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short
 
 **Defer for later sessions:** remaining events that need callback bindings, character movers, and most remaining `🧩` mesh samples. Manifold pairwise collide demos are ported.
 
-1. **Bodies / Offset Kinematic** — dumpable; APIs already wrapped (`setBodyMassData`, kinematic type). Offset hull + custom COM so rotation is about the box center.
-2. **Character / CapsulePlane** — mover collide APIs still `🚧` (`b3World_CollideMover`, `b3SolvePlanes`).
-3. **Collision / Cast World** — world-level cast callbacks still `🚧`.
-4. **Ragdoll / Pose** — needs pose-control bindings (`🚧`).
-5. **Joints / Gear Lift** — custom extruded mesh + revolute motor chain (`🚧` large port).
-6. **Mesh / Reflection** — negative scale mesh + building.obj (`🧩` mesh load) + humans.
+1. **Mesh / Reflection** — negative scale mesh + building.obj (`🧩` mesh load) + humans.
+2. **Collision / Distance Debug** — `b3World_ComputeDistance` still `🚧`.
+3. **Collision / Shape Distance** — distance queries still `🚧`.
+4. **Collision / Time of Impact** — `b3World_ComputeTOI` still `🚧`.
 
 ---
 
@@ -42,14 +40,14 @@ Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short
 | **Lock Mixing** | [x] | `bodyDef.motionLocks.angularX/Y/Z`, `bodyDef.motionLocks.linearX/Y/Z` | 🔧 `setBodyMotionLocks` exists, can set at body creation via `bodyDef.motionLocks`? Actually in TS we use `setBodyMotionLocks` after creation. |
 | **Fixed Rotation** | [x] | `bodyDef.motionLocks.angularX/Y/Z`, `bodyDef.gravityScale` | 🔧 All exist. C++/WASM dump parity verified with the default 5-second comparison window after matching the upstream vertical capsule setup exactly. |
 | **Class Ring** | [x] | Capsule loop + heavy gem, `allowFastRotation`, custom high-rate `Step` | 🔧 24-capsule ring + density-2 gem; tilt 13° about X, ω via `rotateVector`; `allowFastRotation` + `enableContactRecycling=false`. Worker/`dumpStep` run 16× steps at 960 Hz / 8 substeps (`dumpOwnsStep`). Ring verts via `b3ComputeCosSin` port. C++/WASM dump parity verified at epsilon=1e-5. |
-| **Offset Kinematic** | [ ] | `b3Body_SetMassData`, kinematic body, `b3MakeTransformedBoxHull` | 🔧 Kinematic box with local origin offset; `SetMassData` copies COM to that offset so spin is about the box center. Dumpable. |
+| **Offset Kinematic** | [x] | `b3Body_SetMassData`, kinematic body, `b3MakeTransformedBoxHull` | 🔧 Kinematic box with local origin offset; `SetMassData` copies COM to that offset so spin is about the box center. C++/WASM dump parity verified at epsilon=1e-5. |
 
 ## Character (`sample_character.cpp`)
 
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
-| **CapsulePlane** | [ ] | `b3World_CollideMover`, `b3SolvePlanes`, `b3WorldTransform` | 🚧 Low-level mover/collide APIs. Plane solver not in WASM. |
-| **MoverOverlap** | [ ] | `b3World_CollideMover`, `b3SolvePlanes`, deep overlap check | 🚧 Same as CapsulePlane. |
+| **CapsulePlane** | [x] | `b3World_CollideMover`, `b3SolvePlanes` | 🔧 Overlay mover capsule vs static box; Solve applies `b3SolvePlanes`. Dump compares the box pose plus collide-mover `planes` extras. |
+| **MoverOverlap** | [x] | `b3World_CollideMover`, `b3SolvePlanes`, deep overlap check | 🔧 Static sphere/capsule/box + overlay mover; dump extras `planes`. |
 | **Mover** | [ ] | Mesh loading, `b3CreateMeshShape`, `b3CreateHeightFieldShape`, `b3CreateWave`, `b3CreateTorusMesh`, full mover system | 🧩🚧 Very complex. Mesh loading + height fields + full character mover. |
 | **Rigid Body** | [ ] | Same as Mover + `b3World_CastRayClosest` + rigibody character system | 🧩🚧 Even more complex. |
 
@@ -58,7 +56,7 @@ Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short
 | Sample | TS | APIs needed | Notes |
 |--------|----|-------------|-------|
 | **Ray Curtain** | [x] | `b3World_CastRayClosest`, `b3CreateTorusMesh`, `b3CreateMeshShape` | 🔧 4 kinematic targets (sphere/capsule/box/torus); no physics ground; host draws full yellow rays + hit normals + DrawGroundGrid/axes. Dump compares body poses **and** per-ray hit/fraction/point/normal (`rays` checkpoint field). |
-| **Cast World** | [ ] | `b3World_CastRayClosest`, `b3World_CastShape`, `b3World_OverlapShape`, custom callbacks | 🚧 World-level cast/overlap with callbacks not wrapped. |
+| **Cast World** | [x] | `b3World_CastRay`, `b3World_CastShape`, `b3Body_ComputeAABB`, shape `userData` / `userMaterialId` | 🔧 Empty default world + spawn buttons (sphere/capsule/hull/mesh/HF). World-cast any/closest/multiple/sorted + ray/sphere/capsule/box proxies (skip ignored `userData==1`). Ctrl+left pick. Dump extras `worldCast` (empty hits). |
 | **Mesh Scale** | [x] | Mesh scaling + collision queries | 🔧 Static box-mesh body; cast queries in `Step` are render-only. C++/WASM dump parity verified at epsilon=1e-5. |
 | **Shape Cast** | [x] | `b3World_CastShape` | 🔧 12 static targets (sphere/capsule/hull/torus); zero-gravity setup; queries are render-only. C++/WASM dump parity verified at epsilon=1e-5. |
 | **Overlap World** | [x] | `b3World_OverlapShape` | 🔧 15 static/kinematic/dynamic targets incl. mesh + heightfield; queries render-only. C++/WASM dump parity verified at epsilon=1e-5. |
@@ -148,7 +146,7 @@ Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short
 | **Distance Joint** | [x] | `b3CreateDistanceJoint`, `b3DefaultDistanceJointDef` | 🔧 `CreateScene(1)` defaults: empty static anchor + sphere (r=0.25, density 20, angularDamping 1), length 1, spring/limit off. White anchor–body segment overlay. C++/WASM dump parity verified at epsilon=1e-5. |
 | **Filter** | [x] | `b3CreateFilterJoint` | 🔧 `createFilterJoint` exists. Passive C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Motor Joint** | [x] | `b3CreateMotorJoint` | 🔧 `createMotorJoint` exists. Interactive C++/WASM dump parity now covers scripted target motion via a deterministic frame schedule. |
-| **Top Down Friction** | [x] | Motor joint + friction | 🔧 Interactive C++/WASM dump parity now covers the sample's scripted explosion. |
+| **Top Down Friction** | [x] | Motor joint + friction | 🔧 Interactive dump: explode at frame 100 (`[0,10,0]`, r=10, falloff=5, impulse 10000) after settle; checkpoints 0–50 quiet, 100–300 post-blast. C++/WASM match at 1e-5. |
 | **Prismatic** | [x] | `b3CreatePrismaticJoint` | 🔧 Passive C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Spherical** | [x] | `b3CreateSphericalJoint` | 🔧 Passive C++/WASM dump parity verified with the default 5-second-or-sleep window. |
 | **Parallel Spring** | [x] | `b3CreateParallelJoint` | 🔧 Parallel joint (`hertz=10`, `dampingRatio=0.7`, `collideConnected`) + arena walls on a second static body; tilted box. Frames via `computeQuatBetweenUnitVectors` / `invMulQuat`. Green/blue Z-frame overlay (`drawScale=2`). C++/WASM dump parity verified at epsilon=1e-5. |
@@ -160,7 +158,7 @@ Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short
 | **Bridge** | [x] | Revolute joint chain | 🔧 Passive C++/WASM dump parity verified with the default 5-second comparison window. |
 | **Motion Locks** | [x] | `b3Body_SetMotionLocks` | Implemented. C++/WASM dump parity verified at epsilon=1e-5. Uses new `createDistanceJoint` binding plus joint force/torque thresholds on prismatic/revolute/weld. |
 | **Driving** | [x] | Wheel/suspension joints + `b3CreateWave` heightfield ground | 🔧 Wave heightfield ground + chassis parallel upright constraint + 4 wheel joints. Passive dump (no keyboard throttle). C++/WASM dump parity verified at epsilon=1e-5. |
-| **Gear Lift** | [ ] | Gear joint or equivalent | 🚧 |
+| **Gear Lift** | [x] | Extruded stair mesh + colliding gears (no gear joint), revolute motors, prismatic gate | 🔧 Shared Z-cylinders + 16 tapered teeth × 2 depths; two 40-link Y-capsule chains; door prismatic on mesh ground; 12×10 rocks. Runtime revolute motor + `wakeJointBodies`. Frames 0–20 match at 1e-5; first divergence ~frame 22 (soft window in `scripts/dump-soft-exceptions.json`). |
 
 ## Manifold (`sample_manifold.cpp`)
 
@@ -200,7 +198,7 @@ These are pairwise collide demos (no physics bodies). The TS ports use a custom 
 | **Mesh** | [x] | `b3CreateHuman` + mesh floor + parallel anchors | 🔧 Grid mesh 20×20 cell 2 + arena walls on one static body; human at `(0,1,0)` + `Human_CreateParallelAnchors`. Dump `Ragdoll/Mesh`. C++/WASM dump parity verified at epsilon=1e-5. |
 | **Pile** | [x] | Multiple humans piling | 🔧 20 humans on mesh floor (release build count). Upstream seeds `g_randomSeed=42` and places each human via `RandomVec3` at y=2 (`Box3DRng(42)` with float32-safe `RandomFloatRange`). Dump matches through frame 45 at 1e-5; first divergence ~frame 50 (soft window). |
 | **Incline** | [x] | Human + inclined ramp | Implemented. C++/WASM dump parity verified at epsilon=1e-5. Motor demotion at 2s via `dumpStep`. |
-| **Pose** | [ ] | `b3CreateHuman` + pose/motor control + grid mesh floor | 🚧 Human spawn exists; pose-control / motor-adjust bindings not wrapped. Uses `createGridMesh` floor (API exists). |
+| **Pose** | [ ] | pose/motor control | Upstream sample is `#if 0` in `sample_ragdoll.cpp`; skip until it is restored. |
 
 ## Robustness (`sample_robustness.cpp`)
 
@@ -297,9 +295,9 @@ These are pairwise collide demos (no physics bodies). The TS ports use a custom 
 ## Summary
 
 - **Total C++ samples**: **161** unique upstream `RegisterSample`s (162 registration lines; Benchmark / Large World registered twice)
-- **TS implemented (matching C++)**: **138** (~85.7%)
+- **TS implemented (matching C++)**: **140** (~87.0%)
 - **TS implemented (TS-only)**: 2 extras in the tables (Card House Thick, Object Asserts Bench) plus demo-only variants (dominoes, washer, material-dedup)
 - Status tables above are authoritative; the Easy next ports queue tracks what to port next.
 
-- **Dump-match status**: Dump-enabled set is **128/139** hard-green at default checkpoints `0,50,100,200,300` / `1e-5` after the `30c67b5` bump, including the nine Manifold collide samples (`manifold` extras) and Collision / Shape Cast Debug (`cast` extras). Use `bun run compare:all` for the full sweep; soft windows live in `scripts/dump-soft-exceptions.json` (11 scenes). Soft default-checkpoint exceptions (early window still required green): `mesh/hollow-box` (frame 0), `shapes/wind-flap` (0–200), `benchmark/junkyard` (0–100), `benchmark/convex-pile` (0–40), `world/far-ragdolls` (0–20), `ragdoll/pile` (0–45), `determinism/falling-ragdolls` (0–150), `determinism/wave-pile` (0–100), `benchmark/rain` (0–64), `benchmark/candy-cups` (0–200), `benchmark/explosion` (0–20). Frame 0 is exact on all of these (setup/order/float32 ruled out). Native SIMD vs scalar dumps are bit-identical; WASM SIMD vs scalar dumps are bit-identical — residual soft drift is cross-target codegen/libm, slightly earlier after upstream 64-bit hash + triangle-manifold + `B3_FORCE_INLINE` math. `geometry/hull` and `geometry/capsule-mass` use `dumpNoPhysics` (upstream samples have no bodies). Manifold samples also have no bodies; dumps compare the `manifold` extras. Continuous Mesh Drop dump uses fixed seed `1910133196` via dump alias `Continuous Mesh Drop`; Determinism Mesh Drop uses alias `Determinism Mesh Drop` (upstream name collision).
+- **Dump-match status**: Dump-enabled set is **132/144** hard-green at default checkpoints `0,50,100,200,300` / `1e-5` after the `30c67b5` bump, including the nine Manifold collide samples (`manifold` extras), Collision / Shape Cast Debug (`cast` extras), Character mover samples (`planes` extras), and Collision / Cast World (`worldCast` extras). Use `bun run compare:all` for the full sweep; soft windows live in `scripts/dump-soft-exceptions.json` (12 scenes). Soft default-checkpoint exceptions (early window still required green): `mesh/hollow-box` (frame 0), `shapes/wind-flap` (0–200), `benchmark/junkyard` (0–100), `benchmark/convex-pile` (0–40), `world/far-ragdolls` (0–20), `ragdoll/pile` (0–45), `determinism/falling-ragdolls` (0–150), `determinism/wave-pile` (0–100), `benchmark/rain` (0–64), `benchmark/candy-cups` (0–200), `benchmark/explosion` (0–20), `joints/gear-lift` (0–20). Frame 0 is exact on all of these (setup/order/float32 ruled out). Native SIMD vs scalar dumps are bit-identical; WASM SIMD vs scalar dumps are bit-identical — residual soft drift is cross-target codegen/libm, slightly earlier after upstream 64-bit hash + triangle-manifold + `B3_FORCE_INLINE` math. `geometry/hull` and `geometry/capsule-mass` use `dumpNoPhysics` (upstream samples have no bodies). Manifold samples also have no bodies; dumps compare the `manifold` extras. Continuous Mesh Drop dump uses fixed seed `1910133196` via dump alias `Continuous Mesh Drop`; Determinism Mesh Drop uses alias `Determinism Mesh Drop` (upstream name collision).
 - **New sample dump checklist**: When porting the next sample, follow `AGENTS.md` → Dump-match readiness (and `docs/reference-dump-plan.md` → New sample dump checklist) so gravity, float32 setup math, step/post-step order, and worker step cadence are dump-ready from day one.

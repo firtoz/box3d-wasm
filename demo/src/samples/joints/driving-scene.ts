@@ -29,6 +29,7 @@ export const DRIVING_SUSPENSION_DAMPING = 0.7;
 export const DRIVING_LOWER_SUSPENSION = -0.2;
 export const DRIVING_UPPER_SUSPENSION = 0.2;
 export const DRIVING_MAX_SPIN_TORQUE = 5;
+export const DRIVING_SPIN_SPEED = 30;
 export const DRIVING_STEERING_HERTZ = 10;
 export const DRIVING_STEERING_DAMPING = 0.7;
 export const DRIVING_MAX_STEERING_TORQUE = 5;
@@ -215,19 +216,17 @@ export interface DrivingDumpState {
 
 /** Passive upstream Step (no keyboard): throttle stays zero. */
 export function dumpStep(
-  _world: PhysicsWorld,
+  world: PhysicsWorld,
   _runtime: Box3DRuntime,
   _handles: readonly BodyHandle[],
   _frame: number,
   _dt: number,
   state: DrivingDumpState,
 ): void {
-  // Mirrors Driving::Step with throttle = {0, 0}: rear spin motors at 0, front steering target 0.
-  // Wheel-joint setters are not yet wrapped; spinSpeed defaults to 0 at creation so physics matches.
-  void state.joints.rearLeft;
-  void state.joints.rearRight;
-  void state.joints.frontLeft;
-  void state.joints.frontRight;
+  world.setWheelTargetSteeringAngle(state.joints.frontLeft, 0);
+  world.setWheelTargetSteeringAngle(state.joints.frontRight, 0);
+  world.setWheelSpinMotorSpeed(state.joints.rearLeft, 0);
+  world.setWheelSpinMotorSpeed(state.joints.rearRight, 0);
 }
 
 export function dumpCreate(runtime: Box3DRuntime): {

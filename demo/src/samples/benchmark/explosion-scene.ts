@@ -78,5 +78,5 @@ export function dumpRunInteraction(
 ): void {
   if (interaction.action !== "explode") throw new Error(`Unsupported explosion dump action: ${interaction.action}`);
   const [x = 0, y = -4, z = 0, radius = 16, falloff = 0, impulsePerArea = EXPLOSION_IMPULSE] = interaction.args ?? [];
-  world.explode([x, y, z], radius, falloff, impulsePerArea, 0xFFFFFFFFn as unknown as number);
+  world.explode([x, y, z], radius, falloff, impulsePerArea);
 }

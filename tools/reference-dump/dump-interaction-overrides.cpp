@@ -808,8 +808,114 @@ bool apply_dump_interaction( Sample* sample, const char* sampleName, const DumpI
 	return false;
 }
 
+struct CapsulePlaneDumpContext
+{
+	b3PlaneResult planes[32];
+	int count;
+	int capacity;
+};
+
+static bool CapsulePlaneDumpCallback( b3ShapeId, const b3PlaneResult* results, int planeCount, void* context )
+{
+	CapsulePlaneDumpContext* self = static_cast<CapsulePlaneDumpContext*>( context );
+	for ( int i = 0; i < planeCount && self->count < self->capacity; ++i )
+	{
+		self->planes[self->count] = results[i];
+		self->count += 1;
+	}
+	return self->count < self->capacity;
+}
+
+static std::string capsule_plane_extras_json;
+
+static const char* capsule_plane_checkpoint_extras( Sample* sample )
+{
+	CapsulePlaneDumpContext ctx = {};
+	ctx.capacity = 3;
+	b3Pos origin = { 0.0f, 1.0f, 0.4f };
+	b3Capsule capsule = { { 0.0f, -0.5f, 0.0f }, { 0.0f, 0.5f, 0.0f }, 0.25f };
+	b3World_CollideMover( sample->m_worldId, origin, &capsule, b3DefaultQueryFilter(), CapsulePlaneDumpCallback, &ctx );
+	capsule_plane_extras_json = "\"planes\":[";
+	char buf[256];
+	for ( int i = 0; i < ctx.count; ++i )
+	{
+		if ( i > 0 )
+			capsule_plane_extras_json += ",";
+		const b3PlaneResult& r = ctx.planes[i];
+		snprintf( buf, sizeof( buf ),
+				  "{\"n\":[%.17g,%.17g,%.17g],\"o\":%.17g,\"p\":[%.17g,%.17g,%.17g]}",
+				  (double)r.plane.normal.x, (double)r.plane.normal.y, (double)r.plane.normal.z, (double)r.plane.offset,
+				  (double)r.point.x, (double)r.point.y, (double)r.point.z );
+		capsule_plane_extras_json += buf;
+	}
+	capsule_plane_extras_json += "]";
+	return capsule_plane_extras_json.c_str();
+}
+
+static const char* mover_overlap_checkpoint_extras( Sample* sample )
+{
+	CapsulePlaneDumpContext ctx = {};
+	ctx.capacity = 32;
+	b3Pos origin = { 0.0f, 3.5f, 0.0f };
+	b3Capsule capsule = { { 0.0f, -0.5f, 0.0f }, { 0.0f, 0.5f, 0.0f }, 0.35f };
+	b3World_CollideMover( sample->m_worldId, origin, &capsule, b3DefaultQueryFilter(), CapsulePlaneDumpCallback, &ctx );
+	capsule_plane_extras_json = "\"planes\":[";
+	char buf[256];
+	for ( int i = 0; i < ctx.count; ++i )
+	{
+		if ( i > 0 )
+			capsule_plane_extras_json += ",";
+		const b3PlaneResult& r = ctx.planes[i];
+		snprintf( buf, sizeof( buf ),
+				  "{\"n\":[%.17g,%.17g,%.17g],\"o\":%.17g,\"p\":[%.17g,%.17g,%.17g]}",
+				  (double)r.plane.normal.x, (double)r.plane.normal.y, (double)r.plane.normal.z, (double)r.plane.offset,
+				  (double)r.point.x, (double)r.point.y, (double)r.point.z );
+		capsule_plane_extras_json += buf;
+	}
+	capsule_plane_extras_json += "]";
+	return capsule_plane_extras_json.c_str();
+}
+
+static std::string cast_world_extras_json;
+
+static const char* cast_world_checkpoint_extras( Sample* sample )
+{
+	CastWorld* self = static_cast<CastWorld*>( sample );
+	char buf[320];
+	cast_world_extras_json = "\"worldCast\":{\"c\":";
+	snprintf( buf, sizeof( buf ), "%d,\"h\":[", self->m_castContext.count );
+	cast_world_extras_json += buf;
+	for ( int i = 0; i < self->m_castContext.count; ++i )
+	{
+		if ( i > 0 )
+			cast_world_extras_json += ",";
+		snprintf( buf, sizeof( buf ),
+				  "{\"f\":%.17g,\"p\":[%.17g,%.17g,%.17g],\"n\":[%.17g,%.17g,%.17g],\"m\":%d,\"t\":%d}",
+				  (double)self->m_castContext.fractions[i], (double)self->m_castContext.points[i].x,
+				  (double)self->m_castContext.points[i].y, (double)self->m_castContext.points[i].z,
+				  (double)self->m_castContext.normals[i].x, (double)self->m_castContext.normals[i].y,
+				  (double)self->m_castContext.normals[i].z, (int)self->m_castContext.materialIds[i],
+				  self->m_castContext.triangleIndices[i] );
+		cast_world_extras_json += buf;
+	}
+	cast_world_extras_json += "]}";
+	return cast_world_extras_json.c_str();
+}
+
 const char* get_dump_checkpoint_extras( Sample* sample, const char* sampleName )
 {
+	if ( strcmp( sampleName, "CapsulePlane" ) == 0 )
+	{
+		return capsule_plane_checkpoint_extras( sample );
+	}
+	if ( strcmp( sampleName, "MoverOverlap" ) == 0 )
+	{
+		return mover_overlap_checkpoint_extras( sample );
+	}
+	if ( strcmp( sampleName, "Cast World" ) == 0 )
+	{
+		return cast_world_checkpoint_extras( sample );
+	}
 	if ( strcmp( sampleName, "Ray Curtain" ) == 0 )
 	{
 		return static_cast<DumpRayCurtain*>( sample )->CheckpointExtrasJson();

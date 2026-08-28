@@ -42,5 +42,9 @@
   "benchmark/explosion": {
     "matchThroughFrame": 20,
     "note": "Frames 0–20 match at 1e-5 including the frame-1 explode; first divergence ~frame 25 in the cylinder pile."
+  },
+  "joints/gear-lift": {
+    "matchThroughFrame": 20,
+    "note": "Frames 0–20 match at 1e-5; first divergence ~frame 22 in the meshing-gear + chain + rock pile (native vs WASM solver FP)."
   }
 }

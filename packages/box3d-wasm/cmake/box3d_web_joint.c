@@ -492,3 +492,164 @@ B3W_EXPORT float b3wPrismaticJointGetTranslation(uint64_t jointPacked)
 	if (!b3Joint_IsValid(jointId)) return 0.0f;
 	return b3PrismaticJoint_GetTranslation(jointId);
 }
+
+B3W_EXPORT void b3wJointWakeBodies(uint64_t jointPacked)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3Joint_WakeBodies(jointId);
+}
+
+B3W_EXPORT void b3wRevoluteJointEnableMotor(uint64_t jointPacked, int enableMotor)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3RevoluteJoint_EnableMotor(jointId, enableMotor != 0);
+}
+
+B3W_EXPORT void b3wRevoluteJointSetMotorSpeed(uint64_t jointPacked, float motorSpeed)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3RevoluteJoint_SetMotorSpeed(jointId, motorSpeed);
+}
+
+B3W_EXPORT void b3wRevoluteJointSetMaxMotorTorque(uint64_t jointPacked, float torque)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3RevoluteJoint_SetMaxMotorTorque(jointId, torque);
+}
+
+B3W_EXPORT void b3wWheelJointSetSuspensionLimits(uint64_t jointPacked, float lower, float upper)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3WheelJoint_SetSuspensionLimits(jointId, lower, upper);
+}
+
+B3W_EXPORT void b3wWheelJointSetSuspensionHertz(uint64_t jointPacked, float hertz)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3WheelJoint_SetSuspensionHertz(jointId, hertz);
+}
+
+B3W_EXPORT void b3wWheelJointSetSuspensionDampingRatio(uint64_t jointPacked, float dampingRatio)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3WheelJoint_SetSuspensionDampingRatio(jointId, dampingRatio);
+}
+
+B3W_EXPORT void b3wWheelJointSetSpinMotorSpeed(uint64_t jointPacked, float speed)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3WheelJoint_SetSpinMotorSpeed(jointId, speed);
+}
+
+B3W_EXPORT void b3wWheelJointSetMaxSpinTorque(uint64_t jointPacked, float torque)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3WheelJoint_SetMaxSpinTorque(jointId, torque);
+}
+
+B3W_EXPORT void b3wWheelJointSetSteeringHertz(uint64_t jointPacked, float hertz)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3WheelJoint_SetSteeringHertz(jointId, hertz);
+}
+
+B3W_EXPORT void b3wWheelJointSetSteeringDampingRatio(uint64_t jointPacked, float dampingRatio)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3WheelJoint_SetSteeringDampingRatio(jointId, dampingRatio);
+}
+
+B3W_EXPORT void b3wWheelJointSetMaxSteeringTorque(uint64_t jointPacked, float torque)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3WheelJoint_SetMaxSteeringTorque(jointId, torque);
+}
+
+B3W_EXPORT void b3wWheelJointSetSteeringLimits(uint64_t jointPacked, float lowerRadians, float upperRadians)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3WheelJoint_SetSteeringLimits(jointId, lowerRadians, upperRadians);
+}
+
+B3W_EXPORT void b3wWheelJointSetTargetSteeringAngle(uint64_t jointPacked, float radians)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3WheelJoint_SetTargetSteeringAngle(jointId, radians);
+}
+
+B3W_EXPORT float b3wWheelJointGetSpinSpeed(uint64_t jointPacked)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return 0.0f;
+	return b3WheelJoint_GetSpinSpeed(jointId);
+}
+
+B3W_EXPORT float b3wWheelJointGetSpinTorque(uint64_t jointPacked)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return 0.0f;
+	return b3WheelJoint_GetSpinTorque(jointId);
+}
+
+B3W_EXPORT float b3wWheelJointGetSteeringAngle(uint64_t jointPacked)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return 0.0f;
+	return b3WheelJoint_GetSteeringAngle(jointId);
+}
+
+B3W_EXPORT float b3wWheelJointGetSteeringTorque(uint64_t jointPacked)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return 0.0f;
+	return b3WheelJoint_GetSteeringTorque(jointId);
+}
+
+B3W_EXPORT void b3wWheelJointEnableSuspension(uint64_t jointPacked, int enable)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3WheelJoint_EnableSuspension(jointId, enable != 0);
+}
+
+B3W_EXPORT void b3wWheelJointEnableSuspensionLimit(uint64_t jointPacked, int enable)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3WheelJoint_EnableSuspensionLimit(jointId, enable != 0);
+}
+
+B3W_EXPORT void b3wWheelJointEnableSpinMotor(uint64_t jointPacked, int enable)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3WheelJoint_EnableSpinMotor(jointId, enable != 0);
+}
+
+B3W_EXPORT void b3wWheelJointEnableSteering(uint64_t jointPacked, int enable)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3WheelJoint_EnableSteering(jointId, enable != 0);
+}
+
+B3W_EXPORT void b3wWheelJointEnableSteeringLimit(uint64_t jointPacked, int enable)
+{
+	b3JointId jointId = b3LoadJointId(jointPacked);
+	if (!b3Joint_IsValid(jointId)) return;
+	b3WheelJoint_EnableSteeringLimit(jointId, enable != 0);
+}

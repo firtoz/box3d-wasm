@@ -130,5 +130,5 @@ export function dumpRunInteraction(
   if (interaction.action !== "explode") throw new Error(`Unsupported candy-cups dump action: ${interaction.action}`);
   const [x = DUMP_EXPLODE_POS[0], y = DUMP_EXPLODE_POS[1], z = DUMP_EXPLODE_POS[2], radius = 25, falloff = 12.5, impulsePerArea = 2000] =
     interaction.args ?? [];
-  world.explode([x, y, z], radius, falloff, impulsePerArea, 0xFFFFFFFFn as unknown as number);
+  world.explode([x, y, z], radius, falloff, impulsePerArea);
 }

@@ -1,5 +1,6 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "box3d-wasm-workspace",
@@ -32,6 +33,12 @@
         "typescript": "catalog:",
       },
     },
+  },
+  "catalog": {
+    "@types/bun": "^1.3.14",
+    "@types/node": "^24.13.2",
+    "@types/three": "^0.185.0",
+    "typescript": "7.0.1-rc",
   },
   "packages": {
     "@dimforge/rapier3d-compat": ["@dimforge/rapier3d-compat@0.12.0", "", {}, "sha512-uekIGetywIgopfD97oDL5PfeezkFpNhwlzlaEYNOA0N6ghdsOvh/HYjSMek5Q2O1PYvRSDFcqFVJl4r4ZBwOow=="],

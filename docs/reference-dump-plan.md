@@ -21,7 +21,7 @@ Goal: compare upstream C++ Box3D sample behavior against TypeScript/WASM ports b
 - `scripts/wasm-dump.ts` uses the same `demo/src/samples/index.ts` sample list as the frontend for IDs and display names, then enables C++ comparison for samples whose `*-scene.ts` module exports `dumpSampleId`, `dumpCppSampleName`, `dumpGroundSize`, and `dumpBuildDynamicBodies`.
 - Dump-enabled scenes can now also export `dumpInteractionSchedule` plus `dumpRunInteraction`, letting both dumpers apply deterministic scripted actions at exact frames before stepping that frame.
 - The C++ reference dumper mirrors those scripted interactions through a small sample-name schedule map plus a per-sample `ApplyDumpInteraction(...)` hook on the upstream sample classes.
-- Interactive dump parity is now covered for `Motor Joint` (delayed speed change), `Door` (impulse), and `Top Down Friction` (explosion), not just passive default stepping.
+- Interactive dump parity is now covered for `Motor Joint` (delayed speed change), `Door` (impulse), and `Top Down Friction` (explosion at frame 100 after settle), not just passive default stepping.
 - Interactive dump parity is also covered for `Weeble` via a scripted teleport that triggers the characteristic wobble response.
 - Additional passive joint parity is now verified for `Filter`, `Prismatic`, `Revolute`, `Weld`, `Spherical`, `Ball and Chain`, and `Bridge`.
 - No generated dump fixtures are committed. Clear `.reference-dumps/` whenever stale outputs are no longer useful.

@@ -88,6 +88,7 @@ app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
         <div class="controls-dialog-section-title">Touch</div>
         <table>
           <tr><td class="cd-key">1 finger</td><td>Drag a dynamic body, or orbit on empty space</td></tr>
+          <tr><td class="cd-key">Drive pad</td><td>Hold W/A/S/D on Driving (also arrows / keyboard)</td></tr>
           <tr><td class="cd-key">2 fingers</td><td>Pan and pinch-zoom</td></tr>
           <tr><td class="cd-key">Shoot</td><td>Heavy sphere along the camera look</td></tr>
           <tr><td class="cd-key">Spin</td><td>Fast cylinder projectile (C++ Ctrl+Shift)</td></tr>
@@ -116,7 +117,8 @@ app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
         <table>
           <tr><td class="cd-key">Left drag</td><td>Drag a dynamic body, or orbit on empty space</td></tr>
           <tr><td class="cd-key">Middle drag</td><td>Pan camera</td></tr>
-          <tr><td class="cd-key">Right drag</td><td>Fly look (WASD to move)</td></tr>
+          <tr><td class="cd-key">Right drag</td><td>Fly look (WASD to move; Driving uses WASD for the car)</td></tr>
+          <tr><td class="cd-key">WASD / arrows</td><td>Drive when the sample shows a D-pad</td></tr>
           <tr><td class="cd-key">Scroll</td><td>Zoom</td></tr>
           <tr><td class="cd-key">Alt + left drag</td><td>Force orbit (even over bodies)</td></tr>
           <tr><td class="cd-key">Alt + right drag</td><td>Zoom (dolly)</td></tr>
@@ -125,6 +127,12 @@ app.innerHTML = benchRunnerMode ? `<canvas id="view"></canvas>` : `
         </table>
       </div>
     </div>
+  </div>
+  <div class="drive-pad" id="drive-pad" hidden>
+    <button type="button" class="drive-pad-btn" data-drive="w" aria-label="Forward">W</button>
+    <button type="button" class="drive-pad-btn" data-drive="a" aria-label="Steer left">A</button>
+    <button type="button" class="drive-pad-btn" data-drive="s" aria-label="Reverse">S</button>
+    <button type="button" class="drive-pad-btn" data-drive="d" aria-label="Steer right">D</button>
   </div>
   <div class="touch-toolbar" id="touch-toolbar" hidden>
     <button type="button" class="touch-btn" id="touch-prev" title="Previous sample" aria-label="Previous sample">\u2039</button>
@@ -162,6 +170,7 @@ const controlsDialogHeader = document.querySelector<HTMLDivElement>("#controls-d
 const controlsDialogClose = document.querySelector<HTMLSpanElement>("#controls-dialog-close") ?? detachedElement("span");
 const samplesBtn = samplesToggle;
 const controlsBtn = controlsToggle;
+const drivePad = document.querySelector<HTMLDivElement>("#drive-pad") ?? detachedElement("div");
 const touchToolbar = document.querySelector<HTMLDivElement>("#touch-toolbar") ?? detachedElement("div");
 const touchPrevBtn = document.querySelector<HTMLButtonElement>("#touch-prev") ?? detachedElement("button");
 const touchPauseBtn = document.querySelector<HTMLButtonElement>("#touch-pause") ?? detachedElement("button");
@@ -234,6 +243,7 @@ chartTooltip.style.cssText = "position:fixed;z-index:30;pointer-events:none;back
 
 const chartCtxs: CanvasRenderingContext2D[] = [];
 const chartLabels: HTMLSpanElement[] = [];
+const chartInfoButtons: HTMLSpanElement[] = [];
 const chartElements: HTMLElement[] = [];
 
 function showChartTooltip(el: HTMLElement, text: string): void {
@@ -251,30 +261,31 @@ function ensurePhysCharts(): void {
   document.body.appendChild(chartTooltip);
   for (let ci = 0; ci < chartDefs.length; ci++) {
     const def = chartDefs[ci];
-    const right = 10 + ci * (CHART_W + CHART_GAP);
+    const left = 10 + ci * (CHART_W + CHART_GAP);
 
     const cv = document.createElement("canvas");
     cv.width = CHART_W;
     cv.height = CHART_H;
-    cv.style.cssText = `position:fixed;right:${right}px;bottom:76px;z-index:20;pointer-events:none;opacity:0.7;width:${CHART_W}px;height:${CHART_H}px`;
+    cv.style.cssText = `position:fixed;left:${left}px;bottom:76px;z-index:6;pointer-events:none;opacity:0.7;width:${CHART_W}px;height:${CHART_H}px`;
     document.body.appendChild(cv);
     chartElements.push(cv);
     chartCtxs.push(cv.getContext("2d")!);
 
     const lb = document.createElement("span");
-    lb.style.cssText = `position:fixed;right:${right}px;bottom:210px;z-index:20;pointer-events:none;color:${def.color};font:11px monospace;text-shadow:0 0 3px #000`;
+    lb.style.cssText = `position:fixed;left:${left}px;bottom:210px;z-index:6;pointer-events:none;color:${def.color};font:11px monospace;text-shadow:0 0 3px #000`;
     lb.textContent = `0.0`;
     document.body.appendChild(lb);
     chartElements.push(lb);
+    chartLabels.push(lb);
 
     const infoBtn = document.createElement("span");
     infoBtn.textContent = "?";
-    infoBtn.style.cssText = `position:fixed;right:${right}px;bottom:228px;z-index:25;color:${def.color};font:10px monospace;cursor:help;opacity:0.6`;
+    infoBtn.style.cssText = `position:fixed;left:${left}px;bottom:228px;z-index:7;color:${def.color};font:10px monospace;cursor:help;opacity:0.6`;
     infoBtn.addEventListener("mouseenter", () => showChartTooltip(infoBtn, def.desc));
     infoBtn.addEventListener("mouseleave", hideChartTooltip);
     document.body.appendChild(infoBtn);
     chartElements.push(infoBtn);
-    chartLabels.push(lb);
+    chartInfoButtons.push(infoBtn);
   }
 }
 
@@ -413,6 +424,31 @@ let activeTouchPointers = 0;
 let metricsTick = 0;
 let benchCancelRequested = false;
 
+function syncDrivePad(): void {
+  const on = !benchRunnerMode && activeSample?.drivePad === true;
+  drivePad.hidden = !on;
+  drivePad.classList.toggle("visible", on);
+  layoutCharts();
+}
+
+for (const btn of drivePad.querySelectorAll<HTMLButtonElement>("[data-drive]")) {
+  const key = btn.dataset.drive ?? "";
+  const release = (): void => {
+    btn.classList.remove("held");
+    activeSample?.onKeyUp?.(key);
+  };
+  btn.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    btn.setPointerCapture(e.pointerId);
+    btn.classList.add("held");
+    activeSample?.onKey?.(key);
+  });
+  btn.addEventListener("pointerup", release);
+  btn.addEventListener("pointercancel", release);
+  btn.addEventListener("lostpointercapture", release);
+}
+
 function isTouchLikePointer(e: PointerEvent): boolean {
   return e.pointerType === "touch" || e.pointerType === "pen";
 }
@@ -430,6 +466,9 @@ function syncMobileOverlays(): void {
   controlsBackdrop.hidden = !controlsOpen;
   // Keep the canvas action bar clear while sheets are open.
   touchToolbar.hidden = samplesOpen || controlsOpen;
+  if (!drivePad.hidden) {
+    drivePad.classList.toggle("sheet-open", samplesOpen || controlsOpen);
+  }
 }
 
 function layoutCharts(): void {
@@ -444,20 +483,29 @@ function layoutCharts(): void {
   }
   const bottom = 76;
   const labelBottom = 210;
+  const infoBottom = 228;
+  const drivePadOffset = !drivePad.hidden && drivePad.classList.contains("visible") ? 180 : 0;
   let canvasIdx = 0;
   for (const el of chartElements) {
-    if (el instanceof HTMLCanvasElement) {
-      const right = 10 + canvasIdx * (CHART_W + CHART_GAP);
-      el.style.right = `${right}px`;
-      el.style.bottom = `${bottom}px`;
-      canvasIdx++;
-    }
+    if (!(el instanceof HTMLCanvasElement)) continue;
+    const left = 10 + drivePadOffset + canvasIdx * (CHART_W + CHART_GAP);
+    el.style.left = `${left}px`;
+    el.style.right = "auto";
+    el.style.bottom = `${bottom}px`;
+    canvasIdx++;
   }
   for (let i = 0; i < chartLabels.length; i++) {
-    const right = 10 + i * (CHART_W + CHART_GAP);
+    const left = 10 + drivePadOffset + i * (CHART_W + CHART_GAP);
     const lb = chartLabels[i]!;
-    lb.style.right = `${right}px`;
+    lb.style.left = `${left}px`;
+    lb.style.right = "auto";
     lb.style.bottom = `${labelBottom}px`;
+    const info = chartInfoButtons[i];
+    if (info !== undefined) {
+      info.style.left = `${left}px`;
+      info.style.right = "auto";
+      info.style.bottom = `${infoBottom}px`;
+    }
   }
 }
 
@@ -640,6 +688,8 @@ function spawnProjectile(spin = false, ragdoll = false): void {
 function clearScene(): void {
   activeSample?.dispose();
   activeSample = null;
+  drivePad.hidden = true;
+  drivePad.classList.remove("visible", "sheet-open");
   updatePhysChartVisibility();
 }
 
@@ -1331,6 +1381,7 @@ async function createAndInstallSample(index: number, sceneWasReset: boolean, cam
     orbit.target.set(activeSample.camera.target[0], activeSample.camera.target[1], activeSample.camera.target[2]);
   }
   orbit.update();
+  syncDrivePad();
   paused = false;
   singleStep = 0;
   lastProfileSample = null;
@@ -1498,6 +1549,10 @@ function frame(time: number): void {
     if (nextInfo !== undefined) controlsInfoRow.textContent = nextInfo;
   }
   updateFlyMovement(dt);
+  const follow = activeSample?.followTarget?.();
+  if (follow !== null && follow !== undefined) {
+    orbit.target.set(follow[0], follow[1], follow[2]);
+  }
   orbit.update();
   const renderStart = collectTimings ? performance.now() : 0;
   if (activeSample?.render?.(renderer, camera) !== true) {
@@ -1912,6 +1967,22 @@ canvas.addEventListener("pointerdown", (e) => {
     if (!touchLike && e.altKey) {
       return;
     }
+    if (!touchLike && e.ctrlKey && activeSample?.startCastPickRay !== undefined) {
+      setPointerFromEvent(e);
+      const started = withPickCamera(() => {
+        raycaster.setFromCamera(pointerNdc, camera);
+        const origin = [raycaster.ray.origin.x, raycaster.ray.origin.y, raycaster.ray.origin.z] as [number, number, number];
+        const dir = raycaster.ray.direction;
+        const length = Math.hypot(dir.x, dir.y, dir.z) || 1;
+        const translation = [dir.x / length * 100, dir.y / length * 100, dir.z / length * 100] as [number, number, number];
+        return activeSample!.startCastPickRay!(origin, translation);
+      });
+      if (started) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return;
+      }
+    }
     if (startMouseDrag(e)) {
       e.preventDefault();
       e.stopImmediatePropagation();
@@ -1982,7 +2053,11 @@ canvas.addEventListener("contextmenu", (e) => {
 
 window.addEventListener("keydown", (e) => {
   const key = e.key.toLowerCase();
-  if (key === "w" || key === "a" || key === "s" || key === "d") {
+  const driving = activeSample?.drivePad === true;
+  if (driving && (key === "arrowup" || key === "arrowdown" || key === "arrowleft" || key === "arrowright" || key === "w" || key === "a" || key === "s" || key === "d")) {
+    e.preventDefault();
+  }
+  if (!driving && (key === "w" || key === "a" || key === "s" || key === "d")) {
     flyKeys.add(key);
   }
   if (e.key === "?") {
@@ -2038,13 +2113,14 @@ window.addEventListener("keydown", (e) => {
     const colorCb = document.querySelector<HTMLInputElement>("#color-mode-cb");
     if (colorCb) colorCb.checked = colorMode === "light";
   }
-  if (!e.defaultPrevented && activeSample?.onKey) {
+  if (!e.repeat && activeSample?.onKey) {
     activeSample.onKey(e.key);
   }
 });
 
 window.addEventListener("keyup", (e) => {
   flyKeys.delete(e.key.toLowerCase());
+  activeSample?.onKeyUp?.(e.key);
 });
 
 statusLabel.textContent = "Loading...";
