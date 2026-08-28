@@ -14,11 +14,8 @@ Global demo already covers pause / restart / shoot / spin / ragdoll / sample pic
 
 These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exist:
 
-- Mesh / Height Field: columns/rows/amplitude/holes/ray sliders.
-- Shapes / Wind (shape/wind/drag/lift/count).
 - Collision: Long Ray Cast, Mesh Scale, Shape Cast, Initial Overlap (partial vs C++).
 - Continuous / Mesh Drop: Type / Amplitude / generate.
-- Benchmark / Height Field: Radius.
 - Events / Hit (C++ Contact WASD) if we add a kinematic pusher.
 
 ## Demo samples
@@ -118,13 +115,13 @@ These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exis
 - [x] `shapes/slide-twist` — Shapes / Slide Twist — no C++ sample UI
 - [x] `shapes/conveyor-belt` — Shapes / Conveyor Belt — no C++ sample UI
 - [x] `shapes/wind-drop` — Shapes / Wind Drop — no C++ sample UI
-- [ ] `shapes/wind` — Shapes / Wind — C++ shape/wind/drag/lift
+- [x] `shapes/wind` — Shapes / Wind — Circle/Capsule/Box + Wind/Drag/Lift/Count
 - [x] `shapes/wind-flap` — Shapes / Wind Flap — no C++ sample UI
 - [x] `shapes/static-invoke` — Shapes / Static Invoke — Invoke / Passive / Create / Destroy
 - [x] `mesh/grid` — Mesh / Grid — shape spawn + scale
 - [x] `mesh/big-box` — Mesh / Big Box — shape spawn + scale
 - [x] `mesh/box` — Mesh / Box — shape spawn + scale
-- [ ] `mesh/height-field` — Mesh / Height Field — C++ grid/ray sliders
+- [x] `mesh/height-field` — Mesh / Height Field — columns/rows/amplitude/holes + ray sliders
 - [x] `mesh/hollow-box` — Mesh / Hollow Box — no C++ sample UI
 - [x] `collision/ray-curtain` — Collision / Ray Curtain — no C++ sample UI
 - [x] `collision/capsule-cast-ray` — Collision / Capsule Cast Ray — no C++ sample UI
@@ -150,7 +147,7 @@ These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exis
 - [x] `benchmark/chains` — Benchmark / Chains — no C++ sample UI
 - [x] `benchmark/convex-pile` — Benchmark / Convex Pile — no C++ sample UI
 - [x] `benchmark/large-world` — Benchmark / Large World — no C++ sample UI
-- [ ] `benchmark/height-field` — Benchmark / Height Field — C++ Radius
+- [x] `benchmark/height-field` — Benchmark / Height Field — Radius + cast HUD
 - [x] `bodies/cast` — Bodies / Cast — no C++ sample UI
 - [ ] `collision/shape-cast` — Collision / Shape Cast — C++ Initial Overlap
 - [x] `collision/overlap-world` — Collision / Overlap World — no C++ sample UI
