@@ -1,14 +1,14 @@
-import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type JointId, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import { ObjectRuntime } from "box3d-wasm/objects";
 
 export const revoluteJointBodyIndex = 1;
 
-export function buildRevoluteJointDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+export function createRevoluteJointScene(world: PhysicsWorld, runtime: Box3DRuntime): { handles: BodyId[]; joint: JointId } {
   const objectWorld = ObjectRuntime.fromRuntime(runtime).wrapWorld(world);
   const hiddenGround = objectWorld.createBody({ position: [0, -1, 0] });
   const body = objectWorld.createBody({ type: BodyType.Dynamic, position: [0, 4, 0] });
   body.createHullShape([0.5, 1.5, 0.25]);
-  objectWorld.createRevoluteJoint(hiddenGround, body, {
+  const joint = objectWorld.createRevoluteJoint(hiddenGround, body, {
     localFrameA: { position: [0, 6.5, 0] },
     localFrameB: { position: [0, 1.5, 0] },
     enableLimit: false,
@@ -21,7 +21,11 @@ export function buildRevoluteJointDynamicBodies(world: PhysicsWorld, runtime: Bo
     maxMotorTorque: 5000,
     motorSpeed: 0,
   });
-  return [hiddenGround.handle, body.handle];
+  return { handles: [hiddenGround.handle, body.handle], joint: joint.handle };
+}
+
+export function buildRevoluteJointDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  return createRevoluteJointScene(world, runtime).handles;
 }
 
 export const revoluteJointGroundSize = (): Vec3 => [20, 1, 20];

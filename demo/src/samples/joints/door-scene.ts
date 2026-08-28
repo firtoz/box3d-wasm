@@ -10,18 +10,23 @@ export interface DoorScene {
   joints: JointId[];
 }
 
-export function createDoorScene(world: PhysicsWorld, runtime: Box3DRuntime, groundHandle: BodyId): DoorScene {
+export function createDoorJoints(
+  world: PhysicsWorld,
+  runtime: Box3DRuntime,
+  groundHandle: BodyId,
+  doorHandle: BodyId,
+  options: { twoJoints: boolean; constraintHertz: number; constraintDampingRatio: number },
+): JointId[] {
   const objectWorld = ObjectRuntime.fromRuntime(runtime).wrapWorld(world);
   const ground = objectWorld.body(groundHandle);
+  const door = objectWorld.body(doorHandle);
   const axisQuat = runtime.makeQuatFromAxisAngle([1, 0, 0], -Math.PI / 2);
   const joints: JointId[] = [];
-  const door = objectWorld.createBody({ type: BodyType.Dynamic, position: [0, 1.5, 0], gravityScale: 2 });
-  door.createHullShape([0.75, 1.5, 0.1], { density: 1000 });
   joints.push(objectWorld.createRevoluteJoint(ground, door, {
     localFrameA: { position: [-0.75, 1, 0], rotation: axisQuat },
     localFrameB: { position: [-0.75, -1.5, 0], rotation: axisQuat },
-    constraintHertz: 120,
-    constraintDampingRatio: 0,
+    constraintHertz: options.constraintHertz,
+    constraintDampingRatio: options.constraintDampingRatio,
     enableLimit: true,
     lowerAngle: -0.5 * Math.PI,
     upperAngle: 0.5 * Math.PI,
@@ -32,21 +37,35 @@ export function createDoorScene(world: PhysicsWorld, runtime: Box3DRuntime, grou
     maxMotorTorque: 100,
     motorSpeed: 0,
   }).handle);
-  joints.push(objectWorld.createRevoluteJoint(ground, door, {
-    localFrameA: { position: [-0.75, 4, 0], rotation: axisQuat },
-    localFrameB: { position: [-0.75, 1.5, 0], rotation: axisQuat },
+  if (options.twoJoints) {
+    joints.push(objectWorld.createRevoluteJoint(ground, door, {
+      localFrameA: { position: [-0.75, 4, 0], rotation: axisQuat },
+      localFrameB: { position: [-0.75, 1.5, 0], rotation: axisQuat },
+      constraintHertz: options.constraintHertz,
+      constraintDampingRatio: options.constraintDampingRatio,
+      enableLimit: true,
+      lowerAngle: -0.5 * Math.PI,
+      upperAngle: 0.5 * Math.PI,
+      enableSpring: true,
+      hertz: 1,
+      dampingRatio: 0.5,
+      enableMotor: false,
+      maxMotorTorque: 100,
+      motorSpeed: 0,
+    }).handle);
+  }
+  return joints;
+}
+
+export function createDoorScene(world: PhysicsWorld, runtime: Box3DRuntime, groundHandle: BodyId): DoorScene {
+  const objectWorld = ObjectRuntime.fromRuntime(runtime).wrapWorld(world);
+  const door = objectWorld.createBody({ type: BodyType.Dynamic, position: [0, 1.5, 0], gravityScale: 2 });
+  door.createHullShape([0.75, 1.5, 0.1], { density: 1000 });
+  const joints = createDoorJoints(world, runtime, groundHandle, door.handle, {
+    twoJoints: true,
     constraintHertz: 120,
     constraintDampingRatio: 0,
-    enableLimit: true,
-    lowerAngle: -0.5 * Math.PI,
-    upperAngle: 0.5 * Math.PI,
-    enableSpring: true,
-    hertz: 1,
-    dampingRatio: 0.5,
-    enableMotor: false,
-    maxMotorTorque: 100,
-    motorSpeed: 0,
-  }).handle);
+  });
   return { handles: [door.handle], joints };
 }
 

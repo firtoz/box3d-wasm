@@ -86,6 +86,14 @@ B3W_EXPORT void b3wHumanSetJointDampingRatio(int humanHandle, float dampingRatio
 	Human_SetJointDampingRatio(&slot->human, dampingRatio);
 }
 
+B3W_EXPORT void b3wDestroyHuman(int humanHandle)
+{
+	b3wHumanSlot* slot = b3wGetHuman(humanHandle);
+	if (slot == NULL) return;
+	if (slot->human.isSpawned) DestroyHuman(&slot->human);
+	b3wFreeHumanSlot(humanHandle);
+}
+
 B3W_EXPORT void b3wHumanCreateParallelAnchors(int humanHandle)
 {
 	b3wHumanSlot* slot = b3wGetHuman(humanHandle);

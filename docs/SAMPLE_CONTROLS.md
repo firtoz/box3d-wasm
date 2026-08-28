@@ -12,15 +12,11 @@ Global demo already covers pause / restart / shoot / spin / ragdoll / sample pic
 
 ## Still open (C++ UI not fully bound)
 
-These stay `[ ]` until joint/runtime sliders (or rebuild-the-scene controls) exist:
+These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exist:
 
-- Joints: Revolute, Prismatic, Spherical, Weld, Distance Joint, Parallel Spring (C++ limit/motor/spring sliders).
-- Joints / Door: missing Limit, Two joints, constraint Hertz/Damping.
-- Joints / Motor Joint: missing Max Force / Max Torque.
 - Geometry editors: Box Hull, Hull Reduction, Hull Transform, Capsule Mass.
-- Ragdoll / Box and Mesh: Joint Friction / Hertz / Damping / Respawn.
 - Mesh / Height Field: columns/rows/amplitude/holes/ray sliders.
-- Shapes / Restitution (Sphere/Box), Shapes / Wind (shape/wind/drag/lift/count).
+- Shapes / Wind (shape/wind/drag/lift/count).
 - Robustness / Overlap Recovery: extent/count/overlap/speed/spring sliders.
 - Collision: Long Ray Cast, Mesh Scale, Shape Cast, Initial Overlap (partial vs C++).
 - Continuous / Mesh Drop: Type / Amplitude / generate.
@@ -63,14 +59,14 @@ These stay `[ ]` until joint/runtime sliders (or rebuild-the-scene controls) exi
 - [ ] `robustness/overlap-recovery` — Robustness / Overlap Recovery — C++ rebuild sliders
 - [x] `robustness/overflow-color-pile` — Robustness / Overflow Color Pile — no C++ sample UI
 - [x] `joints/filter` — Joints / Filter — no C++ sample UI
-- [ ] `joints/motor-joint` — Joints / Motor Joint — Speed + Impulse; missing Max Force/Torque
-- [ ] `joints/prismatic` — Joints / Prismatic — C++ limit/motor/spring
-- [ ] `joints/revolute` — Joints / Revolute — C++ limit/motor/spring
-- [ ] `joints/weld` — Joints / Weld — C++ linear/angular hertz/damping
+- [x] `joints/motor-joint` — Joints / Motor Joint — Speed + Max Force/Torque + Impulse
+- [x] `joints/prismatic` — Joints / Prismatic — limit / motor / spring
+- [x] `joints/revolute` — Joints / Revolute — limit / motor / spring
+- [x] `joints/weld` — Joints / Weld — linear/angular hertz/damping
 - [x] `joints/top-down-friction` — Joints / Top Down Friction — Explode
-- [ ] `joints/spherical` — Joints / Spherical — C++ cone/twist/motor/spring
+- [x] `joints/spherical` — Joints / Spherical — cone / twist / motor / spring
 - [x] `joints/ball-and-chain` — Joints / Ball and Chain — no C++ sample UI
-- [ ] `joints/door` — Joints / Door — Impulse + Magnitude; missing Limit / Two joints / Hertz / Damping
+- [x] `joints/door` — Joints / Door — Impulse / Magnitude / Limit / Two joints / Hertz / Damping
 - [x] `joints/bridge` — Joints / Bridge — Gravity scale
 - [x] `world/far-stack` — World / Far Stack — empty C++ DrawControls
 - [x] `world/far-pyramid` — World / Far Pyramid — no C++ sample UI
@@ -82,8 +78,8 @@ These stay `[ ]` until joint/runtime sliders (or rebuild-the-scene controls) exi
 - [x] `compound-material-dedup` — Compound Material Dedup — extra demo
 - [x] `compound/tile-floor` — Compound / Tile Floor — no C++ sample UI
 - [x] `compound/mesh-tile` — Compound / Mesh Tile — no C++ sample UI
-- [ ] `ragdoll/box` — Ragdoll / Box — C++ friction/hertz/damping/respawn
-- [ ] `ragdoll/mesh` — Ragdoll / Mesh — same
+- [x] `ragdoll/box` — Ragdoll / Box — friction / hertz / damping / respawn
+- [x] `ragdoll/mesh` — Ragdoll / Mesh — same
 - [x] `ragdoll/pile` — Ragdoll / Pile — no C++ sample UI
 - [x] `ragdoll/incline` — Ragdoll / Incline — no C++ sample UI
 - [x] `determinism/falling-ragdolls` — Determinism / Falling Ragdolls — no C++ sample UI
@@ -96,8 +92,8 @@ These stay `[ ]` until joint/runtime sliders (or rebuild-the-scene controls) exi
 - [x] `benchmark/explosion` — Benchmark / Explosion — Magnitude + Explode
 - [x] `benchmark/destruction` — Benchmark / Destruction — no C++ sample UI
 - [x] `joints/motion-locks` — Joints / Motion Locks — lock toggles + Impulse (L)
-- [ ] `joints/distance-joint` — Joints / Distance Joint — C++ length/spring/limit
-- [ ] `joints/parallel-spring` — Joints / Parallel Spring — C++ Hertz/Damping
+- [x] `joints/distance-joint` — Joints / Distance Joint — length / spring / limit / count
+- [x] `joints/parallel-spring` — Joints / Parallel Spring — Hertz / Damping
 - [x] `joints/wheel` — Joints / Wheel — suspension / spin / steering (touch sliders)
 - [x] `single-box` — Stacking / Single Box — no C++ sample UI
 - [x] `cylinder` — Stacking / Cylinder — no C++ sample UI
@@ -107,7 +103,7 @@ These stay `[ ]` until joint/runtime sliders (or rebuild-the-scene controls) exi
 - [x] `double-domino` — Stacking / Double Domino — no C++ sample UI
 - [x] `card-house` — Stacking / Card House — no C++ sample UI
 - [x] `rolling-resistance` — Shapes / Rolling Resistance — no C++ sample UI
-- [ ] `restitution` — Shapes / Restitution — C++ Sphere/Box
+- [x] `restitution` — Shapes / Restitution — Sphere / Box
 - [x] `isotropic-friction` — Shapes / Isotropic Friction — no C++ sample UI
 - [x] `sphere-stack` — Stacking / Sphere Stack — no C++ sample UI
 - [x] `box-stack` — Stacking / Box Stack — no C++ sample UI

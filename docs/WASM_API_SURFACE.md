@@ -18,7 +18,7 @@ Source files:
 
 ## Current Shape
 
-- Approximate JS-callable surface: ~90 TypeScript methods
+- Approximate JS-callable surface: ~110 TypeScript methods
 - Current binding style: manual `b3w*` C bridge functions plus TypeScript wrapper classes
 - Body/shape/joint public IDs are packed native `uint64` (`BodyId`/`ShapeId`/`JointId` as branded `bigint`); worlds/hulls/meshes/compounds/humans/height-fields use int slot handles
 - Current focus: sample-driven API growth rather than a full 1:1 upstream C API mirror
@@ -241,17 +241,16 @@ When adding an API binding:
 - [x] Create parallel joint: `b3CreateParallelJoint`
 - [~] Common joint validity/type/body/world/frame/collide/force/torque accessors (`constraint force`, `constraint torque`, and `linear separation` now exposed)
 - [x] Joint wake bodies: `b3Joint_WakeBodies` (`wakeJointBodies`)
-- [ ] Constraint tuning: `b3Joint_SetConstraintTuning`
+- [x] Constraint tuning: `b3Joint_SetConstraintTuning` (`setJointConstraintTuning`)
 - [~] Force/torque thresholds and joint break support (creation-time thresholds on distance/prismatic/revolute/weld joints)
-- [ ] Distance joint runtime controls
-- [x] Revolute joint runtime motor: `b3RevoluteJoint_EnableMotor`, `SetMotorSpeed`, `SetMaxMotorTorque`
-- [x] Revolute joint target angle: `b3RevoluteJoint_SetTargetAngle` (`setRevoluteJointTargetAngle`)
-- [x] Prismatic joint runtime controls (`setPrismaticMotorSpeed`, `getPrismaticTranslation`)
+- [x] Distance joint runtime controls (length, spring, force range, limit)
+- [x] Revolute joint runtime: motor, limits, spring, target angle
+- [x] Prismatic joint runtime: motor, limits, spring, target translation
 - [x] Wheel joint runtime controls
-- [ ] Weld joint runtime controls
-- [ ] Spherical joint runtime controls after creation
-- [ ] Motor joint runtime controls after creation
-- [ ] Parallel joint runtime controls
+- [x] Weld joint runtime: linear/angular hertz and damping
+- [x] Spherical joint runtime: cone/twist limits, spring, motor
+- [x] Motor joint runtime: `SetMaxSpringForce`, `SetMaxSpringTorque`
+- [x] Parallel joint runtime: spring hertz/damping
 
 ## Queries
 
@@ -358,7 +357,7 @@ When adding an API binding:
 
 ## Demo-Specific Helpers
 
-- [x] Human/ragdoll helper: `createHuman`
+- [x] Human/ragdoll helper: `createHuman`, `destroyHuman`
 - [x] Human bone access: `getHumanBoneBody`, `getHumanBoneCount`
 - [x] Human velocity: `setHumanVelocity`
 - [x] Human bullet toggle: `setHumanBullet`

@@ -1,4 +1,4 @@
-import {B3_AXIS_X, B3_AXIS_Y, B3_AXIS_Z, B3_PI, BodyType, quatFromAxisAngle, type BodyId, type Box3DRuntime, type PhysicsWorld, type Quat, type Vec3} from "box3d-wasm";
+import {B3_AXIS_X, B3_AXIS_Y, B3_AXIS_Z, B3_PI, BodyType, quatFromAxisAngle, type BodyId, type Box3DRuntime, type JointId, type PhysicsWorld, type Quat, type Vec3} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView } from "../shared";
 import { f32, f32Mul } from "../f32";
@@ -13,7 +13,7 @@ export const PARALLEL_SPRING_LOCAL_FRAME_A: Quat = quatFromAxisAngle(B3_AXIS_X, 
 /** C++ `drawScale = 2` → segment length `0.1 * jointScale * drawScale`. */
 export const PARALLEL_SPRING_DRAW_LENGTH = 0.2;
 
-export function buildParallelSpringDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+export function createParallelSpringScene(world: PhysicsWorld, runtime: Box3DRuntime): { handles: BodyId[]; joint: JointId } {
   const walls = world.createBody({ type: BodyType.Static, position: [0, -1, 0] });
   runtime.createTransformedHullShape(walls, [20, 5, 0.1], { position: [0, 5, -20] });
   runtime.createTransformedHullShape(walls, [20, 5, 0.1], { position: [0, 5, 20] });
@@ -32,7 +32,7 @@ export function buildParallelSpringDynamicBodies(world: PhysicsWorld, runtime: B
   const frameA: Quat = runtime.computeQuatBetweenUnitVectors(B3_AXIS_Z, B3_AXIS_Y);
   const frameB: Quat = runtime.invMulQuat(rotation, frameA);
 
-  world.createParallelJoint(walls, body, {
+  const joint = world.createParallelJoint(walls, body, {
     localFrameA: { rotation: frameA },
     localFrameB: { rotation: frameB },
     hertz: HERTZ,
@@ -40,7 +40,11 @@ export function buildParallelSpringDynamicBodies(world: PhysicsWorld, runtime: B
     collideConnected: true,
   });
 
-  return [walls, body];
+  return { handles: [walls, body], joint };
+}
+
+export function buildParallelSpringDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  return createParallelSpringScene(world, runtime).handles;
 }
 
 export function parallelSpringGroundSize(): Vec3 {

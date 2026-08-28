@@ -3,6 +3,7 @@ import {
   type BodyId,
   type Box3DRuntime,
   type MeshHandle,
+  type HumanHandle,
   type PhysicsWorld,
   type Vec3,
 } from "box3d-wasm";
@@ -34,16 +35,20 @@ export function buildRagdollMeshGround(world: PhysicsWorld, runtime: Box3DRuntim
   return { ground, mesh };
 }
 
-export function buildRagdollMeshDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+export function spawnRagdollMesh(world: PhysicsWorld, runtime: Box3DRuntime, options: { frictionTorque: number; hertz: number; dampingRatio: number }): { human: HumanHandle; handles: BodyId[] } {
   const human = world.createHuman(HUMAN_ORIGIN, {
-    frictionTorque: 5,
-    hertz: 2,
-    dampingRatio: 0.7,
+    frictionTorque: options.frictionTorque,
+    hertz: options.hertz,
+    dampingRatio: options.dampingRatio,
     groupIndex: 1,
     colorize: false,
   });
   runtime.createHumanParallelAnchors(human);
-  return collectHumanBoneAndAnchorHandles(runtime, human);
+  return { human, handles: collectHumanBoneAndAnchorHandles(runtime, human) };
+}
+
+export function buildRagdollMeshDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  return spawnRagdollMesh(world, runtime, { frictionTorque: 5, hertz: 2, dampingRatio: 0.7 }).handles;
 }
 
 export function ragdollMeshGroundSize(): Vec3 {

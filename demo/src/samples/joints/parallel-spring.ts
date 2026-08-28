@@ -53,7 +53,11 @@ const spec: RenderSpec = {
   groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
   bodies: parallelSpringBodies,
   camera: parallelSpringCamera,
-  info: "parallel spring joint (hertz=10, damping=0.7) — tilted box + arena walls",
+  info: "parallel spring joint — Hertz / Damping",
+  controls: [
+    { type: "range", label: "Hertz", message: { type: "set-hertz" }, min: 0, max: 5, step: 0.1, value: 10 },
+    { type: "range", label: "Damping", message: { type: "set-damping" }, min: 0, max: 2, step: 0.1, value: 0.7 },
+  ],
   overlay: (scene) => {
     // Mirror `b3DrawParallelJoint`: green frame A Z, blue frame B Z (drawScale=2 → length 0.2).
     const frameALine = createDebugLine(scene, 0x22c55e);

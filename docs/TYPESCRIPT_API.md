@@ -424,6 +424,10 @@ world.enableContinuous(true);
 world.enableWarmStarting(true);
 world.setContactTuning(60, 10, 1);
 world.setWorkerCount(4);
+
+world.enableRevoluteLimit(joint, true);
+world.setRevoluteLimits(joint, -0.5, 0.5);
+world.wakeJointBodies(joint);
 ```
 
 ## Cleanup

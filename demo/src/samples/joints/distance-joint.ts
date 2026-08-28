@@ -1,7 +1,5 @@
 import * as THREE from "three";
-import { createGenericSample } from "../generic-host";
-import type { RenderSpec } from "../generic-host";
-import {BodyType} from "box3d-wasm";
+import { type BodyId, type Box3DRuntime } from "box3d-wasm";
 import {
   createDebugLine,
   createDebugPoint,
@@ -9,58 +7,127 @@ import {
   updateDebugLine,
   updateDebugPoint,
 } from "../debug-overlay";
-import { distanceJointBodies, distanceJointCamera, distanceJointGroundSize } from "./distance-joint-scene";
+import type { DemoBody, DemoSample } from "../types";
+import { addBox, disposeBodies, syncBodies } from "../shared";
+import { addVisibleJointSphere } from "./shared";
+import {
+  DISTANCE_JOINT_MAX_COUNT,
+  DISTANCE_JOINT_RADIUS,
+  DISTANCE_JOINT_Y_OFFSET,
+  applyDistanceJointTuning,
+  createDistanceJointChain,
+  defaultDistanceJointTuning,
+  distanceJointCamera,
+  distanceJointGroundSize,
+} from "./distance-joint-scene";
 
-const half = distanceJointGroundSize();
-/** Anchor body is at the origin; local pivot matches C++ `GetLocalPoint(0, 20, 0)`. */
-const ANCHOR_LOCAL: [number, number, number] = [0, 20, 0];
-const tmp = new THREE.Vector3();
-const pA = [0, 0, 0] as [number, number, number];
-const pB = [0, 0, 0] as [number, number, number];
+export const distanceJointSample: DemoSample = {
+  id: "joints/distance-joint",
+  name: "Joints / Distance Joint",
+  create(runtime: Box3DRuntime, scene: THREE.Scene) {
+    const world = runtime.createWorld({ gravity: [0, -10, 0] });
+    const bodies: DemoBody[] = [];
+    addBox(world, scene, bodies, distanceJointGroundSize(), [0, -1, 0], 0x222222, true);
+    const tuning = defaultDistanceJointTuning();
+    let chain = createDistanceJointChain(world, runtime, tuning);
+    const chainBodies: DemoBody[] = [];
+    const lines: THREE.Line[] = [];
+    const pointsA: THREE.Points[] = [];
+    const pointsB: THREE.Points[] = [];
+    const pA = [0, 0, 0] as [number, number, number];
+    const pB = [0, 0, 0] as [number, number, number];
 
-const spec: RenderSpec = {
-  groundSize: [2 * half[0], 2 * half[1], 2 * half[2]],
-  // Index 0 = empty static anchor (tiny placeholder; joint draw shows the real attachment).
-  bodies: [
-    { kind: "sphere", radius: 0.05, position: [0, 20, 0], color: 0x64748b, type: BodyType.Static },
-    ...distanceJointBodies,
-  ],
-  camera: distanceJointCamera,
-  info: "distance joint (CreateScene count=1, spring off) — sphere hangs from empty static anchor",
-  overlay: (scene) => {
-    // Mirror `b3DrawDistanceJoint`: white A–B segment + white points (no limit/spring markers).
-    const segment = createDebugLine(scene, 0xffffff);
-    const pointA = createDebugPoint(scene, 0xffffff, 4);
-    const pointB = createDebugPoint(scene, 0xffffff, 4);
+    const clearOverlay = () => {
+      for (const line of lines) disposeDebugObject(scene, line);
+      for (const point of pointsA) disposeDebugObject(scene, point);
+      for (const point of pointsB) disposeDebugObject(scene, point);
+      lines.length = 0;
+      pointsA.length = 0;
+      pointsB.length = 0;
+    };
+
+    const addSphere = (handle: BodyId, x: number) => {
+      chainBodies.push(addVisibleJointSphere(scene, bodies, handle, DISTANCE_JOINT_RADIUS, [x, DISTANCE_JOINT_Y_OFFSET, 0], 0x38bdf8));
+      lines.push(createDebugLine(scene, 0xffffff));
+      pointsA.push(createDebugPoint(scene, 0xffffff, 4));
+      pointsB.push(createDebugPoint(scene, 0xffffff, 4));
+    };
+
+    for (let i = 0; i < chain.bodies.length; i++) {
+      addSphere(chain.bodies[i]!, (i + 1) * tuning.length);
+    }
+
+    const rebuild = (count: number) => {
+      for (const joint of chain.joints) world.destroyJoint(joint);
+      for (const handle of chain.bodies) world.destroyBody(handle);
+      for (const body of chainBodies) {
+        const index = bodies.indexOf(body);
+        if (index >= 0) bodies.splice(index, 1);
+        scene.remove(body.mesh);
+        body.mesh.geometry.dispose();
+        (body.mesh.material as THREE.Material).dispose();
+      }
+      chainBodies.length = 0;
+      clearOverlay();
+      tuning.count = count;
+      chain = createDistanceJointChain(world, runtime, tuning, chain.anchor);
+      for (let i = 0; i < chain.bodies.length; i++) {
+        addSphere(chain.bodies[i]!, (i + 1) * tuning.length);
+      }
+    };
+
+    const apply = () => applyDistanceJointTuning(world, chain.joints, tuning);
+
     return {
-      update({ bodies }) {
-        const anchor = bodies[0]?.mesh;
-        const sphere = bodies[1]?.mesh;
-        if (anchor === undefined || sphere === undefined) return;
-        tmp.set(...ANCHOR_LOCAL).applyQuaternion(anchor.quaternion).add(anchor.position);
-        pA[0] = tmp.x;
-        pA[1] = tmp.y;
-        pA[2] = tmp.z;
-        // Local pivot B is body origin (sphere center).
-        pB[0] = sphere.position.x;
-        pB[1] = sphere.position.y;
-        pB[2] = sphere.position.z;
-        updateDebugLine(segment, pA, pB);
-        updateDebugPoint(pointA, pA);
-        updateDebugPoint(pointB, pB);
+      world,
+      bodies,
+      profile: true,
+      camera: distanceJointCamera,
+      info: "distance joint — length / spring / limit / count",
+      controls: [
+        { key: "length", label: "Length", type: "range", min: 0.1, max: 4, step: 0.1, value: tuning.length, onChange: (v) => { if (typeof v === "number") { tuning.length = v; apply(); } } },
+        { key: "spring", label: "Spring", type: "toggle", value: tuning.enableSpring, onChange: (v) => { if (typeof v === "boolean") { tuning.enableSpring = v; apply(); } } },
+        { key: "tension", label: "Tension", type: "range", min: 0, max: 4000, step: 10, value: tuning.tensionForce, onChange: (v) => { if (typeof v === "number") { tuning.tensionForce = v; apply(); } } },
+        { key: "compression", label: "Compression", type: "range", min: 0, max: 200, step: 1, value: tuning.compressionForce, onChange: (v) => { if (typeof v === "number") { tuning.compressionForce = v; apply(); } } },
+        { key: "hertz", label: "Hertz", type: "range", min: 0, max: 15, step: 0.1, value: tuning.hertz, onChange: (v) => { if (typeof v === "number") { tuning.hertz = v; apply(); } } },
+        { key: "damping", label: "Damping", type: "range", min: 0, max: 4, step: 0.1, value: tuning.dampingRatio, onChange: (v) => { if (typeof v === "number") { tuning.dampingRatio = v; apply(); } } },
+        { key: "limit", label: "Limit", type: "toggle", value: tuning.enableLimit, onChange: (v) => { if (typeof v === "boolean") { tuning.enableLimit = v; apply(); } } },
+        { key: "min", label: "Min", type: "range", min: 0.1, max: 4, step: 0.1, value: tuning.minLength, onChange: (v) => { if (typeof v === "number") { tuning.minLength = v; apply(); } } },
+        { key: "max", label: "Max", type: "range", min: 0.1, max: 4, step: 0.1, value: tuning.maxLength, onChange: (v) => { if (typeof v === "number") { tuning.maxLength = v; apply(); } } },
+        { key: "count", label: "Count", type: "range", min: 1, max: DISTANCE_JOINT_MAX_COUNT, step: 1, value: tuning.count, onChange: (v) => { if (typeof v === "number") rebuild(Math.round(v)); } },
+      ],
+      step(dt, subSteps) {
+        world.step(dt ?? 1 / 60, subSteps ?? 4);
+        syncBodies(world, bodies);
+        for (let i = 0; i < chainBodies.length; i++) {
+          const mesh = chainBodies[i]?.mesh;
+          if (mesh === undefined) continue;
+          const prev = i === 0 ? undefined : chainBodies[i - 1]?.mesh;
+          if (i === 0) {
+            pA[0] = 0;
+            pA[1] = DISTANCE_JOINT_Y_OFFSET;
+            pA[2] = 0;
+          } else if (prev !== undefined) {
+            pA[0] = prev.position.x;
+            pA[1] = prev.position.y;
+            pA[2] = prev.position.z;
+          }
+          pB[0] = mesh.position.x;
+          pB[1] = mesh.position.y;
+          pB[2] = mesh.position.z;
+          const line = lines[i];
+          const pointA = pointsA[i];
+          const pointB = pointsB[i];
+          if (line !== undefined) updateDebugLine(line, pA, pB);
+          if (pointA !== undefined) updateDebugPoint(pointA, pA);
+          if (pointB !== undefined) updateDebugPoint(pointB, pB);
+        }
       },
       dispose() {
-        disposeDebugObject(scene, segment);
-        disposeDebugObject(scene, pointA);
-        disposeDebugObject(scene, pointB);
+        clearOverlay();
+        disposeBodies(scene, bodies);
+        world.destroy();
       },
     };
   },
 };
-
-export const distanceJointSample = createGenericSample(
-  "joints/distance-joint",
-  "Joints / Distance Joint",
-  spec,
-  () => new Worker(new URL("./distance-joint.worker.ts", import.meta.url), { type: "module" }),
-);

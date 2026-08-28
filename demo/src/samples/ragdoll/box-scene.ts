@@ -1,16 +1,20 @@
-import {BodyType, type Box3DRuntime, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
+import {BodyType, type Box3DRuntime, type HumanHandle, type PhysicsWorld, type Vec3, type BodyId} from "box3d-wasm";
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { collectHumanBoneHandles, ragdollRenderBodies } from "./ragdoll-scene-shared";
 
-export function buildRagdollBoxDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+export function spawnRagdollBox(world: PhysicsWorld, runtime: Box3DRuntime, options: { frictionTorque: number; hertz: number; dampingRatio: number }): { human: HumanHandle; handles: BodyId[] } {
   const human = world.createHuman([0, 2, 0], {
-    frictionTorque: 5,
-    hertz: 1,
-    dampingRatio: 0.7,
+    frictionTorque: options.frictionTorque,
+    hertz: options.hertz,
+    dampingRatio: options.dampingRatio,
     groupIndex: 1,
     colorize: false,
   });
-  return collectHumanBoneHandles(runtime, human);
+  return { human, handles: collectHumanBoneHandles(runtime, human) };
+}
+
+export function buildRagdollBoxDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  return spawnRagdollBox(world, runtime, { frictionTorque: 5, hertz: 1, dampingRatio: 0.7 }).handles;
 }
 
 export function ragdollBoxGroundSize(): Vec3 { return [20, 1, 20]; }

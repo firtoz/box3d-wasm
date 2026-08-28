@@ -1,14 +1,14 @@
-import {BodyType, type BodyId, type Box3DRuntime, type PhysicsWorld, type Vec3} from "box3d-wasm";
+import {BodyType, type BodyId, type Box3DRuntime, type JointId, type PhysicsWorld, type Vec3} from "box3d-wasm";
 import { ObjectRuntime } from "box3d-wasm/objects";
 
 export const weldJointBodyIndex = 1;
 
-export function buildWeldJointDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+export function createWeldJointScene(world: PhysicsWorld, runtime: Box3DRuntime): { handles: BodyId[]; joint: JointId } {
   const objectWorld = ObjectRuntime.fromRuntime(runtime).wrapWorld(world);
   const hiddenGround = objectWorld.createBody({ position: [0, -1, 0] });
   const body = objectWorld.createBody({ type: BodyType.Dynamic, position: [0, 4, 0], gravityScale: 0 });
   body.createHullShape([0.5, 1.5, 0.25]);
-  objectWorld.createWeldJoint(hiddenGround, body, {
+  const joint = objectWorld.createWeldJoint(hiddenGround, body, {
     localFrameA: { position: [0, 6.5, 0] },
     localFrameB: { position: [0, 1.5, 0] },
     linearHertz: 0,
@@ -16,7 +16,11 @@ export function buildWeldJointDynamicBodies(world: PhysicsWorld, runtime: Box3DR
     angularHertz: 2,
     angularDampingRatio: 0.7,
   });
-  return [hiddenGround.handle, body.handle];
+  return { handles: [hiddenGround.handle, body.handle], joint: joint.handle };
+}
+
+export function buildWeldJointDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+  return createWeldJointScene(world, runtime).handles;
 }
 
 export const weldJointGroundSize = (): Vec3 => [20, 1, 20];

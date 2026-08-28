@@ -45,6 +45,8 @@ export const motorJointSample: DemoSample = {
         },
         controls: [
         { key: "speed", label: "Speed", type: "range", min: -5, max: 5, step: 1, value: speed, onChange: (v) => { speed = typeof v === "number" ? v : speed; } },
+        { key: "max-force", label: "Max Force", type: "range", min: 0, max: 1000000, step: 1000, value: 400000, onChange: (v) => { if (typeof v === "number") world.setMotorJointMaxSpringForce(jointHandle, v); } },
+        { key: "max-torque", label: "Max Torque", type: "range", min: 0, max: 1000000, step: 1000, value: 500000, onChange: (v) => { if (typeof v === "number") world.setMotorJointMaxSpringTorque(jointHandle, v); } },
         { key: "impulse", label: "Apply Impulse", type: "button", onClick: () => world.applyLinearImpulseToCenter(bodyHandle, [100000, 0, 0]) },
       ],
       step(dt, subSteps) {

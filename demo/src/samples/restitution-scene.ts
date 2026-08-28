@@ -3,7 +3,9 @@ import type { RenderBody, RenderSpec } from "./generic-host";
 
 const count = 40;
 
-export function buildRestitutionDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime): BodyId[] {
+export type RestitutionShape = "sphere" | "box";
+
+export function buildRestitutionDynamicBodies(world: PhysicsWorld, runtime: Box3DRuntime, shape: RestitutionShape = "sphere"): BodyId[] {
   const handles: BodyId[] = [];
   const dr = 1.0 / (count - 1);
   let x = -(count - 1);
@@ -11,7 +13,8 @@ export function buildRestitutionDynamicBodies(world: PhysicsWorld, runtime: Box3
 
   for (let i = 0; i < count; i++) {
     const body = world.createBody({ type: BodyType.Dynamic, position: [x, 40, 0] });
-    runtime.createSphereShape(body, [0, 0, 0], 0.5, { restitution });
+    if (shape === "box") runtime.createHullShape(body, [0.5, 0.5, 0.5], { restitution });
+    else runtime.createSphereShape(body, [0, 0, 0], 0.5, { restitution });
     handles.push(body);
     restitution += dr;
     x += 2.0;

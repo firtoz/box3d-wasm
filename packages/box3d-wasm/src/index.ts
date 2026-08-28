@@ -640,6 +640,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly humanSetJointDampingRatioFn = this.wrapVoid<HumanSetJointFloatFn>("b3wHumanSetJointDampingRatio", ["number","number"]);
   private readonly humanCreateParallelAnchorsFn = this.wrapVoid<(humanHandle: number) => void>("b3wHumanCreateParallelAnchors", ["number"]);
   private readonly getHumanAnchorBodyFn = this.wrapBigInt<GetHumanBoneBodyFn>("b3wGetHumanAnchorBody", ["number","number"]);
+  private readonly destroyHumanFn = this.wrapVoid<(humanHandle: number) => void>("b3wDestroyHuman", ["number"]);
   private readonly enableWorldSleepFn = this.wrapVoid<WorldEnableBoolFn>("b3wEnableSleeping", ["number", "number"]);
   private readonly enableWorldContinuousFn = this.wrapVoid<WorldEnableBoolFn>("b3wEnableContinuous", ["number", "number"]);
   private readonly enableWorldWarmStartingFn = this.wrapVoid<WorldEnableBoolFn>("b3wEnableWarmStarting", ["number", "number"]);
@@ -705,6 +706,46 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly wheelJointEnableSpinMotorFn = this.wrapVoid<(jointHandle: bigint, enable: number) => void>("b3wWheelJointEnableSpinMotor", ["bigint","number"]);
   private readonly wheelJointEnableSteeringFn = this.wrapVoid<(jointHandle: bigint, enable: number) => void>("b3wWheelJointEnableSteering", ["bigint","number"]);
   private readonly wheelJointEnableSteeringLimitFn = this.wrapVoid<(jointHandle: bigint, enable: number) => void>("b3wWheelJointEnableSteeringLimit", ["bigint","number"]);
+  private readonly jointSetConstraintTuningFn = this.wrapVoid<(jointHandle: bigint, hertz: number, dampingRatio: number) => void>("b3wJointSetConstraintTuning", ["bigint","number","number"]);
+  private readonly revoluteJointEnableLimitFn = this.wrapVoid<(jointHandle: bigint, enable: number) => void>("b3wRevoluteJointEnableLimit", ["bigint","number"]);
+  private readonly revoluteJointSetLimitsFn = this.wrapVoid<(jointHandle: bigint, lower: number, upper: number) => void>("b3wRevoluteJointSetLimits", ["bigint","number","number"]);
+  private readonly revoluteJointEnableSpringFn = this.wrapVoid<(jointHandle: bigint, enable: number) => void>("b3wRevoluteJointEnableSpring", ["bigint","number"]);
+  private readonly revoluteJointSetSpringHertzFn = this.wrapVoid<(jointHandle: bigint, hertz: number) => void>("b3wRevoluteJointSetSpringHertz", ["bigint","number"]);
+  private readonly revoluteJointSetSpringDampingRatioFn = this.wrapVoid<(jointHandle: bigint, dampingRatio: number) => void>("b3wRevoluteJointSetSpringDampingRatio", ["bigint","number"]);
+  private readonly prismaticJointEnableSpringFn = this.wrapVoid<(jointHandle: bigint, enable: number) => void>("b3wPrismaticJointEnableSpring", ["bigint","number"]);
+  private readonly prismaticJointSetSpringHertzFn = this.wrapVoid<(jointHandle: bigint, hertz: number) => void>("b3wPrismaticJointSetSpringHertz", ["bigint","number"]);
+  private readonly prismaticJointSetSpringDampingRatioFn = this.wrapVoid<(jointHandle: bigint, dampingRatio: number) => void>("b3wPrismaticJointSetSpringDampingRatio", ["bigint","number"]);
+  private readonly prismaticJointSetTargetTranslationFn = this.wrapVoid<(jointHandle: bigint, target: number) => void>("b3wPrismaticJointSetTargetTranslation", ["bigint","number"]);
+  private readonly prismaticJointEnableLimitFn = this.wrapVoid<(jointHandle: bigint, enable: number) => void>("b3wPrismaticJointEnableLimit", ["bigint","number"]);
+  private readonly prismaticJointSetLimitsFn = this.wrapVoid<(jointHandle: bigint, lower: number, upper: number) => void>("b3wPrismaticJointSetLimits", ["bigint","number","number"]);
+  private readonly prismaticJointEnableMotorFn = this.wrapVoid<(jointHandle: bigint, enable: number) => void>("b3wPrismaticJointEnableMotor", ["bigint","number"]);
+  private readonly prismaticJointSetMaxMotorForceFn = this.wrapVoid<(jointHandle: bigint, force: number) => void>("b3wPrismaticJointSetMaxMotorForce", ["bigint","number"]);
+  private readonly sphericalJointEnableConeLimitFn = this.wrapVoid<(jointHandle: bigint, enable: number) => void>("b3wSphericalJointEnableConeLimit", ["bigint","number"]);
+  private readonly sphericalJointSetConeLimitFn = this.wrapVoid<(jointHandle: bigint, angle: number) => void>("b3wSphericalJointSetConeLimit", ["bigint","number"]);
+  private readonly sphericalJointEnableTwistLimitFn = this.wrapVoid<(jointHandle: bigint, enable: number) => void>("b3wSphericalJointEnableTwistLimit", ["bigint","number"]);
+  private readonly sphericalJointSetTwistLimitsFn = this.wrapVoid<(jointHandle: bigint, lower: number, upper: number) => void>("b3wSphericalJointSetTwistLimits", ["bigint","number","number"]);
+  private readonly sphericalJointEnableSpringFn = this.wrapVoid<(jointHandle: bigint, enable: number) => void>("b3wSphericalJointEnableSpring", ["bigint","number"]);
+  private readonly sphericalJointSetSpringHertzFn = this.wrapVoid<(jointHandle: bigint, hertz: number) => void>("b3wSphericalJointSetSpringHertz", ["bigint","number"]);
+  private readonly sphericalJointSetSpringDampingRatioFn = this.wrapVoid<(jointHandle: bigint, dampingRatio: number) => void>("b3wSphericalJointSetSpringDampingRatio", ["bigint","number"]);
+  private readonly sphericalJointSetTargetRotationFn = this.wrapVoid<(jointHandle: bigint, qx: number, qy: number, qz: number, qw: number) => void>("b3wSphericalJointSetTargetRotation", ["bigint","number","number","number","number"]);
+  private readonly sphericalJointEnableMotorFn = this.wrapVoid<(jointHandle: bigint, enable: number) => void>("b3wSphericalJointEnableMotor", ["bigint","number"]);
+  private readonly sphericalJointSetMotorVelocityFn = this.wrapVoid<(jointHandle: bigint, vx: number, vy: number, vz: number) => void>("b3wSphericalJointSetMotorVelocity", ["bigint","number","number","number"]);
+  private readonly sphericalJointSetMaxMotorTorqueFn = this.wrapVoid<(jointHandle: bigint, torque: number) => void>("b3wSphericalJointSetMaxMotorTorque", ["bigint","number"]);
+  private readonly weldJointSetLinearHertzFn = this.wrapVoid<(jointHandle: bigint, hertz: number) => void>("b3wWeldJointSetLinearHertz", ["bigint","number"]);
+  private readonly weldJointSetLinearDampingRatioFn = this.wrapVoid<(jointHandle: bigint, dampingRatio: number) => void>("b3wWeldJointSetLinearDampingRatio", ["bigint","number"]);
+  private readonly weldJointSetAngularHertzFn = this.wrapVoid<(jointHandle: bigint, hertz: number) => void>("b3wWeldJointSetAngularHertz", ["bigint","number"]);
+  private readonly weldJointSetAngularDampingRatioFn = this.wrapVoid<(jointHandle: bigint, dampingRatio: number) => void>("b3wWeldJointSetAngularDampingRatio", ["bigint","number"]);
+  private readonly distanceJointSetLengthFn = this.wrapVoid<(jointHandle: bigint, length: number) => void>("b3wDistanceJointSetLength", ["bigint","number"]);
+  private readonly distanceJointEnableSpringFn = this.wrapVoid<(jointHandle: bigint, enable: number) => void>("b3wDistanceJointEnableSpring", ["bigint","number"]);
+  private readonly distanceJointSetSpringForceRangeFn = this.wrapVoid<(jointHandle: bigint, lower: number, upper: number) => void>("b3wDistanceJointSetSpringForceRange", ["bigint","number","number"]);
+  private readonly distanceJointSetSpringHertzFn = this.wrapVoid<(jointHandle: bigint, hertz: number) => void>("b3wDistanceJointSetSpringHertz", ["bigint","number"]);
+  private readonly distanceJointSetSpringDampingRatioFn = this.wrapVoid<(jointHandle: bigint, dampingRatio: number) => void>("b3wDistanceJointSetSpringDampingRatio", ["bigint","number"]);
+  private readonly distanceJointEnableLimitFn = this.wrapVoid<(jointHandle: bigint, enable: number) => void>("b3wDistanceJointEnableLimit", ["bigint","number"]);
+  private readonly distanceJointSetLengthRangeFn = this.wrapVoid<(jointHandle: bigint, minLength: number, maxLength: number) => void>("b3wDistanceJointSetLengthRange", ["bigint","number","number"]);
+  private readonly parallelJointSetSpringHertzFn = this.wrapVoid<(jointHandle: bigint, hertz: number) => void>("b3wParallelJointSetSpringHertz", ["bigint","number"]);
+  private readonly parallelJointSetSpringDampingRatioFn = this.wrapVoid<(jointHandle: bigint, dampingRatio: number) => void>("b3wParallelJointSetSpringDampingRatio", ["bigint","number"]);
+  private readonly motorJointSetMaxSpringForceFn = this.wrapVoid<(jointHandle: bigint, force: number) => void>("b3wMotorJointSetMaxSpringForce", ["bigint","number"]);
+  private readonly motorJointSetMaxSpringTorqueFn = this.wrapVoid<(jointHandle: bigint, torque: number) => void>("b3wMotorJointSetMaxSpringTorque", ["bigint","number"]);
   private readonly prismaticJointSetMotorSpeedFn = this.wrapVoid<PrismaticJointSetMotorSpeedFn>("b3wPrismaticJointSetMotorSpeed", ["bigint","number"]);
   private readonly prismaticJointGetTranslationFn = this.wrapNumber<PrismaticJointGetTranslationFn>("b3wPrismaticJointGetTranslation", ["bigint"]);
   private readonly getShapeBodyHandleFn = this.wrapBigInt<GetShapeBodyHandleFn>("b3wGetShapeBodyHandle", ["bigint"]);
@@ -756,6 +797,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   private readonly getLengthAndNormalizeFn = this.wrapNumber<GetLengthAndNormalizeFn>("b3wGetLengthAndNormalize", ["number", "number", "number", "number"]);
   private readonly computeQuatBetweenUnitVectorsFn = this.wrapVoid<ComputeQuatBetweenUnitVectorsFn>("b3wComputeQuatBetweenUnitVectors", ["number", "number", "number", "number", "number", "number", "number"]);
   private readonly invMulQuatFn = this.wrapVoid<InvMulQuatFn>("b3wInvMulQuat", ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
+  private readonly mulQuatFn = this.wrapVoid<InvMulQuatFn>("b3wMulQuat", ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
   private readonly transformPtr: number;
   private readonly pointPtr: number;
   private readonly massDataPtr: number;
@@ -1324,6 +1366,13 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
     const base = this.transformPtr >> 2;
     return [heap[base + 0], heap[base + 1], heap[base + 2], heap[base + 3]];
   }
+  /** Box3D `b3MulQuat(q1, q2)`. */
+  mulQuat(q1: Quat, q2: Quat): Quat {
+    this.mulQuatFn(q1[0], q1[1], q1[2], q1[3], q2[0], q2[1], q2[2], q2[3], this.transformPtr);
+    const heap = this.module.HEAPF32;
+    const base = this.transformPtr >> 2;
+    return [heap[base + 0], heap[base + 1], heap[base + 2], heap[base + 3]];
+  }
   createCompound(capsules: number, hulls: number, meshes: number, spheres: number): CompoundHandle {
     return this.requireSlotHandle<CompoundHandle>(this.createCompoundFn(capsules, hulls, meshes, spheres, 0, 0, 0, 0), "compounds");
   }
@@ -1484,6 +1533,7 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   setHumanJointFrictionTorque(humanHandle: number, torque: number): void { this.humanSetJointFrictionTorqueFn(humanHandle, torque); }
   setHumanJointSpringHertz(humanHandle: number, hertz: number): void { this.humanSetJointSpringHertzFn(humanHandle, hertz); }
   setHumanJointDampingRatio(humanHandle: number, dampingRatio: number): void { this.humanSetJointDampingRatioFn(humanHandle, dampingRatio); }
+  destroyHuman(humanHandle: number): void { this.destroyHumanFn(humanHandle); }
   createHumanParallelAnchors(humanHandle: HumanHandle): void { this.humanCreateParallelAnchorsFn(humanHandle); }
   getHumanAnchorBody(humanHandle: HumanHandle, boneIndex: number): BodyId { return asBodyId(this.getHumanAnchorBodyFn(humanHandle, boneIndex)); }
   readBodyTransform(bodyHandle: BodyId): BodyTransform { this.getBodyTransformFn(bodyHandle, this.transformPtr); const heap = this.module.HEAPF32; const base = this.transformPtr >> 2; return { position: [heap[base + 0], heap[base + 1], heap[base + 2]], rotation: [heap[base + 3], heap[base + 4], heap[base + 5], heap[base + 6]] }; }
@@ -1799,6 +1849,46 @@ export class Box3DRuntime extends RuntimeBindings implements RuntimeAPI {
   enableRevoluteMotor(jointHandle: JointId, enable: boolean): void { this.revoluteJointEnableMotorFn(jointHandle, enable ? 1 : 0); }
   setRevoluteMotorSpeed(jointHandle: JointId, motorSpeed: number): void { this.revoluteJointSetMotorSpeedFn(jointHandle, motorSpeed); }
   setRevoluteMaxMotorTorque(jointHandle: JointId, torque: number): void { this.revoluteJointSetMaxMotorTorqueFn(jointHandle, torque); }
+  enableRevoluteLimit(jointHandle: JointId, enable: boolean): void { this.revoluteJointEnableLimitFn(jointHandle, enable ? 1 : 0); }
+  setRevoluteLimits(jointHandle: JointId, lowerRadians: number, upperRadians: number): void { this.revoluteJointSetLimitsFn(jointHandle, lowerRadians, upperRadians); }
+  enableRevoluteSpring(jointHandle: JointId, enable: boolean): void { this.revoluteJointEnableSpringFn(jointHandle, enable ? 1 : 0); }
+  setRevoluteSpringHertz(jointHandle: JointId, hertz: number): void { this.revoluteJointSetSpringHertzFn(jointHandle, hertz); }
+  setRevoluteSpringDampingRatio(jointHandle: JointId, dampingRatio: number): void { this.revoluteJointSetSpringDampingRatioFn(jointHandle, dampingRatio); }
+  setJointConstraintTuning(jointHandle: JointId, hertz: number, dampingRatio: number): void { this.jointSetConstraintTuningFn(jointHandle, hertz, dampingRatio); }
+  enablePrismaticSpring(jointHandle: JointId, enable: boolean): void { this.prismaticJointEnableSpringFn(jointHandle, enable ? 1 : 0); }
+  setPrismaticSpringHertz(jointHandle: JointId, hertz: number): void { this.prismaticJointSetSpringHertzFn(jointHandle, hertz); }
+  setPrismaticSpringDampingRatio(jointHandle: JointId, dampingRatio: number): void { this.prismaticJointSetSpringDampingRatioFn(jointHandle, dampingRatio); }
+  setPrismaticTargetTranslation(jointHandle: JointId, targetTranslation: number): void { this.prismaticJointSetTargetTranslationFn(jointHandle, targetTranslation); }
+  enablePrismaticLimit(jointHandle: JointId, enable: boolean): void { this.prismaticJointEnableLimitFn(jointHandle, enable ? 1 : 0); }
+  setPrismaticLimits(jointHandle: JointId, lower: number, upper: number): void { this.prismaticJointSetLimitsFn(jointHandle, lower, upper); }
+  enablePrismaticMotor(jointHandle: JointId, enable: boolean): void { this.prismaticJointEnableMotorFn(jointHandle, enable ? 1 : 0); }
+  setPrismaticMaxMotorForce(jointHandle: JointId, force: number): void { this.prismaticJointSetMaxMotorForceFn(jointHandle, force); }
+  enableSphericalConeLimit(jointHandle: JointId, enable: boolean): void { this.sphericalJointEnableConeLimitFn(jointHandle, enable ? 1 : 0); }
+  setSphericalConeLimit(jointHandle: JointId, angleRadians: number): void { this.sphericalJointSetConeLimitFn(jointHandle, angleRadians); }
+  enableSphericalTwistLimit(jointHandle: JointId, enable: boolean): void { this.sphericalJointEnableTwistLimitFn(jointHandle, enable ? 1 : 0); }
+  setSphericalTwistLimits(jointHandle: JointId, lowerRadians: number, upperRadians: number): void { this.sphericalJointSetTwistLimitsFn(jointHandle, lowerRadians, upperRadians); }
+  enableSphericalSpring(jointHandle: JointId, enable: boolean): void { this.sphericalJointEnableSpringFn(jointHandle, enable ? 1 : 0); }
+  setSphericalSpringHertz(jointHandle: JointId, hertz: number): void { this.sphericalJointSetSpringHertzFn(jointHandle, hertz); }
+  setSphericalSpringDampingRatio(jointHandle: JointId, dampingRatio: number): void { this.sphericalJointSetSpringDampingRatioFn(jointHandle, dampingRatio); }
+  setSphericalTargetRotation(jointHandle: JointId, rotation: Quat): void { this.sphericalJointSetTargetRotationFn(jointHandle, rotation[0], rotation[1], rotation[2], rotation[3]); }
+  enableSphericalMotor(jointHandle: JointId, enable: boolean): void { this.sphericalJointEnableMotorFn(jointHandle, enable ? 1 : 0); }
+  setSphericalMotorVelocity(jointHandle: JointId, velocity: Vec3): void { this.sphericalJointSetMotorVelocityFn(jointHandle, velocity[0], velocity[1], velocity[2]); }
+  setSphericalMaxMotorTorque(jointHandle: JointId, torque: number): void { this.sphericalJointSetMaxMotorTorqueFn(jointHandle, torque); }
+  setWeldLinearHertz(jointHandle: JointId, hertz: number): void { this.weldJointSetLinearHertzFn(jointHandle, hertz); }
+  setWeldLinearDampingRatio(jointHandle: JointId, dampingRatio: number): void { this.weldJointSetLinearDampingRatioFn(jointHandle, dampingRatio); }
+  setWeldAngularHertz(jointHandle: JointId, hertz: number): void { this.weldJointSetAngularHertzFn(jointHandle, hertz); }
+  setWeldAngularDampingRatio(jointHandle: JointId, dampingRatio: number): void { this.weldJointSetAngularDampingRatioFn(jointHandle, dampingRatio); }
+  setDistanceJointLength(jointHandle: JointId, length: number): void { this.distanceJointSetLengthFn(jointHandle, length); }
+  enableDistanceSpring(jointHandle: JointId, enable: boolean): void { this.distanceJointEnableSpringFn(jointHandle, enable ? 1 : 0); }
+  setDistanceSpringForceRange(jointHandle: JointId, lowerForce: number, upperForce: number): void { this.distanceJointSetSpringForceRangeFn(jointHandle, lowerForce, upperForce); }
+  setDistanceSpringHertz(jointHandle: JointId, hertz: number): void { this.distanceJointSetSpringHertzFn(jointHandle, hertz); }
+  setDistanceSpringDampingRatio(jointHandle: JointId, dampingRatio: number): void { this.distanceJointSetSpringDampingRatioFn(jointHandle, dampingRatio); }
+  enableDistanceLimit(jointHandle: JointId, enable: boolean): void { this.distanceJointEnableLimitFn(jointHandle, enable ? 1 : 0); }
+  setDistanceLengthRange(jointHandle: JointId, minLength: number, maxLength: number): void { this.distanceJointSetLengthRangeFn(jointHandle, minLength, maxLength); }
+  setParallelSpringHertz(jointHandle: JointId, hertz: number): void { this.parallelJointSetSpringHertzFn(jointHandle, hertz); }
+  setParallelSpringDampingRatio(jointHandle: JointId, dampingRatio: number): void { this.parallelJointSetSpringDampingRatioFn(jointHandle, dampingRatio); }
+  setMotorJointMaxSpringForce(jointHandle: JointId, force: number): void { this.motorJointSetMaxSpringForceFn(jointHandle, force); }
+  setMotorJointMaxSpringTorque(jointHandle: JointId, torque: number): void { this.motorJointSetMaxSpringTorqueFn(jointHandle, torque); }
   wakeJointBodies(jointHandle: JointId): void { this.jointWakeBodiesFn(jointHandle); }
   setWheelSuspensionLimits(jointHandle: JointId, lower: number, upper: number): void { this.wheelJointSetSuspensionLimitsFn(jointHandle, lower, upper); }
   setWheelSuspensionHertz(jointHandle: JointId, hertz: number): void { this.wheelJointSetSuspensionHertzFn(jointHandle, hertz); }
@@ -1972,6 +2062,10 @@ export class PhysicsWorld {
   createSphericalJoint(bodyAHandle: BodyId, bodyBHandle: BodyId, options: { localFrameA?: { position?: Vec3; rotation?: Quat }; localFrameB?: { position?: Vec3; rotation?: Quat }; enableSpring?: boolean; hertz?: number; dampingRatio?: number; targetRotation?: Quat; enableConeLimit?: boolean; coneAngle?: number; enableTwistLimit?: boolean; lowerTwistAngle?: number; upperTwistAngle?: number; enableMotor?: boolean; maxMotorTorque?: number; motorVelocity?: Vec3 } = {}): JointId { return this.runtime.createSphericalJoint(this.handle, bodyAHandle, bodyBHandle, options); }
   createHuman(position: Vec3, options: { frictionTorque?: number; hertz?: number; dampingRatio?: number; groupIndex?: number; colorize?: boolean } = {}): HumanHandle { return this.runtime.createHuman(this.handle, position, options); }
   createHumanParallelAnchors(humanHandle: HumanHandle): void { this.runtime.createHumanParallelAnchors(humanHandle); }
+  setHumanJointFrictionTorque(humanHandle: HumanHandle, torque: number): void { this.runtime.setHumanJointFrictionTorque(humanHandle, torque); }
+  setHumanJointSpringHertz(humanHandle: HumanHandle, hertz: number): void { this.runtime.setHumanJointSpringHertz(humanHandle, hertz); }
+  setHumanJointDampingRatio(humanHandle: HumanHandle, dampingRatio: number): void { this.runtime.setHumanJointDampingRatio(humanHandle, dampingRatio); }
+  destroyHuman(humanHandle: HumanHandle): void { this.runtime.destroyHuman(humanHandle); }
   getHumanBoneBody(humanHandle: HumanHandle, boneIndex: number): BodyId { return this.runtime.getHumanBoneBody(humanHandle, boneIndex); }
   getHumanBoneCount(): number { return this.runtime.getHumanBoneCount(); }
   getHumanAnchorBody(humanHandle: HumanHandle, boneIndex: number): BodyId { return this.runtime.getHumanAnchorBody(humanHandle, boneIndex); }
@@ -2003,6 +2097,46 @@ export class PhysicsWorld {
   enableRevoluteMotor(jointHandle: JointId, enable: boolean): void { this.runtime.enableRevoluteMotor(jointHandle, enable); }
   setRevoluteMotorSpeed(jointHandle: JointId, motorSpeed: number): void { this.runtime.setRevoluteMotorSpeed(jointHandle, motorSpeed); }
   setRevoluteMaxMotorTorque(jointHandle: JointId, torque: number): void { this.runtime.setRevoluteMaxMotorTorque(jointHandle, torque); }
+  enableRevoluteLimit(jointHandle: JointId, enable: boolean): void { this.runtime.enableRevoluteLimit(jointHandle, enable); }
+  setRevoluteLimits(jointHandle: JointId, lowerRadians: number, upperRadians: number): void { this.runtime.setRevoluteLimits(jointHandle, lowerRadians, upperRadians); }
+  enableRevoluteSpring(jointHandle: JointId, enable: boolean): void { this.runtime.enableRevoluteSpring(jointHandle, enable); }
+  setRevoluteSpringHertz(jointHandle: JointId, hertz: number): void { this.runtime.setRevoluteSpringHertz(jointHandle, hertz); }
+  setRevoluteSpringDampingRatio(jointHandle: JointId, dampingRatio: number): void { this.runtime.setRevoluteSpringDampingRatio(jointHandle, dampingRatio); }
+  setJointConstraintTuning(jointHandle: JointId, hertz: number, dampingRatio: number): void { this.runtime.setJointConstraintTuning(jointHandle, hertz, dampingRatio); }
+  enablePrismaticSpring(jointHandle: JointId, enable: boolean): void { this.runtime.enablePrismaticSpring(jointHandle, enable); }
+  setPrismaticSpringHertz(jointHandle: JointId, hertz: number): void { this.runtime.setPrismaticSpringHertz(jointHandle, hertz); }
+  setPrismaticSpringDampingRatio(jointHandle: JointId, dampingRatio: number): void { this.runtime.setPrismaticSpringDampingRatio(jointHandle, dampingRatio); }
+  setPrismaticTargetTranslation(jointHandle: JointId, targetTranslation: number): void { this.runtime.setPrismaticTargetTranslation(jointHandle, targetTranslation); }
+  enablePrismaticLimit(jointHandle: JointId, enable: boolean): void { this.runtime.enablePrismaticLimit(jointHandle, enable); }
+  setPrismaticLimits(jointHandle: JointId, lower: number, upper: number): void { this.runtime.setPrismaticLimits(jointHandle, lower, upper); }
+  enablePrismaticMotor(jointHandle: JointId, enable: boolean): void { this.runtime.enablePrismaticMotor(jointHandle, enable); }
+  setPrismaticMaxMotorForce(jointHandle: JointId, force: number): void { this.runtime.setPrismaticMaxMotorForce(jointHandle, force); }
+  enableSphericalConeLimit(jointHandle: JointId, enable: boolean): void { this.runtime.enableSphericalConeLimit(jointHandle, enable); }
+  setSphericalConeLimit(jointHandle: JointId, angleRadians: number): void { this.runtime.setSphericalConeLimit(jointHandle, angleRadians); }
+  enableSphericalTwistLimit(jointHandle: JointId, enable: boolean): void { this.runtime.enableSphericalTwistLimit(jointHandle, enable); }
+  setSphericalTwistLimits(jointHandle: JointId, lowerRadians: number, upperRadians: number): void { this.runtime.setSphericalTwistLimits(jointHandle, lowerRadians, upperRadians); }
+  enableSphericalSpring(jointHandle: JointId, enable: boolean): void { this.runtime.enableSphericalSpring(jointHandle, enable); }
+  setSphericalSpringHertz(jointHandle: JointId, hertz: number): void { this.runtime.setSphericalSpringHertz(jointHandle, hertz); }
+  setSphericalSpringDampingRatio(jointHandle: JointId, dampingRatio: number): void { this.runtime.setSphericalSpringDampingRatio(jointHandle, dampingRatio); }
+  setSphericalTargetRotation(jointHandle: JointId, rotation: Quat): void { this.runtime.setSphericalTargetRotation(jointHandle, rotation); }
+  enableSphericalMotor(jointHandle: JointId, enable: boolean): void { this.runtime.enableSphericalMotor(jointHandle, enable); }
+  setSphericalMotorVelocity(jointHandle: JointId, velocity: Vec3): void { this.runtime.setSphericalMotorVelocity(jointHandle, velocity); }
+  setSphericalMaxMotorTorque(jointHandle: JointId, torque: number): void { this.runtime.setSphericalMaxMotorTorque(jointHandle, torque); }
+  setWeldLinearHertz(jointHandle: JointId, hertz: number): void { this.runtime.setWeldLinearHertz(jointHandle, hertz); }
+  setWeldLinearDampingRatio(jointHandle: JointId, dampingRatio: number): void { this.runtime.setWeldLinearDampingRatio(jointHandle, dampingRatio); }
+  setWeldAngularHertz(jointHandle: JointId, hertz: number): void { this.runtime.setWeldAngularHertz(jointHandle, hertz); }
+  setWeldAngularDampingRatio(jointHandle: JointId, dampingRatio: number): void { this.runtime.setWeldAngularDampingRatio(jointHandle, dampingRatio); }
+  setDistanceJointLength(jointHandle: JointId, length: number): void { this.runtime.setDistanceJointLength(jointHandle, length); }
+  enableDistanceSpring(jointHandle: JointId, enable: boolean): void { this.runtime.enableDistanceSpring(jointHandle, enable); }
+  setDistanceSpringForceRange(jointHandle: JointId, lowerForce: number, upperForce: number): void { this.runtime.setDistanceSpringForceRange(jointHandle, lowerForce, upperForce); }
+  setDistanceSpringHertz(jointHandle: JointId, hertz: number): void { this.runtime.setDistanceSpringHertz(jointHandle, hertz); }
+  setDistanceSpringDampingRatio(jointHandle: JointId, dampingRatio: number): void { this.runtime.setDistanceSpringDampingRatio(jointHandle, dampingRatio); }
+  enableDistanceLimit(jointHandle: JointId, enable: boolean): void { this.runtime.enableDistanceLimit(jointHandle, enable); }
+  setDistanceLengthRange(jointHandle: JointId, minLength: number, maxLength: number): void { this.runtime.setDistanceLengthRange(jointHandle, minLength, maxLength); }
+  setParallelSpringHertz(jointHandle: JointId, hertz: number): void { this.runtime.setParallelSpringHertz(jointHandle, hertz); }
+  setParallelSpringDampingRatio(jointHandle: JointId, dampingRatio: number): void { this.runtime.setParallelSpringDampingRatio(jointHandle, dampingRatio); }
+  setMotorJointMaxSpringForce(jointHandle: JointId, force: number): void { this.runtime.setMotorJointMaxSpringForce(jointHandle, force); }
+  setMotorJointMaxSpringTorque(jointHandle: JointId, torque: number): void { this.runtime.setMotorJointMaxSpringTorque(jointHandle, torque); }
   wakeJointBodies(jointHandle: JointId): void { this.runtime.wakeJointBodies(jointHandle); }
   setWheelSuspensionLimits(jointHandle: JointId, lower: number, upper: number): void { this.runtime.setWheelSuspensionLimits(jointHandle, lower, upper); }
   setWheelSuspensionHertz(jointHandle: JointId, hertz: number): void { this.runtime.setWheelSuspensionHertz(jointHandle, hertz); }

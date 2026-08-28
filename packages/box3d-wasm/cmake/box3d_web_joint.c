@@ -653,3 +653,291 @@ B3W_EXPORT void b3wWheelJointEnableSteeringLimit(uint64_t jointPacked, int enabl
 	if (!b3Joint_IsValid(jointId)) return;
 	b3WheelJoint_EnableSteeringLimit(jointId, enable != 0);
 }
+
+static int b3wTryJoint(uint64_t packed, b3JointId* out)
+{
+	b3JointId jointId = b3LoadJointId(packed);
+	if (!b3Joint_IsValid(jointId)) return 0;
+	*out = jointId;
+	return 1;
+}
+
+B3W_EXPORT void b3wJointSetConstraintTuning(uint64_t jointPacked, float hertz, float dampingRatio)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3Joint_SetConstraintTuning(jointId, hertz, dampingRatio);
+}
+
+B3W_EXPORT void b3wRevoluteJointEnableLimit(uint64_t jointPacked, int enable)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3RevoluteJoint_EnableLimit(jointId, enable != 0);
+}
+
+B3W_EXPORT void b3wRevoluteJointSetLimits(uint64_t jointPacked, float lowerRadians, float upperRadians)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3RevoluteJoint_SetLimits(jointId, lowerRadians, upperRadians);
+}
+
+B3W_EXPORT void b3wRevoluteJointEnableSpring(uint64_t jointPacked, int enable)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3RevoluteJoint_EnableSpring(jointId, enable != 0);
+}
+
+B3W_EXPORT void b3wRevoluteJointSetSpringHertz(uint64_t jointPacked, float hertz)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3RevoluteJoint_SetSpringHertz(jointId, hertz);
+}
+
+B3W_EXPORT void b3wRevoluteJointSetSpringDampingRatio(uint64_t jointPacked, float dampingRatio)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3RevoluteJoint_SetSpringDampingRatio(jointId, dampingRatio);
+}
+
+B3W_EXPORT void b3wPrismaticJointEnableSpring(uint64_t jointPacked, int enable)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3PrismaticJoint_EnableSpring(jointId, enable != 0);
+}
+
+B3W_EXPORT void b3wPrismaticJointSetSpringHertz(uint64_t jointPacked, float hertz)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3PrismaticJoint_SetSpringHertz(jointId, hertz);
+}
+
+B3W_EXPORT void b3wPrismaticJointSetSpringDampingRatio(uint64_t jointPacked, float dampingRatio)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3PrismaticJoint_SetSpringDampingRatio(jointId, dampingRatio);
+}
+
+B3W_EXPORT void b3wPrismaticJointSetTargetTranslation(uint64_t jointPacked, float targetTranslation)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3PrismaticJoint_SetTargetTranslation(jointId, targetTranslation);
+}
+
+B3W_EXPORT void b3wPrismaticJointEnableLimit(uint64_t jointPacked, int enable)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3PrismaticJoint_EnableLimit(jointId, enable != 0);
+}
+
+B3W_EXPORT void b3wPrismaticJointSetLimits(uint64_t jointPacked, float lower, float upper)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3PrismaticJoint_SetLimits(jointId, lower, upper);
+}
+
+B3W_EXPORT void b3wPrismaticJointEnableMotor(uint64_t jointPacked, int enable)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3PrismaticJoint_EnableMotor(jointId, enable != 0);
+}
+
+B3W_EXPORT void b3wPrismaticJointSetMaxMotorForce(uint64_t jointPacked, float force)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3PrismaticJoint_SetMaxMotorForce(jointId, force);
+}
+
+B3W_EXPORT void b3wSphericalJointEnableConeLimit(uint64_t jointPacked, int enable)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3SphericalJoint_EnableConeLimit(jointId, enable != 0);
+}
+
+B3W_EXPORT void b3wSphericalJointSetConeLimit(uint64_t jointPacked, float angleRadians)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3SphericalJoint_SetConeLimit(jointId, angleRadians);
+}
+
+B3W_EXPORT void b3wSphericalJointEnableTwistLimit(uint64_t jointPacked, int enable)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3SphericalJoint_EnableTwistLimit(jointId, enable != 0);
+}
+
+B3W_EXPORT void b3wSphericalJointSetTwistLimits(uint64_t jointPacked, float lowerRadians, float upperRadians)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3SphericalJoint_SetTwistLimits(jointId, lowerRadians, upperRadians);
+}
+
+B3W_EXPORT void b3wSphericalJointEnableSpring(uint64_t jointPacked, int enable)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3SphericalJoint_EnableSpring(jointId, enable != 0);
+}
+
+B3W_EXPORT void b3wSphericalJointSetSpringHertz(uint64_t jointPacked, float hertz)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3SphericalJoint_SetSpringHertz(jointId, hertz);
+}
+
+B3W_EXPORT void b3wSphericalJointSetSpringDampingRatio(uint64_t jointPacked, float dampingRatio)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3SphericalJoint_SetSpringDampingRatio(jointId, dampingRatio);
+}
+
+B3W_EXPORT void b3wSphericalJointSetTargetRotation(uint64_t jointPacked, float qx, float qy, float qz, float qw)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3SphericalJoint_SetTargetRotation(jointId, (b3Quat){ { qx, qy, qz }, qw });
+}
+
+B3W_EXPORT void b3wSphericalJointEnableMotor(uint64_t jointPacked, int enable)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3SphericalJoint_EnableMotor(jointId, enable != 0);
+}
+
+B3W_EXPORT void b3wSphericalJointSetMotorVelocity(uint64_t jointPacked, float vx, float vy, float vz)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3SphericalJoint_SetMotorVelocity(jointId, (b3Vec3){ vx, vy, vz });
+}
+
+B3W_EXPORT void b3wSphericalJointSetMaxMotorTorque(uint64_t jointPacked, float torque)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3SphericalJoint_SetMaxMotorTorque(jointId, torque);
+}
+
+B3W_EXPORT void b3wWeldJointSetLinearHertz(uint64_t jointPacked, float hertz)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3WeldJoint_SetLinearHertz(jointId, hertz);
+}
+
+B3W_EXPORT void b3wWeldJointSetLinearDampingRatio(uint64_t jointPacked, float dampingRatio)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3WeldJoint_SetLinearDampingRatio(jointId, dampingRatio);
+}
+
+B3W_EXPORT void b3wWeldJointSetAngularHertz(uint64_t jointPacked, float hertz)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3WeldJoint_SetAngularHertz(jointId, hertz);
+}
+
+B3W_EXPORT void b3wWeldJointSetAngularDampingRatio(uint64_t jointPacked, float dampingRatio)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3WeldJoint_SetAngularDampingRatio(jointId, dampingRatio);
+}
+
+B3W_EXPORT void b3wDistanceJointSetLength(uint64_t jointPacked, float length)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3DistanceJoint_SetLength(jointId, length);
+}
+
+B3W_EXPORT void b3wDistanceJointEnableSpring(uint64_t jointPacked, int enable)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3DistanceJoint_EnableSpring(jointId, enable != 0);
+}
+
+B3W_EXPORT void b3wDistanceJointSetSpringForceRange(uint64_t jointPacked, float lowerForce, float upperForce)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3DistanceJoint_SetSpringForceRange(jointId, lowerForce, upperForce);
+}
+
+B3W_EXPORT void b3wDistanceJointSetSpringHertz(uint64_t jointPacked, float hertz)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3DistanceJoint_SetSpringHertz(jointId, hertz);
+}
+
+B3W_EXPORT void b3wDistanceJointSetSpringDampingRatio(uint64_t jointPacked, float dampingRatio)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3DistanceJoint_SetSpringDampingRatio(jointId, dampingRatio);
+}
+
+B3W_EXPORT void b3wDistanceJointEnableLimit(uint64_t jointPacked, int enable)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3DistanceJoint_EnableLimit(jointId, enable != 0);
+}
+
+B3W_EXPORT void b3wDistanceJointSetLengthRange(uint64_t jointPacked, float minLength, float maxLength)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3DistanceJoint_SetLengthRange(jointId, minLength, maxLength);
+}
+
+B3W_EXPORT void b3wParallelJointSetSpringHertz(uint64_t jointPacked, float hertz)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3ParallelJoint_SetSpringHertz(jointId, hertz);
+}
+
+B3W_EXPORT void b3wParallelJointSetSpringDampingRatio(uint64_t jointPacked, float dampingRatio)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3ParallelJoint_SetSpringDampingRatio(jointId, dampingRatio);
+}
+
+B3W_EXPORT void b3wMotorJointSetMaxSpringForce(uint64_t jointPacked, float maxForce)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3MotorJoint_SetMaxSpringForce(jointId, maxForce);
+}
+
+B3W_EXPORT void b3wMotorJointSetMaxSpringTorque(uint64_t jointPacked, float maxTorque)
+{
+	b3JointId jointId;
+	if (!b3wTryJoint(jointPacked, &jointId)) return;
+	b3MotorJoint_SetMaxSpringTorque(jointId, maxTorque);
+}

@@ -1,12 +1,18 @@
+import { type BodyId, type HumanHandle, type Vec3 } from "box3d-wasm";
 import { PhysicsWorkerBase } from "../../physics-worker-base";
-import type { Vec3 , BodyId} from "box3d-wasm";
+import type { PhysicsWorkerCommand } from "../../physics-worker-protocol";
 import {
-  buildRagdollMeshDynamicBodies,
   buildRagdollMeshGround,
   ragdollMeshGroundSize,
+  spawnRagdollMesh,
 } from "./mesh-scene";
 
 class RagdollMeshWorker extends PhysicsWorkerBase {
+  private human: HumanHandle | null = null;
+  private frictionTorque = 5;
+  private hertz = 2;
+  private dampingRatio = 0.7;
+
   protected setupGround(): void {
     buildRagdollMeshGround(this.world!, this.runtime!);
   }
@@ -16,7 +22,40 @@ class RagdollMeshWorker extends PhysicsWorkerBase {
   }
 
   protected async buildScene(): Promise<BodyId[]> {
-    return buildRagdollMeshDynamicBodies(this.world!, this.runtime!);
+    const scene = spawnRagdollMesh(this.world!, this.runtime!, {
+      frictionTorque: this.frictionTorque,
+      hertz: this.hertz,
+      dampingRatio: this.dampingRatio,
+    });
+    this.human = scene.human;
+    return scene.handles;
+  }
+
+  protected handleCustomCommand(cmd: PhysicsWorkerCommand): boolean {
+    const msg = cmd as Record<string, unknown>;
+    const world = this.world;
+    const human = this.human;
+    if (world === null || human === null) return false;
+    if (msg.type === "set-friction" && typeof msg.value === "number") {
+      this.frictionTorque = msg.value;
+      world.setHumanJointFrictionTorque(human, msg.value);
+      return true;
+    }
+    if (msg.type === "set-hertz" && typeof msg.value === "number") {
+      this.hertz = msg.value;
+      world.setHumanJointSpringHertz(human, msg.value);
+      return true;
+    }
+    if (msg.type === "set-damping" && typeof msg.value === "number") {
+      this.dampingRatio = msg.value;
+      world.setHumanJointDampingRatio(human, msg.value);
+      return true;
+    }
+    if (msg.type === "respawn") {
+      void this.restartScene();
+      return true;
+    }
+    return false;
   }
 }
 
