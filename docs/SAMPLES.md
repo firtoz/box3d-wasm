@@ -57,11 +57,11 @@ Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short
 |--------|----|-------------|-------|
 | **Ray Curtain** | [x] | `b3World_CastRayClosest`, `b3CreateTorusMesh`, `b3CreateMeshShape` | 🔧 4 kinematic targets (sphere/capsule/box/torus); no physics ground; host draws full yellow rays + hit normals + DrawGroundGrid/axes. Dump compares body poses **and** per-ray hit/fraction/point/normal (`rays` checkpoint field). |
 | **Cast World** | [x] | `b3World_CastRay`, `b3World_CastShape`, `b3Body_ComputeAABB`, shape `userData` / `userMaterialId` | 🔧 Empty default world + spawn buttons (sphere/capsule/hull/mesh/HF). World-cast any/closest/multiple/sorted + ray/sphere/capsule/box proxies (skip ignored `userData==1`). Ctrl+left pick. Dump extras `worldCast` (empty hits). |
-| **Mesh Scale** | [x] | Mesh scaling + collision queries | 🔧 Static box-mesh body; cast queries in `Step` are render-only. C++/WASM dump parity verified at epsilon=1e-5. |
-| **Shape Cast** | [x] | `b3World_CastShape` | 🔧 12 static targets (sphere/capsule/hull/torus); zero-gravity setup; queries are render-only. C++/WASM dump parity verified at epsilon=1e-5. |
+| **Mesh Scale** | [x] | Mesh scaling + collision queries | 🔧 Main-thread editor: Scale X/Y/Z, Start Y/Z, sphere Cast. Dump compares the static box-mesh body. C++/WASM dump parity verified at epsilon=1e-5. |
+| **Shape Cast** | [x] | `b3World_CastShape` | 🔧 Main-thread: Initial Overlap + Offset Y/Z (C++ Shift/Ctrl+LMB). Sphere/capsule/box sweeps along +Z. Dump compares 12 static targets. C++/WASM dump parity verified at epsilon=1e-5. |
 | **Overlap World** | [x] | `b3World_OverlapShape` | 🔧 15 static/kinematic/dynamic targets incl. mesh + heightfield; queries render-only. C++/WASM dump parity verified at epsilon=1e-5. |
-| **Long Ray Cast** | [x] | `b3World_CastRayClosest`, `b3CreateRock`, `b3CreateWaveMesh`, `b3CreateWave` / heightfield | 🔧 Five static targets (sphere/capsule/rock/wave mesh/heightfield); zero gravity. Live demo draws mesh/heightfield overlays; dump compares bodies only (no ray extras). |
-| **Initial Overlap** | [x] | Overlap queries | 🔧 Custom quad mesh + zero-length cast in `Step` (render-only); dump compares static body pose. C++/WASM dump parity verified at epsilon=1e-5. |
+| **Long Ray Cast** | [x] | `b3World_CastRayClosest`, `b3CreateRock`, `b3CreateWaveMesh`, `b3CreateWave` / heightfield | 🔧 Main-thread: Ray Length / Cone Angle, cone sweeps, trails, fail-rate HUD. Dump compares the five static targets only. |
+| **Initial Overlap** | [x] | Overlap queries | 🔧 Main-thread `initial overlap` toggle + zero-length capsule `worldCast`. Dump compares static body pose. C++/WASM dump parity verified at epsilon=1e-5. |
 | **Shape Cast Debug** | [x] | `b3ShapeCast` | 🔧 Capsule vs triangle regression; dump extras `cast` (hit/fraction/point/normal). |
 | **Distance Debug** | [ ] | `b3World_ComputeDistance` | 🚧 Not exposed. |
 | **Shape Distance** | [ ] | Distance queries | 🚧 |
@@ -88,7 +88,7 @@ Maintained queue for the "what's next" loop in `AGENTS.md`. Keep this list short
 | **Spinning Stick** | [x] | CCD + thin fast-spinning body | 🔧 Thin wall + fast stick with hardcoded angular velocity from upstream `RandomVec3` printf. C++/WASM dump parity verified. |
 | **Bullet vs Stack** | [x] | CCD bullet + stack | 🔧 Thin wall (local shape offset on static body) + 10-box stack + Launch/L CCD sphere (`density *= 10`). Worker + generic host; dump launches at frame 1. Stack Y uses float32 `0.5f + 1.1f * row`. C++/WASM dump parity verified at epsilon=1e-5. |
 | **Needle Mesh** | [x] | `createMesh` + mesh shapes | 🔧 4 needles (`b3ComputeCosSin` via `b3wSin`/`b3wCos`, slices=8) + thin box. Dump via `dumpCreate`. |
-| **Mesh Drop** | [x] | Wave mesh + CCD box grid | 🔧 Defaults: 32×32 boxes, walls, amp 0.5, collide=true, RR 0.1. Fixed seed `1910133196` for demo + dump. Dump alias `Continuous Mesh Drop` (upstream name collides with Determinism). |
+| **Mesh Drop** | [x] | Wave mesh + CCD box grid | 🔧 DrawControls: Type (box/capsule/cylinder/sphere), Amplitude, Collide, Generate. Defaults (dump): 32×32 boxes, walls, amp 0.5, collide=true, RR 0.1, seed `1910133196`. Dump alias `Continuous Mesh Drop`. |
 | **Hump Mesh** | [x] | `createMesh` (median split + edges) | 🔧 Hump (6 verts / 4 tris) + thin box vel -50. `AddGroundBox(20)`. |
 | **Is Fast** | [x] | Fast-spinning tall boxes (CCD stress) | 🔧 Three gravity-disabled boxes with different angular velocities. C++/WASM dump parity verified. |
 | **Stall** | [x] | CCD stall behavior | Dense 200×200 torus + rock CCD bullet (`isBullet`, vel 600). Stall threshold 0.001s restored on dispose. Launch respawns bullet. Camera matches `SetView(130,15,15)`. Dump parity verified. |

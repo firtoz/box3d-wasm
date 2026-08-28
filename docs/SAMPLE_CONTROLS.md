@@ -14,8 +14,6 @@ Global demo already covers pause / restart / shoot / spin / ragdoll / sample pic
 
 These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exist:
 
-- Collision: Long Ray Cast, Mesh Scale, Shape Cast, Initial Overlap (partial vs C++).
-- Continuous / Mesh Drop: Type / Amplitude / generate.
 - Events / Hit (C++ Contact WASD) if we add a kinematic pusher.
 
 ## Demo samples
@@ -128,12 +126,12 @@ These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exis
 - [x] `collision/cast-world` — Collision / Cast World — type/radius/mode/spawn (matches C++)
 - [x] `character/capsule-plane` — Character / CapsulePlane — Solve
 - [x] `character/mover-overlap` — Character / MoverOverlap — empty C++ DrawControls
-- [ ] `collision/long-ray-cast` — Collision / Long Ray Cast — check length/cone vs C++
+- [x] `collision/long-ray-cast` — Collision / Long Ray Cast — Ray Length / Cone Angle + fail HUD
 - [x] `continuous/thin-wall` — Continuous / Thin Wall — no C++ sample UI
 - [x] `continuous/bounce-house` — Continuous / Bounce House — no C++ sample UI
 - [x] `continuous/spinning-stick` — Continuous / Spinning Stick — no C++ sample UI
 - [x] `continuous/is-fast` — Continuous / Is Fast — no C++ sample UI
-- [ ] `continuous/mesh-drop` — Continuous / Mesh Drop — C++ Type/Amplitude/generate
+- [x] `continuous/mesh-drop` — Continuous / Mesh Drop — Type / Amplitude / Collide / Generate
 - [x] `continuous/hump-mesh` — Continuous / Hump Mesh — no C++ sample UI
 - [x] `continuous/needle-mesh` — Continuous / Needle Mesh — no C++ sample UI
 - [x] `continuous/bullet-vs-stack` — Continuous / Bullet vs Stack — Launch
@@ -149,10 +147,10 @@ These stay `[ ]` until rebuild-the-scene / geometry-editor / query controls exis
 - [x] `benchmark/large-world` — Benchmark / Large World — no C++ sample UI
 - [x] `benchmark/height-field` — Benchmark / Height Field — Radius + cast HUD
 - [x] `bodies/cast` — Bodies / Cast — no C++ sample UI
-- [ ] `collision/shape-cast` — Collision / Shape Cast — C++ Initial Overlap
+- [x] `collision/shape-cast` — Collision / Shape Cast — Initial Overlap + Offset Y/Z
 - [x] `collision/overlap-world` — Collision / Overlap World — no C++ sample UI
-- [ ] `collision/initial-overlap` — Collision / Initial Overlap — C++ toggle
-- [ ] `collision/mesh-scale` — Collision / Mesh Scale — C++ scale/cast
+- [x] `collision/initial-overlap` — Collision / Initial Overlap — initial overlap toggle
+- [x] `collision/mesh-scale` — Collision / Mesh Scale — Scale X/Y/Z + Start Y/Z + sphere Cast
 - [x] `joints/driving` — Joints / Driving — sliders + WASD/arrows + on-screen pad + HUD + Third Person
 - [x] `joints/gear-lift` — Joints / Gear Lift — Motor / Max Torque / Speed
 - [x] `issues/capsule-mesh` — Issues / Capsule Mesh — no C++ sample UI
