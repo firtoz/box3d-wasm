@@ -100,7 +100,7 @@ function usage(): string {
     "Usage: compare-dumps [options] <expected.json> <actual.json>",
     "Options:",
     "  --help              Show this help",
-    "  --epsilon <number>  Numeric tolerance for vector fields (default: 1e-5)",
+    "  --epsilon <number>  Abs tolerance for vector fields (default: 1e-5; 1 float32 ULP also allowed)",
     "  --summary           Print first divergence and aggregate worst deltas",
   ].join("\n");
 }
@@ -143,6 +143,11 @@ function floatToBits(value: number): number {
   return new Uint32Array(buffer)[0]!;
 }
 
+/** True when the pair is outside abs epsilon *and* more than 1 float32 ULP (large |x| can have 1 ULP > 1e-5). */
+function exceedsTolerance(absDelta: number, ulp: number, epsilon: number): boolean {
+  return absDelta > epsilon && ulp > 1;
+}
+
 function ulpDelta(expected: number, actual: number): number {
   if (!Number.isFinite(expected) || !Number.isFinite(actual)) return Number.POSITIVE_INFINITY;
   if (expected === actual) return 0;
@@ -171,10 +176,12 @@ function compareArray(
   }
   let maxDelta = 0;
   let maxIndex = 0;
+  let maxUlp = 0;
   for (let i = 0; i < expected.length; i++) {
     const e = expected[i]!;
     const a = actual[i]!;
     const absDelta = Math.abs(e - a);
+    const ulp = ulpDelta(e, a);
     deltas.push({
       label: `frame ${frame} body[${body}].${field}[${i}]`,
       frame,
@@ -184,19 +191,22 @@ function compareArray(
       expected: e,
       actual: a,
       absDelta,
-      ulpDelta: ulpDelta(e, a),
+      ulpDelta: ulp,
     });
-    if (absDelta > maxDelta) {
+    if (exceedsTolerance(absDelta, ulp, epsilon) && (absDelta > maxDelta || (absDelta === maxDelta && ulp > maxUlp))) {
       maxDelta = absDelta;
       maxIndex = i;
+      maxUlp = ulp;
     }
   }
-  if (maxDelta > epsilon) {
+  if (maxUlp > 0 || maxDelta > epsilon) {
     const worst = deltas[maxIndex]!;
-    return {
-      finding: `checkpoint frame ${frame} body[${body}].${field}: max delta ${maxDelta} (${worst.ulpDelta} ulp) at index ${maxIndex}, expected ${expected[maxIndex]}, got ${actual[maxIndex]}`,
-      deltas,
-    };
+    if (exceedsTolerance(worst.absDelta, worst.ulpDelta, epsilon)) {
+      return {
+        finding: `checkpoint frame ${frame} body[${body}].${field}: max delta ${worst.absDelta} (${worst.ulpDelta} ulp) at index ${maxIndex}, expected ${expected[maxIndex]}, got ${actual[maxIndex]}`,
+        deltas,
+      };
+    }
   }
   return { deltas };
 }
@@ -220,7 +230,7 @@ function compareScalar(
     absDelta,
     ulpDelta: ulpDelta(expected, actual),
   }];
-  if (absDelta > epsilon) {
+  if (exceedsTolerance(absDelta, deltas[0]!.ulpDelta, epsilon)) {
     return {
       finding: `checkpoint frame ${frame} ${label}: delta ${absDelta} (${deltas[0]!.ulpDelta} ulp), expected ${expected}, got ${actual}`,
       deltas,
@@ -447,7 +457,7 @@ function compareDumps(expected: DumpOutput, actual: DumpOutput, epsilon: number)
 }
 
 function printSummary(findings: string[], deltas: FieldDelta[], epsilon: number): void {
-  const over = deltas.filter((d) => d.absDelta > epsilon).sort((a, b) => b.absDelta - a.absDelta);
+  const over = deltas.filter((d) => exceedsTolerance(d.absDelta, d.ulpDelta, epsilon)).sort((a, b) => b.absDelta - a.absDelta);
   if (over.length === 0) {
     console.log("Summary: no numeric field exceeded epsilon");
     return;

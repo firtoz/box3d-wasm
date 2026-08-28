@@ -11,10 +11,6 @@
     "matchThroughFrame": 40,
     "note": "Frames 0–40 match at 1e-5 after the 30c67b5 bump; first divergence ~frame 45 in the 5k-convex pile."
   },
-  "mesh/hollow-box": {
-    "matchThroughFrame": 0,
-    "note": "Frame 0 exact at 1e-5; frame 1+ drifts in the hollow-shell multi-contact pile (native vs WASM solver FP)."
-  },
   "world/far-ragdolls": {
     "matchThroughFrame": 20,
     "note": "Frames 0–20 match at 1e-5; first divergence ~frame 25 at 1000km origin (native vs WASM solver FP)."
@@ -50,9 +46,5 @@
   "mesh/reflection": {
     "matchThroughFrame": 50,
     "note": "Frames 0–50 match at 1e-5; first divergence ~frame 100 in the 20-human + box/capsule/sphere pile (native vs WASM solver FP)."
-  },
-  "character/rigid-body": {
-    "matchThroughFrame": 200,
-    "note": "DumpRigidBodyCharacter skips TraceBody (Sample::Step only). Frames 0–200 match at 1e-5; 1 ULP on character Y at frame 300 of free-fall."
   }
 }

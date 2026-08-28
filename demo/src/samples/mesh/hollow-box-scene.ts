@@ -33,8 +33,9 @@ const CAPSULE_POSITIONS: readonly Vec3[] = [
   [0, 2, 9.8],
 ];
 
-const CAPSULE_A: Vec3 = [0, -0.5, 0];
-const CAPSULE_B: Vec3 = [0, 0.5, 0];
+// Upstream: b3Capsule {{0,0,0},{0,1,0}, 0.25} — not a centered ±0.5 segment.
+const CAPSULE_A: Vec3 = [0, 0, 0];
+const CAPSULE_B: Vec3 = [0, 1, 0];
 const CAPSULE_RADIUS = 0.25;
 
 export function buildHollowBoxGround(world: PhysicsWorld): { ground: BodyHandle; mesh: MeshHandle } {
@@ -90,6 +91,7 @@ export function createHollowBoxBodies(): RenderBody[] {
       radius: CYLINDER_RADIUS,
       height: CYLINDER_HEIGHT,
       segments: CYLINDER_SIDES,
+      yOffset: 0.5 * CYLINDER_HEIGHT,
       position,
       color: cylinderColor,
     });
@@ -102,6 +104,7 @@ export function createHollowBoxBodies(): RenderBody[] {
       length: 1,
       axis: "y",
       position,
+      localPosition: [0, 0.5, 0],
       color: capsuleColor,
     });
   }

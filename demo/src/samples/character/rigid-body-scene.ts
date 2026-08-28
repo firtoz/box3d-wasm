@@ -2,15 +2,16 @@ import { B3_PI, BodyType, type BodyId, type Box3DRuntime, type HeightFieldHandle
 import type { RenderBody, RenderSpec } from "../generic-host";
 import { cameraFromSetView, getWasmBaseUrl } from "../shared";
 import { parseObjText } from "../meshes/parse-obj";
-import { f32Add, f32Mul } from "../f32";
+import { f32, f32Add, f32Div, f32Mul, f32Sub } from "../f32";
 
-const SRC = 0.0254;
-const START: Vec3 = [7.5, 2, 9];
+const SRC = f32(0.0254);
+const START: Vec3 = [f32(7.5), f32(2), f32(9)];
 const BODY_RADIUS = f32Mul(16, SRC);
 const TOTAL_HEIGHT = f32Mul(72, SRC);
 const FEET_HEIGHT = f32Mul(TOTAL_HEIGHT, 0.5);
-const MASS = 500;
-const GRAVITY_SCALE = 15 / 10;
+const MASS = f32(500);
+const GRAVITY_SCALE = f32Div(15, 10);
+const B3_DEG_TO_RAD = f32(0.01745329251);
 
 function createCharacter(world: PhysicsWorld, runtime: Box3DRuntime): BodyId {
   const body = world.createBody({
@@ -23,33 +24,29 @@ function createCharacter(world: PhysicsWorld, runtime: Box3DRuntime): BodyId {
   runtime.setBodyMotionLocks(body, { lockRotationX: true, lockRotationY: true, lockRotationZ: true });
   const halfExtX = f32Mul(BODY_RADIUS, 0.5);
   const halfExtY = f32Mul(FEET_HEIGHT, 0.5);
-  const feetY = f32Add(-f32Mul(TOTAL_HEIGHT, 0.5), halfExtY);
+  const feetY = f32Add(f32Mul(-1, f32Mul(TOTAL_HEIGHT, 0.5)), halfExtY);
   const feetVolume = f32Mul(f32Mul(f32Mul(8, halfExtX), halfExtY), halfExtX);
   runtime.createOffsetHullShape(body, [halfExtX, halfExtY, halfExtX], [0, feetY, 0], {
     friction: 0,
     restitution: 0,
-    density: (MASS * 0.4) / feetVolume,
+    density: f32Div(f32Mul(MASS, 0.4), feetVolume),
     customColor: 0x32cd32,
   });
-  const capsuleRadius = f32Mul(BODY_RADIUS, 0.707);
-  const capsuleBottom = f32Add(f32Add(-f32Mul(TOTAL_HEIGHT, 0.5), f32Mul(FEET_HEIGHT, 0.5)), capsuleRadius);
-  const capsuleTop = f32SubH(f32Mul(TOTAL_HEIGHT, 0.5), capsuleRadius);
+  const capsuleRadius = f32Mul(BODY_RADIUS, f32(0.707));
+  const capsuleBottom = f32Add(f32Add(f32Mul(-1, f32Mul(TOTAL_HEIGHT, 0.5)), f32Mul(FEET_HEIGHT, 0.5)), capsuleRadius);
+  const capsuleTop = f32Sub(f32Mul(TOTAL_HEIGHT, 0.5), capsuleRadius);
   if (capsuleTop > capsuleBottom) {
-    const h = capsuleTop - capsuleBottom;
+    const h = f32Sub(capsuleTop, capsuleBottom);
     const r = capsuleRadius;
-    const capsuleVolume = Math.PI * r * r * (h + (4 * r) / 3);
+    const capsuleVolume = f32Mul(f32Mul(f32Mul(f32(B3_PI), r), r), f32Add(h, f32Div(f32Mul(4, r), 3)));
     runtime.createCapsuleShape(body, [0, capsuleBottom, 0], [0, capsuleTop, 0], capsuleRadius, {
       friction: 0,
       restitution: 0,
-      density: (MASS * 0.6) / capsuleVolume,
+      density: f32Div(f32Mul(MASS, 0.6), capsuleVolume),
       customColor: 0x6495ed,
     });
   }
   return body;
-}
-
-function f32SubH(a: number, b: number): number {
-  return Math.fround(Math.fround(a) - Math.fround(b));
 }
 
 export function buildRigidBodyDump(world: PhysicsWorld, runtime: Box3DRuntime): {
@@ -72,11 +69,11 @@ export function buildRigidBodyDump(world: PhysicsWorld, runtime: Box3DRuntime): 
   handles.push(wave);
 
   const hullFriction = { friction: 0.6 };
-  const rampQ = runtime.makeQuatFromAxisAngle([0, 0, 1], f32Mul(-20, B3_PI / 180));
+  const rampQ = runtime.makeQuatFromAxisAngle([0, 0, 1], f32Mul(-20, B3_DEG_TO_RAD));
   const ramp = world.createBody({ position: [6, 1, 4], rotation: rampQ });
   runtime.createHullShape(ramp, [3, 0.15, 1.5], { ...hullFriction, customColor: 0x6b8e23 });
   handles.push(ramp);
-  const steepQ = runtime.makeQuatFromAxisAngle([0, 0, 1], f32Mul(-50, B3_PI / 180));
+  const steepQ = runtime.makeQuatFromAxisAngle([0, 0, 1], f32Mul(-50, B3_DEG_TO_RAD));
   const steep = world.createBody({ position: [6, 2, -4], rotation: steepQ });
   runtime.createHullShape(steep, [2.5, 0.15, 1.5], { ...hullFriction, customColor: 0xcd5c5c });
   handles.push(steep);

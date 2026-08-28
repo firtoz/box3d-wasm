@@ -8,7 +8,7 @@ Goal: compare upstream C++ Box3D sample behavior against TypeScript/WASM ports b
 - The headless `Sample` stub mirrors upstream physics lifecycle behavior: constructor defaults, random seed reset, world creation settings, contact recycle distance, step flags, pause/single-step timestep logic, step counters, and profile capture.
 - Visual/UI work, cursor picking, camera work, mesh loading, and debug rendering remain no-op unless a future sample needs an explicit physics-relevant replacement.
 - The tool uses Box3D internal headers in `dump-core.c` to enumerate bodies through `b3World::bodyIdPool`.
-- JSON output includes checkpoint frames and per-body position, rotation, linear velocity, angular velocity, body type, and awake state.
+- JSON output includes checkpoint frames and per-body position, rotation, linear velocity, angular velocity, body type, and awake state. `compare-dumps` treats a field as matching if abs error ≤ epsilon **or** the values are within 1 float32 ULP (so large-magnitude free-fall does not fail on a single ULP).
 - Low-level dumpers emit checkpoints every 50 frames through frame 300 by default, covering 5 seconds at 60Hz. CLI flags can override interval, max frame, start frame, or exact frames.
 - The high-level `compare:sample` workflow uses sparse exact checkpoints by default: `0,50,100,200,300`.
 - `--list-json` emits the registered sample list in a machine-readable format.
