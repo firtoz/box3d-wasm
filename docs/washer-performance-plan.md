@@ -51,7 +51,7 @@ This tracks the current performance work for the WASM washer demo. Checkboxes sh
 - [ ] Consider GPU-side culling or transform expansion if WebGL shader path remains GPU-bound.
 - [ ] Explore engine-side dirty active-body lists for sleeping bodies.
 - [ ] Consider visual/physics simplifications for the drum if benchmark goals allow it.
-- [ ] Consider a full GPU physics experiment only as a separate long-term project.
+- [ ] Consider a full GPU physics experiment only as a separate long-term project. Started: [`experiments/gpu-physics/`](../experiments/gpu-physics/) on `feat/gpu` (not a washer/WASM change).
 
 ## Completed
 

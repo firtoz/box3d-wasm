@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>gpu-physics (WebGPU)</title>
+    <link rel="icon" href="data:," />
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #0f1216;
+        color: #ddd;
+        font-family: system-ui, sans-serif;
+      }
+      canvas {
+        display: block;
+        margin: 48px auto 0;
+        width: 800px;
+        height: 450px;
+        background: #000;
+      }
+      #hud {
+        position: absolute;
+        top: 8px;
+        left: 12px;
+        font-size: 13px;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="hud">gpu-physics WebGPU — same WGSL as the native crate</div>
+    <canvas id="gpu-physics-canvas" width="800" height="450"></canvas>
+    <script type="module">
+      import init, { start } from "./pkg/gpu_physics.js";
+
+      const hud = document.getElementById("hud");
+
+      if (!navigator.gpu) {
+        hud.textContent =
+          "No navigator.gpu. Use Firefox with WebGPU (dom.webgpu.enabled).";
+      } else {
+        hud.textContent = "WebGPU present — loading wasm…";
+        try {
+          await init();
+          hud.textContent = "wasm loaded — starting GPU…";
+          await start();
+        } catch (e) {
+          hud.textContent = String(e);
+          console.error(e);
+        }
+      }
+    </script>
+  </body>
+</html>

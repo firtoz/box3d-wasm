@@ -34,6 +34,7 @@ https://github.com/user-attachments/assets/1c161c46-1dae-45a0-8d77-cb8df45819e8
 - `packages/box3d-wasm/`: package source, wasm build scripts, and generated artifacts.
 - `demo/`: browser demo and showcase.
 - `docs/`: notes and usage docs.
+- `experiments/gpu-physics/`: greenfield WGSL compute experiment (Linux wgpu window + dumps; not the Box3D WASM package). See [`experiments/gpu-physics/README.md`](./experiments/gpu-physics/README.md).
 - `integration-test/`: smoke tests and harnesses.
 
 ## Quick Start
@@ -53,6 +54,7 @@ bun run dev
 - `bun run lint` - run workspace lint checks.
 - `bun run clean` - clear build output.
 - `bun run format` - format repo-owned files while skipping the `box3d/` submodule and generated output.
+- `bun run samples:cpu` / `bun run samples:gpu` - native Box3D C++ samples app (sokol), CPU engine vs GPU physics (NVIDIA). See [`experiments/gpu-physics/README.md`](./experiments/gpu-physics/README.md).
 
 ## Requirements
 

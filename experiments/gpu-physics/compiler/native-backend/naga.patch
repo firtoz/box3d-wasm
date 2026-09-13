@@ -1,0 +1,17 @@
+--- a/src/back/spv/helpers.rs
++++ b/src/back/spv/helpers.rs
+@@ -75,10 +75,12 @@
+     pub(super) const fn to_spirv_semantics_and_scope(
+         self,
+     ) -> (spirv::MemorySemantics, spirv::Scope) {
++        // WGSL atomics are relaxed. Storage-class bits without acquire/release
++        // violate Vulkan VUID 10871; explicit barriers retain their own semantics.
+         match self {
+-            Self::Storage { .. } => (spirv::MemorySemantics::UNIFORM_MEMORY, spirv::Scope::Device),
++            Self::Storage { .. } => (spirv::MemorySemantics::empty(), spirv::Scope::Device),
+             Self::WorkGroup => (
+-                spirv::MemorySemantics::WORKGROUP_MEMORY,
++                spirv::MemorySemantics::empty(),
+                 spirv::Scope::Workgroup,
+             ),
+             _ => (spirv::MemorySemantics::empty(), spirv::Scope::Invocation),

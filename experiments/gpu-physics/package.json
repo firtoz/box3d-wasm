@@ -1,0 +1,16 @@
+{
+  "name": "gpu-physics-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "compare": "vite",
+    "refresh-compare": "bun scripts/refresh-compare.ts",
+    "samples:cpu": "bash scripts/run-native-samples.sh cpu",
+    "samples:gpu": "bash scripts/run-native-samples.sh gpu",
+    "samples:both": "bash scripts/run-native-samples.sh both",
+    "correctness": "bash scripts/correctness-gate.sh"
+  },
+  "devDependencies": {
+    "vite": "^8.1.2"
+  }
+}

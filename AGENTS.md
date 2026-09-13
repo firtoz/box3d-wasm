@@ -185,6 +185,12 @@ Some multi-contact piles only match for an early window then drift (documented i
 
 Details: `docs/reference-dump-plan.md`, `tools/reference-dump/README.md`.
 
+## GPU physics experiment (`experiments/gpu-physics`)
+
+Greenfield Rust/WGSL engine on `feat/gpu`. Do **not** patch `box3d/` or grow `box3d-web.wasm` for this work.
+
+Before committing visual or solver changes, record a snapshot of every affected scene (`./scripts/record-snapshot.sh YYYY-MM-DD-<label>`). Clips are columns in `compare/index.html` (rows = samples; CPU pinned on the left, then latest GPU, older versions further right). Put a real Box3D C column first with `./scripts/record-box3d-oracle.sh`. That is a **pre-commit comparison** grid, not “record every physics tick as its own video.”
+
 ## WASM binary size
 
 The release WASM binary is at `demo/public/wasm/box3d-web.wasm`. When making changes that affect the compiled WASM output (adding new C API bindings, changing compile flags, etc.), rebuild and check the gzipped size:

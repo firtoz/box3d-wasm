@@ -1,0 +1,138 @@
+--- a/src/vulkan/adapter.rs
++++ b/src/vulkan/adapter.rs
+@@ -2141,9 +2141,11 @@
+ 
+         let drop_guard = crate::DropGuard::from_option(drop_callback);
+ 
++        let queue_flags = unsafe { self.instance.raw.get_physical_device_queue_family_properties(self.raw) }[family_index as usize].queue_flags;
+         let shared = Arc::new(super::DeviceShared {
+             raw: raw_device,
+             family_index,
++            queue_flags,
+             queue_index,
+             raw_queue,
+             drop_guard,
+--- a/src/vulkan/command.rs
++++ b/src/vulkan/command.rs
+@@ -202,13 +202,15 @@
+         vk_barriers.clear();
+ 
+         for bar in barriers {
+-            let (src_stage, src_access) = conv::map_buffer_usage_to_barrier(bar.usage.from);
++            let (src_stage, src_access) = conv::map_buffer_usage_to_barrier(bar.usage.from, self.device.queue_flags);
+             src_stages |= src_stage;
+-            let (dst_stage, dst_access) = conv::map_buffer_usage_to_barrier(bar.usage.to);
++            let (dst_stage, dst_access) = conv::map_buffer_usage_to_barrier(bar.usage.to, self.device.queue_flags);
+             dst_stages |= dst_stage;
+ 
+             vk_barriers.push(
+                 vk::BufferMemoryBarrier::default()
++                    .src_queue_family_index(vk::QUEUE_FAMILY_IGNORED)
++                    .dst_queue_family_index(vk::QUEUE_FAMILY_IGNORED)
+                     .buffer(bar.buffer.raw)
+                     .size(vk::WHOLE_SIZE)
+                     .src_access_mask(src_access)
+@@ -246,15 +248,17 @@
+                 bar.texture.format,
+                 &self.device.private_caps,
+             );
+-            let (src_stage, src_access) = conv::map_texture_usage_to_barrier(bar.usage.from);
++            let (src_stage, src_access) = conv::map_texture_usage_to_barrier(bar.usage.from, self.device.queue_flags);
+             let src_layout = conv::derive_image_layout(bar.usage.from, bar.texture.format);
+             src_stages |= src_stage;
+-            let (dst_stage, dst_access) = conv::map_texture_usage_to_barrier(bar.usage.to);
++            let (dst_stage, dst_access) = conv::map_texture_usage_to_barrier(bar.usage.to, self.device.queue_flags);
+             let dst_layout = conv::derive_image_layout(bar.usage.to, bar.texture.format);
+             dst_stages |= dst_stage;
+ 
+             vk_barriers.push(
+                 vk::ImageMemoryBarrier::default()
++                    .src_queue_family_index(vk::QUEUE_FAMILY_IGNORED)
++                    .dst_queue_family_index(vk::QUEUE_FAMILY_IGNORED)
+                     .image(bar.texture.raw)
+                     .subresource_range(range)
+                     .src_access_mask(src_access)
+--- a/src/vulkan/conv.rs
++++ b/src/vulkan/conv.rs
+@@ -263,12 +263,20 @@
+ 
+ pub fn map_texture_usage_to_barrier(
+     usage: wgt::TextureUses,
++    queue_flags: vk::QueueFlags,
+ ) -> (vk::PipelineStageFlags, vk::AccessFlags) {
+     let mut stages = vk::PipelineStageFlags::empty();
+     let mut access = vk::AccessFlags::empty();
+-    let shader_stages = vk::PipelineStageFlags::VERTEX_SHADER
+-        | vk::PipelineStageFlags::FRAGMENT_SHADER
+-        | vk::PipelineStageFlags::COMPUTE_SHADER;
++    // Uniform/storage accesses apply only to stages supported by this context's
++    // queue. Explicit vertex/attachment uses below remain invalid on compute-only
++    // queues; this does not turn graphics operations into compute operations.
++    let mut shader_stages = vk::PipelineStageFlags::empty();
++    if queue_flags.contains(vk::QueueFlags::GRAPHICS) {
++        shader_stages |= vk::PipelineStageFlags::VERTEX_SHADER | vk::PipelineStageFlags::FRAGMENT_SHADER;
++    }
++    if queue_flags.contains(vk::QueueFlags::COMPUTE) {
++        shader_stages |= vk::PipelineStageFlags::COMPUTE_SHADER;
++    }
+ 
+     if usage.contains(wgt::TextureUses::COPY_SRC) {
+         stages |= vk::PipelineStageFlags::TRANSFER;
+@@ -558,12 +566,20 @@
+ 
+ pub fn map_buffer_usage_to_barrier(
+     usage: wgt::BufferUses,
++    queue_flags: vk::QueueFlags,
+ ) -> (vk::PipelineStageFlags, vk::AccessFlags) {
+     let mut stages = vk::PipelineStageFlags::empty();
+     let mut access = vk::AccessFlags::empty();
+-    let shader_stages = vk::PipelineStageFlags::VERTEX_SHADER
+-        | vk::PipelineStageFlags::FRAGMENT_SHADER
+-        | vk::PipelineStageFlags::COMPUTE_SHADER;
++    // Uniform/storage accesses apply only to stages supported by this context's
++    // queue. Explicit vertex/attachment uses below remain invalid on compute-only
++    // queues; this does not turn graphics operations into compute operations.
++    let mut shader_stages = vk::PipelineStageFlags::empty();
++    if queue_flags.contains(vk::QueueFlags::GRAPHICS) {
++        shader_stages |= vk::PipelineStageFlags::VERTEX_SHADER | vk::PipelineStageFlags::FRAGMENT_SHADER;
++    }
++    if queue_flags.contains(vk::QueueFlags::COMPUTE) {
++        shader_stages |= vk::PipelineStageFlags::COMPUTE_SHADER;
++    }
+ 
+     if usage.contains(wgt::BufferUses::MAP_READ) {
+         stages |= vk::PipelineStageFlags::HOST;
+--- a/src/vulkan/mod.rs
++++ b/src/vulkan/mod.rs
+@@ -709,6 +709,7 @@
+ struct DeviceShared {
+     raw: ash::Device,
+     family_index: u32,
++    queue_flags: vk::QueueFlags,
+     queue_index: u32,
+     raw_queue: vk::Queue,
+     drop_guard: Option<crate::DropGuard>,
+@@ -1819,3 +1820,23 @@
+ /// - Callback must not change anything to what the instance does not support.
+ pub type CreateInstanceCallback<'this> =
+     dyn for<'arg, 'pnext> FnOnce(CreateInstanceCallbackArgs<'arg, 'pnext, 'this>) + 'this;
++
++impl Buffer {
++    /// Borrowed handle. Caller must preserve ownership, lifetime and synchronization.
++    pub unsafe fn cache_raw_handle(&self) -> vk::Buffer { self.raw }
++}
++
++impl ComputePipeline {
++    /// Borrowed handle. Caller must preserve ownership, lifetime and synchronization.
++    pub unsafe fn cache_raw_handle(&self) -> vk::Pipeline { self.raw }
++}
++
++impl PipelineLayout {
++    /// Borrowed handle. Caller must preserve ownership, lifetime and synchronization.
++    pub unsafe fn cache_raw_handle(&self) -> vk::PipelineLayout { self.raw }
++}
++
++impl BindGroup {
++    /// Borrowed handle. Caller must preserve ownership, lifetime and synchronization.
++    pub unsafe fn cache_raw_handle(&self) -> vk::DescriptorSet { *self.set.raw() }
++}

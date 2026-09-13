@@ -3,7 +3,8 @@
   "private": true,
   "workspaces": [
     "packages/*",
-    "demo"
+    "demo",
+    "experiments/gpu-physics"
   ],
   "type": "module",
   "scripts": {
@@ -15,6 +16,9 @@
     "compare:dumps": "bun scripts/compare-dumps.ts",
     "compare:sample": "bash scripts/compare-sample.sh",
     "compare:all": "bash scripts/compare-all-samples.sh",
+    "samples:cpu": "bash experiments/gpu-physics/scripts/run-native-samples.sh cpu",
+    "samples:gpu": "bash experiments/gpu-physics/scripts/run-native-samples.sh gpu",
+    "samples:both": "bash experiments/gpu-physics/scripts/run-native-samples.sh both",
     "typecheck": "bun run typecheck:workspace && bun run typecheck:scripts",
     "test:reference-dump": "bash scripts/reference-dump-smoke.sh",
     "setup:emsdk": "bash scripts/ensure-emsdk.sh",

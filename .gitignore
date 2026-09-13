@@ -13,3 +13,8 @@ packages/box3d-wasm/.box3d-patched/
 .reference-dumps/
 packages/box3d-wasm/build-native/
 compile_commands.json
+experiments/gpu-physics/target/
+experiments/gpu-physics/web/pkg/
+experiments/gpu-physics/recordings/oracle-dumps/
+experiments/gpu-physics/recordings/traces/
+experiments/gpu-physics/native-samples/build-*/

@@ -20,6 +20,7 @@ Project docs are split by audience and purpose. Prefer updating an existing doc 
 
 - [`OTHER_PROJECTS.md`](./OTHER_PROJECTS.md) - comparison with other Box3D WASM projects, including API style, sample coverage, threading, and WASM size.
 - [`washer-performance-plan.md`](./washer-performance-plan.md) - performance notes for high-body-count sample rendering.
+- [`gpu-physics.md`](./gpu-physics.md) - greenfield GPU physics experiment (Rust + wgpu). Compare grid + `--self-test`; Box3D C is a visual/timing column, not a lock-step gate.
 
 ## Where To Put New Docs
 

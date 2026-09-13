@@ -1,0 +1,74 @@
+{
+  "cpu_win_validated": false,
+  "notes": "Category-qualified native scenes. Village uses an explicit sphere drop on unchanged geometry for 600-step support/trajectory checks. No CPU-win claim.",
+  "scenes": [
+    {
+      "id": "Joints/Motion Locks",
+      "observation": "One box unstable early",
+      "steps": 120,
+      "late_window": false
+    },
+    {
+      "id": "Joints/Gear Lift",
+      "observation": "Unstable",
+      "steps": 1200,
+      "late_window": true,
+      "timeout_s": 600
+    },
+    {
+      "id": "Joints/Driving",
+      "observation": "Wheels bounce",
+      "steps": 180,
+      "late_window": false
+    },
+    {
+      "id": "Joints/Bridge",
+      "observation": "Immediate explosion",
+      "steps": 120,
+      "late_window": false
+    },
+    {
+      "id": "Joints/Ball and Chain",
+      "observation": "Good (positive control)",
+      "steps": 120,
+      "late_window": false
+    },
+    {
+      "id": "Issues/s&box mover",
+      "observation": "Falls through ground",
+      "steps": 180,
+      "late_window": false
+    },
+    {
+      "id": "Issues/s&box Ghost Collisions",
+      "observation": "Eventually penetrates",
+      "steps": 300,
+      "late_window": true
+    },
+    {
+      "id": "Events/Hit",
+      "observation": "Explodes",
+      "steps": 120,
+      "late_window": false
+    },
+    {
+      "id": "Determinism/Wave Pile",
+      "observation": "Unstable on ground impact",
+      "steps": 180,
+      "late_window": false
+    },
+    {
+      "id": "Continuous/Mesh Drop",
+      "observation": "Unstable on impact",
+      "steps": 180,
+      "late_window": false
+    },
+    {
+      "id": "Compound/Village",
+      "observation": "Suspected load allocation abort",
+      "steps": 600,
+      "late_window": true,
+      "timeout_s": 600
+    }
+  ]
+}

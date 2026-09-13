@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>gpu-physics snapshot compare</title>
+    <style>
+      :root {
+        --bg: #101217;
+        --ink: #eceae3;
+        --muted: #9a9b93;
+        --line: #2a2e38;
+        --cell: #16181f;
+        --head: #1c1f28;
+        --accent: #d2c29a;
+        --play: #3d6b52;
+        --bar-h: 40px;
+        --name-w: 132px;
+        --clip-max-w: 33vw;
+        --clip-max-h: 45vh;
+        --w: min(var(--clip-max-w), calc(var(--clip-max-h) * 16 / 9));
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 13px/1.4 "IBM Plex Sans", "Segoe UI", sans-serif;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 8;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 12px;
+        height: var(--bar-h);
+        padding: 0 12px;
+        overflow: hidden;
+        background: color-mix(in srgb, var(--bg) 92%, black);
+        border-bottom: 1px solid var(--line);
+      }
+      h1 {
+        margin: 0;
+        flex-shrink: 0;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      h1 span { color: var(--accent); font-weight: 500; }
+      .hint {
+        flex: 1;
+        min-width: 0;
+        margin: 0;
+        color: var(--muted);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-shrink: 0;
+        gap: 8px;
+      }
+      button, label {
+        background: var(--head);
+        color: var(--ink);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 6px 10px;
+        cursor: pointer;
+      }
+      button.primary { background: var(--play); border-color: #4a7d61; }
+      button:hover { filter: brightness(1.12); }
+      label { display: flex; align-items: center; gap: 6px; user-select: none; }
+      .scroller {
+        overflow: auto;
+        max-height: calc(100vh - var(--bar-h));
+      }
+      table {
+        border-collapse: separate;
+        border-spacing: 0;
+        min-width: 100%;
+      }
+      th, td {
+        border-bottom: 1px solid var(--line);
+        border-right: 1px solid var(--line);
+        vertical-align: top;
+        background: var(--cell);
+      }
+      thead th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: var(--head);
+        font-weight: 600;
+        padding: 8px 10px;
+        text-align: left;
+        white-space: nowrap;
+      }
+      thead th.corner, tbody th {
+        position: sticky;
+        left: 0;
+        z-index: 3;
+        width: var(--name-w);
+        min-width: var(--name-w);
+        max-width: var(--name-w);
+        background: var(--head);
+      }
+      thead th.corner { z-index: 6; }
+      tbody th { z-index: 4; padding: 10px; }
+      thead th.cpu, tbody td.cpu {
+        position: sticky;
+        left: var(--name-w);
+      }
+      .scroller.pinned thead th.cpu,
+      .scroller.pinned tbody td.cpu {
+        box-shadow: 6px 0 12px rgba(0, 0, 0, 0.45);
+      }
+      thead th.cpu {
+        z-index: 5;
+        background: var(--head);
+      }
+      tbody td.cpu {
+        z-index: 3;
+        background: #0b0c10;
+      }
+      .snap-id {
+        font-family: ui-monospace, "IBM Plex Mono", monospace;
+        font-size: 12px;
+      }
+      .metrics {
+        margin-top: 8px;
+        font-family: ui-monospace, "IBM Plex Mono", monospace;
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+      .clip-meta {
+        padding: 4px 8px 8px;
+        font-family: ui-monospace, "IBM Plex Mono", monospace;
+        font-size: 11px;
+        color: var(--muted);
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .clip-meta .metric {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0 8px;
+      }
+      .clip-meta .better { color: #8fce9a; }
+      .clip-meta .worse { color: #e08b84; }
+      .clip-meta .same { color: var(--muted); }
+      td.clip.better { box-shadow: inset 0 -3px 0 #3d6b52; }
+      td.clip.worse { box-shadow: inset 0 -3px 0 #8a3d3d; }
+      .row-actions { margin-top: 8px; display: flex; gap: 6px; }
+      .row-actions button { padding: 4px 8px; font-size: 12px; }
+      thead th:not(.corner) {
+        width: var(--w);
+        min-width: var(--w);
+      }
+      td.clip {
+        width: var(--w);
+        min-width: var(--w);
+        padding: 0;
+        background: #0b0c10;
+      }
+      video {
+        display: block;
+        width: var(--w);
+        height: auto;
+        background: #0b0c10;
+        aspect-ratio: 16 / 9;
+        object-fit: contain;
+      }
+      video::-webkit-media-controls {
+        visibility: hidden;
+      }
+      td.clip:hover video::-webkit-media-controls {
+        visibility: visible;
+      }
+      .missing {
+        width: var(--w);
+        aspect-ratio: 16 / 9;
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .empty {
+        padding: 48px 16px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>gpu-physics <span>snapshot grid</span></h1>
+      <p class="hint" title="Rows are samples. Columns: Box3D CPU pinned left, then the latest GPU, then older versions further right. Each GPU number is ×CPU vs the oracle, then % or × vs the older GPU column (green = smaller/better). Hover a delta for the previous absolute value.">Rows are samples. CPU left, then latest GPU. Numbers: ×CPU vs oracle, then %/× vs the older GPU column (↓ smaller, ↑ larger).</p>
+      <div class="controls">
+        <button class="primary" id="play-all" type="button">Play all</button>
+        <button id="pause-all" type="button">Pause</button>
+        <button id="restart-all" type="button">Restart</button>
+        <label><input type="checkbox" id="loop" checked /> loop</label>
+        <label><input type="checkbox" id="mute" checked /> mute</label>
+      </div>
+    </header>
+    <div class="scroller" id="root">
+      <p class="empty">Load <code>snapshots.js</code> (run <code>scripts/record-snapshot.sh</code>).</p>
+    </div>
+    <script src="snapshots.js"></script>
+    <script>
+      const data = window.GPU_COMPARE || { samples: [], snapshots: [] };
+      const root = document.getElementById("root");
+
+      const DRIFT = 0.25;
+      let playing = true;
+      let hush = 0;
+
+      function withHush(fn) {
+        hush += 1;
+        try {
+          return fn();
+        } finally {
+          hush -= 1;
+        }
+      }
+
+      function allVideos() {
+        return [...document.querySelectorAll("video")];
+      }
+      function rowVideos(tr) {
+        return [...tr.querySelectorAll("video")];
+      }
+      function inView(v) {
+        return v.dataset.inview === "1";
+      }
+      function visibleInRow(tr) {
+        return rowVideos(tr).filter(inView);
+      }
+      function rowLeader(tr) {
+        const vis = visibleInRow(tr);
+        return vis.find((v) => v.closest("td.cpu")) || vis[0] || null;
+      }
+      function applyPrefs() {
+        const loop = document.getElementById("loop").checked;
+        const mute = document.getElementById("mute").checked;
+        for (const v of allVideos()) {
+          v.loop = loop;
+          v.muted = mute;
+        }
+      }
+      function hasTime(v) {
+        return v && v.readyState >= 2 && Number.isFinite(v.duration) && v.duration > 0;
+      }
+      function playOne(v) {
+        applyPrefs();
+        if (!v.paused) return;
+        v.dataset.prog = "1";
+        const p = v.play();
+        const done = () => { v.dataset.prog = "0"; };
+        if (p && p.finally) p.finally(done);
+        else done();
+      }
+      function pauseOne(v) {
+        if (v.paused) return;
+        withHush(() => v.pause());
+      }
+      function snapFollowers(tr, force) {
+        const leader = rowLeader(tr);
+        if (!hasTime(leader)) return;
+        const t = leader.currentTime;
+        for (const v of visibleInRow(tr)) {
+          if (v === leader || !hasTime(v)) continue;
+          if (force || Math.abs(v.currentTime - t) > DRIFT) {
+            withHush(() => {
+              v.currentTime = Math.min(t, Math.max(0, v.duration - 0.05));
+            });
+          }
+        }
+      }
+      function syncRow(tr) {
+        for (const v of rowVideos(tr)) {
+          if (inView(v)) {
+            if (playing) playOne(v);
+            else pauseOne(v);
+          } else {
+            pauseOne(v);
+          }
+        }
+        snapFollowers(tr, false);
+      }
+      function applyVisibility() {
+        applyPrefs();
+        for (const tr of document.querySelectorAll("#root tbody tr")) {
+          syncRow(tr);
+        }
+      }
+      function setPlaying(on) {
+        playing = on;
+        applyVisibility();
+      }
+      function restartAll() {
+        withHush(() => {
+          for (const v of allVideos()) {
+            if (hasTime(v) || v.readyState >= 1) v.currentTime = 0;
+          }
+        });
+        playing = true;
+        applyVisibility();
+      }
+      function wireVideo(v) {
+        v.addEventListener("loadeddata", () => {
+          if (inView(v)) applyVisibility();
+        });
+        v.addEventListener("play", () => {
+          if (hush || v.dataset.prog === "1") return;
+          playing = true;
+        });
+        v.addEventListener("pause", () => {
+          if (hush || v.dataset.prog === "1" || v.seeking || !inView(v)) return;
+        });
+      }
+
+      if (!data.snapshots.length) {
+        root.innerHTML =
+          '<p class="empty">No snapshots yet. From <code>experiments/gpu-physics</code> run <code>./scripts/record-snapshot.sh 2026-08-30-baseline</code>.</p>';
+      } else {
+        function sceneMetrics(snap, slug) {
+          const sc = snap.metrics && snap.metrics.scenes && snap.metrics.scenes[slug];
+          return sc || null;
+        }
+        function sphereScaleMetrics(snap, count) {
+          const rows =
+            snap &&
+            snap.metrics &&
+            snap.metrics.scaling &&
+            snap.metrics.scaling.spheres;
+          const row = Array.isArray(rows)
+            ? rows.find((item) => Number(item.dynamic_bodies) === count)
+            : null;
+          return row && row.metrics ? row.metrics : null;
+        }
+        function restAt(sc, step) {
+          const rest = (sc && sc.rest) || [];
+          return rest.find((r) => r.step === step) || rest[rest.length - 1] || null;
+        }
+        /** Lower is better. Ignore tiny relative noise so GPU jitter is not a fake regression. */
+        function deltaClass(cur, prev) {
+          if (cur == null || prev == null) return "same";
+          const a = Number(cur);
+          const b = Number(prev);
+          if (!Number.isFinite(a) || !Number.isFinite(b)) return "same";
+          const scale = Math.max(Math.abs(a), Math.abs(b), 1e-12);
+          if (Math.abs(a - b) / scale < 0.03) return "same";
+          return a < b ? "better" : "worse";
+        }
+        /** Pick a prefix so the coefficient sits in [1, 1000). */
+        function fmtSi(x, units) {
+          const n = Number(x);
+          if (!Number.isFinite(n)) return "—";
+          if (n === 0) return `0 ${units[0][1]}`;
+          const a = Math.abs(n);
+          let factor = units[units.length - 1][0];
+          let suffix = units[units.length - 1][1];
+          for (const [f, s] of units) {
+            if (a >= f) {
+              factor = f;
+              suffix = s;
+              break;
+            }
+          }
+          const v = n / factor;
+          const av = Math.abs(v);
+          const digits = av >= 100 ? 0 : av >= 10 ? 1 : 2;
+          let t = v.toFixed(digits);
+          if (t.indexOf(".") >= 0) t = t.replace(/0+$/, "").replace(/\.$/, "");
+          return `${t} ${suffix}`;
+        }
+        function fmtTimeMs(ms) {
+          return fmtSi(Number(ms) * 1e6, [
+            [1e9, "s"],
+            [1e6, "ms"],
+            [1e3, "µs"],
+            [1, "ns"],
+          ]);
+        }
+        function fmtMeters(m) {
+          return fmtSi(m, [
+            [1, "m"],
+            [1e-3, "mm"],
+            [1e-6, "µm"],
+            [1e-9, "nm"],
+          ]);
+        }
+        function fmtCount(n) {
+          const v = Number(n);
+          if (!Number.isFinite(v)) return "—";
+          return String(Math.round(v));
+        }
+        function fmtBytes(bytes) {
+          return fmtSi(bytes, [
+            [1e9, "GB"],
+            [1e6, "MB"],
+            [1e3, "KB"],
+            [1, "B"],
+          ]);
+        }
+        function fmtSpeed(mps) {
+          return fmtSi(mps, [
+            [1, "m/s"],
+            [1e-3, "mm/s"],
+            [1e-6, "µm/s"],
+          ]);
+        }
+        function fmtTimes(cur, ref) {
+          const a = Number(cur);
+          const b = Number(ref);
+          if (!Number.isFinite(a) || !Number.isFinite(b)) return "—";
+          if (Math.abs(b) < 1e-15) {
+            return Math.abs(a) < 1e-15 ? "1×" : "∞×";
+          }
+          const r = a / b;
+          if (!Number.isFinite(r)) return "—";
+          if (r < 10) {
+            let t = r.toFixed(2);
+            t = t.replace(/0+$/, "").replace(/\.$/, "");
+            return `${t}×`;
+          }
+          return `${Math.round(r)}×`;
+        }
+        /** Signed change vs previous GPU: percent when under 2×, otherwise cur/prev. */
+        function fmtChange(cur, prev) {
+          const a = Number(cur);
+          const b = Number(prev);
+          if (!Number.isFinite(a) || !Number.isFinite(b)) return "—";
+          if (Math.abs(b) < 1e-15) {
+            return Math.abs(a) < 1e-15 ? "0%" : "∞";
+          }
+          const pct = (a - b) / Math.abs(b);
+          if (!Number.isFinite(pct)) return "—";
+          if (Math.abs(pct) < 1) {
+            const p = Math.abs(pct) * 100;
+            const digits = p >= 10 ? 0 : p >= 1 ? 1 : 2;
+            let t = p.toFixed(digits);
+            if (t.indexOf(".") >= 0) t = t.replace(/0+$/, "").replace(/\.$/, "");
+            return `${t}%`;
+          }
+          return fmtTimes(a, b);
+        }
+        function cpuSnapshot() {
+          return (
+            data.snapshots.find((s) => s.metrics && s.metrics.engine === "box3d-cpu") ||
+            data.snapshots.find((s) => String(s.id).includes("box3d-cpu")) ||
+            null
+          );
+        }
+        function restVal(sc, key) {
+          const r = restAt(sc, 300);
+          return r && r[key] != null ? r[key] : null;
+        }
+        function appendMetric(parent, label, cur, cpuVal, prevVal, prevLabel, fmt) {
+          if (cur == null) return "same";
+          const row = document.createElement("div");
+          row.className = "metric";
+          const val = document.createElement("span");
+          val.textContent = `${label} ${fmt(cur)}`;
+          row.appendChild(val);
+          if (cpuVal != null && Number.isFinite(Number(cpuVal))) {
+            const cpu = document.createElement("span");
+            cpu.className = "vs-cpu " + deltaClass(cur, cpuVal);
+            cpu.textContent = `${fmtTimes(cur, cpuVal)} CPU`;
+            cpu.title = `CPU ${fmt(cpuVal)}`;
+            row.appendChild(cpu);
+          }
+          let tone = "same";
+          if (prevVal != null && prevLabel) {
+            tone = deltaClass(cur, prevVal);
+            const pv = document.createElement("span");
+            pv.className = "vs-prev " + tone;
+            const arrow = tone === "better" ? "↓" : tone === "worse" ? "↑" : "·";
+            pv.textContent = `${arrow} ${fmtChange(cur, prevVal)} ${prevLabel}`;
+            pv.title = `${prevLabel} was ${fmt(prevVal)}`;
+            row.appendChild(pv);
+          }
+          parent.appendChild(row);
+          return tone;
+        }
+        function fillMeta(parent, sc, olderSc, cpuSc, isCpuCol, olderLabel) {
+          if (!sc) return "same";
+          const cpu = isCpuCol ? null : cpuSc;
+          const prev = isCpuCol ? null : olderSc;
+          const pl = isCpuCol ? null : olderLabel;
+          const tones = [];
+          tones.push(appendMetric(parent, "step", sc.ms_per_step, cpu && cpu.ms_per_step, prev && prev.ms_per_step, pl, fmtTimeMs));
+          tones.push(appendMetric(parent, "p95", sc.p95_ms_per_step, cpu && cpu.p95_ms_per_step, prev && prev.p95_ms_per_step, pl, fmtTimeMs));
+          const performance = [
+            ["GPU collide", "gpu_collide_ms", fmtTimeMs],
+            ["GPU solve", "gpu_solve_ms", fmtTimeMs],
+            ["GPU integrate", "gpu_integrate_ms", fmtTimeMs],
+          ];
+          for (const [label, key, fmt] of performance) {
+            tones.push(appendMetric(parent, label, sc[key], cpu && cpu[key], prev && prev[key], pl, fmt));
+          }
+          const encode = sc.timing && sc.timing.cpu_encode && sc.timing.cpu_encode.p50_ms;
+          const prevEncode = prev && prev.timing && prev.timing.cpu_encode && prev.timing.cpu_encode.p50_ms;
+          tones.push(appendMetric(parent, "CPU encode", encode, null, prevEncode, pl, fmtTimeMs));
+          const pairs = sc.workload && sc.workload.candidate_pairs && sc.workload.candidate_pairs.avg;
+          const prevPairs = prev && prev.workload && prev.workload.candidate_pairs && prev.workload.candidate_pairs.avg;
+          tones.push(appendMetric(parent, "pairs", pairs, null, prevPairs, pl, fmtCount));
+          const contacts = sc.workload && sc.workload.active_contacts && sc.workload.active_contacts.avg;
+          const prevContacts = prev && prev.workload && prev.workload.active_contacts && prev.workload.active_contacts.avg;
+          tones.push(appendMetric(parent, "contacts", contacts, null, prevContacts, pl, fmtCount));
+          const drops = sc.workload && sc.workload.capacity_drops && sc.workload.capacity_drops.peak;
+          const prevDrops = prev && prev.workload && prev.workload.capacity_drops && prev.workload.capacity_drops.peak;
+          tones.push(appendMetric(parent, "capacity drops", drops, null, prevDrops, pl, fmtCount));
+          const allocated = sc.allocations && sc.allocations.total_bytes;
+          const prevAllocated = prev && prev.allocations && prev.allocations.total_bytes;
+          tones.push(appendMetric(parent, "GPU alloc", allocated, null, prevAllocated, pl, fmtBytes));
+          function fmtOmega(w) {
+            return fmtSi(w, [
+              [1, "rad/s"],
+              [1e-3, "mrad/s"],
+            ]);
+          }
+          const keys = [
+            ["|y-0.5|", "y_err", fmtMeters],
+            ["bottom", "bottom_err", fmtMeters],
+            ["gap@300", "gap_err", fmtMeters],
+            ["orderΔy", "order_gap", fmtMeters],
+            ["fallen", "fallen", fmtCount],
+            ["xz", "xz_err", fmtMeters],
+            ["floor", "floor_err", fmtMeters],
+            ["joint", "joint_err", fmtMeters],
+            ["hold", "hold_err", fmtMeters],
+            ["bounce y", "bounce_y", fmtMeters],
+            ["ω", "omega", fmtOmega],
+            ["min y", "min_y", fmtMeters],
+            ["slide x", "slide_x", fmtMeters],
+            ["slide y", "slide_y", fmtMeters],
+            ["speed", "speed", fmtSpeed],
+          ];
+          for (const [label, key, fmt] of keys) {
+            const cur = restVal(sc, key);
+            if (cur == null) continue;
+            tones.push(appendMetric(parent, label, cur, restVal(cpu, key), restVal(prev, key), pl, fmt));
+          }
+          if (tones.includes("worse")) return "worse";
+          if (tones.includes("better")) return "better";
+          return "same";
+        }
+
+        const cpuSnap = cpuSnapshot();
+        const gpu = data.snapshots.filter((s) => s !== cpuSnap);
+        gpu.reverse();
+        const versions = cpuSnap ? [cpuSnap, ...gpu] : gpu;
+
+        const table = document.createElement("table");
+        const thead = document.createElement("thead");
+        const hr = document.createElement("tr");
+        const corner = document.createElement("th");
+        corner.className = "corner";
+        corner.textContent = "sample";
+        hr.appendChild(corner);
+        versions.forEach((snap) => {
+          const isCpuCol = snap === cpuSnap;
+          const th = document.createElement("th");
+          th.className = isCpuCol ? "cpu" : "";
+          th.dataset.snap = snap.id;
+          const adapter = (snap.metrics && snap.metrics.adapter) || "";
+          const folder = !isCpuCol && snap.id !== snap.label ? `<div class="metrics">${snap.id}</div>` : "";
+          th.innerHTML =
+            `<div class="snap-id">${snap.label}</div>` +
+            folder +
+            (adapter && adapter !== snap.label ? `<div class="metrics">${adapter}</div>` : "") +
+            `<div class="row-actions">` +
+            `<button type="button" data-act="play-col">Play col</button>` +
+            `<button type="button" data-act="pause-col">Pause</button>` +
+            `</div>`;
+          hr.appendChild(th);
+        });
+        thead.appendChild(hr);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        for (const s of data.samples) {
+          const tr = document.createElement("tr");
+          tr.dataset.sample = s;
+          const th = document.createElement("th");
+          th.innerHTML =
+            `<div class="snap-id">${s}</div>` +
+            `<div class="row-actions">` +
+            `<button type="button" data-act="play">Play row</button>` +
+            `<button type="button" data-act="pause">Pause</button>` +
+            `</div>`;
+          tr.appendChild(th);
+          versions.forEach((snap, col) => {
+            const older = versions[col + 1];
+            const olderGpu = older && older !== cpuSnap ? older : null;
+            const isCpuCol = snap === cpuSnap;
+            const td = document.createElement("td");
+            td.className = isCpuCol ? "clip cpu" : "clip";
+            td.dataset.snap = snap.id;
+            const src = snap.videos[s];
+            if (src) {
+              const v = document.createElement("video");
+              v.src = src;
+              v.muted = true;
+              v.loop = true;
+              v.playsInline = true;
+              v.preload = "metadata";
+              v.controls = false;
+              v.controlsList = "nodownload noplaybackrate noremoteplayback";
+              v.disablePictureInPicture = true;
+              v.dataset.inview = "0";
+              wireVideo(v);
+              td.addEventListener("pointerenter", () => { v.controls = true; });
+              td.addEventListener("pointerleave", () => { v.controls = false; });
+              td.appendChild(v);
+            } else {
+              const miss = document.createElement("div");
+              miss.className = "missing";
+              miss.textContent = "no clip";
+              td.appendChild(miss);
+            }
+            const sc = sceneMetrics(snap, s);
+            if (sc) {
+              const p = document.createElement("div");
+              p.className = "clip-meta";
+              const cellTone = fillMeta(
+                p,
+                sc,
+                olderGpu ? sceneMetrics(olderGpu, s) : null,
+                cpuSnap ? sceneMetrics(cpuSnap, s) : null,
+                isCpuCol,
+                olderGpu ? olderGpu.label : null
+              );
+              if (s === "spheres" && !isCpuCol) {
+                for (const count of [64, 256, 1024, 4096]) {
+                  const scale = sphereScaleMetrics(snap, count);
+                  const olderScale = sphereScaleMetrics(olderGpu, count);
+                  if (scale) {
+                    appendMetric(
+                      p,
+                      `sphere ${count}`,
+                      scale.ms_per_step,
+                      null,
+                      olderScale && olderScale.ms_per_step,
+                      olderGpu ? olderGpu.label : null,
+                      fmtTimeMs
+                    );
+                  }
+                }
+              }
+              if (cellTone === "better" || cellTone === "worse") td.classList.add(cellTone);
+              td.appendChild(p);
+            }
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        }
+        table.appendChild(tbody);
+        root.replaceChildren(table);
+        const syncPin = () => {
+          root.classList.toggle("pinned", root.scrollLeft > 1);
+        };
+        root.addEventListener("scroll", syncPin, { passive: true });
+        syncPin();
+
+        const io = new IntersectionObserver(
+          (entries) => {
+            const appeared = new Set();
+            for (const e of entries) {
+              const was = e.target.dataset.inview === "1";
+              e.target.dataset.inview = e.isIntersecting ? "1" : "0";
+              if (e.isIntersecting && !was) {
+                const tr = e.target.closest("tr");
+                if (tr) appeared.add(tr);
+              }
+            }
+            applyVisibility();
+            for (const tr of appeared) snapFollowers(tr, true);
+          },
+          { root, threshold: 0.15, rootMargin: "0px" }
+        );
+        for (const v of allVideos()) io.observe(v);
+        applyVisibility();
+        setInterval(() => {
+          if (!playing) return;
+          for (const tr of document.querySelectorAll("#root tbody tr")) {
+            snapFollowers(tr, false);
+          }
+        }, 500);
+
+        table.addEventListener("click", (e) => {
+          const btn = e.target.closest("button[data-act]");
+          if (!btn) return;
+          const act = btn.dataset.act;
+          if (act === "play" || act === "play-col") {
+            setPlaying(true);
+            return;
+          }
+          if (act === "pause" || act === "pause-col") {
+            setPlaying(false);
+          }
+        });
+      }
+
+      document.getElementById("play-all").onclick = () => setPlaying(true);
+      document.getElementById("pause-all").onclick = () => setPlaying(false);
+      document.getElementById("restart-all").onclick = () => restartAll();
+      document.getElementById("loop").onchange = applyPrefs;
+      document.getElementById("mute").onchange = applyPrefs;
+    </script>
+  </body>
+</html>

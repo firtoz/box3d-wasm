@@ -1,0 +1,1 @@
+{ global: viewer_cpu_*; local: *; };

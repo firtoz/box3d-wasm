@@ -25,6 +25,12 @@
         "vite": "^8.1.2",
       },
     },
+    "experiments/gpu-physics": {
+      "name": "gpu-physics-web",
+      "devDependencies": {
+        "vite": "^8.1.2",
+      },
+    },
     "packages/box3d-wasm": {
       "name": "box3d-wasm",
       "version": "0.0.0",
@@ -270,6 +276,8 @@
     "get-caller-file": ["get-caller-file@2.0.5", "", {}, "sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg=="],
 
     "glob-parent": ["glob-parent@5.1.2", "", { "dependencies": { "is-glob": "^4.0.1" } }, "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow=="],
+
+    "gpu-physics-web": ["gpu-physics-web@workspace:experiments/gpu-physics"],
 
     "is-binary-path": ["is-binary-path@2.1.0", "", { "dependencies": { "binary-extensions": "^2.0.0" } }, "sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw=="],
 

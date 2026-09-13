@@ -1,0 +1,16 @@
+---
+description: Record gpu-physics MP4 clips before commits for visual comparison
+globs: experiments/gpu-physics/**
+alwaysApply: false
+---
+
+# GPU physics: MP4 before commits
+
+When committing work that changes how `experiments/gpu-physics` looks or settles (solver, collide, scenes, render), record a short `--mp4` of the affected scene(s) first so we can compare against the last clip. This is a **milestone / pre-commit** check, not a live-window feature and not a requirement to capture every world tick as a separate artifact.
+
+```bash
+cd experiments/gpu-physics
+./scripts/record-snapshot.sh YYYY-MM-DD-<label>
+```
+
+Needs `ffmpeg` and the NVIDIA pin (the script sets it). Clips go in `recordings/snapshots/<label>/` (Git LFS). The grid is `compare/index.html` (rows = samples; CPU pinned left, then latest GPU, older versions further right). Pin the CPU oracle with `./scripts/record-box3d-oracle.sh` (`000-box3d-cpu` column, real Box3D C). Skip recording for docs-only changes.

@@ -1,0 +1,8 @@
+[package]
+name = "gpu-spirv-layout"
+version = "0.1.0"
+edition = "2021"
+publish = false
+[workspace]
+[dependencies]
+rspirv = "=0.13.0"

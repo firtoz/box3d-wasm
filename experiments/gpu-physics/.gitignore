@@ -1,0 +1,23 @@
+*.o
+__pycache__/
+*.pyc
+imgui.ini
+settings.ini
+correctness-cases.jsonl
+
+# Reproducible gate executables: retain source/binary hashes, not build products.
+artifacts/**/cpu
+artifacts/**/gpu
+artifacts/**/bin/
+
+artifacts/**/both
+/oracle/build-viewer/
+
+# Local research archive and generated outputs: keep on disk, not in Git.
+/artifacts/
+/recordings/
+/compare/snapshots.js
+/bench-*.json
+/correctness-latest.json
+/correctness-fingerprint-inputs.txt
+/native-scene-latest.json

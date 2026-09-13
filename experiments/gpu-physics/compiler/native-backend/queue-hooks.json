@@ -1,0 +1,10 @@
+{
+  "wgpu-hal/src/vulkan/mod.rs": {
+    "before": "ece4c092843532d6a1f8e3601d54530d3f2b44fcba18e5176943e5fd25d614d7",
+    "after": "f68b7035d971411fca87d3eee37b6ddc1b9a958635b8ad682cbf8b9d6d663693"
+  },
+  "wgpu-hal/src/vulkan/adapter.rs": {
+    "before": "9fa3c6f1d1bd66d34d3f5ec98015c91a298ecfe58680732e00cb75fb806c1f7d",
+    "after": "eb9ddc66c92932f7210d09663202e55565bcfc97d9e071bda3a664668c4d5d8b"
+  }
+}
