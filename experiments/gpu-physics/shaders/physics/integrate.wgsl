@@ -137,7 +137,7 @@ fn apply_deltas(@builtin(global_invocation_id) gid: vec3<u32>) {
         // inside each other until a later step woke them and popped them apart.
         let base_rotation = b.rot;
         b.pos = b.pos + b.dp;
-        b.rot = normalize(quat_mul(b.dq, b.rot));
+        b.rot = gyro_finish_rotation(b.dq, b.rot);
         let extra = body_extra_offset(i);
         let half = vec3<f32>(scene_f32(extra + 4u), scene_f32(extra + 5u), scene_f32(extra + 6u));
         let local_omega = abs(quat_rotate(quat_inv(base_rotation), b.omega));
@@ -185,7 +185,7 @@ fn integrate_vel_one(i: u32) {
         let ad = 1.0 / (1.0 + h * b.angular_damping);
         b.vel = g * (h * select(0.0, b.gravity_scale, b.inv_mass > 0.0)) + b.vel * ld;
         b.omega = b.omega * ad;
-        apply_gyro(&b, h);
+        gyro_apply_gyro(&b, h);
         if ((b.flags & 256u) != 0u) { b.vel.x = 0.0; }
         if ((b.flags & 512u) != 0u) { b.vel.y = 0.0; }
         if ((b.flags & 1024u) != 0u) { b.vel.z = 0.0; }
@@ -220,8 +220,7 @@ fn integrate_pos_one(i: u32) {
         }
         let h = params.dt;
         b.dp = b.dp + b.vel * h;
-        let qd = quat_mul(vec4<f32>(0.5 * h * b.omega, 0.0), b.dq);
-        b.dq = normalize(b.dq + qd);
+        b.dq = gyro_integrate_rotation(b.dq, b.omega, h);
     }
     body_states[i] = b;
 }

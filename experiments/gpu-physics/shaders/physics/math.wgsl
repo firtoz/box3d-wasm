@@ -90,50 +90,6 @@ fn solve3(col0: vec3<f32>, col1: vec3<f32>, col2: vec3<f32>, b: vec3<f32>) -> ve
     );
 }
 
-fn local_inertia_matrix(b: Body) -> mat3x3<f32> {
-    let a = b.inv_inertia.x;
-    let bb = b.inv_inertia.y;
-    let c = b.inv_inertia.z;
-    let d = b.inv_inertia_offdiag.x;
-    let e = b.inv_inertia_offdiag.y;
-    let f = b.inv_inertia_offdiag.z;
-    let det = a * (bb * c - f * f) - d * (d * c - e * f) + e * (d * f - bb * e);
-    if (abs(det) < 1e-12) {
-        return mat3x3<f32>(vec3<f32>(0.0), vec3<f32>(0.0), vec3<f32>(0.0));
-    }
-    let s = 1.0 / det;
-    return mat3x3<f32>(
-        vec3<f32>((bb * c - f * f) * s, (e * f - d * c) * s, (d * f - bb * e) * s),
-        vec3<f32>((e * f - d * c) * s, (a * c - e * e) * s, (d * e - a * f) * s),
-        vec3<f32>((d * f - bb * e) * s, (d * e - a * f) * s, (a * bb - d * d) * s),
-    );
-}
-
-/// Box3D `b3IntegrateVelocitiesTask` gyro Newton step with a symmetric
-/// local inertia tensor.
-fn apply_gyro(b: ptr<function, Body>, h: f32) {
-    let inv = (*b).inv_inertia;
-    if (inv.x < 1e-12 || inv.y < 1e-12 || inv.z < 1e-12) {
-        return;
-    }
-    let inertia = local_inertia_matrix(*b);
-    let q = normalize(quat_mul((*b).dq, (*b).rot));
-    var omega1 = quat_inv_rotate(q, (*b).omega);
-    var omega2 = omega1;
-    for (var it = 0u; it < 1u; it++) {
-        let iw = inertia * omega2;
-        let residual = inertia * (omega2 - omega1) + h * cross(omega2, iw);
-        let j0 = inertia[0]
-            + h * (cross(vec3<f32>(1.0, 0.0, 0.0), iw) + cross(omega2, inertia[0]));
-        let j1 = inertia[1]
-            + h * (cross(vec3<f32>(0.0, 1.0, 0.0), iw) + cross(omega2, inertia[1]));
-        let j2 = inertia[2]
-            + h * (cross(vec3<f32>(0.0, 0.0, 1.0), iw) + cross(omega2, inertia[2]));
-        omega2 = omega2 - solve3(j0, j1, j2, residual);
-    }
-    (*b).omega = quat_rotate(q, omega2);
-}
-
 fn box_axis(b: Body, i: u32) -> vec3<f32> {
     var e = vec3<f32>(0.0);
     if (i == 0u) { e = vec3<f32>(1.0, 0.0, 0.0); }

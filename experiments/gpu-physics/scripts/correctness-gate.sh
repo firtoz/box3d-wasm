@@ -335,6 +335,12 @@ else
   record "cpu_oracle:density" "fail" "density native comparison failed"
 fi
 
+if bash "$ROOT/scripts/check-body-dynamics-reference.sh" "$ROOT/artifacts/body-dynamics-reference-gate"; then
+  record "cpu_oracle:body-dynamics" "pass" "Body Type four-point impact and 600-step gyro/custom-inertia trajectory"
+else
+  record "cpu_oracle:body-dynamics" "fail" "native body dynamics comparison failed"
+fi
+
 if bash "$ROOT/scripts/check-zero-mass-reference.sh" "$ROOT/artifacts/zero-mass-reference-gate"; then
   record "cpu_oracle:zero-mass" "pass" "dynamic zero-mass motion, impulses, torque and revolute motor"
 else

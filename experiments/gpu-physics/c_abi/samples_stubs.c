@@ -342,11 +342,6 @@ B3_API b3Vec3 b3Body_GetLocalCenter(b3BodyId bodyId)
 	return (b3Vec3){0};
 }
 
-B3_API void b3Body_SetMassData(b3BodyId bodyId, b3MassData massData)
-{
-	(void)sizeof(char);
-}
-
 B3_API float b3Body_GetLinearDamping(b3BodyId bodyId)
 {
 	(void)sizeof(char);

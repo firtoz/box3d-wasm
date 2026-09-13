@@ -5,7 +5,10 @@ cd "$(dirname "$0")/.."
 OUT="${1:-artifacts/body-dynamics-reference}"
 mkdir -p "$OUT"
 OUT="$(cd "$OUT" && pwd)"
+rm -f "$OUT/result.json"
 cargo build --release --lib
+cmake -S native-samples -B native-samples/build-gpu -DCMAKE_BUILD_TYPE=Release \
+ -DGPU_SAMPLES=ON -DBOTH_SAMPLES=OFF -DBOX3D_DIR="$(cd ../.. && pwd)/box3d" -DGPU_PHYSICS_DIR="$PWD"
 cmake --build native-samples/build-gpu --target gpu_samples_api -j4
 CPU_LIB=oracle/build/box3d-build/src/libbox3d.a
 g++ -O2 -std=c++17 c_abi/body_dynamics_reference.cpp -I ../../box3d/include "$CPU_LIB" -lpthread -lm -o "$OUT/cpu"
@@ -15,7 +18,7 @@ import json,math,os,pathlib,subprocess,sys
 p=pathlib.Path(sys.argv[1]);env={k:v for k,v in os.environ.items() if not k.startswith('GPU_PHYSICS_')}
 env['GPU_PHYSICS_PIPELINE_CACHE_DIR']=os.environ.get('GPU_PHYSICS_PIPELINE_CACHE_DIR',str(p/'pipeline-cache'))
 report={}
-for scene,steps in [('body',300),('gyro',600)]:
+for scene,steps in [('body',300),('gyro',600),('gyro-mass',600)]:
  traces={}
  for engine in ['cpu','gpu']:
   path=p/f'{scene}-{engine}.txt'
@@ -34,9 +37,14 @@ for scene,steps in [('body',300),('gyro',600)]:
  a,b=traces['cpu'],traces['gpu']
  position=max(math.dist(a[k][:3],b[k][:3]) for k in a)
  rotation=max(min(math.dist(a[k][3:7],b[k][3:7]),math.dist(a[k][3:7],[-v for v in b[k][3:7]])) for k in a)
+ velocity=max(math.dist(a[k][10:13],b[k][10:13]) for k in a)
  if scene=='body':assert position<=0.005,position
+ else:
+  assert position<=1e-5,(scene,'position',position)
+  assert rotation<=1e-5,(scene,'quaternion',rotation)
+  assert velocity<=1e-4,(scene,'angular velocity',velocity)
  report[scene]={'max_position_delta':position,'max_quaternion_chord':rotation,
-  'status':'pass' if scene=='body' else 'diagnostic',
-  'scope':'300-step position and first-impact four-point manifold' if scene=='body' else 'Finite normalized torque-free trajectory; visual phase match not certified'}
+  'max_angular_velocity_delta':velocity,'status':'pass',
+  'scope':'300-step position and first-impact four-point manifold' if scene=='body' else '600-step CPU orientation, position and angular-velocity agreement (native Vulkan)'}
 (p/'result.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
 PY

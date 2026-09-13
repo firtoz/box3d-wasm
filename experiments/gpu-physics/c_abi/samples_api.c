@@ -248,6 +248,7 @@ extern void gpu_b3_world_enable_sleeping(b3WorldId world, bool enable);
 extern bool gpu_b3_world_is_sleeping_enabled(b3WorldId world);
 extern b3Vec3 gpu_b3_world_get_gravity(b3WorldId world);
 extern b3MassData gpu_b3_body_get_mass_data(b3BodyId body);
+extern void gpu_b3_body_set_mass_data(b3BodyId body, b3MassData data);
 extern bool gpu_b3_body_is_valid(b3BodyId body);
 extern bool gpu_b3_shape_is_valid(b3ShapeId shape);
 extern bool gpu_b3_joint_is_valid(b3JointId joint);
@@ -593,6 +594,11 @@ B3_API b3Vec3 b3Body_GetLocalPoint(b3BodyId bodyId, b3Pos worldPoint)
 B3_API b3MassData b3Body_GetMassData(b3BodyId bodyId)
 {
 	return gpu_b3_body_get_mass_data(bodyId);
+}
+
+B3_API void b3Body_SetMassData(b3BodyId bodyId, b3MassData data)
+{
+	gpu_b3_body_set_mass_data(bodyId, data);
 }
 
 B3_API void b3Body_SetAwake(b3BodyId bodyId, bool awake)

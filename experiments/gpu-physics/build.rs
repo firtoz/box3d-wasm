@@ -34,6 +34,7 @@ fn main() {
     for rel in [
         "shaders/physics/types.wgsl",
         "shaders/physics/math.wgsl",
+        "shaders/physics/rotation.wgsl",
         "shaders/physics/hull.wgsl",
         "shaders/physics/collide.wgsl",
         "shaders/physics/broadphase.wgsl",

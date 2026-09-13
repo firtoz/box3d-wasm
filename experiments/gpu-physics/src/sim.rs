@@ -58,6 +58,7 @@ fn diagnostic_flags_from_env() -> u32 {
 const PHYSICS_WGSL: &str = concat!(
     include_str!("../shaders/physics/types.wgsl"),
     include_str!("../shaders/physics/math.wgsl"),
+    include_str!("../shaders/physics/rotation.wgsl"),
     include_str!("../shaders/physics/hull.wgsl"),
     include_str!("../shaders/physics/collide.wgsl"),
     include_str!("../shaders/physics/broadphase.wgsl"),
@@ -143,6 +144,10 @@ impl GpuDevice {
         #[cfg(not(target_arch = "wasm32"))]
         if std::env::var_os("GPU_PHYSICS_PIPELINE_CACHE_DIR").is_some() && af.contains(wgpu::Features::PIPELINE_CACHE) {
             features |= wgpu::Features::PIPELINE_CACHE;
+        }
+        #[cfg(not(target_arch = "wasm32"))]
+        if adapter.get_info().backend == wgpu::Backend::Vulkan && af.contains(wgpu::Features::SPIRV_SHADER_PASSTHROUGH) {
+            features |= wgpu::Features::SPIRV_SHADER_PASSTHROUGH;
         }
         let descriptor = wgpu::DeviceDescriptor {
             label: Some("gpu-physics-device"), required_features: features,
@@ -5466,6 +5471,10 @@ fn make_compute_cached(
         eprintln!("gpu-pipeline begin {entry}");
         std::time::Instant::now()
     });
+    #[cfg(not(target_arch = "wasm32"))]
+    let precise = crate::rotation_shader::module(device, PHYSICS_WGSL, entry, &[]);
+    #[cfg(not(target_arch = "wasm32"))]
+    let shader = precise.as_ref().unwrap_or(shader);
     let pipeline = device.create_compute_pipeline(&wgpu::ComputePipelineDescriptor {
         label: Some(entry),
         layout: Some(layout),
@@ -5494,13 +5503,22 @@ fn make_compute_constant_cached(
         eprintln!("gpu-pipeline begin {entry}");
         std::time::Instant::now()
     });
+    #[cfg(not(target_arch = "wasm32"))]
+    let precise = crate::rotation_shader::module(device, PHYSICS_WGSL, entry, &[(name, value)]);
+    #[cfg(not(target_arch = "wasm32"))]
+    let shader = precise.as_ref().unwrap_or(shader);
+    let constants = [(name, value)];
+    #[cfg(not(target_arch = "wasm32"))]
+    let constants: &[( &str, f64)] = if precise.is_some() { &[] } else { &constants };
+    #[cfg(target_arch = "wasm32")]
+    let constants = &constants;
     let pipeline = device.create_compute_pipeline(&wgpu::ComputePipelineDescriptor {
         label: Some(entry),
         layout: Some(layout),
         module: shader,
         entry_point: Some(entry),
         compilation_options: wgpu::PipelineCompilationOptions {
-            constants: &[(name, value)],
+            constants,
             ..Default::default()
         },
         cache,

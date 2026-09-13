@@ -19,7 +19,7 @@ use crate::api::{
 };
 use crate::sim::{pack_scene_bytes, poll_until_idle, GpuDevice, GpuSim};
 use crate::types::{
-    box_inv_inertia, box_mass, gpu_is_non_dynamic, sphere_mass, BodyGpu, GpuSceneCaps, JointGpu, MixPairGpu, ShapeGpu,
+    box_mass, gpu_is_non_dynamic, sphere_mass, BodyGpu, GpuSceneCaps, JointGpu, MixPairGpu, ShapeGpu,
     SurfaceMaterialGpu, TopologyBounds, CONTACT_START_TOUCHING, CONTACT_STOP_TOUCHING, CONTACT_TOUCHING,
     DEFAULT_SUB_STEPS, FIXED_DT, FLAG_ALLOW_FAST_ROTATION, FLAG_BULLET, FLAG_DISABLED, FLAG_DISABLE_CONTACT_RECYCLING, FLAG_HIDDEN,
     FLAG_KINEMATIC, FLAG_LOCK_ANG_X, FLAG_LOCK_ANG_Y, FLAG_LOCK_ANG_Z, FLAG_LOCK_LIN_X,
@@ -896,16 +896,18 @@ fn collect_joint_events(w: &mut WorldInner, world0: u16) {
     }
 }
 
-fn inertia_from_inverse(mass: f32, inv: [f32; 3]) -> [f32; 6] {
+// Native b3MakeBoxHull stores unit-density central inertia, then shape mass
+// multiplies by density. Do not round-trip through inverse inertia here: that
+// changes the compound tensor by an ulp and alters sensitive gyro trajectories.
+fn box_central_inertia(half: [f32; 3], density: f32) -> [f32; 6] {
+    let volume = box_mass(half, 1.0);
+    let d = half.map(|h| h - (-h));
     [
-        if inv[0] > 0.0 { 1.0 / inv[0] } else { 0.0 },
-        if inv[1] > 0.0 { 1.0 / inv[1] } else { 0.0 },
-        if inv[2] > 0.0 { 1.0 / inv[2] } else { 0.0 },
-        0.0,
-        0.0,
-        0.0,
+        density * (volume * (d[1] * d[1] + d[2] * d[2]) / 12.0),
+        density * (volume * (d[0] * d[0] + d[2] * d[2]) / 12.0),
+        density * (volume * (d[0] * d[0] + d[1] * d[1]) / 12.0),
+        0.0, 0.0, 0.0,
     ]
-    .map(|value| if mass > 0.0 { value } else { 0.0 })
 }
 
 fn invert_symmetric(m: [f32; 6]) -> [f32; 6] {
@@ -1217,7 +1219,7 @@ pub fn b3_create_hull_shape(body: BodyId, def: &ShapeDef, hull: &BoxHull) -> Sha
             hull.center,
             [0.0; 3],
             mass,
-            inertia_from_inverse(mass, box_inv_inertia(mass, hull.half_extents)),
+            box_central_inertia(hull.half_extents, def.density),
             0.0,
             Vec::new(),
             Vec::new(),
@@ -5038,7 +5040,7 @@ fn push_shape(
     let (unit_mass, unit_inertia) = match kind {
         KIND_BOX => {
             let m = box_mass(half, 1.0);
-            (m, inertia_from_inverse(m, box_inv_inertia(m, half)))
+            (m, box_central_inertia(half, 1.0))
         }
         KIND_SPHERE => {
             let m = sphere_mass(half[0], 1.0);

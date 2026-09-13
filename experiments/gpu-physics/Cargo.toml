@@ -28,11 +28,9 @@ wgpu = "26"
 [build-dependencies]
 cc = "1"
 
-[dev-dependencies]
-# Standalone Vulkan queue-capability probe; no runtime dependency change.
-naga = { version = "26", features = ["wgsl-in", "spv-out"] }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+naga = { version = "26", features = ["wgsl-in", "spv-out"] }
 ash = "0.38"
 libc = "0.2"
 env_logger = "0.11"

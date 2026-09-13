@@ -3,6 +3,7 @@
 // Headless fixture: camera calls are no-ops; physics definitions are unchanged.
 #include "box3d/box3d.h"
 #include <cstdio>
+#include <cassert>
 #include <cstdlib>
 #include <cstring>
 #include <vector>
@@ -246,7 +247,8 @@ struct GyroscopicTorque : Sample {
 extern "C" void gpu_b3_world_wait(b3WorldId) __attribute__((weak));
 int main(int argc, char **argv) {
   if (argc != 3 ||
-      (std::strcmp(argv[1], "body") && std::strcmp(argv[1], "gyro")) ||
+      (std::strcmp(argv[1], "body") && std::strcmp(argv[1], "gyro") &&
+       std::strcmp(argv[1], "gyro-mass")) ||
       std::atoi(argv[2]) < 1 || std::atoi(argv[2]) > 3600)
     return 64;
   SampleContext ctx;
@@ -254,6 +256,15 @@ int main(int argc, char **argv) {
                   ? (Sample *)new BodyType(&ctx)
                   : (Sample *)new GyroscopicTorque(&ctx);
   auto w = s->m_worldId;
+  if (std::strcmp(argv[1], "gyro-mass") == 0) {
+    auto id = bodies.back();
+    auto mass = b3Body_GetMassData(id);
+    mass.mass *= 2.0f;
+    mass.inertia = {{4.0f, 0.1f, 0.02f}, {0.1f, 12.0f, -0.03f}, {0.02f, -0.03f, 15.0f}};
+    b3Body_SetMassData(id, mass);
+    auto actual = b3Body_GetMassData(id);
+    assert(actual.mass == mass.mass && actual.inertia.cx.x == 4.0f && actual.inertia.cy.x == 0.1f);
+  }
 
   for (auto b : bodies) {
     auto m = b3Body_GetMassData(b);
