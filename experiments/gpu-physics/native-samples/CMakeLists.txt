@@ -115,6 +115,7 @@ add_custom_command(
 set(SAMPLE_FILES
   "${MAIN_CPP}"
   "${CMAKE_CURRENT_SOURCE_DIR}/sokol_bench_hooks.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/sokol_loading.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/sample_gpu_bench.cpp"
   "${BOX3D_DIR}/samples/host/camera.cpp"
   "${BOX3D_DIR}/samples/host/camera.h"

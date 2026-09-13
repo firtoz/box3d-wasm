@@ -2493,6 +2493,14 @@ impl GpuSim {
         p
     }
 
+    pub(crate) fn collision_pipeline_ready(&self) -> bool {
+        if self.params.mesh_triangle_count != 0 { self.collide_pairs_mesh.get().is_some() }
+        else { self.collide_pairs_no_mesh.get().is_some() }
+    }
+
+    /// Prepare the lazy collision variant without dispatching or advancing time.
+    pub(crate) fn prepare_collision_pipeline(&self) { let _ = self.collision_pipeline(); }
+
     fn collision_pipeline(&self) -> &ComputePipeline {
         // Counts describe live packed geometry, not reserved buffer capacity.
         // A later mesh upload must select the general variant even when buffers
@@ -5453,6 +5461,7 @@ fn make_compute_cached(
     entry: &str,
     cache: Option<&wgpu::PipelineCache>,
 ) -> ComputePipeline {
+    crate::loading::set(&format!("Compiling shader: {entry}"));
     let start = std::env::var_os("GPU_PHYSICS_TRACE_PIPELINES").map(|_| {
         eprintln!("gpu-pipeline begin {entry}");
         std::time::Instant::now()
@@ -5480,6 +5489,7 @@ fn make_compute_constant_cached(
     value: f64,
     cache: Option<&wgpu::PipelineCache>,
 ) -> ComputePipeline {
+    crate::loading::set(&format!("Compiling shader: {entry}"));
     let start = std::env::var_os("GPU_PHYSICS_TRACE_PIPELINES").map(|_| {
         eprintln!("gpu-pipeline begin {entry}");
         std::time::Instant::now()

@@ -1,3 +1,4 @@
+mod loading;
 mod pipeline_cache;
 #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
 mod native_command_cache;

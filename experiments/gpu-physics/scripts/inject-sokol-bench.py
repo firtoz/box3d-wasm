@@ -15,6 +15,16 @@ def require(haystack: str, needle: str, label: str) -> None:
 
 
 def inject_main(text: str) -> str:
+    # Loading must precede bench clocks and any world access. Only the loading
+    # callback runs while the worker owns the world; OpenGL remains on UI thread.
+    for anchor in ['\tDrawUI( &s_context );', 'static void OnFrame( void )\n{',
+                   'static void OnEvent( const sapp_event* e )\n{', 'static void OnCleanup( void )\n{']:
+        require(text, anchor, "loading hooks")
+    text = text.replace('#include "sokol_glue.h"\n', '#include "sokol_loading.h"\n#include "sokol_glue.h"\n')
+    text = text.replace('\tDrawUI( &s_context );', '\tif (gpu_loading_active()) { gpu_loading_draw(); return; }\n\tDrawUI( &s_context );')
+    text = text.replace('static void OnFrame( void )\n{', 'static void OnFrame( void )\n{\n    if (s_context.sample && gpu_loading_poll(s_context.sample->m_worldId)) {\n        if (sapp_width() > 0 && sapp_height() > 0) {\n            ResetFrameArena();\n            const sg_swapchain sc = sglue_swapchain();\n            sg_pass pass{};\n            pass.swapchain = sc;\n            pass.action.colors[0].load_action = SG_LOADACTION_CLEAR;\n            pass.action.colors[0].clear_value = {0.035f, 0.045f, 0.065f, 1.0f};\n            sg_begin_pass(&pass);\n            sg_end_pass();\n            StartUIFrame((float)sapp_frame_duration());\n            RenderUI(&sc);\n            sg_commit();\n        }\n        std::this_thread::sleep_for(std::chrono::milliseconds(16));\n        return;\n    }\n')
+    text = text.replace('static void OnEvent( const sapp_event* e )\n{', 'static void OnEvent( const sapp_event* e )\n{\n    if (gpu_loading_active()) { HandleEvent(e); return; }')
+    text = text.replace('static void OnCleanup( void )\n{', 'static void OnCleanup( void )\n{\n    gpu_loading_shutdown();')
     anchors = [
         '#include "sokol_glue.h"\n',
         "static int s_sampleOverride = -1;\n",
@@ -105,6 +115,8 @@ def inject_main(text: str) -> str:
         "\t\t{\n"
         "\t\t\tSelectSample( &s_context, named, false );\n"
         "\t\t\tgpu_sokol_bench_note_switch();\n"
+        "\t\t\ts_switchAfter = -1;\n"
+        "\t\t\treturn;\n"
         "\t\t}\n"
         "\t}\n",
     )

@@ -15,6 +15,11 @@ export __NV_PRIME_RENDER_OFFLOAD="${__NV_PRIME_RENDER_OFFLOAD:-1}"
 export __GLX_VENDOR_LIBRARY_NAME="${__GLX_VENDOR_LIBRARY_NAME:-nvidia}"
 export VK_DRIVER_FILES="${VK_DRIVER_FILES:-/usr/share/vulkan/icd.d/nvidia_icd.json}"
 
+# Persist driver pipeline products across scene switches and launches.
+if [[ "$MODE" != cpu && "${GPU_PHYSICS_PIPELINE_CACHE:-1}" != 0 ]]; then
+  export GPU_PHYSICS_PIPELINE_CACHE_DIR="${GPU_PHYSICS_PIPELINE_CACHE_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/box3d-gpu-physics/pipelines}"
+fi
+
 GPU_FLAG=OFF
 BOTH_FLAG=OFF
 TARGET=samples_cpu

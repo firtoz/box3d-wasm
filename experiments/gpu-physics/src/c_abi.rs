@@ -3480,3 +3480,15 @@ pub extern "C" fn gpu_b3_world_get_restitution_threshold(id: WorldId) -> f32 {
 pub unsafe extern "C" fn gpu_b3_world_contact_metrics(id: WorldId, out: *mut crate::api::WorldContactMetrics) {
     if let Some(out) = out.as_mut() { *out = crate::api::b3_world_contact_metrics(id,false); }
 }
+
+/// Called on the sample loading worker, with UI world access suspended.
+#[no_mangle]
+pub extern "C" fn gpu_b3_world_prepare_loading(id: WorldId, stage: u32) {
+    if stage == 1 { crate::loading::set("Preparing GPU buffers and common shaders"); crate::api::b3_world_ensure_gpu(id); }
+    if stage == 2 { crate::loading::set("Preparing scene collision shader"); crate::api::b3_world_prepare_collision(id); }
+}
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_world_loading_needed(id: WorldId) -> bool {
+    crate::api::b3_world_loading_needed(id)
+}

@@ -2616,6 +2616,19 @@ pub fn b3_world_ensure_gpu(id: WorldId) {
     });
 }
 
+pub fn b3_world_loading_needed(id: WorldId) -> bool {
+    with_world_no_sync(id, |w| !w.bodies.is_empty() &&
+        w.sim.as_ref().is_none_or(|sim| !sim.collision_pipeline_ready()))
+        .unwrap_or(false)
+}
+
+/// Loading-only preparation. No physics step, callbacks, or pose advancement.
+pub fn b3_world_prepare_collision(id: WorldId) {
+    with_world_mut_no_sync(id, |w| {
+        if let Some(sim) = w.sim.as_ref() { sim.prepare_collision_pipeline(); }
+    });
+}
+
 // Pair keys in the pre-step GPU snapshot still refer to the prior shape order.
 // Share immutable maps across steady-state steps; rebuild only on topology edits.
 fn advance_contact_shape_history(w: &mut WorldInner, world0: u16) {
