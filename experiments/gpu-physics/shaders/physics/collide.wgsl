@@ -1768,7 +1768,9 @@ fn collide_convex_pair(a: Body, b: Body, ia: u32, ib: u32) -> Contact {
             }
         }
     }
-    let hull_hull = a.kind == KIND_CONVEX_HULL && b.kind == KIND_CONVEX_HULL
+    // Boxes expose implicit hull topology so mixed box/hull faces get a full manifold.
+    let hull_hull = (a.kind == KIND_CONVEX_HULL || a.kind == KIND_BOX)
+        && (b.kind == KIND_CONVEX_HULL || b.kind == KIND_BOX)
         && hull_topology_count(shape_a) > 0u && hull_topology_count(shape_b) > 0u;
     var hull_edges: HullEdgeQuery;
     hull_edges.edge_a = EMPTY;

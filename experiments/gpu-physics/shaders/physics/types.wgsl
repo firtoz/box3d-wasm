@@ -663,16 +663,19 @@ fn load_surface_material(shape: Shape, index: u32) -> SurfaceMaterial {
 }
 
 fn load_hull_point(shape: Shape, i: u32) -> vec3<f32> {
+    if (shape.kind == KIND_BOX) { return BOX_PT[i] * shape.half + shape.local_center; }
     let point = min(shape.hull_slot + i, params.hull_point_count - 1u);
     let w = params.hull_base_u32 + 4u * point;
     return vec3<f32>(scene_f32(w), scene_f32(w + 1u), scene_f32(w + 2u));
 }
 
 fn hull_point_count(shape: Shape) -> u32 {
+    if (shape.kind == KIND_BOX) { return 8u; }
     return shape.topology_counts & 0xffu;
 }
 
 fn hull_plane_count(shape: Shape) -> u32 {
+    if (shape.kind == KIND_BOX) { return 6u; }
     return (shape.topology_counts >> 8u) & 0xffu;
 }
 
@@ -681,10 +684,12 @@ fn hull_edge_count(shape: Shape) -> u32 {
 }
 
 fn hull_topology_count(shape: Shape) -> u32 {
+    if (shape.kind == KIND_BOX) { return 24u; }
     return (shape.topology_counts >> 24u) & 0xffu;
 }
 
 fn load_hull_plane(shape: Shape, i: u32) -> vec4<f32> {
+    if (shape.kind == KIND_BOX) { let n = BOX_FACE_N[i]; return vec4<f32>(n, dot(abs(n), shape.half) + dot(n, shape.local_center)); }
     let plane = min(shape.plane_slot + i, params.hull_plane_count - 1u);
     let w = params.hull_plane_base_u32 + 4u * plane;
     return vec4<f32>(
@@ -702,6 +707,7 @@ fn load_hull_edge(shape: Shape, i: u32) -> vec3<f32> {
 }
 
 fn load_hull_topology(shape: Shape, i: u32) -> vec4<u32> {
+    if (shape.kind == KIND_BOX) { return vec4<u32>(BOX_EDGE_NEXT[i], BOX_EDGE_TWIN[i], BOX_EDGE_ORIGIN[i], BOX_EDGE_FACE[i]); }
     let edge = min(shape.topology_slot + i, params.hull_topology_count - 1u);
     let w = params.hull_topology_base_u32 + 4u * edge;
     return vec4<u32>(scene_words[w], scene_words[w + 1u], scene_words[w + 2u], scene_words[w + 3u]);
