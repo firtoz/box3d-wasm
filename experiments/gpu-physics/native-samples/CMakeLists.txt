@@ -14,7 +14,7 @@ if(NOT GPU_PHYSICS_DIR)
 endif()
 
 option(GPU_SAMPLES "Link the samples app against gpu-physics instead of CPU Box3D world APIs" OFF)
-option(BOTH_SAMPLES "Step-lock CPU Box3D and GPU physics; draw both with a horizontal offset" OFF)
+option(BOTH_SAMPLES "Step-lock CPU Box3D and GPU physics; compare in synchronized CPU/GPU viewports" OFF)
 
 set(FETCHCONTENT_BASE_DIR "${BOX3D_DIR}/.fetchcontent-cache" CACHE PATH "")
 include(FetchContent)
@@ -82,6 +82,26 @@ add_subdirectory("${BOX3D_DIR}/samples/shaders" box3d_shaders)
 add_subdirectory("${BOX3D_DIR}/samples/gfx" box3d_gfx)
 
 find_package(Python3 REQUIRED)
+if(BOTH_SAMPLES)
+  set(SPLIT_GFX_DIR "${CMAKE_CURRENT_BINARY_DIR}/split-gfx")
+  execute_process(COMMAND "${Python3_EXECUTABLE}" "${GPU_PHYSICS_DIR}/scripts/inject-sokol-split.py"
+    "${BOX3D_DIR}/samples/gfx" "${SPLIT_GFX_DIR}" COMMAND_ERROR_IS_FATAL ANY)
+  set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${GPU_PHYSICS_DIR}/scripts/inject-sokol-split.py")
+  file(GLOB SPLIT_GFX_INPUTS CONFIGURE_DEPENDS "${BOX3D_DIR}/samples/gfx/*.c")
+  set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${SPLIT_GFX_INPUTS})
+  get_target_property(GFX_SOURCES gfx SOURCES)
+  set(SPLIT_GFX_SOURCES)
+  foreach(SOURCE IN LISTS GFX_SOURCES)
+    if(SOURCE MATCHES "\\.c$" AND NOT SOURCE STREQUAL "sokol_impl.c")
+      list(APPEND SPLIT_GFX_SOURCES "${SPLIT_GFX_DIR}/${SOURCE}")
+    else()
+      list(APPEND SPLIT_GFX_SOURCES "${BOX3D_DIR}/samples/gfx/${SOURCE}")
+    endif()
+  endforeach()
+  set_property(TARGET gfx PROPERTY SOURCES ${SPLIT_GFX_SOURCES} "${CMAKE_CURRENT_SOURCE_DIR}/sokol_split_stream.c")
+  target_include_directories(gfx PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+endif()
+
 set(MAIN_CPP "${CMAKE_CURRENT_BINARY_DIR}/main_bench.cpp")
 set(SAMPLE_CPP "${CMAKE_CURRENT_BINARY_DIR}/sample_bench.cpp")
 set(CONTINUOUS_CPP "${CMAKE_CURRENT_BINARY_DIR}/sample_continuous_bench.cpp")
@@ -103,6 +123,7 @@ add_custom_command(
     --joint-dst "${JOINT_CPP}"
     ${INJECT_EXTRA}
   DEPENDS
+    "${GPU_PHYSICS_DIR}/scripts/sokol_split_injection.py"
     "${BOX3D_DIR}/samples/main.cpp"
     "${BOX3D_DIR}/samples/sample.cpp"
     "${BOX3D_DIR}/samples/sample_continuous.cpp"
@@ -203,7 +224,7 @@ if(GPU_SAMPLES OR BOTH_SAMPLES)
         --passthrough "${BOTH_PASSTHROUGH}"
         --include-dir "${BOX3D_DIR}/include"
         --objcopy "${BOTH_OBJCOPY}"
-      DEPENDS box3d "${GPU_PHYSICS_DIR}/scripts/gen-both-cpu.py"
+      DEPENDS box3d "${GPU_PHYSICS_DIR}/scripts/gen-both-cpu.py" "${GPU_PHYSICS_DIR}/c_abi/both_dual.c"
       COMMENT "Prefixing Box3D symbols with cpu_ for samples_both"
     )
     add_custom_target(gen_box3d_cpu DEPENDS "${BOTH_CPU_LIB}" "${BOTH_PASSTHROUGH}")

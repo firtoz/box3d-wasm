@@ -36,6 +36,8 @@ use crate::types::{
 };
 
 struct CpuBody {
+    name: Option<std::ffi::CString>,
+    sleep_threshold: f32,
     generation: u16,
     user_data: usize,
     gpu: BodyGpu,
@@ -241,6 +243,7 @@ struct SceneCapabilities {
 }
 
 struct WorldInner {
+    user_data: usize,
     generation: u16,
     def: WorldDef,
     enable_contacts: bool,
@@ -338,6 +341,7 @@ fn lock_worlds() -> std::sync::MutexGuard<'static, Vec<Option<WorldInner>>> {
 pub fn b3_create_world(gpu: GpuDevice, def: &WorldDef) -> WorldId {
     let mut worlds = lock_worlds();
     let inner = WorldInner {
+        user_data: 0,
         generation: 1,
         def: *def,
         enable_contacts: true,
@@ -638,7 +642,7 @@ pub fn b3_create_body(world: WorldId, def: &BodyDef) -> BodyId {
             half: [0.0; 3],
             flags: (if static_body { FLAG_STATIC } else { 0 })
                 | (if kinematic_body { FLAG_KINEMATIC } else { 0 })
-                | (if def.enable_sleep && !static_body && !kinematic_body {
+                | (if def.enable_sleep {
                     FLAG_SLEEP_ENABLED
                 } else {
                     0
@@ -670,10 +674,13 @@ pub fn b3_create_body(world: WorldId, def: &BodyDef) -> BodyId {
             dq: [0.0, 0.0, 0.0, 1.0],
             island_id: u32::MAX,
             sleep_velocity: 0.0,
-            _pad_island: [0; 2],
+            sleep_threshold: 0.05,
+            _pad_island: 0,
         };
         let epoch = snapshot_epoch(w);
         let mut cpu = CpuBody {
+            name: None,
+            sleep_threshold: 0.05,
             generation: 1,
             user_data: def.user_data,
             gpu,
@@ -729,19 +736,18 @@ pub fn b3_create_body(world: WorldId, def: &BodyDef) -> BodyId {
 }
 
 fn quat_rotate(q: [f32; 4], v: [f32; 3]) -> [f32; 3] {
+    // Box3D b3RotateVector: preserve vectors along the rotation axis even
+    // when a stored unit quaternion's norm rounds slightly away from one.
+    let cross = |a: [f32; 3], b: [f32; 3]| [
+        a[1] * b[2] - a[2] * b[1],
+        a[2] * b[0] - a[0] * b[2],
+        a[0] * b[1] - a[1] * b[0],
+    ];
     let u = [q[0], q[1], q[2]];
-    let s = q[3];
-    let dot_uv = u[0] * v[0] + u[1] * v[1] + u[2] * v[2];
-    let dot_uu = u[0] * u[0] + u[1] * u[1] + u[2] * u[2];
-    let cx = u[1] * v[2] - u[2] * v[1];
-    let cy = u[2] * v[0] - u[0] * v[2];
-    let cz = u[0] * v[1] - u[1] * v[0];
-    let scale = s * s - dot_uu;
-    [
-        2.0 * dot_uv * u[0] + scale * v[0] + 2.0 * s * cx,
-        2.0 * dot_uv * u[1] + scale * v[1] + 2.0 * s * cy,
-        2.0 * dot_uv * u[2] + scale * v[2] + 2.0 * s * cz,
-    ]
+    let t1 = cross(u, v);
+    let t2 = [t1[0] + q[3] * v[0], t1[1] + q[3] * v[1], t1[2] + q[3] * v[2]];
+    let t3 = cross(u, t2);
+    [v[0] + 2.0 * t3[0], v[1] + 2.0 * t3[1], v[2] + 2.0 * t3[2]]
 }
 
 fn quat_mul(a: [f32; 4], b: [f32; 4]) -> [f32; 4] {
@@ -4512,7 +4518,9 @@ fn scan_topology_bounds(w: &WorldInner) -> TopologyBounds {
     TopologyBounds {
         shape_count,
         mesh_shapes,
-        joints: w.joints.iter().filter(|j| j.kind != JOINT_NONE).count() as u32,
+        // Shader joint indices address the sparse slot buffer. Destroyed joints
+        // leave holes; a live count would exclude later slots after a re-grab.
+        joints: w.joints.len() as u32,
         non_dynamic_shapes,
         skip_general_static_sort,
         static_degree_two_proof: mesh_shapes==0 && writable_shapes.iter().all(|&d| u64::from(d)*u64::from(n)<=2),
@@ -4527,7 +4535,9 @@ fn pack_gpu_slots(w: &WorldInner) -> (Vec<BodyGpu>, Vec<[f32; 3]>, Vec<[f32; 3]>
     for slot in &w.bodies {
         match slot {
             Some(cpu) => {
-                bodies.push(cpu.gpu);
+                let mut body = cpu.gpu;
+                body.sleep_threshold = cpu.sleep_threshold;
+                bodies.push(body);
                 centers.push(cpu.local_center);
                 let inverse = invert_symmetric(cpu.local_inertia);
                 offdiag.push([inverse[3], inverse[4], inverse[5]]);
@@ -11331,6 +11341,310 @@ mod demand_pose_staging_tests {
                     assert!(x.is_finite() && (x-y).abs()<1e-5,"{scene:?} body {i}: {x} != {y}");
                 }
             }
+        }
+    }
+}
+
+
+pub fn b3_world_set_contact_tuning(id: WorldId, hertz: f32, damping: f32, speed: f32) {
+    if [hertz, damping, speed].iter().any(|v| v.is_nan()) { return; }
+    with_world_mut_no_sync(id, |w| {
+        w.def.contact_hertz = hertz.clamp(0.0, f32::MAX);
+        w.def.contact_damping_ratio = damping.clamp(0.0, f32::MAX);
+        w.def.contact_speed = speed.clamp(0.0, f32::MAX);
+    });
+}
+pub fn b3_world_set_user_data(id: WorldId, value: usize) {
+    with_world_mut_no_sync(id, |w| w.user_data = value);
+}
+pub fn b3_world_get_user_data(id: WorldId) -> usize {
+    with_world_no_sync(id, |w| w.user_data).unwrap_or(0)
+}
+pub fn b3_world_get_awake_body_count(id: WorldId) -> i32 {
+    with_world(id, |w| w.bodies.iter().flatten().filter(|b|
+        b.gpu.flags & (FLAG_STATIC | FLAG_DISABLED | FLAG_SLEEP) == 0).count() as i32).unwrap_or(0)
+}
+pub fn b3_body_set_name(id: BodyId, name: Option<&std::ffi::CStr>) {
+    with_world_mut_no_sync(world_id_from_body(id), |w| {
+        if let Some(b) = body_mut(w, id) { b.name = name.map(ToOwned::to_owned); }
+    });
+}
+pub fn b3_body_get_name(id: BodyId) -> *const std::ffi::c_char {
+    with_world_no_sync(world_id_from_body(id), |w| body_ref(w, id)
+        .and_then(|b| b.name.as_ref()).map_or(std::ptr::null(), |n| n.as_ptr()))
+        .unwrap_or(std::ptr::null())
+}
+pub fn b3_body_enable_sleep(id: BodyId, enable: bool) {
+    with_world_mut(world_id_from_body(id), |w| {
+        let epoch = snapshot_epoch(w);
+        if let Some(b) = body_mut(w, id) {
+            if enable { b.gpu.flags |= FLAG_SLEEP_ENABLED; }
+            else { b.gpu.flags &= !(FLAG_SLEEP_ENABLED | FLAG_SLEEP); b.gpu.sleep_time = 0.0; }
+            b.host_epoch = epoch.saturating_add(1);
+            mark_scene_dirty(w);
+        }
+    });
+}
+pub fn b3_body_is_sleep_enabled(id: BodyId) -> bool {
+    with_world_no_sync(world_id_from_body(id), |w| body_ref(w, id)
+        .is_some_and(|b| b.gpu.flags & FLAG_SLEEP_ENABLED != 0)).unwrap_or(false)
+}
+pub fn b3_body_set_sleep_threshold(id: BodyId, value: f32) {
+    if !value.is_finite() || value < 0.0 { return; }
+    with_world_mut(world_id_from_body(id), |w| {
+        if let Some(b) = body_mut(w, id) { b.sleep_threshold = value; mark_scene_dirty(w); }
+    });
+}
+pub fn b3_body_get_sleep_threshold(id: BodyId) -> f32 {
+    with_world_no_sync(world_id_from_body(id), |w| body_ref(w, id)
+        .map_or(0.0, |b| b.sleep_threshold)).unwrap_or(0.0)
+}
+pub fn b3_body_enable_hit_events(id: BodyId, enable: bool) {
+    with_world_mut(world_id_from_body(id), |w| {
+        if body_ref(w, id).is_none() { return; }
+        for shape in w.shapes.iter_mut().flatten().filter(|s| s.body_index == id.index1) {
+            if enable { shape.event_flags |= SHAPE_ENABLE_HIT_EVENTS; }
+            else { shape.event_flags &= !SHAPE_ENABLE_HIT_EVENTS; }
+        }
+        mark_scene_dirty(w);
+    });
+}
+
+#[cfg(test)]
+mod api_completion_tests {
+    use super::*;
+    use crate::api::*;
+
+    #[test]
+    fn body_settings_affect_own_gpu_state_and_survive_rebuilds() {
+        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+        let mut wd = b3_default_world_def();
+        wd.gravity = [0.0; 3];
+        let world = b3_create_world(gpu, &wd);
+        b3_world_set_user_data(world, 12345);
+        assert_eq!(b3_world_get_user_data(world), 12345);
+        b3_world_set_contact_tuning(world, 12.0, 0.75, 2.0);
+        with_world_no_sync(world, |w| {
+            assert_eq!((w.def.contact_hertz, w.def.contact_damping_ratio, w.def.contact_speed), (12.0, 0.75, 2.0));
+        });
+        let mut bd = b3_default_body_def();
+        bd.body_type = BodyType::Dynamic;
+        bd.linear_velocity = [0.02, 0.0, 0.0];
+        let a = b3_create_body(world, &bd);
+        bd.position = [10.0, 0.0, 0.0];
+        let b = b3_create_body(world, &bd);
+        let sa = b3_create_sphere_shape(a, &b3_default_shape_def(), &Sphere { center: [0.0; 3], radius: 0.5 });
+        let sb = b3_create_sphere_shape(b, &b3_default_shape_def(), &Sphere { center: [0.0; 3], radius: 0.5 });
+        b3_body_set_sleep_threshold(a, 0.0);
+        b3_body_set_sleep_threshold(b, 0.05);
+        b3_body_enable_hit_events(a, true);
+        assert!(b3_shape_are_hit_events_enabled(sa));
+        assert!(!b3_shape_are_hit_events_enabled(sb));
+        let name = std::ffi::CString::new("owned name").unwrap();
+        b3_body_set_name(a, Some(&name));
+        drop(name);
+        assert_eq!(unsafe { std::ffi::CStr::from_ptr(b3_body_get_name(a)) }.to_bytes(), b"owned name");
+        for _ in 0..45 { b3_world_step(world, 1.0/60.0, 4); }
+        pollster::block_on(b3_world_sync_from_gpu(world));
+        assert!(b3_body_is_awake(a), "zero-threshold moving body must stay awake");
+        assert!(!b3_body_is_awake(b), "quiet body must sleep using its own threshold");
+        assert_eq!(b3_world_get_awake_body_count(world), 1);
+        b3_body_enable_sleep(b, false);
+        assert!(!b3_body_is_sleep_enabled(b));
+        assert!(b3_body_is_awake(b));
+        for _ in 0..45 { b3_world_step(world, 1.0/60.0, 4); }
+        pollster::block_on(b3_world_sync_from_gpu(world));
+        assert!(b3_body_is_awake(b), "sleep-disabled body must remain awake");
+        assert_eq!(b3_body_get_sleep_threshold(a), 0.0);
+        b3_destroy_body(a);
+        let reused = b3_create_body(world, &bd);
+        assert!(b3_body_get_name(reused).is_null());
+        assert_eq!(b3_body_get_sleep_threshold(reused), 0.05);
+        b3_destroy_world(world);
+    }
+}
+
+/// Local frames are relative to body origins, never the current centers of mass.
+pub fn b3_joint_set_local_frame(id: JointId, second: bool, position: [f32; 3], rotation: [f32; 4]) {
+    if position.iter().chain(rotation.iter()).any(|v| !v.is_finite())
+        || (rotation.iter().map(|v| v*v).sum::<f32>() - 1.0).abs() > 0.001 { return; }
+    with_world_mut(WorldId { index1: id.world0, generation: 1 }, |w| {
+        let Some(index) = id.index1.checked_sub(1).map(|v| v as usize) else { return; };
+        let Some(meta) = w.joint_meta.get(index).and_then(Option::as_ref) else { return; };
+        if meta.generation != id.generation { return; }
+        let Some(joint) = w.joints.get_mut(index) else { return; };
+        if second { joint.anchor_b = position; joint.frame_b_rotation = rotation; }
+        else {
+            joint.anchor_a = position; joint.frame_a_rotation = rotation;
+            if joint.kind == JOINT_PRISMATIC { joint.axis = quat_rotate(rotation, [1.0, 0.0, 0.0]); }
+        }
+        mark_scene_dirty(w);
+    });
+}
+pub fn b3_joint_get_local_frame(id: JointId, second: bool) -> ([f32; 3], [f32; 4]) {
+    with_joint_metadata(id, |_, j| if second { (j.anchor_b, j.frame_b_rotation) }
+        else { (j.anchor_a, j.frame_a_rotation) }).unwrap_or(([0.0; 3], [0.0, 0.0, 0.0, 1.0]))
+}
+pub fn b3_joint_wake_bodies(id: JointId) {
+    let a = b3_joint_get_body(id, false);
+    let b = b3_joint_get_body(id, true);
+    if a.index1 > 0 { b3_body_set_awake(a, true); }
+    if b.index1 > 0 { b3_body_set_awake(b, true); }
+}
+
+pub fn b3_shape_compute_mass_data(id: ShapeId) -> MassData {
+    with_world_no_sync(WorldId { index1: id.world0, generation: 1 }, |w| {
+        let shape = w.shapes.get(id.index1.checked_sub(1)? as usize)?.as_ref()?;
+        if shape.generation != id.generation || !matches!(shape.public_kind, KIND_SPHERE | KIND_CAPSULE | KIND_BOX | KIND_CONVEX_HULL) {
+            return None;
+        }
+        let i = shape.local_inertia;
+        Some(MassData { mass: shape.mass, center: shape.local_center,
+            inertia: [[i[0],i[3],i[4]], [i[3],i[1],i[5]], [i[4],i[5],i[2]]] })
+    }).flatten().unwrap_or_default()
+}
+
+#[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+pub(crate) fn seed_drag_snapshot(
+    id: WorldId,
+    s: &crate::drag_replay::Snapshot,
+) -> Result<(), String> {
+    b3_world_gpu_wait_with_mirror(id);
+    let mut worlds = lock_worlds();
+    let w = slot_mut(&mut worlds, id).ok_or("world missing")?;
+    let sim = w.sim.as_mut().ok_or("sim missing")?;
+    let mut bodies = pollster::block_on(sim.read_bodies());
+    let mut joints = pollster::block_on(sim.read_joints());
+    if w.bodies.iter().flatten().count() != s.bodies.len() {
+        return Err("body count mismatch".into());
+    }
+    let mut seen = std::collections::HashSet::new();
+    for b in &s.bodies {
+        if !seen.insert(b.id) {
+            return Err("duplicate body".into());
+        }
+        let old = bodies.get_mut(b.id).ok_or("body slot missing")?;
+        let host = w
+            .bodies
+            .get(b.id)
+            .and_then(Option::as_ref)
+            .ok_or("host body slot missing")?;
+        if host.local_center != [0.0; 3]
+            || old.inv_mass != b.inv_mass
+            || old.inv_inertia != b.inv_inertia
+        {
+            return Err(format!(
+                "mass/COM mismatch at {}: {:?} vs {:?}",
+                b.id, old.inv_inertia, b.inv_inertia
+            ));
+        }
+        old.pos = b.p;
+        old.rot = b.q;
+        old.vel = b.v;
+        old.omega = b.w;
+        old.dp = [0.0; 3];
+        old.dq = [0.0, 0.0, 0.0, 1.0];
+        if b.awake != 0 {
+            old.flags &= !FLAG_SLEEP;
+        } else {
+            old.flags |= FLAG_SLEEP;
+        }
+    }
+    if let Some(r) = &s.joint {
+        let j = joints.get_mut(r.slot).ok_or("joint slot missing")?;
+        if j.kind != crate::types::JOINT_MOTOR || j.a != r.a || j.b != r.b {
+            return Err("motor identity mismatch".into());
+        }
+        j.anchor_a = r.anchor_a;
+        j.anchor_b = r.anchor_b;
+        j.frame_a_rotation = r.frame_a;
+        j.frame_b_rotation = r.frame_b;
+        j.axis = r.linear_velocity;
+        j.motor_angular_velocity = r.angular_velocity;
+        j.hertz = r.tuning[0];
+        j.damping = r.tuning[1];
+        j.upper_translation = r.tuning[2];
+        j.target_translation = r.tuning[3];
+        j.spring_hertz = r.tuning[4];
+        j.spring_damping = r.tuning[5];
+        j.max_motor_force = r.tuning[6];
+        j.lower_translation = r.tuning[7];
+        j.impulse = r.lv[0];
+        j.perp_impulse = [r.lv[1], r.lv[2]];
+        j.spring_impulse = r.ls[0];
+        j.lower_impulse = r.ls[1];
+        j.upper_impulse = r.ls[2];
+        j.angular_impulse = r.av;
+        j.motor_impulse = r.angular_spring[0];
+        j._pad2 = [r.angular_spring[1], r.angular_spring[2]];
+    } else if joints.iter().any(|j| j.kind != 0) {
+        return Err("snapshot has no joint but GPU does".into());
+    }
+    let mut writable_contacts = std::collections::HashSet::new();
+    for contact in &s.contacts {
+        let a = bodies.get(contact.a as usize).ok_or("contact A missing")?;
+        let b = bodies.get(contact.b as usize).ok_or("contact B missing")?;
+        if !seen.contains(&(contact.a as usize))
+            || !seen.contains(&(contact.b as usize))
+            || a.inv_mass != 0.0
+            || b.inv_mass <= 0.0
+            || !writable_contacts.insert(contact.b)
+        {
+            return Err("replay requires independent static/dynamic contacts".into());
+        }
+    }
+    sim.seed_drag_contacts(&s.contacts)?;
+    sim.write_body_states(&bodies);
+    sim.write_joints(&joints);
+    let read = pollster::block_on(sim.read_bodies());
+    for b in &s.bodies {
+        let actual = &read[b.id];
+        let expected = &bodies[b.id];
+        if actual.pos != expected.pos
+            || actual.rot != expected.rot
+            || actual.vel != expected.vel
+            || actual.omega != expected.omega
+            || actual.flags != expected.flags
+        {
+            return Err("body readback mismatch".into());
+        }
+    }
+    let read = pollster::block_on(sim.read_joints());
+    if bytemuck::cast_slice::<_, u8>(&read) != bytemuck::cast_slice::<_, u8>(&joints) {
+        return Err("joint readback mismatch".into());
+    }
+    eprintln!("drag-snapshot body and joint readback verified");
+    for b in &s.bodies {
+        w.bodies[b.id].as_mut().unwrap().gpu = bodies[b.id];
+    }
+    w.joints = joints;
+    eprintln!(
+        "drag-snapshot seeded {} bodies, {} cached contacts, motor {:?}",
+        s.bodies.len(),
+        s.contacts.len(),
+        s.joint.as_ref().map(|j| j.slot)
+    );
+    Ok(())
+}
+
+#[cfg(test)]
+mod host_rotation_rounding_tests {
+    use super::quat_rotate;
+
+    #[test]
+    fn rounded_unit_quaternion_preserves_its_rotation_axis() {
+        // This is an ordinary float32 unit quaternion, not an intentionally
+        // scaled quaternion. The homogeneous formula incorrectly scales v by
+        // the rounded squared norm; Box3D's cross-product form preserves it.
+        let h = std::f32::consts::FRAC_1_SQRT_2;
+        for axis in 0..3 {
+            let mut q = [0.0, 0.0, 0.0, h];
+            q[axis] = h;
+            let mut v = [0.0; 3];
+            v[axis] = 2.0;
+            assert_eq!(quat_rotate(q, v), v);
+            q[axis] = -h;
+            assert_eq!(quat_rotate(q, v), v);
         }
     }
 }

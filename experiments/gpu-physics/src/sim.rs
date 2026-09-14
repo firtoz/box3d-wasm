@@ -289,8 +289,11 @@ pub fn pack_scene_bytes(
         .collect();
     body_extra.resize(capacity, [0.0; 8]);
     // Immutable per-body motion bounds, rebuilt only with the scene heap.
-    // Inertia xyz, minimum extent, maximum extent xyz, padding. No new binding.
-    for extra in &mut body_extra { extra[3] = f32::MAX; }
+    // Inertia xyz, minimum extent, maximum extent xyz, sleep threshold. No new binding.
+    for (i, extra) in body_extra.iter_mut().enumerate() {
+        extra[3] = f32::MAX;
+        extra[7] = bodies.get(i).map_or(0.05, |b| b.sleep_threshold);
+    }
     let mut extents = vec![[0.0f32; 3]; capacity];
     for shape in shapes {
         let index = shape.body_index as usize;
@@ -357,12 +360,14 @@ fn decode_body_gpu(
     states: &[BodyStateGpu],
     cold: &[BodyColdGpu],
     islands: &[u32],
+    sleep_thresholds: &[f32],
 ) -> Vec<BodyGpu> {
     states
         .iter()
         .zip(cold)
         .zip(islands)
-        .map(|((state, cold), island_id)| BodyGpu {
+        .enumerate()
+        .map(|(i, ((state, cold), island_id))| BodyGpu {
             pos: state.pos,
             inv_mass: state.inv_mass,
             vel: state.vel,
@@ -383,7 +388,8 @@ fn decode_body_gpu(
             dq: state.dq,
             island_id: *island_id,
             sleep_velocity: state.sleep_velocity,
-            _pad_island: [0; 2],
+            sleep_threshold: sleep_thresholds.get(i).copied().unwrap_or(0.05),
+            _pad_island: 0,
         })
         .collect()
 }
@@ -485,6 +491,7 @@ impl FatGeometryKey {
 }
 
 pub struct GpuSim {
+    body_sleep_thresholds: Vec<f32>,
     #[cfg(feature = "native-command-cache")]
     pub(crate) render_copy: Option<crate::native_async::RenderCopy>,
     startup_cache: crate::pipeline_cache::StartupCache,
@@ -965,6 +972,7 @@ impl GpuSim {
             mapped_at_creation: false,
         });
 
+        let body_sleep_thresholds = bodies.iter().map(|b| b.sleep_threshold).collect();
         let mut states: Vec<_> = bodies.iter().map(BodyStateGpu::from_body).collect();
         states.resize(capacity as usize, BodyStateGpu::zeroed());
         let scene_bytes = pack_scene_bytes(
@@ -1248,6 +1256,7 @@ impl GpuSim {
             Err(_) => None,
         };
         let mut sim = Self {
+            body_sleep_thresholds,
             #[cfg(feature = "native-command-cache")]
             render_copy: None,
             device: device.clone(),
@@ -2922,19 +2931,19 @@ impl GpuSim {
             let int_pos = self.integrate_pos.clone();
             for _sub_step in 0..nsub {
                 self.ping_dispatch(&mut enc, &int_vel, bg, 0, 1);
-                self.dispatch_colored_solve(&mut enc, 2);
                 if has_joints {
                     self.copy_then(&mut enc, &joints, self.joint_solve_groups(), 0, 2);
                 }
-                self.dispatch_colored_solve(&mut enc, 1);
+                self.dispatch_colored_solve(&mut enc, 2);
                 if has_joints {
                     self.copy_then(&mut enc, &joints, self.joint_solve_groups(), 0, 1);
                 }
+                self.dispatch_colored_solve(&mut enc, 1);
                 self.ping_dispatch(&mut enc, &int_pos, bg, 0, 1);
-                self.dispatch_colored_solve(&mut enc, 0);
                 if has_joints {
                     self.copy_then(&mut enc, &joints, self.joint_solve_groups(), 0, 0);
                 }
+                self.dispatch_colored_solve(&mut enc, 0);
             }
             self.dispatch_colored_solve(&mut enc, 3);
         } else {
@@ -2943,26 +2952,44 @@ impl GpuSim {
                     label: Some("physics-tgs"),
                     timestamp_writes: None,
                 });
-                for _ in 0..nsub {
+                // Give joints priority before contact waves, so ground constraints
+                // react to the motor target rather than having their solution
+                // overwritten by it. Keep the ping-pong paths in the same order.
+                for sub in 0..nsub {
                     self.emit_n(&mut pass, &self.integrate_vel, bg, 0, 1);
-                    self.emit_wave(&mut pass, 2);
+                    if self.params.diagnostic_flags & DIAG_PHASE_CAPTURE != 0 && sub < 4 {
+                        self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 0, 0);
+                    }
                     if has_joints {
                         self.emit_n(&mut pass, &self.solve_joints, self.joint_solve_groups(), 0, 2);
                         self.joint_dispatches
                             .set(self.joint_dispatches.get().saturating_add(1));
                     }
-                    self.emit_wave(&mut pass, 1);
+                    self.emit_wave(&mut pass, 2);
+                    if self.params.diagnostic_flags & DIAG_PHASE_CAPTURE != 0 && sub < 4 {
+                        self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 1, 0);
+                    }
                     if has_joints {
                         self.emit_n(&mut pass, &self.solve_joints, self.joint_solve_groups(), 0, 1);
                         self.joint_dispatches
                             .set(self.joint_dispatches.get().saturating_add(1));
                     }
+                    self.emit_wave(&mut pass, 1);
+                    if self.params.diagnostic_flags & DIAG_PHASE_CAPTURE != 0 && sub < 4 {
+                        self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 2, 0);
+                    }
                     self.emit_n(&mut pass, &self.integrate_pos, bg, 0, 1);
-                    self.emit_wave(&mut pass, 0);
+                    if self.params.diagnostic_flags & DIAG_PHASE_CAPTURE != 0 && sub < 4 {
+                        self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 3, 0);
+                    }
                     if has_joints {
                         self.emit_n(&mut pass, &self.solve_joints, self.joint_solve_groups(), 0, 0);
                         self.joint_dispatches
                             .set(self.joint_dispatches.get().saturating_add(1));
+                    }
+                    self.emit_wave(&mut pass, 0);
+                    if self.params.diagnostic_flags & DIAG_PHASE_CAPTURE != 0 && sub < 4 {
+                        self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 4, 0);
                     }
                 }
                 self.emit_wave(&mut pass, 3);
@@ -3938,19 +3965,19 @@ impl GpuSim {
         let has_joints = self.params.joint_count > 0;
         for _ in 0..sub_steps.max(1) {
             self.ping_dispatch(&mut enc, &int_vel, body_groups, 0, 1);
-            self.dispatch_colored_solve(&mut enc, 2);
             if has_joints {
                 self.copy_then(&mut enc, &joints, self.joint_solve_groups(), 0, 2);
             }
-            self.dispatch_colored_solve(&mut enc, 1);
+            self.dispatch_colored_solve(&mut enc, 2);
             if has_joints {
                 self.copy_then(&mut enc, &joints, self.joint_solve_groups(), 0, 1);
             }
+            self.dispatch_colored_solve(&mut enc, 1);
             self.ping_dispatch(&mut enc, &int_pos, body_groups, 0, 1);
-            self.dispatch_colored_solve(&mut enc, 0);
             if has_joints {
                 self.copy_then(&mut enc, &joints, self.joint_solve_groups(), 0, 0);
             }
+            self.dispatch_colored_solve(&mut enc, 0);
         }
         self.dispatch_colored_solve(&mut enc, 3);
         self.ping_dispatch(&mut enc, &apply, body_groups, 0, 1);
@@ -4165,6 +4192,7 @@ impl GpuSim {
     }
 
     pub fn write_scene(&mut self, bytes: &[u8], shapes: &[ShapeGpu], bodies: &[BodyGpu], identities: &[(u32, u16)]) {
+        self.body_sleep_thresholds = bodies.iter().map(|b| b.sleep_threshold).collect();
         self.pair_matrix_flat=shapes.iter().all(|s|s.kind!=crate::types::KIND_MESH && s.event_flags & (crate::types::SHAPE_PUBLIC_PROXY|crate::types::SHAPE_COMPOUND_CHILD)==0);
         self.invalidate_idle_proof();
         // Immutable CCD spans/targets must never outlive the uploaded topology.
@@ -4638,7 +4666,7 @@ impl GpuSim {
         let states: &[BodyStateGpu] = bytemuck::cast_slice(&data[..state_end]);
         let cold: &[BodyColdGpu] = bytemuck::cast_slice(&data[state_end..cold_end]);
         let islands: &[u32] = bytemuck::cast_slice(&data[cold_end..]);
-        let bodies = decode_body_gpu(states, cold, islands);
+        let bodies = decode_body_gpu(states, cold, islands, &self.body_sleep_thresholds);
         drop(data);
         staging.unmap();
         bodies
@@ -4865,7 +4893,7 @@ impl GpuSim {
         let cold: &[BodyColdGpu] =
             bytemuck::cast_slice(&data[cold_off as usize..island_off as usize]);
         let islands: &[u32] = bytemuck::cast_slice(&data[island_off as usize..joint_off as usize]);
-        let bodies = decode_body_gpu(states, cold, islands);
+        let bodies = decode_body_gpu(states, cold, islands, &self.body_sleep_thresholds);
         let joints = if joint_size == 0 {
             Vec::new()
         } else {
@@ -5552,7 +5580,8 @@ impl BodyGpu {
             dq: [0.0, 0.0, 0.0, 1.0],
             island_id: u32::MAX,
             sleep_velocity: 0.0,
-            _pad_island: [0; 2],
+            sleep_threshold: 0.05,
+            _pad_island: 0,
         }
     }
 }
@@ -5641,4 +5670,147 @@ fn callback_disabled_members(roots: &[(u32, u32)], snapshot: &[ContactGpu]) -> R
         }
     }
     Ok(members)
+}
+
+#[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+impl GpuSim {
+    pub(crate) fn seed_drag_contacts(
+        &mut self,
+        records: &[crate::drag_replay::Contact],
+    ) -> Result<(), String> {
+        let current = pollster::block_on(self.read_contacts());
+        let live: Vec<_> = current
+            .iter()
+            .enumerate()
+            .filter(|(_, c)| c.a != u32::MAX && c.count > 0)
+            .collect();
+        if live.len() != records.len() {
+            return Err(format!("contact count {} != {}", live.len(), records.len()));
+        }
+        let mut writes = Vec::new();
+        let mut seen = std::collections::HashSet::new();
+        for r in records {
+            if r.points.is_empty() || r.points.len() > 4 || !seen.insert((r.a, r.b)) {
+                return Err("invalid contact set".into());
+            }
+            let (slot, c) = live
+                .iter()
+                .find(|(_, c)| c.a == r.a && c.b == r.b)
+                .copied()
+                .ok_or("missing oriented contact pair")?;
+            // This fixture has independent floor/cube constraints and one motor.
+            // Native color/local order is recorded for audit; no two contacts
+            // share a writable endpoint, so their cross-body order commutes.
+            if records.iter().any(|other| other.b == r.b && other.a != r.a) {
+                return Err("non-independent contact schedule".into());
+            }
+            let mut h = ContactHotGpu::empty();
+            h.a = c.a;
+            h.b = c.b;
+            h.color = c.color;
+            h.count = r.points.len() as u32;
+            h.n = r.normal;
+            h.friction = r.material[0];
+            h.restitution = r.material[1];
+            h.rolling = r.material[2];
+            h.tangent_velocity = r.tangent_velocity;
+            h.friction_impulse = r.friction_impulse;
+            h.twist_impulse = r.twist;
+            h.rolling_impulse = r.rolling_impulse;
+            h.manifold_link = c.manifold_link;
+            let mut p = ContactPersistentGpu::zeroed();
+            p.lifecycle = c.lifecycle;
+            p.cached_rotation_a = r.qa;
+            p.cached_rotation_b = r.qb;
+            p.cached_relative = [
+                r.relative[0],
+                r.relative[1],
+                r.relative[2],
+                r.cache_valid as f32,
+            ];
+            // Native includes a backside-axis enum before the face axes; GPU does not.
+            let sat_type = crate::drag_replay::native_sat_tag(r.sat[0])?;
+            p.feature_ids[0] = sat_type | ((r.sat[1] as u32) << 8) | ((r.sat[2] as u32) << 16);
+            p.feature_ids[1] = r.sat[3].to_bits();
+            for (i, point) in r.points.iter().enumerate() {
+                let d = (point.rb[0] - point.ra[0]) * r.normal[0]
+                    + (point.rb[1] - point.ra[1]) * r.normal[1]
+                    + (point.rb[2] - point.ra[2]) * r.normal[2];
+                h.ra[i] = [point.ra[0], point.ra[1], point.ra[2], point.separation - d];
+                h.rb[i] = [point.rb[0], point.rb[1], point.rb[2], point.impulse];
+                p.persistent_ra[i] = [point.ra[0], point.ra[1], point.ra[2], point.base - d];
+                p.persistent_rb[i] = h.rb[i];
+                match i {
+                    0 => p.feature_ids[2] = point.feature,
+                    1 => p.feature_ids[3] = point.feature,
+                    2 => h._pad_ca = f32::from_bits(point.feature),
+                    _ => h._pad_cb = f32::from_bits(point.feature),
+                }
+                let bit = 1u32 << (crate::types::CONTACT_PERSISTED_SHIFT + i as u32);
+                p.lifecycle[1] =
+                    (p.lifecycle[1] & !bit) | if point.persisted != 0 { bit } else { 0 };
+            }
+            eprintln!(
+                "drag-snapshot contact {}:{} native-order {}:{} gpu-color {} points {}",
+                r.a, r.b, r.color, r.local, c.color, h.count
+            );
+            writes.push((slot, h, p));
+        }
+        for (slot, h, p) in writes {
+            self.queue.write_buffer(
+                &self.contacts,
+                (slot * mem::size_of::<ContactHotGpu>()) as u64,
+                bytemuck::bytes_of(&h),
+            );
+            self.queue.write_buffer(
+                &self.contact_persistent,
+                (slot * mem::size_of::<ContactPersistentGpu>()) as u64,
+                bytemuck::bytes_of(&p),
+            );
+        }
+        let verified = pollster::block_on(self.read_contacts());
+        let mut separation_error = 0.0f32;
+        for r in records {
+            let c = verified
+                .iter()
+                .find(|c| c.a == r.a && c.b == r.b && c.count == r.points.len() as u32)
+                .ok_or("contact readback missing")?;
+            let ra = [c.ra0, c.ra1, c.ra2, c.ra3];
+            let rb = [c.rb0, c.rb1, c.rb2, c.rb3];
+            let pra = [
+                c.persistent_ra0,
+                c.persistent_ra1,
+                c.persistent_ra2,
+                c.persistent_ra3,
+            ];
+            if c.friction_impulse != r.friction_impulse
+                || c.twist_impulse != r.twist
+                || c.rolling_impulse != r.rolling_impulse
+                || c.cached_rotation_a != r.qa
+                || c.cached_rotation_b != r.qb
+            {
+                return Err("contact cache readback mismatch".into());
+            }
+            for (i, p) in r.points.iter().enumerate() {
+                if ra[i][..3] != p.ra || rb[i][..3] != p.rb || rb[i][3] != p.impulse {
+                    return Err("anchor/impulse readback mismatch".into());
+                }
+                let d = (rb[i][0] - ra[i][0]) * r.normal[0]
+                    + (rb[i][1] - ra[i][1]) * r.normal[1]
+                    + (rb[i][2] - ra[i][2]) * r.normal[2];
+                separation_error = separation_error
+                    .max((ra[i][3] + d - p.separation).abs())
+                    .max((pra[i][3] + d - p.base).abs());
+            }
+        }
+        if separation_error > 1e-6 {
+            return Err(format!("contact separation roundtrip {separation_error}"));
+        }
+        eprintln!(
+            "drag-snapshot anchors/impulses/cache readback verified; separation roundtrip {}",
+            separation_error
+        );
+        self.invalidate_idle_proof();
+        Ok(())
+    }
 }

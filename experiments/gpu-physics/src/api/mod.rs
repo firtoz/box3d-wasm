@@ -220,3 +220,6 @@ mod tests {
         assert_eq!(core::mem::size_of_val(&begin), 16);
     }
 }
+
+#[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+pub(crate) use world::seed_drag_snapshot;

@@ -189,6 +189,7 @@ pub fn gpu_is_non_dynamic(flags: u32) -> bool {
 pub struct TopologyBounds {
     pub shape_count: u32,
     pub mesh_shapes: u32,
+    /// Addressable joint slots, including deleted holes, not the live count.
     pub joints: u32,
     pub non_dynamic_shapes: u32,
     pub skip_general_static_sort: bool,
@@ -544,7 +545,8 @@ pub struct BodyGpu {
     pub island_id: u32,
     /// Box3D-style farthest-point sleep velocity diagnostic.
     pub sleep_velocity: f32,
-    pub _pad_island: [u32; 2],
+    pub sleep_threshold: f32,
+    pub _pad_island: u32,
 }
 
 /// Mutable body state used by the simulation hot path.

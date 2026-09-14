@@ -826,6 +826,17 @@ static uint32_t locks_from_def(const b3BodyDef* def)
 	return f;
 }
 
+extern void gpu_b3_world_set_contact_tuning(b3WorldId id, float hertz, float damping, float speed);
+extern void gpu_b3_world_set_user_data(b3WorldId id, uintptr_t value);
+extern uintptr_t gpu_b3_world_get_user_data(b3WorldId id);
+extern int gpu_b3_world_get_awake_body_count(b3WorldId id);
+extern void gpu_b3_body_enable_sleep(b3BodyId id, bool enable);
+extern bool gpu_b3_body_is_sleep_enabled(b3BodyId id);
+extern void gpu_b3_body_set_sleep_threshold(b3BodyId id, float value);
+extern float gpu_b3_body_get_sleep_threshold(b3BodyId id);
+extern void gpu_b3_body_enable_hit_events(b3BodyId id, bool enable);
+extern void gpu_b3_body_set_name(b3BodyId id, const char* name);
+extern const char* gpu_b3_body_get_name(b3BodyId id);
 B3_API b3WorldId b3CreateWorld(const b3WorldDef* def)
 {
 	if (!def)
@@ -833,6 +844,8 @@ B3_API b3WorldId b3CreateWorld(const b3WorldDef* def)
 		return (b3WorldId){0};
 	}
 	GpuWorldId id = gpu_b3_create_world(def->gravity.x, def->gravity.y, def->gravity.z);
+	gpu_b3_world_set_contact_tuning(id, def->contactHertz, def->contactDampingRatio, def->contactSpeed);
+	gpu_b3_world_set_user_data(id, (uintptr_t)def->userData);
 	gpu_b3_world_enable_sleeping(id, def->enableSleep);
 	gpu_b3_world_enable_continuous(id, def->enableContinuous);
 	gpu_b3_world_set_hit_event_threshold(id, def->hitEventThreshold);
@@ -987,6 +1000,8 @@ B3_API b3BodyId b3CreateBody(b3WorldId worldId, const b3BodyDef* def)
 									 def->linearVelocity.x, def->linearVelocity.y, def->linearVelocity.z,
 									 def->angularVelocity.x, def->angularVelocity.y, def->angularVelocity.z,
 									 def->gravityScale, locks_from_def(def));
+	gpu_b3_body_set_name(id, def->name);
+	gpu_b3_body_set_sleep_threshold(id, def->sleepThreshold);
 	gpu_b3_body_set_user_data(id, (uintptr_t)def->userData);
 	gpu_b3_body_set_bullet(id, def->isBullet);
 	gpu_b3_body_allow_fast_rotation(id, def->allowFastRotation);
@@ -3041,3 +3056,59 @@ B3_API float b3World_GetRestitutionThreshold(b3WorldId id) { return gpu_b3_world
 B3_API void b3World_SetRestitutionThreshold(b3WorldId id, float value) {
     gpu_b3_world_set_restitution_threshold(id, value);
 }
+
+extern void gpu_b3_world_set_contact_tuning(b3WorldId id, float hertz, float damping, float speed);
+B3_API void b3World_SetContactTuning(b3WorldId id, float hertz, float damping, float speed) { gpu_b3_world_set_contact_tuning(id, hertz, damping, speed); }
+
+extern void gpu_b3_world_set_user_data(b3WorldId id, uintptr_t value);
+B3_API void b3World_SetUserData(b3WorldId id, void* value) { gpu_b3_world_set_user_data(id, (uintptr_t)value); }
+
+extern uintptr_t gpu_b3_world_get_user_data(b3WorldId id);
+B3_API void* b3World_GetUserData(b3WorldId id) { return (void*)gpu_b3_world_get_user_data(id); }
+
+extern int gpu_b3_world_get_awake_body_count(b3WorldId id);
+B3_API int b3World_GetAwakeBodyCount(b3WorldId id) { return gpu_b3_world_get_awake_body_count(id); }
+
+extern void gpu_b3_body_enable_sleep(b3BodyId id, bool enable);
+B3_API void b3Body_EnableSleep(b3BodyId id, bool enable) { gpu_b3_body_enable_sleep(id, enable); }
+
+extern bool gpu_b3_body_is_sleep_enabled(b3BodyId id);
+B3_API bool b3Body_IsSleepEnabled(b3BodyId id) { return gpu_b3_body_is_sleep_enabled(id); }
+
+extern void gpu_b3_body_set_sleep_threshold(b3BodyId id, float value);
+B3_API void b3Body_SetSleepThreshold(b3BodyId id, float value) { gpu_b3_body_set_sleep_threshold(id, value); }
+
+extern float gpu_b3_body_get_sleep_threshold(b3BodyId id);
+B3_API float b3Body_GetSleepThreshold(b3BodyId id) { return gpu_b3_body_get_sleep_threshold(id); }
+
+extern void gpu_b3_body_enable_hit_events(b3BodyId id, bool enable);
+B3_API void b3Body_EnableHitEvents(b3BodyId id, bool enable) { gpu_b3_body_enable_hit_events(id, enable); }
+
+extern void gpu_b3_body_set_name(b3BodyId id, const char* name);
+B3_API void b3Body_SetName(b3BodyId id, const char* name) { gpu_b3_body_set_name(id, name); }
+
+extern const char* gpu_b3_body_get_name(b3BodyId id);
+B3_API const char* b3Body_GetName(b3BodyId id) { return gpu_b3_body_get_name(id); }
+
+extern void gpu_b3_joint_set_local_frame(b3JointId, bool, float, float, float, float, float, float, float);
+extern void gpu_b3_joint_get_local_frame(b3JointId, bool, float*);
+extern void gpu_b3_joint_wake_bodies(b3JointId);
+B3_API void b3Joint_SetLocalFrameA(b3JointId id, b3Transform frame) {
+    gpu_b3_joint_set_local_frame(id, false, frame.p.x, frame.p.y, frame.p.z, frame.q.v.x, frame.q.v.y, frame.q.v.z, frame.q.s);
+}
+B3_API b3Transform b3Joint_GetLocalFrameA(b3JointId id) {
+    float f[7]; gpu_b3_joint_get_local_frame(id, false, f);
+    return (b3Transform){{f[0],f[1],f[2]},{{f[3],f[4],f[5]},f[6]}};
+}
+B3_API void b3Joint_SetLocalFrameB(b3JointId id, b3Transform frame) {
+    gpu_b3_joint_set_local_frame(id, true, frame.p.x, frame.p.y, frame.p.z, frame.q.v.x, frame.q.v.y, frame.q.v.z, frame.q.s);
+}
+B3_API b3Transform b3Joint_GetLocalFrameB(b3JointId id) {
+    float f[7]; gpu_b3_joint_get_local_frame(id, true, f);
+    return (b3Transform){{f[0],f[1],f[2]},{{f[3],f[4],f[5]},f[6]}};
+}
+B3_API void b3Joint_WakeBodies(b3JointId id) { gpu_b3_joint_wake_bodies(id);
+}
+
+extern b3MassData gpu_b3_shape_compute_mass_data(b3ShapeId);
+B3_API b3MassData b3Shape_ComputeMassData(b3ShapeId id) { return gpu_b3_shape_compute_mass_data(id); }

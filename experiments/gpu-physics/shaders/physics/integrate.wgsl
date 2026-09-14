@@ -150,7 +150,7 @@ fn apply_deltas(@builtin(global_invocation_id) gid: vec3<u32>) {
         b.sleep_velocity = sleep_velocity;
         let quiet = params.enable_sleep != 0u
             && (b.flags & FLAG_SLEEP_ENABLED) != 0u
-            && sleep_velocity <= params.sleep_threshold;
+            && sleep_velocity <= scene_f32(extra + 7u);
         let min_extent = scene_f32(extra + 3u);
         let max_motion = max(max_delta, max_velocity * params.step_dt);
         if (!quiet && params.enable_continuous != 0u

@@ -1,3 +1,5 @@
+#[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+mod drag_replay;
 #[cfg(not(target_arch = "wasm32"))]
 mod rotation_shader;
 mod loading;

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import sokol_split_injection
 from pathlib import Path
 
 
@@ -373,11 +374,11 @@ def main() -> int:
     args = p.parse_args()
     main_text = inject_main(Path(args.src).read_text())
     Path(args.dst).parent.mkdir(parents=True, exist_ok=True)
-    Path(args.dst).write_text(main_text)
+    Path(args.dst).write_text(sokol_split_injection.main(main_text))
     if args.joint_src:
         if not args.joint_dst:
             raise SystemExit("--joint-dst required")
-        Path(args.joint_dst).write_text(inject_joint(Path(args.joint_src).read_text()))
+        Path(args.joint_dst).write_text(sokol_split_injection.joint(inject_joint(Path(args.joint_src).read_text())))
     if args.continuous_src:
         if not args.continuous_dst:
             raise SystemExit("--continuous-dst required")
@@ -407,7 +408,7 @@ def main() -> int:
                 )
             )
         Path(args.sample_dst).parent.mkdir(parents=True, exist_ok=True)
-        Path(args.sample_dst).write_text(sample_text)
+        Path(args.sample_dst).write_text(sokol_split_injection.sample(sample_text))
     return 0
 
 

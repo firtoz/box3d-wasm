@@ -675,11 +675,11 @@ fn try_cached_face(a: Body, b: Body, ia: u32, ib: u32) -> Contact {
     if (abs(manifold_min_sep(c) - cache_sep) >= LINEAR_SLOP) {
         return empty_contact();
     }
-    if (typ == SAT_FACE_A) {
-        write_sat_cache(&c, typ, face, sat_index_b(p._tail1.x));
-    } else {
-        write_sat_cache(&c, typ, sat_index_a(p._tail1.x), face);
-    }
+    // A cache hit retains the original SAT baseline, as b3BuildFace*Contact's
+    // localCache does. Rebasing on each hit admits unlimited incremental drift
+    // and can keep a tilted box face instead of switching to its support plane.
+    c._tail1.x = p._tail1.x;
+    c._tail1.y = p._tail1.y;
     finish_manifold(&c, a, b, ia, ib);
     return c;
 }

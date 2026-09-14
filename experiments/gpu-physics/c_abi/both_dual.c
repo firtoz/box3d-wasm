@@ -1,5 +1,7 @@
 #include "box3d/box3d.h"
 #include "both_ids.h"
+#include "both_view.h"
+#include <math.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,6 +27,7 @@ typedef struct b3BodyId GpuBodyId;
 typedef struct b3ShapeId GpuShapeId;
 typedef struct b3JointId GpuJointId;
 
+extern bool gpu_b3_joint_is_valid(GpuJointId joint);
 extern void gpu_b3_destroy_joint(GpuJointId joint, bool wake_attached);
 extern GpuWorldId gpu_b3_create_world(float gx, float gy, float gz);
 extern void gpu_b3_world_set_restitution_threshold(GpuWorldId, float);
@@ -456,18 +459,25 @@ extern void gpu_samples_destroy_body(b3BodyId bodyId);
 extern b3WorldTransform gpu_samples_body_transform(b3BodyId bodyId);
 extern void gpu_samples_body_set_transform(b3BodyId bodyId, b3WorldTransform target);
 
-typedef struct BothMouseJoint
-{
-	bool live;
-	b3WorldId world;
-	b3JointId cpu;
-	b3BodyId gpu_mouse_body;
-	b3BodyId gpu_grabbed_body;
-	b3Vec3 local_point;
-} BothMouseJoint;
-
-static BothMouseJoint g_mouse_joint;
-static const int32_t kMouseJointIndex = 65534;
+static bool g_split = true;
+static bool g_second_view;
+static b3DebugDraw g_split_draw;
+static b3WorldId g_draw_world;
+static uint64_t g_draw_mask;
+typedef struct BothDrag {
+    b3WorldId world;
+    b3BodyId mouse[2], grabbed[2], selected[2];
+    b3JointId joint[2];
+    float fraction[2];
+    b3Vec3 local_anchor[2];
+    b3Pos origin;
+    b3Vec3 translation;
+} BothDrag;
+static BothDrag g_drag;
+static void both_drag_step(b3WorldId world, float dt);
+bool both_split_enabled(void) { return g_split; }
+void both_set_split(bool enabled) { both_pointer_up(); g_split = enabled; }
+void both_begin_frame(void) { g_draw_world = (b3WorldId){0}; g_second_view = false; }
 
 extern b3WorldId cpu_b3CreateWorld(const b3WorldDef* def);
 extern void cpu_b3DestroyWorld(b3WorldId worldId);
@@ -612,7 +622,7 @@ extern const char* cpu_b3Shape_GetName(b3ShapeId shapeId);
 
 __attribute__((constructor)) static void both_banner(void)
 {
-	fprintf(stderr, "samples_both: CPU/GPU overlaid (3 cm X split), same step. HUD 'step N' is shared.\n");
+	fprintf(stderr, "samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.\n");
 }
 
 static uint32_t locks_from_def(const b3BodyDef* def)
@@ -822,6 +832,10 @@ static b3AABB union_aabb(b3AABB a, b3AABB b)
 	return a;
 }
 
+extern void gpu_b3_world_set_contact_tuning(b3WorldId, float, float, float);
+extern void gpu_b3_world_set_user_data(b3WorldId, uintptr_t);
+extern void gpu_b3_body_set_name(b3BodyId, const char*);
+extern void gpu_b3_body_set_sleep_threshold(b3BodyId, float);
 B3_API b3WorldId b3CreateWorld(const b3WorldDef* def)
 {
 	if (!def)
@@ -829,6 +843,8 @@ B3_API b3WorldId b3CreateWorld(const b3WorldDef* def)
 		return (b3WorldId){0};
 	}
 	GpuWorldId gpu = gpu_b3_create_world(def->gravity.x, def->gravity.y, def->gravity.z);
+	gpu_b3_world_set_contact_tuning(gpu, def->contactHertz, def->contactDampingRatio, def->contactSpeed);
+	gpu_b3_world_set_user_data(gpu, (uintptr_t)def->userData);
 	gpu_b3_world_enable_sleeping(gpu, def->enableSleep);
 	gpu_b3_world_enable_continuous(gpu, def->enableContinuous);
 	gpu_b3_world_set_hit_event_threshold(gpu, def->hitEventThreshold);
@@ -842,11 +858,10 @@ B3_API b3WorldId b3CreateWorld(const b3WorldDef* def)
 
 B3_API void b3DestroyWorld(b3WorldId worldId)
 {
-	if (g_mouse_joint.live && g_mouse_joint.world.index1 == worldId.index1)
-	{
-		cpu_b3DestroyJoint(g_mouse_joint.cpu, true);
-		memset(&g_mouse_joint, 0, sizeof(g_mouse_joint));
-	}
+    if (g_drag.world.index1 == worldId.index1) {
+        both_pointer_up(); memset(&g_drag, 0, sizeof(g_drag));
+    }
+    g_draw_world = (b3WorldId){0};
 	gpu_samples_on_world_destroyed(worldId);
 	if (both_has_cpu_world(worldId))
 	{
@@ -881,24 +896,7 @@ B3_API void b3World_SetRestitutionCallback(b3WorldId worldId, b3RestitutionCallb
 
 B3_API void b3World_Step(b3WorldId worldId, float timeStep, int subStepCount)
 {
-	/*
-	 * The GPU backend does not have motor joints yet. Mirror the sample
-	 * mouse joint by placing the grabbed GPU body at the same anchor as the
-	 * GPU kinematic mouse body before solving this frame.
-	 */
-	if (g_mouse_joint.live && g_mouse_joint.world.index1 == worldId.index1 &&
-		gpu_b3_body_is_valid(g_mouse_joint.gpu_mouse_body) &&
-		gpu_b3_body_is_valid(g_mouse_joint.gpu_grabbed_body))
-	{
-		b3WorldTransform mouse_xf = gpu_samples_body_transform(g_mouse_joint.gpu_mouse_body);
-		b3WorldTransform grabbed_xf = gpu_samples_body_transform(g_mouse_joint.gpu_grabbed_body);
-		b3WorldTransform target = grabbed_xf;
-		b3Vec3 local = b3RotateVector(grabbed_xf.q, g_mouse_joint.local_point);
-		target.p.x = mouse_xf.p.x - local.x;
-		target.p.y = mouse_xf.p.y - local.y;
-		target.p.z = mouse_xf.p.z - local.z;
-		gpu_samples_body_set_transform(g_mouse_joint.gpu_grabbed_body, target);
-	}
+    both_drag_step(worldId, timeStep);
 	gpu_b3_world_step(worldId, timeStep, subStepCount);
 	if (both_has_cpu_world(worldId))
 	{
@@ -1070,6 +1068,17 @@ B3_API void b3World_Draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskBits
 	{
 		return;
 	}
+    if (g_split) {
+        if (g_second_view) { gpu_samples_world_draw(worldId, draw, maskBits); return; }
+        extern void SetSelectedBody(b3BodyId);
+        extern void SetComparisonSelectedBody(b3BodyId);
+        gpu_b3_world_wait(worldId);
+        g_split_draw = *draw; g_draw_world = worldId; g_draw_mask = maskBits;
+        SetComparisonSelectedBody(g_drag.selected[0]);
+        if (both_has_cpu_world(worldId)) cpu_b3World_Draw(both_cpu_world(worldId), draw, maskBits);
+        SetSelectedBody(g_drag.selected[1]);
+        return;
+    }
 	float dx = scene_dx(worldId);
 	if (both_has_cpu_world(worldId))
 	{
@@ -1095,7 +1104,7 @@ B3_API void b3World_Draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskBits
 
 B3_API b3AABB b3World_GetBounds(b3WorldId worldId)
 {
-	float dx = scene_dx(worldId);
+	float dx = g_split ? 0.0f : scene_dx(worldId);
 	b3AABB gpu = gpu_samples_world_bounds(worldId);
 	gpu.lowerBound.x += dx;
 	gpu.upperBound.x += dx;
@@ -1125,6 +1134,8 @@ B3_API b3BodyId b3CreateBody(b3WorldId worldId, const b3BodyDef* def)
 									   def->linearVelocity.x, def->linearVelocity.y, def->linearVelocity.z,
 									   def->angularVelocity.x, def->angularVelocity.y, def->angularVelocity.z,
 									   def->gravityScale, locks_from_def(def));
+	gpu_b3_body_set_name(gpu, def->name);
+	gpu_b3_body_set_sleep_threshold(gpu, def->sleepThreshold);
 	gpu_b3_body_set_user_data(gpu, (uintptr_t)def->userData);
 	gpu_b3_body_set_bullet(gpu, def->isBullet);
 	gpu_b3_body_allow_fast_rotation(gpu, def->allowFastRotation);
@@ -2345,7 +2356,7 @@ B3_API float b3WeldJoint_GetAngularDampingRatio(b3JointId jointId)
 	return gpu_b3_weld_get_angular_damping(jointId);
 }
 
-B3_API b3JointId b3CreateMotorJoint(b3WorldId worldId, const b3MotorJointDef* def)
+static b3JointId create_gpu_motor(b3WorldId worldId, const b3MotorJointDef* def)
 {
 	if (!def)
 	{
@@ -2362,6 +2373,13 @@ B3_API b3JointId b3CreateMotorJoint(b3WorldId worldId, const b3MotorJointDef* de
 		def->maxSpringForce, def->angularHertz, def->angularDampingRatio, def->maxSpringTorque,
 		def->base.collideConnected);
 	configure_gpu_joint(gpu, &def->base);
+    return gpu;
+}
+
+B3_API b3JointId b3CreateMotorJoint(b3WorldId worldId, const b3MotorJointDef* def)
+{
+    if (!def) return (b3JointId){0};
+    b3JointId gpu = create_gpu_motor(worldId, def);
 	if (both_has_cpu_world(worldId))
 	{
 		b3MotorJointDef cpu_def = *def;
@@ -2427,21 +2445,13 @@ BOTH_MOTOR_SCALAR_API(MaxSpringTorque, max_spring_torque)
 
 B3_API bool b3Joint_IsValid(b3JointId jointId)
 {
-	if (g_mouse_joint.live && jointId.index1 == kMouseJointIndex && jointId.world0 == g_mouse_joint.world.index1)
-	{
-		return true;
-	}
+
 	return both_has_cpu_joint(jointId);
 }
 
 B3_API void b3DestroyJoint(b3JointId jointId, bool wakeAttached)
 {
-	if (g_mouse_joint.live && jointId.index1 == kMouseJointIndex && jointId.world0 == g_mouse_joint.world.index1)
-	{
-		cpu_b3DestroyJoint(g_mouse_joint.cpu, wakeAttached);
-		memset(&g_mouse_joint, 0, sizeof(g_mouse_joint));
-		return;
-	}
+
 	if (both_has_cpu_joint(jointId))
 	{
 		cpu_b3DestroyJoint(both_cpu_joint(jointId), wakeAttached);
@@ -2472,7 +2482,6 @@ B3_API b3WorldTransform b3Body_GetTransform(b3BodyId bodyId)
 
 B3_API void b3Body_SetTargetTransform(b3BodyId bodyId, b3WorldTransform target, float timeStep, bool wake)
 {
-	gpu_samples_body_set_transform(bodyId, target);
 	gpu_b3_body_set_target_transform(bodyId, target.p.x, target.p.y, target.p.z, target.q.v.x, target.q.v.y,
 									target.q.v.z, target.q.s, timeStep, wake);
 	if (both_has_cpu_body(bodyId))
@@ -3076,4 +3085,367 @@ extern void cpu_b3World_SetRestitutionThreshold(b3WorldId, float);
 B3_API void b3World_SetRestitutionThreshold(b3WorldId id, float value) {
     gpu_b3_world_set_restitution_threshold(id, value);
     if (both_has_cpu_world(id)) cpu_b3World_SetRestitutionThreshold(both_cpu_world(id), value);
+}
+
+// Comparison input: identical rays, independent hits, masses, anchors and depth.
+extern b3RayResult cpu_b3World_CastRayClosest(b3WorldId, b3Pos, b3Vec3, b3QueryFilter);
+extern b3BodyId cpu_b3Shape_GetBody(b3ShapeId);
+extern bool cpu_b3Body_IsValid(b3BodyId);
+extern bool cpu_b3Joint_IsValid(b3JointId);
+void both_draw_second(void) {
+    g_second_view = true;
+    if (!g_draw_world.index1) return;
+    extern void SetSelectedBody(b3BodyId);
+    SetSelectedBody(g_drag.selected[1]);
+    gpu_samples_world_draw(g_draw_world, &g_split_draw, g_draw_mask);
+
+}
+void both_pointer_up(void) {
+    if (g_drag.joint[0].index1 && cpu_b3Joint_IsValid(g_drag.joint[0])) cpu_b3DestroyJoint(g_drag.joint[0], true);
+    if (g_drag.mouse[0].index1 && cpu_b3Body_IsValid(g_drag.mouse[0])) cpu_b3DestroyBody(g_drag.mouse[0]);
+    if (g_drag.joint[1].index1 && gpu_b3_joint_is_valid(g_drag.joint[1])) gpu_b3_destroy_joint(g_drag.joint[1], true);
+    if (g_drag.mouse[1].index1 && gpu_b3_body_is_valid(g_drag.mouse[1])) gpu_samples_destroy_body(g_drag.mouse[1]);
+    memset(g_drag.mouse, 0, sizeof(g_drag.mouse));
+    memset(g_drag.joint, 0, sizeof(g_drag.joint));
+}
+void both_pointer_move(b3Pos origin, b3Vec3 translation) {
+    g_drag.origin = origin; g_drag.translation = translation;
+}
+void both_pointer_down(b3WorldId world, b3Pos origin, b3Vec3 translation, bool grab, float force_scale) {
+    both_pointer_up();
+    g_drag.world = world;
+    both_pointer_move(origin, translation);
+    b3QueryFilter filter = b3DefaultQueryFilter(); filter.name = grab ? "grab" : "select";
+    b3RayResult hits[2] = {
+        cpu_b3World_CastRayClosest(both_cpu_world(world), origin, translation, filter),
+        gpu_b3_world_cast_ray_closest(world, origin, translation, filter)
+    };
+    for (int i = 0; i < 2; ++i) {
+        b3RayResult hit = hits[i];
+        b3BodyId body = hit.hit ? (i ? b3Shape_GetBody(hit.shapeId) : cpu_b3Shape_GetBody(hit.shapeId)) : (b3BodyId){0};
+        g_drag.selected[i] = body;
+        if (!grab || !hit.hit || (i ? b3Body_GetType(body) : cpu_b3Body_GetType(body)) != b3_dynamicBody) continue;
+        g_drag.grabbed[i] = body;
+        g_drag.fraction[i] = hit.fraction;
+        b3BodyDef bd = b3DefaultBodyDef(); bd.type = b3_kinematicBody; bd.position = hit.point; bd.enableSleep = false;
+        b3BodyId mouse = i ? gpu_b3_create_body(world, b3_kinematicBody, hit.point.x, hit.point.y, hit.point.z,
+            0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0) : cpu_b3CreateBody(both_cpu_world(world), &bd);
+        g_drag.mouse[i] = mouse;
+        b3MotorJointDef jd = b3DefaultMotorJointDef();
+        jd.base.bodyIdA = mouse; jd.base.bodyIdB = body;
+        jd.base.localFrameB.p = i ? b3Body_GetLocalPoint(body, hit.point) : cpu_b3Body_GetLocalPoint(body, hit.point);
+        g_drag.local_anchor[i] = jd.base.localFrameB.p;
+        jd.linearHertz = 7.5f; jd.linearDampingRatio = 1.0f;
+        b3MassData mass = i ? b3Body_GetMassData(body) : cpu_b3Body_GetMassData(body);
+        b3Vec3 gravity = i ? b3World_GetGravity(world) : cpu_b3World_GetGravity(both_cpu_world(world));
+        float mg = mass.mass * b3Length(gravity);
+        jd.maxSpringForce = force_scale * mg;
+        if (mass.mass > 0) {
+            float trace = mass.inertia.cx.x + mass.inertia.cy.y + mass.inertia.cz.z;
+            jd.maxVelocityTorque = 0.5f * sqrtf(trace / (3.0f * mass.mass)) * mg;
+        }
+        g_drag.joint[i] = i ? create_gpu_motor(world, &jd) : cpu_b3CreateMotorJoint(both_cpu_world(world), &jd);
+        if (i) gpu_b3_body_set_awake(body, true); else cpu_b3Body_SetAwake(body, true);
+    }
+    extern void SetSelectedBody(b3BodyId);
+    SetSelectedBody(g_drag.selected[1]);
+}
+static void both_drag_step(b3WorldId world, float dt) {
+    if (dt <= 0 || world.index1 != g_drag.world.index1) return;
+    for (int i = 0; i < 2; ++i) {
+        if (!g_drag.mouse[i].index1) continue;
+        bool valid = i ? gpu_b3_joint_is_valid(g_drag.joint[i]) : cpu_b3Joint_IsValid(g_drag.joint[i]);
+        if (!valid) { both_pointer_up(); return; }
+        b3Pos p = {
+            g_drag.origin.x + g_drag.fraction[i] * g_drag.translation.x,
+            g_drag.origin.y + g_drag.fraction[i] * g_drag.translation.y,
+            g_drag.origin.z + g_drag.fraction[i] * g_drag.translation.z
+        };
+        if (i) gpu_b3_body_set_target_transform(g_drag.mouse[i], p.x, p.y, p.z, 0, 0, 0, 1, dt, true);
+        else cpu_b3Body_SetTargetTransform(g_drag.mouse[i], (b3WorldTransform){p, b3Quat_identity}, dt, true);
+    }
+}
+
+BothPointerState both_pointer_state(int engine) {
+    if (engine < 0 || engine > 1) return (BothPointerState){0};
+    return (BothPointerState){g_drag.selected[engine], g_drag.mouse[engine], g_drag.joint[engine], g_drag.fraction[engine], g_drag.local_anchor[engine]};
+}
+
+extern b3BodyId gpu_b3_shape_get_body(b3ShapeId shape);
+B3_API b3BodyId b3Shape_GetBody(b3ShapeId shape) { return gpu_b3_shape_get_body(shape); }
+
+void both_pointer_impulse(b3WorldId world, b3Pos origin, b3Vec3 translation, b3Vec3 impulse) {
+    b3QueryFilter filter = b3DefaultQueryFilter();
+    b3RayResult cpu = cpu_b3World_CastRayClosest(both_cpu_world(world), origin, translation, filter);
+    b3RayResult gpu = gpu_b3_world_cast_ray_closest(world, origin, translation, filter);
+    if (cpu.hit) cpu_b3Body_ApplyLinearImpulse(cpu_b3Shape_GetBody(cpu.shapeId), impulse, cpu.point, true);
+    if (gpu.hit) gpu_b3_body_apply_linear_impulse(gpu_b3_shape_get_body(gpu.shapeId),
+        impulse.x, impulse.y, impulse.z, gpu.point.x, gpu.point.y, gpu.point.z, true);
+}
+
+extern void gpu_b3_world_set_contact_tuning(b3WorldId id, float hertz, float damping, float speed);
+extern void cpu_b3World_SetContactTuning(b3WorldId id, float hertz, float damping, float speed);
+B3_API void b3World_SetContactTuning(b3WorldId id, float hertz, float damping, float speed) { gpu_b3_world_set_contact_tuning(id, hertz, damping, speed);
+    if (both_has_cpu_world(id)) cpu_b3World_SetContactTuning(both_cpu_world(id), hertz, damping, speed); }
+
+extern void gpu_b3_world_set_user_data(b3WorldId id, uintptr_t value);
+extern void cpu_b3World_SetUserData(b3WorldId id, void* value);
+B3_API void b3World_SetUserData(b3WorldId id, void* value) { gpu_b3_world_set_user_data(id, (uintptr_t)value);
+    if (both_has_cpu_world(id)) cpu_b3World_SetUserData(both_cpu_world(id), value); }
+
+extern uintptr_t gpu_b3_world_get_user_data(b3WorldId id);
+extern void* cpu_b3World_GetUserData(b3WorldId id);
+B3_API void* b3World_GetUserData(b3WorldId id) { return (void*)gpu_b3_world_get_user_data(id); }
+
+extern int gpu_b3_world_get_awake_body_count(b3WorldId id);
+extern int cpu_b3World_GetAwakeBodyCount(b3WorldId id);
+B3_API int b3World_GetAwakeBodyCount(b3WorldId id) { return gpu_b3_world_get_awake_body_count(id); }
+
+extern void gpu_b3_body_enable_sleep(b3BodyId id, bool enable);
+extern void cpu_b3Body_EnableSleep(b3BodyId id, bool enable);
+B3_API void b3Body_EnableSleep(b3BodyId id, bool enable) { gpu_b3_body_enable_sleep(id, enable);
+    if (both_has_cpu_body(id)) cpu_b3Body_EnableSleep(both_cpu_body(id), enable); }
+
+extern bool gpu_b3_body_is_sleep_enabled(b3BodyId id);
+extern bool cpu_b3Body_IsSleepEnabled(b3BodyId id);
+B3_API bool b3Body_IsSleepEnabled(b3BodyId id) { return gpu_b3_body_is_sleep_enabled(id); }
+
+extern void gpu_b3_body_set_sleep_threshold(b3BodyId id, float value);
+extern void cpu_b3Body_SetSleepThreshold(b3BodyId id, float value);
+B3_API void b3Body_SetSleepThreshold(b3BodyId id, float value) { gpu_b3_body_set_sleep_threshold(id, value);
+    if (both_has_cpu_body(id)) cpu_b3Body_SetSleepThreshold(both_cpu_body(id), value); }
+
+extern float gpu_b3_body_get_sleep_threshold(b3BodyId id);
+extern float cpu_b3Body_GetSleepThreshold(b3BodyId id);
+B3_API float b3Body_GetSleepThreshold(b3BodyId id) { return gpu_b3_body_get_sleep_threshold(id); }
+
+extern void gpu_b3_body_enable_hit_events(b3BodyId id, bool enable);
+extern void cpu_b3Body_EnableHitEvents(b3BodyId id, bool enable);
+B3_API void b3Body_EnableHitEvents(b3BodyId id, bool enable) { gpu_b3_body_enable_hit_events(id, enable);
+    if (both_has_cpu_body(id)) cpu_b3Body_EnableHitEvents(both_cpu_body(id), enable); }
+
+extern void gpu_b3_body_set_name(b3BodyId id, const char* name);
+extern void cpu_b3Body_SetName(b3BodyId id, const char* name);
+B3_API void b3Body_SetName(b3BodyId id, const char* name) { gpu_b3_body_set_name(id, name);
+    if (both_has_cpu_body(id)) cpu_b3Body_SetName(both_cpu_body(id), name); }
+
+extern const char* gpu_b3_body_get_name(b3BodyId id);
+extern const char* cpu_b3Body_GetName(b3BodyId id);
+B3_API const char* b3Body_GetName(b3BodyId id) { return gpu_b3_body_get_name(id); }
+
+extern void gpu_b3_joint_set_local_frame(b3JointId, bool, float, float, float, float, float, float, float);
+extern void gpu_b3_joint_get_local_frame(b3JointId, bool, float*);
+extern void gpu_b3_joint_wake_bodies(b3JointId);
+extern void cpu_b3Joint_SetLocalFrameA(b3JointId, b3Transform);
+B3_API void b3Joint_SetLocalFrameA(b3JointId id, b3Transform frame) {
+    gpu_b3_joint_set_local_frame(id, false, frame.p.x, frame.p.y, frame.p.z, frame.q.v.x, frame.q.v.y, frame.q.v.z, frame.q.s);
+    if (both_has_cpu_joint(id)) cpu_b3Joint_SetLocalFrameA(both_cpu_joint(id), frame);
+}
+B3_API b3Transform b3Joint_GetLocalFrameA(b3JointId id) {
+    float f[7]; gpu_b3_joint_get_local_frame(id, false, f);
+    return (b3Transform){{f[0],f[1],f[2]},{{f[3],f[4],f[5]},f[6]}};
+}
+extern void cpu_b3Joint_SetLocalFrameB(b3JointId, b3Transform);
+B3_API void b3Joint_SetLocalFrameB(b3JointId id, b3Transform frame) {
+    gpu_b3_joint_set_local_frame(id, true, frame.p.x, frame.p.y, frame.p.z, frame.q.v.x, frame.q.v.y, frame.q.v.z, frame.q.s);
+    if (both_has_cpu_joint(id)) cpu_b3Joint_SetLocalFrameB(both_cpu_joint(id), frame);
+}
+B3_API b3Transform b3Joint_GetLocalFrameB(b3JointId id) {
+    float f[7]; gpu_b3_joint_get_local_frame(id, true, f);
+    return (b3Transform){{f[0],f[1],f[2]},{{f[3],f[4],f[5]},f[6]}};
+}
+extern void cpu_b3Joint_WakeBodies(b3JointId);
+B3_API void b3Joint_WakeBodies(b3JointId id) { gpu_b3_joint_wake_bodies(id);
+    if (both_has_cpu_joint(id)) cpu_b3Joint_WakeBodies(both_cpu_joint(id));
+}
+
+extern b3MassData gpu_b3_shape_compute_mass_data(b3ShapeId);
+B3_API b3MassData b3Shape_ComputeMassData(b3ShapeId id) { return gpu_b3_shape_compute_mass_data(id); }
+
+// Read comparison state from the GPU world; CPU references use explicit cpu_ APIs.
+extern int gpu_b3_body_get_shape_count(GpuBodyId body);
+extern int gpu_b3_body_get_shapes(GpuBodyId body, GpuShapeId* out, int capacity);
+extern float gpu_b3_distance_get_length(GpuJointId id);
+extern bool gpu_b3_distance_is_spring_enabled(GpuJointId id);
+extern void gpu_b3_distance_get_spring_force_range(GpuJointId id, float* lower, float* upper);
+extern float gpu_b3_distance_get_spring_hertz(GpuJointId id);
+extern float gpu_b3_distance_get_spring_damping(GpuJointId id);
+extern bool gpu_b3_distance_is_limit_enabled(GpuJointId id);
+extern float gpu_b3_distance_get_min_length(GpuJointId id);
+extern float gpu_b3_distance_get_max_length(GpuJointId id);
+extern float gpu_b3_distance_get_current_length(GpuJointId id);
+extern bool gpu_b3_distance_is_motor_enabled(GpuJointId id);
+extern float gpu_b3_distance_get_motor_speed(GpuJointId id);
+extern float gpu_b3_distance_get_max_motor_force(GpuJointId id);
+extern float gpu_b3_distance_get_motor_force(GpuJointId id);
+extern float gpu_b3_parallel_get_spring_hertz(GpuJointId id);
+extern float gpu_b3_parallel_get_spring_damping(GpuJointId id);
+extern float gpu_b3_parallel_get_max_torque(GpuJointId id);
+extern bool gpu_b3_prismatic_is_spring_enabled(GpuJointId id);
+extern float gpu_b3_prismatic_get_spring_hertz(GpuJointId id);
+extern float gpu_b3_prismatic_get_spring_damping(GpuJointId id);
+extern float gpu_b3_prismatic_get_target_translation(GpuJointId id);
+extern bool gpu_b3_prismatic_is_limit_enabled(GpuJointId id);
+extern float gpu_b3_prismatic_get_lower_limit(GpuJointId id);
+extern float gpu_b3_prismatic_get_upper_limit(GpuJointId id);
+extern bool gpu_b3_prismatic_is_motor_enabled(GpuJointId id);
+extern float gpu_b3_prismatic_get_motor_speed(GpuJointId id);
+extern float gpu_b3_prismatic_get_max_motor_force(GpuJointId id);
+extern float gpu_b3_prismatic_get_motor_force(GpuJointId id);
+extern float gpu_b3_prismatic_get_translation(GpuJointId id);
+extern float gpu_b3_prismatic_get_speed(GpuJointId id);
+
+B3_API int b3Body_GetShapeCount(b3BodyId bodyId)
+{
+	return gpu_b3_body_get_shape_count(bodyId);
+}
+
+B3_API int b3Body_GetShapes(b3BodyId bodyId, b3ShapeId* shapeArray, int capacity)
+{
+	return gpu_b3_body_get_shapes(bodyId, shapeArray, capacity);
+}
+
+B3_API float b3DistanceJoint_GetLength(b3JointId jointId)
+{
+	return gpu_b3_distance_get_length(jointId);
+}
+
+B3_API bool b3DistanceJoint_IsSpringEnabled(b3JointId jointId)
+{
+	return gpu_b3_distance_is_spring_enabled(jointId);
+}
+
+B3_API void b3DistanceJoint_GetSpringForceRange(b3JointId jointId, float* lowerForce, float* upperForce)
+{
+	gpu_b3_distance_get_spring_force_range(jointId, lowerForce, upperForce);
+}
+
+B3_API float b3DistanceJoint_GetSpringHertz(b3JointId jointId)
+{
+	return gpu_b3_distance_get_spring_hertz(jointId);
+}
+
+B3_API float b3DistanceJoint_GetSpringDampingRatio(b3JointId jointId)
+{
+	return gpu_b3_distance_get_spring_damping(jointId);
+}
+
+B3_API bool b3DistanceJoint_IsLimitEnabled(b3JointId jointId)
+{
+	return gpu_b3_distance_is_limit_enabled(jointId);
+}
+
+B3_API float b3DistanceJoint_GetMinLength(b3JointId jointId)
+{
+	return gpu_b3_distance_get_min_length(jointId);
+}
+
+B3_API float b3DistanceJoint_GetMaxLength(b3JointId jointId)
+{
+	return gpu_b3_distance_get_max_length(jointId);
+}
+
+B3_API float b3DistanceJoint_GetCurrentLength(b3JointId jointId)
+{
+	return gpu_b3_distance_get_current_length(jointId);
+}
+
+B3_API bool b3DistanceJoint_IsMotorEnabled(b3JointId jointId)
+{
+	return gpu_b3_distance_is_motor_enabled(jointId);
+}
+
+B3_API float b3DistanceJoint_GetMotorSpeed(b3JointId jointId)
+{
+	return gpu_b3_distance_get_motor_speed(jointId);
+}
+
+B3_API float b3DistanceJoint_GetMaxMotorForce(b3JointId jointId)
+{
+	return gpu_b3_distance_get_max_motor_force(jointId);
+}
+
+B3_API float b3DistanceJoint_GetMotorForce(b3JointId jointId)
+{
+	return gpu_b3_distance_get_motor_force(jointId);
+}
+
+B3_API float b3ParallelJoint_GetSpringHertz(b3JointId jointId)
+{
+	return gpu_b3_parallel_get_spring_hertz(jointId);
+}
+
+B3_API float b3ParallelJoint_GetSpringDampingRatio(b3JointId jointId)
+{
+	return gpu_b3_parallel_get_spring_damping(jointId);
+}
+
+B3_API float b3ParallelJoint_GetMaxTorque(b3JointId jointId)
+{
+	return gpu_b3_parallel_get_max_torque(jointId);
+}
+
+B3_API bool b3PrismaticJoint_IsSpringEnabled(b3JointId jointId)
+{
+	return gpu_b3_prismatic_is_spring_enabled(jointId);
+}
+
+B3_API float b3PrismaticJoint_GetSpringHertz(b3JointId jointId)
+{
+	return gpu_b3_prismatic_get_spring_hertz(jointId);
+}
+
+B3_API float b3PrismaticJoint_GetSpringDampingRatio(b3JointId jointId)
+{
+	return gpu_b3_prismatic_get_spring_damping(jointId);
+}
+
+B3_API float b3PrismaticJoint_GetTargetTranslation(b3JointId jointId)
+{
+	return gpu_b3_prismatic_get_target_translation(jointId);
+}
+
+B3_API bool b3PrismaticJoint_IsLimitEnabled(b3JointId jointId)
+{
+	return gpu_b3_prismatic_is_limit_enabled(jointId);
+}
+
+B3_API float b3PrismaticJoint_GetLowerLimit(b3JointId jointId)
+{
+	return gpu_b3_prismatic_get_lower_limit(jointId);
+}
+
+B3_API float b3PrismaticJoint_GetUpperLimit(b3JointId jointId)
+{
+	return gpu_b3_prismatic_get_upper_limit(jointId);
+}
+
+B3_API bool b3PrismaticJoint_IsMotorEnabled(b3JointId jointId)
+{
+	return gpu_b3_prismatic_is_motor_enabled(jointId);
+}
+
+B3_API float b3PrismaticJoint_GetMotorSpeed(b3JointId jointId)
+{
+	return gpu_b3_prismatic_get_motor_speed(jointId);
+}
+
+B3_API float b3PrismaticJoint_GetMaxMotorForce(b3JointId jointId)
+{
+	return gpu_b3_prismatic_get_max_motor_force(jointId);
+}
+
+B3_API float b3PrismaticJoint_GetMotorForce(b3JointId jointId)
+{
+	return gpu_b3_prismatic_get_motor_force(jointId);
+}
+
+B3_API float b3PrismaticJoint_GetTranslation(b3JointId jointId)
+{
+	return gpu_b3_prismatic_get_translation(jointId);
+}
+
+B3_API float b3PrismaticJoint_GetSpeed(b3JointId jointId)
+{
+	return gpu_b3_prismatic_get_speed(jointId);
 }

@@ -1,8 +1,9 @@
-// Box3D sample-viewer glue: real GPU world/draw/ids, everything else in samples_stubs.c.
+// Native viewer metadata and drawing. Engine C wrappers live in shim.c.
 #include "box3d/box3d.h"
 #include "box3d/collision.h"
 
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
@@ -268,16 +269,13 @@ extern void gpu_b3_body_set_awake(b3BodyId body, bool awake);
 
 static void quat_rotate(const float q[4], const float v[3], float out[3])
 {
-	const float ux = q[0], uy = q[1], uz = q[2], s = q[3];
-	const float dot_uv = ux * v[0] + uy * v[1] + uz * v[2];
-	const float dot_uu = ux * ux + uy * uy + uz * uz;
-	const float cx = uy * v[2] - uz * v[1];
-	const float cy = uz * v[0] - ux * v[2];
-	const float cz = ux * v[1] - uy * v[0];
-	const float scale = s * s - dot_uu;
-	out[0] = 2.0f * dot_uv * ux + scale * v[0] + 2.0f * s * cx;
-	out[1] = 2.0f * dot_uv * uy + scale * v[1] + 2.0f * s * cy;
-	out[2] = 2.0f * dot_uv * uz + scale * v[2] + 2.0f * s * cz;
+	// Share Box3D's rounding behavior with the Rust API and GPU integrator.
+	const b3Quat rotation = {{q[0], q[1], q[2]}, q[3]};
+	const b3Vec3 vector = {v[0], v[1], v[2]};
+	const b3Vec3 result = b3RotateVector(rotation, vector);
+	out[0] = result.x;
+	out[1] = result.y;
+	out[2] = result.z;
 }
 
 B3_API int b3GetWorldCount(void)
@@ -613,14 +611,7 @@ void gpu_samples_body_set_transform(b3BodyId bodyId, b3WorldTransform target)
 							  target.q.s);
 }
 
-#ifndef BOTH_SAMPLES
-B3_API void b3Body_SetTargetTransform(b3BodyId bodyId, b3WorldTransform target, float timeStep, bool wake)
-{
-	(void)timeStep;
-	(void)wake;
-	gpu_samples_body_set_transform(bodyId, target);
-}
-#endif
+
 
 void gpu_samples_destroy_body(b3BodyId bodyId)
 {
@@ -716,5 +707,6 @@ B3_API bool b3SaveRecordingToFile(const b3Recording* recording, const char* path
 {
 	(void)recording;
 	(void)path;
-	return true;
+	fprintf(stderr, "GPU recording is not implemented; no recording file was saved.\n");
+	return false;
 }

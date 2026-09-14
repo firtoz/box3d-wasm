@@ -3492,3 +3492,73 @@ pub extern "C" fn gpu_b3_world_prepare_loading(id: WorldId, stage: u32) {
 pub extern "C" fn gpu_b3_world_loading_needed(id: WorldId) -> bool {
     crate::api::b3_world_loading_needed(id)
 }
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_world_set_contact_tuning(id: WorldId, hertz: f32, damping: f32, speed: f32) -> () { crate::api::b3_world_set_contact_tuning(id, hertz, damping, speed) }
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_world_set_user_data(id: WorldId, value: usize) -> () { crate::api::b3_world_set_user_data(id, value) }
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_world_get_user_data(id: WorldId) -> usize { crate::api::b3_world_get_user_data(id) }
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_world_get_awake_body_count(id: WorldId) -> i32 { crate::api::b3_world_get_awake_body_count(id) }
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_body_enable_sleep(id: BodyId, enable: bool) -> () { crate::api::b3_body_enable_sleep(id, enable) }
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_body_is_sleep_enabled(id: BodyId) -> bool { crate::api::b3_body_is_sleep_enabled(id) }
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_body_set_sleep_threshold(id: BodyId, value: f32) -> () { crate::api::b3_body_set_sleep_threshold(id, value) }
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_body_get_sleep_threshold(id: BodyId) -> f32 { crate::api::b3_body_get_sleep_threshold(id) }
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_body_enable_hit_events(id: BodyId, enable: bool) -> () { crate::api::b3_body_enable_hit_events(id, enable) }
+
+#[no_mangle]
+pub unsafe extern "C" fn gpu_b3_body_set_name(id: BodyId, name: *const std::ffi::c_char) -> () { crate::api::b3_body_set_name(id, if name.is_null() { None } else { Some(std::ffi::CStr::from_ptr(name)) }) }
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_body_get_name(id: BodyId) -> *const std::ffi::c_char { crate::api::b3_body_get_name(id) }
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_joint_set_local_frame(id: JointId, second: bool,
+    x: f32, y: f32, z: f32, qx: f32, qy: f32, qz: f32, qw: f32) {
+    crate::api::b3_joint_set_local_frame(id, second, [x,y,z], [qx,qy,qz,qw]);
+}
+#[no_mangle]
+pub unsafe extern "C" fn gpu_b3_joint_get_local_frame(id: JointId, second: bool, out: *mut f32) {
+    if out.is_null() { return; }
+    let (p,q) = crate::api::b3_joint_get_local_frame(id, second);
+    std::ptr::copy_nonoverlapping(p.as_ptr(), out, 3);
+    std::ptr::copy_nonoverlapping(q.as_ptr(), out.add(3), 4);
+}
+#[no_mangle]
+pub extern "C" fn gpu_b3_joint_wake_bodies(id: JointId) { crate::api::b3_joint_wake_bodies(id); }
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_shape_compute_mass_data(id: ShapeId) -> crate::api::MassData {
+    crate::api::b3_shape_compute_mass_data(id)
+}
+
+/// Explicit diagnostic readback; never called by normal stepping or drawing.
+#[cfg(not(target_arch = "wasm32"))]
+#[no_mangle]
+pub extern "C" fn gpu_b3_world_dump_phases(id: WorldId, frame: u32) {
+    let words = pollster::block_on(crate::api::b3_world_sync_phase_words(id));
+    if words.len() < 192 { return; }
+    let count = (words.len() - 192) / 96;
+    for phase in 0..24 {
+        for body in 0..count {
+            let at = 192 + (phase * count + body) * 4;
+            eprintln!("GPUphase {} {} {} {:.9} {:.9} {:.9} {}", frame, phase, body,
+                f32::from_bits(words[at]), f32::from_bits(words[at+1]),
+                f32::from_bits(words[at+2]), words[at+3]);
+        }
+    }
+}

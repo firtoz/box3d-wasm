@@ -1821,6 +1821,21 @@ fn solve_joints(
             solve_spherical(&jn, &ba, &bb);
             err = vec3<f32>(0.0);
         } else if (jn.kind == JOINT_MOTOR) {
+            // The warm-start wave reapplies the cached impulse to this substep's
+            // velocities. Solving a new delta here loses sustained support force.
+            if (params.use_bias == 2u) {
+                let linear = vec3<f32>(jn.impulse, jn.perp_impulse)
+                    + vec3<f32>(jn.spring_impulse, jn.lower_impulse, jn.upper_impulse);
+                let angular = jn.angular_impulse
+                    + vec3<f32>(jn.motor_impulse, jn._pad2);
+                apply_P(&ba, rA, linear, -1.0);
+                apply_P(&bb, rB, linear, 1.0);
+                apply_joint_torque(&ba, -angular);
+                apply_joint_torque(&bb, angular);
+                if (joint_endpoint_writable(ba)) { store_body(jn.a, ba); }
+                if (joint_endpoint_writable(bb)) { store_body(jn.b, bb); }
+                continue;
+            }
             let frame_a = normalize(quat_mul(qa, jn.frame_a_rotation));
             var frame_b = normalize(quat_mul(qb, jn.frame_b_rotation));
             if (dot(frame_a, frame_b) < 0.0) {

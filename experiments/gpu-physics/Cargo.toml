@@ -16,10 +16,13 @@ name = "gpu-physics"
 path = "src/main.rs"
 
 [features]
+replay-diagnostics = ["dep:serde", "dep:serde_json"]
 # Requires the isolated pinned backend extension; not selected by ordinary builds.
 native-command-cache = []
 
 [dependencies]
+serde = { version = "1", features = ["derive"], optional = true }
+serde_json = { version = "1", optional = true }
 bytemuck = { version = "1", features = ["derive"] }
 glam = "0.30"
 log = "0.4"
