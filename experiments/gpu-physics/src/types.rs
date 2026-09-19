@@ -372,12 +372,12 @@ pub fn scratch_u32_count(body_capacity: u32) -> usize {
 pub fn scratch_u32_count_with_joints(body_capacity: u32, joint_capacity: u32) -> usize {
     let capacity = body_capacity.max(64);
     // Six island work arrays, occupancy, fused flags, eight fused slots per
-    // body, 24 phase summaries, four diagnostic words per body for each of the
+    // body, 24 phase summaries, eight diagnostic words per body for each of the
     // 24 captured phases, and compact per-color contact indices.
     (SCRATCH_U32
         + 16 * capacity
         + 24 * 8
-        + 24 * 4 * capacity
+        + 24 * 8 * capacity
         + MAX_COLORS * contact_capacity(body_capacity)
         + JOINT_FILTER_CAP * 2
         + joint_list_words(body_capacity, joint_capacity)) as usize
@@ -404,7 +404,7 @@ pub fn joint_head_live(body_count: u32, contact_capacity: u32) -> u32 {
     SCRATCH_U32
         + 16 * body_count
         + 24 * 8
-        + 24 * 4 * body_count
+        + 24 * 8 * body_count
         + MAX_COLORS * contact_capacity
         + JOINT_FILTER_CAP * 2
 }

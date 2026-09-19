@@ -128,7 +128,7 @@ fn run_with_endpoint(
     write(SCR_PAIRS + 2 * PAIR_CAP, 0); // SCR_ACTIVE_CONTACT
     write(SCR_COLOR + color, 1);
     // Exact WGSL color_contact_base() layout (uses live body slots, not caps).
-    let color_base = SCR_RADIX_BASE + RADIX_BUCKETS + 112 * sim.params.body_count + 192;
+    let color_base = SCR_RADIX_BASE + RADIX_BUCKETS + 208 * sim.params.body_count + 192;
     write(color_base + color * sim.params.contact_capacity, 0);
     let mut enc = sim
         .device

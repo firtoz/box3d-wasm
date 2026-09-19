@@ -319,11 +319,15 @@ fn capture_phase(@builtin(global_invocation_id) gid: vec3<u32>) {
     let phase = params.color_select;
     if (i < params.body_count) {
         let b = body_states[i];
-        let base = phase_body_base() + (phase * params.body_count + i) * 4u;
+        let base = phase_body_base() + (phase * params.body_count + i) * 8u;
         scratch[base] = bitcast<u32>(b.vel.x);
         scratch[base + 1u] = bitcast<u32>(b.vel.z);
         scratch[base + 2u] = bitcast<u32>(length(b.omega));
         scratch[base + 3u] = b.flags;
+        scratch[base + 4u] = bitcast<u32>(b.vel.y);
+        scratch[base + 5u] = bitcast<u32>(b.omega.x);
+        scratch[base + 6u] = bitcast<u32>(b.omega.y);
+        scratch[base + 7u] = bitcast<u32>(b.omega.z);
     }
     if (i != 0u) {
         return;

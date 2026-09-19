@@ -465,7 +465,7 @@ fn phase_body_base() -> u32 {
     return phase_summary_base() + 24u * 8u;
 }
 fn color_contact_base() -> u32 {
-    return phase_body_base() + 24u * 4u * params.body_count;
+    return phase_body_base() + 24u * 8u * params.body_count;
 }
 fn joint_filter_base() -> u32 {
     return color_contact_base() + 24u * params.contact_capacity;

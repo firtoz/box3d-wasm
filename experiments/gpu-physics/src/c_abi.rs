@@ -3552,13 +3552,16 @@ pub extern "C" fn gpu_b3_shape_compute_mass_data(id: ShapeId) -> crate::api::Mas
 pub extern "C" fn gpu_b3_world_dump_phases(id: WorldId, frame: u32) {
     let words = pollster::block_on(crate::api::b3_world_sync_phase_words(id));
     if words.len() < 192 { return; }
-    let count = (words.len() - 192) / 96;
+    let count = (words.len() - 192) / 192;
     for phase in 0..24 {
         for body in 0..count {
-            let at = 192 + (phase * count + body) * 4;
+            let at = 192 + (phase * count + body) * 8;
             eprintln!("GPUphase {} {} {} {:.9} {:.9} {:.9} {}", frame, phase, body,
                 f32::from_bits(words[at]), f32::from_bits(words[at+1]),
                 f32::from_bits(words[at+2]), words[at+3]);
+            eprintln!("GPUvelocity {} {} {} {:.9e} {:.9e} {:.9e} {:.9e} {:.9e} {:.9e}", frame, phase, body,
+                f32::from_bits(words[at]), f32::from_bits(words[at+4]), f32::from_bits(words[at+1]),
+                f32::from_bits(words[at+5]), f32::from_bits(words[at+6]), f32::from_bits(words[at+7]));
         }
     }
 }

@@ -5205,7 +5205,7 @@ impl GpuSim {
     #[cfg(not(target_arch = "wasm32"))]
     pub async fn read_phase_words(&mut self) -> Vec<u32> {
         let start_words = crate::types::SCRATCH_U32 + 16 * self.count;
-        let word_count = 24 * 8 + 24 * 4 * self.count;
+        let word_count = 24 * 8 + 24 * 8 * self.count;
         let offset = u64::from(start_words) * 4;
         let size = u64::from(word_count) * 4;
         self.ensure_staging(size);

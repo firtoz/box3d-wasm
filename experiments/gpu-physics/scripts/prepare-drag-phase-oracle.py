@@ -23,6 +23,9 @@ static void drag_capture_phase(b3StepContext* context, int phase) {
         b3BodyState* state=context->states+i;
         fprintf(stderr,"CPUphase %d %d %d %.9g %.9g %.9g %u\\n",drag_trace_frame,phase,context->sims[i].bodyId,
             state->linearVelocity.x,state->linearVelocity.z,b3Length(state->angularVelocity),state->flags);
+        fprintf(stderr,"CPUvelocity %d %d %d %.9g %.9g %.9g %.9g %.9g %.9g\\n",drag_trace_frame,phase,context->sims[i].bodyId,
+            state->linearVelocity.x,state->linearVelocity.y,state->linearVelocity.z,
+            state->angularVelocity.x,state->angularVelocity.y,state->angularVelocity.z);
     }
 }
 '''
@@ -41,6 +44,16 @@ subprocess.run(['objcopy','--redefine-syms='+str(build/'libbox3d_cpu.syms'),str(
 fixture=(exp/'c_abi/both_drag_test.cpp').read_text()
 fixture=fixture.replace('#include <algorithm>','extern "C" { int drag_trace_frame = 0; void gpu_b3_world_dump_phases(b3WorldId, unsigned); }\n#include <algorithm>')
 fixture=fixture.replace('    b3World_Step(w, 1.f / 60, 4);','    drag_trace_frame = frame;\n    b3World_Step(w, 1.f / 60, 4);')
+fixture=fixture.replace('        both_pointer_move(target, ray);','''        both_pointer_move(target, ray);
+        const char* inputRange = std::getenv("DRAG_PHASE_RANGE");
+        int inputFirst=0,inputLast=0;
+        if (inputRange && std::sscanf(inputRange,"%d:%d",&inputFirst,&inputLast)==2 && frame>=inputFirst && frame<=inputLast) {
+          for (int engine=0; engine<2; ++engine) {
+            const auto pointer=both_pointer_state(engine);
+            fprintf(stderr,"DRAGinput %d %d fraction %.9g target %.9g %.9g %.9g\\n",frame,engine,
+                pointer.fraction,target.x+pointer.fraction*ray.x,target.y+pointer.fraction*ray.y,target.z+pointer.fraction*ray.z);
+          }
+        }''')
 fixture=fixture.replace('    dump();','''    const char* range = std::getenv("DRAG_PHASE_RANGE");
     int first=0,last=0;
     if (range && std::sscanf(range,"%d:%d",&first,&last)==2 && frame>=first && frame<=last)

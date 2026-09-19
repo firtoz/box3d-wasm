@@ -6,7 +6,7 @@ use crate::types::{BodyGpu, ContactGpu, SPECULATIVE_DISTANCE};
 pub const TRACE_MAGIC: &[u8; 4] = b"B3TR";
 pub const TRACE_VERSION: u32 = 4;
 pub const PHASE_PROBE_MAGIC: &[u8; 4] = b"B3PR";
-pub const PHASE_PROBE_VERSION: u32 = 1;
+pub const PHASE_PROBE_VERSION: u32 = 2;
 pub const PHASE_COUNT: u32 = 24;
 pub const PHASE_SUMMARY_WORDS: u32 = 8;
 
