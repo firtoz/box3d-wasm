@@ -512,6 +512,10 @@ console.log(runtime.getSlotUsage());
 console.log(runtime.getTreeSlotUsage());
 ```
 
+Use `world.getCounters()` for native body, shape and joint counts. `getSlotUsage()`
+only counts bridge pools; the Junkyard benchmark checks both world-object teardown
+and return of all bridge pools to their baseline.
+
 `createDynamicTree()` allocates from a private 16-tree pool (not part of `SlotLimits`). Filling it throws `SlotExhaustedError` with `kind: "trees"`.
 
 ```ts

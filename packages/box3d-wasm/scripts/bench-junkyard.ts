@@ -133,7 +133,7 @@ function hashTransforms(positions: Float32Array, rotations: Float32Array, count:
 }
 
 function usageKey(usage: SlotUsage): string {
-  return `w${usage.worlds}/b${usage.bodies}/j${usage.joints}/h${usage.hulls}/s${usage.shapes}/m${usage.meshes}/c${usage.compounds}/u${usage.humans}`;
+  return `w${usage.worlds}/h${usage.hulls}/m${usage.meshes}/c${usage.compounds}/u${usage.humans}/hf${usage.heightFields}`;
 }
 
 function publishDense(
@@ -264,12 +264,7 @@ async function main(): Promise<void> {
       `  restart ${restart + 1}: init=${initMs.toFixed(1)}ms bodies=${handles.length} usageBefore=${usageKey(usageBeforeDestroy)} usageAfter=${usageKey(usageAfterDestroy)}`,
     );
 
-    if (
-      usageAfterDestroy.bodies !== baselineUsage.bodies ||
-      usageAfterDestroy.shapes !== baselineUsage.shapes ||
-      usageAfterDestroy.worlds !== baselineUsage.worlds ||
-      usageAfterDestroy.joints !== baselineUsage.joints
-    ) {
+    if (usageKey(usageAfterDestroy) !== usageKey(baselineUsage)) {
       throw new Error(
         `Slot leak detected: after destroy ${usageKey(usageAfterDestroy)} != baseline ${usageKey(baselineUsage)}`,
       );
@@ -279,43 +274,46 @@ async function main(): Promise<void> {
   // Body-only destroy path: create small world, destroy bodies individually, then world.
   {
     const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
-    const before = runtime.getSlotUsage();
+    const before = world.getCounters();
     const bodies: BodyHandle[] = [];
     for (let i = 0; i < 64; i++) {
       const body = world.createBody({ type: BodyType.Dynamic, position: [i, 2, 0] });
       runtime.createHullShape(body, [0.5, 0.5, 0.5]);
       bodies.push(body);
     }
-    const mid = runtime.getSlotUsage();
+    const mid = world.getCounters();
     for (const body of bodies) {
       runtime.destroyBody(body);
     }
-    const afterBodies = runtime.getSlotUsage();
+    const afterBodies = world.getCounters();
     world.destroy();
     const afterWorld = runtime.getSlotUsage();
-    if (afterBodies.shapes > before.shapes || afterBodies.bodies > before.bodies) {
+    if (afterBodies.shapeCount !== before.shapeCount || afterBodies.bodyCount !== before.bodyCount) {
       throw new Error(
-        `Body-only destroy left slots: before=${usageKey(before)} mid=${usageKey(mid)} afterBodies=${usageKey(afterBodies)}`,
+        `Body-only destroy left objects: before=${JSON.stringify(before)} mid=${JSON.stringify(mid)} after=${JSON.stringify(afterBodies)}`,
       );
     }
-    if (afterWorld.shapes !== baselineUsage.shapes || afterWorld.bodies !== baselineUsage.bodies) {
+    if (usageKey(afterWorld) !== usageKey(baselineUsage)) {
       throw new Error(`World destroy after body-only destroy leaked: ${usageKey(afterWorld)}`);
     }
     console.log(`  body-only destroy OK (created ${bodies.length} boxes)`);
   }
 
-  // Freed handles reusable: allocate until shapes used, free world, allocate again.
+  // Recreating a world must reproduce native object counts and release bridge slots.
   {
     const first = buildJunkyard(runtime, 1);
-    const used = runtime.getSlotUsage().shapes;
+    const used = first.world.getCounters();
     first.world.destroy();
     const second = buildJunkyard(runtime, 1);
-    const used2 = runtime.getSlotUsage().shapes;
+    const used2 = second.world.getCounters();
     second.world.destroy();
-    if (used2 !== used) {
-      throw new Error(`Handle reuse mismatch: first shapes=${used} second shapes=${used2}`);
+    if (used2.bodyCount !== used.bodyCount || used2.shapeCount !== used.shapeCount || used2.jointCount !== used.jointCount) {
+      throw new Error(`World recreation mismatch: first=${JSON.stringify(used)} second=${JSON.stringify(used2)}`);
     }
-    console.log(`  handle reuse OK (shapes peaked at ${used})`);
+    if (usageKey(runtime.getSlotUsage()) !== usageKey(baselineUsage)) {
+      throw new Error("World recreation leaked bridge slots");
+    }
+    console.log(`  world recreation OK (${used.bodyCount} bodies, ${used.shapeCount} shapes)`);
   }
 
   if (!args.hashOnly) {

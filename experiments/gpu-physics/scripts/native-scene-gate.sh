@@ -14,38 +14,32 @@ OUT="${1:-$ROOT/native-scene-latest.json}"
 mkdir -p "$(dirname "$ART")"
 mkdir "$ART" # Refuse reuse: an old successful JSON must never survive a failed run.
 
-export __NV_PRIME_RENDER_OFFLOAD="${__NV_PRIME_RENDER_OFFLOAD:-1}"
-export __GLX_VENDOR_LIBRARY_NAME="${__GLX_VENDOR_LIBRARY_NAME:-nvidia}"
-export VK_DRIVER_FILES="${VK_DRIVER_FILES:-/usr/share/vulkan/icd.d/nvidia_icd.json}"
+# Keep the same adapter/cache choices as the interactive launcher.
 export GPU_SOKOL_SEED="${GPU_SOKOL_SEED:-52977}"
 export GPU_SOKOL_VILLAGE_DROP=0
-for variable in ${!GPU_PHYSICS_@}; do unset "$variable"; done
 
 python3 "$VALIDATE" --self-check
 python3 "$ROOT/scripts/test_gear_support.py"
 
-echo "building GPU physics + Sokol CPU/GPU samples"
-cargo build --release --manifest-path "$ROOT/Cargo.toml"
-cmake -S "$ROOT/native-samples" -B "$ROOT/native-samples/build-cpu" \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DGPU_SAMPLES=OFF \
-  -DBOTH_SAMPLES=OFF \
-  -DBOX3D_DIR="$REPO/box3d" \
-  -DGPU_PHYSICS_DIR="$ROOT"
-cmake -S "$ROOT/native-samples" -B "$ROOT/native-samples/build-gpu" \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DGPU_SAMPLES=ON \
-  -DBOTH_SAMPLES=OFF \
-  -DBOX3D_DIR="$REPO/box3d" \
-  -DGPU_PHYSICS_DIR="$ROOT"
-rm -f "$ROOT/native-samples/build-cpu/bin/samples_cpu" "$ROOT/native-samples/build-gpu/bin/samples_gpu"
-cmake --build "$ROOT/native-samples/build-cpu" --target samples_cpu -j"$(nproc)"
-cmake --build "$ROOT/native-samples/build-gpu" --target samples_gpu -j"$(nproc)"
-# Freeze executables for the entire matrix. A concurrent build must not change
-# later scenes after source-identity.txt recorded the original binary hashes.
+echo "building portable CPU/GPU samples with launcher defaults"
+python3 "$ROOT/scripts/run-native-samples.py" cpu --build-only --build-info "$ART/cpu-build.json"
+python3 "$ROOT/scripts/run-native-samples.py" gpu --build-only --build-info "$ART/gpu-build.json"
+# Freeze both binaries, and apply exactly the GPU launcher's runtime defaults.
 mkdir "$ART/bin"
-cp --reflink=auto "$ROOT/native-samples/build-cpu/bin/samples_cpu" "$ART/bin/samples_cpu"
-cp --reflink=auto "$ROOT/native-samples/build-gpu/bin/samples_gpu" "$ART/bin/samples_gpu"
+python3 - "$ART" <<'PYINFO'
+import json, shutil, sys
+from pathlib import Path
+out = Path(sys.argv[1])
+for mode in ('cpu', 'gpu'):
+    info = json.loads((out / f'{mode}-build.json').read_text())
+    shutil.copy2(info['binary'], out / 'bin' / f'samples_{mode}')
+PYINFO
+python3 - "$ART/gpu-build.json" > "$ART/gpu-runtime.env0" <<'PYENV'
+import json, sys
+for name, value in json.load(open(sys.argv[1]))['environment'].items():
+    sys.stdout.buffer.write(f'{name}={value}\0'.encode())
+PYENV
+while IFS= read -r -d '' setting; do export "$setting"; done < "$ART/gpu-runtime.env0"
 CPU_BIN="$ART/bin/samples_cpu"
 GPU_BIN="$ART/bin/samples_gpu"
 
@@ -55,6 +49,7 @@ GPU_BIN="$ART/bin/samples_gpu"
   echo "dirty=$(git -C "$REPO" status --porcelain | wc -l)"
   echo "box3d=$(git -C "$REPO/box3d" rev-parse HEAD)"
   echo "seed=$GPU_SOKOL_SEED"
+  cat "$ART/gpu-build.json"
   echo "cpu_bin=$(sha256sum "$CPU_BIN" | awk '{print $1}')"
   echo "gpu_bin=$(sha256sum "$GPU_BIN" | awk '{print $1}')"
   (cd "$ROOT" && find src shaders c_abi scripts native-samples Cargo.toml Cargo.lock \
@@ -67,7 +62,7 @@ SOURCE_SHA="$(sha256sum "$ART/source-identity.txt" | awk '{print $1}')"
 run_timeout() {
   local sec="$1"
   shift
-  if command -v xvfb-run >/dev/null 2>&1; then
+  if [[ -z "${DISPLAY:-}" ]] && command -v xvfb-run >/dev/null 2>&1; then
     timeout "$sec" xvfb-run -a "$@"
   else
     timeout "$sec" "$@"
@@ -81,8 +76,6 @@ run_bin() {
   set +e
   (
     export GPU_SOKOL_VILLAGE_DROP="$drop"
-    # Native support is checked without GPU experiment/diagnostic overrides.
-    for variable in ${!GPU_PHYSICS_@}; do unset "$variable"; done
     cd "$REPO/box3d"
     run_timeout "$timeout_s" "$bin" \
       --sample-name "$id" \
@@ -250,7 +243,8 @@ doc = {
     "unsupported": int(unsupported),
     "incomplete": int(incomplete),
     "cases": [json.loads(c) for c in cases],
-    "notes": "Library test counts are not native compatibility proof. Historical native-scene-v13 artifacts are stale.",
+    "build": json.load(open(art + "/gpu-build.json")),
+    "notes": "Portable launcher configuration recorded in build. Library test counts are not native compatibility proof.",
 }
 open(out, "w").write(json.dumps(doc, indent=2) + "\n")
 print(json.dumps(doc, indent=2))

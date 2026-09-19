@@ -343,6 +343,25 @@ def inject_sample(text: str) -> str:
     return text
 
 
+def inject_gpu_limitations(text: str) -> str:
+    warm = 'ImGui::Checkbox( "Warm Starting##Solver", &context->enableWarmStarting );'
+    require(text, warm, 'unsupported warm-start control')
+    text = text.replace(warm, 'ImGui::TextDisabled( "Warm starting: always enabled on GPU" );')
+    workers = 'if ( ImGui::SliderInt( "Workers##Solver", &context->workerCount, 1, B3_MAX_WORKERS ) )'
+    require(text, workers, 'GPU worker control')
+    text = text.replace(workers, '#if defined(BOTH_SAMPLES)\n'
+                        '\t\tconst bool workersChanged = ImGui::SliderInt( "CPU Workers##Solver", &context->workerCount, 1, B3_MAX_WORKERS );\n'
+                        '#else\n'
+                        '\t\tImGui::TextDisabled( "GPU scheduling is automatic" );\n'
+                        '\t\tconst bool workersChanged = false;\n'
+                        '#endif\n\t\tif ( workersChanged )')
+    recording = 'if ( context->sample->HasSolverControls() && ImGui::CollapsingHeader( "Recording", ImGuiTreeNodeFlags_DefaultOpen ) )'
+    require(text, recording, 'unsupported recording control')
+    text = text.replace(recording, 'ImGui::TextDisabled( "Recording unavailable with GPU physics" );\n'
+                        '\t' + recording.replace('if ( ', 'if ( false && ', 1))
+    return text
+
+
 def inject_joint(text: str) -> str:
     start = text.index("class GearLift : public Sample")
     end = text.index("static int sampleGearLift", start)
@@ -393,6 +412,7 @@ def main() -> int:
             raise SystemExit("sokol-bench inject: --sample-dst required with --sample-src")
         sample_text = inject_sample(Path(args.sample_src).read_text())
         if args.gpu_sidebar:
+            sample_text = inject_gpu_limitations(sample_text)
             needle = (
                 'ImGui::TextColored( HexColor( b3_colorSeaGreen ), "step %d", context->sample->m_stepCount );\n'
                 "\tImGui::Separator();"

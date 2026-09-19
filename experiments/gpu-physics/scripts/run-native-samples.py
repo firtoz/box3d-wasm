@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build native samples without assuming a shell, GPU vendor or driver path."""
 import argparse
+import json
 import os
 from pathlib import Path
 import platform
@@ -27,6 +28,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('mode', choices=('cpu', 'gpu', 'both'))
     parser.add_argument('--build-only', action='store_true', help='Compile without launching a window')
+    parser.add_argument('--build-info', type=Path, help='Write executable, library and runtime environment metadata after a successful build')
     args, extra = parser.parse_known_args()
     env = os.environ.copy()
     system = platform.system()
@@ -68,6 +70,14 @@ def main():
     for i, arg in enumerate(extra[:-1]):
         if arg == '--bench-json':
             extra[i+1] = str(Path(extra[i+1]).resolve())
+    if args.build_info:
+        args.build_info.parent.mkdir(parents=True, exist_ok=True)
+        args.build_info.write_text(json.dumps({
+            'mode': args.mode, 'native_cache': cache, 'build_dir': str(build),
+            'binary': str(binary), 'rust_library': str(library) if args.mode != 'cpu' else None,
+            'environment': {key: value for key, value in env.items()
+                            if key.startswith(('GPU_PHYSICS_', 'WGPU_', 'VK_', '__NV_', '__GLX_'))},
+        }, indent=2) + '\n')
     if args.build_only:
         print(f'Built {binary}', flush=True)
         return 0

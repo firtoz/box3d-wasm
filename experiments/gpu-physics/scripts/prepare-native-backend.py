@@ -20,6 +20,11 @@ hook = json.loads((patches / 'backend-hook.json').read_text())
 queue_hooks = json.loads((patches / 'queue-hooks.json').read_text())
 physics_replay = json.loads((patches / 'physics-replay.json').read_text())
 
+def write_changed(path, contents):
+    if not path.exists() or path.read_text() != contents:
+        path.write_text(contents)
+
+
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -72,7 +77,7 @@ cargo = out / 'wgpu-hal/Cargo.toml'
 contents = cargo.read_text()
 section = '\n[dependencies.gpu-spirv-layout]\n'
 contents = contents.split(section)[0]
-cargo.write_text(contents + section + 'path = ' + json.dumps(str(root / 'compiler/spirv-layout')) + '\n')
+write_changed(cargo, contents + section + 'path = ' + json.dumps(str(root / 'compiler/spirv-layout')) + '\n')
 config = out / 'cargo-config.toml'
-config.write_text('[patch.crates-io]\n' + ''.join(item['name'] + ' = { path = ' + json.dumps(str(out / item['name'])) + ' }\n' for item in manifest))
+write_changed(config, '[patch.crates-io]\n' + ''.join(item['name'] + ' = { path = ' + json.dumps(str(out / item['name'])) + ' }\n' for item in manifest))
 print(config)

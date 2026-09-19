@@ -1,6 +1,6 @@
 {
   "cpu_win_validated": false,
-  "notes": "Category-qualified native scenes. Village uses an explicit sphere drop on unchanged geometry for 600-step support/trajectory checks. No CPU-win claim.",
+  "notes": "Category-qualified native regression scenes. Observation fields describe the original bug reports, not current results; use a fresh native scene gate report for status. Village uses an explicit sphere drop on unchanged geometry for 600-step support/trajectory checks. No CPU-win claim.",
   "scenes": [
     {
       "id": "Joints/Motion Locks",

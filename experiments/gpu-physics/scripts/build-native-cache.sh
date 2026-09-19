@@ -21,7 +21,9 @@ for child in root.iterdir():
     link = work / child.name
     if not link.exists():
         link.symlink_to(child, target_is_directory=child.is_dir())
-(work / 'Cargo.toml').write_text((root / 'Cargo.toml').read_text() + '\n[workspace]\n')
+manifest = (root / 'Cargo.toml').read_text() + '\n[workspace]\n'
+if not (work / 'Cargo.toml').exists() or (work / 'Cargo.toml').read_text() != manifest:
+    (work / 'Cargo.toml').write_text(manifest)
 if not (work / 'Cargo.lock').exists():
     (work / 'Cargo.lock').write_bytes((root / 'Cargo.lock').read_bytes())
 link = base / 'box3d'

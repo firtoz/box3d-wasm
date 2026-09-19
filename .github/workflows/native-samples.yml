@@ -13,11 +13,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            cache: '0'
+          - os: ubuntu-latest
+            cache: '1'
+          - os: macos-latest
+            cache: '0'
+          - os: windows-latest
+            cache: '0'
+    name: ${{ matrix.os }} (native cache ${{ matrix.cache }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 40
     env:
-      GPU_PHYSICS_SAMPLES_NATIVE_CACHE: '0'
+      GPU_PHYSICS_SAMPLES_NATIVE_CACHE: ${{ matrix.cache }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -46,4 +55,10 @@ jobs:
         run: bun run samples:gpu --build-only
       - name: Build independent CPU/GPU samples
         run: bun run samples:both --build-only
+      - name: Audit built native API coverage
+        run: python experiments/gpu-physics/scripts/audit-native-api.py --require-built
+      - name: Compile cached-backend library tests
+        if: matrix.cache == '1'
+        working-directory: experiments/gpu-physics
+        run: ./scripts/build-native-cache.sh test --release --lib --no-run
       # Hosted runners do not establish physical GPU correctness/performance.
