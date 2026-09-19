@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
+#include "native_clock.h"
 
 /* One public parent plus children must fit the packed 16-bit shape space.
    Shared mesh instances avoid duplicating geometry for each compound child. */
@@ -187,9 +188,7 @@ static void mirror_hull(b3ShapeId id, const b3HullData* hull)
 
 static double monotonic_milliseconds(void)
 {
-	struct timespec now;
-	clock_gettime(CLOCK_MONOTONIC, &now);
-	return 1000.0 * (double)now.tv_sec + 1.0e-6 * (double)now.tv_nsec;
+	return (double)gpu_monotonic_ns() * 1.0e-6;
 }
 
 float gpu_samples_last_gpu_step_ms(void)

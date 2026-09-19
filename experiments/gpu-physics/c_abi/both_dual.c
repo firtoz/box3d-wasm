@@ -7,14 +7,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "native_clock.h"
 
 static float g_gpu_step_ms;
 
 static double monotonic_milliseconds(void)
 {
-	struct timespec now;
-	clock_gettime(CLOCK_MONOTONIC, &now);
-	return 1000.0 * (double)now.tv_sec + 1.0e-6 * (double)now.tv_nsec;
+	return (double)gpu_monotonic_ns() * 1.0e-6;
 }
 
 float gpu_samples_last_gpu_step_ms(void)
@@ -620,7 +619,7 @@ extern void cpu_b3Body_SetTargetTransform(b3BodyId bodyId, b3WorldTransform targ
 extern void cpu_b3Shape_SetName(b3ShapeId shapeId, const char* name);
 extern const char* cpu_b3Shape_GetName(b3ShapeId shapeId);
 
-__attribute__((constructor)) static void both_banner(void)
+static void both_banner(void)
 {
 	fprintf(stderr, "samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.\n");
 }
@@ -838,6 +837,8 @@ extern void gpu_b3_body_set_name(b3BodyId, const char*);
 extern void gpu_b3_body_set_sleep_threshold(b3BodyId, float);
 B3_API b3WorldId b3CreateWorld(const b3WorldDef* def)
 {
+	static bool banner_shown;
+	if (!banner_shown) { both_banner(); banner_shown = true; }
 	if (!def)
 	{
 		return (b3WorldId){0};

@@ -1,0 +1,49 @@
+name: Native samples portability
+on:
+  pull_request:
+    paths:
+      - 'experiments/gpu-physics/**'
+      - '.github/workflows/native-samples.yml'
+      - 'box3d'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
+    env:
+      GPU_PHYSICS_SAMPLES_NATIVE_CACHE: '0'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install Linux build dependencies
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev libx11-dev libxi-dev libxcursor-dev libgtk-3-dev llvm
+      - name: Install macOS LLVM archive tools
+        if: runner.os == 'macOS'
+        run: |
+          brew install llvm
+          echo "$(brew --prefix llvm)/bin" >> "$GITHUB_PATH"
+      - name: Expose Windows LLVM archive tools
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: '"C:\Program Files\LLVM\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append'
+      - name: Check launcher and API generation
+        run: python experiments/gpu-physics/scripts/test-native-portability.py
+      - name: Build CPU samples
+        run: bun run samples:cpu --build-only
+      - name: Build GPU samples
+        run: bun run samples:gpu --build-only
+      - name: Build independent CPU/GPU samples
+        run: bun run samples:both --build-only
+      # Hosted runners do not establish physical GPU correctness/performance.

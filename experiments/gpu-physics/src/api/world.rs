@@ -3765,6 +3765,11 @@ pub fn b3_world_pose_export_live(id: WorldId) -> bool {
 }
 
 #[cfg(not(target_arch = "wasm32"))]
+pub fn b3_world_pose_export_uuid(id: WorldId) -> Option<[u8; 16]> {
+    with_world_no_sync(id, |w| w.sim.as_ref().and_then(|sim| sim.pose_export_uuid())).flatten()
+}
+
+#[cfg(not(target_arch = "wasm32"))]
 pub fn b3_world_pose_export(id: WorldId) -> crate::pose_gl::PoseExportC {
     with_world_mut_no_sync(id, |w| {
         if let Some(sim) = w.sim.as_ref() {

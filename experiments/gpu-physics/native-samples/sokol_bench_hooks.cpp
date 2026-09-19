@@ -3,8 +3,10 @@
 
 #include "box3d/box3d.h"
 #include "sample.h"
+#include "sokol_app.h"
 
 #include <cstdint>
+#include <chrono>
 #include <filesystem>
 #include <math.h>
 #include <inttypes.h>
@@ -55,6 +57,8 @@ enum
 struct FrameRec
 {
 	char sample[128];
+	int framebuffer_width;
+	int framebuffer_height;
 	GpuContactMetrics gpu_contacts;
 	bool contact_count_known;
 	uint64_t cadence_ns;
@@ -210,6 +214,7 @@ static void configure_bench_swap_interval()
     if (!g_active || g_swap_configured) return;
     g_swap_configured = true;
 #if defined(__linux__)
+    fprintf(stderr, "sokol-renderer: %s / %s; framebuffer=%dx%d\n", reinterpret_cast<const char*>(glGetString(GL_VENDOR)), reinterpret_cast<const char*>(glGetString(GL_RENDERER)), sapp_width(), sapp_height());
     void* library = dlopen("libGL.so.1", RTLD_LAZY | RTLD_LOCAL);
     if (!library) return;
     auto currentDisplay = reinterpret_cast<Display* (*)()>(dlsym(library, "glXGetCurrentDisplay"));
@@ -263,9 +268,8 @@ static uint64_t g_health_ns;
 
 static uint64_t now_ns(void)
 {
-	struct timespec ts;
-	clock_gettime(CLOCK_MONOTONIC, &ts);
-	return (uint64_t)ts.tv_sec * 1000000000ull + (uint64_t)ts.tv_nsec;
+	return (uint64_t)std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::steady_clock::now().time_since_epoch()).count();
 }
 
 static double pctl(uint64_t* v, int n, double q)
@@ -557,6 +561,8 @@ void gpu_sokol_bench_begin_frame(void)
 	g_mark_ns = t;
 	g_mark_phase = "entry";
 	g_acc = FrameRec{};
+	g_acc.framebuffer_width = sapp_width();
+	g_acc.framebuffer_height = sapp_height();
 	if (g_last_entry != 0 && g_frame >= g_warmup && g_measured < g_timed)
 	{
 		g_acc.cadence_ns = t - g_last_entry;
@@ -908,7 +914,7 @@ void gpu_sokol_bench_finish(int frames, int sokol_errors, const char* sample_nam
             (unsigned long long)m.snapshot_state,(unsigned long long)m.current_state,
             m.candidate_pairs,m.allocated_roots,m.allocated_manifold_slots,m.touching_roots,m.non_sensor_roots);
         fprintf(f,
-			",\"i\":%d,\"cadence_ms\":%.4f,\"physics_ms\":%.4f,\"setters_ms\":%.4f,\"profile_ms\":%.4f,"
+			",\"i\":%d,\"framebuffer_width\":%d,\"framebuffer_height\":%d,\"cadence_ms\":%.4f,\"physics_ms\":%.4f,\"setters_ms\":%.4f,\"profile_ms\":%.4f,"
 			"\"pick_ms\":%.4f,\"draw_ms\":%.4f,\"render_ms\":%.4f,\"ui_ms\":%.4f,\"commit_ms\":%.4f,"
 			"\"limiter_ms\":%.4f,\"submitted_step\":%d,\"completed_step\":%d,\"rendered_pose\":%d,"
 			"\"in_flight\":%d,\"pause\":%s,\"single_step\":%s,"
@@ -918,6 +924,8 @@ void gpu_sokol_bench_finish(int frames, int sokol_errors, const char* sample_nam
 			"\"worst_body\":%d,\"min_y\":%.4f,\"max_y\":%.4f,\"max_speed\":%.4f,\"exploded\":%s,"
 			"\"health_ms\":%.4f,\"bodies\":[",
 			i,
+			r.framebuffer_width,
+			r.framebuffer_height,
 			r.cadence_ns / 1e6,
 			r.physics_ns / 1e6,
 			r.setters_ns / 1e6,

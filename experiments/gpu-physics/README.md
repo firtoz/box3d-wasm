@@ -122,6 +122,18 @@ bun run samples:gpu    # this crate behind box3d.h
 bun run samples:both   # CPU left / GPU right, same step
 ```
 
+GPU and combined sample applications automatically select a compatible hardware
+adapter and backend: cached Vulkan on Linux when its build tools are available,
+ordinary Metal on macOS, and ordinary DX12 on Windows. Set
+`GPU_PHYSICS_SAMPLES_NATIVE_CACHE=0` to opt out of caching. AMD/Intel/NVIDIA/Apple
+selection uses capabilities rather than a vendor requirement; optional adapter,
+backend and power-preference overrides are available. See the
+[platform requirements, overrides and validation limits](compiler/native-backend/README.md#upstream-sokol-sample-application).
+Mac/Windows build support has a CI matrix; their physical GPU execution is not
+verified from this Linux host. Direct Cargo builds remain ordinary builds.
+The direct native renderer's CPU-win qualification does not establish a Sokol
+application win on other devices or with automatic graphics-adapter selection.
+
 `samples:both` starts in split view: CPU on the left, GPU on the right. The bottom-left checkbox restores the overlapping view. Both panes use one camera and one sample controller, so camera gestures, scene selection, keyboard controls, settings, pause (`p`) and single-step stay synchronized. Mesh resources are shared; poses and per-view instance streams are independent. Each pane renders the same submitted physics step; Sokol still uses CPU pose snapshots, with one graphics commit/present for the two panes.
 
 In split view, click selects independently and **Ctrl + left-drag** grabs independently. Pane-relative cursor coordinates produce the same world ray for both engines; each engine keeps its own hit body, local anchor, hit depth, mass and motor joint. Moving over the divider does not wrap the drag. A colored plus cursor marks the corresponding location in the other pane, with a ring while pressed; it is hidden outside the window and over UI unless a gesture is captured. A miss on one engine leaves only that side ungrabbed. Releasing over the UI, losing focus, changing mode or destroying the world releases the comparison drag. Door's Ctrl-click impulse likewise uses each engine's own hit point. Other sample-specific controls retain the shared sample controller's existing behavior; this is not two isolated copies of the sample's event/query logic. The inspector remains GPU-led. Motor joints reapply their cached linear and angular impulses during the warm-start wave, then solve during the ordinary waves. `scripts/check-both-pointer.sh` checks 600 held steps against CPU motion with independent hit depths (position and quaternion components within 5e-4), as well as release, misses, pause and viewport mapping.

@@ -6,6 +6,7 @@ mkdir -p target
 # One preparation/build at a time; ordinary source and Cargo.lock stay untouched.
 exec 9>target/native-cache-build.lock
 flock 9
+cargo fetch --locked --manifest-path "$root/Cargo.toml"
 python3 scripts/prepare-native-backend.py
 python3 - "$root" <<'PY'
 from pathlib import Path

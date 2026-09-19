@@ -19,6 +19,8 @@ path = "src/main.rs"
 replay-diagnostics = ["dep:serde", "dep:serde_json"]
 # Requires the isolated pinned backend extension; not selected by ordinary builds.
 native-command-cache = []
+# Samples compile the C shim separately, selecting API definitions portably.
+external-c-shim = []
 
 [dependencies]
 serde = { version = "1", features = ["derive"], optional = true }

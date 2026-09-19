@@ -2,18 +2,24 @@
 
 use std::os::raw::c_char;
 
+#[cfg(target_os="linux")]
 use ash::vk;
+#[cfg(target_os="linux")]
 use wgpu::hal::api::Vulkan;
-use wgpu::{Buffer, BufferUsages, Device};
+use wgpu::{Buffer, Device};
+#[cfg(target_os="linux")]
+use wgpu::BufferUsages;
 
 pub struct PoseExportBuf {
     pub buffer: Buffer,
     pub size: u64,
     pub fd: i32,
+    pub device_uuid: [u8; 16],
 }
 
 impl Drop for PoseExportBuf {
     fn drop(&mut self) {
+        #[cfg(target_os="linux")]
         if self.fd >= 0 {
             let _ = unsafe { libc::close(self.fd) };
             self.fd = -1;
@@ -21,13 +27,14 @@ impl Drop for PoseExportBuf {
     }
 }
 
+#[cfg(target_os="linux")]
 pub fn try_create_export_buffer(device: &Device, size: u64) -> Option<PoseExportBuf> {
     if size == 0 {
         return None;
     }
     let size = size.max(256).next_multiple_of(256);
     let created = unsafe { create_vk_export_buffer(device, size) };
-    let (hal_buffer, fd) = created?;
+    let (hal_buffer, fd, device_uuid) = created?;
     let buffer = unsafe {
         device.create_buffer_from_hal::<Vulkan>(
             hal_buffer,
@@ -40,10 +47,11 @@ pub fn try_create_export_buffer(device: &Device, size: u64) -> Option<PoseExport
         )
     };
     eprintln!("GPU pose export: Vulkan opaque FD {fd} ({size} bytes)");
-    Some(PoseExportBuf { buffer, size, fd })
+    Some(PoseExportBuf { buffer, size, fd, device_uuid })
 }
 
-unsafe fn create_vk_export_buffer(device: &Device, size: u64) -> Option<(wgpu::hal::vulkan::Buffer, i32)> {
+#[cfg(target_os="linux")]
+unsafe fn create_vk_export_buffer(device: &Device, size: u64) -> Option<(wgpu::hal::vulkan::Buffer, i32, [u8; 16])> {
     let hal = unsafe { device.as_hal::<Vulkan>() }?;
     let extensions = hal.enabled_device_extensions();
     if !extensions
@@ -121,7 +129,10 @@ unsafe fn create_vk_export_buffer(device: &Device, size: u64) -> Option<(wgpu::h
         }
     };
     let hal_buffer = unsafe { wgpu::hal::vulkan::Buffer::from_raw_managed(vk_buffer, memory, 0, size) };
-    Some((hal_buffer, fd))
+    let mut ids = vk::PhysicalDeviceIDProperties::default();
+    let mut properties = vk::PhysicalDeviceProperties2::default().push_next(&mut ids);
+    unsafe { instance.get_physical_device_properties2(phys, &mut properties) };
+    Some((hal_buffer, fd, ids.device_uuid))
 }
 
 #[repr(C)]
@@ -143,3 +154,6 @@ pub const POSE_EXPORT_CPU: u32 = 2;
 pub fn export_label() -> *const c_char {
     b"vk-gl\0".as_ptr().cast()
 }
+
+#[cfg(not(target_os="linux"))]
+pub fn try_create_export_buffer(_device: &Device, _size: u64) -> Option<PoseExportBuf> { None }

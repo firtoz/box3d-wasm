@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <time.h>
+#include "native_clock.h"
 
 #define GPU_SAMPLES_WORLD_CAP 64
 #define GPU_SAMPLES_SHAPE_CAP 65536
@@ -50,9 +51,7 @@ float gpu_samples_last_import_ms(void)
 
 static uint64_t monotonic_ns(void)
 {
-	struct timespec t;
-	clock_gettime(CLOCK_MONOTONIC, &t);
-	return (uint64_t)t.tv_sec * 1000000000ull + (uint64_t)t.tv_nsec;
+	return gpu_monotonic_ns();
 }
 
 static float duration_ms_from_ns(uint64_t start_ns, uint64_t end_ns)
@@ -393,7 +392,8 @@ typedef struct GpuPoseExport
 } GpuPoseExport;
 
 extern GpuPoseExport gpu_b3_world_pose_export(b3WorldId worldId);
-extern void gpu_gl_import_pose_fd(int fd, uint64_t size);
+extern bool gpu_b3_world_pose_export_uuid(b3WorldId worldId, uint8_t* uuid);
+extern void gpu_gl_import_pose_fd(int fd, uint64_t size, const uint8_t* uuid);
 extern bool gpu_gl_poses_imported(void);
 
 void gpu_samples_world_draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskBits)
@@ -407,9 +407,10 @@ void gpu_samples_world_draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskB
 	if (!gpu_gl_poses_imported())
 	{
 		GpuPoseExport exp = gpu_b3_world_pose_export(worldId);
-		if (exp.mode == 1 && exp.fd >= 0)
+		uint8_t uuid[16];
+		if (exp.mode == 1 && exp.fd >= 0 && gpu_b3_world_pose_export_uuid(worldId, uuid))
 		{
-			gpu_gl_import_pose_fd(exp.fd, exp.size);
+			gpu_gl_import_pose_fd(exp.fd, exp.size, uuid);
 		}
 	}
 	g_last_import_ms = duration_ms_from_ns(t_import, monotonic_ns());

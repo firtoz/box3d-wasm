@@ -5,9 +5,9 @@
   "scripts": {
     "compare": "vite",
     "refresh-compare": "bun scripts/refresh-compare.ts",
-    "samples:cpu": "bash scripts/run-native-samples.sh cpu",
-    "samples:gpu": "bash scripts/run-native-samples.sh gpu",
-    "samples:both": "bash scripts/run-native-samples.sh both",
+    "samples:cpu": "bun scripts/run-native-samples.ts cpu",
+    "samples:gpu": "bun scripts/run-native-samples.ts gpu",
+    "samples:both": "bun scripts/run-native-samples.ts both",
     "correctness": "bash scripts/correctness-gate.sh"
   },
   "devDependencies": {

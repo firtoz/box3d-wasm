@@ -4,6 +4,12 @@ Research reports, captures, benchmark JSON, and recordings are local ignored out
 
 Greenfield engine in [`experiments/gpu-physics/`](../experiments/gpu-physics/): Rust + wgpu + WGSL. **Box3D C is not patched.** It is a visual/timing reference (compare-grid CPU column), not a per-frame lock-step oracle.
 
+The real Sokol GPU/combined sample apps select compatible GPUs without a vendor
+requirement. They prefer cached Vulkan on Linux and ordinary Metal/DX12 on
+macOS/Windows; `GPU_PHYSICS_SAMPLES_NATIVE_CACHE=0` opts out of caching. Platform
+requirements, overrides, validation limits and comparisons are documented in the
+[native backend application guide](../experiments/gpu-physics/compiler/native-backend/README.md#upstream-sokol-sample-application).
+
 The split viewer displays a mirrored plus cursor (ring while pressed) at the same pane-local pixel position. Drag motor joints now warm-start by reapplying cached impulses, fixing the loss of sustained support force. The independent-depth drag regression compares CPU/GPU poses throughout a 600-step hold within 5e-4, without copying either simulation’s poses to the other.
 
 Native API completeness is a separate requirement from the scene/performance milestone. Run `python experiments/gpu-physics/scripts/audit-native-api.py --require-complete` to inventory remaining dummy APIs and CPU-only comparison passthroughs; it intentionally fails while coverage is incomplete. The source inventory is not a semantic compatibility certificate. `experiments/gpu-physics/scripts/check-api-settings.sh` exercises public C linkage in GPU-only and dual builds, including creation defaults, owned body names, sleep settings, shape mass, independent joint getters, local joint frames, and velocity-based target transforms. Per-body sleep thresholds occupy an existing scene-heap word and are applied by the GPU integrator. World contact tuning reaches both creation and runtime parameters. Explicit dual wrappers take precedence over generated CPU passthroughs automatically.

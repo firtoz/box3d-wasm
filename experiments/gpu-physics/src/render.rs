@@ -324,6 +324,7 @@ impl Renderer {
         // must not leave an unconsumed ready semaphore behind.
         #[cfg(feature = "native-command-cache")]
         let mut early_output = if self.overlap_requested || (self.render_bridge.is_some() && !self.late_acquire) { Some(self.surface.get_current_texture()?) } else { None };
+        #[cfg(target_os = "linux")]
         if self.overlap_requested && self.overlap.is_none() {
             let source=self.staged_source.as_ref().expect("overlap requires split adapter");
             let (state,cold,count)=b3_world_render_buffers(world).expect("seed render state");

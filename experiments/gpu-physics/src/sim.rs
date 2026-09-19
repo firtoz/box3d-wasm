@@ -10,7 +10,7 @@ use wgpu::{
     Device, Instance, InstanceDescriptor, Queue, ShaderModule, Surface,
 };
 
-use crate::adapter::{pick_adapter, AdapterReport};
+use crate::adapter::{pick_adapters, AdapterReport};
 #[cfg(not(target_arch = "wasm32"))]
 use crate::types::BroadphaseStats;
 use crate::types::{
@@ -108,93 +108,115 @@ impl GpuDevice {
         Self::from_instance_mode(Self::instance_new(), surface, true).await
     }
 
-    pub(crate) async fn from_instance_mode(instance: Instance, surface: Option<&Surface<'_>>, secondary: bool) -> Result<Self, String> {
-        let (adapter, report) = pick_adapter(&instance, surface).await?;
-        log::info!("GPU adapter: {}", report.summary_line());
-        eprintln!("GPU adapter: {}", report.summary_line());
+    pub(crate) async fn from_instance_mode(
+        instance: Instance,
+        surface: Option<&Surface<'_>>,
+        secondary: bool,
+    ) -> Result<Self, String> {
+        let candidates = pick_adapters(&instance, surface).await?;
+        let mut failures = Vec::new();
+        for (adapter, report) in candidates {
+            log::info!("GPU adapter: {}", report.summary_line());
+            eprintln!("GPU adapter: {}", report.summary_line());
 
-        let limits = if cfg!(target_arch = "wasm32") {
-            wgpu::Limits::downlevel_defaults().using_resolution(adapter.limits())
-        } else {
-            let supported = adapter.limits();
-            wgpu::Limits {
-                max_storage_buffer_binding_size: supported.max_storage_buffer_binding_size,
-                max_buffer_size: supported.max_buffer_size,
-                max_storage_buffers_per_shader_stage: supported
-                    .max_storage_buffers_per_shader_stage
-                    .max(10),
-                max_compute_workgroup_storage_size: supported.max_compute_workgroup_storage_size.min(32768),
-                max_compute_workgroup_size_x: supported.max_compute_workgroup_size_x,
-                max_compute_invocations_per_workgroup: supported
-                    .max_compute_invocations_per_workgroup,
-                ..wgpu::Limits::default()
+            let limits = if cfg!(target_arch = "wasm32") {
+                wgpu::Limits::downlevel_defaults().using_resolution(adapter.limits())
+            } else {
+                crate::adapter::required_limits(&adapter.limits())
+            };
+            let mut features = wgpu::Features::empty();
+            let af = adapter.features();
+            if af.contains(wgpu::Features::TIMESTAMP_QUERY) {
+                features |= wgpu::Features::TIMESTAMP_QUERY;
             }
-        };
-        let mut features = wgpu::Features::empty();
-        let af = adapter.features();
-        if af.contains(wgpu::Features::TIMESTAMP_QUERY) {
-            features |= wgpu::Features::TIMESTAMP_QUERY;
-        }
-        if af.contains(wgpu::Features::TIMESTAMP_QUERY_INSIDE_ENCODERS) {
-            features |= wgpu::Features::TIMESTAMP_QUERY_INSIDE_ENCODERS;
-        }
-        if af.contains(wgpu::Features::SUBGROUP) {
-            features |= wgpu::Features::SUBGROUP;
-        }
-        #[cfg(not(target_arch = "wasm32"))]
-        if std::env::var_os("GPU_PHYSICS_PIPELINE_CACHE_DIR").is_some() && af.contains(wgpu::Features::PIPELINE_CACHE) {
-            features |= wgpu::Features::PIPELINE_CACHE;
-        }
-        #[cfg(not(target_arch = "wasm32"))]
-        if adapter.get_info().backend == wgpu::Backend::Vulkan && af.contains(wgpu::Features::SPIRV_SHADER_PASSTHROUGH) {
-            features |= wgpu::Features::SPIRV_SHADER_PASSTHROUGH;
-        }
-        let descriptor = wgpu::DeviceDescriptor {
-            label: Some("gpu-physics-device"), required_features: features,
-            required_limits: limits, memory_hints: wgpu::MemoryHints::MemoryUsage,
-            trace: wgpu::Trace::Off,
-        };
-        #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
-        let (device, queue, secondary_queue) = if secondary {
-            let (device, queue, extra) = crate::native_async::open_device(&adapter, &descriptor)?;
-            (device, queue, Some(extra))
-        } else {
-            let (device, queue) = adapter.request_device(&descriptor).await
-                .map_err(|e| format!("request_device failed: {e}"))?;
-            (device, queue, None)
-        };
-        #[cfg(not(all(feature = "native-command-cache", not(target_arch = "wasm32"))))]
-        let (device, queue) = {
-            debug_assert!(!secondary);
-            adapter.request_device(&descriptor).await
-                .map_err(|e| format!("request_device failed: {e}"))?
-        };
-        if features.contains(wgpu::Features::SUBGROUP) {
-            eprintln!("GPU features: subgroups");
-        }
-        eprintln!(
-            "GPU limits: storage bind {:.1} MiB, buffer {:.1} MiB",
-            f64::from(device.limits().max_storage_buffer_binding_size) / (1024.0 * 1024.0),
-            device.limits().max_buffer_size as f64 / (1024.0 * 1024.0),
-        );
-
-        device.on_uncaptured_error(Box::new(|err| {
-            log::error!("uncaptured WebGPU error: {err:?}");
-            eprintln!("uncaptured WebGPU error: {err}");
-        }));
-
-        Ok(Self {
-            instance,
-            adapter,
-            device,
-            queue,
-            report,
-            timestamp_queries: features.contains(wgpu::Features::TIMESTAMP_QUERY)
-                && features.contains(wgpu::Features::TIMESTAMP_QUERY_INSIDE_ENCODERS),
-            subgroups: features.contains(wgpu::Features::SUBGROUP),
+            if af.contains(wgpu::Features::TIMESTAMP_QUERY_INSIDE_ENCODERS) {
+                features |= wgpu::Features::TIMESTAMP_QUERY_INSIDE_ENCODERS;
+            }
+            if af.contains(wgpu::Features::SUBGROUP) {
+                features |= wgpu::Features::SUBGROUP;
+            }
+            #[cfg(not(target_arch = "wasm32"))]
+            if std::env::var_os("GPU_PHYSICS_PIPELINE_CACHE_DIR").is_some()
+                && af.contains(wgpu::Features::PIPELINE_CACHE)
+            {
+                features |= wgpu::Features::PIPELINE_CACHE;
+            }
+            #[cfg(not(target_arch = "wasm32"))]
+            if adapter.get_info().backend == wgpu::Backend::Vulkan
+                && af.contains(wgpu::Features::SPIRV_SHADER_PASSTHROUGH)
+            {
+                features |= wgpu::Features::SPIRV_SHADER_PASSTHROUGH;
+            }
+            let descriptor = wgpu::DeviceDescriptor {
+                label: Some("gpu-physics-device"),
+                required_features: features,
+                required_limits: limits,
+                memory_hints: wgpu::MemoryHints::MemoryUsage,
+                trace: wgpu::Trace::Off,
+            };
             #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
-            secondary_queue,
-        })
+            let (device, queue, secondary_queue) = if secondary {
+                match crate::native_async::open_device(&adapter, &descriptor) {
+                    Ok((device, queue, extra)) => (device, queue, Some(extra)),
+                    Err(error) => {
+                        eprintln!("GPU device creation failed on {}: {error}; trying the next eligible adapter", report.summary_line());
+                        failures.push(format!("{}: {error}", report.summary_line()));
+                        continue;
+                    }
+                }
+            } else {
+                match adapter.request_device(&descriptor).await {
+                    Ok((device, queue)) => (device, queue, None),
+                    Err(error) => {
+                        eprintln!("GPU device creation failed on {}: {error}; trying the next eligible adapter", report.summary_line());
+                        failures.push(format!("{}: {error}", report.summary_line()));
+                        continue;
+                    }
+                }
+            };
+            #[cfg(not(all(feature = "native-command-cache", not(target_arch = "wasm32"))))]
+            let (device, queue) = {
+                debug_assert!(!secondary);
+                match adapter.request_device(&descriptor).await {
+                    Ok(result) => result,
+                    Err(error) => {
+                        eprintln!("GPU device creation failed on {}: {error}; trying the next eligible adapter", report.summary_line());
+                        failures.push(format!("{}: {error}", report.summary_line()));
+                        continue;
+                    }
+                }
+            };
+            if features.contains(wgpu::Features::SUBGROUP) {
+                eprintln!("GPU features: subgroups");
+            }
+            eprintln!(
+                "GPU limits: storage bind {:.1} MiB, buffer {:.1} MiB",
+                f64::from(device.limits().max_storage_buffer_binding_size) / (1024.0 * 1024.0),
+                device.limits().max_buffer_size as f64 / (1024.0 * 1024.0),
+            );
+
+            device.on_uncaptured_error(Box::new(|err| {
+                log::error!("uncaptured WebGPU error: {err:?}");
+                eprintln!("uncaptured WebGPU error: {err}");
+            }));
+
+            return Ok(Self {
+                instance,
+                adapter,
+                device,
+                queue,
+                report,
+                timestamp_queries: features.contains(wgpu::Features::TIMESTAMP_QUERY)
+                    && features.contains(wgpu::Features::TIMESTAMP_QUERY_INSIDE_ENCODERS),
+                subgroups: features.contains(wgpu::Features::SUBGROUP),
+                #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
+                secondary_queue,
+            });
+        }
+        Err(format!(
+            "device creation failed for all eligible adapters:\n{}",
+            failures.join("\n")
+        ))
     }
 }
 
@@ -3685,6 +3707,11 @@ impl GpuSim {
     pub fn contact_metrics(&mut self, wait: bool) -> Option<ContactMetrics> {
         self.harvest_sticky_status(wait);
         self.contact_metrics
+    }
+
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn pose_export_uuid(&self) -> Option<[u8; 16]> {
+        self.pose_export.as_ref().map(|export| export.device_uuid)
     }
 
     #[cfg(not(target_arch = "wasm32"))]

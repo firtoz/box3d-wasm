@@ -310,8 +310,8 @@ DUAL = {
 API_RE = re.compile(r"B3_API\s+((?:const\s+)?[\w\s\*]+?)\s+(b3[A-Za-z0-9_]+)\s*\((.*?)\)\s*;", re.S)
 
 
-def defined_symbols(archive: Path) -> set[str]:
-    out = subprocess.check_output(["nm", "-g", "--defined-only", str(archive)], text=True, errors="replace")
+def defined_symbols(archive: Path, nm: str = "nm") -> set[str]:
+    out = subprocess.check_output([nm, "-g", "--defined-only", str(archive)], text=True, errors="replace")
     names: set[str] = set()
     for line in out.splitlines():
         parts = line.split()
@@ -405,7 +405,8 @@ def write_passthrough(path: Path, sigs: dict[str, tuple[str, str]], defined: set
 
 def prefix_archive(src: Path, dst: Path, objcopy: str, defined: set[str]) -> None:
     map_path = dst.with_suffix(".syms")
-    rows = [f"{n} cpu_{n}" for n in sorted(defined) if n.startswith("b3")]
+    rows = [f"{n} {'_cpu_'+n[1:] if n.startswith('_b3') else 'cpu_'+n}"
+            for n in sorted(defined) if n.startswith(("b3", "_b3"))]
     map_path.write_text("\n".join(rows) + "\n")
     subprocess.check_call([objcopy, f"--redefine-syms={map_path}", str(src), str(dst)])
 
@@ -417,12 +418,18 @@ def main() -> None:
     p.add_argument("--passthrough", required=True)
     p.add_argument("--include-dir", required=True)
     p.add_argument("--objcopy", default="objcopy")
+    p.add_argument("--nm", default="nm")
+    p.add_argument("--exclude-archive", type=Path)
     args = p.parse_args()
     archive = Path(args.archive)
-    defined = defined_symbols(archive)
+    defined = defined_symbols(archive, args.nm)
     sigs = parse_headers(Path(args.include_dir))
+    if args.exclude_archive:
+        sigs.pop("b3CreateCompound", None)
+        for name in defined_symbols(args.exclude_archive, args.nm):
+            sigs.pop(name[1:] if name.startswith("_b3") else name, None)
     prefix_archive(archive, Path(args.prefixed), args.objcopy, defined)
-    write_passthrough(Path(args.passthrough), sigs, defined)
+    write_passthrough(Path(args.passthrough), sigs, {n[1:] if n.startswith("_b3") else n for n in defined})
 
 
 if __name__ == "__main__":

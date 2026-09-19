@@ -441,7 +441,13 @@ pub extern "C" fn gpu_b3_create_world(gx: f32, gy: f32, gz: f32) -> WorldId {
         Ok(gpu) => {
             let mut def = b3_default_world_def();
             def.gravity = [gx, gy, gz];
-            b3_create_world(gpu, &def)
+            let world = b3_create_world(gpu, &def);
+            // Sokol consumes current full mirrors for queries/drawing. Its
+            // automatic pose-only copy is otherwise superseded without use.
+            if std::env::var("GPU_PHYSICS_SAMPLES_DEMAND_POSES").as_deref() == Ok("1") {
+                crate::api::b3_world_set_automatic_pose_snapshots(world, false);
+            }
+            world
         }
         Err(e) => {
             eprintln!("gpu_b3_create_world: {e}");
@@ -577,6 +583,15 @@ pub extern "C" fn gpu_b3_world_last_static_sort_dispatches(id: WorldId) -> u32 {
 #[no_mangle]
 pub extern "C" fn gpu_b3_world_pose_export_live(id: WorldId) -> bool {
     b3_world_pose_export_live(id)
+}
+
+/// Writes the exporting device's 16-byte Vulkan UUID; callers must provide 16 writable bytes.
+#[no_mangle]
+pub unsafe extern "C" fn gpu_b3_world_pose_export_uuid(id: WorldId, out: *mut u8) -> bool {
+    if out.is_null() { return false; }
+    let Some(uuid) = crate::api::b3_world_pose_export_uuid(id) else { return false; };
+    unsafe { std::ptr::copy_nonoverlapping(uuid.as_ptr(), out, uuid.len()); }
+    true
 }
 
 #[no_mangle]
