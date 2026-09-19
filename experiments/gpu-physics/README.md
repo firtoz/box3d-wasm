@@ -4,9 +4,27 @@ Research reports, captures, benchmark JSON, and recordings are local ignored out
 
 A second physics engine: Rust + WGSL compute, with a Box3D-shaped C API. It lives on `feat/gpu` and does **not** patch `box3d/` or the WASM package.
 
+The opt-in native backend supports `GPU_PHYSICS_FULL_REPLAY=1` to reuse an eligible
+world's tracked physics command sequence. It preserves GPU computation, queue
+uploads and completion/readback handling; parameter or resource changes invalidate
+reuse. Joints, meshes and diagnostic capture retain ordinary recording. Build with
+`scripts/build-native-cache.sh`; see [backend requirements and exclusions](compiler/native-backend/README.md).
+Replay defaults off. The native configuration documented there qualified against
+Box3D on 30-ring Dominoes and mixed stacks with 4,096 dynamic boxes in five matched
+AC trials: completed-step and application-frame p50 were at least 20% lower, with
+lower p95 in every pair. This applies to the explicit NVIDIA-physics/AMD-rendering
+configuration and tested awake windows, not the ordinary Sokol/WASM builds or all
+scene sizes. Current evidence is in ignored `artifacts/goal-replay-qualification/`
+and `artifacts/goal-replay-final-gate/`. The known strict drag-velocity discrepancy
+remains nonblocking, with its 0.5 m/s tolerance unchanged.
+
+Occupied-contact publication distributes the copy across 32 workgroups while preserving collected order. Boundary/full-capacity and retirement tests pass, and three 300-step scene dumps remain byte-identical. Three alternating AC-powered GPU/GPU trials show graph p50 0.4649→0.4311 ms and completed-step p50 2.3864→2.3385 ms; completed-step p95 is effectively unchanged (3.2536→3.2538 ms). These modest gains are not CPU qualification; per-run temperature/clock/load snapshots and raw trials are retained under `artifacts/goal-occupied-copy/`.
+
+The memoized dynamic graph now batches contact loads and schedule publication across 64 lanes on cache misses, while preserving the canonical serial greedy decisions. The batch scratch uses unused occupancy storage only for body spans ≤7966 and lists ≥128 edges; larger spans and short lists retain the serial path. Boundary/overflow and complete-scene schedule tests pass, and 300-step Dominoes, mixed-stacks and anchored-mechanism dumps match the previous executable byte-for-byte. Three alternating AC-powered Dominoes GPU/GPU trials reduce median completed-step p50 from 3.0701 to 2.3919 ms and graph p50 from 0.9912 to 0.4608 ms. This is an optimization comparison, not fresh CPU qualification; full correctness and five-trial CPU/frame checks remain required. Local evidence: `artifacts/goal-memo-batch/`.
+
 Native sample loading: `bun run samples:gpu` and `bun run samples:both` show a preparation checklist while a worker uploads GPU buffers and compiles the scene collision pipeline. The panel reports completed stages, the current shader and elapsed time; it does not estimate driver compile percentage. Both physics worlds remain unstepped during loading. Pipeline caches persist under `${XDG_CACHE_HOME:-$HOME/.cache}/box3d-gpu-physics/pipelines`; set `GPU_PHYSICS_PIPELINE_CACHE=0` to disable caching. Scene construction and graphics initialization still run on the main thread before this panel; closing during an active driver compile waits for safe worker teardown. Loading frames do not consume physics or benchmark frame counts; separate `gpu-loading` log lines record their duration and count.
 
-Body Type contact correction: mixed boxes and generic hulls now use the existing face-clipping manifold, with implicit box topology, instead of the one-point fallback. `scripts/check-body-dynamics-reference.sh` checks the upstream Body Type setup for 300 steps and its first-impact four-point contacts. The correctness gate also requires this script. It gates Gyroscopic Torque and a custom-inertia variant for 600 steps: position/quaternion chord ≤ 1e-5 and angular-velocity difference ≤ 1e-4 against Box3D C. Box inertia is computed directly at unit density and then scaled, avoiding an inverse-inertia round trip. Native Vulkan rotational integration uses CPU operation order, refined sqrt/reciprocal operations, and SPIR-V NoContraction restricted to `gyro_*` functions. Contact/joint arithmetic is unchanged. Other backends retain the WGSL path; cross-device bitwise determinism is not claimed. The CPU integration method and its numerical energy loss are retained; no damping or CPU pose substitution is added. GPU-only native `SetMassData` now reaches the implementation instead of its old stub. Local evidence: `artifacts/gyro-substep/`.
+Body Type contact correction: mixed boxes and generic hulls now use the existing face-clipping manifold, with implicit box topology, instead of the one-point fallback. `scripts/check-body-dynamics-reference.sh` checks the upstream Body Type setup for 300 steps and its first-impact four-point contacts. It also exercises accepting pre-solve callbacks against the same native reference. Gauss–Seidel stepping orders dynamic joints, dynamic contact colors, anchored joints, then static contact colors. This retains ground support during dragging while preventing falling payloads from overwriting anchor constraints. The one-workgroup and general color paths use the same boundary, including callback stepping; contact-only dispatches and Jacobi stepping are unchanged. The correctness gate also requires this script. It gates Gyroscopic Torque and a custom-inertia variant for 600 steps: position/quaternion chord ≤ 1e-5 and angular-velocity difference ≤ 1e-4 against Box3D C. Box inertia is computed directly at unit density and then scaled, avoiding an inverse-inertia round trip. Native Vulkan rotational integration uses CPU operation order, refined sqrt/reciprocal operations, and SPIR-V NoContraction restricted to `gyro_*` functions. Contact/joint arithmetic is unchanged. Other backends retain the WGSL path; cross-device bitwise determinism is not claimed. The CPU integration method and its numerical energy loss are retained; no damping or CPU pose substitution is added. GPU-only native `SetMassData` now reaches the implementation instead of its old stub. Local evidence: `artifacts/gyro-substep/`.
 
 Current qualified milestone (2026-09-13): the final implementation passes **55/0/0 correctness cases, 222 library tests, and 12 native cases**, including long-run Gear Lift and ordinary Village. Five matched AC trials per engine and scene meet the aggregate whole-frame target: mixed-stacks GPU/CPU p50 **0.489/0.661 ms**, Dominoes **1.885/3.687 ms**, with lower GPU p95 on both. `cpu_win_validated=true` is scoped to NVIDIA physics + AMD display-local rendering, equal one-step display delay, and these two fixtures. See [final evidence and limitations](artifacts/gear-clipped-support-final/README.md). The investigation entries below are historical; their earlier failures and qualification flags are preserved.
 
@@ -129,6 +147,10 @@ Host body-space conversion and the C sample helper now use Box3D's cross-product
 
 The six-component follow-up (`DRAG_PHASE_RANGE=650:670 ./scripts/check-drag-phases.sh artifacts/drag-six-components`) records `CPUvelocity` / `GPUvelocity` as frame, phase, body slot, vx, vy, vz, wx, wy, wz, and `DRAGinput` records independently derived targets. Targets and ray fractions agree in the first third-cube lift; cursor velocities agree to printed precision. A temporary intermediate probe isolated the third substep at frame 662: velocity error is 7.61e-7 m/s after the motor and 4.63e-6 m/s after floor contacts; at frame 663 it grows from 3.58e-7 to 8.11e-6 m/s. This locates early amplification in contacts, not a missing mouse command, but does not prove the final impact mismatch unavoidable or establish its exact arithmetic cause. No solver candidate was retained. Ordinary drag gates still pass and strict peak remains 0.983 m/s. The temporary intermediate stage was removed; the normal 24 phase meanings remain unchanged. Intermediate evidence is under ignored `artifacts/drag-six-joint/`. Binary phase probes are now B3PR version 2, with eight words per body/phase: vx, vz, angular-speed magnitude, flags, vy, wx, wy, wz (the 24 eight-word summary records are unchanged).
 
+Completed-step comparisons pass the resolved scene scale to every alternating CPU trial (including GPU-first trials). `GPU_PHYSICS_CPU_WORKERS=8` selects the native oracle worker count as well as the CPU viewer; the oracle also accepts `--workers 0..64` and records it per scene in JSON. Without an override the completed-step oracle retains its zero-worker default. Historical completed-step runs without explicit `--bodies` may have mixed CPU scene sizes and must not qualify a speedup; inspect every CPU trial's body count. The older whole-frame qualification uses a separate viewer bridge and is not affected by this argument bug. Fresh qualification must cover both completed-step and frame latency on the current sources.
+
+For the current command-encoding experiment, `GPU_PHYSICS_NATIVE_PAIR_CACHE=1 GPU_PHYSICS_NATIVE_RESET_CACHE=1 ./scripts/run-native-cache.sh ...` reuses the existing pair-matrix commands and the unchanged reset shader. Both remain opt-in; the launcher now honors the pair-cache override. Reset replay uses the existing native resource transitions and invalidation key (including bind group and live body span), preserves the original position before the first physics timestamp, and falls back when native replay is unavailable or phase capture is active. Tail/reset options are captured at simulation construction. Two forward/reverse trials improved 602-body mixed-stacks completed-step p50 from a median 0.6852 to 0.5963 ms and p95 from 0.9970 to 0.8369 ms. The 300-step mixed-stacks, Dominoes, and anchored-mechanism checkpoint dumps match the uncached path exactly. This is exploratory GPU/GPU evidence, not CPU-win qualification; see ignored `artifacts/goal-encode-profile/`. Temporary CPU profiling markers were removed. Five matched trials, full current gates, and fresh application-frame measurements remain required.
+
 HUD labels:
 
 | Label | Meaning |
@@ -144,7 +166,7 @@ Do not sum collide+solve+integrate and call that the whole physics cost. Do not 
 
 Linux NVIDIA may export poses over `VK_KHR_external_memory_fd` → `GL_EXT_memory_object_fd`. Sokol DrawShape does not consume that buffer yet. The Rust window renders directly from GPU body state.
 
-`GPU_PHYSICS_GPU_CCD=1` enables topology-cached convex GPU CCD and resident stepping for eligible clean worlds. Steady frames submit physics and render without downloading body state. Meshes, sensors, bullets, and callbacks retain CPU CCD; jointed or contact-event worlds retain the compatibility mirror boundary. Dirty mutations take the upload path before residency resumes. Synchronous getters still wait and return finalized state. The default remains CPU CCD. Set `GPU_PHYSICS_RESIDENT=0` to retain the mirror boundary for an otherwise identical GPU-CCD comparison. Shape event/CCD eligibility and body bullet/component eligibility are cached from the uploaded scene metadata. Scene or body edits refresh that cache before upload clears the dirty bits; dirty reads inspect the current metadata. Live forces, joints, callbacks, contact events and pending CCD remain checked at their existing boundaries. A pending-force flag prototype passed analytic force/upload tests, but its five paired frame trials did not establish a consistent improvement (Dominoes p95 worsened in three pairs), so it was removed; the regression remains (`artifacts/pending-force-state/`). Focused mutation and residency regressions are recorded in `artifacts/scene-capability-cache/`.
+`GPU_PHYSICS_GPU_CCD=1` enables topology-cached convex GPU CCD and resident stepping for eligible clean worlds. Steady frames submit physics and render without downloading body state. Meshes, sensors, bullets, and callbacks retain CPU CCD; jointed or contact-event worlds retain the compatibility mirror boundary. Dirty mutations take the upload path before residency resumes. Synchronous getters still wait and return finalized state. The default remains CPU CCD. Set `GPU_PHYSICS_RESIDENT=0` to retain the mirror boundary for an otherwise identical GPU-CCD comparison. Shape event/CCD eligibility and body bullet/component eligibility are cached from the uploaded scene metadata. Scene or body edits refresh that cache before upload clears the dirty bits; dirty reads inspect the current metadata. Pending force/torque presence shares the dirty-guarded capability cache, avoiding a full host-body scan on each resident step. Force, torque and wind edits invalidate the cache; explicit uploads refresh it, and positive-duration force consumption clears it after every accumulator is cleared. Zero-duration steps preserve pending forces. Joints, callbacks, contact events and pending CCD remain checked at their existing boundaries. The force-cache mutation/flush regression verifies eligibility against the original body scan. Fresh large-scene timing supports retaining this host optimization; full current correctness and matched CPU/frame qualification remain pending. Focused mutation and residency regressions are recorded in `artifacts/scene-capability-cache/`.
 
 The GPU CCD comparison covers 167 convex sweeps. It exposed a CPU GJK degeneracy: negative tetrahedron barycentric weights must reject a false interior result. The library suite passed 191/191 before the final topology-invalidation follow-up; all four focused integration tests passed afterwards. Batched Dominoes and mixed-stacks checks cover positions, orientations and velocities through step 120. A 240-step regression verifies zero body-mirror bytes and zero pose maps during resident stepping/render metadata calls, followed by correct synchronous reads, sleep events, teleport/force, deletion/reuse and growth.
 
@@ -247,9 +269,14 @@ validated frame/CPU win. `artifacts/paired-graph-compaction/` preserves the A/B
 prototype; its temporary environment switch is absent from the final code.
 
 With shared coloring enabled, `GPU_PHYSICS_GRAPH_MEMO=1` optionally reuses the
-canonical dynamic schedule only when all ordered contact identities/endpoints,
-initial body occupancy masks and color counts exactly match. It retains current
-contact math and wake/CCD processing. Capacity above 8,160 bodies, meshes, joints
+canonical dynamic schedule when all ordered contact identities/endpoints,
+generations, initial body occupancy masks and color counts exactly match. On a
+changed graph, the validated prefix can still be reused in complete 64-contact
+batches: parallel atomic OR/max reconstructs its occupancy masks and color counts,
+then canonical serial greedy decisions resume at the suffix. Changed initial
+masks/counts invalidate the entire prefix. Larger body spans keep the serial
+fallback. This preserves exact colors and per-color order, including overflow;
+no contact math or wake/CCD processing is skipped. Capacity above 8,160 bodies, meshes, joints
 or insufficient device limits keep ordinary coloring. Private cache storage is
 allocated only when requested and starts invalid on growth. The cache remains
 off by default: stable mixed stacks benefits (five longer active GPU/GPU trials,
@@ -259,6 +286,25 @@ The full release library suite passes 203/203 with both flags requested, includi
 the exact-schedule and mutation/growth regressions.
 See `artifacts/graph-memo/` and `../../docs/gpu-physics.md` for exact coverage
 and both the short and longer measurements.
+
+Scaled `mixed-stacks` keeps its two overlapping grounds large enough for every
+row, and upper-layer columns align with their lower supports even at partial
+row counts (CPU oracle and GPU fixture use identical layouts and bounds). The original 600-box
+fixture retains its 100 m half-extent. Earlier 4,096-box qualification artifacts
+with fixed grounds are invalid as dense-contact evidence: many boxes started
+beyond the floor. Fresh large-scene runs must check support throughout the
+measurement window as well as matching counts and timestep. The required gate
+now checks 4,096 boxes through 1,200 steps against Box3D, and `--compare-oracle`
+honors an explicit `--bodies` value instead of silently selecting 600.
+
+The prefix-reuse change passes exact schedule/mask tests across batch boundaries,
+generation changes, shrinking/empty/growing lists and changed initial masks/counts,
+plus topology mutation tests. Three 1,200-step scene dumps match the preceding
+build byte-for-byte. Three alternating Dominoes screens reduce graph p50
+0.4260→0.3379 ms and completed-step p50 2.3353→2.2401 ms; completed p95 is
+3.0493→3.0679 ms. These are GPU/GPU screens under laptop variance, not fresh
+CPU qualification or a claim that the full gate has run on this revision.
+See `artifacts/goal-memo-prefix/` for the retained results.
 
 Exact coloring/mask checks cover the cache boundary, overflow and fallback;
 both named-scene comparisons pass at 1e-5. The full release library suite passes
@@ -397,6 +443,8 @@ bun run compare                               # http://127.0.0.1:8766/
 Rows are samples. CPU stays on the left; newer GPU snapshots sit next to it. Clips are in `recordings/snapshots/` (Git LFS). `SKIP_MP4=1` refreshes timings only. Oracle video replay accepts both the historical 144-byte body record and the current 160-byte record; the appended island/sleep fields do not change the rendered pose prefix.
 
 ## Checks
+
+Village geometry evidence uses `gpu-scene-input` packed shape/mesh counts; allocation capacity may grow when the drop sphere is added. The headless compound fixtures provide the split renderer's selection-highlight hooks without replacing physics APIs.
 
 Native API coverage remains incomplete. See the [completion scope](../../docs/gpu-physics.md). From this directory, `python scripts/audit-native-api.py --require-complete` reports remaining gaps (and deliberately fails until they are closed); `./scripts/check-api-settings.sh` tests public C settings in GPU-only and dual builds. The Rust library test `api_completion_tests` checks that per-body sleep settings actually affect GPU integration.
 
@@ -646,6 +694,8 @@ These samples do not prove whole-hull or swept separation. Native acceptance was
 
 
 ### Identical-state Gear Lift impact replay
+
+The required `check-gear-impact-reference.sh` also runs `gpu-168-ccd-handoff.state` across a CCD stop and the following contact solve. It retains contact history within the replay and checks floor support and arrested downward motion. Empty-contact caches now use body COM transforms, matching touching contacts and the recycling check; collider-local offsets must not enter that cache. The isolated failing replay improved from 141 mm penetration to 0.23 mm with recycling enabled. Full native-scene validation remains required.
 
 `c_abi/gear_impact_replay.cpp`, `scripts/prepare-gear-impact-replay.py` and `scripts/run-gear-impact-replay.py` reproduce the native terrain/rock geometry with recorded pre-impact states. Velocities are restored after shape creation establishes COM; the runner rejects any initial-state mismatch, missing body/frame, nonfinite value or failed process. Four inputs (CPU frame 26 / GPU frame 45, single rock / all 120 debris) each completed 12 steps on both engines. Initial pose/velocity errors are zero at the recorded precision. Evidence: `artifacts/v18-gear-impact-contacts/runs.json` and `impact-comparison.json`, including contact witnesses, separation, impulses and source/binary hashes. The earlier `v18-gear-impact` batch is rejected as identical-state evidence because shape creation changed its velocities.
 

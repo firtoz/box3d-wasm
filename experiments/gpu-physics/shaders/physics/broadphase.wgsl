@@ -1582,14 +1582,17 @@ fn finish_dynamic_graph() {
 }
 
 @compute @workgroup_size(64)
-fn finish_occupied_contacts(@builtin(local_invocation_index) lid: u32) {
+fn finish_occupied_contacts(@builtin(global_invocation_id) gid: vec3<u32>,
+                            @builtin(num_workgroups) groups: vec3<u32>) {
     let count = min(atomicLoad(&atom[ATOM_OCCUPIED_N]), params.contact_capacity);
     // Retirement and collection are complete before this dispatch. Publish
     // the new list without overwriting any input being read by those passes.
-    for (var i = lid; i < count; i += 64u) {
+    // Strided ownership preserves list order across workgroups. Consumers run
+    // after this dispatch completes; they cannot use the count mid-publication.
+    for (var i = gid.x; i < count; i += groups.x * 64u) {
         scratch[SCR_OCCUPIED_CONTACT + i] = scratch[SCR_NEXT_OCCUPIED + i];
     }
-    if (lid != 0u) { return; }
+    if (gid.x != 0u) { return; }
     scratch[SCR_OCCUPIED_N] = count;
     // Dynamic colors wider than one workgroup remain parallel next step.
     // Static colors always remain parallel; query word 71 is this hint only.

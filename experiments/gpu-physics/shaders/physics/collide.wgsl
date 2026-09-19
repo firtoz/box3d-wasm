@@ -3422,13 +3422,15 @@ fn collide_pairs(
     }
     // collide_pair finalizes fresh contacts in body COM coordinates exactly
     // once. Recycled contacts above already carry that same representation.
+    // Empty pairs must cache COM transforms too: collider positions can differ
+    // by local shape/COM offsets and cannot be compared with recycle_skip's bodies.
     store_pair(
         slot,
         packed,
         man,
         shape_a.body_index,
         shape_b.body_index,
-        a,
-        b,
+        body_a,
+        body_b,
     );
 }

@@ -233,9 +233,10 @@ impl CpuJoint {
     }
 }
 
-// Classification depends on uploaded shape/body metadata, not evolving poses.
+// Classification depends on dirty-guarded host metadata and force accumulators, not evolving GPU poses.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 struct SceneCapabilities {
+    pending_forces: bool,
     shape_events: bool,
     ccd_shapes: bool,
     component_bodies: bool,
@@ -2659,7 +2660,7 @@ fn advance_contact_shape_history(w: &mut WorldInner, world0: u16) {
 fn can_submit_resident(w:&WorldInner)->bool {
     w.gpu_ccd_requested && w.gpu_resident_requested && w.def.enable_continuous && !w.post_ccd_pending
         && !w.scene_dirty && !w.bodies_dirty
-        && w.bodies.iter().flatten().all(|b|b.force==[0.0;3] && b.torque==[0.0;3])
+        && !scene_capabilities(w).pending_forces
         && !w.joints.iter().any(|j|j.kind!=JOINT_NONE)
         && w.custom_filter_callback.is_none() && w.pre_solve_callback.is_none()
         && !world_needs_contact_readback(w)
@@ -2946,6 +2947,9 @@ fn apply_accumulated_forces(w: &mut WorldInner, dt: f32) {
         }
     }
     w.bodies_dirty |= changed;
+    // Every accumulator was consumed/cleared above, including sleeping/static
+    // bodies. Dirty mutators still force a complete capability refresh.
+    if let Some(capabilities)=w.scene_capabilities.as_mut() {capabilities.pending_forces=false;}
 }
 
 fn wake_body(body: &mut CpuBody) {
@@ -4556,13 +4560,14 @@ fn scan_scene_capabilities(w: &WorldInner) -> SceneCapabilities {
     const EVENT_MASK: u32 = SHAPE_ENABLE_CONTACT_EVENTS | SHAPE_ENABLE_SENSOR_EVENTS
         | SHAPE_ENABLE_HIT_EVENTS | SHAPE_IS_SENSOR;
     let mut result = SceneCapabilities {
-        shape_events: false, ccd_shapes: true, component_bodies: true, has_bullet: false,
+        pending_forces: false, shape_events: false, ccd_shapes: true, component_bodies: true, has_bullet: false,
     };
     for shape in w.shapes.iter().flatten() {
         result.shape_events |= shape.event_flags & EVENT_MASK != 0;
         result.ccd_shapes &= shape.kind != KIND_MESH && shape.event_flags & SHAPE_IS_SENSOR == 0;
     }
     for body in w.bodies.iter().flatten() {
+        result.pending_forces |= body.force != [0.0;3] || body.torque != [0.0;3];
         result.has_bullet |= body.gpu.flags & FLAG_BULLET != 0;
         result.component_bodies &= body.gpu.flags & FLAG_STATIC != 0
             || (body.gpu.flags & (FLAG_KINEMATIC | FLAG_DISABLED) == 0 && body.gpu.inv_mass > 0.0);
@@ -10203,7 +10208,11 @@ mod color_tail_tests {
                     if prefix == u32::MAX {
                         assert!(commands < 325, "GPU color hint must select a shorter schedule");
                     } else {
-                        assert_eq!(commands, 13 * (prefix + 6), "wide world must exercise batched tail");
+                        // Jointed worlds split the twelve warm/solve/relax
+                        // waves around anchored joints; restitution stays whole.
+                        let partition_dispatches = if jointed { 4 * 3 } else { 0 };
+                        assert_eq!(commands, 13 * (prefix + 6) + partition_dispatches,
+                            "wide world must exercise batched tail and anchored-joint boundary");
                     }
                     if !jointed { assert!(crate::dump::mixed_stacks_quality_error(&actual, 120).is_none()); }
                 }
@@ -10352,7 +10361,7 @@ mod convex_ccd_integration_tests {
                 assert_eq!(world_needs_contact_readback(w),expected.shape_events);
             });
         };
-        let plain=SceneCapabilities{shape_events:false,ccd_shapes:true,component_bodies:true,has_bullet:false};
+        let plain=SceneCapabilities{pending_forces:false,shape_events:false,ccd_shapes:true,component_bodies:true,has_bullet:false};
         check(plain);
         for flag in [SHAPE_ENABLE_CONTACT_EVENTS,SHAPE_ENABLE_SENSOR_EVENTS,SHAPE_ENABLE_HIT_EVENTS] {
             set_shape_event_flag(shape,flag,true); check(SceneCapabilities{shape_events:true,..plain});
@@ -11647,4 +11656,155 @@ mod host_rotation_rounding_tests {
             assert_eq!(quat_rotate(q, v), v);
         }
     }
+}
+
+#[cfg(all(test,not(target_arch="wasm32")))]
+mod resident_force_cache_probe {
+use super::*;use crate::api::*;
+fn check(world:WorldId) {
+ with_world_no_sync(world,|w| {
+  assert_eq!(scene_capabilities(w).pending_forces,w.bodies.iter().flatten().any(|b|b.force!=[0.0;3] || b.torque!=[0.0;3]));
+  let old=w.gpu_ccd_requested && w.gpu_resident_requested && w.def.enable_continuous && !w.post_ccd_pending
+   && !w.scene_dirty && !w.bodies_dirty && w.bodies.iter().flatten().all(|b|b.force==[0.0;3] && b.torque==[0.0;3])
+   && !w.joints.iter().any(|j|j.kind!=JOINT_NONE) && w.custom_filter_callback.is_none() && w.pre_solve_callback.is_none()
+   && !world_needs_contact_readback(w) && w.sim.as_ref().is_some_and(GpuSim::uses_convex_ccd);
+  assert_eq!(can_submit_resident(w),old);
+ });
+}
+#[test]
+fn resident_force_cache_tracks_consumption_and_flushes() {
+ let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();gpu.device.push_error_scope(wgpu::ErrorFilter::Validation);
+ let mut wd=b3_default_world_def();wd.gravity=[0.0;3];let world=b3_create_world(gpu.clone(),&wd);
+ with_world_mut_no_sync(world,|w|{w.gpu_ccd_requested=true;w.gpu_resident_requested=true;});
+ let mut bd=b3_default_body_def();bd.body_type=BodyType::Dynamic;bd.position=[0.0,5.0,0.0];
+ let body=b3_create_body(world,&bd);let shape=b3_create_hull_shape(body,&b3_default_shape_def(),&b3_make_box_hull(0.5,0.5,0.5));
+ b3_world_step_gpu(world,1.0/60.0,4);check(world);assert!(with_world_no_sync(world,can_submit_resident).unwrap());
+ for kind in 0..5 {
+  match kind {
+   0=>b3_body_apply_force_to_center(body,[3.0,0.0,0.0],true),
+   1=>b3_body_apply_force(body,[0.0,3.0,0.0],[1.0,5.0,0.0],true),
+   2=>b3_body_apply_torque(body,[0.0,0.0,3.0],true),
+   3=>b3_shape_apply_wind(shape,[10.0,0.0,0.0],1.0,0.0,100.0,true),
+   _=>{b3_body_apply_force_to_center(body,[3.0,0.0,0.0],true);b3_body_set_type(body,BodyType::Static);},
+  }
+  check(world);assert!(with_world_no_sync(world,|w|scene_capabilities(w).pending_forces).unwrap());
+  b3_world_ensure_gpu(world);check(world);assert!(!with_world_no_sync(world,can_submit_resident).unwrap());
+  b3_world_step_gpu(world,0.0,4);check(world);assert!(with_world_no_sync(world,|w|scene_capabilities(w).pending_forces).unwrap());
+  b3_world_step_gpu(world,1.0/60.0,4);check(world);
+  assert!(!with_world_no_sync(world,|w|scene_capabilities(w).pending_forces).unwrap());
+  b3_world_finalize_render_state(world);check(world);
+ }
+ b3_destroy_body(body);check(world);b3_world_ensure_gpu(world);check(world);
+ b3_destroy_world(world);if let Some(error)=pollster::block_on(gpu.device.pop_error_scope()) {panic!("{error}");}
+}
+}
+
+#[cfg(all(test, feature = "native-command-cache", not(target_arch = "wasm32")))]
+mod full_replay_long_probe {
+use super::*;
+use crate::api::*;
+#[test]
+fn full_physics_replay_long_state_and_reentry() {
+ let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+ gpu.device.push_error_scope(wgpu::ErrorFilter::Validation);
+ let run=|enabled| {
+  let cfg=crate::types::DemoConfig{scene:crate::types::DemoScene::MixedStacks,body_count:600,body_count_explicit:true,contacts:true,jacobi:false};
+  let world=crate::scenes::build_demo_world(gpu.clone(),&cfg);
+  with_world_mut_no_sync(world,|w|{w.component_tgs_requested=true;w.gpu_idle_requested=false;});
+  b3_world_set_diagnostic_flags(world,crate::types::DIAG_BOUNDED_STATIC_SORT);
+  b3_world_enable_sleeping(world,false);
+  let ids=b3_world_dynamic_body_ids(world);assert_eq!(ids.len(),600);
+  let chosen=ids[599];let initial=b3_body_get_position(chosen);
+  let mut states=Vec::new();let mut hits=Vec::new();
+  for step in 0..1000 {
+   match step {
+    250=>b3_body_set_transform(chosen,[initial[0],initial[1]+0.015,initial[2]],[0.0,0.0,0.0,1.0]),
+    350=>b3_body_set_type(chosen,BodyType::Kinematic),
+    400=>b3_body_set_type(chosen,BodyType::Dynamic),
+    450=>b3_world_begin_timing(world,5),
+    700=>b3_world_enable_sleeping(world,true),
+    750=>b3_body_set_awake(chosen,true),
+    800=>b3_world_enable_sleeping(world,false),
+    900=>{
+        let before=with_world_no_sync(world,|w|w.sim.as_ref().unwrap().caps.bodies).unwrap();
+        let mut bd=b3_default_body_def();bd.body_type=BodyType::Dynamic;
+        let sd=b3_default_shape_def();let hull=b3_make_box_hull(0.5,0.5,0.5);
+        for i in 0..500 {bd.position=[100.0+(i%50) as f32*1.5,4.0,100.0+(i/50) as f32*1.5];let body=b3_create_body(world,&bd);b3_create_hull_shape(body,&sd,&hull);}
+        b3_world_ensure_gpu(world);
+        assert!(with_world_no_sync(world,|w|w.sim.as_ref().unwrap().caps.bodies).unwrap()>before,"real capacity growth");
+    },
+    _=>{}
+   }
+   b3_world_ensure_gpu(world);
+   with_world_mut_no_sync(world,|w|w.sim.as_mut().unwrap().set_full_replay_test(enabled));
+   b3_world_step_gpu(world,1.0/60.0,if (500..510).contains(&step){2}else{4});
+   if (step+1)%25==0 {states.push(pollster::block_on(b3_world_sync_from_gpu(world)));}
+   if (step+1)%100==0 {
+    let h=with_world_mut_no_sync(world,|w|w.sim.as_mut().unwrap().physics_replay_hits()).unwrap();
+    hits.push(h);
+   }
+  }
+  eprintln!("FULL_REPLAY_LONG enabled={enabled} hits={hits:?}");
+  if enabled {assert!(hits[1]>=190,"must repeatedly reuse before mutation");assert!(hits[5]>=hits[3]+150,"must resume sustained reuse after type changes");assert!(hits[9]>80,"must reuse after capacity growth");}
+  assert!(!pollster::block_on(b3_world_live_step_stats(world)).unwrap().capacity_loss());
+  b3_destroy_world(world);states
+ };
+ let expected=run(false);let actual=run(true);assert_eq!(expected.len(),actual.len());
+ let mut worst=0.0f32;
+ for (checkpoint,(a,b)) in actual.iter().zip(&expected).enumerate(){
+  assert_eq!(a.len(),b.len());
+  for (i,(x,y)) in a.iter().zip(b).enumerate(){
+   assert_eq!(x.flags,y.flags,"checkpoint {checkpoint} body {i} flags");
+   for(v,w) in x.pos.iter().chain(&x.rot).chain(&x.vel).chain(&x.omega).zip(y.pos.iter().chain(&y.rot).chain(&y.vel).chain(&y.omega)){
+    assert!(v.is_finite()&&w.is_finite());worst=worst.max((v-w).abs());
+    assert!((v-w).abs()<1e-5,"checkpoint {checkpoint} body {i} {v} != {w}");
+   }
+  }
+ }
+ eprintln!("FULL_REPLAY_LONG checkpoints={} worst={worst}",actual.len());
+ if let Some(e)=pollster::block_on(gpu.device.pop_error_scope()){panic!("{e}");}
+}
+}
+
+#[cfg(all(test, feature = "native-command-cache", not(target_arch = "wasm32")))]
+mod full_replay_dominoes_probe {
+ use super::*;
+ #[test]
+ fn full_physics_replay_dominoes_full_state() {
+  let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+  gpu.device.push_error_scope(wgpu::ErrorFilter::Validation);
+  let run=|enabled| {
+   let cfg=crate::types::DemoConfig{scene:crate::types::DemoScene::Dominoes,body_count:30,body_count_explicit:true,contacts:true,jacobi:false};
+   let world=crate::scenes::build_demo_world(gpu.clone(),&cfg);
+   with_world_mut_no_sync(world,|w|{w.component_tgs_requested=true;w.gpu_idle_requested=false;});
+   b3_world_set_diagnostic_flags(world,crate::types::DIAG_BOUNDED_STATIC_SORT);
+   b3_world_enable_sleeping(world,false);
+   b3_world_set_automatic_pose_snapshots(world,false);
+   b3_world_ensure_gpu(world);
+   with_world_mut_no_sync(world,|w|w.sim.as_mut().unwrap().set_full_replay_test(enabled));
+   let mut states=Vec::new();
+   for step in 1..=1200 {
+    b3_world_step_gpu(world,1.0/60.0,4);
+    if step%60==0 {let bodies=pollster::block_on(b3_world_sync_from_gpu(world));assert_eq!(bodies.len(),5431);states.push(bodies);}
+   }
+   let hits=with_world_mut_no_sync(world,|w|w.sim.as_mut().unwrap().physics_replay_hits()).unwrap();
+   eprintln!("DOMINOES_REPLAY enabled={enabled} hits={hits}");
+   if enabled {assert!(hits>=1100,"replay must run during the target window");} else {assert_eq!(hits,0);}
+   assert!(!pollster::block_on(b3_world_live_step_stats(world)).unwrap().capacity_loss());
+   b3_destroy_world(world);states
+  };
+  let reference=run(false);let replay=run(true);assert_eq!(reference.len(),20);assert_eq!(replay.len(),20);
+  let mut worst=0.0f32;
+  for (frame,(a,b)) in replay.iter().zip(&reference).enumerate() {
+   for (body,(x,y)) in a.iter().zip(b).enumerate() {
+    assert_eq!(x.flags,y.flags,"frame {frame} body {body} flags");
+    for (v,w) in x.pos.iter().chain(&x.rot).chain(&x.vel).chain(&x.omega).zip(y.pos.iter().chain(&y.rot).chain(&y.vel).chain(&y.omega)) {
+     assert!(v.is_finite()&&w.is_finite());worst=worst.max((v-w).abs());
+     assert!((v-w).abs()<1e-5,"frame {frame} body {body}: {v} != {w}");
+    }
+   }
+  }
+  eprintln!("DOMINOES_REPLAY checkpoints=20 worst={worst}");
+  if let Some(e)=pollster::block_on(gpu.device.pop_error_scope()){panic!("{e}");}
+ }
 }

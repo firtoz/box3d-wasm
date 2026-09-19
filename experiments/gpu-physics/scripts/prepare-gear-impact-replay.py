@@ -17,6 +17,6 @@ inputs={}
 for path in sorted((root/'c_abi/fixtures/gear-impact').glob('*.state')):
  (out/path.name).write_bytes(path.read_bytes())
  inputs[str(path)]=hashlib.sha256(path.read_bytes()).hexdigest()
-assert len(inputs)==4, 'Missing Gear Lift regression fixtures'
+assert len(inputs)==5, 'Missing Gear Lift regression fixtures'
 inputs[str(source)]=hashlib.sha256(source.read_bytes()).hexdigest()
 (out/'inputs.json').write_text(json.dumps({'status':'diagnostic','sha256':inputs,'limitations':['Cold contact caches, no mechanism bodies/joints. Not full native scene acceptance.']},indent=2)+'\n')

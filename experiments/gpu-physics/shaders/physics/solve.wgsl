@@ -611,6 +611,22 @@ fn solve_color_wave_one_group(@builtin(local_invocation_index) lid: u32) {
     solve_color_range_one_group(lid, 0u, OVERFLOW_COLOR);
 }
 
+// Jointed worlds insert anchored joints between dynamic and static contacts.
+@compute @workgroup_size(64)
+fn solve_color_partition_one_group(@builtin(local_invocation_index) lid: u32) {
+    if (params.color_select == 0u) {
+        if (lid == 0u) {
+            let n = scratch[SCR_COLOR + OVERFLOW_COLOR];
+            for (var i = 0u; i < n; i++) { run_contact(listed_index(OVERFLOW_COLOR, i)); }
+        }
+        storageBarrier();
+        workgroupBarrier();
+        solve_color_range_one_group(lid, 0u, DYNAMIC_COLOR_COUNT);
+    } else {
+        solve_color_range_one_group(lid, DYNAMIC_COLOR_COUNT, OVERFLOW_COLOR);
+    }
+}
+
 // The prefix handled overflow and dynamic colors below color_select. Static
 // colors are dispatched in parallel after this dynamic-color tail.
 // When the existing whole-wave shortcut ran, skip this tail to avoid solving twice.
@@ -1801,6 +1817,13 @@ fn solve_joints(
         }
         var ba = load_body(jn.a);
         var bb = load_body(jn.b);
+        // 0: complete diagnostic walk, 1: dynamic joints, 2: anchored joints.
+        // Keep sleep out of the classification: it must not change priority.
+        let anchored = is_non_dynamic(ba) || is_non_dynamic(bb);
+        if ((params.color_select == 1u && anchored)
+            || (params.color_select == 2u && !anchored)) {
+            continue;
+        }
         let qa = normalize(quat_mul(ba.dq, ba.rot));
         let qb = normalize(quat_mul(bb.dq, bb.rot));
         let rA = joint_lever(jn.a, qa, jn.anchor_a);

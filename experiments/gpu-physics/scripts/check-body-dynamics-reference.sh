@@ -18,7 +18,7 @@ import json,math,os,pathlib,subprocess,sys
 p=pathlib.Path(sys.argv[1]);env={k:v for k,v in os.environ.items() if not k.startswith('GPU_PHYSICS_')}
 env['GPU_PHYSICS_PIPELINE_CACHE_DIR']=os.environ.get('GPU_PHYSICS_PIPELINE_CACHE_DIR',str(p/'pipeline-cache'))
 report={}
-for scene,steps in [('body',300),('gyro',600),('gyro-mass',600)]:
+for scene,steps in [('body',300),('body-callback',300),('gyro',600),('gyro-mass',600)]:
  traces={}
  for engine in ['cpu','gpu']:
   path=p/f'{scene}-{engine}.txt'
@@ -26,11 +26,11 @@ for scene,steps in [('body',300),('gyro',600),('gyro-mass',600)]:
    subprocess.run([str(p/engine),scene,str(steps)],env=env,stdout=out,stderr=err,timeout=600,check=True)
   rows=[line.split() for line in path.read_text().splitlines()]
   states={(int(r[1]),int(r[2])):list(map(float,r[3:])) for r in rows if r[0]=='state'}
-  bodies=8 if scene=='body' else 2
+  bodies=8 if scene.startswith('body') else 2
   assert set(states)=={(step,body) for step in range(steps+1) for body in range(1,bodies+1)}
   assert all(math.isfinite(v) for state in states.values() for v in state)
   assert all(abs(sum(q*q for q in state[3:7])-1)<1e-5 for state in states.values())
-  if scene=='body':
+  if scene.startswith('body'):
    contacts=[r for r in rows if r[0]=='contact' and r[1]=='37' and r[2] in ('5','6')]
    assert len(contacts)==2 and all(r[-1]=='4' for r in contacts),(engine,contacts)
   traces[engine]=states
@@ -38,13 +38,13 @@ for scene,steps in [('body',300),('gyro',600),('gyro-mass',600)]:
  position=max(math.dist(a[k][:3],b[k][:3]) for k in a)
  rotation=max(min(math.dist(a[k][3:7],b[k][3:7]),math.dist(a[k][3:7],[-v for v in b[k][3:7]])) for k in a)
  velocity=max(math.dist(a[k][10:13],b[k][10:13]) for k in a)
- if scene=='body':assert position<=0.005,position
+ if scene.startswith('body'):assert position<=0.005,position
  else:
   assert position<=1e-5,(scene,'position',position)
   assert rotation<=1e-5,(scene,'quaternion',rotation)
   assert velocity<=1e-4,(scene,'angular velocity',velocity)
  report[scene]={'max_position_delta':position,'max_quaternion_chord':rotation,
   'max_angular_velocity_delta':velocity,'status':'pass',
-  'scope':'300-step position and first-impact four-point manifold' if scene=='body' else '600-step CPU orientation, position and angular-velocity agreement (native Vulkan)'}
+  'scope':'300-step position and first-impact four-point manifold' if scene.startswith('body') else '600-step CPU orientation, position and angular-velocity agreement (native Vulkan)'}
 (p/'result.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
 PY

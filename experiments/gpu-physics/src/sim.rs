@@ -274,6 +274,9 @@ pub fn pack_scene_bytes(
     mix_pairs: &[MixPairGpu],
 ) -> Result<Vec<u8>, String> {
     let heap = caps.validate_allocation(0)?;
+    // Live packed input is distinct from allocation capacity (which may grow).
+    eprintln!("gpu-scene-input shapes={} mesh_vertices={} mesh_triangles={} scene_heap_bytes={}",
+        shapes.len(), mesh_vertices.len(), mesh_triangles.len(), heap);
     let capacity = caps.bodies.max(bodies.len() as u32).max(1) as usize;
     let mut cold: Vec<_> = bodies
         .iter()
@@ -503,6 +506,10 @@ pub struct GpuSim {
     pub contact_epoch: u64,
     params: SimParams,
     physics_step: u64,
+    #[cfg(test)]
+    physics_replay_hits: u64,
+    #[cfg(test)]
+    full_replay_test_override: Option<bool>,
     last_submit: Option<wgpu::SubmissionIndex>,
     completed_step: u64,
     completed_known: bool,
@@ -545,7 +552,12 @@ pub struct GpuSim {
     #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
     graph_cache: Option<crate::native_command_cache::RadixCache>,
     #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
-    tail_cache: [Option<crate::native_command_cache::RadixCache>;3],
+    tail_cache: [Option<crate::native_command_cache::RadixCache>;4],
+    #[cfg(feature="native-command-cache")]
+    physics_replay: Option<(wgpu::NativePhysicsReplay,wgpu::BindGroup,Vec<u8>,u32,u32)>,
+    #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
+    native_tail_enabled: bool,
+    native_reset_requested: bool,
     bind_group: BindGroup,
     bind_group_layout: BindGroupLayout,
     fat_geometry: Vec<FatGeometryKey>,
@@ -658,6 +670,7 @@ pub struct GpuSim {
     idle_epoch: Cell<u64>,
     solve_color: ComputePipeline,
     solve_color_wave_one_group: ComputePipeline,
+    solve_color_partition_one_group: ComputePipeline,
     solve_color_tail_one_group: ComputePipeline,
     #[allow(dead_code)]
     solve_overflow: ComputePipeline,
@@ -1267,6 +1280,10 @@ impl GpuSim {
             contact_epoch: CONTACT_EPOCH.fetch_add(1, Ordering::Relaxed),
             params,
             physics_step: 0,
+            #[cfg(test)]
+            physics_replay_hits: 0,
+            #[cfg(test)]
+            full_replay_test_override: None,
             last_submit: None,
             completed_step: 0,
             completed_known: true,
@@ -1307,6 +1324,11 @@ impl GpuSim {
             graph_cache: None,
             #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
             tail_cache: std::array::from_fn(|_|None),
+            #[cfg(feature="native-command-cache")]
+            physics_replay: None,
+            #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
+            native_tail_enabled: std::env::var("GPU_PHYSICS_NATIVE_TAIL_CACHE").as_deref() == Ok("1"),
+            native_reset_requested: std::env::var("GPU_PHYSICS_NATIVE_RESET_CACHE").as_deref() == Ok("1"),
             bind_group,
             bind_group_layout: bgl,
             fat_geometry,
@@ -1572,6 +1594,7 @@ impl GpuSim {
             idle_proof:None, idle_chain:None, #[cfg(test)] hold_idle_status:false, idle_count_valid_step:None, sticky_pending_idle_context:None,
             last_step_idle:false, idle_epoch:Cell::new(0),
             solve_color: make_compute(&device, &pipeline_layout, &shader, "solve_color"),
+            solve_color_partition_one_group: make_compute(&device, &pipeline_layout, &shader, "solve_color_partition_one_group"),
             solve_color_wave_one_group: make_compute(
                 &device,
                 &pipeline_layout,
@@ -1754,6 +1777,9 @@ impl GpuSim {
     }
 
     fn emit_wave<'a>(&'a self, pass: &mut wgpu::ComputePass<'a>, use_bias: u32) {
+        // Restitution has no joint phase. Contact-only worlds keep their existing
+        // dispatch sequence; jointed worlds split at the static-color boundary.
+        let split = self.params.joint_count > 0 && use_bias != 3;
         let prefix = if self.params.diagnostic_flags & DIAG_GENERAL_SOLVER != 0 {
             crate::types::OVERFLOW_COLOR
         } else { self.color_wave_prefix };
@@ -1762,18 +1788,19 @@ impl GpuSim {
             self.live_bg(),
             &[Self::pass_lut_offset(0, use_bias) as u32],
         );
-        pass.set_pipeline(&self.solve_color_wave_one_group);
+        pass.set_pipeline(if split { &self.solve_color_partition_one_group } else { &self.solve_color_wave_one_group });
         pass.dispatch_workgroups_indirect(&self.indirect, 0);
         self.solver_dispatches
             .set(self.solver_dispatches.get().saturating_add(1));
         self.encode_commands
             .set(self.encode_commands.get().saturating_add(1));
         if self.one_group_wave_only {
+            if split { self.emit_anchored_and_static_one_group(pass, use_bias); }
             return;
         }
         pass.set_pipeline(&self.solve_color);
         for col in
-            std::iter::once(crate::types::OVERFLOW_COLOR).chain(0..prefix)
+            std::iter::once(crate::types::OVERFLOW_COLOR).chain(0..if split { prefix.min(crate::types::DYNAMIC_COLOR_COUNT) } else { prefix })
         {
             pass.set_bind_group(
                 0,
@@ -1795,15 +1822,27 @@ impl GpuSim {
         }
         // Static-contact colors follow all dynamic colors in the reference
         // order. Keep their often-wide ground-contact waves fully parallel.
-        if prefix < crate::types::OVERFLOW_COLOR {
+        if split { self.emit_anchored_and_static_one_group(pass, use_bias); }
+        if split || prefix < crate::types::OVERFLOW_COLOR {
             pass.set_pipeline(&self.solve_color);
-            for col in prefix.max(crate::types::DYNAMIC_COLOR_COUNT)..crate::types::OVERFLOW_COLOR {
+            let first_static = if split { crate::types::DYNAMIC_COLOR_COUNT } else { prefix.max(crate::types::DYNAMIC_COLOR_COUNT) };
+            for col in first_static..crate::types::OVERFLOW_COLOR {
                 pass.set_bind_group(0, self.live_bg(), &[Self::pass_lut_offset(col, use_bias) as u32]);
                 pass.dispatch_workgroups_indirect(&self.indirect, 16 + u64::from(col) * 16);
                 self.solver_dispatches.set(self.solver_dispatches.get().saturating_add(1));
                 self.encode_commands.set(self.encode_commands.get().saturating_add(1));
             }
         }
+    }
+
+    fn emit_anchored_and_static_one_group<'a>(&'a self, pass: &mut wgpu::ComputePass<'a>, use_bias: u32) {
+        self.emit_n(pass, &self.solve_joints, self.joint_solve_groups(), 2, use_bias);
+        self.joint_dispatches.set(self.joint_dispatches.get().saturating_add(1));
+        pass.set_bind_group(0, self.live_bg(), &[Self::pass_lut_offset(1, use_bias) as u32]);
+        pass.set_pipeline(&self.solve_color_partition_one_group);
+        pass.dispatch_workgroups_indirect(&self.indirect, 0);
+        self.solver_dispatches.set(self.solver_dispatches.get().saturating_add(1));
+        self.encode_commands.set(self.encode_commands.get().saturating_add(1));
     }
 
     #[cfg(test)]
@@ -1995,7 +2034,7 @@ impl GpuSim {
     fn try_native_tail(&mut self, enc:&mut wgpu::CommandEncoder, stage:usize)->bool {
         #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
         {
-            if std::env::var("GPU_PHYSICS_NATIVE_TAIL_CACHE").as_deref()!=Ok("1")
+            if !self.native_tail_enabled
                 || self.params.diagnostic_flags & crate::types::DIAG_PHASE_CAPTURE!=0 {return false;}
             use crate::native_command_cache::Command::{Dispatch,Indirect,CopyBuffer};
             let bg=self.body_groups().max(1);
@@ -2018,6 +2057,7 @@ impl GpuSim {
                         Indirect(&self.solve_large_components,large_offset)],
                     2=>vec![Dispatch(&self.apply_deltas,bg),Dispatch(&self.island_reset_ready,ig),
                         Dispatch(&self.island_accumulate_ready,ig),Dispatch(&self.island_apply_sleep,ig)],
+                    3=>vec![Dispatch(&self.reset_deltas,bg)],
                     _=>unreachable!(),
                 };
                 self.tail_cache[stage]=Some(crate::native_command_cache::RadixCache::record(
@@ -2033,7 +2073,7 @@ impl GpuSim {
                     wgpu::BufferTransition{buffer:&self.indirect,state:wgpu::BufferUses::INDIRECT},
                 ]),std::iter::empty());
             self.tail_cache[stage].as_ref().unwrap().encode(enc);
-            self.encode_commands.set(self.encode_commands.get().saturating_add([5,7,4][stage]));
+            self.encode_commands.set(self.encode_commands.get().saturating_add([5,7,4,1][stage]));
             return true;
         }
         #[cfg(not(all(feature = "native-command-cache", not(target_arch = "wasm32"))))]
@@ -2628,7 +2668,7 @@ impl GpuSim {
                 commands.extend([Dispatch(&self.begin_occupied_contacts,1),
                     if self.pair_matrix_used { Dispatch(&self.retire_stale_contacts,self.contact_groups().max(1)) }
                     else {Indirect(&self.retire_stale_contacts,16)},
-                    Indirect(&self.collect_occupied_contacts,0),Dispatch(&self.finish_occupied_contacts,1),
+                    Indirect(&self.collect_occupied_contacts,0),Dispatch(&self.finish_occupied_contacts,32),
                     CopyArgs{source:8*4,destination:0,bytes:16},
                     CopyArgs{source:64*4,destination:16,bytes:u64::from(crate::types::MAX_COLORS)*16},
                     CopyArgs{source:40*4,destination:Self::indirect_prepare_offset(),bytes:16},
@@ -2788,7 +2828,7 @@ impl GpuSim {
             pass.set_pipeline(&self.collect_occupied_contacts);
             pass.dispatch_workgroups_indirect(&self.indirect, 0);
             pass.set_pipeline(&self.finish_occupied_contacts);
-            pass.dispatch_workgroups(1, 1, 1);
+            pass.dispatch_workgroups(32, 1, 1);
         }
         enc.copy_buffer_to_buffer(&self.scratch, 8 * 4, &self.indirect, 0, 16);
         enc.copy_buffer_to_buffer(
@@ -2819,6 +2859,20 @@ impl GpuSim {
     }
 
     /// One Box3D world step: collide once, then TGS substeps, then apply deltas.
+    #[cfg(test)]
+    pub(crate) fn physics_replay_hits(&self)->u64{self.physics_replay_hits}
+    #[cfg(test)]
+    pub(crate) fn set_full_replay_test(&mut self,enabled:bool){self.full_replay_test_override=Some(enabled);}
+
+    #[cfg(feature = "native-command-cache")]
+    fn full_physics_replay_requested(&self) -> bool {
+        #[cfg(test)]
+        if let Some(enabled) = self.full_replay_test_override {
+            return enabled;
+        }
+        std::env::var("GPU_PHYSICS_FULL_REPLAY").as_deref() == Ok("1")
+    }
+
     pub fn world_step(&mut self, sub_steps: i32) {
         #[cfg(not(target_arch = "wasm32"))]
         self.harvest_gpu_timestamps(false);
@@ -2862,6 +2916,35 @@ impl GpuSim {
             .create_command_encoder(&wgpu::CommandEncoderDescriptor {
                 label: Some("world-step"),
             });
+        self.params.sub_step_count=sub_steps.max(1) as u32;
+        #[cfg(feature="native-command-cache")]
+        let replay_key = {
+            let mut params=self.params;params.physics_step=0;
+            let mut key=bytemuck::bytes_of(&params).to_vec();
+            key.extend_from_slice(&self.contact_slots.to_le_bytes());
+            key.extend_from_slice(&[u8::from(self.convex_ccd.is_some()),u8::from(self.graph_shared_requested),
+                u8::from(self.skip_general_static_sort),u8::from(self.one_group_wave_only),u8::from(self.component_tgs)]);key
+        };
+        #[cfg(feature="native-command-cache")]
+        let can_replay=!idle && !eligible && metric_step.is_none() && self.component_tgs
+            && self.params.joint_count==0 && self.params.mesh_triangle_count==0 && self.params.diagnostic_flags & crate::types::DIAG_PHASE_CAPTURE==0
+            && self.full_physics_replay_requested();
+        #[cfg(not(feature="native-command-cache"))]
+        let can_replay=false;
+        #[cfg(feature="native-command-cache")]
+        let hit=can_replay && self.physics_replay.as_ref().is_some_and(|(_,group,key,_,_)|group==&self.bind_group && key==&replay_key);
+        #[cfg(not(feature="native-command-cache"))]
+        let hit=false;
+        if hit {
+            #[cfg(test)] {self.physics_replay_hits+=1;}
+            self.upload_pass_lut();
+            #[cfg(feature="native-command-cache")]
+            {
+                let (replay,_,_,commands,sorts)=self.physics_replay.as_ref().unwrap();
+                unsafe{enc.native_physics_replay(replay);}
+                self.encode_commands.set(*commands);self.static_sort_dispatches.set(*sorts);self.solver_dispatches.set(2);
+            }
+        } else {
         if idle {
             // Real submission/timestamps/pose copies still follow below. Only
             // physics work is absent: the confirmed state has not changed.
@@ -2872,13 +2955,17 @@ impl GpuSim {
         if let Some(ccd)=&self.convex_ccd { ccd.capture(&mut enc,&self.bodies); }
         self.params.sub_step_count = sub_steps.max(1) as u32;
         self.upload_pass_lut();
-        self.ping_dispatch(
+        // Same reset shader and ordering; reuse its native command only when
+        // requested. The existing replay key covers body span and bind group.
+        let cached_reset = self.native_reset_requested
+            && self.try_native_tail(&mut enc, 3);
+        if !cached_reset { self.ping_dispatch(
             &mut enc,
             &self.reset_deltas.clone(),
             self.body_groups(),
             0,
             1,
-        );
+        ); }
         self.write_pass_timestamp(&mut enc, metric_step, 0);
         self.broadphase_candidates_pass(&mut enc);
         self.write_pass_timestamp(&mut enc, metric_step, 1);
@@ -2952,16 +3039,16 @@ impl GpuSim {
                     label: Some("physics-tgs"),
                     timestamp_writes: None,
                 });
-                // Give joints priority before contact waves, so ground constraints
-                // react to the motor target rather than having their solution
-                // overwritten by it. Keep the ping-pong paths in the same order.
+                // Dynamic joints precede contact waves. emit_wave inserts anchored
+                // joints between dynamic and static contact colors: impacts cannot
+                // overwrite anchors, and anchors cannot overwrite ground support.
                 for sub in 0..nsub {
                     self.emit_n(&mut pass, &self.integrate_vel, bg, 0, 1);
                     if self.params.diagnostic_flags & DIAG_PHASE_CAPTURE != 0 && sub < 4 {
                         self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 0, 0);
                     }
                     if has_joints {
-                        self.emit_n(&mut pass, &self.solve_joints, self.joint_solve_groups(), 0, 2);
+                        self.emit_n(&mut pass, &self.solve_joints, self.joint_solve_groups(), 1, 2);
                         self.joint_dispatches
                             .set(self.joint_dispatches.get().saturating_add(1));
                     }
@@ -2970,7 +3057,7 @@ impl GpuSim {
                         self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 1, 0);
                     }
                     if has_joints {
-                        self.emit_n(&mut pass, &self.solve_joints, self.joint_solve_groups(), 0, 1);
+                        self.emit_n(&mut pass, &self.solve_joints, self.joint_solve_groups(), 1, 1);
                         self.joint_dispatches
                             .set(self.joint_dispatches.get().saturating_add(1));
                     }
@@ -2983,7 +3070,7 @@ impl GpuSim {
                         self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 3, 0);
                     }
                     if has_joints {
-                        self.emit_n(&mut pass, &self.solve_joints, self.joint_solve_groups(), 0, 0);
+                        self.emit_n(&mut pass, &self.solve_joints, self.joint_solve_groups(), 1, 0);
                         self.joint_dispatches
                             .set(self.joint_dispatches.get().saturating_add(1));
                     }
@@ -3038,6 +3125,15 @@ impl GpuSim {
             self.idle_chain=Some((first,self.physics_step,self.idle_output_context,epoch));
         } else {self.idle_chain=None;}
         self.write_pass_timestamp(&mut enc,metric_step,7);
+        #[cfg(feature="native-command-cache")]
+        if can_replay {
+            let replay=unsafe{enc.finish().native_physics_capture()};
+            enc=self.device.create_command_encoder(&wgpu::CommandEncoderDescriptor{label:Some("physics-replay-wrapper")});
+            unsafe{enc.native_physics_replay(&replay);}
+            self.physics_replay=Some((replay,self.bind_group.clone(),replay_key,self.encode_commands.get(),self.static_sort_dispatches.get()));
+        }
+        } // recorded or replayed physics sequence
+
         if let Some(step) = metric_step {
             if let Some(metrics) = &self.metrics {
                 if let Some(ts) = &metrics.timestamp {
@@ -3859,6 +3955,7 @@ impl GpuSim {
     }
 
     pub(crate) fn set_convex_ccd(&mut self, scene:Option<&crate::ccd::ConvexScene>) {
+        #[cfg(feature="native-command-cache")] {self.physics_replay=None;}
         self.convex_ccd=scene.map(|scene|crate::ccd::ConvexCcd::new(&self.device,&self.bodies,scene));
     }
 
@@ -3966,16 +4063,16 @@ impl GpuSim {
         for _ in 0..sub_steps.max(1) {
             self.ping_dispatch(&mut enc, &int_vel, body_groups, 0, 1);
             if has_joints {
-                self.copy_then(&mut enc, &joints, self.joint_solve_groups(), 0, 2);
+                self.copy_then(&mut enc, &joints, self.joint_solve_groups(), if self.params.solver_mode == 1 { 0 } else { 1 }, 2);
             }
             self.dispatch_colored_solve(&mut enc, 2);
             if has_joints {
-                self.copy_then(&mut enc, &joints, self.joint_solve_groups(), 0, 1);
+                self.copy_then(&mut enc, &joints, self.joint_solve_groups(), if self.params.solver_mode == 1 { 0 } else { 1 }, 1);
             }
             self.dispatch_colored_solve(&mut enc, 1);
             self.ping_dispatch(&mut enc, &int_pos, body_groups, 0, 1);
             if has_joints {
-                self.copy_then(&mut enc, &joints, self.joint_solve_groups(), 0, 0);
+                self.copy_then(&mut enc, &joints, self.joint_solve_groups(), if self.params.solver_mode == 1 { 0 } else { 1 }, 0);
             }
             self.dispatch_colored_solve(&mut enc, 0);
         }

@@ -18,6 +18,7 @@ registry = Path(os.environ.get('CARGO_HOME', Path.home() / '.cargo')) / 'registr
 manifest = json.loads((patches / 'manifest.json').read_text())
 hook = json.loads((patches / 'backend-hook.json').read_text())
 queue_hooks = json.loads((patches / 'queue-hooks.json').read_text())
+physics_replay = json.loads((patches / 'physics-replay.json').read_text())
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -39,19 +40,34 @@ for item in manifest:
         queue_hashes = queue_hooks.get(str(Path(item['name']) / f))
         if queue_hashes:
             allowed.add(queue_hashes['after'])
+        replay_hashes = physics_replay.get(str(Path(item['name']) / f))
+        if replay_hashes:
+            allowed.add(replay_hashes['after'])
         if digest(dest / f) not in allowed:
             raise SystemExit('Unexpected backend source: ' + str(dest / f) + '; use a fresh output directory')
 f = out / hook['file']
 if digest(f) == hook['before_sha256']:
     subprocess.run(['patch', '--batch', '-p1', '-i', str(patches / 'backend-hook.patch')], cwd=out / 'wgpu-hal', check=True)
-if digest(f) != hook['after_sha256']:
+hook_allowed = {hook['after_sha256']}
+if hook['file'] in physics_replay:
+    hook_allowed.add(physics_replay[hook['file']]['after'])
+if digest(f) not in hook_allowed:
     raise SystemExit('Compiler hook fingerprint mismatch')
 queue_states = {name: digest(out / name) for name in queue_hooks}
 if all(queue_states[name] == hashes['before'] for name, hashes in queue_hooks.items()):
     subprocess.run(['patch', '--batch', '-p1', '-i', str(patches / 'queue-hooks.patch')], cwd=out / 'wgpu-hal', check=True)
 for name, hashes in queue_hooks.items():
-    if digest(out / name) != hashes['after']:
+    allowed = {hashes['after']}
+    if name in physics_replay:
+        allowed.add(physics_replay[name]['after'])
+    if digest(out / name) not in allowed:
         raise SystemExit('Queue hook fingerprint mismatch: ' + name)
+replay_states = {name: digest(out / name) for name in physics_replay}
+if all(replay_states[name] == hashes['before'] for name, hashes in physics_replay.items()):
+    subprocess.run(['patch', '--batch', '-p1', '-i', str(patches / 'physics-replay.patch')], cwd=out, check=True)
+for name, hashes in physics_replay.items():
+    if digest(out / name) != hashes['after']:
+        raise SystemExit('Physics replay fingerprint mismatch: ' + name)
 cargo = out / 'wgpu-hal/Cargo.toml'
 contents = cargo.read_text()
 section = '\n[dependencies.gpu-spirv-layout]\n'

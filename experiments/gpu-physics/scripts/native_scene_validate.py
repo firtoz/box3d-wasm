@@ -348,8 +348,12 @@ def classify(
     if status != "ok":
         return {"status": status if status != "ok" else "fail", "detail": detail, "criterion": "record"}
     if scene_id == "Compound/Village":
-        allocations = re.findall(r"gpu-alloc scene [^\n]*shapes=(\d+)[^\n]*scene_heap_bytes=(\d+)", log_text)
-        if not any(int(shapes) == 52502 and 0 < int(size) <= 512 * 1024 * 1024 for shapes, size in allocations):
+        # Capacity can double when the post-loading test sphere is added. Require
+        # the actual packed geometry count, not an exact allocation bucket size.
+        inputs = re.findall(r"gpu-scene-input shapes=(\d+) mesh_vertices=(\d+) mesh_triangles=(\d+) scene_heap_bytes=(\d+)", log_text)
+        if not any(int(shapes) == 52502 and int(vertices) > 0 and int(triangles) > 0
+                   and 0 < int(size) <= 512 * 1024 * 1024
+                   for shapes, vertices, triangles, size in inputs):
             return {"status": "fail", "detail": "missing full Village compound allocation evidence", "criterion": "geometry"}
     health_status, health_detail = generic_health(gpu)
     if health_status != "ok":
@@ -420,10 +424,14 @@ def self_check() -> None:
         frame.update(i=i, submitted_step=i+1, min_y=y, max_y=y)
         frame["bodies"][0].update(p=[0,y,0], v=[0,-15 if i < 300 else 0,0])
         village["frames"].append(frame)
-    village_log = "gpu-alloc scene generation=0 shapes=52502 scene_heap_bytes=12257696"
+    village_log = "gpu-scene-input shapes=52502 mesh_vertices=2678 mesh_triangles=4370 scene_heap_bytes=12257696"
     assert classify(village, village, "Compound/Village", 600, 0, village_log, False)["status"] == "pass"
     assert classify(village, village, "Compound/Village", 600, 0, "", False)["status"] == "fail"
     assert classify(village, village, "Compound/Village", 600, 0, village_log.replace("52502", "2"), False)["status"] == "fail"
+    grown_log = "gpu-alloc scene generation=0 shapes=105002 scene_heap_bytes=24257696\n" + village_log.replace("12257696", "24257696")
+    assert classify(village, village, "Compound/Village", 600, 0, grown_log, False)["status"] == "pass"
+    assert classify(village, village, "Compound/Village", 600, 0, grown_log.splitlines()[0], False)["status"] == "fail"
+    assert classify(village, village, "Compound/Village", 600, 0, village_log.replace("mesh_triangles=4370", "mesh_triangles=0"), False)["status"] == "fail"
     for mutation in ("missing_fixture", "empty", "sink", "drift", "never_falls"):
         bad = copy.deepcopy(village)
         if mutation == "missing_fixture": bad.pop("village_drop")

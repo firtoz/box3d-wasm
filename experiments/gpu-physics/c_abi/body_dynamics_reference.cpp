@@ -247,15 +247,29 @@ struct GyroscopicTorque : Sample {
 extern "C" void gpu_b3_world_wait(b3WorldId) __attribute__((weak));
 int main(int argc, char **argv) {
   if (argc != 3 ||
-      (std::strcmp(argv[1], "body") && std::strcmp(argv[1], "gyro") &&
+      (std::strcmp(argv[1], "body") && std::strcmp(argv[1], "body-callback") && std::strcmp(argv[1], "gyro") &&
        std::strcmp(argv[1], "gyro-mass")) ||
       std::atoi(argv[2]) < 1 || std::atoi(argv[2]) > 3600)
     return 64;
   SampleContext ctx;
-  Sample *s = std::strcmp(argv[1], "body") == 0
+  Sample *s = std::strncmp(argv[1], "body", 4) == 0
                   ? (Sample *)new BodyType(&ctx)
                   : (Sample *)new GyroscopicTorque(&ctx);
   auto w = s->m_worldId;
+  int callbackCount = 0;
+  if (std::strcmp(argv[1], "body-callback") == 0) {
+    for (auto body : bodies) {
+      std::vector<b3ShapeId> shapes(b3Body_GetShapeCount(body));
+      int count = b3Body_GetShapes(body, shapes.data(), shapes.size());
+      for (int i = 0; i < count; ++i)
+        b3Shape_EnablePreSolveEvents(shapes[i], true);
+    }
+    b3World_SetPreSolveCallback(w,
+        [](b3ShapeId, b3ShapeId, b3Pos, b3Vec3, void *context) {
+          ++*static_cast<int *>(context);
+          return true;
+        }, &callbackCount);
+  }
   if (std::strcmp(argv[1], "gyro-mass") == 0) {
     auto id = bodies.back();
     auto mass = b3Body_GetMassData(id);
@@ -304,6 +318,10 @@ int main(int argc, char **argv) {
         }
       }
     }
+  }
+  if (std::strcmp(argv[1], "body-callback") == 0) {
+    assert(callbackCount > 0);
+    printf("callbacks %d\n", callbackCount);
   }
   b3DestroyWorld(w);
 }

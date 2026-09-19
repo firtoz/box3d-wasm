@@ -1,0 +1,30 @@
+{
+  "wgpu/src/api/command_buffer.rs": {
+    "before": "9d709bb27e9008f43a3efc5e30eee0fbbf5a5842bd7bda18ab107f5083c94313",
+    "after": "6534915d5c79af17a8414697a0f5aea8d1881bbb5ffdbd2a72ce50d87dda5e15"
+  },
+  "wgpu/src/api/command_encoder.rs": {
+    "before": "03e21b2f7f6e8e6f7c3535273b32b529779d4a41f74f6486ce25715ee8a881f2",
+    "after": "377589c46e40bf12e4ad5fe28b53462a93ff23ff8351df2748cd32aeb7296b7b"
+  },
+  "wgpu/src/backend/wgpu_core.rs": {
+    "before": "9af465f9e668553ec6e6cd2f9047f49cf4b7df8d78db548c44b93474d8f7848e",
+    "after": "5ed372e97b49b42f33f4590fc8a3b524c2b2d3f2d1d2a1b59926ee22c1db4577"
+  },
+  "wgpu-core/src/command/mod.rs": {
+    "before": "a750bb0a17c60407df4f3604995db40d20353564e077984ea865284a560c4ec3",
+    "after": "f4dc8c5b71476401c47cebc4d66c6c5235802887fb69844ffcbaa6518141dde2"
+  },
+  "wgpu-hal/src/vulkan/command.rs": {
+    "before": "d39ac9b6a4f30294c75bf1704efd2bac548b31dfc84d7c0571d351e04395e1f9",
+    "after": "b6e3bc2c44c006e86cb18f36993fcfc716445cd7646e4b7799438e87acf2794a"
+  },
+  "wgpu-hal/src/vulkan/device.rs": {
+    "before": "6f9db5d38e35a975e95adce5704dfdc529d20fbb954eab50e60fc5682acc7f54",
+    "after": "45a4d819d1f6e5859f014159bdf7e7345b84eb621f8707e28abff701a32e250b"
+  },
+  "wgpu-hal/src/vulkan/mod.rs": {
+    "before": "f68b7035d971411fca87d3eee37b6ddc1b9a958635b8ad682cbf8b9d6d663693",
+    "after": "a329601f482217ffed5c6b46414fb9d6dfc894d0684ba30792f902e42f1f0182"
+  }
+}

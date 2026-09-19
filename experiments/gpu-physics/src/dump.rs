@@ -388,14 +388,11 @@ pub fn mixed_stacks_quality_error(bodies: &[BodyGpu], step: u32) -> Option<Strin
         ));
     }
     let count = dyns.len() as u32;
-    let per_layer = (count + 1) / 2;
     let mut min_y = f32::MAX;
     let mut max_y = f32::MIN;
     for (i, b) in dyns.iter().enumerate() {
         let i = i as u32;
-        let expected_y = 0.5 + u32::from(i >= per_layer) as f32;
-        let spawn_x = 3.0 * (i % 20) as f32;
-        let spawn_z = 3.0 * ((i % per_layer) / 20) as f32;
+        let [spawn_x, expected_y, spawn_z] = crate::scenes::mixed_stacks_position(count, i);
         min_y = min_y.min(b.pos[1]);
         max_y = max_y.max(b.pos[1]);
         if (b.pos[1] - expected_y).abs() > 0.02 {

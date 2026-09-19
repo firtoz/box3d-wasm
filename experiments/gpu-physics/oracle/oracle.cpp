@@ -268,19 +268,21 @@ static SceneState build_scene(const char* name, uint32_t sphere_count, int worke
 	}
 	else if (std::strcmp(name, "mixed-stacks") == 0)
 	{
+		int count = (int)std::max(2u, sphere_count);
+		int per_layer = (count + 1) / 2;
+		// Match the GPU fixture: every scaled row must remain over both grounds.
+		float ground_half = std::max(100.0f, 3.0f * (float)((per_layer - 1) / 20) + 3.0f);
 		b3ShapeDef shapeDef = b3DefaultShapeDef();
 		for (int g = 0; g < 2; ++g)
 		{
-			st.bodies.push_back(add_ground(st.world, 100.0f));
+			st.bodies.push_back(add_ground(st.world, ground_half));
 		}
 		b3BodyDef bodyDef = b3DefaultBodyDef();
 		bodyDef.type = b3_dynamicBody;
 		b3BoxHull cube = b3MakeCubeHull(0.5f);
-		int count = (int)std::max(2u, sphere_count);
-		int per_layer = (count + 1) / 2;
 		for (int i = 0; i < count; ++i)
 		{
-			int col = i % 20;
+			int col = (i % per_layer) % 20;
 			int layer = i >= per_layer ? 1 : 0;
 			int row = (i % per_layer) / 20;
 			bodyDef.position = {3.0f * (float)col, 0.5f + (float)layer, 3.0f * (float)row};
@@ -912,6 +914,7 @@ int main(int argc, char** argv)
 	uint32_t warmup = 60;
 	uint32_t bodies_n = 256;
 	bool bodies_set = false;
+	int workers = 0;
 	const char* dump_dir = nullptr;
 	const char* trace_dir = nullptr;
 	const char* metrics_path = nullptr;
@@ -930,6 +933,17 @@ int main(int argc, char** argv)
 		{
 			bodies_n = (uint32_t)std::atoi(argv[++i]);
 			bodies_set = true;
+		}
+		else if (std::strcmp(argv[i], "--workers") == 0 && i + 1 < argc)
+		{
+			char* end = nullptr;
+			long value = std::strtol(argv[++i], &end, 10);
+			if (end == argv[i] || *end || value < 0 || value > 64)
+			{
+				std::fprintf(stderr, "workers must be an integer from 0 to 64\n");
+				return 2;
+			}
+			workers = (int)value;
 		}
 		else if (std::strcmp(argv[i], "--dump-dir") == 0 && i + 1 < argc)
 		{
@@ -1007,7 +1021,7 @@ int main(int argc, char** argv)
 		std::vector<float> wall_samples;
 		if (dump_dir || metrics_path)
 		{
-			SceneState timed = build_scene(name, scene_bodies);
+			SceneState timed = build_scene(name, scene_bodies, workers);
 			nbody = (uint32_t)timed.bodies.size();
 			for (uint32_t i = 0; i < warmup; ++i)
 			{
@@ -1029,7 +1043,7 @@ int main(int argc, char** argv)
 			destroy_scene(timed);
 		}
 
-		SceneState restw = build_scene(name, scene_bodies);
+		SceneState restw = build_scene(name, scene_bodies, workers);
 		if (nbody == 0)
 		{
 			nbody = (uint32_t)restw.bodies.size();
@@ -1097,6 +1111,8 @@ int main(int argc, char** argv)
 		json += name;
 		json += "\": {\n      \"bodies\": ";
 		json += std::to_string(nbody);
+		json += ",\n      \"workers\": ";
+		json += std::to_string(workers);
 		json += ",\n      \"wall_ms\": ";
 		char num[64];
 		std::snprintf(num, sizeof(num), "%.3f", wall_ms);

@@ -63,6 +63,7 @@ fn main() {
                 cli.scene,
                 cli.contacts,
                 cli.body_count,
+                cli.body_count_explicit,
                 cli.epsilon,
                 cli.sleep,
             )) {

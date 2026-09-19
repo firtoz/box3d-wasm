@@ -173,6 +173,7 @@ run_self dominoes 300
 run_self high-resistance 600 --no-sleep
 run_self high-resistance 600 --sleep
 run_self mixed-stacks 120 --no-sleep
+run_self mixed-stacks 1200 "--bodies 4096 --no-sleep"
 
 echo "C ABI stack_sample (setter + dump repeatability)"
 STACK_SRC="$ROOT/c_abi/stack_sample.cpp"
@@ -429,10 +430,20 @@ if [[ -x "$ORACLE" ]]; then
   else
     record "cpu_oracle_compare:mixed-stacks" "fail" "oracle dump failed"
   fi
+  if "$ORACLE" --scene mixed-stacks --bodies 4096 --frames 1201 --dump-dir "$DUMP_DIR" --no-sleep >/dev/null; then
+    if "$BIN" --compare-oracle "$DUMP_DIR/mixed-stacks.bin" --scene mixed-stacks --bodies 4096 --no-sleep; then
+      record "cpu_oracle_compare:mixed-stacks:4096" "pass" "scaled fixture support, motion and CPU COM-y through 1200 steps"
+    else
+      record "cpu_oracle_compare:mixed-stacks:4096" "fail" "scaled fixture CPU/support compare failed"
+    fi
+  else
+    record "cpu_oracle_compare:mixed-stacks:4096" "fail" "scaled oracle dump failed"
+  fi
 else
   record "cpu_oracle_compare:revolute" "fail" "oracle missing after rebuild"
   record "cpu_oracle_compare:high-resistance" "fail" "oracle missing after rebuild"
   record "cpu_oracle_compare:mixed-stacks" "fail" "oracle missing after rebuild"
+  record "cpu_oracle_compare:mixed-stacks:4096" "fail" "oracle missing after rebuild"
 fi
 rm -rf "$DUMP_DIR"
 

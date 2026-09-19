@@ -390,30 +390,37 @@ fn create_ramp(world: WorldId) {
 /// Overlapping static boxes plus `count` dynamic boxes in two-layer stacks.
 /// Static degree is 2 per ground contact; this is the parallel-graph stress case.
 /// Default demo uses 600 dynamics (300 two-box stacks).
+fn mixed_stacks_ground_half_extent(count: u32) -> f32 {
+    let per_layer = count.max(2).div_ceil(2);
+    // Keep the original small fixture, but support every row at larger scales.
+    // The CPU oracle uses the same square ground and three-metre edge margin.
+    100.0_f32.max(3.0 * ((per_layer - 1) / 20) as f32 + 3.0)
+}
+
+pub(crate) fn mixed_stacks_position(count: u32, index: u32) -> [f32; 3] {
+    let per_layer = count.max(2).div_ceil(2);
+    let within_layer = index % per_layer;
+    [3.0 * (within_layer % 20) as f32,
+     0.5 + u32::from(index >= per_layer) as f32,
+     3.0 * (within_layer / 20) as f32]
+}
+
 pub fn create_mixed_stacks(world: WorldId, count: u32) {
+    let ground_half = mixed_stacks_ground_half_extent(count);
     let shape_def = b3_default_shape_def();
     for _ in 0..2 {
         let mut ground_def = b3_default_body_def();
         ground_def.position = [0.0, -1.0, 0.0];
         let ground = b3_create_body(world, &ground_def);
-        b3_create_hull_shape(ground, &shape_def, &b3_make_box_hull(100.0, 1.0, 100.0));
+        b3_create_hull_shape(ground, &shape_def, &b3_make_box_hull(ground_half, 1.0, ground_half));
         b3_body_mark_hidden(ground);
     }
     let cube = b3_make_cube_hull(0.5);
     let mut body_def = b3_default_body_def();
     body_def.body_type = BodyType::Dynamic;
     let count = count.max(2);
-    let cols = 20u32;
-    let per_layer = (count + 1) / 2;
     for i in 0..count {
-        let col = i % cols;
-        let layer = u32::from(i >= per_layer);
-        let row = (i % per_layer) / cols;
-        body_def.position = [
-            3.0 * col as f32,
-            0.5 + layer as f32,
-            3.0 * row as f32,
-        ];
+        body_def.position = mixed_stacks_position(count, i);
         let body = b3_create_body(world, &body_def);
         b3_create_hull_shape(body, &shape_def, &cube);
     }
@@ -467,6 +474,29 @@ fn create_dominoes(world: WorldId, rings: u32) {
                 );
             }
             alpha += 2.0;
+        }
+    }
+}
+
+#[cfg(test)]
+mod fixture_bounds_tests {
+    use super::{mixed_stacks_ground_half_extent, mixed_stacks_position};
+
+    #[test]
+    fn scaled_mixed_stacks_keep_every_cube_over_ground() {
+        assert_eq!(mixed_stacks_ground_half_extent(600), 100.0);
+        for count in [2u32, 64, 600, 1024, 2048, 4095, 4096, 4097, 65534] {
+            let half = mixed_stacks_ground_half_extent(count);
+            let per_layer = count.div_ceil(2);
+            for i in 0..count {
+                let [x, y, z] = mixed_stacks_position(count, i);
+                if i >= per_layer {
+                    let lower = mixed_stacks_position(count, i - per_layer);
+                    assert_eq!([x, y - 1.0, z], lower, "upper cube must have a lower support");
+                }
+                assert!(x + 0.5 < half && z + 0.5 < half,
+                    "cube {i}/{count} at ({x}, {z}) extends beyond ground {half}");
+            }
         }
     }
 }

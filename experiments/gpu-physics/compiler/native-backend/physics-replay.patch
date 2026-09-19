@@ -1,0 +1,209 @@
+--- a/wgpu/src/api/command_buffer.rs
++++ b/wgpu/src/api/command_buffer.rs
+@@ -21,3 +21,14 @@
+         self.buffer.as_custom()
+     }
+ }
++
++#[cfg(wgpu_core)]
++pub struct NativePhysicsReplay(pub(crate) std::sync::Arc<wgc::command::NativePhysicsReplay>);
++impl CommandBuffer {
++    /// Isolated unsafe native API. The recording must satisfy the private backend's reusable-buffer contract.
++    #[cfg(wgpu_core)]
++    pub unsafe fn native_physics_capture(self)->NativePhysicsReplay {
++        let core=self.buffer.as_core_opt().expect("native backend");
++        NativePhysicsReplay(unsafe{core.context.native_physics_capture(core)})
++    }
++}
+--- a/wgpu/src/api/command_encoder.rs
++++ b/wgpu/src/api/command_encoder.rs
+@@ -51,6 +51,13 @@
+ static_assertions::assert_impl_all!(TexelCopyTextureInfo<'_>: Send, Sync);
+ 
+ impl CommandEncoder {
++    /// Caller preserves native replay configuration and resources; submission remains tracked.
++    #[cfg(wgpu_core)]
++    pub unsafe fn native_physics_replay(&mut self,replay:&crate::NativePhysicsReplay) {
++        let core=self.inner.as_core_opt().expect("native backend");
++        unsafe{core.context.native_physics_replay(core,replay.0.clone());}
++    }
++
+     /// Finishes recording and returns a [`CommandBuffer`] that can be submitted for execution.
+     pub fn finish(mut self) -> CommandBuffer {
+         let buffer = self.inner.finish();
+--- a/wgpu/src/backend/wgpu_core.rs
++++ b/wgpu/src/backend/wgpu_core.rs
+@@ -94,6 +94,12 @@
+         unsafe { self.0.adapter_as_hal::<A>(adapter.id) }
+     }
+ 
++    pub unsafe fn native_physics_capture(&self,value:&CoreCommandBuffer)->Arc<wgc::command::NativePhysicsReplay> {
++        unsafe {self.0.native_physics_capture(value.id)}
++    }
++    pub unsafe fn native_physics_replay(&self,value:&CoreCommandEncoder,owner:Arc<wgc::command::NativePhysicsReplay>) {
++        unsafe {self.0.native_physics_replay(value.id,owner)}
++    }
+     pub unsafe fn compute_pipeline_as_hal<A:wgc::hal_api::HalApi>(&self,value:&CoreComputePipeline)->Option<impl Deref<Target=A::ComputePipeline>> {
+         unsafe { self.0.compute_pipeline_as_hal::<A>(value.id) }
+     }
+--- a/wgpu-core/src/command/mod.rs
++++ b/wgpu-core/src/command/mod.rs
+@@ -1482,3 +1482,40 @@
+         inner.webgpu_error_type()
+     }
+ }
++
++/// Isolated native physics replay: owns the original pool, commands and resources.
++/// Only Vulkan, buffer-only, reusable-flag recordings are supported.
++pub struct NativePhysicsReplay {
++    data: CommandBufferMutable,
++    device: Arc<Device>,
++}
++impl Global {
++    /// Caller must have recorded every Vulkan primary with SIMULTANEOUS_USE.
++    pub unsafe fn native_physics_capture(&self,id:id::CommandBufferId)->Arc<NativePhysicsReplay> {
++        let command=self.hub.command_buffers.get(id);
++        let data=command.take_finished().expect("finished native physics buffer");
++        assert!(data.trackers.textures.used_resources().next().is_none(),"buffer-only physics capture");
++        assert!(data.as_actions.is_empty(),"no acceleration-structure actions");
++        Arc::new(NativePhysicsReplay{data,device:command.device.clone()})
++    }
++    /// Replays only on the recording's device. Caller must invalidate on changes
++    /// to resource identity, dispatch layout or native command configuration.
++    pub unsafe fn native_physics_replay(&self,id:id::CommandEncoderId,owner:Arc<NativePhysicsReplay>) {
++        let command=self.hub.command_buffers.get(id.into_command_buffer_id());
++        assert!(Arc::ptr_eq(&command.device,&owner.device));
++        let handles:Vec<_>=owner.data.encoder.list.iter().flat_map(|b|unsafe{
++            b.as_any().downcast_ref::<hal::vulkan::CommandBuffer>().expect("Vulkan capture").cache_raw_handles()
++        }).collect();
++        let mut state=command.data.lock();
++        state.record_as_hal_mut(|inner| {
++            let inner=inner.expect("recording replay target");
++            let guard=command.device.snatchable_lock.read();
++            for buffer in owner.data.trackers.buffers.used_resources(){buffer.check_destroyed(&guard).expect("live replay buffer");}
++            inner.buffer_memory_init_actions.extend(owner.data.buffer_memory_init_actions.iter().cloned());
++            let raw=inner.encoder.open().expect("replay prefix");
++            CommandBuffer::insert_barriers_from_tracker(raw,&mut inner.trackers,&owner.data.trackers,&guard);
++            unsafe {raw.as_any_mut().downcast_mut::<hal::vulkan::CommandEncoder>().expect("Vulkan target")
++                .cache_insert_primary_list(&handles,owner.clone()).expect("insert tracked replay");}
++        });
++    }
++}
+--- a/wgpu-hal/src/vulkan/command.rs
++++ b/wgpu-hal/src/vulkan/command.rs
+@@ -142,7 +142,7 @@
+         self.rpass_debug_marker_active = false;
+ 
+         let vk_info = vk::CommandBufferBeginInfo::default()
+-            .flags(vk::CommandBufferUsageFlags::ONE_TIME_SUBMIT);
++            .flags(vk::CommandBufferUsageFlags::SIMULTANEOUS_USE);
+         unsafe { self.device.raw.begin_command_buffer(raw, &vk_info) }
+             .map_err(super::map_host_device_oom_err)?;
+         self.active = raw;
+@@ -159,7 +159,7 @@
+             // VK_ERROR_INVALID_VIDEO_STD_PARAMETERS_KHR
+             super::map_host_device_oom_err(err)
+         }
+-        Ok(super::CommandBuffer { raw })
++        Ok(super::CommandBuffer { raw, cache_segments: core::mem::take(&mut self.cache_segments) })
+     }
+ 
+     unsafe fn discard_encoding(&mut self) {
+@@ -168,6 +168,7 @@
+         // buffers to the discard pile.
+         assert_ne!(self.active, vk::CommandBuffer::null());
+ 
++        self.discarded.extend(self.cache_segments.drain(..).filter_map(|(raw,owner)|if owner.is_none(){Some(raw)}else{None}));
+         self.discarded.push(self.active);
+         self.active = vk::CommandBuffer::null();
+     }
+@@ -178,7 +179,10 @@
+     {
+         self.temp.clear();
+         self.free
+-            .extend(cmd_bufs.into_iter().map(|cmd_buf| cmd_buf.raw));
++            .extend(cmd_bufs.into_iter().flat_map(|cmd_buf| {
++                cmd_buf.cache_segments.into_iter().filter_map(|(raw,owner)|if owner.is_none(){Some(raw)}else{None})
++                    .chain(core::iter::once(cmd_buf.raw))
++            }));
+         self.free.append(&mut self.discarded);
+         // Delete framebuffers from the framebuffer cache
+         for (_, framebuffer) in self.framebuffers.drain() {
+--- a/wgpu-hal/src/vulkan/device.rs
++++ b/wgpu-hal/src/vulkan/device.rs
+@@ -1465,6 +1465,7 @@
+             raw,
+             device: Arc::clone(&self.shared),
+             active: vk::CommandBuffer::null(),
++            cache_segments: Vec::new(),
+             bind_point: vk::PipelineBindPoint::default(),
+             temp: super::Temp::default(),
+             free: Vec::new(),
+--- a/wgpu-hal/src/vulkan/mod.rs
++++ b/wgpu-hal/src/vulkan/mod.rs
+@@ -1158,6 +1158,7 @@
+     ///
+     /// If non-`null`, the buffer is in the Vulkan "recording" state.
+     active: vk::CommandBuffer,
++    cache_segments: Vec<(vk::CommandBuffer, Option<Arc<dyn core::any::Any + Send + Sync>>)>,
+ 
+     /// What kind of pass we are currently within: compute or render.
+     bind_point: vk::PipelineBindPoint,
+@@ -1227,6 +1228,28 @@
+     pub unsafe fn raw_handle(&self) -> vk::CommandBuffer {
+         self.active
+     }
++    /// Insert an owned, executable primary into this encoder's tracked submission.
++    /// Caller must declare all resource uses through wgpu before insertion, use
++    /// this queue family, initialize buffers before native access, and retain
++    /// every referenced resource in `owner`. Resource transitions do not perform
++    /// wgpu buffer initialization tracking for opaque native commands.
++    /// The primary must support simultaneous use and never be reset while retained.
++    /// This may only be called outside a render or compute pass.
++    pub unsafe fn cache_insert_primary(&mut self, primary: vk::CommandBuffer,
++        owner: Arc<dyn core::any::Any + Send + Sync>) -> Result<(), crate::DeviceError> {
++        unsafe { self.cache_insert_primary_list(&[primary],owner) }
++    }
++    /// Same ownership and synchronization requirements as cache_insert_primary.
++    pub unsafe fn cache_insert_primary_list(&mut self, primaries:&[vk::CommandBuffer],
++        owner: Arc<dyn core::any::Any + Send + Sync>) -> Result<(), crate::DeviceError> {
++        assert_ne!(self.active, vk::CommandBuffer::null());
++        unsafe { self.device.raw.end_command_buffer(self.active) }.map_err(map_host_device_oom_and_lost_err)?;
++        self.cache_segments.push((self.active,None));
++        self.cache_segments.extend(primaries.iter().map(|p|(*p,Some(owner.clone()))));
++        self.active=vk::CommandBuffer::null();
++        unsafe { <Self as crate::CommandEncoder>::begin_encoding(self,None) }
++    }
++
+ }
+ 
+ impl fmt::Debug for CommandEncoder {
+@@ -1237,9 +1260,12 @@
+     }
+ }
+ 
+-#[derive(Debug)]
+ pub struct CommandBuffer {
+     raw: vk::CommandBuffer,
++    cache_segments: Vec<(vk::CommandBuffer, Option<Arc<dyn core::any::Any + Send + Sync>>)>,
++}
++impl fmt::Debug for CommandBuffer {
++    fn fmt(&self,f:&mut fmt::Formatter<'_>)->fmt::Result { f.debug_struct("CommandBuffer").field("raw",&self.raw).finish() }
+ }
+ 
+ impl crate::DynCommandBuffer for CommandBuffer {}
+@@ -1538,7 +1564,7 @@
+ 
+         let vk_cmd_buffers = command_buffers
+             .iter()
+-            .map(|cmd| cmd.raw)
++            .flat_map(|cmd| cmd.cache_segments.iter().map(|(raw,_)|*raw).chain(core::iter::once(cmd.raw)))
+             .collect::<Vec<_>>();
+ 
+         let mut vk_info = vk::SubmitInfo::default().command_buffers(&vk_cmd_buffers);
+@@ -1857,3 +1883,5 @@
+     /// Borrowed handle. Caller must preserve ownership, lifetime and synchronization.
+     pub unsafe fn cache_raw_handle(&self) -> vk::DescriptorSet { *self.set.raw() }
+ }
++
++impl CommandBuffer {pub unsafe fn cache_raw_handles(&self)->Vec<vk::CommandBuffer>{self.cache_segments.iter().map(|(raw,_)|*raw).chain(core::iter::once(self.raw)).collect()}}

@@ -594,6 +594,7 @@ pub async fn compare_oracle_dump(
     scene: DemoScene,
     contacts: bool,
     body_count: u32,
+    body_count_explicit: bool,
     epsilon: f32,
     sleep: bool,
 ) -> Result<(), String> {
@@ -602,6 +603,7 @@ pub async fn compare_oracle_dump(
         scene,
         contacts,
         body_count,
+        body_count_explicit,
         OracleTol {
             pos: epsilon,
             vel: epsilon,
@@ -618,6 +620,7 @@ pub async fn compare_oracle_dump_with_tol(
     scene: DemoScene,
     contacts: bool,
     body_count: u32,
+    body_count_explicit: bool,
     tol: OracleTol,
     sleep: bool,
 ) -> Result<(), String> {
@@ -655,7 +658,7 @@ pub async fn compare_oracle_dump_with_tol(
         steps
     };
     let gpu_dev = GpuDevice::new(None).await?;
-    let demo = make_demo(scene, body_count, contacts, false, false);
+    let demo = make_demo(scene, body_count, contacts, false, body_count_explicit);
     let world = build_demo_world(gpu_dev, &demo);
     crate::api::b3_world_enable_sleeping(world, sleep);
     crate::api::b3_world_ensure_gpu(world);
@@ -1192,7 +1195,7 @@ pub async fn write_completed_step_bench(
         );
         b3_destroy_world(world);
         if run % 2 == 1 {
-            cpu_trials.push(maybe_cpu_oracle(scene, body_count, warmup, timed, sleep));
+            cpu_trials.push(maybe_cpu_oracle(scene, scale, warmup, timed, sleep));
         }
     }
     let mut mirror_ms = Vec::new();
@@ -1346,6 +1349,9 @@ fn maybe_cpu_oracle(
     ];
     if !sleep {
         args.push("--no-sleep".into());
+    }
+    if let Ok(workers) = std::env::var("GPU_PHYSICS_CPU_WORKERS") {
+        args.extend(["--workers".into(), workers]);
     }
     let status = std::process::Command::new(&bin).args(&args).status();
     let out = match status {

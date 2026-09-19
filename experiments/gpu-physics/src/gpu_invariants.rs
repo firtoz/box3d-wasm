@@ -1488,11 +1488,14 @@ fn revolute_keeps_one_group_contact_waves() {
     b3_world_enable_sleeping(world, false);
     b3_world_ensure_gpu(world);
     b3_world_step_gpu(world, 1.0 / 60.0, 4);
-    assert_eq!(b3_world_last_solver_dispatches(world), 13);
-    assert!(b3_world_last_joint_dispatches(world) >= 12);
+    // Each warm-start/solve/relax wave has dynamic and static contact halves,
+    // separated by anchored joints. Restitution remains one complete wave.
+    assert_eq!(b3_world_last_solver_dispatches(world), 4 * 3 * 2 + 1);
+    assert_eq!(b3_world_last_joint_dispatches(world), 4 * 3 * 2);
     b3_world_set_diagnostic_flags(world, DIAG_GENERAL_SOLVER);
     b3_world_step_gpu(world, 1.0 / 60.0, 4);
-    assert_eq!(b3_world_last_solver_dispatches(world), 325);
+    assert_eq!(b3_world_last_solver_dispatches(world), 4 * 3 * 26 + 25);
+    assert_eq!(b3_world_last_joint_dispatches(world), 4 * 3 * 2);
     b3_destroy_world(world);
 }
 
@@ -4658,5 +4661,26 @@ fn bounded_static_sort_handles_two_children_and_restores_general_for_three() {
     for _ in 0..60 {b3_world_step_gpu(world,1.0/60.0,4);}
     assert!(b3_world_last_static_sort_dispatches(world)>0);
     assert_compounds_rest(world,ids,"restored general degree three");
+    b3_destroy_world(world);
+}
+
+#[cfg(feature = "native-command-cache")]
+#[test]
+fn full_physics_replay_timestamps_remain_live_and_partition_device_time() {
+    use crate::api::*;
+    let gpu=pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let mut def=b3_default_world_def();def.enable_sleep=false;
+    let world=b3_create_world(gpu,&def);crate::scenes::create_mixed_stacks(world,600);
+    b3_world_ensure_gpu(world);
+    for step in 1..=16 {
+        b3_world_step_gpu(world,1.0/60.0,4);b3_world_gpu_wait(world);
+        assert_eq!(b3_world_last_timestamp_step(world),step);
+        let c=b3_world_last_collide_ms(world);let p=b3_world_last_prepare_ms(world);
+        let s=b3_world_last_solve_ms(world);let i=b3_world_last_integrate_ms(world);let d=b3_world_last_device_ms(world);
+        assert!([c,p,s,i,d].into_iter().all(|x|x.is_finite() && x>0.0));
+        assert!([c,p,s,i].into_iter().all(|x|x<=d));
+        assert!((c+p+s+i-d).abs()<=d*1e-5+1e-5,"step {step}: {c} + {p} + {s} + {i} != {d}");
+    }
+    assert!(!pollster::block_on(b3_world_live_step_stats(world)).unwrap().capacity_loss());
     b3_destroy_world(world);
 }

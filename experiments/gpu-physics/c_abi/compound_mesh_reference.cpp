@@ -6,6 +6,11 @@ extern "C" {
 #include "box3d/box3d.h"
 #include "box3d/collision.h"
 #include <cstdio>
+#ifdef GPU_REFERENCE_BOTH
+// These headless fixtures link the dual-world bridge but do not draw selections.
+extern "C" void SetSelectedBody(b3BodyId) {}
+extern "C" void SetComparisonSelectedBody(b3BodyId) {}
+#endif
 #include <cstdlib>
 struct QueryCheck {
   int hits = 0;
