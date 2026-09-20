@@ -1245,10 +1245,11 @@ fn solve_wheel(
                 frame_a,
                 rel.w * vec3<f32>(0.0, 1.0, 0.0) + cross(rel.xyz, vec3<f32>(0.0, 1.0, 0.0)),
             );
-            angular_impulse =
+            // Native non-steering warm start includes both A and B spin-axis terms.
+            angular_impulse = (*jn).motor_impulse * az + (
                 (*jn).angular_impulse.x * perp_x
                 + (*jn).angular_impulse.y * perp_y
-                + (*jn).motor_impulse * bz;
+                + (*jn).motor_impulse * bz);
         }
         (*ba).vel = (*ba).vel - (*ba).inv_mass * linear_impulse;
         (*ba).omega = (*ba).omega - world_inv_inertia(*ba, angular_a + angular_impulse);
@@ -1834,6 +1835,10 @@ fn solve_joints(
         }
         var ba = load_body(jn.a);
         var bb = load_body(jn.b);
+        // Sleeping solver sets retain impulses until an endpoint wakes.
+        if (is_immovable(ba) && is_immovable(bb)) {
+            continue;
+        }
         // 0: complete diagnostic walk, 1: dynamic joints, 2: anchored joints.
         // Keep sleep out of the classification: it must not change priority.
         let anchored = is_non_dynamic(ba) || is_non_dynamic(bb);
@@ -1992,7 +1997,11 @@ fn solve_joints(
                 rel.w * vec3<f32>(0.0, 1.0, 0.0)
                     + cross(rel.xyz, vec3<f32>(0.0, 1.0, 0.0)),
             );
-            if (jn.max_motor_force > 0.0 || jn.spring_hertz > 0.0) {
+            if (params.use_bias == 2u) {
+                let impulse = jn.perp_impulse.x * axis_x + jn.perp_impulse.y * axis_y;
+                apply_joint_torque(&ba, -impulse);
+                apply_joint_torque(&bb, impulse);
+            } else if (jn.max_motor_force > 0.0) {
                 let kxx =
                     dot(axis_x, world_inv_inertia(ba, axis_x) + world_inv_inertia(bb, axis_x));
                 let kyy =
@@ -2006,8 +2015,8 @@ fn solve_joints(
                     let a2 = h * omega * a1;
                     let a3 = 1.0 / (1.0 + a2);
                     let bias_rate = select(0.0, omega / max(a1, 1e-8), jn.spring_hertz > 0.0);
-                    let mass_scale = select(1.0, a2 * a3, params.use_bias == 1u);
-                    let impulse_scale = select(0.0, a3, params.use_bias == 1u);
+                    let mass_scale = a2 * a3;
+                    let impulse_scale = select(0.0, a3, jn.spring_hertz > 0.0);
                     let wrel = bb.omega - ba.omega;
                     let rhs = vec2<f32>(
                         dot(wrel, axis_x) + bias_rate * rel.x,
@@ -2030,9 +2039,6 @@ fn solve_joints(
                     apply_joint_torque(&ba, -angular_impulse);
                     apply_joint_torque(&bb, angular_impulse);
                 }
-            }
-            if (params.use_bias == 0u) {
-                jn.perp_impulse = vec2<f32>(0.0);
             }
             err = vec3<f32>(0.0);
         } else if (jn.kind == JOINT_DISTANCE) {
@@ -2142,6 +2148,9 @@ fn solve_joints(
                 apply_P(&bb, rB, P, 1.0);
             }
             if (params.use_bias == 0u) {
+                // Distance-only diagnostic snapshot; these fields are unused by its solver.
+                jn.weld_linear_impulse = vec3<f32>(jn.impulse + jn.spring_impulse, jn.lower_impulse, jn.upper_impulse);
+                jn.weld_angular_impulse = vec3<f32>(jn.motor_impulse, 0.0, 0.0);
                 jn.impulse = 0.0;
                 jn.spring_impulse = 0.0;
                 jn.lower_impulse = 0.0;

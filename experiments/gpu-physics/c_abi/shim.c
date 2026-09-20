@@ -3222,3 +3222,9 @@ B3_API float b3Joint_GetLinearSeparation(b3JointId id) { return gpu_b3_joint_get
 
 extern float gpu_b3_joint_get_angular_separation(b3JointId);
 B3_API float b3Joint_GetAngularSeparation(b3JointId id) { return gpu_b3_joint_get_angular_separation(id); }
+
+extern void gpu_b3_joint_get_constraint_force(b3JointId, float*);
+B3_API b3Vec3 b3Joint_GetConstraintForce(b3JointId id) { b3Vec3 v; gpu_b3_joint_get_constraint_force(id, &v.x); return v; }
+
+extern void gpu_b3_joint_get_constraint_torque(b3JointId, float*);
+B3_API b3Vec3 b3Joint_GetConstraintTorque(b3JointId id) { b3Vec3 v; gpu_b3_joint_get_constraint_torque(id, &v.x); return v; }

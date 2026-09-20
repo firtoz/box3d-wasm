@@ -206,15 +206,3 @@ B3_API b3RecQueryHit b3RecPlayer_GetFrameQueryHit(const b3RecPlayer* player, int
 	(void)sizeof(char);
 	return (b3RecQueryHit){0};
 }
-
-B3_API b3Vec3 b3Joint_GetConstraintForce(b3JointId jointId)
-{
-	(void)sizeof(char);
-	return (b3Vec3){0};
-}
-
-B3_API b3Vec3 b3Joint_GetConstraintTorque(b3JointId jointId)
-{
-	(void)sizeof(char);
-	return (b3Vec3){0};
-}

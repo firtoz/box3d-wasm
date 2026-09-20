@@ -1,3 +1,5 @@
+mod joint_reaction;
+pub use joint_reaction::*;
 mod joint_separation;
 pub use joint_separation::*;
 mod contact_api;
@@ -222,6 +224,8 @@ struct LiveContact {
 
 #[derive(Clone, Copy)]
 struct CpuJoint {
+    reaction_frames: [[f32; 4]; 2],
+    pending_reaction_frames: Option<([[f32; 4]; 2], bool)>,
     generation: u16,
     force_threshold: f32,
     torque_threshold: f32,
@@ -231,6 +235,8 @@ struct CpuJoint {
 impl CpuJoint {
     fn new(force_threshold: f32, torque_threshold: f32, user_data: usize) -> Self {
         Self {
+            reaction_frames: [[0.0; 4]; 2],
+            pending_reaction_frames: None,
             generation: 1,
             force_threshold,
             torque_threshold,
@@ -273,6 +279,7 @@ struct WorldInner {
     pending_fat_transforms: HashMap<(i32, u16), Vec<[f32; 8]>>,
     jacobi: bool,
     last_substep_h: f32,
+    reaction_inv_h: f32,
     contact_recycle_distance: f32,
     contact_registry: HashMap<ContactKey, contact_api::ContactEntry>,
     contact_by_id: HashMap<(i32, u32), ContactKey>,
@@ -371,6 +378,7 @@ pub fn b3_create_world(gpu: GpuDevice, def: &WorldDef) -> WorldId {
         pending_fat_transforms: HashMap::new(),
         jacobi: false,
         last_substep_h: FIXED_DT / DEFAULT_SUB_STEPS as f32,
+        reaction_inv_h: 0.0,
         contact_recycle_distance: 0.05,
         contact_registry: HashMap::new(),
         contact_by_id: HashMap::new(),
@@ -2677,6 +2685,10 @@ fn can_submit_resident(w:&WorldInner)->bool {
 }
 
 fn step_gpu_inner(id: WorldId, dt: f32, sub_step_count: i32) {
+    if dt == 0.0 {
+        with_world_mut_no_sync(id, |w| w.reaction_inv_h = 0.0);
+        return;
+    }
     if !dt.is_finite() || dt<=0.0 {return;}
     with_world_mut_no_sync(id, |w| {
         let resident=can_submit_resident(w);
@@ -2698,13 +2710,17 @@ fn step_gpu_inner(id: WorldId, dt: f32, sub_step_count: i32) {
         w.joint_events.clear();
         w.events_pending = false;
         let bodies=if resident {Vec::new()} else {pack_gpu_slots(w).0};
-        if !resident {w.step_start_bodies.clone_from(&bodies);}
+        if !resident {
+            w.step_start_bodies.clone_from(&bodies);
+            joint_reaction::prepare_frames(w);
+        }
         w.continuous_sensor_hits.clear();
         if w.bodies.is_empty() { return; }
         let n = w.bodies.len() as u32;
         let sub = sub_step_count.max(1);
         let h = dt / sub as f32;
         w.last_substep_h = h;
+        w.reaction_inv_h = sub as f32 * (1.0 / dt);
         if dt > 0.0 { advance_contact_shape_history(w, id.index1); }
         let refresh_ccd=w.scene_dirty || w.sim.is_none();
         ensure_sim(w, &bodies, n, h, dt, false);
@@ -3448,6 +3464,7 @@ fn sync_world_mirror_parts(
     let ccd_ms = ccd_start.elapsed().as_secs_f32() * 1e3;
     let apply_start = std::time::Instant::now();
     let epoch = snapshot_epoch(w);
+    if need_bodies { joint_reaction::save_prepared_frames(w, &out); }
     if need_bodies || ccd_corrected {
         for (source, slot) in w.bodies.iter_mut().enumerate() {
             if let Some(cpu) = slot {
@@ -6343,6 +6360,7 @@ fn with_distance_joint<R>(id: JointId, f: impl FnOnce(&JointGpu) -> R) -> Option
 pub fn b3_distance_joint_set_length(id: JointId, length: f32) {
     with_distance_joint_mut(id, |joint| {
         joint.target_translation = length.max(LINEAR_SLOP);
+        joint.weld_linear_impulse = [0.0; 3];
         joint.impulse = 0.0;
         joint.spring_impulse = 0.0;
     });
@@ -6418,6 +6436,7 @@ pub fn b3_distance_joint_is_limit_enabled(id: JointId) -> bool {
 
 pub fn b3_distance_joint_set_length_range(id: JointId, min_length: f32, max_length: f32) {
     with_distance_joint_mut(id, |joint| {
+        joint.weld_linear_impulse = [0.0; 3];
         joint.lower_translation = min_length.max(LINEAR_SLOP);
         joint.upper_translation = max_length.max(joint.lower_translation);
         joint.lower_impulse = 0.0;
@@ -6460,6 +6479,9 @@ pub fn b3_distance_joint_get_current_length(id: JointId) -> f32 {
 
 pub fn b3_distance_joint_enable_motor(id: JointId, enable: bool) {
     with_distance_joint_mut(id, |joint| {
+        if (joint.flags & crate::types::DISTANCE_ENABLE_MOTOR != 0) != enable {
+            joint.weld_angular_impulse[0] = 0.0;
+        }
         joint.flags = if enable {
             joint.flags | crate::types::DISTANCE_ENABLE_MOTOR
         } else {

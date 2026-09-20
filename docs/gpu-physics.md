@@ -29,8 +29,9 @@ or tune the solver for each device.
    ten-drag sequence at unchanged normal and strict thresholds. Solver/contact
    regressions pass; the separate AMD sweep and secondary-queue failures below
    remain. These results do not establish general GPU parity.
-2. **Next: non-recording native APIs.** Shape replacement and joint separation
-   queries are implemented; next are joint reaction forces/torques, world controls
+2. **Next: non-recording native APIs.** Shape replacement, joint separation and reaction
+   queries are implemented with the solver limits below. Fix substep force/torque
+   integration before claiming reaction parity; remaining API work is world controls
    and diagnostics. Review CPU-only comparison wrappers. Each completed API needs a sample or focused fixture
    exercising independent CPU and GPU behavior, including mutation and lifetime
    cases where relevant.
@@ -48,14 +49,14 @@ correctness and non-recording APIs.
 
 ## Missing features and known failures
 
-The portable-build audit on 2026-09-20 identifies **38 stub definitions and 10
-additional placeholders**; **36 concern recording/replay**. It also lists 15
+The portable-build audit on 2026-09-20 identifies **36 stub definitions and 10
+additional placeholders**; **36 concern recording/replay**. It also lists 13
 CPU-only comparison wrappers for semantic review, with no additional missing
 linked symbols in the selected build. Full native compatibility must not be inferred from scene checks.
 
 | Gap | User-visible consequence / remaining work |
 |---|---|
-| Joint reaction queries | Force and torque getters remain stubs. Wheel angular separation is also unimplemented upstream; its release fallback is zero. |
+| Joint query limits | Wheel angular separation is unimplemented upstream; its release fallback is zero. Reaction precision limits are described below. |
 | World controls | Warm-start and speculative-contact toggles do not control GPU behavior. Worker-count APIs are placeholders rather than GPU scheduling controls. |
 | World diagnostics | Profile/max-capacity APIs return placeholders; memory/bounds dump and static-tree rebuild helpers are incomplete. Public `contactCount` is not implemented by the GPU world counter. |
 | Recording/replay | Native recording creation, storage, file I/O, playback, seeking and query-history APIs are placeholders. Diagnostic state replay is not an implementation of these APIs. |
@@ -68,6 +69,52 @@ cache policy; explicit `--gpu-build-dir` and `--both-build-dir` override it.
 `--require-built` rejects absent archives or generated wrappers. Missing artifacts
 produce unknown coverage rather than a successful empty inventory. CI checks
 that builds supply these inputs, without requiring the unfinished APIs to pass.
+
+### Native joint reaction queries
+
+`b3Joint_GetConstraintForce` and `b3Joint_GetConstraintTorque` read the GPU's
+completed joint impulses and body poses for all nine joint types. Values use
+upstream inverse-substep scaling, including zero output after a zero-duration
+step. Sleeping joints retain their impulses and prepared frames. Frame edits
+use the same mixture of current and prepared transforms as the native getters.
+The combined wrappers return GPU results; the fixture queries the CPU world
+independently and checks that a CPU-only step cannot change the GPU result.
+
+The implementation preserves upstream diagnostic conventions: revolute torque
+includes both axial terms, wheel force uses the lower suspension limit value,
+and prismatic/wheel force adds the upper-limit term. Supporting solver fixes
+restore parallel-joint warm starting and softness, both wheel spin-axis warm
+start terms, retention of sleeping joint impulses, and preservation of explicit body sleep
+through the automatic sleep pass. Distance reaction history
+uses existing fields unused by that joint's solver; the GPU layout is unchanged.
+
+`./scripts/check-joint-reaction.sh` checks all joint types with four configurations,
+including rotations, springs, limits, motors, an offset anchor, changing timesteps
+and substep counts, sleep, frame edits, distance parameter edits, zero-duration
+steps and destruction. It asserts nonzero coverage for each supported reaction.
+The main fixture uses unit density and a per-component gate of
+`1e-5 * max(1, abs(cpu), abs(gpu))`; its result is not general solver parity.
+Existing GPU parameter setters wake bodies differently from native, so the
+retained-history case explicitly puts both worlds back to sleep.
+
+All four Linux Vulkan runs (AMD/NVIDIA, native sample caching on/off) pass
+**2,856 scalar comparisons each**. Both GPUs also pass the normal and strict
+ten-drag checks at unchanged maxima. Logs and binary/source hashes are in
+`experiments/gpu-physics/artifacts/joint-reaction/`.
+
+The fixture also retains strict failing probes:
+
+- `GPU_REACTION_KIND=5 GPU_REACTION_DENSITY=1000`: high-density revolute precision.
+- `GPU_REACTION_KIND=4 GPU_REACTION_OFFSET_STRESS=1`: rotated, offset prismatic
+  precision (the unrotated offset case is in the main fixture).
+- `GPU_REACTION_KIND=1 GPU_REACTION_APPLIED_TORQUE=1`: explicit torque is consumed
+  once before the GPU step rather than across native substeps, so last-substep
+  reactions can differ. These getter bindings do not repair that existing
+  force-integration path.
+
+Run these environment settings with the script above. They retain the same
+strict gate and must not be counted as passes. The main fixture and probes use
+independent GPU/CPU state; no CPU result is substituted for a GPU reaction.
 
 ### Native joint separation queries
 
@@ -263,8 +310,8 @@ fewer than the two required graphics/compute queues in family zero. These are
 failures, not passes or silently skipped checks. Both GPUs pass the solver/contact,
 mass-query, command-replay, pose-staging and event regressions. The six native
 tooling tests also pass. Normal and strict ten-drag checks passed during the
-shape-replacement qualification with the unchanged maxima above. Current joint
-separation/regression evidence is in `experiments/gpu-physics/artifacts/joint-separation/`;
+joint-reaction qualification with the unchanged maxima above. Current reaction
+and regression evidence is in `experiments/gpu-physics/artifacts/joint-reaction/`;
 prior replacement and drag evidence remains in `artifacts/shape-replacement/`
 and `artifacts/drag-agreement/` within the experiment.
 

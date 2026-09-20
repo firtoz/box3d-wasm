@@ -3729,3 +3729,13 @@ pub extern "C" fn gpu_b3_joint_get_linear_separation(id: JointId) -> f32 { crate
 
 #[no_mangle]
 pub extern "C" fn gpu_b3_joint_get_angular_separation(id: JointId) -> f32 { crate::api::b3_joint_get_angular_separation(id) }
+
+#[no_mangle]
+pub unsafe extern "C" fn gpu_b3_joint_get_constraint_force(id: JointId, out: *mut f32) {
+    if !out.is_null() { std::ptr::copy_nonoverlapping(crate::api::b3_joint_get_constraint_force(id).as_ptr(), out, 3); }
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn gpu_b3_joint_get_constraint_torque(id: JointId, out: *mut f32) {
+    if !out.is_null() { std::ptr::copy_nonoverlapping(crate::api::b3_joint_get_constraint_torque(id).as_ptr(), out, 3); }
+}

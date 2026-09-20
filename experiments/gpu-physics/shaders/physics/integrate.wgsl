@@ -88,8 +88,11 @@ fn island_accumulate_ready(@builtin(global_invocation_id) gid: vec3<u32>) {
     if (root == EMPTY) {
         return;
     }
-    let ready = (body_states[i].flags & FLAG_SLEEP_ENABLED) != 0u
-        && body_states[i].sleep_time >= TIME_TO_SLEEP;
+    // Explicitly sleeping bodies stay ready even before the automatic sleep
+    // timer expires. Island wake propagation above handles active neighbours.
+    let ready = (body_states[i].flags & FLAG_SLEEP) != 0u
+        || ((body_states[i].flags & FLAG_SLEEP_ENABLED) != 0u
+            && body_states[i].sleep_time >= TIME_TO_SLEEP);
     atomicAnd(&atom[atom_island_ready() + root], select(0u, 1u, ready));
 }
 

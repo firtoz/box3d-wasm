@@ -13,6 +13,8 @@ DUAL = {
     "b3Shape_SetHull",
     "b3Shape_GetHull",
     "b3Shape_ComputeMassData",
+    "b3Joint_GetConstraintForce",
+    "b3Joint_GetConstraintTorque",
     "b3Joint_GetLinearSeparation",
     "b3Joint_GetAngularSeparation",
     "b3Joint_GetLocalFrameA",
