@@ -31,13 +31,20 @@ or tune the solver for each device.
    remain. These results do not establish general GPU parity.
 2. **Next: non-recording native APIs.** Shape replacement, joint separation and reaction
    queries and substep force/torque integration are implemented with the precision
-   limits below. Remaining API work is world controls and diagnostics. Review CPU-only comparison wrappers. Each completed API needs a sample or focused fixture
+   limits below. Next implement warm-start and speculative-contact controls, then
+   world diagnostics and review the remaining worker-count/static-tree API semantics.
+   Review CPU-only comparison wrappers alongside each API. Each completed API needs a sample or focused fixture
    exercising independent CPU and GPU behavior, including mutation and lifetime
    cases where relevant.
 3. **Queued: GPU engine in WASM/WebGPU.** Repair the experimental browser build
    and add browser runtime tests. Start with Firefox on the development machine:
    WebGPU is reported available there, but unavailable in the local Chromium,
    Brave and Helium installations. Verify adapter/device creation when testing.
+
+The existing AMD convex-sweep mismatch and secondary-queue restrictions are
+documented limitations, not current work priorities. Keep reporting their test
+failures without weakening assertions; they do not displace the API and browser
+work above.
 
 Recording/replay, application performance work, and Windows/macOS/other-GPU
 portability are deferred. Runtime testing so far is Linux-only on the RTX 4070
@@ -60,6 +67,8 @@ linked symbols in the selected build. Full native compatibility must not be infe
 | World diagnostics | Profile/max-capacity APIs return placeholders; memory/bounds dump and static-tree rebuild helpers are incomplete. Public `contactCount` is not implemented by the GPU world counter. |
 | Recording/replay | Native recording creation, storage, file I/O, playback, seeking and query-history APIs are placeholders. Diagnostic state replay is not an implementation of these APIs. |
 | Combined viewer coverage | Some generated wrappers call only CPU APIs. Audit each remaining wrapper before claiming that controls or diagnostics affect/report both worlds. |
+| AMD convex sweeps | A rotating capsule reports a GPU hit where the CPU conservative-advancement reference reports no hit. Cause undiagnosed; investigation is deferred. |
+| AMD secondary queues | The experimental backend requires two graphics/compute queues in family zero; this AMD device exposes one. Its compute-only queues in another family are unsupported by this path; broader queue-family support is deferred. |
 | Browser target | Fix native-only transport/pose dependencies, pointer-size ABI assertions and global world storage before advertising WebGPU support. |
 
 Run `python3 experiments/gpu-physics/scripts/audit-native-api.py --require-complete`
