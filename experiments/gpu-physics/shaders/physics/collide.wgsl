@@ -148,16 +148,22 @@ fn finish_manifold(c: ptr<function, Contact>, a: Body, b: Body, ia: u32, ib: u32
 fn finish_manifold_from_previous(c: ptr<function, Contact>, a: Body, b: Body, ia: u32, ib: u32, p: Contact) {
     // Colliders are shape-origin; the solver uses body COM lever arms.
     // Packed ra.w is the COM-relative base so
-    //   s = ra.w + dot(rb.xyz - ra.xyz, n)
+    //   s = ra.w + gyro_dot3(rb.xyz - ra.xyz, n)
     // equals world separation along n:
-    //   dot((com_b + rb) - (com_a + ra), n).
+    //   gyro_dot3((com_b + rb) - (com_a + ra), n).
     // Shifting xyz by shape-to-COM therefore subtracts the same projection
     // from ra.w so s, friction weights, and cached reconstruction stay invariant.
+    // Box-face clipping supplies the original separation before solver-base
+    // packing. The marker is transient; finalization writes cache validity 1.
+    let has_raw_separations = (*c).cached_relative.w == 2.0;
+    let raw_separations = vec4<f32>((*c).persistent_rb0.w, (*c).persistent_rb1.w,
+        (*c).persistent_rb2.w, (*c).persistent_rb3.w);
+    var separations = vec4<f32>(0.0);
     let com_a = load_body(ia);
     let com_b = load_body(ib);
     let da = a.pos - com_a.pos;
     let db = b.pos - com_b.pos;
-    let base_shift = dot(db - da, (*c).n);
+    let base_shift = gyro_dot3(db - da, (*c).n);
     for (var i = 0u; i < (*c).count; i++) {
         let ra = ra_at(*c, i);
         let rb = rb_at(*c, i);
@@ -171,20 +177,21 @@ fn finish_manifold_from_previous(c: ptr<function, Contact>, a: Body, b: Body, ia
     for (var i = 0u; i < (*c).count; i++) {
         let ra = ra_at(*c, i);
         let rb = rb_at(*c, i);
-        let s = ra.w + dot(rb.xyz - ra.xyz, (*c).n);
+        let s = select(ra.w + gyro_dot3(rb.xyz - ra.xyz, (*c).n), raw_separations[i], has_raw_separations);
+        separations[i] = s;
         let weight = clamp(2.0 - s * inv_tau, MIN_FRICTION_WEIGHT, 1.0);
         center_a = center_a + ra.xyz * weight;
         center_b = center_b + rb.xyz * weight;
         wsum = wsum + weight;
-        let vA = com_a.vel + cross(com_a.omega, ra.xyz);
-        let vB = com_b.vel + cross(com_b.omega, rb.xyz);
-        let vn = dot(vB - vA, (*c).n);
+        let vA = com_a.vel + gyro_cross(com_a.omega, ra.xyz);
+        let vB = com_b.vel + gyro_cross(com_b.omega, rb.xyz);
+        let vn = gyro_dot3(vB - vA, (*c).n);
         if (i == 0u) { rel.x = vn; }
         else if (i == 1u) { rel.y = vn; }
         else if (i == 2u) { rel.z = vn; }
         else { rel.w = vn; }
     }
-    let inv = 1.0 / max(wsum, MIN_FRICTION_WEIGHT);
+    let inv = gyro_recip(max(wsum, MIN_FRICTION_WEIGHT));
     (*c).center_a = center_a * inv;
     (*c).center_b = center_b * inv;
     (*c)._pad_end = mixed_restitution_of(a, b);
@@ -208,12 +215,12 @@ fn finish_manifold_from_previous(c: ptr<function, Contact>, a: Body, b: Body, ia
     }
     if (p.a != EMPTY && p.count > 0u) {
         let old_t1 = perp(p.n);
-        let old_t2 = cross(old_t1, p.n);
+        let old_t2 = gyro_cross(old_t1, p.n);
         let sign = select(-1.0, 1.0, p.a == ia && p.b == ib);
         let old_friction = sign * (old_t1 * p.friction_impulse.x + old_t2 * p.friction_impulse.y);
         let new_t1 = perp((*c).n);
-        let new_t2 = cross(new_t1, (*c).n);
-        (*c).friction_impulse = vec2<f32>(dot(old_friction, new_t1), dot(old_friction, new_t2));
+        let new_t2 = gyro_cross(new_t1, (*c).n);
+        (*c).friction_impulse = vec2<f32>(gyro_dot3(old_friction, new_t1), gyro_dot3(old_friction, new_t2));
         (*c).twist_impulse = p.twist_impulse;
         (*c).rolling_impulse = sign * p.rolling_impulse;
     }
@@ -224,13 +231,21 @@ fn finish_manifold_from_previous(c: ptr<function, Contact>, a: Body, b: Body, ia
     (*c).persistent_ra1 = (*c).ra1;
     (*c).persistent_ra2 = (*c).ra2;
     (*c).persistent_ra3 = (*c).ra3;
-    (*c).persistent_rb0 = (*c).rb0;
-    (*c).persistent_rb1 = (*c).rb1;
-    (*c).persistent_rb2 = (*c).rb2;
-    (*c).persistent_rb3 = (*c).rb3;
+    (*c).persistent_rb0 = vec4<f32>((*c).rb0.xyz, separations.x);
+    (*c).persistent_rb1 = vec4<f32>((*c).rb1.xyz, separations.y);
+    (*c).persistent_rb2 = vec4<f32>((*c).rb2.xyz, separations.z);
+    (*c).persistent_rb3 = vec4<f32>((*c).rb3.xyz, separations.w);
 }
 
 // Box3D `b3ClipPolygon`: keep/intersect and stamp reference-edge feature ids.
+// Refine the shader division before constructing a clipped intersection.
+// A one-ulp fraction error moves endpoints on long edges by several ulps.
+fn clip_divide(a: f32, b: f32) -> f32 {
+    let estimate = a / b;
+    let residual = fma(-estimate,b,a);
+    return fma(residual,gyro_recip(b),estimate);
+}
+
 fn clip_feat(
     pts: array<vec3<f32>, 8>,
     n_in: u32,
@@ -253,15 +268,17 @@ fn clip_feat(
                 n_out = n_out + 1u;
             }
         } else if (d1 <= 0.0 && d2 > 0.0) {
-            let t = d1 / (d1 - d2);
+            let t = clip_divide(d1,d1-d2);
             if (n_out < 8u) {
-                outp[n_out] = mix(prev, cur, t);
+                // Preserve the native clip interpolation order.
+                outp[n_out] = prev + t * (cur - prev);
                 n_out = n_out + 1u;
             }
         } else if (d2 <= 0.0 && d1 > 0.0) {
-            let t = d1 / (d1 - d2);
+            let t = clip_divide(d1,d1-d2);
             if (n_out < 8u) {
-                outp[n_out] = mix(prev, cur, t);
+                // Preserve the native clip interpolation order.
+                outp[n_out] = prev + t * (cur - prev);
                 n_out = n_out + 1u;
             }
             if (n_out < 8u) {
@@ -367,7 +384,6 @@ fn add_clip_points(
     pts: array<vec3<f32>, 8>,
     feats: array<u32, 8>,
     np: u32,
-    origin: vec3<f32>,
     ref_half: f32,
     flip_ids: bool,
 ) {
@@ -377,7 +393,7 @@ fn add_clip_points(
     var n_cand = 0u;
     for (var i = 0u; i < np; i++) {
         let raw = pts[i];
-        var s = dot(raw - origin, n) - ref_half;
+        var s = gyro_dot3(raw, n) - ref_half;
         // Box3D keeps every clipped vertex; the manifold is rejected only if
         // min separation ≥ speculative (see `b3BuildFaceAContact`).
         cand_s[n_cand] = s;
@@ -433,7 +449,7 @@ fn add_clip_points(
         var best_score = -1e9;
         for (var i = 0u; i < n_cand; i++) {
             if (cand_s[i] > SPECULATIVE) { continue; }
-            let score = -cand_s[i] + dot(search, cand_p[i]);
+            let score = -cand_s[i] + gyro_dot3(search, cand_p[i]);
             if (bias * score > best_score) {
                 best_score = score;
                 best = i;
@@ -456,8 +472,8 @@ fn add_clip_points(
         best_score = 0.0;
         for (var i = 0u; i < n_cand; i++) {
             let d = cand_p[i] - pa;
-            let v = d - n * dot(d, n);
-            let d2 = dot(v, v);
+            let v = d - n * gyro_dot3(d, n);
+            let d2 = gyro_dot3(v, v);
             let sep = max(0.0, -cand_s[i]);
             let score = d2 + 4.0 * sep * sep;
             if (bias * score > best_score) {
@@ -480,7 +496,7 @@ fn add_clip_points(
             best_score = tol_sqr;
             var best_area = 0.0;
             for (var i = 0u; i < n_cand; i++) {
-                let area = dot(n, cross(ba, cand_p[i] - pa));
+                let area = gyro_dot3(n, gyro_cross(ba, cand_p[i] - pa));
                 let score = abs(area);
                 if (bias * score >= best_score) {
                     best_score = score;
@@ -503,9 +519,9 @@ fn add_clip_points(
                 best_score = tol_sqr;
                 for (var i = 0u; i < n_cand; i++) {
                     let p = cand_p[i];
-                    let u1 = sgn * dot(n, cross(p - pa, ba));
-                    let u2 = sgn * dot(n, cross(p - pb, pc - pb));
-                    let u3 = sgn * dot(n, cross(p - pc, pa - pc));
+                    let u1 = sgn * gyro_dot3(n, gyro_cross(p - pa, ba));
+                    let u2 = sgn * gyro_dot3(n, gyro_cross(p - pb, pc - pb));
+                    let u3 = sgn * gyro_dot3(n, gyro_cross(p - pc, pa - pc));
                     let score = max(u1, max(u2, u3));
                     if (bias * score > best_score) {
                         best_score = score;
@@ -523,15 +539,32 @@ fn add_clip_points(
     }
     for (var i = 0u; i < n_pick; i++) {
         let s = pick_s[i];
-        let p = pick_p[i];
-        let rA = p - a.pos;
-        let rB = p - b.pos;
+        var point_a = pick_p[i];
+        if (flip_ids) {
+            let relative_q = box_relative_rotation(a.rot, b.rot);
+            let relative_p = quat_inv_rotate(a.rot, b.pos - a.pos);
+            point_a = recycle_rotate(relative_q, point_a) + relative_p;
+        }
+        let rA = recycle_rotate(a.rot, point_a);
+        let rB = rA + (a.pos - b.pos);
         // Offset is along the manifold normal (`c.n` = A→B), not the clip plane.
-        let base = s - dot(rB - rA, (*c).n);
+        let base = s - gyro_dot3(rB - rA, (*c).n);
         set_point(c, i, vec4<f32>(rA, base), vec4<f32>(rB, 0.0));
         set_feat_at(c, i, pick_f[i]);
+        if (i == 0u) { (*c).persistent_rb0.w = s; }
+        else if (i == 1u) { (*c).persistent_rb1.w = s; }
+        else if (i == 2u) { (*c).persistent_rb2.w = s; }
+        else { (*c).persistent_rb3.w = s; }
+
     }
     (*c).count = n_pick;
+    (*c).cached_relative.w = 2.0;
+}
+
+fn box_relative_rotation(a: vec4<f32>, b: vec4<f32>) -> vec4<f32> {
+    let t1 = gyro_cross(b.xyz, a.xyz);
+    let t2 = t1 + a.w * b.xyz;
+    return vec4<f32>(t2 - b.w * a.xyz, a.w * b.w + gyro_dot3(a.xyz, b.xyz));
 }
 
 fn clip_box_face(a: Body, b: Body, ia: u32, ib: u32, best_kind: u32, best_face: u32, best_n: vec3<f32>) -> Contact {
@@ -541,7 +574,8 @@ fn clip_box_face(a: Body, b: Body, ia: u32, ib: u32, best_kind: u32, best_face: 
     c.friction = mixed_friction_of(a, b);
     c.n = best_n;
 
-    var inc: array<vec3<f32>, 4>;
+    var incident_body = b;
+    var incident_face = 0u;
     var inc_edges: array<u32, 4>;
     var ref_edges: array<u32, 4>;
     var ref_body = a;
@@ -552,7 +586,8 @@ fn clip_box_face(a: Body, b: Body, ia: u32, ib: u32, best_kind: u32, best_face: 
     if (best_kind == 0u) {
         let sup = box_support_vertex(b, -best_n);
         let inc_face = find_incident_face(b, best_n, sup);
-        inc = hull_face_verts(b, inc_face);
+        incident_body = b;
+        incident_face = inc_face;
         inc_edges = hull_face_edge_ids(inc_face);
         ref_edges = hull_face_edge_ids(best_face);
         ref_body = a;
@@ -566,7 +601,8 @@ fn clip_box_face(a: Body, b: Body, ia: u32, ib: u32, best_kind: u32, best_face: 
     } else {
         let sup = box_support_vertex(a, best_n);
         let inc_face = find_incident_face(a, -best_n, sup);
-        inc = hull_face_verts(a, inc_face);
+        incident_body = a;
+        incident_face = inc_face;
         inc_edges = hull_face_edge_ids(inc_face);
         ref_edges = hull_face_edge_ids(best_face);
         ref_body = b;
@@ -587,16 +623,33 @@ fn clip_box_face(a: Body, b: Body, ia: u32, ib: u32, best_kind: u32, best_face: 
     // Box3D clips in the reference hull's local frame so a box face is an exact
     // rectangle. World-space clipping shears that square as soon as either box
     // has a tiny rotation, which is what walks a column.
-    poly[0] = to_body_local(ref_body, inc[0]);
-    poly[1] = to_body_local(ref_body, inc[1]);
-    poly[2] = to_body_local(ref_body, inc[2]);
-    poly[3] = to_body_local(ref_body, inc[3]);
+    let b_to_a_q = box_relative_rotation(a.rot, b.rot);
+    let b_to_a_p = quat_inv_rotate(a.rot, b.pos - a.pos);
+    // Native face manifolds transform the local plane normal without
+    // renormalizing it. Preserve the same two transforms for face B.
+    var normal_a = BOX_FACE_N[best_face];
+    if (best_kind != 0u) { normal_a = -recycle_rotate(b_to_a_q, normal_a); }
+    c.n = recycle_rotate(a.rot, normal_a);
+
+    var incident_q = b_to_a_q;
+    var incident_p = b_to_a_p;
+    if (best_kind != 0u) {
+        incident_q = quat_inv(b_to_a_q);
+        incident_p = quat_inv_rotate(b_to_a_q, -b_to_a_p);
+    }
+    var incident_edge = BOX_FACE_EDGE[incident_face];
+    for (var i = 0u; i < 4u; i++) {
+        let next = BOX_EDGE_NEXT[incident_edge];
+        let point = box_point_local(incident_body, BOX_EDGE_ORIGIN[next]);
+        poly[i] = recycle_rotate(incident_q, point) + incident_p;
+        incident_edge = next;
+    }
     feats[0] = pack_feature(inc_owner, inc_edges[0], inc_owner, inc_edges[1]);
     feats[1] = pack_feature(inc_owner, inc_edges[1], inc_owner, inc_edges[2]);
     feats[2] = pack_feature(inc_owner, inc_edges[2], inc_owner, inc_edges[3]);
     feats[3] = pack_feature(inc_owner, inc_edges[3], inc_owner, inc_edges[0]);
     var np = 4u;
-    let ref_n_local = quat_inv_rotate(ref_body.rot, ref_n);
+    let ref_n_local = BOX_FACE_N[best_face];
     for (var p = 0u; p < 4u; p++) {
         let e = ref_edges[p];
         let v1 = box_point_local(ref_body, BOX_EDGE_ORIGIN[e]);
@@ -619,15 +672,7 @@ fn clip_box_face(a: Body, b: Body, ia: u32, ib: u32, best_kind: u32, best_face: 
             return c;
         }
     }
-    for (var i = 0u; i < np; i++) {
-        poly[i] = from_body_local(ref_body, poly[i]);
-    }
-
-    if (best_kind == 0u) {
-        add_clip_points(&c, a, b, ref_n, poly, feats, np, a.pos, ref_half, false);
-    } else {
-        add_clip_points(&c, a, b, ref_n, poly, feats, np, b.pos, ref_half, true);
-    }
+    add_clip_points(&c, a, b, ref_n_local, poly, feats, np, ref_half, best_kind != 0u);
     if (c.count == 0u) {
         c.a = EMPTY;
     }
@@ -659,11 +704,6 @@ fn try_cached_face(a: Body, b: Body, ia: u32, ib: u32) -> Contact {
     } else {
         return empty_contact();
     }
-    let al = length(n);
-    if (al < 1e-8) {
-        return empty_contact();
-    }
-    n = n / al;
     var c = clip_box_face(a, b, ia, ib, kind, face, n);
     if (c.a == EMPTY || c.count == 0u) {
         return empty_contact();
@@ -827,7 +867,7 @@ fn clip_seg(s: Seg2, plane_n: vec3<f32>, plane_c: f32) -> Seg2 {
         outp.n = outp.n + 1u;
     }
     if (d1 * d2 < 0.0) {
-        let t = d1 / (d1 - d2);
+        let t = clip_divide(d1,d1-d2);
         let hit = mix(s.p0, s.p1, t);
         if (outp.n == 0u) {
             outp.p0 = hit;
@@ -1178,9 +1218,10 @@ fn clip_polygon_with_features(input: ClipPolygon, plane_normal: vec3<f32>, plane
         let current_distance = dot(current, plane_normal) - plane_offset;
         let current_feature = input.features[i];
         if ((previous_distance <= tolerance) != (current_distance <= tolerance)) {
-            let t = previous_distance / (previous_distance - current_distance);
+            let t = clip_divide(previous_distance,previous_distance-current_distance);
             if (output.count < 32u) {
-                output.points[output.count] = mix(previous, current, t);
+                // Match b3ClipPolygon: weighted endpoints round differently.
+                output.points[output.count] = previous + t * (current - previous);
                 var feature = 0u;
                 if (edge != EMPTY) {
                     if (previous_distance <= tolerance) {
@@ -3227,6 +3268,17 @@ fn recycle_skip(p: Contact, a: Body, b: Body) -> bool {
     return arc < slack;
 }
 
+// Native recycling uses b3MakeMatrixFromQuat followed by b3MulMV.
+fn recycle_rotate(q: vec4<f32>, v: vec3<f32>) -> vec3<f32> {
+    let xx=q.x*q.x; let yy=q.y*q.y; let zz=q.z*q.z;
+    let xy=q.x*q.y; let xz=q.x*q.z; let xw=q.x*q.w;
+    let yz=q.y*q.z; let yw=q.y*q.w; let zw=q.z*q.w;
+    let cx=vec3<f32>(1.0-2.0*(yy+zz),2.0*(xy+zw),2.0*(xz-yw));
+    let cy=vec3<f32>(2.0*(xy-zw),1.0-2.0*(xx+zz),2.0*(yz+xw));
+    let cz=vec3<f32>(2.0*(xz+yw),2.0*(yz-xw),1.0-2.0*(xx+yy));
+    return (v.x*cx + v.y*cy) + v.z*cz;
+}
+
 fn recycle_contact(p: Contact, a: Body, b: Body) -> Contact {
     if (p.count == 0u) {
         return p;
@@ -3246,19 +3298,20 @@ fn recycle_contact(p: Contact, a: Body, b: Body) -> Contact {
     for (var i = 0u; i < p.count; i++) {
         let ra0 = persistent_ra_at(p, i);
         let rb0 = persistent_rb_at(p, i);
-        let rotated_a = quat_rotate(qa, ra0.xyz);
-        let rotated_b = quat_rotate(qb, rb0.xyz);
-        let old_s = ra0.w + dot(rb0.xyz - ra0.xyz, n);
-        let s = old_s + dot(dc + rotated_b - rotated_a, n);
-        let base = s - dot(rb0.xyz - ra0.xyz, n);
-        let weight = clamp(2.0 - s / SPECULATIVE, MIN_FRICTION_WEIGHT, 1.0);
+        let rotated_a = recycle_rotate(qa, ra0.xyz);
+        let rotated_b = recycle_rotate(qb, rb0.xyz);
+        let old_s = rb0.w;
+        let s = old_s + gyro_dot3(dc + (rotated_b - rotated_a), n);
+        let base = s - gyro_dot3(rb0.xyz - ra0.xyz, n);
+        let weight = clamp(2.0 - s * (1.0 / SPECULATIVE), MIN_FRICTION_WEIGHT, 1.0);
         center_a = center_a + weight * ra0.xyz;
         center_b = center_b + weight * rb0.xyz;
         weight_sum = weight_sum + weight;
         set_point(&c, i, vec4<f32>(ra0.xyz, base), vec4<f32>(rb0.xyz, rb_at(p, i).w));
     }
-    c.center_a = center_a / max(weight_sum, MIN_FRICTION_WEIGHT);
-    c.center_b = center_b / max(weight_sum, MIN_FRICTION_WEIGHT);
+    let inv_weight = gyro_recip(max(weight_sum, MIN_FRICTION_WEIGHT));
+    c.center_a = inv_weight * center_a;
+    c.center_b = inv_weight * center_b;
     return c;
 }
 

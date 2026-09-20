@@ -69,6 +69,14 @@ fn gyro_apply_gyro(b: ptr<function, Body>, h: f32) {
 // Match CPU normalization: rounded sqrt, then rounded reciprocal, then scale.
 // A residual correction removes the native shader sqrt/divide approximation.
 // This is not an added damping term or a change to the Newton iteration count.
+fn gyro_norm3(v: vec3<f32>) -> vec3<f32> {
+    let squared = gyro_dot3(v, v);
+    if (squared <= 1.17549435e-35) {
+        return vec3<f32>(0.0);
+    }
+    return gyro_recip(gyro_sqrt(squared)) * v;
+}
+
 fn gyro_norm4(q: vec4<f32>) -> vec4<f32> {
     let length_squared = ((q.x*q.x + q.y*q.y) + q.z*q.z) + q.w*q.w;
     if (length_squared <= 1.17549435e-35) {
@@ -88,10 +96,38 @@ fn gyro_recip(x: f32) -> f32 {
     return fma(residual, estimate, estimate);
 }
 
+fn gyro_divide(a: f32, b: f32) -> f32 {
+    let estimate = a / b;
+    let residual = fma(-estimate, b, a);
+    return fma(residual, gyro_recip(b), estimate);
+}
+
 fn gyro_sqrt(x: f32) -> f32 {
-    let estimate = sqrt(x);
-    let residual = fma(-estimate, estimate, x);
-    return fma(residual, 0.5 / estimate, estimate);
+    let bits = bitcast<u32>(x);
+    let exponent = (bits >> 23u) & 255u;
+    if (x <= 0.0 || exponent == 0u || exponent == 255u) { return sqrt(x); }
+    // Scale by an even power of two so midpoint residuals cannot underflow.
+    let e = i32(exponent) - 127;
+    let half_e = e >> 1;
+    let scaled = bitcast<f32>((bits & 0x007fffffu) | (u32(e - 2 * half_e + 127) << 23u));
+    let estimate = sqrt(scaled);
+    let residual = fma(-estimate, estimate, scaled);
+    let root = fma(residual, 0.5 / estimate, estimate);
+    // A rounded Newton update can land on the wrong side of a sqrt midpoint.
+    // Compare squared midpoints using residuals rather than rounding the midpoint.
+    let root_bits = bitcast<u32>(root);
+    let upper = bitcast<f32>(root_bits + 1u);
+    let lower = bitcast<f32>(root_bits - 1u);
+    let up_gap = upper - root;
+    let down_gap = root - lower;
+    let remainder = fma(-root, root, scaled);
+    let above = fma(-root, up_gap, remainder) - 0.25 * up_gap * up_gap;
+    let below = fma(root, down_gap, remainder) - 0.25 * down_gap * down_gap;
+    let odd = (root_bits & 1u) != 0u;
+    var rounded = root;
+    if (above > 0.0 || (above == 0.0 && odd)) { rounded = upper; }
+    else if (below < 0.0 || (below == 0.0 && odd)) { rounded = lower; }
+    return rounded * bitcast<f32>(u32(half_e + 127) << 23u);
 }
 
 // Keep component operations explicit: a native cross builtin can contract its

@@ -3145,6 +3145,10 @@ void both_pointer_down(b3WorldId world, b3Pos origin, b3Vec3 translation, bool g
             float trace = mass.inertia.cx.x + mass.inertia.cy.y + mass.inertia.cz.z;
             jd.maxVelocityTorque = 0.5f * sqrtf(trace / (3.0f * mass.mass)) * mg;
         }
+        if (getenv("BOTH_DRAG_MASS_TRACE")) {
+            fprintf(stderr, "drag-mass %d mass %.9g inertia %.9g %.9g %.9g torque %.9g\n",
+                i, mass.mass, mass.inertia.cx.x, mass.inertia.cy.y, mass.inertia.cz.z, jd.maxVelocityTorque);
+        }
         g_drag.joint[i] = i ? create_gpu_motor(world, &jd) : cpu_b3CreateMotorJoint(both_cpu_world(world), &jd);
         if (i) gpu_b3_body_set_awake(body, true); else cpu_b3Body_SetAwake(body, true);
     }

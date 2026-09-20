@@ -799,6 +799,7 @@ pub struct ContactPersistentGpu {
     pub cached_rotation_b: [f32; 4],
     pub lifecycle: [u32; 4],
     pub persistent_ra: [[f32; 4]; 4],
+    /// Original COM anchor xyz and unmodified manifold separation in w.
     pub persistent_rb: [[f32; 4]; 4],
     pub point_triangles: [u32; 4],
 }

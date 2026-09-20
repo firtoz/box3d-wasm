@@ -4684,3 +4684,37 @@ fn full_physics_replay_timestamps_remain_live_and_partition_device_time() {
     assert!(!pollster::block_on(b3_world_live_step_stats(world)).unwrap().capacity_loss());
     b3_destroy_world(world);
 }
+
+
+#[test]
+fn mass_queries_preserve_shape_and_explicit_mass() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let world = b3_create_world(gpu, &b3_default_world_def());
+    let mut def = b3_default_body_def();
+    def.body_type = BodyType::Dynamic;
+    let body = b3_create_body(world, &def);
+    let mut shape = b3_default_shape_def();
+    shape.density = 1000.0;
+    let id = b3_create_hull_shape(body, &shape, &b3_make_box_hull(0.5, 0.5, 0.5));
+    // Inverse mass 0.001 rounds back to 999.99994; public mass must stay 1000.
+    let check = |expected: f32| {
+        assert_eq!(crate::api::b3_body_get_mass(body).to_bits(), expected.to_bits());
+        assert_eq!(b3_body_get_mass_data(body).mass.to_bits(), expected.to_bits());
+    };
+    check(1000.0);
+    b3_body_apply_mass_from_shapes(body);
+    check(1000.0);
+    crate::api::b3_shape_set_density(id, 2000.0, true);
+    check(2000.0);
+    let mut mass = b3_body_get_mass_data(body);
+    mass.mass = 1000.0;
+    b3_body_set_mass_data(body, mass);
+    check(1000.0);
+    crate::api::b3_body_set_type(body, BodyType::Kinematic);
+    check(0.0);
+    crate::api::b3_body_set_type(body, BodyType::Dynamic);
+    check(2000.0);
+    b3_destroy_shape(id, true);
+    check(0.0);
+    b3_destroy_world(world);
+}

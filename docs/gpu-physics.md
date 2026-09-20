@@ -9,8 +9,8 @@ engine or show two independent worlds side by side.
 
 | Area | Status |
 |---|---|
-| Linux NVIDIA | Native CPU/GPU/combined builds and targeted runtime checks pass; strict drag discrepancy remains |
-| Linux AMD | Builds, picking, isolated dragging, CCD and scene-switch checks pass; ground dragging exceeds normal comparison tolerances |
+| Linux NVIDIA GeForce RTX 4070 Laptop GPU | Native CPU/GPU/combined builds and normal/strict retained-history drag checks pass |
+| Linux AMD Radeon 780M | Builds, picking and normal/strict retained-history drag checks pass; convex-sweep regression remains |
 | macOS / Windows | Build paths and CI matrix added; CI results and physical-GPU runtime validation are still required |
 | Intel / Apple hardware | Adapter selection permits capable devices; hardware correctness and performance are unverified |
 | Experimental browser target | Does not currently compile; native transport, ABI layout and world-storage assumptions need work |
@@ -22,6 +22,29 @@ Platform setup, adapter overrides and cache policy are in the
 [backend guide](../experiments/gpu-physics/compiler/native-backend/README.md).
 Automatic selection ranks capable devices; it does not benchmark every adapter
 or tune the solver for each device.
+
+## Work priorities
+
+1. **Completed: ground-drag agreement.** Both tested GPUs pass the independent
+   ten-drag sequence at unchanged normal and strict thresholds. Solver/contact
+   regressions pass; the separate AMD sweep and secondary-queue failures below
+   remain. These results do not establish general GPU parity.
+2. **Next: non-recording native APIs.** Implement shape replacement, joint
+   reaction/separation queries, world controls and diagnostics. Review CPU-only
+   comparison wrappers. Each completed API needs a sample or focused fixture
+   exercising independent CPU and GPU behavior, including mutation and lifetime
+   cases where relevant.
+3. **Queued: GPU engine in WASM/WebGPU.** Repair the experimental browser build
+   and add browser runtime tests. Start with Firefox on the development machine:
+   WebGPU is reported available there, but unavailable in the local Chromium,
+   Brave and Helium installations. Verify adapter/device creation when testing.
+
+Recording/replay, application performance work, and Windows/macOS/other-GPU
+portability are deferred. Runtime testing so far is Linux-only on the RTX 4070
+Laptop GPU and Radeon 780M. Other platforms/devices still need implementation
+where incomplete and build/runtime verification. GPU-only Sokol remains slower
+than CPU-only in the measured workloads; optimization is deferred until after
+correctness and non-recording APIs.
 
 ## Missing features and known failures
 
@@ -47,18 +70,41 @@ cache policy; explicit `--gpu-build-dir` and `--both-build-dir` override it.
 produce unknown coverage rather than a successful empty inventory. CI checks
 that builds supply these inputs, without requiring the unfinished APIs to pass.
 
-Known numerical failures retain their existing thresholds:
+### Ground-drag qualification
 
-- NVIDIA's strict ten-drag check reaches **0.982809 m/s** instantaneous velocity
-  difference against **0.5 m/s**. Normal held-motion and settling checks pass.
-- AMD ground dragging fails held position (**0.007997 m**, limit **0.005**),
-  quaternion chord (**0.011881**, limit **0.01**) and held velocity
-  (**0.420311 m/s**, limit **0.1**). Cache-on and cache-off results agree;
-  disabling caching does not fix this discrepancy.
-- The diagnostic seeded replay at step 1735 exceeds its single-step velocity
-  tolerance across all five bodies. Copying CPU state in this diagnostic does
-  not demonstrate independent simulation parity. Run
-  `scripts/check-drag-state-replay.sh 1735` from the experiment directory.
+The default native-cache path passes all ten drags on both Linux Vulkan adapters,
+including release/re-grab with retained histories. Each world performs its own
+picking and joint creation; CPU state is never copied into the GPU simulation.
+Both GPUs produced these maxima on 2026-09-20:
+
+| Measurement | Observed | Unchanged limit |
+|---|---:|---:|
+| Held position difference | 0.002881 m | 0.005 m |
+| Held quaternion chord | 0.005064 | 0.01 |
+| Held velocity difference | 0.047432 m/s | 0.1 m/s |
+| Settled velocity difference | 0 m/s | 0.02 m/s |
+| All-frame position difference | 0.006028 m | 0.025 m |
+| All-frame quaternion chord | 0.005973 | 0.025 |
+| Strict all-frame velocity difference | 0.230405 m/s | 0.5 m/s |
+
+Reproduce from `experiments/gpu-physics` (Linux cached backend):
+
+```sh
+GPU_PHYSICS_ADAPTER=amd ./scripts/check-both-pointer.sh artifacts/drag-check
+source scripts/native-samples-cache-env.sh
+GPU_PHYSICS_ADAPTER=amd artifacts/drag-check/both-drag --ground-strict
+GPU_PHYSICS_ADAPTER=nvidia artifacts/drag-check/both-drag --ground-strict
+```
+
+No experimental precision flag is required. The first command also checks picking
+and isolated dragging. Local qualification logs are under
+`artifacts/drag-agreement/default-*`. Diagnostic CPU-state replay remains a
+first-divergence tool, not evidence of independent simulation agreement.
+
+The broader AMD library suite exposes a separate convex-sweep failure: case 20 of
+`gpu_convex_sweeps_match_cpu_conservative_advancement` reports a GPU hit at
+fraction 0.115237534 where the CPU reports no hit. It reproduces in the earlier
+2026-09-19 test binary; the sweep shader and test are unchanged by the drag fixes.
 
 Gear Lift's current native gate measures geometric support, penetration duration,
 floor crossings and joint behavior over 1,200 steps. Its earlier chaotic rock
@@ -67,6 +113,21 @@ trajectory mismatch is not a bitwise-parity guarantee. Village has bounded
 coverage. Neither scene establishes full native API compatibility.
 
 ## Architecture and state ownership
+
+Native Vulkan physics preserves explicit scalar arithmetic order with SPIR-V
+`NoContraction` decorations, including explicit FMA residuals used for corrected
+division and square roots. Other backends retain the WGSL path and still need
+equivalent numerical validation. Compiled modules are cached by shader source,
+entry point and exact override values; no device-specific solver constants are used.
+
+The drag investigation found several rounding differences that accumulated across
+contacts: fused vector operations, approximate reciprocals, square-root double
+rounding, and different matrix and impulse evaluation order. Box clipping now
+keeps the native local-coordinate calculation order and preserves original contact
+separations for recycling instead of reconstructing them from solver offsets.
+Mass queries retain the original mass instead of inverting its rounded reciprocal,
+so independently created pointer joints receive matching inputs. These changes
+preserve independent simulations and the existing comparison thresholds.
 
 | Layer | Responsibility |
 |---|---|
@@ -111,27 +172,33 @@ Box3D API or proving a speedup on every GPU. It does require accurate limitation
 reproducible builds and a current regression result. A production-compatible
 replacement would additionally require closing the API and physics gaps above.
 
-The ordinary release library suite passed **232/232 tests** at `f2f4e69b`; this
-cleanup does not change Rust or shader physics. Cleanup checks pass six tooling
-tests, full TypeScript checking, lint (with warnings), a two-restart Junkyard
-smoke, cached and ordinary native builds, and artifact audits for both builds.
-Cached combined and ordinary GPU launches preserve matching step identities.
-The earlier demo build also passes; WASM was not rebuilt. Local review logs are
-in `experiments/gpu-physics/artifacts/merge-review/`. The updated default-cache
-native scene gate passes **12/12 cases**, including 1,200-step Gear Lift,
-600-step Village and the Village → Bounce House switch. This is Linux NVIDIA
-physics with AMD graphics, not cross-vendor or performance qualification.
+The 2026-09-20 native-cache release library suite reports **246/246 passed on
+NVIDIA** and **240/246 passed on AMD**. One AMD failure is the pre-existing
+convex-sweep case above; five secondary-queue tests fail because RADV exposes
+fewer than the two required graphics/compute queues in family zero. These are
+failures, not passes or silently skipped checks. Both GPUs pass the solver/contact,
+mass-query, command-replay, pose-staging and event regressions. The six native
+tooling tests also pass. Source/binary hashes and full results are in
+`experiments/gpu-physics/artifacts/drag-agreement/`.
+
+Earlier merge-review checks covered TypeScript, lint (with warnings), the demo
+build, a two-restart Junkyard smoke, cached/ordinary native builds and artifact
+audits. The 12-case native scene matrix included 1,200-step Gear Lift, 600-step
+Village and a Village → Bounce House switch, using NVIDIA physics and AMD graphics.
+Those results predate the drag fixes; they are not current scene-matrix or
+cross-platform qualification. Logs are in
+`experiments/gpu-physics/artifacts/merge-review/`. WASM was not rebuilt.
 
 Before merging:
 
-- Run Linux/macOS/Windows CPU, GPU and combined build jobs from clean checkouts.
-  The CI matrix includes ordinary builds on all three platforms and a Linux
-  cached-backend build with library-test compilation. Physical GPU tests remain
-  separate; these jobs have not yet produced results for this change.
+- Verify clean Linux CPU/GPU/combined builds with and without caching.
+  Windows/macOS CI and hardware verification are deferred; retain Linux-only
+  runtime claims until that work is complete. The CI matrix remains available
+  for future platform validation.
 - Run the complete correctness gate and cached-backend lifecycle/CCD/event
   tests on the final code. The earlier 58-case correctness result predates the
-  portability changes; the native matrix has now been refreshed. Repeat affected
-  suites after further code changes and retain failures/skips with source identity.
+  portability changes, and the 12-case native matrix predates the drag fixes.
+  Refresh both before merging and retain failures/skips with source identity.
   The native scene gate now freezes binaries from the portable launcher and
   records/applies its runtime configuration; cache opt-out uses the same gate.
 - Exercise the final launch path: default cache, cache opt-out, AMD selection,

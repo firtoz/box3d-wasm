@@ -41,6 +41,8 @@ struct CpuBody {
     generation: u16,
     user_data: usize,
     gpu: BodyGpu,
+    /// Original mass; inverse-mass round trips lose precision in public queries.
+    mass: f32,
     /// Center of mass in the body's local frame.
     local_center: [f32; 3],
     /// Symmetric local inertia tensor: xx, yy, zz, xy, xz, yz.
@@ -685,6 +687,7 @@ pub fn b3_create_body(world: WorldId, def: &BodyDef) -> BodyId {
             generation: 1,
             user_data: def.user_data,
             gpu,
+            mass: 0.0,
             local_center: [0.0; 3],
             local_inertia: [0.0; 6],
             has_shape: false,
@@ -986,6 +989,7 @@ fn apply_body_mass_from_shapes_inner(w: &mut WorldInner, body: BodyId) {
     let static_body = (cpu.gpu.flags & (FLAG_STATIC | FLAG_KINEMATIC)) != 0;
     let center = if static_body { [0.0; 3] } else { center };
     let inertia = if static_body { [0.0; 6] } else { inertia };
+    cpu.mass = if static_body { 0.0 } else { mass };
     cpu.local_center = center;
     cpu.local_inertia = inertia;
     let world_center = quat_rotate(cpu.gpu.rot, center);
@@ -1142,6 +1146,7 @@ fn attach_shape(
             let origin = body_origin(cpu);
             let static_body = (cpu.gpu.flags & (FLAG_STATIC | FLAG_KINEMATIC)) != 0;
             let local = if static_body || mass == 0.0 { [0.0; 3] } else { local };
+            cpu.mass = if static_body { 0.0 } else { mass };
             cpu.local_center = local;
             cpu.local_inertia = if static_body { [0.0; 6] } else { local_inertia };
             let world_center = quat_rotate(cpu.gpu.rot, local);
@@ -8738,12 +8743,9 @@ pub fn b3_body_apply_torque(id: BodyId, torque: [f32; 3], wake: bool) {
 }
 
 pub fn b3_body_get_mass(id: BodyId) -> f32 {
-    let inv = b3_body_inv_mass(id);
-    if inv > 1.0e-12 {
-        1.0 / inv
-    } else {
-        0.0
-    }
+    with_world_no_sync(world_id_from_body(id), |w| {
+        body_ref(w, id).map(|body| body.mass).unwrap_or(0.0)
+    }).unwrap_or(0.0)
 }
 
 pub fn b3_body_get_local_rotational_inertia(id: BodyId) -> [[f32; 3]; 3] {
@@ -8773,11 +8775,7 @@ pub fn b3_body_get_mass_data(id: BodyId) -> MassData {
             let fixed = FLAG_LOCK_ANG_X | FLAG_LOCK_ANG_Y | FLAG_LOCK_ANG_Z;
             let i = if body.gpu.flags & fixed == fixed || body.gpu.flags & (FLAG_STATIC | FLAG_KINEMATIC) != 0 { [0.0; 6] } else { body.local_inertia };
             MassData {
-                mass: if body.gpu.inv_mass > 1.0e-12 {
-                    1.0 / body.gpu.inv_mass
-                } else {
-                    0.0
-                },
+                mass: body.mass,
                 center: body.local_center,
                 inertia: [
                     [i[0], i[3], i[4]],
@@ -8802,6 +8800,7 @@ pub fn b3_body_set_mass_data(id: BodyId, data: MassData) {
         }
         let old_center = cpu.gpu.pos;
         let origin = body_origin(cpu);
+        cpu.mass = data.mass.max(0.0);
         cpu.local_center = data.center;
         cpu.local_inertia = [
             data.inertia[0][0],
@@ -9206,11 +9205,13 @@ pub fn b3_body_set_type(id: BodyId, body_type: BodyType) {
             match body_type {
                 BodyType::Static => {
                     body.gpu.flags |= FLAG_STATIC;
+                    body.mass = 0.0;
                     body.gpu.inv_mass = 0.0;
                     body.gpu.inv_inertia = [0.0; 3];
                 }
                 BodyType::Kinematic => {
                     body.gpu.flags |= FLAG_KINEMATIC;
+                    body.mass = 0.0;
                     body.gpu.inv_mass = 0.0;
                     body.gpu.inv_inertia = [0.0; 3];
                 }

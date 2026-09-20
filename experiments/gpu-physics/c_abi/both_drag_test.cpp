@@ -76,8 +76,12 @@ int main(int argc, char **argv) {
     int traceBody = std::getenv("BOTH_DRAG_TRACE_BODY")
                         ? std::atoi(std::getenv("BOTH_DRAG_TRACE_BODY"))
                         : 3;
-    assert(traceBody >= 0 && traceBody < 5);
-    b3BodyId body = bodies[traceBody];
+    assert(traceBody >= -1 && traceBody < 5);
+    const int first = traceBody < 0 ? 0 : traceBody;
+    const int last = traceBody < 0 ? 5 : traceBody + 1;
+    for (int index = first; index < last; ++index) {
+    if (traceBody < 0) fprintf(trace, "B %d %d\n", frame, index);
+    b3BodyId body = bodies[index];
     for (int engine = 0; engine < 2; engine++) {
       auto id = engine ? body : both_cpu_body(body);
       auto p = engine ? b3Body_GetTransform(id) : cpu_b3Body_GetTransform(id);
@@ -96,18 +100,19 @@ int main(int argc, char **argv) {
       for (int c = 0; c < n; c++)
         for (int m = 0; m < data[c].manifoldCount; m++) {
           const auto &manifold = data[c].manifolds[m];
-          fprintf(trace, "M %d %d count %d normal %g %g %g\n", frame, engine,
+          fprintf(trace, "M %d %d count %d normal %.9g %.9g %.9g\n", frame, engine,
                   manifold.pointCount, manifold.normal.x, manifold.normal.y,
                   manifold.normal.z);
           for (int k = 0; k < manifold.pointCount; k++) {
             const auto &p = manifold.points[k];
             fprintf(trace,
-                    "P %d %d id %u a %g %g %g b %g %g %g sep %g imp %g\n",
+                    "P %d %d id %u a %.9g %.9g %.9g b %.9g %.9g %.9g sep %.9g imp %.9g\n",
                     frame, engine, p.featureId, p.anchorA.x, p.anchorA.y,
                     p.anchorA.z, p.anchorB.x, p.anchorB.y, p.anchorB.z,
                     p.separation, p.normalImpulse);
           }
         }
+    }
     }
   };
   auto step = [&]() {

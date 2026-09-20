@@ -6,7 +6,7 @@ upstream `box3d/` sources remain unchanged.
 
 **Compatibility is incomplete.** Linux NVIDIA and AMD have local runtime coverage;
 macOS and Windows build paths await CI and hardware verification. See
-[status, missing features and merge requirements](../../docs/gpu-physics.md).
+[status, work priorities and missing features](../../docs/gpu-physics.md).
 
 ## Build and run
 
@@ -100,6 +100,32 @@ artifacts without requiring full API parity. Missing artifacts are reported as
 unknown coverage. Symbol coverage does not certify semantics.
 Several diagnostic scripts retain Linux/NVIDIA assumptions. Required checks
 reported as skipped or unsupported do not count as passes.
+
+The default Vulkan precision path passes normal and strict ten-drag checks on
+Linux Radeon 780M and RTX 4070 Laptop, with independent histories and unchanged
+tolerances. After `check-both-pointer.sh`, run the produced `both-drag` binary with
+`--ground-strict` on each adapter using `scripts/native-samples-cache-env.sh`.
+See [qualification results](../../docs/gpu-physics.md#ground-drag-qualification)
+for exact commands, limits and remaining failures.
+
+For drag phase traces, build the fixtures first with `check-both-pointer.sh`,
+then select the same build and library. For the cached Linux build:
+
+```sh
+GPU_PHYSICS_ADAPTER=amd DRAG_PHASE_RANGE=60:240 ./scripts/check-drag-phases.sh \
+  artifacts/drag-phases-amd native-samples/build-both-native-cache-portable \
+  target/native-cache-build/release/libgpu_physics.a
+```
+
+The diagnostic returns failure when the original strict drag gate fails, while
+retaining `result.log` and `phases.log`. Tracing can change scheduling and floating-point code generation, so confirm
+findings with the uninstrumented fixture too. Without build/library arguments,
+it uses the ordinary portable build produced with caching disabled. For joint/contact
+boundaries, also set `DRAG_CONSTRAINT_TRACE=1` and
+`GPU_PHYSICS_AB=phase-capture,mesh-candidates`; trace overflow invalidates the
+diagnostic. CPU phases 100/101 bracket relaxed joint solves, 102/103 biased solves.
+`BOTH_DRAG_TRACE_BODY=-1` traces all five cubes; `B <frame> <cube-index>` records
+identify the following state/contact lines. Values 0–4 retain single-cube tracing.
 
 For visual or solver changes, record the affected scenes before committing:
 

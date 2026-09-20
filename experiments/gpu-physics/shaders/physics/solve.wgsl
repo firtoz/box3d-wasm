@@ -12,16 +12,37 @@ fn motor_linear_mass_mul(ba: Body, bb: Body, rA: vec3<f32>, rB: vec3<f32>, v: ve
     let e0 = vec3<f32>(1.0, 0.0, 0.0);
     let e1 = vec3<f32>(0.0, 1.0, 0.0);
     let e2 = vec3<f32>(0.0, 0.0, 1.0);
-    let c0 = m * e0
-        - cross(rA, world_inv_inertia(ba, cross(rA, e0)))
-        - cross(rB, world_inv_inertia(bb, cross(rB, e0)));
-    let c1 = m * e1
-        - cross(rA, world_inv_inertia(ba, cross(rA, e1)))
-        - cross(rB, world_inv_inertia(bb, cross(rB, e1)));
-    let c2 = m * e2
-        - cross(rA, world_inv_inertia(ba, cross(rA, e2)))
-        - cross(rB, world_inv_inertia(bb, cross(rB, e2)));
+    var c0 = -(gyro_cross(rA, world_inv_inertia(ba, gyro_cross(rA, e0)))
+        + gyro_cross(rB, world_inv_inertia(bb, gyro_cross(rB, e0))));
+    var c1 = -(gyro_cross(rA, world_inv_inertia(ba, gyro_cross(rA, e1)))
+        + gyro_cross(rB, world_inv_inertia(bb, gyro_cross(rB, e1))));
+    var c2 = -(gyro_cross(rA, world_inv_inertia(ba, gyro_cross(rA, e2)))
+        + gyro_cross(rB, world_inv_inertia(bb, gyro_cross(rB, e2))));
+    c0.x = c0.x + m; c1.y = c1.y + m; c2.z = c2.z + m;
     return solve3(c0, c1, c2, v);
+}
+
+fn motor_angular_mass_mul(ba: Body, bb: Body, v: vec3<f32>) -> vec3<f32> {
+    let c0 = world_inv_inertia(ba,vec3<f32>(1.0,0.0,0.0))+world_inv_inertia(bb,vec3<f32>(1.0,0.0,0.0));
+    let c1 = world_inv_inertia(ba,vec3<f32>(0.0,1.0,0.0))+world_inv_inertia(bb,vec3<f32>(0.0,1.0,0.0));
+    let c2 = world_inv_inertia(ba,vec3<f32>(0.0,0.0,1.0))+world_inv_inertia(bb,vec3<f32>(0.0,0.0,1.0));
+    let det = gyro_dot3(c0,gyro_cross(c1,c2));
+    if (abs(det)<=1.17549435e-35) { return vec3<f32>(0.0); }
+    let inv = gyro_recip(det);
+    let m = transpose(mat3x3<f32>(inv*gyro_cross(c1,c2),inv*gyro_cross(c2,c0),inv*gyro_cross(c0,c1)));
+    return native_mul_mv(m,v);
+}
+
+// Native motor constraints normalize first, then multiply by the limit.
+fn motor_clamp_vector_length(v: vec3<f32>, max_length: f32) -> vec3<f32> {
+    let squared = gyro_dot3(v,v);
+    if (squared > max_length * max_length) {
+        if (squared <= 1.17549435e-35) { return vec3<f32>(0.0); }
+        let length = gyro_sqrt(squared);
+        let normalized = gyro_recip(length) * v;
+        return max_length * normalized;
+    }
+    return v;
 }
 
 fn clamp_vector_length(v: vec3<f32>, max_length: f32) -> vec3<f32> {
@@ -116,17 +137,17 @@ fn revolute_axis_y(axes: mat2x3<f32>) -> vec3<f32> {
 fn perp(n: vec3<f32>) -> vec3<f32> {
     // Box3D `b3Perp`: branch on |x| > 0.5 (not 1/sqrt(3)).
     if (n.x < -0.5 || n.x > 0.5) {
-        return normalize(vec3<f32>(n.y, -n.x, 0.0));
+        return gyro_norm3(vec3<f32>(n.y, -n.x, 0.0));
     }
-    return normalize(vec3<f32>(0.0, n.z, -n.y));
+    return gyro_norm3(vec3<f32>(0.0, n.z, -n.y));
 }
 
 fn normal_mass(a: Body, b: Body, rA: vec3<f32>, rB: vec3<f32>, n: vec3<f32>) -> f32 {
-    let rnA = cross(rA, n);
-    let rnB = cross(rB, n);
-    let k = body_inv_mass(a) + body_inv_mass(b) + dot(rnA, world_inv_inertia(a, rnA)) + dot(rnB, world_inv_inertia(b, rnB));
+    let rnA = gyro_cross(rA, n);
+    let rnB = gyro_cross(rB, n);
+    let k = body_inv_mass(a) + body_inv_mass(b) + gyro_dot3(rnA, world_inv_inertia(a, rnA)) + gyro_dot3(rnB, world_inv_inertia(b, rnB));
     if (k > 0.0) {
-        return 1.0 / k;
+        return gyro_recip(k);
     }
     return 0.0;
 }
@@ -135,7 +156,7 @@ fn current_sep(a: Body, b: Body, rA: vec3<f32>, rB: vec3<f32>, n: vec3<f32>, bas
     let rsA = quat_rotate(a.dq, rA);
     let rsB = quat_rotate(b.dq, rB);
     let ds = (b.dp - a.dp) + (rsB - rsA);
-    return base + dot(n, ds);
+    return base + gyro_dot3(n, ds);
 }
 
 // Validate the complete ownership chain before any impulse is applied. This
@@ -180,24 +201,17 @@ fn prepare_contact_slot(k: u32) {
     c.prepared_lever_arm = vec4<f32>(0.0);
     c.total_normal_impulse = vec4<f32>(0.0);
     var relative_velocity = vec4<f32>(0.0);
-    var center_a = vec3<f32>(0.0);
-    var center_b = vec3<f32>(0.0);
-    var friction_weight = 0.0;
+    // Collision detection computes centers from manifold separation before
+    // packing solver base separation. Reconstructing it here loses precision.
     for (var i = 0u; i < c.count; i++) {
         let rA = ra_at(c, i).xyz;
         let rB = rb_at(c, i).xyz;
         c.prepared_normal_mass[i] = normal_mass(a, b, rA, rB, c.n);
-        relative_velocity[i] = dot((b.vel + cross(b.omega, rB)) - (a.vel + cross(a.omega, rA)), c.n);
-        let separation = ra_at(c, i).w + dot(rB - rA, c.n);
-        let weight = clamp(2.0 - separation / SPECULATIVE, MIN_FRICTION_WEIGHT, 1.0);
-        center_a = center_a + weight * rA;
-        center_b = center_b + weight * rB;
-        friction_weight = friction_weight + weight;
+        relative_velocity[i] = gyro_dot3((b.vel + gyro_cross(b.omega, rB)) - (a.vel + gyro_cross(a.omega, rA)), c.n);
     }
-    c.center_a = center_a / friction_weight;
-    c.center_b = center_b / friction_weight;
     for (var i = 0u; i < c.count; i++) {
-        c.prepared_lever_arm[i] = length(ra_at(c, i).xyz - c.center_a);
+        let lever = ra_at(c, i).xyz - c.center_a;
+        c.prepared_lever_arm[i] = gyro_sqrt(gyro_dot3(lever, lever));
     }
     c._tail0 = vec4<u32>(
         bitcast<u32>(relative_velocity.x),
@@ -206,18 +220,18 @@ fn prepare_contact_slot(k: u32) {
         bitcast<u32>(relative_velocity.w),
     );
     let t1 = perp(c.n);
-    let t2 = cross(t1, c.n);
-    let rt1a = cross(c.center_a, t1);
-    let rt1b = cross(c.center_b, t1);
-    let rt2a = cross(c.center_a, t2);
-    let rt2b = cross(c.center_b, t2);
+    let t2 = gyro_cross(t1, c.n);
+    let rt1a = gyro_cross(c.center_a, t1);
+    let rt1b = gyro_cross(c.center_b, t1);
+    let rt2a = gyro_cross(c.center_a, t2);
+    let rt2b = gyro_cross(c.center_b, t2);
     let msum = body_inv_mass(a) + body_inv_mass(b);
-    let k11 = msum + dot(rt1a, world_inv_inertia(a, rt1a)) + dot(rt1b, world_inv_inertia(b, rt1b));
-    let k22 = msum + dot(rt2a, world_inv_inertia(a, rt2a)) + dot(rt2b, world_inv_inertia(b, rt2b));
-    let k12 = dot(rt1a, world_inv_inertia(a, rt2a)) + dot(rt1b, world_inv_inertia(b, rt2b));
+    let k11 = msum + gyro_dot3(rt1a, world_inv_inertia(a, rt1a)) + gyro_dot3(rt1b, world_inv_inertia(b, rt1b));
+    let k22 = msum + gyro_dot3(rt2a, world_inv_inertia(a, rt2a)) + gyro_dot3(rt2b, world_inv_inertia(b, rt2b));
+    let k12 = gyro_dot3(rt1a, world_inv_inertia(a, rt2a)) + gyro_dot3(rt1b, world_inv_inertia(b, rt2b));
     let det = k11 * k22 - k12 * k12;
     if (abs(det) > 1e-8) {
-        let inv_det = 1.0 / det;
+        let inv_det = gyro_recip(det);
         c.prepared_tangent_inv = vec4<f32>(k22 * inv_det, -k12 * inv_det, -k12 * inv_det, k11 * inv_det);
     } else {
         c.prepared_tangent_inv = vec4<f32>(
@@ -305,18 +319,19 @@ fn solve_manifold_bias(
         } else {
             bias = max(bias_rate * s, contact_speed);
         }
-        let vA = (*ba).vel + cross((*ba).omega, rA);
-        let vB = (*bb).vel + cross((*bb).omega, rB);
-        let vn = dot(vB - vA, n);
+        let vA = (*ba).vel + gyro_cross((*ba).omega, rA);
+        let vB = (*bb).vel + gyro_cross((*bb).omega, rB);
+        let vn = gyro_dot3(vB - vA, n);
         let nm = (*c).prepared_normal_mass[i];
         let j_old = rb.w;
         let neg_imp = nm * (pms * vn + bias) + pis * j_old;
         var j = max(j_old - neg_imp, 0.0);
         let dj = j - j_old;
+
         (*c).total_normal_impulse[i] = (*c).total_normal_impulse[i] + j;
         let P = n * dj;
-        apply_P(ba, rA, P, -1.0);
-        apply_P(bb, rB, P, 1.0);
+        apply_contact_P(ba, rA, P, -1.0);
+        apply_contact_P(bb, rB, P, 1.0);
         total_jn = total_jn + j;
         let lever = (*c).prepared_lever_arm[i];
         total_twist = total_twist + lever * j;
@@ -326,25 +341,25 @@ fn solve_manifold_bias(
     // Box3D's SIMD convex path omits friction during the biased pass.
     if (do_friction && use_bias == 0u) {
         let t1 = perp(n);
-        let t2 = cross(t1, n);
+        let t2 = gyro_cross(t1, n);
         let rA = (*c).center_a;
         let rB = (*c).center_b;
         {
-            let twist_speed = dot(n, (*bb).omega - (*ba).omega);
+            let twist_speed = gyro_dot3(n, (*bb).omega - (*ba).omega);
             let max_l = (*c).friction * total_twist;
-            var k_tw = dot(n, world_inv_inertia(*ba, n) + world_inv_inertia(*bb, n));
+            var k_tw = gyro_dot3(n, world_inv_inertia(*ba, n) + world_inv_inertia(*bb, n));
             var tm = 0.0;
-            if (k_tw > 1e-8) { tm = 1.0 / k_tw; }
+            if (k_tw > 1e-8) { tm = gyro_recip(k_tw); }
             var dtw = -tm * twist_speed;
             var tw = clamp((*c).twist_impulse + dtw, -max_l, max_l);
             dtw = tw - (*c).twist_impulse;
             (*c).twist_impulse = tw;
             let L = n * dtw;
             if (!is_immovable(*ba)) {
-                (*ba).omega = (*ba).omega - world_inv_inertia(*ba, L);
+                (*ba).omega = (*ba).omega - contact_inv_inertia(*ba, L);
             }
             if (!is_immovable(*bb)) {
-                (*bb).omega = (*bb).omega + world_inv_inertia(*bb, L);
+                (*bb).omega = (*bb).omega + contact_inv_inertia(*bb, L);
             }
         }
         if ((*c).rolling > 0.0) {
@@ -352,40 +367,42 @@ fn solve_manifold_bias(
             let dw = (*ba).omega - (*bb).omega;
             var jr = (*c).rolling_impulse + rolling_mass_mul(*ba, *bb, dw);
             let max_r = (*c).rolling * total_jn;
-            let lr2 = dot(jr, jr);
+            let lr2 = gyro_dot3(jr, jr);
             if (lr2 > max_r * max_r + 1.1920929e-7) {
                 jr = jr * (max_r / sqrt(lr2));
             }
             let djr = jr - (*c).rolling_impulse;
             (*c).rolling_impulse = jr;
             if (!is_immovable(*ba)) {
-                (*ba).omega = (*ba).omega - world_inv_inertia(*ba, djr);
+                (*ba).omega = (*ba).omega - contact_inv_inertia(*ba, djr);
             }
             if (!is_immovable(*bb)) {
-                (*bb).omega = (*bb).omega + world_inv_inertia(*bb, djr);
+                (*bb).omega = (*bb).omega + contact_inv_inertia(*bb, djr);
             }
         }
-        let vA = (*ba).vel + cross((*ba).omega, rA);
-        let vB = (*bb).vel + cross((*bb).omega, rB);
+        let vA = (*ba).vel + gyro_cross((*ba).omega, rA);
+        let vB = (*bb).vel + gyro_cross((*bb).omega, rB);
         let vr = vB - vA;
         let relative_tangent_velocity = vr - (*c).tangent_velocity;
         let vt = vec2<f32>(
-            dot(relative_tangent_velocity, t1),
-            dot(relative_tangent_velocity, t2),
+            gyro_dot3(relative_tangent_velocity, t1),
+            gyro_dot3(relative_tangent_velocity, t2),
         );
         var jn = (*c).friction_impulse;
         let mt = (*c).prepared_tangent_inv;
         jn = jn - vec2<f32>(mt.x * vt.x + mt.y * vt.y, mt.z * vt.x + mt.w * vt.y);
         let max_j = (*c).friction * total_jn;
-        let mag2 = dot(jn, jn);
+        let mag2 = jn.x * jn.x + jn.y * jn.y;
         if (mag2 > max_j * max_j) {
-            jn = jn * (max_j / sqrt(mag2));
+            // Native SIMD contact friction includes epsilon in the denominator.
+            jn = jn * gyro_divide(max_j, gyro_sqrt(mag2) + 1.1920929e-7);
         }
         let djt = jn - (*c).friction_impulse;
         (*c).friction_impulse = jn;
         let P = t1 * djt.x + t2 * djt.y;
-        apply_P(ba, rA, P, -1.0);
-        apply_P(bb, rB, P, 1.0);
+
+        apply_contact_P(ba, rA, P, -1.0);
+        apply_contact_P(bb, rB, P, 1.0);
     }
     if ((params.diagnostic_flags & DIAG_MESH_CANDIDATES) != 0u) {
         trace_solver_values(40u+use_bias,(*c).a,(*c).b,
@@ -421,15 +438,15 @@ fn apply_restitution(c: ptr<function, Contact>, ba: ptr<function, Body>, bb: ptr
             continue;
         }
         let nm = (*c).prepared_normal_mass[i];
-        let vA = (*ba).vel + cross((*ba).omega, ra.xyz);
-        let vB = (*bb).vel + cross((*bb).omega, rb.xyz);
-        let vn = dot(vB - vA, n);
+        let vA = (*ba).vel + gyro_cross((*ba).omega, ra.xyz);
+        let vB = (*bb).vel + gyro_cross((*bb).omega, rb.xyz);
+        let vn = gyro_dot3(vB - vA, n);
         let neg_imp = nm * (vn + rest * rv);
         var j = max(rb.w - neg_imp, 0.0);
         let dj = j - rb.w;
         (*c).total_normal_impulse[i] = (*c).total_normal_impulse[i] + dj;
-        apply_P(ba, ra.xyz, n * dj, -1.0);
-        apply_P(bb, rb.xyz, n * dj, 1.0);
+        apply_contact_P(ba, ra.xyz, n * dj, -1.0);
+        apply_contact_P(bb, rb.xyz, n * dj, 1.0);
         set_point(c, i, ra, vec4<f32>(rb.xyz, j));
     }
 }
@@ -440,29 +457,29 @@ fn warm_manifold(c: Contact, ba: ptr<function, Body>, bb: ptr<function, Body>) {
         let rA = ra_at(c, i).xyz;
         let rB = rb_at(c, i).xyz;
         let P = n * rb_at(c, i).w;
-        apply_P(ba, rA, P, -1.0);
-        apply_P(bb, rB, P, 1.0);
+        apply_contact_P(ba, rA, P, -1.0);
+        apply_contact_P(bb, rB, P, 1.0);
     }
     let t1 = perp(n);
-    let t2 = cross(t1, n);
+    let t2 = gyro_cross(t1, n);
     let Pf = t1 * c.friction_impulse.x + t2 * c.friction_impulse.y;
-    apply_P(ba, c.center_a, Pf, -1.0);
-    apply_P(bb, c.center_b, Pf, 1.0);
+    apply_contact_P(ba, c.center_a, Pf, -1.0);
+    apply_contact_P(bb, c.center_b, Pf, 1.0);
     if (length(c.rolling_impulse) > 0.0) {
         if (!is_immovable(*ba)) {
-            (*ba).omega = (*ba).omega - world_inv_inertia(*ba, c.rolling_impulse);
+            (*ba).omega = (*ba).omega - contact_inv_inertia(*ba, c.rolling_impulse);
         }
         if (!is_immovable(*bb)) {
-            (*bb).omega = (*bb).omega + world_inv_inertia(*bb, c.rolling_impulse);
+            (*bb).omega = (*bb).omega + contact_inv_inertia(*bb, c.rolling_impulse);
         }
     }
     if (abs(c.twist_impulse) > 0.0) {
         let L = c.n * c.twist_impulse;
         if (!is_immovable(*ba)) {
-            (*ba).omega = (*ba).omega - world_inv_inertia(*ba, L);
+            (*ba).omega = (*ba).omega - contact_inv_inertia(*ba, L);
         }
         if (!is_immovable(*bb)) {
-            (*bb).omega = (*bb).omega + world_inv_inertia(*bb, L);
+            (*bb).omega = (*bb).omega + contact_inv_inertia(*bb, L);
         }
     }
 }
@@ -1826,11 +1843,16 @@ fn solve_joints(
         }
         let qa = normalize(quat_mul(ba.dq, ba.rot));
         let qb = normalize(quat_mul(bb.dq, bb.rot));
-        let rA = joint_lever(jn.a, qa, jn.anchor_a);
-        let rB = joint_lever(jn.b, qb, jn.anchor_b);
+        var rA = joint_lever(jn.a, qa, jn.anchor_a);
+        var rB = joint_lever(jn.b, qb, jn.anchor_b);
         let pa = ba.pos + ba.dp + rA;
         let pb = bb.pos + bb.dp + rB;
         var err = pb - pa;
+        if (jn.kind == JOINT_MOTOR) {
+            rA = quat_rotate(ba.dq, joint_lever(jn.a, ba.rot, jn.anchor_a));
+            rB = quat_rotate(bb.dq, joint_lever(jn.b, bb.rot, jn.anchor_b));
+            err = ((bb.dp - ba.dp) + (rB - rA)) + (bb.pos - ba.pos);
+        }
         if (jn.kind == JOINT_REVOLUTE) {
             solve_revolute(&jn, &ba, &bb);
             err = vec3<f32>(0.0);
@@ -1851,10 +1873,16 @@ fn solve_joints(
                     + vec3<f32>(jn.spring_impulse, jn.lower_impulse, jn.upper_impulse);
                 let angular = jn.angular_impulse
                     + vec3<f32>(jn.motor_impulse, jn._pad2);
-                apply_P(&ba, rA, linear, -1.0);
-                apply_P(&bb, rB, linear, 1.0);
-                apply_joint_torque(&ba, -angular);
-                apply_joint_torque(&bb, angular);
+                // Native combines both cached torques before multiplying by
+                // inverse inertia, then adds the angular velocity delta once.
+                if (joint_endpoint_writable(ba)) {
+                    ba.vel = ba.vel - body_inv_mass(ba) * linear;
+                    ba.omega = ba.omega - world_inv_inertia(ba, gyro_cross(rA,linear) + angular);
+                }
+                if (joint_endpoint_writable(bb)) {
+                    bb.vel = bb.vel + body_inv_mass(bb) * linear;
+                    bb.omega = bb.omega + world_inv_inertia(bb, gyro_cross(rB,linear) + angular);
+                }
                 if (joint_endpoint_writable(ba)) { store_body(jn.a, ba); }
                 if (joint_endpoint_writable(bb)) { store_body(jn.b, bb); }
                 continue;
@@ -1879,10 +1907,10 @@ fn solve_joints(
                 let cdot = bb.omega - ba.omega;
                 let old = angular_spring_impulse;
                 let delta = -mass_scale
-                    * rolling_mass_mul(ba, bb, cdot + bias_rate * rotation_error)
+                    * motor_angular_mass_mul(ba, bb, cdot + bias_rate * rotation_error)
                     - impulse_scale * old;
                 angular_spring_impulse =
-                    clamp_vector_length(old + delta, h * jn.max_motor_force);
+                    motor_clamp_vector_length(old + delta, h * jn.max_motor_force);
                 let impulse = angular_spring_impulse - old;
                 apply_joint_torque(&ba, -impulse);
                 apply_joint_torque(&bb, impulse);
@@ -1891,8 +1919,8 @@ fn solve_joints(
             if (jn.lower_translation > 0.0) {
                 let cdot = bb.omega - ba.omega - jn.motor_angular_velocity;
                 let old = jn.angular_impulse;
-                jn.angular_impulse = clamp_vector_length(
-                    old - rolling_mass_mul(ba, bb, cdot),
+                jn.angular_impulse = motor_clamp_vector_length(
+                    old - motor_angular_mass_mul(ba, bb, cdot),
                     h * jn.lower_translation,
                 );
                 let impulse = jn.angular_impulse - old;
@@ -1911,13 +1939,13 @@ fn solve_joints(
                 let mass_scale = a2 * a3;
                 let impulse_scale = a3;
                 let cdot =
-                    (bb.vel + cross(bb.omega, rB)) - (ba.vel + cross(ba.omega, rA));
+                    (bb.vel + gyro_cross(bb.omega, rB)) - (ba.vel + gyro_cross(ba.omega, rA));
                 let old = linear_spring_impulse;
                 let delta = -mass_scale
                     * motor_linear_mass_mul(ba, bb, rA, rB, cdot + bias_rate * err)
                     - impulse_scale * old;
                 linear_spring_impulse =
-                    clamp_vector_length(old + delta, h * jn.upper_translation);
+                    motor_clamp_vector_length(old + delta, h * jn.upper_translation);
                 let impulse = linear_spring_impulse - old;
                 apply_P(&ba, rA, impulse, -1.0);
                 apply_P(&bb, rB, impulse, 1.0);

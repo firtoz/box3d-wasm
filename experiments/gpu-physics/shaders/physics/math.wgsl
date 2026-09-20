@@ -32,9 +32,7 @@ fn body_inv_mass(b: Body) -> f32 {
 }
 
 fn quat_rotate(q: vec4<f32>, v: vec3<f32>) -> vec3<f32> {
-    // Native b3RotateVector form. Unlike the homogeneous expansion, this
-    // preserves the vector along the rotation axis when |q| rounds off unity.
-    return v + 2.0 * cross(q.xyz, cross(q.xyz, v) + q.w * v);
+    return gyro_quat_rotate(q,v);
 }
 
 fn quat_inv(q: vec4<f32>) -> vec4<f32> {
@@ -42,10 +40,7 @@ fn quat_inv(q: vec4<f32>) -> vec4<f32> {
 }
 
 fn quat_mul(a: vec4<f32>, b: vec4<f32>) -> vec4<f32> {
-    return vec4<f32>(
-        a.w * b.xyz + b.w * a.xyz + cross(a.xyz, b.xyz),
-        a.w * b.w - dot(a.xyz, b.xyz),
-    );
+    return gyro_quat_mul(a,b);
 }
 
 fn quat_from_x_axis(axis: vec3<f32>) -> vec4<f32> {
@@ -78,15 +73,15 @@ fn quat_inv_rotate(q: vec4<f32>, v: vec3<f32>) -> vec3<f32> {
 }
 
 fn solve3(col0: vec3<f32>, col1: vec3<f32>, col2: vec3<f32>, b: vec3<f32>) -> vec3<f32> {
-    let det = dot(col0, cross(col1, col2));
+    let det = gyro_dot3(col0, gyro_cross(col1, col2));
     if (abs(det) < 1e-12) {
         return vec3<f32>(0.0);
     }
-    let inv = 1.0 / det;
+    let inv = gyro_recip(det);
     return vec3<f32>(
-        dot(b, cross(col1, col2)) * inv,
-        dot(col0, cross(b, col2)) * inv,
-        dot(col0, cross(col1, b)) * inv,
+        gyro_dot3(b, gyro_cross(col1, col2)) * inv,
+        gyro_dot3(gyro_cross(col2, col0), b) * inv,
+        gyro_dot3(gyro_cross(col0, col1), b) * inv,
     );
 }
 
@@ -108,18 +103,54 @@ fn bound_radius(b: Body) -> f32 {
     return length(b.half);
 }
 
-fn world_inv_inertia(b: Body, t: vec3<f32>) -> vec3<f32> {
+fn native_rotation_matrix(q: vec4<f32>) -> mat3x3<f32> {
+    let xx=q.x*q.x; let yy=q.y*q.y; let zz=q.z*q.z;
+    let xy=q.x*q.y; let xz=q.x*q.z; let xw=q.x*q.w;
+    let yz=q.y*q.z; let yw=q.y*q.w; let zw=q.z*q.w;
+    return mat3x3<f32>(
+        vec3<f32>(1.0-2.0*(yy+zz),2.0*(xy+zw),2.0*(xz-yw)),
+        vec3<f32>(2.0*(xy-zw),1.0-2.0*(xx+zz),2.0*(yz+xw)),
+        vec3<f32>(2.0*(xz+yw),2.0*(yz-xw),1.0-2.0*(xx+yy)));
+}
+
+fn native_mul_mv(m: mat3x3<f32>, v: vec3<f32>) -> vec3<f32> {
+    return (m[0]*v.x + m[1]*v.y) + m[2]*v.z;
+}
+
+fn world_inv_inertia_matrix(b: Body) -> mat3x3<f32> {
     if (is_immovable(b) || (b.flags & FLAG_FIXED_ROTATION) == FLAG_FIXED_ROTATION) {
-        return vec3<f32>(0.0);
+        return mat3x3<f32>(vec3<f32>(0.0),vec3<f32>(0.0),vec3<f32>(0.0));
     }
-    let local = quat_rotate(quat_inv(b.rot), t);
+    let r = native_rotation_matrix(b.rot);
     let o = b.inv_inertia_offdiag;
-    let scaled = vec3<f32>(
-        b.inv_inertia.x * local.x + o.x * local.y + o.y * local.z,
-        o.x * local.x + b.inv_inertia.y * local.y + o.z * local.z,
-        o.y * local.x + o.z * local.y + b.inv_inertia.z * local.z,
-    );
-    return quat_rotate(b.rot, scaled);
+    let il = mat3x3<f32>(
+        vec3<f32>(b.inv_inertia.x,o.x,o.y),
+        vec3<f32>(o.x,b.inv_inertia.y,o.z),
+        vec3<f32>(o.y,o.z,b.inv_inertia.z));
+    let ri = mat3x3<f32>(native_mul_mv(r,il[0]),native_mul_mv(r,il[1]),native_mul_mv(r,il[2]));
+    let rt = transpose(r);
+    let iw = mat3x3<f32>(native_mul_mv(ri,rt[0]),native_mul_mv(ri,rt[1]),native_mul_mv(ri,rt[2]));
+    return iw;
+}
+
+fn world_inv_inertia(b: Body, t: vec3<f32>) -> vec3<f32> {
+    return native_mul_mv(world_inv_inertia_matrix(b),t);
+}
+
+// The native SIMD contact solver stores six symmetric coefficients and
+// accumulates the last two products first; scalar joint math differs.
+fn contact_inv_inertia(b: Body, v: vec3<f32>) -> vec3<f32> {
+    let m = world_inv_inertia_matrix(b);
+    return vec3<f32>(
+        m[0].x*v.x + (m[0].y*v.y + m[0].z*v.z),
+        m[0].y*v.x + (m[1].y*v.y + m[1].z*v.z),
+        m[0].z*v.x + (m[1].z*v.y + m[2].z*v.z));
+}
+
+fn apply_contact_P(body: ptr<function, Body>, r: vec3<f32>, P: vec3<f32>, sign: f32) {
+    if (is_immovable(*body)) { return; }
+    (*body).vel = (*body).vel + sign * P * (*body).inv_mass;
+    (*body).omega = (*body).omega + sign * contact_inv_inertia(*body, gyro_cross(r,P));
 }
 
 fn apply_P(body: ptr<function, Body>, r: vec3<f32>, P: vec3<f32>, sign: f32) {
@@ -127,7 +158,7 @@ fn apply_P(body: ptr<function, Body>, r: vec3<f32>, P: vec3<f32>, sign: f32) {
         return;
     }
     (*body).vel = (*body).vel + sign * P * (*body).inv_mass;
-    (*body).omega = (*body).omega + sign * world_inv_inertia(*body, cross(r, P));
+    (*body).omega = (*body).omega + sign * world_inv_inertia(*body, gyro_cross(r, P));
 }
 
 fn ra_at(c: Contact, i: u32) -> vec4<f32> {

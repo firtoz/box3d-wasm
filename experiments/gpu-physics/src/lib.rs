@@ -1,7 +1,7 @@
 #[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
 mod drag_replay;
 #[cfg(not(target_arch = "wasm32"))]
-mod rotation_shader;
+mod native_precision;
 mod loading;
 mod pipeline_cache;
 #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]

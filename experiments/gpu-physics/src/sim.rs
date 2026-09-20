@@ -5624,7 +5624,7 @@ fn make_compute_cached(
         std::time::Instant::now()
     });
     #[cfg(not(target_arch = "wasm32"))]
-    let precise = crate::rotation_shader::module(device, PHYSICS_WGSL, entry, &[]);
+    let precise = crate::native_precision::module(device, PHYSICS_WGSL, entry, &[]);
     #[cfg(not(target_arch = "wasm32"))]
     let shader = precise.as_ref().unwrap_or(shader);
     let pipeline = device.create_compute_pipeline(&wgpu::ComputePipelineDescriptor {
@@ -5656,7 +5656,7 @@ fn make_compute_constant_cached(
         std::time::Instant::now()
     });
     #[cfg(not(target_arch = "wasm32"))]
-    let precise = crate::rotation_shader::module(device, PHYSICS_WGSL, entry, &[(name, value)]);
+    let precise = crate::native_precision::module(device, PHYSICS_WGSL, entry, &[(name, value)]);
     #[cfg(not(target_arch = "wasm32"))]
     let shader = precise.as_ref().unwrap_or(shader);
     let constants = [(name, value)];
@@ -5863,7 +5863,7 @@ impl GpuSim {
                 h.ra[i] = [point.ra[0], point.ra[1], point.ra[2], point.separation - d];
                 h.rb[i] = [point.rb[0], point.rb[1], point.rb[2], point.impulse];
                 p.persistent_ra[i] = [point.ra[0], point.ra[1], point.ra[2], point.base - d];
-                p.persistent_rb[i] = h.rb[i];
+                p.persistent_rb[i] = [point.rb[0], point.rb[1], point.rb[2], point.base];
                 match i {
                     0 => p.feature_ids[2] = point.feature,
                     1 => p.feature_ids[3] = point.feature,
