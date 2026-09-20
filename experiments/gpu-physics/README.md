@@ -58,6 +58,11 @@ event/query logic is not two
 independent application instances. Unsupported APIs can affect sample behavior;
 consult the [limitations](../../docs/gpu-physics.md#missing-features-and-known-failures).
 
+**GPU API / Shape Replacement** cycles one live shape through sphere, capsule,
+box and cylinder geometry. IDs and metadata stay stable; alternating replacements
+explicitly recompute body mass. The [replacement fixture and semantics](../../docs/gpu-physics.md#native-shape-replacement)
+cover independent CPU/GPU state and rendering.
+
 GPU loading displays preparation stages while buffers and shaders are prepared.
 Worlds do not step during loading. Driver compilation can delay shutdown until
 worker teardown is safe. Pipeline caching can be disabled with
@@ -90,6 +95,7 @@ cargo test --release --lib -- --test-threads=1
 ./scripts/correctness-gate.sh artifacts/correctness-review.json
 ./scripts/native-scene-gate.sh
 ./scripts/check-both-pointer.sh
+./scripts/check-shape-replacement.sh
 python3 scripts/audit-native-api.py --require-complete
 ```
 

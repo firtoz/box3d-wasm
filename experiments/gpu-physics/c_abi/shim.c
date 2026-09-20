@@ -65,6 +65,7 @@ typedef struct GpuHullMirror
 	b3HullData* data;
 	int32_t index1;
 	uint16_t world0;
+	int32_t parent;
 } GpuHullMirror;
 static GpuHullMirror g_gpu_hulls[GPU_HULL_MIRROR_CAP];
 
@@ -76,6 +77,7 @@ typedef struct GpuMeshMirror
 	int materialCount;
 	int32_t index1;
 	uint16_t world0;
+	int32_t parent;
 } GpuMeshMirror;
 static GpuMeshMirror g_gpu_meshes[GPU_HULL_MIRROR_CAP];
 
@@ -143,24 +145,22 @@ static GpuHullMirror* find_hull_mirror(b3ShapeId id, bool create)
 	return create ? freeSlot : NULL;
 }
 
+void gpu_shape_mirror_parent(b3ShapeId child, b3ShapeId parent)
+{
+    GpuHullMirror* hull = find_hull_mirror(child, false);
+    if (hull) { hull->parent = parent.index1; }
+    GpuMeshMirror* mesh = find_mesh_mirror(child, false);
+    if (mesh) { mesh->parent = parent.index1; }
+}
+
 static b3HullData* clone_hull_blob(const b3HullData* hull)
 {
 	if (hull == NULL)
 	{
 		return NULL;
 	}
-	size_t size = sizeof(*hull);
-#define EXTEND_HULL_BLOB(offset, count, type)                                                                      \
-	do                                                                                                               \
-	{                                                                                                                \
-		size_t end = (size_t)(offset) + (size_t)(count) * sizeof(type);                                                \
-		size = end > size ? end : size;                                                                                \
-	} while (0)
-	EXTEND_HULL_BLOB(hull->vertexOffset, hull->vertexCount, b3HullVertex);
-	EXTEND_HULL_BLOB(hull->pointOffset, hull->vertexCount, b3Vec3);
-	EXTEND_HULL_BLOB(hull->edgeOffset, hull->edgeCount, b3HullHalfEdge);
-	EXTEND_HULL_BLOB(hull->planeOffset, hull->faceCount, b3Plane);
-#undef EXTEND_HULL_BLOB
+	// byteCount includes face data and explicit identity padding.
+	size_t size = (size_t)hull->byteCount;
 	b3HullData* copy = (b3HullData*)malloc(size);
 	if (copy != NULL)
 	{
@@ -169,7 +169,7 @@ static b3HullData* clone_hull_blob(const b3HullData* hull)
 	return copy;
 }
 
-static void mirror_hull(b3ShapeId id, const b3HullData* hull)
+void gpu_shape_mirror_hull(b3ShapeId id, const b3HullData* hull)
 {
 	if (id.index1 <= 0)
 	{
@@ -180,8 +180,9 @@ static void mirror_hull(b3ShapeId id, const b3HullData* hull)
 	{
 		return;
 	}
+	b3HullData* copy = clone_hull_blob(hull);
 	free(mirror->data);
-	mirror->data = clone_hull_blob(hull);
+	mirror->data = copy;
 	mirror->index1 = id.index1;
 	mirror->world0 = id.world0;
 }
@@ -857,12 +858,8 @@ B3_API b3WorldId b3CreateWorld(const b3WorldDef* def)
 	return id;
 }
 
-B3_API void b3DestroyWorld(b3WorldId worldId)
+void gpu_shape_clear_world_geometry(b3WorldId worldId)
 {
-	if (gpu_samples_on_world_destroyed)
-	{
-		gpu_samples_on_world_destroyed(worldId);
-	}
 	for (int i = 1; i < GPU_HULL_MIRROR_CAP; ++i)
 	{
 		if (g_gpu_hulls[i].index1 != 0 && g_gpu_hulls[i].world0 == worldId.index1)
@@ -881,6 +878,15 @@ B3_API void b3DestroyWorld(b3WorldId worldId)
 			g_gpu_height_fields[i] = (GpuHeightFieldMirror){0};
 		}
 	}
+}
+
+B3_API void b3DestroyWorld(b3WorldId worldId)
+{
+	if (gpu_samples_on_world_destroyed)
+	{
+		gpu_samples_on_world_destroyed(worldId);
+	}
+	gpu_shape_clear_world_geometry(worldId);
 	gpu_b3_destroy_world(worldId);
 }
 
@@ -1402,7 +1408,7 @@ B3_API b3Capsule b3Shape_GetCapsule(b3ShapeId shapeId)
 	return gpu_b3_shape_get_capsule(shapeId);
 }
 
-B3_API const b3HullData* b3Shape_GetHull(b3ShapeId shapeId)
+B3_API const b3HullData* gpu_shape_get_hull(b3ShapeId shapeId)
 {
 	if (shapeId.index1 <= 0)
 	{
@@ -1411,6 +1417,8 @@ B3_API const b3HullData* b3Shape_GetHull(b3ShapeId shapeId)
 	GpuHullMirror* mirror = find_hull_mirror(shapeId, false);
 	return mirror != NULL ? mirror->data : NULL;
 }
+
+B3_API const b3HullData* b3Shape_GetHull(b3ShapeId id) { return gpu_shape_get_hull(id); }
 
 B3_API const b3HeightFieldData* b3Shape_GetHeightField(b3ShapeId shapeId)
 {
@@ -1596,34 +1604,12 @@ B3_API int b3Shape_GetSensorData(b3ShapeId shapeId, b3ShapeId* visitorIds, int c
 	return gpu_b3_shape_get_sensor_data(shapeId, visitorIds, capacity);
 }
 
+void gpu_shape_clear_geometry(b3ShapeId);
 B3_API void b3DestroyShape(b3ShapeId shapeId, bool updateBodyMass)
 {
-	if (gpu_samples_on_shape_destroyed)
-	{
-		gpu_samples_on_shape_destroyed(shapeId);
-	}
-	if (shapeId.index1 > 0)
-	{
-		GpuHullMirror* mirror = find_hull_mirror(shapeId, false);
-		if (mirror != NULL)
-		{
-			free(mirror->data);
-			*mirror = (GpuHullMirror){0};
-		}
-		GpuMeshMirror* meshMirror = find_mesh_mirror(shapeId, false);
-		if (meshMirror != NULL)
-		{
-			free(meshMirror->materials);
-			*meshMirror = (GpuMeshMirror){0};
-		}
-		GpuHeightFieldMirror* heightFieldMirror = find_height_field_mirror(shapeId, false);
-		if (heightFieldMirror != NULL)
-		{
-			free(heightFieldMirror->materials);
-			*heightFieldMirror = (GpuHeightFieldMirror){0};
-		}
-	}
-	gpu_b3_destroy_shape(shapeId, updateBodyMass);
+    if (gpu_samples_on_shape_destroyed) { gpu_samples_on_shape_destroyed(shapeId); }
+    gpu_shape_clear_geometry(shapeId);
+    gpu_b3_destroy_shape(shapeId, updateBodyMass);
 }
 
 B3_API b3ShapeId b3CreateSphereShape(b3BodyId bodyId, const b3ShapeDef* def, const b3Sphere* sphere)
@@ -1705,7 +1691,7 @@ B3_API b3ShapeId b3CreateHullShape(b3BodyId bodyId, const b3ShapeDef* def, const
 			restitution, rolling, def == NULL || def->updateBodyMass);
 	}
 	configure_shape(id, def);
-	mirror_hull(id, hull);
+	gpu_shape_mirror_hull(id, hull);
 	if (gpu_samples_on_shape_created)
 	{
 		gpu_samples_on_shape_created(id, bodyId, b3_hullShape, NULL, NULL, hull);
@@ -2051,6 +2037,7 @@ B3_API b3ShapeId b3CreateBakedCompoundShape(b3BodyId bodyId, b3ShapeDef* def, co
 			gpu_b3_world_set_fail((b3WorldId){bodyId.world0, 1}, "compound child creation or attachment failed");
 			return (b3ShapeId){0};
 		}
+		gpu_shape_mirror_parent(childId, parent);
 		{
 			if (gpu_samples_on_shape_destroyed)
 			{
@@ -2992,7 +2979,9 @@ B3_API float b3World_GetContactRecycleDistance(b3WorldId id) {
 
 extern void gpu_b3_destroy_body(b3BodyId id);
 extern void gpu_samples_destroy_body(b3BodyId id) __attribute__((weak));
+void gpu_shape_clear_body_geometry(b3BodyId);
 B3_API void b3DestroyBody(b3BodyId id) {
+    gpu_shape_clear_body_geometry(id);
     if (gpu_samples_destroy_body) {
         gpu_samples_destroy_body(id);
     } else {
@@ -3111,3 +3100,119 @@ B3_API void b3Joint_WakeBodies(b3JointId id) { gpu_b3_joint_wake_bodies(id);
 
 extern b3MassData gpu_b3_shape_compute_mass_data(b3ShapeId);
 B3_API b3MassData b3Shape_ComputeMassData(b3ShapeId id) { return gpu_b3_shape_compute_mass_data(id); }
+
+extern b3BodyId gpu_b3_shape_get_body(b3ShapeId);
+extern bool b3IsValidHull(const b3HullData*);
+extern bool gpu_b3_set_sphere(b3ShapeId, b3Sphere);
+extern bool gpu_b3_set_capsule(b3ShapeId, b3Capsule);
+extern bool gpu_b3_set_box_hull(b3ShapeId, float, float, float, float, float, float);
+extern bool gpu_b3_set_convex_hull(b3ShapeId, const float*, int, const float*, int, const uint8_t*, int,
+    float, float, float, float, float, float, float, float, float, float, float,
+    float, float, float, float, float, float);
+void gpu_samples_on_shape_replaced(b3ShapeId, b3BodyId, b3ShapeType, const b3Sphere*, const b3Capsule*, const b3HullData*) __attribute__((weak));
+
+void gpu_shape_clear_geometry(b3ShapeId id)
+{
+    if (id.index1 <= 0) { return; }
+    // Baked compound children are hidden public colliders but still own mirrors.
+    for (int i = 1; i < GPU_HULL_MIRROR_CAP; ++i) {
+        if (g_gpu_hulls[i].world0 == id.world0 && g_gpu_hulls[i].parent == id.index1) {
+            free(g_gpu_hulls[i].data); g_gpu_hulls[i] = (GpuHullMirror){0};
+        }
+        if (g_gpu_meshes[i].world0 == id.world0 && g_gpu_meshes[i].parent == id.index1) {
+            free(g_gpu_meshes[i].materials); g_gpu_meshes[i] = (GpuMeshMirror){0};
+        }
+    }
+    GpuHullMirror* hull = find_hull_mirror(id, false);
+    if (hull) { free(hull->data); *hull = (GpuHullMirror){0}; }
+    GpuMeshMirror* mesh = find_mesh_mirror(id, false);
+    if (mesh) { free(mesh->materials); *mesh = (GpuMeshMirror){0}; }
+    GpuHeightFieldMirror* height = find_height_field_mirror(id, false);
+    if (height) { free(height->materials); *height = (GpuHeightFieldMirror){0}; }
+}
+
+void gpu_shape_set_sphere(b3ShapeId id, const b3Sphere* sphere)
+{
+    if (!sphere || !gpu_b3_set_sphere(id, *sphere)) { return; }
+    gpu_shape_clear_geometry(id);
+    if (gpu_samples_on_shape_replaced) {
+        gpu_samples_on_shape_replaced(id, gpu_b3_shape_get_body(id), b3_sphereShape, sphere, NULL, NULL);
+    }
+}
+
+void gpu_shape_set_capsule(b3ShapeId id, const b3Capsule* capsule)
+{
+    if (!capsule || !gpu_b3_set_capsule(id, *capsule)) { return; }
+    gpu_shape_clear_geometry(id);
+    if (gpu_samples_on_shape_replaced) {
+        gpu_samples_on_shape_replaced(id, gpu_b3_shape_get_body(id), b3_capsuleShape, NULL, capsule, NULL);
+    }
+}
+
+void gpu_shape_set_hull(b3ShapeId id, const b3HullData* hull)
+{
+    if (!hull || !b3IsValidHull(hull)) { return; }
+    const b3HullData* old = gpu_shape_get_hull(id);
+    // Upstream checks all bytes; the hash alone does not establish identity.
+    if (old && old->byteCount == hull->byteCount && memcmp(old, hull, (size_t)hull->byteCount) == 0) { return; }
+    b3HullData* copy = clone_hull_blob(hull);
+    if (!copy) { fprintf(stderr, "GPU shape replacement: hull allocation failed\n"); abort(); }
+    hull = copy;
+    b3Vec3 half = b3MulSV(0.5f, b3Sub(hull->aabb.upperBound, hull->aabb.lowerBound));
+    b3Vec3 center = b3MulSV(0.5f, b3Add(hull->aabb.upperBound, hull->aabb.lowerBound));
+    const b3Vec3* points = (const b3Vec3*)((const char*)hull + hull->pointOffset);
+    const b3Plane* planes = (const b3Plane*)((const char*)hull + hull->planeOffset);
+    const uint8_t* edges = (const uint8_t*)hull + hull->edgeOffset;
+    bool box = hull->vertexCount == 8 && hull->faceCount == 6;
+    for (int i = 0; box && i < hull->vertexCount; ++i) {
+        box = (points[i].x == hull->aabb.lowerBound.x || points[i].x == hull->aabb.upperBound.x) &&
+              (points[i].y == hull->aabb.lowerBound.y || points[i].y == hull->aabb.upperBound.y) &&
+              (points[i].z == hull->aabb.lowerBound.z || points[i].z == hull->aabb.upperBound.z);
+    }
+    bool changed = box ? gpu_b3_set_box_hull(id, half.x, half.y, half.z, center.x, center.y, center.z) :
+        gpu_b3_set_convex_hull(id, &points[0].x, hull->vertexCount, &planes[0].normal.x, hull->faceCount,
+            edges, hull->edgeCount, half.x, half.y, half.z, center.x, center.y, center.z,
+            hull->center.x, hull->center.y, hull->center.z, hull->innerRadius, hull->volume,
+            hull->centralInertia.cx.x, hull->centralInertia.cy.y, hull->centralInertia.cz.z,
+            hull->centralInertia.cx.y, hull->centralInertia.cx.z, hull->centralInertia.cy.z);
+    if (changed) {
+        gpu_shape_clear_geometry(id);
+        GpuHullMirror* mirror = find_hull_mirror(id, true);
+        if (!mirror) { fprintf(stderr, "GPU shape replacement: hull mirror capacity exhausted\n"); abort(); }
+        mirror->data = copy;
+        mirror->index1 = id.index1;
+        mirror->world0 = id.world0;
+        copy = NULL;
+        if (gpu_samples_on_shape_replaced) {
+            gpu_samples_on_shape_replaced(id, gpu_b3_shape_get_body(id), b3_hullShape, NULL, NULL, hull);
+        }
+    }
+    free(copy);
+}
+
+B3_API void b3Shape_SetSphere(b3ShapeId id, const b3Sphere* sphere) { gpu_shape_set_sphere(id, sphere); }
+B3_API void b3Shape_SetCapsule(b3ShapeId id, const b3Capsule* capsule) { gpu_shape_set_capsule(id, capsule); }
+B3_API void b3Shape_SetHull(b3ShapeId id, const b3HullData* hull) { gpu_shape_set_hull(id, hull); }
+
+void gpu_shape_clear_body_geometry(b3BodyId body)
+{
+    int count = gpu_b3_body_get_shape_count(body);
+    if (count <= 0) { return; }
+    b3ShapeId* shapes = malloc((size_t)count * sizeof(*shapes));
+    if (!shapes) { abort(); }
+    count = gpu_b3_body_get_shapes(body, shapes, count);
+    for (int i = 0; i < count; ++i) { gpu_shape_clear_geometry(shapes[i]); }
+    free(shapes);
+}
+
+// Test/diagnostic ownership count, independent of Rust shape-slot allocation.
+int gpu_shape_geometry_mirror_count(void)
+{
+    int count = 0;
+    for (int i = 1; i < GPU_HULL_MIRROR_CAP; ++i) {
+        count += g_gpu_hulls[i].data != NULL;
+        count += g_gpu_meshes[i].index1 != 0;
+        count += g_gpu_height_fields[i].index1 != 0;
+    }
+    return count;
+}

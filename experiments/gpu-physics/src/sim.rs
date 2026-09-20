@@ -3341,8 +3341,18 @@ impl GpuSim {
 
     /// Ordered mutation of cached contact roots; does not submit a physics step.
     pub fn retire_body_pair_contacts(&mut self, a: u32, b: u32) {
-        // Words 64/65 are reserved for mutation commands, beyond ray state 0..31.
-        self.queue.write_buffer(&self.query, 64 * 4, bytemuck::cast_slice(&[a, b]));
+        self.retire_contacts(a, b, 0);
+    }
+
+    pub fn retire_shape_contacts(&mut self, source: u32, generation: u16) {
+        if let Some(index) = self.shape_identities.iter().position(|&id| id == (source, generation)) {
+            self.retire_contacts(index as u32, 0, 1);
+        }
+    }
+
+    fn retire_contacts(&mut self, a: u32, b: u32, mode: u32) {
+        // Mutation words are outside the ray-query state.
+        self.queue.write_buffer(&self.query, 64 * 4, bytemuck::cast_slice(&[a, b, mode]));
         let mut enc = self.device.create_command_encoder(&wgpu::CommandEncoderDescriptor {
             label: Some("retire-joint-body-pair"),
         });

@@ -1851,7 +1851,9 @@ fn retire_body_pair_contacts(@builtin(global_invocation_id) gid: vec3<u32>) {
     let c = load_contact(slot);
     let a = atomicLoad(&query[64u]);
     let b = atomicLoad(&query[65u]);
-    if (!((c.a == a && c.b == b) || (c.a == b && c.b == a))) { return; }
+    if (atomicLoad(&query[66u]) == 1u) {
+        if ((c.lifecycle.w & 0xffffu) != a && (c.lifecycle.w >> 16u) != a) { return; }
+    } else if (!((c.a == a && c.b == b) || (c.a == b && c.b == a))) { return; }
     if (!retire_manifold_children(slot)) { return; }
     var retired = empty_contact();
     retired.lifecycle.x = c.lifecycle.x;

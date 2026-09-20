@@ -1772,9 +1772,19 @@ pub fn b3_shape_get_user_data(id: ShapeId) -> usize {
     super::world::query_shape(id).map_or(0, |shape| shape.user_data)
 }
 
+fn public_shape_aabb(shape: &HostShape) -> Aabb {
+    let mut aabb = aabb_for_proxy(&shape_proxy(shape, None));
+    // Box3D exposes the speculative AABB, not the tight geometry bounds.
+    for axis in 0..3 {
+        aabb.lower_bound[axis] -= crate::types::SPECULATIVE_DISTANCE;
+        aabb.upper_bound[axis] += crate::types::SPECULATIVE_DISTANCE;
+    }
+    aabb
+}
+
 pub fn b3_shape_get_aabb(id: ShapeId) -> Aabb {
     super::world::query_shape(id)
-        .map(|shape| aabb_for_proxy(&shape_proxy(&shape, None)))
+        .map(|shape| public_shape_aabb(&shape))
         .unwrap_or_default()
 }
 
@@ -1790,7 +1800,7 @@ pub fn b3_body_compute_aabb(id: BodyId) -> Aabb {
     }
     let mut result = b3_shape_get_aabb(body.shapes[0].id);
     for shape in body.shapes.iter().skip(1) {
-        let aabb = aabb_for_proxy(&shape_proxy(shape, None));
+        let aabb = public_shape_aabb(shape);
         for axis in 0..3 {
             result.lower_bound[axis] = result.lower_bound[axis].min(aabb.lower_bound[axis]);
             result.upper_bound[axis] = result.upper_bound[axis].max(aabb.upper_bound[axis]);

@@ -151,6 +151,7 @@ set(SAMPLE_FILES
   "${CMAKE_CURRENT_SOURCE_DIR}/sokol_bench_hooks.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/sokol_loading.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/sample_gpu_bench.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/sample_shape_replacement.cpp"
   "${BOX3D_DIR}/samples/host/camera.cpp"
   "${BOX3D_DIR}/samples/host/camera.h"
   "${BOX3D_DIR}/samples/host/gui.cpp"

@@ -230,6 +230,18 @@ void gpu_samples_on_shape_destroyed(b3ShapeId shapeId)
 	s->live = 0;
 }
 
+void gpu_samples_on_shape_replaced(b3ShapeId id, b3BodyId body, b3ShapeType type,
+    const b3Sphere* sphere, const b3Capsule* capsule, const b3HullData* hull)
+{
+    ShapeVis* s = shape_vis(id);
+    if (!s) { return; }
+    char name[sizeof(s->name)];
+    memcpy(name, s->name, sizeof(name));
+    gpu_samples_on_shape_destroyed(id);
+    gpu_samples_on_shape_created(id, body, type, sphere, capsule, hull);
+    memcpy(s->name, name, sizeof(name));
+}
+
 typedef struct GpuDrawItem
 {
 	float pos[3];

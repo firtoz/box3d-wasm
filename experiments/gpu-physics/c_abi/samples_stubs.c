@@ -207,22 +207,6 @@ B3_API b3RecQueryHit b3RecPlayer_GetFrameQueryHit(const b3RecPlayer* player, int
 	return (b3RecQueryHit){0};
 }
 
-B3_API void b3Shape_SetSphere(b3ShapeId shapeId, const b3Sphere* sphere)
-{
-	(void)sizeof(char);
-}
-
-B3_API void b3Shape_SetCapsule(b3ShapeId shapeId, const b3Capsule* capsule)
-{
-	(void)sizeof(char);
-}
-
-B3_API void b3Shape_SetHull(b3ShapeId shapeId, const b3HullData* hull)
-{
-	(void)sizeof(char);
-}
-
-
 B3_API b3Vec3 b3Joint_GetConstraintForce(b3JointId jointId)
 {
 	(void)sizeof(char);

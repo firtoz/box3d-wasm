@@ -1,4 +1,6 @@
 mod contact_api;
+mod shape_geometry;
+pub use shape_geometry::*;
 pub use contact_api::*;
 use std::{collections::HashMap, sync::Arc, sync::Mutex};
 

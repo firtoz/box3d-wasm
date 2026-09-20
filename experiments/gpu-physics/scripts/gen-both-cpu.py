@@ -8,6 +8,10 @@ import subprocess
 from pathlib import Path
 
 DUAL = {
+    "b3Shape_SetSphere",
+    "b3Shape_SetCapsule",
+    "b3Shape_SetHull",
+    "b3Shape_GetHull",
     "b3Shape_ComputeMassData",
     "b3Joint_GetLocalFrameA",
     "b3Joint_GetLocalFrameB",

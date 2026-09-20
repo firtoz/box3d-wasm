@@ -9,6 +9,18 @@
 #include <time.h>
 #include "native_clock.h"
 
+extern void gpu_shape_set_sphere(b3ShapeId, const b3Sphere*);
+extern void gpu_shape_set_capsule(b3ShapeId, const b3Capsule*);
+extern void gpu_shape_set_hull(b3ShapeId, const b3HullData*);
+extern void gpu_shape_mirror_parent(b3ShapeId, b3ShapeId);
+extern void gpu_shape_mirror_hull(b3ShapeId, const b3HullData*);
+extern const b3HullData* gpu_shape_get_hull(b3ShapeId);
+extern void cpu_b3Shape_SetSphere(b3ShapeId, const b3Sphere*);
+extern void cpu_b3Shape_SetCapsule(b3ShapeId, const b3Capsule*);
+extern void cpu_b3Shape_SetHull(b3ShapeId, const b3HullData*);
+extern void gpu_shape_clear_geometry(b3ShapeId);
+extern void gpu_shape_clear_body_geometry(b3BodyId);
+extern void gpu_shape_clear_world_geometry(b3WorldId);
 static float g_gpu_step_ms;
 
 static double monotonic_milliseconds(void)
@@ -863,6 +875,7 @@ B3_API void b3DestroyWorld(b3WorldId worldId)
         both_pointer_up(); memset(&g_drag, 0, sizeof(g_drag));
     }
     g_draw_world = (b3WorldId){0};
+	gpu_shape_clear_world_geometry(worldId);
 	gpu_samples_on_world_destroyed(worldId);
 	if (both_has_cpu_world(worldId))
 	{
@@ -1167,6 +1180,7 @@ B3_API void* b3Body_GetUserData(b3BodyId bodyId)
 
 B3_API void b3DestroyBody(b3BodyId bodyId)
 {
+    gpu_shape_clear_body_geometry(bodyId);
 	if (both_has_cpu_body(bodyId))
 	{
 		cpu_b3DestroyBody(both_cpu_body(bodyId));
@@ -1283,6 +1297,7 @@ B3_API int b3Shape_GetSensorData(b3ShapeId shapeId, b3ShapeId* visitorIds, int c
 
 B3_API void b3DestroyShape(b3ShapeId shapeId, bool updateBodyMass)
 {
+    gpu_shape_clear_geometry(shapeId);
 	if (both_has_cpu_shape(shapeId))
 	{
 		cpu_b3DestroyShape(both_cpu_shape(shapeId), updateBodyMass);
@@ -1349,6 +1364,7 @@ B3_API b3ShapeId b3CreateHullShape(b3BodyId bodyId, const b3ShapeDef* def, const
 			restitution, rolling, def == NULL || def->updateBodyMass);
 	}
 	configure_gpu_shape(gpu, def);
+	gpu_shape_mirror_hull(gpu, hull);
 	gpu_samples_on_shape_created(gpu, bodyId, b3_hullShape, NULL, NULL, hull);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -1532,6 +1548,7 @@ B3_API b3ShapeId b3CreateBakedCompoundShape(b3BodyId bodyId, b3ShapeDef* def, co
 			gpu_b3_world_set_fail((b3WorldId){bodyId.world0, 1}, "compound child creation or attachment failed");
 			return (b3ShapeId){0};
 		}
+		gpu_shape_mirror_parent(childId, parent);
 		{
 			gpu_samples_on_shape_destroyed(childId);
 		}
@@ -3454,3 +3471,21 @@ B3_API float b3PrismaticJoint_GetSpeed(b3JointId jointId)
 {
 	return gpu_b3_prismatic_get_speed(jointId);
 }
+
+B3_API void b3Shape_SetSphere(b3ShapeId id, const b3Sphere* sphere)
+{
+    if (both_has_cpu_shape(id)) { cpu_b3Shape_SetSphere(both_cpu_shape(id), sphere); }
+    gpu_shape_set_sphere(id, sphere);
+}
+B3_API void b3Shape_SetCapsule(b3ShapeId id, const b3Capsule* capsule)
+{
+    if (both_has_cpu_shape(id)) { cpu_b3Shape_SetCapsule(both_cpu_shape(id), capsule); }
+    gpu_shape_set_capsule(id, capsule);
+}
+B3_API void b3Shape_SetHull(b3ShapeId id, const b3HullData* hull)
+{
+    // CPU consumes the immutable geometry input before GPU mirror replacement.
+    if (both_has_cpu_shape(id)) { cpu_b3Shape_SetHull(both_cpu_shape(id), hull); }
+    gpu_shape_set_hull(id, hull);
+}
+B3_API const b3HullData* b3Shape_GetHull(b3ShapeId id) { return gpu_shape_get_hull(id); }

@@ -1525,8 +1525,127 @@ pub unsafe extern "C" fn gpu_b3_create_convex_hull(
     rolling: f32,
     update_body_mass: bool,
 ) -> ShapeId {
-    if point_data.is_null() || point_count < 4 || plane_data.is_null() || plane_count < 4 {
+    let Some(hull) = (unsafe {
+        read_convex_hull(
+            point_data,
+            point_count,
+            plane_data,
+            plane_count,
+            edge_data,
+            half_edge_count,
+            hx,
+            hy,
+            hz,
+            ax,
+            ay,
+            az,
+            cx,
+            cy,
+            cz,
+            inner_radius,
+            volume,
+            ixx,
+            iyy,
+            izz,
+            ixy,
+            ixz,
+            iyz,
+        )
+    }) else {
         return crate::api::b3_null_shape_id();
+    };
+    b3_create_convex_hull_shape(
+        body,
+        &shape_def(density, friction, restitution, rolling, update_body_mass),
+        &hull,
+    )
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn gpu_b3_set_convex_hull(
+    id: ShapeId,
+    point_data: *const f32,
+    point_count: i32,
+    plane_data: *const f32,
+    plane_count: i32,
+    edge_data: *const u8,
+    half_edge_count: i32,
+    hx: f32,
+    hy: f32,
+    hz: f32,
+    ax: f32,
+    ay: f32,
+    az: f32,
+    cx: f32,
+    cy: f32,
+    cz: f32,
+    inner_radius: f32,
+    volume: f32,
+    ixx: f32,
+    iyy: f32,
+    izz: f32,
+    ixy: f32,
+    ixz: f32,
+    iyz: f32,
+) -> bool {
+    let Some(hull) = (unsafe {
+        read_convex_hull(
+            point_data,
+            point_count,
+            plane_data,
+            plane_count,
+            edge_data,
+            half_edge_count,
+            hx,
+            hy,
+            hz,
+            ax,
+            ay,
+            az,
+            cx,
+            cy,
+            cz,
+            inner_radius,
+            volume,
+            ixx,
+            iyy,
+            izz,
+            ixy,
+            ixz,
+            iyz,
+        )
+    }) else {
+        return false;
+    };
+    crate::api::set_convex_hull_geometry(id, &hull, true)
+}
+unsafe fn read_convex_hull(
+    point_data: *const f32,
+    point_count: i32,
+    plane_data: *const f32,
+    plane_count: i32,
+    edge_data: *const u8,
+    half_edge_count: i32,
+    hx: f32,
+    hy: f32,
+    hz: f32,
+    ax: f32,
+    ay: f32,
+    az: f32,
+    cx: f32,
+    cy: f32,
+    cz: f32,
+    inner_radius: f32,
+    volume: f32,
+    ixx: f32,
+    iyy: f32,
+    izz: f32,
+    ixy: f32,
+    ixz: f32,
+    iyz: f32,
+) -> Option<ConvexHull> {
+    if point_data.is_null() || point_count < 4 || plane_data.is_null() || plane_count < 4 {
+        return None;
     }
     let values = unsafe { std::slice::from_raw_parts(point_data, point_count as usize * 3) };
     let points: Vec<[f32; 3]> = values
@@ -1579,22 +1698,18 @@ pub unsafe extern "C" fn gpu_b3_create_convex_hull(
             edge_directions.push(direction);
         }
     }
-    b3_create_convex_hull_shape(
-        body,
-        &shape_def(density, friction, restitution, rolling, update_body_mass),
-        &ConvexHull {
-            points,
-            planes,
-            edge_directions,
-            half_edges,
-            half_extents: [hx, hy, hz],
-            aabb_center: [ax, ay, az],
-            center: [cx, cy, cz],
-            inner_radius,
-            volume,
-            central_inertia: [ixx, iyy, izz, ixy, ixz, iyz],
-        },
-    )
+    Some(ConvexHull {
+        points,
+        planes,
+        edge_directions,
+        half_edges,
+        half_extents: [hx, hy, hz],
+        aabb_center: [ax, ay, az],
+        center: [cx, cy, cz],
+        inner_radius,
+        volume,
+        central_inertia: [ixx, iyy, izz, ixy, ixz, iyz],
+    })
 }
 
 #[no_mangle]
@@ -3579,4 +3694,32 @@ pub extern "C" fn gpu_b3_world_dump_phases(id: WorldId, frame: u32) {
                 f32::from_bits(words[at+5]), f32::from_bits(words[at+6]), f32::from_bits(words[at+7]));
         }
     }
+}
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_set_sphere(id: ShapeId, sphere: Sphere) -> bool {
+    crate::api::b3_shape_set_sphere(id, &sphere)
+}
+#[no_mangle]
+pub extern "C" fn gpu_b3_set_capsule(id: ShapeId, capsule: Capsule) -> bool {
+    crate::api::b3_shape_set_capsule(id, &capsule)
+}
+#[no_mangle]
+pub extern "C" fn gpu_b3_set_box_hull(
+    id: ShapeId,
+    hx: f32,
+    hy: f32,
+    hz: f32,
+    ox: f32,
+    oy: f32,
+    oz: f32,
+) -> bool {
+    crate::api::set_box_hull_geometry(
+        id,
+        &BoxHull {
+            half_extents: [hx, hy, hz],
+            center: [ox, oy, oz],
+        },
+        true,
+    )
 }

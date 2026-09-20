@@ -29,7 +29,7 @@ or tune the solver for each device.
    ten-drag sequence at unchanged normal and strict thresholds. Solver/contact
    regressions pass; the separate AMD sweep and secondary-queue failures below
    remain. These results do not establish general GPU parity.
-2. **Next: non-recording native APIs.** Implement shape replacement, joint
+2. **Next: non-recording native APIs.** Shape replacement is implemented; next are joint
    reaction/separation queries, world controls and diagnostics. Review CPU-only
    comparison wrappers. Each completed API needs a sample or focused fixture
    exercising independent CPU and GPU behavior, including mutation and lifetime
@@ -48,14 +48,13 @@ correctness and non-recording APIs.
 
 ## Missing features and known failures
 
-The portable-build audit on 2026-09-19 identifies **43 stub definitions and 10
-additional placeholders**; **36 concern recording/replay**. It also lists 21
+The portable-build audit on 2026-09-20 identifies **40 stub definitions and 10
+additional placeholders**; **36 concern recording/replay**. It also lists 17
 CPU-only comparison wrappers for semantic review, with no additional missing
 linked symbols in the selected build. Full native compatibility must not be inferred from scene checks.
 
 | Gap | User-visible consequence / remaining work |
 |---|---|
-| Shape replacement (`b3Shape_SetSphere`, `SetCapsule`, `SetHull`) | Calls are stubs. Implement geometry replacement with stable IDs, mass updates, contact invalidation and matching render geometry. |
 | Joint reaction/separation queries | Force, torque and linear/angular separation getters are stubs. Implement and compare against native fixtures. |
 | World controls | Warm-start and speculative-contact toggles do not control GPU behavior. Worker-count APIs are placeholders rather than GPU scheduling controls. |
 | World diagnostics | Profile/max-capacity APIs return placeholders; memory/bounds dump and static-tree rebuild helpers are incomplete. Public `contactCount` is not implemented by the GPU world counter. |
@@ -69,6 +68,53 @@ cache policy; explicit `--gpu-build-dir` and `--both-build-dir` override it.
 `--require-built` rejects absent archives or generated wrappers. Missing artifacts
 produce unknown coverage rather than a successful empty inventory. CI checks
 that builds supply these inputs, without requiring the unfinished APIs to pass.
+
+### Native shape replacement
+
+`b3Shape_SetSphere`, `SetCapsule` and `SetHull` replace GPU geometry in place.
+They retain shape IDs, material/filter/event settings and user data. Shape mass
+data changes immediately; body mass, center of mass, inertia and stored CCD
+extents change only when `b3Body_ApplyMassFromShapes` is called. Retiring touching
+contacts wakes their owners and connected sleeping islands; an isolated sleeping body stays asleep. An identical hull is a no-op,
+including input from `b3Shape_GetHull`. The bridge owns complete hull copies,
+including the face data and padding used by upstream's content comparison.
+
+Replacement retires affected GPU contact roots and public contact handles,
+updates query/CCD geometry and invalidates cached scene uploads. Unrelated
+contact histories remain intact. Public shape/body AABB queries include the
+native 0.02 m speculative margin. Both comparison engines execute the mutations
+independently, and both renderers rebuild replaced geometry.
+
+Run **GPU API / Shape Replacement** in any native viewer. Its shared input
+schedule cycles through an offset sphere, capsule, box and cylinder every 180
+steps, with explicit mass recomputation on alternate replacements. The focused
+fixture checks metadata, queries, mass policy, motion, sleeping contacts, hull
+aliasing, debug geometry destruction/recreation and geometry ownership:
+
+```sh
+# From experiments/gpu-physics; defaults to the native-cache backend on Linux.
+GPU_PHYSICS_ADAPTER=amd ./scripts/check-shape-replacement.sh artifacts/shape-replacement/cached
+GPU_PHYSICS_ADAPTER=nvidia ./scripts/check-shape-replacement.sh artifacts/shape-replacement/cached
+GPU_PHYSICS_SAMPLES_NATIVE_CACHE=0 GPU_PHYSICS_ADAPTER=amd \
+  ./scripts/check-shape-replacement.sh artifacts/shape-replacement/ordinary
+GPU_PHYSICS_SAMPLES_NATIVE_CACHE=0 GPU_PHYSICS_ADAPTER=nvidia \
+  ./scripts/check-shape-replacement.sh artifacts/shape-replacement/ordinary
+```
+
+On 2026-09-20 the fixture passes on AMD Radeon 780M and NVIDIA RTX 4070 Laptop,
+both with native-cache and with cache opt-out. It retains the existing `1e-5`
+motion tolerance and checks that unrelated sleeping contacts survive replacement.
+CPU and combined AMD viewer health scans complete 720 measured steps without
+NaNs or exploded bodies. The free-running contact scene can diverge in transient
+capsule tipping time; this is not a long-running pose-parity gate. A diagnostic
+reproduces the initial 180-step sphere motion exactly through the existing
+destroy/create path in each engine, establishing divergence before the capsule
+phase. Local logs, scene captures and source/binary hashes are
+in `experiments/gpu-physics/artifacts/shape-replacement/RESULTS.md`. These are
+Linux Vulkan correctness checks; other platforms and performance remain unqualified.
+The comparison grid includes a `shape-replacement` row made from the recorded
+CPU/GPU panes. This native sample is not hosted by `record-snapshot.sh` or the
+Rust oracle replay renderer; its CPU pane runs real Box3D C.
 
 ### Ground-drag qualification
 
@@ -172,14 +218,16 @@ Box3D API or proving a speedup on every GPU. It does require accurate limitation
 reproducible builds and a current regression result. A production-compatible
 replacement would additionally require closing the API and physics gaps above.
 
-The 2026-09-20 native-cache release library suite reports **246/246 passed on
-NVIDIA** and **240/246 passed on AMD**. One AMD failure is the pre-existing
+The 2026-09-20 native-cache release library suite reports **247/247 passed on
+NVIDIA** and **241/247 passed on AMD**. One AMD failure is the pre-existing
 convex-sweep case above; five secondary-queue tests fail because RADV exposes
 fewer than the two required graphics/compute queues in family zero. These are
 failures, not passes or silently skipped checks. Both GPUs pass the solver/contact,
 mass-query, command-replay, pose-staging and event regressions. The six native
-tooling tests also pass. Source/binary hashes and full results are in
-`experiments/gpu-physics/artifacts/drag-agreement/`.
+tooling tests also pass. Normal and strict ten-drag checks pass again on both
+adapters with the unchanged maxima above. Current replacement/regression evidence
+is in `experiments/gpu-physics/artifacts/shape-replacement/`; earlier drag evidence
+remains in `experiments/gpu-physics/artifacts/drag-agreement/`.
 
 Earlier merge-review checks covered TypeScript, lint (with warnings), the demo
 build, a two-restart Junkyard smoke, cached/ordinary native builds and artifact

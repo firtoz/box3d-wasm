@@ -24,6 +24,8 @@ const SAMPLES = [
   "mixed-stacks",
   "anchored-mechanisms",
   "joint-chain",
+  // Native viewer capture; the Rust demo recorder does not host this sample.
+  "shape-replacement",
 ] as const;
 
 type Metrics = {
