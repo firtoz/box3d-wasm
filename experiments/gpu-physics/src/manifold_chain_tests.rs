@@ -771,10 +771,10 @@ fn gear_mesh_reduction_keeps_both_native_penetrating_witnesses() {
 fn body_extra_reads_use_capacity_when_live_slot_span_changes() {
     let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
     let mut sim = make_sim(&gpu, 0);
-    let capacity = sim.params.shape_base_u32 / 24;
+    let capacity = sim.params.shape_base_u32 / 32;
     assert!(capacity > 2, "fixture requires spare allocated body slots");
     let extra = [0.125f32,0.25,0.5,0.0625,0.3,0.6,1.2,0.0];
-    sim.queue.write_buffer(&sim.body_cold, u64::from(16*capacity+8)*4, bytemuck::cast_slice(&extra));
+    sim.queue.write_buffer(&sim.body_cold, u64::from(16*capacity+16)*4, bytemuck::cast_slice(&extra));
     let pipeline = test_pipeline(&sim,"test_body_extra",r#"
         @compute @workgroup_size(1)
         fn test_body_extra() {

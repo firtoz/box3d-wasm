@@ -308,13 +308,14 @@ pub fn pack_scene_bytes(
         })
         .collect();
     cold.resize(capacity, BodyColdGpu::zeroed());
-    let mut body_extra: Vec<[f32; 8]> = body_inv_inertia_offdiag
+    let mut body_extra: Vec<[f32; 16]> = body_inv_inertia_offdiag
         .iter()
-        .map(|v| [v[0], v[1], v[2], 0.0, 0.0, 0.0, 0.0, 0.0])
+        .map(|v| { let mut extra = [0.0; 16]; extra[..3].copy_from_slice(v); extra })
         .collect();
-    body_extra.resize(capacity, [0.0; 8]);
+    body_extra.resize(capacity, [0.0; 16]);
     // Immutable per-body motion bounds, rebuilt only with the scene heap.
-    // Inertia xyz, minimum extent, maximum extent xyz, sleep threshold. No new binding.
+    // Inertia xyz, minimum extent, maximum extent xyz, sleep threshold, then
+    // step force xyz/pad and torque xyz/pad (initially zero). No new binding.
     for (i, extra) in body_extra.iter_mut().enumerate() {
         extra[3] = f32::MAX;
         extra[7] = bodies.get(i).map_or(0.05, |b| b.sleep_threshold);
@@ -555,6 +556,7 @@ pub struct GpuSim {
     pass_lut: Buffer,
     bodies: Buffer,
     body_cold: Buffer,
+    step_force_slots: Vec<u32>,
     convex_ccd: Option<crate::ccd::ConvexCcd>,
     contacts: Buffer,
     contact_persistent: Buffer,
@@ -950,7 +952,7 @@ impl GpuSim {
         params.joint_count = joints.len() as u32;
         params.shape_count = shapes.len() as u32;
         params.shape_base_u32 =
-            capacity * ((mem::size_of::<BodyColdGpu>() + 32) / mem::size_of::<u32>()) as u32;
+            capacity * ((mem::size_of::<BodyColdGpu>() + 64) / mem::size_of::<u32>()) as u32;
         params.hull_point_count = hull_points.len() as u32;
         params.hull_base_u32 = params.shape_base_u32
             + caps.shapes * (mem::size_of::<ShapeGpu>() / mem::size_of::<u32>()) as u32;
@@ -1329,6 +1331,7 @@ impl GpuSim {
             pass_lut,
             bodies,
             body_cold,
+            step_force_slots: Vec::new(),
             convex_ccd: None,
             contacts,
             contact_persistent,
@@ -4705,7 +4708,7 @@ impl GpuSim {
     }
 
     pub fn allocation_stats(&self) -> AllocationStats {
-        let body_bytes = (mem::size_of::<BodyStateGpu>() + mem::size_of::<BodyColdGpu>() + 32)
+        let body_bytes = (mem::size_of::<BodyStateGpu>() + mem::size_of::<BodyColdGpu>() + 64)
             as u64
             * u64::from(self.caps.bodies.max(1));
         let shape_bytes = mem::size_of::<ShapeGpu>() as u64 * u64::from(self.caps.shapes)
@@ -4805,6 +4808,26 @@ impl GpuSim {
         staging.unmap();
         bodies
     }
+
+    /// Upload a full step's external loads. The solver integrates these on each
+    /// substep; the next API step clears old slots even when no new load arrives.
+    pub(crate) fn set_step_forces(&mut self, forces: &[(u32, [f32; 3], [f32; 3])]) {
+        if self.step_force_slots.is_empty() && forces.is_empty() { return; }
+        self.invalidate_idle_proof();
+        let capacity = self.params.shape_base_u32 / 32;
+        let offset = |slot: u32| u64::from(16 * capacity + 16 * slot + 8) * 4;
+        for slot in self.step_force_slots.drain(..) {
+            self.queue.write_buffer(&self.body_cold, offset(slot), bytemuck::cast_slice(&[0.0f32; 8]));
+        }
+        for &(slot, force, torque) in forces {
+            assert!(slot < capacity);
+            let load = [force[0], force[1], force[2], 0.0, torque[0], torque[1], torque[2], 0.0];
+            self.queue.write_buffer(&self.body_cold, offset(slot), bytemuck::cast_slice(&load));
+            self.step_force_slots.push(slot);
+        }
+    }
+
+    pub(crate) fn has_step_forces(&self) -> bool { !self.step_force_slots.is_empty() }
 
     pub fn write_body_states(&self, bodies: &[BodyGpu]) {
         self.invalidate_idle_proof();

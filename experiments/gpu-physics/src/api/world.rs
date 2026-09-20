@@ -2681,7 +2681,7 @@ fn can_submit_resident(w:&WorldInner)->bool {
         && !w.joints.iter().any(|j|j.kind!=JOINT_NONE)
         && w.custom_filter_callback.is_none() && w.pre_solve_callback.is_none()
         && !world_needs_contact_readback(w)
-        && w.sim.as_ref().is_some_and(GpuSim::uses_convex_ccd)
+        && w.sim.as_ref().is_some_and(|sim| sim.uses_convex_ccd() && !sim.has_step_forces())
 }
 
 fn step_gpu_inner(id: WorldId, dt: f32, sub_step_count: i32) {
@@ -2696,7 +2696,7 @@ fn step_gpu_inner(id: WorldId, dt: f32, sub_step_count: i32) {
         if !resident && (w.post_ccd_pending || w.gpu_mirror_stale) {
             let _ = sync_world_mirror_parts(w, id, false, false, false);
         }
-        if !resident { apply_accumulated_forces(w, dt); }
+        let forces = if resident { Vec::new() } else { take_accumulated_forces(w) };
         w.body_move_events.clear();
         w.contact_begin_events.clear();
         w.contact_end_events.clear();
@@ -2724,6 +2724,7 @@ fn step_gpu_inner(id: WorldId, dt: f32, sub_step_count: i32) {
         if dt > 0.0 { advance_contact_shape_history(w, id.index1); }
         let refresh_ccd=w.scene_dirty || w.sim.is_none();
         ensure_sim(w, &bodies, n, h, dt, false);
+        if let Some(sim) = w.sim.as_mut() { sim.set_step_forces(&forces); }
         configure_convex_ccd(w,id,refresh_ccd);
         apply_solver_topology(w);
         if w.physics_invalid {
@@ -2919,62 +2920,19 @@ fn disabled_lifecycle(flags: u32) -> u32 {
     }
 }
 
-fn apply_accumulated_forces(w: &mut WorldInner, dt: f32) {
-    if !(dt.is_finite() && dt > 0.0) {
-        return;
-    }
-    let epoch=snapshot_epoch(w);
-    let mut changed=false;
-    for slot in w.bodies.iter_mut().flatten() {
-        if (slot.gpu.flags & (FLAG_STATIC | FLAG_KINEMATIC | FLAG_DISABLED | FLAG_SLEEP)) != 0
-        {
-            slot.force = [0.0; 3];
-            slot.torque = [0.0; 3];
-            continue;
-        }
-        if slot.force!=[0.0;3] || slot.torque!=[0.0;3] {
-            slot.host_epoch=epoch.saturating_add(1);
-            changed=true;
-        }
-        let impulse = [
-            slot.force[0] * dt,
-            slot.force[1] * dt,
-            slot.force[2] * dt,
-        ];
-        let angular = [
-            slot.torque[0] * dt,
-            slot.torque[1] * dt,
-            slot.torque[2] * dt,
-        ];
-        slot.force = [0.0; 3];
-        slot.torque = [0.0; 3];
-        for (velocity, value) in slot.gpu.vel.iter_mut().zip(impulse) {
-            *velocity += slot.gpu.inv_mass * value;
-        }
-        apply_world_angular_impulse(slot, angular);
-        if slot.gpu.flags & FLAG_LOCK_LIN_X != 0 {
-            slot.gpu.vel[0] = 0.0;
-        }
-        if slot.gpu.flags & FLAG_LOCK_LIN_Y != 0 {
-            slot.gpu.vel[1] = 0.0;
-        }
-        if slot.gpu.flags & FLAG_LOCK_LIN_Z != 0 {
-            slot.gpu.vel[2] = 0.0;
-        }
-        if slot.gpu.flags & FLAG_LOCK_ANG_X != 0 {
-            slot.gpu.omega[0] = 0.0;
-        }
-        if slot.gpu.flags & FLAG_LOCK_ANG_Y != 0 {
-            slot.gpu.omega[1] = 0.0;
-        }
-        if slot.gpu.flags & FLAG_LOCK_ANG_Z != 0 {
-            slot.gpu.omega[2] = 0.0;
+fn take_accumulated_forces(w: &mut WorldInner) -> Vec<(u32, [f32; 3], [f32; 3])> {
+    let mut loads = Vec::new();
+    for (index, slot) in w.bodies.iter_mut().enumerate() {
+        let Some(body) = slot else { continue; };
+        let force = std::mem::take(&mut body.force);
+        let torque = std::mem::take(&mut body.torque);
+        if body.gpu.flags & (FLAG_STATIC | FLAG_KINEMATIC | FLAG_DISABLED | FLAG_SLEEP) == 0
+            && (force != [0.0; 3] || torque != [0.0; 3]) {
+            loads.push((index as u32, force, torque));
         }
     }
-    w.bodies_dirty |= changed;
-    // Every accumulator was consumed/cleared above, including sleeping/static
-    // bodies. Dirty mutators still force a complete capability refresh.
-    if let Some(capabilities)=w.scene_capabilities.as_mut() {capabilities.pending_forces=false;}
+    if let Some(capabilities) = w.scene_capabilities.as_mut() { capabilities.pending_forces = false; }
+    loads
 }
 
 fn wake_body(body: &mut CpuBody) {
@@ -11699,7 +11657,7 @@ fn check(world:WorldId) {
   let old=w.gpu_ccd_requested && w.gpu_resident_requested && w.def.enable_continuous && !w.post_ccd_pending
    && !w.scene_dirty && !w.bodies_dirty && w.bodies.iter().flatten().all(|b|b.force==[0.0;3] && b.torque==[0.0;3])
    && !w.joints.iter().any(|j|j.kind!=JOINT_NONE) && w.custom_filter_callback.is_none() && w.pre_solve_callback.is_none()
-   && !world_needs_contact_readback(w) && w.sim.as_ref().is_some_and(GpuSim::uses_convex_ccd);
+   && !world_needs_contact_readback(w) && w.sim.as_ref().is_some_and(|sim| sim.uses_convex_ccd() && !sim.has_step_forces());
   assert_eq!(can_submit_resident(w),old);
  });
 }
@@ -11725,6 +11683,14 @@ fn resident_force_cache_tracks_consumption_and_flushes() {
   b3_world_step_gpu(world,1.0/60.0,4);check(world);
   assert!(!with_world_no_sync(world,|w|scene_capabilities(w).pending_forces).unwrap());
   b3_world_finalize_render_state(world);check(world);
+  if with_world_no_sync(world,|w|w.sim.as_ref().unwrap().has_step_forces()).unwrap() {
+   assert!(!with_world_no_sync(world,can_submit_resident).unwrap(), "resident submission must not replay the previous load");
+   b3_world_step_gpu(world,0.0,4);
+   assert!(with_world_no_sync(world,|w|w.sim.as_ref().unwrap().has_step_forces()).unwrap());
+   b3_world_step_gpu(world,1.0/60.0,4);check(world);
+   assert!(!with_world_no_sync(world,|w|w.sim.as_ref().unwrap().has_step_forces()).unwrap());
+   assert!(with_world_no_sync(world,can_submit_resident).unwrap(), "cleared load must permit resident reentry");
+  }
  }
  b3_destroy_body(body);check(world);b3_world_ensure_gpu(world);check(world);
  b3_destroy_world(world);if let Some(error)=pollster::block_on(gpu.device.pop_error_scope()) {panic!("{error}");}

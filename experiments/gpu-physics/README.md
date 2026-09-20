@@ -98,6 +98,7 @@ cargo test --release --lib -- --test-threads=1
 ./scripts/check-shape-replacement.sh
 ./scripts/check-joint-separation.sh
 ./scripts/check-joint-reaction.sh
+./scripts/check-substep-forces.sh
 python3 scripts/audit-native-api.py --require-complete
 ```
 

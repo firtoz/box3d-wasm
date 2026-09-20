@@ -94,7 +94,8 @@ Full replay requires the component solver and excludes joints, meshes, phase
 capture, multi-step timing capture and idle-step elision. Its key includes
 simulation parameters, capacities, bind groups and scheduling choices. Resource
 or CCD-state replacement invalidates it. Ineligible worlds record normally;
-queue uploads, completion tracking and readback destinations stay live.
+queue uploads (including per-step force/torque replacement and clearing),
+completion tracking and readback destinations stay live.
 Fused per-body TGS remains off.
 
 Use `GPU_PHYSICS_NATIVE_VALIDATE=1` with an installed Vulkan validation layer.

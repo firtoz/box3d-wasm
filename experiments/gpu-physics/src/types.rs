@@ -105,7 +105,7 @@ impl GpuSceneCaps {
         let bodies = u64::from(self.bodies.max(1));
         let add = |total: u64, count: u64, stride: u64| total.checked_add(count.checked_mul(stride)?);
         let mut n = add(0, bodies, core::mem::size_of::<BodyColdGpu>() as u64)?;
-        n = add(n, bodies, 32)?;
+        n = add(n, bodies, 64)?;
         n = add(n, u64::from(self.shapes), core::mem::size_of::<ShapeGpu>() as u64)?;
         n = add(n, u64::from(self.hull_points), 16)?;
         n = add(n, u64::from(self.hull_planes), 16)?;

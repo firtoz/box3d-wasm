@@ -754,11 +754,11 @@ fn load_mesh_node_upper(shape: Shape, i: u32) -> vec4<f32> {
     return vec4<f32>(scene_f32(w), scene_f32(w + 1u), scene_f32(w + 2u), scene_f32(w + 3u));
 }
 
-// BodyCold (16 words) and body-extra (8 words) are capacity-sized arrays.
+// BodyCold (16 words) and body-extra (16 words) are capacity-sized arrays.
 // shape_base_u32 follows both arrays; body_count is only the live slot span.
 fn body_extra_offset(i: u32) -> u32 {
-    let body_capacity = params.shape_base_u32 / 24u;
-    return 16u * body_capacity + 8u * i;
+    let body_capacity = params.shape_base_u32 / 32u;
+    return 16u * body_capacity + 16u * i;
 }
 
 fn load_body(i: u32) -> Body {

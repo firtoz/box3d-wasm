@@ -186,8 +186,22 @@ fn integrate_vel_one(i: u32) {
         let h = params.dt;
         let ld = 1.0 / (1.0 + h * b.linear_damping);
         let ad = 1.0 / (1.0 + h * b.angular_damping);
-        b.vel = g * (h * select(0.0, b.gravity_scale, b.inv_mass > 0.0)) + b.vel * ld;
-        b.omega = b.omega * ad;
+        let extra = body_extra_offset(i);
+        let force = vec3<f32>(scene_f32(extra + 8u), scene_f32(extra + 9u), scene_f32(extra + 10u));
+        let torque = vec3<f32>(scene_f32(extra + 12u), scene_f32(extra + 13u), scene_f32(extra + 14u));
+        let gravity_scale = select(0.0, b.gravity_scale, b.inv_mass > 0.0);
+        if (any(force != vec3<f32>(0.0))) {
+            // Native applies the load on every substep, after damping the old velocity.
+            let delta = (h * b.inv_mass) * force + (h * gravity_scale) * g;
+            b.vel = delta + ld * b.vel;
+        } else {
+            b.vel = g * (h * gravity_scale) + b.vel * ld;
+        }
+        if (any(torque != vec3<f32>(0.0))) {
+            b.omega = h * world_inv_inertia(b, torque) + ad * b.omega;
+        } else {
+            b.omega = b.omega * ad;
+        }
         gyro_apply_gyro(&b, h);
         if ((b.flags & 256u) != 0u) { b.vel.x = 0.0; }
         if ((b.flags & 512u) != 0u) { b.vel.y = 0.0; }

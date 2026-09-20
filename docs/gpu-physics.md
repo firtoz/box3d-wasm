@@ -30,9 +30,8 @@ or tune the solver for each device.
    regressions pass; the separate AMD sweep and secondary-queue failures below
    remain. These results do not establish general GPU parity.
 2. **Next: non-recording native APIs.** Shape replacement, joint separation and reaction
-   queries are implemented with the solver limits below. Fix substep force/torque
-   integration before claiming reaction parity; remaining API work is world controls
-   and diagnostics. Review CPU-only comparison wrappers. Each completed API needs a sample or focused fixture
+   queries and substep force/torque integration are implemented with the precision
+   limits below. Remaining API work is world controls and diagnostics. Review CPU-only comparison wrappers. Each completed API needs a sample or focused fixture
    exercising independent CPU and GPU behavior, including mutation and lifetime
    cases where relevant.
 3. **Queued: GPU engine in WASM/WebGPU.** Repair the experimental browser build
@@ -107,14 +106,39 @@ The fixture also retains strict failing probes:
 - `GPU_REACTION_KIND=5 GPU_REACTION_DENSITY=1000`: high-density revolute precision.
 - `GPU_REACTION_KIND=4 GPU_REACTION_OFFSET_STRESS=1`: rotated, offset prismatic
   precision (the unrotated offset case is in the main fixture).
-- `GPU_REACTION_KIND=1 GPU_REACTION_APPLIED_TORQUE=1`: explicit torque is consumed
-  once before the GPU step rather than across native substeps, so last-substep
-  reactions can differ. These getter bindings do not repair that existing
-  force-integration path.
 
 Run these environment settings with the script above. They retain the same
 strict gate and must not be counted as passes. The main fixture and probes use
 independent GPU/CPU state; no CPU result is substituted for a GPU reaction.
+
+### Native external force integration
+
+Body force and torque accumulators are uploaded for the next positive-duration
+step and integrated on every substep, using upstream damping/gravity order and
+step-start world inertia. This replaces the previous whole-step impulse applied
+before substeps. Zero-duration steps preserve pending loads. Sleeping, static and
+kinematic bodies retain the existing API eligibility rules; impulses remain
+immediate operations.
+
+The per-body scene extension grows from 32 to 64 bytes to hold force and torque;
+no storage binding or body pose layout changes. Queue uploads clear previously
+loaded slots before the next positive-duration step, including when no new force arrives. A step
+with a bound load cannot take the resident shortcut until that clearing upload
+has occurred. Idle proofs are invalidated on load changes; scene rebuilds start
+with zero loads. Body destruction/reuse cannot inherit an old load.
+
+`./scripts/check-substep-forces.sh` compares independent CPU/GPU positions,
+rotations and velocities for 1/2/4/8 substeps, gravity, damping, rotated anisotropic
+inertia, accumulated and off-center forces, sleep/wake, zero-duration steps,
+clearing, rebuilds, neighboring bodies across holes and slot reuse. All four
+AMD/NVIDIA cache-on/off runs pass **3,744 scalar comparisons each**, retaining
+the `1e-5` component gate. The motor
+reaction probe `GPU_REACTION_KIND=1 GPU_REACTION_APPLIED_TORQUE=1` with
+`./scripts/check-joint-reaction.sh` is now a regression check for the fixed
+substep timing and passes **312 comparisons** in each of the same four modes.
+The separate precision probes above remain limitations.
+Local logs and source/binary hashes are in
+`experiments/gpu-physics/artifacts/substep-forces/`.
 
 ### Native joint separation queries
 
@@ -306,14 +330,19 @@ replacement would additionally require closing the API and physics gaps above.
 The 2026-09-20 native-cache release library suite reports **247/247 passed on
 NVIDIA** and **241/247 passed on AMD**. One AMD failure is the pre-existing
 convex-sweep case above; five secondary-queue tests fail because RADV exposes
-fewer than the two required graphics/compute queues in family zero. These are
-failures, not passes or silently skipped checks. Both GPUs pass the solver/contact,
+fewer than the two required graphics/compute queues in family zero. Local
+`vulkaninfo` reports one such queue on AMD versus 16 on NVIDIA; AMD also has four
+compute-only queues in family one, which the current same-family backend does
+not support. These five tests fail during device creation, before exercising
+queue handoff or pose lifetime. They remain failures, not passes or silently
+skipped checks. Both GPUs pass the solver/contact,
 mass-query, command-replay, pose-staging and event regressions. The six native
 tooling tests also pass. Normal and strict ten-drag checks passed during the
-joint-reaction qualification with the unchanged maxima above. Current reaction
-and regression evidence is in `experiments/gpu-physics/artifacts/joint-reaction/`;
-prior replacement and drag evidence remains in `artifacts/shape-replacement/`
-and `artifacts/drag-agreement/` within the experiment.
+substep-force qualification with the unchanged maxima above. Current force
+and regression evidence is in `experiments/gpu-physics/artifacts/substep-forces/`;
+joint-query evidence is in `artifacts/joint-reaction/`. Prior replacement and
+drag evidence remains in `artifacts/shape-replacement/` and
+`artifacts/drag-agreement/` within the experiment.
 
 Earlier merge-review checks covered TypeScript, lint (with warnings), the demo
 build, a two-restart Junkyard smoke, cached/ordinary native builds and artifact
