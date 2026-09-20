@@ -96,6 +96,7 @@ cargo test --release --lib -- --test-threads=1
 ./scripts/native-scene-gate.sh
 ./scripts/check-both-pointer.sh
 ./scripts/check-shape-replacement.sh
+./scripts/check-joint-separation.sh
 python3 scripts/audit-native-api.py --require-complete
 ```
 

@@ -3723,3 +3723,9 @@ pub extern "C" fn gpu_b3_set_box_hull(
         true,
     )
 }
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_joint_get_linear_separation(id: JointId) -> f32 { crate::api::b3_joint_get_linear_separation(id) }
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_joint_get_angular_separation(id: JointId) -> f32 { crate::api::b3_joint_get_angular_separation(id) }

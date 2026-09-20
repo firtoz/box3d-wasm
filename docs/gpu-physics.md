@@ -29,9 +29,9 @@ or tune the solver for each device.
    ten-drag sequence at unchanged normal and strict thresholds. Solver/contact
    regressions pass; the separate AMD sweep and secondary-queue failures below
    remain. These results do not establish general GPU parity.
-2. **Next: non-recording native APIs.** Shape replacement is implemented; next are joint
-   reaction/separation queries, world controls and diagnostics. Review CPU-only
-   comparison wrappers. Each completed API needs a sample or focused fixture
+2. **Next: non-recording native APIs.** Shape replacement and joint separation
+   queries are implemented; next are joint reaction forces/torques, world controls
+   and diagnostics. Review CPU-only comparison wrappers. Each completed API needs a sample or focused fixture
    exercising independent CPU and GPU behavior, including mutation and lifetime
    cases where relevant.
 3. **Queued: GPU engine in WASM/WebGPU.** Repair the experimental browser build
@@ -48,14 +48,14 @@ correctness and non-recording APIs.
 
 ## Missing features and known failures
 
-The portable-build audit on 2026-09-20 identifies **40 stub definitions and 10
-additional placeholders**; **36 concern recording/replay**. It also lists 17
+The portable-build audit on 2026-09-20 identifies **38 stub definitions and 10
+additional placeholders**; **36 concern recording/replay**. It also lists 15
 CPU-only comparison wrappers for semantic review, with no additional missing
 linked symbols in the selected build. Full native compatibility must not be inferred from scene checks.
 
 | Gap | User-visible consequence / remaining work |
 |---|---|
-| Joint reaction/separation queries | Force, torque and linear/angular separation getters are stubs. Implement and compare against native fixtures. |
+| Joint reaction queries | Force and torque getters remain stubs. Wheel angular separation is also unimplemented upstream; its release fallback is zero. |
 | World controls | Warm-start and speculative-contact toggles do not control GPU behavior. Worker-count APIs are placeholders rather than GPU scheduling controls. |
 | World diagnostics | Profile/max-capacity APIs return placeholders; memory/bounds dump and static-tree rebuild helpers are incomplete. Public `contactCount` is not implemented by the GPU world counter. |
 | Recording/replay | Native recording creation, storage, file I/O, playback, seeking and query-history APIs are placeholders. Diagnostic state replay is not an implementation of these APIs. |
@@ -68,6 +68,44 @@ cache policy; explicit `--gpu-build-dir` and `--both-build-dir` override it.
 `--require-built` rejects absent archives or generated wrappers. Missing artifacts
 produce unknown coverage rather than a successful empty inventory. CI checks
 that builds supply these inputs, without requiring the unfinished APIs to pass.
+
+### Native joint separation queries
+
+`b3Joint_GetLinearSeparation` and `b3Joint_GetAngularSeparation` read completed
+GPU body poses and current joint settings. Combined-view getters return GPU
+results; fixtures query the separately namespaced CPU engine independently.
+The implementation follows upstream `joint.c`, including its body-rotation
+convention for angular error and its single perpendicular component for slider
+linear error. Local anchor positions affect linear separation; local frame
+rotations do not replace the body rotations used by these upstream diagnostics.
+Spring/limit settings and weld softness determine which errors count. Angles
+use Box3D's deterministic `b3Atan2`, including quaternion-polarity behavior.
+
+Linear queries cover all nine native joint types. Angular queries cover the eight
+upstream implementations. **Wheel angular separation is not implemented by
+upstream** (debug assertion, release zero); the GPU returns zero without claiming
+an angular wheel diagnostic. These getters do not change solver arithmetic.
+
+The focused fixture covers configured poses, spring/limit combinations and edits,
+nontrivial local frames, offset centers of mass, quaternion polarity, destroyed
+joints, sleeping bodies and pending-step reads, at the unchanged `1e-5` tolerance:
+
+```sh
+# From experiments/gpu-physics
+GPU_PHYSICS_ADAPTER=amd ./scripts/check-joint-separation.sh artifacts/joint-separation/cached
+GPU_PHYSICS_ADAPTER=nvidia ./scripts/check-joint-separation.sh artifacts/joint-separation/cached
+GPU_PHYSICS_SAMPLES_NATIVE_CACHE=0 GPU_PHYSICS_ADAPTER=amd \
+  ./scripts/check-joint-separation.sh artifacts/joint-separation/ordinary
+GPU_PHYSICS_SAMPLES_NATIVE_CACHE=0 GPU_PHYSICS_ADAPTER=nvidia \
+  ./scripts/check-joint-separation.sh artifacts/joint-separation/ordinary
+```
+
+On 2026-09-20 all four adapter/cache combinations pass 2,686 independent
+comparisons each, plus a CPU-only mutation check proving the combined getters
+remain GPU-backed. The native API audit has no additional missing linked symbols.
+Local evidence is in `experiments/gpu-physics/artifacts/joint-separation/`.
+These are Linux Vulkan checks; wheel angular separation and other platforms
+remain outside the implemented/qualified scope.
 
 ### Native shape replacement
 
@@ -224,10 +262,11 @@ convex-sweep case above; five secondary-queue tests fail because RADV exposes
 fewer than the two required graphics/compute queues in family zero. These are
 failures, not passes or silently skipped checks. Both GPUs pass the solver/contact,
 mass-query, command-replay, pose-staging and event regressions. The six native
-tooling tests also pass. Normal and strict ten-drag checks pass again on both
-adapters with the unchanged maxima above. Current replacement/regression evidence
-is in `experiments/gpu-physics/artifacts/shape-replacement/`; earlier drag evidence
-remains in `experiments/gpu-physics/artifacts/drag-agreement/`.
+tooling tests also pass. Normal and strict ten-drag checks passed during the
+shape-replacement qualification with the unchanged maxima above. Current joint
+separation/regression evidence is in `experiments/gpu-physics/artifacts/joint-separation/`;
+prior replacement and drag evidence remains in `artifacts/shape-replacement/`
+and `artifacts/drag-agreement/` within the experiment.
 
 Earlier merge-review checks covered TypeScript, lint (with warnings), the demo
 build, a two-restart Junkyard smoke, cached/ordinary native builds and artifact

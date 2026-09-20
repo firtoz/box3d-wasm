@@ -3216,3 +3216,9 @@ int gpu_shape_geometry_mirror_count(void)
     }
     return count;
 }
+
+extern float gpu_b3_joint_get_linear_separation(b3JointId);
+B3_API float b3Joint_GetLinearSeparation(b3JointId id) { return gpu_b3_joint_get_linear_separation(id); }
+
+extern float gpu_b3_joint_get_angular_separation(b3JointId);
+B3_API float b3Joint_GetAngularSeparation(b3JointId id) { return gpu_b3_joint_get_angular_separation(id); }

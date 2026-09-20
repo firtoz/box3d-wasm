@@ -218,15 +218,3 @@ B3_API b3Vec3 b3Joint_GetConstraintTorque(b3JointId jointId)
 	(void)sizeof(char);
 	return (b3Vec3){0};
 }
-
-B3_API float b3Joint_GetLinearSeparation(b3JointId jointId)
-{
-	(void)sizeof(char);
-	return 0;
-}
-
-B3_API float b3Joint_GetAngularSeparation(b3JointId jointId)
-{
-	(void)sizeof(char);
-	return 0;
-}

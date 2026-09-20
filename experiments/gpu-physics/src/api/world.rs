@@ -1,3 +1,5 @@
+mod joint_separation;
+pub use joint_separation::*;
 mod contact_api;
 mod shape_geometry;
 pub use shape_geometry::*;

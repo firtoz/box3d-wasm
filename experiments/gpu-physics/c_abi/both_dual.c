@@ -3489,3 +3489,9 @@ B3_API void b3Shape_SetHull(b3ShapeId id, const b3HullData* hull)
     gpu_shape_set_hull(id, hull);
 }
 B3_API const b3HullData* b3Shape_GetHull(b3ShapeId id) { return gpu_shape_get_hull(id); }
+
+extern float gpu_b3_joint_get_linear_separation(b3JointId);
+B3_API float b3Joint_GetLinearSeparation(b3JointId id) { return gpu_b3_joint_get_linear_separation(id); }
+
+extern float gpu_b3_joint_get_angular_separation(b3JointId);
+B3_API float b3Joint_GetAngularSeparation(b3JointId id) { return gpu_b3_joint_get_angular_separation(id); }
