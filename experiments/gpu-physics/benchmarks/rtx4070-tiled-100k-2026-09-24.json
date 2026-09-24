@@ -1,0 +1,58 @@
+[
+  {
+    "count": 100000,
+    "variant": "baseline-1559a049",
+    "mean_ms": 61.20727625,
+    "min_ms": 61.166074583333334,
+    "max_ms": 61.39900041666667,
+    "phase_mean_ms": {
+      "broadphase": 10.314868333333333,
+      "narrowphase": 3.8108979166666668,
+      "graph": 26.05023875,
+      "prepare": 0.77764,
+      "solve": 17.15393
+    },
+    "trial_count": 3,
+    "steps_per_second": 16.337926816339913,
+    "p50_ms": 61.1201,
+    "p95_ms": 63.4145,
+    "primary_buffer_bytes": {
+      "body_bytes": 22457568,
+      "shape_geometry_material_bytes": 22596832,
+      "contact_bytes": 1241513984,
+      "joint_bytes": 4608,
+      "scratch_bytes": 407542772,
+      "atom_bytes": 45617992,
+      "fixed_bytes": 26080,
+      "total_bytes": 1739759836
+    }
+  },
+  {
+    "count": 100000,
+    "variant": "final-533f14cd",
+    "mean_ms": 46.98368,
+    "min_ms": 46.802272916666666,
+    "max_ms": 47.073932916666664,
+    "phase_mean_ms": {
+      "broadphase": 10.158186666666667,
+      "narrowphase": 3.3099933333333333,
+      "graph": 12.04540375,
+      "prepare": 0.7944683333333333,
+      "solve": 17.620068333333332
+    },
+    "trial_count": 3,
+    "steps_per_second": 21.283986269274777,
+    "p50_ms": 43.529,
+    "p95_ms": 59.3308,
+    "primary_buffer_bytes": {
+      "body_bytes": 22457568,
+      "shape_geometry_material_bytes": 22596832,
+      "contact_bytes": 1241513984,
+      "joint_bytes": 4608,
+      "scratch_bytes": 407542772,
+      "atom_bytes": 45617992,
+      "fixed_bytes": 97981348,
+      "total_bytes": 1837715104
+    }
+  }
+]

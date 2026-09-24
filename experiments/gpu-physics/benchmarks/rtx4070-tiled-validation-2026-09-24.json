@@ -1,0 +1,332 @@
+{
+  "full_library": {
+    "log": "precommit-stable-library.log",
+    "sha256": "3c34d47714e06631657f5374ee5e447216d6e7f6e62128d2a7d3a477ab0e11d4",
+    "result_lines": [
+      "test result: ok. 267 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 299.47s"
+    ]
+  },
+  "native_cache_off_boundary": {
+    "log": "final-uncached-boundary.log",
+    "sha256": "aecbb7dbe1ec9b451ae83b63d8827c889a98dc725ab941c56fe915e258ee04c4",
+    "result_lines": [
+      "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 266 filtered out; finished in 35.82s"
+    ]
+  },
+  "graph_memo_off": {
+    "log": "stable-buckets-off.log",
+    "sha256": "4936f39cf3a50eb69cb4dd00141fca73be39c1dce12242a30479ddd698d10278",
+    "result_lines": [
+      "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 266 filtered out; finished in 1.14s"
+    ]
+  },
+  "graph_memo_input_changes": {
+    "log": "stable-buckets-cases.log",
+    "sha256": "54a4e73d13f08cd8a4f460b6b4bd5178e9411cb68123568e236e3cca88e47b08",
+    "result_lines": [
+      "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 266 filtered out; finished in 27.23s"
+    ]
+  },
+  "impact_equivalence": {
+    "log": "stable-buckets-impact.log",
+    "sha256": "941d782b128d46a266d321cac7b21ff6a7808e044ff89ce92e126648cd69d005",
+    "result_lines": [
+      "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 266 filtered out; finished in 44.12s"
+    ]
+  },
+  "strict_ground_drag": {
+    "log": "final-strict-drag.log",
+    "sha256": "b63152fbbcc82ee8a5b31abf51e7865589189d69f33c1880f1392b8a1b69bdef",
+    "result_lines": [
+      "PASS ground-contact comparison: ten drags; max position=0.00602796 m quaternion_chord=0.00597248 velocity=0.230405 m/s"
+    ]
+  },
+  "native_checks_and_builds": [
+    {
+      "name": "final-uncached-boundary",
+      "command": [
+        "./scripts/build-native-cache.sh",
+        "test",
+        "--release",
+        "--lib",
+        "tiled_physics_dispatch_preserves_callbacks_events_and_remapping",
+        "--",
+        "--test-threads=1"
+      ],
+      "started": 1790275844.864796,
+      "status": "passed",
+      "environment": {
+        "DISPLAY": ":1",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
+        "WGPU_BACKEND": "vulkan",
+        "__NV_PRIME_RENDER_OFFLOAD": "1",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "0",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "0",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "0",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "0",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "0",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_FULL_REPLAY": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "0",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_CPU_WORKERS": "8",
+        "GPU_PHYSICS_DEMAND_POSES": "1",
+        "GPU_PHYSICS_PRESENT_MODE": "immediate",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/frtn/.cache/box3d-gpu-physics/pipelines",
+        "GPU_BENCH_WIDTH": "1280",
+        "GPU_BENCH_HEIGHT": "720",
+        "GPU_PHYSICS_COLOR_PREFIX": "20"
+      },
+      "pid": 612476,
+      "returncode": 0,
+      "ended": 1790275881.1207652
+    },
+    {
+      "name": "final-shape-replacement",
+      "command": [
+        "./scripts/check-shape-replacement.sh",
+        "artifacts/dispatch-scaling/final-shape-replacement"
+      ],
+      "started": 1790275881.1211936,
+      "status": "passed",
+      "environment": {
+        "DISPLAY": ":1",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
+        "WGPU_BACKEND": "vulkan",
+        "__NV_PRIME_RENDER_OFFLOAD": "1",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "0",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_CPU_WORKERS": "8",
+        "GPU_PHYSICS_DEMAND_POSES": "1",
+        "GPU_PHYSICS_PRESENT_MODE": "immediate",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/frtn/.cache/box3d-gpu-physics/pipelines",
+        "GPU_BENCH_WIDTH": "1280",
+        "GPU_BENCH_HEIGHT": "720",
+        "GPU_PHYSICS_COLOR_PREFIX": "20"
+      },
+      "pid": 616491,
+      "returncode": 0,
+      "ended": 1790275900.0401838
+    },
+    {
+      "name": "final-pointer-drag",
+      "command": [
+        "./scripts/check-both-pointer.sh",
+        "artifacts/dispatch-scaling/final-pointer-drag"
+      ],
+      "started": 1790275900.0404243,
+      "status": "passed",
+      "environment": {
+        "DISPLAY": ":1",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
+        "WGPU_BACKEND": "vulkan",
+        "__NV_PRIME_RENDER_OFFLOAD": "1",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "0",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_CPU_WORKERS": "8",
+        "GPU_PHYSICS_DEMAND_POSES": "1",
+        "GPU_PHYSICS_PRESENT_MODE": "immediate",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/frtn/.cache/box3d-gpu-physics/pipelines",
+        "GPU_BENCH_WIDTH": "1280",
+        "GPU_BENCH_HEIGHT": "720",
+        "GPU_PHYSICS_COLOR_PREFIX": "20"
+      },
+      "pid": 619009,
+      "returncode": 0,
+      "ended": 1790275913.9110966
+    },
+    {
+      "name": "final-strict-drag",
+      "command": [
+        "artifacts/dispatch-scaling/final-pointer-drag/both-drag",
+        "--ground-strict"
+      ],
+      "started": 1790275913.9115617,
+      "status": "passed",
+      "environment": {
+        "DISPLAY": ":1",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
+        "WGPU_BACKEND": "vulkan",
+        "__NV_PRIME_RENDER_OFFLOAD": "1",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_CPU_WORKERS": "8",
+        "GPU_PHYSICS_DEMAND_POSES": "1",
+        "GPU_PHYSICS_PRESENT_MODE": "immediate",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/frtn/.cache/box3d-gpu-physics/pipelines",
+        "GPU_BENCH_WIDTH": "1280",
+        "GPU_BENCH_HEIGHT": "720",
+        "GPU_PHYSICS_COLOR_PREFIX": "20"
+      },
+      "pid": 621651,
+      "returncode": 0,
+      "ended": 1790275917.2045376
+    },
+    {
+      "name": "final-sokol-build",
+      "command": [
+        "python3",
+        "scripts/run-native-samples.py",
+        "gpu",
+        "--build-only",
+        "--build-info",
+        "artifacts/dispatch-scaling/final-sokol-build.json"
+      ],
+      "started": 1790275917.2049022,
+      "status": "passed",
+      "environment": {
+        "DISPLAY": ":1",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
+        "WGPU_BACKEND": "vulkan",
+        "__NV_PRIME_RENDER_OFFLOAD": "1",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "0",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_CPU_WORKERS": "8",
+        "GPU_PHYSICS_DEMAND_POSES": "1",
+        "GPU_PHYSICS_PRESENT_MODE": "immediate",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/frtn/.cache/box3d-gpu-physics/pipelines",
+        "GPU_BENCH_WIDTH": "1280",
+        "GPU_BENCH_HEIGHT": "720",
+        "GPU_PHYSICS_COLOR_PREFIX": "20"
+      },
+      "pid": 622221,
+      "returncode": 0,
+      "ended": 1790275921.611829
+    },
+    {
+      "name": "final-direct-build",
+      "command": [
+        "./scripts/build-native-cache.sh",
+        "build",
+        "--release",
+        "--bin",
+        "gpu-physics"
+      ],
+      "started": 1790275921.6123621,
+      "status": "passed",
+      "environment": {
+        "DISPLAY": ":1",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
+        "WGPU_BACKEND": "vulkan",
+        "__NV_PRIME_RENDER_OFFLOAD": "1",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "0",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_CPU_WORKERS": "8",
+        "GPU_PHYSICS_DEMAND_POSES": "1",
+        "GPU_PHYSICS_PRESENT_MODE": "immediate",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/frtn/.cache/box3d-gpu-physics/pipelines",
+        "GPU_BENCH_WIDTH": "1280",
+        "GPU_BENCH_HEIGHT": "720",
+        "GPU_PHYSICS_COLOR_PREFIX": "20"
+      },
+      "pid": 623458,
+      "returncode": 0,
+      "ended": 1790275932.3526874
+    }
+  ],
+  "required_cases": {
+    "linear_dispatch_grid_boundaries_and_unique_coverage": "test dispatch::tests::linear_dispatch_grid_boundaries_and_unique_coverage ... ok",
+    "tiled_dispatch_direct_indirect_and_cached_cover_each_element_once": "test dispatch_gpu_tests::tiled_dispatch_direct_indirect_and_cached_cover_each_element_once ... ok",
+    "tiled_physics_dispatch_preserves_callbacks_events_and_remapping": "test gpu_invariants::tiled_physics_dispatch_preserves_callbacks_events_and_remapping ... ok",
+    "dirty_contact_range_preserves_retired_history_and_skips_unused_slots": "test sim::manifold_chain_tests::dirty_contact_range_preserves_retired_history_and_skips_unused_slots ... ok",
+    "root_free_scan_preserves_lowest_slots_and_mesh_pool": "test sim::manifold_chain_tests::root_free_scan_preserves_lowest_slots_and_mesh_pool ... ok",
+    "batch_memo_matches_greedy_after_input_changes_and_slot_reuse": "test sim::manifold_chain_tests::batch_memo_matches_greedy_after_input_changes_and_slot_reuse ... ok",
+    "falling_cube_solver_schedules_match_through_impact": "test api::world::complete_component_tests::falling_cube_solver_schedules_match_through_impact ... ok"
+  },
+  "scope": "NVIDIA final implementation; graph memo and native-cache opt-out are separate checks. AMD solver qualification is not claimed. Large-count capacity and full renderer results are recorded separately."
+}

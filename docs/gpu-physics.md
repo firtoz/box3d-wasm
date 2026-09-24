@@ -10,13 +10,13 @@ engine or show two independent worlds side by side.
 | Area | Status |
 |---|---|
 | Linux NVIDIA GeForce RTX 4070 Laptop GPU | Native CPU/GPU/combined builds and normal/strict retained-history drag checks pass |
-| Linux AMD Radeon 780M | Builds, picking and normal/strict retained-history drag checks pass; convex-sweep regression remains |
+| Linux AMD Radeon 780M | Earlier native builds, picking and normal/strict retained-history drag checks pass; the current large-world scaling changes are qualified on NVIDIA. The AMD convex-sweep regression remains. |
 | macOS / Windows | Build paths and CI matrix added; CI results and physical-GPU runtime validation are still required |
 | Intel / Apple hardware | Adapter selection permits capable devices; hardware correctness and performance are unverified |
 | Experimental browser target | Does not currently compile; native transport, ABI layout and world-storage assumptions need work |
 | Box3D WASM package | Separate implementation; unchanged by the experiment |
 | Native API parity | Incomplete; linkable symbols include placeholders and CPU-only comparison passthroughs |
-| Performance | RTX 4070 Laptop: repeated global-color completed physics throughput is 28.5% above 8-worker CPU at 80,000 cubes and 31.2% above at 100,000. All three paired trials exceed 20% at both counts. The direct-renderer preview reaches 31.8 FPS at 50,000 cubes versus CPU 25.9 FPS (three trials; not a locked 30 FPS). Full renderer/latency/threshold charts are in the experiment README. GPU 10 FPS limits remain unmeasured: all GPU paths hit a one-dimensional dispatch limit at 150,000 cubes; 100,000 is the largest validated sampled count. |
+| Performance | RTX 4070 Laptop: three matched trials at 100,000 cubes show 21.28 completed GPU steps/s at `533f14cd` versus 16.34 at `1559a049` (30.3% higher throughput, unchanged solver). Tiled dispatch removes the former 150,000-cube dispatch failure; an initial 200,000-cube trial passes collision/capacity checks. Final repeated capacity and CPU/renderer qualification is running. The experiment README distinguishes the current before/after result from the historical full CPU/renderer sweep. |
 
 The [scaling follow-up](../experiments/gpu-physics/README.md#falling-cube-scaling-benchmark)
 fixes a concurrent island-link loss and adds batched contact coloring above 8,168
@@ -24,8 +24,13 @@ bodies. With global color solving, the 15,000-cube completed step is about 11.9 
 in repeated diagnostic runs. Runtime insertion/pair/contact reservations now
 allow the larger runs above. Full-width shape identities and growable native
 metadata are implemented, and the Sokol opaque renderer reservation scales with
-the benchmark count. The full renderer sweep is complete through each path's frame-rate or validation stop. Further scaling beyond the validated 100,000
-cubes requires tiled dispatch; the 150,000-cube failure is not a VRAM or FPS limit.
+the benchmark count. Production direct, indirect and native cached dispatch now
+share tiled indexing beyond the one-dimensional workgroup limit. Boundary and
+lifecycle tests pass with native caches enabled and disabled. Dirty contact-range
+clearing and stable body-range graph-color reuse reduce work without changing
+ordered greedy assignments; the final native-cache library suite passes 267 tests.
+The earlier complete renderer sweep stopped at a software dispatch limit rather
+than a measured GPU memory or frame-rate ceiling. Its replacement is in progress.
 
 Platform setup, adapter overrides and cache policy are in the
 [backend guide](../experiments/gpu-physics/compiler/native-backend/README.md).
@@ -62,9 +67,8 @@ Recording/replay, further application optimization, and Windows/macOS/other-GPU
 portability are deferred. The completed falling-cube scaling benchmark and repeated
 shader-parsing startup fix are documented in the experiment README. Runtime testing so far is Linux-only on the RTX 4070
 Laptop GPU and Radeon 780M. Other platforms/devices still need implementation
-where incomplete and build/runtime verification. GPU-only Sokol remains slower
-than CPU-only in the measured workloads; optimization is deferred until after
-correctness and non-recording APIs.
+where incomplete and build/runtime verification. The CPU/GPU crossover depends on body count and renderer; the experiment README
+records measured ranges rather than a general claim that one engine is faster.
 
 ## Missing features and known failures
 

@@ -1,0 +1,373 @@
+{
+  "000-box3d-cpu": {
+    "manifest": {
+      "recording_started_utc": "2026-09-24T12:49:17.048561+00:00",
+      "frames": 300,
+      "metric_runs": 1,
+      "viewer": {
+        "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/gpu-physics",
+        "sha256": "1d6d7ec6d693a8571cbb63efb23a53c3e693c8317a8f98aceaf8d92f6497e07c"
+      },
+      "oracle": {
+        "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/oracle/build/box3d_oracle",
+        "sha256": "a2edeb8ba3556bf91e9544b1715b3212e7444896d4dc5a075ce5d523dec1eff6"
+      },
+      "checkout_head": "9a66819d5267789a2525309dc9dd55499c2dbb01",
+      "environment": {
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_RECORD_BIN": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/gpu-physics",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_DEMAND_POSES": "1",
+        "GPU_BENCH_WIDTH": "1280",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_COLOR_PREFIX": "20",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/frtn/.cache/box3d-gpu-physics/pipelines",
+        "DISPLAY": ":1",
+        "GPU_PHYSICS_COMPONENT_TGS": "0",
+        "GPU_PHYSICS_CPU_WORKERS": "8",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_RECORD_ORACLE": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/oracle/build/box3d_oracle",
+        "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
+        "GPU_PHYSICS_PRESENT_MODE": "immediate",
+        "WGPU_BACKEND": "vulkan",
+        "__NV_PRIME_RENDER_OFFLOAD": "1",
+        "GPU_BENCH_HEIGHT": "720",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1"
+      },
+      "note": "Records requested capture settings and binary identity. Completion requires clips and metrics; checkout HEAD alone does not identify a dirty or externally supplied build."
+    },
+    "clips": [
+      {
+        "file": "anchored-mechanisms.mp4",
+        "sha256": "550718c936b3c7aa097598f1655ddfff7997c16aa20ee0965564a33e7e724b16",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "bounce.mp4",
+        "sha256": "5fa2c26cbbefe53a34f100d1e43fa1bb9b94f2b033b2f080c20f9a5165d43afb",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "box-stack.mp4",
+        "sha256": "8c7ea819f89e941899f0a8a767edbb4e0ec6580c0e89b01a27eb227b18ed5463",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "capsule-stack.mp4",
+        "sha256": "b277dc8a475ea18ca2352d3df1886b6648c3be61ef2005cd86339ae1a2c71fa0",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "dominoes.mp4",
+        "sha256": "7e4b3c6f76be57823d02403e9282473b10a07498d2f73e642d3bbb0ece5b6ac4",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "falling-cubes.mp4",
+        "sha256": "23dffe35100c08acb8b4941e5bb860108dd245df29fac71295a1873dcdc9d960",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "high-resistance.mp4",
+        "sha256": "7d739bc85383086b519a1acba7fa040a2e498fdb383ea171bdf68d91827352c0",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "joint-chain.mp4",
+        "sha256": "121a6ff905447b4eae27f9d77aff6c011b1127b86e719ecc87ec8e7ca2c6e83e",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "mixed-stacks.mp4",
+        "sha256": "9b2fff0313ab33128f2cd7c293d47602d46790f0a021d79b4f5eb0ef71062a4f",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "mixed.mp4",
+        "sha256": "3e35558d51d30c416f346acb82c13c22ef79b0c452b254afed7fce26bc78338d",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "pyramid.mp4",
+        "sha256": "e5b54bacb7f0cd009614d30e84cff594c8ce03903ce478241c6cd1ecf84fd03f",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "ramp.mp4",
+        "sha256": "8601590dfd08757ce65fe82f48212bdb3a97f050f2cd18f7d9e91bd1d62eeb93",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "revolute.mp4",
+        "sha256": "89930137324867958abf03c798f3c1658dc05467d6a28a29e125eae4826dbf2e",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "single-box.mp4",
+        "sha256": "c45af533cc478c6f1ce8781769be075cfb2fc8812d083f71982681bf79608abe",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "sphere-stack.mp4",
+        "sha256": "f0b2fb55caa464cf9e1076ee60df5bebbe44339502a813ba394a411f49a42657",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "spheres.mp4",
+        "sha256": "4c253673753143d24dbb814697354f277f2bf9aa1be5743c27e9363c645d13c3",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "spinner.mp4",
+        "sha256": "654f2382fec71c37488f3c143c0eab57a804c5958b081f0817bce663a3e74552",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "stack.mp4",
+        "sha256": "8ef759b87981e63666511f7e675c2e570a736e37be9f7fec14d1a87d8397d6ea",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "weld.mp4",
+        "sha256": "89930137324867958abf03c798f3c1658dc05467d6a28a29e125eae4826dbf2e",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      }
+    ],
+    "metrics_sha256": "1a41b0dea5a091d26fd1881a44fd0090e979a9d8017f3b0f5efe86b4549a65f3"
+  },
+  "2026-09-24-tiled-stable-buckets": {
+    "manifest": {
+      "recording_started_utc": "2026-09-24T18:36:47.749339+00:00",
+      "frames": 300,
+      "metric_runs": 1,
+      "viewer": {
+        "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/dispatch-scaling/stable-buckets-gpu",
+        "sha256": "a5efec3a1c6833addfabf320ac7a354a998670adec96f67383fcddf22cf27299"
+      },
+      "oracle": null,
+      "checkout_head": "17e9aa5fc3ff35fe4c566862203dbe02d764a40a",
+      "environment": {
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_RECORD_BIN": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/dispatch-scaling/stable-buckets-gpu",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_DEMAND_POSES": "1",
+        "GPU_BENCH_WIDTH": "1280",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_COLOR_PREFIX": "20",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/frtn/.cache/box3d-gpu-physics/pipelines",
+        "DISPLAY": ":1",
+        "GPU_PHYSICS_COMPONENT_TGS": "0",
+        "GPU_PHYSICS_CPU_WORKERS": "8",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
+        "GPU_PHYSICS_PRESENT_MODE": "immediate",
+        "WGPU_BACKEND": "vulkan",
+        "__NV_PRIME_RENDER_OFFLOAD": "1",
+        "GPU_BENCH_HEIGHT": "720",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1"
+      },
+      "note": "Records requested capture settings and binary identity. Completion requires clips and metrics; checkout HEAD alone does not identify a dirty or externally supplied build."
+    },
+    "clips": [
+      {
+        "file": "anchored-mechanisms.mp4",
+        "sha256": "550718c936b3c7aa097598f1655ddfff7997c16aa20ee0965564a33e7e724b16",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "bounce.mp4",
+        "sha256": "9871b17fbd43230c1eb3a4aad8e574a91fb24c90f33e3f49dcb1cc1eb08cc386",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "box-stack.mp4",
+        "sha256": "cb9de31b9a8490befd1720d72312a502f2acf7a793c8de04d2602115742afcda",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "capsule-stack.mp4",
+        "sha256": "2a221e9d4fb1bedf3e8ed55d48e35fb9ee1cf9ac0916fd889c242b9347c57db5",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "dominoes.mp4",
+        "sha256": "8471d511bc07e7596c931d13a931b4fb018be6d8e8f05181345f683117fab0d3",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "falling-cubes.mp4",
+        "sha256": "00b909552ef366be742f2811ba79f7705a7214040d7bcdec1a7a5c634bb655ec",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "high-resistance.mp4",
+        "sha256": "ded3bde032e83d60f6653ad387aa7e61f546cbd21aba7acab2ebc13699ef489f",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "joint-chain.mp4",
+        "sha256": "aaca395cf8f77af1a5da064d0a06b41b10d762da4b193f82a22f60d3e87e71cb",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "mixed-stacks.mp4",
+        "sha256": "6b63491b9f03912c84bb84812ba2db5c0779989a21c943a386f4bc9c214004fc",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "mixed.mp4",
+        "sha256": "e60d120bae7e52f99a043f114eec2d4bba89a7b7a5aa0b1d68843e2b2d743b5f",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "pyramid.mp4",
+        "sha256": "0c8d91fc4cca4f7a9926e8070e8973ff23adb74225d39830a89b95b35466eb67",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "ramp.mp4",
+        "sha256": "8601590dfd08757ce65fe82f48212bdb3a97f050f2cd18f7d9e91bd1d62eeb93",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "revolute.mp4",
+        "sha256": "89930137324867958abf03c798f3c1658dc05467d6a28a29e125eae4826dbf2e",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "single-box.mp4",
+        "sha256": "c45af533cc478c6f1ce8781769be075cfb2fc8812d083f71982681bf79608abe",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "sphere-stack.mp4",
+        "sha256": "bbbfb20fe861d7179bcb4ab19cf1788432ad2998459442ffdffae1ac35ac627c",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "spheres.mp4",
+        "sha256": "62ec5d83604ec30375d33123784d2250bb7f30d2e28c65bbd121ec156f31b7bc",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "spinner.mp4",
+        "sha256": "654f2382fec71c37488f3c143c0eab57a804c5958b081f0817bce663a3e74552",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "stack.mp4",
+        "sha256": "39a92ba9f839f244c7fd21578243b85c32b6e94d3f01f801acd369dcfa6ddaca",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      },
+      {
+        "file": "weld.mp4",
+        "sha256": "89930137324867958abf03c798f3c1658dc05467d6a28a29e125eae4826dbf2e",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "300"
+      }
+    ],
+    "metrics_sha256": "01dfb255d1901d15f1c86d482b6abefcb2a32bbe6fc6b33aa8cebe7af6a191f1"
+  },
+  "note": "CPU oracle unchanged; GPU recording binary matches the final measured binary. Recorded before implementation commit as required. 19 scenes, 300 frames each, CPU first in comparison grid."
+}
