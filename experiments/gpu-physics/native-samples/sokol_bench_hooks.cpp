@@ -1,5 +1,6 @@
 #include "sokol_bench_hooks.h"
 #include "contact_metrics.h"
+#include "sokol_capacity.h"
 
 #include "box3d/box3d.h"
 #include "sample.h"
@@ -7,6 +8,7 @@
 #include "sokol_app.h"
 
 #include <cstdint>
+#include <algorithm>
 #include <chrono>
 #include <filesystem>
 #include <math.h>
@@ -16,6 +18,9 @@
 #include <string.h>
 #include <time.h>
 #include <vector>
+#if defined(GPU_PHYSICS_SAMPLES) || defined(BOTH_SAMPLES)
+extern "C" uint32_t gpu_samples_last_draw_shape_count(void);
+#endif
 #if defined(__linux__)
 #include <dlfcn.h>
 #include <GL/glx.h>
@@ -75,6 +80,8 @@ struct FrameRec
 	int submitted_step;
 	int completed_step;
 	int rendered_pose;
+	uint32_t gpu_draw_shapes;
+	uint64_t renderer_instances;
 	int in_flight;
 	int pause;
 	int single_step;
@@ -107,7 +114,7 @@ struct HealthAcc
 	float max_speed;
 };
 
-static uint8_t g_health_seen[65536];
+static std::vector<uint8_t> g_health_seen;
 
 static void scan_body(HealthAcc* acc, b3BodyId body)
 {
@@ -116,14 +123,9 @@ static void scan_body(HealthAcc* acc, b3BodyId body)
 		return;
 	}
 	unsigned idx = (unsigned)body.index1;
-	if (idx < 65536u)
-	{
-		if (g_health_seen[idx])
-		{
-			return;
-		}
-		g_health_seen[idx] = 1;
-	}
+	if (idx >= g_health_seen.size()) g_health_seen.resize((size_t)idx + 1, 0);
+	if (g_health_seen[idx]) return;
+	g_health_seen[idx] = 1;
 	b3Pos p = b3Body_GetPosition(body);
 	b3Vec3 v = b3Body_GetLinearVelocity(body);
 	b3Quat q = b3Body_GetRotation(body);
@@ -677,7 +679,7 @@ void gpu_sokol_bench_note_world(b3WorldId world)
 	HealthAcc acc = {};
 	acc.min_y = 1.0e9f;
 	acc.max_y = -1.0e9f;
-	memset(g_health_seen, 0, sizeof g_health_seen);
+	std::fill(g_health_seen.begin(), g_health_seen.end(), 0);
 	g_body_health.clear();
 	g_joint_health.clear();
 #if defined(GPU_PHYSICS_SAMPLES)
@@ -750,6 +752,10 @@ void gpu_sokol_bench_end_frame(void)
 	if (g_frame >= g_warmup && g_measured < g_timed)
 	{
 		FrameRec rec = g_acc;
+		rec.renderer_instances = sample_renderer_instance_count();
+#if defined(GPU_PHYSICS_SAMPLES) || defined(BOTH_SAMPLES)
+		rec.gpu_draw_shapes = gpu_samples_last_draw_shape_count();
+#endif
 		rec.submitted_step = g_submitted_step;
 		rec.completed_step = g_completed_step_id;
 		rec.rendered_pose = rendered;
@@ -923,7 +929,7 @@ void gpu_sokol_bench_finish(int frames, int sokol_errors, const char* sample_nam
 			",\"i\":%d,\"framebuffer_width\":%d,\"framebuffer_height\":%d,\"cadence_ms\":%.4f,\"physics_ms\":%.4f,\"setters_ms\":%.4f,\"profile_ms\":%.4f,"
 			"\"pick_ms\":%.4f,\"draw_ms\":%.4f,\"render_ms\":%.4f,\"ui_ms\":%.4f,\"commit_ms\":%.4f,"
 			"\"limiter_ms\":%.4f,\"submitted_step\":%d,\"completed_step\":%d,\"rendered_pose\":%d,"
-			"\"in_flight\":%d,\"pause\":%s,\"single_step\":%s,"
+			"\"gpu_draw_shapes\":%u,\"renderer_instances\":%" PRIu64 ",\"in_flight\":%d,\"pause\":%s,\"single_step\":%s,"
 			"\"query_wait_ms\":%.4f,\"query_dispatch_ms\":%.4f,\"query_map_ms\":%.4f,\"query_encode_ms\":%.4f,"
 			"\"query_copied_bytes\":%" PRIu64
 			",\"body_count\":%d,\"joint_count\":%d,\"contact_count\":%d,\"nan_count\":%d,"
@@ -945,6 +951,8 @@ void gpu_sokol_bench_finish(int frames, int sokol_errors, const char* sample_nam
 			r.submitted_step,
 			r.completed_step,
 			r.rendered_pose,
+			r.gpu_draw_shapes,
+			r.renderer_instances,
 			r.in_flight,
 			r.pause ? "true" : "false",
 			r.single_step ? "true" : "false",

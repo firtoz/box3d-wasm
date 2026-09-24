@@ -9,8 +9,9 @@
 #include <stdio.h>
 #include <time.h>
 #include "native_clock.h"
+#include "growable_slots.h"
 
-/* One public parent plus children must fit the packed 16-bit shape space.
+/* Separate per-compound resource guard, not a world shape-index limit.
    Shared mesh instances avoid duplicating geometry for each compound child. */
 #define GPU_MAX_COMPOUND_CHILDREN 65535
 
@@ -59,7 +60,6 @@ B3_API b3CompoundData* __wrap_b3CreateCompound(const b3CompoundDef* def)
 
 static float g_gpu_step_ms;
 
-#define GPU_HULL_MIRROR_CAP 65536
 typedef struct GpuHullMirror
 {
 	b3HullData* data;
@@ -67,7 +67,7 @@ typedef struct GpuHullMirror
 	uint16_t world0;
 	int32_t parent;
 } GpuHullMirror;
-static GpuHullMirror g_gpu_hulls[GPU_HULL_MIRROR_CAP];
+
 
 typedef struct GpuMeshMirror
 {
@@ -79,7 +79,7 @@ typedef struct GpuMeshMirror
 	uint16_t world0;
 	int32_t parent;
 } GpuMeshMirror;
-static GpuMeshMirror g_gpu_meshes[GPU_HULL_MIRROR_CAP];
+
 
 typedef struct GpuHeightFieldMirror
 {
@@ -89,61 +89,43 @@ typedef struct GpuHeightFieldMirror
 	int32_t index1;
 	uint16_t world0;
 } GpuHeightFieldMirror;
-static GpuHeightFieldMirror g_gpu_height_fields[GPU_HULL_MIRROR_CAP];
+
+
+typedef struct GpuGeometryMirror
+{
+    GpuHullMirror hull;
+    GpuMeshMirror mesh;
+    GpuHeightFieldMirror height;
+} GpuGeometryMirror;
+static GpuSlots g_geometry[GPU_METADATA_WORLDS];
+
+static GpuGeometryMirror* geometry_slot(b3ShapeId id, bool create)
+{
+    if (id.world0 == 0 || id.world0 >= GPU_METADATA_WORLDS) return NULL;
+    return (GpuGeometryMirror*)gpu_slots_get(&g_geometry[id.world0], id.index1, sizeof(GpuGeometryMirror), create);
+}
 
 static GpuHeightFieldMirror* find_height_field_mirror(b3ShapeId id, bool create)
 {
-	GpuHeightFieldMirror* freeSlot = NULL;
-	for (int i = 0; i < GPU_HULL_MIRROR_CAP; ++i)
-	{
-		GpuHeightFieldMirror* mirror = g_gpu_height_fields + i;
-		if (mirror->index1 == id.index1 && mirror->world0 == id.world0)
-		{
-			return mirror;
-		}
-		if (freeSlot == NULL && mirror->index1 == 0)
-		{
-			freeSlot = mirror;
-		}
-	}
-	return create ? freeSlot : NULL;
+    GpuGeometryMirror* slot = geometry_slot(id, create);
+    if (!slot || (!create && slot->height.index1 == 0)) return NULL;
+    return &slot->height;
 }
 
 static GpuMeshMirror* find_mesh_mirror(b3ShapeId id, bool create)
 {
-	GpuMeshMirror* freeSlot = NULL;
-	for (int i = 0; i < GPU_HULL_MIRROR_CAP; ++i)
-	{
-		GpuMeshMirror* mirror = g_gpu_meshes + i;
-		if (mirror->index1 == id.index1 && mirror->world0 == id.world0)
-		{
-			return mirror;
-		}
-		if (freeSlot == NULL && mirror->index1 == 0)
-		{
-			freeSlot = mirror;
-		}
-	}
-	return create ? freeSlot : NULL;
+    GpuGeometryMirror* slot = geometry_slot(id, create);
+    if (!slot || (!create && slot->mesh.index1 == 0)) return NULL;
+    return &slot->mesh;
 }
 
 static GpuHullMirror* find_hull_mirror(b3ShapeId id, bool create)
 {
-	GpuHullMirror* freeSlot = NULL;
-	for (int i = 0; i < GPU_HULL_MIRROR_CAP; ++i)
-	{
-		GpuHullMirror* mirror = g_gpu_hulls + i;
-		if (mirror->index1 == id.index1 && mirror->world0 == id.world0)
-		{
-			return mirror;
-		}
-		if (freeSlot == NULL && mirror->index1 == 0)
-		{
-			freeSlot = mirror;
-		}
-	}
-	return create ? freeSlot : NULL;
+    GpuGeometryMirror* slot = geometry_slot(id, create);
+    if (!slot || (!create && slot->hull.index1 == 0)) return NULL;
+    return &slot->hull;
 }
+
 
 void gpu_shape_mirror_parent(b3ShapeId child, b3ShapeId parent)
 {
@@ -863,24 +845,17 @@ B3_API b3WorldId b3CreateWorld(const b3WorldDef* def)
 
 void gpu_shape_clear_world_geometry(b3WorldId worldId)
 {
-	for (int i = 1; i < GPU_HULL_MIRROR_CAP; ++i)
-	{
-		if (g_gpu_hulls[i].index1 != 0 && g_gpu_hulls[i].world0 == worldId.index1)
-		{
-			free(g_gpu_hulls[i].data);
-			g_gpu_hulls[i] = (GpuHullMirror){0};
-		}
-		if (g_gpu_meshes[i].index1 != 0 && g_gpu_meshes[i].world0 == worldId.index1)
-		{
-			free(g_gpu_meshes[i].materials);
-			g_gpu_meshes[i] = (GpuMeshMirror){0};
-		}
-		if (g_gpu_height_fields[i].index1 != 0 && g_gpu_height_fields[i].world0 == worldId.index1)
-		{
-			free(g_gpu_height_fields[i].materials);
-			g_gpu_height_fields[i] = (GpuHeightFieldMirror){0};
-		}
-	}
+    if (worldId.index1 == 0 || worldId.index1 >= GPU_METADATA_WORLDS) return;
+    GpuSlots* slots = &g_geometry[worldId.index1];
+    for (uint32_t i = 1; i < slots->high_water; ++i)
+    {
+        GpuGeometryMirror* slot = (GpuGeometryMirror*)gpu_slots_get(slots, (int32_t)i, sizeof(GpuGeometryMirror), false);
+        if (!slot) continue;
+        free(slot->hull.data);
+        free(slot->mesh.materials);
+        free(slot->height.materials);
+    }
+    gpu_slots_release(slots);
 }
 
 B3_API void b3DestroyWorld(b3WorldId worldId)
@@ -3118,12 +3093,16 @@ void gpu_shape_clear_geometry(b3ShapeId id)
 {
     if (id.index1 <= 0) { return; }
     // Baked compound children are hidden public colliders but still own mirrors.
-    for (int i = 1; i < GPU_HULL_MIRROR_CAP; ++i) {
-        if (g_gpu_hulls[i].world0 == id.world0 && g_gpu_hulls[i].parent == id.index1) {
-            free(g_gpu_hulls[i].data); g_gpu_hulls[i] = (GpuHullMirror){0};
+    if (id.world0 == 0 || id.world0 >= GPU_METADATA_WORLDS) return;
+    GpuSlots* slots = &g_geometry[id.world0];
+    for (uint32_t i = 1; i < slots->high_water; ++i) {
+        GpuGeometryMirror* slot = (GpuGeometryMirror*)gpu_slots_get(slots, (int32_t)i, sizeof(GpuGeometryMirror), false);
+        if (!slot) continue;
+        if (slot->hull.parent == id.index1) {
+            free(slot->hull.data); slot->hull = (GpuHullMirror){0};
         }
-        if (g_gpu_meshes[i].world0 == id.world0 && g_gpu_meshes[i].parent == id.index1) {
-            free(g_gpu_meshes[i].materials); g_gpu_meshes[i] = (GpuMeshMirror){0};
+        if (slot->mesh.parent == id.index1) {
+            free(slot->mesh.materials); slot->mesh = (GpuMeshMirror){0};
         }
     }
     GpuHullMirror* hull = find_hull_mirror(id, false);
@@ -3212,10 +3191,15 @@ void gpu_shape_clear_body_geometry(b3BodyId body)
 int gpu_shape_geometry_mirror_count(void)
 {
     int count = 0;
-    for (int i = 1; i < GPU_HULL_MIRROR_CAP; ++i) {
-        count += g_gpu_hulls[i].data != NULL;
-        count += g_gpu_meshes[i].index1 != 0;
-        count += g_gpu_height_fields[i].index1 != 0;
+    for (unsigned world = 1; world < GPU_METADATA_WORLDS; ++world) {
+        GpuSlots* slots = &g_geometry[world];
+        for (uint32_t i = 1; i < slots->high_water; ++i) {
+            GpuGeometryMirror* slot = (GpuGeometryMirror*)gpu_slots_get(slots, (int32_t)i, sizeof(GpuGeometryMirror), false);
+            if (!slot) continue;
+            count += slot->hull.data != NULL;
+            count += slot->mesh.index1 != 0;
+            count += slot->height.index1 != 0;
+        }
     }
     return count;
 }

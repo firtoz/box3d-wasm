@@ -10,7 +10,7 @@ use crate::api::{
     b3_replace_mesh_shape, b3_world_contact_event_ptrs, b3_world_enable_continuous,
     b3_world_enable_sleeping, b3_world_ensure_gpu, b3_world_gpu_wait, b3_world_gpu_wait_with_mirror,
     b3_world_prepare_pose_snapshot, b3_world_step, b3_world_sync_contacts, b3_world_step_gpu,
-    b3_null_body_id, b3_world_set_diagnostic_flags, b3_world_physics_step,
+    b3_world_set_diagnostic_flags, b3_world_physics_step,
     b3_world_last_solver_dispatches, b3_world_last_static_sort_dispatches, b3_world_last_joint_dispatches,
     b3_world_live_step_stats, b3_world_clear_capacity_status, b3_world_physics_invalid,
     b3_body_set_linear_velocity, b3_body_get_linear_velocity, b3_body_is_awake,
@@ -28,7 +28,7 @@ use crate::scenes::{create_ground, create_high_resistance, create_revolute};
 use crate::sim::{GpuDevice, GpuSim};
 use crate::types::{
     pair_hash_mix, BodyGpu, BroadphaseStats, GpuSceneCaps, CONTACT_HASH_CAP, PAIR_CAP,
-    MAX_BODY_SLOTS, SCR_COLOR, SCR_UNIQUE_N,     OVERFLOW_COLOR, DIAG_FORCE_CAPACITY_LOSS,
+    SCR_COLOR, SCR_UNIQUE_N,     OVERFLOW_COLOR, DIAG_FORCE_CAPACITY_LOSS,
     DIAG_GENERAL_SOLVER, DIAG_FORCE_GENERAL_STATIC_SORT, DIAG_RECOMPUTE_TOPOLOGY,
     FLAG_DISABLED, FLAG_KINEMATIC, FLAG_STATIC, gpu_is_non_dynamic,
     DIAG_SERIAL_JOINTS, DIAG_PARALLEL_JOINTS, DIAG_DISABLE_RECYCLING, SPECULATIVE_DISTANCE,
@@ -81,11 +81,11 @@ fn dummy_sim(gpu: &GpuDevice) -> GpuSim {
 fn compact_case(gpu: &GpuDevice, pairs: &[u32]) {
     let expect = cpu_unique(pairs);
     let mut sim = dummy_sim(gpu);
-    let (unique, raw, compacted) = pollster::block_on(sim.debug_compact_unique(pairs, 0x00FF_FF00));
+    let (unique, raw, compacted) = pollster::block_on(sim.debug_compact_unique(&pairs.iter().map(|&v| if v==u32::MAX {u64::MAX} else {u64::from(v)}).collect::<Vec<_>>(), 0x00FF_FF00));
     assert_eq!(raw, expect.len() as u32, "unbounded unique count");
     assert_eq!(unique, expect.len() as u32, "bounded unique count");
     assert!(unique <= PAIR_CAP);
-    assert_eq!(&compacted[..unique as usize], expect.as_slice());
+    assert_eq!(&compacted[..unique as usize], expect.iter().map(|&v|u64::from(v)).collect::<Vec<_>>().as_slice());
 }
 
 #[test]
@@ -1159,15 +1159,15 @@ fn graph_body_id_is_not_truncated_to_15_bits() {
 }
 
 #[test]
-fn body_slots_refuse_beyond_16bit_graph_pack() {
+fn body_slots_cross_old_16bit_boundary() {
     let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
     let world = b3_create_world(gpu, &b3_default_world_def());
-    for i in 0..MAX_BODY_SLOTS {
+    for i in 0..65_538 {
         let id = b3_create_body(world, &b3_default_body_def());
         assert_ne!(id.index1, 0, "slot {i} refused early");
     }
-    let overflow = b3_create_body(world, &b3_default_body_def());
-    assert_eq!(overflow.index1, b3_null_body_id().index1);
+    let next = b3_create_body(world, &b3_default_body_def());
+    assert_eq!(next.index1, 65_539);
     b3_destroy_world(world);
 }
 
@@ -1615,7 +1615,7 @@ fn assert_live_contacts_scheduled_once(world: crate::api::WorldId) {
             continue;
         }
         live += 1;
-        let key = (c.a.min(c.b), c.a.max(c.b), c.lifecycle.get(3).copied().unwrap_or(0));
+        let key = (c.a.min(c.b), c.a.max(c.b), c.pair_key());
         assert!(keys.insert(key), "duplicate scheduled contact {key:?}");
         if c.color < 24 {
             per_color[c.color as usize].push((c.a, c.b));
@@ -1836,17 +1836,16 @@ fn joint_scan_disables(joints: &[crate::types::JointGpu], a: u32, b: u32) -> boo
 fn joint_table_disables(table: &[u32], a: u32, b: u32) -> Option<bool> {
     let key_a = a.min(b);
     let key_b = a.max(b);
-    let packed = (key_a << 16) | (key_b & 0xffff);
     let mut h = pair_hash_mix(pair_hash_mix(key_a) ^ key_b);
     let cap = crate::types::JOINT_FILTER_CAP;
     for _ in 0..crate::types::JOINT_FILTER_PROBE {
         let idx = (h & (cap - 1)) as usize;
-        let stored = table[idx * 2];
+        let stored = table[idx * 3];
         if stored == u32::MAX {
             return Some(false);
         }
-        if stored == packed {
-            return Some(table[idx * 2 + 1] != 0);
+        if stored == key_a && table[idx * 3 + 1] == key_b {
+            return Some(table[idx * 3 + 2] != 0);
         }
         h = h.wrapping_add(1);
     }
@@ -4716,5 +4715,63 @@ fn mass_queries_preserve_shape_and_explicit_mass() {
     check(2000.0);
     b3_destroy_shape(id, true);
     check(0.0);
+    b3_destroy_world(world);
+}
+
+#[test]
+fn full_width_shape_pairs_preserve_callbacks_events_and_remapping() {
+    use crate::api::*;
+    use std::sync::atomic::{AtomicI32,Ordering};
+    static MAX_FILTER_ID:AtomicI32=AtomicI32::new(0);
+    unsafe extern "C" fn accept(a:ShapeId,b:ShapeId,_:*mut std::ffi::c_void)->bool {
+        MAX_FILTER_ID.fetch_max(a.index1.max(b.index1),Ordering::SeqCst);true
+    }
+    let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+    let world=b3_create_world(gpu,&b3_default_world_def());
+    b3_world_enable_sleeping(world,false);
+    let mut bd=b3_default_body_def();bd.position=[0.0,-0.5,0.0];
+    let ground=b3_create_body(world,&bd);
+    let mut events=b3_default_shape_def();events.enable_contact_events=true;events.enable_custom_filtering=true;
+    let ground_shape=b3_create_hull_shape(ground,&events,&b3_make_box_hull(10.0,0.5,10.0));
+    let filler_def=b3_default_shape_def();let mut filler=b3_null_body_id();
+    for i in 0..65_536 {
+        bd.position=[20.0+(i%256) as f32*4.0,5.0,20.0+(i/256) as f32*4.0];
+        let body=b3_create_body(world,&bd);
+        if i==0 {filler=body;}
+        assert_ne!(b3_create_sphere_shape(body,&filler_def,&Sphere{center:[0.0;3],radius:0.1}).index1,0);
+    }
+    bd.body_type=BodyType::Dynamic;bd.position=[0.0,0.45,0.0];
+    let low=b3_create_body(world,&bd);
+    let low_shape=b3_create_sphere_shape(low,&events,&Sphere{center:[0.0;3],radius:0.5});
+    bd.position=[0.0,1.35,0.0];
+    let high=b3_create_body(world,&bd);
+    let high_shape=b3_create_sphere_shape(high,&events,&Sphere{center:[0.0;3],radius:0.5});
+    assert!(low.index1>65_536 && low_shape.index1>65_536 && high_shape.index1>65_536);
+    b3_world_set_custom_filter_callback(world,Some(accept),std::ptr::null_mut());
+    let events_now=|| {
+        let (begin,n,end,m,_,_)=b3_world_contact_event_ptrs(world);
+        let starts=if n==0 {Vec::new()} else {unsafe{std::slice::from_raw_parts(begin,n as usize)}.iter().map(|e|(e.shape_id_a,e.shape_id_b)).collect()};
+        let ends=if m==0 {Vec::new()} else {unsafe{std::slice::from_raw_parts(end,m as usize)}.iter().map(|e|(e.shape_id_a,e.shape_id_b)).collect()};
+        (starts,ends)
+    };
+    let contains=|pairs:&Vec<(ShapeId,ShapeId)>,a:ShapeId,b:ShapeId|pairs.iter().any(|&(x,y)| (x.index1==a.index1&&x.generation==a.generation&&y.index1==b.index1&&y.generation==b.generation)||(y.index1==a.index1&&y.generation==a.generation&&x.index1==b.index1&&x.generation==b.generation));
+    b3_world_step_gpu(world,1.0/60.0,4);
+    let (begins,ends)=events_now();
+    assert!(contains(&begins,ground_shape,low_shape));assert!(contains(&begins,low_shape,high_shape));assert!(ends.is_empty());
+    assert!(MAX_FILTER_ID.load(Ordering::SeqCst)>65_536);
+    b3_destroy_body(filler); // Dense physical shape indices shift; public IDs stay.
+    b3_world_step_gpu(world,1.0/60.0,4);
+    let (begins,ends)=events_now();assert!(begins.is_empty()&&ends.is_empty(),"remap must preserve both retained contacts");
+    b3_body_set_transform(high,[8.0,3.0,0.0],[0.0,0.0,0.0,1.0]);
+    b3_world_step_gpu(world,1.0/60.0,4);
+    let (_,ends)=events_now();assert!(contains(&ends,low_shape,high_shape));
+    b3_destroy_body(high);bd.position=[0.0,1.35,0.0];
+    let replacement=b3_create_body(world,&bd);
+    let replacement_shape=b3_create_sphere_shape(replacement,&events,&Sphere{center:[0.0;3],radius:0.5});
+    assert_eq!(replacement.index1,high.index1);assert_ne!(replacement.generation,high.generation);
+    b3_world_step_gpu(world,1.0/60.0,4);
+    let (begins,_)=events_now();assert!(contains(&begins,low_shape,replacement_shape));
+    assert!(!pollster::block_on(b3_world_live_step_stats(world)).unwrap().capacity_loss());
+    assert!(!b3_world_physics_invalid(world));
     b3_destroy_world(world);
 }

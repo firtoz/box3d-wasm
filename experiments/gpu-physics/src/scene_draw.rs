@@ -12,7 +12,7 @@ struct Batch { indices: Range<u32>, instances: Range<u32> }
 struct Geometry { vertices: Vec<MeshVertex>, indices: Vec<u32>, instances: Vec<Instance>, batches: Vec<Batch> }
 
 fn shape_mesh(shape: &RenderShape) -> (CpuMesh, Instance) {
-    // Slots are bounded to 65536; bit 31 carries immutable sensor metadata.
+    // Graph classification keeps slots below bit 30; bit 31 carries sensor metadata.
     let mut inst = Instance { body: shape.body_slot | (u32::from(shape.is_sensor) << 31), color: shape.custom_color,
         p: [0.0;3], q: [0.0,0.0,0.0,1.0], scale: [1.0;3] };
     let mesh = match &shape.geometry {

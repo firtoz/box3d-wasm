@@ -15,10 +15,10 @@ fn body_extent(b: Body) -> vec3<f32> {
     return collider_aabb_extent(b);
 }
 
-fn pack_pair(ia: u32, ib: u32) -> u32 {
+fn pack_pair(ia: u32, ib: u32) -> vec2<u32> {
     let lo = min(ia, ib);
     let hi = max(ia, ib);
-    return (hi << 16u) | lo;
+    return vec2<u32>(lo, hi);
 }
 
 fn broadphase_pair_allowed(a: Body, b: Body, shape_a: Shape, shape_b: Shape) -> bool {
@@ -66,8 +66,8 @@ fn pair_lifetime_overlap(a: Body, b: Body, shape_a: Shape, shape_b: Shape) -> bo
 }
 
 fn contact_has_sensor(c: Contact) -> bool {
-    let ia = c.lifecycle.w & 0xffffu;
-    let ib = c.lifecycle.w >> 16u;
+    let ia = c.pair.x;
+    let ib = c.pair.y;
     return ia < params.shape_count && ib < params.shape_count
         && ((load_shape(ia).event_flags | load_shape(ib).event_flags) & SHAPE_IS_SENSOR) != 0u;
 }
@@ -94,17 +94,16 @@ fn joint_disables_collision(body_a: u32, body_b: u32) -> bool {
     }
     let key_a = min(body_a, body_b);
     let key_b = max(body_a, body_b);
-    let packed = (key_a << 16u) | (key_b & 0xffffu);
     var h = pair_hash_mix(pair_hash_mix(key_a) ^ key_b);
     let base = joint_filter_base();
     for (var probe = 0u; probe < JOINT_FILTER_PROBE; probe++) {
         let idx = h & (JOINT_FILTER_CAP - 1u);
-        let stored = scratch[base + idx * 2u];
+        let stored = scratch[base + idx * 3u];
         if (stored == EMPTY) {
             return false;
         }
-        if (stored == packed) {
-            return scratch[base + idx * 2u + 1u] != 0u;
+        if (stored == key_a && scratch[base + idx * 3u + 1u] == key_b) {
+            return scratch[base + idx * 3u + 2u] != 0u;
         }
         h = h + 1u;
     }
@@ -124,38 +123,45 @@ fn shapes_collide(a: Shape, b: Shape) -> bool {
     return a_accepts_b && b_accepts_a;
 }
 
-fn push_pair(packed: u32) {
-    // Deduplicate before append. Dense lattices emit the same neighboring pair
-    // from several occupied cells; appending all duplicates exhausted PAIR_CAP
-    // even though the final unique set fit. Sorting still canonicalizes order.
-    var hash_slot = pair_hash_mix(packed) & (PAIR_CAP - 1u);
-    for (var probe = 0u; probe < PAIR_CAP; probe++) {
-        let stored = atomicLoad(&atom[ATOM_PAIR_SET + hash_slot]);
-        if (stored == packed) {
-            return;
-        }
-        if (stored == EMPTY) {
-            let claimed = atomicCompareExchangeWeak(
-                &atom[ATOM_PAIR_SET + hash_slot],
-                EMPTY,
-                packed,
-            );
-            if (claimed.exchanged) {
-                let i = atomicAdd(&atom[ATOM_PAIR_N], 1u);
-                if (i < PAIR_CAP) {
-                    scratch[SCR_PAIRS + i] = packed;
-                } else {
-                    record_capacity_drop(ATOM_PAIR_DROPPED, ATOM_STICKY_PAIR_DROPPED);
-                }
-                return;
-            }
-            if (claimed.old_value == packed) {
-                return;
-            }
-        }
-        hash_slot = (hash_slot + 1u) & (PAIR_CAP - 1u);
+fn append_pair(packed: vec2<u32>) {
+    let i = atomicAdd(&atom[ATOM_PAIR_N], 1u);
+    if (i < pair_cap()) {
+        store_pair_words(SCR_PAIRS, i, packed);
+    } else {
+        record_capacity_drop(ATOM_PAIR_DROPPED, ATOM_STICKY_PAIR_DROPPED);
     }
-    record_capacity_drop(ATOM_PAIR_DROPPED, ATOM_STICKY_PAIR_DROPPED);
+}
+
+fn append_new_pair(packed: vec2<u32>) {
+    // A retained root emits its pair exactly once in emit_prev_pairs. The hash
+    // is immutable throughout candidate generation and supports full identities.
+    let previous = find_contact_slot(packed);
+    if (previous != EMPTY) {
+        if (all(previous_pair_key_for_slot(previous) == packed)) { return; }
+    }
+    append_pair(packed);
+}
+
+fn lower_cell(b: Body) -> vec3<i32> {
+    return vec3<i32>(floor(fat_lower(b) / max(params.cell_size, 0.25)));
+}
+
+fn cell_span(b: Body, lower: vec3<i32>) -> vec3<u32> {
+    let upper = vec3<i32>(floor(fat_upper(b) / max(params.cell_size, 0.25)));
+    return vec3<u32>(upper - lower + vec3<i32>(1));
+}
+
+fn insertion_cell(b: Body, ordinal: u32) -> vec3<i32> {
+    let lower = lower_cell(b);
+    let span = cell_span(b, lower);
+    return lower + vec3<i32>(i32(ordinal / (span.y * span.z)),
+        i32((ordinal / span.z) % span.y), i32(ordinal % span.z));
+}
+
+fn insertion_ordinal(b: Body, lower: vec3<i32>, cell: vec3<i32>) -> u32 {
+    let span = cell_span(b, lower);
+    let offset = vec3<u32>(cell - lower);
+    return (offset.x * span.y + offset.y) * span.z + offset.z;
 }
 
 // Eight words per allocated shape, after the existing scratch work arrays.
@@ -220,23 +226,22 @@ fn clear_broadphase(@builtin(global_invocation_id) gid: vec3<u32>) {
     if (i < HASH_BUCKETS) {
         atomicStore(&atom[ATOM_HASH + i], EMPTY);
     }
-    if (i < PAIR_CAP) {
-        scratch[SCR_PAIRS + i] = EMPTY;
-        scratch[SCR_CONTACT_MARK + i] = 0u;
+    if (i < pair_cap()) {
+        store_pair_words(SCR_PAIRS, i, vec2<u32>(EMPTY));
+        scratch[scr_contact_mark() + i] = 0u;
         // Latest-step event history must survive retirement and slot reuse.
         // Capture before narrowphase writes; child patches share their pair key.
-        var previous_key = EMPTY;
+        var previous_key = vec2<u32>(EMPTY);
         if (i < params.contact_capacity) {
             let old = contacts[i];
             if (old.a != EMPTY && old.count > 0u
                 && (contact_persistent[i].lifecycle.y & CONTACT_TOUCHING) != 0u) {
-                previous_key = contact_persistent[i].lifecycle.w;
+                previous_key = contact_persistent[i].pair.xy;
             }
         }
         if (params.remap_history_step != params.physics_step) {
-            scratch[SCR_PREVIOUS_TOUCHING + i] = previous_key;
+            store_pair_words(scr_previous_touching(), i, previous_key);
         }
-        atomicStore(&atom[ATOM_PAIR_SET + i], EMPTY);
     }
     if (i == 0u) {
         if ((params.diagnostic_flags & DIAG_MESH_CANDIDATES) != 0u) {
@@ -264,7 +269,7 @@ fn clear_broadphase(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 const MAX_STATIC_HASH_CELLS: u32 = 8u;
-const SCR_STATIC_LIST: u32 = SCR_RADIX_OUT;
+fn scr_static_list() -> u32 { return scr_radix_out(); }
 
 fn shape_insert_count(b: Body) -> u32 {
     let cs = max(params.cell_size, 0.25);
@@ -294,8 +299,8 @@ fn collect_fat_statics(@builtin(global_invocation_id) gid: vec3<u32>) {
         return;
     }
     let out = atomicAdd(&atom[ATOM_STATIC_N], 1u);
-    if (out < PAIR_CAP) {
-        scratch[SCR_STATIC_LIST + out] = i;
+    if (out < pair_cap()) {
+        scratch[scr_static_list() + out] = i;
     }
 }
 
@@ -326,7 +331,7 @@ fn hash_insert(@builtin(global_invocation_id) gid: vec3<u32>) {
     let z1 = cell_coord(hi.z, cs);
     let insert_count = u32(x1 - x0 + 1) * u32(y1 - y0 + 1) * u32(z1 - z0 + 1);
     let first_slot = atomicAdd(&atom[ATOM_INSERT_N], insert_count);
-    let accepted = min(insert_count, MAX_INSERTS - min(first_slot, MAX_INSERTS));
+    let accepted = min(insert_count, params.insert_capacity - min(first_slot, params.insert_capacity));
     if (accepted < insert_count) {
         record_capacity_drop_n(ATOM_INSERT_DROPPED, ATOM_STICKY_INSERT_DROPPED, insert_count - accepted);
     }
@@ -340,10 +345,11 @@ fn hash_insert(@builtin(global_invocation_id) gid: vec3<u32>) {
                 let slot = first_slot + local_slot;
                 local_slot = local_slot + 1u;
                 let h = cell_hash(ix, iy, iz);
-                scratch[SCR_INS_BODY + slot] = i;
-                scratch[SCR_INS_CELL + slot] = h;
+                scratch[scr_ins_body() + slot] = i;
+                // Preserve exact cell identity, not just its colliding hash bucket.
+                scratch[scr_ins_cell() + slot] = local_slot - 1u;
                 let old = atomicExchange(&atom[ATOM_HASH + h], slot);
-                scratch[SCR_INS_NEXT + slot] = old;
+                scratch[scr_ins_next() + slot] = old;
             }
         }
     }
@@ -351,7 +357,7 @@ fn hash_insert(@builtin(global_invocation_id) gid: vec3<u32>) {
 
 @compute @workgroup_size(1)
 fn write_insert_indirect() {
-    let n = min(atomicLoad(&atom[ATOM_INSERT_N]), MAX_INSERTS);
+    let n = min(atomicLoad(&atom[ATOM_INSERT_N]), params.insert_capacity);
     scratch[SCR_INDIRECT_COLLIDE] = (n + 63u) / 64u;
     scratch[SCR_INDIRECT_COLLIDE + 1u] = 1u;
     scratch[SCR_INDIRECT_COLLIDE + 2u] = 1u;
@@ -360,26 +366,28 @@ fn write_insert_indirect() {
 
 @compute @workgroup_size(256)
 fn write_radix_indirect(@builtin(local_invocation_index) lid: u32) {
-    let n = min(atomicLoad(&atom[ATOM_PAIR_N]), PAIR_CAP);
+    let n = min(atomicLoad(&atom[ATOM_PAIR_N]), pair_cap());
     if (lid == 0u) {
         scratch[SCR_PAIR_N] = n;
         let groups = max((n + RADIX_GROUP_SIZE - 1u) / RADIX_GROUP_SIZE, 1u);
         scratch[SCR_RADIX_GROUP_N] = groups;
         write_count_indirect(SCR_INDIRECT_RADIX, n, RADIX_GROUP_SIZE);
     }
-    scratch[SCR_RADIX_BASE + lid] = 0u;
+    scratch[scr_radix_base() + lid] = 0u;
 }
 
 @compute @workgroup_size(64)
 fn emit_hash_pairs(@builtin(global_invocation_id) gid: vec3<u32>) {
     let slot = gid.x;
-    let nins = min(atomicLoad(&atom[ATOM_INSERT_N]), MAX_INSERTS);
+    let nins = min(atomicLoad(&atom[ATOM_INSERT_N]), params.insert_capacity);
     if (slot >= nins) {
         return;
     }
-    let ia = scratch[SCR_INS_BODY + slot];
-    let h = scratch[SCR_INS_CELL + slot];
+    let ia = scratch[scr_ins_body() + slot];
     let a = load_collider(ia);
+    let a_lower = lower_cell(a);
+    let cell = insertion_cell(a, scratch[scr_ins_cell() + slot]);
+    let h = cell_hash(cell.x, cell.y, cell.z);
     var other = atomicLoad(&atom[ATOM_HASH + h]);
     var hops = 0u;
     loop {
@@ -389,20 +397,24 @@ fn emit_hash_pairs(@builtin(global_invocation_id) gid: vec3<u32>) {
             }
             break;
         }
-        let ib = scratch[SCR_INS_BODY + other];
+        let ib = scratch[scr_ins_body() + other];
         if (ib < ia) {
             let b = load_collider(ib);
             let shape_a = load_shape(ia);
             let shape_b = load_shape(ib);
-            if (a._pad_island.y != b._pad_island.y
+            let b_lower = lower_cell(b);
+            let owner = max(a_lower, b_lower);
+            if (all(cell == owner)
+                && scratch[scr_ins_cell() + other] == insertion_ordinal(b, b_lower, owner)
+                && a._pad_island.y != b._pad_island.y
                 && broadphase_pair_allowed(a, b, shape_a, shape_b)
                 && !joint_disables_collision(a._pad_island.y, b._pad_island.y)
                 && shapes_collide(shape_a, shape_b)
                 && aabb_overlap(a, b)) {
-                push_pair(pack_pair(ia, ib));
+                append_new_pair(pack_pair(ia, ib));
             }
         }
-        other = scratch[SCR_INS_NEXT + other];
+        other = scratch[scr_ins_next() + other];
         hops = hops + 1u;
     }
 }
@@ -417,9 +429,9 @@ fn emit_static_pairs(@builtin(global_invocation_id) gid: vec3<u32>) {
     if (is_static(a)) {
         return;
     }
-    let nstatic = min(scratch[SCR_STATIC_N], PAIR_CAP);
+    let nstatic = min(scratch[SCR_STATIC_N], pair_cap());
     for (var j = 0u; j < nstatic; j++) {
-        let jb = scratch[SCR_STATIC_LIST + j];
+        let jb = scratch[scr_static_list() + j];
         let b = load_collider(jb);
         if (b._pad_island.y == a._pad_island.y) {
             continue;
@@ -436,7 +448,7 @@ fn emit_static_pairs(@builtin(global_invocation_id) gid: vec3<u32>) {
             continue;
         }
         if (aabb_overlap(a, b)) {
-            push_pair(pack_pair(i, jb));
+            append_new_pair(pack_pair(i, jb));
         }
     }
 }
@@ -450,38 +462,43 @@ fn write_occupied_indirect() {
     scratch[SCR_INDIRECT_OCCUPIED + 3u] = 0u;
 }
 
-fn previous_pair_key(i: u32) -> u32 {
+fn previous_pair_key(i: u32) -> vec2<u32> {
     let occupied_count = min(scratch[SCR_OCCUPIED_N], params.contact_capacity);
     if (i >= occupied_count) {
-        return EMPTY;
+        return vec2<u32>(EMPTY);
     }
-    let k = scratch[SCR_OCCUPIED_CONTACT + i];
+    let k = scratch[scr_occupied_contact() + i];
     if (k >= params.contact_capacity) {
-        return EMPTY;
+        return vec2<u32>(EMPTY);
     }
+    return previous_pair_key_for_slot(k);
+}
+
+fn previous_pair_key_for_slot(k: u32) -> vec2<u32> {
     let p = load_contact(k);
-    let key = p.lifecycle.w;
-    let ia = key & 0xffffu;
-    let ib = key >> 16u;
+    if (p.manifold_link.y != 0u) { return vec2<u32>(EMPTY); }
+    let key = p.pair.xy;
+    let ia = key.x;
+    let ib = key.y;
     if (p.a == EMPTY || p.b == EMPTY || p.a == p.b
         || ia >= params.shape_count || ib >= params.shape_count) {
-        return EMPTY;
+        return vec2<u32>(EMPTY);
     }
     let a = load_collider(ia);
     let b = load_collider(ib);
     let shape_a = load_shape(ia);
     let shape_b = load_shape(ib);
     if (!broadphase_pair_allowed(a, b, shape_a, shape_b)) {
-        return EMPTY;
+        return vec2<u32>(EMPTY);
     }
     if (joint_disables_collision(a._pad_island.y, b._pad_island.y)) {
-        return EMPTY;
+        return vec2<u32>(EMPTY);
     }
     if (!shapes_collide(shape_a, shape_b)) {
-        return EMPTY;
+        return vec2<u32>(EMPTY);
     }
     if (!pair_lifetime_overlap(a, b, shape_a, shape_b)) {
-        return EMPTY;
+        return vec2<u32>(EMPTY);
     }
     return key;
 }
@@ -489,7 +506,7 @@ fn previous_pair_key(i: u32) -> u32 {
 @compute @workgroup_size(64)
 fn emit_prev_pairs(@builtin(global_invocation_id) gid: vec3<u32>) {
     let key=previous_pair_key(gid.x);
-    if (key!=EMPTY) { push_pair(key); }
+    if (key.x!=EMPTY) { append_pair(key); }
 }
 
 var<workgroup> radix_counts: array<atomic<u32>, 256>;
@@ -498,21 +515,21 @@ var<workgroup> radix_scan_a: array<u32, 256>;
 var<workgroup> radix_scan_b: array<u32, 256>;
 
 fn retained_pair_count() -> u32 {
-    return min(atomicLoad(&atom[ATOM_PAIR_N]), PAIR_CAP);
+    return min(atomicLoad(&atom[ATOM_PAIR_N]), pair_cap());
 }
 
 fn pair_is_unique(i: u32, n: u32) -> u32 {
     if (i >= n) {
         return 0u;
     }
-    let p = scratch[SCR_PAIRS + i];
-    if (p == EMPTY) {
+    let p = load_pair_words(SCR_PAIRS, i);
+    if (p.x == EMPTY) {
         return 0u;
     }
     if (i == 0u) {
         return 1u;
     }
-    return select(0u, 1u, p != scratch[SCR_PAIRS + i - 1u]);
+    return select(0u, 1u, any(p != load_pair_words(SCR_PAIRS, i - 1u)));
 }
 
 fn workgroup_exclusive_scan_256(lid: u32, value: u32) -> u32 {
@@ -539,6 +556,25 @@ fn workgroup_exclusive_scan_256(lid: u32, value: u32) -> u32 {
     return inclusive - value;
 }
 
+// Prefix any number of histogram groups in uniform 256-group chunks. All
+// lanes carry the same total; barriers protect scan storage between chunks.
+var<workgroup> group_scan_total: u32;
+fn scan_group_counts(lid: u32, groups: u32, source: u32, destination: u32) -> u32 {
+    var carry = 0u;
+    for (var first = 0u; first < groups; first += 256u) {
+        let group = first + lid;
+        var count = 0u;
+        if (group < groups) { count = scratch[source + group]; }
+        let exclusive = workgroup_exclusive_scan_256(lid, count);
+        if (group < groups) { scratch[destination + group] = carry + exclusive; }
+        if (lid == 255u) { group_scan_total = exclusive + count; }
+        workgroupBarrier();
+        carry += group_scan_total;
+        workgroupBarrier();
+    }
+    return carry;
+}
+
 @compute @workgroup_size(256)
 fn compact_unique_histogram(
     @builtin(global_invocation_id) gid: vec3<u32>,
@@ -549,7 +585,7 @@ fn compact_unique_histogram(
     let keep = pair_is_unique(gid.x, n);
     let exclusive = workgroup_exclusive_scan_256(lid, keep);
     if (lid == 255u) {
-        scratch[SCR_RADIX_BASE + group.x] = exclusive + keep;
+        scratch[scr_radix_base() + group.x] = exclusive + keep;
     }
 }
 
@@ -558,16 +594,13 @@ fn compact_unique_bases(@builtin(local_invocation_index) lid: u32) {
     // compact_unique_histogram writes only the live workgroup prefix.
     // Radix leftover offsets in the unused suffix must not be scanned.
     let groups = (retained_pair_count() + RADIX_GROUP_SIZE - 1u) / RADIX_GROUP_SIZE;
-    let count = select(0u, scratch[SCR_RADIX_BASE + lid], lid < groups);
-    let exclusive = workgroup_exclusive_scan_256(lid, count);
-    scratch[SCR_RADIX_HIST + lid] = exclusive;
+    let total = scan_group_counts(lid, groups, scr_radix_base(), scr_radix_hist());
     if (lid == 255u) {
-        let total = exclusive + count;
         scratch[SCR_POW2] = total;
-        if (total > PAIR_CAP) {
-            record_capacity_drop_n(ATOM_PAIR_DROPPED, ATOM_STICKY_PAIR_DROPPED, total - PAIR_CAP);
+        if (total > pair_cap()) {
+            record_capacity_drop_n(ATOM_PAIR_DROPPED, ATOM_STICKY_PAIR_DROPPED, total - pair_cap());
         }
-        let bounded = min(total, PAIR_CAP);
+        let bounded = min(total, pair_cap());
         scratch[SCR_UNIQUE_N] = bounded;
         scratch[SCR_NCONTACTS] = bounded;
         write_count_indirect(SCR_INDIRECT_COLLIDE, bounded, 64u);
@@ -585,33 +618,34 @@ fn compact_unique_scatter(
     let keep = pair_is_unique(gid.x, n);
     let local_exclusive = workgroup_exclusive_scan_256(lid, keep);
     if (keep != 0u) {
-        let dst = scratch[SCR_RADIX_HIST + group.x] + local_exclusive;
-        scratch[SCR_RADIX_OUT + dst] = scratch[SCR_PAIRS + gid.x];
+        let dst = scratch[scr_radix_hist() + group.x] + local_exclusive;
+        store_pair_words(scr_radix_out(), dst, load_pair_words(SCR_PAIRS, gid.x));
     }
 }
 
 @compute @workgroup_size(256)
 fn compact_unique_gather(@builtin(global_invocation_id) gid: vec3<u32>) {
-    let w = min(scratch[SCR_UNIQUE_N], PAIR_CAP);
+    let w = min(scratch[SCR_UNIQUE_N], pair_cap());
     if (gid.x < w) {
-        scratch[SCR_PAIRS + gid.x] = scratch[SCR_RADIX_OUT + gid.x];
+        store_pair_words(SCR_PAIRS, gid.x, load_pair_words(scr_radix_out(), gid.x));
     }
 }
 
 fn radix_histogram_impl(gid: u32, lid: u32, group: u32, shift: u32, from_output: bool) {
+    let source_output = from_output != (shift >= 32u && params.shape_count > 65536u && params.shape_count <= 16777216u);
     atomicStore(&radix_counts[lid], 0u);
     workgroupBarrier();
     let n = retained_pair_count();
     if (gid < n) {
         let key = select(
-            scratch[SCR_PAIRS + gid],
-            scratch[SCR_RADIX_OUT + gid],
-            from_output,
+            load_pair_words(SCR_PAIRS, gid),
+            load_pair_words(scr_radix_out(), gid),
+            source_output,
         );
-        atomicAdd(&radix_counts[(key >> shift) & 255u], 1u);
+        atomicAdd(&radix_counts[pair_digit(key, shift)], 1u);
     }
     workgroupBarrier();
-    scratch[SCR_RADIX_HIST + group * RADIX_BUCKETS + lid] =
+    scratch[scr_radix_hist() + group * RADIX_BUCKETS + lid] =
         atomicLoad(&radix_counts[lid]);
 }
 
@@ -652,7 +686,7 @@ fn radix_histogram_24(
 }
 
 fn radix_live_groups() -> u32 {
-    return min(scratch[SCR_RADIX_GROUP_N], RADIX_GROUPS);
+    return min(scratch[SCR_RADIX_GROUP_N], radix_groups());
 }
 
 @compute @workgroup_size(256)
@@ -665,7 +699,7 @@ fn radix_bucket_bases(@builtin(local_invocation_index) bucket: u32) {
     }
     var total = 0u;
     for (var group = 0u; group < groups; group++) {
-        total = total + scratch[SCR_RADIX_HIST + group * RADIX_BUCKETS + bucket];
+        total = total + scratch[scr_radix_hist() + group * RADIX_BUCKETS + bucket];
     }
     radix_scan_a[bucket] = total;
     workgroupBarrier();
@@ -691,7 +725,7 @@ fn radix_bucket_bases(@builtin(local_invocation_index) bucket: u32) {
     if (bucket > 0u) {
         base = radix_scan_a[bucket - 1u];
     }
-    scratch[SCR_RADIX_BASE + bucket] = base;
+    scratch[scr_radix_base() + bucket] = base;
 }
 
 @compute @workgroup_size(256)
@@ -700,9 +734,9 @@ fn radix_group_prefix(@builtin(local_invocation_index) bucket: u32) {
     if (groups == 0u) {
         return;
     }
-    var offset = scratch[SCR_RADIX_BASE + bucket];
+    var offset = scratch[scr_radix_base() + bucket];
     for (var group = 0u; group < groups; group++) {
-        let at = SCR_RADIX_HIST + group * RADIX_BUCKETS + bucket;
+        let at = scr_radix_hist() + group * RADIX_BUCKETS + bucket;
         let count = scratch[at];
         scratch[at] = offset;
         offset = offset + count;
@@ -710,32 +744,33 @@ fn radix_group_prefix(@builtin(local_invocation_index) bucket: u32) {
 }
 
 fn radix_scatter_impl(gid: u32, lid: u32, group: u32, shift: u32, from_output: bool) {
+    let source_output = from_output != (shift >= 32u && params.shape_count > 65536u && params.shape_count <= 16777216u);
     let n = retained_pair_count();
-    var key = EMPTY;
+    var key = vec2<u32>(EMPTY);
     if (gid < n) {
         key = select(
-            scratch[SCR_PAIRS + gid],
-            scratch[SCR_RADIX_OUT + gid],
-            from_output,
+            load_pair_words(SCR_PAIRS, gid),
+            load_pair_words(scr_radix_out(), gid),
+            source_output,
         );
     }
-    radix_keys[lid] = key;
+    radix_keys[lid] = pair_digit(key, shift);
     workgroupBarrier();
     if (gid < n) {
-        let bucket = (key >> shift) & 255u;
+        let bucket = pair_digit(key, shift);
         var rank = 0u;
         for (var i = 0u; i < lid; i++) {
-            if (((radix_keys[i] >> shift) & 255u) == bucket) {
+            if (radix_keys[i] == bucket) {
                 rank = rank + 1u;
             }
         }
-        let out = scratch[SCR_RADIX_HIST + group * RADIX_BUCKETS + bucket] + rank;
+        let out = scratch[scr_radix_hist() + group * RADIX_BUCKETS + bucket] + rank;
         if (out >= n) {
             record_capacity_drop(ATOM_PAIR_DROPPED, ATOM_STICKY_PAIR_DROPPED);
-        } else if (from_output) {
-            scratch[SCR_PAIRS + out] = key;
+        } else if (source_output) {
+            store_pair_words(SCR_PAIRS, out, key);
         } else {
-            scratch[SCR_RADIX_OUT + out] = key;
+            store_pair_words(scr_radix_out(), out, key);
         }
     }
 }
@@ -779,21 +814,93 @@ fn radix_scatter_24(
 // Read-only probes are safe in parallel. New contact-table claims remain
 // ordered by the sorted pair list so tombstone reuse cannot change persistent
 // pair identity with workgroup scheduling.
+
+@compute @workgroup_size(256)
+fn radix_histogram_32(
+    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(local_invocation_index) lid: u32,
+    @builtin(workgroup_id) group: vec3<u32>,
+) {
+    radix_histogram_impl(gid.x, lid, group.x, 32u, false);
+}
+
+@compute @workgroup_size(256)
+fn radix_histogram_40(
+    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(local_invocation_index) lid: u32,
+    @builtin(workgroup_id) group: vec3<u32>,
+) {
+    radix_histogram_impl(gid.x, lid, group.x, 40u, true);
+}
+
+@compute @workgroup_size(256)
+fn radix_histogram_48(
+    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(local_invocation_index) lid: u32,
+    @builtin(workgroup_id) group: vec3<u32>,
+) {
+    radix_histogram_impl(gid.x, lid, group.x, 48u, false);
+}
+
+@compute @workgroup_size(256)
+fn radix_histogram_56(
+    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(local_invocation_index) lid: u32,
+    @builtin(workgroup_id) group: vec3<u32>,
+) {
+    radix_histogram_impl(gid.x, lid, group.x, 56u, true);
+}
+
+@compute @workgroup_size(256)
+fn radix_scatter_32(
+    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(local_invocation_index) lid: u32,
+    @builtin(workgroup_id) group: vec3<u32>,
+) {
+    radix_scatter_impl(gid.x, lid, group.x, 32u, false);
+}
+
+@compute @workgroup_size(256)
+fn radix_scatter_40(
+    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(local_invocation_index) lid: u32,
+    @builtin(workgroup_id) group: vec3<u32>,
+) {
+    radix_scatter_impl(gid.x, lid, group.x, 40u, true);
+}
+
+@compute @workgroup_size(256)
+fn radix_scatter_48(
+    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(local_invocation_index) lid: u32,
+    @builtin(workgroup_id) group: vec3<u32>,
+) {
+    radix_scatter_impl(gid.x, lid, group.x, 48u, false);
+}
+
+@compute @workgroup_size(256)
+fn radix_scatter_56(
+    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(local_invocation_index) lid: u32,
+    @builtin(workgroup_id) group: vec3<u32>,
+) {
+    radix_scatter_impl(gid.x, lid, group.x, 56u, true);
+}
 @compute @workgroup_size(64)
 fn find_existing_contact_slots(@builtin(global_invocation_id) gid: vec3<u32>) {
     let i = gid.x;
-    let count = min(scratch[SCR_UNIQUE_N], PAIR_CAP);
+    let count = min(scratch[SCR_UNIQUE_N], pair_cap());
     if (i >= count) {
         return;
     }
-    let slot = find_contact_slot(scratch[SCR_PAIRS + i]);
-    scratch[SCR_ACTIVE_CONTACT + i] = slot;
+    let slot = find_contact_slot(load_pair_words(SCR_PAIRS, i));
+    scratch[scr_active_contact() + i] = slot;
     if (slot != EMPTY) {
         if (!contact_chain_structure_valid(slot)) { return; }
         var member = slot;
         let count = max(contacts[slot].manifold_link.z, 1u);
         for (var j = 0u; j < count; j++) {
-            scratch[SCR_CONTACT_MARK + member] = 1u;
+            scratch[scr_contact_mark() + member] = 1u;
             let next = contacts[member].manifold_link.x;
             if (next != 0u) { member = next - 1u; }
         }
@@ -804,7 +911,7 @@ fn slot_is_free(slot: u32) -> u32 {
     if (slot >= params.contact_capacity) {
         return 0u;
     }
-    return select(0u, 1u, contacts[slot].a == EMPTY && scratch[SCR_CONTACT_MARK + slot] == 0u);
+    return select(0u, 1u, contacts[slot].a == EMPTY && scratch[scr_contact_mark() + slot] == 0u);
 }
 
 @compute @workgroup_size(256)
@@ -817,7 +924,7 @@ fn alloc_free_histogram(
     let keep = select(0u, slot_is_free(gid.x), gid.x < n);
     let exclusive = workgroup_exclusive_scan_256(lid, keep);
     if (lid == 255u) {
-        scratch[SCR_RADIX_BASE + group.x] = exclusive + keep;
+        scratch[scr_radix_base() + group.x] = exclusive + keep;
     }
 }
 
@@ -830,11 +937,9 @@ fn alloc_free_bases(@builtin(local_invocation_index) lid: u32) {
         return;
     }
     let groups = (params.contact_capacity + RADIX_GROUP_SIZE - 1u) / RADIX_GROUP_SIZE;
-    let count = select(0u, scratch[SCR_RADIX_BASE + lid], lid < groups);
-    let exclusive = workgroup_exclusive_scan_256(lid, count);
-    scratch[SCR_RADIX_BASE + lid] = exclusive;
+    let total = scan_group_counts(lid, groups, scr_radix_base(), scr_radix_base());
     if (lid == 255u) {
-        scratch[SCR_FREE_N] = exclusive + count;
+        scratch[SCR_FREE_N] = total;
     }
 }
 
@@ -848,8 +953,8 @@ fn alloc_free_scatter(
     let keep = select(0u, slot_is_free(gid.x), gid.x < n);
     let local_exclusive = workgroup_exclusive_scan_256(lid, keep);
     if (keep != 0u) {
-        let dst = scratch[SCR_RADIX_BASE + group.x] + local_exclusive;
-        scratch[SCR_RADIX_OUT + dst] = gid.x;
+        let dst = scratch[scr_radix_base() + group.x] + local_exclusive;
+        scratch[scr_radix_out() + dst] = gid.x;
     }
 }
 
@@ -857,7 +962,7 @@ fn pair_needs_slot(i: u32, n: u32) -> u32 {
     if (i >= n) {
         return 0u;
     }
-    return select(0u, 1u, scratch[SCR_ACTIVE_CONTACT + i] == EMPTY);
+    return select(0u, 1u, scratch[scr_active_contact() + i] == EMPTY);
 }
 
 @compute @workgroup_size(256)
@@ -866,23 +971,21 @@ fn alloc_missing_histogram(
     @builtin(local_invocation_index) lid: u32,
     @builtin(workgroup_id) group: vec3<u32>,
 ) {
-    let n = min(scratch[SCR_UNIQUE_N], PAIR_CAP);
+    let n = min(scratch[SCR_UNIQUE_N], pair_cap());
     let keep = pair_needs_slot(gid.x, n);
     let exclusive = workgroup_exclusive_scan_256(lid, keep);
     if (lid == 255u) {
-        scratch[SCR_RADIX_BASE + group.x] = exclusive + keep;
+        scratch[scr_radix_base() + group.x] = exclusive + keep;
     }
 }
 
 @compute @workgroup_size(256)
 fn alloc_missing_bases(@builtin(local_invocation_index) lid: u32) {
-    let n = min(scratch[SCR_UNIQUE_N], PAIR_CAP);
+    let n = min(scratch[SCR_UNIQUE_N], pair_cap());
     let groups = (n + RADIX_GROUP_SIZE - 1u) / RADIX_GROUP_SIZE;
-    let count = select(0u, scratch[SCR_RADIX_BASE + lid], lid < groups);
-    let exclusive = workgroup_exclusive_scan_256(lid, count);
-    scratch[SCR_RADIX_BASE + lid] = exclusive;
+    let total = scan_group_counts(lid, groups, scr_radix_base(), scr_radix_base());
     if (lid == 255u) {
-        scratch[SCR_MISSING_N] = exclusive + count;
+        scratch[SCR_MISSING_N] = total;
     }
 }
 
@@ -892,13 +995,22 @@ fn alloc_missing_scatter(
     @builtin(local_invocation_index) lid: u32,
     @builtin(workgroup_id) group: vec3<u32>,
 ) {
-    let n = min(scratch[SCR_UNIQUE_N], PAIR_CAP);
+    let n = min(scratch[SCR_UNIQUE_N], pair_cap());
     let keep = pair_needs_slot(gid.x, n);
     let local_exclusive = workgroup_exclusive_scan_256(lid, keep);
     if (keep != 0u) {
-        let dst = scratch[SCR_RADIX_BASE + group.x] + local_exclusive;
-        scratch[SCR_RADIX_HIST + dst] = gid.x;
+        let dst = scratch[scr_radix_base() + group.x] + local_exclusive;
+        scratch[scr_radix_hist() + dst] = gid.x;
     }
+}
+
+@compute @workgroup_size(64)
+fn alloc_prepare_keys(@builtin(global_invocation_id) gid: vec3<u32>) {
+    let i = gid.x;
+    if (i >= min(scratch[SCR_MISSING_N], scratch[SCR_FREE_N])) { return; }
+    let pair_i = scratch[scr_radix_hist() + i];
+    let slot = scratch[scr_radix_out() + i];
+    prepare_contact_identity(slot, load_pair_words(SCR_PAIRS, pair_i));
 }
 
 @compute @workgroup_size(64)
@@ -913,14 +1025,14 @@ fn alloc_bind_slots(@builtin(global_invocation_id) gid: vec3<u32>) {
         record_contact_drop(7u);
         return;
     }
-    let pair_i = scratch[SCR_RADIX_HIST + i];
-    let slot = scratch[SCR_RADIX_OUT + i];
-    let key = scratch[SCR_PAIRS + pair_i];
-    scratch[SCR_ACTIVE_CONTACT + pair_i] = slot;
-    scratch[SCR_CONTACT_MARK + slot] = 1u;
+    let pair_i = scratch[scr_radix_hist() + i];
+    let slot = scratch[scr_radix_out() + i];
+    let key = load_pair_words(SCR_PAIRS, pair_i);
+    scratch[scr_active_contact() + pair_i] = slot;
+    scratch[scr_contact_mark() + slot] = 1u;
     if (!publish_contact_slot(key, slot)) {
-        scratch[SCR_ACTIVE_CONTACT + pair_i] = EMPTY;
-        scratch[SCR_CONTACT_MARK + slot] = 0u;
+        scratch[scr_active_contact() + pair_i] = EMPTY;
+        scratch[scr_contact_mark() + slot] = 0u;
         record_contact_drop(8u);
     }
 }
@@ -932,17 +1044,17 @@ fn retire_stale_contacts(@builtin(global_invocation_id) gid: vec3<u32>) {
     if (i >= occupied_count) {
         return;
     }
-    let slot = scratch[SCR_OCCUPIED_CONTACT + i];
-    if (slot >= params.contact_capacity || scratch[SCR_CONTACT_MARK + slot] != 0u) {
+    let slot = scratch[scr_occupied_contact() + i];
+    if (slot >= params.contact_capacity || scratch[scr_contact_mark() + slot] != 0u) {
         return;
     }
     let c = load_contact(slot);
     if (c.a == EMPTY) {
         return;
     }
-    let key = c.lifecycle.w;
-    let ia = key & 0xffffu;
-    let ib = key >> 16u;
+    let key = c.pair.xy;
+    let ia = key.x;
+    let ib = key.y;
     var retire = c.a >= params.body_count || c.b >= params.body_count || c.a == c.b
         || ia >= params.shape_count || ib >= params.shape_count;
     if (!retire) {
@@ -960,7 +1072,7 @@ fn retire_stale_contacts(@builtin(global_invocation_id) gid: vec3<u32>) {
         var retired = empty_contact();
         retired.lifecycle.x = c.lifecycle.x;
         store_contact(slot, retired);
-        retire_contact_key(c.lifecycle.w);
+        retire_contact_key(c.pair.xy);
     } else {
         // A retained pair can be absent from this frame's candidate list only
         // when candidate capacity was exhausted. Keep it discoverable so a
@@ -972,15 +1084,15 @@ fn retire_stale_contacts(@builtin(global_invocation_id) gid: vec3<u32>) {
         if (native_countable_root(slot)) { atomicAdd(&query[69u], 1u); }
         let out = atomicAdd(&atom[ATOM_OCCUPIED_N], 1u);
         if (out < params.contact_capacity) {
-            scratch[SCR_NEXT_OCCUPIED + out] = slot;
+            scratch[scr_next_occupied() + out] = slot;
         }
     }
 }
 
 fn native_countable_root(slot: u32) -> bool {
-    let key = contact_persistent[slot].lifecycle.w;
-    let a = key & 0xffffu;
-    let b = key >> 16u;
+    let key = contact_persistent[slot].pair.xy;
+    let a = key.x;
+    let b = key.y;
     if (a >= params.shape_count || b >= params.shape_count) { return false; }
     let sa = load_shape(a); let sb = load_shape(b);
     return ((sa.event_flags | sb.event_flags) & (SHAPE_IS_SENSOR | SHAPE_PUBLIC_PROXY)) == 0u
@@ -1009,9 +1121,9 @@ fn collect_occupied_contacts(@builtin(global_invocation_id) gid: vec3<u32>,
     }
     workgroupBarrier();
     let i = gid.x;
-    let count = min(scratch[SCR_UNIQUE_N], PAIR_CAP);
+    let count = min(scratch[SCR_UNIQUE_N], pair_cap());
     if (i < count) {
-        let slot = scratch[SCR_ACTIVE_CONTACT + i];
+        let slot = scratch[scr_active_contact() + i];
         if (slot != EMPTY) {
             atomicAdd(&metric_patch_sum, max(contacts[slot].manifold_link.z, 1u));
             if (native_countable_root(slot)) { atomicAdd(&metric_non_sensor_sum, 1u); }
@@ -1020,7 +1132,7 @@ fn collect_occupied_contacts(@builtin(global_invocation_id) gid: vec3<u32>,
             }
             let out = atomicAdd(&atom[ATOM_OCCUPIED_N], 1u);
             if (out < params.contact_capacity) {
-                scratch[SCR_NEXT_OCCUPIED + out] = slot;
+                scratch[scr_next_occupied() + out] = slot;
             }
         }
     }
@@ -1044,18 +1156,18 @@ fn graph_contact_live(slot: u32) -> bool {
     if ((life.y & CONTACT_TOUCHING) == 0u) {
         return false;
     }
-    if (scratch[SCR_CONTACT_MARK + slot] == 0u) {
+    if (scratch[scr_contact_mark() + slot] == 0u) {
         return false;
     }
-    let ia = life.w & 0xffffu;
-    let ib = life.w >> 16u;
+    let ia = contact_persistent[slot].pair.x;
+    let ib = contact_persistent[slot].pair.y;
     return ia < params.shape_count && ib < params.shape_count
         && ((load_shape(ia).event_flags | load_shape(ib).event_flags) & SHAPE_IS_SENSOR) == 0u;
 }
 
 @compute @workgroup_size(1)
 fn write_unique_indirect() {
-    let n = min(scratch[SCR_UNIQUE_N], PAIR_CAP);
+    let n = min(scratch[SCR_UNIQUE_N], pair_cap());
     write_count_indirect(SCR_INDIRECT_RADIX, n, RADIX_GROUP_SIZE);
 }
 
@@ -1086,10 +1198,10 @@ fn graph_clear_meta(@builtin(global_invocation_id) gid: vec3<u32>) {
     if (i >= params.body_count) {
         return;
     }
-    atomicStore(&atom[ATOM_JACOBI + i], 0u);
-    atomicStore(&atom[ATOM_JACOBI + params.body_count + i], select(0u,EMPTY,(params.diagnostic_flags & DIAG_STATIC_DEGREE_TWO_PROOF)!=0u));
-    atomicStore(&atom[ATOM_JACOBI + 2u * params.body_count + i], 0u);
-    atomicStore(&atom[ATOM_JACOBI + 3u * params.body_count + i], 0u);
+    atomicStore(&atom[atom_jacobi() + i], 0u);
+    atomicStore(&atom[atom_jacobi() + params.body_count + i], select(0u,EMPTY,(params.diagnostic_flags & DIAG_STATIC_DEGREE_TWO_PROOF)!=0u));
+    atomicStore(&atom[atom_jacobi() + 2u * params.body_count + i], 0u);
+    atomicStore(&atom[atom_jacobi() + 3u * params.body_count + i], 0u);
     scratch[color_body_base() + i] = 0u;
     scratch[fused_flag_base() + i] = 0u;
     let slots = fused_slots_base() + 8u * i;
@@ -1112,21 +1224,21 @@ fn graph_reset_colors() {
 }
 
 fn graph_kind(unique_i: u32) -> u32 {
-    return scratch[SCR_RADIX_HIST + unique_i] & 3u;
+    return scratch[scr_radix_hist() + unique_i] & 3u;
 }
 
 fn graph_dyn_body(unique_i: u32) -> u32 {
-    return scratch[SCR_RADIX_HIST + unique_i] >> 2u;
+    return scratch[scr_radix_hist() + unique_i] >> 2u;
 }
 
 @compute @workgroup_size(64)
 fn graph_classify(@builtin(global_invocation_id) gid: vec3<u32>) {
     let i = gid.x;
-    let np = min(scratch[SCR_UNIQUE_N], PAIR_CAP);
+    let np = min(scratch[SCR_UNIQUE_N], pair_cap());
     if (i >= np) {
         return;
     }
-    let slot = scratch[SCR_ACTIVE_CONTACT + i];
+    let slot = scratch[scr_active_contact() + i];
     var packed = 0u;
     if (graph_contact_live(slot)) {
         let h = contacts[slot];
@@ -1137,11 +1249,11 @@ fn graph_classify(@builtin(global_invocation_id) gid: vec3<u32>) {
             packed = 1u | (dyn << 2u);
         } else if (a_dyn && b_dyn) {
             packed = 2u | (h.a << 2u);
-            atomicOr(&atom[ATOM_JACOBI + 2u * params.body_count + h.a], 1u);
-            atomicOr(&atom[ATOM_JACOBI + 2u * params.body_count + h.b], 1u);
+            atomicOr(&atom[atom_jacobi() + 2u * params.body_count + h.a], 1u);
+            atomicOr(&atom[atom_jacobi() + 2u * params.body_count + h.b], 1u);
         }
     }
-    scratch[SCR_RADIX_HIST + i] = packed;
+    scratch[scr_radix_hist() + i] = packed;
 }
 
 @compute @workgroup_size(64)
@@ -1153,10 +1265,10 @@ fn graph_mark_edges(@builtin(global_invocation_id) gid: vec3<u32>) {
     let j = joints[i];
     if (j.kind != JOINT_NONE && j.kind != JOINT_FILTER) {
         if (j.a < params.body_count) {
-            atomicOr(&atom[ATOM_JACOBI + 2u * params.body_count + j.a], 1u);
+            atomicOr(&atom[atom_jacobi() + 2u * params.body_count + j.a], 1u);
         }
         if (j.b < params.body_count) {
-            atomicOr(&atom[ATOM_JACOBI + 2u * params.body_count + j.b], 1u);
+            atomicOr(&atom[atom_jacobi() + 2u * params.body_count + j.b], 1u);
         }
     }
 }
@@ -1170,39 +1282,37 @@ fn graph_keep_kind(i: u32, n: u32, kind: u32) -> u32 {
 
 // Hash-cell IDs are dead after emit_hash_pairs. Reuse their first two group
 // arrays here; neither output list may alias prefixes during parallel scatter.
-const SCR_GRAPH_PAIRED_PREFIX:u32=SCR_INS_CELL;
+fn scr_graph_paired_prefix() -> u32 { return scr_ins_cell(); }
 @compute @workgroup_size(256)
 fn graph_compact_paired_histogram(@builtin(global_invocation_id) gid:vec3<u32>,
     @builtin(local_invocation_index) lid:u32,@builtin(workgroup_id) group:vec3<u32>) {
-    let n=min(scratch[SCR_UNIQUE_N],PAIR_CAP);
+    let n=min(scratch[SCR_UNIQUE_N],pair_cap());
     for (var kind=1u;kind<=2u;kind++) {
         let keep=graph_keep_kind(gid.x,n,kind);
         let exclusive=workgroup_exclusive_scan_256(lid,keep);
-        if (lid==255u) {scratch[SCR_GRAPH_PAIRED_PREFIX+(kind-1u)*RADIX_GROUPS+group.x]=exclusive+keep;}
+        if (lid==255u) {scratch[scr_graph_paired_prefix()+(kind-1u)*radix_groups()+group.x]=exclusive+keep;}
     }
 }
 @compute @workgroup_size(256)
 fn graph_compact_paired_bases(@builtin(local_invocation_index) lid:u32) {
-    let n=min(scratch[SCR_UNIQUE_N],PAIR_CAP);
+    let n=min(scratch[SCR_UNIQUE_N],pair_cap());
     let groups=(n+RADIX_GROUP_SIZE-1u)/RADIX_GROUP_SIZE;
     for (var kind=1u;kind<=2u;kind++) {
-        let base=SCR_GRAPH_PAIRED_PREFIX+(kind-1u)*RADIX_GROUPS;
-        let count=select(0u,scratch[base+lid],lid<groups);
-        let exclusive=workgroup_exclusive_scan_256(lid,count);
-        scratch[base+lid]=exclusive;
-        if (lid==255u) {scratch[select(SCR_GRAPH_STATIC_N,SCR_DYN_DYN_N,kind==2u)]=min(exclusive+count,PAIR_CAP);}
+        let base=scr_graph_paired_prefix()+(kind-1u)*radix_groups();
+        let total=scan_group_counts(lid,groups,base,base);
+        if (lid==255u) {scratch[select(SCR_GRAPH_STATIC_N,SCR_DYN_DYN_N,kind==2u)]=min(total,pair_cap());}
     }
 }
 @compute @workgroup_size(256)
 fn graph_compact_paired_scatter(@builtin(global_invocation_id) gid:vec3<u32>,
     @builtin(local_invocation_index) lid:u32,@builtin(workgroup_id) group:vec3<u32>) {
-    let n=min(scratch[SCR_UNIQUE_N],PAIR_CAP);
+    let n=min(scratch[SCR_UNIQUE_N],pair_cap());
     for (var kind=1u;kind<=2u;kind++) {
         let keep=graph_keep_kind(gid.x,n,kind);
         let exclusive=workgroup_exclusive_scan_256(lid,keep);
         if (keep!=0u) {
-            let dst=scratch[SCR_GRAPH_PAIRED_PREFIX+(kind-1u)*RADIX_GROUPS+group.x]+exclusive;
-            if (dst<PAIR_CAP) {scratch[select(SCR_RADIX_OUT,SCR_NEXT_OCCUPIED,kind==2u)+dst]=gid.x;}
+            let dst=scratch[scr_graph_paired_prefix()+(kind-1u)*radix_groups()+group.x]+exclusive;
+            if (dst<pair_cap()) {scratch[select(scr_radix_out(),scr_next_occupied(),kind==2u)+dst]=gid.x;}
         }
     }
 }
@@ -1210,24 +1320,24 @@ fn graph_compact_paired_scatter(@builtin(global_invocation_id) gid:vec3<u32>,
 @compute @workgroup_size(64)
 fn graph_count_static_degree(@builtin(global_invocation_id) gid: vec3<u32>) {
     let i = gid.x;
-    let n = min(scratch[SCR_GRAPH_STATIC_N], PAIR_CAP);
+    let n = min(scratch[SCR_GRAPH_STATIC_N], pair_cap());
     if (i >= n) {
         return;
     }
-    let unique_i = scratch[SCR_RADIX_OUT + i];
+    let unique_i = scratch[scr_radix_out() + i];
     let dyn = graph_dyn_body(unique_i);
     if (dyn < params.body_count) {
-        let prev = atomicAdd(&atom[ATOM_JACOBI + 3u * params.body_count + dyn], 1u);
+        let prev = atomicAdd(&atom[atom_jacobi() + 3u * params.body_count + dyn], 1u);
         atomicMax(&atom[atom_dyn_dyn()], prev + 1u);
         if ((params.diagnostic_flags & DIAG_STATIC_DEGREE_TWO_PROOF)!=0u) {
-            atomicMin(&atom[ATOM_JACOBI+params.body_count+dyn],unique_i);
+            atomicMin(&atom[atom_jacobi()+params.body_count+dyn],unique_i);
         }
     }
 }
 
 @compute @workgroup_size(1)
 fn graph_finish_static_degree() {
-    let n = min(scratch[SCR_GRAPH_STATIC_N], PAIR_CAP);
+    let n = min(scratch[SCR_GRAPH_STATIC_N], pair_cap());
     let max_deg = atomicLoad(&atom[atom_dyn_dyn()]);
     scratch[SCR_GRAPH_STATIC_MAX] = max_deg;
     if ((params.diagnostic_flags & DIAG_STATIC_DEGREE_ONE_PROOF) != 0u && max_deg > 1u && n > 0u) {
@@ -1252,15 +1362,15 @@ fn graph_finish_static_degree() {
 }
 
 fn graph_sort_count() -> u32 {
-    return min(scratch[SCR_GRAPH_STATIC_N], PAIR_CAP);
+    return min(scratch[SCR_GRAPH_STATIC_N], pair_cap());
 }
 
 fn graph_sort_src(from_color: bool) -> u32 {
-    return select(SCR_RADIX_OUT, color_contact_base(), from_color);
+    return select(scr_radix_out(), color_contact_base(), from_color);
 }
 
 fn graph_sort_dst(from_color: bool) -> u32 {
-    return select(color_contact_base(), SCR_RADIX_OUT, from_color);
+    return select(color_contact_base(), scr_radix_out(), from_color);
 }
 
 fn graph_static_color(rank: u32) -> u32 {
@@ -1270,18 +1380,28 @@ fn graph_static_color(rank: u32) -> u32 {
     return OVERFLOW_COLOR - 1u - rank;
 }
 
-// Compact unique indices packed as (writable_body << 16) | unique_i.
+// Carry full unique indices through both stable sorts. contacts[].color is a
+// temporary full-width body key during the first sort, then the actual color.
+// The overflow list is not populated yet; preserve the canonical input order
+// there so the second stable sort has (color, unique_i) order, not (color, body).
+fn graph_sort_key(unique_i: u32) -> u32 {
+    return contacts[scratch[scr_active_contact() + unique_i]].color;
+}
+fn graph_static_order_base() -> u32 {
+    return color_contact_base() + OVERFLOW_COLOR * params.contact_capacity;
+}
 @compute @workgroup_size(64)
 fn graph_pack_static_keys(@builtin(global_invocation_id) gid: vec3<u32>) {
     if ((params.diagnostic_flags & DIAG_STATIC_DEGREE_TWO_PROOF)!=0u) {return;}
     let i = gid.x;
-    let n = min(scratch[SCR_GRAPH_STATIC_N], PAIR_CAP);
+    let n = min(scratch[SCR_GRAPH_STATIC_N], pair_cap());
     if (i >= n || scratch[SCR_GRAPH_STATIC_MAX] <= 1u) {
         return;
     }
-    let unique_i = scratch[SCR_RADIX_OUT + i];
+    let unique_i = scratch[scr_radix_out() + i];
     let dyn = graph_dyn_body(unique_i);
-    scratch[SCR_RADIX_OUT + i] = (dyn << 16u) | (unique_i & 0xffffu);
+    scratch[graph_static_order_base() + i] = unique_i;
+    contacts[scratch[scr_active_contact() + unique_i]].color = dyn;
 }
 
 fn graph_radix_histogram_impl(gid: u32, lid: u32, group: u32, shift: u32, from_color: bool) {
@@ -1289,11 +1409,11 @@ fn graph_radix_histogram_impl(gid: u32, lid: u32, group: u32, shift: u32, from_c
     workgroupBarrier();
     let n = graph_sort_count();
     if (gid < n) {
-        let key = scratch[graph_sort_src(from_color) + gid];
+        let key = graph_sort_key(scratch[graph_sort_src(from_color) + gid]);
         atomicAdd(&radix_counts[(key >> shift) & 255u], 1u);
     }
     workgroupBarrier();
-    scratch[SCR_RADIX_HIST + group * RADIX_BUCKETS + lid] =
+    scratch[scr_radix_hist() + group * RADIX_BUCKETS + lid] =
         atomicLoad(&radix_counts[lid]);
 }
 
@@ -1335,9 +1455,11 @@ fn graph_radix_histogram_24(
 
 fn graph_radix_scatter_impl(gid: u32, lid: u32, group: u32, shift: u32, from_color: bool) {
     let n = graph_sort_count();
+    var unique_i = EMPTY;
     var key = EMPTY;
     if (gid < n) {
-        key = scratch[graph_sort_src(from_color) + gid];
+        unique_i = scratch[graph_sort_src(from_color) + gid];
+        key = graph_sort_key(unique_i);
     }
     radix_keys[lid] = key;
     workgroupBarrier();
@@ -1349,11 +1471,11 @@ fn graph_radix_scatter_impl(gid: u32, lid: u32, group: u32, shift: u32, from_col
                 rank = rank + 1u;
             }
         }
-        let out = scratch[SCR_RADIX_HIST + group * RADIX_BUCKETS + bucket] + rank;
+        let out = scratch[scr_radix_hist() + group * RADIX_BUCKETS + bucket] + rank;
         if (out >= n) {
             record_contact_drop(10u);
         } else {
-            scratch[graph_sort_dst(from_color) + out] = key;
+            scratch[graph_sort_dst(from_color) + out] = unique_i;
         }
     }
 }
@@ -1397,50 +1519,50 @@ fn graph_radix_scatter_24(
 @compute @workgroup_size(64)
 fn graph_mark_static_starts(@builtin(global_invocation_id) gid: vec3<u32>) {
     let i = gid.x;
-    let n = min(scratch[SCR_GRAPH_STATIC_N], PAIR_CAP);
+    let n = min(scratch[SCR_GRAPH_STATIC_N], pair_cap());
     if (i >= n || scratch[SCR_GRAPH_STATIC_MAX] <= 1u) {
         return;
     }
-    let dyn = scratch[SCR_RADIX_OUT + i] >> 16u;
+    let dyn = graph_sort_key(scratch[scr_radix_out() + i]);
     var prev = EMPTY;
     if (i > 0u) {
-        prev = scratch[SCR_RADIX_OUT + i - 1u] >> 16u;
+        prev = graph_sort_key(scratch[scr_radix_out() + i - 1u]);
     }
     if (i == 0u || dyn != prev) {
-        atomicStore(&atom[ATOM_JACOBI + params.body_count + dyn], i);
+        atomicStore(&atom[atom_jacobi() + params.body_count + dyn], i);
     }
 }
 
 @compute @workgroup_size(64)
 fn graph_encode_static_colors(@builtin(global_invocation_id) gid: vec3<u32>) {
     let i = gid.x;
-    let n = min(scratch[SCR_GRAPH_STATIC_N], PAIR_CAP);
+    let n = min(scratch[SCR_GRAPH_STATIC_N], pair_cap());
     if (i >= n || scratch[SCR_GRAPH_STATIC_MAX] <= 1u) {
         return;
     }
-    let key = scratch[SCR_RADIX_OUT + i];
-    let dyn = key >> 16u;
-    let unique_i = key & 0xffffu;
-    let start = atomicLoad(&atom[ATOM_JACOBI + params.body_count + dyn]);
+    let unique_i = scratch[scr_radix_out() + i];
+    let dyn = graph_sort_key(unique_i);
+    let start = atomicLoad(&atom[atom_jacobi() + params.body_count + dyn]);
     let rank = i - start;
     let col = graph_static_color(rank);
     if (dyn < params.body_count && col < OVERFLOW_COLOR) {
-        atomicOr(&atom[ATOM_JACOBI + dyn], 1u << col);
+        atomicOr(&atom[atom_jacobi() + dyn], 1u << col);
     }
-    scratch[SCR_RADIX_OUT + i] = (col << 16u) | unique_i;
+    contacts[scratch[scr_active_contact() + unique_i]].color = col;
+    scratch[scr_radix_out() + i] = scratch[graph_static_order_base() + i];
 }
 
 @compute @workgroup_size(64)
 fn graph_mark_color_starts(@builtin(global_invocation_id) gid: vec3<u32>) {
     let i = gid.x;
-    let n = min(scratch[SCR_GRAPH_STATIC_N], PAIR_CAP);
+    let n = min(scratch[SCR_GRAPH_STATIC_N], pair_cap());
     if (i >= n || scratch[SCR_GRAPH_STATIC_MAX] <= 1u) {
         return;
     }
-    let col = scratch[SCR_RADIX_OUT + i] >> 16u;
+    let col = graph_sort_key(scratch[scr_radix_out() + i]);
     var prev = EMPTY;
     if (i > 0u) {
-        prev = scratch[SCR_RADIX_OUT + i - 1u] >> 16u;
+        prev = graph_sort_key(scratch[scr_radix_out() + i - 1u]);
     }
     if (i == 0u || col != prev) {
         scratch[SCR_COLOR + col] = i;
@@ -1453,21 +1575,21 @@ fn graph_mark_color_starts(@builtin(global_invocation_id) gid: vec3<u32>) {
 @compute @workgroup_size(64)
 fn graph_assign_static(@builtin(global_invocation_id) gid: vec3<u32>) {
     let i = gid.x;
-    let n = min(scratch[SCR_GRAPH_STATIC_N], PAIR_CAP);
+    let n = min(scratch[SCR_GRAPH_STATIC_N], pair_cap());
     if (i >= n) {
         return;
     }
     if ((params.diagnostic_flags & DIAG_STATIC_DEGREE_TWO_PROOF)!=0u) {
         if (scratch[SCR_GRAPH_STATIC_MAX]>2u) {return;} // sticky proof failure already reported
-        let unique_i=scratch[SCR_RADIX_OUT+i];
+        let unique_i=scratch[scr_radix_out()+i];
         let dyn=graph_dyn_body(unique_i);
         if (dyn>=params.body_count) {return;}
-        let first=atomicLoad(&atom[ATOM_JACOBI+params.body_count+dyn]);
+        let first=atomicLoad(&atom[atom_jacobi()+params.body_count+dyn]);
         let rank=select(1u,0u,unique_i==first);
         let col=graph_static_color(rank);
-        atomicOr(&atom[ATOM_JACOBI+dyn],1u<<col);
+        atomicOr(&atom[atom_jacobi()+dyn],1u<<col);
         let local=atomicAdd(&atom[atom_graph_color()+col],1u);
-        let slot=scratch[SCR_ACTIVE_CONTACT+unique_i];
+        let slot=scratch[scr_active_contact()+unique_i];
         if (local<params.contact_capacity) {
             scratch[color_contact_base()+col*params.contact_capacity+local]=slot;
             store_graph_meta(slot,col,local);
@@ -1476,12 +1598,12 @@ fn graph_assign_static(@builtin(global_invocation_id) gid: vec3<u32>) {
     }
     let max_deg = scratch[SCR_GRAPH_STATIC_MAX];
     if (max_deg <= 1u) {
-        let unique_i = scratch[SCR_RADIX_OUT + i];
-        let slot = scratch[SCR_ACTIVE_CONTACT + unique_i];
+        let unique_i = scratch[scr_radix_out() + i];
+        let slot = scratch[scr_active_contact() + unique_i];
         let dyn = graph_dyn_body(unique_i);
         let col = OVERFLOW_COLOR - 1u;
         if (dyn < params.body_count) {
-            atomicOr(&atom[ATOM_JACOBI + dyn], 1u << col);
+            atomicOr(&atom[atom_jacobi() + dyn], 1u << col);
         }
         if (i < params.contact_capacity) {
             scratch[color_contact_base() + col * params.contact_capacity + i] = slot;
@@ -1492,10 +1614,9 @@ fn graph_assign_static(@builtin(global_invocation_id) gid: vec3<u32>) {
         }
         return;
     }
-    let key = scratch[SCR_RADIX_OUT + i];
-    let col = key >> 16u;
-    let unique_i = key & 0xffffu;
-    let slot = scratch[SCR_ACTIVE_CONTACT + unique_i];
+    let unique_i = scratch[scr_radix_out() + i];
+    let col = graph_sort_key(unique_i);
+    let slot = scratch[scr_active_contact() + unique_i];
     let start = scratch[SCR_COLOR + col];
     let local = i - start;
     atomicAdd(&atom[atom_graph_color() + col], 1u);
@@ -1506,19 +1627,19 @@ fn graph_assign_static(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 fn color_dynamic_contact(unique_i: u32) {
-    let slot = scratch[SCR_ACTIVE_CONTACT + unique_i];
+    let slot = scratch[scr_active_contact() + unique_i];
     let h = contacts[slot];
     // This entry is owned by the single canonical greedy walk. No other
     // invocation can change either occupancy mask between these loads/stores.
-    let occupied = atomicLoad(&atom[ATOM_JACOBI + h.a])
-        | atomicLoad(&atom[ATOM_JACOBI + h.b]);
+    let occupied = atomicLoad(&atom[atom_jacobi() + h.a])
+        | atomicLoad(&atom[atom_jacobi() + h.b]);
     let available = (~occupied) & ((1u << DYNAMIC_COLOR_COUNT) - 1u);
     var col = OVERFLOW_COLOR;
     if (available != 0u) {
         col = firstTrailingBit(available);
         let bit = 1u << col;
-        atomicOr(&atom[ATOM_JACOBI + h.a], bit);
-        atomicOr(&atom[ATOM_JACOBI + h.b], bit);
+        atomicOr(&atom[atom_jacobi() + h.a], bit);
+        atomicOr(&atom[atom_jacobi() + h.b], bit);
     }
     let local = atomicAdd(&atom[atom_graph_color() + col], 1u);
     if (local < params.contact_capacity) {
@@ -1531,11 +1652,101 @@ fn color_dynamic_contact(unique_i: u32) {
 fn graph_assign_dynamic() {
     // Pair-key greedy walk. Per-island packing was a measured no-go: mixed
     // stacks paid extra compact cost and Dominoes is one writable component.
-    let n = min(scratch[SCR_DYN_DYN_N], PAIR_CAP);
+    let n = min(scratch[SCR_DYN_DYN_N], pair_cap());
     for (var i = 0u; i < n; i++) {
-        color_dynamic_contact(scratch[SCR_NEXT_OCCUPIED + i]);
+        color_dynamic_contact(scratch[scr_next_occupied() + i]);
     }
     finish_dynamic_graph();
+}
+
+// Keep the canonical greedy order, but cooperatively fetch and publish each
+// batch. Only its at-most-512 endpoints occupy shared memory, so this cache does
+// not impose a world-size limit. One lane makes the ordered color decisions;
+// the others hide global-memory latency without racing on endpoint masks.
+var<workgroup> graph_batch_keys: array<atomic<u32>, 1024>;
+var<workgroup> graph_batch_masks: array<u32, 1024>;
+var<workgroup> graph_batch_a: array<u32, 256>;
+var<workgroup> graph_batch_b: array<u32, 256>;
+var<workgroup> graph_batch_slots: array<u32, 256>;
+var<workgroup> graph_batch_choices: array<vec2<u32>, 256>;
+var<workgroup> graph_batch_counts: array<u32, 24>;
+var<workgroup> graph_batch_n: u32;
+
+fn graph_batch_endpoint(body: u32) -> u32 {
+    var at = pair_hash_mix(body) & 1023u;
+    loop {
+        let insert = atomicCompareExchangeWeak(&graph_batch_keys[at], EMPTY, body);
+        if (insert.exchanged) {
+            graph_batch_masks[at] = atomicLoad(&atom[atom_jacobi() + body]);
+            return at;
+        }
+        if (insert.old_value == body) { return at; }
+        // A weak exchange may fail spuriously on an empty entry. Retry there
+        // instead of allowing duplicate owners for the same endpoint.
+        if (insert.old_value != EMPTY) { at = (at + 1u) & 1023u; }
+    }
+    return 0u;
+}
+
+@compute @workgroup_size(256)
+fn graph_assign_dynamic_batched(@builtin(local_invocation_index) lane: u32) {
+    if (lane < 24u) {
+        graph_batch_counts[lane] = atomicLoad(&atom[atom_graph_color() + lane]);
+    }
+    if (lane == 0u) { graph_batch_n = min(scratch[SCR_DYN_DYN_N], pair_cap()); }
+    workgroupBarrier();
+    let n = workgroupUniformLoad(&graph_batch_n);
+    for (var base = 0u; base < n; base += 256u) {
+        for (var at = lane; at < 1024u; at += 256u) {
+            atomicStore(&graph_batch_keys[at], EMPTY);
+        }
+        workgroupBarrier();
+        if (base + lane < n) {
+            let slot = scratch[scr_active_contact() + scratch[scr_next_occupied() + base + lane]];
+            let h = contacts[slot];
+            graph_batch_slots[lane] = slot;
+            graph_batch_a[lane] = graph_batch_endpoint(h.a);
+            graph_batch_b[lane] = graph_batch_endpoint(h.b);
+        }
+        workgroupBarrier();
+        if (lane == 0u) {
+            for (var i = 0u; i < min(256u, n - base); i++) {
+                let a = graph_batch_a[i];
+                let b = graph_batch_b[i];
+                let available = (~(graph_batch_masks[a] | graph_batch_masks[b]))
+                    & ((1u << DYNAMIC_COLOR_COUNT) - 1u);
+                var col = OVERFLOW_COLOR;
+                if (available != 0u) {
+                    col = firstTrailingBit(available);
+                    graph_batch_masks[a] |= 1u << col;
+                    graph_batch_masks[b] |= 1u << col;
+                }
+                graph_batch_choices[i] = vec2<u32>(col, graph_batch_counts[col]);
+                graph_batch_counts[col]++;
+            }
+        }
+        workgroupBarrier();
+        if (base + lane < n) {
+            let choice = graph_batch_choices[lane];
+            let slot = graph_batch_slots[lane];
+            if (choice.y < params.contact_capacity) {
+                scratch[color_contact_base() + choice.x * params.contact_capacity + choice.y] = slot;
+                store_graph_meta(slot, choice.x, choice.y);
+            } else { record_contact_drop(9u); }
+        }
+        for (var at = lane; at < 1024u; at += 256u) {
+            let body = atomicLoad(&graph_batch_keys[at]);
+            if (body != EMPTY) { atomicStore(&atom[atom_jacobi() + body], graph_batch_masks[at]); }
+        }
+        storageBarrier();
+        workgroupBarrier();
+    }
+    if (lane < 24u) {
+        atomicStore(&atom[atom_graph_color() + lane], graph_batch_counts[lane]);
+    }
+    storageBarrier();
+    workgroupBarrier();
+    if (lane == 0u) { finish_dynamic_graph(); }
 }
 
 fn finish_dynamic_graph() {
@@ -1549,7 +1760,7 @@ fn finish_dynamic_graph() {
             mx = max(mx, (count + 63u) / 64u);
         }
     }
-    let np_all = min(scratch[SCR_NCONTACTS], PAIR_CAP);
+    let np_all = min(scratch[SCR_NCONTACTS], pair_cap());
     if (params.solver_mode == SOLVER_JACOBI) {
         scratch[SCR_INDIRECT_COLLIDE] = (np_all + 63u) / 64u;
         scratch[SCR_INDIRECT_COLLIDE + 1u] = 1u;
@@ -1590,7 +1801,7 @@ fn finish_occupied_contacts(@builtin(global_invocation_id) gid: vec3<u32>,
     // Strided ownership preserves list order across workgroups. Consumers run
     // after this dispatch completes; they cannot use the count mid-publication.
     for (var i = gid.x; i < count; i += groups.x * 64u) {
-        scratch[SCR_OCCUPIED_CONTACT + i] = scratch[SCR_NEXT_OCCUPIED + i];
+        scratch[scr_occupied_contact() + i] = scratch[scr_next_occupied() + i];
     }
     if (gid.x != 0u) { return; }
     scratch[SCR_OCCUPIED_N] = count;
@@ -1605,7 +1816,7 @@ fn finish_occupied_contacts(@builtin(global_invocation_id) gid: vec3<u32>,
 
 @compute @workgroup_size(1)
 fn color_and_compact() {
-    let np = min(scratch[SCR_NCONTACTS], PAIR_CAP);
+    let np = min(scratch[SCR_NCONTACTS], pair_cap());
     let occupancy = color_body_base();
     // Box3D removes stopped constraints with swap-with-last. This preserves
     // insertion order for untouched constraints and updates exactly one moved
@@ -1624,7 +1835,7 @@ fn color_and_compact() {
                 && c.count > 0u
                 && (c.lifecycle.y & CONTACT_TOUCHING) != 0u
                 && !contact_has_sensor(c)
-                && scratch[SCR_CONTACT_MARK + slot] != 0u
+                && scratch[scr_contact_mark() + slot] != 0u
                 && (params.diagnostic_flags & DIAG_REBUILD_GRAPH) == 0u;
             if (keep) {
                 i = i + 1u;
@@ -1658,7 +1869,7 @@ fn color_and_compact() {
     // Add only newly touching contacts. Existing contacts retain both their
     // color and local index until the stop-touching transition above.
     for (var i = 0u; i < np; i++) {
-        let slot = scratch[SCR_ACTIVE_CONTACT + i];
+        let slot = scratch[scr_active_contact() + i];
         if (slot == EMPTY) {
             continue;
         }
@@ -1791,10 +2002,11 @@ fn color_and_compact() {
 // Topology changes only: preserve physical slot ownership while replacing dense
 // collider keys. Mapping entries identify exact surviving shape generations.
 @compute @workgroup_size(64)
-fn clear_remapped_contact_hash(@builtin(global_invocation_id) gid: vec3<u32>) {
-    if (gid.x < CONTACT_HASH_CAP) {
-        atomicStore(&atom[ATOM_CONTACT_KEY + gid.x], EMPTY);
-        atomicStore(&atom[ATOM_CONTACT_VALUE + gid.x], EMPTY);
+fn clear_remapped_contact_hash(@builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(num_workgroups) groups: vec3<u32>) {
+    for (var i = gid.x; i < contact_hash_cap(); i += groups.x * 64u) {
+        atomicStore(&atom[atom_contact_key() + i], EMPTY);
+        atomicStore(&atom[atom_contact_identity() + i], EMPTY);
     }
 }
 
@@ -1804,27 +2016,36 @@ fn remap_contact_shapes(@builtin(global_invocation_id) gid: vec3<u32>) {
     if (slot >= params.contact_capacity) { return; }
     var c = load_contact(slot);
     if (params.remap_capture != 0u) {
-        var previous = EMPTY;
+        var previous = vec2<u32>(EMPTY);
         if (c.a != EMPTY && c.count != 0u && (c.lifecycle.y & CONTACT_TOUCHING) != 0u) {
-            previous = c.lifecycle.w;
+            previous = c.pair.xy;
         }
-        scratch[SCR_PREVIOUS_TOUCHING + slot] = previous;
+        store_pair_words(scr_previous_touching(), slot, previous);
     }
     if (c.a == EMPTY) { return; }
-    let old_a = c.lifecycle.w & 0xffffu;
-    let old_b = c.lifecycle.w >> 16u;
+    let old_a = c.pair.x;
+    let old_b = c.pair.y;
     var a = EMPTY;
     var b = EMPTY;
-    if (old_a < params.remap_old_count) { a = scratch[SCR_RADIX_OUT + old_a]; }
-    if (old_b < params.remap_old_count) { b = scratch[SCR_RADIX_OUT + old_b]; }
+    if (old_a < params.remap_old_count) { a = scratch[scr_radix_out() + old_a]; }
+    if (old_b < params.remap_old_count) { b = scratch[scr_radix_out() + old_b]; }
     if (a == EMPTY || b == EMPTY) {
         // Every patch owns its slot; children retire independently in this pass.
         var retired = empty_contact();
         retired.lifecycle.x = c.lifecycle.x;
         store_contact(slot, retired);
     } else {
-        c.lifecycle.w = min(a, b) | (max(a, b) << 16u);
+        c.pair = vec4<u32>(min(a, b), max(a, b), 0u, 0u);
         store_contact(slot, c);
+    }
+}
+
+@compute @workgroup_size(64)
+fn prepare_contact_hash_keys(@builtin(global_invocation_id) gid: vec3<u32>) {
+    let slot = gid.x;
+    if (slot >= params.contact_capacity) { return; }
+    if (contacts[slot].a != EMPTY && contacts[slot].manifold_link.y == 0u) {
+        prepare_contact_identity(slot, contact_persistent[slot].pair.xy);
     }
 }
 
@@ -1834,7 +2055,7 @@ fn publish_remapped_contacts(@builtin(global_invocation_id) gid: vec3<u32>) {
     if (slot >= params.contact_capacity) { return; }
     let c = contacts[slot];
     if (c.a != EMPTY && c.manifold_link.y == 0u) {
-        if (!publish_contact_slot(contact_persistent[slot].lifecycle.w, slot)) {
+        if (!publish_contact_slot(contact_persistent[slot].pair.xy, slot)) {
             record_contact_drop(11u);
         }
     }
@@ -1845,21 +2066,21 @@ fn publish_remapped_contacts(@builtin(global_invocation_id) gid: vec3<u32>) {
 @compute @workgroup_size(64)
 fn retire_body_pair_contacts(@builtin(global_invocation_id) gid: vec3<u32>) {
     let i = gid.x;
-    if (i >= min(scratch[SCR_UNIQUE_N], PAIR_CAP)) { return; }
-    let slot = scratch[SCR_ACTIVE_CONTACT + i];
+    if (i >= min(scratch[SCR_UNIQUE_N], pair_cap())) { return; }
+    let slot = scratch[scr_active_contact() + i];
     if (slot >= params.contact_capacity) { return; }
     let c = load_contact(slot);
     let a = atomicLoad(&query[64u]);
     let b = atomicLoad(&query[65u]);
     if (atomicLoad(&query[66u]) == 1u) {
-        if ((c.lifecycle.w & 0xffffu) != a && (c.lifecycle.w >> 16u) != a) { return; }
+        if ((c.pair.x) != a && (c.pair.y) != a) { return; }
     } else if (!((c.a == a && c.b == b) || (c.a == b && c.b == a))) { return; }
     if (!retire_manifold_children(slot)) { return; }
     var retired = empty_contact();
     retired.lifecycle.x = c.lifecycle.x;
     store_contact(slot, retired);
-    scratch[SCR_CONTACT_MARK + slot] = 0u;
-    retire_contact_key(c.lifecycle.w);
+    scratch[scr_contact_mark() + slot] = 0u;
+    retire_contact_key(c.pair.xy);
 }
 
 // Bounded flat-scene pair matrix: a zero bit denotes an accepted pair.
@@ -1886,8 +2107,8 @@ fn pair_matrix_build(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 @compute @workgroup_size(64)
 fn pair_matrix_previous(@builtin(global_invocation_id) gid: vec3<u32>) {
-    let key=previous_pair_key(gid.x);if(key==EMPTY){return;}
-    let lo=key&0xffffu;let hi=key>>16u;
+    let key=previous_pair_key(gid.x);if(key.x==EMPTY){return;}
+    let lo=key.x;let hi=key.y;
     let stride=(params.shape_count+31u)/32u;
     atomicAnd(&atom[ATOM_HASH+hi*stride+lo/32u],~(1u<<(lo%32u)));
 }
@@ -1897,21 +2118,21 @@ fn pair_matrix_count(@builtin(global_invocation_id) gid: vec3<u32>) {
     let stride=(params.shape_count+31u)/32u;
     var count=0u;
     for(var w=0u;w<stride;w++){count+=countOneBits(~atomicLoad(&atom[ATOM_HASH+row*stride+w]));}
-    scratch[SCR_INS_BODY+row]=count;
+    scratch[scr_ins_body()+row]=count;
 }
 @compute @workgroup_size(256)
 fn pair_matrix_bases(@builtin(local_invocation_index) lid: u32) {
     let first=lid*3u;
-    let a=select(0u,scratch[SCR_INS_BODY+first],first<params.shape_count);
-    let b=select(0u,scratch[SCR_INS_BODY+first+1u],first+1u<params.shape_count);
-    let c=select(0u,scratch[SCR_INS_BODY+first+2u],first+2u<params.shape_count);
+    let a=select(0u,scratch[scr_ins_body()+first],first<params.shape_count);
+    let b=select(0u,scratch[scr_ins_body()+first+1u],first+1u<params.shape_count);
+    let c=select(0u,scratch[scr_ins_body()+first+2u],first+2u<params.shape_count);
     let base=workgroup_exclusive_scan_256(lid,a+b+c);
-    if(first<params.shape_count){scratch[SCR_INS_CELL+first]=base;}
-    if(first+1u<params.shape_count){scratch[SCR_INS_CELL+first+1u]=base+a;}
-    if(first+2u<params.shape_count){scratch[SCR_INS_CELL+first+2u]=base+a+b;}
+    if(first<params.shape_count){scratch[scr_ins_cell()+first]=base;}
+    if(first+1u<params.shape_count){scratch[scr_ins_cell()+first+1u]=base+a;}
+    if(first+2u<params.shape_count){scratch[scr_ins_cell()+first+2u]=base+a+b;}
     if(lid==255u){
-        let total=base+a+b+c;let bounded=min(total,PAIR_CAP);
-        if(total>PAIR_CAP){record_capacity_drop_n(ATOM_PAIR_DROPPED,ATOM_STICKY_PAIR_DROPPED,total-PAIR_CAP);}
+        let total=base+a+b+c;let bounded=min(total,pair_cap());
+        if(total>pair_cap()){record_capacity_drop_n(ATOM_PAIR_DROPPED,ATOM_STICKY_PAIR_DROPPED,total-pair_cap());}
         atomicStore(&atom[ATOM_PAIR_N],total);
         scratch[SCR_PAIR_N]=bounded;scratch[SCR_POW2]=total;
         scratch[SCR_UNIQUE_N]=bounded;scratch[SCR_NCONTACTS]=bounded;
@@ -1923,12 +2144,12 @@ fn pair_matrix_bases(@builtin(local_invocation_index) lid: u32) {
 @compute @workgroup_size(64)
 fn pair_matrix_scatter(@builtin(global_invocation_id) gid: vec3<u32>) {
     let hi=gid.x;if(hi>=params.shape_count){return;}
-    let stride=(params.shape_count+31u)/32u;var dst=scratch[SCR_INS_CELL+hi];
+    let stride=(params.shape_count+31u)/32u;var dst=scratch[scr_ins_cell()+hi];
     for(var w=0u;w<stride;w++){
         var accepted=~atomicLoad(&atom[ATOM_HASH+hi*stride+w]);
         while(accepted!=0u){
             let bit=firstTrailingBit(accepted);accepted &= accepted-1u;
-            if(dst<PAIR_CAP){scratch[SCR_PAIRS+dst]=(hi<<16u)|(w*32u+bit);}
+            if(dst<pair_cap()){store_pair_words(SCR_PAIRS,dst,vec2<u32>(w*32u+bit,hi));}
             dst++;
         }
     }

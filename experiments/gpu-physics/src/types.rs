@@ -233,12 +233,13 @@ pub const MAX_COLORS: u32 = 24;
 #[allow(dead_code)]
 pub const DYNAMIC_COLOR_COUNT: u32 = 20;
 pub const HASH_BUCKETS: u32 = 16384;
-pub const MAX_INSERTS: u32 = 65536;
 pub const PAIR_CAP: u32 = 65536;
 /// Host/device scene heap ceiling. Requests above this are rejected, not clamped.
 pub const MAX_SCENE_HEAP_BYTES: u64 = 512 * 1024 * 1024;
-/// Packed graph keys store body IDs in 16 bits alongside unique indices.
-pub const MAX_BODY_SLOTS: u32 = 65536;
+/// Graph classification reserves two low bits; actual capacity is device-limited.
+pub const MAX_BODY_SLOTS: u32 = 1 << 30;
+/// Public C shape handles have positive signed 32-bit indices.
+pub const MAX_SHAPE_SLOTS: u32 = i32::MAX as u32;
 /// Keep pair-key lookup below 50% load even when the dense contact pool is full.
 pub const CONTACT_HASH_CAP: u32 = PAIR_CAP * 2;
 pub const RADIX_GROUP_SIZE: u32 = 256;
@@ -252,9 +253,8 @@ pub const GPU_MAX_COMPOUND_CHILDREN: u32 = 4096;
 pub const JOINT_FILTER_PROBE: u32 = 32;
 pub const SCRATCH_U32: u32 = 64
     + HASH_BUCKETS
-    + MAX_INSERTS * 3
     + PAIR_CAP
-    + 6 * PAIR_CAP
+    + 9 * PAIR_CAP
     + RADIX_GROUPS * RADIX_BUCKETS
     + RADIX_BUCKETS;
 
@@ -263,13 +263,33 @@ pub const SCR_POW2: u32 = 4;
 pub const SCR_OCCUPIED_N: u32 = 5;
 pub const SCR_COLOR: u32 = 16;
 pub const SCR_HASH: u32 = 64;
-pub const SCR_PAIRS: u32 = SCR_HASH + HASH_BUCKETS + MAX_INSERTS * 3;
-pub const SCR_OCCUPIED_CONTACT: u32 = SCR_PAIRS + 3 * PAIR_CAP;
+pub const SCR_PAIRS: u32 = SCR_HASH + HASH_BUCKETS;
+pub const SCR_OCCUPIED_CONTACT: u32 = SCR_PAIRS + 4 * PAIR_CAP;
 pub const SCR_NEXT_OCCUPIED: u32 = SCR_OCCUPIED_CONTACT + PAIR_CAP;
 pub const SCR_PREVIOUS_TOUCHING: u32 = SCR_NEXT_OCCUPIED + PAIR_CAP;
-pub const SCR_RADIX_OUT: u32 = SCR_PREVIOUS_TOUCHING + PAIR_CAP;
-pub const SCR_RADIX_HIST: u32 = SCR_RADIX_OUT + PAIR_CAP;
+pub const SCR_RADIX_OUT: u32 = SCR_PREVIOUS_TOUCHING + 2 * PAIR_CAP;
+pub const SCR_RADIX_HIST: u32 = SCR_RADIX_OUT + 2 * PAIR_CAP;
 pub const SCR_RADIX_BASE: u32 = SCR_RADIX_HIST + RADIX_GROUPS * RADIX_BUCKETS;
+/// Runtime offsets for the pair-sized scratch regions. The constants above
+/// describe the minimum reservation, retained for small-world fixtures.
+#[derive(Clone, Copy, Debug)]
+pub struct PairLayout {
+    pub occupied: u32, pub next_occupied: u32, pub previous_touching: u32,
+    pub radix_out: u32, pub radix_hist: u32, pub radix_base: u32, pub graph: u32,
+}
+pub const fn pair_layout(cap: u32) -> PairLayout {
+    let occupied = SCR_PAIRS + 4 * cap;
+    let next_occupied = occupied + cap;
+    let previous_touching = next_occupied + cap;
+    let radix_out = previous_touching + 2 * cap;
+    let radix_hist = radix_out + 2 * cap;
+    let groups = cap / RADIX_GROUP_SIZE;
+    let radix_base = radix_hist + groups * RADIX_BUCKETS;
+    let graph = radix_base + if groups > RADIX_BUCKETS { groups } else { RADIX_BUCKETS };
+    PairLayout { occupied, next_occupied, previous_touching, radix_out, radix_hist, radix_base, graph }
+}
+pub fn pair_capacity(contact_capacity: u32) -> u32 { contact_capacity.max(PAIR_CAP) }
+
 pub const ATOM_PAIR_N: u32 = 0;
 pub const ATOM_PAIR_DROPPED: u32 = 2;
 pub const ATOM_INSERT_DROPPED: u32 = 3;
@@ -380,12 +400,12 @@ pub fn scratch_u32_count_with_joints(body_capacity: u32, joint_capacity: u32) ->
     // Six island work arrays, occupancy, fused flags, eight fused slots per
     // body, 24 phase summaries, eight diagnostic words per body for each of the
     // 24 captured phases, and compact per-color contact indices.
-    (SCRATCH_U32
+    (pair_layout(pair_capacity(contact_capacity(body_capacity))).graph
         + 16 * capacity
         + 24 * 8
         + 24 * 8 * capacity
         + MAX_COLORS * contact_capacity(body_capacity)
-        + JOINT_FILTER_CAP * 2
+        + JOINT_FILTER_CAP * 3
         + joint_list_words(body_capacity, joint_capacity)) as usize
 }
 
@@ -395,31 +415,31 @@ pub fn joint_filter_word_offset(body_capacity: u32) -> u32 {
 
 pub fn joint_filter_word_offset_with_joints(body_capacity: u32, joint_capacity: u32) -> u32 {
     scratch_u32_count_with_joints(body_capacity, joint_capacity) as u32
-        - JOINT_FILTER_CAP * 2
+        - JOINT_FILTER_CAP * 3
         - joint_list_words(body_capacity, joint_capacity)
 }
 
 /// Compact joint component lists live after the filter table: heads, unique
 /// roots, per-component offsets/counts, then joint indices in original order.
 pub fn joint_head_word(body_capacity: u32) -> u32 {
-    joint_filter_word_offset(body_capacity) + JOINT_FILTER_CAP * 2
+    joint_filter_word_offset(body_capacity) + JOINT_FILTER_CAP * 3
 }
 
 /// Shader `joint_head_base()` for a live `params.body_count`.
 pub fn joint_head_live(body_count: u32, contact_capacity: u32) -> u32 {
-    SCRATCH_U32
+    pair_layout(pair_capacity(contact_capacity)).graph
         + 16 * body_count
         + 24 * 8
         + 24 * 8 * body_count
         + MAX_COLORS * contact_capacity
-        + JOINT_FILTER_CAP * 2
+        + JOINT_FILTER_CAP * 3
 }
 
 /// Exact lookup table for joints that disable collision. Overflow means the
 /// shader must keep the linear scan as a correct fallback.
 pub fn build_joint_filter_table(joints: &[JointGpu]) -> (Vec<u32>, bool) {
     let cap = JOINT_FILTER_CAP as usize;
-    let mut table = vec![u32::MAX; cap * 2];
+    let mut table = vec![u32::MAX; cap * 3];
     let mut overflow = false;
     for joint in joints {
         if joint.kind == JOINT_NONE {
@@ -427,7 +447,6 @@ pub fn build_joint_filter_table(joints: &[JointGpu]) -> (Vec<u32>, bool) {
         }
         let a = joint.a.min(joint.b);
         let b = joint.a.max(joint.b);
-        let packed = (a << 16) | (b & 0xffff);
         let disable = u32::from(
             joint.flags & JOINT_COLLIDE_CONNECTED == 0,
         );
@@ -435,15 +454,16 @@ pub fn build_joint_filter_table(joints: &[JointGpu]) -> (Vec<u32>, bool) {
         let mut placed = false;
         for _ in 0..JOINT_FILTER_PROBE {
             let idx = (h as usize) & (cap - 1);
-            let stored = table[idx * 2];
+            let stored = table[idx * 3];
             if stored == u32::MAX {
-                table[idx * 2] = packed;
-                table[idx * 2 + 1] = disable;
+                table[idx * 3] = a;
+                table[idx * 3 + 1] = b;
+                table[idx * 3 + 2] = disable;
                 placed = true;
                 break;
             }
-            if stored == packed {
-                table[idx * 2 + 1] |= disable;
+            if stored == a && table[idx * 3 + 1] == b {
+                table[idx * 3 + 2] |= disable;
                 placed = true;
                 break;
             }
@@ -454,13 +474,22 @@ pub fn build_joint_filter_table(joints: &[JointGpu]) -> (Vec<u32>, bool) {
     (table, overflow)
 }
 
+/// Spatial-hash entries and shared broadphase workspace. Reserve geometrically
+/// with shapes, independently from candidate/contact limits. Shapes spanning
+/// more cells than the budget still report explicit sticky capacity loss.
+pub fn insertion_capacity(shape_capacity: u32) -> u32 {
+    shape_capacity.max(1).checked_mul(16)
+        .and_then(u32::checked_next_power_of_two)
+        .expect("spatial-hash insertion capacity exceeds u32")
+        .max(1024)
+}
+
 pub fn contact_capacity(body_capacity: u32) -> u32 {
     body_capacity
         .max(1)
         .saturating_mul(16)
         .max(256)
         .next_power_of_two()
-        .min(PAIR_CAP)
 }
 
 /// Pass LUT rows: relax=0, bias=1, warm=2, restitution=3.
@@ -681,10 +710,11 @@ pub struct SurfaceMaterialGpu {
 #[repr(C)]
 #[derive(Clone, Copy, Debug, Pod, Zeroable)]
 pub struct MixPairGpu {
-    pub key: u32,
+    pub key: [u32; 2],
     pub friction: f32,
     pub restitution: f32,
     pub occupied: u32,
+    pub _pad: [u32; 3],
 }
 
 #[repr(C)]
@@ -724,8 +754,10 @@ pub struct ContactGpu {
     pub cached_relative: [f32; 4],
     pub cached_rotation_a: [f32; 4],
     pub cached_rotation_b: [f32; 4],
-    /// Generation, lifecycle flags, persistent per-color local index, packed pair key.
+    /// Generation, lifecycle flags, persistent per-color local index, reserved word.
     pub lifecycle: [u32; 4],
+    /// Full-width dense shape identities, followed by two reserved words.
+    pub pair: [u32; 4],
     pub prepared_normal_mass: [f32; 4],
     pub prepared_lever_arm: [f32; 4],
     pub total_normal_impulse: [f32; 4],
@@ -749,6 +781,8 @@ pub struct ContactGpu {
 }
 
 impl ContactGpu {
+    pub fn pair_key(&self) -> u64 { u64::from(self.pair[0]) | (u64::from(self.pair[1]) << 32) }
+
     pub fn point_persisted(&self, point: usize) -> bool {
         point < self.count.min(4) as usize
             && self.lifecycle[1] & (1u32 << (CONTACT_PERSISTED_SHIFT + point as u32)) != 0
@@ -804,6 +838,8 @@ pub struct ContactPersistentGpu {
     pub cached_rotation_a: [f32; 4],
     pub cached_rotation_b: [f32; 4],
     pub lifecycle: [u32; 4],
+    /// Full-width dense shape identities, followed by two reserved words.
+    pub pair: [u32; 4],
     pub persistent_ra: [[f32; 4]; 4],
     /// Original COM anchor xyz and unmodified manifold separation in w.
     pub persistent_rb: [[f32; 4]; 4],
@@ -1025,7 +1061,10 @@ pub struct SimParams {
     pub remap_history_step: u32,
     pub maximum_linear_speed: f32,
     pub restitution_threshold: f32,
-    pub _pad_block: [u32; 7],
+    pub insert_base: u32,
+    pub insert_capacity: u32,
+    pub pair_capacity: u32,
+    pub _pad_block: [u32; 4],
 }
 
 impl SimParams {
@@ -1089,7 +1128,10 @@ impl SimParams {
             remap_history_step: 0,
             maximum_linear_speed: 400.0,
             restitution_threshold: 1.0,
-            _pad_block: [0; 7],
+            insert_base: 0,
+            insert_capacity: insertion_capacity(count),
+            pair_capacity: pair_capacity(contact_capacity(count)),
+            _pad_block: [0; 4],
         }
     }
 }
@@ -1123,10 +1165,10 @@ const _: () = assert!(core::mem::offset_of!(ShapeGpu, category_bits_lo) == 80);
 const _: () = assert!(core::mem::offset_of!(ShapeGpu, mask_bits_lo) == 88);
 const _: () = assert!(core::mem::offset_of!(ShapeGpu, group_index) == 96);
 const _: () = assert!(core::mem::offset_of!(ShapeGpu, event_flags) == 100);
-const _: () = assert!(core::mem::size_of::<ContactGpu>() == 576);
+const _: () = assert!(core::mem::size_of::<ContactGpu>() == 592);
 const _: () = assert!(core::mem::size_of::<ContactHotGpu>() == 256);
 const _: () = assert!(core::mem::size_of::<ContactPreparedGpu>() == 96);
-const _: () = assert!(core::mem::size_of::<ContactPersistentGpu>() == 224);
+const _: () = assert!(core::mem::size_of::<ContactPersistentGpu>() == 240);
 const _: () = assert!(core::mem::size_of::<JointGpu>() == 288);
 
 pub fn sphere_mass(radius: f32, density: f32) -> f32 {
@@ -1258,14 +1300,21 @@ mod tests {
         assert_eq!(contact_capacity(1), 256);
         assert_eq!(contact_capacity(64), 1024);
         assert_eq!(contact_capacity(256), 4096);
-        assert_eq!(contact_capacity(10_000), PAIR_CAP);
+        assert_eq!(contact_capacity(10_000), 262144);
+        assert_eq!(contact_capacity(100_000), 2097152);
+        for count in [1, 4096, 4097, 100_000] {
+            let cap = pair_capacity(contact_capacity(count));
+            let layout = pair_layout(cap);
+            assert_eq!(layout.radix_hist - layout.radix_out, 2 * cap);
+            assert!(layout.graph - layout.radix_base >= cap / RADIX_GROUP_SIZE);
+        }
     }
 
     #[test]
     fn contact_split_preserves_export_size_without_duplication() {
         assert_eq!(core::mem::size_of::<ContactHotGpu>(), 256);
         assert_eq!(core::mem::size_of::<ContactPreparedGpu>(), 96);
-        assert_eq!(core::mem::size_of::<ContactPersistentGpu>(), 224);
+        assert_eq!(core::mem::size_of::<ContactPersistentGpu>(), 240);
         assert_eq!(
             core::mem::size_of::<ContactHotGpu>()
                 + core::mem::size_of::<ContactPreparedGpu>()

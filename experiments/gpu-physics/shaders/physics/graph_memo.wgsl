@@ -33,14 +33,14 @@ fn memo_publish(slot:u32,choice:vec2<u32>) {
 
 fn memo_serial(n:u32) {
     for (var i=0u;i<n;i++) {
-        let slot=scratch[SCR_ACTIVE_CONTACT+scratch[SCR_NEXT_OCCUPIED+i]];
+        let slot=scratch[scr_active_contact()+scratch[scr_next_occupied()+i]];
         let h=contacts[slot];memo_publish(slot,memo_choose(h.a,h.b));
     }
 }
 
 @compute @workgroup_size(64)
 fn graph_assign_dynamic_memo(@builtin(local_invocation_index) lane:u32) {
-    let n=min(scratch[SCR_DYN_DYN_N],PAIR_CAP);
+    let n=min(scratch[SCR_DYN_DYN_N],pair_cap());
     if (params.body_count>8160u || n>params.contact_capacity) {
         if (lane==0u) {record_contact_drop(9u);}
         return;
@@ -56,7 +56,7 @@ fn graph_assign_dynamic_memo(@builtin(local_invocation_index) lane:u32) {
     }
     workgroupBarrier();
     for (var b=lane;b<params.body_count;b+=64u) {
-        let mask=atomicLoad(&atom[ATOM_JACOBI+b]);
+        let mask=atomicLoad(&atom[atom_jacobi()+b]);
         memo_masks[b]=mask;
         if (atomicLoad(&query[memo_body_base()+2u*b])!=mask) {atomicStore(&memo_changed,1u);atomicMin(&memo_prefix,0u);}
     }
@@ -66,11 +66,12 @@ fn graph_assign_dynamic_memo(@builtin(local_invocation_index) lane:u32) {
         if (atomicLoad(&query[memo_base()+4u+lane])!=count) {atomicStore(&memo_changed,1u);atomicMin(&memo_prefix,0u);}
     }
     for (var i=lane;i<n;i+=64u) {
-        let slot=scratch[SCR_ACTIVE_CONTACT+scratch[SCR_NEXT_OCCUPIED+i]];
-        let h=contacts[slot];let base=memo_edge_base()+6u*i;
+        let slot=scratch[scr_active_contact()+scratch[scr_next_occupied()+i]];
+        let h=contacts[slot];let base=memo_edge_base()+7u*i;
         if (atomicLoad(&query[base])!=slot || atomicLoad(&query[base+1u])!=h.a
             || atomicLoad(&query[base+2u])!=h.b
-            || atomicLoad(&query[base+5u])!=contact_persistent[slot].lifecycle.w) {
+            || atomicLoad(&query[base+5u])!=contact_persistent[slot].pair.x
+            || atomicLoad(&query[base+6u])!=contact_persistent[slot].pair.y) {
             atomicStore(&memo_changed,1u);
             atomicMin(&memo_prefix,i);
         }
@@ -83,7 +84,7 @@ fn graph_assign_dynamic_memo(@builtin(local_invocation_index) lane:u32) {
         }
         if (lane<24u) {memo_counts[lane]=atomicLoad(&query[memo_base()+28u+lane]);}
         for (var i=lane;i<n;i+=64u) {
-            let base=memo_edge_base()+6u*i;
+            let base=memo_edge_base()+7u*i;
             let slot=atomicLoad(&query[base]);let col=atomicLoad(&query[base+3u]);let local=atomicLoad(&query[base+4u]);
             scratch[color_contact_base()+col*params.contact_capacity+local]=slot;
             store_graph_meta(slot,col,local);
@@ -112,25 +113,25 @@ fn graph_assign_dynamic_memo(@builtin(local_invocation_index) lane:u32) {
             // masks/counts. Rebuild its monotone mask union and count maxima in
             // parallel, preserving every cached color/local index exactly.
             for (var i=lane;i<restart;i+=64u) {
-                let base=memo_edge_base()+6u*i;
+                let base=memo_edge_base()+7u*i;
                 let slot=atomicLoad(&query[base]);
                 let a=atomicLoad(&query[base+1u]);let b=atomicLoad(&query[base+2u]);
                 let col=atomicLoad(&query[base+3u]);let local=atomicLoad(&query[base+4u]);
                 memo_publish(slot,vec2<u32>(col,local));
                 if (col<DYNAMIC_COLOR_COUNT) {
-                    atomicOr(&atom[ATOM_JACOBI+a],1u<<col);
-                    atomicOr(&atom[ATOM_JACOBI+b],1u<<col);
+                    atomicOr(&atom[atom_jacobi()+a],1u<<col);
+                    atomicOr(&atom[atom_jacobi()+b],1u<<col);
                 }
                 atomicMax(&atom[atom_graph_color()+col],local+1u);
             }
             storageBarrier();
-            for (var b=lane;b<params.body_count;b+=64u) {memo_masks[b]=atomicLoad(&atom[ATOM_JACOBI+b]);}
+            for (var b=lane;b<params.body_count;b+=64u) {memo_masks[b]=atomicLoad(&atom[atom_jacobi()+b]);}
             if (lane<24u) {memo_counts[lane]=atomicLoad(&atom[atom_graph_color()+lane]);}
             workgroupBarrier();
             for (var start=restart;start<batch_n;start+=64u) {
                 let dst=params.body_count+3u*lane;
                 if (start+lane<batch_n) {
-                    let slot=scratch[SCR_ACTIVE_CONTACT+scratch[SCR_NEXT_OCCUPIED+start+lane]];
+                    let slot=scratch[scr_active_contact()+scratch[scr_next_occupied()+start+lane]];
                     let h=contacts[slot];
                     memo_masks[dst]=slot;memo_masks[dst+1u]=h.a;memo_masks[dst+2u]=h.b;
                 }
@@ -158,11 +159,12 @@ fn graph_assign_dynamic_memo(@builtin(local_invocation_index) lane:u32) {
         for (var b=lane;b<params.body_count;b+=64u) {atomicStore(&query[memo_body_base()+2u*b+1u],memo_masks[b]);}
         if (lane<24u) {atomicStore(&query[memo_base()+28u+lane],memo_counts[lane]);}
         for (var i=lane;i<n;i+=64u) {
-            let slot=scratch[SCR_ACTIVE_CONTACT+scratch[SCR_NEXT_OCCUPIED+i]];let h=contacts[slot];
-            let base=memo_edge_base()+6u*i;
+            let slot=scratch[scr_active_contact()+scratch[scr_next_occupied()+i]];let h=contacts[slot];
+            let base=memo_edge_base()+7u*i;
             atomicStore(&query[base],slot);atomicStore(&query[base+1u],h.a);atomicStore(&query[base+2u],h.b);
             atomicStore(&query[base+3u],h.color);atomicStore(&query[base+4u],contact_persistent[slot].lifecycle.z);
-            atomicStore(&query[base+5u],contact_persistent[slot].lifecycle.w);
+            atomicStore(&query[base+5u],contact_persistent[slot].pair.x);
+            atomicStore(&query[base+6u],contact_persistent[slot].pair.y);
         }
         if (lane==0u) {
             atomicStore(&query[memo_base()],1u);
@@ -170,7 +172,7 @@ fn graph_assign_dynamic_memo(@builtin(local_invocation_index) lane:u32) {
             atomicStore(&query[memo_base()+2u],n);
         }
     }
-    for (var b=lane;b<params.body_count;b+=64u) {atomicStore(&atom[ATOM_JACOBI+b],memo_masks[b]);}
+    for (var b=lane;b<params.body_count;b+=64u) {atomicStore(&atom[atom_jacobi()+b],memo_masks[b]);}
     if (lane<24u) {atomicStore(&atom[atom_graph_color()+lane],memo_counts[lane]);}
     storageBarrier();
     if (lane==0u) {finish_dynamic_graph();}

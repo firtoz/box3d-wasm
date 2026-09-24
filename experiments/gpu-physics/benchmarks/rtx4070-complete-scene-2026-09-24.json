@@ -1,0 +1,3377 @@
+{
+  "workload": "falling-cubes-v1",
+  "manifest": {
+    "workload": "falling-cubes-v1",
+    "arguments": {
+      "output": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/scaling-profile/complete-scene/sweep",
+      "counts": [
+        5,
+        10,
+        50,
+        100,
+        200,
+        400,
+        800,
+        1000,
+        2000,
+        5000,
+        10000,
+        15000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        80000,
+        100000,
+        150000,
+        200000,
+        400000,
+        800000,
+        1000000
+      ],
+      "modes": [
+        "physics-cpu",
+        "physics-gpu",
+        "sokol-cpu",
+        "sokol-gpu",
+        "direct-cpu",
+        "direct-gpu"
+      ],
+      "trials": 3,
+      "warmup": 90,
+      "timed": 240,
+      "workers": 8,
+      "adapter": "nvidia",
+      "gpu_solver": "global",
+      "gpu_binary": null,
+      "width": 1280,
+      "height": 720,
+      "timeout": 900,
+      "require_idle": false,
+      "resume": false
+    },
+    "platform": "Linux-6.12.108-1-MANJARO-x86_64-with-glibc2.44",
+    "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           48 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  16\nOn-line CPU(s) list:                     0-15\nVendor ID:                               AuthenticAMD\nModel name:                              AMD Ryzen 9 8945HS w/ Radeon 780M Graphics\nCPU family:                              25\nModel:                                   117\nThread(s) per core:                      2\nCore(s) per socket:                      8\nSocket(s):                               1\nStepping:                                2\nMicrocode version:                       0xa705208\nFrequency boost:                         enabled\nCPU(s) scaling MHz:                      50%\nCPU max MHz:                             5263.0000\nCPU min MHz:                             400.0000\nBogoMIPS:                                7987.36\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good amd_lbr_v2 nopl xtopology nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 hw_pstate ssbd mba perfmon_v2 ibrs ibpb stibp ibrs_enhanced vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local user_shstk avx512_bf16 clzero irperf xsaveerptr rdpru wbnoinvd arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold vgif x2avic v_spec_ctrl vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid overflow_recov succor smca fsrm flush_l1d\nVirtualization:                          AMD-V\nL1d cache:                               256 KiB (8 instances)\nL1i cache:                               256 KiB (8 instances)\nL2 cache:                                8 MiB (8 instances)\nL3 cache:                                16 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-15\nVulnerability Gather data sampling:      Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Mitigation; Safe RET\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; STIBP always-on; PBRSB-eIBRS Not affected; BHI Not affected\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Mitigation; Clear CPU buffers\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Mitigation; IBPB before exit to userspace",
+    "gpu": "name, uuid, memory.total [MiB], driver_version, power.limit [W], clocks.max.sm [MHz], clocks.max.memory [MHz]\nNVIDIA GeForce RTX 4070 Laptop GPU, GPU-1c3b9ac8-82c3-7ba9-0b94-dfe191e1bf59, 8188 MiB, 610.57.04, [N/A], 3105 MHz, 8001 MHz",
+    "vulkan": "==========\nVULKANINFO\n==========\n\nVulkan Instance Version: 1.4.357\n\n\nInstance Extensions: count = 26\n-------------------------------\nVK_EXT_acquire_drm_display             : extension revision 1\nVK_EXT_acquire_xlib_display            : extension revision 1\nVK_EXT_debug_report                    : extension revision 10\nVK_EXT_debug_utils                     : extension revision 2\nVK_EXT_direct_mode_display             : extension revision 1\nVK_EXT_display_surface_counter         : extension revision 1\nVK_EXT_layer_settings                  : extension revision 2\nVK_EXT_surface_maintenance1            : extension revision 1\nVK_EXT_swapchain_colorspace            : extension revision 5\nVK_KHR_device_group_creation           : extension revision 1\nVK_KHR_display                         : extension revision 23\nVK_KHR_external_fence_capabilities     : extension revision 1\nVK_KHR_external_memory_capabilities    : extension revision 1\nVK_KHR_external_semaphore_capabilities : extension revision 1\nVK_KHR_get_display_properties2         : extension revision 1\nVK_KHR_get_physical_device_properties2 : extension revision 2\nVK_KHR_get_surface_capabilities2       : extension revision 1\nVK_KHR_portability_enumeration         : extension revision 1\nVK_KHR_surface                         : extension revision 25\nVK_KHR_surface_maintenance1            : extension revision 1\nVK_KHR_surface_protected_capabilities  : extension revision 1\nVK_KHR_wayland_surface                 : extension revision 6\nVK_KHR_xcb_surface                     : extension revision 6\nVK_KHR_xlib_surface                    : extension revision 6\nVK_LUNARG_direct_driver_loading        : extension revision 1\nVK_NV_display_stereo                   : extension revision 1\n\nInstance Layers: count = 8\n--------------------------\nVK_LAYER_MESA_anti_lag            Open-source implementation of the VK_AMD_anti_lag extension. 1.4.303  version 1\nVK_LAYER_MESA_device_select       Linux device selection layer                                 1.4.303  version 1\nVK_LAYER_NV_optimus               NVIDIA Optimus layer                                         1.4.341  version 1\nVK_LAYER_NV_present               NVIDIA Presentation Layer                                    1.4.341  version 1\nVK_LAYER_VALVE_steam_fossilize_32 Steam Pipeline Caching Layer                                 1.3.207  version 1\nVK_LAYER_VALVE_steam_fossilize_64 Steam Pipeline Caching Layer                                 1.3.207  version 1\nVK_LAYER_VALVE_steam_overlay_32   Steam Overlay Layer                                          1.3.207  version 1\nVK_LAYER_VALVE_steam_overlay_64   Steam Overlay Layer                                          1.3.207  version 1\n\nDevices:\n========\nGPU0:\n\tapiVersion         = 1.4.341\n\tdriverVersion      = 610.57.4.0\n\tvendorID           = 0x10de\n\tdeviceID           = 0x2860\n\tdeviceType         = PHYSICAL_DEVICE_TYPE_DISCRETE_GPU\n\tdeviceName         = NVIDIA GeForce RTX 4070 Laptop GPU\n\tdriverID           = DRIVER_ID_NVIDIA_PROPRIETARY\n\tdriverName         = NVIDIA\n\tdriverInfo         = 610.57.04\n\tconformanceVersion = 1.4.3.3\n\tdeviceUUID         = 1c3b9ac8-82c3-7ba9-0b94-dfe191e1bf59\n\tdriverUUID         = 9992f558-9329-580d-a9f3-a38ee24bc64d",
+    "git": "9a66819d5267789a2525309dc9dd55499c2dbb01",
+    "diff_sha256": "173adfb65542e128f328ccea069d9b5f5a13cfb0506e73fc48f12b1d044ab789",
+    "binaries": {
+      "cpu": {
+        "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/oracle/build/box3d_oracle",
+        "sha256": "a2edeb8ba3556bf91e9544b1715b3212e7444896d4dc5a075ce5d523dec1eff6"
+      },
+      "gpu": {
+        "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/gpu-physics",
+        "sha256": "1d6d7ec6d693a8571cbb63efb23a53c3e693c8317a8f98aceaf8d92f6497e07c"
+      },
+      "sokol_cpu": {
+        "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-cpu-portable/bin/samples_cpu",
+        "sha256": "cff337f6d5d9613d652ddd774886b8001b283366a75b0739258752c8d803c2f7"
+      },
+      "sokol_gpu": {
+        "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu-native-cache-portable/bin/samples_gpu",
+        "sha256": "56ce7939ecb14bd75575ff49b12a0040b5c08aa966be6c49c329432018419586"
+      },
+      "cpu_bridge": {
+        "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/oracle/build-viewer/libbox3d_viewer_cpu.so",
+        "sha256": "8e81c033e156809b6fa8fa8e16c30877395a586a141f54796126419cb136e5a1"
+      }
+    },
+    "environment": {
+      "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+      "DISPLAY": ":1",
+      "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
+      "WGPU_BACKEND": "vulkan",
+      "__NV_PRIME_RENDER_OFFLOAD": "1",
+      "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+      "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+      "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+      "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+      "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+      "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+      "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+      "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+      "GPU_PHYSICS_FULL_REPLAY": "1",
+      "GPU_PHYSICS_GRAPH_MEMO": "1",
+      "GPU_PHYSICS_PAIR_MATRIX": "1",
+      "GPU_PHYSICS_COMPONENT_TGS": "0",
+      "GPU_PHYSICS_GPU_CCD": "1",
+      "GPU_PHYSICS_RESIDENT": "1",
+      "GPU_PHYSICS_GRAPH_SHARED": "1",
+      "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+      "GPU_PHYSICS_AB": "bounded-static-sort",
+      "GPU_PHYSICS_ADAPTER": "nvidia",
+      "GPU_PHYSICS_CPU_WORKERS": "8",
+      "GPU_PHYSICS_DEMAND_POSES": "1",
+      "GPU_PHYSICS_PRESENT_MODE": "immediate",
+      "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/frtn/.cache/box3d-gpu-physics/pipelines",
+      "GPU_BENCH_WIDTH": "1280",
+      "GPU_BENCH_HEIGHT": "720",
+      "GPU_PHYSICS_COLOR_PREFIX": "20"
+    },
+    "sokol_settings_before": {
+      "sampleIndex": 73,
+      "drawShapes": true,
+      "enableShadows": true,
+      "enableGtao": true,
+      "gtaoQuality": 1,
+      "enableIbl": true,
+      "exposure": -2.5,
+      "sunStrength": 0.8,
+      "shadowSplitLambda": 0.5,
+      "debugView": 0,
+      "drawDistance": 1000,
+      "showHullEdges": true,
+      "showEdgeConvexity": false,
+      "replayKeyframeBudgetMB": 512,
+      "replayKeyframeMinInterval": 16
+    },
+    "sokol_draw_distance_m": 1000
+  },
+  "results": [
+    {
+      "count": 5,
+      "mode": "direct-cpu",
+      "fps": 317.31032983442384,
+      "fps_min": 287.74786541999896,
+      "fps_max": 529.8334041888181,
+      "p50_ms": 1.656294,
+      "p95_ms": 7.9481854,
+      "trial_means_ms": [
+        3.4752647027994197,
+        1.8873857180277507,
+        3.1514889556914567
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 5,
+      "mode": "direct-gpu",
+      "fps": 383.54284928266884,
+      "fps_min": 330.87722882315114,
+      "fps_max": 599.2635188768571,
+      "p50_ms": 1.118036,
+      "p95_ms": 9.322822,
+      "trial_means_ms": [
+        3.0222690257554254,
+        1.6687149617820978,
+        2.6072706136231623
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 5,
+      "mode": "physics-cpu",
+      "fps": 59314.912757649145,
+      "fps_min": 56565.085201159585,
+      "fps_max": 69686.41114982578,
+      "p50_ms": 0.0168,
+      "p95_ms": 0.0208,
+      "trial_means_ms": [
+        0.01767875,
+        0.01435,
+        0.016859166666666668
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 5,
+      "mode": "physics-gpu",
+      "fps": 1452.329991158941,
+      "fps_min": 1141.263721318616,
+      "fps_max": 1463.720765989472,
+      "p50_ms": 0.6625,
+      "p95_ms": 0.741,
+      "trial_means_ms": [
+        0.8762216666666667,
+        0.6831904166666667,
+        0.68854875
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 5,
+      "mode": "sokol-cpu",
+      "fps": 442.4241228803506,
+      "fps_min": 422.21178811793993,
+      "fps_max": 494.2604010923155,
+      "p50_ms": 2.0223,
+      "p95_ms": 2.2133,
+      "trial_means_ms": [
+        2.3684795833333334,
+        2.2602745833333335,
+        2.023225
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 5,
+      "mode": "sokol-gpu",
+      "fps": 290.28194117339706,
+      "fps_min": 223.76860834106813,
+      "fps_max": 291.6202909398436,
+      "p50_ms": 3.2645,
+      "p95_ms": 3.9742,
+      "trial_means_ms": [
+        3.429116666666667,
+        4.468902083333333,
+        3.4449266666666665
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 10,
+      "mode": "direct-cpu",
+      "fps": 373.5204850594656,
+      "fps_min": 264.0392435950365,
+      "fps_max": 836.0635705725164,
+      "p50_ms": 1.439697,
+      "p95_ms": 7.39556,
+      "trial_means_ms": [
+        1.1960812971616785,
+        2.6772293354695043,
+        3.78731580345581
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 10,
+      "mode": "direct-gpu",
+      "fps": 628.5075303413614,
+      "fps_min": 294.0219481021666,
+      "fps_max": 1007.3558534189123,
+      "p50_ms": 0.988021,
+      "p95_ms": 7.276006,
+      "trial_means_ms": [
+        0.9926978600521882,
+        3.401106640013556,
+        1.5910708332434296
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 10,
+      "mode": "physics-cpu",
+      "fps": 51125.83345759752,
+      "fps_min": 46889.653016567674,
+      "fps_max": 53751.39977603583,
+      "p50_ms": 0.0198,
+      "p95_ms": 0.0236,
+      "trial_means_ms": [
+        0.018604166666666668,
+        0.01955958333333333,
+        0.021326666666666667
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 10,
+      "mode": "physics-gpu",
+      "fps": 1375.3203350280337,
+      "fps_min": 1351.2083180384057,
+      "fps_max": 1378.4183338827863,
+      "p50_ms": 0.7066,
+      "p95_ms": 0.8572,
+      "trial_means_ms": [
+        0.7271033333333333,
+        0.7254691666666666,
+        0.7400783333333334
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 10,
+      "mode": "sokol-cpu",
+      "fps": 473.20477936827166,
+      "fps_min": 412.422084446515,
+      "fps_max": 486.9467828034744,
+      "p50_ms": 2.0213,
+      "p95_ms": 2.3937,
+      "trial_means_ms": [
+        2.4247004166666666,
+        2.0536125,
+        2.11325
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 10,
+      "mode": "sokol-gpu",
+      "fps": 246.68253109433306,
+      "fps_min": 176.34801339921597,
+      "fps_max": 289.480356224877,
+      "p50_ms": 3.454,
+      "p95_ms": 13.9921,
+      "trial_means_ms": [
+        5.670605416666667,
+        3.4544658333333333,
+        4.053793333333333
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 50,
+      "mode": "direct-cpu",
+      "fps": 750.5961494618278,
+      "fps_min": 294.0056615387958,
+      "fps_max": 1155.8547985599714,
+      "p50_ms": 0.73652095,
+      "p95_ms": 6.257737,
+      "trial_means_ms": [
+        1.3322743538146218,
+        3.401295045701166,
+        0.8651605731497208
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 50,
+      "mode": "direct-gpu",
+      "fps": 272.8178853070082,
+      "fps_min": 223.9563751928931,
+      "fps_max": 279.1259385063211,
+      "p50_ms": 2.4142249,
+      "p95_ms": 10.253245,
+      "trial_means_ms": [
+        3.582612226406733,
+        3.665448835492134,
+        4.465155319372813
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 50,
+      "mode": "physics-cpu",
+      "fps": 11397.689118531216,
+      "fps_min": 11391.305586011476,
+      "fps_max": 12215.170223486719,
+      "p50_ms": 0.0806,
+      "p95_ms": 0.1006,
+      "trial_means_ms": [
+        0.08773708333333334,
+        0.08186541666666666,
+        0.08778625
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 50,
+      "mode": "physics-gpu",
+      "fps": 269.0944366743426,
+      "fps_min": 263.06608121310296,
+      "fps_max": 279.93509238324606,
+      "p50_ms": 3.6463,
+      "p95_ms": 4.5989,
+      "trial_means_ms": [
+        3.7161675,
+        3.80132625,
+        3.5722566666666666
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 50,
+      "mode": "sokol-cpu",
+      "fps": 487.48593146069675,
+      "fps_min": 470.7506904343459,
+      "fps_max": 490.85666964793916,
+      "p50_ms": 2.053,
+      "p95_ms": 2.21,
+      "trial_means_ms": [
+        2.05134125,
+        2.1242666666666667,
+        2.0372545833333335
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 50,
+      "mode": "sokol-gpu",
+      "fps": 173.4938672086615,
+      "fps_min": 165.558197051919,
+      "fps_max": 207.7263288707659,
+      "p50_ms": 5.6935,
+      "p95_ms": 6.0875,
+      "trial_means_ms": [
+        6.040172083333333,
+        4.81402625,
+        5.7638925
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 100,
+      "mode": "direct-cpu",
+      "fps": 858.2369507457274,
+      "fps_min": 375.18829481159656,
+      "fps_max": 939.0077110107628,
+      "p50_ms": 0.742251,
+      "p95_ms": 2.893471,
+      "trial_means_ms": [
+        2.6653283533329764,
+        1.0649539809674025,
+        1.1651793821404377
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 100,
+      "mode": "direct-gpu",
+      "fps": 240.50892801518594,
+      "fps_min": 188.2543098799833,
+      "fps_max": 299.7575922364033,
+      "p50_ms": 2.580025,
+      "p95_ms": 10.450004,
+      "trial_means_ms": [
+        4.157849807292223,
+        5.311963378886381,
+        3.3360289310415587
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 100,
+      "mode": "physics-cpu",
+      "fps": 8635.205733776607,
+      "fps_min": 8134.186971066019,
+      "fps_max": 8796.815552769896,
+      "p50_ms": 0.1125,
+      "p95_ms": 0.1372,
+      "trial_means_ms": [
+        0.1136775,
+        0.115805,
+        0.12293791666666666
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 100,
+      "mode": "physics-gpu",
+      "fps": 252.2757373809574,
+      "fps_min": 251.93959370331572,
+      "fps_max": 263.9200216766311,
+      "p50_ms": 3.7471,
+      "p95_ms": 5.029,
+      "trial_means_ms": [
+        3.9692054166666666,
+        3.9639166666666665,
+        3.7890266666666665
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 100,
+      "mode": "sokol-cpu",
+      "fps": 436.643802905537,
+      "fps_min": 376.31398258889277,
+      "fps_max": 478.6176564845414,
+      "p50_ms": 2.0815,
+      "p95_ms": 2.3045,
+      "trial_means_ms": [
+        2.657355416666667,
+        2.0893504166666665,
+        2.29019625
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 100,
+      "mode": "sokol-gpu",
+      "fps": 205.3968361013695,
+      "fps_min": 190.32519915153026,
+      "fps_max": 210.02123314667114,
+      "p50_ms": 4.8124,
+      "p95_ms": 5.3013,
+      "trial_means_ms": [
+        5.254165,
+        4.868624166666667,
+        4.761423333333333
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 200,
+      "mode": "direct-cpu",
+      "fps": 390.03928939359486,
+      "fps_min": 304.4998309871985,
+      "fps_max": 1284.084910542707,
+      "p50_ms": 0.741679,
+      "p95_ms": 10.285887,
+      "trial_means_ms": [
+        3.28407407241563,
+        2.563844277213017,
+        0.7787646998961767
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 200,
+      "mode": "direct-gpu",
+      "fps": 256.2228273457507,
+      "fps_min": 228.28214287664554,
+      "fps_max": 277.67648033908904,
+      "p50_ms": 2.801249,
+      "p95_ms": 9.702575,
+      "trial_means_ms": [
+        4.3805441257854305,
+        3.9028528814514476,
+        3.6013132937252523
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 200,
+      "mode": "physics-cpu",
+      "fps": 5847.340556423182,
+      "fps_min": 5317.911390301459,
+      "fps_max": 6127.8733981355945,
+      "p50_ms": 0.1681,
+      "p95_ms": 0.2366,
+      "trial_means_ms": [
+        0.16318875,
+        0.18804375,
+        0.17101791666666666
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 200,
+      "mode": "physics-gpu",
+      "fps": 249.85633260874997,
+      "fps_min": 230.69982117880113,
+      "fps_max": 250.28083595467746,
+      "p50_ms": 3.893,
+      "p95_ms": 5.0318,
+      "trial_means_ms": [
+        3.995511666666667,
+        4.0023,
+        4.334637083333333
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 200,
+      "mode": "sokol-cpu",
+      "fps": 471.65797407571256,
+      "fps_min": 411.4503195168887,
+      "fps_max": 473.3991121399652,
+      "p50_ms": 2.1063,
+      "p95_ms": 2.2512,
+      "trial_means_ms": [
+        2.4304270833333335,
+        2.1201804166666665,
+        2.1123825
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 200,
+      "mode": "sokol-gpu",
+      "fps": 183.07066252967653,
+      "fps_min": 158.53842370265696,
+      "fps_max": 195.66231326172257,
+      "p50_ms": 5.1351,
+      "p95_ms": 5.7362,
+      "trial_means_ms": [
+        6.307619166666667,
+        5.11084625,
+        5.462371666666667
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 400,
+      "mode": "direct-cpu",
+      "fps": 1267.4732509381367,
+      "fps_min": 449.2327112886437,
+      "fps_max": 1352.8372769860428,
+      "p50_ms": 0.738364,
+      "p95_ms": 0.770975,
+      "trial_means_ms": [
+        2.226017774020632,
+        0.7391872008641561,
+        0.7889712853978078
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 400,
+      "mode": "direct-gpu",
+      "fps": 239.9325669171275,
+      "fps_min": 232.232317967499,
+      "fps_max": 254.09853379133364,
+      "p50_ms": 3.088637,
+      "p95_ms": 10.778149,
+      "trial_means_ms": [
+        4.167837708940109,
+        3.935481189439694,
+        4.306032893061638
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 400,
+      "mode": "physics-cpu",
+      "fps": 3598.0067042858254,
+      "fps_min": 3378.5686130975846,
+      "fps_max": 3709.921256921322,
+      "p50_ms": 0.2763,
+      "p95_ms": 0.3031,
+      "trial_means_ms": [
+        0.2779316666666667,
+        0.2695475,
+        0.2959833333333333
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 400,
+      "mode": "physics-gpu",
+      "fps": 235.2633719534496,
+      "fps_min": 225.47575384060366,
+      "fps_max": 239.9459161904907,
+      "p50_ms": 4.2635,
+      "p95_ms": 4.8454,
+      "trial_means_ms": [
+        4.435066666666667,
+        4.250555416666667,
+        4.167605833333333
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 400,
+      "mode": "sokol-cpu",
+      "fps": 462.2678668938199,
+      "fps_min": 460.77154274951977,
+      "fps_max": 465.64879720005376,
+      "p50_ms": 2.1441,
+      "p95_ms": 2.2688,
+      "trial_means_ms": [
+        2.1632479166666667,
+        2.14754125,
+        2.1702729166666668
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 400,
+      "mode": "sokol-gpu",
+      "fps": 175.58164162250606,
+      "fps_min": 151.6174071187026,
+      "fps_max": 177.98604782203293,
+      "p50_ms": 5.6096,
+      "p95_ms": 6.5345,
+      "trial_means_ms": [
+        5.618417916666667,
+        6.59554875,
+        5.69535625
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 800,
+      "mode": "direct-cpu",
+      "fps": 1329.8513945406678,
+      "fps_min": 416.50791188599095,
+      "fps_max": 1346.3282775502385,
+      "p50_ms": 0.74319303,
+      "p95_ms": 0.79450804,
+      "trial_means_ms": [
+        0.751963718732198,
+        2.400914776076873,
+        0.7427608976761501
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 800,
+      "mode": "direct-gpu",
+      "fps": 213.81353002524386,
+      "fps_min": 212.43390708067204,
+      "fps_max": 233.0574665001044,
+      "p50_ms": 3.357051,
+      "p95_ms": 11.748667,
+      "trial_means_ms": [
+        4.707346457739671,
+        4.2907872252166275,
+        4.676972499738137
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 800,
+      "mode": "physics-cpu",
+      "fps": 2539.120977476939,
+      "fps_min": 2389.1484875694596,
+      "fps_max": 2628.670692183757,
+      "p50_ms": 0.3861,
+      "p95_ms": 0.458,
+      "trial_means_ms": [
+        0.41855916666666665,
+        0.39383708333333334,
+        0.38042041666666665
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 800,
+      "mode": "physics-gpu",
+      "fps": 207.862377091626,
+      "fps_min": 206.97757630810474,
+      "fps_max": 218.53393595280247,
+      "p50_ms": 4.756,
+      "p95_ms": 5.7174,
+      "trial_means_ms": [
+        4.83144125,
+        4.810875416666667,
+        4.575948333333334
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 800,
+      "mode": "sokol-cpu",
+      "fps": 445.1139287647087,
+      "fps_min": 443.76433451251376,
+      "fps_max": 445.4896952664863,
+      "p50_ms": 2.2498,
+      "p95_ms": 2.3315,
+      "trial_means_ms": [
+        2.2466158333333333,
+        2.2447208333333335,
+        2.2534483333333335
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 800,
+      "mode": "sokol-gpu",
+      "fps": 156.74154188352784,
+      "fps_min": 155.6389448846829,
+      "fps_max": 161.42144496002902,
+      "p50_ms": 6.1323,
+      "p95_ms": 6.9451,
+      "trial_means_ms": [
+        6.379929583333333,
+        6.19496375,
+        6.425127083333333
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 1000,
+      "mode": "direct-cpu",
+      "fps": 1340.7370414997024,
+      "fps_min": 935.8440891716042,
+      "fps_max": 1343.043135432603,
+      "p50_ms": 0.742712,
+      "p95_ms": 0.77644503,
+      "trial_means_ms": [
+        0.744577723244826,
+        0.7458584114909173,
+        1.0685540589193503
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 1000,
+      "mode": "direct-gpu",
+      "fps": 249.22458919220716,
+      "fps_min": 206.25639310556963,
+      "fps_max": 251.01269145890424,
+      "p50_ms": 3.433274,
+      "p95_ms": 9.447936,
+      "trial_means_ms": [
+        4.848334565261999,
+        4.012445173412561,
+        3.9838623066743213
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 1000,
+      "mode": "physics-cpu",
+      "fps": 2189.3175897072883,
+      "fps_min": 2127.7916182741837,
+      "fps_max": 2201.713667137589,
+      "p50_ms": 0.449,
+      "p95_ms": 0.5442,
+      "trial_means_ms": [
+        0.46997083333333334,
+        0.45676333333333335,
+        0.45419166666666666
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 1000,
+      "mode": "physics-gpu",
+      "fps": 202.5142652314143,
+      "fps_min": 199.2580791471356,
+      "fps_max": 206.40397575338096,
+      "p50_ms": 4.8587,
+      "p95_ms": 5.8328,
+      "trial_means_ms": [
+        4.93792375,
+        5.018617083333333,
+        4.844867916666667
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 1000,
+      "mode": "sokol-cpu",
+      "fps": 438.68058770769466,
+      "fps_min": 377.17097254478193,
+      "fps_max": 438.96751183154623,
+      "p50_ms": 2.2858,
+      "p95_ms": 2.3512,
+      "trial_means_ms": [
+        2.279562916666667,
+        2.2780729166666664,
+        2.6513175
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 1000,
+      "mode": "sokol-gpu",
+      "fps": 148.05931256061177,
+      "fps_min": 129.80563445154036,
+      "fps_max": 148.4481692289336,
+      "p50_ms": 6.5809,
+      "p95_ms": 7.7883,
+      "trial_means_ms": [
+        7.703825833333333,
+        6.736357916666667,
+        6.75405
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 2000,
+      "mode": "direct-cpu",
+      "fps": 854.7372974258692,
+      "fps_min": 817.507548477928,
+      "fps_max": 962.2845903306323,
+      "p50_ms": 1.0823189,
+      "p95_ms": 1.390205,
+      "trial_means_ms": [
+        1.0391936128338177,
+        1.2232302953799565,
+        1.1699501156806946
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 2000,
+      "mode": "direct-gpu",
+      "fps": 221.8313685358162,
+      "fps_min": 213.94063247835584,
+      "fps_max": 235.96643509330443,
+      "p50_ms": 3.9717941,
+      "p95_ms": 10.965158,
+      "trial_means_ms": [
+        4.237890866150459,
+        4.67419390330712,
+        4.50792873253425
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 2000,
+      "mode": "physics-cpu",
+      "fps": 1170.248765631354,
+      "fps_min": 1170.197982871227,
+      "fps_max": 1202.5120476675777,
+      "p50_ms": 0.8288,
+      "p95_ms": 0.9319,
+      "trial_means_ms": [
+        0.8315925,
+        0.85455625,
+        0.8545191666666667
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 2000,
+      "mode": "physics-gpu",
+      "fps": 189.94846539843354,
+      "fps_min": 189.38695993447843,
+      "fps_max": 190.0374151997626,
+      "p50_ms": 5.1176,
+      "p95_ms": 6.3092,
+      "trial_means_ms": [
+        5.2801945833333335,
+        5.264585833333333,
+        5.262121666666666
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 2000,
+      "mode": "sokol-cpu",
+      "fps": 380.6005972574872,
+      "fps_min": 360.6484459057385,
+      "fps_max": 419.6187868226413,
+      "p50_ms": 2.398,
+      "p95_ms": 2.7765,
+      "trial_means_ms": [
+        2.62742625,
+        2.7727833333333334,
+        2.3831154166666666
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 2000,
+      "mode": "sokol-gpu",
+      "fps": 134.5189911950034,
+      "fps_min": 128.34819667842353,
+      "fps_max": 138.7442512186659,
+      "p50_ms": 7.1731,
+      "p95_ms": 8.3572,
+      "trial_means_ms": [
+        7.791305416666667,
+        7.207505833333333,
+        7.433894583333333
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 5000,
+      "mode": "direct-cpu",
+      "fps": 389.67711840397453,
+      "fps_min": 369.38885595838025,
+      "fps_max": 418.3787138438964,
+      "p50_ms": 2.3933039,
+      "p95_ms": 3.819999,
+      "trial_means_ms": [
+        2.707174252470334,
+        2.566227147479852,
+        2.3901789620518685
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 5000,
+      "mode": "direct-gpu",
+      "fps": 171.36983433101423,
+      "fps_min": 153.26189026425644,
+      "fps_max": 177.46142470023483,
+      "p50_ms": 5.441237,
+      "p95_ms": 12.564335,
+      "trial_means_ms": [
+        5.835332711289326,
+        5.635027452806631,
+        6.524779240787029
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 5000,
+      "mode": "physics-cpu",
+      "fps": 513.177982953938,
+      "fps_min": 425.50362342929327,
+      "fps_max": 550.2157877542598,
+      "p50_ms": 1.8823,
+      "p95_ms": 2.2307,
+      "trial_means_ms": [
+        1.9486416666666666,
+        1.81746875,
+        2.35015625
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 5000,
+      "mode": "physics-gpu",
+      "fps": 123.97280140047943,
+      "fps_min": 123.38271606588452,
+      "fps_max": 127.41010142321862,
+      "p50_ms": 6.8901,
+      "p95_ms": 13.0677,
+      "trial_means_ms": [
+        8.066285416666666,
+        8.104862916666667,
+        7.84867125
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 5000,
+      "mode": "sokol-cpu",
+      "fps": 254.82503235481585,
+      "fps_min": 249.29623154467788,
+      "fps_max": 266.1875881607746,
+      "p50_ms": 3.6946,
+      "p95_ms": 4.7158,
+      "trial_means_ms": [
+        3.756749166666667,
+        4.011292083333333,
+        3.92426125
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 5000,
+      "mode": "sokol-gpu",
+      "fps": 95.36977364699497,
+      "fps_min": 94.06975633032627,
+      "fps_max": 97.69573615507929,
+      "p50_ms": 9.5586,
+      "p95_ms": 16.3897,
+      "trial_means_ms": [
+        10.4855025,
+        10.23586125,
+        10.630409166666666
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 10000,
+      "mode": "direct-cpu",
+      "fps": 169.03290431256156,
+      "fps_min": 166.63640994410585,
+      "fps_max": 180.55889897659236,
+      "p50_ms": 5.684583,
+      "p95_ms": 6.956266,
+      "trial_means_ms": [
+        5.916007916132609,
+        5.538358982404073,
+        6.001089439789454
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 10000,
+      "mode": "direct-gpu",
+      "fps": 129.7007292741956,
+      "fps_min": 129.20593795010515,
+      "fps_max": 131.37195300176884,
+      "p50_ms": 7.405366,
+      "p95_ms": 13.810592,
+      "trial_means_ms": [
+        7.710056879371405,
+        7.739582374195257,
+        7.611974832912286
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 10000,
+      "mode": "physics-cpu",
+      "fps": 219.50029659977577,
+      "fps_min": 185.95092708546483,
+      "fps_max": 223.66121290543836,
+      "p50_ms": 4.3494,
+      "p95_ms": 5.7732,
+      "trial_means_ms": [
+        5.377762916666667,
+        4.5558025,
+        4.471047916666667
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 10000,
+      "mode": "physics-gpu",
+      "fps": 87.43428994339905,
+      "fps_min": 75.65453227862089,
+      "fps_max": 108.19999037020085,
+      "p50_ms": 11.48,
+      "p95_ms": 15.1728,
+      "trial_means_ms": [
+        13.21797875,
+        11.437160416666666,
+        9.242145
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 10000,
+      "mode": "sokol-cpu",
+      "fps": 112.864370274892,
+      "fps_min": 112.68660020630098,
+      "fps_max": 114.98729007153743,
+      "p50_ms": 8.5057,
+      "p95_ms": 10.623,
+      "trial_means_ms": [
+        8.696613333333334,
+        8.874169583333334,
+        8.860192083333333
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 10000,
+      "mode": "sokol-gpu",
+      "fps": 64.43492889699564,
+      "fps_min": 63.819131475866875,
+      "fps_max": 65.5517515509954,
+      "p50_ms": 14.0139,
+      "p95_ms": 20.0301,
+      "trial_means_ms": [
+        15.519532916666666,
+        15.2551225,
+        15.6692825
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 15000,
+      "mode": "direct-cpu",
+      "fps": 113.26368987959432,
+      "fps_min": 106.7668434192468,
+      "fps_max": 118.01007287728412,
+      "p50_ms": 8.338285,
+      "p95_ms": 10.454792,
+      "trial_means_ms": [
+        9.366203663746516,
+        8.473852914571761,
+        8.828954813877742
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 15000,
+      "mode": "direct-gpu",
+      "fps": 100.44348644354658,
+      "fps_min": 99.61243184122046,
+      "fps_max": 100.50261631151753,
+      "p50_ms": 9.688447,
+      "p95_ms": 16.925238,
+      "trial_means_ms": [
+        9.955847167472045,
+        10.038907609383266,
+        9.949989728629589
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 15000,
+      "mode": "physics-cpu",
+      "fps": 132.34360170796035,
+      "fps_min": 131.74146462146092,
+      "fps_max": 139.45546707558108,
+      "p50_ms": 6.9892,
+      "p95_ms": 8.7123,
+      "trial_means_ms": [
+        7.590624583333334,
+        7.1707479166666666,
+        7.55608875
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 15000,
+      "mode": "physics-gpu",
+      "fps": 76.8449905903309,
+      "fps_min": 76.46322658822645,
+      "fps_max": 78.8935858331314,
+      "p50_ms": 12.0976,
+      "p95_ms": 18.4499,
+      "trial_means_ms": [
+        13.01321,
+        13.078182083333333,
+        12.675301666666666
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 15000,
+      "mode": "sokol-cpu",
+      "fps": 69.32849374228017,
+      "fps_min": 68.74006759726397,
+      "fps_max": 69.55938246803296,
+      "p50_ms": 13.8742,
+      "p95_ms": 17.4789,
+      "trial_means_ms": [
+        14.54755625,
+        14.42408375,
+        14.376205833333334
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 15000,
+      "mode": "sokol-gpu",
+      "fps": 54.6076812393104,
+      "fps_min": 52.87687546841476,
+      "fps_max": 54.8392921974815,
+      "p50_ms": 16.9572,
+      "p95_ms": 25.5541,
+      "trial_means_ms": [
+        18.91185875,
+        18.23510041666667,
+        18.312442083333334
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 20000,
+      "mode": "direct-cpu",
+      "fps": 81.37242797953654,
+      "fps_min": 80.10962531691399,
+      "fps_max": 81.95337372405459,
+      "p50_ms": 11.8672495,
+      "p95_ms": 14.533836,
+      "trial_means_ms": [
+        12.482894484202067,
+        12.202060202757517,
+        12.289174906412761
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 20000,
+      "mode": "direct-gpu",
+      "fps": 78.96796054677402,
+      "fps_min": 69.65054961616717,
+      "fps_max": 79.28296291050458,
+      "p50_ms": 12.436877,
+      "p95_ms": 20.124125,
+      "trial_means_ms": [
+        12.663363636036713,
+        12.61305031105876,
+        14.357388498882452
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 20000,
+      "mode": "physics-cpu",
+      "fps": 98.93110301955451,
+      "fps_min": 95.66713958122666,
+      "fps_max": 100.48725852964112,
+      "p50_ms": 9.6558,
+      "p95_ms": 12.0398,
+      "trial_means_ms": [
+        10.108044583333333,
+        10.45291,
+        9.951510416666666
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 20000,
+      "mode": "physics-gpu",
+      "fps": 60.24852214140719,
+      "fps_min": 57.67435793480332,
+      "fps_max": 61.52023735122772,
+      "p50_ms": 14.5864,
+      "p95_ms": 23.7428,
+      "trial_means_ms": [
+        17.338727916666667,
+        16.25481375,
+        16.5979175
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 20000,
+      "mode": "sokol-cpu",
+      "fps": 50.18940330633987,
+      "fps_min": 48.76862374679623,
+      "fps_max": 51.06034899237933,
+      "p50_ms": 19.9904,
+      "p95_ms": 22.6346,
+      "trial_means_ms": [
+        19.584668333333333,
+        20.504987083333333,
+        19.924524583333334
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 20000,
+      "mode": "sokol-gpu",
+      "fps": 43.98623897844599,
+      "fps_min": 42.763155550265594,
+      "fps_max": 44.532961126844235,
+      "p50_ms": 21.3344,
+      "p95_ms": 29.9646,
+      "trial_means_ms": [
+        23.384616666666666,
+        22.734382916666668,
+        22.4552775
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 30000,
+      "mode": "direct-cpu",
+      "fps": 49.50329220420271,
+      "fps_min": 48.74274906250241,
+      "fps_max": 50.67387453870544,
+      "p50_ms": 19.394257,
+      "p95_ms": 25.840948,
+      "trial_means_ms": [
+        20.51587198575338,
+        19.734034729003906,
+        20.20067667166392
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 30000,
+      "mode": "direct-gpu",
+      "fps": 52.91200988980571,
+      "fps_min": 52.145016229721435,
+      "fps_max": 53.517167041894226,
+      "p50_ms": 17.96747,
+      "p95_ms": 26.044668,
+      "trial_means_ms": [
+        18.899300973117352,
+        18.685592965284982,
+        19.177288115024567
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 30000,
+      "mode": "physics-cpu",
+      "fps": 58.688781121071145,
+      "fps_min": 57.455098242233085,
+      "fps_max": 58.963550501986184,
+      "p50_ms": 16.5861,
+      "p95_ms": 20.8836,
+      "trial_means_ms": [
+        16.95963,
+        17.404895833333335,
+        17.039031666666666
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 30000,
+      "mode": "physics-gpu",
+      "fps": 49.26637745250336,
+      "fps_min": 49.21552907431988,
+      "fps_max": 49.30330931618488,
+      "p50_ms": 19.9637,
+      "p95_ms": 21.4244,
+      "trial_means_ms": [
+        20.282614166666665,
+        20.31879,
+        20.29781875
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 30000,
+      "mode": "sokol-cpu",
+      "fps": 30.605607306874504,
+      "fps_min": 29.79557886496796,
+      "fps_max": 30.614201239135305,
+      "p50_ms": 32.0429,
+      "p95_ms": 37.3646,
+      "trial_means_ms": [
+        32.67375125,
+        33.56202625,
+        32.66457916666667
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 30000,
+      "mode": "sokol-gpu",
+      "fps": 34.03009093776126,
+      "fps_min": 33.74379662478799,
+      "fps_max": 34.244658853424326,
+      "p50_ms": 28.7653,
+      "p95_ms": 36.194,
+      "trial_means_ms": [
+        29.635076666666667,
+        29.3857575,
+        29.20163416666667
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 40000,
+      "mode": "direct-cpu",
+      "fps": 34.896534767057815,
+      "fps_min": 34.11877775592183,
+      "fps_max": 35.63336273268207,
+      "p50_ms": 28.12678,
+      "p95_ms": 36.07248,
+      "trial_means_ms": [
+        29.30937348206838,
+        28.656140406926472,
+        28.063587697347007
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 40000,
+      "mode": "direct-gpu",
+      "fps": 39.01734562851103,
+      "fps_min": 38.395885542462885,
+      "fps_max": 39.09101417216803,
+      "p50_ms": 24.618656,
+      "p95_ms": 33.412827,
+      "trial_means_ms": [
+        26.04445726076762,
+        25.58132658302784,
+        25.629626615842184
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 40000,
+      "mode": "physics-cpu",
+      "fps": 37.500107812809965,
+      "fps_min": 37.35133526588105,
+      "fps_max": 38.57059000547622,
+      "p50_ms": 25.5483,
+      "p95_ms": 34.6905,
+      "trial_means_ms": [
+        26.772804583333333,
+        26.66659,
+        25.926489583333332
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 40000,
+      "mode": "physics-gpu",
+      "fps": 36.85213938953203,
+      "fps_min": 36.8133256385302,
+      "fps_max": 37.038005283656645,
+      "p50_ms": 26.2088,
+      "p95_ms": 29.9105,
+      "trial_means_ms": [
+        27.164076666666666,
+        26.999294166666665,
+        27.135466666666666
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 40000,
+      "mode": "sokol-cpu",
+      "fps": 21.408493893097777,
+      "fps_min": 21.279843373259492,
+      "fps_max": 21.44686713815936,
+      "p50_ms": 46.1012,
+      "p95_ms": 54.1817,
+      "trial_means_ms": [
+        46.99282708333333,
+        46.71043208333333,
+        46.62685666666667
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 40000,
+      "mode": "sokol-gpu",
+      "fps": 26.113181819937534,
+      "fps_min": 25.833131682418973,
+      "fps_max": 26.380585920067947,
+      "p50_ms": 37.1103,
+      "p95_ms": 45.1325,
+      "trial_means_ms": [
+        37.90666375,
+        38.294835416666665,
+        38.709979583333336
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 50000,
+      "mode": "direct-cpu",
+      "fps": 25.864672820196905,
+      "fps_min": 25.825831003183847,
+      "fps_max": 26.506079168273082,
+      "p50_ms": 37.46279,
+      "p95_ms": 47.065567,
+      "trial_means_ms": [
+        38.66277400652567,
+        38.72092247009277,
+        37.72719434102376
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 50000,
+      "mode": "direct-gpu",
+      "fps": 31.81296701715736,
+      "fps_min": 31.569170785646005,
+      "fps_max": 31.993887430853334,
+      "p50_ms": 30.588127,
+      "p95_ms": 35.592075,
+      "trial_means_ms": [
+        31.67647344271342,
+        31.255970446268716,
+        31.433723219235738
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 50000,
+      "mode": "physics-cpu",
+      "fps": 28.34784071485317,
+      "fps_min": 27.933602339355396,
+      "fps_max": 29.335210232678694,
+      "p50_ms": 33.5279,
+      "p95_ms": 42.7633,
+      "trial_means_ms": [
+        35.799177916666665,
+        34.08872791666667,
+        35.276055416666665
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 50000,
+      "mode": "physics-gpu",
+      "fps": 31.185182734645828,
+      "fps_min": 30.99943976262489,
+      "fps_max": 31.219084569807453,
+      "p50_ms": 31.9718,
+      "p95_ms": 34.1742,
+      "trial_means_ms": [
+        32.2586475,
+        32.06651083333333,
+        32.03168875
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 50000,
+      "mode": "sokol-cpu",
+      "fps": 15.86638620008367,
+      "fps_min": 15.819519322587091,
+      "fps_max": 15.985624980022132,
+      "p50_ms": 61.5196,
+      "p95_ms": 70.4564,
+      "trial_means_ms": [
+        63.02632416666667,
+        62.55620291666666,
+        63.21304583333333
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 50000,
+      "mode": "sokol-gpu",
+      "fps": 21.22764194190044,
+      "fps_min": 21.190944501940578,
+      "fps_max": 21.63371623328444,
+      "p50_ms": 45.5273,
+      "p95_ms": 57.6706,
+      "trial_means_ms": [
+        47.18996833333333,
+        47.10838833333333,
+        46.22414333333333
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 60000,
+      "mode": "direct-cpu",
+      "fps": 20.520023383812198,
+      "fps_min": 19.702402096114998,
+      "fps_max": 20.76752149474798,
+      "p50_ms": 47.27632,
+      "p95_ms": 57.68067,
+      "trial_means_ms": [
+        48.73288793563843,
+        50.7552325407664,
+        48.152110989888506
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 60000,
+      "mode": "direct-gpu",
+      "fps": 26.912283447293202,
+      "fps_min": 26.308703069306684,
+      "fps_max": 27.128488069882366,
+      "p50_ms": 36.208622,
+      "p95_ms": 46.449486,
+      "trial_means_ms": [
+        37.157753705978394,
+        38.01023552417755,
+        36.86161932150523
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 60000,
+      "mode": "physics-cpu",
+      "fps": 22.370038882296665,
+      "fps_min": 21.879121536496317,
+      "fps_max": 22.591057847462825,
+      "p50_ms": 43.3069,
+      "p95_ms": 52.3731,
+      "trial_means_ms": [
+        45.70567416666667,
+        44.26530208333333,
+        44.70264916666667
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 60000,
+      "mode": "physics-gpu",
+      "fps": 26.207690509189543,
+      "fps_min": 26.131000038271026,
+      "fps_max": 26.58392390812569,
+      "p50_ms": 37.2486,
+      "p95_ms": 40.5046,
+      "trial_means_ms": [
+        38.15673875,
+        38.26872291666667,
+        37.61671916666667
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 60000,
+      "mode": "sokol-cpu",
+      "fps": 12.813488810925218,
+      "fps_min": 12.727040458784355,
+      "fps_max": 12.87682160682592,
+      "p50_ms": 76.2359,
+      "p95_ms": 88.6025,
+      "trial_means_ms": [
+        78.0427575,
+        78.5728625,
+        77.65891541666667
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 60000,
+      "mode": "sokol-gpu",
+      "fps": 18.38375594166822,
+      "fps_min": 18.31145929062368,
+      "fps_max": 18.64745212480336,
+      "p50_ms": 53.0864,
+      "p95_ms": 64.4012,
+      "trial_means_ms": [
+        54.39584833333333,
+        54.610612083333336,
+        53.62662916666667
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 80000,
+      "mode": "direct-cpu",
+      "fps": 14.491700878740918,
+      "fps_min": 14.16433890306651,
+      "fps_max": 14.769916531701046,
+      "p50_ms": 67.77524,
+      "p95_ms": 79.84777,
+      "trial_means_ms": [
+        69.00501248041789,
+        70.59983574549356,
+        67.7051896572113
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 80000,
+      "mode": "direct-gpu",
+      "fps": 19.587464538887488,
+      "fps_min": 19.439815383600802,
+      "fps_max": 19.757993732698576,
+      "p50_ms": 49.75371,
+      "p95_ms": 59.263348,
+      "trial_means_ms": [
+        50.61242621739705,
+        51.440817737579344,
+        51.053059879938765
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 80000,
+      "mode": "physics-cpu",
+      "fps": 15.333910761558998,
+      "fps_min": 14.622407757830702,
+      "fps_max": 15.770113898136326,
+      "p50_ms": 63.3658,
+      "p95_ms": 77.9615,
+      "trial_means_ms": [
+        63.411082916666665,
+        68.38819,
+        65.21493541666666
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 80000,
+      "mode": "physics-gpu",
+      "fps": 19.699980137495025,
+      "fps_min": 19.666976465250386,
+      "fps_max": 19.89269136302856,
+      "p50_ms": 49.9328,
+      "p95_ms": 53.0772,
+      "trial_means_ms": [
+        50.84665666666667,
+        50.7614725,
+        50.26971875
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 80000,
+      "mode": "sokol-cpu",
+      "fps": 8.962633704569605,
+      "fps_min": 8.887957332205392,
+      "fps_max": 8.977591650690139,
+      "p50_ms": 110.7315,
+      "p95_ms": 123.1585,
+      "trial_means_ms": [
+        112.51179125,
+        111.57434666666667,
+        111.38844791666666
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 80000,
+      "mode": "sokol-gpu",
+      "fps": 13.861146462007918,
+      "fps_min": 13.848634243074736,
+      "fps_max": 13.93686930367487,
+      "p50_ms": 70.2071,
+      "p95_ms": 85.0793,
+      "trial_means_ms": [
+        71.75212583333334,
+        72.20928666666667,
+        72.14410458333333
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 100000,
+      "mode": "direct-cpu",
+      "fps": 11.397635924029816,
+      "fps_min": 11.162969500206277,
+      "fps_max": 11.413992636738042,
+      "p50_ms": 86.71133,
+      "p95_ms": 100.80355,
+      "trial_means_ms": [
+        87.61176144282022,
+        89.58189843495687,
+        87.73749281565348
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 100000,
+      "mode": "direct-gpu",
+      "fps": 15.88230540641241,
+      "fps_min": 15.64514445721454,
+      "fps_max": 15.989986682366315,
+      "p50_ms": 62.283894,
+      "p95_ms": 65.03026,
+      "trial_means_ms": [
+        63.917594544092815,
+        62.963151407241824,
+        62.53913901646932
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 100000,
+      "mode": "physics-cpu",
+      "fps": 12.051471170538454,
+      "fps_min": 11.965156507038982,
+      "fps_max": 12.086053364689523,
+      "p50_ms": 81.7538,
+      "p95_ms": 95.0613,
+      "trial_means_ms": [
+        82.73999541666667,
+        82.97742125,
+        83.57600666666667
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 100000,
+      "mode": "physics-gpu",
+      "fps": 15.816026190864891,
+      "fps_min": 15.579389005834201,
+      "fps_max": 15.878332594064632,
+      "p50_ms": 62.3237,
+      "p95_ms": 66.2338,
+      "trial_means_ms": [
+        62.978905,
+        63.22700708333333,
+        64.18736958333334
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 100000,
+      "mode": "sokol-gpu",
+      "fps": 11.185730967034825,
+      "fps_min": 11.075872709314542,
+      "fps_max": 11.23414870394552,
+      "p50_ms": 87.5989,
+      "p95_ms": 102.2129,
+      "trial_means_ms": [
+        90.28633916666666,
+        89.39961125,
+        89.01431041666666
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 150000,
+      "mode": "direct-cpu",
+      "fps": 7.047803332811311,
+      "fps_min": 7.016491557091403,
+      "fps_max": 7.166671550114745,
+      "p50_ms": 139.7193,
+      "p95_ms": 162.41287,
+      "trial_means_ms": [
+        139.53478864034017,
+        142.52137152353922,
+        141.8881817181905
+      ],
+      "framebuffer": [
+        2040,
+        1148
+      ]
+    },
+    {
+      "count": 150000,
+      "mode": "physics-cpu",
+      "fps": 7.474161007909297,
+      "fps_min": 7.331324214479539,
+      "fps_max": 7.555171640907728,
+      "p50_ms": 133.2956,
+      "p95_ms": 147.142,
+      "trial_means_ms": [
+        132.35966666666667,
+        136.40100625,
+        133.79428125
+      ],
+      "framebuffer": null
+    }
+  ],
+  "stopped": {
+    "sokol-cpu": {
+      "count": 80000,
+      "reason": "10 FPS threshold"
+    },
+    "physics-gpu": {
+      "count": 150000,
+      "reason": "invalid; inspect raw log",
+      "error": "Command '['/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/gpu-physics', '--scene', 'falling-cubes', '--bodies', '150000', '--warmup', '90', '--frames', '240', '--no-sleep', '--bench', '/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/scaling-profile/complete-scene/sweep/150000-physics-gpu-1.json', '--metric-runs', '1']' returned non-zero exit status 101."
+    },
+    "sokol-gpu": {
+      "count": 150000,
+      "reason": "invalid; inspect raw log",
+      "error": "Command '['/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu-native-cache-portable/bin/samples_gpu', '--sample-name', 'GPU Bench/Falling Cubes', '--bench-json', '/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/scaling-profile/complete-scene/sweep/150000-sokol-gpu-1.json', '--warmup', '90', '--timed', '240', '--unpaced', '--no-sleep', '--workers', '8']' died with <Signals.SIGABRT: 6>."
+    },
+    "direct-gpu": {
+      "count": 150000,
+      "reason": "invalid; inspect raw log",
+      "error": "Command '['/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/gpu-physics', '--scene', 'falling-cubes', '--bodies', '150000', '--warmup', '90', '--frames', '240', '--no-sleep', '--native-timeline', '/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/scaling-profile/complete-scene/sweep/150000-direct-gpu-1.json']' died with <Signals.SIGABRT: 6>."
+    },
+    "physics-cpu": {
+      "count": 150000,
+      "reason": "10 FPS threshold"
+    },
+    "direct-cpu": {
+      "count": 150000,
+      "reason": "10 FPS threshold"
+    }
+  },
+  "raw_sha256": {
+    "sweep/10-direct-cpu-1.cadence.json": "b928f40a79f82e94e919215ad23400355d9a3ff261474035d3c1116b11f83a4c",
+    "sweep/10-direct-cpu-1.json": "729a263343564bed04fb19f077a4ec2000084c340e48c907a73de0077e332c5e",
+    "sweep/10-direct-cpu-2.cadence.json": "70f86f2a281b7c0e54bac494ee0f678fa9fc56fbf4d58eb75e68fa643eda76df",
+    "sweep/10-direct-cpu-2.json": "ce2b25b5aebc8c07add8d96bdf3c43f15bb047f2514e62f63347fd0a05b28fa5",
+    "sweep/10-direct-cpu-3.cadence.json": "e4c0a5ecd4a843bdbae2c60228dc78f630e775606167ff4931ae097db6a7807b",
+    "sweep/10-direct-cpu-3.json": "51233bdd2d1079471e2a1604a56089dc7a860889ece9199703c24abdb8179527",
+    "sweep/10-direct-gpu-1.cadence.json": "1b125efaf8e837f63206f0a5c9b92d60f3103a1c39d5a671486f698d3b900893",
+    "sweep/10-direct-gpu-1.json": "5ed460f303ecff24dd8713e159f867a55a11e327b20de3bb3a4dbec01a843407",
+    "sweep/10-direct-gpu-2.cadence.json": "2341b369f798e6665c90e010bac7bcef25017a380fb1921789ec2d32ab0b27a1",
+    "sweep/10-direct-gpu-2.json": "9d98442d8b8d590ea7f0b5e03a31af037bebaf83e14b4f76055cc9d95c05d488",
+    "sweep/10-direct-gpu-3.cadence.json": "b6ae1c5faccda894fae08ae5dcc564683a15e511aa2c18a8b6363a3bd8f3b468",
+    "sweep/10-direct-gpu-3.json": "3619288b2db691a8d2c740825449000ff91daff494660132183452b42809d221",
+    "sweep/10-physics-cpu-1.json": "20d441fe3ff8545e178de182c097b375b943c350138c48159370cadb44d60d91",
+    "sweep/10-physics-cpu-2.json": "68a10c62877a817bdb93c37d6d648e45c50e906d84ef41dcb5fe5970bf519c21",
+    "sweep/10-physics-cpu-3.json": "942526f6f56a6aec4ed57b69ebc8b616a73a9a88a1a54620e1323e989e135ac8",
+    "sweep/10-physics-gpu-1.json": "15fb323a314369e19bb2416d65e676f2d19f1559e0a854cee4ad7523e06bf9a3",
+    "sweep/10-physics-gpu-2.json": "4169afdd0f68ab0da3d2d990fe1ee099965fdd0fc4ed018d04b0987a8d0f54f8",
+    "sweep/10-physics-gpu-3.json": "0bcb7dd5587067c531d603cd01a86976ea0e858fdfbe08e47681567faf472893",
+    "sweep/10-sokol-cpu-1.json": "dfe24e5a9729abf83bf6a88b7a942bb9fa44dae93dd650fee3e61add3c209773",
+    "sweep/10-sokol-cpu-2.json": "6d07535f77c99d083799c995de9d042bd09101a1d5424bfaed9586c3158e742e",
+    "sweep/10-sokol-cpu-3.json": "f8f4b617020a81fc4d3f559eadba1942df6bd4b42c5fc78790e65d0e96409710",
+    "sweep/10-sokol-gpu-1.json": "1b7a41a0d9de6332025b081506396e3b9d26196c890a7b33526bfb1ee0221d4d",
+    "sweep/10-sokol-gpu-2.json": "52218f231cc76fff13372d71bbbc6e37fc0973428370360f1a9b6b35e27cf838",
+    "sweep/10-sokol-gpu-3.json": "34b4931a0038ee72f076ddb4934b22a063eae8e332c1fb18c06e8991d0fbac98",
+    "sweep/100-direct-cpu-1.cadence.json": "ff3fe86f7fe4ef8406b001204e7881c017238a7641ba138f8d57a68ec1c6a992",
+    "sweep/100-direct-cpu-1.json": "f7168d2ce32e580ac774b3bde2d3233f9704a16e5ff648c821b2d045b76aa462",
+    "sweep/100-direct-cpu-2.cadence.json": "bc2e238b0b731610c62c8b7107fdedc3826e9c5a6aeeac2a5508d86ba3c8c590",
+    "sweep/100-direct-cpu-2.json": "ef0ea3ef72b4785577c5d0eaa9deac697f43e82b02ea8d4d2545ce80985c84ab",
+    "sweep/100-direct-cpu-3.cadence.json": "0644efd942f0a702a7f1cb79b8805cd090a86fe69912fd3b3e3122ceb088187f",
+    "sweep/100-direct-cpu-3.json": "5ad78ba37bc8868d796e0a96e6d13138e2d8faa63f7eca7083ea797b759b804c",
+    "sweep/100-direct-gpu-1.cadence.json": "4f63c9c8518ef731ef495cc25d2bbbb6239a0f4b52935698fa4a8fcc8603919a",
+    "sweep/100-direct-gpu-1.json": "0c824e7bbf54f67ddfc51094c5504eec4c2f94a65620e5c3e73dc1f1659bb708",
+    "sweep/100-direct-gpu-2.cadence.json": "31e88a2543a73c9679bd21fc91b3d54a305ccbfe2de1c19f20aa5ddf656bf9c6",
+    "sweep/100-direct-gpu-2.json": "5321b99bdbc084acf35d8b64ef1ca1c7f3b73d23cd99f9a7bb48d087556ec342",
+    "sweep/100-direct-gpu-3.cadence.json": "716f6d9e27e95767743d28ecc153177112bf38e2eceeeb7d86f3f7d819ac5738",
+    "sweep/100-direct-gpu-3.json": "be6c1f2ae79f83508808ed61b2486355db01a3c04fbda6fb7cd40f6d2987993f",
+    "sweep/100-physics-cpu-1.json": "da6ae410b6840626a94a31804565c4205daad9f63b25e86c100e3902ab912d83",
+    "sweep/100-physics-cpu-2.json": "b89efe05e820acd7be93c10fa7900a19a3019bd91b6d5c7047692e228ce09abf",
+    "sweep/100-physics-cpu-3.json": "d15981bd090c6bd0f2e2dcd580a3600cf3bb8bc09160c02a9d4becea5ec12b8b",
+    "sweep/100-physics-gpu-1.json": "bd10cb88b59e6a3798a5205577d98dfd517caa382969505c85bd3121a97fc38f",
+    "sweep/100-physics-gpu-2.json": "3a0608821bf25f40632cf279791c79857c3fdcd78bafd4a08af8adcab0fea922",
+    "sweep/100-physics-gpu-3.json": "f834321a08fb333acc5d938751305aa328cf0193db5b9c80dfa73b5f5aef1145",
+    "sweep/100-sokol-cpu-1.json": "0a117bbd9fd51afdd1eeaf909c9c43826d50d55acc1af4d1b2a57f0b69dc81ac",
+    "sweep/100-sokol-cpu-2.json": "9a9728d270df245d6f081331d95f7b5b79182da9b7634a81619e44195d521841",
+    "sweep/100-sokol-cpu-3.json": "577d3bda24d9e11eed98597ba4127813341d44aa44510acef09325b82e8d78e0",
+    "sweep/100-sokol-gpu-1.json": "76bbe6357160d994a81e07d0a3c04418493024a9ceaf7283e79072a02e8862fe",
+    "sweep/100-sokol-gpu-2.json": "347934db5b81b8f7d18ee11f890a168c6f21b36bea6a18e7da8cbf2e590554b6",
+    "sweep/100-sokol-gpu-3.json": "595a730fd7323273f37da6c3a53149cea52548802999f5a74109f9ca39d6e80b",
+    "sweep/1000-direct-cpu-1.cadence.json": "1cf7c889ffa77161ed371bfc70e800f85a7aff6460e0f8d725be2c24a8e16a15",
+    "sweep/1000-direct-cpu-1.json": "34fcd22b170fe08a07255c76d6fdef3c3a8e8c8822c6f166c6652dadcf126db6",
+    "sweep/1000-direct-cpu-2.cadence.json": "be78e36952c868006297c6dcb5e28c465f3acb481364494681d033ac9303f2e8",
+    "sweep/1000-direct-cpu-2.json": "091215bad912d2e07e05f71abb68cb920cd84e82ab94530c22a716540570b449",
+    "sweep/1000-direct-cpu-3.cadence.json": "cf1c684d6f06979f070a450bdc6eca26310cf6a01cfb4a715b7b178775cc2e90",
+    "sweep/1000-direct-cpu-3.json": "ce351d36b39fd1b17ed32135820f4108c6e7f140979bd49102de8a8d9ced3fc9",
+    "sweep/1000-direct-gpu-1.cadence.json": "bafd454da554c9f7cf1bb57b82e426d15b2d4484d88fa12f7eddd9c310a610e7",
+    "sweep/1000-direct-gpu-1.json": "9970b6eb40836458b44c665fcdea893fabff00e2c4c5f70aa166db9da40b0bef",
+    "sweep/1000-direct-gpu-2.cadence.json": "d3e3c2dfaad8e5320f59dbe11d72ba9bc11627277cf6fef303b38f2cf3660f17",
+    "sweep/1000-direct-gpu-2.json": "ccf8d062f102fad1d7dab1d51a32b23f1218b8b08121f3c90a3a431ae04bb3ef",
+    "sweep/1000-direct-gpu-3.cadence.json": "8141bd3ccbe6a6e11eac299ac4f0aaa9221f590bd6cfd871c08ba088c26fd7be",
+    "sweep/1000-direct-gpu-3.json": "a7c08da6089ccf5735b7c92568d6109aa0434164990eb29d4416ab56e7cd5ee6",
+    "sweep/1000-physics-cpu-1.json": "1b590ce595fa511e1f430c96ad1c7554f18d62ff8777faecd31a35159ad49b58",
+    "sweep/1000-physics-cpu-2.json": "9508a099764eb8fdbe73db9be5ab421ab694ab1c6a2749fe60547b6c3f38742c",
+    "sweep/1000-physics-cpu-3.json": "295886dc3b45e41667d236b05006b1ab5ee0567f94463064988178b982190dda",
+    "sweep/1000-physics-gpu-1.json": "f06a5e030da944853e7ba542608a1c1d56349df3e8d12200db5ae017c4450662",
+    "sweep/1000-physics-gpu-2.json": "fb0f6d2bebdd3a608d0228b454e80fa8627f4c31cc98f54d7444daeebd464146",
+    "sweep/1000-physics-gpu-3.json": "e650d1748128eb65409425f64e67080e3b2f8f1efff78a3af0b19ebf8075875c",
+    "sweep/1000-sokol-cpu-1.json": "4e38dce584bb9d21da42cce695d923b0d4c785dc51649be773888f8eff6a99a8",
+    "sweep/1000-sokol-cpu-2.json": "9e42115ae753e8cb163b26b250cdf669d903c485cfb583074345ba893ce2664d",
+    "sweep/1000-sokol-cpu-3.json": "c54c21ed4792ac29afaafaa16805d68e4e2bbde782376f616b217c3f481c7688",
+    "sweep/1000-sokol-gpu-1.json": "f7997cb3441365dd7834d0f820fdc115d9b155ed374a30b5ebe12c6c562c04db",
+    "sweep/1000-sokol-gpu-2.json": "070c6916012f8c05082e23ad4786add49c3a0e20bcde903b2b2b8504c6b3a06f",
+    "sweep/1000-sokol-gpu-3.json": "5cb77100a5e66826c6e19bef101636feee874adb05a6a3e4aa7863efb0468e04",
+    "sweep/10000-direct-cpu-1.cadence.json": "4c8171abf43bfbce6675557c0ba187f1b5fd11f1c5cc16669240152c3bf6fca6",
+    "sweep/10000-direct-cpu-1.json": "8bf247e05cacf2d0d8077257245868b7892dc77f83f53c1b0079b59a6e1cbdd6",
+    "sweep/10000-direct-cpu-2.cadence.json": "ea0f79af7d92eafeabe4f1d60791dc13d7727287f2902b99f232cea658f6b8e2",
+    "sweep/10000-direct-cpu-2.json": "a164a5494e535a4bc9b585275f9f876b48514d82a842d6d7bc8bf155f0cb3bd0",
+    "sweep/10000-direct-cpu-3.cadence.json": "10ce50ac74e570033a10c4e73bb52bc37c038fea45b11b9cc14d31013c170b51",
+    "sweep/10000-direct-cpu-3.json": "8e725fe6eef0539e8f74cd1962ac4b2ee4d7d98bf62f5e8ad862a7250f061822",
+    "sweep/10000-direct-gpu-1.cadence.json": "f781b0b21097755463921b7d5866201c4fadd5ad4eda1f414a231cd34c900a0e",
+    "sweep/10000-direct-gpu-1.json": "7bdb90c87788ea3acd062710701978caa9055c5c7be548a5420e6bfce09cf8bc",
+    "sweep/10000-direct-gpu-2.cadence.json": "148daf6b141a636a3676a5c08e5a0f341668b4dd0b1a0387a1f95c37bd9bff68",
+    "sweep/10000-direct-gpu-2.json": "c1710dd90384722407c641bc42de44a99e39901888abbd7c278bf24dcb704e5d",
+    "sweep/10000-direct-gpu-3.cadence.json": "5d131bcd542d4a4fe0f2962a3c597a9f711a55b9b62eead55d9533cad8a633d7",
+    "sweep/10000-direct-gpu-3.json": "25c6415c809f1493dd97045c79661c6ef184067c62b2aaa47278842386c8c09a",
+    "sweep/10000-physics-cpu-1.json": "2b31e0a96e00a2a47088355c09e9dada399ad7dbf25193ed3508a53d8dfcc5f3",
+    "sweep/10000-physics-cpu-2.json": "a5bb1f39f28b6a256af5f3d2366e3dd0923b6e028ddabcf8decf9cb9f1af084a",
+    "sweep/10000-physics-cpu-3.json": "14b09f3169259f81f4b6e7f8f592b6cb8a245b53de49a55b90ea33a992a74d53",
+    "sweep/10000-physics-gpu-1.json": "ac3dca3cb47148b973096e600c544a9b5cecbba68e919de919655e488d596b98",
+    "sweep/10000-physics-gpu-2.json": "e67f95c7a260502ff01d1593c490c198d662eaf2ca440157e9e0ef067ddac282",
+    "sweep/10000-physics-gpu-3.json": "64e489cb7989260378d8ae8beaabb29fcbe80891ad8bcafc1059da158b7fd610",
+    "sweep/10000-sokol-cpu-1.json": "268420103f8384f1c13e0043a3648b0381971cdd2d6409daaf384895e1aa6203",
+    "sweep/10000-sokol-cpu-2.json": "856f10911215fafa1c89d5579a2f5d2eecb571017a637772a401c3096a445483",
+    "sweep/10000-sokol-cpu-3.json": "eedad19e527f594e3bbafee4ada098df6f8e7bf64919162c5584ebbfb75b7bd9",
+    "sweep/10000-sokol-gpu-1.json": "60fd2dd1588a38076ef9388c904e5e26128d56d8dbef962f61bd1fbc42cb3537",
+    "sweep/10000-sokol-gpu-2.json": "9a7fce97bfe1cb185c79d2bf67eee8c9cd498d6834d462530bee8fd1ce5eba55",
+    "sweep/10000-sokol-gpu-3.json": "c20c3a714a4debff7e054321994dd6efbf61e2fe8ecfa75c98f70fdbca47a378",
+    "sweep/100000-direct-cpu-1.cadence.json": "aaf4201eebfe3f2e39fca3e22c792d184d37e5b1de0b363fc46591502b5b4610",
+    "sweep/100000-direct-cpu-1.json": "32231110a981d98dce98a0b8ae55f2d92599ee9f4d89524f48c54b740d50b74f",
+    "sweep/100000-direct-cpu-2.cadence.json": "687ce72dbd209c5233695db81c3280f7b9e1ee7878c98be35538ff65d2f4c953",
+    "sweep/100000-direct-cpu-2.json": "a414243932328cdf68a1b0ea01b1177c5f624d810e77ea03670c810fe33b614c",
+    "sweep/100000-direct-cpu-3.cadence.json": "37e01e65519e707392d2d41def5f542db4e44ccf4dceb26ebf02ff7b563e6bb9",
+    "sweep/100000-direct-cpu-3.json": "b798df4043690cd01167b90c69519969d3d5f5b42c431f9f4198449c9764dc95",
+    "sweep/100000-direct-gpu-1.cadence.json": "8f6d2b422c3fd093aed8f3d1e9593cb0ce15c71c1a5b53c56128cc2165cc52d2",
+    "sweep/100000-direct-gpu-1.json": "ca13949dddc50bef5d8c8a70dfcac3b62b6398446fa69f87b8dd3eee92e8affd",
+    "sweep/100000-direct-gpu-2.cadence.json": "b8ec0f88767bdecba8829412308869b04909bac435b9e2de4c21525e8022886f",
+    "sweep/100000-direct-gpu-2.json": "6985f5f6101544113726d831d07b2f458a9e340e0026a77aba7e31ebfd37ac62",
+    "sweep/100000-direct-gpu-3.cadence.json": "48c3582fcdd5324dab52508a7655380915fa33ffa3f4e8c6554d9305560c8f10",
+    "sweep/100000-direct-gpu-3.json": "397e93e9b304ba8516b2a3615c35eb1aad2127ff84e2fdc6fadd0937ae938c00",
+    "sweep/100000-physics-cpu-1.json": "901bf71600c71df1df84eb20b1d1c09d2bc3f355f1718977f9ff27790c4073ea",
+    "sweep/100000-physics-cpu-2.json": "016943168472c8aebd25f8c624c767f57617808a1aa58c4676dbb07f2a509716",
+    "sweep/100000-physics-cpu-3.json": "2bf2a41d6778943184d8b395b0aae4fd519176ad65a4010bf6e14a8aa53fc733",
+    "sweep/100000-physics-gpu-1.json": "37d8ed4eeeb5735f15b88d69c9cde00deff5db92e157b799c16a056b21612683",
+    "sweep/100000-physics-gpu-2.json": "be5097c2218806dc9589bef80fe65178678e854f1dd91f65e070f058621d6e9d",
+    "sweep/100000-physics-gpu-3.json": "2e616dde9f734c24ba35d3cf887dca4375c11970b8131ca000e0ca09a48485a9",
+    "sweep/100000-sokol-gpu-1.json": "810b10696f69d1484375a0743a7d8d085d6591a0ddef30701f31e30dc404e243",
+    "sweep/100000-sokol-gpu-2.json": "b800b82c0c41bc6917b5b77f88598cf8d7ff8ec1f314bac77c6870f2e7744fc4",
+    "sweep/100000-sokol-gpu-3.json": "0f038baf361c784095d8b129782185b39d547dd7535824efe6ebf977b9767202",
+    "sweep/15000-direct-cpu-1.cadence.json": "3f5fd4ce6625e9cf5016721f20f2b4707b4020bb3494d0dcdaf3dee1c136e3f3",
+    "sweep/15000-direct-cpu-1.json": "386945f16bcf415f12ac7c944b663ad38976770e0998cc7c8a6815ac55e8acff",
+    "sweep/15000-direct-cpu-2.cadence.json": "e0184b56a6b13b830a2468c766c1bf40adb769bd6eb27d3d406161207206ea42",
+    "sweep/15000-direct-cpu-2.json": "ee2a3bda80eed1b61814f6b179936c235936a940d4802c24144be67faf5c0c38",
+    "sweep/15000-direct-cpu-3.cadence.json": "d4c0e2b786aaec1d34d5f77803898ca6495ccd448b194174f20b8c8d27dcdfb2",
+    "sweep/15000-direct-cpu-3.json": "c1069bd534b5d74b20373bd8708c418d9359a4c8ffc146c11c556a915c8ee6f7",
+    "sweep/15000-direct-gpu-1.cadence.json": "1a02f60979217b02e25be021b6ef749f61e4604b9b92c4f4cde2b005ff99a86d",
+    "sweep/15000-direct-gpu-1.json": "630c2abef5ee582cc9033c9f11f8499880f0ce9b721fa819402d6e98b376f9e8",
+    "sweep/15000-direct-gpu-2.cadence.json": "ce155d59b78329c3f2dabbea475dc9ecc45bb96fb346e5f431c06a9417266b3b",
+    "sweep/15000-direct-gpu-2.json": "937d9806ca1496876a5a42a9ddd6322bb70a9ad70cb458a25eb769ac907f2f2d",
+    "sweep/15000-direct-gpu-3.cadence.json": "a340b8cb0f51036397067e2d0a371f22ffdea46844a02a8758447db7ca05fb23",
+    "sweep/15000-direct-gpu-3.json": "ecfc22ffe0da2c2961f03a08dec3ae7e131c742137d473a46c67f0a90ffdbd0a",
+    "sweep/15000-physics-cpu-1.json": "10271e921dd7f6831cc44a093c16f7a6d37ecec4c3564b6f6dd767e3a4278b9f",
+    "sweep/15000-physics-cpu-2.json": "6b5ceb2728777a0cb9c8e0695062ea3dc442964d7bb4a0695f33e9757aabba49",
+    "sweep/15000-physics-cpu-3.json": "1bedba30499d4a49167fad22f82c5d5ad377fa3b81bedb64d3c75012dca1b8f9",
+    "sweep/15000-physics-gpu-1.json": "621e47defdc0d07d2927945f632c407611eba341a73668593c7203135e2899a6",
+    "sweep/15000-physics-gpu-2.json": "ec1600f656cf71e6464ea9bd506df75a7ca7a61ea899bd425bbe1bfb425ac6d0",
+    "sweep/15000-physics-gpu-3.json": "ab6a48821c901498545be62fdbdd699bc61653c52abc2e018ffc1dc0d47ad7d2",
+    "sweep/15000-sokol-cpu-1.json": "f2287672a8217af8eb3f6c34d30587bf02cd19cc66a21cb8826070563972bc6e",
+    "sweep/15000-sokol-cpu-2.json": "ac5b8a3a673cb4b1ee9db2adc89f67a1004b33016d2095863b00c5472a5036c2",
+    "sweep/15000-sokol-cpu-3.json": "9f392b3ddc15604f60b1a4b6de6f6529061b832a3c647245d059b2203a8ac1fe",
+    "sweep/15000-sokol-gpu-1.json": "1d84caacb9ffd544175423562328930adc2cc26d0d8465dd7081e20ab6c84dca",
+    "sweep/15000-sokol-gpu-2.json": "f82d14adfb274db9f73aa3ee386c2f518939b8a496d905b151613d0aaf3c261c",
+    "sweep/15000-sokol-gpu-3.json": "4a0bdd6cc38a981c640c129197588e8721b2ec57fdf81fd9a93d65d1c6876551",
+    "sweep/150000-direct-cpu-1.cadence.json": "bd58c92fe65db77bdef634f43242f86e87e5b49854bff84eada204c2ce70f039",
+    "sweep/150000-direct-cpu-1.json": "fa7f44a97aebc4dde1cdb84e8cc0fbb68b2cc1ef4199389d3d97c8d218718b19",
+    "sweep/150000-direct-cpu-2.cadence.json": "cc7ceca22b5b847288ac5bb0403a9381ddf39d57c8bf77d470af9f7be5399201",
+    "sweep/150000-direct-cpu-2.json": "4d94b2d018b99f36acbd07e56a57560b55a0a6e315e4d8e95f35df6d07f25336",
+    "sweep/150000-direct-cpu-3.cadence.json": "39e4153de51408e3c23813438fe1fd1c5900672b9a367ded9f6e0cd27edb8035",
+    "sweep/150000-direct-cpu-3.json": "bb452b76e69757073114dae1e9b9674305c6d04ad4f6700e2d5aa7b862c7b074",
+    "sweep/150000-physics-cpu-1.json": "1aa1b3d58795b778a7a39869237e34d0366b7ccaadcf4f80c63d53d83398f7fd",
+    "sweep/150000-physics-cpu-2.json": "fe1b2e462bfe4cb905ed0a8b947579b094be67ea2b4319ee5c0136d7e76ec54b",
+    "sweep/150000-physics-cpu-3.json": "bf927114a064aadaecad67224b71846968b702eafbf167a5af5eef490648a900",
+    "sweep/200-direct-cpu-1.cadence.json": "e5dee06b86454f9a504dbf5af9748974471aaeaa1c962fa340c6221de66ec0ce",
+    "sweep/200-direct-cpu-1.json": "f54231afd284d6dec1869a366850925d6a21eb9a27194e3ba7beb5f3b94e40d1",
+    "sweep/200-direct-cpu-2.cadence.json": "d03849c13019cbea74d4586fbc069eb8ff4634f292ee5de534423a6d9a695483",
+    "sweep/200-direct-cpu-2.json": "52ba52edb115945e63d1081b829ba4fac3c50e3ff2e658e787dcd55cf54bd91b",
+    "sweep/200-direct-cpu-3.cadence.json": "a55f35f8aee45a8064266e968c8f82428190f9a85b3afcf075a815bceaea8994",
+    "sweep/200-direct-cpu-3.json": "1b6d26751174f7aedb15fcae3732f20ed2d1abff4260d3e50cc8b67e16fbef57",
+    "sweep/200-direct-gpu-1.cadence.json": "7ecf7a0326403f8d7c0cf16a3dd5e1b79e7ef05d7f8005b9471bd5464f67b703",
+    "sweep/200-direct-gpu-1.json": "441d477beab41f18042d96aaafae1d317f2745664f20fbefac1c8c6265183a7b",
+    "sweep/200-direct-gpu-2.cadence.json": "2325c1938a6e9b002123d6b8cc95be0e9651eacaf91ab51d8c5dd874e05ca5de",
+    "sweep/200-direct-gpu-2.json": "0ea3b8629f1967c86bb8dd552c83b3c770e44f1669db43931890107ce86066d3",
+    "sweep/200-direct-gpu-3.cadence.json": "4e9cd254d74455cf399cba8045df4240229bf80a462a9d56b9f59af31395e63f",
+    "sweep/200-direct-gpu-3.json": "b70b7833ed9725ec738992a0e673658a2d98b93872aedc0561e0f9c6a588ec38",
+    "sweep/200-physics-cpu-1.json": "9a3a914695498e691586c5891f2d0c7a6ef694a02662b5942525da390b332b55",
+    "sweep/200-physics-cpu-2.json": "41fd5c1dfa92a62fe8f0404deaf7700d1b1e887995f0f8a60f5643e90283fd50",
+    "sweep/200-physics-cpu-3.json": "e73413aaaba60ca3c56261f8541db9ebc9349ca21e9797e444c7770bae3c80aa",
+    "sweep/200-physics-gpu-1.json": "a7078cf023c2de1616e1bc3bc0144f40d47d380b8f0829192690c581f405a6af",
+    "sweep/200-physics-gpu-2.json": "f9d9fce3460e0a47f7d30d45edb514979a4bb1364e299c83aef5eacc0d427df6",
+    "sweep/200-physics-gpu-3.json": "116305f7fb06aaf0e9e3df6a13022fee42c521493f7bd6864e5b6a27cdb1b4c9",
+    "sweep/200-sokol-cpu-1.json": "641a3513c82200687b46c751a68499e9027a23b373b5052d24a2720823741390",
+    "sweep/200-sokol-cpu-2.json": "c9747166a82695699fb03cfdd3539752b4245f2b2e8b84c690d86d4471ebd6bd",
+    "sweep/200-sokol-cpu-3.json": "38c3eae75859ce4cda5c9461a4ca31986d3fafd745efdbc5a48a415887dc2ec9",
+    "sweep/200-sokol-gpu-1.json": "dbf0c07e174b39af78e8dadeaa88c34468f6763b04eb13bbd67e21c224fdcb25",
+    "sweep/200-sokol-gpu-2.json": "a13fd0e592ec5e3436a606a583bc906aa8cc0f76aa325fd1fb727432af7613ea",
+    "sweep/200-sokol-gpu-3.json": "242a45cae52543227aa7e1226f56da5831f473b2517e0fba8779c7aa33f9027b",
+    "sweep/2000-direct-cpu-1.cadence.json": "be8f3214c3f2cde1e571cb26d7bc4e1fbb99714b5d658786494749a2d6be9044",
+    "sweep/2000-direct-cpu-1.json": "8e42ca2c08d67c3e7b0ef72b02123c04d60c20c66a65d9ff212736f3546c9779",
+    "sweep/2000-direct-cpu-2.cadence.json": "38fdd9759a47e708207de0f689443145703199261d2e20d706f109966fcb604e",
+    "sweep/2000-direct-cpu-2.json": "6d547882a8d26b3ca2ee507f153e8feaf5318a1d7eb8a28d8fb67a8180855b3a",
+    "sweep/2000-direct-cpu-3.cadence.json": "91598ad3aa260496bd82c4d427db6f0330ecd477eded8b7b2fb4d5d93ec2072a",
+    "sweep/2000-direct-cpu-3.json": "28d19507a6aed62fa3dd520ea996ab4076a1862018d8a4dfc592ab7587f60bee",
+    "sweep/2000-direct-gpu-1.cadence.json": "a56cb854e0c3e1b2c40f4a962c616a5846f6fa89627d3acb5db1c742d6a434e1",
+    "sweep/2000-direct-gpu-1.json": "7c707cbf22ee692303b7b932674244f7fb9775f58ed19e71bd2125c3c5565972",
+    "sweep/2000-direct-gpu-2.cadence.json": "eca2890a5b134961a1aea7b34d697b9f91240c4dba37dfa734a9257b0a9eb9d2",
+    "sweep/2000-direct-gpu-2.json": "ed7b4e22e75f7d907cdb8b208fc7e7aec38b55d377125b8ccf8e48fe826fbd38",
+    "sweep/2000-direct-gpu-3.cadence.json": "6014b7c2b7f943f901d9081fa29e887ef00550c3e8c97958e2905563382df1c4",
+    "sweep/2000-direct-gpu-3.json": "1eaa8c992de421785885c1630023da62937f30f52970619a81efa3f3ec724253",
+    "sweep/2000-physics-cpu-1.json": "549f8fadd237e9d77345b3952369d8262034cf9b155dbccb04645c58ee8d43ed",
+    "sweep/2000-physics-cpu-2.json": "c3e4930bfa23f7c03b09d101984316bf7cd380c35184997fdc2402baba9db260",
+    "sweep/2000-physics-cpu-3.json": "cc5990a3d6f455f090c1d55b48d5760047a0a99f63bb63dfa5f3f2be7035642a",
+    "sweep/2000-physics-gpu-1.json": "6661d714c7364185c78de2d61a1624b9f33317061c17cbf62eb47f661114697a",
+    "sweep/2000-physics-gpu-2.json": "a483d5867ec18e3498d866a91e8ad5f6fbdb7a6a7121281a453607f4bb11ca4a",
+    "sweep/2000-physics-gpu-3.json": "4244481c639eb24bbc96e97704c560f9addad067a9e6434ed960cc2793079ced",
+    "sweep/2000-sokol-cpu-1.json": "e369307758ab7de7a5f886e212934825b34d8589cf1c74bf64b9f3c7b15b4cbc",
+    "sweep/2000-sokol-cpu-2.json": "33a42402d51689f98cc8e04943642d37cf238164eef78ca12c68c8c046ba7487",
+    "sweep/2000-sokol-cpu-3.json": "d39893f429378b1e40c366ae72d4f610cd29c85200e635b55161336a060cdd8c",
+    "sweep/2000-sokol-gpu-1.json": "0a78505cd1efb99a5abfa3f2b80ec024b4c708debffa3d48b72c3c0f9a9dc905",
+    "sweep/2000-sokol-gpu-2.json": "6e46c55fb4c603271995f09bd065b8b13986b7e350a04798fedb4b7ad4ca3733",
+    "sweep/2000-sokol-gpu-3.json": "4c527479f299942c78d648f256c9a73f1fa7494893001e394f3d1545ba243d03",
+    "sweep/20000-direct-cpu-1.cadence.json": "f3a7273b26cb910257710850cc4f833efffc77631ceb6d67e2f0206e16e26a2b",
+    "sweep/20000-direct-cpu-1.json": "ee8c98566fb17effbf9ec2eb4bb26b07455d6650ea8714e481256f2e20a65355",
+    "sweep/20000-direct-cpu-2.cadence.json": "87012d5e3e4088694e6fbcdef9424a8cd4b814249eb59ff09094e93d70d771d0",
+    "sweep/20000-direct-cpu-2.json": "3f53c811917e22b3268a229a5b62b8242615a6260d943c75428624d1a4663eb7",
+    "sweep/20000-direct-cpu-3.cadence.json": "d28c0bb35aa81a9e57484692b1335172309d6f325814467cecf4a370dc08c141",
+    "sweep/20000-direct-cpu-3.json": "5ffafe96075d2ab0472f65b6fab47c5691517b6a6d0eba435919b6722037feee",
+    "sweep/20000-direct-gpu-1.cadence.json": "d81f86fa5511ad7b68d71d0017a9f6cf7dcda8fa3a4d59886f24e8f9e374529d",
+    "sweep/20000-direct-gpu-1.json": "308c705f8d6f5c1b6c639e4cb16c8ba4a1708311da2fab65afaaf2e94836f5ff",
+    "sweep/20000-direct-gpu-2.cadence.json": "72331c255c8416e65cc72f86470d8367543155011372bce01fd7bebe372a9212",
+    "sweep/20000-direct-gpu-2.json": "f2dcea4e92378c84ca7bf38f968bd479b5fcfa5ac06414a9f5b15e43ac7a54ba",
+    "sweep/20000-direct-gpu-3.cadence.json": "b981e58a072d4b78d1b3bd304f86201acc7cb44803be92e8287a94eaf8cab4e0",
+    "sweep/20000-direct-gpu-3.json": "feb42f597a85412c347937eb8f1040877d48abda94300bda51ee5f76512f0fd1",
+    "sweep/20000-physics-cpu-1.json": "313ecded2426608f91b943b47b9865c87e2394d39a9b26f2310f315ce80d802e",
+    "sweep/20000-physics-cpu-2.json": "0d61264956868911723a8dc09d2b8fca052b9434cab9b2b6e10288ff6bc4569a",
+    "sweep/20000-physics-cpu-3.json": "26e779c79f3e768f7ac5babb30b062a3ec4647a0ed7369f696d3adb841b38e70",
+    "sweep/20000-physics-gpu-1.json": "8cb305e65cf56d09843f9d236d2853f4f34a989a045a877dfb2d126ddba7cd3c",
+    "sweep/20000-physics-gpu-2.json": "271436523f15ad725351c3959b4609c891c767d519b435596e426056ebd96b7c",
+    "sweep/20000-physics-gpu-3.json": "95067bc4c03845b4889510ff6630623a356f0f6ded10f1988cbf8c015b70ed45",
+    "sweep/20000-sokol-cpu-1.json": "f814b22d74c73bedecfea758edef0ad642ffc302cf00af0a090e1218dc0ef5fa",
+    "sweep/20000-sokol-cpu-2.json": "ff124ea120016cad44818a97038fa703fa9bc15f3d5b8a8a64b0874a945c6a5a",
+    "sweep/20000-sokol-cpu-3.json": "9ac2e69e42abeeded32faa205722373f91ae0f1c237a0540bd6f5915ae178820",
+    "sweep/20000-sokol-gpu-1.json": "4fab68922da472753f5e0ed1a9a617a441dac302aaaf96c2b809ea952e17ac5c",
+    "sweep/20000-sokol-gpu-2.json": "ceccde84dc55d750ecce66a97362acd9e7fdf72915f4643b2ad200615b4987b5",
+    "sweep/20000-sokol-gpu-3.json": "be22b45f7fb17cb53f9450c866c6f1694757115d9c1e7d257d3570674cf96afd",
+    "sweep/30000-direct-cpu-1.cadence.json": "4b5a73c7ca3b166a760ed943158756fb71188a392c231cebc55872f13d44fd24",
+    "sweep/30000-direct-cpu-1.json": "2f0cc9add36cc3cc8edbfb55603a5cd33f11e98ec09a6704e0f45243aa876c1f",
+    "sweep/30000-direct-cpu-2.cadence.json": "29088a679bb7370d4d2d30995572aca8b7f4792e2a677dfe281b80bcebd01e99",
+    "sweep/30000-direct-cpu-2.json": "051b0f489bbb365ea41d289737c2749b719201471e73d50278d1d716feaf564a",
+    "sweep/30000-direct-cpu-3.cadence.json": "e63334c72abd2732d3b5984e13cd99128bf9e94484f3148f68dcaf84bc0d2c3f",
+    "sweep/30000-direct-cpu-3.json": "b89a323fa0a8970185c4c4604d154879ebe59da442ee9a5bdd1267538cc06b27",
+    "sweep/30000-direct-gpu-1.cadence.json": "857decf46e4c990b60a0a2f8fcabda3477493922f6704755cbed2d117c7f8170",
+    "sweep/30000-direct-gpu-1.json": "ca3a984e7ceb2e1e5ac15d2a4ef9f2cb6dd2e7a35483fdaa9205e751dd810576",
+    "sweep/30000-direct-gpu-2.cadence.json": "1acf4e99e2d7d30a1d0b78d4ab8bf851676010a04b321ea4e732ddb94f197aad",
+    "sweep/30000-direct-gpu-2.json": "1aacf6ed43260a1f70d97dc17817a15866ccc4d7ff0fae0881e35f79d80ee619",
+    "sweep/30000-direct-gpu-3.cadence.json": "12b2868d5682d21a6e6eb4fa73fb964ee3658ace1a7c5c829d4d2bc6d9b4986f",
+    "sweep/30000-direct-gpu-3.json": "791e2e3c1517b17d7b3a89b89d134498af9d8b8c744cfd085443994f87767b1c",
+    "sweep/30000-physics-cpu-1.json": "8698bf3ceaa5b2678b54f4be98a77d97f4de2874fc21f14429b1b79ec8dac6f3",
+    "sweep/30000-physics-cpu-2.json": "66110eaa644000e636d44290193c5affafafb4b90d14dccfd5287d09ebd766bc",
+    "sweep/30000-physics-cpu-3.json": "ffffeffe9d3feed6ba43a84e55c6adac4eaafe58eb166e8116a441174ea1b55b",
+    "sweep/30000-physics-gpu-1.json": "d8b9fe1e2663b0cc3580f05413d6d314b98eccfb839995bd23e29904cd9d88b8",
+    "sweep/30000-physics-gpu-2.json": "3a86ea4df2899afd497e9e073346afcae5376003f5544bdf49a42c2a67b413cc",
+    "sweep/30000-physics-gpu-3.json": "255e6f3d6dc8c55ac32977cf2320f0ac5c7b19f48371553303508bf06e06d026",
+    "sweep/30000-sokol-cpu-1.json": "1796205859924f60e7dc189ee2a60f5016534b5cfbee822779a74a75c23c5f28",
+    "sweep/30000-sokol-cpu-2.json": "8c368a2692155777a8eb053b77c277197a63982efc79f070a6bf04282c389df6",
+    "sweep/30000-sokol-cpu-3.json": "198437f13d20c6a1f5be7130ffc6dc72e494e30162e0ab43721916712595f6b0",
+    "sweep/30000-sokol-gpu-1.json": "0af29ab7cd9bbfa1a29d8296c83c380991cf5bde1f063206f2bb4195097e15f3",
+    "sweep/30000-sokol-gpu-2.json": "6e7fe60649f2b974810db29f5331e92b9526578795924d44290d2d7f73488b9a",
+    "sweep/30000-sokol-gpu-3.json": "f4482cc12ae36005b432b7b53c963548b8715ead8731008d4851fb000b61fa5b",
+    "sweep/400-direct-cpu-1.cadence.json": "4c016f93bef5b2be7c2e02e9814d8187bd0ac76c8551d2068a6d400faecd8bc6",
+    "sweep/400-direct-cpu-1.json": "8b2afacd0c92df2ebe90e95e209ce8fe0b3753ad1873a0e98ac8fe18a6853a32",
+    "sweep/400-direct-cpu-2.cadence.json": "004eca09a77c0ff871b8849445890ac9fad6399a29dcf1df8e84c04f553ad81c",
+    "sweep/400-direct-cpu-2.json": "b087dcfbf37b8bb87ee25e72b97fd89a9492e151a40ee3baf9821d977e4230f9",
+    "sweep/400-direct-cpu-3.cadence.json": "8f54f3bce00562ad964a549885dd473a6246e17f1539445a71e7c647f06639f0",
+    "sweep/400-direct-cpu-3.json": "c56e4251d31b8a8b66825ad4dba35b3b464afc0bdd0aa758e0b03ce4d3c16fe9",
+    "sweep/400-direct-gpu-1.cadence.json": "9c6820ccda5f626f0aa4b469771421b2ef7db0a223a1b738bd8e5b27136e48c4",
+    "sweep/400-direct-gpu-1.json": "bd2116a252a71c77e7ba1da0ae608545e01f16e2b7910be2ea862e7a95913642",
+    "sweep/400-direct-gpu-2.cadence.json": "695dcbcd5e68c097eee6180411ab29dfcc5705e308cabf6da05a1f2ded574ce3",
+    "sweep/400-direct-gpu-2.json": "977d3c1b93e25d1088e7a9da5927d909a92ba626fd149f0be09a6730ce9c2f43",
+    "sweep/400-direct-gpu-3.cadence.json": "55609c4c298edf0f039748ac5bb594f934c17dbf594638e3e7b047db008f12e0",
+    "sweep/400-direct-gpu-3.json": "70eea0e8694c03b49fc312b85a9504f9e86deabe435f5e132d824776c19776b5",
+    "sweep/400-physics-cpu-1.json": "a15d4222abf7c4752207e2b12daf4fbc771985e290a6210ffd9d393217355c24",
+    "sweep/400-physics-cpu-2.json": "45b0ad2cd8a9cd52223857421adff5afaa69c6a9a1ada2480abcdee8811e1cf8",
+    "sweep/400-physics-cpu-3.json": "76a04c9229bd75ff04427307ae9b92c91611cd1e9c23ee9b64440162a6735dc4",
+    "sweep/400-physics-gpu-1.json": "6fdd7ca5b413f843c6166fdfd97978a2567ac641615ae4945a22ed53c8945a71",
+    "sweep/400-physics-gpu-2.json": "81172fc0ab4176a42bf36fd27cbef2d4d154d9240b86aa5d8b337d3f33e613fe",
+    "sweep/400-physics-gpu-3.json": "9fc46478bcae3aaba36674aef51552f0ca2cc0cf309b87932060e2d01d1ca42c",
+    "sweep/400-sokol-cpu-1.json": "7ca983025451fe380f4c6e0980d6e967f44d6ee1c7d02f3df3c3a630f95b7cc2",
+    "sweep/400-sokol-cpu-2.json": "e4aadde5ff2f51c59c858fcd9b9050e9874697726e2c2a0f2b6a61163dde31da",
+    "sweep/400-sokol-cpu-3.json": "cc303071ae32f35fb19709fdeda43b595bc661f4da092a4a0de19640d5c1dc69",
+    "sweep/400-sokol-gpu-1.json": "3ea1ce1e3dbbb15ce8b93645312f6cea34ea4c26c6fe2519834506e2d3670777",
+    "sweep/400-sokol-gpu-2.json": "4249f1c2abbea81b8cee90bf1c2f6e0e93903b0d9ae11023d9082f1e959fbb35",
+    "sweep/400-sokol-gpu-3.json": "533ff9d1998885584818744c7f472d5c61254548bd9175ef75fea37c0a4865d2",
+    "sweep/40000-direct-cpu-1.cadence.json": "c6925beec24832cb0098fd69fe459869cb7bb9a67202f593187139bb41fabe7d",
+    "sweep/40000-direct-cpu-1.json": "50fda29bd6f1eb4d36c926794b3598495cfef1a41550b9ee6bb3615f15f3e04a",
+    "sweep/40000-direct-cpu-2.cadence.json": "9f90ac7202e820754c0519c3d32464b836b2734642b38d4ce540af32e621a021",
+    "sweep/40000-direct-cpu-2.json": "d6cb3190c961c9ac1e0a267fa1222215ab5b699bc06b1803274d1a18f0275361",
+    "sweep/40000-direct-cpu-3.cadence.json": "a639f892f6388808d2bc7102353d684e4cc0344be0ab970776c4b9df1d4cd254",
+    "sweep/40000-direct-cpu-3.json": "627c7b421eb14e79400e2e322671ed31e6e4811fcd8619d2de448d58d2437202",
+    "sweep/40000-direct-gpu-1.cadence.json": "ae767ecbffcbe017f70ddb67b43cd61441e567ccc40f7170dba6d53838719ae3",
+    "sweep/40000-direct-gpu-1.json": "0a99861792caa2e22526e3d2b2e9953f0ce519753557f7c07d2bac2a250e0de4",
+    "sweep/40000-direct-gpu-2.cadence.json": "04c039eb5ddf3676ed74bfd85a11db61c8b71d9bd8cc31528badf879ba63b79e",
+    "sweep/40000-direct-gpu-2.json": "922eab7d1946e44c5af9c7572698699c773aecf89e91cf15b5405fb8c56c9fb7",
+    "sweep/40000-direct-gpu-3.cadence.json": "266412f9c0b7ae46c9e8d6b160f451dd9b2b9f41a2d60a9b87451349d4f31891",
+    "sweep/40000-direct-gpu-3.json": "dab67b682361f0ce1f08cc18303bb649b4c79b2394397c8dbe1faf1970f3d04d",
+    "sweep/40000-physics-cpu-1.json": "2764b9975fd05f46c7e7a400882e127a542270f50ae3e7c5451a9e9e234c011e",
+    "sweep/40000-physics-cpu-2.json": "d49914d2f65e1490973ae8a0d0c03a50ee0525a5e93060d6062bfaa1db473d2b",
+    "sweep/40000-physics-cpu-3.json": "3297f9ecaa06dcf2cadd628c3d912bd4cc4439f9ab68ef22255b016c87b08b1a",
+    "sweep/40000-physics-gpu-1.json": "ada157470b54839d245d8947a88090715fd2d66e97d62f5f8ee95834f46a441e",
+    "sweep/40000-physics-gpu-2.json": "0e8b2b1858f3a34e9cafc78950c0f761eb5187ffef33099e24baac1f73802813",
+    "sweep/40000-physics-gpu-3.json": "580212a9a4f89d1fce99a98078f0f5422a385cd109ada9f7744056b20dd4ef55",
+    "sweep/40000-sokol-cpu-1.json": "a34c580ae5725f3ea67471079801f0f17f14ebe0276c44fbaeb3e54fe36eadc0",
+    "sweep/40000-sokol-cpu-2.json": "069d9c8dbd27569c70f1b0ef75e041e40b426dca92ecfadd801bbf19568974a0",
+    "sweep/40000-sokol-cpu-3.json": "63e04db4bf585ca3c4bc1f7821bb2039bcfe61ece37d99fe819a896eccb4af6c",
+    "sweep/40000-sokol-gpu-1.json": "2fd64238352ced1fbc3c71f9c36a79b45cedb601d70f0bc09c4eeedcad1765f3",
+    "sweep/40000-sokol-gpu-2.json": "4030771957dc3ad504700f4bba3d3dd53506373875140757f1e31519998f4ddb",
+    "sweep/40000-sokol-gpu-3.json": "03b87d0009f6163032ab57e469a69371abaf5ee1abcb357f9a8d74aac352855c",
+    "sweep/5-direct-cpu-1.cadence.json": "fbcd6d7fdd716b912c10cf2b4267003c132fa759ac2291a5adf512d45cf209fd",
+    "sweep/5-direct-cpu-1.json": "666e6a6cb97ecefea76d67ffb00248d82b0db0696b537b73b92cdffc735f14c3",
+    "sweep/5-direct-cpu-2.cadence.json": "b3df95fd69f918ad42643302f5fe468a6e99e58b485ccf80f752bd5772171c24",
+    "sweep/5-direct-cpu-2.json": "03950013b7312aab970501f3ea292c91630dfec0facc37d0d2151459e34bb290",
+    "sweep/5-direct-cpu-3.cadence.json": "eda78fb8c66645c540bb94329f268b4592ede3e9f64d960cd76b4ad14b0fb0c7",
+    "sweep/5-direct-cpu-3.json": "b5a02bfcf903bbe1b6c77974b4309068577fd9cf3f4189802586394a356efe40",
+    "sweep/5-direct-gpu-1.cadence.json": "fb84590455009ea61f876ff6662d0a37c9d21942b532e5d65c22ff3be06cac36",
+    "sweep/5-direct-gpu-1.json": "d4ace1ebf3eb728f7f5d685b2d0ee7e21088ed9752a3a6c689f43ab199ca1df4",
+    "sweep/5-direct-gpu-2.cadence.json": "dc79dbf0cd8b232a8aae720be10401534d7c6452030bda973b3711d3fd94339b",
+    "sweep/5-direct-gpu-2.json": "4d67ea542bde5bcdabd0fe06a2c64f066899d52b38ea9eaaea95041489860614",
+    "sweep/5-direct-gpu-3.cadence.json": "16faffcac58a3301bb43e4dc3045167e390f9afe0d9f7b0d8cdbea98719d1f90",
+    "sweep/5-direct-gpu-3.json": "93dcc5a3652b9251164ed96f6e7d2cb7ca77960fb235e2fd363eed87add0122b",
+    "sweep/5-physics-cpu-1.json": "4e6a9abaac3579ab03d98ef86a4383d46a635e56d420bbe647f3857d4f2f33d0",
+    "sweep/5-physics-cpu-2.json": "1a7b22a44a2e06dcd62b13d5943448b9561677332d7d1720d3907e912b3b1146",
+    "sweep/5-physics-cpu-3.json": "c080949199a5c0b3aabe0c605a5d13d01512072c75021c90e9f72b2cda3b6a1e",
+    "sweep/5-physics-gpu-1.json": "86bb2801a2234a077c6ac3fa9e588e2346be507fef7673f4981053282215bb85",
+    "sweep/5-physics-gpu-2.json": "90d3df02f6492736412b34026ec0676ef3fa6b5bba015c3e62e21439274300bf",
+    "sweep/5-physics-gpu-3.json": "83ef7d9db54d497dd30318e1dc5e7c275f042d8f194a8e19d38da15ab83eb585",
+    "sweep/5-sokol-cpu-1.json": "4aa26920092387acdd5b19df76a9d805e74f2638efe9291230762d6d68073c18",
+    "sweep/5-sokol-cpu-2.json": "17a0c4cbb073d21457462049f07267423e45bb0d790186761c2bb32fcc594c5d",
+    "sweep/5-sokol-cpu-3.json": "c8a528d1c64519ab96c884ff5ebbe2bb6305279d40eae937a620296c5385ed55",
+    "sweep/5-sokol-gpu-1.json": "91c1b7760660668d6345f088b0ecb9e65929bfb21c5584ce92cf474b3c75e96b",
+    "sweep/5-sokol-gpu-2.json": "179b187c631f18eca6dc0bb248c8da34822d979b9a067734256940660611d8b5",
+    "sweep/5-sokol-gpu-3.json": "c2b36cb60cde98fda114ae722643472c5eb944a73d3cafe3838d1a6ae2883f6d",
+    "sweep/50-direct-cpu-1.cadence.json": "7c20bf8b0388c959c40224a837316d74ffa0d4023a7a94afc509d17bedec2fd1",
+    "sweep/50-direct-cpu-1.json": "1a9164443553fd994c7f5bd55c97b4c29104f32c1101a57934a060b51ed22ffb",
+    "sweep/50-direct-cpu-2.cadence.json": "7fb38c031b83f160c11157e323a1506d856043677432e44ec79e622dd0d6dcfd",
+    "sweep/50-direct-cpu-2.json": "7709b1d0c756a398f61cf12b9841ac434ec1e45a073c3d5796aed8ea52a6c2ef",
+    "sweep/50-direct-cpu-3.cadence.json": "d5ae6e4067571667e8f8fd1a7d2e832b0aee3cea9bb51c753f7608ee28f7cfae",
+    "sweep/50-direct-cpu-3.json": "2318f0a40a1c2d0acbcab34bf4db4f58bbfcc91b8bbea3344c054aad952cee8e",
+    "sweep/50-direct-gpu-1.cadence.json": "6585f57f86049c60b93f1f5befa95d447b633947097f8bb826edc8ad13589ac2",
+    "sweep/50-direct-gpu-1.json": "37a6b87954641ed1d7d63e71d8f3d4ea4dd533d00147efaa2a3d74cc04a3a29f",
+    "sweep/50-direct-gpu-2.cadence.json": "9b9240bd3a79d32437c8bf5279ace44edc164814472289aaa2867f29a22c1e9d",
+    "sweep/50-direct-gpu-2.json": "88a3e04e9f44be771e1ae3310c05f7e1952b19130d724aa6a9d0db2c2b006186",
+    "sweep/50-direct-gpu-3.cadence.json": "dd0eba4ed925c8a8cc21a3661f22c6d18faa705273d945928d509644418d6548",
+    "sweep/50-direct-gpu-3.json": "680bf07aaffbc27646fe0e424993c076efe96db2184f067913a9b4204f096180",
+    "sweep/50-physics-cpu-1.json": "f2c536068a31347de7307d9b298dc9f98ef1bb8f4d519798cc6761f2118324c8",
+    "sweep/50-physics-cpu-2.json": "b3f993a3c3e3d72c330e5cfffff055cb59252b1c9716d260b13dbae06f64f26b",
+    "sweep/50-physics-cpu-3.json": "704ba44c8d84efb12a409ef6eb6c31eaa80bcc4a991ad45a7a2fcb8e6708d691",
+    "sweep/50-physics-gpu-1.json": "65284307da8081ea617454b10241929cb887b3d6cfc71dbf621dfc4177857f32",
+    "sweep/50-physics-gpu-2.json": "3da12a2c6f1205aac337d921e66a18f8954f1982c14b28f4fb0df9bb904256b6",
+    "sweep/50-physics-gpu-3.json": "0bfe806ee9e45aff8e4565276927b092ba31870906b55f5aa14caf8175344177",
+    "sweep/50-sokol-cpu-1.json": "b66f00663a5bb716d5c9cc0e7fad8ef1a083ff348cb78367a1b409d2b505efec",
+    "sweep/50-sokol-cpu-2.json": "9163cd610e3d87c012ad34bcc0caa019ddf269b013fa134cce83c59b7aff6fc8",
+    "sweep/50-sokol-cpu-3.json": "f4ab4e13ac6c490d3852400e8515a7e8eb143a962a12faf6efc1b19b7d507cb0",
+    "sweep/50-sokol-gpu-1.json": "f59a6d4e8981e568dd32c5c0c4223a06f79f1075b111f8f680f7d301c1f02285",
+    "sweep/50-sokol-gpu-2.json": "5fe1e9ac8a692cb4738609b1afc68475ca440f6ef26162f671a40593a2f5e6ec",
+    "sweep/50-sokol-gpu-3.json": "404931e116ecc8df0bfb9a4d4d66e6144a708dfc9cecf37aaaad5ad5b450ef0f",
+    "sweep/5000-direct-cpu-1.cadence.json": "134a0bc79b226538a5543fb8ffbb718e0dcc097fbd9a389ae39e3cbf999b66b8",
+    "sweep/5000-direct-cpu-1.json": "d2990144decf7f579937b55ecfb9aaf831f3afca4011c06669db12b07b6e466d",
+    "sweep/5000-direct-cpu-2.cadence.json": "652a90ec90b15e46d60f229bea07a468949cc356efff75f7a5448a381e48f175",
+    "sweep/5000-direct-cpu-2.json": "a799a87d04c3d3b9b541bb577fbbeefaba96027fcb0abaa72bfb22bb4141cad7",
+    "sweep/5000-direct-cpu-3.cadence.json": "28921f6d078ceea938dd1605f0ac659e44da877128293b6a7d82ab6b5210080f",
+    "sweep/5000-direct-cpu-3.json": "b7ab16a3a594b9125c32c5d59031cdb52dad7ecc635ab9ee49b688834bc58d92",
+    "sweep/5000-direct-gpu-1.cadence.json": "a24d03ae9be57335cc3dac541296c6ef34750eefb7379ccc741a98858b1b98dc",
+    "sweep/5000-direct-gpu-1.json": "c7433bba401c408003702c2ff5a008902213a07c72982715503eb8bad29a2be1",
+    "sweep/5000-direct-gpu-2.cadence.json": "1b84cc0b346c6301d063f66bc60369949b94b9b15cf5b7d64456dd1bd13d54c8",
+    "sweep/5000-direct-gpu-2.json": "06728cd2c1f6c83120b78c770deecc46ebccb2c7e6247721304ec9cfc29380d2",
+    "sweep/5000-direct-gpu-3.cadence.json": "56d3560de9b493b02e2365293a53085e10c829cd0d51cde890b144de085d6184",
+    "sweep/5000-direct-gpu-3.json": "617d8b9870ca546233e7891f653bbe1881f6875a504f2c372c5d68cd0469576f",
+    "sweep/5000-physics-cpu-1.json": "d17dfd3ba98b7f4858b9529ebce5c59b8cf914f5a29f84fc83035a3f6ccb1b9e",
+    "sweep/5000-physics-cpu-2.json": "5c5ed05f89f8fccb5f63037658a782c3f10314df63e6b40aabc660fc916fc6a8",
+    "sweep/5000-physics-cpu-3.json": "da06e9dbccf7553c8198699e0804e7f3691ae5d7e2271e8821625b624ca1072a",
+    "sweep/5000-physics-gpu-1.json": "dc442c0a06a4c10d560249bdc65e72a39db11e45d8fa3bcd327f9727f237a08b",
+    "sweep/5000-physics-gpu-2.json": "66fdea20e755d803f3cfdb3d926470536609fec3ea4a81114562d90ca6bec9b7",
+    "sweep/5000-physics-gpu-3.json": "383913ced062f5ae800d6ef9c2cf0852eb26daf497a97b3e2c90f0a337a478e9",
+    "sweep/5000-sokol-cpu-1.json": "559a641b8c1311ebaaaf8993e11a5b108cdce348a7ec48ae1b3684ba82d94e75",
+    "sweep/5000-sokol-cpu-2.json": "0f00af559becc0cd7acd2627b0cd0df1f513b97056358d2b10e1ee677bfb65c7",
+    "sweep/5000-sokol-cpu-3.json": "51c29e207dcc9f2a584b85fd819f25e0c30f89488a554361ffa4c8f72fcfbad0",
+    "sweep/5000-sokol-gpu-1.json": "6bc743e6470a9da6788ea58e9609a9a7c932b762b3f3429582211a55783b6933",
+    "sweep/5000-sokol-gpu-2.json": "9722da218ef566927048394018d653fee538b88d2eac2b2f1af96627744fa4af",
+    "sweep/5000-sokol-gpu-3.json": "e32d0504c982f1855ab97a612876d6cb5fcf8d22cf707da9bbb5e7ab6ae845ea",
+    "sweep/50000-direct-cpu-1.cadence.json": "cdf4b1cb4e1302f2dd2d43e521f81009686a038e3fd95d219fd884981aec7789",
+    "sweep/50000-direct-cpu-1.json": "e082cadba82a77b5007a70064c5f45f0e533d096caace9168a1dd6a19556f80e",
+    "sweep/50000-direct-cpu-2.cadence.json": "3f9e8f26adf855b81a01a112d6cc683ecf6d002c5d5c353a6025670f1ed5ca59",
+    "sweep/50000-direct-cpu-2.json": "b6211ef078a795e12f902b86c72196153d552d60476f67cdb37c9f52a264c60e",
+    "sweep/50000-direct-cpu-3.cadence.json": "4b2df839dcff4f26e8fa136b9de246d9ee06c79ce11e050a7264d054a241cd06",
+    "sweep/50000-direct-cpu-3.json": "d96662aa2c8d303c4b222da25eb6530989ed3c2c50858fc471cf4459050ef20f",
+    "sweep/50000-direct-gpu-1.cadence.json": "3c26c9ed072aad059f0cdd2505ca759362f9d4dafcbbb944423eac3783d22fbf",
+    "sweep/50000-direct-gpu-1.json": "3c1d4acd19b76e303c629c15e785fa88a56f41d1fb9b3437322de91dc77ccbd6",
+    "sweep/50000-direct-gpu-2.cadence.json": "9092d17c311d7cb961312beb42062c17470f1361f8f6cb2a6a8db80fcc893298",
+    "sweep/50000-direct-gpu-2.json": "ae69ef35bd3bd69de9529b7e57935540c60290da3c342d42046b1f0085ce8d9f",
+    "sweep/50000-direct-gpu-3.cadence.json": "50136210b525b2e47b5f44b03b6e818e30919abe349abe74cfe9c21a0d918cb9",
+    "sweep/50000-direct-gpu-3.json": "5fc175cb66cfbd4033633df437bf8c286f784f4ad01f0e67ddb802038078ee38",
+    "sweep/50000-physics-cpu-1.json": "bf6c208abfbc02dccc7c038077ae045e0f6f2b2ed9e40cadae0d0430328abf88",
+    "sweep/50000-physics-cpu-2.json": "f6a9aee6b9684f04dc1abf2bf52cddab65a97e59f4f78e7e15e0ab2541ebab73",
+    "sweep/50000-physics-cpu-3.json": "4a0d742fc329e3e949e5bf00d7beefe6f253f6106cf4824fbec539146f1f9138",
+    "sweep/50000-physics-gpu-1.json": "249b5dec00ab34da423505c22912d46d711009a40fe74920e5f30b99f3f4a628",
+    "sweep/50000-physics-gpu-2.json": "b47b34bb58de7d238dde3402332b2bc3d50a2e362786f3ca928b06b917c57157",
+    "sweep/50000-physics-gpu-3.json": "1e71a9cc2a03dd473d69c87846e8f9a14aed5fe3dcf42fada67d2953b4df0ada",
+    "sweep/50000-sokol-cpu-1.json": "a2d4acb0659a6b9c381e022bcad08e2894f98b2cefa9b58946d2b74bf6968804",
+    "sweep/50000-sokol-cpu-2.json": "b2f66853ea5a5665b73bc2a8855a9ca88a17f86d5385d8fe2a28b5105e4dd50b",
+    "sweep/50000-sokol-cpu-3.json": "877d45f0647231be890bcb448d827986af4d2e3b8fbc4f0cadf931a6dda34c16",
+    "sweep/50000-sokol-gpu-1.json": "5232a7a837924a219efbc17bf368754571d7ed5cfefc5e1e9ab9644982778da5",
+    "sweep/50000-sokol-gpu-2.json": "7c970848f18512325d31813e73aa16cfac444b6837e4064e5236a4ac97a553b6",
+    "sweep/50000-sokol-gpu-3.json": "dce06774add1afa09225a1a8c583ff94a87ea3b580b46bd8a6aea56328e3cd25",
+    "sweep/60000-direct-cpu-1.cadence.json": "fdbefe5678b1ef7c276ae1c501d1ed8293e64c1a4429c03e361696c0afbc0b71",
+    "sweep/60000-direct-cpu-1.json": "7d9505cf46aa6577f07abe3e6931b1fcedc364f2879a3017e115216fc2759040",
+    "sweep/60000-direct-cpu-2.cadence.json": "1f4ec8193f741454b80bc3e082fdb4b208b3421ed71f5a1b160c2e14ca0ecbe0",
+    "sweep/60000-direct-cpu-2.json": "5f282a498a6ca6e14efe32bb1b1a3f9946639238eff442e4c729463cde6c3b3e",
+    "sweep/60000-direct-cpu-3.cadence.json": "13ab77b0dac1be32ead53541a0fcf58c1d0038cd9f1c32db844a908709d68050",
+    "sweep/60000-direct-cpu-3.json": "ac11c8777ceb6e88b48d5146a2335404875c3242375346e52ac8a9868f58e92e",
+    "sweep/60000-direct-gpu-1.cadence.json": "14c994816c973835bed2608b01a0305fa37f71e8edd5bb072a188cd906030f20",
+    "sweep/60000-direct-gpu-1.json": "301d8ca4b9d3d246d77a28f9806da92425b3c53bfbbe4ce0d9a172cebc8d49c9",
+    "sweep/60000-direct-gpu-2.cadence.json": "c8ef557c8ea8a2392bbd346986681417e1cc7c565c25055f5bc7870476857dcd",
+    "sweep/60000-direct-gpu-2.json": "5d4d0f29a65ef19a8ac572bd26f33aa46ee03df4ac6cc5b01a633c1dcabe1e77",
+    "sweep/60000-direct-gpu-3.cadence.json": "c389c8b73ff040e386cf360180f4c9cccc95cd525bf3dd9db3e29c5ba8520dce",
+    "sweep/60000-direct-gpu-3.json": "9df79d5e65d579d40ffbcc85a55665c30f18014ec9b830c8a87de5d44883c60c",
+    "sweep/60000-physics-cpu-1.json": "8831ea9f515a78f8693168e49c4607541f4d178fc5d8b0d1b3e2d9805e55150a",
+    "sweep/60000-physics-cpu-2.json": "a359ea1e6d80e8892e330cf9e8ff312c9f55f0c95886958dff10ce220cf51990",
+    "sweep/60000-physics-cpu-3.json": "ca45a7dedc1b1819327b86801039e27331fa4273e565902cecbf790f373db668",
+    "sweep/60000-physics-gpu-1.json": "5c28c0afbb2337e44ebd504d260d4d6f0e7a1b7f215fc04c64b84c9577c7373d",
+    "sweep/60000-physics-gpu-2.json": "a20b6295064fa03a06a0639d7c0fd71fbabebaf394e7adaa21c16e26be292c99",
+    "sweep/60000-physics-gpu-3.json": "203bb3c93683774146ee108a37656446b415d7eef380c298ee0f3b6a1a0ceb09",
+    "sweep/60000-sokol-cpu-1.json": "85a258b192ab952dfd157f97762ba7bc20f1b6106cd8e0f7fb559ee237b1d5ae",
+    "sweep/60000-sokol-cpu-2.json": "81564425268e32ba7fe2bba40e4eaf17fd851497ac1daaf37264d7a06a4e3fe7",
+    "sweep/60000-sokol-cpu-3.json": "c6ab38b6a198aa83b80b328a8ea31181a94d4a3a9e29568bd7219ef35b89e159",
+    "sweep/60000-sokol-gpu-1.json": "13466a2efc8aaa4699c417f9ba7d64cb252af5f4872930b7851ebb4f65f3eada",
+    "sweep/60000-sokol-gpu-2.json": "e7d8ce3d3a609abee734e5ba1037fd8beb20b81369be04de37b1e35648472e4c",
+    "sweep/60000-sokol-gpu-3.json": "ac868a75b21faae08314a3c55de74d5b7be2caa876917da729857ff4ecd2b62c",
+    "sweep/800-direct-cpu-1.cadence.json": "7ccc6a406086a79f747841f24c23db4760b3dc885c23be6bac84d5f6cec6fa40",
+    "sweep/800-direct-cpu-1.json": "d62e1c043dd599e2d6308da4cc8e83487770f96bd8521c181bd696768f11cffd",
+    "sweep/800-direct-cpu-2.cadence.json": "092d1dabdf7b8dc50969eb9af18f7f465b5676fa229c37fac98897a2c86f42e2",
+    "sweep/800-direct-cpu-2.json": "704fd294c7580e71e478e5aa1caab74cdad2f34bef9baad3d5bc74b40c149471",
+    "sweep/800-direct-cpu-3.cadence.json": "5e5cdbef8a21a13250ff7591731e81894ae047193cb5d2dcc6c0ab011b05b5c1",
+    "sweep/800-direct-cpu-3.json": "1d9456b1dfd390f65206de0d6fb1840379aaaa290090b6f7de98b6e7b5e7108f",
+    "sweep/800-direct-gpu-1.cadence.json": "61a59c79f0bfb822490c9a4b10d1d3102daa089102deaf80cce052d015cd896d",
+    "sweep/800-direct-gpu-1.json": "00c640e718bc8ddbfa5790cc9b04c40e0798f4697e564bd94fe2b84df72819d1",
+    "sweep/800-direct-gpu-2.cadence.json": "3637323a323ff19f197ac1c9294108abf86c688b18f1cdd42693394f41fb9d11",
+    "sweep/800-direct-gpu-2.json": "e394e7c60be6791e9b72646e9af955d314c0205220c48443d48bc8448135b12e",
+    "sweep/800-direct-gpu-3.cadence.json": "c20c62473bd66fb2135a41fca05a6811b35b6a7d60b0636f0b3c73cb9857a092",
+    "sweep/800-direct-gpu-3.json": "ecbe9bbdf2c744dfa39d72b52d60939ff50d3a155ce5aa995bda809e4d4656d7",
+    "sweep/800-physics-cpu-1.json": "4a79eb5241ec72d4f4d25b5c5ba6ef1abd950d59cf9c76e7edfbdabc046e2b0e",
+    "sweep/800-physics-cpu-2.json": "90f0c8cb6c19a3f8bca3271ca2d9ababc02033a5e8b46bbbf700ddb304a8e318",
+    "sweep/800-physics-cpu-3.json": "5e4658c52132e015ac55d340553ccefe504cbfbad0188bcc71dceac967fb0dfd",
+    "sweep/800-physics-gpu-1.json": "874f0f3634a183a06fd7279a3bac4df7dccc6e4037ed6474f0c02f9298ca1b7e",
+    "sweep/800-physics-gpu-2.json": "143d28427eebd4084a6cd045288120d287c4aca09c73a8f93901dc59d0b67b50",
+    "sweep/800-physics-gpu-3.json": "10687ae31df0fa39e722643d0e2073cd5337eb32b031a138c7425526c8bc86bd",
+    "sweep/800-sokol-cpu-1.json": "6a72845d87e96086009036542f460143b0abbc4322bc7a9e0599f12d9f2ee627",
+    "sweep/800-sokol-cpu-2.json": "f8c3b476204b7d9fd9994abcca20faae28354bca677cae517236f52b7396e897",
+    "sweep/800-sokol-cpu-3.json": "0cdc4e4bb5235f11ac123f6236b72082a7e74330d973d2c0a141183d4c3ac4a1",
+    "sweep/800-sokol-gpu-1.json": "b310af9b55cc8ec024606b420e470e63f7ca899ddf5dd37c911beeac280448e9",
+    "sweep/800-sokol-gpu-2.json": "10d2fab3c16ece55a0cd4ca76f8c19a1ec5bb0c90fa3ebe501befd8b6732e19b",
+    "sweep/800-sokol-gpu-3.json": "3e1256ffeb593a69a3a6fe70abe925b8fbb0b17045d90fd11b72ecc626f49900",
+    "sweep/80000-direct-cpu-1.cadence.json": "59178383dffa01429e228d5736b3ad64289208dae1961c59cba3981d5dc8aaf3",
+    "sweep/80000-direct-cpu-1.json": "f724bd73c979d08da08e025698102c507e2d20f83f75261b9fb700a11afac66f",
+    "sweep/80000-direct-cpu-2.cadence.json": "fd2687b6b8b48310bdb1dc765cafec6a1adc3690d3c532ca4e7f6f980cdb3e31",
+    "sweep/80000-direct-cpu-2.json": "e51abd4310a5d0e2438b4aaa572413f393b391a2da5859a59c600df487e587a8",
+    "sweep/80000-direct-cpu-3.cadence.json": "6e56082f60748a83c038fc9909fa67af9de044717890d4a107813fc164c45ffd",
+    "sweep/80000-direct-cpu-3.json": "1e639ed7ff348282790659bde9eadffcd84029396eb8167126b5a75df7d0cb05",
+    "sweep/80000-direct-gpu-1.cadence.json": "d495c1252e63da8b337ad25135991784c25ba0d7ce345c63a62e3b2583d58716",
+    "sweep/80000-direct-gpu-1.json": "f291aea38e0a5d910c7d575577e7eb94c30af1d3585af81a268de39fb15f0485",
+    "sweep/80000-direct-gpu-2.cadence.json": "54c6beaab0e77c8b4987da889f743fd9beb52971fa27129244fcfb2e0bfb8c95",
+    "sweep/80000-direct-gpu-2.json": "17a553259f53c3e3f2346b53a06097fd3f5b4c5e7af21e7c65d3a0b69183a31c",
+    "sweep/80000-direct-gpu-3.cadence.json": "57eabfb4206faff8de77ad3e9aaab639df205effba6451847d4af43f13cad209",
+    "sweep/80000-direct-gpu-3.json": "012bd1d69b18e6793edf7b22eb33f6293c71d012844b9794db83b9e0726f3572",
+    "sweep/80000-physics-cpu-1.json": "ce7d88c64606b4cd7d5f886126683268846bdffb841370f720429667f2a4e6f9",
+    "sweep/80000-physics-cpu-2.json": "8a24b96a79c443eed88ee6173a43564f374c7f98f35e89caf5fc831dd524b07f",
+    "sweep/80000-physics-cpu-3.json": "5f5d30d1622de7ade0319bca0c9f5d6334ab0e3d6c697509ce9ba45b6aae0f24",
+    "sweep/80000-physics-gpu-1.json": "d896ce194d4caba69017a7a78eb1674def2d73310807b69b093e3110657a8194",
+    "sweep/80000-physics-gpu-2.json": "d9b2498391b4cc0718804f2deeba43b3e8fbc376d4660caa410ee8776680c02f",
+    "sweep/80000-physics-gpu-3.json": "3758a117ab9161d1a2e2b90e3841f91778588a16b404770ef32cb2f49ec4d2f5",
+    "sweep/80000-sokol-cpu-1.json": "1898441ee5abe790dc62b03d4b5c307dba40fb8dae8440ff8640017d13b55eb3",
+    "sweep/80000-sokol-cpu-2.json": "52738bec9225a5fb0496ffebfbfeeaf5df6e78a4083111e3fbfb85bcf04c8b32",
+    "sweep/80000-sokol-cpu-3.json": "91c7f0ab586a900c08b9148aaa1d93fc596f7637bc3be9410c07ab7487a6fdac",
+    "sweep/80000-sokol-gpu-1.json": "a793b2dd5096f805668d3ef1d082fc129e82f4e28002f5aacc2faacb8de03bca",
+    "sweep/80000-sokol-gpu-2.json": "76424921ee9dc6cc3388fcc704e77b64a9ca1d26502568bca1474283b7a12130",
+    "sweep/80000-sokol-gpu-3.json": "aaaeab95fb75c521ad22c758df5c215ea47938cd2b139f82eabf93bd9baabc09",
+    "sweep/manifest.json": "c88b606390dbb30630f5404ff988f46c730a38564cb218dd486f2d6086df2a27",
+    "sweep/stopped.json": "14190a29925b79663781d88d926b6461ed22da17de912f70d1f869383aa84a0f",
+    "sweep/trials.json": "185fe2cc55a6b50e520fb567486a6cd0027d12806b7493f5449e8710504c513e"
+  },
+  "variability_flags": [
+    {
+      "count": 5,
+      "mode": "direct-cpu",
+      "slowest_over_fastest": 1.841311327941458
+    },
+    {
+      "count": 5,
+      "mode": "direct-gpu",
+      "slowest_over_fastest": 1.811135571366727
+    },
+    {
+      "count": 10,
+      "mode": "direct-cpu",
+      "slowest_over_fastest": 3.166436773522983
+    },
+    {
+      "count": 10,
+      "mode": "direct-gpu",
+      "slowest_over_fastest": 3.426124681919585
+    },
+    {
+      "count": 10,
+      "mode": "sokol-gpu",
+      "slowest_over_fastest": 1.6415288760273838
+    },
+    {
+      "count": 50,
+      "mode": "direct-cpu",
+      "slowest_over_fastest": 3.93140319989195
+    },
+    {
+      "count": 100,
+      "mode": "direct-cpu",
+      "slowest_over_fastest": 2.5027638761552837
+    },
+    {
+      "count": 100,
+      "mode": "direct-gpu",
+      "slowest_over_fastest": 1.592301352502931
+    },
+    {
+      "count": 200,
+      "mode": "direct-cpu",
+      "slowest_over_fastest": 4.217029961493447
+    },
+    {
+      "count": 400,
+      "mode": "direct-cpu",
+      "slowest_over_fastest": 3.011439823928604
+    },
+    {
+      "count": 800,
+      "mode": "direct-cpu",
+      "slowest_over_fastest": 3.232419455020493
+    }
+  ],
+  "crossovers": {
+    "physics": {
+      "paired": [
+        {
+          "count": 5,
+          "gpu_over_cpu": 0.024485073375947117,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.020176116013261483,
+            0.021004392991948926,
+            0.024485073375947117
+          ]
+        },
+        {
+          "count": 10,
+          "gpu_over_cpu": 0.026900692703008742,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.02558668873291738,
+            0.026961288269774848,
+            0.0288167693960324
+          ]
+        },
+        {
+          "count": 50,
+          "gpu_over_cpu": 0.02360956101503319,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.023609561015033188,
+            0.021536014349377842,
+            0.024574452003728736
+          ]
+        },
+        {
+          "count": 100,
+          "gpu_over_cpu": 0.02921479176740177,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.028639863163208674,
+            0.02921479176740177,
+            0.03244577763154653
+          ]
+        },
+        {
+          "count": 200,
+          "gpu_over_cpu": 0.042729909468722155,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.04084301676839887,
+            0.04698392174499663,
+            0.03945380279337111
+          ]
+        },
+        {
+          "count": 400,
+          "gpu_over_cpu": 0.06538714107264217,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.06266685205784205,
+            0.06341465375162246,
+            0.07101999209378207
+          ]
+        },
+        {
+          "count": 800,
+          "gpu_over_cpu": 0.08186391232849946,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.08663236185820673,
+            0.08186391232849946,
+            0.08313477097097176
+          ]
+        },
+        {
+          "count": 1000,
+          "gpu_over_cpu": 0.09250109083465156,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.09517579799269547,
+            0.09101378442484281,
+            0.09374696575405435
+          ]
+        },
+        {
+          "count": 2000,
+          "gpu_over_cpu": 0.1623146043618816,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.15749277547931273,
+            0.1623216482841401,
+            0.16239061367198848
+          ]
+        },
+        {
+          "count": 5000,
+          "gpu_over_cpu": 0.2415785663423659,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.24157856634236588,
+            0.22424423073986804,
+            0.2994336461729111
+          ]
+        },
+        {
+          "count": 10000,
+          "gpu_over_cpu": 0.3983333567098623,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.40685213816572874,
+            0.3983333567098623,
+            0.4837673415280399
+          ]
+        },
+        {
+          "count": 15000,
+          "gpu_over_cpu": 0.5806475688934551,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.5833014746809844,
+            0.548298522759136,
+            0.5961269363608834
+          ]
+        },
+        {
+          "count": 20000,
+          "gpu_over_cpu": 0.6089947478852894,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.5829749813201165,
+            0.6430655042110217,
+            0.599563795678986
+          ]
+        },
+        {
+          "count": 30000,
+          "gpu_over_cpu": 0.8394513655151574,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.8361658837780486,
+            0.8565911569209257,
+            0.8394513655151574
+          ]
+        },
+        {
+          "count": 40000,
+          "gpu_over_cpu": 0.9827208917235007,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.9855959733829839,
+            0.9876773013171054,
+            0.9554466080062501
+          ]
+        },
+        {
+          "count": 50000,
+          "gpu_over_cpu": 1.1000902343262426,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.1097544593791995,
+            1.0630632092728727,
+            1.1012861573421309
+          ]
+        },
+        {
+          "count": 60000,
+          "gpu_over_cpu": 1.17155319430088,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.1978401630738598,
+            1.1566966104336618,
+            1.188371823938305
+          ]
+        },
+        {
+          "count": 80000,
+          "gpu_over_cpu": 1.284732932376354,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.247104275358124,
+            1.3472459846392357,
+            1.2973005825035904
+          ]
+        },
+        {
+          "count": 100000,
+          "gpu_over_cpu": 1.312373067740429,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.3137731660572167,
+            1.312373067740429,
+            1.3020631194141927
+          ]
+        }
+      ],
+      "gpu_faster_counts": [
+        50000,
+        60000,
+        80000,
+        100000
+      ],
+      "gpu_20pct_faster_counts": [
+        80000,
+        100000
+      ],
+      "all_trials_20pct_faster_counts": [
+        80000,
+        100000
+      ]
+    },
+    "sokol": {
+      "paired": [
+        {
+          "count": 5,
+          "gpu_over_cpu": 0.6561168936348913,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.6906967051767462,
+            0.5057784979811877,
+            0.5873056804305462
+          ]
+        },
+        {
+          "count": 10,
+          "gpu_over_cpu": 0.5213018588350993,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.42759110156741786,
+            0.5944804780478602,
+            0.5213018588350993
+          ]
+        },
+        {
+          "count": 50,
+          "gpu_over_cpu": 0.3558951264271497,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.33961635888822983,
+            0.4412661162092057,
+            0.3534511761510704
+          ]
+        },
+        {
+          "count": 100,
+          "gpu_over_cpu": 0.4703990638012211,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.505761698893481,
+            0.42914596509041136,
+            0.48098984057288197
+          ]
+        },
+        {
+          "count": 200,
+          "gpu_over_cpu": 0.3881428335616123,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.3853160787159128,
+            0.4148394048572028,
+            0.3867152637910944
+          ]
+        },
+        {
+          "count": 400,
+          "gpu_over_cpu": 0.37982662044479953,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.38502794714674643,
+            0.3256046360054575,
+            0.38106008147719767
+          ]
+        },
+        {
+          "count": 800,
+          "gpu_over_cpu": 0.35213802973661346,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.35213802973661346,
+            0.36234608044854716,
+            0.35072432095214723
+          ]
+        },
+        {
+          "count": 1000,
+          "gpu_over_cpu": 0.33751051838032986,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.29590011067012056,
+            0.3381757538491837,
+            0.3925522464299198
+          ]
+        },
+        {
+          "count": 2000,
+          "gpu_over_cpu": 0.35343872858927083,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.3372254210930528,
+            0.38470774737492985,
+            0.3205742817512601
+          ]
+        },
+        {
+          "count": 5000,
+          "gpu_over_cpu": 0.3742559071441735,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.358280317673537,
+            0.39188613301429165,
+            0.36915429956404155
+          ]
+        },
+        {
+          "count": 10000,
+          "gpu_over_cpu": 0.570905846903307,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.5603656617779976,
+            0.5817173597480672,
+            0.5654497634676848
+          ]
+        },
+        {
+          "count": 15000,
+          "gpu_over_cpu": 0.7876657675891169,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.7692293202010088,
+            0.7910065434471946,
+            0.7850512655773815
+          ]
+        },
+        {
+          "count": 20000,
+          "gpu_over_cpu": 0.8764048998544219,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.8375022183386942,
+            0.9019372620974482,
+            0.8872980787404356
+          ]
+        },
+        {
+          "count": 30000,
+          "gpu_over_cpu": 1.1118907263152906,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.1025364171489125,
+            1.1421188053430307,
+            1.1185873701531714
+          ]
+        },
+        {
+          "count": 40000,
+          "gpu_over_cpu": 1.2197580058799267,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.2396983124987708,
+            1.2197580058799269,
+            1.204517728207275
+          ]
+        },
+        {
+          "count": 50000,
+          "gpu_over_cpu": 1.3379002423241466,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.3355873375771496,
+            1.327920676759868,
+            1.3675330957999365
+          ]
+        },
+        {
+          "count": 60000,
+          "gpu_over_cpu": 1.4347190068947968,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.4347190068947968,
+            1.4387837730165218,
+            1.448140907296445
+          ]
+        },
+        {
+          "count": 80000,
+          "gpu_over_cpu": 1.5465483605495116,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.5680621297735997,
+            1.5451523178966915,
+            1.5439715907486573
+          ]
+        }
+      ],
+      "gpu_faster_counts": [
+        30000,
+        40000,
+        50000,
+        60000,
+        80000
+      ],
+      "gpu_20pct_faster_counts": [
+        40000,
+        50000,
+        60000,
+        80000
+      ],
+      "all_trials_20pct_faster_counts": [
+        40000,
+        50000,
+        60000,
+        80000
+      ]
+    },
+    "direct": {
+      "paired": [
+        {
+          "count": 5,
+          "gpu_over_cpu": 1.2087310535487636,
+          "trial_ranges_overlap": true,
+          "trial_gpu_over_cpu": [
+            1.149885954289184,
+            1.1310414068632335,
+            1.2087310535487639
+          ]
+        },
+        {
+          "count": 10,
+          "gpu_over_cpu": 1.6826587977933822,
+          "trial_ranges_overlap": true,
+          "trial_gpu_over_cpu": [
+            1.2048794958607023,
+            0.7871641847310126,
+            2.38035650225282
+          ]
+        },
+        {
+          "count": 50,
+          "gpu_over_cpu": 0.363468271856466,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.37187232935640885,
+            0.9279341216733961,
+            0.1937582259224173
+          ]
+        },
+        {
+          "count": 100,
+          "gpu_over_cpu": 0.2802360441439934,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.6410352650685949,
+            0.20048217674095922,
+            0.3492713661139177
+          ]
+        },
+        {
+          "count": 200,
+          "gpu_over_cpu": 0.6569154295817419,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.749695466616672,
+            0.6569154295817419,
+            0.21624464087949727
+          ]
+        },
+        {
+          "count": 400,
+          "gpu_over_cpu": 0.18929990572940164,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.5340941585239205,
+            0.1878263839369021,
+            0.1832246304177301
+          ]
+        },
+        {
+          "count": 800,
+          "gpu_over_cpu": 0.16078001715304086,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.15974259075319236,
+            0.5595511149951415,
+            0.15881232949685659
+          ]
+        },
+        {
+          "count": 1000,
+          "gpu_over_cpu": 0.18588625619937604,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.15357391558323485,
+            0.18588625619937607,
+            0.26822063029868265
+          ]
+        },
+        {
+          "count": 2000,
+          "gpu_over_cpu": 0.259531635280085,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.2452148121921276,
+            0.26169866306027395,
+            0.259531635280085
+          ]
+        },
+        {
+          "count": 5000,
+          "gpu_over_cpu": 0.4397739211193734,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.4639280031510285,
+            0.4554063256961941,
+            0.3663233457939278
+          ]
+        },
+        {
+          "count": 10000,
+          "gpu_over_cpu": 0.7673105411143135,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.7673105411143136,
+            0.7155888670259083,
+            0.7883748398434315
+          ]
+        },
+        {
+          "count": 15000,
+          "gpu_over_cpu": 0.8868110031584142,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.9407741507270195,
+            0.8441010958853069,
+            0.8873330580908804
+          ]
+        },
+        {
+          "count": 20000,
+          "gpu_over_cpu": 0.9704510791620081,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            0.9857487191380119,
+            0.9674154864869683,
+            0.8559477865608585
+          ]
+        },
+        {
+          "count": 30000,
+          "gpu_over_cpu": 1.0688584038318487,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.0855360214081706,
+            1.0561096330026438,
+            1.0533646128952703
+          ]
+        },
+        {
+          "count": 40000,
+          "gpu_over_cpu": 1.118086534636191,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.1253593495387946,
+            1.1201975907667996,
+            1.094966700763418
+          ]
+        },
+        {
+          "count": 50000,
+          "gpu_over_cpu": 1.2299775542614102,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.220551715658844,
+            1.2388328347269477,
+            1.2002139892208747
+          ]
+        },
+        {
+          "count": 60000,
+          "gpu_over_cpu": 1.3115132933290767,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.3115132933290767,
+            1.3353043421286355,
+            1.306293968528842
+          ]
+        },
+        {
+          "count": 80000,
+          "gpu_over_cpu": 1.3516332349656741,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.3634006041128837,
+            1.3724477730049356,
+            1.3261730015092783
+          ]
+        },
+        {
+          "count": 100000,
+          "gpu_over_cpu": 1.3934736564911234,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.3706986639239414,
+            1.4227670698302028,
+            1.4029213416665094
+          ]
+        }
+      ],
+      "gpu_faster_counts": [
+        5,
+        10,
+        30000,
+        40000,
+        50000,
+        60000,
+        80000,
+        100000
+      ],
+      "gpu_20pct_faster_counts": [
+        5,
+        10,
+        50000,
+        60000,
+        80000,
+        100000
+      ],
+      "all_trials_20pct_faster_counts": [
+        50000,
+        60000,
+        80000,
+        100000
+      ]
+    }
+  },
+  "thresholds": {
+    "physics-cpu": {
+      "60": {
+        "last_above": 20000,
+        "first_at_or_below": 30000,
+        "last_tested": 150000
+      },
+      "30": {
+        "last_above": 40000,
+        "first_at_or_below": 50000,
+        "last_tested": 150000
+      },
+      "10": {
+        "last_above": 100000,
+        "first_at_or_below": 150000,
+        "last_tested": 150000
+      }
+    },
+    "physics-gpu": {
+      "60": {
+        "last_above": 20000,
+        "first_at_or_below": 30000,
+        "last_tested": 100000
+      },
+      "30": {
+        "last_above": 50000,
+        "first_at_or_below": 60000,
+        "last_tested": 100000
+      },
+      "10": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": 100000
+      }
+    },
+    "sokol-cpu": {
+      "60": {
+        "last_above": 15000,
+        "first_at_or_below": 20000,
+        "last_tested": 80000
+      },
+      "30": {
+        "last_above": 30000,
+        "first_at_or_below": 40000,
+        "last_tested": 80000
+      },
+      "10": {
+        "last_above": 60000,
+        "first_at_or_below": 80000,
+        "last_tested": 80000
+      }
+    },
+    "sokol-gpu": {
+      "60": {
+        "last_above": 10000,
+        "first_at_or_below": 15000,
+        "last_tested": 100000
+      },
+      "30": {
+        "last_above": 30000,
+        "first_at_or_below": 40000,
+        "last_tested": 100000
+      },
+      "10": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": 100000
+      }
+    },
+    "direct-cpu": {
+      "60": {
+        "last_above": 20000,
+        "first_at_or_below": 30000,
+        "last_tested": 150000
+      },
+      "30": {
+        "last_above": 40000,
+        "first_at_or_below": 50000,
+        "last_tested": 150000
+      },
+      "10": {
+        "last_above": 100000,
+        "first_at_or_below": 150000,
+        "last_tested": 150000
+      }
+    },
+    "direct-gpu": {
+      "60": {
+        "last_above": 20000,
+        "first_at_or_below": 30000,
+        "last_tested": 100000
+      },
+      "30": {
+        "last_above": 50000,
+        "first_at_or_below": 60000,
+        "last_tested": 100000
+      },
+      "10": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": 100000
+      }
+    }
+  },
+  "additional_manifests": []
+}

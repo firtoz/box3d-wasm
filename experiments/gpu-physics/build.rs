@@ -28,6 +28,7 @@ fn main() {
         .compile("gpu_box3d_hull_cook");
     println!("cargo:rerun-if-changed=c_abi/shim.c");
     println!("cargo:rerun-if-changed=c_abi/native_clock.h");
+    println!("cargo:rerun-if-changed=c_abi/growable_slots.h");
     println!("cargo:rerun-if-changed=c_abi/compound_mesh_bake.h");
     println!("cargo:rerun-if-changed=c_abi/compound_mesh_instances.h");
     println!("cargo:rerun-if-changed={}", box3d_src.join("hull.c").display());

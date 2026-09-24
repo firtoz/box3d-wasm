@@ -99,15 +99,15 @@ fn mixed_friction_of(a: Body, b: Body) -> f32 {
     }
     let ia = a._pad_island.x;
     let ib = b._pad_island.x;
-    let key = (max(ia, ib) << 16u) | min(ia, ib);
-    var slot = pair_hash_mix(key) & (MIX_PAIR_CAP - 1u);
+    let key = vec2<u32>(min(ia, ib), max(ia, ib));
+    var slot = pair_hash_mix(pair_hash_mix(key.x) ^ key.y) & (MIX_PAIR_CAP - 1u);
     for (var probe = 0u; probe < 32u; probe++) {
-        let base = params.mix_pair_base_u32 + slot * 4u;
-        if (scene_words[base + 3u] == 0u) {
+        let base = params.mix_pair_base_u32 + slot * 8u;
+        if (scene_words[base + 4u] == 0u) {
             break;
         }
-        if (scene_words[base] == key) {
-            return bitcast<f32>(scene_words[base + 1u]);
+        if (scene_words[base] == key.x && scene_words[base + 1u] == key.y) {
+            return bitcast<f32>(scene_words[base + 2u]);
         }
         slot = (slot + 1u) & (MIX_PAIR_CAP - 1u);
     }
@@ -121,15 +121,15 @@ fn mixed_restitution_of(a: Body, b: Body) -> f32 {
     }
     let ia = a._pad_island.x;
     let ib = b._pad_island.x;
-    let key = (max(ia, ib) << 16u) | min(ia, ib);
-    var slot = pair_hash_mix(key) & (MIX_PAIR_CAP - 1u);
+    let key = vec2<u32>(min(ia, ib), max(ia, ib));
+    var slot = pair_hash_mix(pair_hash_mix(key.x) ^ key.y) & (MIX_PAIR_CAP - 1u);
     for (var probe = 0u; probe < 32u; probe++) {
-        let base = params.mix_pair_base_u32 + slot * 4u;
-        if (scene_words[base + 3u] == 0u) {
+        let base = params.mix_pair_base_u32 + slot * 8u;
+        if (scene_words[base + 4u] == 0u) {
             break;
         }
-        if (scene_words[base] == key) {
-            return bitcast<f32>(scene_words[base + 2u]);
+        if (scene_words[base] == key.x && scene_words[base + 1u] == key.y) {
+            return bitcast<f32>(scene_words[base + 3u]);
         }
         slot = (slot + 1u) & (MIX_PAIR_CAP - 1u);
     }
@@ -137,8 +137,7 @@ fn mixed_restitution_of(a: Body, b: Body) -> f32 {
 }
 
 fn finish_manifold(c: ptr<function, Contact>, a: Body, b: Body, ia: u32, ib: u32) {
-    let key = (max(a._pad_island.x, b._pad_island.x) << 16u)
-        | min(a._pad_island.x, b._pad_island.x);
+    let key = vec2<u32>(min(a._pad_island.x, b._pad_island.x), max(a._pad_island.x, b._pad_island.x));
     let previous = find_prev_contact_key(key, ia, ib);
     finish_manifold_from_previous(c, a, b, ia, ib, previous);
 }
@@ -2637,7 +2636,7 @@ fn discard_mesh_patch_list(list: MeshPatchList) {
     for (var i = 0u; i < list.count; i++) {
         let next = contacts[slot].manifold_link.x;
         store_contact(slot, empty_contact());
-        scratch[SCR_CONTACT_MARK + slot] = 0u;
+        scratch[scr_contact_mark() + slot] = 0u;
         slot = next - 1u;
     }
 }
@@ -2650,14 +2649,14 @@ fn select_old_mesh_patch(root: u32, fresh: Contact) -> Contact {
     for (var i = 0u; i < count; i++) {
         let old = load_contact(slot);
         if (old.a == fresh.a && old.b == fresh.b && old.count > 0u
-            && (scratch[SCR_CONTACT_MARK + slot] & 2u) == 0u) {
+            && (scratch[scr_contact_mark() + slot] & 2u) == 0u) {
             let alignment = dot(old.n, fresh.n);
             if (alignment > best_dot) { best = slot; best_dot = alignment; }
         }
         slot = old.manifold_link.x - 1u;
     }
     if (best == EMPTY) { return empty_contact(); }
-    scratch[SCR_CONTACT_MARK + best] |= 2u;
+    scratch[scr_contact_mark() + best] |= 2u;
     return load_contact(best);
 }
 
@@ -2692,13 +2691,13 @@ fn finalize_mesh_patch_list(list: MeshPatchList, root: u32, mesh: Body, convex: 
         discard_mesh_patch_list(list);
         return load_contact(root);
     }
-    scratch[SCR_CONTACT_MARK + root] = 1u;
+    scratch[scr_contact_mark() + root] = 1u;
     if (list.count == 0u) { return empty_contact(); }
     var result = load_contact(list.head);
     result.manifold_link.y = 0u;
     result.manifold_link.z = list.count;
     store_contact(list.head, empty_contact());
-    scratch[SCR_CONTACT_MARK + list.head] = 0u;
+    scratch[scr_contact_mark() + list.head] = 0u;
     return result;
 }
 
@@ -3184,9 +3183,9 @@ fn pair_already(ia: u32, ib: u32, filled: u32) -> bool {
 
 fn pair_queued(ia: u32, ib: u32, npairs: u32) -> bool {
     for (var k = 0u; k < npairs; k++) {
-        let packed = scratch[2u + k];
-        let a = packed >> 16u;
-        let b = packed & 0xffffu;
+        let packed = load_pair_words(SCR_PAIRS, k);
+        let a = packed.y;
+        let b = packed.x;
         if ((a == ia && b == ib) || (a == ib && b == ia)) {
             return true;
         }
@@ -3315,7 +3314,7 @@ fn recycle_contact(p: Contact, a: Body, b: Body) -> Contact {
     return c;
 }
 
-fn store_pair(slot: u32, key: u32, man: Contact, ia: u32, ib: u32, a: Body, b: Body) {
+fn store_pair(slot: u32, key: vec2<u32>, man: Contact, ia: u32, ib: u32, a: Body, b: Body) {
     let previous = load_contact(slot);
     let generation = select(previous.lifecycle.x + 1u, previous.lifecycle.x, previous.a != EMPTY);
     let local_order = select(
@@ -3335,14 +3334,16 @@ fn store_pair(slot: u32, key: u32, man: Contact, ia: u32, ib: u32, a: Body, b: B
             generation,
             flags,
             local_order,
-            key,
+            0u,
         );
+        touching.pair = vec4<u32>(key, 0u, 0u);
         store_contact(slot, touching);
         var child = touching.manifold_link.x;
         for (var i = 1u; i < max(touching.manifold_link.z, 1u); i++) {
             let child_slot = child - 1u;
             var piece = load_contact(child_slot);
-            piece.lifecycle = vec4<u32>(generation, CONTACT_ALIVE | CONTACT_TOUCHING | (piece.lifecycle.y & CONTACT_PERSISTED_MASK), EMPTY, key);
+            piece.lifecycle = vec4<u32>(generation, CONTACT_ALIVE | CONTACT_TOUCHING | (piece.lifecycle.y & CONTACT_PERSISTED_MASK), EMPTY, 0u);
+            piece.pair = vec4<u32>(key, 0u, 0u);
             piece.color = touching.color;
             child = piece.manifold_link.x;
             store_contact(child_slot, piece);
@@ -3357,7 +3358,8 @@ fn store_pair(slot: u32, key: u32, man: Contact, ia: u32, ib: u32, a: Body, b: B
     if (was_touching) {
         flags = flags | CONTACT_STOP_TOUCHING;
     }
-    ghost.lifecycle = vec4<u32>(generation, flags, local_order, key);
+    ghost.lifecycle = vec4<u32>(generation, flags, local_order, 0u);
+    ghost.pair = vec4<u32>(key, 0u, 0u);
     store_contact(slot, ghost);
 }
 
@@ -3375,9 +3377,9 @@ fn collide_pairs(
     var ib = 0u;
     var valid = false;
     if (k < npairs) {
-        let packed = scratch[SCR_PAIRS + k];
-        ia = packed & 0xffffu;
-        ib = packed >> 16u;
+        let packed = load_pair_words(SCR_PAIRS, k);
+        ia = packed.x;
+        ib = packed.y;
         valid = ia != ib && ia != EMPTY && ib != EMPTY
             && ia < params.shape_count && ib < params.shape_count
             && load_shape(ia).body_index != load_shape(ib).body_index;
@@ -3392,13 +3394,13 @@ fn collide_pairs(
     }
     let a = wg_body_a[lid];
     let b = wg_body_b[lid];
-    let packed = scratch[SCR_PAIRS + k];
+    let packed = load_pair_words(SCR_PAIRS, k);
     let shape_a = load_shape(ia);
     let shape_b = load_shape(ib);
     let body_a = load_body(shape_a.body_index);
     let body_b = load_body(shape_b.body_index);
     let sensor_pair = ((shape_a.event_flags | shape_b.event_flags) & SHAPE_IS_SENSOR) != 0u;
-    let slot = scratch[SCR_ACTIVE_CONTACT + k];
+    let slot = scratch[scr_active_contact() + k];
     if (slot == EMPTY) {
         return;
     }
@@ -3430,7 +3432,7 @@ fn collide_pairs(
                 if (recycled.count > 0u && (old.lifecycle.y & CONTACT_TOUCHING) != 0u) {
                     recycled.lifecycle.y |= CONTACT_TOUCHING;
                 }
-                recycled.lifecycle.w = packed;
+                recycled.pair = vec4<u32>(packed, 0u, 0u);
                 store_contact(member, recycled);
                 member = old.manifold_link.x - 1u;
             }

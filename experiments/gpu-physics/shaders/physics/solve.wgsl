@@ -262,8 +262,8 @@ fn prepare_contact_slot(k: u32) {
 @compute @workgroup_size(64)
 fn prepare_contacts(@builtin(global_invocation_id) gid: vec3<u32>) {
     let i = gid.x;
-    if (i >= min(scratch[SCR_NCONTACTS], PAIR_CAP)) { return; }
-    let root = scratch[SCR_ACTIVE_CONTACT + i];
+    if (i >= min(scratch[SCR_NCONTACTS], pair_cap())) { return; }
+    let root = scratch[scr_active_contact() + i];
     if (root >= params.contact_capacity || contacts[root].a == EMPTY || contacts[root].count == 0u) { return; }
     if (!contact_chain_valid(root)) { return; }
     let count = max(contacts[root].manifold_link.z, 1u);
@@ -693,7 +693,7 @@ fn solve_color_range_one_group(lid: u32, first_color: u32, end_color: u32) {
 }
 
 fn jac_slot(body: u32, comp: u32) -> u32 {
-    return ATOM_JACOBI + body * 6u + comp;
+    return atom_jacobi() + body * 6u + comp;
 }
 
 fn jac_add(body: u32, dv: vec3<f32>, dw: vec3<f32>) {
@@ -722,11 +722,11 @@ fn jacobi_clear(@builtin(global_invocation_id) gid: vec3<u32>) {
 @compute @workgroup_size(64)
 fn solve_jacobi(@builtin(global_invocation_id) gid: vec3<u32>) {
     let i = gid.x;
-    let np = min(scratch[SCR_NCONTACTS], PAIR_CAP);
+    let np = min(scratch[SCR_NCONTACTS], pair_cap());
     if (i >= np) {
         return;
     }
-    let k = scratch[SCR_ACTIVE_CONTACT + i];
+    let k = scratch[scr_active_contact() + i];
     var c = load_solve_contact(k);
     if (c.a == EMPTY || c.count == 0u) {
         return;

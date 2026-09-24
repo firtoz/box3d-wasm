@@ -17,8 +17,18 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 NATIVE = runpy.run_path(str(ROOT/'scripts/measure-samples-application.py'))['NATIVE']
-COUNTS = [5,10,50,100,200,400,800,1000,2000,5000,10000,15000,20000,30000,40000,50000,60000]
+COUNTS = [5,10,50,100,200,400,800,1000,2000,5000,10000,15000,20000,30000,40000,50000,60000,80000,100000,150000,200000,400000,800000,1000000]
 MODES = ['physics-cpu','physics-gpu','sokol-cpu','sokol-gpu','direct-cpu','direct-gpu']
+
+def sokol_settings():
+    path=ROOT.parents[1]/'box3d/settings.ini'
+    return json.loads(path.read_text()) if path.exists() else None
+
+def render_settings(settings):
+    if settings is None: return None
+    keys=['drawShapes','enableShadows','enableGtao','gtaoQuality','enableIbl',
+          'exposure','sunStrength','shadowSplitLambda','debugView','showHullEdges','showEdgeConvexity']
+    return {key:settings.get(key) for key in keys}
 
 def write_json(path, data):
     temporary=path.with_suffix(path.suffix+'.tmp')
@@ -84,6 +94,10 @@ def metrics(data, mode, path, args, count):
         assert len(frames)==args.timed
         assert all(not f['exploded'] and f['nan_count']==0 for f in frames)
         assert all(f['body_count']==count+1 and not f['gpu_contact_metrics']['capacity_loss'] for f in frames)
+        if mode=='sokol-gpu' and any('gpu_draw_shapes' in f for f in frames):
+            assert all(f.get('gpu_draw_shapes')==count+1 for f in frames), 'incomplete GPU shape draw list'
+        if any('renderer_instances' in f for f in frames):
+            assert all(f.get('renderer_instances')==count+1 for f in frames), 'incomplete renderer instance upload'
         if mode=='sokol-gpu': assert any(f['gpu_contact_metrics']['known'] and f['gpu_contact_metrics']['touching_roots']>0 for f in frames)
         assert len({(f['framebuffer_width'],f['framebuffer_height']) for f in frames})==1
         return dict(p50_ms=data['cadence_p50_ms'],p95_ms=data['cadence_p95_ms'],mean_ms=statistics.mean(f['cadence_ms'] for f in frames),
@@ -109,6 +123,9 @@ def main():
     p.add_argument('--timed',type=int,default=240)
     p.add_argument('--workers',type=int,default=8)
     p.add_argument('--adapter',default='nvidia')
+    p.add_argument('--gpu-solver',choices=['component','global'],default='component',
+        help='Select comparable component or global-color scheduling; recorded in the manifest')
+    p.add_argument('--gpu-binary',type=Path,help='Use a preserved GPU executable for physics/direct modes')
     p.add_argument('--width',type=int,default=1280)
     p.add_argument('--height',type=int,default=720)
     p.add_argument('--timeout',type=int,default=600)
@@ -125,18 +142,22 @@ def main():
         sokol_cpu=ROOT/'native-samples/build-cpu-portable/bin/samples_cpu',
         sokol_gpu=ROOT/'native-samples/build-gpu-native-cache-portable/bin/samples_gpu',
         cpu_bridge=ROOT/'oracle/build-viewer/libbox3d_viewer_cpu.so')
+    if a.gpu_binary is not None: binaries['gpu']=a.gpu_binary.resolve()
     env={k:v for k,v in os.environ.items() if not k.startswith(('GPU_PHYSICS_','GPU_SOKOL_','GPU_BENCH_'))}
     env.pop('WAYLAND_DISPLAY',None)
     env.update(NATIVE, GPU_PHYSICS_ADAPTER=a.adapter,GPU_PHYSICS_CPU_WORKERS=str(a.workers),
         GPU_PHYSICS_DEMAND_POSES='1',GPU_PHYSICS_PRESENT_MODE='immediate',
         GPU_PHYSICS_PIPELINE_CACHE_DIR=str(Path.home()/'.cache/box3d-gpu-physics/pipelines'),
         GPU_BENCH_WIDTH=str(a.width),GPU_BENCH_HEIGHT=str(a.height))
-    manifest=dict(workload='falling-cubes-v1',arguments=vars(a)|dict(output=str(out)),platform=platform.platform(),
+    if a.gpu_solver=='global': env.update(GPU_PHYSICS_COMPONENT_TGS='0',GPU_PHYSICS_COLOR_PREFIX='20')
+    manifest=dict(workload='falling-cubes-v1',arguments=vars(a)|dict(output=str(out),gpu_binary=str(a.gpu_binary) if a.gpu_binary else None),platform=platform.platform(),
         cpu=command_output(['lscpu']),gpu=command_output(['nvidia-smi','--query-gpu=name,uuid,memory.total,driver_version,power.limit,clocks.max.sm,clocks.max.memory','--format=csv']),
         vulkan=command_output(['vulkaninfo','--summary']),
         git=command_output(['git','rev-parse','HEAD']),diff_sha256=hashlib.sha256(subprocess.check_output(['git','diff'])).hexdigest(),
         binaries={k:dict(path=str(v),sha256=hashlib.sha256(v.read_bytes()).hexdigest()) for k,v in binaries.items()},
         environment={k:v for k,v in env.items() if k.startswith(('GPU_','VK_','WGPU_','__NV','__GLX','DISPLAY'))})
+    manifest['sokol_settings_before']=sokol_settings()
+    manifest['sokol_draw_distance_m']=1000
     if a.resume:
         old=json.loads((out/'manifest.json').read_text())
         for key in ['counts','modes','trials','warmup','timed','workers','adapter','width','height']:
@@ -158,13 +179,12 @@ def main():
     sizes={tuple(r['framebuffer']) for r in rows if r['status']=='ok' and 'framebuffer' in r}
     assert len(sizes)<=1
     framebuffer=list(next(iter(sizes))) if sizes else None
+    renderer_settings=render_settings(manifest['sokol_settings_before'])
+    for row in rows:
+        if row['status']=='ok' and row['mode'].startswith('sokol-'):
+            renderer_settings=render_settings(row.get('sokol_settings_after'))
+            break
     for count in a.counts:
-        # The direct CPU viewer still creates a GPU-side world for its renderer.
-        # That world has 65,536 body slots, including the static floor. The
-        # independent C oracle and CPU Sokol app do not share this limit.
-        for mode in a.modes:
-            if mode not in stopped and count>65535 and mode not in ['physics-cpu','sokol-cpu']:
-                stopped[mode]=dict(count=count,reason='16-bit scene body capacity',max_dynamic_cubes=65535)
         write_json(out/'stopped.json',stopped)
         active=[m for m in a.modes if m not in stopped]
         if not active: break
@@ -196,12 +216,25 @@ def main():
                     if mode.endswith('cpu'): runenv['GPU_PHYSICS_CPU_REFERENCE']=str(binaries['cpu_bridge'])
                 print(f'{count} cubes {mode} trial {trial+1}',flush=True)
                 record=dict(count=count,mode=mode,trial=trial+1,command=cmd,before=before,idle=idle,load_gate_enabled=a.require_idle)
+                if mode.startswith('sokol-'): record['sokol_settings_before']=sokol_settings()
                 try:
                     with path.with_suffix('.log').open('w') as log:
                         subprocess.run(cmd,cwd=cwd,env=runenv,stdout=log,stderr=log,check=True,timeout=a.timeout)
                     record['after']=system()
+                    if mode.startswith('sokol-'): record['sokol_settings_after']=sokol_settings()
                     if record['after']['ac'] and '1' not in record['after']['ac'].values(): raise RuntimeError('AC power disconnected')
-                    record.update(metrics(json.loads(path.read_text()),mode,path,a,count),status='ok')
+                    data=json.loads(path.read_text())
+                    if mode=='sokol-gpu':
+                        observed={f.get('gpu_draw_shapes') for f in data['frames']}
+                        assert observed=={count+1}, f'GPU draw list expected {count+1} shapes; observed {observed}'
+                    if mode.startswith('sokol-'):
+                        observed={f.get('renderer_instances') for f in data['frames']}
+                        assert observed=={count+1}, f'renderer upload expected {count+1} instances; observed {observed}'
+                        current_settings=render_settings(record['sokol_settings_after'])
+                        if renderer_settings is None: renderer_settings=current_settings
+                        assert current_settings==renderer_settings, 'Sokol rendering settings changed during sweep'
+                        assert record['sokol_settings_after']['drawDistance']==1000, 'benchmark draw distance changed'
+                    record.update(metrics(data,mode,path,a,count),status='ok')
                     if 'framebuffer' in record:
                         if framebuffer is None: framebuffer=record['framebuffer']
                         assert framebuffer==record['framebuffer'],(framebuffer,record['framebuffer'])

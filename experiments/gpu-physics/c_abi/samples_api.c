@@ -9,9 +9,9 @@
 #include <stdbool.h>
 #include <time.h>
 #include "native_clock.h"
+#include "growable_slots.h"
 
-#define GPU_SAMPLES_WORLD_CAP 64
-#define GPU_SAMPLES_SHAPE_CAP 65536
+#define GPU_SAMPLES_WORLD_CAP GPU_METADATA_WORLDS
 
 typedef struct WorldVis
 {
@@ -23,6 +23,7 @@ typedef struct WorldVis
 typedef struct ShapeVis
 {
 	uint8_t live;
+	b3ShapeId id;
 	b3ShapeType type;
 	b3BodyId body;
 	b3Sphere sphere;
@@ -38,11 +39,16 @@ typedef struct ShapeVis
 } ShapeVis;
 
 static WorldVis g_worlds[GPU_SAMPLES_WORLD_CAP];
-static ShapeVis* g_shapes;
-static int g_shape_cap;
+static GpuSlots g_shapes[GPU_SAMPLES_WORLD_CAP];
 static float g_last_draw_list_ms;
 static float g_last_pose_prep_ms;
 static float g_last_import_ms;
+static uint32_t g_last_draw_shape_count;
+
+uint32_t gpu_samples_last_draw_shape_count(void)
+{
+    return g_last_draw_shape_count;
+}
 
 float gpu_samples_last_import_ms(void)
 {
@@ -83,22 +89,12 @@ static WorldVis* world_vis(b3WorldId id)
 	return &g_worlds[id.index1];
 }
 
-static ShapeVis* shape_vis(b3ShapeId id)
+static ShapeVis* shape_vis(b3ShapeId id, bool create)
 {
-	if (id.index1 <= 0)
-	{
-		return NULL;
-	}
-	if (g_shapes == NULL)
-	{
-		g_shape_cap = GPU_SAMPLES_SHAPE_CAP;
-		g_shapes = (ShapeVis*)calloc((size_t)g_shape_cap, sizeof(ShapeVis));
-	}
-	if (g_shapes == NULL || id.index1 >= g_shape_cap)
-	{
-		return NULL;
-	}
-	return &g_shapes[id.index1];
+    if (id.world0 == 0 || id.world0 >= GPU_SAMPLES_WORLD_CAP) return NULL;
+    ShapeVis* s = (ShapeVis*)gpu_slots_get(&g_shapes[id.world0], id.index1, sizeof(ShapeVis), create);
+    if (!create && s && (!s->live || s->id.generation != id.generation)) return NULL;
+    return s;
 }
 
 static void destroy_user_shape(b3WorldId world, ShapeVis* s)
@@ -129,39 +125,34 @@ void gpu_samples_on_world_created(b3WorldId world, const b3WorldDef* def)
 
 void gpu_samples_on_world_destroyed(b3WorldId world)
 {
-	if (g_shapes != NULL)
-	{
-		for (int i = 1; i < g_shape_cap; ++i)
-		{
-			if (g_shapes[i].live && g_shapes[i].body.world0 == world.index1)
-			{
-				destroy_user_shape(world, &g_shapes[i]);
-				if (g_shapes[i].hull != NULL)
-				{
-					b3DestroyHull(g_shapes[i].hull);
-					g_shapes[i].hull = NULL;
-				}
-				g_shapes[i].live = 0;
-			}
-		}
-	}
-	WorldVis* w = world_vis(world);
-	if (w != NULL)
-	{
-		memset(w, 0, sizeof(*w));
-	}
+    WorldVis* w = world_vis(world);
+    if (!w) return;
+    GpuSlots* slots = &g_shapes[world.index1];
+    for (uint32_t i = 1; i < slots->high_water; ++i)
+    {
+        ShapeVis* s = (ShapeVis*)gpu_slots_get(slots, (int32_t)i, sizeof(ShapeVis), false);
+        if (s && s->live)
+        {
+            destroy_user_shape(world, s);
+            if (s->hull) b3DestroyHull(s->hull);
+            memset(s, 0, sizeof(*s));
+        }
+    }
+    gpu_slots_release(slots);
+    memset(w, 0, sizeof(*w));
 }
 
 void gpu_samples_on_shape_created(b3ShapeId shapeId, b3BodyId bodyId, b3ShapeType type, const b3Sphere* sphere,
 								  const b3Capsule* capsule, const b3HullData* hull)
 {
-	ShapeVis* s = shape_vis(shapeId);
+	ShapeVis* s = shape_vis(shapeId, true);
 	if (s == NULL)
 	{
 		return;
 	}
 	memset(s, 0, sizeof(*s));
 	s->live = 1;
+	s->id = shapeId;
 	s->type = type;
 	s->body = bodyId;
 	s->name[0] = 0;
@@ -192,7 +183,7 @@ void gpu_samples_on_shape_created(b3ShapeId shapeId, b3BodyId bodyId, b3ShapeTyp
 void gpu_samples_on_compound_shape_created(b3ShapeId shapeId, b3BodyId bodyId, const b3CompoundData* compound)
 {
 	gpu_samples_on_shape_created(shapeId, bodyId, b3_compoundShape, NULL, NULL, NULL);
-	ShapeVis* s = shape_vis(shapeId);
+	ShapeVis* s = shape_vis(shapeId, false);
 	if (s != NULL && s->live)
 	{
 		s->compound = compound;
@@ -201,13 +192,14 @@ void gpu_samples_on_compound_shape_created(b3ShapeId shapeId, b3BodyId bodyId, c
 
 void gpu_samples_on_mesh_shape_created(b3ShapeId shapeId, b3BodyId bodyId, const b3MeshData* mesh, b3Vec3 scale)
 {
-	ShapeVis* s = shape_vis(shapeId);
+	ShapeVis* s = shape_vis(shapeId, true);
 	if (s == NULL)
 	{
 		return;
 	}
 	memset(s, 0, sizeof(*s));
 	s->live = 1;
+	s->id = shapeId;
 	s->type = b3_meshShape;
 	s->body = bodyId;
 	s->mesh = (b3Mesh){mesh, scale};
@@ -215,7 +207,7 @@ void gpu_samples_on_mesh_shape_created(b3ShapeId shapeId, b3BodyId bodyId, const
 
 void gpu_samples_on_shape_destroyed(b3ShapeId shapeId)
 {
-	ShapeVis* s = shape_vis(shapeId);
+	ShapeVis* s = shape_vis(shapeId, false);
 	if (s == NULL || !s->live)
 	{
 		return;
@@ -233,7 +225,7 @@ void gpu_samples_on_shape_destroyed(b3ShapeId shapeId)
 void gpu_samples_on_shape_replaced(b3ShapeId id, b3BodyId body, b3ShapeType type,
     const b3Sphere* sphere, const b3Capsule* capsule, const b3HullData* hull)
 {
-    ShapeVis* s = shape_vis(id);
+    ShapeVis* s = shape_vis(id, false);
     if (!s) { return; }
     char name[sizeof(s->name)];
     memcpy(name, s->name, sizeof(name));
@@ -357,7 +349,7 @@ static void* ensure_user_shape(b3WorldId worldId, b3ShapeId shapeId, ShapeVis* s
 
 void gpu_samples_shape_set_name(b3ShapeId shapeId, const char* name)
 {
-	ShapeVis* s = shape_vis(shapeId);
+	ShapeVis* s = shape_vis(shapeId, false);
 	if (s == NULL || !s->live)
 	{
 		return;
@@ -373,7 +365,7 @@ void gpu_samples_shape_set_name(b3ShapeId shapeId, const char* name)
 
 const char* gpu_samples_shape_get_name(b3ShapeId shapeId)
 {
-	ShapeVis* s = shape_vis(shapeId);
+	ShapeVis* s = shape_vis(shapeId, false);
 	if (s == NULL || !s->live)
 	{
 		return "";
@@ -411,7 +403,8 @@ extern bool gpu_gl_poses_imported(void);
 void gpu_samples_world_draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskBits)
 {
 	(void)maskBits;
-	if (draw == NULL || draw->drawShapes == false || draw->DrawShapeFcn == NULL || g_shapes == NULL)
+	g_last_draw_shape_count = 0;
+	if (draw == NULL || draw->drawShapes == false || draw->DrawShapeFcn == NULL || world_vis(worldId) == NULL)
 	{
 		return;
 	}
@@ -430,14 +423,14 @@ void gpu_samples_world_draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskB
 	gpu_b3_world_prepare_pose_snapshot(worldId);
 	g_last_pose_prep_ms = duration_ms_from_ns(t_prep, monotonic_ns());
 	uint64_t t_draw = monotonic_ns();
-	for (int i = 1; i < g_shape_cap; ++i)
+	for (uint32_t i = 1; i < g_shapes[worldId.index1].high_water; ++i)
 	{
-		ShapeVis* s = &g_shapes[i];
-		if (!s->live || s->body.world0 != worldId.index1)
+		ShapeVis* s = (ShapeVis*)gpu_slots_get(&g_shapes[worldId.index1], (int32_t)i, sizeof(ShapeVis), false);
+		if (!s || !s->live || s->body.world0 != worldId.index1)
 		{
 			continue;
 		}
-		b3ShapeId shapeId = {(int32_t)i, worldId.index1, 1};
+		b3ShapeId shapeId = s->id;
 		void* userShape = ensure_user_shape(worldId, shapeId, s);
 		if (userShape == NULL)
 		{
@@ -467,6 +460,7 @@ void gpu_samples_world_draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskB
 		rgb = is_static ? b3_colorDarkSlateBlue : b3_colorCornflowerBlue;
 #endif
 		draw->DrawShapeFcn(userShape, xf, (b3HexColor)b3MakeDebugColor(rgb, mat), draw->context);
+		++g_last_draw_shape_count;
 	}
 	g_last_draw_list_ms = duration_ms_from_ns(t_draw, monotonic_ns());
 }
@@ -628,19 +622,17 @@ void gpu_samples_body_set_transform(b3BodyId bodyId, b3WorldTransform target)
 
 void gpu_samples_destroy_body(b3BodyId bodyId)
 {
-	if (g_shapes != NULL)
-	{
-		for (int i = 1; i < g_shape_cap; ++i)
-		{
-			if (g_shapes[i].live && g_shapes[i].body.index1 == bodyId.index1 &&
-				g_shapes[i].body.world0 == bodyId.world0)
-			{
-				b3ShapeId sid = {(int32_t)i, bodyId.world0, 1};
-				gpu_samples_on_shape_destroyed(sid);
-			}
-		}
-	}
-	gpu_b3_destroy_body(bodyId);
+    if (bodyId.world0 > 0 && bodyId.world0 < GPU_SAMPLES_WORLD_CAP)
+    {
+        GpuSlots* slots = &g_shapes[bodyId.world0];
+        for (uint32_t i = 1; i < slots->high_water; ++i)
+        {
+            ShapeVis* s = (ShapeVis*)gpu_slots_get(slots, (int32_t)i, sizeof(ShapeVis), false);
+            if (s && s->live && s->body.index1 == bodyId.index1 && s->body.generation == bodyId.generation)
+                gpu_samples_on_shape_destroyed(s->id);
+        }
+    }
+    gpu_b3_destroy_body(bodyId);
 }
 
 

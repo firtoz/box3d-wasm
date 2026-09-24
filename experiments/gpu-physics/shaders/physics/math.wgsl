@@ -263,6 +263,7 @@ fn empty_contact() -> Contact {
     c.cached_rotation_a = vec4<f32>(0.0);
     c.cached_rotation_b = vec4<f32>(0.0);
     c.lifecycle = vec4<u32>(0u);
+    c.pair = vec4<u32>(EMPTY);
     c.prepared_normal_mass = vec4<f32>(0.0);
     c.prepared_lever_arm = vec4<f32>(0.0);
     c.total_normal_impulse = vec4<f32>(0.0);
@@ -380,76 +381,89 @@ fn pair_hash_mix(key: u32) -> u32 {
     return x ^ (x >> 16u);
 }
 
-fn contact_hash(key: u32) -> u32 {
-    return pair_hash_mix(key) & (CONTACT_HASH_CAP - 1u);
+// Identity words are prepared in a separate dispatch before publishing a slot.
+// Hash entries contain only slot references: no partially published two-word key
+// can become visible under WGSL relaxed atomics. Retired identities stay intact
+// until the next allocation phase, after all readers have completed.
+fn prepare_contact_identity(dense: u32, key: vec2<u32>) {
+    atomicStore(&atom[atom_contact_identity() + 2u * dense], key.x);
+    atomicStore(&atom[atom_contact_identity() + 2u * dense + 1u], key.y);
 }
 
-fn find_contact_slot(key: u32) -> u32 {
-    var hash_slot = contact_hash(key);
-    for (var probe = 0u; probe < CONTACT_HASH_CAP; probe++) {
-        let stored = atomicLoad(&atom[ATOM_CONTACT_KEY + hash_slot]);
-        if (stored == key) {
-            return atomicLoad(&atom[ATOM_CONTACT_VALUE + hash_slot]);
+fn contact_identity(dense: u32) -> vec2<u32> {
+    return vec2<u32>(atomicLoad(&atom[atom_contact_identity() + 2u * dense]),
+        atomicLoad(&atom[atom_contact_identity() + 2u * dense + 1u]));
+}
+
+fn contact_identity_hash(key: vec2<u32>) -> u32 {
+    return pair_hash_mix(pair_hash_mix(key.x) ^ key.y) & (contact_hash_cap() - 1u);
+}
+
+fn find_contact_identity(key: vec2<u32>) -> u32 {
+    var hash_slot = contact_identity_hash(key);
+    for (var probe = 0u; probe < contact_hash_cap(); probe++) {
+        let stored = atomicLoad(&atom[atom_contact_key() + hash_slot]);
+        if (stored < params.contact_capacity) {
+            if (all(contact_identity(stored) == key)) { return stored; }
         }
-        if (stored == EMPTY) {
-            return EMPTY;
-        }
-        hash_slot = (hash_slot + 1u) & (CONTACT_HASH_CAP - 1u);
+        if (stored == EMPTY) { return EMPTY; }
+        hash_slot = (hash_slot + 1u) & (contact_hash_cap() - 1u);
     }
     return EMPTY;
 }
 
-fn publish_contact_slot(key: u32, dense: u32) -> bool {
-    var hash_slot = contact_hash(key);
-    var first_tombstone = EMPTY;
-    for (var probe = 0u; probe < CONTACT_HASH_CAP; probe++) {
-        let stored = atomicLoad(&atom[ATOM_CONTACT_KEY + hash_slot]);
-        if (stored == key) {
-            atomicStore(&atom[ATOM_CONTACT_VALUE + hash_slot], dense);
-            return true;
-        }
-        if (stored == TOMBSTONE && first_tombstone == EMPTY) {
-            first_tombstone = hash_slot;
-        }
-        if (stored == EMPTY) {
-            let insert_slot = select(hash_slot, first_tombstone, first_tombstone != EMPTY);
-            let expected = select(EMPTY, TOMBSTONE, first_tombstone != EMPTY);
-            let claimed = atomicCompareExchangeWeak(
-                &atom[ATOM_CONTACT_KEY + insert_slot],
-                expected,
-                key,
-            );
-            if (claimed.exchanged || claimed.old_value == key) {
-                atomicStore(&atom[ATOM_CONTACT_VALUE + insert_slot], dense);
-                return true;
+// Publication inputs contain one unique root per identity. Identity storage for
+// every candidate must already be initialized, including competing publishers.
+fn publish_contact_identity(key: vec2<u32>, dense: u32) -> bool {
+    // Search past tombstones before insertion so republishing an existing key
+    // cannot create a second reference hidden behind a retired bucket.
+    loop {
+        var hash_slot = contact_identity_hash(key);
+        var vacant = EMPTY;
+        var expected = EMPTY;
+        for (var probe = 0u; probe < contact_hash_cap(); probe++) {
+            let stored = atomicLoad(&atom[atom_contact_key() + hash_slot]);
+            if (stored < params.contact_capacity) {
+                if (all(contact_identity(stored) == key)) {
+                    atomicStore(&atom[atom_contact_key() + hash_slot], dense);
+                    return true;
+                }
+            } else if (vacant == EMPTY) {
+                vacant = hash_slot;
+                expected = stored;
             }
-            if (claimed.old_value == expected) {
-                continue;
-            }
-            first_tombstone = EMPTY;
+            if (stored == EMPTY) { break; }
+            hash_slot = (hash_slot + 1u) & (contact_hash_cap() - 1u);
         }
-        hash_slot = (hash_slot + 1u) & (CONTACT_HASH_CAP - 1u);
+        if (vacant == EMPTY) { return false; }
+        let claimed = atomicCompareExchangeWeak(
+            &atom[atom_contact_key() + vacant], expected, dense);
+        if (claimed.exchanged) { return true; }
+        // Re-probe after contention or a spurious weak-CAS failure.
     }
     return false;
 }
 
-fn retire_contact_key(key: u32) {
-    var hash_slot = contact_hash(key);
-    for (var probe = 0u; probe < CONTACT_HASH_CAP; probe++) {
-        let stored = atomicLoad(&atom[ATOM_CONTACT_KEY + hash_slot]);
-        if (stored == key) {
-            atomicStore(&atom[ATOM_CONTACT_KEY + hash_slot], TOMBSTONE);
-            atomicStore(&atom[ATOM_CONTACT_VALUE + hash_slot], EMPTY);
-            return;
+fn retire_contact_identity(key: vec2<u32>) {
+    var hash_slot = contact_identity_hash(key);
+    for (var probe = 0u; probe < contact_hash_cap(); probe++) {
+        let stored = atomicLoad(&atom[atom_contact_key() + hash_slot]);
+        if (stored < params.contact_capacity) {
+            if (all(contact_identity(stored) == key)) {
+                atomicStore(&atom[atom_contact_key() + hash_slot], TOMBSTONE);
+                return;
+            }
         }
-        if (stored == EMPTY) {
-            return;
-        }
-        hash_slot = (hash_slot + 1u) & (CONTACT_HASH_CAP - 1u);
+        if (stored == EMPTY) { return; }
+        hash_slot = (hash_slot + 1u) & (contact_hash_cap() - 1u);
     }
 }
 
-fn find_prev_contact_key(key: u32, a: u32, b: u32) -> Contact {
+fn find_contact_slot(key: vec2<u32>) -> u32 { return find_contact_identity(key); }
+fn publish_contact_slot(key: vec2<u32>, dense: u32) -> bool { return publish_contact_identity(key, dense); }
+fn retire_contact_key(key: vec2<u32>) { retire_contact_identity(key); }
+
+fn find_prev_contact_key(key: vec2<u32>, a: u32, b: u32) -> Contact {
     let slot = find_contact_slot(key);
     if (slot == EMPTY) {
         return empty_contact();
@@ -462,7 +476,7 @@ fn find_prev_contact_key(key: u32, a: u32, b: u32) -> Contact {
 }
 
 fn find_prev_contact(a: u32, b: u32) -> Contact {
-    return find_prev_contact_key((max(a, b) << 16u) | min(a, b), a, b);
+    return find_prev_contact_key(vec2<u32>(min(a, b), max(a, b)), a, b);
 }
 
 struct PointMatch { impulses: vec4<f32>, persisted: u32 }
@@ -584,7 +598,7 @@ fn retire_manifold_children(root: u32) -> bool {
         var empty = empty_contact();
         empty.lifecycle.x = old.lifecycle.x;
         store_contact(slot, empty);
-        scratch[SCR_CONTACT_MARK + slot] = 0u;
+        scratch[scr_contact_mark() + slot] = 0u;
     }
     contacts[root].manifold_link = vec4<u32>(0u);
     return true;
@@ -600,12 +614,12 @@ fn allocate_manifold_slot(root: u32) -> u32 {
         record_contact_drop(3u);
         return EMPTY;
     }
-    let slot = scratch[SCR_RADIX_OUT + index];
+    let slot = scratch[scr_radix_out() + index];
     if (slot >= params.contact_capacity || slot == root || contacts[slot].a != EMPTY) {
         record_contact_drop(4u);
         return EMPTY;
     }
-    scratch[SCR_CONTACT_MARK + slot] = 1u;
+    scratch[scr_contact_mark() + slot] = 1u;
     return slot;
 }
 

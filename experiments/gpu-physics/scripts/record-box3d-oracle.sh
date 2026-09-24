@@ -5,9 +5,9 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 LABEL="${1:-000-box3d-cpu}"
 FRAMES="${FRAMES:-300}"
-BIN="${ROOT}/target/release/gpu-physics"
+BIN="${GPU_RECORD_BIN:-${ROOT}/target/release/gpu-physics}"
 ORACLE_BUILD="${ROOT}/oracle/build"
-ORACLE="${ORACLE_BUILD}/box3d_oracle"
+ORACLE="${GPU_RECORD_ORACLE:-${ORACLE_BUILD}/box3d_oracle}"
 OUT="${ROOT}/recordings/snapshots/${LABEL}"
 DUMP="${OUT}/.dumps"
 
@@ -39,12 +39,21 @@ export VK_DRIVER_FILES="${VK_DRIVER_FILES:-/usr/share/vulkan/icd.d/nvidia_icd.js
 
 mkdir -p "${OUT}" "${DUMP}" "${ORACLE_BUILD}"
 
-echo "building Box3D CPU oracle"
-cmake -S "${ROOT}/oracle" -B "${ORACLE_BUILD}" -DCMAKE_BUILD_TYPE=Release
-cmake --build "${ORACLE_BUILD}" -j
+if [[ -z "${GPU_RECORD_ORACLE:-}" ]]; then
+  echo "building Box3D CPU oracle"
+  cmake -S "${ROOT}/oracle" -B "${ORACLE_BUILD}" -DCMAKE_BUILD_TYPE=Release
+  cmake --build "${ORACLE_BUILD}" -j
+else
+  test -x "${ORACLE}" || { echo "GPU_RECORD_ORACLE is not executable: ${ORACLE}" >&2; exit 1; }
+fi
 
-echo "building ${BIN}"
-cargo build --release --manifest-path "${ROOT}/Cargo.toml"
+if [[ -z "${GPU_RECORD_BIN:-}" ]]; then
+  echo "building ${BIN}"
+  cargo build --release --manifest-path "${ROOT}/Cargo.toml"
+else
+  test -x "${BIN}" || { echo "GPU_RECORD_BIN is not executable: ${BIN}" >&2; exit 1; }
+fi
+python3 "${ROOT}/scripts/recording-manifest.py" "${OUT}" "${BIN}" --oracle "${ORACLE}" --frames "${FRAMES}"
 
 echo "=== Box3D CPU metrics + dumps ==="
 "${ORACLE}" --frames "${FRAMES}" --dump-dir "${DUMP}" --metrics "${OUT}/metrics.json"

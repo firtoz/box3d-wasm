@@ -1,0 +1,58 @@
+[
+  {
+    "count": 5000,
+    "variant": "component",
+    "mean_ms": 14.4985775,
+    "min_ms": 14.368669583333334,
+    "max_ms": 14.608735,
+    "phase_mean_ms": {
+      "broadphase": 0.32857916666666664,
+      "narrowphase": 0.31231,
+      "graph": 1.4236175,
+      "prepare": 0.05911,
+      "solve": 11.658349583333333
+    }
+  },
+  {
+    "count": 5000,
+    "variant": "global-colors",
+    "mean_ms": 6.08842875,
+    "min_ms": 6.063678333333334,
+    "max_ms": 6.714165833333333,
+    "phase_mean_ms": {
+      "broadphase": 0.32180375,
+      "narrowphase": 0.29557208333333335,
+      "graph": 1.1235566666666668,
+      "prepare": 0.05624291666666667,
+      "solve": 2.4569158333333334
+    }
+  },
+  {
+    "count": 15000,
+    "variant": "component",
+    "mean_ms": 54.97014708333333,
+    "min_ms": 54.70180791666667,
+    "max_ms": 56.706350416666666,
+    "phase_mean_ms": {
+      "broadphase": 0.9967883333333333,
+      "narrowphase": 0.5826554166666666,
+      "graph": 16.731470416666667,
+      "prepare": 0.12208791666666667,
+      "solve": 35.733511666666665
+    }
+  },
+  {
+    "count": 15000,
+    "variant": "global-colors",
+    "mean_ms": 24.943750833333333,
+    "min_ms": 24.600948333333335,
+    "max_ms": 25.51585875,
+    "phase_mean_ms": {
+      "broadphase": 1.0525329166666666,
+      "narrowphase": 0.6016820833333333,
+      "graph": 17.204990416666668,
+      "prepare": 0.12609041666666668,
+      "solve": 3.7112370833333332
+    }
+  }
+]

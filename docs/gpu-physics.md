@@ -16,7 +16,16 @@ engine or show two independent worlds side by side.
 | Experimental browser target | Does not currently compile; native transport, ABI layout and world-storage assumptions need work |
 | Box3D WASM package | Separate implementation; unchanged by the experiment |
 | Native API parity | Incomplete; linkable symbols include placeholders and CPU-only comparison passthroughs |
-| Performance | Falling-cube sweep on RTX 4070 Laptop: no GPU crossover at matched valid counts; GPU spatial-hash capacity fails at 20,000 cubes (15,000 valid). CPU paths measured through 150,000. |
+| Performance | RTX 4070 Laptop: repeated global-color completed physics throughput is 28.5% above 8-worker CPU at 80,000 cubes and 31.2% above at 100,000. All three paired trials exceed 20% at both counts. The direct-renderer preview reaches 31.8 FPS at 50,000 cubes versus CPU 25.9 FPS (three trials; not a locked 30 FPS). Full renderer/latency/threshold charts are in the experiment README. GPU 10 FPS limits remain unmeasured: all GPU paths hit a one-dimensional dispatch limit at 150,000 cubes; 100,000 is the largest validated sampled count. |
+
+The [scaling follow-up](../experiments/gpu-physics/README.md#falling-cube-scaling-benchmark)
+fixes a concurrent island-link loss and adds batched contact coloring above 8,168
+bodies. With global color solving, the 15,000-cube completed step is about 11.9 ms
+in repeated diagnostic runs. Runtime insertion/pair/contact reservations now
+allow the larger runs above. Full-width shape identities and growable native
+metadata are implemented, and the Sokol opaque renderer reservation scales with
+the benchmark count. The full renderer sweep is complete through each path's frame-rate or validation stop. Further scaling beyond the validated 100,000
+cubes requires tiled dispatch; the 150,000-cube failure is not a VRAM or FPS limit.
 
 Platform setup, adapter overrides and cache policy are in the
 [backend guide](../experiments/gpu-physics/compiler/native-backend/README.md).
@@ -67,7 +76,7 @@ linked symbols in the selected build. Full native compatibility must not be infe
 | Gap | User-visible consequence / remaining work |
 |---|---|
 | Joint query limits | Wheel angular separation is unimplemented upstream; its release fallback is zero. Reaction precision limits are described below. |
-| Falling-cube GPU capacity | Fixed 65,536 spatial-hash cell insertions: 15,000 cubes validate, 20,000 drop insertions in the measured fixture. This limits the current engine independently of GPU compute throughput. |
+| Falling-cube GPU capacity | The archived sweep hit the old 65,536 spatial-insertion limit at 20,000 cubes. Insertion buffers now scale with reserved shape capacity; the static-contact sort also no longer packs body/index into 16-bit halves. Pair/contact buffers and their prefix scans now scale with reserved body capacity. Pair/history storage and callbacks/events now use full-width endpoints; canonical cell ownership removes online packed-key deduplication. High-index collision, event, remap, and reuse regressions pass. Native sample C metadata now uses per-world growable chunks and passes high-index ownership/callback regressions; Sokol debug/opaque renderer reservations now follow benchmark size, and both engines must upload every cube and the floor. The sample fixes a saved draw-distance culling issue. Updated full-scene app measurements replace the earlier unvalidated Sokol curve. Collision-heavy execution is qualified through 100,000 cubes across three 330-step benchmark trials. |
 | World controls | Warm-start and speculative-contact toggles do not control GPU behavior. Worker-count APIs are placeholders rather than GPU scheduling controls. |
 | World diagnostics | Profile/max-capacity APIs return placeholders; memory/bounds dump and static-tree rebuild helpers are incomplete. Public `contactCount` is not implemented by the GPU world counter. |
 | Recording/replay | Native recording creation, storage, file I/O, playback, seeking and query-history APIs are placeholders. Diagnostic state replay is not an implementation of these APIs. |
@@ -377,6 +386,10 @@ GPU contact metrics describe the contact-scheduling phase and carry step and
 state revisions. Unknown or stale snapshots must remain labelled. Candidate
 pairs, allocated roots, manifold slots and touching roots are different counts;
 none should be presented as the unimplemented native public contact counter.
+An explicit GPU completion wait refreshes the small status record if its
+asynchronous slot still describes an older step, so completed capacity failures
+are reported even after a burst of queued steps. Nonblocking metric reads may
+still return an older snapshot; the wait does not download the body mirror.
 
 ## Validation and merge requirements
 

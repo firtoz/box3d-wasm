@@ -40,20 +40,20 @@ fn graph_assign_dynamic_shared(@builtin(local_invocation_index) lane:u32) {
         return;
     }
     for (var b=lane;b<params.body_count;b+=64u) {
-        graph_occupancy_cache[b]=atomicLoad(&atom[ATOM_JACOBI+b]);
+        graph_occupancy_cache[b]=atomicLoad(&atom[atom_jacobi()+b]);
     }
     if (lane<24u) {graph_color_counts[lane]=atomicLoad(&atom[atom_graph_color()+lane]);}
     workgroupBarrier();
     // Reserve 192 endpoint words plus one uniform loop bound in the unused
     // occupancy tail. Body spans above this limit retain the original walk.
     if (params.body_count<=7975u) {
-        if (lane==0u) {graph_occupancy_cache[8167u]=min(scratch[SCR_DYN_DYN_N],PAIR_CAP);}
+        if (lane==0u) {graph_occupancy_cache[8167u]=min(scratch[SCR_DYN_DYN_N],pair_cap());}
         let n=workgroupUniformLoad(&graph_occupancy_cache[8167u]);
         if (n>=128u) {
             for (var base=0u;base<n;base+=64u) {
                 if (base+lane<n) {
-                    let unique_i=scratch[SCR_NEXT_OCCUPIED+base+lane];
-                    let slot=scratch[SCR_ACTIVE_CONTACT+unique_i];
+                    let unique_i=scratch[scr_next_occupied()+base+lane];
+                    let slot=scratch[scr_active_contact()+unique_i];
                     let h=contacts[slot];
                     let dst=params.body_count+3u*lane;
                     graph_occupancy_cache[dst]=slot;
@@ -80,21 +80,21 @@ fn graph_assign_dynamic_shared(@builtin(local_invocation_index) lane:u32) {
             }
         } else if (lane==0u) {
             for (var i=0u;i<n;i++) {
-                let slot=scratch[SCR_ACTIVE_CONTACT+scratch[SCR_NEXT_OCCUPIED+i]];
+                let slot=scratch[scr_active_contact()+scratch[scr_next_occupied()+i]];
                 let h=contacts[slot];graph_shared_edge(slot,h.a,h.b);
             }
         }
     } else if (lane==0u) {
-        let n=min(scratch[SCR_DYN_DYN_N],PAIR_CAP);
+        let n=min(scratch[SCR_DYN_DYN_N],pair_cap());
         for (var i=0u;i<n;i++) {
-            let slot=scratch[SCR_ACTIVE_CONTACT+scratch[SCR_NEXT_OCCUPIED+i]];
+            let slot=scratch[scr_active_contact()+scratch[scr_next_occupied()+i]];
             let h=contacts[slot];graph_shared_edge(slot,h.a,h.b);
         }
     }
     workgroupBarrier();
     // Preserve the global state, including reserved static-color bits.
     for (var b=lane;b<params.body_count;b+=64u) {
-        atomicStore(&atom[ATOM_JACOBI+b],graph_occupancy_cache[b]);
+        atomicStore(&atom[atom_jacobi()+b],graph_occupancy_cache[b]);
     }
     if (lane<24u) {atomicStore(&atom[atom_graph_color()+lane],graph_color_counts[lane]);}
     storageBarrier();

@@ -475,6 +475,7 @@ fn decode_contacts(
             cached_rotation_a: persistent.cached_rotation_a,
             cached_rotation_b: persistent.cached_rotation_b,
             lifecycle: persistent.lifecycle,
+            pair: persistent.pair,
             prepared_normal_mass: prepared.normal_mass,
             prepared_lever_arm: prepared.lever_arm,
             total_normal_impulse: prepared.total_normal_impulse,
@@ -692,6 +693,7 @@ pub struct GpuSim {
     pub shape_identities: Vec<(u32, u16)>,
     clear_remapped_contact_hash: ComputePipeline,
     remap_contact_shapes: ComputePipeline,
+    prepare_contact_hash_keys: ComputePipeline,
     publish_remapped_contacts: ComputePipeline,
     contact_slots: u32,
     shape_count: u32,
@@ -721,10 +723,10 @@ pub struct GpuSim {
     finish_fat_statics: ComputePipeline,
     write_occupied_indirect: ComputePipeline,
     emit_prev_pairs: ComputePipeline,
-    radix_histogram: [ComputePipeline; 4],
+    radix_histogram: [ComputePipeline; 8],
     radix_bucket_bases: ComputePipeline,
     radix_group_prefix: ComputePipeline,
-    radix_scatter: [ComputePipeline; 4],
+    radix_scatter: [ComputePipeline; 8],
     compact_unique_histogram: ComputePipeline,
     compact_unique_bases: ComputePipeline,
     compact_unique_scatter: ComputePipeline,
@@ -736,6 +738,7 @@ pub struct GpuSim {
     alloc_missing_histogram: ComputePipeline,
     alloc_missing_bases: ComputePipeline,
     alloc_missing_scatter: ComputePipeline,
+    alloc_prepare_keys: ComputePipeline,
     alloc_bind_slots: ComputePipeline,
     collide_pairs_no_mesh: std::sync::OnceLock<ComputePipeline>,
     collide_pairs_mesh: std::sync::OnceLock<ComputePipeline>,
@@ -763,6 +766,8 @@ pub struct GpuSim {
     graph_mark_color_starts: ComputePipeline,
     graph_assign_static: ComputePipeline,
     graph_assign_dynamic: ComputePipeline,
+    graph_batched_override: Option<bool>,
+    graph_assign_batched: ComputePipeline,
     graph_shared_requested: bool,
     graph_memo_base: Option<u32>,
     graph_assign_memo: std::sync::OnceLock<ComputePipeline>,
@@ -971,6 +976,7 @@ pub struct AllocationStats {
     pub joint_bytes: u64,
     pub scratch_bytes: u64,
     pub atom_bytes: u64,
+    pub fixed_bytes: u64,
     pub total_bytes: u64,
 }
 
@@ -1098,13 +1104,22 @@ impl GpuSim {
         let body_state_bytes = mem::size_of::<BodyStateGpu>() * capacity as usize;
         let contact_slots = crate::types::contact_capacity(capacity);
         params.contact_capacity = contact_slots;
+        params.pair_capacity = crate::types::pair_capacity(contact_slots);
         let joint_bytes = mem::size_of::<JointGpu>() * joints.len().max(1);
         params.fat_bounds_base = crate::types::scratch_u32_count_with_joints(
             capacity, caps.joints.max(capacity)) as u32;
-        let scratch_bytes = (params.fat_bounds_base as usize + 8 * caps.shapes as usize) * 4;
-        let atom_contact_start = 16 + crate::types::HASH_BUCKETS + crate::types::PAIR_CAP;
-        let atom_contact_value_start = atom_contact_start + crate::types::CONTACT_HASH_CAP;
-        let atom_count = atom_contact_value_start + crate::types::CONTACT_HASH_CAP + 9 * capacity + 25;
+        params.insert_base = params.fat_bounds_base + 8 * caps.shapes;
+        params.insert_capacity = crate::types::insertion_capacity(caps.shapes)
+            .max(2 * params.pair_capacity / crate::types::RADIX_GROUP_SIZE);
+        let scratch_bytes = (params.insert_base as usize + 3 * params.insert_capacity as usize) * 4;
+        let storage_limit = u64::from(device.limits().max_storage_buffer_binding_size)
+            .min(device.limits().max_buffer_size);
+        if scratch_bytes as u64 > storage_limit {
+            return Err(format!("GPU scratch needs {scratch_bytes} bytes, device permits {storage_limit}"));
+        }
+        let atom_contact_start = 16 + crate::types::HASH_BUCKETS + params.pair_capacity;
+        let atom_contact_identity_start = atom_contact_start + (2 * params.pair_capacity);
+        let atom_count = atom_contact_identity_start + (2 * params.pair_capacity) + 9 * capacity + 25;
 
         let pass_lut = device.create_buffer(&wgpu::BufferDescriptor {
             label: Some("pass-lut"),
@@ -1206,10 +1221,10 @@ impl GpuSim {
         let trace_words = if params.diagnostic_flags & crate::types::DIAG_MESH_CANDIDATES != 0 { crate::types::MESH_TRACE_WORDS } else { 0 };
         let mut atom_init = vec![0u32; (atom_count + trace_words) as usize];
         atom_init[atom_contact_start as usize
-            ..(atom_contact_start + crate::types::CONTACT_HASH_CAP) as usize]
+            ..(atom_contact_start + (2 * params.pair_capacity)) as usize]
             .fill(u32::MAX);
-        atom_init[atom_contact_value_start as usize
-            ..(atom_contact_value_start + crate::types::CONTACT_HASH_CAP) as usize]
+        atom_init[atom_contact_identity_start as usize
+            ..(atom_contact_identity_start + (2 * params.pair_capacity)) as usize]
             .fill(u32::MAX);
         let atom = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
             label: Some("atom"),
@@ -1239,7 +1254,7 @@ impl GpuSim {
         // Cache storage begins after the entire capacity-sized component region,
         // never after the current live count. New sims start with a zero valid word.
         let memo_base = 261u64 + 54 * u64::from(capacity) + 2 * u64::from(contact_slots);
-        let memo_words = memo_base + 52 + 2 * u64::from(capacity) + 6 * u64::from(contact_slots);
+        let memo_words = memo_base + 52 + 2 * u64::from(capacity) + 7 * u64::from(contact_slots);
         let graph_memo_base = (std::env::var("GPU_PHYSICS_GRAPH_MEMO").as_deref()==Ok("1")
             && capacity<=8160 && device.limits().max_compute_workgroup_storage_size>=32768
             && memo_words*4<=max_bind.min(max_buffer))
@@ -1286,6 +1301,10 @@ impl GpuSim {
             "radix_histogram_8",
             "radix_histogram_16",
             "radix_histogram_24",
+            "radix_histogram_32",
+            "radix_histogram_40",
+            "radix_histogram_48",
+            "radix_histogram_56",
         ]
         .map(|entry| make_compute(&device, &pipeline_layout, &shader, entry));
         let radix_scatter = [
@@ -1293,6 +1312,10 @@ impl GpuSim {
             "radix_scatter_8",
             "radix_scatter_16",
             "radix_scatter_24",
+            "radix_scatter_32",
+            "radix_scatter_40",
+            "radix_scatter_48",
+            "radix_scatter_56",
         ]
         .map(|entry| make_compute(&device, &pipeline_layout, &shader, entry));
         let graph_radix_histogram = [
@@ -1405,6 +1428,7 @@ impl GpuSim {
             shape_identities: shapes.iter().enumerate().map(|(i, _)| (i as u32, 0)).collect(),
             clear_remapped_contact_hash: make_compute(&device, &pipeline_layout, &shader, "clear_remapped_contact_hash"),
             remap_contact_shapes: make_compute(&device, &pipeline_layout, &shader, "remap_contact_shapes"),
+            prepare_contact_hash_keys: make_compute(&device, &pipeline_layout, &shader, "prepare_contact_hash_keys"),
             publish_remapped_contacts: make_compute(&device, &pipeline_layout, &shader, "publish_remapped_contacts"),
             contact_slots,
             shape_count: shapes.len() as u32,
@@ -1539,6 +1563,7 @@ impl GpuSim {
                 &shader,
                 "alloc_missing_scatter",
             ),
+            alloc_prepare_keys: make_compute(&device, &pipeline_layout, &shader, "alloc_prepare_keys"),
             alloc_bind_slots: make_compute(&device, &pipeline_layout, &shader, "alloc_bind_slots"),
             collide_pairs_no_mesh: std::sync::OnceLock::new(),
             collide_pairs_mesh: std::sync::OnceLock::new(),
@@ -1636,6 +1661,13 @@ impl GpuSim {
                 "graph_assign_static",
             ),
             graph_memo_base,
+            graph_batched_override: match std::env::var("GPU_PHYSICS_GRAPH_BATCHED").as_deref() {
+                Ok("1") => Some(true), Ok("0") => Some(false), _ => None,
+            },
+            // Prepare at world initialization, before gameplay can cross the
+            // shared-cache threshold. Device resources reuse this across growth.
+            graph_assign_batched: make_compute(&device, &pipeline_layout, &shader,
+                "graph_assign_dynamic_batched"),
             graph_assign_memo: std::sync::OnceLock::new(),
             graph_shared_requested: std::env::var("GPU_PHYSICS_GRAPH_SHARED").as_deref()==Ok("1"),
             graph_assign_shared: std::sync::OnceLock::new(),
@@ -2109,7 +2141,7 @@ impl GpuSim {
             let bg=self.body_groups().max(1);
             let ig=self.island_groups(self.count).max(1);
             // Both indirect producers use these counts, large roots are capped at 256.
-            if u64::from(crate::types::PAIR_CAP.max(self.params.joint_count)).div_ceil(u64::from(self.island_workgroup_size))
+            if u64::from(self.params.pair_capacity.max(self.params.joint_count)).div_ceil(u64::from(self.island_workgroup_size))
                 >u64::from(self.device.limits().max_compute_workgroups_per_dimension) {return false;}
             let key=[6+stage as u32 | (self.small_component_workgroup_size<<8) | (self.island_workgroup_size<<16),self.count,self.contact_slots];
             if self.tail_cache[stage].as_ref().is_none_or(|c| c.group!=self.bind_group || c.key!=key) {
@@ -2243,7 +2275,7 @@ impl GpuSim {
     }
 
     fn pair_groups(&self) -> u32 {
-        (crate::types::PAIR_CAP + WORKGROUP_SIZE - 1) / WORKGROUP_SIZE.max(1)
+        (self.params.pair_capacity + WORKGROUP_SIZE - 1) / WORKGROUP_SIZE.max(1)
     }
 
     fn hash_groups(&self) -> u32 {
@@ -2254,6 +2286,12 @@ impl GpuSim {
     pub(crate) fn set_pair_matrix_test(&mut self, enabled:bool) { self.pair_matrix_requested=enabled; }
     #[cfg(test)]
     pub(crate) fn pair_matrix_used_test(&self)->bool { self.pair_matrix_used }
+    // Skip zero high bytes without changing lexicographic (high, low) order.
+    fn pair_radix_digits(&self) -> impl Iterator<Item=usize> {
+        let bytes=if self.shape_count<=65_536 {2} else if self.shape_count<=16_777_216 {3} else {4};
+        (0..bytes).chain(4..4+bytes)
+    }
+
     fn broadphase_candidates_pass(&mut self, enc: &mut wgpu::CommandEncoder) {
         self.pair_matrix_used=false;
         let shape_groups = self.shape_groups();
@@ -2319,11 +2357,11 @@ impl GpuSim {
             let key=[2,shape_groups.max(1),cg.max(1)];
             if self.radix_cache.as_ref().is_none_or(|c| c.group!=self.bind_group || c.key!=key) {
                 // All three private indirect producers clamp before writing:
-                // inserts <= MAX_INSERTS, occupied <= contact_capacity <= PAIR_CAP,
+                // inserts <= params.insert_capacity, occupied <= contact_capacity <= PAIR_CAP,
                 // radix <= PAIR_CAP. No user-provided dispatch arguments enter here.
-                assert!(self.params.contact_capacity<=crate::types::PAIR_CAP);
-                assert!(crate::types::MAX_INSERTS.div_ceil(64)<=self.device.limits().max_compute_workgroups_per_dimension);
-                assert!(crate::types::PAIR_CAP.div_ceil(64)<=self.device.limits().max_compute_workgroups_per_dimension);
+                assert!(self.params.contact_capacity<=self.params.pair_capacity);
+                assert!(self.params.insert_capacity.div_ceil(64)<=self.device.limits().max_compute_workgroups_per_dimension);
+                assert!(self.params.pair_capacity.div_ceil(64)<=self.device.limits().max_compute_workgroups_per_dimension);
                 let mut commands=vec![
                     Dispatch(&self.clear_broadphase,cg.max(1)),
                     Dispatch(&self.collect_fat_statics,shape_groups.max(1)),
@@ -2337,7 +2375,7 @@ impl GpuSim {
                     Dispatch(&self.write_radix_indirect,1),
                     CopyArgs{source:48*4,destination:Self::indirect_radix_offset(),bytes:16},
                 ];
-                for digit in 0..4 {
+                for digit in self.pair_radix_digits() {
                     commands.extend([
                         Indirect(&self.radix_histogram[digit],Self::indirect_radix_offset()),
                         Dispatch(&self.radix_bucket_bases,1),Dispatch(&self.radix_group_prefix,1),
@@ -2411,7 +2449,7 @@ impl GpuSim {
         if std::env::var("GPU_PHYSICS_NATIVE_RADIX_CACHE").as_deref() == Ok("1") {
             if self.radix_cache.as_ref().is_none_or(|c|c.group != self.bind_group || c.key != [1,0,0]) {
                 let mut commands=Vec::new();
-                for digit in 0..4 {
+                for digit in self.pair_radix_digits() {
                     commands.extend([(&self.radix_histogram[digit],true),(&self.radix_bucket_bases,false),
                         (&self.radix_group_prefix,false),(&self.radix_scatter[digit],true)]);
                 }
@@ -2437,7 +2475,7 @@ impl GpuSim {
                 timestamp_writes: None,
             });
             pass.set_bind_group(0, self.ping_bg(), &[off]);
-            for digit in 0..4 {
+            for digit in self.pair_radix_digits() {
                 pass.set_pipeline(&self.radix_histogram[digit]);
                 pass.dispatch_workgroups_indirect(&self.indirect, Self::indirect_radix_offset());
                 pass.set_pipeline(&self.radix_bucket_bases);
@@ -2464,7 +2502,7 @@ impl GpuSim {
 
     #[allow(dead_code)]
     fn unique_pair_groups(&self) -> u32 {
-        Self::radix256_groups(crate::types::PAIR_CAP)
+        Self::radix256_groups(self.params.pair_capacity)
     }
 
     fn copy_radix_indirect(&self, enc: &mut wgpu::CommandEncoder) {
@@ -2496,8 +2534,8 @@ impl GpuSim {
             if self.contact_cache.as_ref().is_none_or(|c|c.group!=self.bind_group || c.key!=key) {
                 // Private writers: unique/missing <= PAIR_CAP, free slots <= contact_capacity.
                 // Same writer kernels and ordered allocation as the wgpu path below.
-                assert!(self.params.contact_capacity<=crate::types::PAIR_CAP);
-                assert!(crate::types::PAIR_CAP.div_ceil(64)<=self.device.limits().max_compute_workgroups_per_dimension);
+                assert!(self.params.contact_capacity<=self.params.pair_capacity);
+                assert!(self.params.pair_capacity.div_ceil(64)<=self.device.limits().max_compute_workgroups_per_dimension);
                 let radix=Self::indirect_radix_offset();
                 let prepare=Self::indirect_prepare_offset();
                 let mut commands=vec![
@@ -2515,6 +2553,7 @@ impl GpuSim {
                     Dispatch(&self.alloc_free_bases,1),
                     Indirect(&self.alloc_free_scatter,radix),
                     Dispatch(&self.write_unique_indirect,1),
+                    Indirect(&self.alloc_prepare_keys,prepare),
                     Indirect(&self.alloc_bind_slots,prepare),
                     CopyArgs{source:8*4,destination:0,bytes:16},
                 ];
@@ -2588,6 +2627,8 @@ impl GpuSim {
                 timestamp_writes: None,
             });
             pass.set_bind_group(0, self.ping_bg(), &[off]);
+            pass.set_pipeline(&self.alloc_prepare_keys);
+            pass.dispatch_workgroups_indirect(&self.indirect, Self::indirect_prepare_offset());
             pass.set_pipeline(&self.alloc_bind_slots);
             pass.dispatch_workgroups_indirect(&self.indirect, Self::indirect_prepare_offset());
         }
@@ -2645,7 +2686,9 @@ impl GpuSim {
     }
 
     #[cfg(test)]
-    pub(crate) fn shared_pipeline_test(&self) -> ComputePipeline { self.integrate_vel.clone() }
+    pub(crate) fn shared_pipeline_test(&self) -> [ComputePipeline; 2] {
+        [self.integrate_vel.clone(), self.graph_assign_batched.clone()]
+    }
 
     #[cfg(test)]
     pub(crate) fn set_small_component_group_test(&mut self,size:u32) {
@@ -2658,6 +2701,8 @@ impl GpuSim {
     #[cfg(test)]
     pub(crate) fn set_shared_graph_test(&mut self, enabled:bool) { self.graph_shared_requested=enabled; }
     #[cfg(test)]
+    pub(crate) fn set_batched_graph_test(&mut self, enabled:bool) { self.graph_batched_override=Some(enabled); }
+    #[cfg(test)]
     pub(crate) fn shared_graph_initialized(&self) -> bool { self.graph_assign_shared.get().is_some() || self.graph_assign_memo.get().is_some() }
 
     fn shared_graph_eligible(&self) -> bool {
@@ -2665,7 +2710,16 @@ impl GpuSim {
             && self.device.limits().max_compute_workgroup_storage_size >= 32768
     }
 
+    fn batched_graph_eligible(&self) -> bool {
+        // Keep the existing low-count shared/memo path. Beyond its occupancy
+        // cache limit, endpoint batches avoid the scalar global-memory walk.
+        self.graph_batched_override.unwrap_or(self.params.body_count > 8168)
+    }
+
     fn dynamic_graph_pipeline(&self) -> &ComputePipeline {
+        if self.batched_graph_eligible() {
+            return &self.graph_assign_batched;
+        }
         if !self.shared_graph_eligible() { return &self.graph_assign_dynamic; }
         if self.graph_memo_base.is_some() && self.params.body_count<=8160 && self.params.joint_count==0 && self.params.mesh_triangle_count==0 {
             return self.graph_assign_memo.get_or_init(|| {
@@ -2690,7 +2744,7 @@ impl GpuSim {
 
     fn paired_graph_pipelines(&self)->&[ComputePipeline;3] {
         self.graph_compact_paired.get_or_init(|| {
-            assert!(2*crate::types::RADIX_GROUPS<=crate::types::MAX_INSERTS);
+            assert!(2*(self.params.pair_capacity / crate::types::RADIX_GROUP_SIZE)<=self.params.insert_capacity);
             ["graph_compact_paired_histogram","graph_compact_paired_bases","graph_compact_paired_scatter"]
                 .map(|entry|self.make_runtime_compute(&self.device,&self.collision_layout,&self.collision_shader,entry))
         })
@@ -2709,11 +2763,12 @@ impl GpuSim {
             let flags=4 | (u32::from(rebuild)<<4) | (u32::from(self.skip_general_static_sort)<<5)
                 | (u32::from(shared)<<6) | (u32::from(memo)<<7)
                 | (u32::from(self.pair_matrix_used)<<8)
+                | (u32::from(self.batched_graph_eligible())<<9)
                 | (if self.pair_matrix_used {self.contact_groups().max(1)<<10} else {0});
             let key=[flags,self.body_groups().max(1),self.params.joint_count.div_ceil(WORKGROUP_SIZE)];
             if self.graph_cache.as_ref().is_none_or(|c|c.group!=self.bind_group || c.key!=key) {
-                assert!(self.params.contact_capacity<=crate::types::PAIR_CAP);
-                assert!(crate::types::PAIR_CAP.div_ceil(64)<=self.device.limits().max_compute_workgroups_per_dimension);
+                assert!(self.params.contact_capacity<=self.params.pair_capacity);
+                assert!(self.params.pair_capacity.div_ceil(64)<=self.device.limits().max_compute_workgroups_per_dimension);
                 let radix=Self::indirect_radix_offset();let statics=Self::indirect_static_offset();
                 let mut commands=Vec::new();
                 if rebuild {commands.push(Dispatch(&self.color_and_compact,1));}
@@ -2998,7 +3053,7 @@ impl GpuSim {
             let mut key=bytemuck::bytes_of(&params).to_vec();
             key.extend_from_slice(&self.contact_slots.to_le_bytes());
             key.extend_from_slice(&[u8::from(self.convex_ccd.is_some()),u8::from(self.graph_shared_requested),
-                u8::from(self.skip_general_static_sort),u8::from(self.one_group_wave_only),u8::from(self.component_tgs)]);key
+                u8::from(self.batched_graph_eligible()),u8::from(self.skip_general_static_sort),u8::from(self.one_group_wave_only),u8::from(self.component_tgs)]);key
         };
         #[cfg(feature="native-command-cache")]
         let can_replay=!idle && !eligible && metric_step.is_none() && self.component_tgs
@@ -3772,6 +3827,26 @@ impl GpuSim {
         self.contact_metrics
     }
 
+    /// An explicit queue wait must report loss from every completed step, even
+    /// when the single asynchronous status slot was occupied by an older step.
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn finish_contact_status(&mut self) {
+        #[cfg(test)]
+        if self.hold_idle_status { return; }
+        self.harvest_sticky_status(true);
+        if self.physics_step == 0
+            || self.contact_metrics.is_some_and(|m| m.step >= self.physics_step) {
+            return;
+        }
+        let mut encoder = self.device.create_command_encoder(&wgpu::CommandEncoderDescriptor {
+            label: Some("completed-contact-status"),
+        });
+        self.encode_contact_status(&mut encoder);
+        self.record_submit(self.queue.submit(Some(encoder.finish())));
+        self.map_contact_status();
+        self.harvest_sticky_status(true);
+    }
+
     #[cfg(not(target_arch = "wasm32"))]
     pub fn pose_export_uuid(&self) -> Option<[u8; 16]> {
         self.pose_export.as_ref().map(|export| export.device_uuid)
@@ -4309,7 +4384,7 @@ impl GpuSim {
         let heads = 2usize * self.caps.bodies.max(self.count).max(1) as usize;
         let words = count.checked_mul(8).and_then(|n| n.checked_add(heads))
             .ok_or("transform history size overflow")?;
-        let base = self.params.fat_bounds_base as usize + 8 * self.caps.shapes as usize;
+        let base = self.params.insert_base as usize + 3 * self.params.insert_capacity as usize;
         let bytes = base.checked_add(words).and_then(|n| n.checked_mul(4))
             .ok_or("transform history allocation overflow")? as u64;
         let limit = u64::from(self.device.limits().max_storage_buffer_binding_size)
@@ -4355,12 +4430,12 @@ impl GpuSim {
     fn remap_physical_contacts(&mut self, old: &[(u32, u16)]) {
         // Appending shapes cannot change an existing physical pair key.
         if old.iter().enumerate().all(|(i, id)| self.shape_identities.get(i) == Some(id)) { return; }
-        assert!(old.len() <= crate::types::PAIR_CAP as usize);
+        assert!(old.len() <= self.params.pair_capacity as usize);
         let new: std::collections::HashMap<_, _> = self.shape_identities.iter()
             .enumerate().map(|(i, &id)| (id, i as u32)).collect();
         let mapping: Vec<u32> = old.iter().map(|id| new.get(id).copied().unwrap_or(u32::MAX)).collect();
         if !mapping.is_empty() {
-            self.queue.write_buffer(&self.scratch, u64::from(crate::types::SCR_RADIX_OUT) * 4,
+            self.queue.write_buffer(&self.scratch, u64::from(crate::types::pair_layout(self.params.pair_capacity).radix_out) * 4,
                 bytemuck::cast_slice(&mapping));
         }
         let next_step = self.physics_step.wrapping_add(1) as u32;
@@ -4372,8 +4447,10 @@ impl GpuSim {
             label: Some("remap-contact-shapes"),
         });
         self.dispatch_n(&mut encoder, &self.clear_remapped_contact_hash,
-            crate::types::CONTACT_HASH_CAP.div_ceil(WORKGROUP_SIZE), 0, 1);
+            (2 * self.params.pair_capacity).div_ceil(WORKGROUP_SIZE)
+                    .min(self.device.limits().max_compute_workgroups_per_dimension), 0, 1);
         self.dispatch_n(&mut encoder, &self.remap_contact_shapes, self.contact_groups(), 0, 1);
+        self.dispatch_n(&mut encoder, &self.prepare_contact_hash_keys, self.contact_groups(), 0, 1);
         self.dispatch_n(&mut encoder, &self.publish_remapped_contacts, self.contact_groups(), 0, 1);
         self.queue.submit(Some(encoder.finish()));
     }
@@ -4458,11 +4535,8 @@ impl GpuSim {
         } else {
             self.params.diagnostic_flags &= !crate::types::DIAG_JOINT_FILTER_OVERFLOW;
         }
-        let bodies = self.caps.bodies.max(self.count).max(1);
-        let offset = u64::from(crate::types::joint_filter_word_offset_with_joints(
-            bodies,
-            self.caps.joints.max(bodies),
-        )) * 4;
+        let offset = u64::from(crate::types::joint_head_live(self.count, self.params.contact_capacity)
+            - 3 * crate::types::JOINT_FILTER_CAP) * 4;
         self.queue
             .write_buffer(&self.scratch, offset, bytemuck::cast_slice(&table));
     }
@@ -4512,17 +4586,19 @@ impl GpuSim {
             if sim.params.diagnostic_flags & crate::types::DIAG_MESH_CANDIDATES != 0 {
                 u64::from(crate::types::MESH_TRACE_WORDS) * 4
             } else { 0 };
+        let pair_capacity_changed = old.params.pair_capacity != self.params.pair_capacity;
         encoder.copy_buffer_to_buffer(&old.atom, 0, &self.atom, 0,
-            core_atom_size(old).min(core_atom_size(self)));
-        // Roots absent from the new candidate list still need retention/retirement.
-        // The count and list have fixed offsets; body-dependent graph scratch does not.
-        for (word, words) in [
-            (crate::types::SCR_OCCUPIED_N, 1),
-            (crate::types::SCR_OCCUPIED_CONTACT, old.contact_slots.min(self.contact_slots)),
+            if pair_capacity_changed { 16 * 4 } else { core_atom_size(old).min(core_atom_size(self)) });
+        // Capacity changes relocate lists and invalidate hash bucket positions.
+        let old_layout = crate::types::pair_layout(old.params.pair_capacity);
+        let layout = crate::types::pair_layout(self.params.pair_capacity);
+        for (src, dst, words) in [
+            (crate::types::SCR_OCCUPIED_N, crate::types::SCR_OCCUPIED_N, 1),
+            (old_layout.occupied, layout.occupied, old.contact_slots.min(self.contact_slots)),
         ] {
             encoder.copy_buffer_to_buffer(
-                &old.scratch, u64::from(word) * 4,
-                &self.scratch, u64::from(word) * 4, u64::from(words) * 4,
+                &old.scratch, u64::from(src) * 4,
+                &self.scratch, u64::from(dst) * 4, u64::from(words) * 4,
             );
         }
         // Preserve bound hysteresis without a host download. Coalesce adjacent
@@ -4552,20 +4628,30 @@ impl GpuSim {
             }
         }
         if let Some(span) = span { copy_span(&mut encoder, span); }
-        let previous = u64::from(crate::types::SCR_PREVIOUS_TOUCHING) * 4;
+        let previous = u64::from(crate::types::pair_layout(self.params.pair_capacity).previous_touching) * 4;
         if self.contact_slots > old.contact_slots {
-            let empty = vec![u32::MAX; (self.contact_slots - old.contact_slots) as usize];
-            self.queue.write_buffer(&self.scratch, previous + u64::from(old.contact_slots) * 4,
+            let empty = vec![u64::MAX; (self.contact_slots - old.contact_slots) as usize];
+            self.queue.write_buffer(&self.scratch, previous + u64::from(old.contact_slots) * 8,
                 bytemuck::cast_slice(&empty));
         }
-        encoder.copy_buffer_to_buffer(&old.scratch, previous, &self.scratch, previous,
-            u64::from(old.contact_slots.min(self.contact_slots)) * 4);
+        encoder.copy_buffer_to_buffer(&old.scratch, u64::from(old_layout.previous_touching) * 4, &self.scratch, previous,
+            u64::from(old.contact_slots.min(self.contact_slots)) * 8);
         self.params.remap_history_step = old.params.remap_history_step;
         self.params.fat_bounds_epoch = old.params.fat_bounds_epoch;
         self.params.fat_commands_epoch = old.params.fat_commands_epoch;
         self.queue.submit(Some(encoder.finish()));
         self.contact_epoch = old.contact_epoch;
         self.remap_physical_contacts(&old.shape_identities);
+        if pair_capacity_changed {
+            // Existing shape IDs may be unchanged, but their hash buckets are not.
+            let mut encoder = self.device.create_command_encoder(&Default::default());
+            self.dispatch_n(&mut encoder, &self.clear_remapped_contact_hash,
+                (2 * self.params.pair_capacity).div_ceil(WORKGROUP_SIZE)
+                    .min(self.device.limits().max_compute_workgroups_per_dimension), 0, 1);
+            self.dispatch_n(&mut encoder, &self.prepare_contact_hash_keys, self.contact_groups(), 0, 1);
+            self.dispatch_n(&mut encoder, &self.publish_remapped_contacts, self.contact_groups(), 0, 1);
+            self.queue.submit(Some(encoder.finish()));
+        }
     }
 
     #[cfg(not(target_arch = "wasm32"))]
@@ -4758,21 +4844,16 @@ impl GpuSim {
     }
 
     pub fn allocation_stats(&self) -> AllocationStats {
-        let body_bytes = (mem::size_of::<BodyStateGpu>() + mem::size_of::<BodyColdGpu>() + 64)
-            as u64
+        // Count the allocated primary simulation buffers, including reserved
+        // scene geometry/material storage. This is not total device VRAM:
+        // readbacks, CCD, renderer resources and driver allocations are excluded.
+        let cold_body_bytes = (mem::size_of::<BodyColdGpu>() + 64) as u64
             * u64::from(self.caps.bodies.max(1));
-        let shape_bytes = mem::size_of::<ShapeGpu>() as u64 * u64::from(self.caps.shapes)
-            + 16 * u64::from(
-                self.params.hull_point_count
-                    + self.params.hull_plane_count
-                    + self.params.hull_edge_count,
-            );
-        let contact_bytes = (mem::size_of::<ContactHotGpu>()
-            + mem::size_of::<ContactPersistentGpu>()
-            + mem::size_of::<ContactPreparedGpu>()) as u64
-            * u64::from(self.contact_slots.max(1));
-        let joint_bytes =
-            mem::size_of::<JointGpu>() as u64 * u64::from(self.params.joint_count.max(1));
+        let body_bytes = self.bodies.size() + cold_body_bytes;
+        let shape_bytes = self.body_cold.size() - cold_body_bytes;
+        let contact_bytes = self.contacts.size()
+            + self.contact_persistent.size() + self.contact_prepared.size();
+        let joint_bytes = self.joints.size();
         let scratch_bytes = self.scratch.size();
         let atom_bytes = self.atom.size();
         let fixed_bytes = self.pass_lut.size() + self.indirect.size() + self.query.size();
@@ -4783,6 +4864,7 @@ impl GpuSim {
             joint_bytes,
             scratch_bytes,
             atom_bytes,
+            fixed_bytes,
             total_bytes: body_bytes
                 + shape_bytes
                 + contact_bytes
@@ -4828,8 +4910,8 @@ impl GpuSim {
         encoder.copy_buffer_to_buffer(&self.body_cold, 0, staging, state_size, cold_size);
         let island_word = 16
             + crate::types::HASH_BUCKETS
-            + crate::types::PAIR_CAP
-            + 2 * crate::types::CONTACT_HASH_CAP
+            + self.params.pair_capacity
+            + 2 * (2 * self.params.pair_capacity)
             + 6 * self.count;
         encoder.copy_buffer_to_buffer(
             &self.atom,
@@ -4986,7 +5068,7 @@ impl GpuSim {
         &mut self,
         copy_joints: bool,
         copy_contacts: bool,
-    ) -> (Vec<BodyGpu>, Vec<JointGpu>, Vec<ContactGpu>, Vec<u32>, Vec<u32>) {
+    ) -> (Vec<BodyGpu>, Vec<JointGpu>, Vec<ContactGpu>, Vec<u64>, Vec<u32>) {
         let count = self.count as usize;
         let state_size = (mem::size_of::<BodyStateGpu>() * count) as u64;
         let cold_size = (mem::size_of::<BodyColdGpu>() * count) as u64;
@@ -5021,7 +5103,7 @@ impl GpuSim {
         let prepared_off = off;
         off += prepared_size;
         let previous_off = off;
-        let previous_size = (slots * mem::size_of::<u32>()) as u64;
+        let previous_size = (slots * mem::size_of::<u64>()) as u64;
         off += previous_size;
         let start_off=off;
         let start_size=if self.convex_ccd.is_some() {state_size} else {0};
@@ -5039,8 +5121,8 @@ impl GpuSim {
         encoder.copy_buffer_to_buffer(&self.body_cold, 0, &staging, cold_off, cold_size);
         let island_word = 16
             + crate::types::HASH_BUCKETS
-            + crate::types::PAIR_CAP
-            + 2 * crate::types::CONTACT_HASH_CAP
+            + self.params.pair_capacity
+            + 2 * (2 * self.params.pair_capacity)
             + 6 * self.count;
         encoder.copy_buffer_to_buffer(
             &self.atom,
@@ -5055,7 +5137,7 @@ impl GpuSim {
         if copy_contacts {
             encoder.copy_buffer_to_buffer(
                 &self.scratch,
-                u64::from(crate::types::SCR_PREVIOUS_TOUCHING) * 4,
+                u64::from(crate::types::pair_layout(self.params.pair_capacity).previous_touching) * 4,
                 &staging, previous_off, previous_size,
             );
             encoder.copy_buffer_to_buffer(&self.contacts, 0, &staging, hot_off, hot_size);
@@ -5118,7 +5200,8 @@ impl GpuSim {
             decode_contacts(hot, persistent, prepared)
         };
         let previous_touching = if copy_contacts {
-            bytemuck::cast_slice::<u8, u32>(&data[previous_off as usize..start_off as usize]).to_vec()
+            data[previous_off as usize..start_off as usize].chunks_exact(8)
+                .map(|bytes|u64::from_le_bytes(bytes.try_into().unwrap())).collect()
         } else { Vec::new() };
         let start_flags=if start_size>0 {
             bytemuck::cast_slice::<u8,BodyStateGpu>(&data[start_off as usize..off as usize])
@@ -5199,12 +5282,12 @@ impl GpuSim {
     /// Contact slots for the compact, pair-key-sorted candidate list produced
     /// by the current callback detection stage.
     #[cfg(not(target_arch = "wasm32"))]
-    pub async fn read_callback_pairs(&mut self) -> Vec<u32> {
-        let pairs_size = u64::from(crate::types::PAIR_CAP) * 4;
+    pub async fn read_callback_pairs(&mut self) -> Vec<u64> {
+        let pairs_size = u64::from(self.params.pair_capacity) * 8;
         let size = 4 + pairs_size;
         self.ensure_staging(size);
         let staging = self.staging.as_ref().expect("staging buffer");
-        let pairs_word = 64 + crate::types::HASH_BUCKETS + 3 * crate::types::MAX_INSERTS;
+        let pairs_word = crate::types::SCR_PAIRS;
         let mut encoder = self
             .device
             .create_command_encoder(&wgpu::CommandEncoderDescriptor {
@@ -5227,17 +5310,18 @@ impl GpuSim {
         poll_until_idle(&self.device);
         rx.recv().expect("map_async dropped").expect("map failed");
         let data = slice.get_mapped_range();
-        let count = u32::from_ne_bytes(data[..4].try_into().unwrap()).min(crate::types::PAIR_CAP);
-        let pairs = bytemuck::cast_slice::<u8, u32>(&data[4..])[..count as usize].to_vec();
+        let count = u32::from_ne_bytes(data[..4].try_into().unwrap()).min(self.params.pair_capacity);
+        let pairs = data[4..4 + count as usize * 8].chunks_exact(8)
+            .map(|bytes|u64::from_le_bytes(bytes.try_into().unwrap())).collect();
         drop(data);
         staging.unmap();
         pairs
     }
 
     #[cfg(not(target_arch = "wasm32"))]
-    pub fn write_callback_pairs(&self, pairs: &[u32]) {
-        let count = (pairs.len() as u32).min(crate::types::PAIR_CAP);
-        let pairs_word = 64 + crate::types::HASH_BUCKETS + 3 * crate::types::MAX_INSERTS;
+    pub fn write_callback_pairs(&self, pairs: &[u64]) {
+        let count = (pairs.len() as u32).min(self.params.pair_capacity);
+        let pairs_word = crate::types::SCR_PAIRS;
         if count > 0 {
             self.queue.write_buffer(
                 &self.scratch,
@@ -5255,14 +5339,11 @@ impl GpuSim {
     #[cfg(not(target_arch = "wasm32"))]
     pub async fn read_callback_slots(&mut self) -> Vec<u32> {
         const COUNT_SIZE: u64 = 4;
-        let slots_size = u64::from(crate::types::PAIR_CAP) * 4;
+        let slots_size = u64::from(self.params.pair_capacity) * 4;
         let size = COUNT_SIZE + slots_size;
         self.ensure_staging(size);
         let staging = self.staging.as_ref().expect("staging buffer");
-        let active_word = 64
-            + crate::types::HASH_BUCKETS
-            + 3 * crate::types::MAX_INSERTS
-            + 2 * crate::types::PAIR_CAP;
+        let active_word = crate::types::SCR_PAIRS + 3 * self.params.pair_capacity;
         let mut encoder = self
             .device
             .create_command_encoder(&wgpu::CommandEncoderDescriptor {
@@ -5285,7 +5366,7 @@ impl GpuSim {
         poll_until_idle(&self.device);
         rx.recv().expect("map_async dropped").expect("map failed");
         let data = slice.get_mapped_range();
-        let count = u32::from_ne_bytes(data[..4].try_into().unwrap()).min(crate::types::PAIR_CAP);
+        let count = u32::from_ne_bytes(data[..4].try_into().unwrap()).min(self.params.pair_capacity);
         let slots = bytemuck::cast_slice::<u8, u32>(&data[4..])[..count as usize].to_vec();
         drop(data);
         staging.unmap();
@@ -5411,7 +5492,7 @@ impl GpuSim {
 
     #[cfg(not(target_arch = "wasm32"))]
     pub async fn read_phase_words(&mut self) -> Vec<u32> {
-        let start_words = crate::types::SCRATCH_U32 + 16 * self.count;
+        let start_words = crate::types::pair_layout(self.params.pair_capacity).graph + 16 * self.count;
         let word_count = 24 * 8 + 24 * 8 * self.count;
         let offset = u64::from(start_words) * 4;
         let size = u64::from(word_count) * 4;
@@ -5472,14 +5553,14 @@ impl GpuSim {
     #[cfg(not(target_arch = "wasm32"))]
     pub async fn debug_compact_unique(
         &mut self,
-        pairs: &[u32],
+        pairs: &[u64],
         radix_garbage: u32,
-    ) -> (u32, u32, Vec<u32>) {
-        let n = (pairs.len() as u32).min(crate::types::PAIR_CAP);
+    ) -> (u32, u32, Vec<u64>) {
+        let n = (pairs.len() as u32).min(self.params.pair_capacity);
         let garbage = vec![radix_garbage; crate::types::RADIX_BUCKETS as usize];
         self.queue.write_buffer(
             &self.scratch,
-            u64::from(crate::types::SCR_RADIX_BASE) * 4,
+            u64::from(crate::types::pair_layout(self.params.pair_capacity).radix_base) * 4,
             bytemuck::cast_slice(&garbage),
         );
         if n > 0 {
@@ -5514,7 +5595,7 @@ impl GpuSim {
             pass.dispatch_workgroups(groups, 1, 1);
         }
         let header_bytes = 32u64;
-        let size = header_bytes + u64::from(n) * 4;
+        let size = header_bytes + u64::from(n) * 8;
         self.ensure_staging(size.max(32));
         let staging = self.staging.as_ref().expect("staging buffer");
         enc.copy_buffer_to_buffer(&self.scratch, 0, staging, 0, header_bytes);
@@ -5524,7 +5605,7 @@ impl GpuSim {
                 u64::from(crate::types::SCR_PAIRS) * 4,
                 staging,
                 header_bytes,
-                u64::from(n) * 4,
+                u64::from(n) * 8,
             );
         }
         self.queue.submit(Some(enc.finish()));

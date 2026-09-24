@@ -1,0 +1,460 @@
+{
+  "frames_per_clip": 300,
+  "clips": [
+    {
+      "label": "000-box3d-cpu",
+      "scene": "single-box",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "box-stack",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "sphere-stack",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "capsule-stack",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "revolute",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "weld",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "stack",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "pyramid",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "bounce",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "mixed",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "spinner",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "ramp",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "spheres",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "dominoes",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "high-resistance",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "mixed-stacks",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "falling-cubes",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "anchored-mechanisms",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "000-box3d-cpu",
+      "scene": "joint-chain",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "single-box",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "box-stack",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "sphere-stack",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "capsule-stack",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "revolute",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "weld",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "stack",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "pyramid",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "bounce",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "mixed",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "spinner",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "ramp",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "spheres",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "dominoes",
+      "metrics_present": false,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "high-resistance",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "mixed-stacks",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "falling-cubes",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "anchored-mechanisms",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    },
+    {
+      "label": "2026-09-24-throughput-scaling",
+      "scene": "joint-chain",
+      "metrics_present": true,
+      "width": 1280,
+      "height": 720,
+      "nb_read_frames": "300"
+    }
+  ],
+  "notes": [
+    "19 CPU oracle and 19 GPU clips were generated from the measured binaries; all decoded to 300 frames.",
+    "Final-frame contact sheets inspected across all scenes; plausible geometry and contacts, not a numerical equivalence proof.",
+    "GPU default metrics enumerate 18 scenes (DemoScene::ALL excludes Dominoes); all 19 GPU clips exist.",
+    "CPU shape-replacement clip predates this run and is excluded from this proof."
+  ],
+  "columns": {
+    "000-box3d-cpu": {
+      "manifest": {
+        "recording_started_utc": "2026-09-24T12:49:17.048561+00:00",
+        "frames": 300,
+        "metric_runs": 1,
+        "viewer": {
+          "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/gpu-physics",
+          "sha256": "1d6d7ec6d693a8571cbb63efb23a53c3e693c8317a8f98aceaf8d92f6497e07c"
+        },
+        "oracle": {
+          "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/oracle/build/box3d_oracle",
+          "sha256": "a2edeb8ba3556bf91e9544b1715b3212e7444896d4dc5a075ce5d523dec1eff6"
+        },
+        "checkout_head": "9a66819d5267789a2525309dc9dd55499c2dbb01",
+        "environment": {
+          "GPU_PHYSICS_GPU_CCD": "1",
+          "GPU_PHYSICS_AB": "bounded-static-sort",
+          "GPU_RECORD_BIN": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/gpu-physics",
+          "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+          "GPU_PHYSICS_FULL_REPLAY": "1",
+          "GPU_PHYSICS_GRAPH_SHARED": "1",
+          "GPU_PHYSICS_DEMAND_POSES": "1",
+          "GPU_BENCH_WIDTH": "1280",
+          "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+          "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+          "GPU_PHYSICS_PAIR_MATRIX": "1",
+          "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+          "GPU_PHYSICS_RESIDENT": "1",
+          "GPU_PHYSICS_COLOR_PREFIX": "20",
+          "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+          "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+          "GPU_PHYSICS_GRAPH_MEMO": "1",
+          "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/frtn/.cache/box3d-gpu-physics/pipelines",
+          "DISPLAY": ":1",
+          "GPU_PHYSICS_COMPONENT_TGS": "0",
+          "GPU_PHYSICS_CPU_WORKERS": "8",
+          "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+          "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+          "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+          "GPU_PHYSICS_ADAPTER": "nvidia",
+          "GPU_RECORD_ORACLE": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/oracle/build/box3d_oracle",
+          "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
+          "GPU_PHYSICS_PRESENT_MODE": "immediate",
+          "WGPU_BACKEND": "vulkan",
+          "__NV_PRIME_RENDER_OFFLOAD": "1",
+          "GPU_BENCH_HEIGHT": "720",
+          "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1"
+        },
+        "note": "Records requested capture settings and binary identity. Completion requires clips and metrics; checkout HEAD alone does not identify a dirty or externally supplied build."
+      },
+      "clip_sha256": {
+        "single-box": "c45af533cc478c6f1ce8781769be075cfb2fc8812d083f71982681bf79608abe",
+        "box-stack": "8c7ea819f89e941899f0a8a767edbb4e0ec6580c0e89b01a27eb227b18ed5463",
+        "sphere-stack": "f0b2fb55caa464cf9e1076ee60df5bebbe44339502a813ba394a411f49a42657",
+        "capsule-stack": "b277dc8a475ea18ca2352d3df1886b6648c3be61ef2005cd86339ae1a2c71fa0",
+        "revolute": "89930137324867958abf03c798f3c1658dc05467d6a28a29e125eae4826dbf2e",
+        "weld": "89930137324867958abf03c798f3c1658dc05467d6a28a29e125eae4826dbf2e",
+        "stack": "8ef759b87981e63666511f7e675c2e570a736e37be9f7fec14d1a87d8397d6ea",
+        "pyramid": "e5b54bacb7f0cd009614d30e84cff594c8ce03903ce478241c6cd1ecf84fd03f",
+        "bounce": "5fa2c26cbbefe53a34f100d1e43fa1bb9b94f2b033b2f080c20f9a5165d43afb",
+        "mixed": "3e35558d51d30c416f346acb82c13c22ef79b0c452b254afed7fce26bc78338d",
+        "spinner": "654f2382fec71c37488f3c143c0eab57a804c5958b081f0817bce663a3e74552",
+        "ramp": "8601590dfd08757ce65fe82f48212bdb3a97f050f2cd18f7d9e91bd1d62eeb93",
+        "spheres": "4c253673753143d24dbb814697354f277f2bf9aa1be5743c27e9363c645d13c3",
+        "dominoes": "7e4b3c6f76be57823d02403e9282473b10a07498d2f73e642d3bbb0ece5b6ac4",
+        "high-resistance": "7d739bc85383086b519a1acba7fa040a2e498fdb383ea171bdf68d91827352c0",
+        "mixed-stacks": "9b2fff0313ab33128f2cd7c293d47602d46790f0a021d79b4f5eb0ef71062a4f",
+        "falling-cubes": "23dffe35100c08acb8b4941e5bb860108dd245df29fac71295a1873dcdc9d960",
+        "anchored-mechanisms": "550718c936b3c7aa097598f1655ddfff7997c16aa20ee0965564a33e7e724b16",
+        "joint-chain": "121a6ff905447b4eae27f9d77aff6c011b1127b86e719ecc87ec8e7ca2c6e83e"
+      },
+      "metrics_sha256": "1a41b0dea5a091d26fd1881a44fd0090e979a9d8017f3b0f5efe86b4549a65f3"
+    },
+    "2026-09-24-throughput-scaling": {
+      "manifest": {
+        "recording_started_utc": "2026-09-24T12:49:42.876309+00:00",
+        "frames": 300,
+        "metric_runs": 3,
+        "viewer": {
+          "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/gpu-physics",
+          "sha256": "1d6d7ec6d693a8571cbb63efb23a53c3e693c8317a8f98aceaf8d92f6497e07c"
+        },
+        "oracle": null,
+        "checkout_head": "9a66819d5267789a2525309dc9dd55499c2dbb01",
+        "environment": {
+          "GPU_PHYSICS_GPU_CCD": "1",
+          "GPU_PHYSICS_AB": "bounded-static-sort",
+          "GPU_RECORD_BIN": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/gpu-physics",
+          "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+          "GPU_PHYSICS_FULL_REPLAY": "1",
+          "GPU_PHYSICS_GRAPH_SHARED": "1",
+          "GPU_PHYSICS_DEMAND_POSES": "1",
+          "GPU_BENCH_WIDTH": "1280",
+          "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+          "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+          "GPU_PHYSICS_PAIR_MATRIX": "1",
+          "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+          "GPU_PHYSICS_RESIDENT": "1",
+          "GPU_PHYSICS_COLOR_PREFIX": "20",
+          "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+          "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+          "GPU_PHYSICS_GRAPH_MEMO": "1",
+          "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/frtn/.cache/box3d-gpu-physics/pipelines",
+          "DISPLAY": ":1",
+          "GPU_PHYSICS_COMPONENT_TGS": "0",
+          "GPU_PHYSICS_CPU_WORKERS": "8",
+          "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+          "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+          "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+          "GPU_PHYSICS_ADAPTER": "nvidia",
+          "GPU_RECORD_ORACLE": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/oracle/build/box3d_oracle",
+          "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
+          "GPU_PHYSICS_PRESENT_MODE": "immediate",
+          "WGPU_BACKEND": "vulkan",
+          "__NV_PRIME_RENDER_OFFLOAD": "1",
+          "GPU_BENCH_HEIGHT": "720",
+          "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1"
+        },
+        "note": "Records requested capture settings and binary identity. Completion requires clips and metrics; checkout HEAD alone does not identify a dirty or externally supplied build."
+      },
+      "clip_sha256": {
+        "single-box": "c45af533cc478c6f1ce8781769be075cfb2fc8812d083f71982681bf79608abe",
+        "box-stack": "cb9de31b9a8490befd1720d72312a502f2acf7a793c8de04d2602115742afcda",
+        "sphere-stack": "bbbfb20fe861d7179bcb4ab19cf1788432ad2998459442ffdffae1ac35ac627c",
+        "capsule-stack": "2a221e9d4fb1bedf3e8ed55d48e35fb9ee1cf9ac0916fd889c242b9347c57db5",
+        "revolute": "89930137324867958abf03c798f3c1658dc05467d6a28a29e125eae4826dbf2e",
+        "weld": "89930137324867958abf03c798f3c1658dc05467d6a28a29e125eae4826dbf2e",
+        "stack": "39a92ba9f839f244c7fd21578243b85c32b6e94d3f01f801acd369dcfa6ddaca",
+        "pyramid": "0c8d91fc4cca4f7a9926e8070e8973ff23adb74225d39830a89b95b35466eb67",
+        "bounce": "9871b17fbd43230c1eb3a4aad8e574a91fb24c90f33e3f49dcb1cc1eb08cc386",
+        "mixed": "e60d120bae7e52f99a043f114eec2d4bba89a7b7a5aa0b1d68843e2b2d743b5f",
+        "spinner": "654f2382fec71c37488f3c143c0eab57a804c5958b081f0817bce663a3e74552",
+        "ramp": "8601590dfd08757ce65fe82f48212bdb3a97f050f2cd18f7d9e91bd1d62eeb93",
+        "spheres": "62ec5d83604ec30375d33123784d2250bb7f30d2e28c65bbd121ec156f31b7bc",
+        "dominoes": "8471d511bc07e7596c931d13a931b4fb018be6d8e8f05181345f683117fab0d3",
+        "high-resistance": "ded3bde032e83d60f6653ad387aa7e61f546cbd21aba7acab2ebc13699ef489f",
+        "mixed-stacks": "6b63491b9f03912c84bb84812ba2db5c0779989a21c943a386f4bc9c214004fc",
+        "falling-cubes": "00b909552ef366be742f2811ba79f7705a7214040d7bcdec1a7a5c634bb655ec",
+        "anchored-mechanisms": "550718c936b3c7aa097598f1655ddfff7997c16aa20ee0965564a33e7e724b16",
+        "joint-chain": "aaca395cf8f77af1a5da064d0a06b41b10d762da4b193f82a22f60d3e87e71cb"
+      },
+      "metrics_sha256": "b4e3ea9ba66b253852653ead533a3570f1f9d68da81db3b654c4a0471ba85f15"
+    }
+  }
+}

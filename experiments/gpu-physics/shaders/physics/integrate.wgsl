@@ -24,9 +24,9 @@ fn island_init(@builtin(global_invocation_id) gid: vec3<u32>) {
 @compute @workgroup_size(ISLAND_WORKGROUP_SIZE)
 fn island_union_edges(@builtin(global_invocation_id) gid: vec3<u32>) {
     let i = gid.x;
-    let nc = min(scratch[SCR_NCONTACTS], PAIR_CAP);
+    let nc = min(scratch[SCR_NCONTACTS], pair_cap());
     if (i < nc) {
-        let c = contacts[scratch[SCR_ACTIVE_CONTACT + i]];
+        let c = contacts[scratch[scr_active_contact() + i]];
         if (c.a != EMPTY && c.count != 0u) {
             island_union(c.a, c.b);
         }
@@ -354,9 +354,9 @@ fn capture_phase(@builtin(global_invocation_id) gid: vec3<u32>) {
     var warm_points = 0u;
     var normal_impulse = 0.0;
     var tangent_impulse2 = 0.0;
-    let pair_count = min(scratch[SCR_NCONTACTS], PAIR_CAP);
+    let pair_count = min(scratch[SCR_NCONTACTS], pair_cap());
     for (var j = 0u; j < pair_count; j++) {
-        let slot = scratch[SCR_ACTIVE_CONTACT + j];
+        let slot = scratch[scr_active_contact() + j];
         let c = load_contact(slot);
         if (c.a == EMPTY || c.count == 0u) {
             continue;
@@ -386,9 +386,9 @@ fn capture_phase(@builtin(global_invocation_id) gid: vec3<u32>) {
 fn component_owns_contact(slot: u32, root: u32) -> bool {
     // Other components may already be updating hot contacts. Persistent pair
     // identity and scene shape metadata stay read-only throughout TGS.
-    let key=contact_persistent[slot].lifecycle.w;
-    let a=load_shape(key & 0xffffu).body_index;
-    let b=load_shape(key >> 16u).body_index;
+    let key=contact_persistent[slot].pair.xy;
+    let a=load_shape(key.x).body_index;
+    let b=load_shape(key.y).body_index;
     return island_root(a)==root || island_root(b)==root;
 }
 fn component_integrate(root: u32, position: bool, n: u32, ids: ptr<function, array<u32, 8>>) {
@@ -559,9 +559,9 @@ fn component_large_roots()->u32 {return component_contacts()+2u*params.contact_c
 fn component_color_counts()->u32 {return component_large_roots()+params.body_count;}
 fn component_color_starts()->u32 {return component_color_counts()+24u*params.body_count;}
 fn component_contact_root(slot:u32)->u32 {
-    let key=contact_persistent[slot].lifecycle.w;
-    let a=island_root(load_shape(key&0xffffu).body_index);
-    let b=island_root(load_shape(key>>16u).body_index);
+    let key=contact_persistent[slot].pair.xy;
+    let a=island_root(load_shape(key.x).body_index);
+    let b=island_root(load_shape(key.y).body_index);
     return select(a,b,a==EMPTY);
 }
 @compute @workgroup_size(64)
@@ -575,7 +575,7 @@ fn component_reset(@builtin(global_invocation_id) gid:vec3<u32>) {
 // Validate membership in the current graph lists, not just stale color metadata.
 // This also handles memoized graphs without reconstructing their liveness rules.
 fn component_active_slot(i:u32)->u32 {
-    let slot=scratch[SCR_ACTIVE_CONTACT+i];
+    let slot=scratch[scr_active_contact()+i];
     if (slot>=params.contact_capacity) {return EMPTY;}
     let col=contacts[slot].color;
     if (col>OVERFLOW_COLOR) {return EMPTY;}
@@ -594,7 +594,7 @@ fn component_count(@builtin(global_invocation_id) gid:vec3<u32>) {
     // Physical dispatch covers capacity; stride also handles candidate lists
     // longer than the root-slot pool without omitting late allocated roots.
     if (i>=params.contact_capacity) {return;}
-    for (var candidate_i=i;candidate_i<min(scratch[SCR_NCONTACTS],PAIR_CAP);candidate_i+=params.contact_capacity) {
+    for (var candidate_i=i;candidate_i<min(scratch[SCR_NCONTACTS],pair_cap());candidate_i+=params.contact_capacity) {
         let slot=component_active_slot(candidate_i);
         if (slot==EMPTY) {continue;}
         let root=component_contact_root(slot);
@@ -664,7 +664,7 @@ fn component_scatter(@builtin(global_invocation_id) gid:vec3<u32>) {
         }
     }
     if (i>=params.contact_capacity) {return;}
-    for (var candidate_i=i;candidate_i<min(scratch[SCR_NCONTACTS],PAIR_CAP);candidate_i+=params.contact_capacity) {
+    for (var candidate_i=i;candidate_i<min(scratch[SCR_NCONTACTS],pair_cap());candidate_i+=params.contact_capacity) {
         let slot=component_active_slot(candidate_i);
         if (slot==EMPTY) {continue;}
         let root=component_contact_root(slot);

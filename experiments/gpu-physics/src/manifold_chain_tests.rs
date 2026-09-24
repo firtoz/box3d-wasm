@@ -165,7 +165,7 @@ fn run_with_endpoint(
         );
     };
     write(3, 1); // SCR_NCONTACTS
-    write(SCR_PAIRS + 2 * PAIR_CAP, 0); // SCR_ACTIVE_CONTACT
+    write(SCR_PAIRS + 3 * PAIR_CAP, 0); // SCR_ACTIVE_CONTACT
     write(SCR_COLOR + color, 1);
     // Exact WGSL color_contact_base() layout (uses live body slots, not caps).
     let color_base = SCR_RADIX_BASE + RADIX_BUCKETS + 208 * sim.params.body_count + 192;
@@ -347,7 +347,7 @@ fn manifold_pool_allocates_uniquely_after_primary_reservations_and_reports_exhau
         fn test_allocate_patches(@builtin(global_invocation_id) gid: vec3<u32>) {
             if (gid.x >= params.contact_capacity) { return; }
             let slot = allocate_manifold_slot(0u);
-            scratch[SCR_ACTIVE_CONTACT + gid.x] = slot;
+            scratch[scr_active_contact() + gid.x] = slot;
             if (slot != EMPTY) {
                 var c = empty_contact();
                 c.a = 0u; c.b = 1u; c.count = 1u;
@@ -369,9 +369,9 @@ fn manifold_pool_allocates_uniquely_after_primary_reservations_and_reports_exhau
     sim.queue.submit(Some(enc.finish()));
     let contacts = pollster::block_on(sim.read_contacts());
     let words = pollster::block_on(
-        sim.read_scratch_prefix(SCR_PAIRS + 2 * PAIR_CAP + sim.params.contact_capacity),
+        sim.read_scratch_prefix(SCR_PAIRS + 3 * PAIR_CAP + sim.params.contact_capacity),
     );
-    let out = &words[(SCR_PAIRS + 2 * PAIR_CAP) as usize..];
+    let out = &words[(SCR_PAIRS + 3 * PAIR_CAP) as usize..];
     let unique: std::collections::BTreeSet<_> = out
         .iter()
         .copied()
@@ -440,7 +440,7 @@ fn manifold_pool_retires_deleted_body_chains_but_preserves_malformed_chains() {
             .write_buffer(&sim.scratch, 5 * 4, bytemuck::bytes_of(&1u32));
         sim.queue.write_buffer(
             &sim.scratch,
-            u64::from(SCR_PAIRS + 3 * PAIR_CAP) * 4,
+            u64::from(SCR_PAIRS + 4 * PAIR_CAP) * 4,
             bytemuck::bytes_of(&0u32),
         );
         let mut enc = sim.device.create_command_encoder(&Default::default());
@@ -488,7 +488,7 @@ fn manifold_finalization_uses_selected_patch_history_not_pair_root() {
         r#"
         @compute @workgroup_size(64)
         fn test_finalize_history(@builtin(local_invocation_index) lid: u32) {
-            if (lid == 0u) { publish_contact_slot(0u, 0u); }
+            if (lid == 0u) { prepare_contact_identity(0u, vec2<u32>(0u)); publish_contact_slot(vec2<u32>(0u), 0u); }
             storageBarrier(); workgroupBarrier();
             if (lid >= 3u) { return; }
             var previous = empty_contact();
@@ -700,7 +700,7 @@ fn generated_mesh_list_publishes_root_and_children() {
             append_mesh_patch(&list, 0u, empty_contact(), shape, load_body(0u));
             append_mesh_patch(&list, 0u, second, shape, load_body(0u));
             let result = finalize_mesh_patch_list(list,0u,load_body(0u),load_body(1u),0u,1u);
-            store_pair(0u,65536u,result,0u,1u,load_body(0u),load_body(1u));
+            store_pair(0u,vec2<u32>(0u,1u),result,0u,1u,load_body(0u),load_body(1u));
         }
     "#);
     let mut enc = sim.device.create_command_encoder(&Default::default());
@@ -855,7 +855,7 @@ fn joint_pair_retirement_owns_children_and_preserves_other_roots() {
         contacts.push(unrelated);
         sim.queue.write_buffer(&sim.contacts, 0, bytemuck::cast_slice(&contacts));
         sim.queue.write_buffer(&sim.scratch, u64::from(crate::types::SCR_UNIQUE_N) * 4, bytemuck::bytes_of(&2u32));
-        sim.queue.write_buffer(&sim.scratch, u64::from(SCR_PAIRS + 2 * PAIR_CAP) * 4, bytemuck::cast_slice(&[0u32, 2]));
+        sim.queue.write_buffer(&sim.scratch, u64::from(SCR_PAIRS + 3 * PAIR_CAP) * 4, bytemuck::cast_slice(&[0u32, 2]));
         sim.retire_body_pair_contacts(1, 0); // Endpoint order must not matter.
         let after = pollster::block_on(sim.read_contacts());
         let stats = pollster::block_on(sim.read_live_step_stats());
@@ -884,8 +884,8 @@ fn contact_metrics_distinguish_candidates_roots_and_patch_slots_with_step_identi
             let live = mode != 0u;
             let count = select(3u,130u,mode == 2u);
             scratch[SCR_UNIQUE_N] = select(0u,count,live);
-            for (var i=0u; i<130u; i++) { scratch[SCR_ACTIVE_CONTACT+i] = EMPTY; }
-            if (live) { scratch[SCR_ACTIVE_CONTACT+count-1u] = 0u; }
+            for (var i=0u; i<130u; i++) { scratch[scr_active_contact()+i] = EMPTY; }
+            if (live) { scratch[scr_active_contact()+count-1u] = 0u; }
             if (live) {
                 var root = empty_contact(); root.a=0u; root.b=1u; root.count=1u;
                 root.manifold_link=vec4<u32>(2u,0u,2u,0u);
@@ -933,20 +933,23 @@ fn contact_metrics_distinguish_candidates_roots_and_patch_slots_with_step_identi
 fn dynamic_greedy_colors_match_reference_with_holes_and_overflow() {
     let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
     gpu.device.push_error_scope(wgpu::ErrorFilter::Validation);
-    for (shared,span,edge_count) in [(false,32,193),(true,32,127),(true,32,128),(true,32,193),(true,32,257),(true,7390,257),(true,7391,257),(true,7966,193),(true,7967,193),(true,7975,193),(true,7976,193),(false,8168,193),(true,8168,193),(true,8169,193)] {
+    for (shared,span,edge_count) in [(false,32,193),(true,32,127),(true,32,128),(true,32,193),(true,32,257),(true,7390,257),(true,7391,257),(true,7966,193),(true,7967,193),(true,7975,193),(true,7976,193),(false,8168,193),(true,8168,193),(true,8169,193),(true,8169,255),(true,8169,256),(true,8169,257),(false,32769,513)] {
     let mut sim = make_sim_sized(&gpu, 0,span);
     sim.graph_shared_requested=shared;
+    sim.graph_batched_override=None;
     assert_eq!(sim.shared_graph_eligible(),shared && span<=8168);
     sim.params.body_count = span;
-    if shared && span<=7967 && std::env::var("GPU_PHYSICS_GRAPH_MEMO").as_deref()==Ok("1") {
-        assert!(sim.graph_memo_base.is_some(),"memo boundary fixture must exercise memo allocation");
+    if shared && std::env::var("GPU_PHYSICS_GRAPH_MEMO").as_deref()==Ok("1")
+        && sim.device.limits().max_compute_workgroup_storage_size>=32768 {
+        assert_eq!(sim.graph_memo_base.is_some(),sim.caps.bodies<=8160,
+            "memo allocation uses reserved capacity, including spawning headroom");
     }
     sim.upload_pass_lut();
     let seed = test_pipeline(&sim, "seed_greedy_graph", &r#"
         @compute @workgroup_size(1)
         fn seed_greedy_graph() {
             for (var b=0u; b<params.body_count; b++) {
-                atomicStore(&atom[ATOM_JACOBI+b],select(0u,(1u<<20u)|(1u<<22u),b%3u==0u));
+                atomicStore(&atom[atom_jacobi()+b],select(0u,(1u<<20u)|(1u<<22u),b%3u==0u));
             }
             for (var c=0u; c<24u; c++) {atomicStore(&atom[atom_graph_color()+c],0u);}
             for (var i=0u; i<EDGE_COUNT; i++) {
@@ -955,8 +958,8 @@ fn dynamic_greedy_colors_match_reference_with_holes_and_overflow() {
                 if (i<24u) {a=0u;b=i+1u;}
                 var c=empty_contact();c.a=a+params.body_count-32u;c.b=b+params.body_count-32u;c.count=1u;
                 store_contact(i,c);
-                scratch[SCR_ACTIVE_CONTACT+i]=i;
-                scratch[SCR_NEXT_OCCUPIED+i]=i;
+                scratch[scr_active_contact()+i]=i;
+                scratch[scr_next_occupied()+i]=i;
             }
             scratch[SCR_DYN_DYN_N]=EDGE_COUNT;
             scratch[SCR_NCONTACTS]=EDGE_COUNT;
@@ -983,7 +986,7 @@ fn dynamic_greedy_colors_match_reference_with_holes_and_overflow() {
     let copy_masks=test_pipeline(&sim,"copy_graph_masks",&r#"
         @compute @workgroup_size(64)
         fn copy_graph_masks(@builtin(global_invocation_id) gid:vec3<u32>) {
-            if (gid.x<params.body_count) {scratch[gid.x]=atomicLoad(&atom[ATOM_JACOBI+gid.x]);}
+            if (gid.x<params.body_count) {scratch[gid.x]=atomicLoad(&atom[atom_jacobi()+gid.x]);}
             if (gid.x<EDGE_COUNT) {
                 let c=contacts[gid.x];let local=contact_persistent[gid.x].lifecycle.z;
                 scratch[params.body_count+gid.x]=scratch[color_contact_base()+c.color*params.contact_capacity+local];
@@ -1004,7 +1007,7 @@ fn dynamic_greedy_colors_match_reference_with_holes_and_overflow() {
             let mutate=test_pipeline(&sim,"mutate_prefix_generation",&format!(r#"
                 @compute @workgroup_size(1)
                 fn mutate_prefix_generation() {{
-                    if ({changed_edge}u<257u) {{contact_persistent[{changed_edge}u].lifecycle.w=1u;}}
+                    if ({changed_edge}u<257u) {{contact_persistent[{changed_edge}u].pair.x=1u;}}
                 }}
             "#));
             let mut enc=sim.device.create_command_encoder(&Default::default());
@@ -1026,7 +1029,7 @@ fn dynamic_greedy_colors_match_reference_with_holes_and_overflow() {
                 @compute @workgroup_size(1)
                 fn resize_prefix_inputs() {{
                     scratch[SCR_DYN_DYN_N]={live}u;scratch[SCR_NCONTACTS]={live}u;
-                    atomicOr(&atom[ATOM_JACOBI],{seed_bit}u);
+                    atomicOr(&atom[atom_jacobi()],{seed_bit}u);
                     atomicStore(&atom[atom_graph_color()+23u],{overflow_start}u);
                 }}
             "#));
@@ -1057,9 +1060,147 @@ fn dynamic_greedy_colors_match_reference_with_holes_and_overflow() {
     if shared && span<=8168 {
         sim.params.body_count=8169;
         assert!(!sim.shared_graph_eligible());
-        assert!(std::ptr::eq(sim.dynamic_graph_pipeline(),&sim.graph_assign_dynamic));
+        assert!(sim.batched_graph_eligible());
+        let selected=sim.dynamic_graph_pipeline();
+        assert!(std::ptr::eq(selected,&sim.graph_assign_batched));
     }
 
+    }
+    if let Some(error)=pollster::block_on(gpu.device.pop_error_scope()) {panic!("{error}");}
+}
+
+#[test]
+fn larger_pair_capacity_compacts_and_preserves_contacts_on_growth() {
+    let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+    gpu.device.push_error_scope(wgpu::ErrorFilter::Validation);
+    let old=make_sim(&gpu,0);
+    let seed=test_pipeline(&old,"seed_growth_contacts",r#"
+        @compute @workgroup_size(1)
+        fn seed_growth_contacts() {
+            scratch[SCR_OCCUPIED_N]=3u;
+            for (var i=0u;i<3u;i++) {
+                let slot=select(i,params.contact_capacity-1u,i==2u);
+                let key=vec2<u32>(0u,i+1u);
+                var c=empty_contact();c.a=1u;c.b=0u;c.count=1u;
+                c.pair=vec4<u32>(key,0u,0u);c.friction_impulse=vec2<f32>(f32(i)+0.25);
+                store_contact(slot,c);
+                scratch[scr_occupied_contact()+i]=slot;
+                store_pair_words(scr_previous_touching(),i,key);
+                prepare_contact_identity(slot,key);
+                let published=publish_contact_slot(key,slot);
+            }
+        }
+    "#);
+    let mut enc=old.device.create_command_encoder(&Default::default());
+    old.dispatch_n(&mut enc,&seed,1,0,1);old.queue.submit(Some(enc.finish()));
+    let mut grown=make_sim_sized(&gpu,0,8193);
+    assert!(grown.params.pair_capacity>old.params.pair_capacity);
+    grown.copy_contacts_from(&old);
+    let verify=test_pipeline(&grown,"verify_growth_contacts",r#"
+        @compute @workgroup_size(1)
+        fn verify_growth_contacts() {
+            for (var i=0u;i<3u;i++) {
+                scratch[64u+i]=find_contact_slot(vec2<u32>(0u,i+1u));
+                scratch[67u+i]=scratch[scr_occupied_contact()+i];
+                scratch[70u+i]=load_pair_words(scr_previous_touching(),i).y;
+            }
+        }
+    "#);
+    let mut enc=grown.device.create_command_encoder(&Default::default());
+    grown.dispatch_n(&mut enc,&verify,1,0,1);grown.queue.submit(Some(enc.finish()));
+    let words=pollster::block_on(grown.read_scratch_prefix(73));
+    let slots=[0,1,old.params.contact_capacity-1];
+    assert_eq!(words[5],3);
+    assert_eq!(&words[64..67],&slots);
+    assert_eq!(&words[67..70],&slots);
+    assert_eq!(&words[70..73],&[1,2,3]);
+    let contacts=pollster::block_on(grown.read_contacts());
+    for (i,&slot) in slots.iter().enumerate() {
+        assert_eq!(contacts[slot as usize].friction_impulse,[i as f32+0.25;2]);
+    }
+    // More than 256 histogram groups and more than 65,536 unique outputs.
+    let pairs:Vec<u64>=(0..131073u64).map(|i|i/2).collect();
+    let (count,raw,out)=pollster::block_on(grown.debug_compact_unique(&pairs,0x00ff_ff00));
+    assert_eq!((count,raw),(65537,65537));
+    assert_eq!(&out[..count as usize],(0..65537u64).collect::<Vec<_>>().as_slice());
+    if let Some(error)=pollster::block_on(gpu.device.pop_error_scope()) {panic!("{error}");}
+}
+
+// Exercise full-width sort keys independently of the still-limited world IDs,
+// then verify both stable sorts preserve canonical static colors and overflow.
+#[test]
+fn static_graph_sort_preserves_full_width_keys_and_canonical_order() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    gpu.device.push_error_scope(wgpu::ErrorFilter::Validation);
+    for span in [32, 8193] {
+    let mut sim = make_sim_sized(&gpu, 0, span);
+    let layout = crate::types::pair_layout(sim.params.pair_capacity);
+    let seed = test_pipeline(&sim, "seed_static_sort", r#"
+        @compute @workgroup_size(256)
+        fn seed_static_sort(@builtin(global_invocation_id) gid:vec3<u32>) {
+            let i=gid.x; let n=scratch[SCR_GRAPH_STATIC_N];
+            if (i<n) {
+                let body=i%7u+1u;
+                var c=empty_contact(); c.a=body;c.b=0u;c.count=1u;
+                c.color=(i%37u)*65537u;
+                store_contact(i,c);
+                scratch[scr_active_contact()+2u*i]=i;
+                scratch[scr_radix_out()+i]=2u*i;
+                scratch[scr_radix_hist()+2u*i]=(body<<2u)|1u;
+            }
+            if (i<24u) {atomicStore(&atom[atom_graph_color()+i],0u);}
+            if (i==0u) {
+                scratch[SCR_GRAPH_STATIC_MAX]=max(2u,(n+6u)/7u);
+                scratch[SCR_RADIX_GROUP_N]=(n+255u)/256u;
+            }
+        }
+    "#);
+    let counts = if span == 32 { vec![1u32,255,256,257,513] } else { vec![65537] };
+    for n in counts {
+        for full_graph in [false,true] {
+            sim.queue.write_buffer(&sim.scratch,57*4,bytemuck::bytes_of(&n));
+            let mut enc=sim.device.create_command_encoder(&Default::default());
+            sim.dispatch_n(&mut enc,&seed,n.div_ceil(256),0,1);
+            if full_graph {
+                sim.dispatch_n(&mut enc,&sim.graph_pack_static_keys,n.div_ceil(64),0,1);
+            }
+            let sort = |enc: &mut wgpu::CommandEncoder| {
+                for digit in 0..4 {
+                    sim.dispatch_n(enc,&sim.graph_radix_histogram[digit],n.div_ceil(256),0,1);
+                    sim.dispatch_n(enc,&sim.radix_bucket_bases,1,0,1);
+                    sim.dispatch_n(enc,&sim.radix_group_prefix,1,0,1);
+                    sim.dispatch_n(enc,&sim.graph_radix_scatter[digit],n.div_ceil(256),0,1);
+                }
+            };
+            sort(&mut enc);
+            if full_graph {
+                sim.dispatch_n(&mut enc,&sim.graph_mark_static_starts,n.div_ceil(64),0,1);
+                sim.dispatch_n(&mut enc,&sim.graph_encode_static_colors,n.div_ceil(64),0,1);
+                sort(&mut enc);
+                sim.dispatch_n(&mut enc,&sim.graph_mark_color_starts,n.div_ceil(64),0,1);
+                sim.dispatch_n(&mut enc,&sim.graph_assign_static,n.div_ceil(64),0,1);
+            }
+            sim.queue.submit(Some(enc.finish()));
+            if full_graph {
+                let contacts=pollster::block_on(sim.read_contacts());
+                let mut counts=[0u32;24];
+                for i in 0..n as usize {
+                    let rank=i/7;
+                    let color=if rank>=22 {23} else {22-rank};
+                    assert_eq!((contacts[i].color,contacts[i].lifecycle[2]),
+                        (color as u32,counts[color]),"n={n} edge={i}");
+                    counts[color]+=1;
+                }
+            } else {
+                let words=pollster::block_on(sim.read_scratch_prefix(layout.radix_out+n));
+                let mut expected: Vec<u32>=(0..n).collect();
+                expected.sort_by_key(|i|(i%37)*65537);
+                let expected: Vec<u32>=expected.into_iter().map(|i|2*i).collect();
+                let start=layout.radix_out as usize;
+                assert_eq!(&words[start..start+n as usize],expected.as_slice(),"n={n}");
+            }
+        }
+    }
     }
     if let Some(error)=pollster::block_on(gpu.device.pop_error_scope()) {panic!("{error}");}
 }
@@ -1068,7 +1209,9 @@ fn dynamic_greedy_colors_match_reference_with_holes_and_overflow() {
 fn paired_graph_compaction_preserves_both_ordered_lists() {
     let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
     gpu.device.push_error_scope(wgpu::ErrorFilter::Validation);
-    let mut sim=make_sim(&gpu,0);
+    for span in [2, 8193] {
+    let mut sim=make_sim_sized(&gpu,0,span);
+    let layout=crate::types::pair_layout(sim.params.pair_capacity);
     let seed=test_pipeline(&sim,"seed_paired_compact",r#"
         @compute @workgroup_size(256)
         fn seed_paired_compact(@builtin(global_invocation_id) gid:vec3<u32>) {
@@ -1076,13 +1219,13 @@ fn paired_graph_compaction_preserves_both_ordered_lists() {
             if (i<scratch[SCR_UNIQUE_N]) {
                 let mode=scratch[58u];
                 let kind=select(i%4u,mode,mode<3u);
-                scratch[SCR_RADIX_HIST+i]=(i<<2u)|kind;
-                scratch[SCR_OCCUPIED_CONTACT+i]=0xa5000000u+i;
+                scratch[scr_radix_hist()+i]=(i<<2u)|kind;
+                scratch[scr_occupied_contact()+i]=0xa5000000u+i;
             }
-            if (i<2u*RADIX_GROUPS) {scratch[SCR_INS_CELL+i]=0xdeadbeefu;}
+            if (i<2u*radix_groups()) {scratch[scr_ins_cell()+i]=0xdeadbeefu;}
         }
     "#);
-    for n in [0u32,1,255,256,257,511,512,513,PAIR_CAP,17,0] {
+    for n in [0u32,1,255,256,257,511,512,513,PAIR_CAP,65537.min(sim.params.pair_capacity),sim.params.pair_capacity,17,0] {
         for mode in [0u32,1,2,3] {
             let expect_static:Vec<u32>=(0..n).filter(|i|if mode<3 {mode==1}else{i%4==1}).collect();
             let expect_dynamic:Vec<u32>=(0..n).filter(|i|if mode<3 {mode==2}else{i%4==2}).collect();
@@ -1097,18 +1240,19 @@ fn paired_graph_compaction_preserves_both_ordered_lists() {
                 sim.dispatch_n(&mut enc,&p[1],1,0,1);
                 sim.dispatch_n(&mut enc,&p[2],groups,0,1);
                 sim.queue.submit(Some(enc.finish()));
-                let words=pollster::block_on(sim.read_scratch_prefix(crate::types::SCR_RADIX_OUT+n));
+                let words=pollster::block_on(sim.read_scratch_prefix(layout.radix_out+n));
                 assert_eq!(words[57] as usize,expect_static.len(),"static count n={n} mode={mode}");
                 assert_eq!(words[56] as usize,expect_dynamic.len());
-                let start=crate::types::SCR_RADIX_OUT as usize;
+                let start=layout.radix_out as usize;
                 assert_eq!(&words[start..start+expect_static.len()],expect_static.as_slice());
-                let start=crate::types::SCR_NEXT_OCCUPIED as usize;
+                let start=layout.next_occupied as usize;
                 assert_eq!(&words[start..start+expect_dynamic.len()],expect_dynamic.as_slice());
-                let previous=crate::types::SCR_OCCUPIED_CONTACT as usize;
+                let previous=layout.occupied as usize;
                 for i in 0..n as usize {assert_eq!(words[previous+i],0xa5000000+i as u32,
                     "graph compaction overwrote previous occupied root {i}");}
             }
         }
+    }
     }
     if let Some(error)=pollster::block_on(gpu.device.pop_error_scope()) {panic!("{error}");}
 }
@@ -1255,8 +1399,8 @@ fn occupied_publication_parallel_preserves_order_at_boundaries() {
         fn seed_publication(@builtin(global_invocation_id) gid: vec3<u32>) {
             let count = atomicLoad(&query[70u]);
             if (gid.x < params.contact_capacity) {
-                scratch[SCR_NEXT_OCCUPIED + gid.x] = params.contact_capacity - 1u - gid.x;
-                scratch[SCR_OCCUPIED_CONTACT + gid.x] = EMPTY;
+                scratch[scr_next_occupied() + gid.x] = params.contact_capacity - 1u - gid.x;
+                scratch[scr_occupied_contact() + gid.x] = EMPTY;
             }
             if (gid.x == 0u) { atomicStore(&atom[ATOM_OCCUPIED_N], count); }
         }
@@ -1303,14 +1447,14 @@ fn occupied_retirement_keeps_input_until_publication() {
             c.a = select(900u, 0u, i % 2u == 0u);
             c.b = select(901u, 1u, i % 2u == 0u);
             c.count = 1u;
-            c.lifecycle.w = 1u << 16u;
+            c.pair = vec4<u32>(0u,1u,0u,0u);
             store_contact(i, c);
-            scratch[SCR_OCCUPIED_CONTACT + i] = 511u - i;
-            scratch[SCR_CONTACT_MARK + i] = select(0u, 1u, i == 0u);
+            scratch[scr_occupied_contact() + i] = 511u - i;
+            scratch[scr_contact_mark() + i] = select(0u, 1u, i == 0u);
             if (i == 0u) {
                 scratch[SCR_OCCUPIED_N] = 512u;
                 scratch[SCR_UNIQUE_N] = 1u;
-                scratch[SCR_ACTIVE_CONTACT] = 0u;
+                scratch[scr_active_contact()] = 0u;
             }
         }
     "#);
@@ -1417,4 +1561,95 @@ fn hull_triangle_incident_face_matches_native_support_edge_choice() {
     assert_eq!(contacts[0].ra0[0],fixture::EXPECTED);
     assert_eq!(contacts[0].ra0[1],fixture::OLD);
     assert_ne!(contacts[0].ra0[0],contacts[0].ra0[1]);
+}
+
+#[test]
+fn full_width_contact_hash_preserves_identity_through_retirement_and_reuse() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    let mut sim = make_sim_sized(&gpu, 0, 8193);
+    let source = r#"
+        fn test_key(i: u32) -> vec2<u32> {
+            // Same low 16 bits, distinct full-width identities. Include words
+            // equal to hash sentinels: only slot references reserve those values.
+            if (i == 254u) { return vec2<u32>(EMPTY, TOMBSTONE); }
+            if (i == 255u) { return vec2<u32>(TOMBSTONE, EMPTY); }
+            if (i < 128u) { return vec2<u32>(1u + (i << 16u), 2u + (i << 16u)); }
+            let x = 1u + (i << 16u);
+            // Force the same initial hash bucket for the second half.
+            return vec2<u32>(x, pair_hash_mix(x) ^ 7u);
+        }
+        @compute @workgroup_size(64)
+        fn prepare_test(@builtin(global_invocation_id) gid: vec3<u32>) {
+            prepare_contact_identity(65536u + gid.x, test_key(gid.x));
+        }
+        @compute @workgroup_size(64)
+        fn publish_test(@builtin(global_invocation_id) gid: vec3<u32>) {
+            scratch[64u + gid.x] = u32(publish_contact_identity(test_key(gid.x), 65536u + gid.x));
+        }
+        @compute @workgroup_size(64)
+        fn read_test(@builtin(global_invocation_id) gid: vec3<u32>) {
+            scratch[320u + gid.x] = find_contact_identity(test_key(gid.x));
+        }
+        @compute @workgroup_size(64)
+        fn retire_test(@builtin(global_invocation_id) gid: vec3<u32>) {
+            if (gid.x % 2u == 0u) { retire_contact_identity(test_key(gid.x)); }
+        }
+    "#;
+    let prepare = test_pipeline(&sim, "prepare_test", source);
+    let publish = test_pipeline(&sim, "publish_test", source);
+    let read = test_pipeline(&sim, "read_test", source);
+    let retire = test_pipeline(&sim, "retire_test", source);
+    for stage in 0..4 {
+        let mut enc = sim.device.create_command_encoder(&Default::default());
+        if stage == 0 {
+            sim.dispatch_n(&mut enc, &prepare, 4, 0, 1);
+        }
+        if stage % 2 == 1 {
+            sim.dispatch_n(&mut enc, &retire, 4, 0, 1);
+        } else {
+            sim.dispatch_n(&mut enc, &publish, 4, 0, 1);
+        }
+        sim.dispatch_n(&mut enc, &read, 4, 0, 1);
+        sim.queue.submit(Some(enc.finish()));
+        let words = pollster::block_on(sim.read_scratch_prefix(576));
+        for i in 0..256 {
+            assert_eq!(words[64+i], 1, "publish slot {i}, stage {stage}");
+            let expected = if stage % 2 == 1 && i % 2 == 0 { u32::MAX } else { 65536 + i as u32 };
+            assert_eq!(words[320+i], expected, "lookup slot {i}, stage {stage}");
+        }
+    }
+}
+
+#[test]
+fn full_width_pair_radix_matches_u64_order_and_compaction() {
+    let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+    let mut sim=make_sim(&gpu,0);
+    for shape_count in [65_536u32,65_537,100_001,16_777_217,u32::MAX] {
+    sim.shape_count=shape_count;sim.params.shape_count=shape_count;sim.flush_params();
+    let hi=shape_count-1;let lo=hi-1;
+    let mut input=vec![u64::MAX, (u64::from(hi)<<32)|u64::from(lo), (1u64<<32), (u64::from(hi)<<32)|u64::from(lo)];
+    for i in 0..1025u32 {
+        let a=i.wrapping_mul(0x9e3779b9)%shape_count;let b=i.wrapping_mul(0x85ebca6b)%shape_count;
+        input.push(u64::from(a.min(b))|(u64::from(a.max(b))<<32));
+    }
+    let mut expected=input.clone();expected.sort_unstable();
+    sim.queue.write_buffer(&sim.scratch,u64::from(SCR_PAIRS)*4,bytemuck::cast_slice(&input));
+    sim.queue.write_buffer(&sim.atom,0,bytemuck::bytes_of(&(input.len() as u32)));
+    let mut enc=sim.device.create_command_encoder(&Default::default());
+    sim.dispatch_n(&mut enc,&sim.write_radix_indirect,1,0,1);
+    let groups=(input.len() as u32).div_ceil(256);
+    for digit in sim.pair_radix_digits() {
+        sim.dispatch_n(&mut enc,&sim.radix_histogram[digit],groups,0,1);
+        sim.dispatch_n(&mut enc,&sim.radix_bucket_bases,1,0,1);
+        sim.dispatch_n(&mut enc,&sim.radix_group_prefix,1,0,1);
+        sim.dispatch_n(&mut enc,&sim.radix_scatter[digit],groups,0,1);
+    }
+    sim.queue.submit(Some(enc.finish()));
+    let words=pollster::block_on(sim.read_scratch_prefix(SCR_PAIRS+2*input.len() as u32));
+    let actual:Vec<u64>=words[SCR_PAIRS as usize..].chunks_exact(2).map(|w|u64::from(w[0])|(u64::from(w[1])<<32)).collect();
+    assert_eq!(actual,expected,"shape span {shape_count}");
+    expected.retain(|&v|v!=u64::MAX);expected.dedup();
+    let (unique,_,out)=pollster::block_on(sim.debug_compact_unique(&actual,0xabcdef01));
+    assert_eq!(&out[..unique as usize],expected.as_slice());
+    }
 }

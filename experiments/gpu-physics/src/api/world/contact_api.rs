@@ -85,10 +85,10 @@ pub(super) fn update_registry(w: &mut WorldInner, world0: u16, contacts: &[Conta
         if c.a == u32::MAX || c.b == u32::MAX || c.a == c.b {
             continue;
         }
-        let key = c.lifecycle[3];
+        let key = c.pair_key();
         let (Some(&id_a), Some(&id_b)) = (
-            shape_ids.get((key & 0xffff) as usize),
-            shape_ids.get((key >> 16) as usize),
+            shape_ids.get((key & 0xffff_ffff) as usize),
+            shape_ids.get((key >> 32) as usize),
         ) else {
             continue;
         };

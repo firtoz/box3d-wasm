@@ -1,0 +1,323 @@
+{
+  "workload": "falling-cubes-v1",
+  "manifest": {
+    "workload": "falling-cubes-v1",
+    "arguments": {
+      "output": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/scaling-profile/pair-capacity/crossover",
+      "counts": [
+        50000,
+        60000
+      ],
+      "modes": [
+        "physics-cpu",
+        "physics-gpu"
+      ],
+      "trials": 3,
+      "warmup": 90,
+      "timed": 240,
+      "workers": 8,
+      "adapter": "nvidia",
+      "gpu_solver": "global",
+      "gpu_binary": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/scaling-profile/pair-capacity/gpu-physics",
+      "width": 1280,
+      "height": 720,
+      "timeout": 600,
+      "require_idle": false,
+      "resume": false
+    },
+    "platform": "Linux-6.12.108-1-MANJARO-x86_64-with-glibc2.44",
+    "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           48 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  16\nOn-line CPU(s) list:                     0-15\nVendor ID:                               AuthenticAMD\nModel name:                              AMD Ryzen 9 8945HS w/ Radeon 780M Graphics\nCPU family:                              25\nModel:                                   117\nThread(s) per core:                      2\nCore(s) per socket:                      8\nSocket(s):                               1\nStepping:                                2\nMicrocode version:                       0xa705208\nFrequency boost:                         enabled\nCPU(s) scaling MHz:                      59%\nCPU max MHz:                             5263.0000\nCPU min MHz:                             400.0000\nBogoMIPS:                                7987.36\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good amd_lbr_v2 nopl xtopology nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 hw_pstate ssbd mba perfmon_v2 ibrs ibpb stibp ibrs_enhanced vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local user_shstk avx512_bf16 clzero irperf xsaveerptr rdpru wbnoinvd arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold vgif x2avic v_spec_ctrl vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid overflow_recov succor smca fsrm flush_l1d\nVirtualization:                          AMD-V\nL1d cache:                               256 KiB (8 instances)\nL1i cache:                               256 KiB (8 instances)\nL2 cache:                                8 MiB (8 instances)\nL3 cache:                                16 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-15\nVulnerability Gather data sampling:      Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Mitigation; Safe RET\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; STIBP always-on; PBRSB-eIBRS Not affected; BHI Not affected\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Mitigation; Clear CPU buffers\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Mitigation; IBPB before exit to userspace",
+    "gpu": "name, uuid, memory.total [MiB], driver_version, power.limit [W], clocks.max.sm [MHz], clocks.max.memory [MHz]\nNVIDIA GeForce RTX 4070 Laptop GPU, GPU-1c3b9ac8-82c3-7ba9-0b94-dfe191e1bf59, 8188 MiB, 610.57.04, [N/A], 3105 MHz, 8001 MHz",
+    "vulkan": "==========\nVULKANINFO\n==========\n\nVulkan Instance Version: 1.4.357\n\n\nInstance Extensions: count = 26\n-------------------------------\nVK_EXT_acquire_drm_display             : extension revision 1\nVK_EXT_acquire_xlib_display            : extension revision 1\nVK_EXT_debug_report                    : extension revision 10\nVK_EXT_debug_utils                     : extension revision 2\nVK_EXT_direct_mode_display             : extension revision 1\nVK_EXT_display_surface_counter         : extension revision 1\nVK_EXT_layer_settings                  : extension revision 2\nVK_EXT_surface_maintenance1            : extension revision 1\nVK_EXT_swapchain_colorspace            : extension revision 5\nVK_KHR_device_group_creation           : extension revision 1\nVK_KHR_display                         : extension revision 23\nVK_KHR_external_fence_capabilities     : extension revision 1\nVK_KHR_external_memory_capabilities    : extension revision 1\nVK_KHR_external_semaphore_capabilities : extension revision 1\nVK_KHR_get_display_properties2         : extension revision 1\nVK_KHR_get_physical_device_properties2 : extension revision 2\nVK_KHR_get_surface_capabilities2       : extension revision 1\nVK_KHR_portability_enumeration         : extension revision 1\nVK_KHR_surface                         : extension revision 25\nVK_KHR_surface_maintenance1            : extension revision 1\nVK_KHR_surface_protected_capabilities  : extension revision 1\nVK_KHR_wayland_surface                 : extension revision 6\nVK_KHR_xcb_surface                     : extension revision 6\nVK_KHR_xlib_surface                    : extension revision 6\nVK_LUNARG_direct_driver_loading        : extension revision 1\nVK_NV_display_stereo                   : extension revision 1\n\nInstance Layers: count = 8\n--------------------------\nVK_LAYER_MESA_anti_lag            Open-source implementation of the VK_AMD_anti_lag extension. 1.4.303  version 1\nVK_LAYER_MESA_device_select       Linux device selection layer                                 1.4.303  version 1\nVK_LAYER_NV_optimus               NVIDIA Optimus layer                                         1.4.341  version 1\nVK_LAYER_NV_present               NVIDIA Presentation Layer                                    1.4.341  version 1\nVK_LAYER_VALVE_steam_fossilize_32 Steam Pipeline Caching Layer                                 1.3.207  version 1\nVK_LAYER_VALVE_steam_fossilize_64 Steam Pipeline Caching Layer                                 1.3.207  version 1\nVK_LAYER_VALVE_steam_overlay_32   Steam Overlay Layer                                          1.3.207  version 1\nVK_LAYER_VALVE_steam_overlay_64   Steam Overlay Layer                                          1.3.207  version 1\n\nDevices:\n========\nGPU0:\n\tapiVersion         = 1.4.341\n\tdriverVersion      = 610.57.4.0\n\tvendorID           = 0x10de\n\tdeviceID           = 0x2860\n\tdeviceType         = PHYSICAL_DEVICE_TYPE_DISCRETE_GPU\n\tdeviceName         = NVIDIA GeForce RTX 4070 Laptop GPU\n\tdriverID           = DRIVER_ID_NVIDIA_PROPRIETARY\n\tdriverName         = NVIDIA\n\tdriverInfo         = 610.57.04\n\tconformanceVersion = 1.4.3.3\n\tdeviceUUID         = 1c3b9ac8-82c3-7ba9-0b94-dfe191e1bf59\n\tdriverUUID         = 9992f558-9329-580d-a9f3-a38ee24bc64d",
+    "git": "9a66819d5267789a2525309dc9dd55499c2dbb01",
+    "diff_sha256": "d51f638af935dde092aa2b1a4893311fa9ad818a4f9796873dad5c278dde00ab",
+    "binaries": {
+      "cpu": {
+        "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/oracle/build/box3d_oracle",
+        "sha256": "a2edeb8ba3556bf91e9544b1715b3212e7444896d4dc5a075ce5d523dec1eff6"
+      },
+      "gpu": {
+        "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/scaling-profile/pair-capacity/gpu-physics",
+        "sha256": "9f8a334576f6d7316ec13971fe0f6d41b6e1d0f9b6415681c057a0310ddc8c88"
+      },
+      "sokol_cpu": {
+        "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-cpu-portable/bin/samples_cpu",
+        "sha256": "edce15c57ab8702accc15d3ddd0d27e4aadab54e4188ba25001d7630af6c4e2d"
+      },
+      "sokol_gpu": {
+        "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu-native-cache-portable/bin/samples_gpu",
+        "sha256": "022cef71a61e6ee09a00a863b7ddf2d8355ac56057484e1f51e6c89ec607d87c"
+      },
+      "cpu_bridge": {
+        "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/oracle/build-viewer/libbox3d_viewer_cpu.so",
+        "sha256": "8e81c033e156809b6fa8fa8e16c30877395a586a141f54796126419cb136e5a1"
+      }
+    },
+    "environment": {
+      "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+      "DISPLAY": ":1",
+      "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
+      "WGPU_BACKEND": "vulkan",
+      "__NV_PRIME_RENDER_OFFLOAD": "1",
+      "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+      "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+      "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+      "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+      "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+      "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+      "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+      "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+      "GPU_PHYSICS_FULL_REPLAY": "1",
+      "GPU_PHYSICS_GRAPH_MEMO": "1",
+      "GPU_PHYSICS_PAIR_MATRIX": "1",
+      "GPU_PHYSICS_COMPONENT_TGS": "0",
+      "GPU_PHYSICS_GPU_CCD": "1",
+      "GPU_PHYSICS_RESIDENT": "1",
+      "GPU_PHYSICS_GRAPH_SHARED": "1",
+      "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+      "GPU_PHYSICS_AB": "bounded-static-sort",
+      "GPU_PHYSICS_ADAPTER": "nvidia",
+      "GPU_PHYSICS_CPU_WORKERS": "8",
+      "GPU_PHYSICS_DEMAND_POSES": "1",
+      "GPU_PHYSICS_PRESENT_MODE": "immediate",
+      "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/frtn/.cache/box3d-gpu-physics/pipelines",
+      "GPU_BENCH_WIDTH": "1280",
+      "GPU_BENCH_HEIGHT": "720",
+      "GPU_PHYSICS_COLOR_PREFIX": "20"
+    }
+  },
+  "results": [
+    {
+      "count": 50000,
+      "mode": "physics-cpu",
+      "fps": 28.280408355899134,
+      "fps_min": 27.922422389277937,
+      "fps_max": 28.848147905031272,
+      "p50_ms": 34.9151,
+      "p95_ms": 41.3235,
+      "trial_means_ms": [
+        35.360168333333334,
+        34.66427041666667,
+        35.81351166666667
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 50000,
+      "mode": "physics-gpu",
+      "fps": 31.493850569788712,
+      "fps_min": 31.251652919455193,
+      "fps_max": 31.511504042643676,
+      "p50_ms": 31.394,
+      "p95_ms": 33.8585,
+      "trial_means_ms": [
+        31.752230416666666,
+        31.9983075,
+        31.734442083333334
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 60000,
+      "mode": "physics-cpu",
+      "fps": 21.91363062064652,
+      "fps_min": 20.699108241018763,
+      "fps_max": 22.082083391570997,
+      "p50_ms": 45.5321,
+      "p95_ms": 52.2453,
+      "trial_means_ms": [
+        45.28558208333333,
+        48.31126,
+        45.63369791666667
+      ],
+      "framebuffer": null
+    },
+    {
+      "count": 60000,
+      "mode": "physics-gpu",
+      "fps": 26.94316339681442,
+      "fps_min": 26.495154406087323,
+      "fps_max": 27.06119239190813,
+      "p50_ms": 36.6722,
+      "p95_ms": 38.6441,
+      "trial_means_ms": [
+        36.95328666666666,
+        37.74275041666667,
+        37.11516666666667
+      ],
+      "framebuffer": null
+    }
+  ],
+  "stopped": {},
+  "raw_sha256": {
+    "crossover/50000-physics-cpu-1.json": "a2745d27dc1736e041b36f85dcd7d11b08f8ecbdc5bf524fea672e36fa56a8d4",
+    "crossover/50000-physics-cpu-2.json": "3907dd49232eb6fd8f1de4d747b0deb0f7b0e7627ede9ede591c8cb73ec4ee6c",
+    "crossover/50000-physics-cpu-3.json": "8895e7c2fb546b5e170c0d63e41ab3e2cb380d3e05d229a6eb0f0833fc631e38",
+    "crossover/50000-physics-gpu-1.json": "159cf2080baa5c4d0a4e21cd74282892856f6cdc2434f47bf1b511f5df72dd38",
+    "crossover/50000-physics-gpu-2.json": "25ce3a828ccf5946c5b7bfc1b08d2c4089a4f9b03616dca69344cdb203169a03",
+    "crossover/50000-physics-gpu-3.json": "a68048f9f65c30fbb7dd0d0f0fccd90737a6af855c3f556e8f34eeface02476d",
+    "crossover/60000-physics-cpu-1.json": "d159edb5e39f18820788535184f31086e3c24f9f987022d0788b569e1127ae85",
+    "crossover/60000-physics-cpu-2.json": "d02125a408b894a2ccccd4ef56eb939159fc9e1385143e612413dbda513fbff5",
+    "crossover/60000-physics-cpu-3.json": "ae3b8cd1ada6fe14c9b21174fe8a29c632afec6712835ba812d5376e9c443448",
+    "crossover/60000-physics-gpu-1.json": "6f2eb03ef8ef78969ad310d034308e2581c5458ebaf319677e1d512ec63ed94f",
+    "crossover/60000-physics-gpu-2.json": "169545668eceafa73be3377ff39c7775a8d8e31a9159799784ee7dbdddea347f",
+    "crossover/60000-physics-gpu-3.json": "2b177f92f23ddfbed1117b4178b190d73636cfac12bf7ead4d167d28ca08fd02",
+    "crossover/manifest.json": "206bc07eb0d6859e5d6d949dea0357868b0991b4169448509acd780a155f7e17",
+    "crossover/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "crossover/trials.json": "861dbee1bb146abd379b1c7cab024bedaaff2185e21d225a7b7f73101df318c9"
+  },
+  "variability_flags": [],
+  "crossovers": {
+    "physics": {
+      "paired": [
+        {
+          "count": 50000,
+          "gpu_over_cpu": 1.1136278576125749,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.1136278576125749,
+            1.0833157477678053,
+            1.1285376176654334
+          ]
+        },
+        {
+          "count": 60000,
+          "gpu_over_cpu": 1.2295161793696199,
+          "trial_ranges_overlap": false,
+          "trial_gpu_over_cpu": [
+            1.225481849336631,
+            1.2800142932526302,
+            1.2295161793696199
+          ]
+        }
+      ],
+      "gpu_faster_counts": [
+        50000,
+        60000
+      ],
+      "gpu_20pct_faster_counts": [
+        60000
+      ],
+      "all_trials_20pct_faster_counts": [
+        60000
+      ]
+    },
+    "sokol": {
+      "paired": [],
+      "gpu_faster_counts": [],
+      "gpu_20pct_faster_counts": [],
+      "all_trials_20pct_faster_counts": []
+    },
+    "direct": {
+      "paired": [],
+      "gpu_faster_counts": [],
+      "gpu_20pct_faster_counts": [],
+      "all_trials_20pct_faster_counts": []
+    }
+  },
+  "thresholds": {
+    "physics-cpu": {
+      "60": {
+        "last_above": null,
+        "first_at_or_below": 50000,
+        "last_tested": 60000
+      },
+      "30": {
+        "last_above": null,
+        "first_at_or_below": 50000,
+        "last_tested": 60000
+      },
+      "10": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": 60000
+      }
+    },
+    "physics-gpu": {
+      "60": {
+        "last_above": null,
+        "first_at_or_below": 50000,
+        "last_tested": 60000
+      },
+      "30": {
+        "last_above": 50000,
+        "first_at_or_below": 60000,
+        "last_tested": 60000
+      },
+      "10": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": 60000
+      }
+    },
+    "sokol-cpu": {
+      "60": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": null
+      },
+      "30": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": null
+      },
+      "10": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": null
+      }
+    },
+    "sokol-gpu": {
+      "60": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": null
+      },
+      "30": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": null
+      },
+      "10": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": null
+      }
+    },
+    "direct-cpu": {
+      "60": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": null
+      },
+      "30": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": null
+      },
+      "10": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": null
+      }
+    },
+    "direct-gpu": {
+      "60": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": null
+      },
+      "30": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": null
+      },
+      "10": {
+        "last_above": null,
+        "first_at_or_below": null,
+        "last_tested": null
+      }
+    }
+  },
+  "additional_manifests": []
+}

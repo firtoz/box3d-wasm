@@ -10,7 +10,7 @@ METRIC_RUNS="${METRIC_RUNS:-5}"
 if [[ -n "${VERSION:-}" ]]; then
   export GPU_COMPARE_VERSION="${VERSION}"
 fi
-BIN="${ROOT}/target/release/gpu-physics"
+BIN="${GPU_RECORD_BIN:-${ROOT}/target/release/gpu-physics}"
 OUT="${ROOT}/recordings/snapshots/${LABEL}"
 
 SCENES=(
@@ -40,8 +40,13 @@ export __GLX_VENDOR_LIBRARY_NAME="${__GLX_VENDOR_LIBRARY_NAME:-nvidia}"
 export VK_DRIVER_FILES="${VK_DRIVER_FILES:-/usr/share/vulkan/icd.d/nvidia_icd.json}"
 
 mkdir -p "${OUT}"
-echo "building ${BIN}"
-cargo build --release --manifest-path "${ROOT}/Cargo.toml"
+if [[ -z "${GPU_RECORD_BIN:-}" ]]; then
+  echo "building ${BIN}"
+  cargo build --release --manifest-path "${ROOT}/Cargo.toml"
+else
+  test -x "${BIN}" || { echo "GPU_RECORD_BIN is not executable: ${BIN}" >&2; exit 1; }
+fi
+python3 "${ROOT}/scripts/recording-manifest.py" "${OUT}" "${BIN}" --frames "${FRAMES}" --metric-runs "${METRIC_RUNS}"
 
 if [[ "${SKIP_MP4:-}" != "1" ]]; then
   for scene in "${SCENES[@]}"; do

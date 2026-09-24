@@ -43,6 +43,10 @@ static int denseMixedStacks = RegisterSample("GPU Bench", "Mixed Stacks 4096", G
 class GpuBenchFallingCubes : public Sample {
 public:
     explicit GpuBenchFallingCubes(SampleContext* context) : Sample(context) {
+        // A saved short draw distance can exclude the whole CPU scene at the
+        // overview camera. Both engines must submit the complete benchmark.
+        context->drawDistance = Camera::kViewDistance;
+        m_camera->SetDrawDistance(Camera::kViewDistance);
         const char* value = std::getenv("GPU_BENCH_CUBES");
         uint32_t count = value ? std::strtoul(value, nullptr, 10) : 1000;
         if (count < 1 || count > 1000000) std::abort();

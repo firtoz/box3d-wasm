@@ -1,0 +1,106 @@
+[
+  {
+    "count": 15000,
+    "variant": "batched-global",
+    "mean_ms": 13.01321,
+    "min_ms": 12.675301666666666,
+    "max_ms": 13.078182083333333,
+    "phase_mean_ms": {
+      "broadphase": 1.0397875,
+      "narrowphase": 0.6673391666666667,
+      "graph": 3.6245908333333334,
+      "prepare": 0.13854666666666665,
+      "solve": 3.60948625
+    },
+    "p50_ms": 12.0976,
+    "p95_ms": 18.4499,
+    "primary_buffer_bytes": {
+      "body_bytes": 3417568,
+      "shape_geometry_material_bytes": 3556832,
+      "contact_bytes": 155189248,
+      "joint_bytes": 4608,
+      "scratch_bytes": 53452884,
+      "atom_bytes": 5857832,
+      "fixed_bytes": 26080,
+      "total_bytes": 221505052
+    }
+  },
+  {
+    "count": 50000,
+    "variant": "batched-global",
+    "mean_ms": 32.06651083333333,
+    "min_ms": 32.03168875,
+    "max_ms": 32.2586475,
+    "phase_mean_ms": {
+      "broadphase": 3.97997875,
+      "narrowphase": 1.9471366666666667,
+      "graph": 12.859850416666667,
+      "prepare": 0.4003775,
+      "solve": 10.14295
+    },
+    "p50_ms": 31.9718,
+    "p95_ms": 34.1742,
+    "primary_buffer_bytes": {
+      "body_bytes": 11257568,
+      "shape_geometry_material_bytes": 11396832,
+      "contact_bytes": 620756992,
+      "joint_bytes": 4608,
+      "scratch_bytes": 203942836,
+      "atom_bytes": 22846472,
+      "fixed_bytes": 26080,
+      "total_bytes": 870231388
+    }
+  },
+  {
+    "count": 80000,
+    "variant": "batched-global",
+    "mean_ms": 50.7614725,
+    "min_ms": 50.26971875,
+    "max_ms": 50.84665666666667,
+    "phase_mean_ms": {
+      "broadphase": 8.187954166666668,
+      "narrowphase": 3.182329166666667,
+      "graph": 20.919850833333335,
+      "prepare": 0.64047375,
+      "solve": 14.571447083333334
+    },
+    "p50_ms": 49.9328,
+    "p95_ms": 53.0772,
+    "primary_buffer_bytes": {
+      "body_bytes": 17977568,
+      "shape_geometry_material_bytes": 18116832,
+      "contact_bytes": 1241513984,
+      "joint_bytes": 4608,
+      "scratch_bytes": 389862772,
+      "atom_bytes": 44897992,
+      "fixed_bytes": 26080,
+      "total_bytes": 1712399836
+    }
+  },
+  {
+    "count": 100000,
+    "variant": "batched-global",
+    "mean_ms": 63.22700708333333,
+    "min_ms": 62.978905,
+    "max_ms": 64.18736958333334,
+    "phase_mean_ms": {
+      "broadphase": 10.622628333333333,
+      "narrowphase": 3.853115,
+      "graph": 26.450816666666668,
+      "prepare": 0.7855333333333333,
+      "solve": 17.982813333333333
+    },
+    "p50_ms": 62.3237,
+    "p95_ms": 66.2338,
+    "primary_buffer_bytes": {
+      "body_bytes": 22457568,
+      "shape_geometry_material_bytes": 22596832,
+      "contact_bytes": 1241513984,
+      "joint_bytes": 4608,
+      "scratch_bytes": 407542772,
+      "atom_bytes": 45617992,
+      "fixed_bytes": 26080,
+      "total_bytes": 1739759836
+    }
+  }
+]

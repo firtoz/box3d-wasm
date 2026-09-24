@@ -138,6 +138,7 @@ struct ContactPersistent {
     cached_rotation_a: vec4<f32>,
     cached_rotation_b: vec4<f32>,
     lifecycle: vec4<u32>,
+    pair: vec4<u32>,
     persistent_ra0: vec4<f32>,
     persistent_ra1: vec4<f32>,
     persistent_ra2: vec4<f32>,
@@ -181,6 +182,7 @@ struct Contact {
     cached_rotation_a: vec4<f32>,
     cached_rotation_b: vec4<f32>,
     lifecycle: vec4<u32>,
+    pair: vec4<u32>,
     prepared_normal_mass: vec4<f32>,
     prepared_lever_arm: vec4<f32>,
     total_normal_impulse: vec4<f32>,
@@ -302,6 +304,9 @@ struct SimParams {
     remap_history_step: u32,
     maximum_linear_speed: f32,
     restitution_threshold: f32,
+    insert_base: u32,
+    insert_capacity: u32,
+    pair_capacity: u32,
 }
 
 const KIND_SPHERE: u32 = 0u;
@@ -395,9 +400,8 @@ const MESH_TRACE_WORDS: u32 = 32769u;
 const JOINT_FILTER_CAP: u32 = 4096u;
 const JOINT_FILTER_PROBE: u32 = 32u;
 const HASH_BUCKETS: u32 = 16384u;
-const MAX_INSERTS: u32 = 65536u;
-const PAIR_CAP: u32 = 65536u;
-const CONTACT_HASH_CAP: u32 = 131072u;
+fn pair_cap() -> u32 { return params.pair_capacity; }
+fn contact_hash_cap() -> u32 { return 2u * pair_cap(); }
 const SCR_PAIR_N: u32 = 0u;
 const SCR_INSERT_N: u32 = 1u;
 const SCR_UNIQUE_N: u32 = 2u;
@@ -424,27 +428,38 @@ const SCR_JOINT_LIST_OK: u32 = 62u;
 const SCR_JOINT_COMP_N: u32 = 63u;
 const SCR_INDIRECT_COLOR: u32 = 64u;
 const SCR_HASH: u32 = 64u;
-const SCR_INS_BODY: u32 = SCR_HASH + HASH_BUCKETS;
-const SCR_INS_NEXT: u32 = SCR_INS_BODY + MAX_INSERTS;
-const SCR_INS_CELL: u32 = SCR_INS_NEXT + MAX_INSERTS;
-const SCR_PAIRS: u32 = SCR_INS_CELL + MAX_INSERTS;
-const SCR_COLOR_LIST: u32 = SCR_PAIRS + PAIR_CAP;
-const SCR_CONTACT_MARK: u32 = SCR_COLOR_LIST;
-const SCR_ACTIVE_CONTACT: u32 = SCR_CONTACT_MARK + PAIR_CAP;
-const SCR_OCCUPIED_CONTACT: u32 = SCR_ACTIVE_CONTACT + PAIR_CAP;
+fn scr_ins_body() -> u32 { return params.insert_base; }
+fn scr_ins_next() -> u32 { return params.insert_base + params.insert_capacity; }
+fn scr_ins_cell() -> u32 { return params.insert_base + 2u * params.insert_capacity; }
+const SCR_PAIRS: u32 = SCR_HASH + HASH_BUCKETS;
+// Two-word keys are ordered by high shape index, then low shape index.
+fn load_pair_words(base: u32, index: u32) -> vec2<u32> {
+    return vec2<u32>(scratch[base + 2u * index], scratch[base + 2u * index + 1u]);
+}
+fn store_pair_words(base: u32, index: u32, key: vec2<u32>) {
+    scratch[base + 2u * index] = key.x;
+    scratch[base + 2u * index + 1u] = key.y;
+}
+fn pair_digit(key: vec2<u32>, shift: u32) -> u32 {
+    return (key[shift / 32u] >> (shift % 32u)) & 255u;
+}
+fn scr_color_list() -> u32 { return SCR_PAIRS + 2u * pair_cap(); }
+fn scr_contact_mark() -> u32 { return scr_color_list(); }
+fn scr_active_contact() -> u32 { return scr_contact_mark() + pair_cap(); }
+fn scr_occupied_contact() -> u32 { return scr_active_contact() + pair_cap(); }
 // Graph dynamic-pair workspace becomes next occupied roots after graph assignment.
 // The previous occupied roots stay immutable through parallel retirement.
-const SCR_NEXT_OCCUPIED: u32 = SCR_OCCUPIED_CONTACT + PAIR_CAP;
-const SCR_PREVIOUS_TOUCHING: u32 = SCR_NEXT_OCCUPIED + PAIR_CAP;
-const SCR_RADIX_OUT: u32 = SCR_PREVIOUS_TOUCHING + PAIR_CAP;
+fn scr_next_occupied() -> u32 { return scr_occupied_contact() + pair_cap(); }
+fn scr_previous_touching() -> u32 { return scr_next_occupied() + pair_cap(); }
+fn scr_radix_out() -> u32 { return scr_previous_touching() + 2u * pair_cap(); }
 const RADIX_GROUP_SIZE: u32 = 256u;
-const RADIX_GROUPS: u32 = PAIR_CAP / RADIX_GROUP_SIZE;
+fn radix_groups() -> u32 { return pair_cap() / RADIX_GROUP_SIZE; }
 const RADIX_BUCKETS: u32 = 256u;
-const SCR_RADIX_HIST: u32 = SCR_RADIX_OUT + PAIR_CAP;
-const SCR_RADIX_BASE: u32 = SCR_RADIX_HIST + RADIX_GROUPS * RADIX_BUCKETS;
-const SCR_GRAPH: u32 = SCR_RADIX_BASE + RADIX_BUCKETS;
+fn scr_radix_hist() -> u32 { return scr_radix_out() + 2u * pair_cap(); }
+fn scr_radix_base() -> u32 { return scr_radix_hist() + radix_groups() * RADIX_BUCKETS; }
+fn scr_graph() -> u32 { return scr_radix_base() + max(RADIX_BUCKETS, radix_groups()); }
 fn color_body_base() -> u32 {
-    return SCR_GRAPH + 6u * params.body_count;
+    return scr_graph() + 6u * params.body_count;
 }
 fn fused_flag_base() -> u32 {
     return color_body_base() + params.body_count;
@@ -456,7 +471,7 @@ fn phase_summary_base() -> u32 {
     return fused_slots_base() + 8u * params.body_count;
 }
 fn atom_graph_color() -> u32 {
-    return ATOM_JACOBI + 9u * params.body_count;
+    return atom_jacobi() + 9u * params.body_count;
 }
 fn atom_dyn_dyn() -> u32 {
     return atom_graph_color() + 24u;
@@ -471,7 +486,7 @@ fn joint_filter_base() -> u32 {
     return color_contact_base() + 24u * params.contact_capacity;
 }
 fn joint_head_base() -> u32 {
-    return joint_filter_base() + JOINT_FILTER_CAP * 2u;
+    return joint_filter_base() + JOINT_FILTER_CAP * 3u;
 }
 fn joint_comp_base() -> u32 {
     return joint_head_base() + params.body_count;
@@ -511,11 +526,12 @@ const ATOM_JOINT_LIST_DROPPED: u32 = 14u;
 const ATOM_MANIFOLD_ALLOC: u32 = 15u;
 const ATOM_HASH: u32 = 16u;
 const ATOM_PAIR_SET: u32 = ATOM_HASH + HASH_BUCKETS;
-const ATOM_CONTACT_KEY: u32 = ATOM_PAIR_SET + PAIR_CAP;
-const ATOM_CONTACT_VALUE: u32 = ATOM_CONTACT_KEY + CONTACT_HASH_CAP;
-const ATOM_JACOBI: u32 = ATOM_CONTACT_VALUE + CONTACT_HASH_CAP;
+// Hash buckets hold slot references; identity storage has two words per slot.
+fn atom_contact_key() -> u32 { return ATOM_PAIR_SET + pair_cap(); }
+fn atom_contact_identity() -> u32 { return atom_contact_key() + contact_hash_cap(); }
+fn atom_jacobi() -> u32 { return atom_contact_identity() + contact_hash_cap(); }
 fn atom_island_label() -> u32 {
-    return ATOM_JACOBI + 6u * params.body_count;
+    return atom_jacobi() + 6u * params.body_count;
 }
 fn atom_island_wake() -> u32 {
     return atom_island_label() + params.body_count;
@@ -558,7 +574,13 @@ fn island_union(a: u32, b: u32) {
         }
         let lo = min(ra, rb);
         let hi = max(ra, rb);
-        atomicMin(&atom[base + hi], lo);
+        // Only attach a root that is still a root. An unconditional atomicMin
+        // can overwrite a concurrent hi -> other link and disconnect `other`
+        // from this union. Component solvers would then race on shared bodies.
+        let link = atomicCompareExchangeWeak(&atom[base + hi], hi, lo);
+        if (link.exchanged) {
+            return;
+        }
         ra = island_root(lo);
         rb = island_root(hi);
     }
@@ -821,7 +843,7 @@ fn assemble_contact(h: ContactHot, p: ContactPersistent, f: ContactPrepared) -> 
         h.center_b, h._pad_cb,
         h.rolling_impulse, h.restitution, h.tangent_velocity, h.material_index,
         f.relative_velocity, p.feature_ids,
-        p.cached_relative, p.cached_rotation_a, p.cached_rotation_b, p.lifecycle,
+        p.cached_relative, p.cached_rotation_a, p.cached_rotation_b, p.lifecycle, p.pair,
         f.normal_mass, f.lever_arm, f.total_normal_impulse, f.tangent_inv, f.softness,
         p.persistent_ra0, p.persistent_ra1, p.persistent_ra2, p.persistent_ra3,
         p.persistent_rb0, p.persistent_rb1, p.persistent_rb2, p.persistent_rb3, h.manifold_link, p.point_triangles,
@@ -845,6 +867,7 @@ fn load_solve_contact(slot: u32) -> Contact {
     p.cached_rotation_a = vec4<f32>(0.0);
     p.cached_rotation_b = vec4<f32>(0.0);
     p.lifecycle = vec4<u32>(0u);
+    p.pair = vec4<u32>(EMPTY);
     p.persistent_ra0 = vec4<f32>(0.0);
     p.persistent_ra1 = vec4<f32>(0.0);
     p.persistent_ra2 = vec4<f32>(0.0);
@@ -893,6 +916,7 @@ fn store_contact(slot: u32, c: Contact) {
         c.cached_rotation_a,
         c.cached_rotation_b,
         c.lifecycle,
+        c.pair,
         c.persistent_ra0, c.persistent_ra1, c.persistent_ra2, c.persistent_ra3,
         c.persistent_rb0, c.persistent_rb1, c.persistent_rb2, c.persistent_rb3, c.point_triangles,
     );

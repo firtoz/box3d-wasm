@@ -1,0 +1,158 @@
+[
+  {
+    "count": 15000,
+    "variant": "before",
+    "mean_ms": 13.541715,
+    "min_ms": 11.83922375,
+    "max_ms": 13.81529875,
+    "phase_mean_ms": {
+      "broadphase": 0.9521679166666667,
+      "narrowphase": 0.6672254166666667,
+      "graph": 3.613935,
+      "prepare": 0.13286916666666668,
+      "solve": 3.594245416666667
+    },
+    "p50_ms": 11.4632,
+    "p95_ms": 20.1137,
+    "primary_buffer_bytes": {
+      "body_bytes": 3417568,
+      "shape_geometry_material_bytes": 3491296,
+      "contact_bytes": 150994944,
+      "joint_bytes": 4608,
+      "scratch_bytes": 50290772,
+      "atom_bytes": 5857832,
+      "fixed_bytes": 26080,
+      "total_bytes": 214083100
+    }
+  },
+  {
+    "count": 15000,
+    "variant": "after",
+    "mean_ms": 13.273135416666667,
+    "min_ms": 12.6566925,
+    "max_ms": 13.917468333333334,
+    "phase_mean_ms": {
+      "broadphase": 1.0213079166666668,
+      "narrowphase": 0.6513933333333334,
+      "graph": 3.61256125,
+      "prepare": 0.13267416666666668,
+      "solve": 3.6028266666666666
+    },
+    "p50_ms": 11.0214,
+    "p95_ms": 20.0994,
+    "primary_buffer_bytes": {
+      "body_bytes": 3417568,
+      "shape_geometry_material_bytes": 3491296,
+      "contact_bytes": 150994944,
+      "joint_bytes": 4608,
+      "scratch_bytes": 50290772,
+      "atom_bytes": 5857832,
+      "fixed_bytes": 26080,
+      "total_bytes": 214083100
+    }
+  },
+  {
+    "count": 50000,
+    "variant": "before",
+    "mean_ms": 31.109420833333335,
+    "min_ms": 30.97302125,
+    "max_ms": 31.190476666666665,
+    "phase_mean_ms": {
+      "broadphase": 3.61378625,
+      "narrowphase": 1.9719970833333333,
+      "graph": 12.662970833333333,
+      "prepare": 0.40264083333333334,
+      "solve": 9.685856666666666
+    },
+    "p50_ms": 30.7409,
+    "p95_ms": 33.1173,
+    "primary_buffer_bytes": {
+      "body_bytes": 11257568,
+      "shape_geometry_material_bytes": 11331296,
+      "contact_bytes": 603979776,
+      "joint_bytes": 4608,
+      "scratch_bytes": 191343540,
+      "atom_bytes": 22846472,
+      "fixed_bytes": 26080,
+      "total_bytes": 840789340
+    }
+  },
+  {
+    "count": 50000,
+    "variant": "after",
+    "mean_ms": 31.901165,
+    "min_ms": 31.36376,
+    "max_ms": 32.69413083333333,
+    "phase_mean_ms": {
+      "broadphase": 4.007398333333334,
+      "narrowphase": 1.9155754166666668,
+      "graph": 12.675395833333333,
+      "prepare": 0.3952895833333333,
+      "solve": 9.611609166666666
+    },
+    "p50_ms": 31.1483,
+    "p95_ms": 38.9019,
+    "primary_buffer_bytes": {
+      "body_bytes": 11257568,
+      "shape_geometry_material_bytes": 11331296,
+      "contact_bytes": 603979776,
+      "joint_bytes": 4608,
+      "scratch_bytes": 191343540,
+      "atom_bytes": 22846472,
+      "fixed_bytes": 26080,
+      "total_bytes": 840789340
+    }
+  },
+  {
+    "count": 60000,
+    "variant": "before",
+    "mean_ms": 37.97024916666667,
+    "min_ms": 37.592315416666665,
+    "max_ms": 37.976805416666664,
+    "phase_mean_ms": {
+      "broadphase": 4.358996666666667,
+      "narrowphase": 2.2723991666666667,
+      "graph": 15.071826666666666,
+      "prepare": 0.48472791666666665,
+      "solve": 11.470660416666666
+    },
+    "p50_ms": 36.9607,
+    "p95_ms": 44.7843,
+    "primary_buffer_bytes": {
+      "body_bytes": 13497568,
+      "shape_geometry_material_bytes": 13571296,
+      "contact_bytes": 603979776,
+      "joint_bytes": 4608,
+      "scratch_bytes": 200183540,
+      "atom_bytes": 23206472,
+      "fixed_bytes": 26080,
+      "total_bytes": 854469340
+    }
+  },
+  {
+    "count": 60000,
+    "variant": "after",
+    "mean_ms": 38.239414583333335,
+    "min_ms": 37.85622166666667,
+    "max_ms": 38.353195416666665,
+    "phase_mean_ms": {
+      "broadphase": 4.846245416666667,
+      "narrowphase": 2.1783866666666665,
+      "graph": 15.092014166666667,
+      "prepare": 0.48630625,
+      "solve": 11.471220833333334
+    },
+    "p50_ms": 37.3003,
+    "p95_ms": 45.9709,
+    "primary_buffer_bytes": {
+      "body_bytes": 13497568,
+      "shape_geometry_material_bytes": 13571296,
+      "contact_bytes": 603979776,
+      "joint_bytes": 4608,
+      "scratch_bytes": 200183540,
+      "atom_bytes": 23206472,
+      "fixed_bytes": 26080,
+      "total_bytes": 854469340
+    }
+  }
+]

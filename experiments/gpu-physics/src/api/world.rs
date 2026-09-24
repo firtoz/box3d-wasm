@@ -208,9 +208,9 @@ fn gpu_public_shapes<'a>(shapes: &'a [Option<CpuShape>], bodies: &[Option<CpuBod
 // Native compound contacts distinguish child ordinals within a public pair.
 // Keep full public slot widths rather than packing a third index into 64 bits.
 type ContactKey = (u64, i32);
-fn keyed_contact(pair: u64, packed: u32, children: &[i32]) -> ContactKey {
-    let a = children.get((packed & 0xffff) as usize).copied().unwrap_or(-1);
-    let b = children.get((packed >> 16) as usize).copied().unwrap_or(-1);
+fn keyed_contact(pair: u64, packed: u64, children: &[i32]) -> ContactKey {
+    let a = children.get((packed & 0xffff_ffff) as usize).copied().unwrap_or(-1);
+    let b = children.get((packed >> 32) as usize).copied().unwrap_or(-1);
     (pair, a.max(b))
 }
 
@@ -571,13 +571,13 @@ fn build_mix_pairs(w: &WorldInner, shapes: &[ShapeGpu]) -> Result<Vec<MixPairGpu
         for (ib, b) in shapes.iter().enumerate().skip(ia) {
             let lo = ia.min(ib) as u32;
             let hi = ia.max(ib) as u32;
-            let key = (hi << 16) | lo;
+            let key = [lo, hi];
             let material_a = u64::from(a.user_material_id_lo) | (u64::from(a.user_material_id_hi) << 32);
             let material_b = u64::from(b.user_material_id_lo) | (u64::from(b.user_material_id_hi) << 32);
             let friction = mix_friction(w.friction_callback, a.friction, material_a, b.friction, material_b);
             let restitution =
                 mix_restitution(w.restitution_callback, a.restitution, material_a, b.restitution, material_b);
-            let mut slot = (crate::types::pair_hash_mix(key) as usize) & (cap - 1);
+            let mut slot = (crate::types::pair_hash_mix(crate::types::pair_hash_mix(lo) ^ hi) as usize) & (cap - 1);
             let mut stored = false;
             for _ in 0..32 {
                 if table[slot].occupied == 0 || table[slot].key == key {
@@ -586,6 +586,7 @@ fn build_mix_pairs(w: &WorldInner, shapes: &[ShapeGpu]) -> Result<Vec<MixPairGpu
                         friction,
                         restitution,
                         occupied: 1,
+                        _pad: [0;3],
                     };
                     stored = true;
                     break;
@@ -715,7 +716,7 @@ pub fn b3_create_body(world: WorldId, def: &BodyDef) -> BodyId {
             if i >= crate::types::MAX_BODY_SLOTS as usize {
                 w.free_bodies.push(i);
                 w.gpu_fail = std::ffi::CString::new(
-                    "body slot exceeds 16-bit graph identity",
+                    "body slot exceeds 30-bit graph classification range",
                 )
                 .ok();
                 return b3_null_body_id();
@@ -735,7 +736,7 @@ pub fn b3_create_body(world: WorldId, def: &BodyDef) -> BodyId {
         }
         if w.bodies.len() >= crate::types::MAX_BODY_SLOTS as usize {
             w.gpu_fail = std::ffi::CString::new(
-                "body count exceeds 16-bit graph identity",
+                "body count exceeds 30-bit graph classification range",
             )
             .ok();
             return b3_null_body_id();
@@ -2764,8 +2765,8 @@ fn step_gpu_inner(id: WorldId, dt: f32, sub_step_count: i32) {
                     let mut accepted = Vec::with_capacity(pairs.len());
                     let mut decisions = HashMap::new();
                     for key in pairs {
-                        let dense_a = (key & 0xffff) as usize;
-                        let dense_b = (key >> 16) as usize;
+                        let dense_a = (key & 0xffff_ffff) as usize;
+                        let dense_b = (key >> 32) as usize;
                         let (
                             Some(&(shape_id_a, body_a, flags_a)),
                             Some(&(shape_id_b, body_b, flags_b)),
@@ -2807,9 +2808,9 @@ fn step_gpu_inner(id: WorldId, dt: f32, sub_step_count: i32) {
                         if contact.a == u32::MAX || contact.manifold_link[1] != 0 {
                             continue;
                         }
-                        let key = contact.lifecycle[3];
-                        let dense_a = (key & 0xffff) as usize;
-                        let dense_b = (key >> 16) as usize;
+                        let key = contact.pair_key();
+                        let dense_a = (key & 0xffff_ffff) as usize;
+                        let dense_b = (key >> 32) as usize;
                         let (Some(&(mut shape_id_a, body_a, flags_a)), Some(&(mut shape_id_b, _, flags_b))) =
                             (dense_shapes.get(dense_a), dense_shapes.get(dense_b))
                         else {
@@ -2969,6 +2970,7 @@ pub fn b3_world_gpu_wait(id: WorldId) {
             #[cfg(not(target_arch = "wasm32"))]
             {
                 sim.harvest_gpu_timestamps(true);
+                sim.finish_contact_status();
                 if sim.physics_invalid() {
                     w.physics_invalid = true;
                 }
@@ -3972,9 +3974,9 @@ fn update_sensor_events(w: &mut WorldInner, world0: u16, contacts: &[crate::type
         {
             continue;
         }
-        let key = contact.lifecycle[3];
-        let dense_a = (key & 0xffff) as usize;
-        let dense_b = (key >> 16) as usize;
+        let key = contact.pair_key();
+        let dense_a = (key & 0xffff_ffff) as usize;
+        let dense_b = (key >> 32) as usize;
         let (Some(&(key_source_a, key_shape_a)), Some(&(key_source_b, key_shape_b))) =
             (dense_shapes.get(dense_a), dense_shapes.get(dense_b))
         else {
@@ -4078,15 +4080,15 @@ fn update_sensor_events(w: &mut WorldInner, world0: u16, contacts: &[crate::type
 }
 
 #[cfg(not(target_arch = "wasm32"))]
-fn update_contact_events(w: &mut WorldInner, world0: u16, contacts: &[crate::types::ContactGpu], previous_touching: &[u32]) {
+fn update_contact_events(w: &mut WorldInner, world0: u16, contacts: &[crate::types::ContactGpu], previous_touching: &[u64]) {
     let dense_shapes = gpu_public_shapes(&w.shapes, &w.bodies);
     // GPU previous-step union, independent of when the host last read events.
     let mut previous_pairs: HashMap<ContactKey, LiveContact> = HashMap::new();
     for &key in previous_touching {
-        if key == u32::MAX { continue; }
+        if key == u64::MAX { continue; }
         let (Some(&id_a), Some(&id_b)) = (
-            w.previous_contact_shape_ids.get((key & 0xffff) as usize),
-            w.previous_contact_shape_ids.get((key >> 16) as usize)
+            w.previous_contact_shape_ids.get((key & 0xffff_ffff) as usize),
+            w.previous_contact_shape_ids.get((key >> 32) as usize)
         ) else { continue; };
         let a = id_a.index1.saturating_sub(1) as usize;
         let b = id_b.index1.saturating_sub(1) as usize;
@@ -4122,9 +4124,9 @@ fn update_contact_events(w: &mut WorldInner, world0: u16, contacts: &[crate::typ
         if contact.a == u32::MAX || contact.count == 0 || (flags & CONTACT_TOUCHING) == 0 {
             continue;
         }
-        let key = contact.lifecycle[3];
-        let dense_a = (key & 0xffff) as usize;
-        let dense_b = (key >> 16) as usize;
+        let key = contact.pair_key();
+        let dense_a = (key & 0xffff_ffff) as usize;
+        let dense_b = (key >> 32) as usize;
         let (Some(&(key_source_a, key_shape_a)), Some(&(key_source_b, key_shape_b))) =
             (dense_shapes.get(dense_a), dense_shapes.get(dense_b))
         else {
@@ -5038,8 +5040,8 @@ fn push_shape(
     hull_topology: Vec<[u32; 4]>,
     def: &ShapeDef,
 ) -> ShapeId {
-    if w.shapes.len() >= 65536 {
-        eprintln!("GPU physics: packed pair keys use 16-bit shape ids; refusing shape {}", w.shapes.len());
+    if w.shapes.len() >= crate::types::MAX_SHAPE_SLOTS as usize {
+        eprintln!("GPU physics: public shape index range exceeded; refusing shape {}", w.shapes.len());
         return b3_null_shape_id();
     }
     let (unit_mass, unit_inertia) = match kind {
@@ -10730,6 +10732,261 @@ mod complete_component_tests {
     }
 
     #[test]
+    fn falling_cubes_exceed_old_spatial_insertion_limit() {
+        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+        let cfg = crate::types::DemoConfig {
+            scene: crate::types::DemoScene::FallingCubes,
+            body_count: 30000, body_count_explicit: true,
+            contacts: true, jacobi: false,
+        };
+        let world = crate::scenes::build_demo_world(gpu, &cfg);
+        b3_world_enable_sleeping(world, false);
+        b3_world_ensure_gpu(world);
+        b3_world_begin_timing(world, 1);
+        b3_world_step_gpu(world, 1.0 / 60.0, 4);
+        b3_world_gpu_wait(world);
+        let timing = pollster::block_on(b3_world_finish_timing(world)).unwrap();
+        let inserts = timing.workload.cell_inserts_peak;
+        assert!(inserts > 65536, "fixture must exceed old insertion budget: {inserts}");
+        let stats = pollster::block_on(b3_world_live_step_stats(world)).unwrap();
+        assert!(!stats.capacity_loss(), "{stats:?}");
+        eprintln!("30,000 falling cubes: {} spatial entries, no capacity loss", inserts);
+        b3_destroy_world(world);
+    }
+
+    #[test]
+    fn falling_cube_solver_schedules_match_through_impact() {
+        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+        gpu.device.push_error_scope(wgpu::ErrorFilter::Validation);
+        // Exercise the measured dense workload beyond the 8,168-body shared
+        // graph limit, including the complete benchmark collision window.
+        let checkpoints = [1, 65, 78, 79, 90, 150, 330];
+        let run = |component, batched| {
+            let cfg = crate::types::DemoConfig {
+                scene: crate::types::DemoScene::FallingCubes,
+                body_count: 15000,
+                body_count_explicit: true,
+                contacts: true,
+                jacobi: false,
+            };
+            let world = crate::scenes::build_demo_world(gpu.clone(), &cfg);
+            with_world_mut_no_sync(world, |w| w.component_tgs_requested = component);
+            b3_world_enable_sleeping(world, false);
+            b3_world_ensure_gpu(world);
+            with_world_mut_no_sync(world, |w| {
+                w.sim.as_mut().unwrap().set_batched_graph_test(batched)
+            });
+            if !component {
+                with_world_mut_no_sync(world, |w| w.sim.as_mut().unwrap().set_color_wave_prefix(20));
+            }
+            let mut snapshots = Vec::new();
+            for step in 1..=330 {
+                b3_world_step_gpu(world, 1.0 / 60.0, 4);
+                if checkpoints.contains(&step) {
+                    let bodies = pollster::block_on(b3_world_sync_from_gpu(world));
+                    let contacts = with_world_mut_no_sync(world, |w| {
+                        pollster::block_on(w.sim.as_mut().unwrap().read_contacts())
+                    })
+                    .unwrap();
+                    let root = |mut index: usize| loop {
+                        let parent = bodies[index].island_id as usize;
+                        if parent == index {
+                            break index;
+                        }
+                        assert!(parent < index, "invalid island parent at step {step}");
+                        index = parent;
+                    };
+                    for contact in contacts.iter().filter(|c| c.count > 0 && c.a != u32::MAX) {
+                        let a = contact.a as usize;
+                        let b = contact.b as usize;
+                        if bodies[a].inv_mass > 0.0 && bodies[b].inv_mass > 0.0 {
+                            assert_eq!(
+                                root(a),
+                                root(b),
+                                "contact {a}-{b} crosses islands: component={component}, step={step}"
+                            );
+                        }
+                    }
+                    snapshots.push(bodies);
+                    let stats = pollster::block_on(b3_world_live_step_stats(world)).unwrap();
+                    assert!(!stats.capacity_loss(), "component={component}, step={step}");
+                }
+            }
+            if component {
+                assert_eq!(b3_world_last_solver_dispatches(world), 2);
+            } else {
+                assert!(b3_world_last_solver_dispatches(world) > 2);
+            }
+            b3_destroy_world(world);
+            snapshots
+        };
+        let global = run(false, false);
+        let repeat = run(false, false);
+        for (step, (a, b)) in global.iter().zip(&repeat).enumerate() {
+            let err = a
+                .iter()
+                .zip(b)
+                .flat_map(|(a, b)| {
+                    a.pos
+                        .iter()
+                        .chain(&a.rot)
+                        .chain(&a.vel)
+                        .chain(&a.omega)
+                        .zip(b.pos.iter().chain(&b.rot).chain(&b.vel).chain(&b.omega))
+                })
+                .map(|(x, y)| (x - y).abs())
+                .fold(0.0f32, f32::max);
+            assert_eq!(err, 0.0, "global repeat step {}", checkpoints[step]);
+        }
+
+        for (variant, component) in [
+            ("component", run(true, false)),
+            ("batched-graph", run(false, true)),
+        ] {
+            let mut maximum_error = 0.0f32;
+            for (checkpoint, (actual, expected)) in component.iter().zip(&global).enumerate() {
+                assert_eq!(actual.len(), 15001);
+                assert_eq!(actual.len(), expected.len());
+                let mut channel_errors = [0.0f32; 4];
+                for (a, b) in actual.iter().zip(expected) {
+                    for (channel, (left, right)) in [
+                        (&a.pos[..], &b.pos[..]),
+                        (&a.rot[..], &b.rot[..]),
+                        (&a.vel[..], &b.vel[..]),
+                        (&a.omega[..], &b.omega[..]),
+                    ]
+                    .into_iter()
+                    .enumerate()
+                    {
+                        for (x, y) in left.iter().zip(right) {
+                            assert!(x.is_finite() && y.is_finite());
+                            channel_errors[channel] = channel_errors[channel].max((x - y).abs());
+                        }
+                    }
+                }
+                eprintln!(
+                    "step {}: max position/rotation/velocity/omega errors {channel_errors:?}",
+                    checkpoints[checkpoint]
+                );
+                maximum_error = maximum_error.max(channel_errors.into_iter().fold(0.0f32, f32::max));
+            }
+            assert!(
+                maximum_error < 1e-5,
+                "{variant} disagreement: {maximum_error}"
+            );
+        }
+        if let Some(error) = pollster::block_on(gpu.device.pop_error_scope()) {
+            panic!("{error}");
+        }
+    }
+
+    #[test]
+    fn batched_graph_preserves_dense_overflow_and_partial_batches() {
+        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+        gpu.device.push_error_scope(wgpu::ErrorFilter::Validation);
+        for count in [2, 23, 24, 40] {
+            let run = |batched| {
+                let mut wd = b3_default_world_def();
+                wd.gravity = [0.0; 3];
+                wd.enable_sleep = false;
+                let world = b3_create_world(gpu.clone(), &wd);
+                with_world_mut_no_sync(world, |w| w.component_tgs_requested = false);
+                let hull = crate::api::b3_make_cube_hull(0.5);
+                let mut bd = b3_default_body_def();
+                bd.body_type = BodyType::Dynamic;
+                for i in 0..count {
+                    bd.position = [0.001 * (i % 4) as f32, 0.002 * (i / 4) as f32, 0.0];
+                    b3_create_hull_shape(b3_create_body(world, &bd), &b3_default_shape_def(), &hull);
+                }
+                b3_world_ensure_gpu(world);
+                with_world_mut_no_sync(world, |w| {
+                    let sim = w.sim.as_mut().unwrap();
+                    sim.set_shared_graph_test(false);
+                    sim.set_batched_graph_test(batched);
+                    sim.set_color_wave_prefix(20);
+                });
+                b3_world_step_gpu(world, 1.0 / 60.0, 4);
+                let bodies = pollster::block_on(b3_world_sync_from_gpu(world));
+                let contacts = with_world_mut_no_sync(world, |w| {
+                    pollster::block_on(w.sim.as_mut().unwrap().read_contacts())
+                })
+                .unwrap();
+                let schedule = contacts
+                    .iter()
+                    .enumerate()
+                    .filter(|(_, c)| c.count > 0)
+                    .map(|(slot, c)| (slot, c.a, c.b, c.color, c.lifecycle[2]))
+                    .collect::<Vec<_>>();
+                assert_eq!(schedule.len(), (count * (count - 1) / 2) as usize);
+                if count > 20 {
+                    assert!(schedule
+                        .iter()
+                        .any(|(_, _, _, color, _)| *color == crate::types::OVERFLOW_COLOR));
+                }
+                assert!(!pollster::block_on(b3_world_live_step_stats(world))
+                    .unwrap()
+                    .capacity_loss());
+                b3_destroy_world(world);
+                (bodies, schedule)
+            };
+            let (expected, expected_schedule) = run(false);
+            let (actual, actual_schedule) = run(true);
+            assert_eq!(
+                actual_schedule, expected_schedule,
+                "count={count}: exact slot/color/order"
+            );
+            for (a, b) in actual.iter().zip(&expected) {
+                for (x, y) in a
+                    .pos
+                    .iter()
+                    .chain(&a.rot)
+                    .chain(&a.vel)
+                    .chain(&a.omega)
+                    .zip(b.pos.iter().chain(&b.rot).chain(&b.vel).chain(&b.omega))
+                {
+                    assert!(x.is_finite() && y.is_finite() && (x - y).abs() < 1e-5);
+                }
+            }
+        }
+        if let Some(error) = pollster::block_on(gpu.device.pop_error_scope()) {
+            panic!("{error}");
+        }
+    }
+
+    #[test]
+    fn completed_wait_refreshes_stale_capacity_status() {
+        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+        for component in [false, true] {
+            let cfg = crate::types::DemoConfig {
+                scene: crate::types::DemoScene::FallingCubes,
+                body_count: 1, body_count_explicit: true, contacts: true, jacobi: false,
+            };
+            let world = crate::scenes::build_demo_world(gpu.clone(), &cfg);
+            b3_world_enable_sleeping(world, false);
+            with_world_mut_no_sync(world, |w| w.component_tgs_requested = component);
+            b3_world_ensure_gpu(world);
+            // Occupy the single status slot with a clean step while later GPU
+            // work records a loss. This reproduces the lag deterministically.
+            with_world_mut_no_sync(world, |w| w.sim.as_mut().unwrap().hold_idle_status_test(true));
+            b3_world_step_gpu(world, 1.0 / 60.0, 4);
+            b3_world_set_diagnostic_flags(world, crate::types::DIAG_FORCE_CAPACITY_LOSS);
+            b3_world_step_gpu(world, 1.0 / 60.0, 4);
+            b3_world_set_diagnostic_flags(world, 0);
+            b3_world_step_gpu(world, 1.0 / 60.0, 4);
+            assert_eq!(b3_world_physics_step(world), 3);
+            with_world_mut_no_sync(world, |w| w.sim.as_mut().unwrap().hold_idle_status_test(false));
+            b3_world_gpu_wait(world);
+            assert!(!b3_world_gpu_fail(world).is_null());
+            let stats = pollster::block_on(b3_world_live_step_stats(world)).unwrap();
+            assert!(stats.capacity_loss());
+            assert_eq!(stats.first_fail_step, 2);
+            b3_world_step_gpu(world, 1.0 / 60.0, 4);
+            assert_eq!(b3_world_physics_step(world), 3, "no stepping after loss");
+            b3_destroy_world(world);
+        }
+    }
+
+    #[test]
     fn small_component_workgroup_boundaries_preserve_every_body() {
         let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
         gpu.device.push_error_scope(wgpu::ErrorFilter::Validation);
@@ -10921,7 +11178,49 @@ mod complete_component_tests {
         let (used,n,pairs,loss)=run_candidates(world);assert!(used && n==704 && loss);
         assert_eq!(pairs.len(),crate::types::PAIR_CAP as usize);
         assert!(pairs.windows(2).all(|p|p[0]<p[1]));
-        assert_eq!(pairs[0],1u32<<16);
+        assert_eq!(pairs[0],1u64<<32);
+        b3_destroy_world(world);
+    }
+
+    #[test]
+    fn canonical_grid_matches_matrix_across_cells_and_hash_collisions() {
+        let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+        let world=b3_create_world(gpu,&b3_default_world_def());
+        let sd=b3_default_shape_def();
+        let mut bd=b3_default_body_def();
+        // Translated clusters share hash buckets exactly but must not interact.
+        let period=crate::types::HASH_BUCKETS as f32*crate::types::DEFAULT_CELL_SIZE;
+        for cluster in 0..2 {
+            let x=cluster as f32*period;
+            bd.body_type=BodyType::Static;bd.position=[x,-1.0,0.0];
+            let ground=b3_create_body(world,&bd);
+            b3_create_hull_shape(ground,&sd,&b3_make_box_hull(16.0,0.5,16.0));
+            for i in 0..96 {
+                bd.body_type=if i%13==0 {BodyType::Static} else {BodyType::Dynamic};
+                bd.position=[x+(i%8) as f32*1.5-5.0, (i/32) as f32*1.25-0.25, ((i/8)%4) as f32*1.5-2.5];
+                let b=b3_create_body(world,&bd);
+                let half=if i%11==0 {2.6} else {0.65};
+                b3_create_hull_shape(b,&sd,&b3_make_box_hull(half,0.7,half));
+            }
+        }
+        b3_world_ensure_gpu(world);
+        let mut results=Vec::new();
+        for matrix in [false,true] {
+            let pairs=with_world_mut_no_sync(world,|w| {
+                let sim=w.sim.as_mut().unwrap();sim.set_pair_matrix_test(matrix);
+                sim.callback_candidates_submit();
+                assert_eq!(sim.pair_matrix_used_test(),matrix);
+                let pairs=pollster::block_on(sim.read_callback_pairs());
+                if !matrix {
+                    let counts=pollster::block_on(sim.read_scratch_prefix(3));
+                    assert_eq!(counts[0] as usize,pairs.len(),"each pair must have exactly one emitting cell");
+                }
+                assert!(!pollster::block_on(sim.read_live_step_stats()).capacity_loss());
+                pairs
+            }).unwrap();
+            assert!(!pairs.is_empty());results.push(pairs);
+        }
+        assert_eq!(results[0],results[1],"canonical grid must match independent all-pairs matrix");
         b3_destroy_world(world);
     }
 
@@ -10965,7 +11264,15 @@ mod complete_component_tests {
                 with_world_mut_no_sync(world,|w|w.sim.as_mut().unwrap().set_pair_matrix_test(enabled));
                 b3_world_step_gpu(world,1.0/60.0,4);
                 assert_eq!(with_world_no_sync(world,|w|w.sim.as_ref().unwrap().pair_matrix_used_test()).unwrap(),enabled);
-                pairs.push(with_world_mut_no_sync(world,|w|pollster::block_on(w.sim.as_mut().unwrap().read_callback_pairs())).unwrap());
+                pairs.push(with_world_mut_no_sync(world,|w| {
+                    let sim=w.sim.as_mut().unwrap();
+                    let pairs=pollster::block_on(sim.read_callback_pairs());
+                    if !enabled {
+                        let counts=pollster::block_on(sim.read_scratch_prefix(3));
+                        assert_eq!(counts[0] as usize,pairs.len(),"grid emitted duplicate pairs at frame {frame}");
+                    }
+                    pairs
+                }).unwrap());
                 states.push(pollster::block_on(b3_world_sync_from_gpu(world)));
                 let contacts=with_world_mut_no_sync(world,|w|pollster::block_on(w.sim.as_mut().unwrap().read_contacts())).unwrap();
                 schedules.push(contacts.iter().enumerate().filter(|(_,c)|c.count>0 && c.lifecycle[1]&2!=0 && (c.color<20 || c.color==23)).map(|(slot,c)|(slot,c.a,c.b,c.color,c.lifecycle[2])).collect::<Vec<_>>());

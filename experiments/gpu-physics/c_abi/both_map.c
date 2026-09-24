@@ -1,185 +1,144 @@
 #include "both_ids.h"
+#include "growable_slots.h"
 
-#include <string.h>
-
-#define WORLD_CAP 64
-#define ID_CAP 65536
-
+#define WORLD_CAP GPU_METADATA_WORLDS
 static b3WorldId g_world[WORLD_CAP];
-static uint8_t g_world_used[WORLD_CAP];
-static b3BodyId g_body[ID_CAP];
-static uint8_t g_body_used[ID_CAP];
-static b3ShapeId g_shape[ID_CAP];
-static uint8_t g_shape_used[ID_CAP];
-static b3JointId g_joint[ID_CAP];
-static uint8_t g_joint_used[ID_CAP];
+static b3WorldId g_gpu_world[WORLD_CAP];
 
 static int world_slot(b3WorldId id)
 {
-	return (id.index1 > 0 && id.index1 < WORLD_CAP) ? (int)id.index1 : 0;
-}
-
-static int id_slot(int32_t index1)
-{
-	return (index1 > 0 && index1 < ID_CAP) ? index1 : 0;
+    return (id.index1 > 0 && id.index1 < WORLD_CAP) ? (int)id.index1 : 0;
 }
 
 void both_map_world(b3WorldId gpu, b3WorldId cpu)
 {
-	int i = world_slot(gpu);
-	if (i == 0)
-	{
-		return;
-	}
-	g_world[i] = cpu;
-	g_world_used[i] = 1;
-}
-
-void both_map_body(b3BodyId gpu, b3BodyId cpu)
-{
-	int i = id_slot(gpu.index1);
-	if (i == 0)
-	{
-		return;
-	}
-	g_body[i] = cpu;
-	g_body_used[i] = 1;
-}
-
-void both_map_shape(b3ShapeId gpu, b3ShapeId cpu)
-{
-	int i = id_slot(gpu.index1);
-	if (i == 0)
-	{
-		return;
-	}
-	g_shape[i] = cpu;
-	g_shape_used[i] = 1;
-}
-
-void both_map_joint(b3JointId gpu, b3JointId cpu)
-{
-	int i = id_slot(gpu.index1);
-	if (i == 0)
-	{
-		return;
-	}
-	g_joint[i] = cpu;
-	g_joint_used[i] = 1;
-}
-
-void both_unmap_world(b3WorldId gpu)
-{
-	int i = world_slot(gpu);
-	if (i == 0)
-	{
-		return;
-	}
-	g_world_used[i] = 0;
-	memset(&g_world[i], 0, sizeof(g_world[i]));
-}
-
-void both_unmap_body(b3BodyId gpu)
-{
-	int i = id_slot(gpu.index1);
-	if (i == 0)
-	{
-		return;
-	}
-	g_body_used[i] = 0;
-	memset(&g_body[i], 0, sizeof(g_body[i]));
-}
-
-void both_unmap_shape(b3ShapeId gpu)
-{
-	int i = id_slot(gpu.index1);
-	if (i == 0)
-	{
-		return;
-	}
-	g_shape_used[i] = 0;
-	memset(&g_shape[i], 0, sizeof(g_shape[i]));
-}
-
-void both_unmap_joint(b3JointId gpu)
-{
-	int i = id_slot(gpu.index1);
-	if (i == 0)
-	{
-		return;
-	}
-	g_joint_used[i] = 0;
-	memset(&g_joint[i], 0, sizeof(g_joint[i]));
-}
-
-b3WorldId both_cpu_world(b3WorldId gpu)
-{
-	int i = world_slot(gpu);
-	if (i != 0 && g_world_used[i])
-	{
-		return g_world[i];
-	}
-	return gpu;
-}
-
-b3BodyId both_cpu_body(b3BodyId gpu)
-{
-	int i = id_slot(gpu.index1);
-	if (i != 0 && g_body_used[i])
-	{
-		return g_body[i];
-	}
-	return gpu;
-}
-
-b3ShapeId both_cpu_shape(b3ShapeId gpu)
-{
-	int i = id_slot(gpu.index1);
-	if (i != 0 && g_shape_used[i])
-	{
-		return g_shape[i];
-	}
-	return gpu;
-}
-
-b3JointId both_cpu_joint(b3JointId gpu)
-{
-	int i = id_slot(gpu.index1);
-	if (i != 0 && g_joint_used[i])
-	{
-		return g_joint[i];
-	}
-	return gpu;
+    int i = world_slot(gpu);
+    if (i) { g_world[i] = cpu; g_gpu_world[i] = gpu; }
 }
 
 bool both_has_cpu_world(b3WorldId gpu)
 {
-	int i = world_slot(gpu);
-	return i != 0 && g_world_used[i];
+    int i = world_slot(gpu);
+    return i && g_gpu_world[i].index1 && g_gpu_world[i].generation == gpu.generation;
+}
+
+b3WorldId both_cpu_world(b3WorldId gpu)
+{
+    return both_has_cpu_world(gpu) ? g_world[gpu.index1] : gpu;
+}
+
+typedef struct { b3BodyId gpu, cpu; } BodyMap;
+static GpuSlots g_body[WORLD_CAP];
+
+static BodyMap* body_slot(b3BodyId gpu, bool create)
+{
+    if (gpu.world0 == 0 || gpu.world0 >= WORLD_CAP) return NULL;
+    return (BodyMap*)gpu_slots_get(&g_body[gpu.world0], gpu.index1, sizeof(BodyMap), create);
+}
+
+void both_map_body(b3BodyId gpu, b3BodyId cpu)
+{
+    BodyMap* slot = body_slot(gpu, true);
+    if (slot) { slot->gpu = gpu; slot->cpu = cpu; }
 }
 
 bool both_has_cpu_body(b3BodyId gpu)
 {
-	int i = id_slot(gpu.index1);
-	return i != 0 && g_body_used[i];
+    BodyMap* slot = body_slot(gpu, false);
+    return slot && slot->gpu.index1 == gpu.index1 && slot->gpu.generation == gpu.generation;
+}
+
+b3BodyId both_cpu_body(b3BodyId gpu)
+{
+    return both_has_cpu_body(gpu) ? body_slot(gpu, false)->cpu : gpu;
+}
+
+void both_unmap_body(b3BodyId gpu)
+{
+    if (both_has_cpu_body(gpu)) memset(body_slot(gpu, false), 0, sizeof(BodyMap));
+}
+
+typedef struct { b3ShapeId gpu, cpu; } ShapeMap;
+static GpuSlots g_shape[WORLD_CAP];
+
+static ShapeMap* shape_slot(b3ShapeId gpu, bool create)
+{
+    if (gpu.world0 == 0 || gpu.world0 >= WORLD_CAP) return NULL;
+    return (ShapeMap*)gpu_slots_get(&g_shape[gpu.world0], gpu.index1, sizeof(ShapeMap), create);
+}
+
+void both_map_shape(b3ShapeId gpu, b3ShapeId cpu)
+{
+    ShapeMap* slot = shape_slot(gpu, true);
+    if (slot) { slot->gpu = gpu; slot->cpu = cpu; }
 }
 
 bool both_has_cpu_shape(b3ShapeId gpu)
 {
-	int i = id_slot(gpu.index1);
-	return i != 0 && g_shape_used[i];
+    ShapeMap* slot = shape_slot(gpu, false);
+    return slot && slot->gpu.index1 == gpu.index1 && slot->gpu.generation == gpu.generation;
+}
+
+b3ShapeId both_cpu_shape(b3ShapeId gpu)
+{
+    return both_has_cpu_shape(gpu) ? shape_slot(gpu, false)->cpu : gpu;
+}
+
+void both_unmap_shape(b3ShapeId gpu)
+{
+    if (both_has_cpu_shape(gpu)) memset(shape_slot(gpu, false), 0, sizeof(ShapeMap));
+}
+
+typedef struct { b3JointId gpu, cpu; } JointMap;
+static GpuSlots g_joint[WORLD_CAP];
+
+static JointMap* joint_slot(b3JointId gpu, bool create)
+{
+    if (gpu.world0 == 0 || gpu.world0 >= WORLD_CAP) return NULL;
+    return (JointMap*)gpu_slots_get(&g_joint[gpu.world0], gpu.index1, sizeof(JointMap), create);
+}
+
+void both_map_joint(b3JointId gpu, b3JointId cpu)
+{
+    JointMap* slot = joint_slot(gpu, true);
+    if (slot) { slot->gpu = gpu; slot->cpu = cpu; }
 }
 
 bool both_has_cpu_joint(b3JointId gpu)
 {
-	int i = id_slot(gpu.index1);
-	return i != 0 && g_joint_used[i];
+    JointMap* slot = joint_slot(gpu, false);
+    return slot && slot->gpu.index1 == gpu.index1 && slot->gpu.generation == gpu.generation;
+}
+
+b3JointId both_cpu_joint(b3JointId gpu)
+{
+    return both_has_cpu_joint(gpu) ? joint_slot(gpu, false)->cpu : gpu;
+}
+
+void both_unmap_joint(b3JointId gpu)
+{
+    if (both_has_cpu_joint(gpu)) memset(joint_slot(gpu, false), 0, sizeof(JointMap));
+}
+
+void both_unmap_world(b3WorldId gpu)
+{
+    if (!both_has_cpu_world(gpu)) return;
+    int i = world_slot(gpu);
+    gpu_slots_release(&g_body[i]);
+    gpu_slots_release(&g_shape[i]);
+    gpu_slots_release(&g_joint[i]);
+    memset(&g_world[i], 0, sizeof(g_world[i]));
+    memset(&g_gpu_world[i], 0, sizeof(g_gpu_world[i]));
 }
 
 void both_clear_maps(void)
 {
-	memset(g_world_used, 0, sizeof(g_world_used));
-	memset(g_body_used, 0, sizeof(g_body_used));
-	memset(g_shape_used, 0, sizeof(g_shape_used));
-	memset(g_joint_used, 0, sizeof(g_joint_used));
+    for (unsigned i = 0; i < WORLD_CAP; ++i)
+    {
+        gpu_slots_release(&g_body[i]);
+        gpu_slots_release(&g_shape[i]);
+        gpu_slots_release(&g_joint[i]);
+    }
+    memset(g_world, 0, sizeof(g_world));
+    memset(g_gpu_world, 0, sizeof(g_gpu_world));
 }

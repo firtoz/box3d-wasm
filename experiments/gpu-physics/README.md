@@ -103,96 +103,187 @@ count for `dominoes`. The default Dominoes fixture has 30 rings.
 
 ## Falling-cube scaling benchmark
 
-**Measured 2026-09-24: Ryzen 9 8945HS / NVIDIA RTX 4070 Laptop.** No GPU-over-CPU
-crossover appeared in the three-trial medians at any matched valid count
-(5–15,000 cubes), in any of the three paths. At 5,000 cubes the GPU completed
-70.2 physics steps/s, the direct renderer delivered 67.9 FPS, and Sokol delivered
-51.8 FPS; CPU physics completed 457.5 steps/s. These results describe this
-experimental engine and falling-pile fixture, not GPU physics in general.
+**2026-09-24: Ryzen 9 8945HS / RTX 4070 Laptop (8,188 MiB), NVIDIA 610.57.04.**
+GPU completed physics throughput beats the 8-worker Box3D CPU by **28.5% at
+80,000 cubes** and **31.2% at 100,000**. Every paired trial exceeds 20% at both
+adjacent measured counts (24.7–34.7% and 30.2–31.4%). CPU remains substantially
+faster at small counts; the completed-physics crossover first appears at 50,000
+in this sweep. These results qualify this falling-cube collision window, not
+arbitrary scenes or a FLOPS-based prediction for another GPU.
 
-![CPU and GPU falling-cube scaling, including trial ranges and capacity failures](benchmarks/rtx4070-laptop-2026-09-24.svg)
+| Cubes | CPU / GPU physics steps/s | CPU / GPU Sokol FPS | CPU / GPU direct FPS |
+|---:|---:|---:|---:|
+| 15,000 | 132.34 / 76.84 | 69.33 / 54.61 | 113.26 / 100.44 |
+| 30,000 | 58.69 / 49.27 | 30.61 / 34.03 | 49.50 / 52.91 |
+| 50,000 | 28.35 / 31.19 | 15.87 / 21.23 | 25.86 / 31.81 |
+| 80,000 | 15.33 / 19.70 | 8.96 / 13.86 | 14.49 / 19.59 |
+| 100,000 | 12.05 / 15.82 | — / 11.19 | 11.40 / 15.88 |
+| 150,000 | 7.47 / — | — / — | 7.05 / — |
 
-| Measurement conditions | Value |
-|---|---|
-| OS | Linux 6.12.108-1-MANJARO x86-64 |
-| CPU | AMD Ryzen 9 8945HS, 8 cores / 16 threads; 8 physics workers |
-| GPU | NVIDIA GeForce RTX 4070 Laptop, 8,188 MiB VRAM; driver 610.57.04; Vulkan native-cache backend |
-| Power | AC connected; reported GPU ceiling varied **33–55 W**; requested/default ceiling 55 W |
-| Recorded GPU telemetry | 44–62 °C, 2.42–51.88 W draw, 210–2,355 MHz SM clock, including idle samples |
-| App framebuffer | **2040×1148**, uncapped; Sokol swap interval 0, direct viewer Immediate presentation |
-| Runs | Three trials per count/path, alternating order; normal desktop activity and load telemetry retained |
+The **50,000-cube / 30 FPS stretch is met in average direct-renderer cadence**:
+all three GPU trials reach 31.57–31.99 FPS (median 31.81), versus CPU 25.86 FPS.
+Median trial p95 is 35.59 ms, so this is not a locked 30 FPS. Both renderers use
+the same physics workload; rendering features differ, so compare CPU/GPU within
+each panel. Completed physics steps/s and application frame cadence are separate
+measurements; the direct viewer drains queued work at the end of its timed window.
 
-The initial optional idle gate was removed during this dataset; the archive
-records the policy change for each subsequent trial. Earlier September 20
-busy-desktop diagnostic datasets are **excluded**. This is a laptop/system
-measurement with variable power limits, not a fixed-power GPU rating.
+![CPU/GPU completed physics and both application renderers](benchmarks/rtx4070-complete-scene-2026-09-24.png)
 
-Thresholds below are **last tested count above → first tested count at/below**
-the requested rate. Physics rates are completed steps/s; app rates are frames/s.
+![CPU/GPU p50 and p95 physics and application timings](benchmarks/rtx4070-complete-scene-2026-09-24-timings.png)
 
-| Path | 60 threshold | 30 threshold | 10 threshold / stopping limit |
-|---|---:|---:|---|
-| CPU physics | 20,000 → 30,000 | 40,000 → 50,000 | 100,000 → 150,000 |
-| GPU physics | 5,000 → 10,000 | 5,000 → 10,000 | Capacity failure at 20,000; 18.3 steps/s at 15,000 |
-| Sokol + CPU | 15,000 → 20,000 | 40,000 → 50,000 | 100,000 → 150,000 |
-| Sokol + GPU | 2,000 → 5,000 | 5,000 → 10,000 | Capacity failure at 20,000; 15.9 FPS at 15,000 |
-| Direct + CPU | 20,000 → 30,000 | 40,000 → 50,000 | Viewer ceiling: 65,535 cubes, 16.5 FPS |
-| Direct + GPU | 5,000 → 10,000 | 5,000 → 10,000 | Capacity failure at 20,000; 18.1 FPS at 15,000 |
+Each valid count/mode has three fresh-world trials, alternating mode order,
+90 warmup + 240 timed steps, dt 1/60 s, four substeps and sleeping off. Rates are
+the reciprocal of median trial mean time; p50/p95 are medians of trial percentiles,
+not pooled percentiles. Shading preserves trial ranges, including substantial
+small-count desktop cadence variability. Actual application framebuffer: 2040×1148.
+Sokol uploads every cube and the floor; saved renderer culling cannot omit them.
 
-All three GPU paths rejected the 20,000-cube case because the broadphase dropped
-spatial-hash cell insertions: [`MAX_INSERTS`](src/types.rs) is fixed at 65,536,
-and a cube may occupy several cells. **15,000 is the largest tested valid GPU
-count, not an exact maximum.** Those failed timings are not plotted as performance
-results. A faster GPU alone cannot raise this fixed buffer capacity. The direct
-CPU viewer has a separate 65,536-body GPU-side scene limit (one slot is the floor),
-although its physics runs on Box3D CPU. The independent CPU oracle and Sokol app
-continued to 150,000 cubes, reaching 6.7 steps/s and 6.6 FPS respectively.
+AC remained connected. Runs used normal desktop load without an idle gate.
+Before/after snapshots record load, GPU clocks, temperature and power; observed
+GPU power limits range from 33 to 55 W. These are laptop operating conditions,
+not continuous telemetry or a fixed-power desktop GPU comparison. Re-run the
+same workload on another machine rather than scaling these rates by nominal FLOPS.
 
-The shaded bands retain all original trials. Three extra trials at 5, 100 and
-1,000 cubes checked unusually wide direct-renderer ranges. They reproduced
-small-count presentation variability: at 5 cubes, two CPU-viewer trials had
-`Surface::present` p50 values of 0.60 and 1.22 ms while physics submission stayed
-near 0.04–0.05 ms. The [follow-up report](benchmarks/rtx4070-laptop-2026-09-24-repeat-check.json)
-is separate; no slower valid trial was replaced or removed. Near-ties at very
-small counts should not be read as a reliable crossover.
+Threshold brackets below mean **last sampled count above → first at or below**
+the target average rate. They are not interpolated capacities or p95 guarantees.
+
+| Path | 60 steps/s or FPS | 30 steps/s or FPS | 10 steps/s or FPS |
+|---|---:|---:|---:|
+| physics-cpu | 20,000 → 30,000 | 40,000 → 50,000 | 100,000 → 150,000 |
+| physics-gpu | 20,000 → 30,000 | 50,000 → 60,000 | Not reached; >10 at 100,000 |
+| sokol-cpu | 15,000 → 20,000 | 30,000 → 40,000 | 60,000 → 80,000 |
+| sokol-gpu | 10,000 → 15,000 | 30,000 → 40,000 | Not reached; >10 at 100,000 |
+| direct-cpu | 20,000 → 30,000 | 40,000 → 50,000 | 100,000 → 150,000 |
+| direct-gpu | 20,000 → 30,000 | 50,000 → 60,000 | Not reached; >10 at 100,000 |
+
+**Current capacity boundary:** all three GPU paths fail at 150,000 cubes before
+producing a valid timing. A geometric broadphase reservation reaches 4,194,304
+entries, requiring 65,536 workgroups of 64 in a one-dimensional dispatch; the
+device permits 65,535. This is a software dispatch-layout limit, not measured VRAM
+exhaustion or a 10 FPS result. The chart retains 100,000 as the largest validated
+sampled GPU count and marks the failed 150,000 attempt separately. Further scaling
+requires tiled dispatch with matching indices in direct, indirect and cached
+command paths; removing the assertion alone would be unsafe.
+
+At 100,000 cubes, graph construction costs 26.5 ms, solving 18.0 ms,
+and broadphase 10.6 ms. Primary simulation buffers occupy **1,659 MiB
+(1.62 GiB)**, including 1,184 MiB of contact buffers. Rendering, staging, pipelines
+and driver allocations are excluded. Graph construction is the largest measured
+phase and the next performance target after dispatch tiling.
+
+![GPU phase costs and primary buffer memory](benchmarks/rtx4070-complete-scene-phases-2026-09-24.png)
+
+The sweep contains 345 valid trials and three rejected capacity failures, whose
+logs are retained. Correctness evidence includes 260 NVIDIA library tests,
+high-index cache-opt-out coverage, native metadata ASan/UBSan fixtures and
+independent CPU/GPU shape replacement checks. Fixed 16-bit pair identities and
+native 65,535-entry metadata/renderer limits are removed; device dispatch and
+buffer limits still apply.
+
+[Full data and thresholds](benchmarks/rtx4070-complete-scene-2026-09-24.json)
+· [Timing table](benchmarks/rtx4070-complete-scene-2026-09-24-timings.md)
+· [Phase and memory data](benchmarks/rtx4070-complete-scene-phases-2026-09-24.json)
+· [Raw results, source snapshots, tests and reproduction scripts](benchmarks/rtx4070-complete-scene-2026-09-24-raw.tar.gz)
+· [Archive SHA-256](benchmarks/rtx4070-complete-scene-2026-09-24-raw.tar.gz.sha256)
+
+The comparison grid has refreshed CPU oracle and GPU columns for all 19 standard
+scenes (`000-box3d-cpu`, `2026-09-24-throughput-scaling`): 300 frames per clip.
+[Recording identities and clip checks](benchmarks/rtx4070-complete-scene-recordings-2026-09-24.json)
+retain binary/clip hashes. These ordinary scene recordings are separate from the
+no-sleep timed benchmark; GPU default metrics cover 18 scenes and omit Dominoes,
+whose clip is still recorded. Run `bun run compare` to inspect the grid.
+
+The [earlier full-width checkpoint](benchmarks/rtx4070-full-width-crossover-2026-09-24.json)
+and its [raw archive](benchmarks/rtx4070-full-width-2026-09-24-raw.tar.gz) independently
+show the same 80k/100k crossover. The optimization comparisons below retain their
+own source revisions and matched before/after settings.
+
+**Earlier matched CPU/GPU checkpoint (before identity migration),
+2026-09-24: Ryzen 9 8945HS / RTX 4070 Laptop, NVIDIA 610.57.04.** Three alternating trials show a GPU physics throughput
+advantage of **11.4% at 50,000 cubes** and **23.0% at 60,000** with global color
+solving. The trial ranges do not overlap at either count. All three 60,000-cube
+trials clear 20%; none of the 50,000-cube trials does. At this earlier checkpoint the two-count 20% target and
+100,000-body support were still open; the latest results above supersede those
+limits. The full sweep above supersedes this checkpoint. These are completed physics steps/s, not app FPS.
+
+| Cubes | CPU / GPU steps/s | CPU p50 / p95 ms | GPU p50 / p95 ms | GPU throughput advantage |
+|---:|---:|---:|---:|---:|
+| 50,000 | 28.28 / 31.49 | 34.92 / 41.32 | 31.39 / 33.86 | 11.4% |
+| 60,000 | 21.91 / 26.94 | 45.53 / 52.25 | 36.67 / 38.64 | 23.0% |
+
+Rates use the median trial mean; p50/p95 are medians of the trial percentiles.
+Both engines use 4 substeps, sleeping disabled, 90 warmup steps and 240 measured
+steps; CPU uses 8 workers. AC was connected, with no idle gate. Raw records
+include before/after power, clocks, temperature and load; these endpoint samples
+include idle transitions and are not a continuous power trace.
+
+![Repeated completed-physics crossover](benchmarks/rtx4070-crossover-checkpoint-2026-09-24.png)
+
+[Timings, variability, and per-trial speed ratios](benchmarks/rtx4070-crossover-checkpoint-2026-09-24.json)
+· [Raw trials, settings, compiled-source snapshot, and test proof](benchmarks/rtx4070-crossover-checkpoint-2026-09-24-raw.tar.gz)
+· [Archive SHA-256](benchmarks/rtx4070-crossover-checkpoint-2026-09-24-raw.tar.gz.sha256)
+
+To rerun the matched comparison on current source after a native-cache release build
+(the archive above preserves the exact earlier source and settings):
+
+```bash
+python3 scripts/bench-falling-cubes.py artifacts/falling-cubes/crossover-check \
+  --counts 50000 60000 --modes physics-cpu physics-gpu \
+  --trials 3 --workers 8 --gpu-solver global
+```
+
+**Later identity-migration check.** Full-width retained-contact lookup and canonical
+cell ownership remove the online packed-key deduplication dependency. The engine
+passes all 258 NVIDIA library tests, including an independent all-pairs comparison
+and duplicate-emission checks. Three alternating before/after trials retain the
+same falling-cube and solver settings. This is a correctness/scalability step,
+not a demonstrated throughput improvement:
+
+| Cubes | Before / after completed step ms | Change in step time |
+|---:|---:|---:|
+| 15,000 | 13.54 / 13.27 | −2.0%; overlapping trial ranges |
+| 50,000 | 31.11 / 31.90 | +2.5% |
+| 60,000 | 37.97 / 38.24 | +0.7%; overlapping trial ranges |
+
+All 18 runs pass validation and final contact counts match between variants.
+At 60,000 cubes, median broadphase cost increases from 4.36 to 4.85 ms; graph
+construction and solving remain larger costs. Primary buffer allocation is
+unchanged. The chart shows median trial means, trial ranges, p50/p95, phase costs,
+and primary memory (excluding staging, renderers, pipelines, and driver overhead).
+This intermediate checkpoint predates the full pair/history migration and the
+100,000-cube CPU comparison above. Renderer FPS still needs remeasurement.
+
+![Identity migration before and after](benchmarks/rtx4070-identity-preparation-2026-09-24.png)
+
+[Timing and memory summary](benchmarks/rtx4070-identity-preparation-2026-09-24.json)
+· [Raw trials, source snapshots, test proof, and reproduction script](benchmarks/rtx4070-identity-preparation-2026-09-24-raw.tar.gz)
+· [Archive SHA-256](benchmarks/rtx4070-identity-preparation-2026-09-24-raw.tar.gz.sha256)
 
 <details>
-<summary>All tested counts: median rates (CPU / GPU)</summary>
+<summary>Earlier sweep: retained diagnostics, not current performance evidence</summary>
 
-| Cubes | Physics CPU / GPU | Sokol CPU / GPU | Direct CPU / GPU |
-|---:|---:|---:|---:|
-| 5 | 60,413.8 / 1,412.8 | 426.5 / 279.7 | 1,222.7 / 862.8 |
-| 10 | 49,094.8 / 1,590.1 | 489.7 / 285.3 | 1,229.9 / 1,109.3 |
-| 50 | 11,139.6 / 887.1 | 447.8 / 242.8 | 1,336.9 / 800.8 |
-| 100 | 8,671.8 / 842.3 | 478.8 / 213.7 | 1,365.7 / 649.5 |
-| 200 | 5,548.4 / 641.0 | 414.1 / 215.8 | 1,370.2 / 539.6 |
-| 400 | 3,437.8 / 561.2 | 418.4 / 192.3 | 1,384.4 / 468.4 |
-| 800 | 2,332.2 / 331.9 | 390.3 / 154.7 | 1,359.2 / 297.4 |
-| 1000 | 2,152.4 / 290.4 | 382.5 / 137.9 | 1,257.7 / 264.2 |
-| 2000 | 1,096.2 / 162.4 | 294.6 / 92.8 | 705.8 / 150.1 |
-| 5000 | 457.5 / 70.2 | 206.2 / 51.8 | 346.0 / 67.9 |
-| 10000 | 200.6 / 27.9 | 99.2 / 22.9 | 159.6 / 27.5 |
-| 15000 | 113.5 / 18.3 | 64.3 / 15.9 | 103.0 / 18.1 |
-| 20000 | 85.0 / — | 55.1 / — | 78.5 / — |
-| 30000 | 51.0 / — | 45.2 / — | 45.8 / — |
-| 40000 | 34.8 / — | 33.6 / — | 32.1 / — |
-| 50000 | 26.2 / — | 24.8 / — | 23.4 / — |
-| 60000 | 19.6 / — | 19.5 / — | 17.6 / — |
-| 65535 | 17.5 / — | 17.0 / — | 16.5 / — |
-| 80000 | 13.3 / — | 13.6 / — | — / — |
-| 100000 | 10.8 / — | 10.8 / — | — / — |
-| 150000 | 6.7 / — | 6.6 / — | — / — |
+The original sweep predates the island-union fix and scalable GPU capacities.
+Its GPU capacity checks first failed at 20,000 cubes, and later tests exposed
+lost island connections in the earlier solver. These timings are retained for
+diagnosis; they are not a correctness-preserving baseline for speedup claims.
 
-“—” means no valid measurement at that count. Physics columns are steps/s;
-Sokol/direct columns are frames/s.
+The old Sokol CPU curve also lacks complete-instance validation. Its fixed
+65,536-shape reservation and saved 100 m draw distance could omit objects;
+the latter culled the entire CPU scene in a subsequent 100,000-cube check.
+Those application rates and thresholds are not full-scene performance evidence.
+New runs reserve the full scene, use a 1,000 m draw distance, and verify every
+uploaded instance on both engines. Completed CPU physics measurements are
+unaffected by these renderer issues.
+
+Original raw files remain unchanged for audit:
+[historical report](benchmarks/rtx4070-laptop-2026-09-24.json),
+[hardware/power conditions](benchmarks/rtx4070-laptop-2026-09-24-conditions.json),
+[raw measurements and source snapshots](benchmarks/rtx4070-laptop-2026-09-24-raw.tar.gz),
+[archive SHA-256](benchmarks/rtx4070-laptop-2026-09-24-raw.tar.gz.sha256).
+The [small-count repeat check](benchmarks/rtx4070-laptop-2026-09-24-repeat-check.json)
+reproduced wide presentation timing ranges; no slower valid trial was replaced.
 
 </details>
-
-[Completed report, thresholds and trial ranges](benchmarks/rtx4070-laptop-2026-09-24.json)
-· [Recorded hardware/power conditions](benchmarks/rtx4070-laptop-2026-09-24-conditions.json)
-· [p50/p95 milliseconds for every path/count](benchmarks/rtx4070-laptop-2026-09-24-timings.md)
-· [Raw measurements, logs, source snapshots and repeat checks](benchmarks/rtx4070-laptop-2026-09-24-raw.tar.gz)
-· [Archive SHA-256](benchmarks/rtx4070-laptop-2026-09-24-raw.tar.gz.sha256)
 
 The `falling-cubes` workload compares real Box3D CPU physics with this GPU engine
 in three paths: completed physics steps without rendering, the Sokol sample app,
@@ -232,10 +323,17 @@ Sokol preview is illustrative and is not a benchmark result.
 | ![Sokol: 1,000 falling cubes](benchmarks/falling-cubes-sokol.png) | ![Direct renderer: 1,000 falling cubes](benchmarks/falling-cubes-direct.png) |
 
 Each path stops independently at ≤10 FPS, invalid results, or a real capacity
-limit. The default sweep reaches 60,000 cubes; explicit CPU-only extensions can
-reach 1,000,000 if needed. GPU paths and the direct CPU viewer cannot exceed
-65,535 dynamic cubes because their GPU-side scene uses 16-bit body IDs. The
-independent CPU oracle and CPU Sokol app can continue beyond that. Dropped
+limit. The default count schedule extends to 1,000,000 cubes, with each path
+stopping at its own measured threshold or validation limit. Physics and the direct renderer use full-width
+shape pairs and can test beyond 65,535 dynamic cubes, subject to device capacity
+and validation. Native GPU metadata and CPU/GPU identity mappings use per-world
+chunk tables. Both Sokol paths reserve at least `GPU_BENCH_CUBES + 1` debug
+shapes and opaque instances per stream, then verify that all cubes plus the floor
+reach each frame's renderer upload. `GPU_SAMPLES_SHAPE_CAPACITY` sets an explicit
+startup reservation for other scenes; the ordinary default is 65,536. The pool
+keeps stable pointers for the app lifetime. Transparent-stream limits are unchanged.
+Falling Cubes fixes its draw distance at 1,000 m; the harness records saved renderer
+settings and rejects changes to them during a sweep. Dropped
 pairs/contacts, invalid bodies,
 incomplete windows and mismatched framebuffers invalidate a measurement. The
 physics/direct GPU paths check final completed state; Sokol's asynchronous
@@ -256,15 +354,11 @@ python3 scripts/check-viewer-cpu.py
 export __NV_PRIME_RENDER_OFFLOAD=1
 export __GLX_VENDOR_LIBRARY_NAME=nvidia
 export VK_DRIVER_FILES=/usr/share/vulkan/icd.d/nvidia_icd.json
-python3 scripts/bench-falling-cubes.py artifacts/falling-cubes/my-machine --adapter nvidia
-# Continue surviving CPU paths beyond the default count list if needed.
-python3 scripts/bench-falling-cubes.py artifacts/falling-cubes/my-machine-cpu-extension \
-  --counts 65535 80000 100000 150000 200000 400000 800000 1000000 \
-  --modes physics-cpu sokol-cpu direct-cpu
+python3 scripts/bench-falling-cubes.py artifacts/falling-cubes/my-machine \
+  --adapter nvidia --gpu-solver global --timeout 900
 # Plotting alone requires matplotlib; measurement uses the Python standard library.
 python3 scripts/plot-falling-cubes.py artifacts/falling-cubes/my-machine \
-  benchmarks/my-machine --additional-input artifacts/falling-cubes/my-machine-cpu-extension \
-  --title 'Exact CPU / GPU / driver'
+  benchmarks/my-machine --title 'Exact CPU / GPU / driver'
 ```
 
 `--require-idle` checks background load before each trial and stops without losing
@@ -279,6 +373,160 @@ history and individual trials record that policy. Without `--require-idle`, runs
 proceed under normal desktop load. Use the repeated-trial ranges and saved load
 telemetry to investigate unusually inconsistent results, retaining all valid trials.
 
+To isolate solver scheduling costs, `profile-falling-solvers.py` reuses a completed
+sweep's binary and environment, verifies its binary hash, and compares component
+TGS with global contact-color dispatches. It alternates variant order across three
+trials and preserves raw phase timings and machine telemetry. Both variants retain
+the falling-cube workload, timestep, four substeps, and disabled sleeping. These
+are diagnostic comparisons; promoting a scheduling change still requires solver
+agreement checks and the full CPU/renderer sweep.
+
+```sh
+python3 scripts/profile-falling-solvers.py artifacts/falling-cubes/my-machine/manifest.json \
+  artifacts/solver-profile --counts 5000 15000
+python3 scripts/plot-falling-solvers.py artifacts/solver-profile benchmarks/solver-profile \
+  --title 'Exact GPU • solver scheduling investigation'
+```
+
+The plot rechecks raw-file hashes and trial means, displays completed-step trial
+ranges and median trial p50/p95 markers, and separates broadphase, narrowphase, graph construction, preparation,
+and solving. Phase bars use medians of per-trial means; their sum is not presented
+as an exact decomposition of median completed-step time.
+
+The scaling investigation found and fixed a concurrent island-union bug: an
+unconditional atomic minimum could overwrite an earlier parent link and lose a
+connection. Compare-and-exchange now attaches only a node that is still a root.
+The 15,000-cube regression checks every dynamic contact's island membership and
+compares repeated global solves, component solves, and batched graph construction
+at steps 1, 65, 78, 79, 90, 150, and 330. All sampled positions, rotations, and
+linear/angular velocities match exactly after the fix.
+
+Dynamic coloring now fetches and publishes endpoints cooperatively in batches of
+256 contacts, while retaining the reference greedy decision order. Its shared
+cache holds at most 512 endpoints rather than the entire world. Worlds above
+8,168 bodies select this path automatically; smaller worlds retain their existing
+shared/memo scheduling. `GPU_PHYSICS_GRAPH_BATCHED=0` forces the scalar reference
+and `=1` forces batching for controlled comparisons. Global color solving can
+still be selected with `GPU_PHYSICS_COMPONENT_TGS=0`; component TGS remains useful
+for small independent islands but underutilizes the GPU on a large connected pile.
+Spatial-hash insertion storage now grows geometrically with reserved shape
+capacity (16 entries per reserved shape, rounded to a power of two, at least
+1,024, also covering graph-prefix workspace). The three insertion arrays sit after the scene's fat bounds; their
+runtime offsets avoid shader recompilation on growth. Oversized workloads still
+report sticky capacity loss rather than silently dropping entries. Contact pools
+now reserve 16 slots per reserved body, rounded to a power of two (minimum 256),
+and pair capacity follows that reservation with a 65,536-entry floor. Runtime
+scratch/hash offsets and chunked prefix scans replace the old fixed ceiling.
+Growth preserves contact state and history, relocates occupied lists, and rebuilds
+the hash index without compiling new shader variants. Capacity loss still
+invalidates the run; unusually dense workloads may exhaust their reservation. A 30,000-cube first-step
+regression records 100,305 spatial entries without capacity loss, exceeding the
+old limit. The combined NVIDIA library suite passes all 260 tests, including the insertion
+boundary, full-width sorting and contact hashing, compaction beyond 65,536 entries,
+contact-cache growth, and canonical coloring regressions.
+The general static-contact sort now carries full contact indices and sorts on
+32-bit body/color keys, removing its `(body << 16) | index` packing. It preserves
+canonical contact order between its two stable sorts and retains four radix
+passes per sort. Retained-contact lookup now stores two full-width identity words
+per physical slot and publishes only the slot reference into the hash table.
+A separate preparation dispatch makes both words visible before publication;
+retirement leaves them intact until the next allocation phase. This uses the
+existing hash allocation and also applies when growth or topology changes rebuild
+the index. Grid pair generation now assigns each overlap one exact shared cell,
+using insertion ordinals to distinguish cells even when their hash buckets collide.
+Retained roots emit their existing pairs once; new overlaps append directly, so
+pair generation no longer needs an online atomic packed-key deduplication table.
+The independent all-pairs matrix agrees through cell collisions and mutations,
+and raw append counts equal unique counts in those fixtures.
+Broadphase pairs, retained-contact identities, previous-touching history,
+callbacks, events, graph memoization, joint filters, and material lookup now
+carry full 32-bit indices for both endpoints. Persistent contacts add an aligned
+16-byte identity field; pair, history, and radix arrays use two words per entry.
+Sorting preserves high-index-major order and skips unused high bytes: four
+passes through 65,536 shapes, six through 16,777,216, then eight. Tests cover all
+three widths and high-index contacts through callbacks, events, deletion/remapping,
+and slot reuse. The Rust physics slot guards now reflect the public index and
+graph-classification ranges rather than a 16-bit pair encoding. Device allocation
+limits still apply. Native sample metadata uses stable-address chunks per world,
+with direct-index geometry lookup and cleanup; independent CPU mappings also
+check generations. `scripts/check-native-metadata.sh` exercises 100,001 entries,
+callback growth, world isolation, reuse, and ownership under ASan/UBSan.
+The batched pipeline is prepared at world initialization and reused across worlds
+and capacity growth, so crossing the selection threshold does not compile a shader.
+
+With the island fix present in both variants, three alternating trials show:
+
+| Cubes | Global solver, scalar graph: mean / p50 / p95 ms | Global solver, batched graph: mean / p50 / p95 ms |
+|---:|---:|---:|
+| 10,000 | 17.16 / 16.86 / 18.17 | 8.60 / 8.45 / 9.59 |
+| 15,000 | 25.14 / 24.38 / 28.14 | 11.93 / 11.00 / 14.21 |
+
+Each cell reports the median across trial statistics. At 15,000 cubes, median
+graph phase time falls from 17.25 to 4.05 ms. This improves completed physics-step
+throughput in this earlier diagnostic. The completed larger-count CPU/renderer
+sweep above now demonstrates the crossover after capacity expansion.
+
+![Batched coloring performance and phase costs](benchmarks/rtx4070-batched-graph-2026-09-24.png)
+
+[Current profile summary](benchmarks/rtx4070-batched-graph-2026-09-24.json)
+· [Raw trials, source patches, and agreement logs](benchmarks/rtx4070-batched-graph-2026-09-24-raw.tar.gz)
+· [Archive SHA-256](benchmarks/rtx4070-batched-graph-2026-09-24-raw.tar.gz.sha256)
+
+Reproduce with `profile-falling-solvers.py --counts 10000 15000 --variants
+global-colors batched-global`, using a manifest for the current compiled binary.
+The archive also preserves the intermediate 64-contact batch experiment and the
+island-fix-only comparison; headline results use 256-contact batches.
+The archive includes the passing 253-test NVIDIA library log and its source
+snapshot. Dataset manifests identify the measured binary and source patch;
+per-run `source_sha256` is a runtime working-tree observation, not a compiled
+source fingerprint. These diagnostic runs precede automatic path selection and
+the completed-wait status refresh; a final default-path sweep remains pending.
+
+New completed-step raw runs include `allocations` for primary simulation buffers:
+body state, the complete reserved scene heap (including geometry and materials),
+contacts, joints, scratch, atomics, and fixed dispatch/query buffers. These are
+allocated buffer bytes, excluding readback/timestamp staging, CCD resources,
+renderers, pipelines, and driver overhead; they must not be labeled total VRAM.
+
+
+The expanded-capacity build completes the same collision-heavy window at 20,000,
+30,000, 40,000, 50,000, and 60,000 cubes without sticky capacity loss or escaped/
+nonfinite bodies. One qualification trial per count gives mean completed steps
+of 13.53, 19.55, 26.28, 31.30, and 36.99 ms respectively. These are physics times;
+renderer FPS requires separate measurements; the fresh repeated physics
+comparison above covers 50,000 and 60,000.
+At 60,000 cubes the primary simulation buffers occupy about 815 MiB. The jump
+between 30,000 and 40,000 reflects geometric reservations, not a sudden increase
+in live collision complexity.
+
+![Expanded capacity: completed step time, GPU phases, and buffer memory](benchmarks/rtx4070-capacity-qualification-2026-09-24.png)
+
+[Qualification timings and memory](benchmarks/rtx4070-capacity-qualification-2026-09-24.json)
+· [Raw trials, compiled-source snapshot, and 256-test proof](benchmarks/rtx4070-capacity-qualification-2026-09-24-raw.tar.gz)
+· [Archive SHA-256](benchmarks/rtx4070-capacity-qualification-2026-09-24-raw.tar.gz.sha256)
+
+For fresh CPU comparisons, `bench-falling-cubes.py --gpu-solver global` selects
+the same global-color schedule and records the choice. `--gpu-binary PATH`
+lets physics/direct runs use a preserved executable while work continues.
+The default still selects component TGS; all comparisons must report this setting.
+
+<details>
+<summary>Historical first diagnostic — before the island-union fix</summary>
+
+The initial scheduling experiment reduced measured completed-step time from
+14.50 to 6.09 ms at 5,000 cubes and 54.97 to 24.94 ms at 15,000. Its subsequent
+agreement test exposed the island bug: maximum position disagreement reached
+8.98 m at step 330. These timings remain diagnostic history, not a qualified
+CPU crossover or a correctness-preserving performance baseline.
+
+![Historical solver scheduling diagnostic](benchmarks/rtx4070-solver-profile-2026-09-24.png)
+
+[Historical summary](benchmarks/rtx4070-solver-profile-2026-09-24.json)
+· [Historical raw trials and failing-test log](benchmarks/rtx4070-solver-profile-2026-09-24-raw.tar.gz)
+· [Archive SHA-256](benchmarks/rtx4070-solver-profile-2026-09-24-raw.tar.gz.sha256)
+
+</details>
+
 The runner records adapter/driver, CPU, VRAM, power/clock telemetry, framebuffer,
 settings, commands and binary hashes. Keep the raw output directory. To compare
 a second PC, repeat the same workload/window/worker count/resolution and retain
@@ -292,11 +540,13 @@ Run from this directory on Linux with the required GPU/build dependencies:
 
 ```sh
 python3 scripts/test-native-portability.py
+python3 scripts/test-sokol-capacity.py
 cargo test --release --lib -- --test-threads=1
 ./scripts/correctness-gate.sh artifacts/correctness-review.json
 ./scripts/native-scene-gate.sh
 ./scripts/check-both-pointer.sh
 ./scripts/check-shape-replacement.sh
+./scripts/check-native-metadata.sh # Linux; requires the built CPU oracle
 ./scripts/check-joint-separation.sh
 ./scripts/check-joint-reaction.sh
 ./scripts/check-substep-forces.sh
@@ -345,6 +595,13 @@ For visual or solver changes, record the affected scenes before committing:
 ./scripts/record-snapshot.sh YYYY-MM-DD-label
 bun run compare
 ```
+
+To capture a measured build without rebuilding it, set `GPU_RECORD_BIN` to its
+absolute executable path. `GPU_RECORD_ORACLE` similarly preserves a specific CPU
+oracle for the first column. Both scripts write `recording-manifest.json` with
+binary hashes, requested frame counts, and GPU environment settings. Use the
+same solver environment as the run being illustrated, and record outside timing
+runs so capture and encoding do not affect benchmark results.
 
 The grid places the real Box3D CPU reference first, followed by GPU snapshots.
 Reports and recordings are ignored local outputs under `artifacts/` and

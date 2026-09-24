@@ -3,7 +3,7 @@ use gpu_physics::{api::*,sim::GpuDevice,types::*};
 struct Report {widths:Vec<usize>,changed:usize,overflow:usize}
 impl Report {fn json(&self)->String {format!("{{\"rounds\":{},\"widths\":{:?},\"changed_colors\":{},\"overflow\":{}}}",self.widths.len(),self.widths,self.changed,self.overflow)}}
 #[derive(Clone,Copy)]
-struct Edge {a:usize,b:usize,color:u32,key:u32}
+struct Edge {a:usize,b:usize,color:u32,key:u64}
 fn greedy(edges:&[Edge],initial:&[u32])->Vec<u32>{
     let mut masks=initial.to_vec();
     edges.iter().map(|e|{let available=(!(masks[e.a]|masks[e.b]))&((1<<20)-1);
@@ -44,7 +44,7 @@ fn main(){
             for c in contacts.iter().filter(|c|c.a!=u32::MAX&&c.count>0&&c.manifold_link[1]==0&&c.lifecycle[1]&2!=0){
                 let (a,b)=(c.a as usize,c.b as usize);assert!(a<bodies.len()&&b<bodies.len());
                 match (writable(a),writable(b)){
-                    (true,true)=>edges.push(Edge{a,b,color:c.color,key:c.lifecycle[3]}),
+                    (true,true)=>edges.push(Edge{a,b,color:c.color,key:c.pair_key()}),
                     (true,false)|(false,true)=>if c.color<23{initial[if writable(a){a}else{b}]|=1<<c.color},
                     _=>{}
                 }
