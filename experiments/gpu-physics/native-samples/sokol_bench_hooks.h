@@ -10,6 +10,7 @@ extern "C" {
 #endif
 
 void gpu_sokol_bench_begin_frame(void);
+void gpu_sokol_bench_shoot(void* sample, int frame, int width, int height);
 void gpu_sokol_bench_village_drop(b3WorldId world, const char* sample, int frame);
 void gpu_sokol_bench_mark(const char* phase);
 void gpu_sokol_bench_end_frame(void);

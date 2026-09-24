@@ -22,6 +22,9 @@ Platform setup, adapter overrides and cache policy are in the
 [backend guide](../experiments/gpu-physics/compiler/native-backend/README.md).
 Automatic selection ranks capable devices; it does not benchmark every adapter
 or tune the solver for each device.
+The [falling-cube benchmark](../experiments/gpu-physics/README.md#falling-cube-scaling-benchmark)
+compares completed physics, Sokol frame cadence and the direct renderer under the
+same scene settings, recording exact hardware and frame-time distributions.
 
 ## Work priorities
 
@@ -46,8 +49,9 @@ documented limitations, not current work priorities. Keep reporting their test
 failures without weakening assertions; they do not displace the API and browser
 work above.
 
-Recording/replay, application performance work, and Windows/macOS/other-GPU
-portability are deferred. Runtime testing so far is Linux-only on the RTX 4070
+Recording/replay, further application optimization, and Windows/macOS/other-GPU
+portability are deferred. The requested falling-cube scaling benchmark and repeated
+shader-parsing startup fix are covered in the experiment README. Runtime testing so far is Linux-only on the RTX 4070
 Laptop GPU and Radeon 780M. Other platforms/devices still need implementation
 where incomplete and build/runtime verification. GPU-only Sokol remains slower
 than CPU-only in the measured workloads; optimization is deferred until after
@@ -304,6 +308,50 @@ Body/shape/joint slots retain generation-checked identities. Capacity growth mus
 preserve live contacts and constraint history; allocation or contact-capacity
 loss must be reported, not silently interpreted as a successful simulation.
 
+Native `b3WorldDef.capacity` body/shape hints now reach the GPU world in both
+GPU-only and combined builds. Set the expected peak **simultaneously live** counts
+before `b3CreateWorld`; include scenery and gameplay objects, not total lifetime
+spawns. Shape hints also reserve the default per-shape material entries. For
+example, a level expecting 4,096 live projectile bodies/shapes in addition to its
+scenery can add 4,096 to `dynamicBodyCount` and `dynamicShapeCount`. Destroy expired
+projectiles to return their generation-checked slots to the pool. The hints are
+advisory; exceeding them grows capacity geometrically, rather than dropping spawns.
+`contactCount` is still not a configurable GPU contact allocation budget.
+
+Without larger hints, initial body/shape/material allocations include bounded
+headroom (25% of the live count, clamped to 64–256 spare entries, subject to the
+existing minimum capacities). Geometry has separate capacities: adding new hull
+or mesh data can still cause growth. Mutations are collected into the scene upload
+on the next step/query; create a batch before requesting completed-state reads.
+
+Compiled physics programs and layouts belong to the logical GPU device and are
+shared across its worlds and buffer reallocations. Mutable buffers, bindings,
+contacts and command replays remain world-owned. Graph memo offsets are derived
+from reserved capacity at runtime, so growth does not compile a capacity-specific
+shader. Pipeline-cache files are saved during explicit loading or world/device
+teardown, not while creating a runtime pipeline or growing a scene. Allocation
+and scene uploads are still synchronous; these changes remove the repeated
+shader/cache work, not every cost of a large topology edit or bullet CCD.
+
+The Shift-click regression runner calls the actual sample handler:
+`experiments/gpu-physics/scripts/check-shoot-latency.py` takes a prebuilt native
+binary, adapter and output directory, and uses the launcher's runtime environment.
+It checks that each shot adds one body, the current step is drawn and no contact
+capacity loss is reported. `check-spawn-stream.sh` compares independent CPU/GPU
+worlds through 4,096 launches, up to 1,024 live bullets, automatic growth, explicit
+reservations and expired-slot reuse at the unchanged `1e-5` scalar tolerance.
+The fixture executable also accepts a peak-live argument; `spawn-stream 4096`
+checks 16,384 launches with 4,096 live bullets, both automatic and reserved.
+
+Local Linux qualification on both GPUs covers three scripted shots each in Box
+Stack, Dominoes, Mixed Stacks 4096, Mesh/Grid, Revolute and Village. Dominoes'
+first-shot physics step fell from 400 to 12 ms on NVIDIA and 522 to 14 ms on AMD.
+The 4,096-live stream passes 22,044,672 independent scalar comparisons per adapter;
+normal/strict drag results are unchanged. This does not establish 60-fps gameplay:
+Village still takes about 92–94 ms on later topology-changing shot steps and is
+slow between shots too. Evidence and complete frame timings are in
+`experiments/gpu-physics/artifacts/shoot-stall/`.
+
 Stepping submits GPU work. Synchronous public getters and queries finalize the
 required step, including pending CCD, before returning current state. Events are
 harvested once; unread events expire at the next step. Callbacks use owned query
@@ -336,8 +384,8 @@ Box3D API or proving a speedup on every GPU. It does require accurate limitation
 reproducible builds and a current regression result. A production-compatible
 replacement would additionally require closing the API and physics gaps above.
 
-The 2026-09-20 native-cache release library suite reports **247/247 passed on
-NVIDIA** and **241/247 passed on AMD**. One AMD failure is the pre-existing
+The 2026-09-20 native-cache release library suite reports **249/249 passed on
+NVIDIA** and **243/249 passed on AMD**. One AMD failure is the pre-existing
 convex-sweep case above; five secondary-queue tests fail because RADV exposes
 fewer than the two required graphics/compute queues in family zero. Local
 `vulkaninfo` reports one such queue on AMD versus 16 on NVIDIA; AMD also has four
@@ -347,8 +395,9 @@ queue handoff or pose lifetime. They remain failures, not passes or silently
 skipped checks. Both GPUs pass the solver/contact,
 mass-query, command-replay, pose-staging and event regressions. The six native
 tooling tests also pass. Normal and strict ten-drag checks passed during the
-substep-force qualification with the unchanged maxima above. Current force
-and regression evidence is in `experiments/gpu-physics/artifacts/substep-forces/`;
+substep-force and spawning qualifications with the unchanged maxima above. Current force
+evidence is in `experiments/gpu-physics/artifacts/substep-forces/`. Spawning,
+capacity growth and current library regression evidence is in `artifacts/shoot-stall/`;
 joint-query evidence is in `artifacts/joint-reaction/`. Prior replacement and
 drag evidence remains in `artifacts/shape-replacement/` and
 `artifacts/drag-agreement/` within the experiment.

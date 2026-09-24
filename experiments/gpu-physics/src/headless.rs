@@ -1143,6 +1143,12 @@ pub async fn write_completed_step_bench(
             .count() as u32;
         unique_peak = unique_peak.max(live);
         let bodies_now = b3_world_sync_from_gpu(world).await;
+        if scene == DemoScene::FallingCubes {
+            if live == 0 || bodies_now.iter().any(|b| !b.pos.iter().all(|v| v.is_finite()) || b.pos[1] < -1.01) {
+                b3_destroy_world(world);
+                return Err("falling-cubes validation failed: no contacts, nonfinite or escaped body".into());
+            }
+        }
         let awake = bodies_now
             .iter()
             .filter(|b| b.inv_mass > 0.0 && (b.flags & FLAG_SLEEP) == 0)

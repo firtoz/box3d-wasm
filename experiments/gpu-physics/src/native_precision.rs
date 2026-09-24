@@ -8,8 +8,9 @@ use std::{
 
 type PipelineKey = (String, Vec<(String, u64)>);
 
-#[derive(Default)]
 struct SourceCache {
+    parsed: naga::Module,
+    info: naga::valid::ModuleInfo,
     entries: HashSet<String>,
     modules: HashMap<PipelineKey, Arc<Vec<u32>>>,
 }
@@ -31,15 +32,16 @@ pub(crate) fn module(
     static CACHE: OnceLock<Mutex<HashMap<String, SourceCache>>> = OnceLock::new();
     let mut cache = CACHE.get_or_init(Default::default).lock().unwrap();
     let source_cache = cache.entry(source.to_owned()).or_insert_with(|| {
-        let parsed = naga::front::wgsl::parse_str(source).expect("physics WGSL");
+        let start = std::time::Instant::now();
+        let (parsed, info) = parse_and_validate(source);
+        if std::env::var_os("GPU_PHYSICS_TRACE_PIPELINES").is_some() {
+            eprintln!("gpu-frontend-source parse_validate_ms={:.3}", start.elapsed().as_secs_f64()*1000.0);
+        }
         SourceCache {
-            entries: parsed
-                .entry_points
-                .into_iter()
+            entries: parsed.entry_points.iter()
                 .filter(|e| e.stage == naga::ShaderStage::Compute)
-                .map(|e| e.name)
-                .collect(),
-            modules: HashMap::new(),
+                .map(|e| e.name.clone()).collect(),
+            parsed, info, modules: HashMap::new(),
         }
     });
     if !source_cache.entries.contains(entry) {
@@ -53,11 +55,17 @@ pub(crate) fn module(
             .map(|(name, value)| ((*name).to_owned(), value.to_bits()))
             .collect(),
     );
-    let words = source_cache
-        .modules
+    let SourceCache { parsed, info, modules, .. } = source_cache;
+    let words = modules
         .entry(key)
-        .or_insert_with(|| Arc::new(compile(source, entry, constants)))
+        .or_insert_with(|| Arc::new(compile_parsed(parsed, info, entry, constants)))
         .clone();
+    if std::env::var_os("GPU_PHYSICS_VERIFY_SHADER_REUSE").is_some() {
+        let (fresh, fresh_info) = parse_and_validate(source);
+        assert_eq!(&*words, &compile_parsed(&fresh, &fresh_info, entry, constants),
+            "reused shader differs from fresh compilation: {entry}");
+        eprintln!("gpu-shader-reuse verified {entry}");
+    }
     drop(cache);
     // SAFETY: source is our validated WGSL, compiled by Naga for this entry point.
     // The only binary transformation adds valid NoContraction decorations to
@@ -72,22 +80,36 @@ pub(crate) fn module(
     })
 }
 
-fn compile(source: &str, entry: &str, constants: &[(&str, f64)]) -> Vec<u32> {
+fn parse_and_validate(source: &str) -> (naga::Module, naga::valid::ModuleInfo) {
     let parsed = naga::front::wgsl::parse_str(source).expect("physics WGSL");
     let info = naga::valid::Validator::new(
         naga::valid::ValidationFlags::all(),
         naga::valid::Capabilities::all(),
-    )
-    .validate(&parsed)
-    .expect("validated physics WGSL");
+    ).validate(&parsed).expect("validated physics WGSL");
+    (parsed, info)
+}
+
+#[cfg(test)]
+fn compile(source: &str, entry: &str, constants: &[(&str, f64)]) -> Vec<u32> {
+    let (parsed, info) = parse_and_validate(source);
+    compile_parsed(&parsed, &info, entry, constants)
+}
+
+// Parsing/validation are source-wide. Only override processing and emission
+// depend on the entry point. Keep the validated module immutable so each
+// specialization starts with exactly the same input as a fresh compilation.
+fn compile_parsed(parsed: &naga::Module, info: &naga::valid::ModuleInfo,
+    entry: &str, constants: &[(&str, f64)]) -> Vec<u32> {
+    let validated_at = std::time::Instant::now();
     let constants = constants.iter().map(|(k, v)| (k.to_string(), *v)).collect();
     let (parsed, info) = naga::back::pipeline_constants::process_overrides(
-        &parsed,
-        &info,
+        parsed,
+        info,
         Some((naga::ShaderStage::Compute, entry)),
         &constants,
     )
     .expect("physics pipeline constants");
+    let overrides_at = std::time::Instant::now();
     let mut options = naga::back::spv::Options::default();
     options.flags.insert(naga::back::spv::WriterFlags::DEBUG);
     // Passthrough must not silently drop the bounds protection provided by wgpu.
@@ -108,7 +130,15 @@ fn compile(source: &str, entry: &str, constants: &[(&str, f64)]) -> Vec<u32> {
         }),
     )
     .expect("physics SPIR-V");
-    decorate(&words)
+    let decorated = decorate(&words);
+    if std::env::var_os("GPU_PHYSICS_TRACE_PIPELINES").is_some() {
+        eprintln!("gpu-frontend {entry} parse_ms={:.3} validate_ms={:.3} overrides_ms={:.3} emit_ms={:.3}",
+            0.0,
+            0.0,
+            overrides_at.duration_since(validated_at).as_secs_f64()*1000.0,
+            overrides_at.elapsed().as_secs_f64()*1000.0);
+    }
+    decorated
 }
 
 fn decorate(words: &[u32]) -> Vec<u32> {
@@ -157,6 +187,26 @@ fn decorate(words: &[u32]) -> Vec<u32> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn source_reuse_keeps_entry_points_and_overrides_independent() {
+        let source = r#"
+@group(0) @binding(0) var<storage,read_write> values:array<f32>;
+override scale:f32=1.0;
+@compute @workgroup_size(1) fn first(){values[0]=values[1]*scale+values[2];}
+@compute @workgroup_size(1) fn second(){values[1]=values[0]/scale;}
+"#;
+        let (parsed, info) = parse_and_validate(source);
+        let mut previous = Vec::new();
+        for (entry, scale) in [("first", 2.0), ("second", 3.0), ("first", 7.0), ("second", 3.0), ("first", 2.0)] {
+            let cached = compile_parsed(&parsed, &info, entry, &[("scale", scale)]);
+            assert_eq!(cached, compile(source, entry, &[("scale", scale)]));
+            previous.push(cached);
+        }
+        assert_eq!(previous[0], previous[4]);
+        assert_eq!(previous[1], previous[3]);
+        assert_ne!(previous[0], previous[2]);
+    }
+
     #[test]
     fn precision_covers_arithmetic_and_explicit_fma() {
         let source = r#"

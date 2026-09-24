@@ -22,7 +22,7 @@ async fn viewer_device(instance: wgpu::Instance, surface: &wgpu::Surface<'_>) ->
 fn split_scene_enabled(config:&DemoConfig)->bool {
     std::env::var("GPU_PHYSICS_SPLIT_ADAPTER").as_deref()==Ok("1")
         && config.contacts && !config.jacobi
-        && matches!(config.scene,DemoScene::MixedStacks|DemoScene::Dominoes)
+        && matches!(config.scene,DemoScene::FallingCubes|DemoScene::MixedStacks|DemoScene::Dominoes)
 }
 fn render_device(gpu: &GpuDevice, surface: &wgpu::Surface<'_>,config:&DemoConfig) -> GpuDevice {
     if split_scene_enabled(config) {
@@ -144,7 +144,9 @@ impl ApplicationHandler for DemoApp {
         }
         let attrs = Window::default_attributes()
             .with_title("gpu-physics")
-            .with_inner_size(winit::dpi::LogicalSize::new(1280.0, 720.0));
+            .with_inner_size(winit::dpi::LogicalSize::new(
+                std::env::var("GPU_BENCH_WIDTH").ok().and_then(|v| v.parse::<f64>().ok()).unwrap_or(1280.0),
+                std::env::var("GPU_BENCH_HEIGHT").ok().and_then(|v| v.parse::<f64>().ok()).unwrap_or(720.0)));
 
         let window = Arc::new(event_loop.create_window(attrs).expect("window"));
         let instance = GpuDevice::instance_new();
@@ -316,7 +318,9 @@ impl ApplicationHandler for TimelineApp {
         }
         let attrs = Window::default_attributes()
             .with_title("gpu-physics native-timeline")
-            .with_inner_size(winit::dpi::LogicalSize::new(1280.0, 720.0));
+            .with_inner_size(winit::dpi::LogicalSize::new(
+                std::env::var("GPU_BENCH_WIDTH").ok().and_then(|v| v.parse::<f64>().ok()).unwrap_or(1280.0),
+                std::env::var("GPU_BENCH_HEIGHT").ok().and_then(|v| v.parse::<f64>().ok()).unwrap_or(720.0)));
         let window = Arc::new(event_loop.create_window(attrs).expect("window"));
         let instance = GpuDevice::instance_new();
         let surface = window_surface(&instance, window.clone()).expect("surface");
@@ -389,6 +393,14 @@ impl ApplicationHandler for TimelineApp {
                                     *self.cadence_ms.last_mut().unwrap()+=drain;
                                     *self.total_ms.last_mut().unwrap()+=drain;
                                 }
+                                // Bound the measured window at completed device work, including
+                                // queued final render/physics work; correctness reads happen later.
+                                let drain_start = std::time::Instant::now();
+                                running.render_gpu.device.poll(wgpu::PollType::wait()).expect("benchmark render drain");
+                                if !running.renderer.is_cpu() { crate::api::b3_world_gpu_wait(running.world); }
+                                let drain_ms = drain_start.elapsed().as_secs_f32() * 1000.0;
+                                *self.cadence_ms.last_mut().unwrap() += drain_ms;
+                                *self.total_ms.last_mut().unwrap() += drain_ms;
                                 let size=running.window.inner_size();
                                 eprintln!("matched-window-end: {}x{}",size.width,size.height);
                                 eprintln!("pose-staging-kicks: {}",crate::api::b3_world_pose_snapshot_kicks(running.world));
@@ -424,6 +436,15 @@ impl ApplicationHandler for TimelineApp {
 impl Drop for TimelineApp {
     fn drop(&mut self) {
         if let Some(running) = self.running.take() {
+            if self.config.scene == DemoScene::FallingCubes && !running.renderer.is_cpu() {
+                crate::api::b3_world_gpu_wait(running.world);
+                let stats = block_on(crate::api::b3_world_live_step_stats(running.world)).expect("benchmark GPU stats");
+                assert!(!stats.capacity_loss(), "benchmark capacity loss: {}", stats.sticky.loss_detail());
+                let bodies = block_on(crate::api::b3_world_sync_from_gpu(running.world));
+                assert_eq!(bodies.len(), self.config.body_count as usize + 1);
+                assert!(bodies.iter().all(|b| b.pos.iter().all(|v| v.is_finite()) && b.pos[1] >= -1.01), "invalid benchmark bodies");
+                assert!(stats.narrowphase_pairs > 0, "benchmark has no contact pairs");
+            }
             b3_destroy_world(running.world);
         }
         if self.total_ms.is_empty() {

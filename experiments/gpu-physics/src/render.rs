@@ -281,7 +281,7 @@ impl Renderer {
         self.overlap_requested=self.staged_source.is_some()
             && std::env::var("GPU_PHYSICS_SPLIT_OVERLAP").as_deref()==Ok("1")
             && cfg.contacts && !cfg.jacobi
-            && matches!(cfg.scene,crate::types::DemoScene::MixedStacks|crate::types::DemoScene::Dominoes);
+            && matches!(cfg.scene,crate::types::DemoScene::FallingCubes|crate::types::DemoScene::MixedStacks|crate::types::DemoScene::Dominoes);
         crate::api::b3_world_enable_sleeping(world, sleep);
         #[cfg(target_os = "linux")]
         { self.cpu = crate::cpu_viewer::CpuViewer::from_env(device, cfg, world, sleep); }

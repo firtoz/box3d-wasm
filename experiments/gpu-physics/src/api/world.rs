@@ -464,6 +464,7 @@ pub fn b3_destroy_world(id: WorldId) {
         if let Some(w) = worlds[i].as_mut() {
             if let Some(sim) = w.sim.as_ref() {
                 poll_until_idle(&sim.device);
+                sim.save_pipeline_cache();
             }
         }
         worlds[i] = None;
@@ -4627,8 +4628,8 @@ fn configure_convex_ccd(w:&mut WorldInner,id:WorldId,refresh:bool) {
 
 fn world_capacity_hints(w: &WorldInner) -> (u32, u32) {
     (
-        (w.def.capacity.static_body_count.max(0) + w.def.capacity.dynamic_body_count.max(0)) as u32,
-        (w.def.capacity.static_shape_count.max(0) + w.def.capacity.dynamic_shape_count.max(0)) as u32,
+        (w.def.capacity.static_body_count.max(0) as u32).saturating_add(w.def.capacity.dynamic_body_count.max(0) as u32),
+        (w.def.capacity.static_shape_count.max(0) as u32).saturating_add(w.def.capacity.dynamic_shape_count.max(0) as u32),
     )
 }
 
@@ -9433,6 +9434,41 @@ mod joint_event_tests {
 
         joint.kind = JOINT_FILTER;
         assert_eq!(joint_reaction_impulses(&no_bodies, &joint), (0.0, 0.0));
+    }
+
+    #[cfg(not(target_arch = "wasm32"))]
+    #[test]
+    fn spawning_growth_reuses_programs_without_aliasing_world_state() {
+        let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+        let mut def = crate::api::b3_default_world_def();
+        def.gravity = [0.0; 3];
+        let first = b3_create_world(gpu.clone(), &def);
+        let second = b3_create_world(gpu, &def);
+        let mut bd = crate::api::b3_default_body_def();
+        bd.body_type = BodyType::Dynamic;
+        bd.position = [0.0, 5.0, 0.0];
+        bd.linear_velocity = [2.0, 0.0, 0.0];
+        let moving = b3_create_body(first, &bd);
+        let shape = Sphere { center: [0.0; 3], radius: 0.25 };
+        b3_create_sphere_shape(moving, &crate::api::b3_default_shape_def(), &shape);
+        bd.position = [20.0, 5.0, 0.0];
+        bd.linear_velocity = [0.0; 3];
+        let stationary = b3_create_body(second, &bd);
+        b3_create_sphere_shape(stationary, &crate::api::b3_default_shape_def(), &shape);
+        b3_world_step(first, FIXED_DT, DEFAULT_SUB_STEPS);
+        b3_world_step(second, FIXED_DT, DEFAULT_SUB_STEPS);
+        let pipeline = with_world_no_sync(first, |w| w.sim.as_ref().unwrap().shared_pipeline_test()).unwrap();
+        assert_eq!(pipeline, with_world_no_sync(second, |w| w.sim.as_ref().unwrap().shared_pipeline_test()).unwrap());
+        let capacity = with_world_no_sync(first, |w| w.sim.as_ref().unwrap().caps.bodies).unwrap();
+        for _ in 0..capacity { b3_create_body(first, &bd); }
+        b3_world_step(first, FIXED_DT, DEFAULT_SUB_STEPS);
+        assert!(with_world_no_sync(first, |w| w.sim.as_ref().unwrap().caps.bodies > capacity).unwrap());
+        assert_eq!(pipeline, with_world_no_sync(first, |w| w.sim.as_ref().unwrap().shared_pipeline_test()).unwrap());
+        assert!((b3_body_get_position(moving)[0] - 4.0 * FIXED_DT).abs() < 1e-5);
+        b3_destroy_world(first);
+        b3_world_step(second, FIXED_DT, DEFAULT_SUB_STEPS);
+        assert_eq!(b3_body_get_position(stationary), [20.0, 5.0, 0.0]);
+        b3_destroy_world(second);
     }
 
     #[cfg(not(target_arch = "wasm32"))]

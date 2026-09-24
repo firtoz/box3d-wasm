@@ -15,11 +15,11 @@ static_assert(sizeof(ViewerState) == 96);
 
 extern "C" uint32_t viewer_cpu_abi() { return 1; }
 extern "C" void* viewer_cpu_create(const char* scene, uint32_t count) {
-    if (!scene || (std::strcmp(scene, "dominoes") && std::strcmp(scene, "mixed-stacks"))) return nullptr;
+    if (!scene || (std::strcmp(scene, "dominoes") && std::strcmp(scene, "mixed-stacks") && std::strcmp(scene, "falling-cubes"))) return nullptr;
     return new SceneState(build_scene(scene, count));
 }
 extern "C" void* viewer_cpu_create_workers(const char* scene, uint32_t count, int workers) {
-    if (!scene || workers < 1 || workers > 64 || (std::strcmp(scene, "dominoes") && std::strcmp(scene, "mixed-stacks"))) return nullptr;
+    if (!scene || workers < 1 || workers > 64 || (std::strcmp(scene, "dominoes") && std::strcmp(scene, "mixed-stacks") && std::strcmp(scene, "falling-cubes"))) return nullptr;
     return new SceneState(build_scene(scene, count, workers));
 }
 extern "C" bool viewer_cpu_set_sleeping(void* ptr, bool enabled) {

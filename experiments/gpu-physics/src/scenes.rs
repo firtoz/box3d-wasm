@@ -87,6 +87,7 @@ pub fn build_demo_world(gpu: GpuDevice, cfg: &DemoConfig) -> WorldId {
         DemoScene::HighResistance => {
             create_high_resistance(world);
         }
+        DemoScene::FallingCubes => create_falling_cubes(world, cfg.body_count.max(1)),
         DemoScene::MixedStacks => {
             let stacks = crate::types::scene_scale_count(
                 cfg.scene,
@@ -498,5 +499,27 @@ mod fixture_bounds_tests {
                     "cube {i}/{count} at ({x}, {z}) extends beyond ground {half}");
             }
         }
+    }
+}
+
+/// Falling-cubes v1; exact counterpart of native-samples/falling-cubes.h.
+pub fn create_falling_cubes(world: WorldId, count: u32) {
+    let columns = count.div_ceil(10);
+    let mut width = 1;
+    while width * width < columns { width += 1; }
+    create_ground(world, 1.25 * width as f32 + 12.0);
+    let shape = b3_default_shape_def();
+    let cube = b3_make_cube_hull(0.5);
+    let mut body = b3_default_body_def();
+    body.body_type = BodyType::Dynamic;
+    for i in 0..count {
+        let layer = i / columns;
+        let column = i % columns;
+        let offset = if layer % 2 == 1 { 0.125 } else { -0.125 };
+        let center = 0.625 * (width - 1) as f32;
+        body.position = [1.25 * (column % width) as f32 - center + offset,
+                         6.0 + 1.25 * layer as f32,
+                         1.25 * (column / width) as f32 - center - offset];
+        b3_create_hull_shape(b3_create_body(world, &body), &shape, &cube);
     }
 }

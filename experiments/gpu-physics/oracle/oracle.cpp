@@ -1,5 +1,6 @@
 // Real Box3D C oracle: same cohort scenes as gpu-physics, wall ms/step + rest, BodyGpu frame dumps.
 #include "box3d/box3d.h"
+#include "../native-samples/falling-cubes.h"
 
 #include <algorithm>
 #include <chrono>
@@ -117,6 +118,7 @@ static const char* kScenes[] = {
 	"dominoes",
 	"high-resistance",
 	"mixed-stacks",
+	"falling-cubes",
 };
 
 static bool is_scene(const char* name)
@@ -266,6 +268,20 @@ static SceneState build_scene(const char* name, uint32_t sphere_count, int worke
 			push_capsule(id, 0.5f, 1.0f, 0);
 		}
 	}
+	else if (std::strcmp(name, "falling-cubes") == 0)
+    {
+        uint32_t count = std::max(1u, sphere_count);
+        st.bodies.push_back(add_ground(st.world, fallingGround(count)));
+        b3BodyDef body = b3DefaultBodyDef(); body.type = b3_dynamicBody;
+        b3ShapeDef shape = b3DefaultShapeDef();
+        b3BoxHull cube = b3MakeCubeHull(0.5f);
+        for (uint32_t i = 0; i < count; ++i) {
+            body.position = fallingPosition(count, i);
+            b3BodyId id = b3CreateBody(st.world, &body);
+            b3CreateHullShape(id, &shape, &cube.base);
+            push_box(id, 0.5f, 0.5f, 0.5f, 0);
+        }
+    }
 	else if (std::strcmp(name, "mixed-stacks") == 0)
 	{
 		int count = (int)std::max(2u, sphere_count);
@@ -1040,6 +1056,13 @@ int main(int argc, char** argv)
 			}
 			auto t1 = std::chrono::steady_clock::now();
 			wall_ms = std::chrono::duration<float, std::milli>(t1 - t0).count();
+            if (std::strcmp(name, "falling-cubes") == 0 && warmup + frames >= 180) {
+                if (b3World_GetCounters(timed.world).contactCount == 0) std::abort();
+                for (const Vis& vis : timed.bodies) {
+                    b3Pos pos = b3Body_GetPosition(vis.id);
+                    if (!std::isfinite(pos.x) || !std::isfinite(pos.y) || !std::isfinite(pos.z) || pos.y < -1.01) std::abort();
+                }
+            }
 			destroy_scene(timed);
 		}
 

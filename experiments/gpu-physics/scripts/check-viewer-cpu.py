@@ -24,7 +24,7 @@ lib.viewer_cpu_step.argtypes = [C.c_void_p, C.c_float, C.c_int]
 lib.viewer_cpu_states.argtypes = [C.c_void_p, C.c_void_p, C.c_uint32]
 lib.viewer_cpu_states.restype = C.c_uint32
 assert not lib.viewer_cpu_create(b'unsupported', 1)
-for name, scale, expected in [('mixed-stacks', 600, 602), ('dominoes', 30, 5431)]:
+for name, scale, expected in [('mixed-stacks', 600, 602), ('dominoes', 30, 5431), ('falling-cubes', 50, 51)]:
     with tempfile.TemporaryDirectory(prefix='viewer-cpu-') as tmp:
         subprocess.run([str(build / 'box3d_oracle'), '--scene', name, '--bodies', str(scale), '--frames', '121', '--warmup', '0', '--dump-dir', tmp], check=True, stdout=subprocess.DEVNULL)
         data = (Path(tmp) / (name + '.bin')).read_bytes()

@@ -51,6 +51,14 @@ def inject_main(text: str) -> str:
         "static const char* kGpuSokolBenchMode = \"cpu\";\n"
         "#endif\n",
     )
+    text = text.replace("static void OnEvent( const sapp_event* e )\n{", "static void OnEvent( const sapp_event* e )\n{\n"
+        "\t// Benchmarks use scripted inputs only; ordinary viewers retain all controls.\n"
+        "\tif ( gpu_sokol_bench_active() && (e->type == SAPP_EVENTTYPE_KEY_DOWN || e->type == SAPP_EVENTTYPE_KEY_UP ||\n"
+        "\t    e->type == SAPP_EVENTTYPE_CHAR || e->type == SAPP_EVENTTYPE_MOUSE_DOWN || e->type == SAPP_EVENTTYPE_MOUSE_UP ||\n"
+        "\t    e->type == SAPP_EVENTTYPE_MOUSE_MOVE || e->type == SAPP_EVENTTYPE_MOUSE_SCROLL) ) return;\n")
+    # Explicit logical window size for matched-renderer benchmarks.
+    text = text.replace("desc.width = 1920;", 'desc.width = getenv("GPU_BENCH_WIDTH") ? atoi(getenv("GPU_BENCH_WIDTH")) : 1920;')
+    text = text.replace("desc.height = 1080;", 'desc.height = getenv("GPU_BENCH_HEIGHT") ? atoi(getenv("GPU_BENCH_HEIGHT")) : 1080;')
     text = text.replace(
         "static int s_sampleOverride = -1;\n",
         "static int s_sampleOverride = -1;\n"
@@ -123,6 +131,7 @@ def inject_main(text: str) -> str:
     )
     text = text.replace(
         "\ts_context.sample->Step();\n",
+        "\tgpu_sokol_bench_shoot( s_context.sample, s_frame, W, H );\n"
         "\tgpu_sokol_bench_village_drop( s_context.sample->m_worldId, s_sampleName, s_frame );\n"
         "\tgpu_sokol_bench_note_step_request( s_context.sample ? s_context.sample->m_stepCount + 1 : 0 );\n"
         "\ts_context.sample->Step();\n",

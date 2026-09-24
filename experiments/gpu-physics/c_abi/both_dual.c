@@ -40,7 +40,8 @@ typedef struct b3JointId GpuJointId;
 
 extern bool gpu_b3_joint_is_valid(GpuJointId joint);
 extern void gpu_b3_destroy_joint(GpuJointId joint, bool wake_attached);
-extern GpuWorldId gpu_b3_create_world(float gx, float gy, float gz);
+extern GpuWorldId gpu_b3_create_world_with_capacity(float gx, float gy, float gz,
+    int static_bodies, int dynamic_bodies, int static_shapes, int dynamic_shapes);
 extern void gpu_b3_world_set_restitution_threshold(GpuWorldId, float);
 extern float gpu_b3_world_get_restitution_threshold(GpuWorldId);
 extern void gpu_b3_world_set_maximum_linear_speed(GpuWorldId, float);
@@ -855,7 +856,9 @@ B3_API b3WorldId b3CreateWorld(const b3WorldDef* def)
 	{
 		return (b3WorldId){0};
 	}
-	GpuWorldId gpu = gpu_b3_create_world(def->gravity.x, def->gravity.y, def->gravity.z);
+	GpuWorldId gpu = gpu_b3_create_world_with_capacity(def->gravity.x, def->gravity.y, def->gravity.z,
+        def->capacity.staticBodyCount, def->capacity.dynamicBodyCount,
+        def->capacity.staticShapeCount, def->capacity.dynamicShapeCount);
 	gpu_b3_world_set_contact_tuning(gpu, def->contactHertz, def->contactDampingRatio, def->contactSpeed);
 	gpu_b3_world_set_user_data(gpu, (uintptr_t)def->userData);
 	gpu_b3_world_enable_sleeping(gpu, def->enableSleep);

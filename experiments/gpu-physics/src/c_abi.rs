@@ -437,10 +437,22 @@ fn shared_gpu() -> Result<GpuDevice, String> {
 
 #[no_mangle]
 pub extern "C" fn gpu_b3_create_world(gx: f32, gy: f32, gz: f32) -> WorldId {
+    gpu_b3_create_world_with_capacity(gx, gy, gz, 0, 0, 0, 0)
+}
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_create_world_with_capacity(
+    gx: f32, gy: f32, gz: f32, static_bodies: i32, dynamic_bodies: i32,
+    static_shapes: i32, dynamic_shapes: i32,
+) -> WorldId {
     match shared_gpu() {
         Ok(gpu) => {
             let mut def = b3_default_world_def();
             def.gravity = [gx, gy, gz];
+            def.capacity.static_body_count = static_bodies.max(0);
+            def.capacity.dynamic_body_count = dynamic_bodies.max(0);
+            def.capacity.static_shape_count = static_shapes.max(0);
+            def.capacity.dynamic_shape_count = dynamic_shapes.max(0);
             let world = b3_create_world(gpu, &def);
             // Sokol consumes current full mirrors for queries/drawing. Its
             // automatic pose-only copy is otherwise superseded without use.

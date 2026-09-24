@@ -1,12 +1,16 @@
 // Exact memoization of the canonical greedy coloring function. No manifold or
 // impulse data is cached. Allocation is capacity-sized and private to this sim.
-override GRAPH_MEMO_BASE:u32=0u;
+// Derive the storage offset from the reserved body/contacts capacity, not the
+// live body count. Growing buffers must not compile a new shader variant.
+fn memo_base()->u32 {
+    return 261u + 54u * (params.shape_base_u32 / 32u) + 2u * params.contact_capacity;
+}
 var<workgroup> memo_masks:array<u32,8160>;
 var<workgroup> memo_counts:array<u32,24>;
 var<workgroup> memo_changed:atomic<u32>;
 var<workgroup> memo_prefix:atomic<u32>;
 var<workgroup> memo_restart:u32;
-fn memo_body_base()->u32 {return GRAPH_MEMO_BASE+52u;}
+fn memo_body_base()->u32 {return memo_base()+52u;}
 fn memo_edge_base()->u32 {return memo_body_base()+2u*params.body_count;}
 
 fn memo_choose(a:u32,b:u32)->vec2<u32> {
@@ -42,13 +46,13 @@ fn graph_assign_dynamic_memo(@builtin(local_invocation_index) lane:u32) {
         return;
     }
     if (lane==0u) {
-        let valid=atomicLoad(&query[GRAPH_MEMO_BASE])==1u
-            && atomicLoad(&query[GRAPH_MEMO_BASE+1u])==params.body_count;
-        atomicStore(&memo_prefix,select(0u,min(n,atomicLoad(&query[GRAPH_MEMO_BASE+2u])),valid));
+        let valid=atomicLoad(&query[memo_base()])==1u
+            && atomicLoad(&query[memo_base()+1u])==params.body_count;
+        atomicStore(&memo_prefix,select(0u,min(n,atomicLoad(&query[memo_base()+2u])),valid));
         atomicStore(&memo_changed,select(0u,1u,
-            atomicLoad(&query[GRAPH_MEMO_BASE])!=1u
-            || atomicLoad(&query[GRAPH_MEMO_BASE+1u])!=params.body_count
-            || atomicLoad(&query[GRAPH_MEMO_BASE+2u])!=n));
+            atomicLoad(&query[memo_base()])!=1u
+            || atomicLoad(&query[memo_base()+1u])!=params.body_count
+            || atomicLoad(&query[memo_base()+2u])!=n));
     }
     workgroupBarrier();
     for (var b=lane;b<params.body_count;b+=64u) {
@@ -59,7 +63,7 @@ fn graph_assign_dynamic_memo(@builtin(local_invocation_index) lane:u32) {
     if (lane<24u) {
         let count=atomicLoad(&atom[atom_graph_color()+lane]);
         memo_counts[lane]=count;
-        if (atomicLoad(&query[GRAPH_MEMO_BASE+4u+lane])!=count) {atomicStore(&memo_changed,1u);atomicMin(&memo_prefix,0u);}
+        if (atomicLoad(&query[memo_base()+4u+lane])!=count) {atomicStore(&memo_changed,1u);atomicMin(&memo_prefix,0u);}
     }
     for (var i=lane;i<n;i+=64u) {
         let slot=scratch[SCR_ACTIVE_CONTACT+scratch[SCR_NEXT_OCCUPIED+i]];
@@ -77,18 +81,18 @@ fn graph_assign_dynamic_memo(@builtin(local_invocation_index) lane:u32) {
         for (var b=lane;b<params.body_count;b+=64u) {
             memo_masks[b]=atomicLoad(&query[memo_body_base()+2u*b+1u]);
         }
-        if (lane<24u) {memo_counts[lane]=atomicLoad(&query[GRAPH_MEMO_BASE+28u+lane]);}
+        if (lane<24u) {memo_counts[lane]=atomicLoad(&query[memo_base()+28u+lane]);}
         for (var i=lane;i<n;i+=64u) {
             let base=memo_edge_base()+6u*i;
             let slot=atomicLoad(&query[base]);let col=atomicLoad(&query[base+3u]);let local=atomicLoad(&query[base+4u]);
             scratch[color_contact_base()+col*params.contact_capacity+local]=slot;
             store_graph_meta(slot,col,local);
         }
-        if (lane==0u) {atomicAdd(&query[GRAPH_MEMO_BASE+3u],1u);}
+        if (lane==0u) {atomicAdd(&query[memo_base()+3u],1u);}
     } else {
         // Save initial state before the serial reference walk mutates it.
         for (var b=lane;b<params.body_count;b+=64u) {atomicStore(&query[memo_body_base()+2u*b],memo_masks[b]);}
-        if (lane<24u) {atomicStore(&query[GRAPH_MEMO_BASE+4u+lane],memo_counts[lane]);}
+        if (lane<24u) {atomicStore(&query[memo_base()+4u+lane],memo_counts[lane]);}
     }
     workgroupBarrier();
     // The unused occupancy tail holds 64 (slot,a,b) records and two uniform
@@ -152,7 +156,7 @@ fn graph_assign_dynamic_memo(@builtin(local_invocation_index) lane:u32) {
     storageBarrier();
     if (changed) {
         for (var b=lane;b<params.body_count;b+=64u) {atomicStore(&query[memo_body_base()+2u*b+1u],memo_masks[b]);}
-        if (lane<24u) {atomicStore(&query[GRAPH_MEMO_BASE+28u+lane],memo_counts[lane]);}
+        if (lane<24u) {atomicStore(&query[memo_base()+28u+lane],memo_counts[lane]);}
         for (var i=lane;i<n;i+=64u) {
             let slot=scratch[SCR_ACTIVE_CONTACT+scratch[SCR_NEXT_OCCUPIED+i]];let h=contacts[slot];
             let base=memo_edge_base()+6u*i;
@@ -161,9 +165,9 @@ fn graph_assign_dynamic_memo(@builtin(local_invocation_index) lane:u32) {
             atomicStore(&query[base+5u],contact_persistent[slot].lifecycle.w);
         }
         if (lane==0u) {
-            atomicStore(&query[GRAPH_MEMO_BASE],1u);
-            atomicStore(&query[GRAPH_MEMO_BASE+1u],params.body_count);
-            atomicStore(&query[GRAPH_MEMO_BASE+2u],n);
+            atomicStore(&query[memo_base()],1u);
+            atomicStore(&query[memo_base()+1u],params.body_count);
+            atomicStore(&query[memo_base()+2u],n);
         }
     }
     for (var b=lane;b<params.body_count;b+=64u) {atomicStore(&atom[ATOM_JACOBI+b],memo_masks[b]);}

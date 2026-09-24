@@ -30,6 +30,7 @@ SCENES=(
   dominoes
   high-resistance
   mixed-stacks
+  falling-cubes
   anchored-mechanisms
   joint-chain
 )

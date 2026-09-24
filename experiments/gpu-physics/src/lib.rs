@@ -252,7 +252,7 @@ gpu-physics — GPU rigid bodies (Box3D C is a visual/timing reference, not lock
   --scene NAME        spheres | stack | single-box | box-stack | sphere-stack
                       | capsule-stack | revolute | weld | anchored-mechanisms
                       | joint-chain | pyramid | bounce | mixed | spinner | ramp
-                      | high-resistance | mixed-stacks | dominoes
+                      | high-resistance | mixed-stacks | falling-cubes | dominoes
   --bodies N          spheres: body count; mixed-stacks: dynamic boxes;
                       anchored-mechanisms / joint-chain: mechanism/link count;
                       dominoes: ring count (default 30). Default {DEFAULT_BODY_COUNT}
@@ -287,6 +287,7 @@ fn parse_scene(name: &str) -> DemoScene {
         "dominoes" => DemoScene::Dominoes,
         "high-resistance" => DemoScene::HighResistance,
         "mixed-stacks" => DemoScene::MixedStacks,
+        "falling-cubes" => DemoScene::FallingCubes,
         other => {
             eprintln!("unknown scene {other}");
             std::process::exit(2);

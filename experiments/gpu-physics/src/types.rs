@@ -55,9 +55,13 @@ impl GpuSceneCaps {
         body_hint: u32,
         shape_hint: u32,
     ) -> Self {
+        // Leave bounded spawning headroom even when the initial scene exceeds
+        // default capacity. Explicit hints may reserve a larger gameplay budget.
+        let reserve = |count: u32| count.saturating_add((count / 4).clamp(64, 256));
+        let shapes = reserve(live.shapes).max(shape_hint).max(DEFAULT_BODY_COUNT);
         Self {
-            bodies: live.bodies.max(body_hint).max(DEFAULT_BODY_COUNT),
-            shapes: live.shapes.max(shape_hint).max(DEFAULT_BODY_COUNT),
+            bodies: reserve(live.bodies).max(body_hint).max(DEFAULT_BODY_COUNT),
+            shapes,
             hull_points: live.hull_points.max(DEFAULT_GEOM_SLACK),
             hull_planes: live.hull_planes.max(DEFAULT_GEOM_SLACK),
             hull_edges: live.hull_edges.max(DEFAULT_GEOM_SLACK),
@@ -65,7 +69,9 @@ impl GpuSceneCaps {
             mesh_vertices: live.mesh_vertices.max(DEFAULT_GEOM_SLACK),
             mesh_triangles: live.mesh_triangles.max(DEFAULT_GEOM_SLACK),
             mesh_nodes: live.mesh_nodes.max(DEFAULT_GEOM_SLACK),
-            materials: live.materials.max(DEFAULT_GEOM_SLACK),
+            // A default shape owns a material entry. Body/shape hints alone
+            // must not leave an exact-sized material buffer forcing a rebuild.
+            materials: reserve(live.materials).max(shapes),
             joints: live.joints.max(DEFAULT_JOINT_CAPACITY),
         }
     }
@@ -872,16 +878,18 @@ pub enum DemoScene {
     Dominoes,
     HighResistance,
     MixedStacks,
+    FallingCubes,
 }
 
 impl DemoScene {
-    pub const ALL: [DemoScene; 17] = [
+    pub const ALL: [DemoScene; 18] = [
         DemoScene::SingleBox,
         DemoScene::BoxStack,
         DemoScene::SphereStack,
         DemoScene::CapsuleStack,
         DemoScene::HighResistance,
         DemoScene::MixedStacks,
+        DemoScene::FallingCubes,
         DemoScene::Revolute,
         DemoScene::Weld,
         DemoScene::AnchoredMechanisms,
@@ -915,6 +923,7 @@ impl DemoScene {
             DemoScene::Dominoes => "dominoes",
             DemoScene::HighResistance => "high-resistance",
             DemoScene::MixedStacks => "mixed-stacks",
+            DemoScene::FallingCubes => "falling-cubes",
         }
     }
 
@@ -1280,6 +1289,15 @@ mod tests {
         assert!(grown.fits(GpuSceneCaps::live(
             300, 40, 10, 10, 10, 10, 0, 0, 0, 4, 0,
         )));
+    }
+
+    #[test]
+    fn spawning_headroom_and_shape_hints_include_materials() {
+        let live = GpuSceneCaps::live(5431, 5431, 0, 0, 0, 0, 0, 0, 0, 5431, 0);
+        let automatic = GpuSceneCaps::allocate(live, 0, 0);
+        assert!(automatic.fits(GpuSceneCaps { bodies: 5687, shapes: 5687, materials: 5687, ..live }));
+        let reserved = GpuSceneCaps::allocate(live, 10000, 20000);
+        assert!(reserved.fits(GpuSceneCaps { bodies: 10000, shapes: 20000, materials: 20000, ..live }));
     }
 
     #[test]

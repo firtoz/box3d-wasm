@@ -3,6 +3,7 @@
 
 #include "box3d/box3d.h"
 #include "sample.h"
+#include "gfx/keycodes.h"
 #include "sokol_app.h"
 
 #include <cstdint>
@@ -480,6 +481,11 @@ int gpu_sokol_bench_sample_index_by_name(const char* name)
 
 void gpu_sokol_bench_apply_script(bool* pause, int* single_step, int frame_index)
 {
+	if (g_active && !g_pause_script && pause && single_step)
+	{
+		*pause = false;
+		*single_step = 0;
+	}
 	g_cur_pause = pause && *pause;
 	g_cur_single = single_step ? *single_step : 0;
 	if (!g_pause_script || !pause || !single_step)
@@ -978,4 +984,24 @@ void gpu_sokol_bench_finish(int frames, int sokol_errors, const char* sample_nam
 	{
 		fprintf(stderr, "sokol-bench: incomplete %s\n", g_json);
 	}
+}
+
+// Exercise the actual default Shift-click handler after startup. Disabled unless
+// explicitly requested for a benchmark; no alternate projectile implementation.
+void gpu_sokol_bench_shoot(void* sample, int frame, int width, int height)
+{
+    const char* schedule = getenv("GPU_SOKOL_SHOOT_FRAMES");
+    if (!gpu_sokol_bench_active() || !schedule) return;
+    for (const char* p = schedule; *p; ) {
+        char* end;
+        long shot = strtol(p, &end, 10);
+        if (end == p || (*end && *end != ',')) abort();
+        p = *end ? end + 1 : end;
+        if (shot != frame) continue;
+        const uint64_t start = b3GetTicks();
+        auto* instance = static_cast<Sample*>(sample);
+        instance->MouseDown({0.5f * width, 0.5f * height}, 0, MOD_SHIFT);
+        instance->MouseUp({0.5f * width, 0.5f * height}, 0);
+        fprintf(stderr, "sokol-shoot frame=%d input_ms=%.3f\n", frame, b3GetMilliseconds(start));
+    }
 }

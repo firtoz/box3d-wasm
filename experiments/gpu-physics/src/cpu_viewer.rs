@@ -18,7 +18,7 @@ pub struct CpuViewer {
 impl CpuViewer {
     pub fn from_env(device: &wgpu::Device, cfg: &DemoConfig, gpu_world: WorldId, sleep: bool) -> Option<Self> {
         let path = std::env::var("GPU_PHYSICS_CPU_REFERENCE").ok()?;
-        assert!(matches!(cfg.scene, DemoScene::Dominoes | DemoScene::MixedStacks), "CPU viewer supports Dominoes and mixed stacks only");
+        assert!(matches!(cfg.scene, DemoScene::Dominoes | DemoScene::MixedStacks | DemoScene::FallingCubes), "CPU viewer supports Dominoes, mixed stacks and falling cubes only");
         assert!(cfg.contacts && !cfg.jacobi, "CPU reference requires ordinary contacts");
         unsafe {
             let path = CString::new(path).unwrap();

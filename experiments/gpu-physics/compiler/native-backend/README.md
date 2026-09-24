@@ -48,6 +48,15 @@ staging stays enabled; `GPU_PHYSICS_SAMPLES_DEMAND_POSES=1` is an experimental
 option without a demonstrated application benefit. Normal launch retains sleep
 and pacing.
 
+Native shader startup reuses one validated Naga module per source before entry-point
+specialization. This removes repeated full-source parsing outside the driver disk
+cache without changing SPIR-V output. `GPU_PHYSICS_TRACE_PIPELINES=1` separates
+source preparation, specialization/emission and pipeline setup; the slower
+`GPU_PHYSICS_VERIFY_SHADER_REUSE=1` checks every generated module against fresh
+compilation. Local validation covered all 110 startup variants and four precision
+regressions on both NVIDIA and AMD. See the experiment README for measured warm
+startup and the falling-cube benchmark.
+
 Portable executables live in
 `native-samples/build-{cpu,gpu,both}[-native-cache]-portable/bin`. Ordinary Rust
 sample libraries use `target/samples`; cached libraries use
@@ -96,6 +105,12 @@ simulation parameters, capacities, bind groups and scheduling choices. Resource
 or CCD-state replacement invalidates it. Ineligible worlds record normally;
 queue uploads (including per-step force/torque replacement and clearing),
 completion tracking and readback destinations stay live.
+Physics shader modules, layouts and compiled pipelines are shared per logical
+device; growing a scene replaces mutable resources and invalidates command caches
+without recreating those programs. Pipeline-cache persistence happens during
+explicit loading and world/device teardown, outside the spawning path. World
+body/shape capacity hints include default per-shape material storage. See the
+[spawning guidance](../../../../docs/gpu-physics.md#architecture-and-state-ownership).
 Fused per-body TGS remains off.
 
 Use `GPU_PHYSICS_NATIVE_VALIDATE=1` with an installed Vulkan validation layer.

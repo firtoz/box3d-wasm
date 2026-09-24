@@ -75,6 +75,7 @@ pub struct GpuDevice {
     pub report: AdapterReport,
     pub timestamp_queries: bool,
     pub subgroups: bool,
+    physics_resources: std::sync::Arc<std::sync::OnceLock<std::sync::Arc<PhysicsResources>>>,
     #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
     pub(crate) secondary_queue: Option<std::sync::Arc<crate::native_async::SecondaryQueue>>,
 }
@@ -209,6 +210,7 @@ impl GpuDevice {
                 timestamp_queries: features.contains(wgpu::Features::TIMESTAMP_QUERY)
                     && features.contains(wgpu::Features::TIMESTAMP_QUERY_INSIDE_ENCODERS),
                 subgroups: features.contains(wgpu::Features::SUBGROUP),
+                physics_resources: Default::default(),
                 #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
                 secondary_queue,
             });
@@ -230,6 +232,7 @@ impl Clone for GpuDevice {
             report: self.report.clone(),
             timestamp_queries: self.timestamp_queries,
             subgroups: self.subgroups,
+            physics_resources: self.physics_resources.clone(),
             #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
             secondary_queue: self.secondary_queue.clone(),
         }
@@ -516,11 +519,112 @@ impl FatGeometryKey {
     }
 }
 
+// Device-lifetime immutable programs. Scene growth replaces buffers/bind groups,
+// never the shaders or pipelines that describe their invariant binding layout.
+// Entry names select a fixed source in this module (including the two graph
+// extensions); exact override bits distinguish capacity/workgroup variants.
+type PhysicsPipelineKey = (String, Vec<(String, u64)>);
+struct PhysicsResources {
+    shader: ShaderModule,
+    bgl: BindGroupLayout,
+    layout: wgpu::PipelineLayout,
+    startup: crate::pipeline_cache::StartupCache,
+    pipelines: std::sync::Mutex<std::collections::HashMap<PhysicsPipelineKey, ComputePipeline>>,
+    saved_count: std::sync::Mutex<usize>,
+    memo_shader: std::sync::OnceLock<ShaderModule>,
+    shared_shader: std::sync::OnceLock<ShaderModule>,
+}
+impl PhysicsResources {
+    fn new(gpu: &GpuDevice) -> Self {
+        let device = &gpu.device;
+        let shader = device.create_shader_module(wgpu::ShaderModuleDescriptor {
+            label: Some("physics"),
+            source: wgpu::ShaderSource::Wgsl(PHYSICS_WGSL.into()),
+        });
+
+        let bgl = device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
+            label: Some("physics-bgl"),
+            entries: &[
+                storage_entry(0, wgpu::BufferBindingType::Uniform, true),
+                storage_entry(
+                    1,
+                    wgpu::BufferBindingType::Storage { read_only: false },
+                    false,
+                ),
+                storage_entry(
+                    2,
+                    wgpu::BufferBindingType::Storage { read_only: true },
+                    false,
+                ),
+                storage_entry(
+                    3,
+                    wgpu::BufferBindingType::Storage { read_only: false },
+                    false,
+                ),
+                storage_entry(
+                    4,
+                    wgpu::BufferBindingType::Storage { read_only: false },
+                    false,
+                ),
+                storage_entry(
+                    5,
+                    wgpu::BufferBindingType::Storage { read_only: false },
+                    false,
+                ),
+                storage_entry(
+                    6,
+                    wgpu::BufferBindingType::Storage { read_only: false },
+                    false,
+                ),
+                storage_entry(
+                    7,
+                    wgpu::BufferBindingType::Storage { read_only: false },
+                    false,
+                ),
+                storage_entry(
+                    8,
+                    wgpu::BufferBindingType::Storage { read_only: false },
+                    false,
+                ),
+                storage_entry(
+                    9,
+                    wgpu::BufferBindingType::Storage { read_only: false },
+                    false,
+                ),
+            ],
+        });
+
+        let pipeline_layout = device.create_pipeline_layout(&wgpu::PipelineLayoutDescriptor {
+            label: Some("physics-pl"),
+            bind_group_layouts: &[&bgl],
+            push_constant_ranges: &[],
+        });
+
+        Self { shader, bgl, layout: pipeline_layout,
+            startup: crate::pipeline_cache::StartupCache::new(gpu),
+            pipelines: Default::default(), saved_count: Default::default(),
+            memo_shader: Default::default(), shared_shader: Default::default() }
+    }
+    fn pipeline(&self, entry: &str, constants: &[(&str, f64)], create: impl FnOnce() -> ComputePipeline) -> ComputePipeline {
+        let key = (entry.to_owned(), constants.iter().map(|(name, value)| (name.to_string(), value.to_bits())).collect());
+        self.pipelines.lock().unwrap().entry(key).or_insert_with(create).clone()
+    }
+    fn save(&self) {
+        let count = self.pipelines.lock().unwrap().len();
+        let mut saved = self.saved_count.lock().unwrap();
+        if count != *saved { self.startup.save(); *saved = count; }
+    }
+}
+
+impl Drop for PhysicsResources {
+    fn drop(&mut self) { self.save(); }
+}
+
 pub struct GpuSim {
     body_sleep_thresholds: Vec<f32>,
     #[cfg(feature = "native-command-cache")]
     pub(crate) render_copy: Option<crate::native_async::RenderCopy>,
-    startup_cache: crate::pipeline_cache::StartupCache,
+    resources: std::sync::Arc<PhysicsResources>,
     pub device: Device,
     pub queue: Queue,
     pub report: AdapterReport,
@@ -939,12 +1043,12 @@ impl GpuSim {
     ) -> Result<Self, String> {
         let device = gpu.device.clone();
         let queue = gpu.queue.clone();
-        let pipeline_cache = crate::pipeline_cache::StartupCache::new(gpu);
+        let resources = gpu.physics_resources.get_or_init(|| std::sync::Arc::new(PhysicsResources::new(gpu))).clone();
         let make_compute = |device: &Device, layout: &wgpu::PipelineLayout, shader: &ShaderModule, entry: &str| {
-            make_compute_cached(device, layout, shader, entry, pipeline_cache.cache.as_ref())
+            resources.pipeline(entry, &[], || make_compute_cached(device, layout, shader, entry, resources.startup.cache.as_ref()))
         };
         let make_compute_with_constant = |device: &Device, layout: &wgpu::PipelineLayout, shader: &ShaderModule, entry: &str, name: &str, value: f64| {
-            make_compute_constant_cached(device, layout, shader, entry, name, value, pipeline_cache.cache.as_ref())
+            resources.pipeline(entry, &[(name, value)], || make_compute_constant_cached(device, layout, shader, entry, name, value, resources.startup.cache.as_ref()))
         };
         let count = bodies.len() as u32;
         let capacity = caps.bodies.max(count).max(1);
@@ -1158,68 +1262,9 @@ impl GpuSim {
         #[cfg(not(target_arch = "wasm32"))]
         let staging = None;
 
-        let shader = device.create_shader_module(wgpu::ShaderModuleDescriptor {
-            label: Some("physics"),
-            source: wgpu::ShaderSource::Wgsl(PHYSICS_WGSL.into()),
-        });
-
-        let bgl = device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
-            label: Some("physics-bgl"),
-            entries: &[
-                storage_entry(0, wgpu::BufferBindingType::Uniform, true),
-                storage_entry(
-                    1,
-                    wgpu::BufferBindingType::Storage { read_only: false },
-                    false,
-                ),
-                storage_entry(
-                    2,
-                    wgpu::BufferBindingType::Storage { read_only: true },
-                    false,
-                ),
-                storage_entry(
-                    3,
-                    wgpu::BufferBindingType::Storage { read_only: false },
-                    false,
-                ),
-                storage_entry(
-                    4,
-                    wgpu::BufferBindingType::Storage { read_only: false },
-                    false,
-                ),
-                storage_entry(
-                    5,
-                    wgpu::BufferBindingType::Storage { read_only: false },
-                    false,
-                ),
-                storage_entry(
-                    6,
-                    wgpu::BufferBindingType::Storage { read_only: false },
-                    false,
-                ),
-                storage_entry(
-                    7,
-                    wgpu::BufferBindingType::Storage { read_only: false },
-                    false,
-                ),
-                storage_entry(
-                    8,
-                    wgpu::BufferBindingType::Storage { read_only: false },
-                    false,
-                ),
-                storage_entry(
-                    9,
-                    wgpu::BufferBindingType::Storage { read_only: false },
-                    false,
-                ),
-            ],
-        });
-
-        let pipeline_layout = device.create_pipeline_layout(&wgpu::PipelineLayoutDescriptor {
-            label: Some("physics-pl"),
-            bind_group_layouts: &[&bgl],
-            push_constant_ranges: &[],
-        });
+        let shader = resources.shader.clone();
+        let bgl = resources.bgl.clone();
+        let pipeline_layout = resources.layout.clone();
 
         let bind_group = physics_bind_group(
             &device,
@@ -1706,9 +1751,8 @@ impl GpuSim {
             sticky_causes: [0; 5],
             #[cfg(not(target_arch = "wasm32"))]
             sticky_contact_reasons: 0,
-            startup_cache: pipeline_cache,
+            resources: resources.clone(),
         };
-        sim.startup_cache.save();
         sim.upload_pass_lut();
         sim.upload_joint_filter(&joint_pad);
         Ok(sim)
@@ -2562,15 +2606,15 @@ impl GpuSim {
     }
 
     fn make_runtime_compute(&self, device: &Device, layout: &wgpu::PipelineLayout, shader: &ShaderModule, entry: &str) -> ComputePipeline {
-        let p = make_compute_cached(device, layout, shader, entry, self.startup_cache.cache.as_ref());
-        self.startup_cache.save();
+        let p = self.resources.pipeline(entry, &[], || make_compute_cached(device, layout, shader, entry, self.resources.startup.cache.as_ref()));
         p
     }
     fn make_runtime_compute_with_constant(&self, device: &Device, layout: &wgpu::PipelineLayout, shader: &ShaderModule, entry: &str, name: &str, value: f64) -> ComputePipeline {
-        let p = make_compute_constant_cached(device, layout, shader, entry, name, value, self.startup_cache.cache.as_ref());
-        self.startup_cache.save();
+        let p = self.resources.pipeline(entry, &[(name, value)], || make_compute_constant_cached(device, layout, shader, entry, name, value, self.resources.startup.cache.as_ref()));
         p
     }
+
+    pub(crate) fn save_pipeline_cache(&self) { self.resources.save(); }
 
     pub(crate) fn collision_pipeline_ready(&self) -> bool {
         if self.params.mesh_triangle_count != 0 { self.collide_pairs_mesh.get().is_some() }
@@ -2578,7 +2622,10 @@ impl GpuSim {
     }
 
     /// Prepare the lazy collision variant without dispatching or advancing time.
-    pub(crate) fn prepare_collision_pipeline(&self) { let _ = self.collision_pipeline(); }
+    pub(crate) fn prepare_collision_pipeline(&self) {
+        let _ = self.collision_pipeline();
+        self.resources.save();
+    }
 
     fn collision_pipeline(&self) -> &ComputePipeline {
         // Counts describe live packed geometry, not reserved buffer capacity.
@@ -2596,6 +2643,9 @@ impl GpuSim {
         self.broadphase_candidates_pass(enc);
         self.narrowphase_detect_pass(enc);
     }
+
+    #[cfg(test)]
+    pub(crate) fn shared_pipeline_test(&self) -> ComputePipeline { self.integrate_vel.clone() }
 
     #[cfg(test)]
     pub(crate) fn set_small_component_group_test(&mut self,size:u32) {
@@ -2617,24 +2667,24 @@ impl GpuSim {
 
     fn dynamic_graph_pipeline(&self) -> &ComputePipeline {
         if !self.shared_graph_eligible() { return &self.graph_assign_dynamic; }
-        if let Some(base)=self.graph_memo_base.filter(|_|self.params.body_count<=8160 && self.params.joint_count==0 && self.params.mesh_triangle_count==0) {
+        if self.graph_memo_base.is_some() && self.params.body_count<=8160 && self.params.joint_count==0 && self.params.mesh_triangle_count==0 {
             return self.graph_assign_memo.get_or_init(|| {
                 let source=format!("{}\n{}",PHYSICS_WGSL,include_str!("../shaders/physics/graph_memo.wgsl"));
-                let shader=self.device.create_shader_module(wgpu::ShaderModuleDescriptor {
+                let shader=self.resources.memo_shader.get_or_init(|| self.device.create_shader_module(wgpu::ShaderModuleDescriptor {
                     label:Some("physics-memo-graph"),source:wgpu::ShaderSource::Wgsl(source.into()),
-                });
-                self.make_runtime_compute_with_constant(&self.device,&self.collision_layout,&shader,
-                    "graph_assign_dynamic_memo","GRAPH_MEMO_BASE",f64::from(base))
+                }));
+                self.make_runtime_compute(&self.device,&self.collision_layout,shader,
+                    "graph_assign_dynamic_memo")
             });
         }
         self.graph_assign_shared.get_or_init(|| {
             // The extra entry is absent on unsupported devices; its only
             // workgroup allocation is 8168 occupancy masks + 24 color counters (32 KiB).
             let source=format!("{}\n{}",PHYSICS_WGSL,include_str!("../shaders/physics/graph_shared.wgsl"));
-            let shader=self.device.create_shader_module(wgpu::ShaderModuleDescriptor {
+            let shader=self.resources.shared_shader.get_or_init(|| self.device.create_shader_module(wgpu::ShaderModuleDescriptor {
                 label:Some("physics-shared-graph"),source:wgpu::ShaderSource::Wgsl(source.into()),
-            });
-            self.make_runtime_compute(&self.device,&self.collision_layout,&shader,"graph_assign_dynamic_shared")
+            }));
+            self.make_runtime_compute(&self.device,&self.collision_layout,shader,"graph_assign_dynamic_shared")
         })
     }
 
