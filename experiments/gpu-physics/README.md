@@ -156,22 +156,43 @@ the target average rate. They are not interpolated capacities or p95 guarantees.
 | direct-cpu | 20,000 → 30,000 | 40,000 → 50,000 | 100,000 → 150,000 |
 | direct-gpu | 20,000 → 30,000 | 50,000 → 60,000 | Not reached; >10 at 100,000 |
 
-**Current capacity boundary:** all three GPU paths fail at 150,000 cubes before
+**Recorded pre-tiling capacity boundary:** all three GPU paths failed at 150,000 cubes before
 producing a valid timing. A geometric broadphase reservation reaches 4,194,304
 entries, requiring 65,536 workgroups of 64 in a one-dimensional dispatch; the
 device permits 65,535. This is a software dispatch-layout limit, not measured VRAM
 exhaustion or a 10 FPS result. The chart retains 100,000 as the largest validated
-sampled GPU count and marks the failed 150,000 attempt separately. Further scaling
-requires tiled dispatch with matching indices in direct, indirect and cached
-command paths; removing the assertion alone would be unsafe.
+sampled GPU count and marks the failed 150,000 attempt separately. This boundary motivated tiled dispatch with matching indices in direct, indirect
+and cached command paths.
 
-The shared Rust/WGSL tiling helpers and opt-in native cached dispatch are now
-implemented, but production physics kernels do not yet use them. Two host tests
-pass, and an NVIDIA GPU fixture verifies exactly-once writes and untouched padding
-at 0, 1, 65,535, 65,536 and 65,537 workgroups across direct, indirect, cached-direct
-and cached-indirect dispatch (20 cases). Reproduce with
+Production physics now uses shared Rust/WGSL tiled indexing in direct, indirect
+and native cached dispatches, retaining the existing 1D layout below the boundary.
+Padded radix workgroups are bounded, strided kernels cover the full grid, and the
+component solver retains its existing 2D layout. Two host tests pass; an NVIDIA
+fixture verifies exactly-once writes and untouched padding at 0, 1, 65,535, 65,536
+and 65,537 workgroups across all four dispatch modes (20 cases). A production
+lifecycle fixture with 131,075 shapes also passes with native command caches and
+full replay enabled and disabled, covering callbacks, contact events, deletion,
+remapping and slot reuse. Reproduce with
 `./scripts/build-native-cache.sh test --release --lib dispatch -- --test-threads=1`.
-These helper checks do not qualify larger physics scenes or change the limit above.
+An initial post-tiling trial completed **200,000 colliding cubes**: 7.52 completed
+steps/s, 132.81 ms p50 and 136.67 ms p95, with 410,745 live contacts after 330 steps.
+Capacity-loss, finite-position and ground-escape checks passed; all 200,000 dynamic
+bodies remained awake. Primary simulation buffers used 3,478,816,732 bytes. This is
+one diagnostic trial; repeated trials and application-renderer qualification are
+still pending. The chart above remains the pre-tiling measurement.
+
+Contact clearing now tracks a monotonic high-water mark of allocated contact
+slots, including mesh patches, and preserves it across buffer growth. It clears
+that dirty range rather than reading every reserved contact slot; retirement does
+not shrink the range, so old event keys are still cleared. Unused history starts
+empty, and pair producers overwrite their live prefix without a capacity-wide
+fill. Convex free-list construction also scans only the previous slot high-water
+mark plus new root demand, selecting the same lowest free slots; mesh worlds keep
+the full pool for extra child patches. A focused alternating convex/mesh fixture
+checks this ordering and the retained mesh capacity. The final native-cache
+library suite passes all 267 tests on NVIDIA, with both Vulkan drivers visible
+for the cross-adapter lifetime test. Focused graph-cache opt-out and native-cache
+opt-out lifecycle checks also pass. Repeated performance qualification is pending.
 
 At 100,000 cubes, graph construction costs 26.5 ms, solving 18.0 ms,
 and broadphase 10.6 ms. Primary simulation buffers occupy **1,659 MiB
@@ -381,6 +402,13 @@ history and individual trials record that policy. Without `--require-idle`, runs
 proceed under normal desktop load. Use the repeated-trial ranges and saved load
 telemetry to investigate unusually inconsistent results, retaining all valid trials.
 
+For before/after completed-physics comparisons, preserve both executables and run
+`scripts/compare-falling-binaries.py <global-solver-manifest.json> <new-output-dir>
+--binary before=<preserved-path> --binary after=<new-path> --counts 100000 --trials 3`.
+It uses one environment and measurement window, alternates executable order,
+checks binary hashes, and retains raw samples, phase costs, allocations, power
+snapshots and failed trials. It supplements the full CPU/renderer sweep above.
+
 To isolate solver scheduling costs, `profile-falling-solvers.py` reuses a completed
 sweep's binary and environment, verifies its binary hash, and compares component
 TGS with global contact-color dispatches. It alternates variant order across three
@@ -414,7 +442,23 @@ Dynamic coloring now fetches and publishes endpoints cooperatively in batches of
 cache holds at most 512 endpoints rather than the entire world. Worlds above
 8,168 bodies select this path automatically; smaller worlds retain their existing
 shared/memo scheduling. `GPU_PHYSICS_GRAPH_BATCHED=0` forces the scalar reference
-and `=1` forces batching for controlled comparisons. Global color solving can
+and `=1` forces batching for controlled comparisons. With
+`GPU_PHYSICS_GRAPH_MEMO=1`, the optional memo allocation now also supports large
+worlds. Batches are anchored to 128-body ranges, with up to four cached chunks
+of 256 edges per range, so changes in earlier ranges do not shift later cache
+entries. A batch reuses colors only when its length, endpoints and incoming
+dynamic-color masks match its cached inputs. Local color-list offsets are rebased against the current
+counts; contacts and impulses are never cached. Changed batches run the original
+ordered greedy walk. Allocation respects device buffer limits and falls back to
+ordinary batching when unavailable; `GPU_PHYSICS_GRAPH_MEMO=0` disables it.
+Focused tests cover hits, changed inputs, partial batches, reordered edges and
+slot reuse, and the 15,000-cube impact comparison remains exact through step 330.
+One diagnostic 100,000-cube trial on the RTX 4070 Laptop measured 46.61 ms per
+completed step versus 62.43 ms for a fresh `1559a049` baseline trial (34% higher
+throughput). Graph construction fell to 11.80 ms; primary buffers grew to
+1,837,715,104 bytes. These single-trial results are provisional: repeated
+comparisons, the final 200,000-cube run and both renderer sweeps remain pending.
+Global color solving can
 still be selected with `GPU_PHYSICS_COMPONENT_TGS=0`; component TGS remains useful
 for small independent islands but underutilizes the GPU on a large connected pile.
 Spatial-hash insertion storage now grows geometrically with reserved shape

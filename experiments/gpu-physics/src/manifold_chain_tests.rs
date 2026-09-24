@@ -941,8 +941,8 @@ fn dynamic_greedy_colors_match_reference_with_holes_and_overflow() {
     sim.params.body_count = span;
     if shared && std::env::var("GPU_PHYSICS_GRAPH_MEMO").as_deref()==Ok("1")
         && sim.device.limits().max_compute_workgroup_storage_size>=32768 {
-        assert_eq!(sim.graph_memo_base.is_some(),sim.caps.bodies<=8160,
-            "memo allocation uses reserved capacity, including spawning headroom");
+        assert!(sim.graph_memo_base.is_some(),
+            "memo allocation supports both small-world and large batch caches");
     }
     sim.upload_pass_lut();
     let seed = test_pipeline(&sim, "seed_greedy_graph", &r#"
@@ -1651,5 +1651,176 @@ fn full_width_pair_radix_matches_u64_order_and_compaction() {
     expected.retain(|&v|v!=u64::MAX);expected.dedup();
     let (unique,_,out)=pollster::block_on(sim.debug_compact_unique(&actual,0xabcdef01));
     assert_eq!(&out[..unique as usize],expected.as_slice());
+    }
+}
+
+#[test]
+fn dirty_contact_range_preserves_retired_history_and_skips_unused_slots() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    let mut sim = make_sim(&gpu, 0);
+    sim.params.remap_history_step = u32::MAX;
+    sim.flush_params();
+    let seed = test_pipeline(&sim, "seed_dirty_contact_range", r#"
+        @compute @workgroup_size(1) fn seed_dirty_contact_range() {
+            var c = empty_contact();
+            c.a=0u; c.b=1u; c.count=1u;
+            c.lifecycle.y=CONTACT_TOUCHING;
+            c.pair=vec4<u32>(0u,1u,0u,0u);
+            store_contact(5u,c);
+            prepare_contact_identity(5u,c.pair.xy);
+            scratch[scr_contact_mark()+5u]=3u;
+            // Sentinel outside the allocated range proves capacity-wide writes
+            // are gone. Real unused histories initialize to EMPTY.
+            scratch[scr_contact_mark()+7u]=123u;
+            store_pair_words(scr_previous_touching(),7u,vec2<u32>(456u));
+            store_pair_words(SCR_PAIRS,7u,vec2<u32>(789u));
+        }
+    "#);
+    let retire = test_pipeline(&sim, "retire_dirty_contact", r#"
+        @compute @workgroup_size(1) fn retire_dirty_contact() {
+            store_contact(5u,empty_contact());
+        }
+    "#);
+    let inspect = test_pipeline(&sim, "inspect_dirty_contact_range", r#"
+        @compute @workgroup_size(1) fn inspect_dirty_contact_range() {
+            scratch[64u]=atomicLoad(&query[QUERY_CONTACT_HIGH_WATER]);
+            scratch[65u]=scratch[scr_contact_mark()+5u];
+            scratch[66u]=load_pair_words(scr_previous_touching(),5u).y;
+            scratch[67u]=scratch[scr_contact_mark()+7u];
+            scratch[68u]=load_pair_words(scr_previous_touching(),7u).y;
+            scratch[69u]=load_pair_words(SCR_PAIRS,7u).y;
+        }
+    "#);
+    for retired in [false,true] {
+        let mut enc=sim.device.create_command_encoder(&Default::default());
+        sim.dispatch_n(&mut enc,if retired {&retire} else {&seed},1,0,1);
+        sim.dispatch_n(&mut enc,&sim.clear_broadphase,sim.pair_groups(),0,1);
+        sim.dispatch_n(&mut enc,&inspect,1,0,1);
+        sim.queue.submit(Some(enc.finish()));
+        let words=pollster::block_on(sim.read_scratch_prefix(70));
+        assert_eq!(&words[64..70],&[6,0,if retired {u32::MAX} else {1},123,456,789]);
+    }
+}
+
+#[test]
+fn batch_memo_matches_greedy_after_input_changes_and_slot_reuse() {
+    let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+    gpu.device.push_error_scope(wgpu::ErrorFilter::Validation);
+    let mut sim=make_sim_sized(&gpu,0,8193);
+    let cached=sim.graph_memo_base.is_some();
+    let seed=test_pipeline(&sim,"seed_batch_memo_cases",r#"
+        @compute @workgroup_size(1) fn seed_batch_memo_cases() {
+            let n=atomicLoad(&query[90u]); let mode=atomicLoad(&query[91u]);
+            for (var b=0u;b<params.body_count;b++) {
+                var mask=select(0u,(1u<<20u)|(1u<<22u),b%3u==0u);
+                if (mode==1u && b==params.body_count-32u) {mask|=4u;}
+                if (mode==6u) {mask|=1u<<21u;}
+                atomicStore(&atom[atom_jacobi()+b],mask);
+            }
+            for (var col=0u;col<24u;col++) {
+                var count=0u;
+                if (mode==3u && col==0u) {count=7u;}
+                if (mode==3u && col==23u) {count=5u;}
+                atomicStore(&atom[atom_graph_color()+col],count);
+            }
+            for (var i=0u;i<n;i++) {
+                var j=select(i,n-1u-i,mode==4u);
+                if (mode==8u && i>=257u) {j--;}
+                var a=(j*13u)%32u;var b=(a+1u+j%17u)%32u;
+                if (j<24u) {a=0u;b=j+1u;}
+                if (mode==2u && i==256u) {b=(b+3u)%32u;if(b==a){b=(b+1u)%32u;}}
+                let slot=select(i,1024u-i,mode==5u);
+                let offset=select(params.body_count-32u,params.body_count-160u,
+                    (mode==7u && i<256u) || (mode==8u && i<257u));
+                var c=empty_contact();c.a=a+offset;c.b=b+offset;c.count=1u;
+                store_contact(slot,c);
+                scratch[scr_active_contact()+i]=slot;scratch[scr_next_occupied()+i]=i;
+            }
+            scratch[SCR_DYN_DYN_N]=n;scratch[SCR_NCONTACTS]=n;
+        }
+    "#);
+    let inspect=test_pipeline(&sim,"inspect_batch_memo_cases",r#"
+        @compute @workgroup_size(1) fn inspect_batch_memo_cases() {
+            let n=atomicLoad(&query[90u]);
+            let cache=arrayLength(&query)>=graph_batch_memo_end();
+            scratch[0u]=0u;scratch[1u]=0u;
+            if(cache){scratch[0u]=atomicLoad(&query[graph_batch_memo_base()+1u]);
+                scratch[1u]=atomicLoad(&query[graph_batch_memo_base()+2u]);}
+            for(var i=0u;i<n;i++) {
+                let slot=scratch[scr_active_contact()+i];
+                scratch[2u+2u*i]=contacts[slot].color;
+                scratch[3u+2u*i]=contact_persistent[slot].lifecycle.z;
+            }
+            for(var b=0u;b<160u;b++) {
+                scratch[2u+2u*n+b]=atomicLoad(&atom[atom_jacobi()+params.body_count-160u+b]);
+            }
+        }
+    "#);
+    let mut previous_hits=0;
+    for (n,mode,required_hits) in [(513u32,0u32,0),(513,0,3),(513,1,0),(513,0,0),
+        (513,2,0),(256,0,0),(257,0,0),(257,3,2),(513,0,0),(0,0,0),
+        (513,4,0),(513,4,3),(513,0,0),(513,6,3),(513,0,3),(513,5,3),(513,7,0),(514,8,3),(514,8,4)] {
+        sim.queue.write_buffer(&sim.query,90*4,bytemuck::cast_slice(&[n,mode]));
+        let mut enc=sim.device.create_command_encoder(&Default::default());
+        sim.dispatch_n(&mut enc,&seed,1,0,1);
+        sim.dispatch_n(&mut enc,&sim.graph_assign_batched,1,0,1);
+        sim.dispatch_n(&mut enc,&inspect,1,0,1);
+        sim.queue.submit(Some(enc.finish()));
+        let words=pollster::block_on(sim.read_scratch_prefix(2+2*n+160));
+        if cached {assert!(words[0]-previous_hits>=required_hits,"n={n}, mode={mode}: expected cached batches");}
+        previous_hits=words[0];
+        let mut masks:Vec<u32>=(0..8193).map(|b|if b%3==0 {(1<<20)|(1<<22)} else {0}).collect();
+        if mode==1 {masks[8193-32]|=4;}
+        if mode==6 {for mask in &mut masks {*mask|=1<<21;}}
+        let mut counts=[0u32;24];
+        if mode==3 {counts[0]=7;counts[23]=5;}
+        for i in 0..n {
+            let mut j=if mode==4 {n-1-i} else {i};
+            if mode==8 && i>=257 {j-=1;}
+            let mut a=(j*13)%32;let mut b=(a+1+j%17)%32;
+            if j<24 {a=0;b=j+1;}
+            if mode==2 && i==256 {b=(b+3)%32;if b==a {b=(b+1)%32;}}
+            let offset=if (mode==7 && i<256) || (mode==8 && i<257) {8193-160} else {8193-32};
+            let (a,b)=((a+offset) as usize,(b+offset) as usize);
+            let color=(0..20u32).find(|c|(masks[a]|masks[b])&(1<<c)==0).unwrap_or(23);
+            assert_eq!(&words[(2+2*i) as usize..(4+2*i) as usize],&[color,counts[color as usize]],"n={n}, mode={mode}, edge={i}");
+            counts[color as usize]+=1;
+            if color<20 {masks[a]|=1<<color;masks[b]|=1<<color;}
+        }
+        assert_eq!(&words[(2+2*n) as usize..],&masks[8193-160..],"n={n}, mode={mode}: output masks");
+    }
+    if let Some(error)=pollster::block_on(gpu.device.pop_error_scope()) {panic!("{error}");}
+}
+
+#[test]
+fn root_free_scan_preserves_lowest_slots_and_mesh_pool() {
+    let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+    let mut sim=make_sim(&gpu,0);
+    let seed=test_pipeline(&sim,"seed_root_free_prefix",r#"
+        @compute @workgroup_size(1) fn seed_root_free_prefix() {
+            for(var slot=0u;slot<20u;slot++) {
+                if(slot<10u || slot==14u || slot==19u) {
+                    var c=empty_contact();c.a=0u;c.b=1u;
+                    store_contact(slot,c);
+                    prepare_contact_identity(slot,vec2<u32>(0u,slot+1u));
+                }
+            }
+        }
+    "#);
+    let inspect=test_pipeline(&sim,"inspect_root_free_prefix",r#"
+        @compute @workgroup_size(1) fn inspect_root_free_prefix() {
+            scratch[64u]=free_scan_limit();scratch[65u]=scratch[SCR_FREE_N];
+            for(var i=0u;i<5u;i++){scratch[66u+i]=scratch[scr_radix_out()+i];}
+        }
+    "#);
+    let mut enc=sim.device.create_command_encoder(&Default::default());
+    sim.dispatch_n(&mut enc,&seed,1,0,0);sim.queue.submit(Some(enc.finish()));
+    for mesh in [false,true,false] {
+        prepare_pool(&mut sim,5,mesh);
+        let mut enc=sim.device.create_command_encoder(&Default::default());
+        sim.dispatch_n(&mut enc,&inspect,1,0,0);sim.queue.submit(Some(enc.finish()));
+        let words=pollster::block_on(sim.read_scratch_prefix(71));
+        let limit=if mesh {sim.params.contact_capacity} else {25};
+        assert_eq!(&words[64..71],&[limit,limit-12,10,11,12,13,15]);
     }
 }

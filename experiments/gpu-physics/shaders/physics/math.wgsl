@@ -386,6 +386,7 @@ fn pair_hash_mix(key: u32) -> u32 {
 // can become visible under WGSL relaxed atomics. Retired identities stay intact
 // until the next allocation phase, after all readers have completed.
 fn prepare_contact_identity(dense: u32, key: vec2<u32>) {
+    atomicMax(&query[QUERY_CONTACT_HIGH_WATER], dense + 1u);
     atomicStore(&atom[atom_contact_identity() + 2u * dense], key.x);
     atomicStore(&atom[atom_contact_identity() + 2u * dense + 1u], key.y);
 }
@@ -619,6 +620,7 @@ fn allocate_manifold_slot(root: u32) -> u32 {
         record_contact_drop(4u);
         return EMPTY;
     }
+    atomicMax(&query[QUERY_CONTACT_HIGH_WATER], slot + 1u);
     scratch[scr_contact_mark() + slot] = 1u;
     return slot;
 }

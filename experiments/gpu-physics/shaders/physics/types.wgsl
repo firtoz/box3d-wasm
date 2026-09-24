@@ -402,6 +402,8 @@ const JOINT_FILTER_PROBE: u32 = 32u;
 const HASH_BUCKETS: u32 = 16384u;
 fn pair_cap() -> u32 { return params.pair_capacity; }
 fn contact_hash_cap() -> u32 { return 2u * pair_cap(); }
+// Monotonic exclusive slot bound; survives retirement and scene-buffer growth.
+const QUERY_CONTACT_HIGH_WATER: u32 = 73u;
 const SCR_PAIR_N: u32 = 0u;
 const SCR_INSERT_N: u32 = 1u;
 const SCR_UNIQUE_N: u32 = 2u;
@@ -605,12 +607,17 @@ fn record_capacity_drop(per_step: u32, sticky: u32) {
     record_capacity_drop_n(per_step, sticky, 1u);
 }
 
+fn write_group_indirect(base: u32, groups: u32) {
+    let grid = linear_dispatch_groups(groups);
+    scratch[base] = grid.x;
+    scratch[base + 1u] = grid.y;
+    scratch[base + 2u] = grid.z;
+    scratch[base + 3u] = 0u;
+}
+
 fn write_count_indirect(base: u32, count: u32, workgroup_size: u32) {
     let wg = max(workgroup_size, 1u);
-    scratch[base] = max((count + wg - 1u) / wg, 1u);
-    scratch[base + 1u] = 1u;
-    scratch[base + 2u] = 1u;
-    scratch[base + 3u] = 0u;
+    write_group_indirect(base, max((count + wg - 1u) / wg, 1u));
 }
 
 fn scene_f32(word: u32) -> f32 {

@@ -1,3 +1,4 @@
+use crate::dispatch::LinearDispatch;
 use std::cell::Cell;
 use std::mem;
 use std::sync::atomic::{AtomicU64, Ordering};
@@ -56,6 +57,7 @@ fn diagnostic_flags_from_env() -> u32 {
 
 /// One WGSL module, split on disk under `shaders/physics/`.
 const PHYSICS_WGSL: &str = concat!(
+    include_str!("../shaders/physics/dispatch.wgsl"),
     include_str!("../shaders/physics/types.wgsl"),
     include_str!("../shaders/physics/math.wgsl"),
     include_str!("../shaders/physics/rotation.wgsl"),
@@ -1251,12 +1253,17 @@ impl GpuSim {
             init.clear_buffer(&indirect,0,None);
             queue.submit(Some(init.finish()));
         }
+        // Unused event-history slots must remain EMPTY when per-step clearing
+        // only visits contact slots that have actually been allocated.
+        queue.write_buffer(&scratch,
+            u64::from(crate::types::pair_layout(params.pair_capacity).previous_touching) * 4,
+            bytemuck::cast_slice(&vec![u64::MAX; contact_slots as usize]));
         // Cache storage begins after the entire capacity-sized component region,
         // never after the current live count. New sims start with a zero valid word.
         let memo_base = 261u64 + 54 * u64::from(capacity) + 2 * u64::from(contact_slots);
         let memo_words = memo_base + 52 + 2 * u64::from(capacity) + 7 * u64::from(contact_slots);
         let graph_memo_base = (std::env::var("GPU_PHYSICS_GRAPH_MEMO").as_deref()==Ok("1")
-            && capacity<=8160 && device.limits().max_compute_workgroup_storage_size>=32768
+            && device.limits().max_compute_workgroup_storage_size>=32768
             && memo_words*4<=max_bind.min(max_buffer))
             .then_some(memo_base as u32);
         let query = device.create_buffer(&wgpu::BufferDescriptor {
@@ -1873,7 +1880,7 @@ impl GpuSim {
             });
             pass.set_pipeline(pipeline);
             pass.set_bind_group(0, self.live_bg(), &[off]);
-            pass.dispatch_workgroups(groups.max(1), 1, 1);
+            pass.dispatch_linear(groups.max(1));
         }
     }
 
@@ -1917,7 +1924,7 @@ impl GpuSim {
         if prefix < crate::types::DYNAMIC_COLOR_COUNT {
             pass.set_pipeline(&self.solve_color_tail_one_group);
             pass.set_bind_group(0, self.live_bg(), &[Self::pass_lut_offset(prefix, use_bias) as u32]);
-            pass.dispatch_workgroups(1, 1, 1);
+            pass.dispatch_linear(1);
             self.solver_dispatches.set(self.solver_dispatches.get().saturating_add(1));
             self.encode_commands.set(self.encode_commands.get().saturating_add(1));
         }
@@ -1970,7 +1977,7 @@ impl GpuSim {
             self.ping_bg(),
             &[Self::pass_lut_offset(color, use_bias) as u32],
         );
-        pass.dispatch_workgroups(groups.max(1), 1, 1);
+        pass.dispatch_linear(groups.max(1));
         self.encode_commands
             .set(self.encode_commands.get().saturating_add(1));
     }
@@ -2017,11 +2024,11 @@ impl GpuSim {
             });
             pass.set_bind_group(0, self.live_bg(), &[off]);
             pass.set_pipeline(&self.jacobi_clear);
-            pass.dispatch_workgroups(self.body_groups().max(1), 1, 1);
+            pass.dispatch_linear(self.body_groups().max(1));
             pass.set_pipeline(&self.solve_jacobi);
             pass.dispatch_workgroups_indirect(&self.indirect, 0);
             pass.set_pipeline(&self.apply_jacobi);
-            pass.dispatch_workgroups(self.body_groups().max(1), 1, 1);
+            pass.dispatch_linear(self.body_groups().max(1));
             return;
         }
 
@@ -2053,7 +2060,7 @@ impl GpuSim {
             });
             pass.set_pipeline(pipeline);
             pass.set_bind_group(0, bg, &[off]);
-            pass.dispatch_workgroups(groups.max(1), 1, 1);
+            pass.dispatch_linear(groups.max(1));
         }
         self.encode_commands
             .set(self.encode_commands.get().saturating_add(1));
@@ -2137,12 +2144,9 @@ impl GpuSim {
         {
             if !self.native_tail_enabled
                 || self.params.diagnostic_flags & crate::types::DIAG_PHASE_CAPTURE!=0 {return false;}
-            use crate::native_command_cache::Command::{Dispatch,Indirect,CopyBuffer};
+            use crate::native_command_cache::Command::{DispatchLinear as Dispatch,Indirect,CopyBuffer};
             let bg=self.body_groups().max(1);
             let ig=self.island_groups(self.count).max(1);
-            // Both indirect producers use these counts, large roots are capped at 256.
-            if u64::from(self.params.pair_capacity.max(self.params.joint_count)).div_ceil(u64::from(self.island_workgroup_size))
-                >u64::from(self.device.limits().max_compute_workgroups_per_dimension) {return false;}
             let key=[6+stage as u32 | (self.small_component_workgroup_size<<8) | (self.island_workgroup_size<<16),self.count,self.contact_slots];
             if self.tail_cache[stage].as_ref().is_none_or(|c| c.group!=self.bind_group || c.key!=key) {
                 let large_offset=(5+crate::types::MAX_COLORS as u64)*16;
@@ -2262,7 +2266,7 @@ impl GpuSim {
             });
             pass.set_bind_group(0, self.ping_bg(), &[off]);
             pass.set_pipeline(pipeline);
-            pass.dispatch_workgroups(groups.max(1), 1, 1);
+            pass.dispatch_linear(groups.max(1));
         }
         self.joint_dispatches
             .set(self.joint_dispatches.get().saturating_add(1));
@@ -2308,7 +2312,7 @@ impl GpuSim {
                 .map(|name|self.make_runtime_compute(&self.device,&self.collision_layout,&self.collision_shader,name)));
             #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
             if std::env::var("GPU_PHYSICS_NATIVE_PAIR_CACHE").as_deref()==Ok("1") {
-                use crate::native_command_cache::Command::Dispatch;
+                use crate::native_command_cache::Command::DispatchLinear as Dispatch;
                 // Shape span determines matrix/row dispatches. Contact capacity may
                 // change independently of shape span, so retain it in the key too.
                 let key=[5,cg.max(1),self.shape_count | (self.contact_groups().max(1)<<10)];
@@ -2336,32 +2340,32 @@ impl GpuSim {
             {
                 let mut pass=enc.begin_compute_pass(&wgpu::ComputePassDescriptor{label:Some("pair-matrix-build"),timestamp_writes:None});
                 pass.set_bind_group(0,self.ping_bg(),&[off]);
-                pass.set_pipeline(&self.clear_broadphase);pass.dispatch_workgroups(cg.max(1),1,1);
-                pass.set_pipeline(&pipelines[0]);pass.dispatch_workgroups((self.shape_count*self.shape_count.div_ceil(32)).div_ceil(64).max(1),1,1);
+                pass.set_pipeline(&self.clear_broadphase);pass.dispatch_linear(cg.max(1));
+                pass.set_pipeline(&pipelines[0]);pass.dispatch_linear((self.shape_count*self.shape_count.div_ceil(32)).div_ceil(64).max(1));
             }
             {
                 let mut pass=enc.begin_compute_pass(&wgpu::ComputePassDescriptor{label:Some("pair-matrix-compact"),timestamp_writes:None});
                 pass.set_bind_group(0,self.ping_bg(),&[off]);
                 // Bounded capacity dispatch avoids sharing native cached indirect arguments.
                 // previous_pair_key rejects lanes beyond the GPU occupied count.
-                pass.set_pipeline(&pipelines[1]);pass.dispatch_workgroups(self.contact_groups().max(1),1,1);
-                pass.set_pipeline(&pipelines[2]);pass.dispatch_workgroups(shape_groups.max(1),1,1);
-                pass.set_pipeline(&pipelines[3]);pass.dispatch_workgroups(1,1,1);
-                pass.set_pipeline(&pipelines[4]);pass.dispatch_workgroups(shape_groups.max(1),1,1);
+                pass.set_pipeline(&pipelines[1]);pass.dispatch_linear(self.contact_groups().max(1));
+                pass.set_pipeline(&pipelines[2]);pass.dispatch_linear(shape_groups.max(1));
+                pass.set_pipeline(&pipelines[3]);pass.dispatch_linear(1);
+                pass.set_pipeline(&pipelines[4]);pass.dispatch_linear(shape_groups.max(1));
             }
             return;
         }
         #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
         if std::env::var("GPU_PHYSICS_NATIVE_RADIX_CACHE").as_deref() == Ok("2") {
-            use crate::native_command_cache::Command::{Dispatch,Indirect,CopyArgs};
+            use crate::native_command_cache::Command::{DispatchLinear as Dispatch,Indirect,CopyArgs};
             let key=[2,shape_groups.max(1),cg.max(1)];
             if self.radix_cache.as_ref().is_none_or(|c| c.group!=self.bind_group || c.key!=key) {
                 // All three private indirect producers clamp before writing:
                 // inserts <= params.insert_capacity, occupied <= contact_capacity <= PAIR_CAP,
                 // radix <= PAIR_CAP. No user-provided dispatch arguments enter here.
                 assert!(self.params.contact_capacity<=self.params.pair_capacity);
-                assert!(self.params.insert_capacity.div_ceil(64)<=self.device.limits().max_compute_workgroups_per_dimension);
-                assert!(self.params.pair_capacity.div_ceil(64)<=self.device.limits().max_compute_workgroups_per_dimension);
+                crate::dispatch::linear_dispatch_groups(self.params.insert_capacity.div_ceil(64));
+                crate::dispatch::linear_dispatch_groups(self.params.pair_capacity.div_ceil(64));
                 let mut commands=vec![
                     Dispatch(&self.clear_broadphase,cg.max(1)),
                     Dispatch(&self.collect_fat_statics,shape_groups.max(1)),
@@ -2410,19 +2414,19 @@ impl GpuSim {
             });
             pass.set_bind_group(0, self.ping_bg(), &[off]);
             pass.set_pipeline(&self.clear_broadphase);
-            pass.dispatch_workgroups(cg.max(1), 1, 1);
+            pass.dispatch_linear(cg.max(1));
             pass.set_pipeline(&self.collect_fat_statics);
-            pass.dispatch_workgroups(shape_groups.max(1), 1, 1);
+            pass.dispatch_linear(shape_groups.max(1));
             pass.set_pipeline(&self.finish_fat_statics);
-            pass.dispatch_workgroups(1, 1, 1);
+            pass.dispatch_linear(1);
             pass.set_pipeline(&self.emit_static_pairs);
-            pass.dispatch_workgroups(shape_groups.max(1), 1, 1);
+            pass.dispatch_linear(shape_groups.max(1));
             pass.set_pipeline(&self.hash_insert);
-            pass.dispatch_workgroups(shape_groups.max(1), 1, 1);
+            pass.dispatch_linear(shape_groups.max(1));
             pass.set_pipeline(&self.write_insert_indirect);
-            pass.dispatch_workgroups(1, 1, 1);
+            pass.dispatch_linear(1);
             pass.set_pipeline(&self.write_occupied_indirect);
-            pass.dispatch_workgroups(1, 1, 1);
+            pass.dispatch_linear(1);
         }
         enc.copy_buffer_to_buffer(&self.scratch, 8 * 4, &self.indirect, 0, 32);
         {
@@ -2436,7 +2440,7 @@ impl GpuSim {
             pass.set_pipeline(&self.emit_prev_pairs);
             pass.dispatch_workgroups_indirect(&self.indirect, 16);
             pass.set_pipeline(&self.write_radix_indirect);
-            pass.dispatch_workgroups(1, 1, 1);
+            pass.dispatch_linear(1);
         }
         enc.copy_buffer_to_buffer(
             &self.scratch,
@@ -2479,16 +2483,16 @@ impl GpuSim {
                 pass.set_pipeline(&self.radix_histogram[digit]);
                 pass.dispatch_workgroups_indirect(&self.indirect, Self::indirect_radix_offset());
                 pass.set_pipeline(&self.radix_bucket_bases);
-                pass.dispatch_workgroups(1, 1, 1);
+                pass.dispatch_linear(1);
                 pass.set_pipeline(&self.radix_group_prefix);
-                pass.dispatch_workgroups(1, 1, 1);
+                pass.dispatch_linear(1);
                 pass.set_pipeline(&self.radix_scatter[digit]);
                 pass.dispatch_workgroups_indirect(&self.indirect, Self::indirect_radix_offset());
             }
             pass.set_pipeline(&self.compact_unique_histogram);
             pass.dispatch_workgroups_indirect(&self.indirect, Self::indirect_radix_offset());
             pass.set_pipeline(&self.compact_unique_bases);
-            pass.dispatch_workgroups(1, 1, 1);
+            pass.dispatch_linear(1);
             pass.set_pipeline(&self.compact_unique_scatter);
             pass.dispatch_workgroups_indirect(&self.indirect, Self::indirect_radix_offset());
             pass.set_pipeline(&self.compact_unique_gather);
@@ -2529,13 +2533,13 @@ impl GpuSim {
         let off = Self::pass_lut_offset(0, 1) as u32;
         #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
         if std::env::var("GPU_PHYSICS_NATIVE_CONTACT_CACHE").as_deref() == Ok("1") {
-            use crate::native_command_cache::Command::{Dispatch,Indirect,CopyArgs};
+            use crate::native_command_cache::Command::{DispatchLinear as Dispatch,Indirect,CopyArgs};
             let key=[3,u32::from(self.shape_count>=2),u32::from(self.params.mesh_triangle_count!=0)];
             if self.contact_cache.as_ref().is_none_or(|c|c.group!=self.bind_group || c.key!=key) {
                 // Private writers: unique/missing <= PAIR_CAP, free slots <= contact_capacity.
                 // Same writer kernels and ordered allocation as the wgpu path below.
                 assert!(self.params.contact_capacity<=self.params.pair_capacity);
-                assert!(self.params.pair_capacity.div_ceil(64)<=self.device.limits().max_compute_workgroups_per_dimension);
+                crate::dispatch::linear_dispatch_groups(self.params.pair_capacity.div_ceil(64));
                 let radix=Self::indirect_radix_offset();
                 let prepare=Self::indirect_prepare_offset();
                 let mut commands=vec![
@@ -2583,7 +2587,7 @@ impl GpuSim {
             pass.set_pipeline(&self.find_existing_contact_slots);
             pass.dispatch_workgroups_indirect(&self.indirect, Self::indirect_prepare_offset());
             pass.set_pipeline(&self.write_unique_indirect);
-            pass.dispatch_workgroups(1, 1, 1);
+            pass.dispatch_linear(1);
         }
         self.copy_radix_indirect(enc);
         {
@@ -2595,12 +2599,12 @@ impl GpuSim {
             pass.set_pipeline(&self.alloc_missing_histogram);
             pass.dispatch_workgroups_indirect(&self.indirect, Self::indirect_radix_offset());
             pass.set_pipeline(&self.alloc_missing_bases);
-            pass.dispatch_workgroups(1, 1, 1);
+            pass.dispatch_linear(1);
             // Persist the ordered missing-pair list before free-slot scans reuse bases.
             pass.set_pipeline(&self.alloc_missing_scatter);
             pass.dispatch_workgroups_indirect(&self.indirect, Self::indirect_radix_offset());
             pass.set_pipeline(&self.write_alloc_indirects);
-            pass.dispatch_workgroups(1, 1, 1);
+            pass.dispatch_linear(1);
         }
         self.copy_radix_indirect(enc);
         self.copy_prepare_indirect(enc);
@@ -2613,13 +2617,13 @@ impl GpuSim {
             pass.set_pipeline(&self.alloc_free_histogram);
             pass.dispatch_workgroups_indirect(&self.indirect, Self::indirect_radix_offset());
             pass.set_pipeline(&self.alloc_free_bases);
-            pass.dispatch_workgroups(1, 1, 1);
+            pass.dispatch_linear(1);
             pass.set_pipeline(&self.alloc_free_scatter);
             pass.dispatch_workgroups_indirect(&self.indirect, Self::indirect_radix_offset());
             // Graph compaction consumes this scratch indirect count after narrowphase,
             // even though allocation no longer needs to copy it a second time.
             pass.set_pipeline(&self.write_unique_indirect);
-            pass.dispatch_workgroups(1, 1, 1);
+            pass.dispatch_linear(1);
         }
         {
             let mut pass = enc.begin_compute_pass(&wgpu::ComputePassDescriptor {
@@ -2755,7 +2759,7 @@ impl GpuSim {
         let rebuild = self.params.diagnostic_flags & crate::types::DIAG_REBUILD_GRAPH != 0;
         #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
         if std::env::var("GPU_PHYSICS_NATIVE_GRAPH_CACHE").as_deref()==Ok("1") {
-            use crate::native_command_cache::Command::{Dispatch,Indirect,CopyArgs};
+            use crate::native_command_cache::Command::{DispatchLinear as Dispatch,Indirect,CopyArgs};
             let shared=self.shared_graph_eligible();
             let memo=shared && self.graph_memo_base.is_some() && self.params.body_count<=8160
                 && self.params.joint_count==0 && self.params.mesh_triangle_count==0;
@@ -2768,7 +2772,7 @@ impl GpuSim {
             let key=[flags,self.body_groups().max(1),self.params.joint_count.div_ceil(WORKGROUP_SIZE)];
             if self.graph_cache.as_ref().is_none_or(|c|c.group!=self.bind_group || c.key!=key) {
                 assert!(self.params.contact_capacity<=self.params.pair_capacity);
-                assert!(self.params.pair_capacity.div_ceil(64)<=self.device.limits().max_compute_workgroups_per_dimension);
+                crate::dispatch::linear_dispatch_groups(self.params.pair_capacity.div_ceil(64));
                 let radix=Self::indirect_radix_offset();let statics=Self::indirect_static_offset();
                 let mut commands=Vec::new();
                 if rebuild {commands.push(Dispatch(&self.color_and_compact,1));}
@@ -2829,21 +2833,17 @@ impl GpuSim {
             pass.set_bind_group(0, self.ping_bg(), &[off]);
             if rebuild {
                 pass.set_pipeline(&self.color_and_compact);
-                pass.dispatch_workgroups(1, 1, 1);
+                pass.dispatch_linear(1);
             } else {
                 pass.set_pipeline(&self.graph_reset_colors);
-                pass.dispatch_workgroups(1, 1, 1);
+                pass.dispatch_linear(1);
                 pass.set_pipeline(&self.graph_clear_meta);
-                pass.dispatch_workgroups(self.body_groups().max(1), 1, 1);
+                pass.dispatch_linear(self.body_groups().max(1));
                 pass.set_pipeline(&self.graph_classify);
                 pass.dispatch_workgroups_indirect(&self.indirect, 0);
                 if self.params.joint_count > 0 {
                     pass.set_pipeline(&self.graph_mark_edges);
-                    pass.dispatch_workgroups(
-                        self.params.joint_count.div_ceil(WORKGROUP_SIZE),
-                        1,
-                        1,
-                    );
+                    pass.dispatch_linear(self.params.joint_count.div_ceil(WORKGROUP_SIZE));
                 }
             }
         }
@@ -2858,13 +2858,13 @@ impl GpuSim {
                 let pipelines=self.paired_graph_pipelines();
                 pass.set_pipeline(&pipelines[0]);
                 pass.dispatch_workgroups_indirect(&self.indirect,Self::indirect_radix_offset());
-                pass.set_pipeline(&pipelines[1]);pass.dispatch_workgroups(1,1,1);
+                pass.set_pipeline(&pipelines[1]);pass.dispatch_linear(1);
                 pass.set_pipeline(&pipelines[2]);
                 pass.dispatch_workgroups_indirect(&self.indirect,Self::indirect_radix_offset());
                 pass.set_pipeline(&self.graph_count_static_degree);
                 pass.dispatch_workgroups_indirect(&self.indirect, 0);
                 pass.set_pipeline(&self.graph_finish_static_degree);
-                pass.dispatch_workgroups(1, 1, 1);
+                pass.dispatch_linear(1);
             }
         }
         if !rebuild {
@@ -2897,9 +2897,9 @@ impl GpuSim {
                             Self::indirect_radix_offset(),
                         );
                         pass.set_pipeline(&self.radix_bucket_bases);
-                        pass.dispatch_workgroups(1, 1, 1);
+                        pass.dispatch_linear(1);
                         pass.set_pipeline(&self.radix_group_prefix);
-                        pass.dispatch_workgroups(1, 1, 1);
+                        pass.dispatch_linear(1);
                         pass.set_pipeline(&self.graph_radix_scatter[digit]);
                         pass.dispatch_workgroups_indirect(
                             &self.indirect,
@@ -2923,9 +2923,9 @@ impl GpuSim {
                             Self::indirect_radix_offset(),
                         );
                         pass.set_pipeline(&self.radix_bucket_bases);
-                        pass.dispatch_workgroups(1, 1, 1);
+                        pass.dispatch_linear(1);
                         pass.set_pipeline(&self.radix_group_prefix);
-                        pass.dispatch_workgroups(1, 1, 1);
+                        pass.dispatch_linear(1);
                         pass.set_pipeline(&self.graph_radix_scatter[digit]);
                         pass.dispatch_workgroups_indirect(
                             &self.indirect,
@@ -2941,7 +2941,7 @@ impl GpuSim {
                 pass.set_pipeline(&self.graph_assign_static);
                 pass.dispatch_workgroups_indirect(&self.indirect, Self::indirect_static_offset());
                 pass.set_pipeline(self.dynamic_graph_pipeline());
-                pass.dispatch_workgroups(1, 1, 1);
+                pass.dispatch_linear(1);
             }
         }
         {
@@ -2951,14 +2951,14 @@ impl GpuSim {
             });
             pass.set_bind_group(0, self.ping_bg(), &[off]);
             pass.set_pipeline(&self.begin_occupied_contacts);
-            pass.dispatch_workgroups(1, 1, 1);
+            pass.dispatch_linear(1);
             pass.set_pipeline(&self.retire_stale_contacts);
-            if self.pair_matrix_used {pass.dispatch_workgroups(self.contact_groups().max(1),1,1);}
+            if self.pair_matrix_used {pass.dispatch_linear(self.contact_groups().max(1));}
             else {pass.dispatch_workgroups_indirect(&self.indirect,16);}
             pass.set_pipeline(&self.collect_occupied_contacts);
             pass.dispatch_workgroups_indirect(&self.indirect, 0);
             pass.set_pipeline(&self.finish_occupied_contacts);
-            pass.dispatch_workgroups(32, 1, 1);
+            pass.dispatch_linear(32);
         }
         enc.copy_buffer_to_buffer(&self.scratch, 8 * 4, &self.indirect, 0, 16);
         enc.copy_buffer_to_buffer(
@@ -3470,7 +3470,7 @@ impl GpuSim {
             });
             pass.set_pipeline(&self.retire_body_pair_contacts);
             pass.set_bind_group(0, self.live_bg(), &[0]);
-            pass.dispatch_workgroups(self.pair_groups(), 1, 1);
+            pass.dispatch_linear(self.pair_groups());
         }
         self.record_submit(self.queue.submit(Some(enc.finish())));
     }
@@ -3519,7 +3519,7 @@ impl GpuSim {
             });
             pass.set_pipeline(&self.ray_closest);
             pass.set_bind_group(0, self.live_bg(), &[0]);
-            pass.dispatch_workgroups(groups, 1, 1);
+            pass.dispatch_linear(groups);
         }
         {
             let mut pass = enc.begin_compute_pass(&wgpu::ComputePassDescriptor {
@@ -3528,7 +3528,7 @@ impl GpuSim {
             });
             pass.set_pipeline(&self.ray_closest_pick);
             pass.set_bind_group(0, self.live_bg(), &[0]);
-            pass.dispatch_workgroups(groups, 1, 1);
+            pass.dispatch_linear(groups);
         }
         {
             let mut pass = enc.begin_compute_pass(&wgpu::ComputePassDescriptor {
@@ -3537,7 +3537,7 @@ impl GpuSim {
             });
             pass.set_pipeline(&self.ray_closest_commit);
             pass.set_bind_group(0, self.live_bg(), &[0]);
-            pass.dispatch_workgroups(groups, 1, 1);
+            pass.dispatch_linear(groups);
         }
         let result_off = 16 * 4;
         let result_bytes = 16 * 4;
@@ -4579,6 +4579,8 @@ impl GpuSim {
                 encoder.copy_buffer_to_buffer(src, 0, dst, 0, size);
             }
         };
+        // query word 73 is the monotonic dirty-contact bound (WGSL constant).
+        encoder.copy_buffer_to_buffer(&old.query, 73 * 4, &self.query, 73 * 4, 4);
         copy(&mut encoder, &old.contacts, &self.contacts);
         copy(&mut encoder, &old.contact_persistent, &self.contact_persistent);
         copy(&mut encoder, &old.contact_prepared, &self.contact_prepared);
@@ -5331,7 +5333,8 @@ impl GpuSim {
         }
         self.queue
             .write_buffer(&self.scratch, 2 * 4, bytemuck::bytes_of(&[count, count]));
-        let indirect = [count.div_ceil(WORKGROUP_SIZE), 1, 1, 0];
+        let [x, y, z] = crate::dispatch::linear_dispatch_groups(count.div_ceil(WORKGROUP_SIZE));
+        let indirect = [x, y, z, 0];
         self.queue
             .write_buffer(&self.scratch, 8 * 4, bytemuck::bytes_of(&indirect));
     }
@@ -5586,13 +5589,13 @@ impl GpuSim {
             });
             pass.set_bind_group(0, self.ping_bg(), &[off]);
             pass.set_pipeline(&self.compact_unique_histogram);
-            pass.dispatch_workgroups(groups, 1, 1);
+            pass.dispatch_linear(groups);
             pass.set_pipeline(&self.compact_unique_bases);
-            pass.dispatch_workgroups(1, 1, 1);
+            pass.dispatch_linear(1);
             pass.set_pipeline(&self.compact_unique_scatter);
-            pass.dispatch_workgroups(groups, 1, 1);
+            pass.dispatch_linear(groups);
             pass.set_pipeline(&self.compact_unique_gather);
-            pass.dispatch_workgroups(groups, 1, 1);
+            pass.dispatch_linear(groups);
         }
         let header_bytes = 32u64;
         let size = header_bytes + u64::from(n) * 8;

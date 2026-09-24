@@ -3368,9 +3368,10 @@ var<workgroup> wg_body_b: array<Body, 64>;
 
 @compute @workgroup_size(64)
 fn collide_pairs(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let k = gid.x;
     let npairs = scratch[SCR_UNIQUE_N];
     var ia = 0u;

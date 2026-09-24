@@ -260,7 +260,8 @@ fn prepare_contact_slot(k: u32) {
 }
 
 @compute @workgroup_size(64)
-fn prepare_contacts(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn prepare_contacts(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i >= min(scratch[SCR_NCONTACTS], pair_cap())) { return; }
     let root = scratch[scr_active_contact() + i];
@@ -485,7 +486,8 @@ fn warm_manifold(c: Contact, ba: ptr<function, Body>, bb: ptr<function, Body>) {
 }
 
 @compute @workgroup_size(64)
-fn warm_start(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn warm_start(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let k = gid.x;
     let maxc = params.contact_capacity;
     if (k >= maxc) {
@@ -503,7 +505,8 @@ fn warm_start(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(64)
-fn solve_contacts(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn solve_contacts(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let k = gid.x;
     let maxc = params.contact_capacity;
     if (k >= maxc) {
@@ -579,8 +582,9 @@ var<workgroup> wg_solve_b: array<Body, 64>;
 
 @compute @workgroup_size(64)
 fn solve_color(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let col = params.color_select;
     let n = scratch[SCR_COLOR + col];
     if (col == OVERFLOW_COLOR) {
@@ -709,7 +713,8 @@ fn jac_add(body: u32, dv: vec3<f32>, dw: vec3<f32>) {
 }
 
 @compute @workgroup_size(64)
-fn jacobi_clear(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn jacobi_clear(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i >= params.body_count) {
         return;
@@ -720,7 +725,8 @@ fn jacobi_clear(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(64)
-fn solve_jacobi(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn solve_jacobi(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     let np = min(scratch[SCR_NCONTACTS], pair_cap());
     if (i >= np) {
@@ -743,7 +749,8 @@ fn solve_jacobi(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(64)
-fn apply_jacobi(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn apply_jacobi(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i >= params.body_count) {
         return;
@@ -763,7 +770,8 @@ fn apply_jacobi(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(1)
-fn solve_overflow(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn solve_overflow(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 1u), 0u, 0u);
     if (gid.x != 0u) {
         return;
     }
@@ -1788,9 +1796,10 @@ fn joint_solver_serial() -> bool {
 
 @compute @workgroup_size(64)
 fn solve_joints(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let serial = joint_solver_serial();
     let list_ok = scratch[SCR_JOINT_LIST_OK] == 1u;
     if (serial && lid != 0u) {
@@ -2210,7 +2219,8 @@ fn solve_joints(
 }
 
 @compute @workgroup_size(64)
-fn compact_joint_heads(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn compact_joint_heads(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i < params.body_count) {
         scratch[joint_head_base() + i] = EMPTY;

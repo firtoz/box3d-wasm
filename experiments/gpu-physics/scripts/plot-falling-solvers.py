@@ -19,16 +19,33 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('input', type=Path)
     p.add_argument('output', type=Path)
+    p.add_argument('--additional-input', type=Path, action='append', default=[],
+                   help='Merge distinct variants with identical counts, trials and source settings')
     p.add_argument('--title', default='GPU solver scheduling investigation')
     p.add_argument('--note', default='Experimental timings; solver equivalence unresolved.')
     a = p.parse_args()
-    manifest = json.loads((a.input / 'manifest.json').read_text())
-    rows = json.loads((a.input / 'trials.json').read_text())
+    inputs = [a.input, *a.additional_input]
+    manifest = json.loads((inputs[0] / 'manifest.json').read_text())
+    settings = manifest['source']['arguments']
+    variants, rows = {}, []
+    for directory in inputs:
+        source = json.loads((directory / 'manifest.json').read_text())
+        assert source['counts'] == manifest['counts'] and source['trials'] == manifest['trials'], 'incompatible trial grids'
+        assert source['source']['environment'] == manifest['source']['environment'], 'source environment mismatch'
+        for key in ['warmup', 'timed', 'workers']:
+            assert source['source']['arguments'][key] == settings[key], f'setting mismatch: {key}'
+        names = source.get('variants', source.get('binaries', {}))
+        assert names and not (variants.keys() & names.keys()), 'duplicate or missing variants'
+        variants.update(names)
+        for row in json.loads((directory / 'trials.json').read_text()):
+            row['_raw_dir'] = directory
+            rows.append(row)
+    manifest['variants'] = variants
     identities = [(r['count'], r['variant'], r['trial']) for r in rows]
     assert len(set(identities)) == len(identities), 'duplicate trial'
     for row in rows:
-        path = a.input / f"{row['count']}-{row['variant']}-{row['trial']}.json"
-        assert row['returncode'] == 0, 'invalid trial'
+        path = row['_raw_dir'] / f"{row['count']}-{row['variant']}-{row['trial']}.json"
+        assert (row['status'] == 'ok' if 'status' in row else row.get('returncode') == 0), 'invalid trial'
         assert hashlib.sha256(path.read_bytes()).hexdigest() == row['raw_sha256']
         data = json.loads(path.read_text())
         raw = data['raw_runs'][0]
@@ -61,7 +78,7 @@ def main():
             means = [r['mean_ms'] for r in group]
             mean = statistics.median(means)
             axes[0].bar(x, mean, color={'component': '#426c9c', 'global-colors': '#55a28b',
-                                      'batched-global': '#9b70b8', 'before': '#426c9c', 'after': '#55a28b'}[variant])
+                                      'batched-global': '#9b70b8', 'before': '#426c9c', 'after': '#55a28b'}.get(variant, plt.get_cmap('tab10')(list(variants).index(variant) % 10)))
             axes[0].errorbar(x, mean, yerr=[[mean - min(means)], [max(means) - mean]],
                             fmt='none', color='black', capsize=4)
             axes[0].text(x, max(max(means), statistics.median(r['p95_ms'] for r in group)) + 1.2, f'{mean:.1f}', ha='center', fontsize=9)
@@ -79,7 +96,8 @@ def main():
                 axes[1].bar(x, value, bottom=bottom, color=color, label=name if x == 0 else None)
                 bottom += value
             summary.append(dict(count=count, variant=variant, mean_ms=mean,
-                                min_ms=min(means), max_ms=max(means), phase_mean_ms=phases))
+                                min_ms=min(means), max_ms=max(means), phase_mean_ms=phases,
+                                trial_count=len(group), steps_per_second=1000 / mean))
             summary[-1].update(p50_ms=statistics.median(r['p50_ms'] for r in group),
                                p95_ms=statistics.median(r['p95_ms'] for r in group))
             if memory:
@@ -96,6 +114,8 @@ def main():
                     axes[2].bar(x, value, bottom=bottom, color=color, label=label if x == 0 else None)
                     bottom += value
                 axes[2].text(x, bottom + 8, f'{bottom:.0f}', ha='center', fontsize=9)
+    axes[0].set_ylim(0, axes[0].get_ylim()[1] * 1.30)
+    axes[1].set_ylim(0, axes[1].get_ylim()[1] * 1.50)
     axes[0].set_title('Completed step • trial mean medians and ranges')
     axes[0].legend(loc='upper left', fontsize=8)
     axes[1].set_title('GPU phases • median of per-trial means')

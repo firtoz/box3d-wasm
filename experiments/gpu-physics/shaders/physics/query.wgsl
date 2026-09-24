@@ -554,17 +554,20 @@ fn ray_pass(gid: u32, stage: u32) {
 }
 
 @compute @workgroup_size(64)
-fn ray_closest(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn ray_closest(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     ray_pass(gid.x, 0u);
 }
 
 @compute @workgroup_size(64)
-fn ray_closest_pick(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn ray_closest_pick(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     ray_pass(gid.x, 1u);
 }
 
 @compute @workgroup_size(64)
-fn ray_closest_commit(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn ray_closest_commit(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     if (gid.x == 0u) {
         atomicStore(&query[Q_OVERFLOW_OUT], atomicLoad(&query[Q_OVERFLOW]));
     }

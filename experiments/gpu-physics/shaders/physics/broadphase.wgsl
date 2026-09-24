@@ -220,14 +220,18 @@ fn update_fat_bounds(i: u32) {
 }
 
 @compute @workgroup_size(64)
-fn clear_broadphase(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn clear_broadphase(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i < params.shape_count) { update_fat_bounds(i); }
     if (i < HASH_BUCKETS) {
         atomicStore(&atom[ATOM_HASH + i], EMPTY);
     }
-    if (i < pair_cap()) {
-        store_pair_words(SCR_PAIRS, i, vec2<u32>(EMPTY));
+    // Pair producers overwrite every live key; radix consumers are count-bounded.
+    // Keep the dirty contact range monotonic: retired slots can still contain
+    // previous-touching event keys that must be cleared on the following step.
+    let dirty_end = min(atomicLoad(&query[QUERY_CONTACT_HIGH_WATER]), params.contact_capacity);
+    if (i < dirty_end) {
         scratch[scr_contact_mark() + i] = 0u;
         // Latest-step event history must survive retirement and slot reuse.
         // Capture before narrowphase writes; child patches share their pair key.
@@ -285,7 +289,8 @@ fn shape_insert_count(b: Body) -> u32 {
 }
 
 @compute @workgroup_size(64)
-fn collect_fat_statics(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn collect_fat_statics(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i >= params.shape_count) {
         return;
@@ -310,7 +315,8 @@ fn finish_fat_statics() {
 }
 
 @compute @workgroup_size(64)
-fn hash_insert(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn hash_insert(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i >= params.shape_count || params.enable_contacts == 0u) {
         return;
@@ -358,10 +364,7 @@ fn hash_insert(@builtin(global_invocation_id) gid: vec3<u32>) {
 @compute @workgroup_size(1)
 fn write_insert_indirect() {
     let n = min(atomicLoad(&atom[ATOM_INSERT_N]), params.insert_capacity);
-    scratch[SCR_INDIRECT_COLLIDE] = (n + 63u) / 64u;
-    scratch[SCR_INDIRECT_COLLIDE + 1u] = 1u;
-    scratch[SCR_INDIRECT_COLLIDE + 2u] = 1u;
-    scratch[SCR_INDIRECT_COLLIDE + 3u] = 0u;
+    write_group_indirect(SCR_INDIRECT_COLLIDE, (n + 63u) / 64u);
 }
 
 @compute @workgroup_size(256)
@@ -377,7 +380,8 @@ fn write_radix_indirect(@builtin(local_invocation_index) lid: u32) {
 }
 
 @compute @workgroup_size(64)
-fn emit_hash_pairs(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn emit_hash_pairs(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let slot = gid.x;
     let nins = min(atomicLoad(&atom[ATOM_INSERT_N]), params.insert_capacity);
     if (slot >= nins) {
@@ -420,7 +424,8 @@ fn emit_hash_pairs(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(64)
-fn emit_static_pairs(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn emit_static_pairs(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i >= params.shape_count) {
         return;
@@ -456,10 +461,7 @@ fn emit_static_pairs(@builtin(global_invocation_id) gid: vec3<u32>) {
 @compute @workgroup_size(1)
 fn write_occupied_indirect() {
     let n = min(scratch[SCR_OCCUPIED_N], params.contact_capacity);
-    scratch[SCR_INDIRECT_OCCUPIED] = (n + 63u) / 64u;
-    scratch[SCR_INDIRECT_OCCUPIED + 1u] = 1u;
-    scratch[SCR_INDIRECT_OCCUPIED + 2u] = 1u;
-    scratch[SCR_INDIRECT_OCCUPIED + 3u] = 0u;
+    write_group_indirect(SCR_INDIRECT_OCCUPIED, (n + 63u) / 64u);
 }
 
 fn previous_pair_key(i: u32) -> vec2<u32> {
@@ -504,7 +506,8 @@ fn previous_pair_key_for_slot(k: u32) -> vec2<u32> {
 }
 
 @compute @workgroup_size(64)
-fn emit_prev_pairs(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn emit_prev_pairs(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let key=previous_pair_key(gid.x);
     if (key.x!=EMPTY) { append_pair(key); }
 }
@@ -577,10 +580,13 @@ fn scan_group_counts(lid: u32, groups: u32, source: u32, destination: u32) -> u3
 
 @compute @workgroup_size(256)
 fn compact_unique_histogram(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     let n = retained_pair_count();
     let keep = pair_is_unique(gid.x, n);
     let exclusive = workgroup_exclusive_scan_256(lid, keep);
@@ -610,10 +616,13 @@ fn compact_unique_bases(@builtin(local_invocation_index) lid: u32) {
 
 @compute @workgroup_size(256)
 fn compact_unique_scatter(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     let n = retained_pair_count();
     let keep = pair_is_unique(gid.x, n);
     let local_exclusive = workgroup_exclusive_scan_256(lid, keep);
@@ -624,7 +633,8 @@ fn compact_unique_scatter(
 }
 
 @compute @workgroup_size(256)
-fn compact_unique_gather(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn compact_unique_gather(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
     let w = min(scratch[SCR_UNIQUE_N], pair_cap());
     if (gid.x < w) {
         store_pair_words(SCR_PAIRS, gid.x, load_pair_words(scr_radix_out(), gid.x));
@@ -651,37 +661,49 @@ fn radix_histogram_impl(gid: u32, lid: u32, group: u32, shift: u32, from_output:
 
 @compute @workgroup_size(256)
 fn radix_histogram_0(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     radix_histogram_impl(gid.x, lid, group.x, 0u, false);
 }
 
 @compute @workgroup_size(256)
 fn radix_histogram_8(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     radix_histogram_impl(gid.x, lid, group.x, 8u, true);
 }
 
 @compute @workgroup_size(256)
 fn radix_histogram_16(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     radix_histogram_impl(gid.x, lid, group.x, 16u, false);
 }
 
 @compute @workgroup_size(256)
 fn radix_histogram_24(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     radix_histogram_impl(gid.x, lid, group.x, 24u, true);
 }
 
@@ -777,37 +799,49 @@ fn radix_scatter_impl(gid: u32, lid: u32, group: u32, shift: u32, from_output: b
 
 @compute @workgroup_size(256)
 fn radix_scatter_0(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     radix_scatter_impl(gid.x, lid, group.x, 0u, false);
 }
 
 @compute @workgroup_size(256)
 fn radix_scatter_8(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     radix_scatter_impl(gid.x, lid, group.x, 8u, true);
 }
 
 @compute @workgroup_size(256)
 fn radix_scatter_16(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     radix_scatter_impl(gid.x, lid, group.x, 16u, false);
 }
 
 @compute @workgroup_size(256)
 fn radix_scatter_24(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     radix_scatter_impl(gid.x, lid, group.x, 24u, true);
 }
 
@@ -817,77 +851,102 @@ fn radix_scatter_24(
 
 @compute @workgroup_size(256)
 fn radix_histogram_32(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     radix_histogram_impl(gid.x, lid, group.x, 32u, false);
 }
 
 @compute @workgroup_size(256)
 fn radix_histogram_40(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     radix_histogram_impl(gid.x, lid, group.x, 40u, true);
 }
 
 @compute @workgroup_size(256)
 fn radix_histogram_48(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     radix_histogram_impl(gid.x, lid, group.x, 48u, false);
 }
 
 @compute @workgroup_size(256)
 fn radix_histogram_56(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     radix_histogram_impl(gid.x, lid, group.x, 56u, true);
 }
 
 @compute @workgroup_size(256)
 fn radix_scatter_32(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     radix_scatter_impl(gid.x, lid, group.x, 32u, false);
 }
 
 @compute @workgroup_size(256)
 fn radix_scatter_40(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     radix_scatter_impl(gid.x, lid, group.x, 40u, true);
 }
 
 @compute @workgroup_size(256)
 fn radix_scatter_48(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     radix_scatter_impl(gid.x, lid, group.x, 48u, false);
 }
 
 @compute @workgroup_size(256)
 fn radix_scatter_56(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     radix_scatter_impl(gid.x, lid, group.x, 56u, true);
 }
 @compute @workgroup_size(64)
-fn find_existing_contact_slots(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn find_existing_contact_slots(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     let count = min(scratch[SCR_UNIQUE_N], pair_cap());
     if (i >= count) {
@@ -914,13 +973,27 @@ fn slot_is_free(slot: u32) -> u32 {
     return select(0u, 1u, contacts[slot].a == EMPTY && scratch[scr_contact_mark() + slot] == 0u);
 }
 
+// Convex pairs need exactly SCR_MISSING_N root slots. All slots at or above
+// the high-water mark have never been allocated, so this prefix contains enough
+// free entries while preserving the same lowest-free-slot assignment as a full
+// scan. Mesh narrowphase may allocate additional child patches: retain the full
+// pool for that path until its extra demand can be bounded independently.
+fn free_scan_limit() -> u32 {
+    if (params.mesh_triangle_count > 0u) { return params.contact_capacity; }
+    let high = min(atomicLoad(&query[QUERY_CONTACT_HIGH_WATER]), params.contact_capacity);
+    return high + min(scratch[SCR_MISSING_N], params.contact_capacity - high);
+}
+
 @compute @workgroup_size(256)
 fn alloc_free_histogram(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
-    let n = params.contact_capacity;
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
+    let n = free_scan_limit();
     let keep = select(0u, slot_is_free(gid.x), gid.x < n);
     let exclusive = workgroup_exclusive_scan_256(lid, keep);
     if (lid == 255u) {
@@ -936,7 +1009,7 @@ fn alloc_free_bases(@builtin(local_invocation_index) lid: u32) {
         }
         return;
     }
-    let groups = (params.contact_capacity + RADIX_GROUP_SIZE - 1u) / RADIX_GROUP_SIZE;
+    let groups = (free_scan_limit() + RADIX_GROUP_SIZE - 1u) / RADIX_GROUP_SIZE;
     let total = scan_group_counts(lid, groups, scr_radix_base(), scr_radix_base());
     if (lid == 255u) {
         scratch[SCR_FREE_N] = total;
@@ -945,11 +1018,14 @@ fn alloc_free_bases(@builtin(local_invocation_index) lid: u32) {
 
 @compute @workgroup_size(256)
 fn alloc_free_scatter(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
-    let n = params.contact_capacity;
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
+    let n = free_scan_limit();
     let keep = select(0u, slot_is_free(gid.x), gid.x < n);
     let local_exclusive = workgroup_exclusive_scan_256(lid, keep);
     if (keep != 0u) {
@@ -967,10 +1043,13 @@ fn pair_needs_slot(i: u32, n: u32) -> u32 {
 
 @compute @workgroup_size(256)
 fn alloc_missing_histogram(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     let n = min(scratch[SCR_UNIQUE_N], pair_cap());
     let keep = pair_needs_slot(gid.x, n);
     let exclusive = workgroup_exclusive_scan_256(lid, keep);
@@ -991,10 +1070,13 @@ fn alloc_missing_bases(@builtin(local_invocation_index) lid: u32) {
 
 @compute @workgroup_size(256)
 fn alloc_missing_scatter(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     let n = min(scratch[SCR_UNIQUE_N], pair_cap());
     let keep = pair_needs_slot(gid.x, n);
     let local_exclusive = workgroup_exclusive_scan_256(lid, keep);
@@ -1005,7 +1087,8 @@ fn alloc_missing_scatter(
 }
 
 @compute @workgroup_size(64)
-fn alloc_prepare_keys(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn alloc_prepare_keys(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i >= min(scratch[SCR_MISSING_N], scratch[SCR_FREE_N])) { return; }
     let pair_i = scratch[scr_radix_hist() + i];
@@ -1014,7 +1097,8 @@ fn alloc_prepare_keys(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(64)
-fn alloc_bind_slots(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn alloc_bind_slots(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     let missing = scratch[SCR_MISSING_N];
     let free_n = scratch[SCR_FREE_N];
@@ -1038,7 +1122,8 @@ fn alloc_bind_slots(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(64)
-fn retire_stale_contacts(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn retire_stale_contacts(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     let occupied_count = min(scratch[SCR_OCCUPIED_N], params.contact_capacity);
     if (i >= occupied_count) {
@@ -1112,8 +1197,9 @@ var<workgroup> metric_touching_sum: atomic<u32>;
 var<workgroup> metric_non_sensor_sum: atomic<u32>;
 
 @compute @workgroup_size(64)
-fn collect_occupied_contacts(@builtin(global_invocation_id) gid: vec3<u32>,
+fn collect_occupied_contacts(@builtin(global_invocation_id) dispatch_gid: vec3<u32>,
                              @builtin(local_invocation_index) lid: u32) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     if (lid == 0u) {
         atomicStore(&metric_patch_sum, 0u);
         atomicStore(&metric_touching_sum, 0u);
@@ -1180,20 +1266,18 @@ fn write_alloc_indirects() {
     write_count_indirect(SCR_INDIRECT_PREPARE, missing, 64u);
     let free_groups = select(
         0u,
-        (params.contact_capacity + RADIX_GROUP_SIZE - 1u) / RADIX_GROUP_SIZE,
+        (free_scan_limit() + RADIX_GROUP_SIZE - 1u) / RADIX_GROUP_SIZE,
         need_free_list,
     );
-    scratch[SCR_INDIRECT_RADIX] = free_groups;
-    scratch[SCR_INDIRECT_RADIX + 1u] = 1u;
-    scratch[SCR_INDIRECT_RADIX + 2u] = 1u;
-    scratch[SCR_INDIRECT_RADIX + 3u] = 0u;
+    write_group_indirect(SCR_INDIRECT_RADIX, free_groups);
     if (!need_free_list) {
         scratch[SCR_FREE_N] = 0u;
     }
 }
 
 @compute @workgroup_size(64)
-fn graph_clear_meta(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn graph_clear_meta(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i >= params.body_count) {
         return;
@@ -1232,7 +1316,8 @@ fn graph_dyn_body(unique_i: u32) -> u32 {
 }
 
 @compute @workgroup_size(64)
-fn graph_classify(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn graph_classify(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     let np = min(scratch[SCR_UNIQUE_N], pair_cap());
     if (i >= np) {
@@ -1257,7 +1342,8 @@ fn graph_classify(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(64)
-fn graph_mark_edges(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn graph_mark_edges(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i >= params.joint_count) {
         return;
@@ -1284,8 +1370,11 @@ fn graph_keep_kind(i: u32, n: u32, kind: u32) -> u32 {
 // arrays here; neither output list may alias prefixes during parallel scatter.
 fn scr_graph_paired_prefix() -> u32 { return scr_ins_cell(); }
 @compute @workgroup_size(256)
-fn graph_compact_paired_histogram(@builtin(global_invocation_id) gid:vec3<u32>,
-    @builtin(local_invocation_index) lid:u32,@builtin(workgroup_id) group:vec3<u32>) {
+fn graph_compact_paired_histogram(@builtin(global_invocation_id) dispatch_gid:vec3<u32>,
+    @builtin(local_invocation_index) lid:u32,@builtin(workgroup_id) dispatch_group:vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     let n=min(scratch[SCR_UNIQUE_N],pair_cap());
     for (var kind=1u;kind<=2u;kind++) {
         let keep=graph_keep_kind(gid.x,n,kind);
@@ -1304,8 +1393,11 @@ fn graph_compact_paired_bases(@builtin(local_invocation_index) lid:u32) {
     }
 }
 @compute @workgroup_size(256)
-fn graph_compact_paired_scatter(@builtin(global_invocation_id) gid:vec3<u32>,
-    @builtin(local_invocation_index) lid:u32,@builtin(workgroup_id) group:vec3<u32>) {
+fn graph_compact_paired_scatter(@builtin(global_invocation_id) dispatch_gid:vec3<u32>,
+    @builtin(local_invocation_index) lid:u32,@builtin(workgroup_id) dispatch_group:vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     let n=min(scratch[SCR_UNIQUE_N],pair_cap());
     for (var kind=1u;kind<=2u;kind++) {
         let keep=graph_keep_kind(gid.x,n,kind);
@@ -1318,7 +1410,8 @@ fn graph_compact_paired_scatter(@builtin(global_invocation_id) gid:vec3<u32>,
 }
 
 @compute @workgroup_size(64)
-fn graph_count_static_degree(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn graph_count_static_degree(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     let n = min(scratch[SCR_GRAPH_STATIC_N], pair_cap());
     if (i >= n) {
@@ -1353,10 +1446,7 @@ fn graph_finish_static_degree() {
         write_count_indirect(SCR_INDIRECT_RADIX, n, RADIX_GROUP_SIZE);
     } else {
         scratch[SCR_RADIX_GROUP_N] = 0u;
-        scratch[SCR_INDIRECT_RADIX] = 0u;
-        scratch[SCR_INDIRECT_RADIX + 1u] = 1u;
-        scratch[SCR_INDIRECT_RADIX + 2u] = 1u;
-        scratch[SCR_INDIRECT_RADIX + 3u] = 0u;
+        write_group_indirect(SCR_INDIRECT_RADIX, 0u);
     }
     write_count_indirect(SCR_INDIRECT_STATIC, n, 64u);
 }
@@ -1391,7 +1481,8 @@ fn graph_static_order_base() -> u32 {
     return color_contact_base() + OVERFLOW_COLOR * params.contact_capacity;
 }
 @compute @workgroup_size(64)
-fn graph_pack_static_keys(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn graph_pack_static_keys(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     if ((params.diagnostic_flags & DIAG_STATIC_DEGREE_TWO_PROOF)!=0u) {return;}
     let i = gid.x;
     let n = min(scratch[SCR_GRAPH_STATIC_N], pair_cap());
@@ -1419,37 +1510,49 @@ fn graph_radix_histogram_impl(gid: u32, lid: u32, group: u32, shift: u32, from_c
 
 @compute @workgroup_size(256)
 fn graph_radix_histogram_0(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     graph_radix_histogram_impl(gid.x, lid, group.x, 0u, false);
 }
 
 @compute @workgroup_size(256)
 fn graph_radix_histogram_8(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     graph_radix_histogram_impl(gid.x, lid, group.x, 8u, true);
 }
 
 @compute @workgroup_size(256)
 fn graph_radix_histogram_16(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     graph_radix_histogram_impl(gid.x, lid, group.x, 16u, false);
 }
 
 @compute @workgroup_size(256)
 fn graph_radix_histogram_24(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     graph_radix_histogram_impl(gid.x, lid, group.x, 24u, true);
 }
 
@@ -1482,42 +1585,55 @@ fn graph_radix_scatter_impl(gid: u32, lid: u32, group: u32, shift: u32, from_col
 
 @compute @workgroup_size(256)
 fn graph_radix_scatter_0(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     graph_radix_scatter_impl(gid.x, lid, group.x, 0u, false);
 }
 
 @compute @workgroup_size(256)
 fn graph_radix_scatter_8(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     graph_radix_scatter_impl(gid.x, lid, group.x, 8u, true);
 }
 
 @compute @workgroup_size(256)
 fn graph_radix_scatter_16(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     graph_radix_scatter_impl(gid.x, lid, group.x, 16u, false);
 }
 
 @compute @workgroup_size(256)
 fn graph_radix_scatter_24(
-    @builtin(global_invocation_id) gid: vec3<u32>,
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
-    @builtin(workgroup_id) group: vec3<u32>,
+    @builtin(workgroup_id) dispatch_group: vec3<u32>,
 ) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 256u), 0u, 0u);
+    let group = vec3<u32>(linear_workgroup_id(dispatch_group), 0u, 0u);
+    if (group.x >= radix_groups()) { return; }
     graph_radix_scatter_impl(gid.x, lid, group.x, 24u, true);
 }
 
 @compute @workgroup_size(64)
-fn graph_mark_static_starts(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn graph_mark_static_starts(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     let n = min(scratch[SCR_GRAPH_STATIC_N], pair_cap());
     if (i >= n || scratch[SCR_GRAPH_STATIC_MAX] <= 1u) {
@@ -1534,7 +1650,8 @@ fn graph_mark_static_starts(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(64)
-fn graph_encode_static_colors(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn graph_encode_static_colors(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     let n = min(scratch[SCR_GRAPH_STATIC_N], pair_cap());
     if (i >= n || scratch[SCR_GRAPH_STATIC_MAX] <= 1u) {
@@ -1553,7 +1670,8 @@ fn graph_encode_static_colors(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(64)
-fn graph_mark_color_starts(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn graph_mark_color_starts(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     let n = min(scratch[SCR_GRAPH_STATIC_N], pair_cap());
     if (i >= n || scratch[SCR_GRAPH_STATIC_MAX] <= 1u) {
@@ -1573,7 +1691,8 @@ fn graph_mark_color_starts(@builtin(global_invocation_id) gid: vec3<u32>) {
 // Ranked edges were sorted by (body, pair) then (color, unique) so scatter is
 // conflict-free without a scene-wide scalar loop.
 @compute @workgroup_size(64)
-fn graph_assign_static(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn graph_assign_static(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     let n = min(scratch[SCR_GRAPH_STATIC_N], pair_cap());
     if (i >= n) {
@@ -1664,7 +1783,7 @@ fn graph_assign_dynamic() {
 // not impose a world-size limit. One lane makes the ordered color decisions;
 // the others hide global-memory latency without racing on endpoint masks.
 var<workgroup> graph_batch_keys: array<atomic<u32>, 1024>;
-var<workgroup> graph_batch_masks: array<u32, 1024>;
+var<workgroup> graph_batch_masks: array<atomic<u32>, 1024>;
 var<workgroup> graph_batch_a: array<u32, 256>;
 var<workgroup> graph_batch_b: array<u32, 256>;
 var<workgroup> graph_batch_slots: array<u32, 256>;
@@ -1677,7 +1796,7 @@ fn graph_batch_endpoint(body: u32) -> u32 {
     loop {
         let insert = atomicCompareExchangeWeak(&graph_batch_keys[at], EMPTY, body);
         if (insert.exchanged) {
-            graph_batch_masks[at] = atomicLoad(&atom[atom_jacobi() + body]);
+            atomicStore(&graph_batch_masks[at], atomicLoad(&atom[atom_jacobi() + body]));
             return at;
         }
         if (insert.old_value == body) { return at; }
@@ -1688,62 +1807,192 @@ fn graph_batch_endpoint(body: u32) -> u32 {
     return 0u;
 }
 
+// Cache the coloring function, not contacts or solver state. Each batch stores
+// its endpoints, incoming masks, chosen colors and within-batch local indices.
+// Global color offsets may change and are added afresh on every invocation.
+// This shares the optional memo allocation with the small-world kernel; distinct
+// validity tags make switching between implementations invalidate old contents.
+const GRAPH_BATCH_MEMO_TAG: u32 = 0x424b5431u;
+var<workgroup> graph_batch_start_counts: array<u32, 24>;
+var<workgroup> graph_batch_added: array<atomic<u32>, 24>;
+var<workgroup> graph_batch_changed: atomic<u32>;
+var<workgroup> graph_batch_reuse: u32;
+var<workgroup> graph_batch_cache_ready: u32;
+var<workgroup> graph_batch_buckets: array<u32, 256>;
+var<workgroup> graph_batch_first_bucket: u32;
+var<workgroup> graph_batch_partition: atomic<u32>;
+var<workgroup> graph_batch_partition_count: u32;
+
+fn graph_batch_memo_base() -> u32 {
+    return 261u + 54u * (params.shape_base_u32 / 32u) + 2u * params.contact_capacity;
+}
+// Four cached chunks per 128-body range. Denser ranges still use the exact
+// greedy fallback for their remaining chunks. Edge order is never changed.
+fn graph_batch_memo_groups() -> u32 { return 4u * ((params.shape_base_u32 / 32u + 127u) / 128u); }
+fn graph_batch_memo_edges() -> u32 { return graph_batch_memo_base() + 8u + graph_batch_memo_groups(); }
+fn graph_batch_memo_end() -> u32 { return graph_batch_memo_edges() + 6u * 256u * graph_batch_memo_groups(); }
+
 @compute @workgroup_size(256)
 fn graph_assign_dynamic_batched(@builtin(local_invocation_index) lane: u32) {
+    let memo = graph_batch_memo_base();
+    let cache = arrayLength(&query) >= graph_batch_memo_end()
+        && (params.diagnostic_flags & DIAG_REBUILD_GRAPH) == 0u;
     if (lane < 24u) {
         graph_batch_counts[lane] = atomicLoad(&atom[atom_graph_color() + lane]);
     }
-    if (lane == 0u) { graph_batch_n = min(scratch[SCR_DYN_DYN_N], pair_cap()); }
+    if (lane == 0u) {
+        graph_batch_n = min(scratch[SCR_DYN_DYN_N], pair_cap());
+        graph_batch_cache_ready = 0u;
+        if (cache) {
+            graph_batch_cache_ready = select(0u, 1u, atomicLoad(&query[memo]) == GRAPH_BATCH_MEMO_TAG);
+            if (graph_batch_cache_ready == 0u) {
+                atomicStore(&query[memo + 1u], 0u);
+                atomicStore(&query[memo + 2u], 0u);
+            }
+        }
+    }
     workgroupBarrier();
     let n = workgroupUniformLoad(&graph_batch_n);
-    for (var base = 0u; base < n; base += 256u) {
+    let ready = workgroupUniformLoad(&graph_batch_cache_ready) != 0u;
+    if (cache && !ready) {
+        // Invalidate unvisited batches too, including after switching from the
+        // small-world memo layout and later growing the active edge list.
+        for (var batch = lane; batch < graph_batch_memo_groups(); batch += 256u) {
+            atomicStore(&query[memo + 8u + batch], 0u);
+        }
+    }
+    storageBarrier();
+    var base = 0u;
+    var previous_bucket = EMPTY;
+    var chunk = 0u;
+    loop {
+        if (base >= n) { break; }
+        let remaining = min(256u, n - base);
         for (var at = lane; at < 1024u; at += 256u) {
             atomicStore(&graph_batch_keys[at], EMPTY);
         }
+        if (lane < 24u) {
+            graph_batch_start_counts[lane] = graph_batch_counts[lane];
+            atomicStore(&graph_batch_added[lane], 0u);
+        }
+        if (lane == 0u) { atomicStore(&graph_batch_partition, remaining); }
         workgroupBarrier();
-        if (base + lane < n) {
+        if (lane < remaining) {
             let slot = scratch[scr_active_contact() + scratch[scr_next_occupied() + base + lane]];
             let h = contacts[slot];
             graph_batch_slots[lane] = slot;
             graph_batch_a[lane] = graph_batch_endpoint(h.a);
             graph_batch_b[lane] = graph_batch_endpoint(h.b);
+            let bucket = (max(max(h.a, h.b), 1u) - 1u) / 128u;
+            graph_batch_buckets[lane] = bucket;
+            if (lane == 0u) { graph_batch_first_bucket = bucket; }
         }
         workgroupBarrier();
+        let bucket = workgroupUniformLoad(&graph_batch_first_bucket);
+        if (cache && lane < remaining && graph_batch_buckets[lane] != bucket) {
+            atomicMin(&graph_batch_partition, lane);
+        }
+        workgroupBarrier();
+        if (lane == 0u) { graph_batch_partition_count = atomicLoad(&graph_batch_partition); }
+        workgroupBarrier();
+        let count = workgroupUniformLoad(&graph_batch_partition_count);
+        if (bucket == previous_bucket) { chunk++; } else { chunk = 0u; }
+        previous_bucket = bucket;
+        let cache_batch = 4u * bucket + chunk;
+        let batch_cache = cache && chunk < 4u;
+        let header = memo + 8u + cache_batch;
         if (lane == 0u) {
-            for (var i = 0u; i < min(256u, n - base); i++) {
+            atomicStore(&graph_batch_changed, 1u);
+            if (batch_cache && ready) {
+                atomicStore(&graph_batch_changed, select(1u, 0u, atomicLoad(&query[header]) == count));
+            }
+        }
+        workgroupBarrier();
+        if (batch_cache && lane < count) {
+            let a = graph_batch_a[lane];
+            let b = graph_batch_b[lane];
+            let record = graph_batch_memo_edges() + 6u * (cache_batch * 256u + lane);
+            let body_a = atomicLoad(&graph_batch_keys[a]);
+            let body_b = atomicLoad(&graph_batch_keys[b]);
+            let mask_a = atomicLoad(&graph_batch_masks[a]) & ((1u << DYNAMIC_COLOR_COUNT) - 1u);
+            let mask_b = atomicLoad(&graph_batch_masks[b]) & ((1u << DYNAMIC_COLOR_COUNT) - 1u);
+            if (atomicLoad(&query[record]) != body_a || atomicLoad(&query[record + 1u]) != body_b
+                || atomicLoad(&query[record + 2u]) != mask_a || atomicLoad(&query[record + 3u]) != mask_b) {
+                atomicStore(&graph_batch_changed, 1u);
+            }
+            // Each lane owns one record; no other lane reads this record.
+            atomicStore(&query[record], body_a);
+            atomicStore(&query[record + 1u], body_b);
+            atomicStore(&query[record + 2u], mask_a);
+            atomicStore(&query[record + 3u], mask_b);
+        }
+        workgroupBarrier();
+        if (lane == 0u) { graph_batch_reuse = select(0u, 1u, atomicLoad(&graph_batch_changed) == 0u); }
+        workgroupBarrier();
+        let reuse = workgroupUniformLoad(&graph_batch_reuse) != 0u;
+        if (reuse) {
+            if (lane < count) {
+                let record = graph_batch_memo_edges() + 6u * (cache_batch * 256u + lane);
+                let col = atomicLoad(&query[record + 4u]);
+                let local = atomicLoad(&query[record + 5u]);
+                graph_batch_choices[lane] = vec2<u32>(col, graph_batch_start_counts[col] + local);
+                atomicAdd(&graph_batch_added[col], 1u);
+                if (col < DYNAMIC_COLOR_COUNT) {
+                    atomicOr(&graph_batch_masks[graph_batch_a[lane]], 1u << col);
+                    atomicOr(&graph_batch_masks[graph_batch_b[lane]], 1u << col);
+                }
+            }
+        } else if (lane == 0u) {
+            for (var i = 0u; i < count; i++) {
                 let a = graph_batch_a[i];
                 let b = graph_batch_b[i];
-                let available = (~(graph_batch_masks[a] | graph_batch_masks[b]))
-                    & ((1u << DYNAMIC_COLOR_COUNT) - 1u);
+                let mask_a = atomicLoad(&graph_batch_masks[a]);
+                let mask_b = atomicLoad(&graph_batch_masks[b]);
+                let available = (~(mask_a | mask_b)) & ((1u << DYNAMIC_COLOR_COUNT) - 1u);
                 var col = OVERFLOW_COLOR;
                 if (available != 0u) {
                     col = firstTrailingBit(available);
-                    graph_batch_masks[a] |= 1u << col;
-                    graph_batch_masks[b] |= 1u << col;
+                    // Only lane zero writes masks in the fallback walk.
+                    atomicStore(&graph_batch_masks[a], mask_a | (1u << col));
+                    atomicStore(&graph_batch_masks[b], mask_b | (1u << col));
                 }
                 graph_batch_choices[i] = vec2<u32>(col, graph_batch_counts[col]);
                 graph_batch_counts[col]++;
             }
         }
         workgroupBarrier();
-        if (base + lane < n) {
+        if (reuse && lane < 24u) {
+            graph_batch_counts[lane] += atomicLoad(&graph_batch_added[lane]);
+        }
+        if (lane < count) {
             let choice = graph_batch_choices[lane];
             let slot = graph_batch_slots[lane];
             if (choice.y < params.contact_capacity) {
                 scratch[color_contact_base() + choice.x * params.contact_capacity + choice.y] = slot;
                 store_graph_meta(slot, choice.x, choice.y);
             } else { record_contact_drop(9u); }
+            if (batch_cache) {
+                let record = graph_batch_memo_edges() + 6u * (cache_batch * 256u + lane);
+                atomicStore(&query[record + 4u], choice.x);
+                atomicStore(&query[record + 5u], choice.y - graph_batch_start_counts[choice.x]);
+            }
+        }
+        if (batch_cache && lane == 0u) {
+            atomicStore(&query[header], count);
+            atomicAdd(&query[memo + select(2u, 1u, reuse)], 1u);
         }
         for (var at = lane; at < 1024u; at += 256u) {
             let body = atomicLoad(&graph_batch_keys[at]);
-            if (body != EMPTY) { atomicStore(&atom[atom_jacobi() + body], graph_batch_masks[at]); }
+            if (body != EMPTY) { atomicStore(&atom[atom_jacobi() + body], atomicLoad(&graph_batch_masks[at])); }
         }
         storageBarrier();
         workgroupBarrier();
+        base += count;
     }
     if (lane < 24u) {
         atomicStore(&atom[atom_graph_color() + lane], graph_batch_counts[lane]);
     }
+    if (cache && lane == 0u) { atomicStore(&query[memo], GRAPH_BATCH_MEMO_TAG); }
     storageBarrier();
     workgroupBarrier();
     if (lane == 0u) { finish_dynamic_graph(); }
@@ -1762,14 +2011,10 @@ fn finish_dynamic_graph() {
     }
     let np_all = min(scratch[SCR_NCONTACTS], pair_cap());
     if (params.solver_mode == SOLVER_JACOBI) {
-        scratch[SCR_INDIRECT_COLLIDE] = (np_all + 63u) / 64u;
-        scratch[SCR_INDIRECT_COLLIDE + 1u] = 1u;
-        scratch[SCR_INDIRECT_COLLIDE + 2u] = 1u;
+        write_group_indirect(SCR_INDIRECT_COLLIDE, (np_all + 63u) / 64u);
     } else {
         let use_one_group_wave = mx <= 1u;
-        scratch[SCR_INDIRECT_COLLIDE] = select(0u, 1u, use_one_group_wave);
-        scratch[SCR_INDIRECT_COLLIDE + 1u] = 1u;
-        scratch[SCR_INDIRECT_COLLIDE + 2u] = 1u;
+        write_group_indirect(SCR_INDIRECT_COLLIDE, select(0u, 1u, use_one_group_wave));
         for (var c = 0u; c < 24u; c++) {
             let n_col = scratch[SCR_COLOR + c];
             var groups = (n_col + 63u) / 64u;
@@ -1777,10 +2022,7 @@ fn finish_dynamic_graph() {
                 groups = select(0u, 1u, n_col > 0u);
             }
             let base = SCR_INDIRECT_COLOR + c * 4u;
-            scratch[base] = select(groups, 0u, use_one_group_wave);
-            scratch[base + 1u] = 1u;
-            scratch[base + 2u] = 1u;
-            scratch[base + 3u] = 0u;
+            write_group_indirect(base, select(groups, 0u, use_one_group_wave));
         }
     }
     scratch[SCR_INDIRECT_COLLIDE + 3u] = 0u;
@@ -1793,14 +2035,15 @@ fn finish_dynamic_graph() {
 }
 
 @compute @workgroup_size(64)
-fn finish_occupied_contacts(@builtin(global_invocation_id) gid: vec3<u32>,
+fn finish_occupied_contacts(@builtin(global_invocation_id) dispatch_gid: vec3<u32>,
                             @builtin(num_workgroups) groups: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let count = min(atomicLoad(&atom[ATOM_OCCUPIED_N]), params.contact_capacity);
     // Retirement and collection are complete before this dispatch. Publish
     // the new list without overwriting any input being read by those passes.
     // Strided ownership preserves list order across workgroups. Consumers run
     // after this dispatch completes; they cannot use the count mid-publication.
-    for (var i = gid.x; i < count; i += groups.x * 64u) {
+    for (var i = gid.x; i < count; i += groups.x * groups.y * 64u) {
         scratch[scr_occupied_contact() + i] = scratch[scr_next_occupied() + i];
     }
     if (gid.x != 0u) { return; }
@@ -1929,14 +2172,10 @@ fn color_and_compact() {
         mx = max(mx, (scratch[SCR_COLOR + c] + 63u) / 64u);
     }
     if (params.solver_mode == SOLVER_JACOBI) {
-        scratch[SCR_INDIRECT_COLLIDE] = (np + 63u) / 64u;
-        scratch[SCR_INDIRECT_COLLIDE + 1u] = 1u;
-        scratch[SCR_INDIRECT_COLLIDE + 2u] = 1u;
+        write_group_indirect(SCR_INDIRECT_COLLIDE, (np + 63u) / 64u);
     } else {
         let use_one_group_wave = np > 0u && mx <= 1u;
-        scratch[SCR_INDIRECT_COLLIDE] = select(0u, 1u, use_one_group_wave);
-        scratch[SCR_INDIRECT_COLLIDE + 1u] = 1u;
-        scratch[SCR_INDIRECT_COLLIDE + 2u] = 1u;
+        write_group_indirect(SCR_INDIRECT_COLLIDE, select(0u, 1u, use_one_group_wave));
         for (var c = 0u; c < 24u; c++) {
             let n = scratch[SCR_COLOR + c];
             var groups = (n + 63u) / 64u;
@@ -1944,10 +2183,7 @@ fn color_and_compact() {
                 groups = select(0u, 1u, n > 0u);
             }
             let base = SCR_INDIRECT_COLOR + c * 4u;
-            scratch[base] = select(groups, 0u, use_one_group_wave);
-            scratch[base + 1u] = 1u;
-            scratch[base + 2u] = 1u;
-            scratch[base + 3u] = 0u;
+            write_group_indirect(base, select(groups, 0u, use_one_group_wave));
         }
     }
     scratch[SCR_INDIRECT_COLLIDE + 3u] = 0u;
@@ -2002,16 +2238,18 @@ fn color_and_compact() {
 // Topology changes only: preserve physical slot ownership while replacing dense
 // collider keys. Mapping entries identify exact surviving shape generations.
 @compute @workgroup_size(64)
-fn clear_remapped_contact_hash(@builtin(global_invocation_id) gid: vec3<u32>,
+fn clear_remapped_contact_hash(@builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(num_workgroups) groups: vec3<u32>) {
-    for (var i = gid.x; i < contact_hash_cap(); i += groups.x * 64u) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
+    for (var i = gid.x; i < contact_hash_cap(); i += groups.x * groups.y * 64u) {
         atomicStore(&atom[atom_contact_key() + i], EMPTY);
         atomicStore(&atom[atom_contact_identity() + i], EMPTY);
     }
 }
 
 @compute @workgroup_size(64)
-fn remap_contact_shapes(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn remap_contact_shapes(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let slot = gid.x;
     if (slot >= params.contact_capacity) { return; }
     var c = load_contact(slot);
@@ -2041,7 +2279,8 @@ fn remap_contact_shapes(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(64)
-fn prepare_contact_hash_keys(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn prepare_contact_hash_keys(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let slot = gid.x;
     if (slot >= params.contact_capacity) { return; }
     if (contacts[slot].a != EMPTY && contacts[slot].manifold_link.y == 0u) {
@@ -2050,7 +2289,8 @@ fn prepare_contact_hash_keys(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(64)
-fn publish_remapped_contacts(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn publish_remapped_contacts(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let slot = gid.x;
     if (slot >= params.contact_capacity) { return; }
     let c = contacts[slot];
@@ -2064,7 +2304,8 @@ fn publish_remapped_contacts(@builtin(global_invocation_id) gid: vec3<u32>) {
 // Mutation command, one invocation per unique root. Children have exactly one
 // root owner, so retiring a manifold chain cannot race another invocation.
 @compute @workgroup_size(64)
-fn retire_body_pair_contacts(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn retire_body_pair_contacts(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i >= min(scratch[SCR_UNIQUE_N], pair_cap())) { return; }
     let slot = scratch[scr_active_contact() + i];
@@ -2086,7 +2327,8 @@ fn retire_body_pair_contacts(@builtin(global_invocation_id) gid: vec3<u32>) {
 // Bounded flat-scene pair matrix: a zero bit denotes an accepted pair.
 // Row is the higher shape slot, giving the same packed-key order as radix sort.
 @compute @workgroup_size(64)
-fn pair_matrix_build(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn pair_matrix_build(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let stride=(params.shape_count+31u)/32u;
     let word=gid.x;
     if (word>=params.shape_count*stride) {return;}
@@ -2106,14 +2348,16 @@ fn pair_matrix_build(@builtin(global_invocation_id) gid: vec3<u32>) {
     atomicStore(&atom[ATOM_HASH+word],rejected);
 }
 @compute @workgroup_size(64)
-fn pair_matrix_previous(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn pair_matrix_previous(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let key=previous_pair_key(gid.x);if(key.x==EMPTY){return;}
     let lo=key.x;let hi=key.y;
     let stride=(params.shape_count+31u)/32u;
     atomicAnd(&atom[ATOM_HASH+hi*stride+lo/32u],~(1u<<(lo%32u)));
 }
 @compute @workgroup_size(64)
-fn pair_matrix_count(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn pair_matrix_count(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let row=gid.x;if(row>=params.shape_count){return;}
     let stride=(params.shape_count+31u)/32u;
     var count=0u;
@@ -2142,7 +2386,8 @@ fn pair_matrix_bases(@builtin(local_invocation_index) lid: u32) {
     }
 }
 @compute @workgroup_size(64)
-fn pair_matrix_scatter(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn pair_matrix_scatter(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let hi=gid.x;if(hi>=params.shape_count){return;}
     let stride=(params.shape_count+31u)/32u;var dst=scratch[scr_ins_cell()+hi];
     for(var w=0u;w<stride;w++){

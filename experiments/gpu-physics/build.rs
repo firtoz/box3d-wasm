@@ -36,6 +36,7 @@ fn main() {
     println!("cargo:rerun-if-changed={}", box3d_src.join("math_functions.c").display());
     println!("cargo:rerun-if-changed={}", box3d_src.join("distance.c").display());
     for rel in [
+        "shaders/physics/dispatch.wgsl",
         "shaders/physics/types.wgsl",
         "shaders/physics/math.wgsl",
         "shaders/physics/rotation.wgsl",

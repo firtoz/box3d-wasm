@@ -9,7 +9,8 @@ fn modified_cross(a: vec3<f32>, b: vec3<f32>) -> vec3<f32> {
 }
 
 @compute @workgroup_size(ISLAND_WORKGROUP_SIZE)
-fn island_init(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn island_init(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, ISLAND_WORKGROUP_SIZE), 0u, 0u);
     let i = gid.x;
     if (i >= params.body_count) {
         return;
@@ -22,7 +23,8 @@ fn island_init(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(ISLAND_WORKGROUP_SIZE)
-fn island_union_edges(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn island_union_edges(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, ISLAND_WORKGROUP_SIZE), 0u, 0u);
     let i = gid.x;
     let nc = min(scratch[SCR_NCONTACTS], pair_cap());
     if (i < nc) {
@@ -40,7 +42,8 @@ fn island_union_edges(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(ISLAND_WORKGROUP_SIZE)
-fn island_accumulate_wake(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn island_accumulate_wake(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, ISLAND_WORKGROUP_SIZE), 0u, 0u);
     let i = gid.x;
     if (i >= params.body_count) {
         return;
@@ -58,7 +61,8 @@ fn island_accumulate_wake(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(ISLAND_WORKGROUP_SIZE)
-fn island_apply_wake(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn island_apply_wake(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, ISLAND_WORKGROUP_SIZE), 0u, 0u);
     let i = gid.x;
     if (i >= params.body_count || params.enable_sleep == 0u) {
         return;
@@ -72,14 +76,16 @@ fn island_apply_wake(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(ISLAND_WORKGROUP_SIZE)
-fn island_reset_ready(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn island_reset_ready(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, ISLAND_WORKGROUP_SIZE), 0u, 0u);
     if (gid.x < params.body_count) {
         atomicStore(&atom[atom_island_ready() + gid.x], 1u);
     }
 }
 
 @compute @workgroup_size(ISLAND_WORKGROUP_SIZE)
-fn island_accumulate_ready(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn island_accumulate_ready(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, ISLAND_WORKGROUP_SIZE), 0u, 0u);
     let i = gid.x;
     if (i >= params.body_count || params.enable_sleep == 0u) {
         return;
@@ -97,7 +103,8 @@ fn island_accumulate_ready(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(ISLAND_WORKGROUP_SIZE)
-fn island_apply_sleep(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn island_apply_sleep(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, ISLAND_WORKGROUP_SIZE), 0u, 0u);
     let i = gid.x;
     if (i >= params.body_count || params.enable_sleep == 0u) {
         return;
@@ -116,7 +123,8 @@ fn island_apply_sleep(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(64)
-fn reset_deltas(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn reset_deltas(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i >= params.body_count) {
         return;
@@ -128,7 +136,8 @@ fn reset_deltas(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(64)
-fn apply_deltas(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn apply_deltas(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i >= params.body_count) {
         return;
@@ -275,7 +284,8 @@ fn solve_validated_component_slot(slot: u32, mode: u32) {
 }
 
 @compute @workgroup_size(64)
-fn solve_tiny_islands(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn solve_tiny_islands(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i >= params.body_count || !fused_body(i)) {
         return;
@@ -308,7 +318,8 @@ fn solve_tiny_islands(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(64)
-fn integrate_vel(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn integrate_vel(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i >= params.body_count) {
         return;
@@ -317,7 +328,8 @@ fn integrate_vel(@builtin(global_invocation_id) gid: vec3<u32>) {
 }
 
 @compute @workgroup_size(64)
-fn integrate_pos(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn integrate_pos(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i = gid.x;
     if (i >= params.body_count) {
         return;
@@ -328,7 +340,8 @@ fn integrate_pos(@builtin(global_invocation_id) gid: vec3<u32>) {
 // Opt-in, phase-accurate diagnostics. Each dispatch records the body state
 // visible to the following pipeline plus aggregate contact persistence data.
 @compute @workgroup_size(64)
-fn capture_phase(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn capture_phase(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     if ((params.diagnostic_flags & DIAG_PHASE_CAPTURE) == 0u) {
         return;
     }
@@ -420,7 +433,8 @@ fn component_phase(root: u32, mode: u32, n: u32, slots: ptr<function, array<u32,
 }
 override SMALL_COMPONENT_WORKGROUP_SIZE:u32=16u;
 @compute @workgroup_size(SMALL_COMPONENT_WORKGROUP_SIZE)
-fn solve_complete_components(@builtin(global_invocation_id) gid: vec3<u32>) {
+fn solve_complete_components(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, SMALL_COMPONENT_WORKGROUP_SIZE), 0u, 0u);
     let root=gid.x;
     if (atomicLoad(&query[260u])!=0u) {return;}
     if (root>=params.body_count || island_root(root)!=root) {return;}
@@ -565,7 +579,8 @@ fn component_contact_root(slot:u32)->u32 {
     return select(a,b,a==EMPTY);
 }
 @compute @workgroup_size(64)
-fn component_reset(@builtin(global_invocation_id) gid:vec3<u32>) {
+fn component_reset(@builtin(global_invocation_id) dispatch_gid:vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     if (gid.x<params.body_count) {
         atomicStore(&query[component_meta(gid.x)],0u);
         atomicStore(&query[component_meta(gid.x)+1u],0u);
@@ -585,7 +600,8 @@ fn component_active_slot(i:u32)->u32 {
     return slot;
 }
 @compute @workgroup_size(64)
-fn component_count(@builtin(global_invocation_id) gid:vec3<u32>) {
+fn component_count(@builtin(global_invocation_id) dispatch_gid:vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let i=gid.x;
     if (i<params.body_count) {
         let root=island_root(i);
@@ -653,7 +669,8 @@ fn component_offsets(@builtin(local_invocation_index) lid:u32) {
     }
 }
 @compute @workgroup_size(64)
-fn component_scatter(@builtin(global_invocation_id) gid:vec3<u32>) {
+fn component_scatter(@builtin(global_invocation_id) dispatch_gid:vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     if (atomicLoad(&query[260u])!=0u) {return;}
     let i=gid.x;
     if (i<params.body_count) {
@@ -681,7 +698,8 @@ fn component_scatter(@builtin(global_invocation_id) gid:vec3<u32>) {
 }
 
 @compute @workgroup_size(64)
-fn component_color_offsets(@builtin(global_invocation_id) gid:vec3<u32>) {
+fn component_color_offsets(@builtin(global_invocation_id) dispatch_gid:vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let root=gid.x;
     if (root>=params.body_count || atomicLoad(&query[260u])!=0u) {return;}
     var start=atomicLoad(&query[component_meta(root)+3u]);
@@ -695,7 +713,8 @@ fn component_color_offsets(@builtin(global_invocation_id) gid:vec3<u32>) {
 
 // Count after CCD. Kinematics and any enabled non-static awake body block idle.
 @compute @workgroup_size(64)
-fn count_active_bodies(@builtin(global_invocation_id) gid:vec3<u32>) {
+fn count_active_bodies(@builtin(global_invocation_id) dispatch_gid:vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     if (gid.x>=params.body_count) {return;}
     let flags=body_states[gid.x].flags;
     if ((flags & (FLAG_STATIC|FLAG_DISABLED))==0u && ((flags & FLAG_SLEEP)==0u || (flags & FLAG_KINEMATIC)!=0u)) {

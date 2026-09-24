@@ -4720,6 +4720,16 @@ fn mass_queries_preserve_shape_and_explicit_mass() {
 
 #[test]
 fn full_width_shape_pairs_preserve_callbacks_events_and_remapping() {
+    shape_pair_lifecycle_at_capacity(65_536);
+}
+
+#[test]
+fn tiled_physics_dispatch_preserves_callbacks_events_and_remapping() {
+    // Cross the 65,535-workgroup boundary in capacity-wide 64-lane kernels.
+    shape_pair_lifecycle_at_capacity(131_072);
+}
+
+fn shape_pair_lifecycle_at_capacity(filler_count: u32) {
     use crate::api::*;
     use std::sync::atomic::{AtomicI32,Ordering};
     static MAX_FILTER_ID:AtomicI32=AtomicI32::new(0);
@@ -4734,7 +4744,7 @@ fn full_width_shape_pairs_preserve_callbacks_events_and_remapping() {
     let mut events=b3_default_shape_def();events.enable_contact_events=true;events.enable_custom_filtering=true;
     let ground_shape=b3_create_hull_shape(ground,&events,&b3_make_box_hull(10.0,0.5,10.0));
     let filler_def=b3_default_shape_def();let mut filler=b3_null_body_id();
-    for i in 0..65_536 {
+    for i in 0..filler_count {
         bd.position=[20.0+(i%256) as f32*4.0,5.0,20.0+(i/256) as f32*4.0];
         let body=b3_create_body(world,&bd);
         if i==0 {filler=body;}
