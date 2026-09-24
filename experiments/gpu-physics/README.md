@@ -106,8 +106,13 @@ count for `dominoes`. The default Dominoes fixture has 30 rings.
 **RTX 4070 Laptop (8,188 MiB), Ryzen 9 8945HS, NVIDIA 610.57.04; 2026-09-24.**
 The tiled implementation removes the previous 150,000-cube dispatch failure and
 reduces large-world graph construction time without changing solver settings.
-The matched before/after comparison below is complete. The replacement three-trial
-CPU/GPU sweep, both renderers and final 200,000-cube qualification are in progress.
+All 360 trials passed. **200,000 colliding cubes** complete at **9.80 steps/s**
+and **9.7 FPS** in the direct renderer. At 100,000 cubes, GPU physics reaches
+**20.68 steps/s versus CPU 10.84** in the full sweep. CPU is faster at small counts;
+the first sampled GPU wins are 20,000 cubes for physics and Sokol, and 15,000
+for the direct renderer. Physics trial ranges still overlap at 20,000; at 30,000,
+all three paired physics trials exceed a 20% GPU advantage. These are
+workload-specific measured crossovers.
 
 Three matched 100,000-cube trials on the RTX 4070 Laptop compare `533f14cd`
 against preserved `1559a049` binaries. Median trial mean completed-step time
@@ -118,14 +123,61 @@ are 61.12/63.41 ms before and 43.53/59.33 ms after. Graph construction falls fro
 26.05 to 12.05 ms. Primary buffers increase from 1,739,759,836 to 1,837,715,104
 bytes (93.4 MiB extra); this excludes driver allocations and renderer resources.
 Trials alternate executable order, use the same global solver, 90 warmup plus
-240 timed steps, four substeps, disabled sleep and normal desktop load. The
-final 200,000-cube qualification and updated CPU/renderer sweep remain pending.
+240 timed steps, four substeps, disabled sleep and normal desktop load. This
+alternating before/after experiment is separate from the full CPU/GPU sweep below.
 
 ![Repeated 100k comparison: completed step, phases and memory](benchmarks/rtx4070-tiled-100k-2026-09-24.svg)
 
 [Machine-readable comparison](benchmarks/rtx4070-tiled-100k-2026-09-24.json).
 Local raw evidence is in `artifacts/dispatch-scaling/final-100k/`, including
 per-step timings, power telemetry, binary hashes and the exact runner copies.
+
+
+The full sweep uses three fresh-world trials per count/path, eight CPU workers,
+unchanged global solver settings and normal desktop load. No trials were removed
+for background load. Shading shows all trial ranges; small-count frame cadence
+varies substantially, so use the p50/p95 plot alongside average rates. Both apps
+render at 2040×1148. AC status, clocks, temperature and power snapshots are retained;
+these are laptop operating conditions, not a fixed-power GPU measurement. Other
+GPUs require the same benchmark; nominal FLOPS alone cannot predict these limits.
+
+| Cubes | CPU / GPU physics steps/s | CPU / GPU Sokol FPS | CPU / GPU direct FPS |
+|---:|---:|---:|---:|
+| 15,000 | 122.56 / 90.47 | 64.78 / 64.65 | 100.36 / 125.53 |
+| 20,000 | 86.20 / 92.43 | 46.31 / 56.65 | 75.61 / 96.60 |
+| 30,000 | 49.70 / 64.92 | 27.23 / 41.01 | 43.61 / 69.00 |
+| 50,000 | 24.98 / 39.85 | 14.50 / 25.45 | 23.80 / 39.80 |
+| 60,000 | 19.86 / 34.62 | 11.57 / 21.58 | 18.64 / 33.23 |
+| 100,000 | 10.84 / 20.68 | — / 12.87 | 10.31 / 20.29 |
+| 150,000 | 6.81 / 13.02 | — / 8.73 | 6.43 / 12.96 |
+| 200,000 | — / 9.80 | — / — | — / 9.70 |
+
+![CPU/GPU physics throughput and both application renderers](benchmarks/rtx4070-tiled-scaling-2026-09-24.png)
+
+![CPU/GPU p50 and p95 latencies](benchmarks/rtx4070-tiled-scaling-2026-09-24-timings.png)
+
+![GPU phase costs and primary buffer allocations](benchmarks/rtx4070-tiled-resources-2026-09-24.png)
+
+Thresholds are **last sampled count above → first at or below** the average rate.
+They are brackets, not interpolated capacities or p95 guarantees. For example,
+60,000 cubes average 33.23 FPS in the direct GPU renderer; that does not imply
+that every frame meets a 30 FPS budget.
+
+| Path | 60 steps/s or FPS | 30 steps/s or FPS | 10 steps/s or FPS |
+|---|---:|---:|---:|
+| physics-cpu | 20,000 → 30,000 | 40,000 → 50,000 | 100,000 → 150,000 |
+| physics-gpu | 30,000 → 40,000 | 60,000 → 80,000 | 150,000 → 200,000 |
+| sokol-cpu | 15,000 → 20,000 | 20,000 → 30,000 | 60,000 → 80,000 |
+| sokol-gpu | 15,000 → 20,000 | 40,000 → 50,000 | 100,000 → 150,000 |
+| direct-cpu | 20,000 → 30,000 | 40,000 → 50,000 | 100,000 → 150,000 |
+| direct-gpu | 30,000 → 40,000 | 60,000 → 80,000 | 150,000 → 200,000 |
+
+[Full data and trial ranges](benchmarks/rtx4070-tiled-scaling-2026-09-24.json)
+· [Latency table](benchmarks/rtx4070-tiled-scaling-2026-09-24-timings.md)
+· [Phase and memory data](benchmarks/rtx4070-tiled-resources-2026-09-24.json)
+· [Numerical and source audit](benchmarks/rtx4070-tiled-audit-2026-09-24.json)
+· [Raw results, tests, source patches and reproduction scripts](benchmarks/rtx4070-tiled-scaling-2026-09-24-raw.tar.gz)
+· [Archive SHA-256](benchmarks/rtx4070-tiled-scaling-2026-09-24-raw.tar.gz.sha256)
 
 Production physics now uses shared Rust/WGSL tiled indexing in direct, indirect
 and native cached dispatches, retaining the existing 1D layout below the boundary.
@@ -137,12 +189,14 @@ lifecycle fixture with 131,075 shapes also passes with native command caches and
 full replay enabled and disabled, covering callbacks, contact events, deletion,
 remapping and slot reuse. Reproduce with
 `./scripts/build-native-cache.sh test --release --lib dispatch -- --test-threads=1`.
-An initial post-tiling trial completed **200,000 colliding cubes**: 7.52 completed
-steps/s, 132.81 ms p50 and 136.67 ms p95, with 410,745 live contacts after 330 steps.
-Capacity-loss, finite-position and ground-escape checks passed; all 200,000 dynamic
-bodies remained awake. Primary simulation buffers used 3,478,816,732 bytes. This is
-one diagnostic trial; repeated trials and application-renderer qualification are
-still pending. This initial trial predates the clearing and graph-cache changes.
+The final three 200,000-cube physics trials pass capacity-loss, finite-position
+and ground-escape checks with 410,745 live contacts and all 200,000 dynamic bodies
+awake after 330 steps. Median trial p50/p95 are **94.70/125.47 ms**; primary
+simulation buffers occupy **3,674,669,472 bytes (3.42 GiB)**. Each GPU physics and
+direct-renderer trial falls below 10/s at this count. This is the measured FPS
+stopping point, not a hard body-count or VRAM ceiling. Sokol reaches its 10 FPS
+stop at 150,000 cubes; it is not extrapolated to 200,000. The earlier, slower
+post-tiling diagnostic is preserved in the raw archive.
 
 Contact clearing now tracks a monotonic high-water mark of allocated contact
 slots, including mesh patches, and preserves it across buffer growth. It clears

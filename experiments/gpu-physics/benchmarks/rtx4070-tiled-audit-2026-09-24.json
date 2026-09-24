@@ -1,0 +1,192 @@
+{
+  "valid_trials": 360,
+  "counts_by_mode": {
+    "sokol-cpu": [
+      5,
+      10,
+      50,
+      100,
+      200,
+      400,
+      800,
+      1000,
+      2000,
+      5000,
+      10000,
+      15000,
+      20000,
+      30000,
+      40000,
+      50000,
+      60000,
+      80000
+    ],
+    "physics-cpu": [
+      5,
+      10,
+      50,
+      100,
+      200,
+      400,
+      800,
+      1000,
+      2000,
+      5000,
+      10000,
+      15000,
+      20000,
+      30000,
+      40000,
+      50000,
+      60000,
+      80000,
+      100000,
+      150000
+    ],
+    "sokol-gpu": [
+      5,
+      10,
+      50,
+      100,
+      200,
+      400,
+      800,
+      1000,
+      2000,
+      5000,
+      10000,
+      15000,
+      20000,
+      30000,
+      40000,
+      50000,
+      60000,
+      80000,
+      100000,
+      150000
+    ],
+    "direct-cpu": [
+      5,
+      10,
+      50,
+      100,
+      200,
+      400,
+      800,
+      1000,
+      2000,
+      5000,
+      10000,
+      15000,
+      20000,
+      30000,
+      40000,
+      50000,
+      60000,
+      80000,
+      100000,
+      150000
+    ],
+    "physics-gpu": [
+      5,
+      10,
+      50,
+      100,
+      200,
+      400,
+      800,
+      1000,
+      2000,
+      5000,
+      10000,
+      15000,
+      20000,
+      30000,
+      40000,
+      50000,
+      60000,
+      80000,
+      100000,
+      150000,
+      200000
+    ],
+    "direct-gpu": [
+      5,
+      10,
+      50,
+      100,
+      200,
+      400,
+      800,
+      1000,
+      2000,
+      5000,
+      10000,
+      15000,
+      20000,
+      30000,
+      40000,
+      50000,
+      60000,
+      80000,
+      100000,
+      150000,
+      200000
+    ]
+  },
+  "stopped": {
+    "sokol-cpu": {
+      "count": 80000,
+      "reason": "10 FPS threshold"
+    },
+    "physics-cpu": {
+      "count": 150000,
+      "reason": "10 FPS threshold"
+    },
+    "sokol-gpu": {
+      "count": 150000,
+      "reason": "10 FPS threshold"
+    },
+    "direct-cpu": {
+      "count": 150000,
+      "reason": "10 FPS threshold"
+    },
+    "physics-gpu": {
+      "count": 200000,
+      "reason": "10 FPS threshold"
+    },
+    "direct-gpu": {
+      "count": 200000,
+      "reason": "10 FPS threshold"
+    }
+  },
+  "throughput_gain_percent": 30.273482728470814,
+  "step_time_reduction_percent": 23.238407459766684,
+  "capacity_trials": [
+    {
+      "trial": 1,
+      "contacts": 410745,
+      "awake": 200000,
+      "primary_bytes": 3674669472,
+      "raw_sha256": "59f6702c725c6b13b5ce81fdc8f388b44e063df4bc60a39e9c11b40dc856faa5"
+    },
+    {
+      "trial": 2,
+      "contacts": 410745,
+      "awake": 200000,
+      "primary_bytes": 3674669472,
+      "raw_sha256": "683a665e9df5d5e6751099e3fcada12856205193f6b3c5043eccf3a70eb673c1"
+    },
+    {
+      "trial": 3,
+      "contacts": 410745,
+      "awake": 200000,
+      "primary_bytes": 3674669472,
+      "raw_sha256": "45d42580d3bc42f38cb9eca61ad5d2c6b0523c18403d4e04a48ae0e1d18790ef"
+    }
+  ],
+  "source_and_binary_hashes_verified": true,
+  "matched_environment": true,
+  "normal_desktop_load": true,
+  "note": "This audits numerical/source evidence. Final charts, documentation, recordings and archive require separate review before goal completion."
+}

@@ -16,7 +16,7 @@ engine or show two independent worlds side by side.
 | Experimental browser target | Does not currently compile; native transport, ABI layout and world-storage assumptions need work |
 | Box3D WASM package | Separate implementation; unchanged by the experiment |
 | Native API parity | Incomplete; linkable symbols include placeholders and CPU-only comparison passthroughs |
-| Performance | RTX 4070 Laptop: three matched trials at 100,000 cubes show 21.28 completed GPU steps/s at `533f14cd` versus 16.34 at `1559a049` (30.3% higher throughput, unchanged solver). Tiled dispatch removes the former 150,000-cube dispatch failure; an initial 200,000-cube trial passes collision/capacity checks. Final repeated capacity and CPU/renderer qualification is running. The experiment README distinguishes the current before/after result from the historical full CPU/renderer sweep. |
+| Performance | RTX 4070 Laptop: three matched 100,000-cube trials show 30.3% higher completed GPU throughput than `1559a049` (23.2% less step time). The full 360-trial CPU/GPU sweep passes through each path’s 10 FPS stop: GPU physics and direct rendering reach 200,000 colliding cubes at 9.80 steps/s and 9.7 FPS; GPU Sokol stops at 150,000. At 100,000, GPU physics reaches 20.68 steps/s versus 8-worker CPU 10.84. See the experiment README for charts, latency, memory, thresholds and reproducible evidence. |
 
 The [scaling follow-up](../experiments/gpu-physics/README.md#falling-cube-scaling-benchmark)
 fixes a concurrent island-link loss and adds batched contact coloring above 8,168
@@ -30,7 +30,9 @@ lifecycle tests pass with native caches enabled and disabled. Dirty contact-rang
 clearing and stable body-range graph-color reuse reduce work without changing
 ordered greedy assignments; the final native-cache library suite passes 267 tests.
 The earlier complete renderer sweep stopped at a software dispatch limit rather
-than a measured GPU memory or frame-rate ceiling. Its replacement is in progress.
+than a measured GPU memory or frame-rate ceiling. The replacement sweep reaches
+frame-rate stops on all six paths, with no rejected trials; VRAM exhaustion remains
+unmeasured.
 
 Platform setup, adapter overrides and cache policy are in the
 [backend guide](../experiments/gpu-physics/compiler/native-backend/README.md).
@@ -80,7 +82,7 @@ linked symbols in the selected build. Full native compatibility must not be infe
 | Gap | User-visible consequence / remaining work |
 |---|---|
 | Joint query limits | Wheel angular separation is unimplemented upstream; its release fallback is zero. Reaction precision limits are described below. |
-| Falling-cube GPU capacity | The archived sweep hit the old 65,536 spatial-insertion limit at 20,000 cubes. Insertion buffers now scale with reserved shape capacity; the static-contact sort also no longer packs body/index into 16-bit halves. Pair/contact buffers and their prefix scans now scale with reserved body capacity. Pair/history storage and callbacks/events now use full-width endpoints; canonical cell ownership removes online packed-key deduplication. High-index collision, event, remap, and reuse regressions pass. Native sample C metadata now uses per-world growable chunks and passes high-index ownership/callback regressions; Sokol debug/opaque renderer reservations now follow benchmark size, and both engines must upload every cube and the floor. The sample fixes a saved draw-distance culling issue. Updated full-scene app measurements replace the earlier unvalidated Sokol curve. Collision-heavy execution is qualified through 100,000 cubes across three 330-step benchmark trials. |
+| Falling-cube GPU capacity | The archived sweep hit the old 65,536 spatial-insertion limit at 20,000 cubes. Insertion buffers now scale with reserved shape capacity; the static-contact sort also no longer packs body/index into 16-bit halves. Pair/contact buffers and their prefix scans now scale with reserved body capacity. Pair/history storage and callbacks/events now use full-width endpoints; canonical cell ownership removes online packed-key deduplication. High-index collision, event, remap, and reuse regressions pass. Native sample C metadata now uses per-world growable chunks and passes high-index ownership/callback regressions; Sokol debug/opaque renderer reservations now follow benchmark size, and both engines must upload every cube and the floor. The sample fixes a saved draw-distance culling issue. Updated full-scene app measurements replace the earlier unvalidated Sokol curve. Collision-heavy physics and direct rendering are qualified through 200,000 cubes across three 330-step trials each; Sokol stops below 10 FPS at 150,000. The former tiled-dispatch boundary is resolved. The 200,000-cube physics buffers occupy 3.42 GiB, excluding renderer/driver resources; this is not a measured memory ceiling. |
 | World controls | Warm-start and speculative-contact toggles do not control GPU behavior. Worker-count APIs are placeholders rather than GPU scheduling controls. |
 | World diagnostics | Profile/max-capacity APIs return placeholders; memory/bounds dump and static-tree rebuild helpers are incomplete. Public `contactCount` is not implemented by the GPU world counter. |
 | Recording/replay | Native recording creation, storage, file I/O, playback, seeking and query-history APIs are placeholders. Diagnostic state replay is not an implementation of these APIs. |
