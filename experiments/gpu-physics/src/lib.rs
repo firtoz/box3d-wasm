@@ -3,6 +3,7 @@ mod drag_replay;
 #[cfg(not(target_arch = "wasm32"))]
 mod native_precision;
 mod loading;
+mod dispatch;
 mod pipeline_cache;
 #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
 mod native_command_cache;
@@ -19,6 +20,8 @@ pub mod types;
 
 #[cfg(all(test, not(target_arch = "wasm32")))]
 mod gpu_invariants;
+#[cfg(all(test, not(target_arch = "wasm32")))]
+mod dispatch_gpu_tests;
 
 #[cfg(not(target_arch = "wasm32"))]
 pub mod c_abi;

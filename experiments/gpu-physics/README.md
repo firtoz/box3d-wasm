@@ -165,6 +165,14 @@ sampled GPU count and marks the failed 150,000 attempt separately. Further scali
 requires tiled dispatch with matching indices in direct, indirect and cached
 command paths; removing the assertion alone would be unsafe.
 
+The shared Rust/WGSL tiling helpers and opt-in native cached dispatch are now
+implemented, but production physics kernels do not yet use them. Two host tests
+pass, and an NVIDIA GPU fixture verifies exactly-once writes and untouched padding
+at 0, 1, 65,535, 65,536 and 65,537 workgroups across direct, indirect, cached-direct
+and cached-indirect dispatch (20 cases). Reproduce with
+`./scripts/build-native-cache.sh test --release --lib dispatch -- --test-threads=1`.
+These helper checks do not qualify larger physics scenes or change the limit above.
+
 At 100,000 cubes, graph construction costs 26.5 ms, solving 18.0 ms,
 and broadphase 10.6 ms. Primary simulation buffers occupy **1,659 MiB
 (1.62 GiB)**, including 1,184 MiB of contact buffers. Rendering, staging, pipelines

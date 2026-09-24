@@ -5,6 +5,8 @@ use wgpu::hal::api::Vulkan;
 
 pub(crate) enum Command<'a> {
     Dispatch(&'a wgpu::ComputePipeline, u32),
+    // Opt-in: the pipeline must flatten indices using dispatch.wgsl helpers.
+    DispatchLinear(&'a wgpu::ComputePipeline, u32),
     Indirect(&'a wgpu::ComputePipeline, u64),
     CopyArgs { source: u64, destination: u64, bytes: u64 },
     CopyBuffer { buffer: &'a wgpu::Buffer, source: u64, destination: u64, bytes: u64 },
@@ -59,6 +61,14 @@ impl RadixCache {
                     assert!(groups>0 && groups<=device.limits().max_compute_workgroups_per_dimension);
                     raw.cmd_bind_pipeline(command, vk::PipelineBindPoint::COMPUTE, pipeline.as_hal::<Vulkan>().unwrap().cache_raw_handle());
                     raw.cmd_dispatch(command,groups,1,1);
+                    pipelines.push(pipeline.clone());
+                }
+                Command::DispatchLinear(pipeline,groups) => {
+                    let [x,y,z] = crate::dispatch::linear_dispatch_groups(groups);
+                    assert!(x <= device.limits().max_compute_workgroups_per_dimension
+                        && y <= device.limits().max_compute_workgroups_per_dimension);
+                    raw.cmd_bind_pipeline(command, vk::PipelineBindPoint::COMPUTE, pipeline.as_hal::<Vulkan>().unwrap().cache_raw_handle());
+                    raw.cmd_dispatch(command,x,y,z);
                     pipelines.push(pipeline.clone());
                 }
                 Command::Indirect(pipeline,offset) => {
