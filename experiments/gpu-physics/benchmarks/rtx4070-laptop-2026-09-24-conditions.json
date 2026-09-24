@@ -1,0 +1,27 @@
+{
+  "telemetry_scope": "before/after snapshots of main sweep and CPU extension; includes idle samples",
+  "ranges": {
+    "temperature_c": [
+      44.0,
+      62.0
+    ],
+    "power_draw_w": [
+      2.42,
+      51.88
+    ],
+    "sm_clock_mhz": [
+      210.0,
+      2355.0
+    ]
+  },
+  "gpu_power_ceiling_w": [
+    33.0,
+    42.0,
+    55.0
+  ],
+  "platform_profile_sampled_after_run": "performance",
+  "cpu_governor_sampled_after_run": "performance",
+  "measured_trials": 291,
+  "valid_trials": 288,
+  "sampling_time": 1790237630.932531
+}

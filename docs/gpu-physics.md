@@ -16,7 +16,7 @@ engine or show two independent worlds side by side.
 | Experimental browser target | Does not currently compile; native transport, ABI layout and world-storage assumptions need work |
 | Box3D WASM package | Separate implementation; unchanged by the experiment |
 | Native API parity | Incomplete; linkable symbols include placeholders and CPU-only comparison passthroughs |
-| Performance | Cached Sokol improves over ordinary Sokol on two measured workloads; GPU-only Sokol remains slower than CPU-only |
+| Performance | Falling-cube sweep on RTX 4070 Laptop: no GPU crossover at matched valid counts; GPU spatial-hash capacity fails at 20,000 cubes (15,000 valid). CPU paths measured through 150,000. |
 
 Platform setup, adapter overrides and cache policy are in the
 [backend guide](../experiments/gpu-physics/compiler/native-backend/README.md).
@@ -50,8 +50,8 @@ failures without weakening assertions; they do not displace the API and browser
 work above.
 
 Recording/replay, further application optimization, and Windows/macOS/other-GPU
-portability are deferred. The requested falling-cube scaling benchmark and repeated
-shader-parsing startup fix are covered in the experiment README. Runtime testing so far is Linux-only on the RTX 4070
+portability are deferred. The completed falling-cube scaling benchmark and repeated
+shader-parsing startup fix are documented in the experiment README. Runtime testing so far is Linux-only on the RTX 4070
 Laptop GPU and Radeon 780M. Other platforms/devices still need implementation
 where incomplete and build/runtime verification. GPU-only Sokol remains slower
 than CPU-only in the measured workloads; optimization is deferred until after
@@ -67,6 +67,7 @@ linked symbols in the selected build. Full native compatibility must not be infe
 | Gap | User-visible consequence / remaining work |
 |---|---|
 | Joint query limits | Wheel angular separation is unimplemented upstream; its release fallback is zero. Reaction precision limits are described below. |
+| Falling-cube GPU capacity | Fixed 65,536 spatial-hash cell insertions: 15,000 cubes validate, 20,000 drop insertions in the measured fixture. This limits the current engine independently of GPU compute throughput. |
 | World controls | Warm-start and speculative-contact toggles do not control GPU behavior. Worker-count APIs are placeholders rather than GPU scheduling controls. |
 | World diagnostics | Profile/max-capacity APIs return placeholders; memory/bounds dump and static-tree rebuild helpers are incomplete. Public `contactCount` is not implemented by the GPU world counter. |
 | Recording/replay | Native recording creation, storage, file I/O, playback, seeking and query-history APIs are placeholders. Diagnostic state replay is not an implementation of these APIs. |

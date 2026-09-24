@@ -103,9 +103,96 @@ count for `dominoes`. The default Dominoes fixture has 30 rings.
 
 ## Falling-cube scaling benchmark
 
-**Results pending a quiet-machine run.** The partial live-desktop sweeps showed
-substantial background CPU contention and GPU power limiting; they are retained
-as diagnostics, not published as hardware-capacity results.
+**Measured 2026-09-24: Ryzen 9 8945HS / NVIDIA RTX 4070 Laptop.** No GPU-over-CPU
+crossover appeared in the three-trial medians at any matched valid count
+(5–15,000 cubes), in any of the three paths. At 5,000 cubes the GPU completed
+70.2 physics steps/s, the direct renderer delivered 67.9 FPS, and Sokol delivered
+51.8 FPS; CPU physics completed 457.5 steps/s. These results describe this
+experimental engine and falling-pile fixture, not GPU physics in general.
+
+![CPU and GPU falling-cube scaling, including trial ranges and capacity failures](benchmarks/rtx4070-laptop-2026-09-24.svg)
+
+| Measurement conditions | Value |
+|---|---|
+| OS | Linux 6.12.108-1-MANJARO x86-64 |
+| CPU | AMD Ryzen 9 8945HS, 8 cores / 16 threads; 8 physics workers |
+| GPU | NVIDIA GeForce RTX 4070 Laptop, 8,188 MiB VRAM; driver 610.57.04; Vulkan native-cache backend |
+| Power | AC connected; reported GPU ceiling varied **33–55 W**; requested/default ceiling 55 W |
+| Recorded GPU telemetry | 44–62 °C, 2.42–51.88 W draw, 210–2,355 MHz SM clock, including idle samples |
+| App framebuffer | **2040×1148**, uncapped; Sokol swap interval 0, direct viewer Immediate presentation |
+| Runs | Three trials per count/path, alternating order; normal desktop activity and load telemetry retained |
+
+The initial optional idle gate was removed during this dataset; the archive
+records the policy change for each subsequent trial. Earlier September 20
+busy-desktop diagnostic datasets are **excluded**. This is a laptop/system
+measurement with variable power limits, not a fixed-power GPU rating.
+
+Thresholds below are **last tested count above → first tested count at/below**
+the requested rate. Physics rates are completed steps/s; app rates are frames/s.
+
+| Path | 60 threshold | 30 threshold | 10 threshold / stopping limit |
+|---|---:|---:|---|
+| CPU physics | 20,000 → 30,000 | 40,000 → 50,000 | 100,000 → 150,000 |
+| GPU physics | 5,000 → 10,000 | 5,000 → 10,000 | Capacity failure at 20,000; 18.3 steps/s at 15,000 |
+| Sokol + CPU | 15,000 → 20,000 | 40,000 → 50,000 | 100,000 → 150,000 |
+| Sokol + GPU | 2,000 → 5,000 | 5,000 → 10,000 | Capacity failure at 20,000; 15.9 FPS at 15,000 |
+| Direct + CPU | 20,000 → 30,000 | 40,000 → 50,000 | Viewer ceiling: 65,535 cubes, 16.5 FPS |
+| Direct + GPU | 5,000 → 10,000 | 5,000 → 10,000 | Capacity failure at 20,000; 18.1 FPS at 15,000 |
+
+All three GPU paths rejected the 20,000-cube case because the broadphase dropped
+spatial-hash cell insertions: [`MAX_INSERTS`](src/types.rs) is fixed at 65,536,
+and a cube may occupy several cells. **15,000 is the largest tested valid GPU
+count, not an exact maximum.** Those failed timings are not plotted as performance
+results. A faster GPU alone cannot raise this fixed buffer capacity. The direct
+CPU viewer has a separate 65,536-body GPU-side scene limit (one slot is the floor),
+although its physics runs on Box3D CPU. The independent CPU oracle and Sokol app
+continued to 150,000 cubes, reaching 6.7 steps/s and 6.6 FPS respectively.
+
+The shaded bands retain all original trials. Three extra trials at 5, 100 and
+1,000 cubes checked unusually wide direct-renderer ranges. They reproduced
+small-count presentation variability: at 5 cubes, two CPU-viewer trials had
+`Surface::present` p50 values of 0.60 and 1.22 ms while physics submission stayed
+near 0.04–0.05 ms. The [follow-up report](benchmarks/rtx4070-laptop-2026-09-24-repeat-check.json)
+is separate; no slower valid trial was replaced or removed. Near-ties at very
+small counts should not be read as a reliable crossover.
+
+<details>
+<summary>All tested counts: median rates (CPU / GPU)</summary>
+
+| Cubes | Physics CPU / GPU | Sokol CPU / GPU | Direct CPU / GPU |
+|---:|---:|---:|---:|
+| 5 | 60,413.8 / 1,412.8 | 426.5 / 279.7 | 1,222.7 / 862.8 |
+| 10 | 49,094.8 / 1,590.1 | 489.7 / 285.3 | 1,229.9 / 1,109.3 |
+| 50 | 11,139.6 / 887.1 | 447.8 / 242.8 | 1,336.9 / 800.8 |
+| 100 | 8,671.8 / 842.3 | 478.8 / 213.7 | 1,365.7 / 649.5 |
+| 200 | 5,548.4 / 641.0 | 414.1 / 215.8 | 1,370.2 / 539.6 |
+| 400 | 3,437.8 / 561.2 | 418.4 / 192.3 | 1,384.4 / 468.4 |
+| 800 | 2,332.2 / 331.9 | 390.3 / 154.7 | 1,359.2 / 297.4 |
+| 1000 | 2,152.4 / 290.4 | 382.5 / 137.9 | 1,257.7 / 264.2 |
+| 2000 | 1,096.2 / 162.4 | 294.6 / 92.8 | 705.8 / 150.1 |
+| 5000 | 457.5 / 70.2 | 206.2 / 51.8 | 346.0 / 67.9 |
+| 10000 | 200.6 / 27.9 | 99.2 / 22.9 | 159.6 / 27.5 |
+| 15000 | 113.5 / 18.3 | 64.3 / 15.9 | 103.0 / 18.1 |
+| 20000 | 85.0 / — | 55.1 / — | 78.5 / — |
+| 30000 | 51.0 / — | 45.2 / — | 45.8 / — |
+| 40000 | 34.8 / — | 33.6 / — | 32.1 / — |
+| 50000 | 26.2 / — | 24.8 / — | 23.4 / — |
+| 60000 | 19.6 / — | 19.5 / — | 17.6 / — |
+| 65535 | 17.5 / — | 17.0 / — | 16.5 / — |
+| 80000 | 13.3 / — | 13.6 / — | — / — |
+| 100000 | 10.8 / — | 10.8 / — | — / — |
+| 150000 | 6.7 / — | 6.6 / — | — / — |
+
+“—” means no valid measurement at that count. Physics columns are steps/s;
+Sokol/direct columns are frames/s.
+
+</details>
+
+[Completed report, thresholds and trial ranges](benchmarks/rtx4070-laptop-2026-09-24.json)
+· [Recorded hardware/power conditions](benchmarks/rtx4070-laptop-2026-09-24-conditions.json)
+· [p50/p95 milliseconds for every path/count](benchmarks/rtx4070-laptop-2026-09-24-timings.md)
+· [Raw measurements, logs, source snapshots and repeat checks](benchmarks/rtx4070-laptop-2026-09-24-raw.tar.gz)
+· [Archive SHA-256](benchmarks/rtx4070-laptop-2026-09-24-raw.tar.gz.sha256)
 
 The `falling-cubes` workload compares real Box3D CPU physics with this GPU engine
 in three paths: completed physics steps without rendering, the Sokol sample app,
@@ -134,8 +221,22 @@ not completed GPU simulation time. Cameras frame the whole workload, with each
 viewer's own camera, lighting, UI and shading; this is an application comparison,
 not an isolated renderer microbenchmark.
 
-Each path stops independently at ≤10 FPS, invalid results, or the current 60,000
-cube safety ceiling for 16-bit GPU IDs. Dropped pairs/contacts, invalid bodies,
+The following real viewer captures use 1,000 cubes, four substeps and sleeping
+disabled on the NVIDIA GPU, both at 2040×1148. They were captured separately,
+outside timing runs, at different simulation steps. Sokol includes its debug UI;
+the direct renderer uses its own camera and shading. The on-screen timing in the
+Sokol preview is illustrative and is not a benchmark result.
+
+| Sokol sample app | Direct instanced renderer |
+|---|---|
+| ![Sokol: 1,000 falling cubes](benchmarks/falling-cubes-sokol.png) | ![Direct renderer: 1,000 falling cubes](benchmarks/falling-cubes-direct.png) |
+
+Each path stops independently at ≤10 FPS, invalid results, or a real capacity
+limit. The default sweep reaches 60,000 cubes; explicit CPU-only extensions can
+reach 1,000,000 if needed. GPU paths and the direct CPU viewer cannot exceed
+65,535 dynamic cubes because their GPU-side scene uses 16-bit body IDs. The
+independent CPU oracle and CPU Sokol app can continue beyond that. Dropped
+pairs/contacts, invalid bodies,
 incomplete windows and mismatched framebuffers invalidate a measurement. The
 physics/direct GPU paths check final completed state; Sokol's asynchronous
 contact telemetry is checked throughout. Thresholds are brackets between tested
@@ -151,17 +252,32 @@ python3 scripts/run-native-samples.py gpu --build-only
 cmake --build oracle/build --target box3d_oracle -j 6
 python3 scripts/check-viewer-cpu.py
 
-# Use a real desktop display. Select Vulkan/GL drivers for your machine as needed.
-python3 scripts/bench-falling-cubes.py artifacts/falling-cubes/my-machine --adapter nvidia --require-idle
+# Real desktop display; these driver overrides match the measured NVIDIA laptop.
+export __NV_PRIME_RENDER_OFFLOAD=1
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+export VK_DRIVER_FILES=/usr/share/vulkan/icd.d/nvidia_icd.json
+python3 scripts/bench-falling-cubes.py artifacts/falling-cubes/my-machine --adapter nvidia
+# Continue surviving CPU paths beyond the default count list if needed.
+python3 scripts/bench-falling-cubes.py artifacts/falling-cubes/my-machine-cpu-extension \
+  --counts 65535 80000 100000 150000 200000 400000 800000 1000000 \
+  --modes physics-cpu sokol-cpu direct-cpu
 # Plotting alone requires matplotlib; measurement uses the Python standard library.
 python3 scripts/plot-falling-cubes.py artifacts/falling-cubes/my-machine \
-  benchmarks/my-machine --title 'Exact CPU / GPU / driver'
+  benchmarks/my-machine --additional-input artifacts/falling-cubes/my-machine-cpu-extension \
+  --title 'Exact CPU / GPU / driver'
 ```
 
 `--require-idle` checks background load before each trial and stops without losing
-completed trials if CPU use exceeds 15% or NVIDIA GPU use exceeds 10%. Repeat the
-same command with `--resume` once quiet; it requires unchanged binaries, settings
-and environment. A quiet run should also start after a sustained idle period.
+completed trials if CPU use exceeds 15% or NVIDIA GPU use exceeds 10%. A busy
+two-second reading is confirmed over a full ten-second CPU averaging window,
+so a brief spike does not abort the sweep. GPU readings retain the 10% ceiling.
+Each trial retains its idle-check evidence, and atomic checkpoint writes preserve completed
+trials and terminal failures across interruption (`scripts/check-falling-resume.py`
+exercises this recovery). Repeat the same command with `--resume` after interruption; it requires unchanged binaries, settings
+and environment. The optional idle gate may be changed when resuming; the resume
+history and individual trials record that policy. Without `--require-idle`, runs
+proceed under normal desktop load. Use the repeated-trial ranges and saved load
+telemetry to investigate unusually inconsistent results, retaining all valid trials.
 
 The runner records adapter/driver, CPU, VRAM, power/clock telemetry, framebuffer,
 settings, commands and binary hashes. Keep the raw output directory. To compare

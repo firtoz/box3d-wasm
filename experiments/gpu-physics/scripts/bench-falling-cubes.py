@@ -20,6 +20,11 @@ NATIVE = runpy.run_path(str(ROOT/'scripts/measure-samples-application.py'))['NAT
 COUNTS = [5,10,50,100,200,400,800,1000,2000,5000,10000,15000,20000,30000,40000,50000,60000]
 MODES = ['physics-cpu','physics-gpu','sokol-cpu','sokol-gpu','direct-cpu','direct-gpu']
 
+def write_json(path, data):
+    temporary=path.with_suffix(path.suffix+'.tmp')
+    temporary.write_text(json.dumps(data,indent=2)+'\n')
+    temporary.replace(path)
+
 def command_output(args):
     try:
         return subprocess.run(args, capture_output=True, text=True, timeout=15).stdout.strip()
@@ -33,20 +38,28 @@ def system():
         gpu_power_limits=command_output(['nvidia-smi','-q','-d','POWER,PERFORMANCE']))
 
 def idle_check(seconds=2):
-    """Linux aggregate CPU utilization, excluding this benchmark's finished child.
+    """Confirm a busy short reading over ten seconds before rejecting a trial.
 
-    Wait across two intervals so stale GPU utilization from the previous trial
-    can expire. No application is stopped and no power settings are changed.
+    A quiet short reading passes immediately. CPU load is averaged from kernel
+    counters over the entire confirmation window, not the maximum short spike.
+    GPU samples retain the 10% ceiling. No applications or power settings change.
     """
     def cpu():
         values=list(map(int,Path('/proc/stat').read_text().splitlines()[0].split()[1:9]))
         return sum(values),values[3]+values[4]
-    start=cpu();time.sleep(seconds);end=cpu()
-    busy=1-(end[1]-start[1])/max(1,end[0]-start[0])
-    raw=command_output(['nvidia-smi','--query-gpu=utilization.gpu','--format=csv,noheader,nounits'])
-    utilization=[float(x) for x in raw.splitlines() if x.strip().isdigit()]
-    return dict(cpu_busy=busy,gpu_busy=max(utilization,default=0),
-                quiet=busy<=0.15 and max(utilization,default=0)<=10)
+    start=cpu();samples=[];elapsed=0
+    while True:
+        duration=seconds if elapsed==0 else min(seconds,10-elapsed)
+        time.sleep(duration);elapsed+=duration;end=cpu()
+        busy=1-(end[1]-start[1])/max(1,end[0]-start[0])
+        raw=command_output(['nvidia-smi','--query-gpu=utilization.gpu','--format=csv,noheader,nounits'])
+        utilization=[float(x) for x in raw.splitlines() if x.strip().isdigit()]
+        samples.append(max(utilization,default=0))
+        quiet=busy<=0.15 and max(samples)<=10
+        if (len(samples)==1 and quiet) or elapsed>=10:
+            return dict(cpu_busy=busy,gpu_busy=max(samples),quiet=quiet,
+                        observed_seconds=elapsed,policy='confirm-busy-10s',gpu_samples=samples)
+
 
 def metrics(data, mode, path, args, count):
     if mode == 'physics-cpu':
@@ -102,8 +115,8 @@ def main():
     p.add_argument('--require-idle',action='store_true',help='Stop before a trial if background CPU >15%% or NVIDIA GPU >10%%; resume later')
     p.add_argument('--resume',action='store_true',help='Resume an interrupted directory with identical binaries and measurement settings')
     a=p.parse_args()
-    if not(0<a.trials and 0<a.warmup and 0<a.timed<=4096 and 0<a.workers<=64 and a.counts==sorted(set(a.counts)) and min(a.counts)>0 and max(a.counts)<=60000):
-        p.error('positive trials/window/workers, increasing unique counts <=60000 required (current 16-bit GPU IDs)')
+    if not(0<a.trials and 0<a.warmup and 0<a.timed<=4096 and 0<a.workers<=64 and a.counts==sorted(set(a.counts)) and min(a.counts)>0 and max(a.counts)<=1000000):
+        p.error('positive trials/window/workers, increasing unique counts <=1000000 required')
     out=a.output.resolve()
     if a.resume:
         if not (out/'manifest.json').exists(): p.error('--resume requires an existing manifest')
@@ -126,19 +139,33 @@ def main():
         environment={k:v for k,v in env.items() if k.startswith(('GPU_','VK_','WGPU_','__NV','__GLX','DISPLAY'))})
     if a.resume:
         old=json.loads((out/'manifest.json').read_text())
-        for key in ['counts','modes','trials','warmup','timed','workers','adapter','width','height','require_idle']:
+        for key in ['counts','modes','trials','warmup','timed','workers','adapter','width','height']:
             if old['arguments'].get(key)!=manifest['arguments'].get(key): p.error('resume setting changed: '+key)
         if old['binaries']!=manifest['binaries'] or old['environment']!=manifest['environment']:
             p.error('resume requires unchanged binaries and environment; start a new dataset')
+        history=json.loads((out/'resume-history.json').read_text()) if (out/'resume-history.json').exists() else []
+        history.append(dict(time=time.time(),require_idle=a.require_idle))
+        write_json(out/'resume-history.json',history)
         rows=json.loads((out/'trials.json').read_text()) if (out/'trials.json').exists() else []
         stopped=json.loads((out/'stopped.json').read_text()) if (out/'stopped.json').exists() else {}
     else:
         (out/'manifest.json').write_text(json.dumps(manifest,indent=2))
         rows=[];stopped={}
+    # Recover terminal failures even if interrupted before stopped.json was saved.
+    for row in rows:
+        if row['status']=='invalid':
+            stopped[row['mode']]=dict(count=row['count'],reason='invalid; inspect raw log',error=row.get('error',''))
     sizes={tuple(r['framebuffer']) for r in rows if r['status']=='ok' and 'framebuffer' in r}
     assert len(sizes)<=1
     framebuffer=list(next(iter(sizes))) if sizes else None
     for count in a.counts:
+        # The direct CPU viewer still creates a GPU-side world for its renderer.
+        # That world has 65,536 body slots, including the static floor. The
+        # independent C oracle and CPU Sokol app do not share this limit.
+        for mode in a.modes:
+            if mode not in stopped and count>65535 and mode not in ['physics-cpu','sokol-cpu']:
+                stopped[mode]=dict(count=count,reason='16-bit scene body capacity',max_dynamic_cubes=65535)
+        write_json(out/'stopped.json',stopped)
         active=[m for m in a.modes if m not in stopped]
         if not active: break
         grouped={m:[r for r in rows if r['count']==count and r['mode']==m and r['status']=='ok'] for m in active}
@@ -146,6 +173,7 @@ def main():
             for mode in (active if trial%2==0 else active[::-1]):
                 if mode in stopped: continue
                 if any(r['count']==count and r['mode']==mode and r['trial']==trial+1 for r in rows): continue
+                idle=None
                 if a.require_idle:
                     idle=idle_check()
                     if not idle['quiet']:
@@ -167,7 +195,7 @@ def main():
                     cmd=[str(binaries['gpu']),*common,'--native-timeline',str(path)]
                     if mode.endswith('cpu'): runenv['GPU_PHYSICS_CPU_REFERENCE']=str(binaries['cpu_bridge'])
                 print(f'{count} cubes {mode} trial {trial+1}',flush=True)
-                record=dict(count=count,mode=mode,trial=trial+1,command=cmd,before=before)
+                record=dict(count=count,mode=mode,trial=trial+1,command=cmd,before=before,idle=idle,load_gate_enabled=a.require_idle)
                 try:
                     with path.with_suffix('.log').open('w') as log:
                         subprocess.run(cmd,cwd=cwd,env=runenv,stdout=log,stderr=log,check=True,timeout=a.timeout)
@@ -183,11 +211,12 @@ def main():
                     record.update(status='invalid',error=str(e)[-1500:]);stopped[mode]=dict(count=count,reason='invalid; inspect raw log',error=record['error'])
                     print('  invalid:',str(e)[-300:],flush=True)
                 rows.append(record)
-                (out/'trials.json').write_text(json.dumps(rows,indent=2))
+                write_json(out/'trials.json',rows)
+                write_json(out/'stopped.json',stopped)
         for mode,records in grouped.items():
             if mode not in stopped and records and statistics.median(r['mean_ms'] for r in records)>=100:
                 stopped[mode]=dict(count=count,reason='10 FPS threshold')
-        (out/'stopped.json').write_text(json.dumps(stopped,indent=2))
+        write_json(out/'stopped.json',stopped)
     print('Done:',out,flush=True)
 
 if __name__=='__main__': main()

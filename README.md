@@ -34,7 +34,7 @@ https://github.com/user-attachments/assets/1c161c46-1dae-45a0-8d77-cb8df45819e8
 - `packages/box3d-wasm/`: package source, wasm build scripts, and generated artifacts.
 - `demo/`: browser demo and showcase.
 - `docs/`: notes and usage docs.
-- `experiments/gpu-physics/`: experimental Rust/WGSL native physics engine (separate from the Box3D WASM package). See [`experiments/gpu-physics/README.md`](./experiments/gpu-physics/README.md).
+- `experiments/gpu-physics/`: experimental Rust/WGSL native physics engine (separate from the Box3D WASM package). See [`experiments/gpu-physics/README.md`](./experiments/gpu-physics/README.md) and the [CPU/GPU falling-cube charts, renderer previews and measured limits](./experiments/gpu-physics/README.md#falling-cube-scaling-benchmark).
 - `integration-test/`: smoke tests and harnesses.
 
 ## Quick Start
