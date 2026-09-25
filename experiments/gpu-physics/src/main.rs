@@ -7,7 +7,14 @@ fn main() {
         )
         .init();
         let cli = gpu_physics::Cli::parse();
-        if let Some(path) = cli.metrics_path.clone() {
+        if let Some(path) = std::env::var_os("GPU_PHYSICS_STARTUP_BENCH") {
+            if let Err(error) = pollster::block_on(gpu_physics::headless::write_startup_bench(
+                path.into(), gpu_physics::demo_config(&cli),
+            )) {
+                eprintln!("{error}");
+                std::process::exit(1);
+            }
+        } else if let Some(path) = cli.metrics_path.clone() {
             if let Err(e) = pollster::block_on(gpu_physics::headless::write_snapshot_metrics(
                 path,
                 cli.frames,

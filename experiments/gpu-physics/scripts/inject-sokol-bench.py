@@ -23,8 +23,8 @@ def inject_main(text: str) -> str:
         require(text, anchor, "loading hooks")
     text = text.replace('#include "sokol_glue.h"\n', '#include "sokol_loading.h"\n#include "sokol_glue.h"\n')
     text = text.replace('\tDrawUI( &s_context );', '\tif (gpu_loading_active()) { gpu_loading_draw(); return; }\n\tDrawUI( &s_context );')
-    text = text.replace('static void OnFrame( void )\n{', 'static void OnFrame( void )\n{\n    if (s_context.sample && gpu_loading_poll(s_context.sample->m_worldId)) {\n        if (sapp_width() > 0 && sapp_height() > 0) {\n            ResetFrameArena();\n            const sg_swapchain sc = sglue_swapchain();\n            sg_pass pass{};\n            pass.swapchain = sc;\n            pass.action.colors[0].load_action = SG_LOADACTION_CLEAR;\n            pass.action.colors[0].clear_value = {0.035f, 0.045f, 0.065f, 1.0f};\n            sg_begin_pass(&pass);\n            sg_end_pass();\n            StartUIFrame((float)sapp_frame_duration());\n            RenderUI(&sc);\n            sg_commit();\n        }\n        std::this_thread::sleep_for(std::chrono::milliseconds(16));\n        return;\n    }\n')
-    text = text.replace('static void OnEvent( const sapp_event* e )\n{', 'static void OnEvent( const sapp_event* e )\n{\n    if (gpu_loading_active()) { HandleEvent(e); return; }')
+    text = text.replace('static void OnFrame( void )\n{', 'static void OnFrame( void )\n{\n    if (gpu_loading_active() ? gpu_loading_poll(b3_nullWorldId) : (s_context.sample && gpu_loading_poll(s_context.sample->m_worldId))) {\n        if (sapp_width() > 0 && sapp_height() > 0) {\n            ResetFrameArena();\n            const sg_swapchain sc = sglue_swapchain();\n            sg_pass pass{};\n            pass.swapchain = sc;\n            pass.action.colors[0].load_action = SG_LOADACTION_CLEAR;\n            pass.action.colors[0].clear_value = {0.035f, 0.045f, 0.065f, 1.0f};\n            sg_begin_pass(&pass);\n            sg_end_pass();\n            StartUIFrame((float)sapp_frame_duration());\n            RenderUI(&sc);\n            sg_commit();\n        }\n        std::this_thread::sleep_for(std::chrono::milliseconds(16));\n        return;\n    }\n    if (gpu_loading_close_pending()) { sapp_quit(); return; }\n')
+    text = text.replace('static void OnEvent( const sapp_event* e )\n{', 'static void OnEvent( const sapp_event* e )\n{\n    if (gpu_loading_active()) { if (e->type == SAPP_EVENTTYPE_QUIT_REQUESTED) { gpu_loading_request_close(); sapp_cancel_quit(); } else { HandleEvent(e); } return; }')
     text = text.replace('static void OnCleanup( void )\n{', 'static void OnCleanup( void )\n{\n    gpu_loading_shutdown();')
     anchors = [
         '#include "sokol_glue.h"\n',
@@ -243,10 +243,35 @@ def inject_main(text: str) -> str:
         '\tfprintf( stderr, "samples: %d frames, %d sokol errors\\n", s_frame, errors );\n'
         "\tgpu_sokol_bench_finish( s_frame, errors, s_sampleName, kGpuSokolBenchMode );\n",
     )
+    text = text.replace('static void OnInit( void )\n{', 'static void OnInit( void )\n{\n    gpu_loading_begin_startup();')
+    text = text.replace('sg_commit();', 'sg_commit(); gpu_loading_presented();')
     return text
 
 
 def inject_sample(text: str) -> str:
+    select = "void SelectSample( SampleContext* context, int selection, bool restart )\n{"
+    require(text, select, "asynchronous scene selection")
+    text = '#include "sokol_loading.h"\n' + text.replace(select, select + r'''
+#if defined(GPU_PHYSICS_SAMPLES)
+    static thread_local bool constructing = false;
+    if (!constructing) {
+        if (selection < 0 || selection >= g_sampleCount || gpu_loading_active()) return;
+        // Window-system mouse capture stays on the host thread.
+        if (context->camera.m_thirdPerson) {
+            sapp_lock_mouse(false);
+            context->camera.m_thirdPerson = false;
+        }
+        gpu_loading_create_scene([context, selection, restart] {
+            constructing = true;
+            SelectSample(context, selection, restart);
+            constructing = false;
+            return context->sample->m_worldId;
+        });
+        return;
+    }
+#endif
+''')
+
     anchors = [
         '#include "sample.h"\n',
         "\tb3World_EnableSleeping( m_worldId, m_context->enableSleep );\n",
@@ -385,7 +410,7 @@ def inject_joint(text: str) -> str:
     for old, new in replacements.items():
         require(gear, old, "Gear Lift diagnostic")
         gear = gear.replace(old, new)
-    return '#include "sokol_bench_hooks.h"\n' + text[:start] + gear + text[end:]
+    return '#include "sokol_loading.h"\n#include "sokol_bench_hooks.h"\n' + (text[:start] + gear + text[end:]).replace('sapp_lock_mouse(', 'gpu_loading_lock_mouse(')
 
 
 def main() -> int:
@@ -396,6 +421,8 @@ def main() -> int:
     p.add_argument("--sample-dst")
     p.add_argument("--continuous-src")
     p.add_argument("--continuous-dst")
+    p.add_argument("--character-src")
+    p.add_argument("--character-dst")
     p.add_argument("--joint-src")
     p.add_argument("--joint-dst")
     p.add_argument("--gpu-sidebar", action="store_true")
@@ -403,6 +430,11 @@ def main() -> int:
     main_text = inject_main(Path(args.src).read_text())
     Path(args.dst).parent.mkdir(parents=True, exist_ok=True)
     Path(args.dst).write_text(sokol_split_injection.main(main_text))
+    if args.character_src:
+        if not args.character_dst: raise SystemExit("--character-dst required")
+        character = Path(args.character_src).read_text()
+        assert "sapp_lock_mouse(" in character, "character mouse hook drift"
+        Path(args.character_dst).write_text('#include "sokol_loading.h"\n' + character.replace("sapp_lock_mouse(", "gpu_loading_lock_mouse("))
     if args.joint_src:
         if not args.joint_dst:
             raise SystemExit("--joint-dst required")

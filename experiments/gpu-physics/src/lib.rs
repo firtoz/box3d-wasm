@@ -38,6 +38,7 @@ pub mod headless;
 #[cfg(not(target_arch = "wasm32"))]
 pub mod app;
 pub mod render;
+mod loading_screen;
 pub mod render_scene;
 mod scene_draw;
 

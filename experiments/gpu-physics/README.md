@@ -69,9 +69,11 @@ so their slots can be reused. Automatic headroom and geometric growth handle
 unplanned additions; compiled programs survive buffer growth. See the
 [capacity and resource ownership notes](../../docs/gpu-physics.md#architecture-and-state-ownership).
 
-GPU loading displays preparation stages while buffers and shaders are prepared.
-Worlds do not step during loading. Driver compilation can delay shutdown until
-worker teardown is safe. Pipeline caching can be disabled with
+GPU loading covers scene creation as well as buffer and shader preparation.
+Both viewers keep their event loops active while initialization runs in a worker;
+the direct viewer also uses this path when restarting or switching scenes. Worlds
+do not step during loading. Sokol continues drawing its closing status if it must
+wait for an in-flight driver operation before safe worker teardown. Pipeline caching can be disabled with
 `GPU_PHYSICS_PIPELINE_CACHE=0` or relocated with `GPU_PHYSICS_PIPELINE_CACHE_DIR`.
 Native precision shaders now parse and validate their shared source once per
 process, then specialize individual entry points. Previously 110 entry points
@@ -293,13 +295,24 @@ python3 scripts/plot-falling-resources.py artifacts/falling-cubes/my-machine \
   benchmarks/my-machine-resources --title 'Exact GPU / driver'
 ```
 
-Large scenes can spend minutes in CPU-side setup before rendering starts. The
-direct viewer creates its window before building the world, so it can remain
-black during this setup. Published steady-state timings exclude scene creation
-and warmup; they do not describe startup latency. One known setup bottleneck is
-the first-shape attachment path: updating a body's extents scans the world's
-shape array, making repeated single-shape body creation quadratic. This remains
-a separate startup limitation of the measured builds. Headless physics trials also
+Archived measurements through `a34c065b` include a quadratic CPU setup path:
+first-shape bounds updates scan every shape in the world. The current implementation
+keeps each body's live shape slots in creation order and uses them for bounds and
+mass recomputation. Compound proxies and deletion remain part of that ownership
+list. The startup follow-up is being qualified separately; published steady-state
+charts exclude scene creation and warmup and do not describe startup latency.
+
+`GPU_PHYSICS_STARTUP_BENCH=/absolute/output.json` selects an initialization-only
+measurement in the Rust executable, separating device, scene and GPU preparation
+times without running a CPU oracle or physics steps. Its first-frame field is null.
+`GPU_PHYSICS_STARTUP_REPORT=/absolute/output.json` records the first presented
+scene frame and loading-frame count in either viewer. Direct timing begins before
+window creation; Sokol timing begins at its initialization callback, before renderer
+setup. Sokol reports shared physics-device initialization separately from scene
+construction. These boundaries must be retained when comparing preserved builds.
+Repeated cold/warm comparisons and dated startup charts are still in progress.
+
+Headless physics trials also
 run a CPU reference and a separate host-mirror pass, so their wall-clock duration
 is longer than the headline GPU measurement window. Let benchmark windows close
 automatically: closing one early leaves an incomplete trial that validation rejects.

@@ -1385,3 +1385,33 @@ fn maybe_cpu_oracle(
     let _ = std::fs::remove_dir_all(&dir);
     out
 }
+
+/// Isolated initialization timing: no CPU oracle, renderer or simulation steps.
+/// Application time to first frame is measured separately in each viewer.
+pub async fn write_startup_bench(path: PathBuf, demo: DemoConfig) -> Result<(), String> {
+    let started = Instant::now();
+    let gpu = GpuDevice::new(None).await?;
+    let adapter = gpu.report.name.clone();
+    let device_ms = started.elapsed().as_secs_f64() * 1000.0;
+    let scene_started = Instant::now();
+    let world = build_demo_world(gpu, &demo);
+    let scene_ms = scene_started.elapsed().as_secs_f64() * 1000.0;
+    let prepare_started = Instant::now();
+    crate::api::b3_world_ensure_gpu(world);
+    crate::api::b3_world_prepare_collision(world);
+    b3_world_gpu_wait(world);
+    let failure = crate::api::b3_world_gpu_fail(world);
+    if !failure.is_null() {
+        let message = unsafe { std::ffi::CStr::from_ptr(failure) }.to_string_lossy().into_owned();
+        b3_destroy_world(world);
+        return Err(message);
+    }
+    let gpu_prepare_ms = prepare_started.elapsed().as_secs_f64() * 1000.0;
+    let total_ms = started.elapsed().as_secs_f64() * 1000.0;
+    let result = format!(
+        "{{\n  \"schema\": \"startup-v1\", \"mode\": \"initialization-only\",\n  \"adapter\": \"{}\", \"scene\": \"{}\",\n  \"dynamic_cubes\": {}, \"bodies\": {},\n  \"device_ms\": {device_ms}, \"scene_ms\": {scene_ms},\n  \"gpu_prepare_ms\": {gpu_prepare_ms}, \"total_ms\": {total_ms},\n  \"first_frame_ms\": null\n}}\n",
+        json_escape(&adapter), demo.scene.slug(), demo.body_count, b3_world_body_count(world),
+    );
+    b3_destroy_world(world);
+    std::fs::write(path, result).map_err(|e|e.to_string())
+}

@@ -60,6 +60,7 @@ pub struct FrameTimings {
 }
 
 pub struct Renderer {
+    loading_screen: Option<crate::loading_screen::LoadingScreen>,
     overlap:Option<OverlapState>,overlap_requested:bool,drain_only:bool,
     staged_source: Option<crate::sim::GpuDevice>,
     staged_buffers: Option<StagedBuffers>,
@@ -223,6 +224,7 @@ impl Renderer {
 
         let scene_draw = crate::scene_draw::SceneDraw::new(device, &bgl, config.format);
         Self {
+            loading_screen: None,
             overlap:None,overlap_requested:std::env::var("GPU_PHYSICS_SPLIT_OVERLAP").as_deref()==Ok("1"),drain_only:false,
             staged_source:None, staged_buffers:None,
             #[cfg(feature = "native-command-cache")]
@@ -247,6 +249,17 @@ impl Renderer {
             depth_view,
             depth_size,
         }
+    }
+
+    pub(crate) fn loading_frame(&mut self, device: &Device, queue: &Queue, elapsed: f32, message: &str) -> Result<(), wgpu::SurfaceError> {
+        let screen = self.loading_screen.get_or_insert_with(|| crate::loading_screen::LoadingScreen::new(device, self.config.format));
+        let frame = self.surface.get_current_texture()?;
+        let view = frame.texture.create_view(&Default::default());
+        let mut encoder = device.create_command_encoder(&Default::default());
+        screen.draw(device, &mut encoder, &view, (self.config.width,self.config.height), elapsed, message);
+        queue.submit(Some(encoder.finish()));
+        frame.present();
+        Ok(())
     }
 
     pub fn resize(&mut self, device: &Device, queue: &Queue, size: (u32, u32)) {

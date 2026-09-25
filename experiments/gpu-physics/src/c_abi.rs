@@ -429,9 +429,23 @@ pub unsafe extern "C" fn gpu_b3_clip_vector(
     }
 }
 
+static SHARED_DEVICE_STARTUP_NS: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+
+/// Internal startup telemetry; the shared device is initialized at most once.
+#[no_mangle]
+pub extern "C" fn gpu_b3_shared_device_startup_ns() -> u64 {
+    SHARED_DEVICE_STARTUP_NS.load(std::sync::atomic::Ordering::Acquire)
+}
+
 fn shared_gpu() -> Result<GpuDevice, String> {
     static GPU: OnceLock<Result<GpuDevice, String>> = OnceLock::new();
-    GPU.get_or_init(|| pollster::block_on(GpuDevice::new(None)))
+    GPU.get_or_init(|| {
+        let started = std::time::Instant::now();
+        let result = pollster::block_on(GpuDevice::new(None));
+        SHARED_DEVICE_STARTUP_NS.store(started.elapsed().as_nanos().min(u64::MAX as u128) as u64,
+            std::sync::atomic::Ordering::Release);
+        result
+    })
         .clone()
 }
 

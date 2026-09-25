@@ -54,6 +54,8 @@ struct CpuBody {
     /// Symmetric local inertia tensor: xx, yy, zz, xy, xz, yz.
     local_inertia: [f32; 6],
     has_shape: bool,
+    /// Live shape slots in creation order, including compound proxies.
+    shape_indices: Vec<usize>,
     /// Capsule local half-axis (from midpoint toward center2).
     axis: [f32; 3],
     min_extent: f32,
@@ -705,6 +707,7 @@ pub fn b3_create_body(world: WorldId, def: &BodyDef) -> BodyId {
             local_center: [0.0; 3],
             local_inertia: [0.0; 6],
             has_shape: false,
+            shape_indices: Vec::new(),
             axis: [0.0; 3],
             min_extent: f32::MAX,
             max_extent: 0.0,
@@ -967,7 +970,7 @@ fn snapshot_epoch(w: &WorldInner) -> u64 {
 fn apply_body_mass_from_shapes_inner(w: &mut WorldInner, body: BodyId) {
     let mut mass = 0.0f32;
     let mut weighted_center = [0.0f32; 3];
-    for shape in w.shapes.iter().filter_map(Option::as_ref) {
+    for shape in body_shapes(w, body) {
         if shape.body_index != body.index1 || shape.mass <= 0.0 {
             continue;
         }
@@ -978,7 +981,7 @@ fn apply_body_mass_from_shapes_inner(w: &mut WorldInner, body: BodyId) {
     }
     let center = if mass > 0.0 { weighted_center.map(|value| value / mass) } else { [0.0; 3] };
     let mut inertia = [0.0f32; 6];
-    for shape in w.shapes.iter().filter_map(Option::as_ref) {
+    for shape in body_shapes(w, body) {
         if shape.body_index != body.index1 || shape.mass <= 0.0 {
             continue;
         }
@@ -1033,11 +1036,21 @@ fn apply_body_mass_from_shapes_inner(w: &mut WorldInner, body: BodyId) {
     update_body_extents(w, body);
 }
 
+fn body_shapes(w: &WorldInner, body: BodyId) -> impl Iterator<Item = &CpuShape> {
+    body_ref(w, body).into_iter().flat_map(|b| b.shape_indices.iter())
+        .filter_map(|&index| w.shapes.get(index).and_then(Option::as_ref))
+}
+
 fn update_body_extents(w: &mut WorldInner, body: BodyId) {
-    update_body_extents_range(w, body, 0..w.shapes.len(), true);
+    let indices = body_ref(w, body).map(|b| b.shape_indices.clone()).unwrap_or_default();
+    update_body_extents_indices(w, body, indices, true);
 }
 
 fn update_body_extents_range(w: &mut WorldInner, body: BodyId, range: std::ops::Range<usize>, reset: bool) {
+    update_body_extents_indices(w, body, range, reset);
+}
+
+fn update_body_extents_indices(w: &mut WorldInner, body: BodyId, indices: impl IntoIterator<Item = usize>, reset: bool) {
     let Some((local_center, previous_min, previous_max)) = body_ref(w, body)
         .map(|body| (body.local_center, body.min_extent, body.max_extent)) else {
         return;
@@ -1045,10 +1058,8 @@ fn update_body_extents_range(w: &mut WorldInner, body: BodyId, range: std::ops::
     let center = glam::Vec3::from_array(local_center);
     let mut min_extent = if reset { f32::MAX } else { previous_min };
     let mut max_extent = if reset { 0.0 } else { previous_max };
-    for shape in w
-        .shapes.get(range).unwrap_or(&[])
-        .iter()
-        .filter_map(Option::as_ref)
+    for shape in indices.into_iter()
+        .filter_map(|index| w.shapes.get(index).and_then(Option::as_ref))
         .filter(|shape| shape.body_index == body.index1)
     {
         let radius = if matches!(shape.kind, KIND_SPHERE | KIND_CAPSULE) {
@@ -5122,7 +5133,11 @@ fn push_shape(
         local_center,
         local_inertia,
     };
+    let index = w.shapes.len();
     w.shapes.push(Some(shape));
+    if let Some(cpu) = body_mut(w, body) {
+        cpu.shape_indices.push(index);
+    }
     ShapeId {
         index1: w.shapes.len() as i32,
         world0: world.index1,
@@ -8235,6 +8250,10 @@ fn destroy_shape_inner(w: &mut WorldInner, id: ShapeId, update_body_mass: bool) 
     let Some(shape) = w.shapes.get_mut(index).and_then(Option::take) else {
         return;
     };
+    let owner = live_body_id(w, id.world0, shape.body_index);
+    if let Some(cpu) = body_mut(w, owner) {
+        cpu.shape_indices.retain(|&slot| slot != index);
+    }
     if shape.public_kind == PUBLIC_KIND_COMPOUND {
         let children: Vec<ShapeId> = w
             .shapes
@@ -10077,6 +10096,43 @@ mod appended_extent_tests {
     use crate::api::*;
 
     #[test]
+    fn body_shape_index_preserves_order_and_drops_deleted_owners() {
+        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+        let world = b3_create_world(gpu, &b3_default_world_def());
+        let mut bodies = Vec::new();
+        let sd = b3_default_shape_def();
+        let sphere = Sphere { center: [1.0, 2.0, 3.0], radius: 0.5 };
+        for _ in 0..32 {
+            let body = b3_create_body(world, &BodyDef { body_type: BodyType::Dynamic, ..b3_default_body_def() });
+            b3_create_sphere_shape(body, &sd, &sphere);
+            bodies.push(body);
+        }
+        let check = |body: BodyId| with_world_mut_no_sync(world, |w| {
+            let expected: Vec<usize> = w.shapes.iter().enumerate()
+                .filter_map(|(i,s)| s.as_ref().filter(|s| s.body_index == body.index1).map(|_| i)).collect();
+            assert_eq!(body_ref(w, body).unwrap().shape_indices, expected);
+            let before = (body_ref(w, body).unwrap().min_extent, body_ref(w, body).unwrap().max_extent);
+            update_body_extents_range(w, body, 0..w.shapes.len(), true);
+            let after = body_ref(w, body).unwrap();
+            assert_eq!(before, (after.min_extent, after.max_extent));
+        });
+        for &body in &bodies {
+            let child = b3_create_sphere_shape(body, &sd, &Sphere { center: [-4.0, 0.0, 0.0], ..sphere });
+            check(body);
+            b3_destroy_shape(child, true);
+            check(body);
+        }
+        let old = bodies[0];
+        b3_destroy_body(old);
+        let replacement = b3_create_body(world, &b3_default_body_def());
+        assert_eq!(old.index1, replacement.index1);
+        assert_ne!(old.generation, replacement.generation);
+        b3_create_sphere_shape(replacement, &sd, &sphere);
+        check(replacement);
+        b3_destroy_world(world);
+    }
+
+    #[test]
     fn appended_extents_match_full_scan_after_com_changes_and_deletions() {
         let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
         let world = b3_create_world(gpu, &b3_default_world_def());
@@ -10086,7 +10142,7 @@ mod appended_extent_tests {
             let check = || with_world_mut_no_sync(world, |w| {
                 let b = body_ref(w, body).unwrap();
                 let actual = (b.min_extent, b.max_extent);
-                update_body_extents(w, body);
+                update_body_extents_range(w, body, 0..w.shapes.len(), true);
                 let b = body_ref(w, body).unwrap();
                 assert_eq!(actual, (b.min_extent, b.max_extent));
             });
@@ -10127,7 +10183,7 @@ mod appended_extent_tests {
         let check = || with_world_mut_no_sync(world, |w| {
             let b = body_ref(w, body).unwrap();
             let actual = (b.min_extent, b.max_extent);
-            update_body_extents(w, body);
+            update_body_extents_range(w, body, 0..w.shapes.len(), true);
             let b = body_ref(w, body).unwrap();
             assert_eq!(actual, (b.min_extent, b.max_extent));
         });

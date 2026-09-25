@@ -128,13 +128,14 @@ target_include_directories(gfx PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 set(MAIN_CPP "${CMAKE_CURRENT_BINARY_DIR}/main_bench.cpp")
 set(SAMPLE_CPP "${CMAKE_CURRENT_BINARY_DIR}/sample_bench.cpp")
 set(CONTINUOUS_CPP "${CMAKE_CURRENT_BINARY_DIR}/sample_continuous_bench.cpp")
+set(CHARACTER_CPP "${CMAKE_CURRENT_BINARY_DIR}/sample_character_loading.cpp")
 set(JOINT_CPP "${CMAKE_CURRENT_BINARY_DIR}/sample_joint_bench.cpp")
 set(INJECT_EXTRA)
 if(GPU_SAMPLES OR BOTH_SAMPLES)
   list(APPEND INJECT_EXTRA --gpu-sidebar)
 endif()
 add_custom_command(
-  OUTPUT "${MAIN_CPP}" "${SAMPLE_CPP}" "${CONTINUOUS_CPP}" "${JOINT_CPP}"
+  OUTPUT "${MAIN_CPP}" "${SAMPLE_CPP}" "${CONTINUOUS_CPP}" "${JOINT_CPP}" "${CHARACTER_CPP}"
   COMMAND "${Python3_EXECUTABLE}" "${GPU_PHYSICS_DIR}/scripts/inject-sokol-bench.py"
     --src "${BOX3D_DIR}/samples/main.cpp"
     --dst "${MAIN_CPP}"
@@ -142,6 +143,8 @@ add_custom_command(
     --sample-dst "${SAMPLE_CPP}"
     --continuous-src "${BOX3D_DIR}/samples/sample_continuous.cpp"
     --continuous-dst "${CONTINUOUS_CPP}"
+    --character-src "${BOX3D_DIR}/samples/sample_character.cpp"
+    --character-dst "${CHARACTER_CPP}"
     --joint-src "${BOX3D_DIR}/samples/sample_joint.cpp"
     --joint-dst "${JOINT_CPP}"
     ${INJECT_EXTRA}
@@ -150,6 +153,7 @@ add_custom_command(
     "${BOX3D_DIR}/samples/main.cpp"
     "${BOX3D_DIR}/samples/sample.cpp"
     "${BOX3D_DIR}/samples/sample_continuous.cpp"
+    "${BOX3D_DIR}/samples/sample_character.cpp"
     "${BOX3D_DIR}/samples/sample_joint.cpp"
     "${GPU_PHYSICS_DIR}/scripts/inject-sokol-bench.py"
     "${CMAKE_CURRENT_SOURCE_DIR}/sokol_bench_hooks.h"
@@ -176,7 +180,7 @@ set(SAMPLE_FILES
   "${BOX3D_DIR}/samples/mover.h"
   "${BOX3D_DIR}/samples/sample_benchmark.cpp"
   "${BOX3D_DIR}/samples/sample_bodies.cpp"
-  "${BOX3D_DIR}/samples/sample_character.cpp"
+  "${CHARACTER_CPP}"
   "${BOX3D_DIR}/samples/sample_collision.cpp"
   "${BOX3D_DIR}/samples/sample_compound.cpp"
   "${CONTINUOUS_CPP}"

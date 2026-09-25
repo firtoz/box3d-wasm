@@ -1,3 +1,5 @@
+mod startup;
+use startup::{Startup, StartupMetrics};
 use std::future::Future;
 use std::sync::Arc;
 
@@ -47,6 +49,7 @@ struct Running {
     world: WorldId,
     renderer: Renderer,
     last_ms: f32,
+    startup: Option<StartupMetrics>,
 }
 
 pub struct DemoApp {
@@ -54,6 +57,7 @@ pub struct DemoApp {
     config: DemoConfig,
     sleep: bool,
     running: Option<Running>,
+    startup: Option<Startup>,
 }
 
 impl DemoApp {
@@ -63,6 +67,7 @@ impl DemoApp {
             config,
             sleep,
             running: None,
+            startup: None,
         }
     }
 
@@ -97,22 +102,7 @@ impl DemoApp {
     fn set_scene(&mut self, scene: DemoScene) {
         self.config.scene = scene;
         let Some(old)=self.running.take() else {return;};
-        let Running{window,gpu,render_gpu,world,renderer,..}=old;
-        b3_destroy_world(world);
-        // Retire the old surface before configuring a replacement on this window.
-        // Pending snapshot callbacks retain their own resources; dropped receivers are safe.
-        drop(renderer);drop(render_gpu);
-        let surface=window_surface(&gpu.instance,window.clone()).expect("replacement surface");
-        let world=build_demo_world(gpu.clone(),&self.config);
-        let render_gpu=render_device(&gpu,&surface,&self.config);
-        let size=window.inner_size();
-        let mut renderer=Renderer::new(&render_gpu.device,&render_gpu.adapter,surface,(size.width,size.height));
-        #[cfg(feature = "native-command-cache")]
-        if gpu.secondary_queue.is_some() {renderer.set_render_bridge(crate::native_async::RenderBridge::new(&gpu,&render_gpu));}
-        if split_scene_enabled(&self.config) {renderer.set_staged_source(gpu.clone());}
-        renderer.configure_reference(&render_gpu.device,&self.config,world,self.sleep);
-        window.set_title(&window_title(&self.config,&b3_world_gpu_report_name(world),b3_world_counts(world).0.max(0) as u32,0.0));
-        self.running=Some(Running{window,gpu,render_gpu,world,renderer,last_ms:0.0});
+        self.startup=Some(Startup::restart(old,self.config,self.sleep));
         eprintln!(
             "scene {} ({}/{})",
             scene.slug(),
@@ -139,61 +129,14 @@ fn window_title(cfg: &DemoConfig, gpu_name: &str, bodies: u32, ms: f32) -> Strin
 
 impl ApplicationHandler for DemoApp {
     fn resumed(&mut self, event_loop: &ActiveEventLoop) {
-        if self.running.is_some() {
-            return;
+        if self.running.is_none() && self.startup.is_none() {
+            self.startup=Some(Startup::new(event_loop,self.config,self.sleep));
         }
-        let attrs = Window::default_attributes()
-            .with_title("gpu-physics")
-            .with_inner_size(winit::dpi::LogicalSize::new(
-                std::env::var("GPU_BENCH_WIDTH").ok().and_then(|v| v.parse::<f64>().ok()).unwrap_or(1280.0),
-                std::env::var("GPU_BENCH_HEIGHT").ok().and_then(|v| v.parse::<f64>().ok()).unwrap_or(720.0)));
-
-        let window = Arc::new(event_loop.create_window(attrs).expect("window"));
-        let instance = GpuDevice::instance_new();
-        let surface = window_surface(&instance, window.clone()).expect("surface");
-
-        let gpu =
-            block_on(viewer_device(instance, &surface)).unwrap_or_else(|e| {
-                eprintln!("{e}");
-                std::process::exit(1);
-            });
-
-        let world = build_demo_world(gpu.clone(), &self.config);
-        let render_gpu = render_device(&gpu,&surface,&self.config);
-        let size = window.inner_size();
-        let mut renderer = Renderer::new(
-            &render_gpu.device,
-            &render_gpu.adapter,
-            surface,
-            (size.width, size.height),
-        );
-
-        #[cfg(feature = "native-command-cache")]
-        if gpu.secondary_queue.is_some() { renderer.set_render_bridge(crate::native_async::RenderBridge::new(&gpu, &render_gpu)); }
-        if split_scene_enabled(&self.config) {renderer.set_staged_source(gpu.clone());}
-        renderer.configure_reference(&render_gpu.device, &self.config, world, self.sleep);
-        let title = window_title(
-            &self.config,
-            &gpu.report.name,
-            b3_world_counts(world).0.max(0) as u32,
-            0.0,
-        );
-        window.set_title(&title);
-
-        self.running = Some(Running {
-            window,
-            gpu,
-            render_gpu,
-            world,
-            renderer,
-            last_ms: 0.0,
-        });
     }
 
     fn window_event(&mut self, event_loop: &ActiveEventLoop, _id: WindowId, event: WindowEvent) {
-        let Some(running) = self.running.as_mut() else {
-            return;
-        };
+        if let Some(startup)=&mut self.startup { startup.event(event_loop,&event);return; }
+        let Some(running) = self.running.as_mut() else { return; };
         match event {
             WindowEvent::CloseRequested => event_loop.exit(),
             WindowEvent::KeyboardInput {
@@ -243,6 +186,12 @@ impl ApplicationHandler for DemoApp {
                     .frame(&running.render_gpu.device, &running.render_gpu.queue, running.world)
                 {
                     Ok(timings) => {
+                        if let Some(startup)=running.startup.take() {
+                            startup.presented((running.window.inner_size().width,running.window.inner_size().height));
+                            if std::env::var("GPU_PHYSICS_STARTUP_EXIT").as_deref()==Ok("1") {
+                                event_loop.exit(); return;
+                            }
+                        }
                         running.last_ms = timings.total_ms;
                         running.window.set_title(&window_title(
                             &self.config,
@@ -270,7 +219,15 @@ impl ApplicationHandler for DemoApp {
         }
     }
 
-    fn about_to_wait(&mut self, _event_loop: &ActiveEventLoop) {
+    fn about_to_wait(&mut self, event_loop: &ActiveEventLoop) {
+        if let Some(startup)=&mut self.startup {
+            event_loop.set_control_flow(ControlFlow::WaitUntil(std::time::Instant::now()+std::time::Duration::from_millis(16)));
+            match startup.poll() {
+                Ok(Some(running))=>{self.running=Some(running);self.startup=None;event_loop.set_control_flow(ControlFlow::Poll);},
+                Ok(None)=>{},
+                Err(error)=>{eprintln!("startup: {error}");event_loop.exit();},
+            }
+        }
         if let Some(running) = &self.running {
             running.window.request_redraw();
         }
@@ -301,6 +258,7 @@ struct TimelineApp {
     remaining_timed: u32,
     path: std::path::PathBuf,
     running: Option<Running>,
+    startup: Option<Startup>,
     physics_ms: Vec<f32>,
     draw_ms: Vec<f32>,
     present_ms: Vec<f32>,
@@ -313,49 +271,14 @@ struct TimelineApp {
 
 impl ApplicationHandler for TimelineApp {
     fn resumed(&mut self, event_loop: &ActiveEventLoop) {
-        if self.running.is_some() {
-            return;
+        if self.running.is_none() && self.startup.is_none() {
+            self.startup=Some(Startup::new(event_loop,self.config,self.sleep));
         }
-        let attrs = Window::default_attributes()
-            .with_title("gpu-physics native-timeline")
-            .with_inner_size(winit::dpi::LogicalSize::new(
-                std::env::var("GPU_BENCH_WIDTH").ok().and_then(|v| v.parse::<f64>().ok()).unwrap_or(1280.0),
-                std::env::var("GPU_BENCH_HEIGHT").ok().and_then(|v| v.parse::<f64>().ok()).unwrap_or(720.0)));
-        let window = Arc::new(event_loop.create_window(attrs).expect("window"));
-        let instance = GpuDevice::instance_new();
-        let surface = window_surface(&instance, window.clone()).expect("surface");
-        let gpu = block_on(viewer_device(instance, &surface)).unwrap_or_else(|e| {
-            eprintln!("{e}");
-            std::process::exit(1);
-        });
-        let world = build_demo_world(gpu.clone(), &self.config);
-        let render_gpu = render_device(&gpu,&surface,&self.config);
-        let size = window.inner_size();
-        let mut renderer = Renderer::new(
-            &render_gpu.device,
-            &render_gpu.adapter,
-            surface,
-            (size.width, size.height),
-        );
-        #[cfg(feature = "native-command-cache")]
-        if gpu.secondary_queue.is_some() { renderer.set_render_bridge(crate::native_async::RenderBridge::new(&gpu, &render_gpu)); }
-        if split_scene_enabled(&self.config) {renderer.set_staged_source(gpu.clone());}
-        renderer.configure_reference(&render_gpu.device, &self.config, world, self.sleep);
-        eprintln!("matched-window-start: {}x{}",size.width,size.height);
-        self.running = Some(Running {
-            window,
-            gpu,
-            render_gpu,
-            world,
-            renderer,
-            last_ms: 0.0,
-        });
     }
 
     fn window_event(&mut self, event_loop: &ActiveEventLoop, _id: WindowId, event: WindowEvent) {
-        let Some(running) = self.running.as_mut() else {
-            return;
-        };
+        if let Some(startup)=&mut self.startup { startup.event(event_loop,&event);return; }
+        let Some(running) = self.running.as_mut() else { return; };
         match event {
             WindowEvent::CloseRequested => event_loop.exit(),
             WindowEvent::Resized(size) => {
@@ -371,6 +294,7 @@ impl ApplicationHandler for TimelineApp {
                     .frame(&running.render_gpu.device, &running.render_gpu.queue, running.world)
                 {
                     Ok(timings) => {
+                        if let Some(startup)=running.startup.take() { startup.presented((running.window.inner_size().width,running.window.inner_size().height)); }
                         let completed = std::time::Instant::now();
                         let cadence = self.last_completed.replace(completed)
                             .map(|previous| completed.duration_since(previous).as_secs_f32()*1000.0);
@@ -426,7 +350,15 @@ impl ApplicationHandler for TimelineApp {
         }
     }
 
-    fn about_to_wait(&mut self, _event_loop: &ActiveEventLoop) {
+    fn about_to_wait(&mut self, event_loop: &ActiveEventLoop) {
+        if let Some(startup)=&mut self.startup {
+            event_loop.set_control_flow(ControlFlow::WaitUntil(std::time::Instant::now()+std::time::Duration::from_millis(16)));
+            match startup.poll() {
+                Ok(Some(running))=>{self.running=Some(running);self.startup=None;event_loop.set_control_flow(ControlFlow::Poll);},
+                Ok(None)=>{},
+                Err(error)=>{eprintln!("startup: {error}");event_loop.exit();},
+            }
+        }
         if let Some(running) = &self.running {
             running.window.request_redraw();
         }
@@ -514,6 +446,7 @@ pub fn run_native_timeline(
         remaining_timed: timed,
         path,
         running: None,
+        startup: None,
         physics_ms: Vec::new(),
         draw_ms: Vec::new(),
         present_ms: Vec::new(),
