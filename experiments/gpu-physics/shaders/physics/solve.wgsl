@@ -577,9 +577,6 @@ fn run_contact(k: u32) {
     }
 }
 
-var<workgroup> wg_solve_a: array<Body, 64>;
-var<workgroup> wg_solve_b: array<Body, 64>;
-
 @compute @workgroup_size(64)
 fn solve_color(
     @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
@@ -669,18 +666,11 @@ fn solve_color_range_one_group(lid: u32, first_color: u32, end_color: u32) {
                 break;
             }
             let i = base + lid;
-            var k = EMPTY;
             if (i < n) {
-                k = listed_index(col, i);
-                let c = load_solve_contact(k);
-                wg_solve_a[lid] = load_body(c.a);
-                wg_solve_b[lid] = load_body(c.b);
-            }
-            workgroupBarrier();
-            if (i < n) {
+                let k = listed_index(col, i);
                 var c = load_solve_contact(k);
-                var ba = wg_solve_a[lid];
-                var bb = wg_solve_b[lid];
+                var ba = load_body(c.a);
+                var bb = load_body(c.b);
                 solve_contact_chain(k, &ba, &bb, params.use_bias);
                 if (!is_immovable(ba)) {
                     store_body(c.a, ba);
@@ -689,10 +679,12 @@ fn solve_color_range_one_group(lid: u32, first_color: u32, end_color: u32) {
                     store_body(c.b, bb);
                 }
             }
-            storageBarrier();
-            workgroupBarrier();
             base = base + 64u;
         }
+        // A color grants exclusive writable endpoints across all of its
+        // contacts, including separate lane batches. Keep bodies in registers
+        // and synchronize storage only before advancing to the next color.
+        storageBarrier();
     }
 }
 

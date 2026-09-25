@@ -630,6 +630,26 @@ extraction. Raw runtime git/source hashes describe the checkout at measurement
 time; frozen executable SHA-256 identities establish which binary was measured.
 
 
+The September 25 connected-scene checkpoint removes shared-memory body staging
+and redundant barriers within each color of the grouped solver. Contacts in one
+color have exclusive writable body endpoints; a storage barrier still separates
+colors. Graph selection and solver quality settings remain unchanged.
+New canonical-comparison coverage exercises batched graph mutation, destruction
+and slot reuse, filtering, split/merge transforms, sleeping and buffer growth.
+
+Pilot experiments suggest that forcing batched memoization can reduce dense-pile
+graph cost, but slightly increases graph cost for independent groups. The combined
+prototype measured about 11% lower completed-step time at 5,000 cubes in two
+trials; **this is diagnostic evidence, not a qualified gain for this checkpoint**.
+Automatic graph selection, repeated qualification, large-scene regression checks,
+and updated CPU/renderer charts remain the next work. Five focused tests pass;
+all 19 affected scene recordings match the prior qualified version exactly across
+300 decoded frames each. The existing charts above
+continue to describe the previous qualified release. The
+[checkpoint evidence](benchmarks/rtx4070-connected-scheduling-checkpoint-2026-09-25-raw.tar.gz)
+retains pilot scripts/results, binary identities, and focused validation logs;
+rejected 256-lane and fixed-prefix experiments are included as diagnostics.
+
 To isolate solver scheduling costs, `profile-falling-solvers.py` reuses a completed
 sweep's binary and environment, verifies its binary hash, and compares component
 TGS with global contact-color dispatches. It alternates variant order across three

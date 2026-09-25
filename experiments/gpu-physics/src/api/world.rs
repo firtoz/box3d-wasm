@@ -11363,12 +11363,17 @@ mod complete_component_tests {
     }
 
     #[test]
-    fn shared_graph_mutations_match_canonical() {
+    fn shared_graph_mutations_match_canonical() { graph_mutations_match_canonical(false); }
+
+    #[test]
+    fn batched_graph_mutations_match_canonical() { graph_mutations_match_canonical(true); }
+
+    fn graph_mutations_match_canonical(batched: bool) {
         let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
         gpu.device.push_error_scope(wgpu::ErrorFilter::Validation);
         let run=|enabled| {
             let world=b3_create_world(gpu.clone(),&b3_default_world_def());
-            with_world_mut_no_sync(world,|w|w.component_tgs_requested=true);
+            with_world_mut_no_sync(world,|w|w.component_tgs_requested=!batched);
             b3_world_enable_sleeping(world,false);
             b3_world_set_diagnostic_flags(world,crate::types::DIAG_BOUNDED_STATIC_SORT);
             let sd=b3_default_shape_def();let hull=b3_make_box_hull(0.5,0.5,0.5);
@@ -11389,6 +11394,12 @@ mod complete_component_tests {
                     20=>b3_body_set_transform(bodies[2],[3.0,0.5,0.0],[0.0,0.0,0.0,1.0]),
                     25=>b3_body_set_transform(bodies[2],[0.0,2.5,0.0],[0.0,0.0,0.0,1.0]),
                     30=>{b3_destroy_shape(shapes[2],true);shapes[2]=b3_create_hull_shape(bodies[2],&sd,&hull);},
+                    32 if batched=>{
+                        // Destroy and reuse a body slot while cached edge inputs exist.
+                        b3_destroy_body(bodies[2]);bd.position=[0.0,2.5,0.0];
+                        bodies[2]=b3_create_body(world,&bd);
+                        shapes[2]=b3_create_hull_shape(bodies[2],&sd,&hull);
+                    },
                     35=>b3_body_set_type(bodies[1],BodyType::Static),
                     40=>b3_body_set_type(bodies[1],BodyType::Dynamic),
                     45=>b3_body_set_awake(bodies[0],false),
@@ -11399,7 +11410,11 @@ mod complete_component_tests {
                 b3_world_ensure_gpu(world);
                 if frame==54 {assert_eq!(with_world_no_sync(world,|w|w.sim.as_ref().unwrap().caps.bodies).unwrap(),256);}
                 if frame==55 {assert!(with_world_no_sync(world,|w|w.sim.as_ref().unwrap().caps.bodies).unwrap()>256,"must exercise real buffer growth");}
-                with_world_mut_no_sync(world,|w|w.sim.as_mut().unwrap().set_shared_graph_test(enabled));
+                with_world_mut_no_sync(world,|w|{
+                    let sim=w.sim.as_mut().unwrap();
+                    sim.set_shared_graph_test(enabled && !batched);
+                    sim.set_batched_graph_test(enabled && batched);
+                });
                 b3_world_step_gpu(world,1.0/60.0,4);
                 states.push(pollster::block_on(b3_world_sync_from_gpu(world)));
                 let contacts=with_world_mut_no_sync(world,|w|pollster::block_on(w.sim.as_mut().unwrap().read_contacts())).unwrap();

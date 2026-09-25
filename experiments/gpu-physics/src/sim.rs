@@ -5655,7 +5655,9 @@ impl GpuSim {
         self.ensure_staging(4);
         let staging=self.staging.as_ref().unwrap();
         let mut encoder=self.device.create_command_encoder(&wgpu::CommandEncoderDescriptor{label:Some("test-memo-hits")});
-        encoder.copy_buffer_to_buffer(&self.query,u64::from(base+3)*4,staging,0,4);
+        // Shared memo and batched memo use different hit-counter words.
+        let hit_word=if self.batched_graph_eligible() {1} else {3};
+        encoder.copy_buffer_to_buffer(&self.query,u64::from(base+hit_word)*4,staging,0,4);
         self.queue.submit(Some(encoder.finish()));
         let slice=staging.slice(..4);let (tx,rx)=oneshot();
         slice.map_async(wgpu::MapMode::Read,move |r|{let _=tx.send(r);});
