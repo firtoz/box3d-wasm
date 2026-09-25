@@ -403,6 +403,17 @@ ordinary path. Sleep dispatch elision requires a valid zero-active proof across
 an unchanged eligible submission chain. Command replay must retain resources
 through completion and invalidate on relevant parameter/resource changes.
 
+With the native command-cache build and `GPU_PHYSICS_FULL_REPLAY=1`, command
+replay covers eligible global color schedules as well as component schedules.
+`GPU_PHYSICS_GLOBAL_REPLAY=0` restores the previous global recording path.
+Replay keys include the color-grouping prefix, and captured counters preserve
+the actual solver dispatch count. Joints, mesh triangles, phase capture, active
+metric capture and the eligible sleep-elision path keep their ordinary recording
+paths. This is command reuse, not simulation-state playback: contacts and body
+state are still computed on the GPU each step. Small-scene timing and the separate
+adaptive-color configuration, dated charts and reproducible raw evidence are
+documented in the [experiment README](../experiments/gpu-physics/README.md).
+
 The combined viewer never copies CPU poses or hits into GPU simulation. Both
 panes draw the same completed step. Its shared sample controller and GPU-led
 inspector remain limitations when interpreting sample-specific behavior.

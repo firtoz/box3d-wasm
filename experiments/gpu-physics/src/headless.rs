@@ -1050,6 +1050,7 @@ pub async fn write_completed_step_bench(
     contacts: bool,
     body_count_explicit: bool,
 ) -> Result<(), String> {
+    let host_timing = std::env::var("GPU_PHYSICS_PROFILE_HOST").as_deref() == Ok("1");
     let timed = timed_steps.max(1);
     let runs = run_count.max(1);
     let fingerprint = build_fingerprint();
@@ -1104,6 +1105,8 @@ pub async fn write_completed_step_bench(
             "early-sleep-enabled"
         };
         let mut step_ms = Vec::new();
+        let mut step_call_ms = Vec::new();
+        let mut completion_wait_ms = Vec::new();
         let mut run_collide = Vec::new();
         let mut run_solve = Vec::new();
         let mut run_bp = Vec::new();
@@ -1116,8 +1119,16 @@ pub async fn write_completed_step_bench(
         for _ in 0..timed {
             let t0 = Instant::now();
             b3_world_step_gpu(world, FIXED_DT, DEFAULT_SUB_STEPS);
+            // Diagnostic wall times overlap GPU execution. Waiting includes
+            // status/timestamp harvesting, but does not copy poses to the CPU.
+            let submitted_at = host_timing.then(Instant::now);
             b3_world_gpu_wait(world);
-            step_ms.push(t0.elapsed().as_secs_f64() * 1000.0);
+            let completed_at = Instant::now();
+            step_ms.push(completed_at.duration_since(t0).as_secs_f64() * 1000.0);
+            if let Some(submitted_at) = submitted_at {
+                step_call_ms.push(submitted_at.duration_since(t0).as_secs_f64() * 1000.0);
+                completion_wait_ms.push(completed_at.duration_since(submitted_at).as_secs_f64() * 1000.0);
+            }
             run_collide.push(crate::api::b3_world_last_collide_ms(world) as f64);
             run_solve.push(crate::api::b3_world_last_solve_ms(world) as f64);
             run_bp.push(crate::api::b3_world_last_broadphase_ms(world) as f64);
@@ -1184,8 +1195,12 @@ pub async fn write_completed_step_bench(
         let bp_profile_json=if run_bp_stages.is_empty() {"null".to_string()} else {
             format!("{{\"stages\":[\"clear\",\"static_setup\",\"static_pairs\",\"spatial_insert\",\"dynamic_pairs\",\"sort\",\"compact\"],\"samples_ms\":[{}]}}",run_bp_stages.join(","))
         };
+        let host_profile_json = if host_timing {
+            format!("{{\"step_call_ms\":[{}],\"completion_wait_ms\":[{}]}}",
+                fmt_f64(&step_call_ms), fmt_f64(&completion_wait_ms))
+        } else { "null".to_string() };
         raw_runs.push_str(&format!(
-            "{{\"run\":{},\"allocations\":{allocation_json},\"broadphase_profile\":{bp_profile_json},\"physics_step\":{},\"solver_dispatches\":{},\"static_sort_dispatches\":{},\"joint_dispatches\":{},\"encode_commands\":{},\"completed_step_ms\":[{}],\"encode_ms\":[{}],\"broadphase_ms\":[{}],\"narrowphase_ms\":[{}],\"graph_ms\":[{}],\"prepare_ms\":[{}],\"collide_ms\":[{}],\"solve_ms\":[{}],\"device_ms\":[{}],\"live_contacts\":{live},\"awake_dynamic\":{awake},\"awake_after_warmup\":{awake_w},\"settled\":{settled},\"settle_wait_steps\":{settle_wait},\"sleep_window\":\"{sleep_window}\"}}",
+            "{{\"run\":{},\"allocations\":{allocation_json},\"broadphase_profile\":{bp_profile_json},\"host_profile\":{host_profile_json},\"physics_step\":{},\"solver_dispatches\":{},\"static_sort_dispatches\":{},\"joint_dispatches\":{},\"encode_commands\":{},\"completed_step_ms\":[{}],\"encode_ms\":[{}],\"broadphase_ms\":[{}],\"narrowphase_ms\":[{}],\"graph_ms\":[{}],\"prepare_ms\":[{}],\"collide_ms\":[{}],\"solve_ms\":[{}],\"device_ms\":[{}],\"live_contacts\":{live},\"awake_dynamic\":{awake},\"awake_after_warmup\":{awake_w},\"settled\":{settled},\"settle_wait_steps\":{settle_wait},\"sleep_window\":\"{sleep_window}\"}}",
             run + 1,
             crate::api::b3_world_physics_step(world),
             crate::api::b3_world_last_solver_dispatches(world),

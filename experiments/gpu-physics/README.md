@@ -499,6 +499,137 @@ and measure its overhead before interpreting absolute substage costs.
 --title "Exact GPU / driver"` compares the diagnostic stages after three trials
 per count; it checks matching environments and retains raw-file hashes and ranges.
 
+The small-scene investigation profiles 5/100/1,000/2,000/5,000/10,000 active
+bodies in both falling piles and independent two-box groups on the RTX 4070 Laptop.
+The baseline's global schedule jumps from 13 solver dispatches at five falling
+cubes to 325 at 100. At 1,000 falling cubes the diagnostic host step call costs
+about 1.60 ms and the completion wait about 3.26 ms. That wait includes unfinished
+GPU work and status/timestamp harvesting; it is not pure synchronization overhead.
+The chart keeps host wall time and GPU timestamps separate. These are diagnostic
+runs (one falling-pile trial and two independent-group trials per count), not the
+repeated matched performance qualification.
+
+![Small-scene host and GPU diagnostic timings](benchmarks/rtx4070-small-scene-profile-2026-09-25.png)
+
+[Diagnostic data and raw hashes](benchmarks/rtx4070-small-scene-profile-2026-09-25.json).
+
+The same benchmark runner accepts `--scene mixed-stacks` for physics-only
+comparisons of independent two-box groups on overlapping static grounds. Both
+engines use the existing matching fixture; counts refer to dynamic bodies (two
+additional static bodies). `--gpu-color-prefix auto` measures the existing adaptive
+color grouping; the historical default is `20`. `--global-replay 0|1` explicitly
+selects the global replay path and records the choice in the manifest.
+
+For diagnostic completed-step runs, `GPU_PHYSICS_PROFILE_HOST=1` adds
+`raw_runs[].host_profile.step_call_ms` and `completion_wait_ms`. These split host
+wall time at submission: the first includes preparation/submission, and the second
+includes remaining GPU execution plus status/timestamp harvesting. Neither copies
+poses to the CPU. GPU execution overlaps host work, so do not add GPU phase times
+to these wall-time values. Keep these instrumented runs separate from headline
+measurements. When `GPU_PHYSICS_FULL_REPLAY=1`, eligible global-solver worlds also reuse their
+recorded physics commands. `GPU_PHYSICS_GLOBAL_REPLAY=0` opts out for comparison.
+The completed physics qualification on 2026-09-25 contains 153 runs: three
+alternating baseline/candidate/CPU trials per scene and count, each with 90 warmup
+and 240 timed steps, four substeps, sleeping disabled, and eight CPU workers.
+Hardware is the RTX 4070 Laptop / Ryzen 9 8945HS with NVIDIA 610.57.04 on Linux
+Vulkan, under normal desktop load. Baseline `73373dfb` uses global prefix 20;
+the candidate combines global command replay with the existing adaptive prefix
+(`auto`). Both retain ordinary GPU timestamps; extra host/broadphase profiling is
+off. Completed steps exclude the separate fresh-world CPU pose-mirror pass.
+
+| Scene | Bodies | Baseline GPU ms | Candidate GPU ms | CPU ms | GPU speedup |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Falling pile | 1,000 | 4.971 | 2.682 | 0.494 | 1.85× |
+| Falling pile | 2,000 | 5.176 | 3.296 | 0.812 | 1.57× |
+| Falling pile | 5,000 | 6.489 | 4.770 | 1.777 | 1.36× |
+| Independent groups | 1,000 | 3.478 | 1.389 | 0.284 | 2.50× |
+| Independent groups | 2,000 | 3.581 | 1.443 | 0.598 | 2.48× |
+| Independent groups | 5,000 | 4.173 | 1.715 | 1.106 | 2.43× |
+
+Values are medians of three trial means. The 2× target is met for independent
+groups at 1,000–5,000 bodies, but not connected falling piles. The CPU remains
+faster at these counts. In the falling-pile sweep, the first measured GPU win is
+20,000 bodies: candidate trial means span 9.086–9.356 ms versus CPU
+9.608–10.748 ms. At 30,000 the separation is clearer: 13.656–13.947 ms versus
+17.590–19.248 ms. These are workload-specific measured points, not a universal
+crossover threshold.
+
+The ordinary phase timestamps help locate the remaining cost. At 1,000 falling
+cubes, median trial p50 command encoding falls from 1.640 to 0.129 ms and GPU
+solving from 2.123 to 1.636 ms; graph construction stays near 0.242 ms. At 5,000,
+encoding falls from 1.543 to 0.202 ms, but graph construction still takes 1.239 ms
+and solving 1.962 ms. These overlapping host/device measures are not an additive
+breakdown of completed-step time. The result points toward GPU graph and solver
+scheduling as the next optimization area, rather than more command-recording
+reuse alone. CPU pose mirroring is excluded from the headline step and measured
+in a separate fresh-world pass; its median must not be subtracted as an exact
+readback cost.
+
+All paired 100k/200k trials improved. Median GPU time changes from 46.505 to
+45.726 ms at 100k (trial ranges overlap), and from 95.680 to 92.141 ms at 200k.
+Primary buffer allocation is unchanged at 1,837,715,104 and 3,674,669,472 bytes;
+this excludes other VRAM allocations. Five falling cubes show a slightly worse
+median, 0.740 to 0.791 ms, with overlapping trial ranges; the chart retains it.
+
+![Completed physics step times and CPU crossover](benchmarks/rtx4070-small-scene-physics-2026-09-25-latency.png)
+
+[Completed steps per second](benchmarks/rtx4070-small-scene-physics-2026-09-25-throughput.png),
+[p50/p95 latency](benchmarks/rtx4070-small-scene-physics-2026-09-25-percentiles.png),
+and [validated results with raw hashes](benchmarks/rtx4070-small-scene-physics-2026-09-25.json).
+The throughput figure above is physics-only. The separate full-app qualification
+contains 162 renderer runs, using the same trial order, warmup, timed frames and
+physics configuration. Both viewers use actual 1280×720 framebuffers, NVIDIA
+hardware rendering and unpaced presentation on an isolated Xvfb display. Sokol
+render settings are matched across variants, including draw distance 1,000.
+These FPS figures include application/render/presentation overhead and describe
+this display setup; they should not be treated as native desktop FPS predictions.
+
+| Renderer | Bodies | Baseline GPU FPS | Candidate GPU FPS | CPU FPS |
+| --- | ---: | ---: | ---: | ---: |
+| Direct | 1,000 | 29.6 | 32.0 | 37.2 |
+| Direct | 5,000 | 28.0 | 30.1 | 32.8 |
+| Direct | 10,000 | 28.6 | 30.6 | 29.2 |
+| Direct | 100,000 | 15.3 | 15.7 | 7.7 |
+| Direct | 200,000 | 9.1 | 9.2 | 4.0 |
+| Sokol | 1,000 | 25.5 | 27.5 | 33.4 |
+| Sokol | 5,000 | 24.5 | 26.0 | 27.6 |
+| Sokol | 10,000 | 24.9 | 26.2 | 23.1 |
+| Sokol | 100,000 | 10.5 | 10.7 | 4.7 |
+| Sokol | 200,000 | 6.4 | 6.5 | 2.4 |
+
+At 1,000–5,000 bodies, full-app improvements are about 6–10%, smaller than the
+physics-only gains. Both viewers first show a measured GPU win at 10,000 bodies,
+with separated trial ranges. At 100k/200k, candidate median FPS improves modestly
+in both viewers; physics-only large-scene comparisons are reported above. Five
+bodies in Sokol show a 2% median regression, retained in the data. No configuration
+in this isolated-display sweep reaches 60 FPS, including the CPU at five bodies;
+that is an application/display result, not a 60 Hz physics capacity limit.
+
+![Full-app FPS for both renderers](benchmarks/rtx4070-small-scene-renderers-2026-09-25-throughput.png)
+
+[Frame time and trial ranges](benchmarks/rtx4070-small-scene-renderers-2026-09-25-latency.png),
+[frame p50/p95](benchmarks/rtx4070-small-scene-renderers-2026-09-25-percentiles.png),
+and [validated renderer data and raw hashes](benchmarks/rtx4070-small-scene-renderers-2026-09-25.json).
+Validation passed 272 native-cache library tests, including the two new global
+replay long-state/reentry cases, plus five focused cache-off tests. Both long
+replay fixtures compare complete states across 40 checkpoints over 1,000 steps,
+including mutations, scheduling changes and capacity growth; worst replay-on/off
+difference was zero. All 19 scenes were recorded for 300 frames before and after;
+every decoded baseline/candidate frame matches. Representative CPU/before/after
+frames were reviewed for every scene. Existing late CPU/GPU arrangement differences
+in falling piles and joint chains remain; this is not a claim of exact CPU parity.
+
+The [raw evidence archive](benchmarks/rtx4070-small-scene-2026-09-25-raw.tar.gz)
+([SHA-256](benchmarks/rtx4070-small-scene-2026-09-25-raw.tar.gz.sha256)) contains trial
+JSON/logs, binary identities, profiling pilots, correctness logs, scene manifests,
+review sheets, source changes and reproduction scripts. It excludes executables,
+caches and MP4s. Extract it into an empty directory and follow `REPRODUCE.md`;
+`artifacts/small-scene-optimization/verify-evidence.py` in the original experiment
+checks the archive checksum, all payload hashes and raw datasets from a fresh
+extraction. Raw runtime git/source hashes describe the checkout at measurement
+time; frozen executable SHA-256 identities establish which binary was measured.
+
+
 To isolate solver scheduling costs, `profile-falling-solvers.py` reuses a completed
 sweep's binary and environment, verifies its binary hash, and compares component
 TGS with global contact-color dispatches. It alternates variant order across three

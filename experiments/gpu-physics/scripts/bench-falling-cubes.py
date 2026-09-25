@@ -73,14 +73,16 @@ def idle_check(seconds=2):
 
 
 def metrics(data, mode, path, args, count):
+    scene=getattr(args,'scene','falling-cubes')
+    expected_bodies=count+(2 if scene=='mixed-stacks' else 1)
     if mode == 'physics-cpu':
-        d=data['scenes']['falling-cubes']
-        assert d['bodies']==count+1 and d['workers']==args.workers, d
+        d=data['scenes'][scene]
+        assert d['bodies']==expected_bodies and d['workers']==args.workers, d
         samples=d['wall_samples_ms']
         assert len(samples)==args.timed and all(x>0 for x in samples)
         return dict(p50_ms=d['wall_p50_ms'],p95_ms=d['wall_p95_ms'],mean_ms=statistics.mean(samples))
     if mode == 'physics-gpu':
-        assert data['bodies']==count+1 and not data['sleep'],data
+        assert data['bodies']==expected_bodies and not data['sleep'],data
         assert data['raw_runs'][0]['live_contacts']>0, data
         if getattr(args,'profile_broadphase',False):
             profile=data['raw_runs'][0]['broadphase_profile']
@@ -128,6 +130,9 @@ def main():
     p.add_argument('--timed',type=int,default=240)
     p.add_argument('--workers',type=int,default=8)
     p.add_argument('--adapter',default='nvidia')
+    p.add_argument('--scene',choices=['falling-cubes','mixed-stacks'],default='falling-cubes',help='Mixed stacks: independent two-box groups, physics modes only')
+    p.add_argument('--gpu-color-prefix',choices=['auto',*[str(i) for i in range(24)]],default='20')
+    p.add_argument('--global-replay',choices=['0','1'],default=None,help='Override global replay; omission preserves binary default')
     p.add_argument('--gpu-solver',choices=['component','global'],default='component',
         help='Select comparable component or global-color scheduling; recorded in the manifest')
     p.add_argument('--gpu-binary',type=Path,help='Use a preserved GPU executable for physics/direct modes')
@@ -143,6 +148,8 @@ def main():
         p.error('positive trials/window/workers, increasing unique counts <=1000000 required')
     if a.profile_broadphase and (a.modes!=['physics-gpu'] or min(a.counts)<1000):
         p.error('--profile-broadphase requires physics-gpu only and counts >=1000')
+    if a.scene=='mixed-stacks' and (any(not m.startswith('physics-') for m in a.modes) or min(a.counts)<2):
+        p.error('mixed-stacks requires physics modes and counts >=2')
     out=a.output.resolve()
     if a.resume:
         if not (out/'manifest.json').exists(): p.error('--resume requires an existing manifest')
@@ -159,9 +166,10 @@ def main():
         GPU_PHYSICS_DEMAND_POSES='1',GPU_PHYSICS_PRESENT_MODE='immediate',
         GPU_PHYSICS_PIPELINE_CACHE_DIR=str(Path.home()/'.cache/box3d-gpu-physics/pipelines'),
         GPU_BENCH_WIDTH=str(a.width),GPU_BENCH_HEIGHT=str(a.height))
-    if a.gpu_solver=='global': env.update(GPU_PHYSICS_COMPONENT_TGS='0',GPU_PHYSICS_COLOR_PREFIX='20')
+    if a.gpu_solver=='global': env.update(GPU_PHYSICS_COMPONENT_TGS='0',GPU_PHYSICS_COLOR_PREFIX=a.gpu_color_prefix)
+    if a.global_replay is not None: env['GPU_PHYSICS_GLOBAL_REPLAY']=a.global_replay
     if a.profile_broadphase: env['GPU_PHYSICS_PROFILE_BROADPHASE']='1'
-    manifest=dict(workload='falling-cubes-v1',arguments=vars(a)|dict(output=str(out),gpu_binary=str(a.gpu_binary) if a.gpu_binary else None,sokol_gpu_binary=str(a.sokol_gpu_binary) if a.sokol_gpu_binary else None),platform=platform.platform(),
+    manifest=dict(workload=a.scene+'-v1',arguments=vars(a)|dict(output=str(out),gpu_binary=str(a.gpu_binary) if a.gpu_binary else None,sokol_gpu_binary=str(a.sokol_gpu_binary) if a.sokol_gpu_binary else None),platform=platform.platform(),
         cpu=command_output(['lscpu']),gpu=command_output(['nvidia-smi','--query-gpu=name,uuid,memory.total,driver_version,power.limit,clocks.max.sm,clocks.max.memory','--format=csv']),
         vulkan=command_output(['vulkaninfo','--summary']),
         git=command_output(['git','rev-parse','HEAD']),diff_sha256=hashlib.sha256(subprocess.check_output(['git','diff'])).hexdigest(),
@@ -171,8 +179,8 @@ def main():
     manifest['sokol_draw_distance_m']=1000
     if a.resume:
         old=json.loads((out/'manifest.json').read_text())
-        for key in ['counts','modes','trials','warmup','timed','workers','adapter','width','height']:
-            if old['arguments'].get(key)!=manifest['arguments'].get(key): p.error('resume setting changed: '+key)
+        for key in ['counts','modes','trials','warmup','timed','workers','adapter','width','height','scene','gpu_color_prefix','global_replay']:
+            if old['arguments'].get(key,{'scene':'falling-cubes','gpu_color_prefix':'20'}.get(key))!=manifest['arguments'].get(key): p.error('resume setting changed: '+key)
         if old['binaries']!=manifest['binaries'] or old['environment']!=manifest['environment']:
             p.error('resume requires unchanged binaries and environment; start a new dataset')
         history=json.loads((out/'resume-history.json').read_text()) if (out/'resume-history.json').exists() else []
@@ -214,7 +222,7 @@ def main():
                 before=system()
                 if before['ac'] and '1' not in before['ac'].values(): raise RuntimeError('AC power disconnected')
                 runenv=env|dict(GPU_BENCH_CUBES=str(count))
-                common=['--scene','falling-cubes','--bodies',str(count),'--warmup',str(a.warmup),'--frames',str(a.timed),'--no-sleep']
+                common=['--scene',a.scene,'--bodies',str(count),'--warmup',str(a.warmup),'--frames',str(a.timed),'--no-sleep']
                 cwd=ROOT
                 if mode=='physics-cpu': cmd=[str(binaries['cpu']),*common,'--workers',str(a.workers),'--metrics',str(path)]
                 elif mode=='physics-gpu': cmd=[str(binaries['gpu']),*common,'--bench',str(path),'--metric-runs','1']

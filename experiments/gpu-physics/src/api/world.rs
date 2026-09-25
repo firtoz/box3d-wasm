@@ -12113,17 +12113,24 @@ mod full_replay_long_probe {
 use super::*;
 use crate::api::*;
 #[test]
-fn full_physics_replay_long_state_and_reentry() {
+fn full_physics_replay_long_state_and_reentry() { run_long_reentry(true, crate::types::DemoScene::MixedStacks, 600); }
+#[test]
+fn global_physics_replay_long_state_and_reentry() { run_long_reentry(false, crate::types::DemoScene::MixedStacks, 600); }
+#[test]
+fn global_physics_replay_connected_pile_state_and_reentry() {
+ run_long_reentry(false, crate::types::DemoScene::FallingCubes, 1000);
+}
+fn run_long_reentry(component: bool, scene: crate::types::DemoScene, count: u32) {
  let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
  gpu.device.push_error_scope(wgpu::ErrorFilter::Validation);
  let run=|enabled| {
-  let cfg=crate::types::DemoConfig{scene:crate::types::DemoScene::MixedStacks,body_count:600,body_count_explicit:true,contacts:true,jacobi:false};
+  let cfg=crate::types::DemoConfig{scene,body_count:count,body_count_explicit:true,contacts:true,jacobi:false};
   let world=crate::scenes::build_demo_world(gpu.clone(),&cfg);
-  with_world_mut_no_sync(world,|w|{w.component_tgs_requested=true;w.gpu_idle_requested=false;});
+  with_world_mut_no_sync(world,|w|{w.component_tgs_requested=component;w.gpu_idle_requested=false;});
   b3_world_set_diagnostic_flags(world,crate::types::DIAG_BOUNDED_STATIC_SORT);
   b3_world_enable_sleeping(world,false);
-  let ids=b3_world_dynamic_body_ids(world);assert_eq!(ids.len(),600);
-  let chosen=ids[599];let initial=b3_body_get_position(chosen);
+  let ids=b3_world_dynamic_body_ids(world);assert_eq!(ids.len(),count as usize);
+  let chosen=ids[count as usize-1];let initial=b3_body_get_position(chosen);
   let mut states=Vec::new();let mut hits=Vec::new();
   for step in 0..1000 {
    match step {
@@ -12131,6 +12138,9 @@ fn full_physics_replay_long_state_and_reentry() {
     350=>b3_body_set_type(chosen,BodyType::Kinematic),
     400=>b3_body_set_type(chosen,BodyType::Dynamic),
     450=>b3_world_begin_timing(world,5),
+    550 | 560 if !component => {
+      with_world_mut_no_sync(world,|w|w.sim.as_mut().unwrap().set_color_wave_prefix(if step==550 {0} else {20}));
+    },
     700=>b3_world_enable_sleeping(world,true),
     750=>b3_body_set_awake(chosen,true),
     800=>b3_world_enable_sleeping(world,false),

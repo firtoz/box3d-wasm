@@ -685,7 +685,7 @@ pub struct GpuSim {
     #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
     tail_cache: [Option<crate::native_command_cache::RadixCache>;4],
     #[cfg(feature="native-command-cache")]
-    physics_replay: Option<(wgpu::NativePhysicsReplay,wgpu::BindGroup,Vec<u8>,u32,u32)>,
+    physics_replay: Option<(wgpu::NativePhysicsReplay,wgpu::BindGroup,Vec<u8>,u32,u32,u32)>,
     #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
     native_tail_enabled: bool,
     native_reset_requested: bool,
@@ -3010,6 +3010,13 @@ impl GpuSim {
         std::env::var("GPU_PHYSICS_FULL_REPLAY").as_deref() == Ok("1")
     }
 
+    #[cfg(feature = "native-command-cache")]
+    fn global_replay_requested(&self) -> bool {
+        #[cfg(test)]
+        if let Some(enabled) = self.full_replay_test_override { return enabled; }
+        std::env::var("GPU_PHYSICS_GLOBAL_REPLAY").as_deref() != Ok("0")
+    }
+
     pub fn world_step(&mut self, sub_steps: i32) {
         #[cfg(not(target_arch = "wasm32"))]
         self.harvest_gpu_timestamps(false);
@@ -3059,17 +3066,19 @@ impl GpuSim {
             let mut params=self.params;params.physics_step=0;
             let mut key=bytemuck::bytes_of(&params).to_vec();
             key.extend_from_slice(&self.contact_slots.to_le_bytes());
+            key.extend_from_slice(&self.color_wave_prefix.to_le_bytes());
             key.extend_from_slice(&[u8::from(self.convex_ccd.is_some()),u8::from(self.graph_shared_requested),
                 u8::from(self.batched_graph_eligible()),u8::from(self.skip_general_static_sort),u8::from(self.one_group_wave_only),u8::from(self.component_tgs)]);key
         };
         #[cfg(feature="native-command-cache")]
-        let can_replay=!idle && !eligible && metric_step.is_none() && self.component_tgs
+        let can_replay=!idle && !eligible && metric_step.is_none() && (self.component_tgs
+            || self.global_replay_requested())
             && self.params.joint_count==0 && self.params.mesh_triangle_count==0 && self.params.diagnostic_flags & crate::types::DIAG_PHASE_CAPTURE==0
             && self.full_physics_replay_requested();
         #[cfg(not(feature="native-command-cache"))]
         let can_replay=false;
         #[cfg(feature="native-command-cache")]
-        let hit=can_replay && self.physics_replay.as_ref().is_some_and(|(_,group,key,_,_)|group==&self.bind_group && key==&replay_key);
+        let hit=can_replay && self.physics_replay.as_ref().is_some_and(|(_,group,key,_,_,_)|group==&self.bind_group && key==&replay_key);
         #[cfg(not(feature="native-command-cache"))]
         let hit=false;
         if hit {
@@ -3077,9 +3086,9 @@ impl GpuSim {
             self.upload_pass_lut();
             #[cfg(feature="native-command-cache")]
             {
-                let (replay,_,_,commands,sorts)=self.physics_replay.as_ref().unwrap();
+                let (replay,_,_,commands,sorts,solves)=self.physics_replay.as_ref().unwrap();
                 unsafe{enc.native_physics_replay(replay);}
-                self.encode_commands.set(*commands);self.static_sort_dispatches.set(*sorts);self.solver_dispatches.set(2);
+                self.encode_commands.set(*commands);self.static_sort_dispatches.set(*sorts);self.solver_dispatches.set(*solves);
             }
         } else {
         if idle {
@@ -3267,7 +3276,7 @@ impl GpuSim {
             let replay=unsafe{enc.finish().native_physics_capture()};
             enc=self.device.create_command_encoder(&wgpu::CommandEncoderDescriptor{label:Some("physics-replay-wrapper")});
             unsafe{enc.native_physics_replay(&replay);}
-            self.physics_replay=Some((replay,self.bind_group.clone(),replay_key,self.encode_commands.get(),self.static_sort_dispatches.get()));
+            self.physics_replay=Some((replay,self.bind_group.clone(),replay_key,self.encode_commands.get(),self.static_sort_dispatches.get(),self.solver_dispatches.get()));
         }
         } // recorded or replayed physics sequence
 
