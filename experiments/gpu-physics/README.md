@@ -734,6 +734,117 @@ hashes and reproduction/plotting scripts. The
 remains available. Pilot and rejected-prototype results are diagnostic and are
 not pooled with qualification trials.
 
+The **solver writeback follow-up (2026-09-25)** compares baseline `0bbf5f63`
+with impulse-only contact stores. The simulation, color order, dispatch count,
+four substeps, 1/60 s timestep and disabled sleeping are unchanged. These are
+medians of three alternating trial means on the RTX 4070 Laptop / Ryzen 9 8945HS,
+with eight CPU workers, 90 warmup and 240 timed steps under normal desktop load.
+The qualification contains 108 physics runs and 72 representative renderer runs.
+
+| Falling cubes | Baseline GPU ms | Candidate GPU ms | CPU ms | GPU time reduction |
+| --- | ---: | ---: | ---: | ---: |
+| 100 | 1.198 | 1.397 | 0.128 | -16.6% |
+| 1,000 | 2.746 | 2.568 | 0.489 | 6.5% |
+| 2,000 | 2.942 | 2.715 | 0.786 | 7.7% |
+| 5,000 | 3.916 | 3.857 | 2.143 | 1.5% |
+| 10,000 | 7.035 | 6.422 | 4.663 | 8.7% |
+| 15,000 | 7.982 | 7.027 | 7.877 | 12.0% |
+| 20,000 | 9.677 | 8.475 | 10.033 | 12.4% |
+| 100,000 | 43.833 | 39.148 | 82.927 | 10.7% |
+| 200,000 | 90.329 | 83.157 | 183.469 | 7.9% |
+
+The **20% completed-step target at both 2k and 5k was not reached**.
+The requested approximate absolute targets were 2.17 ms at 2k and 2.94 ms at 5k.
+Individual paired time changes (positive means slower) are 1,000: -6.5%, +3.2%, -11.2%; 2,000: -17.7%, -5.5%, +1.5%; 5,000: -0.6%, -2.1%, -1.5%.
+The first sampled median GPU physics win moves from 20,000
+cubes for the baseline to 15,000 for the candidate in this matched sweep.
+At that candidate count, every GPU trial mean is below every CPU trial mean.
+This is workload-specific, not a universal crossover threshold. Consult the raw
+trial ranges rather than treating small median differences as guaranteed gains.
+
+The 100-cube median is worse, with paired changes of +6.8%, +19.2% and
+−1.5%. Small-scene timings vary; there is no claim of a universal speedup.
+The sparse and large-scene paired time changes are retained explicitly:
+
+- falling-cubes / 20,000: -12.43%, -10.86%, -15.91%
+- falling-cubes / 100,000: -10.54%, -11.68%, -10.88%
+- falling-cubes / 200,000: -7.39%, -8.07%, -7.34%
+- mixed-stacks / 100: -19.47%, +24.10%, -6.14%
+- mixed-stacks / 1,000: -14.57%, +16.03%, -5.75%
+- mixed-stacks / 5,000: -5.04%, -5.89%, -18.26%
+
+At 5k, GPU solver time changes from 1.879 to
+1.548 ms, while graph construction changes from
+0.549 to 0.551 ms.
+Narrow contact writes reduce assigned fields from 352 to 56 bytes per writeback.
+This is a source-level footprint, not a hardware memory-transaction measurement.
+The fixed-schedule comparison isolates the effect of that shader change; GPU
+phase time includes its memory and instruction costs. It is not an additive
+breakdown of host, shader execution and synchronization time.
+
+![Completed physics-step latency and CPU comparison](benchmarks/rtx4070-solver-cost-physics-2026-09-25-latency.png)
+
+[Throughput](benchmarks/rtx4070-solver-cost-physics-2026-09-25-throughput.png),
+[p50/p95](benchmarks/rtx4070-solver-cost-physics-2026-09-25-percentiles.png),
+[GPU phase costs](benchmarks/rtx4070-solver-cost-physics-2026-09-25-phases.png),
+and [validated physics data](benchmarks/rtx4070-solver-cost-physics-2026-09-25.json).
+
+Experiments also tested velocity-only body stores and per-phase specialization
+of broad-color or all color shaders. They did not show reliable additional
+completed-step gains, so they are not enabled. All 72 pilot trials are retained,
+including unfavorable pairs; they are separate from final qualification.
+
+![Accepted and rejected solver experiments](benchmarks/rtx4070-solver-cost-experiments-2026-09-25-pilots.png)
+
+A controlled synthetic probe restored identical prepared inputs and compared
+260 dispatches with 13 grouped dispatches using workgroup storage barriers.
+Outputs matched byte-for-byte. Grouping helped at 64 contacts per color visit
+but lost at 256 and 1,024 as parallelism fell. This supports retaining the existing
+occupancy-based schedule. The repeated synthetic contacts are not a falling pile,
+and these intervals do not estimate an additive dispatch overhead for the live app.
+
+![Dispatch versus workgroup scheduling probe](benchmarks/rtx4070-solver-cost-experiments-2026-09-25-boundaries.png)
+
+| Renderer / cubes | Baseline GPU FPS | Candidate GPU FPS | CPU FPS |
+| --- | ---: | ---: | ---: |
+| Direct / 1,000 | 33.1 | 32.1 | 37.8 |
+| Direct / 5,000 | 31.9 | 32.5 | 33.2 |
+| Direct / 10,000 | 31.2 | 30.7 | 28.8 |
+| Direct / 20,000 | 29.5 | 30.4 | 22.5 |
+| Sokol / 1,000 | 27.5 | 27.9 | 33.7 |
+| Sokol / 5,000 | 25.4 | 26.2 | 27.8 |
+| Sokol / 10,000 | 26.4 | 27.0 | 23.7 |
+| Sokol / 20,000 | 20.4 | 18.7 | 15.5 |
+
+![Full-app FPS for both renderers](benchmarks/rtx4070-solver-cost-renderers-2026-09-25-throughput.png)
+
+[Frame latency](benchmarks/rtx4070-solver-cost-renderers-2026-09-25-latency.png),
+[frame p50/p95](benchmarks/rtx4070-solver-cost-renderers-2026-09-25-percentiles.png),
+and [validated renderer data](benchmarks/rtx4070-solver-cost-renderers-2026-09-25.json).
+Full-app results are mixed: direct-renderer frame time at 10k is slower in all
+three pairs (+3.6%, +2.3%, +0.9%). Sokol at 20k drops from 20.4 to 18.7 median
+FPS, with paired frame-time changes of −4.2%, +8.7% and +5.1%. These results
+do not establish a general application speedup, despite the large-scene physics
+gains. No runs were excluded.
+
+Both renderers use matched 1280×720 viewports, NVIDIA hardware and unpaced
+presentation on the same isolated Xvfb setup. These FPS values include application,
+rendering and display costs; they are not native-desktop FPS ceilings.
+
+All 276 native-cache library tests pass, plus nine cache-disabled checks. The
+synthetic timing probe is ignored by default and passed separately. Coverage
+includes bytewise full-record agreement after each solver phase, linked one- and
+four-point manifolds, graph changes, spawning/destruction, slot reuse, growth,
+cache invalidation and long replay reentry. Nineteen affected scenes were recorded
+for 300 frames each, with 0 decoded frames differing from the baseline;
+the real Box3D CPU comparison column remains pinned.
+
+The [raw evidence archive](benchmarks/rtx4070-solver-cost-2026-09-25-raw.tar.gz)
+([SHA-256](benchmarks/rtx4070-solver-cost-2026-09-25-raw.tar.gz.sha256)) includes frozen executable
+identities, source hashes and patch, raw timings, environments, tests, rejected
+experiments, recording hashes and reproduction scripts. Earlier charts and
+archives remain unchanged. Box3D and the WASM package are unchanged.
+
 To isolate solver scheduling costs, `profile-falling-solvers.py` reuses a completed
 sweep's binary and environment, verifies its binary hash, and compares component
 TGS with global contact-color dispatches. It alternates variant order across three
@@ -786,6 +897,12 @@ ordered greedy walk. Allocation respects device buffer limits and falls back to
 ordinary batching when unavailable; `GPU_PHYSICS_GRAPH_MEMO=0` disables it.
 Focused tests cover hits, changed inputs, partial batches, reordered edges and
 slot reuse, and the 15,000-cube impact comparison remains exact through step 330.
+Contact solving writes back only normal, friction, twist and rolling impulses,
+including accumulated normal impulses used by restitution. Preparation retains
+ownership of geometry and prepared coefficients; contact identity, arithmetic,
+color order and dispatch scheduling are unchanged. For a contact writeback, this
+reduces the assigned fields from 352 bytes (hot plus prepared records) to
+56 bytes of impulses; actual memory transactions depend on the compiler and GPU.
 Global color solving can
 still be selected with `GPU_PHYSICS_COMPONENT_TGS=0`; component TGS remains useful
 for small independent islands but underutilizes the GPU on a large connected pile.

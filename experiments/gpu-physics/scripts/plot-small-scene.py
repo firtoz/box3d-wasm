@@ -89,7 +89,7 @@ def main():
  a.output.with_suffix('.json').write_text(json.dumps(dict(manifest=manifest,groups=groups,comparisons=comparisons,framebuffers={k:list(next(iter(v))) for k,v in framebuffers.items()},phase_trials=phases,raw_sha256=hashes),indent=2)+'\n')
  colors={'before':'#8a8995','after':'#097f98','cpu':'#bc601d'}
  for metric in ['latency','throughput','percentiles']:
-  fig,axs=plt.subplots(1,2,figsize=(13,5),layout='constrained')
+  fig,axs=plt.subplots(1,2,figsize=(13,5))
   for ax,(scene,counts) in zip(axs,scopes.items()):
    for v,label in [('before','GPU baseline'),('after','GPU candidate'),('cpu','CPU')]:
     rows=[g for g in groups if g['scene']==scene and g['variant']==v]
@@ -102,12 +102,13 @@ def main():
     if metric=='latency' and v!='cpu':ax.plot(counts,[g['p95_ms'] for g in rows],':',color=colors[v],alpha=.8)
    ax.set(xscale='log',yscale='log',xlabel='Dynamic bodies',ylabel=('Frame time (ms)' if a.renderers else 'Completed step (ms)') if metric in ['latency','percentiles'] else ('Frames / second' if a.renderers else 'Completed steps / second'),title=(scene.title()+' renderer '+str(next(iter(framebuffers[scene])))) if a.renderers else ('Falling cubes' if scene=='falling-cubes' else 'Independent two-box groups'));ax.grid(alpha=.2);ax.legend()
   fig.suptitle(a.title+'\n'+('Median of trial p50 / p95 latencies' if metric=='percentiles' else 'Median trial mean; shading = full trial range'+('; dotted = median trial p95' if metric=='latency' else '')))
+  fig.tight_layout()
   for ext in ['png','svg']:
    path=a.output.parent/(a.output.name+'-'+metric+'.'+ext);fig.savefig(path,dpi=180,bbox_inches='tight',pad_inches=.12)
    if ext=='svg':path.write_text('\n'.join(l.rstrip() for l in path.read_text().splitlines())+'\n')
   plt.close(fig)
  if not a.renderers:
-  fig,axs=plt.subplots(1,2,figsize=(13,5),layout='constrained')
+  fig,axs=plt.subplots(1,2,figsize=(13,5))
   for ax,(scene,counts) in zip(axs,scopes.items()):
    focus=[n for n in counts if n<=5000]
    for v,label in [('before','Baseline'),('after','Candidate')]:
@@ -118,6 +119,7 @@ def main():
    ax.set(xscale='log',xlabel='Dynamic bodies',ylabel='GPU milliseconds / completed step',title='Falling cubes' if scene=='falling-cubes' else 'Independent two-box groups')
    ax.grid(alpha=.2);ax.legend()
   fig.suptitle(a.title+'\nGPU graph and solver timestamps; median trial mean and full trial range')
+  fig.tight_layout()
   for ext in ['png','svg']:
    path=a.output.parent/(a.output.name+'-phases.'+ext);fig.savefig(path,dpi=180,bbox_inches='tight',pad_inches=.12)
    if ext=='svg':path.write_text('\n'.join(l.rstrip() for l in path.read_text().splitlines())+'\n')

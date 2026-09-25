@@ -1914,3 +1914,154 @@ fn graph_density_status_selects_dense_piles_and_rejects_stale_topology() {
     sim.set_batched_graph_test(false);
     assert!(!sim.batched_graph_eligible(), "explicit override wins");
 }
+
+#[test]
+fn solver_narrow_writes_preserve_full_body_and_contact_state() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    gpu.device.push_error_scope(wgpu::ErrorFilter::Validation);
+    // Compare complete records after every phase, including chained patches,
+    // friction/rolling, restitution, and static/dynamic/kinematic endpoints.
+    for (endpoint, points) in [(0,1), (1,1), (2,1), (0,4), (1,4), (2,4)] {
+        let run = |narrow: bool| {
+            let mut sim = make_sim(&gpu, endpoint);
+            let mut patches = patches();
+            for c in &mut patches {
+                c.friction = 0.6;
+                c.rolling = 0.1;
+                c.count = points;
+                for i in 0..points as usize {
+                    c.ra[i] = [0.1 + 0.1 * i as f32, 0.2, 0.3, -0.01];
+                    c.rb[i] = [-0.2, 0.1 + 0.1 * i as f32, 0.2, 0.25];
+                }
+            }
+            sim.queue.write_buffer(&sim.contacts, 0, bytemuck::cast_slice(&patches));
+            for (word, value) in [(3u32, 1u32), (SCR_PAIRS + 3 * PAIR_CAP, 0)] {
+                sim.queue.write_buffer(&sim.scratch, u64::from(word)*4, bytemuck::bytes_of(&value));
+            }
+            let pipeline = test_pipeline(&sim, "compare_solver_stores", if narrow { r#"
+                @compute @workgroup_size(1)
+                fn compare_solver_stores() { run_contact(0u); }
+            "# } else { r#"
+                @compute @workgroup_size(1)
+                fn compare_solver_stores() {
+                    let c = load_solve_contact(0u);
+                    var a = load_body(c.a);
+                    var b = load_body(c.b);
+                    if (contact_chain_valid(0u)) {
+                        solve_validated_contact_chain_store(0u, &a, &b, params.use_bias, false);
+                    }
+                    if (!is_immovable(a)) { store_body(c.a, a); }
+                    if (!is_immovable(b)) { store_body(c.b, b); }
+                }
+            "# });
+            let mut enc = sim.device.create_command_encoder(&Default::default());
+            sim.dispatch_n(&mut enc, &sim.prepare_contacts, 1, 0, 0);
+            sim.queue.submit(Some(enc.finish()));
+            let mut checkpoints = Vec::new();
+            for mode in [2, 1, 0, 2, 1, 0, 3] {
+                let mut enc = sim.device.create_command_encoder(&Default::default());
+                sim.dispatch_n(&mut enc, &pipeline, 1, 0, mode);
+                sim.queue.submit(Some(enc.finish()));
+                let bodies = pollster::block_on(sim.read_bodies());
+                let contacts = pollster::block_on(sim.read_contacts());
+                checkpoints.push((bytemuck::cast_slice::<BodyGpu, u8>(&bodies).to_vec(),
+                    bytemuck::cast_slice::<ContactGpu, u8>(&contacts).to_vec()));
+            }
+            checkpoints
+        };
+        assert_eq!(run(false), run(true), "endpoint={endpoint} points={points}: narrow stores changed state");
+    }
+    if let Some(error) = pollster::block_on(gpu.device.pop_error_scope()) { panic!("{error}"); }
+}
+
+// Synthetic controlled comparison, deliberately excluded from correctness CI.
+// Same prepared contacts, arithmetic, color order and final state; only the
+// scheduling boundary changes from dispatches to workgroup storage barriers.
+#[test]
+#[ignore = "GPU timing experiment; run alone with --ignored --nocapture"]
+fn solver_dispatch_boundary_probe() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    assert!(gpu.timestamp_queries);
+    for width in [64u32, 256, 1024] {
+        let mut sim = make_sim_sized(&gpu, 0, width + 1);
+        let contacts: Vec<_> = (0..width).map(|i| {
+            let mut c = patches()[0];
+            c.b = i + 1; c.manifold_link = [0; 4]; c.friction = 0.6;
+            c.ra[0] = [0.1, 0.2, 0.3, -0.01];
+            c.rb[0] = [-0.2, 0.1, 0.2, 0.25]; c
+        }).collect();
+        sim.queue.write_buffer(&sim.contacts, 0, bytemuck::cast_slice(&contacts));
+        let indices: Vec<_> = (0..width).collect();
+        let write = |word: u32, data: &[u32]| sim.queue.write_buffer(&sim.scratch, u64::from(word)*4, bytemuck::cast_slice(data));
+        write(3, &[width]);
+        write(SCR_PAIRS + 3 * PAIR_CAP, &indices);
+        let color_base = SCR_RADIX_BASE + RADIX_BUCKETS + 208 * sim.params.body_count + 192;
+        for col in 0..20 {
+            write(SCR_COLOR + col, &[width]);
+            write(color_base + col * sim.params.contact_capacity, &indices);
+        }
+        let grouped = test_pipeline(&sim, "probe_grouped_colors", r#"
+            @compute @workgroup_size(64)
+            fn probe_grouped_colors(@builtin(local_invocation_index) lid: u32) {
+                solve_color_range_one_group(lid, 0u, 20u);
+            }
+        "#);
+        let mut enc = sim.device.create_command_encoder(&Default::default());
+        sim.dispatch_n(&mut enc, &sim.prepare_contacts, width.div_ceil(64), 0, 0);
+        let original = [&sim.bodies, &sim.contacts, &sim.contact_prepared];
+        let saved: Vec<_> = original.iter().map(|b| sim.device.create_buffer(&wgpu::BufferDescriptor {
+            label: Some("probe-snapshot"), size: b.size(),
+            usage: wgpu::BufferUsages::COPY_SRC | wgpu::BufferUsages::COPY_DST,
+            mapped_at_creation: false,
+        })).collect();
+        for (src, dst) in original.iter().zip(&saved) { enc.copy_buffer_to_buffer(src, 0, dst, 0, src.size()); }
+        sim.queue.submit(Some(enc.finish()));
+        let ts = GpuSim::make_timestamp(&sim.device, 2, "solver-boundary-probe");
+        let mut expected = None;
+        for trial in 0..8 {
+            for grouped_first in [false, true] {
+                let use_grouped = grouped_first ^ (trial % 2 == 1);
+                let mut enc = sim.device.create_command_encoder(&Default::default());
+                for (src, dst) in saved.iter().zip([&sim.bodies, &sim.contacts, &sim.contact_prepared]) {
+                    enc.copy_buffer_to_buffer(src, 0, dst, 0, src.size());
+                }
+                {
+                    let mut pass = enc.begin_compute_pass(&wgpu::ComputePassDescriptor {
+                        label: Some("solver-boundary-probe"),
+                        timestamp_writes: Some(wgpu::ComputePassTimestampWrites {
+                            query_set: &ts.queries, beginning_of_pass_write_index: Some(0), end_of_pass_write_index: Some(1),
+                        }),
+                    });
+                    for _ in 0..13 {
+                        if use_grouped {
+                            pass.set_pipeline(&grouped);
+                            pass.set_bind_group(0, sim.live_bg(), &[GpuSim::pass_lut_offset(0, 0) as u32]);
+                            pass.dispatch_workgroups(1, 1, 1);
+                        } else {
+                            pass.set_pipeline(&sim.solve_color);
+                            for col in 0..20 {
+                                pass.set_bind_group(0, sim.live_bg(), &[GpuSim::pass_lut_offset(col, 0) as u32]);
+                                pass.dispatch_workgroups(width.div_ceil(64), 1, 1);
+                            }
+                        }
+                    }
+                }
+                enc.resolve_query_set(&ts.queries, 0..2, &ts.resolve, 0);
+                enc.copy_buffer_to_buffer(&ts.resolve, 0, &ts.staging, 0, 16);
+                sim.queue.submit(Some(enc.finish()));
+                let slice = ts.staging.slice(..16); let (tx, rx) = oneshot();
+                slice.map_async(wgpu::MapMode::Read, move |r| { let _ = tx.send(r); });
+                poll_until_idle(&sim.device); rx.recv().unwrap().unwrap();
+                let data = slice.get_mapped_range(); let ticks: &[u64] = bytemuck::cast_slice(&data);
+                let ms = (ticks[1] - ticks[0]) as f64 * sim.queue.get_timestamp_period() as f64 / 1e6;
+                drop(data); ts.staging.unmap();
+                let bodies = pollster::block_on(sim.read_bodies());
+                let contacts = pollster::block_on(sim.read_contacts());
+                let state = (bytemuck::cast_slice::<BodyGpu, u8>(&bodies).to_vec(), bytemuck::cast_slice::<ContactGpu, u8>(&contacts).to_vec());
+                if let Some(ref expected) = expected { assert_eq!(&state, expected, "width={width} grouped={use_grouped}"); }
+                else { expected = Some(state); }
+                println!("SOLVER_BOUNDARY width={width} trial={trial} grouped={use_grouped} ms={ms:.6}");
+            }
+        }
+    }
+}

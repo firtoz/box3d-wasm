@@ -533,8 +533,9 @@ fn solve_contact_chain(root: u32, ba: ptr<function, Body>, bb: ptr<function, Bod
 }
 
 // Caller owns an immutable, validated chain for this dispatch only.
+// Solve phases change impulses only; preparation owns the remaining fields.
 fn solve_validated_contact_chain(root: u32, ba: ptr<function, Body>, bb: ptr<function, Body>, mode: u32) {
-    solve_validated_contact_chain_store(root, ba, bb, mode, false);
+    solve_validated_contact_chain_store(root, ba, bb, mode, true);
 }
 
 fn solve_validated_contact_chain_store(root: u32, ba: ptr<function, Body>, bb: ptr<function, Body>, mode: u32, impulses_only: bool) {

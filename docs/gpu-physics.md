@@ -16,9 +16,17 @@ engine or show two independent worlds side by side.
 | Experimental browser target | Does not currently compile; native transport, ABI layout and world-storage assumptions need work |
 | Box3D WASM package | Separate implementation; unchanged by the experiment |
 | Native API parity | Incomplete; linkable symbols include placeholders and CPU-only comparison passthroughs |
-| Performance | RTX 4070 Laptop broadphase follow-up versus `49b024f5`: three alternating 200,000-cube pairs show 38.5% lower broadphase time and 12.3% higher completed physics throughput, with unchanged primary buffer allocation. All 24 renderer trials pass; at 200,000 cubes median FPS improves 12.1% in the direct renderer and 8.0% in Sokol. Small-scene median throughput changes range from −0.1% to −2.9%, with overlapping trial ranges. Dated charts, repeated stage profiles, 19 scene recordings and a reproducible raw evidence archive are available in the experiment README. The experiment README retains the earlier full CPU/GPU sweep and gives current results, variability and limitations. |
+| Performance | RTX 4070 Laptop solver-writeback follow-up versus `0bbf5f63`: median completed-step time falls 7.7% at 2k cubes and 1.5% at 5k, below the 20% target. The 100k and 200k cases improve 10.7% and 7.9%, with every paired large-scene trial faster. In the matched sweep, the first sampled GPU/CPU physics crossover moves from 20k to 15k cubes. Small-scene timings remain variable; this is not a universal speedup or crossover threshold. See the experiment README for dated charts, renderer measurements, raw evidence and earlier benchmark history. |
 
-The connected-scene scheduling follow-up compares against `c46b81e2` on the same
+The solver-writeback change stores only contact impulses during solving; it
+preserves geometry, prepared coefficients, arithmetic and scheduling. A controlled
+dispatch-versus-workgroup probe supports retaining the existing occupancy-based
+schedule. Narrow body writes and shader specialization did not yield reliable
+additional completed-step gains and remain rejected experiments. The native-cache
+suite passes 276 tests, plus nine cache-disabled checks; the timing probe passes
+separately. Box3D and the WASM package are unchanged.
+
+The earlier connected-scene scheduling follow-up compares against `c46b81e2` on the same
 RTX 4070 Laptop. The repeated physics sweep measures about 2%, 15% and 20% lower
 median completed-step time at 1k, 2k and 5k falling cubes; the 25% target was not
 reached, and the 1k result is noisy. Dense small worlds now choose batched graph
