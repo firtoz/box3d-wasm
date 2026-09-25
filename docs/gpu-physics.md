@@ -18,6 +18,16 @@ engine or show two independent worlds side by side.
 | Native API parity | Incomplete; linkable symbols include placeholders and CPU-only comparison passthroughs |
 | Performance | RTX 4070 Laptop broadphase follow-up versus `49b024f5`: three alternating 200,000-cube pairs show 38.5% lower broadphase time and 12.3% higher completed physics throughput, with unchanged primary buffer allocation. All 24 renderer trials pass; at 200,000 cubes median FPS improves 12.1% in the direct renderer and 8.0% in Sokol. Small-scene median throughput changes range from −0.1% to −2.9%, with overlapping trial ranges. Dated charts, repeated stage profiles, 19 scene recordings and a reproducible raw evidence archive are available in the experiment README. The experiment README retains the earlier full CPU/GPU sweep and gives current results, variability and limitations. |
 
+The connected-scene scheduling follow-up compares against `c46b81e2` on the same
+RTX 4070 Laptop. The repeated physics sweep measures about 2%, 15% and 20% lower
+median completed-step time at 1k, 2k and 5k falling cubes; the 25% target was not
+reached, and the 1k result is noisy. Dense small worlds now choose batched graph
+memoization using an asynchronous contact-density hint; sparse worlds keep the
+shared path. The initial 100k slowdown was investigated with balanced three-way
+repeats and did not consistently reproduce; the report retains both rounds.
+See the [experiment benchmark history](../experiments/gpu-physics/README.md#falling-cube-scaling-benchmark)
+for the final charts, exact configurations, variability and evidence.
+
 The [scaling follow-up](../experiments/gpu-physics/README.md#falling-cube-scaling-benchmark)
 fixes a concurrent island-link loss and adds batched contact coloring above 8,168
 bodies. With global color solving, the 15,000-cube completed step is about 11.9 ms

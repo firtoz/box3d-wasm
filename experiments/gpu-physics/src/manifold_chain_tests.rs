@@ -1870,3 +1870,47 @@ fn spatial_hash_growth_clears_buckets_without_touching_contact_identity() {
     }
     if let Some(error)=pollster::block_on(gpu.device.pop_error_scope()){panic!("{error}");}
 }
+
+// Exercise the real GPU status publication/readback, including an old in-flight
+// sample after topology invalidation, rather than assigning the hint directly.
+#[test]
+fn graph_density_status_selects_dense_piles_and_rejects_stale_topology() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    let mut sim = make_sim_sized(&gpu, 0, 600);
+    sim.graph_batched_override = None;
+    sim.graph_shared_requested = true;
+    if sim.graph_memo_base.is_none() {
+        sim.graph_dense_hint = true;
+        assert!(!sim.batched_graph_eligible(), "no automatic batching without memo allocation");
+        return;
+    }
+    let seed = test_pipeline(&sim, "seed_density", r#"
+        @compute @workgroup_size(1)
+        fn seed_density() { scratch[SCR_DYN_DYN_N] = atomicLoad(&query[70u]); }
+    "#);
+    let submit = |sim: &mut GpuSim, step: u64, edges: u32| {
+        sim.restore_physics_step(step);
+        sim.queue.write_buffer(&sim.query, 70*4, bytemuck::bytes_of(&edges));
+        let mut enc = sim.device.create_command_encoder(&Default::default());
+        sim.dispatch_n(&mut enc, &seed, 1, 0, 0);
+        sim.dispatch_n(&mut enc, &sim.finish_occupied_contacts, 1, 0, 0);
+        sim.encode_contact_status(&mut enc);
+        sim.record_submit(sim.queue.submit(Some(enc.finish())));
+        sim.map_contact_status();
+    };
+    assert!(!sim.batched_graph_eligible());
+    for (step, edges, expected) in [(1,300,false),(2,900,true),(3,500,true),(4,300,false)] {
+        submit(&mut sim, step, edges);
+        sim.contact_metrics(true);
+        assert_eq!(sim.batched_graph_eligible(), expected);
+    }
+    submit(&mut sim, 5, 900);
+    sim.write_scene(&[], &[], &[], &[]);
+    sim.contact_metrics(true);
+    assert!(!sim.batched_graph_eligible(), "old topology hint must be discarded");
+    submit(&mut sim, 6, 900);
+    sim.contact_metrics(true);
+    assert!(sim.batched_graph_eligible());
+    sim.set_batched_graph_test(false);
+    assert!(!sim.batched_graph_eligible(), "explicit override wins");
+}

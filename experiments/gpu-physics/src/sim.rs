@@ -652,6 +652,7 @@ pub struct GpuSim {
     color_wave_prefix: u32,
     color_wave_prefix_override: Option<u32>,
     color_hint_min_step: u64,
+    graph_dense_hint: bool,
     one_group_pair_ok: bool,
     skip_general_static_sort: bool,
     solver_dispatches: Cell<u32>,
@@ -1395,6 +1396,7 @@ impl GpuSim {
             color_wave_prefix: color_wave_prefix_override.unwrap_or(crate::types::OVERFLOW_COLOR),
             color_wave_prefix_override,
             color_hint_min_step: 0,
+            graph_dense_hint: false,
             one_group_pair_ok: false,
             skip_general_static_sort: false,
             solver_dispatches: Cell::new(0),
@@ -2721,10 +2723,17 @@ impl GpuSim {
             && self.device.limits().max_compute_workgroup_storage_size >= 32768
     }
 
+    #[cfg(test)]
+    pub(crate) fn uses_batched_graph_test(&self) -> bool { self.batched_graph_eligible() }
+
     fn batched_graph_eligible(&self) -> bool {
-        // Keep the existing low-count shared/memo path. Beyond its occupancy
-        // cache limit, endpoint batches avoid the scalar global-memory walk.
-        self.graph_batched_override.unwrap_or(self.params.body_count > 8168)
+        // Dense connected piles benefit from range-local memoization, whereas
+        // sparse independent groups favor the shared occupancy cache. The hint
+        // arrives with ordinary asynchronous status; either path is always valid.
+        self.graph_batched_override.unwrap_or(self.params.body_count > 8168
+            || (self.graph_dense_hint && self.params.body_count >= 512
+                && self.graph_shared_requested && self.graph_memo_base.is_some()
+                && self.params.joint_count == 0 && self.params.mesh_triangle_count == 0))
     }
 
     fn dynamic_graph_pipeline(&self) -> &ComputePipeline {
@@ -3796,6 +3805,15 @@ impl GpuSim {
         let first = words.get(4).copied().unwrap_or(0);
         let proof = words.get(5).copied().unwrap_or(0);
         self.sticky_contact_reasons |= words.get(6).copied().unwrap_or(0);
+        if self.sticky_pending_step >= self.color_hint_min_step {
+            // Hysteresis avoids command-cache churn near the density boundary.
+            // Only dynamic-dynamic roots count: static contacts do not connect
+            // independent groups. Stale status affects performance, not physics.
+            let threshold = if self.graph_dense_hint {
+                self.params.body_count.saturating_mul(3) / 4
+            } else { self.params.body_count };
+            self.graph_dense_hint = words[12] >= threshold;
+        }
         if self.color_wave_prefix_override.is_none() && self.sticky_pending_step >= self.color_hint_min_step {
             // This is a scheduling hint, not a capacity proof. If a newer graph
             // grows a color, the tail still visits all of it in bounded batches.
@@ -4477,9 +4495,10 @@ impl GpuSim {
         self.invalidate_idle_proof();
         // Immutable CCD spans/targets must never outlive the uploaded topology.
         self.convex_ccd=None;
+        self.graph_dense_hint = false;
+        self.color_hint_min_step = self.physics_step.saturating_add(1);
         if self.color_wave_prefix_override.is_none() {
             self.color_wave_prefix = crate::types::OVERFLOW_COLOR;
-            self.color_hint_min_step = self.physics_step.saturating_add(1);
         }
         let geometry: Vec<_> = shapes.iter().map(|s| FatGeometryKey::new(s, bodies)).collect();
         let moved_or_removed = self.shape_identities.iter().enumerate()

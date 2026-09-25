@@ -1,0 +1,91 @@
+{
+  "initial_paired_change_percent": [
+    1.8974606817817596,
+    0.4143041798827518,
+    1.3605703738474917
+  ],
+  "followup_paired_change_percent": [
+    -0.25053855588562657,
+    -1.6524459493593935,
+    0.14604561453115394
+  ],
+  "register_only_paired_change_percent": [
+    0.6546105695615312,
+    -0.07673440185658187,
+    1.2347140336849582
+  ],
+  "initial_median_paired_change_percent": 1.3605703738474917,
+  "followup_median_paired_change_percent": -0.25053855588562657,
+  "all_six_median_paired_change_percent": 0.2801748972069529,
+  "probe_trial_means": [
+    {
+      "trial": 1,
+      "variant": "baseline",
+      "mean_ms": 44.460721666666664
+    },
+    {
+      "trial": 1,
+      "variant": "register-only",
+      "mean_ms": 44.75176625
+    },
+    {
+      "trial": 1,
+      "variant": "adaptive",
+      "mean_ms": 44.34933041666667
+    },
+    {
+      "trial": 2,
+      "variant": "register-only",
+      "mean_ms": 44.55302375
+    },
+    {
+      "trial": 2,
+      "variant": "adaptive",
+      "mean_ms": 43.8504575
+    },
+    {
+      "trial": 2,
+      "variant": "baseline",
+      "mean_ms": 44.5872375
+    },
+    {
+      "trial": 3,
+      "variant": "adaptive",
+      "mean_ms": 44.333641666666665
+    },
+    {
+      "trial": 3,
+      "variant": "baseline",
+      "mean_ms": 44.26898875
+    },
+    {
+      "trial": 3,
+      "variant": "register-only",
+      "mean_ms": 44.81558416666667
+    }
+  ],
+  "common_workload": [
+    202029,
+    100000,
+    182,
+    1837715104
+  ],
+  "raw_sha256": {
+    "large-regression-probe/1-baseline.json": "d2c8a887503964cc3a480d6fad2a6da2bdc802e182f731c0ee084e08d52493de",
+    "large-regression-probe/1-register-only.json": "b9f1085a42ec54246a9c71b5fd3d6c2a9b6ee21ce3ebd7070d87bc989dd3e573",
+    "large-regression-probe/1-adaptive.json": "69a36363e98fd06259d05d00b7c0fb4016b07d49dfa2272f1feacb422d4b2b9c",
+    "large-regression-probe/2-register-only.json": "39750076de12058343279776e288122a182962237058bee1750a2cfc86e01b37",
+    "large-regression-probe/2-adaptive.json": "70dc9e29acf7ffe65168cd83b124a29e0f6ce99349f82b636fa12b62e3591937",
+    "large-regression-probe/2-baseline.json": "20b9ff4f30891279590317470f39468f8dc7a43e030798ca00e302df4e5f4067",
+    "large-regression-probe/3-adaptive.json": "a752e85eea5e6593b0c1831f8e454331129dbf13553474017476514403d2ac7d",
+    "large-regression-probe/3-baseline.json": "8d929e8a5b3439a31c8743ab0a291e3ebfe5bca3542e13a409c08ac1d9737c72",
+    "large-regression-probe/3-register-only.json": "9f2c1cd09eff38f7de4a8b9c2a553c6b99df135a421004a7317085d973e36834",
+    "qualification-physics/falling-cubes-100000-1-before/100000-physics-gpu-1.json": "c1abf2c348f77e91b1a125ccc4a5f28bb9ab026ec4fc209d03eb16d1d47bb81c",
+    "qualification-physics/falling-cubes-100000-1-after/100000-physics-gpu-1.json": "69f3096a8039b9b69755d68d7b42ee6d5d48de7760f621b0373ff01c09fb688b",
+    "qualification-physics/falling-cubes-100000-2-before/100000-physics-gpu-1.json": "6ad2afa7cff31f7bf6ae9a4b8d16bd49a5067f6a34ee2cd296b7d14a5ca0c3fe",
+    "qualification-physics/falling-cubes-100000-2-after/100000-physics-gpu-1.json": "1177a4bb50cc28f27fdcbb6a7ac4bf43e0dbf797bedee42f3088d366778d4094",
+    "qualification-physics/falling-cubes-100000-3-before/100000-physics-gpu-1.json": "df8be216118c64d4bbf3da50348d2f42fd30cbaf072ab2344923dfb6757cdf66",
+    "qualification-physics/falling-cubes-100000-3-after/100000-physics-gpu-1.json": "14fdf5ddd4684f5841aa2680247ab63f6d505d4be2f3696595cfc2445c94d896"
+  },
+  "note": "Positive means slower. Original and balanced follow-up runs are both retained; three-way control uses the same GPU binary identities/environment/workload. This is not a confidence interval."
+}

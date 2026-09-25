@@ -528,7 +528,7 @@ poses to the CPU. GPU execution overlaps host work, so do not add GPU phase time
 to these wall-time values. Keep these instrumented runs separate from headline
 measurements. When `GPU_PHYSICS_FULL_REPLAY=1`, eligible global-solver worlds also reuse their
 recorded physics commands. `GPU_PHYSICS_GLOBAL_REPLAY=0` opts out for comparison.
-The completed physics qualification on 2026-09-25 contains 153 runs: three
+The earlier small-scene physics qualification on 2026-09-25 contains 153 runs: three
 alternating baseline/candidate/CPU trials per scene and count, each with 90 warmup
 and 240 timed steps, four substeps, sleeping disabled, and eight CPU workers.
 Hardware is the RTX 4070 Laptop / Ryzen 9 8945HS with NVIDIA 610.57.04 on Linux
@@ -630,25 +630,109 @@ extraction. Raw runtime git/source hashes describe the checkout at measurement
 time; frozen executable SHA-256 identities establish which binary was measured.
 
 
-The September 25 connected-scene checkpoint removes shared-memory body staging
-and redundant barriers within each color of the grouped solver. Contacts in one
-color have exclusive writable body endpoints; a storage barrier still separates
-colors. Graph selection and solver quality settings remain unchanged.
-New canonical-comparison coverage exercises batched graph mutation, destruction
-and slot reuse, filtering, split/merge transforms, sleeping and buffer growth.
+The **connected-scene scheduling follow-up (2026-09-25)** compares baseline
+`c46b81e2` with register-local grouped solving and density-selected graph memoization.
+Both variants use the global solver, automatic color prefix and full command
+replay. The workload, four substeps, 1/60 s timestep, disabled sleeping, eight CPU
+workers, 90 warmup steps and 240 measured steps are unchanged. Results below are
+medians of three alternating trial means under normal desktop load: 108 physics
+trials and 72 representative renderer trials, on the same RTX 4070 Laptop / Ryzen
+9 8945HS / NVIDIA 610.57.04 system. Earlier charts remain above as history.
 
-Pilot experiments suggest that forcing batched memoization can reduce dense-pile
-graph cost, but slightly increases graph cost for independent groups. The combined
-prototype measured about 11% lower completed-step time at 5,000 cubes in two
-trials; **this is diagnostic evidence, not a qualified gain for this checkpoint**.
-Automatic graph selection, repeated qualification, large-scene regression checks,
-and updated CPU/renderer charts remain the next work. Five focused tests pass;
-all 19 affected scene recordings match the prior qualified version exactly across
-300 decoded frames each. The existing charts above
-continue to describe the previous qualified release. The
-[checkpoint evidence](benchmarks/rtx4070-connected-scheduling-checkpoint-2026-09-25-raw.tar.gz)
-retains pilot scripts/results, binary identities, and focused validation logs;
-rejected 256-lane and fixed-prefix experiments are included as diagnostics.
+| Falling cubes | Baseline GPU ms | Candidate GPU ms | CPU ms | GPU time reduction |
+| ---: | ---: | ---: | ---: | ---: |
+| 1,000 | 2.754 | 2.687 | 0.530 | 2.4% |
+| 2,000 | 3.215 | 2.718 | 0.807 | 15.5% |
+| 5,000 | 4.591 | 3.675 | 1.791 | 20.0% |
+| 10,000 | 5.646 | 5.536 | 4.418 | 1.9% |
+| 15,000 | 7.440 | 7.459 | 6.874 | -0.3% |
+| 20,000 | 9.272 | 9.275 | 9.935 | 0.0% |
+| 100,000 | 44.279 | 44.881 | 82.961 | -1.4% |
+| 200,000 | 91.536 | 91.248 | 180.533 | 0.3% |
+
+The **25% lower completed-step target at 1k–5k was not reached**. At 1k the
+trial ranges overlap and one pair is slightly slower, so its small median gain
+is not a reliable speedup claim. All paired 2k and 5k trials improve. CPU physics
+remains faster throughout that small-scene range. The first measured falling-pile
+GPU win is still 20k cubes (all GPU trial means below all CPU trial means); CPU
+wins at 15k. This is a sampled, workload-specific crossover rather than a universal
+body-count threshold.
+
+Sparse groups show no consistent slowdown. At 200k, paired GPU time changes are
++0.01%, −0.75% and +0.38%: effectively unchanged within run variability. Primary
+simulation-buffer allocation is unchanged at 1,837,715,104 bytes for 100k and
+3,674,669,472 bytes for 200k, excluding rendering and other driver allocations.
+
+The initial 100k pairs were all slower (+0.41% to +1.90%), so renderer qualification
+was held while a balanced three-way probe compared baseline, solver-only checkpoint
+and adaptive candidate. Follow-up adaptive changes were −0.25%, −1.65% and +0.15%.
+Across all six pairs the median paired change is +0.28%; the direction is not stable.
+We claim no reliable 100k speedup or slowdown. Both rounds are retained rather than
+pooling only favorable trials. Matching contact/awake/dispatch counts and a native
+shader-emitter comparison support the investigation: graph, broadphase and ordinary
+solver entries emit identical SPIR-V; the changed entries are the three grouped
+solvers and the density-hint publication pass. This does not guarantee zero cost
+on every run or different hardware.
+
+![Initial 100k signal and balanced follow-up](benchmarks/rtx4070-connected-scheduling-large-check-2026-09-25.png)
+
+[Investigation data and raw hashes](benchmarks/rtx4070-connected-scheduling-large-check-2026-09-25.json).
+
+At 5k cubes, median graph construction changes from 1.142 to 0.549 ms;
+solving changes from 1.951 to 1.876 ms.
+At 1k, solving alone still costs 1.544 ms.
+Solver execution remains the largest measured GPU stage; this includes arithmetic,
+memory access, sequential color dependencies and dispatch/barrier costs. Phase
+timings alone do not separate those costs. This is not a hardware impossibility
+proof. The next investigation should test fewer solver launches and better work
+distribution while preserving contact ordering; increasing batch size or
+hard-coding fewer parallel colors did not produce a reliable improvement in the retained pilots. GPU timestamp phases
+must not be added to overlapping host wall-time measures.
+
+![Connected-scene completed-step latency and CPU comparison](benchmarks/rtx4070-connected-scheduling-physics-2026-09-25-latency.png)
+
+[Physics throughput](benchmarks/rtx4070-connected-scheduling-physics-2026-09-25-throughput.png),
+[p50/p95 latency](benchmarks/rtx4070-connected-scheduling-physics-2026-09-25-percentiles.png),
+[graph versus solver cost](benchmarks/rtx4070-connected-scheduling-physics-2026-09-25-phases.png),
+and [validated data with raw hashes](benchmarks/rtx4070-connected-scheduling-physics-2026-09-25.json).
+
+| Renderer | Cubes | Baseline GPU FPS | Candidate GPU FPS | CPU FPS |
+| --- | ---: | ---: | ---: | ---: |
+| Direct | 1,000 | 32.6 | 33.0 | 38.7 |
+| Direct | 5,000 | 30.9 | 31.7 | 33.8 |
+| Direct | 10,000 | 30.9 | 30.7 | 29.3 |
+| Direct | 20,000 | 29.6 | 29.7 | 23.2 |
+| Sokol | 1,000 | 27.6 | 27.8 | 33.6 |
+| Sokol | 5,000 | 25.9 | 25.4 | 28.4 |
+| Sokol | 10,000 | 26.5 | 26.7 | 23.5 |
+| Sokol | 20,000 | 24.6 | 24.7 | 17.2 |
+
+![Connected-scene full-app FPS for both renderers](benchmarks/rtx4070-connected-scheduling-renderers-2026-09-25-throughput.png)
+
+[Frame latency](benchmarks/rtx4070-connected-scheduling-renderers-2026-09-25-latency.png),
+[frame p50/p95](benchmarks/rtx4070-connected-scheduling-renderers-2026-09-25-percentiles.png),
+and [validated renderer data](benchmarks/rtx4070-connected-scheduling-renderers-2026-09-25.json).
+These runs use matched 1280×720 viewports, NVIDIA hardware rendering, unpaced
+presentation and the same isolated Xvfb setup as the previous qualification.
+Full-app FPS includes rendering, application and display costs; it is separate
+from completed physics steps/s and does not predict native desktop FPS exactly.
+
+All 275 native-cache tests pass across two invocations: 274 in the NVIDIA-only
+suite, plus the cross-adapter transfer test with both Vulkan drivers visible.
+The initial missing-AMD-destination failure is retained as environment evidence.
+Eight cache-disabled checks pass. Coverage includes graph path switches,
+canonical slot/color order, merged/split contacts, spawning, destruction/slot reuse,
+buffer growth, stale topology hints and 1,000-step replay state agreement.
+All 19 affected recordings match the baseline across 300 decoded frames each;
+the real Box3D CPU comparison column remains pinned.
+
+The [raw evidence archive](benchmarks/rtx4070-connected-scheduling-2026-09-25-raw.tar.gz)
+([SHA-256](benchmarks/rtx4070-connected-scheduling-2026-09-25-raw.tar.gz.sha256)) retains frozen binary
+identities, source hashes/patch, raw trials, environments, test logs, recording
+hashes and reproduction/plotting scripts. The
+[earlier checkpoint archive](benchmarks/rtx4070-connected-scheduling-checkpoint-2026-09-25-raw.tar.gz)
+remains available. Pilot and rejected-prototype results are diagnostic and are
+not pooled with qualification trials.
 
 To isolate solver scheduling costs, `profile-falling-solvers.py` reuses a completed
 sweep's binary and environment, verifies its binary hash, and compares component
@@ -681,9 +765,17 @@ linear/angular velocities match exactly after the fix.
 Dynamic coloring now fetches and publishes endpoints cooperatively in batches of
 256 contacts, while retaining the reference greedy decision order. Its shared
 cache holds at most 512 endpoints rather than the entire world. Worlds above
-8,168 bodies select this path automatically; smaller worlds retain their existing
-shared/memo scheduling. `GPU_PHYSICS_GRAPH_BATCHED=0` forces the scalar reference
-and `=1` forces batching for controlled comparisons. With
+8,168 bodies select this path automatically. Smaller worlds with at least 512
+bodies, enabled shared/memo support, and no joints or triangle meshes also select
+batching when dynamic-dynamic contact roots reach the body count. The existing
+asynchronous status readback carries this density hint; selection returns to the
+shared path below three quarters of the body count to avoid switching around the
+boundary. Topology uploads discard older hints. Sparse groups and smaller worlds
+retain shared/memo scheduling. Both paths validate their own cached inputs, and
+command-cache keys include the selected path; a delayed hint cannot skip physics.
+`GPU_PHYSICS_GRAPH_BATCHED=0` disables batching (shared/memo remains available);
+`=1` forces batching for controlled comparisons. Disable `GPU_PHYSICS_GRAPH_SHARED`
+as well to select the scalar reference below the shared-world size limit. With
 `GPU_PHYSICS_GRAPH_MEMO=1`, the optional memo allocation now also supports large
 worlds. Batches are anchored to 128-body ranges, with up to four cached chunks
 of 256 edges per range, so changes in earlier ranges do not shift later cache

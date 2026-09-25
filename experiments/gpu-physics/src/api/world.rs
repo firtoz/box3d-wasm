@@ -11363,12 +11363,15 @@ mod complete_component_tests {
     }
 
     #[test]
-    fn shared_graph_mutations_match_canonical() { graph_mutations_match_canonical(false); }
+    fn shared_graph_mutations_match_canonical() { graph_mutations_match_canonical(false, false); }
 
     #[test]
-    fn batched_graph_mutations_match_canonical() { graph_mutations_match_canonical(true); }
+    fn batched_graph_mutations_match_canonical() { graph_mutations_match_canonical(true, false); }
 
-    fn graph_mutations_match_canonical(batched: bool) {
+    #[test]
+    fn switching_graph_mutations_match_canonical() { graph_mutations_match_canonical(true, true); }
+
+    fn graph_mutations_match_canonical(batched: bool, switching: bool) {
         let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
         gpu.device.push_error_scope(wgpu::ErrorFilter::Validation);
         let run=|enabled| {
@@ -11412,8 +11415,9 @@ mod complete_component_tests {
                 if frame==55 {assert!(with_world_no_sync(world,|w|w.sim.as_ref().unwrap().caps.bodies).unwrap()>256,"must exercise real buffer growth");}
                 with_world_mut_no_sync(world,|w|{
                     let sim=w.sim.as_mut().unwrap();
-                    sim.set_shared_graph_test(enabled && !batched);
-                    sim.set_batched_graph_test(enabled && batched);
+                    let use_batch = batched && (!switching || frame % 10 < 5);
+                    sim.set_shared_graph_test(enabled && !use_batch);
+                    sim.set_batched_graph_test(enabled && use_batch);
                 });
                 b3_world_step_gpu(world,1.0/60.0,4);
                 states.push(pollster::block_on(b3_world_sync_from_gpu(world)));
@@ -12146,7 +12150,7 @@ fn run_long_reentry(component: bool, scene: crate::types::DemoScene, count: u32)
   b3_world_enable_sleeping(world,false);
   let ids=b3_world_dynamic_body_ids(world);assert_eq!(ids.len(),count as usize);
   let chosen=ids[count as usize-1];let initial=b3_body_get_position(chosen);
-  let mut states=Vec::new();let mut hits=Vec::new();
+  let mut states=Vec::new();let mut hits=Vec::new();let mut saw_batched=false;
   for step in 0..1000 {
    match step {
     250=>b3_body_set_transform(chosen,[initial[0],initial[1]+0.015,initial[2]],[0.0,0.0,0.0,1.0]),
@@ -12172,13 +12176,19 @@ fn run_long_reentry(component: bool, scene: crate::types::DemoScene, count: u32)
    b3_world_ensure_gpu(world);
    with_world_mut_no_sync(world,|w|w.sim.as_mut().unwrap().set_full_replay_test(enabled));
    b3_world_step_gpu(world,1.0/60.0,if (500..510).contains(&step){2}else{4});
-   if (step+1)%25==0 {states.push(pollster::block_on(b3_world_sync_from_gpu(world)));}
+   if (step+1)%25==0 {
+    states.push(pollster::block_on(b3_world_sync_from_gpu(world)));
+    saw_batched |= with_world_no_sync(world,|w|w.sim.as_ref().unwrap().uses_batched_graph_test()).unwrap();
+   }
    if (step+1)%100==0 {
     let h=with_world_mut_no_sync(world,|w|w.sim.as_mut().unwrap().physics_replay_hits()).unwrap();
     hits.push(h);
    }
   }
-  eprintln!("FULL_REPLAY_LONG enabled={enabled} hits={hits:?}");
+  if std::env::var("GPU_PHYSICS_GRAPH_MEMO").as_deref()==Ok("1") {
+   assert_eq!(saw_batched, matches!(scene, crate::types::DemoScene::FallingCubes), "automatic dense/sparse selection");
+  }
+  eprintln!("FULL_REPLAY_LONG enabled={enabled} hits={hits:?} batched={saw_batched}");
   if enabled {assert!(hits[1]>=190,"must repeatedly reuse before mutation");assert!(hits[5]>=hits[3]+150,"must resume sustained reuse after type changes");assert!(hits[9]>80,"must reuse after capacity growth");}
   assert!(!pollster::block_on(b3_world_live_step_stats(world)).unwrap().capacity_loss());
   b3_destroy_world(world);states

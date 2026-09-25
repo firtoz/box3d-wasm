@@ -2067,6 +2067,9 @@ fn finish_occupied_contacts(@builtin(global_invocation_id) dispatch_gid: vec3<u3
         if (scratch[SCR_COLOR + col] > 64u) { prefix = col + 1u; }
     }
     atomicStore(&query[71u], prefix);
+    // Existing status readback word 70 carries dynamic graph density. This is
+    // only a scheduling hint; it never authorizes reuse of cached edge inputs.
+    atomicStore(&query[70u], scratch[SCR_DYN_DYN_N]);
 }
 
 @compute @workgroup_size(1)

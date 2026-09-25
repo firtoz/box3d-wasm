@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Validate matched small-scene trials and plot medians with full trial ranges."""
-import argparse,hashlib,json,re,runpy,statistics
+import argparse,hashlib,json,math,re,runpy,statistics
 from pathlib import Path
 from types import SimpleNamespace
 BENCH=runpy.run_path(str(Path(__file__).with_name('bench-falling-cubes.py')))
@@ -10,7 +10,7 @@ def main():
  manifest=json.loads((a.input/'manifest.json').read_text());jobs=json.loads((a.input/'jobs.json').read_text())
  scopes={r:manifest['counts'] for r in manifest['renderers']} if a.renderers else manifest['scenes']
  expected={(s,n,t,v) for s,ns in scopes.items() for n in ns for t in range(1,manifest['trials']+1) for v in ['before','after','cpu']}
- seen=set();verified=[];hashes={};cpu_hashes=set();environments=set();framebuffers={}
+ seen=set();verified=[];phases=[];hashes={};cpu_hashes=set();environments=set();framebuffers={}
  for row in jobs:
   scope=row['renderer'] if a.renderers else row['scene']
   key=(scope,row['count'],row['trial'],row['variant']);assert key in expected and key not in seen,key;seen.add(key)
@@ -18,8 +18,10 @@ def main():
   folder=a.input/row['key'];m=json.loads((folder/'manifest.json').read_text());args=SimpleNamespace(**m['arguments']);mode=row['mode'] if a.renderers else ('physics-cpu' if row['variant']=='cpu' else 'physics-gpu')
   assert args.scene==('falling-cubes' if a.renderers else row['scene']) and args.counts==[row['count']] and args.modes==[mode]
   assert (args.warmup,args.timed,args.workers)==(manifest['warmup'],manifest['timed'],manifest['workers'])
-  assert args.gpu_solver=='global' and args.gpu_color_prefix==('auto' if row['variant']=='after' else '20')
-  assert args.global_replay==('1' if row['variant']=='after' else '0')
+  configurations=manifest.get('configurations', {'before':{'color_prefix':'20','global_replay':'0'},'after':{'color_prefix':'auto','global_replay':'1'}})
+  config=configurations['after' if row['variant']=='after' else 'before']
+  assert args.gpu_solver=='global' and args.gpu_color_prefix==config['color_prefix']
+  assert args.global_replay==config['global_replay']
   env=m['environment']
   assert env.get('GPU_PHYSICS_PROFILE_HOST','0')!='1' and env.get('GPU_PHYSICS_PROFILE_BROADPHASE','0')!='1'
   environments.add(json.dumps({k:v for k,v in env.items() if k not in ['GPU_PHYSICS_GLOBAL_REPLAY','GPU_PHYSICS_COLOR_PREFIX']},sort_keys=True))
@@ -31,9 +33,17 @@ def main():
   raw=folder/f"{row['count']}-{mode}-1.json";data=json.loads(raw.read_text())
   values=BENCH['metrics'](data,mode,raw,args,row['count'])
   for k in ['mean_ms','p50_ms','p95_ms']:assert abs(values[k]-row['result'][0][k])<1e-8,(key,k)
+  if mode=='physics-cpu':
+   assert (data['sub_steps'],data['warmup_steps'],data['timed_steps'])==(4,manifest['warmup'],manifest['timed'])
   if mode=='physics-gpu':
    assert abs(data['dt']-1/60)<1e-7 and data['sub_steps']==4 and data['scene']==row['scene']
    assert data['raw_runs'][0].get('host_profile') is None
+   phase={}
+   for name in ['graph_ms','solve_ms','broadphase_ms','narrowphase_ms','prepare_ms','device_ms']:
+    samples=data['raw_runs'][0][name]
+    assert len(samples)==manifest['timed'] and all(math.isfinite(x) and x>=0 for x in samples)
+    phase[name]=statistics.mean(samples)
+   phases.append(dict(scene=scope,count=row['count'],trial=row['trial'],variant=row['variant'],**phase))
   if a.renderers:
    log=raw.with_suffix('.log').read_text()
    if scope=='sokol':
@@ -76,7 +86,7 @@ def main():
     paired.append(rr['before']['mean_ms']/rr['after']['mean_ms'])
    comparisons.append(dict(scope=scope,count=n,speedup=g['before']['mean_ms']/g['after']['mean_ms'],paired_speedups=paired,
     cpu_over_gpu=g['cpu']['mean_ms']/g['after']['mean_ms'],gpu_trial_range_below_cpu=g['after']['max_ms']<g['cpu']['min_ms']))
- a.output.with_suffix('.json').write_text(json.dumps(dict(manifest=manifest,groups=groups,comparisons=comparisons,framebuffers={k:list(next(iter(v))) for k,v in framebuffers.items()},raw_sha256=hashes),indent=2)+'\n')
+ a.output.with_suffix('.json').write_text(json.dumps(dict(manifest=manifest,groups=groups,comparisons=comparisons,framebuffers={k:list(next(iter(v))) for k,v in framebuffers.items()},phase_trials=phases,raw_sha256=hashes),indent=2)+'\n')
  colors={'before':'#8a8995','after':'#097f98','cpu':'#bc601d'}
  for metric in ['latency','throughput','percentiles']:
   fig,axs=plt.subplots(1,2,figsize=(13,5),layout='constrained')
@@ -93,7 +103,23 @@ def main():
    ax.set(xscale='log',yscale='log',xlabel='Dynamic bodies',ylabel=('Frame time (ms)' if a.renderers else 'Completed step (ms)') if metric in ['latency','percentiles'] else ('Frames / second' if a.renderers else 'Completed steps / second'),title=(scene.title()+' renderer '+str(next(iter(framebuffers[scene])))) if a.renderers else ('Falling cubes' if scene=='falling-cubes' else 'Independent two-box groups'));ax.grid(alpha=.2);ax.legend()
   fig.suptitle(a.title+'\n'+('Median of trial p50 / p95 latencies' if metric=='percentiles' else 'Median trial mean; shading = full trial range'+('; dotted = median trial p95' if metric=='latency' else '')))
   for ext in ['png','svg']:
-   path=a.output.parent/(a.output.name+'-'+metric+'.'+ext);fig.savefig(path,dpi=180)
+   path=a.output.parent/(a.output.name+'-'+metric+'.'+ext);fig.savefig(path,dpi=180,bbox_inches='tight',pad_inches=.12)
+   if ext=='svg':path.write_text('\n'.join(l.rstrip() for l in path.read_text().splitlines())+'\n')
+  plt.close(fig)
+ if not a.renderers:
+  fig,axs=plt.subplots(1,2,figsize=(13,5),layout='constrained')
+  for ax,(scene,counts) in zip(axs,scopes.items()):
+   focus=[n for n in counts if n<=5000]
+   for v,label in [('before','Baseline'),('after','Candidate')]:
+    for phase,style in [('graph_ms','--'),('solve_ms','-')]:
+     values=[[r[phase] for r in phases if (r['scene'],r['count'],r['variant'])==(scene,n,v)] for n in focus]
+     ax.plot(focus,[statistics.median(x) for x in values],style,marker='o',color=colors[v],label=label+' '+phase.removesuffix('_ms'))
+     ax.fill_between(focus,[min(x) for x in values],[max(x) for x in values],color=colors[v],alpha=.1)
+   ax.set(xscale='log',xlabel='Dynamic bodies',ylabel='GPU milliseconds / completed step',title='Falling cubes' if scene=='falling-cubes' else 'Independent two-box groups')
+   ax.grid(alpha=.2);ax.legend()
+  fig.suptitle(a.title+'\nGPU graph and solver timestamps; median trial mean and full trial range')
+  for ext in ['png','svg']:
+   path=a.output.parent/(a.output.name+'-phases.'+ext);fig.savefig(path,dpi=180,bbox_inches='tight',pad_inches=.12)
    if ext=='svg':path.write_text('\n'.join(l.rstrip() for l in path.read_text().splitlines())+'\n')
   plt.close(fig)
 if __name__=='__main__':main()
