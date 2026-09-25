@@ -1,0 +1,157 @@
+{
+  "physics": [
+    {
+      "count": 5,
+      "variants": {
+        "before-49b024f5": {
+          "mean_ms": 0.69353875,
+          "broadphase_ms": 0.01795,
+          "trial_means_ms": [
+            0.75505375,
+            0.6907029166666667,
+            0.69353875
+          ],
+          "p50_ms": 0.6702,
+          "p95_ms": 0.7639
+        },
+        "after-hash-growth": {
+          "mean_ms": 0.69404875,
+          "broadphase_ms": 0.01772083333333333,
+          "trial_means_ms": [
+            0.9500029166666667,
+            0.6882445833333334,
+            0.69404875
+          ],
+          "p50_ms": 0.6611,
+          "p95_ms": 0.7615
+        }
+      },
+      "throughput_gain_percent": -0.07348186996950501,
+      "broadphase_reduction_percent": 1.2766945218198877
+    },
+    {
+      "count": 1000,
+      "variants": {
+        "before-49b024f5": {
+          "mean_ms": 4.8398975,
+          "broadphase_ms": 0.21199375,
+          "trial_means_ms": [
+            4.891636666666667,
+            4.815988333333333,
+            4.8398975
+          ],
+          "p50_ms": 4.792,
+          "p95_ms": 5.7631
+        },
+        "after-hash-growth": {
+          "mean_ms": 4.8785775000000005,
+          "broadphase_ms": 0.21755416666666666,
+          "trial_means_ms": [
+            4.66005125,
+            4.8785775000000005,
+            4.926003333333333
+          ],
+          "p50_ms": 4.805,
+          "p95_ms": 5.8182
+        }
+      },
+      "throughput_gain_percent": -0.7928540645300908,
+      "broadphase_reduction_percent": -2.6229153768291047
+    },
+    {
+      "count": 15000,
+      "variants": {
+        "before-49b024f5": {
+          "mean_ms": 10.7960125,
+          "broadphase_ms": 0.9029333333333334,
+          "trial_means_ms": [
+            10.7960125,
+            10.26927125,
+            11.061863333333333
+          ],
+          "p50_ms": 9.8285,
+          "p95_ms": 16.6405
+        },
+        "after-hash-growth": {
+          "mean_ms": 11.115518333333334,
+          "broadphase_ms": 0.9021554166666667,
+          "trial_means_ms": [
+            11.115518333333334,
+            11.1780425,
+            10.346720833333332
+          ],
+          "p50_ms": 10.0546,
+          "p95_ms": 16.341
+        }
+      },
+      "throughput_gain_percent": -2.874412364335699,
+      "broadphase_reduction_percent": 0.08615438570584999
+    },
+    {
+      "count": 100000,
+      "variants": {
+        "before-49b024f5": {
+          "mean_ms": 47.136595416666665,
+          "broadphase_ms": 9.8649825,
+          "trial_means_ms": [
+            47.136595416666665,
+            47.32255875,
+            46.68334708333333
+          ],
+          "p50_ms": 44.4073,
+          "p95_ms": 59.1871
+        },
+        "after-hash-growth": {
+          "mean_ms": 45.391265833333335,
+          "broadphase_ms": 7.6952645833333335,
+          "trial_means_ms": [
+            45.391265833333335,
+            45.57445833333333,
+            45.233455
+          ],
+          "p50_ms": 42.2312,
+          "p95_ms": 57.7826
+        }
+      },
+      "throughput_gain_percent": 3.8450780151005004,
+      "broadphase_reduction_percent": 21.99413852651707
+    },
+    {
+      "count": 200000,
+      "variants": {
+        "before-49b024f5": {
+          "mean_ms": 105.77404625,
+          "broadphase_ms": 31.1094775,
+          "trial_means_ms": [
+            101.21885375,
+            105.77404625,
+            107.74168166666666
+          ],
+          "p50_ms": 96.6337,
+          "p95_ms": 132.1669
+        },
+        "after-hash-growth": {
+          "mean_ms": 94.22842708333333,
+          "broadphase_ms": 19.139058333333335,
+          "trial_means_ms": [
+            94.22842708333333,
+            103.10060416666667,
+            92.45069791666667
+          ],
+          "p50_ms": 86.5699,
+          "p95_ms": 117.9499
+        }
+      },
+      "throughput_gain_percent": 12.25279835824491,
+      "broadphase_reduction_percent": 38.47836777929383
+    }
+  ],
+  "physics_trials": 30,
+  "renderer_trials": 24,
+  "profile_trials": 12,
+  "targets": {
+    "broadphase_20pct_met": true,
+    "throughput_10pct_met": true
+  },
+  "note": "Numerical/source audit only. Chart, documentation, recordings and raw archive review remain separate requirements."
+}

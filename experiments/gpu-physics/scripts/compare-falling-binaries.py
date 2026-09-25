@@ -14,6 +14,7 @@ import re
 import runpy
 import statistics
 import subprocess
+from datetime import datetime, timezone
 from types import SimpleNamespace
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,6 +34,7 @@ def main():
     parser.add_argument('--counts', nargs='+', type=int, default=[100000])
     parser.add_argument('--trials', type=int, default=3)
     parser.add_argument('--timeout', type=int, default=900)
+    parser.add_argument('--resume', action='store_true', help='Keep verified completed trials and archive interrupted attempts before retrying')
     args = parser.parse_args()
     if args.trials < 1 or args.timeout < 1 or any(n < 1 or n > 1000000 for n in args.counts):
         parser.error('positive trials/timeout and counts in 1..1000000 required')
@@ -51,21 +53,63 @@ def main():
            if not k.startswith(('GPU_PHYSICS_', 'GPU_SOKOL_', 'GPU_BENCH_'))}
     env.update(source['environment'])
     out = args.output.resolve()
-    out.mkdir(parents=True, exist_ok=False)
     save = BENCH['write_json']
-    save(out / 'manifest.json', dict(source=source, binaries=binaries, counts=args.counts,
+    manifest = dict(source=source, binaries=binaries, counts=args.counts,
          trials=args.trials, script_sha256=digest(Path(__file__)),
-         helper_sha256=digest(Path(__file__).with_name('bench-falling-cubes.py')), timeout=args.timeout))
-    (out / 'runner.py').write_bytes(Path(__file__).read_bytes())
-    (out / 'bench-falling-cubes.py').write_bytes(Path(__file__).with_name('bench-falling-cubes.py').read_bytes())
-    (out / 'working-tree.patch').write_bytes(subprocess.check_output(['git', 'diff'], cwd=ROOT))
+         helper_sha256=digest(Path(__file__).with_name('bench-falling-cubes.py')), timeout=args.timeout)
     rows = []
+    if args.resume:
+        original = json.loads((out / 'manifest.json').read_text())
+        for key in ['source', 'binaries', 'counts', 'trials', 'timeout', 'helper_sha256']:
+            if original[key] != manifest[key]:
+                raise RuntimeError(f'resume mismatch: {key}')
+        if list(original['binaries']) != list(binaries):
+            raise RuntimeError('resume binary order changed')
+        previous = json.loads((out / 'trials.json').read_text()) if (out / 'trials.json').exists() else []
+        seen = set()
+        for row in previous:
+            key = (row['count'], row['variant'], row['trial'])
+            if key in seen or key[0] not in args.counts or key[1] not in binaries or not 1 <= key[2] <= args.trials:
+                raise RuntimeError(f'invalid previous trial identity: {key}')
+            seen.add(key)
+            if row['status'] == 'ok':
+                path = out / f'{key[0]}-{key[1]}-{key[2]}.json'
+                if digest(path) != row['raw_sha256']:
+                    raise RuntimeError(f'completed raw data changed: {path}')
+                rows.append(row)
+        # Validate before changing anything. Keep original runner/manifest and every
+        # interrupted log or invalid row, including interruptions without a JSON row.
+        stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
+        recovery = out / 'resume-history' / stamp
+        recovery.mkdir(parents=True, exist_ok=False)
+        save(recovery / 'previous-trials.json', previous)
+        save(recovery / 'manifest.json', manifest)
+        (recovery / 'runner.py').write_bytes(Path(__file__).read_bytes())
+        completed = {f"{r['count']}-{r['variant']}-{r['trial']}" for r in rows}
+        for count in args.counts:
+            for label in binaries:
+                for trial in range(1, args.trials + 1):
+                    stem = f'{count}-{label}-{trial}'
+                    if stem not in completed:
+                        for path in out.glob(stem + '.*'):
+                            if path.is_file():
+                                path.rename(recovery / path.name)
+        save(out / 'trials.json', rows)
+    else:
+        out.mkdir(parents=True, exist_ok=False)
+        save(out / 'manifest.json', manifest)
+        (out / 'runner.py').write_bytes(Path(__file__).read_bytes())
+        (out / 'bench-falling-cubes.py').write_bytes(Path(__file__).with_name('bench-falling-cubes.py').read_bytes())
+        (out / 'working-tree.patch').write_bytes(subprocess.check_output(['git', 'diff'], cwd=ROOT))
+    completed = {(r['count'], r['variant'], r['trial']) for r in rows}
     for count in args.counts:
         for trial in range(1, args.trials + 1):
             order = list(binaries)
             if trial % 2 == 0:
                 order.reverse()
             for label in order:
+                if (count, label, trial) in completed:
+                    continue
                 binary = Path(binaries[label]['path'])
                 if digest(binary) != binaries[label]['sha256']:
                     raise RuntimeError(f'binary changed during measurement: {binary}')

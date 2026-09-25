@@ -1107,6 +1107,7 @@ pub async fn write_completed_step_bench(
         let mut run_collide = Vec::new();
         let mut run_solve = Vec::new();
         let mut run_bp = Vec::new();
+        let mut run_bp_stages: Vec<String> = Vec::new();
         let mut run_np = Vec::new();
         let mut run_graph = Vec::new();
         let mut run_prepare = Vec::new();
@@ -1120,6 +1121,11 @@ pub async fn write_completed_step_bench(
             run_collide.push(crate::api::b3_world_last_collide_ms(world) as f64);
             run_solve.push(crate::api::b3_world_last_solve_ms(world) as f64);
             run_bp.push(crate::api::b3_world_last_broadphase_ms(world) as f64);
+            #[cfg(all(feature="native-command-cache",not(target_arch="wasm32")))]
+            if let Some(stages)=crate::api::b3_world_completed_broadphase_profile_ms(world) {
+                assert_eq!(stages.len(),7);
+                run_bp_stages.push(format!("[{}]",fmt_f64(&stages)));
+            }
             run_np.push(crate::api::b3_world_last_narrowphase_ms(world) as f64);
             run_graph.push(crate::api::b3_world_last_graph_ms(world) as f64);
             run_prepare.push(crate::api::b3_world_last_prepare_ms(world) as f64);
@@ -1175,8 +1181,11 @@ pub async fn write_completed_step_bench(
             allocations.joint_bytes, allocations.scratch_bytes, allocations.atom_bytes,
             allocations.fixed_bytes, allocations.total_bytes,
         );
+        let bp_profile_json=if run_bp_stages.is_empty() {"null".to_string()} else {
+            format!("{{\"stages\":[\"clear\",\"static_setup\",\"static_pairs\",\"spatial_insert\",\"dynamic_pairs\",\"sort\",\"compact\"],\"samples_ms\":[{}]}}",run_bp_stages.join(","))
+        };
         raw_runs.push_str(&format!(
-            "{{\"run\":{},\"allocations\":{allocation_json},\"physics_step\":{},\"solver_dispatches\":{},\"static_sort_dispatches\":{},\"joint_dispatches\":{},\"encode_commands\":{},\"completed_step_ms\":[{}],\"encode_ms\":[{}],\"broadphase_ms\":[{}],\"narrowphase_ms\":[{}],\"graph_ms\":[{}],\"prepare_ms\":[{}],\"collide_ms\":[{}],\"solve_ms\":[{}],\"device_ms\":[{}],\"live_contacts\":{live},\"awake_dynamic\":{awake},\"awake_after_warmup\":{awake_w},\"settled\":{settled},\"settle_wait_steps\":{settle_wait},\"sleep_window\":\"{sleep_window}\"}}",
+            "{{\"run\":{},\"allocations\":{allocation_json},\"broadphase_profile\":{bp_profile_json},\"physics_step\":{},\"solver_dispatches\":{},\"static_sort_dispatches\":{},\"joint_dispatches\":{},\"encode_commands\":{},\"completed_step_ms\":[{}],\"encode_ms\":[{}],\"broadphase_ms\":[{}],\"narrowphase_ms\":[{}],\"graph_ms\":[{}],\"prepare_ms\":[{}],\"collide_ms\":[{}],\"solve_ms\":[{}],\"device_ms\":[{}],\"live_contacts\":{live},\"awake_dynamic\":{awake},\"awake_after_warmup\":{awake_w},\"settled\":{settled},\"settle_wait_steps\":{settle_wait},\"sleep_window\":\"{sleep_window}\"}}",
             run + 1,
             crate::api::b3_world_physics_step(world),
             crate::api::b3_world_last_solver_dispatches(world),

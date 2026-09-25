@@ -2296,6 +2296,12 @@ impl GpuSim {
         (0..bytes).chain(4..4+bytes)
     }
 
+    #[cfg(all(feature="native-command-cache",not(target_arch="wasm32")))]
+    pub(crate) fn completed_broadphase_profile_ms(&self)->Option<Vec<f64>> {
+        if !self.completed_known || self.radix_cache.as_ref()?.key[0]!=2 {return None;}
+        self.radix_cache.as_ref()?.completed_profile_ms(self.queue.get_timestamp_period())
+    }
+
     fn broadphase_candidates_pass(&mut self, enc: &mut wgpu::CommandEncoder) {
         self.pair_matrix_used=false;
         let shape_groups = self.shape_groups();
@@ -2357,7 +2363,7 @@ impl GpuSim {
         }
         #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
         if std::env::var("GPU_PHYSICS_NATIVE_RADIX_CACHE").as_deref() == Ok("2") {
-            use crate::native_command_cache::Command::{DispatchLinear as Dispatch,Indirect,CopyArgs};
+            use crate::native_command_cache::Command::{DispatchLinear as Dispatch,Indirect,CopyArgs,ProfileBoundary};
             let key=[2,shape_groups.max(1),cg.max(1)];
             if self.radix_cache.as_ref().is_none_or(|c| c.group!=self.bind_group || c.key!=key) {
                 // All three private indirect producers clamp before writing:
@@ -2367,17 +2373,17 @@ impl GpuSim {
                 crate::dispatch::linear_dispatch_groups(self.params.insert_capacity.div_ceil(64));
                 crate::dispatch::linear_dispatch_groups(self.params.pair_capacity.div_ceil(64));
                 let mut commands=vec![
-                    Dispatch(&self.clear_broadphase,cg.max(1)),
+                    Dispatch(&self.clear_broadphase,cg.max(1)),ProfileBoundary,
                     Dispatch(&self.collect_fat_statics,shape_groups.max(1)),
-                    Dispatch(&self.finish_fat_statics,1),
-                    Dispatch(&self.emit_static_pairs,shape_groups.max(1)),
+                    Dispatch(&self.finish_fat_statics,1),ProfileBoundary,
+                    Dispatch(&self.emit_static_pairs,shape_groups.max(1)),ProfileBoundary,
                     Dispatch(&self.hash_insert,shape_groups.max(1)),
                     Dispatch(&self.write_insert_indirect,1),
                     Dispatch(&self.write_occupied_indirect,1),
-                    CopyArgs{source:8*4,destination:0,bytes:32},
+                    CopyArgs{source:8*4,destination:0,bytes:32},ProfileBoundary,
                     Indirect(&self.emit_hash_pairs,0),Indirect(&self.emit_prev_pairs,16),
                     Dispatch(&self.write_radix_indirect,1),
-                    CopyArgs{source:48*4,destination:Self::indirect_radix_offset(),bytes:16},
+                    CopyArgs{source:48*4,destination:Self::indirect_radix_offset(),bytes:16},ProfileBoundary,
                 ];
                 for digit in self.pair_radix_digits() {
                     commands.extend([
@@ -2386,11 +2392,12 @@ impl GpuSim {
                         Indirect(&self.radix_scatter[digit],Self::indirect_radix_offset()),
                     ]);
                 }
+                commands.push(ProfileBoundary);
                 commands.extend([
                     Indirect(&self.compact_unique_histogram,Self::indirect_radix_offset()),
                     Dispatch(&self.compact_unique_bases,1),
                     Indirect(&self.compact_unique_scatter,Self::indirect_radix_offset()),
-                    Indirect(&self.compact_unique_gather,Self::indirect_radix_offset()),
+                    Indirect(&self.compact_unique_gather,Self::indirect_radix_offset()),ProfileBoundary,
                 ]);
                 self.radix_cache=Some(crate::native_command_cache::RadixCache::record(
                     &self.device,&self.bind_group,&self.collision_layout,&self.indirect,

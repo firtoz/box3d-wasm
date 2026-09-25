@@ -5,6 +5,8 @@ use wgpu::hal::api::Vulkan;
 
 pub(crate) enum Command<'a> {
     Dispatch(&'a wgpu::ComputePipeline, u32),
+    /// Diagnostic boundary; ignored unless GPU_PHYSICS_PROFILE_BROADPHASE=1.
+    ProfileBoundary,
     // Opt-in: the pipeline must flatten indices using dispatch.wgsl helpers.
     DispatchLinear(&'a wgpu::ComputePipeline, u32),
     Indirect(&'a wgpu::ComputePipeline, u64),
@@ -26,6 +28,7 @@ pub(crate) struct RadixCacheData {
     _pipelines: Vec<wgpu::ComputePipeline>,
     _indirect: wgpu::Buffer,
     _copy_sources: Vec<wgpu::Buffer>,
+    profile_queries: Option<(vk::QueryPool, u32)>,
 }
 impl RadixCache {
     pub fn new(device:&wgpu::Device, group:&wgpu::BindGroup, layout:&wgpu::PipelineLayout,
@@ -53,10 +56,27 @@ impl RadixCache {
         let set=group.as_hal::<Vulkan,_,_>(|g|g.unwrap().cache_raw_handle());
         let args=indirect.as_hal::<Vulkan>().unwrap().cache_raw_handle();
         raw.cmd_bind_descriptor_sets(command,vk::PipelineBindPoint::COMPUTE,native_layout,0,&[set],&[dynamic_offset]);
+        let boundaries=commands.iter().filter(|c| matches!(c,Command::ProfileBoundary)).count() as u32;
+        let profile_queries=(boundaries>0 && std::env::var("GPU_PHYSICS_PROFILE_BROADPHASE").as_deref()==Ok("1")).then(|| {
+            let count=boundaries+1;
+            let queries=raw.create_query_pool(&vk::QueryPoolCreateInfo::default()
+                .query_type(vk::QueryType::TIMESTAMP).query_count(count),None).unwrap();
+            raw.cmd_reset_query_pool(command,queries,0,count);
+            raw.cmd_write_timestamp(command,vk::PipelineStageFlags::ALL_COMMANDS,queries,0);
+            (queries,count)
+        });
+        let mut profile_index=1;
         let mut copy_sources=Vec::new();
         let mut pipelines=Vec::new();
         for operation in commands {
             match *operation {
+                Command::ProfileBoundary => {
+                    if let Some((queries,_))=profile_queries {
+                        raw.cmd_write_timestamp(command,vk::PipelineStageFlags::ALL_COMMANDS,queries,profile_index);
+                        profile_index+=1;
+                    }
+                    continue;
+                }
                 Command::Dispatch(pipeline,groups) => {
                     assert!(groups>0 && groups<=device.limits().max_compute_workgroups_per_dimension);
                     raw.cmd_bind_pipeline(command, vk::PipelineBindPoint::COMPUTE, pipeline.as_hal::<Vulkan>().unwrap().cache_raw_handle());
@@ -112,8 +132,15 @@ impl RadixCache {
         }
         raw.end_command_buffer(command).unwrap();
         Self(std::sync::Arc::new(RadixCacheData{device:device.clone(),raw,pool,command,group:group.clone(),_layout:layout.clone(),
-            _pipelines:pipelines,_indirect:indirect.clone(),_scratch:scratch.cloned(),_copy_sources:copy_sources,key}))
+            _pipelines:pipelines,_indirect:indirect.clone(),_scratch:scratch.cloned(),_copy_sources:copy_sources,profile_queries,key}))
     }}
+    /// Caller must have waited for the latest submission before reading.
+    pub fn completed_profile_ms(&self,period_ns:f32)->Option<Vec<f64>> {
+        let (queries,count)=self.profile_queries?;
+        let mut values=vec![0u64;count as usize];
+        unsafe {self.raw.get_query_pool_results(queries,0,&mut values,vk::QueryResultFlags::TYPE_64).ok()?;}
+        Some(values.windows(2).map(|v|v[1].wrapping_sub(v[0]) as f64 * period_ns as f64 / 1e6).collect())
+    }
     pub fn encode(&self,encoder:&mut wgpu::CommandEncoder) {unsafe {
         // Caller transitions all resources through wgpu before this native block.
         // Queue ownership remains wgpu's; no independent queue submissions occur.
@@ -126,7 +153,8 @@ impl Drop for RadixCacheData {
     fn drop(&mut self) {
         // Invalidation/teardown only, never a per-step wait.
         // HAL submission retains this owner until completion (or unsubmitted discard).
-        unsafe{self.raw.destroy_command_pool(self.pool,None);}
+        unsafe{self.raw.destroy_command_pool(self.pool,None);
+            if let Some((queries,_))=self.profile_queries {self.raw.destroy_query_pool(queries,None);}}
     }
 }
 

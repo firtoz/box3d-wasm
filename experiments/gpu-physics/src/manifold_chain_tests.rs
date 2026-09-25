@@ -1824,3 +1824,49 @@ fn root_free_scan_preserves_lowest_slots_and_mesh_pool() {
         assert_eq!(&words[64..71],&[limit,limit-12,10,11,12,13,15]);
     }
 }
+
+#[test]
+fn spatial_hash_growth_clears_buckets_without_touching_contact_identity() {
+    let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+    gpu.device.push_error_scope(wgpu::ErrorFilter::Validation);
+    for bodies in [2,8193] {
+        let mut sim=make_sim_sized(&gpu,0,bodies);
+        let seed=test_pipeline(&sim,"seed_spatial_hash_bounds",r#"
+            @compute @workgroup_size(64) fn seed_spatial_hash_bounds(
+                @builtin(global_invocation_id) gid:vec3<u32>) {
+                if(gid.x<spatial_hash_buckets()) {
+                    atomicStore(&atom[spatial_hash_base()+gid.x],123u);
+                }
+                if(gid.x==0u) {
+                    atomicStore(&atom[atom_contact_key()],456u);
+                    atomicStore(&atom[atom_contact_key()-1u],789u);
+                    atomicStore(&atom[ATOM_HASH+HASH_BUCKETS-1u],123u);
+                }
+            }
+        "#);
+        let inspect=test_pipeline(&sim,"inspect_spatial_hash_bounds",r#"
+            @compute @workgroup_size(1) fn inspect_spatial_hash_bounds() {
+                var uncleared=0u;
+                for(var i=0u;i<spatial_hash_buckets();i++) {
+                    if(atomicLoad(&atom[spatial_hash_base()+i])!=EMPTY){uncleared++;}
+                }
+                scratch[64u]=uncleared;
+                scratch[65u]=atomicLoad(&atom[atom_contact_key()]);
+                scratch[66u]=atomicLoad(&atom[atom_contact_key()-1u]);
+                scratch[67u]=atomicLoad(&atom[ATOM_HASH+HASH_BUCKETS-1u]);
+                scratch[68u]=spatial_hash_buckets();
+            }
+        "#);
+        let mut enc=sim.device.create_command_encoder(&Default::default());
+        sim.dispatch_n(&mut enc,&seed,sim.pair_groups(),0,1);
+        sim.dispatch_n(&mut enc,&sim.clear_broadphase,sim.pair_groups().max(sim.hash_groups()),0,1);
+        sim.dispatch_n(&mut enc,&inspect,1,0,1);
+        sim.queue.submit(Some(enc.finish()));
+        let words=pollster::block_on(sim.read_scratch_prefix(69));
+        assert_eq!(&words[64..68],&[0,456,789,u32::MAX]);
+        assert!(words[68].is_power_of_two());
+        assert!(words[68]<=sim.params.pair_capacity);
+        assert_eq!(words[68]>crate::types::HASH_BUCKETS,bodies>8192);
+    }
+    if let Some(error)=pollster::block_on(gpu.device.pop_error_scope()){panic!("{error}");}
+}

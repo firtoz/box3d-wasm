@@ -1,0 +1,37 @@
+{
+  "hash-bounds": {
+    "log": "hash-bounds.log",
+    "sha256": "a115c0ece50c9537d82e1e3f0cb514907cb91c7e4f1b8518dea7ec5149df253c",
+    "results": [
+      "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 267 filtered out; finished in 1.04s"
+    ]
+  },
+  "hash-coverage": {
+    "log": "hash-coverage.log",
+    "sha256": "655c1bf3d7a25ccfd168feac2f9462b34793b3cd81f482f73953487938c11c36",
+    "results": [
+      "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 267 filtered out; finished in 0.72s"
+    ]
+  },
+  "hash-library": {
+    "log": "hash-library.log",
+    "sha256": "a12dbf07682a8d683a9b53dadf963aee63f7b7a57e45aae73e97a60dd2992a50",
+    "results": [
+      "test result: ok. 268 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 183.24s"
+    ]
+  },
+  "hash-cache-off-coverage": {
+    "log": "hash-cache-off-coverage.log",
+    "sha256": "e0befb5ddbbf53abf21a00a2831fc647472091c966308d137574767a02628c71",
+    "results": [
+      "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 267 filtered out; finished in 0.74s"
+    ]
+  },
+  "hash-cache-off-lifecycle": {
+    "log": "hash-cache-off-lifecycle.log",
+    "sha256": "38a3d668766c1b684c905e881515afd773bd929c0eb31136999ecc0af60bdc59",
+    "results": [
+      "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 267 filtered out; finished in 28.27s"
+    ]
+  }
+}

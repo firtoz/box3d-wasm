@@ -1,0 +1,210 @@
+{
+  "results": [
+    {
+      "mode": "physics",
+      "count": 100000,
+      "variant": "before",
+      "rate": 21.214939075689326,
+      "mean_ms": 47.136595416666665,
+      "trial_means_ms": [
+        47.136595416666665,
+        47.32255875,
+        46.68334708333333
+      ],
+      "p50_ms": 44.4073,
+      "p95_ms": 59.1871
+    },
+    {
+      "mode": "physics",
+      "count": 100000,
+      "variant": "after",
+      "rate": 22.030670034005624,
+      "mean_ms": 45.391265833333335,
+      "trial_means_ms": [
+        45.391265833333335,
+        45.57445833333333,
+        45.233455
+      ],
+      "p50_ms": 42.2312,
+      "p95_ms": 57.7826
+    },
+    {
+      "mode": "physics",
+      "count": 200000,
+      "variant": "before",
+      "rate": 9.454115025877627,
+      "mean_ms": 105.77404625,
+      "trial_means_ms": [
+        101.21885375,
+        105.77404625,
+        107.74168166666666
+      ],
+      "p50_ms": 96.6337,
+      "p95_ms": 132.1669
+    },
+    {
+      "mode": "physics",
+      "count": 200000,
+      "variant": "after",
+      "rate": 10.612508676554945,
+      "mean_ms": 94.22842708333333,
+      "trial_means_ms": [
+        94.22842708333333,
+        103.10060416666667,
+        92.45069791666667
+      ],
+      "p50_ms": 86.5699,
+      "p95_ms": 117.9499
+    },
+    {
+      "mode": "direct-gpu",
+      "count": 100000,
+      "variant": "before",
+      "rate": 20.148639121148587,
+      "mean_ms": 49.631143522262576,
+      "trial_means_ms": [
+        49.631143522262576,
+        48.582780281702675,
+        51.23920516570409
+      ],
+      "p50_ms": 44.336666,
+      "p95_ms": 68.034836
+    },
+    {
+      "mode": "direct-gpu",
+      "count": 100000,
+      "variant": "after",
+      "rate": 21.061213600974607,
+      "mean_ms": 47.48064470291138,
+      "trial_means_ms": [
+        48.28135986328125,
+        46.42175079981486,
+        47.48064470291138
+      ],
+      "p50_ms": 42.74496,
+      "p95_ms": 65.8858
+    },
+    {
+      "mode": "direct-gpu",
+      "count": 200000,
+      "variant": "before",
+      "rate": 8.547531301278534,
+      "mean_ms": 116.99284445444742,
+      "trial_means_ms": [
+        128.38494478861492,
+        111.94148438771566,
+        116.99284445444742
+      ],
+      "p50_ms": 112.8749,
+      "p95_ms": 150.9493
+    },
+    {
+      "mode": "direct-gpu",
+      "count": 200000,
+      "variant": "after",
+      "rate": 9.581544705974025,
+      "mean_ms": 104.36730513572692,
+      "trial_means_ms": [
+        111.11515353520711,
+        104.36730513572692,
+        104.06817191441854
+      ],
+      "p50_ms": 100.76584,
+      "p95_ms": 138.42564
+    },
+    {
+      "mode": "sokol-gpu",
+      "count": 100000,
+      "variant": "before",
+      "rate": 12.474319080327083,
+      "mean_ms": 80.16469625,
+      "trial_means_ms": [
+        80.16469625,
+        80.80148375,
+        76.93139916666667
+      ],
+      "p50_ms": 75.8614,
+      "p95_ms": 103.1919
+    },
+    {
+      "mode": "sokol-gpu",
+      "count": 100000,
+      "variant": "after",
+      "rate": 13.010191826496602,
+      "mean_ms": 76.8628175,
+      "trial_means_ms": [
+        77.44922166666667,
+        73.57843291666667,
+        76.8628175
+      ],
+      "p50_ms": 74.9607,
+      "p95_ms": 95.3552
+    },
+    {
+      "mode": "sokol-gpu",
+      "count": 200000,
+      "variant": "before",
+      "rate": 6.387886097975613,
+      "mean_ms": 156.54631041666667,
+      "trial_means_ms": [
+        156.54631041666667,
+        161.55901,
+        154.29518625
+      ],
+      "p50_ms": 150.2791,
+      "p95_ms": 192.5006
+    },
+    {
+      "mode": "sokol-gpu",
+      "count": 200000,
+      "variant": "after",
+      "rate": 6.900218357409921,
+      "mean_ms": 144.92295,
+      "trial_means_ms": [
+        143.8356575,
+        145.01302041666668,
+        144.92295
+      ],
+      "p50_ms": 138.206,
+      "p95_ms": 166.4427
+    }
+  ],
+  "raw_sha256": {
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-hash/100000-before-49b024f5-1.json": "7c4a465c9a9f4b49574b0fb62a93c2a8c0baf56a410c4022fea25332bd95f96c",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-hash/100000-before-49b024f5-2.json": "7a1c8dbf22c3fc1bd80d518b1bd5e15864a3e29dc653258b78857dd8208191a1",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-hash/100000-before-49b024f5-3.json": "16a335fb3acf9440163d5ed060dfd90654e9b3c3d493930346dd887c265db895",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-hash/100000-after-hash-growth-1.json": "073d4f77a2d977dc4fb74a0302ed7e80a99b525d4cd0550f888ccb3e241f6d35",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-hash/100000-after-hash-growth-2.json": "0832701109a6d40a96eaa0ede3e6652120cc6fcabe53e1599ee8323050c31e29",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-hash/100000-after-hash-growth-3.json": "e140c737f1e3fb281793cef3f18fc10f9ae62f36ef0a649fc8e15bbfdfb59f26",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-hash/200000-before-49b024f5-1.json": "1c81b2c7327e19b5c7f94df44b6e5a940b6b0ae85741ba3028df35d7cd14baa3",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-hash/200000-before-49b024f5-2.json": "c2d95167575cbdefa6e7a778db0c85af882d7c4e2b05b862ab1ca9f3dccc1c11",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-hash/200000-before-49b024f5-3.json": "b18f84bd388d8f397ec1154ac1212fc491b59660211c879f658b7d08332f050e",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-hash/200000-after-hash-growth-1.json": "8acdc5da3a919028ba453c883d2be94f27bc8e2393635ca68cc5d02af3720283",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-hash/200000-after-hash-growth-2.json": "eee5e26a103b21c419c70ea4072d53c59e8003535bc018b86060b6e709458510",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-hash/200000-after-hash-growth-3.json": "9b9d3e935afdff6dac0a75202c5ad9e51e41d4cad56a4d36ded6325468f6c2a0",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/100000-direct-gpu-before-1/100000-direct-gpu-1.json": "d5ce07926f31e0aa0bf56a43f9beb66db8d40a6cc9c9104c30bc73f0713f3211",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/100000-direct-gpu-before-2/100000-direct-gpu-1.json": "46779eeedbc1c6243fbc2781e0f486dd60accf7cf8fcd3c07fb49b4ceb4ae135",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/100000-direct-gpu-before-3/100000-direct-gpu-1.json": "f718929850528fb3324390fef7b3254d45dea2426240ba2633328ea178685514",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/100000-direct-gpu-after-1/100000-direct-gpu-1.json": "0563c0ed039d5126a759ac60bb92c04ac077735a56c8505943755af13d8772b7",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/100000-direct-gpu-after-2/100000-direct-gpu-1.json": "3f0cc60097b5a8354c9d5075bc31ace95def56bd927e08bf8c5e90a6516f1dba",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/100000-direct-gpu-after-3/100000-direct-gpu-1.json": "9f085027737465003749a7c8a06928f88406fc8cd0b07838adf772f66de2a734",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/200000-direct-gpu-before-1/200000-direct-gpu-1.json": "3a603f4aa98216c39501ea26b274f802d6da8ddc5d5d3da934024e1748b79b6d",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/200000-direct-gpu-before-2/200000-direct-gpu-1.json": "d2e5ef0afe5b7fee0fe2122e05be89a57c81f9f498e0cabd5001653ad5c8a699",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/200000-direct-gpu-before-3/200000-direct-gpu-1.json": "a375978dca044b6ab6ca671c98e34e508e84b55b1e3ac76681d4400a2370dfc5",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/200000-direct-gpu-after-1/200000-direct-gpu-1.json": "fa8f7ed5f03faf328b08b91d911a930824b2997ce1c656005ba1a21a17736b8c",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/200000-direct-gpu-after-2/200000-direct-gpu-1.json": "de14d9e27d5e9728e4ff8d0029ee73fe24a18372823fe767dc15ba89298bb635",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/200000-direct-gpu-after-3/200000-direct-gpu-1.json": "4776653eaa593dcde59b6b9c2a800efdfa3e517271e44c25cf974a30fc9d577d",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/100000-sokol-gpu-before-1/100000-sokol-gpu-1.json": "6161bea7f0514f0db553d58a8b860e633dc2c38afac65b3429a5162353c25f51",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/100000-sokol-gpu-before-2/100000-sokol-gpu-1.json": "120d792a61ff4c350eee547f2239c498bf54ed8b3a5c993452ee92908d9af039",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/100000-sokol-gpu-before-3/100000-sokol-gpu-1.json": "6fd2182dfd48f37d86f84f3c1fb69c1b557bfaf27a7a271d8627182d11253955",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/100000-sokol-gpu-after-1/100000-sokol-gpu-1.json": "214d8f33a72d6af7e2744276f89b780fa5ad81d3e6f3cd8285b7b79056c2e7d2",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/100000-sokol-gpu-after-2/100000-sokol-gpu-1.json": "a75b5cf6551eaf0588eec741eead4696368461589d2f36e7eac65aedea0d4d59",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/100000-sokol-gpu-after-3/100000-sokol-gpu-1.json": "b6dfd52e7c9b8e68feeabf899a5a7a056b5a1b4491c667e455e3790253a5da06",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/200000-sokol-gpu-before-1/200000-sokol-gpu-1.json": "e84331552fbf053db0589fac853004a59b6082d855112641ccfcf6fd17df3665",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/200000-sokol-gpu-before-2/200000-sokol-gpu-1.json": "9148773877cb0b24f132dae0ca08a7de8ce5ee9e3920cdf327dd409db4d72c37",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/200000-sokol-gpu-before-3/200000-sokol-gpu-1.json": "278140892e96a7d7bf7ca4f76a55a5b880d5e42ee764c724e5a0e055eb5be20d",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/200000-sokol-gpu-after-1/200000-sokol-gpu-1.json": "2e18a4297822f4e88af36461a1d2462c3ba90ef0d76ef4f7f30afdf2d75e5a15",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/200000-sokol-gpu-after-2/200000-sokol-gpu-1.json": "cde25c3a1cdd28c784e1abb67431137c59c3c2aa110c645ae80bb1a4411fee25",
+    "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/broadphase-optimization/matched-renderers/200000-sokol-gpu-after-3/200000-sokol-gpu-1.json": "6de5ace187eb478519fb620954037c1e7fbb46cdef6edd95b14ef95f2eb2a081"
+  }
+}

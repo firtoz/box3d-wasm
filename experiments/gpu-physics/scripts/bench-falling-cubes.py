@@ -7,6 +7,7 @@ selects Vulkan/GL drivers as usual; --adapter selects the physics wgpu adapter.
 import argparse
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import platform
@@ -81,6 +82,10 @@ def metrics(data, mode, path, args, count):
     if mode == 'physics-gpu':
         assert data['bodies']==count+1 and not data['sleep'],data
         assert data['raw_runs'][0]['live_contacts']>0, data
+        if getattr(args,'profile_broadphase',False):
+            profile=data['raw_runs'][0]['broadphase_profile']
+            assert len(profile['stages'])==7 and len(profile['samples_ms'])==args.timed
+            assert all(len(row)==7 and all(math.isfinite(v) and v>=0 for v in row) for row in profile['samples_ms'])
         samples=data['raw_runs'][0]['completed_step_ms']
         assert len(samples)==args.timed and data['raw_runs'][0]['physics_step']==args.warmup+args.timed
         assert all(x>0 for x in samples)
@@ -126,14 +131,18 @@ def main():
     p.add_argument('--gpu-solver',choices=['component','global'],default='component',
         help='Select comparable component or global-color scheduling; recorded in the manifest')
     p.add_argument('--gpu-binary',type=Path,help='Use a preserved GPU executable for physics/direct modes')
+    p.add_argument('--sokol-gpu-binary',type=Path,help='Use a preserved GPU executable for Sokol mode')
     p.add_argument('--width',type=int,default=1280)
     p.add_argument('--height',type=int,default=720)
     p.add_argument('--timeout',type=int,default=600)
+    p.add_argument('--profile-broadphase',action='store_true',help='Diagnostic timestamps inside native cached broadphase; physics-gpu only, counts >=1000')
     p.add_argument('--require-idle',action='store_true',help='Stop before a trial if background CPU >15%% or NVIDIA GPU >10%%; resume later')
     p.add_argument('--resume',action='store_true',help='Resume an interrupted directory with identical binaries and measurement settings')
     a=p.parse_args()
     if not(0<a.trials and 0<a.warmup and 0<a.timed<=4096 and 0<a.workers<=64 and a.counts==sorted(set(a.counts)) and min(a.counts)>0 and max(a.counts)<=1000000):
         p.error('positive trials/window/workers, increasing unique counts <=1000000 required')
+    if a.profile_broadphase and (a.modes!=['physics-gpu'] or min(a.counts)<1000):
+        p.error('--profile-broadphase requires physics-gpu only and counts >=1000')
     out=a.output.resolve()
     if a.resume:
         if not (out/'manifest.json').exists(): p.error('--resume requires an existing manifest')
@@ -143,6 +152,7 @@ def main():
         sokol_gpu=ROOT/'native-samples/build-gpu-native-cache-portable/bin/samples_gpu',
         cpu_bridge=ROOT/'oracle/build-viewer/libbox3d_viewer_cpu.so')
     if a.gpu_binary is not None: binaries['gpu']=a.gpu_binary.resolve()
+    if a.sokol_gpu_binary is not None: binaries['sokol_gpu']=a.sokol_gpu_binary.resolve()
     env={k:v for k,v in os.environ.items() if not k.startswith(('GPU_PHYSICS_','GPU_SOKOL_','GPU_BENCH_'))}
     env.pop('WAYLAND_DISPLAY',None)
     env.update(NATIVE, GPU_PHYSICS_ADAPTER=a.adapter,GPU_PHYSICS_CPU_WORKERS=str(a.workers),
@@ -150,7 +160,8 @@ def main():
         GPU_PHYSICS_PIPELINE_CACHE_DIR=str(Path.home()/'.cache/box3d-gpu-physics/pipelines'),
         GPU_BENCH_WIDTH=str(a.width),GPU_BENCH_HEIGHT=str(a.height))
     if a.gpu_solver=='global': env.update(GPU_PHYSICS_COMPONENT_TGS='0',GPU_PHYSICS_COLOR_PREFIX='20')
-    manifest=dict(workload='falling-cubes-v1',arguments=vars(a)|dict(output=str(out),gpu_binary=str(a.gpu_binary) if a.gpu_binary else None),platform=platform.platform(),
+    if a.profile_broadphase: env['GPU_PHYSICS_PROFILE_BROADPHASE']='1'
+    manifest=dict(workload='falling-cubes-v1',arguments=vars(a)|dict(output=str(out),gpu_binary=str(a.gpu_binary) if a.gpu_binary else None,sokol_gpu_binary=str(a.sokol_gpu_binary) if a.sokol_gpu_binary else None),platform=platform.platform(),
         cpu=command_output(['lscpu']),gpu=command_output(['nvidia-smi','--query-gpu=name,uuid,memory.total,driver_version,power.limit,clocks.max.sm,clocks.max.memory','--format=csv']),
         vulkan=command_output(['vulkaninfo','--summary']),
         git=command_output(['git','rev-parse','HEAD']),diff_sha256=hashlib.sha256(subprocess.check_output(['git','diff'])).hexdigest(),

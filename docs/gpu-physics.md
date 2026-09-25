@@ -16,7 +16,7 @@ engine or show two independent worlds side by side.
 | Experimental browser target | Does not currently compile; native transport, ABI layout and world-storage assumptions need work |
 | Box3D WASM package | Separate implementation; unchanged by the experiment |
 | Native API parity | Incomplete; linkable symbols include placeholders and CPU-only comparison passthroughs |
-| Performance | RTX 4070 Laptop: three matched 100,000-cube trials show 30.3% higher completed GPU throughput than `1559a049` (23.2% less step time). The full 360-trial CPU/GPU sweep passes through each path’s 10 FPS stop: GPU physics and direct rendering reach 200,000 colliding cubes at 9.80 steps/s and 9.7 FPS; GPU Sokol stops at 150,000. At 100,000, GPU physics reaches 20.68 steps/s versus 8-worker CPU 10.84. See the experiment README for charts, latency, memory, thresholds and reproducible evidence. |
+| Performance | RTX 4070 Laptop broadphase follow-up versus `49b024f5`: three alternating 200,000-cube pairs show 38.5% lower broadphase time and 12.3% higher completed physics throughput, with unchanged primary buffer allocation. All 24 renderer trials pass; at 200,000 cubes median FPS improves 12.1% in the direct renderer and 8.0% in Sokol. Small-scene median throughput changes range from −0.1% to −2.9%, with overlapping trial ranges. Dated charts, repeated stage profiles, 19 scene recordings and a reproducible raw evidence archive are available in the experiment README. The experiment README retains the earlier full CPU/GPU sweep and gives current results, variability and limitations. |
 
 The [scaling follow-up](../experiments/gpu-physics/README.md#falling-cube-scaling-benchmark)
 fixes a concurrent island-link loss and adds batched contact coloring above 8,168

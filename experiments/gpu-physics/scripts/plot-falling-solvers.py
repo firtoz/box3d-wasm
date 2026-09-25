@@ -21,9 +21,16 @@ def main():
     p.add_argument('output', type=Path)
     p.add_argument('--additional-input', type=Path, action='append', default=[],
                    help='Merge distinct variants with identical counts, trials and source settings')
+    p.add_argument('--counts',type=int,nargs='+',help='Plot selected counts after validating all input trials')
+    p.add_argument('--variant-label',action='append',default=[],metavar='KEY=LABEL',help='Short display label; raw variant identity is retained in JSON')
     p.add_argument('--title', default='GPU solver scheduling investigation')
     p.add_argument('--note', default='Experimental timings; solver equivalence unresolved.')
     a = p.parse_args()
+    display_labels={}
+    for item in a.variant_label:
+        key,sep,label=item.partition('=')
+        if not sep or not key or not label: p.error('--variant-label requires KEY=LABEL')
+        display_labels[key]=label
     inputs = [a.input, *a.additional_input]
     manifest = json.loads((inputs[0] / 'manifest.json').read_text())
     settings = manifest['source']['arguments']
@@ -43,6 +50,8 @@ def main():
     manifest['variants'] = variants
     identities = [(r['count'], r['variant'], r['trial']) for r in rows]
     assert len(set(identities)) == len(identities), 'duplicate trial'
+    expected={(count,variant,trial) for count in manifest['counts'] for variant in variants for trial in range(1,manifest['trials']+1)}
+    assert set(identities)==expected, 'incomplete trial grid'
     for row in rows:
         path = row['_raw_dir'] / f"{row['count']}-{row['variant']}-{row['trial']}.json"
         assert (row['status'] == 'ok' if 'status' in row else row.get('returncode') == 0), 'invalid trial'
@@ -69,12 +78,15 @@ def main():
     memory = all('allocations' in r for r in rows)
     fig, axes = plt.subplots(1, 3 if memory else 2, figsize=(17 if memory else 12, 5), layout='constrained')
     labels, summary = [], []
-    for count in manifest['counts']:
+    counts=a.counts or manifest['counts']
+    assert set(counts)<=set(manifest['counts']), 'unknown selected count'
+    assert set(display_labels)<=set(variants), 'unknown display variant'
+    for count in counts:
         for variant in manifest['variants']:
             group = [r for r in rows if r['count'] == count and r['variant'] == variant]
             assert len(group) == manifest['trials'], 'incomplete group'
             x = len(labels)
-            labels.append(f'{count:,}\n{variant}' if len(manifest['variants']) > 1 else f'{count:,}')
+            labels.append(f'{count:,}\n{display_labels.get(variant,variant)}' if len(manifest['variants']) > 1 else f'{count:,}')
             means = [r['mean_ms'] for r in group]
             mean = statistics.median(means)
             axes[0].bar(x, mean, color={'component': '#426c9c', 'global-colors': '#55a28b',

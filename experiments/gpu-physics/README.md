@@ -293,6 +293,17 @@ python3 scripts/plot-falling-resources.py artifacts/falling-cubes/my-machine \
   benchmarks/my-machine-resources --title 'Exact GPU / driver'
 ```
 
+Large scenes can spend minutes in CPU-side setup before rendering starts. The
+direct viewer creates its window before building the world, so it can remain
+black during this setup. Published steady-state timings exclude scene creation
+and warmup; they do not describe startup latency. One known setup bottleneck is
+the first-shape attachment path: updating a body's extents scans the world's
+shape array, making repeated single-shape body creation quadratic. This remains
+a separate startup limitation of the measured builds. Headless physics trials also
+run a CPU reference and a separate host-mirror pass, so their wall-clock duration
+is longer than the headline GPU measurement window. Let benchmark windows close
+automatically: closing one early leaves an incomplete trial that validation rejects.
+
 `--require-idle` checks background load before each trial and stops without losing
 completed trials if CPU use exceeds 15% or NVIDIA GPU use exceeds 10%. A busy
 two-second reading is confirmed over a full ten-second CPU averaging window,
@@ -305,12 +316,97 @@ history and individual trials record that policy. Without `--require-idle`, runs
 proceed under normal desktop load. Use the repeated-trial ranges and saved load
 telemetry to investigate unusually inconsistent results, retaining all valid trials.
 
+The broadphase follow-up reuses part of the former packed-pair-set allocation for a spatial hash that
+scales with reserved pair capacity. Small reservations retain the original table;
+contact identities and buffer offsets stay unchanged. The completed physics
+comparison against `49b024f5` uses three alternating before/after trials on the
+RTX 4070 Laptop under normal desktop load, with profiling timestamps disabled.
+At 200,000 cubes, median trial mean step time falls from 105.77 to 94.23 ms
+(12.3% higher throughput), and broadphase time falls from 31.11 to 19.14 ms
+(38.5% lower). Primary simulation buffers remain 3.42 GiB. Trial mean ranges are
+101.22–107.74 ms before and 92.45–103.10 ms after; these overlap, so the headline
+is a measured median gain rather than a guarantee for every run.
+
+At 100,000 cubes, throughput increases 3.8% and broadphase time falls 22.0%.
+The 5/1,000/15,000-cube checks have median throughput changes of −0.1%/−0.8%/−2.9%,
+respectively, with overlapping trial ranges; all valid trials are retained.
+The 268-test native-cache suite and focused cache-off coverage/lifecycle checks
+pass. All 24 matched application trials also pass at a 2040×1148 framebuffer:
+direct-renderer median FPS changes from 20.15 to 21.06 at 100,000 cubes (+4.5%)
+and 8.55 to 9.58 at 200,000 (+12.1%); Sokol changes from 12.47 to 13.01 (+4.3%)
+and 6.39 to 6.90 (+8.0%), respectively. These are before/after comparisons within
+each renderer.
+
+Measurements were collected on September 24–25, 2026 on AC power with the
+Ryzen 9 8945HS and NVIDIA driver 610.57.04. The filenames use the experiment's
+start date. All runs use 90 warmup and 240 measured steps, four substeps, sleep
+disabled and the same global solver/cache settings. Power and load snapshots
+are retained; clocks and desktop load were not held fixed. These results do not
+establish scaling on another GPU or a general VRAM capacity ceiling.
+
+![Broadphase optimization: completed physics and both renderers](benchmarks/rtx4070-broadphase-comparison-2026-09-24.png)
+
+![Broadphase optimization: phases, latency and primary buffers](benchmarks/rtx4070-broadphase-phases-2026-09-24.png)
+
+The separate three-trial diagnostic profiles identify dynamic/retained pair
+traversal as the largest avoidable broadphase cost. At 200,000 cubes its median
+cost falls from about 19.91 to 10.47 ms. Radix sorting rises from about 8.19 to
+10.51 ms in these instrumented runs, becoming comparable to pair traversal;
+clearing and insertion remain small. Profiling adds timestamp commands, so use
+the uninstrumented comparison above for headline gains. Graph construction and
+solving remain substantial costs outside broadphase.
+
+![Broadphase diagnostic stages and trial ranges](benchmarks/rtx4070-broadphase-stages-2026-09-24.png)
+
+All 19 scenes were recorded for 300 frames in
+`2026-09-25-spatial-hash-growth`, with the Box3D CPU oracle first in the local
+comparison grid. Sampled visual review at frames 120 and 299 found no new gross
+scene regression against the previous GPU recordings; this supplements the
+correctness tests and does not assert CPU/GPU trajectory equivalence.
+
+The [raw evidence archive](benchmarks/rtx4070-broadphase-2026-09-24-raw.tar.gz)
+([SHA-256](benchmarks/rtx4070-broadphase-2026-09-24-raw.tar.gz.sha256)) preserves
+raw samples, manifests, hardware/power observations, source and binary identities,
+validation logs, interrupted/failed attempts and reproduction instructions.
+Videos remain in the local comparison grid; their hashes and manifests are archived.
+The [measurement audit](benchmarks/rtx4070-broadphase-measurement-audit-2026-09-24.json)
+includes all 30 physics trials, 24 renderer trials and 12 diagnostic profiles.
+Earlier charts and evidence remain unchanged.
+
 For before/after completed-physics comparisons, preserve both executables and run
 `scripts/compare-falling-binaries.py <global-solver-manifest.json> <new-output-dir>
 --binary before=<preserved-path> --binary after=<new-path> --counts 100000 --trials 3`.
 It uses one environment and measurement window, alternates executable order,
 checks binary hashes, and retains raw samples, phase costs, allocations, power
 snapshots and failed trials. It supplements the full CPU/renderer sweep above.
+After an interruption, repeat the comparison command with `--resume`. It verifies
+the original settings, binary order/hashes and completed raw files, skips completed
+trials, and preserves interrupted logs and prior trial records under
+`resume-history/` before retrying unfinished trials.
+For paired application measurements, `compare-falling-renderers.py <baseline-manifest>
+<output-dir> --gpu-binary <candidate-direct> --sokol-gpu-binary <candidate-sokol>`
+alternates both renderers at 100k/200k across three trials, retaining raw files,
+executable hashes, framebuffers and rendering settings.
+Its `--resume` option verifies completed raw files and settings, restores the
+framebuffer/render-setting checks, and archives incomplete attempts before retrying.
+`plot-falling-comparison.py <physics-comparison-dir> <renderer-comparison-dir>
+<output-prefix> --title "Exact CPU / GPU / driver"` shows the repeated throughput
+and p50/p95 latency comparisons together; phase and memory plots remain separate.
+
+Use `bench-falling-cubes.py --profile-broadphase --modes physics-gpu` with
+counts of at least 1,000 for this diagnostic (the runner records the flag and
+rejects missing stage samples). For native Vulkan broadphase diagnosis, `GPU_PHYSICS_PROFILE_BROADPHASE=1`
+with `GPU_PHYSICS_NATIVE_RADIX_CACHE=2` adds timestamps inside the cached
+large-world broadphase. Completed-step raw runs include `broadphase_profile`
+with named per-step timings for clearing, static setup, static pairs, spatial
+insertion, dynamic/retained pairs, radix sorting and unique compaction. Transfer
+and dispatch-argument preparation are included in the preceding stage. The
+small-scene pair-matrix path is not instrumented. This is diagnostic timing;
+leave the flag unset for headline before/after throughput and renderer trials,
+and measure its overhead before interpreting absolute substage costs.
+`plot-broadphase-stages.py <before-profile-dir> <after-profile-dir> <output-prefix>
+--title "Exact GPU / driver"` compares the diagnostic stages after three trials
+per count; it checks matching environments and retains raw-file hashes and ranges.
 
 To isolate solver scheduling costs, `profile-falling-solvers.py` reuses a completed
 sweep's binary and environment, verifies its binary hash, and compares component
@@ -414,6 +510,8 @@ renderers, pipelines, and driver overhead; they must not be labeled total VRAM.
 For fresh CPU comparisons, `bench-falling-cubes.py --gpu-solver global` selects
 the same global-color schedule and records the choice. `--gpu-binary PATH`
 lets physics/direct runs use a preserved executable while work continues.
+`--sokol-gpu-binary PATH` selects a preserved Sokol GPU executable for matched
+renderer comparisons; both overrides are recorded with executable hashes.
 The default still selects component TGS; all comparisons must report this setting.
 
 The [pre-tiling CPU/GPU sweep](benchmarks/rtx4070-complete-scene-2026-09-24.json)

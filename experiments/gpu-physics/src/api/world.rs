@@ -3532,6 +3532,12 @@ pub fn b3_world_last_integrate_ms(id: WorldId) -> f32 {
     with_world_no_sync(id, |w| w.last_gpu_integrate_ms).unwrap_or(0.0)
 }
 
+/// Internal benchmark diagnostics, available only after a completed GPU wait.
+#[cfg(all(feature="native-command-cache",not(target_arch="wasm32")))]
+pub(crate) fn b3_world_completed_broadphase_profile_ms(id:WorldId)->Option<Vec<f64>> {
+    with_world_no_sync(id,|w|w.sim.as_ref()?.completed_broadphase_profile_ms()).flatten()
+}
+
 pub fn b3_world_last_broadphase_ms(id: WorldId) -> f32 {
     with_world_no_sync(id, |w| w.last_gpu_broadphase_ms).unwrap_or(0.0)
 }
@@ -11185,11 +11191,15 @@ mod complete_component_tests {
     #[test]
     fn canonical_grid_matches_matrix_across_cells_and_hash_collisions() {
         let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
-        let world=b3_create_world(gpu,&b3_default_world_def());
+        for reservation in [0,8193] {
+        let mut wd=b3_default_world_def();
+        wd.capacity.dynamic_body_count=reservation;
+        wd.capacity.dynamic_shape_count=reservation;
+        let world=b3_create_world(gpu.clone(),&wd);
         let sd=b3_default_shape_def();
         let mut bd=b3_default_body_def();
         // Translated clusters share hash buckets exactly but must not interact.
-        let period=crate::types::HASH_BUCKETS as f32*crate::types::DEFAULT_CELL_SIZE;
+        let period=4.0*crate::types::HASH_BUCKETS as f32*crate::types::DEFAULT_CELL_SIZE;
         for cluster in 0..2 {
             let x=cluster as f32*period;
             bd.body_type=BodyType::Static;bd.position=[x,-1.0,0.0];
@@ -11205,7 +11215,7 @@ mod complete_component_tests {
         }
         b3_world_ensure_gpu(world);
         let mut results=Vec::new();
-        for matrix in [false,true] {
+        for matrix in [false,true,false] {
             let pairs=with_world_mut_no_sync(world,|w| {
                 let sim=w.sim.as_mut().unwrap();sim.set_pair_matrix_test(matrix);
                 sim.callback_candidates_submit();
@@ -11221,7 +11231,9 @@ mod complete_component_tests {
             assert!(!pairs.is_empty());results.push(pairs);
         }
         assert_eq!(results[0],results[1],"canonical grid must match independent all-pairs matrix");
+        assert_eq!(results[1],results[2],"grid reuse after matrix must preserve every pair");
         b3_destroy_world(world);
+        }
     }
 
     #[test]

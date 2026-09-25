@@ -1,0 +1,17 @@
+{
+  "date": "2026-09-25",
+  "scenes": 19,
+  "frames_per_clip": 300,
+  "reviewed_frames": [
+    120,
+    299
+  ],
+  "columns": [
+    "000-box3d-cpu",
+    "2026-09-25-spatial-hash-growth",
+    "2026-09-24-tiled-stable-buckets"
+  ],
+  "observations": "Reviewed ten contact sheets covering all 19 scenes at frames 120 and 299. Candidate and previous GPU show consistent scene geometry, stacks, joint chain and domino progression. Falling-cube final arrangements differ slightly; CPU and GPU joint-chain/pile arrangements also differ. No new gross collapse or missing scene was observed in sampled frames. Bounce and spheres are small/dark at this camera distance.",
+  "scope": "Sampled visual inspection, not full-video or numerical equivalence. Collision coverage and lifecycle correctness rely on the separately recorded tests.",
+  "charts": "All three PNG charts inspected: labels, units, legends, error bars and footnotes are legible."
+}

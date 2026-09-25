@@ -1,10 +1,19 @@
-// Uniform-grid hash, atomic pair append, bitonic sort, unique compact.
+// Uniform-grid hash, atomic pair append, radix sort, unique compact.
+
+// The retired packed-pair set already reserves pair_cap() atomic words before
+// contact history. Reuse a quarter for spatial buckets in larger worlds. Both
+// capacities are powers of two; no identities or contact-history offsets move.
+// Small worlds keep their original table and the matrix path keeps ATOM_HASH.
+fn spatial_hash_buckets() -> u32 { return max(HASH_BUCKETS, pair_cap() / 4u); }
+fn spatial_hash_base() -> u32 {
+    return select(ATOM_HASH, ATOM_PAIR_SET, spatial_hash_buckets() > HASH_BUCKETS);
+}
 
 fn cell_hash(ix: i32, iy: i32, iz: i32) -> u32 {
     let x = u32(ix) * 73856093u;
     let y = u32(iy) * 19349663u;
     let z = u32(iz) * 83492791u;
-    return (x ^ y ^ z) & (HASH_BUCKETS - 1u);
+    return (x ^ y ^ z) & (spatial_hash_buckets() - 1u);
 }
 
 fn cell_coord(v: f32, cs: f32) -> i32 {
@@ -227,6 +236,9 @@ fn clear_broadphase(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
     if (i < HASH_BUCKETS) {
         atomicStore(&atom[ATOM_HASH + i], EMPTY);
     }
+    if (spatial_hash_buckets() > HASH_BUCKETS && i < spatial_hash_buckets()) {
+        atomicStore(&atom[spatial_hash_base() + i], EMPTY);
+    }
     // Pair producers overwrite every live key; radix consumers are count-bounded.
     // Keep the dirty contact range monotonic: retired slots can still contain
     // previous-touching event keys that must be cleared on the following step.
@@ -354,7 +366,7 @@ fn hash_insert(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
                 scratch[scr_ins_body() + slot] = i;
                 // Preserve exact cell identity, not just its colliding hash bucket.
                 scratch[scr_ins_cell() + slot] = local_slot - 1u;
-                let old = atomicExchange(&atom[ATOM_HASH + h], slot);
+                let old = atomicExchange(&atom[spatial_hash_base() + h], slot);
                 scratch[scr_ins_next() + slot] = old;
             }
         }
@@ -392,7 +404,7 @@ fn emit_hash_pairs(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
     let a_lower = lower_cell(a);
     let cell = insertion_cell(a, scratch[scr_ins_cell() + slot]);
     let h = cell_hash(cell.x, cell.y, cell.z);
-    var other = atomicLoad(&atom[ATOM_HASH + h]);
+    var other = atomicLoad(&atom[spatial_hash_base() + h]);
     var hops = 0u;
     loop {
         if (other == EMPTY || hops >= 2048u) {
