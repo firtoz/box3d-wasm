@@ -299,8 +299,8 @@ Archived measurements through `a34c065b` include a quadratic CPU setup path:
 first-shape bounds updates scan every shape in the world. The current implementation
 keeps each body's live shape slots in creation order and uses them for bounds and
 mass recomputation. Compound proxies and deletion remain part of that ownership
-list. The startup follow-up is being qualified separately; published steady-state
-charts exclude scene creation and warmup and do not describe startup latency.
+list. The completed startup qualification below measures these costs separately;
+published steady-state charts exclude scene creation and warmup.
 
 `GPU_PHYSICS_STARTUP_BENCH=/absolute/output.json` selects an initialization-only
 measurement in the Rust executable, separating device, scene and GPU preparation
@@ -310,7 +310,85 @@ scene frame and loading-frame count in either viewer. Direct timing begins befor
 window creation; Sokol timing begins at its initialization callback, before renderer
 setup. Sokol reports shared physics-device initialization separately from scene
 construction. These boundaries must be retained when comparing preserved builds.
-Repeated cold/warm comparisons and dated startup charts are still in progress.
+Set `GPU_PHYSICS_STARTUP_EXIT=1` with the direct demo's report option to exit after
+the first scene frame (not supported for timeline recording). The Sokol equivalent
+is a one-frame `--bench-json` run with `--warmup 0 --timed 1`.
+`scripts/bench-startup.py` runs paired before/after binaries with private persistent
+caches and records phase timings, hardware, cache inventories and raw-file hashes.
+`scripts/plot-startup.py INPUT_DIRECTORY OUTPUT_PREFIX --title 'GPU / date'`
+requires the complete repeated grid before producing scene-scaling and startup
+latency charts; `--validate-only` checks the evidence without plotting.
+The **2026-09-25 RTX 4070 Laptop GPU / Ryzen 9 8945HS** startup comparison contains all 96 launches:
+four cube counts, two renderers, baseline `a34c065b` versus candidate `5385a33f`,
+cold/warm persistent caches and three alternating trials. At 200,000 cubes:
+
+| Warm-cache median | Direct baseline → candidate | Sokol baseline → candidate |
+|---|---:|---:|
+| Scene creation | 89.68 s → **86.9 ms** (1,032×) | 96.79 s → **329.6 ms** (294×) |
+| First scene frame | 93.83 s → **1.86 s** | 98.87 s → **2.22 s** |
+| First loading frame | None → **214 ms** | 97.26 s → **25 ms** |
+
+![Scene creation and speedup](benchmarks/rtx4070-startup-2026-09-25-scene.png)
+
+Candidate creation scales approximately linearly across the larger counts:
+100k → 200k takes 46.7 → 86.9 ms in the direct viewer and 161.9 → 329.6 ms in
+Sokol. Small direct scenes carry extra overhead: at 1k cubes the warm median rose
+from 1.10 to 3.17 ms. The improvement removes the large-world scan, not every
+allocation or per-shape setup cost.
+
+![Device, GPU preparation and visible startup latency](benchmarks/rtx4070-startup-2026-09-25-latency.png)
+
+Cold-cache GPU preparation remains about **36–38 seconds** at 200k cubes. The
+candidate shows loading after 245 ms (direct) or 495 ms (Sokol), and the first
+scene after 37.76 or 40.19 seconds. This change does not eliminate driver shader
+compilation. Cold runs use fresh application, XDG and NVIDIA disk-cache paths;
+driver-internal caches are not claimed flushed. Before/after framebuffer sizes
+match within each renderer: direct 2048×1152, Sokol 2040×1148. Compare each renderer
+against its own baseline rather than treating these as identical rendering paths.
+
+Baseline instrumentation adds phase timers and compiles the direct viewer's lazy
+collision pipeline on its original UI thread before the first frame, matching
+the candidate's preparation scope without dispatching a physics step. The
+[summary JSON](benchmarks/rtx4070-startup-2026-09-25.json) retains trial values,
+source manifest, raw hashes and the scheduler-pause annotation from the separate
+loading-video capture. That pause affects one process-wall duration, not the
+internal phase timers used here. The final native-cache library suite passes
+**270/270**, and seven focused ownership, mass,
+compound and replacement tests pass with pipeline/command caches disabled.
+Runtime lifecycle testing also found and fixed a Sokol character-restart crash:
+cached renderer meshes must be released on the host thread before worker-side
+world destruction. Character restart/switch/return, mouse capture and clean
+shutdown now pass. This follow-up leaves initial scene construction unchanged;
+the startup charts retain the frozen `5385a33f` binaries.
+
+Steady-state qualification uses 90 warmup + 240 timed steps, three alternating
+before/after trials per case, eight CPU workers and the global GPU solver. Values
+below are medians of trial means; physics measures completed steps, while renderer
+rows include the full application frame. Normal desktop load was allowed.
+
+| Workload | Cubes | Baseline → candidate | Change in time |
+|---|---:|---:|---:|
+| Completed GPU physics | 1,000 | 4.742 → 4.978 ms | +5.0% |
+| Direct application | 1,000 | 5.185 → 4.626 ms | −10.8% |
+| Sokol application | 1,000 | 6.488 → 6.551 ms | +1.0% |
+| Completed GPU physics | 100,000 | 46.030 → 46.261 ms | +0.5% |
+| Direct application | 100,000 | 45.674 → 45.613 ms | −0.1% |
+| Sokol application | 100,000 | 74.069 → 72.556 ms | −2.0% |
+
+The initial small headless slowdown did not reproduce in five additional alternating
+pairs: 4.910 → 4.828 ms (−1.7%), with overlapping trial ranges. Both datasets and
+their ranges remain in the [steady-state evidence](benchmarks/rtx4070-startup-steady-2026-09-25.json).
+These runs show no consistent steady-state regression; they do not establish a
+steady-state speedup from the startup changes. The CPU-reference viewer also passes
+a 95-step functionality check. All 19 affected GPU scenes were recorded for 300
+frames each under `2026-09-25-startup` in the local comparison grid. Their **5,700
+decoded frames match the exact baseline GPU recordings**. The independent Box3D
+CPU column remains first; existing CPU/GPU pile and joint-chain differences also
+appear in that baseline. The [portable raw evidence archive](benchmarks/rtx4070-startup-2026-09-25-raw.tar.gz)
+includes reproduction instructions, frozen sources, logs and validation helpers
+([SHA-256](benchmarks/rtx4070-startup-2026-09-25-raw.tar.gz.sha256)).
+Extraction into a fresh directory verified all 1,095 payload hashes and independently
+revalidated the 96 startup launches, 36 steady-state trials and 10 anomaly rechecks.
 
 Headless physics trials also
 run a CPU reference and a separate host-mirror pass, so their wall-clock duration

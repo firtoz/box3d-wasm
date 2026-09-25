@@ -1,0 +1,2426 @@
+{
+  "manifest": {
+    "settings": {
+      "inputs": {
+        "baseline": "a34c065b",
+        "variants": {
+          "before": {
+            "direct": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/startup-optimization/baseline-direct-timed",
+            "sokol": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/startup-optimization/baseline-sokol-timed"
+          },
+          "after": {
+            "direct": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/startup-optimization/candidate-direct",
+            "sokol": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/startup-optimization/candidate-sokol"
+          }
+        },
+        "environment": {
+          "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+          "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
+          "WGPU_BACKEND": "vulkan",
+          "__NV_PRIME_RENDER_OFFLOAD": "1",
+          "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+          "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+          "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+          "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+          "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+          "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+          "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+          "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+          "GPU_PHYSICS_FULL_REPLAY": "1",
+          "GPU_PHYSICS_GRAPH_MEMO": "1",
+          "GPU_PHYSICS_PAIR_MATRIX": "1",
+          "GPU_PHYSICS_COMPONENT_TGS": "0",
+          "GPU_PHYSICS_GPU_CCD": "1",
+          "GPU_PHYSICS_RESIDENT": "1",
+          "GPU_PHYSICS_GRAPH_SHARED": "1",
+          "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+          "GPU_PHYSICS_AB": "bounded-static-sort",
+          "GPU_PHYSICS_ADAPTER": "nvidia",
+          "GPU_PHYSICS_CPU_WORKERS": "8",
+          "GPU_PHYSICS_DEMAND_POSES": "1",
+          "GPU_PHYSICS_PRESENT_MODE": "immediate",
+          "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/frtn/.cache/box3d-gpu-physics/pipelines",
+          "GPU_BENCH_WIDTH": "1280",
+          "GPU_BENCH_HEIGHT": "720",
+          "GPU_PHYSICS_COLOR_PREFIX": "20"
+        },
+        "sokol_settings": "{\n  \"sampleIndex\": 73,\n  \"drawShapes\": true,\n  \"enableShadows\": true,\n  \"enableGtao\": true,\n  \"gtaoQuality\": 1,\n  \"enableIbl\": true,\n  \"exposure\": -2.5,\n  \"sunStrength\": 0.8,\n  \"shadowSplitLambda\": 0.5,\n  \"debugView\": 0,\n  \"drawDistance\": 1000,\n  \"showHullEdges\": true,\n  \"showEdgeConvexity\": false,\n  \"replayKeyframeBudgetMB\": 512,\n  \"replayKeyframeMinInterval\": 16\n}\n",
+        "baseline_instrumentation": "Timing only plus eager collision-pipeline compilation on the original direct UI thread, to give GPU preparation the same scope as the candidate worker; no physics steps or engine algorithm changes."
+      },
+      "binaries": {
+        "before": {
+          "direct": {
+            "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/startup-optimization/baseline-direct-timed",
+            "sha256": "d57dd625335312121bd99edb9ddd7287d439f150980653cf04f3817a7a5e379b"
+          },
+          "sokol": {
+            "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/startup-optimization/baseline-sokol-timed",
+            "sha256": "570c02ea38c022cc865e691124d0d4deaa8991bd9fd283f94d6be03617602814"
+          }
+        },
+        "after": {
+          "direct": {
+            "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/startup-optimization/candidate-direct",
+            "sha256": "77ed5d0fd3e3a48808b62ad710aba47f578dae6f253b0d77ba754d9beaf6810a"
+          },
+          "sokol": {
+            "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/startup-optimization/candidate-sokol",
+            "sha256": "b714073d1e3c4f1e585cfad5cf3dc0b83fb0d1fee8c4c27130615caf934646d6"
+          }
+        }
+      },
+      "counts": [
+        1000,
+        15000,
+        100000,
+        200000
+      ],
+      "modes": [
+        "direct",
+        "sokol"
+      ],
+      "trials": 3,
+      "timeout": 900,
+      "cache_definition": "Cold uses a fresh application pipeline cache and private XDG/NVIDIA shader-cache paths. Warm immediately reuses that process-independent directory. Driver internal/kernel caches are not claimed flushed.",
+      "time_definition": "Internal phase timers; direct begins before window creation, Sokol begins at OnInit before renderer setup. Process wall time includes teardown; it is not first-frame latency."
+    },
+    "created_at": 1790338382.363303,
+    "platform": "Linux-6.12.108-1-MANJARO-x86_64-with-glibc2.44",
+    "system": {
+      "time": 1790338382.3645082,
+      "load": [
+        1.2724609375,
+        1.5361328125,
+        1.396484375
+      ],
+      "ac": {
+        "/sys/class/power_supply/ucsi-source-psy-USBC000:002/online": "0",
+        "/sys/class/power_supply/ucsi-source-psy-USBC000:001/online": "1",
+        "/sys/class/power_supply/ACAD/online": "1"
+      },
+      "gpu": "name, temperature.gpu, power.draw [W], clocks.current.sm [MHz], clocks.current.memory [MHz], utilization.gpu [%]\nNVIDIA GeForce RTX 4070 Laptop GPU, 43, 590.01 W, 1605 MHz, 7001 MHz, 18 %",
+      "gpu_power_limits": "==============NVSMI LOG==============\n\nTimestamp                                              : Fri Sep 25 13:13:04 2026\nDriver Version                                         : 610.57.04 [Deprecated; will be removed in CUDA 14.0. Use KMD Version instead]\nCUDA Version                                           : 13.3 [Deprecated; will be removed in CUDA 14.0. Use CUDA UMD Version instead]\nKMD Version                                            : 610.57.04\nCUDA UMD Version                                       : 13.3\n\nAttached GPUs                                          : 1\nGPU 00000000:01:00.0\n    Performance State                                  : P3\n    Clocks Event Reasons\n        Idle                                           : Not Active\n        Applications Clocks Setting                    : Not Active\n        SW Power Cap                                   : Active\n        HW Slowdown                                    : Not Active\n            HW Thermal Slowdown                        : Not Active\n            HW Power Brake Slowdown                    : Not Active\n        Sync Boost                                     : Not Active\n        SW Thermal Slowdown                            : Active\n        Display Clock Setting                          : Not Active\n    Clocks Event Reasons Counters\n        SW Power Capping                               : 49657 us\n        Sync Boost                                     : 0 us\n        SW Thermal Slowdown                            : 49657 us\n        HW Thermal Slowdown                            : 0 us\n        HW Power Braking                               : 0 us\n    Sparse Operation Mode                              : N/A\n    GPU Power Readings\n        Average Power Draw                             : 0.00 W\n        Instantaneous Power Draw                       : 14.23 W\n        GPU Ceiling Power Limit\n            Current Power Limit                        : 55.00 W\n            Requested Power Limit                      : 55.00 W\n            Default Power Limit                        : 55.00 W\n        GPU Base Power\n            Current Base Power                         : N/A\n            Requested Base Power                       : N/A\n            Default Base Power                         : N/A\n        Min Power Limit                                : 5.00 W\n        Max Power Limit                                : 90.00 W\n    Power Samples\n        Duration                                       : Not Found\n        Number of Samples                              : Not Found\n        Max                                            : Not Found\n        Min                                            : Not Found\n        Avg                                            : Not Found\n    GPU Memory Power Readings \n        Average Power Draw                             : N/A\n        Instantaneous Power Draw                       : N/A\n    Module Power Readings\n        Average Power Draw                             : N/A\n        Instantaneous Power Draw                       : N/A\n        Current Power Limit                            : N/A\n        Requested Power Limit                          : N/A\n        Default Power Limit                            : N/A\n        Min Power Limit                                : N/A\n        Max Power Limit                                : N/A\n    EDPp Multiplier                                    : N/A"
+    },
+    "head": "a34c065bf58af3b24093ff77b8ed6d9a2dbd314b"
+  },
+  "framebuffer": {
+    "direct": [
+      2048,
+      1152
+    ],
+    "sokol": [
+      2040,
+      1148
+    ]
+  },
+  "groups": [
+    {
+      "count": 1000,
+      "mode": "direct",
+      "variant": "after",
+      "cache": "cold",
+      "metrics": {
+        "scene_ms": {
+          "median": 2.0885819999999997,
+          "minimum": 1.948887,
+          "maximum": 2.625334,
+          "trials": [
+            1.948887,
+            2.0885819999999997,
+            2.625334
+          ]
+        },
+        "device_ms": {
+          "median": 169.682488,
+          "minimum": 168.183735,
+          "maximum": 179.370711,
+          "trials": [
+            179.370711,
+            169.682488,
+            168.183735
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 35285.434744,
+          "minimum": 35281.695808000004,
+          "maximum": 35299.003072,
+          "trials": [
+            35281.695808000004,
+            35299.003072,
+            35285.434744
+          ]
+        },
+        "first_frame_ms": {
+          "median": 36343.306399,
+          "minimum": 36302.989861999995,
+          "maximum": 36394.835978,
+          "trials": [
+            36302.989861999995,
+            36343.306399,
+            36394.835978
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 243.314586,
+          "minimum": 242.278543,
+          "maximum": 252.90936000000002,
+          "trials": [
+            252.90936000000002,
+            243.314586,
+            242.278543
+          ]
+        },
+        "loading_frames": {
+          "median": 1545,
+          "minimum": 1540,
+          "maximum": 1548,
+          "trials": [
+            1540,
+            1545,
+            1548
+          ]
+        }
+      }
+    },
+    {
+      "count": 1000,
+      "mode": "direct",
+      "variant": "after",
+      "cache": "warm",
+      "metrics": {
+        "scene_ms": {
+          "median": 3.169412,
+          "minimum": 3.012495,
+          "maximum": 3.181646,
+          "trials": [
+            3.012495,
+            3.169412,
+            3.181646
+          ]
+        },
+        "device_ms": {
+          "median": 168.686907,
+          "minimum": 165.587763,
+          "maximum": 184.63449500000002,
+          "trials": [
+            168.686907,
+            165.587763,
+            184.63449500000002
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 334.802153,
+          "minimum": 334.12977,
+          "maximum": 369.165278,
+          "trials": [
+            334.802153,
+            369.165278,
+            334.12977
+          ]
+        },
+        "first_frame_ms": {
+          "median": 614.6886350000001,
+          "minimum": 603.1269339999999,
+          "maximum": 631.95204,
+          "trials": [
+            603.1269339999999,
+            631.95204,
+            614.6886350000001
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 209.117315,
+          "minimum": 207.356913,
+          "maximum": 225.825155,
+          "trials": [
+            209.117315,
+            207.356913,
+            225.825155
+          ]
+        },
+        "loading_frames": {
+          "median": 20,
+          "minimum": 20,
+          "maximum": 22,
+          "trials": [
+            20,
+            22,
+            20
+          ]
+        }
+      }
+    },
+    {
+      "count": 1000,
+      "mode": "direct",
+      "variant": "before",
+      "cache": "cold",
+      "metrics": {
+        "scene_ms": {
+          "median": 0.817179,
+          "minimum": 0.7865679999999999,
+          "maximum": 0.884904,
+          "trials": [
+            0.7865679999999999,
+            0.884904,
+            0.817179
+          ]
+        },
+        "device_ms": {
+          "median": 158.842479,
+          "minimum": 155.91318800000002,
+          "maximum": 164.778438,
+          "trials": [
+            155.91318800000002,
+            158.842479,
+            164.778438
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 35033.739665,
+          "minimum": 34594.42987,
+          "maximum": 35699.323193,
+          "trials": [
+            35033.739665,
+            34594.42987,
+            35699.323193
+          ]
+        },
+        "first_frame_ms": {
+          "median": 36142.15205,
+          "minimum": 35712.472201,
+          "maximum": 36779.625439999996,
+          "trials": [
+            36142.15205,
+            35712.472201,
+            36779.625439999996
+          ]
+        },
+        "first_loading_frame_ms": null,
+        "loading_frames": {
+          "median": 0,
+          "minimum": 0,
+          "maximum": 0,
+          "trials": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "count": 1000,
+      "mode": "direct",
+      "variant": "before",
+      "cache": "warm",
+      "metrics": {
+        "scene_ms": {
+          "median": 1.099696,
+          "minimum": 1.092028,
+          "maximum": 1.1637979999999999,
+          "trials": [
+            1.092028,
+            1.099696,
+            1.1637979999999999
+          ]
+        },
+        "device_ms": {
+          "median": 157.998673,
+          "minimum": 154.867744,
+          "maximum": 167.621089,
+          "trials": [
+            167.621089,
+            154.867744,
+            157.998673
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 333.68373499999996,
+          "minimum": 302.88246200000003,
+          "maximum": 373.416918,
+          "trials": [
+            373.416918,
+            333.68373499999996,
+            302.88246200000003
+          ]
+        },
+        "first_frame_ms": {
+          "median": 602.638441,
+          "minimum": 602.5136180000001,
+          "maximum": 689.411189,
+          "trials": [
+            689.411189,
+            602.5136180000001,
+            602.638441
+          ]
+        },
+        "first_loading_frame_ms": null,
+        "loading_frames": {
+          "median": 0,
+          "minimum": 0,
+          "maximum": 0,
+          "trials": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "count": 1000,
+      "mode": "sokol",
+      "variant": "after",
+      "cache": "cold",
+      "metrics": {
+        "scene_ms": {
+          "median": 1.501501,
+          "minimum": 1.43925,
+          "maximum": 1.699856,
+          "trials": [
+            1.699856,
+            1.43925,
+            1.501501
+          ]
+        },
+        "device_ms": {
+          "median": 171.846556,
+          "minimum": 156.461796,
+          "maximum": 185.583136,
+          "trials": [
+            171.846556,
+            156.461796,
+            185.583136
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 35114.926547,
+          "minimum": 35050.549779,
+          "maximum": 35153.986197,
+          "trials": [
+            35114.926547,
+            35153.986197,
+            35050.549779
+          ]
+        },
+        "first_frame_ms": {
+          "median": 36609.22707,
+          "minimum": 36542.161783,
+          "maximum": 36672.000441,
+          "trials": [
+            36672.000441,
+            36609.22707,
+            36542.161783
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 480.670352,
+          "minimum": 476.720666,
+          "maximum": 550.285059,
+          "trials": [
+            550.285059,
+            480.670352,
+            476.720666
+          ]
+        },
+        "loading_frames": {
+          "median": 2055,
+          "minimum": 2052,
+          "maximum": 2058,
+          "trials": [
+            2055,
+            2058,
+            2052
+          ]
+        }
+      }
+    },
+    {
+      "count": 1000,
+      "mode": "sokol",
+      "variant": "after",
+      "cache": "warm",
+      "metrics": {
+        "scene_ms": {
+          "median": 1.694786,
+          "minimum": 1.63469,
+          "maximum": 1.758057,
+          "trials": [
+            1.694786,
+            1.758057,
+            1.63469
+          ]
+        },
+        "device_ms": {
+          "median": 141.917866,
+          "minimum": 138.197155,
+          "maximum": 150.590043,
+          "trials": [
+            141.917866,
+            138.197155,
+            150.590043
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 342.599157,
+          "minimum": 327.771097,
+          "maximum": 350.769666,
+          "trials": [
+            327.771097,
+            342.599157,
+            350.769666
+          ]
+        },
+        "first_frame_ms": {
+          "median": 584.409736,
+          "minimum": 572.130936,
+          "maximum": 614.266408,
+          "trials": [
+            572.130936,
+            584.409736,
+            614.266408
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 23.212321,
+          "minimum": 22.869008,
+          "maximum": 23.973716,
+          "trials": [
+            22.869008,
+            23.212321,
+            23.973716
+          ]
+        },
+        "loading_frames": {
+          "median": 24,
+          "minimum": 23,
+          "maximum": 25,
+          "trials": [
+            23,
+            24,
+            25
+          ]
+        }
+      }
+    },
+    {
+      "count": 1000,
+      "mode": "sokol",
+      "variant": "before",
+      "cache": "cold",
+      "metrics": {
+        "scene_ms": {
+          "median": 1.544808,
+          "minimum": 1.511519,
+          "maximum": 1.674376,
+          "trials": [
+            1.674376,
+            1.544808,
+            1.511519
+          ]
+        },
+        "device_ms": {
+          "median": 123.19365,
+          "minimum": 118.708178,
+          "maximum": 132.487512,
+          "trials": [
+            123.19365,
+            132.487512,
+            118.708178
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 35149.446077,
+          "minimum": 34889.602516,
+          "maximum": 35515.503832,
+          "trials": [
+            34889.602516,
+            35515.503832,
+            35149.446077
+          ]
+        },
+        "first_frame_ms": {
+          "median": 36588.029569,
+          "minimum": 36317.157866,
+          "maximum": 36983.590053,
+          "trials": [
+            36317.157866,
+            36983.590053,
+            36588.029569
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 613.687184,
+          "minimum": 600.556627,
+          "maximum": 628.183951,
+          "trials": [
+            628.183951,
+            613.687184,
+            600.556627
+          ]
+        },
+        "loading_frames": {
+          "median": 2053,
+          "minimum": 2035,
+          "maximum": 2072,
+          "trials": [
+            2035,
+            2072,
+            2053
+          ]
+        }
+      }
+    },
+    {
+      "count": 1000,
+      "mode": "sokol",
+      "variant": "before",
+      "cache": "warm",
+      "metrics": {
+        "scene_ms": {
+          "median": 1.841874,
+          "minimum": 1.807887,
+          "maximum": 1.982542,
+          "trials": [
+            1.807887,
+            1.841874,
+            1.982542
+          ]
+        },
+        "device_ms": {
+          "median": 110.668068,
+          "minimum": 109.684842,
+          "maximum": 115.284248,
+          "trials": [
+            115.284248,
+            109.684842,
+            110.668068
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 385.937006,
+          "minimum": 355.283074,
+          "maximum": 387.628823,
+          "trials": [
+            387.628823,
+            385.937006,
+            355.283074
+          ]
+        },
+        "first_frame_ms": {
+          "median": 580.109104,
+          "minimum": 554.726395,
+          "maximum": 607.674649,
+          "trials": [
+            607.674649,
+            580.109104,
+            554.726395
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 135.795738,
+          "minimum": 135.474233,
+          "maximum": 140.211296,
+          "trials": [
+            140.211296,
+            135.474233,
+            135.795738
+          ]
+        },
+        "loading_frames": {
+          "median": 21,
+          "minimum": 19,
+          "maximum": 22,
+          "trials": [
+            22,
+            21,
+            19
+          ]
+        }
+      }
+    },
+    {
+      "count": 15000,
+      "mode": "direct",
+      "variant": "after",
+      "cache": "cold",
+      "metrics": {
+        "scene_ms": {
+          "median": 11.886697999999999,
+          "minimum": 11.681310999999999,
+          "maximum": 12.012882000000001,
+          "trials": [
+            11.886697999999999,
+            11.681310999999999,
+            12.012882000000001
+          ]
+        },
+        "device_ms": {
+          "median": 170.539395,
+          "minimum": 166.06067399999998,
+          "maximum": 188.678825,
+          "trials": [
+            188.678825,
+            166.06067399999998,
+            170.539395
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 35239.380004,
+          "minimum": 35095.631767,
+          "maximum": 35404.081849,
+          "trials": [
+            35095.631767,
+            35404.081849,
+            35239.380004
+          ]
+        },
+        "first_frame_ms": {
+          "median": 36178.014404,
+          "minimum": 36054.279813999994,
+          "maximum": 36358.086753999996,
+          "trials": [
+            36054.279813999994,
+            36358.086753999996,
+            36178.014404
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 254.671466,
+          "minimum": 239.02710499999998,
+          "maximum": 278.901454,
+          "trials": [
+            278.901454,
+            239.02710499999998,
+            254.671466
+          ]
+        },
+        "loading_frames": {
+          "median": 1541,
+          "minimum": 1534,
+          "maximum": 1555,
+          "trials": [
+            1534,
+            1555,
+            1541
+          ]
+        }
+      }
+    },
+    {
+      "count": 15000,
+      "mode": "direct",
+      "variant": "after",
+      "cache": "warm",
+      "metrics": {
+        "scene_ms": {
+          "median": 12.332933,
+          "minimum": 10.795338,
+          "maximum": 14.888660999999999,
+          "trials": [
+            10.795338,
+            14.888660999999999,
+            12.332933
+          ]
+        },
+        "device_ms": {
+          "median": 164.79666600000002,
+          "minimum": 163.77345300000002,
+          "maximum": 186.27907399999998,
+          "trials": [
+            163.77345300000002,
+            164.79666600000002,
+            186.27907399999998
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 384.68891,
+          "minimum": 381.990109,
+          "maximum": 401.856614,
+          "trials": [
+            384.68891,
+            381.990109,
+            401.856614
+          ]
+        },
+        "first_frame_ms": {
+          "median": 634.546981,
+          "minimum": 633.227138,
+          "maximum": 672.215091,
+          "trials": [
+            634.546981,
+            633.227138,
+            672.215091
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 205.67732999999998,
+          "minimum": 204.99411,
+          "maximum": 227.266458,
+          "trials": [
+            204.99411,
+            205.67732999999998,
+            227.266458
+          ]
+        },
+        "loading_frames": {
+          "median": 23,
+          "minimum": 22,
+          "maximum": 24,
+          "trials": [
+            22,
+            23,
+            24
+          ]
+        }
+      }
+    },
+    {
+      "count": 15000,
+      "mode": "direct",
+      "variant": "before",
+      "cache": "cold",
+      "metrics": {
+        "scene_ms": {
+          "median": 126.839256,
+          "minimum": 125.25381399999999,
+          "maximum": 132.782912,
+          "trials": [
+            126.839256,
+            132.782912,
+            125.25381399999999
+          ]
+        },
+        "device_ms": {
+          "median": 164.568968,
+          "minimum": 159.571602,
+          "maximum": 181.673313,
+          "trials": [
+            164.568968,
+            181.673313,
+            159.571602
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 35840.80736,
+          "minimum": 35545.637517,
+          "maximum": 35842.416157,
+          "trials": [
+            35545.637517,
+            35842.416157,
+            35840.80736
+          ]
+        },
+        "first_frame_ms": {
+          "median": 36933.336786,
+          "minimum": 36663.453423,
+          "maximum": 37008.806414,
+          "trials": [
+            36663.453423,
+            37008.806414,
+            36933.336786
+          ]
+        },
+        "first_loading_frame_ms": null,
+        "loading_frames": {
+          "median": 0,
+          "minimum": 0,
+          "maximum": 0,
+          "trials": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "count": 15000,
+      "mode": "direct",
+      "variant": "before",
+      "cache": "warm",
+      "metrics": {
+        "scene_ms": {
+          "median": 134.79640600000002,
+          "minimum": 133.866083,
+          "maximum": 136.014627,
+          "trials": [
+            133.866083,
+            134.79640600000002,
+            136.014627
+          ]
+        },
+        "device_ms": {
+          "median": 164.30401,
+          "minimum": 159.106541,
+          "maximum": 170.188778,
+          "trials": [
+            164.30401,
+            159.106541,
+            170.188778
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 403.950641,
+          "minimum": 368.65527799999995,
+          "maximum": 412.663471,
+          "trials": [
+            412.663471,
+            368.65527799999995,
+            403.950641
+          ]
+        },
+        "first_frame_ms": {
+          "median": 829.534077,
+          "minimum": 779.6759089999999,
+          "maximum": 840.0860839999999,
+          "trials": [
+            829.534077,
+            779.6759089999999,
+            840.0860839999999
+          ]
+        },
+        "first_loading_frame_ms": null,
+        "loading_frames": {
+          "median": 0,
+          "minimum": 0,
+          "maximum": 0,
+          "trials": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "count": 15000,
+      "mode": "sokol",
+      "variant": "after",
+      "cache": "cold",
+      "metrics": {
+        "scene_ms": {
+          "median": 24.09457,
+          "minimum": 22.912408,
+          "maximum": 24.609623,
+          "trials": [
+            24.09457,
+            22.912408,
+            24.609623
+          ]
+        },
+        "device_ms": {
+          "median": 162.013191,
+          "minimum": 156.817313,
+          "maximum": 175.236429,
+          "trials": [
+            162.013191,
+            156.817313,
+            175.236429
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 34800.927524,
+          "minimum": 34666.201372,
+          "maximum": 35304.080806,
+          "trials": [
+            35304.080806,
+            34666.201372,
+            34800.927524
+          ]
+        },
+        "first_frame_ms": {
+          "median": 36224.800473,
+          "minimum": 36055.684828,
+          "maximum": 36688.908031,
+          "trials": [
+            36688.908031,
+            36055.684828,
+            36224.800473
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 484.754957,
+          "minimum": 472.331558,
+          "maximum": 498.852674,
+          "trials": [
+            472.331558,
+            484.754957,
+            498.852674
+          ]
+        },
+        "loading_frames": {
+          "median": 2038,
+          "minimum": 2030,
+          "maximum": 2067,
+          "trials": [
+            2067,
+            2030,
+            2038
+          ]
+        }
+      }
+    },
+    {
+      "count": 15000,
+      "mode": "sokol",
+      "variant": "after",
+      "cache": "warm",
+      "metrics": {
+        "scene_ms": {
+          "median": 23.143403,
+          "minimum": 22.537309,
+          "maximum": 23.341978,
+          "trials": [
+            23.143403,
+            22.537309,
+            23.341978
+          ]
+        },
+        "device_ms": {
+          "median": 149.469985,
+          "minimum": 139.678033,
+          "maximum": 164.862986,
+          "trials": [
+            149.469985,
+            139.678033,
+            164.862986
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 401.143736,
+          "minimum": 376.615223,
+          "maximum": 424.018076,
+          "trials": [
+            376.615223,
+            424.018076,
+            401.143736
+          ]
+        },
+        "first_frame_ms": {
+          "median": 691.092501,
+          "minimum": 652.739726,
+          "maximum": 695.372961,
+          "trials": [
+            652.739726,
+            691.092501,
+            695.372961
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 22.995004,
+          "minimum": 21.478483,
+          "maximum": 24.116379,
+          "trials": [
+            21.478483,
+            22.995004,
+            24.116379
+          ]
+        },
+        "loading_frames": {
+          "median": 29,
+          "minimum": 28,
+          "maximum": 30,
+          "trials": [
+            28,
+            30,
+            29
+          ]
+        }
+      }
+    },
+    {
+      "count": 15000,
+      "mode": "sokol",
+      "variant": "before",
+      "cache": "cold",
+      "metrics": {
+        "scene_ms": {
+          "median": 147.619604,
+          "minimum": 141.931979,
+          "maximum": 152.359094,
+          "trials": [
+            141.931979,
+            152.359094,
+            147.619604
+          ]
+        },
+        "device_ms": {
+          "median": 126.950292,
+          "minimum": 123.259701,
+          "maximum": 134.879036,
+          "trials": [
+            126.950292,
+            123.259701,
+            134.879036
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 35562.641137,
+          "minimum": 35470.539431,
+          "maximum": 35635.301481,
+          "trials": [
+            35470.539431,
+            35635.301481,
+            35562.641137
+          ]
+        },
+        "first_frame_ms": {
+          "median": 37102.418516,
+          "minimum": 36944.636333,
+          "maximum": 37148.886409,
+          "trials": [
+            36944.636333,
+            37148.886409,
+            37102.418516
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 759.749398,
+          "minimum": 744.400317,
+          "maximum": 779.479767,
+          "trials": [
+            744.400317,
+            759.749398,
+            779.479767
+          ]
+        },
+        "loading_frames": {
+          "median": 2075,
+          "minimum": 2071,
+          "maximum": 2079,
+          "trials": [
+            2071,
+            2079,
+            2075
+          ]
+        }
+      }
+    },
+    {
+      "count": 15000,
+      "mode": "sokol",
+      "variant": "before",
+      "cache": "warm",
+      "metrics": {
+        "scene_ms": {
+          "median": 146.101959,
+          "minimum": 139.497698,
+          "maximum": 153.109252,
+          "trials": [
+            146.101959,
+            153.109252,
+            139.497698
+          ]
+        },
+        "device_ms": {
+          "median": 109.625952,
+          "minimum": 108.892366,
+          "maximum": 111.610776,
+          "trials": [
+            111.610776,
+            108.892366,
+            109.625952
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 387.269993,
+          "minimum": 380.380292,
+          "maximum": 418.98049,
+          "trials": [
+            380.380292,
+            418.98049,
+            387.269993
+          ]
+        },
+        "first_frame_ms": {
+          "median": 722.206784,
+          "minimum": 716.662577,
+          "maximum": 764.746229,
+          "trials": [
+            716.662577,
+            764.746229,
+            722.206784
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 279.395017,
+          "minimum": 271.725279,
+          "maximum": 286.880657,
+          "trials": [
+            279.395017,
+            286.880657,
+            271.725279
+          ]
+        },
+        "loading_frames": {
+          "median": 22,
+          "minimum": 21,
+          "maximum": 23,
+          "trials": [
+            21,
+            23,
+            22
+          ]
+        }
+      }
+    },
+    {
+      "count": 100000,
+      "mode": "direct",
+      "variant": "after",
+      "cache": "cold",
+      "metrics": {
+        "scene_ms": {
+          "median": 45.526222999999995,
+          "minimum": 42.531455,
+          "maximum": 47.136261,
+          "trials": [
+            47.136261,
+            42.531455,
+            45.526222999999995
+          ]
+        },
+        "device_ms": {
+          "median": 185.24678699999998,
+          "minimum": 165.89170000000001,
+          "maximum": 191.585164,
+          "trials": [
+            185.24678699999998,
+            165.89170000000001,
+            191.585164
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 35706.392993,
+          "minimum": 35052.588671000005,
+          "maximum": 35793.951706,
+          "trials": [
+            35793.951706,
+            35706.392993,
+            35052.588671000005
+          ]
+        },
+        "first_frame_ms": {
+          "median": 36814.071273,
+          "minimum": 36126.428766,
+          "maximum": 36916.760096,
+          "trials": [
+            36916.760096,
+            36814.071273,
+            36126.428766
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 259.963732,
+          "minimum": 238.979855,
+          "maximum": 266.671983,
+          "trials": [
+            259.963732,
+            238.979855,
+            266.671983
+          ]
+        },
+        "loading_frames": {
+          "median": 1549,
+          "minimum": 1531,
+          "maximum": 1558,
+          "trials": [
+            1558,
+            1549,
+            1531
+          ]
+        }
+      }
+    },
+    {
+      "count": 100000,
+      "mode": "direct",
+      "variant": "after",
+      "cache": "warm",
+      "metrics": {
+        "scene_ms": {
+          "median": 46.654556,
+          "minimum": 45.499739,
+          "maximum": 46.860752,
+          "trials": [
+            46.654556,
+            45.499739,
+            46.860752
+          ]
+        },
+        "device_ms": {
+          "median": 153.321732,
+          "minimum": 149.909878,
+          "maximum": 155.08946600000002,
+          "trials": [
+            153.321732,
+            149.909878,
+            155.08946600000002
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 891.472957,
+          "minimum": 853.198709,
+          "maximum": 916.201051,
+          "trials": [
+            891.472957,
+            916.201051,
+            853.198709
+          ]
+        },
+        "first_frame_ms": {
+          "median": 1247.3616789999999,
+          "minimum": 1216.113646,
+          "maximum": 1276.251773,
+          "trials": [
+            1247.3616789999999,
+            1276.251773,
+            1216.113646
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 193.779494,
+          "minimum": 192.36943,
+          "maximum": 199.013059,
+          "trials": [
+            193.779494,
+            192.36943,
+            199.013059
+          ]
+        },
+        "loading_frames": {
+          "median": 42,
+          "minimum": 41,
+          "maximum": 43,
+          "trials": [
+            42,
+            43,
+            41
+          ]
+        }
+      }
+    },
+    {
+      "count": 100000,
+      "mode": "direct",
+      "variant": "before",
+      "cache": "cold",
+      "metrics": {
+        "scene_ms": {
+          "median": 8410.308251,
+          "minimum": 8123.062859999999,
+          "maximum": 8540.581566,
+          "trials": [
+            8540.581566,
+            8123.062859999999,
+            8410.308251
+          ]
+        },
+        "device_ms": {
+          "median": 158.11971499999999,
+          "minimum": 153.907918,
+          "maximum": 175.318104,
+          "trials": [
+            175.318104,
+            158.11971499999999,
+            153.907918
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 35335.260707,
+          "minimum": 35125.855078,
+          "maximum": 36574.412379,
+          "trials": [
+            36574.412379,
+            35335.260707,
+            35125.855078
+          ]
+        },
+        "first_frame_ms": {
+          "median": 44554.934445,
+          "minimum": 44546.327914,
+          "maximum": 46197.128765,
+          "trials": [
+            46197.128765,
+            44554.934445,
+            44546.327914
+          ]
+        },
+        "first_loading_frame_ms": null,
+        "loading_frames": {
+          "median": 0,
+          "minimum": 0,
+          "maximum": 0,
+          "trials": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "count": 100000,
+      "mode": "direct",
+      "variant": "before",
+      "cache": "warm",
+      "metrics": {
+        "scene_ms": {
+          "median": 8103.005976,
+          "minimum": 8060.688683,
+          "maximum": 8651.019476,
+          "trials": [
+            8651.019476,
+            8103.005976,
+            8060.688683
+          ]
+        },
+        "device_ms": {
+          "median": 142.468176,
+          "minimum": 142.099974,
+          "maximum": 147.174742,
+          "trials": [
+            142.099974,
+            147.174742,
+            142.468176
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 844.497117,
+          "minimum": 839.934564,
+          "maximum": 866.745039,
+          "trials": [
+            844.497117,
+            866.745039,
+            839.934564
+          ]
+        },
+        "first_frame_ms": {
+          "median": 9316.595037000001,
+          "minimum": 9273.576473000001,
+          "maximum": 9864.266454999999,
+          "trials": [
+            9864.266454999999,
+            9316.595037000001,
+            9273.576473000001
+          ]
+        },
+        "first_loading_frame_ms": null,
+        "loading_frames": {
+          "median": 0,
+          "minimum": 0,
+          "maximum": 0,
+          "trials": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "count": 100000,
+      "mode": "sokol",
+      "variant": "after",
+      "cache": "cold",
+      "metrics": {
+        "scene_ms": {
+          "median": 161.415711,
+          "minimum": 156.883006,
+          "maximum": 162.047357,
+          "trials": [
+            156.883006,
+            161.415711,
+            162.047357
+          ]
+        },
+        "device_ms": {
+          "median": 154.925303,
+          "minimum": 146.631657,
+          "maximum": 170.273496,
+          "trials": [
+            170.273496,
+            154.925303,
+            146.631657
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 35356.628458,
+          "minimum": 35217.473511,
+          "maximum": 36070.410644,
+          "trials": [
+            35356.628458,
+            36070.410644,
+            35217.473511
+          ]
+        },
+        "first_frame_ms": {
+          "median": 37133.340644,
+          "minimum": 36987.790394,
+          "maximum": 37807.582662,
+          "trials": [
+            37133.340644,
+            37807.582662,
+            36987.790394
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 480.407863,
+          "minimum": 478.394947,
+          "maximum": 488.41246,
+          "trials": [
+            480.407863,
+            478.394947,
+            488.41246
+          ]
+        },
+        "loading_frames": {
+          "median": 2070,
+          "minimum": 2063,
+          "maximum": 2113,
+          "trials": [
+            2070,
+            2113,
+            2063
+          ]
+        }
+      }
+    },
+    {
+      "count": 100000,
+      "mode": "sokol",
+      "variant": "after",
+      "cache": "warm",
+      "metrics": {
+        "scene_ms": {
+          "median": 161.866198,
+          "minimum": 161.659391,
+          "maximum": 168.712314,
+          "trials": [
+            161.659391,
+            161.866198,
+            168.712314
+          ]
+        },
+        "device_ms": {
+          "median": 147.664929,
+          "minimum": 139.639121,
+          "maximum": 155.488865,
+          "trials": [
+            155.488865,
+            139.639121,
+            147.664929
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 770.897281,
+          "minimum": 766.179311,
+          "maximum": 814.01418,
+          "trials": [
+            766.179311,
+            770.897281,
+            814.01418
+          ]
+        },
+        "first_frame_ms": {
+          "median": 1338.319753,
+          "minimum": 1326.039073,
+          "maximum": 1405.093426,
+          "trials": [
+            1338.319753,
+            1326.039073,
+            1405.093426
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 24.612796,
+          "minimum": 22.451695,
+          "maximum": 24.916655,
+          "trials": [
+            24.916655,
+            22.451695,
+            24.612796
+          ]
+        },
+        "loading_frames": {
+          "median": 50,
+          "minimum": 50,
+          "maximum": 54,
+          "trials": [
+            50,
+            50,
+            54
+          ]
+        }
+      }
+    },
+    {
+      "count": 100000,
+      "mode": "sokol",
+      "variant": "before",
+      "cache": "cold",
+      "metrics": {
+        "scene_ms": {
+          "median": 8565.934166,
+          "minimum": 8310.141042,
+          "maximum": 9153.604594,
+          "trials": [
+            8565.934166,
+            8310.141042,
+            9153.604594
+          ]
+        },
+        "device_ms": {
+          "median": 120.711694,
+          "minimum": 115.696814,
+          "maximum": 127.709105,
+          "trials": [
+            127.709105,
+            120.711694,
+            115.696814
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 35289.777487,
+          "minimum": 35282.209982,
+          "maximum": 35662.260379,
+          "trials": [
+            35662.260379,
+            35282.209982,
+            35289.777487
+          ]
+        },
+        "first_frame_ms": {
+          "median": 45758.634638,
+          "minimum": 45177.083526,
+          "maximum": 45962.85527,
+          "trials": [
+            45758.634638,
+            45177.083526,
+            45962.85527
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 9187.024576,
+          "minimum": 8927.337849,
+          "maximum": 9753.2704,
+          "trials": [
+            9187.024576,
+            8927.337849,
+            9753.2704
+          ]
+        },
+        "loading_frames": {
+          "median": 2052,
+          "minimum": 2050,
+          "maximum": 2072,
+          "trials": [
+            2072,
+            2050,
+            2052
+          ]
+        }
+      }
+    },
+    {
+      "count": 100000,
+      "mode": "sokol",
+      "variant": "before",
+      "cache": "warm",
+      "metrics": {
+        "scene_ms": {
+          "median": 8243.153218,
+          "minimum": 8114.684802,
+          "maximum": 8506.984359,
+          "trials": [
+            8243.153218,
+            8506.984359,
+            8114.684802
+          ]
+        },
+        "device_ms": {
+          "median": 115.543171,
+          "minimum": 109.915251,
+          "maximum": 122.965756,
+          "trials": [
+            122.965756,
+            109.915251,
+            115.543171
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 786.012546,
+          "minimum": 767.44314,
+          "maximum": 801.244718,
+          "trials": [
+            801.244718,
+            786.012546,
+            767.44314
+          ]
+        },
+        "first_frame_ms": {
+          "median": 9422.197423,
+          "minimum": 9246.16296,
+          "maximum": 9645.999592,
+          "trials": [
+            9422.197423,
+            9645.999592,
+            9246.16296
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 8389.649095,
+          "minimum": 8253.467661,
+          "maximum": 8639.707251,
+          "trials": [
+            8389.649095,
+            8639.707251,
+            8253.467661
+          ]
+        },
+        "loading_frames": {
+          "median": 36,
+          "minimum": 34,
+          "maximum": 37,
+          "trials": [
+            37,
+            36,
+            34
+          ]
+        }
+      }
+    },
+    {
+      "count": 200000,
+      "mode": "direct",
+      "variant": "after",
+      "cache": "cold",
+      "metrics": {
+        "scene_ms": {
+          "median": 84.018103,
+          "minimum": 83.004179,
+          "maximum": 100.59991,
+          "trials": [
+            83.004179,
+            84.018103,
+            100.59991
+          ]
+        },
+        "device_ms": {
+          "median": 165.61377199999998,
+          "minimum": 163.339193,
+          "maximum": 166.034097,
+          "trials": [
+            163.339193,
+            165.61377199999998,
+            166.034097
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 36537.438819999996,
+          "minimum": 35434.473605,
+          "maximum": 38575.583887,
+          "trials": [
+            35434.473605,
+            36537.438819999996,
+            38575.583887
+          ]
+        },
+        "first_frame_ms": {
+          "median": 37758.25758,
+          "minimum": 36619.838725,
+          "maximum": 39882.807301,
+          "trials": [
+            36619.838725,
+            37758.25758,
+            39882.807301
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 244.51193700000002,
+          "minimum": 237.260687,
+          "maximum": 244.600145,
+          "trials": [
+            237.260687,
+            244.600145,
+            244.51193700000002
+          ]
+        },
+        "loading_frames": {
+          "median": 1593,
+          "minimum": 1581,
+          "maximum": 1724,
+          "trials": [
+            1593,
+            1581,
+            1724
+          ]
+        }
+      }
+    },
+    {
+      "count": 200000,
+      "mode": "direct",
+      "variant": "after",
+      "cache": "warm",
+      "metrics": {
+        "scene_ms": {
+          "median": 86.861235,
+          "minimum": 84.600179,
+          "maximum": 87.39508699999999,
+          "trials": [
+            84.600179,
+            86.861235,
+            87.39508699999999
+          ]
+        },
+        "device_ms": {
+          "median": 168.400554,
+          "minimum": 152.547551,
+          "maximum": 171.000056,
+          "trials": [
+            171.000056,
+            152.547551,
+            168.400554
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 1359.367727,
+          "minimum": 1338.098666,
+          "maximum": 1635.699374,
+          "trials": [
+            1338.098666,
+            1359.367727,
+            1635.699374
+          ]
+        },
+        "first_frame_ms": {
+          "median": 1861.500777,
+          "minimum": 1854.4993920000002,
+          "maximum": 2193.409519,
+          "trials": [
+            1854.4993920000002,
+            1861.500777,
+            2193.409519
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 214.45099000000002,
+          "minimum": 199.351836,
+          "maximum": 222.336341,
+          "trials": [
+            214.45099000000002,
+            199.351836,
+            222.336341
+          ]
+        },
+        "loading_frames": {
+          "median": 51,
+          "minimum": 51,
+          "maximum": 64,
+          "trials": [
+            51,
+            51,
+            64
+          ]
+        }
+      }
+    },
+    {
+      "count": 200000,
+      "mode": "direct",
+      "variant": "before",
+      "cache": "cold",
+      "metrics": {
+        "scene_ms": {
+          "median": 88588.05139800001,
+          "minimum": 87223.856776,
+          "maximum": 92161.746625,
+          "trials": [
+            87223.856776,
+            88588.05139800001,
+            92161.746625
+          ]
+        },
+        "device_ms": {
+          "median": 153.368466,
+          "minimum": 152.59067000000002,
+          "maximum": 166.269916,
+          "trials": [
+            152.59067000000002,
+            166.269916,
+            153.368466
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 36492.872909,
+          "minimum": 36024.635666,
+          "maximum": 38964.002587,
+          "trials": [
+            36492.872909,
+            36024.635666,
+            38964.002587
+          ]
+        },
+        "first_frame_ms": {
+          "median": 127881.22245300001,
+          "minimum": 127062.704757,
+          "maximum": 134444.804986,
+          "trials": [
+            127062.704757,
+            127881.22245300001,
+            134444.804986
+          ]
+        },
+        "first_loading_frame_ms": null,
+        "loading_frames": {
+          "median": 0,
+          "minimum": 0,
+          "maximum": 0,
+          "trials": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "count": 200000,
+      "mode": "direct",
+      "variant": "before",
+      "cache": "warm",
+      "metrics": {
+        "scene_ms": {
+          "median": 89676.153418,
+          "minimum": 87434.91682,
+          "maximum": 90903.487943,
+          "trials": [
+            87434.91682,
+            89676.153418,
+            90903.487943
+          ]
+        },
+        "device_ms": {
+          "median": 142.91019,
+          "minimum": 136.891005,
+          "maximum": 144.59914600000002,
+          "trials": [
+            142.91019,
+            136.891005,
+            144.59914600000002
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 1543.140309,
+          "minimum": 1505.179568,
+          "maximum": 1560.739682,
+          "trials": [
+            1560.739682,
+            1505.179568,
+            1543.140309
+          ]
+        },
+        "first_frame_ms": {
+          "median": 93833.018515,
+          "minimum": 91583.08001899999,
+          "maximum": 95064.249234,
+          "trials": [
+            91583.08001899999,
+            93833.018515,
+            95064.249234
+          ]
+        },
+        "first_loading_frame_ms": null,
+        "loading_frames": {
+          "median": 0,
+          "minimum": 0,
+          "maximum": 0,
+          "trials": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "count": 200000,
+      "mode": "sokol",
+      "variant": "after",
+      "cache": "cold",
+      "metrics": {
+        "scene_ms": {
+          "median": 319.452882,
+          "minimum": 314.86288,
+          "maximum": 346.118594,
+          "trials": [
+            314.86288,
+            346.118594,
+            319.452882
+          ]
+        },
+        "device_ms": {
+          "median": 152.716815,
+          "minimum": 142.167635,
+          "maximum": 168.151925,
+          "trials": [
+            168.151925,
+            152.716815,
+            142.167635
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 37977.952699,
+          "minimum": 36077.803153,
+          "maximum": 38257.542741,
+          "trials": [
+            36077.803153,
+            38257.542741,
+            37977.952699
+          ]
+        },
+        "first_frame_ms": {
+          "median": 40187.179219,
+          "minimum": 38244.670746,
+          "maximum": 40560.803827,
+          "trials": [
+            38244.670746,
+            40560.803827,
+            40187.179219
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 494.670201,
+          "minimum": 490.198833,
+          "maximum": 497.667868,
+          "trials": [
+            497.667868,
+            490.198833,
+            494.670201
+          ]
+        },
+        "loading_frames": {
+          "median": 2222,
+          "minimum": 2114,
+          "maximum": 2236,
+          "trials": [
+            2114,
+            2236,
+            2222
+          ]
+        }
+      }
+    },
+    {
+      "count": 200000,
+      "mode": "sokol",
+      "variant": "after",
+      "cache": "warm",
+      "metrics": {
+        "scene_ms": {
+          "median": 329.611937,
+          "minimum": 326.727056,
+          "maximum": 348.2095,
+          "trials": [
+            326.727056,
+            348.2095,
+            329.611937
+          ]
+        },
+        "device_ms": {
+          "median": 165.279435,
+          "minimum": 148.594696,
+          "maximum": 200.136404,
+          "trials": [
+            148.594696,
+            200.136404,
+            165.279435
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 1320.524847,
+          "minimum": 1207.836767,
+          "maximum": 1338.422546,
+          "trials": [
+            1320.524847,
+            1207.836767,
+            1338.422546
+          ]
+        },
+        "first_frame_ms": {
+          "median": 2217.713813,
+          "minimum": 2210.784431,
+          "maximum": 2264.983239,
+          "trials": [
+            2217.713813,
+            2210.784431,
+            2264.983239
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 25.442975,
+          "minimum": 24.341864,
+          "maximum": 50.215728,
+          "trials": [
+            24.341864,
+            50.215728,
+            25.442975
+          ]
+        },
+        "loading_frames": {
+          "median": 82,
+          "minimum": 75,
+          "maximum": 84,
+          "trials": [
+            82,
+            75,
+            84
+          ]
+        }
+      }
+    },
+    {
+      "count": 200000,
+      "mode": "sokol",
+      "variant": "before",
+      "cache": "cold",
+      "metrics": {
+        "scene_ms": {
+          "median": 94931.623931,
+          "minimum": 89750.621817,
+          "maximum": 96982.97553,
+          "trials": [
+            89750.621817,
+            94931.623931,
+            96982.97553
+          ]
+        },
+        "device_ms": {
+          "median": 119.104236,
+          "minimum": 112.773233,
+          "maximum": 119.88125,
+          "trials": [
+            112.773233,
+            119.88125,
+            119.104236
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 36720.986007,
+          "minimum": 35849.54396,
+          "maximum": 39017.00963,
+          "trials": [
+            35849.54396,
+            39017.00963,
+            36720.986007
+          ]
+        },
+        "first_frame_ms": {
+          "median": 135615.757403,
+          "minimum": 127344.038728,
+          "maximum": 135725.172429,
+          "trials": [
+            127344.038728,
+            135725.172429,
+            135615.757403
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 96318.458031,
+          "minimum": 91109.036156,
+          "maximum": 98364.548457,
+          "trials": [
+            91109.036156,
+            96318.458031,
+            98364.548457
+          ]
+        },
+        "loading_frames": {
+          "median": 2081,
+          "minimum": 2028,
+          "maximum": 2212,
+          "trials": [
+            2028,
+            2212,
+            2081
+          ]
+        }
+      }
+    },
+    {
+      "count": 200000,
+      "mode": "sokol",
+      "variant": "before",
+      "cache": "warm",
+      "metrics": {
+        "scene_ms": {
+          "median": 96793.124138,
+          "minimum": 87374.098308,
+          "maximum": 97115.585288,
+          "trials": [
+            87374.098308,
+            96793.124138,
+            97115.585288
+          ]
+        },
+        "device_ms": {
+          "median": 105.913087,
+          "minimum": 104.893884,
+          "maximum": 134.45923,
+          "trials": [
+            134.45923,
+            105.913087,
+            104.893884
+          ]
+        },
+        "gpu_prepare_ms": {
+          "median": 1895.090056,
+          "minimum": 1244.533217,
+          "maximum": 1933.502963,
+          "trials": [
+            1933.502963,
+            1895.090056,
+            1244.533217
+          ]
+        },
+        "first_frame_ms": {
+          "median": 98865.759836,
+          "minimum": 89855.686652,
+          "maximum": 99203.60288,
+          "trials": [
+            89855.686652,
+            99203.60288,
+            98865.759836
+          ]
+        },
+        "first_loading_frame_ms": {
+          "median": 97255.102054,
+          "minimum": 88288.344573,
+          "maximum": 97688.580601,
+          "trials": [
+            88288.344573,
+            97688.580601,
+            97255.102054
+          ]
+        },
+        "loading_frames": {
+          "median": 49,
+          "minimum": 45,
+          "maximum": 52,
+          "trials": [
+            49,
+            45,
+            52
+          ]
+        }
+      }
+    }
+  ],
+  "raw_sha256": {
+    "1000-direct-before-1-cold-attempt1.json": "8eba406e008e8944f8b7ecadc9f9609b79edb8a445ef9363b4f8766be113b016",
+    "1000-direct-before-1-cold-attempt1.log": "785eaaecdc61867930f7a591d5f4254f484075565cab4b10c370c02c1e75ecac",
+    "1000-direct-before-1-warm-attempt1.json": "80bc7db65cd0fb502a536c2123e8a1055e5c07bedfbe9f6f0917453c6e970ca6",
+    "1000-direct-before-1-warm-attempt1.log": "3a43bae9f509ee1fec858f9e238d80324c4a6730a95c76621d08d7b4344c67df",
+    "1000-direct-after-1-cold-attempt1.json": "38b2ada6a458c3cc937ed02f905b2ef86ade7e66aacc524197a2c34e44edfc62",
+    "1000-direct-after-1-cold-attempt1.log": "5e3bcc3d795af97f41abb54184388b513c4005e9cf442fbd706f9dd350d8e829",
+    "1000-direct-after-1-warm-attempt1.json": "976e94ccb6787f26fd9f761ff3bb32a142ab4c5e106bc9916b5c68c6d42e227c",
+    "1000-direct-after-1-warm-attempt1.log": "97aa8049c8e5ecb58acd1f8212a701004651310e09b388fb49b04ccc87b78579",
+    "1000-sokol-before-1-cold-attempt1.json": "d2540e78340655e2d4f6e03dab0317b9b5e25fc28e3fe8df9a2b0882487c4d33",
+    "1000-sokol-before-1-cold-attempt1.log": "1c008250336343a967d1b1e278f0f61cfd74096ba6576d4472f94952dbc02c11",
+    "1000-sokol-before-1-warm-attempt1.json": "bad5c8ac4426de3d8cb19f366002800dd1ef32545ac22ad1dc12b8c6fbab7a29",
+    "1000-sokol-before-1-warm-attempt1.log": "8664cf39b585822cf922a7f39a38e620591c06a96bc425b704f9bd032ebaa91f",
+    "1000-sokol-after-1-cold-attempt1.json": "4ccfa281b6c66c92c3862fb883593e4999167e0cd12c9243884d024668b3e235",
+    "1000-sokol-after-1-cold-attempt1.log": "9c03193552b67cda7a710fda2214b645d8da4f8b32eca7e5c0632c3604453649",
+    "1000-sokol-after-1-warm-attempt1.json": "91ff35d2d3394ac7cfb7d57166ace96ed7bea249f2ea22010bca9771e4b5d808",
+    "1000-sokol-after-1-warm-attempt1.log": "fe851635c9ba3b4e71fb94cefd45c0c5cd11f8614da26d7cb971b03738b83a08",
+    "1000-direct-after-2-cold-attempt1.json": "39721f071174cc65623cf936408c4d16c5e4f1d6ea2cd82607ee772b891a7bbd",
+    "1000-direct-after-2-cold-attempt1.log": "00118a566e3465aba4611964692e2d47a8df59b9d7678c3b23d66af8882cf703",
+    "1000-direct-after-2-warm-attempt1.json": "c7ccf0f7d3acef9b9e976b83c1f17277fef75fa8d468a9020a9c52a24fcf57a6",
+    "1000-direct-after-2-warm-attempt1.log": "1692eaa049006d941318e7d6047ef2d8c9d65ebd312cfd7267f1b6a002b98d0d",
+    "1000-direct-before-2-cold-attempt1.json": "f4ac9e13ef5e6588906d1b3cc60a9794ba0c0dd330443136ec4490bafdd82ed5",
+    "1000-direct-before-2-cold-attempt1.log": "b2ba23056df4887fd0a768557e8c7824037eaa8a893c0e294af88f52dafcda84",
+    "1000-direct-before-2-warm-attempt1.json": "659c31c2246e211012b65699d0cceadf54ed8d5296ff21bd330d0268e570eab3",
+    "1000-direct-before-2-warm-attempt1.log": "b2a26bb68cbcdd55f723ed138add55a44dc0cc12dffe600c0d79c11aac29ed3a",
+    "1000-sokol-after-2-cold-attempt1.json": "d41aa12205e7337adabb64fca1915d908e79baba81dab8071a40ed0663063b79",
+    "1000-sokol-after-2-cold-attempt1.log": "195874e06f252fac9d018a2b5c9f04e2503425d36bd580d07685f10b6682df95",
+    "1000-sokol-after-2-warm-attempt1.json": "108cda786919a839ad96d2d79c567b9fd2052e417a2d47d0708134f1fddc2243",
+    "1000-sokol-after-2-warm-attempt1.log": "8c4962ed25a2bbc039fc99f17efec8c43e16a81409bfde8189fad3af39b2d8fe",
+    "1000-sokol-before-2-cold-attempt1.json": "c70a136e2e6ac4fd7d8a1bafbeab0d8b9d12cf8f1d07f5a79c69e23918bafd05",
+    "1000-sokol-before-2-cold-attempt1.log": "d22a2e4ab9d79b30ae992d81e63803bcdc42dd637c05c350ff6cc5a77b2b899f",
+    "1000-sokol-before-2-warm-attempt1.json": "3b52438a9b893b2fadc5402629d972afcc241253442b738cd46260afb7ffc285",
+    "1000-sokol-before-2-warm-attempt1.log": "d400b20dba3f2c61fba73bc0c9c5562442019f83020bd1c05bdfa6351d639441",
+    "1000-direct-before-3-cold-attempt1.json": "7eace19bac43b1c125b0e96025a679c097e2aecb18642b1dd02440636953b47d",
+    "1000-direct-before-3-cold-attempt1.log": "c61e8a9060d7cdefcab6ed87b5a8e2e9cfb51ff736db89fe11fc61260f73f711",
+    "1000-direct-before-3-warm-attempt1.json": "f91510e0eea1fb3310df07f244188e1a16c073f4e890e96301c53d0b4204c1b3",
+    "1000-direct-before-3-warm-attempt1.log": "7a9e487214f9cf2350fd3da62626f603e418eea0ee5bc080333def59141ed766",
+    "1000-direct-after-3-cold-attempt1.json": "e8233eaa2b820f1ca76e21301bc987b1affbb9f7f2c110a576bfef1c6188609a",
+    "1000-direct-after-3-cold-attempt1.log": "ce228491880ef7710d17e6b8908e99afbdd6630d4e16363405c4e6dc36077c57",
+    "1000-direct-after-3-warm-attempt1.json": "20ce64f35e976c6e565756c37f1edf4b59b67e48038a5fbdf3f37d98a6e08399",
+    "1000-direct-after-3-warm-attempt1.log": "409b3f4f0961f0e1c7d25de45c32503f7a0551e4bc011a708036d635921099be",
+    "1000-sokol-before-3-cold-attempt1.json": "e21eac4cad27099c4e9d70e1ec846f5592ca4d0c20ddd4c7fb4b5787b8f2f35b",
+    "1000-sokol-before-3-cold-attempt1.log": "1e249bbf3be1a167fc93287a512f37203212a0957040a69d12011a108cc810ce",
+    "1000-sokol-before-3-warm-attempt1.json": "6235ce42b5e10075d6ee44cde1da7f98f28a8b7c0b2dccfcedc255ef76a6c69a",
+    "1000-sokol-before-3-warm-attempt1.log": "96bf8b2d93fbd24c1ae75eb5109253f9e15a1638dd31a2d3adb418dcfbab40a1",
+    "1000-sokol-after-3-cold-attempt1.json": "8075d92bc697ac0b116303c842846a933fffda67602b47d9cbe7e488bb94573c",
+    "1000-sokol-after-3-cold-attempt1.log": "a7a3e227c7dc2455e71e07ad395ed4546ada34d345f07a7420d7994827a29561",
+    "1000-sokol-after-3-warm-attempt1.json": "7c6b3c74858d036585ffcd9257b6f42fb21eafac70068ad364e02dc2bc682e22",
+    "1000-sokol-after-3-warm-attempt1.log": "2613758e18d202e6d04cb2e0239ae097f0d080148c4c8dc7cb973afcea437b75",
+    "15000-direct-before-1-cold-attempt1.json": "35a457ade05f3ec05a65984b08c97a1bcbec99e312d9fb416c416a7e8b070efb",
+    "15000-direct-before-1-cold-attempt1.log": "f5db61c177481c7757d639e406ece1aa5599648844a5c25f30138513339568ec",
+    "15000-direct-before-1-warm-attempt1.json": "83b210b811aa22c74b9a02f739122dfc6463e71710ae4d1d92e1c279b4f56b1f",
+    "15000-direct-before-1-warm-attempt1.log": "2807f76601a4462a100047fcae879a789d839c3939c33abe53e467cb17366e20",
+    "15000-direct-after-1-cold-attempt1.json": "2481a7dd89a9c31bc2a51564be97cc87224c13b4d30ac4ed27db1bfac13387f2",
+    "15000-direct-after-1-cold-attempt1.log": "7cea025199cc206076faed115423fd255f5c0c55634d509a30f014664be6a446",
+    "15000-direct-after-1-warm-attempt1.json": "b6cfc491ccdc43102b4c007f187a72f558397c7be94ec82b2054e251888635ef",
+    "15000-direct-after-1-warm-attempt1.log": "3ca4fabf155c7a6b48d18c7cf97cf5c4ac60913424cc1bc3646730f8d2bb9ce3",
+    "15000-sokol-before-1-cold-attempt1.json": "7463aca18a2b734b26a041e8c1bc750093e1d87490a640545a06201467957e5a",
+    "15000-sokol-before-1-cold-attempt1.log": "90750b49a985cc13ecb2d1f52b16087c176191e090068cc8fcf22c311791dc6d",
+    "15000-sokol-before-1-warm-attempt1.json": "2bfb9275bcfe2e1472f38abeebaad97583096b868fc8b0800b7af1b0cdf6dcb4",
+    "15000-sokol-before-1-warm-attempt1.log": "0708644d0304062b3ea07aaad20e1ff1212e0fb1d15401cd11dcbb8a84d9d1ed",
+    "15000-sokol-after-1-cold-attempt1.json": "3250170f42b41459b479a2deb00bb86ac768804aef8df984e515c8d8797522da",
+    "15000-sokol-after-1-cold-attempt1.log": "ef0ddf4c956cd55f52b2401bd37c02967936dbf74b506fb3e9e9f7d6791c1faf",
+    "15000-sokol-after-1-warm-attempt1.json": "f13c5c81a357aa44acb31b71f5b0deeaa2c423e084ec9d2fc58b085a0d5bfa40",
+    "15000-sokol-after-1-warm-attempt1.log": "791daef6eba5706eb6c4d27400d130f7bea73e424c722b777b664afc349e7d25",
+    "15000-direct-after-2-cold-attempt1.json": "71347a23a9c7dfef3dc5c38fb129cc56f070f4eb27882701033d6231ad0504e9",
+    "15000-direct-after-2-cold-attempt1.log": "bcfa30eb5fcd0dfeeb6c196d949a5591262144a467cc5c8521310afecd3dc283",
+    "15000-direct-after-2-warm-attempt1.json": "1055de87eeeaceb84fac88c4dbba973502078f469795fd615f907f68f6bc7110",
+    "15000-direct-after-2-warm-attempt1.log": "abe3296aaf05e9ecf0546da8bb894155f0b18d8161e40ba28c6249283e7219be",
+    "15000-direct-before-2-cold-attempt1.json": "e27957809d0605a60ef82e49b83da70b6ed47aedef3c3ffd04eaba8f28645e6c",
+    "15000-direct-before-2-cold-attempt1.log": "a4673c0391e4d16f3e189a6cfa8523f63d3a9b40e4465fb2f1b0c3e1d55392f0",
+    "15000-direct-before-2-warm-attempt1.json": "4968fbeca97307b35edff7b99d3f782137b99f265106d3d3b4b36f9e8c3a64d2",
+    "15000-direct-before-2-warm-attempt1.log": "ab89728d6a6a18dbe34ec0d66e4c488f3ea61b9f77960f53cee0137b27d5d98d",
+    "15000-sokol-after-2-cold-attempt1.json": "2ddc584ed438ab251cbfcd2493408225760174b8f5d0e1cc0e1f8374f0e24132",
+    "15000-sokol-after-2-cold-attempt1.log": "e4d3f9735d86eefa723d2ecab65634ff93a4870a58347de8afc17f129b3e8ecb",
+    "15000-sokol-after-2-warm-attempt1.json": "a4d93955ff45b1050fc81277cb898ea9237ba83f11f55bc420392ee7843accbb",
+    "15000-sokol-after-2-warm-attempt1.log": "e3a8a862ad8cf8b9315f4bd4db3ac1777caacf7e606f5ef9f1f091e253216d73",
+    "15000-sokol-before-2-cold-attempt1.json": "4c5a26aadac74df19ae0c9a52379f1cbe233d3159b7f2c115a2266a5f9cd4217",
+    "15000-sokol-before-2-cold-attempt1.log": "2e5ff460efd6edc5e3bcc2881f2aacd65e4d9d8e9fab8df89a82aeda27976421",
+    "15000-sokol-before-2-warm-attempt1.json": "e6ffa76e79742eb8016eb70cfd32c0c52a083158f65c856e3b053ba32eb8e0d1",
+    "15000-sokol-before-2-warm-attempt1.log": "e3e7408e6a9cc9471b001d1f08bcdd8de7930ac840f6e6adfdc7f43ee2d04d5c",
+    "15000-direct-before-3-cold-attempt1.json": "445016c88be1d6ede40ca8962f6287af8a26bbdac0e8ac2a6bf57649b22d0952",
+    "15000-direct-before-3-cold-attempt1.log": "3958795cf70c6accb218c610eec17baae8bd3f3d14b1434b42cc59f848ec91cc",
+    "15000-direct-before-3-warm-attempt1.json": "18b0f3b25e853c79d17e0ce0dcac668352bba64ec5d1796c4192758dfc09c556",
+    "15000-direct-before-3-warm-attempt1.log": "0d49a830c839ebf713ffb7c1b17e1855bd4a9dd6c43b31fc6f9a9f040f216c41",
+    "15000-direct-after-3-cold-attempt1.json": "e6e3f8cf26e3ba530d39c37fb369e8ad94670b92c84d92f7f0ce22090f2e7cb9",
+    "15000-direct-after-3-cold-attempt1.log": "ba7b6633a55d8cc9993ce036ce2fe2becdf4f6a00c8e43079796bfbb2ee9fc18",
+    "15000-direct-after-3-warm-attempt1.json": "0b6db93b5a8186b65b6ffe74bf9a23e5796804f5a86c61ea6adccd6fbfa3ccb3",
+    "15000-direct-after-3-warm-attempt1.log": "dc096694f8d6f1c735ab598cf58570a5eaea4ddcdab0356923cbd27aeea58a6e",
+    "15000-sokol-before-3-cold-attempt1.json": "2f780e0c1ceaeea5accc569eff96d961505710b0f435ebafe2fec14e9fe89f43",
+    "15000-sokol-before-3-cold-attempt1.log": "485a37601aac4d7ef48a4ee314ccf0c79812a091fbae0005f2af53141ef69c86",
+    "15000-sokol-before-3-warm-attempt1.json": "61de6969e802c564762494be721f61174998b85f2be969a39998a8fbf01bef83",
+    "15000-sokol-before-3-warm-attempt1.log": "053426b7daf25f49eb74dd842bba2fc058fbf97163efd906161685eb43fb4af2",
+    "15000-sokol-after-3-cold-attempt1.json": "a4dd7a70824868b5675d774c13b46918555a6e4c48ec0c15b7538e9d3107ed0a",
+    "15000-sokol-after-3-cold-attempt1.log": "b3e0a43ec580d587f7e4963fe5507e411c67aedd8e07e09a3521bca0ac76cf08",
+    "15000-sokol-after-3-warm-attempt1.json": "462b1f04199a9adf578d6e4b27ba55a7b1bca18275d476bf6572675278322245",
+    "15000-sokol-after-3-warm-attempt1.log": "fd44a491fef131a2422dc8f54cf66300666f8132566ee2d2a1ebf1da043342aa",
+    "100000-direct-before-1-cold-attempt1.json": "d4cd58210506f7ec3cb63cb25520e7b01d4e55d1471a9bc992432d5988e7c3ef",
+    "100000-direct-before-1-cold-attempt1.log": "ec53ea31d2a9546e328eba4d66d80f9d90f7806bb1b51c2db0c24d680854e697",
+    "100000-direct-before-1-warm-attempt1.json": "807084468cadbafa0068c77b7f746ebfa0be84993da61a0884c954c6daee81f5",
+    "100000-direct-before-1-warm-attempt1.log": "19ebeab994de2bfcd5e5cfb01b3c07a11217a7f740f57359fa76b583d1333e84",
+    "100000-direct-after-1-cold-attempt1.json": "d9aa1c01d4e7626aa531cf5650fcba0961f1f941fbcf2384046cb36ca622bfa7",
+    "100000-direct-after-1-cold-attempt1.log": "4e6e7e5471b6857b05ddf2477c20f3e1644bb0695363029c49d0fe5f5ae93b5b",
+    "100000-direct-after-1-warm-attempt1.json": "6ca95883d31b373849ac3df603a8d401cc672268836bc8e351cf9ddc10e39003",
+    "100000-direct-after-1-warm-attempt1.log": "75c2dd3ece45e7ac208c4ef2b954e648a6f27c638d6e158738c05d552bd81984",
+    "100000-sokol-before-1-cold-attempt1.json": "18b1c587df194ae2027dd0abd2b3e9fcc78171b62a81de761d3cbb7c7fde54e2",
+    "100000-sokol-before-1-cold-attempt1.log": "98248a39aeb0b6a02a2065c88282735359e7e7a0fb6cf2917d0e4f57f567f03f",
+    "100000-sokol-before-1-warm-attempt1.json": "d3ea73d9653b353c8f7a7f12519a13a56401ac99dab2e56482cf93fb9230cefb",
+    "100000-sokol-before-1-warm-attempt1.log": "4a29dd46595f2f7432bf487aa6b7635ff70eec033d59faaed843b6aec0e67cbe",
+    "100000-sokol-after-1-cold-attempt1.json": "511cb6a7cc5622f37e4da403ccb680f6d96f255c3cc18bf1d571d16ea2111a07",
+    "100000-sokol-after-1-cold-attempt1.log": "3c04957258f0fa90d47c3c33860a48b7168d0b34272cfecddf8ccd6fad6145f9",
+    "100000-sokol-after-1-warm-attempt1.json": "3c025675e32511ec370148aa755ef6360c6673cd025c471991f10c15d9d8222b",
+    "100000-sokol-after-1-warm-attempt1.log": "af25f7e4943e12605326f784d0e8c4966e0d3362f9ba8595278842373002e158",
+    "100000-direct-after-2-cold-attempt1.json": "b723f8a3193bfc5d831025133aee87728c4cf5c3049784d892d0eb20180fe768",
+    "100000-direct-after-2-cold-attempt1.log": "929539d26a1908e87e6edc360ec91e55a22e491a1bffa8b82d4e76f16bc5099d",
+    "100000-direct-after-2-warm-attempt1.json": "7b19cf0f4cdfda838b0f40eb365dea94768871998e0ddc8b99233d02e8f025fa",
+    "100000-direct-after-2-warm-attempt1.log": "fcd89305af0e66593959f280b16c6de4425c3906d57c5c4b7b0414a0c778fc57",
+    "100000-direct-before-2-cold-attempt1.json": "3d67bf3390b7b5a593adb12deb293820ce001f502c86774e3136f1847f7b9823",
+    "100000-direct-before-2-cold-attempt1.log": "4f47c718107d4b8c67740a9377d97fbcea1d7cb7bc8bb459dd09ff9ed081011d",
+    "100000-direct-before-2-warm-attempt1.json": "bed8744c0e52732a65e6bca9df48103cf98263933d89a9bcf8486046a4df80d5",
+    "100000-direct-before-2-warm-attempt1.log": "8e21f08c117a87dd413ac5abfb8240b6ca82e2ae0c03deef5852b8fd5e03e718",
+    "100000-sokol-after-2-cold-attempt1.json": "50b4164d7ac10ca0fe6b20119ab19c7abb6982578eb80259a4d46b1e10fbe534",
+    "100000-sokol-after-2-cold-attempt1.log": "fd63af12b24041f64d6e9f556be31d77ec85f861ba88477bfce412dcc890d2e5",
+    "100000-sokol-after-2-warm-attempt1.json": "b5b34c691d1ae306c9579c768569bc982cb81088e659a3d49a2e018d5c9181d0",
+    "100000-sokol-after-2-warm-attempt1.log": "3870261a5f6dbeb11ebf1fab96d18c8209a8aae31109d1ba5f29ad1abff2ccdf",
+    "100000-sokol-before-2-cold-attempt1.json": "423e6b31f22c8f2a294094e39c50c7f042fd72774fc263d76b06399dee562f95",
+    "100000-sokol-before-2-cold-attempt1.log": "4956cb5f1831f689ae81fe18a97677a0d25ad8e2af7509022b5ac6c376381c4d",
+    "100000-sokol-before-2-warm-attempt1.json": "674c9dc52fae2a4c72ca72a697534c433d9d1bf232534f5cb7bed645fead83d2",
+    "100000-sokol-before-2-warm-attempt1.log": "3e02b93e41c388d04ab04bd863f653ee99bb27655457ec5370e091c707f4cf30",
+    "100000-direct-before-3-cold-attempt1.json": "6edc37c95109bf3847e597a49fe7e31817da8ccefd9c94f15ceca0d58b6041f3",
+    "100000-direct-before-3-cold-attempt1.log": "430550c48452f184529c3f6035bc68d0fbb47d5f91d7f4ef9c46541a95b1a201",
+    "100000-direct-before-3-warm-attempt1.json": "5de98a15e57910797a665b346616c15a965fbff855ff0d9badb3a1754c9beae6",
+    "100000-direct-before-3-warm-attempt1.log": "92d6188941ea29887f62e1d05594a2f92520bfdad4b754aead40986cc269cd05",
+    "100000-direct-after-3-cold-attempt1.json": "844a7467b6e2d9be0d89df7256a596d23a7908c6f2ba3ce1c86ece7418e65f06",
+    "100000-direct-after-3-cold-attempt1.log": "fd3f6b6cf0f99dba60f20f3f4787f029fcf774e640236bddec80556664ebd6cb",
+    "100000-direct-after-3-warm-attempt1.json": "bac66bdbdbcbb1ca99062b1baa2653df5857b4d013c923339b938bedf0c5148b",
+    "100000-direct-after-3-warm-attempt1.log": "c2d7c3b7c4068fe8462e58c5e09d1fd63d66d89a2557c86ccdbf6dc4f9724274",
+    "100000-sokol-before-3-cold-attempt1.json": "bf2cd24591a6f649a1a5bf7a8d13dd681aaab3a665a76355df25f6d15314124c",
+    "100000-sokol-before-3-cold-attempt1.log": "e50fe3529b0824d21e7ad38719d7ce8907a892aa2425f806be037bf0497f7d38",
+    "100000-sokol-before-3-warm-attempt1.json": "42dcd1931c564fe4713c6a8cb64ec03bd179aa7942090da9ead6f63406f61869",
+    "100000-sokol-before-3-warm-attempt1.log": "9852cfba692fc6cacbd7ec7daf767312e43d9e2a2f3373256fef317d7e59c167",
+    "100000-sokol-after-3-cold-attempt1.json": "c51fecb8816d1596df77e5ceeb183b3d2cb5c9608a49e33160700b5dcc378d38",
+    "100000-sokol-after-3-cold-attempt1.log": "0c97f8073c71e1632348badea1162342b688198461727c54d0bbea300b447218",
+    "100000-sokol-after-3-warm-attempt1.json": "feb3e8f62847cdbe05b1d0958254a4f48d8044f1b0a40e7d6cd080351077986b",
+    "100000-sokol-after-3-warm-attempt1.log": "0f4bd1278bd4495998370ebefe2871a716cf2265a2e4b5b7bff5cb7295238fff",
+    "200000-direct-before-1-cold-attempt1.json": "4aeb8b9323a45aa71dac7ef6687dba52f9770c4333e3b3ab7cec462996c2d91a",
+    "200000-direct-before-1-cold-attempt1.log": "22d24fe81fa8a6fd8d44404b3cc005094f33454d13c9c4cbe31245becaa81ae7",
+    "200000-direct-before-1-warm-attempt1.json": "0875a792ecd79a03b746ed5386500804d7cd301da7d481f994917f2edc0f3016",
+    "200000-direct-before-1-warm-attempt1.log": "60abebc0976e68caae79caf9b4ce0f12ee6ffb08802699fd7847f3e308e871c1",
+    "200000-direct-after-1-cold-attempt1.json": "8dc24618ff9dc22fbe7c6b04b2fcf37ebcb08ee8256f0402ae581fbe1cea163e",
+    "200000-direct-after-1-cold-attempt1.log": "4dd347199aef229d142def275b80e8bb151c3f19003e68297dc478bdb44abeae",
+    "200000-direct-after-1-warm-attempt1.json": "72a1f52103a3bfe88500b9ff281f37f85dc04defb09474715f9540d0bf838a4b",
+    "200000-direct-after-1-warm-attempt1.log": "6e4ad4f5b228f2794bd72564333aa4fa80f0adbcfc2579cc2562786b154f7220",
+    "200000-sokol-before-1-cold-attempt1.json": "bdd8fb16ef09cd86eca9f60455c108c661151269225cd12ee2be013f6325579d",
+    "200000-sokol-before-1-cold-attempt1.log": "3288898d7b640bbfa63682c40e5243ef1dc14c824e926682b3ff466a19e4135f",
+    "200000-sokol-before-1-warm-attempt1.json": "87222f113d3fb02054144db7d1fa0c3c4fcecb1bf168135aa5f8bf4b5699ae0f",
+    "200000-sokol-before-1-warm-attempt1.log": "f84bfba537a8a6f98a54db1698a5d874459edfe246dbc42158201ddd4257ca7e",
+    "200000-sokol-after-1-cold-attempt1.json": "ba282b8351f37a77ec1f4b56b2f08d783a0558c0498a0e98f7b917a848ef1f80",
+    "200000-sokol-after-1-cold-attempt1.log": "ba39897d1aa70af25f087195093689fc666cd8948aa8a96f1cc31785334c43df",
+    "200000-sokol-after-1-warm-attempt1.json": "8bb9390e0ec7b43de66f09474c3c4d261124eb8aeed935b26ad374d7c8f21fd8",
+    "200000-sokol-after-1-warm-attempt1.log": "4111e899e508a0f494c15f098b6e2eba2a5938b8aaf8f1522a92f2c3c51fe77c",
+    "200000-direct-after-2-cold-attempt1.json": "984c03d2a376a1727c58183a159e6a5364763217408c579f69e2ed21e8e1c5e6",
+    "200000-direct-after-2-cold-attempt1.log": "3a1213a62160460cbc19fdbd51b4117e5af20d13135af9332275111e975d5f1a",
+    "200000-direct-after-2-warm-attempt1.json": "d8495ced085b6ffcdd3a405b1bd5fc0e3542b60f292b7f882f401b28904b77df",
+    "200000-direct-after-2-warm-attempt1.log": "953b0bd7d5dc19f53c18795d31be8c221676481a889f75d903087725cdf0e020",
+    "200000-direct-before-2-cold-attempt1.json": "753106105cbf82729ea4b9c3618355c8ee97d7c944f25a9952e9837b38232ffa",
+    "200000-direct-before-2-cold-attempt1.log": "71aaa698eaefbabf9787c3d14eb43f57e209692f635df788c6f14e9769a62d4e",
+    "200000-direct-before-2-warm-attempt1.json": "31c1f1ddd010d59b46dd59b55a28ebd158db49ac803c20af590fb9cd8f145a53",
+    "200000-direct-before-2-warm-attempt1.log": "297315e99cb23fbeb4f36b9affa39a918dad8319c216a72daf9f7baecc18e08a",
+    "200000-sokol-after-2-cold-attempt1.json": "3f70bb54ff8543107974df98d84ff2bd5f38d8b6da80f51383dc34d64beef303",
+    "200000-sokol-after-2-cold-attempt1.log": "b0c70637a961fb288e84363310bcba231829784188b4d93b1ac6ee616d5395f3",
+    "200000-sokol-after-2-warm-attempt1.json": "4b7acf73c3cc3c3b181e9bb180fc463f31e727807389d7ac7128f32719ef20ca",
+    "200000-sokol-after-2-warm-attempt1.log": "ac675393c700939f658a0f069c85760d468777823c61daba567ebd2c9c60be7e",
+    "200000-sokol-before-2-cold-attempt1.json": "23b4b1984bc119857faf4544f54f83992ce7bf6a7bb60922ec0a7f32ad102dc5",
+    "200000-sokol-before-2-cold-attempt1.log": "b588e0da8f36d32a0a845fe1c99f8f266cc930a923b4ccc372475d0d0e36996d",
+    "200000-sokol-before-2-warm-attempt1.json": "ced7db690614fb76f9b6cdbe9255786bc2c8872dfda804030746e3bd77fa8a93",
+    "200000-sokol-before-2-warm-attempt1.log": "d8670376fc127849c4b3635fc4214bafe63ee2f81346d84d20acd36cb3e94efa",
+    "200000-direct-before-3-cold-attempt1.json": "8fb35436f6c2522acc0264e97cf97b5badc7f3fb36a061471b18ad3c0fd8bcd6",
+    "200000-direct-before-3-cold-attempt1.log": "e44b8acefb15ba981780d7db39d9a2d0fe63b80ccf911547213cbbcbadf4f0ca",
+    "200000-direct-before-3-warm-attempt1.json": "f0cfc8f85b45bd8398a5f928379966a2c982cb4b58a1e106fded6d89011912a3",
+    "200000-direct-before-3-warm-attempt1.log": "ba53a67d0ec35583fd16642969c1fb21e53d6c5445b1d65ceeefc28647bc1e8e",
+    "200000-direct-after-3-cold-attempt1.json": "d9f2e7b0e49b2dcf5d23f5c562ff41cc3d07ba507b1cf2df3dc1d286d854681c",
+    "200000-direct-after-3-cold-attempt1.log": "0d7baa3cf69553962a2b84f0391f190e45f74696508fa612ab2a839f8b9b5326",
+    "200000-direct-after-3-warm-attempt1.json": "f17f2969f9355e30d63c3ca0d9f0d85a8f35ded3ffd07aa9d4be109cfeaa9ba1",
+    "200000-direct-after-3-warm-attempt1.log": "829b738d13de3794f18492e020b0a919277778880ea6083e5875f6d8405961a3",
+    "200000-sokol-before-3-cold-attempt1.json": "1c33198fe02ccd876a1d272bed98d823c1e6d5825644d567a4f8f7c06fb1bc3d",
+    "200000-sokol-before-3-cold-attempt1.log": "18732d32a6b1af90b5269d1b173885c1531ffc8262bda5d93e302a22a8a73ba5",
+    "200000-sokol-before-3-warm-attempt1.json": "4ef6c1026653146f3230dc6af5308c1a183a714d6c8a0cbafe19e8cc412db7be",
+    "200000-sokol-before-3-warm-attempt1.log": "f26fa6f2974a4aec288720f4f2711ab00139e3be038ba75ec32eed7c18e89752",
+    "200000-sokol-after-3-cold-attempt1.json": "3d292dc4a137d095c48128d039af38b4502bae83b675565c33d2fdcd897e3871",
+    "200000-sokol-after-3-cold-attempt1.log": "20d1714fd83f9367eeff57a073041c85c1634669afc4214f6ffb216123caaccf",
+    "200000-sokol-after-3-warm-attempt1.json": "a82e6f64f68b5d6b4a0d29edb8d2ae664c3e56f2fdffe9b5cb017187c0717927",
+    "200000-sokol-after-3-warm-attempt1.log": "8f850384b08505ba626507bfe3d5de01ae751a8ff5dc7aabf84997083e926e9a"
+  },
+  "annotations": {
+    "trial": "1000-direct-before-3-cold",
+    "reason": "Scheduler SIGSTOP between benchmark launches while recording an isolated loading-screen MP4 at user request; benchmark child had exited before capture began. Scheduler resumed after capture.",
+    "affected_fields": [
+      "process_wall_s",
+      "after hardware snapshot"
+    ],
+    "unaffected": "Internal phase timings; do not interpret this trial process wall duration as startup latency."
+  },
+  "excluded_attempts": []
+}

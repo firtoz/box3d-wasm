@@ -9,5 +9,6 @@ void gpu_loading_create_scene(std::function<b3WorldId()> create);
 void gpu_loading_presented();
 void gpu_loading_begin_startup();
 void gpu_loading_lock_mouse(bool lock);
+bool gpu_loading_on_scene_worker();
 void gpu_loading_request_close();
 bool gpu_loading_close_pending();

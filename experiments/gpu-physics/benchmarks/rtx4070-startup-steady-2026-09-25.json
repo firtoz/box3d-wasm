@@ -1,0 +1,847 @@
+{
+  "comparison": {
+    "manifest": {
+      "counts": [
+        1000,
+        100000
+      ],
+      "modes": [
+        "physics-gpu",
+        "direct-gpu",
+        "sokol-gpu"
+      ],
+      "trials": 3,
+      "warmup": 90,
+      "timed": 240,
+      "workers": 8,
+      "solver": "global",
+      "binaries": {
+        "before": {
+          "direct": {
+            "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/startup-optimization/baseline-direct",
+            "sha256": "576f09b2427c6f72e0ae42741f4510f6296fd66317ca0560a2e4fe52deeb028d"
+          },
+          "sokol": {
+            "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/startup-optimization/baseline-sokol",
+            "sha256": "41702638c86205b3cb72c37ab4de68372b2f5ba72107d0d6ac7b4ed02748c7fa"
+          }
+        },
+        "after": {
+          "direct": {
+            "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/startup-optimization/candidate-direct",
+            "sha256": "77ed5d0fd3e3a48808b62ad710aba47f578dae6f253b0d77ba754d9beaf6810a"
+          },
+          "sokol": {
+            "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/startup-optimization/candidate-sokol-final",
+            "sha256": "abd1e87fa1278229b529f1cf1be404344caa73513ff42656ed218ac4e8c7b226"
+          }
+        }
+      },
+      "sokol_settings": "{\n  \"sampleIndex\": 73,\n  \"drawShapes\": true,\n  \"enableShadows\": true,\n  \"enableGtao\": true,\n  \"gtaoQuality\": 1,\n  \"enableIbl\": true,\n  \"exposure\": -2.5,\n  \"sunStrength\": 0.8,\n  \"shadowSplitLambda\": 0.5,\n  \"debugView\": 0,\n  \"drawDistance\": 1000,\n  \"showHullEdges\": true,\n  \"showEdgeConvexity\": false,\n  \"replayKeyframeBudgetMB\": 512,\n  \"replayKeyframeMinInterval\": 16\n}\n",
+      "load_gate": false,
+      "scope": "Steady-state regression at small and large scenes; 200k startup is qualified separately. Per-mode before/after framebuffers must match."
+    },
+    "groups": [
+      {
+        "count": 1000,
+        "mode": "physics-gpu",
+        "results": {
+          "before": {
+            "mean_ms": {
+              "median": 4.741782083333334,
+              "minimum": 4.615892916666667,
+              "maximum": 4.76484875,
+              "trials": [
+                4.76484875,
+                4.741782083333334,
+                4.615892916666667
+              ]
+            },
+            "p50_ms": {
+              "median": 4.6877,
+              "minimum": 4.6559,
+              "maximum": 4.7281,
+              "trials": [
+                4.7281,
+                4.6877,
+                4.6559
+              ]
+            },
+            "p95_ms": {
+              "median": 5.6819,
+              "minimum": 4.9832,
+              "maximum": 5.9278,
+              "trials": [
+                5.9278,
+                5.6819,
+                4.9832
+              ]
+            }
+          },
+          "after": {
+            "mean_ms": {
+              "median": 4.97809625,
+              "minimum": 4.8561625,
+              "maximum": 5.016883333333333,
+              "trials": [
+                4.8561625,
+                4.97809625,
+                5.016883333333333
+              ]
+            },
+            "p50_ms": {
+              "median": 4.9701,
+              "minimum": 4.7493,
+              "maximum": 4.9898,
+              "trials": [
+                4.7493,
+                4.9701,
+                4.9898
+              ]
+            },
+            "p95_ms": {
+              "median": 5.9078,
+              "minimum": 5.7778,
+              "maximum": 5.9957,
+              "trials": [
+                5.9957,
+                5.7778,
+                5.9078
+              ]
+            }
+          }
+        },
+        "mean_change_percent": 4.983657251928042
+      },
+      {
+        "count": 1000,
+        "mode": "direct-gpu",
+        "results": {
+          "before": {
+            "mean_ms": {
+              "median": 5.185489825904369,
+              "minimum": 4.742300763726234,
+              "maximum": 5.559841824571292,
+              "trials": [
+                5.185489825904369,
+                4.742300763726234,
+                5.559841824571292
+              ]
+            },
+            "p50_ms": {
+              "median": 4.801726,
+              "minimum": 3.4371688,
+              "maximum": 6.17593,
+              "trials": [
+                4.801726,
+                3.4371688,
+                6.17593
+              ]
+            },
+            "p95_ms": {
+              "median": 11.358841,
+              "minimum": 10.753477,
+              "maximum": 12.316296,
+              "trials": [
+                10.753477,
+                12.316296,
+                11.358841
+              ]
+            }
+          },
+          "after": {
+            "mean_ms": {
+              "median": 4.626317345847686,
+              "minimum": 4.5404211928447085,
+              "maximum": 4.724598006159067,
+              "trials": [
+                4.5404211928447085,
+                4.724598006159067,
+                4.626317345847686
+              ]
+            },
+            "p50_ms": {
+              "median": 3.386825,
+              "minimum": 3.3074162,
+              "maximum": 3.393439,
+              "trials": [
+                3.393439,
+                3.3074162,
+                3.386825
+              ]
+            },
+            "p95_ms": {
+              "median": 10.913486,
+              "minimum": 10.601883,
+              "maximum": 12.857478,
+              "trials": [
+                10.913486,
+                12.857478,
+                10.601883
+              ]
+            }
+          }
+        },
+        "mean_change_percent": -10.783407138575607
+      },
+      {
+        "count": 1000,
+        "mode": "sokol-gpu",
+        "results": {
+          "before": {
+            "mean_ms": {
+              "median": 6.4878775,
+              "minimum": 6.407329166666667,
+              "maximum": 7.006730833333333,
+              "trials": [
+                7.006730833333333,
+                6.4878775,
+                6.407329166666667
+              ]
+            },
+            "p50_ms": {
+              "median": 6.2888,
+              "minimum": 6.2849,
+              "maximum": 6.683,
+              "trials": [
+                6.683,
+                6.2888,
+                6.2849
+              ]
+            },
+            "p95_ms": {
+              "median": 7.6012,
+              "minimum": 7.1579,
+              "maximum": 7.8741,
+              "trials": [
+                7.8741,
+                7.6012,
+                7.1579
+              ]
+            }
+          },
+          "after": {
+            "mean_ms": {
+              "median": 6.5511025,
+              "minimum": 6.366174583333334,
+              "maximum": 6.807418333333334,
+              "trials": [
+                6.5511025,
+                6.366174583333334,
+                6.807418333333334
+              ]
+            },
+            "p50_ms": {
+              "median": 6.2605,
+              "minimum": 6.2307,
+              "maximum": 6.3479,
+              "trials": [
+                6.2605,
+                6.2307,
+                6.3479
+              ]
+            },
+            "p95_ms": {
+              "median": 7.1112,
+              "minimum": 7.0608,
+              "maximum": 7.5747,
+              "trials": [
+                7.0608,
+                7.1112,
+                7.5747
+              ]
+            }
+          }
+        },
+        "mean_change_percent": 0.9745097684104032
+      },
+      {
+        "count": 100000,
+        "mode": "physics-gpu",
+        "results": {
+          "before": {
+            "mean_ms": {
+              "median": 46.03033791666667,
+              "minimum": 45.30482416666667,
+              "maximum": 46.40444875,
+              "trials": [
+                46.03033791666667,
+                46.40444875,
+                45.30482416666667
+              ]
+            },
+            "p50_ms": {
+              "median": 42.9335,
+              "minimum": 41.7854,
+              "maximum": 43.4884,
+              "trials": [
+                42.9335,
+                43.4884,
+                41.7854
+              ]
+            },
+            "p95_ms": {
+              "median": 60.099,
+              "minimum": 57.3038,
+              "maximum": 60.3034,
+              "trials": [
+                60.3034,
+                60.099,
+                57.3038
+              ]
+            }
+          },
+          "after": {
+            "mean_ms": {
+              "median": 46.26147208333333,
+              "minimum": 45.835430833333334,
+              "maximum": 46.44658625,
+              "trials": [
+                46.44658625,
+                45.835430833333334,
+                46.26147208333333
+              ]
+            },
+            "p50_ms": {
+              "median": 43.3391,
+              "minimum": 42.862,
+              "maximum": 43.4509,
+              "trials": [
+                43.3391,
+                42.862,
+                43.4509
+              ]
+            },
+            "p95_ms": {
+              "median": 59.3981,
+              "minimum": 59.2549,
+              "maximum": 60.9895,
+              "trials": [
+                59.3981,
+                60.9895,
+                59.2549
+              ]
+            }
+          }
+        },
+        "mean_change_percent": 0.5021344120590854
+      },
+      {
+        "count": 100000,
+        "mode": "direct-gpu",
+        "results": {
+          "before": {
+            "mean_ms": {
+              "median": 45.6740557829539,
+              "minimum": 45.67377675374349,
+              "maximum": 45.72296787897746,
+              "trials": [
+                45.6740557829539,
+                45.67377675374349,
+                45.72296787897746
+              ]
+            },
+            "p50_ms": {
+              "median": 42.13897,
+              "minimum": 42.132988,
+              "maximum": 42.67469,
+              "trials": [
+                42.13897,
+                42.132988,
+                42.67469
+              ]
+            },
+            "p95_ms": {
+              "median": 59.044857,
+              "minimum": 58.883617,
+              "maximum": 61.425934,
+              "trials": [
+                61.425934,
+                58.883617,
+                59.044857
+              ]
+            }
+          },
+          "after": {
+            "mean_ms": {
+              "median": 45.613073619206745,
+              "minimum": 45.46744409402211,
+              "maximum": 45.68232016563415,
+              "trials": [
+                45.46744409402211,
+                45.613073619206745,
+                45.68232016563415
+              ]
+            },
+            "p50_ms": {
+              "median": 42.296154,
+              "minimum": 42.25168,
+              "maximum": 42.546024,
+              "trials": [
+                42.25168,
+                42.296154,
+                42.546024
+              ]
+            },
+            "p95_ms": {
+              "median": 59.69534,
+              "minimum": 58.323273,
+              "maximum": 61.033634,
+              "trials": [
+                58.323273,
+                61.033634,
+                59.69534
+              ]
+            }
+          }
+        },
+        "mean_change_percent": -0.13351598123220176
+      },
+      {
+        "count": 100000,
+        "mode": "sokol-gpu",
+        "results": {
+          "before": {
+            "mean_ms": {
+              "median": 74.06869291666666,
+              "minimum": 74.01578083333334,
+              "maximum": 74.56733125,
+              "trials": [
+                74.06869291666666,
+                74.56733125,
+                74.01578083333334
+              ]
+            },
+            "p50_ms": {
+              "median": 73.0996,
+              "minimum": 70.7601,
+              "maximum": 73.2869,
+              "trials": [
+                73.2869,
+                70.7601,
+                73.0996
+              ]
+            },
+            "p95_ms": {
+              "median": 92.4079,
+              "minimum": 90.8819,
+              "maximum": 93.3246,
+              "trials": [
+                90.8819,
+                93.3246,
+                92.4079
+              ]
+            }
+          },
+          "after": {
+            "mean_ms": {
+              "median": 72.55632333333334,
+              "minimum": 72.19256625,
+              "maximum": 73.62189833333333,
+              "trials": [
+                73.62189833333333,
+                72.19256625,
+                72.55632333333334
+              ]
+            },
+            "p50_ms": {
+              "median": 69.5385,
+              "minimum": 68.779,
+              "maximum": 71.261,
+              "trials": [
+                71.261,
+                68.779,
+                69.5385
+              ]
+            },
+            "p95_ms": {
+              "median": 88.3979,
+              "minimum": 87.4308,
+              "maximum": 92.0545,
+              "trials": [
+                92.0545,
+                88.3979,
+                87.4308
+              ]
+            }
+          }
+        },
+        "mean_change_percent": -2.04184726877098
+      }
+    ],
+    "raw_sha256": {
+      "1000-physics-gpu-1-before/manifest.json": "772f177ee9f174a6893e5638f3e57ebc88189adbabe20097675e3d91a2581037",
+      "1000-physics-gpu-1-before/1000-physics-gpu-1.log": "56a9d61fa6b48fdb220e65c26a3b611ee3fcadd1e5e8dad490b2e938f3ab4547",
+      "1000-physics-gpu-1-before/1000-physics-gpu-1.json": "f669a8f5ecd0c2dbef68fdff46f00be5264b6b0bc63f8593c01e6b36b63cd59a",
+      "1000-physics-gpu-1-before/trials.json": "20794cc3711ca0460bc08cff442c4ecc4310c47825910c702d5456eec4993ebc",
+      "1000-physics-gpu-1-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-physics-gpu-1-after/manifest.json": "3da9faef4e3c846f3a72a20b6d3f90e589a6700605572355d44b3a033c3b8dbb",
+      "1000-physics-gpu-1-after/1000-physics-gpu-1.log": "8cf7625ee90f431a9d09a5905006eac87b1a48756fb9cb2dbdcca3ba5f4f514b",
+      "1000-physics-gpu-1-after/1000-physics-gpu-1.json": "0de240fe53b0565a85a6b6687d33b645bdc700d47ea8104aa3b417d130945963",
+      "1000-physics-gpu-1-after/trials.json": "4ecaea178f9b8b4322c821fca8bb4b846c85f7c160e88795f5634a8a93757df5",
+      "1000-physics-gpu-1-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-direct-gpu-1-before/manifest.json": "4f944019eb69e0d911a92af978893109ff7fd5c216754a57d7fb5363eef5b0ec",
+      "1000-direct-gpu-1-before/1000-direct-gpu-1.log": "76ef29adf7a00ec729bcb91384c0d80b51f77ab9eb108ed1f7f707c4fef9da86",
+      "1000-direct-gpu-1-before/1000-direct-gpu-1.cadence.json": "3f638a7850d01b4f90261d8436e929bcad6bfcc53f8ce3b21858aef16af3c0b9",
+      "1000-direct-gpu-1-before/1000-direct-gpu-1.json": "405abe5957ff3f6bac450be6a63bd0e1747ee60731c3e09a25492a30cd300e4d",
+      "1000-direct-gpu-1-before/trials.json": "7ad9778830a66374d11628657576732c1974e29c8e5d5b11add4f9cecf78432e",
+      "1000-direct-gpu-1-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-direct-gpu-1-after/manifest.json": "d233612ecc4ca743ec8ee3fcaee29e62d9ca5e9af623cb8aa5c3814510c254b0",
+      "1000-direct-gpu-1-after/1000-direct-gpu-1.log": "240b8f61dc9a052add925391aec2961160bdb3f2dca25eeec87846359b12ca69",
+      "1000-direct-gpu-1-after/1000-direct-gpu-1.cadence.json": "a57061e6725543345fd946b29a6829e03b60eba2269012a4d419a156149af433",
+      "1000-direct-gpu-1-after/1000-direct-gpu-1.json": "02d49ecb1348ea87015ad17e35eff6509d4b6d8f26bebbc30b44d721e09e19b5",
+      "1000-direct-gpu-1-after/trials.json": "6b44b87512f8ce95cfa1edcc4eb8515d7cd346d186110fe95379a77c8b767cda",
+      "1000-direct-gpu-1-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-sokol-gpu-1-before/manifest.json": "6ecb676de0e42c9447450d92ddeb8184b30ee5f482d32994f03eb5cbbb0c1e66",
+      "1000-sokol-gpu-1-before/1000-sokol-gpu-1.log": "b92ce7182d02e692cc97047923316e5820134da171e36315a47217f4ee82dd9c",
+      "1000-sokol-gpu-1-before/1000-sokol-gpu-1.json": "3f4bdf11d149a47773b12f0ed956939798f44bcce2d3bebc0316bb007dc1d96e",
+      "1000-sokol-gpu-1-before/trials.json": "c7c6e16da10f637c6eae24af3a03154a15dfa9975a1b8fe3271e5fc53fb71058",
+      "1000-sokol-gpu-1-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-sokol-gpu-1-after/manifest.json": "d699f5df335a1132732cfb1e81b39ef909392ecf402710b737bb1d4f1010c7b6",
+      "1000-sokol-gpu-1-after/1000-sokol-gpu-1.log": "ea6faeb1f410b28e023b41751b017e2d35d514e6b46fccf3ae323ebf8361a757",
+      "1000-sokol-gpu-1-after/1000-sokol-gpu-1.json": "2e8ec0c823fa8c0061e276276c28d29f164dbf9652799eef554d2dacf3502e85",
+      "1000-sokol-gpu-1-after/trials.json": "e9f1921cfcae3d0b92de8ce09b7661698200d6e20798a22f63c2ce4a25dae285",
+      "1000-sokol-gpu-1-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-physics-gpu-2-after/manifest.json": "92fccb5f8af73eaf4c96950a5bc1ecb64a4ee1366034b9173d48c4831f89c45c",
+      "1000-physics-gpu-2-after/1000-physics-gpu-1.log": "2be159e5a70db8a7a09bdc6b19fea103e130724c3e8842468ce7f591fe6c88a1",
+      "1000-physics-gpu-2-after/1000-physics-gpu-1.json": "43369a419d4f44cc9512b1819be4b87d6ae252c0435f168faeb400a6308f1444",
+      "1000-physics-gpu-2-after/trials.json": "07d58248793581340dcde7111f6f002004f3d71c7f308ce1e0e710c727f6d0a0",
+      "1000-physics-gpu-2-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-physics-gpu-2-before/manifest.json": "823ef1f511c5dad014a7d7ea1b8f5d11ebf5f4723fc1d51efa83743eecad1e61",
+      "1000-physics-gpu-2-before/1000-physics-gpu-1.log": "4840a8aab076405c9b6a4c77d2113fae87eb69ff1ba68b1099f37f0fff6ffd6b",
+      "1000-physics-gpu-2-before/1000-physics-gpu-1.json": "ff97c8f686e2804154a0d646bca60c82d2bde185d806c22ca619a3147dc23067",
+      "1000-physics-gpu-2-before/trials.json": "5676b0e85d14ce8fe306b48b2fb476c9cc709e59c94871ae31d139cb6ad0e61c",
+      "1000-physics-gpu-2-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-direct-gpu-2-after/manifest.json": "9cce79e9a1687113efa50204da53e06d7e50ab81a23f3db8ba1b04026e899a99",
+      "1000-direct-gpu-2-after/1000-direct-gpu-1.log": "7d02de0f292167f7c85cd8278cb7b7424f30c1d07f19df17f1589627dfe893f4",
+      "1000-direct-gpu-2-after/1000-direct-gpu-1.cadence.json": "d0addc32c87cba8ab2b33d386203cb8743b189a2e5fcda977241c618014386c4",
+      "1000-direct-gpu-2-after/1000-direct-gpu-1.json": "f9f0c465bd734025171f323a76ff17feab618398bfc669ee04f164e0e9c86c84",
+      "1000-direct-gpu-2-after/trials.json": "97f69f8684047bfb1b7736b2cb5be84b7b8b767cf96872d9c74d4e486bc386cf",
+      "1000-direct-gpu-2-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-direct-gpu-2-before/manifest.json": "93271c24eb65fc88e3261ac91e491eb25e7272bf6e96c016be165f19781903c5",
+      "1000-direct-gpu-2-before/1000-direct-gpu-1.log": "d8ec8c1275a823f57a9b433622962d98cb0f46b3070f798afcac75e8ed9c399a",
+      "1000-direct-gpu-2-before/1000-direct-gpu-1.cadence.json": "bc88d3ec8e617a326a5bfec0444c8fee1d5c7951143d3fa69c52d44c63c668ba",
+      "1000-direct-gpu-2-before/1000-direct-gpu-1.json": "dd2a0e42e2a743a84a8a6e795b13af50105f9dc8045359bc4c90f00fa40dc0b6",
+      "1000-direct-gpu-2-before/trials.json": "f8b778d6e886e2824f3db0b09dea9edba5217fa0cc31eeae90c723b97bd9f309",
+      "1000-direct-gpu-2-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-sokol-gpu-2-after/manifest.json": "c17d7853af3de52186b200cced44a660ff21c7b2c1e66f919863edef23411e38",
+      "1000-sokol-gpu-2-after/1000-sokol-gpu-1.log": "29787f36174aab9bfb438f7b7ee44d7866d000fa8baebf12e3ce572da7b88929",
+      "1000-sokol-gpu-2-after/1000-sokol-gpu-1.json": "3a597d916582be9293fc4288dfc8b37d205c1e9ffad4c9f648b1c932d36822ea",
+      "1000-sokol-gpu-2-after/trials.json": "593cfc7e3d50c2ac9edcc5a2edcea12ab9535c42eb90ef5b59582974ac394c63",
+      "1000-sokol-gpu-2-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-sokol-gpu-2-before/manifest.json": "97a7f26825ca6ebc0a3f75a9e7b719a2927ee9a073a64c6b72d2f47b50c92300",
+      "1000-sokol-gpu-2-before/1000-sokol-gpu-1.log": "ad6164b232b6f9ce4ab0f1aa9c31aadf71afeebcdada61fe0ef99557817815a1",
+      "1000-sokol-gpu-2-before/1000-sokol-gpu-1.json": "0c4b054369fec8f54921f17b58a52a1ef6043071fbad2438d6c6d4431ebd5123",
+      "1000-sokol-gpu-2-before/trials.json": "b0a21136aa6884c845237f41a445d26b5ae406971044e95427bf8cd817fc3545",
+      "1000-sokol-gpu-2-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-physics-gpu-3-before/manifest.json": "49dbbedd2162efff71f0e10b1f7bbf8aa211ff1949e48eb7861efc3c862d2657",
+      "1000-physics-gpu-3-before/1000-physics-gpu-1.log": "5544feb5f7192910d482e7e4a47073684b6e9f124d35aac44dacca8dabcb9def",
+      "1000-physics-gpu-3-before/1000-physics-gpu-1.json": "7889e42230cc5e0ff8ff50e40412fac6f3f9123fecfb5c771b3c07e8e2f056a6",
+      "1000-physics-gpu-3-before/trials.json": "aa77a7ec97287c8e71ec00b29bae8bf6e214f4061ee727a659db03531ceed877",
+      "1000-physics-gpu-3-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-physics-gpu-3-after/manifest.json": "7a22b4293e53a76cb376a1ac8161048a34882211fdd5af86688090064e616992",
+      "1000-physics-gpu-3-after/1000-physics-gpu-1.log": "df02a1788f0d9383b3762f9ed683305b9e27184f888eb7562730ee9cc2dcd8b9",
+      "1000-physics-gpu-3-after/1000-physics-gpu-1.json": "300cdf90981e26524f7be0763387d0f27353b88ba17f5208587f889919f83aeb",
+      "1000-physics-gpu-3-after/trials.json": "3ab6e6d31517633fc0073067e074217ca92c9332057cf9f2b8b21f62ed01ebbf",
+      "1000-physics-gpu-3-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-direct-gpu-3-before/manifest.json": "c036c022f853c10a4ea2e97cbe7bd9958a5f4cbd075ba467cb074b5ca2ece1d4",
+      "1000-direct-gpu-3-before/1000-direct-gpu-1.log": "f4f0878acb75af97dd412954127eb4d7f9c5a36da33bc7dd387a91b2bf4a749e",
+      "1000-direct-gpu-3-before/1000-direct-gpu-1.cadence.json": "2259023fe3d07f806d3a699cc34afa00b0b241028af5356123e6fd9994ba53d5",
+      "1000-direct-gpu-3-before/1000-direct-gpu-1.json": "c722030c14a6454c4c1f90fe0837668d6e544a11d9739f17992dd238da374215",
+      "1000-direct-gpu-3-before/trials.json": "020d4b591131e1e808d0714c025cf76e3c54f8ed554b8077dc59222f8107645c",
+      "1000-direct-gpu-3-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-direct-gpu-3-after/manifest.json": "e40e58e0a842d5e4f294e5f793bdb39bc0ee3dc7668a482f36e9d8046f531375",
+      "1000-direct-gpu-3-after/1000-direct-gpu-1.log": "313cc2186c454422d8a7d086fb4d611b6885241ca5cbc101a630fa237f4605dc",
+      "1000-direct-gpu-3-after/1000-direct-gpu-1.cadence.json": "d513945c63ece6af6d37b78dbca3c82048910d347bb7cd04bc49b1181b945a4d",
+      "1000-direct-gpu-3-after/1000-direct-gpu-1.json": "3de4abe52e9a5ba6cc37ae4d3465ebb50a2c773ec4eb22d14b68b24d1b9a653a",
+      "1000-direct-gpu-3-after/trials.json": "ad914956482c70cde59672ee40bdffaef6d7b03bbb3e343f3398303c365495a4",
+      "1000-direct-gpu-3-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-sokol-gpu-3-before/manifest.json": "4a8bcdb395d9b9704ba71af57d045bddeca055e2e6a4b71bcff585c5d07168f9",
+      "1000-sokol-gpu-3-before/1000-sokol-gpu-1.log": "ea0ebac776a636e15f06781d81717c1fb6cf83d65b6917480c503694523ae464",
+      "1000-sokol-gpu-3-before/1000-sokol-gpu-1.json": "4173edd8b6cee0eff8a3092099506580e72d4f931f90011a11a3b22fe2d74274",
+      "1000-sokol-gpu-3-before/trials.json": "698841fafe0e34ec783e88e4f2c9cc34af37cfdfd1955f4507a42596995157a8",
+      "1000-sokol-gpu-3-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-sokol-gpu-3-after/manifest.json": "508cf8cd79b6b1ac074737f59b14570e50f926991649d8010b0322b4e68e787e",
+      "1000-sokol-gpu-3-after/1000-sokol-gpu-1.log": "972e328309c81d397c6cac7febda70929ae4312c6c3d7fd1ea3930e24e4d3222",
+      "1000-sokol-gpu-3-after/1000-sokol-gpu-1.json": "6ae35785b9ca09aabc7e198aaa8389ca33b09a529719eea2427c94acb67ebf1d",
+      "1000-sokol-gpu-3-after/trials.json": "baba89d683ddafffe165249519db2bf6c9f7c5c371adc0b24d2284d776251e9e",
+      "1000-sokol-gpu-3-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-physics-gpu-1-before/manifest.json": "3b9a2fab4f4cd64b8cb53c14994011d1edaabf8bd93091017fd30e0c36735697",
+      "100000-physics-gpu-1-before/100000-physics-gpu-1.log": "b6a85bbb36dc37ac2e11a2b5ac8cf6a86c725f674da76f80e40cf1f436172a22",
+      "100000-physics-gpu-1-before/100000-physics-gpu-1.json": "c178e8d6070cf26e4b97c820c7440af3a67ba6284cc5d1941d6b9e2dde870233",
+      "100000-physics-gpu-1-before/trials.json": "dad7eedba6e624e7cbc59a1b934bb5545eaf58c7a626d68cfa4217b81bb7f2cb",
+      "100000-physics-gpu-1-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-physics-gpu-1-after/manifest.json": "9203770d3ae8ec85c2af154e419e4011663882105bfeae3368e55a4ae2b20264",
+      "100000-physics-gpu-1-after/100000-physics-gpu-1.log": "3baa4102c00490afeae4a8fefc21f510522c9795a09e27012d6f02022903970e",
+      "100000-physics-gpu-1-after/100000-physics-gpu-1.json": "5e12f41e8fa77678584c0a3df6899b82a3ae43c3407670fd6c188c59519ce1bc",
+      "100000-physics-gpu-1-after/trials.json": "e2bf8375d838d4a7d7242e923ae811c7223484e23e09663458f60697e23c62b9",
+      "100000-physics-gpu-1-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-direct-gpu-1-before/manifest.json": "a3a690f2e292cec33871a3d0313985ce20d98d5e60ca04e7ff921c09131c2245",
+      "100000-direct-gpu-1-before/100000-direct-gpu-1.log": "2eddaff203697a32236232a2b0d5805df0035810d89a2a1be08a8ccd428fe950",
+      "100000-direct-gpu-1-before/100000-direct-gpu-1.cadence.json": "55e4e8e5fb252b1b94f53e2b83ee0b4b04f5ee27a2529896c528fe8fba467bba",
+      "100000-direct-gpu-1-before/100000-direct-gpu-1.json": "01431dfc09e478bfc538f6ed646397de7188a244e5d00dfe8748ef1c8c7166d6",
+      "100000-direct-gpu-1-before/trials.json": "c8e1d43ba6cc254d5641aae87ecc5964d3ea2621b3c11b108061476bedc271b9",
+      "100000-direct-gpu-1-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-direct-gpu-1-after/manifest.json": "f2e0863f6964c0f6069329fa65c36dc03ccff301c1e62055dd5af7f3558f0ae1",
+      "100000-direct-gpu-1-after/100000-direct-gpu-1.log": "e40a278a73617c7044e7f9ab131527489a6d5ab6aa79149396e67808c225ba28",
+      "100000-direct-gpu-1-after/100000-direct-gpu-1.cadence.json": "e20746fc692c96a9d5ebc471c5ab1bb6882741b79bd3cec11c5bf3a615afbfc0",
+      "100000-direct-gpu-1-after/100000-direct-gpu-1.json": "e3d334b21f2a52efb5d7fcbfa91f3d142ef08ea917223e99dfd2f1144924fcee",
+      "100000-direct-gpu-1-after/trials.json": "2f3db97b49e786c0a5ff22b1aef4b4194d13fe0bf31226e656b1b965c81cb415",
+      "100000-direct-gpu-1-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-sokol-gpu-1-before/manifest.json": "d70da069fbb9a3827166a705465fd623db9d438b490d25ffaba1a058034c559c",
+      "100000-sokol-gpu-1-before/100000-sokol-gpu-1.log": "75cc8daa25dfe2b29716898b557d13de8b3aec825ec1bd8fc08edeb55b036f4a",
+      "100000-sokol-gpu-1-before/100000-sokol-gpu-1.json": "69e3fb01348c024e8c26a2c0aad277bef6d0771efb75f547f5c14e9e648d647d",
+      "100000-sokol-gpu-1-before/trials.json": "5fbbe86efee3b782eec134321c4639142bf5e796b34556bbac4cc082cd9b60bd",
+      "100000-sokol-gpu-1-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-sokol-gpu-1-after/manifest.json": "cf5aae98af5a92ddbcaecb38e0d8a98c3032487109adba4320692d331d8316dd",
+      "100000-sokol-gpu-1-after/100000-sokol-gpu-1.log": "32536c63fd1a6af458b516f1df17587b9d626f3102c8bf8f70f66bd2ae4f0e53",
+      "100000-sokol-gpu-1-after/100000-sokol-gpu-1.json": "397d86fd8a85ce09cb686125bb428e5ac4d96d1dea5114abc534166e7f942aed",
+      "100000-sokol-gpu-1-after/trials.json": "6ea1030fd3e0c0a11d18473e674c2ef20b82c562b8b24d7fab38e4afce7abd4d",
+      "100000-sokol-gpu-1-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-physics-gpu-2-after/manifest.json": "fae1c8f7e7692c04b4b244297dfcf380346e891d322c0d24ffedf5c359ff7e27",
+      "100000-physics-gpu-2-after/100000-physics-gpu-1.log": "d3cd90753266ab165cdc1d06722d118c1cdc30bc170d01c1c9f75078d95458b3",
+      "100000-physics-gpu-2-after/100000-physics-gpu-1.json": "f945b79331adbdb7070e28f5a66c4312005b67121a4718d5363caf5040a59c79",
+      "100000-physics-gpu-2-after/trials.json": "3e4861257ac1ad304af0506b1623b4e97112df92e5f1f0a1207e8188af624577",
+      "100000-physics-gpu-2-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-physics-gpu-2-before/manifest.json": "6c14eee83cde3d1a5d522788e120a9addb47afd1781998b95f10623b43da7777",
+      "100000-physics-gpu-2-before/100000-physics-gpu-1.log": "3985eddd64eb2cb58a14919fd3bf21fe594206e6e663ec2eeafa2af7d24f5ce6",
+      "100000-physics-gpu-2-before/100000-physics-gpu-1.json": "9680c4663aaa40b5c1cac2d31d3b7e6a3d600ce2fb297e306750cad2c914dc1d",
+      "100000-physics-gpu-2-before/trials.json": "7dc71d5899582c2438348dd89f933d317c9aa15fb7c6aa68af84659cf824a7ba",
+      "100000-physics-gpu-2-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-direct-gpu-2-after/manifest.json": "6bfe302b94622ec6706958e5a7bbf23ffe046b22793248ed5886a41deed546af",
+      "100000-direct-gpu-2-after/100000-direct-gpu-1.log": "fbc92b12cc452baf332618f9de4d84540305769b92fbd10678b9e3ca89282091",
+      "100000-direct-gpu-2-after/100000-direct-gpu-1.cadence.json": "394b4c0c5673f26660e791a51fc1b907c6fbc4b490c1cc25f089c526a4710e2e",
+      "100000-direct-gpu-2-after/100000-direct-gpu-1.json": "3d761bf2267958342ab6ec20471501f4b1eaceda5a7adc2b9b16f829373cc73c",
+      "100000-direct-gpu-2-after/trials.json": "909261a7ab23f3bfabf6f72b2c6467774e05633fb714edea109051eee0b038a3",
+      "100000-direct-gpu-2-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-direct-gpu-2-before/manifest.json": "c59631b67cf8d5139b3bc747fefc4fb399f2ac80315ac26ac5ad86a293d34d70",
+      "100000-direct-gpu-2-before/100000-direct-gpu-1.log": "babb80e819af6b3d2a93485bae0f2cb69c04da4bb81acdcf9eef09ddcf2b8dd2",
+      "100000-direct-gpu-2-before/100000-direct-gpu-1.cadence.json": "520efc1ffb6a1363ee59bbe8f78eff35d9eabfb490b353ae3a4fc39527773e49",
+      "100000-direct-gpu-2-before/100000-direct-gpu-1.json": "6b0b08e44a60d9bd79469f724c1a9f3a4b3a55e4fa29ea359bb8602b2a1c7c0f",
+      "100000-direct-gpu-2-before/trials.json": "e07a787fe1d91f840fbe6c62c439a01abeaf1db6b88bc4e01820c8380f22c9b9",
+      "100000-direct-gpu-2-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-sokol-gpu-2-after/manifest.json": "93058cd280afddde689e5678768ae1ef5293b2ab1efc0f10827f4a604f6ccbed",
+      "100000-sokol-gpu-2-after/100000-sokol-gpu-1.log": "872298c646367c28c3a7b8d721c1f326e6de55bb2376b4bced6ada81c41315b4",
+      "100000-sokol-gpu-2-after/100000-sokol-gpu-1.json": "ef016bac7e8bca0d2c29e279cd7d646d48270c6e7a8f9d7b03fcdcb5d7a95899",
+      "100000-sokol-gpu-2-after/trials.json": "04b149a7237f6c30c03b2d8c1c500d99977166b9c766bae067b7e0c707fb4dec",
+      "100000-sokol-gpu-2-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-sokol-gpu-2-before/manifest.json": "07f131d540ce4fffd56c8907973e273d7a62fd18a34d8c72597f65c57ec03857",
+      "100000-sokol-gpu-2-before/100000-sokol-gpu-1.log": "9dbf12bf15c156ecb0ed819d3a80e37895a52a8bdb18ce99eb24d6b514494772",
+      "100000-sokol-gpu-2-before/100000-sokol-gpu-1.json": "daa523da7a8e50ad4a2b556457eb1d2c1ebb68ce77178fea5544e293d45248f2",
+      "100000-sokol-gpu-2-before/trials.json": "ef9c9b31dc7b8f04bd4a7a54bf1957b2ab222a7e9eeb43a7217e280bd41d0803",
+      "100000-sokol-gpu-2-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-physics-gpu-3-before/manifest.json": "ef0d58203965a8621b91897c687035a3d38451c617734e1dbf64431ae373021a",
+      "100000-physics-gpu-3-before/100000-physics-gpu-1.log": "ba773a9911f9b9b5d209928a3285bcc12cfc7d572e4a568d2206b38bf2c3791b",
+      "100000-physics-gpu-3-before/100000-physics-gpu-1.json": "0f1281e8748c26397f0a448b95b2a61d49727f85b6e34379ef82546e7500e41d",
+      "100000-physics-gpu-3-before/trials.json": "f7f58927491ed0f9f56e210200d5e27b7d0bba4bde4439931c59c1a1fc6a5a69",
+      "100000-physics-gpu-3-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-physics-gpu-3-after/manifest.json": "b345a9a25177fef28e2879e2b82abcea0ba92c772d501ec07a8317bfb3ccc96b",
+      "100000-physics-gpu-3-after/100000-physics-gpu-1.log": "0d8570949412d062a526590fe1a78e17acc677a1f4fe4f85f3c1472c81ba5b79",
+      "100000-physics-gpu-3-after/100000-physics-gpu-1.json": "6b8a571db94d1ad5dc09ba2d3353ef15ee1cca364cf368857fa9eb7cddf0ee22",
+      "100000-physics-gpu-3-after/trials.json": "d3b59ae586fb055139ed61407ec6f8d015aeb42ca4259889025dbddf5ae054d0",
+      "100000-physics-gpu-3-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-direct-gpu-3-before/manifest.json": "1cffab5f498844d4793462d2007d5d96f3a05f86a06291a2adbafce3469d39da",
+      "100000-direct-gpu-3-before/100000-direct-gpu-1.log": "ca1e28e5ca006b2a70f5f79f946e9cd698c61bf2b8b67921389bffba7811d0f6",
+      "100000-direct-gpu-3-before/100000-direct-gpu-1.cadence.json": "9d153e81bc12015e108b609adf6bc937533b1b233c64f1697b34bc2ffc84d94d",
+      "100000-direct-gpu-3-before/100000-direct-gpu-1.json": "6c4b838e7da5e4b6214920c0e95c47fb34b51768be6e83ec8bbc3a4f3eab3dfa",
+      "100000-direct-gpu-3-before/trials.json": "69688164debb5bc9a6b8e4c0525ba70843d908d9bae62fa0dfde7139b4e7d949",
+      "100000-direct-gpu-3-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-direct-gpu-3-after/manifest.json": "ec1bc528dc057d16943a71032dbbf65f59bff5dbebfb61589f54677324c5d95d",
+      "100000-direct-gpu-3-after/100000-direct-gpu-1.log": "e9ef905fd5393b913a5e5ea221bc2da2bd7b908643c52f7bc578f459096f7b17",
+      "100000-direct-gpu-3-after/100000-direct-gpu-1.cadence.json": "4ca01d4fa6666b4c755a985ba942587167ad9faf8d091005930bb2f1768b96b8",
+      "100000-direct-gpu-3-after/100000-direct-gpu-1.json": "69142171fae8f8e887bb87e7ca3a33e0507eb88c9ad8d900b55e2b1415cbda85",
+      "100000-direct-gpu-3-after/trials.json": "a3855ed62aae64995220ab8f690fd38a60d4bfe3597739113935a4ba94d557ce",
+      "100000-direct-gpu-3-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-sokol-gpu-3-before/manifest.json": "8476a1a82c1671aecd06dcdb3ece3f0ad9eae330f6d1b4c0e61c8c6a77b79f89",
+      "100000-sokol-gpu-3-before/100000-sokol-gpu-1.log": "53415eac5288bf37cf37abeed0baa059218ddf7ef62148b2c80464da0503ad7d",
+      "100000-sokol-gpu-3-before/100000-sokol-gpu-1.json": "f17fb96527d0f0c73efe1e92bca573f99a5441577f6ae367c649af20365c9f70",
+      "100000-sokol-gpu-3-before/trials.json": "fa3c8d989e0b570bd37749905d10e2bfd102f43c7125c3181fd154e439d86b0d",
+      "100000-sokol-gpu-3-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "100000-sokol-gpu-3-after/manifest.json": "19f0606e6b8b782c1074c2ee7a3125ebd1e4ffbfc85cbcfe47e19a3779df600d",
+      "100000-sokol-gpu-3-after/100000-sokol-gpu-1.log": "ef953d48ba8f3c7db134627b8e04f7780390cda47d838d4855cd9ff7ea7ac94b",
+      "100000-sokol-gpu-3-after/100000-sokol-gpu-1.json": "4edab62d175bce1e76c48dec0ea8ea0dc270b9b423106ebbf3dd9e130427fc74",
+      "100000-sokol-gpu-3-after/trials.json": "bd501e3599529e2b128910fded2cb2fdd474f89ea4f67a1042b6fb90dfea2af0",
+      "100000-sokol-gpu-3-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+    },
+    "meaning": "Physics mode measures completed-step latency; renderer modes measure full application cadence. Medians of three trial means; full trial ranges retained."
+  },
+  "focused_recheck": {
+    "manifest": {
+      "counts": [
+        1000
+      ],
+      "modes": [
+        "physics-gpu"
+      ],
+      "trials": 5,
+      "warmup": 90,
+      "timed": 240,
+      "workers": 8,
+      "solver": "global",
+      "binaries": {
+        "before": {
+          "direct": {
+            "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/startup-optimization/baseline-direct",
+            "sha256": "576f09b2427c6f72e0ae42741f4510f6296fd66317ca0560a2e4fe52deeb028d"
+          },
+          "sokol": {
+            "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/startup-optimization/baseline-sokol",
+            "sha256": "41702638c86205b3cb72c37ab4de68372b2f5ba72107d0d6ac7b4ed02748c7fa"
+          }
+        },
+        "after": {
+          "direct": {
+            "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/startup-optimization/candidate-direct",
+            "sha256": "77ed5d0fd3e3a48808b62ad710aba47f578dae6f253b0d77ba754d9beaf6810a"
+          },
+          "sokol": {
+            "path": "/home/frtn/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/startup-optimization/candidate-sokol-final",
+            "sha256": "abd1e87fa1278229b529f1cf1be404344caa73513ff42656ed218ac4e8c7b226"
+          }
+        }
+      },
+      "sokol_settings": "{\n  \"sampleIndex\": 73,\n  \"drawShapes\": true,\n  \"enableShadows\": true,\n  \"enableGtao\": true,\n  \"gtaoQuality\": 1,\n  \"enableIbl\": true,\n  \"exposure\": -2.5,\n  \"sunStrength\": 0.8,\n  \"shadowSplitLambda\": 0.5,\n  \"debugView\": 0,\n  \"drawDistance\": 1000,\n  \"showHullEdges\": true,\n  \"showEdgeConvexity\": false,\n  \"replayKeyframeBudgetMB\": 512,\n  \"replayKeyframeMinInterval\": 16\n}\n",
+      "load_gate": false,
+      "scope": "Steady-state regression at small and large scenes; 200k startup is qualified separately. Per-mode before/after framebuffers must match."
+    },
+    "groups": [
+      {
+        "count": 1000,
+        "mode": "physics-gpu",
+        "results": {
+          "before": {
+            "mean_ms": {
+              "median": 4.910282916666667,
+              "minimum": 4.767081666666667,
+              "maximum": 4.95755875,
+              "trials": [
+                4.910282916666667,
+                4.767081666666667,
+                4.945961666666666,
+                4.870815833333333,
+                4.95755875
+              ]
+            },
+            "p50_ms": {
+              "median": 4.8236,
+              "minimum": 4.722,
+              "maximum": 4.8707,
+              "trials": [
+                4.8118,
+                4.722,
+                4.8707,
+                4.8236,
+                4.8602
+              ]
+            },
+            "p95_ms": {
+              "median": 5.837,
+              "minimum": 5.6087,
+              "maximum": 5.8784,
+              "trials": [
+                5.837,
+                5.6087,
+                5.8784,
+                5.7778,
+                5.8409
+              ]
+            }
+          },
+          "after": {
+            "mean_ms": {
+              "median": 4.82780375,
+              "minimum": 4.717228333333333,
+              "maximum": 4.984924583333333,
+              "trials": [
+                4.82780375,
+                4.94112,
+                4.984924583333333,
+                4.789589583333333,
+                4.717228333333333
+              ]
+            },
+            "p50_ms": {
+              "median": 4.7966,
+              "minimum": 4.657,
+              "maximum": 4.867,
+              "trials": [
+                4.7966,
+                4.8467,
+                4.867,
+                4.657,
+                4.7284
+              ]
+            },
+            "p95_ms": {
+              "median": 5.7303,
+              "minimum": 5.3869,
+              "maximum": 5.8756,
+              "trials": [
+                5.7303,
+                5.8169,
+                5.8756,
+                5.4153,
+                5.3869
+              ]
+            }
+          }
+        },
+        "mean_change_percent": -1.679723308543235
+      }
+    ],
+    "raw_sha256": {
+      "1000-physics-gpu-1-before/manifest.json": "94840a984b4c9b53870065f4c27ce8329b402fbd21e0d82e4af6b743c869869c",
+      "1000-physics-gpu-1-before/1000-physics-gpu-1.log": "29c606c72200af4e5dcc2878990362a42de0d01a970f7548611f3d5b867b61b1",
+      "1000-physics-gpu-1-before/1000-physics-gpu-1.json": "f3dee3876c11a474dc6d727ee4b0fb7272cbdd178ef826cc31a4da43e98dc8d7",
+      "1000-physics-gpu-1-before/trials.json": "e5a22b2e13bd95ca8da1245a4b1ccecb8e137e9f403a4c2f54b93398f5b3504f",
+      "1000-physics-gpu-1-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-physics-gpu-1-after/manifest.json": "3d445e44d1e43b5f3e7deda04355757b63fa7f5b1b85db046c04b09e8f705510",
+      "1000-physics-gpu-1-after/1000-physics-gpu-1.log": "0ae0639703eaaefbe428e338647076db512a384cfeca78127a2183958bb01f3b",
+      "1000-physics-gpu-1-after/1000-physics-gpu-1.json": "ca08ab01be8c15ab79001dad54167d84edacf26e7b87e75b68f2a8892b87a9c7",
+      "1000-physics-gpu-1-after/trials.json": "773ec06945e2291a415c6891bad118d27492260cb820927e662f3eee6eb1c2b8",
+      "1000-physics-gpu-1-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-physics-gpu-2-after/manifest.json": "dee60b3322a3c3612fffece38cd78d49d943a32b39e8611d974d2d302eb919aa",
+      "1000-physics-gpu-2-after/1000-physics-gpu-1.log": "aac540fcdfbf1c5f091727dc32ed8260e0e1c368f03e7da43793ca659e889f8a",
+      "1000-physics-gpu-2-after/1000-physics-gpu-1.json": "9b0acc468e14ede96f793f889ad870524e67a6cc64e1ccaaf5b7b9051e9e5653",
+      "1000-physics-gpu-2-after/trials.json": "f2836dda2709a1f8b67a1296d97ff4a6f8134a140090805e3e8bceec88d6a509",
+      "1000-physics-gpu-2-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-physics-gpu-2-before/manifest.json": "86580aa239cdc37ff4ab4a8c98a214cc14e2ba2a407163460dbeeee4689176d6",
+      "1000-physics-gpu-2-before/1000-physics-gpu-1.log": "3fc774424fd50f00aca1c6f25f2b63c64104d74e3c5dcabcc8c8434db5c9ef5d",
+      "1000-physics-gpu-2-before/1000-physics-gpu-1.json": "013d756858abc6d1dd48b486a430357314093564176bbe7b7684135246ec5f7c",
+      "1000-physics-gpu-2-before/trials.json": "867899a58e789eef3c8c662236e05a50b3bf8e86b2054ead447b975becf406b4",
+      "1000-physics-gpu-2-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-physics-gpu-3-before/manifest.json": "ce48d8093ade058cb40793d54d82710bf29c2636efc1532845921a346ee4e8d6",
+      "1000-physics-gpu-3-before/1000-physics-gpu-1.log": "0f4dc026f8a5297843074a3fa5ed4b4f03ea80112d22e14099d95a7b607e0b48",
+      "1000-physics-gpu-3-before/1000-physics-gpu-1.json": "0315277c2ea56949c60f807718021a85bfc8b28b9c16a3882aed6fff7e13dafc",
+      "1000-physics-gpu-3-before/trials.json": "216942fcda1e23758e1c0ff26c0d99937e78dcec417aa4224e3db137cdc1cc89",
+      "1000-physics-gpu-3-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-physics-gpu-3-after/manifest.json": "a4d95eccefd5aebb5df03aa23f9c46a8c5d40e35138234842eceb57e96a6eed9",
+      "1000-physics-gpu-3-after/1000-physics-gpu-1.log": "cda3f003c5599f7515ef5d4d52e2b449f35c989370b7cff8bc6c47c4139722ae",
+      "1000-physics-gpu-3-after/1000-physics-gpu-1.json": "c2b9616c096c54ee3fb011f4db97cc6df2170783222e0de527b1d9197e528d7a",
+      "1000-physics-gpu-3-after/trials.json": "8d4b2ba2604ad3324a50d71763e8c8016f693b14f5c988d70ced4e04a7302fa4",
+      "1000-physics-gpu-3-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-physics-gpu-4-after/manifest.json": "d6666754079c2c4276f365183f0c769e0d05f0460402550da128e693394e60f0",
+      "1000-physics-gpu-4-after/1000-physics-gpu-1.log": "7fd493fc9caabc022da9deab38f8bf8f070ce13f7d348126b21cff0082f42549",
+      "1000-physics-gpu-4-after/1000-physics-gpu-1.json": "d5e9afe45051eca870ecf1841bd38b7f9e3331396ad023526bf3ff6799ef1024",
+      "1000-physics-gpu-4-after/trials.json": "095c71f68040af63a8dd09e166e7f49d07e69369b749216ca1097e02a9550b3b",
+      "1000-physics-gpu-4-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-physics-gpu-4-before/manifest.json": "f72966aeddac7d72bf0ff3028124776421e3bd8aa31d4a4d718c276519ae935f",
+      "1000-physics-gpu-4-before/1000-physics-gpu-1.log": "5836f6e37a57b794687f897a649d14eefc830a631486869d2f494399b353c3d1",
+      "1000-physics-gpu-4-before/1000-physics-gpu-1.json": "3dd90f6dea9f97ca2426282253b5ad907444ea2e3fffe166559110ac8f262300",
+      "1000-physics-gpu-4-before/trials.json": "529eb16bce0526e76bc862edbc389e70c5377e641adb41427b6075837ca4c0b5",
+      "1000-physics-gpu-4-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-physics-gpu-5-before/manifest.json": "6a0318876342bc74dd9c3842a452f8744425e471f178524d1566ed073d1c5ed4",
+      "1000-physics-gpu-5-before/1000-physics-gpu-1.log": "3c9f0e842bcccabbf1956db609a084a29a9052e5f6be3475a91644807f5d89e3",
+      "1000-physics-gpu-5-before/1000-physics-gpu-1.json": "05e5643545b638c5031b3ba189e97b5c201214264e58d7eeb8afd83107365b8d",
+      "1000-physics-gpu-5-before/trials.json": "7956a81bc163288208473eb0a1cfebd1973cf14e652ebed5dfc80cd2823c5589",
+      "1000-physics-gpu-5-before/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "1000-physics-gpu-5-after/manifest.json": "cc5203308034b3358b7a4f276f40b10ae353efb7c75cdb61157df3a645cd3446",
+      "1000-physics-gpu-5-after/1000-physics-gpu-1.log": "ab493fc96395ffc901b4e4873b4f81dd715821ed98b2d67c47e43e56d1390a90",
+      "1000-physics-gpu-5-after/1000-physics-gpu-1.json": "91acb9d6757f5b601996378171171354399ef4b318657de53ac8b37639b0746c",
+      "1000-physics-gpu-5-after/trials.json": "cec8ba5ba6fdaad18dbe72bad77ec06a368750c31aeae7c02c83fc616677dfdb",
+      "1000-physics-gpu-5-after/stopped.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+    },
+    "meaning": "Physics mode measures completed-step latency; renderer modes measure full application cadence. Medians of five trial means; full trial ranges retained."
+  },
+  "interpretation": "Large-scene medians changed between -2% and +0.5%. Initial 1k headless +5% did not reproduce across five new alternating pairs (candidate -1.7%, overlapping trial ranges). Retain both datasets; no consistent steady-state regression demonstrated."
+}

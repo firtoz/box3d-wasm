@@ -56,6 +56,7 @@ void gpu_loading_lock_mouse(bool lock) {
     if (scene_worker) pending_mouse.store(lock ? 1 : 0);
     else sapp_lock_mouse(lock);
 }
+bool gpu_loading_on_scene_worker() { return scene_worker; }
 void gpu_loading_request_close() { close_pending = true; }
 bool gpu_loading_close_pending() { return close_pending; }
 bool gpu_loading_active() { return active; }
@@ -175,6 +176,7 @@ void gpu_loading_create_scene(std::function<b3WorldId()> create) { create(); }
 void gpu_loading_presented() {}
 void gpu_loading_begin_startup() {}
 void gpu_loading_lock_mouse(bool lock) { sapp_lock_mouse(lock); }
+bool gpu_loading_on_scene_worker() { return false; }
 void gpu_loading_request_close() {}
 bool gpu_loading_close_pending() { return false; }
 bool gpu_loading_active() { return false; }

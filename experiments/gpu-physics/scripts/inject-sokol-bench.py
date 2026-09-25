@@ -256,6 +256,9 @@ def inject_sample(text: str) -> str:
     static thread_local bool constructing = false;
     if (!constructing) {
         if (selection < 0 || selection >= g_sampleCount || gpu_loading_active()) return;
+        // Retire cached renderer meshes with the host GL context current, before
+        // the worker destroys their owning physics world. Initial setup has none.
+        if (context->sample) ResetAdapterPool();
         // Window-system mouse capture stays on the host thread.
         if (context->camera.m_thirdPerson) {
             sapp_lock_mouse(false);
@@ -271,6 +274,10 @@ def inject_sample(text: str) -> str:
     }
 #endif
 ''')
+
+    require(text, '\tResetAdapterPool();', 'host-thread renderer cleanup')
+    text = text.replace('\tResetAdapterPool();',
+        '\tif (!gpu_loading_on_scene_worker()) ResetAdapterPool();')
 
     anchors = [
         '#include "sample.h"\n',

@@ -324,6 +324,29 @@ Body/shape/joint slots retain generation-checked identities. Capacity growth mus
 preserve live contacts and constraint history; allocation or contact-capacity
 loss must be reported, not silently interpreted as a successful simulation.
 
+Each CPU body also owns an ordered list of its live shape slots. Bounds and mass
+recomputation visit that body's shapes rather than scanning the world. This removes
+the quadratic attachment cost for independent single-shape bodies. Repeatedly
+recomputing one growing compound still visits its own children; it is not constant
+time. Deletion removes ownership entries, and reused bodies start with an empty list.
+
+The direct and native Sokol GPU viewers create scenes and prepare physics shaders
+on a worker while their host event loops draw loading status. No simulation steps
+run during this preparation. The direct viewer can first draw once its graphics
+device is ready; Sokol can draw before the physics device initializes. Closing Sokol
+may wait for an in-flight driver operation while continuing to draw closing status.
+On a Sokol scene switch, cached renderer meshes are retired on the host thread
+before the worker destroys the old physics world. Mouse-capture changes are also
+applied by the host. These operations require the window/graphics context and
+must not run from scene constructors or destructors on the worker.
+Startup measurements and their cache/timer boundaries are documented in the
+[experiment README](../experiments/gpu-physics/README.md), including the completed
+96-launch cold/warm comparison, the 270-test library suite and repeated steady-state
+comparisons. The startup fix shows no consistent steady-state regression in those
+runs. All 19 recorded scenes match the baseline GPU's 300 decoded frames each;
+the [portable evidence archive](../experiments/gpu-physics/benchmarks/rtx4070-startup-2026-09-25-raw.tar.gz)
+passes fresh-extraction hash and raw-record validation.
+
 Native `b3WorldDef.capacity` body/shape hints now reach the GPU world in both
 GPU-only and combined builds. Set the expected peak **simultaneously live** counts
 before `b3CreateWorld`; include scenery and gameplay objects, not total lifetime
