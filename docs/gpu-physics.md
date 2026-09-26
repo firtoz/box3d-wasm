@@ -451,6 +451,45 @@ still return an older snapshot; the wait does not download the body mirror.
 
 ## Validation and merge requirements
 
+The paired-drop scene is `Determinism / Falling Ragdolls` (four pairs);
+`Benchmark / Rain` uses the same human builder (three per group in release,
+two in debug). The GPU spherical-joint twist Jacobian now matches upstream:
+`coneAxis + tan(halfSwing) * cross(swingAxis, coneAxis)`. Previously the scalar
+multiplied the cone axis instead, disabling twist limits at zero swing and
+applying them about the wrong axis at other angles. An aligned joint spinning
+at 5 rad/s should stop at its 0.2-radian limit on step 3; the old GPU kept spinning.
+
+From `experiments/gpu-physics`, run `./scripts/check-ragdoll-reference.sh`.
+Set `GPU_RAGDOLL_NATIVE_CACHE=1` to exercise the native viewer’s cached Vulkan
+path instead of ordinary wgpu. It compares both twist directions with aligned
+and tilted frames against the independent C engine at `1e-5`, then runs the upstream eight-ragdoll setup for
+600 steps. On NVIDIA, the corrected drop's peak angular speed is 105 rad/s
+(CPU: 102; old GPU: 158), and both engines are at rest during steps 480–600;
+the old GPU still reaches 19 rad/s in that window. Initial state agreement,
+pre-impact position differences, transient joint stretch and settling are
+checked separately. Pre-impact position differences remain up to 8.1 mm,
+and final contact-sensitive poses differ; this is stability qualification,
+not full trajectory parity or a qualification of the complete Rain benchmark.
+The ordinary and native cached traces match for this fixture; the existing
+paired-spherical-joint regression also passes.
+
+The Offset Kinematic regression checks explicit zero-mass center overrides on
+static and kinematic bodies. `b3Body_SetMassData` now accepts those overrides,
+matching upstream; previously the GPU ignored them and rotated the offset box
+about its body origin instead of its center. From `experiments/gpu-physics`, run
+`./scripts/check-offset-kinematic-reference.sh` for the independent CPU/GPU
+comparison. It checks 903 states over 300 steps per case, including a moving
+kinematic body's center change after 150 GPU steps, with absolute tolerance
+`1e-5` on mass, center, pose and velocity. This qualifies the sample's zero-mass
+center override, not all mass-data semantics.
+
+Pre-commit native viewer captures for Offset Kinematic, Falling Ragdolls and
+Rain are registered in the local comparison grid's corresponding rows. CPU
+panes are in `000-box3d-cpu`; GPU panes are in `2026-09-25-physics-fixes`.
+These are wall-time captures with software OpenGL rendering, not performance
+measurements. Rain is a shortened capture of the initial drops, not a completed
+benchmark run. The Rust demo recorder does not host these native scenes.
+
 Merging as an **experimental native engine** does not require completing every
 Box3D API or proving a speedup on every GPU. It does require accurate limitations,
 reproducible builds and a current regression result. A production-compatible

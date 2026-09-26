@@ -1497,7 +1497,7 @@ fn solve_spherical(
         tangent_denominator > 0.0,
     );
     let twist_jacobian =
-        tan_half_swing * cone_axis + cross(swing_axis, cone_axis);
+        cone_axis + tan_half_swing * cross(swing_axis, cone_axis);
 
     let swing_k = dot(swing_axis, world_inv_inertia(*ba, swing_axis)
         + world_inv_inertia(*bb, swing_axis));

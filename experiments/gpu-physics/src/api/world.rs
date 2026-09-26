@@ -8807,9 +8807,9 @@ pub fn b3_body_set_mass_data(id: BodyId, data: MassData) {
         let Some(cpu) = body_mut(w, id) else {
             return;
         };
-        if (cpu.gpu.flags & (FLAG_STATIC | FLAG_KINEMATIC)) != 0 {
-            return;
-        }
+        // Explicit mass data also sets the origin-to-center offset on static and
+        // kinematic bodies. Unlike automatic shape mass, upstream accepts this
+        // for every body type (notably the Offset Kinematic sample).
         let old_center = cpu.gpu.pos;
         let origin = body_origin(cpu);
         cpu.mass = data.mass.max(0.0);

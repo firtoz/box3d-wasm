@@ -25,8 +25,11 @@ const SAMPLES = [
   "falling-cubes",
   "anchored-mechanisms",
   "joint-chain",
-  // Native viewer capture; the Rust demo recorder does not host this sample.
+  // Native viewer captures; the Rust demo recorder does not host these samples.
   "shape-replacement",
+  "offset-kinematic",
+  "falling-ragdolls",
+  "ragdoll-rain",
 ] as const;
 
 type Metrics = {
