@@ -201,6 +201,7 @@ pub fn b3_shape_set_capsule(id: ShapeId, capsule: &Capsule) -> bool {
                 inertia: mass.inertia,
             },
         );
+        s.hull_points = vec![capsule.center1, capsule.center2];
         true
     })
 }

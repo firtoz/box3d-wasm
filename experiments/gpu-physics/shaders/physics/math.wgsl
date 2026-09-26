@@ -486,7 +486,7 @@ fn persisted_point_bits(count: u32) -> u32 {
     return ((1u << min(count, 4u)) - 1u) << CONTACT_PERSISTED_SHIFT;
 }
 
-fn match_previous_points(c: Contact, p: Contact) -> PointMatch {
+fn match_previous_points(c: Contact, p: Contact, exact_features: bool) -> PointMatch {
     var out = vec4<f32>(0.0);
     var persisted = 0u;
     if (p.a == EMPTY) {
@@ -494,7 +494,7 @@ fn match_previous_points(c: Contact, p: Contact) -> PointMatch {
     }
     let swapped = p.a == c.b && p.b == c.a;
     let mesh_identity = any(c.point_triangles != vec4<u32>(0u)) || any(p.point_triangles != vec4<u32>(0u));
-    let use_id = mesh_identity || ((c._tail1.z != 0u || c._tail1.w != 0u
+    let use_id = exact_features || mesh_identity || ((c._tail1.z != 0u || c._tail1.w != 0u
             || bitcast<u32>(c._pad_ca) != 0u || bitcast<u32>(c._pad_cb) != 0u)
         && (p._tail1.z != 0u || p._tail1.w != 0u
             || bitcast<u32>(p._pad_ca) != 0u || bitcast<u32>(p._pad_cb) != 0u));
@@ -521,9 +521,9 @@ fn match_previous_points(c: Contact, p: Contact) -> PointMatch {
                 }
             }
         }
-        // Hull clip ids change when SAT flips face A/B. Box3D still warm-starts
-        // nearby points; skipping that fallback walks a stacked column.
-        if (!matched && !mesh_identity) {
+        // Legacy approximate feature producers retain a proximity fallback.
+        // Exact capsule and mesh feature identities must never use it.
+        if (!matched && !mesh_identity && !exact_features) {
             let ra = ra_at(c, k).xyz;
             var best = 0.15;
             var best_j = EMPTY;
@@ -557,7 +557,7 @@ fn match_previous_points(c: Contact, p: Contact) -> PointMatch {
 }
 
 fn warm_jn_from_previous(c: Contact, p: Contact) -> vec4<f32> {
-    return match_previous_points(c, p).impulses;
+    return match_previous_points(c, p, false).impulses;
 }
 
 // Structural validation also permits obsolete body IDs during retirement.

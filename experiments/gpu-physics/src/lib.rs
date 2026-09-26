@@ -3,6 +3,7 @@ mod drag_replay;
 #[cfg(not(target_arch = "wasm32"))]
 mod native_precision;
 mod loading;
+mod broadphase_order;
 mod dispatch;
 mod pipeline_cache;
 #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]

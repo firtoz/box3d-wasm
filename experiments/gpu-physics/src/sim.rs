@@ -811,6 +811,8 @@ pub struct GpuSim {
     #[allow(dead_code)]
     solve_overflow: ComputePipeline,
     solve_joints: ComputePipeline,
+    solve_joint_color: ComputePipeline,
+    solve_jointed_wave: ComputePipeline,
     compact_joint_heads: ComputePipeline,
     compact_joint_components: ComputePipeline,
     ray_closest: ComputePipeline,
@@ -1715,6 +1717,8 @@ impl GpuSim {
             solve_overflow: make_compute(&device, &pipeline_layout, &shader, "solve_overflow"),
             solve_color_tail_one_group: make_compute(&device, &pipeline_layout, &shader, "solve_color_tail_one_group"),
             solve_joints: make_compute(&device, &pipeline_layout, &shader, "solve_joints"),
+            solve_joint_color: make_compute(&device, &pipeline_layout, &shader, "solve_joint_color"),
+            solve_jointed_wave: make_compute(&device, &pipeline_layout, &shader, "solve_jointed_wave"),
             compact_joint_heads: make_compute(
                 &device,
                 &pipeline_layout,
@@ -1887,8 +1891,27 @@ impl GpuSim {
     }
 
     fn emit_wave<'a>(&'a self, pass: &mut wgpu::ComputePass<'a>, use_bias: u32) {
-        // Restitution has no joint phase. Contact-only worlds keep their existing
-        // dispatch sequence; jointed worlds split at the static-color boundary.
+        if self.params.joint_count > 0 && !self.joint_serial() && self.params.solver_mode == 0 {
+            if self.count <= 256 && self.params.diagnostic_flags & DIAG_GENERAL_SOLVER == 0 {
+                self.emit_n(pass, &self.solve_jointed_wave, 1, 0, use_bias);
+                self.solver_dispatches.set(self.solver_dispatches.get().saturating_add(1));
+                if use_bias != 3 {
+                    self.joint_dispatches.set(self.joint_dispatches.get().saturating_add(1));
+                }
+                return;
+            }
+            for col in std::iter::once(crate::types::OVERFLOW_COLOR).chain(0..crate::types::OVERFLOW_COLOR) {
+                if use_bias != 3 {
+                    self.emit_n(pass, &self.solve_joint_color, self.joint_solve_groups(), col, use_bias);
+                    self.joint_dispatches.set(self.joint_dispatches.get().saturating_add(1));
+                }
+                self.emit_n(pass, &self.solve_color, self.contact_groups(), col, use_bias);
+                self.solver_dispatches.set(self.solver_dispatches.get().saturating_add(1));
+            }
+            return;
+        }
+        // Contact-only worlds retain their existing indirect dispatches. The
+        // serial-joint diagnostic keeps its dynamic/anchored phase split.
         let split = self.params.joint_count > 0 && use_bias != 3;
         let prefix = if self.params.diagnostic_flags & DIAG_GENERAL_SOLVER != 0 {
             crate::types::OVERFLOW_COLOR
@@ -3194,15 +3217,14 @@ impl GpuSim {
                     label: Some("physics-tgs"),
                     timestamp_writes: None,
                 });
-                // Dynamic joints precede contact waves. emit_wave inserts anchored
-                // joints between dynamic and static contact colors: impacts cannot
-                // overwrite anchors, and anchors cannot overwrite ground support.
+                // Production joint/contact waves share graph colors. Keep the
+                // creation-order serial diagnostic on its separate joint phase.
                 for sub in 0..nsub {
                     self.emit_n(&mut pass, &self.integrate_vel, bg, 0, 1);
                     if self.params.diagnostic_flags & DIAG_PHASE_CAPTURE != 0 && sub < 4 {
                         self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 0, 0);
                     }
-                    if has_joints {
+                    if has_joints && self.joint_serial() {
                         self.emit_n(&mut pass, &self.solve_joints, self.joint_solve_groups(), 1, 2);
                         self.joint_dispatches
                             .set(self.joint_dispatches.get().saturating_add(1));
@@ -3211,7 +3233,7 @@ impl GpuSim {
                     if self.params.diagnostic_flags & DIAG_PHASE_CAPTURE != 0 && sub < 4 {
                         self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 1, 0);
                     }
-                    if has_joints {
+                    if has_joints && self.joint_serial() {
                         self.emit_n(&mut pass, &self.solve_joints, self.joint_solve_groups(), 1, 1);
                         self.joint_dispatches
                             .set(self.joint_dispatches.get().saturating_add(1));
@@ -3224,7 +3246,7 @@ impl GpuSim {
                     if self.params.diagnostic_flags & DIAG_PHASE_CAPTURE != 0 && sub < 4 {
                         self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 3, 0);
                     }
-                    if has_joints {
+                    if has_joints && self.joint_serial() {
                         self.emit_n(&mut pass, &self.solve_joints, self.joint_solve_groups(), 1, 0);
                         self.joint_dispatches
                             .set(self.joint_dispatches.get().saturating_add(1));
@@ -4258,7 +4280,7 @@ impl GpuSim {
         let int_vel = self.integrate_vel.clone();
         let int_pos = self.integrate_pos.clone();
         let apply = self.apply_deltas.clone();
-        let has_joints = self.params.joint_count > 0;
+        let has_joints = self.params.joint_count > 0 && (self.params.solver_mode == 1 || self.joint_serial());
         for _ in 0..sub_steps.max(1) {
             self.ping_dispatch(&mut enc, &int_vel, body_groups, 0, 1);
             if has_joints {
@@ -5938,7 +5960,7 @@ impl JointGpu {
             a: 0,
             b: 0,
             kind: 0,
-            _pad0: 0,
+            solver_color: 0,
             anchor_a: [0.0; 3],
             hertz: 60.0,
             anchor_b: [0.0; 3],

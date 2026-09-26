@@ -99,6 +99,7 @@ struct CpuShape {
     mesh_materials: Vec<SurfaceMaterial>,
     user_data: usize,
     inner_radius: f32,
+    // Shared local geometry storage: hull vertices or original capsule endpoints.
     hull_points: Vec<[f32; 3]>,
     hull_planes: Vec<[f32; 4]>,
     hull_edges: Vec<[f32; 3]>,
@@ -127,6 +128,18 @@ pub struct MeshNode {
 }
 
 impl CpuShape {
+    // Preserve the endpoint bit patterns supplied to capsule creation/setters.
+    // Midpoint +/- half-axis is not an exact float32 round trip.
+    fn capsule_points(&self) -> [[f32; 3]; 2] {
+        if self.hull_points.len() == 2 {
+            return [self.hull_points[0], self.hull_points[1]];
+        }
+        [
+            std::array::from_fn(|i| self.geometry_center[i] - self.axis[i]),
+            std::array::from_fn(|i| self.geometry_center[i] + self.axis[i]),
+        ]
+    }
+
     fn gpu(
         &self,
         body_map: &[u32],
@@ -188,6 +201,7 @@ impl CpuShape {
             instance_position: self.mesh_instance.map_or([0.0; 3], |instance| instance.position),
             instance_flags: u32::from(self.mesh_instance.is_some()),
             instance_rotation: self.mesh_instance.map_or([0.0, 0.0, 0.0, 1.0], |instance| instance.rotation),
+            initial_order: [u32::MAX; 4],
         })
     }
 }
@@ -954,6 +968,37 @@ fn invert_symmetric(m: [f32; 6]) -> [f32; 6] {
     ]
 }
 
+fn initial_proxy_bounds(body: &CpuBody, shape: &CpuShape) -> crate::broadphase_order::Bounds {
+    let center = shape.geometry_center;
+    let radius = if matches!(shape.kind, KIND_SPHERE | KIND_CAPSULE) { shape.half[0] } else { 0.0 };
+    let points: Vec<[f32;3]> = match shape.kind {
+        KIND_SPHERE => vec![center],
+        KIND_CAPSULE => shape.capsule_points().to_vec(),
+        KIND_BOX => (0..8).map(|bits| std::array::from_fn(|i| center[i] + if bits & (1 << i) == 0 { -shape.half[i] } else { shape.half[i] })).collect(),
+        _ => shape.hull_points.clone(),
+    };
+    let origin = body_origin(body);
+    let mut lower = [f32::MAX;3];
+    let mut upper = [-f32::MAX;3];
+    let mut extent_squared = 0.0f32;
+    for point in points {
+        let delta: [f32;3] = std::array::from_fn(|i| point[i] - center[i]);
+        extent_squared = extent_squared.max(delta[0]*delta[0] + delta[1]*delta[1] + delta[2]*delta[2]);
+        let rotated = quat_rotate(body.gpu.rot, point);
+        for i in 0..3 {
+            let world = origin[i] + rotated[i];
+            lower[i] = lower[i].min(world);
+            upper[i] = upper[i].max(world);
+        }
+    }
+    let margin = (0.125 * (extent_squared.sqrt() + radius)).min(0.05);
+    for i in 0..3 {
+        lower[i] = ((lower[i] - radius) - crate::types::SPECULATIVE_DISTANCE) - margin;
+        upper[i] = ((upper[i] + radius) + crate::types::SPECULATIVE_DISTANCE) + margin;
+    }
+    crate::broadphase_order::Bounds { lower, upper }
+}
+
 fn body_origin(cpu: &CpuBody) -> [f32; 3] {
     let offset = quat_rotate(cpu.gpu.rot, cpu.local_center);
     [
@@ -979,7 +1024,12 @@ fn apply_body_mass_from_shapes_inner(w: &mut WorldInner, body: BodyId) {
             *sum += shape.mass * center;
         }
     }
-    let center = if mass > 0.0 { weighted_center.map(|value| value / mass) } else { [0.0; 3] };
+    // Native rounds inverse mass once, then scales the weighted center.
+    // Dividing each component separately changes ragdoll joint lever arms.
+    let center = if mass > 0.0 {
+        let inv_mass = 1.0 / mass;
+        weighted_center.map(|value| inv_mass * value)
+    } else { [0.0; 3] };
     let mut inertia = [0.0f32; 6];
     for shape in body_shapes(w, body) {
         if shape.body_index != body.index1 || shape.mass <= 0.0 {
@@ -1076,18 +1126,7 @@ fn update_body_extents_indices(w: &mut WorldInner, body: BodyId, indices: impl I
         min_extent = min_extent.min(shape_min.max(LINEAR_SLOP));
         let points: Vec<[f32; 3]> = match shape.kind {
             KIND_SPHERE => vec![shape.geometry_center],
-            KIND_CAPSULE => vec![
-                [
-                    shape.geometry_center[0] - shape.axis[0],
-                    shape.geometry_center[1] - shape.axis[1],
-                    shape.geometry_center[2] - shape.axis[2],
-                ],
-                [
-                    shape.geometry_center[0] + shape.axis[0],
-                    shape.geometry_center[1] + shape.axis[1],
-                    shape.geometry_center[2] + shape.axis[2],
-                ],
-            ],
+            KIND_CAPSULE => shape.capsule_points().to_vec(),
             KIND_BOX => vec![[
                 local_center[0]
                     + (shape.geometry_center[0] - local_center[0]).abs()
@@ -1170,7 +1209,22 @@ fn attach_shape(
             let old_center = cpu.gpu.pos;
             let origin = body_origin(cpu);
             let static_body = (cpu.gpu.flags & (FLAG_STATIC | FLAG_KINEMATIC)) != 0;
-            let local = if static_body || mass == 0.0 { [0.0; 3] } else { local };
+            let shape_center = local;
+            // Preserve the native weighted-center calculation even for one
+            // shape; cancelling mass algebraically changes the stored COM.
+            let local = if static_body || mass == 0.0 { [0.0; 3] } else {
+                let inv_mass = 1.0 / mass;
+                local.map(|value| inv_mass * (mass * value))
+            };
+            let d = [local[0]-shape_center[0], local[1]-shape_center[1], local[2]-shape_center[2]];
+            let local_inertia = [
+                local_inertia[0] + mass * (d[1]*d[1] + d[2]*d[2]),
+                local_inertia[1] + mass * (d[0]*d[0] + d[2]*d[2]),
+                local_inertia[2] + mass * (d[0]*d[0] + d[1]*d[1]),
+                local_inertia[3] - mass*d[0]*d[1],
+                local_inertia[4] - mass*d[0]*d[2],
+                local_inertia[5] - mass*d[1]*d[2],
+            ];
             cpu.mass = if static_body { 0.0 } else { mass };
             cpu.local_center = local;
             cpu.local_inertia = if static_body { [0.0; 6] } else { local_inertia };
@@ -1325,7 +1379,7 @@ pub fn b3_create_capsule_shape(body: BodyId, def: &ShapeDef, capsule: &Capsule) 
             mass_data.mass,
             mass_data.inertia,
             r,
-            Vec::new(),
+            vec![capsule.center1, capsule.center2],
             Vec::new(),
             Vec::new(),
             Vec::new(),
@@ -2229,7 +2283,7 @@ pub fn b3_create_revolute_joint(world: WorldId, def: &RevoluteJointDef) -> Joint
             a: gpu_index(def.body_a),
             b: gpu_index(def.body_b),
             kind: JOINT_REVOLUTE,
-            _pad0: 0,
+            solver_color: 0,
             anchor_a,
             hertz: def.hertz,
             anchor_b,
@@ -2278,7 +2332,7 @@ pub fn b3_create_spherical_joint(world: WorldId, def: &SphericalJointDef) -> Joi
             a: gpu_index(def.body_a),
             b: gpu_index(def.body_b),
             kind: JOINT_SPHERICAL,
-            _pad0: 0,
+            solver_color: 0,
             anchor_a,
             hertz: def.hertz,
             anchor_b,
@@ -2329,7 +2383,7 @@ pub fn b3_create_prismatic_joint(world: WorldId, def: &PrismaticJointDef) -> Joi
             a: gpu_index(def.body_a),
             b: gpu_index(def.body_b),
             kind: JOINT_PRISMATIC,
-            _pad0: 0,
+            solver_color: 0,
             anchor_a,
             hertz: def.hertz,
             anchor_b,
@@ -2509,7 +2563,7 @@ pub fn b3_create_weld_joint(world: WorldId, def: &WeldJointDef) -> JointId {
             a: gpu_index(def.body_a),
             b: gpu_index(def.body_b),
             kind: JOINT_WELD,
-            _pad0: 0,
+            solver_color: 0,
             anchor_a,
             hertz: def.hertz,
             anchor_b,
@@ -3086,6 +3140,20 @@ fn shapes_collide(a: Filter, b: Filter) -> bool {
 }
 
 #[cfg(not(target_arch = "wasm32"))]
+// Convex CCD interpolates transforms. Express its proxy about COM so linear
+// interpolation follows Box3D's sweep center rather than the curved origin path.
+fn convex_ccd_com_shape(mut shape: HostShape, center: [f32; 3]) -> HostShape {
+    let center = glam::Vec3::from_array(center);
+    shape.local_points = Arc::new(shape.local_points.iter()
+        .map(|&p| (glam::Vec3::from_array(p) - center).to_array()).collect());
+    shape.local_center = (glam::Vec3::from_array(shape.local_center) - center).to_array();
+    shape.hull_planes = Arc::new(shape.hull_planes.iter().map(|&p| {
+        [p[0], p[1], p[2], p[3] - glam::Vec3::new(p[0], p[1], p[2]).dot(center)]
+    }).collect());
+    shape
+}
+
+#[cfg(not(target_arch = "wasm32"))]
 fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyGpu]) -> bool {
     if !w.def.enable_continuous || w.step_start_bodies.len() != bodies.len() {
         return false;
@@ -3164,12 +3232,13 @@ fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyG
         };
         let start_fast_body = w.step_start_bodies[dense_fast];
         let mut end_fast_body = bodies[dense_fast];
-        let start_fast = body_transform(&start_fast_body, cpu_fast.local_center);
-        let end_fast = body_transform(&end_fast_body, cpu_fast.local_center);
+        let start_fast = WorldTransform { p: start_fast_body.pos, q: start_fast_body.rot };
+        let end_fast = WorldTransform { p: end_fast_body.pos, q: end_fast_body.rot };
         let fast_shapes: Vec<(usize, HostShape, u32)> = own_shapes[source_fast]
             .iter().map(|&index| {
                 let shape = w.shapes[index].as_ref().expect("live shape index");
-                (index, host_shape(w, world0, index, shape).expect("valid convex shape"), shape.event_flags)
+                let proxy = host_shape(w, world0, index, shape).expect("valid convex shape");
+                (index, convex_ccd_com_shape(proxy, cpu_fast.local_center), shape.event_flags)
             }).collect();
         let mut solid_fraction = 1.0f32;
         let mut sensor_hits: Vec<(f32, ShapeId, ShapeId)> = Vec::new();
@@ -3203,7 +3272,7 @@ fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyG
                 {
                     continue;
                 }
-                let Some(target_shape) = host_shape(w, world0, target_index, target_cpu) else {
+                let Some(mut target_shape) = host_shape(w, world0, target_index, target_cpu) else {
                     continue;
                 };
                 if (target_cpu.event_flags | fast_flags) & SHAPE_ENABLE_CUSTOM_FILTERING != 0 {
@@ -3224,8 +3293,14 @@ fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyG
                     continue;
                 };
                 let target_start_body = w.step_start_bodies[dense_target];
-                let start_target = body_transform(&target_start_body, cpu_target.local_center);
-                let end_target = body_transform(&target_end_body, cpu_target.local_center);
+                let (start_target, end_target) = if target_shape.kind == KIND_MESH {
+                    (body_transform(&target_start_body, cpu_target.local_center),
+                     body_transform(&target_end_body, cpu_target.local_center))
+                } else {
+                    target_shape = convex_ccd_com_shape(target_shape, cpu_target.local_center);
+                    (WorldTransform { p: target_start_body.pos, q: target_start_body.rot },
+                     WorldTransform { p: target_end_body.pos, q: target_end_body.rot })
+                };
                 if !bounds_overlap(
                     fast_bounds,
                     sweep_bounds(&target_shape, start_target, end_target),
@@ -3247,6 +3322,7 @@ fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyG
                         start_fast,
                         end_fast,
                         solid_fraction,
+                        is_sensor,
                     )
                     .into_iter()
                     .map(|candidate| candidate.hit)
@@ -4617,6 +4693,7 @@ fn configure_convex_ccd(w:&mut WorldInner,id:WorldId,refresh:bool) {
         let Some(shape)=slot.as_ref() else {continue;};
         let Some(host)=host_shape(w,id.index1,index,shape) else {continue;};
         let body=(shape.body_index-1) as usize;
+        let host=convex_ccd_com_shape(host,w.bodies[body].as_ref().unwrap().local_center);
         let first=scene.points.len() as u32;
         scene.points.extend(host.local_points.iter().map(|p|[p[0],p[1],p[2],0.0]));
         let sweep_radius=host.local_points.iter().map(|p|glam::Vec3::from_array(*p).length()+host.radius).fold(host.radius,f32::max);
@@ -4629,9 +4706,10 @@ fn configure_convex_ccd(w:&mut WorldInner,id:WorldId,refresh:bool) {
         if w.bodies[body].as_ref().unwrap().gpu.flags & (FLAG_STATIC|FLAG_KINEMATIC)!=0 {targets.push(number);}
     }
     for (i,slot) in w.bodies.iter().enumerate() {
-        let (min_extent,max_extent,center)=slot.as_ref().map(|b|(b.min_extent,b.max_extent,b.local_center)).unwrap_or((0.0,0.0,[0.0;3]));
+        let (min_extent,max_extent)=slot.as_ref().map(|b|(b.min_extent,b.max_extent)).unwrap_or((0.0,0.0));
         scene.bodies.push(ConvexBody{first:scene.indices.len() as u32,count:own[i].len() as u32,
-            min_extent,max_extent,center:[center[0],center[1],center[2],0.0]});
+            // Proxies are already expressed relative to COM.
+            min_extent,max_extent,center:[0.0;4]});
         scene.indices.extend_from_slice(&own[i]);
     }
     scene.targets_first=scene.indices.len() as u32;scene.targets_count=targets.len() as u32;
@@ -4869,6 +4947,28 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
             let cpu = w.shapes[gpu_shape._pad_filter[1] as usize].as_ref().unwrap();
             if cpu.compound_parent != 0 {
                 gpu_shape._pad_filter[0] = proxy_indices[&cpu.compound_parent];
+            }
+        }
+        if w.physics_step == 0 && !joints.is_empty() {
+            let mut proxies = Vec::new();
+            let mut supported = true;
+            for (index, gpu_shape) in shapes.iter().enumerate() {
+                let shape = w.shapes[gpu_shape._pad_filter[1] as usize].as_ref().unwrap();
+                let body = w.bodies[(shape.body_index - 1) as usize].as_ref().unwrap();
+                if crate::types::gpu_is_non_dynamic(body.gpu.flags) || body.gpu.flags & crate::types::FLAG_DISABLED != 0 { continue; }
+                if shape.compound_parent != 0 || !matches!(shape.kind, KIND_SPHERE | KIND_CAPSULE | KIND_BOX | KIND_CONVEX_HULL) {
+                    supported = false;
+                    break;
+                }
+                proxies.push((index, initial_proxy_bounds(body, shape)));
+            }
+            if supported {
+                let trace = std::env::var_os("GPU_PHYSICS_TRACE_INITIAL_ORDER").is_some();
+                if trace { for (i,b) in &proxies { eprintln!("initial-proxy {} {:?} {:?}", shapes[*i]._pad_filter[1], b.lower, b.upper); } }
+                for (rank, index) in crate::broadphase_order::initial_leaf_order(proxies).into_iter().enumerate() {
+                    shapes[index].initial_order[0] = rank as u32;
+                    if trace { eprintln!("initial-leaf {} {}", shapes[index]._pad_filter[1], rank); }
+                }
             }
         }
         let identities: Vec<_> = shapes.iter().map(|s| {
@@ -6929,18 +7029,7 @@ fn host_shape_direct(w: &WorldInner, world0: u16, index: usize, shape: &CpuShape
         .as_ref()?;
     let local_points = match shape.kind {
         KIND_SPHERE => vec![shape.geometry_center],
-        KIND_CAPSULE => vec![
-            [
-                shape.geometry_center[0] - shape.axis[0],
-                shape.geometry_center[1] - shape.axis[1],
-                shape.geometry_center[2] - shape.axis[2],
-            ],
-            [
-                shape.geometry_center[0] + shape.axis[0],
-                shape.geometry_center[1] + shape.axis[1],
-                shape.geometry_center[2] + shape.axis[2],
-            ],
-        ],
+        KIND_CAPSULE => shape.capsule_points().to_vec(),
         KIND_BOX => {
             let mut points = Vec::with_capacity(8);
             for x in [-shape.half[0], shape.half[0]] {
@@ -10600,6 +10689,45 @@ mod convex_ccd_integration_tests {
                 if use_gpu {assert!((y-baseline).abs()<2e-4,"case {case}: GPU {y} CPU {baseline}");}
                 else {baseline=y;}
                 assert_eq!(y>0.49,case==0 || case==3,"case {case}: {y}");
+                b3_destroy_world(world);
+            }
+        }
+    }
+
+    #[test]
+    fn convex_ccd_rotating_offset_capsule_matches_centered_geometry() {
+        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+        for use_gpu in [false, true] {
+            let mut reference: Option<([f32;3], [f32;4])> = None;
+            for offset in [0.0, 3.0] {
+                let mut wd = b3_default_world_def();
+                wd.gravity = [0.0;3];
+                wd.enable_sleep = false;
+                let world = b3_create_world(gpu.clone(), &wd);
+                with_world_mut_no_sync(world, |w| w.gpu_ccd_requested = use_gpu);
+                crate::scenes::create_ground(world, 10.0);
+                let mut bd = b3_default_body_def();
+                bd.body_type = BodyType::Dynamic;
+                bd.position = [-offset, 1.0, 0.0];
+                let body = b3_create_body(world, &bd);
+                b3_create_capsule_shape(body, &b3_default_shape_def(), &Capsule {
+                    center1:[offset-1.0,0.0,0.0], center2:[offset+1.0,0.0,0.0], radius:0.1,
+                });
+                // Assign COM velocities after automatic mass recentering.
+                b3_body_set_linear_velocity(body, [0.0,-5.0,0.0]);
+                b3_body_set_angular_velocity(body, [0.0,0.0,10.0]);
+                b3_world_step(world, 0.1, 4);
+                let center = b3_body_get_world_center(body);
+                let rotation = b3_body_get_rotation(body);
+                assert!(center[1] > 0.5, "CCD must arrest the rotating sweep: {center:?}");
+                if let Some((p, q)) = reference {
+                    for (x,y) in center.into_iter().chain(rotation).zip(p.into_iter().chain(q)) {
+                        assert!((x-y).abs() < 1e-4, "CCD depends on body origin: GPU={use_gpu}, offset={offset}, {center:?}, {rotation:?}");
+                    }
+                } else {
+                    reference = Some((center, rotation));
+                }
+                assert_eq!(with_world_no_sync(world, |w| w.sim.as_ref().unwrap().uses_convex_ccd()), Some(use_gpu));
                 b3_destroy_world(world);
             }
         }

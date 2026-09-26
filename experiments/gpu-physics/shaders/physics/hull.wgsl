@@ -239,19 +239,19 @@ fn closest_segments(p1: vec3<f32>, d1: vec3<f32>, p2: vec3<f32>, d2: vec3<f32>) 
     let f = dot(d2, r);
     var s = 0.0;
     var t = 0.0;
-    if (a <= 1e-12 && e <= 1e-12) {
+    if (a < 1.1920929e-5 && e < 1.1920929e-5) {
         return vec2<f32>(0.0, 0.0);
     }
-    if (a <= 1e-12) {
+    if (a < 1.1920929e-5) {
         t = clamp(f / e, 0.0, 1.0);
     } else {
         let c = dot(d1, r);
-        if (e <= 1e-12) {
+        if (e < 1.1920929e-5) {
             s = clamp(-c / a, 0.0, 1.0);
         } else {
             let b = dot(d1, d2);
             let denom = a * e - b * b;
-            if (denom != 0.0) {
+            if (denom > 1.17549435e-35) {
                 s = clamp((b * f - c * e) / denom, 0.0, 1.0);
             }
             t = (b * s + f) / e;

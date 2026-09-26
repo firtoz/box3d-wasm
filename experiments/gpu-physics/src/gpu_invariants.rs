@@ -954,6 +954,26 @@ fn capsule_mass_data_matches_compute_helper() {
 }
 
 #[test]
+fn capsule_body_center_matches_native_inverse_mass_scaling() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let world = b3_create_world(gpu, &b3_default_world_def());
+    let mut def = b3_default_body_def();
+    def.body_type = BodyType::Dynamic;
+    let body = b3_create_body(world, &def);
+    b3_create_capsule_shape(body, &b3_default_shape_def(), &Capsule {
+        center1: [0.023719,0.006008,-0.039068],
+        center2: [-0.064492,-0.004664,-0.424718], radius: 0.09,
+    });
+    let mass = b3_body_get_mass_data(body);
+    // Independent CPU Falling Ragdolls left thigh, before the first step.
+    assert_eq!(mass.mass.to_bits(), 13.1243343_f32.to_bits());
+    for (actual, expected) in mass.center.into_iter().zip([-0.0203865003_f32,0.000671999936,-0.231893003]) {
+        assert_eq!(actual.to_bits(), expected.to_bits(), "native body center");
+    }
+    b3_destroy_world(world);
+}
+
+#[test]
 fn capsule_compound_inertia_applies_parallel_axis_once() {
     let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
     let world = b3_create_world(gpu, &b3_default_world_def());
@@ -1488,14 +1508,14 @@ fn revolute_keeps_one_group_contact_waves() {
     b3_world_enable_sleeping(world, false);
     b3_world_ensure_gpu(world);
     b3_world_step_gpu(world, 1.0 / 60.0, 4);
-    // Each warm-start/solve/relax wave has dynamic and static contact halves,
-    // separated by anchored joints. Restitution remains one complete wave.
-    assert_eq!(b3_world_last_solver_dispatches(world), 4 * 3 * 2 + 1);
-    assert_eq!(b3_world_last_joint_dispatches(world), 4 * 3 * 2);
+    // Jointed worlds share graph colors. A small world executes each complete
+    // wave in one workgroup; the diagnostic dispatches all 24 colors separately.
+    assert_eq!(b3_world_last_solver_dispatches(world), 4 * 3 + 1);
+    assert_eq!(b3_world_last_joint_dispatches(world), 4 * 3);
     b3_world_set_diagnostic_flags(world, DIAG_GENERAL_SOLVER);
     b3_world_step_gpu(world, 1.0 / 60.0, 4);
-    assert_eq!(b3_world_last_solver_dispatches(world), 4 * 3 * 26 + 25);
-    assert_eq!(b3_world_last_joint_dispatches(world), 4 * 3 * 2);
+    assert_eq!(b3_world_last_solver_dispatches(world), (4 * 3 + 1) * 24);
+    assert_eq!(b3_world_last_joint_dispatches(world), 4 * 3 * 24);
     b3_destroy_world(world);
 }
 
@@ -2071,6 +2091,15 @@ fn joint_chain_stays_one_writable_component() {
     let owners = crate::api::b3_world_joint_writable_owners(world);
     let roots: std::collections::HashSet<u32> = owners.iter().map(|(_, r)| *r).collect();
     assert_eq!(roots.len(), 1, "connected chain must stay one writable component: {roots:?}");
+    let (ok, lists) = crate::api::b3_world_gpu_joint_lists(world);
+    assert!(ok);
+    assert_eq!(lists.len(), 1);
+    assert!(roots.contains(&lists[0].0), "list readback must preserve the component root");
+    // The anchored joint gets color 22; alternating dynamic links get 0 and 1.
+    // This must differ from creation order while retaining one writable owner.
+    let expected: Vec<u32> = (1..24).step_by(2)
+        .chain((2..24).step_by(2)).chain(std::iter::once(0)).collect();
+    assert_eq!(lists[0].1, expected, "joint list must follow CPU graph priority");
     let p = b3_body_get_position(last);
     assert!(p[1].is_finite() && p[1] > -2.0, "chain end {p:?}");
     b3_destroy_world(world);
@@ -2879,6 +2908,70 @@ fn gpu_joint_lists_are_exclusive_and_ordered() {
     }
     assert_eq!(seen.len(), 24, "every live joint must appear once, got {}", seen.len());
     b3_destroy_world(world);
+}
+
+#[test]
+fn joint_contact_wave_matches_general_colors_with_more_than_64_components() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let run = |flags| {
+        let world = b3_create_world(gpu.clone(), &b3_default_world_def());
+        b3_world_enable_sleeping(world, false);
+        b3_world_set_diagnostic_flags(world, flags);
+        let ground = create_ground(world, 100.0);
+        let mut bodies = Vec::new();
+        for i in 0..80 {
+            let x = -79.0 + 2.0 * i as f32;
+            for z in [0.0, 1.1] {
+                let mut bd = b3_default_body_def();
+                bd.body_type = BodyType::Dynamic;
+                bd.position = [x, 0.45, z];
+                let body = b3_create_body(world, &bd);
+                b3_create_hull_shape(body, &b3_default_shape_def(), &b3_make_box_hull(0.4, 0.5, 0.4));
+                bodies.push(body);
+            }
+            let mut joint = b3_default_spherical_joint_def();
+            joint.body_a = bodies[bodies.len() - 2];
+            joint.body_b = bodies[bodies.len() - 1];
+            joint.local_anchor_a = [0.0, 0.0, 0.55];
+            joint.local_anchor_b = [0.0, 0.0, -0.55];
+            b3_create_spherical_joint(world, &joint);
+            joint.body_b = joint.body_a;
+            joint.body_a = ground;
+            joint.local_anchor_a = [x, 1.45, 0.0];
+            joint.local_anchor_b = [0.0; 3];
+            joint.collide_connected = true;
+            b3_create_spherical_joint(world, &joint);
+        }
+        for _ in 0..10 {
+            b3_world_step_gpu(world, 1.0 / 60.0, 4);
+        }
+        b3_world_gpu_wait_with_mirror(world);
+        assert_exclusive_writable_owners(world);
+        let (ok, lists) = crate::api::b3_world_gpu_joint_lists(world);
+        assert!(ok);
+        assert_eq!(lists.len(), 80);
+        let contacts = pollster::block_on(b3_world_sync_contacts(world));
+        let mut counts = [0; 24];
+        for c in contacts.iter().filter(|c| c.a != u32::MAX && c.count > 0) {
+            // Ground joint owns color 22 on the first body of each pair. Its
+            // ground contact must use 21; the second body's contact gets 22.
+            let dynamic = if c.a == 0 { c.b } else { c.a };
+            let expected = if dynamic % 2 == 1 { 21 } else { 22 };
+            assert_eq!(c.color, expected, "contact conflicts with joint color");
+            counts[c.color as usize] += 1;
+        }
+        assert!(counts[21] > 64 && counts[22] > 64, "exercise strided contact waves: {counts:?}");
+        let result = poses_of(&bodies);
+        b3_destroy_world(world);
+        result
+    };
+    let wave = run(0);
+    let general = run(DIAG_GENERAL_SOLVER);
+    for (a, b) in wave.iter().zip(&general) {
+        for (x, y) in a.0.iter().chain(&a.1).zip(b.0.iter().chain(&b.1)) {
+            assert!(x.is_finite() && y.is_finite() && (x-y).abs() < 1e-5, "wave {a:?}, general {b:?}");
+        }
+    }
 }
 
 #[test]
@@ -4078,6 +4171,45 @@ fn body_contact_recycling_setting_reaches_gpu_for_either_endpoint() {
 }
 
 #[test]
+fn revolute_substep_warm_start_matches_cpu() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let mut wd = b3_default_world_def();
+    wd.gravity = [0.0; 3];
+    wd.enable_sleep = false;
+    wd.enable_continuous = false;
+    let world = b3_create_world(gpu, &wd);
+    let ground = b3_create_body(world, &b3_default_body_def());
+    let mut bd = b3_default_body_def();
+    bd.body_type = BodyType::Dynamic;
+    bd.rotation = [0.0998334166, 0.0, 0.0, 0.995004177];
+    bd.angular_velocity = [0.2, 0.7, 5.0];
+    let body = b3_create_body(world, &bd);
+    b3_create_hull_shape(body, &b3_default_shape_def(), &b3_make_box_hull(0.2, 0.3, 0.4));
+    let mut jd = b3_default_revolute_joint_def();
+    jd.body_a = ground;
+    jd.body_b = body;
+    b3_create_revolute_joint(world, &jd);
+    // Independent Box3D oracle: rotating anisotropic box with initial hinge tilt.
+    // Later substeps must warm start on the last solve's perpendicular axes.
+    let expected = [
+        [0.0310692787, 0.000106125604, 0.041259259, 0.998665333, 0.00681114197, -0.152240261, 4.90252972],
+        [0.00966917723, 0.0000330051407, 0.0820644796, 0.996580184, 0.00404787064, -0.0471853167, 4.89763641],
+        [0.0030093519, 0.0000102607291, 0.122665122, 0.992443562, 0.00185754895, -0.0146196187, 4.8970685],
+    ];
+    for (step, reference) in expected.iter().enumerate() {
+        b3_world_step_gpu(world, 1.0 / 60.0, 4);
+        b3_world_gpu_wait_with_mirror(world);
+        let q = b3_body_get_rotation(body);
+        let omega = b3_body_get_angular_velocity(body);
+        for (component, (&actual, &target)) in q.iter().chain(omega.iter()).zip(reference).enumerate() {
+            assert!((actual - target).abs() < 1e-4,
+                "step {} component {component}: {actual} vs {target}", step + 1);
+        }
+    }
+    b3_destroy_world(world);
+}
+
+#[test]
 fn rotated_revolute_frame_corrects_tilt_instead_of_amplifying_it() {
     let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
     for yaw in [0.0_f32, 0.7, std::f32::consts::FRAC_PI_2] {
@@ -4784,4 +4916,406 @@ fn shape_pair_lifecycle_at_capacity(filler_count: u32) {
     assert!(!pollster::block_on(b3_world_live_step_stats(world)).unwrap().capacity_loss());
     assert!(!b3_world_physics_invalid(world));
     b3_destroy_world(world);
+}
+
+#[test]
+fn capsule_contact_endpoint_is_translation_invariant() {
+    // The Falling Ragdolls spine pair has almost parallel axes. At x=8.25,
+    // world-space endpoint rounding previously flipped the torque lever arm.
+    // Independent Box3D C gives +0.06 m for both anchors at every translation.
+    for x in [0.0, 7.5, 8.25, -7.5] {
+        let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+        let mut wd = b3_default_world_def();
+        wd.gravity = [0.0; 3];
+        let world = b3_create_world(gpu, &wd);
+        let mut bd = b3_default_body_def();
+        bd.body_type = BodyType::Dynamic;
+        bd.position = [x, 16.113505, -0.03481];
+        bd.rotation = [0.739973, 0.0, 0.0, 0.672637];
+        let a = b3_create_body(world, &bd);
+        let sd = b3_default_shape_def();
+        b3_create_capsule_shape(a, &sd, &Capsule {
+            center1: [0.06, 0.0, -0.052264],
+            center2: [-0.06, 0.0, -0.052264], radius: 0.12,
+        });
+        bd.position = [x, 16.31043, -0.028232];
+        bd.rotation = [0.669856, 0.000001, -0.000001, 0.742491];
+        let b = b3_create_body(world, &bd);
+        b3_create_capsule_shape(b, &sd, &Capsule {
+            center1: [0.11, -0.039753, -0.13],
+            center2: [-0.11, -0.039753, -0.13], radius: 0.145,
+        });
+        b3_world_step_gpu(world, 1.0 / 60.0, 4);
+        b3_world_gpu_wait_with_mirror(world);
+        let mut data = [crate::api::ContactData::default(); 2];
+        assert_eq!(crate::api::b3_body_get_contact_data(a, &mut data), 1);
+        assert_eq!(data[0].manifold_count, 1);
+        let manifold = unsafe { &*data[0].manifolds };
+        assert_eq!(manifold.point_count, 1);
+        let point = manifold.points[0];
+        for anchor in [point.anchor_a, point.anchor_b] {
+            assert!((anchor[0] - 0.06).abs() < 1e-5,
+                "x={x}: wrong capsule endpoint {anchor:?}");
+        }
+        assert!((point.separation - 0.00995803).abs() < 2e-6);
+        b3_destroy_world(world);
+    }
+}
+
+#[test]
+fn jointed_contact_keeps_color_when_another_contact_stops() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let mut wd = b3_default_world_def();
+    wd.gravity = [0.0; 3];
+    wd.enable_sleep = false;
+    let world = b3_create_world(gpu, &wd);
+    let ground = b3_create_body(world, &b3_default_body_def());
+    let mut bd = b3_default_body_def();
+    bd.body_type = BodyType::Dynamic;
+    let center = b3_create_body(world, &bd);
+    let sphere = Sphere { center: [0.0; 3], radius: 1.0 };
+    let sd = b3_default_shape_def();
+    b3_create_sphere_shape(center, &sd, &sphere);
+    bd.position = [1.99, 0.0, 0.0];
+    let right = b3_create_body(world, &bd);
+    b3_create_sphere_shape(right, &sd, &sphere);
+    bd.position = [-1.99, 0.0, 0.0];
+    let left = b3_create_body(world, &bd);
+    b3_create_sphere_shape(left, &sd, &sphere);
+    let mut joint = b3_default_spherical_joint_def();
+    joint.body_a = ground;
+    joint.body_b = center;
+    b3_create_spherical_joint(world, &joint);
+    b3_world_step_gpu(world, 1.0 / 60.0, 4);
+    let contacts = pollster::block_on(b3_world_sync_contacts(world));
+    let active: Vec<_> = contacts.iter().filter(|c| c.a != u32::MAX && c.count > 0).collect();
+    assert_eq!(active.len(), 2);
+    let later = active.iter().find(|c| c.color == 1).expect("second-colored contact");
+    let staying = if later.a == (left.index1 - 1) as u32 || later.b == (left.index1 - 1) as u32 { left } else { right };
+    let leaving = if staying.index1 == left.index1 { right } else { left };
+    let color = later.color;
+    let direction = b3_body_get_position(leaving)[0].signum();
+    b3_body_set_linear_velocity(leaving, [100.0 * direction, 0.0, 0.0]);
+    for step in 0..3 {
+        b3_world_step_gpu(world, 1.0 / 60.0, 4);
+        let cs = pollster::block_on(b3_world_sync_contacts(world));
+        let contact = cs.iter().find(|c| c.count > 0 && c.a != u32::MAX
+            && (c.a == (staying.index1 - 1) as u32 || c.b == (staying.index1 - 1) as u32))
+            .expect("staying contact after separation");
+        assert_eq!(contact.color, color, "surviving contact recolored at step {step}");
+    }
+    let contacts = pollster::block_on(b3_world_sync_contacts(world));
+    let active: Vec<_> = contacts.iter().filter(|c| c.a != u32::MAX && c.count > 0).collect();
+    assert_eq!(active.len(), 1);
+    assert_eq!(active[0].color, color, "surviving contact changed solve priority");
+    b3_destroy_world(world);
+}
+
+#[test]
+fn capsule_feature_ids_survive_single_and_clipped_manifold_transitions() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let mut wd = b3_default_world_def();
+    wd.gravity = [0.0; 3];
+    wd.enable_sleep = false;
+    let world = b3_create_world(gpu, &wd);
+    b3_world_enable_continuous(world, false);
+    let mut bd = b3_default_body_def();
+    bd.body_type = BodyType::Dynamic;
+    bd.enable_contact_recycling = false;
+    let short = b3_create_body(world, &bd);
+    let sd = b3_default_shape_def();
+    b3_create_capsule_shape(short, &sd, &Capsule {
+        center1: [-0.5,0.0,0.0], center2: [0.5,0.0,0.0], radius: 0.2,
+    });
+    bd.position = [0.0,0.35,0.0];
+    let long = b3_create_body(world, &bd);
+    b3_create_capsule_shape(long, &sd, &Capsule {
+        center1: [-0.7,0.0,0.0], center2: [0.7,0.0,0.0], radius: 0.2,
+    });
+    let expected = [vec![(0,false),(0x00010001,false)], vec![(0,true)],
+                    vec![(0,true),(0x00010001,false)]];
+    for (step, angle) in [0.0, -0.2, 0.0].into_iter().enumerate() {
+        b3_body_set_transform(short, [0.0;3], [0.0,0.0,0.0,1.0]);
+        b3_body_set_transform(long, [0.0,0.35,0.0], b3_make_quat_from_axis_angle([0.0,0.0,1.0], angle));
+        for body in [short,long] {
+            b3_body_set_linear_velocity(body, [0.0;3]);
+            crate::api::b3_body_set_angular_velocity(body, [0.0;3]);
+        }
+        b3_world_step_gpu(world, 1.0/60.0, 4);
+        let contacts = pollster::block_on(b3_world_sync_contacts(world));
+        let c = contacts.iter().find(|c| c.a != u32::MAX && c.count > 0).expect("capsule contact");
+        let manifold = crate::api::contact_data::decode_manifold(c).unwrap();
+        let mut actual: Vec<_> = manifold.points[..manifold.point_count as usize].iter()
+            .map(|p|(p.feature_id,p.persisted)).collect();
+        actual.sort();
+        assert_eq!(actual, expected[step], "feature identity transition {step}");
+    }
+    b3_destroy_world(world);
+}
+
+#[test]
+fn capsule_rolling_and_twist_friction_match_cpu() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let mut wd = b3_default_world_def();
+    wd.gravity = [0.0; 3];
+    wd.enable_sleep = false;
+    let world = b3_create_world(gpu, &wd);
+    b3_world_enable_continuous(world, false);
+    let mut bd = b3_default_body_def();
+    bd.body_type = BodyType::Dynamic;
+    bd.enable_contact_recycling = false;
+    bd.linear_velocity = [0.4, 0.2, -0.3];
+    bd.angular_velocity = [2.0, -1.0, 3.0];
+    let a = b3_create_body(world, &bd);
+    let mut sd = b3_default_shape_def();
+    sd.rolling_resistance = 0.2;
+    b3_create_capsule_shape(a, &sd, &Capsule {
+        center1: [-0.5,0.0,0.0], center2: [0.5,0.0,0.0], radius: 0.2,
+    });
+    bd.position = [0.0,0.35,0.0];
+    bd.linear_velocity = [-0.3, -0.5, 0.4];
+    bd.angular_velocity = [-3.0, 2.0, -1.0];
+    let b = b3_create_body(world, &bd);
+    b3_create_capsule_shape(b, &sd, &Capsule {
+        center1: [-0.7,0.0,0.0], center2: [0.7,0.0,0.0], radius: 0.2,
+    });
+    // Independent Box3D C, same two capsules, two steps with four substeps.
+    // Concurrent rolling/twist friction makes Gauss-Seidel phase order observable.
+    let expected_steps = [
+        [
+            [0.12671411, -0.456347167, -0.105784342, 3.52523422, 0.57609266, 1.01008356],
+            [-0.0923027173, -0.00117617473, 0.252396047, -1.47855854, 1.31995833, 0.242672667],
+        ],
+        [
+            [0.12671411, -0.456347108, -0.105784342, 3.52395248, 0.62885797, 0.982259154],
+            [-0.0923027173, -0.00117617473, 0.252396047, -1.47760618, 1.3150624, 0.272714734],
+        ],
+    ];
+    for expected in expected_steps {
+        b3_world_step_gpu(world, 1.0/60.0, 4);
+        b3_world_gpu_wait_with_mirror(world);
+        for (body, expected) in [a,b].into_iter().zip(expected) {
+            let v = b3_body_get_linear_velocity(body);
+            let w = b3_body_get_angular_velocity(body);
+            let actual = [v[0],v[1],v[2],w[0],w[1],w[2]];
+            for i in 0..6 {
+                assert!((actual[i]-expected[i]).abs() < 1e-4,
+                    "rolling/twist response: actual={actual:?} CPU={expected:?}");
+            }
+        }
+    }
+    b3_destroy_world(world);
+}
+
+#[test]
+fn capsule_original_endpoints_match_cpu_contact_normal() {
+    // Captured CPU frame-2 thigh/spine inputs. Reconstructing the asymmetric
+    // endpoints through a midpoint/axis changes the normal by one float ulp.
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let mut wd = b3_default_world_def();
+    wd.gravity = [0.0; 3];
+    wd.enable_sleep = false;
+    wd.enable_continuous = false;
+    let world = b3_create_world(gpu, &wd);
+    let mut bd = b3_default_body_def();
+    bd.body_type = BodyType::Dynamic;
+    bd.enable_contact_recycling = false;
+    bd.position = [-6.74983692,16.1078739,-7.53534126];
+    bd.rotation = [0.740263045,0.000472915184,0.000308163959,0.672317207];
+    let b = b3_create_body(world, &bd);
+    let sd = b3_default_shape_def();
+    b3_create_capsule_shape(b, &sd, &Capsule {
+        center1: [0.0599999987,0.0,-0.0522640012],
+        center2: [-0.0599999987,0.0,-0.0522640012], radius: 0.119999997,
+    });
+    bd.position = [-6.81319523,15.9843035,-7.53504276];
+    bd.rotation = [-0.700930178,0.0899335667,-0.0780423284,0.703219891];
+    let a = b3_create_body(world, &bd);
+    let capsule = Capsule {
+        center1: [-0.0237189997,0.00600800011,-0.0390679985],
+        center2: [0.0644920021,-0.00466400012,-0.424717993], radius: 0.0900000036,
+    };
+    let shape = b3_create_capsule_shape(a, &sd, &capsule);
+    let actual = crate::api::b3_shape_get_capsule(shape);
+    assert_eq!(actual.center1, capsule.center1);
+    assert_eq!(actual.center2, capsule.center2);
+    assert!(crate::api::b3_shape_set_capsule(shape, &capsule));
+    let actual = crate::api::b3_shape_get_capsule(shape);
+    assert_eq!(actual.center1, capsule.center1);
+    assert_eq!(actual.center2, capsule.center2);
+    b3_world_step_gpu(world,1.0/60.0,4);
+    let contacts = pollster::block_on(b3_world_sync_contacts(world));
+    let c = contacts.iter().find(|c| c.a != u32::MAX && c.count > 0).expect("contact");
+    let sign = if c.a == (a.index1-1) as u32 { 1.0 } else { -1.0 };
+    for (actual, expected) in [c.nx,c.ny,c.nz].into_iter()
+        .zip([0.168884620,0.984409750,0.0491481274]) {
+        assert!((sign*actual-expected).abs()<2e-8,
+            "CPU contact normal: {} vs {expected}",sign*actual);
+    }
+    b3_destroy_world(world);
+}
+
+#[test]
+fn capsule_friction_rotating_normal_matches_cpu() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let mut wd = b3_default_world_def();
+    wd.enable_sleep = false;
+    wd.enable_continuous = false;
+    let world = b3_create_world(gpu, &wd);
+    let ground = b3_create_body(world, &b3_default_body_def());
+    let mut sd = b3_default_shape_def();
+    sd.rolling_resistance = 0.2;
+    b3_create_capsule_shape(ground, &sd, &Capsule {
+        center1: [-0.5,0.0,0.0], center2: [0.5,0.0,0.0], radius: 0.2,
+    });
+    let mut bd = b3_default_body_def();
+    bd.body_type = BodyType::Dynamic;
+    bd.enable_contact_recycling = false;
+    bd.position = [0.1,0.38,0.02];
+    bd.rotation = [0.0,0.0,0.074929707,0.997188818];
+    bd.linear_velocity = [0.4,-0.5,0.3];
+    bd.angular_velocity = [2.0,-1.0,3.0];
+    let body = b3_create_body(world, &bd);
+    b3_create_capsule_shape(body, &sd, &Capsule {
+        center1: [-0.4,0.0,0.0], center2: [0.4,0.0,0.0], radius: 0.2,
+    });
+    // Independent Box3D C checkpoints. Sliding/rotating capsules change the
+    // contact normal, so cached friction must be projected onto its new basis.
+    // At step 7 the manifold grows from one point to two. The static capsule
+    // must be the reference segment; reversing it changes clipping and torque.
+    let expected = [
+        [0.0729924738, 0.033056438, 0.408481181, 0.992330968, -0.436167717, -0.346350908],
+        [0.0729924738, -0.133610263, 0.408481181, 0.992664516, -0.440705508, -0.33956039],
+        [0.102183118, -0.229524747, 0.404058933, 1.05939186, -0.44662568, -0.521404445],
+        [0.13933146, -0.315533042, 0.405064017, 1.09358132, -0.442227125, -0.720146716],
+        [0.174168766, -0.40222317, 0.407256573, 1.13306844, -0.441703856, -0.920345724],
+        [0.205887839, -0.490173399, 0.410348147, 1.17827082, -0.445246816, -1.12249553],
+        [-0.000993938185, -0.035963621, 0.377171814, 1.92905891, -0.00116696942, 0.00494829472],
+        [-0.00540184509, -0.0525989383, 0.375118017, 1.91705549, -0.00480221678, 0.0269327909],
+        [-0.00850363728, -0.0648762658, 0.374413282, 1.91505635, -0.00818460807, 0.042076353],
+        [-0.0104090041, -0.0749290287, 0.375255466, 1.92311394, -0.0108003793, 0.0511876307],
+        [-0.0116243809, -0.0839491636, 0.377723187, 1.94111419, -0.012947442, 0.0568599589],
+        [-0.0124602811, -0.0926799178, 0.381848454, 1.96895432, -0.0148413312, 0.0606477037],
+    ];
+    for (step, reference) in expected.iter().enumerate() {
+        b3_world_step_gpu(world,1.0/60.0,4);
+        b3_world_gpu_wait_with_mirror(world);
+        let v = b3_body_get_linear_velocity(body);
+        let w = b3_body_get_angular_velocity(body);
+        for (component, (&actual, &target)) in v.iter().chain(w.iter()).zip(reference).enumerate() {
+            assert!((actual-target).abs()<1e-4,
+                "step {} component {component}: {actual} vs {target}",step+1);
+        }
+    }
+    b3_destroy_world(world);
+}
+
+#[test]
+fn capsule_mesh_contact_uses_capsule_local_frame() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    for offset in [0.0, 1024.0] {
+        let mut wd = b3_default_world_def();
+        wd.gravity = [0.0; 3];
+        wd.enable_sleep = false;
+        wd.enable_continuous = false;
+        let world = b3_create_world(gpu.clone(), &wd);
+        let mut ground_def = b3_default_body_def();
+        ground_def.position = [offset, 0.0, offset];
+        let ground = b3_create_body(world, &ground_def);
+        let mut sd = b3_default_shape_def();
+        sd.rolling_resistance = 0.2;
+        b3_create_mesh_shape(ground, &sd,
+            &[[-10.0,0.0,-10.0],[0.0,0.0,10.0],[10.0,0.0,-10.0]],
+            &[[0,1,2]], &[], &[], &[] as &[MeshNode], [1.0;3]);
+        let mut bd = b3_default_body_def();
+        bd.body_type = BodyType::Dynamic;
+        bd.enable_contact_recycling = false;
+        bd.position = [offset + 0.25,0.5,offset + 0.25];
+        bd.rotation = [-0.700930178,0.0899335667,-0.0780423284,0.703219891];
+        bd.linear_velocity = [0.4,-0.5,-0.3];
+        bd.angular_velocity = [2.0,-1.0,3.0];
+        let body = b3_create_body(world, &bd);
+        b3_create_capsule_shape(body, &sd, &Capsule {
+            center1: [-0.0237189997,0.00600800011,-0.0390679985],
+            center2: [0.0644920021,-0.00466400012,-0.424717993], radius: 0.0900000036,
+        });
+        b3_world_step_gpu(world,1.0/60.0,4);
+        b3_world_gpu_wait_with_mirror(world);
+        // Independent C oracle: triangle rotated into the original capsule frame,
+        // then the manifold normal rotated back with the body matrix.
+        let contacts = pollster::block_on(b3_world_sync_contacts(world));
+        let c = contacts.iter().find(|c| c.a != u32::MAX && c.count > 0).expect("mesh contact");
+        assert_eq!(c.count,2);
+        for (actual,expected) in [c.nx,c.ny,c.nz].into_iter().zip([0.0,0.99999994,-6.98491931e-9]) {
+            assert!((actual-expected).abs()<2e-8,"mesh normal {actual} vs CPU {expected}");
+        }
+        // CPU constructs these COM anchors without a world-space round trip.
+        // Translating the entire scene must not discard the small lever arms.
+        for (anchor, expected) in [c.rb0, c.rb1].into_iter().zip([
+            [0.0025437735, -0.0810171813, -0.00434703194],
+            [-0.00254378468, -0.278829932, 0.00434701517],
+        ]) {
+            for axis in 0..3 {
+                assert!((anchor[axis] - expected[axis]).abs() < 1e-7,
+                    "mesh anchor at offset {offset}: {anchor:?} vs CPU {expected:?}");
+            }
+        }
+        let v = b3_body_get_linear_velocity(body);
+        let w = b3_body_get_angular_velocity(body);
+        // Use an independent CPU run at each translation: body integration itself
+        // also rounds at large coordinates, even though the initial anchors agree.
+        let expected = if offset == 0.0 {
+            [0.788099527,0.0157151818,-0.582600594,-0.768641174,-0.832056761,-0.89757359]
+        } else {
+            [0.788165808,0.0157152414,-0.582630157,-0.768363476,-0.832071841,-0.897239208]
+        };
+        for (actual,expected) in v.into_iter().chain(w).zip(expected) {
+            assert!((actual-expected).abs()<1e-4,"mesh velocity {actual} vs CPU {expected}");
+        }
+        b3_destroy_world(world);
+    }
+}
+
+#[test]
+fn capsule_mesh_friction_uses_cpu_scalar_order() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    for (extent, half_length, expected) in [
+        (10.0,0.5,[-0.00234478712,0.30840981,-0.113943845,-0.576931,-0.0000495237182,0.0118713146]),
+        (1.0,3.0,[-0.522853732,1.3622992,-0.0668234229,-0.338079035,-0.809676886,2.64401054]),
+    ] {
+        let mut wd = b3_default_world_def();
+        wd.gravity = [0.0; 3];
+        wd.enable_sleep = false;
+        let world = b3_create_world(gpu.clone(), &wd);
+        b3_world_enable_continuous(world, false);
+        let ground = b3_create_body(world, &b3_default_body_def());
+        let mut sd = b3_default_shape_def();
+        sd.rolling_resistance = 0.2;
+        b3_create_mesh_shape(ground, &sd,
+            &[[-extent,0.0,-extent],[0.0,0.0,extent],[extent,0.0,-extent]],
+            &[[0,1,2]], &[], &[], &[] as &[MeshNode], [1.0;3]);
+        let mut bd = b3_default_body_def();
+        bd.body_type = BodyType::Dynamic;
+        bd.enable_contact_recycling = false;
+        bd.position = [0.0,0.195,0.0];
+        bd.linear_velocity = [0.4,-0.5,-0.3];
+        bd.angular_velocity = [2.0,-1.0,3.0];
+        let body = b3_create_body(world, &bd);
+        b3_create_capsule_shape(body, &sd, &Capsule {
+            center1: [-half_length,0.0,0.0], center2: [half_length,0.0,0.0], radius: 0.2,
+        });
+        b3_world_step_gpu(world, 1.0/60.0, 4);
+        b3_world_gpu_wait_with_mirror(world);
+        let v = b3_body_get_linear_velocity(body);
+        let w = b3_body_get_angular_velocity(body);
+        let actual = [v[0],v[1],v[2],w[0],w[1],w[2]];
+        // Independent Box3D C, one step. Mesh friction has a different solve
+        // order from the SIMD convex path. The second case also requires clipping
+        // both endpoints: neither original capsule end lies over the triangle.
+        for i in 0..6 {
+            assert!((actual[i]-expected[i]).abs() < 1e-4,
+                "mesh friction response: actual={actual:?} CPU={expected:?}");
+        }
+        b3_destroy_world(world);
+    }
 }

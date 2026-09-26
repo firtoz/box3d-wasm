@@ -3,6 +3,9 @@
 //! The GPU remains authoritative for stepping. Native `b3World_Step` performs
 //! its readback before returning, so all queries below see post-step poses.
 
+#[path = "query_toi.rs"]
+mod toi;
+
 use core::ffi::{c_char, c_void};
 use std::sync::Arc;
 
@@ -101,6 +104,7 @@ struct Simplex {
 
 #[derive(Clone, Copy, Default)]
 struct DistanceOutput {
+    simplex: Simplex,
     point_a: V3,
     point_b: V3,
     normal: V3,
@@ -350,6 +354,7 @@ pub(super) fn rigid_mesh_time_of_impacts(
     convex_start: WorldTransform,
     convex_end: WorldTransform,
     max_fraction: f32,
+    is_sensor: bool,
 ) -> Vec<MeshSweepHit> {
     static TRACE_TOI_SHAPE: std::sync::OnceLock<Option<i32>> = std::sync::OnceLock::new();
     let trace = *TRACE_TOI_SHAPE.get_or_init(|| std::env::var("GPU_PHYSICS_TRACE_TOI_SHAPE").ok().and_then(|s| s.parse().ok())) == Some(convex.id.index1);
@@ -373,6 +378,18 @@ pub(super) fn rigid_mesh_time_of_impacts(
     let convex_start_proxy = shape_proxy(convex, Some(convex_start));
     let convex_center = convex_start_proxy.points.iter().copied().sum::<V3>()
         / convex_start_proxy.points.len().max(1) as f32;
+    let convex_end_proxy = shape_proxy(convex, Some(convex_end));
+    let end_center = convex_end_proxy.points.iter().copied().sum::<V3>()
+        / convex_end_proxy.points.len().max(1) as f32;
+    let min_extent = if matches!(convex.kind, KIND_SPHERE | KIND_CAPSULE) {
+        convex.radius
+    } else if !convex.hull_planes.is_empty() {
+        convex.hull_planes.iter().map(|p| p[3] - v([p[0],p[1],p[2]]).dot(v(convex.local_center)))
+            .fold(f32::MAX, f32::min)
+    } else {
+        convex.half_extents.into_iter().fold(f32::MAX, f32::min)
+    };
+    let fallback_radius = (0.5 * min_extent).max(LINEAR_SLOP);
     let identity = WorldTransform {
         p: [0.0; 3],
         q: [0.0, 0.0, 0.0, 1.0],
@@ -386,6 +403,13 @@ pub(super) fn rigid_mesh_time_of_impacts(
         if triangle_normal.length_squared() <= f32::EPSILON
             || triangle_normal.dot(convex_center - a) < 0.0
         {
+            continue;
+        }
+        // Match b3MeshTimeOfImpactFcn: a solid triangle cannot arrest a
+        // glancing sweep whose centroid remains safely in front of its plane.
+        let offset1 = triangle_normal.dot(convex_center - a);
+        let offset2 = triangle_normal.dot(end_center - a);
+        if !is_sensor && offset1 - offset2 < fallback_radius && offset2 > fallback_radius {
             continue;
         }
         let triangle = HostShape {
@@ -412,7 +436,7 @@ pub(super) fn rigid_mesh_time_of_impacts(
             user_material_id: mesh.user_material_id,
             user_data: mesh.user_data,
         };
-        let mut hit = rigid_time_of_impact(
+        let mut hit = toi::time_of_impact(
             &triangle, identity, identity, convex, convex_start, convex_end, max_fraction,
         );
         if hit.is_none() {
@@ -424,18 +448,10 @@ pub(super) fn rigid_mesh_time_of_impacts(
             if trace { eprintln!("mesh-toi shape={} triangle={} start={:?} end={:?} initial={} target={} fallback={}", convex.id.index1, index, convex_start.p, convex_end.p, initial.distance, target, initial.distance <= target + 0.25 * LINEAR_SLOP); }
 
             if initial.distance <= target + 0.25 * LINEAR_SLOP {
-                let min_extent = if matches!(convex.kind, KIND_SPHERE | KIND_CAPSULE) {
-                    convex.radius
-                } else if !convex.hull_planes.is_empty() {
-                    convex.hull_planes.iter().map(|p| p[3] - v([p[0],p[1],p[2]]).dot(v(convex.local_center)))
-                        .fold(f32::MAX, f32::min)
-                } else {
-                    convex.half_extents.into_iter().fold(f32::MAX, f32::min)
-                };
                 let mut centroid = convex.clone();
                 centroid.local_points = arc_vec(vec![convex.local_center]);
-                centroid.radius = (0.5 * min_extent).max(LINEAR_SLOP) + LINEAR_SLOP;
-                hit = rigid_time_of_impact(
+                centroid.radius = fallback_radius + LINEAR_SLOP;
+                hit = toi::time_of_impact(
                     &triangle, identity, identity, &centroid, convex_start, convex_end, max_fraction,
                 );
                 if trace { eprintln!("mesh-toi-fallback triangle={} verts={:?}/{:?}/{:?} center={:?} radius={} fraction={:?}", index, a, b, c, centroid.local_center, centroid.radius, hit.as_ref().map(|h| h.fraction)); }
@@ -681,6 +697,10 @@ fn witnesses(simplex: &Simplex) -> (V3, V3) {
 }
 
 fn distance(proxy_a: &Proxy, proxy_b: &Proxy, use_radii: bool) -> DistanceOutput {
+    distance_cached(proxy_a, proxy_b, use_radii, None)
+}
+
+fn distance_cached(proxy_a: &Proxy, proxy_b: &Proxy, use_radii: bool, cache: Option<Simplex>) -> DistanceOutput {
     if proxy_a.points.is_empty() || proxy_b.points.is_empty() {
         return DistanceOutput::default();
     }
@@ -696,6 +716,14 @@ fn distance(proxy_a: &Proxy, proxy_b: &Proxy, use_radii: bool) -> DistanceOutput
         index_a: 0,
         index_b: 0,
     };
+    if let Some(cached) = cache.filter(|c| c.count > 0 && c.count < 4) {
+        simplex = cached;
+        for vertex in &mut simplex.vertices[..simplex.count] {
+            vertex.a = proxy_a.points[vertex.index_a];
+            vertex.b = proxy_b.points[vertex.index_b];
+            vertex.w = vertex.b - vertex.a;
+        }
+    }
     let mut backup = simplex;
     let mut previous_distance = f32::MAX;
     let mut normal = V3::ZERO;
@@ -717,6 +745,7 @@ fn distance(proxy_a: &Proxy, proxy_b: &Proxy, use_radii: bool) -> DistanceOutput
         if simplex.count == 4 {
             let (point_a, point_b) = witnesses(&simplex);
             return DistanceOutput {
+                simplex,
                 point_a,
                 point_b,
                 ..Default::default()
@@ -749,6 +778,7 @@ fn distance(proxy_a: &Proxy, proxy_b: &Proxy, use_radii: bool) -> DistanceOutput
         if direction.length_squared() < 1000.0 * f32::MIN_POSITIVE {
             let (point_a, point_b) = witnesses(&simplex);
             return DistanceOutput {
+                simplex,
                 point_a,
                 point_b,
                 ..Default::default()
@@ -788,6 +818,7 @@ fn distance(proxy_a: &Proxy, proxy_b: &Proxy, use_radii: bool) -> DistanceOutput
         point_b -= proxy_b.radius * normal;
     }
     DistanceOutput {
+        simplex,
         point_a,
         point_b,
         normal,
@@ -2825,6 +2856,31 @@ mod tests {
     }
 
     #[test]
+    fn mesh_ccd_rotating_capsule_matches_native_root_tolerance() {
+        // Independent native TOI from Falling Ragdolls frame-87 impact replay.
+        // Exact-distance advancement stopped at .24536, beyond CPU's accepted
+        // root (.197007388, distance .0711199418 with a .07 target).
+        let mesh = test_shape(KIND_MESH, vec![
+            [1.79328263,4.31570101,-0.38371712],
+            [0.0,4.67345047,-0.38371712], [0.0,4.75,0.0],
+        ],0.0);
+        let center = V3::new(0.0380314998,0.00741250021,-0.203988001);
+        let capsule = test_shape(KIND_CAPSULE, vec![
+            (V3::new(-0.00182,0.0,0.0100710001)-center).to_array(),
+            (V3::new(0.0778829977,0.0148250004,-0.418047011)-center).to_array(),
+        ],0.075);
+        let mesh_pose = WorldTransform { p:[-0.661173344,-4.884233,0.073975563], q:[0.0,0.0,0.0,1.0] };
+        let start = WorldTransform { p:[0.0;3], q:[-0.648249686,0.0804651082,-0.0817971975,0.752733052] };
+        let end = WorldTransform { p:[0.0185241699,-0.0609383583,0.0230240822], q:[-0.433602571,0.0712451488,-0.0161264017,0.898138642] };
+        for offset in [V3::ZERO,V3::new(7.5,0.0,7.5)] {
+            let shift = |x:WorldTransform| WorldTransform { p:(v(x.p)+offset).to_array(), ..x };
+            let hit = toi::time_of_impact(&mesh,shift(mesh_pose),shift(mesh_pose),&capsule,shift(start),shift(end),1.0)
+                .expect("rotating capsule must hit the triangle edge");
+            assert!((hit.fraction-0.197007388).abs()<2e-5, "offset={offset:?}, hit={hit:?}");
+        }
+    }
+
+    #[test]
     fn mesh_ccd_keeps_positive_toi_with_degenerate_witness_normal() {
         // Seed 52977 Mesh Drop, body 593 at the start/end of step 60.
         let mut mesh = test_shape(KIND_MESH,
@@ -2837,7 +2893,7 @@ mod tests {
         let identity = WorldTransform { p: [0.0;3], q: [0.0,0.0,0.0,1.0] };
         let start = WorldTransform { p: [1.8409071,-0.0489229038,-0.52459085], q: [-0.632165909,0.730147243,0.252432853,-0.0594050735] };
         let end = WorldTransform { p: [1.80890012,-0.154382035,-0.531171501], q: [-0.783485293,0.544712007,0.0601755306,-0.29294771] };
-        let hits = rigid_mesh_time_of_impacts(&mesh, identity, &thin, start, end, 1.0);
+        let hits = rigid_mesh_time_of_impacts(&mesh, identity, &thin, start, end, 1.0, false);
         assert_eq!(hits.len(), 1, "discarded conservative forward hit at contact onset");
         // Executed native b3TimeOfImpact for these proxies/sweeps returns
         // 0.0439814366 (distance .00492012). The old <.01 check encoded the
@@ -2852,6 +2908,24 @@ mod tests {
     }
 
     #[test]
+    fn mesh_ccd_glancing_rotation_uses_centroid_plane_filter_except_for_sensors() {
+        let mut mesh = test_shape(KIND_MESH,
+            vec![[-10.0,0.0,-10.0],[0.0,0.0,10.0],[10.0,0.0,-10.0]], 0.0);
+        mesh.mesh_triangles = arc_vec(vec![[0,1,2,0]]);
+        let capsule = test_shape(KIND_CAPSULE, vec![[-2.0,0.0,0.0],[2.0,0.0,0.0]], 0.1);
+        let identity = WorldTransform { p: [0.0;3], q: [0.0,0.0,0.0,1.0] };
+        let start = WorldTransform { p: [0.0,1.0,0.0], ..identity };
+        let end = WorldTransform { q: glam::Quat::from_rotation_z(std::f32::consts::FRAC_PI_2).to_array(), ..start };
+        // The tip crosses the triangle but the centroid remains one metre
+        // above it. Native solid-mesh CCD leaves this to discrete contacts;
+        // sensor sweeps still report the crossing.
+        assert!(rigid_mesh_time_of_impacts(&mesh, identity, &capsule, start, end, 1.0, false).is_empty());
+        let hits = rigid_mesh_time_of_impacts(&mesh, identity, &capsule, start, end, 1.0, true);
+        assert_eq!(hits.len(), 1);
+        assert!(hits[0].hit.fraction > 0.0 && hits[0].hit.fraction < 1.0);
+    }
+
+    #[test]
     fn mesh_ccd_initial_tip_contact_still_stops_centroid_crossing() {
         let mut mesh = test_shape(KIND_MESH, vec![[-2.0,0.0,-2.0],[0.0,0.0,2.0],[2.0,0.0,-2.0]], 0.0);
         mesh.mesh_triangles = arc_vec(vec![[0,1,2,0]]);
@@ -2862,13 +2936,13 @@ mod tests {
         let identity = WorldTransform { p: [0.0;3], q: [0.0,0.0,0.0,1.0] };
         let start = WorldTransform { p: [0.0,0.2,0.0], ..identity };
         let end = WorldTransform { p: [0.0,-0.2,0.0], ..identity };
-        let hits = rigid_mesh_time_of_impacts(&mesh, identity, &thin, start, end, 1.0);
+        let hits = rigid_mesh_time_of_impacts(&mesh, identity, &thin, start, end, 1.0, false);
         assert_eq!(hits.len(), 1, "initial tip contact must not bypass mesh CCD");
         assert!(hits[0].hit.fraction > 0.4 && hits[0].hit.fraction < 0.5);
         assert!(hits[0].hit.normal[1] > 0.99);
         let away = WorldTransform { p: [0.0,0.6,0.0], ..identity };
-        assert!(rigid_mesh_time_of_impacts(&mesh, identity, &thin, start, away, 1.0).is_empty());
-        assert!(rigid_mesh_time_of_impacts(&mesh, identity, &thin, end, start, 1.0).is_empty());
+        assert!(rigid_mesh_time_of_impacts(&mesh, identity, &thin, start, away, 1.0, false).is_empty());
+        assert!(rigid_mesh_time_of_impacts(&mesh, identity, &thin, end, start, 1.0, false).is_empty());
     }
 
     #[test]

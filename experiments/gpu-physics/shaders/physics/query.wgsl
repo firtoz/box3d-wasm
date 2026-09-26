@@ -410,8 +410,8 @@ fn ray_shape_hit(i: u32, origin: vec3<f32>, dir: vec3<f32>, t_max: f32) -> RayCa
         lo = center - r;
         hi = center + r;
     } else if (shape.kind == KIND_CAPSULE) {
-        let a = xf_p + quat_rotate(xf_q, shape.local_center - shape.axis);
-        let b = xf_p + quat_rotate(xf_q, shape.local_center + shape.axis);
+        let a = xf_p + quat_rotate(xf_q, capsule_local_point(shape, 0u));
+        let b = xf_p + quat_rotate(xf_q, capsule_local_point(shape, 1u));
         let r = vec3<f32>(shape.half.x);
         lo = min(a, b) - r;
         hi = max(a, b) + r;
@@ -478,8 +478,8 @@ fn ray_shape_hit(i: u32, origin: vec3<f32>, dir: vec3<f32>, t_max: f32) -> RayCa
         out.n = hit.xyz;
         out.t = hit.w;
     } else if (shape.kind == KIND_CAPSULE) {
-        let a = xf_p + quat_rotate(xf_q, shape.local_center - shape.axis);
-        let b = xf_p + quat_rotate(xf_q, shape.local_center + shape.axis);
+        let a = xf_p + quat_rotate(xf_q, capsule_local_point(shape, 0u));
+        let b = xf_p + quat_rotate(xf_q, capsule_local_point(shape, 1u));
         let hit = ray_capsule(origin, dir, a, b, shape.half.x, t_max);
         out.n = hit.xyz;
         out.t = hit.w;

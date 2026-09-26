@@ -691,6 +691,8 @@ pub struct ShapeGpu {
     pub instance_position: [f32; 3],
     pub instance_flags: u32,
     pub instance_rotation: [f32; 4],
+    /// Initial dynamic-tree leaf rank; remaining words reserved for ordering metadata.
+    pub initial_order: [u32; 4],
 }
 
 #[repr(C)]
@@ -750,11 +752,11 @@ pub struct ContactGpu {
     pub tangent_velocity: [f32; 3],
     pub material_index: u32,
     pub _tail: [u32; 8],
-    /// Relative center displacement and validity marker used by contact recycling.
+    /// Relative body-origin displacement in A coordinates and recycling validity.
     pub cached_relative: [f32; 4],
     pub cached_rotation_a: [f32; 4],
     pub cached_rotation_b: [f32; 4],
-    /// Generation, lifecycle flags, persistent per-color local index, reserved word.
+    /// Generation, lifecycle flags, per-color local index, previous solve color.
     pub lifecycle: [u32; 4],
     /// Full-width dense shape identities, followed by two reserved words.
     pub pair: [u32; 4],
@@ -852,7 +854,8 @@ pub struct JointGpu {
     pub a: u32,
     pub b: u32,
     pub kind: u32,
-    pub _pad0: u32,
+    /// Graph color reserved before contacts when preparing GPU component lists.
+    pub solver_color: u32,
     pub anchor_a: [f32; 3],
     pub hertz: f32,
     pub anchor_b: [f32; 3],
@@ -863,7 +866,7 @@ pub struct JointGpu {
     pub frame_b_rotation: [f32; 4],
     pub perp_impulse: [f32; 2],
     pub flags: u32,
-    pub _pad1: u32,
+    pub revolute_axes_step: u32,
     pub angular_impulse: [f32; 3],
     pub spring_impulse: f32,
     pub motor_impulse: f32,
@@ -888,6 +891,7 @@ pub struct JointGpu {
     pub weld_linear_damping: f32,
     pub weld_angular_hertz: f32,
     pub weld_angular_damping: f32,
+    // Revolute joints reuse these two vectors for cached perpendicular axes.
     pub weld_linear_impulse: [f32; 3],
     pub _pad_weld_linear: f32,
     pub weld_angular_impulse: [f32; 3],
@@ -1160,7 +1164,7 @@ const _: () = assert!(core::mem::size_of::<BodyColdGpu>() == 64);
 const _: () = assert!(core::mem::offset_of!(ShapeGpu, instance_position) == 144);
 const _: () = assert!(core::mem::offset_of!(ShapeGpu, instance_flags) == 156);
 const _: () = assert!(core::mem::offset_of!(ShapeGpu, instance_rotation) == 160);
-const _: () = assert!(core::mem::size_of::<ShapeGpu>() == 176);
+const _: () = assert!(core::mem::size_of::<ShapeGpu>() == 192);
 const _: () = assert!(core::mem::offset_of!(ShapeGpu, category_bits_lo) == 80);
 const _: () = assert!(core::mem::offset_of!(ShapeGpu, mask_bits_lo) == 88);
 const _: () = assert!(core::mem::offset_of!(ShapeGpu, group_index) == 96);
@@ -1206,8 +1210,8 @@ pub fn compute_capsule_mass(
     let h = h2.sqrt();
     let r = radius;
     let pi = std::f32::consts::PI;
-    let mc = density * pi * r * r * h;
-    let ms = density * (4.0 / 3.0) * pi * r * r * r;
+    let mc = pi * r * r * h * density;
+    let ms = (4.0 / 3.0) * pi * r * r * r * density;
     let mass = mc + ms;
     let i_par = 0.5 * mc * r * r + 0.4 * ms * r * r;
     let i_perp = mc * (3.0 * r * r + h * h) / 12.0
@@ -1218,21 +1222,41 @@ pub fn compute_capsule_mass(
         0.5 * (center1[1] + center2[1]),
         0.5 * (center1[2] + center2[2]),
     ];
-    let inertia = if h2 > 1000.0 * f32::MIN_POSITIVE {
+    // Match b3ComputeCapsuleMass's quaternion/matrix rotation, including
+    // float32 rounding. The analytic axisymmetric tensor is not bit-equivalent.
+    let mut rotation = [[1.0_f32, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]];
+    if h * h > 1000.0 * f32::MIN_POSITIVE {
         let inv = 1.0 / h;
         let u = [dx * inv, dy * inv, dz * inv];
-        let d = i_par - i_perp;
-        [
-            i_perp + d * u[0] * u[0],
-            i_perp + d * u[1] * u[1],
-            i_perp + d * u[2] * u[2],
-            d * u[0] * u[1],
-            d * u[0] * u[2],
-            d * u[1] * u[2],
-        ]
-    } else {
-        [i_par, i_par, i_par, 0.0, 0.0, 0.0]
+        let mid = [0.5 * u[0], 0.5 + 0.5 * u[1], 0.5 * u[2]];
+        let tolerance = 100.0 * f32::EPSILON;
+        let mut q = if (mid[0]*mid[0] + mid[1]*mid[1]) + mid[2]*mid[2] > tolerance*tolerance {
+            [mid[2], 0.0, -mid[0], mid[1]]
+        } else {
+            [0.0, 0.0, -1.0, 0.0]
+        };
+        let scale = 1.0 / (((q[0]*q[0] + q[1]*q[1]) + q[2]*q[2]) + q[3]*q[3]).sqrt();
+        q = q.map(|v| scale * v);
+        let [x,y,z,w] = q;
+        let xx=x*x; let yy=y*y; let zz=z*z;
+        let xy=x*y; let xz=x*z; let xw=x*w;
+        let yz=y*z; let yw=y*w; let zw=z*w;
+        rotation = [
+            [1.0-2.0*(yy+zz), 2.0*(xy+zw), 2.0*(xz-yw)],
+            [2.0*(xy-zw), 1.0-2.0*(xx+zz), 2.0*(yz+xw)],
+            [2.0*(xz+yw), 2.0*(yz-xw), 1.0-2.0*(xx+yy)],
+        ];
+    }
+    let mul = |m: [[f32;3];3], v: [f32;3]| -> [f32;3] {
+        std::array::from_fn(|i| (m[0][i]*v[0] + m[1][i]*v[1]) + m[2][i]*v[2])
     };
+    let diagonal = [[i_perp,0.0,0.0], [0.0,i_par,0.0], [0.0,0.0,i_perp]];
+    let rotated: [[f32;3];3] = std::array::from_fn(|i| {
+        let row = [rotation[0][i],rotation[1][i],rotation[2][i]];
+        mul(rotation, mul(diagonal, row))
+    });
+    let inertia = [rotated[0][0],rotated[1][1],rotated[2][2],
+        rotated[0][1],rotated[0][2],rotated[1][2]];
     CapsuleMass {
         mass,
         center,
@@ -1365,6 +1389,30 @@ mod tests {
         let mut huge = live;
         huge.materials = u32::try_from(shapes * shapes).unwrap_or(u32::MAX);
         assert!(huge.validate_allocation(1).is_err());
+    }
+
+    #[test]
+    fn capsule_mass_matches_native_float32_rotation() {
+        // Independent b3ComputeCapsuleMass outputs at density 731, including
+        // a ragdoll pelvis, oblique thigh, antiparallel axis and sphere limit.
+        let cases = [
+            ([0.07,0.0,-0.08],[-0.07,0.0,-0.08],0.13,
+             [0x41429274,0x00000000,0x00000000,0xbda3d70a,0x3dbb2a56,0x3e1feebd,0x3e1feebf,0x3184b325,0x00000000,0x00000000]),
+            ([-0.0237189997,0.00600800011,-0.0390679985],[0.0644920021,-0.00466400012,-0.424717993],0.0900000036,
+             [0x41198091,0x3ca70198,0x3a302928,0xbe6d755c,0x3e66ff57,0x3e70f156,0x3d40b54c,0x3a9c4c80,0x3d3080bd,0xbbaad4a3]),
+            ([0.0,1.0,0.0],[0.0,-1.0,0.0],0.2,
+             [0x43503766,0x00000000,0x00000000,0x00000000,0x42b74788,0x40821f7d,0x42b74788,0x80000000,0x00000000,0x00000000]),
+            ([1.0,2.0,3.0],[1.0,2.0,3.0],0.25,
+             [0x423f6017,0x3f800000,0x40000000,0x40400000,0x3f9919ac,0x3f9919ac,0x3f9919ac,0x00000000,0x00000000,0x00000000]),
+        ];
+        for (a,b,r,expected) in cases {
+            let m = compute_capsule_mass(a,b,r,731.0);
+            for (i,(actual,bits)) in std::iter::once(m.mass).chain(m.center).chain(m.inertia).zip(expected).enumerate() {
+                let value = f32::from_bits(bits);
+                if value == 0.0 { assert_eq!(actual,0.0); }
+                else { assert_eq!(actual.to_bits(),bits,"capsule {a:?} {b:?}, mass field {i}"); }
+            }
+        }
     }
 
     #[test]

@@ -81,6 +81,7 @@ struct Shape {
     instance_position: vec3<f32>,
     instance_flags: u32,
     instance_rotation: vec4<f32>,
+    initial_order: vec4<u32>,
 }
 
 struct SurfaceMaterial {
@@ -204,7 +205,7 @@ struct Joint {
     a: u32,
     b: u32,
     kind: u32,
-    _pad0: u32,
+    solver_color: u32,
     anchor_a: vec3<f32>,
     hertz: f32,
     anchor_b: vec3<f32>,
@@ -215,7 +216,7 @@ struct Joint {
     frame_b_rotation: vec4<f32>,
     perp_impulse: vec2<f32>,
     flags: u32,
-    _pad1: u32,
+    revolute_axes_step: u32,
     angular_impulse: vec3<f32>,
     spring_impulse: f32,
     motor_impulse: f32,
@@ -641,7 +642,7 @@ fn load_body_cold(i: u32) -> BodyCold {
 }
 
 fn load_shape(i: u32) -> Shape {
-    let w = params.shape_base_u32 + 44u * i;
+    let w = params.shape_base_u32 + 48u * i;
     return Shape(
         scene_words[w],
         scene_words[w + 1u],
@@ -672,6 +673,7 @@ fn load_shape(i: u32) -> Shape {
         vec3<f32>(scene_f32(w + 36u), scene_f32(w + 37u), scene_f32(w + 38u)),
         scene_words[w + 39u],
         vec4<f32>(scene_f32(w + 40u), scene_f32(w + 41u), scene_f32(w + 42u), scene_f32(w + 43u)),
+        vec4<u32>(scene_words[w + 44u], scene_words[w + 45u], scene_words[w + 46u], scene_words[w + 47u]),
     );
 }
 
@@ -696,6 +698,15 @@ fn load_hull_point(shape: Shape, i: u32) -> vec3<f32> {
     let point = min(shape.hull_slot + i, params.hull_point_count - 1u);
     let w = params.hull_base_u32 + 4u * point;
     return vec3<f32>(scene_f32(w), scene_f32(w + 1u), scene_f32(w + 2u));
+}
+
+// Public capsules retain their original endpoints in the shared geometry
+// point buffer. Direct low-level body fixtures still use center/half-axis.
+fn capsule_local_point(shape: Shape, end: u32) -> vec3<f32> {
+    if (shape.hull_slot != EMPTY && (shape.topology_counts & 255u) == 2u) {
+        return load_hull_point(shape, end);
+    }
+    return shape.local_center + select(-shape.axis, shape.axis, end != 0u);
 }
 
 fn hull_point_count(shape: Shape) -> u32 {

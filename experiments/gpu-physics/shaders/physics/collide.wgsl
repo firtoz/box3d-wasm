@@ -153,20 +153,30 @@ fn finish_manifold_from_previous(c: ptr<function, Contact>, a: Body, b: Body, ia
     // Shifting xyz by shape-to-COM therefore subtracts the same projection
     // from ra.w so s, friction weights, and cached reconstruction stay invariant.
     // Box-face clipping supplies the original separation before solver-base
-    // packing. The marker is transient; finalization writes cache validity 1.
-    let has_raw_separations = (*c).cached_relative.w == 2.0;
+    // packing. Marker 3 carries raw separation and COM anchors; marker 4
+    // carries packed separation and COM anchors for mesh/capsule witnesses.
+    // These markers are transient; finalization writes cache validity 1.
+    let com_anchors = (*c).cached_relative.w == 3.0 || (*c).cached_relative.w == 4.0;
+    let has_raw_separations = (*c).cached_relative.w == 2.0 || (*c).cached_relative.w == 3.0;
+    let capsule_pair = a.kind == KIND_CAPSULE && b.kind == KIND_CAPSULE;
     let raw_separations = vec4<f32>((*c).persistent_rb0.w, (*c).persistent_rb1.w,
         (*c).persistent_rb2.w, (*c).persistent_rb3.w);
     var separations = vec4<f32>(0.0);
     let com_a = load_body(ia);
     let com_b = load_body(ib);
-    let da = a.pos - com_a.pos;
-    let db = b.pos - com_b.pos;
+    let da = select(a.pos - com_a.pos, vec3<f32>(0.0), com_anchors);
+    let db = select(b.pos - com_b.pos, vec3<f32>(0.0), com_anchors);
     let base_shift = gyro_dot3(db - da, (*c).n);
     for (var i = 0u; i < (*c).count; i++) {
         let ra = ra_at(*c, i);
         let rb = rb_at(*c, i);
-        set_point(c, i, vec4<f32>(ra.xyz + da, ra.w - base_shift), vec4<f32>(rb.xyz + db, rb.w));
+        let anchor_a = ra.xyz + da;
+        let anchor_b = rb.xyz + db;
+        var base = ra.w - base_shift;
+        if (capsule_pair && has_raw_separations) {
+            base = raw_separations[i] - gyro_dot3(anchor_b - anchor_a, (*c).n);
+        }
+        set_point(c, i, vec4<f32>(anchor_a, base), vec4<f32>(anchor_b, rb.w));
     }
     let inv_tau = 1.0 / SPECULATIVE;
     var center_a = vec3<f32>(0.0);
@@ -201,8 +211,9 @@ fn finish_manifold_from_previous(c: ptr<function, Contact>, a: Body, b: Body, ia
         (params.diagnostic_flags & DIAG_DISABLE_ROLLING) == 0u,
     );
     (*c)._tail0 = vec4<u32>(bitcast<u32>(rel.x), bitcast<u32>(rel.y), bitcast<u32>(rel.z), bitcast<u32>(rel.w));
-    pack_point_features(c);
-    let matched = match_previous_points(*c, p);
+    let exact_features = a.kind == KIND_CAPSULE && b.kind == KIND_CAPSULE;
+    if (!exact_features) { pack_point_features(c); }
+    let matched = match_previous_points(*c, p, exact_features);
     let jn = matched.impulses;
     (*c).lifecycle.y = ((*c).lifecycle.y & ~CONTACT_PERSISTED_MASK) | matched.persisted;
     (*c).rb0.w = jn.x;
@@ -219,11 +230,13 @@ fn finish_manifold_from_previous(c: ptr<function, Contact>, a: Body, b: Body, ia
         let old_friction = sign * (old_t1 * p.friction_impulse.x + old_t2 * p.friction_impulse.y);
         let new_t1 = perp((*c).n);
         let new_t2 = gyro_cross(new_t1, (*c).n);
+        // CPU stores friction as a world vector between steps, then projects
+        // it onto the refreshed normal's tangent basis during preparation.
         (*c).friction_impulse = vec2<f32>(gyro_dot3(old_friction, new_t1), gyro_dot3(old_friction, new_t2));
         (*c).twist_impulse = p.twist_impulse;
         (*c).rolling_impulse = sign * p.rolling_impulse;
     }
-    (*c).cached_relative = vec4<f32>(relative_com(com_a, com_b), 1.0);
+    (*c).cached_relative = vec4<f32>(relative_body_origin(com_a, com_b, ia, ib), 1.0);
     (*c).cached_rotation_a = com_a.rot;
     (*c).cached_rotation_b = com_b.rot;
     (*c).persistent_ra0 = (*c).ra0;
@@ -843,6 +856,8 @@ struct Seg2 {
     p0: vec3<f32>,
     p1: vec3<f32>,
     n: u32,
+    feature0: u32,
+    feature1: u32,
 }
 
 fn clip_seg(s: Seg2, plane_n: vec3<f32>, plane_c: f32) -> Seg2 {
@@ -855,23 +870,29 @@ fn clip_seg(s: Seg2, plane_n: vec3<f32>, plane_c: f32) -> Seg2 {
     let d2 = dot(s.p1, plane_n) - plane_c;
     if (d1 <= 0.0) {
         outp.p0 = s.p0;
+        outp.feature0 = s.feature0;
         outp.n = 1u;
     }
     if (d2 <= 0.0) {
         if (outp.n == 0u) {
             outp.p0 = s.p1;
+            outp.feature0 = s.feature1;
         } else {
             outp.p1 = s.p1;
+            outp.feature1 = s.feature1;
         }
         outp.n = outp.n + 1u;
     }
     if (d1 * d2 < 0.0) {
         let t = clip_divide(d1,d1-d2);
         let hit = mix(s.p0, s.p1, t);
+        let feature = select(s.feature1, s.feature0, d1 > 0.0);
         if (outp.n == 0u) {
             outp.p0 = hit;
+            outp.feature0 = feature;
         } else if (outp.n == 1u) {
             outp.p1 = hit;
+            outp.feature1 = feature;
         }
         outp.n = min(outp.n + 1u, 2u);
     }
@@ -918,21 +939,61 @@ fn add_sep_point(c: ptr<function, Contact>, a: Body, b: Body, n: vec3<f32>, p: v
     set_point(c, i, vec4<f32>(rA, base), vec4<f32>(rB, 0.0));
 }
 
+// Retain local lever-arm precision when converting a capsule manifold to world axes.
+// Contact.c rotates narrow-phase normals/points with b3MakeMatrixFromQuat.
+// Keep that arithmetic distinct from the cross-product rotation used for COMs.
+fn contact_matrix_rotate(q: vec4<f32>, v: vec3<f32>) -> vec3<f32> {
+    let xx=q.x*q.x; let yy=q.y*q.y; let zz=q.z*q.z;
+    let xy=q.x*q.y; let xz=q.x*q.z; let xw=q.x*q.w;
+    let yz=q.y*q.z; let yw=q.y*q.w; let zw=q.z*q.w;
+    let cx=vec3<f32>(1.0-2.0*(yy+zz),2.0*(xy+zw),2.0*(xz-yw));
+    let cy=vec3<f32>(2.0*(xy-zw),1.0-2.0*(xx+zz),2.0*(yz+xw));
+    let cz=vec3<f32>(2.0*(xz+yw),2.0*(yz-xw),1.0-2.0*(xx+yy));
+    return (v.x*cx+v.y*cy)+v.z*cz;
+}
+
+fn add_capsule_local_point(c: ptr<function, Contact>, rotation: vec4<f32>,
+    point: vec3<f32>, separation: f32, i: u32) {
+    let a=load_body((*c).a); let b=load_body((*c).b);
+    let center_a=quat_rotate(a.rot,load_body_cold((*c).a).local_center);
+    let center_b=quat_rotate(b.rot,load_body_cold((*c).b).local_center);
+    let origin_a=a.pos-center_a; let origin_b=b.pos-center_b;
+    let anchor=contact_matrix_rotate(rotation,point);
+    let ra=anchor-center_a;
+    let rb=(anchor+(origin_a-origin_b))-center_b;
+    let base=separation-gyro_dot3(rb-ra,(*c).n);
+    set_point(c,i,vec4<f32>(ra,base),vec4<f32>(rb,0.0));
+    if (i==0u) { (*c).persistent_rb0.w=separation; }
+    else { (*c).persistent_rb1.w=separation; }
+    // Raw separation and already COM-relative anchors.
+    (*c).cached_relative.w=3.0;
+}
+
 fn collide_capsules(a: Body, b: Body, ia: u32, ib: u32) -> Contact {
     var c = empty_contact();
-    let ax = capsule_axis(a);
-    let bx = capsule_axis(b);
-    let a0 = a.pos - ax;
-    let a1 = a.pos + ax;
-    let b0 = b.pos - bx;
-    let b1 = b.pos + bx;
+    // Work in body A coordinates. World-space endpoints lose enough precision
+    // under translation to select the opposite end of nearly parallel capsules.
+    let sa = load_shape(a._pad_island.x);
+    let sb = load_shape(b._pad_island.x);
+    let ba = load_body(ia);
+    let bb = load_body(ib);
+    let ca = load_body_cold(ia).local_center;
+    let cb = load_body_cold(ib).local_center;
+    let relative_rot = quat_mul(quat_inv(ba.rot), bb.rot);
+    let origin_a = ba.pos - quat_rotate(ba.rot,ca);
+    let origin_b = bb.pos - quat_rotate(bb.rot,cb);
+    let relative_pos = quat_inv_rotate(ba.rot,origin_b-origin_a);
+    let a0 = capsule_local_point(sa, 0u);
+    let a1 = capsule_local_point(sa, 1u);
+    let b0 = relative_pos + quat_rotate(relative_rot, capsule_local_point(sb, 0u));
+    let b1 = relative_pos + quat_rotate(relative_rot, capsule_local_point(sb, 1u));
     let da = a1 - a0;
     let db = b1 - b0;
     let st = closest_segments(a0, da, b0, db);
     let pA = a0 + st.x * da;
     let pB = b0 + st.y * db;
     let offset = pB - pA;
-    let dist2 = dot(offset, offset);
+    let dist2 = gyro_dot3(offset, offset);
     let radius = a.half.x + b.half.x;
     let max_d = radius + SPECULATIVE;
     if (dist2 > max_d * max_d) {
@@ -942,22 +1003,24 @@ fn collide_capsules(a: Body, b: Body, ia: u32, ib: u32) -> Contact {
     if (dist2 < min_d * min_d) {
         return c;
     }
-    let la = length(da);
-    let lb = length(db);
+    let la = gyro_sqrt(gyro_dot3(da, da));
+    let lb = gyro_sqrt(gyro_dot3(db, db));
     if (la < 1e-4 || lb < 1e-4) {
         return c;
     }
-    let eA = da / la;
-    let eB = db / lb;
-    let cr = cross(eA, eB);
+    let eA = gyro_recip(la) * da;
+    let eB = gyro_recip(lb) * db;
+    let cr = gyro_cross(eA, eB);
     c.a = ia;
     c.b = ib;
     c.friction = mixed_friction_of(a, b);
-    if (dot(cr, cr) < 0.0025) {
+    if (gyro_dot3(cr, cr) < 0.0025) {
         var seg: Seg2;
         seg.p0 = b0;
         seg.p1 = b1;
         seg.n = 2u;
+        seg.feature0 = pack_feature(0u, 0u, 0u, 0u);
+        seg.feature1 = pack_feature(0u, 1u, 0u, 1u);
         seg = clip_seg(seg, -eA, -dot(eA, a0));
         if (seg.n == 2u) {
             seg = clip_seg(seg, eA, dot(eA, a1));
@@ -965,35 +1028,37 @@ fn collide_capsules(a: Body, b: Body, ia: u32, ib: u32) -> Contact {
         if (seg.n == 2u) {
             let q0 = a0 + eA * clamp(dot(seg.p0 - a0, eA), 0.0, la);
             let q1 = a0 + eA * clamp(dot(seg.p1 - a0, eA), 0.0, la);
-            let d0 = length(seg.p0 - q0);
-            let d1 = length(seg.p1 - q1);
+            let d0 = gyro_sqrt(gyro_dot3(seg.p0 - q0, seg.p0 - q0));
+            let d1 = gyro_sqrt(gyro_dot3(seg.p1 - q1, seg.p1 - q1));
             if (d0 <= radius && d1 <= radius && d0 >= min_d && d1 >= min_d) {
-                let n0 = (seg.p0 - q0) / d0;
-                let n1 = (seg.p1 - q1) / d1;
+                let n0 = gyro_recip(d0) * (seg.p0 - q0);
+                let n1 = gyro_recip(d1) * (seg.p1 - q1);
                 var n = n0 + n1;
-                let nl = length(n);
+                let nl = gyro_sqrt(gyro_dot3(n, n));
                 if (nl > 1e-8) {
-                    n = n / nl;
+                    n = gyro_recip(nl) * n;
                 } else {
                     n = n0;
                 }
-                c.n = n;
+                c.n = contact_matrix_rotate(ba.rot, n);
                 c.count = 2u;
                 let p0 = 0.5 * ((seg.p0 + n0 * a.half.x + q0) - n * b.half.x);
                 let p1 = 0.5 * ((seg.p1 + n1 * a.half.x + q1) - n * b.half.x);
-                add_sep_point(&c, a, b, n, p0, d0 - radius, 0u);
-                add_sep_point(&c, a, b, n, p1, d1 - radius, 1u);
+                add_capsule_local_point(&c, ba.rot, p0, d0 - radius, 0u);
+                add_capsule_local_point(&c, ba.rot, p1, d1 - radius, 1u);
+                set_feat_at(&c, 0u, seg.feature0);
+                set_feat_at(&c, 1u, seg.feature1);
                 finish_manifold(&c, a, b, ia, ib);
                 return c;
             }
         }
     }
-    var dist = sqrt(dist2);
-    var n = offset / dist;
-    c.n = n;
+    let dist = gyro_sqrt(dist2);
+    let n = gyro_recip(dist) * offset;
+    c.n = contact_matrix_rotate(ba.rot, n);
     c.count = 1u;
     let p = 0.5 * ((pA + n * a.half.x + pB) - n * b.half.x);
-    add_sep_point(&c, a, b, n, p, dist - radius, 0u);
+    add_capsule_local_point(&c, ba.rot, p, dist - radius, 0u);
     finish_manifold(&c, a, b, ia, ib);
     return c;
 }
@@ -2256,7 +2321,7 @@ fn consider_mesh_manifold_point(
     convex: Body,
     convex_shape: Shape,
     mesh_shape: Shape,
-    point: vec3<f32>,
+    input_point: vec3<f32>,
     separation: f32,
     patch_separation: f32,
     contact_normal: vec3<f32>,
@@ -2271,6 +2336,24 @@ fn consider_mesh_manifold_point(
     mesh_tangent_velocity: ptr<function, vec3<f32>>,
     dominant_material: ptr<function, u32>,
 ) {
+    var point = input_point;
+    var r_a = point - mesh.pos;
+    var r_b = point - convex.pos;
+    if (convex.kind == KIND_CAPSULE) {
+        // Capsule witnesses arrive rotated but relative to the body origin.
+        // Native mesh_contact.c constructs anchors before adding world position.
+        let body_a = load_body((*result).a);
+        let body_b = load_body((*result).b);
+        let center_a = quat_rotate(body_a.rot, load_body_cold((*result).a).local_center);
+        let center_b = quat_rotate(body_b.rot, load_body_cold((*result).b).local_center);
+        let origin_a = body_a.pos - center_a;
+        let origin_b = body_b.pos - center_b;
+        r_b = input_point - center_b;
+        r_a = (input_point + (origin_b - origin_a)) - center_a;
+        point = origin_b + input_point;
+        // COM anchors with the existing packed separation representation.
+        (*result).cached_relative.w = 4.0;
+    }
     trace_mesh_candidate(0u, mesh_shape, convex_shape, (*result).manifold_link.w,
         point, separation, contact_normal, patch_separation, feature);
     // Admit a clipped face by its nearest point. Other vertices can become
@@ -2306,7 +2389,7 @@ fn consider_mesh_manifold_point(
         return;
     }
     for (var old = 0u; old < (*result).count; old++) {
-        let d = (ra_at(*result, old).xyz + mesh.pos) - point;
+        let d = ra_at(*result, old).xyz - r_a;
         if (dot(d, d) < 1e-8) {
             return;
         }
@@ -2319,8 +2402,6 @@ fn consider_mesh_manifold_point(
         *best_separation = separation;
         *dominant_material = material_index;
     }
-    let r_a = point - mesh.pos;
-    let r_b = point - convex.pos;
     // All points in this manifold must use its single, fixed normal basis.
     let base = separation * dot(contact_normal, *best_normal) - dot(r_b - r_a, *best_normal);
     trace_mesh_candidate(1u, mesh_shape, convex_shape, (*result).manifold_link.w,
@@ -2871,6 +2952,163 @@ fn hull_triangle_manifold(shape: Shape, body: Body, p1: vec3<f32>, p2: vec3<f32>
     return result;
 }
 
+// Triangle/capsule face and edge construction follows Box3D triangle_manifold.c
+// (MIT, Erin Catto). Segment/triangle witnesses are found analytically.
+fn clip_triangle_segment(s: Seg2, plane_n: vec3<f32>, plane_c: f32) -> Seg2 {
+    var outp: Seg2;
+    outp.n = 0u;
+    if (s.n < 2u) {
+        return outp;
+    }
+    let d1 = dot(s.p0, plane_n) - plane_c;
+    let d2 = dot(s.p1, plane_n) - plane_c;
+    if (d1 <= 0.0) {
+        outp.p0 = s.p0;
+        outp.feature0 = s.feature0;
+        outp.n = 1u;
+    }
+    if (d2 <= 0.0) {
+        if (outp.n == 0u) {
+            outp.p0 = s.p1;
+            outp.feature0 = s.feature1;
+        } else {
+            outp.p1 = s.p1;
+            outp.feature1 = s.feature1;
+        }
+        outp.n = outp.n + 1u;
+    }
+    if ((d1 > 0.0) != (d2 > 0.0)) {
+        let t = clip_divide(d1,d1-d2);
+        let hit = mix(s.p0, s.p1, t);
+        let feature = select(s.feature1, s.feature0, d1 > 0.0);
+        if (outp.n == 0u) {
+            outp.p0 = hit;
+            outp.feature0 = feature;
+        } else if (outp.n == 1u) {
+            outp.p1 = hit;
+            outp.feature1 = feature;
+        }
+        outp.n = min(outp.n + 1u, 2u);
+    }
+    return outp;
+}
+
+struct TriangleCapsuleManifold {
+    points: array<vec4<f32>, 2>,
+    ids: vec2<u32>,
+    normal: vec3<f32>,
+    count: u32,
+    feature: u32,
+}
+
+fn capsule_triangle_manifold(start: vec3<f32>, end: vec3<f32>, radius: f32,
+    tri: array<vec3<f32>,3>, normal: vec3<f32>) -> TriangleCapsuleManifold {
+    var out: TriangleCapsuleManifold;
+    let direction = end - start;
+    let plane_offset = gyro_dot3(normal, tri[0]);
+    if (gyro_dot3(normal, 0.5 * (start + end)) - plane_offset < 0.0) { return out; }
+    var clipped: Seg2;
+    clipped.p0 = start; clipped.p1 = end; clipped.n = 2u;
+    clipped.feature0 = 0u; clipped.feature1 = 0x00010001u;
+    var previous = tri[2];
+    for (var i=0u; i<3u; i++) {
+        let tangent = gyro_norm3(tri[i] - previous);
+        let side = gyro_cross(tangent, normal);
+        clipped = clip_triangle_segment(clipped, side, gyro_dot3(side, previous));
+        previous = tri[i];
+        if (clipped.n != 2u) { break; }
+    }
+    let d0 = gyro_dot3(normal, clipped.p0) - plane_offset;
+    let d1 = gyro_dot3(normal, clipped.p1) - plane_offset;
+    let first = closest_triangle_point(start, tri[0], tri[1], tri[2]);
+    var point_a = first.point;
+    var point_b = start;
+    var feature = first.feature;
+    var squared = gyro_dot3(point_b-point_a, point_b-point_a);
+    let last = closest_triangle_point(end, tri[0], tri[1], tri[2]);
+    let last_squared = gyro_dot3(end-last.point, end-last.point);
+    if (last_squared < squared) {
+        squared=last_squared; point_a=last.point; point_b=end; feature=last.feature;
+    }
+    for (var i=0u; i<3u; i++) {
+        let edge = tri[(i+1u)%3u] - tri[i];
+        let fractions = closest_segments(tri[i], edge, start, direction);
+        let pa = tri[i] + fractions.x * edge;
+        let pb = start + fractions.y * direction;
+        let distance = gyro_dot3(pb-pa,pb-pa);
+        if (distance < squared) {
+            squared=distance; point_a=pa; point_b=pb; feature=i;
+            if (fractions.x <= 0.0) { feature=4u+i; }
+            else if (fractions.x >= 1.0) { feature=4u+(i+1u)%3u; }
+        }
+    }
+    if (clipped.n == 2u && min(d0,d1) <= 0.0 && max(d0,d1) >= 0.0) { squared=0.0; }
+    let distance = gyro_sqrt(squared);
+    if (distance > radius + SPECULATIVE) { return out; }
+    var make_face = false;
+    if (distance > 1.1920929e-5) {
+        let axis = gyro_norm3(point_b-point_a);
+        make_face = clipped.n == 2u && abs(gyro_dot3(normal,axis)) > 0.2;
+        if (!make_face) {
+            out.count=1u; out.normal=axis; out.feature=feature;
+            out.points[0]=vec4<f32>(0.5*(point_a+point_b-radius*axis),distance-radius);
+            out.ids.x=0u;
+            return out;
+        }
+    } else {
+        make_face = clipped.n == 2u && min(d0,d1) <= radius + SPECULATIVE;
+    }
+    if (make_face) {
+        out.count=2u; out.normal=normal; out.feature=3u;
+        out.points[0]=vec4<f32>(clipped.p0-0.5*(d0+radius)*normal,d0-radius);
+        out.points[1]=vec4<f32>(clipped.p1-0.5*(d1+radius)*normal,d1-radius);
+        out.ids=vec2<u32>(clipped.feature0,clipped.feature1);
+    }
+    if (distance > 1.1920929e-5) { return out; }
+    // Deep overlap: compare capsule/triangle edge axes against the clipped face.
+    var edge_separation = -3.402823466e38;
+    var edge_index = EMPTY;
+    var edge_normal = vec3<f32>(0.0);
+    let a = gyro_dot3(direction,normal);
+    previous = tri[2];
+    for (var i=0u; i<3u; i++) {
+        let side = gyro_norm3(gyro_cross(tri[i]-previous,normal));
+        let b = gyro_dot3(direction,side);
+        if (a*a+b*b >= 0.005*0.005*gyro_dot3(direction,direction)) {
+            var axis: vec3<f32>;
+            if (a*b <= 0.0) { let t=b/(b-a); axis=(1.0-t)*side+t*normal; }
+            else { let t=b/(a+b); axis=(1.0-t)*side-t*normal; }
+            axis=gyro_norm3(axis);
+            let separation=gyro_dot3(axis,start-previous);
+            if (separation > edge_separation) {
+                edge_separation=separation; edge_normal=axis; edge_index=(i+2u)%3u;
+            }
+        }
+        previous=tri[i];
+    }
+    if (edge_separation > radius) { out.count=0u; return out; }
+    var face_separation=min(gyro_dot3(normal,start),gyro_dot3(normal,end))-plane_offset-radius;
+    if (out.count==2u) { face_separation=min(out.points[0].w,out.points[1].w); }
+    if (edge_index != EMPTY && (out.count==0u || edge_separation-radius > face_separation+LINEAR_SLOP)) {
+        let p=tri[edge_index];
+        let edge=tri[(edge_index+1u)%3u]-p;
+        let r=p-start;
+        let aa=gyro_dot3(edge,edge); let ee=gyro_dot3(direction,direction);
+        let bb=gyro_dot3(edge,direction); let cc=gyro_dot3(edge,r); let ff=gyro_dot3(direction,r);
+        let denominator=aa*ee-bb*bb;
+        if (denominator > 1.17549435e-35) {
+            let u=(bb*ff-cc*ee)/denominator;
+            let v=(aa*ff-bb*cc)/denominator;
+            if (u>=0.0 && u<=1.0 && v>=0.0 && v<=1.0) {
+                out.count=1u; out.normal=edge_normal; out.feature=edge_index;
+                out.points[0]=vec4<f32>(0.5*((p+u*edge)+(start+v*direction)-radius*edge_normal),edge_separation-radius);
+                out.ids.x=pack_feature(0u,edge_index,1u,0u);
+            }
+        }
+    }
+    return out;
+}
+
 fn collide_mesh_triangle(mesh_shape: Shape, convex_shape: Shape, mesh: Body, convex: Body,
     mesh_body_index: u32, convex_body_index: u32, triangle_index: u32) -> Contact {
     var result = empty_contact();
@@ -2894,7 +3132,7 @@ fn collide_mesh_triangle(mesh_shape: Shape, convex_shape: Shape, mesh: Body, con
     // Sphere/capsule routines use a strict zero-side test instead.
     let backside_limit = select(0.0, -LINEAR_SLOP,
         convex.kind == KIND_BOX || convex.kind == KIND_CONVEX_HULL);
-    if (dot(convex.pos - p1, normal) < backside_limit) { return empty_contact(); }
+    if (convex.kind != KIND_CAPSULE && dot(convex.pos - p1, normal) < backside_limit) { return empty_contact(); }
     let material_index = triangle.w >> 8u;
     let flags = triangle.w & 0xffu;
     var radius = 0.0;
@@ -2906,26 +3144,39 @@ fn collide_mesh_triangle(mesh_shape: Shape, convex_shape: Shape, mesh: Body, con
             &dominant_material, 0u,
         );
     } else if (convex.kind == KIND_CAPSULE) {
-        let axis = capsule_axis(convex);
+        // Native mesh_contact.c transforms the triangle into the capsule's
+        // body frame. Preserve the original endpoints and avoid rounding a
+        // rotated proxy axis or subtracting large world-space coordinates.
+        let capsule_body = load_body(convex_body_index);
+        let mesh_body = load_body(mesh_body_index);
+        let capsule_origin = capsule_body.pos - quat_rotate(capsule_body.rot,
+            load_body_cold(convex_body_index).local_center);
+        let mesh_origin = mesh_body.pos - quat_rotate(mesh_body.rot,
+            load_body_cold(mesh_body_index).local_center);
+        let relative_rotation = quat_mul(quat_inv(capsule_body.rot), mesh_body.rot);
+        let relative_position = quat_inv_rotate(capsule_body.rot, mesh_origin - capsule_origin);
+        let local_triangle = array<vec3<f32>,3>(
+            contact_matrix_rotate(relative_rotation, load_mesh_vertex(mesh_shape, triangle.x)) + relative_position,
+            contact_matrix_rotate(relative_rotation, load_mesh_vertex(mesh_shape, triangle.y)) + relative_position,
+            contact_matrix_rotate(relative_rotation, load_mesh_vertex(mesh_shape, triangle.z)) + relative_position);
+        let local_normal = gyro_norm3(gyro_cross(local_triangle[1]-local_triangle[0],
+            local_triangle[2]-local_triangle[0]));
         radius = convex.half.x;
-        add_mesh_sample_contact(
-            &result, mesh, convex, convex_shape, mesh_shape, convex.pos - axis, radius,
-            p1, p2, p3, normal, flags, material_index, &best_separation, &best_normal,
-            &material_samples, &mixed_friction, &mixed_restitution, &mesh_tangent_velocity,
-            &dominant_material, 0u,
-        );
-        add_mesh_sample_contact(
-            &result, mesh, convex, convex_shape, mesh_shape, convex.pos, radius,
-            p1, p2, p3, normal, flags, material_index, &best_separation, &best_normal,
-            &material_samples, &mixed_friction, &mixed_restitution, &mesh_tangent_velocity,
-            &dominant_material, 2u,
-        );
-        add_mesh_sample_contact(
-            &result, mesh, convex, convex_shape, mesh_shape, convex.pos + axis, radius,
-            p1, p2, p3, normal, flags, material_index, &best_separation, &best_normal,
-            &material_samples, &mixed_friction, &mixed_restitution, &mesh_tangent_velocity,
-            &dominant_material, 1u,
-        );
+        let manifold = capsule_triangle_manifold(capsule_local_point(convex_shape,0u),
+            capsule_local_point(convex_shape,1u),radius,local_triangle,local_normal);
+        let world_normal = contact_matrix_rotate(capsule_body.rot, manifold.normal);
+        let triangle_normal = contact_matrix_rotate(capsule_body.rot, local_normal);
+        if (mesh_feature_allowed(manifold.feature,flags)) {
+            var patch_separation=1e30;
+            for (var i=0u;i<manifold.count;i++) { patch_separation=min(patch_separation,manifold.points[i].w); }
+            for (var i=0u;i<manifold.count;i++) {
+                consider_mesh_manifold_point(&result,mesh,convex,convex_shape,mesh_shape,
+                    contact_matrix_rotate(capsule_body.rot,manifold.points[i].xyz),
+                    manifold.points[i].w,patch_separation,world_normal,
+                    triangle_normal,material_index,manifold.ids[i],&best_separation,&best_normal,
+                    &material_samples,&mixed_friction,&mixed_restitution,&mesh_tangent_velocity,&dominant_material);
+            }
+        }
     } else if (convex.kind == KIND_CONVEX_HULL) {
         let query=hull_triangle_manifold(convex_shape,convex,p1,p2,p3,normal,mesh_speculative_keep(convex_shape,mesh_shape));
         if(query.separated) { return empty_contact(); }
@@ -3105,6 +3356,16 @@ fn collide_pair(a_in: Body, b_in: Body, ia_in: u32, ib_in: u32, root_slot: u32) 
         return collide_boxes(a, b, ia, ib);
     }
     if (a.kind == KIND_CAPSULE && b.kind == KIND_CAPSULE) {
+        // A dynamic proxy queries the static/kinematic tree: the queried
+        // shape becomes A. Between initially moving dynamic proxies, the
+        // later proxy becomes A. Clipping nearly parallel capsules depends
+        // on this choice of reference segment, not just the normal's sign.
+        let anchored_a = (a.flags & (FLAG_STATIC | FLAG_KINEMATIC)) != 0u;
+        let anchored_b = (b.flags & (FLAG_STATIC | FLAG_KINEMATIC)) != 0u;
+        if ((!anchored_a && anchored_b)
+            || (anchored_a == anchored_b && a._pad_island.x < b._pad_island.x)) {
+            return collide_capsules(b, a, ib, ia);
+        }
         return collide_capsules(a, b, ia, ib);
     }
     if (a.kind == KIND_CAPSULE && b.kind == KIND_BOX) {
@@ -3193,8 +3454,18 @@ fn pair_queued(ia: u32, ib: u32, npairs: u32) -> bool {
     return false;
 }
 
-fn relative_com(a: Body, b: Body) -> vec3<f32> {
-    return quat_inv_rotate(a.rot, b.pos - a.pos);
+// Box3D caches body-origin transforms, not the COM transforms used by TGS.
+fn relative_body_origin(a: Body, b: Body, ia: u32, ib: u32) -> vec3<f32> {
+    let center_a = load_body_cold(ia).local_center;
+    let center_b = load_body_cold(ib).local_center;
+    let origin_a = a.pos - quat_rotate(a.rot, center_a);
+    let origin_b = b.pos - quat_rotate(b.rot, center_b);
+    return quat_inv_rotate(a.rot, origin_b - origin_a);
+}
+
+fn contact_recycle_extent(i: u32) -> vec3<f32> {
+    let extra = body_extra_offset(i);
+    return vec3<f32>(scene_f32(extra + 4u), scene_f32(extra + 5u), scene_f32(extra + 6u));
 }
 
 fn recycle_rotation_arc(q: vec4<f32>, extent: vec3<f32>) -> vec3<f32> {
@@ -3211,13 +3482,13 @@ fn make_ghost_pair(ia: u32, ib: u32, a: Body, b: Body) -> Contact {
     g.a = ia;
     g.b = ib;
     g.count = 0u;
-    g.cached_relative = vec4<f32>(relative_com(a, b), 1.0);
+    g.cached_relative = vec4<f32>(relative_body_origin(a, b, ia, ib), 1.0);
     g.cached_rotation_a = a.rot;
     g.cached_rotation_b = b.rot;
     return g;
 }
 
-// Contact invariant: `c.a`/`c.b`, anchors, normal, cached rotations/relative COM,
+// Contact invariant: `c.a`/`c.b`, anchors, normal, cached rotations/relative body origins,
 // and impulse signs all describe the *manifold* endpoint order. Packed pair keys
 // stay canonical (min,max shape ids) and do not define manifold orientation.
 fn contact_pair_bodies_match(c: Contact, body_a: u32, body_b: u32) -> bool {
@@ -3247,7 +3518,7 @@ fn recycle_skip(p: Contact, a: Body, b: Body) -> bool {
     if (angular <= CONTACT_RECYCLE_ANG) {
         return false;
     }
-    let current_relative = relative_com(a, b);
+    let current_relative = relative_body_origin(a, b, p.a, p.b);
     let d = current_relative - p.cached_relative.xyz;
     let d2 = dot(d, d);
     let was_touching = p.count > 0u && (p.lifecycle.y & CONTACT_TOUCHING) != 0u;
@@ -3261,8 +3532,8 @@ fn recycle_skip(p: Contact, a: Body, b: Body) -> bool {
         quat_mul(quat_inv(p.cached_rotation_a), p.cached_rotation_b);
     let current_relative_rotation = quat_mul(quat_inv(a.rot), b.rot);
     let qr = quat_mul(quat_inv(cached_relative_rotation), current_relative_rotation);
-    let extent_a = select(a.half, vec3<f32>(0.0), is_static(a));
-    let extent_b = select(b.half, vec3<f32>(0.0), is_static(b));
+    let extent_a = select(contact_recycle_extent(p.a), vec3<f32>(0.0), is_static(a));
+    let extent_b = select(contact_recycle_extent(p.b), vec3<f32>(0.0), is_static(b));
     let arc = 2.0 * length(recycle_rotation_arc(qr, max(extent_a, extent_b)));
     return arc < slack;
 }
@@ -3334,7 +3605,7 @@ fn store_pair(slot: u32, key: vec2<u32>, man: Contact, ia: u32, ib: u32, a: Body
             generation,
             flags,
             local_order,
-            0u,
+            previous.color,
         );
         touching.pair = vec4<u32>(key, 0u, 0u);
         store_contact(slot, touching);
@@ -3433,6 +3704,7 @@ fn collide_pairs(
                 if (recycled.count > 0u && (old.lifecycle.y & CONTACT_TOUCHING) != 0u) {
                     recycled.lifecycle.y |= CONTACT_TOUCHING;
                 }
+                recycled.lifecycle.w = old.color;
                 recycled.pair = vec4<u32>(packed, 0u, 0u);
                 store_contact(member, recycled);
                 member = old.manifold_link.x - 1u;

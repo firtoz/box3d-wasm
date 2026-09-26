@@ -34,9 +34,10 @@ for mode in cpu gpu; do
     g++ -O2 -std=c++17 -Wl,--gc-sections c_abi/ragdoll_reference.cpp -I ../../box3d/include -I ../../box3d/shared \
         "$OUT/human.o" "$OUT/determinism.o" "$OUT/utils.o" "${extra[@]}" "$engine_lib" \
         -ldl -lpthread -lm -lgcc_s -lGL -o "$OUT/$mode"
-    for scene in twist twist-negative tilted tilted-negative ragdolls; do
+    for scene in twist twist-negative tilted tilted-negative ragdolls ragdolls-no-contacts; do
         steps=120
         if [[ "$scene" == ragdolls ]]; then steps=600; fi
+        if [[ "$scene" == ragdolls-no-contacts ]]; then steps=60; fi
         "$OUT/$mode" "$scene" "$steps" > "$OUT/$scene-$mode.txt" 2> "$OUT/$scene-$mode.log"
     done
 done

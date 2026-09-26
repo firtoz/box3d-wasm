@@ -5,6 +5,7 @@
 #include <cstring>
 #include <cmath>
 #include <initializer_list>
+#include <vector>
 extern "C" void b3_world_gpu_wait_with_mirror(b3WorldId) __attribute__((weak));
 
 static void dump(int frame, int index, b3BodyId body, b3JointId joint)
@@ -18,10 +19,31 @@ static void dump(int frame, int index, b3BodyId body, b3JointId joint)
     for (float x : {p.x,p.y,p.z,q.v.x,q.v.y,q.v.z,q.s,v.x,v.y,v.z,w.x,w.y,w.z,separation})
         std::printf(" %.9g", x);
     std::puts("");
+    // Early contact-history regression: the first human's spine must refresh
+    // its thigh contacts at frame 2, before the later impact amplifies the error.
+    if (frame == 2 && index == 1)
+    {
+        std::vector<b3ContactData> contacts(b3Body_GetContactCapacity(body));
+        int count = b3Body_GetContactData(body, contacts.data(), contacts.size());
+        for (int i = 0; i < count; ++i)
+        {
+            const auto& contact = contacts[i];
+            int a = contact.shapeIdA.index1, b = contact.shapeIdB.index1;
+            float sign = a < b ? 1.0f : -1.0f;
+            for (int m = 0; m < contact.manifoldCount; ++m)
+            {
+                const auto& manifold = contact.manifolds[m];
+                std::fprintf(stderr, "spine-contact %d %d %d %d %.9g %.9g %.9g\n",
+                    a < b ? a : b, a < b ? b : a, m, manifold.pointCount,
+                    sign * manifold.normal.x, sign * manifold.normal.y, sign * manifold.normal.z);
+            }
+        }
+    }
 }
 int main(int argc, char** argv)
 {
-    bool ragdolls = argc > 1 && std::strcmp(argv[1], "ragdolls") == 0;
+    bool noContacts = argc > 1 && std::strcmp(argv[1], "ragdolls-no-contacts") == 0;
+    bool ragdolls = noContacts || (argc > 1 && std::strcmp(argv[1], "ragdolls") == 0);
     int steps = argc > 2 ? std::atoi(argv[2]) : 300;
     auto wd = b3DefaultWorldDef();
     if (!ragdolls) wd.gravity = b3Vec3_zero;
@@ -29,7 +51,29 @@ int main(int argc, char** argv)
     FallingRagdollData data = {};
     b3BodyId body = {};
     b3JointId joint = {};
-    if (ragdolls) data = CreateFallingRagdolls(world);
+    if (ragdolls)
+    {
+        data = CreateFallingRagdolls(world);
+        if (noContacts)
+        {
+            // Keep the exact upstream masses, joints, and initial poses while
+            // isolating joint dynamics from self-contact and mesh impact.
+            for (auto& group : data.groups)
+                for (auto& human : group.humans)
+                    for (auto& bone : human.bones)
+                    {
+                        b3ShapeId shapes[16];
+                        int count = b3Body_GetShapes(bone.bodyId, shapes, 16);
+                        for (int i = 0; i < count; ++i)
+                        {
+                            auto filter = b3Shape_GetFilter(shapes[i]);
+                            filter.maskBits = 0;
+                            filter.groupIndex = 0;
+                            b3Shape_SetFilter(shapes[i], filter, false);
+                        }
+                    }
+        }
+    }
     else
     {
         auto bd = b3DefaultBodyDef();

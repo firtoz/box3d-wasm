@@ -307,10 +307,24 @@ fn ordinary_fused(a:f32,b:f32,c:f32)->f32{return fma(a,b,c);}
             roots.push(f32::from_bits((exponent << 23) | (seed & 0x7fffff)));
         }
         data.extend(roots.iter().map(|&x| [x, 0.0, 0.0, 0.0]));
+        // Independent b3Atan2 outputs from Box3D C, including all quadrants,
+        // axes, and the minimax polynomial's visible difference from atan2f.
+        let angles: [([f32; 2], u32); 14] = [
+            ([0.0, 0.0], 0x00000000), ([0.0, 1.0], 0x00000000),
+            ([1.0, 0.0], 0x3fc90fdb), ([0.0, -1.0], 0x40490fdb),
+            ([-1.0, 0.0], 0xbfc90fdb), ([0.1, 0.7], 0x3e114e31),
+            ([-0.1, 0.7], 0xbe114e31), ([0.1, -0.7], 0x403ffaf8),
+            ([-0.1, -0.7], 0xc03ffaf8), ([0.7, 0.1], 0x3fb6e615),
+            ([-0.7, -0.1], 0xbfdb39a1), ([1.0, 1.0], 0x3f4911aa),
+            ([0.3, 0.4], 0x3f24bda6), ([0.05, 1.0], 0x3d4ca154),
+        ];
+        let atan_start = data.len();
+        data.extend(angles.iter().map(|([y, x], _)| [*y, *x, 0.0, 0.0]));
         let rotation = include_str!("../shaders/physics/rotation.wgsl");
         let helpers = &rotation[rotation.find("fn gyro_norm3(").unwrap()
             ..rotation.find("fn gyro_integrate_rotation(").unwrap()];
-        let source = format!("{helpers}\n@group(0) @binding(0) var<storage,read_write> values:array<vec4<f32>>;\n@compute @workgroup_size(1) fn main(@builtin(global_invocation_id) id:vec3<u32>) {{ if (id.x < 4u) {{ values[id.x]=gyro_norm4(values[id.x]); }} else if (id.x < 8u) {{ values[id.x]=vec4<f32>(gyro_norm3(values[id.x].xyz),0.0); }} else if (id.x < 12u) {{ values[id.x]=vec4<f32>(gyro_recip(values[id.x].x),0.0,0.0,0.0); }} else if (id.x < 16u) {{ values[id.x]=vec4<f32>(gyro_divide(values[id.x].x,values[id.x].y),0.0,0.0,0.0); }} else {{ values[id.x]=vec4<f32>(gyro_sqrt(values[id.x].x),0.0,0.0,0.0); }} }}");
+        let helpers = format!("{helpers}\n{}", &rotation[rotation.find("fn gyro_atan2(").unwrap()..]);
+        let source = format!("{helpers}\n@group(0) @binding(0) var<storage,read_write> values:array<vec4<f32>>;\n@compute @workgroup_size(1) fn main(@builtin(global_invocation_id) id:vec3<u32>) {{ if (id.x < 4u) {{ values[id.x]=gyro_norm4(values[id.x]); }} else if (id.x < 8u) {{ values[id.x]=vec4<f32>(gyro_norm3(values[id.x].xyz),0.0); }} else if (id.x < 12u) {{ values[id.x]=vec4<f32>(gyro_recip(values[id.x].x),0.0,0.0,0.0); }} else if (id.x < 16u) {{ values[id.x]=vec4<f32>(gyro_divide(values[id.x].x,values[id.x].y),0.0,0.0,0.0); }} else if (id.x < {atan_start}u) {{ values[id.x]=vec4<f32>(gyro_sqrt(values[id.x].x),0.0,0.0,0.0); }} else {{ values[id.x]=vec4<f32>(gyro_atan2(values[id.x].x,values[id.x].y),0.0,0.0,0.0); }} }}");
         let words = compile(&source, "main", &[]);
         // SAFETY: the same validated Naga output and decoration used in production.
         let shader = unsafe {
@@ -391,6 +405,9 @@ fn ordinary_fused(a:f32,b:f32,c:f32)->f32{return fma(a,b,c);}
         rx.recv().unwrap().unwrap();
         let mapped = readback.slice(..).get_mapped_range();
         let actual: &[[f32; 4]] = bytemuck::cast_slice(&mapped);
+        for ((input, expected), result) in angles.iter().zip(&actual[atan_start..]) {
+            assert_eq!(result[0].to_bits(), *expected, "Box3D atan2 {input:?}");
+        }
         for (x, result) in roots.iter().zip(&actual[16..]) {
             assert_eq!(
                 result[0].to_bits(),

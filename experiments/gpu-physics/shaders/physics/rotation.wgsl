@@ -1,5 +1,5 @@
-// CPU-ordered rotational integration. Native Vulkan adds NoContraction only
-// to these gyro_* functions; contact and joint math retain their normal compilation.
+// CPU-ordered rotational integration. Native Vulkan preserves explicit
+// scalar arithmetic throughout the physics shader with NoContraction.
 fn gyro_quat_rotate(q: vec4<f32>, v: vec3<f32>) -> vec3<f32> {
     // Native b3RotateVector form. Unlike the homogeneous expansion, this
     // preserves the vector along the rotation axis when |q| rounds off unity.
@@ -144,3 +144,23 @@ fn gyro_finish_rotation(dq:vec4<f32>,q:vec4<f32>)->vec4<f32> {
     return gyro_norm4(gyro_quat_mul(dq,q));
 }
 
+
+// Box3D b3Atan2's deterministic polynomial is part of joint-limit behavior.
+// Keep its scalar evaluation order under the Vulkan precision compiler.
+fn gyro_atan2(y: f32, x: f32) -> f32 {
+    if (x == 0.0 && y == 0.0) { return 0.0; }
+    let ax = abs(x);
+    let ay = abs(y);
+    let a = gyro_divide(min(ay, ax), max(ay, ax));
+    let s = a * a;
+    let c = s * a;
+    let q = s * s;
+    var r = 0.024840285 * q + 0.18681418;
+    let t = -0.094097948 * q - 0.33213072;
+    r = r * s + t;
+    r = r * c + a;
+    if (ay > ax) { r = 1.57079637 - r; }
+    if (x < 0.0) { r = 3.14159274 - r; }
+    if (y < 0.0) { r = -r; }
+    return r;
+}
