@@ -260,77 +260,14 @@ fn ordinary_fused(a:f32,b:f32,c:f32)->f32{return fma(a,b,c);}
         assert_eq!(words[0], 0x07230203);
     }
 
-    #[test]
-    fn native_scalar_residual_corrections_match_cpu() {
+    fn run_float_shader(gpu: &crate::sim::GpuDevice, source: &str, data: &[[f32; 4]], workgroups: u32) -> Vec<[f32; 4]> {
         use wgpu::util::DeviceExt;
-        let gpu = pollster::block_on(crate::sim::GpuDevice::new(None)).expect("GPU");
-        if !gpu
-            .device
-            .features()
-            .contains(wgpu::Features::SPIRV_SHADER_PASSTHROUGH)
-        {
-            return;
-        }
-        // First integrated rotation from the independent ground-drag fixture.
-        // Its squared length lies just below a square-root rounding midpoint.
-        let inputs = [
-            [-0.0014589281_f32, 0.00035152573, 0.00005638938, 1.0],
-            [0.0003, -0.002, 0.0001, 1.0],
-            [0.4, -0.2, 0.7, 0.5],
-            [0.0, 0.0, 0.0, 1.0],
-        ];
-        // Tilted contact normal from frame 63 of the independent drag fixture.
-        let vectors = [
-            [0.0_f32, -0.06706716, -0.99774843],
-            [0.8, -0.6, 0.0],
-            [0.3, -0.4, 0.5],
-            [0.0, 0.0, 0.0],
-        ];
-        let reciprocals = [0.006_f32, 0.004, 0.0025, 1.0000011];
-        let mut data = inputs.to_vec();
-        data.extend(vectors.map(|[x, y, z]| [x, y, z, 0.0]));
-        data.extend(reciprocals.map(|x| [x, 0.0, 0.0, 0.0]));
-        let divisions = [
-            [1.0_f32, 0.006],
-            [0.16949959, 0.006],
-            [0.5, 1.0000011],
-            [0.00001, 0.000010119209],
-        ];
-        data.extend(divisions.map(|[x, y]| [x, y, 0.0, 0.0]));
-        let mut roots = vec![f32::from_bits(0x3f7fffff), 0.0, 1.0, 2.0];
-        let mut seed = 0x6a09e667_u32;
-        for exponent in 1..255_u32 {
-            for mantissa in [0, 1, 0x3fffff, 0x7fffff] {
-                roots.push(f32::from_bits((exponent << 23) | mantissa));
-            }
-            seed = seed.wrapping_mul(1664525).wrapping_add(1013904223);
-            roots.push(f32::from_bits((exponent << 23) | (seed & 0x7fffff)));
-        }
-        data.extend(roots.iter().map(|&x| [x, 0.0, 0.0, 0.0]));
-        // Independent b3Atan2 outputs from Box3D C, including all quadrants,
-        // axes, and the minimax polynomial's visible difference from atan2f.
-        let angles: [([f32; 2], u32); 14] = [
-            ([0.0, 0.0], 0x00000000), ([0.0, 1.0], 0x00000000),
-            ([1.0, 0.0], 0x3fc90fdb), ([0.0, -1.0], 0x40490fdb),
-            ([-1.0, 0.0], 0xbfc90fdb), ([0.1, 0.7], 0x3e114e31),
-            ([-0.1, 0.7], 0xbe114e31), ([0.1, -0.7], 0x403ffaf8),
-            ([-0.1, -0.7], 0xc03ffaf8), ([0.7, 0.1], 0x3fb6e615),
-            ([-0.7, -0.1], 0xbfdb39a1), ([1.0, 1.0], 0x3f4911aa),
-            ([0.3, 0.4], 0x3f24bda6), ([0.05, 1.0], 0x3d4ca154),
-        ];
-        let atan_start = data.len();
-        data.extend(angles.iter().map(|([y, x], _)| [*y, *x, 0.0, 0.0]));
-        let rotation = include_str!("../shaders/physics/rotation.wgsl");
-        let helpers = &rotation[rotation.find("fn gyro_norm3(").unwrap()
-            ..rotation.find("fn gyro_integrate_rotation(").unwrap()];
-        let helpers = format!("{helpers}\n{}", &rotation[rotation.find("fn gyro_atan2(").unwrap()..]);
-        let source = format!("{helpers}\n@group(0) @binding(0) var<storage,read_write> values:array<vec4<f32>>;\n@compute @workgroup_size(1) fn main(@builtin(global_invocation_id) id:vec3<u32>) {{ if (id.x < 4u) {{ values[id.x]=gyro_norm4(values[id.x]); }} else if (id.x < 8u) {{ values[id.x]=vec4<f32>(gyro_norm3(values[id.x].xyz),0.0); }} else if (id.x < 12u) {{ values[id.x]=vec4<f32>(gyro_recip(values[id.x].x),0.0,0.0,0.0); }} else if (id.x < 16u) {{ values[id.x]=vec4<f32>(gyro_divide(values[id.x].x,values[id.x].y),0.0,0.0,0.0); }} else if (id.x < {atan_start}u) {{ values[id.x]=vec4<f32>(gyro_sqrt(values[id.x].x),0.0,0.0,0.0); }} else {{ values[id.x]=vec4<f32>(gyro_atan2(values[id.x].x,values[id.x].y),0.0,0.0,0.0); }} }}");
-        let words = compile(&source, "main", &[]);
+        let words = compile(source, "main", &[]);
         // SAFETY: the same validated Naga output and decoration used in production.
         let shader = unsafe {
             gpu.device.create_shader_module_passthrough(
                 wgpu::ShaderModuleDescriptorPassthrough::SpirV(wgpu::ShaderModuleDescriptorSpirV {
-                    label: Some("normalization regression"),
+                    label: Some("native arithmetic regression"),
                     source: std::borrow::Cow::Owned(words),
                 }),
             )
@@ -393,7 +330,7 @@ fn ordinary_fused(a:f32,b:f32,c:f32)->f32{return fma(a,b,c);}
             let mut pass = encoder.begin_compute_pass(&Default::default());
             pass.set_pipeline(&pipeline);
             pass.set_bind_group(0, &group, &[]);
-            pass.dispatch_workgroups(data.len() as u32, 1, 1);
+            pass.dispatch_workgroups(workgroups, 1, 1);
         }
         encoder.copy_buffer_to_buffer(&buffer, 0, &readback, 0, buffer.size());
         gpu.queue.submit([encoder.finish()]);
@@ -404,7 +341,77 @@ fn ordinary_fused(a:f32,b:f32,c:f32)->f32{return fma(a,b,c);}
         gpu.device.poll(wgpu::PollType::Wait).unwrap();
         rx.recv().unwrap().unwrap();
         let mapped = readback.slice(..).get_mapped_range();
-        let actual: &[[f32; 4]] = bytemuck::cast_slice(&mapped);
+        let result = bytemuck::cast_slice::<u8, [f32; 4]>(&mapped).to_vec();
+        drop(mapped);
+        readback.unmap();
+        result
+    }
+
+    #[test]
+    fn native_scalar_residual_corrections_match_cpu() {
+        let gpu = pollster::block_on(crate::sim::GpuDevice::new(None)).expect("GPU");
+        if !gpu
+            .device
+            .features()
+            .contains(wgpu::Features::SPIRV_SHADER_PASSTHROUGH)
+        {
+            return;
+        }
+        // First integrated rotation from the independent ground-drag fixture.
+        // Its squared length lies just below a square-root rounding midpoint.
+        let inputs = [
+            [-0.0014589281_f32, 0.00035152573, 0.00005638938, 1.0],
+            [0.0003, -0.002, 0.0001, 1.0],
+            [0.4, -0.2, 0.7, 0.5],
+            [0.0, 0.0, 0.0, 1.0],
+        ];
+        // Tilted contact normal from frame 63 of the independent drag fixture.
+        let vectors = [
+            [0.0_f32, -0.06706716, -0.99774843],
+            [0.8, -0.6, 0.0],
+            [0.3, -0.4, 0.5],
+            [0.0, 0.0, 0.0],
+        ];
+        let reciprocals = [0.006_f32, 0.004, 0.0025, 1.0000011];
+        let mut data = inputs.to_vec();
+        data.extend(vectors.map(|[x, y, z]| [x, y, z, 0.0]));
+        data.extend(reciprocals.map(|x| [x, 0.0, 0.0, 0.0]));
+        let divisions = [
+            [1.0_f32, 0.006],
+            [0.16949959, 0.006],
+            [0.5, 1.0000011],
+            [0.00001, 0.000010119209],
+        ];
+        data.extend(divisions.map(|[x, y]| [x, y, 0.0, 0.0]));
+        let mut roots = vec![f32::from_bits(0x3f7fffff), 0.0, 1.0, 2.0];
+        let mut seed = 0x6a09e667_u32;
+        for exponent in 1..255_u32 {
+            for mantissa in [0, 1, 0x3fffff, 0x7fffff] {
+                roots.push(f32::from_bits((exponent << 23) | mantissa));
+            }
+            seed = seed.wrapping_mul(1664525).wrapping_add(1013904223);
+            roots.push(f32::from_bits((exponent << 23) | (seed & 0x7fffff)));
+        }
+        data.extend(roots.iter().map(|&x| [x, 0.0, 0.0, 0.0]));
+        // Independent b3Atan2 outputs from Box3D C, including all quadrants,
+        // axes, and the minimax polynomial's visible difference from atan2f.
+        let angles: [([f32; 2], u32); 14] = [
+            ([0.0, 0.0], 0x00000000), ([0.0, 1.0], 0x00000000),
+            ([1.0, 0.0], 0x3fc90fdb), ([0.0, -1.0], 0x40490fdb),
+            ([-1.0, 0.0], 0xbfc90fdb), ([0.1, 0.7], 0x3e114e31),
+            ([-0.1, 0.7], 0xbe114e31), ([0.1, -0.7], 0x403ffaf8),
+            ([-0.1, -0.7], 0xc03ffaf8), ([0.7, 0.1], 0x3fb6e615),
+            ([-0.7, -0.1], 0xbfdb39a1), ([1.0, 1.0], 0x3f4911aa),
+            ([0.3, 0.4], 0x3f24bda6), ([0.05, 1.0], 0x3d4ca154),
+        ];
+        let atan_start = data.len();
+        data.extend(angles.iter().map(|([y, x], _)| [*y, *x, 0.0, 0.0]));
+        let rotation = include_str!("../shaders/physics/rotation.wgsl");
+        let helpers = &rotation[rotation.find("fn gyro_norm3(").unwrap()
+            ..rotation.find("fn gyro_integrate_rotation(").unwrap()];
+        let helpers = format!("{helpers}\n{}", &rotation[rotation.find("fn gyro_atan2(").unwrap()..]);
+        let source = format!("{helpers}\n@group(0) @binding(0) var<storage,read_write> values:array<vec4<f32>>;\n@compute @workgroup_size(1) fn main(@builtin(global_invocation_id) id:vec3<u32>) {{ if (id.x < 4u) {{ values[id.x]=gyro_norm4(values[id.x]); }} else if (id.x < 8u) {{ values[id.x]=vec4<f32>(gyro_norm3(values[id.x].xyz),0.0); }} else if (id.x < 12u) {{ values[id.x]=vec4<f32>(gyro_recip(values[id.x].x),0.0,0.0,0.0); }} else if (id.x < 16u) {{ values[id.x]=vec4<f32>(gyro_divide(values[id.x].x,values[id.x].y),0.0,0.0,0.0); }} else if (id.x < {atan_start}u) {{ values[id.x]=vec4<f32>(gyro_sqrt(values[id.x].x),0.0,0.0,0.0); }} else {{ values[id.x]=vec4<f32>(gyro_atan2(values[id.x].x,values[id.x].y),0.0,0.0,0.0); }} }}");
+        let actual = run_float_shader(&gpu, &source, &data, data.len() as u32);
         for ((input, expected), result) in angles.iter().zip(&actual[atan_start..]) {
             assert_eq!(result[0].to_bits(), *expected, "Box3D atan2 {input:?}");
         }
@@ -454,4 +461,42 @@ fn ordinary_fused(a:f32,b:f32,c:f32)->f32{return fma(a,b,c);}
             assert_eq!(result.map(f32::to_bits), expected, "input {q:?}");
         }
     }
+    include!("fixtures/spherical_preparation.rs");
+
+    #[test]
+    fn native_spherical_preparation_matches_cpu() {
+        let gpu=pollster::block_on(crate::sim::GpuDevice::new(None)).expect("GPU");
+        assert!(gpu.device.features().contains(wgpu::Features::SPIRV_SHADER_PASSTHROUGH));
+        let data: Vec<[f32; 4]> = SPHERICAL_PREPARATION_CASES.iter().flatten().copied().collect();
+        let expected:Vec<_>=data.chunks_exact(10).map(|v|[v[8],v[9]]).collect();
+        fn function(source:&str,name:&str)->String {
+            let start=source.find(&format!("fn {name}(" )).unwrap();
+            let brace=source[start..].find('{').unwrap()+start;
+            let mut depth=1;let mut end=brace+1;
+            while depth>0 {match source.as_bytes()[end] {b'{'=>depth+=1,b'}'=>depth-=1,_=>{}}end+=1;}
+            source[start..end].to_string()
+        }
+        let rot=include_str!("../shaders/physics/rotation.wgsl");
+        let math=include_str!("../shaders/physics/math.wgsl");
+        let solve=include_str!("../shaders/physics/solve.wgsl");
+        let scalar=&rot[rot.find("fn gyro_norm3(").unwrap()..rot.find("fn gyro_integrate_rotation(").unwrap()];
+        let helpers=[scalar.to_string(),function(rot,"gyro_quat_rotate"),function(rot,"gyro_quat_mul"),function(math,"quat_rotate"),function(math,"quat_mul"),function(math,"quat_inv"),function(math,"native_mul_mv"),function(solve,"normalize_or_zero")].join("\n");
+        let start=solve.find("fn solve_spherical(").unwrap();
+        let a=solve[start..].find("    let base_frame_a").unwrap()+start;
+        let b=solve[a..].find("    let fixed_rotation").unwrap()+a;
+        let prepare=solve[a..b].replace("quat_mul((*ba).rot, (*jn).frame_a_rotation)","qa").replace("quat_mul((*bb).rot, (*jn).frame_b_rotation)","qb")
+            .replace("world_inv_inertia(*ba,", "native_mul_mv(ia,").replace("world_inv_inertia(*bb,", "native_mul_mv(ib,")
+            .replace("world_inv_inertia_matrix(*ba)","ia").replace("world_inv_inertia_matrix(*bb)","ib");
+        let source=format!("{helpers}\nfn prepare(ia:mat3x3<f32>,ib:mat3x3<f32>,qa:vec4<f32>,qb:vec4<f32>)->array<vec4<f32>,2>{{ {prepare} return array<vec4<f32>,2>(vec4<f32>(swing_axis,swing_mass),vec4<f32>(twist_jacobian,twist_mass)); }}\n@group(0) @binding(0) var<storage,read_write> values:array<vec4<f32>>;\n@compute @workgroup_size(1) fn main(@builtin(global_invocation_id) id:vec3<u32>) {{ let k=id.x*10u; let ia=mat3x3<f32>(values[k].xyz,values[k+1u].xyz,values[k+2u].xyz);let ib=mat3x3<f32>(values[k+3u].xyz,values[k+4u].xyz,values[k+5u].xyz);let out=prepare(ia,ib,values[k+6u],values[k+7u]);values[k]=out[0];values[k+1u]=out[1]; }}");
+        let actual = run_float_shader(&gpu, &source, &data, (data.len()/10) as u32);
+        let mut differences=0;
+        for (i,(v,want)) in actual.chunks_exact(10).zip(expected).enumerate() {
+            for j in 0..2 {for k in 0..4 {
+                if v[j][k].to_bits()!=want[j][k].to_bits() {differences+=1;eprintln!("prepare mismatch {i}/{j}/{k} gpu={:08x} cpu={:08x}",v[j][k].to_bits(),want[j][k].to_bits());}
+            }}
+        }
+        assert_eq!(differences,0);
+
+    }
+
 }

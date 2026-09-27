@@ -1515,23 +1515,23 @@ fn solve_spherical(
     let base_frame_b = quat_mul((*bb).rot, (*jn).frame_b_rotation);
     let cone_axis = quat_rotate(base_frame_a, vec3<f32>(0.0, 0.0, 1.0));
     let twist_axis = quat_rotate(base_frame_b, vec3<f32>(0.0, 0.0, 1.0));
-    let swing_axis = normalize_or_zero(cross(cone_axis, twist_axis));
+    let swing_axis = gyro_norm3(gyro_cross(cone_axis, twist_axis));
     let base_rel = quat_mul(quat_inv(base_frame_a), base_frame_b);
     let tangent_denominator = base_rel.z * base_rel.z + base_rel.w * base_rel.w;
     let tan_half_swing = select(
         0.0,
-        sqrt((base_rel.x * base_rel.x + base_rel.y * base_rel.y) / tangent_denominator),
+        gyro_sqrt(gyro_divide(base_rel.x * base_rel.x + base_rel.y * base_rel.y, tangent_denominator)),
         tangent_denominator > 0.0,
     );
     let twist_jacobian =
-        cone_axis + tan_half_swing * cross(swing_axis, cone_axis);
+        cone_axis + tan_half_swing * gyro_cross(swing_axis, cone_axis);
 
-    let swing_k = dot(swing_axis, world_inv_inertia(*ba, swing_axis)
-        + world_inv_inertia(*bb, swing_axis));
-    let swing_mass = select(0.0, 1.0 / swing_k, swing_k > 0.0);
-    let twist_k = dot(twist_jacobian, world_inv_inertia(*ba, twist_jacobian)
-        + world_inv_inertia(*bb, twist_jacobian));
-    let twist_mass = select(0.0, 1.0 / twist_k, twist_k > 0.0);
+    // Native prepares the summed tensor before multiplying by either axis.
+    let inertia_sum = world_inv_inertia_matrix(*ba) + world_inv_inertia_matrix(*bb);
+    let swing_k = gyro_dot3(swing_axis, native_mul_mv(inertia_sum, swing_axis));
+    let swing_mass = select(0.0, gyro_recip(swing_k), swing_k > 0.0);
+    let twist_k = gyro_dot3(twist_jacobian, native_mul_mv(inertia_sum, twist_jacobian));
+    let twist_mass = select(0.0, gyro_recip(twist_k), twist_k > 0.0);
 
     let i0 = world_inv_inertia(*ba, vec3<f32>(1.0, 0.0, 0.0))
         + world_inv_inertia(*bb, vec3<f32>(1.0, 0.0, 0.0));

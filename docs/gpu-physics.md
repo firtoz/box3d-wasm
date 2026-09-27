@@ -903,7 +903,7 @@ ragdoll thigh's center exactly. Both paths pass all 18 capsule-filtered tests.
 
 The intermediate inertia-only run `artifacts/ragdoll-capsule-mass` first failed
 at frame 106, but this is not the final result: correcting the first-shape
-center changes subsequent branch choices again. Current independent runs in
+center changes subsequent branch choices again. Checkpoint independent runs in
 `artifacts/ragdoll-capsule-native-mass[-native]` have byte-identical GPU traces
 for all six cases, pass stability/collision-free checks, and first fail visual
 agreement at frame 90 (1.0221° RMS / 5.0232° maximum orientation). Frame 143
@@ -921,9 +921,202 @@ forces symmetry. Evidence is in `ragdoll-impact-goal/mass-initial-final-*` and
 `mass-full-matrix-*`. This is a concrete remaining representation difference
 for follow-up, not yet a demonstrated cause of the remaining visual failure.
 
+A follow-up inversion experiment on 2026-09-27 compares the saved full native
+matrices with the same matrices after forcing the GPU's symmetry convention.
+Box3D's own `b3InvertT`, compiled with contraction disabled, confirms that
+64 of 112 bodies change: 272 of 1,008 inverse-matrix components differ, with
+maximum absolute difference `3.05175781e-5`. An independent float32 Python
+calculation gives the same counts and maximum. The diagnostic source is
+`artifacts/ragdoll-impact-goal/check_mass_inverse.cpp`; per-body results are in
+`mass-inverse-symmetry.json` alongside it. This isolates a consequence of the
+storage difference, but does not yet prove a trajectory improvement. Next,
+retain all nine native components through capsule mass aggregation and inverse
+inertia upload in an experimental replay, and compare the earliest joint solve
+before evaluating independent 600-step runs. Do not replace the full visual
+gate with this initial-state comparison.
+
+The full-matrix diagnostic was then run independently for all 600 steps on the
+ordinary GPU path (`artifacts/ragdoll-full-inertia-final`). It recomputes capsule
+mass from the GPU scene's original endpoints, radius and stored density, asserts
+identical mass, applies the existing COM shift, and uploads all nine inverse
+components. It neither reads CPU traces nor resynchronizes poses. Stability and
+the collision-free check pass (maximum position error `2.73e-6` m), but visual
+agreement still first fails at frame 90: maximum orientation error 5.02408°,
+RMS 0.72294°. Frame 143 position error is 0.05656 m RMS / 0.25304 m maximum;
+frame 600 is 0.29965 m RMS / 0.97645 m maximum. These improve some later averages
+without meeting the goal. Frame 87 RMS position error is slightly worse than the
+checkpoint (8.07 versus 7.36 micrometres), so this does not remove the early
+solver drift. The earlier `ragdoll-full-inertia-experiment` used reconstructed
+density and is superseded by the stored-density run.
+
+The temporary upload/shader changes are archived in
+`artifacts/ragdoll-impact-goal/full-matrix-experiment.patch` and removed from the
+working implementation. They only covered initial single-capsule uploads;
+a durable change would also need mass updates, compound aggregation, queries,
+layout tests and native cached validation. There is no justification yet to
+promote that incomplete experiment based on improved averages. The next useful
+diagnostic is the first biased joint solve with identical input matrices and
+states, particularly the gyro inertia reconstruction and prepared effective
+mass arithmetic. Full-matrix retention alone is insufficient.
+
+A separate joint-softness experiment isolates ordinary WGSL division as another
+float32 mismatch. An independent `b3MakeSoft` fixture checks the actual ragdoll
+default (60 Hz, damping ratio 2, 1/240 s), damping ratios 1/0/0.7 and a longer
+timestep. The original shader fails exact coefficient comparison; using
+`gyro_divide` and `gyro_recip` passes all five cases. All five existing/added
+native-precision tests pass on ordinary and native cached backends (the first
+suite run covered four softness cases; the subsequent ordinary run adds the
+actual damping-2 default). Sources, CPU goldens, logs and the test/change patch
+are in `artifacts/ragdoll-impact-goal/softness-*`.
+
+However, independent runs in `artifacts/ragdoll-softness-precision[-native]`
+regress despite byte-identical traces between backends for all six fixtures.
+Stability and collision-free checks still pass, but the visual gate first fails
+at frame 88 (6.0700° maximum orientation). Frame 143 position error is 0.23998 m
+RMS / 1.01415 m maximum; frame 600 is 0.55979 m RMS / 1.74641 m maximum.
+The maximum velocity-component error improves at frame 1 (8.94e-7 to 6.56e-7),
+then grows at frame 2 (6.56e-7 to 1.12e-5) and jumps at frame 3 (2.23e-5 to
+0.036965). `softness-early-errors.json` records each pre-impact frame. Correct
+softness alone does not close the remaining contact/constraint branch
+sensitivity. The experiment and regression test are archived together in
+`softness-precision-experiment.patch`; production code is restored to the
+checkpoint. Next replay the frame-2-to-3 transition with identical body states,
+contact caches and joint impulses, starting with sample row 14 (the second
+human's pelvis), which has the largest frame-3 velocity error. Compare the
+earliest changed contact manifold/constraint operation rather than judging
+only later averages.
+
+The follow-up frame-3 trace rules out two coarse explanations for the softness
+experiment's early jump. Re-evaluating all 91 capsule pairs within the second
+human with the native collision routine and each run's frame-2 poses yields
+17 candidate manifolds in both cases, with no point-count change or normal
+component difference above 1e-3. This enumeration includes filtered pairs and
+is only a geometry diagnostic. Live CPU/GPU contact traces then confirm the
+same six retained contacts for that human through frames 1–3, with matching
+point counts and feature IDs. At frame 3, public shape pairs (18,23) and (18,25)
+have nearly identical normals but accumulated normal-impulse differences of
+0.104900 and 0.399205 respectively.
+
+Graph traces cover all 24 live contacts at each of frames 1, 2 and 3. After
+converting GPU zero-based shape indices to public IDs, every pair and graph
+color matches CPU. The traced CPU and GPU runs each reproduce all 448 states
+of their corresponding softness-run prefix exactly. Evidence and reproducible
+sources are `artifacts/ragdoll-impact-goal/early-*` and `compare_early_*.py`.
+Contact membership, feature changes and contact-color assignment therefore do
+not explain this jump; the next trace must compare per-substep contact inputs,
+warm-start impulses and solver updates for pairs (18,23)/(18,25), including the
+interleaved joints. The checkpoint implementation remains unchanged.
+
+Per-operation probes now locate that amplification. CPU wrappers and temporary
+GPU append-buffer probes reproduce all 448 uninstrumented states exactly, with
+no trace overflow. Body 16 (sample row 15, spine-01) has 120 matching phase keys;
+the pelvis, body 15, has 72. The first large jump is the color-5 **biased contact
+solve in substep 3** of frame 3, for public shape pair (18,25): the spine's
+maximum velocity-component error rises from about 4.9e-5 to 0.1045. Subsequent
+unbiased joint solves transmit it to the pelvis and spine-02. Initial traces
+of body 17 observed that propagation; body 16 is the direct contact endpoint.
+
+A copied native contact solver, compiled with the oracle's optimization and
+contraction flags, and GPU scalar probes identify the actual branch change.
+At the preceding unbiased solve, CPU separation remains `2.98023224e-8` m while
+GPU separation rounds to zero. In the next biased solve, CPU still uses that
+positive separation and the speculative branch (`massScale=1`,
+`impulseScale=0`); GPU uses zero and the soft branch (`massScale=0.9422793`,
+`impulseScale=0.057720676`). The negative normal-impulse increments become
+`-0.48603642` versus `-0.25074485`, despite nearly identical incoming normal
+velocities (`-0.08993538` versus `-0.08993432`). Both use the same normal mass
+and base separation. This is a discontinuous solver response to a one-ULP
+separation difference, not a contact membership or warm-start ordering change.
+
+Evidence is in `artifacts/ragdoll-impact-goal/early-phase-*` and
+`early-normal-*`; the copied CPU probe source is `early_contact_solver.c`.
+The final detailed probes again preserve all 448 states and report 200 records
+without overflow. Temporary shader edits are archived in
+`early-normal-instrumentation.patch` and restored out of production. Next
+compare the moving-anchor/separation arithmetic on identical inputs, then its
+input rotation/position deltas. Do not replace `s > 0` with a tolerance or
+`>= 0`: that would change upstream solver behavior rather than fix the numerical
+source. The independent 600-step acceptance gate remains unmet.
+
+The moving-anchor calculation itself passes identical-input replay. The native
+SIMD probe exports both delta quaternions, position deltas, contact anchors,
+normal and base separation for all eight solves of the critical contact in
+frame 3. Its 448-state trajectory is unchanged. Replaying those exact float32
+inputs through the production GPU `current_sep` and quaternion helpers matches
+all eight native separations **bit-for-bit**, on both ordinary and native cached
+paths. In particular, each native `0x33000000` separation remains positive on
+GPU with the same inputs. Evidence is `separation-input-*`,
+`separation-replay-{gpu,native}.log`, and `separation-replay-test.patch` in the
+same diagnostic directory. The divergence therefore enters through prior state
+updates, not an isolated defect in the separation helper.
+
+A combined full-inertia plus corrected-softness experiment now also has complete
+independent runs on both paths in
+`artifacts/ragdoll-combined-inertia-softness[-native]`. All six GPU fixture
+traces are byte-identical across paths. Stability and collision-free checks
+pass (collision-free maximum position error `2.85e-6` m). The softness-only
+frame-3 amplification disappears: maximum velocity-component errors for frames
+1/2/3 are `6.71e-7`, `7.86e-7`, and `1.22e-6`, respectively. However, visual
+agreement still first fails at frame 90 (5.02276° maximum orientation). Frame
+143 position error is 0.05642 m RMS / 0.25283 m maximum; frame 600 is 0.30779 m
+RMS / 1.01822 m maximum. This demonstrates interaction between the numerical
+fixes; neither a single-fix regression nor improved later averages establish
+the final outcome.
+
+The combined diagnostic is archived as
+`artifacts/ragdoll-impact-goal/combined-inertia-softness-experiment.patch`;
+checkpoint production code is restored because its full-inertia upload remains
+an initial-single-capsule experiment. Use this combination as the next precision
+baseline. The spherical joint still has concrete preparation differences:
+GPU normalizes the swing axis with `inverseSqrt`, and computes
+`IA*axis + IB*axis`; native normalizes through square root/division and computes
+`(IA+IB)*axis`. Compare these on identical joint inputs before the next full
+run. A durable full-matrix implementation and all final scene/performance
+qualification remain required.
+
+Spherical preparation now has a retained production correction. A native wrapper
+captures world inverse inertias and prepared frame quaternions for bodies 2 and
+16 at frames 1–3, with CPU swing axis/mass and twist Jacobian/mass as goldens.
+On these identical inputs, the former GPU preparation differed in 24 of 48
+output components; some swing-axis components differed by dozens of float32
+steps. The shader now uses the existing scalar cross/normalization, corrected
+square-root/division/reciprocal helpers, and native `(IA+IB)*axis` operation
+order. All 48 components match bit-for-bit on ordinary and native cached paths.
+The portable fixture is `src/fixtures/spherical_preparation.rs`, and
+`native_spherical_preparation_matches_cpu` extracts the production helper code.
+The GPU test-dispatch helper is shared with the existing scalar precision test.
+All five native-precision tests pass on both paths after that refactor.
+
+Both the combined experiment and the retained standalone correction have
+complete independent runs. `artifacts/ragdoll-spherical-preparation[-native]`
+includes full inertia and corrected softness: frame 143 position error is
+0.05641 m RMS / 0.25283 m maximum, and frame 600 is 0.30503 m RMS / 1.01581 m
+maximum. `artifacts/ragdoll-spherical-preparation-only[-native]` reflects the
+**current production diff**, without the incomplete inertia experiment or
+softness change: frame 143 is 0.07262 m RMS / 0.25318 m maximum, and frame 600 is
+0.36660 m RMS / 1.06212 m maximum. Both configurations still first fail at frame
+90. In each configuration all six GPU fixture traces are byte-identical across
+ordinary/native paths, and stability/collision-free checks pass. The retained
+change fixes a proven same-input arithmetic mismatch; it does not establish
+visual-goal completion or a substantial visual improvement by itself.
+
+The combined shader/upload experiment is saved in
+`artifacts/ragdoll-impact-goal/spherical-combined-experiment.patch`; only the
+spherical preparation correction, portable fixture and test helper remain in
+production source. CPU capture and before/after logs are `spherical-prepare-*`
+in the same directory. Durable full-matrix mass handling and the remaining
+600-step divergence are still open, as are full Rain and performance
+qualification. The checkpoint recordings below cover the retained solver change.
+
+The next diagnostic lead is the capsule parallelism threshold: GPU uses the
+literal `0.0025`, whereas native computes `0.05f * 0.05f`, one float32 step
+higher. A native boundary fixture produces two contact points at a squared
+cross-product length equal to the GPU literal. GPU reproduction and any fix
+remain pending; this checkpoint does not change the collision threshold.
+
 Offset Kinematic and Prismatic pass their existing 1e-5/300-step and
 1e-4/120-step gates with these changes. Rain, ground dragging, performance
-measurements, and comparison recordings remain pending. No visual-agreement
+measurements remain pending. No visual-agreement
 completion is claimed.
 
 The Offset Kinematic regression checks explicit zero-mass center overrides on
@@ -939,16 +1132,18 @@ center override, not all mass-data semantics.
 Pre-commit native viewer captures for Offset Kinematic, Falling Ragdolls and
 Rain are registered in the local comparison grid's corresponding rows. CPU
 panes are in `000-box3d-cpu`; the latest GPU panes are in
-`2026-09-26-ragdoll-checkpoint` (the previous captures remain in
-`2026-09-25-physics-fixes`). The checkpoint captures cover 300 steps for Offset
+`2026-09-27-spherical-checkpoint` (the previous captures remain in
+`2026-09-26-ragdoll-checkpoint` and `2026-09-25-physics-fixes`). The checkpoint captures cover 300 steps for Offset
 Kinematic and Falling Ragdolls and 60 steps for Rain. These are wall-time captures
 with software OpenGL rendering, not performance measurements. Rain is a shortened
 capture of the initial drops, not a completed benchmark run. The Rust demo
 recorder does not host these native scenes. Capture reports and binary identity
-are in `experiments/gpu-physics/artifacts/ragdoll-checkpoint-capture/`. The same
+are in `experiments/gpu-physics/artifacts/spherical-checkpoint-capture/`. The same
 checkpoint also records all 19 Rust demo scenes and their real Box3D CPU oracle
 clips at 120 frames, with the CPU column pinned first. These short recordings
-are pre-commit comparisons, not the outstanding full qualification.
+are pre-commit comparisons, not the outstanding full qualification. The optional
+Rust demo metrics pass was stopped after recording all clips; this checkpoint
+does not include a refreshed performance result.
 
 Merging as an **experimental native engine** does not require completing every
 Box3D API or proving a speedup on every GPU. It does require accurate limitations,
