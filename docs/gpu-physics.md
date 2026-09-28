@@ -7,6 +7,10 @@ engine or show two independent worlds side by side.
 
 ## Support status
 
+The [GPU solver qualification](gpu-solver-qualification.md) tracks correctness,
+stability and same-device repeatability with efficient GPU ordering. It separates
+physical behavior from exact CPU trajectory agreement and lists unverified areas.
+
 | Area | Status |
 |---|---|
 | Linux NVIDIA GeForce RTX 4070 Laptop GPU | Native CPU/GPU/combined builds and normal/strict retained-history drag checks pass |
@@ -16,6 +20,7 @@ engine or show two independent worlds side by side.
 | Experimental browser target | Does not currently compile; native transport, ABI layout and world-storage assumptions need work |
 | Box3D WASM package | Separate implementation; unchanged by the experiment |
 | Native API parity | Incomplete; linkable symbols include placeholders and CPU-only comparison passthroughs |
+| Falling Ragdolls precision | Independent 600-step, 112-body runs pass every-frame targets on ordinary and native cached NVIDIA paths: worst position RMS/max 2.39/14.92 mm; orientation RMS/max 0.764/4.342 degrees. Collision-free, joint stability, Offset, Prismatic and strict dragging checks pass. Synchronized recordings are complete. Rain passes 600-step health/recycling checks but fails CPU-relative joint-error screening; see the validation details below. The warm ragdoll fixture costs 32.2% more wall time than its recorded earlier baseline. |
 | Performance | RTX 4070 Laptop solver-writeback follow-up versus `0bbf5f63`: median completed-step time falls 7.7% at 2k cubes and 1.5% at 5k, below the 20% target. The 100k and 200k cases improve 10.7% and 7.9%, with every paired large-scene trial faster. In the matched sweep, the first sampled GPU/CPU physics crossover moves from 20k to 15k cubes. Small-scene timings remain variable; this is not a universal speedup or crossover threshold. See the experiment README for dated charts, renderer measurements, raw evidence and earlier benchmark history. |
 
 The solver-writeback change stores only contact impulses during solving; it
@@ -25,6 +30,15 @@ schedule. Narrow body writes and shader specialization did not yield reliable
 additional completed-step gains and remain rejected experiments. The native-cache
 suite passes 276 tests, plus nine cache-disabled checks; the timing probe passes
 separately. Box3D and the WASM package are unchanged.
+
+GPU contact-query snapshots allocate new handles in stable public shape-pair
+and compound-child order. Existing handles retain their lifetimes and query
+enumeration positions. This removes randomized hash-map iteration from public
+contact ordering; it does not change GPU constraint ordering. Handles remain
+opaque identities, not numbers promised to match across worlds or runs. Contact
+end events also use stable logical pair/child ordering. Host-deferred and
+GPU-derived ends for the same transition are deduplicated within each step;
+refiltering can still produce a new begin after collisions are restored.
 
 The earlier connected-scene scheduling follow-up compares against `c46b81e2` on the same
 RTX 4070 Laptop. The repeated physics sweep measures about 2%, 15% and 20% lower
@@ -414,6 +428,9 @@ required step, including pending CCD, before returning current state. Events are
 harvested once; unread events expire at the next step. Callbacks use owned query
 snapshots so nested queries do not hold the world lock. Mutations invalidate
 cached state and upload affected data.
+Transform setters retain the supplied float32 body origin while updating the
+center of mass. This avoids losing an ULP by reconstructing an offset shape's
+origin before any simulation step; integrated motion replaces the cached origin.
 
 The resident GPU path and convex GPU CCD are eligibility-based optimizations.
 Unsupported geometry, callbacks or other excluded world features retain the
@@ -1092,7 +1109,7 @@ complete independent runs. `artifacts/ragdoll-spherical-preparation[-native]`
 includes full inertia and corrected softness: frame 143 position error is
 0.05641 m RMS / 0.25283 m maximum, and frame 600 is 0.30503 m RMS / 1.01581 m
 maximum. `artifacts/ragdoll-spherical-preparation-only[-native]` reflects the
-**current production diff**, without the incomplete inertia experiment or
+standalone spherical preparation correction, without the incomplete inertia experiment or
 softness change: frame 143 is 0.07262 m RMS / 0.25318 m maximum, and frame 600 is
 0.36660 m RMS / 1.06212 m maximum. Both configurations still first fail at frame
 90. In each configuration all six GPU fixture traces are byte-identical across
@@ -1101,23 +1118,1321 @@ change fixes a proven same-input arithmetic mismatch; it does not establish
 visual-goal completion or a substantial visual improvement by itself.
 
 The combined shader/upload experiment is saved in
-`artifacts/ragdoll-impact-goal/spherical-combined-experiment.patch`; only the
-spherical preparation correction, portable fixture and test helper remain in
+`artifacts/ragdoll-impact-goal/spherical-combined-experiment.patch`; at that checkpoint only the
+spherical preparation correction, portable fixture and test helper remained in
 production source. CPU capture and before/after logs are `spherical-prepare-*`
 in the same directory. Durable full-matrix mass handling and the remaining
 600-step divergence are still open, as are full Rain and performance
 qualification. The checkpoint recordings below cover the retained solver change.
 
-The next diagnostic lead is the capsule parallelism threshold: GPU uses the
-literal `0.0025`, whereas native computes `0.05f * 0.05f`, one float32 step
-higher. A native boundary fixture produces two contact points at a squared
-cross-product length equal to the GPU literal. GPU reproduction and any fix
-remain pending; this checkpoint does not change the collision threshold.
+The capsule parallelism threshold was also checked with an independent native
+boundary fixture. The old GPU literal `0.0025` is one float32 step below native
+`0.05f * 0.05f`: GPU produced one point where native produced two. The shader
+now preserves the typed float32 multiplication, and
+`capsule_parallel_threshold_matches_native_float_product` changes from failing
+(one point) to passing (two points) on ordinary and native cached GPU paths.
+This restores native semantics without changing its tolerance. Both complete runs in `artifacts/ragdoll-capsule-threshold[-native]` have
+byte-identical GPU traces across all six fixtures. The 600-step ragdoll trace
+is also identical to the previous production trace, so this boundary bug does not explain
+the observed frame-90 divergence. Stability and collision-free checks pass.
+Projection of clipped capsule points also differed: native divides by segment
+length squared and returns out-of-range endpoints exactly, while GPU projected
+using a normalized axis. Six independent native point-projection goldens now
+cover ragdoll capsule endpoints, oblique segments and both exterior regions.
+The former formula fails the exterior-B case by one float32 step; the native
+operation order passes all six cases bit-for-bit on ordinary and native cached
+paths in `native_capsule_projection_matches_cpu`. The capsule manifold now uses
+that helper for both clipped points. Full independent runs in
+`artifacts/ragdoll-capsule-projection[-native]` produce identical GPU traces
+across all six fixtures. Stability and collision-free checks pass, but visual
+agreement still first fails at frame 90. The first state changed by projection
+is body 98 at frame 89. Frame-143 position error increases to 0.08456 m RMS
+(0.25318 m maximum); frame 600 is 0.40698 m RMS (1.06212 m maximum). This is a
+verified local arithmetic correction, not a visual improvement. Earlier
+inertia/preparation differences and the full acceptance target remain open.
 
-Offset Kinematic and Prismatic pass their existing 1e-5/300-step and
-1e-4/120-step gates with these changes. Rain, ground dragging, performance
-measurements remain pending. No visual-agreement
-completion is claimed.
+The full-inertia/softness experiment was revalidated with these capsule fixes.
+Its enlarged body-extra layout had left the old capacity divisor in the graph
+memo shaders and an old slot stride in the body-extra test; the corrected
+experiment updates those sites as well. The body-extra GPU readback test passes.
+Graph memoization is disabled for these jointed ragdolls, and the complete
+`artifacts/ragdoll-full-layout-projection[-native]` runs confirm all six GPU
+traces are byte-identical both across paths and to the earlier combined
+spherical-preparation experiment. Frame 143 returns to 0.05641 m RMS / 0.25283 m
+maximum; frame 600 is 0.30503 m RMS / 1.01581 m maximum. First failure remains
+frame 90 (5.02277 degrees maximum orientation error). Stability passes and
+collision-free maximum position error is 2.85335e-6 m.
+
+The corrected diagnostic is archived as
+`artifacts/ragdoll-impact-goal/full-layout-corrected-experiment.patch` and removed
+from production source. A durable implementation must retain all nine inertia
+entries through shape/body mass accumulation, density/geometry changes, explicit
+mass overrides, queries, impulse handling and both scene upload paths. The
+current six-entry host representation loses independently rounded native matrix
+entries before inversion; the diagnostic still bypasses it only for initial
+single-capsule bodies. Its new stride also needs the corrected graph-cache
+capacity calculations. These are implementation requirements, not evidence that
+the 600-step visual goal is met.
+
+The full tensor is now retained in normal capsule/shape/body mass storage, with
+native cofactor inversion and both off-diagonal triangles uploaded after either
+scene allocation or scene updates. Geometry and density setters preserve the
+full capsule tensor; mass overrides, queries and host angular impulses also use
+all nine entries. The body-extra allocation grows from 16 to 20 words, with graph
+cache capacity calculations and step-force offsets updated together. The capsule
+mass result keeps its existing six-component view and additionally exposes the
+full column-major tensor. Joint and spring softness use the previously verified
+native division/reciprocal corrections.
+
+Five independent C goldens in `src/fixtures/full_mass_lifecycle.rs` cover initial
+mass, a density edit, geometry replacement plus mass recomputation, adding a
+second capsule, and removing it. All 13 components (mass, center and nine inertia
+entries) match bit-for-bit in ordinary and native cached API tests, including an explicit mass
+round trip. The GPU body-extra readback test checks both triangles and the
+diagonal as live body counts change. Complete independent runs in
+`artifacts/ragdoll-full-inertia-durable[-native]` require no diagnostic override:
+all six fixture traces are identical across paths and to the corrected
+experiment. Stability and collision-free checks pass, but the visual target
+still fails at frame 90; frame-143 RMS remains 0.05641 m and frame-600 RMS
+0.30503 m. Offset Kinematic (1e-5/300 steps) and all five Prismatic fixtures
+(1e-4/120 steps) pass after this implementation. Logs are
+`artifacts/ragdoll-impact-goal/full-durable-*`. Further impact-phase diagnosis,
+Rain, ground dragging, performance and recording qualification are required.
+Scene updates currently upload the full inverse tensor for every live body;
+that upload cost is part of the pending performance check.
+
+A fresh first-step phase trace on the full-inertia implementation is saved in
+`artifacts/ragdoll-impact-goal/full-first-phase/`. Both instrumented runs preserve
+their complete 224-state baseline prefixes exactly, with 240 GPU trace records
+and no overflow. For each sampled spine body (engine indices 2 and 16), all 120
+phase keys agree. Comparing decoded float32 values rather than decimal formatting,
+warm start and the first biased joint solve match exactly. The first mismatch
+for these bodies is after biased joint color 1 in substep 1: angular velocity Z
+is -7.235892553580925e-6 on CPU versus -7.235892098833574e-6 on GPU, one float32
+step (4.54747e-13). This identifies a remaining first-step joint difference; it
+is not a claim that every body/operation has been traced.
+
+A copied native spherical solver captures the selected joint's final torque
+update inputs and preserves the same CPU state prefix. Replaying those identical
+inputs through GPU matrix multiplication with either `cross` or `gyro_cross`
+returns all three expected output bits exactly. The final torque update alone
+therefore does not explain that mismatch; next compare the incoming angular
+velocity, point-constraint impulse, lever arm and prepared inertia within joint
+color 1. Temporary shader and replay-test probes have been removed from
+production source; captures, probe sources and comparison scripts remain in
+that artifact directory. The independent 600-step acceptance result is unchanged.
+
+The follow-up probe in `artifacts/ragdoll-impact-goal/full-joint-inputs/`
+preserves both baseline prefixes and emits 12 records without overflow. In the
+first selected solve, the lever arm, point impulse and all nine prepared inertia
+entries agree exactly; incoming angular velocity Z already differs by one step.
+The complete point-constraint calculation also matches all four native substep
+results on identical inputs. The spherical motor used `solve3` on the summed
+inertia, whereas native prepares its inverse and then multiplies by the velocity
+error. An independent four-case capture reproduces a one-bit motor-impulse
+mismatch with the old helper. Spherical motor and spring paths now use the
+existing native-order inverse-matrix helper; all four cases match bit-for-bit in
+`native_spherical_motor_mass_matches_cpu`, using the portable fixture
+`src/fixtures/spherical_motor_mass.rs`. All seven native precision tests pass.
+Temporary probes are removed. Both complete runs in
+`artifacts/ragdoll-spherical-motor-mass[-native]` have byte-identical GPU traces
+across all six fixtures. Stability and collision-free checks pass, but visual
+agreement still first fails at frame 90;
+frame-143 position RMS is 0.05637 m and frame-600 RMS is 0.35936 m. The latter is
+worse than the preceding full-inertia result, so the verified local correction
+is not evidence of improved overall visual agreement. Further first-step joint
+precision and impact-phase diagnosis remain necessary.
+
+A subsequent identical-input motor-clamp replay captures 1,094 unique cases
+from the first three independent CPU frames. Its 448-state CPU prefix remains
+byte-identical to the uninstrumented reference. The old spherical GPU clamp
+mismatches 154 cases; native compares the rounded vector length with the limit
+and scales by a rounded division, whereas the GPU compared squared lengths and
+used uncorrected square-root/division operations. The spherical path now uses
+`gyro_dot3`, `gyro_sqrt`, and `gyro_divide` in native order. All 1,094 captured
+cases match exactly with the correction. A compact 16-case regression retains
+unchanged inputs and twelve previously failing cases in
+`src/fixtures/spherical_motor_clamp.rs`; the full capture and replay logs remain
+in `artifacts/ragdoll-impact-goal/motor-clamp/`. Full independent-run impact of
+this clamp correction is still under validation; local exactness is not visual
+acceptance. Both full-path builds initially crash inside NVIDIA 610.57.04's
+shader compiler while compiling `solve_joints`, also with a fresh pipeline
+cache. Removing the corrected square root allows compilation but leaves 53
+identical-input mismatches, so it is not the selected implementation. Replacing
+only the square-root midpoint rounding branches with equivalent nested selects
+preserves all eight native precision tests, including all 1,094 clamp cases,
+but still crashes the full compiler. Making the entire corrected square-root
+helper branch-free (using safe placeholder input for exceptional values and
+selecting the original fallback result) preserves all eight precision tests
+and compiles the full ordinary joint shader. The ordinary complete run in
+`artifacts/ragdoll-spherical-motor-clamp-branchless` passes stability and
+collision-free checks (maximum position error 4.07304e-6 m), but visual agreement
+still first fails at frame 90 (maximum angle 5.02612°, RMS angle 1.25228°).
+Frame-143 position RMS is 0.084549 m and frame-600 RMS is 0.380374 m, both worse
+than before the clamp correction. The native cached full run in the corresponding `-native` directory completes
+with byte-identical GPU traces for all six fixtures and the same failing visual
+result. The exact local correction does not establish improved trajectory
+agreement.
+
+The refreshed trace in `artifacts/ragdoll-impact-goal/post-clamp-phase/`
+preserves the independent CPU/GPU state prefixes exactly. For engine bodies 2
+and 16, all 48 before/after spherical-joint records align by phase and color.
+The earlier first-substep biased-joint mismatch is gone for these sampled
+bodies. Their first remaining mismatch is after color-0 warm start in substep
+two: incoming velocities match, but outgoing angular velocity X differs by one
+float32 step (2.98023224e-8). This is a sampled-body finding, not a claim of the
+globally earliest operation across all 112 bodies. An independent native
+warm-start capture preserves the reference CPU prefix. An initial replay placed
+builtin and scalar cross products together and matched all eight updates, but
+that combined test was insufficient to rule out context-dependent arithmetic:
+separate replay shaders expose the mismatch, as described below.
+Temporary GPU trace and replay-test probes have been removed from production
+source; sources and results remain in that artifact directory.
+
+The follow-up capture in `artifacts/ragdoll-impact-goal/warm-inputs/`
+preserves all 224 CPU/GPU prefix states and emits 20 records without overflow.
+At the first discrepant warm start (substep two, color 0, body B=2), every
+recorded input is bit-identical: all nine inertia entries, rotated and base
+lever arms, linear/angular/spring/motor impulses, swing axis and impulse,
+twist Jacobian and limits, incoming angular velocity, and delta quaternion.
+This contradicts the earlier cached-input hypothesis: the full-shader arithmetic
+produces the difference despite identical inputs, while isolated replay matches.
+Substeps three and four then contain differing cached inputs as a consequence.
+Separate replay shaders expose the cause: builtin `cross` differs in three of
+the eight captured torque updates, including the exact second-substep X error;
+`gyro_cross` matches all eight. The earlier combined replay could share builtin
+and scalar calculations and concealed this mismatch. Spherical warm-start
+updates now use the explicit scalar cross in `spherical_warm_torque`. A portable
+regression evaluates only the production expression against the eight native
+goldens (`src/fixtures/spherical_warm_torque.rs`); it passes on the ordinary path,
+and all nine native precision tests pass. Complete runs in
+`artifacts/ragdoll-spherical-warm-torque[-native]` have byte-identical GPU traces
+across all six fixtures. Stability and collision-free checks pass (3.19610e-6 m
+maximum collision-free position error), but visual agreement first fails at
+frame 90 (5.02220° maximum orientation error). Frame-143 position RMS is
+0.0564995 m and frame-600 RMS is 0.359729 m. This improves on the preceding clamp
+run, but does not meet acceptance. The auxiliary full-shader
+intermediate-value probe preserves the original state prefix, yet its separately
+computed builtin/scalar torque expressions both match CPU at substep two while
+the original update remains different. Those side expressions therefore cannot
+stand in for the production update; the separate-shader replay reproduces its
+actual one-step error. Probe sources and all outputs are retained in the same
+artifact directory, with no diagnostic probes left in production source.
+
+The joint setup audit now reads actual engine getters for all 112 joints:
+72 spherical, 32 revolute, and eight collision filters, with 224 body incidences.
+All endpoint pairings and 3,672 stored float32 fields match exactly on ordinary
+and native cached paths (`artifacts/ragdoll-joint-setup[-native]`). The 104
+force-applying joints already matched; filter creation now retains identity
+local rotations and native constraint defaults, and the C wrappers preserve
+custom filter frames and tuning. Filters do not apply forces, so this metadata
+fix is not a trajectory correction. The default/custom filter regression passes
+in `artifacts/ragdoll-joint-setup/metadata`. The ragdoll validator checks these
+settings before trajectory validation, including the collision-free fixture;
+`--joint-setup-only` permits an explicit setup-only check without claiming a
+600-step pass. Older trace artifacts predate this metadata and cannot satisfy
+the extended validator without new runs.
+
+The complete first-substep trace in
+`artifacts/ragdoll-impact-goal/all-first-substep-complete` covers all 112 bodies,
+with matching 1,024 CPU/GPU operation keys and unchanged 224-state prefixes.
+It includes both spherical and revolute solves and contact chains. The first
+mismatching output is the color-zero biased revolute solve on body 7:
+angular Y differs by 4.54747e-12. Its incoming state matches. This supersedes
+the earlier partial trace, which omitted revolute joints and covered only
+88 bodies; later spherical warm-start differences are not the earliest
+remaining divergence.
+
+A native capture of the 32 first-substep hinge alignment solves preserves the
+224-state CPU prefix (`artifacts/ragdoll-impact-goal/revolute-mass`). Separate
+GPU replay shaders show discrepancies for all 32 original calculations and
+exact results for all 32 after matching native inertia addition and `b3Solve2`
+operation order. The solver now adds the two inertia matrices before multiplying
+by the axes, and applies the reciprocal to each matrix coefficient before the
+right-hand-side products. The portable regression exercises the production
+helper against the four distinct captured inputs. It passes on the ordinary
+path and all ten native precision tests pass. Full independent runs in
+`artifacts/ragdoll-revolute-perp-mass[-native]` produce byte-identical GPU traces
+across all six fixtures. Setup, stability and collision-free checks pass
+(maximum collision-free position error 2.99709e-6 m). The first visual failure
+moves from frame 90 to 106 (orientation RMS 1.10003°); frame-143 position RMS
+falls from 0.0564995 m to 0.0327156 m and maximum error is 0.187503 m.
+Frame-600 RMS falls from 0.359729 m to 0.165717 m, with maximum 0.523952 m.
+These are improvements, but 495 frames still fail the unchanged visual targets.
+
+The follow-up complete trace in
+`artifacts/ragdoll-impact-goal/post-revolute-first-substep` preserves both
+224-state prefixes and all 1,024 operation keys across 112 bodies. Mismatching
+records fall from 174 to 46. The earliest remaining mismatch moves to operation
+894, a color-two biased spherical shoulder solve between CPU body IDs 47 and
+54 (logical bones 45 and 52); incoming states match. The velocity-Z difference
+is 1.16415e-10 and angular-Y difference is 1.86265e-9. The previous color-zero
+hinge divergence is absent. Temporary trace probes have been removed from
+production source; their sources and results are retained with the capture.
+
+The shoulder follow-up captures native inputs to the point constraint without
+changing its 224-state prefix (`artifacts/ragdoll-impact-goal/shoulder-point`).
+Separate replay shaders reproduce one-bit X/Z relative-velocity differences
+from builtin `cross`; explicit `gyro_cross` matches CPU. Expanding the capture
+to all 72 spherical solves gives 12 distinct cases, of which two fail with the
+builtin and all match with the scalar cross. The spherical point-constraint
+velocity now uses that scalar expression. Its portable production-helper test
+passes on the ordinary path (`src/fixtures/spherical_point_velocity.rs`). The
+full-shader intermediate capture preserves both 224-state prefixes, emits all
+16 expected records, and confirms identical incoming velocities, levers, inertia
+matrices and bias. Relative velocity is the first differing intermediate;
+its X/Z errors propagate into the right-hand side and solved Z impulse.
+This reproduces the isolated replay's error in the full solver. All eleven
+native precision tests pass. Independent 600-step runs in
+`artifacts/ragdoll-spherical-point-velocity[-native]` have identical GPU traces
+across all six fixtures; setup and stability pass, and collision-free maximum
+position error improves to 2.73652e-6 m. However, contact trajectory agreement
+regresses from the preceding hinge-only correction: the first visual failure
+returns to frame 90, frame-143 position RMS is 0.0565945 m (maximum 0.253419 m),
+and frame-600 RMS is 0.296925 m (maximum 0.931233 m). The correction matches
+native arithmetic, but is not evidence of improved overall visual agreement.
+
+With the spherical velocity correction, the complete first-substep comparison
+in `artifacts/ragdoll-impact-goal/post-velocity-first-substep` has zero mismatches:
+all 1,024 CPU/GPU operation keys and values match across 112 bodies, with both
+224-state prefixes unchanged. This covers warm start and the first biased joint
+and contact passes before position integration. It does not cover subsequent
+integration, relaxation, or later substeps; those remain the next place to
+locate the earliest difference. Exact agreement in this early window does not
+supersede the failing independent 600-step result above.
+
+The expanded frame-one trace in `artifacts/ragdoll-impact-goal/full-first-frame`
+covers 6,240 matching operation keys across all 112 bodies, including all four
+substeps and final convex restitution. CPU/GPU state prefixes remain unchanged;
+the temporary 8,192-record buffer did not overflow and has been restored to the
+production size. There are 4,668 differing records. The first occurs at CPU
+operation 1,038: first relaxation pass, color zero, revolute joint body 7/8.
+Its recorded incoming velocities and position deltas match, while the outgoing
+angular velocity differs by 1.49012e-8. This is later than the now-exact initial
+warm/biased pass. Delta quaternions and internal joint inputs are not included
+in this broad trace and still need comparison before attributing the error.
+
+The first relaxation hinge investigation captures all 128 native hinge solves
+across frame one's four substeps, preserving the CPU state prefix
+(`artifacts/ragdoll-impact-goal/hinge-relax-point`). Separate replay shaders
+find builtin-cross relative-velocity differences in 64/128 cases; scalar cross
+matches every captured CPU result. Hinges and spherical joints now share
+`joint_point_velocity`, and portable regressions pass for the 12 spherical
+cases plus 16 hinge cases covering four hinges in all four substeps. The full
+hinge probe preserves both 224-state prefixes and emits all 72 records without
+overflow. At the first relaxation solve, both delta quaternions, incoming
+velocities, lever arms, bias and inertia matrices match exactly. Relative
+velocity is the first differing intermediate, followed by the solved impulse;
+this confirms the isolated replay's cause in the complete solver. All twelve
+native precision tests pass. Complete independent runs in
+`artifacts/ragdoll-revolute-point-velocity[-native]` produce identical GPU traces
+across all six fixtures. Setup, stability and collision-free checks pass
+(maximum collision-free position error 2.93946e-6 m). Visual acceptance still
+first fails at frame 90; frame-143 position RMS is 0.0564507 m (maximum
+0.253096 m), and frame-600 RMS is 0.311826 m (maximum 1.09292 m). The latter
+regresses from the preceding 0.296925 m, so exact local arithmetic still does
+not establish improved contact trajectories.
+
+The subsequent full-frame trace (`artifacts/ragdoll-impact-goal/post-hinge-velocity-frame`)
+preserves both production state prefixes and aligns all 6,240 records without
+overflow. Differing records decrease from 4,668 to 4,444; the former first
+body-7/8 relaxation mismatch is eliminated. The first difference is now CPU
+operation 1,046, color-zero relaxation of hinge bodies 11/12, with maximum
+angular-velocity differences of 1.49012e-8 and 5.96046e-8 respectively. This
+local trace improvement does not change the failing full-run acceptance above.
+
+The body-11/12 point probe (`artifacts/ragdoll-impact-goal/hinge-left-arm-point`)
+preserves both 224-state prefixes and all 72 trace records without overflow.
+Its lever arms, delta quaternions, inverse inertias and linear velocities match;
+angular velocities already differ before the point solve. An independent
+native capture of all 128 relaxation alignment dot products finds 75 mismatches
+with builtin `dot`, and none with the CPU-order scalar `gyro_dot3` expression.
+The hinge alignment RHS now uses `revolute_alignment_velocity`, with 16 native
+goldens covering four hinges across all four substeps. All thirteen native
+precision tests pass on both ordinary and cached paths. Complete independent
+runs (`artifacts/ragdoll-revolute-alignment-velocity[-native]`) have identical
+GPU traces across all six fixtures. Setup, stability and collision-free gates
+pass (maximum collision-free position error 3.23340e-6 m), but visual acceptance
+still fails first at frame 90. Frame-143 position RMS is 0.0709477 m (maximum
+0.237992 m); frame-600 RMS is 0.306381 m (maximum 0.706620 m). This is mixed
+relative to the preceding result, including worse frame-143 RMS, and does not
+establish a visual fix. The fresh full-frame trace
+(`artifacts/ragdoll-impact-goal/post-alignment-velocity-frame`) preserves both
+state prefixes and all 6,240 aligned records without overflow. Differing
+records decrease from 4,444 to 4,264, but the first mismatch remains operation
+1,046, body 11/12. Thus the isolated alignment-dot discrepancy is real, but
+correcting it does not explain the earliest complete-solver mismatch; internal
+alignment inputs and updates still require a full-solver capture.
+
+The subsequent full hinge-stage probe
+(`artifacts/ragdoll-impact-goal/hinge-arm-alignment`) preserves both 224-state
+prefixes and all 76 records without overflow. On the first relaxation solve,
+both incoming angular velocities, both frame quaternions, relative rotation
+and alignment axes match exactly. The first difference is already present
+after the spring: body 12 angular velocity differs by up to 1.39698e-9.
+Motor and alignment differences follow. Thus the next diagnosis is the spring
+inputs/effective axial mass/update, before the alignment RHS. Native prepares
+axial mass by adding inverse-inertia matrices before multiplying by the axis;
+GPU still multiplies each matrix separately, adds the products, and uses builtin
+dot/division. Capture/replay is needed to distinguish this from spring velocity
+dot rounding or impulse-application differences.
+
+Native spring/preparation capture (`artifacts/ragdoll-impact-goal/hinge-spring-inputs`)
+preserves the CPU state prefix and contains all 32 axial-mass preparations and
+128 relaxation spring inputs. Separate GPU replay finds 24/32 axial-mass
+mismatches using the old expression, versus zero using matrix-sum-first,
+scalar dot and corrected reciprocal. With CPU mass held fixed, builtin spring
+velocity dot changes 43/128 captured results; scalar dot matches all of them,
+including the resulting spring impulse. Production hinges now use
+`revolute_axial_mass` and `revolute_axial_velocity` (the latter also applies to
+motor and lower/upper-limit axial velocities). Four distinct native mass
+cases and sixteen velocity cases spanning four hinges/four substeps are
+preserved in `src/fixtures/revolute_axial.rs`. All fourteen production native
+precision tests pass on ordinary and cached paths. The cached independent
+600-frame gate preserves setup and stability, and improves maximum
+collision-free position error to 9e-7 m. Visual acceptance still fails from
+frame 90: frame-143 position RMS is 0.0564328 m (maximum 0.252974 m), and
+frame-600 RMS is 0.314150 m (maximum 1.10116 m). The mixed visual result remains
+far outside the goal. The ordinary run is complete and byte-identical to the
+cached path across all six fixtures (`artifacts/ragdoll-revolute-axial[-native]`).
+The full-frame trace (`artifacts/ragdoll-impact-goal/post-axial-frame`) preserves
+both production state prefixes and all 6,240 matched records without overflow.
+Differing records decrease from 4,264 to 2,444. The former first hinge/spring
+mismatch is eliminated: the earliest difference is now operation 1,506,
+color-four contact relaxation, CPU body 11, angular-velocity Y differing by
+9.31323e-10. Both incoming states match. The next investigation must isolate
+normal, rolling, twist and central-friction updates in this contact solve;
+this trace progress is not a passing visual trajectory.
+
+The contact-phase probe (`artifacts/ragdoll-impact-goal/contact-relax-color4`)
+preserves both state prefixes and all 40 aligned records. Incoming states and
+the normal impulse update match exactly; the first difference appears after
+rolling resistance between bodies 11 and 27. Box3D inverts the summed inertia,
+packs its lower symmetric coefficients and uses a right-associated SIMD
+matrix multiply. The GPU previously solved the full matrix directly. Native
+inverse coefficients are slightly asymmetric after rounding, so packing is
+observable. Four captured substep replays all differ with the old calculation
+and all match with the native calculation. A separate clamp replay finds one
+of four differences from builtin square root/division; corrected scalar helpers
+match all four. Convex contacts now use those calculations, with the existing
+native epsilon; nonconvex contacts retain their scalar path. The eight cases
+are preserved in `src/fixtures/convex_rolling.rs` and exercise the production
+helpers. All fifteen native precision tests pass on ordinary and cached paths.
+The ordinary independent 600-frame gate (`artifacts/ragdoll-convex-rolling`)
+preserves exact joint setup, stability and 9e-7 m collision-free precision.
+First visual failure moves from frame 90 to 106 (orientation RMS 1.09878°).
+Frame-143 position RMS improves from 0.0564328 to 0.0324712 m, with maximum
+0.186759 m; frame-600 RMS improves from 0.314150 to 0.171877 m, with maximum
+0.523480 m. These remain failing trajectories. The cached gate completes with
+byte-identical GPU traces across all six fixtures and the same report
+(`artifacts/ragdoll-convex-rolling-native`). The fresh full-frame trace
+(`artifacts/ragdoll-impact-goal/post-convex-rolling-frame`) preserves both
+production state prefixes and all 6,240 aligned records without overflow.
+Differing records decrease from 2,444 to 2,037; the previous earliest mismatch
+is eliminated. The first difference is now operation 2,530, the second biased
+contact solve at color four/body 11, with angular-velocity Z error 3.72529e-9.
+Its incoming state matches. Offset Kinematic and Prismatic regressions pass
+their unchanged tolerances (`artifacts/offset-convex-rolling` and
+`artifacts/prismatic-convex-rolling`). Ordinary and cached strict ground dragging also
+retains 0.00602796 m maximum position error, 0.00597248 quaternion chord and
+0.230405 m/s peak velocity error (`artifacts/drag-convex-rolling[-native]-strict.log`).
+
+The second biased contact probe (`artifacts/ragdoll-impact-goal/contact-bias-color4`)
+preserves both production prefixes and all sixteen expected records. Before
+the second solve, separation, rotated anchors, delta rotations, point velocity,
+normal mass and accumulated impulse match. Contact softness does not: GPU mass
+scale is 0.942279279 versus CPU 0.942279339, and impulse scale is 0.0577206761
+versus 0.0577206798. The first biased pass already has this discrepancy but
+clamps the impulse to zero; the second pass applies a differing impulse.
+Contact preparation now uses corrected reciprocal/division helpers and native
+zero-hertz behavior. Twenty-four native `b3MakeSoft` cases span three timesteps,
+dynamic/static pairs, clamped/unclamped frequencies and zero damping/frequency
+(`src/fixtures/contact_softness.rs`). Both ordinary and cached sixteen-test
+precision suites pass. Independent ordinary and cached trajectory gates
+(`artifacts/ragdoll-contact-softness[-native]`) finish with byte-identical GPU
+traces across all six fixtures. Setup/stability and 9e-7 m collision-free
+precision pass, but visual agreement worsens relative to the rolling correction:
+the first failure returns to frame 90 (5.02308° maximum angle), frame-143
+position RMS is 0.0563350 m (maximum 0.252703 m), and frame-600 RMS is
+0.280377 m (maximum 0.896352 m). Correcting the isolated arithmetic does not
+establish a visual improvement. Offset Kinematic, Prismatic, and ordinary/cached
+strict ground dragging pass unchanged tolerances; dragging retains its prior
+0.00602796 m / 0.00597248 quaternion chord / 0.230405 m/s maxima
+(`artifacts/{offset,prismatic,drag}-contact-softness*`). The fresh complete-solver
+trace (`artifacts/ragdoll-impact-goal/post-contact-softness-frame`) preserves
+both production state prefixes and all 6,240 aligned records without overflow:
+every recorded first-frame solver state now matches exactly, versus 2,037
+differences before this correction. This closes the first-frame solver trace,
+not the 600-frame visual goal. Final first-frame poses and velocities also match
+exactly. Frame two is the first differing output (38 quaternion rows and 95
+velocity rows, maximum velocity/angular-velocity component difference 2.39e-7).
+The frame-two trace (`artifacts/ragdoll-impact-goal/contact-softness-frame2`)
+preserves both 336-row production prefixes and all 6,240 solver records without
+overflow. Of these, 3,400 differ. The first mismatch is operation 482, contact
+warm start at color four/body 11, with maximum component difference 5.58794e-9;
+incoming states match. The initial diagnostic harness readback mistakenly
+remained at frame one and captured no frame-two records; correcting readback
+and rerunning the same instrumented library produced this complete result.
+The targeted warm-start probe (`artifacts/ragdoll-impact-goal/contact-warm-frame2`)
+preserves both 336-row prefixes and all sixty records without overflow.
+Incoming and post-normal states match; the first difference appears after
+central friction. Normals, tangents, anchors, inertia, masses, normal/twist/
+rolling impulses all match. The cached second friction component does not:
+CPU -0.000831828394 versus GPU -0.000831829559. Native stores world-space
+friction and projects it during every preparation. GPU fresh contacts did this,
+but `recycle_contact` copied the two components directly. Even an unchanged
+normal has a measurable store/project roundoff because its tangent basis is
+not exactly unit length. Recycled contacts now use the same projection helper
+as refreshed contacts. Four native cases preserve this captured reprojection,
+changed tangent bases and reversed endpoint sign
+(`src/fixtures/contact_friction_reproject.rs`). Sleeping contacts retain their
+cached components. Both seventeen-test precision suites pass. Ordinary/cached
+independent runs (`artifacts/ragdoll-recycled-friction[-native]`) produce
+byte-identical GPU traces across all six fixtures, preserving setup/stability
+and 9e-7 m collision-free precision. Visual agreement still fails at frame 90;
+frame-143 position RMS is 0.0565790 m (maximum 0.253201 m), and frame-600 RMS is
+0.293754 m (maximum 0.932553 m). This is not a visual improvement over the
+preceding softness result. Offset Kinematic, Prismatic and both strict drag
+paths pass unchanged tolerances; drag maxima remain 0.00602796 m, 0.00597248
+quaternion chord and 0.230405 m/s (`artifacts/*-recycled-friction*`). The fresh
+frame-two trace (`artifacts/ragdoll-impact-goal/post-recycled-friction-frame2`)
+preserves both 336-row production prefixes and all 6,240 records without
+overflow: all recorded solver states now match exactly, eliminating the prior
+3,400 differing records. Complete output poses and velocities match exactly
+through frame 13. Frame 14 is the first differing output, affecting 37 bodies
+with maximum velocity/angular-velocity component error 0.00120892. The targeted
+frame-14 trace (`artifacts/ragdoll-impact-goal/recycled-friction-frame14`)
+preserves both 1,680-row production prefixes without overflow, but record
+identities do not fully align: CPU records 6,552 states, GPU 6,864. All CPU keys
+exist in GPU; the extra 312 records come from six additional calf/thigh
+contacts in the farther groups. The first differing shared state is the
+color-one contact relaxation at CPU body 8 (operation 1,412). A manifold export
+(`artifacts/ragdoll-impact-goal/frame14-manifolds`) shows differing capsule
+geometry already at frame 13, while those contacts still apply no impulse.
+Native capsule-input capture finds the near pair recomputed at frames 1, 2, 4
+and 10, then recycled through 14. The complete capture
+(`artifacts/ragdoll-impact-goal/frame14-capsule-inputs`) preserves both state
+prefixes. GPU recomputes the near pair at frames 1, 2, 3 and 9, and the far
+pair at 1, 2, 3 and 6 versus CPU 1, 2 and 4. All shared recomputations have
+bit-identical captured inputs and segment-distance results. Empty GPU capsule
+pairs cached canonical body order, while populated manifolds used the native
+reference-body order. This changes the frame used for the conservative
+recycling bound. Empty pairs now use the same reference-order helper as fresh
+capsule manifolds. A direct native oracle confirms the expected order for four
+dynamic/static/kinematic pair combinations (`ghost-oracle.log`); a GPU lifecycle
+test exercises empty-pair creation, recycling and transition to contact for
+those cases and passes on ordinary/cached paths. A fresh frame-14 trace preserves
+both independent production prefixes and matches all 6,552 phase records
+exactly, with identical contact membership and no overflow
+(`artifacts/ragdoll-impact-goal/post-ghost-order-frame14`). The complete
+`ragdoll-capsule-ghost-order` ordinary/cached gates produce byte-identical GPU
+traces across all six fixtures. Setup, stability and collision-free checks pass
+(maximum collision-free position error 9e-7 m). Independent poses and velocities
+now match exactly through frame 86; the first output difference is frame 87
+(`first-divergence.json`). The every-frame visual gate still fails from frame
+106 (orientation RMS 1.09608 degrees). Frame 143 position RMS/max are
+0.0326912/0.188822 m; frame 600 RMS/max are 0.153941/0.444002 m, with orientation
+RMS/max 36.1929/161.874 degrees. These remain outside the goal. Offset Kinematic,
+all five Prismatic fixtures, and ordinary/cached strict ground dragging pass
+with this correction (`*-capsule-ghost-order*`); drag maxima remain
+0.00602796 m position, 0.00597248 quaternion chord and 0.230405 m/s velocity. The frame-87
+phase trace preserves both 9,856-row production prefixes and matches all
+6,578 operation keys without overflow (`ragdoll-impact-goal/ghost-order-frame87`).
+The CPU wrapper now includes mesh-contact stages, which first occur here.
+The earliest differing output is the first biased mesh solve, color 22, native
+body 8 (the first ragdoll's left calf); all preceding inputs/operations match.
+Its maximum velocity/angular-velocity component difference is 0.000261307.
+This narrows the next investigation to mesh-contact geometry/preparation or
+normal-impulse arithmetic, before later joint propagation. The focused
+`ragdoll-impact-goal/mesh-bias-frame87` capture preserves both production prefixes
+and captures all 16 point solves without overflow. At the first solve, normals,
+anchors, effective mass, softness and incoming normal velocity match exactly;
+packed base separation differs by one float32 step (CPU 4.87677812576 versus
+GPU 4.87677764893), changing speculative bias from 3.31958746910 to 3.31947302818.
+Mesh base packing now preserves native cluster separation without an extra
+normal projection and uses scalar dot order for the anchor projection. Changing
+only dot order failed the second captured point because native clustering copies
+its original separation unchanged. Two captured native preparation fixtures
+cover both points. All 18 ordinary precision tests pass; the older capsule
+projection test's extracted helper boundary was corrected to exclude the new
+reference-order helper and its unrelated flag constants. All 18 cached precision tests also pass. Full independent `ragdoll-mesh-separation[-native]` gates produce identical
+GPU traces across all six fixtures. Setup, stability and collision-free checks
+pass. The visual gate still fails from frame 106, and outputs still first differ
+at frame 87. Frame 143 position RMS/max are 0.0326913/0.188822 m; frame 600
+RMS/max are 0.153951/0.444027 m, with angular RMS/max 36.1970/161.873 degrees.
+These do not establish a meaningful trajectory improvement. The corrected full
+frame-87 trace preserves both production prefixes and all 6,578 operation keys,
+but the earliest difference remains unchanged at the first biased mesh solve
+(`post-mesh-separation-frame87`). Finalization was still subtracting the mesh
+rest offset after packing the base. The mesh path now retains original point
+separation in transient `rb.w` through reduction/clustering, applies the rest
+offset before packing, and passes raw separation through final COM-anchor
+conversion and friction-center preparation. It resets `rb.w` before warm-start
+matching. Mesh cluster merging also preserves original separation rather than
+reconstructing it from a packed base. All 18 precision tests pass on ordinary/cached paths after this further change.
+Full `ragdoll-mesh-raw-separation[-native]` validation produces identical GPU
+traces for all six fixtures. Setup, stability and collision-free checks pass;
+visual agreement still fails from frame 106, and outputs still first differ at
+87. Frame 143 position RMS/max are 0.0326946/0.188842 m; frame 600 RMS/max are
+0.153890/0.444340 m, with angular RMS/max 36.2072/161.820 degrees. The new full
+frame-87 trace preserves both production prefixes and all 6,578 operation keys.
+The first biased mesh solve now has exactly matching linear velocity; one
+angular-velocity component differs by 2.38419e-6, down from 0.000261307
+(`post-mesh-raw-frame87`). Mesh contacts were still using the six-coefficient,
+right-associated SIMD inertia multiplication, whereas CPU mesh/overflow use
+all nine matrix entries and scalar order. A copied native solver capture
+preserves its full prefix and supplies 16 impulse applications; the old SIMD
+multiplication differs in eight, while scalar multiplication matches all 16
+(`mesh-inertia-frame87`). GPU contact inertia/application now selects the
+native solver family in warm start, normal/friction/rolling impulses and
+restitution. All 19 precision tests pass on both ordinary and cached paths.
+`ragdoll-mesh-inertia[-native]` full gates agree byte-for-byte for all six GPU
+fixtures; setup, stability and collision-free checks pass. Visual agreement
+still fails from frame 106. Frame 143 position RMS/max are 0.0326851/0.188760 m;
+frame 600 RMS/max are 0.153748/0.443927 m, with angular RMS/max
+36.2108/161.885 degrees. Poses/velocities still first differ at frame 87.
+The new `post-mesh-inertia-frame87` trace preserves both 9,856-row prefixes and
+all 6,578 operation keys. The first two substeps now match completely; the first
+difference moves from the first biased solve to the third mesh warm start
+(record 3,765, stage 42/color 22/body 8/occurrence 2): angular y differs by
+9.53674e-7, with all other captured components equal. The focused `mesh-warm-frame87` capture preserves both production prefixes and
+records all 20 warm-start stages plus 20 rolling-cache records without overflow.
+Normal/central-friction/twist stages match through the third warm start;
+reapplying rolling resistance first changes angular velocity. Cached rolling
+impulses already differ on the second substep (CPU y/z
+0.0822351575/-0.642325759 versus GPU 0.0822351500/-0.642325699), while all other
+cached impulses match. Native scalar mesh rolling prepares a full inverse,
+whereas GPU still used a direct solve; its clamp also used approximate built-in
+division/square root. The mesh/overflow path now multiplies by the native-order
+full inverse and uses corrected scalar division/square root without the SIMD
+convex denominator epsilon. Four native mass and four clamp fixtures captured
+from the unchanged CPU run pass, with all 20 precision tests green on ordinary/cached paths
+(`mesh-rolling-frame87`). Full `ragdoll-mesh-rolling[-native]` gates produce identical GPU output across all
+six fixtures; setup, stability and collision-free checks pass. Visual agreement
+still fails from frame 106. Position RMS/max are 0.0326911/0.188813 m at frame
+143 and 0.153882/0.442982 m at frame 600; final angular RMS/max are
+36.1257/161.843 degrees. The `post-mesh-rolling-frame87` trace preserves both
+production prefixes and all 6,578 keys. Only three records now differ (down
+from 261): the first is the last relaxed spherical neck/head solve,
+record 5,928, stage 110/color 0/native body 5/occurrence 3, angular x differing
+by 1.90735e-6. Body 6 differs immediately after, followed by the next input for
+body 5. All earlier contact solves and warm starts match.
+
+A separate CCD capture (`ccd-frame87`) preserves both production prefixes
+against the inertia baseline. For native body 22 / GPU handle 23, the centers
+entering CCD match, but impact fraction is CPU 0.737244666 versus GPU
+0.73724437. The other seven ragdolls' initial frame-87 differences are pose-only,
+with velocities matching. The host CCD correction uses world-space `glam` lerp
+and normalizes both quaternion endpoints, while native uses a recentered sweep
+and normalizes only the final blend. The TOI query also uses the normalized
+endpoint interpolation through `query_toi.rs`. This is a separate discrepancy
+to investigate. A same-input replay of 15 actual native CCD hits shows that
+this final pose formula alone differs on 13 cases; matching native scalar
+interpolation and normalizing only the final quaternion blend matches all 15
+bit-for-bit. The host final correction now uses that formula, with captured
+regression fixtures (`src/fixtures/ccd_pose.rs`), passing on ordinary and native
+cached builds. The TOI fraction calculation
+is unchanged. Full `ragdoll-ccd-pose[-native]` runs agree for all six GPU fixtures
+and preserve setup, stability and collision-free checks, but still fail visual
+agreement from frame 106. Frame 143 position RMS/max are 0.0326855/0.188746 m;
+frame 600 RMS/max are 0.153972/0.442960 m, with angular RMS/max
+36.2229/161.815 degrees. This is a local precision correction, not acceptance. The
+19 existing CCD regression tests also pass (`ccd-frame87/regressions.log`).
+The separate `toi-frame87` CPU wrapper captures 48 native TOI calls at frame 87
+without changing its 9,856-row state prefix. Replaying its 19 positive hits with
+COM-centered proxy geometry still leaves small fraction differences; changing
+quaternion interpolation alone does not eliminate them. This diagnostic does
+not yet reproduce the full native sweep representation or the host path's
+world-space triangle setup, so it is not a production fix or exact-step proof.
+The temporary query interpolation experiment has been restored.
+
+The completed `neck-frame87` trace retains both rolling-baseline state prefixes
+and all 96 operation keys. The last relaxed cone-limit solve is the first
+mismatching neck stage; spring, motor and twist stages match. The finer `cone-frame87` capture preserves both CCD-pose-baseline prefixes and
+all 112 records without overflow. All 16 recorded cone inputs match in the
+first seven solves. In the last relaxed solve only the velocity dot differs:
+CPU -41.8785972595 versus GPU -41.8786010742, with axes, incoming velocities,
+swing mass, cached impulse, cone error and bias equal. The cone velocity now
+uses explicit scalar dot addition order. Separately, an eight-case native
+swing-angle replay fails with built-in vector length (first case differs by
+one ULP); scalar corrected square roots match native `b3GetSwingAngle`.
+These angle and velocity fixtures pass with all 21 precision tests on ordinary
+and cached paths (`cone-frame87/precision[-native].log`). Full independent
+`ragdoll-spherical-cone[-native]` runs produce byte-identical results for all six
+GPU fixtures. Joint setup, stability and collision-free precision still pass.
+The first velocity difference advances to frame 88; all 112 bodies' linear and
+angular velocities match through frame 87. Post-initialization poses first
+differ at frame 87, consistent with the independently observed CCD mismatch.
+Visual agreement still fails from frame 106. Position RMS/max are
+0.0326891/0.188769 m at frame 143 and 0.153998/0.442830 m at frame 600; final
+angular RMS/max are 36.2208/161.791 degrees. The complete `post-spherical-cone-frame87` trace preserves both production
+prefixes and matches all 6,578 CPU/GPU operation records across all 112 bodies,
+with no missing/extra keys or overflow. This verifies intermediate solver
+states as well as final velocities. Offset Kinematic, Prismatic and both
+ordinary/cached strict dragging pass on this version (`*-spherical-cone*`);
+drag maxima remain 0.00602796 m position, 0.00597248 quaternion chord and
+0.230405 m/s velocity.
+
+A follow-up TOI diagnostic restores native sweep semantics: retain original
+proxy vertices, interpolate centers of mass in the shifted frame, then subtract
+the rotated local center. With native quaternion interpolation this makes 7 of
+19 native impact captures bit-exact, reducing maximum fraction error from
+1.40071e-6 to 1.78814e-7 (`toi-frame87/replay-summary.json`). Quaternion
+interpolation alone matches zero captures. The production mesh CCD path still
+uses COM-shifted vertices and world-space triangles; the native-sweep experiment
+is fully restored and has not been applied as a production fix. Remaining work
+is to integrate faithful sweep representation and isolate residual TOI math,
+then rerun independent trajectories. The visual goal remains unmet.
+
+The TOI follow-up now identifies the remaining same-input rounding: native GJK
+uses a quaternion-derived matrix to transform support points, while separating
+axes use the scalar quaternion rotation formula. Matching both forms, native
+COM sweeps, and quaternion interpolation reproduces all 19 captured positive
+impact fractions bit-for-bit (`toi-frame87/replay-matrix-sweeps.log`). A native
+standalone replay reproduces the original CPU captures exactly, including the
+two previously mismatching intermediate hits. Production mesh CCD now retains
+original proxy vertices, recenters before sweep construction, and follows those
+native transform operations. All 19 capture fixtures pass on ordinary/cached
+builds (`src/fixtures/toi_sweeps.rs`); all 19 existing CCD tests pass.
+
+Full `ragdoll-ccd-sweeps[-native]` runs agree for all six GPU fixtures and pass
+setup, stability and collision-free checks. All frame-87 rotations and velocities
+now match, with remaining position differences. Visual agreement still fails
+from frame 106. Position RMS/max are 0.0326771/0.188721 m at frame 143 and
+0.153599/0.447999 m at frame 600; angular RMS/max are 36.2567/161.773 degrees.
+The `ccd-origin-frame87` host capture preserves the production output prefix.
+Eleven of 15 accepted impact fractions match; the other four are queries whose
+native interval was clipped by a preceding triangle hit. The native C callback
+uses BVH traversal order and shortens its maximum fraction after each closer
+hit. Mesh CCD now preserves that order and interval for closest-hit queries;
+sensor/pre-solve continuation keeps the full candidate list. A two-triangle
+native capture checks exact clipping and deliberately reversed source IDs.
+Both new tests pass on ordinary and native cached builds, and all 18 query
+regression tests pass. `ragdoll-ccd-interval[-native]` full runs agree on all six
+GPU fixtures and retain setup/stability/collision-free passes. Visual agreement
+still fails from frame 106. Position RMS/max are 0.0326734/0.188721 m at frame
+143 and 0.154135/0.447999 m at frame 600; final angular RMS/max are
+35.3237/138.794 degrees.
+A separate residual remains: native CCD stores the origin and COM independently
+(`base + (relativeCOM - rotatedLocalCenter)` versus `base + relativeCOM`).
+Deriving the origin again from the rounded world COM loses precision. The
+capture records both formulas without changing state. At that checkpoint the
+production origin representation was unchanged. The post-clipping host capture
+`ccd-origin-clipped-frame87` preserves its complete production prefix and
+matches all 15 native accepted impact fractions, COMs, and quaternions exactly.
+Computing the origin in native order matches all 15 CPU origins; deriving it
+from rounded world COM matches only three. This isolates the remaining
+frame-87 discrepancy to origin storage, with no need to alter correct COM state.
+The retained-origin implementation now stores the separately computed origin
+with a validity flag alongside COM state. Collision geometry, relative contact
+frames, host queries/events, pose snapshots and scene rendering consume it.
+Applying a new dynamic/kinematic pose clears it; sleeping/static bodies retain
+it, mass changes preserve it, and explicit transforms invalidate it. The hot
+state grows from 96 to 112 bytes and the export record from 160 to 176 bytes;
+CCD shaders, readback, viewer bridge ABI 2 and rendering use the new stride.
+Historical 144/160-byte oracle dumps remain readable. The native-origin capture
+regression passes all 15 cases while proving that COM reconstruction loses
+precision for 12. GPU state readback and sleep/movement lifecycle pass across
+65 slots on ordinary/native cached paths; API mass/teleport lifecycle also
+passes on both, and CCD motion classification passes. The
+CPU viewer bridge still exactly matches three native scenes through 121 frames.
+`cargo check --lib --bins --tests` passes. The broader all-target check exposes
+existing experimental-example API errors (u64 edge keys, obsolete
+`pick_adapter`, and private `GpuDevice` fields); it does not pass.
+
+The independent ordinary/native runs in `ragdoll-retained-origin-final[-native]`
+produce identical outputs for all six GPU fixtures and match all
+112 CPU bodies exactly from frames 1 through 87. The next position, orientation
+and velocity differences begin at frame 88; its position RMS/max are
+4.53557e-8/4.80000e-7 m. This fixes the identified first-impact origin error,
+but visual acceptance still first fails at frame 106. Frame 143 position
+RMS/max are 0.0326878/0.188820 m; frame 600 is 0.154499/0.443658 m, with
+35.3235/139.400 degrees angular RMS/max. These later results do not satisfy
+the goal. Frame-88 solver tracing is the next diagnosis. Offset Kinematic and Prismatic regressions pass. Ordinary/native cached strict dragging
+still has maxima of 0.00602796 m position, 0.00597248 quaternion chord and
+0.230405 m/s velocity. Rain, performance (including the larger hot state), and synchronized comparison
+recordings remain unqualified.
+The earlier `ragdoll-retained-origin` trial predates the final anchor/CCD layout
+updates and is diagnostic only.
+
+The frame-88 follow-up (`retained-origin-frame88`) compares 7,540 native/GPU
+solver records across all 112 bodies, with identical operation keys and exact
+9,968-row production prefixes. Native diagnostic emission now respects each
+convex/mesh block's contact family and index range; emitting every contact of
+a color for both block types had duplicated unrelated bodies in the trace.
+The first state difference is the biased convex contact between native bodies
+23/22 (the second ragdoll's right thigh/left calf). Its incoming velocities,
+normal impulse, and inverse inertia matrices match. The contact normal and one
+anchor component already differ before the impulse, accounting for the angular
+velocity difference (`contact22-frame88`). Both instrumented trajectories still
+reproduce production exactly.
+
+An isolated replay of that contact from native capsule/relative-transform
+inputs reproduces the normal mismatch: native local normal Y is
+-0.0040961164 versus GPU -0.004096111. Changing dot-product order alone does
+not fix it. `closest_segments` now uses native scalar dot order and corrected
+rounded division for segment fractions, matching `b3SegmentDistance`. All 18
+independent native one-point capsule captures at frame 88 then match their
+fractions, local normal, point, and separation exactly. All 22 native precision
+tests pass on ordinary/native cached builds. `ragdoll-capsule-segment[-native]`
+produces identical outputs for all six GPU fixtures. Positions match all 112
+CPU bodies exactly through frame 88, and the first position difference is now
+frame 89. Rotation/velocity still first differ in the neck at frame 88, whose
+maximum angular error falls to 1.78907e-6 degrees. Setup, joint stability, and
+collision-free precision pass. The visual limits still first fail at frame 106;
+frame 143 position RMS/max are 0.0326834/0.188772 m, and frame 600 is
+0.154490/0.446255 m with angular RMS/max 35.3955/140.175 degrees. This is a
+verified local arithmetic fix, not a pass of the 600-frame goal. Offset,
+Prismatic and ordinary/native strict dragging pass on this version; drag maxima
+remain 0.00602796 m, 0.00597248 quaternion chord and 0.230405 m/s.
+The subsequent frame-88 trace (`post-capsule-segment-frame88`) preserves both
+9,968-row production prefixes and all 7,540 operation keys. Its first difference
+is the head's angular velocity entering the third substep's relaxed neck solve.
+The incoming velocity before position integration matches; speed limiting
+changes native X to 45.1419029236 versus GPU 45.1419067383. Integration now uses
+the native multiplication by rounded inverse timestep, scalar dot order, and
+rounded square root/division for speed clamping. All 15 captured native angular
+clamp transitions match exactly, including the previously failing head case;
+all 23 native precision tests pass on ordinary and native cached paths.
+Independent `ragdoll-speed-cap[-native]` runs have identical GPU outputs for all
+six fixtures and again pass the 112-joint/3,672-field setup audit, joint stability,
+and collision-free checks. Position and rotation now match through frame 88;
+the first remaining velocity difference is frame 88, scene body 71. The visual
+gate still fails first at frame 106. Frame 143 position RMS/max are
+0.0326820/0.188771 m; frame 600 is 0.154411/0.444576 m, with angular RMS/max
+35.2959/139.554 degrees. This removes a demonstrated arithmetic discrepancy
+without establishing the requested visual agreement. Evidence is retained in
+`artifacts/ragdoll-impact-goal/speed-cap-frame88`.
+Offset Kinematic, Prismatic, and the 12-case speed-limit reference gate pass on
+this version (`offset-speed-cap`, `prismatic-speed-cap`, and
+`speed-limit-native-arithmetic`). Ordinary/native strict dragging also passes
+on the clamp version (`drag-speed-cap[-native]`), with unchanged maxima of
+0.00602796 m, 0.00597248 quaternion chord, and 0.230405 m/s.
+
+The next frame-88 trace (`post-speed-cap-frame88`) has identical production
+prefixes and 7,540 matching operation keys, with only 15 differing records.
+The first difference occurs in the sixth ragdoll's right shoulder, on the
+fourth substep's relaxed solve (native bodies 76/85). A staged joint trace
+(`shoulder-frame88`) places it in the twist limits: all incoming velocities
+and motor outputs match; upper-arm angular Y first differs by 9.53674e-7.
+Sixteen native lower/upper twist velocity captures reproduce the GPU dot
+rounding mismatch in isolation. Both spherical twist-limit dot products now
+use the scalar native accumulation order. All 24 precision tests pass on both
+ordinary and native cached builds. Independent `ragdoll-spherical-twist[-native]`
+runs have identical outputs for all six GPU fixtures. All body positions,
+rotations, and velocities match through frame 89; positions remain exact
+through frame 90. The first rotation/velocity difference is frame 90, scene
+body 70. Setup, joint stability, and collision-free checks pass. The visual
+gate still fails first at frame 106. Frame 143 position RMS/max are
+0.0326785/0.188759 m; frame 600 is 0.154438/0.449159 m, with angular RMS/max
+35.4478/139.481 degrees. The frame-92 jump remains about 1.472 mm maximum
+position and 1.712 degrees maximum orientation, so this is another verified
+local arithmetic correction, not acceptance of the visual goal.
+
+The separate frame-92 trace (`speed-cap-frame92`) preserves both 10,416-row
+production prefixes, but 156 of its 6,526 operation keys differ in color.
+The first large state difference is the first biased contact solve on native
+body 66, with angular Y differing by 1.43709 rad/s. The contact-lifetime audit
+(`graph-frame92`) finds four pair-color differences at frame 92: CPU pairs
+66/68 and 95/97 receive color 1, while GPU assigns color 2; CPU pairs 66/67 and
+95/96 receive color 4, while GPU assigns color 1. CPU retires pairs 66/68 and
+95/97 after frame 88 and recreates them by frame 91 with reused contact IDs;
+GPU retains both throughout. GPU capsule broadphase bounds currently use a
+surrounding sphere (`collider_aabb_extent`), unlike native endpoint-based
+capsule AABBs. This is a concrete bounds/lifetime discrepancy to investigate;
+the trace does not yet establish that correcting it alone satisfies the visual
+goal. No contact colors or CPU simulation state are copied into production.
+
+Capsule proxy bounds now transform the original endpoints, then inflate by
+radius and speculative distance separately, matching `b3ComputeCapsuleAABB`.
+Historical proxy-update commands pass their own origin/rotation to the same
+helper; using the current body transform for those commands would lose their
+history. All 224 native capsule captures from frames 88/92 match bit for bit.
+The integration regression `capsule_proxy_retires_separated_parallel_pair`
+checks actual pair retirement for capsules along all three axes, including a
+teleport outside endpoint bounds but inside the old sphere bounds. The bounds
+and retirement tests pass on ordinary and native cached backends; all 25
+ordinary native-precision tests pass. Evidence is in
+`artifacts/ragdoll-impact-goal/capsule-bounds`.
+
+The follow-up `graph-capsule-bounds` trace confirms that pairs 66/68 and 95/97
+now disappear at frames 89/90 and reappear at frame 91, matching native's
+lifetime. Their graph colors still differ. The independent 600-frame trajectory
+in `ragdoll-capsule-bounds-final` remains unchanged from `ragdoll-spherical-twist`,
+so the bounds fix alone does not improve visual agreement. A diagnostic trial
+sorting later graph insertions by GPU contact slot (`ragdoll-contact-slot-order`)
+reduces frame-92 position RMS but introduces different ordering elsewhere;
+frame-600 position RMS worsens from 0.154438 to 0.169085 m. That trial was removed.
+GPU slots are not interchangeable with native's allocated/reused contact IDs.
+There are still extra non-touching GPU pairs (96 at frame 85, 89 at frame 92),
+so exact contact identity/lifetime remains unresolved before graph ordering can
+be considered equivalent. These are independent runs without state copying.
+
+The proxy-history trace (`fat-bounds-history`) identifies the remaining 2 cm
+dynamic bound expansion during free fall. Native `b3SolveContinuous` stores an
+unpadded end AABB when there is no impact; only its impact branch restores
+speculative padding. GPU now records this distinction with `FLAG_CCD_NO_HIT`:
+integration sets it for fast bodies, both CCD correction paths clear it on
+impact, and explicit transforms clear it. Historical proxy commands always use
+their normal padding. The hit/miss test exercises both convex and mesh targets;
+the teleport regression verifies invalidation of the marker.
+
+In `fat-bounds-no-hit`, dynamic bounds at GPU frame 85 versus native frame 84
+(GPU refreshes before stepping, native after stepping) now differ by at most
+9.53674e-7 m rather than 0.0200014 m. The independent trajectory prefix remains
+unchanged. The contact audit `graph-no-hit` has exactly the same CPU/GPU pair
+membership at every recorded frame 85–92, including all non-touching pairs:
+140, 140, 156, 165, 242, 254, 230, and 197 pairs respectively. The four color
+differences at frames 89 and 92 remain, isolating ordering from membership in
+this window. Flat mesh proxies still have an extra 5 cm thickness from the host
+minimum-half-extent clamp. The ordinary `ragdoll-ccd-proxy-padding` run preserves
+setup/stability/collision-free checks and remains byte-identical to the prior
+600-frame trajectory; it still fails the visual goal at frame 106. All 25
+ordinary precision tests and the hit/miss and teleport tests pass. Native
+`ragdoll-ccd-proxy-padding-native` produces identical GPU outputs for all six
+fixtures, including the unchanged failing visual gate. Its isolated hit/miss
+test also passes. The membership comparison checks all 1,524 shape-pair/frame
+identities without duplicate pairs, not only body-level pair counts.
+
+The `contact-id-history` audit extends exact pair membership to every frame
+1–92. It logs 487 native creations and 290 destructions, with no contacts
+created and destroyed within the same step; both diagnostic trajectories
+remain exact production prefixes. Offline graph replay reproduces every CPU
+color when transitions are interleaved in contact-ID order. Releasing stopped
+contacts before adding new ones reproduces exactly the four frame-89 GPU
+color discrepancies: native contact 33 starts before contact 35 releases color
+1, so it receives color 2. At frame 92, reused IDs 151 and 89 put the returning
+leg contacts before existing IDs 154 and 216. A LIFO logical-ID replay with
+native initial creation order and pair-key order for subsequent allocations
+also matches all colors through 92, despite 418 ID/frame differences. This is
+diagnostic evidence for separating logical IDs from GPU storage slots and
+preserving interleaved transitions, not proof of later allocation equivalence
+or improved independent trajectories.
+
+The following `ragdoll-logical-contact-order[-native]` implementation stores
+logical contact IDs separately from physical manifold slots. It allocates
+before retiring disjoint pairs, reuses freed IDs with a LIFO stack, and keeps
+stopped edges occupied until their ordered transition. Initial creation uses
+the existing native leaf-order metadata; subsequent allocation still uses pair
+order and is not an exact native dynamic-tree implementation. The scratch
+history survives scene-buffer growth and adds `8 * pair_capacity + 2` words
+(about 2 MiB at the minimum capacity); performance remains unmeasured.
+
+All six fixture outputs are byte-identical between ordinary and native cached
+GPU paths. Setup, isolated joints, no-contact motion, and stability pass. At
+frame 92, maximum position error falls from 1.471687 mm to 0.000470 mm and
+maximum angle error from 1.711959 degrees to 0.000056684 degrees. The first
+visual-limit failure moves from frame 106 to frame 125. At frame 143, position
+RMS is 0.0294815 m and angle RMS 5.75144 degrees; at frame 600 they are
+0.114680 m and 27.2258 degrees. The full visual gate still fails.
+
+A native three-sphere reference confirms that a lower-ID ghost contact starting
+before a higher-ID contact retires must receive color 1, even though color 0 is
+free at step end. GPU transition, surviving-color, and buffer-growth regressions
+pass on both paths; all 25 native-precision tests pass on both paths. The
+ordinary sparse-joint-reuse invariant, Offset Kinematic, and Prismatic gates
+also pass. Further explicit-mutation/history invalidation, Rain, performance,
+and synchronized capture qualification remains outstanding.
+
+The `logical-graph125` trace reproduces the new independent trajectory exactly.
+CPU/GPU pair membership and colors match through frame 123. Position error
+stays below 5 micrometres through frame 121, then jumps at frame 122 despite
+matching graph colors. That impact needs manifold and solver-phase tracing;
+the pair/color differences at frames 124–125 occur after the trajectory diverges.
+
+The strict dragging gate caught an initialization regression in the first
+history implementation: when entering the joint solver after jointless steps,
+it failed to inherit the parallel graph's existing contact colors. Maximum
+position error rose to 0.0191348 m and quaternion chord to 0.0115723, failing
+the strict gate. The correction imports surviving colors on first entry or
+resumption before assigning new joints. `jointed_contact_inherits_color_when_first_joint_is_added`
+covers the case. Ordinary strict dragging returns to its previous maxima:
+0.00602796 m position, 0.00597248 quaternion chord, and 0.230405 m/s velocity.
+The corrected `ragdoll-logical-contact-order-inherit[-native]` reruns preserve
+all six fixture trajectories exactly on both paths. All four contact-order
+regressions and strict dragging pass on both paths with the same drag maxima.
+Final evidence is in `artifacts/ragdoll-impact-goal/logical-contact-order`.
+These corrected reruns are the authoritative baseline for further diagnosis.
+
+The next `logical-frame122` probe preserves both independent trajectory prefixes
+and matches all 6,526 solver-operation keys. Human 0 is exact through frame 121;
+the first large frame-122 mismatch is the first biased ground solve for native
+body 6 (head), with 0.104219 rad/s angular-component error. Native contact 277
+has an additional edge patch on triangle 250. Captured local triangle/capsule
+inputs show that flags 116 describe a non-flat edge, which the GPU rejected by
+testing either directional concavity bit. Capsule terrain filtering now tests
+the paired bits for flat seams. The captured-input regression fails before the
+change and passes afterward.
+
+The filter-only `ragdoll-capsule-terrain-edge[-native]` trial moves the first
+visual failure to frame 146 but worsens final position RMS to 0.178562 m. The
+`edge-manifold137` capture isolates why: both engines generate the same face and
+edge patches for human 7's head, but GPU BVH order puts the edge first. Native
+accepts triangle faces before tentative edge/vertex manifolds. Fresh capsule
+patches now retain that priority and are stably partitioned before warm-start
+transfer. A two-triangle fixture with forced edge-first visitation fails before
+this ordering correction and passes afterward.
+
+The combined `ragdoll-capsule-terrain-order[-native]` runs established the next
+baseline. All six fixture outputs match byte-for-byte between backends; setup,
+collision-free precision, and stability pass. All 26 precision tests and three
+capsule-mesh regressions pass on both paths. At frame 143, position RMS/max is
+0.00233723/0.0155341 m and angular RMS/max is 0.721920/3.75689 degrees, satisfying
+all four visual targets at that frame. The first failure is frame 147. Frame
+600 position RMS/max is 0.0702974/0.327442 m and angular RMS/max is
+26.2981/168.050 degrees, so the complete goal remains unmet. Evidence is in
+`artifacts/ragdoll-impact-goal/logical-frame122`.
+
+The next large jump is frame 138, human 5's head. `terrain-manifold138` verifies
+exact independent prefixes and shows a four-point native mesh manifold versus
+three GPU points. Native retains the distinct witnesses from both triangles
+along a shared seam; GPU proximity deduplication discards one. The native
+standalone fixture in `mesh-seam-points` likewise keeps four points, ordering
+the two extreme endpoints before the two coincident seam witnesses. GPU also
+skips its reduction/order logic for four or fewer points.
+
+Capsule mesh clusters now retain all raw triangle points in temporary contact
+slots, then run the native projected-point selection with separation hysteresis
+and swap-removal ordering. Reduction uses the original capsule-local witnesses
+and triangle normal, before world-space anchor rounding. Temporary chains are
+released after reduction or allocation failure. There is no fixed four/five-point
+candidate limit, and coincident witnesses are retained both across triangles and
+within a triangle. Other mesh shape reducers are unchanged. The two-triangle
+seam and sixteen-triangle strip regressions match independent native point order;
+the latter catches within-triangle deduplication as well as streaming reduction.
+
+`ragdoll-capsule-cluster-complete[-native]` established the next independent baseline.
+All six GPU fixture trajectories are byte-identical between paths. Joint setup,
+collision-free precision, and stability pass. All 26 native precision tests and
+five capsule-mesh regressions pass on both paths. The first visual failure moves
+from frame 147 to 175. At frame 138 the previous 3.59 mm position jump is gone:
+maximum position error is 0.0106 mm. Frame 143 position RMS/max is
+0.000357764/0.00263717 m and orientation RMS/max is 0.117842/0.669121 degrees.
+Frame 600 position RMS/max is 0.0176641/0.0661148 m and orientation RMS/max is
+4.95815/21.6426 degrees, so the full goal is still unmet. Evidence and regression
+logs are in `artifacts/ragdoll-impact-goal/mesh-seam-points`.
+
+The next `terrain-manifold139` public contact capture preserves both independent
+15,680-row trajectory prefixes. Body 83 has four CPU points but only two GPU
+points. The missing face has positive raw separations above the generic 0.02 m
+point cutoff. Native triangle/capsule collision accepts a shallow clipped face
+after its closest-distance test without applying that second face-separation
+cutoff. The `cpu-triangle` linker-wrapper capture preserves the CPU prefix and
+records two accepted faces whose nearest raw separations are 0.0234374 and
+0.0235441 m. The captured-input regression fails with no GPU manifold. Capsule
+admission now keeps the closest-distance decision instead of applying a second
+cutoff to the clipped face. Both captured cases then pass, including native
+normals and anchors. This retains the existing capsule speculative-distance
+test and does not change scene parameters or tolerances.
+
+`ragdoll-capsule-face-admission[-native]` is the current independent baseline.
+The six fixture trajectories match byte-for-byte between GPU paths; setup,
+collision-free precision and stability pass. All six capsule-mesh regressions
+and 26 native precision tests pass on both paths. Offset Kinematic and Prismatic
+pass their original tolerances, and ordinary/native strict ground dragging
+retain maxima of 0.00602796 m position, 0.00597248 quaternion chord and 0.230405
+m/s velocity. Frame 143 position RMS/max is 0.00000278366/0.0000113157 m and
+orientation RMS/max is 0.000736202/0.00353445 degrees. The first large jump is
+now frame 167; maximum position error through frame 166 is below 0.028 mm.
+The first visual failure remains frame 175. Frame 600 position RMS/max is
+0.0157052/0.0634084 m and orientation RMS/max is 4.82960/22.2163 degrees, so
+the goal remains unmet. Evidence is in `capsule-face-admission` under the impact
+goal artifacts.
+
+The `terrain-manifold167` and `logical-graph167` probes each preserve both
+independent 18,816-row trajectory prefixes. After canonicalizing endpoint
+orientation, all 79 public contact-patch records have matching counts, with
+maximum normal-component error 0.000122159. Six awake arm contact colors differ
+at frame 167: shape pairs (41,46), (42,46), (71,76), (72,76), (101,106), and
+(102,106). Earlier graph differences include sleeping contacts and extra GPU
+broadphase pairs from frame 163; their contribution to logical-ID allocation
+and start/stop ordering still needs diagnosis. No graph correction is inferred
+from the public contact comparison alone. Rain, performance, synchronized
+captures, broader final regressions, and the logical-contact history mutation
+audit remain pending; no completion or commit is claimed.
+
+`logical-history167` reads the actual GPU logical-ID map without changing the
+independent trajectory (18,816 rows verified). IDs agree through frame 17. At
+frame 18, native creates shape pair (19,25) before (19,23), assigning IDs 235
+and 65; GPU pair-key order assigns those IDs in reverse. Later allocation and
+retirement propagates this difference. At frame 167 the six arm pairs above
+have CPU IDs 25,228,164,160,80,221 versus GPU IDs 246,202,140,221,239,231.
+An offline allocator replay with native creation order reproduces every native
+ID through frame 167 when supplied native pair membership. With GPU membership
+it first differs at frame 164, yet still recovers all six expected arm IDs at
+167. This is diagnostic evidence, not a production ordering override or a new
+accepted trajectory.
+
+The same artifact directory contains `cpu-tree.log`, a native capture of the
+112 initial dynamic proxies, 1,264 proxy enlargements, 16 partial rebuilds,
+moved-proxy lists and query leaf order through frame 18. Its 2,128-row trajectory
+prefix is unchanged. Query order for shapes 23/25 reverses between the initial
+tree and frame 18; native prepends query results before creating contacts.
+The existing Rust ordering tree supplies only initial insertion metadata,
+and subsequent GPU allocations use pair-key order. Matching dynamic creation
+order therefore requires tracking proxy updates, partial rebuilds, moved-proxy
+order and reversed query traversal, rather than reusing the initial leaf ranks.
+Diagnostic source edits are restored and the production library is rebuilt;
+the authoritative numerical baseline remains `ragdoll-capsule-face-admission`.
+
+The Rust ordering model now includes proxy enlargement, partial rebuilds that
+retain untouched subtrees, native longest-axis/Hoare partitioning and internal
+node reuse. `enlarged_tree_order_matches_native_partial_rebuilds` matches every
+query traversal through frame 167: 112 initial proxies, 17,282 enlargements and
+165 rebuilds. The versioned binary fixture is test-only; regenerate it with
+`bash scripts/capture-broadphase-order.sh` and compare the artifact's
+`broadphase_tree_updates.bin` with `src/fixtures/broadphase_tree_updates.bin`.
+The checked regeneration is byte-identical and preserves all 18,816 independent
+CPU trajectory rows. The existing insertion/rotation regression also passes.
+The WGSL implementation in `shaders/physics/contact_order.wgsl` now passes the
+same 167-query enlargement/rebuild fixture on ordinary and native cached GPU
+paths. Its persistent node format can be seeded from the engine's own initial
+geometry; tree traversal, enlargement and partial rebuilds execute on the GPU.
+
+The creation comparator is separately checked against all 1,113 actual native
+contact creations through frame 167 (`src/fixtures/broadphase_pair_order.bin`,
+regenerated by the same capture script). Priority uses the owning proxy's
+moved-list position, reversed tree-query type order, and reversed leaf rank.
+For two moved dynamic proxies the smaller proxy key owns the pair; for a
+cross-type pair a moved dynamic proxy takes priority. This matters when only
+the higher-key endpoint moved, and cannot be replaced by sorting shape IDs.
+The fixture covers 827 pairs with both dynamic endpoints moved, 154 with only
+one moved, and 132 static/dynamic pairs. The GPU test also reverses every pair's
+endpoints and requires identical priority. All five selected contact tests,
+including tree evolution and creation priority, pass on ordinary and native
+cached paths. The captured native trajectory is
+byte-identical to all 18,816 prior reference rows. See
+`artifacts/ragdoll-impact-goal/pair-order167` for results.
+
+The live ordering path seeds three trees from this
+engine's own scene geometry, updates them from GPU fat bounds, saves query
+ranks before partial rebuilds, and uses the priority comparator for logical
+contact-ID allocation. Tree storage survives scratch growth and same-topology
+capacity growth; topology changes explicitly disable this incomplete path.
+Proxy insertion/removal and explicit movement/reinsertion use the previous
+contact path; the ordering cache is explicitly disabled on those changes.
+Native awake-set ordering is not yet exact. The current
+body-ID move order first differs from native at frame 226, verified by a
+600-step native metadata trace with unchanged simulation output. The fixtures
+and native metadata remain test-only, never runtime ordering overrides.
+
+Independent `ragdoll-live-contact-order[-native]` runs produce byte-identical
+GPU traces across all six fixtures. Joint setup, stability and collision-free
+precision pass (9e-7 m maximum no-contact position error). At frame 600,
+position RMS/max are 0.0104881814/0.0459093661 m and orientation RMS/max are
+3.30864022/10.1754789 degrees. This improves the preceding baseline but fails
+the original acceptance targets: 424 frames fail, starting at 177. The first
+impact jump still occurs at 167 (0.00231470 m maximum position error), and the
+frame-143/166 results remain unchanged. See
+`artifacts/ragdoll-impact-goal/live-order` for logs, source hashes and remaining
+work. Those first integration runs predate the flat-mesh correction below.
+
+The live probe reproduces every native proxy key, moved-list rank and reversed
+tree rank through frame 167, with all 18,816 GPU trajectory rows unchanged.
+Logical IDs now match until frame 163, where the GPU admits three extra pairs:
+(1,16), (44,61), and (91,104). All involve planar terrain. Mesh/height-field
+construction clamped each half-extent to at least 0.05 m, giving flat terrain
+a fat upper Y bound of 0.09 m instead of native 0.04 m. The three dynamic lower
+bounds are 0.0603083, 0.0734217 and 0.0603356 m. These false broadphase contacts
+consume logical IDs and change the subsequent arm-contact ordering.
+
+Mesh and height-field bounds now preserve zero extents; the existing
+speculative and static margins provide the native padding. The regression
+`flat_mesh_does_not_create_pairs_above_native_fat_bounds` rejects the false
+pair and still admits a real fat-bound overlap. With live ordering enabled,
+`ragdoll-live-order-flat-mesh[-native]` passes every original visual threshold
+over all 600 steps/112 bodies, with byte-identical GPU traces across both paths.
+The control with only the mesh correction (`ragdoll-flat-mesh-only`) fails
+starting at frame 178, confirming that both changes are needed.
+
+Two ordering configurations are available through the existing process option:
+`GPU_PHYSICS_LIVE_CONTACT_ORDER=1` requests CPU-compatible live ordering;
+`GPU_PHYSICS_LIVE_CONTACT_ORDER=0` uses the GPU ordering path. The current default
+remains CPU-compatible while the original CPU-agreement qualification is retained.
+This is an ordering choice, not a determinism-versus-speed guarantee. Both modes
+retain the collision, joint, mass/inertia and flat-terrain fixes.
+
+The GPU-order checks in `artifacts/ragdoll-gpu-order` run the current ordinary
+and native cached binaries three times each for 600 steps. All six complete
+traces are byte-identical on the tested NVIDIA device, including across the two
+paths. The unchanged collision-free, setup and joint-stability gates pass:
+maximum no-contact position error is 9e-7 m, peak joint separation 0.213310137 m,
+tail separation 0.001389399 m, and tail linear/angular speeds are zero. This is
+fixture-level repeatability evidence, not a proof for every scene, driver or GPU.
+
+GPU ordering intentionally does not reproduce the CPU trajectory: the unchanged
+CPU-agreement validator fails first at frame 178, with worst all-frame position
+RMS/max 0.0599098/0.458968 m and orientation RMS/max 15.0302/92.7230 degrees.
+The validator's nonzero exit is retained; no tolerance is relaxed. These measured
+trajectory differences coexist with passing stability checks and repeatability.
+They must not be used to excuse other collision or constraint defects.
+
+Live ordering is now enabled by default for supported initial jointed scenes;
+`GPU_PHYSICS_LIVE_CONTACT_ORDER=0` is the diagnostic opt-out. The default runs
+`ragdoll-contact-order-default[-native]` also pass with identical traces.
+Worst position RMS/max over the entire run are 0.00238558/0.0149234 m, and worst
+orientation RMS/max are 0.764070/4.34194 degrees. The frame-167 jump is removed:
+maximum position error there is 0.0000290707 m. Joint setup, stability and
+9e-7 m collision-free precision remain intact. Offset and Prismatic pass their
+unchanged reference tolerances. Ordinary and cached strict dragging retain
+their previous maxima: 0.00602796 m position, 0.00597248 quaternion chord and
+0.230405 m/s velocity. Adding an initial joint after a jointless GPU upload
+now reallocates ordering storage, with a passing regression for that sequence.
+The final independent runs (`ragdoll-contact-order-final[-native]`) preserve
+these results. Ordering-storage lifetime tests pass on both paths: capacity
+growth retains persistent tree state, while explicit teleport/removal invalidates
+it. The 28 native-precision and six capsule/mesh tests also pass on both paths.
+All production-source hashes in the final ragdoll manifests still match.
+
+Five interleaved warm 600-step fixture runs per binary measure median process
+wall times of 5.803 s for the frozen `ragdoll-capsule-face-admission/gpu` baseline
+and 7.671 s for `ragdoll-contact-order-final/gpu`: a 32.2% increase. This includes
+startup, stepping, pose readback and output formatting, with no renderer; it is
+not GPU-kernel timing or a measurement isolating only contact ordering. One
+warmup per binary precedes the measured runs, and no viewer/build jobs overlap
+this measurement. Binary hashes and individual timings are recorded in
+`artifacts/ragdoll-impact-goal/qualification/performance.json`.
+A subsequent same-binary comparison measures 5.752 s with live ordering disabled
+and 6.666 s enabled (15.9% overhead), using five interleaved warm measurements
+per setting. See `ordering-performance.json` in the same directory. This includes
+trajectory/contact-work changes caused by the ordering choice, not only the
+ordering kernel. It must not be subtracted from the earlier 32.2% figure as an
+exact attribution across different runs and baselines.
+Clean synchronized recordings are complete for Offset (300 paired frames),
+Falling Ragdolls (600), and Rain (120); reports, binary identity and visual
+inspection images are in `artifacts/ragdoll-parity-capture-final`. Each CPU/GPU
+clip pair is cropped from one recording and has identical video frame counts
+and duration. The ragdoll drop, impacts and settling views closely align. Rain
+is a short visual record, not a claim of trajectory parity; its complete
+600-step health qualification passes, with the CPU-relative limitations below.
+
+The final Rain run (`artifacts/rain-contact-order`) exits zero after all 600
+frames, with zero Sokol errors. Complete records, finite/runaway checks, the
+4,300-body peak population and 20 spawn/replacement events pass. GPU peak speed
+is 17.6709 m/s and peak constrained-anchor error is 0.325545698 m; the independent
+CPU run also passes health checks. Rendering uses software OpenGL at 640×360;
+physics defaults and the 600-step schedule are unchanged, and these timings
+are not performance evidence.
+
+Rain does **not** pass CPU-relative screening: 376 frames fail, comprising 13
+anchor-error failures, 83 angular-error failures and 280 joint-identity
+mismatches after recycling begins. The first failure is frame 170 (step 171),
+joint 681: anchor error 0.0855421 m versus CPU 0.00176341 m. Identity mismatches
+start at frame 320; the reports lack joint endpoints, so those IDs cannot be
+assumed to represent corresponding joints. The earlier `rain-mesh-raw-separation`
+run failed 377 frames, first at 107, with the same 280 identity mismatches.
+This establishes completed health qualification, not Rain trajectory parity
+or a guarantee that every individual Rain residual improved. The 112-body
+Falling Ragdolls acceptance gate remains a separate, every-frame pass.
+
+Offset Kinematic, Prismatic and ordinary/cached strict dragging pass for the
+interval version (`*-ccd-interval*`). Drag maxima remain 0.00602796 m position,
+0.00597248 quaternion chord and 0.230405 m/s velocity. Rain/performance/synchronized captures remain outstanding
+for the final implementation; no acceptance or commit is claimed.
+ Offset/Prismatic and ordinary/cached
+strict dragging pass on the rolling version (`*-mesh-rolling*`), with maximum
+drag position difference still 0.00602796 m. Offset Kinematic, all Prismatic
+fixtures, and ordinary/cached strict dragging pass on this inertia-family
+version (`*-mesh-inertia*`), with unchanged drag maxima. Offset Kinematic, Prismatic and ordinary/cached strict dragging pass on the
+`mesh-raw-separation` version (drag maxima unchanged at 0.00602796 m,
+0.00597248 quaternion chord and 0.230405 m/s). Those runs predate the subsequent
+inertia-family correction. The 600-step Rain run in
+`artifacts/rain-mesh-raw-separation` completed with application exit 0 and passes
+finite/runaway and population/recycling checks (4,300 peak bodies, peak speed
+17.6708 m/s and peak anchor error 0.325545192 m). Its CPU-relative screening fails on 377 frames, first at frame 107
+(step 108), joint 63 angular error 0.286632 versus CPU 0.157644 radians.
+As in the previous Rain run, post-recycling joint-ID mismatches need identity
+reconciliation and are not evidence of corresponding-joint error. It predates the inertia change and uses software rendering,
+so its timings are not performance evidence. The earlier
+`ragdoll-mesh-base-order[-native]` runs retain the incomplete dot-order-only
+experiment and are not final-code qualification.
+
+The refreshed combined-view drag gate currently regresses
+(`artifacts/drag-spherical-point-velocity.log`): isolated ten-drag comparison
+passes exactly, but ground-contact drags fail with 1.33467 m maximum position
+error, 1.41324 quaternion chord, and 3.10393 m/s velocity error. This contradicts
+the older 6 mm qualification and must be resolved; that older pass is not current
+acceptance evidence. The archived binary rerun passes under the same runtime
+settings, reproducing its 0.00602796 m maximum position error and strict velocity
+pass (`artifacts/drag-spherical-point-velocity/previous-binary-strict.log`).
+This confirms a code regression. Initial cube mass and all nine world inverse-inertia components match CPU exactly (`box-mass-*.txt` in that artifact directory), ruling out a simple mass-setup difference.
+The Rain check uses 600 default
+steps with software OpenGL rendering, so its timings are not performance data.
+CPU Rain completes all 600 frames, reaches 4,300 bodies, and exercises 20 column
+creation/replacement events. Every-frame population counts, complete body/joint
+records and existing finite/runaway checks pass (`cpu-health-result.json` in
+`artifacts/rain-spherical-point-velocity`). The frozen GPU run also produces
+all 600 frames, 4,300 peak bodies and 20 spawn/replacement events, with complete
+records and finite/runaway checks passing. GPU peak speed is 17.6709 m/s and
+peak constrained-anchor error is 0.325960368 m. Its launcher returned 143 even
+though the file reports `status: ok` and the log ends with 600 frames and zero
+Sokol errors; treat this as completed diagnostic data, not clean process
+qualification. CPU-relative screening checks all 600 frames and fails 374 of them; its first
+failure is frame 107 (submitted step 108), joint 63 angular error 0.286496 rad
+versus CPU 0.157644 rad, beyond the existing extra 0.05-rad allowance. Anchor
+error failures follow (e.g. frame 154, joint 51: 0.0944229 m versus 0.00181863 m).
+The diagnostic comparator initially treated `classify`'s `pass` return as a
+failure; the result is corrected by retaining only its actual non-pass results.
+This frozen run predates
+the subsequent hinge and persistent-color fixes, so latest-code Rain remains
+unqualified. The subsequent persistent-color run completes all 600 frames
+with application exit zero, captured separately from the Xvfb launcher
+(`artifacts/rain-persistent-joint-colors`). Population/recycling and finite/runaway
+checks pass: 4,300 peak bodies, 17.6704 m/s peak speed and 0.325534612 m peak
+constrained-anchor error. CPU-relative screening still fails 381 frames:
+80 angular-error checks, 21 anchor-error checks and 280 joint-ID-set checks
+starting at frame 320 when recycling begins. At that first replacement, both
+engines retain 4,200 joints, but CPU reuses IDs 1–420 while GPU allocates
+4201–4620 (`joint-id-recycling-audit.json`); ID equality alone cannot establish
+physical correspondence after recycling. The first physical
+failure remains frame 107, joint 63 angular error 0.286522 versus CPU 0.157644 rad.
+This binary predates the axial-hinge and convex-rolling corrections; it is
+neither latest-code Rain qualification nor performance evidence.
+The first cube's drag trace diverges at frame 60 in current code, whereas its
+archived counterpart remains float32-exact until frame 1,560. At frame 60 the
+contact geometry and feature IDs match but impulses differ. The ordinary GPU
+path reproduces the same ten-drag failure and error maxima
+(`artifacts/drag-revolute-point-ordinary.log`), ruling out a native-cache-only
+regression. The motor/contact phase capture around frames 60–61 preserves all
+6,120 first-cube body-state rows byte-for-byte against the frozen production
+run. Contact diagnostic output differs during sleep, but frame-60 contact rows
+match the baseline. Preparation, velocity integration, and warm start have
+exact CPU/GPU velocities; the first differing completed phase is the biased
+solve (maximum velocity/angular-velocity component difference 3.0649e-7).
+The expanded `phase-capture,mesh-candidates` run also preserves all 6,120
+production body-state rows and has no trace overflow. Its first GPU biased
+contact input equals the CPU's pre-motor velocity, whereas the CPU executes
+the motor before that contact. This exposes a constraint-order discrepancy,
+not merely a motor arithmetic discrepancy. `compact_joint_components` assigns
+joint colors before reserving surviving contact colors; adding a drag joint
+can therefore take the existing ground contact's color and reverse priority.
+The graph builder now preserves assigned joint colors, reserves surviving
+contact colors, and only then admits new joints and newly touching contacts.
+An internal joint flag records whether a color has been assigned; normal joint
+readback preserves it. The new GPU regression adds two anchored joints to an
+existing contact and removes the first, verifying surviving colors throughout;
+it passes on ordinary and native cached paths. Ordinary pointer/isolated-drag
+checks and strict ten-ground-drag checks pass again
+(`artifacts/drag-persistent-joint-colors*`), reproducing the archived baseline:
+0.00602796 m maximum position error, 0.00597248 quaternion chord and 0.230405 m/s
+peak velocity difference. Cached-path pointer/isolated/ground drag reproduces
+the same passing maxima. The ordinary independent ragdoll run is byte-identical
+across all six fixtures to the preceding alignment-velocity baseline; its
+visual failure is unchanged. The cached-path runner ended with status 143 after writing a complete,
+byte-identical 600-frame ragdoll trace. Its missing collision-free fixture was
+run separately with the same frozen binary and exited zero. All six resulting
+GPU fixture traces match the ordinary path byte-for-byte; setup, stability and
+collision-free checks pass, while visual agreement still fails from frame 90.
+
+Offset Kinematic passes its 1e-5/300-step gate with the motor-mass, clamp, and
+branch-free square-root corrections (`artifacts/offset-motor-clamp`). All five
+Prismatic fixtures also pass their 1e-4/120-step gate with these corrections
+(`artifacts/prismatic-motor-clamp`). Both gates also pass after the hinge
+alignment correction (`artifacts/offset-revolute-perp-mass` and
+`artifacts/prismatic-revolute-perp-mass`). They also pass after persistent joint
+coloring (`artifacts/offset-persistent-joint-colors` and
+`artifacts/prismatic-persistent-joint-colors`). Latest-code Rain and performance
+measurements remain pending. No visual-agreement completion is claimed.
 
 The Offset Kinematic regression checks explicit zero-mass center overrides on
 static and kinematic bodies. `b3Body_SetMassData` now accepts those overrides,
@@ -1129,7 +2444,17 @@ kinematic body's center change after 150 GPU steps, with absolute tolerance
 `1e-5` on mass, center, pose and velocity. This qualifies the sample's zero-mass
 center override, not all mass-data semantics.
 
-Pre-commit native viewer captures for Offset Kinematic, Falling Ragdolls and
+For unobstructed native captures, pass `--hide-ui` to the sample viewer. This
+hides both the controls dialog and settings panel at startup; benchmark mode
+ignores keyboard input, so Tab cannot hide them during a benchmark capture.
+
+The latest native captures are in `2026-09-27-ragdoll-parity`, with the matching
+real Box3D CPU clips in `000-box3d-cpu`. The comparison grid includes these
+300/600/120-step Offset/Ragdolls/Rain recordings. They use software OpenGL
+and are not performance measurements. The older checkpoint below is retained
+as historical evidence.
+
+Earlier pre-commit native viewer captures for Offset Kinematic, Falling Ragdolls and
 Rain are registered in the local comparison grid's corresponding rows. CPU
 panes are in `000-box3d-cpu`; the latest GPU panes are in
 `2026-09-27-spherical-checkpoint` (the previous captures remain in

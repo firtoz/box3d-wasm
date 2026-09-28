@@ -43,6 +43,8 @@ fn main() {
         "shaders/physics/hull.wgsl",
         "shaders/physics/collide.wgsl",
         "shaders/physics/broadphase.wgsl",
+        "shaders/physics/contact_order.wgsl",
+        "shaders/physics/contact_order_live.wgsl",
         "shaders/physics/solve.wgsl",
         "shaders/physics/integrate.wgsl",
         "shaders/render.wgsl",

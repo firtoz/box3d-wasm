@@ -27,6 +27,24 @@ include(FetchContent)
 add_subdirectory("${BOX3D_DIR}/src" box3d_src)
 add_subdirectory("${BOX3D_DIR}/shared" box3d_shared)
 
+# Diagnostic creation identities come from the shared Human creation order.
+# Generate a local copy so the upstream submodule remains untouched.
+file(READ "${BOX3D_DIR}/shared/human.c" HUMAN_SOURCE)
+string(REGEX MATCHALL "human->isSpawned = true" HUMAN_HOOK_MATCHES "${HUMAN_SOURCE}")
+list(LENGTH HUMAN_HOOK_MATCHES HUMAN_HOOK_COUNT)
+if(NOT HUMAN_HOOK_COUNT EQUAL 1)
+  message(FATAL_ERROR "Human lifetime hook requires exactly one spawn marker")
+endif()
+string(REPLACE "human->isSpawned = true;"
+  "human->isSpawned = true;\n\textern void gpu_bench_human_created(const Human*);\n\tgpu_bench_human_created(human);"
+  HUMAN_SOURCE "${HUMAN_SOURCE}")
+file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/diagnostic-human.c" "${HUMAN_SOURCE}")
+get_target_property(SHARED_SOURCES shared SOURCES)
+list(REMOVE_ITEM SHARED_SOURCES human.c)
+set_property(TARGET shared PROPERTY SOURCES ${SHARED_SOURCES} "${CMAKE_CURRENT_BINARY_DIR}/diagnostic-human.c")
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${BOX3D_DIR}/shared/human.c")
+
+
 FetchContent_Declare(imgui
   GIT_REPOSITORY https://github.com/ocornut/imgui.git
   GIT_TAG v1.92.7

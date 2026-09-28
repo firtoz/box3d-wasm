@@ -401,7 +401,7 @@ fn ray_shape_hit(i: u32, origin: vec3<f32>, dir: vec3<f32>, t_max: f32) -> RayCa
         return out;
     }
     let xf_q = normalize(body.rot);
-    let xf_p = body.pos - quat_rotate(xf_q, load_body_cold(shape.body_index).local_center);
+    let xf_p = body_origin(body, shape.body_index);
     let center = xf_p + quat_rotate(xf_q, shape.local_center);
     var lo = vec3<f32>(0.0);
     var hi = vec3<f32>(0.0);

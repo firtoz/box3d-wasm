@@ -1,5 +1,5 @@
 struct Camera { view_proj: mat4x4<f32> }
-struct State { p: vec4<f32>, v: vec4<f32>, q: vec4<f32>, w: vec4<f32>, dp: vec4<f32>, dq: vec4<f32> }
+struct State { p: vec4<f32>, v: vec4<f32>, q: vec4<f32>, w: vec4<f32>, dp: vec4<f32>, dq: vec4<f32>, origin: vec3<f32>, origin_valid: u32 }
 struct Cold { a: vec4<f32>, b: vec4<f32>, c: vec4<f32>, d: vec4<f32> }
 @group(0) @binding(0) var<uniform> camera: Camera;
 @group(1) @binding(0) var<storage, read> states: array<State>;
@@ -16,7 +16,9 @@ struct Out { @builtin(position) clip: vec4<f32>, @location(0) normal: vec3<f32>,
     let state = states[body];
     let point = local_p + rotate(local_q, p * scale);
     let origin_relative = point - cold[body].d.yzw;
-    out.clip = camera.view_proj * vec4<f32>(state.p.xyz + rotate(state.q, origin_relative), 1.0);
+    var world_point = state.p.xyz + rotate(state.q, origin_relative);
+    if (state.origin_valid != 0u) { world_point = state.origin + rotate(state.q, point); }
+    out.clip = camera.view_proj * vec4<f32>(world_point, 1.0);
     out.normal = normalize(rotate(state.q, rotate(local_q, n / scale)));
     // Box3D physics_world.c debug colour precedence, using live GPU state.
     let flags = bitcast<u32>(state.v.w);

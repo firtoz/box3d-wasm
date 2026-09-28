@@ -1,3 +1,11 @@
+#[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+mod state_trace;
+#[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+pub use state_trace::b3_world_write_core_state;
+#[cfg(all(feature="replay-diagnostics",not(target_arch="wasm32")))]
+pub use state_trace::b3_world_diagnostic_contact_impulses;
+#[cfg(all(feature="replay-diagnostics",not(target_arch="wasm32")))]
+pub use state_trace::{b3_world_diagnostic_spherical_impulses,b3_joint_diagnostic_set_spherical_cache,b3_joint_diagnostic_set_revolute_cache};
 mod joint_reaction;
 pub use joint_reaction::*;
 mod joint_separation;
@@ -42,6 +50,8 @@ use crate::types::{
 };
 
 struct CpuBody {
+    #[cfg(feature = "replay-diagnostics")]
+    creation_ordinal: u64,
     name: Option<std::ffi::CString>,
     sleep_threshold: f32,
     generation: u16,
@@ -52,7 +62,7 @@ struct CpuBody {
     /// Center of mass in the body's local frame.
     local_center: [f32; 3],
     /// Symmetric local inertia tensor: xx, yy, zz, xy, xz, yz.
-    local_inertia: [f32; 6],
+    local_inertia: [f32; 9],
     has_shape: bool,
     /// Live shape slots in creation order, including compound proxies.
     shape_indices: Vec<usize>,
@@ -112,11 +122,11 @@ struct CpuShape {
     mesh_instance: Option<MeshInstance>,
     mass: f32,
     unit_mass: f32,
-    unit_inertia: [f32; 6],
+    unit_inertia: [f32; 9],
     geometry_center: [f32; 3],
     local_center: [f32; 3],
     /// Central inertia tensor in the owner's local frame.
-    local_inertia: [f32; 6],
+    local_inertia: [f32; 9],
 }
 
 #[derive(Clone, Copy, Debug, Default)]
@@ -238,6 +248,14 @@ struct LiveContact {
     events_enabled: bool,
 }
 
+fn ordered_live_contacts(contacts: impl IntoIterator<Item=(ContactKey,LiveContact)>) -> Vec<(ContactKey,LiveContact)> {
+    let mut contacts:Vec<_>=contacts.into_iter().collect();
+    // Public pair and compound-child identity is stable; HashMap iteration and
+    // opaque handle values must not determine observable event order.
+    contacts.sort_unstable_by_key(|(key,_)|*key);
+    contacts
+}
+
 #[derive(Clone, Copy)]
 struct CpuJoint {
     reaction_frames: [[f32; 4]; 2],
@@ -272,6 +290,8 @@ struct SceneCapabilities {
 }
 
 struct WorldInner {
+    #[cfg(feature = "replay-diagnostics")]
+    body_creation_ordinal: u64,
     user_data: usize,
     generation: u16,
     def: WorldDef,
@@ -297,6 +317,8 @@ struct WorldInner {
     last_substep_h: f32,
     reaction_inv_h: f32,
     contact_recycle_distance: f32,
+    #[cfg(feature = "replay-diagnostics")]
+    diagnostic_contact_ids: HashMap<(i32, u16, u32), u64>,
     contact_registry: HashMap<ContactKey, contact_api::ContactEntry>,
     contact_by_id: HashMap<(i32, u32), ContactKey>,
     contact_by_body: HashMap<i32, Vec<ContactKey>>,
@@ -312,7 +334,8 @@ struct WorldInner {
     contact_begin_events: Vec<ContactBeginTouchEvent>,
     contact_end_events: Vec<ContactEndTouchEvent>,
     contact_hit_events: Vec<ContactHitEvent>,
-    deferred_contact_end_events: Vec<ContactEndTouchEvent>,
+    deferred_contact_end_events: Vec<(ContactKey, ContactEndTouchEvent)>,
+    contact_end_keys: std::collections::HashSet<ContactKey>,
     sensor_overlaps: HashMap<i32, Vec<ShapeId>>,
     sensor_begin_events: Vec<SensorBeginTouchEvent>,
     sensor_end_events: Vec<SensorEndTouchEvent>,
@@ -371,6 +394,8 @@ fn lock_worlds() -> std::sync::MutexGuard<'static, Vec<Option<WorldInner>>> {
 pub fn b3_create_world(gpu: GpuDevice, def: &WorldDef) -> WorldId {
     let mut worlds = lock_worlds();
     let inner = WorldInner {
+        #[cfg(feature = "replay-diagnostics")]
+        body_creation_ordinal: 0,
         user_data: 0,
         generation: 1,
         def: *def,
@@ -395,7 +420,9 @@ pub fn b3_create_world(gpu: GpuDevice, def: &WorldDef) -> WorldId {
         jacobi: false,
         last_substep_h: FIXED_DT / DEFAULT_SUB_STEPS as f32,
         reaction_inv_h: 0.0,
-        contact_recycle_distance: 0.05,
+        contact_recycle_distance: crate::types::CONTACT_RECYCLE_DISTANCE,
+        #[cfg(feature = "replay-diagnostics")]
+        diagnostic_contact_ids: HashMap::new(),
         contact_registry: HashMap::new(),
         contact_by_id: HashMap::new(),
         contact_by_body: HashMap::new(),
@@ -412,6 +439,7 @@ pub fn b3_create_world(gpu: GpuDevice, def: &WorldDef) -> WorldId {
         contact_end_events: Vec::new(),
         contact_hit_events: Vec::new(),
         deferred_contact_end_events: Vec::new(),
+        contact_end_keys: std::collections::HashSet::new(),
         sensor_overlaps: HashMap::new(),
         sensor_begin_events: Vec::new(),
         sensor_end_events: Vec::new(),
@@ -669,6 +697,8 @@ pub fn b3_create_body(world: WorldId, def: &BodyDef) -> BodyId {
         let kinematic_body = def.body_type == BodyType::Kinematic;
         let gpu = BodyGpu {
             pos: def.position,
+            origin: [0.0; 3],
+            origin_valid: 0,
             inv_mass: 0.0,
             vel: if static_body { [0.0; 3] } else { def.linear_velocity },
             kind: KIND_SPHERE,
@@ -711,7 +741,11 @@ pub fn b3_create_body(world: WorldId, def: &BodyDef) -> BodyId {
             _pad_island: 0,
         };
         let epoch = snapshot_epoch(w);
+        #[cfg(feature = "replay-diagnostics")]
+        { w.body_creation_ordinal = w.body_creation_ordinal.checked_add(1).expect("diagnostic creation ordinal overflow"); }
         let mut cpu = CpuBody {
+            #[cfg(feature = "replay-diagnostics")]
+            creation_ordinal: w.body_creation_ordinal,
             name: None,
             sleep_threshold: 0.05,
             generation: 1,
@@ -719,7 +753,7 @@ pub fn b3_create_body(world: WorldId, def: &BodyDef) -> BodyId {
             gpu,
             mass: 0.0,
             local_center: [0.0; 3],
-            local_inertia: [0.0; 6],
+            local_inertia: [0.0; 9],
             has_shape: false,
             shape_indices: Vec::new(),
             axis: [0.0; 3],
@@ -951,21 +985,25 @@ fn box_central_inertia(half: [f32; 3], density: f32) -> [f32; 6] {
     ]
 }
 
-fn invert_symmetric(m: [f32; 6]) -> [f32; 6] {
-    let [a, b, c, d, e, f] = m;
-    let det = a * (b * c - f * f) - d * (d * c - e * f) + e * (d * f - b * e);
-    if det.abs() <= 1e-12 {
-        return [0.0; 6];
-    }
-    let inv_det = 1.0 / det;
-    [
-        (b * c - f * f) * inv_det,
-        (a * c - e * e) * inv_det,
-        (a * b - d * d) * inv_det,
-        (e * f - d * c) * inv_det,
-        (d * f - b * e) * inv_det,
-        (d * e - a * f) * inv_det,
-    ]
+// Packed column-major tensor: diagonal, lower triangle, upper triangle.
+// Native rotation can round the two triangles differently; never symmetrize it.
+fn pack_inertia(m: [[f32; 3]; 3]) -> [f32; 9] {
+    [m[0][0],m[1][1],m[2][2],m[0][1],m[0][2],m[1][2],m[1][0],m[2][0],m[2][1]]
+}
+fn unpack_inertia(m: [f32; 9]) -> [[f32; 3]; 3] {
+    [[m[0],m[3],m[4]],[m[6],m[1],m[5]],[m[7],m[8],m[2]]]
+}
+fn expand_inertia(m: [f32; 6]) -> [f32; 9] {
+    [m[0],m[1],m[2],m[3],m[4],m[5],m[3],m[4],m[5]]
+}
+fn invert_inertia(m: [f32; 9]) -> [f32; 9] {
+    let m = unpack_inertia(m);
+    let cross = |a: [f32;3], b: [f32;3]| [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+    let cofactor = [cross(m[1],m[2]),cross(m[2],m[0]),cross(m[0],m[1])];
+    let det = (m[0][0]*cofactor[0][0] + m[0][1]*cofactor[0][1]) + m[0][2]*cofactor[0][2];
+    if det <= 1000.0 * f32::MIN_POSITIVE { return [0.0;9]; }
+    let scale = 1.0 / det;
+    pack_inertia(cofactor.map(|column| column.map(|v| scale*v)))
 }
 
 fn initial_proxy_bounds(body: &CpuBody, shape: &CpuShape) -> crate::broadphase_order::Bounds {
@@ -975,6 +1013,7 @@ fn initial_proxy_bounds(body: &CpuBody, shape: &CpuShape) -> crate::broadphase_o
         KIND_SPHERE => vec![center],
         KIND_CAPSULE => shape.capsule_points().to_vec(),
         KIND_BOX => (0..8).map(|bits| std::array::from_fn(|i| center[i] + if bits & (1 << i) == 0 { -shape.half[i] } else { shape.half[i] })).collect(),
+        KIND_MESH => shape.mesh_vertices.as_ref().clone(),
         _ => shape.hull_points.clone(),
     };
     let origin = body_origin(body);
@@ -991,7 +1030,8 @@ fn initial_proxy_bounds(body: &CpuBody, shape: &CpuShape) -> crate::broadphase_o
             upper[i] = upper[i].max(world);
         }
     }
-    let margin = (0.125 * (extent_squared.sqrt() + radius)).min(0.05);
+    let margin = if body.gpu.flags & FLAG_STATIC != 0 { crate::types::SPECULATIVE_DISTANCE }
+        else { (0.125 * (extent_squared.sqrt() + radius)).min(0.05) };
     for i in 0..3 {
         lower[i] = ((lower[i] - radius) - crate::types::SPECULATIVE_DISTANCE) - margin;
         upper[i] = ((upper[i] + radius) + crate::types::SPECULATIVE_DISTANCE) + margin;
@@ -1000,6 +1040,7 @@ fn initial_proxy_bounds(body: &CpuBody, shape: &CpuShape) -> crate::broadphase_o
 }
 
 fn body_origin(cpu: &CpuBody) -> [f32; 3] {
+    if cpu.gpu.origin_valid != 0 { return cpu.gpu.origin; }
     let offset = quat_rotate(cpu.gpu.rot, cpu.local_center);
     [
         cpu.gpu.pos[0] - offset[0],
@@ -1030,7 +1071,7 @@ fn apply_body_mass_from_shapes_inner(w: &mut WorldInner, body: BodyId) {
         let inv_mass = 1.0 / mass;
         weighted_center.map(|value| inv_mass * value)
     } else { [0.0; 3] };
-    let mut inertia = [0.0f32; 6];
+    let mut inertia = [0.0f32; 9];
     for shape in body_shapes(w, body) {
         if shape.body_index != body.index1 || shape.mass <= 0.0 {
             continue;
@@ -1046,6 +1087,9 @@ fn apply_body_mass_from_shapes_inner(w: &mut WorldInner, body: BodyId) {
         inertia[3] += shape.local_inertia[3] - shape.mass * d[0] * d[1];
         inertia[4] += shape.local_inertia[4] - shape.mass * d[0] * d[2];
         inertia[5] += shape.local_inertia[5] - shape.mass * d[1] * d[2];
+        inertia[6] += shape.local_inertia[6] - shape.mass * d[0] * d[1];
+        inertia[7] += shape.local_inertia[7] - shape.mass * d[0] * d[2];
+        inertia[8] += shape.local_inertia[8] - shape.mass * d[1] * d[2];
     }
 
     let Some(cpu) = body_mut(w, body) else {
@@ -1055,7 +1099,7 @@ fn apply_body_mass_from_shapes_inner(w: &mut WorldInner, body: BodyId) {
     let origin = body_origin(cpu);
     let static_body = (cpu.gpu.flags & (FLAG_STATIC | FLAG_KINEMATIC)) != 0;
     let center = if static_body { [0.0; 3] } else { center };
-    let inertia = if static_body { [0.0; 6] } else { inertia };
+    let inertia = if static_body { [0.0; 9] } else { inertia };
     cpu.mass = if static_body { 0.0 } else { mass };
     cpu.local_center = center;
     cpu.local_inertia = inertia;
@@ -1079,7 +1123,7 @@ fn apply_body_mass_from_shapes_inner(w: &mut WorldInner, body: BodyId) {
         cpu.gpu.inv_inertia = [0.0; 3];
     } else {
         cpu.gpu.inv_mass = if mass > 0.0 { 1.0 / mass } else { 0.0 };
-        let inverse = invert_symmetric(inertia);
+        let inverse = invert_inertia(inertia);
         cpu.gpu.inv_inertia = [inverse[0], inverse[1], inverse[2]];
     }
     mark_scene_dirty(w);
@@ -1170,6 +1214,9 @@ fn attach_shape(
     hull_topology: Vec<[u32; 4]>,
     def: &ShapeDef,
 ) -> ShapeId {
+    let local_inertia = if kind == KIND_CAPSULE && hull_points.len() == 2 {
+        pack_inertia(crate::types::compute_capsule_mass(hull_points[0], hull_points[1], half[0], def.density).full_inertia)
+    } else { expand_inertia(local_inertia) };
     let Some(cpu) = body_mut(w, body) else {
         return b3_null_shape_id();
     };
@@ -1224,10 +1271,13 @@ fn attach_shape(
                 local_inertia[3] - mass*d[0]*d[1],
                 local_inertia[4] - mass*d[0]*d[2],
                 local_inertia[5] - mass*d[1]*d[2],
+                local_inertia[6] - mass*d[0]*d[1],
+                local_inertia[7] - mass*d[0]*d[2],
+                local_inertia[8] - mass*d[1]*d[2],
             ];
             cpu.mass = if static_body { 0.0 } else { mass };
             cpu.local_center = local;
-            cpu.local_inertia = if static_body { [0.0; 6] } else { local_inertia };
+            cpu.local_inertia = if static_body { [0.0; 9] } else { local_inertia };
             let world_center = quat_rotate(cpu.gpu.rot, local);
             cpu.gpu.pos = [
                 origin[0] + world_center[0],
@@ -1248,7 +1298,7 @@ fn attach_shape(
                 cpu.gpu.inv_inertia = [0.0; 3];
             } else {
                 cpu.gpu.inv_mass = 1.0 / mass;
-                let inverse = invert_symmetric(local_inertia);
+                let inverse = invert_inertia(local_inertia);
                 cpu.gpu.inv_inertia = [inverse[0], inverse[1], inverse[2]];
             }
         }
@@ -1349,7 +1399,7 @@ pub fn b3_create_convex_hull_shape(body: BodyId, def: &ShapeDef, hull: &ConvexHu
         );
         if let Some(shape) = w.shapes.get_mut(id.index1.saturating_sub(1) as usize).and_then(Option::as_mut) {
             shape.unit_mass = hull.volume;
-            shape.unit_inertia = hull.central_inertia;
+            shape.unit_inertia = expand_inertia(hull.central_inertia);
         }
         id
     })
@@ -1432,9 +1482,9 @@ pub fn b3_create_mesh_shape(
             0.5 * (lower[2] + upper[2]),
         ];
         let half = [
-            (0.5 * (upper[0] - lower[0])).max(0.05),
-            (0.5 * (upper[1] - lower[1])).max(0.05),
-            (0.5 * (upper[2] - lower[2])).max(0.05),
+            0.5 * (upper[0] - lower[0]),
+            0.5 * (upper[1] - lower[1]),
+            0.5 * (upper[2] - lower[2]),
         ];
         let inverted = scale[0] * scale[1] * scale[2] < 0.0;
         let mut packed_triangles: Vec<[u32; 4]> = triangles
@@ -1638,7 +1688,7 @@ pub fn b3_create_compound_parent(body: BodyId, def: &ShapeDef) -> ShapeId {
             0.0,
             [0.0; 3],
             [0.0; 3],
-            [0.0; 6],
+            [0.0; 9],
             0.0,
             Vec::new(),
             Vec::new(),
@@ -2023,9 +2073,9 @@ pub fn b3_create_height_field_shape(
             0.5 * (lower[2] + upper[2]),
         ];
         let half = [
-            (0.5 * (upper[0] - lower[0])).max(0.05),
-            (0.5 * (upper[1] - lower[1])).max(0.05),
-            (0.5 * (upper[2] - lower[2])).max(0.05),
+            0.5 * (upper[0] - lower[0]),
+            0.5 * (upper[1] - lower[1]),
+            0.5 * (upper[2] - lower[2]),
         ];
         let id = attach_shape(
             w,
@@ -2497,6 +2547,10 @@ pub fn b3_create_filter_joint(world: WorldId, def: &FilterJointDef) -> JointId {
             a: gpu_index(def.body_a),
             b: gpu_index(def.body_b),
             kind: JOINT_FILTER,
+            frame_a_rotation: [0.0, 0.0, 0.0, 1.0],
+            frame_b_rotation: [0.0, 0.0, 0.0, 1.0],
+            hertz: 60.0,
+            damping: 2.0,
             flags: u32::from(def.collide_connected) * JOINT_COLLIDE_CONNECTED,
             ..JointGpu::default()
         });
@@ -2772,7 +2826,14 @@ fn step_gpu_inner(id: WorldId, dt: f32, sub_step_count: i32) {
         w.sensor_end_events.clear();
         // These transitions were fully determined by host destruction/refilter.
         // Publish even when no remaining shape requests GPU contact readback.
-        w.contact_end_events.append(&mut w.deferred_contact_end_events);
+        w.contact_end_keys.clear();
+        // Different host mutators can discover the same end transition; GPU
+        // previous-touching history may report it again during synchronization.
+        // Keep the public pair/child key until this step's events are complete.
+        w.deferred_contact_end_events.sort_unstable_by_key(|(key,_)|*key);
+        for (key,event) in w.deferred_contact_end_events.drain(..) {
+            if w.contact_end_keys.insert(key) {w.contact_end_events.push(event);}
+        }
         w.sensor_end_events.append(&mut w.deferred_sensor_end_events);
         w.joint_events.clear();
         w.events_pending = false;
@@ -3094,6 +3155,7 @@ pub fn b3_world_step(id: WorldId, dt: f32, sub_step_count: i32) {
 
 #[cfg(not(target_arch = "wasm32"))]
 fn body_transform(body: &BodyGpu, local_center: [f32; 3]) -> WorldTransform {
+    if body.origin_valid != 0 { return WorldTransform { p: body.origin, q: body.rot }; }
     let offset = quat_rotate(body.rot, local_center);
     WorldTransform {
         p: [
@@ -3154,6 +3216,133 @@ fn convex_ccd_com_shape(mut shape: HostShape, center: [f32; 3]) -> HostShape {
 }
 
 #[cfg(not(target_arch = "wasm32"))]
+fn ccd_interpolate_pose(start: WorldTransform, end: WorldTransform, fraction: f32) -> WorldTransform {
+    // Native CCD recenters the sweep on its starting COM. Interpolate the
+    // relative displacement before adding that base back to world coordinates.
+    let p = std::array::from_fn(|i| start.p[i] + fraction * (end.p[i] - start.p[i]));
+    // b3NLerp preserves its input quaternions and normalizes only the blend.
+    let mut qa = start.q;
+    let qb = end.q;
+    let dot = ((qa[0] * qb[0] + qa[1] * qb[1]) + qa[2] * qb[2]) + qa[3] * qb[3];
+    if dot < 0.0 { qa = qa.map(|x| -x); }
+    let blended: [f32; 4] = std::array::from_fn(|i| (1.0 - fraction) * qa[i] + fraction * qb[i]);
+    let square = ((blended[0] * blended[0] + blended[1] * blended[1])
+        + blended[2] * blended[2]) + blended[3] * blended[3];
+    let q = if square > 1000.0 * f32::MIN_POSITIVE {
+        let scale = 1.0 / square.sqrt();
+        blended.map(|x| scale * x)
+    } else { [0.0, 0.0, 0.0, 1.0] };
+    WorldTransform { p, q }
+}
+
+// The origin and COM are independently rounded in native CCD. Subtract the
+// rotated local center before adding the sweep base, rather than reconstructing
+// the origin from the already rounded world COM.
+fn ccd_interpolate_origin(start: [f32; 3], end: [f32; 3], rotation: [f32; 4],
+    local_center: [f32; 3], fraction: f32) -> [f32; 3] {
+    let offset = quat_rotate(rotation, local_center);
+    std::array::from_fn(|i| start[i] + (fraction * (end[i] - start[i]) - offset[i]))
+}
+
+#[cfg(test)]
+mod ccd_pose_precision_tests {
+    use super::*;
+    include!("../fixtures/ccd_pose.rs");
+    include!("../fixtures/ccd_origin.rs");
+
+    #[test]
+    fn transform_setter_preserves_rain_origin_with_offset_mass_center() {
+        use crate::api::*;
+        let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+        let world=b3_create_world(gpu,&b3_default_world_def());
+        let mut bd=b3_default_body_def();bd.body_type=BodyType::Dynamic;
+        let body=b3_create_body(world,&bd);
+        // Upstream Rain thigh_l capsule and frame-311 body-1841 transform.
+        b3_create_capsule_shape(body,&b3_default_shape_def(),&Capsule {
+            center1:[0.023719,0.006008,-0.039068],
+            center2:[-0.064492,-0.004664,-0.424718],radius:0.09,
+        });
+        let p=[-5.90481997,0.255097508,-19.8252048];
+        let q=[0.216340467,0.192826957,-0.227521107,-0.929649711];
+        b3_body_set_transform(body,p,q);
+        let actual=b3_body_get_position(body);
+        assert_eq!(actual.map(f32::to_bits),p.map(f32::to_bits),"setter/getter must retain the supplied origin, not a rounded COM round trip");
+        b3_body_set_linear_velocity(body,[1.0,0.0,0.0]);
+        b3_world_step_gpu(world,1.0/60.0,4);b3_world_gpu_wait_with_mirror(world);
+        assert!(b3_body_get_position(body)[0]>p[0]+0.01,"simulation must replace the setter origin, not retain stale cached coordinates");
+        b3_destroy_world(world);
+    }
+
+    #[test]
+    fn retained_ccd_origin_survives_mass_changes_and_is_replaced_by_teleport() {
+        use crate::api::*;
+        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+        let world = b3_create_world(gpu, &b3_default_world_def());
+        let mut def = b3_default_body_def(); def.body_type = BodyType::Dynamic;
+        let body = b3_create_body(world, &def);
+        b3_create_sphere_shape(body, &b3_default_shape_def(), &Sphere { center: [0.25, 0.0, 0.0], radius: 0.5 });
+        let origin = [-7.638, 4.9, -7.59];
+        with_world_mut_no_sync(world, |w| {
+            let cpu = body_mut(w, body).unwrap();
+            cpu.gpu.origin = origin; cpu.gpu.origin_valid = 1;
+            cpu.gpu.flags |= crate::types::FLAG_CCD_NO_HIT;
+            cpu.gpu.pos = [origin[0] + 0.25, origin[1], origin[2]];
+        });
+        assert_eq!(b3_body_get_transform(body).0, origin);
+        let mut mass = b3_body_get_mass_data(body); mass.center = [0.125, 0.25, 0.5];
+        b3_body_set_mass_data(body, mass);
+        assert_eq!(b3_body_get_transform(body).0, origin);
+        b3_body_apply_mass_from_shapes(body);
+        assert_eq!(b3_body_get_transform(body).0, origin);
+        b3_body_set_awake(body, false);
+        assert_eq!(b3_body_get_transform(body).0, origin);
+        let target = [1.0, 2.0, 3.0];
+        b3_body_set_transform(body, target, [0.0, 0.0, 0.0, 1.0]);
+        assert_eq!(b3_body_get_transform(body).0, target);
+        with_world_no_sync(world, |w| {
+            let state=&body_ref(w, body).unwrap().gpu;
+            assert_eq!((state.origin,state.origin_valid),(target,1));
+        });
+        with_world_no_sync(world, |w| assert_eq!(body_ref(w, body).unwrap().gpu.flags & crate::types::FLAG_CCD_NO_HIT, 0));
+        b3_destroy_world(world);
+    }
+
+    #[test]
+    fn ccd_origin_interpolation_matches_native_captures() {
+        let mut reconstruction_mismatches = 0;
+        for ((body, a, _), (origin_body, center, expected)) in CCD_POSE_CASES.into_iter().zip(CCD_ORIGIN_CASES) {
+            assert_eq!(body, origin_body);
+            let start = WorldTransform { p: [a[1], a[2], a[3]], q: [a[7], a[8], a[9], a[10]] };
+            let end = WorldTransform { p: [a[4], a[5], a[6]], q: [a[11], a[12], a[13], a[14]] };
+            let pose = ccd_interpolate_pose(start, end, a[0]);
+            let actual = ccd_interpolate_origin(start.p, end.p, pose.q, center, a[0]);
+            assert_eq!(actual.map(f32::to_bits), expected.map(f32::to_bits), "CCD origin {body}");
+            let offset = quat_rotate(pose.q, center);
+            let reconstructed: [f32; 3] = std::array::from_fn(|i| pose.p[i] - offset[i]);
+            reconstruction_mismatches += usize::from(reconstructed != expected);
+            let mut stored = BodyGpu::zeroed();
+            stored.pos = pose.p; stored.rot = pose.q; stored.origin = actual; stored.origin_valid = 1;
+            assert_eq!(body_transform(&stored, center).p, expected);
+            let state = crate::types::BodyStateGpu::from_body(&stored);
+            assert_eq!((state.origin, state.origin_valid, state.pos), (expected, 1, pose.p));
+            stored.origin_valid = 0;
+            assert_eq!(body_transform(&stored, center).p, reconstructed);
+        }
+        assert_eq!(reconstruction_mismatches, 12);
+    }
+
+    #[test]
+    fn ccd_pose_interpolation_matches_native_captures() {
+        for (body, a, expected) in CCD_POSE_CASES {
+            let start = WorldTransform { p: [a[1], a[2], a[3]], q: [a[7], a[8], a[9], a[10]] };
+            let end = WorldTransform { p: [a[4], a[5], a[6]], q: [a[11], a[12], a[13], a[14]] };
+            let actual = ccd_interpolate_pose(start, end, a[0]);
+            let result = [actual.p[0], actual.p[1], actual.p[2], actual.q[0], actual.q[1], actual.q[2], actual.q[3]];
+            assert_eq!(result.map(f32::to_bits), expected.map(f32::to_bits), "CCD body {body}");
+        }
+    }
+}
+
 fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyGpu]) -> bool {
     if !w.def.enable_continuous || w.step_start_bodies.len() != bodies.len() {
         return false;
@@ -3234,16 +3423,16 @@ fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyG
         let mut end_fast_body = bodies[dense_fast];
         let start_fast = WorldTransform { p: start_fast_body.pos, q: start_fast_body.rot };
         let end_fast = WorldTransform { p: end_fast_body.pos, q: end_fast_body.rot };
-        let fast_shapes: Vec<(usize, HostShape, u32)> = own_shapes[source_fast]
+        let fast_shapes: Vec<(usize, HostShape, HostShape, u32)> = own_shapes[source_fast]
             .iter().map(|&index| {
                 let shape = w.shapes[index].as_ref().expect("live shape index");
                 let proxy = host_shape(w, world0, index, shape).expect("valid convex shape");
-                (index, convex_ccd_com_shape(proxy, cpu_fast.local_center), shape.event_flags)
+                (index, convex_ccd_com_shape(proxy.clone(), cpu_fast.local_center), proxy, shape.event_flags)
             }).collect();
         let mut solid_fraction = 1.0f32;
         let mut sensor_hits: Vec<(f32, ShapeId, ShapeId)> = Vec::new();
 
-        for (_, fast_shape, fast_flags) in &fast_shapes {
+        for (_, fast_shape, original_fast_shape, fast_flags) in &fast_shapes {
             if fast_flags & SHAPE_IS_SENSOR != 0 {
                 continue;
             }
@@ -3318,11 +3507,14 @@ fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyG
                     rigid_mesh_time_of_impacts(
                         &target_shape,
                         start_target,
-                        fast_shape,
+                        original_fast_shape,
                         start_fast,
                         end_fast,
+                        cpu_fast.local_center,
                         solid_fraction,
                         is_sensor,
+                        is_sensor || (w.pre_solve_callback.is_some()
+                            && (target_cpu.event_flags | fast_flags) & SHAPE_ENABLE_PRE_SOLVE_EVENTS != 0),
                     )
                     .into_iter()
                     .map(|candidate| candidate.hit)
@@ -3384,17 +3576,13 @@ fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyG
             w.continuous_sensor_hits.push((sensor, visitor));
         }
         if solid_fraction < 1.0 {
-            let center = glam::Vec3::from_array(start_fast_body.pos)
-                .lerp(glam::Vec3::from_array(end_fast_body.pos), solid_fraction);
-            let qa = glam::Quat::from_array(start_fast_body.rot).normalize();
-            let mut qb = glam::Quat::from_array(end_fast_body.rot).normalize();
-            if qa.dot(qb) < 0.0 {
-                qb = -qb;
-            }
-            end_fast_body.pos = center.to_array();
-            end_fast_body.rot = (qa * (1.0 - solid_fraction) + qb * solid_fraction)
-                .normalize()
-                .to_array();
+            let corrected_pose = ccd_interpolate_pose(start_fast, end_fast, solid_fraction);
+            end_fast_body.origin = ccd_interpolate_origin(start_fast.p, end_fast.p,
+                corrected_pose.q, cpu_fast.local_center, solid_fraction);
+            end_fast_body.origin_valid = 1;
+            end_fast_body.flags &= !crate::types::FLAG_CCD_NO_HIT;
+            end_fast_body.pos = corrected_pose.p;
+            end_fast_body.rot = corrected_pose.q;
             end_fast_body.flags &= !FLAG_SLEEP;
             end_fast_body.sleep_time = 0.0;
             bodies[dense_fast] = end_fast_body;
@@ -3529,15 +3717,11 @@ fn sync_world_mirror_parts(
                     let is_static = flags & FLAG_STATIC != 0;
                     let is_asleep = flags & FLAG_SLEEP != 0;
                     if !is_static && (!is_asleep || !was_asleep) {
-                        let center_offset = quat_rotate(cpu.gpu.rot, cpu.local_center);
+                        let origin = body_origin(cpu);
                         w.body_move_events.push(BodyMoveEvent {
                             user_data: cpu.user_data,
                             transform: WorldTransform {
-                                p: [
-                                    cpu.gpu.pos[0] - center_offset[0],
-                                    cpu.gpu.pos[1] - center_offset[1],
-                                    cpu.gpu.pos[2] - center_offset[2],
-                                ],
+                                p: origin,
                                 q: cpu.gpu.rot,
                             },
                             body_id: BodyId {
@@ -3917,6 +4101,8 @@ fn ensure_pose_snapshot(w: &mut WorldInner) {
         if cpu.host_epoch > epoch {
             continue;
         }
+        cpu.gpu.origin = pose.origin;
+        cpu.gpu.origin_valid = pose.origin_valid;
         cpu.gpu.pos = pose.pos;
         cpu.gpu.rot = pose.rot;
         cpu.gpu.vel = pose.vel;
@@ -3979,7 +4165,7 @@ pub fn b3_world_dynamic_body_ids(id: WorldId) -> Vec<BodyId> {
     }).collect()).unwrap_or_default()
 }
 
-pub fn b3_world_joint_health(id: WorldId) -> Vec<(i32, bool, f32, bool, f32)> {
+pub fn b3_world_joint_health(id: WorldId) -> Vec<(JointId, BodyId, BodyId, bool, f32, bool, f32)> {
     with_world(id, |w| w.joints.iter().enumerate().filter_map(|(index, joint)| {
         if joint.kind == JOINT_NONE { return None; }
         let a = w.bodies.get(joint.a as usize)?.as_ref()?;
@@ -3999,7 +4185,9 @@ pub fn b3_world_joint_health(id: WorldId) -> Vec<(i32, bool, f32, bool, f32)> {
             JOINT_WELD | JOINT_PRISMATIC => 2.0 * qa.dot(qb).abs().min(1.0).acos(),
             _ => 0.0,
         };
-        Some((index as i32 + 1,
+        Some((JointId { index1: index as i32 + 1, world0: id.index1, generation: w.joint_meta.get(index)?.as_ref()?.generation },
+            BodyId { index1: joint.a as i32 + 1, world0: id.index1, generation: a.generation },
+            BodyId { index1: joint.b as i32 + 1, world0: id.index1, generation: b.generation },
             matches!(joint.kind, JOINT_REVOLUTE | JOINT_SPHERICAL | JOINT_WELD | JOINT_WHEEL | JOINT_PRISMATIC), error,
             matches!(joint.kind, JOINT_REVOLUTE | JOINT_WELD | JOINT_WHEEL | JOINT_PRISMATIC), angular))
     }).collect()).unwrap_or_default()
@@ -4212,7 +4400,18 @@ fn update_contact_events(w: &mut WorldInner, world0: u16, contacts: &[crate::typ
     let mut started_pairs = std::collections::HashSet::new();
     let mut hit_indices: HashMap<ContactKey, usize> = HashMap::new();
 
-    for contact in contacts {
+    // Hit ties and begin-event order must follow semantic roots/patches, not
+    // the physical slots assigned by concurrent child manifold allocation.
+    let order = match contact_api::query_contact_order(contacts) {
+        Ok(order) => order,
+        Err(error) => {
+            w.physics_invalid = true;
+            w.gpu_fail = std::ffi::CString::new(error).ok();
+            return;
+        }
+    };
+    for slot in order {
+        let contact = &contacts[slot];
         let flags = contact.lifecycle[1];
         if contact.a == u32::MAX || contact.count == 0 || (flags & CONTACT_TOUCHING) == 0 {
             continue;
@@ -4353,8 +4552,8 @@ fn update_contact_events(w: &mut WorldInner, world0: u16, contacts: &[crate::typ
         }
     }
 
-    for (key, previous) in previous_pairs {
-        if !current.contains_key(&key) && previous.events_enabled {
+    for (key, previous) in ordered_live_contacts(previous_pairs) {
+        if !current.contains_key(&key) && previous.events_enabled && w.contact_end_keys.insert(key) {
             w.contact_end_events.push(ContactEndTouchEvent {
                 shape_id_a: previous.shape_id_a,
                 shape_id_b: previous.shape_id_b,
@@ -4628,7 +4827,7 @@ fn pack_gpu_slots(w: &WorldInner) -> (Vec<BodyGpu>, Vec<[f32; 3]>, Vec<[f32; 3]>
                 body.sleep_threshold = cpu.sleep_threshold;
                 bodies.push(body);
                 centers.push(cpu.local_center);
-                let inverse = invert_symmetric(cpu.local_inertia);
+                let inverse = invert_inertia(cpu.local_inertia);
                 offdiag.push([inverse[3], inverse[4], inverse[5]]);
             }
             None => {
@@ -4769,7 +4968,7 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
             .map(|body| {
                 body.as_ref()
                     .map(|body| {
-                        let inverse = invert_symmetric(body.local_inertia);
+                        let inverse = invert_inertia(body.local_inertia);
                         [inverse[3], inverse[4], inverse[5]]
                     })
                     .unwrap_or([0.0; 3])
@@ -4971,12 +5170,31 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
                 }
             }
         }
+        let order_seed = if w.physics_step == 0 && !joints.is_empty()
+            && std::env::var("GPU_PHYSICS_LIVE_CONTACT_ORDER").as_deref() != Ok("0") {
+            let mut trees: [Vec<_>; 3] = std::array::from_fn(|_| Vec::new());
+            let mut supported = true;
+            for (index, gpu_shape) in shapes.iter().enumerate() {
+                let shape = w.shapes[gpu_shape._pad_filter[1] as usize].as_ref().unwrap();
+                let body = w.bodies[(shape.body_index - 1) as usize].as_ref().unwrap();
+                if body.gpu.flags & FLAG_DISABLED != 0 { continue; }
+                if shape.compound_parent != 0 || !matches!(shape.kind, KIND_SPHERE | KIND_CAPSULE | KIND_BOX | KIND_CONVEX_HULL | KIND_MESH) {
+                    supported = false; break;
+                }
+                let kind = if body.gpu.flags & FLAG_STATIC != 0 { 0 }
+                    else if body.gpu.flags & FLAG_KINEMATIC != 0 { 1 } else { 2 };
+                trees[kind].push((index, initial_proxy_bounds(body, shape)));
+            }
+            if !supported { eprintln!("live contact ordering unavailable: unsupported proxy geometry"); }
+            supported.then_some(trees)
+        } else { None };
         let identities: Vec<_> = shapes.iter().map(|s| {
             let index = s._pad_filter[1];
             (index, w.shapes[index as usize].as_ref().unwrap().generation)
         }).collect();
         let (body_hint, shape_hint) = world_capacity_hints(w);
-        let must_alloc = w.sim.as_ref().is_none_or(|sim| !sim.caps.fits(live));
+        let must_alloc = w.sim.as_ref().is_none_or(|sim| !sim.caps.fits(live)
+            || (order_seed.is_some() && !sim.has_contact_order_storage()));
         if must_alloc {
             let caps = w.sim.as_ref().map_or_else(
                 || GpuSceneCaps::allocate(live, body_hint, shape_hint),
@@ -5022,6 +5240,7 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
                     return;
                 }
             };
+
             if let Some(flags)=w.diagnostic_flags_override {sim.set_diagnostic_flags(flags);}
             sim.shape_identities = identities.clone();
             sim.restore_physics_step(w.physics_step);
@@ -5037,6 +5256,11 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
             }
             apply_solver_topology(w);
         } else if let Some(sim) = w.sim.as_mut() {
+            // Scratch addresses (including the joint collision filter) depend
+            // on the live body count, even when buffer capacities do not grow.
+            // Publish the new layout before scene remapping and joint uploads.
+            sim.write_params(h, step_dt, w.def.gravity, n, w.enable_contacts,
+                w.def.contact_hertz, w.def.contact_damping_ratio, w.def.contact_speed);
             let bytes = match pack_scene_bytes(
                 sim.caps,
                 bodies,
@@ -5075,6 +5299,16 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
                 mesh_node_live,
                 surface_materials.len() as u32,
             );
+        }
+        if let (Some(sim), Some(trees)) = (w.sim.as_mut(), order_seed) {
+            sim.seed_contact_order(trees);
+        }
+        if let Some(sim) = w.sim.as_ref() {
+            for (slot, body) in w.bodies.iter().enumerate() {
+                if let Some(body) = body {
+                    sim.set_body_inverse_inertia(slot as u32, unpack_inertia(invert_inertia(body.local_inertia)));
+                }
+            }
         }
         w.scene_dirty = false;
         w.bodies_dirty = false;
@@ -5149,7 +5383,7 @@ fn push_shape(
     mass: f32,
     local_center: [f32; 3],
     geometry_center: [f32; 3],
-    local_inertia: [f32; 6],
+    local_inertia: [f32; 9],
     inner_radius: f32,
     hull_points: Vec<[f32; 3]>,
     hull_planes: Vec<[f32; 4]>,
@@ -5164,19 +5398,21 @@ fn push_shape(
     let (unit_mass, unit_inertia) = match kind {
         KIND_BOX => {
             let m = box_mass(half, 1.0);
-            (m, box_central_inertia(half, 1.0))
+            (m, expand_inertia(box_central_inertia(half, 1.0)))
         }
         KIND_SPHERE => {
             let m = sphere_mass(half[0], 1.0);
             let i = 0.4 * m * half[0] * half[0];
-            (m, [i, i, i, 0.0, 0.0, 0.0])
+            (m, [i, i, i, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
         }
         KIND_CAPSULE => {
-            let d = crate::types::compute_capsule_mass(axis.map(|v| -v), axis, half[0], 1.0);
-            (d.mass, d.inertia)
+            let points = if hull_points.len() == 2 { [hull_points[0],hull_points[1]] }
+                else { [axis.map(|v| -v), axis] };
+            let d = crate::types::compute_capsule_mass(points[0], points[1], half[0], 1.0);
+            (d.mass, pack_inertia(d.full_inertia))
         }
         _ if def.density > 0.0 => (mass / def.density, local_inertia.map(|v| v / def.density)),
-        _ => (0.0, [0.0; 6]),
+        _ => (0.0, [0.0; 9]),
     };
     let shape = CpuShape {
         generation: 1,
@@ -7588,11 +7824,11 @@ pub fn b3_shape_set_filter(id: ShapeId, filter: Filter, invoke_contacts: bool) {
         for (key, contact) in w.live_contacts.drain() {
             if contact.shape_id_a.index1 == id.index1 || contact.shape_id_b.index1 == id.index1 {
                 if contact.events_enabled {
-                    w.deferred_contact_end_events.push(ContactEndTouchEvent {
+                    w.deferred_contact_end_events.push((key, ContactEndTouchEvent {
                         shape_id_a: contact.shape_id_a,
                         shape_id_b: contact.shape_id_b,
                         contact_id: contact.contact_id,
-                    });
+                    }));
                 }
             } else {
                 retained.insert(key, contact);
@@ -8375,11 +8611,11 @@ fn destroy_shape_inner(w: &mut WorldInner, id: ShapeId, update_body_mass: bool) 
     for (key, contact) in w.live_contacts.drain() {
         if contact.shape_id_a.index1 == id.index1 || contact.shape_id_b.index1 == id.index1 {
             if contact.events_enabled {
-                w.deferred_contact_end_events.push(ContactEndTouchEvent {
+                w.deferred_contact_end_events.push((key, ContactEndTouchEvent {
                     shape_id_a: contact.shape_id_a,
                     shape_id_b: contact.shape_id_b,
                     contact_id: contact.contact_id,
-                });
+                }));
             }
         } else {
             retained.insert(key, contact);
@@ -8525,11 +8761,11 @@ pub fn b3_destroy_body(id: BodyId) {
                     || destroyed_shapes.contains(&contact.shape_id_b.index1)
                 {
                     if contact.events_enabled {
-                        w.deferred_contact_end_events.push(ContactEndTouchEvent {
+                        w.deferred_contact_end_events.push((key, ContactEndTouchEvent {
                             shape_id_a: contact.shape_id_a,
                             shape_id_b: contact.shape_id_b,
                             contact_id: contact.contact_id,
-                        });
+                        }));
                     }
                 } else {
                     retained.insert(key, contact);
@@ -8597,7 +8833,12 @@ pub fn b3_body_set_transform(id: BodyId, pos: [f32; 3], rot: [f32; 4]) {
                 pos[2] + world_center[2],
             ];
             cpu.gpu.rot = rot;
-            cpu.gpu.flags &= !FLAG_SLEEP;
+            // Preserve the API origin exactly. Adding/subtracting the rotated
+            // mass center can otherwise lose an ULP before the first step.
+            // apply_deltas invalidates this cache when simulation moves the body.
+            cpu.gpu.origin = pos;
+            cpu.gpu.origin_valid = 1;
+            cpu.gpu.flags &= !(FLAG_SLEEP | crate::types::FLAG_CCD_NO_HIT);
             cpu.gpu.sleep_time = 0.0;
             cpu.host_epoch = epoch.saturating_add(1);
             let commands = w.pending_fat_transforms.entry((id.index1, id.generation)).or_default();
@@ -8746,10 +8987,10 @@ pub fn b3_body_is_fast_rotation_allowed(id: BodyId) -> bool {
     .unwrap_or(false)
 }
 
-fn mul_symmetric(m: [f32; 6], v: [f32; 3]) -> [f32; 3] {
+fn mul_inertia(m: [f32; 9], v: [f32; 3]) -> [f32; 3] {
     [
-        m[0] * v[0] + m[3] * v[1] + m[4] * v[2],
-        m[3] * v[0] + m[1] * v[1] + m[5] * v[2],
+        m[0] * v[0] + m[6] * v[1] + m[7] * v[2],
+        m[3] * v[0] + m[1] * v[1] + m[8] * v[2],
         m[4] * v[0] + m[5] * v[1] + m[2] * v[2],
     ]
 }
@@ -8762,7 +9003,7 @@ fn apply_world_angular_impulse(body: &mut CpuBody, impulse: [f32; 3]) {
         body.gpu.rot[3],
     ];
     let local_impulse = quat_rotate(inverse_rotation, impulse);
-    let local_delta = mul_symmetric(invert_symmetric(body.local_inertia), local_impulse);
+    let local_delta = mul_inertia(invert_inertia(body.local_inertia), local_impulse);
     let delta = quat_rotate(body.gpu.rot, local_delta);
     for (omega, value) in body.gpu.omega.iter_mut().zip(delta) {
         *omega += value;
@@ -8860,9 +9101,9 @@ pub fn b3_body_get_world_inverse_rotational_inertia(id: BodyId) -> [[f32; 3]; 3]
         if body.gpu.flags & (FLAG_STATIC | FLAG_KINEMATIC) != 0 || body.gpu.flags & fixed == fixed {
             return [[0.0; 3]; 3];
         }
-        let i = invert_symmetric(body.local_inertia);
+        let i = invert_inertia(body.local_inertia);
         let local = glam::Mat3::from_cols_array_2d(&[
-            [i[0],i[3],i[4]], [i[3],i[1],i[5]], [i[4],i[5],i[2]]]);
+            [i[0],i[3],i[4]], [i[6],i[1],i[5]], [i[7],i[8],i[2]]]);
         let rotation = glam::Mat3::from_quat(glam::Quat::from_array(body.gpu.rot));
         (rotation * local * rotation.transpose()).to_cols_array_2d()
     }).unwrap_or([[0.0; 3]; 3])
@@ -8874,14 +9115,14 @@ pub fn b3_body_get_mass_data(id: BodyId) -> MassData {
     with_world_no_sync(world, |w| {
         body_ref(w, id).map(|body| {
             let fixed = FLAG_LOCK_ANG_X | FLAG_LOCK_ANG_Y | FLAG_LOCK_ANG_Z;
-            let i = if body.gpu.flags & fixed == fixed || body.gpu.flags & (FLAG_STATIC | FLAG_KINEMATIC) != 0 { [0.0; 6] } else { body.local_inertia };
+            let i = if body.gpu.flags & fixed == fixed || body.gpu.flags & (FLAG_STATIC | FLAG_KINEMATIC) != 0 { [0.0; 9] } else { body.local_inertia };
             MassData {
                 mass: body.mass,
                 center: body.local_center,
                 inertia: [
                     [i[0], i[3], i[4]],
-                    [i[3], i[1], i[5]],
-                    [i[4], i[5], i[2]],
+                    [i[6], i[1], i[5]],
+                    [i[7], i[8], i[2]],
                 ],
             }
         })
@@ -8903,14 +9144,7 @@ pub fn b3_body_set_mass_data(id: BodyId, data: MassData) {
         let origin = body_origin(cpu);
         cpu.mass = data.mass.max(0.0);
         cpu.local_center = data.center;
-        cpu.local_inertia = [
-            data.inertia[0][0],
-            data.inertia[1][1],
-            data.inertia[2][2],
-            data.inertia[0][1],
-            data.inertia[0][2],
-            data.inertia[1][2],
-        ];
+        cpu.local_inertia = pack_inertia(data.inertia);
         let world_center = quat_rotate(cpu.gpu.rot, data.center);
         cpu.gpu.pos = [
             origin[0] + world_center[0],
@@ -8928,7 +9162,7 @@ pub fn b3_body_set_mass_data(id: BodyId, data: MassData) {
         cpu.gpu.vel[2] += angular[0] * center_shift[1] - angular[1] * center_shift[0];
         cpu.gpu.inv_mass = if data.mass > 0.0 { 1.0 / data.mass } else { 0.0 };
         // Native SetMassData treats translational and rotational mass independently.
-        let inverse = invert_symmetric(cpu.local_inertia);
+        let inverse = invert_inertia(cpu.local_inertia);
         cpu.gpu.inv_inertia = [inverse[0], inverse[1], inverse[2]];
         update_body_extents(w, id);
         mark_scene_dirty(w);
@@ -9716,6 +9950,12 @@ pub fn b3_shape_set_density(id: ShapeId, density: f32, update_body_mass: bool) {
         shape.density = density;
         shape.mass = shape.unit_mass * density;
         shape.local_inertia = shape.unit_inertia.map(|v| v * density);
+        if shape.kind == KIND_CAPSULE {
+            let points = shape.capsule_points();
+            let data = crate::types::compute_capsule_mass(points[0], points[1], shape.half[0], density);
+            shape.mass = data.mass;
+            shape.local_inertia = pack_inertia(data.full_inertia);
+        }
         let body_index = shape.body_index as usize - 1;
         let Some(body) = w.bodies.get(body_index).and_then(Option::as_ref) else { return; };
         let body = BodyId { index1: body_index as i32 + 1, world0: id.world0, generation: body.generation };
@@ -9851,16 +10091,16 @@ pub fn b3_joint_set_collide_connected(id: JointId, enable: bool) {
         if !enable {
             if let Some(sim) = w.sim.as_mut() { sim.retire_body_pair_contacts(a, b); }
             let shapes = &w.shapes;
-            w.live_contacts.retain(|_, contact| {
+            w.live_contacts.retain(|key, contact| {
                 let owner = |id: ShapeId| shapes.get(id.index1.saturating_sub(1) as usize)
                     .and_then(Option::as_ref).map(|s| s.body_index - 1);
                 let pair = (owner(contact.shape_id_a), owner(contact.shape_id_b));
                 let remove = pair == (Some(a as i32), Some(b as i32)) || pair == (Some(b as i32), Some(a as i32));
                 if remove && contact.events_enabled {
-                    w.deferred_contact_end_events.push(ContactEndTouchEvent {
+                    w.deferred_contact_end_events.push((*key, ContactEndTouchEvent {
                         shape_id_a: contact.shape_id_a, shape_id_b: contact.shape_id_b,
                         contact_id: contact.contact_id,
-                    });
+                    }));
                 }
                 !remove
             });
@@ -10043,6 +10283,70 @@ mod mesh_instance_tests {
 mod world_counter_tests {
     use super::*;
     use crate::api::*;
+
+    #[test]
+    fn initial_joint_after_gpu_upload_allocates_ordering_storage() {
+        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+        let world = b3_create_world(gpu, &b3_default_world_def());
+        let ground = b3_create_body(world, &b3_default_body_def());
+        let mut bd = b3_default_body_def();
+        bd.body_type = BodyType::Dynamic;
+        bd.position = [0.0, 2.0, 0.0];
+        let body = b3_create_body(world, &bd);
+        b3_create_sphere_shape(body, &b3_default_shape_def(), &Sphere {center:[0.0;3],radius:0.5});
+        b3_world_ensure_gpu(world);
+        assert!(!with_world_no_sync(world, |w| w.sim.as_ref().unwrap().has_contact_order_storage()).unwrap());
+        let mut jd = b3_default_revolute_joint_def();
+        jd.body_a = ground; jd.body_b = body;
+        b3_create_revolute_joint(world, &jd);
+        b3_world_ensure_gpu(world);
+        assert!(with_world_no_sync(world, |w| w.sim.as_ref().unwrap().has_contact_order_storage()).unwrap());
+        b3_world_step_gpu(world, 1.0/60.0, 4);
+        b3_world_gpu_wait_with_mirror(world);
+        assert!(!b3_world_physics_invalid(world));
+        b3_destroy_world(world);
+    }
+
+    #[test]
+    fn contact_order_survives_body_capacity_growth_and_invalidates_proxy_changes() {
+        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+        for teleport in [false, true] {
+        let mut wd = b3_default_world_def(); wd.gravity = [0.0;3];
+        let world = b3_create_world(gpu.clone(), &wd);
+        let ground = b3_create_body(world, &b3_default_body_def());
+        let mut bd = b3_default_body_def(); bd.body_type = BodyType::Dynamic;
+        bd.position = [0.0,2.0,0.0];
+        let body = b3_create_body(world, &bd);
+        let shape = b3_create_sphere_shape(body, &b3_default_shape_def(), &Sphere {center:[0.0;3],radius:0.5});
+        let mut jd = b3_default_revolute_joint_def(); jd.body_a=ground; jd.body_b=body;
+        jd.local_anchor_a = [0.0,2.0,0.0];
+        b3_create_revolute_joint(world, &jd);
+        b3_world_step_gpu(world, 1.0/60.0, 4);
+        b3_world_gpu_wait_with_mirror(world);
+        let snapshot = || with_world_mut(world, |w| {
+            pollster::block_on(w.sim.as_mut().unwrap().contact_order_snapshot_test())
+        }).unwrap();
+        let before = snapshot(); assert!(before.0);
+        let old_capacity = with_world_no_sync(world, |w| w.sim.as_ref().unwrap().caps.bodies).unwrap();
+        // Bodies without shapes force a larger solver allocation without
+        // changing the proxy identities or tree topology.
+        for _ in 0..old_capacity { b3_create_body(world, &b3_default_body_def()); }
+        b3_world_ensure_gpu(world);
+        assert!(with_world_no_sync(world, |w| w.sim.as_ref().unwrap().caps.bodies).unwrap() > old_capacity);
+        assert_eq!(snapshot(), before, "capacity growth lost persistent ordering state");
+        if teleport {
+            b3_body_set_transform(body, [1.0,2.0,0.0], [0.0,0.0,0.0,1.0]);
+        } else {
+            b3_destroy_shape(shape, true);
+        }
+        // Transform commands are consumed at the next physics submission.
+        b3_world_step_gpu(world, 1.0/60.0, 4);
+        b3_world_gpu_wait_with_mirror(world);
+        assert!(!snapshot().0, "proxy mutation must invalidate ordering before it is used (teleport={teleport})");
+        assert!(!b3_world_physics_invalid(world));
+        b3_destroy_world(world);
+        }
+    }
 
     #[test]
     fn topology_counts_do_not_download_or_harvest_submitted_physics() {
@@ -10741,6 +11045,16 @@ mod convex_ccd_integration_tests {
         for use_gpu in [false,true] {
             let world=b3_create_world(gpu.clone(),&b3_default_world_def());
             with_world_mut_no_sync(world,|w|w.gpu_ccd_requested=use_gpu);
+            let capture = |frame| {
+                #[cfg(feature="replay-diagnostics")]
+                if use_gpu {
+                    if let Some(path)=std::env::var_os("GPU_PHYSICS_TEST_TRACE") {
+                        b3_world_write_core_state(world,std::path::Path::new(&path),frame).unwrap();
+                    }
+                }
+                #[cfg(not(feature="replay-diagnostics"))]
+                let _=frame;
+            };
             crate::scenes::create_ground(world,10.0);
             let mut bd=b3_default_body_def();bd.body_type=BodyType::Dynamic;
             let hole=b3_create_body(world,&bd);
@@ -10771,18 +11085,21 @@ mod convex_ccd_integration_tests {
                             "step {step} body {i}: GPU {position:?}, CPU {expected:?}");
                     } else {reference.push(position);}
                 }
+                capture(step as u32+1);
             }
             // A body-flag mutation must invalidate the eligible cohort; do not
             // silently skip bullet CCD with the ordinary-body kernel.
             b3_body_set_bullet(bodies[0],true);
             b3_world_step(world,1.0/60.0,4);
             assert_eq!(with_world_no_sync(world,|w|w.sim.as_ref().unwrap().uses_convex_ccd()),Some(false));
+            capture(4);
             b3_body_set_bullet(bodies[0],false);
             b3_body_set_transform(bodies[0],[-3.0,2.0,0.0],[0.0,0.0,0.0,1.0]);
             b3_body_set_linear_velocity(bodies[0],[0.0,-240.0,0.0]);
             b3_world_step(world,1.0/60.0,4);
             assert_eq!(with_world_no_sync(world,|w|w.sim.as_ref().unwrap().uses_convex_ccd()),Some(use_gpu));
             assert!(b3_body_get_position(bodies[0])[1]>0.49);
+            capture(5);
             b3_destroy_world(world);
         }
         assert!(pollster::block_on(gpu.device.pop_error_scope()).is_none(),"CCD integration shader validation");
@@ -11518,6 +11835,8 @@ mod complete_component_tests {
                 let b=b3_create_body(world,&bd);bodies.push(b);shapes.push(b3_create_hull_shape(b,&sd,&hull));
             }
             let mut states=Vec::new();let mut schedules=Vec::new();let mut max_hits=0;
+            #[cfg(feature="replay-diagnostics")]
+            let mut cache_layouts=std::collections::HashSet::new();
             for frame in 0..80 {
                 match frame {
                     10=>{let mut filter=sd.filter;filter.mask_bits=0;b3_shape_set_filter(shapes[2],filter,true);},
@@ -11552,8 +11871,18 @@ mod complete_component_tests {
                 let contacts=with_world_mut_no_sync(world,|w|pollster::block_on(w.sim.as_mut().unwrap().read_contacts())).unwrap();
                 schedules.push(contacts.iter().enumerate().filter(|(_,c)|c.count>0 && c.lifecycle[1]&2!=0 && (c.color<20 || c.color==23)).map(|(slot,c)|(slot,c.a,c.b,c.color,c.lifecycle[2])).collect::<Vec<_>>());
                 if let Some(hits)=with_world_mut_no_sync(world,|w|w.sim.as_mut().unwrap().test_graph_memo_hits()).unwrap() {max_hits=max_hits.max(hits);}
+                #[cfg(feature="replay-diagnostics")]
+                if enabled {
+                    let cache=with_world_mut_no_sync(world,|w|w.sim.as_mut().unwrap().read_diagnostic_graph_cache()).unwrap().expect("graph cache capture");
+                    if let Some(layout)=cache["cache"]["layout"].as_str() {cache_layouts.insert(layout.to_owned());}
+                }
             }
             if enabled && std::env::var("GPU_PHYSICS_GRAPH_MEMO").as_deref()==Ok("1") {assert!(max_hits>0);}
+            #[cfg(feature="replay-diagnostics")]
+            if enabled && max_hits>0 {
+                if batched {assert!(cache_layouts.contains("batched"),"capture must observe batched cache");}
+                if !batched || switching {assert!(cache_layouts.contains("shared"),"capture must observe shared cache");}
+            }
             assert!(!pollster::block_on(b3_world_live_step_stats(world)).unwrap().capacity_loss());
             b3_destroy_world(world);(states,schedules)
         };
@@ -11667,9 +11996,26 @@ mod idle_resident_tests {
             b3_create_hull_shape(top,&b3_default_shape_def(),&b3_make_box_hull(0.5,0.5,0.5));
             for _ in 0..120 {step(world);b3_world_gpu_wait(world);}
             assert_eq!(idle(world),enabled);
+            #[cfg(feature="replay-diagnostics")]
+            let settled_idle=with_world_no_sync(world,|w|w.sim.as_ref().unwrap().diagnostic_idle_state()).unwrap();
+            #[cfg(feature="replay-diagnostics")]
+            if enabled {
+                assert_eq!(settled_idle["last_step_idle"],serde_json::json!(true));
+                assert!(!settled_idle["proof"].is_null(),"sleep skipping must retain its proof");
+            }
             b3_body_apply_linear_impulse_to_center(body,[250.0,1000.0,0.0],true);
             let mut frames=Vec::new();
-            for _ in 0..60 {step(world);frames.push(pollster::block_on(b3_world_sync_from_gpu(world)));}
+            for frame in 0..60 {
+                step(world);frames.push(pollster::block_on(b3_world_sync_from_gpu(world)));
+                #[cfg(feature="replay-diagnostics")]
+                if enabled && frame==0 {
+                    let awake=with_world_no_sync(world,|w|w.sim.as_ref().unwrap().diagnostic_idle_state()).unwrap();
+                    assert_eq!(awake["last_step_idle"],serde_json::json!(false));
+                    assert_ne!(awake["epoch"],settled_idle["epoch"],"wake mutation must invalidate old proof epoch");
+                }
+                #[cfg(not(feature="replay-diagnostics"))]
+                let _=frame;
+            }
             b3_destroy_world(world);frames
         };
         let expected=run(false);let actual=run(true);
@@ -12057,7 +12403,7 @@ pub fn b3_shape_compute_mass_data(id: ShapeId) -> MassData {
         }
         let i = shape.local_inertia;
         Some(MassData { mass: shape.mass, center: shape.local_center,
-            inertia: [[i[0],i[3],i[4]], [i[3],i[1],i[5]], [i[4],i[5],i[2]]] })
+            inertia: [[i[0],i[3],i[4]], [i[6],i[1],i[5]], [i[7],i[8],i[2]]] })
     }).flatten().unwrap_or_default()
 }
 

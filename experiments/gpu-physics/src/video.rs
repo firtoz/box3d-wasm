@@ -125,12 +125,12 @@ pub async fn record_mp4_from_dump(dump_path: PathBuf, out_path: PathBuf) -> Resu
     let nframes = u32::from_le_bytes(dump[8..12].try_into().unwrap());
     let body_count = u32::from_le_bytes(dump[12..16].try_into().unwrap());
     let stride = u32::from_le_bytes(dump[16..20].try_into().unwrap());
-    if !matches!(stride, 144 | 160) {
-        return Err(format!("oracle dump stride {stride}, want 144 or 160"));
+    if !matches!(stride, 144 | 160 | 176) {
+        return Err(format!("oracle dump stride {stride}, want 144, 160 or 176"));
     }
     let header = 20usize;
-    // The current 160-byte record appends island/sleep metadata; the
-    // rendered pose/geometry prefix is unchanged from the 144-byte format.
+    // Records append island/sleep metadata at 144 and retained CCD origins at
+    // 160. The pose/geometry prefix is unchanged from the 144-byte format.
     let frame_bytes = body_count as usize * stride as usize;
     let expect = header + nframes as usize * frame_bytes;
     if dump.len() != expect {
@@ -168,6 +168,8 @@ pub async fn record_mp4_from_dump(dump_path: PathBuf, out_path: PathBuf) -> Resu
             (
                 BodyStateGpu {
                     pos: [f(0), f(4), f(8)],
+                    origin: if chunk.len() >= 176 { [f(160), f(164), f(168)] } else { [0.0; 3] },
+                    origin_valid: if chunk.len() >= 176 { u(172) } else { 0 },
                     inv_mass: f(12),
                     vel: [f(16), f(20), f(24)],
                     flags: u(44),

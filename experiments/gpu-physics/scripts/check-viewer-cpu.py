@@ -14,7 +14,7 @@ exports = subprocess.check_output(['nm', '-D', '--defined-only', str(libpath)], 
 assert all(line.split()[-1].startswith('viewer_cpu_') for line in exports.splitlines()), exports
 lib = C.CDLL(str(libpath))
 lib.viewer_cpu_abi.restype = C.c_uint32
-assert lib.viewer_cpu_abi() == 1
+assert lib.viewer_cpu_abi() == 2
 lib.viewer_cpu_create.argtypes = [C.c_char_p, C.c_uint32]
 lib.viewer_cpu_create.restype = C.c_void_p
 lib.viewer_cpu_destroy.argtypes = [C.c_void_p]
@@ -31,7 +31,7 @@ for name, scale, expected in [('mixed-stacks', 600, 602), ('dominoes', 30, 5431)
         assert struct.unpack_from('<4s4I', data) == (b'B3OR', 1, 121, expected, 160)
         world = lib.viewer_cpu_create(name.encode(), scale)
         assert world and lib.viewer_cpu_count(world) == expected
-        states = C.create_string_buffer(expected * 96)
+        states = C.create_string_buffer(expected * 112)
         try:
             assert lib.viewer_cpu_states(world, states, expected - 1) == 0
             for frame in range(121):
@@ -41,7 +41,7 @@ for name, scale, expected in [('mixed-stacks', 600, 602), ('dominoes', 30, 5431)
                 # orientation and velocity, not only a finite/bounded envelope.
                 for i in range(expected):
                     src = 20 + (frame * expected + i) * 160
-                    dst = i * 96
+                    dst = i * 112
                     for a, b, length in [(0, 0, 28), (48, 32, 28)]:
                         assert data[src+a:src+a+length] == raw[dst+b:dst+b+length], (name, frame, i, a)
                 lib.viewer_cpu_step(world, 0, 4)

@@ -21,6 +21,36 @@ const PATHS: [Path; 5] = [
     Path::Legacy,
 ];
 
+#[test]
+fn retained_ccd_origin_survives_state_io_and_sleep_but_expires_on_motion() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    let mut sim = make_sim_sized(&gpu, 0, 65);
+    let states: Vec<_> = (0..65).map(|i| {
+        let mut b = BodyGpu::zeroed();
+        b.flags = if i % 3 == 0 { FLAG_STATIC } else if i % 3 == 1 { crate::types::FLAG_SLEEP } else { 0 };
+        b.pos = [i as f32, 2.0, 3.0];
+        b.origin = [i as f32 - 0.125, 1.75, 2.5];
+        b.origin_valid = 1;
+        b.dp = [0.25, 0.5, 1.0];
+        crate::types::BodyStateGpu::from_body(&b)
+    }).collect();
+    sim.queue.write_buffer(&sim.bodies, 0, bytemuck::cast_slice(&states));
+    for (body, state) in pollster::block_on(sim.read_bodies()).iter().zip(&states) {
+        assert_eq!((body.origin, body.origin_valid, body.pos), (state.origin, 1, state.pos));
+    }
+    let mut enc = sim.device.create_command_encoder(&Default::default());
+    sim.dispatch_n(&mut enc, &sim.apply_deltas, sim.body_groups(), 0, 1);
+    sim.queue.submit(Some(enc.finish()));
+    for (i, body) in pollster::block_on(sim.read_bodies()).iter().enumerate() {
+        if i % 3 == 2 {
+            assert_eq!(body.origin_valid, 0, "moving body {i}");
+            assert_eq!(body.pos, [i as f32 + 0.25, 2.5, 4.0]);
+        } else {
+            assert_eq!((body.origin, body.origin_valid, body.pos), (states[i].origin, 1, states[i].pos));
+        }
+    }
+}
+
 fn make_sim(gpu: &GpuDevice, endpoint: u32) -> GpuSim {
     make_sim_sized(gpu,endpoint,2)
 }
@@ -66,6 +96,10 @@ fn native_reset_replay_tracks_growing_and_shrinking_body_span() {
 }
 
 fn make_sim_sized(gpu: &GpuDevice, endpoint: u32, count:u32) -> GpuSim {
+    make_sim_with_joint_capacity(gpu, endpoint, count, 0)
+}
+
+fn make_sim_with_joint_capacity(gpu: &GpuDevice, endpoint: u32, count:u32, joint_count:u32) -> GpuSim {
     let mut ground = BodyGpu::zeroed();
     ground.flags = FLAG_STATIC;
     ground.rot = [0.0, 0.0, 0.0, 1.0];
@@ -88,7 +122,7 @@ fn make_sim_sized(gpu: &GpuDevice, endpoint: u32, count:u32) -> GpuSim {
         }
         _ => {}
     }
-    let caps = GpuSceneCaps::allocate(GpuSceneCaps::live(count, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), 1, 1);
+    let caps = GpuSceneCaps::allocate(GpuSceneCaps::live(count, 0, 0, 0, 0, 0, 0, 0, 0, 0, joint_count), 1, 1);
     let mut bodies=vec![ground;count as usize];bodies[1]=body;
     GpuSim::new(
         gpu,
@@ -537,7 +571,7 @@ fn mesh_point_history_requires_full_triangle_and_feature_identity() {
             }
             var c = old;
             c.point_triangles = vec4<u32>(65537u, 1u, 65537u, 42u);
-            let matched = match_previous_points(c, old);
+            let matched = match_previous_points(c, old, false);
             let impulse = matched.impulses;
             c.lifecycle.y = matched.persisted;
             c.rb0.w = impulse.x; c.rb1.w = impulse.y; c.rb2.w = impulse.z; c.rb3.w = impulse.w;
@@ -545,14 +579,14 @@ fn mesh_point_history_requires_full_triangle_and_feature_identity() {
             // Same triangle but a different feature must not use proximity fallback.
             c = old;
             for (var i = 0u; i < 4u; i++) { set_feat_at(&c, i, 99u); }
-            let unmatched = match_previous_points(c, old);
+            let unmatched = match_previous_points(c, old, false);
             let mismatch = unmatched.impulses;
             c.lifecycle.y = unmatched.persisted;
             c.rb0.w = mismatch.x; c.rb1.w = mismatch.y; c.rb2.w = mismatch.z; c.rb3.w = mismatch.w;
             store_contact(1u, c);
             old.rb0.w = 0.0; old.rb1.w = 0.0; old.rb2.w = 0.0; old.rb3.w = 0.0;
             c = old;
-            let zero_match = match_previous_points(c, old);
+            let zero_match = match_previous_points(c, old, false);
             c.lifecycle.y = zero_match.persisted;
             store_contact(2u, c);
         }
@@ -771,10 +805,11 @@ fn gear_mesh_reduction_keeps_both_native_penetrating_witnesses() {
 fn body_extra_reads_use_capacity_when_live_slot_span_changes() {
     let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
     let mut sim = make_sim(&gpu, 0);
-    let capacity = sim.params.shape_base_u32 / 32;
+    let capacity = sim.params.shape_base_u32 / 36;
     assert!(capacity > 2, "fixture requires spare allocated body slots");
+    sim.set_body_inverse_inertia(1, [[2.0,0.125,0.25],[0.375,3.0,0.5],[0.625,0.75,4.0]]);
     let extra = [0.125f32,0.25,0.5,0.0625,0.3,0.6,1.2,0.0];
-    sim.queue.write_buffer(&sim.body_cold, u64::from(16*capacity+16)*4, bytemuck::cast_slice(&extra));
+    sim.queue.write_buffer(&sim.body_cold, u64::from(16*capacity+20)*4, bytemuck::cast_slice(&extra));
     let pipeline = test_pipeline(&sim,"test_body_extra",r#"
         @compute @workgroup_size(1)
         fn test_body_extra() {
@@ -783,6 +818,8 @@ fn body_extra_reads_use_capacity_when_live_slot_span_changes() {
             var c=empty_contact();c.a=0u;c.b=1u;c.count=1u;
             c.ra0=vec4<f32>(body.inv_inertia_offdiag,scene_f32(extra+3u));
             c.rb0=vec4<f32>(scene_f32(extra+4u),scene_f32(extra+5u),scene_f32(extra+6u),0.0);
+            c.ra1=vec4<f32>(body.inv_inertia_upper,0.0);
+            c.rb1=vec4<f32>(body.inv_inertia,0.0);
             store_contact(0u,c);
         }
     "#);
@@ -795,6 +832,8 @@ fn body_extra_reads_use_capacity_when_live_slot_span_changes() {
         let contacts=pollster::block_on(sim.read_contacts());
         assert_eq!(contacts[0].ra0,[0.125,0.25,0.5,0.0625],"live={live}");
         assert_eq!(contacts[0].rb0,[0.3,0.6,1.2,0.0],"live={live}");
+        assert_eq!(contacts[0].ra1,[0.375,0.625,0.75,0.0],"upper triangle, live={live}");
+        assert_eq!(contacts[0].rb1,[2.0,3.0,4.0,0.0],"diagonal, live={live}");
     }
 }
 
@@ -2063,5 +2102,89 @@ fn solver_dispatch_boundary_probe() {
                 println!("SOLVER_BOUNDARY width={width} trial={trial} grouped={use_grouped} ms={ms:.6}");
             }
         }
+    }
+}
+
+#[test]
+fn new_joints_preserve_existing_contact_and_joint_colors() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    let mut sim = make_sim(&gpu, 0);
+    sim.params.physics_step = 61;
+    sim.params.joint_count = 1;
+    sim.flush_params();
+    let mut contact = patches()[0];
+    contact.manifold_link = [0, 0, 1, 0];
+    contact.color = 22;
+    sim.queue.write_buffer(&sim.contacts, 0, bytemuck::bytes_of(&contact));
+    let mut persistent = crate::types::ContactPersistentGpu::zeroed();
+    persistent.lifecycle = [0, crate::types::CONTACT_TOUCHING, 0, 22];
+    sim.queue.write_buffer(&sim.contact_persistent, 0, bytemuck::bytes_of(&persistent));
+    let seed = test_pipeline(&sim, "seed_existing_contact_color", r#"
+        @compute @workgroup_size(1)
+        fn seed_existing_contact_color() {
+            scratch[SCR_NCONTACTS] = 1u;
+            scratch[scr_active_contact()] = 0u;
+            atomicStore(&atom[atom_island_label()], 0u);
+            atomicStore(&atom[atom_island_label()+1u], 1u);
+        }
+    "#);
+    let mut enc = sim.device.create_command_encoder(&Default::default());
+    sim.dispatch_n(&mut enc, &seed, 1, 0, 1);
+    sim.queue.submit(Some(enc.finish()));
+    let new_joint = crate::types::JointGpu {
+        a: 0, b: 1, kind: crate::types::JOINT_MOTOR,
+        ..Default::default()
+    };
+    let mut joints = vec![new_joint];
+    // Adding a second joint and removing the first must not move surviving
+    // edges to earlier colors. Their Gauss-Seidel priority is persistent.
+    for (stage, expected) in [(0, vec![21]), (1, vec![21, 20]), (2, vec![20])] {
+        if stage == 1 { joints.push(new_joint); }
+        if stage == 2 { joints[0].kind = crate::types::JOINT_NONE; }
+        sim.params.joint_count = joints.len() as u32;
+        sim.flush_params();
+        sim.write_joints(&joints);
+        let mut enc = sim.device.create_command_encoder(&Default::default());
+        sim.dispatch_n(&mut enc, &sim.compact_joint_heads, 1, 0, 1);
+        sim.dispatch_n(&mut enc, &sim.compact_joint_components, 1, 0, 1);
+        sim.queue.submit(Some(enc.finish()));
+        joints = pollster::block_on(sim.read_joints());
+        let colors: Vec<_> = joints.iter().filter(|j| j.kind != crate::types::JOINT_NONE)
+            .map(|j| j.solver_color).collect();
+        assert_eq!(colors, expected, "graph mutation {stage}");
+        let contacts = pollster::block_on(sim.read_contacts());
+        assert_eq!(contacts[0].color, 22, "existing ground contact moved at {stage}");
+    }
+}
+
+#[test]
+fn invalid_joint_list_warm_start_has_one_global_writer() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    // Append-only joint storage can contain many retired slots. One live
+    // spherical joint carries a known linear impulse; applying it once raises
+    // the unit-mass body's x velocity from -2 to -1 without any torque.
+    for (groups, wave) in [(1u32, false), (2, false), (64, false), (1, true)] {
+        let count = groups * 64;
+        let mut sim = make_sim_with_joint_capacity(&gpu, 0, 2, count);
+        let mut joints = vec![crate::types::JointGpu::zeroed(); count as usize];
+        joints[0].kind = crate::types::JOINT_SPHERICAL;
+        joints[0].a = 0;
+        joints[0].b = 1;
+        joints[0].frame_a_rotation = [0.0, 0.0, 0.0, 1.0];
+        joints[0].frame_b_rotation = [0.0, 0.0, 0.0, 1.0];
+        joints[0].angular_impulse = [1.0, 0.0, 0.0];
+        sim.params.joint_count = count;
+        sim.write_joints(&joints);
+        sim.flush_params();
+        // Explicitly force fallback independently of graph construction.
+        sim.queue.write_buffer(&sim.scratch, 62 * 4, bytemuck::bytes_of(&0u32));
+        let mut enc = sim.device.create_command_encoder(&Default::default());
+        let pipeline = if wave { &sim.solve_jointed_wave } else { &sim.solve_joint_color };
+        sim.dispatch_n(&mut enc, pipeline, groups, 0, 2);
+        sim.queue.submit(Some(enc.finish()));
+        let bodies = pollster::block_on(sim.read_bodies());
+        assert_eq!(bodies[1].vel, [-1.0, -2.0, 0.0], "{groups} workgroups, wave={wave}: warm start must apply exactly once");
+        assert_eq!(bodies[1].omega, [0.0; 3]);
+        assert_eq!(bodies[0].vel, [0.0; 3]);
     }
 }

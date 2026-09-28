@@ -1,10 +1,60 @@
 // TGS contact GS, friction/rolling, overflow, joints.
 
-fn rolling_mass_mul(ba: Body, bb: Body, v: vec3<f32>) -> vec3<f32> {
-    let c0 = world_inv_inertia(ba, vec3<f32>(1.0, 0.0, 0.0)) + world_inv_inertia(bb, vec3<f32>(1.0, 0.0, 0.0));
-    let c1 = world_inv_inertia(ba, vec3<f32>(0.0, 1.0, 0.0)) + world_inv_inertia(bb, vec3<f32>(0.0, 1.0, 0.0));
-    let c2 = world_inv_inertia(ba, vec3<f32>(0.0, 0.0, 1.0)) + world_inv_inertia(bb, vec3<f32>(0.0, 0.0, 1.0));
-    return solve3(c0, c1, c2, v);
+// Native convex contacts prepare an inverse, pack its lower triangle, then
+// multiply with the SIMD solver's right-associated symmetric expression.
+fn convex_rolling_mass_mul(ia: mat3x3<f32>, ib: mat3x3<f32>, v: vec3<f32>) -> vec3<f32> {
+    let sum = ia + ib;
+    let det = gyro_dot3(sum[0], gyro_cross(sum[1], sum[2]));
+    if (abs(det) <= 1.17549435e-35) { return vec3<f32>(0.0); }
+    let inv = gyro_recip(det);
+    let m = transpose(mat3x3<f32>(
+        inv * gyro_cross(sum[1], sum[2]),
+        inv * gyro_cross(sum[2], sum[0]),
+        inv * gyro_cross(sum[0], sum[1]),
+    ));
+    return vec3<f32>(
+        m[0].x*v.x + (m[0].y*v.y + m[0].z*v.z),
+        m[0].y*v.x + (m[1].y*v.y + m[1].z*v.z),
+        m[0].z*v.x + (m[1].z*v.y + m[2].z*v.z),
+    );
+}
+
+fn convex_rolling_clamp(v: vec3<f32>, maximum: f32) -> vec3<f32> {
+    let squared = gyro_dot3(v, v);
+    if (squared > maximum * maximum + 1.1920929e-7) {
+        return v * gyro_divide(maximum, gyro_sqrt(squared) + 1.1920929e-7);
+    }
+    return v;
+}
+
+fn mesh_rolling_mass_mul(ia: mat3x3<f32>, ib: mat3x3<f32>, v: vec3<f32>) -> vec3<f32> {
+    // Scalar mesh/overflow preparation stores the full inverse before solving.
+    let sum = ia + ib;
+    let det = gyro_dot3(sum[0], gyro_cross(sum[1], sum[2]));
+    if (abs(det) <= 1.17549435e-35) { return vec3<f32>(0.0); }
+    let inv = gyro_recip(det);
+    let m = transpose(mat3x3<f32>(
+        inv * gyro_cross(sum[1], sum[2]),
+        inv * gyro_cross(sum[2], sum[0]),
+        inv * gyro_cross(sum[0], sum[1]),
+    ));
+    return native_mul_mv(m, v);
+}
+
+fn mesh_rolling_clamp(v: vec3<f32>, maximum: f32) -> vec3<f32> {
+    let squared = gyro_dot3(v, v);
+    if (squared > maximum * maximum + 1.1920929e-7) {
+        // Unlike SIMD convex contacts, scalar mesh contacts add no denominator epsilon.
+        return v * gyro_divide(maximum, gyro_sqrt(squared));
+    }
+    return v;
+}
+
+fn rolling_mass_mul(ba: Body, bb: Body, v: vec3<f32>, convex_friction: bool) -> vec3<f32> {
+    if (convex_friction) {
+        return convex_rolling_mass_mul(world_inv_inertia_matrix(ba), world_inv_inertia_matrix(bb), v);
+    }
+    return mesh_rolling_mass_mul(world_inv_inertia_matrix(ba), world_inv_inertia_matrix(bb), v);
 }
 
 fn motor_linear_mass_mul(ba: Body, bb: Body, rA: vec3<f32>, rB: vec3<f32>, v: vec3<f32>) -> vec3<f32> {
@@ -45,6 +95,15 @@ fn motor_clamp_vector_length(v: vec3<f32>, max_length: f32) -> vec3<f32> {
     return v;
 }
 
+// Spherical motors compare the rounded length, then scale by max / length.
+fn spherical_clamp_vector_length(v: vec3<f32>, max_length: f32) -> vec3<f32> {
+    let length = gyro_sqrt(gyro_dot3(v, v));
+    let limited = length > max_length;
+    // Keep the division outside a nested branch in the full joint shader.
+    let scale = gyro_divide(max_length, select(1.0, length, limited));
+    return select(v, scale * v, limited);
+}
+
 fn clamp_vector_length(v: vec3<f32>, max_length: f32) -> vec3<f32> {
     let length_squared = dot(v, v);
     if (length_squared > max_length * max_length) {
@@ -64,13 +123,13 @@ fn joint_lever(body_index: u32, q: vec4<f32>, origin_anchor: vec3<f32>) -> vec3<
 
 fn joint_softness(hertz: f32, damping: f32) -> vec3<f32> {
     let h = params.dt;
-    let clamped_hertz = min(max(hertz, 0.0), 0.25 / max(h, 1e-8));
+    let clamped_hertz = min(max(hertz, 0.0), gyro_divide(0.25, max(h, 1e-8)));
     let omega = 6.28318530718 * clamped_hertz;
     let a1 = 2.0 * max(damping, 0.0) + h * omega;
     let a2 = h * omega * a1;
-    let a3 = 1.0 / (1.0 + a2);
+    let a3 = gyro_recip(1.0 + a2);
     return vec3<f32>(
-        select(0.0, omega / a1, a1 > 0.0),
+        select(0.0, gyro_divide(omega, a1), a1 > 0.0),
         a2 * a3,
         a3,
     );
@@ -81,9 +140,9 @@ fn spring_softness(hertz: f32, damping: f32) -> vec3<f32> {
     let omega = 6.28318530718 * max(hertz, 0.0);
     let a1 = 2.0 * max(damping, 0.0) + h * omega;
     let a2 = h * omega * a1;
-    let a3 = 1.0 / (1.0 + a2);
+    let a3 = gyro_recip(1.0 + a2);
     return vec3<f32>(
-        select(0.0, omega / a1, a1 > 0.0),
+        select(0.0, gyro_divide(omega, a1), a1 > 0.0),
         a2 * a3,
         a3,
     );
@@ -97,7 +156,14 @@ fn twist_angle(q: vec4<f32>) -> f32 {
 }
 
 fn swing_angle(q: vec4<f32>) -> f32 {
-    return 2.0 * gyro_atan2(length(q.xy), length(q.zw));
+    // b3GetSwingAngle uses scalar sqrtf; vector length may round differently.
+    let x = gyro_sqrt(q.z * q.z + q.w * q.w);
+    let y = gyro_sqrt(q.x * q.x + q.y * q.y);
+    return 2.0 * gyro_atan2(y, x);
+}
+
+fn spherical_cone_velocity(wa: vec3<f32>, wb: vec3<f32>, axis: vec3<f32>) -> f32 {
+    return gyro_dot3(wa - wb, axis);
 }
 
 fn normalize_or_zero(v: vec3<f32>) -> vec3<f32> {
@@ -109,6 +175,11 @@ fn delta_quat_to_rotation(q: vec4<f32>, desired: vec4<f32>) -> vec3<f32> {
     let s = select(q, -q, dot(q, desired) < 0.0);
     let diff = desired - s;
     return 2.0 * quat_mul(diff, quat_inv(s)).xyz;
+}
+
+// Preserve b3Dot's scalar accumulation order for the hinge alignment RHS.
+fn revolute_alignment_velocity(wrel: vec3<f32>, axis_x: vec3<f32>, axis_y: vec3<f32>) -> vec2<f32> {
+    return vec2<f32>(gyro_dot3(wrel, axis_x), gyro_dot3(wrel, axis_y));
 }
 
 fn revolute_axes(frame_a: vec4<f32>, rel: vec4<f32>) -> mat2x3<f32> {
@@ -289,20 +360,20 @@ fn solve_rolling_friction(
     if ((*c).rolling > 0.0) {
         // Box3D: deltaImpulse = -inv(iA+iB) * (wB - wA), clamp to rolling * Σjn.
         let dw = (*ba).omega - (*bb).omega;
-        var jr = (*c).rolling_impulse + rolling_mass_mul(*ba, *bb, dw);
+        var jr = (*c).rolling_impulse + rolling_mass_mul(*ba, *bb, dw, convex_friction);
         let max_r = (*c).rolling * total_jn;
-        let lr2 = gyro_dot3(jr, jr);
-        if (lr2 > max_r * max_r + 1.1920929e-7) {
-            let denominator = sqrt(lr2) + select(0.0, 1.1920929e-7, convex_friction);
-            jr = jr * (max_r / denominator);
+        if (convex_friction) {
+            jr = convex_rolling_clamp(jr, max_r);
+        } else {
+            jr = mesh_rolling_clamp(jr, max_r);
         }
         let djr = jr - (*c).rolling_impulse;
         (*c).rolling_impulse = jr;
         if (!is_immovable(*ba)) {
-            (*ba).omega = (*ba).omega - contact_inv_inertia(*ba, djr);
+            (*ba).omega = (*ba).omega - contact_inv_inertia(*ba, djr, convex_friction);
         }
         if (!is_immovable(*bb)) {
-            (*bb).omega = (*bb).omega + contact_inv_inertia(*bb, djr);
+            (*bb).omega = (*bb).omega + contact_inv_inertia(*bb, djr, convex_friction);
         }
     }
 }
@@ -318,6 +389,7 @@ fn solve_manifold_bias(
         trace_solver_values(30u+use_bias,(*c).a,(*c).b,
             vec4<f32>((*bb).vel,0.0),vec4<f32>((*bb).omega,0.0),vec4<f32>((*bb).dp,0.0));
     }
+    let convex_friction = contact_uses_simd(*c);
     let n = (*c).n;
     let soft = (*c).prepared_softness.xyz;
     var bias_rate = 0.0;
@@ -359,8 +431,8 @@ fn solve_manifold_bias(
 
         (*c).total_normal_impulse[i] = (*c).total_normal_impulse[i] + j;
         let P = n * dj;
-        apply_contact_P(ba, rA, P, -1.0);
-        apply_contact_P(bb, rB, P, 1.0);
+        apply_contact_P(ba, rA, P, -1.0, convex_friction);
+        apply_contact_P(bb, rB, P, 1.0, convex_friction);
         total_jn = total_jn + j;
         let lever = (*c).prepared_lever_arm[i];
         total_twist = total_twist + lever * j;
@@ -373,7 +445,6 @@ fn solve_manifold_bias(
         let t2 = gyro_cross(t1, n);
         let rA = (*c).center_a;
         let rB = (*c).center_b;
-        let convex_friction = (*c).color != OVERFLOW_COLOR && (*c).prepared_softness.w == 1.0;
         // Convex: rolling then twist; mesh/overflow: twist then rolling.
         if (convex_friction) { solve_rolling_friction(c, ba, bb, total_jn, true); }
         {
@@ -388,10 +459,10 @@ fn solve_manifold_bias(
             (*c).twist_impulse = tw;
             let L = n * dtw;
             if (!is_immovable(*ba)) {
-                (*ba).omega = (*ba).omega - contact_inv_inertia(*ba, L);
+                (*ba).omega = (*ba).omega - contact_inv_inertia(*ba, L, convex_friction);
             }
             if (!is_immovable(*bb)) {
-                (*bb).omega = (*bb).omega + contact_inv_inertia(*bb, L);
+                (*bb).omega = (*bb).omega + contact_inv_inertia(*bb, L, convex_friction);
             }
         }
         if (!convex_friction) { solve_rolling_friction(c, ba, bb, total_jn, false); }
@@ -416,8 +487,8 @@ fn solve_manifold_bias(
         (*c).friction_impulse = jn;
         let P = t1 * djt.x + t2 * djt.y;
 
-        apply_contact_P(ba, rA, P, -1.0);
-        apply_contact_P(bb, rB, P, 1.0);
+        apply_contact_P(ba, rA, P, -1.0, convex_friction);
+        apply_contact_P(bb, rB, P, 1.0, convex_friction);
     }
     if ((params.diagnostic_flags & DIAG_MESH_CANDIDATES) != 0u) {
         trace_solver_values(40u+use_bias,(*c).a,(*c).b,
@@ -431,6 +502,7 @@ fn apply_restitution(c: ptr<function, Contact>, ba: ptr<function, Body>, bb: ptr
     if (rest <= 0.0) {
         return;
     }
+    let convex_friction = contact_uses_simd(*c);
     let n = (*c).n;
     let threshold = params.restitution_threshold;
     let rel = vec4<f32>(
@@ -460,41 +532,42 @@ fn apply_restitution(c: ptr<function, Contact>, ba: ptr<function, Body>, bb: ptr
         var j = max(rb.w - neg_imp, 0.0);
         let dj = j - rb.w;
         (*c).total_normal_impulse[i] = (*c).total_normal_impulse[i] + dj;
-        apply_contact_P(ba, ra.xyz, n * dj, -1.0);
-        apply_contact_P(bb, rb.xyz, n * dj, 1.0);
+        apply_contact_P(ba, ra.xyz, n * dj, -1.0, convex_friction);
+        apply_contact_P(bb, rb.xyz, n * dj, 1.0, convex_friction);
         set_point(c, i, ra, vec4<f32>(rb.xyz, j));
     }
 }
 
 fn warm_manifold(c: Contact, ba: ptr<function, Body>, bb: ptr<function, Body>) {
+    let convex_friction = contact_uses_simd(c);
     let n = c.n;
     for (var i = 0u; i < c.count; i++) {
         let rA = ra_at(c, i).xyz;
         let rB = rb_at(c, i).xyz;
         let P = n * rb_at(c, i).w;
-        apply_contact_P(ba, rA, P, -1.0);
-        apply_contact_P(bb, rB, P, 1.0);
+        apply_contact_P(ba, rA, P, -1.0, convex_friction);
+        apply_contact_P(bb, rB, P, 1.0, convex_friction);
     }
     let t1 = perp(n);
     let t2 = gyro_cross(t1, n);
     let Pf = t1 * c.friction_impulse.x + t2 * c.friction_impulse.y;
-    apply_contact_P(ba, c.center_a, Pf, -1.0);
-    apply_contact_P(bb, c.center_b, Pf, 1.0);
+    apply_contact_P(ba, c.center_a, Pf, -1.0, convex_friction);
+    apply_contact_P(bb, c.center_b, Pf, 1.0, convex_friction);
     if (abs(c.twist_impulse) > 0.0) {
         let L = c.n * c.twist_impulse;
         if (!is_immovable(*ba)) {
-            (*ba).omega = (*ba).omega - contact_inv_inertia(*ba, L);
+            (*ba).omega = (*ba).omega - contact_inv_inertia(*ba, L, convex_friction);
         }
         if (!is_immovable(*bb)) {
-            (*bb).omega = (*bb).omega + contact_inv_inertia(*bb, L);
+            (*bb).omega = (*bb).omega + contact_inv_inertia(*bb, L, convex_friction);
         }
     }
     if (length(c.rolling_impulse) > 0.0) {
         if (!is_immovable(*ba)) {
-            (*ba).omega = (*ba).omega - contact_inv_inertia(*ba, c.rolling_impulse);
+            (*ba).omega = (*ba).omega - contact_inv_inertia(*ba, c.rolling_impulse, convex_friction);
         }
         if (!is_immovable(*bb)) {
-            (*bb).omega = (*bb).omega + contact_inv_inertia(*bb, c.rolling_impulse);
+            (*bb).omega = (*bb).omega + contact_inv_inertia(*bb, c.rolling_impulse, convex_friction);
         }
     }
 }
@@ -796,6 +869,37 @@ fn solve_overflow(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
     }
 }
 
+// Match native b3AddMM + b3Solve2 operation order for hinge alignment.
+fn revolute_perp_mass_solve(
+    ia: mat3x3<f32>, ib: mat3x3<f32>,
+    axis_x: vec3<f32>, axis_y: vec3<f32>, rhs: vec2<f32>,
+) -> vec2<f32> {
+    let inertia_sum = mat3x3<f32>(ia[0] + ib[0], ia[1] + ib[1], ia[2] + ib[2]);
+    let kxx = gyro_dot3(axis_x, native_mul_mv(inertia_sum, axis_x));
+    let kyy = gyro_dot3(axis_y, native_mul_mv(inertia_sum, axis_y));
+    let kxy = gyro_dot3(axis_x, native_mul_mv(inertia_sum, axis_y));
+    let det = kxx * kyy - kxy * kxy;
+    if (det > 1.17549435e-35) { // 1000 * FLT_MIN, as in b3Solve2
+        let inv_det = gyro_recip(det);
+        return vec2<f32>(
+            inv_det * kyy * rhs.x - inv_det * kxy * rhs.y,
+            -inv_det * kxy * rhs.x + inv_det * kxx * rhs.y,
+        );
+    }
+    return vec2<f32>(0.0);
+}
+
+// Match Box3D preparation: add matrices before applying the hinge axis.
+fn revolute_axial_mass(ia: mat3x3<f32>, ib: mat3x3<f32>, axis: vec3<f32>) -> f32 {
+    let k = gyro_dot3(axis, native_mul_mv(ia + ib, axis));
+    if (k > 0.0) { return gyro_recip(k); }
+    return 0.0;
+}
+
+fn revolute_axial_velocity(wa: vec3<f32>, wb: vec3<f32>, axis: vec3<f32>) -> f32 {
+    return gyro_dot3(wb - wa, axis);
+}
+
 fn solve_revolute(
     jn: ptr<function, Joint>,
     ba: ptr<function, Body>,
@@ -850,9 +954,9 @@ fn solve_revolute(
     let i2 = world_inv_inertia(*ba, vec3<f32>(0.0, 0.0, 1.0))
         + world_inv_inertia(*bb, vec3<f32>(0.0, 0.0, 1.0));
     let fixed_rotation = abs(dot(i0, cross(i1, i2))) < 1e-30;
-    let axial_k = dot(rotation_axis, world_inv_inertia(*ba, rotation_axis)
-        + world_inv_inertia(*bb, rotation_axis));
-    let axial_mass = select(0.0, 1.0 / axial_k, axial_k > 0.0);
+    let axial_mass = revolute_axial_mass(
+        world_inv_inertia_matrix(*ba), world_inv_inertia_matrix(*bb), rotation_axis,
+    );
 
     let frame_a = quat_mul((*ba).dq, base_frame_a);
     var frame_b = quat_mul((*bb).dq, base_frame_b);
@@ -865,7 +969,7 @@ fn solve_revolute(
     if (((*jn).flags & REVOLUTE_ENABLE_SPRING) != 0u && !fixed_rotation) {
         let soft = spring_softness((*jn).spring_hertz, (*jn).spring_damping);
         let c = twist_angle(rel) - (*jn).target_translation;
-        let cdot = dot((*bb).omega - (*ba).omega, rotation_axis);
+        let cdot = revolute_axial_velocity((*ba).omega, (*bb).omega, rotation_axis);
         let delta_impulse =
             -soft.y * axial_mass * (cdot + soft.x * c)
             - soft.z * (*jn).spring_impulse;
@@ -878,7 +982,7 @@ fn solve_revolute(
 
     if (((*jn).flags & REVOLUTE_ENABLE_MOTOR) != 0u && !fixed_rotation) {
         let cdot =
-            dot((*bb).omega - (*ba).omega, rotation_axis) - (*jn).motor_speed;
+            revolute_axial_velocity((*ba).omega, (*bb).omega, rotation_axis) - (*jn).motor_speed;
         let old_impulse = (*jn).motor_impulse;
         let max_impulse = (*jn).max_motor_force * params.dt;
         (*jn).motor_impulse = clamp(
@@ -909,7 +1013,7 @@ fn solve_revolute(
             lower_mass_scale = soft.y;
             lower_impulse_scale = soft.z;
         }
-        let lower_cdot = dot((*bb).omega - (*ba).omega, rotation_axis);
+        let lower_cdot = revolute_axial_velocity((*ba).omega, (*bb).omega, rotation_axis);
         let old_lower = (*jn).lower_impulse;
         let lower_delta =
             -lower_mass_scale * axial_mass * (lower_cdot + lower_bias)
@@ -932,7 +1036,7 @@ fn solve_revolute(
             upper_mass_scale = soft.y;
             upper_impulse_scale = soft.z;
         }
-        let upper_cdot = dot((*ba).omega - (*bb).omega, rotation_axis);
+        let upper_cdot = revolute_axial_velocity((*bb).omega, (*ba).omega, rotation_axis);
         let old_upper = (*jn).upper_impulse;
         let upper_delta =
             -upper_mass_scale * axial_mass * (upper_cdot + upper_bias)
@@ -951,14 +1055,6 @@ fn solve_revolute(
         let axis_y = revolute_axis_y(axes);
         (*jn).weld_linear_impulse = axis_x;
         (*jn).weld_angular_impulse = axis_y;
-        let kxx = dot(axis_x, world_inv_inertia(*ba, axis_x)
-            + world_inv_inertia(*bb, axis_x));
-        let kyy = dot(axis_y, world_inv_inertia(*ba, axis_y)
-            + world_inv_inertia(*bb, axis_y));
-        let kxy = dot(axis_x, world_inv_inertia(*ba, axis_y)
-            + world_inv_inertia(*bb, axis_y));
-        let det = kxx * kyy - kxy * kxy;
-        var solution = vec2<f32>(0.0);
         var bias = vec2<f32>(0.0);
         var mass_scale = 1.0;
         var impulse_scale = 0.0;
@@ -969,16 +1065,10 @@ fn solve_revolute(
             impulse_scale = soft.z;
         }
         let wrel = (*bb).omega - (*ba).omega;
-        let rhs = vec2<f32>(
-            dot(wrel, axis_x) + bias.x,
-            dot(wrel, axis_y) + bias.y,
+        let rhs = revolute_alignment_velocity(wrel, axis_x, axis_y) + bias;
+        let solution = revolute_perp_mass_solve(
+            world_inv_inertia_matrix(*ba), world_inv_inertia_matrix(*bb), axis_x, axis_y, rhs,
         );
-        if (det > 1e-30) {
-            solution = vec2<f32>(
-                (kyy * rhs.x - kxy * rhs.y) / det,
-                (kxx * rhs.y - kxy * rhs.x) / det,
-            );
-        }
         let delta_impulse =
             -mass_scale * solution - impulse_scale * (*jn).perp_impulse;
         (*jn).perp_impulse = (*jn).perp_impulse + delta_impulse;
@@ -987,9 +1077,9 @@ fn solve_revolute(
         (*bb).omega = (*bb).omega + world_inv_inertia(*bb, angular_impulse);
     }
 
-    let cdot =
-        ((*bb).vel + cross((*bb).omega, rB))
-        - (*ba).vel - cross((*ba).omega, rA);
+    let cdot = joint_point_velocity(
+        (*ba).vel, (*ba).omega, (*bb).vel, (*bb).omega, rA, rB,
+    );
     var bias = vec3<f32>(0.0);
     var mass_scale = 1.0;
     var impulse_scale = 0.0;
@@ -1506,6 +1596,20 @@ fn solve_wheel(
     (*bb).omega = (*bb).omega + world_inv_inertia(*bb, delta.x * sBy + delta.y * sBz);
 }
 
+// Explicit scalar cross products prevent contraction inside the builtin cross.
+fn spherical_warm_torque(inverse_inertia: mat3x3<f32>, lever: vec3<f32>,
+    linear_impulse: vec3<f32>, angular_impulse: vec3<f32>) -> vec3<f32> {
+    return native_mul_mv(inverse_inertia, gyro_cross(lever, linear_impulse) + angular_impulse);
+}
+
+// Preserve native cross-product rounding in the point constraint's relative velocity.
+fn joint_point_velocity(
+    va: vec3<f32>, wa: vec3<f32>, vb: vec3<f32>, wb: vec3<f32>,
+    ra: vec3<f32>, rb: vec3<f32>,
+) -> vec3<f32> {
+    return ((vb + gyro_cross(wb, rb)) - va) - gyro_cross(wa, ra);
+}
+
 fn solve_spherical(
     jn: ptr<function, Joint>,
     ba: ptr<function, Body>,
@@ -1553,13 +1657,13 @@ fn solve_spherical(
             + ((*jn).lower_impulse - (*jn).upper_impulse) * twist_jacobian;
         if (joint_endpoint_writable(*ba)) {
             (*ba).vel = (*ba).vel - (*ba).inv_mass * (*jn).angular_impulse;
-            (*ba).omega = (*ba).omega - world_inv_inertia(
-                *ba, cross(rA, (*jn).angular_impulse) + angular_impulse);
+            (*ba).omega = (*ba).omega - spherical_warm_torque(
+                world_inv_inertia_matrix(*ba), rA, (*jn).angular_impulse, angular_impulse);
         }
         if (joint_endpoint_writable(*bb)) {
             (*bb).vel = (*bb).vel + (*bb).inv_mass * (*jn).angular_impulse;
-            (*bb).omega = (*bb).omega + world_inv_inertia(
-                *bb, cross(rB, (*jn).angular_impulse) + angular_impulse);
+            (*bb).omega = (*bb).omega + spherical_warm_torque(
+                world_inv_inertia_matrix(*bb), rB, (*jn).angular_impulse, angular_impulse);
         }
         return;
     }
@@ -1569,13 +1673,14 @@ fn solve_spherical(
     let rel = quat_mul(quat_inv(frame_a), frame_b);
 
     // Box3D order: spring, motor, lower/upper twist, cone, point-to-point.
+    // Spring/motor multiply by the prepared inverse; a direct solve rounds differently.
     if (((*jn).flags & SPHERICAL_ENABLE_SPRING) != 0u && !fixed_rotation) {
         let soft = spring_softness((*jn).spring_hertz, (*jn).spring_damping);
         let local_error = delta_quat_to_rotation(rel, (*jn).target_rotation);
         let c = -quat_rotate(frame_a, local_error);
         let cdot = (*bb).omega - (*ba).omega;
         let delta_impulse =
-            -soft.y * rolling_mass_mul(*ba, *bb, cdot + soft.x * c)
+            -soft.y * motor_angular_mass_mul(*ba, *bb, cdot + soft.x * c)
             - soft.z * (*jn).spring_angular_impulse;
         (*jn).spring_angular_impulse =
             (*jn).spring_angular_impulse + delta_impulse;
@@ -1586,9 +1691,9 @@ fn solve_spherical(
     if (((*jn).flags & SPHERICAL_ENABLE_MOTOR) != 0u && !fixed_rotation) {
         let cdot =
             ((*bb).omega - (*ba).omega) - (*jn).motor_angular_velocity;
-        let delta = -rolling_mass_mul(*ba, *bb, cdot);
+        let delta = -motor_angular_mass_mul(*ba, *bb, cdot);
         let old_impulse = (*jn).motor_angular_impulse;
-        (*jn).motor_angular_impulse = clamp_vector_length(
+        (*jn).motor_angular_impulse = spherical_clamp_vector_length(
             old_impulse + delta,
             (*jn).max_motor_force * params.dt,
         );
@@ -1614,7 +1719,7 @@ fn solve_spherical(
             lower_impulse_scale = soft.z;
         }
         let lower_cdot =
-            dot((*bb).omega - (*ba).omega, twist_jacobian);
+            gyro_dot3((*bb).omega - (*ba).omega, twist_jacobian);
         let old_lower = (*jn).lower_impulse;
         let lower_delta =
             -lower_mass_scale * twist_mass * (lower_cdot + lower_bias)
@@ -1638,7 +1743,7 @@ fn solve_spherical(
             upper_impulse_scale = soft.z;
         }
         let upper_cdot =
-            dot((*ba).omega - (*bb).omega, twist_jacobian);
+            gyro_dot3((*ba).omega - (*bb).omega, twist_jacobian);
         let old_upper = (*jn).upper_impulse;
         let upper_delta =
             -upper_mass_scale * twist_mass * (upper_cdot + upper_bias)
@@ -1664,7 +1769,7 @@ fn solve_spherical(
             mass_scale = soft.y;
             impulse_scale = soft.z;
         }
-        let cdot = dot((*ba).omega - (*bb).omega, swing_axis);
+        let cdot = spherical_cone_velocity((*ba).omega, (*bb).omega, swing_axis);
         let old_impulse = (*jn).swing_impulse;
         let delta =
             -mass_scale * swing_mass * (cdot + bias)
@@ -1677,9 +1782,9 @@ fn solve_spherical(
             (*bb).omega - applied * world_inv_inertia(*bb, swing_axis);
     }
 
-    let cdot =
-        ((*bb).vel + cross((*bb).omega, rB))
-        - (*ba).vel - cross((*ba).omega, rA);
+    let cdot = joint_point_velocity(
+        (*ba).vel, (*ba).omega, (*bb).vel, (*bb).omega, rA, rB,
+    );
     var bias = vec3<f32>(0.0);
     var mass_scale = 1.0;
     var impulse_scale = 0.0;
@@ -1845,8 +1950,14 @@ fn solve_jointed_wave(@builtin(local_invocation_index) lid: u32) {
     for (var order = 0u; order <= OVERFLOW_COLOR; order++) {
         let color = select(order - 1u, OVERFLOW_COLOR, order == 0u);
         if (params.use_bias != 3u) {
-            for (var c = lid; c < ncomp; c += 64u) {
-                solve_joint_components(vec3<u32>(c, 0u, 0u), lid, true, color);
+            if (scratch[SCR_JOINT_LIST_OK] == 1u) {
+                for (var c = lid; c < ncomp; c += 64u) {
+                    solve_joint_components(vec3<u32>(c, 0u, 0u), lid, true, color);
+                }
+            } else {
+                // A failed list may have no components. Still visit every joint
+                // through the same single-writer fallback as general dispatch.
+                solve_joint_components(vec3<u32>(lid, 0u, 0u), lid, true, color);
             }
         }
         // Overflow contacts may share bodies with any overflow joint.
@@ -1873,7 +1984,7 @@ fn solve_joint_components(dispatch_gid: vec3<u32>, lid: u32, by_color: bool, col
     let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let serial = joint_solver_serial();
     let list_ok = scratch[SCR_JOINT_LIST_OK] == 1u;
-    if (serial && lid != 0u) {
+    if (serial && gid.x != 0u) {
         return;
     }
     let ncomp = scratch[SCR_JOINT_COMP_N];
@@ -1887,8 +1998,9 @@ fn solve_joint_components(dispatch_gid: vec3<u32>, lid: u32, by_color: bool, col
         list_off = scratch[joint_list_off_base() + gid.x];
         n = scratch[joint_list_count_base() + gid.x];
     } else if (!serial) {
-        // Capacity/list failure must not drop joints: one lane solves all.
-        if (lid != 0u) {
+        // Select one invocation for the entire dispatch, not one per workgroup.
+        // Multiple fallback writers would race on every joint and body.
+        if (gid.x != 0u) {
             return;
         }
     }
@@ -2310,6 +2422,13 @@ fn initial_contact_less(left: u32, right: u32) -> bool {
     if (right == EMPTY) { return true; }
     let a = contact_persistent[left].pair.xy;
     let b = contact_persistent[right].pair.xy;
+    if (params.order_enabled != 0u) {
+        let ak = order_pair_priority(live_order_proxy(a.x), live_order_proxy(a.y));
+        let bk = order_pair_priority(live_order_proxy(b.x), live_order_proxy(b.y));
+        if (ak.x != bk.x) { return ak.x < bk.x; }
+        if (ak.y != bk.y) { return ak.y < bk.y; }
+        if (ak.z != bk.z) { return ak.z < bk.z; }
+    }
     if (a.x != b.x) { return a.x < b.x; }
     if (load_shape(a.x).initial_order.x != EMPTY) {
         let ar = load_shape(a.y).initial_order.x;
@@ -2345,6 +2464,182 @@ fn initial_contact_order(count: u32) {
         scratch[base] = scratch[base + end - 1u];
         scratch[base + end - 1u] = value;
         initial_contact_sift(base, 0u, end - 1u);
+    }
+}
+
+// Internal graph-lifetime marker; public joint option bits occupy the low
+// bits and bit 31 (collide-connected). Carried through GPU joint readback.
+const JOINT_COLOR_ASSIGNED: u32 = 1u << 30u;
+fn assign_new_joint_colors(mask_base: u32) {
+    for (var i = 0u; i < params.joint_count; i++) {
+        let jn = joints[i];
+        if (jn.kind == JOINT_NONE || (jn.flags & JOINT_COLOR_ASSIGNED) != 0u) {
+            continue;
+        }
+        let da = !is_non_dynamic(load_body(jn.a));
+        let db = !is_non_dynamic(load_body(jn.b));
+        let mask = select(0u, scratch[mask_base + jn.a], da)
+            | select(0u, scratch[mask_base + jn.b], db);
+        var color = OVERFLOW_COLOR;
+        if (da && db) {
+            for (var c = 0u; c < DYNAMIC_COLOR_COUNT; c++) {
+                if ((mask & (1u << c)) == 0u) {
+                    color = c;
+                    break;
+                }
+            }
+        } else if (da || db) {
+            for (var c = i32(OVERFLOW_COLOR) - 1; c >= 1; c--) {
+                if ((mask & (1u << u32(c))) == 0u) {
+                    color = u32(c);
+                    break;
+                }
+            }
+        }
+        joints[i].solver_color = color;
+        joints[i].flags |= JOINT_COLOR_ASSIGNED;
+        if (color != OVERFLOW_COLOR) {
+            if (da) { scratch[mask_base + jn.a] |= 1u << color; }
+            if (db) { scratch[mask_base + jn.b] |= 1u << color; }
+        }
+    }
+}
+
+fn history_body_mask(base: u32, body: u32) -> u32 {
+    if (body >= params.body_count || is_non_dynamic(load_body(body))) { return 0u; }
+    return scratch[base + body];
+}
+fn history_color_mask(base: u32, a: u32, b: u32, color: u32, reserve: bool) {
+    if (color >= OVERFLOW_COLOR) { return; }
+    let bit = 1u << color;
+    for (var i = 0u; i < 2u; i++) {
+        let body = select(a, b, i == 1u);
+        if (body >= params.body_count || is_non_dynamic(load_body(body))) { continue; }
+        if (reserve) { scratch[base + body] |= bit; }
+        else { scratch[base + body] &= ~bit; }
+    }
+}
+fn ordered_contact_transitions(mask_base: u32) {
+    let header = scr_contact_history();
+    var high = scratch[header];
+    var free_count = scratch[header + 1u];
+    let np = min(scratch[SCR_NCONTACTS], pair_cap());
+    let initial = params.physics_step == 1u || params.order_enabled != 0u;
+    if (initial) { initial_contact_order(np); }
+    let order = select(scr_active_contact(), scr_radix_out(), initial);
+    // Allocate before retiring this step's disjoint pairs, as native broadphase
+    // creation runs before narrowphase lifetime transitions.
+    for (var i = 0u; i < np; i++) {
+        let slot = scratch[order + i];
+        if (slot == EMPTY) { continue; }
+        let c = load_contact(slot);
+        if (c.a == EMPTY || c.manifold_link.y != 0u) { continue; }
+        let mapped = scratch[contact_history_slots() + slot];
+        var id = mapped - 1u;
+        var valid = mapped != 0u && id < high;
+        if (valid) {
+            let record = contact_history_record(id);
+            valid = scratch[record] == slot + 1u && scratch[record + 1u] == c.lifecycle.x;
+        }
+        if (!valid) {
+            if (free_count > 0u) {
+                free_count -= 1u;
+                id = scratch[contact_history_free() + free_count];
+            } else {
+                id = high;
+                high += 1u;
+            }
+            if (id >= pair_cap()) { record_contact_drop(8u); continue; }
+            let record = contact_history_record(id);
+            scratch[record] = slot + 1u;
+            scratch[record + 1u] = c.lifecycle.x;
+            scratch[record + 4u] = 0u;
+            scratch[contact_history_slots() + slot] = id + 1u;
+        }
+        let record = contact_history_record(id);
+        // Jointless steps use the parallel contact graph. Import its surviving
+        // colors when this serial joint/contact graph is first entered or resumes.
+        // In particular, a newly created drag joint cannot steal a floor contact's
+        // existing color merely because no history table was needed previously.
+        if (!valid || scratch[record + 5u] + 1u != params.physics_step) {
+            let surviving = (c.lifecycle.y & CONTACT_TOUCHING) != 0u
+                && (c.lifecycle.y & CONTACT_START_TOUCHING) == 0u
+                && !contact_has_sensor(c) && params.physics_step > 1u;
+            let stopping = (c.lifecycle.y & CONTACT_STOP_TOUCHING) != 0u;
+            scratch[record + 4u] = 0u;
+            if (surviving) { scratch[record + 4u] = c.lifecycle.w + 1u; }
+            if (stopping) { scratch[record + 4u] = c.color + 1u; }
+        }
+        scratch[record + 2u] = c.a;
+        scratch[record + 3u] = c.b;
+        scratch[record + 5u] = params.physics_step;
+    }
+    // Keep stopped/disjoint edges occupied until their ID is processed. Removing
+    // every stopped edge up front lets an earlier start steal a later stop's color.
+    for (var id = 0u; id < high; id++) {
+        let record = contact_history_record(id);
+        if (scratch[record] == 0u || scratch[record + 4u] == 0u) { continue; }
+        history_color_mask(mask_base, scratch[record + 2u], scratch[record + 3u], scratch[record + 4u] - 1u, true);
+    }
+    assign_new_joint_colors(mask_base);
+    for (var color = 0u; color <= OVERFLOW_COLOR; color++) { scratch[SCR_COLOR + color] = 0u; }
+    for (var id = 0u; id < high; id++) {
+        let record = contact_history_record(id);
+        if (scratch[record] == 0u) { continue; }
+        let slot = scratch[record] - 1u;
+        let alive = scratch[record + 5u] == params.physics_step;
+        var c = load_contact(slot);
+        let touching = alive && c.count > 0u && !contact_has_sensor(c)
+            && (c.lifecycle.y & CONTACT_TOUCHING) != 0u;
+        let a = scratch[record + 2u];
+        let b = scratch[record + 3u];
+        let prior = scratch[record + 4u];
+        if (prior != 0u && !touching) {
+            history_color_mask(mask_base, a, b, prior - 1u, false);
+            scratch[record + 4u] = 0u;
+        }
+        if (touching) {
+            var color = prior - 1u;
+            if (prior == 0u) {
+                color = OVERFLOW_COLOR;
+                let da = !is_non_dynamic(load_body(a));
+                let db = !is_non_dynamic(load_body(b));
+                let mask = history_body_mask(mask_base, a) | history_body_mask(mask_base, b);
+                if (da && db) {
+                    for (var col = 0u; col < DYNAMIC_COLOR_COUNT; col++) {
+                        if ((mask & (1u << col)) == 0u) { color = col; break; }
+                    }
+                } else if (da || db) {
+                    for (var col = i32(OVERFLOW_COLOR) - 1; col >= 1; col--) {
+                        if ((mask & (1u << u32(col))) == 0u) { color = u32(col); break; }
+                    }
+                }
+                history_color_mask(mask_base, a, b, color, true);
+                scratch[record + 4u] = color + 1u;
+            }
+            c.color = color;
+            let count = scratch[SCR_COLOR + color];
+            scratch[color_contact_base() + color * params.contact_capacity + count] = slot;
+            scratch[SCR_COLOR + color] = count + 1u;
+            c.lifecycle.z = count;
+            store_contact(slot, c);
+        } else if (alive) {
+            c.lifecycle.z = EMPTY;
+            store_contact(slot, c);
+        }
+        if (!alive) {
+            if (scratch[contact_history_slots() + slot] == id + 1u) {
+                scratch[contact_history_slots() + slot] = 0u;
+            }
+            scratch[record] = 0u;
+            scratch[contact_history_free() + free_count] = id;
+            free_count += 1u;
+        }
+    }
+    scratch[header] = high;
+    scratch[header + 1u] = free_count;
+    for (var b = 0u; b < params.body_count; b++) {
+        scratch[color_body_base() + b] = scratch[mask_base + b];
     }
 }
 
@@ -2403,107 +2698,29 @@ fn compact_joint_components(@builtin(local_invocation_index) lid: u32) {
     for (var b = 0u; b < params.body_count; b++) {
         scratch[unique + b] = 0u;
     }
+    // Preserve existing joint colors before admitting new edges. New joints
+    // must not steal a surviving contact's color (e.g. a drag on a resting box).
     for (var i = 0u; i < params.joint_count; i++) {
         let jn = joints[i];
-        if (jn.kind == JOINT_NONE) {
-            continue;
-        }
+        if (jn.kind == JOINT_NONE || (jn.flags & JOINT_COLOR_ASSIGNED) == 0u) { continue; }
         let da = !is_non_dynamic(load_body(jn.a));
         let db = !is_non_dynamic(load_body(jn.b));
         let mask = select(0u, scratch[unique + jn.a], da)
             | select(0u, scratch[unique + jn.b], db);
-        var color = OVERFLOW_COLOR;
-        if (da && db) {
-            for (var c = 0u; c < DYNAMIC_COLOR_COUNT; c++) {
-                if ((mask & (1u << c)) == 0u) {
-                    color = c;
-                    break;
-                }
-            }
-        } else if (da || db) {
-            for (var c = i32(OVERFLOW_COLOR) - 1; c >= 1; c--) {
-                if ((mask & (1u << u32(c))) == 0u) {
-                    color = u32(c);
-                    break;
-                }
-            }
-        }
-        joints[i].solver_color = color;
-        if (color != OVERFLOW_COLOR) {
+        let color = jn.solver_color;
+        let valid = color < OVERFLOW_COLOR
+            && ((da && db && color < DYNAMIC_COLOR_COUNT) || ((da != db) && color > 0u))
+            && (mask & (1u << color)) == 0u;
+        if (valid) {
             if (da) { scratch[unique + jn.a] |= 1u << color; }
             if (db) { scratch[unique + jn.b] |= 1u << color; }
+        } else if (color != OVERFLOW_COLOR) {
+            joints[i].flags &= ~JOINT_COLOR_ASSIGNED;
         }
     }
+    if (params.solver_mode != SOLVER_TGS) { assign_new_joint_colors(unique); }
     if (params.solver_mode == SOLVER_TGS) {
-        // Reserve surviving contact colors before assigning new/conflicting edges.
-        // Rebuilding from pair order changes Gauss-Seidel priority when an
-        // unrelated lower-colored contact disappears.
-        for (var col = 0u; col <= OVERFLOW_COLOR; col++) {
-            scratch[SCR_COLOR + col] = 0u;
-        }
-        let np = min(scratch[SCR_NCONTACTS], pair_cap());
-        for (var i = 0u; i < np; i++) {
-            let slot = scratch[scr_active_contact() + i];
-            if (slot != EMPTY) {
-                var c = load_contact(slot);
-                c.lifecycle.z = EMPTY;
-                store_contact(slot, c);
-            }
-        }
-        let initial = params.physics_step == 1u;
-        if (initial) { initial_contact_order(np); }
-        let order_base = select(scr_active_contact(), scr_radix_out(), initial);
-        for (var phase = 0u; phase < 2u; phase++) {
-            for (var i = 0u; i < np; i++) {
-                let slot = scratch[order_base + i];
-                if (slot == EMPTY) { continue; }
-                var c = load_contact(slot);
-                if (c.a == EMPTY || c.count == 0u || c.manifold_link.y != 0u
-                    || contact_has_sensor(c) || (c.lifecycle.y & CONTACT_TOUCHING) == 0u) {
-                    continue;
-                }
-                let da = !is_non_dynamic(load_body(c.a));
-                let db = !is_non_dynamic(load_body(c.b));
-                let mask = select(0u, scratch[unique + c.a], da)
-                    | select(0u, scratch[unique + c.b], db);
-                if (phase == 1u && c.lifecycle.z != EMPTY) { continue; }
-                let old_color = c.lifecycle.w;
-                let old_color_valid = old_color < OVERFLOW_COLOR
-                    && ((da && db && old_color < DYNAMIC_COLOR_COUNT)
-                        || ((da != db) && old_color > 0u))
-                    && (mask & (1u << old_color)) == 0u;
-                let surviving = (c.lifecycle.y & CONTACT_START_TOUCHING) == 0u
-                    && params.physics_step > 1u;
-                if (phase == 0u && !(surviving && (old_color_valid || old_color == OVERFLOW_COLOR))) {
-                    continue;
-                }
-                var color = OVERFLOW_COLOR;
-                if (phase == 0u) {
-                    color = old_color;
-                } else if (da && db) {
-                    for (var col = 0u; col < DYNAMIC_COLOR_COUNT; col++) {
-                        if ((mask & (1u << col)) == 0u) { color = col; break; }
-                    }
-                } else if (da || db) {
-                    for (var col = i32(OVERFLOW_COLOR) - 1; col >= 1; col--) {
-                        if ((mask & (1u << u32(col))) == 0u) { color = u32(col); break; }
-                    }
-                }
-                if (color != OVERFLOW_COLOR) {
-                    if (da) { scratch[unique + c.a] |= 1u << color; }
-                    if (db) { scratch[unique + c.b] |= 1u << color; }
-                }
-                c.color = color;
-                let count = scratch[SCR_COLOR + color];
-                scratch[color_contact_base() + color * params.contact_capacity + count] = slot;
-                scratch[SCR_COLOR + color] = count + 1u;
-                c.lifecycle.z = count;
-                store_contact(slot, c);
-            }
-        }
-        for (var b = 0u; b < params.body_count; b++) {
-            scratch[color_body_base() + b] = scratch[unique + b];
-        }
+        ordered_contact_transitions(unique);
     }
     // Native solves overflow first, then colors in ascending order. Retain
     // creation order within a color.

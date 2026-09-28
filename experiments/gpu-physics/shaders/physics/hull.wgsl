@@ -232,35 +232,37 @@ fn gauss_edge_query(a: Body, b: Body) -> EdgeQuery {
     return q;
 }
 
+// Match native b3SegmentDistance dot products and rounded quotients. A one-ulp
+// fraction error changes capsule anchors/normals and their collision torques.
 fn closest_segments(p1: vec3<f32>, d1: vec3<f32>, p2: vec3<f32>, d2: vec3<f32>) -> vec2<f32> {
     let r = p1 - p2;
-    let a = dot(d1, d1);
-    let e = dot(d2, d2);
-    let f = dot(d2, r);
+    let a = gyro_dot3(d1, d1);
+    let e = gyro_dot3(d2, d2);
+    let f = gyro_dot3(d2, r);
     var s = 0.0;
     var t = 0.0;
     if (a < 1.1920929e-5 && e < 1.1920929e-5) {
         return vec2<f32>(0.0, 0.0);
     }
     if (a < 1.1920929e-5) {
-        t = clamp(f / e, 0.0, 1.0);
+        t = clamp(gyro_divide(f, e), 0.0, 1.0);
     } else {
-        let c = dot(d1, r);
+        let c = gyro_dot3(d1, r);
         if (e < 1.1920929e-5) {
-            s = clamp(-c / a, 0.0, 1.0);
+            s = clamp(gyro_divide(-c, a), 0.0, 1.0);
         } else {
-            let b = dot(d1, d2);
+            let b = gyro_dot3(d1, d2);
             let denom = a * e - b * b;
             if (denom > 1.17549435e-35) {
-                s = clamp((b * f - c * e) / denom, 0.0, 1.0);
+                s = clamp(gyro_divide(b * f - c * e, denom), 0.0, 1.0);
             }
-            t = (b * s + f) / e;
+            t = gyro_divide(b * s + f, e);
             if (t < 0.0) {
                 t = 0.0;
-                s = clamp(-c / a, 0.0, 1.0);
+                s = clamp(gyro_divide(-c, a), 0.0, 1.0);
             } else if (t > 1.0) {
                 t = 1.0;
-                s = clamp((b - c) / a, 0.0, 1.0);
+                s = clamp(gyro_divide(b - c, a), 0.0, 1.0);
             }
         }
     }

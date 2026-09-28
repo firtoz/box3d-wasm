@@ -70,6 +70,7 @@ def inject_main(text: str) -> str:
         "static int s_benchCompleted = 0;\n"
         "static int s_benchPauseScript = 0;\n"
         "static int s_benchSleep = 1;\n"
+        "static int s_hideUI = 0;\n"
 		"static int s_benchWorkers = 0;\n"
 		"static char s_switchName[128];\n"
 		"static int s_switchAfter = -1;\n"
@@ -110,6 +111,7 @@ def inject_main(text: str) -> str:
         "\t\t\ts_frameLimit = s_benchWarmup + s_benchTimed + ( s_benchPauseScript ? 12 : 0 );\n"
         "\t\t}\n"
         "\t}\n"
+        "\tif ( s_hideUI ) { s_context.showUI = false; s_context.showControls = false; }\n"
         "\tSelectSample( &s_context, index, false );\n",
     )
     text = text.replace(
@@ -227,6 +229,10 @@ def inject_main(text: str) -> str:
         '\t\telse if ( strcmp( argv[i], "--health-scan" ) == 0 )\n'
         "\t\t{\n"
         "\t\t\ts_healthScan = 1;\n"
+        "\t\t}\n"
+        '\t\telse if ( strcmp( argv[i], "--hide-ui" ) == 0 )\n'
+        "\t\t{\n"
+        "\t\t\ts_hideUI = 1;\n"
         "\t\t}\n"
         '\t\telse if ( strcmp( argv[i], "--switch-sample-name" ) == 0 && i + 1 < argc )\n'
         "\t\t{\n"

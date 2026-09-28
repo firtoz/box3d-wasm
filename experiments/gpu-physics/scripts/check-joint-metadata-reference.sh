@@ -15,10 +15,10 @@ g++ -O2 -std=c++17 c_abi/joint_metadata_reference.cpp -I ../../box3d/include -Wl
 python3 - "$OUT" <<'PY'
 from pathlib import Path
 import sys,json,hashlib
-out=Path(sys.argv[1]);expected=['generation-reused 1','worlds 1 1']+[f'joint {i} {i} 1 1 1' for i in range(9)]+[f'destroyed {i} 0' for i in range(9)]
+out=Path(sys.argv[1]);expected=['generation-reused 1','worlds 1 1']+[f'joint {i} {i} 1 1 1' for i in range(9)]+['filter-default 1','filter-custom 1']+[f'destroyed {i} 0' for i in range(9)]
 for engine in ['cpu','gpu']:
  assert (out/f'{engine}.txt').read_text().splitlines()==expected,engine
-report={'status':'pass','rows':20,'joint_types':9,'coverage':['body/shape/joint worlds','native joint type enumeration','live endpoint generation after slot reuse','attached joints destroyed with body'],
+report={'status':'pass','rows':22,'joint_types':9,'coverage':['body/shape/joint worlds','native joint type enumeration','default/custom filter frames and tuning','live endpoint generation after slot reuse','attached joints destroyed with body'],
 'sha256':{str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in [out/'cpu',out/'gpu',Path('c_abi/joint_metadata_reference.cpp')]}}
 (out/'result.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
 PY

@@ -51,11 +51,20 @@ fn quat_from_x_axis(axis: vec3<f32>) -> vec4<f32> {
     return normalize(vec4<f32>(0.0, -n.z, n.y, 1.0 + n.x));
 }
 
+fn body_origin(b: Body, i: u32) -> vec3<f32> {
+    if (b.origin_valid != 0u) { return b.origin; }
+    return b.pos - quat_rotate(b.rot, load_body_cold(i).local_center);
+}
+
 fn load_collider(i: u32) -> Body {
     let shape = load_shape(i);
     var body = load_body(shape.body_index);
     let cold = load_body_cold(shape.body_index);
-    body.pos = body.pos + quat_rotate(body.rot, shape.local_center - cold.local_center);
+    if (body.origin_valid != 0u) {
+        body.pos = body.origin + quat_rotate(body.rot, shape.local_center);
+    } else {
+        body.pos = body.pos + quat_rotate(body.rot, shape.local_center - cold.local_center);
+    }
     if (shape.kind == KIND_CAPSULE && dot(shape.axis, shape.axis) > 1e-12) {
         body.rot = normalize(quat_mul(body.rot, quat_from_x_axis(shape.axis)));
     }
@@ -125,8 +134,8 @@ fn world_inv_inertia_matrix(b: Body) -> mat3x3<f32> {
     let o = b.inv_inertia_offdiag;
     let il = mat3x3<f32>(
         vec3<f32>(b.inv_inertia.x,o.x,o.y),
-        vec3<f32>(o.x,b.inv_inertia.y,o.z),
-        vec3<f32>(o.y,o.z,b.inv_inertia.z));
+        vec3<f32>(b.inv_inertia_upper.x,b.inv_inertia.y,o.z),
+        vec3<f32>(b.inv_inertia_upper.y,b.inv_inertia_upper.z,b.inv_inertia.z));
     let ri = mat3x3<f32>(native_mul_mv(r,il[0]),native_mul_mv(r,il[1]),native_mul_mv(r,il[2]));
     let rt = transpose(r);
     let iw = mat3x3<f32>(native_mul_mv(ri,rt[0]),native_mul_mv(ri,rt[1]),native_mul_mv(ri,rt[2]));
@@ -138,19 +147,28 @@ fn world_inv_inertia(b: Body, t: vec3<f32>) -> vec3<f32> {
 }
 
 // The native SIMD contact solver stores six symmetric coefficients and
-// accumulates the last two products first; scalar joint math differs.
-fn contact_inv_inertia(b: Body, v: vec3<f32>) -> vec3<f32> {
-    let m = world_inv_inertia_matrix(b);
+// accumulates the last two products first; mesh/overflow use the full matrix
+// and scalar addition order, like joints.
+fn contact_inertia_mul(m: mat3x3<f32>, v: vec3<f32>, convex: bool) -> vec3<f32> {
+    if (!convex) { return native_mul_mv(m, v); }
     return vec3<f32>(
         m[0].x*v.x + (m[0].y*v.y + m[0].z*v.z),
         m[0].y*v.x + (m[1].y*v.y + m[1].z*v.z),
         m[0].z*v.x + (m[1].z*v.y + m[2].z*v.z));
 }
 
-fn apply_contact_P(body: ptr<function, Body>, r: vec3<f32>, P: vec3<f32>, sign: f32) {
+fn contact_inv_inertia(b: Body, v: vec3<f32>, convex: bool) -> vec3<f32> {
+    return contact_inertia_mul(world_inv_inertia_matrix(b), v, convex);
+}
+
+fn contact_uses_simd(c: Contact) -> bool {
+    return c.color != OVERFLOW_COLOR && c.prepared_softness.w == 1.0;
+}
+
+fn apply_contact_P(body: ptr<function, Body>, r: vec3<f32>, P: vec3<f32>, sign: f32, convex: bool) {
     if (is_immovable(*body)) { return; }
     (*body).vel = (*body).vel + sign * P * (*body).inv_mass;
-    (*body).omega = (*body).omega + sign * contact_inv_inertia(*body, gyro_cross(r,P));
+    (*body).omega = (*body).omega + sign * contact_inv_inertia(*body, gyro_cross(r,P), convex);
 }
 
 fn apply_P(body: ptr<function, Body>, r: vec3<f32>, P: vec3<f32>, sign: f32) {
@@ -212,22 +230,28 @@ fn closest_on_segment(p: vec3<f32>, a: vec3<f32>, b: vec3<f32>) -> vec3<f32> {
     return a + ab * t;
 }
 
-fn contact_softness(static_pair: bool) -> vec3<f32> {
-    let h = params.dt;
-    var hertz = params.contact_hertz;
+// Match Box3D contact preparation, including the rounded reciprocal shared by
+// mass and accumulated-impulse scaling.
+fn contact_softness_values(h: f32, requested_hertz: f32, damping: f32, static_pair: bool) -> vec3<f32> {
+    var hertz = requested_hertz;
     if (h > 1e-8) {
-        hertz = min(hertz, 0.125 / h);
+        hertz = min(hertz, 0.125 * gyro_recip(h));
     }
-    var zeta = params.contact_damping;
+    var zeta = damping;
     if (static_pair) {
         hertz = 2.0 * hertz;
         zeta = 0.5 * zeta;
     }
+    if (hertz == 0.0) { return vec3<f32>(0.0); }
     let omega = 6.28318530718 * hertz;
     let a1 = 2.0 * zeta + h * omega;
     let a2 = h * omega * a1;
-    let a3 = 1.0 / (1.0 + a2);
-    return vec3<f32>(omega / a1, a2 * a3, a3);
+    let a3 = gyro_recip(1.0 + a2);
+    return vec3<f32>(gyro_divide(omega, a1), a2 * a3, a3);
+}
+
+fn contact_softness(static_pair: bool) -> vec3<f32> {
+    return contact_softness_values(params.dt, params.contact_hertz, params.contact_damping, static_pair);
 }
 
 fn empty_contact() -> Contact {

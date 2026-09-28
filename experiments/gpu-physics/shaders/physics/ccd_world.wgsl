@@ -1,6 +1,6 @@
 // One invocation owns one ordinary dynamic body. Eligible target bodies are
 // static/kinematic and never written by this pass, so no cross-body write race.
-struct CcdState { p:vec4<f32>, v:vec4<f32>, q:vec4<f32>, w:vec4<f32>, dp:vec4<f32>, dq:vec4<f32> }
+struct CcdState { p:vec4<f32>, v:vec4<f32>, q:vec4<f32>, w:vec4<f32>, dp:vec4<f32>, dq:vec4<f32>, origin:vec3<f32>, origin_valid:u32 }
 struct CcdBody { first:u32, count:u32, min_extent:f32, max_extent:f32, center:vec4<f32> }
 struct CcdShape { proxy:CcdProxy, body:u32, group:i32, category:vec2<u32>, mask:vec2<u32>, sweep_radius:f32, unused:u32 }
 struct CcdConfig { bodies:u32, targets_first:u32, targets_count:u32, joints_first:u32, joints_count:u32, unused:vec3<u32> }
@@ -12,6 +12,7 @@ struct CcdConfig { bodies:u32, targets_first:u32, targets_count:u32, joints_firs
 @group(0) @binding(5) var<storage,read> ccd_indices:array<u32>;
 @group(0) @binding(6) var<uniform> ccd_config:CcdConfig;
 fn ccd_origin(state:CcdState,center:vec3<f32>) -> CcdTransform {
+    if (state.origin_valid != 0u) { return CcdTransform(vec4<f32>(state.origin,0.0),state.q); }
     return CcdTransform(vec4<f32>(state.p.xyz-ccd_rotate(state.q,center),0.0),state.q);
 }
 fn ccd_filter(a:CcdShape,b:CcdShape) -> bool {
@@ -58,7 +59,8 @@ fn ccd_correct(@builtin(global_invocation_id) id:vec3<u32>) {
         let corrected=ccd_interpolate(CcdTransform(begin.p,begin.q),CcdTransform(end.p,end.q),fraction);
         ccd_finish[body].p=vec4<f32>(corrected.p.xyz,end.p.w);
         ccd_finish[body].q=corrected.q;
-        ccd_finish[body].v.w=bitcast<f32>(flags & ~4u);
+        ccd_finish[body].origin_valid=0u;
+        ccd_finish[body].v.w=bitcast<f32>(flags & ~(4u | 65536u));
         ccd_finish[body].dp.w=0.0;
     }
 }

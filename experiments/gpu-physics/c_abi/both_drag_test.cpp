@@ -7,6 +7,9 @@ b3Vec3 cpu_b3Body_GetLinearVelocity(b3BodyId);
 b3Vec3 cpu_b3Body_GetAngularVelocity(b3BodyId);
 int cpu_b3Body_GetContactData(b3BodyId, b3ContactData *, int);
 void gpu_b3_world_wait(b3WorldId);
+#if defined(__GNUC__)
+bool gpu_b3_world_write_core_state(b3WorldId, const char*, unsigned) __attribute__((weak));
+#endif
 void SetSelectedBody(b3BodyId) {}
 void SetComparisonSelectedBody(b3BodyId) {}
 }
@@ -121,6 +124,17 @@ int main(int argc, char **argv) {
     for (auto body : bodies)
       total.add(body);
     dump();
+    if (const char* path=std::getenv("GPU_PHYSICS_STATE_TRACE")) {
+#if defined(__GNUC__)
+      if (!gpu_b3_world_write_core_state || !gpu_b3_world_write_core_state(w,path,frame+1)) {
+        std::fprintf(stderr,"drag core-state capture failed at frame %d\n",frame+1);
+        std::exit(2);
+      }
+#else
+      std::fprintf(stderr,"drag core-state capture unavailable in this fixture build\n");
+      std::exit(2);
+#endif
+    }
     frame++;
   };
   if (ground)

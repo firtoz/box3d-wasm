@@ -659,10 +659,10 @@ pub extern "C" fn gpu_b3_world_visit_dynamic_bodies(
 #[no_mangle]
 pub extern "C" fn gpu_b3_world_visit_joint_health(
     id: WorldId,
-    callback: extern "C" fn(i32, bool, f32, bool, f32),
+    callback: extern "C" fn(JointId, BodyId, BodyId, bool, f32, bool, f32),
 ) {
-    for (joint, constrained, error, angular_constrained, angular_error) in crate::api::b3_world_joint_health(id) {
-        callback(joint, constrained, error, angular_constrained, angular_error);
+    for (joint, body_a, body_b, constrained, error, angular_constrained, angular_error) in crate::api::b3_world_joint_health(id) {
+        callback(joint, body_a, body_b, constrained, error, angular_constrained, angular_error);
     }
 }
 
@@ -3764,4 +3764,60 @@ pub unsafe extern "C" fn gpu_b3_joint_get_constraint_force(id: JointId, out: *mu
 #[no_mangle]
 pub unsafe extern "C" fn gpu_b3_joint_get_constraint_torque(id: JointId, out: *mut f32) {
     if !out.is_null() { std::ptr::copy_nonoverlapping(crate::api::b3_joint_get_constraint_torque(id).as_ptr(), out, 3); }
+}
+
+/// Opt-in diagnostic output; unavailable in production builds without replay diagnostics.
+#[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+#[no_mangle]
+pub extern "C" fn gpu_b3_world_diagnostic_contact_impulses(id: WorldId, first: u64, count: u32, clear: bool) -> bool {
+    match crate::api::b3_world_diagnostic_contact_impulses(id,first,count,clear) {
+        Ok((selected,nonzero)) => {eprintln!("contact-impulse-control clear={clear} selected={selected} nonzero={nonzero}"); selected>0 && nonzero>0},
+        Err(error) => {eprintln!("contact-impulse-control: {error}");false}
+    }
+}
+
+/// Opt-in diagnostic output; unavailable in production builds without replay diagnostics.
+#[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+#[no_mangle]
+pub extern "C" fn gpu_b3_world_diagnostic_spherical_impulses(id: WorldId, first: u64, count: u32, clear: bool) -> bool {
+    match crate::api::b3_world_diagnostic_spherical_impulses(id,first,count,clear) {
+        Ok((selected,nonzero)) => {eprintln!("spherical-impulse-control clear={clear} selected={selected} nonzero={nonzero}"); selected>0 && nonzero>0},
+        Err(error) => {eprintln!("spherical-impulse-control: {error}");false}
+    }
+}
+
+/// Opt-in diagnostic output; unavailable in production builds without replay diagnostics.
+#[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+#[no_mangle]
+pub unsafe extern "C" fn gpu_b3_world_write_core_state(id: WorldId, path: *const std::os::raw::c_char, frame: u32) -> bool {
+    if path.is_null() { return false; }
+    let Ok(path) = std::ffi::CStr::from_ptr(path).to_str() else { return false; };
+    match crate::api::b3_world_write_core_state(id, std::path::Path::new(path), frame) {
+        Ok(()) => true,
+        Err(error) => { eprintln!("core-state capture: {error}"); false }
+    }
+}
+
+/// Diagnostic fixture bridge matching the explicitly linked CPU reference hook.
+#[cfg(all(feature="replay-diagnostics",not(target_arch="wasm32")))]
+#[no_mangle]
+pub unsafe extern "C" fn reference_set_spherical_cache(id: JointId, values: *const f32) -> bool {
+    if values.is_null() {return false;}
+    let values: [f32;12]=std::slice::from_raw_parts(values,12).try_into().unwrap();
+    match crate::api::b3_joint_diagnostic_set_spherical_cache(id,values) {
+        Ok(())=>true,
+        Err(e)=>{eprintln!("spherical-cache-transplant: {e}");false}
+    }
+}
+
+/// Diagnostic fixture bridge matching the explicitly linked CPU reference hook.
+#[cfg(all(feature="replay-diagnostics",not(target_arch="wasm32")))]
+#[no_mangle]
+pub unsafe extern "C" fn reference_set_revolute_cache(id: JointId, values: *const f32) -> bool {
+    if values.is_null() {return false;}
+    let values: [f32;9]=std::slice::from_raw_parts(values,9).try_into().unwrap();
+    match crate::api::b3_joint_diagnostic_set_revolute_cache(id,values) {
+        Ok(())=>true,
+        Err(e)=>{eprintln!("revolute-cache-transplant: {e}");false}
+    }
 }

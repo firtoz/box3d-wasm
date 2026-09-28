@@ -476,7 +476,7 @@ mod tests {
         let mut render = gpu.clone();
         (render.device, render.queue) = gpu.secondary_queue.as_ref().unwrap().create_tracked_device(&gpu.adapter).unwrap();
         let mut bridge = RenderBridge::new(&gpu, &render);
-        let state = gpu.device.create_buffer(&wgpu::BufferDescriptor { label: None, size: 96,
+        let state = gpu.device.create_buffer(&wgpu::BufferDescriptor { label: None, size: std::mem::size_of::<crate::types::BodyStateGpu>() as u64,
             usage: wgpu::BufferUsages::COPY_SRC | wgpu::BufferUsages::COPY_DST, mapped_at_creation: false });
         let cold = gpu.device.create_buffer(&wgpu::BufferDescriptor { label: None, size: 64,
             usage: wgpu::BufferUsages::COPY_SRC | wgpu::BufferUsages::COPY_DST, mapped_at_creation: false });

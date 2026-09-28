@@ -10,10 +10,11 @@ struct ViewerState {
     float omega[3], sleep_velocity;
     float dp[3], sleep_time;
     float dq[4];
+    float origin[3]; uint32_t origin_valid;
 };
-static_assert(sizeof(ViewerState) == 96);
+static_assert(sizeof(ViewerState) == 112);
 
-extern "C" uint32_t viewer_cpu_abi() { return 1; }
+extern "C" uint32_t viewer_cpu_abi() { return 2; }
 extern "C" void* viewer_cpu_create(const char* scene, uint32_t count) {
     if (!scene || (std::strcmp(scene, "dominoes") && std::strcmp(scene, "mixed-stacks") && std::strcmp(scene, "falling-cubes"))) return nullptr;
     return new SceneState(build_scene(scene, count));

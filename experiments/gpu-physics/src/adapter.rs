@@ -5,6 +5,7 @@ pub struct AdapterReport {
     pub name: String,
     pub backend: String,
     pub driver: String,
+    pub driver_info: String,
     pub vendor: u32,
     pub device: u32,
 }
@@ -28,6 +29,7 @@ impl AdapterReport {
             } else {
                 info.driver
             },
+            driver_info: info.driver_info,
             vendor: info.vendor,
             device: info.device,
         }

@@ -116,17 +116,17 @@ async fn run()->String {
     // physics pipeline. This probe intentionally measures synthetic compute.
     let shapes=api::b3_world_render_scene(world,None).unwrap().shapes;
     let count=shapes.iter().map(|s|s.body_slot+1).max().unwrap();
-    let mut hot=vec![0f32;count as usize*24];let mut cold=vec![0f32;count as usize*16];
+    let mut hot=vec![0f32;count as usize*28];let mut cold=vec![0f32;count as usize*16];
     for shape in &shapes {
         let slot=shape.body_slot as usize;
         let (origin,rotation)=api::b3_body_get_transform(shape.body);
         let mass=api::b3_body_get_mass_data(shape.body);
         let com=glam::Vec3::from_array(origin)+glam::Quat::from_array(rotation)*glam::Vec3::from_array(mass.center);
-        hot[slot*24..slot*24+3].copy_from_slice(&com.to_array());
-        hot[slot*24+3]=if mass.mass>0.0 {1.0/mass.mass}else{0.0};
-        hot[slot*24+7]=f32::from_bits(match api::b3_body_get_type(shape.body) {
+        hot[slot*28..slot*28+3].copy_from_slice(&com.to_array());
+        hot[slot*28+3]=if mass.mass>0.0 {1.0/mass.mass}else{0.0};
+        hot[slot*28+7]=f32::from_bits(match api::b3_body_get_type(shape.body) {
             api::BodyType::Static=>1,api::BodyType::Kinematic=>16,api::BodyType::Dynamic=>0});
-        hot[slot*24+8..slot*24+12].copy_from_slice(&rotation);
+        hot[slot*28+8..slot*28+12].copy_from_slice(&rotation);
         cold[slot*16+13..slot*16+16].copy_from_slice(&mass.center);
     }
     let hot=bytemuck::cast_slice(&hot);let cold=bytemuck::cast_slice(&cold);

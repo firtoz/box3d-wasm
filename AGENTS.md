@@ -202,3 +202,7 @@ gzip -c demo/public/wasm/box3d-web.wasm | wc -c
 Then update the `WASM size` row in `docs/OTHER_PROJECTS.md` (both the per-project comparison table and the 4-way table).
 
 Current size: ~272KB gzipped (656KB raw).
+
+## Active GPU solver goal scratchpad
+
+When working on GPU solver correctness, stability, determinism or qualification, read `docs/gpu-solver-goal.md` before substantive work, including after compaction or restart. It contains the full goal, acceptance gates and current recovery context. Maintain it after meaningful changes/results and before handoff; verify recorded process/build state against current evidence. Detailed evidence remains in `docs/gpu-solver-qualification.md`. This pointer applies to that goal, not unrelated sample ports.

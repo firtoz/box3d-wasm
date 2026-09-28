@@ -1,10 +1,10 @@
 // SPDX-FileCopyrightText: 2025 Erin Catto
 // SPDX-License-Identifier: MIT
-// Adapted from Box3D dynamic_tree.c: insertion-only tree for deterministic
-// initial contact creation priority. This computes ordering metadata only;
+// Adapted from Box3D dynamic_tree.c for deterministic contact creation
+// priority. This computes ordering metadata only;
 // collision detection and simulation remain on the GPU.
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub(crate) struct Bounds {
     pub lower: [f32; 3],
     pub upper: [f32; 3],
@@ -30,13 +30,151 @@ struct Node {
     parent: Option<usize>,
     children: Option<[usize; 2]>,
     shape: usize,
+    enlarged: bool,
 }
 #[derive(Default)]
 struct Tree {
     nodes: Vec<Node>,
     root: Option<usize>,
+    free: Vec<usize>,
 }
 impl Tree {
+    fn allocate(&mut self, node: Node) -> usize {
+        if let Some(index) = self.free.pop() {
+            self.nodes[index] = node;
+            index
+        } else {
+            let index = self.nodes.len();
+            self.nodes.push(node);
+            index
+        }
+    }
+
+    fn enlarge(&mut self, leaf: usize, bounds: Bounds) {
+        assert!(self.nodes[leaf].children.is_none());
+        self.nodes[leaf].bounds = bounds;
+        let mut cursor = self.nodes[leaf].parent;
+        while let Some(index) = cursor {
+            let node = &mut self.nodes[index];
+            let enlarged = node.bounds.union(bounds);
+            let changed = node.bounds != enlarged;
+            node.bounds = enlarged;
+            node.enlarged = true;
+            cursor = node.parent;
+            if !changed {
+                break;
+            }
+        }
+        while let Some(index) = cursor {
+            let node = &mut self.nodes[index];
+            if node.enlarged {
+                break;
+            }
+            node.enlarged = true;
+            cursor = node.parent;
+        }
+    }
+
+    fn partition(&self, leaves: &mut [usize]) -> usize {
+        if leaves.len() <= 2 {
+            return leaves.len() / 2;
+        }
+        let mut lower = self.nodes[leaves[0]].bounds.center();
+        let mut upper = lower;
+        for &leaf in &leaves[1..] {
+            let center = self.nodes[leaf].bounds.center();
+            for axis in 0..3 {
+                lower[axis] = lower[axis].min(center[axis]);
+                upper[axis] = upper[axis].max(center[axis]);
+            }
+        }
+        let d: [f32; 3] = std::array::from_fn(|i| upper[i] - lower[i]);
+        let axis = if d[0] >= d[1] && d[0] >= d[2] {
+            0
+        } else if d[1] >= d[2] {
+            1
+        } else {
+            2
+        };
+        let pivot = 0.5 * (lower[axis] + upper[axis]);
+        let mut first = 0;
+        let mut last = leaves.len();
+        while first < last {
+            while first < last && self.nodes[leaves[first]].bounds.center()[axis] < pivot {
+                first += 1;
+            }
+            while first < last && self.nodes[leaves[last - 1]].bounds.center()[axis] >= pivot {
+                last -= 1;
+            }
+            if first < last {
+                leaves.swap(first, last - 1);
+                first += 1;
+                last -= 1;
+            }
+        }
+        if first > 0 && first < leaves.len() {
+            first
+        } else {
+            leaves.len() / 2
+        }
+    }
+
+    fn build(&mut self, leaves: &mut [usize]) -> usize {
+        if leaves.len() == 1 {
+            return leaves[0];
+        }
+        let split = self.partition(leaves);
+        let index = self.allocate(Node {
+            bounds: self.nodes[leaves[0]].bounds,
+            parent: None,
+            children: None,
+            shape: usize::MAX,
+            enlarged: false,
+        });
+        let (left, right) = leaves.split_at_mut(split);
+        let a = self.build(left);
+        let b = self.build(right);
+        self.nodes[index].children = Some([a, b]);
+        self.nodes[a].parent = Some(index);
+        self.nodes[b].parent = Some(index);
+        self.refit(index);
+        index
+    }
+
+    fn rebuild(&mut self, full: bool) {
+        let Some(root) = self.root else {
+            return;
+        };
+        let mut stack = vec![root];
+        let mut leaves = Vec::new();
+        while let Some(index) = stack.pop() {
+            let node = &mut self.nodes[index];
+            if node.children.is_none() || (!node.enlarged && !full) {
+                node.parent = None;
+                leaves.push(index);
+            } else {
+                let [a, b] = node.children.unwrap();
+                stack.push(b);
+                stack.push(a);
+                self.free.push(index);
+            }
+        }
+        self.root = Some(self.build(&mut leaves));
+    }
+
+    fn reversed_query_order(&self) -> Vec<usize> {
+        let mut stack: Vec<_> = self.root.into_iter().collect();
+        let mut order = Vec::new();
+        while let Some(index) = stack.pop() {
+            if let Some([a, b]) = self.nodes[index].children {
+                stack.push(b);
+                stack.push(a);
+            } else {
+                order.push(self.nodes[index].shape);
+            }
+        }
+        order
+    }
     fn sibling(&self, bounds: Bounds) -> usize {
         let root = self.root.unwrap();
         let mut index = root;
@@ -159,26 +297,26 @@ impl Tree {
             }
         }
     }
-    fn insert(&mut self, shape: usize, bounds: Bounds) {
-        let leaf = self.nodes.len();
-        self.nodes.push(Node {
+    fn insert(&mut self, shape: usize, bounds: Bounds) -> usize {
+        let leaf = self.allocate(Node {
             bounds,
             parent: None,
             children: None,
             shape,
+            enlarged: false,
         });
         let Some(_) = self.root else {
             self.root = Some(leaf);
-            return;
+            return leaf;
         };
         let sibling = self.sibling(bounds);
         let old_parent = self.nodes[sibling].parent;
-        let parent = self.nodes.len();
-        self.nodes.push(Node {
+        let parent = self.allocate(Node {
             bounds: bounds.union(self.nodes[sibling].bounds),
             parent: old_parent,
             children: Some([sibling, leaf]),
             shape: usize::MAX,
+            enlarged: false,
         });
         if let Some(old) = old_parent {
             let children = self.nodes[old].children.as_mut().unwrap();
@@ -195,6 +333,7 @@ impl Tree {
             self.rotate(i);
             cursor = self.nodes[i].parent;
         }
+        leaf
     }
 }
 
@@ -205,22 +344,95 @@ pub(crate) fn initial_leaf_order(proxies: impl IntoIterator<Item = (usize, Bound
     for (shape, bounds) in proxies {
         tree.insert(shape, bounds);
     }
-    let mut stack: Vec<_> = tree.root.into_iter().collect();
-    let mut order = Vec::new();
-    while let Some(i) = stack.pop() {
-        if let Some([a, b]) = tree.nodes[i].children {
-            stack.push(b);
-            stack.push(a);
-        } else {
-            order.push(tree.nodes[i].shape);
+    tree.reversed_query_order()
+}
+
+/// Initial topology and workspace for contact_order.wgsl. Bounds come from the
+/// engine's own scene; native capture data is used only by regression tests.
+pub(crate) fn gpu_tree_seed(
+    proxies: impl IntoIterator<Item = (usize, Bounds)>,
+    node_capacity: usize,
+) -> Vec<u32> {
+    let mut tree = Tree::default();
+    for (shape,bounds) in proxies { tree.insert(shape,bounds); }
+    assert!(tree.nodes.len() <= node_capacity);
+    let mut words = vec![0; 8 + 19*node_capacity];
+    words[0] = tree.root.map_or(u32::MAX, |i| i as u32);
+    words[1] = tree.nodes.len() as u32;
+    words[2] = u32::MAX;
+    words[3] = tree.nodes.iter().filter(|n| n.children.is_none()).count() as u32;
+    words[4] = node_capacity as u32;
+    for (index,node) in tree.nodes.iter().enumerate() {
+        let out = &mut words[8+12*index..8+12*(index+1)];
+        for axis in 0..3 {
+            out[axis]=node.bounds.lower[axis].to_bits();
+            out[3+axis]=node.bounds.upper[axis].to_bits();
         }
+        out[6]=node.parent.map_or(u32::MAX, |i| i as u32);
+        let children=node.children.map_or([u32::MAX;2], |v| v.map(|i| i as u32));
+        out[7..9].copy_from_slice(&children);
+        out[9]=node.shape as u32;
+        out[10]=u32::from(node.enlarged);
+        out[11]=u32::MAX;
     }
-    order
+    words
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn enlarged_tree_order_matches_native_partial_rebuilds() {
+        // Captured with independent native linker wrappers, with the simulation
+        // prefix verified unchanged. No oracle ordering is used at runtime.
+        let mut tree = Tree::default();
+        let mut proxies = std::collections::HashMap::new();
+        let mut queries = 0;
+        let mut enlargements = 0;
+        let mut rebuilds = 0;
+        // Versioned little-endian records: initial/enlarge (shape + six f32
+        // bounds), rebuild (full flag), query (frame + native leaf sequence).
+        let fixture = include_bytes!("fixtures/broadphase_tree_updates.bin");
+        assert_eq!(&fixture[..8], b"B3TO\x01\0\0\0");
+        let mut words = fixture[8..]
+            .chunks_exact(4)
+            .map(|b| u32::from_le_bytes(b.try_into().unwrap()));
+        while let Some(kind) = words.next() {
+            match kind {
+                0 | 1 => {
+                    let shape = words.next().unwrap() as usize;
+                    let lower = std::array::from_fn(|_| f32::from_bits(words.next().unwrap()));
+                    let upper = std::array::from_fn(|_| f32::from_bits(words.next().unwrap()));
+                    let bounds = Bounds { lower, upper };
+                    if kind == 0 {
+                        assert!(proxies.insert(shape, tree.insert(shape, bounds)).is_none());
+                    } else {
+                        tree.enlarge(proxies[&shape], bounds);
+                        enlargements += 1;
+                    }
+                }
+                2 => {
+                    tree.rebuild(words.next().unwrap() != 0);
+                    rebuilds += 1;
+                }
+                3 => {
+                    let frame = words.next().unwrap();
+                    let count = words.next().unwrap() as usize;
+                    let mut expected: Vec<_> =
+                        words.by_ref().take(count).map(|v| v as usize).collect();
+                    assert_eq!(expected.len(), count);
+                    expected.reverse();
+                    assert_eq!(tree.reversed_query_order(), expected, "frame {frame}");
+                    queries += 1;
+                }
+                other => panic!("unexpected tree event {other}"),
+            }
+        }
+        assert_eq!((queries, enlargements, rebuilds), (167, 17282, 165));
+        assert_eq!(tree.nodes.len(), 2 * proxies.len() - 1);
+        assert!(tree.free.is_empty());
+    }
 
     #[test]
     fn initial_tree_order_matches_box3d_rotations_and_ties() {

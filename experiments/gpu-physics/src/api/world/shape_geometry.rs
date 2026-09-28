@@ -4,7 +4,7 @@ use super::*;
 
 struct GeometryMass {
     mass: f32,
-    inertia: [f32; 6],
+    inertia: [f32; 9],
 }
 
 fn replace(id: ShapeId, edit: impl FnOnce(&mut CpuShape) -> bool) -> bool {
@@ -64,7 +64,7 @@ fn replace(id: ShapeId, edit: impl FnOnce(&mut CpuShape) -> bool) -> bool {
         }
         // Only touching contacts wake their two owners, matching ResetProxy.
         let mut wake = Vec::new();
-        w.live_contacts.retain(|_, c| {
+        w.live_contacts.retain(|key, c| {
             let remove = c.shape_id_a == id || c.shape_id_b == id;
             if remove {
                 for sid in [c.shape_id_a, c.shape_id_b] {
@@ -77,11 +77,11 @@ fn replace(id: ShapeId, edit: impl FnOnce(&mut CpuShape) -> bool) -> bool {
                     }
                 }
                 if c.events_enabled {
-                    w.deferred_contact_end_events.push(ContactEndTouchEvent {
+                    w.deferred_contact_end_events.push((*key, ContactEndTouchEvent {
                         shape_id_a: c.shape_id_a,
                         shape_id_b: c.shape_id_b,
                         contact_id: c.contact_id,
-                    });
+                    }));
                 }
             }
             !remove
@@ -153,7 +153,7 @@ pub fn b3_shape_set_sphere(id: ShapeId, sphere: &Sphere) -> bool {
             let i = 0.4 * m * r * r;
             GeometryMass {
                 mass: m,
-                inertia: [i, i, i, 0.0, 0.0, 0.0],
+                inertia: [i, i, i, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             }
         };
         primitive(
@@ -194,11 +194,11 @@ pub fn b3_shape_set_capsule(id: ShapeId, capsule: &Capsule) -> bool {
             delta.map(|v| 0.5 * v),
             GeometryMass {
                 mass: unit.mass,
-                inertia: unit.inertia,
+                inertia: pack_inertia(unit.full_inertia),
             },
             GeometryMass {
                 mass: mass.mass,
-                inertia: mass.inertia,
+                inertia: pack_inertia(mass.full_inertia),
             },
         );
         s.hull_points = vec![capsule.center1, capsule.center2];
@@ -221,7 +221,7 @@ pub(crate) fn set_box_hull_geometry(id: ShapeId, hull: &BoxHull, force: bool) ->
         }
         let data = |density| GeometryMass {
             mass: box_mass(hull.half_extents, density),
-            inertia: box_central_inertia(hull.half_extents, density),
+            inertia: expand_inertia(box_central_inertia(hull.half_extents, density)),
         };
         primitive(
             s,
@@ -254,7 +254,7 @@ pub(crate) fn set_convex_hull_geometry(id: ShapeId, hull: &ConvexHull, force: bo
             && s.geometry_center == hull.aabb_center
             && s.inner_radius == hull.inner_radius
             && s.unit_mass == hull.volume
-            && s.unit_inertia == hull.central_inertia
+            && s.unit_inertia == expand_inertia(hull.central_inertia)
         {
             return false;
         }
@@ -266,9 +266,9 @@ pub(crate) fn set_convex_hull_geometry(id: ShapeId, hull: &ConvexHull, force: bo
         s.geometry_center = hull.aabb_center;
         s.inner_radius = hull.inner_radius;
         s.unit_mass = hull.volume;
-        s.unit_inertia = hull.central_inertia;
+        s.unit_inertia = expand_inertia(hull.central_inertia);
         s.mass = hull.volume * s.density;
-        s.local_inertia = hull.central_inertia.map(|v| v * s.density);
+        s.local_inertia = expand_inertia(hull.central_inertia.map(|v| v * s.density));
         s.hull_points.clone_from(&hull.points);
         s.hull_planes.clone_from(&hull.planes);
         s.hull_edges.clone_from(&hull.edge_directions);

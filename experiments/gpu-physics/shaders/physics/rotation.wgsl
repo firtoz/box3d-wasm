@@ -32,8 +32,8 @@ fn gyro_solve3(col0: vec3<f32>, col1: vec3<f32>, col2: vec3<f32>, b: vec3<f32>) 
 
 fn gyro_local_inertia_matrix(b: Body) -> mat3x3<f32> {
     let m0=vec3<f32>(b.inv_inertia.x,b.inv_inertia_offdiag.x,b.inv_inertia_offdiag.y);
-    let m1=vec3<f32>(b.inv_inertia_offdiag.x,b.inv_inertia.y,b.inv_inertia_offdiag.z);
-    let m2=vec3<f32>(b.inv_inertia_offdiag.y,b.inv_inertia_offdiag.z,b.inv_inertia.z);
+    let m1=vec3<f32>(b.inv_inertia_upper.x,b.inv_inertia.y,b.inv_inertia_offdiag.z);
+    let m2=vec3<f32>(b.inv_inertia_upper.y,b.inv_inertia_upper.z,b.inv_inertia.z);
     let det=gyro_dot3(m0,gyro_cross(m1,m2));
     if (abs(det)<1e-12) {return mat3x3<f32>(vec3<f32>(0.0),vec3<f32>(0.0),vec3<f32>(0.0));}
     let invDet=gyro_recip(det);
@@ -102,10 +102,13 @@ fn gyro_divide(a: f32, b: f32) -> f32 {
     return fma(residual, gyro_recip(b), estimate);
 }
 
+// Selects avoid an NVIDIA compiler crash when this helper is inlined repeatedly
+// into solve_joints; the exceptional-input fallback and rounding are unchanged.
 fn gyro_sqrt(x: f32) -> f32 {
-    let bits = bitcast<u32>(x);
+    let input_exponent = (bitcast<u32>(x) >> 23u) & 255u;
+    let normal = x > 0.0 && input_exponent != 0u && input_exponent != 255u;
+    let bits = bitcast<u32>(select(1.0, x, normal));
     let exponent = (bits >> 23u) & 255u;
-    if (x <= 0.0 || exponent == 0u || exponent == 255u) { return sqrt(x); }
     // Scale by an even power of two so midpoint residuals cannot underflow.
     let e = i32(exponent) - 127;
     let half_e = e >> 1;
@@ -124,10 +127,10 @@ fn gyro_sqrt(x: f32) -> f32 {
     let above = fma(-root, up_gap, remainder) - 0.25 * up_gap * up_gap;
     let below = fma(root, down_gap, remainder) - 0.25 * down_gap * down_gap;
     let odd = (root_bits & 1u) != 0u;
-    var rounded = root;
-    if (above > 0.0 || (above == 0.0 && odd)) { rounded = upper; }
-    else if (below < 0.0 || (below == 0.0 && odd)) { rounded = lower; }
-    return rounded * bitcast<f32>(u32(half_e + 127) << 23u);
+    let round_up = above > 0.0 || (above == 0.0 && odd);
+    let round_down = below < 0.0 || (below == 0.0 && odd);
+    let rounded = select(select(root, lower, round_down), upper, round_up);
+    return select(sqrt(x), rounded * bitcast<f32>(u32(half_e + 127) << 23u), normal);
 }
 
 // Keep component operations explicit: a native cross builtin can contract its

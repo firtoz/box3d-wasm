@@ -111,7 +111,7 @@ impl GpuSceneCaps {
         let bodies = u64::from(self.bodies.max(1));
         let add = |total: u64, count: u64, stride: u64| total.checked_add(count.checked_mul(stride)?);
         let mut n = add(0, bodies, core::mem::size_of::<BodyColdGpu>() as u64)?;
-        n = add(n, bodies, 64)?;
+        n = add(n, bodies, 80)?;
         n = add(n, u64::from(self.shapes), core::mem::size_of::<ShapeGpu>() as u64)?;
         n = add(n, u64::from(self.hull_points), 16)?;
         n = add(n, u64::from(self.hull_planes), 16)?;
@@ -185,6 +185,8 @@ pub const FLAG_DISABLED: u32 = 1 << 7;
 pub const FLAG_DISABLE_CONTACT_RECYCLING: u32 = 1 << 14;
 /// Previous completed step exceeded the continuous-motion threshold.
 pub const FLAG_FAST: u32 = 1 << 15;
+/// Fast-step proxy bounds omit speculative padding unless CCD reports a hit.
+pub const FLAG_CCD_NO_HIT: u32 = 1 << 16;
 
 /// Matches WGSL `is_non_dynamic`: body type and disabled state, not mass.
 pub fn gpu_is_non_dynamic(flags: u32) -> bool {
@@ -275,7 +277,7 @@ pub const SCR_RADIX_BASE: u32 = SCR_RADIX_HIST + RADIX_GROUPS * RADIX_BUCKETS;
 #[derive(Clone, Copy, Debug)]
 pub struct PairLayout {
     pub occupied: u32, pub next_occupied: u32, pub previous_touching: u32,
-    pub radix_out: u32, pub radix_hist: u32, pub radix_base: u32, pub graph: u32,
+    pub radix_out: u32, pub radix_hist: u32, pub radix_base: u32, pub history: u32, pub graph: u32,
 }
 pub const fn pair_layout(cap: u32) -> PairLayout {
     let occupied = SCR_PAIRS + 4 * cap;
@@ -285,8 +287,9 @@ pub const fn pair_layout(cap: u32) -> PairLayout {
     let radix_hist = radix_out + 2 * cap;
     let groups = cap / RADIX_GROUP_SIZE;
     let radix_base = radix_hist + groups * RADIX_BUCKETS;
-    let graph = radix_base + if groups > RADIX_BUCKETS { groups } else { RADIX_BUCKETS };
-    PairLayout { occupied, next_occupied, previous_touching, radix_out, radix_hist, radix_base, graph }
+    let history = radix_base + if groups > RADIX_BUCKETS { groups } else { RADIX_BUCKETS };
+    let graph = history + 2 + 8 * cap;
+    PairLayout { occupied, next_occupied, previous_touching, radix_out, radix_hist, radix_base, history, graph }
 }
 pub fn pair_capacity(contact_capacity: u32) -> u32 { contact_capacity.max(PAIR_CAP) }
 
@@ -497,6 +500,8 @@ pub const PASS_BIAS_ROWS: u32 = 4;
 pub const DEFAULT_CELL_SIZE: f32 = 2.5;
 /// Box3D `B3_LINEAR_SLOP` at 1 m units.
 pub const LINEAR_SLOP: f32 = 0.005;
+/// Preserve Box3D's float32 expression, which differs from the literal 0.05.
+pub const CONTACT_RECYCLE_DISTANCE: f32 = 10.0 * LINEAR_SLOP;
 /// Box3D `B3_SPECULATIVE_DISTANCE`.
 pub const SPECULATIVE_DISTANCE: f32 = 0.02;
 pub const DIAG_DISABLE_RECYCLING: u32 = 1 << 0;
@@ -582,12 +587,15 @@ pub struct BodyGpu {
     pub sleep_velocity: f32,
     pub sleep_threshold: f32,
     pub _pad_island: u32,
+    /// Separately rounded body origin after CCD; COM remains in `pos`.
+    pub origin: [f32; 3],
+    pub origin_valid: u32,
 }
 
 /// Mutable body state used by the simulation hot path.
 ///
 /// Shape, mass-property, and material data lives in `BodyColdGpu`, so solver
-/// passes update 96 bytes in place instead of ping-ponging the 160-byte export
+/// passes update 112 bytes in place instead of ping-ponging the 176-byte export
 /// record.
 #[repr(C)]
 #[derive(Clone, Copy, Debug, Pod, Zeroable)]
@@ -602,6 +610,8 @@ pub struct BodyStateGpu {
     pub dp: [f32; 3],
     pub sleep_time: f32,
     pub dq: [f32; 4],
+    pub origin: [f32; 3],
+    pub origin_valid: u32,
 }
 
 /// Immutable body data, uploaded once when the simulation is rebuilt.
@@ -633,6 +643,8 @@ impl BodyStateGpu {
             dp: body.dp,
             sleep_time: body.sleep_time,
             dq: body.dq,
+            origin: body.origin,
+            origin_valid: body.origin_valid,
         }
     }
 }
@@ -854,7 +866,7 @@ pub struct JointGpu {
     pub a: u32,
     pub b: u32,
     pub kind: u32,
-    /// Graph color reserved before contacts when preparing GPU component lists.
+    /// Persistent graph color; newly created joints respect surviving contact colors.
     pub solver_color: u32,
     pub anchor_a: [f32; 3],
     pub hertz: f32,
@@ -1068,7 +1080,10 @@ pub struct SimParams {
     pub insert_base: u32,
     pub insert_capacity: u32,
     pub pair_capacity: u32,
-    pub _pad_block: [u32; 4],
+    pub order_base: u32,
+    pub order_node_capacity: u32,
+    pub order_enabled: u32,
+    pub _pad_block: u32,
 }
 
 impl SimParams {
@@ -1121,7 +1136,7 @@ impl SimParams {
             mix_pair_count: 0,
             mix_pair_base_u32: 0,
             enable_continuous: 1,
-            contact_recycle_distance: 0.05,
+            contact_recycle_distance: CONTACT_RECYCLE_DISTANCE,
             fat_bounds_base: 0,
             fat_bounds_epoch: 1,
             fat_commands_base: 0,
@@ -1135,7 +1150,10 @@ impl SimParams {
             insert_base: 0,
             insert_capacity: insertion_capacity(count),
             pair_capacity: pair_capacity(contact_capacity(count)),
-            _pad_block: [0; 4],
+            order_base: 0,
+            order_node_capacity: 0,
+            order_enabled: 0,
+            _pad_block: 0,
         }
     }
 }
@@ -1158,8 +1176,10 @@ pub fn make_soft(hertz: f32, zeta: f32, h: f32) -> (f32, f32, f32) {
 const _: () = assert!(core::mem::size_of::<SimParams>() == 256);
 const _: () = assert!(core::mem::offset_of!(SimParams, maximum_linear_speed) == 220);
 const _: () = assert!(core::mem::offset_of!(SimParams, restitution_threshold) == 224);
-const _: () = assert!(core::mem::size_of::<BodyGpu>() == 160);
-const _: () = assert!(core::mem::size_of::<BodyStateGpu>() == 96);
+const _: () = assert!(core::mem::size_of::<BodyGpu>() == 176);
+const _: () = assert!(core::mem::size_of::<BodyStateGpu>() == 112);
+const _: () = assert!(core::mem::offset_of!(BodyGpu, origin) == 160);
+const _: () = assert!(core::mem::offset_of!(BodyStateGpu, origin) == 96);
 const _: () = assert!(core::mem::size_of::<BodyColdGpu>() == 64);
 const _: () = assert!(core::mem::offset_of!(ShapeGpu, instance_position) == 144);
 const _: () = assert!(core::mem::offset_of!(ShapeGpu, instance_flags) == 156);
@@ -1186,6 +1206,8 @@ pub fn box_mass(half: [f32; 3], density: f32) -> f32 {
 /// Central mass properties for a capsule, matching `b3ComputeCapsuleMass`.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct CapsuleMass {
+    /// Full column-major tensor, preserving independently rounded native entries.
+    pub full_inertia: [[f32;3];3],
     pub mass: f32,
     pub center: [f32; 3],
     /// Symmetric tensor `xx, yy, zz, xy, xz, yz` about the midpoint.
@@ -1258,6 +1280,7 @@ pub fn compute_capsule_mass(
     let inertia = [rotated[0][0],rotated[1][1],rotated[2][2],
         rotated[0][1],rotated[0][2],rotated[1][2]];
     CapsuleMass {
+        full_inertia: rotated,
         mass,
         center,
         inertia,

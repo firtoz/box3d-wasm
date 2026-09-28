@@ -3,7 +3,7 @@
 // Derive the storage offset from the reserved body/contacts capacity, not the
 // live body count. Growing buffers must not compile a new shader variant.
 fn memo_base()->u32 {
-    return 261u + 54u * (params.shape_base_u32 / 32u) + 2u * params.contact_capacity;
+    return 261u + 54u * (params.shape_base_u32 / 36u) + 2u * params.contact_capacity;
 }
 var<workgroup> memo_masks:array<u32,8160>;
 var<workgroup> memo_counts:array<u32,24>;

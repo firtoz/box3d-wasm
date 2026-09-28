@@ -64,6 +64,8 @@ const PHYSICS_WGSL: &str = concat!(
     include_str!("../shaders/physics/hull.wgsl"),
     include_str!("../shaders/physics/collide.wgsl"),
     include_str!("../shaders/physics/broadphase.wgsl"),
+    include_str!("../shaders/physics/contact_order.wgsl"),
+    include_str!("../shaders/physics/contact_order_live.wgsl"),
     include_str!("../shaders/physics/solve.wgsl"),
     include_str!("../shaders/physics/integrate.wgsl"),
     include_str!("../shaders/physics/query.wgsl"),
@@ -313,11 +315,11 @@ pub fn pack_scene_bytes(
         })
         .collect();
     cold.resize(capacity, BodyColdGpu::zeroed());
-    let mut body_extra: Vec<[f32; 16]> = body_inv_inertia_offdiag
+    let mut body_extra: Vec<[f32; 20]> = body_inv_inertia_offdiag
         .iter()
-        .map(|v| { let mut extra = [0.0; 16]; extra[..3].copy_from_slice(v); extra })
+        .map(|v| { let mut extra = [0.0; 20]; extra[..3].copy_from_slice(v); extra[16..19].copy_from_slice(v); extra })
         .collect();
-    body_extra.resize(capacity, [0.0; 16]);
+    body_extra.resize(capacity, [0.0; 20]);
     // Immutable per-body motion bounds, rebuilt only with the scene heap.
     // Inertia xyz, minimum extent, maximum extent xyz, sleep threshold, then
     // step force xyz/pad and torque xyz/pad (initially zero). No new binding.
@@ -400,6 +402,8 @@ fn decode_body_gpu(
         .enumerate()
         .map(|(i, ((state, cold), island_id))| BodyGpu {
             pos: state.pos,
+            origin: state.origin,
+            origin_valid: state.origin_valid,
             inv_mass: state.inv_mass,
             vel: state.vel,
             kind: cold.kind,
@@ -713,6 +717,7 @@ pub struct GpuSim {
     apply_deltas: ComputePipeline,
     integrate_vel: ComputePipeline,
     clear_broadphase: ComputePipeline,
+    contact_order_update: std::sync::OnceLock<ComputePipeline>,
     pair_matrix: std::sync::OnceLock<[ComputePipeline;5]>,
     pair_matrix_flat: bool,
     pair_matrix_requested: bool,
@@ -1067,7 +1072,7 @@ impl GpuSim {
         params.joint_count = joints.len() as u32;
         params.shape_count = shapes.len() as u32;
         params.shape_base_u32 =
-            capacity * ((mem::size_of::<BodyColdGpu>() + 64) / mem::size_of::<u32>()) as u32;
+            capacity * ((mem::size_of::<BodyColdGpu>() + 80) / mem::size_of::<u32>()) as u32;
         params.hull_point_count = hull_points.len() as u32;
         params.hull_base_u32 = params.shape_base_u32
             + caps.shapes * (mem::size_of::<ShapeGpu>() / mem::size_of::<u32>()) as u32;
@@ -1113,7 +1118,15 @@ impl GpuSim {
         let joint_bytes = mem::size_of::<JointGpu>() * joints.len().max(1);
         params.fat_bounds_base = crate::types::scratch_u32_count_with_joints(
             capacity, caps.joints.max(capacity)) as u32;
-        params.insert_base = params.fat_bounds_base + 8 * caps.shapes;
+        params.order_base = params.fat_bounds_base + 8 * caps.shapes;
+        // Live ordering uses three persistent body-type trees and
+        // one four-word metadata record per shape. Keep host transform uploads
+        // after insertion workspace, so scratch growth preserves this region.
+        let live_order = !joints.is_empty()
+            && std::env::var("GPU_PHYSICS_LIVE_CONTACT_ORDER").as_deref() != Ok("0");
+        params.order_node_capacity = if live_order { 2 * caps.shapes } else { 0 };
+        let order_words = if live_order { 3 * (8 + 19 * params.order_node_capacity) + 4 * caps.shapes } else { 0 };
+        params.insert_base = params.order_base + order_words;
         params.insert_capacity = crate::types::insertion_capacity(caps.shapes)
             .max(2 * params.pair_capacity / crate::types::RADIX_GROUP_SIZE);
         let scratch_bytes = (params.insert_base as usize + 3 * params.insert_capacity as usize) * 4;
@@ -1456,6 +1469,7 @@ impl GpuSim {
             apply_deltas: make_compute(&device, &pipeline_layout, &shader, "apply_deltas"),
             integrate_vel: make_compute(&device, &pipeline_layout, &shader, "integrate_vel"),
             clear_broadphase: make_compute(&device, &pipeline_layout, &shader, "clear_broadphase"),
+            contact_order_update: std::sync::OnceLock::new(),
             pair_matrix: std::sync::OnceLock::new(),
             pair_matrix_requested: std::env::var("GPU_PHYSICS_PAIR_MATRIX").as_deref()==Ok("1"),
             pair_matrix_used: false,
@@ -2328,6 +2342,15 @@ impl GpuSim {
     }
 
     fn broadphase_candidates_pass(&mut self, enc: &mut wgpu::CommandEncoder) {
+        self.broadphase_candidates_inner(enc);
+        if self.params.order_enabled != 0 {
+            let pipeline = self.contact_order_update.get_or_init(|| self.make_runtime_compute(
+                &self.device, &self.collision_layout, &self.collision_shader, "update_contact_order"));
+            self.dispatch_n(enc, pipeline, 1, 0, 1);
+        }
+    }
+
+    fn broadphase_candidates_inner(&mut self, enc: &mut wgpu::CommandEncoder) {
         self.pair_matrix_used=false;
         let shape_groups = self.shape_groups();
         let cg = self
@@ -4436,6 +4459,13 @@ impl GpuSim {
             }
             return Ok(());
         }
+        // Native explicit transforms may remove/reinsert tree leaves. Until
+        // that path is implemented, preserve existing contact handling without
+        // treating a teleport as an ordinary integration-time enlargement.
+        if self.params.order_enabled != 0 {
+            self.params.order_enabled = 0;
+            eprintln!("live contact ordering disabled: explicit proxy movement");
+        }
         self.invalidate_idle_proof();
         let heads = 2usize * self.caps.bodies.max(self.count).max(1) as usize;
         let words = count.checked_mul(8).and_then(|n| n.checked_add(heads))
@@ -4511,6 +4541,539 @@ impl GpuSim {
         self.queue.submit(Some(encoder.finish()));
     }
 
+    #[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    pub(crate) async fn read_diagnostic_scratch(&mut self) -> (SimParams, Vec<u32>) {
+        // Capture persistent regions only; the insertion workspace follows this.
+        let params = self.params;
+        let words = self.read_scratch_prefix(params.insert_base).await;
+        (params, words)
+    }
+
+    #[cfg(all(feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn diagnostic_contact_impulse_control(&mut self, bodies: &[u32], clear: bool) -> (usize, usize) {
+        let high=self.read_diagnostic_contact_high_water();
+        let source=self.contacts.clone();
+        let mut contacts:Vec<ContactHotGpu>=self.read_diagnostic_records(&source,0,high);
+        let mut selected=0;let mut nonzero=0;
+        for c in &mut contacts {
+            if c.a==u32::MAX || c.count==0 || !(bodies.contains(&c.a) || bodies.contains(&c.b)) {continue;}
+            selected+=1;
+            let mut values=c.rb.iter().map(|p|p[3]).chain(c.friction_impulse).chain([c.twist_impulse]).chain(c.rolling_impulse);
+            if values.any(|x|x!=0.0) {nonzero+=1;}
+            if clear {
+                for p in &mut c.rb {p[3]=0.0;}
+                c.friction_impulse=[0.0;2];c.twist_impulse=0.0;c.rolling_impulse=[0.0;3];
+            }
+        }
+        // The sham performs the identical synchronization and upload. Preserve
+        // geometry, features, coloring, allocation and joint history in both arms.
+        self.queue.write_buffer(&self.contacts,0,bytemuck::cast_slice(&contacts));
+        self.invalidate_idle_proof();
+        (selected,nonzero)
+    }
+
+    #[cfg(all(feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn diagnostic_spherical_impulse_control(&mut self, bodies: &[u32], clear: bool) -> (usize,usize) {
+        let mut joints=pollster::block_on(self.read_joints());
+        let mut selected=0;let mut nonzero=0;
+        for j in &mut joints {
+            if j.kind!=crate::types::JOINT_SPHERICAL || !(bodies.contains(&j.a)||bodies.contains(&j.b)) {continue;}
+            selected+=1;
+            if j.angular_impulse.into_iter().chain(j.spring_angular_impulse).chain(j.motor_angular_impulse)
+                .chain([j.swing_impulse,j.lower_impulse,j.upper_impulse]).any(|x|x!=0.0) {nonzero+=1;}
+            if clear {
+                j.angular_impulse=[0.0;3];j.spring_angular_impulse=[0.0;3];j.motor_angular_impulse=[0.0;3];
+                j.swing_impulse=0.0;j.lower_impulse=0.0;j.upper_impulse=0.0;
+            }
+        }
+        // Do not use write_joints: no topology/filter or tuning update belongs
+        // in this history-only experiment. Sham uploads the same exact bytes.
+        self.queue.write_buffer(&self.joints,0,bytemuck::cast_slice(&joints));
+        self.invalidate_idle_proof();
+        (selected,nonzero)
+    }
+
+    #[cfg(all(feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn diagnostic_set_spherical_cache(&mut self, slot: usize, values: [f32;12]) -> Result<(),String> {
+        self.validate_diagnostic_boundary()?;
+        let mut joints=pollster::block_on(self.read_joints());
+        let j=joints.get_mut(slot).ok_or("joint slot missing")?;
+        if j.kind!=crate::types::JOINT_SPHERICAL {return Err("not a spherical joint".into());}
+        j.angular_impulse=values[0..3].try_into().unwrap();
+        j.spring_angular_impulse=values[3..6].try_into().unwrap();
+        j.motor_angular_impulse=values[6..9].try_into().unwrap();
+        j.lower_impulse=values[9];j.upper_impulse=values[10];j.swing_impulse=values[11];
+        let expected=*j;
+        self.queue.write_buffer(&self.joints,(slot*std::mem::size_of::<JointGpu>()) as u64,bytemuck::bytes_of(&expected));
+        self.invalidate_idle_proof();
+        let actual=pollster::block_on(self.read_joints());
+        if bytemuck::bytes_of(&actual[slot])!=bytemuck::bytes_of(&expected) {return Err("joint cache readback mismatch".into());}
+        Ok(())
+    }
+
+    #[cfg(all(feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn diagnostic_set_revolute_cache(&mut self, slot: usize, values: [f32;9]) -> Result<(),String> {
+        self.validate_diagnostic_boundary()?;
+        let mut joints=pollster::block_on(self.read_joints());
+        let j=joints.get_mut(slot).ok_or("joint slot missing")?;
+        if j.kind!=crate::types::JOINT_REVOLUTE {return Err("not a revolute joint".into());}
+        j.angular_impulse=values[0..3].try_into().unwrap();
+        j.perp_impulse=values[3..5].try_into().unwrap();
+        j.spring_impulse=values[5];j.motor_impulse=values[6];
+        j.lower_impulse=values[7];j.upper_impulse=values[8];
+        let expected=*j;
+        self.queue.write_buffer(&self.joints,(slot*std::mem::size_of::<JointGpu>()) as u64,bytemuck::bytes_of(&expected));
+        self.invalidate_idle_proof();
+        let actual=pollster::block_on(self.read_joints());
+        if bytemuck::bytes_of(&actual[slot])!=bytemuck::bytes_of(&expected) {return Err("joint cache readback mismatch".into());}
+        Ok(())
+    }
+
+    #[cfg(all(test,feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn reverse_diagnostic_occupied_test(&mut self) -> usize {
+        let (params,words)=pollster::block_on(self.read_diagnostic_scratch());
+        let count=words[crate::types::SCR_OCCUPIED_N as usize] as usize;
+        let start=crate::types::pair_layout(params.pair_capacity).occupied as usize;
+        let mut slots=words[start..start+count].to_vec();slots.reverse();
+        self.queue.write_buffer(&self.scratch,(start*4) as u64,bytemuck::cast_slice(&slots));
+        count
+    }
+
+    #[cfg(all(test,feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn perturb_retired_contact_generation_test(&mut self, slot: usize, increment: u32) {
+        let high = self.read_diagnostic_contact_high_water();
+        assert!(slot < high as usize);
+        let source = self.contacts.clone();
+        let hot: Vec<ContactHotGpu> = self.read_diagnostic_records(&source, 0, high);
+        assert_eq!(hot[slot].a, u32::MAX, "only retired storage may be perturbed");
+        let source = self.contact_persistent.clone();
+        let mut persistent: Vec<ContactPersistentGpu> = self.read_diagnostic_records(&source, 0, high);
+        persistent[slot].lifecycle[0] = persistent[slot].lifecycle[0].checked_add(increment).unwrap();
+        self.queue.write_buffer(&self.contact_persistent, 0, bytemuck::cast_slice(&persistent));
+    }
+
+    #[cfg(all(test,feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn corrupt_joint_filter_test(&self) {
+        let start = crate::types::joint_head_live(self.count, self.params.contact_capacity)
+            - 3 * crate::types::JOINT_FILTER_CAP;
+        // Manufacture a stale key in the fixture's unused first bucket.
+        self.queue.write_buffer(&self.scratch, u64::from(start) * 4, bytemuck::bytes_of(&0u32));
+    }
+
+    #[cfg(all(test,feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn relocate_diagnostic_child_test(&mut self) -> (usize,usize) {
+        let high=self.read_diagnostic_contact_high_water();
+        let source=self.contacts.clone();
+        let mut hot:Vec<ContactHotGpu>=self.read_diagnostic_records(&source,0,high);
+        let source=self.contact_persistent.clone();
+        let mut persistent:Vec<ContactPersistentGpu>=self.read_diagnostic_records(&source,0,high);
+        let source=self.contact_prepared.clone();
+        let mut prepared:Vec<ContactPreparedGpu>=self.read_diagnostic_records(&source,0,high);
+        let from=hot.iter().rposition(|c|c.a!=u32::MAX && c.manifold_link[1]!=0).expect("fixture needs child manifold");
+        let to=hot.iter().position(|c|c.a==u32::MAX).expect("fixture needs free slot below high water");
+        let (_,words)=pollster::block_on(self.read_diagnostic_scratch());
+        let reverse=crate::types::pair_layout(self.params.pair_capacity).history+2+6*self.params.pair_capacity;
+        assert_eq!(words[reverse as usize+from],0,"child must not own a root history ID");
+        assert_eq!(words[reverse as usize+to],0,"destination must not own root history");
+        hot.swap(from,to);persistent.swap(from,to);prepared.swap(from,to);
+        for c in &mut hot {
+            if c.manifold_link[0]==from as u32+1 {c.manifold_link[0]=to as u32+1;}
+        }
+        self.queue.write_buffer(&self.contacts,0,bytemuck::cast_slice(&hot));
+        self.queue.write_buffer(&self.contact_persistent,0,bytemuck::cast_slice(&persistent));
+        self.queue.write_buffer(&self.contact_prepared,0,bytemuck::cast_slice(&prepared));
+        (from,to)
+    }
+
+    #[cfg(all(feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn read_diagnostic_ccd_scene(&mut self) -> Option<crate::ccd::DiagnosticCcdScene> {
+        let ccd=self.convex_ccd.as_ref()?;
+        let buffers=ccd.diagnostic.buffers.clone();let counts=ccd.diagnostic.counts;let start=ccd.start.clone();
+        Some(crate::ccd::DiagnosticCcdScene {
+            points:self.read_diagnostic_records(&buffers[0],0,counts[0]),
+            shapes:self.read_diagnostic_records(&buffers[1],0,counts[1]),
+            bodies:self.read_diagnostic_records(&buffers[2],0,counts[2]),
+            indices:self.read_diagnostic_records(&buffers[3],0,counts[3]),
+            config:self.read_diagnostic_records(&buffers[4],0,5),
+            start:self.read_diagnostic_records(&start,0,counts[2]),
+        })
+    }
+    #[cfg(all(test,feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn overwrite_diagnostic_ccd_point_test(&self) {
+        let ccd=self.convex_ccd.as_ref().expect("CCD enabled");assert!(ccd.diagnostic.counts[0]>0);
+        self.queue.write_buffer(&ccd.diagnostic.buffers[0],0,bytemuck::cast_slice(&[0.125f32,0.0,0.0,f32::NAN]));
+    }
+
+    #[cfg(all(feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn validate_diagnostic_boundary(&self) -> Result<(), String> {
+        if !self.completed_known || self.completed_step != self.physics_step {
+            return Err("diagnostic capture requires a completed physics step".into());
+        }
+        if self.sticky_pending.is_some() {
+            return Err("diagnostic capture requires drained contact status".into());
+        }
+        if self.callback_open {
+            return Err("diagnostic capture cannot interrupt a callback phase".into());
+        }
+        if self.pose_readback.as_ref().is_some_and(|rb|
+            rb.pending.is_some() && rb.consumed != rb.pending) {
+            return Err("diagnostic capture requires superseded pose readback".into());
+        }
+        Ok(())
+    }
+
+    #[cfg(all(feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn diagnostic_pose_policy_matches(&self, automatic: bool) -> bool {
+        self.automatic_pose_snapshots == automatic
+    }
+
+    #[cfg(all(test,feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn corrupt_diagnostic_force_membership_test(&mut self) {
+        self.step_force_slots.push(u32::MAX);
+    }
+
+    #[cfg(all(test,feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn reopen_diagnostic_pose_readback_test(&mut self) {
+        let rb=self.pose_readback.as_mut().expect("fixture requires staged poses");
+        assert!(rb.pending.is_some());
+        assert_eq!(rb.consumed,rb.pending);
+        rb.consumed=None;
+    }
+
+    #[cfg(all(feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn diagnostic_policy_state(&self) -> Result<serde_json::Value,String> {
+        use serde_json::{json,Map,Value};
+        let float=|x:f32| -> Result<Value,String> {
+            if !x.is_finite() {return Err("nonfinite GPU policy metadata".into());}
+            Ok(json!(format!("{:08x}",x.to_bits())))
+        };
+        let vec3=|v:[f32;3]|v.into_iter().map(float).collect::<Result<Vec<_>,String>>();
+        let mut parameters=Map::new();
+        parameters.insert("dt".into(),float(self.params.dt)?);
+        parameters.insert("gravity_x".into(),float(self.params.gravity_x)?);
+        parameters.insert("gravity_y".into(),float(self.params.gravity_y)?);
+        parameters.insert("gravity_z".into(),float(self.params.gravity_z)?);
+        parameters.insert("color_select".into(),json!(self.params.color_select));
+        parameters.insert("enable_contacts".into(),json!(self.params.enable_contacts));
+        parameters.insert("max_contacts".into(),json!(self.params.max_contacts));
+        parameters.insert("body_count".into(),json!(self.params.body_count));
+        parameters.insert("cell_size".into(),float(self.params.cell_size)?);
+        parameters.insert("bias_rate".into(),float(self.params.bias_rate)?);
+        parameters.insert("mass_scale".into(),float(self.params.mass_scale)?);
+        parameters.insert("impulse_scale".into(),float(self.params.impulse_scale)?);
+        parameters.insert("contact_speed".into(),float(self.params.contact_speed)?);
+        parameters.insert("sleep_threshold".into(),float(self.params.sleep_threshold)?);
+        parameters.insert("use_bias".into(),json!(self.params.use_bias));
+        parameters.insert("joint_count".into(),json!(self.params.joint_count));
+        parameters.insert("solver_mode".into(),json!(self.params.solver_mode));
+        parameters.insert("enable_sleep".into(),json!(self.params.enable_sleep));
+        parameters.insert("step_dt".into(),float(self.params.step_dt)?);
+        parameters.insert("diagnostic_flags".into(),json!(self.params.diagnostic_flags));
+        parameters.insert("contact_hertz".into(),float(self.params.contact_hertz)?);
+        parameters.insert("contact_damping".into(),float(self.params.contact_damping)?);
+        parameters.insert("contact_capacity".into(),json!(self.params.contact_capacity));
+        parameters.insert("shape_count".into(),json!(self.params.shape_count));
+        parameters.insert("shape_base_u32".into(),json!(self.params.shape_base_u32));
+        parameters.insert("hull_point_count".into(),json!(self.params.hull_point_count));
+        parameters.insert("hull_base_u32".into(),json!(self.params.hull_base_u32));
+        parameters.insert("hull_plane_count".into(),json!(self.params.hull_plane_count));
+        parameters.insert("hull_plane_base_u32".into(),json!(self.params.hull_plane_base_u32));
+        parameters.insert("hull_edge_count".into(),json!(self.params.hull_edge_count));
+        parameters.insert("hull_edge_base_u32".into(),json!(self.params.hull_edge_base_u32));
+        parameters.insert("hull_topology_count".into(),json!(self.params.hull_topology_count));
+        parameters.insert("hull_topology_base_u32".into(),json!(self.params.hull_topology_base_u32));
+        parameters.insert("mesh_vertex_count".into(),json!(self.params.mesh_vertex_count));
+        parameters.insert("mesh_vertex_base_u32".into(),json!(self.params.mesh_vertex_base_u32));
+        parameters.insert("mesh_triangle_count".into(),json!(self.params.mesh_triangle_count));
+        parameters.insert("mesh_triangle_base_u32".into(),json!(self.params.mesh_triangle_base_u32));
+        parameters.insert("mesh_node_count".into(),json!(self.params.mesh_node_count));
+        parameters.insert("mesh_node_base_u32".into(),json!(self.params.mesh_node_base_u32));
+        parameters.insert("surface_material_count".into(),json!(self.params.surface_material_count));
+        parameters.insert("surface_material_base_u32".into(),json!(self.params.surface_material_base_u32));
+        parameters.insert("sub_step_count".into(),json!(self.params.sub_step_count));
+        parameters.insert("physics_step".into(),json!(self.params.physics_step));
+        parameters.insert("mix_pair_count".into(),json!(self.params.mix_pair_count));
+        parameters.insert("mix_pair_base_u32".into(),json!(self.params.mix_pair_base_u32));
+        parameters.insert("enable_continuous".into(),json!(self.params.enable_continuous));
+        parameters.insert("contact_recycle_distance".into(),float(self.params.contact_recycle_distance)?);
+        parameters.insert("fat_bounds_base".into(),json!(self.params.fat_bounds_base));
+        parameters.insert("fat_bounds_epoch".into(),json!(self.params.fat_bounds_epoch));
+        parameters.insert("fat_commands_base".into(),json!(self.params.fat_commands_base));
+        parameters.insert("fat_commands_epoch".into(),json!(self.params.fat_commands_epoch));
+        parameters.insert("fat_commands_count".into(),json!(self.params.fat_commands_count));
+        parameters.insert("remap_old_count".into(),json!(self.params.remap_old_count));
+        parameters.insert("remap_capture".into(),json!(self.params.remap_capture));
+        parameters.insert("remap_history_step".into(),json!(self.params.remap_history_step));
+        parameters.insert("maximum_linear_speed".into(),float(self.params.maximum_linear_speed)?);
+        parameters.insert("restitution_threshold".into(),float(self.params.restitution_threshold)?);
+        parameters.insert("insert_base".into(),json!(self.params.insert_base));
+        parameters.insert("insert_capacity".into(),json!(self.params.insert_capacity));
+        parameters.insert("pair_capacity".into(),json!(self.params.pair_capacity));
+        parameters.insert("order_base".into(),json!(self.params.order_base));
+        parameters.insert("order_node_capacity".into(),json!(self.params.order_node_capacity));
+        parameters.insert("order_enabled".into(),json!(self.params.order_enabled));
+        let geometry=self.fat_geometry.iter().map(|g|Ok(json!({"source":g.source,"body":g.body,"body_type":g.body_type,
+            "kind":g.kind,"proxy_flags":g.proxy_flags,"center":vec3(g.center)?,"half":vec3(g.half)?,
+            "axis":vec3(g.axis)?,"inner_radius":float(g.inner_radius)?}))).collect::<Result<Vec<_>,String>>()?;
+        #[cfg(feature="native-command-cache")]
+        let native={
+            let cache=|c:&Option<crate::native_command_cache::RadixCache>|c.as_ref().map(|c|
+                json!({"key":c.key,"current_bind_group":c.group==self.bind_group}));
+            let replay=if let Some((_,group,key,_,_,_))=&self.physics_replay {
+                let size=std::mem::size_of::<SimParams>();
+                if key.len()!=size+14 {return Err("unexpected physics replay key length".into());}
+                // Raw cache-key bytes are consumed by equality, but the final
+                // SimParams padding word has no solver meaning and is omitted.
+                json!({"parameters":&key[..size-4],"schedule":&key[size..],"current_bind_group":group==&self.bind_group})
+            } else {Value::Null};
+            json!({"radix":cache(&self.radix_cache),"contact":cache(&self.contact_cache),"graph":cache(&self.graph_cache),
+                "tail":self.tail_cache.iter().map(cache).collect::<Vec<_>>(),"replay":replay,"tail_enabled":self.native_tail_enabled})
+        };
+        #[cfg(not(feature="native-command-cache"))]
+        let native=Value::Null;
+        let c=&self.caps;
+        let mut state=json!({"parameters":parameters,"capacities":{"bodies":c.bodies,"shapes":c.shapes,"hull_points":c.hull_points,
+            "hull_planes":c.hull_planes,"hull_edges":c.hull_edges,"hull_topology":c.hull_topology,"mesh_vertices":c.mesh_vertices,
+            "mesh_triangles":c.mesh_triangles,"mesh_nodes":c.mesh_nodes,"materials":c.materials,"joints":c.joints},
+            "body_sleep_thresholds":self.body_sleep_thresholds.iter().copied().map(float).collect::<Result<Vec<_>,String>>()?,
+            "fat_geometry":geometry,"count":self.count,"shape_count":self.shape_count,"contact_slots":self.contact_slots,
+            "contact_epoch":self.contact_epoch,"completed_step":self.completed_step,"completed_known":self.completed_known,
+            "pose_step":self.pose_step,"pose_epoch":self.pose_epoch,"callback_open":self.callback_open,
+            "one_group_wave_only":self.one_group_wave_only,"one_group_pair_ok":self.one_group_pair_ok,
+            "skip_general_static_sort":self.skip_general_static_sort,"graph_batched_override":self.graph_batched_override,
+            "graph_shared_requested":self.graph_shared_requested,"small_component_workgroup_size":self.small_component_workgroup_size,
+            "component_tgs":self.component_tgs,"island_workgroup_size":self.island_workgroup_size,
+            "pair_matrix_flat":self.pair_matrix_flat,"pair_matrix_requested":self.pair_matrix_requested,"pair_matrix_used":self.pair_matrix_used,
+            "native_reset_requested":self.native_reset_requested,"convex_ccd_present":self.convex_ccd.is_some(),"native":native,
+            "sticky_loss":self.sticky_loss,"sticky_first_step":self.sticky_first_step,"sticky_causes":self.sticky_causes,
+            "sticky_contact_reasons":self.sticky_contact_reasons,"metrics_context":self.metrics_context,
+            "sticky_pending_context":self.sticky_pending_context});
+        // An active metrics window suppresses native full-step replay. Its
+        // counters are scheduling state, unlike measured durations/query data.
+        // Absence is the canonical no-window representation, preserving v19
+        // captures from the qualification paths that never open this window.
+        if let Some(window)=&self.metrics {
+            state["timing_window"]=json!({"steps":window.steps,"submitted":window.submitted});
+        }
+        Ok(state)
+    }
+
+    #[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    pub(crate) fn diagnostic_idle_state(&self) -> serde_json::Value {
+        // These are logical step/revision counters and equality proofs, not
+        // timestamps or GPU handles. They govern future skipped submissions.
+        // Pending status payloads and other scheduling state still need audit.
+        serde_json::json!({
+            "eligible":self.idle_eligible,"input_context":self.idle_input_context,
+            "output_context":self.idle_output_context,"proof":self.idle_proof,
+            "chain":self.idle_chain,"epoch":self.idle_epoch.get(),
+            "count_valid_step":self.idle_count_valid_step,
+            "pending_context":self.sticky_pending_idle_context,
+            "pending_step":self.sticky_pending_step,"last_step_idle":self.last_step_idle,
+            "physics_step":self.physics_step,"physics_invalid":self.physics_invalid})
+    }
+
+    #[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    fn read_diagnostic_scene_records<T: bytemuck::Pod>(&mut self, word: u32, count: u32) -> Vec<T> {
+        let source=self.body_cold.clone();
+        self.read_diagnostic_records(&source,word,count)
+    }
+
+    #[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    fn read_diagnostic_records<T: bytemuck::Pod>(&mut self, source:&Buffer, word: u32, count: u32) -> Vec<T> {
+        if count == 0 { return Vec::new(); }
+        let size = u64::from(count) * mem::size_of::<T>() as u64;
+        self.ensure_staging(size.max(256));
+        let staging = self.staging.as_ref().expect("staging buffer");
+        let mut encoder = self.device.create_command_encoder(&wgpu::CommandEncoderDescriptor {
+            label: Some("diagnostic-scene-records"),
+        });
+        encoder.copy_buffer_to_buffer(source, u64::from(word) * 4, staging, 0, size);
+        self.queue.submit(Some(encoder.finish()));
+        let slice = staging.slice(..size);
+        let (tx, rx) = oneshot();
+        slice.map_async(wgpu::MapMode::Read, move |r| { let _ = tx.send(r); });
+        poll_until_idle(&self.device);
+        rx.recv().expect("map_async dropped").expect("map failed");
+        let data = slice.get_mapped_range();
+        let records = bytemuck::cast_slice::<u8, T>(&data).to_vec();
+        drop(data);
+        staging.unmap();
+        records
+    }
+
+    #[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    pub(crate) fn read_diagnostic_graph_cache(&mut self) -> Result<serde_json::Value,String> {
+        use serde_json::json;
+        let policy=json!({"shared_eligible":self.shared_graph_eligible(),
+            "batched_eligible":self.batched_graph_eligible(),"dense_hint":self.graph_dense_hint,
+            "color_hint_min_step":self.color_hint_min_step,"color_wave_prefix":self.color_wave_prefix,
+            "color_wave_prefix_override":self.color_wave_prefix_override});
+        let Some(base)=self.graph_memo_base else {return Ok(json!({"policy":policy,"cache":null}));};
+        let source=self.query.clone();
+        let header:Vec<u32>=self.read_diagnostic_records(&source,base,52);
+        let cache=match header[0] {
+            0=>json!({"layout":"invalid"}),
+            1=>{
+                let bodies=header[1];let edges=header[2];
+                if bodies>self.caps.bodies || edges>self.params.contact_capacity {return Err("invalid shared graph memo counts".into());}
+                let records:Vec<u32>=self.read_diagnostic_records(&source,base+52,2*bodies+7*edges);
+                json!({"layout":"shared","body_count":bodies,
+                    "input_counts":&header[4..28],"output_counts":&header[28..52],
+                    "body_masks":records[..2*bodies as usize].chunks_exact(2).collect::<Vec<_>>(),
+                    "edges":records[2*bodies as usize..].chunks_exact(7).collect::<Vec<_>>()})
+            },
+            0x424b5431=>{
+                let groups=4*(self.caps.bodies.div_ceil(128));
+                let end=u64::from(base)+8+u64::from(groups)*(1+6*256);
+                if end*4>source.size() {return Err("batched graph memo exceeds storage".into());}
+                let counts:Vec<u32>=self.read_diagnostic_records(&source,base+8,groups);
+                let mut batches=Vec::new();
+                for (batch,&count) in counts.iter().enumerate() {
+                    if count>256 {return Err("invalid batched graph memo count".into());}
+                    let records:Vec<u32>=self.read_diagnostic_records(&source,base+8+groups+batch as u32*6*256,count*6);
+                    batches.push(json!(records.chunks_exact(6).collect::<Vec<_>>()));
+                }
+                json!({"layout":"batched","batches":batches})
+            },
+            _=>return Err("unknown graph memo layout tag".into()),
+        };
+        // Cache indices are references into processing/allocator slots, not
+        // external object IDs. Preserve stale entries too: validation on the
+        // next dispatch decides reuse. Hit/miss counters and padding are omitted.
+        Ok(json!({"policy":policy,"cache":cache}))
+    }
+
+    #[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    pub(crate) fn read_diagnostic_colliders(&mut self) -> (Vec<ShapeGpu>, Vec<SurfaceMaterialGpu>) {
+        let shapes = self.read_diagnostic_scene_records(self.params.shape_base_u32, self.params.shape_count);
+        let materials = self.read_diagnostic_scene_records(self.params.surface_material_base_u32, self.params.surface_material_count);
+        (shapes, materials)
+    }
+
+    #[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    pub(crate) fn read_diagnostic_contact_high_water(&mut self) -> u32 {
+        let source=self.query.clone();
+        self.read_diagnostic_records::<u32>(&source,73,1)[0]
+    }
+
+    #[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    pub(crate) fn read_diagnostic_contact_hash(&mut self) -> Vec<u32> {
+        let source=self.atom.clone();
+        let base=16+crate::types::HASH_BUCKETS+self.params.pair_capacity;
+        self.read_diagnostic_records(&source,base,4*self.params.pair_capacity)
+    }
+
+    #[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    pub(crate) fn read_diagnostic_geometry_words(&mut self) -> Vec<u32> {
+        let start = self.params.hull_base_u32;
+        let end = self.params.mix_pair_base_u32 + crate::types::MIX_PAIR_CAP * 8;
+        self.read_diagnostic_scene_records(start, end - start)
+    }
+
+    #[cfg(all(test, feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    pub(crate) fn overwrite_diagnostic_hull_point_test(&self) {
+        assert!(self.params.hull_point_count > 0);
+        // Deliberately alter device memory only. NaN in unused w must be
+        // ignored, while the changed physical coordinate must be observed.
+        let point = [0.125f32, 0.0, 0.0, f32::NAN];
+        self.queue.write_buffer(&self.body_cold, u64::from(self.params.hull_base_u32) * 4,
+            bytemuck::cast_slice(&point));
+    }
+
+    #[cfg(all(test, feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    pub(crate) fn overwrite_diagnostic_mesh_child_test(&self) {
+        assert!(self.params.mesh_node_count>1);
+        // Keep branch axis zero, but point beyond this mesh's node span.
+        let data=self.params.mesh_node_count.checked_add(1).unwrap()<<2;
+        self.queue.write_buffer(&self.body_cold,u64::from(self.params.mesh_node_base_u32+3)*4,bytemuck::bytes_of(&data));
+    }
+
+    #[cfg(all(test,feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn overwrite_diagnostic_policy_test(&mut self, nonfinite:bool) {
+        assert!(!self.body_sleep_thresholds.is_empty() && !self.fat_geometry.is_empty());
+        self.body_sleep_thresholds[0]=if nonfinite {f32::NAN} else {self.body_sleep_thresholds[0]+1.0};
+        self.fat_geometry[0].half[0]+=0.125;
+        self.one_group_pair_ok=!self.one_group_pair_ok;
+    }
+
+    #[cfg(all(test, feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    pub(crate) fn overwrite_diagnostic_hull_slot_test(&self) {
+        assert!(self.params.shape_count > 0);
+        self.queue.write_buffer(&self.body_cold, u64::from(self.params.shape_base_u32 + 18) * 4,
+            bytemuck::bytes_of(&(u32::MAX - 1)));
+    }
+
+    #[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    pub(crate) fn read_diagnostic_body_extras(&mut self) -> (Vec<[f32; 20]>, Vec<u32>) {
+        let capacity = self.params.shape_base_u32 / 36;
+        let size = u64::from(self.count) * 80;
+        self.ensure_staging(size.max(256));
+        let staging = self.staging.as_ref().expect("staging buffer");
+        let mut encoder = self.device.create_command_encoder(&wgpu::CommandEncoderDescriptor {
+            label: Some("diagnostic-body-extras"),
+        });
+        encoder.copy_buffer_to_buffer(&self.body_cold, u64::from(capacity) * 64, staging, 0, size);
+        self.queue.submit(Some(encoder.finish()));
+        let slice = staging.slice(..size);
+        let (tx, rx) = oneshot();
+        slice.map_async(wgpu::MapMode::Read, move |r| { let _ = tx.send(r); });
+        poll_until_idle(&self.device);
+        rx.recv().expect("map_async dropped").expect("map failed");
+        let data = slice.get_mapped_range();
+        let extras = bytemuck::cast_slice::<u8, [f32; 20]>(&data).to_vec();
+        drop(data);
+        staging.unmap();
+        (extras, self.step_force_slots.clone())
+    }
+
+    pub(crate) fn has_contact_order_storage(&self) -> bool {
+        self.params.order_node_capacity != 0
+    }
+
+    #[cfg(test)]
+    pub(crate) async fn contact_order_snapshot_test(&mut self) -> (bool, Vec<u32>) {
+        let words = self.read_scratch_prefix(self.params.insert_base).await;
+        let stride = 8 + 19 * self.params.order_node_capacity as usize;
+        let base = self.params.order_base as usize;
+        let mut state = Vec::new();
+        if self.params.order_node_capacity != 0 {
+            for kind in 0..3 {
+                let start = base + kind * stride;
+                let high = words[start + 1] as usize;
+                assert!(high <= self.params.order_node_capacity as usize);
+                // Rebuild workspace is disposable; only header/nodes/shape
+                // metadata survive allocation changes.
+                state.extend_from_slice(&words[start..start + 8 + 12 * high]);
+            }
+            state.extend_from_slice(&words[base + 3 * stride..base + 3 * stride + 4 * self.shape_count as usize]);
+        }
+        (self.params.order_enabled != 0, state)
+    }
+
+    pub(crate) fn seed_contact_order(&mut self, trees: [Vec<(usize, crate::broadphase_order::Bounds)>; 3]) {
+        let capacity = self.params.order_node_capacity as usize;
+        if capacity == 0 { return; }
+        let stride = 8 + 19 * capacity;
+        let mut data = Vec::with_capacity(3 * stride + 4 * self.caps.shapes as usize);
+        let mut metadata = vec![u32::MAX; 4 * self.caps.shapes as usize];
+        for (kind, proxies) in trees.into_iter().enumerate() {
+            let seed = crate::broadphase_order::gpu_tree_seed(proxies, capacity);
+            for index in 0..seed[1] as usize {
+                let node = &seed[8 + 12 * index..8 + 12 * (index + 1)];
+                if node[7] == u32::MAX {
+                    let shape = node[9] as usize;
+                    metadata[4 * shape] = ((index as u32) << 2) | kind as u32;
+                }
+            }
+            data.extend(seed);
+        }
+        data.extend(metadata);
+        self.queue.write_buffer(&self.scratch, u64::from(self.params.order_base) * 4, bytemuck::cast_slice(&data));
+        self.params.order_enabled = 1;
+        self.flush_params();
+    }
+
     pub fn write_scene(&mut self, bytes: &[u8], shapes: &[ShapeGpu], bodies: &[BodyGpu], identities: &[(u32, u16)]) {
         self.body_sleep_thresholds = bodies.iter().map(|b| b.sleep_threshold).collect();
         self.pair_matrix_flat=shapes.iter().all(|s|s.kind!=crate::types::KIND_MESH && s.event_flags & (crate::types::SHAPE_PUBLIC_PROXY|crate::types::SHAPE_COMPOUND_CHILD)==0);
@@ -4523,6 +5086,12 @@ impl GpuSim {
             self.color_wave_prefix = crate::types::OVERFLOW_COLOR;
         }
         let geometry: Vec<_> = shapes.iter().map(|s| FatGeometryKey::new(s, bodies)).collect();
+        if identities != self.shape_identities || geometry != self.fat_geometry {
+            // Reinsertion/removal is not yet implemented in the prototype.
+            // Do not retain metadata that refers to a different topology.
+            if self.params.order_enabled != 0 { eprintln!("live contact ordering disabled: proxy topology changed"); }
+            self.params.order_enabled = 0;
+        }
         let moved_or_removed = self.shape_identities.iter().enumerate()
             .any(|(i, id)| identities.get(i) != Some(id));
         if moved_or_removed {
@@ -4636,6 +5205,28 @@ impl GpuSim {
                 encoder.copy_buffer_to_buffer(src, 0, dst, 0, size);
             }
         };
+        if old.params.order_enabled != 0 && self.params.order_node_capacity != 0
+            && self.shape_identities == old.shape_identities && self.fat_geometry == old.fat_geometry {
+            let old_stride = 8 + 19 * old.params.order_node_capacity;
+            let stride = 8 + 19 * self.params.order_node_capacity;
+            for kind in 0..3 {
+                let src = old.params.order_base + kind * old_stride;
+                let dst = self.params.order_base + kind * stride;
+                // Header capacity and temporary workspaces are allocation-local.
+                for (offset, words) in [(0, 4), (5, 3), (8, 12 * old.params.order_node_capacity)] {
+                    encoder.copy_buffer_to_buffer(&old.scratch, u64::from(src + offset) * 4,
+                        &self.scratch, u64::from(dst + offset) * 4, u64::from(words) * 4);
+                }
+                self.queue.write_buffer(&self.scratch, u64::from(dst + 4) * 4,
+                    bytemuck::bytes_of(&self.params.order_node_capacity));
+            }
+            encoder.copy_buffer_to_buffer(&old.scratch, u64::from(old.params.order_base + 3 * old_stride) * 4,
+                &self.scratch, u64::from(self.params.order_base + 3 * stride) * 4,
+                u64::from(4 * old.caps.shapes) * 4);
+            self.params.order_enabled = 1;
+        } else if old.params.order_enabled != 0 {
+            eprintln!("live contact ordering disabled: proxy topology changed during allocation");
+        }
         // query word 73 is the monotonic dirty-contact bound (WGSL constant).
         encoder.copy_buffer_to_buffer(&old.query, 73 * 4, &self.query, 73 * 4, 4);
         copy(&mut encoder, &old.contacts, &self.contacts);
@@ -4654,6 +5245,10 @@ impl GpuSim {
         for (src, dst, words) in [
             (crate::types::SCR_OCCUPIED_N, crate::types::SCR_OCCUPIED_N, 1),
             (old_layout.occupied, layout.occupied, old.contact_slots.min(self.contact_slots)),
+            (old_layout.history, layout.history, 2),
+            (old_layout.history + 2, layout.history + 2, 6 * old.params.pair_capacity.min(self.params.pair_capacity)),
+            (old_layout.history + 2 + 6 * old.params.pair_capacity, layout.history + 2 + 6 * self.params.pair_capacity, old.params.pair_capacity.min(self.params.pair_capacity)),
+            (old_layout.history + 2 + 7 * old.params.pair_capacity, layout.history + 2 + 7 * self.params.pair_capacity, old.params.pair_capacity.min(self.params.pair_capacity)),
         ] {
             encoder.copy_buffer_to_buffer(
                 &old.scratch, u64::from(src) * 4,
@@ -4906,7 +5501,7 @@ impl GpuSim {
         // Count the allocated primary simulation buffers, including reserved
         // scene geometry/material storage. This is not total device VRAM:
         // readbacks, CCD, renderer resources and driver allocations are excluded.
-        let cold_body_bytes = (mem::size_of::<BodyColdGpu>() + 64) as u64
+        let cold_body_bytes = (mem::size_of::<BodyColdGpu>() + 80) as u64
             * u64::from(self.caps.bodies.max(1));
         let body_bytes = self.bodies.size() + cold_body_bytes;
         let shape_bytes = self.body_cold.size() - cold_body_bytes;
@@ -5005,8 +5600,8 @@ impl GpuSim {
     pub(crate) fn set_step_forces(&mut self, forces: &[(u32, [f32; 3], [f32; 3])]) {
         if self.step_force_slots.is_empty() && forces.is_empty() { return; }
         self.invalidate_idle_proof();
-        let capacity = self.params.shape_base_u32 / 32;
-        let offset = |slot: u32| u64::from(16 * capacity + 16 * slot + 8) * 4;
+        let capacity = self.params.shape_base_u32 / 36;
+        let offset = |slot: u32| u64::from(16 * capacity + 20 * slot + 8) * 4;
         for slot in self.step_force_slots.drain(..) {
             self.queue.write_buffer(&self.body_cold, offset(slot), bytemuck::cast_slice(&[0.0f32; 8]));
         }
@@ -5019,6 +5614,13 @@ impl GpuSim {
     }
 
     pub(crate) fn has_step_forces(&self) -> bool { !self.step_force_slots.is_empty() }
+
+    pub(crate) fn set_body_inverse_inertia(&self, slot: u32, m: [[f32;3];3]) {
+        let cap=self.params.shape_base_u32/36;
+        self.queue.write_buffer(&self.body_cold,u64::from(slot*16+4)*4,bytemuck::cast_slice(&[m[0][0],m[1][1],m[2][2]]));
+        self.queue.write_buffer(&self.body_cold,u64::from(16*cap+20*slot)*4,bytemuck::cast_slice(&[m[0][1],m[0][2],m[1][2]]));
+        self.queue.write_buffer(&self.body_cold,u64::from(16*cap+20*slot+16)*4,bytemuck::cast_slice(&[m[1][0],m[2][0],m[2][1]]));
+    }
 
     pub fn write_body_states(&self, bodies: &[BodyGpu]) {
         self.invalidate_idle_proof();
@@ -5911,6 +6513,8 @@ impl BodyGpu {
     pub fn zeroed() -> Self {
         Self {
             pos: [0.0; 3],
+            origin: [0.0; 3],
+            origin_valid: 0,
             inv_mass: 0.0,
             vel: [0.0; 3],
             kind: 0,

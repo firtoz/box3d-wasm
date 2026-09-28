@@ -32,7 +32,7 @@ impl CpuViewer {
                 std::mem::transmute_copy(&ptr)
             }
             let abi: unsafe extern "C" fn() -> u32 = symbol(library, "viewer_cpu_abi");
-            assert_eq!(abi(), 1);
+            assert_eq!(abi(), 2);
             let create: unsafe extern "C" fn(*const libc::c_char, u32, i32) -> *mut c_void = symbol(library, "viewer_cpu_create_workers");
             let count: unsafe extern "C" fn(*mut c_void) -> u32 = symbol(library, "viewer_cpu_count");
             let scene = CString::new(cfg.scene.slug()).unwrap();
@@ -46,7 +46,7 @@ impl CpuViewer {
             assert_eq!(n as i32, b3_world_counts(gpu_world).0, "CPU/GPU body counts differ");
             let records = vec![bytemuck::Zeroable::zeroed(); n as usize];
             let buffer = device.create_buffer(&wgpu::BufferDescriptor {
-                label: Some("real CPU Box3D render states"), size: n as u64 * 96,
+                label: Some("real CPU Box3D render states"), size: n as u64 * std::mem::size_of::<BodyStateGpu>() as u64,
                 usage: wgpu::BufferUsages::STORAGE | wgpu::BufferUsages::COPY_DST, mapped_at_creation: false,
             });
             let mut result = Self { library, world, destroy: symbol(library,"viewer_cpu_destroy"), step: symbol(library,"viewer_cpu_step"), states: symbol(library,"viewer_cpu_states"), records, buffer, steps: 0 };

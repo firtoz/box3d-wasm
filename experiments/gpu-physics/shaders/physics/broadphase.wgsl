@@ -182,14 +182,36 @@ fn fat_upper(b: Body) -> vec3<f32> {
     let base = params.fat_bounds_base + 8u * b._pad_island.x;
     return bitcast<vec3<f32>>(vec3<u32>(scratch[base+4u], scratch[base+5u], scratch[base+6u]));
 }
-fn update_fat_collider(i: u32, shape: Shape, b: Body) {
+fn capsule_proxy_bounds(p1: vec3<f32>, p2: vec3<f32>, radius: f32,
+    origin: vec3<f32>, rotation: vec4<f32>, padding: f32) -> mat2x3<f32> {
+    // Native capsule AABBs transform the original endpoints, then inflate by
+    // radius and speculative distance separately. A bounding sphere retains
+    // separated pairs and changes their graph lifetime and solver ordering.
+    let a = origin + gyro_quat_rotate(rotation, p1);
+    let b = origin + gyro_quat_rotate(rotation, p2);
+    return mat2x3<f32>(
+        (min(a, b) - vec3<f32>(radius)) - vec3<f32>(padding),
+        (max(a, b) + vec3<f32>(radius)) + vec3<f32>(padding),
+    );
+}
+
+fn update_fat_collider(i: u32, shape: Shape, b: Body,
+    origin: vec3<f32>, rotation: vec4<f32>) {
     let child = (shape.event_flags & SHAPE_COMPOUND_CHILD) != 0u;
     // Compound child trees contain raw child bounds; public proxies include
     // speculative distance and preserve their larger box until it is escaped.
-    let tight_pad = select(SPECULATIVE, 0.0, child);
+    // Native CCD's no-impact branch retains the unpadded swept end bounds.
+    let tight_pad = select(SPECULATIVE, 0.0, child || (b.flags & FLAG_CCD_NO_HIT) != 0u);
     let e = collider_aabb_extent(b) + vec3<f32>(tight_pad);
-    let lo = b.pos - e;
-    let hi = b.pos + e;
+    var lo = b.pos - e;
+    var hi = b.pos + e;
+    if (shape.kind == KIND_CAPSULE) {
+        let bounds = capsule_proxy_bounds(capsule_local_point(shape, 0u),
+            capsule_local_point(shape, 1u), shape.half.x,
+            origin, rotation, tight_pad);
+        lo = bounds[0];
+        hi = bounds[1];
+    }
     let base = params.fat_bounds_base + 8u * i;
     let initialized = scratch[base+3u] == params.fat_bounds_epoch;
     if (!child && initialized && all(lo >= fat_lower(b)) && all(hi <= fat_upper(b))) { return; }
@@ -216,16 +238,18 @@ fn update_fat_bounds(i: u32) {
             let origin = bitcast<vec3<f32>>(vec3<u32>(scratch[cmd], scratch[cmd+1u], scratch[cmd+2u]));
             let rotation = bitcast<vec4<f32>>(vec4<u32>(scratch[cmd+4u], scratch[cmd+5u], scratch[cmd+6u], scratch[cmd+7u]));
             var pose = current;
+            pose.flags &= ~FLAG_CCD_NO_HIT;
             pose.pos = origin + quat_rotate(rotation, shape.local_center);
             pose.rot = rotation;
             if (shape.kind == KIND_CAPSULE && dot(shape.axis, shape.axis) > 1e-12) {
                 pose.rot = normalize(quat_mul(rotation, quat_from_x_axis(shape.axis)));
             }
-            update_fat_collider(i, shape, pose);
+            update_fat_collider(i, shape, pose, origin, rotation);
         }
         scratch[base+7u] = params.fat_commands_epoch;
     }
-    update_fat_collider(i, shape, current);
+    let body = load_body(shape.body_index);
+    update_fat_collider(i, shape, current, body_origin(body, shape.body_index), body.rot);
 }
 
 @compute @workgroup_size(64)
@@ -1836,11 +1860,11 @@ var<workgroup> graph_batch_partition: atomic<u32>;
 var<workgroup> graph_batch_partition_count: u32;
 
 fn graph_batch_memo_base() -> u32 {
-    return 261u + 54u * (params.shape_base_u32 / 32u) + 2u * params.contact_capacity;
+    return 261u + 54u * (params.shape_base_u32 / 36u) + 2u * params.contact_capacity;
 }
 // Four cached chunks per 128-body range. Denser ranges still use the exact
 // greedy fallback for their remaining chunks. Edge order is never changed.
-fn graph_batch_memo_groups() -> u32 { return 4u * ((params.shape_base_u32 / 32u + 127u) / 128u); }
+fn graph_batch_memo_groups() -> u32 { return 4u * ((params.shape_base_u32 / 36u + 127u) / 128u); }
 fn graph_batch_memo_edges() -> u32 { return graph_batch_memo_base() + 8u + graph_batch_memo_groups(); }
 fn graph_batch_memo_end() -> u32 { return graph_batch_memo_edges() + 6u * 256u * graph_batch_memo_groups(); }
 

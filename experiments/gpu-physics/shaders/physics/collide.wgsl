@@ -136,6 +136,18 @@ fn mixed_restitution_of(a: Body, b: Body) -> f32 {
     return geometric;
 }
 
+// Native stores a world-space friction impulse between steps and projects it
+// during preparation, including when the contact geometry is recycled.
+fn reproject_contact_friction(old_normal: vec3<f32>, new_normal: vec3<f32>,
+    impulse: vec2<f32>, endpoint_sign: f32) -> vec2<f32> {
+    let old_t1 = perp(old_normal);
+    let old_t2 = gyro_cross(old_t1, old_normal);
+    let world_impulse = endpoint_sign * (old_t1 * impulse.x + old_t2 * impulse.y);
+    let new_t1 = perp(new_normal);
+    let new_t2 = gyro_cross(new_t1, new_normal);
+    return vec2<f32>(gyro_dot3(world_impulse, new_t1), gyro_dot3(world_impulse, new_t2));
+}
+
 fn finish_manifold(c: ptr<function, Contact>, a: Body, b: Body, ia: u32, ib: u32) {
     let key = vec2<u32>(min(a._pad_island.x, b._pad_island.x), max(a._pad_island.x, b._pad_island.x));
     let previous = find_prev_contact_key(key, ia, ib);
@@ -155,9 +167,12 @@ fn finish_manifold_from_previous(c: ptr<function, Contact>, a: Body, b: Body, ia
     // Box-face clipping supplies the original separation before solver-base
     // packing. Marker 3 carries raw separation and COM anchors; marker 4
     // carries packed separation and COM anchors for mesh/capsule witnesses.
+    // Mesh finalization uses 5/6 for raw separation with origin/COM anchors.
     // These markers are transient; finalization writes cache validity 1.
-    let com_anchors = (*c).cached_relative.w == 3.0 || (*c).cached_relative.w == 4.0;
-    let has_raw_separations = (*c).cached_relative.w == 2.0 || (*c).cached_relative.w == 3.0;
+    let mesh_raw = (*c).cached_relative.w == 5.0 || (*c).cached_relative.w == 6.0;
+    let com_anchors = (*c).cached_relative.w == 3.0 || (*c).cached_relative.w == 4.0
+        || (*c).cached_relative.w == 6.0;
+    let has_raw_separations = (*c).cached_relative.w == 2.0 || (*c).cached_relative.w == 3.0 || mesh_raw;
     let capsule_pair = a.kind == KIND_CAPSULE && b.kind == KIND_CAPSULE;
     let raw_separations = vec4<f32>((*c).persistent_rb0.w, (*c).persistent_rb1.w,
         (*c).persistent_rb2.w, (*c).persistent_rb3.w);
@@ -173,7 +188,7 @@ fn finish_manifold_from_previous(c: ptr<function, Contact>, a: Body, b: Body, ia
         let anchor_a = ra.xyz + da;
         let anchor_b = rb.xyz + db;
         var base = ra.w - base_shift;
-        if (capsule_pair && has_raw_separations) {
+        if ((capsule_pair && has_raw_separations) || mesh_raw) {
             base = raw_separations[i] - gyro_dot3(anchor_b - anchor_a, (*c).n);
         }
         set_point(c, i, vec4<f32>(anchor_a, base), vec4<f32>(anchor_b, rb.w));
@@ -224,15 +239,8 @@ fn finish_manifold_from_previous(c: ptr<function, Contact>, a: Body, b: Body, ia
         (*c).color = p.color;
     }
     if (p.a != EMPTY && p.count > 0u) {
-        let old_t1 = perp(p.n);
-        let old_t2 = gyro_cross(old_t1, p.n);
         let sign = select(-1.0, 1.0, p.a == ia && p.b == ib);
-        let old_friction = sign * (old_t1 * p.friction_impulse.x + old_t2 * p.friction_impulse.y);
-        let new_t1 = perp((*c).n);
-        let new_t2 = gyro_cross(new_t1, (*c).n);
-        // CPU stores friction as a world vector between steps, then projects
-        // it onto the refreshed normal's tangent basis during preparation.
-        (*c).friction_impulse = vec2<f32>(gyro_dot3(old_friction, new_t1), gyro_dot3(old_friction, new_t2));
+        (*c).friction_impulse = reproject_contact_friction(p.n, (*c).n, p.friction_impulse, sign);
         (*c).twist_impulse = p.twist_impulse;
         (*c).rolling_impulse = sign * p.rolling_impulse;
     }
@@ -957,7 +965,7 @@ fn add_capsule_local_point(c: ptr<function, Contact>, rotation: vec4<f32>,
     let a=load_body((*c).a); let b=load_body((*c).b);
     let center_a=quat_rotate(a.rot,load_body_cold((*c).a).local_center);
     let center_b=quat_rotate(b.rot,load_body_cold((*c).b).local_center);
-    let origin_a=a.pos-center_a; let origin_b=b.pos-center_b;
+    let origin_a=body_origin(a,(*c).a); let origin_b=body_origin(b,(*c).b);
     let anchor=contact_matrix_rotate(rotation,point);
     let ra=anchor-center_a;
     let rb=(anchor+(origin_a-origin_b))-center_b;
@@ -967,6 +975,29 @@ fn add_capsule_local_point(c: ptr<function, Contact>, rotation: vec4<f32>,
     else { (*c).persistent_rb1.w=separation; }
     // Raw separation and already COM-relative anchors.
     (*c).cached_relative.w=3.0;
+}
+
+// Match b3PointToSegmentDistance, including exact endpoint returns.
+fn capsule_closest_point(a: vec3<f32>, b: vec3<f32>, p: vec3<f32>) -> vec3<f32> {
+    let ab = b - a;
+    let alpha = gyro_dot3(ab, p - a);
+    if (alpha <= 0.0) {
+        return a;
+    }
+    let denominator = gyro_dot3(ab, ab);
+    if (alpha > denominator) {
+        return b;
+    }
+    return a + gyro_divide(alpha, denominator) * ab;
+}
+
+// Empty and populated capsule pairs must use the same reference body: the
+// conservative recycling bound is evaluated in that body's local frame.
+fn capsule_reference_reversed(flags_a: u32, flags_b: u32, shape_a: u32, shape_b: u32) -> bool {
+    let anchored_a = (flags_a & (FLAG_STATIC | FLAG_KINEMATIC)) != 0u;
+    let anchored_b = (flags_b & (FLAG_STATIC | FLAG_KINEMATIC)) != 0u;
+    return (!anchored_a && anchored_b)
+        || (anchored_a == anchored_b && shape_a < shape_b);
 }
 
 fn collide_capsules(a: Body, b: Body, ia: u32, ib: u32) -> Contact {
@@ -980,8 +1011,8 @@ fn collide_capsules(a: Body, b: Body, ia: u32, ib: u32) -> Contact {
     let ca = load_body_cold(ia).local_center;
     let cb = load_body_cold(ib).local_center;
     let relative_rot = quat_mul(quat_inv(ba.rot), bb.rot);
-    let origin_a = ba.pos - quat_rotate(ba.rot,ca);
-    let origin_b = bb.pos - quat_rotate(bb.rot,cb);
+    let origin_a = body_origin(ba,ia);
+    let origin_b = body_origin(bb,ib);
     let relative_pos = quat_inv_rotate(ba.rot,origin_b-origin_a);
     let a0 = capsule_local_point(sa, 0u);
     let a1 = capsule_local_point(sa, 1u);
@@ -1014,7 +1045,9 @@ fn collide_capsules(a: Body, b: Body, ia: u32, ib: u32) -> Contact {
     c.a = ia;
     c.b = ib;
     c.friction = mixed_friction_of(a, b);
-    if (gyro_dot3(cr, cr) < 0.0025) {
+    // Preserve native float32 multiplication at the parallelism boundary.
+    let alpha_tol: f32 = 0.05;
+    if (gyro_dot3(cr, cr) < alpha_tol * alpha_tol) {
         var seg: Seg2;
         seg.p0 = b0;
         seg.p1 = b1;
@@ -1026,8 +1059,8 @@ fn collide_capsules(a: Body, b: Body, ia: u32, ib: u32) -> Contact {
             seg = clip_seg(seg, eA, dot(eA, a1));
         }
         if (seg.n == 2u) {
-            let q0 = a0 + eA * clamp(dot(seg.p0 - a0, eA), 0.0, la);
-            let q1 = a0 + eA * clamp(dot(seg.p1 - a0, eA), 0.0, la);
+            let q0 = capsule_closest_point(a0, a1, seg.p0);
+            let q1 = capsule_closest_point(a0, a1, seg.p1);
             let d0 = gyro_sqrt(gyro_dot3(seg.p0 - q0, seg.p0 - q0));
             let d1 = gyro_sqrt(gyro_dot3(seg.p1 - q1, seg.p1 - q1));
             if (d0 <= radius && d1 <= radius && d0 >= min_d && d1 >= min_d) {
@@ -2119,6 +2152,14 @@ fn mesh_feature_allowed(feature: u32, flags: u32) -> bool {
     return true;
 }
 
+fn capsule_mesh_feature_allowed(feature: u32, flags: u32, covered_edges: u32) -> bool {
+    // Faces establish coverage before tentative edges are considered. A flat
+    // edge alone is not enough to reject an otherwise exposed contact.
+    if (feature == 3u) { return true; }
+    let flat_edges = flags & (flags >> 4u) & 7u;
+    return flat_edges != 7u && (flat_edges & covered_edges) == 0u;
+}
+
 fn mesh_local_vertex(mesh_shape: Shape, mesh: Body, index: u32) -> vec3<f32> {
     let local = load_mesh_vertex(mesh_shape, index) - mesh_shape.local_center;
     return mesh.pos + quat_rotate(mesh.rot, local);
@@ -2315,6 +2356,16 @@ fn trace_mesh_candidate(stage: u32, mesh: Shape, convex: Shape, triangle: u32,
     trace_solver_words(words);
 }
 
+fn mesh_contact_base_separation(
+    separation: f32, reference_normal: vec3<f32>,
+    anchor_a: vec3<f32>, anchor_b: vec3<f32>,
+) -> f32 {
+    // Native clustering preserves each original separation. Do not project it
+    // again onto the cluster normal, whose squared length may differ from one.
+    // Keep scalar dot order: a one-ulp base error changes speculative bias.
+    return separation - gyro_dot3(anchor_b - anchor_a, reference_normal);
+}
+
 fn consider_mesh_manifold_point(
     result: ptr<function, Contact>,
     mesh: Body,
@@ -2346,8 +2397,8 @@ fn consider_mesh_manifold_point(
         let body_b = load_body((*result).b);
         let center_a = quat_rotate(body_a.rot, load_body_cold((*result).a).local_center);
         let center_b = quat_rotate(body_b.rot, load_body_cold((*result).b).local_center);
-        let origin_a = body_a.pos - center_a;
-        let origin_b = body_b.pos - center_b;
+        let origin_a = body_origin(body_a,(*result).a);
+        let origin_b = body_origin(body_b,(*result).b);
         r_b = input_point - center_b;
         r_a = (input_point + (origin_b - origin_a)) - center_a;
         point = origin_b + input_point;
@@ -2356,11 +2407,13 @@ fn consider_mesh_manifold_point(
     }
     trace_mesh_candidate(0u, mesh_shape, convex_shape, (*result).manifold_link.w,
         point, separation, contact_normal, patch_separation, feature);
-    // Admit a clipped face by its nearest point. Other vertices can become
-    // active as the body rotates during TGS; discarding them here changes torque.
-    if (patch_separation > mesh_speculative_keep(convex_shape, mesh_shape)
-        || (mesh_speculative_keep(convex_shape, mesh_shape) == 0.0 && separation > 0.0)
-        || dot(contact_normal, triangle_normal) < -0.05) {
+    // Capsule admission already used closest distance, as in native
+    // triangle_manifold.c. Its clipped face can have every point farther than
+    // speculative distance: applying a second face cutoff loses that manifold.
+    let reject_separation = convex.kind != KIND_CAPSULE &&
+        (patch_separation > mesh_speculative_keep(convex_shape, mesh_shape)
+        || (mesh_speculative_keep(convex_shape, mesh_shape) == 0.0 && separation > 0.0));
+    if (reject_separation || dot(contact_normal, triangle_normal) < -0.05) {
         return;
     }
     // Box3D mesh_contact.c classifies shallow hull-face contacts whose normal
@@ -2388,10 +2441,10 @@ fn consider_mesh_manifold_point(
     if (!aligned) {
         return;
     }
-    for (var old = 0u; old < (*result).count; old++) {
-        let d = ra_at(*result, old).xyz - r_a;
-        if (dot(d, d) < 1e-8) {
-            return;
+    if (convex.kind != KIND_CAPSULE) {
+        for (var old = 0u; old < (*result).count; old++) {
+            let d = ra_at(*result, old).xyz - r_a;
+            if (dot(d, d) < 1e-8) { return; }
         }
     }
     if ((*result).count == 0u) {
@@ -2403,10 +2456,12 @@ fn consider_mesh_manifold_point(
         *dominant_material = material_index;
     }
     // All points in this manifold must use its single, fixed normal basis.
-    let base = separation * dot(contact_normal, *best_normal) - dot(r_b - r_a, *best_normal);
+    let base = mesh_contact_base_separation(separation, *best_normal, r_a, r_b);
     trace_mesh_candidate(1u, mesh_shape, convex_shape, (*result).manifold_link.w,
         point, separation, contact_normal, patch_separation, feature);
-    if (!append_mesh_point_with_identity(result, vec4<f32>(r_a, base), vec4<f32>(r_b, 0.0), *best_normal, (*result).manifold_link.w, feature)) {
+    // Before finalization rb.w carries raw separation, not a solver impulse.
+    // The reducer copies the whole point, preserving it through reordering.
+    if (!append_mesh_point_with_identity(result, vec4<f32>(r_a, base), vec4<f32>(r_b, separation), *best_normal, (*result).manifold_link.w, feature)) {
         return;
     }
     let material = load_surface_material(mesh_shape, material_index);
@@ -2678,6 +2733,23 @@ fn append_mesh_patch(list: ptr<function, MeshPatchList>, root: u32, candidate: C
         var piece = load_contact(slot);
         if (piece.lifecycle.y == candidate.lifecycle.y && dot(piece.n, candidate.n) > 0.996
             && dot(mesh_representative_normal(shape, mesh, piece.manifold_link.w), triangle_normal) > 0.996) {
+            if (candidate.cached_relative.w == 4.0) {
+                // Keep the complete capsule cluster until native-style culling.
+                // Different triangles may contribute coincident witnesses.
+                let allocated = allocate_manifold_slot(root);
+                if (allocated == EMPTY) { return false; }
+                var raw = candidate;
+                raw.pair.z = 0u;
+                raw.pair.w = 0u;
+                store_contact(allocated, raw);
+                if (piece.pair.z == 0u) { piece.pair.z = allocated + 1u; }
+                else { contact_persistent[piece.pair.w - 1u].pair.z = allocated + 1u; }
+                piece.pair.w = allocated + 1u;
+                piece._pad_end = max(piece._pad_end, candidate._pad_end);
+                piece.lifecycle.z = max(piece.lifecycle.z, candidate.lifecycle.z);
+                store_contact(slot, piece);
+                return true;
+            }
             for (var j = 0u; j < candidate.count; j++) {
                 let ra = ra_at(candidate, j);
                 let rb = rb_at(candidate, j);
@@ -2687,12 +2759,13 @@ fn append_mesh_patch(list: ptr<function, MeshPatchList>, root: u32, candidate: C
                     duplicate = duplicate || dot(delta, delta) < 1e-8;
                 }
                 if (duplicate) { continue; }
-                let separation = ra.w + dot(rb.xyz - ra.xyz, candidate.n);
-                let base = separation * dot(candidate.n, piece.n) - dot(rb.xyz - ra.xyz, piece.n);
+                let separation = rb.w;
+                let base = mesh_contact_base_separation(separation, piece.n, ra.xyz, rb.xyz);
                 append_mesh_point_with_identity(&piece, vec4<f32>(ra.xyz, base), rb, piece.n,
                     candidate.point_triangles[j], feat_at(candidate, j));
             }
             piece._pad_end = max(piece._pad_end, candidate._pad_end);
+            piece.lifecycle.z = max(piece.lifecycle.z, candidate.lifecycle.z);
             store_contact(slot, piece);
             return true;
         }
@@ -2701,6 +2774,8 @@ fn append_mesh_patch(list: ptr<function, MeshPatchList>, root: u32, candidate: C
     let allocated = allocate_manifold_slot(root);
     if (allocated == EMPTY) { return false; }
     var added = candidate;
+    added.pair.z = 0u;
+    added.pair.w = 0u;
     added.manifold_link.x = 0u;
     added.manifold_link.y = root + 1u;
     added.manifold_link.z = 0u;
@@ -2712,10 +2787,159 @@ fn append_mesh_patch(list: ptr<function, MeshPatchList>, root: u32, candidate: C
     return true;
 }
 
+// Fresh capsule clusters use pair.z as a raw-block link and pair.w as the
+// tail. These scratch links are cleared before a manifold becomes persistent.
+fn discard_mesh_raw_points(root: u32) {
+    var next = contact_persistent[root].pair.z;
+    loop {
+        if (next == 0u) { break; }
+        let slot = next - 1u;
+        next = contact_persistent[slot].pair.z;
+        store_contact(slot, empty_contact());
+        scratch[scr_contact_mark() + slot] = 0u;
+    }
+    contact_persistent[root].pair.z = 0u;
+    contact_persistent[root].pair.w = 0u;
+}
+
+fn mesh_raw_point(root: u32, index: u32) -> vec2<u32> {
+    var slot = root;
+    var remaining = index;
+    loop {
+        let count = contacts[slot].count;
+        if (remaining < count) { break; }
+        remaining -= count;
+        slot = contact_persistent[slot].pair.z - 1u;
+    }
+    return vec2<u32>(slot, remaining);
+}
+
+fn mesh_project_raw_point(root: u32, index: u32, origin: vec3<f32>, u: vec3<f32>, v: vec3<f32>) -> vec3<f32> {
+    let location = mesh_raw_point(root, index);
+    let point = persistent_ra_at(load_contact(location.x), location.y);
+    let d = point.xyz - origin;
+    return vec3<f32>(gyro_dot3(d,u), gyro_dot3(d,v), point.w);
+}
+
+fn mesh_cull_better(score: f32, separation: f32, best_score: f32, best_separation: f32) -> bool {
+    let tolerance = 0.25 * LINEAR_SLOP;
+    let tolerance2 = tolerance * tolerance;
+    if (score > best_score + tolerance2) { return true; }
+    if (score < best_score - tolerance2) { return false; }
+    return separation < best_separation - LINEAR_SLOP;
+}
+
+fn mesh_cull_index(index: u32, swaps: array<vec2<u32>,3>, count: u32) -> u32 {
+    for (var i = count; i > 0u; i--) {
+        if (swaps[i-1u].x == index) { return swaps[i-1u].y; }
+    }
+    return index;
+}
+
+fn mesh_cross2(a: vec2<f32>, b: vec2<f32>) -> f32 {
+    let x = a.x * b.y;
+    let y = a.y * b.x;
+    return x - y;
+}
+
+fn reduce_capsule_mesh_cluster(root: u32) -> Contact {
+    var result = load_contact(root);
+    var count = result.count;
+    var next = result.pair.z;
+    loop {
+        if (next == 0u) { break; }
+        count += contacts[next-1u].count;
+        next = contact_persistent[next-1u].pair.z;
+    }
+    if (count <= 1u) { return result; }
+    let normal = result.cached_rotation_a.xyz;
+    var perpendicular = vec3<f32>(0.0,normal.z,-normal.y);
+    if (normal.x < -0.5 || normal.x > 0.5) { perpendicular = vec3<f32>(normal.y,-normal.x,0.0); }
+    let u = gyro_norm3(perpendicular);
+    let v = gyro_cross(normal,u);
+    let origin = result.persistent_ra0.xyz;
+    var first = 0u;
+    var second = 1u;
+    var score = 0.0;
+    var separation = bitcast<f32>(0x7f7fffffu);
+    for (var i=0u; i<count; i++) {
+        let p = mesh_project_raw_point(root,i,origin,u,v);
+        for (var j=i+1u; j<count; j++) {
+            let q = mesh_project_raw_point(root,j,origin,u,v);
+            let d = p.xy-q.xy;
+            let s = d.x*d.x + d.y*d.y;
+            if (mesh_cull_better(s,p.z+q.z,score,separation)) {
+                first=i; second=j; score=s; separation=p.z+q.z;
+            }
+        }
+    }
+    var order: array<u32,4>;
+    var output_count = 2u;
+    order[0]=first; order[1]=second;
+    let tolerance = 0.25 * LINEAR_SLOP;
+    if (score < tolerance*tolerance) {
+        var deepest=0u;
+        var depth=mesh_project_raw_point(root,0u,origin,u,v).z;
+        for (var i=1u; i<count; i++) {
+            let d=mesh_project_raw_point(root,i,origin,u,v).z;
+            if (d<depth) { deepest=i; depth=d; }
+        }
+        order[0]=deepest; output_count=1u;
+    } else if (count>2u) {
+        // Model native swap-removal without imposing a fixed candidate limit.
+        var swaps: array<vec2<u32>,3>;
+        swaps[0]=vec2<u32>(second,count-1u);
+        swaps[1]=vec2<u32>(first,mesh_cull_index(count-2u,swaps,1u));
+        var remaining=count-2u;
+        let a=mesh_project_raw_point(root,first,origin,u,v).xy;
+        var b=mesh_project_raw_point(root,second,origin,u,v).xy;
+        var third=EMPTY;
+        var signed_area=0.0;
+        score=0.0; separation=bitcast<f32>(0x7f7fffffu);
+        for (var i=0u; i<remaining; i++) {
+            let p=mesh_project_raw_point(root,mesh_cull_index(i,swaps,2u),origin,u,v);
+            let area=mesh_cross2(b-a,p.xy-a);
+            if (mesh_cull_better(abs(area),p.z,score,separation)) {
+                third=i; signed_area=area; score=abs(area); separation=p.z;
+            }
+        }
+        if (third != EMPTY) {
+            order[2]=mesh_cull_index(third,swaps,2u); output_count=3u;
+            if (remaining>1u) {
+                swaps[2]=vec2<u32>(third,mesh_cull_index(remaining-1u,swaps,2u));
+                remaining-=1u;
+                var c=mesh_project_raw_point(root,order[2],origin,u,v).xy;
+                if (signed_area<0.0) { let temp=b; b=c; c=temp; }
+                score=0.0; separation=bitcast<f32>(0x7f7fffffu);
+                var fourth=EMPTY;
+                for (var i=0u; i<remaining; i++) {
+                    let p=mesh_project_raw_point(root,mesh_cull_index(i,swaps,3u),origin,u,v);
+                    let s=max(mesh_cross2(p.xy-a,b-a),max(mesh_cross2(p.xy-b,c-b),mesh_cross2(p.xy-c,a-c)));
+                    if (mesh_cull_better(s,p.z,score,separation)) { fourth=i; score=s; separation=p.z; }
+                }
+                if (fourth != EMPTY) { order[3]=mesh_cull_index(fourth,swaps,3u); output_count=4u; }
+            }
+        }
+    }
+    for (var i=0u; i<output_count; i++) {
+        let location=mesh_raw_point(root,order[i]);
+        let source=load_contact(location.x);
+        let ra=ra_at(source,location.y);
+        let rb=rb_at(source,location.y);
+        let base=mesh_contact_base_separation(rb.w,result.n,ra.xyz,rb.xyz);
+        set_point(&result,i,vec4<f32>(ra.xyz,base),rb);
+        set_feat_at(&result,i,feat_at(source,location.y));
+        result.point_triangles[i]=source.point_triangles[location.y];
+    }
+    result.count=output_count;
+    return result;
+}
+
 fn discard_mesh_patch_list(list: MeshPatchList) {
     var slot = list.head;
     for (var i = 0u; i < list.count; i++) {
         let next = contacts[slot].manifold_link.x;
+        discard_mesh_raw_points(slot);
         store_contact(slot, empty_contact());
         scratch[scr_contact_mark() + slot] = 0u;
         slot = next - 1u;
@@ -2741,7 +2965,30 @@ fn select_old_mesh_patch(root: u32, fresh: Contact) -> Contact {
     return load_contact(best);
 }
 
-fn finalize_mesh_patch_list(list: MeshPatchList, root: u32, mesh: Body, convex: Body, ia: u32, ib: u32) -> Contact {
+// Native mesh_contact.c accepts triangle faces before tentative capsule
+// edges/vertices. Keep that stable order even when the BVH visits an edge first.
+fn order_capsule_mesh_patches(input: MeshPatchList) -> MeshPatchList {
+    var parts = array<MeshPatchList,2>(MeshPatchList(EMPTY,EMPTY,0u), MeshPatchList(EMPTY,EMPTY,0u));
+    var slot = input.head;
+    for (var i = 0u; i < input.count; i++) {
+        let next = contacts[slot].manifold_link.x;
+        let part = select(1u, 0u, contact_persistent[slot].lifecycle.z == 1u);
+        if (parts[part].count == 0u) { parts[part].head = slot; }
+        else { contacts[parts[part].tail].manifold_link.x = slot + 1u; }
+        contacts[slot].manifold_link.x = 0u;
+        parts[part].tail = slot;
+        parts[part].count += 1u;
+        slot = next - 1u;
+    }
+    if (parts[0].count == 0u) { return parts[1]; }
+    if (parts[1].count == 0u) { return parts[0]; }
+    contacts[parts[0].tail].manifold_link.x = parts[1].head + 1u;
+    return MeshPatchList(parts[0].head, parts[1].tail, input.count);
+}
+
+fn finalize_mesh_patch_list(input: MeshPatchList, root: u32, mesh: Body, convex: Body, ia: u32, ib: u32) -> Contact {
+    var list = input;
+    if (convex.kind == KIND_CAPSULE) { list = order_capsule_mesh_patches(input); }
     if (!contact_chain_structure_valid(root)) {
         discard_mesh_patch_list(list);
         return load_contact(root);
@@ -2750,16 +2997,30 @@ fn finalize_mesh_patch_list(list: MeshPatchList, root: u32, mesh: Body, convex: 
     var slot = list.head;
     for (var i = 0u; i < list.count; i++) {
         var piece = load_contact(slot);
+        if (convex.kind == KIND_CAPSULE) {
+            piece = reduce_capsule_mesh_cluster(slot);
+            discard_mesh_raw_points(slot);
+            piece.pair.z = 0u;
+            piece.pair.w = 0u;
+        }
         let previous = select_old_mesh_patch(root, piece);
         let friction = piece.friction;
         let restitution = piece._pad_end;
         let rolling = piece.rolling;
-        // Native applies B3_MESH_REST_OFFSET after clustering, for every mesh
-        // manifold. Keep admission/geometric witness coordinates unchanged.
+        // Native applies B3_MESH_REST_OFFSET to raw separation after clustering,
+        // before solver preparation subtracts the COM anchor projection.
+        // Subtracting from an already packed base loses low separation bits.
         for (var j = 0u; j < piece.count; j++) {
             let ra = ra_at(piece, j);
-            set_point(&piece, j, vec4<f32>(ra.xyz, ra.w - LINEAR_SLOP), rb_at(piece, j));
+            let rb = rb_at(piece, j);
+            let separation = rb.w - LINEAR_SLOP;
+            if (j == 0u) { piece.persistent_rb0.w = separation; }
+            else if (j == 1u) { piece.persistent_rb1.w = separation; }
+            else if (j == 2u) { piece.persistent_rb2.w = separation; }
+            else { piece.persistent_rb3.w = separation; }
+            set_point(&piece, j, ra, vec4<f32>(rb.xyz, 0.0));
         }
+        piece.cached_relative.w = select(5.0, 6.0, piece.cached_relative.w == 4.0);
         finish_manifold_from_previous(&piece, mesh, convex, ia, ib, previous);
         piece.friction = friction;
         piece._pad_end = restitution;
@@ -3136,6 +3397,7 @@ fn collide_mesh_triangle(mesh_shape: Shape, convex_shape: Shape, mesh: Body, con
     let material_index = triangle.w >> 8u;
     let flags = triangle.w & 0xffu;
     var radius = 0.0;
+    var capsule_face = false;
     if (convex.kind == KIND_SPHERE) {
         add_mesh_sample_contact(
             &result, mesh, convex, convex_shape, mesh_shape, convex.pos, convex.half.x,
@@ -3149,10 +3411,8 @@ fn collide_mesh_triangle(mesh_shape: Shape, convex_shape: Shape, mesh: Body, con
         // rotated proxy axis or subtracting large world-space coordinates.
         let capsule_body = load_body(convex_body_index);
         let mesh_body = load_body(mesh_body_index);
-        let capsule_origin = capsule_body.pos - quat_rotate(capsule_body.rot,
-            load_body_cold(convex_body_index).local_center);
-        let mesh_origin = mesh_body.pos - quat_rotate(mesh_body.rot,
-            load_body_cold(mesh_body_index).local_center);
+        let capsule_origin = body_origin(capsule_body,convex_body_index);
+        let mesh_origin = body_origin(mesh_body,mesh_body_index);
         let relative_rotation = quat_mul(quat_inv(capsule_body.rot), mesh_body.rot);
         let relative_position = quat_inv_rotate(capsule_body.rot, mesh_origin - capsule_origin);
         let local_triangle = array<vec3<f32>,3>(
@@ -3164,18 +3424,25 @@ fn collide_mesh_triangle(mesh_shape: Shape, convex_shape: Shape, mesh: Body, con
         radius = convex.half.x;
         let manifold = capsule_triangle_manifold(capsule_local_point(convex_shape,0u),
             capsule_local_point(convex_shape,1u),radius,local_triangle,local_normal);
+        capsule_face = manifold.feature == 3u;
         let world_normal = contact_matrix_rotate(capsule_body.rot, manifold.normal);
         let triangle_normal = contact_matrix_rotate(capsule_body.rot, local_normal);
-        if (mesh_feature_allowed(manifold.feature,flags)) {
+        if (manifold.count > 0u) {
             var patch_separation=1e30;
             for (var i=0u;i<manifold.count;i++) { patch_separation=min(patch_separation,manifold.points[i].w); }
             for (var i=0u;i<manifold.count;i++) {
+                let old_count = result.count;
                 consider_mesh_manifold_point(&result,mesh,convex,convex_shape,mesh_shape,
                     contact_matrix_rotate(capsule_body.rot,manifold.points[i].xyz),
                     manifold.points[i].w,patch_separation,world_normal,
                     triangle_normal,material_index,manifold.ids[i],&best_separation,&best_normal,
                     &material_samples,&mixed_friction,&mixed_restitution,&mesh_tangent_velocity,&dominant_material);
+                if (result.count > old_count) {
+                    if (old_count == 0u) { result.persistent_ra0 = manifold.points[i]; }
+                    else { result.persistent_ra1 = manifold.points[i]; }
+                }
             }
+            result.cached_rotation_a = vec4<f32>(local_normal, 0.0);
         }
     } else if (convex.kind == KIND_CONVEX_HULL) {
         let query=hull_triangle_manifold(convex_shape,convex,p1,p2,p3,normal,mesh_speculative_keep(convex_shape,mesh_shape));
@@ -3236,6 +3503,9 @@ fn collide_mesh_triangle(mesh_shape: Shape, convex_shape: Shape, mesh: Body, con
     if (result.count == 0u) { return empty_contact(); }
     result.n = best_normal;
     result.lifecycle.y = u32(result._pad_end); // Temporary confirmed/tentative classification.
+    // Temporary fresh-patch ordering metadata; commit_pair_manifold replaces it
+    // with the persistent graph's local index after all patches are finalized.
+    result.lifecycle.z = select(0u, 1u, capsule_face);
     if (material_samples > 0.0) {
         let inv_material_samples = 1.0 / material_samples;
         result.friction = mixed_friction * inv_material_samples;
@@ -3251,6 +3521,78 @@ fn collide_mesh_triangle(mesh_shape: Shape, convex_shape: Shape, mesh: Body, con
         );
     }
     return result;
+}
+
+// Keep capsule triangles separate until face coverage is known. Filtering after
+// clustering would lose the triangle identities needed to suppress flat seams.
+fn stage_capsule_mesh_patch(list: ptr<function, MeshPatchList>, root: u32, candidate: Contact) -> bool {
+    let slot = allocate_manifold_slot(root);
+    if (slot == EMPTY) { return false; }
+    var raw = candidate;
+    raw.pair.z = 0u; raw.pair.w = 0u;
+    raw.manifold_link.x = 0u;
+    store_contact(slot, raw);
+    if ((*list).count == 0u) { (*list).head = slot; }
+    else { contacts[(*list).tail].manifold_link.x = slot + 1u; }
+    (*list).tail = slot; (*list).count += 1u;
+    return true;
+}
+
+fn filter_capsule_mesh_patches(list: ptr<function, MeshPatchList>, root: u32, shape: Shape, mesh: Body) -> bool {
+    var slot = (*list).head;
+    for (var i=0u; i<(*list).count; i++) {
+        let candidate = load_contact(slot);
+        let triangle = load_mesh_triangle(shape, candidate.manifold_link.w - 1u);
+        var covered = 0u;
+        let flags = triangle.w & 255u;
+        let flat = flags & (flags >> 4u) & 7u;
+        if (candidate.lifecycle.z == 0u && flat != 0u && flat != 7u) {
+            var other_slot = (*list).head;
+            for (var j=0u; j<(*list).count; j++) {
+                let other = load_contact(other_slot);
+                if (other.lifecycle.z == 1u) {
+                    let face = load_mesh_triangle(shape, other.manifold_link.w - 1u).xyz;
+                    for (var edge=0u; edge<3u; edge++) {
+                        let a = triangle[edge]; let b = triangle[(edge+1u)%3u];
+                        if (any(face == vec3<u32>(a)) && any(face == vec3<u32>(b))) {
+                            covered |= 1u << edge;
+                        }
+                    }
+                }
+                other_slot = other.manifold_link.x - 1u;
+            }
+        }
+        contact_persistent[slot].lifecycle.w = u32(capsule_mesh_feature_allowed(
+            select(0u,3u,candidate.lifecycle.z == 1u),flags,covered));
+        trace_mesh_candidate(2u,shape,shape,candidate.manifold_link.w,
+            vec3<f32>(f32(flat),f32(covered),f32(candidate.lifecycle.z)),
+            f32(contact_persistent[slot].lifecycle.w),candidate.n,0.0,flags);
+        slot = candidate.manifold_link.x - 1u;
+    }
+    let input = *list;
+    var output = MeshPatchList(EMPTY,EMPTY,0u);
+    slot = input.head;
+    for (var i=0u; i<input.count; i++) {
+        var candidate = load_contact(slot);
+        let next = candidate.manifold_link.x;
+        let keep = candidate.lifecycle.w != 0u;
+        candidate.lifecycle.w = 0u;
+        // Naga 26 lowers function calls in both binary operands eagerly.
+        // Keep this mutating append inside an explicit control-flow branch.
+        if (keep) {
+            if (!append_mesh_patch(&output,root,candidate,shape,mesh)) {
+                discard_mesh_patch_list(MeshPatchList(slot,input.tail,input.count-i));
+                discard_mesh_patch_list(output);
+                *list = MeshPatchList(EMPTY,EMPTY,0u);
+                return false;
+            }
+        }
+        store_contact(slot,empty_contact());
+        scratch[scr_contact_mark()+slot] = 0u;
+        slot = next - 1u;
+    }
+    *list = output;
+    return true;
 }
 
 fn collide_mesh_convex(
@@ -3291,7 +3633,12 @@ fn collide_mesh_convex(
             let candidate = collide_mesh_triangle(mesh_shape, convex_shape, mesh, convex,
                 mesh_body_index, convex_body_index, triangle_index);
             if (candidate.count > 0u) {
-                let appended = append_mesh_patch(&list, root_slot, candidate, mesh_shape, mesh);
+                var appended: bool;
+                if (convex.kind == KIND_CAPSULE) {
+                    appended = stage_capsule_mesh_patch(&list, root_slot, candidate);
+                } else {
+                    appended = append_mesh_patch(&list, root_slot, candidate, mesh_shape, mesh);
+                }
                 if (!appended) {
                     discard_mesh_patch_list(list);
                     return load_contact(root_slot);
@@ -3301,6 +3648,11 @@ fn collide_mesh_convex(
     }
     if (stack_count > 0u) {
         record_capacity_drop_n(ATOM_CONTACT_DROPPED, ATOM_STICKY_CONTACT_DROPPED, stack_count);
+    }
+    if (convex.kind == KIND_CAPSULE) {
+        if (!filter_capsule_mesh_patches(&list,root_slot,mesh_shape,mesh)) {
+            return load_contact(root_slot);
+        }
     }
     return finalize_mesh_patch_list(list, root_slot, mesh, convex, mesh_body_index, convex_body_index);
 }
@@ -3360,10 +3712,7 @@ fn collide_pair(a_in: Body, b_in: Body, ia_in: u32, ib_in: u32, root_slot: u32) 
         // shape becomes A. Between initially moving dynamic proxies, the
         // later proxy becomes A. Clipping nearly parallel capsules depends
         // on this choice of reference segment, not just the normal's sign.
-        let anchored_a = (a.flags & (FLAG_STATIC | FLAG_KINEMATIC)) != 0u;
-        let anchored_b = (b.flags & (FLAG_STATIC | FLAG_KINEMATIC)) != 0u;
-        if ((!anchored_a && anchored_b)
-            || (anchored_a == anchored_b && a._pad_island.x < b._pad_island.x)) {
+        if (capsule_reference_reversed(a.flags, b.flags, a._pad_island.x, b._pad_island.x)) {
             return collide_capsules(b, a, ib, ia);
         }
         return collide_capsules(a, b, ia, ib);
@@ -3458,8 +3807,8 @@ fn pair_queued(ia: u32, ib: u32, npairs: u32) -> bool {
 fn relative_body_origin(a: Body, b: Body, ia: u32, ib: u32) -> vec3<f32> {
     let center_a = load_body_cold(ia).local_center;
     let center_b = load_body_cold(ib).local_center;
-    let origin_a = a.pos - quat_rotate(a.rot, center_a);
-    let origin_b = b.pos - quat_rotate(b.rot, center_b);
+    let origin_a = body_origin(a,ia);
+    let origin_b = body_origin(b,ib);
     return quat_inv_rotate(a.rot, origin_b - origin_a);
 }
 
@@ -3554,6 +3903,9 @@ fn recycle_contact(p: Contact, a: Body, b: Body) -> Contact {
         return p;
     }
     var c = p;
+    if (!(is_immovable(a) && is_immovable(b))) {
+        c.friction_impulse = reproject_contact_friction(p.n, p.n, p.friction_impulse, 1.0);
+    }
     let qa = quat_mul(a.rot, quat_inv(p.cached_rotation_a));
     let qb = quat_mul(b.rot, quat_inv(p.cached_rotation_b));
     let dc = b.pos - a.pos;
@@ -3622,6 +3974,11 @@ fn store_pair(slot: u32, key: vec2<u32>, man: Contact, ia: u32, ib: u32, a: Body
         return;
     }
     var ghost = make_ghost_pair(ia, ib, a, b);
+    if (load_shape(key.x).kind == KIND_CAPSULE && load_shape(key.y).kind == KIND_CAPSULE
+        && capsule_reference_reversed(a.flags, b.flags, key.x, key.y)) {
+        ghost = make_ghost_pair(ib, ia, b, a);
+    }
+
     if (previous.a != EMPTY) {
         ghost.color = previous.color;
     }

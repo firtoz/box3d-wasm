@@ -208,17 +208,31 @@ pub(crate) struct ConvexScene {
     pub bodies:Vec<ConvexBody>, pub shapes:Vec<ConvexShape>, pub points:Vec<[f32;4]>,
     pub indices:Vec<u32>, pub targets_first:u32, pub targets_count:u32, pub joints_first:u32, pub joints_count:u32,
 }
+#[cfg(feature="replay-diagnostics")]
+pub(crate) struct DiagnosticCcdBuffers {
+    pub buffers:[wgpu::Buffer;5],
+    pub counts:[u32;4],
+}
+#[cfg(feature="replay-diagnostics")]
+pub(crate) struct DiagnosticCcdScene {
+    pub points:Vec<[f32;4]>, pub shapes:Vec<ConvexShape>, pub bodies:Vec<ConvexBody>,
+    pub indices:Vec<u32>, pub config:Vec<u32>, pub start:Vec<BodyStateGpu>,
+}
 pub(crate) struct ConvexCcd {
+    #[cfg(feature="replay-diagnostics")]
+    pub diagnostic:DiagnosticCcdBuffers,
     pub(crate) start:wgpu::Buffer, binding:wgpu::BindGroup, pipeline:wgpu::ComputePipeline, count:u32,
 }
 impl ConvexCcd {
     pub fn new(device:&wgpu::Device,bodies:&wgpu::Buffer,scene:&ConvexScene) -> Self {
         let count=scene.bodies.len() as u32;
         assert!(count>0 && count<=crate::types::MAX_BODY_SLOTS);
-        let start=device.create_buffer(&wgpu::BufferDescriptor{label:Some("ccd-start-state"),size:count as u64*96,
+        let start=device.create_buffer(&wgpu::BufferDescriptor{label:Some("ccd-start-state"),size:count as u64*std::mem::size_of::<BodyStateGpu>() as u64,
             usage:wgpu::BufferUsages::STORAGE|wgpu::BufferUsages::COPY_DST|wgpu::BufferUsages::COPY_SRC,mapped_at_creation:false});
+        let diagnostic_usage=if cfg!(feature="replay-diagnostics") {wgpu::BufferUsages::COPY_SRC} else {wgpu::BufferUsages::empty()}
+            | if cfg!(all(test,feature="replay-diagnostics")) {wgpu::BufferUsages::COPY_DST} else {wgpu::BufferUsages::empty()};
         let input=|label,data:&[u8]| device.create_buffer_init(&wgpu::util::BufferInitDescriptor{
-            label:Some(label),contents:if data.is_empty(){&[0u8;48]}else{data},usage:wgpu::BufferUsages::STORAGE});
+            label:Some(label),contents:if data.is_empty(){&[0u8;48]}else{data},usage:wgpu::BufferUsages::STORAGE|diagnostic_usage});
         let points=input("ccd-convex-points",bytemuck::cast_slice(&scene.points));
         let shapes=input("ccd-convex-shapes",bytemuck::cast_slice(&scene.shapes));
         let metadata=input("ccd-convex-bodies",bytemuck::cast_slice(&scene.bodies));
@@ -226,14 +240,18 @@ impl ConvexCcd {
         // vec3 alignment in WGSL puts the final unused member at byte 32.
         let config=[count,scene.targets_first,scene.targets_count,scene.joints_first,scene.joints_count,0,0,0,0,0,0,0];
         let config=device.create_buffer_init(&wgpu::util::BufferInitDescriptor{label:Some("ccd-config"),
-            contents:bytemuck::cast_slice(&config),usage:wgpu::BufferUsages::UNIFORM});
+            contents:bytemuck::cast_slice(&config),usage:wgpu::BufferUsages::UNIFORM|diagnostic_usage});
         let source=format!("{}\n{}",include_str!("../shaders/physics/ccd_convex.wgsl"),include_str!("../shaders/physics/ccd_world.wgsl"));
         let shader=device.create_shader_module(wgpu::ShaderModuleDescriptor{label:Some("world-convex-ccd"),source:wgpu::ShaderSource::Wgsl(source.into())});
         let pipeline=device.create_compute_pipeline(&wgpu::ComputePipelineDescriptor{label:Some("world-convex-ccd"),layout:None,module:&shader,entry_point:Some("ccd_correct"),compilation_options:Default::default(),cache:None});
         let buffers=[&start,bodies,&points,&shapes,&metadata,&indices,&config];
         let entries:Vec<_>=buffers.iter().enumerate().map(|(i,b)|wgpu::BindGroupEntry{binding:i as u32,resource:b.as_entire_binding()}).collect();
         let binding=device.create_bind_group(&wgpu::BindGroupDescriptor{label:Some("world-convex-ccd"),layout:&pipeline.get_bind_group_layout(0),entries:&entries});
-        Self{start,binding,pipeline,count}
+        Self{start,binding,pipeline,count,
+            #[cfg(feature="replay-diagnostics")]
+            diagnostic:DiagnosticCcdBuffers{buffers:[points,shapes,metadata,indices,config],
+                counts:[scene.points.len() as u32,scene.shapes.len() as u32,scene.bodies.len() as u32,scene.indices.len() as u32]}}
+
     }
     pub fn capture(&self,encoder:&mut wgpu::CommandEncoder,bodies:&wgpu::Buffer) {
         encoder.copy_buffer_to_buffer(bodies,0,&self.start,0,self.start.size());

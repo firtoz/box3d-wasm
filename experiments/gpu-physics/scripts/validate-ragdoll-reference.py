@@ -3,10 +3,57 @@
 import json
 import math
 import sys
+import struct
+from collections import Counter
 from pathlib import Path
 
 out = Path(sys.argv[1])
 report = {}
+
+
+def joint_setup(scene):
+    def read_setup(engine):
+        rows, counts = {}, None
+        for line in (out / f'{scene}-{engine}.log').read_text().splitlines():
+            fields = line.split()
+            if fields[:1] == ['joint-setup-count']:
+                assert counts is None, (scene, engine, 'duplicate setup count')
+                counts = tuple(map(int, fields[1:]))
+            if fields[:1] != ['joint-setup']:
+                continue
+            human, slot, kind, a, b = map(int, fields[1:6])
+            key = (human, slot)
+            assert key not in rows and 0 <= a < 112 and 0 <= b < 112 and a != b, fields
+            values = {}
+            for field in fields[6:]:
+                name, value = field.split('=')
+                assert name not in values and math.isfinite(float(value)), field
+                # Nine significant digits round-trip each stored float32 value.
+                values[name] = struct.pack('<f', float(value))
+            assert len(values) == {2: 19, 5: 29, 6: 36}.get(kind), (scene, engine, key, 'field count')
+            rows[key] = (kind, a, b, values)
+        assert counts == (112, 112, 224), (scene, engine, counts)
+        assert set(rows) == {(human, slot) for human in range(8) for slot in range(1, 15)}, (scene, engine, rows.keys())
+        assert Counter(row[0] for row in rows.values()) == {2: 8, 5: 32, 6: 72}, (scene, engine)
+        return rows
+    cpu, gpu = read_setup('cpu'), read_setup('gpu')
+    for key, (kind, a, b, values) in cpu.items():
+        actual = gpu[key]
+        assert (kind, a, b) == actual[:3], (scene, key, 'type/body pairing', (kind,a,b), actual[:3])
+        assert values.keys() == actual[3].keys(), (scene, key, 'missing fields')
+        for name, value in values.items():
+            assert value == actual[3][name], (scene, key, name,
+                struct.unpack('<f', value)[0], struct.unpack('<f', actual[3][name])[0])
+    return {'status': 'pass', 'joints': 112, 'spherical': 72, 'revolute': 32, 'filter': 8,
+            'fields_compared': sum(len(row[3]) for row in cpu.values()), 'comparison': 'float32 exact'}
+
+
+report['joint-setup'] = joint_setup('ragdolls')
+if '--joint-setup-only' in sys.argv[2:]:
+    (out / 'joint-setup-result.json').write_text(json.dumps(report, indent=2) + '\n')
+    print(json.dumps(report, indent=2))
+    sys.exit(0)
+report['joint-setup-no-contacts'] = joint_setup('ragdolls-no-contacts')
 
 
 def read(scene, engine, steps, bodies):

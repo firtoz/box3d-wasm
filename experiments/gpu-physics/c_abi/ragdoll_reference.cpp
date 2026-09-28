@@ -8,6 +8,8 @@
 #include <vector>
 extern "C" void b3_world_gpu_wait_with_mirror(b3WorldId) __attribute__((weak));
 
+extern "C" bool gpu_b3_world_write_core_state(b3WorldId, const char*, unsigned) __attribute__((weak));
+
 static void dump(int frame, int index, b3BodyId body, b3JointId joint)
 {
     auto p = b3Body_GetPosition(body);
@@ -40,6 +42,15 @@ static void dump(int frame, int index, b3BodyId body, b3JointId joint)
         }
     }
 }
+#include "human_joint_audit.h"
+static void dumpJointSetup(const FallingRagdollData& data)
+{
+    std::vector<const Human*> humans;
+    for (const auto& group : data.groups)
+        for (const auto& human : group.humans) humans.push_back(&human);
+    dumpHumanJointSetup(humans);
+}
+
 int main(int argc, char** argv)
 {
     bool noContacts = argc > 1 && std::strcmp(argv[1], "ragdolls-no-contacts") == 0;
@@ -54,6 +65,7 @@ int main(int argc, char** argv)
     if (ragdolls)
     {
         data = CreateFallingRagdolls(world);
+        dumpJointSetup(data);
         if (noContacts)
         {
             // Keep the exact upstream masses, joints, and initial poses while
@@ -98,6 +110,17 @@ int main(int argc, char** argv)
         {
             b3World_Step(world,1.f/60,4);
             if (b3_world_gpu_wait_with_mirror) b3_world_gpu_wait_with_mirror(world);
+        }
+        if (frame > 0)
+        {
+            if (const char* trace = std::getenv("GPU_PHYSICS_STATE_TRACE"))
+            {
+                if (!gpu_b3_world_write_core_state || !gpu_b3_world_write_core_state(world, trace, frame))
+                {
+                    std::fprintf(stderr, "requested core-state capture unavailable or failed\n");
+                    std::abort();
+                }
+            }
         }
         if (ragdolls)
         {

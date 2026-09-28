@@ -2095,6 +2095,10 @@ B3_API b3JointId b3CreateFilterJoint(b3WorldId worldId, const b3FilterJointDef* 
 		cpu_def.base.bodyIdB = both_cpu_body(def->base.bodyIdB);
 		both_map_joint(gpu, cpu_b3CreateFilterJoint(both_cpu_world(worldId), &cpu_def));
 	}
+	// Apply after mapping so the public setters preserve both stored definitions.
+	b3Joint_SetLocalFrameA(gpu, def->base.localFrameA);
+	b3Joint_SetLocalFrameB(gpu, def->base.localFrameB);
+	b3Joint_SetConstraintTuning(gpu, def->base.constraintHertz, def->base.constraintDampingRatio);
 	return gpu;
 }
 

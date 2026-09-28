@@ -2425,8 +2425,13 @@ B3_API b3JointId b3CreateFilterJoint(b3WorldId worldId, const b3FilterJointDef* 
 	{
 		return (b3JointId){0};
 	}
-	return finish_joint_create(
+	b3JointId joint = finish_joint_create(
 		gpu_b3_create_filter(worldId, def->base.bodyIdA, def->base.bodyIdB, def->base.collideConnected), &def->base);
+	// Filters do not solve forces, but their stored base definition is still public.
+	b3Joint_SetLocalFrameA(joint, def->base.localFrameA);
+	b3Joint_SetLocalFrameB(joint, def->base.localFrameB);
+	b3Joint_SetConstraintTuning(joint, def->base.constraintHertz, def->base.constraintDampingRatio);
+	return joint;
 }
 
 B3_API void b3Joint_SetConstraintTuning(b3JointId jointId, float hertz, float dampingRatio)

@@ -520,7 +520,7 @@ pub fn read_b3or(path: &std::path::Path) -> Result<(u32, u32, Vec<BodyGpu>), Str
     let frames = u32::from_le_bytes(bytes[8..12].try_into().unwrap());
     let body_count = u32::from_le_bytes(bytes[12..16].try_into().unwrap());
     let stride = u32::from_le_bytes(bytes[16..20].try_into().unwrap()) as usize;
-    if stride != std::mem::size_of::<BodyGpu>() {
+    if !matches!(stride, 144 | 160 | 176) {
         return Err(format!(
             "B3OR stride {stride} != {}",
             std::mem::size_of::<BodyGpu>()
@@ -539,7 +539,9 @@ pub fn read_b3or(path: &std::path::Path) -> Result<(u32, u32, Vec<BodyGpu>), Str
     for _ in 0..frames {
         for _ in 0..body_count {
             let slice = &bytes[off..off + stride];
-            let body: BodyGpu = *bytemuck::from_bytes(slice);
+            // Older native oracle records do not contain the retained CCD origin.
+            let mut body = BodyGpu::zeroed();
+            bytemuck::bytes_of_mut(&mut body)[..stride].copy_from_slice(slice);
             bodies.push(body);
             off += stride;
         }

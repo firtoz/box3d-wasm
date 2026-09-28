@@ -143,11 +143,12 @@ fn apply_deltas(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
         return;
     }
     var b = body_states[i];
-    b.flags = b.flags & (~FLAG_FAST);
+    b.flags = b.flags & (~(FLAG_FAST | FLAG_CCD_NO_HIT));
     if ((b.flags & (FLAG_STATIC | FLAG_DISABLED | FLAG_SLEEP)) == 0u) {
         // Always apply TGS pose. Skipping `dp` while "quiet" left stacks nested
         // inside each other until a later step woke them and popped them apart.
         let base_rotation = b.rot;
+        b.origin_valid = 0u;
         b.pos = b.pos + b.dp;
         b.rot = gyro_finish_rotation(b.dq, b.rot);
         let extra = body_extra_offset(i);
@@ -168,7 +169,7 @@ fn apply_deltas(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
         if (!quiet && params.enable_continuous != 0u
             && (b.flags & (FLAG_KINEMATIC | FLAG_DISABLED)) == 0u
             && (b.flags & FLAG_KINEMATIC) == 0u && max_motion > 0.5 * min_extent) {
-            b.flags = b.flags | FLAG_FAST;
+            b.flags = b.flags | FLAG_FAST | FLAG_CCD_NO_HIT;
         }
         if (quiet) {
             b.sleep_time = b.sleep_time + params.step_dt;
@@ -222,6 +223,19 @@ fn integrate_vel_one(i: u32) {
     store_body(i, b);
 }
 
+fn physics_max_angular_speed(step_dt: f32) -> f32 {
+    // Native integration multiplies B3_MAX_ROTATION by the rounded inverse dt.
+    return 0.78539816339 * gyro_recip(max(step_dt, 1e-8));
+}
+
+fn physics_clamp_speed(v: vec3<f32>, max_speed: f32) -> vec3<f32> {
+    let speed2 = gyro_dot3(v, v);
+    if (speed2 > max_speed * max_speed) {
+        return v * gyro_divide(max_speed, gyro_sqrt(speed2));
+    }
+    return v;
+}
+
 fn integrate_pos_one(i: u32) {
     var b = body_states[i];
     if ((b.flags & FLAG_STATIC) == 0u
@@ -233,16 +247,9 @@ fn integrate_pos_one(i: u32) {
         if ((b.flags & 2048u) != 0u) { b.omega.x = 0.0; }
         if ((b.flags & 4096u) != 0u) { b.omega.y = 0.0; }
         if ((b.flags & 8192u) != 0u) { b.omega.z = 0.0; }
-        let max_linear_speed = params.maximum_linear_speed;
-        let linear_speed2 = dot(b.vel, b.vel);
-        if (linear_speed2 > max_linear_speed * max_linear_speed) {
-            b.vel = b.vel * (max_linear_speed / sqrt(linear_speed2));
-        }
-        let max_angular_speed = 0.78539816339 / max(params.step_dt, 1e-8);
-        let angular_speed2 = dot(b.omega, b.omega);
-        if ((b.flags & FLAG_ALLOW_FAST_ROTATION) == 0u
-            && angular_speed2 > max_angular_speed * max_angular_speed) {
-            b.omega = b.omega * (max_angular_speed / sqrt(angular_speed2));
+        b.vel = physics_clamp_speed(b.vel, params.maximum_linear_speed);
+        if ((b.flags & FLAG_ALLOW_FAST_ROTATION) == 0u) {
+            b.omega = physics_clamp_speed(b.omega, physics_max_angular_speed(params.step_dt));
         }
         let h = params.dt;
         b.dp = b.dp + b.vel * h;

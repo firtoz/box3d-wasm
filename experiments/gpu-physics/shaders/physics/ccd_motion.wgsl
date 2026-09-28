@@ -1,5 +1,5 @@
 // Step endpoints, not instantaneous velocity: contacts can change motion during TGS.
-struct State { p: vec4<f32>, v: vec4<f32>, q: vec4<f32>, w: vec4<f32>, dp: vec4<f32>, dq: vec4<f32> }
+struct State { p: vec4<f32>, v: vec4<f32>, q: vec4<f32>, w: vec4<f32>, dp: vec4<f32>, dq: vec4<f32>, origin: vec3<f32>, origin_valid: u32 }
 @group(0) @binding(0) var<storage, read> start: array<State>;
 @group(0) @binding(1) var<storage, read> finish: array<State>;
 // Per body slot: minimum and maximum extent, matching HostBody's CCD bounds.

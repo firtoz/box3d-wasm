@@ -12,6 +12,7 @@ struct Body {
     restitution: f32,
     inv_inertia: vec3<f32>,
     inv_inertia_offdiag: vec3<f32>,
+    inv_inertia_upper: vec3<f32>,
     friction: f32,
     gravity_scale: f32,
     linear_damping: f32,
@@ -23,6 +24,8 @@ struct Body {
     island_id: u32,
     sleep_velocity: f32,
     _pad_island: vec2<u32>,
+    origin: vec3<f32>,
+    origin_valid: u32,
 }
 
 struct BodyState {
@@ -36,6 +39,8 @@ struct BodyState {
     dp: vec3<f32>,
     sleep_time: f32,
     dq: vec4<f32>,
+    origin: vec3<f32>,
+    origin_valid: u32,
 }
 
 struct BodyCold {
@@ -308,6 +313,9 @@ struct SimParams {
     insert_base: u32,
     insert_capacity: u32,
     pair_capacity: u32,
+    order_base: u32,
+    order_node_capacity: u32,
+    order_enabled: u32,
 }
 
 const KIND_SPHERE: u32 = 0u;
@@ -328,6 +336,7 @@ const FLAG_ALLOW_FAST_ROTATION: u32 = 64u;
 const FLAG_DISABLED: u32 = 128u;
 const FLAG_DISABLE_CONTACT_RECYCLING: u32 = 16384u;
 const FLAG_FAST: u32 = 32768u;
+const FLAG_CCD_NO_HIT: u32 = 65536u;
 const JOINT_NONE: u32 = 0u;
 const JOINT_REVOLUTE: u32 = 1u;
 const JOINT_WELD: u32 = 2u;
@@ -460,7 +469,14 @@ fn radix_groups() -> u32 { return pair_cap() / RADIX_GROUP_SIZE; }
 const RADIX_BUCKETS: u32 = 256u;
 fn scr_radix_hist() -> u32 { return scr_radix_out() + 2u * pair_cap(); }
 fn scr_radix_base() -> u32 { return scr_radix_hist() + radix_groups() * RADIX_BUCKETS; }
-fn scr_graph() -> u32 { return scr_radix_base() + max(RADIX_BUCKETS, radix_groups()); }
+// Persistent logical contact IDs are independent of physical manifold slots.
+// Header: high-water ID, LIFO free count. Records: slot+1, generation,
+// endpoints, color+1, last seen step. Then slot->ID+1 and a free-ID stack.
+fn scr_contact_history() -> u32 { return scr_radix_base() + max(RADIX_BUCKETS, radix_groups()); }
+fn contact_history_record(id: u32) -> u32 { return scr_contact_history() + 2u + 6u * id; }
+fn contact_history_slots() -> u32 { return scr_contact_history() + 2u + 6u * pair_cap(); }
+fn contact_history_free() -> u32 { return contact_history_slots() + pair_cap(); }
+fn scr_graph() -> u32 { return scr_contact_history() + 2u + 8u * pair_cap(); }
 fn color_body_base() -> u32 {
     return scr_graph() + 6u * params.body_count;
 }
@@ -794,11 +810,11 @@ fn load_mesh_node_upper(shape: Shape, i: u32) -> vec4<f32> {
     return vec4<f32>(scene_f32(w), scene_f32(w + 1u), scene_f32(w + 2u), scene_f32(w + 3u));
 }
 
-// BodyCold (16 words) and body-extra (16 words) are capacity-sized arrays.
+// BodyCold (16 words) and body-extra (20 words) are capacity-sized arrays.
 // shape_base_u32 follows both arrays; body_count is only the live slot span.
 fn body_extra_offset(i: u32) -> u32 {
-    let body_capacity = params.shape_base_u32 / 32u;
-    return 16u * body_capacity + 16u * i;
+    let body_capacity = params.shape_base_u32 / 36u;
+    return 16u * body_capacity + 20u * i;
 }
 
 fn load_body(i: u32) -> Body {
@@ -821,6 +837,7 @@ fn load_body(i: u32) -> Body {
             scene_f32(extra + 1u),
             scene_f32(extra + 2u),
         ),
+        vec3<f32>(scene_f32(extra+16u),scene_f32(extra+17u),scene_f32(extra+18u)),
         c.friction,
         c.gravity_scale,
         c.linear_damping,
@@ -832,6 +849,8 @@ fn load_body(i: u32) -> Body {
         EMPTY,
         s.sleep_velocity,
         vec2<u32>(i),
+        s.origin,
+        s.origin_valid,
     );
 }
 
@@ -847,6 +866,8 @@ fn store_body(i: u32, b: Body) {
         b.dp,
         b.sleep_time,
         b.dq,
+        b.origin,
+        b.origin_valid,
     );
 }
 

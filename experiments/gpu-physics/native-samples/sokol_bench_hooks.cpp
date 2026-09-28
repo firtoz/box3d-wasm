@@ -1,9 +1,13 @@
 #include "sokol_bench_hooks.h"
 #include "contact_metrics.h"
 #include "sokol_capacity.h"
+#include "../c_abi/spherical_limit_health.h"
 
 #include "box3d/box3d.h"
 #include "sample.h"
+#include "human.h"
+#include <map>
+#include <tuple>
 #include "gfx/keycodes.h"
 #include "sokol_app.h"
 
@@ -18,6 +22,11 @@
 #include <string.h>
 #include <time.h>
 #include <vector>
+#if defined(GPU_PHYSICS_SAMPLES) && defined(__GNUC__)
+extern "C" bool gpu_b3_world_write_core_state(b3WorldId, const char*, unsigned) __attribute__((weak));
+extern "C" bool gpu_b3_world_diagnostic_contact_impulses(b3WorldId, uint64_t, unsigned, bool) __attribute__((weak));
+extern "C" bool gpu_b3_world_diagnostic_spherical_impulses(b3WorldId, uint64_t, unsigned, bool) __attribute__((weak));
+#endif
 #if defined(GPU_PHYSICS_SAMPLES) || defined(BOTH_SAMPLES)
 extern "C" uint32_t gpu_samples_last_draw_shape_count(void);
 #endif
@@ -26,9 +35,41 @@ extern "C" uint32_t gpu_samples_last_draw_shape_count(void);
 #include <GL/glx.h>
 #endif
 
-struct BodyHealth { int id; b3Pos p; b3Quat q; b3Vec3 v; b3Vec3 w; };
+struct BodyHealth { int id; unsigned generation; b3Pos p; b3Quat q; b3Vec3 v; b3Vec3 w; bool awake; uint64_t creation; };
+// Keys include the world and full lifetime; reused body slots never inherit tags.
+static std::map<std::tuple<unsigned, int, unsigned>, uint64_t> g_body_creation;
+static uint64_t g_creation_sequence = 0;
+extern "C" void gpu_bench_human_created(const Human* human) {
+    const char* enabled = getenv("GPU_PHYSICS_LIFETIME_TRACE");
+    if (!enabled || strcmp(enabled, "1") != 0) return;
+    for (int i = 0; i < bone_count; ++i) {
+        const auto body = human->bones[i].bodyId;
+        g_body_creation[{body.world0, body.index1, body.generation}] = ++g_creation_sequence;
+    }
+}
+static uint64_t body_creation(b3BodyId body) {
+    const auto found = g_body_creation.find({body.world0, body.index1, body.generation});
+    return found == g_body_creation.end() ? 0 : found->second;
+}
 static std::vector<BodyHealth> g_body_health;
-struct JointHealth { int id; bool anchor_constrained; float anchor_error; bool angular_constrained; float angular_error; };
+struct SphericalJointHealth {
+    bool present, cone_enabled, twist_enabled;
+    float cone_limit, lower_twist, upper_twist;
+    SphericalLimitHealth error;
+};
+static SphericalJointHealth spherical_joint_health(b3JointId id) {
+    if (b3Joint_GetType(id) != b3_sphericalJoint) return {};
+    const auto qa = b3MulQuat(b3Body_GetRotation(b3Joint_GetBodyA(id)), b3Joint_GetLocalFrameA(id).q);
+    const auto qb = b3MulQuat(b3Body_GetRotation(b3Joint_GetBodyB(id)), b3Joint_GetLocalFrameB(id).q);
+    const bool cone = b3SphericalJoint_IsConeLimitEnabled(id);
+    const bool twist = b3SphericalJoint_IsTwistLimitEnabled(id);
+    const float limit = b3SphericalJoint_GetConeLimit(id);
+    const float lower = b3SphericalJoint_GetLowerTwistLimit(id);
+    const float upper = b3SphericalJoint_GetUpperTwistLimit(id);
+    return {true, cone, twist, limit, lower, upper,
+        measureSphericalLimits(b3InvMulQuat(qa,qb),cone,limit,twist,lower,upper)};
+}
+struct JointHealth { int id; unsigned generation; int body_a; unsigned body_a_generation; int body_b; unsigned body_b_generation; int type; bool anchor_constrained; float anchor_error; bool angular_constrained; float angular_error; SphericalJointHealth spherical; };
 static std::vector<JointHealth> g_joint_health;
 static uint32_t g_scene_seed;
 static bool g_village_drop_performed = false;
@@ -130,7 +171,7 @@ static void scan_body(HealthAcc* acc, b3BodyId body)
 	b3Vec3 v = b3Body_GetLinearVelocity(body);
 	b3Quat q = b3Body_GetRotation(body);
 	b3Vec3 w = b3Body_GetAngularVelocity(body);
-	g_body_health.push_back({body.index1, p, q, v, w});
+	g_body_health.push_back({body.index1, body.generation, p, q, v, w, b3Body_IsAwake(body), body_creation(body)});
 #if !defined(GPU_PHYSICS_SAMPLES)
 	std::vector<b3JointId> joints(b3Body_GetJointCount(body));
 	int joint_count = b3Body_GetJoints(body, joints.data(), (int)joints.size());
@@ -160,7 +201,9 @@ static void scan_body(HealthAcc* acc, b3BodyId body)
 		} else if (angular_constrained) {
 			angular = 2*acosf(fminf(1, fabsf(qa.s*qb.s + b3Dot(qa.v,qb.v))));
 		}
-		g_joint_health.push_back({id.index1, constrained, (float)sqrt(dx*dx+dy*dy+dz*dz), angular_constrained, angular});
+		auto body_a = b3Joint_GetBodyA(id);
+		auto body_b = b3Joint_GetBodyB(id);
+		g_joint_health.push_back({id.index1, id.generation, body_a.index1, body_a.generation, body_b.index1, body_b.generation, (int)type, constrained, (float)sqrt(dx*dx+dy*dy+dz*dz), angular_constrained, angular, spherical_joint_health(id)});
 	}
 #endif
 	float speed = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
@@ -628,8 +671,10 @@ struct GpuHealthScan
 };
 extern "C" GpuHealthScan gpu_b3_world_health_scan(b3WorldId world);
 extern "C" void gpu_b3_world_visit_dynamic_bodies(b3WorldId, void (*)(b3BodyId, void*), void*);
-extern "C" void gpu_b3_world_visit_joint_health(b3WorldId, void (*)(int, bool, float, bool, float));
-static void health_joint_visit(int id, bool constrained, float error, bool angular_constrained, float angular_error) { g_joint_health.push_back({id, constrained, error, angular_constrained, angular_error}); }
+extern "C" void gpu_b3_world_visit_joint_health(b3WorldId, void (*)(b3JointId, b3BodyId, b3BodyId, bool, float, bool, float));
+static void health_joint_visit(b3JointId id, b3BodyId body_a, b3BodyId body_b, bool constrained, float error, bool angular_constrained, float angular_error) {
+    g_joint_health.push_back({id.index1, id.generation, body_a.index1, body_a.generation, body_b.index1, body_b.generation, (int)b3Joint_GetType(id), constrained, error, angular_constrained, angular_error, spherical_joint_health(id)});
+}
 static void health_visit(b3BodyId body, void* context) { scan_body(static_cast<HealthAcc*>(context), body); }
 extern "C" const char* gpu_b3_world_gpu_fail(b3WorldId world);
 #endif
@@ -657,6 +702,79 @@ void gpu_sokol_bench_note_world(b3WorldId world)
 	if (!g_active || !b3World_IsValid(world))
 	{
 		return;
+	}
+	// Bounded Rain history experiment: affect only contacts incident to the
+	// first human in cell505-546, after completed step122. The ordinary path
+	// does not enter this block. Sham and clear use the same readback/upload.
+	if (const char* control = getenv("GPU_PHYSICS_RAIN_CONTACT_CONTROL"))
+	{
+#if defined(GPU_PHYSICS_SAMPLES) && defined(__GNUC__)
+		static unsigned control_step = 0;
+		const bool clear = strcmp(control, "clear") == 0;
+		if (strcmp(g_sample, "Benchmark/Rain") != 0 ||
+			(!clear && strcmp(control, "sham") != 0) || !gpu_b3_world_diagnostic_contact_impulses)
+		{
+			fprintf(stderr, "invalid or unavailable Rain contact impulse control\n");
+			abort();
+		}
+		if (++control_step == 122 && !gpu_b3_world_diagnostic_contact_impulses(world, 605, 14, clear))
+		{
+			fprintf(stderr, "Rain contact impulse control failed or had no active cached impulses\n");
+			abort();
+		}
+#else
+		fprintf(stderr, "Rain contact impulse control requires a GPU diagnostic build\n");
+		abort();
+#endif
+	}
+	// Independent spherical-joint history arm; contact caches are unchanged.
+	if (const char* control = getenv("GPU_PHYSICS_RAIN_SPHERICAL_CONTROL"))
+	{
+#if defined(GPU_PHYSICS_SAMPLES) && defined(__GNUC__)
+		static unsigned control_step = 0;
+		const bool clear = strcmp(control, "clear") == 0;
+		if (strcmp(g_sample, "Benchmark/Rain") != 0 ||
+			(!clear && strcmp(control, "sham") != 0) || !gpu_b3_world_diagnostic_spherical_impulses)
+		{
+			fprintf(stderr, "invalid or unavailable Rain spherical impulse control\n");
+			abort();
+		}
+		if (++control_step == 122 && !gpu_b3_world_diagnostic_spherical_impulses(world, 605, 14, clear))
+		{
+			fprintf(stderr, "Rain spherical impulse control failed or had no active cached spherical impulses\n");
+			abort();
+		}
+#else
+		fprintf(stderr, "Rain spherical impulse control requires a GPU diagnostic build\n");
+		abort();
+#endif
+	}
+	// Called immediately after each actual physics step, independently of the
+	// optional health scan. The exporter waits for the completed GPU boundary.
+	if (const char* trace = getenv("GPU_PHYSICS_STATE_TRACE"))
+	{
+#if defined(GPU_PHYSICS_SAMPLES) && defined(__GNUC__)
+		static unsigned trace_step = 0;
+		++trace_step;
+		unsigned first_step = 1;
+		if (const char* first = getenv("GPU_PHYSICS_STATE_TRACE_FIRST_STEP"))
+		{
+			char* end = nullptr;
+			const unsigned long value = strtoul(first, &end, 10);
+			if (!*first || *end || value == 0 || value > 0xffffffffUL) abort();
+			first_step = (unsigned)value;
+		}
+		// Optional bounded diagnosis only; full qualification leaves this unset.
+		if (trace_step >= first_step && (!gpu_b3_world_write_core_state ||
+			!gpu_b3_world_write_core_state(world, trace, trace_step)))
+		{
+			fprintf(stderr, "requested native core-state capture unavailable or failed\n");
+			abort();
+		}
+#else
+		fprintf(stderr, "native core-state capture requires a GPU diagnostic build\n");
+		abort();
+#endif
 	}
 	snprintf(g_acc.sample, sizeof g_acc.sample, "%s", g_sample);
 	// Native Bounce House deliberately launches at sqrt(120^2 + 120^2) m/s.
@@ -973,16 +1091,24 @@ void gpu_sokol_bench_finish(int frames, int sokol_errors, const char* sample_nam
 			r.health_ns / 1e6);
 		for (size_t j = 0; j < r.bodies.size(); ++j) {
 			const auto& b = r.bodies[j];
-			fprintf(f, "%s{\"id\":%d,\"p\":[%.9g,%.9g,%.9g],\"q\":[%.9g,%.9g,%.9g,%.9g],\"v\":[%.9g,%.9g,%.9g],\"w\":[%.9g,%.9g,%.9g]}",
-				j ? "," : "", b.id, b.p.x, b.p.y, b.p.z, b.q.v.x, b.q.v.y, b.q.v.z, b.q.s,
+			fprintf(f, "%s{\"id\":%d,\"generation\":%u,\"creation\":%" PRIu64 ",\"awake\":%s,\"p\":[%.9g,%.9g,%.9g],\"q\":[%.9g,%.9g,%.9g,%.9g],\"v\":[%.9g,%.9g,%.9g],\"w\":[%.9g,%.9g,%.9g]}",
+				j ? "," : "", b.id, b.generation, b.creation, b.awake ? "true" : "false", b.p.x, b.p.y, b.p.z, b.q.v.x, b.q.v.y, b.q.v.z, b.q.s,
 				b.v.x, b.v.y, b.v.z, b.w.x, b.w.y, b.w.z);
 		}
 		fprintf(f, "],\"joints\":[");
 		for (size_t j = 0; j < r.joints.size(); ++j) {
 			const auto& joint = r.joints[j];
-			fprintf(f, "%s{\"id\":%d,\"anchor_constrained\":%s,\"anchor_error\":%.9g,\"angular_constrained\":%s,\"angular_error\":%.9g}",
-				j ? "," : "", joint.id, joint.anchor_constrained ? "true" : "false", joint.anchor_error,
+			fprintf(f, "%s{\"id\":%d,\"generation\":%u,\"body_a\":%d,\"body_a_generation\":%u,\"body_b\":%d,\"body_b_generation\":%u,\"type\":%d,\"anchor_constrained\":%s,\"anchor_error\":%.9g,\"angular_constrained\":%s,\"angular_error\":%.9g",
+				j ? "," : "", joint.id, joint.generation, joint.body_a, joint.body_a_generation, joint.body_b, joint.body_b_generation, joint.type, joint.anchor_constrained ? "true" : "false", joint.anchor_error,
 				joint.angular_constrained ? "true" : "false", joint.angular_error);
+            const auto& limits = joint.spherical;
+            if (!limits.present) fprintf(f, ",\"spherical_limits\":null}");
+            else fprintf(f, ",\"spherical_limits\":{\"cone_enabled\":%s,\"twist_enabled\":%s,\"cone_limit\":%.9g,\"lower_twist\":%.9g,\"upper_twist\":%.9g,\"swing\":%.9g,\"twist\":%.9g,\"cone_excess\":%.9g,\"lower_twist_excess\":%.9g,\"upper_twist_excess\":%.9g}}",
+                limits.cone_enabled ? "true" : "false", limits.twist_enabled ? "true" : "false",
+                limits.cone_limit, limits.lower_twist, limits.upper_twist,
+                limits.error.swing, limits.error.twist, limits.error.coneExcess,
+                limits.error.lowerTwistExcess, limits.error.upperTwistExcess);
+
 		}
 		fprintf(f, "]}%s\n", i + 1 == g_measured ? "" : ",");
 	}

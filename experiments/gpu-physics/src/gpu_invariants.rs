@@ -928,6 +928,37 @@ fn multiple_submits_consume_one_snapshot() {
     b3_destroy_world(world);
 }
 
+include!("fixtures/full_mass_lifecycle.rs");
+
+#[test]
+fn capsule_full_mass_survives_edits_and_compounds() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let world = b3_create_world(gpu, &b3_default_world_def());
+    let mut bd = b3_default_body_def(); bd.body_type = BodyType::Dynamic;
+    let body = b3_create_body(world, &bd);
+    let mut sd = b3_default_shape_def(); sd.density = 731.0;
+    let mut cap = Capsule { center1: [0.023719,0.006008,-0.039068], center2: [-0.064492,-0.004664,-0.424718], radius: 0.09 };
+    let shape = b3_create_capsule_shape(body, &sd, &cap);
+    let check = |case: usize| {
+        let d = b3_body_get_mass_data(body);
+        let mut values = vec![d.mass]; values.extend(d.center); values.extend(d.inertia.into_iter().flatten());
+        assert_eq!(values.iter().map(|v|v.to_bits()).collect::<Vec<_>>(), FULL_MASS_LIFECYCLE[case].map(f32::to_bits), "native full mass case {case}");
+    };
+    check(0);
+    b3_world_ensure_gpu(world);
+    crate::api::b3_shape_set_density(shape, 1000.0, true); check(1);
+    b3_world_ensure_gpu(world);
+    cap.center2 = [0.21,0.31,0.12];
+    crate::api::b3_shape_set_capsule(shape, &cap);
+    b3_body_apply_mass_from_shapes(body); check(2);
+    let second = b3_create_capsule_shape(body, &sd, &cap); check(3);
+    b3_destroy_shape(second, true); check(4);
+    let explicit = b3_body_get_mass_data(body);
+    b3_body_set_mass_data(body, explicit);
+    check(4);
+    b3_destroy_world(world);
+}
+
 #[test]
 fn capsule_mass_data_matches_compute_helper() {
     let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
@@ -1101,6 +1132,48 @@ fn high_resistance_creation_order_and_pause_do_not_change_rest() {
     }
     b3_destroy_world(a);
     b3_destroy_world(b);
+}
+
+#[test]
+fn empty_capsule_pairs_keep_populated_reference_order() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    for (kind_a, kind_b, expected) in [
+        (BodyType::Dynamic, BodyType::Dynamic, (1, 0)),
+        (BodyType::Static, BodyType::Dynamic, (0, 1)),
+        (BodyType::Dynamic, BodyType::Static, (1, 0)),
+        (BodyType::Kinematic, BodyType::Dynamic, (0, 1)),
+    ] {
+        let mut wd = b3_default_world_def();
+        wd.gravity = [0.0; 3];
+        wd.enable_sleep = false;
+        let world = b3_create_world(gpu.clone(), &wd);
+        let mut bodies = Vec::new();
+        for (index, kind) in [kind_a, kind_b].into_iter().enumerate() {
+            let mut bd = b3_default_body_def();
+            bd.body_type = kind;
+            bd.position = [index as f32 * 0.43, 0.0, 0.0];
+            bd.enable_sleep = false;
+            let body = b3_create_body(world, &bd);
+            b3_create_capsule_shape(body, &b3_default_shape_def(), &Capsule {
+                center1: [0.0, -0.5, 0.0], center2: [0.0, 0.5, 0.0], radius: 0.2,
+            });
+            bodies.push(body);
+        }
+        for step in 0..2 {
+            b3_world_step_gpu(world, 1.0 / 60.0, 4);
+            let contacts = pollster::block_on(b3_world_sync_contacts(world));
+            let ghost = contacts.iter().find(|c| c.a != u32::MAX).expect("broadphase capsule pair");
+            assert_eq!(ghost.count, 0, "separated capsules, step {step}");
+            assert_eq!((ghost.a, ghost.b), expected, "empty pair, step {step}");
+            if step == 1 { assert_ne!(ghost.lifecycle[1] & 4, 0, "empty pair should recycle"); }
+        }
+        b3_body_set_transform(bodies[1], [0.39, 0.0, 0.0], [0.0, 0.0, 0.0, 1.0]);
+        b3_world_step_gpu(world, 1.0 / 60.0, 4);
+        let contacts = pollster::block_on(b3_world_sync_contacts(world));
+        let contact = contacts.iter().find(|c| c.a != u32::MAX && c.count > 0).expect("touching capsule pair");
+        assert_eq!((contact.a, contact.b), expected, "populated pair changed reference body");
+        b3_destroy_world(world);
+    }
 }
 
 #[test]
@@ -1328,6 +1401,7 @@ fn high_resistance_sleeper_wakes_on_velocity() {
         world0: world.index1,
         generation: 1,
     };
+    assert!(!b3_body_is_awake(sleeper), "fixture must be asleep before testing wakeup");
     b3_body_set_linear_velocity(sleeper, [0.0, 4.0, 0.0]);
     b3_world_step_gpu(world, 1.0 / 60.0, 4);
     b3_world_gpu_wait_with_mirror(world);
@@ -1737,6 +1811,33 @@ fn zero_mass_dynamic_support_remains_dynamic_for_sort() {
     b3_world_gpu_wait_with_mirror(world);
     let p = b3_body_get_position(cube);
     assert!(p[1] > 0.35, "zero-mass support drop y={}", p[1]);
+    b3_destroy_world(world);
+}
+
+#[test]
+fn flat_mesh_does_not_create_pairs_above_native_fat_bounds() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let mut def = b3_default_world_def();
+    def.gravity = [0.0; 3];
+    let world = b3_create_world(gpu, &def);
+    let ground = b3_create_body(world, &b3_default_body_def());
+    b3_create_mesh_shape(ground, &b3_default_shape_def(),
+        &[[-1.0,0.0,-1.0], [1.0,0.0,-1.0], [1.0,0.0,1.0], [-1.0,0.0,1.0]],
+        &[[0,2,1],[0,3,2]], &[], &[], &[], [1.0;3]);
+    let mut body_def = b3_default_body_def();
+    body_def.body_type = BodyType::Dynamic;
+    body_def.position = [0.0,0.14,0.0];
+    let body = b3_create_body(world, &body_def);
+    b3_create_sphere_shape(body, &b3_default_shape_def(), &Sphere { center:[0.0;3], radius:0.05 });
+    b3_world_step_gpu(world, 1.0/60.0, 4);
+    // Native flat terrain ends at y=.04 including speculative + static margin.
+    // The sphere's fat lower bound is .06375: no broadphase pair should exist.
+    let contacts = pollster::block_on(b3_world_sync_contacts(world));
+    assert!(contacts.iter().all(|c| c.a == u32::MAX), "artificial mesh thickness created a pair");
+    b3_body_set_transform(body, [0.0,0.10,0.0], [0.0,0.0,0.0,1.0]);
+    b3_world_step_gpu(world, 1.0/60.0, 4);
+    let contacts = pollster::block_on(b3_world_sync_contacts(world));
+    assert!(contacts.iter().any(|c| c.a != u32::MAX), "actual fat-bound overlap must create a pair");
     b3_destroy_world(world);
 }
 
@@ -5012,6 +5113,38 @@ fn jointed_contact_keeps_color_when_another_contact_stops() {
 }
 
 #[test]
+fn capsule_parallel_threshold_matches_native_float_product() {
+    // Native b3CollideCapsules gives two points at this float32 boundary.
+    // 0.05f * 0.05f is one ULP greater than the rounded literal 0.0025f.
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let mut wd = b3_default_world_def();
+    wd.gravity = [0.0; 3];
+    wd.enable_sleep = false;
+    let world = b3_create_world(gpu, &wd);
+    b3_world_enable_continuous(world, false);
+    let mut bd = b3_default_body_def();
+    let a = b3_create_body(world, &bd);
+    let sd = b3_default_shape_def();
+    b3_create_capsule_shape(a, &sd, &Capsule {
+        center1: [-0.5, 0.0, 0.0], center2: [0.5, 0.0, 0.0], radius: 0.1,
+    });
+    bd.body_type = BodyType::Dynamic;
+    bd.enable_contact_recycling = false;
+    let b = b3_create_body(world, &bd);
+    b3_create_capsule_shape(b, &sd, &Capsule {
+        center1: [0.0, 0.05, 0.0],
+        center2: [f32::from_bits(0x3f7fae07), 0.05 + f32::from_bits(0x3d10d0b3), f32::from_bits(0x3d10d0d0)],
+        radius: 0.1,
+    });
+    b3_world_step_gpu(world, 1.0 / 60.0, 1);
+    let contacts = pollster::block_on(b3_world_sync_contacts(world));
+    let c = contacts.iter().find(|c| c.a != u32::MAX && c.count > 0).expect("capsule contact");
+    let count = c.count;
+    b3_destroy_world(world);
+    assert_eq!(count, 2, "native boundary manifold must retain both clipped points");
+}
+
+#[test]
 fn capsule_feature_ids_survive_single_and_clipped_manifold_transitions() {
     let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
     let mut wd = b3_default_world_def();
@@ -5315,6 +5448,340 @@ fn capsule_mesh_friction_uses_cpu_scalar_order() {
         for i in 0..6 {
             assert!((actual[i]-expected[i]).abs() < 1e-4,
                 "mesh friction response: actual={actual:?} CPU={expected:?}");
+        }
+        b3_destroy_world(world);
+    }
+}
+
+#[test]
+fn capsule_proxy_retires_separated_parallel_pair() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    for axis in 0..3 {
+        let mut wd = b3_default_world_def();
+        wd.gravity = [0.0; 3];
+        wd.enable_sleep = false;
+        wd.enable_continuous = false;
+        let world = b3_create_world(gpu.clone(), &wd);
+        let mut endpoint = [0.0; 3];
+        endpoint[axis] = 1.0;
+        let capsule = Capsule { center1: endpoint.map(|x| -x), center2: endpoint, radius: 0.1 };
+        let sd = b3_default_shape_def();
+        let mut bd = b3_default_body_def();
+        let fixed = b3_create_body(world, &bd);
+        b3_create_capsule_shape(fixed, &sd, &capsule);
+        bd.body_type = BodyType::Dynamic;
+        bd.position[(axis + 1) % 3] = 0.19;
+        let moving = b3_create_body(world, &bd);
+        b3_create_capsule_shape(moving, &sd, &capsule);
+        b3_world_step_gpu(world, 1.0 / 60.0, 4);
+        b3_world_gpu_wait_with_mirror(world);
+        let contacts = pollster::block_on(b3_world_sync_contacts(world));
+        assert!(contacts.iter().any(|c| c.a != u32::MAX && c.count > 0), "initial capsule contact");
+        // Farther than the endpoint-based fat bounds, but still inside the
+        // old surrounding-sphere bounds. Retire the pair, not just its points.
+        let mut position = [0.0; 3];
+        position[(axis + 1) % 3] = 0.5;
+        b3_body_set_transform(moving, position, [0.0, 0.0, 0.0, 1.0]);
+        b3_world_step_gpu(world, 1.0 / 60.0, 4);
+        b3_world_gpu_wait_with_mirror(world);
+        let contacts = pollster::block_on(b3_world_sync_contacts(world));
+        assert!(contacts.iter().all(|c| c.a == u32::MAX), "separated capsule pair retained on axis {axis}");
+        b3_destroy_world(world);
+    }
+}
+
+#[test]
+fn ccd_proxy_padding_tracks_no_hit_and_impact() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    for mesh in [false, true] {
+        let mut wd = b3_default_world_def();
+        wd.gravity = [0.0; 3];
+        wd.enable_sleep = false;
+        let world = b3_create_world(gpu.clone(), &wd);
+        let mut bd = b3_default_body_def();
+        bd.position = [0.0, -0.5, 0.0];
+        let ground = b3_create_body(world, &bd);
+        let sd = b3_default_shape_def();
+        if mesh {
+            b3_create_mesh_shape(ground, &sd,
+                &[[-10.0,0.5,-10.0],[0.0,0.5,10.0],[10.0,0.5,-10.0]],
+                &[[0,1,2]], &[], &[], &[] as &[MeshNode], [1.0;3]);
+        } else {
+            b3_create_hull_shape(ground, &sd, &b3_make_box_hull(10.0, 0.5, 10.0));
+        }
+        bd.body_type = BodyType::Dynamic;
+        bd.position = [0.0, 5.0, 0.0];
+        bd.linear_velocity = [0.0, -100.0, 0.0];
+        let body = b3_create_body(world, &bd);
+        b3_create_sphere_shape(body, &sd, &Sphere { center: [0.0;3], radius: 0.1 });
+        let mut hit = false;
+        for step in 0..4 {
+            b3_world_step_gpu(world, 1.0 / 60.0, 4);
+            b3_world_gpu_wait_with_mirror(world);
+            let states = pollster::block_on(crate::api::b3_world_sync_from_gpu(world));
+            let moving = states.iter().find(|b| b.inv_mass > 0.0).unwrap();
+            if step == 0 {
+                assert_ne!(moving.flags & crate::types::FLAG_CCD_NO_HIT, 0, "fast unobstructed step");
+            }
+            if moving.pos[1] < 0.2 {
+                assert_eq!(moving.flags & crate::types::FLAG_CCD_NO_HIT, 0, "impact must restore padded proxy bounds");
+                hit = true;
+                break;
+            }
+        }
+        assert!(hit, "CCD impact fixture mesh={mesh}");
+        b3_destroy_world(world);
+    }
+}
+
+#[test]
+fn jointed_contact_start_precedes_later_id_retirement() {
+    contact_transition_fixture(false);
+}
+
+#[test]
+fn jointed_contact_transition_survives_buffer_growth() {
+    contact_transition_fixture(true);
+}
+
+fn contact_transition_fixture(grow: bool) {
+    // Native reference: two ghost pairs get IDs left=0, right=1. Right starts
+    // on step 2 (color 0). On step 3 left starts before right retires, so left
+    // must get color 1 even though color 0 is free at the end of the step.
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let mut wd = b3_default_world_def();
+    wd.gravity = [0.0; 3];
+    wd.enable_sleep = false;
+    let world = b3_create_world(gpu, &wd);
+    let ground = b3_create_body(world, &b3_default_body_def());
+    let mut bd = b3_default_body_def();
+    bd.body_type = BodyType::Dynamic;
+    let center = b3_create_body(world, &bd);
+    let sphere = Sphere { center: [0.0; 3], radius: 1.0 };
+    let sd = b3_default_shape_def();
+    b3_create_sphere_shape(center, &sd, &sphere);
+    bd.position = [2.03, 0.0, 0.0];
+    let right = b3_create_body(world, &bd);
+    b3_create_sphere_shape(right, &sd, &sphere);
+    bd.position = [-2.03, 0.0, 0.0];
+    let left = b3_create_body(world, &bd);
+    b3_create_sphere_shape(left, &sd, &sphere);
+    let mut joint = b3_default_spherical_joint_def();
+    joint.body_a = ground;
+    joint.body_b = center;
+    b3_create_spherical_joint(world, &joint);
+    b3_world_step_gpu(world, 1.0 / 60.0, 4);
+    let cs = pollster::block_on(b3_world_sync_contacts(world));
+    assert_eq!(cs.iter().filter(|c| c.a != u32::MAX).count(), 2);
+    assert!(cs.iter().all(|c| c.count == 0));
+    let identity = [0.0, 0.0, 0.0, 1.0];
+    b3_body_set_transform(right, [1.99, 0.0, 0.0], identity);
+    b3_world_step_gpu(world, 1.0 / 60.0, 4);
+    let cs = pollster::block_on(b3_world_sync_contacts(world));
+    assert_eq!(cs.iter().find(|c| c.a != u32::MAX && c.count > 0).unwrap().color, 0);
+    if grow {
+        let mut filler = b3_default_body_def();
+        filler.position = [1000.0, 1000.0, 1000.0];
+        for _ in 0..300 { b3_create_body(world, &filler); }
+    }
+    for (body, position) in [(center, [0.0; 3]), (right, [2.3, 0.0, 0.0]), (left, [-1.99, 0.0, 0.0])] {
+        b3_body_set_transform(body, position, identity);
+        b3_body_set_linear_velocity(body, [0.0; 3]);
+    }
+    b3_world_step_gpu(world, 1.0 / 60.0, 4);
+    let cs = pollster::block_on(b3_world_sync_contacts(world));
+    let active: Vec<_> = cs.iter().filter(|c| c.a != u32::MAX && c.count > 0).collect();
+    assert_eq!(active.len(), 1);
+    assert_eq!(active[0].color, 1, "later contact retired before earlier contact started");
+    b3_destroy_world(world);
+}
+
+#[test]
+fn jointed_contact_inherits_color_when_first_joint_is_added() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let mut wd = b3_default_world_def();
+    wd.gravity = [0.0; 3];
+    wd.enable_sleep = false;
+    let world = b3_create_world(gpu, &wd);
+    let floor = b3_create_body(world, &b3_default_body_def());
+    b3_create_hull_shape(floor, &b3_default_shape_def(), &b3_make_box_hull(5.0, 0.5, 5.0));
+    let mut bd = b3_default_body_def();
+    bd.position = [0.0, 1.49, 0.0];
+    let anchor = b3_create_body(world, &bd);
+    bd.body_type = BodyType::Dynamic;
+    let body = b3_create_body(world, &bd);
+    b3_create_sphere_shape(body, &b3_default_shape_def(), &Sphere { center: [0.0; 3], radius: 1.0 });
+    b3_world_step_gpu(world, 1.0 / 60.0, 4);
+    let before = pollster::block_on(b3_world_sync_contacts(world));
+    let old_color = before.iter().find(|c| c.a != u32::MAX && c.count > 0).unwrap().color;
+    assert_eq!(old_color, 22);
+    let mut joint = b3_default_spherical_joint_def();
+    joint.body_a = anchor;
+    joint.body_b = body;
+    b3_create_spherical_joint(world, &joint);
+    b3_world_step_gpu(world, 1.0 / 60.0, 4);
+    let after = pollster::block_on(b3_world_sync_contacts(world));
+    let contact = after.iter().find(|c| c.a != u32::MAX && c.count > 0).unwrap();
+    assert_eq!(contact.color, old_color, "new joint stole a surviving contact's color");
+    b3_destroy_world(world);
+}
+
+#[test]
+fn capsule_mesh_solves_face_patch_before_tentative_edge() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let mut wd = b3_default_world_def();
+    wd.gravity = [0.0; 3];
+    wd.enable_sleep = false;
+    wd.enable_continuous = false;
+    let world = b3_create_world(gpu, &wd);
+    let ground = b3_create_body(world, &b3_default_body_def());
+    // Native frame-122 head contact, expressed in the capsule frame. Force
+    // BVH visitation of the tentative edge before the accepted triangle face.
+    b3_create_mesh_shape(ground, &b3_default_shape_def(),
+        &[[-0.139201164,-0.302850783,-0.394349217],
+          [-0.00188159943,0.92638427,0.835102201],
+          [-0.255115032,0.689032912,1.01095104],
+          [-0.0233283043,-0.079226017,-0.690914631]],
+        &[[0,1,2],[1,0,3]], &[116,116], &[],
+        &[MeshNode { lower: [-1.0;3], upper: [2.0;3], data: (2<<2)|3, triangle_offset: 0 }], [1.0;3]);
+    let mut bd = b3_default_body_def();
+    bd.body_type = BodyType::Dynamic;
+    let body = b3_create_body(world, &bd);
+    b3_create_capsule_shape(body, &b3_default_shape_def(), &Capsule {
+        center1: [-0.000001,0.016892,-0.05869],
+        center2: [0.0,-0.003629,-0.115072], radius: 0.0975,
+    });
+    b3_world_step_gpu(world, 1.0/60.0, 4);
+    let contacts = pollster::block_on(b3_world_sync_contacts(world));
+    let root = contacts.iter().find(|c| c.a != u32::MAX && c.count > 0 && c.manifold_link[1] == 0).expect("root");
+    assert_eq!(root.manifold_link[2], 2, "both native patches must survive");
+    assert_eq!(root.count, 2, "face patch must precede the one-point tentative edge");
+    let child = &contacts[(root.manifold_link[0]-1) as usize];
+    assert_eq!(child.count, 1);
+    for (actual, expected) in [root.nx,root.ny,root.nz].into_iter().zip([0.948055923,-0.271576464,0.165638655]) {
+        assert!((actual-expected).abs()<1e-5);
+    }
+    b3_destroy_world(world);
+}
+
+#[test]
+fn capsule_mesh_preserves_distinct_seam_witnesses() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let mut wd = b3_default_world_def();
+    wd.gravity = [0.0; 3];
+    wd.enable_sleep = false;
+    wd.enable_continuous = false;
+    let world = b3_create_world(gpu, &wd);
+    let ground = b3_create_body(world, &b3_default_body_def());
+    b3_create_mesh_shape(ground, &b3_default_shape_def(),
+        &[[-1.0,0.0,-1.0],[-1.0,0.0,1.0],[1.0,0.0,1.0],[1.0,0.0,-1.0]],
+        &[[0,1,2],[0,2,3]], &[], &[],
+        &[MeshNode { lower: [-1.0,0.0,-1.0], upper: [1.0,0.0,1.0], data: (2<<2)|3, triangle_offset: 0 }], [1.0;3]);
+    let mut bd = b3_default_body_def();
+    bd.body_type = BodyType::Dynamic;
+    let body = b3_create_body(world, &bd);
+    b3_create_capsule_shape(body, &b3_default_shape_def(), &Capsule {
+        center1: [-0.3,0.1,0.0], center2: [0.3,0.1,0.0], radius: 0.1,
+    });
+    b3_world_step_gpu(world, 1.0/60.0, 4);
+    let contacts = pollster::block_on(b3_world_sync_contacts(world));
+    let root = contacts.iter().find(|c| c.a != u32::MAX && c.count > 0 && c.manifold_link[1] == 0).expect("root");
+    // Independent Box3D oracle retains both triangle witnesses at x=0,
+    // following the two extreme points. Proximity is not contact identity.
+    assert_eq!(root.count, 4, "each triangle contributes its seam witness");
+    assert_eq!(root.point_triangles, [1,2,2,1]);
+    for (anchor, x) in [root.rb0, root.rb1, root.rb2, root.rb3].into_iter().zip([-0.3,0.3,0.0,0.0]) {
+        for (actual, expected) in anchor[..3].iter().copied().zip([x,-0.099999994,0.0]) {
+            assert!((actual-expected).abs()<1e-7, "seam anchor {anchor:?}, expected x={x}");
+        }
+    }
+    b3_destroy_world(world);
+}
+
+#[test]
+fn capsule_mesh_reduces_complete_cluster() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let mut wd = b3_default_world_def();
+    wd.gravity = [0.0;3];
+    wd.enable_sleep = false;
+    wd.enable_continuous = false;
+    let world = b3_create_world(gpu, &wd);
+    let ground = b3_create_body(world, &b3_default_body_def());
+    let mut vertices = Vec::new();
+    let mut triangles = Vec::new();
+    for i in 0..9 {
+        let x = -0.8_f32 + 0.2_f32 * i as f32;
+        vertices.extend([[x,0.0,-1.0],[x,0.0,1.0]]);
+    }
+    for i in 0..8 {
+        let a = 2*i;
+        triangles.extend([[a,a+1,a+3],[a,a+3,a+2]]);
+    }
+    b3_create_mesh_shape(ground, &b3_default_shape_def(), &vertices, &triangles, &[], &[],
+        &[MeshNode { lower: [-1.0,0.0,-1.0], upper: [1.0,0.0,1.0], data: (16<<2)|3, triangle_offset: 0 }], [1.0;3]);
+    let mut bd = b3_default_body_def();
+    bd.body_type = BodyType::Dynamic;
+    let body = b3_create_body(world, &bd);
+    b3_create_capsule_shape(body, &b3_default_shape_def(), &Capsule {
+        center1: [-0.7,0.1,0.0], center2: [0.7,0.1,0.0], radius: 0.1,
+    });
+    b3_world_step_gpu(world, 1.0/60.0, 4);
+    let contacts = pollster::block_on(b3_world_sync_contacts(world));
+    let root = contacts.iter().find(|c| c.a != u32::MAX && c.count > 0 && c.manifold_link[1] == 0).expect("root");
+    assert_eq!(root.count,4);
+    // Independent native culling across all 16 triangles, including the
+    // swap-removal tie order. Streaming four-point reduction loses this order.
+    assert_eq!(root.point_triangles, [1,15,16,15]);
+    for (anchor,x) in [root.rb0,root.rb1,root.rb2,root.rb3].into_iter().zip([-0.699999988,0.699999988,0.699999988,0.599999964]) {
+        for (actual,expected) in anchor[..3].iter().copied().zip([x,-0.099999994,0.0]) {
+            assert!((actual-expected).abs()<1e-7, "cluster anchor {anchor:?}, expected x={x}");
+        }
+    }
+    b3_destroy_world(world);
+}
+
+#[test]
+fn capsule_mesh_keeps_face_admitted_by_closest_distance() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    // Native frame-139 triangle/capsule inputs. Closest-distance admission
+    // succeeds although both clipped face points exceed speculative distance.
+    let cases = [
+        ([0.142406002,0.0393919982,0.261092007],
+         [[0.403065205,0.173336983,0.869106531],[-0.421206474,0.247315764,-0.795042038],[-0.252500057,-0.0960446596,-0.877142191]],
+         [-0.794671535,-0.479471982,0.372295231],
+         [[0.0515942313,0.0311298296,-0.0241713542],[0.0752515569,0.036841277,0.0250684209]]),
+        ([-0.142406002,0.0393919982,0.261092007],
+         [[-0.0255892277,0.433032513,0.336993933],[-0.749417782,-1.16999626,-0.163224697],[-0.65510273,-1.05237508,-0.521910429]],
+         [0.896159589,-0.433792561,0.0933913663],
+         [[-0.149668753,0.0567847863,0.130711406],[-0.180530399,0.0614212416,0.223727062]]),
+    ];
+    for (endpoint, vertices, normal, points) in cases {
+        let mut wd = b3_default_world_def();
+        wd.gravity = [0.0;3];
+        wd.enable_sleep = false;
+        wd.enable_continuous = false;
+        let world = b3_create_world(gpu.clone(), &wd);
+        let ground = b3_create_body(world, &b3_default_body_def());
+        b3_create_mesh_shape(ground, &b3_default_shape_def(), &vertices, &[[0,1,2]], &[116], &[],
+            &[MeshNode { lower: [-2.0;3], upper: [2.0;3], data: (1<<2)|3, triangle_offset: 0 }], [1.0;3]);
+        let mut bd = b3_default_body_def();
+        bd.body_type = BodyType::Dynamic;
+        let body = b3_create_body(world, &bd);
+        b3_create_capsule_shape(body, &b3_default_shape_def(), &Capsule {
+            center1: [0.0;3], center2: endpoint, radius: 0.05,
+        });
+        b3_world_step_gpu(world, 1.0/60.0, 4);
+        let contacts = pollster::block_on(b3_world_sync_contacts(world));
+        let root = contacts.iter().find(|c| c.a != u32::MAX && c.count > 0 && c.manifold_link[1] == 0).expect("accepted capsule face");
+        assert_eq!(root.count,2);
+        for (actual,expected) in [root.nx,root.ny,root.nz].into_iter().zip(normal) {
+            assert!((actual-expected).abs()<1e-6);
+        }
+        for (anchor,point) in [root.rb0,root.rb1].into_iter().zip(points) {
+            for axis in 0..3 {
+                assert!((anchor[axis]-(point[axis]-0.5*endpoint[axis])).abs()<1e-6,
+                    "face anchor {anchor:?}, native point {point:?}");
+            }
         }
         b3_destroy_world(world);
     }
