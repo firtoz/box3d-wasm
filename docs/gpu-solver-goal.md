@@ -9,10 +9,10 @@ Engine working directory: `experiments/gpu-physics` relative to that workspace.
 
 The full goal is resumed. This section owns current process state; older pause,
 bounded-task and live-job notes below are historical. Full objective and acceptance
-matrix remain below. HEAD is `2b555ed` on `feat/gpu`; origin was fetched. Box3D is
-initialized at its recorded clean revision. User-requested stage/commit completed
-as `2b555ed` (evidence/scripts/docs), clean afterward; five commits ahead of origin.
-The current user request authorizes staging and committing all pending work, followed by showing charts. No push is requested.
+matrix remain below. HEAD is `ff811a6` on `feat/gpu`; origin was fetched. Box3D is
+initialized at its recorded clean revision. User-requested stage/commit and charts
+completed; clean afterward, six commits ahead of origin. No additional commit or
+push requested for this resumed solver work.
 User authorizes continued work with unrestricted access and no routine prompts.
 Both controlled performance batches are complete and independently verified.
 Small session 88184 and large session 89242 exited 0; neither is running.
@@ -427,6 +427,199 @@ Normal baseline rebuild36958 and archive restoration are verified before commit.
 Next solver work must identify the remaining relaxation fixed-point obstruction
 from existing evidence before another candidate; do not increase the iteration cap.
 The full physical, repeat, and recording gates remain open.
+
+### Current contact metric convergence discriminator
+
+Previous turn made progress: combined motor/convergence failed and was committed
+in ff811a6. Existing capped states now expose contact-row non-descent too.
+`desktop-baseline/rain-contact-metric-audit/` reconstructs41active contact blocks
+using prepared inertia. In the motor-corrected state,3tangent and9rolling isolated
+next updates increase the fixed-bound quadratic objective, maxima4.0305e-5 and
+2.30996e-6J. Metric minimizers do not increase it. These are hypothetical end-state
+updates, not actual row inputs or causal proof. Prepared tangent inverse identity
+error<=5.50e-7. One old tangent cache exceeds current bound by float roundoff.
+
+256float32 controls (2D embedded tangent disks and3D rolling balls, including zero
+bounds and infeasible-old caches) agree with independent eigensolve within2.35e-7
+relative solution error; bound excess<=6.43e-8. Full shader validation passes.
+Artifact `desktop-baseline/rain-wave-contact-metric-convergence/` adds only contact
+metric projection to prior motor/wave arm. Friction coefficients/normal bounds,
+input,1e-5/twoquiet/128cap and stop-on-failure are unchanged. Build56685 exited0 and
+restored source byte-exact. Probe19284 child0/driver1:5of8nonconverged again.
+All relaxation passes hit128, finalvelocity changes .075682/.045506/.048816/
+.032721; bias2cache change1.99569e-5. Exact initialgetters/finite bodies validate.
+Normal rebuild66786 exited0; source/archive byte-exact. Expansion stopped.
+Portable receipts: `benchmarks/2026-09-29-rain-contact-metric-audit.json` and
+`benchmarks/2026-09-29-rain-wave-contact-metric-convergence.json`.
+No production adoption or physical qualification. No new parameter sweep.
+
+Final-state joint residual reconstruction shows the metric motor correction
+reduces the largest motor objective gaps substantially; after contact correction,
+hinges27/39 alignment and point blocks dominate (largest gap1.09e-5J). These are
+isolated counterfactual row gaps, not additive energy or actual in-wave inputs.
+An initial exact-feasibility assertion fails on4.08e-10motor norm excess; retained
+failure receipt and corrected diagnostic report signed gaps/feasibility explicitly.
+
+Completed bounded diagnostic: `desktop-baseline/rain-wave-convergence-history/`
+records16predeclared wave checkpoints and maximum-update labels in extra unused
+filter fields, without changing calculations or cap. This will distinguish slow
+residual decay from a plateau; finite-cap failure alone does not prove a cycle.
+Require exact parent body stream and captured semantic state except declared
+filter fields under the existing occupied-order audit. Shader validation passes;
+build26428 exited0 and restored source. Probe67647 child0/driver1 (same numerical
+failure); normal rebuild85691 exited0 with byte-exact baseline archive. No live jobs.
+Validator confirms exact parent body stream and complete semantic state except
+five declared filter fields, using existing occupied-order normalization. Two
+corruption controls reject. History shows slow decay, not a demonstrated cycle:
+wave64/96/112/128 velocity changes .062777/.045012/.037640/.032721 and cache
+changes .005107/.004766/.002650/.002421. Hinge39 (bodies40/41) dominates late
+velocity updates; ground contact1/41 dominates wave96. Largest-update labels
+are quantized1/32767, while reported norms and convergence remain exact.
+Local hard hinge alignment/point analysis gives isolated Gauss-Seidel spectral
+radius .0970 for39, .1282 for27, max .1598 across12hinges. Thus isolated hinge
+internal splitting is not a strong explanation for the much slower observed
+network decay; do not blindly combine the earlier hinge-block candidate.
+Portable history/no-op evidence: `benchmarks/2026-09-29-rain-wave-convergence-history.json`.
+Next discriminating work: use saved fixed-geometry Jacobians/active rows to
+identify the slow network mode and choose a coupled/preconditioned solve that
+preserves original softness and bounds. Establish reference residual reduction
+before another GPU candidate. Do not increase the cap or infer an infinite cycle
+from finite nonconvergence. Full physics, native path, five-repeat matrix,
+performance and recordings requirements remain intact.
+
+### Current coupled reference calculation
+
+Previous turn was progress: verified slow-decay history and weak isolated hinge
+coupling changed the next action to a network reference. Artifact:
+`desktop-baseline/rain-coupled-reference/`. Frozen protocol reconstructs all39
+joints/41active contact manifolds (56normal points),413blocks/734impulse unknowns
+from the last contact-metric capped state. Prepared inertia, final joint geometry,
+prepared contact levers, original spring softness/targets and normal-dependent
+friction/rolling/twist bounds are retained. Tiny inertia asymmetry is explicitly
+symmetrized; delta poses are reconstructed, so this is float64 subproblem evidence,
+not a bit-exact GPU trajectory. Contact normal/tangent prepared mass identity
+errors are <=5.50e-7. Original production sources/build remain untouched.
+
+Solve natural-map complementarity equations with an analytic generalized Jacobian
+and SciPy LM, frozen max120function evaluations. Require24directional Jacobian
+controls<1e-5 before solving, final normalized residual<=1e-8, original domain
+feasibility<=1e-8scaled, direct primal/assembled agreement<=1e-9scaled and a full
+sequential metric block sweep with velocity/cache changes<=1e-5. No larger budget
+retry after failure. Session12723 exited1: all24Jacobian controls pass (<1.4e-9relative), but LM
+reports xtol success with final natural residual5.20965e-4 and full-sweep velocity
+change .0481242. Preserve the failure; optimizer status is not acceptance.
+Runtime `/tmp/rain-coupled-reference-venv/bin/python`: SciPy1.18.1, NumPy2.5.2,
+Clarabel0.11.1, BLAS/OMP threads1. No physical acceptance implied.
+
+Structured reference8229 exited1 at unchanged32outer iterations/58QP calls:
+fixed-bound convex QPs plus Anderson normal-bound fixed point reduce full residual
+to7.81915e-6, still failing1e-8. Full-sweep velocity change8.09684e-5 also fails.
+This preserves nonassociated contact normal equations; a single joint friction-cone
+QP would introduce different normal KKT terms and is not used. All inner statuses
+AlmostSolved and their independently measured residuals are retained.
+
+Hybrid refinement33206 exits0: one full semismooth Newton step from the preserved
+best structured state passes all original criteria. Natural residual4.81514e-11,
+scaled feasibility4.34260e-11, direct primal/assembled agreement8.91e-15. A complete
+sequential metric sweep changes velocities<=1.48475e-9 and caches<=7.70e-11.
+Jacobian rank730of734, minimum singular1.07e-16, Newton linear residual1.65e-17.
+Reference velocity differs from capped state by .0571418 maximum component and
+cached impulses by .835058; largest impulse5.00817. This is a converged solution
+of the reconstructed contact-metric phase, not a physical trajectory, bit-exact
+shader solution, ordinary/native qualification, or production adoption.
+
+GPU-oriented projected Anderson prototype62240 exits1: plain and accelerated
+waves both fail the predeclared128evaluation budget from cold and capped starts.
+Captured color/row order and paired normals are reconstructed; cache proposals
+are projected to original domains and body velocities reconstructed consistently.
+Memory4/weighted least squares/one proposal/0.9merit acceptance were fixed in
+advance. Cold acceleration accepts7/rejects60; capped accepts0/rejects63.
+Final natural residual plain/accelerated: cold .004037/.006566, capped
+.000991/.001286. No GPU implementation of this failed accelerator is justified;
+do not tune its memory or acceptance threshold. Initial states are reconstructed
+cold/capped, not original GPU phase entry, so no128phase acceptance is claimed.
+
+Portable `benchmarks/2026-09-29-rain-coupled-reference.json` embeds compressed
+645691byte input trace, all scripts/protocols/results/failures and complete
+reference impulse/velocity arrays. `verify_portable.py` reconstructs solely from
+the receipt in a temporary directory and reproduces residual/sweep checks with
+zero reference velocity difference. No raw external input or SciPy is needed for
+that verification (NumPy only). All jobs terminal, production source/submodule
+clean, normal archive unchanged. No additional commit requested.
+
+Next: prototype a coupled generalized-Jacobian solve (e.g. matrix-free Newton/
+Krylov with constraint-block preconditioning) against this strict reference,
+with frozen work and original domain checks from cold/capped states before any
+GPU candidate. Inspect the four numerical null directions and nonsmooth bound
+activation when choosing the solve; a finite sweep failure does not prove no
+solution. Avoid more local row variants or iteration-count/Anderson sweeps.
+Full physical/defaults, original Rain screens, actual phase-entry GPU validation,
+ordinary/native independence, complete-state five repeats, performance and
+recordings remain mandatory; this reference closes none of those broader gates.
+
+### Current matrix-free coupled prototype
+
+Previous turn made progress: converged full reference plus failed projected
+Anderson directs work to coupled Newton/Krylov. Artifact:
+`desktop-baseline/rain-newton-krylov-prototype/`. Matrix-free natural residual,
+forward Jacobian and adjoint use only constraint-local rows/body inverse mass;
+1/2/3row blocks supply GMRES preconditioning. Dense matrices are controls only.
+24controls pass (maxforward1.43e-14, adjoint7.43e-15, value3.23e-15, localinverse
+6.44e-15); omissions of softness or normal-bound derivatives are rejected.
+Four near-null directions at reference redistribute motor/limit impulses mostly
+within joints9/13/35/41. Body velocity effects<=9.04e-14, so these are redundant
+impulse allocations, not unconstrained physical motion. Smallest retained singular
+value6.44527e-5, largest24.851. Initial import failure from prototype filename
+operator.py is preserved; renamed nk_operator.py without numerical change.
+
+Frozen run87145 exited1:16Newton-step limit, GMRES32x4cycles and160action/step
+cap, original forcing/Armijo rules and final acceptance. Cold stops at11Newton
+steps/532actions, capped at2steps/266actions, both failed line searches. Final
+natural residuals .0124091/.00171665 and colored-wave velocity changes
+.0643191/.0321590 fail. Capped GMRES reaches its128Arnoldi limit with true linear
+relative residual .0894/.0578; no numerical pass or GPU adoption.
+
+Direction check31992 and exact-linear obstruction check34804 both exit0.
+Measured small-step merit slopes approach the predicted slopes (errors~1e-8);
+there is no demonstrated branch-derivative bug. Failed-state Jacobians rank731,
+unreachable residual fractions<=5.76e-14. Exact SVD Newton solves reach~2e-12
+linear relative residual yet still fail all8original Armijo sizes. Thus better
+Krylov accuracy alone would not repair the observed global step failure. No
+larger line-search retry was performed.
+
+Trust-controlled numerical-step variant70480 exits1. It solves shifted Newton
+steps but always checks the original unshifted physical equations. Frozen sigma
+updates/trial budgets improve residuals but both arms fail after32accepted steps:
+cold42linear trials/950actions, natural .00109806, wave velocity .0228041;
+capped40trials/1733actions, natural5.31593e-5, wave velocity .00208634. Preserve
+all trials and both failures; do not sweep damping schedules. No GPU adoption.
+Portable evidence: `benchmarks/2026-09-29-rain-newton-krylov-prototype.json`.
+
+Exact bilateral elimination prototype25522 also completes1 under frozen final
+checks, but its algebra controls pass. Artifact `desktop-baseline/rain-bilateral-schur-prototype/`
+eliminates234unconstrained point/alignment/spring variables and retains500bounded/
+unilateral unknowns. Original Gamma is retained, never recomputed from reduced
+masses. H_ff is SPD (min eigen .0137474, condition482480);24free-residual/Schur-gradient/
+velocity controls error<=9.10e-13. Reference reconstruction error2.83e-15 and
+original residual4.82e-11. All transformed local blocks are full rank in this case.
+Plain reduced waves still fail128budget: cold residual .00473656, capped
+.000422357; original colored-wave velocity changes .0382096/.00430913. Domain
+feasibility stays within8.61e-17. Exact elimination is validated, not full algorithm
+convergence or physics. Serial prototype uses captured row/color order, but its
+articulation-wide response means original GPU endpoint coloring cannot be reused
+without a new ownership design. Portable:
+`benchmarks/2026-09-29-rain-bilateral-schur-prototype.json`.
+
+All processes terminal, production source/submodule and normal archive unchanged.
+Next discriminating implementation: a coupled solve on the reduced500variable
+system, using verified Schur action and local effective-mass scaling, with original
+full residual/domain/sweep acceptance. Avoid another plain sweep, larger128cap,
+Anderson-memory or damping-schedule search. Prefer a mature bounded trust-region
+reference before a GPU implementation; verify any matrix-free reduced Jacobian
+against the algebra controls. A successful algorithm still needs float32, actual
+phase-entry/all8phase testing, original120/600step Rain/analytical controls and
+all remaining full-goal gates. Do not mistake this fixed-geometry reduction for
+an accepted production change.
 
 ## Bounded execution ended: friction, support and small-scene performance (2026-09-29)
 

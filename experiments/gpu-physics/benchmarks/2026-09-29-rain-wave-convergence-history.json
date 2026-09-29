@@ -1,0 +1,367 @@
+{
+  "date": "2026-09-29",
+  "status": "diagnostic-noop-pass-numerical-convergence-still-failed",
+  "scope": "One-step ordinary43body Rain fixture; history of final relaxation phase only. Not physical qualification or proof of infinite-time convergence/divergence.",
+  "protocol": "No-op diagnostic of previous contact-metric candidate. Preserve exact convergence criterion, physical calculations, inputs and128wave cap. Record final relaxation pass residual at16 fixed checkpoints and label the largest quantized velocity update (resolution1/32767; label tie breaks by larger key). Joint key=i+1; contact key=32768+slot. Extra filter-only fields frame_a_rotation/frame_b_rotation/target_rotation/weld_angular_impulse/perp_impulse carry history. Require body stream and complete captured semantic state exact versus parent except these declared fields using existing occupied-order audit. This distinguishes slow decay from a plateau; it does not prove an infinite-time cycle or qualify physics. No candidate change or cap increase.\n",
+  "probe": {
+    "status": "nonconverged",
+    "initial_getters_exact": true,
+    "passes": [
+      {
+        "substep": 0,
+        "phase": "bias",
+        "iterations": 76,
+        "last_velocity_change": 8.013456863409374e-06,
+        "last_impulse_change": 1.671142854320351e-06,
+        "last_change_below_threshold": true
+      },
+      {
+        "substep": 0,
+        "phase": "relax",
+        "iterations": 128,
+        "last_velocity_change": 0.0756821483373642,
+        "last_impulse_change": 0.011715557426214218,
+        "last_change_below_threshold": false
+      },
+      {
+        "substep": 1,
+        "phase": "bias",
+        "iterations": 91,
+        "last_velocity_change": 7.334618658205727e-06,
+        "last_impulse_change": 5.91604987221217e-07,
+        "last_change_below_threshold": true
+      },
+      {
+        "substep": 1,
+        "phase": "relax",
+        "iterations": 128,
+        "last_velocity_change": 0.04550555720925331,
+        "last_impulse_change": 0.0034181440714746714,
+        "last_change_below_threshold": false
+      },
+      {
+        "substep": 2,
+        "phase": "bias",
+        "iterations": 128,
+        "last_velocity_change": 2.6684369913709816e-07,
+        "last_impulse_change": 1.995686034206301e-05,
+        "last_change_below_threshold": false
+      },
+      {
+        "substep": 2,
+        "phase": "relax",
+        "iterations": 128,
+        "last_velocity_change": 0.04881633073091507,
+        "last_impulse_change": 0.0062229516915977,
+        "last_change_below_threshold": false
+      },
+      {
+        "substep": 3,
+        "phase": "bias",
+        "iterations": 86,
+        "last_velocity_change": 2.6678496851673117e-06,
+        "last_impulse_change": 2.043820359176607e-06,
+        "last_change_below_threshold": true
+      },
+      {
+        "substep": 3,
+        "phase": "relax",
+        "iterations": 128,
+        "last_velocity_change": 0.032721009105443954,
+        "last_impulse_change": 0.0024212815333157778,
+        "last_change_below_threshold": false
+      }
+    ],
+    "nonconverged_pass_count": 5,
+    "stop_expansion": true,
+    "scope": "One step convergence discriminator only; not Rain physical acceptance"
+  },
+  "history": {
+    "scope": "No-op final-relaxation wave history. Label ranking quantized to1/32767; exact norms and convergence policy unchanged. Does not establish an infinite-time cycle.",
+    "body_stream_exact": true,
+    "complete_state_difference_excluding_declared_filter_fields": null,
+    "raw_difference": [
+      "$.contact_allocation.occupied_order[0][0][0]",
+      26,
+      1
+    ],
+    "fields": [
+      "frame_a_rotation",
+      "frame_b_rotation",
+      "target_rotation",
+      "weld_angular_impulse",
+      "perp_impulse"
+    ],
+    "history": [
+      {
+        "wave": 1,
+        "velocity_change": 1.466863989830017,
+        "impulse_change": 0.9468098282814026,
+        "largest_quantized_velocity_update": {
+          "kind": "contact",
+          "slot": 136,
+          "identity": [
+            [
+              14,
+              41
+            ],
+            0
+          ],
+          "a": 40,
+          "b": 13
+        }
+      },
+      {
+        "wave": 2,
+        "velocity_change": 1.3627934455871582,
+        "impulse_change": 0.4290473759174347,
+        "largest_quantized_velocity_update": {
+          "kind": "joint",
+          "identity": 11,
+          "joint_kind": 1,
+          "a": 12,
+          "b": 13
+        }
+      },
+      {
+        "wave": 3,
+        "velocity_change": 0.9645220041275024,
+        "impulse_change": 0.21197612583637238,
+        "largest_quantized_velocity_update": {
+          "kind": "joint",
+          "identity": 11,
+          "joint_kind": 1,
+          "a": 12,
+          "b": 13
+        }
+      },
+      {
+        "wave": 4,
+        "velocity_change": 0.6619030237197876,
+        "impulse_change": 0.2018618881702423,
+        "largest_quantized_velocity_update": {
+          "kind": "joint",
+          "identity": 39,
+          "joint_kind": 1,
+          "a": 40,
+          "b": 41
+        }
+      },
+      {
+        "wave": 5,
+        "velocity_change": 0.5730037689208984,
+        "impulse_change": 0.14906243979930878,
+        "largest_quantized_velocity_update": {
+          "kind": "joint",
+          "identity": 39,
+          "joint_kind": 1,
+          "a": 40,
+          "b": 41
+        }
+      },
+      {
+        "wave": 6,
+        "velocity_change": 0.46707531809806824,
+        "impulse_change": 0.10026849806308746,
+        "largest_quantized_velocity_update": {
+          "kind": "joint",
+          "identity": 39,
+          "joint_kind": 1,
+          "a": 40,
+          "b": 41
+        }
+      },
+      {
+        "wave": 7,
+        "velocity_change": 0.5217589139938354,
+        "impulse_change": 0.0792483538389206,
+        "largest_quantized_velocity_update": {
+          "kind": "joint",
+          "identity": 39,
+          "joint_kind": 1,
+          "a": 40,
+          "b": 41
+        }
+      },
+      {
+        "wave": 8,
+        "velocity_change": 0.6255932450294495,
+        "impulse_change": 0.06223784387111664,
+        "largest_quantized_velocity_update": {
+          "kind": "joint",
+          "identity": 39,
+          "joint_kind": 1,
+          "a": 40,
+          "b": 41
+        }
+      },
+      {
+        "wave": 16,
+        "velocity_change": 0.5062322020530701,
+        "impulse_change": 0.0464242659509182,
+        "largest_quantized_velocity_update": {
+          "kind": "joint",
+          "identity": 39,
+          "joint_kind": 1,
+          "a": 40,
+          "b": 41
+        }
+      },
+      {
+        "wave": 32,
+        "velocity_change": 0.2770138382911682,
+        "impulse_change": 0.018860142678022385,
+        "largest_quantized_velocity_update": {
+          "kind": "contact",
+          "slot": 142,
+          "identity": [
+            [
+              6,
+              42
+            ],
+            0
+          ],
+          "a": 41,
+          "b": 5
+        }
+      },
+      {
+        "wave": 64,
+        "velocity_change": 0.06277740001678467,
+        "impulse_change": 0.005107003264129162,
+        "largest_quantized_velocity_update": {
+          "kind": "joint",
+          "identity": 39,
+          "joint_kind": 1,
+          "a": 40,
+          "b": 41
+        }
+      },
+      {
+        "wave": 96,
+        "velocity_change": 0.04501187801361084,
+        "impulse_change": 0.004765761084854603,
+        "largest_quantized_velocity_update": {
+          "kind": "contact",
+          "slot": 138,
+          "identity": [
+            [
+              1,
+              42
+            ],
+            0
+          ],
+          "a": 1,
+          "b": 41
+        }
+      },
+      {
+        "wave": 112,
+        "velocity_change": 0.037640321999788284,
+        "impulse_change": 0.00265038781799376,
+        "largest_quantized_velocity_update": {
+          "kind": "joint",
+          "identity": 39,
+          "joint_kind": 1,
+          "a": 40,
+          "b": 41
+        }
+      },
+      {
+        "wave": 120,
+        "velocity_change": 0.03499915823340416,
+        "impulse_change": 0.002637288998812437,
+        "largest_quantized_velocity_update": {
+          "kind": "joint",
+          "identity": 39,
+          "joint_kind": 1,
+          "a": 40,
+          "b": 41
+        }
+      },
+      {
+        "wave": 124,
+        "velocity_change": 0.03378122299909592,
+        "impulse_change": 0.0024905959144234657,
+        "largest_quantized_velocity_update": {
+          "kind": "joint",
+          "identity": 39,
+          "joint_kind": 1,
+          "a": 40,
+          "b": 41
+        }
+      },
+      {
+        "wave": 128,
+        "velocity_change": 0.032721009105443954,
+        "impulse_change": 0.0024212815333157778,
+        "largest_quantized_velocity_update": {
+          "kind": "joint",
+          "identity": 39,
+          "joint_kind": 1,
+          "a": 40,
+          "b": 41
+        }
+      }
+    ],
+    "input_hashes": {
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-contact-metric-convergence/hip-probe/trace.jsonl": "91a69914e8be606732559deeeb4c2ea1aba71acd5e39cbe43389c9180d8ca428",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence-history/hip-probe/trace.jsonl": "cd98c0fd55c2df3705c6e47874c0aeac600914657beba11461c6d7e87f1b78b4",
+      "scripts/compare-core-state.py": "ceb9066b75605a93167b810409c63f010484babb90abc8ba81ad842ed0a5c40c"
+    }
+  },
+  "corruption_controls": 2,
+  "child_exit": {
+    "exit": 0,
+    "seconds": 89.29797213499842
+  },
+  "driver_exit": 1,
+  "restoration": {
+    "source_byte_exact": true,
+    "normal_build_exit": 0,
+    "normal_archive_sha256": "b3f2b64239d72c95c8e1746f9bd40a95152fb7a2c6ab373a6e2bd2986cf5265b"
+  },
+  "patches": {
+    "candidate.patch": "--- a/shaders/physics/solve.wgsl\n+++ b/shaders/physics/solve.wgsl\n@@ -1,3 +1,95 @@\n+// Artifact-only convergence audit for the single-workgroup joint/contact wave.\n+var<workgroup> cv_on: u32;\n+var<workgroup> cv_velocity: atomic<u32>;\n+var<workgroup> cv_impulse: atomic<u32>;\n+var<workgroup> cv_tag: atomic<u32>;\n+var<workgroup> cv_stop: u32;\n+var<workgroup> cv_quiet: u32;\n+var<workgroup> cv_last_v: f32;\n+var<workgroup> cv_last_i: f32;\n+fn cv_change(a:f32,b:f32)->f32 {\n+    if (!(abs(a)<=3.402823e38) || !(abs(b)<=3.402823e38)) { return bitcast<f32>(0x7f800000u); }\n+    return abs(b-a)/(1.0+max(abs(a),abs(b)));\n+}\n+fn cv_i(a:f32,b:f32) { if(cv_on!=0u) { atomicMax(&cv_impulse,bitcast<u32>(cv_change(a,b))); } }\n+fn cv_i3(a:vec3<f32>,b:vec3<f32>) { for(var i=0u;i<3u;i++){cv_i(a[i],b[i]);} }\n+fn cv_b(a:Body,b:Body,key:u32) {\n+    if(cv_on!=0u) { for(var i=0u;i<3u;i++) {\n+        atomicMax(&cv_velocity,bitcast<u32>(cv_change(a.vel[i],b.vel[i])));\n+        atomicMax(&cv_velocity,bitcast<u32>(cv_change(a.omega[i],b.omega[i])));\n+        let value=max(cv_change(a.vel[i],b.vel[i]),cv_change(a.omega[i],b.omega[i]));\n+        // Quantized ranking only; convergence still uses the original exact atomic max.\n+        atomicMax(&cv_tag,(u32(min(value,1.9999)*32767.0)<<16u)|(key&65535u));\n+    } }\n+}\n+fn cv_j(a:Joint,b:Joint) {\n+    if(cv_on==0u){return;}\n+    cv_i(a.impulse,b.impulse);cv_i(a.spring_impulse,b.spring_impulse);\n+    cv_i(a.motor_impulse,b.motor_impulse);cv_i(a.lower_impulse,b.lower_impulse);\n+    cv_i(a.upper_impulse,b.upper_impulse);cv_i(a.swing_impulse,b.swing_impulse);\n+    cv_i(a.perp_impulse.x,b.perp_impulse.x);cv_i(a.perp_impulse.y,b.perp_impulse.y);\n+    cv_i3(a.angular_impulse,b.angular_impulse);\n+    cv_i3(a.spring_angular_impulse,b.spring_angular_impulse);\n+    cv_i3(a.motor_angular_impulse,b.motor_angular_impulse);\n+    cv_i3(a.weld_linear_impulse,b.weld_linear_impulse);\n+    cv_i3(a.weld_angular_impulse,b.weld_angular_impulse);\n+}\n+fn cv_c(a:Contact,b:Contact) {\n+    if(cv_on==0u){return;}\n+    cv_i(a.rb0.w,b.rb0.w);cv_i(a.rb1.w,b.rb1.w);cv_i(a.rb2.w,b.rb2.w);cv_i(a.rb3.w,b.rb3.w);\n+    cv_i(a.friction_impulse.x,b.friction_impulse.x);cv_i(a.friction_impulse.y,b.friction_impulse.y);\n+    cv_i(a.twist_impulse,b.twist_impulse);cv_i3(a.rolling_impulse,b.rolling_impulse);\n+    // This monotonic accumulator is consumed only by a zero/nonzero restitution gate.\n+    // Its magnitude is not a fixed-point impulse; preserve and monitor the consumed state.\n+    for(var i=0u;i<4u;i++){\n+        cv_i(select(0.0,1.0,a.total_normal_impulse[i]!=0.0),select(0.0,1.0,b.total_normal_impulse[i]!=0.0));\n+    }\n+}\n+fn cv_history(sweep:u32) {\n+    let selected=array<u32,16>(1u,2u,3u,4u,5u,6u,7u,8u,16u,32u,64u,96u,112u,120u,124u,128u);\n+    var index=16u;\n+    for(var q=0u;q<16u;q++){if(selected[q]==sweep){index=q;}}\n+    if(index==16u){return;}\n+    var carrier=0u;\n+    for(var i=0u;i<params.joint_count;i++) {\n+        var j=joints[i];if(j.kind!=JOINT_FILTER){continue;}\n+        var value=cv_last_v;\n+        if(carrier==1u){value=cv_last_i;}\n+        if(carrier==2u){value=f32(atomicLoad(&cv_tag)&65535u);}\n+        if(index<4u){j.frame_a_rotation[index]=value;}\n+        else if(index<8u){j.frame_b_rotation[index-4u]=value;}\n+        else if(index<12u){j.target_rotation[index-8u]=value;}\n+        else if(index<15u){j.weld_angular_impulse[index-12u]=value;}\n+        else{j.perp_impulse.x=value;}\n+        joints[i]=j;carrier++;\n+        if(carrier==3u){break;}\n+    }\n+}\n+fn cv_report(iterations:u32) {\n+    var carrier=0u;\n+    for(var i=0u;i<params.joint_count;i++) {\n+        var j=joints[i];if(j.kind!=JOINT_FILTER){continue;}\n+        if(j.revolute_axes_step!=params.physics_step) {\n+            j.revolute_axes_step=params.physics_step;\n+            j.weld_linear_impulse=vec3<f32>(0.0);\n+            j.spring_angular_impulse=vec3<f32>(0.0);\n+            j.motor_angular_impulse=vec3<f32>(0.0);\n+            j.angular_impulse=vec3<f32>(0.0);\n+        }\n+        let index=u32(j.weld_linear_impulse.x);\n+        var value=f32(iterations);\n+        if(carrier==1u){value=cv_last_v;}if(carrier==2u){value=cv_last_i;}\n+        if(index<3u){j.spring_angular_impulse[index]=value;}\n+        else if(index<6u){j.motor_angular_impulse[index-3u]=value;}\n+        else if(index<8u){j.angular_impulse[index-6u]=value;}\n+        j.weld_linear_impulse.x+=1.0;\n+        j.weld_linear_impulse.y+=select(1.0,0.0,cv_quiet>=2u);\n+        j.weld_linear_impulse.z=f32(params.use_bias);\n+        joints[i]=j;carrier++;\n+        if(carrier==3u){break;}\n+    }\n+}\n+\n // TGS contact GS, friction/rolling, overflow, joints.\n \n // Native convex contacts prepare an inverse, pack its lower triangle, then\n@@ -362,11 +454,8 @@\n         let dw = (*ba).omega - (*bb).omega;\n         var jr = (*c).rolling_impulse + rolling_mass_mul(*ba, *bb, dw, convex_friction);\n         let max_r = (*c).rolling * total_jn;\n-        if (convex_friction) {\n-            jr = convex_rolling_clamp(jr, max_r);\n-        } else {\n-            jr = mesh_rolling_clamp(jr, max_r);\n-        }\n+        jr = contact_metric_ball(world_inv_inertia_matrix(*ba),\n+            world_inv_inertia_matrix(*bb), -dw, (*c).rolling_impulse, max_r);\n         let djr = jr - (*c).rolling_impulse;\n         (*c).rolling_impulse = jr;\n         if (!is_immovable(*ba)) {\n@@ -560,9 +649,17 @@\n         jn = jn - vec2<f32>(mt.x * vt.x + mt.y * vt.y, mt.z * vt.x + mt.w * vt.y);\n         let max_j = (*c).friction * total_jn;\n         let mag2 = jn.x * jn.x + jn.y * jn.y;\n-        if (mag2 > max_j * max_j) {\n-            // Native SIMD contact friction includes epsilon in the denominator.\n-            jn = jn * gyro_divide(max_j, gyro_sqrt(mag2) + 1.1920929e-7);\n+        let determinant = mt.x * mt.w - mt.y * mt.z;\n+        if (determinant > 1.17549435e-35) {\n+            let tangent_k = mat3x3<f32>(\n+                vec3<f32>(mt.w,-mt.z,0.0) / determinant,\n+                vec3<f32>(-mt.y,mt.x,0.0) / determinant,\n+                vec3<f32>(0.0,0.0,1.0));\n+            let zero = mat3x3<f32>(vec3<f32>(0.0),vec3<f32>(0.0),vec3<f32>(0.0));\n+            jn = contact_metric_ball(tangent_k,zero,vec3<f32>(vt,0.0),\n+                vec3<f32>((*c).friction_impulse,0.0),max_j).xy;\n+        } else {\n+            jn = vec2<f32>(0.0);\n         }\n         let djt = jn - (*c).friction_impulse;\n         (*c).friction_impulse = jn;\n@@ -714,6 +811,8 @@\n     var slot = root;\n     for (var i = 0u; i < count; i++) {\n         var c = load_solve_contact(slot);\n+        let cv_old_c=c;\n+        let cv_old_a=*ba;let cv_old_b=*bb;\n         if (c.count > 0u) {\n             if (mode == 2u) { warm_manifold(c, ba, bb); }\n             else if (mode == 3u) {\n@@ -726,6 +825,7 @@\n                 else { store_solve_contact(slot, c); }\n             }\n         }\n+        cv_c(cv_old_c,c);cv_b(cv_old_a,*ba,32768u+slot);cv_b(cv_old_b,*bb,32768u+slot);\n         if (i + 1u < count) { slot = c.manifold_link.x - 1u; }\n     }\n }\n@@ -1691,6 +1791,70 @@\n     return ((vb + gyro_cross(wb, rb)) - va) - gyro_cross(wa, ra);\n }\n \n+// Artifact-only maximum-dissipation motor solve in the torque ball.\n+fn motor_metric_solve(k: mat3x3<f32>, rhs: vec3<f32>) -> vec3<f32> {\n+    let det = dot(k[0], cross(k[1], k[2]));\n+    if (abs(det) <= 1.17549435e-35) { return vec3<f32>(0.0); }\n+    return vec3<f32>(dot(rhs, cross(k[1], k[2])),\n+        dot(cross(k[2], k[0]), rhs), dot(cross(k[0], k[1]), rhs)) / det;\n+}\n+\n+fn spherical_motor_metric(ia: mat3x3<f32>, ib: mat3x3<f32>,\n+    cdot: vec3<f32>, old: vec3<f32>, radius: f32) -> vec3<f32> {\n+    if (radius <= 0.0) { return vec3<f32>(0.0); }\n+    let raw = ia + ib;\n+    // Input inertia may contain tiny upper/lower float32 asymmetry.\n+    let k = 0.5 * (raw + transpose(raw));\n+    let g = cdot - native_mul_mv(k, old);\n+    var low = 0.0;\n+    var high = length(g) / radius;\n+    for (var iteration = 0u; iteration < 24u; iteration++) {\n+        let mid = 0.5 * (low + high);\n+        let shifted = k + mat3x3<f32>(vec3<f32>(mid,0.0,0.0),\n+            vec3<f32>(0.0,mid,0.0),vec3<f32>(0.0,0.0,mid));\n+        let x = motor_metric_solve(shifted, -g);\n+        if (dot(x,x) > radius * radius) { low = mid; }\n+        else { high = mid; }\n+    }\n+    let shifted = k + mat3x3<f32>(vec3<f32>(high,0.0,0.0),\n+        vec3<f32>(0.0,high,0.0),vec3<f32>(0.0,0.0,high));\n+    let x = spherical_clamp_vector_length(motor_metric_solve(shifted,-g),radius);\n+    let feasible_old = spherical_clamp_vector_length(old,radius);\n+    let candidate_value = 0.5 * dot(x,native_mul_mv(k,x)) + dot(g,x);\n+    let old_value = 0.5 * dot(feasible_old,native_mul_mv(k,feasible_old)) + dot(g,feasible_old);\n+    // Roundoff fallback preserves a feasible non-increasing objective.\n+    return select(x,feasible_old,candidate_value > old_value);\n+}\n+\n+fn contact_metric_ball(ia: mat3x3<f32>, ib: mat3x3<f32>,\n+    cdot: vec3<f32>, old: vec3<f32>, radius: f32) -> vec3<f32> {\n+    if (radius <= 0.0) { return vec3<f32>(0.0); }\n+    let raw = ia + ib;\n+    // Input inertia may contain tiny upper/lower float32 asymmetry.\n+    let k = 0.5 * (raw + transpose(raw));\n+    let g = cdot - native_mul_mv(k, old);\n+    let unconstrained = motor_metric_solve(k, -g);\n+    if (dot(unconstrained,unconstrained) <= radius * radius) { return unconstrained; }\n+    var low = 0.0;\n+    var high = length(g) / radius;\n+    for (var iteration = 0u; iteration < 24u; iteration++) {\n+        let mid = 0.5 * (low + high);\n+        let shifted = k + mat3x3<f32>(vec3<f32>(mid,0.0,0.0),\n+            vec3<f32>(0.0,mid,0.0),vec3<f32>(0.0,0.0,mid));\n+        let x = motor_metric_solve(shifted, -g);\n+        if (dot(x,x) > radius * radius) { low = mid; }\n+        else { high = mid; }\n+    }\n+    let shifted = k + mat3x3<f32>(vec3<f32>(high,0.0,0.0),\n+        vec3<f32>(0.0,high,0.0),vec3<f32>(0.0,0.0,high));\n+    let x = spherical_clamp_vector_length(motor_metric_solve(shifted,-g),radius);\n+    let feasible_old = spherical_clamp_vector_length(old,radius);\n+    let candidate_value = 0.5 * dot(x,native_mul_mv(k,x)) + dot(g,x);\n+    let old_value = 0.5 * dot(feasible_old,native_mul_mv(k,feasible_old)) + dot(g,feasible_old);\n+    // Roundoff fallback preserves a feasible non-increasing objective.\n+    return select(x,feasible_old,candidate_value > old_value);\n+}\n+\n fn solve_spherical(\n     jn: ptr<function, Joint>,\n     ba: ptr<function, Body>,\n@@ -1774,10 +1938,15 @@\n             ((*bb).omega - (*ba).omega) - (*jn).motor_angular_velocity;\n         let delta = -motor_angular_mass_mul(*ba, *bb, cdot);\n         let old_impulse = (*jn).motor_angular_impulse;\n-        (*jn).motor_angular_impulse = spherical_clamp_vector_length(\n-            old_impulse + delta,\n-            (*jn).max_motor_force * params.dt,\n-        );\n+        let trial_impulse = old_impulse + delta;\n+        let max_impulse = (*jn).max_motor_force * params.dt;\n+        (*jn).motor_angular_impulse = spherical_clamp_vector_length(trial_impulse, max_impulse);\n+        if ((params.diagnostic_flags & SOLVER_PAIRED_NORMALS) != 0u\n+            && length(trial_impulse) > max_impulse) {\n+            (*jn).motor_angular_impulse = spherical_motor_metric(\n+                world_inv_inertia_matrix(*ba), world_inv_inertia_matrix(*bb),\n+                cdot, old_impulse, max_impulse);\n+        }\n         let applied = (*jn).motor_angular_impulse - old_impulse;\n         (*ba).omega = (*ba).omega - world_inv_inertia(*ba, applied);\n         (*bb).omega = (*bb).omega + world_inv_inertia(*bb, applied);\n@@ -2027,6 +2196,18 @@\n // contacts. Barriers retain Gauss-Seidel priority between colors.\n @compute @workgroup_size(64)\n fn solve_jointed_wave(@builtin(local_invocation_index) lid: u32) {\n+    if(lid==0u){\n+        cv_on=select(0u,1u,params.use_bias<2u && (params.diagnostic_flags & SOLVER_PAIRED_NORMALS)!=0u);\n+        cv_quiet=0u;cv_stop=0u;\n+    }\n+    workgroupBarrier();\n+    let cv_enabled=workgroupUniformLoad(&cv_on);\n+    let limit=select(1u,128u,cv_enabled!=0u);\n+    var iterations=0u;\n+    for(var sweep=0u;sweep<limit;sweep++) {\n+        if(lid==0u){atomicStore(&cv_velocity,0u);atomicStore(&cv_impulse,0u);atomicStore(&cv_tag,0u);}\n+        workgroupBarrier();\n+\n     let ncomp = scratch[SCR_JOINT_COMP_N];\n     for (var order = 0u; order <= OVERFLOW_COLOR; order++) {\n         let color = select(order - 1u, OVERFLOW_COLOR, order == 0u);\n@@ -2059,6 +2240,20 @@\n         storageBarrier();\n         workgroupBarrier();\n     }\n+\n+        iterations=sweep+1u;\n+        if(lid==0u){\n+            cv_last_v=bitcast<f32>(atomicLoad(&cv_velocity));\n+            cv_last_i=bitcast<f32>(atomicLoad(&cv_impulse));\n+            if(cv_enabled!=0u){cv_history(iterations);}\n+            if(max(cv_last_v,cv_last_i)<=1e-5){cv_quiet++;}else{cv_quiet=0u;}\n+            cv_stop=select(0u,1u,cv_quiet>=2u);\n+        }\n+        workgroupBarrier();\n+        if(workgroupUniformLoad(&cv_stop)!=0u){break;}\n+    }\n+    if(lid==0u && cv_enabled!=0u){cv_report(iterations);}\n+    storageBarrier();workgroupBarrier();\n }\n \n fn solve_joint_components(dispatch_gid: vec3<u32>, lid: u32, by_color: bool, color_select: u32) {\n@@ -2092,6 +2287,7 @@\n             i = scratch[joint_list_base() + list_off + k];\n         }\n         var jn = joints[i];\n+        let cv_old_j=jn;\n         if (jn.kind == JOINT_NONE || jn.kind == JOINT_FILTER) {\n             continue;\n         }\n@@ -2108,6 +2304,7 @@\n         }\n         var ba = load_body(jn.a);\n         var bb = load_body(jn.b);\n+        let cv_old_a=ba;let cv_old_b=bb;\n         // Sleeping solver sets retain impulses until an endpoint wakes.\n         if (is_immovable(ba) && is_immovable(bb)) {\n             continue;\n@@ -2479,6 +2676,7 @@\n         if (joint_endpoint_writable(bb)) {\n             store_body(jn.b, bb);\n         }\n+        cv_j(cv_old_j,jn);cv_b(cv_old_a,ba,i+1u);cv_b(cv_old_b,bb,i+1u);\n         joints[i] = jn;\n     }\n }\n",
+    "history-only.patch": "--- a/shaders/physics/solve.wgsl\n+++ b/shaders/physics/solve.wgsl\n@@ -2,6 +2,7 @@\n var<workgroup> cv_on: u32;\n var<workgroup> cv_velocity: atomic<u32>;\n var<workgroup> cv_impulse: atomic<u32>;\n+var<workgroup> cv_tag: atomic<u32>;\n var<workgroup> cv_stop: u32;\n var<workgroup> cv_quiet: u32;\n var<workgroup> cv_last_v: f32;\n@@ -12,10 +13,13 @@\n }\n fn cv_i(a:f32,b:f32) { if(cv_on!=0u) { atomicMax(&cv_impulse,bitcast<u32>(cv_change(a,b))); } }\n fn cv_i3(a:vec3<f32>,b:vec3<f32>) { for(var i=0u;i<3u;i++){cv_i(a[i],b[i]);} }\n-fn cv_b(a:Body,b:Body) {\n+fn cv_b(a:Body,b:Body,key:u32) {\n     if(cv_on!=0u) { for(var i=0u;i<3u;i++) {\n         atomicMax(&cv_velocity,bitcast<u32>(cv_change(a.vel[i],b.vel[i])));\n         atomicMax(&cv_velocity,bitcast<u32>(cv_change(a.omega[i],b.omega[i])));\n+        let value=max(cv_change(a.vel[i],b.vel[i]),cv_change(a.omega[i],b.omega[i]));\n+        // Quantized ranking only; convergence still uses the original exact atomic max.\n+        atomicMax(&cv_tag,(u32(min(value,1.9999)*32767.0)<<16u)|(key&65535u));\n     } }\n }\n fn cv_j(a:Joint,b:Joint) {\n@@ -39,6 +43,26 @@\n     // Its magnitude is not a fixed-point impulse; preserve and monitor the consumed state.\n     for(var i=0u;i<4u;i++){\n         cv_i(select(0.0,1.0,a.total_normal_impulse[i]!=0.0),select(0.0,1.0,b.total_normal_impulse[i]!=0.0));\n+    }\n+}\n+fn cv_history(sweep:u32) {\n+    let selected=array<u32,16>(1u,2u,3u,4u,5u,6u,7u,8u,16u,32u,64u,96u,112u,120u,124u,128u);\n+    var index=16u;\n+    for(var q=0u;q<16u;q++){if(selected[q]==sweep){index=q;}}\n+    if(index==16u){return;}\n+    var carrier=0u;\n+    for(var i=0u;i<params.joint_count;i++) {\n+        var j=joints[i];if(j.kind!=JOINT_FILTER){continue;}\n+        var value=cv_last_v;\n+        if(carrier==1u){value=cv_last_i;}\n+        if(carrier==2u){value=f32(atomicLoad(&cv_tag)&65535u);}\n+        if(index<4u){j.frame_a_rotation[index]=value;}\n+        else if(index<8u){j.frame_b_rotation[index-4u]=value;}\n+        else if(index<12u){j.target_rotation[index-8u]=value;}\n+        else if(index<15u){j.weld_angular_impulse[index-12u]=value;}\n+        else{j.perp_impulse.x=value;}\n+        joints[i]=j;carrier++;\n+        if(carrier==3u){break;}\n     }\n }\n fn cv_report(iterations:u32) {\n@@ -801,7 +825,7 @@\n                 else { store_solve_contact(slot, c); }\n             }\n         }\n-        cv_c(cv_old_c,c);cv_b(cv_old_a,*ba);cv_b(cv_old_b,*bb);\n+        cv_c(cv_old_c,c);cv_b(cv_old_a,*ba,32768u+slot);cv_b(cv_old_b,*bb,32768u+slot);\n         if (i + 1u < count) { slot = c.manifold_link.x - 1u; }\n     }\n }\n@@ -2181,7 +2205,7 @@\n     let limit=select(1u,128u,cv_enabled!=0u);\n     var iterations=0u;\n     for(var sweep=0u;sweep<limit;sweep++) {\n-        if(lid==0u){atomicStore(&cv_velocity,0u);atomicStore(&cv_impulse,0u);}\n+        if(lid==0u){atomicStore(&cv_velocity,0u);atomicStore(&cv_impulse,0u);atomicStore(&cv_tag,0u);}\n         workgroupBarrier();\n \n     let ncomp = scratch[SCR_JOINT_COMP_N];\n@@ -2221,6 +2245,7 @@\n         if(lid==0u){\n             cv_last_v=bitcast<f32>(atomicLoad(&cv_velocity));\n             cv_last_i=bitcast<f32>(atomicLoad(&cv_impulse));\n+            if(cv_enabled!=0u){cv_history(iterations);}\n             if(max(cv_last_v,cv_last_i)<=1e-5){cv_quiet++;}else{cv_quiet=0u;}\n             cv_stop=select(0u,1u,cv_quiet>=2u);\n         }\n@@ -2651,7 +2676,7 @@\n         if (joint_endpoint_writable(bb)) {\n             store_body(jn.b, bb);\n         }\n-        cv_j(cv_old_j,jn);cv_b(cv_old_a,ba);cv_b(cv_old_b,bb);\n+        cv_j(cv_old_j,jn);cv_b(cv_old_a,ba,i+1u);cv_b(cv_old_b,bb,i+1u);\n         joints[i] = jn;\n     }\n }\n"
+  },
+  "sources": {
+    "build.py": "from pathlib import Path\nimport subprocess,shutil,hashlib,json,sys\narm=sys.argv[1]\nroot=Path(__file__).resolve().parent\nshader=Path('shaders/physics/solve.wgsl')\noriginal=(root/'original-solve.wgsl').read_bytes()\nassert shader.read_bytes()==original\ntry:\n shader.write_bytes((root/f'{arm}-solve.wgsl').read_bytes())\n with (root/f'{arm}-build.log').open('w') as log:\n  r=subprocess.run(['cargo','build','--release','--lib','--features','replay-diagnostics'],env=__import__('os').environ|{'CARGO_BUILD_JOBS':'1'},stdout=log,stderr=subprocess.STDOUT)\n (root/f'{arm}-build-exit.json').write_text(json.dumps({'exit':r.returncode}))\n if r.returncode:raise SystemExit(r.returncode)\n shutil.copy2('target/release/libgpu_physics.a',root/f'{arm}-libgpu_physics.a')\nfinally:\n shader.write_bytes(original)\n (root/f'{arm}-restoration.json').write_text(json.dumps({'source_restored':shader.read_bytes()==original,'sha256':hashlib.sha256(original).hexdigest()}))\n",
+    "build_fixture.py": "import hashlib,json,subprocess,sys,shutil\nfrom pathlib import Path\nroot=Path.cwd();mode,label=sys.argv[1:];out=Path(__file__).resolve().parent/f'{label}-{mode}';out.mkdir(exist_ok=False)\ninclude=root.parents[1]/'box3d/include';shared=root.parents[1]/'box3d/shared';commands=[]\ndef run(cmd):\n commands.append([str(x) for x in cmd]);subprocess.run(commands[-1],check=True)\nobjects=[]\nfor name in ['human','utils']:\n obj=out/(name+'.o');run(['cc','-O2','-DNDEBUG','-ffunction-sections','-fdata-sections','-I',include,'-I',shared,'-c',shared/(name+'.c'),'-o',obj]);objects.append(obj)\ncpulib=root/'native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a';libs=[cpulib];extra=[]\nif mode!='cpu':\n lib=out.parent/f'{label}-libgpu_physics.a';libs.insert(0,lib)\n stub=out/'stubs.o';run(['cc','-O2','-I',include,'-c',root/'c_abi/samples_stubs.c','-o',stub])\n api=root/'native-samples'/('build-gpu' if mode=='ordinary' else 'build-gpu-native-cache')/'libgpu_samples_api.a';libs.insert(0,api)\n extra=['-Wl,--allow-multiple-definition','-Wl,--wrap=b3CreateCompound','-Wl,--whole-archive',api,'-Wl,--no-whole-archive',lib,stub]\nrun(['g++','-O2','-DNDEBUG','-std=c++17','-Wl,--gc-sections',root/'c_abi/rain_cell_reference.cpp','-I',include,'-I',shared,*objects,*extra,cpulib,'-ldl','-lpthread','-lm','-lgcc_s','-lGL','-o',out/'fixture'])\ndigest=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\n(out/'source.patch').write_bytes(subprocess.check_output(['git','diff','--','src','shaders','c_abi','scripts']))\n(out/'manifest.json').write_text(json.dumps(dict(mode=mode,label=label,commands=commands,binary_sha256=digest(out/'fixture'),libraries={str(p):digest(p) for p in libs},shader_sha256=digest(root/'shaders/physics/solve.wgsl')),indent=2)+'\\n')\n",
+    "run_probe.py": "from pathlib import Path\nimport subprocess,os,json,hashlib,time,struct,math\np=Path(__file__).resolve().parent\nfor case in ['hip','severe']:\n r=json.loads((p.parent/'rain-wave-convergence'/f'{case}-control'/('audited-validation.json' if case=='hip' else 'validation.json')).read_text());assert r['body_stream_exact'] and not r['complete_state_changes_excluding_carriers']\nsubprocess.run(['python3',str(p/'build_fixture.py'),'ordinary','candidate'],check=True)\nout=p/'hip-probe';out.mkdir(exist_ok=False);fixture=p/'candidate-ordinary/fixture'\nenv={k:v for k,v in os.environ.items() if not k.startswith(('GPU_PHYSICS_','WGPU_','RAIN_'))}\nenv.update(RAIN_CELL_ROW='3',RAIN_CELL_COLUMN='9',RAIN_REPLAY_BASE='3907',RAIN_REPLAY_STATE=str(p/'hip-initial.txt'),RAIN_REPLAY_LIMITS='1',RAIN_REPLAY_HEALTH='1',RAIN_REPLAY_COLLISIONS='1',GPU_PHYSICS_LIVE_CONTACT_ORDER='0',WGPU_BACKEND='vulkan',GPU_PHYSICS_PIPELINE_CACHE_DIR=str(Path.home()/'.cache/box3d-gpu-physics/pipelines'),GPU_PHYSICS_STATE_TRACE=str(out/'trace.jsonl'))\ncommand=[str(fixture),'1'];(out/'manifest.json').write_text(json.dumps(dict(command=command,binary_sha256=hashlib.sha256(fixture.read_bytes()).hexdigest(),environment={k:v for k,v in env.items() if k.startswith(('GPU_','WGPU_','RAIN_'))}),indent=2));start=time.monotonic()\nwith (out/'state.txt').open('w') as stdout,(out/'run.log').open('w') as stderr:r=subprocess.run(command,env=env,stdout=stdout,stderr=stderr)\n(out/'exit.json').write_text(json.dumps(dict(exit=r.returncode,seconds=time.monotonic()-start),indent=2));print('probe child exit',r.returncode,flush=True)\nif r.returncode:raise SystemExit(r.returncode)\nf=lambda x:struct.unpack('!f',bytes.fromhex(x))[0]\nframes=[json.loads(t) for t in (out/'trace.jsonl').read_text().splitlines()];assert len(frames)==1;d=frames[0];assert d['frame']==1 and len(d['bodies'])==43\nfilters=[j for j in d['joints'] if j['kind']==5];assert len(filters)==3\nvalues=[];caps=[]\nfor j in filters:\n assert j['revolute_axes_step']==1 and f(j['weld_linear_impulse'][0])==8\n values.append([f(x) for x in j['spring_angular_impulse']+j['motor_angular_impulse']+j['angular_impulse'][:2]]);caps.append(f(j['weld_linear_impulse'][1]))\nassert len(set(caps))==1\npasses=[]\nfor i,(count,vel,imp) in enumerate(zip(*values)):\n assert all(math.isfinite(x) for x in [count,vel,imp]) and int(count)==count and 2<=count<=128 and vel>=0 and imp>=0\n passes.append({'substep':i//2,'phase':'bias' if i%2==0 else 'relax','iterations':int(count),'last_velocity_change':vel,'last_impulse_change':imp,'last_change_below_threshold':max(vel,imp)<=1e-5})\nrows=[t.split() for t in (out/'state.txt').read_text().splitlines()];assert len(rows)==42 and {int(t[0]) for t in rows}=={0} and len({int(t[1]) for t in rows})==42 and all(len(t)==16 and all(math.isfinite(float(x)) for x in t[2:]) for t in rows)\ninitial={int(t[1]):list(map(float,t[2:15])) for t in map(str.split,(p/'hip-initial.txt').read_text().splitlines())};getters={int(t[1]):list(map(float,t[2:])) for t in map(str.split,(out/'run.log').read_text().splitlines()) if t and t[0]=='replay-initial'}\npack=lambda x:struct.pack('<'+'f'*len(x),*x);assert set(initial)==set(getters) and all(pack(initial[k])==pack(getters[k]) for k in initial)\nresult={'status':'converged' if caps[0]==0 else 'nonconverged','initial_getters_exact':True,'passes':passes,'nonconverged_pass_count':int(caps[0]),'stop_expansion':caps[0]!=0,'scope':'One step convergence discriminator only; not Rain physical acceptance'}\nassert caps[0]>=sum(not p['last_change_below_threshold'] for p in passes)\n(out/'validation.json').write_text(json.dumps(result,indent=2));print(json.dumps(result,indent=2),flush=True)\nif caps[0]:raise SystemExit(1)\n",
+    "prepare.py": "from pathlib import Path\nimport shutil,json,difflib\nbase=Path('experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline');parent=base/'rain-wave-contact-metric-convergence';p=base/'rain-wave-convergence-history';p.mkdir(exist_ok=False)\nfor name in ['original-solve.wgsl','build.py','build_fixture.py','run_probe.py','hip-initial.txt','severe-initial.txt']:shutil.copy2(parent/name,p/name)\ns=(parent/'candidate-solve.wgsl').read_text().replace('var<workgroup> cv_impulse: atomic<u32>;','var<workgroup> cv_impulse: atomic<u32>;\\nvar<workgroup> cv_tag: atomic<u32>;')\ns=s.replace('fn cv_b(a:Body,b:Body) {','fn cv_b(a:Body,b:Body,key:u32) {').replace('atomicMax(&cv_velocity,bitcast<u32>(cv_change(a.omega[i],b.omega[i])));','''atomicMax(&cv_velocity,bitcast<u32>(cv_change(a.omega[i],b.omega[i])));\n        let value=max(cv_change(a.vel[i],b.vel[i]),cv_change(a.omega[i],b.omega[i]));\n        // Quantized ranking only; convergence still uses the original exact atomic max.\n        atomicMax(&cv_tag,(u32(min(value,1.9999)*32767.0)<<16u)|(key&65535u));''')\ns=s.replace('cv_b(cv_old_a,*ba);cv_b(cv_old_b,*bb);','cv_b(cv_old_a,*ba,32768u+slot);cv_b(cv_old_b,*bb,32768u+slot);').replace('cv_b(cv_old_a,ba);cv_b(cv_old_b,bb);','cv_b(cv_old_a,ba,i+1u);cv_b(cv_old_b,bb,i+1u);')\ns=s.replace('atomicStore(&cv_velocity,0u);atomicStore(&cv_impulse,0u);','atomicStore(&cv_velocity,0u);atomicStore(&cv_impulse,0u);atomicStore(&cv_tag,0u);')\nhelper='''fn cv_history(sweep:u32) {\n    let selected=array<u32,16>(1u,2u,3u,4u,5u,6u,7u,8u,16u,32u,64u,96u,112u,120u,124u,128u);\n    var index=16u;\n    for(var q=0u;q<16u;q++){if(selected[q]==sweep){index=q;}}\n    if(index==16u){return;}\n    var carrier=0u;\n    for(var i=0u;i<params.joint_count;i++) {\n        var j=joints[i];if(j.kind!=JOINT_FILTER){continue;}\n        var value=cv_last_v;\n        if(carrier==1u){value=cv_last_i;}\n        if(carrier==2u){value=f32(atomicLoad(&cv_tag)&65535u);}\n        if(index<4u){j.frame_a_rotation[index]=value;}\n        else if(index<8u){j.frame_b_rotation[index-4u]=value;}\n        else if(index<12u){j.target_rotation[index-8u]=value;}\n        else if(index<15u){j.weld_angular_impulse[index-12u]=value;}\n        else{j.perp_impulse.x=value;}\n        joints[i]=j;carrier++;\n        if(carrier==3u){break;}\n    }\n}\n'''\ns=s.replace('fn cv_report(iterations:u32) {',helper+'fn cv_report(iterations:u32) {')\ns=s.replace('cv_last_i=bitcast<f32>(atomicLoad(&cv_impulse));','cv_last_i=bitcast<f32>(atomicLoad(&cv_impulse));\\n            if(cv_enabled!=0u){cv_history(iterations);}')\n(p/'candidate-solve.wgsl').write_text(s)\nfor name,old in [('candidate',(p/'original-solve.wgsl').read_text()),('history-only',(parent/'candidate-solve.wgsl').read_text())]:\n (p/f'{name}.patch').write_text(''.join(difflib.unified_diff(old.splitlines(True),s.splitlines(True),fromfile='a/shaders/physics/solve.wgsl',tofile='b/shaders/physics/solve.wgsl')))\n(p/'protocol.txt').write_text('No-op diagnostic of previous contact-metric candidate. Preserve exact convergence criterion, physical calculations, inputs and128wave cap. Record final relaxation pass residual at16 fixed checkpoints and label the largest quantized velocity update (resolution1/32767; label tie breaks by larger key). Joint key=i+1; contact key=32768+slot. Extra filter-only fields frame_a_rotation/frame_b_rotation/target_rotation/weld_angular_impulse/perp_impulse carry history. Require body stream and complete captured semantic state exact versus parent except these declared fields using existing occupied-order audit. This distinguishes slow decay from a plateau; it does not prove an infinite-time cycle or qualify physics. No candidate change or cap increase.\\n')\nroot=Path('experiments/gpu-physics/shaders/physics');names=['dispatch','types','math','rotation','hull','collide','broadphase','contact_order','contact_order_live','solve','integrate','query'];(p/'candidate-full.wgsl').write_text('\\n'.join(s if n=='solve' else (root/f'{n}.wgsl').read_text() for n in names))\nshutil.copy2('/tmp/prepare_wave_history.py',p/'prepare.py')\n",
+    "validate_history.py": "from pathlib import Path\nimport json,struct,hashlib,importlib.util,copy\np=Path(__file__).resolve().parent;parent=p.parent/'rain-wave-contact-metric-convergence/hip-probe';out=p/'hip-probe'\na=json.loads((parent/'trace.jsonl').read_text());b=json.loads((out/'trace.jsonl').read_text());assert a['frame']==b['frame']==1\nfields=['frame_a_rotation','frame_b_rotation','target_rotation','weld_angular_impulse','perp_impulse']\nf=lambda x:struct.unpack('!f',bytes.fromhex(x))[0]\nfilters=[j for j in b['joints'] if j['kind']==5];assert len(filters)==3\nhistory=[[f(x) for x in j['frame_a_rotation']+j['frame_b_rotation']+j['target_rotation']+j['weld_angular_impulse']+j['perp_impulse'][:1]] for j in filters]\nrows=[];steps=[1,2,3,4,5,6,7,8,16,32,64,96,112,120,124,128]\nfor wave,velocity,impulse,tag in zip(steps,*history):\n assert int(tag)==tag;key=int(tag)\n if key>=32768:\n  slot=key-32768;identity=b['contact_allocation']['slots'][slot]['contact'];cs=[c for c in b['contacts'] if c['identity']==identity];assert len(cs)==1;c=cs[0];owner=dict(kind='contact',slot=slot,identity=identity,a=c['a'],b=c['b'])\n else:\n  j=b['joints'][key-1];assert j['identity']==key;owner=dict(kind='joint',identity=key,joint_kind=j['kind'],a=j['a'],b=j['b'])\n rows.append(dict(wave=wave,velocity_change=velocity,impulse_change=impulse,largest_quantized_velocity_update=owner))\nfor doc in [a,b]:\n for j in doc['joints']:\n  if j['kind']==5:\n   for field in fields:j.pop(field)\nscript=Path('scripts/compare-core-state.py');spec=importlib.util.spec_from_file_location('comparison',script);comparison=importlib.util.module_from_spec(spec);spec.loader.exec_module(comparison)\nraw=comparison.difference(a,b);aa=comparison.audited_storage_view(a);bb=comparison.audited_storage_view(b);diff=comparison.difference(aa,bb)\nbody_exact=(parent/'state.txt').read_bytes()==(out/'state.txt').read_bytes()\nresult=dict(scope='No-op final-relaxation wave history. Label ranking quantized to1/32767; exact norms and convergence policy unchanged. Does not establish an infinite-time cycle.',body_stream_exact=body_exact,complete_state_difference_excluding_declared_filter_fields=diff,raw_difference=raw,fields=fields,history=rows,input_hashes={str(f):hashlib.sha256(f.read_bytes()).hexdigest() for f in [parent/'trace.jsonl',out/'trace.jsonl',script]})\n(out/'history-validation.json').write_text(json.dumps(result,indent=2));assert body_exact and diff is None\nbad=copy.deepcopy(bb);bad['contacts'][0]['friction']='3f800000';assert comparison.difference(aa,bad)\nbad=copy.deepcopy(bb);bad['contact_allocation']['occupied_order'].pop();assert comparison.difference(aa,bad)\nprint(json.dumps(result,indent=2))\n",
+    "finalize.py": "from pathlib import Path\nimport json,hashlib\nroot=Path('experiments/gpu-physics');p=root/'artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence-history';digest=lambda f:hashlib.sha256(f.read_bytes()).hexdigest()\nassert (root/'shaders/physics/solve.wgsl').read_bytes()==(p/'original-solve.wgsl').read_bytes();archive=digest(root/'target/release/libgpu_physics.a');assert archive=='b3f2b64239d72c95c8e1746f9bd40a95152fb7a2c6ab373a6e2bd2986cf5265b'\nhistory=json.loads((p/'hip-probe/history-validation.json').read_text());assert history['body_stream_exact'] and history['complete_state_difference_excluding_declared_filter_fields'] is None\nrestoration=dict(source_byte_exact=True,normal_build_exit=0,normal_archive_sha256=archive);(p/'normal-restoration.json').write_text(json.dumps(restoration,indent=2))\nrecord=dict(date='2026-09-29',status='diagnostic-noop-pass-numerical-convergence-still-failed',scope='One-step ordinary43body Rain fixture; history of final relaxation phase only. Not physical qualification or proof of infinite-time convergence/divergence.',protocol=(p/'protocol.txt').read_text(),probe=json.loads((p/'hip-probe/validation.json').read_text()),history=history,corruption_controls=2,child_exit=json.loads((p/'hip-probe/exit.json').read_text()),driver_exit=1,restoration=restoration,patches={f.name:f.read_text() for f in p.glob('*.patch')},sources={f.name:f.read_text() for f in p.glob('*.py')},hashes={str(f.relative_to(p)):digest(f) for f in p.rglob('*') if f.is_file() and f.suffix in ['.py','.json','.jsonl','.patch','.wgsl','.a','.log','.txt']})\n(root/'benchmarks/2026-09-29-rain-wave-convergence-history.json').write_text(json.dumps(record,indent=2)+'\\n')\n"
+  },
+  "hashes": {
+    "original-solve.wgsl": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7",
+    "build.py": "f946695d690eb1e3362b014fec9ac3adfcd0dfdf331ae4a1ad5e51b27a2639cf",
+    "build_fixture.py": "ba9e3c4f0fe68db576990177494464e452371df75f9cc58bb52655c4448ffa7b",
+    "run_probe.py": "3d5971093addafa90cf0a2ae7e0fb4f8b7c604998f7911aa4d970edc80cbb819",
+    "hip-initial.txt": "0c1153754e4d2dbef153f305105e904489bdaabc18a7bc3bfe88d6224cd08114",
+    "severe-initial.txt": "8ece29e9b2f63d9599ed2d5e5ddef908949cd099443f94b865b887f7bc4c4e76",
+    "candidate-solve.wgsl": "41c7626f29b6080f6823df80812445ae3d79fea12d8c098351ab071df6377941",
+    "candidate.patch": "7ddb4c813dc0ad56afe2e67a016c75bff34678c0262d587fca2dda72b1934889",
+    "history-only.patch": "42330b62fef9a04ebc9bd95356b189aface0e3b63b6a31b0c6519399eb43abcb",
+    "protocol.txt": "4f4476b94416b9329aadaffd1f7f57a409904638c8b0841fcb4b9a1b6ca05ea7",
+    "candidate-full.wgsl": "b373aa1ca1b2a41b9fe5a7d10611f1ed4c8bb5798ceecc0a27c28ca419251f8f",
+    "prepare.py": "5cf14867ede7e44c2c97fa520842ec3028ec41fed7565aed72cfd721d8af556e",
+    "candidate-build.log": "56ec33a5de00738ad83e298f020a36e4a658602a97c0ceee5c81936edede2c87",
+    "candidate-build-exit.json": "bfdedf06596faa2042b0fedd9653ec1023d2e96ed56dc40b607985bc8438c1d5",
+    "candidate-libgpu_physics.a": "324493e3ac865c4f550c9e16eb469d3ce30bbdb80eacc3dd2866f12eef7d2428",
+    "candidate-restoration.json": "5c335070d4f8d91f4d0ec9260c671e6a933f279f8c425d07e3cdaa227223b848",
+    "validate_history.py": "06667a3fbda0aa38384f830150b59770c6ae8ee044edd0e5cfff5106c04a712f",
+    "normal-rebuild.log": "460d1e3f3b10c41b302c8d69c946cd9610f283aedd0b07f8171e585d209de6a1",
+    "finalize.py": "251275433362b67034331453c2cda5ac00e0fc9ccccca66528648f78acb9cc2a",
+    "normal-restoration.json": "156421691475f44d146be8378c380f7736cd0d2dfc1eba0883b20a0220c2a274",
+    "candidate-ordinary/source.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "candidate-ordinary/manifest.json": "9f1fd2c0b58b53227c62752c5d40ef06cfea8f2c6f1610f4c463f212a1056049",
+    "hip-probe/manifest.json": "f825b08c4dfff556f00440bde24d3077808c164671b2ae713b155c538266de17",
+    "hip-probe/state.txt": "30a008f854d38ec4eb7d6bf739c644b04c70ae05db63d23f90f70b9cd83fef20",
+    "hip-probe/run.log": "a40bccd7ab35126dc20604b8b8a141580e93d02dc1f059de4620ee95c096c7d6",
+    "hip-probe/trace.jsonl": "cd98c0fd55c2df3705c6e47874c0aeac600914657beba11461c6d7e87f1b78b4",
+    "hip-probe/exit.json": "2277dfbfb893592409e2e39d2c2866c06e911a3a787bcea8ece252cea397fecc",
+    "hip-probe/validation.json": "8551e80a0038923ab50f50dfe5d41d40d540255081c069ce4d946e30bf9ebc85",
+    "hip-probe/history-validation.json": "747849c0ab150bf3950ca9ae337c60db53f13634fd107b104fba58f919ff707c"
+  }
+}
