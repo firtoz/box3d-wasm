@@ -5314,3 +5314,584 @@ must solve the reduced coupled system while passing the original full equations.
 All processes are terminal; normal archive and production sources are unchanged.
 Physical, actual-phase GPU, ordinary/native, repeat, performance and recording
 requirements remain open.
+
+
+### Reduced coupled references (2026-09-29)
+
+Dense trust-region reference53832 exits1. Its24directional Jacobian controls
+pass (2.42e-9relative), but both cold/capped starts fail original full criteria.
+Cold reaches120evaluations with residual .0175937 and colored-wave velocity
+change .729374. Capped terminates on xtol after52evaluations, residual .000406218,
+wave velocity .0872617. Optimizer success does not establish convergence.
+
+The next frozen reference26361 uses the same exact234variable elimination and
+original Gamma with fixed-bound convex QPs, normal-bound fixed point and full
+semismooth Newton refinement. It preserves nonassociated normal equations.
+Budgets match the earlier full structured reference:32outer/128QP calls,
+100inner iterations, Anderson memory5; then8Newton steps and8Armijo sizes.
+Cold and capped starts require33/58QP calls and two Newton steps each.
+Both structured stages retain NoConvergence; only the complete hybrid passes.
+
+| Start | Original natural residual | Scaled feasibility | Colored-wave velocity change | CPU reference seconds |
+| --- | ---: | ---: | ---: | ---: |
+| Cold | 5.26e-14 | 5.96e-14 | 2.55e-12 | 5.66 |
+| Capped | 5.62e-16 | 8.92e-17 | 1.49e-14 | 9.34 |
+
+Independent reconstruction exclusively from portable receipts reproduces all
+original acceptance checks and saved velocities exactly. Two deliberately altered
+impulse states reject. Cold/capped resulting velocities differ by6.51e-13 despite
+redundant multiplier directions. Quantizing only the saved caches to float32 gives
+natural residual1.60e-7, feasibility3.38e-8 and wave velocity<=5.36e-7 with float64
+arithmetic; this fails the strict reference1e-8test and is not float32/GPU evidence.
+No numerical tolerance or physical acceptance screen changes.
+
+Portable receipts `benchmarks/2026-09-29-rain-reduced-trust-reference.json` and
+`benchmarks/2026-09-29-rain-reduced-structured-reference.json` preserve protocols,
+sources, outcomes, states and hashed parent input. Production sources/submodule
+and normal archive are unchanged. This closes a reconstructed-phase numerical
+reference gate from two starts, not actual phase-entry fidelity, GPU parallel
+ownership, physical trajectory, ordinary/native repeat or performance gates.
+The seconds-long CPU optimizer is not a production algorithm. Next implementation
+must preserve coupled constraints with explicit articulation ownership, validate
+float32 arithmetic and actual phase inputs, and retain the full physical matrix.
+
+
+### Actual next-wave reference fidelity and separation precision (2026-09-29)
+
+A diagnostic witness executes one final relaxation wave after the unchanged
+128-wave failed convergence report. It is not an expanded convergence budget.
+Build97223/probe60349/normal86909 complete0. Initial getters, body poses and
+all eight original convergence reports match. Comparing734impulse/258velocity
+components against the endpoint float64 reconstruction fails the predeclared
+normalized2e-5fidelity screen: impulse3.328e-4, velocity .00149316.
+Localizing with preceding actual cache increments gives affine velocity agreement
+4.793e-7, but two scalar contact normals (15/19 and19/30) differ markedly.
+
+These contacts are near68m in world coordinates. Subtracting rounded final and
+initial positions loses small displacement precision and changes speculative bias.
+A second artifact captures56exact pre-wave normal separations into eight unused
+fields of three filter joints. Build7773/probe62246/normal34696 complete0. Body
+output is byte-exact to the first witness; every semantic state field matches
+except those declared fields under the existing occupied-membership audit.
+Raw occupied-order variation is preserved, and deliberate body corruption rejects.
+An initial analysis-only chain_length==1 assertion failed: standalone convex
+manifolds export0. It was corrected to<=1 plus no child identity, retaining failure.
+
+Replacing contact biases with captured max(separation,0)/dt reduces maximum
+impulse/velocity errors to1.2325e-5/2.6977e-5. The original2e-5fidelity screen
+STILL FAILS. The previous endpoint-model root has corrected-equation residual
+.000468122, so its internal convergence does not qualify the actual GPU phase.
+With actual prior impulses, all local rows now agree within5.63e-6; affine
+velocity agreement stays4.80e-7. Remaining largest rows are joint29motor,
+hinge37upper and joint20motor. Float64 metric minimizers can differ from the
+shader's float32 safeguarded steps; exact local geometry/prepared masses also
+need faithful evaluation. Do not broaden the fidelity limit or infer a production
+solver defect from the remaining reconstruction error alone.
+
+The conditionally prepared corrected coupled-reference rerun was not launched.
+Both portable receipts retain full compressed witnesses, patches, sources,
+protocols, failures, dependency hashes and exact normal archive restoration:
+`benchmarks/2026-09-29-rain-reference-wave-fidelity.json` and
+`benchmarks/2026-09-29-rain-reference-exact-separation.json`. No production edit
+is retained. Next use the saved witness to implement faithful float32 local replay
+before another coupled GPU candidate. All wider qualification gates remain open.
+
+
+### Exact pose and deterministic joint-angle reference corrections (2026-09-29)
+
+A bounded hybrid model replaces ideal ball projections with24-bisection float32
+projection/clamp/objective safeguarding.24SPD controls pass with maximum solution
+error2.49e-7, but whole-wave fidelity fails: velocity7.60e-5, impulse1.23e-5.
+Actual-prior local error stays5.63e-6. This partial cast is not a complete float32
+shader replay; no parameter retry is justified.
+
+One-step diagnostic build52559 retains dp/dq after apply_deltas while still
+computing normal published poses, flags and sleep metrics. Probe52424 and normal
+rebuild61040 complete0. Physical output bytes match the exact-separation witness,
+and all audited state matches except retained body dp/dq and their explicitly
+verified identical host mirrors. Initial comparison omitted duplicate host fields;
+failed-analysis-v1 is preserved. A second step with unreset deltas is prohibited.
+Source and normal archive restore exactly. No production behavior is changed.
+
+Reference levers now follow two float32 rotations; frames use prepared frame then
+substep quaternion multiplication. This alone leaves velocity mismatch2.69661e-5
+and impulse1.20838e-5, failing the original2e-5fidelity criterion. Source inspection
+then finds a separate model defect: Python libm atan2 differs from the engine's
+b3Atan2/gyro_atan2 deterministic polynomial. The corrected scalar float32 polynomial
+matches the original C implementation bit-for-bit on263axis/quadrant/seeded cases;
+maximum difference from libm is2.76566e-5rad. Hinge37upper local error falls from
+5.50e-6 to4.11e-9. The prior geometry-only model/result remains preserved.
+
+With both corrections, whole-wave impulse error is7.91241e-6 but velocity error
+remains2.69661e-5, still FAIL. Actual-prior local error is5.63e-6 (motor29), with
+affine velocity agreement4.68e-7. The next discriminating work is complete native
+float32 inertia/body-update/motor-objective arithmetic using the saved exact inputs;
+additional capture is not needed by present evidence. No corrected root solve or
+GPU algorithm is qualified by these results. Limits and broader gates are intact.
+
+Portable protocols, sources, compressed capture, original failures, C polynomial
+controls and dependency/restoration hashes:
+`benchmarks/2026-09-29-rain-reference-float32-projection.json` and
+`benchmarks/2026-09-29-rain-reference-exact-pose.json`.
+
+
+### Native float32 update replay and objective cancellation (2026-09-29)
+
+Using saved exact geometry, CPU native-float32 tensor construction and body-update
+order improves actual-prior motor replay:6of27motors bit-exact, maximum relative
+motor error3.54e-6, final velocity error4.72e-7. Stored accumulated-cache differences
+cannot recover every applied impulse: cache half-ulp uncertainty alone propagates
+to2.36e-6absolute velocity, excluding other arithmetic errors. This is diagnostic
+input substitution, not free-running prediction or determinism qualification.
+
+The separate predicted wave computes raw impulses and applies them before rounded
+cache storage where the shader does. It uses original prepared masses, exact
+separations and corrected joint angle polynomial. It still fails the predeclared
+2e-5fidelity bound: maximum impulse7.91e-6, velocity2.69732e-5. No limits change;
+some bias/Jacobian setup remains mixed precision, not whole-shader bit conformance.
+
+An independent float64 quadratic audit evaluates the exact float32 candidates,
+old caches and tensors at reconstructed local inputs. Comparing rounded total
+objectives falsely rejects2improvements and accepts5tiny increases. Motor29's
+rounded difference+4.66e-10 has exact quadratic delta−2.91e-10; motor18 gives
++7.45e-9 versus−5.64e-9. Direct and delta-form double algebra agree within1e-14.
+This demonstrates cancellation for those inputs; it is not proof of the actual
+GPU branch inputs or the cause of Rain's large coupled residual.
+
+The next bounded correction is the algebraically identical delta objective,
+ d·(cdot+K(feasible_old−old))+0.5 d·K d. It needs independent near-stationary,
+conditioning and original-domain controls before any GPU candidate. No physical
+parameters, convergence budget or acceptance thresholds are changed. Production
+source and normal archive remain untouched. Portable protocols/sources/results:
+`benchmarks/2026-09-29-rain-native-float32-updates.json`.
+
+
+### Direct objective-change safeguard discriminator (2026-09-29)
+
+Both metric-ball safeguards are changed only in an artifact candidate to compare
+ d·(cdot+K(feasible_old−old))+0.5d·Kd directly.512seeded2D/3D controls cover zero
+bounds, infeasible old caches, near-stationary inputs and condition up to1e6.
+Independent float64 quadratic checks pass the predeclared32eps operation-scale
+bound and4eps domain-bound excess.487decisions lie outside uncertainty; the25
+remaining are explicitly unresolved. Maximum error/bound .04572. An initial report
+serialization error on NumPy scalars is retained; JSON conversion alone was fixed.
+Full WGSL parses and validates; candidate build21800 exits0.
+
+Original hip one-step probe34272 exits child0/driver1. Initial getters match and
+all42body outputs are finite, but5of8phases remain nonconverged under unchanged
+1e-5velocity/cache, twoquiet and128cap. All four relaxation phases hit128 with
+velocity changes .0756853/.0455106/.0488159/.0326764; substep2bias cache change
+1.92216e-5 also fails. Expansion stops; no native or wider physical acceptance.
+Normal rebuild75557 exits0 and restores the exact baseline archive. Source and
+submodule are unchanged.
+
+The numerical cancellation correction does not resolve the large coupled residual.
+It is not adopted and does not justify more local safeguard/iteration sweeps.
+Corrected coupled-system/reference work remains necessary; the earlier2e-5whole-
+wave fidelity failure stays unresolved. Portable controls, preserved serialization
+failure, patch, run scripts/manifest/phase failures and restoration evidence:
+`benchmarks/2026-09-29-rain-delta-objective.json`.
+
+
+### Corrected coupled numerical target and rejected fixed-bound ADMM (2026-09-29)
+
+The corrected exact-separation/dq/polynomial model passes24directional derivative
+checks (1.85e-9) and24Schur controls (1.82e-12gradient). The unchanged structured
+QP/normal fixed-point/Newton budget converges from both starts. Cold33QP calls
+plus2Newton steps gives full natural residual7.78e-15, feasibility8.70e-15,
+colored-wave velocity4.45e-13. Capped48QP calls plus1Newton step gives1.63e-12,
+1.72e-12 and5.47e-11respectively. Intermediate NoConvergence stages are retained.
+CPU times5.85/7.94seconds are numerical reference cost. Independent NumPy-only
+reconstruction solely from portable receipts reproduces stored velocities exactly,
+rejects2impulse corruptions and finds cold/capped velocity difference5.39e-11.
+This numerical target does not close the failed2e-5GPU next-wave fidelity screen,
+actual-phase physics, float32 or ownership gates; none is promoted to a pass.
+
+A separate fixed-bound inner-QP ADMM prototype reuses Cholesky(S+D), choosing D
+from existing local effective-mass scales, with no overrelaxation/adaptive penalty.
+All24linear-system controls pass. Under the frozen1024iteration/1e-8residual
+criteria, cold fixed bounds converge in426iterations (natural9.82e-9), while
+captured fixed bounds fail at1024(natural3.32308e-5, primal5.69e-6). Domain
+feasibility remains9.57e-17. Same-bound independent Clarabel solves confirm cold
+objective gap−1.26e-13and velocity difference1.05e-7; capped gap1.38412e-5and
+velocity difference .000650554. Capped Clarabel AlmostSolved/fixed-bound residual
+2.11e-8 are reported explicitly. No outer/GPU expansion or parameter sweep.
+
+Portable protocols, source, failed configurations, complete numerical states and
+verification: `benchmarks/2026-09-29-rain-corrected-coupled-reference.json` and
+`benchmarks/2026-09-29-rain-reduced-admm.json`. Production sources and normal
+archive remain unchanged. The next coupled method should avoid repeated expensive
+fixed-bound QPs while preserving nonassociated normal equations and original
+final acceptance; no broader solver qualification is claimed.
+
+
+## Rain interior continuation numerical reference (2026-09-29)
+
+The original twelve-Newton-solves-per-stage continuation fails both starts in its
+first stage (natural residuals0.607219/0.590548). Its failure is preserved in
+`benchmarks/2026-09-29-rain-interior-continuation.json`, including the initial
+zero-radius initialization failure. Twenty-four Jacobian controls pass3.57e-7;
+omitting normal-dependent radius derivatives fails0.5334.
+
+One explicitly recorded scheduling revision shares the same156total solve budget
+across stages. Cold/capped need130/133 dense barrier solves and6.60/6.74seconds CPU.
+Both barrier schedules stop on line-search failure; one original-equation Newton
+polish per arm then passes natural2.44e-13/2.46e-15, feasibility8.20e-14/8.20e-16
+and reconstructed-wave velocity7.95e-11/8.00e-13. The hybrid succeeds; continuation
+alone did not finish. Receipt-only NumPy reconstruction verifies both saved
+solutions and rejects two corruptions. Cold/capped velocities differ9.80e-11.
+Evidence/source: `benchmarks/2026-09-29-rain-interior-global-budget.json`.
+
+This establishes a second route to the corrected numerical reference. It does
+not close actual GPU-wave fidelity, physical acceptance, float32 feasibility,
+GPU ownership, repeatability or efficiency. Production sources are unchanged.
+
+
+### Direct float32 barrier port rejected (2026-09-29)
+
+The previous turn progressed by verifying the portable shared-budget numerical
+reference. This turn tests a necessary condition for GPU use: float32 solves of
+every scaled barrier Jacobian along the unchanged successful float64 path,
+without feeding diagnostic directions back into that path. Session99808 exits0;
+both saved float64 solutions/velocities remain bit-identical to the originals.
+The predeclared normalized linear-residual1e-5 screen fails16/130 cold and23/133
+capped directions. First failures occur at mu1, step0 (6.16e-5/1.85e-5); worst
+cold residual4.29e9, worst capped1.85e-5. All directions are finite. Rounding
+accepted states loses strict interior20/129 and27/132 times, first at mu1e-9
+step2 on both arms. This rules out the unchanged direct float32 port; it is not
+a failure of every possible coupled method.
+
+Rounding final impulses alone produces natural1.35e-7 and feasibility1.72e-8
+on both arms, failing the original1e-8 numerical-reference gates. Reconstructed
+wave changes still pass the independent1e-5 stopping screen: velocity7.13e-7/
+5.16e-7, cache1.70e-7. Preserve this distinction; do not weaken numerical gates
+or claim actual GPU fidelity from it. Receipt includes protocol/source/all263
+directions and261rounding checks:
+`benchmarks/2026-09-29-rain-interior-float32-audit.json`.
+
+Normal archive hash and production source cleanliness reverified; no live job.
+Next implementation work should avoid late-stage strict-interior subtraction
+in float32. Use the converged reference to assess an active-set or proximal
+coupled formulation with explicit articulation ownership; do not port the dense
+barrier routine unchanged or begin precision/iteration parameter sweeps. All
+physical/final-state-repeat/performance/recording gates remain in the full goal.
+
+
+### Articulation factorization and ownership (2026-09-29)
+
+Previous turn progressed by ruling out the unchanged float32 barrier port.
+Session82969 completed0: bilateral dynamic-body support partitions the234free
+rows into three78row articulations, each14dynamic bodies. Fixed ground does not
+join them. All cross-component Hff entries are exactly zero; deliberately
+injecting a cross-component coupling is rejected. Independent component float64
+Cholesky matches the global reference in26cases (24seeded reduced states plus
+both final roots): normalized free residual1.66e-14, velocity difference8.22e-14.
+Dense factor storage falls54756→18252entries and cubic work proxy12812904→1423656.
+These are structural counts, not measured GPU savings.
+
+Remaining constraints include271blocks owned by one articulation and52spanning
+two. Thus original endpoint-body colors cannot safely schedule condensed
+articulation updates. This is concrete ownership evidence for any future coupled
+solver. Unscaled float32 Cholesky fails2/26 screens (max velocity error2.22e-5);
+diagonal-equilibrated float32 fails4/26 (max residual1.14e-5, velocity2.95e-5).
+Both reference endpoints pass1e-5, but the predefined random controls remain
+failed. Source/results: benchmarks/2026-09-29-rain-articulation-factorization.json.
+
+One square-root alternative avoids explicitly forming the normal matrix in
+float32: QR of transpose [Jfree sqrt(M), sqrt(Gfree)] with float32 triangular
+solves. Session23580 completed0; float64 assembly matches Hff7.73e-12. It fails
+6/26 unchanged screens, max residual1.62e-5 and velocity3.89e-5. Original RHS
+formation and velocity reconstruction remain float64 diagnostic references, so
+this is not a complete float32 algorithm. Both final endpoints pass, but no
+variant is promoted based on selective endpoints. Source/results:
+benchmarks/2026-09-29-rain-articulation-square-root.json.
+
+No production edit or live job remains. Exact articulation decomposition is now
+established for this fixture; approximate float32 factors may still serve as
+preconditioners in a residual-corrected coupled method, but are not demonstrated
+exact replacements. Next: formulate bounded coupled correction using articulation
+ownership and original residual checks, avoiding barrier boundary cancellation.
+Do not start a factorization/precision parameter sweep. Full physical, actual GPU
+fidelity, independent-path repeat, performance and recording gates remain open.
+
+
+### Residual correction and projected continuation (2026-09-29)
+
+Previous turn progressed by establishing articulation ownership and preserving
+failed float32 factor variants. This turn's one-correction inverse-action check
+(session22314, exit0) uses the same unscaled Cholesky factors plus float32
+Jfree*(M*(Jfree.T*x))+Gfree*x residual and float32 update. It still fails3/26
+unchanged cases (max residual1.34e-5, velocity1.65e-5), versus2/26 before
+correction. No additional corrections or precision sweep. RHS formation remains
+float64 cast once; no complete float32 algorithm claim. Evidence/source:
+benchmarks/2026-09-29-rain-articulation-correction.json.
+
+A different bounded nonlinear method avoids strict-interior barriers:
+R(y)+lambda*(y-seed)=0, original projected natural map with seed fixed per arm;
+lambda1,.1,.01,.001,.0001,.00001,.000001,0, at most16Newton solves per stage,
+eight Armijo sizes, least-squares rcond1e-12. Temporary numerical term vanishes
+at the required final stage; original Gamma/domains/final gates unchanged.
+Session72001 completed1 overall. Cold fails the lambda.001 stage budget after
+34total Newton solves: natural7.19e-4, reconstructed wave velocity.01915/cache
+.001979. Preserve this failure; no stage-budget retry.
+
+Captured-capped start completes all eight stages in38Newton solves,6.95seconds
+CPU. Final original natural2.03e-14, feasibility2.27e-14, primal5.06e-15, wave
+velocity1.18e-12/cache2.90e-14. Independent receipt-only NumPy reconstruction
+verifies this endpoint, matches saved velocities exactly and rejects an impulse
+corruption. Overall method remains unqualified because cold fails. Receipt/source:
+benchmarks/2026-09-29-rain-projected-continuation.json.
+
+This is a barrier-free route from the captured state to the numerical root, not
+a GPU implementation, a full physical pass or a universal initialization result.
+Next bounded implementation step: assess iterative/matrix-free linear solves on
+this successful continuation path with original residual checks and articulation
+ownership; do not erase the cold failure or increase its budget. No production
+changes or live processes remain; all broader acceptance gates remain intact.
+
+
+### Matrix-free continuation directions (2026-09-29)
+
+Previous turn progressed by independently verifying capped projected continuation,
+with its cold-start stage failure preserved. Frozen-path Krylov audit48173 exits0:
+all38Newton systems pass the original unpreconditioned residual screen using
+GMRES restart32, fourcycles, rtol1e-6/atol1e-12 and actioncap160. Total1612actions,
+maximum71per system. Twenty-four Schur action controls agree1.81e-13; every
+Jacobian action matches assembled D within1e-9. Replay endpoint is bit-identical
+to the original dense path. Source/results:
+benchmarks/2026-09-29-rain-continuation-krylov.json.
+
+Action uses J M J^T+G and three bilateral component solves; local projection and
+normal-dependent-radius derivatives are sparse. Remaining-row owner tuples
+partition preconditioner blocks into117,135,157,35,56rows. Their pseudoinverses
+still come from dense diagonal blocks of assembled D; no GPU setup/timing claim.
+
+Actual driven solve48179 completed1 overall with unchanged nonlinear schedule,
+stage budgets, line search and final gates. Captured-capped completes38Newton
+steps in7.00seconds CPU, natural2.04e-14, feasibility2.28e-14, primal4.92e-15,
+wave velocity1.17e-12/cache2.91e-14. Receipt-only NumPy reconstruction independently
+verifies the endpoint, stored velocities and impulse-corruption rejection.
+Cold stops on a linear-budget failure after19accepted Newton records, natural
+.004251, feasibility.002045, wave velocity.06872/cache.009272. Across both arms
+2589operator calls, maximum132, one linear failure. Original cold dense stage-cap
+failure remains separate. No tuning or budget retry. Source/results:
+benchmarks/2026-09-29-rain-continuation-krylov-driven.json.
+
+This removes dense global Newton least-squares from the successful capped path,
+but remains float64 CPU with dense local preconditioner setup and an unqualified
+cold start. Next implementation gap: float32 operator/direction accuracy and
+preconditioner construction/cost on the actual driven path, before GPU adoption.
+Do not equate the captured-phase root with Rain physical acceptance. No production
+source edit or live process remains; full independent-path physical/repeat,
+performance and recording gates are still open.
+
+
+### Float32 continuation precision screens (2026-09-29)
+
+Previous turn progressed by driving the capped continuation with matrix-free
+float64 directions and independently verifying its endpoint. Two predeclared
+float32 diagnostic formulations now preserve that driven trajectory exactly.
+
+Condensed experiment88283 exits0: all38 random Jacobian action screens pass1e-5,
+maximum8.69e-6, but26/38GMRES directions fail the unchanged original float64
+linear-residual limit max(1e-12,1e-6*RHS norm), with restart32/fourcycles/cap160.
+J/M/G actions and bilateral Cholesky are float32; projection derivatives/active
+branches and local pseudoinverses were prepared in float64 and cast. Thus even
+this partial float32 path fails, not a demonstrated complete float32 solution.
+Receipt: benchmarks/2026-09-29-rain-continuation-float32.json.
+
+Uncondensed experiment92073 exits0: keep all734rows, free rows scaled by reciprocal
+Hff diagonal, bounded rows use identical natural projection derivatives/steps.
+Original elimination reproduces the500row Jacobian within1e-9 at every state.
+Float32 action has no bilateral inverse, but27/38GMRES directions still fail the
+same residual screen. Owner-tuple preconditioner sizes195,213,235,35,56; local
+pseudoinverse setup remains float64 cast. No parameter retry or physical equation
+change. Receipt: benchmarks/2026-09-29-rain-continuation-full-system.json.
+
+Both saved float64 replay endpoints are bit-identical to the prior driven
+endpoint. Diagnostic runner exits0 mean completed audits, not float32 success.
+No production change/live process remains. The verified reference is retained;
+neither direct float32 formulation qualifies under the predeclared linear screen.
+Next work must address numerical error in the coupled correction, not increase
+Krylov budgets or relabel these failures. Distinguish the strict intermediate
+linear screen from the original nonlinear/physical gates; no inference that all
+possible inexact coupled methods are ruled out. Full goal remains unchanged.
+
+
+### Inexact continuation reaches both numerical roots (2026-09-29)
+
+Previous turn progressed by preserving both float32 linear-screen failures.
+This turn explicitly revises the conservative all-linear-systems-must-pass rule:
+finite float32 Krylov outputs become approximate search directions, accepted only
+by the unchanged eight-size nonlinear Armijo check. Strict1e-6/1e-12 linear
+screens remain failed where applicable; they are not relabeled. Original final
+natural/feasibility1e-8,primal1e-9,wave1e-5 and lambda0 requirements are unchanged.
+No Krylov tolerance/budget increase. Initial source-extraction SyntaxError occurred
+before numerical controls; source/log preserved and extraction corrected.
+
+Session42775 completed1: with16steps/stage, cold still hits lambda.001 cap after
+34Newton steps (natural7.19e-4,wave velocity.01915). Capped passes38steps with
+natural2.21e-14, feasibility2.50e-14,wave velocity1.19e-12. Independent receipt-only
+verification passes capped and rejects corruption. Original linear screens fail
+22/34cold and26/38capped directions. Evidence:
+benchmarks/2026-09-29-rain-inexact-continuation.json.
+
+One documented scheduling revision shares the SAME128maximum Newton attempts
+(8*16) across stages. It revises the earlier no-stage-budget-retry plan because
+cold's late stage history shows residual decrease and accepted full steps,
+without an established stall. No schedule/arithmetic/line-search/final threshold
+change. Session65664 completed0. Cold needs52Newton steps, including18at lambda
+.001,15.54seconds CPU; capped38steps,10.78seconds. Cold natural/feasibility6.10e-11,
+wave velocity1.68e-10/cache6.10e-11; capped unchanged2.21e-14/2.50e-14,
+wave velocity1.19e-12/cache3.32e-14. Both complete lambda0.
+
+Independent receipt-only NumPy reconstruction verifies both final states, matches
+saved velocities exactly, rejects two impulse corruptions, and finds cold/capped
+velocity difference2.01e-12. Strict intermediate linear screens STILL fail35/52
+and26/38directions;4629/3180operator actions. This is successful inexact nonlinear
+iteration, not improved linear-inverse accuracy. Receipt:
+benchmarks/2026-09-29-rain-inexact-global-budget.json.
+
+The first barrier-free both-start numerical result with float32 directions is
+now established for this captured phase. Nonlinear state/residual and local
+preconditioner SVD setup remain float64; no full float32 or GPU claim. Next:
+remove dense SVD setup and assess float32 outer-state/residual behavior, keeping
+the numerical-reference gates distinct from the existing runtime wave stopping
+screen. Actual GPU fidelity, Rain physical acceptance, both-path full-state
+repeats, performance and recordings remain open. No production change/live job.
+
+
+### Float32 LU replaces preconditioner SVD (2026-09-29)
+
+Previous turn progressed by independently verifying both roots with inexact
+float32 directions. Session52842 now completed0 with no dense pseudoinverse
+preconditioner setup in the Newton loop. Each owner-tuple diagonal block is cast
+to float32 and factored with partial-pivot LU after adding sigma I ONLY to the
+preconditioner, sigma=n*eps32*max(norm_inf(D32),tiny32). Recorded shifts range
+.000122049→.003193923. This numerical formula is fixed, not tuned compliance;
+original operator/residual/Gamma/final gates remain unchanged. Factors and solves
+are checked float32/finite. No pivot failure or budget retry.
+
+Both starts pass: cold52Newton steps/14.68seconds, captured38steps/10.44seconds.
+Cold natural/feasibility6.13e-11,wave velocity1.68e-10/cache6.13e-11; captured
+natural2.51e-13,feasibility1.14e-14,wave velocity1.98e-12/cache1.57e-13. Independent
+receipt-only reconstruction verifies both, matches saved velocities exactly,
+rejects two corruptions, and finds endpoint velocity difference3.42e-12.
+The original strict linear screen fails63directions across the90attempts;
+those failures remain explicit under the unchanged inexact nonlinear policy.
+
+Source/protocol/states/results:
+benchmarks/2026-09-29-rain-inexact-lu.json. CPU timings are diagnostic, not controlled
+production speed evidence. Preconditioner block entries still come from assembled
+float64 D before casting; nonlinear state/residual and projection setup remain
+float64. Next: assemble local preconditioner blocks directly from float32
+projection derivatives and reduced operator blocks, avoiding full float64 D as a
+setup dependency, then address outer-state/residual precision. Production GPU,
+actual-wave fidelity and full Rain/independent-repeat/performance/recording gates
+remain open. No production edit or live job.
+
+
+### Direct float32 local setup passes; derivative extension fails (2026-09-29)
+
+Previous turn progressed by replacing SVD preconditioning with verified float32
+LU. Local-preconditioner session7915 completes0: reduced preconditioner columns
+and affine term formed via float32 Schur/free solves; projection branches/radius
+derivatives and local matrix assembly all float32. No assembled D64 dependency
+for preconditioner setup. Original nonlinear equations, shifted-LU formula,
+budgets and final gates unchanged. Twenty-four states/all5owner tuples give120
+float64 algebra controls, max9.74e-17. Initial source-extraction82849 exit1 after
+controls is preserved; only source extraction changed before rerun.
+
+Cold52/capped38Newton steps pass (15.45/10.91seconds CPU). Natural2.76e-12/1.65e-13,
+feasibility3.08e-12/2.87e-14, wave velocity1.60e-10/2.65e-12. Independent receipt-only
+reconstruction passes both, exactly reproduces saved velocities and rejects two
+corruptions. Strict diagnostic linear screens fail61directions and action screen
+fails1; these remain failures under the inexact nonlinear method, not inverse
+accuracy passes. Evidence: benchmarks/2026-09-29-rain-local-preconditioner32.json.
+
+Derivative extension12466 completes1: operator projection branches, ball/box
+derivatives and radius derivatives now also use float32 reduced gradient and
+state. Both arms fail original Armijo before completing the required schedule.
+Cold52steps: natural1.36e-8,feasibility1.52e-8,wave velocity7.90e-7; it fails strict
+numerical checks though wave limit passes. Capped32steps stops at lambda1e-5:
+natural2.87e-6,feasibility3.02e-6,wave velocity6.10e-5 (>1e-5),cache4.39e-6.
+Original linear screens fail63directions, action screens27. No threshold/budget
+retry. Evidence: benchmarks/2026-09-29-rain-projection-derivative32.json.
+
+Current successful baseline is direct float32 LOCAL PRECONDITIONER with float64
+operator projection preparation/nonlinear state/residual. Full derivative32
+extension is rejected. Next investigate cancellation/branch error in the reduced
+gradient used by projection derivatives, preferably an algebraically centered
+physical-velocity representation; do not weaken final checks or infer GPU
+qualification from the mixed result. Actual GPU fidelity, Rain physical matrix,
+both-path full-state repeats, controlled performance and recordings remain open.
+No production change or live process remains.
+
+
+### Centered derivative gradient: cold pass, capped branch failure (2026-09-29)
+
+Previous turn progressed by verifying direct float32 local setup and preserving
+the failed full derivative extension. New centered expression uses captured
+velocity/old impulses: c=J*vcap+bias+G*old; solve free delta from c+H*delta, then
+evaluate the remaining gradient. Session1606 completed1 overall. Float64 identity
+passes26states with max2.68e-13; maximum normalized float32 gradient error decreases
+7.61e-5→6.82e-5 over random/failed endpoints. At the prior cold/capped endpoints,
+error decreases7.05e-6→1.78e-6 and6.01e-6→3.74e-6. No acceptance threshold changed.
+
+Cold now PASSES52steps: natural3.71e-12,feasibility4.14e-12,wave velocity2.18e-10.
+Independent receipt-only reconstruction verifies cold, matches saved velocity
+exactly and rejects impulse corruption. Capped still FAILS Armijo at lambda1e-5
+after34steps: natural2.87e-6,feasibility3.02e-6,wave velocity6.10e-5/cache4.39e-6.
+A progress message initially misread this as both arms failing; corrected after
+reading complete result. Source/protocol/states:
+benchmarks/2026-09-29-rain-centered-gradient32.json.
+
+Branch audit identifies exactly ONE mismatch at the capped failure: joint35motor.
+Exact projected argument-0.020833336464 lies outside radius0.020833334420;
+float32-0.020833328366 lies inside radius0.020833333954. Gradient error3.95e-8 flips
+the derivative from saturated to interior. At the successful cold endpoint there
+are3branch mismatches (joint9upper,13motor,35motor), so disagreement alone is not
+proof of failure causation; the capped mismatch is a concrete correction target.
+
+Successful both-start baseline remains local-preconditioner32 with float64
+operator derivative preparation. Centered derivative32 is only cold-qualified.
+Next address numerical branch selection near motor/limit bounds while keeping
+hard physical projection and original final checks; do not tune physical limits,
+increase budgets or pretend the mixed prototype is GPU-qualified. Broader
+physical/fidelity/independent-repeat/performance/recording gates remain open.
+No production edit or live job.
+
+
+### Stored-bound derivative passes both starts (2026-09-29)
+
+Previous turn progressed by verifying centered cold start and locating capped
+motor35branch disagreement. Symmetric joint-scalar secant experiment31563 exits1:
+nine scalar boundary/interior controls pass, but both solves exhaust128Newton
+steps. Cold natural7.19e-4,wave velocity.01915; capped natural.001415,feasibility
+.001440,wave velocity.03173. All256direction action/linear diagnostics fail.
+No secant-width or budget retry. Preserved source/results:
+benchmarks/2026-09-29-rain-scalar-secant.json.
+
+A separate no-tolerance active-bound policy targets the observed stored impulse:
+for JOINT BOX derivatives, saturate when either projected argument is outside OR
+stored float32 impulse is at/outside the exact float32 bound. Original hard
+projection/residual unchanged; this is an approximate Newton derivative. Matching
+policy used in local preconditioner; contacts/other domains unchanged. Five
+interior/exterior/stored-bound/zero-radius controls pass. Session93387 completes0.
+
+Cold52Newton steps/15.61seconds, capped38steps/11.02seconds pass the original final
+gates. Cold natural3.70e-12,feasibility4.14e-12,wave velocity2.17e-10; capped
+natural1.03e-13,feasibility5.97e-14,wave velocity3.32e-12. Independent receipt-only
+reconstruction verifies both, matches stored velocities exactly, rejects two
+corruptions, and finds endpoint velocity difference3.59e-12. Strict direction
+diagnostics still fail68linear and21action checks; approximation accepted solely
+through unchanged nonlinear Armijo and final criteria. Source/protocol/states:
+benchmarks/2026-09-29-rain-bound-state-derivative.json.
+
+Current both-start prototype now has float32 centered projection preparation,
+local preconditioner assembly/LU, and Krylov directions. Outer state/residual and
+line-search evaluation remain float64; original reference geometry/operators are
+prepared then cast. Next address outer-state/residual precision, preserving the
+strict reference checks and separately tracking the existing runtime wave
+stopping criterion. No GPU/physical/repeat/performance claim; full objective and
+all remaining gates intact. No production edit or live job.

@@ -1,0 +1,7011 @@
+{
+  "date": "2026-09-29",
+  "status": "native-prediction-failed-objective-cancellation-demonstrated",
+  "scope": "CPU arithmetic diagnostics on saved GPU witness. Actual-prior replay is not full-wave conformance. No production/physical acceptance.",
+  "dependencies": [
+    {
+      "receipt": "experiments/gpu-physics/benchmarks/2026-09-29-rain-coupled-reference.json",
+      "sha256": "41ffba347214595ac73205dcee2eb152e9d5155cbb6da48f52266961e3e8dd98"
+    },
+    {
+      "receipt": "experiments/gpu-physics/benchmarks/2026-09-29-rain-reference-wave-fidelity.json",
+      "sha256": "c52bdea99ba567e9c2c8e8b67784c345680db76a6f7583c790be9e79b4ad1682"
+    },
+    {
+      "receipt": "experiments/gpu-physics/benchmarks/2026-09-29-rain-reference-exact-separation.json",
+      "sha256": "227c8c732d82d2f579a4a16c18a8fc840919102dc1582d08a93dcf96853c08f8"
+    },
+    {
+      "receipt": "experiments/gpu-physics/benchmarks/2026-09-29-rain-reference-exact-pose.json",
+      "sha256": "12198d930f2647428fe33dba16871654706cec36d5d9ffa651e9beeb071ed457"
+    },
+    {
+      "receipt": "experiments/gpu-physics/benchmarks/2026-09-29-rain-reference-float32-projection.json",
+      "sha256": "47be59bacb0bcb32ea9d003c79a9bcc2318e44b9f7bb5b9d07a13b02dc83bc3d"
+    }
+  ],
+  "protocols": {
+    "protocol.txt": "Bounded saved-witness native arithmetic replay. Use exact pose model and captured separations. Reconstruct all actual-prior cache impulse updates with native float32 inverse-inertia matrix products, per-body add/subtract order, and convex contact symmetric multiply. Evaluate spherical motor projection with float32 summed tensor, cdot subtraction and existing24bisection/objective safeguard. Report bitwise and normalized motor errors; compare final reconstructed velocities against original2e-5fidelity threshold, but actual-prior substitutions cannot qualify a free-running full wave. Do not widen limits or infer complete shader conformance. Track half-ulp accumulated-cache uncertainty because shader applies unrounded deltas before rounded cache storage; no new capture.\n",
+    "predict-protocol.txt": "Frozen full predicted-wave implementation: native float32 tensors/body updates, compute fresh point/spring/limit/contact impulses and apply each computed delta before rounded accumulated-cache storage where shader does. No actual-prior substitutions. Captured original geometry, prepared contact masses and exact separation biases; engine deterministic angle polynomial. Existing2e-5normalized component impulse/velocity fidelity limit unchanged; no retries/tuning. Preserve intermediate implementation failures. CPU emulation, not bitwise GPU certification; no solver or physical acceptance implied.\n"
+  },
+  "sources": {
+    "run.py": "from pathlib import Path\nimport sys,json,numpy as np\np=Path(__file__).resolve().parent\nsys.path.insert(0,str(p.parent/'rain-reference-exact-pose'));import model as m\nsys.path.insert(0,str(p.parent/'rain-coupled-reference'));from wave import ops\nsys.path.insert(0,str(p.parent/'rain-reference-float32-projection'));from projection import project,mv,dot\nf=np.float32\ncapture=json.loads((p.parent/'rain-reference-exact-separation/result.json').read_text());normal_blocks={json.dumps(b['label'][1])+':'+str(b['label'][3]):b for b in m.blocks if b['label'][0]=='contact' and b['label'][2]=='normal'}\nfor r in capture['separations']:normal_blocks[json.dumps(r['identity'])+':'+str(r['point'])]['bias'][:]=r['exact_bias']\nstate=np.load(p.parent/'rain-reference-wave-fidelity/comparison.npz');actual=state['actual_impulses'].astype(np.float32);actualv=state['actual_velocity'];vel=m.vcap.reshape(-1,6).astype(np.float32);inertia={};inv_mass={}\ndef matrix(q):\n x,y,z,w=np.array(q,dtype=np.float32);xx=x*x;yy=y*y;zz=z*z;xy=x*y;xz=x*z;xw=x*w;yz=y*z;yw=y*w;zw=z*w\n return np.array([[f(1)-f(2)*(yy+zz),f(2)*(xy-zw),f(2)*(xz+yw)],[f(2)*(xy+zw),f(1)-f(2)*(xx+zz),f(2)*(yz-xw)],[f(2)*(xz-yw),f(2)*(yz+xw),f(1)-f(2)*(xx+yy)]],dtype=np.float32)\nfor bid,b in m.bs.items():\n inv_mass[bid]=f(m.f(b['inv_mass']));diag=m.v(b['inv_inertia']).astype(np.float32);lo=m.v(b['gpu_motion']['inv_inertia_offdiag']).astype(np.float32);hi=m.v(b['gpu_motion']['inv_inertia_upper']).astype(np.float32);il=np.array([[diag[0],hi[0],hi[1]],[lo[0],diag[1],hi[2]],[lo[1],lo[2],diag[2]]],dtype=np.float32);rot=matrix(m.v(m.starts[bid]['rot']));ri=np.column_stack([mv(rot,il[:,i]) for i in range(3)]);inertia[bid]=np.column_stack([mv(ri,rot.T[:,i]) for i in range(3)])\ncontacts={json.dumps(c['identity']):c for c in m.d['contacts']};joints={j['identity']:j for j in m.d['joints']};rows=[];uncertainty=np.zeros(m.ndof)\ndef imul(bid,P,convex):\n I=inertia[bid]\n if convex:return np.array([I[0,0]*P[0]+(I[1,0]*P[1]+I[2,0]*P[2]),I[1,0]*P[0]+(I[1,1]*P[1]+I[2,1]*P[2]),I[2,0]*P[0]+(I[2,1]*P[1]+I[2,2]*P[2])],dtype=np.float32)\n return mv(I,P)\ndef apply(a,b,P,ra=None,rb=None,convex=False):\n for bid,r,sign in [(a,ra,-1),(b,rb,1)]:\n  if inv_mass[bid]==0:continue\n  torque=P if r is None else np.cross(r,P)\n  if r is not None:vel[bid-1,:3]=vel[bid-1,:3]+f(sign)*(inv_mass[bid]*P)\n  vel[bid-1,3:]=vel[bid-1,3:]+f(sign)*imul(bid,torque,convex)\nfor op in ops:\n ii=op['indices'];old=m.old[ii].astype(np.float32);new=actual[ii];delta=new-old;label=op['label'];name=label[2]\n # Half-ulp of stored accumulated cache; does not include other float32 operation errors.\n cache_error=.5*abs(np.spacing(new));uncertainty+=np.abs(op['B'])@cache_error.astype(float)\n if label[0]=='joint':\n  j=joints[label[1]];a,b=j['a'],j['b'];A=op['J'][:,6*(b-1)+3:6*b].astype(np.float32)\n  if name=='motor' and len(ii)==3:\n   cdot=(vel[b-1,3:]-vel[a-1,3:])-m.v(j['motor_angular_velocity']).astype(np.float32);K=inertia[a]+inertia[b];radius=f(f(m.h)*f(m.f(j['max_motor_force'])));pred,info=project(K,cdot,old,radius);error=float(max(abs(pred-new)/(1+np.maximum(abs(pred),abs(new)))));rows.append(dict(joint=label[1],error=error,bit_equal=bool(np.array_equal(pred.astype(np.float32).view(np.uint32),new.view(np.uint32))),projection=info,predicted=pred.tolist(),actual=new.astype(float).tolist(),before=old.astype(float).tolist(),cdot=cdot.astype(float).tolist(),K=K.astype(float).tolist()))\n  if name=='point':\n   Ja=op['J'][:,6*(a-1)+3:6*a];Jb=-op['J'][:,6*(b-1)+3:6*b];ra=np.array([Ja[2,1],Ja[0,2],Ja[1,0]],dtype=np.float32);rb=np.array([Jb[2,1],Jb[0,2],Jb[1,0]],dtype=np.float32);apply(a,b,delta,ra,rb)\n  else:\n   P=A[0]*delta[0]\n   for k in range(1,len(delta)):P=P+A[k]*delta[k]\n   apply(a,b,P)\n else:\n  c=contacts[json.dumps(label[1])];a,b=c['a'],c['b'];convex=m.f(c['prepared_softness'][3])==1 and c['color']!=23;n=m.v([c['nx'],c['ny'],c['nz']]).astype(np.float32)\n  if name in ['normal','normal_pair']:\n   points=[label[3]] if name=='normal' else label[3]\n   for k,point in enumerate(points):cp=c['points'][point];apply(a,b,n*delta[k],m.v(cp['ra'])[:3].astype(np.float32),m.v(cp['rb'])[:3].astype(np.float32),convex)\n  elif name=='tangent':\n   T=op['J'][:,6*(b-1):6*(b-1)+3].astype(np.float32);P=T[0]*delta[0]+T[1]*delta[1];apply(a,b,P,m.v(c['center_a']).astype(np.float32),m.v(c['center_b']).astype(np.float32),convex)\n  else:apply(a,b,delta if name=='rolling' else n*delta[0],convex=convex)\nrel=abs(vel.reshape(-1)-actualv)/(1+np.maximum(abs(vel.reshape(-1)),abs(actualv)));result=dict(status='actual-prior-arithmetic-diagnostic',spherical_motors=len(rows),bit_exact_motors=sum(r['bit_equal'] for r in rows),maximum_motor_error=max(r['error'] for r in rows),maximum_reconstructed_velocity_error=float(max(rel)),cache_rounding_only_velocity_absolute_bound=float(max(uncertainty)),rows=rows,scope='Actual-prior cache substitutions, not free-running wave qualification; cache deltas lose applied impulse rounding information.')\n(p/'result.json').write_text(json.dumps(result,indent=2));print(json.dumps({k:v for k,v in result.items() if k!='rows'},indent=2));print(json.dumps(sorted(rows,key=lambda r:r['error'],reverse=True)[:2],indent=2))\n",
+    "predict.py": "from pathlib import Path\np=Path(__file__).resolve().parent\nsource=(p/'run.py').read_text().split('for op in ops:')[0];exec(compile(source,'native-update-helpers','exec'))\nfrom projection import solve\nx=m.old.astype(np.float32).copy();rows=[]\ndef invmul(K,rhs):\n c0,c1,c2=K.T;det=dot(c0,np.cross(c1,c2));inv=f(1)/det;A=np.array([inv*np.cross(c1,c2),inv*np.cross(c2,c0),inv*np.cross(c0,c1)],dtype=np.float32);return mv(A,rhs)\ndef kpoint(a,b,ra,rb):\n columns=[]\n for e in np.eye(3,dtype=np.float32):columns.append(np.cross(ra,mv(inertia[a],np.cross(e,ra)))+np.cross(rb,mv(inertia[b],np.cross(e,rb))))\n K=np.column_stack(columns);mass=inv_mass[a]+inv_mass[b]\n for k in range(3):K[k,k]+=mass\n return K\n\ndef angular_delta(A,delta):\n P=A[0]*delta[0]\n for k in range(1,len(delta)):P=P+A[k]*delta[k]\n return P\nfor op in ops:\n ii=op['indices'];old=x[ii].copy();label=op['label'];name=label[2];bias=op['bias'].astype(np.float32);info={}\n if label[0]=='joint':\n  j=joints[label[1]];a,b=j['a'],j['b'];A=op['J'][:,6*(b-1)+3:6*b].astype(np.float32);w=vel[b-1,3:]-vel[a-1,3:];K=inertia[a]+inertia[b]\n  if name=='point':\n   Ja=op['J'][:,6*(a-1)+3:6*a];Jb=-op['J'][:,6*(b-1)+3:6*b];ra=np.array([Ja[2,1],Ja[0,2],Ja[1,0]],dtype=np.float32);rb=np.array([Jb[2,1],Jb[0,2],Jb[1,0]],dtype=np.float32);cdot=((vel[b-1,:3]+np.cross(vel[b-1,3:],rb))-vel[a-1,:3])-np.cross(vel[a-1,3:],ra);delta=-solve(kpoint(a,b,ra,rb),cdot);new=old+delta;apply(a,b,delta,ra,rb)\n  elif name=='motor' and len(ii)==3:\n   cdot=w-m.v(j['motor_angular_velocity']).astype(np.float32);new64,info=project(K,cdot,old,f(f(m.h)*f(m.f(j['max_motor_force']))));new=new64.astype(np.float32);delta=new-old;apply(a,b,delta)\n  elif name=='spring':\n   hz=f(m.f(j['spring_hertz']));damp=f(m.f(j['spring_damping']));omega=f(6.28318530718)*hz;a1=f(2)*damp+f(m.h)*omega;a2=f(m.h)*omega*a1;a3=f(1)/f(1+a2);ms=a2*a3\n   cdot=w if len(ii)==3 else np.array([dot(A[0],w)],dtype=np.float32)\n   sol=invmul(K,cdot+bias) if len(ii)==3 else (cdot+bias)/dot(A[0],mv(K,A[0]))\n   delta=-ms*sol-a3*old;new=old+delta;apply(a,b,angular_delta(A,delta))\n  elif name=='alignment':\n   ax,ay=A;xx=dot(ax,mv(K,ax));xy=dot(ax,mv(K,ay));yy=dot(ay,mv(K,ay));rhs=np.array([dot(w,ax),dot(w,ay)],dtype=np.float32);det=xx*yy-xy*xy;delta=-np.array([yy*rhs[0]-xy*rhs[1],xx*rhs[1]-xy*rhs[0]],dtype=np.float32)/det;new=old+delta;apply(a,b,angular_delta(A,delta))\n  else:\n   mass=f(1)/dot(A[0],mv(K,A[0]));delta=-mass*(dot(A[0],w)+bias);new=old+delta\n   if op['domain']=='positive':new=np.maximum(new,f(0))\n   elif op['domain']=='box':new=np.clip(new,-f(m.radius(op,x)),f(m.radius(op,x)))\n   delta=new-old;apply(a,b,A[0]*delta[0])\n else:\n  c=contacts[json.dumps(label[1])];a,b=c['a'],c['b'];convex=m.f(c['prepared_softness'][3])==1 and c['color']!=23;n=m.v([c['nx'],c['ny'],c['nz']]).astype(np.float32)\n  if name in ['normal','normal_pair']:\n   points=[label[3]] if name=='normal' else label[3];levers=[(m.v(c['points'][k]['ra'])[:3].astype(np.float32),m.v(c['points'][k]['rb'])[:3].astype(np.float32)) for k in points];speed=np.array([dot((vel[b-1,:3]+np.cross(vel[b-1,3:],rb))-(vel[a-1,:3]+np.cross(vel[a-1,3:],ra)),n) for ra,rb in levers],dtype=np.float32);masses=np.array([m.f(c['points'][k]['normal_mass']) for k in points],dtype=np.float32)\n   if len(points)==1:new=np.maximum(old-masses*(speed+bias),f(0))\n   else:\n    (ra,rb),(sa,sb)=levers;k12=inv_mass[a]+inv_mass[b]+dot(np.cross(ra,n),mv(inertia[a],np.cross(sa,n)))+dot(np.cross(rb,n),mv(inertia[b],np.cross(sb,n)));d1=f(1)/masses[0];d2=f(1)/masses[1];det=d1*d2-k12*k12;r1=-speed[0]-bias[0]+d1*old[0]+k12*old[1];r2=-speed[1]-bias[1]+d2*old[1]+k12*old[0];new=np.array([(d2*r1-k12*r2)/det,(d1*r2-k12*r1)/det],dtype=np.float32)\n    if min(new)<0:\n     oi=max(f(0),r1/d1);oj=max(f(0),r2/d2)\n     if k12*oi>=r2:new=np.array([oi,0],dtype=np.float32)\n     elif k12*oj>=r1:new=np.array([0,oj],dtype=np.float32)\n     elif r1<=0 and r2<=0:new=np.zeros(2,dtype=np.float32)\n     else:raise AssertionError('pair scalar fallback requires explicit replay')\n   delta=new-old\n   for k,(ra,rb) in enumerate(levers):apply(a,b,n*delta[k],ra,rb,convex)\n  elif name=='rolling':new64,info=project(inertia[a]+inertia[b],vel[b-1,3:]-vel[a-1,3:],old,f(m.radius(op,x)));new=new64.astype(np.float32);apply(a,b,new-old,convex=convex)\n  elif name=='twist':\n   ka=imul(a,n,convex);kb=imul(b,n,convex);mass=f(1)/dot(n,ka+kb);speed=dot(n,vel[b-1,3:]-vel[a-1,3:]);cap=f(m.radius(op,x));new=np.clip(old-mass*speed,-cap,cap);apply(a,b,n*(new-old)[0],convex=convex)\n  else:\n   ra=m.v(c['center_a']).astype(np.float32);rb=m.v(c['center_b']).astype(np.float32);t=np.array([n[1],-n[0],0] if abs(n[0])>.5 else [0,n[2],-n[1]],dtype=np.float32);t=t/f(np.sqrt(dot(t,t)));T=np.array([t,np.cross(t,n)],dtype=np.float32);vr=(vel[b-1,:3]+np.cross(vel[b-1,3:],rb))-(vel[a-1,:3]+np.cross(vel[a-1,3:],ra));vr-=m.v(c['tangent_velocity']).astype(np.float32);vt=np.array([dot(vr,t) for t in T],dtype=np.float32);mt=m.v(c['prepared_tangent_inv']).astype(np.float32);det=mt[0]*mt[3]-mt[1]*mt[2];K=np.array([[mt[3],-mt[1]],[-mt[2],mt[0]]],dtype=np.float32)/det;new64,info=project(K,vt,old,f(m.radius(op,x)));new=new64.astype(np.float32);delta=new-old;apply(a,b,T[0]*delta[0]+T[1]*delta[1],ra,rb,convex)\n x[ii]=new;rows.append(dict(label=label,error=float(max(abs(new-actual[ii])/(1+np.maximum(abs(new),abs(actual[ii]))))),projection=info))\nrel=lambda a,b:abs(a-b)/(1+np.maximum(abs(a),abs(b)));ie=float(max(rel(x,actual)));ve=float(max(rel(vel.reshape(-1),actualv)));result=dict(status='native-prediction-pass' if max(ie,ve)<=2e-5 else 'native-prediction-failed',maximum_relative_impulse_error=ie,maximum_relative_velocity_error=ve,ranked_blocks=sorted(rows,key=lambda r:r['error'],reverse=True),scope='Free-running CPU float32 row/update replay with exact captured inputs; spring biases and Jacobians from corrected mixed-precision model. Not bitwise whole-shader certification.')\n(p/'prediction-result.json').write_text(json.dumps(result,indent=2));np.savez(p/'prediction.npz',impulses=x,velocities=vel);print(json.dumps({k:v for k,v in result.items() if k!='ranked_blocks'},indent=2));print(json.dumps(result['ranked_blocks'][:3],indent=2))\nif result['status']!='native-prediction-pass':raise SystemExit(1)\n",
+    "objective_audit.py": "from pathlib import Path\nimport sys,json,numpy as np\np=Path(__file__).resolve().parent;sys.path.insert(0,str(p.parent/'rain-reference-float32-projection'));from projection import clamp\nrecord=json.loads((p/'result.json').read_text());rows=[]\nfor r in record['rows']:\n if 'candidate' not in r['projection']:continue\n K=np.array(r['K'],dtype=np.float32);K=np.float32(.5)*(K+K.T);old=np.array(r['before'],dtype=np.float32);cdot=np.array(r['cdot'],dtype=np.float32);candidate=np.array(r['projection']['candidate'],dtype=np.float32)\n sys.path.insert(0,str(p.parent/'rain-reference-exact-pose'));import model as m\n j=next(j for j in m.d['joints'] if j['identity']==r['joint']);radius=np.float32(np.float32(m.h)*np.float32(m.f(j['max_motor_force'])));fo=clamp(old,radius).astype(float);old=old.astype(float);K=K.astype(float);cdot=cdot.astype(float);candidate=candidate.astype(float);d=candidate-fo;rhs=cdot+K@(fo-old);stable=float(d@rhs+.5*d@K@d);g=cdot-K@old;direct=float(.5*candidate@K@candidate+g@candidate-(.5*fo@K@fo+g@fo));assert abs(stable-direct)<1e-14\n rounded=r['projection']['candidate_value']-r['projection']['old_value'];rows.append(dict(joint=r['joint'],rounded_full_objective_difference=rounded,independent_delta_objective=stable,branch=r['projection']['branch'],false_rejection=bool(rounded>0 and stable<0),false_acceptance=bool(rounded<=0 and stable>0)))\nresult=dict(status='objective-cancellation-demonstrated' if any(r['false_rejection'] for r in rows) else 'no-false-rejection-demonstrated',scope='Saved reconstructed local inputs, not exact GPU row inputs. Independent float64 quadratic difference of float32 candidate/old/tensor. Does not prove cause of Rain nonconvergence.',false_rejections=sum(r['false_rejection'] for r in rows),false_acceptances=sum(r['false_acceptance'] for r in rows),rows=rows);(p/'objective-audit.json').write_text(json.dumps(result,indent=2));print(json.dumps({k:v for k,v in result.items() if k!='rows'},indent=2));print(json.dumps([r for r in rows if r['false_rejection']],indent=2))\n"
+  },
+  "results": {
+    "result.json": {
+      "status": "actual-prior-arithmetic-diagnostic",
+      "spherical_motors": 27,
+      "bit_exact_motors": 6,
+      "maximum_motor_error": 3.5304648242367866e-06,
+      "maximum_reconstructed_velocity_error": 4.718384809623738e-07,
+      "cache_rounding_only_velocity_absolute_bound": 2.353913420865555e-06,
+      "rows": [
+        {
+          "joint": 1,
+          "error": 1.832238951970606e-09,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.006476113107055426,
+            "old_value": -0.006476111710071564,
+            "candidate": [
+              -0.0020458190701901913,
+              -0.016595104709267616,
+              0.012427587993443012
+            ]
+          },
+          "predicted": [
+            -0.0020458190701901913,
+            -0.016595104709267616,
+            0.012427587993443012
+          ],
+          "actual": [
+            -0.0020458190701901913,
+            -0.016595102846622467,
+            0.012427588924765587
+          ],
+          "before": [
+            -0.0020347891841083765,
+            -0.01659340225160122,
+            0.012431670911610126
+          ],
+          "cdot": [
+            0.017708048224449158,
+            0.1425187587738037,
+            -0.10667534172534943
+          ],
+          "K": [
+            [
+              14.127030372619629,
+              -1.405347466468811,
+              -3.141150712966919
+            ],
+            [
+              -1.405347466468811,
+              13.265933990478516,
+              2.3401846885681152
+            ],
+            [
+              -3.141151189804077,
+              2.340184211730957,
+              17.395641326904297
+            ]
+          ]
+        },
+        {
+          "joint": 3,
+          "error": 9.238106714991129e-10,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.01516279112547636,
+            "old_value": -0.015162787400186062,
+            "candidate": [
+              0.00813143141567707,
+              0.013960725627839565,
+              -0.013153164647519588
+            ]
+          },
+          "predicted": [
+            0.00813143141567707,
+            0.013960725627839565,
+            -0.013153164647519588
+          ],
+          "actual": [
+            0.008131430484354496,
+            0.013960725627839565,
+            -0.013153164647519588
+          ],
+          "before": [
+            0.008121129125356674,
+            0.013961220160126686,
+            -0.013159004040062428
+          ],
+          "cdot": [
+            -0.20649811625480652,
+            -0.35428500175476074,
+            0.33373701572418213
+          ],
+          "K": [
+            [
+              17.40741729736328,
+              -1.0075650215148926,
+              -6.830310344696045
+            ],
+            [
+              -1.0075650215148926,
+              12.908478736877441,
+              1.4824092388153076
+            ],
+            [
+              -6.830310344696045,
+              1.482409119606018,
+              22.782230377197266
+            ]
+          ]
+        },
+        {
+          "joint": 5,
+          "error": 2.3211293235609177e-10,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.0066172881051898,
+            "old_value": -0.006617083214223385,
+            "candidate": [
+              -0.0038295667618513107,
+              -0.0030920780263841152,
+              -0.00672442652285099
+            ]
+          },
+          "predicted": [
+            -0.0038295667618513107,
+            -0.0030920780263841152,
+            -0.00672442652285099
+          ],
+          "actual": [
+            -0.003829566529020667,
+            -0.0030920777935534716,
+            -0.00672442652285099
+          ],
+          "before": [
+            -0.003815782954916358,
+            -0.0031364867463707924,
+            -0.006711684167385101
+          ],
+          "cdot": [
+            0.04610203579068184,
+            0.02766433171927929,
+            0.07766352593898773
+          ],
+          "K": [
+            [
+              235.03662109375,
+              2.3904218673706055,
+              -13.328845977783203
+            ],
+            [
+              2.3904216289520264,
+              161.91139221191406,
+              -0.7279567718505859
+            ],
+            [
+              -13.328845977783203,
+              -0.7279597520828247,
+              162.21926879882812
+            ]
+          ]
+        },
+        {
+          "joint": 15,
+          "error": 2.178304168431092e-06,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.016496093943715096,
+            "old_value": -0.016496093943715096,
+            "candidate": [
+              0.019946685060858727,
+              0.006012865342199802,
+              5.4383195674745366e-05
+            ]
+          },
+          "predicted": [
+            0.019946685060858727,
+            0.006012865342199802,
+            5.4383195674745366e-05
+          ],
+          "actual": [
+            0.019947342574596405,
+            0.006010673940181732,
+            5.570651774178259e-05
+          ],
+          "before": [
+            0.019947342574596405,
+            0.006010673940181732,
+            5.570651774178259e-05
+          ],
+          "cdot": [
+            -0.6035537719726562,
+            -0.18198007345199585,
+            -0.001624077558517456
+          ],
+          "K": [
+            [
+              13.71371078491211,
+              2.624276876449585,
+              -1.2542319297790527
+            ],
+            [
+              2.624277114868164,
+              17.8268985748291,
+              -2.176567554473877
+            ],
+            [
+              -1.2542322874069214,
+              -2.1765682697296143,
+              13.247997283935547
+            ]
+          ]
+        },
+        {
+          "joint": 17,
+          "error": 1.8275970966653625e-09,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.005154890939593315,
+            "old_value": -0.005153934005647898,
+            "candidate": [
+              -0.007678758352994919,
+              -0.0027022918220609426,
+              0.01917712204158306
+            ]
+          },
+          "predicted": [
+            -0.007678758352994919,
+            -0.0027022918220609426,
+            0.01917712204158306
+          ],
+          "actual": [
+            -0.007678757421672344,
+            -0.0027022925205528736,
+            0.019177120178937912
+          ],
+          "before": [
+            -0.007815660908818245,
+            -0.002358405152335763,
+            0.019167186692357063
+          ],
+          "cdot": [
+            0.0036296695470809937,
+            0.006539173424243927,
+            -0.012190490961074829
+          ],
+          "K": [
+            [
+              19.910655975341797,
+              4.945864677429199,
+              -5.576339244842529
+            ],
+            [
+              4.945865631103516,
+              16.168609619140625,
+              -3.7757949829101562
+            ],
+            [
+              -5.576338768005371,
+              -3.775794267654419,
+              17.018840789794922
+            ]
+          ]
+        },
+        {
+          "joint": 19,
+          "error": 0.0,
+          "bit_equal": true,
+          "projection": {
+            "branch": "fallback",
+            "candidate_value": -0.030340347439050674,
+            "old_value": -0.030340349301695824,
+            "candidate": [
+              -0.004415173549205065,
+              -0.00706185307353735,
+              -0.000284457637462765
+            ]
+          },
+          "predicted": [
+            -0.004414923023432493,
+            -0.007061997894197702,
+            -0.00028476890292949975
+          ],
+          "actual": [
+            -0.004414923023432493,
+            -0.007061997894197702,
+            -0.00028476890292949975
+          ],
+          "before": [
+            -0.004414923023432493,
+            -0.007061997894197702,
+            -0.00028476890292949975
+          ],
+          "cdot": [
+            1.5703563690185547,
+            2.511627197265625,
+            0.10111403465270996
+          ],
+          "K": [
+            [
+              169.5540313720703,
+              -12.76723861694336,
+              20.756431579589844
+            ],
+            [
+              -12.767243385314941,
+              176.65440368652344,
+              -26.205284118652344
+            ],
+            [
+              20.75643539428711,
+              -26.205293655395508,
+              212.95870971679688
+            ]
+          ]
+        },
+        {
+          "joint": 29,
+          "error": 0.0,
+          "bit_equal": true,
+          "projection": {
+            "branch": "fallback",
+            "candidate_value": -0.007066542748361826,
+            "old_value": -0.007066543214023113,
+            "candidate": [
+              -0.012187774293124676,
+              -0.0021796266082674265,
+              0.016755154356360435
+            ]
+          },
+          "predicted": [
+            -0.012188136577606201,
+            -0.0021739881485700607,
+            0.01675562374293804
+          ],
+          "actual": [
+            -0.012188136577606201,
+            -0.0021739881485700607,
+            0.01675562374293804
+          ],
+          "before": [
+            -0.012188136577606201,
+            -0.0021739881485700607,
+            0.01675562374293804
+          ],
+          "cdot": [
+            0.11866003274917603,
+            0.021290432661771774,
+            -0.16312503814697266
+          ],
+          "K": [
+            [
+              15.159112930297852,
+              0.04761207103729248,
+              3.6860227584838867
+            ],
+            [
+              0.047612160444259644,
+              12.223721504211426,
+              0.16278597712516785
+            ],
+            [
+              3.686022996902466,
+              0.1627860963344574,
+              17.405776977539062
+            ]
+          ]
+        },
+        {
+          "joint": 31,
+          "error": 1.1628285020402957e-10,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.008036375045776367,
+            "old_value": -0.008036374114453793,
+            "candidate": [
+              -0.019902169704437256,
+              -0.0011392188025638461,
+              0.006052566226571798
+            ]
+          },
+          "predicted": [
+            -0.019902169704437256,
+            -0.0011392188025638461,
+            0.006052566226571798
+          ],
+          "actual": [
+            -0.019902169704437256,
+            -0.001139218918979168,
+            0.006052566226571798
+          ],
+          "before": [
+            -0.019901245832443237,
+            -0.0011443677358329296,
+            0.006054634694010019
+          ],
+          "cdot": [
+            0.24077022075653076,
+            0.013705575838685036,
+            -0.07314306497573853
+          ],
+          "K": [
+            [
+              14.722305297851562,
+              -1.052292823791504,
+              4.919349193572998
+            ],
+            [
+              -1.0522925853729248,
+              13.251823425292969,
+              -2.6401095390319824
+            ],
+            [
+              4.919349193572998,
+              -2.640110492706299,
+              25.12398910522461
+            ]
+          ]
+        },
+        {
+          "joint": 33,
+          "error": 4.6335191858266255e-10,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.018014173954725266,
+            "old_value": -0.018014173954725266,
+            "candidate": [
+              -0.0066458419896662235,
+              -0.0006606733077205718,
+              -0.004984049126505852
+            ]
+          },
+          "predicted": [
+            -0.0066458419896662235,
+            -0.0006606733077205718,
+            -0.004984049126505852
+          ],
+          "actual": [
+            -0.006645842455327511,
+            -0.0006606732495129108,
+            -0.0049840486608445644
+          ],
+          "before": [
+            -0.006646031979471445,
+            -0.0006609977572225034,
+            -0.004983752965927124
+          ],
+          "cdot": [
+            1.1657721996307373,
+            0.11584842205047607,
+            0.8743553161621094
+          ],
+          "K": [
+            [
+              171.82778930664062,
+              -11.000028610229492,
+              -20.89786148071289
+            ],
+            [
+              -11.000030517578125,
+              174.0213623046875,
+              27.559526443481445
+            ],
+            [
+              -20.897865295410156,
+              27.559539794921875,
+              213.318115234375
+            ]
+          ]
+        },
+        {
+          "joint": 2,
+          "error": 1.8275988903068091e-09,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.008488941937685013,
+            "old_value": -0.008488928899168968,
+            "candidate": [
+              -0.004308383911848068,
+              -0.006909558083862066,
+              0.019176121801137924
+            ]
+          },
+          "predicted": [
+            -0.004308383911848068,
+            -0.006909558083862066,
+            0.019176121801137924
+          ],
+          "actual": [
+            -0.004308382980525494,
+            -0.006909557618200779,
+            0.019176119938492775
+          ],
+          "before": [
+            -0.004278531763702631,
+            -0.006901758257299662,
+            0.019185611978173256
+          ],
+          "cdot": [
+            0.020898673683404922,
+            0.032629162073135376,
+            -0.09015730023384094
+          ],
+          "K": [
+            [
+              24.074504852294922,
+              -1.7426882982254028,
+              -8.058897972106934
+            ],
+            [
+              -1.7426884174346924,
+              19.120849609375,
+              2.528769016265869
+            ],
+            [
+              -8.058897972106934,
+              2.528768301010132,
+              29.84949493408203
+            ]
+          ]
+        },
+        {
+          "joint": 4,
+          "error": 1.3875111121949321e-09,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.020911414176225662,
+            "old_value": -0.02091112919151783,
+            "candidate": [
+              -0.0037304493598639965,
+              0.01473945565521717,
+              0.006827152334153652
+            ]
+          },
+          "predicted": [
+            -0.0037304493598639965,
+            0.01473945565521717,
+            0.006827152334153652
+          ],
+          "actual": [
+            -0.0037304493598639965,
+            0.01473945565521717,
+            0.00682715093716979
+          ],
+          "before": [
+            -0.003743792185559869,
+            0.014762820675969124,
+            0.006769115105271339
+          ],
+          "cdot": [
+            0.029749542474746704,
+            -0.12130337953567505,
+            -0.06520582735538483
+          ],
+          "K": [
+            [
+              195.8812713623047,
+              6.105464935302734,
+              -12.995431900024414
+            ],
+            [
+              6.105466842651367,
+              130.57461547851562,
+              -0.9331109523773193
+            ],
+            [
+              -12.995431900024414,
+              -0.9331133365631104,
+              133.8878936767578
+            ]
+          ]
+        },
+        {
+          "joint": 6,
+          "error": 3.4873271916648676e-10,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.010931162163615227,
+            "old_value": -0.010931161232292652,
+            "candidate": [
+              0.000798132037743926,
+              0.02076595090329647,
+              -0.0014717469457536936
+            ]
+          },
+          "predicted": [
+            0.000798132037743926,
+            0.02076595090329647,
+            -0.0014717469457536936
+          ],
+          "actual": [
+            0.0007981319795362651,
+            0.02076595090329647,
+            -0.001471746596507728
+          ],
+          "before": [
+            0.0007978501380421221,
+            0.020765773952007294,
+            -0.0014743986539542675
+          ],
+          "cdot": [
+            -0.01677895523607731,
+            -0.43607449531555176,
+            0.03087104856967926
+          ],
+          "K": [
+            [
+              22.412639617919922,
+              1.1582263708114624,
+              4.643281936645508
+            ],
+            [
+              1.158226490020752,
+              8.520491600036621,
+              1.7820748090744019
+            ],
+            [
+              4.643280982971191,
+              1.7820749282836914,
+              12.367616653442383
+            ]
+          ]
+        },
+        {
+          "joint": 16,
+          "error": 2.424736246936189e-06,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.01272556558251381,
+            "old_value": -0.01272556558251381,
+            "candidate": [
+              -0.019119519740343094,
+              0.008242344483733177,
+              0.0007317443378269672
+            ]
+          },
+          "predicted": [
+            -0.019119519740343094,
+            0.008242344483733177,
+            0.0007317443378269672
+          ],
+          "actual": [
+            -0.019120531156659126,
+            0.008239899761974812,
+            0.0007329042418859899
+          ],
+          "before": [
+            -0.019120531156659126,
+            0.008239899761974812,
+            0.0007329042418859899
+          ],
+          "cdot": [
+            0.35733741521835327,
+            -0.1541391909122467,
+            -0.013633564114570618
+          ],
+          "K": [
+            [
+              25.9113826751709,
+              6.388119697570801,
+              -5.746840476989746
+            ],
+            [
+              6.388120651245117,
+              24.335479736328125,
+              -4.946414470672607
+            ],
+            [
+              -5.746840476989746,
+              -4.946413993835449,
+              22.797969818115234
+            ]
+          ]
+        },
+        {
+          "joint": 18,
+          "error": 0.0,
+          "bit_equal": true,
+          "projection": {
+            "branch": "fallback",
+            "candidate_value": -0.11752840131521225,
+            "old_value": -0.11752840876579285,
+            "candidate": [
+              -0.011639325879514217,
+              -0.011821150779724121,
+              0.0016013426939025521
+            ]
+          },
+          "predicted": [
+            -0.011639272794127464,
+            -0.011821211315691471,
+            0.0016012717969715595
+          ],
+          "actual": [
+            -0.011639272794127464,
+            -0.011821211315691471,
+            0.0016012717969715595
+          ],
+          "before": [
+            -0.011639272794127464,
+            -0.011821211315691471,
+            0.0016012717969715595
+          ],
+          "cdot": [
+            4.150790691375732,
+            4.215617656707764,
+            -0.571075975894928
+          ],
+          "K": [
+            [
+              140.68507385253906,
+              -12.369407653808594,
+              19.251920700073242
+            ],
+            [
+              -12.369413375854492,
+              146.95750427246094,
+              -26.93645477294922
+            ],
+            [
+              19.251924514770508,
+              -26.93646240234375,
+              172.70101928710938
+            ]
+          ]
+        },
+        {
+          "joint": 20,
+          "error": 0.0,
+          "bit_equal": true,
+          "projection": {
+            "branch": "fallback",
+            "candidate_value": -0.11157107353210449,
+            "old_value": -0.11157108098268509,
+            "candidate": [
+              2.0250425222911872e-05,
+              0.007165329530835152,
+              0.01956234686076641
+            ]
+          },
+          "predicted": [
+            2.059059261227958e-05,
+            0.00716857984662056,
+            0.019561156630516052
+          ],
+          "actual": [
+            2.059059261227958e-05,
+            0.00716857984662056,
+            0.019561156630516052
+          ],
+          "before": [
+            2.059059261227958e-05,
+            0.00716857984662056,
+            0.019561156630516052
+          ],
+          "cdot": [
+            -0.004976630210876465,
+            -1.7634235620498657,
+            -4.814502239227295
+          ],
+          "K": [
+            [
+              10.517427444458008,
+              -1.0334205627441406,
+              -5.861608028411865
+            ],
+            [
+              -1.0334206819534302,
+              12.051916122436523,
+              3.4161276817321777
+            ],
+            [
+              -5.861608028411865,
+              3.4161276817321777,
+              20.73140525817871
+            ]
+          ]
+        },
+        {
+          "joint": 30,
+          "error": 1.8531832636460213e-09,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.006560439709573984,
+            "old_value": -0.006560439243912697,
+            "candidate": [
+              -0.00847223773598671,
+              0.005105745512992144,
+              0.018335219472646713
+            ]
+          },
+          "predicted": [
+            -0.00847223773598671,
+            0.005105745512992144,
+            0.018335219472646713
+          ],
+          "actual": [
+            -0.00847223773598671,
+            0.005105747375637293,
+            0.018335219472646713
+          ],
+          "before": [
+            -0.008469890803098679,
+            0.0051103574223816395,
+            0.018335020169615746
+          ],
+          "cdot": [
+            0.02401694655418396,
+            -0.01436090748757124,
+            -0.05187919735908508
+          ],
+          "K": [
+            [
+              21.469192504882812,
+              -0.850374698638916,
+              6.583596229553223
+            ],
+            [
+              -0.8503744602203369,
+              18.901142120361328,
+              -2.0387063026428223
+            ],
+            [
+              6.583596229553223,
+              -2.0387072563171387,
+              32.67451095581055
+            ]
+          ]
+        },
+        {
+          "joint": 32,
+          "error": 0.0,
+          "bit_equal": true,
+          "projection": {
+            "branch": "fallback",
+            "candidate_value": -0.04688917100429535,
+            "old_value": -0.04688917472958565,
+            "candidate": [
+              -0.007914701476693153,
+              0.006866952870041132,
+              -0.01296071894466877
+            ]
+          },
+          "predicted": [
+            -0.007914857938885689,
+            0.006866850424557924,
+            -0.012960678897798061
+          ],
+          "actual": [
+            -0.007914857938885689,
+            0.006866850424557924,
+            -0.012960678897798061
+          ],
+          "before": [
+            -0.007914857938885689,
+            0.006866850424557924,
+            -0.012960678897798061
+          ],
+          "cdot": [
+            0.7808430194854736,
+            -0.677505373954773,
+            1.2787107229232788
+          ],
+          "K": [
+            [
+              135.21383666992188,
+              -8.311078071594238,
+              -15.752803802490234
+            ],
+            [
+              -8.311079978942871,
+              143.12013244628906,
+              25.265539169311523
+            ],
+            [
+              -15.7528076171875,
+              25.265554428100586,
+              182.00973510742188
+            ]
+          ]
+        },
+        {
+          "joint": 34,
+          "error": 1.8292949948127321e-09,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.002972101327031851,
+            "old_value": -0.002972097834572196,
+            "candidate": [
+              -0.0034992063883692026,
+              0.00945560447871685,
+              0.01823115162551403
+            ]
+          },
+          "predicted": [
+            -0.0034992063883692026,
+            0.00945560447871685,
+            0.01823115162551403
+          ],
+          "actual": [
+            -0.003499205457046628,
+            0.009455603547394276,
+            0.01823114976286888
+          ],
+          "before": [
+            -0.003508738474920392,
+            0.009436327964067459,
+            0.018239306285977364
+          ],
+          "cdot": [
+            0.0005293786525726318,
+            -0.0022836218122392893,
+            -0.003958806395530701
+          ],
+          "K": [
+            [
+              22.94100570678711,
+              0.01856902241706848,
+              -4.990138053894043
+            ],
+            [
+              0.018569156527519226,
+              7.789562225341797,
+              -0.12290288507938385
+            ],
+            [
+              -4.990138053894043,
+              -0.12290287017822266,
+              12.570180892944336
+            ]
+          ]
+        },
+        {
+          "joint": 8,
+          "error": 3.5304648242367866e-06,
+          "bit_equal": false,
+          "projection": {
+            "branch": "fallback",
+            "candidate_value": -0.014287247322499752,
+            "old_value": -0.01428725104779005,
+            "candidate": [
+              0.0007581164827570319,
+              0.009547373279929161,
+              -0.018501367419958115
+            ]
+          },
+          "predicted": [
+            0.0007578892400488257,
+            0.009543810039758682,
+            -0.01850321888923645
+          ],
+          "actual": [
+            0.0007581166573800147,
+            0.009547374211251736,
+            -0.018501369282603264
+          ],
+          "before": [
+            0.0007578892400488257,
+            0.009543810039758682,
+            -0.01850321888923645
+          ],
+          "cdot": [
+            -0.02136351726949215,
+            -0.2688208818435669,
+            0.5208341479301453
+          ],
+          "K": [
+            [
+              22.364288330078125,
+              2.0453476905822754,
+              4.351625919342041
+            ],
+            [
+              2.0453479290008545,
+              8.796737670898438,
+              2.098484754562378
+            ],
+            [
+              4.351624965667725,
+              2.098484992980957,
+              12.139728546142578
+            ]
+          ]
+        },
+        {
+          "joint": 10,
+          "error": 1.3598489982397806e-06,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.1390291154384613,
+            "old_value": -0.1390291005373001,
+            "candidate": [
+              -0.010871149599552155,
+              0.0043246205896139145,
+              -0.01723785325884819
+            ]
+          },
+          "predicted": [
+            -0.010871149599552155,
+            0.0043246205896139145,
+            -0.01723785325884819
+          ],
+          "actual": [
+            -0.010869774967432022,
+            0.004325381014496088,
+            -0.01723852939903736
+          ],
+          "before": [
+            -0.010869774967432022,
+            0.004325381014496088,
+            -0.01723852939903736
+          ],
+          "cdot": [
+            3.2253129482269287,
+            -1.2830320596694946,
+            5.114139556884766
+          ],
+          "K": [
+            [
+              15.839645385742188,
+              -0.11886018514633179,
+              -1.7198307514190674
+            ],
+            [
+              -0.11886116862297058,
+              15.516794204711914,
+              0.9791696071624756
+            ],
+            [
+              -1.719827651977539,
+              0.9791699647903442,
+              64.40567016601562
+            ]
+          ]
+        },
+        {
+          "joint": 22,
+          "error": 9.210396833364622e-10,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.016211118549108505,
+            "old_value": -0.016211118549108505,
+            "candidate": [
+              0.012085073627531528,
+              0.012780221179127693,
+              -0.011164437979459763
+            ]
+          },
+          "predicted": [
+            0.012085073627531528,
+            0.012780221179127693,
+            -0.011164437979459763
+          ],
+          "actual": [
+            0.012085074558854103,
+            0.012780222110450268,
+            -0.011164438910782337
+          ],
+          "before": [
+            0.012083122506737709,
+            0.012784077785909176,
+            -0.011162135750055313
+          ],
+          "cdot": [
+            -0.3363736569881439,
+            -0.3556203246116638,
+            0.3107460141181946
+          ],
+          "K": [
+            [
+              18.44308853149414,
+              -0.2904486656188965,
+              -8.122200965881348
+            ],
+            [
+              -0.2904489040374756,
+              10.88198184967041,
+              0.17542952299118042
+            ],
+            [
+              -8.122201919555664,
+              0.1754295825958252,
+              13.975675582885742
+            ]
+          ]
+        },
+        {
+          "joint": 24,
+          "error": 1.8288762786284452e-09,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.06093505769968033,
+            "old_value": -0.06093505769968033,
+            "candidate": [
+              0.009647326543927193,
+              -0.01846427097916603,
+              -0.00016594407497905195
+            ]
+          },
+          "predicted": [
+            0.009647326543927193,
+            -0.01846427097916603,
+            -0.00016594407497905195
+          ],
+          "actual": [
+            0.009647325612604618,
+            -0.01846427284181118,
+            -0.00016594407497905195
+          ],
+          "before": [
+            0.009646748192608356,
+            -0.018464557826519012,
+            -0.00016775430412963033
+          ],
+          "cdot": [
+            -1.2541193962097168,
+            2.400296449661255,
+            0.021473020315170288
+          ],
+          "K": [
+            [
+              20.131202697753906,
+              -2.5310559272766113,
+              -13.182577133178711
+            ],
+            [
+              -2.5310542583465576,
+              18.03020477294922,
+              9.548303604125977
+            ],
+            [
+              -13.182574272155762,
+              9.548304557800293,
+              57.600730895996094
+            ]
+          ]
+        },
+        {
+          "joint": 36,
+          "error": 1.274855917986173e-06,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.006635776720941067,
+            "old_value": -0.006635775789618492,
+            "candidate": [
+              -0.01903492584824562,
+              -0.007184712681919336,
+              -0.004480994306504726
+            ]
+          },
+          "predicted": [
+            -0.01903492584824562,
+            -0.007184712681919336,
+            -0.004480994306504726
+          ],
+          "actual": [
+            -0.01903507485985756,
+            -0.0071851154789328575,
+            -0.00447971373796463
+          ],
+          "before": [
+            -0.01903507485985756,
+            -0.0071851154789328575,
+            -0.00447971373796463
+          ],
+          "cdot": [
+            0.19253824651241302,
+            0.0726727843284607,
+            0.04535768926143646
+          ],
+          "K": [
+            [
+              12.033791542053223,
+              -0.0665639340877533,
+              -4.206467628479004
+            ],
+            [
+              -0.06656395643949509,
+              7.788904190063477,
+              -0.10926508903503418
+            ],
+            [
+              -4.206467151641846,
+              -0.10926511883735657,
+              23.47805404663086
+            ]
+          ]
+        },
+        {
+          "joint": 38,
+          "error": 2.7616690186482233e-09,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.005589410196989775,
+            "old_value": -0.005589243955910206,
+            "candidate": [
+              -0.01709892973303795,
+              0.011695357039570808,
+              -0.0022074899170547724
+            ]
+          },
+          "predicted": [
+            -0.01709892973303795,
+            0.011695357039570808,
+            -0.0022074899170547724
+          ],
+          "actual": [
+            -0.01709892973303795,
+            0.011695354245603085,
+            -0.002207490848377347
+          ],
+          "before": [
+            -0.01709730736911297,
+            0.011710955761373043,
+            -0.0021362113766372204
+          ],
+          "cdot": [
+            0.047573272138834,
+            -0.031198525801301003,
+            0.010300427675247192
+          ],
+          "K": [
+            [
+              16.98753547668457,
+              -3.807029962539673,
+              -6.842289924621582
+            ],
+            [
+              -3.8070309162139893,
+              25.23434066772461,
+              18.359649658203125
+            ],
+            [
+              -6.842292785644531,
+              18.359651565551758,
+              53.54023742675781
+            ]
+          ]
+        },
+        {
+          "joint": 12,
+          "error": 9.196710016046014e-10,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.014774821698665619,
+            "old_value": -0.01477481983602047,
+            "candidate": [
+              -0.015582574531435966,
+              0.012669282965362072,
+              -0.005540793761610985
+            ]
+          },
+          "predicted": [
+            -0.015582574531435966,
+            0.012669282965362072,
+            -0.005540793761610985
+          ],
+          "actual": [
+            -0.015582575462758541,
+            0.012669283896684647,
+            -0.0055407932959496975
+          ],
+          "before": [
+            -0.015575621277093887,
+            0.012677294202148914,
+            -0.0055420235730707645
+          ],
+          "cdot": [
+            0.20635545253753662,
+            -0.16737696528434753,
+            0.07315241545438766
+          ],
+          "K": [
+            [
+              60.08203125,
+              -5.975354194641113,
+              -10.790204048156738
+            ],
+            [
+              -5.975354194641113,
+              16.283857345581055,
+              1.5570591688156128
+            ],
+            [
+              -10.790205001831055,
+              1.5570590496063232,
+              19.396570205688477
+            ]
+          ]
+        },
+        {
+          "joint": 26,
+          "error": 5.80413964254509e-09,
+          "bit_equal": false,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.013399574905633926,
+            "old_value": -0.013399478048086166,
+            "candidate": [
+              0.01771865040063858,
+              0.002864578738808632,
+              0.010576927103102207
+            ]
+          },
+          "predicted": [
+            0.01771865040063858,
+            0.002864578738808632,
+            0.010576927103102207
+          ],
+          "actual": [
+            0.01771865040063858,
+            0.0028645845595747232,
+            0.010576927103102207
+          ],
+          "before": [
+            0.017765982076525688,
+            0.002821763278916478,
+            0.010508821345865726
+          ],
+          "cdot": [
+            -0.02262663096189499,
+            -0.004610802978277206,
+            -0.015505671501159668
+          ],
+          "K": [
+            [
+              37.83420181274414,
+              8.777766227722168,
+              21.086944580078125
+            ],
+            [
+              8.777766227722168,
+              18.920042037963867,
+              8.245268821716309
+            ],
+            [
+              21.08694076538086,
+              8.245267868041992,
+              39.00819778442383
+            ]
+          ]
+        },
+        {
+          "joint": 40,
+          "error": 0.0,
+          "bit_equal": true,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.004549011588096619,
+            "old_value": -0.004549009259790182,
+            "candidate": [
+              -0.01952153444290161,
+              0.006909869611263275,
+              -0.002278416184708476
+            ]
+          },
+          "predicted": [
+            -0.01952153444290161,
+            0.006909869611263275,
+            -0.002278416184708476
+          ],
+          "actual": [
+            -0.01952153444290161,
+            0.006909869611263275,
+            -0.002278416184708476
+          ],
+          "before": [
+            -0.019521955400705338,
+            0.006906184833496809,
+            -0.002285975031554699
+          ],
+          "cdot": [
+            0.05114360898733139,
+            -0.018096713349223137,
+            0.005520269274711609
+          ],
+          "K": [
+            [
+              16.635528564453125,
+              0.9670712947845459,
+              -6.637940406799316
+            ],
+            [
+              0.9670722484588623,
+              16.53988265991211,
+              -7.07373571395874
+            ],
+            [
+              -6.637938499450684,
+              -7.073734760284424,
+              62.587059020996094
+            ]
+          ]
+        }
+      ],
+      "scope": "Actual-prior cache substitutions, not free-running wave qualification; cache deltas lose applied impulse rounding information."
+    },
+    "prediction-result.json": {
+      "status": "native-prediction-failed",
+      "maximum_relative_impulse_error": 7.908392944955267e-06,
+      "maximum_relative_velocity_error": 2.6973218415403908e-05,
+      "ranked_blocks": [
+        {
+          "label": [
+            "joint",
+            30,
+            "point"
+          ],
+          "error": 7.908392944955267e-06,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                31
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 7.4388754001120105e-06,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.07487241923809052,
+            "old_value": -0.07487241923809052,
+            "candidate": [
+              0.5143678784370422,
+              -0.36408254504203796
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                31
+              ],
+              0
+            ],
+            "normal_pair",
+            [
+              0,
+              1
+            ]
+          ],
+          "error": 7.20958405509009e-06,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            34,
+            "point"
+          ],
+          "error": 7.088972779456526e-06,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                38
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 5.743014298786875e-06,
+          "projection": {
+            "branch": "fallback",
+            "candidate_value": -0.03371269255876541,
+            "old_value": -0.03371269628405571,
+            "candidate": [
+              0.1935415416955948,
+              -0.13345880806446075
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            29,
+            "motor"
+          ],
+          "error": 5.6257322285091504e-06,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.007066543214023113,
+            "old_value": -0.007066543214023113,
+            "candidate": [
+              -0.012187774293124676,
+              -0.002179626142606139,
+              0.016755154356360435
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            8,
+            "point"
+          ],
+          "error": 4.711110705102328e-06,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            29,
+            "point"
+          ],
+          "error": 4.24803556597908e-06,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            16,
+            "point"
+          ],
+          "error": 4.071131115779281e-06,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            36,
+            "point"
+          ],
+          "error": 3.921470124623738e-06,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            20,
+            "point"
+          ],
+          "error": 3.7653458093700465e-06,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            8,
+            "motor"
+          ],
+          "error": 3.5304649372847052e-06,
+          "projection": {
+            "branch": "fallback",
+            "candidate_value": -0.014287247322499752,
+            "old_value": -0.01428725104779005,
+            "candidate": [
+              0.0007581164827570319,
+              0.009547373279929161,
+              -0.018501367419958115
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            10,
+            "point"
+          ],
+          "error": 3.412965043025906e-06,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                40
+              ],
+              0
+            ],
+            "normal_pair",
+            [
+              0,
+              1
+            ]
+          ],
+          "error": 3.1303009109251434e-06,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                38
+              ],
+              0
+            ],
+            "normal_pair",
+            [
+              0,
+              1
+            ]
+          ],
+          "error": 2.8692545583908213e-06,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                5,
+                42
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 2.7380040137359174e-06,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.00037402528687380254,
+            "old_value": -0.0003740252577699721,
+            "candidate": [
+              -0.011053420603275299,
+              -0.001731509924866259
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            15,
+            "motor"
+          ],
+          "error": 2.1783041574963136e-06,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.016496093943715096,
+            "old_value": -0.016496093943715096,
+            "candidate": [
+              0.019946685060858727,
+              0.006012865342199802,
+              5.4383195674745366e-05
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            22,
+            "point"
+          ],
+          "error": 2.1625044155371143e-06,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            15,
+            "point"
+          ],
+          "error": 1.9314634300826583e-06,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            34,
+            "motor"
+          ],
+          "error": 1.912543666549027e-06,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.0029723781626671553,
+            "old_value": -0.002972374903038144,
+            "candidate": [
+              -0.003499365411698818,
+              0.009457534179091454,
+              0.018230117857456207
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                17,
+                19
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 1.829850930334942e-06,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -1.5212502479553223,
+            "old_value": -1.5211858749389648,
+            "candidate": [
+              -2.411562919616699,
+              0.6612483263015747
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                40
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 1.7247434698219877e-06,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.009827679954469204,
+            "old_value": -0.009827658534049988,
+            "candidate": [
+              0.23546841740608215,
+              0.18998020887374878
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            30,
+            "motor"
+          ],
+          "error": 1.6956627177933115e-06,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.006560114212334156,
+            "old_value": -0.006560112349689007,
+            "candidate": [
+              -0.008472628891468048,
+              0.0051040430553257465,
+              0.01833551563322544
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            36,
+            "cone"
+          ],
+          "error": 1.4492728723780601e-06,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            10,
+            "motor"
+          ],
+          "error": 1.3598489658761537e-06,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.1390291154384613,
+            "old_value": -0.1390291005373001,
+            "candidate": [
+              -0.010871149599552155,
+              0.0043246205896139145,
+              -0.01723785325884819
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            36,
+            "motor"
+          ],
+          "error": 1.0954490790027194e-06,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.006635610014200211,
+            "old_value": -0.006635609082877636,
+            "candidate": [
+              -0.019035158678889275,
+              -0.007184200454503298,
+              -0.004480814095586538
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            12,
+            "point"
+          ],
+          "error": 8.043650154831994e-07,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            16,
+            "cone"
+          ],
+          "error": 7.065970635267149e-07,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            10,
+            "upper"
+          ],
+          "error": 6.924688022991177e-07,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                25
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 6.744698453076126e-07,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.1296592503786087,
+            "old_value": -0.12965741753578186,
+            "candidate": [
+              -0.7144789695739746,
+              0.5907055139541626
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                42
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 6.477988563347026e-07,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -1.0937665700912476,
+            "old_value": -1.0937598943710327,
+            "candidate": [
+              -0.932230532169342,
+              -1.389717936515808
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                31
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 5.92281253375404e-07,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                19,
+                30
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 5.456335543385649e-07,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.2587559223175049,
+            "old_value": -0.2587552070617676,
+            "candidate": [
+              0.1743222028017044,
+              0.5465149283409119
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                6,
+                42
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 5.155371241016837e-07,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.9435393214225769,
+            "old_value": -0.9435096979141235,
+            "candidate": [
+              0.7212105393409729,
+              1.0810973644256592
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                15,
+                19
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 5.042384145781398e-07,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.22043219208717346,
+            "old_value": -0.22042912244796753,
+            "candidate": [
+              -0.0417015440762043,
+              0.8014659285545349
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                6,
+                42
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 3.765328813187807e-07,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                30
+              ],
+              0
+            ],
+            "normal_pair",
+            [
+              0,
+              1
+            ]
+          ],
+          "error": 3.5222566907577857e-07,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                31
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 3.239476598082547e-07,
+          "projection": {
+            "branch": "fallback",
+            "candidate_value": -0.014905705116689205,
+            "old_value": -0.01490570604801178,
+            "candidate": [
+              0.023469747975468636,
+              0.0001526426203781739,
+              -0.013959585689008236
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                17,
+                19
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 2.8244133432053786e-07,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.2020721435546875,
+            "old_value": -0.20203466713428497,
+            "candidate": [
+              -0.06396855413913727,
+              -0.08744734525680542,
+              -0.0015858334954828024
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                17,
+                19
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 2.7682168024512066e-07,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            15,
+            "lower"
+          ],
+          "error": 2.6076813242070784e-07,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                42
+              ],
+              0
+            ],
+            "normal_pair",
+            [
+              0,
+              1
+            ]
+          ],
+          "error": 2.5169205741804035e-07,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                15,
+                20
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 2.4273944632113853e-07,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.37057822942733765,
+            "old_value": -0.3705648183822632,
+            "candidate": [
+              -0.1049741879105568,
+              1.3196909427642822
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                25
+              ],
+              0
+            ],
+            "normal_pair",
+            [
+              0,
+              1
+            ]
+          ],
+          "error": 2.341958946772138e-07,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                30
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 2.1293837448865816e-07,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.15068964660167694,
+            "old_value": -0.15068954229354858,
+            "candidate": [
+              -0.11333539336919785,
+              0.39957499504089355
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            22,
+            "cone"
+          ],
+          "error": 2.019995548607767e-07,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                19,
+                30
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 1.8282953817561065e-07,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            22,
+            "motor"
+          ],
+          "error": 1.5816608822660783e-07,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.016210898756980896,
+            "old_value": -0.016210898756980896,
+            "candidate": [
+              0.012085232883691788,
+              0.012780061922967434,
+              -0.011164449155330658
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                15,
+                20
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 1.4871265818783286e-07,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                25
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 1.4287525118561462e-07,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.006443173624575138,
+            "old_value": -0.006442520301789045,
+            "candidate": [
+              0.010356741957366467,
+              0.01825810596346855,
+              -0.018244219943881035
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                6,
+                42
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 1.336388493200502e-07,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.1211434081196785,
+            "old_value": -0.12113139033317566,
+            "candidate": [
+              0.048206962645053864,
+              -0.040113966912031174,
+              -0.003528913017362356
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                15,
+                19
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 1.1834330848614627e-07,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.01867169886827469,
+            "old_value": -0.018670782446861267,
+            "candidate": [
+              -0.001736662001349032,
+              0.0033826730214059353,
+              -0.02648005448281765
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            34,
+            "spring"
+          ],
+          "error": 1.1146970280151436e-07,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                15,
+                19
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 1.0199360644946864e-07,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                40
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 9.58174766196862e-08,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.003872802946716547,
+            "old_value": -0.0038727717474102974,
+            "candidate": [
+              0.004385049920529127,
+              -0.001429850235581398,
+              -0.005994834005832672
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            30,
+            "spring"
+          ],
+          "error": 8.397569217777345e-08,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                19,
+                30
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 7.209334995650352e-08,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.008877765387296677,
+            "old_value": -0.008877146057784557,
+            "candidate": [
+              -0.016713008284568787,
+              -0.005305158905684948,
+              -0.007626292761415243
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            24,
+            "point"
+          ],
+          "error": 6.077763714529283e-08,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            36,
+            "spring"
+          ],
+          "error": 5.918850121133801e-08,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                42
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 5.825097559863934e-08,
+          "projection": {
+            "branch": "free"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                38
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 5.1890935992560117e-08,
+          "projection": {
+            "branch": "fallback",
+            "candidate_value": -0.0034571608994156122,
+            "old_value": -0.003457161132246256,
+            "candidate": [
+              0.00507075572386384,
+              6.109755486249924e-05,
+              -0.0029710601083934307
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            20,
+            "spring"
+          ],
+          "error": 5.034760874877975e-08,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            34,
+            "cone"
+          ],
+          "error": 4.74161403474227e-08,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                42
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 4.682610210693383e-08,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            22,
+            "spring"
+          ],
+          "error": 4.617589155486712e-08,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                25
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 4.0323982375412015e-08,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            12,
+            "motor"
+          ],
+          "error": 3.9545852814626414e-08,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.014774753712117672,
+            "old_value": -0.014774750918149948,
+            "candidate": [
+              -0.015582547523081303,
+              0.012669323943555355,
+              -0.005540774203836918
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            16,
+            "spring"
+          ],
+          "error": 3.7988101553310116e-08,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                26
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 3.410571380868532e-08,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.02943515218794346,
+            "old_value": -0.02943498082458973,
+            "candidate": [
+              -0.09227746725082397,
+              -0.41815415024757385
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                16
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 2.6168123667957843e-08,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.847808837890625,
+            "old_value": -0.8478026986122131,
+            "candidate": [
+              -0.0009676589397713542,
+              -1.565558910369873
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                24
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 2.587123937303204e-08,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.025287985801696777,
+            "old_value": -0.0252867229282856,
+            "candidate": [
+              -0.15194794535636902,
+              0.19767460227012634
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            18,
+            "point"
+          ],
+          "error": 2.3825373673957984e-08,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            6,
+            "point"
+          ],
+          "error": 2.3713711883033284e-08,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            19,
+            "point"
+          ],
+          "error": 2.3151873307369897e-08,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            26,
+            "point"
+          ],
+          "error": 2.233463192169438e-08,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            38,
+            "point"
+          ],
+          "error": 2.1668862260071364e-08,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                15,
+                20
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 2.1016099083226436e-08,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.05634985864162445,
+            "old_value": -0.056342896074056625,
+            "candidate": [
+              -0.0020225399639457464,
+              0.0071524628438055515,
+              -0.0635533407330513
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                30
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 1.7622411974116403e-08,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.005231126211583614,
+            "old_value": -0.00523112528026104,
+            "candidate": [
+              -0.0008233466651290655,
+              0.0020132216159254313,
+              0.006571691948920488
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            17,
+            "point"
+          ],
+          "error": 1.2407928018376424e-08,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                16
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 7.331009577171699e-09,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.06081501021981239,
+            "old_value": -0.060813166201114655,
+            "candidate": [
+              -0.016335053369402885,
+              0.016310375183820724,
+              -0.012164048850536346
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            32,
+            "point"
+          ],
+          "error": 7.055902528918523e-09,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                43
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 6.968303267740339e-09,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.0034095579758286476,
+            "old_value": -0.0034094557631760836,
+            "candidate": [
+              -0.1054176539182663,
+              -0.06921019405126572
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                41
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 6.8594481206218916e-09,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.03291798010468483,
+            "old_value": -0.03291718289256096,
+            "candidate": [
+              -0.3491140604019165,
+              0.08617786318063736
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                5,
+                42
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 5.4856443831852175e-09,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                34
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 5.450275342155919e-09,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.014685270376503468,
+            "old_value": -0.014685269445180893,
+            "candidate": [
+              0.03822366148233414,
+              -0.025257445871829987,
+              0.06148965656757355
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            12,
+            "spring"
+          ],
+          "error": 3.948015248056436e-09,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            2,
+            "point"
+          ],
+          "error": 3.674835102884799e-09,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            40,
+            "point"
+          ],
+          "error": 3.5544716059376924e-09,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            26,
+            "motor"
+          ],
+          "error": 2.7647253375562286e-09,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.013399576768279076,
+            "old_value": -0.013399481773376465,
+            "candidate": [
+              0.01771865226328373,
+              0.0028645829297602177,
+              0.010576924309134483
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            38,
+            "motor"
+          ],
+          "error": 2.7616688935694356e-09,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.005589410196989775,
+            "old_value": -0.005589243955910206,
+            "candidate": [
+              -0.01709892973303795,
+              0.011695357039570808,
+              -0.0022074906155467033
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                41
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 2.0889570073734376e-09,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.0027068573981523514,
+            "old_value": -0.0027068571653217077,
+            "candidate": [
+              -0.004032046068459749,
+              0.003120491048321128,
+              0.007404199801385403
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                26
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 1.8438740534421072e-09,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.002941686427220702,
+            "old_value": -0.002941364888101816,
+            "candidate": [
+              0.003311909968033433,
+              8.4383930243348e-07,
+              -0.010180188342928886
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            4,
+            "point"
+          ],
+          "error": 1.8307517724025502e-09,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            24,
+            "motor"
+          ],
+          "error": 1.8288761616247484e-09,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.06093505769968033,
+            "old_value": -0.06093505769968033,
+            "candidate": [
+              0.009647326543927193,
+              -0.01846427097916603,
+              -0.00016594407497905195
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            2,
+            "motor"
+          ],
+          "error": 1.8275988500349172e-09,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.008488940075039864,
+            "old_value": -0.008488928899168968,
+            "candidate": [
+              -0.0043083843775093555,
+              -0.006909559015184641,
+              0.019176121801137924
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            17,
+            "motor"
+          ],
+          "error": 1.8275971847003802e-09,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.005154891405254602,
+            "old_value": -0.005153934005647898,
+            "candidate": [
+              -0.00767875649034977,
+              -0.0027022932190448046,
+              0.01917712204158306
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            9,
+            "alignment"
+          ],
+          "error": 1.8235971621649583e-09,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            13,
+            "point"
+          ],
+          "error": 1.1600934657352013e-09,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            29,
+            "spring"
+          ],
+          "error": 9.276758250464923e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            1,
+            "cone"
+          ],
+          "error": 9.255459176849001e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            4,
+            "motor"
+          ],
+          "error": 9.250074595179569e-10,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.020911410450935364,
+            "old_value": -0.02091112919151783,
+            "candidate": [
+              -0.003730449825525284,
+              0.01473945565521717,
+              0.006827151868492365
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            3,
+            "motor"
+          ],
+          "error": 9.238106946085622e-10,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.01516279112547636,
+            "old_value": -0.015162787400186062,
+            "candidate": [
+              0.00813143141567707,
+              0.013960725627839565,
+              -0.013153164647519588
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            40,
+            "spring"
+          ],
+          "error": 9.22006249126639e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            21,
+            "spring"
+          ],
+          "error": 9.209973339530109e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            1,
+            "motor"
+          ],
+          "error": 9.19890552619762e-10,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.006476113572716713,
+            "old_value": -0.006476111710071564,
+            "candidate": [
+              -0.0020458190701901913,
+              -0.016595102846622467,
+              0.012427587993443012
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                43
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 8.135436768696991e-10,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.00040330691263079643,
+            "old_value": -0.0004032856086269021,
+            "candidate": [
+              -0.0016761415172368288,
+              5.083299470243219e-07,
+              0.0026701840106397867
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            32,
+            "lower"
+          ],
+          "error": 6.968556842679163e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            31,
+            "spring"
+          ],
+          "error": 6.967729726525818e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            26,
+            "spring"
+          ],
+          "error": 6.963086218725323e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            31,
+            "motor"
+          ],
+          "error": 5.814143055893339e-10,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.008036375045776367,
+            "old_value": -0.008036374114453793,
+            "candidate": [
+              -0.019902169704437256,
+              -0.0011392183369025588,
+              0.006052566226571798
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                24
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 4.647572049432114e-10,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.033675700426101685,
+            "old_value": -0.033673182129859924,
+            "candidate": [
+              -0.0003239497891627252,
+              0.0019452880369499326,
+              0.005912956316024065
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            1,
+            "spring"
+          ],
+          "error": 4.64660254717586e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            27,
+            "spring"
+          ],
+          "error": 4.639105211090566e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            33,
+            "motor"
+          ],
+          "error": 4.633519401497921e-10,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.018014173954725266,
+            "old_value": -0.018014173954725266,
+            "candidate": [
+              -0.0066458419896662235,
+              -0.0006606733077205718,
+              -0.004984049126505852
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                8
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 4.6307732648465105e-10,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.010247115045785904,
+            "old_value": -0.010246649384498596,
+            "candidate": [
+              0.020366976037621498,
+              6.75077608320862e-05,
+              0.0055799479596316814
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            5,
+            "point"
+          ],
+          "error": 4.628264438366614e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            25,
+            "spring"
+          ],
+          "error": 4.6282369603467544e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            10,
+            "spring"
+          ],
+          "error": 4.626155014619826e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            8,
+            "spring"
+          ],
+          "error": 3.4903230305971533e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            17,
+            "spring"
+          ],
+          "error": 3.4879241161966945e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            6,
+            "motor"
+          ],
+          "error": 3.4873270937652023e-10,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.010931162163615227,
+            "old_value": -0.010931161232292652,
+            "candidate": [
+              0.0007981322123669088,
+              0.02076595090329647,
+              -0.0014717469457536936
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            18,
+            "upper"
+          ],
+          "error": 2.90867746555179e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            2,
+            "spring"
+          ],
+          "error": 2.3254424774687976e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            3,
+            "spring"
+          ],
+          "error": 2.3250001923713626e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            9,
+            "spring"
+          ],
+          "error": 2.3237166357770178e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            37,
+            "spring"
+          ],
+          "error": 2.3236873536447433e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            38,
+            "spring"
+          ],
+          "error": 2.323250064550919e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            24,
+            "spring"
+          ],
+          "error": 2.322976533353227e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            5,
+            "motor"
+          ],
+          "error": 2.321129399796007e-10,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.0066172881051898,
+            "old_value": -0.006617083214223385,
+            "candidate": [
+              -0.0038295667618513107,
+              -0.0030920780263841152,
+              -0.00672442652285099
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                5,
+                42
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 1.454749098961372e-10,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.00021818591631017625,
+            "old_value": -0.00021818585810251534,
+            "candidate": [
+              -4.0125567466020584e-05,
+              -0.0003041286254301667,
+              0.00021208598627708852
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            32,
+            "spring"
+          ],
+          "error": 1.1628753515680046e-10,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            13,
+            "spring"
+          ],
+          "error": 8.727173844702563e-11,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            41,
+            "spring"
+          ],
+          "error": 5.8187801799114425e-11,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            4,
+            "spring"
+          ],
+          "error": 5.8158144966569125e-11,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            19,
+            "spring"
+          ],
+          "error": 3.637708537174156e-11,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            18,
+            "spring"
+          ],
+          "error": 2.909557490771153e-11,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            33,
+            "spring"
+          ],
+          "error": 2.9095512457666395e-11,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            39,
+            "spring"
+          ],
+          "error": 1.4549812743513968e-11,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            5,
+            "spring"
+          ],
+          "error": 7.2754571464606066e-12,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            1,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            1,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            1,
+            "point"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            3,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            3,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            3,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            3,
+            "point"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            5,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            5,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            5,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            7,
+            "spring"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            7,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            7,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            7,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            7,
+            "alignment"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            7,
+            "point"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            9,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            9,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            9,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            9,
+            "point"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            11,
+            "spring"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            11,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            11,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            11,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            11,
+            "alignment"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            11,
+            "point"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            13,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            13,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            13,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            13,
+            "alignment"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            15,
+            "spring"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            15,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            15,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            17,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            17,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            17,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            19,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "fallback",
+            "candidate_value": -0.030340347439050674,
+            "old_value": -0.030340349301695824,
+            "candidate": [
+              -0.004415173549205065,
+              -0.00706185307353735,
+              -0.00028445752104744315
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            19,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            19,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            19,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            21,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            21,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            21,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            21,
+            "alignment"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            21,
+            "point"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            23,
+            "spring"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            23,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            23,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            23,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            23,
+            "alignment"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            23,
+            "point"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            25,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            25,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            25,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            25,
+            "alignment"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            25,
+            "point"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            27,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            27,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            27,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            27,
+            "alignment"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            27,
+            "point"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            29,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            29,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            29,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            31,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            31,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            31,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            31,
+            "point"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            33,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            33,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            33,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            33,
+            "point"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            35,
+            "spring"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            35,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            35,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            35,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            35,
+            "alignment"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            35,
+            "point"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            37,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            37,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            37,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            37,
+            "alignment"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            37,
+            "point"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            39,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            39,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            39,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            39,
+            "alignment"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            39,
+            "point"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            41,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            41,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            41,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            41,
+            "alignment"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            41,
+            "point"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            2,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            2,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            2,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            4,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            4,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            4,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            6,
+            "spring"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            6,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            6,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            6,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            16,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "fallback",
+            "candidate_value": -0.012725768610835075,
+            "old_value": -0.012725770473480225,
+            "candidate": [
+              -0.01911935769021511,
+              0.008242740295827389,
+              0.000731542706489563
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            16,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            16,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            18,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "fallback",
+            "candidate_value": -0.11752840131521225,
+            "old_value": -0.11752840876579285,
+            "candidate": [
+              -0.011639325879514217,
+              -0.011821150779724121,
+              0.0016013426939025521
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            18,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            18,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            20,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "fallback",
+            "candidate_value": -0.1115710586309433,
+            "old_value": -0.11157107353210449,
+            "candidate": [
+              2.0255291019566357e-05,
+              0.007165271323174238,
+              0.019562367349863052
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            20,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            20,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            20,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            30,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            30,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            30,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            32,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "fallback",
+            "candidate_value": -0.04688917100429535,
+            "old_value": -0.04688917472958565,
+            "candidate": [
+              -0.007914701476693153,
+              0.006866952404379845,
+              -0.01296071894466877
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            32,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            32,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            34,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            34,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                10,
+                12
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                10,
+                12
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                10,
+                12
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                10,
+                12
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                11,
+                38
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                11,
+                38
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                11,
+                38
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                11,
+                38
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                14,
+                41
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                14,
+                41
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                14,
+                41
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                14,
+                41
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                15,
+                30
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                15,
+                30
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                15,
+                30
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                15,
+                30
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "joint",
+            8,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            8,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            8,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            10,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            10,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            22,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            22,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            24,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            24,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            24,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            36,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            36,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            38,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            38,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            38,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                5,
+                42
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                9,
+                12
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                9,
+                12
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                9,
+                12
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                9,
+                12
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                15,
+                19
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                18,
+                30
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                18,
+                30
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                18,
+                30
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                18,
+                30
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                37,
+                40
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                37,
+                40
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                37,
+                40
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                37,
+                40
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "joint",
+            12,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            12,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            12,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            26,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            26,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            26,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            40,
+            "motor"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.004549011588096619,
+            "old_value": -0.004549009259790182,
+            "candidate": [
+              -0.01952153444290161,
+              0.006909869611263275,
+              -0.002278416184708476
+            ]
+          }
+        },
+        {
+          "label": [
+            "joint",
+            40,
+            "lower"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            40,
+            "upper"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "joint",
+            40,
+            "cone"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                3,
+                31
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                3,
+                31
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                3,
+                31
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                3,
+                31
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                17,
+                19
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                3,
+                5
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                3,
+                5
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                3,
+                5
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                3,
+                5
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                4,
+                6
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                4,
+                6
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                4,
+                6
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                4,
+                6
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                9,
+                31
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                9,
+                31
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                9,
+                31
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                9,
+                31
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                10,
+                11
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                10,
+                11
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                10,
+                11
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                10,
+                11
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                12,
+                37
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                12,
+                37
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                12,
+                37
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                12,
+                37
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                15,
+                20
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                19,
+                30
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                32,
+                34
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                32,
+                34
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                32,
+                34
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                32,
+                34
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                38,
+                39
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                38,
+                39
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                38,
+                39
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                38,
+                39
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                3,
+                22
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                3,
+                22
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                3,
+                22
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                3,
+                22
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                6,
+                42
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                11,
+                40
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                11,
+                40
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                11,
+                40
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                11,
+                40
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                15,
+                29
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                15,
+                29
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                15,
+                29
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                15,
+                29
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                18,
+                20
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                18,
+                20
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                18,
+                20
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                18,
+                20
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                31,
+                33
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                31,
+                33
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                31,
+                33
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                31,
+                33
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                34,
+                36
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                34,
+                36
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                34,
+                36
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                34,
+                36
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                19,
+                29
+              ],
+              0
+            ],
+            "normal",
+            0
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                19,
+                29
+              ],
+              0
+            ],
+            "rolling"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                19,
+                29
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                19,
+                29
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "zero"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                8
+              ],
+              0
+            ],
+            "normal_pair",
+            [
+              0,
+              1
+            ]
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                8
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                8
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "free"
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                16
+              ],
+              0
+            ],
+            "normal_pair",
+            [
+              0,
+              1
+            ]
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                16
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                24
+              ],
+              0
+            ],
+            "normal_pair",
+            [
+              0,
+              1
+            ]
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                24
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                26
+              ],
+              0
+            ],
+            "normal_pair",
+            [
+              0,
+              1
+            ]
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                26
+              ],
+              0
+            ],
+            "normal",
+            2
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                26
+              ],
+              0
+            ],
+            "normal",
+            3
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                26
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                30
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                34
+              ],
+              0
+            ],
+            "normal_pair",
+            [
+              0,
+              1
+            ]
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                34
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                34
+              ],
+              0
+            ],
+            "tangent"
+          ],
+          "error": 0.0,
+          "projection": {
+            "branch": "metric",
+            "candidate_value": -0.11864665150642395,
+            "old_value": -0.11864663660526276,
+            "candidate": [
+              1.400593638420105,
+              -0.7452024817466736
+            ]
+          }
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                38
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                40
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                41
+              ],
+              0
+            ],
+            "normal_pair",
+            [
+              0,
+              1
+            ]
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                41
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                43
+              ],
+              0
+            ],
+            "normal_pair",
+            [
+              0,
+              1
+            ]
+          ],
+          "error": 0.0,
+          "projection": {}
+        },
+        {
+          "label": [
+            "contact",
+            [
+              [
+                1,
+                43
+              ],
+              0
+            ],
+            "twist"
+          ],
+          "error": 0.0,
+          "projection": {}
+        }
+      ],
+      "scope": "Free-running CPU float32 row/update replay with exact captured inputs; spring biases and Jacobians from corrected mixed-precision model. Not bitwise whole-shader certification."
+    },
+    "objective-audit.json": {
+      "status": "objective-cancellation-demonstrated",
+      "scope": "Saved reconstructed local inputs, not exact GPU row inputs. Independent float64 quadratic difference of float32 candidate/old/tensor. Does not prove cause of Rain nonconvergence.",
+      "false_rejections": 2,
+      "false_acceptances": 5,
+      "rows": [
+        {
+          "joint": 1,
+          "rounded_full_objective_difference": -1.3969838619232178e-09,
+          "independent_delta_objective": -1.5312440773667743e-09,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 3,
+          "rounded_full_objective_difference": -3.725290298461914e-09,
+          "independent_delta_objective": -2.472998503538824e-09,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 5,
+          "rounded_full_objective_difference": -2.0489096641540527e-07,
+          "independent_delta_objective": -2.047798168671102e-07,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 15,
+          "rounded_full_objective_difference": 0.0,
+          "independent_delta_objective": 2.6138204125351164e-10,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": true
+        },
+        {
+          "joint": 17,
+          "rounded_full_objective_difference": -9.569339454174042e-07,
+          "independent_delta_objective": -9.570109421391726e-07,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 19,
+          "rounded_full_objective_difference": 1.862645149230957e-09,
+          "independent_delta_objective": 1.8092269893228032e-09,
+          "branch": "fallback",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 29,
+          "rounded_full_objective_difference": 4.656612873077393e-10,
+          "independent_delta_objective": -2.9092598335227664e-10,
+          "branch": "fallback",
+          "false_rejection": true,
+          "false_acceptance": false
+        },
+        {
+          "joint": 31,
+          "rounded_full_objective_difference": -9.313225746154785e-10,
+          "independent_delta_objective": -2.9950229697813966e-10,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 33,
+          "rounded_full_objective_difference": 0.0,
+          "independent_delta_objective": 1.416848954022065e-10,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": true
+        },
+        {
+          "joint": 2,
+          "rounded_full_objective_difference": -1.30385160446167e-08,
+          "independent_delta_objective": -1.2612246125173597e-08,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 4,
+          "rounded_full_objective_difference": -2.849847078323364e-07,
+          "independent_delta_objective": -2.853010503552797e-07,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 6,
+          "rounded_full_objective_difference": -9.313225746154785e-10,
+          "independent_delta_objective": 1.5956674038992307e-11,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": true
+        },
+        {
+          "joint": 16,
+          "rounded_full_objective_difference": 0.0,
+          "independent_delta_objective": 5.409598360788997e-10,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": true
+        },
+        {
+          "joint": 18,
+          "rounded_full_objective_difference": 7.450580596923828e-09,
+          "independent_delta_objective": -5.636617193492343e-09,
+          "branch": "fallback",
+          "false_rejection": true,
+          "false_acceptance": false
+        },
+        {
+          "joint": 20,
+          "rounded_full_objective_difference": 7.450580596923828e-09,
+          "independent_delta_objective": 3.077091376565432e-09,
+          "branch": "fallback",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 30,
+          "rounded_full_objective_difference": -4.656612873077393e-10,
+          "independent_delta_objective": -2.242618243917662e-10,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 32,
+          "rounded_full_objective_difference": 3.725290298461914e-09,
+          "independent_delta_objective": 1.5590963051462547e-09,
+          "branch": "fallback",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 34,
+          "rounded_full_objective_difference": -3.4924596548080444e-09,
+          "independent_delta_objective": -3.373439569617083e-09,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 8,
+          "rounded_full_objective_difference": 3.725290298461914e-09,
+          "independent_delta_objective": 1.6749160929812317e-09,
+          "branch": "fallback",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 10,
+          "rounded_full_objective_difference": -1.4901161193847656e-08,
+          "independent_delta_objective": -5.884138645975666e-11,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 22,
+          "rounded_full_objective_difference": 0.0,
+          "independent_delta_objective": -3.319592130961982e-11,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 24,
+          "rounded_full_objective_difference": 0.0,
+          "independent_delta_objective": 2.1573855682454213e-09,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": true
+        },
+        {
+          "joint": 36,
+          "rounded_full_objective_difference": -9.313225746154785e-10,
+          "independent_delta_objective": -9.994414380570136e-11,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 38,
+          "rounded_full_objective_difference": -1.6624107956886292e-07,
+          "independent_delta_objective": -1.6609637413682498e-07,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 12,
+          "rounded_full_objective_difference": -1.862645149230957e-09,
+          "independent_delta_objective": -2.248057902047954e-09,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 26,
+          "rounded_full_objective_difference": -9.685754776000977e-08,
+          "independent_delta_objective": -9.401394651086896e-08,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": false
+        },
+        {
+          "joint": 40,
+          "rounded_full_objective_difference": -2.3283064365386963e-09,
+          "independent_delta_objective": -1.741087582897931e-09,
+          "branch": "metric",
+          "false_rejection": false,
+          "false_acceptance": false
+        }
+      ]
+    }
+  },
+  "verified_driver_exits": {
+    "actual_prior": 0,
+    "predicted_wave": 1,
+    "objective_audit": 0
+  },
+  "normal_archive_sha256": "b3f2b64239d72c95c8e1746f9bd40a95152fb7a2c6ab373a6e2bd2986cf5265b",
+  "production_source_changes": []
+}

@@ -1,0 +1,422 @@
+{
+  "scope": "Bounded CPU numerical prototype only, no GPU or physical qualification.",
+  "dependencies": [
+    {
+      "receipt": "experiments/gpu-physics/benchmarks/2026-09-29-rain-coupled-reference.json",
+      "sha256": "41ffba347214595ac73205dcee2eb152e9d5155cbb6da48f52266961e3e8dd98"
+    },
+    {
+      "receipt": "experiments/gpu-physics/benchmarks/2026-09-29-rain-reference-exact-pose.json",
+      "sha256": "12198d930f2647428fe33dba16871654706cec36d5d9ffa651e9beeb071ed457"
+    },
+    {
+      "receipt": "experiments/gpu-physics/benchmarks/2026-09-29-rain-reference-exact-separation.json",
+      "sha256": "227c8c732d82d2f579a4a16c18a8fc840919102dc1582d08a93dcf96853c08f8"
+    },
+    {
+      "receipt": "experiments/gpu-physics/benchmarks/2026-09-29-rain-corrected-coupled-reference.json",
+      "sha256": "0ed049ef2b563a3a24a90815e5f5b916606e14b25bb885590a013d2db82ce61a"
+    },
+    {
+      "receipt": "experiments/gpu-physics/benchmarks/2026-09-29-rain-reduced-trust-reference.json",
+      "sha256": "bba5ca12b2468de0f9b37e079af0f25f72e6c2193243653626e723d09b619199"
+    },
+    {
+      "receipt": "experiments/gpu-physics/benchmarks/2026-09-29-rain-interior-global-budget.json",
+      "sha256": "a3c21d21f71cb4264dca1d286bffaa7c3abe430d2a3dc496ff735461dfa87649"
+    },
+    {
+      "receipt": "experiments/gpu-physics/benchmarks/2026-09-29-rain-articulation-factorization.json",
+      "sha256": "a7f1789299743f630a868e102e1cb5177e5b43c81bbbfeef9d453482899697ca"
+    }
+  ],
+  "protocol": "Use existing unscaled float32 per-articulation Cholesky as a preconditioner, with exactly one residual correction. Residual action uses float32 Jfree*(M*(Jfree.T*x))+Gfree*x, avoiding the rounded assembled normal matrix. Factors, source operators, RHS, action, solve and update are float32. Identical 24 seeded reduced states plus both reference endpoints; unchanged normalized original free residual and recovered velocity error <=1e-5. Original float64 RHS formation is cast once; this checks inverse action only, not a complete float32 solver. No iteration or precision tuning if it fails. Save original and corrected errors per case. If it passes, separately check full float32 RHS construction before GPU adoption.\n",
+  "sources": {
+    "run.py": "from pathlib import Path\nimport numpy as np,json\np=Path(__file__).resolve().parent\nsource=(p.parent/'rain-articulation-factorization/run.py').read_text().split('rng=np.random.default_rng')[0]\nexec(compile(source,str(p/'setup-factorization.py'),'exec'))\nJ=m.J[r.free].astype(np.float32);M=m.M.astype(np.float32);G=m.G[np.ix_(r.free,r.free)].astype(np.float32)\ndef action(x):\n assert x.dtype==np.float32\n out=J@(M@(J.T@x))+G@x;assert out.dtype==np.float32;return out\nrng=np.random.default_rng(20261006);cases=[('random-'+str(i),rng.normal(size=r.N)) for i in range(24)]\nfor arm in ['cold','capped']:cases.append((arm,np.load(p.parent/'rain-interior-global-budget'/(arm+'.npz'))['impulses'][r.remaining]))\nrecords=[]\nfor name,y in cases:\n rhs=-(m.g[r.free]+r.Hfr@y);want=r.recover(y);vref=m.M@m.J.T@want;xf=solve(rhs,'float32').astype(np.float32)\n for stage in ['original','one-correction']:\n  if stage=='one-correction':\n   residual=rhs.astype(np.float32)-action(xf);xf+=solve(residual,'float32').astype(np.float32)\n  x=want.copy();x[r.free]=xf;res=float(max(abs(r.Hff@x[r.free]-rhs)/(1+abs(rhs))));v=m.M@m.J.T@x;verr=float(max(abs(v-vref)/(1+abs(vref))));records.append(dict(case=name,stage=stage,free_residual=res,velocity_difference=verr,pass_screen=res<=1e-5 and verr<=1e-5))\nsummary={stage:dict(failed=sum(v['stage']==stage and not v['pass_screen'] for v in records),max_free_residual=max(v['free_residual'] for v in records if v['stage']==stage),max_velocity_difference=max(v['velocity_difference'] for v in records if v['stage']==stage)) for stage in ['original','one-correction']}\nresult=dict(status='correction-pass' if not summary['one-correction']['failed'] else 'correction-failed',summary=summary,records=records)\n(p/'result.json').write_text(json.dumps(result,indent=2));print(json.dumps(summary,indent=2))\n"
+  },
+  "results": {
+    "result.json": {
+      "status": "correction-failed",
+      "summary": {
+        "original": {
+          "failed": 2,
+          "max_free_residual": 7.509570274174285e-06,
+          "max_velocity_difference": 2.2213417633460582e-05
+        },
+        "one-correction": {
+          "failed": 3,
+          "max_free_residual": 1.3444202039485492e-05,
+          "max_velocity_difference": 1.6495538770121714e-05
+        }
+      },
+      "records": [
+        {
+          "case": "random-0",
+          "stage": "original",
+          "free_residual": 1.4233707717956745e-06,
+          "velocity_difference": 2.918993908992144e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-0",
+          "stage": "one-correction",
+          "free_residual": 1.8022055250087362e-06,
+          "velocity_difference": 1.4461081097549347e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-1",
+          "stage": "original",
+          "free_residual": 2.9369045314141667e-06,
+          "velocity_difference": 7.72165708516864e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-1",
+          "stage": "one-correction",
+          "free_residual": 1.3444202039485492e-05,
+          "velocity_difference": 4.419659930720996e-06,
+          "pass_screen": false
+        },
+        {
+          "case": "random-2",
+          "stage": "original",
+          "free_residual": 7.509570274174285e-06,
+          "velocity_difference": 5.727886331972698e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-2",
+          "stage": "one-correction",
+          "free_residual": 3.7441413744848626e-06,
+          "velocity_difference": 9.76083330328993e-07,
+          "pass_screen": true
+        },
+        {
+          "case": "random-3",
+          "stage": "original",
+          "free_residual": 1.3466506439468564e-06,
+          "velocity_difference": 2.2213417633460582e-05,
+          "pass_screen": false
+        },
+        {
+          "case": "random-3",
+          "stage": "one-correction",
+          "free_residual": 2.4020248425773573e-06,
+          "velocity_difference": 4.880964746852247e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-4",
+          "stage": "original",
+          "free_residual": 8.624236524523182e-07,
+          "velocity_difference": 3.3142417139946754e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-4",
+          "stage": "one-correction",
+          "free_residual": 9.498185458081325e-07,
+          "velocity_difference": 1.5297296540226488e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-5",
+          "stage": "original",
+          "free_residual": 3.7643832866479404e-06,
+          "velocity_difference": 2.038264308555832e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-5",
+          "stage": "one-correction",
+          "free_residual": 5.743181178827803e-07,
+          "velocity_difference": 5.926044500293197e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-6",
+          "stage": "original",
+          "free_residual": 7.261688241350733e-07,
+          "velocity_difference": 2.6639332423446654e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-6",
+          "stage": "one-correction",
+          "free_residual": 4.278976675067529e-06,
+          "velocity_difference": 1.1016563820014926e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-7",
+          "stage": "original",
+          "free_residual": 2.0121282718701954e-06,
+          "velocity_difference": 2.2714918999934135e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-7",
+          "stage": "one-correction",
+          "free_residual": 9.575403481805967e-07,
+          "velocity_difference": 7.392162629760646e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-8",
+          "stage": "original",
+          "free_residual": 5.901718971762288e-06,
+          "velocity_difference": 8.610138154665754e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-8",
+          "stage": "one-correction",
+          "free_residual": 1.2243361872590358e-05,
+          "velocity_difference": 4.049151412090684e-06,
+          "pass_screen": false
+        },
+        {
+          "case": "random-9",
+          "stage": "original",
+          "free_residual": 1.1664919826778698e-06,
+          "velocity_difference": 2.8695549440347873e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-9",
+          "stage": "one-correction",
+          "free_residual": 1.0459562439855317e-06,
+          "velocity_difference": 1.7166380645984184e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-10",
+          "stage": "original",
+          "free_residual": 8.207214193597522e-07,
+          "velocity_difference": 9.48084831452365e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-10",
+          "stage": "one-correction",
+          "free_residual": 8.138957138069326e-07,
+          "velocity_difference": 6.738581286745242e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-11",
+          "stage": "original",
+          "free_residual": 1.7356985521871092e-06,
+          "velocity_difference": 7.240180341456269e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-11",
+          "stage": "one-correction",
+          "free_residual": 6.884706603707326e-07,
+          "velocity_difference": 7.2596412175119465e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-12",
+          "stage": "original",
+          "free_residual": 5.25274914648752e-06,
+          "velocity_difference": 5.810698512385144e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-12",
+          "stage": "one-correction",
+          "free_residual": 3.719080343966398e-06,
+          "velocity_difference": 1.4906824723651298e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-13",
+          "stage": "original",
+          "free_residual": 3.638897939665301e-06,
+          "velocity_difference": 4.13324429002627e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-13",
+          "stage": "one-correction",
+          "free_residual": 4.11579665021488e-06,
+          "velocity_difference": 7.854059832920876e-07,
+          "pass_screen": true
+        },
+        {
+          "case": "random-14",
+          "stage": "original",
+          "free_residual": 1.597151974447687e-06,
+          "velocity_difference": 1.1648447496535618e-05,
+          "pass_screen": false
+        },
+        {
+          "case": "random-14",
+          "stage": "one-correction",
+          "free_residual": 2.360166314459643e-06,
+          "velocity_difference": 8.782965998986682e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-15",
+          "stage": "original",
+          "free_residual": 2.981165981690775e-06,
+          "velocity_difference": 4.080101194393354e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-15",
+          "stage": "one-correction",
+          "free_residual": 1.569556481714492e-06,
+          "velocity_difference": 2.9487416817841e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-16",
+          "stage": "original",
+          "free_residual": 1.412636273736085e-06,
+          "velocity_difference": 3.878271829427948e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-16",
+          "stage": "one-correction",
+          "free_residual": 5.103935635695212e-06,
+          "velocity_difference": 2.5688043746834834e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-17",
+          "stage": "original",
+          "free_residual": 9.137274218995808e-07,
+          "velocity_difference": 5.556721843249954e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-17",
+          "stage": "one-correction",
+          "free_residual": 1.0397844521544007e-06,
+          "velocity_difference": 9.574570316173674e-07,
+          "pass_screen": true
+        },
+        {
+          "case": "random-18",
+          "stage": "original",
+          "free_residual": 1.7319945564100523e-06,
+          "velocity_difference": 3.156827272159124e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-18",
+          "stage": "one-correction",
+          "free_residual": 5.149945008047744e-06,
+          "velocity_difference": 1.605036642924965e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-19",
+          "stage": "original",
+          "free_residual": 1.6814150155850603e-06,
+          "velocity_difference": 7.311933066860364e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-19",
+          "stage": "one-correction",
+          "free_residual": 1.6110688027790533e-06,
+          "velocity_difference": 2.3094199700904204e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-20",
+          "stage": "original",
+          "free_residual": 9.486449172372411e-07,
+          "velocity_difference": 5.255917790159259e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-20",
+          "stage": "one-correction",
+          "free_residual": 6.908716624982839e-07,
+          "velocity_difference": 3.318094787364263e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-21",
+          "stage": "original",
+          "free_residual": 1.7102388006778437e-06,
+          "velocity_difference": 7.492751629857836e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-21",
+          "stage": "one-correction",
+          "free_residual": 1.7451541171774313e-06,
+          "velocity_difference": 1.6495538770121714e-05,
+          "pass_screen": false
+        },
+        {
+          "case": "random-22",
+          "stage": "original",
+          "free_residual": 1.6829832440392174e-06,
+          "velocity_difference": 4.932470572770131e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-22",
+          "stage": "one-correction",
+          "free_residual": 2.4803114590741547e-06,
+          "velocity_difference": 2.374957501257666e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-23",
+          "stage": "original",
+          "free_residual": 6.556196667946247e-07,
+          "velocity_difference": 2.376516547053119e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-23",
+          "stage": "one-correction",
+          "free_residual": 7.625725216353089e-07,
+          "velocity_difference": 3.9658762195004786e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "cold",
+          "stage": "original",
+          "free_residual": 3.26471807301177e-07,
+          "velocity_difference": 1.0670498179934768e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "cold",
+          "stage": "one-correction",
+          "free_residual": 3.5736163004063254e-07,
+          "velocity_difference": 2.0582912415550503e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "capped",
+          "stage": "original",
+          "free_residual": 3.264697587342634e-07,
+          "velocity_difference": 1.0670547434888328e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "capped",
+          "stage": "one-correction",
+          "free_residual": 3.573861598327156e-07,
+          "velocity_difference": 2.0584267655722682e-06,
+          "pass_screen": true
+        }
+      ]
+    }
+  },
+  "states": {},
+  "driver_exit": 0
+}

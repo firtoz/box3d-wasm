@@ -1,0 +1,195 @@
+{
+  "scope": "CPU numerical and topology evidence for one captured Rain phase; no production GPU implementation or physical qualification.",
+  "protocol": "Test QR of transpose [Jfree sqrt(M), sqrt(Gfree)] after Cholesky float32 failures. Identical 24 seeded reduced states and two reference endpoints; unchanged normalized free residual and recovered velocity difference <=1e-5. Float64 assembly identity must match Hff <=1e-10. PSD square roots may clip only negative roundoff eigenvalues >=-1e-12 times max(1,spectral radius). QR and triangular solves float32; no refinement, regularization or parameter tuning. Original Cholesky failures remain. Not complete float32 solver, GPU execution or timing.\n",
+  "dependencies": [
+    {
+      "receipt": "experiments/gpu-physics/benchmarks/2026-09-29-rain-corrected-coupled-reference.json",
+      "sha256": "0ed049ef2b563a3a24a90815e5f5b916606e14b25bb885590a013d2db82ce61a"
+    },
+    {
+      "receipt": "experiments/gpu-physics/benchmarks/2026-09-29-rain-reduced-trust-reference.json",
+      "sha256": "bba5ca12b2468de0f9b37e079af0f25f72e6c2193243653626e723d09b619199"
+    },
+    {
+      "receipt": "experiments/gpu-physics/benchmarks/2026-09-29-rain-interior-global-budget.json",
+      "sha256": "a3c21d21f71cb4264dca1d286bffaa7c3abe430d2a3dc496ff735461dfa87649"
+    },
+    {
+      "receipt": "experiments/gpu-physics/benchmarks/2026-09-29-rain-articulation-factorization.json",
+      "sha256": "a7f1789299743f630a868e102e1cb5177e5b43c81bbbfeef9d453482899697ca"
+    }
+  ],
+  "sources": {
+    "run.py": "from pathlib import Path\nimport numpy as np,json\nfrom scipy.linalg import qr,solve_triangular\np=Path(__file__).resolve().parent\nsource=(p.parent/'rain-articulation-factorization/run.py').read_text().split('rng=np.random.default_rng')[0]\nexec(compile(source,str(p/'setup-factorization.py'),'exec'))\ndef sqrt_psd(A):\n values,vectors=np.linalg.eigh(A);assert min(values)>=-1e-12*max(1,max(abs(values)));return (vectors*np.sqrt(np.maximum(values,0)))@vectors.T\nMs=sqrt_psd(m.M);Gs=sqrt_psd(m.G[np.ix_(r.free,r.free)]);Jf=m.J[r.free];A=np.concatenate([Jf@Ms,Gs],axis=1);assembly=float(max(abs(A@A.T-r.Hff).flat));assert assembly<=1e-10\nA32=np.concatenate([Jf.astype(np.float32)@Ms.astype(np.float32),Gs.astype(np.float32)],axis=1)\nqr_factors=[]\nfor ii in groups.values():\n R=qr(A32[ii].T,mode='economic')[1];assert R.dtype==np.float32;qr_factors.append((ii,R))\ndef qrsolve(rhs):\n out=np.zeros(len(rhs),dtype=np.float32)\n for ii,R in qr_factors:out[ii]=solve_triangular(R,solve_triangular(R.T,rhs[ii].astype(np.float32),lower=True))\n return out.astype(np.float64)\nrng=np.random.default_rng(20261006);cases=[('random-'+str(i),rng.normal(size=r.N)) for i in range(24)]\nfor arm in ['cold','capped']:cases.append((arm,np.load(p.parent/'rain-interior-global-budget'/(arm+'.npz'))['impulses'][r.remaining]))\nrecords=[]\nfor name,y in cases:\n rhs=-(m.g[r.free]+r.Hfr@y);want=r.recover(y);vref=m.M@m.J.T@want;x=want.copy();x[r.free]=qrsolve(rhs);res=float(max(abs(r.Hff@x[r.free]-rhs)/(1+abs(rhs))));v=m.M@m.J.T@x;verr=float(max(abs(v-vref)/(1+abs(vref))));records.append(dict(case=name,free_residual=res,velocity_difference=verr,pass_screen=res<=1e-5 and verr<=1e-5))\nresult=dict(status='qr-screen-pass' if all(v['pass_screen'] for v in records) else 'qr-screen-failed',assembly_error=assembly,cases=len(records),failed=sum(not v['pass_screen'] for v in records),max_free_residual=max(v['free_residual'] for v in records),max_velocity_difference=max(v['velocity_difference'] for v in records),records=records,scope='Float32 QR and triangular solves; original float64 RHS formation and original float64 velocity reconstruction. Not a complete float32 solver.')\n(p/'result.json').write_text(json.dumps(result,indent=2));print(json.dumps(result,indent=2))\n"
+  },
+  "results": {
+    "result.json": {
+      "status": "qr-screen-failed",
+      "assembly_error": 7.73070496506989e-12,
+      "cases": 26,
+      "failed": 6,
+      "max_free_residual": 1.6234956719869408e-05,
+      "max_velocity_difference": 3.885062190433712e-05,
+      "records": [
+        {
+          "case": "random-0",
+          "free_residual": 1.5692798956037701e-06,
+          "velocity_difference": 3.130659613490445e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-1",
+          "free_residual": 3.094443508228331e-06,
+          "velocity_difference": 5.4612475734564965e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-2",
+          "free_residual": 2.583499378484755e-06,
+          "velocity_difference": 5.572107969909212e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-3",
+          "free_residual": 4.610828203470852e-06,
+          "velocity_difference": 1.040696969064936e-05,
+          "pass_screen": false
+        },
+        {
+          "case": "random-4",
+          "free_residual": 2.2816826892466648e-06,
+          "velocity_difference": 7.876481983366112e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-5",
+          "free_residual": 1.755298853048733e-06,
+          "velocity_difference": 3.918970596605095e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-6",
+          "free_residual": 1.3027922482269956e-06,
+          "velocity_difference": 2.530837372342485e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-7",
+          "free_residual": 1.2355486990058829e-06,
+          "velocity_difference": 1.712764377037181e-05,
+          "pass_screen": false
+        },
+        {
+          "case": "random-8",
+          "free_residual": 1.6234956719869408e-05,
+          "velocity_difference": 6.188405996461863e-06,
+          "pass_screen": false
+        },
+        {
+          "case": "random-9",
+          "free_residual": 1.027569792881902e-06,
+          "velocity_difference": 3.7455758604181457e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-10",
+          "free_residual": 6.245984141641902e-07,
+          "velocity_difference": 6.257314797996523e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-11",
+          "free_residual": 1.7471693451091612e-06,
+          "velocity_difference": 4.948325545790153e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-12",
+          "free_residual": 6.131231025798347e-06,
+          "velocity_difference": 4.729369823795549e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-13",
+          "free_residual": 3.6270970503488963e-06,
+          "velocity_difference": 1.1128604604167576e-05,
+          "pass_screen": false
+        },
+        {
+          "case": "random-14",
+          "free_residual": 2.334576044149529e-06,
+          "velocity_difference": 1.4512208495956644e-05,
+          "pass_screen": false
+        },
+        {
+          "case": "random-15",
+          "free_residual": 4.282760998220725e-06,
+          "velocity_difference": 2.6661954406871897e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-16",
+          "free_residual": 6.6489321242232136e-06,
+          "velocity_difference": 3.0935266919186666e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-17",
+          "free_residual": 8.659171130766352e-07,
+          "velocity_difference": 6.04147410169767e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-18",
+          "free_residual": 2.139220404572068e-06,
+          "velocity_difference": 2.6035046258357897e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-19",
+          "free_residual": 2.942458774714646e-06,
+          "velocity_difference": 5.872267760877224e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-20",
+          "free_residual": 1.4362897467654908e-06,
+          "velocity_difference": 2.7298789756746947e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-21",
+          "free_residual": 1.6473823536242854e-06,
+          "velocity_difference": 3.885062190433712e-05,
+          "pass_screen": false
+        },
+        {
+          "case": "random-22",
+          "free_residual": 1.3865713720591167e-06,
+          "velocity_difference": 7.588067669338742e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "random-23",
+          "free_residual": 1.5297520328983346e-06,
+          "velocity_difference": 1.7152562135915515e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "cold",
+          "free_residual": 4.837435654713359e-07,
+          "velocity_difference": 1.7567371625730334e-06,
+          "pass_screen": true
+        },
+        {
+          "case": "capped",
+          "free_residual": 4.840266346186105e-07,
+          "velocity_difference": 1.7567322405649978e-06,
+          "pass_screen": true
+        }
+      ],
+      "scope": "Float32 QR and triangular solves; original float64 RHS formation and original float64 velocity reconstruction. Not a complete float32 solver."
+    }
+  },
+  "driver_exit": 0
+}
