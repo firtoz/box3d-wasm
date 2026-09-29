@@ -130,7 +130,7 @@ same scene settings, recording exact hardware and frame-time distributions.
    remain. These results do not establish general GPU parity.
 2. **Next: non-recording native APIs.** Shape replacement, joint separation and reaction
    queries and substep force/torque integration are implemented with the precision
-   limits below. Next implement warm-start and speculative-contact controls, then
+   limits below. Warm-start controls are implemented; next implement speculative-contact controls, then
    world diagnostics and review the remaining worker-count/static-tree API semantics.
    Review CPU-only comparison wrappers alongside each API. Each completed API needs a sample or focused fixture
    exercising independent CPU and GPU behavior, including mutation and lifetime
@@ -152,10 +152,32 @@ Laptop GPU and Radeon 780M. Other platforms/devices still need implementation
 where incomplete and build/runtime verification. The CPU/GPU crossover depends on body count and renderer; the experiment README
 records measured ranges rather than a general claim that one engine is faster.
 
+Warm-start controls default to enabled, matching Box3D. Disabling them clears
+active contact and joint impulses once during step preparation, after island
+wake propagation. Substeps still reuse impulses accumulated within the current
+step; sleeping islands retain their caches until they wake. Re-enabling uses the
+latest solved cache. The combined viewer forwards the checkbox to both worlds
+and reads the GPU setting. Destroying another comparison world preserves the
+surviving world's mappings and controls.
+
+Run `scripts/check-warm-start.sh` from `experiments/gpu-physics` for public API,
+world independence/recreation, and tiny contact/spherical-joint CPU comparisons
+at one and four substeps. Set `GPU_PHYSICS_SAMPLES_NATIVE_CACHE=1` for the cached
+backend. The focused Rust test `warm_start_control_prepares_contact_chains_and_joint_caches`
+checks all contact impulse channels, manifold children, all eight joint types,
+repeated transitions and sleeping caches. The ordinary and cached paths pass these checks. Five paired ordinary-backend
+runs measured mean default-enabled changes from -1.9% to +1.6% across the four
+fixtures, without demonstrating a speedup. The
+[verification receipt](../experiments/gpu-physics/benchmarks/2026-09-29-warm-start-verification.json)
+and [timing receipt](../experiments/gpu-physics/benchmarks/2026-09-29-warm-start-timings.json)
+contain results; [the warm-start goal](goals/gpu-warm-start.md) records recovery context.
+A distance-joint prototype differs from CPU on its first step before toggling;
+that minimal discrepancy is recorded separately and was not investigated here.
+
 ## Missing features and known failures
 
-The portable-build audit on 2026-09-20 identifies **36 stub definitions and 10
-additional placeholders**; **36 concern recording/replay**. It also lists 13
+The portable-build audit on 2026-09-29 identifies **36 stub definitions and 8
+additional placeholders**; **36 concern recording/replay**. It also lists 11
 CPU-only comparison wrappers for semantic review, with no additional missing
 linked symbols in the selected build. Full native compatibility must not be inferred from scene checks.
 
@@ -163,7 +185,7 @@ linked symbols in the selected build. Full native compatibility must not be infe
 |---|---|
 | Joint query limits | Wheel angular separation is unimplemented upstream; its release fallback is zero. Reaction precision limits are described below. |
 | Falling-cube GPU capacity | The archived sweep hit the old 65,536 spatial-insertion limit at 20,000 cubes. Insertion buffers now scale with reserved shape capacity; the static-contact sort also no longer packs body/index into 16-bit halves. Pair/contact buffers and their prefix scans now scale with reserved body capacity. Pair/history storage and callbacks/events now use full-width endpoints; canonical cell ownership removes online packed-key deduplication. High-index collision, event, remap, and reuse regressions pass. Native sample C metadata now uses per-world growable chunks and passes high-index ownership/callback regressions; Sokol debug/opaque renderer reservations now follow benchmark size, and both engines must upload every cube and the floor. The sample fixes a saved draw-distance culling issue. Updated full-scene app measurements replace the earlier unvalidated Sokol curve. Collision-heavy physics and direct rendering are qualified through 200,000 cubes across three 330-step trials each; Sokol stops below 10 FPS at 150,000. The former tiled-dispatch boundary is resolved. The 200,000-cube physics buffers occupy 3.42 GiB, excluding renderer/driver resources; this is not a measured memory ceiling. |
-| World controls | Warm-start and speculative-contact toggles do not control GPU behavior. Worker-count APIs are placeholders rather than GPU scheduling controls. |
+| World controls | The speculative-contact toggle does not control GPU behavior. Warm-start switching now controls contact and joint caches per world. Worker-count APIs are placeholders rather than GPU scheduling controls. |
 | World diagnostics | Profile/max-capacity APIs return placeholders; memory/bounds dump and static-tree rebuild helpers are incomplete. Public `contactCount` is not implemented by the GPU world counter. |
 | Recording/replay | Native recording creation, storage, file I/O, playback, seeking and query-history APIs are placeholders. Diagnostic state replay is not an implementation of these APIs. |
 | Combined viewer coverage | Some generated wrappers call only CPU APIs. Audit each remaining wrapper before claiming that controls or diagnostics affect/report both worlds. |
@@ -2596,8 +2618,7 @@ Before merging:
   Junkyard checks to use native object counts and all remaining bridge pools.
   Full TypeScript checking and a two-restart Junkyard smoke now pass.
 - Review public C placeholders and generated CPU-only wrappers. Unsupported
-  controls must not be presented as functioning GPU features. GPU warm-start
-  and recording controls are now unavailable; the combined worker slider is
+  controls must not be presented as functioning GPU features. GPU recording controls remain unavailable; the warm-start checkbox now reaches both engines; the combined worker slider is
   explicitly CPU-only. Sample-specific controls still need a compatibility audit.
 - Publish a compact test summary with the PR. Raw captures are ignored local
   files; archive any evidence needed by reviewers outside the checkout.

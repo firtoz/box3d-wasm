@@ -522,17 +522,6 @@ B3_API bool b3World_IsSleepingEnabled(b3WorldId worldId)
 	return gpu_b3_world_is_sleeping_enabled(worldId);
 }
 
-B3_API void b3World_EnableWarmStarting(b3WorldId worldId, bool flag)
-{
-	(void)worldId;
-	(void)flag;
-}
-
-B3_API bool b3World_IsWarmStartingEnabled(b3WorldId worldId)
-{
-	(void)worldId;
-	return true;
-}
 
 
 

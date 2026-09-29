@@ -1,0 +1,447 @@
+{
+  "schema": "gpu-warm-start-timings-v1",
+  "baseline_commit": "6546eb8",
+  "device": "NVIDIA GeForce RTX 4070 SUPER Vulkan",
+  "protocol": {
+    "warmup_steps": 60,
+    "timed_steps": 180,
+    "paired_processes": 5,
+    "separate_prewarm_processes": 2,
+    "warm_starting": "default enabled",
+    "measurement": "completed b3World_Step plus public position read; force application excluded",
+    "order": "alternating baseline/candidate",
+    "linkage": "both ordinary release core C shim, identical metadata/oracle archives and link options"
+  },
+  "binaries": {
+    "baseline": {
+      "path": "artifacts/warm-start/baseline/fixture",
+      "sha256": "9233ce7f73157d0263b5c849cc0716dc8430e93bbfaaea8a82a203211f35f159"
+    },
+    "candidate": {
+      "path": "artifacts/warm-start/candidate/fixture",
+      "sha256": "fc5e2875dc97bc5e60f1efe600c50a642c6dbad02f7a7758900385edd9e35453"
+    }
+  },
+  "runs": [
+    {
+      "repeat": 0,
+      "arm": "baseline",
+      "prewarm": true,
+      "rows": [
+        {
+          "scene": "sphere-ground",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.092300172,
+          "timing_only": true
+        },
+        {
+          "scene": "sphere-ground",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.339719756,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.294614828,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.883612944,
+          "timing_only": true
+        }
+      ]
+    },
+    {
+      "repeat": 0,
+      "arm": "candidate",
+      "prewarm": true,
+      "rows": [
+        {
+          "scene": "sphere-ground",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.073902061,
+          "timing_only": true
+        },
+        {
+          "scene": "sphere-ground",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.278413228,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.276802106,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.815343194,
+          "timing_only": true
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "arm": "candidate",
+      "prewarm": false,
+      "rows": [
+        {
+          "scene": "sphere-ground",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.097258467,
+          "timing_only": true
+        },
+        {
+          "scene": "sphere-ground",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.256208633,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.24509975,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.799236956,
+          "timing_only": true
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "arm": "baseline",
+      "prewarm": false,
+      "rows": [
+        {
+          "scene": "sphere-ground",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.105297889,
+          "timing_only": true
+        },
+        {
+          "scene": "sphere-ground",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.2606121,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.163556978,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.819541444,
+          "timing_only": true
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "arm": "baseline",
+      "prewarm": false,
+      "rows": [
+        {
+          "scene": "sphere-ground",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.185415722,
+          "timing_only": true
+        },
+        {
+          "scene": "sphere-ground",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.287495444,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.28897495,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.829516211,
+          "timing_only": true
+        }
+      ]
+    },
+    {
+      "repeat": 2,
+      "arm": "candidate",
+      "prewarm": false,
+      "rows": [
+        {
+          "scene": "sphere-ground",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.110477328,
+          "timing_only": true
+        },
+        {
+          "scene": "sphere-ground",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.334567639,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.25252705,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.837584,
+          "timing_only": true
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "arm": "candidate",
+      "prewarm": false,
+      "rows": [
+        {
+          "scene": "sphere-ground",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.038057672,
+          "timing_only": true
+        },
+        {
+          "scene": "sphere-ground",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.286351372,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.262652694,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.822792739,
+          "timing_only": true
+        }
+      ]
+    },
+    {
+      "repeat": 3,
+      "arm": "baseline",
+      "prewarm": false,
+      "rows": [
+        {
+          "scene": "sphere-ground",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.113086739,
+          "timing_only": true
+        },
+        {
+          "scene": "sphere-ground",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.30190055,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.261177328,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.829278022,
+          "timing_only": true
+        }
+      ]
+    },
+    {
+      "repeat": 4,
+      "arm": "baseline",
+      "prewarm": false,
+      "rows": [
+        {
+          "scene": "sphere-ground",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.106319617,
+          "timing_only": true
+        },
+        {
+          "scene": "sphere-ground",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.320053889,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.267765061,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.837754772,
+          "timing_only": true
+        }
+      ]
+    },
+    {
+      "repeat": 4,
+      "arm": "candidate",
+      "prewarm": false,
+      "rows": [
+        {
+          "scene": "sphere-ground",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.130812628,
+          "timing_only": true
+        },
+        {
+          "scene": "sphere-ground",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.324884567,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.294638456,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.841582867,
+          "timing_only": true
+        }
+      ]
+    },
+    {
+      "repeat": 5,
+      "arm": "candidate",
+      "prewarm": false,
+      "rows": [
+        {
+          "scene": "sphere-ground",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.147525911,
+          "timing_only": true
+        },
+        {
+          "scene": "sphere-ground",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.314791822,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.3018029,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.834266228,
+          "timing_only": true
+        }
+      ]
+    },
+    {
+      "repeat": 5,
+      "arm": "baseline",
+      "prewarm": false,
+      "rows": [
+        {
+          "scene": "sphere-ground",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.120438789,
+          "timing_only": true
+        },
+        {
+          "scene": "sphere-ground",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.293804689,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 1,
+          "steps": 180,
+          "mean_ms": 1.277329667,
+          "timing_only": true
+        },
+        {
+          "scene": "spherical-joint",
+          "substeps": 4,
+          "steps": 180,
+          "mean_ms": 1.850243794,
+          "timing_only": true
+        }
+      ]
+    }
+  ]
+}

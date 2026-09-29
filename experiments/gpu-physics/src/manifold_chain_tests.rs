@@ -2631,3 +2631,70 @@ fn canonical_child_candidate_handles_empty_and_rejects_invalid_boundaries() {
             sim.contact_status_dirty=true;sim.finish_contact_status();assert!(sim.physics_invalid(),"missing terminal failure for {case}");}
     }
 }
+
+#[test]
+fn warm_start_control_prepares_contact_chains_and_joint_caches() {
+    use crate::types::*;
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    for sleeping in [false, true] {
+        let mut sim = make_sim_with_joint_capacity(&gpu, 0, 2, 8);
+        let kinds = [JOINT_REVOLUTE, JOINT_SPHERICAL, JOINT_WELD, JOINT_WHEEL,
+            JOINT_PRISMATIC, JOINT_DISTANCE, JOINT_PARALLEL, JOINT_MOTOR];
+        let mut joints = Vec::new();
+        for kind in kinds {
+            let mut j = JointGpu::zeroed();
+            j.a = 0; j.b = 1; j.kind = kind;
+            j.impulse = 1.0; j.perp_impulse = [2.0; 2]; j.angular_impulse = [3.0; 3];
+            j.spring_impulse = 4.0; j.motor_impulse = 5.0; j.lower_impulse = 6.0; j.upper_impulse = 7.0;
+            j.spring_angular_impulse = [8.0; 3]; j.swing_impulse = 9.0;
+            j.motor_angular_impulse = [10.0; 3]; j._pad2 = [11.0; 2];
+            j.weld_linear_impulse = [12.0; 3]; j.weld_angular_impulse = [13.0; 3];
+            joints.push(j);
+        }
+        let mut seeded = patches();
+        for c in &mut seeded {
+            c.count = 4;
+            for rb in &mut c.rb { rb[3] = 3.0; }
+            c.friction_impulse = [4.0; 2]; c.twist_impulse = 5.0; c.rolling_impulse = [6.0; 3];
+        }
+        if sleeping {
+            let mut bodies = pollster::block_on(sim.read_bodies());
+            bodies[1].flags |= FLAG_SLEEP;
+            sim.write_body_states(&bodies);
+        }
+        sim.params.joint_count = 8;
+        sim.queue.write_buffer(&sim.scratch, 3 * 4, bytemuck::bytes_of(&1u32));
+        sim.queue.write_buffer(&sim.scratch, u64::from(SCR_PAIRS + 3 * PAIR_CAP) * 4, bytemuck::bytes_of(&0u32));
+        // Repeated transitions also prove enabling leaves the most recent cache alone.
+        for enabled in [true, false, true, false] {
+            sim.write_joints(&joints);
+            sim.queue.write_buffer(&sim.contacts, 0, bytemuck::cast_slice(&seeded));
+            sim.set_warm_starting_enabled(enabled);
+            sim.flush_params();
+            let mut enc = sim.device.create_command_encoder(&Default::default());
+            sim.dispatch_n(&mut enc, &sim.prepare_contacts, 1, 0, 1);
+            sim.dispatch_n(&mut enc, &sim.prepare_joints, 1, 0, 1);
+            sim.queue.submit(Some(enc.finish()));
+            let contacts = pollster::block_on(sim.read_contacts());
+            let actual_joints = pollster::block_on(sim.read_joints());
+            let keep = enabled || sleeping;
+            for c in &contacts[..2] {
+                for rb in [c.rb0, c.rb1, c.rb2, c.rb3] { assert_eq!(rb[3], if keep {3.0} else {0.0}); }
+                assert_eq!(c.friction_impulse, [if keep {4.0} else {0.0}; 2]);
+                assert_eq!(c.twist_impulse, if keep {5.0} else {0.0});
+                assert_eq!(c.rolling_impulse, [if keep {6.0} else {0.0}; 3]);
+            }
+            for (before, actual) in joints.iter().zip(&actual_joints) {
+                let mut expected = *before;
+                if !keep {
+                    expected.impulse=0.0;expected.perp_impulse=[0.0;2];expected.angular_impulse=[0.0;3];
+                    expected.spring_impulse=0.0;expected.motor_impulse=0.0;expected.lower_impulse=0.0;expected.upper_impulse=0.0;
+                    expected.spring_angular_impulse=[0.0;3];expected.swing_impulse=0.0;
+                    expected.motor_angular_impulse=[0.0;3];expected._pad2=[0.0;2];
+                    if expected.kind != JOINT_REVOLUTE {expected.weld_linear_impulse=[0.0;3];expected.weld_angular_impulse=[0.0;3];}
+                }
+                assert_eq!(bytemuck::bytes_of(actual), bytemuck::bytes_of(&expected), "joint {}, enabled={enabled}, sleeping={sleeping}", before.kind);
+            }
+        }
+    }
+}

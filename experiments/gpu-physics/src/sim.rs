@@ -787,6 +787,7 @@ pub struct GpuSim {
     graph_assign_shared: std::sync::OnceLock<ComputePipeline>,
     color_and_compact: ComputePipeline,
     prepare_contacts: ComputePipeline,
+    prepare_joints: ComputePipeline,
     #[allow(dead_code)]
     warm_start: ComputePipeline,
     #[allow(dead_code)]
@@ -1710,6 +1711,7 @@ impl GpuSim {
             ),
             color_and_compact: island_compute("color_and_compact"),
             prepare_contacts: make_compute(&device, &pipeline_layout, &shader, "prepare_contacts"),
+            prepare_joints: make_compute(&device, &pipeline_layout, &shader, "prepare_joints"),
             warm_start: make_compute(&device, &pipeline_layout, &shader, "warm_start"),
             solve_contacts: make_compute(&device, &pipeline_layout, &shader, "solve_contacts"),
             component_reset: make_compute(&device, &pipeline_layout, &shader, "component_reset"),
@@ -2232,37 +2234,43 @@ impl GpuSim {
     }
 
     fn dispatch_islands_and_prepare(&mut self, enc: &mut wgpu::CommandEncoder) {
-        if self.try_native_tail(enc,0) {return;}
-        let island_body_groups = self.island_groups(self.count);
-        self.dispatch_n(enc, &self.island_init.clone(), island_body_groups, 0, 1);
-        self.dispatch_n_indirect(
-            enc,
-            &self.island_union_edges.clone(),
-            Self::indirect_island_offset(),
-            0,
-            1,
-        );
-        self.dispatch_n(
-            enc,
-            &self.island_accumulate_wake.clone(),
-            island_body_groups,
-            0,
-            1,
-        );
-        self.dispatch_n(
-            enc,
-            &self.island_apply_wake.clone(),
-            island_body_groups,
-            0,
-            1,
-        );
-        self.dispatch_n_indirect(
-            enc,
-            &self.prepare_contacts.clone(),
-            Self::indirect_prepare_offset(),
-            0,
-            1,
-        );
+        if !self.try_native_tail(enc,0) {
+            let island_body_groups = self.island_groups(self.count);
+            self.dispatch_n(enc, &self.island_init.clone(), island_body_groups, 0, 1);
+            self.dispatch_n_indirect(
+                enc,
+                &self.island_union_edges.clone(),
+                Self::indirect_island_offset(),
+                0,
+                1,
+            );
+            self.dispatch_n(
+                enc,
+                &self.island_accumulate_wake.clone(),
+                island_body_groups,
+                0,
+                1,
+            );
+            self.dispatch_n(
+                enc,
+                &self.island_apply_wake.clone(),
+                island_body_groups,
+                0,
+                1,
+            );
+            self.dispatch_n_indirect(
+                enc,
+                &self.prepare_contacts.clone(),
+                Self::indirect_prepare_offset(),
+                0,
+                1,
+            );
+        }
+        // Upstream clears joint caches once per world step, after wake propagation.
+        // Keep the default-enabled command stream unchanged.
+        if self.params.disable_warm_starting != 0 && self.params.joint_count != 0 {
+            self.dispatch_n(enc, &self.prepare_joints.clone(), self.params.joint_count.div_ceil(64), 0, 1);
+        }
     }
 
     fn upload_pass_lut(&self) {
@@ -4482,6 +4490,10 @@ impl GpuSim {
         self.params.enable_continuous = u32::from(enabled);
     }
 
+    pub fn set_warm_starting_enabled(&mut self, enabled: bool) {
+        self.params.disable_warm_starting = u32::from(!enabled);
+    }
+
     pub fn set_sleep_enabled(&mut self, enabled: bool) {
         self.params.enable_sleep =
             u32::from(enabled && self.params.diagnostic_flags & DIAG_DISABLE_SLEEP == 0);
@@ -4862,6 +4874,7 @@ impl GpuSim {
         parameters.insert("order_base".into(),json!(self.params.order_base));
         parameters.insert("order_node_capacity".into(),json!(self.params.order_node_capacity));
         parameters.insert("order_enabled".into(),json!(self.params.order_enabled));
+        parameters.insert("disable_warm_starting".into(),json!(self.params.disable_warm_starting));
         let geometry=self.fat_geometry.iter().map(|g|Ok(json!({"source":g.source,"body":g.body,"body_type":g.body_type,
             "kind":g.kind,"proxy_flags":g.proxy_flags,"center":vec3(g.center)?,"half":vec3(g.half)?,
             "axis":vec3(g.axis)?,"inner_radius":float(g.inner_radius)?}))).collect::<Result<Vec<_>,String>>()?;
@@ -4872,9 +4885,8 @@ impl GpuSim {
             let replay=if let Some((_,group,key,_,_,_))=&self.physics_replay {
                 let size=std::mem::size_of::<SimParams>();
                 if key.len()!=size+14 {return Err("unexpected physics replay key length".into());}
-                // Raw cache-key bytes are consumed by equality, but the final
-                // SimParams padding word has no solver meaning and is omitted.
-                json!({"parameters":&key[..size-4],"schedule":&key[size..],"current_bind_group":group==&self.bind_group})
+                // Every SimParams word now has meaning, including warm-start control.
+                json!({"parameters":&key[..size],"schedule":&key[size..],"current_bind_group":group==&self.bind_group})
             } else {Value::Null};
             json!({"radix":cache(&self.radix_cache),"contact":cache(&self.contact_cache),"graph":cache(&self.graph_cache),
                 "tail":self.tail_cache.iter().map(cache).collect::<Vec<_>>(),"replay":replay,"tail_enabled":self.native_tail_enabled})

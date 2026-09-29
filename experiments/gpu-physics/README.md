@@ -107,8 +107,9 @@ same ray, but each world uses its own hit, depth, anchor and motor joint. A miss
 can leave one side ungrabbed. The other pane shows a matching cursor. Release,
 focus loss and scene changes end the gesture.
 
-Poses and simulation state stay independent. Warm starting is fixed on for GPU
-worlds, so its toggle is replaced by a label.
+Poses and simulation state stay independent. The warm-start checkbox controls
+both worlds; it defaults to enabled. Disabling clears active contact and joint
+caches at step preparation while preserving accumulation within substeps.
 Recording is unavailable in GPU/combined mode. The combined worker slider is
 labelled CPU-only; GPU-only mode reports automatic scheduling.
 

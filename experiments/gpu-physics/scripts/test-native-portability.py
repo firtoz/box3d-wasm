@@ -71,7 +71,7 @@ B3_API const char* retained(void) { return "ok"; }
     def test_gpu_controls_fail_closed_when_upstream_changes(self):
         source = (Path(__file__).resolve().parents[3] / 'box3d/samples/sample.cpp').read_text()
         patched = inject.inject_gpu_limitations(source)
-        self.assertNotIn('ImGui::Checkbox( "Warm Starting##Solver"', patched)
+        self.assertIn('ImGui::Checkbox( "Warm Starting##Solver"', patched)
         self.assertIn('CPU Workers##Solver', patched)
         self.assertIn('if ( false && context->sample->HasSolverControls()', patched)
         with self.assertRaises(SystemExit):

@@ -3220,3 +3220,16 @@ B3_API b3Vec3 b3Joint_GetConstraintForce(b3JointId id) { b3Vec3 v; gpu_b3_joint_
 
 extern void gpu_b3_joint_get_constraint_torque(b3JointId, float*);
 B3_API b3Vec3 b3Joint_GetConstraintTorque(b3JointId id) { b3Vec3 v; gpu_b3_joint_get_constraint_torque(id, &v.x); return v; }
+
+extern void gpu_b3_world_enable_warm_starting(b3WorldId id, bool enable);
+extern bool gpu_b3_world_is_warm_starting_enabled(b3WorldId id);
+#ifndef BOTH_SAMPLES
+B3_API void b3World_EnableWarmStarting(b3WorldId id, bool enable)
+{
+    gpu_b3_world_enable_warm_starting(id, enable);
+}
+B3_API bool b3World_IsWarmStartingEnabled(b3WorldId id)
+{
+    return gpu_b3_world_is_warm_starting_enabled(id);
+}
+#endif

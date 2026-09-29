@@ -5,6 +5,8 @@
 #include <cstring>
 #include <cstdio>
 #ifdef GPU_API_DUAL
+extern "C" bool cpu_b3World_IsWarmStartingEnabled(b3WorldId);
+extern "C" void gpu_b3_world_enable_warm_starting(b3WorldId, bool);
 extern "C" void SetSelectedBody(b3BodyId) {}
 extern "C" void SetComparisonSelectedBody(b3BodyId) {}
 extern "C" void gpu_b3_distance_set_length(b3JointId, float);
@@ -23,6 +25,36 @@ int main() {
     wd.gravity = {0,0,0}; wd.userData = (void*)0x1234;
     wd.contactHertz=12; wd.contactDampingRatio=0.75f; wd.contactSpeed=2;
     auto w = b3CreateWorld(&wd);
+    auto other = b3CreateWorld(&wd);
+    assert(b3World_IsWarmStartingEnabled(w));
+    assert(b3World_IsWarmStartingEnabled(other));
+    b3World_EnableWarmStarting(w, false);
+    assert(!b3World_IsWarmStartingEnabled(w));
+    assert(b3World_IsWarmStartingEnabled(other));
+#ifdef GPU_API_DUAL
+    assert(!cpu_b3World_IsWarmStartingEnabled(both_cpu_world(w)));
+    assert(cpu_b3World_IsWarmStartingEnabled(both_cpu_world(other)));
+    // A deliberately divergent GPU setting proves the getter is not CPU-only.
+    gpu_b3_world_enable_warm_starting(w, true);
+    assert(b3World_IsWarmStartingEnabled(w));
+    assert(!cpu_b3World_IsWarmStartingEnabled(both_cpu_world(w)));
+#endif
+    b3World_EnableWarmStarting(w, true);
+    assert(b3World_IsWarmStartingEnabled(w));
+#ifdef GPU_API_DUAL
+    assert(cpu_b3World_IsWarmStartingEnabled(both_cpu_world(w)));
+#endif
+    b3World_EnableWarmStarting(other, false);
+    b3DestroyWorld(other);
+    other = b3CreateWorld(&wd);
+    assert(b3World_IsWarmStartingEnabled(other));
+    b3DestroyWorld(other);
+    b3World_EnableWarmStarting(w, false);
+    assert(!b3World_IsWarmStartingEnabled(w));
+#ifdef GPU_API_DUAL
+    assert(!cpu_b3World_IsWarmStartingEnabled(both_cpu_world(w)));
+#endif
+    b3World_EnableWarmStarting(w, true);
     assert(b3World_GetUserData(w)==wd.userData);
     b3World_SetUserData(w,(void*)0x5678);
     assert(b3World_GetUserData(w)==(void*)0x5678);

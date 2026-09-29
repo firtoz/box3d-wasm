@@ -1088,7 +1088,7 @@ pub struct SimParams {
     pub order_base: u32,
     pub order_node_capacity: u32,
     pub order_enabled: u32,
-    pub _pad_block: u32,
+    pub disable_warm_starting: u32,
 }
 
 impl SimParams {
@@ -1158,7 +1158,7 @@ impl SimParams {
             order_base: 0,
             order_node_capacity: 0,
             order_enabled: 0,
-            _pad_block: 0,
+            disable_warm_starting: 0,
         }
     }
 }

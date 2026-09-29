@@ -660,7 +660,7 @@ pub fn b3_world_write_core_state(id: WorldId, path: &std::path::Path, frame: u32
             cell_size, bias_rate, mass_scale, impulse_scale, contact_speed, sleep_threshold,
             solver_mode, enable_sleep, step_dt, contact_hertz, contact_damping, sub_step_count,
             physics_step, enable_continuous, contact_recycle_distance, maximum_linear_speed,
-            restitution_threshold, order_enabled);
+            restitution_threshold, order_enabled, disable_warm_starting);
         let host_contacts=host_contact_state(w,id.index1)?;
         json!({"schema":"gpu-core-state-v22", "frame":frame,"idle_state":idle_state,"graph_cache":graph_cache,
             "adapter":adapter,"convex_ccd":convex_ccd,"gpu_policy":gpu_policy,"host_state":host_state_trace::capture(w,id.index1)?,"host_events":host_events_trace::capture(w,id.index1)?,"host_contacts":host_contacts,"contact_hash":contact_hash,"event_history":event_history,"contact_end_state":contact_end_state(w),

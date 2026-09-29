@@ -695,6 +695,16 @@ pub extern "C" fn gpu_b3_world_set_pre_solve_callback(
 }
 
 #[no_mangle]
+pub extern "C" fn gpu_b3_world_enable_warm_starting(id: WorldId, enable: bool) {
+    crate::api::b3_world_enable_warm_starting(id, enable);
+}
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_world_is_warm_starting_enabled(id: WorldId) -> bool {
+    crate::api::b3_world_is_warm_starting_enabled(id)
+}
+
+#[no_mangle]
 pub extern "C" fn gpu_b3_world_enable_sleeping(id: WorldId, enable: bool) {
     b3_world_enable_sleeping(id, enable);
 }

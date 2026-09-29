@@ -48,7 +48,7 @@ pub(super) fn capture(w:&WorldInner, world0:u16) -> Result<Value,String> {
     } else {Value::Null};
     Ok(json!({"body_mirrors":mirrors,"snapshot_epoch":snapshot_epoch(w),"definition":definition,"step_start_bodies":starts,"cached_topology":topology,"scene_capabilities":capabilities,"query_index":query,
         "last_substep_h":w.last_substep_h.trace()?,"reaction_inv_h":w.reaction_inv_h.trace()?,"contact_recycle_distance":w.contact_recycle_distance.trace()?,
-        "enable_contacts":w.enable_contacts,"jacobi":w.jacobi,"pose_export_live":w.pose_export_live,"physics_invalid":w.physics_invalid,
+        "enable_contacts":w.enable_contacts,"enable_warm_starting":w.enable_warm_starting,"jacobi":w.jacobi,"pose_export_live":w.pose_export_live,"physics_invalid":w.physics_invalid,
         "gpu_failure":w.gpu_fail.as_ref().map(|s|s.to_string_lossy().into_owned()),"gpu_mirror_stale":w.gpu_mirror_stale,
         "diagnostic_flags_override":w.diagnostic_flags_override,"component_tgs_requested":w.component_tgs_requested,"gpu_ccd_requested":w.gpu_ccd_requested,
         "gpu_resident_requested":w.gpu_resident_requested,"automatic_pose_snapshots":w.automatic_pose_snapshots,"gpu_idle_requested":w.gpu_idle_requested,

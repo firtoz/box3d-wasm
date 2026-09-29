@@ -21,6 +21,7 @@ Project docs are split by audience and purpose. Prefer updating an existing doc 
 - [`OTHER_PROJECTS.md`](./OTHER_PROJECTS.md) - comparison with other Box3D WASM projects, including API style, sample coverage, threading, and WASM size.
 - [`washer-performance-plan.md`](./washer-performance-plan.md) - performance notes for high-body-count sample rendering.
 - [`gpu-physics.md`](./gpu-physics.md) - experimental GPU engine: support status, missing native APIs, architecture and merge requirements.
+- [`goals/gpu-warm-start.md`](./goals/gpu-warm-start.md) - bounded GPU warm-start controls goal and verification evidence.
 - [`gpu-solver-goal.md`](./gpu-solver-goal.md) - full active GPU solver goal, acceptance gates and compaction/restart scratchpad.
 - [`gpu-solver-qualification.md`](./gpu-solver-qualification.md) - GPU-order correctness, stability and same-device repeatability requirements, coverage matrix and outstanding evidence.
 

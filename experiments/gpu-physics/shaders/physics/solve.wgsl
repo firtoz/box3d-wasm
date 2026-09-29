@@ -268,6 +268,12 @@ fn prepare_contact_slot(k: u32) {
     }
     let a = load_body(c.a);
     let b = load_body(c.b);
+    if (params.disable_warm_starting != 0u && !(is_immovable(a) && is_immovable(b))) {
+        c.rb0.w = 0.0; c.rb1.w = 0.0; c.rb2.w = 0.0; c.rb3.w = 0.0;
+        c.friction_impulse = vec2<f32>(0.0);
+        c.twist_impulse = 0.0;
+        c.rolling_impulse = vec3<f32>(0.0);
+    }
     c.prepared_normal_mass = vec4<f32>(0.0);
     c.prepared_lever_arm = vec4<f32>(0.0);
     c.total_normal_impulse = vec4<f32>(0.0);
@@ -2829,4 +2835,32 @@ fn compact_joint_components(@builtin(local_invocation_index) lid: u32) {
         }
     }
     scratch[SCR_JOINT_LIST_OK] = 1u;
+}
+
+// Preparation happens once after island wake, never between solver substeps.
+@compute @workgroup_size(64)
+fn prepare_joints(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let i = linear_invocation_id(dispatch_gid, 64u);
+    if (i >= params.joint_count || params.disable_warm_starting == 0u) { return; }
+    var j = joints[i];
+    if (j.kind == JOINT_NONE || j.kind == JOINT_FILTER) { return; }
+    if (is_immovable(load_body(j.a)) && is_immovable(load_body(j.b))) { return; }
+    j.impulse = 0.0;
+    j.perp_impulse = vec2<f32>(0.0);
+    j.angular_impulse = vec3<f32>(0.0);
+    j.spring_impulse = 0.0;
+    j.motor_impulse = 0.0;
+    j.lower_impulse = 0.0;
+    j.upper_impulse = 0.0;
+    j.spring_angular_impulse = vec3<f32>(0.0);
+    j.swing_impulse = 0.0;
+    j.motor_angular_impulse = vec3<f32>(0.0);
+    // Motor joints pack angular spring impulses into these lanes.
+    j._pad2 = vec2<f32>(0.0);
+    // Revolute joints use these vectors as prepared axes, not impulses.
+    if (j.kind != JOINT_REVOLUTE) {
+        j.weld_linear_impulse = vec3<f32>(0.0);
+        j.weld_angular_impulse = vec3<f32>(0.0);
+    }
+    joints[i] = j;
 }

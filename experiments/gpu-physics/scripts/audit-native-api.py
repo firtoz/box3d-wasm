@@ -39,8 +39,7 @@ def main():
     placeholders = [
         'b3CreateRecording', 'b3DestroyRecording', 'b3World_StartRecording',
         'b3World_StopRecording', 'b3SaveRecordingToFile', 'b3World_GetProfile',
-        'b3World_GetMaxCapacity', 'b3World_EnableWarmStarting',
-        'b3World_IsWarmStartingEnabled', 'b3World_DumpMemoryStats',
+        'b3World_GetMaxCapacity', 'b3World_DumpMemoryStats',
     ]
     extra = sorted(n for n in placeholders if n in samples and n not in shim)
     generator_spec = importlib.util.spec_from_file_location("both_generator", ROOT / 'scripts/gen-both-cpu.py')

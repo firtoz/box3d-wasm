@@ -296,6 +296,7 @@ struct WorldInner {
     generation: u16,
     def: WorldDef,
     enable_contacts: bool,
+    enable_warm_starting: bool,
     custom_filter_callback: Option<CustomFilterCallback>,
     custom_filter_context: usize,
     pre_solve_callback: Option<PreSolveCallback>,
@@ -400,6 +401,7 @@ pub fn b3_create_world(gpu: GpuDevice, def: &WorldDef) -> WorldId {
         generation: 1,
         def: *def,
         enable_contacts: true,
+        enable_warm_starting: true,
         custom_filter_callback: None,
         custom_filter_context: 0,
         pre_solve_callback: None,
@@ -551,6 +553,19 @@ pub fn b3_world_set_pre_solve_callback(
         w.pre_solve_callback = callback;
         w.pre_solve_context = context as usize;
     });
+}
+
+pub fn b3_world_enable_warm_starting(id: WorldId, enable: bool) {
+    with_world_mut(id, |w| {
+        w.enable_warm_starting = enable;
+        if let Some(sim) = w.sim.as_mut() {
+            sim.set_warm_starting_enabled(enable);
+        }
+    });
+}
+
+pub fn b3_world_is_warm_starting_enabled(id: WorldId) -> bool {
+    with_world(id, |w| w.enable_warm_starting).unwrap_or(false)
 }
 
 pub fn b3_world_enable_sleeping(id: WorldId, enable: bool) {
@@ -5357,6 +5372,7 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
         sim.set_restitution_threshold(w.def.restitution_threshold);
         sim.set_solver_mode(w.jacobi);
         sim.set_sleep_enabled(w.def.enable_sleep);
+        sim.set_warm_starting_enabled(w.enable_warm_starting);
         sim.set_continuous_enabled(w.def.enable_continuous);
         sim.set_contact_recycle_distance(w.contact_recycle_distance);
         // Component-local substeps cannot independently advance a shared

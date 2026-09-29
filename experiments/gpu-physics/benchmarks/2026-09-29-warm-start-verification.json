@@ -1,0 +1,875 @@
+{
+  "schema": "gpu-warm-start-verification-v1",
+  "base_commit": "6546eb8",
+  "device": "NVIDIA GeForce RTX 4070 SUPER / Vulkan",
+  "semantics": "Per-world true default. Clear active cached impulses once after wake before substeps; sleeping caches retained; enabled uses latest solved cache.",
+  "checks": {
+    "current": {
+      "fixture_results": {
+        "gpu": [
+          {
+            "scene": "sphere-ground",
+            "substeps": 1,
+            "steps": 180,
+            "mean_ms": 1.076920228,
+            "timing_only": false
+          },
+          {
+            "scene": "sphere-ground",
+            "substeps": 4,
+            "steps": 180,
+            "mean_ms": 1.350484439,
+            "timing_only": false
+          },
+          {
+            "scene": "spherical-joint",
+            "substeps": 1,
+            "steps": 180,
+            "mean_ms": 1.331847967,
+            "timing_only": false
+          },
+          {
+            "scene": "spherical-joint",
+            "substeps": 4,
+            "steps": 180,
+            "mean_ms": 1.831671728,
+            "timing_only": false
+          }
+        ],
+        "both": [
+          {
+            "scene": "sphere-ground",
+            "substeps": 1,
+            "steps": 180,
+            "mean_ms": 1.135108617,
+            "timing_only": false
+          },
+          {
+            "scene": "sphere-ground",
+            "substeps": 4,
+            "steps": 180,
+            "mean_ms": 1.2805453,
+            "timing_only": false
+          },
+          {
+            "scene": "spherical-joint",
+            "substeps": 1,
+            "steps": 180,
+            "mean_ms": 1.324834217,
+            "timing_only": false
+          },
+          {
+            "scene": "spherical-joint",
+            "substeps": 4,
+            "steps": 180,
+            "mean_ms": 1.842919144,
+            "timing_only": false
+          }
+        ]
+      },
+      "audit": {
+        "status": "incomplete",
+        "build_artifacts_verified": true,
+        "missing_build_inputs": [],
+        "gpu_build_dir": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu-portable",
+        "both_build_dir": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-portable",
+        "libraries": [
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/libgpu_physics.a",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu-portable/libgpu_samples_api.a"
+        ],
+        "required_stateful_header_symbols": 415,
+        "additional_missing_stateful_symbols": [],
+        "remaining_stub_definitions": [
+          "b3CreatePlayer",
+          "b3DestroyPlayer",
+          "b3LoadRecordingFromFile",
+          "b3RecPlayer_DrawFrameQueries",
+          "b3RecPlayer_GetBodyCount",
+          "b3RecPlayer_GetBodyId",
+          "b3RecPlayer_GetDivergeFrame",
+          "b3RecPlayer_GetFrame",
+          "b3RecPlayer_GetFrameCount",
+          "b3RecPlayer_GetFrameQuery",
+          "b3RecPlayer_GetFrameQueryCount",
+          "b3RecPlayer_GetFrameQueryHit",
+          "b3RecPlayer_GetInfo",
+          "b3RecPlayer_GetKeyframeBudget",
+          "b3RecPlayer_GetKeyframeBytes",
+          "b3RecPlayer_GetKeyframeInterval",
+          "b3RecPlayer_GetKeyframeMinInterval",
+          "b3RecPlayer_GetWorldId",
+          "b3RecPlayer_HasDiverged",
+          "b3RecPlayer_IsAtEnd",
+          "b3RecPlayer_IsAtPreStep",
+          "b3RecPlayer_Restart",
+          "b3RecPlayer_SeekFrame",
+          "b3RecPlayer_SetDebugShapeCallbacks",
+          "b3RecPlayer_SetKeyframePolicy",
+          "b3RecPlayer_SetWorkerCount",
+          "b3RecPlayer_StepFrame",
+          "b3RecPlayer_SubStepFrame",
+          "b3Recording_GetData",
+          "b3Recording_GetSize",
+          "b3ValidateReplay",
+          "b3World_DumpShapeBounds",
+          "b3World_EnableSpeculative",
+          "b3World_GetWorkerCount",
+          "b3World_RebuildStaticTree",
+          "b3World_SetWorkerCount"
+        ],
+        "additional_known_placeholders": [
+          "b3CreateRecording",
+          "b3DestroyRecording",
+          "b3SaveRecordingToFile",
+          "b3World_DumpMemoryStats",
+          "b3World_GetMaxCapacity",
+          "b3World_GetProfile",
+          "b3World_StartRecording",
+          "b3World_StopRecording"
+        ],
+        "duplicate_stub_definitions": [],
+        "cpu_only_comparison_passthrough": [
+          "b3Shape_GetType",
+          "b3World_DumpMemoryStats",
+          "b3World_EnableSpeculative",
+          "b3World_GetCounters",
+          "b3World_GetMaxCapacity",
+          "b3World_GetProfile",
+          "b3World_GetWorkerCount",
+          "b3World_RebuildStaticTree",
+          "b3World_SetWorkerCount",
+          "b3World_StartRecording",
+          "b3World_StopRecording"
+        ],
+        "note": "Source inventory. CPU-only passthrough requires review; linked symbols and semantic behavior need separate tests."
+      }
+    },
+    "native": {
+      "fixture_results": {
+        "gpu": [
+          {
+            "scene": "sphere-ground",
+            "substeps": 1,
+            "steps": 180,
+            "mean_ms": 0.766620106,
+            "timing_only": false
+          },
+          {
+            "scene": "sphere-ground",
+            "substeps": 4,
+            "steps": 180,
+            "mean_ms": 0.432580617,
+            "timing_only": false
+          },
+          {
+            "scene": "spherical-joint",
+            "substeps": 1,
+            "steps": 180,
+            "mean_ms": 0.700584178,
+            "timing_only": false
+          },
+          {
+            "scene": "spherical-joint",
+            "substeps": 4,
+            "steps": 180,
+            "mean_ms": 1.21762295,
+            "timing_only": false
+          }
+        ],
+        "both": [
+          {
+            "scene": "sphere-ground",
+            "substeps": 1,
+            "steps": 180,
+            "mean_ms": 0.35992305,
+            "timing_only": false
+          },
+          {
+            "scene": "sphere-ground",
+            "substeps": 4,
+            "steps": 180,
+            "mean_ms": 0.379255994,
+            "timing_only": false
+          },
+          {
+            "scene": "spherical-joint",
+            "substeps": 1,
+            "steps": 180,
+            "mean_ms": 0.745869594,
+            "timing_only": false
+          },
+          {
+            "scene": "spherical-joint",
+            "substeps": 4,
+            "steps": 180,
+            "mean_ms": 1.329827744,
+            "timing_only": false
+          }
+        ]
+      },
+      "audit": {
+        "status": "incomplete",
+        "build_artifacts_verified": true,
+        "missing_build_inputs": [],
+        "gpu_build_dir": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu-native-cache-portable",
+        "both_build_dir": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable",
+        "libraries": [
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/libgpu_physics.a",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu-native-cache-portable/libgpu_samples_api.a"
+        ],
+        "required_stateful_header_symbols": 415,
+        "additional_missing_stateful_symbols": [],
+        "remaining_stub_definitions": [
+          "b3CreatePlayer",
+          "b3DestroyPlayer",
+          "b3LoadRecordingFromFile",
+          "b3RecPlayer_DrawFrameQueries",
+          "b3RecPlayer_GetBodyCount",
+          "b3RecPlayer_GetBodyId",
+          "b3RecPlayer_GetDivergeFrame",
+          "b3RecPlayer_GetFrame",
+          "b3RecPlayer_GetFrameCount",
+          "b3RecPlayer_GetFrameQuery",
+          "b3RecPlayer_GetFrameQueryCount",
+          "b3RecPlayer_GetFrameQueryHit",
+          "b3RecPlayer_GetInfo",
+          "b3RecPlayer_GetKeyframeBudget",
+          "b3RecPlayer_GetKeyframeBytes",
+          "b3RecPlayer_GetKeyframeInterval",
+          "b3RecPlayer_GetKeyframeMinInterval",
+          "b3RecPlayer_GetWorldId",
+          "b3RecPlayer_HasDiverged",
+          "b3RecPlayer_IsAtEnd",
+          "b3RecPlayer_IsAtPreStep",
+          "b3RecPlayer_Restart",
+          "b3RecPlayer_SeekFrame",
+          "b3RecPlayer_SetDebugShapeCallbacks",
+          "b3RecPlayer_SetKeyframePolicy",
+          "b3RecPlayer_SetWorkerCount",
+          "b3RecPlayer_StepFrame",
+          "b3RecPlayer_SubStepFrame",
+          "b3Recording_GetData",
+          "b3Recording_GetSize",
+          "b3ValidateReplay",
+          "b3World_DumpShapeBounds",
+          "b3World_EnableSpeculative",
+          "b3World_GetWorkerCount",
+          "b3World_RebuildStaticTree",
+          "b3World_SetWorkerCount"
+        ],
+        "additional_known_placeholders": [
+          "b3CreateRecording",
+          "b3DestroyRecording",
+          "b3SaveRecordingToFile",
+          "b3World_DumpMemoryStats",
+          "b3World_GetMaxCapacity",
+          "b3World_GetProfile",
+          "b3World_StartRecording",
+          "b3World_StopRecording"
+        ],
+        "duplicate_stub_definitions": [],
+        "cpu_only_comparison_passthrough": [
+          "b3Shape_GetType",
+          "b3World_DumpMemoryStats",
+          "b3World_EnableSpeculative",
+          "b3World_GetCounters",
+          "b3World_GetMaxCapacity",
+          "b3World_GetProfile",
+          "b3World_GetWorkerCount",
+          "b3World_RebuildStaticTree",
+          "b3World_SetWorkerCount",
+          "b3World_StartRecording",
+          "b3World_StopRecording"
+        ],
+        "note": "Source inventory. CPU-only passthrough requires review; linked symbols and semantic behavior need separate tests."
+      }
+    }
+  },
+  "direct_cache_test": {
+    "contact_channels": [
+      "normal (four points)",
+      "tangent (two axes)",
+      "twist",
+      "rolling (three axes)"
+    ],
+    "manifold_slots": 2,
+    "joint_types": [
+      "revolute",
+      "spherical",
+      "weld",
+      "wheel",
+      "prismatic",
+      "distance",
+      "parallel",
+      "motor"
+    ],
+    "transitions": [
+      true,
+      false,
+      true,
+      false
+    ],
+    "sleeping_cases": [
+      false,
+      true
+    ],
+    "ordinary": "passed",
+    "native_cached": "passed"
+  },
+  "regressions": {
+    "ordinary": 5,
+    "native_cached": 4,
+    "portability_ui": 6,
+    "replay_diagnostics_compile": "passed"
+  },
+  "public_step_checks": {
+    "scenes": [
+      "sphere-ground",
+      "spherical-joint"
+    ],
+    "steps_per_case": 240,
+    "substeps": [
+      1,
+      4
+    ],
+    "disable_at": [
+      20,
+      100
+    ],
+    "enable_at": [
+      60,
+      160
+    ],
+    "cpu_gpu_state_components": 13,
+    "absolute_tolerance": 1e-05,
+    "both_backends_passed": true
+  },
+  "timings": {
+    "receipt": "2026-09-29-warm-start-timings.json",
+    "sha256": "ddaee6b76f71153241270dcc32a274ed0b92c71623f17b1d136baa971845b379",
+    "summary": [
+      {
+        "scene": "sphere-ground",
+        "substeps": 1,
+        "baseline_ms": 1.1261117512,
+        "candidate_ms": 1.1048264012,
+        "change_percent": -1.8901632078093589
+      },
+      {
+        "scene": "sphere-ground",
+        "substeps": 4,
+        "baseline_ms": 1.2927733343999999,
+        "candidate_ms": 1.3033608066,
+        "change_percent": 0.818973590982508
+      },
+      {
+        "scene": "spherical-joint",
+        "substeps": 1,
+        "baseline_ms": 1.2517607968,
+        "candidate_ms": 1.27134417,
+        "change_percent": 1.5644660904913454
+      },
+      {
+        "scene": "spherical-joint",
+        "substeps": 4,
+        "baseline_ms": 1.8332668486,
+        "candidate_ms": 1.8270925580000001,
+        "change_percent": -0.3367917008216814
+      }
+    ],
+    "interpretation": "Small mixed changes; no demonstrated speedup. Means are across five paired processes.",
+    "superseded_batch": {
+      "path": "artifacts/warm-start/mixed-linkage-timings.json",
+      "sha256": "864bf3ec3239b1f00aaf8ececbcc196db4542762f988c6fc9ee9d6b5e9cd2e43",
+      "reason": "Initial baseline embedded the core C shim; candidate used portable external shim. Final batch uses identical wrapper/linkage configuration. Initial results retained, not pooled."
+    }
+  },
+  "snapshots": [
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/single-box.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "42a767459edcb1f37a993b7d3adfdd77cec7000a37ad1e7991473b4cd286870e"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "c0eb5465b612ad9829692095ab58f11a8ef81e2f1fce64020d19550a7c4bef59"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/sphere-stack.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "4a0563674f182a57ad7db8c858a6c42ad2c858a9fdcb8a0bc1953dea6cefd960"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/capsule-stack.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "efa651aecd78dd7aed0aae4b09f0210bd5df6ad946c8442595272ff4ba20a0ac"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/revolute.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "c09a48d88b2486a361765b30685d636260e74caa50813fb8b12bb4f6ac49fef7"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/weld.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "c09a48d88b2486a361765b30685d636260e74caa50813fb8b12bb4f6ac49fef7"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/stack.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "4fdd1163d13e3bdc65fc532a5161cb25a85e37eb60946ac6b27573280cc6a16d"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/pyramid.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "5adf0e14cc0e29c01a95b809ac01a0ab12a06d116317e493f135ff6c4e8972f6"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/bounce.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "d50ebbe01f4c2a2e06db87f9622d376f39d4043e1a89a378b5fd2198f425b9c8"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "2e38a346cbb31dd6ee9b151e6e6c564df4fc8f526694c5b8cfd167c9b3a68b33"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spinner.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "99375ebaa50c69ae602ec811c00764b304fd63d0170e967d6e7eb17e6b73b7c0"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/ramp.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "fddea06f748572dadfda344f6756721f96d72545dbee684a03aa92841b9174f2"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spheres.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "714cac92be6d9d3eac6aa9f4e35a751c67b5d1f6cd784679ce9459dd551b635a"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/dominoes.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "f1b4156129fa7bc3ab5ceebf2357d5a29ae06c1234950cbc16f3535681d0f129"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/high-resistance.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "39e0626df5e26d218e8cd67a7ba59a3db760d77a2eda0fc15f43d97d3fee8d9c"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed-stacks.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "5288870890330c010bb04309cd8382043956aeae5d4f4159543eebc6f54ed050"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/falling-cubes.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "7b62a3bc1fdfcdab25f56964cd079ff866aa4a4ae6a23df3fb6c43b9e1fb3d07"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/anchored-mechanisms.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "08ce855fae7dceb5e886d8217ef21421e707c98eda01823174c6c379dfa1a2c7"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/joint-chain.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "43f211f5f896ab999e1b6a76d78aaddd333861bb6e7bc99677e3b18a51428f3a"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/single-box.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "42a767459edcb1f37a993b7d3adfdd77cec7000a37ad1e7991473b4cd286870e"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/box-stack.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "6619c36643bd8e84287cdb283c05a689300b3b6a77b61e0b43886e8ad246d666"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/sphere-stack.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "e583e30b9029d4f160c9a6b631e087c91fefce995d6f565fe48f82b9485bbe5b"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/capsule-stack.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "9a5d10ec3bb3f561757290b40b0fbe99ab3c4ef0bc81b5e4618c93a06715e0b6"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/revolute.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "c09a48d88b2486a361765b30685d636260e74caa50813fb8b12bb4f6ac49fef7"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/weld.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "c09a48d88b2486a361765b30685d636260e74caa50813fb8b12bb4f6ac49fef7"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/stack.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "e1464f4f3688e597d44c1f8c404953d398ec7a78dd87d1dc45ef3be28cff09aa"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/pyramid.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "d39659ecdd6702d822c9a5936aa54fd5aca238257659a9eeb37f66fa8db295ce"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/bounce.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "7bf3c6ca007c64b72ee6e44e883319e17235e80b4a13ebf8fe78a816224589f0"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/mixed.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "5d567a314aec085ee382898c70f4a715ee4598028e31fec68e5c93d6d8f2a8a0"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/spinner.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "99375ebaa50c69ae602ec811c00764b304fd63d0170e967d6e7eb17e6b73b7c0"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/ramp.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "f5d4cc3007f0effdcd662091a8f861afa58d67230ef53886a78b80368226ced0"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/spheres.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "85af03d0992cc9ec18e409c42649fc5d967726dc61d99ffed45df88d5e3aca31"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/dominoes.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "072047da3098b6cc138f9e4a7d1c6a5c73b1340d1c925dbf6083798b73c8d23e"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/high-resistance.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "b5c03117e776bafd8e8b4c1cec4d38d4ee55c5c6752da080e4b8d374101ccf07"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/mixed-stacks.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "05986b793a9bc217875f6b3f3f06f5a08d0bd4c5eab5ce779008371aef164a7b"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/falling-cubes.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "17df7ceca6f7203447e95af40d9d5462384c6863b65370986a5c2d3b4284c0c2"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/anchored-mechanisms.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "08ce855fae7dceb5e886d8217ef21421e707c98eda01823174c6c379dfa1a2c7"
+    },
+    {
+      "path": "experiments/gpu-physics/recordings/snapshots/2026-09-29-warm-start/joint-chain.mp4",
+      "stream": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "30/1",
+        "duration": "6.000000",
+        "nb_frames": "180"
+      },
+      "sha256": "3d22a00883531b9ff0b9290ff66db739f40540a690fee166edfaddd1acf4858b"
+    }
+  ],
+  "snapshot_note": "19 scenes each CPU and GPU, 180 frames at 30 fps. Both midpoint sheets reviewed; comparison grid pins CPU first and reverses GPU snapshots to show latest next. Snapshot metrics are not the isolated performance measurement.",
+  "related_fix": "Destroying a comparison world now unmaps only that world; surviving-world control tests pass.",
+  "out_of_scope_finding": {
+    "scene": "distance-joint prototype fixture",
+    "step": 0,
+    "gpu_y": -1.00004232,
+    "cpu_y": -1.00028491,
+    "note": "Before any toggle or cached impulse; preserved minimal fixture and log, no distance solver changes. Scoped CPU comparison uses spherical joint instead. All eight joint cache channels still directly tested.",
+    "fixture_sha256": "ea130e39f909bf87f460565e69e0877822cfd1eb67ae0614c34a69f7f5d82ce7",
+    "log_sha256": "23815368d6a0a7cad79749b49d5ad091952d229876d832f3dcd696f1ba42a6d2"
+  },
+  "sources": {
+    "experiments/gpu-physics/c_abi/api_settings_test.cpp": "7136f0867e081c1863cb86f1021de1745ad787abd2b7591e71dc2bd6edf6ba40",
+    "experiments/gpu-physics/c_abi/both_dual.c": "c752eea86a3717f9a33c6170ea54404c67907db3d90b241e2174a99516f2eaf2",
+    "experiments/gpu-physics/c_abi/samples_api.c": "c092b112f4bc75e0fe7dfc48db00d1e82427d21624be01053d8242d702bddcc6",
+    "experiments/gpu-physics/c_abi/shim.c": "2660b9cb4f393a1218f53e7654b3fe74080e04e9eb761909209aec333d6313c1",
+    "experiments/gpu-physics/scripts/audit-native-api.py": "3efc60f5123a4e17d87023d19ec027bb2d9e1997b33e103c4d5a1e458a242a5e",
+    "experiments/gpu-physics/scripts/gen-both-cpu.py": "410a1c021df0511f468666cde9636a3ae79c178d88f203b8650c284e2158f319",
+    "experiments/gpu-physics/scripts/inject-sokol-bench.py": "9326c56d38ba3a5aa8d66b86ced90f475926abb9016ae594154afc5914c7d90f",
+    "experiments/gpu-physics/scripts/test-native-portability.py": "2b5a64851d51dd765cce6f19818190a2fd65773f44b1ada9ffccdd91ffa23573",
+    "experiments/gpu-physics/shaders/physics/solve.wgsl": "5a98ffe5eb0dde4b4fb2fd900b41b5038120194123e06e31a744f563deb98a63",
+    "experiments/gpu-physics/shaders/physics/types.wgsl": "4390d3afc7ed5b2686d40ce49829f5eef109878d85b1ceb5b56f55d47d89efcc",
+    "experiments/gpu-physics/src/api/world.rs": "1ae1f8fd3d4689c3f745f7e2bb0be89a2f18976b9d44a7d5fdb6eaeb6313c1ad",
+    "experiments/gpu-physics/src/api/world/host_state_trace.rs": "0342fc19db2aa86fc18b0cdbac5a7fd806313a44238b3b3874388854d1f5cd6c",
+    "experiments/gpu-physics/src/api/world/state_trace.rs": "d554ee17b3334a90ed09bb5450b1573259a82de898b79a55f0067878d1e5ee07",
+    "experiments/gpu-physics/src/c_abi.rs": "ec31e6206cc9b7a8644f32e83287a240eac7bcc51ac881f292d7a1ea95d4a518",
+    "experiments/gpu-physics/src/manifold_chain_tests.rs": "26fbb405f790b65e47af8dce3973e3ce4d54941c7faf0e7a71a2e56349b656f6",
+    "experiments/gpu-physics/src/sim.rs": "b88c3fb8f355602994d7125287b95df01f637c47d3494080de0f038da1a2f1c8",
+    "experiments/gpu-physics/src/types.rs": "cea696a08c4da47cf47e7221c1e71c0fd103505cf2ef82e799007fd5d353be24",
+    "experiments/gpu-physics/c_abi/warm_start_fixture.cpp": "ed7b0ea5f9eb3e630dd40b1565b8c39d63b00f9274b8ca9ae6b7fd2fd9ae7957",
+    "experiments/gpu-physics/scripts/check-warm-start.sh": "3b00e7a58800c5fc30243d15159196c5ca3bbeeb51bec84f0a6e9e4f4f54a689",
+    "experiments/gpu-physics/scripts/bench-warm-start.py": "fcbcd1d99cf0b6df095a8e0f6595c3f5a3aa800163811803df192a6c0f06ded4",
+    "experiments/gpu-physics/scripts/plot-warm-start.py": "18b47ec1360bd2da18ebe8728df3d553806bdb0156235422728acdcba4866626"
+  },
+  "logs": {
+    "ordinary_regressions": {
+      "path": "experiments/gpu-physics/artifacts/warm-start/ordinary_regressions.log",
+      "sha256": "8aae5d8c75e48faec542f9741387069b1423e61784db42c9381452ed7027441a"
+    },
+    "native_regressions": {
+      "path": "experiments/gpu-physics/artifacts/warm-start/native_regressions.log",
+      "sha256": "4d8274839a06b3e1cd8d7f5066d620d09556034ab850ed45c50cc6b909d9d7c6"
+    },
+    "ordinary_api": {
+      "path": "experiments/gpu-physics/artifacts/warm-start/ordinary_api.log",
+      "sha256": "76fb812c059a92743c44d47ccf71c1cdede0ae8e5f3104def260cf2614f59cc2"
+    },
+    "native_api": {
+      "path": "experiments/gpu-physics/artifacts/warm-start/native_api.log",
+      "sha256": "9326acb749bd8674595584b14cce3b3fd3a755c13066b87b20e22ff6eca8fb27"
+    },
+    "portability": {
+      "path": "experiments/gpu-physics/artifacts/warm-start/portability.log",
+      "sha256": "25d216cf950a9d015514b3c5df60576ec6f3ba23a9960c1136a7b37ec6b7e87b"
+    },
+    "diagnostic_build": {
+      "path": "experiments/gpu-physics/artifacts/warm-start/diagnostic_build.log",
+      "sha256": "3d74b26588bcf1d0aa22ad3b4f6e8ae8c7e1b089d62343faf2b950f4065a1228"
+    },
+    "oracle_snapshots": {
+      "path": "experiments/gpu-physics/artifacts/warm-start/oracle_snapshots.log",
+      "sha256": "6de97b77289e9e56276ad0ab1ca612b4508c8356ff2f0f670ab84505f55486ac"
+    },
+    "gpu_snapshots": {
+      "path": "experiments/gpu-physics/artifacts/warm-start/gpu_snapshots.log",
+      "sha256": "75430488ce703b943145d7a99f6a5d0039db357ff103165f126688b2d896a66a"
+    }
+  }
+}

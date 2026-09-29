@@ -392,8 +392,7 @@ def inject_sample(text: str) -> str:
 
 def inject_gpu_limitations(text: str) -> str:
     warm = 'ImGui::Checkbox( "Warm Starting##Solver", &context->enableWarmStarting );'
-    require(text, warm, 'unsupported warm-start control')
-    text = text.replace(warm, 'ImGui::TextDisabled( "Warm starting: always enabled on GPU" );')
+    require(text, warm, 'warm-start control')
     workers = 'if ( ImGui::SliderInt( "Workers##Solver", &context->workerCount, 1, B3_MAX_WORKERS ) )'
     require(text, workers, 'GPU worker control')
     text = text.replace(workers, '#if defined(BOTH_SAMPLES)\n'

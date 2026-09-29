@@ -316,6 +316,7 @@ struct SimParams {
     order_base: u32,
     order_node_capacity: u32,
     order_enabled: u32,
+    disable_warm_starting: u32,
 }
 
 const KIND_SPHERE: u32 = 0u;

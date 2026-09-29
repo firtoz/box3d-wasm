@@ -8,6 +8,8 @@ import subprocess
 from pathlib import Path
 
 DUAL = {
+    "b3World_EnableWarmStarting",
+    "b3World_IsWarmStartingEnabled",
     "b3Shape_SetSphere",
     "b3Shape_SetCapsule",
     "b3Shape_SetHull",
