@@ -1,0 +1,369 @@
+{
+  "scope": "Single ordinary120step fresh-history replays; no physical acceptance or five-repeat qualification",
+  "cases": {
+    "hip": {
+      "baseline": {
+        "frames": 120,
+        "body_observations": 5040,
+        "spherical_observations": 3240,
+        "initial_exact": true,
+        "peak_anchor_all": 0.0103564057,
+        "peak_anchor_target": 0.00590775674,
+        "peak_omega_all": 31.735384531122047,
+        "all_joint_peaks": {
+          "cone": 0.314239025,
+          "lower": 0.0233740285,
+          "upper": 0.00444190204
+        },
+        "target_peaks": {
+          "cone": 0.314239025,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_tail60_peaks": {
+          "cone": 0.210057288,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_final": {
+          "frame": 119,
+          "body": 3943,
+          "cone": 0.183344901,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "sha256": {
+          "manifest.json": "d907a832504930ea75464da9af5099ce54f1028399109279e38f7d3a90f020f1",
+          "state.txt": "4d49e563a8b21a8ad1389560e6ca85ec2558c0b74e8d266a9d3a1de65f730a2d",
+          "run.log": "7f681ee2301e1546aaf22a474cd76b53234dd7a46329d7962ed6eef56519d8cb",
+          "exit.json": "99f8fe6d8c154763c80aa24e6a3adba3e0dc5ac6dc128eb570efa4e60229dcb7"
+        }
+      },
+      "candidate": {
+        "frames": 120,
+        "body_observations": 5040,
+        "spherical_observations": 3240,
+        "initial_exact": true,
+        "peak_anchor_all": 0.0111702532,
+        "peak_anchor_target": 0.00936527271,
+        "peak_omega_all": 13.934589907958363,
+        "all_joint_peaks": {
+          "cone": 0.157817781,
+          "lower": 0.0232274607,
+          "upper": 0.00332494825
+        },
+        "target_peaks": {
+          "cone": 0.113862962,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_tail60_peaks": {
+          "cone": 0.107070297,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_final": {
+          "frame": 119,
+          "body": 3943,
+          "cone": 0.104442507,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "sha256": {
+          "manifest.json": "a86f7c633006f370cec5c9dceef1a9d2a96d5dbe2d2ed0da5b265e7e2394ed6c",
+          "state.txt": "ecc7e3dc0da92d9d48e6ca012c7ff4aa5fa4985d29906ec1849301f66de7b5c8",
+          "run.log": "ea9ed6f964226f78f4a8bcd004eb28201a9eda38e2fa2e88a1bdc87413f089c6",
+          "exit.json": "d0ed6138061e110efca95d84c21ab8180a7acfa5309d2f4d222419502f5550a9"
+        }
+      }
+    },
+    "severe": {
+      "baseline": {
+        "frames": 120,
+        "body_observations": 5040,
+        "spherical_observations": 3240,
+        "initial_exact": true,
+        "peak_anchor_all": 0.143070191,
+        "peak_anchor_target": 0.0678806007,
+        "peak_omega_all": 104.82967282677589,
+        "all_joint_peaks": {
+          "cone": 1.25412655,
+          "lower": 0.385927796,
+          "upper": 0.0323348343
+        },
+        "target_peaks": {
+          "cone": 1.25412655,
+          "lower": 0.385927796,
+          "upper": 0.00756150484
+        },
+        "target_tail60_peaks": {
+          "cone": 0.00746870041,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_final": {
+          "frame": 119,
+          "body": 5004,
+          "cone": 0.00379863381,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "sha256": {
+          "manifest.json": "9d480da609fcf6e724c52bcd0e29f0839a5712307d0675d89d38dcbe80ddf9df",
+          "state.txt": "f146a0778f1bbe3f121c57239594036c300b874e11c841faca204c48f865670f",
+          "run.log": "b960ad710f59d1ef3774834d7074453bd0ca055927d5fe05a8c32192dff62c59",
+          "exit.json": "606e4a35af65a7273a535f565436f4373bb9eda0c3a158994a7a92e97a6a64dd"
+        }
+      },
+      "candidate": {
+        "frames": 120,
+        "body_observations": 5040,
+        "spherical_observations": 3240,
+        "initial_exact": true,
+        "peak_anchor_all": 0.144989967,
+        "peak_anchor_target": 0.0762845203,
+        "peak_omega_all": 52.995192136005684,
+        "all_joint_peaks": {
+          "cone": 0.722365022,
+          "lower": 0.374998152,
+          "upper": 0.0512360334
+        },
+        "target_peaks": {
+          "cone": 0.722365022,
+          "lower": 0.374998152,
+          "upper": 0.0067602396
+        },
+        "target_tail60_peaks": {
+          "cone": 0.0100390613,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_final": {
+          "frame": 119,
+          "body": 5004,
+          "cone": 0.00401389599,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "sha256": {
+          "manifest.json": "5afdb5dec5c7a2f724fd383e5e3f0bc1c2e9d9574671d65f00a934777fedc982",
+          "state.txt": "4353cf48cc534548c3c81c775da62b6d028fd4f851ce98231d8dcd590cfdb92f",
+          "run.log": "fde87003bb27f7b818dcdf15580deeed9a87afed1e41a1aab9fd140f9e710ceb",
+          "exit.json": "4650b46ecc27e3a46f28fad2d33afccc2a4450d39c0d1a1f3f390996ce940e0a"
+        }
+      }
+    }
+  },
+  "status": "rejected",
+  "reason": "Cone improvement trades for larger target anchor errors in both cases and larger all-joint upper-twist error in severe case. No native/five-repeat/full-Rain qualification.",
+  "source_restoration": {
+    "source_restored": true,
+    "sha256": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7"
+  },
+  "protocol": {
+    "scope": "Bounded cone/point block candidate on refreshed angular frames, GPU-native opt-in only; source stays unchanged until controlled timing ends. No changed upstream scene, joint tuning or soft parameters.",
+    "fixtures": [
+      "health480 persistent hip,120steps",
+      "health514 severe cone,120steps"
+    ],
+    "acceptance": "Require exact initial42body getters, complete finite5040body/3240joint records per arm. Compare matched current baseline and candidate with all original cone/twist/anchor checks. Reject any cone improvement that trades for worsened anchor/twist failures. Relative improvement alone does not establish physical acceptance. No native expansion unless ordinary evidence justifies it.",
+    "algebra_controls": "96float64 cases in rain-coupled-block-controls pass; still require shader compile/float32/replay checks.",
+    "numerical_fallback": "Schur complement <=1e-6 times cone diagonal uses original sequential solve, guarding float32 near-singularity; no physical tolerance is broadened.",
+    "original_shader_sha256": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7",
+    "candidate_shader_sha256": "535a76906d8757a40c2dc92914ba23c15d28b7eceb20eaab139ba3181a8d08dd",
+    "status": "completed ordinary four-arm diagnostic; rejected"
+  },
+  "candidate_patch": "--- a/shaders/physics/solve.wgsl\n+++ b/shaders/physics/solve.wgsl\n@@ -1698,10 +1698,14 @@\n ) {\n     let base_frame_a = quat_mul((*ba).rot, (*jn).frame_a_rotation);\n     let base_frame_b = quat_mul((*bb).rot, (*jn).frame_b_rotation);\n-    let cone_axis = quat_rotate(base_frame_a, vec3<f32>(0.0, 0.0, 1.0));\n-    let twist_axis = quat_rotate(base_frame_b, vec3<f32>(0.0, 0.0, 1.0));\n+    // Bounded experiment: relinearize both angular-limit rows together.\n+    let refresh_angular_frames = (params.diagnostic_flags & SOLVER_PAIRED_NORMALS) != 0u;\n+    let angular_frame_a = select(base_frame_a, quat_mul((*ba).dq, base_frame_a), refresh_angular_frames);\n+    let angular_frame_b = select(base_frame_b, quat_mul((*bb).dq, base_frame_b), refresh_angular_frames);\n+    let cone_axis = quat_rotate(angular_frame_a, vec3<f32>(0.0, 0.0, 1.0));\n+    let twist_axis = quat_rotate(angular_frame_b, vec3<f32>(0.0, 0.0, 1.0));\n     let swing_axis = gyro_norm3(gyro_cross(cone_axis, twist_axis));\n-    let base_rel = quat_mul(quat_inv(base_frame_a), base_frame_b);\n+    let base_rel = quat_mul(quat_inv(angular_frame_a), angular_frame_b);\n     let tangent_denominator = base_rel.z * base_rel.z + base_rel.w * base_rel.w;\n     let tan_half_swing = select(\n         0.0,\n@@ -1835,6 +1839,64 @@\n             + applied_upper * world_inv_inertia(*ba, twist_jacobian);\n         (*bb).omega = (*bb).omega\n             - applied_upper * world_inv_inertia(*bb, twist_jacobian);\n+    }\n+\n+    // Bounded artifact-only candidate: solve point and cone rows as a block.\n+    // Scalar/vector softness is preserved through its equivalent Gamma matrix.\n+    if (refresh_angular_frames && ((*jn).flags & SPHERICAL_ENABLE_CONE_LIMIT) != 0u\n+        && !fixed_rotation && swing_k > 0.0) {\n+        let soft = joint_softness((*jn).hertz, (*jn).damping);\n+        let cone_c = (*jn).target_translation - swing_angle(rel);\n+        var cone_bias = 0.0;\n+        var cone_mass_scale = 1.0;\n+        var cone_impulse_scale = 0.0;\n+        if (cone_c > 0.0) {\n+            cone_bias = cone_c / max(params.dt, 1e-8);\n+        } else if (params.use_bias == 1u) {\n+            cone_bias = soft.x * cone_c;\n+            cone_mass_scale = soft.y;\n+            cone_impulse_scale = soft.z;\n+        }\n+        var point_bias = vec3<f32>(0.0);\n+        var point_mass_scale = 1.0;\n+        var point_impulse_scale = 0.0;\n+        if (params.use_bias == 1u) {\n+            let separation = (((*bb).dp - (*ba).dp) + (rB - rA))\n+                + ((*bb).pos - (*ba).pos);\n+            point_bias = soft.x * separation;\n+            point_mass_scale = soft.y;\n+            point_impulse_scale = soft.z;\n+        }\n+        let coupling = gyro_cross(rA, world_inv_inertia(*ba, swing_axis))\n+            + gyro_cross(rB, world_inv_inertia(*bb, swing_axis));\n+        let inverse_point_coupling = point_mass_scale\n+            * motor_linear_mass_mul(*ba, *bb, rA, rB, coupling);\n+        let cone_diagonal = gyro_divide(swing_k, cone_mass_scale);\n+        let schur = cone_diagonal - gyro_dot3(coupling, inverse_point_coupling);\n+        // Near-singular blocks retain the original sequential fallback.\n+        if (schur > 1e-6 * cone_diagonal) {\n+            let point_cdot = joint_point_velocity(\n+                (*ba).vel, (*ba).omega, (*bb).vel, (*bb).omega, rA, rB);\n+            let free_point_delta = -point_mass_scale\n+                * motor_linear_mass_mul(*ba, *bb, rA, rB, point_cdot + point_bias)\n+                - point_impulse_scale * (*jn).angular_impulse;\n+            let cone_cdot = spherical_cone_velocity((*ba).omega, (*bb).omega, swing_axis);\n+            let old_cone = (*jn).swing_impulse;\n+            let cone_rhs = -(cone_cdot + cone_bias)\n+                - cone_impulse_scale * cone_diagonal * old_cone;\n+            let free_cone_delta = gyro_divide(\n+                cone_rhs - gyro_dot3(coupling, free_point_delta), schur);\n+            let new_cone = max(old_cone + free_cone_delta, 0.0);\n+            let cone_delta = new_cone - old_cone;\n+            let point_delta = free_point_delta - inverse_point_coupling * cone_delta;\n+            (*jn).swing_impulse = new_cone;\n+            (*jn).angular_impulse = (*jn).angular_impulse + point_delta;\n+            apply_P(ba, rA, point_delta, -1.0);\n+            apply_P(bb, rB, point_delta, 1.0);\n+            (*ba).omega = (*ba).omega + cone_delta * world_inv_inertia(*ba, swing_axis);\n+            (*bb).omega = (*bb).omega - cone_delta * world_inv_inertia(*bb, swing_axis);\n+            return;\n+        }\n     }\n \n     if (((*jn).flags & SPHERICAL_ENABLE_CONE_LIMIT) != 0u && !fixed_rotation) {\n",
+  "files": {
+    "build_fixture.py": "7f84ab188474b411afe65d3370993a7de3f0cd7332124186c22b782f9e770973",
+    "build_candidate.py": "c37262f5bae5dd7c079a1ea05bd91576da8ac0268996faf7f6e469571cafe06c",
+    "run.py": "365e5962b0a5e534e72e48632ba8ec1448b2ce3bb6f4beba72670a018cac2dbe",
+    "analyze.py": "bdbedef55764e226af5ee442f61a0994fa5ac64968da9c2401497e1e432f6348",
+    "hip-initial.txt": "0c1153754e4d2dbef153f305105e904489bdaabc18a7bc3bfe88d6224cd08114",
+    "severe-initial.txt": "8ece29e9b2f63d9599ed2d5e5ddef908949cd099443f94b865b887f7bc4c4e76",
+    "baseline-libgpu_physics.a": "d5ada4e13a4918f0245a768afbb86b8659c0e84c1a56a9d26195978d51180f59",
+    "candidate-libgpu_physics.a": "7587747b486da8d0409253c06daf1d4e3b8ae65000e053b765fb430c6f937a6e"
+  },
+  "baseline_matches_prior": {
+    "hip": true,
+    "severe": true
+  },
+  "fixtures": {
+    "baseline": {
+      "mode": "ordinary",
+      "label": "baseline",
+      "commands": [
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/human.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/baseline-ordinary/human.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/utils.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/baseline-ordinary/utils.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/samples_stubs.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/baseline-ordinary/stubs.o"
+        ],
+        [
+          "g++",
+          "-O2",
+          "-DNDEBUG",
+          "-std=c++17",
+          "-Wl,--gc-sections",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/rain_cell_reference.cpp",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/baseline-ordinary/human.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/baseline-ordinary/utils.o",
+          "-Wl,--allow-multiple-definition",
+          "-Wl,--wrap=b3CreateCompound",
+          "-Wl,--whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a",
+          "-Wl,--no-whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/baseline-libgpu_physics.a",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/baseline-ordinary/stubs.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a",
+          "-ldl",
+          "-lpthread",
+          "-lm",
+          "-lgcc_s",
+          "-lGL",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/baseline-ordinary/fixture"
+        ]
+      ],
+      "binary_sha256": "a153e902a1d90bb922c7d0dc53b8bb5772140474366499f9e4f591974eea1050",
+      "libraries": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a": "3c67d2c60fdba46aab7e4e7b2824f6490b22324b50d4945db0e2b19db2f1ad58",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/baseline-libgpu_physics.a": "d5ada4e13a4918f0245a768afbb86b8659c0e84c1a56a9d26195978d51180f59",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a": "c4483223811aa16fc03b689a165c000b39978d809b7a0e658a40d1657bf9b178"
+      },
+      "shader_sha256": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7"
+    },
+    "candidate": {
+      "mode": "ordinary",
+      "label": "candidate",
+      "commands": [
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/human.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/candidate-ordinary/human.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/utils.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/candidate-ordinary/utils.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/samples_stubs.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/candidate-ordinary/stubs.o"
+        ],
+        [
+          "g++",
+          "-O2",
+          "-DNDEBUG",
+          "-std=c++17",
+          "-Wl,--gc-sections",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/rain_cell_reference.cpp",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/candidate-ordinary/human.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/candidate-ordinary/utils.o",
+          "-Wl,--allow-multiple-definition",
+          "-Wl,--wrap=b3CreateCompound",
+          "-Wl,--whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a",
+          "-Wl,--no-whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/candidate-libgpu_physics.a",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/candidate-ordinary/stubs.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a",
+          "-ldl",
+          "-lpthread",
+          "-lm",
+          "-lgcc_s",
+          "-lGL",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/candidate-ordinary/fixture"
+        ]
+      ],
+      "binary_sha256": "e874dcd09ee4128a1d18958626cdf6c052d28a52b81b953d5b8a875c671a75db",
+      "libraries": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a": "3c67d2c60fdba46aab7e4e7b2824f6490b22324b50d4945db0e2b19db2f1ad58",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/candidate-libgpu_physics.a": "7587747b486da8d0409253c06daf1d4e3b8ae65000e053b765fb430c6f937a6e",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a": "c4483223811aa16fc03b689a165c000b39978d809b7a0e658a40d1657bf9b178"
+      },
+      "shader_sha256": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7"
+    }
+  },
+  "fixture_shader_metadata_note": "Fixture linking occurs after original shader restoration; candidate library provenance is candidate-libgpu_physics.a plus candidate patch/hash, not fixture manifest shader_sha256.",
+  "baseline_normal_rebuild": {
+    "exit": 0,
+    "source_restored": true,
+    "normal_release_archive_sha256": "b3f2b64239d72c95c8e1746f9bd40a95152fb7a2c6ab373a6e2bd2986cf5265b"
+  },
+  "adapter": {
+    "hip-baseline": "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+    "hip-candidate": "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+    "severe-baseline": "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+    "severe-candidate": "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA"
+  }
+}

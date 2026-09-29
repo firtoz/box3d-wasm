@@ -1,0 +1,190 @@
+{
+  "scope": "Single ordinary120step fresh-history replays; no physical acceptance or five-repeat qualification",
+  "cases": {
+    "hip": {
+      "baseline": {
+        "frames": 120,
+        "body_observations": 5040,
+        "spherical_observations": 3240,
+        "initial_exact": true,
+        "peak_anchor_all": 0.0103564057,
+        "peak_anchor_target": 0.00590775674,
+        "peak_omega_all": 31.735384531122047,
+        "all_joint_peaks": {
+          "cone": 0.314239025,
+          "lower": 0.0233740285,
+          "upper": 0.00444190204
+        },
+        "target_peaks": {
+          "cone": 0.314239025,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_tail60_peaks": {
+          "cone": 0.210057288,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_final": {
+          "frame": 119,
+          "body": 3943,
+          "cone": 0.183344901,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "sha256": {
+          "manifest.json": "a7c1786e833ce21535d1aab99381a78939dda6dd199335c6d7540a370464b2db",
+          "state.txt": "4d49e563a8b21a8ad1389560e6ca85ec2558c0b74e8d266a9d3a1de65f730a2d",
+          "run.log": "a9bfbaf727000249c539234891bfb2714537c5dc4102d5c41d6c0f84f72a3b2b",
+          "exit.json": "f3c0a7eb2635ebebfe6ff221c8a1aa4e5e90594090863f2de96f31ffd636a7c8"
+        }
+      },
+      "candidate": {
+        "frames": 120,
+        "body_observations": 5040,
+        "spherical_observations": 3240,
+        "initial_exact": true,
+        "peak_anchor_all": 0.0096459901,
+        "peak_anchor_target": 0.00948150177,
+        "peak_omega_all": 9.632958061030143,
+        "all_joint_peaks": {
+          "cone": 0.151294291,
+          "lower": 0.0225005373,
+          "upper": 0.00104114413
+        },
+        "target_peaks": {
+          "cone": 0.11097613,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_tail60_peaks": {
+          "cone": 0.0962861776,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_final": {
+          "frame": 119,
+          "body": 3943,
+          "cone": 0.0962861776,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "sha256": {
+          "manifest.json": "45361307f6faadad7062dcc70d8eedf7bff5a94779e95cb7578b98498564e22c",
+          "state.txt": "29e9a7f9d2caaad7b3c318bc78f3639dceb84c5d5120e35a415d73af83f79737",
+          "run.log": "de5cb0d198fa95dae73afff220526377a992666db40b9d1d8b508a1bcc13e765",
+          "exit.json": "fa74d806ba592977d51325299e2e139f0b21bde9ca20d4cd168cb21bd131ee08"
+        }
+      }
+    },
+    "severe": {
+      "baseline": {
+        "frames": 120,
+        "body_observations": 5040,
+        "spherical_observations": 3240,
+        "initial_exact": true,
+        "peak_anchor_all": 0.143070191,
+        "peak_anchor_target": 0.0678806007,
+        "peak_omega_all": 104.82967282677589,
+        "all_joint_peaks": {
+          "cone": 1.25412655,
+          "lower": 0.385927796,
+          "upper": 0.0323348343
+        },
+        "target_peaks": {
+          "cone": 1.25412655,
+          "lower": 0.385927796,
+          "upper": 0.00756150484
+        },
+        "target_tail60_peaks": {
+          "cone": 0.00746870041,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_final": {
+          "frame": 119,
+          "body": 5004,
+          "cone": 0.00379863381,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "sha256": {
+          "manifest.json": "50e8fe8247fe2227d8a8daaef931a9c7b3c598047d03d721eece977553d088c4",
+          "state.txt": "f146a0778f1bbe3f121c57239594036c300b874e11c841faca204c48f865670f",
+          "run.log": "5bb8d0b556d4cfc42335cbeea5ab2b5f72f778ae402b047a623bf5a0e73ac35c",
+          "exit.json": "e454a90af516ffda82048120fb948d18a6c18359886d71dfa683ae57998a9a2e"
+        }
+      },
+      "candidate": {
+        "frames": 120,
+        "body_observations": 5040,
+        "spherical_observations": 3240,
+        "initial_exact": true,
+        "peak_anchor_all": 0.140425459,
+        "peak_anchor_target": 0.0587867573,
+        "peak_omega_all": 49.2359968593204,
+        "all_joint_peaks": {
+          "cone": 0.591598094,
+          "lower": 0.146321937,
+          "upper": 0.0276700556
+        },
+        "target_peaks": {
+          "cone": 0.591598094,
+          "lower": 0.00145214796,
+          "upper": 0.0
+        },
+        "target_tail60_peaks": {
+          "cone": 0.000907510519,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_final": {
+          "frame": 119,
+          "body": 5004,
+          "cone": 0.000907510519,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "sha256": {
+          "manifest.json": "fe22e4071b5a4b6b42f72e23e3be118ecf8d245d3503518231e43641276ef467",
+          "state.txt": "c8d8abf4b3aa0c31aaff8c31e5897286ee83cc6e9f40e75a14de9a5b32a46ac9",
+          "run.log": "d4034bca31348d53b313b40c1ab18a3fdef116bdcbcd77b37610a1fe1c8a3084",
+          "exit.json": "213d4f56a9046ccbc2fb8a7c61e9100a59438c87875ade381291e374a3a1427e"
+        }
+      }
+    }
+  },
+  "status": "rejected",
+  "reason": "Combined refresh/two-wave candidate still worsens hip target anchor peak. Finite2x2 comparison complete; no candidate accepted.",
+  "protocol": {
+    "scope": "Missing cell of finite2x2 experiment: full cone/twist angular relinearization plus2complete biased/relaxation joint-contact waves. Original timestep/substeps/defaults, no4rowblock, no scratchfield variant.",
+    "acceptance": "Original42initial states exact,5040finitebody/3240completejoint observations per120step arm. Confirm both extra passes. Reject cone improvement trading for increased target anchor or angular failures. No physical/default acceptance from relative improvement; promising result needs600step/native/fullscene/five-repeats. No iteration-count sweep or selective repeats.",
+    "inputs": {
+      "original-sim.rs": "7f9ab885f60992b701b123cf96b29f2a4519fe41308753b3d7d9f0f9078b1e7a",
+      "candidate-sim.rs": "e4b643f2c2c27dc4963acbee0c65c76037b4cf9c4ab014204cdcb1027da856e8",
+      "original-solve.wgsl": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7",
+      "candidate-solve.wgsl": "86c688ebbe5cd4f72f56467b0f81876b3ee634517f6c874868dd8ea5d6b6a681"
+    }
+  },
+  "restoration": {
+    "src/sim.rs": true,
+    "shaders/physics/solve.wgsl": true
+  },
+  "candidate_patch": "--- a/src/sim.rs\n+++ b/src/sim.rs\n@@ -3283,6 +3283,15 @@\n                             .set(self.joint_dispatches.get().saturating_add(1));\n                     }\n                     self.emit_wave(&mut pass, 1);\n+                    // Artifact-only convergence discriminator: repeat complete\n+                    // joint/contact wave, without repeated warm start/integration.\n+                    if has_joints && !self.joint_serial()\n+                        && self.params.diagnostic_flags & crate::types::SOLVER_PAIRED_NORMALS != 0 {\n+                        self.emit_wave(&mut pass, 1);\n+                        if self.physics_step == 1 && sub == 0 {\n+                            eprintln!(\"rain-two-sweep-active bias=1\");\n+                        }\n+                    }\n                     if self.params.diagnostic_flags & DIAG_PHASE_CAPTURE != 0 && sub < 4 {\n                         self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 2, 0);\n                     }\n@@ -3296,6 +3305,15 @@\n                             .set(self.joint_dispatches.get().saturating_add(1));\n                     }\n                     self.emit_wave(&mut pass, 0);\n+                    // Artifact-only convergence discriminator: repeat complete\n+                    // joint/contact wave, without repeated warm start/integration.\n+                    if has_joints && !self.joint_serial()\n+                        && self.params.diagnostic_flags & crate::types::SOLVER_PAIRED_NORMALS != 0 {\n+                        self.emit_wave(&mut pass, 0);\n+                        if self.physics_step == 1 && sub == 0 {\n+                            eprintln!(\"rain-two-sweep-active bias=0\");\n+                        }\n+                    }\n                     if self.params.diagnostic_flags & DIAG_PHASE_CAPTURE != 0 && sub < 4 {\n                         self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 4, 0);\n                     }\n--- a/shaders/physics/solve.wgsl\n+++ b/shaders/physics/solve.wgsl\n@@ -1698,10 +1698,14 @@\n ) {\n     let base_frame_a = quat_mul((*ba).rot, (*jn).frame_a_rotation);\n     let base_frame_b = quat_mul((*bb).rot, (*jn).frame_b_rotation);\n-    let cone_axis = quat_rotate(base_frame_a, vec3<f32>(0.0, 0.0, 1.0));\n-    let twist_axis = quat_rotate(base_frame_b, vec3<f32>(0.0, 0.0, 1.0));\n+    // Bounded experiment: relinearize both angular-limit rows together.\n+    let refresh_angular_frames = (params.diagnostic_flags & SOLVER_PAIRED_NORMALS) != 0u;\n+    let angular_frame_a = select(base_frame_a, quat_mul((*ba).dq, base_frame_a), refresh_angular_frames);\n+    let angular_frame_b = select(base_frame_b, quat_mul((*bb).dq, base_frame_b), refresh_angular_frames);\n+    let cone_axis = quat_rotate(angular_frame_a, vec3<f32>(0.0, 0.0, 1.0));\n+    let twist_axis = quat_rotate(angular_frame_b, vec3<f32>(0.0, 0.0, 1.0));\n     let swing_axis = gyro_norm3(gyro_cross(cone_axis, twist_axis));\n-    let base_rel = quat_mul(quat_inv(base_frame_a), base_frame_b);\n+    let base_rel = quat_mul(quat_inv(angular_frame_a), angular_frame_b);\n     let tangent_denominator = base_rel.z * base_rel.z + base_rel.w * base_rel.w;\n     let tan_half_swing = select(\n         0.0,\n",
+  "baseline_exact": {
+    "hip": true,
+    "severe": true
+  },
+  "hashes": {
+    "run.py": "365e5962b0a5e534e72e48632ba8ec1448b2ce3bb6f4beba72670a018cac2dbe",
+    "analyze.py": "5acb36c9e69a9579962a7d043438a46ee4f037d7611060f10cf3103f328d9c3c",
+    "candidate-libgpu_physics.a": "19ea4d0139313e12f08515444b9c535d768f09efbd0cf71a5e18bfb9e4ed941d",
+    "candidate-ordinary/fixture": "04362de28b94fd322a451a5afa81d832b5d4a886c52a34f443e15beb97677cd2"
+  },
+  "baseline_rebuild": {
+    "exit": 0,
+    "sources_restored": true,
+    "normal_archive_sha256": "b3f2b64239d72c95c8e1746f9bd40a95152fb7a2c6ab373a6e2bd2986cf5265b",
+    "archive_matches_prior": true
+  }
+}

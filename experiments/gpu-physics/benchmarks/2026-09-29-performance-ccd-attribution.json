@@ -1,0 +1,206 @@
+{
+  "status": "pass",
+  "scope": "Single ordinary diagnostic attribution; timings excluded",
+  "logged_corrections": [
+    [
+      87,
+      1727,
+      88,
+      89
+    ],
+    [
+      117,
+      1727,
+      119,
+      120
+    ],
+    [
+      118,
+      1727,
+      121,
+      122
+    ],
+    [
+      123,
+      1727,
+      127,
+      128
+    ],
+    [
+      142,
+      1727,
+      147,
+      148
+    ],
+    [
+      161,
+      1727,
+      167,
+      168
+    ],
+    [
+      162,
+      1727,
+      169,
+      170
+    ],
+    [
+      164,
+      1727,
+      172,
+      173
+    ],
+    [
+      165,
+      1727,
+      174,
+      175
+    ],
+    [
+      166,
+      1727,
+      176,
+      177
+    ],
+    [
+      167,
+      1727,
+      178,
+      179
+    ],
+    [
+      169,
+      1727,
+      181,
+      182
+    ],
+    [
+      173,
+      1727,
+      186,
+      187
+    ],
+    [
+      174,
+      1727,
+      188,
+      189
+    ],
+    [
+      181,
+      1727,
+      196,
+      197
+    ],
+    [
+      214,
+      1727,
+      230,
+      231
+    ]
+  ],
+  "matched_stale_steps": [
+    87,
+    117,
+    118,
+    123,
+    142,
+    161,
+    162,
+    164,
+    165,
+    166,
+    167,
+    169,
+    173,
+    174,
+    181,
+    214
+  ],
+  "all_180_metric_records_equal_preserved_report": true,
+  "original_failure_preserved": true,
+  "run_exit": 0,
+  "report_sha256": "da3b6c34f987e1453cf559c5fa0559cf013df2d2caf5e7d2a2dfe381b02c2c9d",
+  "log_sha256": "faa7526ab0b029b6cfeb562bc994d68b871d0fb7ec8a3bc3cd6696d92e387f02",
+  "protocol": {
+    "revision": "0940a4f",
+    "scope": "One ordinary CPU-compatible-order diagnostic repeat of the previously failed prewarm; no performance measurement",
+    "change": "Unconditional diagnostic print only when deferred host CCD changes query_state; restore byte-exact source afterward",
+    "acceptance": [
+      "Exactly 240 completed observations, 180 timed report rows as prior protocol",
+      "All stale rows match exactly one logged correction at the same step/topology/before/after revisions",
+      "No current row has a logged correction for its step",
+      "No capacity loss; known same-step same-topology metrics; no engine failure",
+      "Diagnostic logs cannot qualify performance or full fresh-state repeats"
+    ],
+    "original_world_sha256": "278aa01d85c2550b92370e401597c2eaef0b9a8332b3ccdb74317591ebb3f571",
+    "instrumented_world_sha256": "7d4d61abbd9c3a58380a0a42da0a15c6a9e1183e726d7ba42a364d733cfc6937",
+    "preserve_original_failed_attempt": true
+  },
+  "restoration": {
+    "build_exit": 0,
+    "link_exit": 0,
+    "source_byte_exact": true,
+    "previous_binary_sha256": "eda4900438f712335f1ca8879b5e68061744d1469881ad78502bffab8d044087",
+    "restored_binary_sha256": "eda4900438f712335f1ca8879b5e68061744d1469881ad78502bffab8d044087",
+    "binary_byte_exact": true
+  },
+  "diagnostic_binary": {
+    "build_exit": 0,
+    "link_exit": 0,
+    "source_restored": true,
+    "original_sha256": "278aa01d85c2550b92370e401597c2eaef0b9a8332b3ccdb74317591ebb3f571",
+    "diagnostic_binary_sha256": "ffd91d788b60d5d781a11f89671bbcf044ba80ae3865bb16eb63274ef042d9d5"
+  },
+  "run_receipt": {
+    "command": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/performance-ccd-attribution/samples_gpu-diagnostic",
+      "--sample-name",
+      "Determinism/Falling Ragdolls",
+      "--frames",
+      "240",
+      "--bench-json",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/performance-ccd-attribution/report.json",
+      "--warmup",
+      "60",
+      "--timed",
+      "180",
+      "--unpaced",
+      "--completed-step",
+      "--hide-ui",
+      "--workers",
+      "8",
+      "--sleep"
+    ],
+    "environment": {
+      "LIBGL_ALWAYS_SOFTWARE": "1",
+      "LP_NUM_THREADS": "2",
+      "GPU_BENCH_WIDTH": "320",
+      "GPU_BENCH_HEIGHT": "240",
+      "GPU_SOKOL_SEED": "0",
+      "WGPU_BACKEND": "vulkan",
+      "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+      "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/three-checks-d19a93d/performance/prewarm-cache",
+      "DISPLAY": ":1"
+    },
+    "binary_sha256": "ffd91d788b60d5d781a11f89671bbcf044ba80ae3865bb16eb63274ef042d9d5",
+    "exit": 0,
+    "seconds": 33.47562353099056,
+    "pid": 1706735
+  },
+  "local_evidence": "experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/performance-ccd-attribution",
+  "evidence_sha256": {
+    "protocol.json": "ea012f780b4da54fc16a4c89e9c685eb04a4a2b71313294260d5677bb8fee2f2",
+    "run.py": "f4aa1e247ef0ee51daad2da8e1e9e7fbfaad11e7cd28afdb531edc726b44787e",
+    "run.log": "faa7526ab0b029b6cfeb562bc994d68b871d0fb7ec8a3bc3cd6696d92e387f02",
+    "report.json": "da3b6c34f987e1453cf559c5fa0559cf013df2d2caf5e7d2a2dfe381b02c2c9d",
+    "exit.json": "b36130b181a5f4a8fbd829252a259c77daeb5b586eebb93ba8edfd7c1324671b",
+    "result.json": "2655285eb2238f371fc4a5d1c89eadcbc274988859cbf35ab076bbc980cf036a",
+    "restore-receipt.json": "d7d6064a84a8dc6a8b475e8106b0c2e70d9be3a0cedc55c63e33ff64ca858284",
+    "build.log": "3d5cd1964e8f39d168cee72d6762a6a010f5f7c4c07d056a4da5344fd057ae87",
+    "link.log": "117c85ada8a6ab3322c66c5a771c610155b99e1c28a0b5fb7a88ce42d104cbfb",
+    "restore-build.log": "66cce0470573b0ebcf910005f723e017a833630d85ceada99a34569322eb6308",
+    "restore-link.log": "117c85ada8a6ab3322c66c5a771c610155b99e1c28a0b5fb7a88ce42d104cbfb"
+  },
+  "conclusion": "All 16 stale rows are exactly attributed to deferred host CCD pose corrections. The original benchmark validator incorrectly required scheduling-phase metrics to remain current after post-scheduling CCD. This diagnostic run is not performance or full-state repeat qualification."
+}

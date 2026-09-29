@@ -1,0 +1,188 @@
+{
+  "scope": "Single ordinary120step fresh-history replays; no physical acceptance or five-repeat qualification",
+  "cases": {
+    "hip": {
+      "baseline": {
+        "frames": 120,
+        "body_observations": 5040,
+        "spherical_observations": 3240,
+        "initial_exact": true,
+        "peak_anchor_all": 0.0103564057,
+        "peak_anchor_target": 0.00590775674,
+        "peak_omega_all": 31.735384531122047,
+        "all_joint_peaks": {
+          "cone": 0.314239025,
+          "lower": 0.0233740285,
+          "upper": 0.00444190204
+        },
+        "target_peaks": {
+          "cone": 0.314239025,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_tail60_peaks": {
+          "cone": 0.210057288,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_final": {
+          "frame": 119,
+          "body": 3943,
+          "cone": 0.183344901,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "sha256": {
+          "manifest.json": "4070c36d4fe81c012df57a70775bbc5b848432b577417ee606d2806d5e8762dc",
+          "state.txt": "4d49e563a8b21a8ad1389560e6ca85ec2558c0b74e8d266a9d3a1de65f730a2d",
+          "run.log": "0902712a259cb66a9467faf5cf61857ec15aa90cb159ee717711064b0fa02f51",
+          "exit.json": "5f71e5653e3b366ac82ef303a94cacf48103ba58935a464679ac7e9b32efa76e"
+        }
+      },
+      "candidate": {
+        "frames": 120,
+        "body_observations": 5040,
+        "spherical_observations": 3240,
+        "initial_exact": true,
+        "peak_anchor_all": 0.00902991649,
+        "peak_anchor_target": 0.00518150488,
+        "peak_omega_all": 22.15905245825333,
+        "all_joint_peaks": {
+          "cone": 0.318691581,
+          "lower": 0.0226396546,
+          "upper": 0.00330272317
+        },
+        "target_peaks": {
+          "cone": 0.318691581,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_tail60_peaks": {
+          "cone": 0.17463097,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_final": {
+          "frame": 119,
+          "body": 3943,
+          "cone": 0.162773788,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "sha256": {
+          "manifest.json": "95ea9138c344d18e899c9edfd1dcce1a59ae7c8c65270a857d2884841394f9df",
+          "state.txt": "6126232420053b86d0521fe6075290cd082823512dbcd4f51667b59db43a2c4f",
+          "run.log": "632d61d46d2f939c09ea7090c7ff0fe2bb92f3f5683281f2f60a55547febf384",
+          "exit.json": "e94de743171cbd9c2347d9ee096d55ebd7dd845b4fe220616d2dd49266e99f4f"
+        }
+      }
+    },
+    "severe": {
+      "baseline": {
+        "frames": 120,
+        "body_observations": 5040,
+        "spherical_observations": 3240,
+        "initial_exact": true,
+        "peak_anchor_all": 0.143070191,
+        "peak_anchor_target": 0.0678806007,
+        "peak_omega_all": 104.82967282677589,
+        "all_joint_peaks": {
+          "cone": 1.25412655,
+          "lower": 0.385927796,
+          "upper": 0.0323348343
+        },
+        "target_peaks": {
+          "cone": 1.25412655,
+          "lower": 0.385927796,
+          "upper": 0.00756150484
+        },
+        "target_tail60_peaks": {
+          "cone": 0.00746870041,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_final": {
+          "frame": 119,
+          "body": 5004,
+          "cone": 0.00379863381,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "sha256": {
+          "manifest.json": "26bb8f0f67cc203f01d0aa0819c6c2e9ce7edeedbcb8acdcff5922a9c82c2f34",
+          "state.txt": "f146a0778f1bbe3f121c57239594036c300b874e11c841faca204c48f865670f",
+          "run.log": "ed0b3584e5d71ad0e44995fbedceac44097d4c736d451a3af8531a708c0375e8",
+          "exit.json": "92ea02c1c5dd6e079c05f4e1060e6f3a1607e0e5ddc82176f17e3366826e988c"
+        }
+      },
+      "candidate": {
+        "frames": 120,
+        "body_observations": 5040,
+        "spherical_observations": 3240,
+        "initial_exact": true,
+        "peak_anchor_all": 0.141765565,
+        "peak_anchor_target": 0.0632383004,
+        "peak_omega_all": 94.8400472359055,
+        "all_joint_peaks": {
+          "cone": 1.13767862,
+          "lower": 0.158591643,
+          "upper": 0.0238016248
+        },
+        "target_peaks": {
+          "cone": 1.13767862,
+          "lower": 0.0149246156,
+          "upper": 0.00429183245
+        },
+        "target_tail60_peaks": {
+          "cone": 0.0,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_final": {
+          "frame": 119,
+          "body": 5004,
+          "cone": 0.0,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "sha256": {
+          "manifest.json": "09b0e8f455bf8804d391eadea642181cb709dfb8a1cb4ed56893bd8867234393",
+          "state.txt": "f76ab6882531d5e214b1f80466acbb4697e4fd7d1cc432e32b04b7dd1f6ed2b3",
+          "run.log": "773a58add188d87aa069eadf25918901d86f11f582a3ea866bc810d1125c1e67",
+          "exit.json": "8100101ba6cdd4eaee0bdf23262b4fd5036ce93782248b7e09f6da76dea24b8c"
+        }
+      }
+    }
+  },
+  "status": "not accepted: mixed120step screen and failed600step stationary classification",
+  "protocol": {
+    "hypothesis": "Global joint/contact convergence: exactly2wholewaves for bias and relaxation per original4substeps, warm/integration remain once. Ordinary graph path only, native ordering flag only. Baseline angular preparation unchanged.",
+    "acceptance": "Original42initial getters exact;5040finitebody/3240completejoint observations per120step arm. Same hip/severe states. Reject improved cones trading for increased target anchor or angular failures. This is a discriminator, not physical acceptance; require600step residual screen and full native/repeat/capability gates before qualification.",
+    "configuration": "Original timestep1/60,4substeps, all joint/contact/material defaults retained. No selective repeats.",
+    "original_sim_sha256": "7f9ab885f60992b701b123cf96b29f2a4519fe41308753b3d7d9f0f9078b1e7a",
+    "candidate_sim_sha256": "e4b643f2c2c27dc4963acbee0c65c76037b4cf9c4ab014204cdcb1027da856e8"
+  },
+  "restoration": {
+    "source_restored": true,
+    "sha256": "7f9ab885f60992b701b123cf96b29f2a4519fe41308753b3d7d9f0f9078b1e7a"
+  },
+  "candidate_patch": "--- a/src/sim.rs\n+++ b/src/sim.rs\n@@ -3283,6 +3283,15 @@\n                             .set(self.joint_dispatches.get().saturating_add(1));\n                     }\n                     self.emit_wave(&mut pass, 1);\n+                    // Artifact-only convergence discriminator: repeat complete\n+                    // joint/contact wave, without repeated warm start/integration.\n+                    if has_joints && !self.joint_serial()\n+                        && self.params.diagnostic_flags & crate::types::SOLVER_PAIRED_NORMALS != 0 {\n+                        self.emit_wave(&mut pass, 1);\n+                        if self.physics_step == 1 && sub == 0 {\n+                            eprintln!(\"rain-two-sweep-active bias=1\");\n+                        }\n+                    }\n                     if self.params.diagnostic_flags & DIAG_PHASE_CAPTURE != 0 && sub < 4 {\n                         self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 2, 0);\n                     }\n@@ -3296,6 +3305,15 @@\n                             .set(self.joint_dispatches.get().saturating_add(1));\n                     }\n                     self.emit_wave(&mut pass, 0);\n+                    // Artifact-only convergence discriminator: repeat complete\n+                    // joint/contact wave, without repeated warm start/integration.\n+                    if has_joints && !self.joint_serial()\n+                        && self.params.diagnostic_flags & crate::types::SOLVER_PAIRED_NORMALS != 0 {\n+                        self.emit_wave(&mut pass, 0);\n+                        if self.physics_step == 1 && sub == 0 {\n+                            eprintln!(\"rain-two-sweep-active bias=0\");\n+                        }\n+                    }\n                     if self.params.diagnostic_flags & DIAG_PHASE_CAPTURE != 0 && sub < 4 {\n                         self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 4, 0);\n                     }\n",
+  "baseline_exact": {
+    "hip": true,
+    "severe": true
+  },
+  "hashes": {
+    "run.py": "365e5962b0a5e534e72e48632ba8ec1448b2ce3bb6f4beba72670a018cac2dbe",
+    "analyze.py": "5acb36c9e69a9579962a7d043438a46ee4f037d7611060f10cf3103f328d9c3c",
+    "candidate-libgpu_physics.a": "3b3011d8c09197fdd6914c3454118d2c491f317491ce4db8189946557a6ebabe",
+    "baseline-libgpu_physics.a": "d5ada4e13a4918f0245a768afbb86b8659c0e84c1a56a9d26195978d51180f59",
+    "candidate-ordinary/fixture": "d3af775b28103013df693431edf28b68b7ee72be33132ad5b4c29ac5b8856ae0"
+  },
+  "long_receipt": "2026-09-29-rain-two-sweep-long.json",
+  "baseline_rebuild": {
+    "exit": 0,
+    "source_restored": true,
+    "normal_archive_sha256": "b3f2b64239d72c95c8e1746f9bd40a95152fb7a2c6ab373a6e2bd2986cf5265b",
+    "archive_matches_prior": true
+  }
+}

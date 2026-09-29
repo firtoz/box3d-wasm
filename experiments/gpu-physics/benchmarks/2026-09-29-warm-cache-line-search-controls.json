@@ -1,0 +1,591 @@
+{
+  "scope": "Float64 pair-impulse algebra only, not GPU or Rain validation",
+  "cases": 96,
+  "unchanged": 15,
+  "partial": 33,
+  "zero": 48,
+  "max_linear_momentum_error": 1.7763568394002505e-15,
+  "max_angular_momentum_error": 7.944109290391274e-15,
+  "max_energy_increase": 7.105427357601002e-15,
+  "rows": [
+    {
+      "case": 0,
+      "unscaled_change": 14.854903113156261,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 1,
+      "unscaled_change": 4.880396695912537,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 2,
+      "unscaled_change": 5.022504629265981,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 3,
+      "unscaled_change": 4.5945893031248755,
+      "alpha": 0.057614455246015134,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 4,
+      "unscaled_change": 19.68862500018743,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 5,
+      "unscaled_change": -0.8093824174296094,
+      "alpha": 1.0,
+      "scaled_change": -0.809382417429612
+    },
+    {
+      "case": 6,
+      "unscaled_change": 11.044056592118668,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 7,
+      "unscaled_change": 2.950888877940039,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 8,
+      "unscaled_change": 1.3219424639640982,
+      "alpha": 0.8210206831467245,
+      "scaled_change": 8.881784197001252e-16
+    },
+    {
+      "case": 9,
+      "unscaled_change": 3.419522836047768,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 10,
+      "unscaled_change": 2.8159454754733555,
+      "alpha": 0.28136434638142777,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 11,
+      "unscaled_change": 20.313786648711634,
+      "alpha": 0.1674729681107716,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 12,
+      "unscaled_change": -0.1067851020832597,
+      "alpha": 1.0,
+      "scaled_change": -0.10678510208325775
+    },
+    {
+      "case": 13,
+      "unscaled_change": 3.9172952909863965,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 14,
+      "unscaled_change": -3.0087343025111815,
+      "alpha": 1.0,
+      "scaled_change": -3.0087343025111792
+    },
+    {
+      "case": 15,
+      "unscaled_change": 0.7634593668896441,
+      "alpha": 0.6895608457315229,
+      "scaled_change": -7.105427357601002e-15
+    },
+    {
+      "case": 16,
+      "unscaled_change": 9.580111032968766,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 17,
+      "unscaled_change": 12.423341780756648,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 18,
+      "unscaled_change": 0.7620267129578868,
+      "alpha": 0.4126521663915599,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 19,
+      "unscaled_change": 7.308532716202293,
+      "alpha": 0.025172471864474993,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 20,
+      "unscaled_change": 3.695118480836139,
+      "alpha": 0.21121490895608105,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 21,
+      "unscaled_change": -2.131394528165711,
+      "alpha": 1.0,
+      "scaled_change": -2.131394528165714
+    },
+    {
+      "case": 22,
+      "unscaled_change": 15.02254425250728,
+      "alpha": 0.08093975829832879,
+      "scaled_change": 3.552713678800501e-15
+    },
+    {
+      "case": 23,
+      "unscaled_change": 7.218624873367256,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 24,
+      "unscaled_change": 1.9043527991468723,
+      "alpha": 0.2554199919380099,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 25,
+      "unscaled_change": 0.16224693711153115,
+      "alpha": 0.9720051427993798,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 26,
+      "unscaled_change": 27.855144830201777,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 27,
+      "unscaled_change": 13.19785659453339,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 28,
+      "unscaled_change": 4.780718252444726,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 29,
+      "unscaled_change": 11.223910545049398,
+      "alpha": 0.27790963504171623,
+      "scaled_change": 3.552713678800501e-15
+    },
+    {
+      "case": 30,
+      "unscaled_change": 6.395505243191828,
+      "alpha": 0.2723080242493346,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 31,
+      "unscaled_change": 3.0571882796998264,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 32,
+      "unscaled_change": 1.5329181173364248,
+      "alpha": 0.3981196799625342,
+      "scaled_change": 7.105427357601002e-15
+    },
+    {
+      "case": 33,
+      "unscaled_change": 16.642366802796648,
+      "alpha": 0.20833881049797223,
+      "scaled_change": 1.7763568394002505e-15
+    },
+    {
+      "case": 34,
+      "unscaled_change": -0.013179531865515015,
+      "alpha": 1.0,
+      "scaled_change": -0.013179531865516125
+    },
+    {
+      "case": 35,
+      "unscaled_change": 10.916927600965096,
+      "alpha": 0.26079599292191213,
+      "scaled_change": -1.7763568394002505e-15
+    },
+    {
+      "case": 36,
+      "unscaled_change": -1.566468847541314,
+      "alpha": 1.0,
+      "scaled_change": -1.5664688475413087
+    },
+    {
+      "case": 37,
+      "unscaled_change": -0.7190607087149545,
+      "alpha": 1.0,
+      "scaled_change": -0.7190607087149559
+    },
+    {
+      "case": 38,
+      "unscaled_change": 0.6696274559790076,
+      "alpha": 0.8161439241574795,
+      "scaled_change": 1.7763568394002505e-15
+    },
+    {
+      "case": 39,
+      "unscaled_change": 6.107456239288368,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 40,
+      "unscaled_change": 1.5685338566209697,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 41,
+      "unscaled_change": 41.088277753912905,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 42,
+      "unscaled_change": -0.21816033543711066,
+      "alpha": 1.0,
+      "scaled_change": -0.21816033543710844
+    },
+    {
+      "case": 43,
+      "unscaled_change": 9.70946141307079,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 44,
+      "unscaled_change": 0.7894680417216233,
+      "alpha": 0.4944116989052917,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 45,
+      "unscaled_change": 4.317214310275475,
+      "alpha": 0.013932601567795038,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 46,
+      "unscaled_change": 13.515438677110401,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 47,
+      "unscaled_change": 3.5065945565629635,
+      "alpha": 0.2665955319435305,
+      "scaled_change": -3.552713678800501e-15
+    },
+    {
+      "case": 48,
+      "unscaled_change": 3.735326938592535,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 49,
+      "unscaled_change": 1.7610568275501102,
+      "alpha": 0.8635852726769593,
+      "scaled_change": -7.105427357601002e-15
+    },
+    {
+      "case": 50,
+      "unscaled_change": -4.442443478405982,
+      "alpha": 1.0,
+      "scaled_change": -4.442443478405984
+    },
+    {
+      "case": 51,
+      "unscaled_change": 16.977771709299436,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 52,
+      "unscaled_change": 2.154191314045455,
+      "alpha": 0.5912686942276464,
+      "scaled_change": -3.552713678800501e-15
+    },
+    {
+      "case": 53,
+      "unscaled_change": 1.227276713589822,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 54,
+      "unscaled_change": 2.272281343642148,
+      "alpha": 0.14179508462920837,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 55,
+      "unscaled_change": 14.74133104366014,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 56,
+      "unscaled_change": -0.74699660873716,
+      "alpha": 1.0,
+      "scaled_change": -0.7469966087371596
+    },
+    {
+      "case": 57,
+      "unscaled_change": 5.401075931722296,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 58,
+      "unscaled_change": 3.683348309544527,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 59,
+      "unscaled_change": -3.7058438534920426,
+      "alpha": 1.0,
+      "scaled_change": -3.7058438534920413
+    },
+    {
+      "case": 60,
+      "unscaled_change": 6.3273626471897835,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 61,
+      "unscaled_change": 2.3952976645506325,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 62,
+      "unscaled_change": 3.0646033058848103,
+      "alpha": 0.35650812200165,
+      "scaled_change": 7.105427357601002e-15
+    },
+    {
+      "case": 63,
+      "unscaled_change": 3.663107512292904,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 64,
+      "unscaled_change": -0.36895927918761373,
+      "alpha": 1.0,
+      "scaled_change": -0.36895927918761373
+    },
+    {
+      "case": 65,
+      "unscaled_change": 6.148522669444535,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 66,
+      "unscaled_change": 5.619769522432145,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 67,
+      "unscaled_change": 5.202093031034094,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 68,
+      "unscaled_change": 2.8706890291524783,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 69,
+      "unscaled_change": 3.2212663711641314,
+      "alpha": 0.6695203306271674,
+      "scaled_change": 3.552713678800501e-15
+    },
+    {
+      "case": 70,
+      "unscaled_change": 18.22348131574632,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 71,
+      "unscaled_change": 10.750955338047088,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 72,
+      "unscaled_change": 5.508266691826259,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 73,
+      "unscaled_change": 7.095307834044622,
+      "alpha": 0.10918032158182263,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 74,
+      "unscaled_change": 16.90683166375168,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 75,
+      "unscaled_change": 8.472109484662907,
+      "alpha": 0.5228911810123082,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 76,
+      "unscaled_change": 1.2457791343254558,
+      "alpha": 0.6065489591561809,
+      "scaled_change": -7.105427357601002e-15
+    },
+    {
+      "case": 77,
+      "unscaled_change": 8.140413231326047,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 78,
+      "unscaled_change": 7.836117272687364,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 79,
+      "unscaled_change": -1.7512264941232285,
+      "alpha": 1.0,
+      "scaled_change": -1.7512264941232267
+    },
+    {
+      "case": 80,
+      "unscaled_change": 7.176113944117975,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 81,
+      "unscaled_change": 3.0174301373164463,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 82,
+      "unscaled_change": 7.6232071121146765,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 83,
+      "unscaled_change": 5.667978521087759,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 84,
+      "unscaled_change": 6.514606202490517,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 85,
+      "unscaled_change": 4.270318133816859,
+      "alpha": 0.40192628480706427,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 86,
+      "unscaled_change": 3.3866902587514063,
+      "alpha": 0.043478285740707785,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 87,
+      "unscaled_change": 4.549593453521926,
+      "alpha": 0.23225921454251766,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 88,
+      "unscaled_change": 14.442188538055952,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 89,
+      "unscaled_change": -0.6249966549440105,
+      "alpha": 1.0,
+      "scaled_change": -0.6249966549440114
+    },
+    {
+      "case": 90,
+      "unscaled_change": 10.066022038163046,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 91,
+      "unscaled_change": 6.372200854455797,
+      "alpha": 0.35214765278152266,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 92,
+      "unscaled_change": 7.114116750901907,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 93,
+      "unscaled_change": 1.8100941729126525,
+      "alpha": 0.42288033532575564,
+      "scaled_change": 0.0
+    },
+    {
+      "case": 94,
+      "unscaled_change": -2.591918655916441,
+      "alpha": 1.0,
+      "scaled_change": -2.5919186559164373
+    },
+    {
+      "case": 95,
+      "unscaled_change": 8.083560568636496,
+      "alpha": 0.0,
+      "scaled_change": 0.0
+    }
+  ],
+  "protocol": "Prospective numerical cache-reuse discriminator, not a physics parameter change or acceptance. For passive joint warm start only, preserve maximum alpha in[0,1] with kinetic change L*alpha+Q*alpha^2<=0. Apply same alpha to cached impulses and generated velocity delta. Biased constraint solving retains original spring/motor/limit definitions. Positive prescribed motor speed is excluded from any candidate. Require conservation of pair linear/angular momentum, identical original warm update when already dissipative, finite coefficients, consistent scaled impulses and no kinetic increase in isolated algebra controls. This does not prove Rain acceptance; original residual/anchor/twist checks remain mandatory before any adoption.\n",
+  "source": "from pathlib import Path\nimport numpy as np,json\np=Path(__file__).resolve().parent;rng=np.random.default_rng(290926)\nrows=[];max_linear=max_angular=max_energy=0.\nfor case in range(96):\n mass=rng.uniform(.5,5,2);inv=[];I=[]\n for _ in range(2):\n  a=rng.normal(size=(3,3));tensor=a@a.T+np.eye(3);I.append(tensor);inv.append(np.linalg.inv(tensor))\n ra,rb=rng.normal(size=(2,3));positions=[-ra,-rb]\n velocity=rng.normal(size=(2,3));omega=rng.normal(size=(2,3));P,L=rng.normal(size=(2,3))\n dv=np.array([-P/mass[0],P/mass[1]]);dw=np.array([inv[0]@(-np.cross(ra,P)-L),inv[1]@(np.cross(rb,P)+L)])\n energy=lambda v,w:sum(.5*(mass[i]*(v[i]@v[i])+w[i]@I[i]@w[i]) for i in range(2))\n momentum=lambda v,w:(sum(mass[i]*v[i] for i in range(2)),sum(np.cross(positions[i],mass[i]*v[i])+I[i]@w[i] for i in range(2)))\n K0=energy(velocity,omega);Q=energy(dv,dw);linear=sum(mass[i]*(velocity[i]@dv[i])+omega[i]@I[i]@dw[i] for i in range(2));change=linear+Q\n alpha=1. if change<=0 else float(np.clip(-linear/Q,0,1))\n resultv=velocity+alpha*dv;resultw=omega+alpha*dw\n change_actual=energy(resultv,resultw)-K0\n assert abs(change_actual-(linear*alpha+Q*alpha*alpha))<1e-12\n assert change_actual<1e-12\n if change<=0:assert alpha==1.\n oldmom=momentum(velocity,omega);newmom=momentum(resultv,resultw)\n le=float(np.linalg.norm(oldmom[0]-newmom[0]));ae=float(np.linalg.norm(oldmom[1]-newmom[1]));assert le<1e-12 and ae<1e-12\n # Independent reconstruction from consistently scaled physical impulse.\n assert np.max(abs(alpha*dw[0]-inv[0]@(-np.cross(ra,alpha*P)-alpha*L)))<1e-12\n assert np.max(abs(alpha*dw[1]-inv[1]@(np.cross(rb,alpha*P)+alpha*L)))<1e-12\n max_linear=max(max_linear,le);max_angular=max(max_angular,ae);max_energy=max(max_energy,change_actual)\n rows.append({'case':case,'unscaled_change':float(change),'alpha':alpha,'scaled_change':float(change_actual)})\nassert any(r['alpha']==1 for r in rows) and any(0<r['alpha']<1 for r in rows) and any(r['alpha']==0 for r in rows)\nresult={'scope':'Float64 pair-impulse algebra only, not GPU or Rain validation','cases':96,'unchanged':sum(r['alpha']==1 for r in rows),'partial':sum(0<r['alpha']<1 for r in rows),'zero':sum(r['alpha']==0 for r in rows),'max_linear_momentum_error':max_linear,'max_angular_momentum_error':max_angular,'max_energy_increase':max_energy,'rows':rows}\n(p/'result.json').write_text(json.dumps(result,indent=2)+'\\n');print(json.dumps({k:v for k,v in result.items() if k!='rows'},indent=2))\n",
+  "source_sha256": "6a0379b9035bd547db13aa60e5b9eaf5ddffcae4d37db5e269a967b139f32673"
+}

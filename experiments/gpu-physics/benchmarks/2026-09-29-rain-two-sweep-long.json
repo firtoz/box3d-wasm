@@ -1,0 +1,42 @@
+{
+  "scope": "One ordinary600step fresh-history hip replay, not full Rain or five-repeat qualification",
+  "integrity": {
+    "initial_exact": true,
+    "first120body_frames_exact": true,
+    "body_rows": 25200,
+    "joint_rows": 16200,
+    "state_frames": 600
+  },
+  "stationary": false,
+  "static_compliance_screen_pass": false,
+  "tail120": {
+    "peak_cone": 0.1677003094544608,
+    "peak_estimate_error": 0.14485288308526925,
+    "peak_angular_speed": 7.508803444145781,
+    "minimum_axis_alignment": 0.6791301349186369,
+    "last": {
+      "frame": 600,
+      "cone": 0.15691606671609326,
+      "estimate": 0.012063183630824006,
+      "error": 0.14485288308526925,
+      "speed": 3.951370842113213,
+      "axis_alignment": 0.679257502596334,
+      "sleep": [
+        false,
+        false
+      ]
+    }
+  },
+  "trace_sha256": "519cc87b344a9baf970b0de93e9613e0a2ce3727a20b125e807abbddbc1e6311",
+  "protocol": {
+    "scope": "One ordinary600step two-sweep discriminator. Mixed120step outcome: anchors/twist improved, hip initial cone peak increased .314239->.318692rad. Not an acceptance pass or native expansion. Same stationary criterion and complete capture controls as original600step.",
+    "integrity": "Exit0,exact original42initial getters,25200finite body rows,16200finite joint records,600complete states, first120body frames byte-identical to preserved control.",
+    "stationary_compliance_screen": "Use prior isolated loaded-cone criterion unchanged: every final120target observations angular speeds below1e-3rad/s and absolute cone residual/static-softness estimate difference below1e-4rad. Require stationary start/end axis agreement and preserve all original Rain residual screens. If nonstationary, the static classification is inapplicable, not a pass.",
+    "duration": 600
+  },
+  "sources": {
+    "run.py": "import os,subprocess,json,time,hashlib\nfrom pathlib import Path\np=Path(__file__).resolve().parent\nsrc=p.parent/'rain-two-sweep-experiment'\nfor arm in ['candidate']:\n out=p/arm;out.mkdir(exist_ok=False)\n env={k:v for k,v in os.environ.items() if not k.startswith(('GPU_PHYSICS_','WGPU_','RAIN_'))}\n env.update(RAIN_CELL_ROW='3',RAIN_CELL_COLUMN='9',RAIN_REPLAY_BASE='3907',RAIN_REPLAY_STATE=str(src/'hip-initial.txt'),RAIN_REPLAY_LIMITS='1',RAIN_REPLAY_HEALTH='1',RAIN_REPLAY_COLLISIONS='1',GPU_PHYSICS_LIVE_CONTACT_ORDER='0',WGPU_BACKEND='vulkan',GPU_PHYSICS_STATE_TRACE=str(out/'trace.jsonl'))\n cmd=[str(src/f'{arm}-ordinary/fixture'),'600'];start=time.monotonic()\n with (out/'state.txt').open('w') as a,(out/'run.log').open('w') as b:r=subprocess.run(cmd,env=env,stdout=a,stderr=b)\n same=''.join((out/'state.txt').read_text().splitlines(True)[:5040]).encode()==(src/f'hip-{arm}/state.txt').read_bytes()\n (out/'exit.json').write_text(json.dumps({'exit':r.returncode,'seconds':time.monotonic()-start,'body_stream_exact':same}))\n print(arm,r.returncode,same,flush=True)\n assert r.returncode==0 and same\n",
+    "analyze.py": "from pathlib import Path\nimport json,math,hashlib,subprocess,struct\np=Path(__file__).resolve().parent;out=p/'candidate'\nr=json.loads((out/'exit.json').read_text());assert r['exit']==0 and r['body_stream_exact']\ninitialfile=p.parent/'rain-coupled-cone-point-experiment/hip-initial.txt'\ninitial={int(t[1]):list(map(float,t[2:15])) for t in map(str.split,initialfile.read_text().splitlines())}\nlines=list(map(str.split,(out/'run.log').read_text().splitlines()))\ngetters={int(t[1]):list(map(float,t[2:])) for t in lines if t and t[0]=='replay-initial'}\npack=lambda x:struct.pack('<'+'f'*len(x),*x)\nassert set(initial)==set(getters) and all(pack(initial[k])==pack(getters[k]) for k in initial)\nframes={}\nfor t in map(str.split,(out/'state.txt').read_text().splitlines()):\n frame,key=map(int,t[:2]);x=list(map(float,t[2:]));assert len(x)==14 and all(map(math.isfinite,x));assert key not in frames.setdefault(frame,{})\n frames[frame][key]=x\nassert set(frames)==set(range(600)) and all(set(x)==set(initial) for x in frames.values())\nlimits=[(int(t[1]),int(t[2]),list(map(float,t[3:]))) for t in lines if t and t[0]=='replay-spherical-limit']\nassert len(limits)==16200 and len(set((a,b) for a,b,_ in limits))==16200\nids={b for a,b,x in limits if a==0};assert len(ids)==27\nassert all(math.isfinite(z) for _,_,x in limits for z in x)\nassert all({b for a,b,x in limits if a==f}==ids for f in range(600))\ncount=0\nwith (out/'trace.jsonl').open() as src,(out/'excerpt.jsonl').open('w') as dst:\n for line in src:\n  d=json.loads(line);count+=1;assert d['frame']==count\n  starts=dict(zip(d['body_storage_order'],d['host_state']['step_start_bodies']))\n  excerpt={k:d[k] for k in ['frame','bodies','joints','settings']};excerpt.update(schema='rain-cell-diagnostic-excerpt-v1',step_start_bodies=starts)\n  dst.write(json.dumps(excerpt)+'\\n')\nassert count==600\nsubprocess.run(['python3','scripts/rain-episode-diagnostics/analyze_compliance.py',str(out/'excerpt.jsonl'),'--body-identity','38','--frames','600','--out',str(out/'compliance.json')],check=True)\nrows=json.loads((out/'compliance.json').read_text())['rows'];assert len(rows)==600\nsamples=[]\nfor x in rows:\n prediction=x['swing_static_softness_residual_estimate'];actual=x['cone_violation_libm'];assert prediction is not None\n samples.append({'frame':x['frame'],'cone':actual,'estimate':prediction,'error':abs(actual-prediction),'speed':max(x['endpoint_angular_speeds']),'axis_alignment':x['start_end_swing_axis_dot'],'sleep':x['endpoint_sleep_flags']})\ntail=samples[-120:];stationary=all(x['speed']<1e-3 and x['axis_alignment'] is not None and x['axis_alignment']>1-1e-8 for x in tail)\nsummary={'scope':'One ordinary600step fresh-history hip replay, not full Rain or five-repeat qualification','integrity':{'initial_exact':True,'first120body_frames_exact':True,'body_rows':25200,'joint_rows':16200,'state_frames':600},'stationary':stationary,'static_compliance_screen_pass':stationary and all(x['error']<1e-4 for x in tail),'tail120':{'peak_cone':max(x['cone'] for x in tail),'peak_estimate_error':max(x['error'] for x in tail),'peak_angular_speed':max(x['speed'] for x in tail),'minimum_axis_alignment':min(x['axis_alignment'] for x in tail),'last':tail[-1]},'trace_sha256':hashlib.sha256((out/'trace.jsonl').read_bytes()).hexdigest()}\n(p/'summary.json').write_text(json.dumps(summary,indent=2)+'\\n');print(json.dumps(summary,indent=2))\n"
+  },
+  "status": "failed stationary classification; no production adoption"
+}

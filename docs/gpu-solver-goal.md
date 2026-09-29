@@ -1,9 +1,243 @@
 # GPU solver goal and recovery scratchpad
 
-Updated: 2026-09-29. Status: paused at user request, incomplete.
+Updated: 2026-09-29. Status: resumed by explicit goal continuation, incomplete.
 Workspace: `/home/firtoz/work/2026/box3d-wasm`.
 Absolute scratchpad: `/home/firtoz/work/2026/box3d-wasm/docs/gpu-solver-goal.md`.
 Engine working directory: `experiments/gpu-physics` relative to that workspace.
+
+## Current work and recovery (2026-09-29)
+
+The full goal is resumed. This section owns current process state; older pause,
+bounded-task and live-job notes below are historical. Full objective and acceptance
+matrix remain below. HEAD is `0940a4f` on `feat/gpu`; origin was fetched. Box3D is
+initialized at its recorded clean revision. No additional commit or push requested.
+User authorizes continued work with unrestricted access and no routine prompts.
+Both controlled performance batches are complete and independently verified.
+Small session 88184 and large session 89242 exited 0; neither is running.
+All 8 prewarms and 40 measured fresh processes validate. No production solver
+change was made for these measurements.
+
+### Completed controlled benchmark and charts
+
+Five paired fresh runs per ordinary/native path and scene used 60 warmup plus
+180 timed completed steps, alternating order, equal prewarming, identical cache
+copies and frozen release binaries, without diagnostic capture or competing GPU
+work. Large Pyramid has 5,050 dynamic cubes plus ground, no joints, sleep disabled.
+Falling Ragdolls has 116 bodies and 112 joints, sleep enabled. Timing includes
+queue completion, pose synchronization and bounded counters; it is not shader-only.
+Physics uses NVIDIA RTX 4070 SUPER Vulkan; llvmpipe only renders the separate
+320x240 display. Both modes execute the GPU solver, and mode 0 also uses paired normals.
+
+| Scene / path | Geometric mode0/mode1 ratio | Two-sided 95% interval | One-sided 95% upper | Mean-speed screen |
+| --- | ---: | --- | ---: | --- |
+| Falling Ragdolls / ordinary | 0.912948 | [0.872564, 0.955200] | 0.945219 | Pass |
+| Falling Ragdolls / native cached | 0.933863 | [0.882990, 0.987666] | 0.974905 | Pass |
+| Large Pyramid / ordinary | 1.030844 | [0.989302, 1.074129] | 1.063921 | Fail |
+| Large Pyramid / native cached | 1.048522 | [1.025471, 1.072090] | 1.066571 | Fail |
+
+All reports, hashes, run matrices, means, p95/max and confidence bounds were
+independently revalidated. Portable receipts are
+`benchmarks/2026-09-29-small-scene-performance.json` and
+`benchmarks/2026-09-29-large-scene-performance.json`. No selective extra repeats.
+GPU-native remains opt-in, with CPU-compatible ordering the default: two of four
+performance screens fail, tails are mixed, and physical/final-repeat gates remain
+open. This evidence applies to the measured candidate, not future solver edits.
+
+User-requested charts are rendered and visually checked: all five paired means,
+ratios with uncertainty and individual pairs, and every run's p95/max.
+`scripts/plot-solver-performance.py` produces PNG/SVG and an HTML index in
+`artifacts/gpu-solver-qualification/desktop-baseline/performance-charts/` from the
+two portable receipts. Charts delivered before starting the prepared Rain
+experiment. Original failed performance receipts remain unchanged.
+
+### Completed evidence relevant to the next step
+
+- Nine receipt-runner regressions pass. The existing ordinary CCD metric regression
+  passes; its initial sandbox adapter failure is preserved separately.
+- The original failed performance attempt remains failed. One diagnostic repeat
+  attributes all 16 stale metric rows exactly to deferred host CCD corrections;
+  all 180 metric records match the original report. Source was restored byte-exact,
+  and the rebuilt normal sample matches the original frozen executable SHA256.
+  See `benchmarks/2026-09-29-performance-ccd-attribution.json` and the qualification
+  report. No production solver change remains from that diagnosis.
+- `scripts/solver_performance_validate.py` preserves scheduling-phase labels and
+  checks known/current-step/topology/capacity guarantees, a truthful current flag,
+  and the audited CCD revision transition. It is scoped to the two immutable,
+  input-free benchmark scenes. Four focused tests and 15 real-report corruption
+  controls pass; the original report was not rewritten or promoted to a pass.
+- Small-scene session 88184 completed with exit 0. All four prewarms and 20 measured
+  processes validate; five paired means were independently recomputed from hashed
+  reports. Ordinary order1/order0 means: 25.3590/23.1647 ms, geometric ratio 0.912948,
+  one-sided 95% upper 0.945219. Native: 24.5720/22.9559 ms, ratio 0.933863, upper
+  0.974905. Both mean-latency screens pass on this candidate. Some maxima regress;
+  no blanket tail acceptance or default switch. Portable receipt:
+  `benchmarks/2026-09-29-small-scene-performance.json`.
+
+All benchmark paths above are engine-relative unless prefixed with `experiments/`.
+GPU-native remains opt-in: Rain/drag/final-repeat/delivery gates remain open.
+
+### Rejected Rain coupled cone/point experiment and follow-up
+
+CPU-only coupled cone/point controls passed 96 float64 cases: 46 active and 50
+inactive cone constraints. Independent 4x4 and Schur solutions agree within
+1.34e-15; stationarity/complementarity error is below 3.34e-14, momentum error below
+3.56e-15, and hard zero-bias controls gain no energy. The uncoupled limit preserves
+original softness. This is algebra evidence, not GPU or Rain acceptance; see
+`benchmarks/2026-09-29-rain-coupled-block-controls.json`.
+
+The artifact-only candidate is prepared under
+`artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-cone-point-experiment/`:
+protocol, original/candidate shader, build/replay/analyze scripts, and exact original
+initial states. It couples three point rows and a unilateral cone row using Schur
+elimination with refreshed angular frames, original softness, accumulated-impulse
+clamping, and a near-singular sequential fallback. Fresh baseline diagnostic build
+41615 exited 0, then both baseline/candidate ordinary fixtures linked successfully.
+Candidate release build exited 0 and original shader source is restored byte-exact.
+Session 27605 exited 0: all four ordinary replay arms completed with exact
+initial state and complete finite records. Both baseline state streams exactly
+match the prior angular-frame experiment. The candidate is REJECTED: hip target
+anchor peak 5.908 -> 9.365 mm, severe target anchor 67.881 -> 76.285 mm, severe
+all-joint upper-twist 0.032335 -> 0.051236 rad despite cone improvements.
+Portable evidence: `benchmarks/2026-09-29-rain-coupled-cone-point.json`, including
+candidate patch and hashes. No native expansion or five-repeat acceptance.
+Normal baseline release rebuild 62190 exited 0; original shader is byte-exact
+and target/release now contains the normal baseline. Restoration/hash receipt
+is preserved. No live process remains from this experiment.
+
+Follow-up capture audit session 21834 exited 0: both 120-step hip captures
+reproduce their noncapture body streams byte-exact. End-state point-softness
+reconstruction finds tail mean anchor 2.216/8.160 mm baseline/candidate versus
+static estimates 1.830/8.736 mm. Candidate point speed remains 0.434 m/s and mean
+vector residual 1.658 mm. This supports increased loaded compliance as a major
+component, not static equilibrium or acceptance. The candidate remains rejected.
+Portable receipt `benchmarks/2026-09-29-rain-coupled-anchor-audit.json` contains
+analysis/run sources and hashes. No source change or live process remains.
+
+Phase-consistency experiment 15139 completed: all four ordinary arms exit 0,
+with exact initial getters, 5,040 finite body observations and 3,240 complete
+joint observations each. Baselines reproduce prior state bytes. Candidate refreshes
+angular axes at substep warm start and holds them through relaxation, preserving
+original sequential rows/softness. It is REJECTED: hip anchor 5.908 -> 8.993 mm,
+severe anchor 67.881 -> 72.540 mm, severe upper-twist 0.032335 -> 0.057534 rad,
+despite reduced cone errors. Thus refresh timing alone is insufficient.
+Portable receipt: `benchmarks/2026-09-29-rain-substep-angular-frame.json`.
+Artifact directory: `desktop-baseline/rain-substep-angular-frame-experiment/`.
+First arithmetic-confounded build remains unevaluated. A unit-inertia projection
+control demonstrates a tangential residue, not energy injection; do not treat it
+as proof of a cache-transport defect. No native/five-repeat expansion.
+Original source is restored; normal baseline rebuild 29395 exited 0. Archive
+SHA256 matches the prior normal baseline byte-exact. No live process remains.
+
+New original-hip evidence closes two diagnostic branches. Existing 120-step
+phase data and recent baseline state capture match exactly. All-body kinetic
+phase accounting telescopes within 1.07e-14 J; kinetic plus gravitational energy
+falls 143.7105 J overall and 6.6184 J over the last60steps. Stored compliant energy
+is omitted, so this neither proves nor clears physical work balance. Portable
+receipt/source: `benchmarks/2026-09-29-rain-phase-energy.json`.
+
+Original hip extension to600steps (96979) and analysis (23733) both exit0.
+42initial getters and first120body frames match exactly;25200finite body records,
+16200joint records and600state frames validate. The predeclared stationary
+compliance screen FAILS: tail120peak angular speed11.3438rad/s, peakcone.192977rad,
+peak static-estimate difference.176926rad. Final cone.186425 versus predicted
+.0133593rad, endpoint speed9.21768rad/s, both awake. This moving episode cannot
+be classified as settled loaded softness. Receipt/source:
+`benchmarks/2026-09-29-rain-hip-long-compliance.json`.
+No production source change or live process remains.
+
+Two-sweep discriminator74154 and600step extension6402 both exit0.
+Both additional runtime passes were confirmed.120step baselines match original
+bytes; all arms have exact initial getters and complete finite body/joint output.
+Anchors and twist improve (hip5.908->5.182mm, severe67.881->63.238mm;
+severe upper-twist.032335->.023802rad), but hip initialcone rises.314239->.318692.
+Late hipcone improves.210057->.174631rad; severe latecone becomes0.
+The600step candidate still fails stationary classification: peak tailangular
+7.5088rad/s, finalcone.156916 versus staticestimate.0120632rad, endpoint speed
+3.95137rad/s. All600states/25200body/16200joint observations validate and the
+first120candidate frames match exactly. No production adoption or native repeats.
+Receipts: `benchmarks/2026-09-29-rain-two-sweep.json` and
+`benchmarks/2026-09-29-rain-two-sweep-long.json`.
+Original sim.rs restored; baseline normal rebuild58446 exited0 and its archive
+matches the prior baseline byte-exact. No live process remains.
+
+Finite2x2 angular-refresh / extra-wave comparison completed. Final combined
+runner61882 exits0, with all four ordinary120step arms complete and exact initial
+getters,5040finite body/3240joint observations per arm. Both baselines match prior
+bytes; extra-pass markers confirm execution. Combined hipcone improves to.110976
+peak/.096286tail, but targetanchor worsens5.908->9.482mm. Severecone1.254127->
+.591598rad, targetanchor67.881->58.787mm, uppertwist.032335->.027670rad improve.
+Candidate is REJECTED under unchanged tradeoff rule. All four cells evaluated;
+do not repeat them or start an iteration-count sweep. Original Rain baseline
+is still unqualified, not accepted by elimination. Portable receipt:
+`benchmarks/2026-09-29-rain-refresh-two-sweep.json`.
+Both original sources restored; normal baseline rebuild43716 exited0 and its
+archive matches the previous baseline byte-exact. No live process remains.
+
+Current baseline state-source applicability now verified. All18dependency audit
+hashes and211orderedGpuSim fields match. Twelve device owners/ten scratch regions
+remain covered.21of23source files match consolidation+paired amendment exactly;
+world.rs difference is precisely72test-only lines, and collide.wgsl difference
+is the reviewed empty-manifold veto using already-captured contact count.
+Selected flags ordinary262144/native393216 and completed-public-World boundary
+remain mandatory; CPU-compatible trees/midstep/extra diagnostic modes excluded.
+Three receipt corruptions (sourcehash,missingfield,wrongmode) reject. Source
+contract applicability is CLOSED for baseline0940a4f, not final repeat/physics
+qualification. Portable full audit bundle:
+`benchmarks/2026-09-29-state-audit-applicability.json`. No production changes or
+live processes. Final selected v22five-process repeat matrix remains open.
+
+Hip row kinetic diagnostic build7466/replay4899 completed0. All physical
+body bytes, dynamic phase words and aggregate phase summaries match original
+exactly.1440targetpass observations telescope within7.16e-7J (<4.33% declared
+float32bound). In tail60, cone bias+2.462693J/relax-2.170685J; point-.788935/
+-.410249J; spring/motor dissipative on average; twistinactive. Whole targetjoint
+bias+1.337268J/relax-2.724869J and warm-6.35835J on average. Thus targetjoint
+updates net remove pairkinetic energy; do not call it the sole source of sustained
+motion. Other joints/contact transfers and stored compliant energy remain open.
+Receipt with sources/patches: `benchmarks/2026-09-29-rain-hip-joint-work.json`.
+Both original shaders restored. Normal baseline rebuild89208 exited0 and its
+archive matches previous baseline byte-exact. No live job remains. Diagnostic
+bridge archives remain separate from the normal baseline.
+
+Complete joint kinetic accounting build/replay31507 and analysis exit0.
+All27spherical/12revolute updates included;3filter joints confirmed. Every physical
+body byte, dynamic phase word and aggregate summary matches original exactly.
+All1440pass records finite; aggregate row sum error<=1.75e-6J. Revolute live cached
+axes preserved; carriers cleared eachphase so sleeping/skipped joints cannot
+contribute stale work. Tail60phase sums: joints+11.2654J/substep, inferredcontacts
+-11.6068J/substep. Warmjoint+18.8536J comprises spherical+6.1402/revolute+12.7134.
+Biasjoint-2.0500, relaxjoint-5.5383. Thus net kinetic source is on the joint side
+of this interleaved accounting, not contacts. This does NOT include compliant
+stored energy or prove a warm-start defect/physical acceptance.
+Receipt: `benchmarks/2026-09-29-rain-all-joint-work.json`.
+Both original shaders restored; normal baseline rebuild7422 exited0 and its
+archive matches prior baseline byte-exact. No live process remains.
+
+Revolute basis hypothesis checked with current source and saved120step states:
+1440hinge observations have current preparation tags;1428frame boundaries have
+maxaxis component difference7.06e-7 and cached torque-impulse change7.51e-7.
+Thus no large frame-boundary basis jump is demonstrated; do not add a transport
+fix on that hypothesis. Receipt/source:
+`benchmarks/2026-09-29-rain-revolute-basis-audit.json`.
+
+Prospective passive warm-cache line-search controls pass96float64 cases:
+15unchanged/33partial/48zero guesses, conserved pair momentum (<8e-15 error),
+consistent cached-impulse/velocity scaling and nonpositive kinetic change within
+7.11e-15roundoff. Given change L*alpha+Q*alpha², retain maximal alpha in[0,1]
+with change<=0. Subsequent biased solve and physical coefficients stay intact;
+active prescribed motors must be excluded. This is a numerical initial-guess
+experiment, not proof positive joint work is physically wrong or an acceptedfix.
+Receipt/source: `benchmarks/2026-09-29-warm-cache-line-search-controls.json`.
+No production changes or live processes.
+
+Next bounded candidate: implement the cache-reuse guard artifact-only for passive
+spherical/revolute warm updates under GPU-native flag, scaling each joint's actual
+impulse caches together with velocity increments (never scale revolute cached
+axes). Preserve active-motor behavior and CPU-compatible path. Predeclare exact
+original replay/physical checks and isolated loaded-response controls before
+execution; reject failures and do not infer qualification from algebra. No blanket
+warm-start disabling. Rain/fullmatrix/v22repeats/performance/recordings remain
+open; GPU-native stays opt-in.
 
 ## Bounded execution ended: friction, support and small-scene performance (2026-09-29)
 
@@ -1302,7 +1536,7 @@ All paths below are relative to the generated evidence directory unless stated o
 | --- | --- | --- |
 | Fixed qualification contract | Named fixtures, limits, commands and durations for all capabilities | Fixed fixture selection and existing limits now recorded in qualification doc; acceptance gaps remain explicit (Rain/restitution, island wake, persistent state, performance decision) |
 | Ragdoll physical behavior | 5 x 600 steps per path, unchanged stability limits | Current child-compaction candidate: all ten original physical screens pass; `desktop-baseline/ragdoll-child-compaction-five/physical-summary.json` |
-| Ragdoll full-state repeatability | Every relevant semantic field identical over those runs | Current candidate passes five600step audited comparisons per path with exact slots/counters; only occupied/history memberships normalized. Final semantic coverage audit remains open; raw append-order failures preserved |
+| Ragdoll full-state repeatability | Every relevant semantic field identical over those runs | Current candidate passes five600step audited comparisons per path with exact slots/counters; only occupied/history memberships normalized. Selected v22source-contract applicability verified on0940a4f; final v22repeats remain open; raw append-order failures preserved |
 | Rain recycling and joint behavior | Full 600-step identity/health checks, resolve excessive residuals | Open: 8,400 created identities, 4,200 reused slots and 1,948,800 joint observations mapped; residual screens still fail |
 | Rain complete-state repeatability | 5 fresh full 600-step runs per path on fixed candidate | Open: run1 reaches600both; ordinary run1 complete/run2 interrupted, native launcher cleanup failed; no five-run qualification |
 | Collision/support/energy | Analytical support, mesh contact and penetration cases | 57 frozen-pose cases and 5 x 600-step stack checks passed historically; final-build/wider matrix open |
@@ -1315,7 +1549,7 @@ All paths below are relative to the generated evidence directory unless stated o
 | Native replay | Actual cached-step reuse plus mutation/reentry and full-state repeats | Current child-compaction build: five48step raw-state repeats pass with42actual replay hits each, including substep/transform reentry; command-policy-audit/ |
 | Numerical regressions | Preserve analytical/isolated numerical checks | All 28 precision tests passed both paths after latest production fix |
 | Persistent-state coverage | Audited future-relevant fields and negative controls | Selected GPU-native completed-boundary source audit consolidated across211GpuSim fields and12device owners; v22 captures include demonstrated history/retirement omissions. Final frozen-candidate repeat evidence remains open; older v20 full-scene runs are insufficient. |
-| Controlled performance | Small/large scene benchmarks, each path/order, no tracing | Plan exists; not executed |
+| Controlled performance | Small/large scene benchmarks, each path/order, no tracing | Both scenes: five paired runs per path validated on 0940a4f. Small screens pass; both large screens fail; tails mixed. Keep GPU-native opt-in; final-candidate applicability open |
 | Visual delivery/default | Repeated GPU clips, CPU comparison, documented mode selection | GPU-native qualification recordings pending; GPU-native remains opt-in |
 
 ## Current implementation and findings

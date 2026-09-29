@@ -1,0 +1,31 @@
+{
+  "status": "pass",
+  "cases": 96,
+  "active_sets": {
+    "active": 46,
+    "inactive": 50
+  },
+  "max_solution_error": 1.3322676295501878e-15,
+  "max_constraint_violation": 3.3306690738754696e-14,
+  "max_hard_energy_gain": 0.0,
+  "max_momentum_error": 3.552713678800501e-15,
+  "scope": "float64 offline algebra and physical controls only; not GPU/Rain acceptance",
+  "protocol": {
+    "scope": "Offline analytical controls only; no GPU work or production changes during controlled performance batch. Candidate addresses cone/point coupling identified by rejected angular-frame refresh.",
+    "equations": "K=J M^-1 J^T for point XYZ and cone row; softness Gamma has point block Kpp*zp/yp and cone diagonal Kcc*zc/yc. Solve (K+Gamma) delta=-(Jv+b+Gamma*old). Enforce accumulated cone impulse>=0 by two active sets; if clamped, solve point equations with delta_cone=-old_cone.",
+    "acceptance": [
+      "Independent full 4x4 active-set solution agrees with Schur-complement result within1e-10",
+      "Point stationarity, cone complementarity and nonnegative accumulated cone impulse within1e-10",
+      "For zero bias and hard constraints, corrected kinetic energy does not exceed pre-warm baseline by1e-10",
+      "Action/reaction preserve linear and angular momentum about coincident anchor by1e-10",
+      "Uncoupled limit reproduces original scalar/vector softness update within1e-10"
+    ],
+    "limits": "Does not prove float32 GPU behavior, rotating cache transport, full-scene acceptance, or resolution of Rain. No relaxed physical thresholds. Current prepared-axis and refreshed-axis candidates must retain full replay cone/twist/anchor checks."
+  },
+  "evidence_directory": "experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-block-controls",
+  "evidence_sha256": {
+    "check.py": "102e0ed15570446371d317eebc07ae1255f35ff9e5c08b5dd1cc88422bf8fca4",
+    "protocol.json": "4d7a7a2cf5e52515f26f4708c047afe9f97013b18551113b880b8360a3e03215",
+    "result.json": "38d6c5636ac8163875f5a3a38a9a696e4a7916ee4c1b2fda5d445c58acacf979"
+  }
+}

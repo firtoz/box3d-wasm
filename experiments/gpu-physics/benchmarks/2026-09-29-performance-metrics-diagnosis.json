@@ -1,0 +1,46 @@
+{
+  "revision": "0940a4f",
+  "scope": "Read-only diagnosis of preserved failed performance prewarm; no performance acceptance or repeat qualification",
+  "report_sha256": "b8ddb7c1fb877dc6e904ac46be935d6f76a6eeaad1b9d51277ec6e55cad7377d",
+  "measured_rows_in_failed_prewarm": 180,
+  "stale_steps": [
+    87,
+    117,
+    118,
+    123,
+    142,
+    161,
+    162,
+    164,
+    165,
+    166,
+    167,
+    169,
+    173,
+    174,
+    181,
+    214
+  ],
+  "all_rows_known_same_step_topology_no_capacity_loss": true,
+  "all_stale_rows_state_delta_one": true,
+  "receipt_regression": {
+    "command": "python3 scripts/test-sample-state-repeats.py",
+    "tests": 9,
+    "exit": 0
+  },
+  "ccd_metrics_regression": {
+    "binary": "artifacts/gpu-solver-qualification/desktop-baseline/three-checks-d19a93d/friction/ordinary/fixture",
+    "sha256": "e16d75e9ac121d76fa566470be5d0aea0c84c10175caebe898f1f9d095403348",
+    "selector": "api::world::contact_metrics_tests::ccd_correction_invalidates_the_scheduling_snapshot_state",
+    "tests": 1,
+    "exit": 0,
+    "device": "NVIDIA GeForce RTX 4070 SUPER / Vulkan",
+    "sandbox_attempt": {
+      "exit": 101,
+      "reason": "no compatible GPU adapter"
+    },
+    "scope": "Existing regression checks both host and GPU CCD invalidation on the ordinary build; not native-cache qualification"
+  },
+  "conclusion": "The unconditional benchmark current predicate conflicts with the existing scheduling-phase CCD invalidation contract. Preserved report is consistent with host CCD corrections, but lacks per-frame correction attribution. Original performance failure remains failed; no timings promoted to accepted results.",
+  "next_action": "Establish explicit CCD revision attribution before revising performance validation; preserve unknown/old-step/topology/capacity rejection and original failed receipt."
+}

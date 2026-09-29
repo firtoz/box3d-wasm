@@ -1,0 +1,130 @@
+{
+  "scope": "End-state float64 diagnostic of cached impulses and prescribed point softness; not a substep equilibrium proof or physical acceptance",
+  "arms": {
+    "baseline": {
+      "last": {
+        "frame": 120,
+        "anchor": 0.0016897006260325885,
+        "estimate": 0.0012163408369389797,
+        "vector_residual": 0.0009233850583205582,
+        "dot": 1.7409666356453395e-06,
+        "anchor_vector": [
+          -0.0014378567297066297,
+          -0.00015134512269226932,
+          -0.0008745003626583238
+        ],
+        "static_estimate_vector": [
+          -0.0007029092117745288,
+          -0.0006874476375923369,
+          -0.0007161141090473245
+        ],
+        "point_speed": 0.09429188447080818,
+        "omega_a": 1.0336968119720649,
+        "omega_b": 5.224319559258573,
+        "sleep": [
+          false,
+          false
+        ]
+      },
+      "tail60": {
+        "anchor": {
+          "mean": 0.0022157559356512616,
+          "max": 0.0031460136349548444
+        },
+        "estimate": {
+          "mean": 0.001830025670771925,
+          "max": 0.004612707584090687
+        },
+        "vector_residual": {
+          "mean": 0.0011746564902910114,
+          "max": 0.0024755366139777826
+        },
+        "point_speed": {
+          "mean": 0.16858572454041942,
+          "max": 0.7777389167152666
+        },
+        "omega_a": {
+          "mean": 2.1473695376671045,
+          "max": 4.968964049855537
+        },
+        "omega_b": {
+          "mean": 6.548935611251138,
+          "max": 10.728672289014172
+        }
+      },
+      "source_sha256": "0cf3a3aa2427726972f2ffd9db6416a5b7bca3acc08ff8af528233bccad8a537",
+      "capture_receipt": {
+        "exit": 0,
+        "seconds": 5.656595765991369,
+        "body_stream_exact": true
+      }
+    },
+    "candidate": {
+      "last": {
+        "frame": 120,
+        "anchor": 0.008136853996616556,
+        "estimate": 0.008758463148834604,
+        "vector_residual": 0.0012544907036430009,
+        "dot": 7.067266138311095e-05,
+        "anchor_vector": [
+          -0.004979055815117518,
+          0.0008543759068664562,
+          -0.006378670548160124
+        ],
+        "static_estimate_vector": [
+          -0.005739158907393256,
+          -0.00011520880891420005,
+          -0.006615093249193921
+        ],
+        "point_speed": 0.40680769191464605,
+        "omega_a": 0.9587187237460665,
+        "omega_b": 2.080422167854606,
+        "sleep": [
+          false,
+          false
+        ]
+      },
+      "tail60": {
+        "anchor": {
+          "mean": 0.008160247284263797,
+          "max": 0.00822600860497186
+        },
+        "estimate": {
+          "mean": 0.00873646898496274,
+          "max": 0.008849647687501986
+        },
+        "vector_residual": {
+          "mean": 0.0016584432519764901,
+          "max": 0.001975511288636708
+        },
+        "point_speed": {
+          "mean": 0.4344207910734271,
+          "max": 0.45806216023547075
+        },
+        "omega_a": {
+          "mean": 1.0295798980059874,
+          "max": 1.1431582067418364
+        },
+        "omega_b": {
+          "mean": 2.2979581180041233,
+          "max": 2.690296829212052
+        }
+      },
+      "source_sha256": "5d138d91ef90d43e5e6590b35d61a88e5b928dc2356703031b5bce18ae52c17d",
+      "capture_receipt": {
+        "exit": 0,
+        "seconds": 5.736286031999043,
+        "body_stream_exact": true
+      }
+    }
+  },
+  "protocol": "Two hip120step baseline/candidate state captures from frozen rejected experiment fixtures. Require exit0, identical body output to original noncapture arms,120complete captures. Reconstruct prescribed soft point residual from retained joint impulse and actual world point mass using captured initial transforms, compare final anchor vector and point velocity. Diagnostic only: dynamic/non-equilibrium effects must remain explicit, no new physical acceptance tolerance. No shader or scene changes.\n",
+  "analysis_source": "import json,struct,math,hashlib\nfrom pathlib import Path\nimport numpy as np\np=Path(__file__).resolve().parent\nf=lambda x:struct.unpack('!f',bytes.fromhex(x))[0]\nv=lambda x:np.array([f(t) for t in x])\ndef R(q):\n x,y,z,w=q\n return np.array([[1-2*(y*y+z*z),2*(x*y-z*w),2*(x*z+y*w)],[2*(x*y+z*w),1-2*(x*x+z*z),2*(y*z-x*w)],[2*(x*z-y*w),2*(y*z+x*w),1-2*(x*x+y*y)]])\ndef S(r):\n x,y,z=r;return np.array([[0,-z,y],[z,0,-x],[-y,x,0]])\nsummary={'scope':'End-state float64 diagnostic of cached impulses and prescribed point softness; not a substep equilibrium proof or physical acceptance','arms':{}}\nfor arm in ['baseline','candidate']:\n out=p/arm;receipt=json.loads((out/'exit.json').read_text());assert receipt['exit']==0 and receipt['body_stream_exact']\n rows=[]\n bodyrows={(int(t[0])+1,int(t[1])-3907+2):list(map(float,t[2:])) for t in map(str.split,(out/'state.txt').read_text().splitlines())}\n with (out/'trace.jsonl').open() as source:\n  for line in source:\n   d=json.loads(line);assert d['frame']==len(rows)+1\n   bodies={b['identity']:b for b in d['bodies']};starts=dict(zip(d['body_storage_order'],d['host_state']['step_start_bodies']))\n   j=next(j for j in d['joints'] if j['kind']==3 and j['b']==38)\n   a,b=[bodies[j[k]] for k in ['a','b']]\n   levers=[R(v(z['rot']))@(v(j['anchor_'+k])-v(z['local_center'])) for k,z in [('a',a),('b',b)]]\n   ia=[]\n   for z in [a,b]:\n    diag=v(z['inv_inertia']);lo=v(z['gpu_motion']['inv_inertia_offdiag']);hi=v(z['gpu_motion']['inv_inertia_upper'])\n    local=np.array([[diag[0],hi[0],hi[1]],[lo[0],diag[1],hi[2]],[lo[1],lo[2],diag[2]]]);r=R(v(starts[z['identity']]['rot']));ia.append(r@local@r.T)\n   ra,rb=levers\n   K=(f(a['inv_mass'])+f(b['inv_mass']))*np.eye(3)-S(ra)@ia[0]@S(ra)-S(rb)@ia[1]@S(rb)\n   c=(v(b['pos'])-v(a['pos']))+rb-ra\n   velocity=v(b['vel'])+np.cross(v(b['omega']),rb)-v(a['vel'])-np.cross(v(a['omega']),ra)\n   h=f(d['settings']['dt']);omega=2*math.pi*min(f(j['hertz']),.25/h)\n   estimate=-K@v(j['angular_impulse'])/(h*omega*omega)\n   assert abs(np.linalg.norm(c)-bodyrows[d['frame'],38][-1])<2e-5\n   rows.append(dict(frame=d['frame'],anchor=float(np.linalg.norm(c)),estimate=float(np.linalg.norm(estimate)),vector_residual=float(np.linalg.norm(c-estimate)),dot=float(np.dot(c,estimate)),anchor_vector=c.tolist(),static_estimate_vector=estimate.tolist(),point_speed=float(np.linalg.norm(velocity)),omega_a=float(np.linalg.norm(v(a['omega']))),omega_b=float(np.linalg.norm(v(b['omega']))),sleep=[bool(z['flags']&4) for z in [a,b]]))\n assert len(rows)==120\n tail=rows[60:]\n summary['arms'][arm]={'last':rows[-1],'tail60':{key:{'mean':float(np.mean([r[key] for r in tail])),'max':max(r[key] for r in tail)} for key in ['anchor','estimate','vector_residual','point_speed','omega_a','omega_b']},'source_sha256':hashlib.sha256((out/'trace.jsonl').read_bytes()).hexdigest(),'capture_receipt':receipt}\n (out/'point-softness.json').write_text(json.dumps(rows,indent=2)+'\\n')\n(p/'summary.json').write_text(json.dumps(summary,indent=2)+'\\n')\nprint(json.dumps(summary,indent=2))\n",
+  "run_source": "import os,subprocess,json,time,hashlib\nfrom pathlib import Path\np=Path(__file__).resolve().parent\nsrc=p.parent/'rain-coupled-cone-point-experiment'\nfor arm in ['baseline','candidate']:\n out=p/arm;out.mkdir(exist_ok=False)\n env={k:v for k,v in os.environ.items() if not k.startswith(('GPU_PHYSICS_','WGPU_','RAIN_'))}\n env.update(RAIN_CELL_ROW='3',RAIN_CELL_COLUMN='9',RAIN_REPLAY_BASE='3907',RAIN_REPLAY_STATE=str(src/'hip-initial.txt'),RAIN_REPLAY_LIMITS='1',RAIN_REPLAY_HEALTH='1',RAIN_REPLAY_COLLISIONS='1',GPU_PHYSICS_LIVE_CONTACT_ORDER='0',WGPU_BACKEND='vulkan',GPU_PHYSICS_STATE_TRACE=str(out/'trace.jsonl'))\n cmd=[str(src/f'{arm}-ordinary/fixture'),'120'];start=time.monotonic()\n with (out/'state.txt').open('w') as a,(out/'run.log').open('w') as b:r=subprocess.run(cmd,env=env,stdout=a,stderr=b)\n same=(out/'state.txt').read_bytes()==(src/f'hip-{arm}/state.txt').read_bytes()\n (out/'exit.json').write_text(json.dumps({'exit':r.returncode,'seconds':time.monotonic()-start,'body_stream_exact':same}))\n print(arm,r.returncode,same,flush=True)\n assert r.returncode==0 and same\n",
+  "interpretation": "Candidate anchor increase is broadly consistent with increased loaded point compliance, but endpoint motion and vector residual remain: not static equilibrium, not acceptance, and rejected experiment stays rejected. No shader/default change.",
+  "hashes": {
+    "run.py": "92186c86b89e90780777d2c7ccfa8c05c0f4e617d3f5116fd89b448d85f3bbbe",
+    "analyze.py": "ee5c4294a50bb146d5eb1b11722711241f5d863d82da440a3c672edc6697e3e1",
+    "protocol.txt": "c4db5018df9ce737e41711c20c9b81e14e4cb3cde0913d364a49d6a913a12524"
+  }
+}

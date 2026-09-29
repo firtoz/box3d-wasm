@@ -1,0 +1,27 @@
+{
+  "scope": "Independent float64 geometry reconstruction of previous saved revolute bases versus next-frame preparation, using all12hinges in original120step replay. This checks boundary basis continuity, not total work or physical acceptance.",
+  "frames": 120,
+  "hinges": 12,
+  "boundary_observations": 1428,
+  "updated_axis_observations": 1440,
+  "stale_step_records": [],
+  "maximum_end_axis_component_error": 7.055003870548582e-07,
+  "maximum_boundary_axis_component_change": 7.055003870548582e-07,
+  "maximum_boundary_cached_torque_impulse_change": 7.507821404120871e-07,
+  "maximum_cached_torque_impulse_norm": 1.402159370188374,
+  "worst_change": {
+    "frame": 11,
+    "joint": 35,
+    "axis_max_component_change": 4.5895500316861515e-07,
+    "impulse_vector_change": 7.507821404120871e-07,
+    "old_impulse_vector_norm": 0.8189508645385424
+  },
+  "trace_sha256": "0cf3a3aa2427726972f2ffd9db6416a5b7bca3acc08ff8af528233bccad8a537",
+  "analysis_source": "from pathlib import Path\nimport json,struct,math,hashlib\nimport numpy as np\nroot=Path('experiments/gpu-physics');base=root/'artifacts/gpu-solver-qualification/desktop-baseline';trace=base/'rain-coupled-anchor-audit/baseline/trace.jsonl';out=base/'rain-revolute-basis-audit';out.mkdir(exist_ok=False)\nf=lambda x:struct.unpack('!f',bytes.fromhex(x))[0]\nv=lambda x:np.array([f(t) for t in x])\ndef mul(a,b):return np.r_[a[3]*b[:3]+b[3]*a[:3]+np.cross(a[:3],b[:3]),a[3]*b[3]-np.dot(a[:3],b[:3])]\ndef inv(q):return np.r_[-q[:3],q[3]]\ndef rotate(q,x):return x+2*np.cross(q[:3],np.cross(q[:3],x)+q[3]*x)\ndef axes(qa,qb,j):\n a=mul(qa,v(j['frame_a_rotation']));b=mul(qb,v(j['frame_b_rotation']))\n if np.dot(a,b)<0:b=-b\n rel=mul(inv(a),b)\n return np.column_stack([.5*rotate(a,rel[3]*e+np.cross(rel[:3],e)) for e in [np.array([1.,0,0]),np.array([0.,1,0])]])\nprevious=None;rows=[];end_errors=[];flags=[]\nwith trace.open() as source:\n for line in source:\n  d=json.loads(line);bs={x['identity']:x for x in d['bodies']};starts=dict(zip(d['body_storage_order'],d['host_state']['step_start_bodies']));js={j['identity']:j for j in d['joints'] if j['kind']==1};assert len(js)==12\n  for id,j in js.items():\n   stored=np.column_stack([v(j['weld_linear_impulse']),v(j['weld_angular_impulse'])]);actual=axes(v(bs[j['a']]['rot']),v(bs[j['b']]['rot']),j)\n   if j['revolute_axes_step']==d['frame']:end_errors.append(float(np.max(abs(actual-stored))))\n   else:flags.append([d['frame'],id,j['revolute_axes_step']])\n   if previous:\n    old=previous[id];cached=np.column_stack([v(old['weld_linear_impulse']),v(old['weld_angular_impulse'])]);fresh=axes(v(starts[j['a']]['rot']),v(starts[j['b']]['rot']),j)\n    impulse=v(old['perp_impulse']);old_torque=cached@impulse;new_torque=fresh@impulse\n    rows.append({'frame':d['frame'],'joint':id,'axis_max_component_change':float(np.max(abs(fresh-cached))),'impulse_vector_change':float(np.linalg.norm(new_torque-old_torque)),'old_impulse_vector_norm':float(np.linalg.norm(old_torque))})\n  previous=js\nassert len(rows)==12*119 and len(end_errors)+len(flags)==1440\nresult={'scope':'Independent float64 geometry reconstruction of previous saved revolute bases versus next-frame preparation, using all12hinges in original120step replay. This checks boundary basis continuity, not total work or physical acceptance.','frames':120,'hinges':12,'boundary_observations':len(rows),'updated_axis_observations':len(end_errors),'stale_step_records':flags,'maximum_end_axis_component_error':max(end_errors),'maximum_boundary_axis_component_change':max(x['axis_max_component_change'] for x in rows),'maximum_boundary_cached_torque_impulse_change':max(x['impulse_vector_change'] for x in rows),'maximum_cached_torque_impulse_norm':max(x['old_impulse_vector_norm'] for x in rows),'worst_change':max(rows,key=lambda x:x['impulse_vector_change']),'trace_sha256':hashlib.sha256(trace.read_bytes()).hexdigest()}\n(out/'rows.json').write_text(json.dumps(rows,indent=2)+'\\n');(out/'summary.json').write_text(json.dumps(result,indent=2)+'\\n');print(json.dumps(result,indent=2))\n",
+  "source_contract": "GPU caches perpendicular axes after each alignment solve; warm start uses those axes next substep. First call each physics step prepares axes from current start geometry, following upstream revolute_joint.c. Stored end axes and next-start axes agree to float32 reconstruction precision for all12hinges in all119boundaries; no stale step tags in1440observations.",
+  "source_sha256": {
+    "experiments/gpu-physics/shaders/physics/solve.wgsl": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7",
+    "box3d/src/revolute_joint.c": "c313673faa6d1f14e88da4a1c9106ab617d5bde70fed4b1a4ef136aacda42a24"
+  },
+  "interpretation": "No large frame-boundary basis discontinuity demonstrated. Do not add projection/transport based on this hypothesis. This does not prove per-substep energy conservation or physical acceptance."
+}

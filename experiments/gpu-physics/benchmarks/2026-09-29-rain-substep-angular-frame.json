@@ -1,0 +1,225 @@
+{
+  "scope": "Single ordinary120step fresh-history replays; no physical acceptance or five-repeat qualification",
+  "cases": {
+    "hip": {
+      "baseline": {
+        "frames": 120,
+        "body_observations": 5040,
+        "spherical_observations": 3240,
+        "initial_exact": true,
+        "peak_anchor_all": 0.0103564057,
+        "peak_anchor_target": 0.00590775674,
+        "peak_omega_all": 31.735384531122047,
+        "all_joint_peaks": {
+          "cone": 0.314239025,
+          "lower": 0.0233740285,
+          "upper": 0.00444190204
+        },
+        "target_peaks": {
+          "cone": 0.314239025,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_tail60_peaks": {
+          "cone": 0.210057288,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_final": {
+          "frame": 119,
+          "body": 3943,
+          "cone": 0.183344901,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "sha256": {
+          "manifest.json": "5ba75b6e2f458192fbf19e2c99b36245a6e031e84bb119e345294cc01d667769",
+          "state.txt": "4d49e563a8b21a8ad1389560e6ca85ec2558c0b74e8d266a9d3a1de65f730a2d",
+          "run.log": "61c88e9fde6518cb50dc265b54ab55eb1ae5ef2be4ccadc495cc0a67b7f61a70",
+          "exit.json": "6fca85e5582440563dbc86ee6b59dd82a2e1baad23d02eb607838e0a2ce9f285"
+        }
+      },
+      "candidate": {
+        "frames": 120,
+        "body_observations": 5040,
+        "spherical_observations": 3240,
+        "initial_exact": true,
+        "peak_anchor_all": 0.0106441313,
+        "peak_anchor_target": 0.00899274275,
+        "peak_omega_all": 14.080672973100516,
+        "all_joint_peaks": {
+          "cone": 0.156612307,
+          "lower": 0.0232686549,
+          "upper": 0.00280274451
+        },
+        "target_peaks": {
+          "cone": 0.108042389,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_tail60_peaks": {
+          "cone": 0.0912630558,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_final": {
+          "frame": 119,
+          "body": 3943,
+          "cone": 0.0872555971,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "sha256": {
+          "manifest.json": "b80f345c3cf6c716d48983006bb414202463b584a26473aeb4a4c5127bfefbd3",
+          "state.txt": "4a9214dcf9e5d171ddeb586243091a7971ac9b8e8d614d975e2819b2bc53ed48",
+          "run.log": "afb449027147fdb5856ac56f0f6fdd63ee9fa1159acafed52b541e7dad74be34",
+          "exit.json": "f32593c7b0624b0782ea612948c2c41cef730531924e885c860dd19380ad4cb2"
+        }
+      }
+    },
+    "severe": {
+      "baseline": {
+        "frames": 120,
+        "body_observations": 5040,
+        "spherical_observations": 3240,
+        "initial_exact": true,
+        "peak_anchor_all": 0.143070191,
+        "peak_anchor_target": 0.0678806007,
+        "peak_omega_all": 104.82967282677589,
+        "all_joint_peaks": {
+          "cone": 1.25412655,
+          "lower": 0.385927796,
+          "upper": 0.0323348343
+        },
+        "target_peaks": {
+          "cone": 1.25412655,
+          "lower": 0.385927796,
+          "upper": 0.00756150484
+        },
+        "target_tail60_peaks": {
+          "cone": 0.00746870041,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_final": {
+          "frame": 119,
+          "body": 5004,
+          "cone": 0.00379863381,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "sha256": {
+          "manifest.json": "e9efab407928d10080a827c764554a792988a3c4241be8755d8bf69953d05b4f",
+          "state.txt": "f146a0778f1bbe3f121c57239594036c300b874e11c841faca204c48f865670f",
+          "run.log": "17bfbc3001a7cd9db6eadfb96ee58a3e3b1287645a3143988e0757d2b348ca0e",
+          "exit.json": "37b43cba11d5335be1420e671177169a9c4ebeec6baa3fd2e92d5350518b0059"
+        }
+      },
+      "candidate": {
+        "frames": 120,
+        "body_observations": 5040,
+        "spherical_observations": 3240,
+        "initial_exact": true,
+        "peak_anchor_all": 0.143816188,
+        "peak_anchor_target": 0.0725400373,
+        "peak_omega_all": 67.0758171604665,
+        "all_joint_peaks": {
+          "cone": 0.766277969,
+          "lower": 0.250119269,
+          "upper": 0.0575338602
+        },
+        "target_peaks": {
+          "cone": 0.766277969,
+          "lower": 0.250119269,
+          "upper": 0.000423669815
+        },
+        "target_tail60_peaks": {
+          "cone": 0.00531536341,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "target_final": {
+          "frame": 119,
+          "body": 5004,
+          "cone": 0.00251686573,
+          "lower": 0.0,
+          "upper": 0.0
+        },
+        "sha256": {
+          "manifest.json": "d32ecfa71fa3d0a6d4ab63fbef741de4ed9ddd48bca6f8dc26811bd7fb512ff7",
+          "state.txt": "b37ab5bdada1b6b1b3201dbc6e77ca452d20b2140b681f358908d5d5dced65a3",
+          "run.log": "99203e87fc9bf96c7d98cb35ec0167dc560cd5128789d06ae00f61c32510faf6",
+          "exit.json": "c2b798c8937d3d0617550054f64a0881ba57904f3c4854b8e889464c368a5d60"
+        }
+      }
+    }
+  },
+  "status": "rejected",
+  "reason": "Holding refreshed angular axes through relaxation does not remove anchor/twist regressions. No native expansion, final physical acceptance or five-repeat qualification.",
+  "protocol": {
+    "hypothesis": "Full axis refresh changes directions between bias and relaxation. Freeze refreshed axes across each substep warm/bias/integrate/relax cycle; refresh next warm. Test original sequential rows, not rejected 4row block.",
+    "scope": "Artifact-only spherical scratch fields axis/weld_angular_impulse; all source restored after compile. No default or scene changes.",
+    "acceptance": "Exact42initial getters,5040finite body rows,3240complete joint records per arm. Same original120step hip/severe cases. Reject cone gains that worsen target anchor or other angular failures. Relative improvement is not physical acceptance. No native/five repeats unless justified.",
+    "baseline_shader_sha256": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7",
+    "candidate_shader_sha256": "9a0125c09ed274bd509b19e9f1ddf50ccda73f0739ef3cb71540c496cb316892",
+    "arithmetic": "Original gyro helpers preserved; first build unevaluated and preserved separately."
+  },
+  "projection_control": {
+    "scope": "Unit-inertia angular row, unit bias impulse followed by exact unbiased velocity projection. Rotated-axis relaxation leaves a tangential component; neither method increases energy relative to pre-relax velocity. This is not proof of energy injection or a Rain defect, and does not authorize arbitrary cache transport. It distinguishes the bounded phase-consistency hypothesis only.",
+    "rows": [
+      {
+        "axis_rotation_degrees": 0,
+        "rotated_relaxation_residual_energy": 0.0,
+        "frozen_relaxation_residual_energy": 0.0
+      },
+      {
+        "axis_rotation_degrees": 1,
+        "rotated_relaxation_residual_energy": 0.00015229324522606747,
+        "frozen_relaxation_residual_energy": 0.0
+      },
+      {
+        "axis_rotation_degrees": 5,
+        "rotated_relaxation_residual_energy": 0.0037980617469479845,
+        "frozen_relaxation_residual_energy": 0.0
+      },
+      {
+        "axis_rotation_degrees": 15,
+        "rotated_relaxation_residual_energy": 0.03349364905389032,
+        "frozen_relaxation_residual_energy": 0.0
+      },
+      {
+        "axis_rotation_degrees": 45,
+        "rotated_relaxation_residual_energy": 0.24999999999999994,
+        "frozen_relaxation_residual_energy": 0.0
+      },
+      {
+        "axis_rotation_degrees": 90,
+        "rotated_relaxation_residual_energy": 0.5,
+        "frozen_relaxation_residual_energy": 0.0
+      }
+    ]
+  },
+  "restoration": {
+    "source_restored": true,
+    "sha256": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7"
+  },
+  "candidate_patch": "--- a/shaders/physics/solve.wgsl\n+++ b/shaders/physics/solve.wgsl\n@@ -1698,18 +1698,33 @@\n ) {\n     let base_frame_a = quat_mul((*ba).rot, (*jn).frame_a_rotation);\n     let base_frame_b = quat_mul((*bb).rot, (*jn).frame_b_rotation);\n-    let cone_axis = quat_rotate(base_frame_a, vec3<f32>(0.0, 0.0, 1.0));\n-    let twist_axis = quat_rotate(base_frame_b, vec3<f32>(0.0, 0.0, 1.0));\n-    let swing_axis = gyro_norm3(gyro_cross(cone_axis, twist_axis));\n-    let base_rel = quat_mul(quat_inv(base_frame_a), base_frame_b);\n+    // Diagnostic candidate: refresh angular rows only at substep warm start.\n+    // These fields are unused by spherical joints in the baseline. Artifact-only\n+    // storage; a retained implementation must give this state explicit names.\n+    let native_frames = (params.diagnostic_flags & SOLVER_PAIRED_NORMALS) != 0u;\n+    let frame_for_axis_a = select(base_frame_a, quat_mul((*ba).dq, base_frame_a), native_frames);\n+    let frame_for_axis_b = select(base_frame_b, quat_mul((*bb).dq, base_frame_b), native_frames);\n+    let cone_axis = quat_rotate(frame_for_axis_a, vec3<f32>(0.0, 0.0, 1.0));\n+    let twist_axis = quat_rotate(frame_for_axis_b, vec3<f32>(0.0, 0.0, 1.0));\n+    var swing_axis = gyro_norm3(gyro_cross(cone_axis, twist_axis));\n+    let base_rel = quat_mul(quat_inv(frame_for_axis_a), frame_for_axis_b);\n     let tangent_denominator = base_rel.z * base_rel.z + base_rel.w * base_rel.w;\n     let tan_half_swing = select(\n         0.0,\n         gyro_sqrt(gyro_divide(base_rel.x * base_rel.x + base_rel.y * base_rel.y, tangent_denominator)),\n         tangent_denominator > 0.0,\n     );\n-    let twist_jacobian =\n+    var twist_jacobian =\n         cone_axis + tan_half_swing * gyro_cross(swing_axis, cone_axis);\n+    if (native_frames) {\n+        if (params.use_bias == 2u) {\n+            (*jn).axis = swing_axis;\n+            (*jn).weld_angular_impulse = twist_jacobian;\n+        } else {\n+            swing_axis = (*jn).axis;\n+            twist_jacobian = (*jn).weld_angular_impulse;\n+        }\n+    }\n \n     // Native prepares the summed tensor before multiplying by either axis.\n     let inertia_sum = world_inv_inertia_matrix(*ba) + world_inv_inertia_matrix(*bb);\n",
+  "baseline_exact": {
+    "hip": true,
+    "severe": true
+  },
+  "hashes": {
+    "run.py": "365e5962b0a5e534e72e48632ba8ec1448b2ce3bb6f4beba72670a018cac2dbe",
+    "analyze.py": "bdbedef55764e226af5ee442f61a0994fa5ac64968da9c2401497e1e432f6348",
+    "candidate-libgpu_physics.a": "bea58d02b235079853005ddeed416f4b53c05b10475873ee6ffdbfc3e9eded8d",
+    "baseline-libgpu_physics.a": "d5ada4e13a4918f0245a768afbb86b8659c0e84c1a56a9d26195978d51180f59",
+    "candidate-ordinary/fixture": "e2b6103d1f838271759b432a6875e3b3da741405e948a41f78d8889f16cfd5ab"
+  },
+  "pre_evaluation_review": "Pre-evaluation review found native sqrt/divide in candidate replaced original gyro_sqrt/gyro_divide. Preserve first build as unevaluated arithmetic-confounded variant; restore exact arithmetic in selected candidate and rebuild before any replay. No numerical results from first build count.\n",
+  "baseline_rebuild": {
+    "exit": 0,
+    "source_restored": true,
+    "normal_archive_sha256": "b3f2b64239d72c95c8e1746f9bd40a95152fb7a2c6ab373a6e2bd2986cf5265b",
+    "normal_archive_matches_prior": true
+  }
+}

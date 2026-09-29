@@ -1,0 +1,45 @@
+{
+  "scope": "Whole42dynamicbody kinetic phase ledger using actual reconstructed orientation; gravity potential increments only. Omits stored compliant contact/joint energy and individual constraint work; cannot prove physical acceptance or energy injection.",
+  "max_inverse_inertia_upper_lower_difference": 1.52587890625e-05,
+  "frames": 120,
+  "bodies": 42,
+  "phase_samples": 2880,
+  "max_orientation_component_error": 1.4741954912356192e-07,
+  "final_phase_velocity_error": 0.0,
+  "max_kinetic_telescoping_error_J": 1.0658141036401503e-14,
+  "summary": {
+    "all": {
+      "mean_per_substep_J": {
+        "integrate_velocity": 0.5121425555504038,
+        "warm_start": 11.360039580468206,
+        "biased_solve": -4.2040399680838965,
+        "integrate_position_inertia": -4.404129251733835e-07,
+        "relax": -7.778663440445602
+      },
+      "start_kinetic_J": 57.29333889910126,
+      "end_kinetic_J": 4.242994444774471,
+      "summed_kinetic_plus_gravity_change_J": -143.71054076424394,
+      "summed_gravity_potential_change_J": -90.66011856081273
+    },
+    "tail60": {
+      "mean_per_substep_J": {
+        "integrate_velocity": 0.31816942971201173,
+        "warm_start": 10.797360237596783,
+        "biased_solve": -3.395524832052037,
+        "integrate_position_inertia": -4.682498996988471e-07,
+        "relax": -7.743244523141757
+      },
+      "start_kinetic_J": 9.820597416692593,
+      "end_kinetic_J": 4.242994444774471,
+      "summed_kinetic_plus_gravity_change_J": -6.618428447799694,
+      "summed_gravity_potential_change_J": -1.0407909754233065
+    }
+  },
+  "input_sha256": {
+    "experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-hip-phase-replay/ordinary-on/phases.bin": "de84180e0369756ed6d3a6f094f48c4ed46df63f0783163c032aa6793d3d96a6",
+    "experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-anchor-audit/baseline/trace.jsonl": "0cf3a3aa2427726972f2ffd9db6416a5b7bca3acc08ff8af528233bccad8a537",
+    "experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-anchor-audit/baseline/state.txt": "4d49e563a8b21a8ad1389560e6ca85ec2558c0b74e8d266a9d3a1de65f730a2d"
+  },
+  "analysis_source": "from pathlib import Path\nimport json,struct,hashlib,math\nimport numpy as np\nbase=Path('experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline')\np=base/'rain-hip-phase-replay';capture=base/'rain-coupled-anchor-audit/baseline'\nassert (p/'ordinary-on/state.txt').read_bytes()==(capture/'state.txt').read_bytes()\nfor x in [p/'ordinary-on/exit.json',capture/'exit.json']:assert json.loads(x.read_text())['exit']==0\nf=lambda x:struct.unpack('!f',bytes.fromhex(x))[0]\nv=lambda x:np.array([f(y) for y in x])\ndef R(q):\n x,y,z,w=q;return np.array([[1-2*(y*y+z*z),2*(x*y-z*w),2*(x*z+y*w)],[2*(x*y+z*w),1-2*(x*x+z*z),2*(y*z-x*w)],[2*(x*z-y*w),2*(y*z+x*w),1-2*(x*x+y*y)]])\ndef mul(a,b):return np.r_[a[3]*b[:3]+b[3]*a[:3]+np.cross(a[:3],b[:3]),a[3]*b[3]-np.dot(a[:3],b[:3])]\nraw=(p/'ordinary-on/phases.bin').read_bytes();offset=0;frames=[];max_q=0.;max_v=0.;max_telescope=0.;max_inertia_asymmetry=0.\nwith (capture/'trace.jsonl').open() as src:\n for line in src:\n  d=json.loads(line);frame,n=struct.unpack_from('<II',raw,offset);offset+=8\n  assert frame==len(frames) and d['frame']==frame+1 and n==192*44\n  words=np.frombuffer(raw,dtype='<u4',count=n,offset=offset);floats=words.view('<f4');offset+=4*n\n  states=floats[192:].reshape(24,43,8);flags=words[192:].reshape(24,43,8)[:,:,3]\n  assert all(words[i*8]==i for i in range(24))\n  bodies={b['identity']:b for b in d['bodies']};starts=dict(zip(d['body_storage_order'],d['host_state']['step_start_bodies']))\n  q={i:v(starts[i]['rot']) for i in range(2,44)}\n  inertia={};mass={}\n  for i in q:\n   b=bodies[i];diag=v(b['inv_inertia']);lo=v(b['gpu_motion']['inv_inertia_offdiag']);hi=v(b['gpu_motion']['inv_inertia_upper'])\n   inv=np.array([[diag[0],hi[0],hi[1]],[lo[0],diag[1],hi[2]],[lo[1],lo[2],diag[2]]]);max_inertia_asymmetry=max(max_inertia_asymmetry,float(np.max(abs(inv-inv.T))))\n   assert np.min(np.linalg.eigvalsh((inv+inv.T)/2))>0\n   inertia[i]=np.linalg.inv(inv);mass[i]=f(b['mass']);assert mass[i]>0\n  def kinetic(phase):\n   linear=angular=0.\n   for i in q:\n    a=states[phase,i-1];vel=a[[0,4,1]].astype(float);omega=a[5:8].astype(float);I=R(q[i])@inertia[i]@R(q[i]).T\n    linear+=.5*mass[i]*float(vel@vel);angular+=.5*float(omega@I@omega)\n   return linear+angular\n  h=f(d['settings']['dt']);energies={0:kinetic(0),1:kinetic(1)};potential_delta=0.;ledger=[]\n  for sub in range(4):\n   for phase in range(2+5*sub,7+5*sub):\n    if phase==5+5*sub:\n     for i in q:\n      if flags[phase,i-1]&7:continue\n      a=states[phase,i-1];dq=mul(np.r_[.5*h*a[5:8].astype(float),0.],q[i]);qn=q[i]+dq;q[i]=qn/np.linalg.norm(qn)\n      potential_delta+=mass[i]*10.*h*float(a[4])\n    energies[phase]=kinetic(phase)\n   before=energies[1 if sub==0 else 1+5*sub]\n   a=2+5*sub\n   ledger.append({'substep':sub,'integrate_velocity':energies[a]-before,'warm_start':energies[a+1]-energies[a],'biased_solve':energies[a+2]-energies[a+1],'integrate_position_inertia':energies[a+3]-energies[a+2],'relax':energies[a+4]-energies[a+3]})\n  energies[22]=kinetic(22);energies[23]=kinetic(23)\n  for i in q:\n   end=v(bodies[i]['rot']);max_q=max(max_q,float(min(np.max(abs(q[i]-end)),np.max(abs(q[i]+end)))))\n   a=states[23,i-1];max_v=max(max_v,float(np.max(abs(np.r_[a[[0,4,1]],a[5:8]]-np.r_[v(bodies[i]['vel']),v(bodies[i]['omega'])]))))\n  increments=sum(sum(x[k] for k in x if k!='substep') for x in ledger)+energies[23]-energies[21]+energies[1]-energies[0]\n  max_telescope=max(max_telescope,abs(increments-(energies[23]-energies[0])))\n  frames.append({'frame':frame,'substeps':ledger,'start_kinetic':energies[0],'end_kinetic':energies[23],'gravity_potential_change':potential_delta,'kinetic_plus_gravity_change':energies[23]-energies[0]+potential_delta,'tail_after_relax':energies[23]-energies[21]})\nassert len(frames)==120 and offset==len(raw)\nassert max_q<1e-5 and max_v==0 and max_telescope<1e-9,(max_q,max_v,max_telescope)\nsummary={}\nfor label,rows in [('all',frames),('tail60',frames[60:])]:\n subs=[s for r in rows for s in r['substeps']]\n summary[label]={'mean_per_substep_J':{k:float(np.mean([s[k] for s in subs])) for k in subs[0] if k!='substep'},'start_kinetic_J':rows[0]['start_kinetic'],'end_kinetic_J':rows[-1]['end_kinetic'],'summed_kinetic_plus_gravity_change_J':sum(r['kinetic_plus_gravity_change'] for r in rows),'summed_gravity_potential_change_J':sum(r['gravity_potential_change'] for r in rows)}\nout=base/'rain-hip-phase-energy';out.mkdir(exist_ok=False)\n(out/'frames.json').write_text(json.dumps(frames,indent=2)+'\\n')\nresult={'scope':'Whole42dynamicbody kinetic phase ledger using actual reconstructed orientation; gravity potential increments only. Omits stored compliant contact/joint energy and individual constraint work; cannot prove physical acceptance or energy injection.','max_inverse_inertia_upper_lower_difference':max_inertia_asymmetry,'frames':120,'bodies':42,'phase_samples':2880,'max_orientation_component_error':max_q,'final_phase_velocity_error':max_v,'max_kinetic_telescoping_error_J':max_telescope,'summary':summary,'input_sha256':{str(x):hashlib.sha256(x.read_bytes()).hexdigest() for x in [p/'ordinary-on/phases.bin',capture/'trace.jsonl',capture/'state.txt']}}\n(out/'summary.json').write_text(json.dumps(result,indent=2)+'\\n');print(json.dumps(result,indent=2))\n",
+  "review_note": "Initial strict symmetry assertion rejected recorded upper/lower inverse-inertia roundoff. Retained all distinct lanes; checked positive eigenvalues of symmetric part and recorded max difference1.52587890625e-5. No captured values changed. Kinetic quadratic forms inherently discard antisymmetric part; this is diagnostic reconstruction, not a new solver acceptance tolerance."
+}

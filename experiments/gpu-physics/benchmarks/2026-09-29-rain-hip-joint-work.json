@@ -1,0 +1,131 @@
+{
+  "scope": "Exact target hip pair kinetic change per spherical row/pass; not stored-energy work or full physical acceptance. Warm pass uses spring lane for whole warm-start change, other4lanes zero. Inertia uses current dq orientation; solver calculations unchanged.",
+  "frames": 120,
+  "pass_observations": 1440,
+  "physical_body_stream_exact": true,
+  "all_dynamic_phase_words_exact": true,
+  "all_phase_summaries_exact": true,
+  "max_float32_telescoping_error_J": 7.152557373046875e-07,
+  "max_roundoff_bound_fraction": 0.043241253710550265,
+  "summary": {
+    "all": {
+      "warm": {
+        "observations": 480,
+        "mean_total_J": -8.255631381769975,
+        "sum_total_J": -3962.703063249588,
+        "mean_row_J": {
+          "spring": -8.255631381769975,
+          "motor": 0.0,
+          "twist": 0.0,
+          "cone": 0.0,
+          "point": 0.0
+        },
+        "positive_total_count": 13
+      },
+      "bias": {
+        "observations": 480,
+        "mean_total_J": 1.0185508539279302,
+        "sum_total_J": 488.9044098854065,
+        "mean_row_J": {
+          "spring": -0.2220747000227372,
+          "motor": -0.12482356987893581,
+          "twist": 0.0,
+          "cone": 2.1696237293382485,
+          "point": -0.8041746057569981
+        },
+        "positive_total_count": 417
+      },
+      "relax": {
+        "observations": 480,
+        "mean_total_J": -2.638689298493167,
+        "sum_total_J": -1266.57086327672,
+        "mean_row_J": {
+          "spring": -0.06376932387550673,
+          "motor": -0.07305003268023331,
+          "twist": 0.0,
+          "cone": -2.0911205826327204,
+          "point": -0.410749356324474
+        },
+        "positive_total_count": 0
+      }
+    },
+    "tail60": {
+      "warm": {
+        "observations": 240,
+        "mean_total_J": -6.358347970743974,
+        "sum_total_J": -1526.0035129785538,
+        "mean_row_J": {
+          "spring": -6.358347970743974,
+          "motor": 0.0,
+          "twist": 0.0,
+          "cone": 0.0,
+          "point": 0.0
+        },
+        "positive_total_count": 2
+      },
+      "bias": {
+        "observations": 240,
+        "mean_total_J": 1.3372677490115166,
+        "sum_total_J": 320.944259762764,
+        "mean_row_J": {
+          "spring": -0.21681488653024036,
+          "motor": -0.11967493096987407,
+          "twist": 0.0,
+          "cone": 2.462693005303542,
+          "point": -0.7889354387919109
+        },
+        "positive_total_count": 217
+      },
+      "relax": {
+        "observations": 240,
+        "mean_total_J": -2.7248692164818444,
+        "sum_total_J": -653.9686119556427,
+        "mean_row_J": {
+          "spring": -0.06931320577859879,
+          "motor": -0.07462183460593223,
+          "twist": 0.0,
+          "cone": -2.1706851991514364,
+          "point": -0.4102489769458771
+        },
+        "positive_total_count": 0
+      }
+    }
+  },
+  "sha256": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-hip-joint-work/ordinary-on/state.txt": "4d49e563a8b21a8ad1389560e6ca85ec2558c0b74e8d266a9d3a1de65f730a2d",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-hip-joint-work/ordinary-on/phases.bin": "42d1cc5484ae157a096d25abd402600ff2535d0462ab1e87a587eca308867a76",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-hip-joint-work/ordinary-on/run.log": "dccabfb11fac2c2357dfc1ca627458180a1955061e78c91611b0838a48d4f415"
+  },
+  "protocol": {
+    "scope": "Read-only physical effect diagnostic: target spherical joint29->37 row kinetic changes, recorded in otherwise unused spherical weld fields and ground diagnostic lanes. No production retention.",
+    "integrity": "Require exact120step body stream versus original phase capture; original every dynamic phase body word must match. Only ground diagnostic8lanes may differ. Confirm35jointslot endpoints29/37. Perpass sum of spring,motor,twist,cone,point kinetic changes must telescope to total within float32 rounding.",
+    "interpretation": "Kinetic changes are not total work including compliant stored energy; measure which rows exchange energy before proposing fixes. No physical acceptance inferred.",
+    "duration": 120
+  },
+  "restoration": {
+    "shaders/physics/solve.wgsl": true,
+    "shaders/physics/integrate.wgsl": true
+  },
+  "sources": {
+    "build_diagnostic.py": "from pathlib import Path\nimport subprocess,shutil,json,os\np=Path(__file__).resolve().parent;root=Path.cwd()\nsources=[(Path('shaders/physics/'+name),name) for name in ['solve.wgsl','integrate.wgsl']]\nfor src,name in sources:assert src.read_bytes()==(p/('original-'+name)).read_bytes()\ntry:\n for src,name in sources:src.write_bytes((p/('diagnostic-'+name)).read_bytes())\n manifest='[package]\\nname=\"rain-phase-bridge\"\\nversion=\"0.1.0\"\\nedition=\"2021\"\\n[workspace]\\n[lib]\\npath=\"bridge.rs\"\\ncrate-type=[\"staticlib\"]\\n[dependencies]\\npollster=\"0.4\"\\ngpu-physics={path='+json.dumps(str(root))+',features=[\"replay-diagnostics\"]}\\n'\n (p/'Cargo.toml').write_text(manifest);shutil.copy2('Cargo.lock',p/'Cargo.lock')\n with (p/'build.log').open('w') as log:r=subprocess.run(['cargo','build','--offline','--release','--manifest-path',str(p/'Cargo.toml'),'--target-dir',str(root/'target')],env=os.environ|{'CARGO_BUILD_JOBS':'1'},stdout=log,stderr=subprocess.STDOUT)\n (p/'build-exit.json').write_text(json.dumps({'exit':r.returncode}))\n if r.returncode:raise SystemExit(r.returncode)\n shutil.copy2('target/release/librain_phase_bridge.a',p/'libphase_bridge.a')\nfinally:\n for src,name in sources:src.write_bytes((p/('original-'+name)).read_bytes())\n (p/'restoration.json').write_text(json.dumps({str(src):src.read_bytes()==(p/('original-'+name)).read_bytes() for src,name in sources}))\n",
+    "bridge.rs": "use gpu_physics::api::{WorldId,b3_world_sync_phase_words};\nuse std::{ffi::CStr,os::raw::c_char,io::Write};\n#[no_mangle]\npub unsafe extern \"C\" fn diagnostic_write_phases(id:WorldId,path:*const c_char,frame:u32)->bool {\n    if path.is_null(){return false;}\n    let Ok(path)=CStr::from_ptr(path).to_str() else{return false;};\n    let words=pollster::block_on(b3_world_sync_phase_words(id));\n    if words.len()<192 || (words.len()-192)%192!=0{return false;}\n    let Ok(mut file)=std::fs::OpenOptions::new().create(true).append(true).open(path) else{return false;};\n    for word in [frame,words.len() as u32].into_iter().chain(words){\n        if file.write_all(&word.to_le_bytes()).is_err(){return false;}\n    }\n    true\n}\n",
+    "run.py": "import os,subprocess,json,time,hashlib\nfrom pathlib import Path\nroot=Path(__file__).resolve().parent\nfor arm in ['on']:\n out=root/f'ordinary-{arm}';out.mkdir(exist_ok=False)\n fixture=root/'diagnostic-ordinary/fixture'\n env={k:v for k,v in os.environ.items() if not k.startswith(('GPU_PHYSICS_','WGPU_','RAIN_'))}\n env.update(RAIN_CELL_ROW='3',RAIN_CELL_COLUMN='9',RAIN_REPLAY_BASE='3907',RAIN_REPLAY_STATE=str(root/'initial.txt'),RAIN_REPLAY_LIMITS='1',RAIN_REPLAY_HEALTH='1',RAIN_REPLAY_COLLISIONS='1',GPU_PHYSICS_LIVE_CONTACT_ORDER='0',WGPU_BACKEND='vulkan',GPU_PHYSICS_PIPELINE_CACHE_DIR=str(Path.home()/'.cache/box3d-gpu-physics/pipelines'))\n if arm=='on':env.update(GPU_PHYSICS_AB='phase-capture',RAIN_DIAGNOSTIC_PHASE_FILE=str(out/'phases.bin'))\n command=[str(fixture),'120'];start=time.monotonic()\n (out/'manifest.json').write_text(json.dumps(dict(command=command,binary_sha256=hashlib.sha256(fixture.read_bytes()).hexdigest(),environment={k:v for k,v in env.items() if k.startswith(('GPU_','WGPU_','RAIN_'))}),indent=2))\n with (out/'state.txt').open('w') as stdout,(out/'run.log').open('w') as stderr:r=subprocess.run(command,env=env,stdout=stdout,stderr=stderr)\n (out/'exit.json').write_text(json.dumps(dict(exit=r.returncode,seconds=time.monotonic()-start),indent=2))\n print(arm,r.returncode,flush=True)\n if r.returncode:raise SystemExit(r.returncode)\nbase=root.parent/'rain-hip-phase-replay/ordinary-on/state.txt'\nassert (root/'ordinary-on/state.txt').read_bytes()==base.read_bytes()\nprint('physical body stream exact',flush=True)\n",
+    "analyze.py": "from pathlib import Path\nimport struct,json,math,hashlib\np=Path(__file__).resolve().parent;old=p.parent/'rain-hip-phase-replay/ordinary-on';out=p/'ordinary-on'\nassert json.loads((out/'exit.json').read_text())['exit']==0\nassert (out/'state.txt').read_bytes()==(old/'state.txt').read_bytes()\na=(out/'phases.bin').read_bytes();b=(old/'phases.bin').read_bytes();assert len(a)==len(b)\noffset=0;rows=[];max_error=0.;max_ratio=0.;frames=0\nlabels=['spring','motor','twist','cone','point']\nwhile offset<len(a):\n frame,n=struct.unpack_from('<II',a,offset);assert (frame,n)==struct.unpack_from('<II',b,offset) and frame==frames and n==8448\n offset+=8\n u=struct.unpack_from('<'+'I'*n,a,offset);v=struct.unpack_from('<'+'I'*n,b,offset);f=struct.unpack_from('<'+'f'*n,a,offset);offset+=4*n\n assert u[:192]==v[:192]\n for phase in range(24):\n  start=192+phase*43*8\n  assert u[start+8:start+43*8]==v[start+8:start+43*8],(frame,phase,'dynamic phase changed')\n  assert u[start+6:start+8]==(29,37)\n for sub in range(4):\n  for mode,phase in [('warm',3+5*sub),('bias',4+5*sub),('relax',6+5*sub)]:\n   start=192+phase*43*8;values=f[start:start+6];assert all(map(math.isfinite,values))\n   error=abs(sum(values[:5])-values[5]);bound=8*2**-23*max(1.,sum(map(abs,values)))\n   assert error<=bound,(frame,sub,mode,error,bound)\n   max_error=max(max_error,error);max_ratio=max(max_ratio,error/bound)\n   rows.append(dict(frame=frame,substep=sub,mode=mode,work=dict(zip(labels,values[:5])),total=values[5]))\n frames+=1\nassert frames==120 and offset==len(a) and any(abs(r['total'])>1e-5 for r in rows)\nsummary={}\nfor subset,records in [('all',rows),('tail60',[r for r in rows if r['frame']>=60])]:\n summary[subset]={}\n for mode in ['warm','bias','relax']:\n  selected=[r for r in records if r['mode']==mode]\n  summary[subset][mode]={'observations':len(selected),'mean_total_J':sum(r['total'] for r in selected)/len(selected),'sum_total_J':sum(r['total'] for r in selected),'mean_row_J':{key:sum(r['work'][key] for r in selected)/len(selected) for key in labels},'positive_total_count':sum(r['total']>0 for r in selected)}\nresult={'scope':'Exact target hip pair kinetic change per spherical row/pass; not stored-energy work or full physical acceptance. Warm pass uses spring lane for whole warm-start change, other4lanes zero. Inertia uses current dq orientation; solver calculations unchanged.','frames':frames,'pass_observations':len(rows),'physical_body_stream_exact':True,'all_dynamic_phase_words_exact':True,'all_phase_summaries_exact':True,'max_float32_telescoping_error_J':max_error,'max_roundoff_bound_fraction':max_ratio,'summary':summary,'sha256':{str(x):hashlib.sha256(x.read_bytes()).hexdigest() for x in [out/'state.txt',out/'phases.bin',out/'run.log']}}\n(p/'row-work.json').write_text(json.dumps(rows,indent=2)+'\\n');(p/'summary.json').write_text(json.dumps(result,indent=2)+'\\n');print(json.dumps(result,indent=2))\n"
+  },
+  "diagnostic_patch": "--- a/shaders/physics/solve.wgsl\n+++ b/shaders/physics/solve.wgsl\n@@ -1691,11 +1691,32 @@\n     return ((vb + gyro_cross(wb, rb)) - va) - gyro_cross(wa, ra);\n }\n \n+// Artifact-only exact row kinetic accounting for the selected hip.\n+fn diagnostic_body_kinetic(b: Body) -> f32 {\n+    if (b.inv_mass <= 0.0) { return 0.0; }\n+    let w = quat_inv_rotate(b.dq, b.omega);\n+    let m = world_inv_inertia_matrix(b);\n+    return 0.5 * (dot(b.vel, b.vel) / b.inv_mass + dot(w, solve3(m[0], m[1], m[2], w)));\n+}\n+fn diagnostic_pair_kinetic(a: Body, b: Body) -> f32 {\n+    return diagnostic_body_kinetic(a) + diagnostic_body_kinetic(b);\n+}\n+\n fn solve_spherical(\n     jn: ptr<function, Joint>,\n     ba: ptr<function, Body>,\n     bb: ptr<function, Body>,\n ) {\n+    let record_work = (params.diagnostic_flags & DIAG_PHASE_CAPTURE) != 0u\n+        && (*jn).a == 29u && (*jn).b == 37u;\n+    var work_start = 0.0;\n+    var work_previous = 0.0;\n+    if (record_work) {\n+        work_start = diagnostic_pair_kinetic(*ba, *bb);\n+        work_previous = work_start;\n+        (*jn).weld_linear_impulse = vec3<f32>(0.0);\n+        (*jn).weld_angular_impulse = vec3<f32>(0.0);\n+    }\n     let base_frame_a = quat_mul((*ba).rot, (*jn).frame_a_rotation);\n     let base_frame_b = quat_mul((*bb).rot, (*jn).frame_b_rotation);\n     let cone_axis = quat_rotate(base_frame_a, vec3<f32>(0.0, 0.0, 1.0));\n@@ -1746,6 +1767,11 @@\n             (*bb).omega = (*bb).omega + spherical_warm_torque(\n                 world_inv_inertia_matrix(*bb), rB, (*jn).angular_impulse, angular_impulse);\n         }\n+        if (record_work) {\n+            let work = diagnostic_pair_kinetic(*ba, *bb) - work_start;\n+            (*jn).weld_linear_impulse.x = work;\n+            (*jn).weld_angular_impulse.z = work;\n+        }\n         return;\n     }\n \n@@ -1769,6 +1795,11 @@\n         (*bb).omega = (*bb).omega + world_inv_inertia(*bb, delta_impulse);\n     }\n \n+    if (record_work) {\n+        let energy = diagnostic_pair_kinetic(*ba, *bb);\n+        (*jn).weld_linear_impulse.x = energy - work_previous;\n+        work_previous = energy;\n+    }\n     if (((*jn).flags & SPHERICAL_ENABLE_MOTOR) != 0u && !fixed_rotation) {\n         let cdot =\n             ((*bb).omega - (*ba).omega) - (*jn).motor_angular_velocity;\n@@ -1783,6 +1814,11 @@\n         (*bb).omega = (*bb).omega + world_inv_inertia(*bb, applied);\n     }\n \n+    if (record_work) {\n+        let energy = diagnostic_pair_kinetic(*ba, *bb);\n+        (*jn).weld_linear_impulse.y = energy - work_previous;\n+        work_previous = energy;\n+    }\n     if (((*jn).flags & SPHERICAL_ENABLE_TWIST_LIMIT) != 0u && !fixed_rotation) {\n         let angle = twist_angle(rel);\n         let soft = joint_softness((*jn).hertz, (*jn).damping);\n@@ -1837,6 +1873,11 @@\n             - applied_upper * world_inv_inertia(*bb, twist_jacobian);\n     }\n \n+    if (record_work) {\n+        let energy = diagnostic_pair_kinetic(*ba, *bb);\n+        (*jn).weld_linear_impulse.z = energy - work_previous;\n+        work_previous = energy;\n+    }\n     if (((*jn).flags & SPHERICAL_ENABLE_CONE_LIMIT) != 0u && !fixed_rotation) {\n         let c = (*jn).target_translation - swing_angle(rel);\n         let soft = joint_softness((*jn).hertz, (*jn).damping);\n@@ -1863,6 +1904,11 @@\n             (*bb).omega - applied * world_inv_inertia(*bb, swing_axis);\n     }\n \n+    if (record_work) {\n+        let energy = diagnostic_pair_kinetic(*ba, *bb);\n+        (*jn).weld_angular_impulse.x = energy - work_previous;\n+        work_previous = energy;\n+    }\n     let cdot = joint_point_velocity(\n         (*ba).vel, (*ba).omega, (*bb).vel, (*bb).omega, rA, rB,\n     );\n@@ -1884,6 +1930,12 @@\n     (*jn).angular_impulse = (*jn).angular_impulse + impulse;\n     apply_P(ba, rA, impulse, -1.0);\n     apply_P(bb, rB, impulse, 1.0);\n+    if (record_work) {\n+        let energy = diagnostic_pair_kinetic(*ba, *bb);\n+        (*jn).weld_angular_impulse.y = energy - work_previous;\n+        (*jn).weld_angular_impulse.z = energy - work_start;\n+    }\n+\n }\n \n fn solve_weld(\n--- a/shaders/physics/integrate.wgsl\n+++ b/shaders/physics/integrate.wgsl\n@@ -366,6 +366,18 @@\n         scratch[base + 5u] = bitcast<u32>(b.omega.x);\n         scratch[base + 6u] = bitcast<u32>(b.omega.y);\n         scratch[base + 7u] = bitcast<u32>(b.omega.z);\n+        // Ground diagnostic lanes carry selected hip row work only.\n+        if (i == 0u && params.joint_count > 35u) {\n+            let j = joints[35u];\n+            scratch[base] = bitcast<u32>(j.weld_linear_impulse.x);\n+            scratch[base + 1u] = bitcast<u32>(j.weld_linear_impulse.y);\n+            scratch[base + 2u] = bitcast<u32>(j.weld_linear_impulse.z);\n+            scratch[base + 3u] = bitcast<u32>(j.weld_angular_impulse.x);\n+            scratch[base + 4u] = bitcast<u32>(j.weld_angular_impulse.y);\n+            scratch[base + 5u] = bitcast<u32>(j.weld_angular_impulse.z);\n+            scratch[base + 6u] = j.a;\n+            scratch[base + 7u] = j.b;\n+        }\n     }\n     if (i != 0u) {\n         return;\n",
+  "build_exit": {
+    "exit": 0
+  },
+  "artifact_hashes": {
+    "libphase_bridge.a": "d3995526c55841de6a74f04617eb00dbaf6a2995a2608ca4aac10c71ab16f482",
+    "diagnostic-ordinary/fixture": "553b38b9b3027436e71c8495492214140aaefa3be13c0969f61a51274276429e",
+    "initial.txt": "0c1153754e4d2dbef153f305105e904489bdaabc18a7bc3bfe88d6224cd08114"
+  },
+  "interpretation": "Target hip updates net remove pair kinetic energy on average. Cone bias adds kinetic energy with relaxation largely reversing it; springs and motors remove energy on average. Coupled contact/other-joint exchange and compliant stored energy remain unaccounted: no physical acceptance and no sole hip energy-source claim.",
+  "baseline_rebuild": {
+    "exit": 0,
+    "sources_restored": true,
+    "normal_archive_sha256": "b3f2b64239d72c95c8e1746f9bd40a95152fb7a2c6ab373a6e2bd2986cf5265b",
+    "matches_previous": true
+  }
+}

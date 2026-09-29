@@ -1,0 +1,3856 @@
+{
+  "scope": "Current baseline source-contract applicability at completed public World boundaries only. Not final five-repeat qualification or physical acceptance. CPU-compatible trees, intermediate GpuSim calls and extra diagnostic modes remain excluded.",
+  "head": "0940a4f",
+  "schema": "gpu-core-state-v22",
+  "selected_diagnostic_flags": {
+    "ordinary": 262144,
+    "native": 393216
+  },
+  "source_sha256": {
+    "src/sim.rs": "7f9ab885f60992b701b123cf96b29f2a4519fe41308753b3d7d9f0f9078b1e7a",
+    "src/types.rs": "c322884ac0428efcca4e082eac94182ab49ea477fee247318921e0db792b9586",
+    "src/api/world.rs": "278aa01d85c2550b92370e401597c2eaef0b9a8332b3ccdb74317591ebb3f571",
+    "src/api/world/state_trace.rs": "db435f5b297ec3ba470313fc90186c14f6647702c66acef00358545e204812f8",
+    "src/contact_compaction.rs": "f663d65c8dc0fc4def3f6674b523fc144f81ae1f2adf5f5b21e9d4a3055a7dd1",
+    "shaders/contact_compaction.wgsl": "b404221d6e5a7e333d8b951d36ba10ecb3b5c93611a956ea9e53767d7cc8a4d0",
+    "shaders/physics/broadphase.wgsl": "b786446c6addb47859903b7b3f41e3b90ef61c1437e1ddef369cb99cc0561239",
+    "shaders/physics/ccd_convex.wgsl": "ae43bad111513600cef687fca8242259a8dda2db4da4bbf21c08e675f42b4c54",
+    "shaders/physics/ccd_motion.wgsl": "b169f0d4bb60342ec45a06a1bd35e6c9fde33eec80e23b9470da62b4e702a1f5",
+    "shaders/physics/ccd_world.wgsl": "078dd38a47e71be725bc7c5c300a81e08b78a6bb9ed1b5f2c2d3a84f6e72db1c",
+    "shaders/physics/collide.wgsl": "b3d38cade6a0548d4eb0672b2555244ade2b8e6de155ff6e27acb3bd03047354",
+    "shaders/physics/contact_order.wgsl": "ea8146832391bacc1ca1e362c481de46a8c3664e959cc9dc84eb8389b835df58",
+    "shaders/physics/contact_order_live.wgsl": "05dfe86caa85acb6fb361ae5c14105f64c0c9c354bf7d3a707ca732d452500ae",
+    "shaders/physics/dispatch.wgsl": "317ed4bf9aec88c7d55d72243a80ac7a19d69995b445f3d1e6a49932f0ca6531",
+    "shaders/physics/graph_memo.wgsl": "0f0ef49d87902876a84e052b21dfd5bffbe6c0406b5f7ee1b7b0fd0f67109fc1",
+    "shaders/physics/graph_shared.wgsl": "f3c6eba2f8a2251a382f1c4c6a6c52c03835fd4b5881e88ccd52fa6efd25b9a5",
+    "shaders/physics/hull.wgsl": "87673c3921e6eb646cd18e3b079667fd08089b8eec28d8f9a3e9fc43de2c6786",
+    "shaders/physics/integrate.wgsl": "913d5a77a5e99d15869b6e24b52165694c67aa5ce8c1bbcc863edf011949d5f8",
+    "shaders/physics/math.wgsl": "b14a6f222493f77d82074b445789a533473cd8686ec004735b2214ec19b59e15",
+    "shaders/physics/query.wgsl": "dfe956e6217977de37c735ce13ea8ca1db4c42134bd6de0cc2976bef5742a020",
+    "shaders/physics/rotation.wgsl": "f6ee86f10d48137c37f668957b0026caa1ca78dd89a15799e6fdb7fc2e674b7b",
+    "shaders/physics/solve.wgsl": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7",
+    "shaders/physics/types.wgsl": "a708d45ad87b5145cd0482a2c1a055a93ab058bca4be70f53ae24bf31c62500a"
+  },
+  "gpu_sim_fields": [
+    "body_sleep_thresholds",
+    "render_copy",
+    "resources",
+    "device",
+    "queue",
+    "report",
+    "count",
+    "caps",
+    "contact_epoch",
+    "params",
+    "physics_step",
+    "physics_replay_hits",
+    "full_replay_test_override",
+    "last_submit",
+    "completed_step",
+    "completed_known",
+    "pose_step",
+    "last_mirror_wait_ms",
+    "last_mirror_copy_ms",
+    "last_mirror_map_ms",
+    "last_mirror_bytes",
+    "one_group_wave_only",
+    "color_wave_prefix",
+    "color_wave_prefix_override",
+    "color_hint_min_step",
+    "graph_dense_hint",
+    "one_group_pair_ok",
+    "skip_general_static_sort",
+    "solver_dispatches",
+    "joint_dispatches",
+    "static_sort_dispatches",
+    "encode_commands",
+    "physics_invalid",
+    "callback_open",
+    "contact_status_dirty",
+    "pass_lut",
+    "bodies",
+    "body_cold",
+    "step_force_slots",
+    "convex_ccd",
+    "contacts",
+    "contact_persistent",
+    "contact_prepared",
+    "joints",
+    "scratch",
+    "atom",
+    "query",
+    "indirect",
+    "radix_cache",
+    "contact_cache",
+    "graph_cache",
+    "tail_cache",
+    "physics_replay",
+    "native_tail_enabled",
+    "native_reset_requested",
+    "bind_group",
+    "bind_group_layout",
+    "fat_geometry",
+    "shape_identities",
+    "clear_remapped_contact_hash",
+    "remap_contact_shapes",
+    "prepare_contact_hash_keys",
+    "publish_remapped_contacts",
+    "contact_slots",
+    "shape_count",
+    "staging",
+    "reset_deltas",
+    "island_init",
+    "island_union_edges",
+    "island_accumulate_wake",
+    "island_apply_wake",
+    "island_reset_ready",
+    "island_accumulate_ready",
+    "island_apply_sleep",
+    "apply_deltas",
+    "integrate_vel",
+    "clear_broadphase",
+    "contact_order_update",
+    "pair_matrix",
+    "pair_matrix_flat",
+    "pair_matrix_requested",
+    "pair_matrix_used",
+    "hash_insert",
+    "write_insert_indirect",
+    "write_radix_indirect",
+    "emit_hash_pairs",
+    "emit_static_pairs",
+    "collect_fat_statics",
+    "finish_fat_statics",
+    "write_occupied_indirect",
+    "emit_prev_pairs",
+    "radix_histogram",
+    "radix_bucket_bases",
+    "radix_group_prefix",
+    "radix_scatter",
+    "compact_unique_histogram",
+    "compact_unique_bases",
+    "compact_unique_scatter",
+    "compact_unique_gather",
+    "find_existing_contact_slots",
+    "alloc_free_histogram",
+    "alloc_free_bases",
+    "alloc_free_scatter",
+    "alloc_missing_histogram",
+    "alloc_missing_bases",
+    "alloc_missing_scatter",
+    "alloc_prepare_keys",
+    "alloc_bind_slots",
+    "collide_pairs_no_mesh",
+    "collide_pairs_mesh",
+    "child_compaction",
+    "collision_shader",
+    "collision_layout",
+    "retire_stale_contacts",
+    "retire_body_pair_contacts",
+    "begin_occupied_contacts",
+    "collect_occupied_contacts",
+    "finish_occupied_contacts",
+    "write_unique_indirect",
+    "write_alloc_indirects",
+    "graph_clear_meta",
+    "graph_reset_colors",
+    "graph_classify",
+    "graph_mark_edges",
+    "graph_compact_paired",
+    "graph_count_static_degree",
+    "graph_finish_static_degree",
+    "graph_pack_static_keys",
+    "graph_radix_histogram",
+    "graph_radix_scatter",
+    "graph_mark_static_starts",
+    "graph_encode_static_colors",
+    "graph_mark_color_starts",
+    "graph_assign_static",
+    "graph_assign_dynamic",
+    "graph_batched_override",
+    "graph_assign_batched",
+    "graph_shared_requested",
+    "graph_memo_base",
+    "graph_assign_memo",
+    "graph_assign_shared",
+    "color_and_compact",
+    "prepare_contacts",
+    "warm_start",
+    "solve_contacts",
+    "component_reset",
+    "component_count",
+    "component_offsets",
+    "component_color_offsets",
+    "component_scatter",
+    "solve_large_components",
+    "solve_complete_components",
+    "small_component_workgroup_size",
+    "component_tgs",
+    "count_active_bodies",
+    "idle_eligible",
+    "idle_input_context",
+    "idle_output_context",
+    "idle_proof",
+    "idle_chain",
+    "hold_idle_status",
+    "idle_count_valid_step",
+    "sticky_pending_idle_context",
+    "last_step_idle",
+    "idle_epoch",
+    "solve_color",
+    "solve_color_wave_one_group",
+    "solve_color_partition_one_group",
+    "solve_color_tail_one_group",
+    "solve_overflow",
+    "solve_joints",
+    "solve_joint_color",
+    "solve_jointed_wave",
+    "compact_joint_heads",
+    "compact_joint_components",
+    "ray_closest",
+    "ray_closest_pick",
+    "ray_closest_commit",
+    "solve_tiny_islands",
+    "integrate_pos",
+    "jacobi_clear",
+    "solve_jacobi",
+    "apply_jacobi",
+    "capture_phase",
+    "island_workgroup_size",
+    "timestamp_queries",
+    "metrics",
+    "step_timestamp",
+    "ts_ring",
+    "last_gpu_collide_ms",
+    "last_gpu_broadphase_ms",
+    "last_gpu_narrowphase_ms",
+    "last_gpu_graph_ms",
+    "last_gpu_solve_ms",
+    "last_gpu_integrate_ms",
+    "last_gpu_prepare_ms",
+    "last_gpu_device_ms",
+    "pose_readback",
+    "automatic_pose_snapshots",
+    "pose_epoch",
+    "pose_export",
+    "sticky_staging",
+    "sticky_pending",
+    "sticky_loss",
+    "sticky_pending_step",
+    "metrics_context",
+    "sticky_pending_context",
+    "contact_metrics",
+    "sticky_first_step",
+    "sticky_causes",
+    "sticky_contact_reasons"
+  ],
+  "device_owner_count": 12,
+  "scratch_partition_count": 10,
+  "dependency_hashes_verified": {
+    "atomic-header-state-audit.json": "0a958ae18776ae4389c8e36505095e490d68e4efa4c765301c808b2b8dcebc32",
+    "body-record-state-audit.json": "52b378ea4690adb3bf87332db63b8bd9cc766e439ef2cd653745b881188003b6",
+    "command-policy-state-audit.json": "eb0ceac480a1bac2a21a7c6b2d1420617900446543b9a5bb6e1777b2e6592686",
+    "component-workspace-state-audit.json": "90cf6001fbf47f8b0f803e4d4c04594bb9d78971444fd4b89e8d52803790ecaa",
+    "contact-storage-state-audit.json": "5595e01e27bc11cefaa0da20f983e5e6d0fc82f969037a5dfe62997a2637d8a1",
+    "convex-ccd-state-audit.json": "f31fb65baf5c55055c3cd724d5f7912b6b91d0be260b3453367e5de56dbdc534",
+    "delta-accumulator-state-audit.json": "3b01aa5072c11945b853d90971688df2529f4d980d355e98c25a6e57a5fe1d0a",
+    "fat-transform-state-audit.json": "98a5c959eaf7110b80aaf323659b0364898d205c374b56c2598891c843578dca",
+    "graph-workspace-state-audit.json": "dd1f7f4a0c931ad68d0963b86fd87d087bff0fadbfaaa1ac7d3162176175e603",
+    "host-policy-state-audit.json": "23b6d9309342779aa40167b7a3d097ec3552893a0e7664f03246504a158cb296",
+    "indirect-state-audit.json": "efecc96b3445b5081589b6d21afab4cfba02d212d2da152b0fda2f58b4b6962b",
+    "joint-record-state-audit.json": "b9b1f415c9a7c273b73d9b2996dbfcced4e17b684ed3bc2392251ceabdc950e2",
+    "joint-schedule-remap-state-audit.json": "04e46132a72b0dc49aa5f4a7eaf1cd23332e88f137cca4a74480a9cadcb53983",
+    "live-contact-record-state-audit.json": "2191f3e8b69078c104909fb2732a746f2aa369bc7312e5fc818a762f5649be16",
+    "pair-workspace-state-audit.json": "8bb0a4499c542d1ac98132f2ef8375cfebab4e8766b4ee3d9c17218df02f4fd3",
+    "query-workspace-state-audit.json": "e97d6a68ca7d54736d14cab1c1ab259c94820d025f61deb06274d997f385d881",
+    "scene-geometry-state-audit.json": "953b746bdfa2e66b4a1590074c401d167419482c166496bbe5eeec9b6e17eded",
+    "sim-parameters-state-audit.json": "95778672c5bdee57ad6e43f600190dea793e642e418c310aa565435082b8e6d8"
+  },
+  "audit_documents": {
+    "atomic-header-state-audit.json": {
+      "scope": "Atomic header and spatial-hash reset/persistence contracts; not a whole-buffer audit.",
+      "source_sha256": {
+        "experiments/gpu-physics/src/sim.rs": "2b3d2ffe62238a3aaf9a272628b710bbff193a7c1347c7a67069c0302dbf0781",
+        "experiments/gpu-physics/src/types.rs": "b315851d444a4c373725d4e81b3bffbf1cce3eb663441ba0f46f2821b91aece0",
+        "experiments/gpu-physics/shaders/physics/types.wgsl": "f9e53c8077dd6cf7cb20c355007777c0a61748c642594877367af479b086a314",
+        "experiments/gpu-physics/shaders/physics/broadphase.wgsl": "9a860f20d857f338662d280e6d8704a6af74d914f522df054dfbf9cf8af3d4d5",
+        "experiments/gpu-physics/shaders/physics/math.wgsl": "b8eac840067df8f957e8216ea33578b98ae23d4c137876dfa84f60430474b30b"
+      },
+      "header": {
+        "0,1,2,3,4,5,7": "clear_broadphase resets before producers on ordinary and native paths, including pair-matrix sequence; current counts may be reported but do not carry into the next step.",
+        "6": "begin_occupied_contacts resets before collecting live roots.",
+        "8,9,10,11,12,13": "sticky drops/first-step/graph-proof failure retained; encode_contact_status copies these six words, capture drains status and records sticky causes/first step and invalid flags. Failure is absorbing at the world boundary.",
+        "14": "ATOM_JOINT_LIST_DROPPED is declared but has no shader reader or writer in current source; do not infer a live counter from its name.",
+        "15": "write_alloc_indirects resets to missing-root count before manifold allocations. Prefix reserves root slots; child allocation reads only current free-list snapshot."
+      },
+      "spatial_hash": "clear_broadphase clears all HASH_BUCKETS and extended spatial buckets max(HASH_BUCKETS,pair_capacity/4). Host dispatch cg=max(contact_groups,hash_groups,pair_groups) covers both spans. Insertion emits counted keys only after clear; it is not the separately persistent contact-key hash."
+    },
+    "body-record-state-audit.json": {
+      "scope": "Live body hot/cold record mapping only; island membership and inactive/allocation tails require their own contracts; not whole-device coverage",
+      "sources": {
+        "src/sim.rs": "f54988651545f66ead99ec23d7c83c8a1674861bacc5ed8bbc99f4df52d7531f",
+        "src/types.rs": "176a6ddfffeccd1814bd5230b988bf7ce435d8e2c60f0c7de56ac40c5504511d",
+        "src/api/world/state_trace.rs": "de7f186c1d1dd813a5de754a4af65782c6e3917a748f828871011973e4d388b4",
+        "shaders/physics/types.wgsl": "fb38a8e2ad97f6f76b1ea6a48bf2f2ba6efa4401fd564b7a9c562862c2ff3a96",
+        "shaders/physics/math.wgsl": "b14a6f222493f77d82074b445789a533473cd8686ec004735b2214ec19b59e15",
+        "shaders/physics/collide.wgsl": "3d2c8c243b3a078ade404a773dec09087e786228250ffefdfdfb2eccffb59743"
+      },
+      "hot_fields": [
+        "pos",
+        "inv_mass",
+        "vel",
+        "flags",
+        "rot",
+        "omega",
+        "sleep_velocity",
+        "dp",
+        "sleep_time",
+        "dq",
+        "origin",
+        "origin_valid"
+      ],
+      "cold_fields": [
+        "half",
+        "kind",
+        "inv_inertia",
+        "restitution",
+        "gravity_scale",
+        "linear_damping",
+        "angular_damping",
+        "friction",
+        "rolling",
+        "local_center"
+      ],
+      "mapping": {
+        "hot": "Every BodyStateGpu field is decoded from actual GPU bytes by read_bodies/decode_body_gpu and emitted by body records fields!. No hot field is padding.",
+        "cold": "All BodyColdGpu fields except local_center are decoded from actual GPU bytes and emitted. local_center is now validated bit-for-bit against emitted host value using actual readback.",
+        "extras": "20 words: 0..2 offdiagonal inertia,3 min extent,4..6 max extent,7 sleep threshold,8..10 force,12..14 torque,16..18 upper inertia; all emitted in gpu_motion. 11/15/19 zero padding have no shader readers.",
+        "island": "Stored separately in atom; membership conversion is outside this bounded record audit."
+      },
+      "tests": "body-center-capture-fix/manifest.json",
+      "limitations": [
+        "Only live body records; does not certify dead-slot reuse or island identity canonicalization by itself.",
+        "Older captures did not verify device local_center."
+      ]
+    },
+    "command-policy-state-audit.json": {
+      "scope": "Completed capture under fixed build/device/runtime environment. Per-cache command derivation and idle-proof policy; not a blanket proof of shared workspace or every capability.",
+      "source_sha256": {
+        "src/sim.rs": "5b889f1d93188cc0510f52395ce218dc793c3d07186e50ff20df594b5243522c",
+        "src/native_command_cache.rs": "d0aa70dc8707c7ab44696355a907eb8441833222faa2f696e751afd73ff1bbcf",
+        "src/api/world.rs": "697dd83d16efa8947d9ff06a401f320e3c046ed8fcfcc07ac99d3695d8da48bf",
+        "src/api/world/state_trace.rs": "847a81978f4a933331b80519d18c62af05a791d2b2bbb9d5fa38db3b0429d807",
+        "src/manifold_chain_tests.rs": "f7d538d02e046d79edc745712ff3ac0e531386192445b52546d44be72b6fd6e6",
+        "scripts/native-samples-cache-env.sh": "07a8771f8ae0936919174a5a41de5d317ceb8cc4cef2d27c39f1a53f5ddfe026"
+      },
+      "fields": {
+        "radix_cache": "Captured key+current_bind_group. Mode1 records fixed radix dispatches; mode2 key includes shape/capacity dispatch groups, shape group changes at radix-width boundaries; mode5 key includes shape span and contact groups. Current buffer content is separately captured/reset. Pipeline selection is fixed build and recorded key.",
+        "contact_cache": "Captured key+binding match. Key includes shape>=2 and presence of mesh, selecting optional dispatch and correct collision variant; dynamic capacities use copied GPU indirect arguments with audited producers.",
+        "graph_cache": "Captured key+binding match. Key contains rebuild, skip-static-sort, shared/memo/batched/matrix flags, contact group count when matrix is used, body groups and joint groups. Memo base immutable per simulator; rebuild bindings invalidate all referenced resources.",
+        "tail_cache": "Four optional captured keys+binding matches. Stage, specialized small-component/island workgroup sizes, body span and contact slots determine direct dispatch counts; other counts use current indirect arguments.",
+        "physics_replay": "Captured option, saved semantic parameter bytes,14schedule bytes and binding match. Key has all SimParams except current physics_step plus contact_slots,color prefix,CCD presence,shared/batched graph choice,skip sort,one-group wave and component mode. Padding word invariant zero is excluded. CCD replacement explicitly clears replay; buffer change changes binding. Cached command/statistic counts affect only instrumentation. Eligibility separately forbids idle/eligible-idle, active timing window, joints, meshes and phase capture.",
+        "native_tail_enabled": "Captured bool controls cached tail selection; fixed configured runtime.",
+        "native_reset_requested": "Captured bool controls reset path; tail stage3 retains body span, binding and shader specialization keys.",
+        "idle_eligible": "Captured idle_state. Combined with sleep/diagnostic settings before accepting proof; can disable full replay even without an idle hit.",
+        "idle_input_context": "Captured exact topology/query context pair used by proof and chain equality.",
+        "idle_output_context": "Captured exact context used to extend confirmed idle steps.",
+        "idle_proof": "Captured optional (step,context,epoch); status harvest creates proof only if active count zero and all failure counters clear.",
+        "idle_chain": "Captured optional (first,last,context,epoch); rejects broken epoch/context/step continuity before permitting delayed proof.",
+        "idle_count_valid_step": "Captured optional step; only set by active-body dispatch or a justified idle step. Controls chain extension.",
+        "sticky_pending_idle_context": "Captured optional pending context+epoch; completed capture drains pending status before export.",
+        "last_step_idle": "Captured boolean; output records last skip decision.",
+        "idle_epoch": "Captured exact checked monotonic mutation counter; proof/chain compare exact epoch.",
+        "sticky_pending_step": "Captured exact pending logical step used by status, hints,metrics and proof freshness; boundary rejects pending readback.",
+        "physics_step": "Captured exact logical counter; also current GPU u32 parameter separately captured."
+      },
+      "resource_lifetime": "RadixCache owns clones of bind group, layout, pipelines, scratch, indirect and every copy source. Native command insertion retains the Arc through submission/discard. No independent queue or hidden physics payload. CopyArgs/CopyBuffer read current device data; shader-write/transfer/indirect barriers surround uses. Profile query state is timing only.",
+      "environment": "Native runtime environment fixed by scripts/native-samples-cache-env.sh; mutating environment variables during a run is outside determinism contract. Source/build hashes retained.",
+      "checks": "command-policy-audit/result.json: five idle tests each path, native owner lifetime and growing/shrinking reset span, five fresh48step native full replay/reentry traces; replay-result.json passes raw.",
+      "limits": "No schema or production edit; full persisted scratch audit and Rain/contact-island physical gates remain open."
+    },
+    "component-workspace-state-audit.json": {
+      "scope": "Island atom lanes and component query workspace at completed-step capture under selected ordinary/native schedules; not physical acceptance or whole scratch audit.",
+      "source_sha256": {
+        "src/sim.rs": "5b889f1d93188cc0510f52395ce218dc793c3d07186e50ff20df594b5243522c",
+        "src/api/world.rs": "697dd83d16efa8947d9ff06a401f320e3c046ed8fcfcc07ac99d3695d8da48bf",
+        "src/api/world/state_trace.rs": "847a81978f4a933331b80519d18c62af05a791d2b2bbb9d5fa38db3b0429d807",
+        "shaders/physics/types.wgsl": "fb38a8e2ad97f6f76b1ea6a48bf2f2ba6efa4401fd564b7a9c562862c2ff3a96",
+        "shaders/physics/integrate.wgsl": "913d5a77a5e99d15869b6e24b52165694c67aa5ce8c1bbcc863edf011949d5f8"
+      },
+      "regions": {
+        "island labels/wake/ready": "island_init writes each live label to self or EMPTY, wake0,ready1 before any union or wake reads. Union edges are current contact/joint lists; accumulate compresses labels and wake ORs, apply updates captured body flags. End-step reset_ready then accumulate/apply consumes current membership. Capture retains membership; union uses monotonically smaller canonical roots. Idle skips preserve state; next active step initializes again.",
+        "component metadata/counts": "component_reset clears both per-root counters and all24color counts for every live body. count accepts only current active graph membership. offsets writes every root start/count reset and query256..260 (large count/indirect/invalid), including empty input.",
+        "component body/contact lists": "count then offsets/color_offsets precede scatter; every entry below resulting live count is freshly written. Color offsets writes all24starts and resets scatter counters. Small solver sorts fresh contacts by graph color/rank; large solver uses per-color ranges. Unused tails are never traversed by count-bounded consumers.",
+        "component invalid inputs": "offsets validates body/contact totals, sets invalid260 and records loss before consumers. color_offsets/scatter/small solver check invalid; large indirectx becomes0. Previous bytes cannot be consumed on failure.",
+        "component memory separation": "query offsets depend on current body_count and contact_capacity but whole live region is regenerated. Optional persistent graph memo begins after capacity-sized region261+54*body_capacity+2*contact_slots; it is separate and captured, not classified transient.",
+        "active-count72": "encoder clears before count_active_bodies; only current live enabled awake/kinematic bodies add. Completed status consumes it for idle proof; proof/context recorded separately.",
+        "native/full replay": "native tail stages0/1/2 and full replay include same ordered producers before consumers; query-buffer growth copies/rebinds and invalidates cache binding equality."
+      },
+      "checks": {
+        "result": "component-workspace-audit/result.json",
+        "driver": 95338,
+        "exit": 0,
+        "scope": "3checks per path:90step merge/split under sleeping enabled/disabled with actual large-count and sleep assertions;120step small overflow and120step large overflow with actual nonempty order-sensitive overflow and per-step physical1e-5 comparison. Not five-process state repeats."
+      },
+      "remaining": "Persistent joint schedule/history, fat bounds/commands, remapping/previous-touching, occupied lists and full region consolidation remain separate."
+    },
+    "contact-storage-state-audit.json": {
+      "scope": "Retired contact records, generation preservation, chain topology and high-water/free-slot allocation. Bounded source contract; not complete child-storage equivalence or solver qualification.",
+      "sources": {
+        "shaders/physics/math.wgsl": "b14a6f222493f77d82074b445789a533473cd8686ec004735b2214ec19b59e15",
+        "shaders/physics/types.wgsl": "fb38a8e2ad97f6f76b1ea6a48bf2f2ba6efa4401fd564b7a9c562862c2ff3a96",
+        "shaders/physics/broadphase.wgsl": "b786446c6addb47859903b7b3f41e3b90ef61c1437e1ddef369cb99cc0561239",
+        "shaders/physics/collide.wgsl": "3d2c8c243b3a078ade404a773dec09087e786228250ffefdfdfb2eccffb59743",
+        "src/sim.rs": "bf28c3c60b69a672d4bb532fb8b32732931718e233f91341fa654c788436ccc4",
+        "src/api/world/state_trace.rs": "847a81978f4a933331b80519d18c62af05a791d2b2bbb9d5fa38db3b0429d807",
+        "src/api/world/contact_api.rs": "3792244f560d915dc42ed27407bb0db631ffd737e70948d6a444d6358a11d848",
+        "src/manifold_chain_tests.rs": "fa68b205d5be25088b3a600cbda9242863e07767e4db36944b36b8badb9b2c7c"
+      },
+      "contracts": [
+        "Retirement paths retire_stale_contacts, remap_contact_shapes, retire_body_pair_contacts and retire_manifold_children write empty_contact through store_contact while preserving each physical lifecycle.x. store_contact writes hot, prepared and persistent records. Mesh scratch/discard uses store_mesh_contact to preserve the same physical counter.",
+        "An inactive record is represented by a null contact plus its physical generation below contact_high_water. Other retired fields are canonical reset values, not arbitrary ignored live data. In particular store_pair reads previous.color even for a newly allocated touching root; reset-to-zero is necessary to justify omission.",
+        "Root store_pair increments a retired physical generation; child publication preserves the physical counter. Public registry root ownership uses slot plus generation; child ordinals follow links. No permission to move root owners or counters follows from this audit.",
+        "Root identity publication and child allocation monotonically advance QUERY_CONTACT_HIGH_WATER. Free scanning uses a==EMPTY plus current mark; convex prefix is high+missing, mesh scans full capacity. Existing root chains are marked before free allocation. Contact high-water and all prior physical counters are captured.",
+        "Capture builds semantic child ordinals by walking links, rejects cycles/shared/dead/orphan members and retains each record chain_length, body/shape identity, flags and representative triangle. Hash roots, physical slot map, history and schedules are captured separately.",
+        "Device chain validation checks root/child parent ownership, body endpoints, bounded count and exact termination before retirement. Host query order additionally validates shape pair identity and orphans. Logical topology is represented but this bounded audit does not prove every physical child-slot consumer insensitive to placement."
+      ],
+      "checks": {
+        "ordinary": {
+          "binary_sha256": "e00bc111324cf75af970ff7aa1a77628ef4ebe68d8d9aab455c8e693414c9908",
+          "tests": {
+            "dirty_contact_range_preserves_retired_history_and_skips_unused_slots": {
+              "exit": 0,
+              "one_pass": true,
+              "log_sha256": "c960d114220fb7e7c0b8e239e208b1ed66480d44006905e2686cb8b79520bf05"
+            },
+            "root_free_scan_preserves_lowest_slots_and_mesh_pool": {
+              "exit": 0,
+              "one_pass": true,
+              "log_sha256": "425c593cf7deb047a4e2de163dc22ebee52912a2d86ecef1c20792008055bc28"
+            },
+            "manifold_pool_retires_deleted_body_chains_but_preserves_malformed_chains": {
+              "exit": 0,
+              "one_pass": true,
+              "log_sha256": "8ca703a37b7230aa84ca2028f39f459b57d87e01def3fa482b5ed1c7672b4ff5"
+            },
+            "manifold_chain_rejects_corruption_before_applying_impulses": {
+              "exit": 0,
+              "one_pass": true,
+              "log_sha256": "a98674e38d0c4e10224d5a42af1ac6d89fc134f0b1062b853923df86edc763c0"
+            }
+          }
+        },
+        "native": {
+          "binary_sha256": "fa38d8e341cfe7dabdd6f4fe34af84a9a7b6a16524f4c04198f6b1c00d23d2c4",
+          "tests": {
+            "dirty_contact_range_preserves_retired_history_and_skips_unused_slots": {
+              "exit": 0,
+              "one_pass": true,
+              "log_sha256": "4e4215ea0e0904526ace344327cda5c83ce94d8db310bf2af89fb2670916a03d"
+            },
+            "root_free_scan_preserves_lowest_slots_and_mesh_pool": {
+              "exit": 0,
+              "one_pass": true,
+              "log_sha256": "d003e94541bc200768169e80cecc51281ccf000813eb82ba917e716d8ff2feef"
+            },
+            "manifold_pool_retires_deleted_body_chains_but_preserves_malformed_chains": {
+              "exit": 0,
+              "one_pass": true,
+              "log_sha256": "e90a77ab1424bef2d12eea9923f8323153d3d3569439fc80d1941f9395a7d99b"
+            },
+            "manifold_chain_rejects_corruption_before_applying_impulses": {
+              "exit": 0,
+              "one_pass": true,
+              "log_sha256": "0fbaa86144498151f82fa586889ff5ce9e8247c050c8533560593a46927c8981"
+            }
+          }
+        }
+      },
+      "limitations": [
+        "Four direct-dispatch tests per configured backend, not five-process scene repeats or native recorded replay qualification.",
+        "Initial unqualified module filter selected zero tests; driver rejected it. Preserved at contact-storage-audit-empty-selection. Corrected sim::manifold_chain_tests paths each select exactly one passing test.",
+        "Live contact inactive point-lane coverage and complete child-storage consumer equivalence remain separate audit requirements."
+      ]
+    },
+    "convex-ccd-state-audit.json": {
+      "scope": "Separate ConvexCcd device buffers and start-state fields; physical CCD capability remains a separate gate.",
+      "sources": {
+        "src/ccd.rs": "a692df199042703d034f80cb0828327395900236df616036a8645e444b863e7e",
+        "src/sim.rs": "bf28c3c60b69a672d4bb532fb8b32732931718e233f91341fa654c788436ccc4",
+        "src/api/world/ccd_state_trace.rs": "51129e29627bb225d301d9b9ba5a500cb885c7d3f443d44a453dfb0f2d4d7f1e",
+        "shaders/physics/ccd_world.wgsl": "078dd38a47e71be725bc7c5c300a81e08b78a6bb9ed1b5f2c2d3a84f6e72db1c",
+        "shaders/physics/ccd_convex.wgsl": "ae43bad111513600cef687fca8242259a8dda2db4da4bbf21c08e675f42b4c54"
+      },
+      "captured": [
+        "All five semantic config words; counts/index spans validated.",
+        "Every point xyz; all live body first/count/min_extent/max_extent/center.xyz.",
+        "Every shape first/count/radius/body/group/category/mask/sweep_radius.",
+        "Full index vector including target/joint endpoint lists.",
+        "Actual start-body pos/rot/origin/origin_valid; ccd_start consumers only use p.xyz,q,origin and origin_valid. Finish body buffer is covered by main body capture."
+      ],
+      "excluded": [
+        "Point.w and center.w, shape proxy-unused/unused2 and config alignment/unused words have no shader consumer.",
+        "Other start-body lanes are copied with the whole body but are not consumed by ccd_origin, motion threshold or interpolation; position.w is not used for corrected mass (finish end.p.w is retained)."
+      ],
+      "lifecycle": [
+        "ConvexCcd owns device pipeline/binding/count. Count is immutable scene.bodies.len and matches captured config/body count.",
+        "Ordinary capture copies whole current body start prefix before reset/integration, then correct runs after integration. Native full replay records the same copy/dispatch; idle omission is governed by separately captured proof.",
+        "set_convex_ccd clears native physics_replay before replacing buffers/binding.",
+        "Diagnostic readback reads actual five buffers and start bytes; no substitution with expected host geometry."
+      ],
+      "tests": {
+        "ordinary": {
+          "motor": {
+            "exit": 0,
+            "passed": 1,
+            "log_sha256": "49c00e1f94f845744bbefd1ebcde48436c4ee719b7e0a5b40a50344cd115bc59"
+          },
+          "padding": {
+            "exit": 0,
+            "passed": 1,
+            "log_sha256": "bc002ab25e79ca09d1a43d3c32840fd2e924108707c1b12ed0864a7ef776ff66"
+          },
+          "ccd": {
+            "exit": 0,
+            "passed": 2,
+            "log_sha256": "4d59008fdab5ec8ea07d3695c8627d53ed0300d6c63edbc982c50454a097b040"
+          },
+          "binary_sha256": "e00bc111324cf75af970ff7aa1a77628ef4ebe68d8d9aab455c8e693414c9908"
+        },
+        "native": {
+          "motor": {
+            "exit": 0,
+            "passed": 1,
+            "log_sha256": "0bc09dd4b5b58e3d271a88f6b008664ab5061688044fbe4b69db78b388ef6bc5"
+          },
+          "padding": {
+            "exit": 0,
+            "passed": 1,
+            "log_sha256": "81a54aaf30a3eb7a852c4d55772be01985ccc2be7ac6f69d519051c69710aa34"
+          },
+          "ccd": {
+            "exit": 0,
+            "passed": 2,
+            "log_sha256": "683d005c018ba99cc7c933749c93d91ea5746822c6aca7f82bf48ad8eb0cacb8"
+          },
+          "binary_sha256": "fa38d8e341cfe7dabdd6f4fe34af84a9a7b6a16524f4c04198f6b1c00d23d2c4"
+        }
+      }
+    },
+    "delta-accumulator-state-audit.json": {
+      "scope": "Source producer/consumer audit only; no physics acceptance or complete-state claim",
+      "sources": {
+        "src/sim.rs": "2b3d2ffe62238a3aaf9a272628b710bbff193a7c1347c7a67069c0302dbf0781",
+        "shaders/physics/solve.wgsl": "61ebef9349d0d6928808ac380a8179935784b1ffd4d1a5b988ee220883fc173a",
+        "shaders/physics/integrate.wgsl": "a46f2cb84f385ddd89d25fe0b269c6dd74c828985245583db1ea5d88f6abb747"
+      },
+      "contracts": [
+        "Each Jacobi wave clears all six lanes for every live body before add/apply.",
+        "Each non-idle full step resets body translation/rotation deltas; native reset records same kernel."
+      ]
+    },
+    "fat-transform-state-audit.json": {
+      "scope": "Completed public World API boundaries, successful scene preparation, fixed build/configuration. Not arbitrary direct GpuSim calls or mid-callback capture.",
+      "source_sha256": {
+        "src/sim.rs": "b2f2b44701b29c894f1d178dc0ab0079d0b49c34c930394af953286098edd554",
+        "src/api/world.rs": "697dd83d16efa8947d9ff06a401f320e3c046ed8fcfcc07ac99d3695d8da48bf",
+        "src/api/world/state_trace.rs": "db435f5b297ec3ba470313fc90186c14f6647702c66acef00358545e204812f8",
+        "src/types.rs": "176a6ddfffeccd1814bd5230b988bf7ce435d8e2c60f0c7de56ac40c5504511d",
+        "shaders/physics/broadphase.wgsl": "b786446c6addb47859903b7b3f41e3b90ef61c1437e1ddef369cb99cc0561239"
+      },
+      "contracts": [
+        {
+          "region": "uploaded transform heads and eight-word commands",
+          "producer": "GpuSim::upload_fat_transforms zeros the complete two-word-per-capacity-body head table and writes every command of the new batch before flush_params. checked_add advances the command epoch; overflow returns an error. Growth copies old scratch before rebinding.",
+          "consumer": "update_fat_bounds is the sole shader command reader, gated by nonzero batch count and unequal per-shape applied epoch. It writes the applied epoch after processing each body command list.",
+          "next_step": "All successful ensure_sim paths reach final write_params, which sets fat_commands_count=0. Public positive-duration step then uploads the pending host batch; empty upload leaves count zero. world_step/callback submission uploads current pass LUT. Therefore previous payload cannot be consumed by the next successful public step, even without assuming every previous dispatch covered every shape."
+        },
+        {
+          "region": "pending host transforms",
+          "contract": "state_trace captures each ordered command list keyed by verified live body generation/creation ordinal; map iteration is normalized across independent body lists. Public zero-duration step returns without consuming host history."
+        },
+        {
+          "region": "persistent fat bounds and epochs",
+          "contract": "Capture includes six raw bound words per shape and initialized/applied equality flags plus all current parameter epochs. Bounds epoch starts at 1 and is only copied on allocation. Command epoch starts at 0 and increases with checked_add, never wraps; stored reachable epochs cannot equal a future new epoch. Applied equality is sufficient under these reachable transitions; arbitrary device corruption is outside this representation claim."
+        },
+        {
+          "region": "completed boundary",
+          "contract": "validate_diagnostic_boundary requires completed current step, drained contact status, closed callback and superseded pose readback. This audit cannot exclude an in-flight command at an arbitrary low-level boundary."
+        }
+      ],
+      "existing_runtime_evidence": {
+        "artifact": "command-policy-audit/result.json",
+        "scope": "Existing native five fresh 48-step replay/reentry runs include transform and substep changes, 42 actual replay hits each. Historical v20 coverage only; not v22 final qualification or a new run."
+      },
+      "open_exception": {
+        "finding": "ensure_sim error returns for caps.validate_allocation, GpuSim::new, and pack_scene_bytes set gpu_fail but do not set world/simulator physics_invalid. New-sim failure restores the old simulator. step_gpu_inner checks physics_invalid after ensure_sim, not gpu_fail, so these errors do not establish an absorbing failed boundary. The successful-path command proof must not be promoted to all public failure paths.",
+        "source_lines": [
+          5207,
+          5240,
+          5285
+        ],
+        "next_action": "Final device-region consolidation; original finding and source hashes above describe the pre-fix audit.",
+        "status": "Corrected: all three returns invalidate world and retained simulator. Host heap-rejection regression fails before and passes afterward on both paths, including clear/retry. Other two branches source reviewed, not injected.",
+        "evidence": "preparation-failure-fix/manifest.json"
+      },
+      "whole_state_qualification": false
+    },
+    "graph-workspace-state-audit.json": {
+      "scope": "Source reset/producer audit for selected GPU-order paths with DIAG_REBUILD_GRAPH unset; not a whole-state qualification or a proof for diagnostic rebuild/proof modes.",
+      "source_sha256": {
+        "src/sim.rs": "6b8dd9aac10c81d3e5dd49f87fad94793517ac71ab2d6d02290eb4c95432c8ef",
+        "src/types.rs": "b315851d444a4c373725d4e81b3bffbf1cce3eb663441ba0f46f2821b91aece0",
+        "src/api/world/state_trace.rs": "33c7e4da606e66f9143c4ba1c1269ba85b28e051cc424e8bee2498b766acf087",
+        "shaders/physics/broadphase.wgsl": "9a860f20d857f338662d280e6d8704a6af74d914f522df054dfbf9cf8af3d4d5",
+        "shaders/physics/types.wgsl": "f9e53c8077dd6cf7cb20c355007777c0a61748c642594877367af479b086a314",
+        "shaders/physics/graph_shared.wgsl": "f3c6eba2f8a2251a382f1c4c6a6c52c03835fd4b5881e88ccd52fa6efd25b9a5",
+        "shaders/physics/graph_memo.wgsl": "0f0ef49d87902876a84e052b21dfd5bffbe6c0406b5f7ee1b7b0fd0f67109fc1",
+        "scripts/native-samples-cache-env.sh": "07a8771f8ae0936919174a5a41de5d317ceb8cc4cef2d27c39f1a53f5ddfe026"
+      },
+      "contracts": [
+        {
+          "region": "body/color/fused metadata",
+          "producer": "graph_reset_colors + graph_clear_meta",
+          "detail": "All 24 color counts and atom color counts, dynamic/static/fused counts, four atom body lanes, body occupancy and every eight-slot fused list are initialized before graph_classify and graph_mark_edges. Ordinary and native collide_finalize_pass encode the same order."
+        },
+        {
+          "region": "classification and compact prefixes",
+          "producer": "graph_classify + graph_compact_paired_histogram/bases/scatter",
+          "detail": "Classification writes each live unique-pair entry including zero/non-live entries; both kind prefixes write every dispatched group before scan. Bases writes total static and dynamic counts, including zero, and scatter writes each bounded output list in input order. Old unused tails are not read by count-bounded consumers."
+        },
+        {
+          "region": "static graph",
+          "producer": "graph_count_static_degree + graph_finish_static_degree + graph_pack_static_keys + stable sort + graph_assign_static",
+          "detail": "Degree lanes and minimum-index proof lanes have been initialized. Finish writes max degree and every radix/static dispatch argument. Degree-one path reads compact list directly; higher-degree path produces body keys, group starts and color keys before stable sorting and local-rank scatter. Count-zero skips output reads and keeps initialized counts. DIAG_STATIC_DEGREE_TWO_PROOF is outside selected paths."
+        },
+        {
+          "region": "dynamic graph and memo",
+          "producer": "graph_assign_dynamic/shared/batched then finish_dynamic_graph",
+          "detail": "Greedy consumes initialized endpoint masks and bounded ordered edge lists. Memo persistent inputs remain explicitly captured and have separate validity audit; no memo omission justified by this reset contract. Finalizer writes all color counts and selected solve/prepare/island dispatch arguments before their copies/consumers."
+        },
+        {
+          "region": "capture boundary",
+          "producer": "completed-step exporter",
+          "detail": "Color lists retain order and contact identity; graph memo policy/input/output records retained. This audit classifies overwritten workspace only, not child slot ownership, root generations, or all other scratch regions."
+        }
+      ],
+      "observed_diagnostic_flags": {
+        "ordinary": 0,
+        "native": 131072
+      },
+      "rebuild_flag": 8
+    },
+    "host-policy-state-audit.json": {
+      "scope": "Consolidated host GpuSim policy field contracts at completed capture boundary; device-buffer regions remain separate. Existing checked source and regressions reused; no new tests invented for field enumeration.",
+      "source_sha256": {
+        "src/sim.rs": "5b889f1d93188cc0510f52395ce218dc793c3d07186e50ff20df594b5243522c",
+        "src/api/world/state_trace.rs": "847a81978f4a933331b80519d18c62af05a791d2b2bbb9d5fa38db3b0429d807"
+      },
+      "fields": {
+        "body_sleep_thresholds": {
+          "contract": "Full f32-bit array retained; body decode uses it for each live slot; scene upload replaces it.",
+          "consumer_lines": [
+            5064,
+            5065,
+            5153,
+            5670,
+            5924
+          ]
+        },
+        "count": {
+          "contract": "Exact live span retained independently of params; sizes dispatches/readbacks.",
+          "consumer_lines": [
+            1913,
+            2113,
+            2192,
+            2193,
+            2204,
+            2233,
+            3197,
+            3224,
+            3971,
+            4075,
+            4114,
+            4199,
+            4332,
+            4422,
+            4441,
+            4503,
+            4535,
+            4690,
+            5038,
+            5080,
+            5081,
+            5239,
+            5630,
+            5631,
+            5632,
+            5647,
+            5811,
+            5814,
+            5865,
+            5962,
+            6235,
+            6236
+          ]
+        },
+        "caps": {
+          "contract": "All11capacity fields retained; bound scene layout/growth and list addressing.",
+          "consumer_lines": [
+            4441,
+            4503,
+            4971,
+            4979,
+            5133,
+            5134,
+            5225,
+            5583
+          ]
+        },
+        "contact_epoch": {
+          "contract": "Exact epoch retained; copied on growth and used by host contact lifetime state.",
+          "consumer_lines": [
+            5375
+          ]
+        },
+        "params": {
+          "contract": "All63semantic words plus invariant padding contract: sim-parameters-state-audit.json.",
+          "consumer_lines": [
+            1875,
+            1879,
+            1912,
+            1913,
+            1933,
+            1934,
+            2029,
+            2036,
+            2041,
+            2061,
+            2189,
+            2270,
+            2325,
+            2350,
+            2366,
+            2424,
+            2425,
+            2426,
+            2568,
+            2596,
+            2600,
+            2601,
+            2717,
+            2719,
+            2736,
+            2750,
+            2784,
+            2795,
+            2796,
+            2798,
+            2806,
+            2829,
+            2837,
+            2842,
+            2843,
+            2850,
+            2852,
+            2853,
+            2923,
+            2925,
+            3059,
+            3099,
+            3102,
+            3103,
+            3119,
+            3136,
+            3139,
+            3149,
+            3175,
+            3214,
+            3234,
+            3265,
+            3274,
+            3283,
+            3287,
+            3296,
+            3502,
+            3710,
+            3712,
+            3714,
+            3717,
+            3721,
+            3731,
+            3732,
+            3734,
+            3737,
+            3740,
+            3742,
+            3744,
+            3747,
+            3749,
+            3891,
+            3892,
+            4250,
+            4255,
+            4318,
+            4339,
+            4343,
+            4347,
+            4352,
+            4386,
+            4390,
+            4407,
+            4408,
+            4409,
+            4410,
+            4411,
+            4412,
+            4413,
+            4414,
+            4415,
+            4416,
+            4417,
+            4418,
+            4419,
+            4420,
+            4421,
+            4467,
+            4471,
+            4475,
+            4479,
+            4480,
+            4489,
+            4490,
+            4498,
+            4499,
+            4506,
+            4540,
+            4542,
+            4543,
+            4552,
+            4557,
+            4561,
+            4562,
+            4563,
+            4569,
+            4580,
+            4690,
+            4708,
+            4971,
+            5001,
+            5002,
+            5015,
+            5016,
+            5021,
+            5022,
+            5046,
+            5050,
+            5056,
+            5058,
+            5059,
+            5072,
+            5073,
+            5079,
+            5106,
+            5111,
+            5112,
+            5113,
+            5115,
+            5119,
+            5126,
+            5130,
+            5147,
+            5148,
+            5167,
+            5168,
+            5198,
+            5203,
+            5211,
+            5234,
+            5237,
+            5239,
+            5259,
+            5260,
+            5261,
+            5262,
+            5263,
+            5264,
+            5265,
+            5266,
+            5267,
+            5268,
+            5283,
+            5286,
+            5289,
+            5296,
+            5299,
+            5301,
+            5317,
+            5322,
+            5327,
+            5328,
+            5329,
+            5344,
+            5363,
+            5371,
+            5372,
+            5373,
+            5381,
+            5645,
+            5646,
+            5681,
+            5697,
+            5722,
+            5816,
+            5863,
+            5864,
+            5879,
+            5963,
+            5967,
+            6025,
+            6052,
+            6062,
+            6082,
+            6086,
+            6109,
+            6235,
+            6265,
+            6299,
+            6303
+          ]
+        },
+        "completed_step": {
+          "contract": "Exact completed step retained; readback boundary validates equality with physics_step.",
+          "consumer_lines": [
+            3526,
+            3533,
+            3541,
+            3693,
+            4747,
+            5916
+          ]
+        },
+        "completed_known": {
+          "contract": "Exact bool retained; false after submission, true only on observed completion; boundary rejects false.",
+          "consumer_lines": [
+            2344,
+            3413,
+            3527,
+            3534,
+            3541,
+            3694,
+            4381,
+            4747,
+            5917
+          ]
+        },
+        "one_group_wave_only": {
+          "contract": "Captured solver scheduling bool; topology/flags recompute; dispatch_colored_solve branches on it.",
+          "consumer_lines": [
+            1948,
+            3144,
+            3716,
+            3736
+          ]
+        },
+        "color_wave_prefix": {
+          "contract": "Captured in graph policy; determines fused vs general color dispatch prefix and replay key.",
+          "consumer_lines": [
+            1936,
+            2003,
+            2007,
+            3142,
+            3898,
+            4962,
+            5161
+          ]
+        },
+        "color_wave_prefix_override": {
+          "contract": "Captured option; disables asynchronous hint replacement when set.",
+          "consumer_lines": [
+            2002,
+            2003,
+            3895,
+            4963,
+            5160
+          ]
+        },
+        "color_hint_min_step": {
+          "contract": "Captured exact step; scene upload requires later status before hint changes.",
+          "consumer_lines": [
+            3886,
+            3895,
+            4962,
+            5159
+          ]
+        },
+        "graph_dense_hint": {
+          "contract": "Captured bool; controls batched graph and hysteresis threshold for subsequent status.",
+          "consumer_lines": [
+            2796,
+            3890,
+            3893,
+            4961,
+            5158
+          ]
+        },
+        "one_group_pair_ok": {
+          "contract": "Captured bool; used when diagnostic flags change one-group eligibility.",
+          "consumer_lines": [
+            3718,
+            3735,
+            3736,
+            5067
+          ]
+        },
+        "skip_general_static_sort": {
+          "contract": "Captured bool; controls static radix schedule and keyed cached sequence.",
+          "consumer_lines": [
+            2845,
+            2868,
+            2892,
+            2966,
+            3144,
+            3720,
+            3738,
+            3741,
+            3746
+          ]
+        },
+        "callback_open": {
+          "contract": "Captured bool and rejected when true at completed capture; controls two-phase callback processing.",
+          "consumer_lines": [
+            4253,
+            4256,
+            4319,
+            4322,
+            4753
+          ]
+        },
+        "contact_status_dirty": {
+          "contract": "Captured bool and rejected while dirty; avoids reusing old same-step metrics/failure status. See query-workspace-state-audit.json.",
+          "consumer_lines": [
+            3511,
+            3796,
+            3843,
+            3949,
+            4750
+          ]
+        },
+        "fat_geometry": {
+          "contract": "Every one of9FatGeometryKey fields retained; source/body/type/kind/proxy/center/half/axis/radius control history preservation and remapping during scene uploads/growth.",
+          "consumer_lines": [
+            5064,
+            5066,
+            5164,
+            5186,
+            5210,
+            5217,
+            5284,
+            5348
+          ]
+        },
+        "contact_slots": {
+          "contract": "Captured physical capacity controls dispatch/readback spans and copied persistent lists.",
+          "consumer_lines": [
+            2193,
+            2321,
+            3141,
+            4442,
+            5325,
+            5364,
+            5365,
+            5370,
+            5753,
+            5822
+          ]
+        },
+        "shape_count": {
+          "contract": "Captured live count controls dispatch, radix width, optional narrowphase and matrix policy.",
+          "consumer_lines": [
+            2117,
+            2338,
+            2366,
+            2368,
+            2376,
+            2379,
+            2402,
+            2596,
+            2623,
+            2701,
+            2717,
+            5124,
+            5258
+          ]
+        },
+        "pair_matrix_flat": {
+          "contract": "Captured scene eligibility bool; scene upload checks mesh/proxy/compound flags.",
+          "consumer_lines": [
+            2365,
+            5154
+          ]
+        },
+        "pair_matrix_requested": {
+          "contract": "Captured request; fixed environment or explicit test override, used in candidate path selection.",
+          "consumer_lines": [
+            2333,
+            2365
+          ]
+        },
+        "pair_matrix_used": {
+          "contract": "Captured selected path; set fresh before broadphase and drives later retirement dispatch.",
+          "consumer_lines": [
+            2335,
+            2358,
+            2367,
+            2847,
+            2849,
+            2881,
+            3035
+          ]
+        },
+        "graph_batched_override": {
+          "contract": "Captured option; combines with counts/density in dynamic graph selection.",
+          "consumer_lines": [
+            2779,
+            2795
+          ]
+        },
+        "graph_shared_requested": {
+          "contract": "Captured bool; combines with fixed device limits and live count for shared graph selection.",
+          "consumer_lines": [
+            2777,
+            2784,
+            2797,
+            3143
+          ]
+        },
+        "graph_memo_base": {
+          "contract": "Optional allocation presence represented by graph_cache.cache null vs object (including invalid layout); offset derived as261+54*(params.shape_base_u32/36)+2*contact_slots. Captured shape-base encodes actual allocated body capacity. Fixed device/env determine availability; immutable per GpuSim. Payload captured by read_diagnostic_graph_cache.",
+          "consumer_lines": [
+            2797,
+            2806,
+            2842,
+            4964,
+            6375
+          ]
+        },
+        "small_component_workgroup_size": {
+          "contract": "Captured specialization/dispatch divisor; fixed creation config, explicit test mutation keyed by native tail.",
+          "consumer_lines": [
+            2193,
+            2204,
+            2773,
+            3224
+          ]
+        },
+        "component_tgs": {
+          "contract": "Captured bool branches solver sequence; enabling grows query via whole-buffer copy/rebinding as needed.",
+          "consumer_lines": [
+            3144,
+            3147,
+            3215,
+            4463
+          ]
+        },
+        "island_workgroup_size": {
+          "contract": "Captured specialization/dispatch divisor and native key component; fixed creation configuration.",
+          "consumer_lines": [
+            2121,
+            2193
+          ]
+        },
+        "metrics": {
+          "contract": "timing_window steps/submitted retained because they suppress replay. Timestamp values/durations have timestamp-state-audit.json contract.",
+          "consumer_lines": [
+            3356,
+            3430,
+            3455,
+            5416,
+            5439
+          ]
+        },
+        "sticky_loss": {
+          "contract": "Captured latch; status harvest merges counters and controls public failure report. physics_invalid separately absorbing.",
+          "consumer_lines": [
+            3791,
+            3801,
+            3921
+          ]
+        },
+        "metrics_context": {
+          "contract": "Captured current topology/state revision tuple, copied to next status receipt.",
+          "consumer_lines": [
+            3838,
+            3931
+          ]
+        },
+        "sticky_pending_context": {
+          "contract": "Captured receipt revision tuple retained after drain and copied into contact_metrics.",
+          "consumer_lines": [
+            3838,
+            3909,
+            3910
+          ]
+        },
+        "contact_metrics": {
+          "contract": "All9fields retained; step controls refresh and other fields are observable metrics. Same-step dirty status must drain.",
+          "consumer_lines": [
+            3907,
+            3939,
+            3950,
+            4765
+          ]
+        },
+        "sticky_first_step": {
+          "contract": "Captured first failing logical step, persists until explicit diagnostic clear.",
+          "consumer_lines": [
+            3792,
+            3804,
+            3923,
+            3924
+          ]
+        },
+        "sticky_causes": {
+          "contract": "All5cause counters retained, merged by max; explicit clear first drains pending failure.",
+          "consumer_lines": [
+            3793,
+            3804,
+            3805,
+            3918
+          ]
+        },
+        "sticky_contact_reasons": {
+          "contract": "Captured OR mask, preserved across growth, cleared only explicitly after drain.",
+          "consumer_lines": [
+            3794,
+            3805,
+            3885
+          ]
+        }
+      },
+      "related_evidence": [
+        "command-policy-state-audit.json",
+        "scene-geometry-state-audit.json",
+        "query-workspace-state-audit.json",
+        "sim-parameters-state-audit.json",
+        "pose-readback-state-audit.json",
+        "timestamp-state-audit.json",
+        "terminal-failure-state-audit.json",
+        "pair-workspace-state-audit.json",
+        "graph-workspace-state-audit.json"
+      ],
+      "limits": "This routing/mapping closes reference-only host entries, not entire persisted-state audit or physical qualification."
+    },
+    "indirect-state-audit.json": {
+      "scope": "Source producer/copy/consumer audit of indirect destination and pass uniform overwrite; not the entire scratch/atomic state or full qualification.",
+      "sources": {
+        "src/sim.rs": "2b3d2ffe62238a3aaf9a272628b710bbff193a7c1347c7a67069c0302dbf0781",
+        "src/native_command_cache.rs": "d0aa70dc8707c7ab44696355a907eb8441833222faa2f696e751afd73ff1bbcf",
+        "src/dispatch_gpu_tests.rs": "dec45087df91c9d573bd835e1d8f5cb4fbc86cc1d06550cbd739b898e5a4ee1c",
+        "shaders/physics/broadphase.wgsl": "9a860f20d857f338662d280e6d8704a6af74d914f522df054dfbf9cf8af3d4d5",
+        "shaders/physics/types.wgsl": "f9e53c8077dd6cf7cb20c355007777c0a61748c642594877367af479b086a314"
+      },
+      "tests": {
+        "ordinary": "ok. 1 passed; 0 failed; 0 ignored; 0 measured; 370 filtered out; finished in 0.21s",
+        "native": "ok. 1 passed; 0 failed; 0 ignored; 0 measured; 384 filtered out; finished in 0.25s"
+      }
+    },
+    "joint-record-state-audit.json": {
+      "scope": "JointGpu device record coverage at completed world capture. Separate graph/workspace and host metadata contracts still apply; not full qualification.",
+      "sources": {
+        "src/types.rs": "176a6ddfffeccd1814bd5230b988bf7ce435d8e2c60f0c7de56ac40c5504511d",
+        "src/sim.rs": "bf28c3c60b69a672d4bb532fb8b32732931718e233f91341fa654c788436ccc4",
+        "src/api/world.rs": "697dd83d16efa8947d9ff06a401f320e3c046ed8fcfcc07ac99d3695d8da48bf",
+        "src/api/world/state_trace.rs": "847a81978f4a933331b80519d18c62af05a791d2b2bbb9d5fa38db3b0429d807",
+        "src/api/world/joint_reaction.rs": "c286c2cd989d6bd2e92e8aff792555024435801f9b4c47e8c23985183a5e747c",
+        "shaders/physics/types.wgsl": "fb38a8e2ad97f6f76b1ea6a48bf2f2ba6efa4401fd564b7a9c562862c2ff3a96",
+        "shaders/physics/solve.wgsl": "61ebef9349d0d6928808ac380a8179935784b1ffd4d1a5b988ee220883fc173a"
+      },
+      "field_count": 43,
+      "direct_exact_fields": [
+        "kind",
+        "solver_color",
+        "anchor_a",
+        "hertz",
+        "anchor_b",
+        "damping",
+        "axis",
+        "impulse",
+        "frame_a_rotation",
+        "frame_b_rotation",
+        "perp_impulse",
+        "flags",
+        "revolute_axes_step",
+        "angular_impulse",
+        "spring_impulse",
+        "motor_impulse",
+        "lower_impulse",
+        "upper_impulse",
+        "spring_hertz",
+        "spring_damping",
+        "target_translation",
+        "lower_translation",
+        "upper_translation",
+        "max_motor_force",
+        "motor_speed",
+        "motor_angular_velocity",
+        "target_rotation",
+        "spring_angular_impulse",
+        "swing_impulse",
+        "motor_angular_impulse",
+        "weld_linear_hertz",
+        "weld_linear_damping",
+        "weld_angular_hertz",
+        "weld_angular_damping",
+        "weld_linear_impulse",
+        "weld_angular_impulse"
+      ],
+      "relational_fields": {
+        "a": "Captured body identity, checked live",
+        "b": "Captured body identity, checked live"
+      },
+      "conditional_fields": {
+        "_pad2": "Both lanes captured as motor_spring_angular_impulse for JOINT_MOTOR. Shader solve/warm start and host reaction/event consumers are motor-kind-only. Joint kinds never mutate in place; creation appends a fully initialized new record."
+      },
+      "excluded_fields": {
+        "_pad3": "No semantic shader or Rust consumer; declaration/whole-record transport only",
+        "_pad4": "No semantic shader or Rust consumer; declaration/whole-record transport only",
+        "_pad_weld_linear": "No semantic shader or Rust consumer; declaration/whole-record transport only",
+        "_pad_weld_angular": "No semantic shader or Rust consumer; declaration/whole-record transport only"
+      },
+      "storage": [
+        "read_joints reads actual device prefix through params.joint_count; all live joints retain exact slot+1 identity and order.",
+        "Nine public constructors append complete records using Default for omitted members; no joint-slot reuse.",
+        "Destruction replaces whole record with Default/JOINT_NONE, clears metadata and marks scene dirty. Solver/graph/filter consumers reject JOINT_NONE.",
+        "Captured joint_count and explicit live slot identities preserve holes/trailing destroyed records. Allocation tail is zero-initialized and outside joint_count."
+      ],
+      "tests": {
+        "ordinary": {
+          "motor": {
+            "exit": 0,
+            "passed": 1,
+            "log_sha256": "49c00e1f94f845744bbefd1ebcde48436c4ee719b7e0a5b40a50344cd115bc59"
+          },
+          "padding": {
+            "exit": 0,
+            "passed": 1,
+            "log_sha256": "bc002ab25e79ca09d1a43d3c32840fd2e924108707c1b12ed0864a7ef776ff66"
+          },
+          "ccd": {
+            "exit": 0,
+            "passed": 2,
+            "log_sha256": "4d59008fdab5ec8ea07d3695c8627d53ed0300d6c63edbc982c50454a097b040"
+          },
+          "binary_sha256": "e00bc111324cf75af970ff7aa1a77628ef4ebe68d8d9aab455c8e693414c9908"
+        },
+        "native": {
+          "motor": {
+            "exit": 0,
+            "passed": 1,
+            "log_sha256": "0bc09dd4b5b58e3d271a88f6b008664ab5061688044fbe4b69db78b388ef6bc5"
+          },
+          "padding": {
+            "exit": 0,
+            "passed": 1,
+            "log_sha256": "81a54aaf30a3eb7a852c4d55772be01985ccc2be7ac6f69d519051c69710aa34"
+          },
+          "ccd": {
+            "exit": 0,
+            "passed": 2,
+            "log_sha256": "683d005c018ba99cc7c933749c93d91ea5746822c6aca7f82bf48ad8eb0cacb8"
+          },
+          "binary_sha256": "fa38d8e341cfe7dabdd6f4fe34af84a9a7b6a16524f4c04198f6b1c00d23d2c4"
+        }
+      }
+    },
+    "joint-schedule-remap-state-audit.json": {
+      "scope": "Joint schedule and shape-remap producer/consumer source review; active-contact retirement input explicitly unresolved.",
+      "source_sha256": {
+        "src/sim.rs": "b2f2b44701b29c894f1d178dc0ab0079d0b49c34c930394af953286098edd554",
+        "src/api/world/state_trace.rs": "4e480e4b56a18d2a24041a0e084bb108f55008b56b0b25e83ff048808c6bc472",
+        "src/gpu_invariants.rs": "ec350f08159e724e1a57d06fe26bd355b65ddf6091174004d9e4370ba716eff8",
+        "shaders/physics/solve.wgsl": "61ebef9349d0d6928808ac380a8179935784b1ffd4d1a5b988ee220883fc173a",
+        "shaders/physics/broadphase.wgsl": "b786446c6addb47859903b7b3f41e3b90ef61c1437e1ddef369cb99cc0561239",
+        "shaders/physics/types.wgsl": "fb38a8e2ad97f6f76b1ea6a48bf2f2ba6efa4401fd564b7a9c562862c2ff3a96"
+      },
+      "contracts": {
+        "joint heads": "compact_joint_heads resets all live body heads to EMPTY and clears list-valid/component-count before compact_joint_components on ordinary and callback finish paths. Serial/no-joint paths bypass list consumers appropriately.",
+        "joint component lists": "compact_joint_components writes unique root membership, counts, offsets and complete live joint list; captures preserve valid flag, component order, roots and per-component joint ordering. Old unused tails are not consumed. Invalid-list fallback selects one global writer.",
+        "persistent joint colors": "JointGpu solver_color and COLOR_ASSIGNED flags remain persistent and are exported; existing colors reserve masks before new joint/contact admission. Masks/heads themselves regenerated. Contact history is independently captured in v21; do not call it reset workspace.",
+        "shape-remap mapping": "remap_physical_contacts writes every old-shape mapping entry to radix output, sets captured remap controls, then dispatches clear/remap/prepare/publish in same submission. Completed capture waits for tracked mutation and status. Mapping overwritten on next remap/broadphase; output contact pairs/hash retained. Previous-touching saved on first remap of upcoming step and protected from reset by captured remap_history_step.",
+        "fat bounds": "Live bounds retain six raw float-bit words plus initialization/command-epoch equality. Geometry identity/remapping preserves full eight-word records; changed geometry clears initialization. Pending host transform lists captured. Full device transform command consumption proof still pending; no blanket transient classification.",
+        "active-contact exception": "retire_body_pair_contacts reads SCR_UNIQUE_N and scr_active_contact between physics steps. Their next-step reset is insufficient exclusion proof. Exporter currently captures occupied roots and color lists but does not export or validate active-list equivalence. Need test omission/retirement sensitivity or prove and validate derivation before concluding coverage."
+      },
+      "runtime": {
+        "driver": 11933,
+        "exit": 0,
+        "checks_per_path": 3,
+        "result": "joint-schedule-audit/result.json",
+        "checks": [
+          "24 live joints exclusive and ordered",
+          "80-component fused joint/contact wave agrees with general color path",
+          "adding first joint preserves existing contact color"
+        ]
+      },
+      "remaining": "Active-contact retirement list, device fat commands and final buffer-region consolidation; Rain/contact-island physical acceptance unaffected."
+    },
+    "live-contact-record-state-audit.json": {
+      "scope": "Live assembled Contact field mapping at completed capture boundary; data coverage, not storage-permutation equivalence.",
+      "field_count": 47,
+      "fields": {
+        "a": "validated live body creation identity",
+        "b": "validated live body creation identity",
+        "color": "Exact full field in contact record",
+        "count": "Exact full field in contact record",
+        "n": "nx/ny/nz exact float bits",
+        "friction": "Exact full field in contact record",
+        "ra0": "points[0].ra when count>0; old anchors/normal impulses read only within old point count in matching/recycling/solver; new manifold points initialized before publication",
+        "ra1": "points[1].ra when count>1; old anchors/normal impulses read only within old point count in matching/recycling/solver; new manifold points initialized before publication",
+        "ra2": "points[2].ra when count>2; old anchors/normal impulses read only within old point count in matching/recycling/solver; new manifold points initialized before publication",
+        "ra3": "points[3].ra when count>3; old anchors/normal impulses read only within old point count in matching/recycling/solver; new manifold points initialized before publication",
+        "rb0": "points[0].rb when count>0; old anchors/normal impulses read only within old point count in matching/recycling/solver; new manifold points initialized before publication",
+        "rb1": "points[1].rb when count>1; old anchors/normal impulses read only within old point count in matching/recycling/solver; new manifold points initialized before publication",
+        "rb2": "points[2].rb when count>2; old anchors/normal impulses read only within old point count in matching/recycling/solver; new manifold points initialized before publication",
+        "rb3": "points[3].rb when count>3; old anchors/normal impulses read only within old point count in matching/recycling/solver; new manifold points initialized before publication",
+        "friction_impulse": "Exact full field in contact record",
+        "twist_impulse": "Exact full field in contact record",
+        "rolling": "Exact full field in contact record",
+        "center_a": "Exact full field in contact record",
+        "_pad_ca": "feature_id_words[2], bit-preserving u32",
+        "center_b": "Exact full field in contact record",
+        "_pad_cb": "feature_id_words[3], bit-preserving u32",
+        "rolling_impulse": "Exact full field in contact record",
+        "_pad_end": "restitution exact float bits",
+        "tangent_velocity": "Exact full field in contact record",
+        "material_index": "Exact full field in contact record",
+        "_tail0": "points[].relative_velocity_bits for active count; full vector overwritten in prepare_contact_slot before use; restitution indexes only active count",
+        "_tail1": "sat_cache_words[0:2] and feature_id_words[0:2], all four raw u32 words",
+        "cached_relative": "Exact full field in contact record",
+        "cached_rotation_a": "Exact full field in contact record",
+        "cached_rotation_b": "Exact full field in contact record",
+        "lifecycle": "physical generation in contact_allocation slots; flags, solver_local_rank, previous_color in live record",
+        "pair": "validated shape identities for xy; zw temporary mesh raw-block links cleared during finalization/store_pair publication; recycled published pairs reset zw",
+        "prepared_normal_mass": "points[].normal_mass active lanes; prepare_contact_slot zeroes full vector before filling active count, subsequent solver accesses count-bounded",
+        "prepared_lever_arm": "points[].lever_arm active lanes; prepare_contact_slot zeroes full vector before filling active count, subsequent solver accesses count-bounded",
+        "total_normal_impulse": "points[].total_normal_impulse active lanes; prepare_contact_slot zeroes full vector before filling active count, subsequent solver accesses count-bounded",
+        "prepared_tangent_inv": "Exact full field in contact record",
+        "prepared_softness": "Exact full field in contact record",
+        "persistent_ra0": "points[0].persistent_ra when count>0; old anchors/normal impulses read only within old point count in matching/recycling/solver; new manifold points initialized before publication",
+        "persistent_ra1": "points[1].persistent_ra when count>1; old anchors/normal impulses read only within old point count in matching/recycling/solver; new manifold points initialized before publication",
+        "persistent_ra2": "points[2].persistent_ra when count>2; old anchors/normal impulses read only within old point count in matching/recycling/solver; new manifold points initialized before publication",
+        "persistent_ra3": "points[3].persistent_ra when count>3; old anchors/normal impulses read only within old point count in matching/recycling/solver; new manifold points initialized before publication",
+        "persistent_rb0": "points[0].persistent_rb when count>0; old anchors/normal impulses read only within old point count in matching/recycling/solver; new manifold points initialized before publication",
+        "persistent_rb1": "points[1].persistent_rb when count>1; old anchors/normal impulses read only within old point count in matching/recycling/solver; new manifold points initialized before publication",
+        "persistent_rb2": "points[2].persistent_rb when count>2; old anchors/normal impulses read only within old point count in matching/recycling/solver; new manifold points initialized before publication",
+        "persistent_rb3": "points[3].persistent_rb when count>3; old anchors/normal impulses read only within old point count in matching/recycling/solver; new manifold points initialized before publication",
+        "manifold_link": "semantic chain ordinal/ownership, per-record chain_length and representative_triangle; physical slot mapping retained in allocation",
+        "point_triangles": "point_triangle_words, all four lanes including inactive mode-selection inputs"
+      },
+      "sources": {
+        "shaders/physics/types.wgsl": "fb38a8e2ad97f6f76b1ea6a48bf2f2ba6efa4401fd564b7a9c562862c2ff3a96",
+        "shaders/physics/math.wgsl": "b14a6f222493f77d82074b445789a533473cd8686ec004735b2214ec19b59e15",
+        "shaders/physics/collide.wgsl": "3d2c8c243b3a078ade404a773dec09087e786228250ffefdfdfb2eccffb59743",
+        "shaders/physics/solve.wgsl": "61ebef9349d0d6928808ac380a8179935784b1ffd4d1a5b988ee220883fc173a",
+        "shaders/physics/integrate.wgsl": "913d5a77a5e99d15869b6e24b52165694c67aa5ce8c1bbcc863edf011949d5f8",
+        "src/sim.rs": "bf28c3c60b69a672d4bb532fb8b32732931718e233f91341fa654c788436ccc4",
+        "src/api/world/state_trace.rs": "847a81978f4a933331b80519d18c62af05a791d2b2bbb9d5fa38db3b0429d807"
+      },
+      "consumer_contracts": [
+        "decode_contacts assembles all hot/persistent/prepared fields without dropping any Contact field.",
+        "match_previous_points bounds old anchors/impulses by p.count; feature and triangle identity mode selection uses all four lanes, captured since v20.",
+        "recycle_contact returns count-zero ghosts unchanged and otherwise uses only count-bounded persistent anchors and impulse reads.",
+        "prepare_contact_slot zeroes full normal_mass/lever_arm/total_impulse/relative_velocity vectors before count-bounded fill. solve, warm_manifold and restitution index only count.",
+        "finalize_contact vector-loads raw separations but consumes selected lanes only within current count; newly generated manifold input is initialized independently of omitted old inactive anchors.",
+        "Mesh pair.zw are intra-dispatch raw-list links; discard/reduce/finalize and store_pair publish canonical zero zw. Completed capture does not observe these intermediate scratch lists."
+      ],
+      "limitations": [
+        "No new behavioral test is claimed by field enumeration. Existing v20 inactive-identity mutation regression covers the concrete all-lane exception.",
+        "Physical child placement remains an unresolved input to future allocation; this mapping cannot authorize removing it from qualification comparisons."
+      ]
+    },
+    "pair-workspace-state-audit.json": {
+      "scope": "Pair candidate, radix and allocation scratch reset/consumption contracts for ordinary and selected native-cache=2/contact-cache=1 paths. No whole-state qualification claim.",
+      "sources": {
+        "src/sim.rs": "c4b678aee08b28bf0a57442e662d14d1c12e61e56b5a9a1165cb1124e4e68dfc",
+        "src/types.rs": "176a6ddfffeccd1814bd5230b988bf7ce435d8e2c60f0c7de56ac40c5504511d",
+        "shaders/physics/broadphase.wgsl": "b786446c6addb47859903b7b3f41e3b90ef61c1437e1ddef369cb99cc0561239",
+        "shaders/physics/types.wgsl": "fb38a8e2ad97f6f76b1ea6a48bf2f2ba6efa4401fd564b7a9c562862c2ff3a96",
+        "src/api/world/state_trace.rs": "33c7e4da606e66f9143c4ba1c1269ba85b28e051cc424e8bee2498b766acf087"
+      },
+      "contracts": [
+        {
+          "region": "static list and hash insertion nodes",
+          "contract": "clear_broadphase resets counts and spatial heads; collect_fat_statics writes each accepted static list entry before finish_fat_statics publishes count. emit_static_pairs consumes min(count,pair capacity). hash_insert reserves bounded disjoint ranges and writes body/cell/next for every accepted node; emit_hash_pairs runs only after insertion and uses clamped count and fresh heads. Static list aliases radix output but is consumed before radix reuse.",
+          "limitation": "Previously silent static-list overflow is reproduced and corrected; now records per-step and sticky insertion loss. Boundary regression plus normal matrix/grid mutations and capacity-loss checks pass both paths; static-list-overflow-fix/manifest.json. This is not a full many-shape scene stress qualification."
+        },
+        {
+          "region": "candidate keys and radix histogram/bases/output",
+          "contract": "Fresh reset pair count plus append_pair writes every retained key. write_radix_indirect records clamped count and group span and initializes bucket bases. Each digit resets workgroup histogram and writes all256 bins of each live group, including one zero-input group. Bucket bases/prefix consume only this live group span. Stable scatter writes all current output keys; parity and digit selection return final keys to SCR_PAIRS. Native=2 records the same sequence; full replay reruns producers. Inactive suffixes are not later physics inputs."
+        },
+        {
+          "region": "unique-pair compaction",
+          "contract": "Histogram writes keep counts for current groups. Bases scans ceil(retained_count/256), not capacity or stale suffix, writes total and bounded unique/contact counts plus indirects; empty input uses zero groups and total0. Scatter writes the complete unique prefix to radix output, gather copies precisely bounded unique count back to pair keys."
+        },
+        {
+          "region": "missing/free-slot scratch",
+          "contract": "find_existing_contact_slots writes each active slot entry for unique pairs and marks existing chains. Missing histogram/bases/scatter produces an ordered missing-pair prefix before free scan reuses bases. Free histogram/bases/scatter rebuilds free slots from captured contact emptiness/marks/high-water; no-free convex branch explicitly writes count0. prepare/bind consume only min(missing,free); missing overflow records sticky failure. write_alloc_indirects initializes child ticket to missing roots. Native and ordinary command order match."
+        },
+        {
+          "region": "persistent inputs excluded from scratch classification",
+          "contract": "Previous occupied roots, contact-key hash, contact lifecycle/generations, warm-start state, previous-touching events, fat-bound/history and high-water remain separately captured. clear_broadphase mark reset is high-water bounded; never-allocated slots initialize empty/zero. This audit does not justify dropping those histories or normalizing child placement."
+        }
+      ],
+      "runtime_checks": {
+        "ordinary_session": 94678,
+        "native_session": 31215,
+        "checks": [
+          "full_width_pair_radix_matches_u64_order_and_compaction",
+          "compact_unique_matches_cpu_reference_with_stale_radix"
+        ],
+        "status": "pass",
+        "limits": "These tests exercise kernels through ordinary dispatch in each backend build; they do not by themselves prove the native recorded sequence executes correctly.",
+        "exits": {
+          "ordinary": 0,
+          "native": 0
+        },
+        "logs": {
+          "pair-workspace-radix-ordinary.log": "7726f3318327da7740990835214aaa8dbbd6c397301b193f845af44c94ed6758",
+          "pair-workspace-compaction-ordinary.log": "3f7228d21a78c4f07cf734294c2f2ff10dd8997c69c38996e6801adb2eaea04c",
+          "pair-workspace-radix-native.log": "ae6830e376b5111eeadf404106bb67e5d3a45b2ebf1159b599e1c6c3a92e0b71",
+          "pair-workspace-compaction-native.log": "0eff2f1f77cbd7aecced9cb6f81d20fe2704c8c5f5d4db7f264236df310a9902"
+        }
+      },
+      "runtime_mutations": {
+        "test": "pair_matrix_mutations_match_grid",
+        "steps": 80,
+        "scope": "Matrix versus hash-grid exact ordered candidate pairs and contact schedules; finite pose/rotation/velocity/omega within1e-5. Filter changes, teleport, shape replacement, body type, sleeping/waking and real body-buffer growth. Native configuration exercises recorded broadphase/contact/graph paths. Not full-state or five-repeat qualification.",
+        "exits": {
+          "ordinary": 0,
+          "native": 0
+        },
+        "logs": {
+          "pair-workspace-mutations-ordinary.log": "8afbee188d5e4ee5c6c02ccc63755a406d9c7d02d724318adeacf9a111d107fd",
+          "pair-workspace-mutations-native.log": "f965589daffd076671c1e5ef75358f5c82a5ac1dd50e8403499825192839b91d"
+        }
+      }
+    },
+    "query-workspace-state-audit.json": {
+      "scope": "Request/result workspace classification at the enforced completed-step capture boundary; sticky state is retained, not excluded.",
+      "source_sha256": {
+        "src/sim.rs": "c4b678aee08b28bf0a57442e662d14d1c12e61e56b5a9a1165cb1124e4e68dfc",
+        "src/types.rs": "176a6ddfffeccd1814bd5230b988bf7ce435d8e2c60f0c7de56ac40c5504511d",
+        "src/api/world/state_trace.rs": "33c7e4da606e66f9143c4ba1c1269ba85b28e051cc424e8bee2498b766acf087",
+        "shaders/physics/types.wgsl": "fb38a8e2ad97f6f76b1ea6a48bf2f2ba6efa4401fd564b7a9c562862c2ff3a96",
+        "shaders/physics/query.wgsl": "dfe956e6217977de37c735ce13ea8ca1db4c42134bd6de0cc2976bef5742a020",
+        "shaders/physics/broadphase.wgsl": "3e1eb6bd957d9d73ceb16042a5124a01b5859de60065a339389bfd35bbac9da0",
+        "shaders/physics/math.wgsl": "b14a6f222493f77d82074b445789a533473cd8686ec004735b2214ec19b59e15"
+      },
+      "regions": [
+        {
+          "words": "0..31",
+          "owner": "ray query",
+          "contract": "cast_ray_closest_gpu writes all32words including zero result/overflow lanes and initialized reduction sentinels. Three ordered dispatches reduce fraction, select winner, commit result; host synchronously waits/maps the result. Next query overwrites every lane, so previous bytes are not future physics inputs."
+        },
+        {
+          "words": "32..34",
+          "owner": "retirement command",
+          "contract": "retire_contacts overwrites all three words before its dispatch; later retirement overwrites them again. record_submit retains the submitted index; exporter explicitly waits and requires completed/drained status, so no unexecuted command is omitted. Regression checks both shape and body-pair selection and sticky reason preservation."
+        },
+        {
+          "words": "66",
+          "owner": "sticky contact reasons",
+          "contract": "Only contact-drop OR and explicit clear_sticky_loss reset write this accumulator after command separation. Harvested host reason mask remains in gpu_policy; completed capture rejects pending status. Never treat this word as query scratch."
+        },
+        {
+          "words": "67..73 and component/memo regions",
+          "owner": "separate status/scheduling/persistent regions",
+          "contract": "Not excluded by this request-workspace audit; see metric capture, active-body reset, graph hints/high-water capture, component reset and memo audits."
+        }
+      ],
+      "same_step_status": "Retirement, shape remapping and hash republication mark contact_status_dirty. A newly encoded/mapped status copy clears it; harvesting an older pending copy does not. Explicit finish forces a fresh copy while dirty even at unchanged physics_step. Diagnostic capture rejects pending or dirty status. Actual broken-chain retirement fails before and passes afterward in ordinary/native tests with both empty and older occupied status slots; see same-step-status-fix/manifest.json.",
+      "limits": "Query/status region contracts are bounded source and regression evidence, not complete persistent-state qualification or a blanket scratch-buffer classification.",
+      "explicit_clear": "Before resetting host/device sticky counters, clear_sticky_loss drains completed status to preserve terminal invalidity. It marks the clear dirty, so completion refreshes status afterward. World clear immediately propagates simulator invalidity. Empty/older pending same-step regression and sticky capacity/stop-submission regressions pass both paths; clear-status-fix/manifest.json. Last-step counters are intentionally not cleared.",
+      "allocation_transfer": "copy_contacts_from copies query66 with atomic sticky counters, records its submission and marks status dirty. This preserves unharvested reason bits across allocation. Real GPU failure regression covers body growth with unchanged and increased pair capacity; both paths pass along with existing contact growth and status regressions (growth-status-fix/manifest.json). Component-query-only growth in set_component_tgs already copies the entire old query buffer."
+    },
+    "scene-geometry-state-audit.json": {
+      "scope": "Completed public World API capture of scene heap collider/material/geometry regions; body cold/extras covered by body-record audit. Not arbitrary low-level malformed GpuSim inputs or whole simulator proof.",
+      "source_sha256": {
+        "src/types.rs": "176a6ddfffeccd1814bd5230b988bf7ce435d8e2c60f0c7de56ac40c5504511d",
+        "src/sim.rs": "5b889f1d93188cc0510f52395ce218dc793c3d07186e50ff20df594b5243522c",
+        "src/api/world.rs": "697dd83d16efa8947d9ff06a401f320e3c046ed8fcfcc07ac99d3695d8da48bf",
+        "src/api/world/state_trace.rs": "847a81978f4a933331b80519d18c62af05a791d2b2bbb9d5fa38db3b0429d807",
+        "src/api/world/geometry_trace.rs": "17167294270f624d5aff549f14200170c1fa261bf552ae4d2f46362300a2e4fb",
+        "shaders/physics/types.wgsl": "fb38a8e2ad97f6f76b1ea6a48bf2f2ba6efa4401fd564b7a9c562862c2ff3a96",
+        "shaders/physics/collide.wgsl": "3d2c8c243b3a078ade404a773dec09087e786228250ffefdfdfb2eccffb59743",
+        "shaders/physics/query.wgsl": "dfe956e6217977de37c735ce13ea8ca1db4c42134bd6de0cc2976bef5742a020",
+        "shaders/physics/broadphase.wgsl": "b786446c6addb47859903b7b3f41e3b90ef61c1437e1ddef369cb99cc0561239",
+        "shaders/physics/solve.wgsl": "61ebef9349d0d6928808ac380a8179935784b1ffd4d1a5b988ee220883fc173a",
+        "src/scene_draw.rs": "76e1dc6e805991fd6a92a8c2c9be58bb5ce0da80256e7dd829b4f4afc732c7d8"
+      },
+      "shape_fields": {
+        "body_index": "validated logical body identity",
+        "plane_slot": "geometry_slots.plane",
+        "kind": "direct gpu_colliders field, float bits retained",
+        "topology_counts": "direct gpu_colliders field, float bits retained",
+        "local_center": "direct gpu_colliders field, float bits retained",
+        "topology_slot": "geometry_slots.topology",
+        "half": "direct gpu_colliders field, float bits retained",
+        "rolling": "direct gpu_colliders field, float bits retained",
+        "axis": "direct gpu_colliders field, float bits retained",
+        "friction": "direct gpu_colliders field, float bits retained",
+        "restitution": "direct gpu_colliders field, float bits retained",
+        "inner_radius": "direct gpu_colliders field, float bits retained",
+        "hull_slot": "geometry_slots.hull",
+        "edge_slot": "geometry_slots.edge",
+        "category_bits_lo": "direct gpu_colliders field, float bits retained",
+        "category_bits_hi": "direct gpu_colliders field, float bits retained",
+        "mask_bits_lo": "direct gpu_colliders field, float bits retained",
+        "mask_bits_hi": "direct gpu_colliders field, float bits retained",
+        "group_index": "direct gpu_colliders field, float bits retained",
+        "event_flags": "direct gpu_colliders field, float bits retained",
+        "material_slot": "resolved ordered materials values; read-only device table and whole-scene host replacement, no independently mutated alias state",
+        "material_count": "length of resolved ordered materials; public shape constructor supplies >=1 and mesh count setter rejects zero",
+        "tangent_velocity": "direct gpu_colliders field, float bits retained",
+        "custom_color": "render-only; no physics shader consumer",
+        "user_material_id_lo": "direct gpu_colliders field, float bits retained",
+        "user_material_id_hi": "direct gpu_colliders field, float bits retained",
+        "_pad_filter": "both consumed: x=bounds_shape validated dense identity; y=query_shape live append-only public slot",
+        "instance_position": "direct gpu_colliders field, float bits retained",
+        "instance_flags": "direct gpu_colliders field, float bits retained",
+        "instance_rotation": "direct gpu_colliders field, float bits retained",
+        "initial_order": "x=initial_order_rank; y/z/w loaded but never consumed by current shader code"
+      },
+      "surface_material_fields": {
+        "friction": "ordered gpu_colliders.materials field, float bits retained",
+        "restitution": "ordered gpu_colliders.materials field, float bits retained",
+        "rolling_resistance": "ordered gpu_colliders.materials field, float bits retained",
+        "_pad0": "loaded but not consumed",
+        "tangent_velocity": "ordered gpu_colliders.materials field, float bits retained",
+        "custom_color": "visual only, no physics consumer",
+        "user_material_id_lo": "ordered gpu_colliders.materials field, float bits retained",
+        "user_material_id_hi": "ordered gpu_colliders.materials field, float bits retained",
+        "_pad1": "loaded but not consumed"
+      },
+      "geometry": {
+        "hull_points/hull_edges/mesh_vertices": "actual device live prefix xyz; w never loaded by physics helpers",
+        "hull_planes": "actual device xyzw, including distance",
+        "hull_topology": "all four integer links captured; native box topology is immutable build constant",
+        "mesh_triangles": "all four integer words, including flags/material index; referenced vertex ranges validated",
+        "mesh_nodes": "both xyz bounds plus raw integer metadata bits preserved, including float NaN bit patterns; tree links validated",
+        "mix_table": "all MIX_PAIR_CAP slots in physical order; every nonzero occupied tag/key/friction/restitution retained; zero slot payload excluded because bounded lookup breaks before reading it; padding never consumed",
+        "unused_capacity": "params counts/spans bound consumers; scene changes repack full host arrays with new live counts via write_scene/set_geom_counts before use; resource cache holds programs, not hidden geometry",
+        "material_zero_count_question": "No normal public API omission: ShapeSlot construction initializes vec![material]; only resize rejects zero; surface-material setter pushes on empty defensively. Shader max(count,1) therefore matches captured positive span. Arbitrary malformed low-level count0 is outside this capture contract."
+      },
+      "evidence": "scene-geometry-audit/result.json: three existing controls each path; uploaded mesh child corruption, convex geometry/span corruption, public slot reuse/material mixing and device-only geometry mutation",
+      "status": "source contract recorded; all six existing checks pass; no production or schema edit"
+    },
+    "sim-parameters-state-audit.json": {
+      "scope": "Current source mapping of all SimParams fields; does not establish whole-simulator coverage",
+      "sources": {
+        "src/sim.rs": "94215c4f0b26efb2017acb9acf8fbb89cefbdbf9008b834dbabc3b645eea5a2c",
+        "src/types.rs": "176a6ddfffeccd1814bd5230b988bf7ce435d8e2c60f0c7de56ac40c5504511d",
+        "shaders/physics/types.wgsl": "fb38a8e2ad97f6f76b1ea6a48bf2f2ba6efa4401fd564b7a9c562862c2ff3a96"
+      },
+      "rust_fields": 64,
+      "shader_fields": 63,
+      "unique_export_keys": 63,
+      "mapping": [
+        {
+          "field": "dt",
+          "type": "f32",
+          "encoding": "finite IEEE754 bits"
+        },
+        {
+          "field": "gravity_x",
+          "type": "f32",
+          "encoding": "finite IEEE754 bits"
+        },
+        {
+          "field": "gravity_y",
+          "type": "f32",
+          "encoding": "finite IEEE754 bits"
+        },
+        {
+          "field": "gravity_z",
+          "type": "f32",
+          "encoding": "finite IEEE754 bits"
+        },
+        {
+          "field": "color_select",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "enable_contacts",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "max_contacts",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "body_count",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "cell_size",
+          "type": "f32",
+          "encoding": "finite IEEE754 bits"
+        },
+        {
+          "field": "bias_rate",
+          "type": "f32",
+          "encoding": "finite IEEE754 bits"
+        },
+        {
+          "field": "mass_scale",
+          "type": "f32",
+          "encoding": "finite IEEE754 bits"
+        },
+        {
+          "field": "impulse_scale",
+          "type": "f32",
+          "encoding": "finite IEEE754 bits"
+        },
+        {
+          "field": "contact_speed",
+          "type": "f32",
+          "encoding": "finite IEEE754 bits"
+        },
+        {
+          "field": "sleep_threshold",
+          "type": "f32",
+          "encoding": "finite IEEE754 bits"
+        },
+        {
+          "field": "use_bias",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "joint_count",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "solver_mode",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "enable_sleep",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "step_dt",
+          "type": "f32",
+          "encoding": "finite IEEE754 bits"
+        },
+        {
+          "field": "diagnostic_flags",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "contact_hertz",
+          "type": "f32",
+          "encoding": "finite IEEE754 bits"
+        },
+        {
+          "field": "contact_damping",
+          "type": "f32",
+          "encoding": "finite IEEE754 bits"
+        },
+        {
+          "field": "contact_capacity",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "shape_count",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "shape_base_u32",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "hull_point_count",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "hull_base_u32",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "hull_plane_count",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "hull_plane_base_u32",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "hull_edge_count",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "hull_edge_base_u32",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "hull_topology_count",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "hull_topology_base_u32",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "mesh_vertex_count",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "mesh_vertex_base_u32",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "mesh_triangle_count",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "mesh_triangle_base_u32",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "mesh_node_count",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "mesh_node_base_u32",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "surface_material_count",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "surface_material_base_u32",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "sub_step_count",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "physics_step",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "mix_pair_count",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "mix_pair_base_u32",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "enable_continuous",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "contact_recycle_distance",
+          "type": "f32",
+          "encoding": "finite IEEE754 bits"
+        },
+        {
+          "field": "fat_bounds_base",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "fat_bounds_epoch",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "fat_commands_base",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "fat_commands_epoch",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "fat_commands_count",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "remap_old_count",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "remap_capture",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "remap_history_step",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "maximum_linear_speed",
+          "type": "f32",
+          "encoding": "finite IEEE754 bits"
+        },
+        {
+          "field": "restitution_threshold",
+          "type": "f32",
+          "encoding": "finite IEEE754 bits"
+        },
+        {
+          "field": "insert_base",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "insert_capacity",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "pair_capacity",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "order_base",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "order_node_capacity",
+          "type": "u32",
+          "encoding": "exact integer"
+        },
+        {
+          "field": "order_enabled",
+          "type": "u32",
+          "encoding": "exact integer"
+        }
+      ],
+      "excluded": {
+        "_pad_block": "Only declaration and zero constructor assignment in source; absent from shader struct. Native replay key includes invariant zero bytes in equality and omits these four bytes in capture."
+      },
+      "pass_lut": "upload_pass_lut rewrites all rows from params with deterministic color_select/use_bias overrides before ordinary step or native replay; see indirect-state-audit.json"
+    }
+  },
+  "consolidation": {
+    "scope": "Consolidated 12 device-owner region coverage for completed public World boundaries under GPU-native order_enabled=0, fixed runtime/build, ordinary diagnostic_flags=0 or native bounded-static-sort=131072, with separately captured replay/idle policy. Source-contract closure, not a final fresh-repeat/capability pass. CPU-compatible ordering, arbitrary low-level midstep use and extra diagnostic solver modes are outside this completeness claim.",
+    "schema": "gpu-core-state-v22",
+    "owners": [
+      {
+        "owner": "pass_lut",
+        "audit_dependencies": [
+          "sim-parameters-state-audit.json",
+          "indirect-state-audit.json"
+        ],
+        "contract": "Every dispatch row is regenerated from captured SimParams, with deterministic color/bias selectors. No previous uniform bytes survive a new submission."
+      },
+      {
+        "owner": "bodies",
+        "audit_dependencies": [
+          "body-record-state-audit.json",
+          "delta-accumulator-state-audit.json",
+          "component-workspace-state-audit.json"
+        ],
+        "contract": "Every live hot field is captured. Per-step translation/rotation deltas are reset before use. Public destruction removes shapes/joints and marks scene dirty; pack_gpu_slots emits disabled/static/sleep zero records for holes, and ensure_sim writes the whole body prefix before stepping. Reuse overwrites the slot; beyond-count tails are not traversed."
+      },
+      {
+        "owner": "body_cold",
+        "audit_dependencies": [
+          "body-record-state-audit.json",
+          "scene-geometry-state-audit.json"
+        ],
+        "contract": "Live cold fields, offdiagonal inertia, extents, loads, sleep thresholds, colliders, materials, mix table and referenced geometry are captured. Actual device local centers must match the captured value. Cold scene upload overwrites the packed capacity-sized regions on topology changes; non-live tails have no shape/body references. Explicit alignment/padding has no consumer."
+      },
+      {
+        "owner": "convex_ccd",
+        "audit_dependencies": [
+          "convex-ccd-state-audit.json"
+        ],
+        "contract": "Separate config/point/body/shape/index buffers and consumed start-pose lanes are captured from device memory. Current end-body state is in bodies. Resource replacement invalidates replay; copy/start/correction ordering is retained."
+      },
+      {
+        "owner": "contacts",
+        "audit_dependencies": [
+          "live-contact-record-state-audit.json",
+          "contact-storage-state-audit.json"
+        ],
+        "contract": "Hot contact fields are assembled into captured Contact records and exact physical allocation map. Dead slots preserve captured physical generation; other retired payload is reset. Child compaction preserves counters and exact slot placement is required by comparison."
+      },
+      {
+        "owner": "contact_persistent",
+        "audit_dependencies": [
+          "live-contact-record-state-audit.json",
+          "contact-storage-state-audit.json"
+        ],
+        "contract": "All future-consumed anchors/impulses/identity/lifecycle fields are captured; feature/triangle identity reads cover all four lanes since v20. Unused point payload is excluded only under count-bounded consumers. No child-slot permutation normalization."
+      },
+      {
+        "owner": "contact_prepared",
+        "audit_dependencies": [
+          "live-contact-record-state-audit.json",
+          "contact-storage-state-audit.json"
+        ],
+        "contract": "Prepared fields are assembled into Contact capture, including current valid point lanes. Preparation zeros full transient vectors before filling valid lanes. Retired records are reset; storage ownership remains exact."
+      },
+      {
+        "owner": "joints",
+        "audit_dependencies": [
+          "joint-record-state-audit.json",
+          "joint-schedule-remap-state-audit.json"
+        ],
+        "contract": "All semantic live JointGpu fields and persistent solver colors/flags are captured. Deleted joints are replaced by JOINT_NONE default before upload; padded suffix is not traversed. Whole ordered component schedule remains captured."
+      },
+      {
+        "owner": "scratch",
+        "audit_dependencies": [
+          "pair-workspace-state-audit.json",
+          "graph-workspace-state-audit.json",
+          "joint-schedule-remap-state-audit.json",
+          "fat-transform-state-audit.json",
+          "contact-storage-state-audit.json"
+        ],
+        "contract": "See explicit scratch partition below; v21 reverse history lookup/saved generations and v22 active retirement candidates supersede old omission notes."
+      },
+      {
+        "owner": "atom",
+        "audit_dependencies": [
+          "atomic-header-state-audit.json",
+          "delta-accumulator-state-audit.json",
+          "component-workspace-state-audit.json",
+          "graph-workspace-state-audit.json"
+        ],
+        "contract": "Sticky header loss/reason/first-step state is drained into captured policy. Persistent contact hash keys/identities are captured exactly. Spatial hash/pair workspace resets before use; Jacobi six lanes reset per wave; island labels/wake/ready reset per active step, with membership captured. Color/dynamic counts rebuilt. Spare declared header lane14 is unused."
+      },
+      {
+        "owner": "query",
+        "audit_dependencies": [
+          "query-workspace-state-audit.json",
+          "component-workspace-state-audit.json",
+          "command-policy-state-audit.json",
+          "host-policy-state-audit.json"
+        ],
+        "contract": "Ray words0..31 and retirement32..34 are fully overwritten per completed request. Sticky66, metrics67..69, graph hints70..71, active72 and high-water73 flow to captured policy/allocation. Components256+ rebuilt before read; persistent memo is separately captured beyond capacity-sized component workspace. Unassigned gaps have no current consumer."
+      },
+      {
+        "owner": "indirect",
+        "audit_dependencies": [
+          "indirect-state-audit.json",
+          "graph-workspace-state-audit.json",
+          "component-workspace-state-audit.json",
+          "command-policy-state-audit.json"
+        ],
+        "contract": "Producer passes write each selected dispatch argument before copy/indirect use in ordinary, native recorded stages and full replay. Native binding/key policy captured. No old destination argument is used without its producer in selected schedules."
+      }
+    ],
+    "scratch_partition": [
+      {
+        "region": "header0..63",
+        "contract": "Persistent candidate counts, occupied count, color counts and joint schedule flags/counts represented; other counts/indirects refreshed by current producers. SCR_POW2 is diagnostic count output; SCR_BSTRIDE diagnostic graph validation output."
+      },
+      {
+        "region": "64..SCR_PAIRS",
+        "contract": "Spatial heads/indirect-color alias. Heads and color dispatch arguments rebuilt before their respective uses."
+      },
+      {
+        "region": "pair keys, marks, active candidates, occupied roots, next occupied",
+        "contract": "Pair keys/marks overwritten for current candidates. Exact active prefix and both reader counts captured in v22. Occupied roots captured as membership with separately audited consumer equivalence; next list rebuilt before publication."
+      },
+      {
+        "region": "previous touching, radix output/histogram/bases",
+        "contract": "Previous-touching semantic membership retained and reducer permutation evidence preserved. Radix prefixes freshly produced; same region remap mapping fully uploaded before tracked mutation dispatch."
+      },
+      {
+        "region": "contact history",
+        "contract": "Header, records including saved generation/physical slot, exact free stack and reverse slot-to-rank lookup captured in v21+."
+      },
+      {
+        "region": "graph/color/fused region",
+        "contract": "Per-body scratch, masks and fused lists regenerated by graph reset/classify/compact. Ordered color-contact lists captured. Persistent graph memo is in query and captured separately."
+      },
+      {
+        "region": "phase summary/body diagnostics",
+        "contract": "capture_phase only writes these regions; host diagnostic readback does not schedule physics. Selected flags do not enable phase capture. These outputs do not justify omitting any source state they summarize."
+      },
+      {
+        "region": "joint filter/list regions",
+        "contract": "Actual persistent filter must equal deterministic table derived from captured device joints when hash lookup is consumed; capture rejects mismatch. Overflow/scan flags captured. Heads/offsets/counts rebuilt and current ordered schedule captured."
+      },
+      {
+        "region": "fat bounds and CPU-order trees",
+        "contract": "Six raw bound words and equality epochs captured, with monotonic/constant epoch contract. CPU-order trees excluded only for selected order_enabled=0, not a completeness claim for CPU-compatible trajectories."
+      },
+      {
+        "region": "insertion and host-transform tail",
+        "contract": "Insertion nodes regenerated from fresh heads/counts. Successful public ensure_sim disables old transform count before new complete upload; pending host lists captured. All scene-preparation failures now invalidate simulation (preparation-failure-fix)."
+      }
+    ],
+    "source_sha256": {
+      "src/sim.rs": "b2f2b44701b29c894f1d178dc0ab0079d0b49c34c930394af953286098edd554",
+      "src/types.rs": "176a6ddfffeccd1814bd5230b988bf7ce435d8e2c60f0c7de56ac40c5504511d",
+      "src/api/world.rs": "b9513acd9ba0fbcc50d7864dd7b1a13b6c598ea304d8befeb7fd244329f245c0",
+      "src/api/world/state_trace.rs": "db435f5b297ec3ba470313fc90186c14f6647702c66acef00358545e204812f8",
+      "src/contact_compaction.rs": "f663d65c8dc0fc4def3f6674b523fc144f81ae1f2adf5f5b21e9d4a3055a7dd1",
+      "shaders/contact_compaction.wgsl": "b404221d6e5a7e333d8b951d36ba10ecb3b5c93611a956ea9e53767d7cc8a4d0",
+      "shaders/physics/broadphase.wgsl": "b786446c6addb47859903b7b3f41e3b90ef61c1437e1ddef369cb99cc0561239",
+      "shaders/physics/ccd_convex.wgsl": "ae43bad111513600cef687fca8242259a8dda2db4da4bbf21c08e675f42b4c54",
+      "shaders/physics/ccd_motion.wgsl": "b169f0d4bb60342ec45a06a1bd35e6c9fde33eec80e23b9470da62b4e702a1f5",
+      "shaders/physics/ccd_world.wgsl": "078dd38a47e71be725bc7c5c300a81e08b78a6bb9ed1b5f2c2d3a84f6e72db1c",
+      "shaders/physics/collide.wgsl": "3d2c8c243b3a078ade404a773dec09087e786228250ffefdfdfb2eccffb59743",
+      "shaders/physics/contact_order.wgsl": "ea8146832391bacc1ca1e362c481de46a8c3664e959cc9dc84eb8389b835df58",
+      "shaders/physics/contact_order_live.wgsl": "05dfe86caa85acb6fb361ae5c14105f64c0c9c354bf7d3a707ca732d452500ae",
+      "shaders/physics/dispatch.wgsl": "317ed4bf9aec88c7d55d72243a80ac7a19d69995b445f3d1e6a49932f0ca6531",
+      "shaders/physics/graph_memo.wgsl": "0f0ef49d87902876a84e052b21dfd5bffbe6c0406b5f7ee1b7b0fd0f67109fc1",
+      "shaders/physics/graph_shared.wgsl": "f3c6eba2f8a2251a382f1c4c6a6c52c03835fd4b5881e88ccd52fa6efd25b9a5",
+      "shaders/physics/hull.wgsl": "87673c3921e6eb646cd18e3b079667fd08089b8eec28d8f9a3e9fc43de2c6786",
+      "shaders/physics/integrate.wgsl": "913d5a77a5e99d15869b6e24b52165694c67aa5ce8c1bbcc863edf011949d5f8",
+      "shaders/physics/math.wgsl": "b14a6f222493f77d82074b445789a533473cd8686ec004735b2214ec19b59e15",
+      "shaders/physics/query.wgsl": "dfe956e6217977de37c735ce13ea8ca1db4c42134bd6de0cc2976bef5742a020",
+      "shaders/physics/rotation.wgsl": "f6ee86f10d48137c37f668957b0026caa1ca78dd89a15799e6fdb7fc2e674b7b",
+      "shaders/physics/solve.wgsl": "61ebef9349d0d6928808ac380a8179935784b1ffd4d1a5b988ee220883fc173a",
+      "shaders/physics/types.wgsl": "fb38a8e2ad97f6f76b1ea6a48bf2f2ba6efa4401fd564b7a9c562862c2ff3a96"
+    },
+    "audit_sha256": {
+      "atomic-header-state-audit.json": "0a958ae18776ae4389c8e36505095e490d68e4efa4c765301c808b2b8dcebc32",
+      "body-record-state-audit.json": "52b378ea4690adb3bf87332db63b8bd9cc766e439ef2cd653745b881188003b6",
+      "command-policy-state-audit.json": "eb0ceac480a1bac2a21a7c6b2d1420617900446543b9a5bb6e1777b2e6592686",
+      "component-workspace-state-audit.json": "90cf6001fbf47f8b0f803e4d4c04594bb9d78971444fd4b89e8d52803790ecaa",
+      "contact-storage-state-audit.json": "5595e01e27bc11cefaa0da20f983e5e6d0fc82f969037a5dfe62997a2637d8a1",
+      "convex-ccd-state-audit.json": "f31fb65baf5c55055c3cd724d5f7912b6b91d0be260b3453367e5de56dbdc534",
+      "delta-accumulator-state-audit.json": "3b01aa5072c11945b853d90971688df2529f4d980d355e98c25a6e57a5fe1d0a",
+      "fat-transform-state-audit.json": "98a5c959eaf7110b80aaf323659b0364898d205c374b56c2598891c843578dca",
+      "graph-workspace-state-audit.json": "dd1f7f4a0c931ad68d0963b86fd87d087bff0fadbfaaa1ac7d3162176175e603",
+      "host-policy-state-audit.json": "23b6d9309342779aa40167b7a3d097ec3552893a0e7664f03246504a158cb296",
+      "indirect-state-audit.json": "efecc96b3445b5081589b6d21afab4cfba02d212d2da152b0fda2f58b4b6962b",
+      "joint-record-state-audit.json": "b9b1f415c9a7c273b73d9b2996dbfcced4e17b684ed3bc2392251ceabdc950e2",
+      "joint-schedule-remap-state-audit.json": "04e46132a72b0dc49aa5f4a7eaf1cd23332e88f137cca4a74480a9cadcb53983",
+      "live-contact-record-state-audit.json": "2191f3e8b69078c104909fb2732a746f2aa369bc7312e5fc818a762f5649be16",
+      "pair-workspace-state-audit.json": "8bb0a4499c542d1ac98132f2ef8375cfebab4e8766b4ee3d9c17218df02f4fd3",
+      "query-workspace-state-audit.json": "e97d6a68ca7d54736d14cab1c1ab259c94820d025f61deb06274d997f385d881",
+      "scene-geometry-state-audit.json": "953b746bdfa2e66b4a1590074c401d167419482c166496bbe5eeec9b6e17eded",
+      "sim-parameters-state-audit.json": "95778672c5bdee57ad6e43f600190dea793e642e418c310aa565435082b8e6d8"
+    },
+    "superseded_gaps": {
+      "physical_child_placement": "Preserved exactly after child compaction; no permutation proof is claimed or needed.",
+      "history_lookup": "history-capture-fix / v21",
+      "retirement_candidates": "retirement-capture-fix / v22",
+      "transform_failure_boundary": "preparation-failure-fix; direct host heap rejection before/after, other error returns source reviewed."
+    },
+    "inventory_check": {
+      "current_fields": 211,
+      "recorded_fields": 211,
+      "added": [],
+      "removed": []
+    },
+    "remaining": "Freeze current candidate and establish five fresh-process evidence for final matrix; existing full-scene v20 captures omit v21/v22 fields and cannot close final gate. Rain/contact-island physical acceptance, controlled performance and recordings remain open.",
+    "paired_solver_amendment": {
+      "status": "Selected source-state contract retained; default preservation, direct controls, and five gated repeats of island/friction/support pass independently per backend. Broader final matrix still open.",
+      "selected_flags": {
+        "ordinary": 262144,
+        "native": 393216
+      },
+      "state_contract": "No new persistent buffers or record fields. Pair selection uses captured active anchor coordinates. Both old normal impulses, prepared masses/softness, current body pose/deltas/velocities/inertia and contact normal are already captured. The new mode is bit18 of captured diagnostic_flags; creation-time mode survives diagnostic overrides. Local pair solve temporaries do not survive dispatch. Existing physical slot, history and free-stack contracts unchanged.",
+      "source_sha256": {
+        "src/types.rs": "c322884ac0428efcca4e082eac94182ab49ea477fee247318921e0db792b9586",
+        "src/sim.rs": "7f9ab885f60992b701b123cf96b29f2a4519fe41308753b3d7d9f0f9078b1e7a",
+        "shaders/physics/types.wgsl": "a708d45ad87b5145cd0482a2c1a055a93ab058bca4be70f53ae24bf31c62500a",
+        "shaders/physics/solve.wgsl": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7"
+      },
+      "evidence": "contact-block-five/summary.json and contact-block-experiment/controls-{ordinary,native}-result.json; these predate gating. Gating proof tracked in contact-block-experiment/gating/result.json."
+    }
+  },
+  "inventory": {
+    "scope": "Current source inventory replacing unavailable historical laptop inventory; classifications are audit routing, not a completeness verdict.",
+    "source_sha256": "b2f2b44701b29c894f1d178dc0ab0079d0b49c34c930394af953286098edd554",
+    "field_count": 211,
+    "categories": {
+      "captured host policy contract (host-policy-state-audit.json)": 36,
+      "completed-boundary readback/output contract (readback-output-state-audit.json)": 4,
+      "device/program/binding identity: fixed build/device, verify derived binding contract": 8,
+      "captured command-cache/idle policy contract (command-policy-state-audit.json)": 18,
+      "test or diagnostic counter/control": 3,
+      "pose boundary contract (pose-readback-state-audit.json)": 4,
+      "measurement classification (timestamp audit where applicable)": 19,
+      "captured world/idle absorbing failure (terminal-failure-state-audit.json)": 1,
+      "selected-path device region contract (device-region-state-audit.json)": 12,
+      "force-clear membership contract (captured per body)": 1,
+      "validated shape_storage_order contract": 1,
+      "immutable pipeline declaration": 101,
+      "transient compaction producer/consumer contract (child-compaction-candidate/integrated-source-audit.json)": 1,
+      "drained-status boundary contract (query-workspace-state-audit.json)": 2
+    },
+    "fields": [
+      {
+        "name": "body_sleep_thresholds",
+        "declaration": "Vec<f32>,",
+        "line": 631,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy",
+          "graph"
+        ]
+      },
+      {
+        "name": "render_copy",
+        "declaration": "Option<crate::native_async::RenderCopy>,",
+        "line": 633,
+        "category": "completed-boundary readback/output contract (readback-output-state-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "resources",
+        "declaration": "std::sync::Arc<PhysicsResources>,",
+        "line": 634,
+        "category": "device/program/binding identity: fixed build/device, verify derived binding contract",
+        "exporter_references": []
+      },
+      {
+        "name": "device",
+        "declaration": "Device,",
+        "line": 635,
+        "category": "device/program/binding identity: fixed build/device, verify derived binding contract",
+        "exporter_references": []
+      },
+      {
+        "name": "queue",
+        "declaration": "Queue,",
+        "line": 636,
+        "category": "device/program/binding identity: fixed build/device, verify derived binding contract",
+        "exporter_references": [
+          "graph"
+        ]
+      },
+      {
+        "name": "report",
+        "declaration": "AdapterReport,",
+        "line": 637,
+        "category": "device/program/binding identity: fixed build/device, verify derived binding contract",
+        "exporter_references": []
+      },
+      {
+        "name": "count",
+        "declaration": "u32,",
+        "line": 638,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "caps",
+        "declaration": "GpuSceneCaps,",
+        "line": 639,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy",
+          "graph"
+        ]
+      },
+      {
+        "name": "contact_epoch",
+        "declaration": "u64,",
+        "line": 640,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "params",
+        "declaration": "SimParams,",
+        "line": 641,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy",
+          "graph"
+        ]
+      },
+      {
+        "name": "physics_step",
+        "declaration": "u64,",
+        "line": 642,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "idle"
+        ]
+      },
+      {
+        "name": "physics_replay_hits",
+        "declaration": "u64,",
+        "line": 644,
+        "category": "test or diagnostic counter/control",
+        "exporter_references": []
+      },
+      {
+        "name": "full_replay_test_override",
+        "declaration": "Option<bool>,",
+        "line": 646,
+        "category": "test or diagnostic counter/control",
+        "exporter_references": []
+      },
+      {
+        "name": "last_submit",
+        "declaration": "Option<wgpu::SubmissionIndex>,",
+        "line": 647,
+        "category": "completed-boundary readback/output contract (readback-output-state-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "completed_step",
+        "declaration": "u64,",
+        "line": 648,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "completed_known",
+        "declaration": "bool,",
+        "line": 649,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "pose_step",
+        "declaration": "u64,",
+        "line": 650,
+        "category": "pose boundary contract (pose-readback-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "last_mirror_wait_ms",
+        "declaration": "f32,",
+        "line": 651,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "last_mirror_copy_ms",
+        "declaration": "f32,",
+        "line": 652,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "last_mirror_map_ms",
+        "declaration": "f32,",
+        "line": 653,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "last_mirror_bytes",
+        "declaration": "u64,",
+        "line": 654,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "one_group_wave_only",
+        "declaration": "bool,",
+        "line": 655,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "color_wave_prefix",
+        "declaration": "u32,",
+        "line": 656,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "graph"
+        ]
+      },
+      {
+        "name": "color_wave_prefix_override",
+        "declaration": "Option<u32>,",
+        "line": 657,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "graph"
+        ]
+      },
+      {
+        "name": "color_hint_min_step",
+        "declaration": "u64,",
+        "line": 658,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "graph"
+        ]
+      },
+      {
+        "name": "graph_dense_hint",
+        "declaration": "bool,",
+        "line": 659,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "graph"
+        ]
+      },
+      {
+        "name": "one_group_pair_ok",
+        "declaration": "bool,",
+        "line": 660,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy",
+          "graph"
+        ]
+      },
+      {
+        "name": "skip_general_static_sort",
+        "declaration": "bool,",
+        "line": 661,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "solver_dispatches",
+        "declaration": "Cell<u32>,",
+        "line": 662,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "joint_dispatches",
+        "declaration": "Cell<u32>,",
+        "line": 663,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "static_sort_dispatches",
+        "declaration": "Cell<u32>,",
+        "line": 664,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "encode_commands",
+        "declaration": "Cell<u32>,",
+        "line": 665,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "physics_invalid",
+        "declaration": "bool,",
+        "line": 666,
+        "category": "captured world/idle absorbing failure (terminal-failure-state-audit.json)",
+        "exporter_references": [
+          "idle"
+        ]
+      },
+      {
+        "name": "callback_open",
+        "declaration": "bool,",
+        "line": 667,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "contact_status_dirty",
+        "declaration": "bool,",
+        "line": 668,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "pass_lut",
+        "declaration": "Buffer,",
+        "line": 669,
+        "category": "selected-path device region contract (device-region-state-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "bodies",
+        "declaration": "Buffer,",
+        "line": 670,
+        "category": "selected-path device region contract (device-region-state-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "body_cold",
+        "declaration": "Buffer,",
+        "line": 671,
+        "category": "selected-path device region contract (device-region-state-audit.json)",
+        "exporter_references": [
+          "graph"
+        ]
+      },
+      {
+        "name": "step_force_slots",
+        "declaration": "Vec<u32>,",
+        "line": 672,
+        "category": "force-clear membership contract (captured per body)",
+        "exporter_references": []
+      },
+      {
+        "name": "convex_ccd",
+        "declaration": "Option<crate::ccd::ConvexCcd>,",
+        "line": 673,
+        "category": "selected-path device region contract (device-region-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "contacts",
+        "declaration": "Buffer,",
+        "line": 674,
+        "category": "selected-path device region contract (device-region-state-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "contact_persistent",
+        "declaration": "Buffer,",
+        "line": 675,
+        "category": "selected-path device region contract (device-region-state-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "contact_prepared",
+        "declaration": "Buffer,",
+        "line": 676,
+        "category": "selected-path device region contract (device-region-state-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "joints",
+        "declaration": "Buffer,",
+        "line": 678,
+        "category": "selected-path device region contract (device-region-state-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "scratch",
+        "declaration": "Buffer,",
+        "line": 680,
+        "category": "selected-path device region contract (device-region-state-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "atom",
+        "declaration": "Buffer,",
+        "line": 682,
+        "category": "selected-path device region contract (device-region-state-audit.json)",
+        "exporter_references": [
+          "graph"
+        ]
+      },
+      {
+        "name": "query",
+        "declaration": "Buffer,",
+        "line": 683,
+        "category": "selected-path device region contract (device-region-state-audit.json)",
+        "exporter_references": [
+          "graph"
+        ]
+      },
+      {
+        "name": "indirect",
+        "declaration": "Buffer,",
+        "line": 684,
+        "category": "selected-path device region contract (device-region-state-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "radix_cache",
+        "declaration": "Option<crate::native_command_cache::RadixCache>,",
+        "line": 686,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "contact_cache",
+        "declaration": "Option<crate::native_command_cache::RadixCache>,",
+        "line": 688,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "graph_cache",
+        "declaration": "Option<crate::native_command_cache::RadixCache>,",
+        "line": 690,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "tail_cache",
+        "declaration": "[Option<crate::native_command_cache::RadixCache>;4],",
+        "line": 692,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "physics_replay",
+        "declaration": "Option<(wgpu::NativePhysicsReplay,wgpu::BindGroup,Vec<u8>,u32,u32,u32)>,",
+        "line": 694,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "native_tail_enabled",
+        "declaration": "bool,",
+        "line": 696,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "native_reset_requested",
+        "declaration": "bool,",
+        "line": 697,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "bind_group",
+        "declaration": "BindGroup,",
+        "line": 698,
+        "category": "device/program/binding identity: fixed build/device, verify derived binding contract",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "bind_group_layout",
+        "declaration": "BindGroupLayout,",
+        "line": 699,
+        "category": "device/program/binding identity: fixed build/device, verify derived binding contract",
+        "exporter_references": []
+      },
+      {
+        "name": "fat_geometry",
+        "declaration": "Vec<FatGeometryKey>,",
+        "line": 700,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy",
+          "graph"
+        ]
+      },
+      {
+        "name": "shape_identities",
+        "declaration": "Vec<(u32, u16)>,",
+        "line": 701,
+        "category": "validated shape_storage_order contract",
+        "exporter_references": []
+      },
+      {
+        "name": "clear_remapped_contact_hash",
+        "declaration": "ComputePipeline,",
+        "line": 702,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "remap_contact_shapes",
+        "declaration": "ComputePipeline,",
+        "line": 703,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "prepare_contact_hash_keys",
+        "declaration": "ComputePipeline,",
+        "line": 704,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "publish_remapped_contacts",
+        "declaration": "ComputePipeline,",
+        "line": 705,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "contact_slots",
+        "declaration": "u32,",
+        "line": 706,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "shape_count",
+        "declaration": "u32,",
+        "line": 707,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "staging",
+        "declaration": "Option<Buffer>,",
+        "line": 709,
+        "category": "completed-boundary readback/output contract (readback-output-state-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "reset_deltas",
+        "declaration": "ComputePipeline,",
+        "line": 710,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "island_init",
+        "declaration": "ComputePipeline,",
+        "line": 711,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "island_union_edges",
+        "declaration": "ComputePipeline,",
+        "line": 712,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "island_accumulate_wake",
+        "declaration": "ComputePipeline,",
+        "line": 713,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "island_apply_wake",
+        "declaration": "ComputePipeline,",
+        "line": 714,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "island_reset_ready",
+        "declaration": "ComputePipeline,",
+        "line": 715,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "island_accumulate_ready",
+        "declaration": "ComputePipeline,",
+        "line": 716,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "island_apply_sleep",
+        "declaration": "ComputePipeline,",
+        "line": 717,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "apply_deltas",
+        "declaration": "ComputePipeline,",
+        "line": 718,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "integrate_vel",
+        "declaration": "ComputePipeline,",
+        "line": 719,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "clear_broadphase",
+        "declaration": "ComputePipeline,",
+        "line": 720,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "contact_order_update",
+        "declaration": "std::sync::OnceLock<ComputePipeline>,",
+        "line": 721,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "pair_matrix",
+        "declaration": "std::sync::OnceLock<[ComputePipeline;5]>,",
+        "line": 722,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "pair_matrix_flat",
+        "declaration": "bool,",
+        "line": 723,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "pair_matrix_requested",
+        "declaration": "bool,",
+        "line": 724,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "pair_matrix_used",
+        "declaration": "bool,",
+        "line": 725,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "hash_insert",
+        "declaration": "ComputePipeline,",
+        "line": 726,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "write_insert_indirect",
+        "declaration": "ComputePipeline,",
+        "line": 727,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "write_radix_indirect",
+        "declaration": "ComputePipeline,",
+        "line": 728,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "emit_hash_pairs",
+        "declaration": "ComputePipeline,",
+        "line": 729,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "emit_static_pairs",
+        "declaration": "ComputePipeline,",
+        "line": 730,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "collect_fat_statics",
+        "declaration": "ComputePipeline,",
+        "line": 731,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "finish_fat_statics",
+        "declaration": "ComputePipeline,",
+        "line": 732,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "write_occupied_indirect",
+        "declaration": "ComputePipeline,",
+        "line": 733,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "emit_prev_pairs",
+        "declaration": "ComputePipeline,",
+        "line": 734,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "radix_histogram",
+        "declaration": "[ComputePipeline; 8],",
+        "line": 735,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "radix_bucket_bases",
+        "declaration": "ComputePipeline,",
+        "line": 736,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "radix_group_prefix",
+        "declaration": "ComputePipeline,",
+        "line": 737,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "radix_scatter",
+        "declaration": "[ComputePipeline; 8],",
+        "line": 738,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "compact_unique_histogram",
+        "declaration": "ComputePipeline,",
+        "line": 739,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "compact_unique_bases",
+        "declaration": "ComputePipeline,",
+        "line": 740,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "compact_unique_scatter",
+        "declaration": "ComputePipeline,",
+        "line": 741,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "compact_unique_gather",
+        "declaration": "ComputePipeline,",
+        "line": 742,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "find_existing_contact_slots",
+        "declaration": "ComputePipeline,",
+        "line": 743,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "alloc_free_histogram",
+        "declaration": "ComputePipeline,",
+        "line": 744,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "alloc_free_bases",
+        "declaration": "ComputePipeline,",
+        "line": 745,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "alloc_free_scatter",
+        "declaration": "ComputePipeline,",
+        "line": 746,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "alloc_missing_histogram",
+        "declaration": "ComputePipeline,",
+        "line": 747,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "alloc_missing_bases",
+        "declaration": "ComputePipeline,",
+        "line": 748,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "alloc_missing_scatter",
+        "declaration": "ComputePipeline,",
+        "line": 749,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "alloc_prepare_keys",
+        "declaration": "ComputePipeline,",
+        "line": 750,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "alloc_bind_slots",
+        "declaration": "ComputePipeline,",
+        "line": 751,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "collide_pairs_no_mesh",
+        "declaration": "std::sync::OnceLock<ComputePipeline>,",
+        "line": 752,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "collide_pairs_mesh",
+        "declaration": "std::sync::OnceLock<ComputePipeline>,",
+        "line": 753,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "child_compaction",
+        "declaration": "std::sync::OnceLock<crate::contact_compaction::ContactCompaction>,",
+        "line": 754,
+        "category": "transient compaction producer/consumer contract (child-compaction-candidate/integrated-source-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "collision_shader",
+        "declaration": "ShaderModule,",
+        "line": 755,
+        "category": "device/program/binding identity: fixed build/device, verify derived binding contract",
+        "exporter_references": []
+      },
+      {
+        "name": "collision_layout",
+        "declaration": "wgpu::PipelineLayout,",
+        "line": 756,
+        "category": "device/program/binding identity: fixed build/device, verify derived binding contract",
+        "exporter_references": []
+      },
+      {
+        "name": "retire_stale_contacts",
+        "declaration": "ComputePipeline,",
+        "line": 757,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "retire_body_pair_contacts",
+        "declaration": "ComputePipeline,",
+        "line": 758,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "begin_occupied_contacts",
+        "declaration": "ComputePipeline,",
+        "line": 759,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "collect_occupied_contacts",
+        "declaration": "ComputePipeline,",
+        "line": 760,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "finish_occupied_contacts",
+        "declaration": "ComputePipeline,",
+        "line": 761,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "write_unique_indirect",
+        "declaration": "ComputePipeline,",
+        "line": 762,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "write_alloc_indirects",
+        "declaration": "ComputePipeline,",
+        "line": 763,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_clear_meta",
+        "declaration": "ComputePipeline,",
+        "line": 764,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_reset_colors",
+        "declaration": "ComputePipeline,",
+        "line": 765,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_classify",
+        "declaration": "ComputePipeline,",
+        "line": 766,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_mark_edges",
+        "declaration": "ComputePipeline,",
+        "line": 767,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_compact_paired",
+        "declaration": "std::sync::OnceLock<[ComputePipeline;3]>,",
+        "line": 768,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_count_static_degree",
+        "declaration": "ComputePipeline,",
+        "line": 769,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_finish_static_degree",
+        "declaration": "ComputePipeline,",
+        "line": 770,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_pack_static_keys",
+        "declaration": "ComputePipeline,",
+        "line": 771,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_radix_histogram",
+        "declaration": "[ComputePipeline; 4],",
+        "line": 772,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_radix_scatter",
+        "declaration": "[ComputePipeline; 4],",
+        "line": 773,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_mark_static_starts",
+        "declaration": "ComputePipeline,",
+        "line": 774,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_encode_static_colors",
+        "declaration": "ComputePipeline,",
+        "line": 775,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_mark_color_starts",
+        "declaration": "ComputePipeline,",
+        "line": 776,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_assign_static",
+        "declaration": "ComputePipeline,",
+        "line": 777,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_assign_dynamic",
+        "declaration": "ComputePipeline,",
+        "line": 778,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_batched_override",
+        "declaration": "Option<bool>,",
+        "line": 779,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "graph_assign_batched",
+        "declaration": "ComputePipeline,",
+        "line": 780,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_shared_requested",
+        "declaration": "bool,",
+        "line": 781,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "graph_memo_base",
+        "declaration": "Option<u32>,",
+        "line": 782,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "graph"
+        ]
+      },
+      {
+        "name": "graph_assign_memo",
+        "declaration": "std::sync::OnceLock<ComputePipeline>,",
+        "line": 783,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "graph_assign_shared",
+        "declaration": "std::sync::OnceLock<ComputePipeline>,",
+        "line": 784,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "color_and_compact",
+        "declaration": "ComputePipeline,",
+        "line": 785,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "prepare_contacts",
+        "declaration": "ComputePipeline,",
+        "line": 786,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "warm_start",
+        "declaration": "ComputePipeline,",
+        "line": 788,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "solve_contacts",
+        "declaration": "ComputePipeline,",
+        "line": 790,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "component_reset",
+        "declaration": "ComputePipeline,",
+        "line": 791,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "component_count",
+        "declaration": "ComputePipeline,",
+        "line": 792,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "component_offsets",
+        "declaration": "ComputePipeline,",
+        "line": 793,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "component_color_offsets",
+        "declaration": "ComputePipeline,",
+        "line": 794,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "component_scatter",
+        "declaration": "ComputePipeline,",
+        "line": 795,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "solve_large_components",
+        "declaration": "ComputePipeline,",
+        "line": 796,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "solve_complete_components",
+        "declaration": "ComputePipeline,",
+        "line": 797,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "small_component_workgroup_size",
+        "declaration": "u32,",
+        "line": 798,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "component_tgs",
+        "declaration": "bool,",
+        "line": 799,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "count_active_bodies",
+        "declaration": "ComputePipeline,",
+        "line": 800,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "idle_eligible",
+        "declaration": "bool,",
+        "line": 801,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "idle"
+        ]
+      },
+      {
+        "name": "idle_input_context",
+        "declaration": "[u64;2],",
+        "line": 802,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "idle"
+        ]
+      },
+      {
+        "name": "idle_output_context",
+        "declaration": "[u64;2],",
+        "line": 803,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "idle"
+        ]
+      },
+      {
+        "name": "idle_proof",
+        "declaration": "Option<(u64,[u64;2],u64)>,",
+        "line": 804,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "idle"
+        ]
+      },
+      {
+        "name": "idle_chain",
+        "declaration": "Option<(u64,u64,[u64;2],u64)>,",
+        "line": 807,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "idle"
+        ]
+      },
+      {
+        "name": "hold_idle_status",
+        "declaration": "bool,",
+        "line": 809,
+        "category": "test or diagnostic counter/control",
+        "exporter_references": []
+      },
+      {
+        "name": "idle_count_valid_step",
+        "declaration": "Option<u64>,",
+        "line": 810,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "idle"
+        ]
+      },
+      {
+        "name": "sticky_pending_idle_context",
+        "declaration": "Option<([u64;2],u64)>,",
+        "line": 811,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "idle"
+        ]
+      },
+      {
+        "name": "last_step_idle",
+        "declaration": "bool,",
+        "line": 812,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "idle"
+        ]
+      },
+      {
+        "name": "idle_epoch",
+        "declaration": "Cell<u64>,",
+        "line": 813,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "idle"
+        ]
+      },
+      {
+        "name": "solve_color",
+        "declaration": "ComputePipeline,",
+        "line": 814,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "solve_color_wave_one_group",
+        "declaration": "ComputePipeline,",
+        "line": 815,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "solve_color_partition_one_group",
+        "declaration": "ComputePipeline,",
+        "line": 816,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "solve_color_tail_one_group",
+        "declaration": "ComputePipeline,",
+        "line": 817,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "solve_overflow",
+        "declaration": "ComputePipeline,",
+        "line": 819,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "solve_joints",
+        "declaration": "ComputePipeline,",
+        "line": 820,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "solve_joint_color",
+        "declaration": "ComputePipeline,",
+        "line": 821,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "solve_jointed_wave",
+        "declaration": "ComputePipeline,",
+        "line": 822,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "compact_joint_heads",
+        "declaration": "ComputePipeline,",
+        "line": 823,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "compact_joint_components",
+        "declaration": "ComputePipeline,",
+        "line": 824,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "ray_closest",
+        "declaration": "ComputePipeline,",
+        "line": 825,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "ray_closest_pick",
+        "declaration": "ComputePipeline,",
+        "line": 826,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "ray_closest_commit",
+        "declaration": "ComputePipeline,",
+        "line": 827,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "solve_tiny_islands",
+        "declaration": "ComputePipeline,",
+        "line": 829,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "integrate_pos",
+        "declaration": "ComputePipeline,",
+        "line": 830,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "jacobi_clear",
+        "declaration": "ComputePipeline,",
+        "line": 831,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "solve_jacobi",
+        "declaration": "ComputePipeline,",
+        "line": 832,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "apply_jacobi",
+        "declaration": "ComputePipeline,",
+        "line": 833,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "capture_phase",
+        "declaration": "ComputePipeline,",
+        "line": 834,
+        "category": "immutable pipeline declaration",
+        "exporter_references": []
+      },
+      {
+        "name": "island_workgroup_size",
+        "declaration": "u32,",
+        "line": 835,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "timestamp_queries",
+        "declaration": "bool,",
+        "line": 836,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "metrics",
+        "declaration": "Option<MetricsRes>,",
+        "line": 837,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "step_timestamp",
+        "declaration": "Option<TimestampRes>,",
+        "line": 839,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "ts_ring",
+        "declaration": "Option<TimestampRing>,",
+        "line": 841,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "last_gpu_collide_ms",
+        "declaration": "f32,",
+        "line": 843,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "last_gpu_broadphase_ms",
+        "declaration": "f32,",
+        "line": 845,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "last_gpu_narrowphase_ms",
+        "declaration": "f32,",
+        "line": 847,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "last_gpu_graph_ms",
+        "declaration": "f32,",
+        "line": 849,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "last_gpu_solve_ms",
+        "declaration": "f32,",
+        "line": 851,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "last_gpu_integrate_ms",
+        "declaration": "f32,",
+        "line": 853,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "last_gpu_prepare_ms",
+        "declaration": "f32,",
+        "line": 855,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "last_gpu_device_ms",
+        "declaration": "f32,",
+        "line": 857,
+        "category": "measurement classification (timestamp audit where applicable)",
+        "exporter_references": []
+      },
+      {
+        "name": "pose_readback",
+        "declaration": "Option<PoseReadback>,",
+        "line": 859,
+        "category": "pose boundary contract (pose-readback-state-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "automatic_pose_snapshots",
+        "declaration": "bool,",
+        "line": 861,
+        "category": "pose boundary contract (pose-readback-state-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "pose_epoch",
+        "declaration": "u64,",
+        "line": 863,
+        "category": "pose boundary contract (pose-readback-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "pose_export",
+        "declaration": "Option<crate::pose_gl::PoseExportBuf>,",
+        "line": 865,
+        "category": "completed-boundary readback/output contract (readback-output-state-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "sticky_staging",
+        "declaration": "Buffer,",
+        "line": 867,
+        "category": "drained-status boundary contract (query-workspace-state-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "sticky_pending",
+        "declaration": "Option<std::sync::mpsc::Receiver<Result<(), wgpu::BufferAsyncError>>>,",
+        "line": 869,
+        "category": "drained-status boundary contract (query-workspace-state-audit.json)",
+        "exporter_references": []
+      },
+      {
+        "name": "sticky_loss",
+        "declaration": "bool,",
+        "line": 871,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "sticky_pending_step",
+        "declaration": "u64,",
+        "line": 873,
+        "category": "captured command-cache/idle policy contract (command-policy-state-audit.json)",
+        "exporter_references": [
+          "idle"
+        ]
+      },
+      {
+        "name": "metrics_context",
+        "declaration": "[u64; 2],",
+        "line": 875,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "sticky_pending_context",
+        "declaration": "[u64; 2],",
+        "line": 877,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "contact_metrics",
+        "declaration": "Option<ContactMetrics>,",
+        "line": 879,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "sticky_first_step",
+        "declaration": "u32,",
+        "line": 881,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "sticky_causes",
+        "declaration": "[u32; 5],",
+        "line": 883,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      },
+      {
+        "name": "sticky_contact_reasons",
+        "declaration": "u32,",
+        "line": 885,
+        "category": "captured host policy contract (host-policy-state-audit.json)",
+        "exporter_references": [
+          "policy"
+        ]
+      }
+    ],
+    "device_region_consolidation": "device-region-state-audit.json; selected completed public boundaries only; final v22 repeats pending"
+  },
+  "source_drift_review": {
+    "src/api/world.rs": {
+      "classification": "Exactly72added lines in cfg(test) module; removing two test functions restores audited bytes. No production change.",
+      "diff": "--- audited/src/api/world.rs\n+++ current/src/api/world.rs\n@@ -10782,6 +10782,78 @@\n     use crate::api::*;\n \n     #[test]\n+    fn constant_load_contact_compliance_matches_softness() {\n+        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();\n+        for acceleration in [100.0f32, 1000.0] {\n+            let mut wd = b3_default_world_def();\n+            wd.enable_sleep = false;\n+            let h = (1.0f32 / 60.0) / 4.0;\n+            let omega = 2.0 * std::f32::consts::PI * 2.0 * wd.contact_hertz.min(0.125 / h);\n+            // Four coplanar points, rotation locked: each normal effective mass\n+            // equals the body's mass. At rest the soft constraint has stiffness\n+            // normal_mass * omega^2, so total stiffness is 4*m*omega^2.\n+            let expected_depth = (acceleration - wd.gravity[1]) / (4.0 * omega * omega);\n+            let world = b3_create_world(gpu.clone(), &wd);\n+            let mut bd = b3_default_body_def();\n+            bd.position = [0.0, -0.5, 0.0];\n+            let ground = b3_create_body(world, &bd);\n+            let sd = b3_default_shape_def();\n+            b3_create_hull_shape(ground, &sd, &b3_make_box_hull(20.0, 0.5, 20.0));\n+            bd.body_type = BodyType::Dynamic;\n+            bd.position = [0.0, 0.5, 0.0];\n+            bd.motion_locks.angular_x = true;\n+            bd.motion_locks.angular_y = true;\n+            bd.motion_locks.angular_z = true;\n+            let body = b3_create_body(world, &bd);\n+            b3_create_hull_shape(body, &sd, &b3_make_box_hull(0.5, 0.5, 0.5));\n+            let mass = b3_body_get_mass(body);\n+            let mut max_error = 0.0f32;\n+            let mut max_speed = 0.0f32;\n+            for step in 0..600 {\n+                b3_body_apply_force_to_center(body, [0.0, -mass * acceleration, 0.0], true);\n+                b3_world_step(world, 1.0 / 60.0, 4);\n+                if step >= 480 {\n+                    let depth = 0.5 - b3_body_get_position(body)[1];\n+                    max_error = max_error.max((depth - expected_depth).abs());\n+                    max_speed = max_speed.max(b3_body_get_linear_velocity(body)[1].abs());\n+                }\n+            }\n+            b3_destroy_world(world);\n+            assert!(max_error < 1e-4, \"load {acceleration}: expected depth {expected_depth}, error {max_error}\");\n+            assert!(max_speed < 1e-3, \"load {acceleration}: unsettled speed {max_speed}\");\n+        }\n+    }\n+\n+    #[test]\n+    fn ccd_landing_refreshes_empty_contact_inside_speculative_shell() {\n+        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();\n+        let mut wd = b3_default_world_def();\n+        wd.gravity = [0.0; 3];\n+        wd.enable_sleep = false;\n+        let world = b3_create_world(gpu, &wd);\n+        with_world_mut_no_sync(world, |w| w.gpu_ccd_requested = false);\n+        let mut bd = b3_default_body_def();\n+        bd.position = [0.0, -0.5, 0.0];\n+        let ground = b3_create_body(world, &bd);\n+        let sd = b3_default_shape_def();\n+        b3_create_hull_shape(ground, &sd, &b3_make_box_hull(20.0, 0.5, 20.0));\n+        bd.body_type = BodyType::Dynamic;\n+        bd.position = [0.0, 0.522, 0.0];\n+        let body = b3_create_body(world, &bd);\n+        b3_create_hull_shape(body, &sd, &b3_make_box_hull(0.5, 0.5, 0.5));\n+        b3_body_set_linear_velocity(body, [0.0, -2.66667, 0.0]);\n+        b3_world_step(world, 1.0 / 60.0, 4);\n+        let landing = b3_body_get_position(body)[1];\n+        assert!((landing - 0.505).abs() < 0.001, \"CCD landing: {landing}\");\n+        b3_world_step(world, 1.0 / 60.0, 4);\n+        let next = b3_body_get_position(body)[1];\n+        b3_destroy_world(world);\n+        // With no downward load or restitution, speculative support should\n+        // arrest descent at the floor, within the engine's linear slop.\n+        assert!(next >= 0.495, \"empty cached manifold missed CCD landing: {next}\");\n+    }\n+\n+    #[test]\n     fn accumulated_forces_survive_uploads_and_zero_steps() {\n         let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();\n         let mut wd=b3_default_world_def(); wd.gravity=[0.0;3];\n"
+    },
+    "shaders/physics/collide.wgsl": {
+      "classification": "Empty-manifold recycle veto uses existing captured count; no new state/storage. Existing geometry/history/order coverage and normalizations retained.",
+      "diff": "--- audited/shaders/physics/collide.wgsl\n+++ current/shaders/physics/collide.wgsl\n@@ -3858,6 +3858,14 @@\n }\n \n fn recycle_skip(p: Contact, a: Body, b: Body) -> bool {\n+    // Empty manifolds carry no separation bound proving that their pair stays\n+    // outside the speculative shell. In particular, CCD can stop a body inside\n+    // that shell after moving less than the recycle tolerance. Reusing an empty\n+    // result then leaves the next step without discrete support, while CCD\n+    // correctly delegates initial contact to the discrete solver.\n+    if (p.count == 0u) {\n+        return false;\n+    }\n     if (((a.flags | b.flags) & FLAG_DISABLE_CONTACT_RECYCLING) != 0u) {\n         return false;\n     }\n"
+    }
+  },
+  "remaining": "Rain physical failures, final-build five-process complete-state matrix and recordings remain open; performance results apply only to measured baseline.",
+  "negative_integrity_controls_rejected": [
+    "changed-source",
+    "missing-field",
+    "wrong-mode"
+  ],
+  "verification_note": "Initial formatting-sensitive guard expected an extra blank line before the test module and failed. Corrected to the actual cfg(test) attribute; byte-exact removal equivalence and scope checks still enforced.",
+  "verification_source": "from pathlib import Path\nimport json,hashlib,re,difflib,copy\nroot=Path('experiments/gpu-physics');base=root/'artifacts/gpu-solver-qualification/desktop-baseline'\ndigest=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\nc=json.loads((base/'device-region-state-audit.json').read_text());i=json.loads((base/'gpu-sim-field-inventory.json').read_text())\nfor name,h in c['audit_sha256'].items():assert digest(base/name)==h\nsources=c['source_sha256']|c['paired_solver_amendment']['source_sha256']\nassert {f for f,h in sources.items() if digest(root/f)!=h}=={'src/api/world.rs','shaders/physics/collide.wgsl'}\nold_world=base/'preparation-failure-fix/after-world.rs';assert digest(old_world)==sources['src/api/world.rs']\nw=(root/'src/api/world.rs').read_text();a=w.index('    #[test]\\n    fn constant_load_contact_compliance_matches_softness()');b=w.index('    #[test]\\n    fn accumulated_forces_survive_uploads_and_zero_steps()',a)\nassert w[:a]+w[b:]==old_world.read_text()\nassert '#[cfg(test)]\\nmod convex_ccd_integration_tests {' in w[:a]\nold_collide=base/'ccd-cutoff-control/workspace/experiments/gpu-physics/shaders/physics/collide.wgsl';assert digest(old_collide)==sources['shaders/physics/collide.wgsl']\nm=json.loads((base/'empty-contact-fix/manifest.json').read_text());assert digest(root/'shaders/physics/collide.wgsl')==m['source_sha256']['shaders/physics/collide.wgsl']\nsim=(root/'src/sim.rs').read_text();decl=sim[sim.index('pub struct GpuSim {'):];decl=decl[:decl.index('\\n}')]\nfields=re.findall(r'^    (?:pub(?:\\([^)]*\\))? )?(\\w+)\\s*:',decl,re.M);assert fields==[x['name'] for x in i['fields']] and len(fields)==211\nr={'scope':'Current baseline source-contract applicability at completed public World boundaries only. Not final five-repeat qualification or physical acceptance. CPU-compatible trees, intermediate GpuSim calls and extra diagnostic modes remain excluded.','head':'0940a4f','schema':'gpu-core-state-v22','selected_diagnostic_flags':{'ordinary':262144,'native':393216},'source_sha256':{f:digest(root/f) for f in sources},'gpu_sim_fields':fields,'device_owner_count':len(c['owners']),'scratch_partition_count':len(c['scratch_partition']),'dependency_hashes_verified':c['audit_sha256'],'audit_documents':{f:json.loads((base/f).read_text()) for f in c['audit_sha256']},'consolidation':c,'inventory':i,'source_drift_review':{},'remaining':'Rain physical failures, final-build five-process complete-state matrix and recordings remain open; performance results apply only to measured baseline.'}\nfor name,old,note in [('src/api/world.rs',old_world,'Exactly72added lines in cfg(test) module; removing two test functions restores audited bytes. No production change.'),('shaders/physics/collide.wgsl',old_collide,'Empty-manifold recycle veto uses existing captured count; no new state/storage. Existing geometry/history/order coverage and normalizations retained.')]:\n r['source_drift_review'][name]={'classification':note,'diff':''.join(difflib.unified_diff(old.read_text().splitlines(True),(root/name).read_text().splitlines(True),fromfile='audited/'+name,tofile='current/'+name))}\ndef verify(r):\n assert r['selected_diagnostic_flags']=={'ordinary':262144,'native':393216}\n assert r['gpu_sim_fields']==fields\n assert all(digest(root/f)==h for f,h in r['source_sha256'].items())\n assert r['device_owner_count']==12 and r['scratch_partition_count']==10\nverify(r);negative=[]\nfor label,mutate in [('changed-source',lambda r:r['source_sha256'].__setitem__('src/sim.rs','0'*64)),('missing-field',lambda r:r['gpu_sim_fields'].pop()),('wrong-mode',lambda r:r['selected_diagnostic_flags'].__setitem__('ordinary',0))]:\n bad=copy.deepcopy(r);mutate(bad)\n try:verify(bad)\n except AssertionError:negative.append(label)\n else:raise AssertionError('corruption accepted '+label)\nr['negative_integrity_controls_rejected']=negative\nr['verification_note']='Initial formatting-sensitive guard expected an extra blank line before the test module and failed. Corrected to the actual cfg(test) attribute; byte-exact removal equivalence and scope checks still enforced.'\nr['verification_source']=Path(__file__).read_text()\nout=root/'benchmarks/2026-09-29-state-audit-applicability.json';out.write_text(json.dumps(r,indent=2)+'\\n');print(out,out.stat().st_size,{'fields':len(fields),'sources':len(sources),'dependencies':len(c['audit_sha256']),'negative_controls':negative})\n"
+}
