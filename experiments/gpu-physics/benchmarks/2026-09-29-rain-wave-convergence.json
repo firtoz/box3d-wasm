@@ -1,0 +1,751 @@
+{
+  "date": "2026-09-29",
+  "head": "2b555ed9504b576f49b5ae58509f032ba372f01d",
+  "status": "nonconverged-stop-expansion",
+  "scope": "Artifact-only ordinary43body Rain-cell one-step numerical convergence discriminator. No physical acceptance, production adoption, native cached/full-scene/repeat qualification or performance claim.",
+  "protocol": "Before evaluation: artifact-only numerical fixed-point discriminator for original43body/39activejoint Rain cell, native ordering ordinary path. Current shader, original row/contact equations and physical defaults retained. Only complete joint/contact color waves for bias/relaxation repeat; velocity/position integration, warm start and restitution remain once per scheduled phase.\nEach manifold/joint update contributes abs(new-old)/(1+max(abs(new),abs(old))) for endpoint linear/angular velocities and every reusable Rain joint/contact impulse component. Per-wave max reduced with exact ordered nonnegative float-bit atomicMax. Require both maxima<=1e-5 for TWO consecutive complete waves; fixed cap128. A cap hit is nonconvergence, never a pass; no threshold/cap retuning after results. Geometry and parameters stay fixed within a repeated wave. Contact total_normal_impulse is a monotonic bookkeeping sum consumed only by a zero/nonzero restitution gate; preserve accumulation and monitor that consumed boolean, not its non-fixed-point magnitude. Restitution policy is not altered.\nUnused fields of exactly3JOINT_FILTER records carry8bias/relaxation pass counts and last velocity/cache changes per frame; they are skipped by solver. Record carrier step tag, pass count and cap-failure count. Do not claim complete-state qualification with these diagnostic carriers. Initial schema: exactly27spherical,12revolute,3filter joints and43bodies. Larger worlds/kinds/native cached path are not covered.\nFIRST: same shader instrumentation with sweep limit1 must reproduce original120step hip and severe body streams byte-exact and original hip reusable state except documented filter carriers; any mismatch stops the experiment. THEN: candidate first original hip step, require8pass records, finite counters and convergence for every pass before extending to120step original hip/severe replays and analytical loaded-response checks. A first-step cap failure stops expansion and remains evidence against convergence, not a solver/physics pass. Original physical screens are unchanged. No fixed-iteration search, source/normal-library restoration mandatory.\n",
+  "comparison_addendum": {
+    "reason": "The raw no-op comparison fails only on occupied contact root append order in97frames. Existing audited_storage_view normalizes exactly this membership-only storage; retained identities/history/solver order/impulses and every other captured field are exact. This applies the already documented semantic contract, does not erase the raw failure or change numerical/physical thresholds.",
+    "raw_receipt": "hip-control/validation.json",
+    "semantic_receipt": "hip-control/audited-validation.json",
+    "comparator": "scripts/compare-core-state.py",
+    "provenance": "Existing scripts/test-core-state-storage.py and committed baseline state-source audit; allocation/scheduling functions unchanged by diagnostic patch."
+  },
+  "accumulator_scope_correction": {
+    "correction_to_protocol_wording": "The numerical solve uses total_normal_impulse only through a zero/nonzero restitution gate; hit-event generation also tests positivity, and the full magnitude is exposed by manifold getters and state capture. The magnitude must NOT be excluded from complete-state qualification. It is excluded only from this fixed-point stopping norm because it deliberately accumulates across solver calls.",
+    "source_evidence": [
+      "shaders/physics/solve.wgsl:605",
+      "src/api/world.rs:4485",
+      "src/api/contact_data.rs:112",
+      "src/api/world/state_trace.rs:534"
+    ],
+    "limitation": "Repeated waves accumulate extra totals in this artifact diagnostic, as the existing solver increments total by the accumulated normal impulse at each solve. No production adoption or claim that public manifold magnitudes are unchanged. A retained convergent algorithm would need an explicit accounting contract and validation."
+  },
+  "driver_outcomes": {
+    "initial_parse_control_driver": 250,
+    "initial_parse_child": -6,
+    "raw_control_driver": 1,
+    "raw_control_child": 0,
+    "semantic_control_and_severe_driver": 0,
+    "candidate_build": 0,
+    "probe_driver": 1,
+    "probe_child": 0,
+    "reason": "Probe driver rejects5of8nonconverged passes. Child success is execution only, not numerical or physical acceptance."
+  },
+  "noop_hip": {
+    "status": "semantic-no-op-pass",
+    "frames": 120,
+    "body_stream_exact": true,
+    "complete_state_changes_excluding_carriers": [],
+    "raw_occupied_membership_order_differences": 97,
+    "raw_comparison_failure_preserved": true,
+    "comparison": "Existing audited_storage_view; all identities, history, solver order, contacts and dynamic state remain exact",
+    "comparator_sha256": "ceb9066b75605a93167b810409c63f010484babb90abc8ba81ad842ed0a5c40c",
+    "input_sha256": {
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-anchor-audit/baseline/trace.jsonl": "0cf3a3aa2427726972f2ffd9db6416a5b7bca3acc08ff8af528233bccad8a537",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/hip-control/trace.jsonl": "f0a5f7ae37de3c58f47ab867cfe03d51d585ad7afa7397fa11c93edca2f3db2c"
+    }
+  },
+  "noop_severe": {
+    "body_stream_exact": true,
+    "frames": 120,
+    "complete_state_changes_excluding_carriers": []
+  },
+  "probe": {
+    "status": "nonconverged",
+    "initial_getters_exact": true,
+    "passes": [
+      {
+        "substep": 0,
+        "phase": "bias",
+        "iterations": 72,
+        "last_velocity_change": 8.618311767349951e-06,
+        "last_impulse_change": 2.5743258902366506e-06,
+        "last_change_below_threshold": true
+      },
+      {
+        "substep": 0,
+        "phase": "relax",
+        "iterations": 128,
+        "last_velocity_change": 0.07852529734373093,
+        "last_impulse_change": 0.012680327519774437,
+        "last_change_below_threshold": false
+      },
+      {
+        "substep": 1,
+        "phase": "bias",
+        "iterations": 108,
+        "last_velocity_change": 8.517143214703538e-06,
+        "last_impulse_change": 1.1953268312936416e-06,
+        "last_change_below_threshold": true
+      },
+      {
+        "substep": 1,
+        "phase": "relax",
+        "iterations": 128,
+        "last_velocity_change": 0.02393382415175438,
+        "last_impulse_change": 0.0010957290651276708,
+        "last_change_below_threshold": false
+      },
+      {
+        "substep": 2,
+        "phase": "bias",
+        "iterations": 128,
+        "last_velocity_change": 4.472137788980035e-07,
+        "last_impulse_change": 1.7039656086126342e-05,
+        "last_change_below_threshold": false
+      },
+      {
+        "substep": 2,
+        "phase": "relax",
+        "iterations": 128,
+        "last_velocity_change": 0.043841104954481125,
+        "last_impulse_change": 0.004675743170082569,
+        "last_change_below_threshold": false
+      },
+      {
+        "substep": 3,
+        "phase": "bias",
+        "iterations": 94,
+        "last_velocity_change": 3.369578280398855e-06,
+        "last_impulse_change": 1.3692617812921526e-06,
+        "last_change_below_threshold": true
+      },
+      {
+        "substep": 3,
+        "phase": "relax",
+        "iterations": 128,
+        "last_velocity_change": 0.02600930817425251,
+        "last_impulse_change": 0.002082674065604806,
+        "last_change_below_threshold": false
+      }
+    ],
+    "nonconverged_pass_count": 5,
+    "stop_expansion": true,
+    "scope": "One step convergence discriminator only; not Rain physical acceptance"
+  },
+  "final_motor_check": {
+    "scope": "Hypothetical isolated next motor updates from capped probe end state; not actual per-row inputs or proof of the cause of the cycle. Uses the previously demonstrated constrained-objective formula.",
+    "trace_sha256": "15eba885d553ce7eb5495a0a27f08318ff55d50663d7bbc8a364f2605ab21f2f",
+    "cases": 27,
+    "radial_increase_count": 15,
+    "maximum_radial_increase": 3.797233821108137e-06,
+    "maximum_metric_change": -4.761416044427036e-11,
+    "worst": {
+      "joint": 16,
+      "radial_change": 3.797233821108137e-06,
+      "metric_change": -3.177854622973472e-05,
+      "radial_excess": 3.557578005084286e-05
+    },
+    "rows": [
+      {
+        "joint": 1,
+        "radial_change": -1.3790234590534134e-08,
+        "metric_change": -5.671559243244223e-06,
+        "radial_excess": 5.657769008653689e-06
+      },
+      {
+        "joint": 2,
+        "radial_change": 2.5571079088904103e-07,
+        "metric_change": -1.076443541439976e-05,
+        "radial_excess": 1.1020146205288801e-05
+      },
+      {
+        "joint": 3,
+        "radial_change": 7.32216036955502e-07,
+        "metric_change": -0.0002689153546049476,
+        "radial_excess": 0.0002696475706419031
+      },
+      {
+        "joint": 4,
+        "radial_change": -3.417379900276518e-07,
+        "metric_change": -1.5382792828283476e-06,
+        "radial_excess": 1.1965412928006958e-06
+      },
+      {
+        "joint": 5,
+        "radial_change": -5.701542846441726e-08,
+        "metric_change": -5.7402318794086415e-08,
+        "radial_excess": 3.8689032966915393e-10
+      },
+      {
+        "joint": 6,
+        "radial_change": -1.8457595295923168e-09,
+        "metric_change": -7.917606351910168e-05,
+        "radial_excess": 7.917421775957209e-05
+      },
+      {
+        "joint": 8,
+        "radial_change": 6.960432195890487e-09,
+        "metric_change": -0.0003080335180197756,
+        "radial_excess": 0.0003080404784519715
+      },
+      {
+        "joint": 10,
+        "radial_change": 2.5486294796817077e-08,
+        "metric_change": -4.477873910942176e-05,
+        "radial_excess": 4.480422540421858e-05
+      },
+      {
+        "joint": 12,
+        "radial_change": -4.285634123258816e-06,
+        "metric_change": -0.0001205046477416958,
+        "radial_excess": 0.00011621901361843698
+      },
+      {
+        "joint": 15,
+        "radial_change": 3.7224419203660264e-07,
+        "metric_change": -0.00030731451110511954,
+        "radial_excess": 0.00030768675529715614
+      },
+      {
+        "joint": 16,
+        "radial_change": 3.797233821108137e-06,
+        "metric_change": -3.177854622973472e-05,
+        "radial_excess": 3.557578005084286e-05
+      },
+      {
+        "joint": 17,
+        "radial_change": -7.207836804296389e-07,
+        "metric_change": -6.5339802135097255e-06,
+        "radial_excess": 5.813196533080087e-06
+      },
+      {
+        "joint": 18,
+        "radial_change": 4.863697179724458e-07,
+        "metric_change": -0.00012802184622121016,
+        "radial_excess": 0.0001285082159391826
+      },
+      {
+        "joint": 19,
+        "radial_change": 2.8536622058428218e-08,
+        "metric_change": -2.0205751387544768e-05,
+        "radial_excess": 2.0234288009603196e-05
+      },
+      {
+        "joint": 20,
+        "radial_change": -4.2843649222523705e-06,
+        "metric_change": -0.013360533184714071,
+        "radial_excess": 0.013356248819791819
+      },
+      {
+        "joint": 22,
+        "radial_change": -1.1397223535318524e-06,
+        "metric_change": -0.0007104291046296507,
+        "radial_excess": 0.0007092893822761188
+      },
+      {
+        "joint": 24,
+        "radial_change": -2.0212365451632852e-06,
+        "metric_change": -0.0032608882019768415,
+        "radial_excess": 0.003258866965431678
+      },
+      {
+        "joint": 26,
+        "radial_change": 1.3140832751503198e-06,
+        "metric_change": -1.3849907422834595e-07,
+        "radial_excess": 1.4525823493786658e-06
+      },
+      {
+        "joint": 29,
+        "radial_change": 7.612970804107833e-09,
+        "metric_change": -3.53677919291695e-07,
+        "radial_excess": 3.6129089009580284e-07
+      },
+      {
+        "joint": 30,
+        "radial_change": 5.040482909356159e-08,
+        "metric_change": -1.8705866664837922e-06,
+        "radial_excess": 1.920991495577354e-06
+      },
+      {
+        "joint": 31,
+        "radial_change": 4.725919303463777e-09,
+        "metric_change": -1.380427038244654e-06,
+        "radial_excess": 1.3851529575481178e-06
+      },
+      {
+        "joint": 32,
+        "radial_change": -6.481268590569078e-08,
+        "metric_change": -7.139875809016039e-05,
+        "radial_excess": 7.13339454042547e-05
+      },
+      {
+        "joint": 33,
+        "radial_change": 1.0318824655852765e-08,
+        "metric_change": -1.8218260660909924e-05,
+        "radial_excess": 1.8228579485565777e-05
+      },
+      {
+        "joint": 34,
+        "radial_change": -4.761416044427036e-11,
+        "metric_change": -4.761416044427036e-11,
+        "radial_excess": 0.0
+      },
+      {
+        "joint": 36,
+        "radial_change": 1.3254647789669866e-07,
+        "metric_change": -2.043854836705078e-05,
+        "radial_excess": 2.0571094844947478e-05
+      },
+      {
+        "joint": 38,
+        "radial_change": 1.2122978195507061e-06,
+        "metric_change": -1.5298360455454074e-06,
+        "radial_excess": 2.7421338650961136e-06
+      },
+      {
+        "joint": 40,
+        "radial_change": -7.401455098289544e-08,
+        "metric_change": -5.863920396415381e-07,
+        "radial_excess": 5.123774886586427e-07
+      }
+    ]
+  },
+  "restoration": {
+    "source_restored_byte_exact": true,
+    "normal_build_exit": 0,
+    "normal_archive_sha256": "b3f2b64239d72c95c8e1746f9bd40a95152fb7a2c6ab373a6e2bd2986cf5265b"
+  },
+  "patches": {
+    "control": "--- a/shaders/physics/solve.wgsl\n+++ b/shaders/physics/solve.wgsl\n@@ -1,3 +1,71 @@\n+// Artifact-only convergence audit for the single-workgroup joint/contact wave.\n+var<workgroup> cv_on: u32;\n+var<workgroup> cv_velocity: atomic<u32>;\n+var<workgroup> cv_impulse: atomic<u32>;\n+var<workgroup> cv_stop: u32;\n+var<workgroup> cv_quiet: u32;\n+var<workgroup> cv_last_v: f32;\n+var<workgroup> cv_last_i: f32;\n+fn cv_change(a:f32,b:f32)->f32 {\n+    if (!(abs(a)<=3.402823e38) || !(abs(b)<=3.402823e38)) { return bitcast<f32>(0x7f800000u); }\n+    return abs(b-a)/(1.0+max(abs(a),abs(b)));\n+}\n+fn cv_i(a:f32,b:f32) { if(cv_on!=0u) { atomicMax(&cv_impulse,bitcast<u32>(cv_change(a,b))); } }\n+fn cv_i3(a:vec3<f32>,b:vec3<f32>) { for(var i=0u;i<3u;i++){cv_i(a[i],b[i]);} }\n+fn cv_b(a:Body,b:Body) {\n+    if(cv_on!=0u) { for(var i=0u;i<3u;i++) {\n+        atomicMax(&cv_velocity,bitcast<u32>(cv_change(a.vel[i],b.vel[i])));\n+        atomicMax(&cv_velocity,bitcast<u32>(cv_change(a.omega[i],b.omega[i])));\n+    } }\n+}\n+fn cv_j(a:Joint,b:Joint) {\n+    if(cv_on==0u){return;}\n+    cv_i(a.impulse,b.impulse);cv_i(a.spring_impulse,b.spring_impulse);\n+    cv_i(a.motor_impulse,b.motor_impulse);cv_i(a.lower_impulse,b.lower_impulse);\n+    cv_i(a.upper_impulse,b.upper_impulse);cv_i(a.swing_impulse,b.swing_impulse);\n+    cv_i(a.perp_impulse.x,b.perp_impulse.x);cv_i(a.perp_impulse.y,b.perp_impulse.y);\n+    cv_i3(a.angular_impulse,b.angular_impulse);\n+    cv_i3(a.spring_angular_impulse,b.spring_angular_impulse);\n+    cv_i3(a.motor_angular_impulse,b.motor_angular_impulse);\n+    cv_i3(a.weld_linear_impulse,b.weld_linear_impulse);\n+    cv_i3(a.weld_angular_impulse,b.weld_angular_impulse);\n+}\n+fn cv_c(a:Contact,b:Contact) {\n+    if(cv_on==0u){return;}\n+    cv_i(a.rb0.w,b.rb0.w);cv_i(a.rb1.w,b.rb1.w);cv_i(a.rb2.w,b.rb2.w);cv_i(a.rb3.w,b.rb3.w);\n+    cv_i(a.friction_impulse.x,b.friction_impulse.x);cv_i(a.friction_impulse.y,b.friction_impulse.y);\n+    cv_i(a.twist_impulse,b.twist_impulse);cv_i3(a.rolling_impulse,b.rolling_impulse);\n+    // This monotonic accumulator is consumed only by a zero/nonzero restitution gate.\n+    // Its magnitude is not a fixed-point impulse; preserve and monitor the consumed state.\n+    for(var i=0u;i<4u;i++){\n+        cv_i(select(0.0,1.0,a.total_normal_impulse[i]!=0.0),select(0.0,1.0,b.total_normal_impulse[i]!=0.0));\n+    }\n+}\n+fn cv_report(iterations:u32) {\n+    var carrier=0u;\n+    for(var i=0u;i<params.joint_count;i++) {\n+        var j=joints[i];if(j.kind!=JOINT_FILTER){continue;}\n+        if(j.revolute_axes_step!=params.physics_step) {\n+            j.revolute_axes_step=params.physics_step;\n+            j.weld_linear_impulse=vec3<f32>(0.0);\n+            j.spring_angular_impulse=vec3<f32>(0.0);\n+            j.motor_angular_impulse=vec3<f32>(0.0);\n+            j.angular_impulse=vec3<f32>(0.0);\n+        }\n+        let index=u32(j.weld_linear_impulse.x);\n+        var value=f32(iterations);\n+        if(carrier==1u){value=cv_last_v;}if(carrier==2u){value=cv_last_i;}\n+        if(index<3u){j.spring_angular_impulse[index]=value;}\n+        else if(index<6u){j.motor_angular_impulse[index-3u]=value;}\n+        else if(index<8u){j.angular_impulse[index-6u]=value;}\n+        j.weld_linear_impulse.x+=1.0;\n+        j.weld_linear_impulse.y+=select(1.0,0.0,cv_quiet>=2u);\n+        j.weld_linear_impulse.z=f32(params.use_bias);\n+        joints[i]=j;carrier++;\n+        if(carrier==3u){break;}\n+    }\n+}\n+\n // TGS contact GS, friction/rolling, overflow, joints.\n \n // Native convex contacts prepare an inverse, pack its lower triangle, then\n@@ -714,6 +782,8 @@\n     var slot = root;\n     for (var i = 0u; i < count; i++) {\n         var c = load_solve_contact(slot);\n+        let cv_old_c=c;\n+        let cv_old_a=*ba;let cv_old_b=*bb;\n         if (c.count > 0u) {\n             if (mode == 2u) { warm_manifold(c, ba, bb); }\n             else if (mode == 3u) {\n@@ -726,6 +796,7 @@\n                 else { store_solve_contact(slot, c); }\n             }\n         }\n+        cv_c(cv_old_c,c);cv_b(cv_old_a,*ba);cv_b(cv_old_b,*bb);\n         if (i + 1u < count) { slot = c.manifold_link.x - 1u; }\n     }\n }\n@@ -2027,6 +2098,18 @@\n // contacts. Barriers retain Gauss-Seidel priority between colors.\n @compute @workgroup_size(64)\n fn solve_jointed_wave(@builtin(local_invocation_index) lid: u32) {\n+    if(lid==0u){\n+        cv_on=select(0u,1u,params.use_bias<2u && (params.diagnostic_flags & SOLVER_PAIRED_NORMALS)!=0u);\n+        cv_quiet=0u;cv_stop=0u;\n+    }\n+    workgroupBarrier();\n+    let cv_enabled=workgroupUniformLoad(&cv_on);\n+    let limit=select(1u,1u,cv_enabled!=0u);\n+    var iterations=0u;\n+    for(var sweep=0u;sweep<limit;sweep++) {\n+        if(lid==0u){atomicStore(&cv_velocity,0u);atomicStore(&cv_impulse,0u);}\n+        workgroupBarrier();\n+\n     let ncomp = scratch[SCR_JOINT_COMP_N];\n     for (var order = 0u; order <= OVERFLOW_COLOR; order++) {\n         let color = select(order - 1u, OVERFLOW_COLOR, order == 0u);\n@@ -2059,6 +2142,19 @@\n         storageBarrier();\n         workgroupBarrier();\n     }\n+\n+        iterations=sweep+1u;\n+        if(lid==0u){\n+            cv_last_v=bitcast<f32>(atomicLoad(&cv_velocity));\n+            cv_last_i=bitcast<f32>(atomicLoad(&cv_impulse));\n+            if(max(cv_last_v,cv_last_i)<=1e-5){cv_quiet++;}else{cv_quiet=0u;}\n+            cv_stop=select(0u,1u,cv_quiet>=2u);\n+        }\n+        workgroupBarrier();\n+        if(workgroupUniformLoad(&cv_stop)!=0u){break;}\n+    }\n+    if(lid==0u && cv_enabled!=0u){cv_report(iterations);}\n+    storageBarrier();workgroupBarrier();\n }\n \n fn solve_joint_components(dispatch_gid: vec3<u32>, lid: u32, by_color: bool, color_select: u32) {\n@@ -2092,6 +2188,7 @@\n             i = scratch[joint_list_base() + list_off + k];\n         }\n         var jn = joints[i];\n+        let cv_old_j=jn;\n         if (jn.kind == JOINT_NONE || jn.kind == JOINT_FILTER) {\n             continue;\n         }\n@@ -2108,6 +2205,7 @@\n         }\n         var ba = load_body(jn.a);\n         var bb = load_body(jn.b);\n+        let cv_old_a=ba;let cv_old_b=bb;\n         // Sleeping solver sets retain impulses until an endpoint wakes.\n         if (is_immovable(ba) && is_immovable(bb)) {\n             continue;\n@@ -2479,6 +2577,7 @@\n         if (joint_endpoint_writable(bb)) {\n             store_body(jn.b, bb);\n         }\n+        cv_j(cv_old_j,jn);cv_b(cv_old_a,ba);cv_b(cv_old_b,bb);\n         joints[i] = jn;\n     }\n }\n",
+    "candidate": "--- a/shaders/physics/solve.wgsl\n+++ b/shaders/physics/solve.wgsl\n@@ -1,3 +1,71 @@\n+// Artifact-only convergence audit for the single-workgroup joint/contact wave.\n+var<workgroup> cv_on: u32;\n+var<workgroup> cv_velocity: atomic<u32>;\n+var<workgroup> cv_impulse: atomic<u32>;\n+var<workgroup> cv_stop: u32;\n+var<workgroup> cv_quiet: u32;\n+var<workgroup> cv_last_v: f32;\n+var<workgroup> cv_last_i: f32;\n+fn cv_change(a:f32,b:f32)->f32 {\n+    if (!(abs(a)<=3.402823e38) || !(abs(b)<=3.402823e38)) { return bitcast<f32>(0x7f800000u); }\n+    return abs(b-a)/(1.0+max(abs(a),abs(b)));\n+}\n+fn cv_i(a:f32,b:f32) { if(cv_on!=0u) { atomicMax(&cv_impulse,bitcast<u32>(cv_change(a,b))); } }\n+fn cv_i3(a:vec3<f32>,b:vec3<f32>) { for(var i=0u;i<3u;i++){cv_i(a[i],b[i]);} }\n+fn cv_b(a:Body,b:Body) {\n+    if(cv_on!=0u) { for(var i=0u;i<3u;i++) {\n+        atomicMax(&cv_velocity,bitcast<u32>(cv_change(a.vel[i],b.vel[i])));\n+        atomicMax(&cv_velocity,bitcast<u32>(cv_change(a.omega[i],b.omega[i])));\n+    } }\n+}\n+fn cv_j(a:Joint,b:Joint) {\n+    if(cv_on==0u){return;}\n+    cv_i(a.impulse,b.impulse);cv_i(a.spring_impulse,b.spring_impulse);\n+    cv_i(a.motor_impulse,b.motor_impulse);cv_i(a.lower_impulse,b.lower_impulse);\n+    cv_i(a.upper_impulse,b.upper_impulse);cv_i(a.swing_impulse,b.swing_impulse);\n+    cv_i(a.perp_impulse.x,b.perp_impulse.x);cv_i(a.perp_impulse.y,b.perp_impulse.y);\n+    cv_i3(a.angular_impulse,b.angular_impulse);\n+    cv_i3(a.spring_angular_impulse,b.spring_angular_impulse);\n+    cv_i3(a.motor_angular_impulse,b.motor_angular_impulse);\n+    cv_i3(a.weld_linear_impulse,b.weld_linear_impulse);\n+    cv_i3(a.weld_angular_impulse,b.weld_angular_impulse);\n+}\n+fn cv_c(a:Contact,b:Contact) {\n+    if(cv_on==0u){return;}\n+    cv_i(a.rb0.w,b.rb0.w);cv_i(a.rb1.w,b.rb1.w);cv_i(a.rb2.w,b.rb2.w);cv_i(a.rb3.w,b.rb3.w);\n+    cv_i(a.friction_impulse.x,b.friction_impulse.x);cv_i(a.friction_impulse.y,b.friction_impulse.y);\n+    cv_i(a.twist_impulse,b.twist_impulse);cv_i3(a.rolling_impulse,b.rolling_impulse);\n+    // This monotonic accumulator is consumed only by a zero/nonzero restitution gate.\n+    // Its magnitude is not a fixed-point impulse; preserve and monitor the consumed state.\n+    for(var i=0u;i<4u;i++){\n+        cv_i(select(0.0,1.0,a.total_normal_impulse[i]!=0.0),select(0.0,1.0,b.total_normal_impulse[i]!=0.0));\n+    }\n+}\n+fn cv_report(iterations:u32) {\n+    var carrier=0u;\n+    for(var i=0u;i<params.joint_count;i++) {\n+        var j=joints[i];if(j.kind!=JOINT_FILTER){continue;}\n+        if(j.revolute_axes_step!=params.physics_step) {\n+            j.revolute_axes_step=params.physics_step;\n+            j.weld_linear_impulse=vec3<f32>(0.0);\n+            j.spring_angular_impulse=vec3<f32>(0.0);\n+            j.motor_angular_impulse=vec3<f32>(0.0);\n+            j.angular_impulse=vec3<f32>(0.0);\n+        }\n+        let index=u32(j.weld_linear_impulse.x);\n+        var value=f32(iterations);\n+        if(carrier==1u){value=cv_last_v;}if(carrier==2u){value=cv_last_i;}\n+        if(index<3u){j.spring_angular_impulse[index]=value;}\n+        else if(index<6u){j.motor_angular_impulse[index-3u]=value;}\n+        else if(index<8u){j.angular_impulse[index-6u]=value;}\n+        j.weld_linear_impulse.x+=1.0;\n+        j.weld_linear_impulse.y+=select(1.0,0.0,cv_quiet>=2u);\n+        j.weld_linear_impulse.z=f32(params.use_bias);\n+        joints[i]=j;carrier++;\n+        if(carrier==3u){break;}\n+    }\n+}\n+\n // TGS contact GS, friction/rolling, overflow, joints.\n \n // Native convex contacts prepare an inverse, pack its lower triangle, then\n@@ -714,6 +782,8 @@\n     var slot = root;\n     for (var i = 0u; i < count; i++) {\n         var c = load_solve_contact(slot);\n+        let cv_old_c=c;\n+        let cv_old_a=*ba;let cv_old_b=*bb;\n         if (c.count > 0u) {\n             if (mode == 2u) { warm_manifold(c, ba, bb); }\n             else if (mode == 3u) {\n@@ -726,6 +796,7 @@\n                 else { store_solve_contact(slot, c); }\n             }\n         }\n+        cv_c(cv_old_c,c);cv_b(cv_old_a,*ba);cv_b(cv_old_b,*bb);\n         if (i + 1u < count) { slot = c.manifold_link.x - 1u; }\n     }\n }\n@@ -2027,6 +2098,18 @@\n // contacts. Barriers retain Gauss-Seidel priority between colors.\n @compute @workgroup_size(64)\n fn solve_jointed_wave(@builtin(local_invocation_index) lid: u32) {\n+    if(lid==0u){\n+        cv_on=select(0u,1u,params.use_bias<2u && (params.diagnostic_flags & SOLVER_PAIRED_NORMALS)!=0u);\n+        cv_quiet=0u;cv_stop=0u;\n+    }\n+    workgroupBarrier();\n+    let cv_enabled=workgroupUniformLoad(&cv_on);\n+    let limit=select(1u,128u,cv_enabled!=0u);\n+    var iterations=0u;\n+    for(var sweep=0u;sweep<limit;sweep++) {\n+        if(lid==0u){atomicStore(&cv_velocity,0u);atomicStore(&cv_impulse,0u);}\n+        workgroupBarrier();\n+\n     let ncomp = scratch[SCR_JOINT_COMP_N];\n     for (var order = 0u; order <= OVERFLOW_COLOR; order++) {\n         let color = select(order - 1u, OVERFLOW_COLOR, order == 0u);\n@@ -2059,6 +2142,19 @@\n         storageBarrier();\n         workgroupBarrier();\n     }\n+\n+        iterations=sweep+1u;\n+        if(lid==0u){\n+            cv_last_v=bitcast<f32>(atomicLoad(&cv_velocity));\n+            cv_last_i=bitcast<f32>(atomicLoad(&cv_impulse));\n+            if(max(cv_last_v,cv_last_i)<=1e-5){cv_quiet++;}else{cv_quiet=0u;}\n+            cv_stop=select(0u,1u,cv_quiet>=2u);\n+        }\n+        workgroupBarrier();\n+        if(workgroupUniformLoad(&cv_stop)!=0u){break;}\n+    }\n+    if(lid==0u && cv_enabled!=0u){cv_report(iterations);}\n+    storageBarrier();workgroupBarrier();\n }\n \n fn solve_joint_components(dispatch_gid: vec3<u32>, lid: u32, by_color: bool, color_select: u32) {\n@@ -2092,6 +2188,7 @@\n             i = scratch[joint_list_base() + list_off + k];\n         }\n         var jn = joints[i];\n+        let cv_old_j=jn;\n         if (jn.kind == JOINT_NONE || jn.kind == JOINT_FILTER) {\n             continue;\n         }\n@@ -2108,6 +2205,7 @@\n         }\n         var ba = load_body(jn.a);\n         var bb = load_body(jn.b);\n+        let cv_old_a=ba;let cv_old_b=bb;\n         // Sleeping solver sets retain impulses until an endpoint wakes.\n         if (is_immovable(ba) && is_immovable(bb)) {\n             continue;\n@@ -2479,6 +2577,7 @@\n         if (joint_endpoint_writable(bb)) {\n             store_body(jn.b, bb);\n         }\n+        cv_j(cv_old_j,jn);cv_b(cv_old_a,ba);cv_b(cv_old_b,bb);\n         joints[i] = jn;\n     }\n }\n"
+  },
+  "sources": {
+    "build_fixture.py": "import hashlib,json,subprocess,sys,shutil\nfrom pathlib import Path\nroot=Path.cwd();mode,label=sys.argv[1:];out=Path(__file__).resolve().parent/f'{label}-{mode}';out.mkdir(exist_ok=False)\ninclude=root.parents[1]/'box3d/include';shared=root.parents[1]/'box3d/shared';commands=[]\ndef run(cmd):\n commands.append([str(x) for x in cmd]);subprocess.run(commands[-1],check=True)\nobjects=[]\nfor name in ['human','utils']:\n obj=out/(name+'.o');run(['cc','-O2','-DNDEBUG','-ffunction-sections','-fdata-sections','-I',include,'-I',shared,'-c',shared/(name+'.c'),'-o',obj]);objects.append(obj)\ncpulib=root/'native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a';libs=[cpulib];extra=[]\nif mode!='cpu':\n lib=out.parent/f'{label}-libgpu_physics.a';libs.insert(0,lib)\n stub=out/'stubs.o';run(['cc','-O2','-I',include,'-c',root/'c_abi/samples_stubs.c','-o',stub])\n api=root/'native-samples'/('build-gpu' if mode=='ordinary' else 'build-gpu-native-cache')/'libgpu_samples_api.a';libs.insert(0,api)\n extra=['-Wl,--allow-multiple-definition','-Wl,--wrap=b3CreateCompound','-Wl,--whole-archive',api,'-Wl,--no-whole-archive',lib,stub]\nrun(['g++','-O2','-DNDEBUG','-std=c++17','-Wl,--gc-sections',root/'c_abi/rain_cell_reference.cpp','-I',include,'-I',shared,*objects,*extra,cpulib,'-ldl','-lpthread','-lm','-lgcc_s','-lGL','-o',out/'fixture'])\ndigest=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\n(out/'source.patch').write_bytes(subprocess.check_output(['git','diff','--','src','shaders','c_abi','scripts']))\n(out/'manifest.json').write_text(json.dumps(dict(mode=mode,label=label,commands=commands,binary_sha256=digest(out/'fixture'),libraries={str(p):digest(p) for p in libs},shader_sha256=digest(root/'shaders/physics/solve.wgsl')),indent=2)+'\\n')\n",
+    "build.py": "from pathlib import Path\nimport subprocess,shutil,hashlib,json,sys\narm=sys.argv[1]\nroot=Path(__file__).resolve().parent\nshader=Path('shaders/physics/solve.wgsl')\noriginal=(root/'original-solve.wgsl').read_bytes()\nassert shader.read_bytes()==original\ntry:\n shader.write_bytes((root/f'{arm}-solve.wgsl').read_bytes())\n with (root/f'{arm}-build.log').open('w') as log:\n  r=subprocess.run(['cargo','build','--release','--lib','--features','replay-diagnostics'],env=__import__('os').environ|{'CARGO_BUILD_JOBS':'1'},stdout=log,stderr=subprocess.STDOUT)\n (root/f'{arm}-build-exit.json').write_text(json.dumps({'exit':r.returncode}))\n if r.returncode:raise SystemExit(r.returncode)\n shutil.copy2('target/release/libgpu_physics.a',root/f'{arm}-libgpu_physics.a')\nfinally:\n shader.write_bytes(original)\n (root/f'{arm}-restoration.json').write_text(json.dumps({'source_restored':shader.read_bytes()==original,'sha256':hashlib.sha256(original).hexdigest()}))\n",
+    "run_control.py": "from pathlib import Path\nimport subprocess,os,json,hashlib,time,copy\np=Path(__file__).resolve().parent\nsubprocess.run(['python3',str(p/'build_fixture.py'),'ordinary','control'],check=True)\nfor case,row,col,base in [('hip','3','9','3907'),('severe','9','1','4999')]:\n out=p/f'{case}-control';out.mkdir(exist_ok=False);fixture=p/'control-ordinary/fixture'\n env={k:v for k,v in os.environ.items() if not k.startswith(('GPU_PHYSICS_','WGPU_','RAIN_'))}\n env.update(RAIN_CELL_ROW=row,RAIN_CELL_COLUMN=col,RAIN_REPLAY_BASE=base,RAIN_REPLAY_STATE=str(p/f'{case}-initial.txt'),RAIN_REPLAY_LIMITS='1',RAIN_REPLAY_HEALTH='1',RAIN_REPLAY_COLLISIONS='1',GPU_PHYSICS_LIVE_CONTACT_ORDER='0',WGPU_BACKEND='vulkan',GPU_PHYSICS_PIPELINE_CACHE_DIR=str(Path.home()/'.cache/box3d-gpu-physics/pipelines'),GPU_PHYSICS_STATE_TRACE=str(out/'trace.jsonl'))\n command=[str(fixture),'120'];(out/'manifest.json').write_text(json.dumps(dict(command=command,binary_sha256=hashlib.sha256(fixture.read_bytes()).hexdigest(),environment={k:v for k,v in env.items() if k.startswith(('GPU_','WGPU_','RAIN_'))}),indent=2));start=time.monotonic()\n with (out/'state.txt').open('w') as stdout,(out/'run.log').open('w') as stderr:r=subprocess.run(command,env=env,stdout=stdout,stderr=stderr)\n (out/'exit.json').write_text(json.dumps(dict(exit=r.returncode,seconds=time.monotonic()-start),indent=2));print(case,r.returncode,flush=True)\n if r.returncode:raise SystemExit(r.returncode)\n old=p.parent/f'rain-coupled-cone-point-experiment/{case}-baseline/state.txt';same=(out/'state.txt').read_bytes()==old.read_bytes();assert same\n counts=[];changed=[]\n reference=(p.parent/'rain-coupled-anchor-audit/baseline/trace.jsonl').open() if case=='hip' else None\n for frame,line in enumerate((out/'trace.jsonl').open(),1):\n  data=json.loads(line);assert data['frame']==frame and len(data['bodies'])==43\n  filters=[j for j in data['joints'] if j['kind']==5];assert len(filters)==3 and len([j for j in data['joints'] if j['kind']==3])==27 and len([j for j in data['joints'] if j['kind']==1])==12\n  import struct\n  f=lambda x:struct.unpack('!f',bytes.fromhex(x))[0]\n  for j in filters:\n   assert j['revolute_axes_step']==frame and f(j['weld_linear_impulse'][0])==8\n  assert all(f(x)==1 for x in filters[0]['spring_angular_impulse']+filters[0]['motor_angular_impulse']+filters[0]['angular_impulse'][:2])\n  if reference:\n   baseline=json.loads(reference.readline())\n   for a,b in zip(baseline['joints'],data['joints']):\n    assert a['identity']==b['identity']\n    if a['kind']==5:\n     for key in ['revolute_axes_step','weld_linear_impulse','spring_angular_impulse','motor_angular_impulse','angular_impulse']:a.pop(key);b.pop(key)\n   diff=[k for k in data if data[k]!=baseline[k]]\n   if diff:changed.append({'frame':frame,'keys':diff})\n  counts.append(frame)\n assert counts==list(range(1,121))\n if reference:assert not reference.readline();reference.close()\n result=dict(body_stream_exact=same,frames=120,complete_state_changes_excluding_carriers=changed)\n (out/'validation.json').write_text(json.dumps(result,indent=2));print(case,result,flush=True)\n assert not changed\n",
+    "run_probe.py": "from pathlib import Path\nimport subprocess,os,json,hashlib,time,struct,math\np=Path(__file__).resolve().parent\nfor case in ['hip','severe']:\n r=json.loads((p/f'{case}-control'/('audited-validation.json' if case=='hip' else 'validation.json')).read_text());assert r['body_stream_exact'] and not r['complete_state_changes_excluding_carriers']\nsubprocess.run(['python3',str(p/'build_fixture.py'),'ordinary','candidate'],check=True)\nout=p/'hip-probe';out.mkdir(exist_ok=False);fixture=p/'candidate-ordinary/fixture'\nenv={k:v for k,v in os.environ.items() if not k.startswith(('GPU_PHYSICS_','WGPU_','RAIN_'))}\nenv.update(RAIN_CELL_ROW='3',RAIN_CELL_COLUMN='9',RAIN_REPLAY_BASE='3907',RAIN_REPLAY_STATE=str(p/'hip-initial.txt'),RAIN_REPLAY_LIMITS='1',RAIN_REPLAY_HEALTH='1',RAIN_REPLAY_COLLISIONS='1',GPU_PHYSICS_LIVE_CONTACT_ORDER='0',WGPU_BACKEND='vulkan',GPU_PHYSICS_PIPELINE_CACHE_DIR=str(Path.home()/'.cache/box3d-gpu-physics/pipelines'),GPU_PHYSICS_STATE_TRACE=str(out/'trace.jsonl'))\ncommand=[str(fixture),'1'];(out/'manifest.json').write_text(json.dumps(dict(command=command,binary_sha256=hashlib.sha256(fixture.read_bytes()).hexdigest(),environment={k:v for k,v in env.items() if k.startswith(('GPU_','WGPU_','RAIN_'))}),indent=2));start=time.monotonic()\nwith (out/'state.txt').open('w') as stdout,(out/'run.log').open('w') as stderr:r=subprocess.run(command,env=env,stdout=stdout,stderr=stderr)\n(out/'exit.json').write_text(json.dumps(dict(exit=r.returncode,seconds=time.monotonic()-start),indent=2));print('probe child exit',r.returncode,flush=True)\nif r.returncode:raise SystemExit(r.returncode)\nf=lambda x:struct.unpack('!f',bytes.fromhex(x))[0]\nframes=[json.loads(t) for t in (out/'trace.jsonl').read_text().splitlines()];assert len(frames)==1;d=frames[0];assert d['frame']==1 and len(d['bodies'])==43\nfilters=[j for j in d['joints'] if j['kind']==5];assert len(filters)==3\nvalues=[];caps=[]\nfor j in filters:\n assert j['revolute_axes_step']==1 and f(j['weld_linear_impulse'][0])==8\n values.append([f(x) for x in j['spring_angular_impulse']+j['motor_angular_impulse']+j['angular_impulse'][:2]]);caps.append(f(j['weld_linear_impulse'][1]))\nassert len(set(caps))==1\npasses=[]\nfor i,(count,vel,imp) in enumerate(zip(*values)):\n assert all(math.isfinite(x) for x in [count,vel,imp]) and int(count)==count and 2<=count<=128 and vel>=0 and imp>=0\n passes.append({'substep':i//2,'phase':'bias' if i%2==0 else 'relax','iterations':int(count),'last_velocity_change':vel,'last_impulse_change':imp,'last_change_below_threshold':max(vel,imp)<=1e-5})\nrows=[t.split() for t in (out/'state.txt').read_text().splitlines()];assert len(rows)==42 and {int(t[0]) for t in rows}=={0} and len({int(t[1]) for t in rows})==42 and all(len(t)==16 and all(math.isfinite(float(x)) for x in t[2:]) for t in rows)\ninitial={int(t[1]):list(map(float,t[2:15])) for t in map(str.split,(p/'hip-initial.txt').read_text().splitlines())};getters={int(t[1]):list(map(float,t[2:])) for t in map(str.split,(out/'run.log').read_text().splitlines()) if t and t[0]=='replay-initial'}\npack=lambda x:struct.pack('<'+'f'*len(x),*x);assert set(initial)==set(getters) and all(pack(initial[k])==pack(getters[k]) for k in initial)\nresult={'status':'converged' if caps[0]==0 else 'nonconverged','initial_getters_exact':True,'passes':passes,'nonconverged_pass_count':int(caps[0]),'stop_expansion':caps[0]!=0,'scope':'One step convergence discriminator only; not Rain physical acceptance'}\nassert caps[0]>=sum(not p['last_change_below_threshold'] for p in passes)\n(out/'validation.json').write_text(json.dumps(result,indent=2));print(json.dumps(result,indent=2),flush=True)\nif caps[0]:raise SystemExit(1)\n",
+    "validate_semantic_control.py": "from pathlib import Path\nimport importlib.util,json,hashlib,copy\np=Path(__file__).resolve().parent;script=Path('scripts/compare-core-state.py');spec=importlib.util.spec_from_file_location('comparison',script);comparison=importlib.util.module_from_spec(spec);spec.loader.exec_module(comparison)\na=p.parent/'rain-coupled-anchor-audit/baseline/trace.jsonl';b=p/'hip-control/trace.jsonl'\nchanged=0;frames=0\nwith a.open() as aa,b.open() as bb:\n for frame,(la,lb) in enumerate(zip(aa,bb),1):\n  x=json.loads(la);y=json.loads(lb);assert x['frame']==y['frame']==frame\n  for ja,jb in zip(x['joints'],y['joints']):\n   assert ja['identity']==jb['identity']\n   if ja['kind']==5:\n    for key in ['revolute_axes_step','weld_linear_impulse','spring_angular_impulse','motor_angular_impulse','angular_impulse']:ja.pop(key);jb.pop(key)\n  raw=comparison.difference(x,y)\n  if raw:\n   assert raw[0].startswith('$.contact_allocation.occupied_order');changed+=1\n   # Check the COMPLETE remaining document after only this known normalization.\n  xx=comparison.audited_storage_view(x);yy=comparison.audited_storage_view(y);assert comparison.difference(xx,yy) is None\n  # Corruption control: membership identity change must still reject.\n  if frame==1:\n   bad=copy.deepcopy(yy);bad['contact_allocation']['occupied_order'].pop();assert comparison.difference(xx,bad)\n   bad=copy.deepcopy(yy);bad['contacts'][0]['friction']='3f800000';assert comparison.difference(xx,bad)\n  frames+=1\nassert frames==120 and sum(1 for _ in a.open())==sum(1 for _ in b.open())==120\nresult={'status':'semantic-no-op-pass','frames':120,'body_stream_exact':True,'complete_state_changes_excluding_carriers':[],'raw_occupied_membership_order_differences':changed,'raw_comparison_failure_preserved':True,'comparison':'Existing audited_storage_view; all identities, history, solver order, contacts and dynamic state remain exact','comparator_sha256':hashlib.sha256(script.read_bytes()).hexdigest(),'input_sha256':{str(f):hashlib.sha256(f.read_bytes()).hexdigest() for f in [a,b]}}\n(p/'hip-control/audited-validation.json').write_text(json.dumps(result,indent=2));print(json.dumps(result,indent=2))\n",
+    "continue_control.py": "from pathlib import Path\nimport subprocess,os,json,hashlib,time,copy\np=Path(__file__).resolve().parent\nassert json.loads((p/'hip-control/audited-validation.json').read_text())['status']=='semantic-no-op-pass'\nfor case,row,col,base in [('severe','9','1','4999')]:\n out=p/f'{case}-control';out.mkdir(exist_ok=False);fixture=p/'control-ordinary/fixture'\n env={k:v for k,v in os.environ.items() if not k.startswith(('GPU_PHYSICS_','WGPU_','RAIN_'))}\n env.update(RAIN_CELL_ROW=row,RAIN_CELL_COLUMN=col,RAIN_REPLAY_BASE=base,RAIN_REPLAY_STATE=str(p/f'{case}-initial.txt'),RAIN_REPLAY_LIMITS='1',RAIN_REPLAY_HEALTH='1',RAIN_REPLAY_COLLISIONS='1',GPU_PHYSICS_LIVE_CONTACT_ORDER='0',WGPU_BACKEND='vulkan',GPU_PHYSICS_PIPELINE_CACHE_DIR=str(Path.home()/'.cache/box3d-gpu-physics/pipelines'),GPU_PHYSICS_STATE_TRACE=str(out/'trace.jsonl'))\n command=[str(fixture),'120'];(out/'manifest.json').write_text(json.dumps(dict(command=command,binary_sha256=hashlib.sha256(fixture.read_bytes()).hexdigest(),environment={k:v for k,v in env.items() if k.startswith(('GPU_','WGPU_','RAIN_'))}),indent=2));start=time.monotonic()\n with (out/'state.txt').open('w') as stdout,(out/'run.log').open('w') as stderr:r=subprocess.run(command,env=env,stdout=stdout,stderr=stderr)\n (out/'exit.json').write_text(json.dumps(dict(exit=r.returncode,seconds=time.monotonic()-start),indent=2));print(case,r.returncode,flush=True)\n if r.returncode:raise SystemExit(r.returncode)\n old=p.parent/f'rain-coupled-cone-point-experiment/{case}-baseline/state.txt';same=(out/'state.txt').read_bytes()==old.read_bytes();assert same\n counts=[];changed=[]\n reference=(p.parent/'rain-coupled-anchor-audit/baseline/trace.jsonl').open() if case=='hip' else None\n for frame,line in enumerate((out/'trace.jsonl').open(),1):\n  data=json.loads(line);assert data['frame']==frame and len(data['bodies'])==43\n  filters=[j for j in data['joints'] if j['kind']==5];assert len(filters)==3 and len([j for j in data['joints'] if j['kind']==3])==27 and len([j for j in data['joints'] if j['kind']==1])==12\n  import struct\n  f=lambda x:struct.unpack('!f',bytes.fromhex(x))[0]\n  for j in filters:\n   assert j['revolute_axes_step']==frame and f(j['weld_linear_impulse'][0])==8\n  assert all(f(x)==1 for x in filters[0]['spring_angular_impulse']+filters[0]['motor_angular_impulse']+filters[0]['angular_impulse'][:2])\n  if reference:\n   baseline=json.loads(reference.readline())\n   for a,b in zip(baseline['joints'],data['joints']):\n    assert a['identity']==b['identity']\n    if a['kind']==5:\n     for key in ['revolute_axes_step','weld_linear_impulse','spring_angular_impulse','motor_angular_impulse','angular_impulse']:a.pop(key);b.pop(key)\n   diff=[k for k in data if data[k]!=baseline[k]]\n   if diff:changed.append({'frame':frame,'keys':diff})\n  counts.append(frame)\n assert counts==list(range(1,121))\n if reference:assert not reference.readline();reference.close()\n result=dict(body_stream_exact=same,frames=120,complete_state_changes_excluding_carriers=changed)\n (out/'validation.json').write_text(json.dumps(result,indent=2));print(case,result,flush=True)\n assert not changed\n",
+    "check_final_motor.py": "from pathlib import Path\nimport json,struct,hashlib\nimport numpy as np\np=Path(__file__).resolve().parent;trace=p/'hip-probe/trace.jsonl';ds=[json.loads(t) for t in trace.read_text().splitlines()];assert len(ds)==1;d=ds[0]\nf=lambda x:struct.unpack('!f',bytes.fromhex(x))[0]\nv=lambda xs:np.array([f(x) for x in xs])\ndef R(q):\n x,y,z,w=q;return np.array([[1-2*(y*y+z*z),2*(x*y-z*w),2*(x*z+y*w)],[2*(x*y+z*w),1-2*(x*x+z*z),2*(y*z-x*w)],[2*(x*z-y*w),2*(y*z+x*w),1-2*(x*x+y*y)]])\nbs={b['identity']:b for b in d['bodies']};starts=dict(zip(d['body_storage_order'],d['host_state']['step_start_bodies']))\ndef inertia(b):\n dg=v(b['inv_inertia']);lo=v(b['gpu_motion']['inv_inertia_offdiag']);hi=v(b['gpu_motion']['inv_inertia_upper']);local=np.array([[dg[0],hi[0],hi[1]],[lo[0],dg[1],hi[2]],[lo[1],lo[2],dg[2]]]);q=R(v(starts[b['identity']]['rot']));return q@local@q.T\nrows=[]\nfor j in d['joints']:\n if j['kind']!=3:continue\n assert j['flags']&8\n a,b=[bs[j[k]] for k in ['a','b']];K=inertia(a)+inertia(b);K=(K+K.T)/2;old=v(j['motor_angular_impulse']);w=v(b['omega'])-v(a['omega'])-v(j['motor_angular_velocity']);g=w-K@old;r=f(j['max_motor_force'])*f(d['settings']['dt']);unconstrained=-np.linalg.solve(K,g);radial=unconstrained*min(1.,r/max(1e-300,np.linalg.norm(unconstrained)));e,V=np.linalg.eigh(K);z=V.T@g;exact=unconstrained\n if np.linalg.norm(unconstrained)>r:\n  lo=0.;hi=np.linalg.norm(g)/r\n  for _ in range(64):\n   mid=.5*(lo+hi)\n   if np.linalg.norm(z/(e+mid))>r:lo=mid\n   else:hi=mid\n  exact=-(V@(z/(e+hi)))\n obj=lambda x:float(.5*x@K@x+g@x)\n assert obj(exact)<=obj(old)+1e-9\n rows.append({'joint':j['identity'],'radial_change':obj(radial)-obj(old),'metric_change':obj(exact)-obj(old),'radial_excess':obj(radial)-obj(exact)})\nassert len(rows)==27\nresult={'scope':'Hypothetical isolated next motor updates from capped probe end state; not actual per-row inputs or proof of the cause of the cycle. Uses the previously demonstrated constrained-objective formula.','trace_sha256':hashlib.sha256(trace.read_bytes()).hexdigest(),'cases':27,'radial_increase_count':sum(r['radial_change']>1e-10 for r in rows),'maximum_radial_increase':max(r['radial_change'] for r in rows),'maximum_metric_change':max(r['metric_change'] for r in rows),'worst':max(rows,key=lambda r:r['radial_change']),'rows':rows}\n(p/'final-motor-check.json').write_text(json.dumps(result,indent=2));print(json.dumps({k:v for k,v in result.items() if k!='rows'},indent=2))\n",
+    "finalize.py": "from pathlib import Path\nimport json,hashlib,subprocess\nroot=Path('experiments/gpu-physics');p=root/'artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence'\ndigest=lambda f:hashlib.sha256(f.read_bytes()).hexdigest()\nassert (root/'shaders/physics/solve.wgsl').read_bytes()==(p/'original-solve.wgsl').read_bytes()\nassert digest(root/'target/release/libgpu_physics.a')=='b3f2b64239d72c95c8e1746f9bd40a95152fb7a2c6ab373a6e2bd2986cf5265b'\nprobe=json.loads((p/'hip-probe/validation.json').read_text());assert probe['status']=='nonconverged' and probe['nonconverged_pass_count']==5\nhip=json.loads((p/'hip-control/audited-validation.json').read_text());severe=json.loads((p/'severe-control/validation.json').read_text());assert hip['body_stream_exact'] and severe['body_stream_exact'] and not hip['complete_state_changes_excluding_carriers'] and not severe['complete_state_changes_excluding_carriers']\nrestore={'source_restored_byte_exact':True,'normal_build_exit':0,'normal_archive_sha256':digest(root/'target/release/libgpu_physics.a')};(p/'normal-restoration.json').write_text(json.dumps(restore,indent=2))\nrecord={'date':'2026-09-29','head':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'status':'nonconverged-stop-expansion','scope':'Artifact-only ordinary43body Rain-cell one-step numerical convergence discriminator. No physical acceptance, production adoption, native cached/full-scene/repeat qualification or performance claim.','protocol':(p/'protocol.txt').read_text(),'comparison_addendum':json.loads((p/'comparison-addendum.json').read_text()),'accumulator_scope_correction':json.loads((p/'accumulator-scope.json').read_text()),'driver_outcomes':json.loads((p/'driver-outcomes.json').read_text()),'noop_hip':hip,'noop_severe':severe,'probe':probe,'final_motor_check':json.loads((p/'final-motor-check.json').read_text()),'restoration':restore,'patches':{name:(p/f'{name}.patch').read_text() for name in ['control','candidate']},'sources':{f.name:f.read_text() for f in p.iterdir() if f.suffix in ['.py','.rs']},'comparator_source':(root/'scripts/compare-core-state.py').read_text(),'hashes':{str(f.relative_to(p)):digest(f) for f in sorted(p.rglob('*')) if f.is_file() and f.suffix in ['.json','.jsonl','.py','.rs','.wgsl','.patch','.txt','.log']},'archives':{str(f.relative_to(p)):digest(f) for f in p.rglob('*.a')},'manifests':{str(f.relative_to(p)):json.loads(f.read_text()) for f in p.rglob('manifest.json')},'failure_receipts':{str(f.relative_to(p)):json.loads(f.read_text()) for f in p.rglob('exit.json')}}\n(root/'benchmarks/2026-09-29-rain-wave-convergence.json').write_text(json.dumps(record,indent=2)+'\\n');print('Saved nonconverged result and all failed/control provenance; normal baseline restored.')\n",
+    "validate_wgsl.rs": "fn main(){let p=std::env::args().nth(1).unwrap();let s=std::fs::read_to_string(p).unwrap();let m=naga::front::wgsl::parse_str(&s).unwrap_or_else(|e|panic!(\"{}\",e.emit_to_string(&s)));naga::valid::Validator::new(naga::valid::ValidationFlags::all(),naga::valid::Capabilities::all()).validate(&m).unwrap();println!(\"WGSL parse and validation passed\");}\n",
+    "prepare.py": "from pathlib import Path\nimport shutil,json,hashlib,difflib\nroot=Path('experiments/gpu-physics');base=root/'artifacts/gpu-solver-qualification/desktop-baseline';p=base/'rain-wave-convergence';p.mkdir(exist_ok=False)\noriginal=(root/'shaders/physics/solve.wgsl').read_text()\nhelper='''// Artifact-only convergence audit for the single-workgroup joint/contact wave.\nvar<workgroup> cv_on: u32;\nvar<workgroup> cv_velocity: atomic<u32>;\nvar<workgroup> cv_impulse: atomic<u32>;\nvar<workgroup> cv_stop: u32;\nvar<workgroup> cv_quiet: u32;\nvar<workgroup> cv_last_v: f32;\nvar<workgroup> cv_last_i: f32;\nfn cv_change(a:f32,b:f32)->f32 {\n    if (!(abs(a)<=3.402823e38) || !(abs(b)<=3.402823e38)) { return bitcast<f32>(0x7f800000u); }\n    return abs(b-a)/(1.0+max(abs(a),abs(b)));\n}\nfn cv_i(a:f32,b:f32) { if(cv_on!=0u) { atomicMax(&cv_impulse,bitcast<u32>(cv_change(a,b))); } }\nfn cv_i3(a:vec3<f32>,b:vec3<f32>) { for(var i=0u;i<3u;i++){cv_i(a[i],b[i]);} }\nfn cv_b(a:Body,b:Body) {\n    if(cv_on!=0u) { for(var i=0u;i<3u;i++) {\n        atomicMax(&cv_velocity,bitcast<u32>(cv_change(a.vel[i],b.vel[i])));\n        atomicMax(&cv_velocity,bitcast<u32>(cv_change(a.omega[i],b.omega[i])));\n    } }\n}\nfn cv_j(a:Joint,b:Joint) {\n    if(cv_on==0u){return;}\n    cv_i(a.impulse,b.impulse);cv_i(a.spring_impulse,b.spring_impulse);\n    cv_i(a.motor_impulse,b.motor_impulse);cv_i(a.lower_impulse,b.lower_impulse);\n    cv_i(a.upper_impulse,b.upper_impulse);cv_i(a.swing_impulse,b.swing_impulse);\n    cv_i(a.perp_impulse.x,b.perp_impulse.x);cv_i(a.perp_impulse.y,b.perp_impulse.y);\n    cv_i3(a.angular_impulse,b.angular_impulse);\n    cv_i3(a.spring_angular_impulse,b.spring_angular_impulse);\n    cv_i3(a.motor_angular_impulse,b.motor_angular_impulse);\n    cv_i3(a.weld_linear_impulse,b.weld_linear_impulse);\n    cv_i3(a.weld_angular_impulse,b.weld_angular_impulse);\n}\nfn cv_c(a:Contact,b:Contact) {\n    if(cv_on==0u){return;}\n    cv_i(a.rb0.w,b.rb0.w);cv_i(a.rb1.w,b.rb1.w);cv_i(a.rb2.w,b.rb2.w);cv_i(a.rb3.w,b.rb3.w);\n    cv_i(a.friction_impulse.x,b.friction_impulse.x);cv_i(a.friction_impulse.y,b.friction_impulse.y);\n    cv_i(a.twist_impulse,b.twist_impulse);cv_i3(a.rolling_impulse,b.rolling_impulse);\n    // This monotonic accumulator is consumed only by a zero/nonzero restitution gate.\n    // Its magnitude is not a fixed-point impulse; preserve and monitor the consumed state.\n    for(var i=0u;i<4u;i++){\n        cv_i(select(0.0,1.0,a.total_normal_impulse[i]!=0.0),select(0.0,1.0,b.total_normal_impulse[i]!=0.0));\n    }\n}\nfn cv_report(iterations:u32) {\n    var carrier=0u;\n    for(var i=0u;i<params.joint_count;i++) {\n        var j=joints[i];if(j.kind!=JOINT_FILTER){continue;}\n        if(j.revolute_axes_step!=params.physics_step) {\n            j.revolute_axes_step=params.physics_step;\n            j.weld_linear_impulse=vec3<f32>(0.0);\n            j.spring_angular_impulse=vec3<f32>(0.0);\n            j.motor_angular_impulse=vec3<f32>(0.0);\n            j.angular_impulse=vec3<f32>(0.0);\n        }\n        let index=u32(j.weld_linear_impulse.x);\n        var value=f32(iterations);\n        if(carrier==1u){value=cv_last_v;}if(carrier==2u){value=cv_last_i;}\n        if(index<3u){j.spring_angular_impulse[index]=value;}\n        else if(index<6u){j.motor_angular_impulse[index-3u]=value;}\n        else if(index<8u){j.angular_impulse[index-6u]=value;}\n        j.weld_linear_impulse.x+=1.0;\n        j.weld_linear_impulse.y+=select(1.0,0.0,cv_quiet>=2u);\n        j.weld_linear_impulse.z=f32(params.use_bias);\n        joints[i]=j;carrier++;\n        if(carrier==3u){break;}\n    }\n}\n\n'''\ns=helper+original\n# Track every contact manifold's reusable cache and its endpoint velocity change.\ns=s.replace('        var c = load_solve_contact(slot);\\n        if (c.count > 0u) {','        var c = load_solve_contact(slot);\\n        let cv_old_c=c;\\n        let cv_old_a=*ba;let cv_old_b=*bb;\\n        if (c.count > 0u) {',1)\ns=s.replace('        if (i + 1u < count) { slot = c.manifold_link.x - 1u; }','        cv_c(cv_old_c,c);cv_b(cv_old_a,*ba);cv_b(cv_old_b,*bb);\\n        if (i + 1u < count) { slot = c.manifold_link.x - 1u; }',1)\n# Track Rain's revolute/spherical joint calls; other kinds are outside this discriminator.\nstart=s.index('fn solve_joint_components(');end=s.index('\\n@compute',start);part=s[start:end]\npart=part.replace('        var jn = joints[i];','        var jn = joints[i];\\n        let cv_old_j=jn;',1)\npart=part.replace('        var bb = load_body(jn.b);','        var bb = load_body(jn.b);\\n        let cv_old_a=ba;let cv_old_b=bb;',1)\npart=part.replace('        joints[i] = jn;','        cv_j(cv_old_j,jn);cv_b(cv_old_a,ba);cv_b(cv_old_b,bb);\\n        joints[i] = jn;',1)\ns=s[:start]+part+s[end:]\n# Keep the original inner color wave text exactly; wrap it in uniform adaptive control.\nstart=s.index('fn solve_jointed_wave(');body=s.index('{',start);end=s.index('\\nfn solve_joint_components(',start)\nold=s[body+1:end].rstrip();assert old.endswith('}');inner=old[:-1]\nnew='''\n    if(lid==0u){\n        cv_on=select(0u,1u,params.use_bias<2u && (params.diagnostic_flags & SOLVER_PAIRED_NORMALS)!=0u);\n        cv_quiet=0u;cv_stop=0u;\n    }\n    workgroupBarrier();\n    let cv_enabled=workgroupUniformLoad(&cv_on);\n    let limit=select(1u,SWEEP_LIMITu,cv_enabled!=0u);\n    var iterations=0u;\n    for(var sweep=0u;sweep<limit;sweep++) {\n        if(lid==0u){atomicStore(&cv_velocity,0u);atomicStore(&cv_impulse,0u);}\n        workgroupBarrier();\n'''+inner+'''\n        iterations=sweep+1u;\n        if(lid==0u){\n            cv_last_v=bitcast<f32>(atomicLoad(&cv_velocity));\n            cv_last_i=bitcast<f32>(atomicLoad(&cv_impulse));\n            if(max(cv_last_v,cv_last_i)<=1e-5){cv_quiet++;}else{cv_quiet=0u;}\n            cv_stop=select(0u,1u,cv_quiet>=2u);\n        }\n        workgroupBarrier();\n        if(workgroupUniformLoad(&cv_stop)!=0u){break;}\n    }\n    if(lid==0u && cv_enabled!=0u){cv_report(iterations);}\n    storageBarrier();workgroupBarrier();\n}\n'''\ns=s[:body+1]+new+s[end:]\n(p/'original-solve.wgsl').write_text(original)\nfor arm,limit in [('control',1),('candidate',128)]:\n code=s.replace('SWEEP_LIMIT',str(limit));(p/f'{arm}-solve.wgsl').write_text(code)\n (p/f'{arm}.patch').write_text(''.join(difflib.unified_diff(original.splitlines(True),code.splitlines(True),fromfile='a/shaders/physics/solve.wgsl',tofile='b/shaders/physics/solve.wgsl')))\nprev=base/'rain-hinge-block-experiment'\nfor name in ['hip-initial.txt','severe-initial.txt','baseline-libgpu_physics.a']:shutil.copy2(prev/name,p/name)\nbuild=(prev/'build_fixture.py').read_text().replace(\"lib=out.parent/'candidate-libgpu_physics.a' if label=='candidate' else out.parent/'baseline-libgpu_physics.a'\",\"lib=out.parent/f'{label}-libgpu_physics.a'\")\n(p/'build_fixture.py').write_text(build)\nscript=(prev/'build_candidate.py').read_text().replace('import subprocess,shutil,hashlib,json','import subprocess,shutil,hashlib,json,sys\\narm=sys.argv[1]').replace(\"root/'candidate-solve.wgsl'\",\"root/f'{arm}-solve.wgsl'\").replace(\"root/'build.log'\",\"root/f'{arm}-build.log'\").replace(\"root/'build-exit.json'\",\"root/f'{arm}-build-exit.json'\").replace(\"root/'candidate-libgpu_physics.a'\",\"root/f'{arm}-libgpu_physics.a'\").replace(\"root/'restoration.json'\",\"root/f'{arm}-restoration.json'\")\n(p/'build.py').write_text(script)\nprotocol='''Before evaluation: artifact-only numerical fixed-point discriminator for original43body/39activejoint Rain cell, native ordering ordinary path. Current shader, original row/contact equations and physical defaults retained. Only complete joint/contact color waves for bias/relaxation repeat; velocity/position integration, warm start and restitution remain once per scheduled phase.\nEach manifold/joint update contributes abs(new-old)/(1+max(abs(new),abs(old))) for endpoint linear/angular velocities and every reusable Rain joint/contact impulse component. Per-wave max reduced with exact ordered nonnegative float-bit atomicMax. Require both maxima<=1e-5 for TWO consecutive complete waves; fixed cap128. A cap hit is nonconvergence, never a pass; no threshold/cap retuning after results. Geometry and parameters stay fixed within a repeated wave. Contact total_normal_impulse is a monotonic bookkeeping sum consumed only by a zero/nonzero restitution gate; preserve accumulation and monitor that consumed boolean, not its non-fixed-point magnitude. Restitution policy is not altered.\nUnused fields of exactly3JOINT_FILTER records carry8bias/relaxation pass counts and last velocity/cache changes per frame; they are skipped by solver. Record carrier step tag, pass count and cap-failure count. Do not claim complete-state qualification with these diagnostic carriers. Initial schema: exactly27spherical,12revolute,3filter joints and43bodies. Larger worlds/kinds/native cached path are not covered.\nFIRST: same shader instrumentation with sweep limit1 must reproduce original120step hip and severe body streams byte-exact and original hip reusable state except documented filter carriers; any mismatch stops the experiment. THEN: candidate first original hip step, require8pass records, finite counters and convergence for every pass before extending to120step original hip/severe replays and analytical loaded-response checks. A first-step cap failure stops expansion and remains evidence against convergence, not a solver/physics pass. Original physical screens are unchanged. No fixed-iteration search, source/normal-library restoration mandatory.\n'''\n(p/'protocol.txt').write_text(protocol);(p/'preparation.json').write_text(json.dumps({'original_shader':hashlib.sha256(original.encode()).hexdigest(),'protocol_sha256':hashlib.sha256(protocol.encode()).hexdigest()},indent=2));print(p)\n"
+  },
+  "comparator_source": "#!/usr/bin/env python3\n\"\"\"Compare every frame of diagnostic core-state traces; not a full-state gate.\"\"\"\nimport argparse,gzip,json\nfrom itertools import zip_longest\nfrom pathlib import Path\n\n\ndef difference(a,b,path='$'):\n    if type(a) is not type(b): return path,a,b\n    if isinstance(a,dict):\n        if a.keys()!=b.keys(): return path+'.keys',sorted(a),sorted(b)\n        for k in sorted(a):\n            d=difference(a[k],b[k],path+'.'+k)\n            if d:return d\n    elif isinstance(a,list):\n        if len(a)!=len(b):return path+'.length',len(a),len(b)\n        for i,(x,y) in enumerate(zip(a,b)):\n            d=difference(x,y,f'{path}[{i}]')\n            if d:return d\n    elif a!=b:return path,a,b\n    return None\n\n\ndef audited_storage_view(frame):\n    \"\"\"Normalize only audited membership storage; never mutate a raw trace.\n\n    Occupied root order is atomic append order. Previous-touching storage is\n    consumed as a union of pair identities. Generation/history/owner records,\n    hash placement, solver order, public arrays and physical state stay exact.\n    See docs/gpu-solver-qualification.md and the perturbation regressions.\n    \"\"\"\n    if frame.get('schema') not in ('gpu-core-state-v19', 'gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'):\n        raise ValueError('audited storage comparison requires schema v19 through v22')\n    key = lambda value: json.dumps(value, sort_keys=True, separators=(',', ':'))\n    allocation = frame.get('contact_allocation')\n    history = frame.get('event_history')\n    if not isinstance(allocation, dict) or not isinstance(history, dict):\n        raise ValueError('missing audited storage state')\n    occupied = allocation.get('occupied_order')\n    previous = history.get('previous_touching')\n    if not isinstance(occupied, list) or not isinstance(previous, list):\n        raise ValueError('invalid audited membership arrays')\n    identities = [key(value) for value in occupied]\n    if len(set(identities)) != len(identities):\n        raise ValueError('duplicate occupied root identity')\n    for value in occupied:\n        if not isinstance(value, list) or len(value) != 2 or value[1] != 0:\n            raise ValueError('occupied membership must contain root identities')\n    unique_previous = {}\n    for value in previous:\n        if value is None:\n            continue\n        if not isinstance(value, list) or len(value) != 2 or any(\n            not isinstance(endpoint, dict) or 'shape' not in endpoint or 'child' not in endpoint\n            for endpoint in value\n        ):\n            raise ValueError('invalid previous-touching pair identity')\n        unique_previous[key(value)] = value\n    return {**frame,\n        'contact_allocation': {**allocation, 'occupied_order': sorted(occupied, key=key)},\n        'event_history': {**history, 'previous_touching': [unique_previous[k] for k in sorted(unique_previous)]}}\n\n\ndef compare(paths,frames,*,audited_storage=False):\n    mode = \"audited-membership-storage\" if audited_storage else \"raw\"\n    handles=[gzip.open(p, 'rt') if p.suffix == '.gz' else p.open() for p in paths]\n    try:\n        count=0\n        for count,lines in enumerate(zip_longest(*handles),1):\n            if any(line is None for line in lines):raise ValueError(f'frame {count}: truncated trace')\n            docs=[json.loads(line) for line in lines]\n            for d in docs:\n                if d.get('schema') not in ['gpu-core-state-v1','gpu-core-state-v2','gpu-core-state-v3','gpu-core-state-v4','gpu-core-state-v5','gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'] or d.get('frame')!=count:\n                    raise ValueError(f'frame {count}: schema or step mismatch')\n                for key in ['bodies','joints','contacts']:\n                    if not isinstance(d.get(key),list):raise ValueError(f'frame {count}: missing {key}')\n                if d['schema'] in ['gpu-core-state-v2','gpu-core-state-v3','gpu-core-state-v4','gpu-core-state-v5','gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:\n                    for key,kind in [('contact_history',dict),('contact_color_order',list),\n                                     ('fat_bounds',list),('pending_transforms',list),('host_flags',dict)]:\n                        if not isinstance(d.get(key),kind):\n                            raise ValueError(f'frame {count}: missing or invalid {key}')\n                if d['schema'] in ['gpu-core-state-v3','gpu-core-state-v4','gpu-core-state-v5','gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:\n                    for body in d['bodies']:\n                        if not isinstance(body.get('gpu_motion'),dict):\n                            raise ValueError(f'frame {count}: missing GPU body motion state')\n                if d['schema'] in ['gpu-core-state-v4','gpu-core-state-v5','gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'] and not isinstance(d.get('body_storage_order'),list):\n                    raise ValueError(f'frame {count}: missing body processing order')\n                if d['schema'] in ['gpu-core-state-v5','gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:\n                    for key,kind in [('shapes',list),('geometries',list),('shape_storage_order',list),('body_allocation',dict)]:\n                        if not isinstance(d.get(key),kind):raise ValueError(f'frame {count}: missing {key}')\n                    for shape in d['shapes']:\n                        index=shape.get('geometry')\n                        if type(index) is not int or not 0<=index<len(d['geometries']):\n                            raise ValueError(f'frame {count}: invalid shape geometry reference')\n                if d['schema'] in ['gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'] and not isinstance(d.get('gpu_colliders'),list):\n                    raise ValueError(f'frame {count}: missing GPU collider state')\n                if d['schema'] in ['gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:\n                    geometry=d.get('gpu_geometry')\n                    if not isinstance(geometry,dict):raise ValueError(f'frame {count}: missing GPU geometry')\n                    for key in ['hull_points','hull_planes','hull_edges','hull_topology','mesh_vertices','mesh_triangles','mesh_nodes','mix_table']:\n                        if not isinstance(geometry.get(key),list):raise ValueError(f'frame {count}: missing GPU {key}')\n                if d['schema'] in ['gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:\n                    for collider in d['gpu_colliders']:\n                        for key in ['bounds_shape','query_shape']:\n                            if type(collider.get(key)) is not int:raise ValueError(f'frame {count}: missing GPU {key} reference')\n                if d['schema'] in ['gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'] and not isinstance(d.get('idle_state'),dict):\n                    raise ValueError(f'frame {count}: missing idle proof state')\n                if d['schema'] in ['gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'] and not isinstance(d.get('graph_cache'),dict):\n                    raise ValueError(f'frame {count}: missing graph cache state')\n                if d['schema'] in ['gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'] and not isinstance(d.get('contact_allocation'),dict):\n                    raise ValueError(f'frame {count}: missing contact allocation state')\n                if d['schema'] in ['gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:\n                    for key in ['contact_hash','event_history']:\n                        if not isinstance(d.get(key),dict):raise ValueError(f'frame {count}: missing {key}')\n                if d['schema'] in ['gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:\n                    events=d.get('contact_end_state')\n                    if not isinstance(events,dict):raise ValueError(f'frame {count}: missing contact end state')\n                    for key in ['published','deferred','ended_keys']:\n                        if not isinstance(events.get(key),list):raise ValueError(f'frame {count}: missing contact end {key}')\n                if d['schema'] in ['gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:\n                    contacts=d.get('host_contacts')\n                    if not isinstance(contacts,dict):raise ValueError(f'frame {count}: missing host contacts')\n                    for key in ['registry','live','by_body','by_shape','by_id','begins','ends','hits','deferred_ends']:\n                        if not isinstance(contacts.get(key),list):raise ValueError(f'frame {count}: missing host contacts {key}')\n                if d['schema'] in ['gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:\n                    events=d.get('host_events')\n                    if not isinstance(events,dict):raise ValueError(f'frame {count}: missing host events')\n                    for key in ['sensor_overlaps','sensor_begins','sensor_ends','deferred_sensor_ends','continuous_sensor_hits','body_moves','joint_events']:\n                        if not isinstance(events.get(key),list):raise ValueError(f'frame {count}: missing host events {key}')\n                if d['schema'] in ['gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:\n                    host=d.get('host_state')\n                    if not isinstance(host,dict):raise ValueError(f'frame {count}: missing host state')\n                    for key,kind in [('definition',dict),('step_start_bodies',list),('body_mirrors',list),('callbacks_present',dict)]:\n                        if not isinstance(host.get(key),kind):raise ValueError(f'frame {count}: missing host {key}')\n                    for key in ['cached_topology','scene_capabilities','query_index','gpu_ccd_cache_key']:\n                        if key not in host:raise ValueError(f'frame {count}: missing host {key}')\n                if d['schema'] in ['gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:\n                    policy=d.get('gpu_policy')\n                    if not isinstance(policy,dict):raise ValueError(f'frame {count}: missing GPU policy')\n                    for key,kind in [('parameters',dict),('capacities',dict),('body_sleep_thresholds',list),('fat_geometry',list)]:\n                        if not isinstance(policy.get(key),kind):raise ValueError(f'frame {count}: missing GPU policy {key}')\n                    if 'native' not in policy:raise ValueError(f'frame {count}: missing native GPU cache state')\n                if d['schema'] in ['gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:\n                    if not isinstance(d.get('adapter'),dict):raise ValueError(f'frame {count}: missing selected adapter')\n                    if 'convex_ccd' not in d:raise ValueError(f'frame {count}: missing convex CCD state')\n                    ccd=d['convex_ccd']\n                    if ccd is not None:\n                        if not isinstance(ccd,dict):raise ValueError(f'frame {count}: invalid convex CCD state')\n                        for key in ['config','points','bodies','shapes','indices','start']:\n                            if not isinstance(ccd.get(key),list):raise ValueError(f'frame {count}: missing CCD {key}')\n                if d['schema'] in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'):\n                    if not isinstance(d['body_allocation'].get('generations'),list):raise ValueError(f'frame {count}: missing body generations')\n                    for contact in d['contacts']:\n                        if not isinstance(contact.get('sat_cache_words'),list) or len(contact['sat_cache_words'])!=2:\n                            raise ValueError(f'frame {count}: missing contact SAT cache')\n                    for joint in d['joints']:\n                        if 'motor_spring_angular_impulse' not in joint:raise ValueError(f'frame {count}: missing motor spring state')\n                if d['schema'] in ('gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'):\n                    for contact in d['contacts']:\n                        for key, point_key in [('feature_id_words','feature_id'), ('point_triangle_words','triangle')]:\n                            words=contact.get(key)\n                            if not isinstance(words,list) or len(words)!=4 or any(type(v) is not int or not 0<=v<=0xffffffff for v in words):\n                                raise ValueError(f'frame {count}: invalid contact {key}')\n                            points=contact.get('points')\n                            if not isinstance(points,list) or len(points)!=contact.get('count') or len(points)>4:\n                                raise ValueError(f'frame {count}: invalid contact points')\n                            if any(point.get(point_key)!=words[i] for i,point in enumerate(points)):\n                                raise ValueError(f'frame {count}: inconsistent contact {key}')\n                if d['schema'] in ('gpu-core-state-v21','gpu-core-state-v22'):\n                    history=d['contact_history']\n                    lookup=history.get('slot_to_rank')\n                    capacity=d.get('gpu_policy',{}).get('parameters',{}).get('contact_capacity')\n                    if type(capacity) is not int or capacity<0 or not isinstance(lookup,list) or len(lookup)!=capacity or any(type(v) is not int or not 0<=v<=0xffffffff for v in lookup):\n                        raise ValueError(f'frame {count}: invalid history slot lookup')\n                    records=history.get('records')\n                    if not isinstance(records,list):raise ValueError(f'frame {count}: missing history records')\n                    for record in records:\n                        if record is None:continue\n                        if not isinstance(record,dict) or any(type(record.get(k)) is not int or not 0<=record[k]<=0xffffffff for k in ('physical_slot','saved_generation')):\n                            raise ValueError(f'frame {count}: invalid saved history identity')\n                        if record['physical_slot']>=capacity:\n                            raise ValueError(f'frame {count}: history slot out of range')\n                if d['schema']=='gpu-core-state-v22':\n                    allocation=d['contact_allocation']\n                    counts=[allocation.get(k) for k in ('candidate_unique_count','candidate_contact_count')]\n                    slots=allocation.get('candidate_slots')\n                    capacity=d['gpu_policy']['parameters'].get('pair_capacity')\n                    if any(type(v) is not int or not 0<=v<=0xffffffff for v in counts) or type(capacity) is not int or capacity<0:\n                        raise ValueError(f'frame {count}: invalid candidate counts')\n                    if not isinstance(slots,list) or len(slots)!=min(max(counts),capacity) or any(type(v) is not int or not 0<=v<=0xffffffff for v in slots):\n                        raise ValueError(f'frame {count}: invalid candidate slots')\n            if audited_storage:\n                docs = [audited_storage_view(d) for d in docs]\n            for path,d in zip(paths[1:],docs[1:]):\n                delta=difference(docs[0],d)\n                if delta:return {'status':'fail','frame':count,'file':str(path),'difference':delta,'comparison_mode':mode}\n        if count!=frames:raise ValueError(f'expected {frames} frames, got {count}')\n        return {'status':'pass','frames':count,'runs':len(paths),'comparison_mode':mode,'scope':'diagnostic state only; coverage depends on schema and documented omissions remain unqualified'}\n    finally:\n        for f in handles:f.close()\n\n\nif __name__=='__main__':\n    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--frames',type=int,required=True);p.add_argument('traces',type=Path,nargs='+');p.add_argument('--audited-storage',action='store_true',help='canonicalize only audited occupied/history membership storage; all other fields remain exact');a=p.parse_args()\n    if len(a.traces)<2 or a.frames<1:p.error('need at least two traces and positive frame count')\n    result=compare(a.traces,a.frames,audited_storage=a.audited_storage);print(json.dumps(result,indent=2));raise SystemExit(result['status']!='pass')\n",
+  "hashes": {
+    "accumulator-scope.json": "893bb3f451ca4b9e46dcf245fff106494b176f8e6172aecdc388bfdc7e0ab602",
+    "build.py": "f946695d690eb1e3362b014fec9ac3adfcd0dfdf331ae4a1ad5e51b27a2639cf",
+    "build_fixture.py": "ba9e3c4f0fe68db576990177494464e452371df75f9cc58bb52655c4448ffa7b",
+    "candidate-build-exit.json": "bfdedf06596faa2042b0fedd9653ec1023d2e96ed56dc40b607985bc8438c1d5",
+    "candidate-build.log": "1f45188243eb254e0b4965b678b51ead9a34b485ccfc0db01fa911f68eae7ae1",
+    "candidate-full.wgsl": "4ba2c01da4fd967c99fe79564e331dfa74953b9254aeac8327e58b42780ba698",
+    "candidate-ordinary/manifest.json": "38803e57dc740c0749c0d92aa879a1909e75c409ed05c1b570c735d27223b239",
+    "candidate-ordinary/source.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "candidate-restoration.json": "5c335070d4f8d91f4d0ec9260c671e6a933f279f8c425d07e3cdaa227223b848",
+    "candidate-solve.wgsl": "d88ac92c26a108fd882c8fef5d340a6fc3bf38ad75918a5fffba5e232b5fb03d",
+    "candidate.patch": "f1faed4eb01d38c046a3ab2f83b64656f4a8544f703bacb82235e4d4ba29c63d",
+    "check_final_motor.py": "a299cfd6d9e52d369f96dfc9d54a9b92928d7f921ad949b8af3c985fdca90bbc",
+    "comparison-addendum.json": "4cd78710f3fe38cdcd5cc37c8c76c3a3b4dceb60659eee91257d0e5fabd2cae1",
+    "continue_control.py": "d628a12498e0b31535576847a24415911a94d519501cc1a062ba7e06cf442666",
+    "control-build-exit.json": "bfdedf06596faa2042b0fedd9653ec1023d2e96ed56dc40b607985bc8438c1d5",
+    "control-build.log": "8ef14e67add104127bcb1ecbc291a6e153a95b30fa5f74867bc3e7a34ea47f0f",
+    "control-full.wgsl": "3fdcdc047842c87483bcfa61854d1c4b18730c5aca6522b4e49328cd6c6ca1c4",
+    "control-ordinary/manifest.json": "004f621bdc2e9e034bb16fe7d8104f0aaf7628e589e85ddfdd26fe284cc4a018",
+    "control-ordinary/source.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "control-restoration.json": "5c335070d4f8d91f4d0ec9260c671e6a933f279f8c425d07e3cdaa227223b848",
+    "control-solve.wgsl": "bb2919032bd011020b7854066162fa18117aa52a39c5f2e8d2170f34b0dead9c",
+    "control.patch": "f95eb2e7fa7b6427f68d81e6ee4a484ac0c1e0eb49c78e311665e1bd9d56b420",
+    "driver-outcomes.json": "ff303abd59115a869243cc2eb1592f26437ffbce23ffb10bd61c06e7e643666d",
+    "failed-parse-v1/candidate-solve.wgsl": "c6d36c98deab1529ad8d402808ba4e08384adda63deb0c4051579da07245a2aa",
+    "failed-parse-v1/candidate.patch": "9642945af4978dd444e06646b5742c9367762e99587318c54fc3f4fddb09b3f0",
+    "failed-parse-v1/control-build-exit.json": "bfdedf06596faa2042b0fedd9653ec1023d2e96ed56dc40b607985bc8438c1d5",
+    "failed-parse-v1/control-build.log": "6f92c86ce845115c681d6846d8b07b61a91c848b57198dd8b51ae3c896e0da4c",
+    "failed-parse-v1/control-ordinary/manifest.json": "f45487d392f70e75c4a9e74957f15387831400c4cb8cb5b59d4e7d12dd66c012",
+    "failed-parse-v1/control-ordinary/source.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "failed-parse-v1/control-restoration.json": "5c335070d4f8d91f4d0ec9260c671e6a933f279f8c425d07e3cdaa227223b848",
+    "failed-parse-v1/control-solve.wgsl": "fb9b3e1f24451e4dff12470497e5fdb201566907c1afbb6123c55032b8cf27ff",
+    "failed-parse-v1/control.patch": "0e0cd1d8732a8794027b3af5fb612e1a6ada0300835f01963b60cfa8f4c751ff",
+    "failed-parse-v1/hip-control/exit.json": "d66bbda07fdd5195a93350114007e38c95b78ac2a185d5cebd81f52a3bd714d4",
+    "failed-parse-v1/hip-control/manifest.json": "9827b68eb52089e26924db0c9993c7cdbda79f83e0c8101b58f5d829d6f29860",
+    "failed-parse-v1/hip-control/run.log": "9a6e87a8d82aaf32d59b6d49c038f8692754e4a6380b6d795e9711feca73d4d7",
+    "failed-parse-v1/hip-control/state.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "final-motor-check.json": "8e31ea7c4df22013a2671392e7d8d02835575465c53050c0c1fd574804c74439",
+    "finalize.py": "c14c0c0098f22c7c215b324c573c053cd8ec0bc7a0fb5bbcdc085dc55a53aa61",
+    "hip-control/audited-validation.json": "217a041bebf1bf214814fc38abc8bd6eb118529064e49d392c446f5637d03e07",
+    "hip-control/exit.json": "fbb903e7b2a04cc9b53b61a28231dc77cd666ca3e7b8deb8047e52ac0cf5e086",
+    "hip-control/manifest.json": "0521a47d01ea9801a1d1338b94d5f37aad540b8535c7d3a8e6de068ff5be8b06",
+    "hip-control/run.log": "bc3edb8c4a3bd37df25ae0eb9d48f9d3946fecd832832fee41ec1b12e93c2367",
+    "hip-control/state.txt": "4d49e563a8b21a8ad1389560e6ca85ec2558c0b74e8d266a9d3a1de65f730a2d",
+    "hip-control/trace.jsonl": "f0a5f7ae37de3c58f47ab867cfe03d51d585ad7afa7397fa11c93edca2f3db2c",
+    "hip-control/validation.json": "288d0e5a3398077f76204316bd55b0075edc8d8b352c46a1768d06561da96427",
+    "hip-initial.txt": "0c1153754e4d2dbef153f305105e904489bdaabc18a7bc3bfe88d6224cd08114",
+    "hip-probe/exit.json": "cd2e0b08e25bd958b740e8b88f488be3ffd5166c644bb43036fad639e0a3736f",
+    "hip-probe/manifest.json": "89532eae16e7fc6c2e6857107724aeb069e80f507c441c595be837afd7f7a04e",
+    "hip-probe/run.log": "4aafd4040030ad2472fd4c3bdd6895f171d94cf21909d1e58c0cdf3b3a82b390",
+    "hip-probe/state.txt": "3b554666f2aa5c82e28fe0b471bd96d237e5b53f70c19ab03edf3723cef6bb9e",
+    "hip-probe/trace.jsonl": "15eba885d553ce7eb5495a0a27f08318ff55d50663d7bbc8a364f2605ab21f2f",
+    "hip-probe/validation.json": "db4a5efac0028232c2c077101220cc6b63f092396e15c85e66f47312df691582",
+    "normal-rebuild.log": "abd22ef53e4b03d3cf0d9931e2871fc808e17e9ed5c40243899db9949c6a760c",
+    "normal-restoration.json": "e50aae42411c7b9e08ed980af5c36bdac33da682104bab3dc5578409cc1d6dfa",
+    "original-solve.wgsl": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7",
+    "parse-fix.json": "d082352f0386f880040561d0682047d6777a9ab31e230c7eb3652d3811c524e1",
+    "preparation.json": "89a6f7598e3c951e6e3d6b9af371d1c27f195415d74b4648f4576ce5cb4b332a",
+    "prepare.py": "e23a524b41a625c636253b3db86e3eabf5b0802133612c728570d8caf111756d",
+    "protocol.txt": "a84dbe00a4ece26452026cd49ea3e208ec13ac05139cc7e27314fa0fe6be4c29",
+    "run_control.py": "91874bd89d99957501bfe5184862d41e634fd736d20b5c6f68a9a81e4aaff96c",
+    "run_probe.py": "e17c2a74f1b800375de4e66669139831eb68dabee2cb40ca215085430da3d4be",
+    "severe-control/exit.json": "002c2d3c577805b4383b98c8d8a992fd711e8d1d0e8f1a2c39130c0778d1ce90",
+    "severe-control/manifest.json": "388c9b592d32c1339a9fd123b73d8d64c0950b9c7c1a9bd5deb22c9006671a08",
+    "severe-control/run.log": "f95d0c2575fea8ec2a221fb44cd5ff53d85798e0ea0b4b74dcd9cf09974f0481",
+    "severe-control/state.txt": "f146a0778f1bbe3f121c57239594036c300b874e11c841faca204c48f865670f",
+    "severe-control/trace.jsonl": "860e63777138ff9ebf05ae7994b1557101667d8220f0a47d2b13a9cfc57e138d",
+    "severe-control/validation.json": "45fa30d5cac31a154e923ed7a1f0215ef7d609662722b0a6efca0deebdf481a6",
+    "severe-initial.txt": "8ece29e9b2f63d9599ed2d5e5ddef908949cd099443f94b865b887f7bc4c4e76",
+    "validate_semantic_control.py": "b6465b702bb1f324610e78bcc31f61d2de665119dfc9f19af440df06282b9225",
+    "validate_wgsl.rs": "1722cf5db1dae4e5daa7db026dbfdc00db70d6832b81325424a1a6e1c8570914"
+  },
+  "archives": {
+    "baseline-libgpu_physics.a": "d5ada4e13a4918f0245a768afbb86b8659c0e84c1a56a9d26195978d51180f59",
+    "control-libgpu_physics.a": "125c2a9f575b0334d031f6b77c2e6eb9c3ab36168fa99bcacac7efec73d54d6c",
+    "candidate-libgpu_physics.a": "7ade3b4d035031d8dfb4498a22258715cad515c58736b42816f62a86202e6e60",
+    "failed-parse-v1/control-libgpu_physics.a": "35fa20033f113ee653b59a20f05e14f54294a4f8dfecd7a8baab27cbe28aeb10"
+  },
+  "manifests": {
+    "control-ordinary/manifest.json": {
+      "mode": "ordinary",
+      "label": "control",
+      "commands": [
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/human.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/human.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/utils.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/utils.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/samples_stubs.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/stubs.o"
+        ],
+        [
+          "g++",
+          "-O2",
+          "-DNDEBUG",
+          "-std=c++17",
+          "-Wl,--gc-sections",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/rain_cell_reference.cpp",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/human.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/utils.o",
+          "-Wl,--allow-multiple-definition",
+          "-Wl,--wrap=b3CreateCompound",
+          "-Wl,--whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a",
+          "-Wl,--no-whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-libgpu_physics.a",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/stubs.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a",
+          "-ldl",
+          "-lpthread",
+          "-lm",
+          "-lgcc_s",
+          "-lGL",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/fixture"
+        ]
+      ],
+      "binary_sha256": "f9638f2be460b520f365b810784beb87ee3c1024f7a8e3ebe891ab7c56a6c1de",
+      "libraries": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a": "3c67d2c60fdba46aab7e4e7b2824f6490b22324b50d4945db0e2b19db2f1ad58",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-libgpu_physics.a": "125c2a9f575b0334d031f6b77c2e6eb9c3ab36168fa99bcacac7efec73d54d6c",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a": "c4483223811aa16fc03b689a165c000b39978d809b7a0e658a40d1657bf9b178"
+      },
+      "shader_sha256": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7"
+    },
+    "hip-control/manifest.json": {
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/fixture",
+        "120"
+      ],
+      "binary_sha256": "f9638f2be460b520f365b810784beb87ee3c1024f7a8e3ebe891ab7c56a6c1de",
+      "environment": {
+        "RAIN_CELL_ROW": "3",
+        "RAIN_CELL_COLUMN": "9",
+        "RAIN_REPLAY_BASE": "3907",
+        "RAIN_REPLAY_STATE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/hip-initial.txt",
+        "RAIN_REPLAY_LIMITS": "1",
+        "RAIN_REPLAY_HEALTH": "1",
+        "RAIN_REPLAY_COLLISIONS": "1",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_STATE_TRACE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/hip-control/trace.jsonl"
+      }
+    },
+    "severe-control/manifest.json": {
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/fixture",
+        "120"
+      ],
+      "binary_sha256": "f9638f2be460b520f365b810784beb87ee3c1024f7a8e3ebe891ab7c56a6c1de",
+      "environment": {
+        "RAIN_CELL_ROW": "9",
+        "RAIN_CELL_COLUMN": "1",
+        "RAIN_REPLAY_BASE": "4999",
+        "RAIN_REPLAY_STATE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/severe-initial.txt",
+        "RAIN_REPLAY_LIMITS": "1",
+        "RAIN_REPLAY_HEALTH": "1",
+        "RAIN_REPLAY_COLLISIONS": "1",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_STATE_TRACE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/severe-control/trace.jsonl"
+      }
+    },
+    "candidate-ordinary/manifest.json": {
+      "mode": "ordinary",
+      "label": "candidate",
+      "commands": [
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/human.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/candidate-ordinary/human.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/utils.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/candidate-ordinary/utils.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/samples_stubs.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/candidate-ordinary/stubs.o"
+        ],
+        [
+          "g++",
+          "-O2",
+          "-DNDEBUG",
+          "-std=c++17",
+          "-Wl,--gc-sections",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/rain_cell_reference.cpp",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/candidate-ordinary/human.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/candidate-ordinary/utils.o",
+          "-Wl,--allow-multiple-definition",
+          "-Wl,--wrap=b3CreateCompound",
+          "-Wl,--whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a",
+          "-Wl,--no-whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/candidate-libgpu_physics.a",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/candidate-ordinary/stubs.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a",
+          "-ldl",
+          "-lpthread",
+          "-lm",
+          "-lgcc_s",
+          "-lGL",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/candidate-ordinary/fixture"
+        ]
+      ],
+      "binary_sha256": "93fb8437cccab6343de9f541195dfd5aa24afea96bdfe631596e12a821aff984",
+      "libraries": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a": "3c67d2c60fdba46aab7e4e7b2824f6490b22324b50d4945db0e2b19db2f1ad58",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/candidate-libgpu_physics.a": "7ade3b4d035031d8dfb4498a22258715cad515c58736b42816f62a86202e6e60",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a": "c4483223811aa16fc03b689a165c000b39978d809b7a0e658a40d1657bf9b178"
+      },
+      "shader_sha256": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7"
+    },
+    "hip-probe/manifest.json": {
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/candidate-ordinary/fixture",
+        "1"
+      ],
+      "binary_sha256": "93fb8437cccab6343de9f541195dfd5aa24afea96bdfe631596e12a821aff984",
+      "environment": {
+        "RAIN_CELL_ROW": "3",
+        "RAIN_CELL_COLUMN": "9",
+        "RAIN_REPLAY_BASE": "3907",
+        "RAIN_REPLAY_STATE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/hip-initial.txt",
+        "RAIN_REPLAY_LIMITS": "1",
+        "RAIN_REPLAY_HEALTH": "1",
+        "RAIN_REPLAY_COLLISIONS": "1",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_STATE_TRACE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/hip-probe/trace.jsonl"
+      }
+    },
+    "failed-parse-v1/hip-control/manifest.json": {
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/fixture",
+        "120"
+      ],
+      "binary_sha256": "3816239257879d49b4c61e04d776b0c984aaf33164f376e4458159af07f21026",
+      "environment": {
+        "RAIN_CELL_ROW": "3",
+        "RAIN_CELL_COLUMN": "9",
+        "RAIN_REPLAY_BASE": "3907",
+        "RAIN_REPLAY_STATE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/hip-initial.txt",
+        "RAIN_REPLAY_LIMITS": "1",
+        "RAIN_REPLAY_HEALTH": "1",
+        "RAIN_REPLAY_COLLISIONS": "1",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_STATE_TRACE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/hip-control/trace.jsonl"
+      }
+    },
+    "failed-parse-v1/control-ordinary/manifest.json": {
+      "mode": "ordinary",
+      "label": "control",
+      "commands": [
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/human.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/human.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/utils.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/utils.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/samples_stubs.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/stubs.o"
+        ],
+        [
+          "g++",
+          "-O2",
+          "-DNDEBUG",
+          "-std=c++17",
+          "-Wl,--gc-sections",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/rain_cell_reference.cpp",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/human.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/utils.o",
+          "-Wl,--allow-multiple-definition",
+          "-Wl,--wrap=b3CreateCompound",
+          "-Wl,--whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a",
+          "-Wl,--no-whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-libgpu_physics.a",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/stubs.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a",
+          "-ldl",
+          "-lpthread",
+          "-lm",
+          "-lgcc_s",
+          "-lGL",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-ordinary/fixture"
+        ]
+      ],
+      "binary_sha256": "3816239257879d49b4c61e04d776b0c984aaf33164f376e4458159af07f21026",
+      "libraries": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a": "3c67d2c60fdba46aab7e4e7b2824f6490b22324b50d4945db0e2b19db2f1ad58",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-wave-convergence/control-libgpu_physics.a": "35fa20033f113ee653b59a20f05e14f54294a4f8dfecd7a8baab27cbe28aeb10",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a": "c4483223811aa16fc03b689a165c000b39978d809b7a0e658a40d1657bf9b178"
+      },
+      "shader_sha256": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7"
+    }
+  },
+  "failure_receipts": {
+    "hip-control/exit.json": {
+      "exit": 0,
+      "seconds": 84.2114773469948
+    },
+    "severe-control/exit.json": {
+      "exit": 0,
+      "seconds": 4.260303713002941
+    },
+    "hip-probe/exit.json": {
+      "exit": 0,
+      "seconds": 35.05133009100973
+    },
+    "failed-parse-v1/hip-control/exit.json": {
+      "exit": -6,
+      "seconds": 0.624883755997871
+    }
+  }
+}

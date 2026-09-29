@@ -1,0 +1,738 @@
+{
+  "date": "2026-09-29",
+  "status": "rejected",
+  "head": "2b555ed9504b576f49b5ae58509f032ba372f01d",
+  "scope": "Single ordinary-path screening experiment; no physical acceptance, native qualification, final repeats, or production adoption. Prepared solver mass metric is not a complete physical energy ledger.",
+  "protocol": "Artifact-only passive joint warm-cache experiment, predeclared before execution.\nOrdinary path first; original hip and severe initial states, 120 steps each, unchanged scene/body/joint/default settings, step size and substeps. Baseline must reproduce previous baseline body streams byte-exact. Initial getters exact; complete finite frame/body/joint observations mandatory.\nCandidate uses prepared solver inertia metric L alpha + Q alpha^2, with largest alpha in [0,1] having nonpositive change. This is a numerical cache-guess guard, NOT a bound on true orientation-updated kinetic/stored energy. Uses actual generalized cached impulse, avoids inertia inversion. Static/sleep/fixed rotation contributions handled by existing writability/tensor flags. All cache components and applied impulse scale together; live revolute axis caches are unchanged. Prescribed nonzero motors and kinematic endpoints excluded. CPU-compatible path unchanged.\nKeep original physical Rain screens failed until independently resolved. Reject candidate if cone reduction trades for increased target anchor or all-joint twist beyond baseline numerical roundoff (1e-6 m / 1e-6 rad). No selection of a favorable subwindow. Examine all original replay metrics. No parameter/iteration sweeps.\nAlso run existing unmodified spherical_compliance_reference.cpp on baseline/candidate ordinary: both 0.01 and 0.1 rad loads, 600 steps, last120 max angle prediction error <1e-4 rad and max speed <1e-3 rad. Any failure rejects preservation of the existing loaded response, regardless of Rain gains. No weakening. A screening pass is not qualification: native path, isolated spring/active motor/locked inertia controls, five fresh complete-state repeats, full matrix, performance and recordings remain required before adoption.\n",
+  "candidate_patch": "--- a/shaders/physics/solve.wgsl\n+++ b/shaders/physics/solve.wgsl\n@@ -981,6 +981,30 @@\n     return gyro_dot3(wb - wa, axis);\n }\n \n+// Artifact-only cache-reuse experiment. Uses the prepared solver mass metric,\n+// not the orientation-updated physical energy ledger. No matrix inversion.\n+fn passive_cache_work(b: Body, p: vec3<f32>, t: vec3<f32>) -> vec2<f32> {\n+    if (!joint_endpoint_writable(b)) { return vec2<f32>(0.0); }\n+    var angular_linear = 0.0;\n+    var angular_quad = 0.0;\n+    if ((b.flags & FLAG_FIXED_ROTATION) != FLAG_FIXED_ROTATION) {\n+        angular_linear = dot(b.omega, t);\n+        angular_quad = dot(t, world_inv_inertia(b, t));\n+    }\n+    return vec2<f32>(dot(b.vel, p) + angular_linear,\n+        0.5 * (b.inv_mass * dot(p, p) + angular_quad));\n+}\n+\n+fn passive_cache_scale(ba: Body, bb: Body, ra: vec3<f32>, rb: vec3<f32>,\n+    p: vec3<f32>, t: vec3<f32>) -> f32 {\n+    // Prescribed kinematic motion may perform work, just like an active motor.\n+    if (((ba.flags | bb.flags) & FLAG_KINEMATIC) != 0u) { return 1.0; }\n+    let work = passive_cache_work(ba, -p, -(gyro_cross(ra, p) + t))\n+        + passive_cache_work(bb, p, gyro_cross(rb, p) + t);\n+    if (work.x + work.y <= 0.0 || work.y <= 0.0) { return 1.0; }\n+    return clamp(-work.x / work.y, 0.0, 1.0);\n+}\n+\n fn solve_revolute(\n     jn: ptr<function, Joint>,\n     ba: ptr<function, Body>,\n@@ -1011,10 +1035,22 @@\n         let axial_impulse =\n             (*jn).spring_impulse + (*jn).motor_impulse\n             + (*jn).lower_impulse - (*jn).upper_impulse;\n-        let angular_impulse =\n+        var angular_impulse =\n             (*jn).perp_impulse.x * base_axis_x\n             + (*jn).perp_impulse.y * base_axis_y\n             + axial_impulse * rotation_axis;\n+        if ((params.diagnostic_flags & SOLVER_PAIRED_NORMALS) != 0u\n+            && !(((*jn).flags & REVOLUTE_ENABLE_MOTOR) != 0u && (*jn).motor_speed != 0.0)) {\n+            let scale = passive_cache_scale(*ba, *bb, rA, rB,\n+                (*jn).angular_impulse, angular_impulse);\n+            (*jn).angular_impulse = scale * (*jn).angular_impulse;\n+            (*jn).perp_impulse = scale * (*jn).perp_impulse;\n+            (*jn).spring_impulse = scale * (*jn).spring_impulse;\n+            (*jn).motor_impulse = scale * (*jn).motor_impulse;\n+            (*jn).lower_impulse = scale * (*jn).lower_impulse;\n+            (*jn).upper_impulse = scale * (*jn).upper_impulse;\n+            angular_impulse = scale * angular_impulse;\n+        }\n         if (joint_endpoint_writable(*ba)) {\n             (*ba).vel = (*ba).vel - (*ba).inv_mass * (*jn).angular_impulse;\n             (*ba).omega = (*ba).omega - world_inv_inertia(\n@@ -1736,6 +1772,18 @@\n         angular_impulse = angular_impulse\n             - (*jn).swing_impulse * swing_axis\n             + ((*jn).lower_impulse - (*jn).upper_impulse) * twist_jacobian;\n+        if ((params.diagnostic_flags & SOLVER_PAIRED_NORMALS) != 0u\n+            && !(((*jn).flags & SPHERICAL_ENABLE_MOTOR) != 0u && any((*jn).motor_angular_velocity != vec3<f32>(0.0)))) {\n+            let scale = passive_cache_scale(*ba, *bb, rA, rB,\n+                (*jn).angular_impulse, angular_impulse);\n+            (*jn).angular_impulse = scale * (*jn).angular_impulse;\n+            (*jn).spring_angular_impulse = scale * (*jn).spring_angular_impulse;\n+            (*jn).motor_angular_impulse = scale * (*jn).motor_angular_impulse;\n+            (*jn).swing_impulse = scale * (*jn).swing_impulse;\n+            (*jn).lower_impulse = scale * (*jn).lower_impulse;\n+            (*jn).upper_impulse = scale * (*jn).upper_impulse;\n+            angular_impulse = scale * angular_impulse;\n+        }\n         if (joint_endpoint_writable(*ba)) {\n             (*ba).vel = (*ba).vel - (*ba).inv_mass * (*jn).angular_impulse;\n             (*ba).omega = (*ba).omega - spherical_warm_torque(\n",
+  "preparation": {
+    "original_shader": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7",
+    "candidate_shader": "3e926b9bd4bd015431930cd753483b70a7927c38d10ea7393a436993d5e18060",
+    "protocol_sha256": "3922f008bcf541f6ca8159be231d7b03faaf26eaf26ac24c758d7269c15f5507"
+  },
+  "rain": {
+    "scope": "Single ordinary120step fresh-history replays; no physical acceptance or five-repeat qualification",
+    "cases": {
+      "hip": {
+        "baseline": {
+          "frames": 120,
+          "body_observations": 5040,
+          "spherical_observations": 3240,
+          "initial_exact": true,
+          "peak_anchor_all": 0.0103564057,
+          "peak_anchor_target": 0.00590775674,
+          "peak_omega_all": 31.735384531122047,
+          "all_joint_peaks": {
+            "cone": 0.314239025,
+            "lower": 0.0233740285,
+            "upper": 0.00444190204
+          },
+          "target_peaks": {
+            "cone": 0.314239025,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "target_tail60_peaks": {
+            "cone": 0.210057288,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "target_final": {
+            "frame": 119,
+            "body": 3943,
+            "cone": 0.183344901,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "sha256": {
+            "manifest.json": "ab7268acf29bb237577d6dd66c3f6d82dccdc99ad2c8750ff298e75c38d125ad",
+            "state.txt": "4d49e563a8b21a8ad1389560e6ca85ec2558c0b74e8d266a9d3a1de65f730a2d",
+            "run.log": "8bcb450dd38e9cce4fea4feaaf1c84c790341ec9166a9aad1afecd7c7d97fa8a",
+            "exit.json": "6c1ea404b7ca7f82afd88d7cf0694cb57f89cd6cc89cade208a8f832d29714eb"
+          }
+        },
+        "candidate": {
+          "frames": 120,
+          "body_observations": 5040,
+          "spherical_observations": 3240,
+          "initial_exact": true,
+          "peak_anchor_all": 0.0146218818,
+          "peak_anchor_target": 0.00230502198,
+          "peak_omega_all": 14.10433645155941,
+          "all_joint_peaks": {
+            "cone": 0.19321245,
+            "lower": 0.055346489,
+            "upper": 0.0192647502
+          },
+          "target_peaks": {
+            "cone": 0.127874225,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "target_tail60_peaks": {
+            "cone": 0.11340493,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "target_final": {
+            "frame": 119,
+            "body": 3943,
+            "cone": 0.108587533,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "sha256": {
+            "manifest.json": "ff188a20d2e517c022394e3f03a7348678abd3b1f611ad00ce7ead197fc1fb64",
+            "state.txt": "f09cb557553349f5148eb3669c6875292721623dda5dc954ef9258445719809f",
+            "run.log": "8709e9a966a2d40ebac10fc7255240a56109c31b893c516a33e237e52b1728f5",
+            "exit.json": "da957bdf4c5ae6d7fdd7abcaf88a070315f044c2099a668ed38bc3ec64cf7e78"
+          }
+        }
+      },
+      "severe": {
+        "baseline": {
+          "frames": 120,
+          "body_observations": 5040,
+          "spherical_observations": 3240,
+          "initial_exact": true,
+          "peak_anchor_all": 0.143070191,
+          "peak_anchor_target": 0.0678806007,
+          "peak_omega_all": 104.82967282677589,
+          "all_joint_peaks": {
+            "cone": 1.25412655,
+            "lower": 0.385927796,
+            "upper": 0.0323348343
+          },
+          "target_peaks": {
+            "cone": 1.25412655,
+            "lower": 0.385927796,
+            "upper": 0.00756150484
+          },
+          "target_tail60_peaks": {
+            "cone": 0.00746870041,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "target_final": {
+            "frame": 119,
+            "body": 5004,
+            "cone": 0.00379863381,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "sha256": {
+            "manifest.json": "dd4c01fc681481c835a04a3fba8fd2104186bb3b59d1c6686526f1400dcf3e09",
+            "state.txt": "f146a0778f1bbe3f121c57239594036c300b874e11c841faca204c48f865670f",
+            "run.log": "6699e8a0abbeccd94d7dce522a9bcdd7d4aeb6f35244d71efd45b79ad1f5acd7",
+            "exit.json": "d31d652794f750be2119bb30a78b2a9551161e3ac7a7ae2f846a592318695cc0"
+          }
+        },
+        "candidate": {
+          "frames": 120,
+          "body_observations": 5040,
+          "spherical_observations": 3240,
+          "initial_exact": true,
+          "peak_anchor_all": 0.143906295,
+          "peak_anchor_target": 0.0750079304,
+          "peak_omega_all": 99.28575556132525,
+          "all_joint_peaks": {
+            "cone": 1.68079185,
+            "lower": 0.885321796,
+            "upper": 0.0510270745
+          },
+          "target_peaks": {
+            "cone": 1.68079185,
+            "lower": 0.885321796,
+            "upper": 0.0136492252
+          },
+          "target_tail60_peaks": {
+            "cone": 0.0551859736,
+            "lower": 0.0,
+            "upper": 0.00381559134
+          },
+          "target_final": {
+            "frame": 119,
+            "body": 5004,
+            "cone": 0.0551859736,
+            "lower": 0.0,
+            "upper": 0.00376495719
+          },
+          "sha256": {
+            "manifest.json": "4446ea0aaa1011a6d46835dee67ee7e01b48c893dc3d34699820cec262763de6",
+            "state.txt": "b8244ee779d36846bc28e85c70f56e983dc5849a6a41cba571c91a12fcb70f0d",
+            "run.log": "a3bcb1d351cc4c30504d939259e26b725c767aaae561f889051b73a5dc8a3387",
+            "exit.json": "d98a7684741083190acc2a5732dfac1639d9e278c85d450b6b528113221baf16"
+          }
+        }
+      }
+    }
+  },
+  "rejection_reasons": [
+    {
+      "case": "hip",
+      "metric": "all_joint_lower",
+      "baseline": 0.0233740285,
+      "candidate": 0.055346489
+    },
+    {
+      "case": "hip",
+      "metric": "all_joint_upper",
+      "baseline": 0.00444190204,
+      "candidate": 0.0192647502
+    },
+    {
+      "case": "severe",
+      "metric": "peak_anchor_target",
+      "baseline": 0.0678806007,
+      "candidate": 0.0750079304
+    },
+    {
+      "case": "severe",
+      "metric": "all_joint_lower",
+      "baseline": 0.385927796,
+      "candidate": 0.885321796
+    },
+    {
+      "case": "severe",
+      "metric": "all_joint_upper",
+      "baseline": 0.0323348343,
+      "candidate": 0.0510270745
+    }
+  ],
+  "loaded_cone": {
+    "baseline": {
+      "0.00999999978": {
+        "max_error": 1.7422604200005576e-06,
+        "max_speed": 0.0,
+        "pass": true
+      },
+      "0.100000001": {
+        "max_error": 5.094523299997711e-06,
+        "max_speed": 0.0,
+        "pass": true
+      }
+    },
+    "candidate": {
+      "0.00999999978": {
+        "max_error": 1.7422604200005576e-06,
+        "max_speed": 0.0,
+        "pass": true
+      },
+      "0.100000001": {
+        "max_error": 5.094523299997711e-06,
+        "max_speed": 0.0,
+        "pass": true
+      }
+    }
+  },
+  "baseline_body_streams_byte_exact": true,
+  "normal_restoration": {
+    "source_byte_exact": true,
+    "normal_build_exit": 0,
+    "normal_archive_sha256": "b3f2b64239d72c95c8e1746f9bd40a95152fb7a2c6ab373a6e2bd2986cf5265b"
+  },
+  "sources": {
+    "build_fixture.py": "import hashlib,json,subprocess,sys,shutil\nfrom pathlib import Path\nroot=Path.cwd();mode,label=sys.argv[1:];out=Path(__file__).resolve().parent/f'{label}-{mode}';out.mkdir(exist_ok=False)\ninclude=root.parents[1]/'box3d/include';shared=root.parents[1]/'box3d/shared';commands=[]\ndef run(cmd):\n commands.append([str(x) for x in cmd]);subprocess.run(commands[-1],check=True)\nobjects=[]\nfor name in ['human','utils']:\n obj=out/(name+'.o');run(['cc','-O2','-DNDEBUG','-ffunction-sections','-fdata-sections','-I',include,'-I',shared,'-c',shared/(name+'.c'),'-o',obj]);objects.append(obj)\ncpulib=root/'native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a';libs=[cpulib];extra=[]\nif mode!='cpu':\n lib=out.parent/'candidate-libgpu_physics.a' if label=='candidate' else out.parent/'baseline-libgpu_physics.a';libs.insert(0,lib)\n stub=out/'stubs.o';run(['cc','-O2','-I',include,'-c',root/'c_abi/samples_stubs.c','-o',stub])\n api=root/'native-samples'/('build-gpu' if mode=='ordinary' else 'build-gpu-native-cache')/'libgpu_samples_api.a';libs.insert(0,api)\n extra=['-Wl,--allow-multiple-definition','-Wl,--wrap=b3CreateCompound','-Wl,--whole-archive',api,'-Wl,--no-whole-archive',lib,stub]\nrun(['g++','-O2','-DNDEBUG','-std=c++17','-Wl,--gc-sections',root/'c_abi/rain_cell_reference.cpp','-I',include,'-I',shared,*objects,*extra,cpulib,'-ldl','-lpthread','-lm','-lgcc_s','-lGL','-o',out/'fixture'])\ndigest=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\n(out/'source.patch').write_bytes(subprocess.check_output(['git','diff','--','src','shaders','c_abi','scripts']))\n(out/'manifest.json').write_text(json.dumps(dict(mode=mode,label=label,commands=commands,binary_sha256=digest(out/'fixture'),libraries={str(p):digest(p) for p in libs},shader_sha256=digest(root/'shaders/physics/solve.wgsl')),indent=2)+'\\n')\n",
+    "run.py": "import os,subprocess,json,time,hashlib\nfrom pathlib import Path\nroot=Path(__file__).resolve().parent\nfor case,row,column,base in [('hip','3','9','3907'),('severe','9','1','4999')]:\n for arm in ['baseline','candidate']:\n  out=root/f'{case}-{arm}';out.mkdir(exist_ok=False)\n  fixture=root/f'{arm}-ordinary/fixture'\n  env={k:v for k,v in os.environ.items() if not k.startswith(('GPU_PHYSICS_','WGPU_','RAIN_'))}\n  env.update(RAIN_CELL_ROW=row,RAIN_CELL_COLUMN=column,RAIN_REPLAY_BASE=base,RAIN_REPLAY_STATE=str(root/f'{case}-initial.txt'),RAIN_REPLAY_LIMITS='1',RAIN_REPLAY_HEALTH='1',RAIN_REPLAY_COLLISIONS='1',GPU_PHYSICS_LIVE_CONTACT_ORDER='0',WGPU_BACKEND='vulkan',GPU_PHYSICS_PIPELINE_CACHE_DIR=str(Path.home()/'.cache/box3d-gpu-physics/pipelines'))\n  command=[str(fixture),'120'];start=time.monotonic()\n  (out/'manifest.json').write_text(json.dumps(dict(command=command,binary_sha256=hashlib.sha256(fixture.read_bytes()).hexdigest(),environment={k:v for k,v in env.items() if k.startswith(('GPU_','WGPU_','RAIN_'))}),indent=2))\n  with (out/'state.txt').open('w') as stdout,(out/'run.log').open('w') as stderr:r=subprocess.run(command,env=env,stdout=stdout,stderr=stderr)\n  (out/'exit.json').write_text(json.dumps(dict(exit=r.returncode,seconds=time.monotonic()-start),indent=2))\n  print(case,arm,r.returncode,flush=True)\n  if r.returncode:raise SystemExit(r.returncode)\n",
+    "analyze.py": "import json,struct,math,hashlib\nfrom pathlib import Path\nroot=Path(__file__).resolve().parent\npack=lambda x:struct.pack('<'+'f'*len(x),*x)\nsummary={'scope':'Single ordinary120step fresh-history replays; no physical acceptance or five-repeat qualification','cases':{}}\nfor case,target in [('hip',3943),('severe',5004)]:\n initial={int(s[1]):list(map(float,s[2:15])) for s in map(str.split,(root/f'{case}-initial.txt').read_text().splitlines())}\n results={}\n for arm in ['baseline','candidate']:\n  out=root/f'{case}-{arm}';assert json.loads((out/'exit.json').read_text())['exit']==0\n  lines=list(map(str.split,(out/'run.log').read_text().splitlines()))\n  getters={int(t[1]):list(map(float,t[2:])) for t in lines if t and t[0]=='replay-initial'}\n  assert set(getters)==set(initial) and all(pack(getters[k])==pack(initial[k]) for k in initial)\n  frames={};anchor=0;target_anchor=0;omega=0\n  for t in map(str.split,(out/'state.txt').read_text().splitlines()):\n   f,k=map(int,t[:2]);x=list(map(float,t[2:]));assert len(x)==14 and all(map(math.isfinite,x));assert k not in frames.setdefault(f,{})\n   frames[f][k]=x;anchor=max(anchor,x[13]);omega=max(omega,math.sqrt(sum(v*v for v in x[10:13])))\n   if k==target:target_anchor=max(target_anchor,x[13])\n  assert sorted(frames)==list(range(120)) and all(set(v)==set(initial) for v in frames.values())\n  limits=[dict(frame=int(t[1]),body=int(t[2]),cone=float(t[6]),lower=float(t[11]),upper=float(t[12])) for t in lines if t and t[0]=='replay-spherical-limit']\n  assert len(limits)==3240 and len(set((v['frame'],v['body']) for v in limits))==3240\n  limit_frames={f:{v['body'] for v in limits if v['frame']==f} for f in range(120)}\n  assert set(v['frame'] for v in limits)==set(range(120))\n  assert len(limit_frames[0])==27 and limit_frames[0].issubset(initial)\n  assert all(ids==limit_frames[0] for ids in limit_frames.values())\n  assert all(math.isfinite(v[k]) for v in limits for k in ['cone','lower','upper'])\n  targeted=[v for v in limits if v['body']==target];assert len(targeted)==120\n  peak=lambda a:{k:max(v[k] for v in a) for k in ['cone','lower','upper']}\n  results[arm]=dict(frames=120,body_observations=5040,spherical_observations=3240,initial_exact=True,peak_anchor_all=anchor,peak_anchor_target=target_anchor,peak_omega_all=omega,all_joint_peaks=peak(limits),target_peaks=peak(targeted),target_tail60_peaks=peak([v for v in targeted if v['frame']>=60]),target_final=targeted[-1],sha256={f:hashlib.sha256((out/f).read_bytes()).hexdigest() for f in ['manifest.json','state.txt','run.log','exit.json']})\n  print(case,arm,json.dumps({k:v for k,v in results[arm].items() if k!='sha256'}),flush=True)\n summary['cases'][case]=results\n(root/'summary.json').write_text(json.dumps(summary,indent=2))\n",
+    "build_candidate.py": "from pathlib import Path\nimport subprocess,shutil,hashlib,json\nroot=Path(__file__).resolve().parent\nshader=Path('shaders/physics/solve.wgsl')\noriginal=(root/'original-solve.wgsl').read_bytes()\nassert shader.read_bytes()==original\ntry:\n shader.write_bytes((root/'candidate-solve.wgsl').read_bytes())\n with (root/'build.log').open('w') as log:\n  r=subprocess.run(['cargo','build','--release','--lib','--features','replay-diagnostics'],env=__import__('os').environ|{'CARGO_BUILD_JOBS':'1'},stdout=log,stderr=subprocess.STDOUT)\n (root/'build-exit.json').write_text(json.dumps({'exit':r.returncode}))\n if r.returncode:raise SystemExit(r.returncode)\n shutil.copy2('target/release/libgpu_physics.a',root/'candidate-libgpu_physics.a')\nfinally:\n shader.write_bytes(original)\n (root/'restoration.json').write_text(json.dumps({'source_restored':shader.read_bytes()==original,'sha256':hashlib.sha256(original).hexdigest()}))\n",
+    "build_loaded.py": "import hashlib,json,subprocess,sys,shutil\nfrom pathlib import Path\nroot=Path.cwd();mode,label=sys.argv[1:];out=Path(__file__).resolve().parent/f'loaded-{label}-{mode}';out.mkdir(exist_ok=False)\ninclude=root.parents[1]/'box3d/include';shared=root.parents[1]/'box3d/shared';commands=[]\ndef run(cmd):\n commands.append([str(x) for x in cmd]);subprocess.run(commands[-1],check=True)\nobjects=[]\nfor name in ['human','utils']:\n obj=out/(name+'.o');run(['cc','-O2','-DNDEBUG','-ffunction-sections','-fdata-sections','-I',include,'-I',shared,'-c',shared/(name+'.c'),'-o',obj]);objects.append(obj)\ncpulib=root/'native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a';libs=[cpulib];extra=[]\nif mode!='cpu':\n lib=out.parent/'candidate-libgpu_physics.a' if label=='candidate' else out.parent/'baseline-libgpu_physics.a';libs.insert(0,lib)\n stub=out/'stubs.o';run(['cc','-O2','-I',include,'-c',root/'c_abi/samples_stubs.c','-o',stub])\n api=root/'native-samples'/('build-gpu' if mode=='ordinary' else 'build-gpu-native-cache')/'libgpu_samples_api.a';libs.insert(0,api)\n extra=['-Wl,--allow-multiple-definition','-Wl,--wrap=b3CreateCompound','-Wl,--whole-archive',api,'-Wl,--no-whole-archive',lib,stub]\nrun(['g++','-O2','-DNDEBUG','-std=c++17','-Wl,--gc-sections',root/'c_abi/spherical_compliance_reference.cpp','-I',include,'-I',shared,*objects,*extra,cpulib,'-ldl','-lpthread','-lm','-lgcc_s','-lGL','-o',out/'fixture'])\ndigest=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\n(out/'source.patch').write_bytes(subprocess.check_output(['git','diff','--','src','shaders','c_abi','scripts']))\n(out/'manifest.json').write_text(json.dumps(dict(mode=mode,label=label,commands=commands,binary_sha256=digest(out/'fixture'),libraries={str(p):digest(p) for p in libs},shader_sha256=digest(root/'shaders/physics/solve.wgsl')),indent=2)+'\\n')\n",
+    "run_all.py": "from pathlib import Path\nimport subprocess,os,time,json,hashlib\np=Path(__file__).resolve().parent\nfor arm in ['baseline','candidate']:\n for script in ['build_fixture.py','build_loaded.py']:\n  subprocess.run(['python3',str(p/script),'ordinary',arm],check=True)\nsubprocess.run(['python3',str(p/'run.py')],check=True)\nsubprocess.run(['python3',str(p/'analyze.py')],check=True)\nprevious=p.parent/'rain-coupled-cone-point-experiment'\nfor case in ['hip','severe']:\n assert (p/f'{case}-baseline/state.txt').read_bytes()==(previous/f'{case}-baseline/state.txt').read_bytes()\nprint('Both baseline body streams match original exactly',flush=True)\nfor arm in ['baseline','candidate']:\n out=p/f'loaded-{arm}-ordinary'\n env={k:v for k,v in os.environ.items() if not k.startswith(('GPU_PHYSICS_','WGPU_','RAIN_'))}\n env.update(GPU_PHYSICS_LIVE_CONTACT_ORDER='0',WGPU_BACKEND='vulkan',GPU_PHYSICS_PIPELINE_CACHE_DIR=str(Path.home()/'.cache/box3d-gpu-physics/pipelines'))\n command=[str(out/'fixture')]\n (out/'run.json').write_text(json.dumps(dict(command=command,binary_sha256=hashlib.sha256((out/'fixture').read_bytes()).hexdigest(),environment={k:v for k,v in env.items() if k.startswith(('GPU_','WGPU_'))}),indent=2))\n start=time.monotonic()\n with (out/'state.txt').open('w') as stdout,(out/'run.log').open('w') as stderr:\n  r=subprocess.run(command,env=env,stdout=stdout,stderr=stderr)\n (out/'exit.json').write_text(json.dumps(dict(exit=r.returncode,seconds=time.monotonic()-start),indent=2))\n print('loaded',arm,r.returncode,flush=True)\n",
+    "finalize.py": "from pathlib import Path\nimport json,hashlib,subprocess\nroot=Path('experiments/gpu-physics');p=root/'artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search'\ndigest=lambda q:hashlib.sha256(q.read_bytes()).hexdigest()\nsummary=json.loads((p/'summary.json').read_text());reasons=[]\nfor case,arms in summary['cases'].items():\n b,c=arms['baseline'],arms['candidate']\n assert b['initial_exact'] and c['initial_exact']\n for name in ['frames','body_observations','spherical_observations']:assert b[name]==c[name]\n for name,tol in [('peak_anchor_target',1e-6)]:\n  if c[name]>b[name]+tol:reasons.append({'case':case,'metric':name,'baseline':b[name],'candidate':c[name]})\n for axis in ['lower','upper']:\n  if c['all_joint_peaks'][axis]>b['all_joint_peaks'][axis]+1e-6:reasons.append({'case':case,'metric':'all_joint_'+axis,'baseline':b['all_joint_peaks'][axis],'candidate':c['all_joint_peaks'][axis]})\n assert (p/f'{case}-baseline/state.txt').read_bytes()==(p.parent/f'rain-coupled-cone-point-experiment/{case}-baseline/state.txt').read_bytes()\nassert reasons\nassert digest(root/'target/release/libgpu_physics.a')=='b3f2b64239d72c95c8e1746f9bd40a95152fb7a2c6ab373a6e2bd2986cf5265b'\nassert (root/'shaders/physics/solve.wgsl').read_bytes()==(p/'original-solve.wgsl').read_bytes()\nrestore={'source_byte_exact':True,'normal_build_exit':0,'normal_archive_sha256':digest(root/'target/release/libgpu_physics.a')}\n(p/'normal-restoration.json').write_text(json.dumps(restore,indent=2))\nsources={f.name:f.read_text() for f in p.glob('*.py')}\nsources['spherical_compliance_reference.cpp']=(root/'c_abi/spherical_compliance_reference.cpp').read_text()\nrecord={'date':'2026-09-29','status':'rejected','head':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'scope':'Single ordinary-path screening experiment; no physical acceptance, native qualification, final repeats, or production adoption. Prepared solver mass metric is not a complete physical energy ledger.','protocol':(p/'protocol.txt').read_text(),'candidate_patch':(p/'candidate.patch').read_text(),'preparation':json.loads((p/'preparation.json').read_text()),'rain':summary,'rejection_reasons':reasons,'loaded_cone':json.loads((p/'loaded-summary.json').read_text()),'baseline_body_streams_byte_exact':True,'normal_restoration':restore,'sources':sources,'hashes':{str(f.relative_to(p)):digest(f) for f in sorted(p.rglob('*')) if f.is_file() and f.suffix in ['.json','.py','.wgsl','.txt','.log','.patch']},'frozen_archives':{f.name:digest(f) for f in p.glob('*.a')},'manifests':{str(f.relative_to(p)):json.loads(f.read_text()) for f in p.rglob('manifest.json')},'exit_receipts':{str(f.relative_to(p)):json.loads(f.read_text()) for f in p.rglob('exit.json')},'decision':'Do not adopt or expand this kinetic-only cache guard. Positive cached work is insufficient to choose a safe warm guess; original failing Rain screens remain failed.'}\nout=root/'benchmarks/2026-09-29-rain-warm-cache-line-search.json';out.write_text(json.dumps(record,indent=2)+'\\n')\nprint(out, 'rejection reasons:',len(reasons))\n",
+    "prepare.py": "from pathlib import Path\nimport shutil,difflib,json,hashlib\nroot=Path('experiments/gpu-physics');base=root/'artifacts/gpu-solver-qualification/desktop-baseline';p=base/'rain-warm-cache-line-search';p.mkdir(exist_ok=False)\nsrc=root/'shaders/physics/solve.wgsl';original=src.read_text();candidate=original\nhelper='''// Artifact-only cache-reuse experiment. Uses the prepared solver mass metric,\n// not the orientation-updated physical energy ledger. No matrix inversion.\nfn passive_cache_work(b: Body, p: vec3<f32>, t: vec3<f32>) -> vec2<f32> {\n    if (!joint_endpoint_writable(b)) { return vec2<f32>(0.0); }\n    var angular_linear = 0.0;\n    var angular_quad = 0.0;\n    if ((b.flags & FLAG_FIXED_ROTATION) != FLAG_FIXED_ROTATION) {\n        angular_linear = dot(b.omega, t);\n        angular_quad = dot(t, world_inv_inertia(b, t));\n    }\n    return vec2<f32>(dot(b.vel, p) + angular_linear,\n        0.5 * (b.inv_mass * dot(p, p) + angular_quad));\n}\n\nfn passive_cache_scale(ba: Body, bb: Body, ra: vec3<f32>, rb: vec3<f32>,\n    p: vec3<f32>, t: vec3<f32>) -> f32 {\n    // Prescribed kinematic motion may perform work, just like an active motor.\n    if (((ba.flags | bb.flags) & FLAG_KINEMATIC) != 0u) { return 1.0; }\n    let work = passive_cache_work(ba, -p, -(gyro_cross(ra, p) + t))\n        + passive_cache_work(bb, p, gyro_cross(rb, p) + t);\n    if (work.x + work.y <= 0.0 || work.y <= 0.0) { return 1.0; }\n    return clamp(-work.x / work.y, 0.0, 1.0);\n}\n\n'''\ncandidate=candidate.replace('fn solve_revolute(',helper+'fn solve_revolute(',1)\nfor name,end,fields,active in [\n ('solve_revolute','fn solve_wheel', ['angular_impulse','perp_impulse','spring_impulse','motor_impulse','lower_impulse','upper_impulse'],'(((*jn).flags & REVOLUTE_ENABLE_MOTOR) != 0u && (*jn).motor_speed != 0.0)'),\n ('solve_spherical','fn solve_joint_components',['angular_impulse','spring_angular_impulse','motor_angular_impulse','swing_impulse','lower_impulse','upper_impulse'],'(((*jn).flags & SPHERICAL_ENABLE_MOTOR) != 0u && any((*jn).motor_angular_velocity != vec3<f32>(0.0)))')]:\n start=candidate.index('fn '+name+'(');warm=candidate.index('    if (params.use_bias == 2u) {',start);pos=candidate.index('        if (joint_endpoint_writable(*ba)) {',warm)\n if name=='solve_revolute':\n  segment=candidate[warm:pos].replace('let angular_impulse =','var angular_impulse =');candidate=candidate[:warm]+segment+candidate[pos:];pos=warm+len(segment)\n addition='''        if ((params.diagnostic_flags & SOLVER_PAIRED_NORMALS) != 0u\n            && !ACTIVE) {\n            let scale = passive_cache_scale(*ba, *bb, rA, rB,\n                (*jn).angular_impulse, angular_impulse);\n'''.replace('ACTIVE',active)\n addition+=''.join(f'            (*jn).{field} = scale * (*jn).{field};\\n' for field in fields)\n addition+='            angular_impulse = scale * angular_impulse;\\n        }\\n'\n candidate=candidate[:pos]+addition+candidate[pos:]\n(p/'original-solve.wgsl').write_text(original);(p/'candidate-solve.wgsl').write_text(candidate)\n(p/'candidate.patch').write_text(''.join(difflib.unified_diff(original.splitlines(True),candidate.splitlines(True),fromfile='a/shaders/physics/solve.wgsl',tofile='b/shaders/physics/solve.wgsl')))\nold=base/'rain-coupled-cone-point-experiment'\nfor f in ['hip-initial.txt','severe-initial.txt','build_fixture.py','run.py','analyze.py'] :shutil.copy2(old/f,p/f)\nshutil.copy2(base/'rain-substep-angular-frame-experiment/build_candidate.py',p/'build_candidate.py')\nshutil.copy2(old/'baseline-libgpu_physics.a',p/'baseline-libgpu_physics.a')\nbuild=(p/'build_fixture.py').read_text().replace(\"out=Path(__file__).resolve().parent/f'{label}-{mode}'\",\"out=Path(__file__).resolve().parent/f'loaded-{label}-{mode}'\").replace(\"root/'c_abi/rain_cell_reference.cpp'\",\"root/'c_abi/spherical_compliance_reference.cpp'\")\n(p/'build_loaded.py').write_text(build)\nprotocol='''Artifact-only passive joint warm-cache experiment, predeclared before execution.\nOrdinary path first; original hip and severe initial states, 120 steps each, unchanged scene/body/joint/default settings, step size and substeps. Baseline must reproduce previous baseline body streams byte-exact. Initial getters exact; complete finite frame/body/joint observations mandatory.\nCandidate uses prepared solver inertia metric L alpha + Q alpha^2, with largest alpha in [0,1] having nonpositive change. This is a numerical cache-guess guard, NOT a bound on true orientation-updated kinetic/stored energy. Uses actual generalized cached impulse, avoids inertia inversion. Static/sleep/fixed rotation contributions handled by existing writability/tensor flags. All cache components and applied impulse scale together; live revolute axis caches are unchanged. Prescribed nonzero motors and kinematic endpoints excluded. CPU-compatible path unchanged.\nKeep original physical Rain screens failed until independently resolved. Reject candidate if cone reduction trades for increased target anchor or all-joint twist beyond baseline numerical roundoff (1e-6 m / 1e-6 rad). No selection of a favorable subwindow. Examine all original replay metrics. No parameter/iteration sweeps.\nAlso run existing unmodified spherical_compliance_reference.cpp on baseline/candidate ordinary: both 0.01 and 0.1 rad loads, 600 steps, last120 max angle prediction error <1e-4 rad and max speed <1e-3 rad. Any failure rejects preservation of the existing loaded response, regardless of Rain gains. No weakening. A screening pass is not qualification: native path, isolated spring/active motor/locked inertia controls, five fresh complete-state repeats, full matrix, performance and recordings remain required before adoption.\n'''\n(p/'protocol.txt').write_text(protocol)\n(p/'preparation.json').write_text(json.dumps({'original_shader':hashlib.sha256(original.encode()).hexdigest(),'candidate_shader':hashlib.sha256(candidate.encode()).hexdigest(),'protocol_sha256':hashlib.sha256(protocol.encode()).hexdigest()},indent=2))\nprint(p)\n",
+    "spherical_compliance_reference.cpp": "// Analytical steady cone-limit compliance under constant torque. Unit isotropic\n// inertia and coincident COM anchors isolate K = I * (2*pi*effectiveHertz)^2.\n// The final 120 of 600 steps must match torque/K within 1e-4 rad and settle below\n// 1e-3 rad/s for both loads. This does not qualify contact-loaded Rain behavior.\n#include \"box3d/box3d.h\"\n#include <cmath>\n#include <cstdio>\n#include <initializer_list>\nextern \"C\" void b3_world_gpu_wait_with_mirror(b3WorldId) __attribute__((weak));\nint main() {\n    bool pass=true;\n    for(float expected:{0.01f,0.1f}) {\n        auto wd=b3DefaultWorldDef();wd.gravity={0,0,0};wd.enableSleep=false;\n        auto world=b3CreateWorld(&wd);\n        auto bd=b3DefaultBodyDef();auto ground=b3CreateBody(world,&bd);\n        bd.type=b3_dynamicBody;bd.rotation=b3MakeQuatFromAxisAngle({1,0,0},10.0f*B3_DEG_TO_RAD+expected);\n        auto body=b3CreateBody(world,&bd);\n        auto sd=b3DefaultShapeDef();sd.filter.maskBits=0;\n        b3Sphere sphere={{0,0,0},0.1f};b3CreateSphereShape(body,&sd,&sphere);\n        b3MassData md={1.0f,{0,0,0},b3Mat3_identity};b3Body_SetMassData(body,md);\n        auto jd=b3DefaultSphericalJointDef();jd.base.bodyIdA=ground;jd.base.bodyIdB=body;\n        jd.enableConeLimit=true;jd.coneAngle=10.0f*B3_DEG_TO_RAD;\n        if(jd.base.constraintHertz!=60 || jd.base.constraintDampingRatio!=2 || jd.enableSpring || jd.enableMotor)return 3;\n        auto joint=b3CreateSphericalJoint(world,&jd);\n        const float h=1.0f/240.0f;\n        const double hz=std::fmin(jd.base.constraintHertz,0.25/double(h));\n        const double stiffness=std::pow(2.0*3.14159265358979323846*hz,2);\n        const float torque=float(stiffness*expected);\n        const double predicted=torque/stiffness;\n        std::fprintf(stderr,\"load %.9g torque %.9g predicted %.12g hertz %.9g damping %.9g\\n\",expected,torque,predicted,jd.base.constraintHertz,jd.base.constraintDampingRatio);\n        double worst=0,speedMax=0;\n        for(int i=0;i<600;++i) {\n            b3Body_ApplyTorque(body,{torque,0,0},true);\n            b3World_Step(world,1.0f/60.0f,4);\n            if(b3_world_gpu_wait_with_mirror)b3_world_gpu_wait_with_mirror(world);\n            auto q=b3Body_GetRotation(body);auto w=b3Body_GetAngularVelocity(body);\n            double swing=2*std::atan2(std::hypot(double(q.v.x),double(q.v.y)),std::hypot(double(q.v.z),double(q.s)));\n            double residual=swing-jd.coneAngle;\n            double speed=std::sqrt(double(w.x)*w.x+double(w.y)*w.y+double(w.z)*w.z);\n            if(!std::isfinite(residual)||!std::isfinite(speed))return 4;\n            std::printf(\"%.9g %d %.12g %.12g %.12g\\n\",expected,i,residual,predicted,speed);\n            if(i>=480){worst=std::fmax(worst,std::fabs(residual-predicted));speedMax=std::fmax(speedMax,speed);}\n        }\n        std::fprintf(stderr,\"result %.9g max_error %.12g max_speed %.12g\\n\",expected,worst,speedMax);\n        pass=pass && worst<1e-4 && speedMax<1e-3;\n        b3DestroyWorld(world);\n    }\n    return pass?0:1;\n}\n"
+  },
+  "hashes": {
+    "analyze.py": "bdbedef55764e226af5ee442f61a0994fa5ac64968da9c2401497e1e432f6348",
+    "baseline-ordinary/manifest.json": "5c0872634e3fa8b90ea587079820194f53582c30900d64275b5c6f491410f6b1",
+    "baseline-ordinary/source.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build-exit.json": "bfdedf06596faa2042b0fedd9653ec1023d2e96ed56dc40b607985bc8438c1d5",
+    "build.log": "31d21be0c96f698960cde91b91535e41121cd344cbaabcc239442a354c862b88",
+    "build_candidate.py": "c37262f5bae5dd7c079a1ea05bd91576da8ac0268996faf7f6e469571cafe06c",
+    "build_fixture.py": "7f84ab188474b411afe65d3370993a7de3f0cd7332124186c22b782f9e770973",
+    "build_loaded.py": "a1fe2b06a255689bb728637a8ff8c9b3a66569548da29e0bb92df4364c5fde0c",
+    "candidate-ordinary/manifest.json": "6d6f53e8a5b595aab1b15c728ea94fc2637073a0f607bf5d2277e23475dae86d",
+    "candidate-ordinary/source.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "candidate-solve.wgsl": "3e926b9bd4bd015431930cd753483b70a7927c38d10ea7393a436993d5e18060",
+    "candidate.patch": "80e93c51ac6ac75887670d12030e72b9d0f245b3c54de46ac1552baff3d2d5a0",
+    "finalize.py": "a82bf1442de18529dba322b169e0ee78c41ed8b791e97e2b0c10f68fe0818182",
+    "hip-baseline/exit.json": "6c1ea404b7ca7f82afd88d7cf0694cb57f89cd6cc89cade208a8f832d29714eb",
+    "hip-baseline/manifest.json": "ab7268acf29bb237577d6dd66c3f6d82dccdc99ad2c8750ff298e75c38d125ad",
+    "hip-baseline/run.log": "8bcb450dd38e9cce4fea4feaaf1c84c790341ec9166a9aad1afecd7c7d97fa8a",
+    "hip-baseline/state.txt": "4d49e563a8b21a8ad1389560e6ca85ec2558c0b74e8d266a9d3a1de65f730a2d",
+    "hip-candidate/exit.json": "da957bdf4c5ae6d7fdd7abcaf88a070315f044c2099a668ed38bc3ec64cf7e78",
+    "hip-candidate/manifest.json": "ff188a20d2e517c022394e3f03a7348678abd3b1f611ad00ce7ead197fc1fb64",
+    "hip-candidate/run.log": "8709e9a966a2d40ebac10fc7255240a56109c31b893c516a33e237e52b1728f5",
+    "hip-candidate/state.txt": "f09cb557553349f5148eb3669c6875292721623dda5dc954ef9258445719809f",
+    "hip-initial.txt": "0c1153754e4d2dbef153f305105e904489bdaabc18a7bc3bfe88d6224cd08114",
+    "loaded-baseline-ordinary/exit.json": "8c75e0c4f44b987310441233a72c8f0962009f7832e93432d0a911dd0684a638",
+    "loaded-baseline-ordinary/manifest.json": "025c9c2c6c390991030f00c8294565c0d7f1059be309feba5a74a587d5c58f63",
+    "loaded-baseline-ordinary/run.json": "0fde805198bcc018282c153bd7680f8f2914842b606ebcacb2de8b3c0b82babd",
+    "loaded-baseline-ordinary/run.log": "a42a3014f9460e41596e5d94f84d114411a80746a2192796e22c1c26a487a0d9",
+    "loaded-baseline-ordinary/source.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "loaded-baseline-ordinary/state.txt": "97b004fb80ca5d9c71f15ae632622aaf53cb7b10b382fc3656b6f071bd764c61",
+    "loaded-candidate-ordinary/exit.json": "1b8b8fb1920a59112f20235b173a1d1ceed1ade5f3f1e047180f1520a8d80abb",
+    "loaded-candidate-ordinary/manifest.json": "3401513d00c513d516b8580b4b35a29f3083a37276cff277db88953457b66a60",
+    "loaded-candidate-ordinary/run.json": "1687400ba032cdd8c90bc3da999b648d2ee038240c08acc0eed1df05236f623e",
+    "loaded-candidate-ordinary/run.log": "a42a3014f9460e41596e5d94f84d114411a80746a2192796e22c1c26a487a0d9",
+    "loaded-candidate-ordinary/source.patch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "loaded-candidate-ordinary/state.txt": "97b004fb80ca5d9c71f15ae632622aaf53cb7b10b382fc3656b6f071bd764c61",
+    "loaded-summary.json": "c82e3a6f2460eafa9d12223800f93290ecbd586a743be55befccb37bffa829a7",
+    "normal-rebuild.log": "14641a622ed791fb57f9220896f1410a05a71c927bdd37026245af9685cb463a",
+    "normal-restoration.json": "156421691475f44d146be8378c380f7736cd0d2dfc1eba0883b20a0220c2a274",
+    "original-solve.wgsl": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7",
+    "preparation.json": "9383712eb2340f5265beca3ba9a4dbfe913b384b19adf77326aec2de7955365c",
+    "prepare.py": "2ae8b4d6ce3cb481583f1c6745af1089e497ae0d697d63bea8b40d444130f323",
+    "protocol.txt": "3922f008bcf541f6ca8159be231d7b03faaf26eaf26ac24c758d7269c15f5507",
+    "restoration.json": "5c335070d4f8d91f4d0ec9260c671e6a933f279f8c425d07e3cdaa227223b848",
+    "run.py": "365e5962b0a5e534e72e48632ba8ec1448b2ce3bb6f4beba72670a018cac2dbe",
+    "run_all.py": "5640d13536018d1d88ce535dc04085c4ae6042dbe7cdb3bde061a6eeff0a2cc3",
+    "severe-baseline/exit.json": "d31d652794f750be2119bb30a78b2a9551161e3ac7a7ae2f846a592318695cc0",
+    "severe-baseline/manifest.json": "dd4c01fc681481c835a04a3fba8fd2104186bb3b59d1c6686526f1400dcf3e09",
+    "severe-baseline/run.log": "6699e8a0abbeccd94d7dce522a9bcdd7d4aeb6f35244d71efd45b79ad1f5acd7",
+    "severe-baseline/state.txt": "f146a0778f1bbe3f121c57239594036c300b874e11c841faca204c48f865670f",
+    "severe-candidate/exit.json": "d98a7684741083190acc2a5732dfac1639d9e278c85d450b6b528113221baf16",
+    "severe-candidate/manifest.json": "4446ea0aaa1011a6d46835dee67ee7e01b48c893dc3d34699820cec262763de6",
+    "severe-candidate/run.log": "a3bcb1d351cc4c30504d939259e26b725c767aaae561f889051b73a5dc8a3387",
+    "severe-candidate/state.txt": "b8244ee779d36846bc28e85c70f56e983dc5849a6a41cba571c91a12fcb70f0d",
+    "severe-initial.txt": "8ece29e9b2f63d9599ed2d5e5ddef908949cd099443f94b865b887f7bc4c4e76",
+    "summary.json": "288d3cabc067fdd7772decc955a8e44b9191a736f928995df7c5380297381479"
+  },
+  "frozen_archives": {
+    "baseline-libgpu_physics.a": "d5ada4e13a4918f0245a768afbb86b8659c0e84c1a56a9d26195978d51180f59",
+    "candidate-libgpu_physics.a": "d7b43d88f13012faa2d9133064fab1fdd7b7825358a9834649f8f28180d5a680"
+  },
+  "manifests": {
+    "baseline-ordinary/manifest.json": {
+      "mode": "ordinary",
+      "label": "baseline",
+      "commands": [
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/human.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/baseline-ordinary/human.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/utils.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/baseline-ordinary/utils.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/samples_stubs.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/baseline-ordinary/stubs.o"
+        ],
+        [
+          "g++",
+          "-O2",
+          "-DNDEBUG",
+          "-std=c++17",
+          "-Wl,--gc-sections",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/rain_cell_reference.cpp",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/baseline-ordinary/human.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/baseline-ordinary/utils.o",
+          "-Wl,--allow-multiple-definition",
+          "-Wl,--wrap=b3CreateCompound",
+          "-Wl,--whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a",
+          "-Wl,--no-whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/baseline-libgpu_physics.a",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/baseline-ordinary/stubs.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a",
+          "-ldl",
+          "-lpthread",
+          "-lm",
+          "-lgcc_s",
+          "-lGL",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/baseline-ordinary/fixture"
+        ]
+      ],
+      "binary_sha256": "a153e902a1d90bb922c7d0dc53b8bb5772140474366499f9e4f591974eea1050",
+      "libraries": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a": "3c67d2c60fdba46aab7e4e7b2824f6490b22324b50d4945db0e2b19db2f1ad58",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/baseline-libgpu_physics.a": "d5ada4e13a4918f0245a768afbb86b8659c0e84c1a56a9d26195978d51180f59",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a": "c4483223811aa16fc03b689a165c000b39978d809b7a0e658a40d1657bf9b178"
+      },
+      "shader_sha256": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7"
+    },
+    "loaded-baseline-ordinary/manifest.json": {
+      "mode": "ordinary",
+      "label": "baseline",
+      "commands": [
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/human.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/loaded-baseline-ordinary/human.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/utils.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/loaded-baseline-ordinary/utils.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/samples_stubs.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/loaded-baseline-ordinary/stubs.o"
+        ],
+        [
+          "g++",
+          "-O2",
+          "-DNDEBUG",
+          "-std=c++17",
+          "-Wl,--gc-sections",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/spherical_compliance_reference.cpp",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/loaded-baseline-ordinary/human.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/loaded-baseline-ordinary/utils.o",
+          "-Wl,--allow-multiple-definition",
+          "-Wl,--wrap=b3CreateCompound",
+          "-Wl,--whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a",
+          "-Wl,--no-whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/baseline-libgpu_physics.a",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/loaded-baseline-ordinary/stubs.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a",
+          "-ldl",
+          "-lpthread",
+          "-lm",
+          "-lgcc_s",
+          "-lGL",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/loaded-baseline-ordinary/fixture"
+        ]
+      ],
+      "binary_sha256": "19d039d08950100f81ac7a8da9b80a2f4e7667fc758f55dd566569b86fa2aca4",
+      "libraries": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a": "3c67d2c60fdba46aab7e4e7b2824f6490b22324b50d4945db0e2b19db2f1ad58",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/baseline-libgpu_physics.a": "d5ada4e13a4918f0245a768afbb86b8659c0e84c1a56a9d26195978d51180f59",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a": "c4483223811aa16fc03b689a165c000b39978d809b7a0e658a40d1657bf9b178"
+      },
+      "shader_sha256": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7"
+    },
+    "candidate-ordinary/manifest.json": {
+      "mode": "ordinary",
+      "label": "candidate",
+      "commands": [
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/human.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/candidate-ordinary/human.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/utils.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/candidate-ordinary/utils.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/samples_stubs.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/candidate-ordinary/stubs.o"
+        ],
+        [
+          "g++",
+          "-O2",
+          "-DNDEBUG",
+          "-std=c++17",
+          "-Wl,--gc-sections",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/rain_cell_reference.cpp",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/candidate-ordinary/human.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/candidate-ordinary/utils.o",
+          "-Wl,--allow-multiple-definition",
+          "-Wl,--wrap=b3CreateCompound",
+          "-Wl,--whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a",
+          "-Wl,--no-whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/candidate-libgpu_physics.a",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/candidate-ordinary/stubs.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a",
+          "-ldl",
+          "-lpthread",
+          "-lm",
+          "-lgcc_s",
+          "-lGL",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/candidate-ordinary/fixture"
+        ]
+      ],
+      "binary_sha256": "fe599f7d9f4f4f758ee8f7375fc2bfd8a63acad314da570e7ff9769586c6a929",
+      "libraries": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a": "3c67d2c60fdba46aab7e4e7b2824f6490b22324b50d4945db0e2b19db2f1ad58",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/candidate-libgpu_physics.a": "d7b43d88f13012faa2d9133064fab1fdd7b7825358a9834649f8f28180d5a680",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a": "c4483223811aa16fc03b689a165c000b39978d809b7a0e658a40d1657bf9b178"
+      },
+      "shader_sha256": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7"
+    },
+    "loaded-candidate-ordinary/manifest.json": {
+      "mode": "ordinary",
+      "label": "candidate",
+      "commands": [
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/human.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/loaded-candidate-ordinary/human.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-DNDEBUG",
+          "-ffunction-sections",
+          "-fdata-sections",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared/utils.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/loaded-candidate-ordinary/utils.o"
+        ],
+        [
+          "cc",
+          "-O2",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/samples_stubs.c",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/loaded-candidate-ordinary/stubs.o"
+        ],
+        [
+          "g++",
+          "-O2",
+          "-DNDEBUG",
+          "-std=c++17",
+          "-Wl,--gc-sections",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/spherical_compliance_reference.cpp",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+          "-I",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/loaded-candidate-ordinary/human.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/loaded-candidate-ordinary/utils.o",
+          "-Wl,--allow-multiple-definition",
+          "-Wl,--wrap=b3CreateCompound",
+          "-Wl,--whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a",
+          "-Wl,--no-whole-archive",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/candidate-libgpu_physics.a",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/loaded-candidate-ordinary/stubs.o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a",
+          "-ldl",
+          "-lpthread",
+          "-lm",
+          "-lgcc_s",
+          "-lGL",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/loaded-candidate-ordinary/fixture"
+        ]
+      ],
+      "binary_sha256": "15320f338df1c7c917bb35e934acc25671862403eb1e2c02a69e9af89067f6ae",
+      "libraries": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/libgpu_samples_api.a": "3c67d2c60fdba46aab7e4e7b2824f6490b22324b50d4945db0e2b19db2f1ad58",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/candidate-libgpu_physics.a": "d7b43d88f13012faa2d9133064fab1fdd7b7825358a9834649f8f28180d5a680",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable/libbox3d_cpu_original.a": "c4483223811aa16fc03b689a165c000b39978d809b7a0e658a40d1657bf9b178"
+      },
+      "shader_sha256": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7"
+    },
+    "hip-baseline/manifest.json": {
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/baseline-ordinary/fixture",
+        "120"
+      ],
+      "binary_sha256": "a153e902a1d90bb922c7d0dc53b8bb5772140474366499f9e4f591974eea1050",
+      "environment": {
+        "RAIN_CELL_ROW": "3",
+        "RAIN_CELL_COLUMN": "9",
+        "RAIN_REPLAY_BASE": "3907",
+        "RAIN_REPLAY_STATE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/hip-initial.txt",
+        "RAIN_REPLAY_LIMITS": "1",
+        "RAIN_REPLAY_HEALTH": "1",
+        "RAIN_REPLAY_COLLISIONS": "1",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+      }
+    },
+    "hip-candidate/manifest.json": {
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/candidate-ordinary/fixture",
+        "120"
+      ],
+      "binary_sha256": "fe599f7d9f4f4f758ee8f7375fc2bfd8a63acad314da570e7ff9769586c6a929",
+      "environment": {
+        "RAIN_CELL_ROW": "3",
+        "RAIN_CELL_COLUMN": "9",
+        "RAIN_REPLAY_BASE": "3907",
+        "RAIN_REPLAY_STATE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/hip-initial.txt",
+        "RAIN_REPLAY_LIMITS": "1",
+        "RAIN_REPLAY_HEALTH": "1",
+        "RAIN_REPLAY_COLLISIONS": "1",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+      }
+    },
+    "severe-baseline/manifest.json": {
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/baseline-ordinary/fixture",
+        "120"
+      ],
+      "binary_sha256": "a153e902a1d90bb922c7d0dc53b8bb5772140474366499f9e4f591974eea1050",
+      "environment": {
+        "RAIN_CELL_ROW": "9",
+        "RAIN_CELL_COLUMN": "1",
+        "RAIN_REPLAY_BASE": "4999",
+        "RAIN_REPLAY_STATE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/severe-initial.txt",
+        "RAIN_REPLAY_LIMITS": "1",
+        "RAIN_REPLAY_HEALTH": "1",
+        "RAIN_REPLAY_COLLISIONS": "1",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+      }
+    },
+    "severe-candidate/manifest.json": {
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/candidate-ordinary/fixture",
+        "120"
+      ],
+      "binary_sha256": "fe599f7d9f4f4f758ee8f7375fc2bfd8a63acad314da570e7ff9769586c6a929",
+      "environment": {
+        "RAIN_CELL_ROW": "9",
+        "RAIN_CELL_COLUMN": "1",
+        "RAIN_REPLAY_BASE": "4999",
+        "RAIN_REPLAY_STATE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-warm-cache-line-search/severe-initial.txt",
+        "RAIN_REPLAY_LIMITS": "1",
+        "RAIN_REPLAY_HEALTH": "1",
+        "RAIN_REPLAY_COLLISIONS": "1",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+      }
+    }
+  },
+  "exit_receipts": {
+    "loaded-baseline-ordinary/exit.json": {
+      "exit": 0,
+      "seconds": 2.9958092229935573
+    },
+    "loaded-candidate-ordinary/exit.json": {
+      "exit": 0,
+      "seconds": 3.0185065239929827
+    },
+    "hip-baseline/exit.json": {
+      "exit": 0,
+      "seconds": 3.0931731870077783
+    },
+    "hip-candidate/exit.json": {
+      "exit": 0,
+      "seconds": 47.32326002999616
+    },
+    "severe-baseline/exit.json": {
+      "exit": 0,
+      "seconds": 1.8352353399968706
+    },
+    "severe-candidate/exit.json": {
+      "exit": 0,
+      "seconds": 1.936277914996026
+    }
+  },
+  "decision": "Do not adopt or expand this kinetic-only cache guard. Positive cached work is insufficient to choose a safe warm guess; original failing Rain screens remain failed."
+}

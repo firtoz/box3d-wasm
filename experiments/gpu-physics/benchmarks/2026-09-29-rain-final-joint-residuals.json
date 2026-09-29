@@ -1,0 +1,321 @@
+{
+  "scope": "Diagnostic/algebra evidence only; no physical acceptance or production adoption",
+  "protocol": "Predeclared offline residual audit; no shader changes or new capture. Use original120step hip trace plus same-run phase capture (byte-identical body streams). Evaluate all39active joints at final relaxation phase21 velocities, current end geometry and recorded impulse caches, using prepared step-start inertia and the exact pass-specific bias/softness rules. Verify final published velocities against phase23. Saved joint caches must not be changed by restitution/finalization (source check).\nFor each independent row/block evaluate a hypothetical isolated minimization from the actual final-pass state: residual w+b+Gamma*lambda; bilateral exact Newton step, scalar unilateral/box projected solution, spherical motor torque-ball constrained metric solution. Report remaining quadratic-objective decrease (nonnegative), not physical energy produced. Row gaps cannot be summed as a global energy/error bound because rows are coupled. Report raw residual units as well. Bias-free point/hinge alignment and violated angular limits have Gamma=0 on relaxation; springs retain bias/Gamma. Speculative unviolated limits retain separation/h bias.\nAlso evaluate how an isolated exact point correction changes the same joint's angular residual gaps with all angular caches fixed. This is a counterfactual coupling test, not an actual extra GPU pass or proof of a global fix. All120frames,4680joint observations, finite outputs, phase/body/schema/identity checks mandatory. No thresholds for physical acceptance are replaced; no candidate judged using this diagnostic alone. Conclusions must determine next solver work, not launch another general instrumentation campaign.\n",
+  "result": {
+    "scope": "Post-final-relaxation block residuals and hypothetical isolated point correction; gaps are row-objective decreases, not additive global energy or physical acceptance. Float64 geometry reconstruction from captured state.",
+    "frames": 120,
+    "joints": 39,
+    "joint_observations": 4680,
+    "max_published_velocity_error": 0.0,
+    "max_phase21_to23_velocity_change": 0.0,
+    "body_flags": [
+      8,
+      98312
+    ],
+    "summary": {
+      "all": {
+        "point": {
+          "count": 4680,
+          "mean_gap": 0.015954018997537144,
+          "max_gap": 0.9073328458758311,
+          "mean_residual_norm": 0.049855179139530026,
+          "max_residual_norm": 0.7777389167152666
+        },
+        "spherical_spring": {
+          "count": 3240,
+          "mean_gap": 0.0036240817718173105,
+          "max_gap": 0.14885062812192934,
+          "mean_residual_norm": 0.7412318331380064,
+          "max_residual_norm": 12.238691417421048
+        },
+        "spherical_motor": {
+          "count": 3240,
+          "mean_gap": 0.0023508309132473275,
+          "max_gap": 0.062432636534222805,
+          "mean_residual_norm": 1.0647850860591899,
+          "max_residual_norm": 26.2153221924585
+        },
+        "spherical_lower": {
+          "count": 3240,
+          "mean_gap": 0.0001071807321601626,
+          "max_gap": 0.042453875895103105,
+          "mean_residual_norm": 67.53020586465203,
+          "max_residual_norm": 257.7080026728218
+        },
+        "spherical_upper": {
+          "count": 3240,
+          "mean_gap": 3.184949678315547e-05,
+          "max_gap": 0.03171167731220458,
+          "mean_residual_norm": 95.74707068846826,
+          "max_residual_norm": 324.45969703897873
+        },
+        "spherical_cone": {
+          "count": 3240,
+          "mean_gap": 0.03269565419645474,
+          "max_gap": 2.723544073157268,
+          "mean_residual_norm": 27.335199702750824,
+          "max_residual_norm": 224.59372425138153
+        },
+        "revolute_spring": {
+          "count": 1440,
+          "mean_gap": 0.00014714123133735844,
+          "max_gap": 0.007522082474032257,
+          "mean_residual_norm": 0.12976853883011927,
+          "max_residual_norm": 1.7487917184610673
+        },
+        "revolute_motor": {
+          "count": 1440,
+          "mean_gap": 0.00018665477679833474,
+          "max_gap": 0.032447024558602114,
+          "mean_residual_norm": 0.34662526408632344,
+          "max_residual_norm": 6.908791666632159
+        },
+        "revolute_lower": {
+          "count": 1440,
+          "mean_gap": 0.0019276235135991585,
+          "max_gap": 0.457348245126803,
+          "mean_residual_norm": 105.12813728978209,
+          "max_residual_norm": 283.2802657253139
+        },
+        "revolute_upper": {
+          "count": 1440,
+          "mean_gap": 0.00768591925913178,
+          "max_gap": 0.4801430999333225,
+          "mean_residual_norm": 136.6880999661951,
+          "max_residual_norm": 275.6196663238484
+        },
+        "revolute_alignment": {
+          "count": 1440,
+          "mean_gap": 0.03076276978655469,
+          "max_gap": 1.2923560230203186,
+          "mean_residual_norm": 0.3883661835573278,
+          "max_residual_norm": 5.629614494420316
+        },
+        "point_counterfactual": {
+          "angular_gap_sum_before": 184.36565097498584,
+          "angular_gap_sum_after": 181.8160157839509,
+          "worsens_count": 2513
+        }
+      },
+      "tail60": {
+        "point": {
+          "count": 2340,
+          "mean_gap": 0.016181904615094896,
+          "max_gap": 0.9073328458758311,
+          "mean_residual_norm": 0.04933013312437352,
+          "max_residual_norm": 0.7777389167152666
+        },
+        "spherical_spring": {
+          "count": 1620,
+          "mean_gap": 0.0039342434532556435,
+          "max_gap": 0.13134239573193934,
+          "mean_residual_norm": 0.776379908848629,
+          "max_residual_norm": 12.238691417421048
+        },
+        "spherical_motor": {
+          "count": 1620,
+          "mean_gap": 0.0025588402387107276,
+          "max_gap": 0.04771634897768222,
+          "mean_residual_norm": 0.9686786471173129,
+          "max_residual_norm": 16.41769274307847
+        },
+        "spherical_lower": {
+          "count": 1620,
+          "mean_gap": 0.0001634955108577099,
+          "max_gap": 0.042453875895103105,
+          "mean_residual_norm": 67.97155912312638,
+          "max_residual_norm": 249.71582164389915
+        },
+        "spherical_upper": {
+          "count": 1620,
+          "mean_gap": 6.094399839452776e-05,
+          "max_gap": 0.03171167731220458,
+          "mean_residual_norm": 95.29662337360875,
+          "max_residual_norm": 324.45969703897873
+        },
+        "spherical_cone": {
+          "count": 1620,
+          "mean_gap": 0.03271357408303357,
+          "max_gap": 1.9071410103995692,
+          "mean_residual_norm": 27.279502958238876,
+          "max_residual_norm": 180.39419379077944
+        },
+        "revolute_spring": {
+          "count": 720,
+          "mean_gap": 0.00012427471875176759,
+          "max_gap": 0.007522082474032257,
+          "mean_residual_norm": 0.1141656924905915,
+          "max_residual_norm": 1.7487917184610673
+        },
+        "revolute_motor": {
+          "count": 720,
+          "mean_gap": 0.00010264523553912739,
+          "max_gap": 0.009883317905172962,
+          "mean_residual_norm": 0.31851326825396353,
+          "max_residual_norm": 4.173488958699771
+        },
+        "revolute_lower": {
+          "count": 720,
+          "mean_gap": 0.0016926089653254656,
+          "max_gap": 0.457348245126803,
+          "mean_residual_norm": 105.68327109891254,
+          "max_residual_norm": 276.6126349028445
+        },
+        "revolute_upper": {
+          "count": 720,
+          "mean_gap": 0.007546405188530726,
+          "max_gap": 0.4801430999333225,
+          "mean_residual_norm": 136.1899536691529,
+          "max_residual_norm": 275.6196663238484
+        },
+        "revolute_alignment": {
+          "count": 720,
+          "mean_gap": 0.02782344110096674,
+          "max_gap": 0.6153701677587078,
+          "mean_residual_norm": 0.3685604129199318,
+          "max_residual_norm": 4.172161751090329
+        },
+        "point_counterfactual": {
+          "angular_gap_sum_before": 90.72672775105048,
+          "angular_gap_sum_after": 89.86290188718337,
+          "worsens_count": 1289
+        }
+      },
+      "hip_tail60": {
+        "point": {
+          "count": 60,
+          "mean_gap": 0.07497264229944897,
+          "max_gap": 0.9073328458758311,
+          "mean_residual_norm": 0.16858572454041942,
+          "max_residual_norm": 0.7777389167152666
+        },
+        "spherical_spring": {
+          "count": 60,
+          "mean_gap": 0.05896609267520957,
+          "max_gap": 0.13134239573193934,
+          "mean_residual_norm": 7.021999805493954,
+          "max_residual_norm": 12.238691417421048
+        },
+        "spherical_motor": {
+          "count": 60,
+          "mean_gap": 0.02751346026360035,
+          "max_gap": 0.04771634897768222,
+          "mean_residual_norm": 8.43701330411799,
+          "max_residual_norm": 12.95072209563968
+        },
+        "spherical_lower": {
+          "count": 60,
+          "mean_gap": 0.0,
+          "max_gap": 0,
+          "mean_residual_norm": 196.1376343196763,
+          "max_residual_norm": 218.13795033468904
+        },
+        "spherical_upper": {
+          "count": 60,
+          "mean_gap": 0.0,
+          "max_gap": 0,
+          "mean_residual_norm": 180.85347494021394,
+          "max_residual_norm": 199.05564794336613
+        },
+        "spherical_cone": {
+          "count": 60,
+          "mean_gap": 0.1601081136065757,
+          "max_gap": 0.4168390841918426,
+          "mean_residual_norm": 1.7135785222703932,
+          "max_residual_norm": 2.910086876871141
+        },
+        "point_counterfactual": {
+          "angular_gap_sum_before": 14.795259992723137,
+          "angular_gap_sum_after": 13.887710439559623,
+          "worsens_count": 14
+        }
+      }
+    },
+    "input_sha256": {
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-anchor-audit/baseline/trace.jsonl": "0cf3a3aa2427726972f2ffd9db6416a5b7bca3acc08ff8af528233bccad8a537",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-hip-phase-replay/ordinary-on/phases.bin": "de84180e0369756ed6d3a6f094f48c4ed46df63f0783163c032aa6793d3d96a6",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/rain-coupled-anchor-audit/baseline/state.txt": "4d49e563a8b21a8ad1389560e6ca85ec2558c0b74e8d266a9d3a1de65f730a2d"
+    }
+  },
+  "sources": {
+    "analyze.py": "from pathlib import Path\nimport struct,json,math,hashlib\nimport numpy as np\np=Path(__file__).resolve().parent;base=p.parent;capture=base/'rain-coupled-anchor-audit/baseline';phase=base/'rain-hip-phase-replay/ordinary-on'\nassert (capture/'state.txt').read_bytes()==(phase/'state.txt').read_bytes()\nassert json.loads((capture/'exit.json').read_text())['exit']==0\nassert json.loads((phase/'exit.json').read_text())['exit']==0\nf=lambda x:struct.unpack('!f',bytes.fromhex(x))[0]\nv=lambda x:np.array([f(t) for t in x])\ndef R(q):\n x,y,z,w=q;return np.array([[1-2*(y*y+z*z),2*(x*y-z*w),2*(x*z+y*w)],[2*(x*y+z*w),1-2*(x*x+z*z),2*(y*z-x*w)],[2*(x*z-y*w),2*(y*z+x*w),1-2*(x*x+y*y)]])\ndef mul(a,b):return np.r_[a[3]*b[:3]+b[3]*a[:3]+np.cross(a[:3],b[:3]),a[3]*b[3]-np.dot(a[:3],b[:3])]\ndef inv(q):return np.r_[-q[:3],q[3]]\ndef S(r):\n x,y,z=r;return np.array([[0,-z,y],[z,0,-x],[-y,x,0]])\ndef twist(q):return 2*math.atan2(q[2] if q[3]>=0 else -q[2],abs(q[3]))\ndef swing(q):return 2*math.atan2(np.linalg.norm(q[:2]),np.linalg.norm(q[2:]))\ndef soften(h,hz,damp):\n omega=2*math.pi*hz;a1=2*damp+h*omega;a2=h*omega*a1;return omega/a1,1/a2\n# Exact torque-ball reference for the block residual; independent eigensolver.\ndef ball(K,g,r):\n if r==0:return np.zeros(3)\n e,V=np.linalg.eigh(K);z=V.T@g;x=-V@(z/e)\n if np.linalg.norm(x)<=r:return x\n low=0.;high=np.linalg.norm(g)/r\n for _ in range(64):\n  mid=.5*(low+high)\n  if np.linalg.norm(z/(e+mid))>r:low=mid\n  else:high=mid\n return -V@(z/(e+high))\ndef block(A,I,w,lam,bias,gamma=0,domain='free',cap=0):\n A=np.atleast_2d(A);lam=np.atleast_1d(lam);bias=np.atleast_1d(bias)\n K=A@I@A.T;K=(K+K.T)/2;assert min(np.linalg.eigvalsh(K))>0\n H=(1+gamma)*K;r=A@w+bias+gamma*K@lam\n if domain=='ball':new=ball(H,r-H@lam,cap)\n else:\n  new=lam-np.linalg.solve(H,r)\n  if domain=='positive':new=np.maximum(new,0)\n  if domain=='box':new=np.clip(new,-cap,cap)\n delta=new-lam;gap=float(-r@delta-.5*delta@H@delta);assert gap>=-1e-9\n return {'gap':max(0,gap),'residual_norm':float(np.linalg.norm(r)),'impulse_correction':float(np.linalg.norm(delta))}\nraw=(phase/'phases.bin').read_bytes();offset=0;rows=[];max_final_v=0.;max_finalize_change=0.;flags=set();jids=None\nfor line in (capture/'trace.jsonl').open():\n d=json.loads(line);frame,n=struct.unpack_from('<II',raw,offset);offset+=8;assert frame==d['frame']-1 and n==192*44\n words=np.frombuffer(raw,dtype='<u4',count=n,offset=offset);offset+=4*n;states=words.view('<f4')[192:].reshape(24,43,8);assert all(words[k*8]==k for k in range(24))\n bs={b['identity']:b for b in d['bodies']};starts=dict(zip(d['body_storage_order'],d['host_state']['step_start_bodies']));h=f(d['settings']['dt'])\n def velocity(i,ph):\n  a=states[ph,i-1];return a[[0,4,1]].astype(float),a[5:8].astype(float)\n def inertia(b):\n  diagonal=v(b['inv_inertia']);lo=v(b['gpu_motion']['inv_inertia_offdiag']);hi=v(b['gpu_motion']['inv_inertia_upper']);local=np.array([[diagonal[0],hi[0],hi[1]],[lo[0],diagonal[1],hi[2]],[lo[1],lo[2],diagonal[2]]]);r=R(v(starts[b['identity']]['rot']));return r@local@r.T\n for id,b in bs.items():\n  if id==1:continue\n  final=np.r_[*velocity(id,23)];max_final_v=max(max_final_v,float(np.max(abs(final-np.r_[v(b['vel']),v(b['omega'])]))));max_finalize_change=max(max_finalize_change,float(np.max(abs(final-np.r_[*velocity(id,21)]))));flags.add(b['flags']);assert not b['flags']&7\n joints=[j for j in d['joints'] if j['kind'] in [1,3]];assert len(joints)==39\n ids={j['identity'] for j in joints};assert jids is None or jids==ids;jids=ids\n for j in joints:\n  a,b=[bs[j[k]] for k in ['a','b']];ia,ib=inertia(a),inertia(b);I=ia+ib;I=(I+I.T)/2\n  va,wa=velocity(j['a'],21);vb,wb=velocity(j['b'],21);w=wb-wa\n  ra,rb=[R(v(z['rot']))@(v(j['anchor_'+k])-v(z['local_center'])) for k,z in [('a',a),('b',b)]]\n  Kp=(f(a['inv_mass'])+f(b['inv_mass']))*np.eye(3)-S(ra)@ia@S(ra)-S(rb)@ib@S(rb);Kp=(Kp+Kp.T)/2\n  vp=vb+np.cross(wb,rb)-va-np.cross(wa,ra);delta_p=-np.linalg.solve(Kp,vp);pointgap=float(-vp@delta_p-.5*delta_p@Kp@delta_p)\n  dw=ib@np.cross(rb,delta_p)+ia@np.cross(ra,delta_p)\n  qa,qb=[mul(v(z['rot']),v(j['frame_'+k+'_rotation'])) for k,z in [('a',a),('b',b)]]\n  qa0,qb0=[mul(v(starts[z['identity']]['rot']),v(j['frame_'+k+'_rotation'])) for k,z in [('a',a),('b',b)]]\n  if j['kind']==1 and np.dot(qa,qb)<0:qb=-qb\n  rel=mul(inv(qa),qb);rel0=mul(inv(qa0),qb0);z=R(qa0)[:,2];angle=twist(rel);spec=[]\n  def add(name,A,lam,bias,gamma=0,domain='free',cap=0):spec.append((name,A,lam,bias,gamma,domain,cap))\n  if j['kind']==3:\n   zB=R(qb0)[:,2];axis=np.cross(z,zB);axis=axis/np.linalg.norm(axis) if np.linalg.norm(axis)>0 else axis\n   denom=np.dot(rel0[2:],rel0[2:]);tan=np.sqrt(np.dot(rel0[:2],rel0[:2])/denom) if denom>0 else 0;twistJ=z+tan*np.cross(axis,z)\n   if j['flags']&1:\n    rate,gamma=soften(h,f(j['spring_hertz']),f(j['spring_damping']));target=v(j['target_rotation']);q=rel if np.dot(rel,target)>=0 else -rel;c=-R(qa)@(2*mul(target-q,inv(q))[:3]);add('spherical_spring',np.eye(3),v(j['spring_angular_impulse']),rate*c,gamma)\n   if j['flags']&8:add('spherical_motor',np.eye(3),v(j['motor_angular_impulse']),-v(j['motor_angular_velocity']),0,'ball',h*f(j['max_motor_force']))\n   if j['flags']&4:\n    lower=angle-f(j['lower_translation']);upper=f(j['upper_translation'])-angle\n    add('spherical_lower',twistJ,f(j['lower_impulse']),max(0,lower)/h,0,'positive');add('spherical_upper',-twistJ,f(j['upper_impulse']),max(0,upper)/h,0,'positive')\n   if j['flags']&2:add('spherical_cone',-axis,f(j['swing_impulse']),max(0,f(j['target_translation'])-swing(rel))/h,0,'positive')\n  else:\n   if j['flags']&1:\n    rate,gamma=soften(h,f(j['spring_hertz']),f(j['spring_damping']));add('revolute_spring',z,f(j['spring_impulse']),rate*(angle-f(j['target_translation'])),gamma)\n   if j['flags']&4:add('revolute_motor',z,f(j['motor_impulse']),-f(j['motor_speed']),0,'box',h*f(j['max_motor_force']))\n   if j['flags']&2:\n    add('revolute_lower',z,f(j['lower_impulse']),max(0,angle-f(j['lower_translation']))/h,0,'positive');add('revolute_upper',-z,f(j['upper_impulse']),max(0,f(j['upper_translation'])-angle)/h,0,'positive')\n   assert j['revolute_axes_step']==d['frame'];add('revolute_alignment',np.array([v(j['weld_linear_impulse']),v(j['weld_angular_impulse'])]),v(j['perp_impulse']),np.zeros(2))\n  blocks={};after={}\n  for name,A,lam,bias,gamma,domain,cap in spec:\n   blocks[name]=block(A,I,w,lam,bias,gamma,domain,cap);after[name]=block(A,I,w+dw,lam,bias,gamma,domain,cap)\n  rows.append({'frame':d['frame'],'joint':j['identity'],'kind':j['kind'],'a':j['a'],'b':j['b'],'point':{'gap':pointgap,'residual_norm':float(np.linalg.norm(vp))},'angular':blocks,'angular_after_point':after,'point_angular_velocity_change':float(np.linalg.norm(dw))})\nassert len(rows)==4680 and offset==len(raw) and max_final_v==0\nsummary={}\nfor label,sel in [('all',rows),('tail60',[r for r in rows if r['frame']>60]),('hip_tail60',[r for r in rows if r['frame']>60 and r['joint']==36])]:\n groups={}\n for r in sel:\n  for name,rr in [('point',r['point']),*r['angular'].items()]:groups.setdefault(name,[]).append(rr)\n result={name:{'count':len(rs),'mean_gap':float(np.mean([r['gap'] for r in rs])),'max_gap':max(r['gap'] for r in rs),'mean_residual_norm':float(np.mean([r['residual_norm'] for r in rs])),'max_residual_norm':max(r['residual_norm'] for r in rs)} for name,rs in groups.items()}\n result['point_counterfactual']={'angular_gap_sum_before':sum(x['gap'] for r in sel for x in r['angular'].values()),'angular_gap_sum_after':sum(x['gap'] for r in sel for x in r['angular_after_point'].values()),'worsens_count':sum(sum(x['gap'] for x in r['angular_after_point'].values())>sum(x['gap'] for x in r['angular'].values())+1e-9 for r in sel)}\n summary[label]=result\nresult={'scope':'Post-final-relaxation block residuals and hypothetical isolated point correction; gaps are row-objective decreases, not additive global energy or physical acceptance. Float64 geometry reconstruction from captured state.','frames':120,'joints':39,'joint_observations':4680,'max_published_velocity_error':max_final_v,'max_phase21_to23_velocity_change':max_finalize_change,'body_flags':sorted(flags),'summary':summary,'input_sha256':{str(f):hashlib.sha256(f.read_bytes()).hexdigest() for f in [capture/'trace.jsonl',phase/'phases.bin',capture/'state.txt']}}\n(p/'rows.json').write_text(json.dumps(rows));(p/'summary.json').write_text(json.dumps(result,indent=2));print(json.dumps(result,indent=2))\n"
+  },
+  "source_sha256": {
+    "shaders/physics/solve.wgsl": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7",
+    "shaders/physics/math.wgsl": "b14a6f222493f77d82074b445789a533473cd8686ec004735b2214ec19b59e15",
+    "shaders/physics/integrate.wgsl": "913d5a77a5e99d15869b6e24b52165694c67aa5ce8c1bbcc863edf011949d5f8",
+    "src/sim.rs": "7f9ab885f60992b701b123cf96b29f2a4519fe41308753b3d7d9f0f9078b1e7a"
+  },
+  "hinge_tail_point_counterfactual": {
+    "cases": 720,
+    "alignment_mean_gap_before": 0.02782344110096674,
+    "alignment_mean_gap_after": 0.027465698340447053,
+    "worsens_count": 309,
+    "worst_alignment_observation": {
+      "frame": 81,
+      "joint": 37,
+      "kind": 1,
+      "a": 38,
+      "b": 39,
+      "point": {
+        "gap": 0.12250423529952251,
+        "residual_norm": 0.35227389292833355
+      },
+      "angular": {
+        "revolute_spring": {
+          "gap": 9.514894721104088e-06,
+          "residual_norm": 0.06219348172276895,
+          "impulse_correction": 0.000305977232904158
+        },
+        "revolute_motor": {
+          "gap": 4.49983674058278e-10,
+          "residual_norm": 0.9663325836105225,
+          "impulse_correction": 4.656612873077393e-10
+        },
+        "revolute_lower": {
+          "gap": 0,
+          "residual_norm": 207.34237633175957,
+          "impulse_correction": 0.0
+        },
+        "revolute_upper": {
+          "gap": 0,
+          "residual_norm": 2.0971276205310936,
+          "impulse_correction": 0.0
+        },
+        "revolute_alignment": {
+          "gap": 0.6153701677587078,
+          "residual_norm": 4.172161751090329,
+          "impulse_correction": 0.32619420828689205
+        }
+      },
+      "angular_after_point": {
+        "revolute_spring": {
+          "gap": 1.1560855941293084e-05,
+          "residual_norm": 0.06855480049433615,
+          "impulse_correction": 0.00033727341799348436
+        },
+        "revolute_motor": {
+          "gap": 4.5294589394642087e-10,
+          "residual_norm": 0.9726939023820897,
+          "impulse_correction": 4.656612873077393e-10
+        },
+        "revolute_lower": {
+          "gap": 0,
+          "residual_norm": 207.336015012988,
+          "impulse_correction": 0.0
+        },
+        "revolute_upper": {
+          "gap": 0,
+          "residual_norm": 2.1034889393026606,
+          "impulse_correction": 0.0
+        },
+        "revolute_alignment": {
+          "gap": 0.600920086082336,
+          "residual_norm": 4.145187422941141,
+          "impulse_correction": 0.31148198335168154
+        }
+      },
+      "point_angular_velocity_change": 0.1170119460875975
+    }
+  }
+}

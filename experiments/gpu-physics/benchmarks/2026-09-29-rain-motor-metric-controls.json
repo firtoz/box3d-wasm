@@ -1,0 +1,687 @@
+{
+  "status": "controls-pass-not-physics-qualification",
+  "protocol": "Before evaluation: derive row residual with effective inverse mass K, accumulated impulse lambda, relative velocity w, bias b and mass_scale m / impulse_scale i. For m>0 and m+i=1, Gamma=(i/m)K; the update -m K^-1(w+b)-i lambda zeros w'+b+Gamma lambda'. Unilateral scalar projection enforces complementarity.\nSpherical motor has Gamma=0 and b=-target angular velocity, Euclidean torque ball ||lambda||<=h*maxTorque. Its fixed-state objective is .5 lambda^T K lambda + (w-K lambda_old)^T lambda. Correct constrained minimizer satisfies (K+mu I)lambda=-g, mu>=0, norm bound and complementarity. Euclidean radial clamping of -K^-1g is exact only in special cases (isotropic K or aligned eigenvector). This is inherited from upstream, not automatically an implementation mismatch.\nControls: 96 random SPD cases, bilateral residual <1e-11 scaled, scalar unilateral KKT <1e-10, metric motor KKT <1e-10 scaled, torque bound relative1e-12, objective <= old and radial within1e-10, isotropic reduction within1e-11. Inspect all 27 enabled spherical motors in 120 saved original hip frames with prepared inertia, finite and feasible cached impulses. Fixed-state extra updates are hypothetical, not actual shader call inputs; do not attribute them as observed per-row work or predict Rain improvement. Keep all existing physics/replay thresholds unchanged. Do not implement unless a concrete constrained-objective discrepancy is demonstrated. Active motors need same target velocity in g, not excluded or disabled.\n",
+  "analysis": {
+    "scope": "Float64 row objective derivation and fixed-state hypothetical motor updates; not GPU validation, actual per-row work, Rain trajectory prediction, or physical qualification.",
+    "bilateral_cases": 96,
+    "bilateral_max_relative_residual": 6.9564485971450744e-15,
+    "unilateral_cases": 96,
+    "unilateral_max_kkt_error": 2.1316282072803006e-13,
+    "isotropic_max_projection_difference": 1.6653345369377348e-16,
+    "motor_cases": 96,
+    "random_radial_increase_count": 10,
+    "random_max_radial_increase": 5.670049662070817,
+    "max_kkt_relative": 9.253741743688524e-16,
+    "capture_observations": 3240,
+    "capture_radial_increase_count": 360,
+    "capture_max_radial_increase": 0.048009622875620495,
+    "capture_max_metric_increase": -3.2911986122541315e-09,
+    "capture_max_radial_excess": 0.061714765246396686,
+    "worst_capture_radial_increase": {
+      "frame": 7,
+      "joint": 36,
+      "radial_change": 0.048009622875620495,
+      "metric_change": -0.013705142370776191,
+      "radial_excess": 0.061714765246396686,
+      "radius": 0.020833334419876337
+    },
+    "inverse_inertia_max_asymmetry": 2.8186676350738793e-06,
+    "input_sha256": "0cf3a3aa2427726972f2ffd9db6416a5b7bca3acc08ff8af528233bccad8a537"
+  },
+  "float32": {
+    "scope": "CPU float32 emulation of24bisections, not GPU execution",
+    "cases": 128,
+    "max_relative_solution_error": 3.169989395192973e-07,
+    "max_relative_bound_excess": 0,
+    "rows": [
+      {
+        "case": 0,
+        "relative_solution_error": 7.127433340522713e-09,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 1,
+        "relative_solution_error": 8.900900807275277e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 2,
+        "relative_solution_error": 8.285397243431659e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 3,
+        "relative_solution_error": 5.8896633190721916e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 4,
+        "relative_solution_error": 6.093605393753154e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 5,
+        "relative_solution_error": 8.7386958622758e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 6,
+        "relative_solution_error": 4.2257084060674425e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 7,
+        "relative_solution_error": 7.970439714813522e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 8,
+        "relative_solution_error": 1.109282470381952e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 9,
+        "relative_solution_error": 2.560335171813196e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 10,
+        "relative_solution_error": 7.841873824045129e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 11,
+        "relative_solution_error": 7.404120549389113e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 12,
+        "relative_solution_error": 3.557886669923172e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 13,
+        "relative_solution_error": 3.577010276775607e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 14,
+        "relative_solution_error": 3.2431971331262915e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 15,
+        "relative_solution_error": 7.952775185460021e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 16,
+        "relative_solution_error": 3.868063911250592e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 17,
+        "relative_solution_error": 5.1847566832494496e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 18,
+        "relative_solution_error": 1.1322926125166071e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 19,
+        "relative_solution_error": 5.0883700243436016e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 20,
+        "relative_solution_error": 8.398453730313724e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 21,
+        "relative_solution_error": 6.292567688504417e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 22,
+        "relative_solution_error": 6.233635413561513e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 23,
+        "relative_solution_error": 9.932991347813952e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 24,
+        "relative_solution_error": 5.526531994393328e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 25,
+        "relative_solution_error": 5.4061044231976944e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 26,
+        "relative_solution_error": 4.6055319982853585e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 27,
+        "relative_solution_error": 7.464716453417574e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 28,
+        "relative_solution_error": 2.303586999131691e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 29,
+        "relative_solution_error": 5.7677469007588735e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 30,
+        "relative_solution_error": 2.487211863404664e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 31,
+        "relative_solution_error": 2.2930482443494112e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 32,
+        "relative_solution_error": 7.603872216848328e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 33,
+        "relative_solution_error": 9.273933335785695e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 34,
+        "relative_solution_error": 2.1268623449777832e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 35,
+        "relative_solution_error": 4.945055961192756e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 36,
+        "relative_solution_error": 1.1599947260644181e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 37,
+        "relative_solution_error": 8.286008534735735e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 38,
+        "relative_solution_error": 4.644207454499796e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 39,
+        "relative_solution_error": 7.574387027725785e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 40,
+        "relative_solution_error": 5.450679160590552e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 41,
+        "relative_solution_error": 8.636882327187955e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 42,
+        "relative_solution_error": 2.3642627621261237e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 43,
+        "relative_solution_error": 3.1790031479903763e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 44,
+        "relative_solution_error": 9.002010973770899e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 45,
+        "relative_solution_error": 3.477106524379102e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 46,
+        "relative_solution_error": 5.3960931034175606e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 47,
+        "relative_solution_error": 5.0332280686047136e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 48,
+        "relative_solution_error": 1.5732219716457444e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 49,
+        "relative_solution_error": 2.803990887433371e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 50,
+        "relative_solution_error": 4.6912365739528674e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 51,
+        "relative_solution_error": 2.2527458060953287e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 52,
+        "relative_solution_error": 8.623591328649997e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 53,
+        "relative_solution_error": 5.573965596360445e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 54,
+        "relative_solution_error": 9.028656662101767e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 55,
+        "relative_solution_error": 1.2611698027942216e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 56,
+        "relative_solution_error": 2.2220989546279613e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 57,
+        "relative_solution_error": 2.616187981357294e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 58,
+        "relative_solution_error": 2.5121216654404323e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 59,
+        "relative_solution_error": 6.943245498731214e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 60,
+        "relative_solution_error": 5.1648441633472415e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 61,
+        "relative_solution_error": 2.0818533542590674e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 62,
+        "relative_solution_error": 8.682120468954502e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 63,
+        "relative_solution_error": 2.491686893772858e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 64,
+        "relative_solution_error": 6.650975570634927e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 65,
+        "relative_solution_error": 5.014425571101726e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 66,
+        "relative_solution_error": 4.0567821761254346e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 67,
+        "relative_solution_error": 4.000292889749937e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 68,
+        "relative_solution_error": 6.79101496664569e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 69,
+        "relative_solution_error": 5.191224543718368e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 70,
+        "relative_solution_error": 1.0650002759086528e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 71,
+        "relative_solution_error": 4.0031937518503874e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 72,
+        "relative_solution_error": 4.448152887887632e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 73,
+        "relative_solution_error": 1.8353624561331245e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 74,
+        "relative_solution_error": 1.1049384408809545e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 75,
+        "relative_solution_error": 1.1142247963303626e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 76,
+        "relative_solution_error": 2.5599766485933484e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 77,
+        "relative_solution_error": 6.099867670846907e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 78,
+        "relative_solution_error": 5.552546923984471e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 79,
+        "relative_solution_error": 9.209328533647794e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 80,
+        "relative_solution_error": 1.9816011590533125e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 81,
+        "relative_solution_error": 5.924596294436669e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 82,
+        "relative_solution_error": 1.0218637158556584e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 83,
+        "relative_solution_error": 5.153805722704598e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 84,
+        "relative_solution_error": 5.916970848142684e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 85,
+        "relative_solution_error": 5.1027940957573486e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 86,
+        "relative_solution_error": 3.169989395192973e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 87,
+        "relative_solution_error": 3.1169799478692914e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 88,
+        "relative_solution_error": 2.404845497818303e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 89,
+        "relative_solution_error": 4.18764291650626e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 90,
+        "relative_solution_error": 8.474568435272071e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 91,
+        "relative_solution_error": 1.1339797388924247e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 92,
+        "relative_solution_error": 7.343415950244886e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 93,
+        "relative_solution_error": 2.313993971451145e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 94,
+        "relative_solution_error": 8.284040155864056e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 95,
+        "relative_solution_error": 3.5021089901914136e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 96,
+        "relative_solution_error": 3.75607453739656e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 97,
+        "relative_solution_error": 5.859797712773872e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 98,
+        "relative_solution_error": 1.2493559467147876e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 99,
+        "relative_solution_error": 4.527660256429578e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 100,
+        "relative_solution_error": 4.8794419666246415e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 101,
+        "relative_solution_error": 1.2333803051976934e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 102,
+        "relative_solution_error": 8.749278815304559e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 103,
+        "relative_solution_error": 4.885742595288295e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 104,
+        "relative_solution_error": 5.603412777129878e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 105,
+        "relative_solution_error": 3.9864396281685584e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 106,
+        "relative_solution_error": 7.885493229010809e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 107,
+        "relative_solution_error": 1.1320919858807831e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 108,
+        "relative_solution_error": 3.696202669302213e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 109,
+        "relative_solution_error": 1.4318569115201084e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 110,
+        "relative_solution_error": 1.8450922540768243e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 111,
+        "relative_solution_error": 4.97263918654685e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 112,
+        "relative_solution_error": 1.675182255010286e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 113,
+        "relative_solution_error": 3.000890684699146e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 114,
+        "relative_solution_error": 9.343580610804927e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 115,
+        "relative_solution_error": 1.108254767406523e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 116,
+        "relative_solution_error": 2.4070320475790668e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 117,
+        "relative_solution_error": 1.3544947851748816e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 118,
+        "relative_solution_error": 9.109633790138879e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 119,
+        "relative_solution_error": 7.71318925759206e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 120,
+        "relative_solution_error": 5.144032510019263e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 121,
+        "relative_solution_error": 2.4100261262519417e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 122,
+        "relative_solution_error": 1.3448960580695368e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 123,
+        "relative_solution_error": 2.9523295091234773e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 124,
+        "relative_solution_error": 6.634213807798261e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 125,
+        "relative_solution_error": 9.924090081230557e-08,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 126,
+        "relative_solution_error": 1.555352435587139e-07,
+        "relative_bound_excess": 0
+      },
+      {
+        "case": 127,
+        "relative_solution_error": 1.0828480808018211e-07,
+        "relative_bound_excess": 0
+      }
+    ]
+  },
+  "sources": {
+    "analyze.py": "from pathlib import Path\nimport json,struct,hashlib,math\nimport numpy as np\np=Path(__file__).resolve().parent;root=Path('experiments/gpu-physics');rng=np.random.default_rng(290930)\nf=lambda x:struct.unpack('!f',bytes.fromhex(x))[0]\nv=lambda a:np.array([f(x) for x in a])\ndef R(q):\n x,y,z,w=q\n return np.array([[1-2*(y*y+z*z),2*(x*y-z*w),2*(x*z+y*w)],[2*(x*y+z*w),1-2*(x*x+z*z),2*(y*z-x*w)],[2*(x*z-y*w),2*(y*z+x*w),1-2*(x*x+y*y)]])\ndef clamp(x,r):return x*min(1.,r/max(float(np.linalg.norm(x)),1e-300))\ndef metric(K,g,r):\n e,V=np.linalg.eigh(K);assert min(e)>0\n z=V.T@g;trial=-(V@(z/e))\n if np.linalg.norm(trial)<=r:return trial,0.\n if r==0:return np.zeros(3),None\n low=0.;high=float(np.linalg.norm(g)/r)\n for _ in range(64):\n  mu=.5*(low+high)\n  if np.linalg.norm(z/(e+mu))>r:low=mu\n  else:high=mu\n return -(V@(z/(e+high))),high\nrows=[];bilateral=[];unilateral=[];isotropic=[]\nfor i in range(96):\n U,_=np.linalg.qr(rng.normal(size=(3,3)));K=U@np.diag(10**rng.uniform(-1,2,3))@U.T\n old=rng.normal(size=3);w=rng.normal(size=3);bias=rng.normal(size=3);a2=10**rng.uniform(-2,2);ms=a2/(1+a2);ips=1/(1+a2);Gamma=ips/ms*K\n delta=-ms*np.linalg.solve(K,w+bias)-ips*old\n residual=w+K@delta+bias+Gamma@(old+delta)\n scale=1+np.linalg.norm(w)+np.linalg.norm(bias)+np.linalg.norm(Gamma@old)\n err=np.linalg.norm(residual)/scale;assert err<1e-11;bilateral.append(float(err))\n k=10**rng.uniform(-1,2);old1=abs(rng.normal());w1,b1=rng.normal(size=2);gamma=ips/ms*k\n new=max(0,old1-ms/k*(w1+b1)-ips*old1);res=w1+k*(new-old1)+b1+gamma*new\n err=abs(res) if new>0 else max(0,-res);assert err<1e-10;unilateral.append(float(err))\n radius=10**rng.uniform(-2,0);old=clamp(rng.normal(size=3),radius);w=rng.normal(size=3)*10\n g=w-K@old;radial=clamp(old-np.linalg.solve(K,w),radius);exact,mu=metric(K,g,radius)\n objective=lambda x:float(.5*x@K@x+g@x)\n residual=K@exact+g+(mu or 0)*exact;normres=np.linalg.norm(residual)/(1+np.linalg.norm(g)+np.linalg.norm(K@exact))\n assert np.linalg.norm(exact)<=radius*(1+1e-12) and normres<1e-10\n assert objective(exact)<=min(objective(old),objective(radial))+1e-10\n if mu:assert abs(np.linalg.norm(exact)-radius)<1e-10\n kk=np.eye(3)*10**rng.uniform(-1,2);rr=clamp(old-np.linalg.solve(kk,w),radius);ee,_=metric(kk,w-kk@old,radius);isotropic.append(float(np.linalg.norm(rr-ee)));assert isotropic[-1]<1e-11\n rows.append(dict(case=i,radial_change=objective(radial)-objective(old),metric_change=objective(exact)-objective(old),radial_excess=objective(radial)-objective(exact),kkt_relative=float(normres)))\n# Frozen end-of-step states: evaluate a hypothetical next isolated motor update.\n# These are NOT actual row inputs, phase attribution or replay predictions.\ntrace=p.parent/'rain-coupled-anchor-audit/baseline/trace.jsonl';captured=[];asym=0.;count=0\nfor line in trace.open():\n d=json.loads(line);assert d['frame']==count+1;count+=1\n bodies={b['identity']:b for b in d['bodies']};starts=dict(zip(d['body_storage_order'],d['host_state']['step_start_bodies']))\n def inertia(b):\n  diag=v(b['inv_inertia']);lo=v(b['gpu_motion']['inv_inertia_offdiag']);hi=v(b['gpu_motion']['inv_inertia_upper']);local=np.array([[diag[0],hi[0],hi[1]],[lo[0],diag[1],hi[2]],[lo[1],lo[2],diag[2]]]);q=R(v(starts[b['identity']]['rot']));return q@local@q.T\n js=[j for j in d['joints'] if j['kind']==3 and j['flags']&8];assert len(js)==27\n for j in js:\n  a,b=[bodies[j[k]] for k in ['a','b']];assert not ((a['flags']|b['flags'])&7)\n  K=inertia(a)+inertia(b);asym=max(asym,float(np.max(abs(K-K.T))));K=(K+K.T)/2\n  old=v(j['motor_angular_impulse']);target=v(j['motor_angular_velocity']);assert np.linalg.norm(target)==0\n  w=v(b['omega'])-v(a['omega'])-target;radius=f(j['max_motor_force'])*f(d['settings']['dt']);assert np.linalg.norm(old)<=radius*(1+2e-6)\n  g=w-K@old;radial=clamp(old-np.linalg.solve(K,w),radius);exact,mu=metric(K,g,radius)\n  objective=lambda x:float(.5*x@K@x+g@x)\n  assert objective(exact)<=min(objective(old),objective(radial))+1e-10\n  captured.append(dict(frame=d['frame'],joint=j['identity'],radial_change=objective(radial)-objective(old),metric_change=objective(exact)-objective(old),radial_excess=objective(radial)-objective(exact),radius=radius))\nassert count==120 and len(captured)==3240\nsummary={'scope':'Float64 row objective derivation and fixed-state hypothetical motor updates; not GPU validation, actual per-row work, Rain trajectory prediction, or physical qualification.', 'bilateral_cases':96,'bilateral_max_relative_residual':max(bilateral),'unilateral_cases':96,'unilateral_max_kkt_error':max(unilateral),'isotropic_max_projection_difference':max(isotropic),'motor_cases':96,'random_radial_increase_count':sum(x['radial_change']>1e-10 for x in rows),'random_max_radial_increase':max(x['radial_change'] for x in rows),'max_kkt_relative':max(x['kkt_relative'] for x in rows),'capture_observations':len(captured),'capture_radial_increase_count':sum(x['radial_change']>1e-10 for x in captured),'capture_max_radial_increase':max(x['radial_change'] for x in captured),'capture_max_metric_increase':max(x['metric_change'] for x in captured),'capture_max_radial_excess':max(x['radial_excess'] for x in captured),'worst_capture_radial_increase':max(captured,key=lambda x:x['radial_change']),'inverse_inertia_max_asymmetry':asym,'input_sha256':hashlib.sha256(trace.read_bytes()).hexdigest()}\n(p/'random.json').write_text(json.dumps(rows,indent=2));(p/'capture.json').write_text(json.dumps(captured,indent=2));(p/'summary.json').write_text(json.dumps(summary,indent=2));print(json.dumps(summary,indent=2))\n",
+    "float32.py": "from pathlib import Path\nimport json,numpy as np\n# Independent double-precision eigen secular solver reference.\ndef reference(K,g,r):\n e,V=np.linalg.eigh(K.astype(float));z=V.T@g.astype(float);trial=-(V@(z/e))\n if np.linalg.norm(trial)<=r:return trial\n low=0.;high=np.linalg.norm(g)/r\n for _ in range(64):\n  mid=.5*(low+high)\n  if np.linalg.norm(z/(e+mid))>r:low=mid\n  else:high=mid\n return -(V@(z/(e+high)))\ndef solve(K,rhs):\n c0,c1,c2=K.T;det=np.dot(c0,np.cross(c1,c2));assert abs(det)>1.17549435e-35\n return np.array([np.dot(rhs,np.cross(c1,c2)),np.dot(np.cross(c2,c0),rhs),np.dot(np.cross(c0,c1),rhs)],dtype=np.float32)/det\ndef metric(K,g,r):\n trial=solve(K,-g)\n if np.linalg.norm(trial)<=r:return trial\n lo=np.float32(0);hi=np.float32(np.linalg.norm(g)/r)\n for _ in range(24):\n  mid=np.float32(.5)*(lo+hi);x=solve(K+mid*np.eye(3,dtype=np.float32),-g)\n  if np.dot(x,x)>r*r:lo=mid\n  else:hi=mid\n x=solve(K+hi*np.eye(3,dtype=np.float32),-g);length=np.linalg.norm(x)\n return x*min(np.float32(1),r/max(length,np.float32(1e-30)))\nrng=np.random.default_rng(290931);rows=[]\nfor i in range(128):\n U,_=np.linalg.qr(rng.normal(size=(3,3)));K=(U@np.diag(10**rng.uniform(-1,2,3))@U.T).astype(np.float32)\n g=(10*rng.normal(size=3)).astype(np.float32);r=np.float32(10**rng.uniform(-2,0));x=metric(K,g,r);ref=reference(K,g,float(r));err=np.linalg.norm(x-ref)/max(float(r),np.linalg.norm(ref));normerr=max(0,float(np.linalg.norm(x)/r-1));assert err<2e-5 and normerr<2e-7,(i,err,normerr)\n rows.append({'case':i,'relative_solution_error':float(err),'relative_bound_excess':normerr})\nresult={'scope':'CPU float32 emulation of24bisections, not GPU execution','cases':128,'max_relative_solution_error':max(r['relative_solution_error'] for r in rows),'max_relative_bound_excess':max(r['relative_bound_excess'] for r in rows),'rows':rows}\nPath(__file__).with_name('float32-result.json').write_text(json.dumps(result,indent=2));print(json.dumps({k:v for k,v in result.items() if k!='rows'}))\n"
+  },
+  "source_sha256": {
+    "shaders/physics/math.wgsl": "b14a6f222493f77d82074b445789a533473cd8686ec004735b2214ec19b59e15",
+    "shaders/physics/solve.wgsl": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7"
+  }
+}

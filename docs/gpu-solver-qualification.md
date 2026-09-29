@@ -4836,3 +4836,311 @@ portable `benchmarks/2026-09-29-warm-cache-line-search-controls.json`. A bounded
 candidate must preserve cache/velocity consistency, active motor behavior, all
 original physical screens and CPU-compatible debugging. Do not turn this into
 blanket warm-start disabling or accept algebra controls as physics qualification.
+
+
+### Passive warm-cache line search: rejected (2026-09-29)
+
+The predeclared artifact-only candidate scales passive spherical/revolute cached
+impulses and their applied updates together. It chooses the largest factor in
+[0,1] with nonpositive quadratic change in the **prepared solver inertia metric**.
+This differs from the orientation-updated physical kinetic ledger and excludes
+stored compliant energy. Prescribed nonzero motors and kinematic endpoints are
+excluded; original physical coefficients, bias/relaxation solving and live hinge
+axes remain unchanged. CPU-compatible ordering is guarded out. This is an initial
+guess experiment, not a physical rule forbidding positive joint work.
+
+Build30828, replay/analysis51772 and restoration76339 exit0. All four ordinary
+120step Rain arms validate exact initial getters, complete finite 5040body and
+3240spherical observations. Both fresh baseline body streams reproduce earlier
+baseline bytes exactly. Results under the unchanged tradeoff checks:
+
+| Metric | Baseline | Candidate |
+| --- | ---: | ---: |
+| Hip target peak cone (rad) | 0.314239 | 0.127874 |
+| Hip target peak anchor (mm) | 5.908 | 2.305 |
+| Hip all-joint lower twist (rad) | 0.023374 | 0.055346 |
+| Hip all-joint upper twist (rad) | 0.004442 | 0.019265 |
+| Severe target peak cone (rad) | 1.254127 | 1.680792 |
+| Severe target peak anchor (mm) | 67.881 | 75.008 |
+| Severe all-joint lower twist (rad) | 0.385928 | 0.885322 |
+| Severe all-joint upper twist (rad) | 0.032335 | 0.051027 |
+
+The candidate is **rejected**, with five explicit anchor/twist tradeoff failures
+and increased severe cone error. Reduced hip angular speed and cone residual do
+not qualify it. Original Rain screens remain failed; no native expansion or final
+five-repeat qualification follows this result.
+
+The unmodified spherical_compliance_reference.cpp independently passes baseline
+and candidate at both 0.01/0.1rad constant-torque loads:600steps each, last120
+maximum prediction errors1.7423e-6/5.0945e-6rad, angularspeed0. All1200observations
+per arm are finite and complete. Original thresholds remain1e-4rad and1e-3rad/s.
+This isolates preservation of the already-settled analytical response; it does not
+offset the coupled contact-loaded Rain regression.
+
+Kinetic-only cache selection is insufficient. A subsequent proposal must derive
+its objective from the actual regularized constraint residual, including bias and
+compliant impulse terms, before another solver change. Do not tune this rejected
+cap or restart the completed angular-refresh/iteration-count study.
+
+Portable protocol, patch, build/run/analysis sources, manifests, output hashes,
+rejection reasons and restoration evidence:
+`benchmarks/2026-09-29-rain-warm-cache-line-search.json`.
+Raw artifacts: `desktop-baseline/rain-warm-cache-line-search/`.
+Original source restored byte-exact. Normal release archive matches the preceding
+baseline SHA256 b3f2b64239d72c95c8e1746f9bd40a95152fb7a2c6ab373a6e2bd2986cf5265b.
+No production solver change or live process remains.
+
+
+### Regularized residual and spherical motor projection (2026-09-29)
+
+For effective inverse mass K, current relative velocity w, bias b and accumulated
+impulse lambda, the existing softened row update is
+`delta = -m K^-1 (w+b) - i lambda`, where m+i=1. With m>0, define
+`Gamma=(i/m)K`. The update zeros `w' + b + Gamma lambda'`; scalar unilateral
+projection enforces complementarity.96random bilateral and96scalar unilateral
+controls pass (relative residual6.96e-15, KKT error2.14e-13). These controls do not
+demonstrate a sign or softness-coefficient error. They also explain why positive
+kinetic work alone is not a valid rejection criterion for a biased joint update.
+
+A concrete constrained-row discrepancy exists in spherical motor saturation.
+The target-relative objective is
+`F(lambda)=0.5 lambda^T K lambda + (w-K lambda_old)^T lambda`, under the existing
+Euclidean torque bound `||lambda|| <= h*maxTorque`. Its constrained minimizer
+satisfies `(K+mu I)lambda=-g`, mu>=0, and boundary complementarity. The current
+radial clamp of the unconstrained solution is exact for isotropic K, but generally
+not for anisotropic K. Source review finds the same approximation upstream; this
+is a numerical solve improvement proposal, not a GPU transcription bug.
+
+Of96synthetic cases,10radial updates increase F relative to the feasible old
+impulse, maximum5.67005. The metric solution satisfies all declared KKT/objective/
+bound controls; isotropic solutions agree within1.67e-16. A separate128case
+float32 emulation of24secular bisections agrees with an independent float64 eigen
+reference within3.17e-7 relative solution error, with no torque-bound excess.
+
+In3240frozen end-state hypothetical motor updates (27motors across120original
+hip frames),360radial updates increase F, maximum0.0480096J; the metric solution
+never increases it. Maximum radial excess over the constrained minimum is
+0.0617148J. Input prepared-inertia upper/lower asymmetry is at most2.82e-6 and is
+symmetrized for the objective. These are **not actual per-row shader inputs**:
+contacts/other rows would change velocities before a live update. The audit
+establishes a concrete row-objective discrepancy, not causation or a predicted
+Rain improvement. Full physics acceptance remains open.
+
+Protocol, analysis source, hashes and controls:
+`benchmarks/2026-09-29-rain-motor-metric-controls.json`.
+The resulting artifact-only candidate was screened against unchanged original
+Rain and loaded-cone checks. It leaves warm start, target speeds, torque caps,
+physical settings and unsaturated/CPU-compatible paths intact. No production
+adoption follows from these algebra controls.
+
+
+### Spherical motor metric candidate: insufficient for Rain (2026-09-29)
+
+The artifact-only saturated native-order motor implementation uses24secular
+bisections, a final radius guard and a feasible-old-impulse fallback if roundoff
+increases the quadratic objective. It changes no warm cache policy or physical
+setting. This is a bounded test of the demonstrated constrained-row issue,
+not another warm-start cap.
+
+Build72786, run98522 and normal rebuild9671 exit0. Four120step ordinary Rain arms
+validate exact initial getters and complete finite5040body/3240joint records each;
+both new baseline streams match previous bytes exactly. The candidate is rejected
+under the predeclared hip anchor/lower-twist tradeoff checks and does not resolve
+the original cone failures:
+
+| Metric | Baseline | Candidate |
+| --- | ---: | ---: |
+| Hip target peak cone (rad) | 0.314239 | 0.319970 |
+| Hip target tail60peak cone (rad) | 0.210057 | 0.214721 |
+| Hip target final cone (rad) | 0.183345 | 0.156182 |
+| Hip target peak anchor (mm) | 5.90776 | 5.98456 |
+| Hip all-joint lower twist (rad) | 0.0233740 | 0.0234376 |
+| Severe target peak cone (rad) | 1.254127 | 1.254525 |
+| Severe target peak anchor (mm) | 67.8806 | 67.8776 |
+| Severe all-joint lower twist (rad) | 0.385928 | 0.384739 |
+| Severe all-joint upper twist (rad) | 0.032335 | 0.030620 |
+
+The unmodified600step loaded-cone fixture passes both loads on both arms;
+1200finite complete observations per arm independently verified. Prediction
+errors remain1.7423e-6/5.0945e-6rad with zero tail angularspeed. Original criteria,
+failed Rain screens and earlier candidate rejections remain intact. No native
+expansion, five-repeat qualification or performance claim follows this result.
+
+The row-objective discrepancy is real, but correcting this isolated motor
+projection is insufficient for the coupled Rain failure. Next inspect existing
+end-state joint residuals including point/angular coupling and complementarity;
+do not tune this motor cap or start another iteration-count sweep.
+
+Portable evidence: `benchmarks/2026-09-29-rain-motor-metric.json`.
+Raw artifacts: `desktop-baseline/rain-motor-metric-experiment/`.
+Original shader restored byte-exact, normal archive SHA256
+b3f2b64239d72c95c8e1746f9bd40a95152fb7a2c6ab373a6e2bd2986cf5265b unchanged.
+No production changes or live process remain.
+
+
+### Final joint residuals and coupled hinge discriminator (2026-09-29)
+
+Offline analysis uses the original120frame hip capture and matching phase trace.
+All39active joints give4680complete observations. Phase21 velocities are the final
+relaxation outputs; phase23 matches the published capture exactly, and there is
+no restitution/finalization velocity change in this replay. Prepared inertia,
+current end geometry, saved impulse caches and pass-specific softness/bias rules
+reconstruct each independent block's projected residual. Unviolated scalar limits
+can have large positive slack with zero projected residual; raw residual norm is
+not interpreted as error in those cases.
+
+The reported gap is the decrease available from an isolated block minimization.
+It is not physical energy gain, and summing gaps does not bound a coupled global
+objective. Target-hip tail60mean gaps are point0.07497, spring0.05897, motor0.02751,
+cone0.16011. Adjacent right-knee hinge37 (endpoints38/39) reaches alignment gap
+0.61537 at frame81. For all720tail hinge observations, an isolated exact point
+correction changes mean alignment gap only0.02782->0.02747 and worsens309cases.
+Thus the remaining residual is not restricted to motor projection.
+
+Portable protocol/analysis/hashes/results:
+`benchmarks/2026-09-29-rain-final-joint-residuals.json`.
+No additional GPU instrumentation or physical acceptance claim was introduced.
+
+The next bounded candidate couples the hinge's two alignment and three point rows,
+retaining each original softness regularizer and the physical cross terms. Axial
+spring/motor/limit solving and warm-start geometry remain unchanged.96float64
+Schur solutions agree with independent full5x5 solutions within7.41e-16 relative
+error; residual2.42e-15. The uncoupled limit preserves the original row updates.
+All32hard zero-bias controls remove kinetic energy and conserve pair momentum
+within6.04e-16. Controls: `benchmarks/2026-09-29-rain-hinge-block-controls.json`.
+
+A new independently prescribed loaded-hinge fixture was frozen before evaluation.
+With unit mass/inertia, static endpoint A, constant force F and rotated lever r,
+the point equilibrium is `C=Kpp*F/omega^2`. Transverse angular equilibrium at theta
+requires `tau=2*omega^2*tan(theta/2)` and applied torque `r cross F + tau`.
+Four600step cases use theta0.01/0.1rad and lever0/0.4m, original60Hz/damping2.
+CPU and both ordinary GPU arms pass the original last120limits: angle/anchor
+error<1e-4, linear/angular speed<1e-3. All7200finite ordered observations validate.
+Maximum tail angle error1.61e-9rad, anchor error5.97e-9m; maximum speed/angularspeed
+2.34e-8/5.84e-8. This closes the isolated coupled-load formula check only.
+
+Build98892, runner23154 and normal rebuild99151 exit0. Original Rain120step arms
+all have exact initial getters and complete finite5040body/3240joint observations;
+both new baseline streams match earlier bytes exactly. Candidate results:
+
+| Metric | Baseline | Candidate |
+| --- | ---: | ---: |
+| Hip target peak cone (rad) | 0.314239 | 0.316846 |
+| Hip target tail60peak cone (rad) | 0.210057 | 0.200186 |
+| Hip target peak anchor (mm) | 5.90776 | 5.88728 |
+| Hip all-joint lower twist (rad) | 0.023374 | 0.023733 |
+| Hip all-joint upper twist (rad) | 0.004442 | 0.007383 |
+| Severe target peak cone (rad) | 1.254127 | 1.254523 |
+| Severe all-joint lower twist (rad) | 0.385928 | 0.386411 |
+| Severe target tail60peak cone (rad) | 0.007469 | 0.027068 |
+
+The candidate is rejected under three predeclared twist tradeoff failures. Both
+existing loaded-cone arms pass unchanged; no native/five-repeat expansion follows.
+Original severe and persistent Rain failures remain unresolved. A local hinge
+block with correct isolated loaded response is insufficient for this coupled case.
+
+Next examine convergence of complete interleaved joint/contact waves with one
+predeclared residual/complete-state stopping criterion and an explicit failure
+cap. Net velocity change alone is insufficient because constraint impulse changes
+can cancel. This is a convergence discriminator, not an iteration-count sweep or
+permission to weaken physical screens. Larger-world and native cached execution
+remain separately required if a small-cell experiment succeeds.
+
+Portable protocol, candidate patch, new analytical fixture source, build/run
+sources, receipts and hashes: `benchmarks/2026-09-29-rain-hinge-block.json`.
+Raw artifacts: `desktop-baseline/rain-hinge-block-experiment/`.
+Original shader restored byte-exact; normal release archive remains
+b3f2b64239d72c95c8e1746f9bd40a95152fb7a2c6ab373a6e2bd2986cf5265b.
+No production changes or live process remain.
+
+
+### Complete-wave convergence discriminator: nonconverged (2026-09-29)
+
+A bounded artifact-only experiment repeats complete interleaved color waves for
+bias/relaxation on the original43body Rain cell. Every joint/manifold update
+contributes endpoint velocity and reusable impulse changes, normalized componentwise
+as `abs(new-old)/(1+max(abs(new),abs(old)))`. Require both maxima<=1e-5 for two
+consecutive complete waves, with a fixed128wave cap. Warm start, integration and
+restitution remain once per scheduled phase. No tolerance/cap tuning after results.
+
+Three solver-skipped filter-joint records carry8pass counts and final change
+norms per step. A one-wave control first verifies noninterference. Initial control
+runner43312 aborted before simulation due to the WGSL reserved name `active`;
+failed source/archive/receipt remain in failed-parse-v1/. Renaming the local to
+cv_enabled changes no numerical behavior. Both full shaders then pass Naga parsing
+and validation; corrected build17915 exits0.
+
+Control70256 produces the original hip body stream byte-exact. Its raw captured
+state comparator fails because occupied contact root append order differs in97of
+120frames. That failure remains preserved. The repository's **existing**
+`audited_storage_view` confirms all120complete captured states equal after its
+previously audited membership-only normalization and the five declared filter
+carrier fields. Membership identities, allocation generations, owner/history,
+solver order, contacts, impulses and physical state remain exact. This is not a
+new semantic exclusion. Companion52327 completes severe120steps with exact original
+body bytes. Two corruption controls retain rejection of membership/physical changes.
+
+Candidate build51528 exits0. Probe40187 executes one original hip step with exact
+initial getters and42finite body records; all8pass records validate. Child exit0
+means execution succeeded; driver exit1 records numerical nonconvergence:
+
+| Substep | Phase | Waves | Last velocity change | Last impulse change | Converged |
+| --- | --- | ---: | ---: | ---: | --- |
+| 0 | Bias | 72 | 8.62e-6 | 2.57e-6 | Yes |
+| 0 | Relax | 128 | 0.07853 | 0.01268 | No |
+| 1 | Bias | 108 | 8.52e-6 | 1.20e-6 | Yes |
+| 1 | Relax | 128 | 0.02393 | 0.001096 | No |
+| 2 | Bias | 128 | 4.47e-7 | 1.70e-5 | No |
+| 2 | Relax | 128 | 0.04384 | 0.004676 | No |
+| 3 | Bias | 94 | 3.37e-6 | 1.37e-6 | Yes |
+| 3 | Relax | 128 | 0.02601 | 0.002083 | No |
+
+All four relaxation phases remain far from the fixed numerical criterion. The
+third biased phase illustrates why net/body velocity alone is insufficient:
+velocities are quiet but reusable impulses are still changing. Expansion stops
+as predeclared; no120step Rain/loaded-response/native/five-repeat pass is claimed.
+Additional passes alone are not demonstrated to produce a converged solution.
+
+Scope correction to the initial accumulator comment: contact total_normal_impulse
+is a monotonic per-solve accumulator, used by restitution as zero/nonzero and hit
+events as positive/nonpositive; its magnitude is also publicly exposed by manifold
+getters and captured state. It is excluded **only from the fixed-point stopping
+norm**, never complete-state qualification. This artifact preserves its existing
+accumulation at each repeated solve, so magnitude changes with the repeated work.
+A retained production algorithm would need explicit accounting semantics and
+validation. No claim of unchanged public manifold magnitudes is made.
+
+A fixed-end-state motor check finds15of27hypothetical isolated radial motor updates
+still increase their quadratic objective, maximum3.80e-6J; metric projection never
+increases it. These are not actual row-call inputs and do not prove causation.
+They justify one targeted next probe: use the already-derived torque-ball metric
+correction inside the same convergence experiment, with identical criterion/cap
+and inputs. The earlier single-wave metric experiment did not answer convergence.
+Do not raise the cap, tune tolerances, discard failures or infer physical acceptance
+from convergence alone.
+
+Portable protocol, patches, driver/analysis sources, comparator source, all failed
+receipts, hashes and results: `benchmarks/2026-09-29-rain-wave-convergence.json`.
+Raw artifacts: `desktop-baseline/rain-wave-convergence/`.
+Normal rebuild84954 exits0. Original shader restored byte-exact; release archive
+SHA256 remains b3f2b64239d72c95c8e1746f9bd40a95152fb7a2c6ab373a6e2bd2986cf5265b.
+No production changes or live process remain; GPU-native stays opt-in.
+
+
+### Metric motor projection within complete-wave convergence (2026-09-29)
+
+The frozen follow-up changes only the previously controlled spherical motor
+metric projection relative to the failed adaptive-wave diagnostic. Original input,
+1e-5 velocity/cache threshold, two consecutive quiet waves, and cap128 are unchanged.
+Build61583 succeeds; probe15025 child exits0 and driver exits1 for numerical failure.
+Initial getters match exactly, all42 output bodies are finite, and all8 pass
+records validate. Five passes still fail convergence: all four relaxation passes
+and substep2 bias. Relaxation final velocity norms are .078098, .027773, .040634,
+.030479; the failed bias cache norm is 1.87407e-5. Thus metric motor projection
+alone does not resolve this fixed-point failure. Expansion stops as predeclared.
+
+No production change is adopted. The parent diagnostic's public normal-impulse
+accounting limitation still applies; this is not physical acceptance. Original
+shader and normal release archive are restored byte-exact before commit.
+Portable protocol, patch, scripts, validation and restoration evidence:
+`experiments/gpu-physics/benchmarks/2026-09-29-rain-wave-metric-convergence.json`.

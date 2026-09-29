@@ -1,0 +1,791 @@
+{
+  "scope": "Diagnostic/algebra evidence only; no physical acceptance or production adoption",
+  "protocol": "96 deterministic random float64 physical5row hinge blocks, preserving separate original softness regularization Gamma_pp=(i/m)Kpp and Gamma_aa=(i/m)Kaa and physical off-diagonal C. Schur result must match independent full5x5 solve with relative solution/residual<1e-11; decoupled limit must reproduce existing independent softened updates within1e-11.32hard zero-bias projections must not gain kinetic energy (>1e-10) and must preserve pair linear/angular momentum within1e-10. Algebra only, no GPU/scene acceptance. Follow with analytic loaded hinge and unchanged original Rain screens before any adoption.\n",
+  "result": {
+    "cases": 96,
+    "max_relative_solution_error": 7.403020294721749e-16,
+    "max_relative_residual": 2.4195229318036348e-15,
+    "hard_projection_cases": 32,
+    "max_hard_energy_gain": -0.31487011238011586,
+    "max_momentum_error": 6.032449444396267e-16,
+    "rows": [
+      {
+        "case": 0,
+        "relative_solution_error": 6.579569751666665e-17,
+        "relative_residual": 3.422279064956157e-16,
+        "energy_gain": -2.5889632851527384,
+        "linear_momentum_error": 2.3055512673781017e-16,
+        "angular_momentum_error": 2.5497484716187523e-16
+      },
+      {
+        "case": 1,
+        "relative_solution_error": 8.640487228284243e-17,
+        "relative_residual": 3.839735209495485e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 2,
+        "relative_solution_error": 1.9735709784723983e-16,
+        "relative_residual": 4.76100731378417e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 3,
+        "relative_solution_error": 1.1268138227411972e-16,
+        "relative_residual": 3.9089745879008514e-16,
+        "energy_gain": -0.4530039924846405,
+        "linear_momentum_error": 1.210334856124346e-16,
+        "angular_momentum_error": 2.2887833992611187e-16
+      },
+      {
+        "case": 4,
+        "relative_solution_error": 3.6017554046665203e-16,
+        "relative_residual": 1.659017779346661e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 5,
+        "relative_solution_error": 4.952794992171201e-16,
+        "relative_residual": 7.249883241662327e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 6,
+        "relative_solution_error": 3.007004228503132e-17,
+        "relative_residual": 1.5315756449920891e-16,
+        "energy_gain": -0.5267572483487637,
+        "linear_momentum_error": 6.223320470066795e-17,
+        "angular_momentum_error": 1.5202354861220294e-16
+      },
+      {
+        "case": 7,
+        "relative_solution_error": 1.1775417486240006e-16,
+        "relative_residual": 5.95920564901532e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 8,
+        "relative_solution_error": 1.620491380955511e-16,
+        "relative_residual": 2.7486806206649793e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 9,
+        "relative_solution_error": 1.2036070182997102e-16,
+        "relative_residual": 8.660397418202639e-16,
+        "energy_gain": -0.8570345768861154,
+        "linear_momentum_error": 5.551115123125783e-17,
+        "angular_momentum_error": 2.044325800678625e-16
+      },
+      {
+        "case": 10,
+        "relative_solution_error": 1.5294803369395418e-16,
+        "relative_residual": 1.416887309851114e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 11,
+        "relative_solution_error": 1.1263858108804863e-16,
+        "relative_residual": 1.3082671148870361e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 12,
+        "relative_solution_error": 2.3023567462705936e-16,
+        "relative_residual": 1.1230441640340188e-16,
+        "energy_gain": -0.31487011238011586,
+        "linear_momentum_error": 1.4946834900704541e-16,
+        "angular_momentum_error": 2.498001805406602e-16
+      },
+      {
+        "case": 13,
+        "relative_solution_error": 6.339645908664554e-17,
+        "relative_residual": 3.026153361380807e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 14,
+        "relative_solution_error": 2.0002377002036677e-16,
+        "relative_residual": 3.0615261447185385e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 15,
+        "relative_solution_error": 1.5405854686896376e-16,
+        "relative_residual": 3.192113135874623e-16,
+        "energy_gain": -1.4468086866136263,
+        "linear_momentum_error": 5.551115123125783e-17,
+        "angular_momentum_error": 1.9675159943996247e-16
+      },
+      {
+        "case": 16,
+        "relative_solution_error": 1.7662673596447208e-16,
+        "relative_residual": 4.307992172960517e-17,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 17,
+        "relative_solution_error": 1.200012874892643e-16,
+        "relative_residual": 1.68301788743336e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 18,
+        "relative_solution_error": 5.228665142845128e-16,
+        "relative_residual": 8.645069915435702e-16,
+        "energy_gain": -0.7783789769360796,
+        "linear_momentum_error": 1.1318322930413863e-16,
+        "angular_momentum_error": 2.1658354325290185e-16
+      },
+      {
+        "case": 19,
+        "relative_solution_error": 5.694405502998573e-17,
+        "relative_residual": 1.7362516100194841e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 20,
+        "relative_solution_error": 1.7312343666247418e-16,
+        "relative_residual": 2.0748425908016498e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 21,
+        "relative_solution_error": 3.440743377716926e-17,
+        "relative_residual": 1.649596818858292e-16,
+        "energy_gain": -1.9487471740335298,
+        "linear_momentum_error": 4.839349969133127e-16,
+        "angular_momentum_error": 4.0125770192081414e-16
+      },
+      {
+        "case": 22,
+        "relative_solution_error": 4.4950109504049904e-17,
+        "relative_residual": 1.5783447847000324e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 23,
+        "relative_solution_error": 8.075791917971683e-17,
+        "relative_residual": 1.4841210602448769e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 24,
+        "relative_solution_error": 2.1320028262247277e-16,
+        "relative_residual": 1.4664468234339262e-16,
+        "energy_gain": -1.3183174491129535,
+        "linear_momentum_error": 1.1102230246251565e-16,
+        "angular_momentum_error": 7.97218214573518e-17
+      },
+      {
+        "case": 25,
+        "relative_solution_error": 1.453302889911052e-16,
+        "relative_residual": 1.753741257000997e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 26,
+        "relative_solution_error": 7.403020294721749e-16,
+        "relative_residual": 2.009093505007773e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 27,
+        "relative_solution_error": 1.644230897469342e-16,
+        "relative_residual": 2.4055154813831834e-16,
+        "energy_gain": -2.1264694151416985,
+        "linear_momentum_error": 8.441528768080324e-17,
+        "angular_momentum_error": 2.220446049250313e-16
+      },
+      {
+        "case": 28,
+        "relative_solution_error": 1.2120840671863844e-16,
+        "relative_residual": 1.6287270276887195e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 29,
+        "relative_solution_error": 1.0807955506220782e-16,
+        "relative_residual": 4.565892765897248e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 30,
+        "relative_solution_error": 9.747211371487618e-17,
+        "relative_residual": 8.917010414262986e-17,
+        "energy_gain": -1.6916303571417286,
+        "linear_momentum_error": 1.7554167342883506e-16,
+        "angular_momentum_error": 2.7088361131887196e-16
+      },
+      {
+        "case": 31,
+        "relative_solution_error": 2.4405148655951103e-16,
+        "relative_residual": 9.269502077404657e-17,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 32,
+        "relative_solution_error": 1.4963915592570138e-16,
+        "relative_residual": 1.9932283868282648e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 33,
+        "relative_solution_error": 5.829447622525506e-16,
+        "relative_residual": 4.2229019002862014e-16,
+        "energy_gain": -0.771868547742562,
+        "linear_momentum_error": 1.5700924586837752e-16,
+        "angular_momentum_error": 1.4752290795525882e-16
+      },
+      {
+        "case": 34,
+        "relative_solution_error": 2.0427078633087249e-16,
+        "relative_residual": 2.474434695982227e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 35,
+        "relative_solution_error": 8.777488967430602e-17,
+        "relative_residual": 1.8813005287031045e-17,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 36,
+        "relative_solution_error": 9.007022839464433e-17,
+        "relative_residual": 4.986072621255191e-16,
+        "energy_gain": -4.2593003512615235,
+        "linear_momentum_error": 6.938893903907228e-17,
+        "angular_momentum_error": 4.002966042486721e-16
+      },
+      {
+        "case": 37,
+        "relative_solution_error": 6.77305766089888e-17,
+        "relative_residual": 2.1654246017233873e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 38,
+        "relative_solution_error": 4.703184419006283e-17,
+        "relative_residual": 1.1621530407026937e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 39,
+        "relative_solution_error": 1.320566280966305e-16,
+        "relative_residual": 5.684147663983176e-16,
+        "energy_gain": -0.7398406215637428,
+        "linear_momentum_error": 3.925231146709438e-17,
+        "angular_momentum_error": 1.594436429147036e-16
+      },
+      {
+        "case": 40,
+        "relative_solution_error": 1.2961433917847082e-16,
+        "relative_residual": 1.7891978121589591e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 41,
+        "relative_solution_error": 8.509580599980412e-17,
+        "relative_residual": 1.6460156697571372e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 42,
+        "relative_solution_error": 1.4702320833751534e-16,
+        "relative_residual": 4.317363158386099e-16,
+        "energy_gain": -0.9869492695644135,
+        "linear_momentum_error": 1.6653345369377348e-16,
+        "angular_momentum_error": 3.723972950686107e-16
+      },
+      {
+        "case": 43,
+        "relative_solution_error": 9.626401199333971e-17,
+        "relative_residual": 2.0789400175844184e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 44,
+        "relative_solution_error": 1.7641650714778687e-16,
+        "relative_residual": 1.5143348948911257e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 45,
+        "relative_solution_error": 5.717715663979275e-17,
+        "relative_residual": 2.057750807379075e-15,
+        "energy_gain": -2.203980595956339,
+        "linear_momentum_error": 2.2887833992611187e-16,
+        "angular_momentum_error": 5.302695275805846e-16
+      },
+      {
+        "case": 46,
+        "relative_solution_error": 1.038457847236097e-16,
+        "relative_residual": 1.387627617395375e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 47,
+        "relative_solution_error": 1.4478912905895786e-16,
+        "relative_residual": 3.185802818264015e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 48,
+        "relative_solution_error": 9.34361538775433e-17,
+        "relative_residual": 7.667142269925823e-17,
+        "energy_gain": -3.717728994793074,
+        "linear_momentum_error": 1.3877787807814457e-16,
+        "angular_momentum_error": 2.0921225406686397e-16
+      },
+      {
+        "case": 49,
+        "relative_solution_error": 2.878444249818747e-16,
+        "relative_residual": 1.411760608968362e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 50,
+        "relative_solution_error": 1.0766356781051402e-16,
+        "relative_residual": 6.27108593814302e-17,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 51,
+        "relative_solution_error": 3.0094746333443266e-16,
+        "relative_residual": 2.9065319342605305e-17,
+        "energy_gain": -1.0869335606374522,
+        "linear_momentum_error": 1.2412670766236366e-16,
+        "angular_momentum_error": 1.942890293094024e-16
+      },
+      {
+        "case": 52,
+        "relative_solution_error": 9.649453971075022e-17,
+        "relative_residual": 1.7877410805265487e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 53,
+        "relative_solution_error": 1.4747477561769043e-16,
+        "relative_residual": 2.9728228502416986e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 54,
+        "relative_solution_error": 5.049499408714145e-17,
+        "relative_residual": 1.7459783343708904e-16,
+        "energy_gain": -0.5321385241084664,
+        "linear_momentum_error": 1.2719202621569003e-16,
+        "angular_momentum_error": 6.359601310784502e-17
+      },
+      {
+        "case": 55,
+        "relative_solution_error": 1.6676064020106068e-16,
+        "relative_residual": 1.0626660499776795e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 56,
+        "relative_solution_error": 6.701336797184372e-17,
+        "relative_residual": 1.991323352043225e-17,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 57,
+        "relative_solution_error": 7.184862147544059e-16,
+        "relative_residual": 2.4195229318036348e-15,
+        "energy_gain": -1.0847577667465673,
+        "linear_momentum_error": 1.4946834900704541e-16,
+        "angular_momentum_error": 1.7772239894833365e-16
+      },
+      {
+        "case": 58,
+        "relative_solution_error": 3.376096702070025e-17,
+        "relative_residual": 3.2266608647843395e-18,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 59,
+        "relative_solution_error": 3.739040906937326e-16,
+        "relative_residual": 1.0514898826001175e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 60,
+        "relative_solution_error": 1.1607969326281224e-16,
+        "relative_residual": 8.59566936569213e-16,
+        "energy_gain": -1.1014134096522898,
+        "linear_momentum_error": 1.2412670766236366e-16,
+        "angular_momentum_error": 2.506720441157563e-16
+      },
+      {
+        "case": 61,
+        "relative_solution_error": 1.9089279254646906e-16,
+        "relative_residual": 2.3639984652876933e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 62,
+        "relative_solution_error": 1.4605386719240641e-16,
+        "relative_residual": 1.622950902612791e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 63,
+        "relative_solution_error": 2.559600557490508e-16,
+        "relative_residual": 5.912975943198609e-16,
+        "energy_gain": -1.8662413648071803,
+        "linear_momentum_error": 0.0,
+        "angular_momentum_error": 2.482534153247273e-16
+      },
+      {
+        "case": 64,
+        "relative_solution_error": 3.129601425628685e-16,
+        "relative_residual": 5.966999734707983e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 65,
+        "relative_solution_error": 1.3975128940058324e-16,
+        "relative_residual": 1.5716275658842258e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 66,
+        "relative_solution_error": 3.202783226837242e-16,
+        "relative_residual": 7.951445457653759e-17,
+        "energy_gain": -0.6636793572154456,
+        "linear_momentum_error": 1.3877787807814457e-17,
+        "angular_momentum_error": 3.0591768651422065e-16
+      },
+      {
+        "case": 67,
+        "relative_solution_error": 3.879109338264379e-16,
+        "relative_residual": 5.037777170771372e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 68,
+        "relative_solution_error": 1.3663478307819483e-16,
+        "relative_residual": 1.2916691562747692e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 69,
+        "relative_solution_error": 1.3570769369446724e-16,
+        "relative_residual": 1.0731353240438321e-15,
+        "energy_gain": -0.7713766558053425,
+        "linear_momentum_error": 1.4946834900704541e-16,
+        "angular_momentum_error": 1.7772239894833365e-16
+      },
+      {
+        "case": 70,
+        "relative_solution_error": 9.996447745110647e-17,
+        "relative_residual": 1.627244431434401e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 71,
+        "relative_solution_error": 2.167627008117448e-16,
+        "relative_residual": 3.902038657693269e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 72,
+        "relative_solution_error": 1.4894640074950164e-16,
+        "relative_residual": 3.2374401035852513e-16,
+        "energy_gain": -0.3921837983292651,
+        "linear_momentum_error": 4.83238042539029e-16,
+        "angular_momentum_error": 3.266443309152217e-16
+      },
+      {
+        "case": 73,
+        "relative_solution_error": 1.4060149761988155e-16,
+        "relative_residual": 4.912495265214664e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 74,
+        "relative_solution_error": 2.0230471894637262e-16,
+        "relative_residual": 7.773502711011352e-17,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 75,
+        "relative_solution_error": 1.0642235991802917e-16,
+        "relative_residual": 1.8663619910399005e-16,
+        "energy_gain": -3.1469843963074378,
+        "linear_momentum_error": 1.1102230246251565e-16,
+        "angular_momentum_error": 2.7194799110210365e-16
+      },
+      {
+        "case": 76,
+        "relative_solution_error": 5.683441126107228e-17,
+        "relative_residual": 6.396557775676983e-17,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 77,
+        "relative_solution_error": 1.0381980137196945e-16,
+        "relative_residual": 2.1280337944669364e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 78,
+        "relative_solution_error": 9.069010828657434e-18,
+        "relative_residual": 4.793633239844616e-17,
+        "energy_gain": -1.7703679309741247,
+        "linear_momentum_error": 1.6653345369377348e-16,
+        "angular_momentum_error": 1.576213700060856e-16
+      },
+      {
+        "case": 79,
+        "relative_solution_error": 1.732289343216851e-16,
+        "relative_residual": 2.0034941411512387e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 80,
+        "relative_solution_error": 2.180764200549167e-16,
+        "relative_residual": 3.142944835935122e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 81,
+        "relative_solution_error": 3.236806600120663e-17,
+        "relative_residual": 2.370505640719673e-16,
+        "energy_gain": -1.7160206013042112,
+        "linear_momentum_error": 1.576213700060856e-16,
+        "angular_momentum_error": 8.777083671441753e-17
+      },
+      {
+        "case": 82,
+        "relative_solution_error": 1.9466545046527492e-16,
+        "relative_residual": 3.13874891381222e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 83,
+        "relative_solution_error": 9.291062616111295e-17,
+        "relative_residual": 3.6731481996523824e-17,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 84,
+        "relative_solution_error": 1.1147897737563997e-16,
+        "relative_residual": 7.773557669888451e-16,
+        "energy_gain": -1.30159738653549,
+        "linear_momentum_error": 6.206335383118183e-17,
+        "angular_momentum_error": 2.5438405243138006e-16
+      },
+      {
+        "case": 85,
+        "relative_solution_error": 2.136702659606413e-16,
+        "relative_residual": 1.134303824656943e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 86,
+        "relative_solution_error": 1.7116433573886185e-16,
+        "relative_residual": 1.5554301773000747e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 87,
+        "relative_solution_error": 6.572893247906875e-17,
+        "relative_residual": 4.680425827627715e-16,
+        "energy_gain": -1.4505727258465155,
+        "linear_momentum_error": 2.2887833992611187e-16,
+        "angular_momentum_error": 4.896716022766798e-16
+      },
+      {
+        "case": 88,
+        "relative_solution_error": 1.250026217055108e-16,
+        "relative_residual": 1.9691564487605745e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 89,
+        "relative_solution_error": 8.596313497910613e-17,
+        "relative_residual": 7.298249846183104e-17,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 90,
+        "relative_solution_error": 1.615431003653259e-16,
+        "relative_residual": 4.562625806825655e-16,
+        "energy_gain": -1.0615314584909683,
+        "linear_momentum_error": 2.852763173004607e-16,
+        "angular_momentum_error": 6.032449444396267e-16
+      },
+      {
+        "case": 91,
+        "relative_solution_error": 4.745762449809301e-16,
+        "relative_residual": 2.758632323168051e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 92,
+        "relative_solution_error": 1.5934555158915416e-17,
+        "relative_residual": 1.1644961424700527e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 93,
+        "relative_solution_error": 4.048847983579016e-17,
+        "relative_residual": 1.178758616488374e-16,
+        "energy_gain": -0.44246743831092683,
+        "linear_momentum_error": 2.7755575615628914e-17,
+        "angular_momentum_error": 6.052645416860859e-17
+      },
+      {
+        "case": 94,
+        "relative_solution_error": 1.438321078393844e-16,
+        "relative_residual": 1.5409373333656983e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      },
+      {
+        "case": 95,
+        "relative_solution_error": 1.235179235340656e-16,
+        "relative_residual": 1.0494793371251478e-16,
+        "energy_gain": null,
+        "linear_momentum_error": null,
+        "angular_momentum_error": null
+      }
+    ]
+  },
+  "sources": {
+    "check.py": "from pathlib import Path\nimport numpy as np,json\np=Path(__file__).resolve().parent;rng=np.random.default_rng(290932);rows=[]\ndef S(r):\n x,y,z=r;return np.array([[0,-z,y],[z,0,-x],[-y,x,0]])\nfor case in range(96):\n ia,ib=[(lambda a:a@a.T+np.eye(3))(rng.normal(size=(3,3))) for _ in range(2)]\n ra,rb=rng.normal(size=(2,3));ma,mb=rng.uniform(.1,2,2);Q,_=np.linalg.qr(rng.normal(size=(3,3)));A=.5*Q[:,:2]\n Kp=(ma+mb)*np.eye(3)-S(ra)@ia@S(ra)-S(rb)@ib@S(rb);Ka=A.T@(ia+ib)@A;C=-(S(ra)@ia+S(rb)@ib)@A\n ms=1. if case%3==0 else rng.uniform(.01,.99);ips=1-ms;gamma=ips/ms\n lp,la=rng.normal(size=3),rng.normal(size=2);vp,va=rng.normal(size=3),rng.normal(size=2);bp,ba=rng.normal(size=3),rng.normal(size=2)\n Hp=Kp/ms;Ha=Ka/ms;rp=vp+bp+gamma*Kp@lp;rr=va+ba+gamma*Ka@la\n q=ms*np.linalg.solve(Kp,vp+bp)+ips*lp;U=ms*np.linalg.solve(Kp,C);Schur=Ha-C.T@U;da=-np.linalg.solve(Schur,rr-C.T@q);dp=-q-U@da\n H=np.block([[Hp,C],[C.T,Ha]]);rhs=np.r_[rp,rr];full=-np.linalg.solve(H,rhs);schur=np.r_[dp,da]\n error=np.linalg.norm(full-schur)/(1+np.linalg.norm(full));residual=np.linalg.norm(H@schur+rhs)/(1+np.linalg.norm(rhs));assert error<1e-11 and residual<1e-11\n # Decoupled point/rotation limit retains each original softened update.\n independent=-np.r_[ms*np.linalg.solve(Kp,vp+bp)+ips*lp,ms*np.linalg.solve(Ka,va+ba)+ips*la]\n ref=-np.linalg.solve(np.block([[Hp,np.zeros((3,2))],[np.zeros((2,3)),Ha]]),rhs);assert np.max(abs(ref-independent))<1e-11\n # Physical hard, zero-bias projection removes kinetic energy and conserves momentum.\n if case%3==0:\n  va0,vb0,wa0,wb0=rng.normal(size=(4,3));vv=vb0+np.cross(wb0,rb)-va0-np.cross(wa0,ra);ww=A.T@(wb0-wa0);K=np.block([[Kp,C],[C.T,Ka]]);delta=-np.linalg.solve(K,np.r_[vv,ww]);P=delta[:3];T=A@delta[3:];va1=va0-ma*P;vb1=vb0+mb*P;wa1=wa0-ia@(np.cross(ra,P)+T);wb1=wb0+ib@(np.cross(rb,P)+T)\n  energy=lambda a,b,c,d:.5*(a@a/ma+b@b/mb+c@np.linalg.solve(ia,c)+d@np.linalg.solve(ib,d))\n  gain=energy(va1,vb1,wa1,wb1)-energy(va0,vb0,wa0,wb0);assert gain<1e-10\n  linear=np.linalg.norm((va1-va0)/ma+(vb1-vb0)/mb)\n  angular=np.linalg.norm(np.cross(-ra,(va1-va0)/ma)+np.cross(-rb,(vb1-vb0)/mb)+np.linalg.solve(ia,wa1-wa0)+np.linalg.solve(ib,wb1-wb0));assert max(linear,angular)<1e-10\n else:gain=linear=angular=None\n rows.append(dict(case=case,relative_solution_error=float(error),relative_residual=float(residual),energy_gain=None if gain is None else float(gain),linear_momentum_error=None if linear is None else float(linear),angular_momentum_error=None if angular is None else float(angular)))\nresult={'cases':96,'max_relative_solution_error':max(r['relative_solution_error'] for r in rows),'max_relative_residual':max(r['relative_residual'] for r in rows),'hard_projection_cases':32,'max_hard_energy_gain':max(r['energy_gain'] for r in rows if r['energy_gain'] is not None),'max_momentum_error':max(max(r['linear_momentum_error'],r['angular_momentum_error']) for r in rows if r['linear_momentum_error'] is not None),'rows':rows}\n(p/'result.json').write_text(json.dumps(result,indent=2));print(json.dumps({k:v for k,v in result.items() if k!='rows'}))\n"
+  },
+  "source_sha256": {
+    "shaders/physics/solve.wgsl": "ae5d3488a12adb2eca232126fa3e8b17e08c069e3f6b01adffa7ec0bd570f4b7",
+    "shaders/physics/math.wgsl": "b14a6f222493f77d82074b445789a533473cd8686ec004735b2214ec19b59e15",
+    "shaders/physics/integrate.wgsl": "913d5a77a5e99d15869b6e24b52165694c67aa5ce8c1bbcc863edf011949d5f8",
+    "src/sim.rs": "7f9ab885f60992b701b123cf96b29f2a4519fe41308753b3d7d9f0f9078b1e7a"
+  }
+}
