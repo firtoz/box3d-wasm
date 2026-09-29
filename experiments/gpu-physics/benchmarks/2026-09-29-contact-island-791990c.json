@@ -1,0 +1,233 @@
+{
+  "status": "pass",
+  "revision": "791990c6428e641df5c254901eb3afdbbb7fd3ec",
+  "test": "api::world::state_trace::tests::trace_contact_island_wake_propagation",
+  "scope": "Bounded contact-island fixture only: five fresh73step processes per ordinary/native cached path; all original physical assertions and exact v22captured-state comparisons. Not full solver qualification.",
+  "total_fresh_processes": 10,
+  "total_captured_steps": 730,
+  "source_manifest_sha256": "cc596419b629c87d730917f91e559861ac8968ac2f2d8c0aca9481a7c2be78fb",
+  "source_verified_after": true,
+  "physical_checks": [
+    "both touching links established before wake",
+    "all four bodies asleep before probes",
+    "wake=false preserves sleep and zero velocity",
+    "wake=true propagates to three touching bodies only",
+    "disconnected body stays asleep and stationary",
+    "finite velocities and angular velocities",
+    "momentum error <1e-4 kg m/s",
+    "kinetic energy <=0.5001 J",
+    "post-wake contact penetration <0.01 m",
+    "peak spin <0.001 rad/s",
+    "relative transverse drift <0.001 m"
+  ],
+  "results": {
+    "ordinary": {
+      "fixture_sha256": "e16d75e9ac121d76fa566470be5d0aea0c84c10175caebe898f1f9d095403348",
+      "features": [
+        "replay-diagnostics"
+      ],
+      "environment": {
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+      },
+      "comparison": {
+        "status": "pass",
+        "frames": 73,
+        "runs": 5,
+        "comparison_mode": "raw",
+        "scope": "diagnostic state only; coverage depends on schema and documented omissions remain unqualified"
+      },
+      "runs": [
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1641816,
+          "seconds": 1.3493749080007547,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/contact-island-791990c-five/ordinary/fixture",
+            "api::world::state_trace::tests::trace_contact_island_wake_propagation",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "e495d52a84dd548e3bc9361b709dd2cbcffb14aae69ae13c539ce2e840361dba",
+          "frames": 73,
+          "native_policy_present": false
+        },
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1641907,
+          "seconds": 1.2513136110064806,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/contact-island-791990c-five/ordinary/fixture",
+            "api::world::state_trace::tests::trace_contact_island_wake_propagation",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "e495d52a84dd548e3bc9361b709dd2cbcffb14aae69ae13c539ce2e840361dba",
+          "frames": 73,
+          "native_policy_present": false
+        },
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1641967,
+          "seconds": 1.2749646630036295,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/contact-island-791990c-five/ordinary/fixture",
+            "api::world::state_trace::tests::trace_contact_island_wake_propagation",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "e495d52a84dd548e3bc9361b709dd2cbcffb14aae69ae13c539ce2e840361dba",
+          "frames": 73,
+          "native_policy_present": false
+        },
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1642018,
+          "seconds": 1.2864715289979358,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/contact-island-791990c-five/ordinary/fixture",
+            "api::world::state_trace::tests::trace_contact_island_wake_propagation",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "e495d52a84dd548e3bc9361b709dd2cbcffb14aae69ae13c539ce2e840361dba",
+          "frames": 73,
+          "native_policy_present": false
+        },
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1642110,
+          "seconds": 1.2644634410025901,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/contact-island-791990c-five/ordinary/fixture",
+            "api::world::state_trace::tests::trace_contact_island_wake_propagation",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "e495d52a84dd548e3bc9361b709dd2cbcffb14aae69ae13c539ce2e840361dba",
+          "frames": 73,
+          "native_policy_present": false
+        }
+      ]
+    },
+    "native": {
+      "fixture_sha256": "1123ed75889449bc5cfa7e2805ad7189dce42670805a26c8cf1e4471d5ebf0de",
+      "features": [
+        "native-command-cache",
+        "replay-diagnostics"
+      ],
+      "environment": {
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+      },
+      "comparison": {
+        "status": "pass",
+        "frames": 73,
+        "runs": 5,
+        "comparison_mode": "raw",
+        "scope": "diagnostic state only; coverage depends on schema and documented omissions remain unqualified"
+      },
+      "runs": [
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1642344,
+          "seconds": 28.730475935000868,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/contact-island-791990c-five/native/fixture",
+            "api::world::state_trace::tests::trace_contact_island_wake_propagation",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "110c82408187a1d308aa54952c505acbcbd3bb61472ebd05e3c2bae3e8b0573b",
+          "frames": 73,
+          "native_policy_present": true
+        },
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1643152,
+          "seconds": 1.3406773419992533,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/contact-island-791990c-five/native/fixture",
+            "api::world::state_trace::tests::trace_contact_island_wake_propagation",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "110c82408187a1d308aa54952c505acbcbd3bb61472ebd05e3c2bae3e8b0573b",
+          "frames": 73,
+          "native_policy_present": true
+        },
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1643182,
+          "seconds": 1.3699406589948921,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/contact-island-791990c-five/native/fixture",
+            "api::world::state_trace::tests::trace_contact_island_wake_propagation",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "110c82408187a1d308aa54952c505acbcbd3bb61472ebd05e3c2bae3e8b0573b",
+          "frames": 73,
+          "native_policy_present": true
+        },
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1643242,
+          "seconds": 1.358199408998189,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/contact-island-791990c-five/native/fixture",
+            "api::world::state_trace::tests::trace_contact_island_wake_propagation",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "110c82408187a1d308aa54952c505acbcbd3bb61472ebd05e3c2bae3e8b0573b",
+          "frames": 73,
+          "native_policy_present": true
+        },
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1643327,
+          "seconds": 1.3593843639973784,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/contact-island-791990c-five/native/fixture",
+            "api::world::state_trace::tests::trace_contact_island_wake_propagation",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "110c82408187a1d308aa54952c505acbcbd3bb61472ebd05e3c2bae3e8b0573b",
+          "frames": 73,
+          "native_policy_present": true
+        }
+      ]
+    }
+  }
+}

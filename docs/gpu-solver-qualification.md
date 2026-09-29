@@ -4230,3 +4230,21 @@ comparison column is first. Actual clips remain local/ignored. Concurrent
 rendering/encoding and single-run standard metrics are not performance evidence.
 Release/native sample builds,9repeat-runner tests,13state-storage tests and
 diff checks pass. This is an incomplete checkpoint, with goal still paused.
+
+
+### Contact-island requalification on791990c (2026-09-29)
+
+Bounded user-selected goal completed: existing73step
+trace_contact_island_wake_propagation passes five fresh processes each on the
+ordinary and configured native cached GPU paths, all10with original assertions.
+Both exact/raw v22state comparisons pass for all73frames (730total captured
+steps). No normalization, relaxed thresholds, solver changes or extra fixtures.
+Source matches791990c6428e641df5c254901eb3afdbbb7fd3ec; feature-enabled builds,
+frozen binary hashes, runtime settings and per-frame native cache policy verified.
+Builds85250/67977 and driver85409 finish0. All10process IDs are distinct; source
+and frozen executable hashes remain unchanged after execution.
+
+Evidence: desktop-baseline/contact-island-791990c-five/{summary.json,ordinary/,
+native/,build-*}; portable receipt benchmarks/2026-09-29-contact-island-791990c.json
+under the engine. This closes this selected contact-island gate on the committed
+build only. The broader Rain/drag, matrix and performance goal remains paused.

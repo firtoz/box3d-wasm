@@ -5,6 +5,37 @@ Workspace: `/home/firtoz/work/2026/box3d-wasm`.
 Absolute scratchpad: `/home/firtoz/work/2026/box3d-wasm/docs/gpu-solver-goal.md`.
 Engine working directory: `experiments/gpu-physics` relative to that workspace.
 
+## Completed bounded goal: contact-island requalification (2026-09-29)
+
+The user authorized only candidate1: requalify the existing73step
+`api::world::state_trace::tests::trace_contact_island_wake_propagation` on commit
+`791990c6428e641df5c254901eb3afdbbb7fd3ec`. The broader solver goal stays paused.
+Run five fresh processes per ordinary/native cached GPU path with original
+physical assertions and GPU-native ordering0. Require all10tests to pass and
+all73v22state frames to compare exactly within each path, without normalization.
+Verify committed source, freshly validated feature-enabled builds, frozen binary
+hashes, native runtime settings and captured policy. Preserve original failures.
+Stop after the result: on first failure, report it without solver edits or broader
+investigation. No other fixtures or recordings are requested.
+
+Both feature-enabled test builds85250/67977 and driver85409 finish0.
+All10fresh processes pass exactly the selected test and its original physical
+assertions. Both five-run73frame comparisons pass in raw mode with no field or
+membership normalization. v22schema, frame sequence, GPU-native ordering,
+paired-normal policy, clean sticky status and ordinary/native cache policy were
+verified on every frame. All10process IDs are distinct. Source hashes and frozen
+binaries still match after the runs. No source/test/default changes were made.
+
+All bounded acceptance gates PASS on commit791990c: ordinary5x73,
+native5x73, original physical checks, exact captured-state equality within paths,
+source/build/config identity. Total730captured steps. Evidence directory:
+`experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/contact-island-791990c-five/`.
+Portable receipt: `experiments/gpu-physics/benchmarks/2026-09-29-contact-island-791990c.json`.
+No live jobs. Stop here as requested; broader solver goal remains paused.
+The user subsequently authorized a local commit of these results. No additional
+tests, investigation, solver changes or push are authorized.
+User README edits remain outside scope. Read this section first on continuation.
+
 ## Paused handoff (2026-09-29)
 
 User requested stopping after diminishing returns. Do not resume experiments or
