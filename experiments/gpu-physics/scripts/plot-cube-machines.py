@@ -35,12 +35,13 @@ def main():
     panels=[('physics','Completed physics','steps/s'),('direct','Same direct renderer, CPU/GPU physics','FPS')]
     table=[]
     for m,data in enumerate(datasets):
-        color=plt.get_cmap('tab10')(m%10)
         rows=summaries(data)
         for row in rows:table.append({'machine':data['machine_id'],'label':data['label'],**row})
         for col,(prefix,title,unit) in enumerate(panels):
             found=False
             for engine,style,marker in [('cpu','-','o'),('gpu','--','s')]:
+                # Give each machine's CPU and GPU separate colors, starting blue/orange.
+                color=plt.get_cmap('tab10')((2*m+(engine=='gpu'))%10)
                 series={r['count']:r for r in rows if r['mode']==prefix+'-'+engine}
                 if not series:continue
                 found=True
@@ -53,7 +54,7 @@ def main():
                     x=m*3+(engine=='gpu')
                     for row,key in [(0,'rate'),(1,'p95_ms')]:
                         value=series[counts[0]][key]
-                        axes[row,col].bar(x,value,color=color,alpha=1 if engine=='gpu' else .5)
+                        axes[row,col].bar(x,value,color=color)
                         axes[row,col].annotate(f'{value:.2f}',(x,value),xytext=(0,6),textcoords='offset points',ha='center')
                     axes[0,col].errorbar(x,rates[0],yerr=[[rates[0]-lo[0]],[hi[0]-rates[0]]],fmt='none',ecolor='black',capsize=4)
                     continue
