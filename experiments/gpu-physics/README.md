@@ -4,18 +4,39 @@ An experimental Rust/WGSL rigid-body engine with a Box3D-compatible C interface
 and native sample viewers. It is separate from the Box3D WASM package; the
 upstream `box3d/` sources remain unchanged.
 
-**Compatibility is incomplete.** Linux NVIDIA and AMD have local runtime coverage;
-macOS and Windows build paths await CI and hardware verification. See
+**Compatibility is incomplete.** Testing is limited to Arch Linux/Manjaro;
+other Linux distributions, macOS and Windows remain unverified. See the
+[tested hardware](#tested-platforms-and-hardware) and
 [status, work priorities and missing features](../../docs/gpu-physics.md).
+
+## Tested platforms and hardware
+
+The current Manjaro desktop has an **Intel Core i9-9900K** and an **NVIDIA
+GeForce RTX 4070 SUPER**. The contact-island and restitution fixtures each pass
+five fresh-process runs on both GPU paths, including exact captured-state
+comparisons. See the [qualification report](../../docs/gpu-solver-qualification.md)
+and the receipts in `benchmarks/`. Full solver qualification and controlled
+performance measurements remain incomplete.
+
+The earlier test laptop has an **AMD Ryzen 9 8945HS**, an **NVIDIA GeForce RTX
+4070 Laptop GPU** (8,188 MiB reported), and **AMD Radeon 780M** integrated
+graphics. The [recorded scaling benchmarks](#falling-cube-scaling-benchmark)
+were run on its NVIDIA GPU with driver **610.57.04**, not on the desktop's
+4070 SUPER. Earlier native runtime, picking and normal/strict drag checks cover
+both laptop GPUs. Current large-world scaling qualification is NVIDIA-only,
+and an AMD convex-sweep regression remains; see the
+[platform status](../../docs/gpu-physics.md#support-status).
+
+These Arch Linux/Manjaro runs are the tested scope. Other distributions and
+macOS/Windows build paths still need verification on real hardware.
 
 ## Build and run
 
-Initialize the submodule with `git submodule update --init --recursive`. Install
-Bun, Python 3.10+, Rust, CMake 3.24+ and a native C/C++ toolchain. Additional
-platform dependencies are in the [backend guide](compiler/native-backend/README.md).
-From the repository root:
+Install the [dependencies](#dependencies), then run from the repository root:
 
 ```sh
+git submodule update --init --recursive
+bun install
 bun run samples:cpu     # upstream Box3D
 bun run samples:gpu     # experimental GPU engine
 bun run samples:both    # independent CPU and GPU worlds, side by side
@@ -36,6 +57,44 @@ These examples use POSIX shell syntax. In PowerShell, set an override with
 `$env:GPU_PHYSICS_ADAPTER = 'amd'`, then run the Bun command.
 See the [backend guide](compiler/native-backend/README.md) for strict overrides,
 cache eligibility and build directories.
+
+### Dependencies
+
+The native launchers need Git, Bun, Python 3.10+, CMake 3.24+ and a C17/C++20
+toolchain. GPU/combined samples and the direct Rust viewer also need a current
+stable Rust toolchain with `cargo` and `rustc` on PATH. CPU-only samples do not
+require Rust. Emscripten is only needed for the separate Box3D WASM package.
+
+On **Arch/Manjaro**, install the native build and graphics dependencies:
+
+```sh
+sudo pacman -S --needed base-devel cmake git python pkgconf rustup \
+  libglvnd libx11 libxi libxcursor gtk3 vulkan-icd-loader \
+  wayland libxkbcommon
+rustup default stable
+```
+
+If Rust is already managed by another installation, keep that toolchain instead
+of installing a second one. Install Bun separately if it is not already on PATH.
+`base-devel` supplies the compiler, Make, binutils (`nm`/`objcopy`) and `patch`;
+the cached Linux build also needs Bash and `flock` (from `util-linux`).
+
+The Vulkan loader needs a matching GPU driver: for example `vulkan-radeon` for
+AMD or `vulkan-intel` for Intel on Arch/Manjaro. NVIDIA needs the distribution's
+matching NVIDIA kernel driver and userspace Vulkan/OpenGL components. Keep an
+existing working driver installation. The Sokol sample window uses OpenGL/X11;
+Wayland desktops need XWayland (`xorg-xwayland`). The direct Rust viewer can use
+Wayland and xkbcommon instead.
+
+On other Linux distributions, install the equivalent development packages for
+OpenGL, X11, Xi, Xcursor and GTK 3, plus `pkg-config`, binutils and the Vulkan
+runtime/driver. See the [platform table](compiler/native-backend/README.md#upstream-sokol-sample-application)
+for macOS and Windows toolchains and their current verification status.
+
+Optional tools: FFmpeg (`ffmpeg`) for MP4 recording and Xvfb for display-less
+Linux viewer checks. Ordinary builds do not need a separate shader compiler or
+Vulkan SDK. Cargo fetches Rust crates and CMake fetches ImGui, ImPlot and Native
+File Dialog automatically; initial builds need network access.
 
 ## Using the comparison viewer
 

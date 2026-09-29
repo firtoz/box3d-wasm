@@ -1,0 +1,339 @@
+{
+  "status": "pass",
+  "revision": "b45e86b4fa08f7edb73240bcc13e36d2ad6dcf7d",
+  "test": "api::world::state_trace::tests::trace_restitution_matches_analytical_rebound",
+  "scope": "Bounded240step restitution fixture only, five fresh processes per ordinary/native cached path; original physical checks and exact v22captured-state equality. Not full solver qualification.",
+  "total_fresh_processes": 10,
+  "total_captured_steps": 2400,
+  "source_verified_after": true,
+  "source_manifest_sha256": "d9c6ed4a9fcdb71f4fa866ce9dfa7f33dd5968582731af4008fabca15a14e7e7",
+  "original_limits": {
+    "rebound_apices_m": [
+      1.0,
+      2.5
+    ],
+    "apex_error_m_less_than": 0.05,
+    "penetration_m_less_than": 0.03,
+    "energy_j_per_kg_less_than": 25.2,
+    "lateral_drift_m_less_than": 0.01,
+    "inelastic_settling_after_step": 90,
+    "settled_height_error_m_less_than": 0.01,
+    "settled_speed_m_per_s_less_than": 0.03
+  },
+  "results": {
+    "ordinary": {
+      "manifest": {
+        "fixture_sha256": "e16d75e9ac121d76fa566470be5d0aea0c84c10175caebe898f1f9d095403348",
+        "features": [
+          "replay-diagnostics"
+        ],
+        "source_executable": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/release/deps/gpu_physics-f3c11a04cf20bcdb",
+        "environment": {
+          "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+          "WGPU_BACKEND": "vulkan",
+          "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+        }
+      },
+      "comparison": {
+        "status": "pass",
+        "frames": 240,
+        "runs": 5,
+        "comparison_mode": "raw",
+        "scope": "diagnostic state only; coverage depends on schema and documented omissions remain unqualified"
+      },
+      "runs": [
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1654245,
+          "seconds": 2.237425416999031,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/restitution-b45e86b-five/ordinary/fixture",
+            "api::world::state_trace::tests::trace_restitution_matches_analytical_rebound",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "77cb055f03817d3989d27d23b95411a119662810b5846d5fd542ca4161646b41",
+          "frames": 240,
+          "native_policy_present": false,
+          "physical_metrics": {
+            "first_apices_m": [
+              0.0,
+              0.99096805,
+              2.488538
+            ],
+            "peak_energy_j_per_kg": 25.017302,
+            "peak_penetration_m": 0.004999995
+          },
+          "log_sha256": "01a57c4a0ed7edbd79de236b84ac68adf6819bd0276ba89ee9e77537e48e3c10"
+        },
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1654346,
+          "seconds": 2.2082757469979697,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/restitution-b45e86b-five/ordinary/fixture",
+            "api::world::state_trace::tests::trace_restitution_matches_analytical_rebound",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "77cb055f03817d3989d27d23b95411a119662810b5846d5fd542ca4161646b41",
+          "frames": 240,
+          "native_policy_present": false,
+          "physical_metrics": {
+            "first_apices_m": [
+              0.0,
+              0.99096805,
+              2.488538
+            ],
+            "peak_energy_j_per_kg": 25.017302,
+            "peak_penetration_m": 0.004999995
+          },
+          "log_sha256": "c661bc4b496eab05449cba7cf7e664c6465449ac8a4d1b3c510c786a6fd88722"
+        },
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1654478,
+          "seconds": 2.1929570690044784,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/restitution-b45e86b-five/ordinary/fixture",
+            "api::world::state_trace::tests::trace_restitution_matches_analytical_rebound",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "77cb055f03817d3989d27d23b95411a119662810b5846d5fd542ca4161646b41",
+          "frames": 240,
+          "native_policy_present": false,
+          "physical_metrics": {
+            "first_apices_m": [
+              0.0,
+              0.99096805,
+              2.488538
+            ],
+            "peak_energy_j_per_kg": 25.017302,
+            "peak_penetration_m": 0.004999995
+          },
+          "log_sha256": "de1a413cae17671a0fe0601582821e882c68bc80e385c403f4b27a5202503668"
+        },
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1654634,
+          "seconds": 2.1061967050045496,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/restitution-b45e86b-five/ordinary/fixture",
+            "api::world::state_trace::tests::trace_restitution_matches_analytical_rebound",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "77cb055f03817d3989d27d23b95411a119662810b5846d5fd542ca4161646b41",
+          "frames": 240,
+          "native_policy_present": false,
+          "physical_metrics": {
+            "first_apices_m": [
+              0.0,
+              0.99096805,
+              2.488538
+            ],
+            "peak_energy_j_per_kg": 25.017302,
+            "peak_penetration_m": 0.004999995
+          },
+          "log_sha256": "4fb2d2c932864a942630afc2def6c63461a3d0958b10ef0ef266575797caea29"
+        },
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1654808,
+          "seconds": 2.203725072002271,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/restitution-b45e86b-five/ordinary/fixture",
+            "api::world::state_trace::tests::trace_restitution_matches_analytical_rebound",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "77cb055f03817d3989d27d23b95411a119662810b5846d5fd542ca4161646b41",
+          "frames": 240,
+          "native_policy_present": false,
+          "physical_metrics": {
+            "first_apices_m": [
+              0.0,
+              0.99096805,
+              2.488538
+            ],
+            "peak_energy_j_per_kg": 25.017302,
+            "peak_penetration_m": 0.004999995
+          },
+          "log_sha256": "c661bc4b496eab05449cba7cf7e664c6465449ac8a4d1b3c510c786a6fd88722"
+        }
+      ]
+    },
+    "native": {
+      "manifest": {
+        "fixture_sha256": "1123ed75889449bc5cfa7e2805ad7189dce42670805a26c8cf1e4471d5ebf0de",
+        "features": [
+          "native-command-cache",
+          "replay-diagnostics"
+        ],
+        "source_executable": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/deps/gpu_physics-e01a65b975ea9699",
+        "environment": {
+          "GPU_PHYSICS_GPU_CCD": "1",
+          "GPU_PHYSICS_AB": "bounded-static-sort",
+          "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+          "GPU_PHYSICS_FULL_REPLAY": "1",
+          "GPU_PHYSICS_GRAPH_SHARED": "1",
+          "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+          "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+          "GPU_PHYSICS_PAIR_MATRIX": "1",
+          "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+          "GPU_PHYSICS_RESIDENT": "1",
+          "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+          "GPU_PHYSICS_GRAPH_MEMO": "1",
+          "GPU_PHYSICS_COMPONENT_TGS": "1",
+          "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+          "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+          "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+          "WGPU_BACKEND": "vulkan",
+          "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+          "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+          "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+        }
+      },
+      "comparison": {
+        "status": "pass",
+        "frames": 240,
+        "runs": 5,
+        "comparison_mode": "raw",
+        "scope": "diagnostic state only; coverage depends on schema and documented omissions remain unqualified"
+      },
+      "runs": [
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1655261,
+          "seconds": 2.2767096079987823,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/restitution-b45e86b-five/native/fixture",
+            "api::world::state_trace::tests::trace_restitution_matches_analytical_rebound",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "40e805c1ed1e6a30950089be0acc5f475dca94c3e64832b2fa89c6a65ae0389b",
+          "frames": 240,
+          "native_policy_present": true,
+          "physical_metrics": {
+            "first_apices_m": [
+              0.0,
+              0.99096805,
+              2.488538
+            ],
+            "peak_energy_j_per_kg": 25.017302,
+            "peak_penetration_m": 0.004999995
+          },
+          "log_sha256": "e9ef859f2cef730da174a9fddc1fb1d507ce9e7ccbd8278dd58f766e4b3eacbb"
+        },
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1655346,
+          "seconds": 2.2116076790043735,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/restitution-b45e86b-five/native/fixture",
+            "api::world::state_trace::tests::trace_restitution_matches_analytical_rebound",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "40e805c1ed1e6a30950089be0acc5f475dca94c3e64832b2fa89c6a65ae0389b",
+          "frames": 240,
+          "native_policy_present": true,
+          "physical_metrics": {
+            "first_apices_m": [
+              0.0,
+              0.99096805,
+              2.488538
+            ],
+            "peak_energy_j_per_kg": 25.017302,
+            "peak_penetration_m": 0.004999995
+          },
+          "log_sha256": "d1b3cd2fa0d2f95435a783ad7d72d4a581b5d4b6a30dfff51c39f01ca8ee368d"
+        },
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1655578,
+          "seconds": 2.2324519909961964,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/restitution-b45e86b-five/native/fixture",
+            "api::world::state_trace::tests::trace_restitution_matches_analytical_rebound",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "40e805c1ed1e6a30950089be0acc5f475dca94c3e64832b2fa89c6a65ae0389b",
+          "frames": 240,
+          "native_policy_present": true,
+          "physical_metrics": {
+            "first_apices_m": [
+              0.0,
+              0.99096805,
+              2.488538
+            ],
+            "peak_energy_j_per_kg": 25.017302,
+            "peak_penetration_m": 0.004999995
+          },
+          "log_sha256": "1777b3b9c9173b54e79f9332ce381deb2c96f343937b60ec517edb9bd7384156"
+        },
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1655751,
+          "seconds": 2.2162392399986857,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/restitution-b45e86b-five/native/fixture",
+            "api::world::state_trace::tests::trace_restitution_matches_analytical_rebound",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "40e805c1ed1e6a30950089be0acc5f475dca94c3e64832b2fa89c6a65ae0389b",
+          "frames": 240,
+          "native_policy_present": true,
+          "physical_metrics": {
+            "first_apices_m": [
+              0.0,
+              0.99096805,
+              2.488538
+            ],
+            "peak_energy_j_per_kg": 25.017302,
+            "peak_penetration_m": 0.004999995
+          },
+          "log_sha256": "ff26d29e15392ed8d48a75b21d569f4645a4212225d0c14744c7874a74ab68f5"
+        },
+        {
+          "exit": 0,
+          "one_test_passed": true,
+          "pid": 1655945,
+          "seconds": 2.263225627997599,
+          "command": [
+            "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/restitution-b45e86b-five/native/fixture",
+            "api::world::state_trace::tests::trace_restitution_matches_analytical_rebound",
+            "--exact",
+            "--nocapture"
+          ],
+          "trace_sha256": "40e805c1ed1e6a30950089be0acc5f475dca94c3e64832b2fa89c6a65ae0389b",
+          "frames": 240,
+          "native_policy_present": true,
+          "physical_metrics": {
+            "first_apices_m": [
+              0.0,
+              0.99096805,
+              2.488538
+            ],
+            "peak_energy_j_per_kg": 25.017302,
+            "peak_penetration_m": 0.004999995
+          },
+          "log_sha256": "5d85e1d1f2f34ced396e452445fd9f765726db4046dd21b4578ba8b55384a3d2"
+        }
+      ]
+    }
+  }
+}

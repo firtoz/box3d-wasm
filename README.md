@@ -39,9 +39,39 @@ https://github.com/user-attachments/assets/1c161c46-1dae-45a0-8d77-cb8df45819e8
 
 ## Quick Start
 
+Install the [requirements](#requirements) for the path you want to run, then
+initialize the checkout:
+
 ```bash
+git submodule update --init --recursive
 bun install
+```
+
+For the Box3D WASM browser demo:
+
+```bash
+bun run setup:emsdk
 bun run dev
+```
+
+For the native CPU/GPU comparison viewer on this branch:
+
+`bun install` only installs JavaScript packages. Install Rust separately before
+running the GPU samples. On **Arch/Manjaro**, if Rust is not already installed:
+
+```bash
+sudo pacman -S --needed rustup
+rustup default stable
+cargo --version
+```
+
+If you get `cargo: command not found`, complete the Rust setup above first.
+After installing the remaining [native requirements](#native-cpugpu-samples-featgpu),
+build and run the viewer; Cargo downloads the Rust crate dependencies automatically:
+
+```bash
+bun run samples:both --build-only
+bun run samples:both
 ```
 
 ## Scripts
@@ -58,11 +88,41 @@ bun run dev
 
 ## Requirements
 
+### Box3D WASM browser demo
+
 - Bun 1.2.0
 - A C/C++ toolchain
 - CMake
+- Python 3 and Bash for Emscripten setup
 - Emscripten (**prefer 6.0.2**). System packages like Manjaro/Arch `6.0.3` currently ICE compiling Box3D `shape.c` with `-msimd128`. For this repo, install a local pin with `bun run setup:emsdk` (downloads into gitignored `.emsdk/`; WASM builds prefer it automatically). Override with `BOX3D_EMSDK_DIR` / `BOX3D_EMSDK_VERSION`, or set `BOX3D_DISABLE_SIMD=1` as a last-resort workaround.
 - Git submodules initialized with `git submodule update --init --recursive`
+
+### Native CPU/GPU samples (`feat/gpu`)
+
+Testing so far is limited to Arch Linux/Manjaro environments. The development
+machines are:
+
+| Machine | CPU | GPU | Validation |
+|---|---|---|---|
+| Current Manjaro desktop | Intel Core i9-9900K | NVIDIA GeForce RTX 4070 SUPER | Selected contact-island and restitution fixtures pass on both GPU paths; see the [qualification report](./docs/gpu-solver-qualification.md). Full solver qualification and controlled performance measurements remain incomplete. |
+| Earlier test laptop | AMD Ryzen 9 8945HS | NVIDIA GeForce RTX 4070 Laptop GPU and AMD Radeon 780M integrated graphics | Recorded NVIDIA benchmarks and native runtime checks on both GPUs; see the [test coverage](./experiments/gpu-physics/README.md#tested-platforms-and-hardware). |
+
+Other Linux distributions, macOS and Windows have not been verified. Build paths
+for those platforms do not imply tested support, and the laptop benchmark results
+should not be treated as measurements of the desktop GPU.
+
+- Git and initialized submodules, Bun, Python 3.10+, CMake 3.24+, and a native C17/C++20 toolchain.
+- A current stable Rust toolchain (`rustc` and `cargo`) for `samples:gpu`, `samples:both`, and the direct Rust viewer. The CPU-only sample viewer does not build Rust.
+- Linux: `pkg-config`, OpenGL, X11, Xi, Xcursor and GTK 3 development packages; GNU binutils (`nm`, `objcopy`) or LLVM equivalents for GPU/combined linking. The default cached Vulkan build also uses Bash, `patch` and `flock`.
+- A working graphics driver and desktop display. Linux GPU physics needs a Vulkan loader and the Vulkan driver for your GPU; the native sample viewer renders with OpenGL/X11 (XWayland on Wayland desktops).
+- macOS: Xcode command-line tools and LLVM archive tools. Windows: Visual Studio C++ Build Tools, Windows SDK, LLVM archive tools and a matching Rust MSVC toolchain. These paths still await CI and hardware verification.
+- Optional: FFmpeg for MP4 recordings; Wayland and xkbcommon libraries for the direct Rust viewer's Wayland path.
+
+See the [native dependency installation commands](./experiments/gpu-physics/README.md#dependencies)
+and [platform/backend guide](./experiments/gpu-physics/compiler/native-backend/README.md).
+Native samples do not require Emscripten. Bun installs JavaScript dependencies,
+Cargo downloads Rust crates, and CMake fetches ImGui, ImPlot and Native File Dialog
+on the first native build, so initial setup needs network access.
 
 ## Notes
 

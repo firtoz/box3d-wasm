@@ -5,6 +5,33 @@ Workspace: `/home/firtoz/work/2026/box3d-wasm`.
 Absolute scratchpad: `/home/firtoz/work/2026/box3d-wasm/docs/gpu-solver-goal.md`.
 Engine working directory: `experiments/gpu-physics` relative to that workspace.
 
+## Completed bounded goal: restitution requalification (2026-09-29)
+
+User selected restitution only on commit `b45e86b4fa08f7edb73240bcc13e36d2ad6dcf7d`.
+Run the existing `trace_restitution_matches_analytical_rebound` test in five fresh
+processes on each ordinary/native cached GPU path, 240 steps each, GPU-native
+ordering0. Preserve all original checks: rebound apices within0.05m of1.0/2.5m,
+penetration<0.03m, energy<25.2J/kg, bounded lateral drift and inelastic settling.
+Require exact complete v22captured-state equality within each path, no
+normalization. Verify build/source/config identity and native cache policy.
+Stop after result or first failure; no solver changes or broader investigation.
+Broader solver goal remains paused. No additional recordings requested.
+
+Both feature-enabled builds and driver61850 finish0. All10fresh processes pass
+exactly the selected test and all original physical assertions. Both raw five-run
+comparisons pass for all240v22frames, no normalization (2400total captured steps).
+Source hashes/frozen binaries unchanged afterward; distinct process IDs and
+per-frame native cache policy, GPU-native ordering and clean status verified.
+Every run records rebound apices0.99096805/2.488538m, peak penetration
+0.004999995m and peak energy25.017302J/kg, within original limits.
+
+All bounded gates PASS on b45e86b. Evidence:
+`experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/restitution-b45e86b-five/`.
+Portable receipt: `experiments/gpu-physics/benchmarks/2026-09-29-restitution-b45e86b.json`.
+No live jobs or solver changes. Stop here; broader solver goal stays paused.
+The user authorized a combined local commit of all pending changes, including
+the earlier README setup updates. No push or further solver work requested.
+
 ## Completed bounded goal: contact-island requalification (2026-09-29)
 
 The user authorized only candidate1: requalify the existing73step

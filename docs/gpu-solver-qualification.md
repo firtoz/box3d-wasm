@@ -4248,3 +4248,21 @@ Evidence: desktop-baseline/contact-island-791990c-five/{summary.json,ordinary/,
 native/,build-*}; portable receipt benchmarks/2026-09-29-contact-island-791990c.json
 under the engine. This closes this selected contact-island gate on the committed
 build only. The broader Rain/drag, matrix and performance goal remains paused.
+
+
+### Restitution requalification on b45e86b (2026-09-29)
+
+The bounded240step trace_restitution_matches_analytical_rebound fixture passes
+five fresh processes each on ordinary/native cached GPU paths. All10retain the
+original bounce, penetration, energy, lateral drift and settling assertions; both
+raw v22state comparisons pass all240frames, with no normalization. Total2400
+captured steps. Source matches b45e86b4fa08f7edb73240bcc13e36d2ad6dcf7d; frozen
+binaries, feature-enabled builds, runtime settings and per-frame cache policy
+verified. All10process IDs are distinct; sources/binaries unchanged afterward.
+
+Every run reports first rebound apices0.99096805/2.488538m (targets1.0/2.5m,
+error<0.05m), peak penetration0.004999995m (<0.03m), and peak energy25.017302J/kg
+(<25.2). Driver61850 finishes0. Evidence: desktop-baseline/restitution-b45e86b-five;
+portable receipt benchmarks/2026-09-29-restitution-b45e86b.json under the engine.
+This closes the selected restitution gate on the committed solver only; no solver
+changes or broader investigation. Full solver goal remains paused.
