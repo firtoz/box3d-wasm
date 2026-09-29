@@ -1,0 +1,1122 @@
+{
+  "purpose": "Paused, incomplete solver checkpoint. Recordings and detailed raw evidence stay local/ignored. These receipts do not qualify correctness, determinism or performance.",
+  "device": "RTX 4070 SUPER, Vulkan, NVIDIA 610.57.04",
+  "mode": "GPU-native ordering opt-in; ordinary path recordings",
+  "validation": {
+    "release_build_exit": 0,
+    "native_sample_build_exit": 0,
+    "repeat_runner_tests": 9,
+    "state_storage_tests": 13,
+    "diff_check": "pass"
+  },
+  "remaining": [
+    "Rain and dragging physical acceptance",
+    "Final frozen-build five-repeat matrix on both paths",
+    "Controlled performance comparison",
+    "Final qualification recordings and default-mode decision"
+  ],
+  "recordings": {
+    "scope": "19 standard scenes at300steps plus native Shape Replacement/Offset Kinematic120, Falling Ragdolls and CPU Rain600; GPU Rain intentionally stopped after at least138observed steps (SIGTERM), partial visual snapshot only, not a passed run. Native clips include startup and use wall-clock video capture. Concurrent capture/encoding and one metrics run: timing is not performance evidence.",
+    "columns": [
+      {
+        "column": "000-box3d-cpu",
+        "manifest": {
+          "recording_started_utc": "2026-09-29T08:03:08.135182+00:00",
+          "frames": 300,
+          "metric_runs": 1,
+          "viewer": {
+            "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/release/gpu-physics",
+            "sha256": "3a902f48d2fcc21d7b12de73760190b27e49300510977eaf160ef3bf4339698f"
+          },
+          "oracle": {
+            "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/oracle/build/box3d_oracle",
+            "sha256": "a2edeb8ba3556bf91e9544b1715b3212e7444896d4dc5a075ce5d523dec1eff6"
+          },
+          "checkout_head": "2f966088c006b5623b94b07e825477b5135ba1bb",
+          "environment": {
+            "GPU_RECORD_BIN": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/release/gpu-physics",
+            "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+            "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+            "DISPLAY": ":0",
+            "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
+            "__NV_PRIME_RENDER_OFFLOAD": "1"
+          },
+          "note": "Records requested capture settings and binary identity. Completion requires clips and metrics; checkout HEAD alone does not identify a dirty or externally supplied build."
+        },
+        "metrics_sha256": "e596cfdf67ef94c59181170c84b8eea73d87d863adb1c9c50e7766a702aa4fa7",
+        "clips": [
+          {
+            "scene": "anchored-mechanisms",
+            "sha256": "550718c936b3c7aa097598f1655ddfff7997c16aa20ee0965564a33e7e724b16",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "bounce",
+            "sha256": "5fa2c26cbbefe53a34f100d1e43fa1bb9b94f2b033b2f080c20f9a5165d43afb",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "box-stack",
+            "sha256": "8c7ea819f89e941899f0a8a767edbb4e0ec6580c0e89b01a27eb227b18ed5463",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "capsule-stack",
+            "sha256": "b277dc8a475ea18ca2352d3df1886b6648c3be61ef2005cd86339ae1a2c71fa0",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "dominoes",
+            "sha256": "c60521d48bed0de59d4eb831d8f8db6acdd6282e49eae5871c1142799b87c0f3",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "falling-cubes",
+            "sha256": "fd469e48e79342443e405c9732e585cb1f14019e4d754fe861804d247fc1c735",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "falling-ragdolls",
+            "sha256": "6dd2e8fb2b6bf3429311d5d459b045cb60fb9a246c4e384374f1cd81b43753de",
+            "video": {
+              "width": 960,
+              "height": 720,
+              "duration": "63.100000",
+              "nb_frames": "1893"
+            }
+          },
+          {
+            "scene": "high-resistance",
+            "sha256": "7d739bc85383086b519a1acba7fa040a2e498fdb383ea171bdf68d91827352c0",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "joint-chain",
+            "sha256": "121a6ff905447b4eae27f9d77aff6c011b1127b86e719ecc87ec8e7ca2c6e83e",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "mixed-stacks",
+            "sha256": "6733b8e43b12c4885f81552acc7ba6aad8b4bc31c222cad0241fbb0f8de8b8e4",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "mixed",
+            "sha256": "3e35558d51d30c416f346acb82c13c22ef79b0c452b254afed7fce26bc78338d",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "offset-kinematic",
+            "sha256": "7ed9f534ab5abfcedacfa7254da4d78a62b46b28c6705d11ce4165b47f66256d",
+            "video": {
+              "width": 960,
+              "height": 720,
+              "duration": "13.566667",
+              "nb_frames": "407"
+            }
+          },
+          {
+            "scene": "pyramid",
+            "sha256": "e5b54bacb7f0cd009614d30e84cff594c8ce03903ce478241c6cd1ecf84fd03f",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "ragdoll-rain",
+            "sha256": "7c635c8215007d790554ac990062615cfce8afa2f36cdce20af369314c03189b",
+            "video": {
+              "width": 960,
+              "height": 720,
+              "duration": "182.733333",
+              "nb_frames": "5482"
+            }
+          },
+          {
+            "scene": "ramp",
+            "sha256": "8601590dfd08757ce65fe82f48212bdb3a97f050f2cd18f7d9e91bd1d62eeb93",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "revolute",
+            "sha256": "89930137324867958abf03c798f3c1658dc05467d6a28a29e125eae4826dbf2e",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "shape-replacement",
+            "sha256": "5d0f1f4b882865c93de4f19189bfbaa865f0a4b72ef16354261e61f5962b21ac",
+            "video": {
+              "width": 960,
+              "height": 720,
+              "duration": "13.566667",
+              "nb_frames": "407"
+            }
+          },
+          {
+            "scene": "single-box",
+            "sha256": "c45af533cc478c6f1ce8781769be075cfb2fc8812d083f71982681bf79608abe",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "sphere-stack",
+            "sha256": "f0b2fb55caa464cf9e1076ee60df5bebbe44339502a813ba394a411f49a42657",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "spheres",
+            "sha256": "4c253673753143d24dbb814697354f277f2bf9aa1be5743c27e9363c645d13c3",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "spinner",
+            "sha256": "654f2382fec71c37488f3c143c0eab57a804c5958b081f0817bce663a3e74552",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "stack",
+            "sha256": "8ef759b87981e63666511f7e675c2e570a736e37be9f7fec14d1a87d8397d6ea",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "weld",
+            "sha256": "89930137324867958abf03c798f3c1658dc05467d6a28a29e125eae4826dbf2e",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          }
+        ]
+      },
+      {
+        "column": "2026-09-29-paused-solver",
+        "manifest": {
+          "recording_started_utc": "2026-09-29T08:02:17.202209+00:00",
+          "frames": 300,
+          "metric_runs": 1,
+          "viewer": {
+            "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/release/gpu-physics",
+            "sha256": "3a902f48d2fcc21d7b12de73760190b27e49300510977eaf160ef3bf4339698f"
+          },
+          "oracle": null,
+          "checkout_head": "2f966088c006b5623b94b07e825477b5135ba1bb",
+          "environment": {
+            "GPU_RECORD_BIN": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/release/gpu-physics",
+            "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+            "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+            "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+            "DISPLAY": ":0",
+            "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
+            "__NV_PRIME_RENDER_OFFLOAD": "1"
+          },
+          "note": "Records requested capture settings and binary identity. Completion requires clips and metrics; checkout HEAD alone does not identify a dirty or externally supplied build."
+        },
+        "metrics_sha256": "1fe88c0422147b0c911ebcd0c6f844ae0b09cee65b233178de2401502296ad0b",
+        "clips": [
+          {
+            "scene": "anchored-mechanisms",
+            "sha256": "550718c936b3c7aa097598f1655ddfff7997c16aa20ee0965564a33e7e724b16",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "bounce",
+            "sha256": "1f42aefd3610b6084a7290d9fbdb717ea0af7b7cd7aabe053528aa3f8aca4f16",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "box-stack",
+            "sha256": "00f429ec702eae14045c2d178d7db28bc0814290fe27ddd5718d459b204c4a97",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "capsule-stack",
+            "sha256": "f5365564a55e9fcf9e992b1ac0b49f7f55dd3867ab3b1dff0814a085a99b30b9",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "dominoes",
+            "sha256": "8aa0b910f85eae1a6098e33d1dbbc894fce3e06e8710e4be56bcf3d7a871d1fb",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "falling-cubes",
+            "sha256": "4ac124700b4c31a7d604ff1244a88324c3ef1522d2e3ebfdc904a6960b58d616",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "falling-ragdolls",
+            "sha256": "74c17630bc5acf045504846b3ac8e4941d35e9dabab0547c442d38d874ecb4c4",
+            "video": {
+              "width": 960,
+              "height": 720,
+              "duration": "73.100000",
+              "nb_frames": "2193"
+            }
+          },
+          {
+            "scene": "high-resistance",
+            "sha256": "340ccd0ddff6e3580672987d5e83d1cc2cdf0b41bb880123eefb8aba0351b105",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "joint-chain",
+            "sha256": "b8f66534c2df98484649fc9390e3e18af03de2f06d5f2e23e476465b43dbf5b8",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "mixed-stacks",
+            "sha256": "8e1812c85525c0d5840e0b16e7f36130b5bc39923dcf38f6f42bdec86856cc42",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "mixed",
+            "sha256": "446b29a5fd01f4505c1b8ccf36a3f731e98b25ff032c19d74fbadac7e056c4ba",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "offset-kinematic",
+            "sha256": "2ff95328b9509297cae30014188ecd530a891ce0069a93179d1db6bc32a1f8bb",
+            "video": {
+              "width": 960,
+              "height": 720,
+              "duration": "14.566667",
+              "nb_frames": "437"
+            }
+          },
+          {
+            "scene": "pyramid",
+            "sha256": "3b2d6d410cb9d50ad2ffde8a3b2baeade387a7807c2e2c5160ca84332b7de134",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "ragdoll-rain",
+            "sha256": "a5c5801e20175f44708dc880d6af958b76eb9b7458214fcaa01a3eec8c3cef47",
+            "video": {
+              "width": 960,
+              "height": 720,
+              "duration": "234.133333",
+              "nb_frames": "7024"
+            }
+          },
+          {
+            "scene": "ramp",
+            "sha256": "56a4309b05b0779cd52464fc1c3118a4aa428cda407ed8856095c2352ae2bdeb",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "revolute",
+            "sha256": "89930137324867958abf03c798f3c1658dc05467d6a28a29e125eae4826dbf2e",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "shape-replacement",
+            "sha256": "68d34d83d8303e75c4fc09bd05c04c94536f1c0853087f68e6bfe84388d5f499",
+            "video": {
+              "width": 960,
+              "height": 720,
+              "duration": "14.566667",
+              "nb_frames": "437"
+            }
+          },
+          {
+            "scene": "single-box",
+            "sha256": "c45af533cc478c6f1ce8781769be075cfb2fc8812d083f71982681bf79608abe",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "sphere-stack",
+            "sha256": "f9d247237c3801bef12ab7c9ee6ab79f0f7422589f5350861c20d28390d0fcdc",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "spheres",
+            "sha256": "62ec5d83604ec30375d33123784d2250bb7f30d2e28c65bbd121ec156f31b7bc",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "spinner",
+            "sha256": "654f2382fec71c37488f3c143c0eab57a804c5958b081f0817bce663a3e74552",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "stack",
+            "sha256": "104ae475a064d25caa058e08abfa914cd98745f275f9048cda20de83d1164e15",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          },
+          {
+            "scene": "weld",
+            "sha256": "89930137324867958abf03c798f3c1658dc05467d6a28a29e125eae4826dbf2e",
+            "video": {
+              "width": 1280,
+              "height": 720,
+              "duration": "10.000000",
+              "nb_frames": "300"
+            }
+          }
+        ]
+      }
+    ],
+    "native_reports": [
+      {
+        "mode": "cpu",
+        "sample": "GPU API/Shape Replacement",
+        "steps": 120,
+        "command": [
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-cpu/bin/samples_cpu",
+          "--sample-name",
+          "GPU API/Shape Replacement",
+          "--frames",
+          "120",
+          "--bench-json",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/paused-checkpoint-recordings/cpu-shape-replacement.json",
+          "--warmup",
+          "0",
+          "--timed",
+          "120",
+          "--paced",
+          "--completed-step",
+          "--hide-ui",
+          "--sleep"
+        ],
+        "environment": {
+          "DISPLAY": ":1",
+          "LIBGL_ALWAYS_SOFTWARE": "1",
+          "GPU_BENCH_WIDTH": "960",
+          "GPU_BENCH_HEIGHT": "720",
+          "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+          "WGPU_BACKEND": "vulkan",
+          "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+        },
+        "child_exit": 0,
+        "ffmpeg_exit": 0,
+        "binary_sha256": "b0a0551c4a45bd900b12c5b2c390a4c6f09b1b76cb71934a259440b80b459014",
+        "report_sha256": "3b7f9efaecc0a8e1eba140340189d3358b4c64be5f408e738796f30b4efafca6",
+        "clip_sha256": "5d0f1f4b882865c93de4f19189bfbaa865f0a4b72ef16354261e61f5962b21ac",
+        "report": {
+          "status": "ok",
+          "mode": "cpu",
+          "sample": "GPU API/Shape Replacement",
+          "frames_observed": 120,
+          "warmup": 0,
+          "timed": 120,
+          "measured": 120
+        }
+      },
+      {
+        "mode": "cpu",
+        "sample": "Bodies/Offset Kinematic",
+        "steps": 120,
+        "command": [
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-cpu/bin/samples_cpu",
+          "--sample-name",
+          "Bodies/Offset Kinematic",
+          "--frames",
+          "120",
+          "--bench-json",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/paused-checkpoint-recordings/cpu-offset-kinematic.json",
+          "--warmup",
+          "0",
+          "--timed",
+          "120",
+          "--paced",
+          "--completed-step",
+          "--hide-ui",
+          "--sleep"
+        ],
+        "environment": {
+          "DISPLAY": ":1",
+          "LIBGL_ALWAYS_SOFTWARE": "1",
+          "GPU_BENCH_WIDTH": "960",
+          "GPU_BENCH_HEIGHT": "720",
+          "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+          "WGPU_BACKEND": "vulkan",
+          "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+        },
+        "child_exit": 0,
+        "ffmpeg_exit": 0,
+        "binary_sha256": "b0a0551c4a45bd900b12c5b2c390a4c6f09b1b76cb71934a259440b80b459014",
+        "report_sha256": "6a61fa52ff3c111dad8014522b67eb1a899c4d4877d5c9f9dd4ef74d228af6f6",
+        "clip_sha256": "7ed9f534ab5abfcedacfa7254da4d78a62b46b28c6705d11ce4165b47f66256d",
+        "report": {
+          "status": "ok",
+          "mode": "cpu",
+          "sample": "Bodies/Offset Kinematic",
+          "frames_observed": 120,
+          "warmup": 0,
+          "timed": 120,
+          "measured": 120
+        }
+      },
+      {
+        "mode": "cpu",
+        "sample": "Determinism/Falling Ragdolls",
+        "steps": 600,
+        "command": [
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-cpu/bin/samples_cpu",
+          "--sample-name",
+          "Determinism/Falling Ragdolls",
+          "--frames",
+          "600",
+          "--bench-json",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/paused-checkpoint-recordings/cpu-falling-ragdolls.json",
+          "--warmup",
+          "0",
+          "--timed",
+          "600",
+          "--paced",
+          "--completed-step",
+          "--hide-ui",
+          "--sleep"
+        ],
+        "environment": {
+          "DISPLAY": ":1",
+          "LIBGL_ALWAYS_SOFTWARE": "1",
+          "GPU_BENCH_WIDTH": "960",
+          "GPU_BENCH_HEIGHT": "720",
+          "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+          "WGPU_BACKEND": "vulkan",
+          "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+        },
+        "child_exit": 0,
+        "ffmpeg_exit": 0,
+        "binary_sha256": "b0a0551c4a45bd900b12c5b2c390a4c6f09b1b76cb71934a259440b80b459014",
+        "report_sha256": "dfc94fb1dcc83fa2d2e153eeed1366015983ca35951a492833e6f0677af5d8ae",
+        "clip_sha256": "6dd2e8fb2b6bf3429311d5d459b045cb60fb9a246c4e384374f1cd81b43753de",
+        "report": {
+          "status": "ok",
+          "mode": "cpu",
+          "sample": "Determinism/Falling Ragdolls",
+          "frames_observed": 600,
+          "warmup": 0,
+          "timed": 600,
+          "measured": 600
+        }
+      },
+      {
+        "mode": "cpu",
+        "sample": "Benchmark/Rain",
+        "steps": 600,
+        "command": [
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-cpu/bin/samples_cpu",
+          "--sample-name",
+          "Benchmark/Rain",
+          "--frames",
+          "600",
+          "--bench-json",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/paused-checkpoint-recordings/cpu-ragdoll-rain.json",
+          "--warmup",
+          "0",
+          "--timed",
+          "600",
+          "--paced",
+          "--completed-step",
+          "--hide-ui",
+          "--sleep"
+        ],
+        "environment": {
+          "DISPLAY": ":1",
+          "LIBGL_ALWAYS_SOFTWARE": "1",
+          "GPU_BENCH_WIDTH": "960",
+          "GPU_BENCH_HEIGHT": "720",
+          "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+          "WGPU_BACKEND": "vulkan",
+          "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+        },
+        "child_exit": 0,
+        "ffmpeg_exit": 0,
+        "binary_sha256": "b0a0551c4a45bd900b12c5b2c390a4c6f09b1b76cb71934a259440b80b459014",
+        "report_sha256": "8f27cc438b6e231943c1292478da77f1565943528dc5b036776d39cf0e9dab94",
+        "clip_sha256": "7c635c8215007d790554ac990062615cfce8afa2f36cdce20af369314c03189b",
+        "report": {
+          "status": "ok",
+          "mode": "cpu",
+          "sample": "Benchmark/Rain",
+          "frames_observed": 600,
+          "warmup": 0,
+          "timed": 600,
+          "measured": 600
+        }
+      },
+      {
+        "mode": "gpu",
+        "sample": "GPU API/Shape Replacement",
+        "steps": 120,
+        "command": [
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/bin/samples_gpu",
+          "--sample-name",
+          "GPU API/Shape Replacement",
+          "--frames",
+          "120",
+          "--bench-json",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/paused-checkpoint-recordings/gpu-shape-replacement.json",
+          "--warmup",
+          "0",
+          "--timed",
+          "120",
+          "--paced",
+          "--completed-step",
+          "--hide-ui",
+          "--sleep"
+        ],
+        "environment": {
+          "DISPLAY": ":1",
+          "LIBGL_ALWAYS_SOFTWARE": "1",
+          "GPU_BENCH_WIDTH": "960",
+          "GPU_BENCH_HEIGHT": "720",
+          "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+          "WGPU_BACKEND": "vulkan",
+          "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+        },
+        "child_exit": 0,
+        "ffmpeg_exit": 0,
+        "binary_sha256": "0bec1b01906a91af636fdaae2cfbaf0304043ecf9c91bd86e51df0b76bd1c8aa",
+        "report_sha256": "123f6dd5e44fbdee981541dff781dcc0805e8f2f6e6e4e016cc59a8a5699731e",
+        "clip_sha256": "68d34d83d8303e75c4fc09bd05c04c94536f1c0853087f68e6bfe84388d5f499",
+        "report": {
+          "status": "ok",
+          "mode": "gpu",
+          "sample": "GPU API/Shape Replacement",
+          "frames_observed": 120,
+          "warmup": 0,
+          "timed": 120,
+          "measured": 120
+        }
+      },
+      {
+        "mode": "gpu",
+        "sample": "Bodies/Offset Kinematic",
+        "steps": 120,
+        "command": [
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/bin/samples_gpu",
+          "--sample-name",
+          "Bodies/Offset Kinematic",
+          "--frames",
+          "120",
+          "--bench-json",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/paused-checkpoint-recordings/gpu-offset-kinematic.json",
+          "--warmup",
+          "0",
+          "--timed",
+          "120",
+          "--paced",
+          "--completed-step",
+          "--hide-ui",
+          "--sleep"
+        ],
+        "environment": {
+          "DISPLAY": ":1",
+          "LIBGL_ALWAYS_SOFTWARE": "1",
+          "GPU_BENCH_WIDTH": "960",
+          "GPU_BENCH_HEIGHT": "720",
+          "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+          "WGPU_BACKEND": "vulkan",
+          "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+        },
+        "child_exit": 0,
+        "ffmpeg_exit": 0,
+        "binary_sha256": "0bec1b01906a91af636fdaae2cfbaf0304043ecf9c91bd86e51df0b76bd1c8aa",
+        "report_sha256": "337c4507ef8614d37e88f06f602cd764a9a9122a8106e1508350e02143d45178",
+        "clip_sha256": "2ff95328b9509297cae30014188ecd530a891ce0069a93179d1db6bc32a1f8bb",
+        "report": {
+          "status": "ok",
+          "mode": "gpu",
+          "sample": "Bodies/Offset Kinematic",
+          "frames_observed": 120,
+          "warmup": 0,
+          "timed": 120,
+          "measured": 120
+        }
+      },
+      {
+        "mode": "gpu",
+        "sample": "Determinism/Falling Ragdolls",
+        "steps": 600,
+        "command": [
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/bin/samples_gpu",
+          "--sample-name",
+          "Determinism/Falling Ragdolls",
+          "--frames",
+          "600",
+          "--bench-json",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/paused-checkpoint-recordings/gpu-falling-ragdolls.json",
+          "--warmup",
+          "0",
+          "--timed",
+          "600",
+          "--paced",
+          "--completed-step",
+          "--hide-ui",
+          "--sleep"
+        ],
+        "environment": {
+          "DISPLAY": ":1",
+          "LIBGL_ALWAYS_SOFTWARE": "1",
+          "GPU_BENCH_WIDTH": "960",
+          "GPU_BENCH_HEIGHT": "720",
+          "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+          "WGPU_BACKEND": "vulkan",
+          "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+        },
+        "child_exit": 0,
+        "ffmpeg_exit": 0,
+        "binary_sha256": "0bec1b01906a91af636fdaae2cfbaf0304043ecf9c91bd86e51df0b76bd1c8aa",
+        "report_sha256": "5e324c5a226a30462e4c982aec8ea262ccc1ce8ffb222ffacd633b3faa1c2a3c",
+        "clip_sha256": "74c17630bc5acf045504846b3ac8e4941d35e9dabab0547c442d38d874ecb4c4",
+        "report": {
+          "status": "ok",
+          "mode": "gpu",
+          "sample": "Determinism/Falling Ragdolls",
+          "frames_observed": 600,
+          "warmup": 0,
+          "timed": 600,
+          "measured": 600
+        }
+      },
+      {
+        "mode": "gpu",
+        "sample": "Benchmark/Rain",
+        "requested_steps": 600,
+        "completed": false,
+        "child_exit": -15,
+        "ffmpeg_exit": 0,
+        "binary_sha256": "0bec1b01906a91af636fdaae2cfbaf0304043ecf9c91bd86e51df0b76bd1c8aa",
+        "clip_sha256": "a5c5801e20175f44708dc880d6af958b76eb9b7458214fcaa01a3eec8c3cef47",
+        "intentional_stop": {
+          "pid": 1433548,
+          "reason": "Bounded pre-commit visual snapshot already captured. Stop additional600step GPU Rain run because goal is paused; not physical/repeat qualification.",
+          "observed_step_at_least": 138,
+          "expected_child_signal": "SIGTERM",
+          "counts_as_pass": false
+        },
+        "command": [
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu/bin/samples_gpu",
+          "--sample-name",
+          "Benchmark/Rain",
+          "--frames",
+          "600",
+          "--bench-json",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/paused-checkpoint-recordings/gpu-ragdoll-rain.json",
+          "--warmup",
+          "0",
+          "--timed",
+          "600",
+          "--paced",
+          "--completed-step",
+          "--hide-ui",
+          "--sleep"
+        ],
+        "environment": {
+          "DISPLAY": ":1",
+          "LIBGL_ALWAYS_SOFTWARE": "1",
+          "GPU_BENCH_WIDTH": "960",
+          "GPU_BENCH_HEIGHT": "720",
+          "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+          "WGPU_BACKEND": "vulkan",
+          "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+        }
+      }
+    ]
+  },
+  "latest_rejected_experiment": {
+    "scope": "Single ordinary120step fresh-history replays; no physical acceptance or five-repeat qualification",
+    "cases": {
+      "hip": {
+        "baseline": {
+          "frames": 120,
+          "body_observations": 5040,
+          "spherical_observations": 3240,
+          "initial_exact": true,
+          "peak_anchor_all": 0.0103564057,
+          "peak_anchor_target": 0.00590775674,
+          "peak_omega_all": 31.735384531122047,
+          "all_joint_peaks": {
+            "cone": 0.314239025,
+            "lower": 0.0233740285,
+            "upper": 0.00444190204
+          },
+          "target_peaks": {
+            "cone": 0.314239025,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "target_tail60_peaks": {
+            "cone": 0.210057288,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "target_final": {
+            "frame": 119,
+            "body": 3943,
+            "cone": 0.183344901,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "sha256": {
+            "manifest.json": "427bd1763626d95dc21178d85b63e5772b0a8453849591b481c8fe45c40833d5",
+            "state.txt": "4d49e563a8b21a8ad1389560e6ca85ec2558c0b74e8d266a9d3a1de65f730a2d",
+            "run.log": "4306477067db26605d75f3f2fcfda7d9caf471bad36a0213799a26aece0c4999",
+            "exit.json": "9cf8f0c0bd0ccdf69350244422ed1cbd77f4d45eb1b1089318527f15e943834f"
+          }
+        },
+        "candidate": {
+          "frames": 120,
+          "body_observations": 5040,
+          "spherical_observations": 3240,
+          "initial_exact": true,
+          "peak_anchor_all": 0.0104583502,
+          "peak_anchor_target": 0.00939145591,
+          "peak_omega_all": 13.995496099903221,
+          "all_joint_peaks": {
+            "cone": 0.154417068,
+            "lower": 0.0232924148,
+            "upper": 0.00321638584
+          },
+          "target_peaks": {
+            "cone": 0.117623329,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "target_tail60_peaks": {
+            "cone": 0.117623329,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "target_final": {
+            "frame": 119,
+            "body": 3943,
+            "cone": 0.0893826783,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "sha256": {
+            "manifest.json": "e54a15d64e35781bd273422ad3a8493088d1e29bbde0023dc4df156d05374925",
+            "state.txt": "318037ef9ce035fc308f90ff29770cd6cba8b241cb0d165dcab52d3cfd4e7eed",
+            "run.log": "020877ea16a4d5d1f69661c4df6025d99eb7c7c6d17160253259ce4b3c80b7f6",
+            "exit.json": "299e6b270db5891f5e91c085061b2f3d19bdf06c07d8e8fc70d4b441877ba2b9"
+          }
+        }
+      },
+      "severe": {
+        "baseline": {
+          "frames": 120,
+          "body_observations": 5040,
+          "spherical_observations": 3240,
+          "initial_exact": true,
+          "peak_anchor_all": 0.143070191,
+          "peak_anchor_target": 0.0678806007,
+          "peak_omega_all": 104.82967282677589,
+          "all_joint_peaks": {
+            "cone": 1.25412655,
+            "lower": 0.385927796,
+            "upper": 0.0323348343
+          },
+          "target_peaks": {
+            "cone": 1.25412655,
+            "lower": 0.385927796,
+            "upper": 0.00756150484
+          },
+          "target_tail60_peaks": {
+            "cone": 0.00746870041,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "target_final": {
+            "frame": 119,
+            "body": 5004,
+            "cone": 0.00379863381,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "sha256": {
+            "manifest.json": "7e197cea50b1900b8fe57088db6aa3de58162087b67d80b93b67f6ebdc9ea098",
+            "state.txt": "f146a0778f1bbe3f121c57239594036c300b874e11c841faca204c48f865670f",
+            "run.log": "22b18b0e3c4c75b5c51a93b9a6ad6dbea50bbcc2675727f6ca7e633233cf77e8",
+            "exit.json": "84f1fedbd702cb7b9be43b13c1109033fc9aa77294e14fe027eed484f10ee088"
+          }
+        },
+        "candidate": {
+          "frames": 120,
+          "body_observations": 5040,
+          "spherical_observations": 3240,
+          "initial_exact": true,
+          "peak_anchor_all": 0.1444318,
+          "peak_anchor_target": 0.0732094124,
+          "peak_omega_all": 63.09637292072542,
+          "all_joint_peaks": {
+            "cone": 0.766227901,
+            "lower": 0.228149474,
+            "upper": 0.0612294674
+          },
+          "target_peaks": {
+            "cone": 0.766227901,
+            "lower": 0.228149474,
+            "upper": 0.00544795394
+          },
+          "target_tail60_peaks": {
+            "cone": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "target_final": {
+            "frame": 119,
+            "body": 5004,
+            "cone": 0.0,
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "sha256": {
+            "manifest.json": "e8bd6c36e2aae04d967e8d6abbeffb63cd1c88c3b1460814646577cb76113f30",
+            "state.txt": "4eeb1447e7a98b06fcd9d764bb5cf48d58089003ade408c35be62b9ac3c29be8",
+            "run.log": "e756a3cb91330421a54155ab80dc1aee9d3facabd3ce82404e665583902d49e1",
+            "exit.json": "4f16c60d5382cce272d0eb77299b9fa03a88fbd3a72f673ccbbd57b714a93fd5"
+          }
+        }
+      }
+    },
+    "decision": "Rejected: both cases increase target anchor separation; severe all-joint upper twist worsens. Angular refresh alone does not close physical acceptance.",
+    "hip_baseline_byte_identical": true,
+    "source_restored": true
+  },
+  "phase_evidence": {
+    "tail60_by_substep": [
+      {
+        "substep": 0,
+        "mean_axis_alignment": 1.0,
+        "mean_current_rate": -6.442221611816573,
+        "mean_prepared_rate": -6.442221611816573,
+        "mean_delta_swing": -0.021289338371020716,
+        "prepared_inward_current_outward": 0
+      },
+      {
+        "substep": 1,
+        "mean_axis_alignment": 0.9819859615270384,
+        "mean_current_rate": -3.4947464265838577,
+        "mean_prepared_rate": -6.45101962560626,
+        "mean_delta_swing": -0.006737434288207843,
+        "prepared_inward_current_outward": 2
+      },
+      {
+        "substep": 2,
+        "mean_axis_alignment": 0.9171650652740244,
+        "mean_current_rate": 0.23545237786114695,
+        "mean_prepared_rate": -5.942320507423501,
+        "mean_delta_swing": 0.007880240823066082,
+        "prepared_inward_current_outward": 36
+      },
+      {
+        "substep": 3,
+        "mean_axis_alignment": 0.8176058560469658,
+        "mean_current_rate": 3.418323820833234,
+        "mean_prepared_rate": -6.322218358078769,
+        "mean_delta_swing": 0.020620147522583916,
+        "prepared_inward_current_outward": 54
+      }
+    ],
+    "scope": "Phase velocities and double-precision pose reconstruction, not per-constraint work or physical acceptance",
+    "frames": 120,
+    "body_count": 43,
+    "body_mapping_max_velocity_error": 4.9963379211703796e-08,
+    "hip_pose_reconstruction_max_component_error": 1.1977404446028572e-07,
+    "summary": {
+      "all": {
+        "integrate_velocity": 2.5948349355894544,
+        "warm_start": -0.45964548022547097,
+        "biased_solve": -1.5228083118223645,
+        "integrate_position": -1.5228083118223645,
+        "relax": 1.5528580958568294,
+        "mean_delta_swing": -1.8816634598224403e-05,
+        "outward_biased_substeps": 175,
+        "substeps": 480
+      },
+      "tail60": {
+        "integrate_velocity": 2.6986451898598065,
+        "warm_start": -0.3881608583190866,
+        "biased_solve": -1.5707979599265125,
+        "integrate_position": -1.5707979599265125,
+        "relax": 1.6411800856735206,
+        "mean_delta_swing": 0.00011840392160536057,
+        "outward_biased_substeps": 92,
+        "substeps": 240
+      }
+    }
+  }
+}

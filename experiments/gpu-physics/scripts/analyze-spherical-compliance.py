@@ -25,7 +25,7 @@ opener=gzip.open if args.trace.suffix=='.gz' else open
 with opener(args.trace,'rt') as source:
  for line in source:
   count+=1;d=json.loads(line)
-  if d.get('schema')!='gpu-core-state-v19' or d.get('frame')!=count:raise ValueError('schema or frame sequence mismatch')
+  if d.get('schema') not in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22') or d.get('frame')!=count:raise ValueError('schema or frame sequence mismatch')
   candidates=[j for j in d['joints'] if j['b']==args.body_identity and j['kind']==3]
   if not candidates:continue
   if len(candidates)!=1:raise ValueError('ambiguous spherical joint selection')

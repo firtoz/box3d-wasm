@@ -166,9 +166,10 @@ fn apply_deltas(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
             && sleep_velocity <= scene_f32(extra + 7u);
         let min_extent = scene_f32(extra + 3u);
         let max_motion = max(max_delta, max_velocity * params.step_dt);
+        // Keep proxy state aligned with the host/device CCD activation bound.
         if (!quiet && params.enable_continuous != 0u
             && (b.flags & (FLAG_KINEMATIC | FLAG_DISABLED)) == 0u
-            && (b.flags & FLAG_KINEMATIC) == 0u && max_motion > 0.5 * min_extent) {
+            && (b.flags & FLAG_KINEMATIC) == 0u && max_motion > min(0.5 * min_extent, SPECULATIVE)) {
             b.flags = b.flags | FLAG_FAST | FLAG_CCD_NO_HIT;
         }
         if (quiet) {

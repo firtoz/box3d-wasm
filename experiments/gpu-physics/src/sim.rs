@@ -25,10 +25,13 @@ use crate::types::{
 
 #[cfg(not(target_arch = "wasm32"))]
 fn diagnostic_flags_from_env() -> u32 {
+    let solver = if std::env::var("GPU_PHYSICS_LIVE_CONTACT_ORDER").as_deref() == Ok("0") {
+        crate::types::SOLVER_PAIRED_NORMALS
+    } else { 0 };
     std::env::var("GPU_PHYSICS_AB")
         .unwrap_or_default()
         .split(',')
-        .fold(0, |flags, name| {
+        .fold(solver, |flags, name| {
             flags
                 | match name.trim() {
                     "no-recycle" => DIAG_DISABLE_RECYCLING,
@@ -665,6 +668,7 @@ pub struct GpuSim {
     encode_commands: Cell<u32>,
     physics_invalid: bool,
     callback_open: bool,
+    contact_status_dirty: bool,
     pass_lut: Buffer,
     bodies: Buffer,
     body_cold: Buffer,
@@ -750,6 +754,7 @@ pub struct GpuSim {
     alloc_bind_slots: ComputePipeline,
     collide_pairs_no_mesh: std::sync::OnceLock<ComputePipeline>,
     collide_pairs_mesh: std::sync::OnceLock<ComputePipeline>,
+    child_compaction: std::sync::OnceLock<crate::contact_compaction::ContactCompaction>,
     collision_shader: ShaderModule,
     collision_layout: wgpu::PipelineLayout,
     retire_stale_contacts: ComputePipeline,
@@ -1592,6 +1597,7 @@ impl GpuSim {
             alloc_bind_slots: make_compute(&device, &pipeline_layout, &shader, "alloc_bind_slots"),
             collide_pairs_no_mesh: std::sync::OnceLock::new(),
             collide_pairs_mesh: std::sync::OnceLock::new(),
+            child_compaction: std::sync::OnceLock::new(),
             collision_shader: shader.clone(),
             collision_layout: pipeline_layout.clone(),
             retire_body_pair_contacts: make_compute(&device, &pipeline_layout, &shader, "retire_body_pair_contacts"),
@@ -1804,6 +1810,7 @@ impl GpuSim {
             sticky_pending_context: [0;2],
             #[cfg(not(target_arch = "wasm32"))]
             contact_metrics: None,
+            contact_status_dirty: false,
             #[cfg(not(target_arch = "wasm32"))]
             sticky_first_step: 0,
             #[cfg(not(target_arch = "wasm32"))]
@@ -2705,6 +2712,18 @@ impl GpuSim {
         }
     }
 
+    // Root ownership and generation counters stay at their physical slots.
+    // Canonical children make the next lowest-free-slot allocation repeatable.
+    // Run after graph cleanup and retirement, before constraint preparation.
+    // Callbacks have applied any vetoes before this boundary.
+    fn compact_mesh_children(&self, enc: &mut wgpu::CommandEncoder) {
+        if self.params.mesh_triangle_count == 0 || self.shape_count < 2 { return; }
+        self.child_compaction.get_or_init(|| crate::contact_compaction::ContactCompaction::new(
+            &self.device, self.params.contact_capacity, &self.contacts,
+            &self.contact_persistent, &self.contact_prepared, &self.query,
+            &self.atom, &self.pass_lut)).encode(enc);
+    }
+
     fn make_runtime_compute(&self, device: &Device, layout: &wgpu::PipelineLayout, shader: &ShaderModule, entry: &str) -> ComputePipeline {
         let p = self.resources.pipeline(entry, &[], || make_compute_cached(device, layout, shader, entry, self.resources.startup.cache.as_ref()));
         p
@@ -2885,6 +2904,7 @@ impl GpuSim {
                     wgpu::BufferTransition{buffer:&self.indirect,state:wgpu::BufferUses::INDIRECT},
                 ]),std::iter::empty());
             self.graph_cache.as_ref().unwrap().encode(enc);
+            self.compact_mesh_children(enc);
             return;
         }
         {
@@ -3031,6 +3051,7 @@ impl GpuSim {
             u64::from(crate::types::MAX_COLORS) * 16,
         );
         self.copy_solver_indirects(enc);
+        self.compact_mesh_children(enc);
     }
 
     fn dispatch_colored_solve(&self, encoder: &mut wgpu::CommandEncoder, use_bias: u32) {
@@ -3488,6 +3509,12 @@ impl GpuSim {
         self.last_submit = Some(index);
     }
 
+    fn submit_contact_mutation(&mut self, command: wgpu::CommandBuffer) {
+        // These dispatches can record failures without advancing physics_step.
+        self.contact_status_dirty = true;
+        self.record_submit(self.queue.submit(Some(command)));
+    }
+
     pub fn wait_completion(&mut self) {
         if let Some(index) = self.last_submit.clone() {
             loop {
@@ -3529,8 +3556,9 @@ impl GpuSim {
     }
 
     fn retire_contacts(&mut self, a: u32, b: u32, mode: u32) {
-        // Mutation words are outside the ray-query state.
-        self.queue.write_buffer(&self.query, 64 * 4, bytemuck::cast_slice(&[a, b, mode]));
+        // Keep mutation commands separate from ray-query state and sticky status.
+        self.queue.write_buffer(&self.query, u64::from(crate::types::QUERY_RETIRE_COMMAND) * 4,
+            bytemuck::cast_slice(&[a, b, mode]));
         let mut enc = self.device.create_command_encoder(&wgpu::CommandEncoderDescriptor {
             label: Some("retire-joint-body-pair"),
         });
@@ -3542,7 +3570,7 @@ impl GpuSim {
             pass.set_bind_group(0, self.live_bg(), &[0]);
             pass.dispatch_linear(self.pair_groups());
         }
-        self.record_submit(self.queue.submit(Some(enc.finish())));
+        self.submit_contact_mutation(enc.finish());
     }
 
     pub fn pose_snapshot_step(&self) -> u64 {
@@ -3681,6 +3709,10 @@ impl GpuSim {
 
     pub fn set_diagnostic_flags(&mut self, flags: u32) {
         self.invalidate_idle_proof();
+        // Diagnostic overrides must not silently change the solver chosen at
+        // world creation. This policy shares the captured parameter bitfield.
+        let flags = (flags & !crate::types::SOLVER_PAIRED_NORMALS)
+            | (self.params.diagnostic_flags & crate::types::SOLVER_PAIRED_NORMALS);
         assert_eq!(flags & crate::types::DIAG_MESH_CANDIDATES,
             self.params.diagnostic_flags & crate::types::DIAG_MESH_CANDIDATES,
             "mesh-candidates allocation must be selected at world creation");
@@ -3750,6 +3782,10 @@ impl GpuSim {
     }
 
     pub fn clear_sticky_loss(&mut self) {
+        // Observe completed failures before clearing their diagnostics. Otherwise
+        // a same-step mutation or unread status slot can hide terminal invalidity.
+        #[cfg(not(target_arch = "wasm32"))]
+        self.finish_contact_status();
         self.queue.write_buffer(&self.query, 66 * 4, bytemuck::bytes_of(&0u32));
         let zeros = [0u32; 6];
         self.queue.write_buffer(
@@ -3764,6 +3800,7 @@ impl GpuSim {
             self.sticky_causes = [0; 5];
             self.sticky_contact_reasons = 0;
         }
+        self.contact_status_dirty = true;
     }
 
     #[cfg(not(target_arch = "wasm32"))]
@@ -3808,6 +3845,9 @@ impl GpuSim {
             self.sticky_pending_context = self.metrics_context;
             self.sticky_pending_idle_context=(self.idle_count_valid_step==Some(self.physics_step)).then_some((self.idle_output_context,self.idle_epoch.get()));
             self.sticky_pending = Some(rx);
+            // A fresh slot follows a freshly encoded copy. Harvesting an older
+            // pending slot must not clear a mutation submitted after that copy.
+            self.contact_status_dirty = false;
         }
     }
 
@@ -3913,8 +3953,8 @@ impl GpuSim {
         #[cfg(test)]
         if self.hold_idle_status { return; }
         self.harvest_sticky_status(true);
-        if self.physics_step == 0
-            || self.contact_metrics.is_some_and(|m| m.step >= self.physics_step) {
+        if !self.contact_status_dirty && (self.physics_step == 0
+            || self.contact_metrics.is_some_and(|m| m.step >= self.physics_step)) {
             return;
         }
         let mut encoder = self.device.create_command_encoder(&wgpu::CommandEncoderDescriptor {
@@ -4538,7 +4578,7 @@ impl GpuSim {
         self.dispatch_n(&mut encoder, &self.remap_contact_shapes, self.contact_groups(), 0, 1);
         self.dispatch_n(&mut encoder, &self.prepare_contact_hash_keys, self.contact_groups(), 0, 1);
         self.dispatch_n(&mut encoder, &self.publish_remapped_contacts, self.contact_groups(), 0, 1);
-        self.queue.submit(Some(encoder.finish()));
+        self.submit_contact_mutation(encoder.finish());
     }
 
     #[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
@@ -4675,7 +4715,12 @@ impl GpuSim {
         let reverse=crate::types::pair_layout(self.params.pair_capacity).history+2+6*self.params.pair_capacity;
         assert_eq!(words[reverse as usize+from],0,"child must not own a root history ID");
         assert_eq!(words[reverse as usize+to],0,"destination must not own root history");
+        // A child relocation moves its manifold, not either physical slot's
+        // root-generation history. Match production mesh scratch stores.
+        let generations=(persistent[from].lifecycle[0],persistent[to].lifecycle[0]);
         hot.swap(from,to);persistent.swap(from,to);prepared.swap(from,to);
+        persistent[from].lifecycle[0]=generations.0;
+        persistent[to].lifecycle[0]=generations.1;
         for c in &mut hot {
             if c.manifold_link[0]==from as u32+1 {c.manifold_link[0]=to as u32+1;}
         }
@@ -4709,7 +4754,7 @@ impl GpuSim {
         if !self.completed_known || self.completed_step != self.physics_step {
             return Err("diagnostic capture requires a completed physics step".into());
         }
-        if self.sticky_pending.is_some() {
+        if self.sticky_pending.is_some() || self.contact_status_dirty {
             return Err("diagnostic capture requires drained contact status".into());
         }
         if self.callback_open {
@@ -4720,6 +4765,11 @@ impl GpuSim {
             return Err("diagnostic capture requires superseded pose readback".into());
         }
         Ok(())
+    }
+
+    #[cfg(all(test,feature="replay-diagnostics",not(target_arch="wasm32")))]
+    pub(crate) fn toggle_diagnostic_contact_metric_test(&mut self) {
+        self.contact_metrics.as_mut().expect("completed contact metrics").candidate_pairs ^= 1;
     }
 
     #[cfg(all(feature="replay-diagnostics",not(target_arch="wasm32")))]
@@ -4839,6 +4889,7 @@ impl GpuSim {
             "fat_geometry":geometry,"count":self.count,"shape_count":self.shape_count,"contact_slots":self.contact_slots,
             "contact_epoch":self.contact_epoch,"completed_step":self.completed_step,"completed_known":self.completed_known,
             "pose_step":self.pose_step,"pose_epoch":self.pose_epoch,"callback_open":self.callback_open,
+            "contact_status_dirty":self.contact_status_dirty,
             "one_group_wave_only":self.one_group_wave_only,"one_group_pair_ok":self.one_group_pair_ok,
             "skip_general_static_sort":self.skip_general_static_sort,"graph_batched_override":self.graph_batched_override,
             "graph_shared_requested":self.graph_shared_requested,"small_component_workgroup_size":self.small_component_workgroup_size,
@@ -4848,6 +4899,14 @@ impl GpuSim {
             "sticky_loss":self.sticky_loss,"sticky_first_step":self.sticky_first_step,"sticky_causes":self.sticky_causes,
             "sticky_contact_reasons":self.sticky_contact_reasons,"metrics_context":self.metrics_context,
             "sticky_pending_context":self.sticky_pending_context});
+        // The step decides whether finish_contact_status refreshes the
+        // scheduling hints. Counts/revisions also remain observable through
+        // the public metrics API; they are not disposable timing data.
+        state["contact_metrics"]=self.contact_metrics.map(|m|json!({
+                "step":m.step,"topology_revision":m.topology_revision,"state_revision":m.state_revision,
+                "capacity_loss":m.capacity_loss,"candidate_pairs":m.candidate_pairs,
+                "allocated_roots":m.allocated_roots,"allocated_manifold_slots":m.allocated_manifold_slots,
+                "touching_roots":m.touching_roots,"non_sensor_roots":m.non_sensor_roots})).unwrap_or(Value::Null);
         // An active metrics window suppresses native full-step replay. Its
         // counters are scheduling state, unlike measured durations/query data.
         // Absence is the canonical no-window representation, preserving v19
@@ -4957,6 +5016,12 @@ impl GpuSim {
         self.read_diagnostic_records::<u32>(&source,73,1)[0]
     }
 
+    #[cfg(all(test, feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    pub(crate) fn overwrite_diagnostic_scratch_word_test(&self, word: usize, value: u32) {
+        assert!((word as u64 + 1) * 4 <= self.scratch.size());
+        self.queue.write_buffer(&self.scratch, word as u64 * 4, bytemuck::bytes_of(&value));
+    }
+
     #[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
     pub(crate) fn read_diagnostic_contact_hash(&mut self) -> Vec<u32> {
         let source=self.atom.clone();
@@ -4969,6 +5034,24 @@ impl GpuSim {
         let start = self.params.hull_base_u32;
         let end = self.params.mix_pair_base_u32 + crate::types::MIX_PAIR_CAP * 8;
         self.read_diagnostic_scene_records(start, end - start)
+    }
+
+    #[cfg(all(test, feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    pub(crate) fn overwrite_diagnostic_inactive_contact_ids_test(&self, slot: u32) {
+        let hot = u64::from(slot) * mem::size_of::<ContactHotGpu>() as u64
+            + mem::offset_of!(ContactHotGpu, _pad_ca) as u64;
+        let persistent = u64::from(slot) * mem::size_of::<ContactPersistentGpu>() as u64
+            + mem::offset_of!(ContactPersistentGpu, point_triangles) as u64 + 12;
+        self.queue.write_buffer(&self.contacts, hot, bytemuck::bytes_of(&37u32));
+        self.queue.write_buffer(&self.contact_persistent, persistent, bytemuck::bytes_of(&53u32));
+    }
+
+    #[cfg(all(test, feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    pub(crate) fn overwrite_diagnostic_body_center_test(&self, slot: u32, center: [f32; 3]) {
+        assert!(slot < self.count);
+        let offset = u64::from(slot) * mem::size_of::<BodyColdGpu>() as u64
+            + mem::offset_of!(BodyColdGpu, local_center) as u64;
+        self.queue.write_buffer(&self.body_cold, offset, bytemuck::cast_slice(&center));
     }
 
     #[cfg(all(test, feature = "replay-diagnostics", not(target_arch = "wasm32")))]
@@ -5005,15 +5088,18 @@ impl GpuSim {
     }
 
     #[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
-    pub(crate) fn read_diagnostic_body_extras(&mut self) -> (Vec<[f32; 20]>, Vec<u32>) {
+    pub(crate) fn read_diagnostic_body_extras(&mut self) -> (Vec<[f32; 20]>, Vec<[f32; 3]>, Vec<u32>) {
         let capacity = self.params.shape_base_u32 / 36;
-        let size = u64::from(self.count) * 80;
+        let extra_size = u64::from(self.count) * 80;
+        let cold_size = u64::from(self.count) * mem::size_of::<BodyColdGpu>() as u64;
+        let size = extra_size + cold_size;
         self.ensure_staging(size.max(256));
         let staging = self.staging.as_ref().expect("staging buffer");
         let mut encoder = self.device.create_command_encoder(&wgpu::CommandEncoderDescriptor {
             label: Some("diagnostic-body-extras"),
         });
-        encoder.copy_buffer_to_buffer(&self.body_cold, u64::from(capacity) * 64, staging, 0, size);
+        encoder.copy_buffer_to_buffer(&self.body_cold, u64::from(capacity) * 64, staging, 0, extra_size);
+        encoder.copy_buffer_to_buffer(&self.body_cold, 0, staging, extra_size, cold_size);
         self.queue.submit(Some(encoder.finish()));
         let slice = staging.slice(..size);
         let (tx, rx) = oneshot();
@@ -5021,10 +5107,12 @@ impl GpuSim {
         poll_until_idle(&self.device);
         rx.recv().expect("map_async dropped").expect("map failed");
         let data = slice.get_mapped_range();
-        let extras = bytemuck::cast_slice::<u8, [f32; 20]>(&data).to_vec();
+        let extras = bytemuck::cast_slice::<u8, [f32; 20]>(&data[..extra_size as usize]).to_vec();
+        let centers = bytemuck::cast_slice::<u8, BodyColdGpu>(&data[extra_size as usize..])
+            .iter().map(|body| body.local_center).collect();
         drop(data);
         staging.unmap();
-        (extras, self.step_force_slots.clone())
+        (extras, centers, self.step_force_slots.clone())
     }
 
     pub(crate) fn has_contact_order_storage(&self) -> bool {
@@ -5227,6 +5315,9 @@ impl GpuSim {
         } else if old.params.order_enabled != 0 {
             eprintln!("live contact ordering disabled: proxy topology changed during allocation");
         }
+        // Sticky reasons must survive with the atomic failure counters below,
+        // including failures not yet harvested from the old simulator.
+        encoder.copy_buffer_to_buffer(&old.query, 66 * 4, &self.query, 66 * 4, 4);
         // query word 73 is the monotonic dirty-contact bound (WGSL constant).
         encoder.copy_buffer_to_buffer(&old.query, 73 * 4, &self.query, 73 * 4, 4);
         copy(&mut encoder, &old.contacts, &self.contacts);
@@ -5293,7 +5384,7 @@ impl GpuSim {
         self.params.remap_history_step = old.params.remap_history_step;
         self.params.fat_bounds_epoch = old.params.fat_bounds_epoch;
         self.params.fat_commands_epoch = old.params.fat_commands_epoch;
-        self.queue.submit(Some(encoder.finish()));
+        self.submit_contact_mutation(encoder.finish());
         self.contact_epoch = old.contact_epoch;
         self.remap_physical_contacts(&old.shape_identities);
         if pair_capacity_changed {
@@ -5304,7 +5395,7 @@ impl GpuSim {
                     .min(self.device.limits().max_compute_workgroups_per_dimension), 0, 1);
             self.dispatch_n(&mut encoder, &self.prepare_contact_hash_keys, self.contact_groups(), 0, 1);
             self.dispatch_n(&mut encoder, &self.publish_remapped_contacts, self.contact_groups(), 0, 1);
-            self.queue.submit(Some(encoder.finish()));
+            self.submit_contact_mutation(encoder.finish());
         }
     }
 

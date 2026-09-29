@@ -193,7 +193,7 @@ pub fn b3_world_write_core_state(id: WorldId, path: &std::path::Path, frame: u32
             return Err("GPU pose snapshot policy differs from captured world policy".into());
         }
         let bodies = pollster::block_on(sim.read_bodies());
-        let (body_extras, force_slots) = sim.read_diagnostic_body_extras();
+        let (body_extras, device_centers, force_slots) = sim.read_diagnostic_body_extras();
         // Membership is emitted on live body records below. Reject any entry
         // that would otherwise disappear from the diagnostic representation.
         if force_slots.iter().any(|&slot| w.bodies.get(slot as usize).is_none_or(Option::is_none)) {
@@ -305,6 +305,13 @@ pub fn b3_world_write_core_state(id: WorldId, path: &std::path::Path, frame: u32
             contact_keys.get(slot).filter(|v| !v.is_null()).cloned().ok_or("invalid contact reference".into())
         };
         let layout = crate::types::pair_layout(params.pair_capacity);
+        // Retirement can consume this list between steps, before broadphase
+        // resets it. Keep physical slots (including EMPTY) and both bounds.
+        let candidate_unique_count=scratch[crate::types::SCR_UNIQUE_N as usize];
+        let candidate_contact_count=scratch[3]; // WGSL SCR_NCONTACTS
+        let candidate_start=(crate::types::SCR_PAIRS+3*params.pair_capacity) as usize;
+        let candidate_count=candidate_unique_count.max(candidate_contact_count).min(params.pair_capacity) as usize;
+        let candidate_slots=&scratch[candidate_start..candidate_start+candidate_count];
         if contact_high_water>params.contact_capacity || contact_high_water as usize>contacts.len() {
             return Err("invalid contact allocation high-water mark".into());
         }
@@ -372,11 +379,16 @@ pub fn b3_world_write_core_state(id: WorldId, path: &std::path::Path, frame: u32
             let slot = r[0] as usize - 1;
             let c = contacts.get(slot).ok_or("history contact outside storage")?;
             history.push(json!({"contact":contact_key(slot)?,
+                "physical_slot":slot,"saved_generation":r[1],
                 "generation_matches":r[1]==c.lifecycle[0], "a":body_key(r[2])?, "b":body_key(r[3])?,
                 "color_plus_one":r[4], "last_seen_step":r[5]}));
         }
+        // The reverse lookup is independently persistent: a stale/missing map
+        // changes future ID allocation even if every logical record matches.
+        // Retain physical slots and saved generations too, including mismatches.
+        let lookup_start = h+2+6*params.pair_capacity as usize;
+        let slot_to_rank = &scratch[lookup_start..lookup_start+params.contact_capacity as usize];
         // Logical record ranks and free-stack order influence subsequent coloring.
-        // Preserve those relationships; omit physical contact slots/generations.
         let free_start = h+2+7*params.pair_capacity as usize;
         let free = &scratch[free_start..free_start+free_count];
         let mut seen_free = std::collections::HashSet::new();
@@ -432,6 +444,12 @@ pub fn b3_world_write_core_state(id: WorldId, path: &std::path::Path, frame: u32
         for (slot, host) in w.bodies.iter().enumerate() {
             let Some(host) = host else { continue; };
             let b = bodies.get(slot).ok_or("missing GPU body")?;
+            // The normal BodyGpu export drops this device field. Verify the
+            // actual bytes before representing it with the captured host value.
+            let center = device_centers.get(slot).ok_or("missing GPU body local center")?;
+            if center.map(f32::to_bits) != host.local_center.map(f32::to_bits) {
+                return Err(format!("GPU body local center differs from captured host at slot {slot}"));
+            }
             let mut r = fields!(b; pos, inv_mass, vel, kind, half, flags, rot, omega, restitution, inv_inertia, friction, gravity_scale, linear_damping, angular_damping, rolling, dp, sleep_time, dq, sleep_velocity, sleep_threshold, origin, origin_valid);
             r.insert("identity".into(), body_key(slot as u32)?);
             r.insert("local_center".into(), host.local_center.trace()?);
@@ -501,6 +519,10 @@ pub fn b3_world_write_core_state(id: WorldId, path: &std::path::Path, frame: u32
             let pra = [c.persistent_ra0,c.persistent_ra1,c.persistent_ra2,c.persistent_ra3];
             let prb = [c.persistent_rb0,c.persistent_rb1,c.persistent_rb2,c.persistent_rb3];
             let feature_ids=contact_feature_ids(c);
+            // Matching inspects all lanes to choose feature/mesh identity mode,
+            // even when the corresponding manifold point is currently inactive.
+            r.insert("feature_id_words".into(),json!(feature_ids));
+            r.insert("point_triangle_words".into(),json!(c.point_triangles));
             // Raw SAT type/index and float-separation bits are persistent even
             // when fewer than two manifold points are active.
             r.insert("sat_cache_words".into(),json!([c._tail[4],c._tail[5]]));
@@ -640,16 +662,18 @@ pub fn b3_world_write_core_state(id: WorldId, path: &std::path::Path, frame: u32
             physics_step, enable_continuous, contact_recycle_distance, maximum_linear_speed,
             restitution_threshold, order_enabled);
         let host_contacts=host_contact_state(w,id.index1)?;
-        json!({"schema":"gpu-core-state-v19", "frame":frame,"idle_state":idle_state,"graph_cache":graph_cache,
+        json!({"schema":"gpu-core-state-v22", "frame":frame,"idle_state":idle_state,"graph_cache":graph_cache,
             "adapter":adapter,"convex_ccd":convex_ccd,"gpu_policy":gpu_policy,"host_state":host_state_trace::capture(w,id.index1)?,"host_events":host_events_trace::capture(w,id.index1)?,"host_contacts":host_contacts,"contact_hash":contact_hash,"event_history":event_history,"contact_end_state":contact_end_state(w),
-            "contact_allocation":{"high_water":contact_high_water,"slots":contact_slots,"occupied_order":occupied_order},
+            "contact_allocation":{"high_water":contact_high_water,"slots":contact_slots,"occupied_order":occupied_order,
+                "candidate_unique_count":candidate_unique_count,"candidate_contact_count":candidate_contact_count,
+                "candidate_slots":candidate_slots},
             "gpu_geometry":gpu_geometry,
             "gpu_colliders":gpu_colliders,
             "shapes":shapes,"geometries":geometries,"shape_storage_order":shape_storage_order,
             "body_allocation":{"slots":body_slots,"free_stack":w.free_bodies,"generations":w.body_generations},
             "body_storage_order":body_storage_order,"settings":settings,"joint_order":{"valid":list_ok,"components":joint_order},
             "scope":"core plus contact history/order, GPU body motion data and pending host loads; remaining engine state requires audit",
-            "contact_history":{"records":history,"free_stack":free}, "contact_color_order":color_order,
+            "contact_history":{"records":history,"free_stack":free,"slot_to_rank":slot_to_rank}, "contact_color_order":color_order,
             "fat_bounds":bounds,"pending_transforms":pending_transforms,
             "host_flags":{"scene_dirty":w.scene_dirty,"bodies_dirty":w.bodies_dirty,"topology_dirty":w.topology_dirty,
                 "post_ccd_pending":w.post_ccd_pending,"events_pending":w.events_pending},
@@ -668,6 +692,199 @@ pub fn b3_world_write_core_state(id: WorldId, path: &std::path::Path, frame: u32
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn trace_captures_between_step_retirement_candidates() {
+        let gpu=pollster::block_on(GpuDevice::new(None)).expect("GPU");
+        let world=b3_create_world(gpu,&crate::api::b3_default_world_def());
+        let mut bd=crate::api::b3_default_body_def();
+        let a=b3_create_body(world,&bd);
+        bd.body_type=BodyType::Dynamic;bd.position=[0.9,0.0,0.0];
+        let b=b3_create_body(world,&bd);
+        for body in [a,b] {
+            b3_create_sphere_shape(body,&crate::api::b3_default_shape_def(),
+                &crate::api::Sphere{center:[0.0;3],radius:0.5});
+        }
+        b3_world_step_gpu(world,1.0/60.0,4);
+        let path=std::env::temp_dir().join(format!("gpu-retirement-candidates-{}.jsonl",std::process::id()));
+        let _=std::fs::remove_file(&path);
+        b3_world_write_core_state(world,&path,1).unwrap();
+        let before:Value=serde_json::from_str(std::fs::read_to_string(&path).unwrap().trim()).unwrap();
+        let (word,slot,body_a,body_b)=with_world_mut_no_sync(world,|w| {
+            let sim=w.sim.as_mut().unwrap();
+            let (params,scratch)=pollster::block_on(sim.read_diagnostic_scratch());
+            assert_eq!(scratch[crate::types::SCR_UNIQUE_N as usize],1);
+            let word=(crate::types::SCR_PAIRS+3*params.pair_capacity) as usize;
+            let slot=scratch[word];
+            let contacts=pollster::block_on(sim.read_contacts());let c=&contacts[slot as usize];
+            assert_ne!(c.a,u32::MAX);
+            sim.overwrite_diagnostic_scratch_word_test(word,u32::MAX);
+            (word,slot,c.a,c.b)
+        }).unwrap();
+        b3_world_write_core_state(world,&path,2).unwrap();
+        let text=std::fs::read_to_string(&path).unwrap();
+        let changed:Value=serde_json::from_str(text.lines().last().unwrap()).unwrap();
+        assert_eq!(before["contacts"],changed["contacts"],"mutation only changes candidate workspace");
+        with_world_mut_no_sync(world,|w| {
+            let sim=w.sim.as_mut().unwrap();
+            sim.retire_body_pair_contacts(body_a,body_b);
+            assert_ne!(pollster::block_on(sim.read_contacts())[slot as usize].a,u32::MAX,
+                "missing candidate prevents selected retirement");
+            sim.overwrite_diagnostic_scratch_word_test(word,slot);
+            sim.retire_body_pair_contacts(body_a,body_b);
+            assert_eq!(pollster::block_on(sim.read_contacts())[slot as usize].a,u32::MAX,
+                "restored candidate enables selected retirement");
+        }).unwrap();
+        b3_destroy_world(world);std::fs::remove_file(path).unwrap();
+        assert_ne!(before["contact_allocation"],changed["contact_allocation"],
+            "capture must distinguish retirement candidate mutation");
+    }
+    #[test]
+    fn trace_distinguishes_history_lookup_and_saved_generations() {
+        let gpu=pollster::block_on(GpuDevice::new(None)).expect("GPU");
+        let world=b3_create_world(gpu,&crate::api::b3_default_world_def());
+        let ground=b3_create_body(world,&crate::api::b3_default_body_def());
+        let sd=crate::api::b3_default_shape_def();
+        b3_create_hull_shape(ground,&sd,&crate::api::b3_make_box_hull(5.0,0.5,5.0));
+        let mut bd=crate::api::b3_default_body_def();
+        bd.body_type=BodyType::Dynamic;bd.position=[0.0,0.99,0.0];
+        let body=b3_create_body(world,&bd);
+        b3_create_hull_shape(body,&sd,&crate::api::b3_make_box_hull(0.5,0.5,0.5));
+        let mut jd=crate::api::b3_default_revolute_joint_def();
+        jd.body_a=ground;jd.body_b=body;jd.collide_connected=true;
+        b3_create_revolute_joint(world,&jd);
+        b3_world_step_gpu(world,1.0/60.0,4);
+        let path=std::env::temp_dir().join(format!("gpu-history-lookup-trace-{}.jsonl",std::process::id()));
+        let _=std::fs::remove_file(&path);
+        let capture=|frame| {
+            b3_world_write_core_state(world,&path,frame).expect("history capture");
+            let text=std::fs::read_to_string(&path).unwrap();
+            serde_json::from_str::<Value>(text.lines().last().unwrap()).unwrap()["contact_history"].clone()
+        };
+        let baseline=capture(1);
+        let (lookup_word,lookup,generation_word,generation)=with_world_mut_no_sync(world,|w| {
+            let sim=w.sim.as_mut().unwrap();
+            let (params,scratch)=pollster::block_on(sim.read_diagnostic_scratch());
+            let h=crate::types::pair_layout(params.pair_capacity).history as usize;
+            let rank=(0..scratch[h] as usize).find(|&i|scratch[h+2+6*i]!=0).expect("live history record");
+            let record=h+2+6*rank;let slot=scratch[record] as usize-1;
+            let word=h+2+6*params.pair_capacity as usize+slot;
+            assert_eq!(scratch[word],rank as u32+1);
+            (word,scratch[word],record+1,scratch[record+1])
+        }).unwrap();
+        let write=|word,value|with_world_mut_no_sync(world,|w|
+            w.sim.as_ref().unwrap().overwrite_diagnostic_scratch_word_test(word,value)).unwrap();
+        write(lookup_word,0);
+        let lookup_changed=capture(2);
+        write(lookup_word,lookup);
+        assert_eq!(capture(3),baseline,"lookup restoration");
+        write(generation_word,generation^0x4000_0000);
+        let stale_a=capture(4);
+        write(generation_word,generation^0x8000_0000);
+        let stale_b=capture(5);
+        write(generation_word,generation);
+        assert_eq!(capture(6),baseline,"generation restoration");
+        b3_destroy_world(world);std::fs::remove_file(path).unwrap();
+        assert!(baseline!=lookup_changed && stale_a!=stale_b,
+            "capture omitted history state: lookup_distinct={}, stale_generations_distinct={}",
+            baseline!=lookup_changed,stale_a!=stale_b);
+    }
+    #[test]
+    fn trace_mass_mutations_preserve_analytical_impulse_response() {
+        use crate::api::*;
+        let gpu=pollster::block_on(GpuDevice::new(None)).expect("GPU");
+        let mut wd=b3_default_world_def();wd.gravity=[0.0;3];wd.enable_sleep=false;
+        let world=b3_create_world(gpu,&wd);
+        let mut bd=b3_default_body_def();bd.body_type=BodyType::Dynamic;
+        let body=b3_create_body(world,&bd);
+        let mut sd=b3_default_shape_def();sd.density=1000.0;
+        let shape=b3_create_hull_shape(body,&sd,&b3_make_box_hull(0.5,0.5,0.5));
+        let path=std::env::temp_dir().join(format!("gpu-mass-mutations-{}.jsonl",std::process::id()));
+        let _=std::fs::remove_file(&path);
+        let mut frame=0;
+        for stage in 0..6 {
+            match stage {
+                0=>b3_body_apply_mass_from_shapes(body),
+                1=>b3_shape_set_density(shape,2000.0,true),
+                2=>b3_body_set_mass_data(body,MassData{mass:1000.0,center:[0.25,-0.5,0.125],
+                    inertia:[[2.0,0.0,0.0],[0.0,3.0,0.0],[0.0,0.0,4.0]]}),
+                3=>b3_body_set_type(body,BodyType::Kinematic),
+                4=>b3_body_set_type(body,BodyType::Dynamic),
+                5=>b3_destroy_shape(shape,true),
+                _=>unreachable!(),
+            }
+            let expected_mass: f32=[1000.0,2000.0,1000.0,0.0,2000.0,0.0][stage];
+            assert_eq!(b3_body_get_mass(body).to_bits(),expected_mass.to_bits(),"stage {stage}");
+            let mass=b3_body_get_mass_data(body);
+            assert_eq!(mass.mass.to_bits(),expected_mass.to_bits());
+            if stage==2 {
+                assert_eq!(mass.center,[0.25,-0.5,0.125]);
+                assert_eq!(mass.inertia,[[2.0,0.0,0.0],[0.0,3.0,0.0],[0.0,0.0,4.0]]);
+            }
+            // Identity orientation isolates a principal-axis impulse. A unit
+            // cube has Izz=m/6; explicit mass uses its independently supplied4.
+            let inertia=if stage==2 {4.0} else {expected_mass/6.0};
+            b3_body_set_transform(body,[0.0;3],[0.0,0.0,0.0,1.0]);
+            b3_body_set_linear_velocity(body,[0.0;3]);
+            b3_body_set_angular_velocity(body,[0.0;3]);
+            // Nonzero input on zero-mass stages catches stale inverse mass
+            // and inertia after type changes or removal of the last shape.
+            let linear_impulse=if expected_mass>0.0 {expected_mass} else {1000.0};
+            let angular_impulse=if expected_mass>0.0 {inertia} else {4.0};
+            b3_body_apply_linear_impulse_to_center(body,[linear_impulse,0.0,0.0],true);
+            b3_body_apply_angular_impulse(body,[0.0,0.0,angular_impulse],true);
+            let moving=if expected_mass>0.0 {1.0} else {0.0};
+            for _ in 0..3 {
+                frame+=1;
+                b3_world_step_gpu(world,1.0/60.0,4);
+                b3_world_write_core_state(world,&path,frame).expect("mass mutation capture");
+                let v=b3_body_get_linear_velocity(body);
+                let w=b3_body_get_angular_velocity(body);
+                for axis in 0..3 {
+                    assert!((v[axis]-if axis==0{moving}else{0.0}).abs()<1e-5,"stage {stage} v={v:?}");
+                    assert!((w[axis]-if axis==2{moving}else{0.0}).abs()<1e-4,"stage {stage} w={w:?}");
+                }
+            }
+        }
+        assert!(!b3_shape_is_valid(shape));
+        let text=std::fs::read_to_string(&path).unwrap();
+        assert_eq!(text.lines().count(),18);
+        if let Ok(export)=std::env::var("GPU_PHYSICS_TEST_TRACE") {
+            std::fs::copy(&path,export).unwrap();
+        }
+        b3_destroy_world(world);
+        std::fs::remove_file(path).unwrap();
+    }
+    #[test]
+    fn trace_captures_contact_metrics_refresh_state() {
+        let gpu=pollster::block_on(GpuDevice::new(None)).expect("GPU");
+        let world=b3_create_world(gpu,&crate::api::b3_default_world_def());
+        let mut bd=crate::api::b3_default_body_def();bd.body_type=BodyType::Dynamic;
+        let body=b3_create_body(world,&bd);
+        b3_create_hull_shape(body,&crate::api::b3_default_shape_def(),&crate::api::b3_make_box_hull(0.5,0.5,0.5));
+        b3_world_step_gpu(world,1.0/60.0,4);
+        let path=std::env::temp_dir().join(format!("gpu-contact-metrics-policy-{}.jsonl",std::process::id()));
+        let _=std::fs::remove_file(&path);
+        b3_world_write_core_state(world,&path,1).unwrap();
+        let public=b3_world_contact_metrics(world,false);
+        assert_eq!(public.known,1);
+        with_world_mut_no_sync(world,|w|w.sim.as_mut().unwrap().toggle_diagnostic_contact_metric_test()).unwrap();
+        assert_eq!(b3_world_contact_metrics(world,false).candidate_pairs,public.candidate_pairs^1);
+        b3_world_write_core_state(world,&path,2).unwrap();
+        let frames:Vec<Value>=std::fs::read_to_string(&path).unwrap().lines()
+            .map(|line|serde_json::from_str(line).unwrap()).collect();
+        let metrics=&frames[0]["gpu_policy"]["contact_metrics"];
+        assert_eq!(*metrics,json!({"step":public.snapshot_step,
+            "topology_revision":public.snapshot_topology,"state_revision":public.snapshot_state,
+            "capacity_loss":public.capacity_loss!=0,"candidate_pairs":public.candidate_pairs,
+            "allocated_roots":public.allocated_roots,"allocated_manifold_slots":public.allocated_manifold_slots,
+            "touching_roots":public.touching_roots,"non_sensor_roots":public.non_sensor_roots}));
+        let mut changed=frames[1]["gpu_policy"].clone();
+        assert_eq!(changed["contact_metrics"]["candidate_pairs"],public.candidate_pairs^1);
+        changed["contact_metrics"]["candidate_pairs"]=json!(public.candidate_pairs);
+        assert_eq!(changed,frames[0]["gpu_policy"],"mutation must change only the selected metric");
+        with_world_mut_no_sync(world,|w|w.sim.as_mut().unwrap().toggle_diagnostic_contact_metric_test()).unwrap();
+        b3_destroy_world(world);std::fs::remove_file(path).unwrap();
+    }
     #[test]
     fn trace_captures_timing_window_replay_policy() {
         let gpu=pollster::block_on(GpuDevice::new(None)).expect("GPU");
@@ -1111,6 +1328,32 @@ mod tests {
         b3_destroy_world(world);std::fs::remove_file(path).unwrap();
     }
     #[test]
+    fn trace_rejects_stale_device_body_center() {
+        let gpu=pollster::block_on(GpuDevice::new(None)).expect("GPU");
+        let world=b3_create_world(gpu,&crate::api::b3_default_world_def());
+        let mut bd=crate::api::b3_default_body_def();bd.body_type=BodyType::Dynamic;
+        let body=b3_create_body(world,&bd);
+        b3_create_hull_shape(body,&crate::api::b3_default_shape_def(),&crate::api::b3_make_box_hull(0.5,0.5,0.5));
+        b3_world_step_gpu(world,1.0/60.0,4);
+        let path=std::env::temp_dir().join(format!("gpu-body-center-trace-{}.jsonl",std::process::id()));
+        let _=std::fs::remove_file(&path);
+        b3_world_write_core_state(world,&path,1).unwrap();
+        let before=std::fs::read(&path).unwrap();
+        for center in [[0.125,0.0,0.0],[f32::NAN,0.0,0.0]] {
+            with_world_mut_no_sync(world,|w| {
+                w.sim.as_ref().unwrap().overwrite_diagnostic_body_center_test(0,center);
+            }).unwrap();
+            let error=b3_world_write_core_state(world,&path,2).expect_err("device center must be checked");
+            assert!(error.contains("GPU body local center differs"),"{error}");
+            assert_eq!(std::fs::read(&path).unwrap(),before,"invalid capture must not append");
+        }
+        with_world_mut_no_sync(world,|w| {
+            w.sim.as_ref().unwrap().overwrite_diagnostic_body_center_test(0,[0.0;3]);
+        }).unwrap();
+        b3_world_write_core_state(world,&path,2).unwrap();
+        b3_destroy_world(world);std::fs::remove_file(path).unwrap();
+    }
+    #[test]
     fn trace_rejects_stale_device_joint_filter() {
         let gpu=pollster::block_on(GpuDevice::new(None)).expect("GPU");
         let world=b3_create_world(gpu,&crate::api::b3_default_world_def());
@@ -1153,6 +1396,42 @@ mod tests {
         b3_destroy_world(world);std::fs::remove_file(path).unwrap();
     }
 
+    #[test]
+    fn trace_captures_inactive_contact_identity_lanes() {
+        let gpu=pollster::block_on(GpuDevice::new(None)).expect("GPU");
+        let mut wd=crate::api::b3_default_world_def();wd.gravity=[0.0;3];
+        let world=b3_create_world(gpu,&wd);
+        let mut bd=crate::api::b3_default_body_def();
+        let a=b3_create_body(world,&bd);
+        bd.body_type=BodyType::Dynamic;bd.position=[0.9,0.0,0.0];
+        let b=b3_create_body(world,&bd);
+        for body in [a,b] {
+            b3_create_sphere_shape(body,&crate::api::b3_default_shape_def(),&crate::api::Sphere{center:[0.0;3],radius:0.5});
+        }
+        b3_world_step_gpu(world,1.0/60.0,4);
+        let path=std::env::temp_dir().join(format!("gpu-inactive-contact-ids-{}.jsonl",std::process::id()));
+        let _=std::fs::remove_file(&path);
+        b3_world_write_core_state(world,&path,1).unwrap();
+        with_world_mut_no_sync(world,|w| {
+            let sim=w.sim.as_mut().unwrap();
+            let contacts=pollster::block_on(sim.read_contacts());
+            let (slot,c)=contacts.iter().enumerate().find(|(_,c)|c.a!=u32::MAX).unwrap();
+            assert_eq!(c.count,1);
+            sim.overwrite_diagnostic_inactive_contact_ids_test(slot as u32);
+        }).unwrap();
+        b3_world_write_core_state(world,&path,2).unwrap();
+        let frames:Vec<Value>=std::fs::read_to_string(&path).unwrap().lines().map(|s|serde_json::from_str(s).unwrap()).collect();
+        assert_eq!(frames[0]["schema"],"gpu-core-state-v22");
+        let first=&frames[0]["contacts"][0];let second=&frames[1]["contacts"][0];
+        assert_eq!(first["count"],1);
+        assert_eq!(first["points"],second["points"],"active point unchanged");
+        assert_eq!(first["feature_id_words"][2],0);
+        assert_eq!(second["feature_id_words"][2],37);
+        assert_eq!(first["point_triangle_words"][3],0);
+        assert_eq!(second["point_triangle_words"][3],53);
+        if let Ok(export)=std::env::var("GPU_PHYSICS_TEST_TRACE") {std::fs::copy(&path,export).unwrap();}
+        b3_destroy_world(world);std::fs::remove_file(path).unwrap();
+    }
     #[test]
     fn trace_decodes_semantic_legacy_padding_lanes() {
         let mut c=crate::types::ContactGpu::zeroed();c.count=4;c.ny=1.0;

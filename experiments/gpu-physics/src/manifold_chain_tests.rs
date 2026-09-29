@@ -21,6 +21,200 @@ const PATHS: [Path; 5] = [
     Path::Legacy,
 ];
 
+#[cfg(not(target_arch = "wasm32"))]
+#[test]
+fn completed_wait_reports_same_step_retirement_failure() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    for pending_old_status in [false, true] {
+        let mut sim = make_sim(&gpu, 0);
+        sim.restore_physics_step(1);
+        sim.finish_contact_status();
+        assert!(!sim.contact_metrics(false).unwrap().capacity_loss);
+        if pending_old_status {
+            let mut enc = sim.device.create_command_encoder(&Default::default());
+            sim.encode_contact_status(&mut enc);
+            sim.record_submit(sim.queue.submit(Some(enc.finish())));
+            sim.map_contact_status();
+        }
+        let mut contacts = patches().to_vec();
+        contacts[1].manifold_link[1] = 8; // A broken chain must produce a sticky failure.
+        sim.queue.write_buffer(&sim.contacts, 0, bytemuck::cast_slice(&contacts));
+        sim.queue.write_buffer(&sim.scratch, u64::from(crate::types::SCR_UNIQUE_N) * 4,
+            bytemuck::bytes_of(&1u32));
+        sim.queue.write_buffer(&sim.scratch, u64::from(SCR_PAIRS + 3 * PAIR_CAP) * 4,
+            bytemuck::bytes_of(&0u32));
+        sim.retire_body_pair_contacts(0, 1);
+        let device = pollster::block_on(sim.read_live_step_stats());
+        assert!(device.sticky.contact_pairs_dropped > 0);
+        assert_ne!(device.contact_drop_reasons & (1 << 1), 0);
+        sim.wait_completion();
+        sim.finish_contact_status();
+        assert!(sim.physics_invalid() && sim.contact_metrics(false).unwrap().capacity_loss,
+            "completed retirement failure was hidden by same-step metrics; pending_old_status={pending_old_status}");
+        assert_ne!(sim.sticky_contact_reasons & (1 << 1), 0);
+    }
+}
+
+#[cfg(feature = "replay-diagnostics")]
+#[test]
+fn contact_retirement_preserves_sticky_failure_reasons() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    let mut sim = make_sim(&gpu, 0);
+    sim.shape_identities = vec![(100, 1), (101, 1), (102, 1), (103, 1)];
+    let seed = test_pipeline(&sim, "seed_retirement_reason_control", r#"
+        @compute @workgroup_size(1)
+        fn seed_retirement_reason_control() {
+            for (var i = 0u; i < 2u; i++) {
+                var c = empty_contact();
+                c.a = 0u; c.b = 1u; c.count = 1u;
+                c.pair = vec4<u32>(i, i + 2u, 0u, 0u);
+                c.manifold_link = vec4<u32>(0u, 0u, 1u, 0u);
+                store_contact(i, c);
+                scratch[scr_active_contact() + i] = i;
+                scratch[scr_contact_mark() + i] = 1u;
+            }
+            scratch[SCR_UNIQUE_N] = 2u;
+        }
+    "#);
+    let mut observed = Vec::new();
+    for reasons in [0u32, 1 << 9] {
+        let mut enc = sim.device.create_command_encoder(&Default::default());
+        sim.dispatch_n(&mut enc, &seed, 1, 0, 1);
+        sim.queue.submit(Some(enc.finish()));
+        sim.queue.write_buffer(&sim.query, 66 * 4, bytemuck::bytes_of(&reasons));
+        sim.retire_shape_contacts(100, 1);
+        let contacts = sim.contacts.clone();
+        let roots: Vec<ContactHotGpu> = sim.read_diagnostic_records(&contacts, 0, 2);
+        assert_eq!(roots[0].a, u32::MAX, "selected shape contact must retire");
+        assert_eq!(roots[1].a, 0, "unrelated shape contact must remain");
+        let query = sim.query.clone();
+        observed.push(("shape", reasons, sim.read_diagnostic_records::<u32>(&query, 66, 1)[0]));
+        sim.retire_body_pair_contacts(0, 1);
+        let roots: Vec<ContactHotGpu> = sim.read_diagnostic_records(&contacts, 0, 2);
+        assert_eq!(roots[1].a, u32::MAX, "body-pair contact must retire");
+        observed.push(("pair", reasons, sim.read_diagnostic_records::<u32>(&query, 66, 1)[0]));
+    }
+    assert!(observed.iter().all(|(_, expected, actual)| expected == actual),
+        "retirement commands changed sticky failure reasons: {observed:?}");
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+#[test]
+fn clearing_unread_retirement_failure_cannot_rehabilitate_physics() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    for pending_old_status in [false, true] {
+        let mut sim = make_sim(&gpu, 0);
+        sim.restore_physics_step(1);
+        sim.finish_contact_status();
+        if pending_old_status {
+            let mut enc = sim.device.create_command_encoder(&Default::default());
+            sim.encode_contact_status(&mut enc);
+            sim.record_submit(sim.queue.submit(Some(enc.finish())));
+            sim.map_contact_status();
+        }
+        let mut contacts = patches().to_vec();
+        contacts[1].manifold_link[1] = 8;
+        sim.queue.write_buffer(&sim.contacts, 0, bytemuck::cast_slice(&contacts));
+        sim.queue.write_buffer(&sim.scratch, u64::from(crate::types::SCR_UNIQUE_N) * 4,
+            bytemuck::bytes_of(&1u32));
+        sim.queue.write_buffer(&sim.scratch, u64::from(SCR_PAIRS + 3 * PAIR_CAP) * 4,
+            bytemuck::bytes_of(&0u32));
+        sim.retire_body_pair_contacts(0, 1);
+        // No status harvest or readback intervenes before the public clear operation.
+        sim.clear_sticky_loss();
+        sim.wait_completion();
+        sim.finish_contact_status();
+        assert!(sim.physics_invalid(),
+            "clearing unread failure rehabilitated physics; pending_old_status={pending_old_status}");
+        assert!(sim.contact_metrics(false).unwrap().capacity_loss);
+        assert!(!sim.sticky_loss, "cleared diagnostics must stay cleared");
+        assert_eq!(sim.sticky_contact_reasons, 0);
+        assert_eq!(sim.sticky_causes, [0; 5]);
+        let device = pollster::block_on(sim.read_live_step_stats());
+        // The clear API resets sticky diagnostics, not the last step's counters.
+        assert!(!device.sticky.has_loss());
+        assert_eq!(device.first_fail_step, 0);
+        assert_eq!(device.contact_drop_reasons, 0);
+    }
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+#[test]
+fn contact_growth_preserves_unread_sticky_failure_reasons() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    let mut old = make_sim(&gpu, 0);
+    old.restore_physics_step(1);
+    old.flush_params();
+    let seed = test_pipeline(&old, "seed_growth_failure", r#"
+        @compute @workgroup_size(1)
+        fn seed_growth_failure() { record_contact_drop(6u); }
+    "#);
+    let mut enc = old.device.create_command_encoder(&Default::default());
+    old.dispatch_n(&mut enc, &seed, 1, 0, 1);
+    old.queue.submit(Some(enc.finish()));
+    // Read raw evidence without harvesting the host's sticky status.
+    let original = pollster::block_on(old.read_live_step_stats());
+    assert!(original.sticky.contact_pairs_dropped > 0);
+    assert_eq!(original.contact_drop_reasons, 1 << 6);
+    assert_eq!(old.sticky_contact_reasons, 0);
+    for count in [257, 8193] {
+        let mut grown = make_sim_sized(&gpu, 0, count);
+        assert!(grown.caps.bodies > old.caps.bodies);
+        assert_eq!(grown.params.pair_capacity != old.params.pair_capacity, count == 8193);
+        grown.restore_physics_step(old.physics_step());
+        grown.copy_contacts_from(&old);
+        grown.wait_completion();
+        grown.finish_contact_status();
+        let copied = pollster::block_on(grown.read_live_step_stats());
+        assert_eq!(copied.sticky.contact_pairs_dropped, original.sticky.contact_pairs_dropped);
+        assert_eq!(copied.first_fail_step, original.first_fail_step);
+        assert_eq!(copied.contact_drop_reasons, original.contact_drop_reasons,
+            "contact failure reasons lost during allocation; body_count={count}");
+        assert_eq!(grown.sticky_contact_reasons, original.contact_drop_reasons);
+        assert!(grown.physics_invalid());
+    }
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+#[test]
+fn fat_static_list_overflow_records_capacity_loss() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    let mut sim = make_sim(&gpu, 0);
+    let mut shape = ShapeGpu::zeroed();
+    shape.body_index = 0; // Static body in make_sim.
+    shape.half = [10.0; 3];
+    sim.params.shape_count = 1;
+    sim.flush_params();
+    sim.queue.write_buffer(&sim.body_cold, u64::from(sim.params.shape_base_u32) * 4,
+        bytemuck::bytes_of(&shape));
+    let bounds = [-10.0f32, -10.0, -10.0, 0.0, 10.0, 10.0, 10.0, 0.0];
+    sim.queue.write_buffer(&sim.scratch, u64::from(sim.params.fat_bounds_base) * 4,
+        bytemuck::cast_slice(&bounds));
+    let cap = sim.params.pair_capacity;
+    let list = crate::types::pair_layout(cap).radix_out;
+    for prior in [cap - 1, cap] {
+        // Seed the already-filled prefix count to exercise the exact boundary
+        // with one real static-proxy collection dispatch.
+        sim.queue.write_buffer(&sim.atom, 0, bytemuck::cast_slice(&[0u32; 16]));
+        sim.queue.write_buffer(&sim.atom, u64::from(crate::types::ATOM_STATIC_N) * 4,
+            bytemuck::bytes_of(&prior));
+        sim.queue.write_buffer(&sim.scratch, u64::from(list + cap - 1) * 4,
+            bytemuck::cast_slice(&[123u32, 456]));
+        let mut enc = sim.device.create_command_encoder(&Default::default());
+        sim.dispatch_n(&mut enc, &sim.collect_fat_statics, 1, 0, 1);
+        sim.dispatch_n(&mut enc, &sim.finish_fat_statics, 1, 0, 1);
+        sim.queue.submit(Some(enc.finish()));
+        let words = pollster::block_on(sim.read_scratch_prefix(list + cap + 1));
+        assert_eq!(words[7], prior + 1); // WGSL SCR_STATIC_N.
+        assert_eq!(words[(list + cap - 1) as usize], if prior < cap {0} else {123});
+        assert_eq!(words[(list + cap) as usize], 456, "must not write past static list");
+        let stats = pollster::block_on(sim.read_live_step_stats());
+        assert_eq!(stats.capacity_loss(), prior == cap,
+            "silently dropped static proxy at list capacity; prior={prior}");
+        assert_eq!(stats.sticky.cell_inserts_dropped, u32::from(prior == cap));
+    }
+}
+
 #[test]
 fn retained_ccd_origin_survives_state_io_and_sleep_but_expires_on_motion() {
     let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
@@ -343,6 +537,101 @@ fn test_pipeline(sim: &GpuSim, entry: &str, suffix: &str) -> ComputePipeline {
             push_constant_ranges: &[],
         });
     make_compute_cached(&sim.device, &layout, &module, entry, None)
+}
+
+#[test]
+fn paired_normals_cover_unilateral_cache_and_degenerate_cases() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    let mut sim = make_sim(&gpu, 1);
+    let selected = sim.params.diagnostic_flags & crate::types::SOLVER_PAIRED_NORMALS;
+    sim.set_diagnostic_flags(0);
+    assert_eq!(sim.params.diagnostic_flags & crate::types::SOLVER_PAIRED_NORMALS, selected);
+    sim.params.dt = 1.0 / 240.0;
+    sim.flush_params();
+    let probe = test_pipeline(&sim, "probe_normal_pair", r#"
+        @compute @workgroup_size(1) fn probe_normal_pair(@builtin(global_invocation_id) gid:vec3<u32>) {
+            let case_id = gid.x;
+            if (case_id >= 9u) { return; }
+            var a: Body; var b: Body;
+            a.rot=vec4<f32>(0.0,0.0,0.0,1.0);a.dq=a.rot;
+            b.rot=a.rot;b.dq=a.rot;
+            a.inv_mass=1.0;b.inv_mass=1.0;
+            a.inv_inertia=vec3<f32>(1.0);b.inv_inertia=vec3<f32>(1.0);
+            var y=0.5;
+            if (case_id==7u) {y=0.0;}
+            var c:Contact;c.count=2u;c.n=vec3<f32>(1.0,0.0,0.0);
+            c.prepared_softness.w=1.0;
+            let base=select(1.0,1.01,case_id==6u);
+            c.ra0=vec4<f32>(0.5,y,0.0,base);c.ra1=vec4<f32>(0.5,-y,0.0,base);
+            c.rb0=vec4<f32>(-0.5,y,0.0,0.0);c.rb1=vec4<f32>(-0.5,-y,0.0,0.0);
+            var free_v=vec2<f32>(-1.0,-1.0);
+            if(case_id==0u){free_v=vec2<f32>(1.0,1.0);}
+            if(case_id==1u){free_v=vec2<f32>(-1.0,1.0);}
+            if(case_id==2u){free_v=vec2<f32>(1.0,-1.0);}
+            b.vel.x=0.5*(free_v.x+free_v.y);
+            b.omega.z=free_v.y-free_v.x;
+            if(case_id>=4u){
+                c.rb0.w=0.2;c.rb1.w=0.1;
+                apply_contact_P(&a,c.ra0.xyz,c.n*0.2,-1.0,true);
+                apply_contact_P(&b,c.rb0.xyz,c.n*0.2,1.0,true);
+                apply_contact_P(&a,c.ra1.xyz,c.n*0.1,-1.0,true);
+                apply_contact_P(&b,c.rb1.xyz,c.n*0.1,1.0,true);
+            }
+            c.prepared_normal_mass.x=normal_mass(a,b,c.ra0.xyz,c.rb0.xyz,c.n);
+            c.prepared_normal_mass.y=normal_mass(a,b,c.ra1.xyz,c.rb1.xyz,c.n);
+            if(case_id==8u){c.prepared_normal_mass.x=0.0;}
+            let before_a=a;let before_b=b;let before_c=c;
+            let pms=select(1.0,0.8,case_id==5u);
+            let pis=select(0.0,0.2,case_id==5u);
+            let accepted=solve_normal_pair(&c,&a,&b,0u,1u,0.0,pms,pis);
+            let at=1024u+16u*case_id;
+            scratch[at]=select(0u,1u,accepted);
+            scratch[at+1u]=bitcast<u32>(c.rb0.w);scratch[at+2u]=bitcast<u32>(c.rb1.w);
+            scratch[at+3u]=bitcast<u32>(a.vel.x+b.vel.x);
+            scratch[at+4u]=bitcast<u32>(a.omega.z+b.omega.z);
+            let unchanged=all(a.vel==before_a.vel)&&all(b.vel==before_b.vel)
+                &&all(a.omega==before_a.omega)&&all(b.omega==before_b.omega)
+                &&all(c.rb0==before_c.rb0)&&all(c.rb1==before_c.rb1)
+                &&all(c.total_normal_impulse==before_c.total_normal_impulse);
+            scratch[at+5u]=select(0u,1u,unchanged);
+            let once_a=a;let once_b=b;let once_i=vec2<f32>(c.rb0.w,c.rb1.w);
+            if(accepted){
+                let again=solve_normal_pair(&c,&a,&b,0u,1u,0.0,pms,pis);
+                scratch[at+6u]=select(0u,1u,again);
+                scratch[at+7u]=bitcast<u32>(max(abs(c.rb0.w-once_i.x),abs(c.rb1.w-once_i.y)));
+                scratch[at+8u]=bitcast<u32>(length(a.vel-once_a.vel)+length(b.vel-once_b.vel)
+                    +length(a.omega-once_a.omega)+length(b.omega-once_b.omega));
+            }
+        }
+    "#);
+    let mut enc = sim.device.create_command_encoder(&Default::default());
+    sim.dispatch_n(&mut enc, &probe, 9, 0, 1);
+    sim.queue.submit(Some(enc.finish()));
+    let words = pollster::block_on(sim.read_scratch_prefix(1024 + 9 * 16));
+    // Independent analytic two-point results: K=[[2.5,1.5],[1.5,2.5]].
+    // Soft case adds 0.625 to the diagonal. Gap case must remove warm impulses.
+    let expected = [[0.0,0.0],[0.4,0.0],[0.0,0.4],[0.25,0.25],
+        [0.25,0.25],[1.0/4.625,1.0/4.625],[0.0,0.0]];
+    for case in 0..9 {
+        let row = &words[1024+16*case..1024+16*(case+1)];
+        if case >= 7 {
+            assert_eq!(row[0],0,"degenerate/massless pair must decline, case={case}");
+            assert_eq!(row[5],1,"declined pair must not partially apply, case={case}");
+            continue;
+        }
+        assert_eq!(row[0],1,"case={case}");
+        for point in 0..2 {
+            let actual=f32::from_bits(row[1+point]);
+            assert!((actual-expected[case][point]).abs()<2e-6,"case={case} point={point}: {actual}");
+        }
+        let momentum=if case==0 {1.0} else if case<=2 {0.0} else {-1.0};
+        assert!((f32::from_bits(row[3])-momentum).abs()<2e-6,"linear momentum case={case}");
+        let spin_sum=if case==1 {2.0} else if case==2 {-2.0} else {0.0};
+        assert!((f32::from_bits(row[4])-spin_sum).abs()<2e-6,"torque balance case={case}");
+        assert_eq!(row[6],1);
+        assert!(f32::from_bits(row[7])<2e-6 && f32::from_bits(row[8])<2e-6,
+            "cached fixed point changed on re-entry, case={case}");
+    }
 }
 
 fn prepare_pool(sim: &mut GpuSim, missing: u32, mesh: bool) {
@@ -1864,6 +2153,58 @@ fn root_free_scan_preserves_lowest_slots_and_mesh_pool() {
     }
 }
 
+// A child-only permutation is not generally invisible to the next allocator:
+// root allocation shares the same lowest-free-slot pool. Keep this distinction
+// explicit when evaluating semantic trace normalization.
+#[test]
+fn child_placement_changes_next_root_free_slot() {
+    let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+    let mut choices = Vec::new();
+    for child in [1u32, 4u32] {
+        let mut sim = make_sim(&gpu, 0);
+        let seed = test_pipeline(&sim, "seed_child_placement", &format!(r#"
+            @compute @workgroup_size(1) fn seed_child_placement() {{
+                // Identical physical counters, root owner, logical chain and
+                // high-water mark. Only the child's physical location changes.
+                for (var slot=0u; slot<5u; slot++) {{
+                    var c=empty_contact(); c.lifecycle.x=slot+10u;
+                    store_contact(slot,c);
+                }}
+                var root=empty_contact(); root.a=0u; root.b=1u;
+                root.lifecycle.x=10u; root.pair=vec4<u32>(0u,1u,0u,0u);
+                root.manifold_link=vec4<u32>({child}+1u,0u,2u,0u);
+                store_contact(0u,root);
+                var piece=root; piece.lifecycle.x={child}+10u;
+                piece.manifold_link=vec4<u32>(0u,1u,0u,0u);
+                store_contact({child},piece);
+                atomicStore(&query[QUERY_CONTACT_HIGH_WATER],5u);
+            }}
+        "#, child=format!("{child}u")));
+        let inspect = test_pipeline(&sim, "inspect_child_placement", r#"
+            @compute @workgroup_size(1) fn inspect_child_placement() {
+                scratch[64u]=scratch[scr_radix_out()];
+                scratch[65u]=u32(contact_chain_structure_valid(0u));
+                for(var slot=0u;slot<5u;slot++) {
+                    scratch[66u+slot]=contact_persistent[slot].lifecycle.x;
+                }
+            }
+        "#);
+        let mut enc=sim.device.create_command_encoder(&Default::default());
+        sim.dispatch_n(&mut enc,&seed,1,0,0);
+        sim.queue.submit(Some(enc.finish()));
+        prepare_pool(&mut sim,1,true);
+        let mut enc=sim.device.create_command_encoder(&Default::default());
+        sim.dispatch_n(&mut enc,&inspect,1,0,0);
+        sim.queue.submit(Some(enc.finish()));
+        let words=pollster::block_on(sim.read_scratch_prefix(71));
+        assert_eq!(words[65],1,"seed must preserve a valid logical chain");
+        assert_eq!(&words[66..71],&[10,11,12,13,14],"physical counters must stay fixed");
+        choices.push(words[64]);
+    }
+    assert_eq!(choices,[2,1],"child relocation changes the next lowest-free root choice");
+    eprintln!("CHILD_PLACEMENT_NEXT_ROOT {choices:?}");
+}
+
 #[test]
 fn spatial_hash_growth_clears_buckets_without_touching_contact_identity() {
     let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
@@ -2186,5 +2527,107 @@ fn invalid_joint_list_warm_start_has_one_global_writer() {
         assert_eq!(bodies[1].vel, [-1.0, -2.0, 0.0], "{groups} workgroups, wave={wave}: warm start must apply exactly once");
         assert_eq!(bodies[1].omega, [0.0; 3]);
         assert_eq!(bodies[0].vel, [0.0; 3]);
+    }
+}
+
+#[cfg(feature = "replay-diagnostics")]
+#[test]
+fn canonical_child_candidate_preserves_payload_counters_and_rejects_bad_chains() {
+    use crate::types::{ContactPersistentGpu,ContactPreparedGpu};
+    let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+    for span in [8usize, 513, 65537] {
+    let roots=[span-8,span-2];
+    let first=[span-3,span-5,span-1];let second=[span-7,span-4,span-6];
+    let destinations:Vec<_>=(0..span).filter(|s| !roots.contains(s)).take(3).collect();
+    let mut canonical=None;
+    for (children,corrupt) in [(first,false),(second,false),(first,true)] {
+        let mut sim=make_sim(&gpu,0);sim.restore_physics_step(17);sim.upload_pass_lut();
+        let mut hot=vec![ContactHotGpu::empty();span];
+        let mut persistent=vec![ContactPersistentGpu::zeroed();span];
+        let mut prepared=vec![ContactPreparedGpu::zeroed();span];
+        for slot in 0..span {persistent[slot].lifecycle[0]=10+slot as u32;persistent[slot].pair=[u32::MAX;4];}
+        // Every payload word has a distinct per-logical-record bit pattern.
+        for (logical,slot) in [roots[0],roots[1],children[0],children[1],children[2]].into_iter().enumerate() {
+            for word in bytemuck::cast_slice_mut::<_,u32>(std::slice::from_mut(&mut hot[slot])) {*word=0x3f800000+logical as u32;}
+            for word in bytemuck::cast_slice_mut::<_,u32>(std::slice::from_mut(&mut persistent[slot])) {*word=0x40000000+logical as u32;}
+            for word in bytemuck::cast_slice_mut::<_,u32>(std::slice::from_mut(&mut prepared[slot])) {*word=0x40400000+logical as u32;}
+            hot[slot].a=0;hot[slot].b=1;hot[slot].count=1;
+            persistent[slot].lifecycle[0]=10+slot as u32;persistent[slot].pair=[0,1,0,0];
+        }
+        hot[roots[0]].manifold_link=[children[0] as u32+1,0,3,0];
+        hot[roots[1]].manifold_link=[children[2] as u32+1,0,2,0];
+        hot[children[0]].manifold_link=[children[1] as u32+1,roots[0] as u32+1,0,1];
+        hot[children[1]].manifold_link=[0,roots[0] as u32+1,0,2];
+        hot[children[2]].manifold_link=[0,roots[1] as u32+1,0,3];
+        if corrupt {hot[children[1]].manifold_link[1]=roots[1] as u32+1;}
+        use wgpu::util::DeviceExt;
+        let buffer=|contents:&[u8]|sim.device.create_buffer_init(&wgpu::util::BufferInitDescriptor{
+            label:Some("compaction-boundary-fixture"),contents,
+            usage:wgpu::BufferUsages::STORAGE|wgpu::BufferUsages::COPY_SRC});
+        let h=buffer(bytemuck::cast_slice(&hot));let p=buffer(bytemuck::cast_slice(&persistent));let f=buffer(bytemuck::cast_slice(&prepared));
+        sim.queue.write_buffer(&sim.query,73*4,bytemuck::bytes_of(&(span as u32)));
+        let candidate=crate::contact_compaction::ContactCompaction::new(&sim.device,span as u32,&h,&p,&f,&sim.query,&sim.atom,&sim.pass_lut);
+        let before=(bytemuck::cast_slice::<_,u32>(&hot).to_vec(),bytemuck::cast_slice::<_,u32>(&persistent).to_vec(),bytemuck::cast_slice::<_,u32>(&prepared).to_vec());
+        let mut eh=vec![ContactHotGpu::empty();span];let mut ep=vec![ContactPersistentGpu::zeroed();span];let mut ef=vec![ContactPreparedGpu::zeroed();span];
+        for slot in 0..span {ep[slot].lifecycle[0]=10+slot as u32;ep[slot].pair=[u32::MAX;4];}
+        for (dst,src) in [(roots[0],roots[0]),(roots[1],roots[1]),(destinations[0],children[0]),(destinations[1],children[1]),(destinations[2],children[2])] {
+            eh[dst]=hot[src];ep[dst]=persistent[src];ef[dst]=prepared[src];ep[dst].lifecycle[0]=10+dst as u32;
+        }
+        eh[roots[0]].manifold_link[0]=destinations[0] as u32+1;eh[roots[1]].manifold_link[0]=destinations[2] as u32+1;eh[destinations[0]].manifold_link[0]=destinations[1] as u32+1;
+        let expected=(bytemuck::cast_slice::<_,u32>(&eh).to_vec(),bytemuck::cast_slice::<_,u32>(&ep).to_vec(),bytemuck::cast_slice::<_,u32>(&ef).to_vec());
+        for iteration in 0..2 {
+            let mut enc=sim.device.create_command_encoder(&Default::default());candidate.encode(&mut enc);sim.queue.submit(Some(enc.finish()));
+            let q=sim.query.clone();
+            let actual=(sim.read_diagnostic_records::<u32>(&h,0,before.0.len() as u32),sim.read_diagnostic_records::<u32>(&p,0,before.1.len() as u32),sim.read_diagnostic_records::<u32>(&f,0,before.2.len() as u32));
+            let reasons=sim.read_diagnostic_records::<u32>(&q,66,1)[0];
+            if corrupt {
+                assert_eq!(actual,before);assert_ne!(reasons&2,0);
+                let atom=sim.atom.clone();let header=sim.read_diagnostic_records::<u32>(&atom,0,13);
+                assert!(header[4]>0 && header[10]>0);assert_eq!(header[12],17);
+                sim.contact_status_dirty=true;sim.finish_contact_status();assert!(sim.physics_invalid());
+            } else {
+                assert_eq!(reasons,0);assert_eq!(actual,expected,"full payload/counter mismatch, iteration {iteration}");
+                if let Some(first)=&canonical {assert_eq!(&actual,first);} else {canonical=Some(actual);}
+            }
+        }
+    }
+}
+    }
+
+#[cfg(feature = "replay-diagnostics")]
+#[test]
+fn canonical_child_candidate_handles_empty_and_rejects_invalid_boundaries() {
+    use crate::types::{ContactPersistentGpu,ContactPreparedGpu};
+    use wgpu::util::DeviceExt;
+    let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+    for case in ["empty","high_over_capacity","live_above_high","orphan","cycle","short_chain"] {
+        let mut sim=make_sim(&gpu,0);sim.restore_physics_step(23);sim.upload_pass_lut();
+        let mut hot=vec![ContactHotGpu::empty();8];
+        let mut persistent=vec![ContactPersistentGpu::zeroed();8];
+        let prepared=vec![ContactPreparedGpu::zeroed();8];
+        for c in &mut persistent {c.pair=[u32::MAX;4];}
+        if case!="empty" {
+            for slot in 0..3 {hot[slot].a=0;hot[slot].b=1;hot[slot].count=1;persistent[slot].pair=[0,1,0,0];}
+            hot[0].manifold_link=[2,0,3,0];hot[1].manifold_link=[3,1,0,0];hot[2].manifold_link=[0,1,0,0];
+        }
+        match case {
+            "orphan"=>{hot[0].manifold_link=[0,0,1,0];},
+            "cycle"=>{hot[2].manifold_link[0]=2;},
+            "short_chain"=>{hot[1].manifold_link[0]=0;},
+            _=>{}
+        }
+        let high=match case {"empty"|"live_above_high"=>0u32,"high_over_capacity"=>9,_=>8};
+        let buffer=|contents:&[u8]|sim.device.create_buffer_init(&wgpu::util::BufferInitDescriptor{label:Some("compaction-invalid-fixture"),contents,usage:wgpu::BufferUsages::STORAGE|wgpu::BufferUsages::COPY_SRC});
+        let h=buffer(bytemuck::cast_slice(&hot));let p=buffer(bytemuck::cast_slice(&persistent));let f=buffer(bytemuck::cast_slice(&prepared));
+        sim.queue.write_buffer(&sim.query,73*4,bytemuck::bytes_of(&high));
+        let candidate=crate::contact_compaction::ContactCompaction::new(&sim.device,8,&h,&p,&f,&sim.query,&sim.atom,&sim.pass_lut);
+        let mut enc=sim.device.create_command_encoder(&Default::default());candidate.encode(&mut enc);sim.queue.submit(Some(enc.finish()));
+        for (buffer,expected) in [(&h,bytemuck::cast_slice::<_,u32>(&hot)),(&p,bytemuck::cast_slice::<_,u32>(&persistent)),(&f,bytemuck::cast_slice::<_,u32>(&prepared))] {
+            assert_eq!(sim.read_diagnostic_records::<u32>(buffer,0,expected.len() as u32),expected,"partial publication for {case}");
+        }
+        let q=sim.query.clone();let atom=sim.atom.clone();let reason=sim.read_diagnostic_records::<u32>(&q,66,1)[0];let header=sim.read_diagnostic_records::<u32>(&atom,0,13);
+        if case=="empty" {assert_eq!(reason,0);assert_eq!([header[4],header[10],header[12]],[0;3]);}
+        else {assert_ne!(reason&2,0);assert_eq!([header[4],header[10],header[12]],[1,1,23]);
+            sim.contact_status_dirty=true;sim.finish_contact_status();assert!(sim.physics_invalid(),"missing terminal failure for {case}");}
     }
 }

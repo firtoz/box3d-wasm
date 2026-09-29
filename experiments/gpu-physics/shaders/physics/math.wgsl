@@ -650,7 +650,7 @@ fn allocate_manifold_slot(root: u32) -> u32 {
 }
 
 // Sticky cause bits share the existing tiny status readback. Ray state occupies
-// words 0..31 and joint-pair mutation words 64/65; word 66 is reserved here.
+// words 0..31 and contact-retirement commands 32..34; word 66 is reserved here.
 fn record_contact_drop(reason: u32) {
     atomicOr(&query[66u], 1u << reason);
     record_capacity_drop(ATOM_CONTACT_DROPPED, ATOM_STICKY_CONTACT_DROPPED);

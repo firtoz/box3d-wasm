@@ -47,6 +47,16 @@ with opener(args.trace,'rt') as source:
   stiffness=effective_mass*(2*math.pi*frequency)**2
   row={'effective_twist_mass':effective_mass,'soft_constraint_stiffness':stiffness,'static_softness_residual_estimate':twist/dt/stiffness,'endpoint_sleep_flags':[bool(a['flags']&4),bool(b['flags']&4)],'joint_identity':j['identity'],'a':identity_a,'b':identity_b,'frame':d['frame'],'lower_violation':max(0,f(j['lower_translation'])-angle),'twist_limit_impulse':twist,'prepared_twist_torque':scale(twist/dt,jac),'spring_torque':scale(1/dt,v(j['spring_angular_impulse'])),'motor_torque':scale(1/dt,v(j['motor_angular_impulse'])),'swing_torque':scale(f(j['swing_impulse'])/dt,swing),'point_impulse':v(j['angular_impulse']),'endpoint_angular_speeds':[norm(v(a['omega'])),norm(v(b['omega']))]}
   rows.append(row)
+  swing_k=dot(swing,add(apply_inertia(a,swing),apply_inertia(b,swing)))
+  swing_mass=1/swing_k if swing_k>0 else None
+  swing_stiffness=swing_mass*(2*math.pi*frequency)**2 if swing_mass is not None else None
+  end_swing_angle=2*math.atan2(math.hypot(endrel[0],endrel[1]),math.hypot(endrel[2],endrel[3]))
+  end_swing_axis=unit(cross(rotate(endA,[0,0,1]),rotate(endB,[0,0,1])))
+  row.update(effective_swing_mass=swing_mass,
+             swing_soft_constraint_stiffness=swing_stiffness,
+             swing_static_softness_residual_estimate=f(j['swing_impulse'])/dt/swing_stiffness if swing_stiffness else None,
+             cone_violation_libm=max(0,end_swing_angle-f(j['target_translation'])),
+             start_end_swing_axis_dot=dot(swing,end_swing_axis) if norm(swing)>0 and norm(end_swing_axis)>0 else None)
 if count!=args.frames or not rows:raise ValueError(f'expected {args.frames} frames and a matching joint, got {count} frames and {len(rows)} observations')
 args.out.write_text(json.dumps({'rows':rows,'scope':'float64 reconstruction from captured float32 start transforms and cached final impulses; these are cached impulse/h values, not a full per-substep torque balance; sleeping endpoints may retain impulses prepared before this step'},indent=2)+'\n')
 print(json.dumps({'observations':len(rows),'last':rows[-1]},indent=2))

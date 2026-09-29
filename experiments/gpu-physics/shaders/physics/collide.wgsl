@@ -2717,6 +2717,15 @@ fn clip_hull_face_to_triangle(
 // is complete. The pair's original slot remains the graph/hash owner.
 struct MeshPatchList { head: u32, tail: u32, count: u32 }
 
+// Scratch patches share slots with persistent roots. Preserve the slot's root
+// generation even while staging, publishing or discarding a child. Resetting
+// it can resurrect an unread public handle when the same pair reuses the slot.
+fn store_mesh_contact(slot: u32, contact: Contact) {
+    var preserved = contact;
+    preserved.lifecycle.x = contact_persistent[slot].lifecycle.x;
+    store_contact(slot, preserved);
+}
+
 fn mesh_representative_normal(shape: Shape, mesh: Body, triangle_plus_one: u32) -> vec3<f32> {
     let t = load_mesh_triangle(shape, triangle_plus_one - 1u);
     let p1 = mesh_local_vertex(shape, mesh, t.x);
@@ -2741,13 +2750,13 @@ fn append_mesh_patch(list: ptr<function, MeshPatchList>, root: u32, candidate: C
                 var raw = candidate;
                 raw.pair.z = 0u;
                 raw.pair.w = 0u;
-                store_contact(allocated, raw);
+                store_mesh_contact(allocated, raw);
                 if (piece.pair.z == 0u) { piece.pair.z = allocated + 1u; }
                 else { contact_persistent[piece.pair.w - 1u].pair.z = allocated + 1u; }
                 piece.pair.w = allocated + 1u;
                 piece._pad_end = max(piece._pad_end, candidate._pad_end);
                 piece.lifecycle.z = max(piece.lifecycle.z, candidate.lifecycle.z);
-                store_contact(slot, piece);
+                store_mesh_contact(slot, piece);
                 return true;
             }
             for (var j = 0u; j < candidate.count; j++) {
@@ -2766,7 +2775,7 @@ fn append_mesh_patch(list: ptr<function, MeshPatchList>, root: u32, candidate: C
             }
             piece._pad_end = max(piece._pad_end, candidate._pad_end);
             piece.lifecycle.z = max(piece.lifecycle.z, candidate.lifecycle.z);
-            store_contact(slot, piece);
+            store_mesh_contact(slot, piece);
             return true;
         }
         slot = piece.manifold_link.x - 1u;
@@ -2779,7 +2788,7 @@ fn append_mesh_patch(list: ptr<function, MeshPatchList>, root: u32, candidate: C
     added.manifold_link.x = 0u;
     added.manifold_link.y = root + 1u;
     added.manifold_link.z = 0u;
-    store_contact(allocated, added);
+    store_mesh_contact(allocated, added);
     if ((*list).count == 0u) { (*list).head = allocated; }
     else { contacts[(*list).tail].manifold_link.x = allocated + 1u; }
     (*list).tail = allocated;
@@ -2795,7 +2804,7 @@ fn discard_mesh_raw_points(root: u32) {
         if (next == 0u) { break; }
         let slot = next - 1u;
         next = contact_persistent[slot].pair.z;
-        store_contact(slot, empty_contact());
+        store_mesh_contact(slot, empty_contact());
         scratch[scr_contact_mark() + slot] = 0u;
     }
     contact_persistent[root].pair.z = 0u;
@@ -2940,7 +2949,7 @@ fn discard_mesh_patch_list(list: MeshPatchList) {
     for (var i = 0u; i < list.count; i++) {
         let next = contacts[slot].manifold_link.x;
         discard_mesh_raw_points(slot);
-        store_contact(slot, empty_contact());
+        store_mesh_contact(slot, empty_contact());
         scratch[scr_contact_mark() + slot] = 0u;
         slot = next - 1u;
     }
@@ -3026,7 +3035,7 @@ fn finalize_mesh_patch_list(input: MeshPatchList, root: u32, mesh: Body, convex:
         piece._pad_end = restitution;
         piece.rolling = rolling;
         piece.color = old_color;
-        store_contact(slot, piece);
+        store_mesh_contact(slot, piece);
         slot = piece.manifold_link.x - 1u;
     }
     if (!retire_manifold_children(root)) {
@@ -3038,7 +3047,7 @@ fn finalize_mesh_patch_list(input: MeshPatchList, root: u32, mesh: Body, convex:
     var result = load_contact(list.head);
     result.manifold_link.y = 0u;
     result.manifold_link.z = list.count;
-    store_contact(list.head, empty_contact());
+    store_mesh_contact(list.head, empty_contact());
     scratch[scr_contact_mark() + list.head] = 0u;
     return result;
 }
@@ -3531,7 +3540,7 @@ fn stage_capsule_mesh_patch(list: ptr<function, MeshPatchList>, root: u32, candi
     var raw = candidate;
     raw.pair.z = 0u; raw.pair.w = 0u;
     raw.manifold_link.x = 0u;
-    store_contact(slot, raw);
+    store_mesh_contact(slot, raw);
     if ((*list).count == 0u) { (*list).head = slot; }
     else { contacts[(*list).tail].manifold_link.x = slot + 1u; }
     (*list).tail = slot; (*list).count += 1u;
@@ -3587,7 +3596,7 @@ fn filter_capsule_mesh_patches(list: ptr<function, MeshPatchList>, root: u32, sh
                 return false;
             }
         }
-        store_contact(slot,empty_contact());
+        store_mesh_contact(slot,empty_contact());
         scratch[scr_contact_mark()+slot] = 0u;
         slot = next - 1u;
     }
@@ -3849,6 +3858,14 @@ fn contact_pair_bodies_reversed(c: Contact, body_a: u32, body_b: u32) -> bool {
 }
 
 fn recycle_skip(p: Contact, a: Body, b: Body) -> bool {
+    // Empty manifolds carry no separation bound proving that their pair stays
+    // outside the speculative shell. In particular, CCD can stop a body inside
+    // that shell after moving less than the recycle tolerance. Reusing an empty
+    // result then leaves the next step without discrete support, while CCD
+    // correctly delegates initial contact to the discrete solver.
+    if (p.count == 0u) {
+        return false;
+    }
     if (((a.flags | b.flags) & FLAG_DISABLE_CONTACT_RECYCLING) != 0u) {
         return false;
     }
@@ -3965,7 +3982,7 @@ fn store_pair(slot: u32, key: vec2<u32>, man: Contact, ia: u32, ib: u32, a: Body
         for (var i = 1u; i < max(touching.manifold_link.z, 1u); i++) {
             let child_slot = child - 1u;
             var piece = load_contact(child_slot);
-            piece.lifecycle = vec4<u32>(generation, CONTACT_ALIVE | CONTACT_TOUCHING | (piece.lifecycle.y & CONTACT_PERSISTED_MASK), EMPTY, 0u);
+            piece.lifecycle = vec4<u32>(piece.lifecycle.x, CONTACT_ALIVE | CONTACT_TOUCHING | (piece.lifecycle.y & CONTACT_PERSISTED_MASK), EMPTY, 0u);
             piece.pair = vec4<u32>(key, 0u, 0u);
             piece.color = touching.color;
             child = piece.manifold_link.x;

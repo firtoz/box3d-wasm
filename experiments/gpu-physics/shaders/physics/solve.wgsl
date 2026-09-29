@@ -378,6 +378,60 @@ fn solve_rolling_friction(
     }
 }
 
+// Two-point normal block. A rejected/ill-conditioned block leaves
+// state untouched so the existing scalar update can handle that point.
+fn solve_normal_pair(c: ptr<function, Contact>, ba: ptr<function, Body>, bb: ptr<function, Body>,
+    i: u32, j: u32, bias_rate: f32, mass_scale: f32, impulse_scale: f32) -> bool {
+    let n = (*c).n;
+    let ai = ra_at(*c, i); let bi = rb_at(*c, i);
+    let aj = ra_at(*c, j); let bj = rb_at(*c, j);
+    let ni = (*c).prepared_normal_mass[i]; let nj = (*c).prepared_normal_mass[j];
+    if (ni <= 0.0 || nj <= 0.0) { return false; }
+    let si = current_sep(*ba, *bb, ai.xyz, bi.xyz, n, ai.w);
+    let sj = current_sep(*ba, *bb, aj.xyz, bj.xyz, n, aj.w);
+    let inv_h = 1.0 / max(params.dt, 1e-8);
+    let pi = select(mass_scale, 1.0, si > 0.0);
+    let pj = select(mass_scale, 1.0, sj > 0.0);
+    if (pi <= 0.0 || pj <= 0.0) { return false; }
+    let zi = select(impulse_scale, 0.0, si > 0.0);
+    let zj = select(impulse_scale, 0.0, sj > 0.0);
+    let bias_i = select(max(bias_rate * si, -params.contact_speed), si * inv_h, si > 0.0);
+    let bias_j = select(max(bias_rate * sj, -params.contact_speed), sj * inv_h, sj > 0.0);
+    let vi = gyro_dot3(((*bb).vel + gyro_cross((*bb).omega, bi.xyz))
+        - ((*ba).vel + gyro_cross((*ba).omega, ai.xyz)), n);
+    let vj = gyro_dot3(((*bb).vel + gyro_cross((*bb).omega, bj.xyz))
+        - ((*ba).vel + gyro_cross((*ba).omega, aj.xyz)), n);
+    let k12 = body_inv_mass(*ba) + body_inv_mass(*bb)
+        + gyro_dot3(gyro_cross(ai.xyz, n), world_inv_inertia(*ba, gyro_cross(aj.xyz, n)))
+        + gyro_dot3(gyro_cross(bi.xyz, n), world_inv_inertia(*bb, gyro_cross(bj.xyz, n)));
+    let d1 = 1.0 / (ni * pi); let d2 = 1.0 / (nj * pj);
+    let det = d1 * d2 - k12 * k12;
+    if (det <= 1e-5 * d1 * d2) { return false; }
+    // Solve for accumulated impulses, including the old impulses' softness.
+    let r1 = -vi - bias_i / pi + d1 * (1.0 - zi) * bi.w + k12 * bj.w;
+    let r2 = -vj - bias_j / pj + d2 * (1.0 - zj) * bj.w + k12 * bi.w;
+    var x = vec2<f32>((d2*r1-k12*r2)/det, (d1*r2-k12*r1)/det);
+    if (x.x < 0.0 || x.y < 0.0) {
+        let only_i = max(r1/d1, 0.0);
+        let only_j = max(r2/d2, 0.0);
+        if (k12*only_i >= r2) { x = vec2<f32>(only_i, 0.0); }
+        else if (k12*only_j >= r1) { x = vec2<f32>(0.0, only_j); }
+        else if (r1 <= 0.0 && r2 <= 0.0) { x = vec2<f32>(0.0); }
+        else { return false; }
+    }
+    let convex = contact_uses_simd(*c);
+    let p1 = n * (x.x-bi.w); let p2 = n * (x.y-bj.w);
+    apply_contact_P(ba, ai.xyz, p1, -1.0, convex);
+    apply_contact_P(bb, bi.xyz, p1, 1.0, convex);
+    apply_contact_P(ba, aj.xyz, p2, -1.0, convex);
+    apply_contact_P(bb, bj.xyz, p2, 1.0, convex);
+    (*c).total_normal_impulse[i] += x.x;
+    (*c).total_normal_impulse[j] += x.y;
+    set_point(c, i, ai, vec4<f32>(bi.xyz, x.x));
+    set_point(c, j, aj, vec4<f32>(bj.xyz, x.y));
+    return true;
+}
+
 fn solve_manifold_bias(
     c: ptr<function, Contact>,
     ba: ptr<function, Body>,
@@ -404,7 +458,34 @@ fn solve_manifold_bias(
     let contact_speed = -params.contact_speed;
     var total_jn = 0.0;
     var total_twist = 0.0;
-    for (var i = 0u; i < (*c).count; i++) {
+    let paired_normals = (params.diagnostic_flags & SOLVER_PAIRED_NORMALS) != 0u;
+    var point_order = vec4<u32>(0u, 1u, 2u, 3u);
+    if (paired_normals && (*c).count == 4u) {
+        var opposite = 1u;
+        var farthest = -1.0;
+        for (var p = 1u; p < 4u; p++) {
+            let delta = ra_at(*c, p).xyz - ra_at(*c, 0u).xyz;
+            let distance = dot(delta, delta);
+            if (distance > farthest) { farthest = distance; opposite = p; }
+        }
+        point_order.y = opposite;
+        var next = 2u;
+        for (var p = 1u; p < 4u; p++) {
+            if (p != opposite) { point_order[next] = p; next++; }
+        }
+    }
+    for (var index = 0u; index < (*c).count; index++) {
+        let i = point_order[index];
+        if (paired_normals && index % 2u == 0u && index + 1u < (*c).count) {
+            let j = point_order[index+1u];
+            if (solve_normal_pair(c, ba, bb, i, j, bias_rate, mass_scale, impulse_scale)) {
+                let ji = rb_at(*c, i).w; let jj = rb_at(*c, j).w;
+                total_jn += ji + jj;
+                total_twist += (*c).prepared_lever_arm[i]*ji + (*c).prepared_lever_arm[j]*jj;
+                index++;
+                continue;
+            }
+        }
         let ra = ra_at(*c, i);
         let rb = rb_at(*c, i);
         let rA = ra.xyz;

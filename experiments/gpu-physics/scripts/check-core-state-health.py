@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 def check_frame(frame, number):
-    if frame.get('schema') != 'gpu-core-state-v19' or frame.get('frame') != number:
+    if frame.get('schema') not in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22') or frame.get('frame') != number:
         raise ValueError(f'frame {number}: unsupported schema or nonsequential frame')
     policy, idle = frame['gpu_policy'], frame['idle_state']
     expected = {

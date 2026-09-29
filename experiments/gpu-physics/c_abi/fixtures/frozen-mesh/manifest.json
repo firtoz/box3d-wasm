@@ -1,0 +1,111 @@
+{
+  "scope": "New local geometry regression baseline; historical57 input bytes unavailable; no replacement historical pass claimed",
+  "contract_before_evaluation": {
+    "counts": "exact CPU/GPU contact and point counts",
+    "normals_and_separations_epsilon": 1e-05,
+    "flat_grid": "flat interior: accepted contact normals must remain upward; all45poses probe +5mm speculative clearance",
+    "torus": "fresh lifetimes, default discrete probe settings; CPU and current ordinary cell calf_r poses frames166..171"
+  },
+  "grid_definition": {
+    "xz": [
+      -1,
+      0,
+      1
+    ],
+    "yaw_radians": [
+      0,
+      0.7853981633974483,
+      1.5707963267948966,
+      2.356194490192345,
+      3.141592653589793
+    ],
+    "capsule": [
+      -0.00182,
+      0.0,
+      0.0100710001,
+      0.0778829977,
+      0.0148250004,
+      -0.418047011,
+      0.075000003
+    ],
+    "height": 0.08000000566244125
+  },
+  "torus_sources": [
+    {
+      "mode": "cpu",
+      "frame": 166,
+      "bone_identity": 682,
+      "pose_file_sha256": "a5abced9f45bdb2bdb0afefe9b799e12681b54a86a01b80dabf60ac7848dd7f3"
+    },
+    {
+      "mode": "cpu",
+      "frame": 167,
+      "bone_identity": 682,
+      "pose_file_sha256": "a5abced9f45bdb2bdb0afefe9b799e12681b54a86a01b80dabf60ac7848dd7f3"
+    },
+    {
+      "mode": "cpu",
+      "frame": 168,
+      "bone_identity": 682,
+      "pose_file_sha256": "a5abced9f45bdb2bdb0afefe9b799e12681b54a86a01b80dabf60ac7848dd7f3"
+    },
+    {
+      "mode": "cpu",
+      "frame": 169,
+      "bone_identity": 682,
+      "pose_file_sha256": "a5abced9f45bdb2bdb0afefe9b799e12681b54a86a01b80dabf60ac7848dd7f3"
+    },
+    {
+      "mode": "cpu",
+      "frame": 170,
+      "bone_identity": 682,
+      "pose_file_sha256": "a5abced9f45bdb2bdb0afefe9b799e12681b54a86a01b80dabf60ac7848dd7f3"
+    },
+    {
+      "mode": "cpu",
+      "frame": 171,
+      "bone_identity": 682,
+      "pose_file_sha256": "a5abced9f45bdb2bdb0afefe9b799e12681b54a86a01b80dabf60ac7848dd7f3"
+    },
+    {
+      "mode": "ordinary",
+      "frame": 166,
+      "bone_identity": 682,
+      "pose_file_sha256": "addc76df2147259c10420727623d6b4b393d7d1659570b9c1ae3ce2a8440b810"
+    },
+    {
+      "mode": "ordinary",
+      "frame": 167,
+      "bone_identity": 682,
+      "pose_file_sha256": "addc76df2147259c10420727623d6b4b393d7d1659570b9c1ae3ce2a8440b810"
+    },
+    {
+      "mode": "ordinary",
+      "frame": 168,
+      "bone_identity": 682,
+      "pose_file_sha256": "addc76df2147259c10420727623d6b4b393d7d1659570b9c1ae3ce2a8440b810"
+    },
+    {
+      "mode": "ordinary",
+      "frame": 169,
+      "bone_identity": 682,
+      "pose_file_sha256": "addc76df2147259c10420727623d6b4b393d7d1659570b9c1ae3ce2a8440b810"
+    },
+    {
+      "mode": "ordinary",
+      "frame": 170,
+      "bone_identity": 682,
+      "pose_file_sha256": "addc76df2147259c10420727623d6b4b393d7d1659570b9c1ae3ce2a8440b810"
+    },
+    {
+      "mode": "ordinary",
+      "frame": 171,
+      "bone_identity": 682,
+      "pose_file_sha256": "addc76df2147259c10420727623d6b4b393d7d1659570b9c1ae3ce2a8440b810"
+    }
+  ],
+  "input_sha256": {
+    "grid.txt": "7bbaf3de4da381e3ea7cbdcdcc01ba3365c4b495d23c7ba967a26840e366a08b",
+    "torus.txt": "3abbc0149a870f436d462144ace0489a3ffdc173e4b9018a0992569b16f60b66"
+  }
+}

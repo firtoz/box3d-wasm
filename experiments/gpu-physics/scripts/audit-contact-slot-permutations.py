@@ -45,9 +45,10 @@ def storage_view(frame):
     for pair, ordinals in pairs.items():
         if sorted(ordinals) != list(range(len(ordinals))):
             raise ValueError('missing root or child ordinal')
-        root_generation = live[key([json.loads(pair), 0])]
-        if any(live[key([json.loads(pair), i])] != root_generation for i in ordinals):
-            raise ValueError('child/root generation mismatch')
+        # Generations belong to physical slots, including while a slot is a
+        # child or mesh scratch. Children must not inherit the root counter:
+        # doing so can resurrect an old root handle after later slot reuse.
+        # Keep each counter in the sorted records below; differences still fail.
     roots = {key([json.loads(pair), 0]) for pair in pairs}
     if {key(i) for i in allocation['occupied_order']} != roots:
         raise ValueError('occupied root membership mismatch')

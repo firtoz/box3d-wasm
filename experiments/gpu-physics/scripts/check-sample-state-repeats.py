@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import time
 
 
@@ -31,6 +32,29 @@ def save(path, value):
     tmp.replace(path)
 
 
+def record_child_exit(receipt, command, lock_fd):
+    """Run inside Xvfb and persist the sample status before launcher cleanup."""
+    start = time.monotonic()
+    result = subprocess.run(command, pass_fds=(lock_fd,))
+    save(receipt, {'exit': result.returncode, 'seconds': time.monotonic() - start})
+    # Preserve the exact signal status in the receipt, even though a wrapper's
+    # process exit cannot represent subprocess's negative signal convention.
+    return result.returncode if result.returncode >= 0 else 128 - result.returncode
+
+
+def successful_exit(attempt):
+    receipt = json.loads((attempt / 'exit.json').read_text())
+    if receipt['exit'] != 0:
+        raise ValueError(f'{attempt}: recorded fixture/launcher failure; preserve this attempt')
+    # Legacy receipts are still readable; new batches freeze the changed runner
+    # hash and cannot resume an old batch under these new receipt semantics.
+    if 'child_exit' in receipt:
+        child = json.loads((attempt / 'child-exit.json').read_text())
+        if child['exit'] != 0 or receipt['child_exit'] != 0 or receipt['launcher_exit'] != 0:
+            raise ValueError(f'{attempt}: inconsistent successful exit receipt')
+    return receipt
+
+
 def validate_trace(path, steps):
     h = hashlib.sha256()
     count = 0
@@ -39,7 +63,7 @@ def validate_trace(path, steps):
         for count, line in enumerate(f, 1):
             h.update(line)
             frame = json.loads(line)
-            if frame.get('schema') != 'gpu-core-state-v19' or frame.get('frame') != count:
+            if frame.get('schema') not in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22') or frame.get('frame') != count:
                 raise ValueError(f'{path}: invalid frame/schema at {count}')
             if any(not isinstance(frame.get(k), list) for k in ['bodies', 'joints', 'contacts']):
                 raise ValueError(f'{path}: missing physical state at {count}')
@@ -59,7 +83,11 @@ def completed_trace(attempt, steps):
     for name, expected in m['file_sha256'].items():
         if digest(attempt / name) != expected:
             raise ValueError(f'{attempt}: changed completed evidence {name}')
-    if set(m['file_sha256']) != {'state.jsonl.gz', 'health.json', 'exit.json'}:
+    receipt = successful_exit(attempt)
+    required = {'state.jsonl.gz', 'health.json', 'exit.json'}
+    if 'child_exit' in receipt:
+        required.add('child-exit.json')
+    if set(m['file_sha256']) != required:
         raise ValueError(f'{attempt}: incomplete evidence manifest')
     # CRC + exact decompressed hash detect corrupted/truncated compression.
     if validate_trace(trace, steps) != m['uncompressed_sha256']:
@@ -68,6 +96,7 @@ def completed_trace(attempt, steps):
 
 
 def finalize_attempt(attempt, steps):
+    receipt = successful_exit(attempt)
     trace = attempt / 'state.jsonl'
     raw_hash = validate_trace(trace, steps)
     health = json.loads((attempt / 'health.json').read_text())
@@ -78,8 +107,11 @@ def finalize_attempt(attempt, steps):
         shutil.copyfileobj(inp, dest, 1024 * 1024)
     if validate_trace(compressed, steps) != raw_hash:
         raise ValueError(f'{attempt}: compression mismatch')
+    evidence = [compressed, attempt / 'health.json', attempt / 'exit.json']
+    if 'child_exit' in receipt:
+        evidence.append(attempt / 'child-exit.json')
     save(attempt / 'complete.json', {'steps': steps, 'exit': 0, 'uncompressed_sha256': raw_hash,
-         'file_sha256': {p.name: digest(p) for p in [compressed, attempt / 'health.json', attempt / 'exit.json']}})
+         'file_sha256': {p.name: digest(p) for p in evidence}})
     trace.unlink()
     return compressed
 
@@ -101,7 +133,7 @@ def run(args):
               'sample': args.sample, 'steps': args.steps, 'runs': args.runs,
               'runner_sha256': digest(Path(__file__)),
               'environment': {k: v for k, v in env.items() if k.startswith(('GPU_', 'WGPU_', 'VK_', 'LIBGL', 'MESA_', 'DRI_'))},
-              'scope': 'All v19 captured state; persistent-state coverage and physical acceptance audited separately.'}
+              'scope': 'All fields of the input capture schema; persistent-state coverage and physical acceptance audited separately.'}
     manifest = out / 'manifest.json'
     binary = out / 'fixture'
     if manifest.exists():
@@ -141,7 +173,9 @@ def run(args):
         attempt.mkdir()
         trace = attempt / 'state.jsonl'
         env['GPU_PHYSICS_STATE_TRACE'] = str(trace)
-        cmd = ['xvfb-run', '-a', '-s', '-screen 0 1920x1080x24', str(binary),
+        cmd = ['xvfb-run', '-a', '-s', '-screen 0 1920x1080x24',
+               sys.executable, str(Path(__file__).resolve()), '--record-child-exit',
+               str(attempt / 'child-exit.json'), str(lock.fileno()), str(binary),
                '--sample-name', args.sample, '--unpaced', '--health-scan', '--warmup', '0',
                '--timed', str(args.steps), '--bench-json', str(attempt / 'health.json')]
         save(attempt / 'command.json', cmd)
@@ -149,8 +183,14 @@ def run(args):
         with (attempt / 'run.log').open('w') as log:
             # Keep the lock held by the child if this runner dies, preventing duplicate live runs.
             result = subprocess.run(cmd, cwd=root, env=env, stdout=log, stderr=log, pass_fds=(lock.fileno(),))
-        save(attempt / 'exit.json', {'exit': result.returncode, 'seconds': time.monotonic() - start})
-        result.check_returncode()
+        child_path = attempt / 'child-exit.json'
+        child_exit = json.loads(child_path.read_text())['exit'] if child_path.exists() else None
+        # A cleanup failure is distinct from a sample failure, but remains a
+        # failed attempt. Never infer child success from complete-looking output.
+        status = result.returncode or (child_exit if child_exit is not None else 1)
+        save(attempt / 'exit.json', {'exit': status, 'child_exit': child_exit,
+             'launcher_exit': result.returncode, 'seconds': time.monotonic() - start})
+        successful_exit(attempt)
         compressed = finalize_attempt(attempt, args.steps)
         traces.append(compressed)
         print(f'completed and verified fresh run {number}/{args.runs}', flush=True)
@@ -179,4 +219,6 @@ def main():
 
 
 if __name__ == '__main__':
+    if len(sys.argv) > 1 and sys.argv[1] == '--record-child-exit':
+        raise SystemExit(record_child_exit(Path(sys.argv[2]), sys.argv[4:], int(sys.argv[3])))
     raise SystemExit(main())

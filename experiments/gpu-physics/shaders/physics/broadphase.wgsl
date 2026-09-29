@@ -342,6 +342,10 @@ fn collect_fat_statics(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
     let out = atomicAdd(&atom[ATOM_STATIC_N], 1u);
     if (out < pair_cap()) {
         scratch[scr_static_list() + out] = i;
+    } else {
+        // Large statics bypass the spatial hash. Losing their alternate list
+        // entry is still a broadphase insertion failure, never a clean step.
+        record_capacity_drop(ATOM_INSERT_DROPPED, ATOM_STICKY_INSERT_DROPPED);
     }
 }
 
@@ -2350,9 +2354,9 @@ fn retire_body_pair_contacts(@builtin(global_invocation_id) dispatch_gid: vec3<u
     let slot = scratch[scr_active_contact() + i];
     if (slot >= params.contact_capacity) { return; }
     let c = load_contact(slot);
-    let a = atomicLoad(&query[64u]);
-    let b = atomicLoad(&query[65u]);
-    if (atomicLoad(&query[66u]) == 1u) {
+    let a = atomicLoad(&query[QUERY_RETIRE_COMMAND]);
+    let b = atomicLoad(&query[QUERY_RETIRE_COMMAND + 1u]);
+    if (atomicLoad(&query[QUERY_RETIRE_COMMAND + 2u]) == 1u) {
         if ((c.pair.x) != a && (c.pair.y) != a) { return; }
     } else if (!((c.a == a && c.b == b) || (c.a == b && c.b == a))) { return; }
     if (!retire_manifold_children(slot)) { return; }

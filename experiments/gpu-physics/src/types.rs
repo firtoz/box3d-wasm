@@ -504,6 +504,9 @@ pub const LINEAR_SLOP: f32 = 0.005;
 pub const CONTACT_RECYCLE_DISTANCE: f32 = 10.0 * LINEAR_SLOP;
 /// Box3D `B3_SPECULATIVE_DISTANCE`.
 pub const SPECULATIVE_DISTANCE: f32 = 0.02;
+/// Three retirement-command words, separate from ray results and sticky status.
+/// Must match QUERY_RETIRE_COMMAND in physics/types.wgsl.
+pub const QUERY_RETIRE_COMMAND: u32 = 32;
 pub const DIAG_DISABLE_RECYCLING: u32 = 1 << 0;
 pub const DIAG_DISABLE_SAT_CACHE: u32 = 1 << 1;
 pub const DIAG_DISABLE_ROLLING: u32 = 1 << 2;
@@ -522,6 +525,8 @@ pub const DIAG_PARALLEL_JOINTS: u32 = 1 << 14;
 pub const DIAG_MESH_CANDIDATES: u32 = 1 << 15;
 pub const DIAG_STATIC_DEGREE_TWO_PROOF: u32 = 1 << 16;
 pub const DIAG_BOUNDED_STATIC_SORT: u32 = 1 << 17;
+/// Captured solver policy, selected only by the explicit GPU-native opt-in.
+pub const SOLVER_PAIRED_NORMALS: u32 = 1 << 18;
 pub const MESH_TRACE_WORDS: u32 = 1 + 2048 * 16;
 /// Experimental static-only fused TGS. Off until differential tests pass.
 /// Last attempt: local pass mode was ignored because `solve_manifold` read

@@ -16,7 +16,8 @@ fn classify(@builtin(global_invocation_id) id: vec3<u32>) {
     if ((flags & (1u | 4u | 16u | 128u)) != 0u) { return; }
     let translation = distance(a.p.xyz, b.p.xyz);
     let rotation = 2.0 * acos(clamp(abs(dot(a.q, b.q)), 0.0, 1.0)) * extents[i].y;
-    if (translation + rotation > 0.5 * extents[i].x) {
+    // Cap the extent cutoff at Box3D's speculative shell, as the host does.
+    if (translation + rotation > min(0.5 * extents[i].x, 0.02)) {
         candidates[i] = select(1u, 2u, (flags & 32u) != 0u);
     }
 }

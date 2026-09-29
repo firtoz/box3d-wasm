@@ -462,6 +462,53 @@ mod determinism_tests {
         unread_root_reuse(true);
     }
 
+    #[test]
+    #[cfg(feature="replay-diagnostics")]
+    fn unread_root_handle_retires_after_mesh_scratch_reuse() {
+        let gpu=pollster::block_on(GpuDevice::new(None)).expect("GPU");
+        let mut wd=crate::api::b3_default_world_def();
+        wd.gravity=[0.0;3];wd.enable_sleep=false;wd.enable_continuous=false;
+        let world=b3_create_world(gpu,&wd);
+        let sd=crate::api::b3_default_shape_def();
+        let mesh=b3_create_body(world,&crate::api::b3_default_body_def());
+        let vertices=vec![[-2.0,0.0,-2.0],[-2.0,0.0,2.0],[2.0,0.0,-2.0],[2.0,0.0,2.0],
+            [0.0,0.0,-2.0],[0.0,2.0,-2.0],[0.0,0.0,2.0],[0.0,2.0,2.0],
+            [-2.0,0.0,0.0],[2.0,0.0,0.0],[-2.0,2.0,0.0],[2.0,2.0,0.0]];
+        let triangles=vec![[0,1,2],[2,1,3],[4,5,6],[6,5,7],[8,9,10],[10,9,11]];
+        b3_create_mesh_shape(mesh,&sd,&vertices,&triangles,&[],&[],&[],[1.0;3]);
+        let mut bd=crate::api::b3_default_body_def();bd.body_type=BodyType::Dynamic;
+        bd.position=[1.0,0.49,1.0];let mesh_box=b3_create_body(world,&bd);
+        b3_create_hull_shape(mesh_box,&sd,&crate::api::b3_make_box_hull(0.5,0.5,0.5));
+        let mut ground_def=crate::api::b3_default_body_def();ground_def.position=[10.0,-0.5,0.0];
+        let ground=b3_create_body(world,&ground_def);
+        b3_create_hull_shape(ground,&sd,&crate::api::b3_make_box_hull(2.0,0.5,2.0));
+        bd.position=[10.0,0.5,0.0];let body=b3_create_body(world,&bd);
+        b3_create_hull_shape(body,&sd,&crate::api::b3_make_box_hull(0.5,0.5,0.5));
+        let step=||{b3_world_step_gpu(world,1.0/60.0,4);b3_world_gpu_wait(world);};
+        let read=||{let mut data=[ContactData::default();4];assert_eq!(b3_body_get_contact_data(body,&mut data),1);data[0].contact_id};
+        let move_to=|b,p|{b3_body_set_transform(b,p,[0.0,0.0,0.0,1.0]);b3_body_set_linear_velocity(b,[0.0;3]);b3_body_set_angular_velocity(b,[0.0;3]);};
+        step();let old=read();
+        let owner=with_world_no_sync(world,|w| *w.contact_registry.values().find(|e|e.live.contact_id==old).unwrap().owners.iter().next().unwrap()).unwrap();
+        let copies=contact_snapshot_copies(world);
+        move_to(body,[10.0,5.0,0.0]);step();step();
+        move_to(mesh_box,[0.49,0.49,0.49]);step();
+        let snapshot=with_world_mut_no_sync(world,|w|pollster::block_on(w.sim.as_mut().unwrap().read_contacts())).unwrap();
+        let scratch=snapshot[owner.0];
+        eprintln!("OLD_OWNER {owner:?} AFTER_MESH_SCRATCH {:?} LINK {:?}",scratch.lifecycle,scratch.manifold_link);
+        assert!(scratch.a==u32::MAX || scratch.manifold_link[1]!=0,
+            "old owner slot must not be a live root during mesh reuse");
+        assert_eq!(scratch.lifecycle[0],owner.1,
+            "mesh scratch or canonical child placement must preserve the physical root counter");
+        assert!(snapshot.iter().filter(|c|c.a!=u32::MAX && c.manifold_link[1]!=0).count()>=2,"must exercise multipatch mesh staging");
+        move_to(mesh_box,[1.0,0.49,1.0]);step();step();
+        move_to(body,bd.position);step();
+        assert_eq!(contact_snapshot_copies(world),copies,"intervening contacts must remain unread");
+        let replacement=read();
+        assert_ne!(replacement,old,"retired root handle aliased after mesh scratch reuse");
+        assert!(!b3_contact_is_valid(old));assert!(b3_contact_is_valid(replacement));
+        b3_destroy_world(world);
+    }
+
     fn unread_root_reuse(perturb_generation: bool) {
         let gpu = pollster::block_on(GpuDevice::new(None)).expect("GPU");
         let mut wd = crate::api::b3_default_world_def();

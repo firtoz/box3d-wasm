@@ -28,11 +28,15 @@ partial=a.out.with_suffix(a.out.suffix+'.partial')
 summary=[];window_hash=hashlib.sha256();seen=set();mapping_history={}
 opener=gzip.open if a.trace.suffix=='.gz' else open
 with opener(a.trace,'rb') as stream, partial.open('w') as output:
- for number,line in enumerate(stream,1):
+ previous_frame=None
+ for line in stream:
+  d=json.loads(line);number=d.get('frame')
+  if d.get('schema') not in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22') or type(number) is not int or number<1:raise ValueError('schema/frame mismatch')
+  if previous_frame is not None and number!=previous_frame+1:raise ValueError('noncontiguous trace frames')
+  previous_frame=number
   if number<a.first+1:continue
   if number>a.last+1:break
-  d=json.loads(line);h=frames[number-1]
-  if d['schema']!='gpu-core-state-v19' or d['frame']!=number:raise ValueError('schema/frame mismatch')
+  h=frames[number-1]
   mapping=health_to_core_creations(h,d)
   cell_creations=range(a.base,a.base+42)
   if any(c not in mapping for c in cell_creations):raise ValueError('cell lifetime not live for entire window')

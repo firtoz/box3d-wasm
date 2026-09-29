@@ -406,12 +406,15 @@ const DIAG_JOINT_FILTER_OVERFLOW: u32 = 4096u;
 const DIAG_SERIAL_JOINTS: u32 = 8192u;
 const DIAG_PARALLEL_JOINTS: u32 = 16384u;
 const DIAG_MESH_CANDIDATES: u32 = 32768u;
+const SOLVER_PAIRED_NORMALS: u32 = 262144u;
 const MESH_TRACE_WORDS: u32 = 32769u;
 const JOINT_FILTER_CAP: u32 = 4096u;
 const JOINT_FILTER_PROBE: u32 = 32u;
 const HASH_BUCKETS: u32 = 16384u;
 fn pair_cap() -> u32 { return params.pair_capacity; }
 fn contact_hash_cap() -> u32 { return 2u * pair_cap(); }
+// Ray queries occupy 0..31; retirement commands must not overwrite sticky word66.
+const QUERY_RETIRE_COMMAND: u32 = 32u;
 // Monotonic exclusive slot bound; survives retirement and scene-buffer growth.
 const QUERY_CONTACT_HIGH_WATER: u32 = 73u;
 const SCR_PAIR_N: u32 = 0u;

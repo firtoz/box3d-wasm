@@ -14,14 +14,430 @@ repeatability.
 
 ## Coverage and current evidence
 
+Latest desktop candidate: `desktop-baseline/paired-v22-candidate/manifest.json`
+freezes gated paired-contact libraries, sample executables and test executables.
+Library builds69996/48507 and sample links57470/98633 completed0. Test hashes
+match the earlier gated contact-island/friction/support five-repeat evidence.
+The selected persistent-state consumer audit is complete for public World
+completed-step boundaries and selected configurations, including v22 retirement
+candidates and captured paired-mode policy; broader qualification remains open.
+Older rows below retain historical evidence and do not imply final-build passes.
+
+The current evidence cross-check is `paired-v22-candidate/coverage-audit.json`:
+all99Rust/WGSL source hashes match the frozen candidate;25five-run case/path
+groups have the expected durations, successful individual receipts and passing
+comparisons, and Rust fixtures match the frozen binary hashes. Ragdoll raw
+append-order failures remain separately recorded. The66fixed regression passes
+per path are also verified. This consolidates existing bounded evidence; it
+does not close ground dragging, Rain, performance or delivery requirements.
+
+Paired restitution driver63634 completed0: five fresh240step runs per backend
+pass all original assertions and exact raw v22comparison. Both paths report
+first rebound apices0.99096805/2.488538m, peak energy25.017302J/kg and peak
+penetration0.004999995m. Evidence: `desktop-baseline/paired-restitution-five/`.
+Baseline49.31mm penetration failures remain preserved.
+
+Follow-up driver19696 completes0: motor reversal120steps, analytical mass
+mutations18steps and joint-island waking73steps each pass five fresh processes
+per backend with all original physical assertions and exact raw v22comparison.
+Evidence: `desktop-baseline/paired-{motors,mass,joint-island}-five/` and frozen
+candidate `followup-exits.json`. All40processes across these and restitution also
+pass every-step completion, sticky-loss and invalid-state checks. Policy checks
+confirm paired solving plus native bounded-sort where selected; geometry-derived
+static proof bits are retained exactly in comparisons. The initial assumption
+that flags contained only the environment-selected bits was rejected and corrected
+using `GpuSim::set_topology_bounds`; that was a validation assumption, not a solver
+failure. Details: `paired-v22-candidate/completion-policy-validation.json`.
+
+Paired Rain600step health captures26826ordinary/77334native are running under
+`desktop-baseline/rain-paired-health/`; both fixture hashes match the frozen
+candidate. These are single health runs, not per-step semantic repeats or timing
+measurements. Separate frozen pre-paired v22 Rain repeats63604/15392 remain live.
+
+The same frozen paired test binaries now pass lifecycle driver51035: five fresh
+history16/query8/callback12 captures per path and five native replay48captures.
+All seven raw comparisons pass; all35processes pass every-step completion,
+failure-state and paired-policy checks. Every native replay log records42actual
+hits. Evidence: `desktop-baseline/paired-{history,query,callbacks,replay}-five/`
+and `paired-v22-candidate/lifecycle-completion-validation.json`.
+
+CCD driver40428 also finishes0: five5step mutation runs/path pass unchanged
+fast-body barrier/reference checks and raw v22 equality; all ten traces pass
+completion and policy validation. Regression55676 completes0 with66test passes
+per path:28numerical,27CCD, five analytical mass/inertia, one sleep-to-wake and
+five fresh unread mesh-root lifetime runs. Those unread controls intentionally
+avoid state capture, whose harvesting would change the scenario. Evidence:
+`paired-ccd-five/` and `paired-v22-candidate/fixed-regressions-{ordinary,native}/`.
+These are bounded selected checks, not universal CCD or lifecycle qualification.
+
+New Falling Ragdolls fixtures link frozen paired libraries (builds20041/24630
+exit0). Single600step physical/state checks12785ordinary/35462native finish0
+under `desktop-baseline/ragdoll-paired-candidate/`. Both pass original limits:
+peak separation0.213310137m, tail0.00127359747m, tail speed/angular0 and peak
+angular103.627171rad/s within the CPU-relative limit. Five-repeat campaigns
+16267/36170 now run under `ragdoll-paired-five/`; complete comparisons pending.
+
+Dragging fixture builds85740/12347 finish0 using frozen paired libraries; exact
+CPU/bridge/input hashes are in `desktop-baseline/drag-paired-candidate/`.
+Single original --ground3060step physical/state checks44226/42316 fail on both
+paths. Ordinary maxposition0.3899m/chord0.351633 and native0.38982m/0.351611 exceed
+original limits; held position/velocity also fail, settled velocity remains0.
+No dragging repeats were launched after this physical failure.
+
+Saved paired traces were additionally measured geometrically using the unit
+cube's rotated corners against floor top y=0. Both contain3060 completed frames
+and50 cube/release endpoints; all endpoints satisfy the original absolute
+speed/angular-speed <0.1 limits. Minimum corner clearance is -0.044598510m
+ordinary and -0.044598563m native, both body3 at core frame527 during the second
+held drag. This is descriptive evidence, not a newly chosen acceptance limit or
+a replacement for failed trajectory checks. It identifies loaded-contact
+penetration as the next physical investigation. Evidence and reproducible
+measurement: `drag-paired-candidate/{clearance-settling.json,measure-clearance.py}`
+under the desktop baseline. The measurement script runs from the repository root.
+
+The ordinary impact window narrows the failure: core525 clearance+22.095mm,
+526+5mm with an empty manifold, 527-44.599mm still with an empty manifold,
+528-27.463mm with four points. Penetration persists through540, then release541
+has positive clearance. `impact-window.json` preserves these values. Source
+inspection identifies a candidate mechanism: empty contact recycling permits
+up to20mm translation, so the17.095mm CCD correction into the speculative shell
+can reuse the prior empty result. Host TOI deliberately skips an initial gap
+within its5mm target plus tolerance. A focused unforced unit-cube regression
+now tests this transition at22mm initial clearance and2.66667m/s descent;
+it requires the second step to remain within the existing5mm linear slop.
+Baseline build68818 finishes0; focused regression78711 fails101 with second-step
+center y=0.4605555, i.e.39.4445mm penetration. The baseline binary is frozen as
+`empty-contact-before-fixture`; log `empty-contact-before.log` retains the failure.
+The captured drag contact also has lifecycle flags5 (ALIVE|RECYCLED), directly
+confirming empty-result reuse at the failing frame. Shader `recycle_skip` now
+rejects empty manifolds because no stored separation bound justifies their
+reuse. Same-baseline disabled-recycling control8615 passes0. Patched build73933
+finishes0 and ordinary focused test3416 passes0 with recycling enabled. Thus
+the isolated defect has a before-fail/control-pass/after-pass result;
+`empty-contact-controls.json` records baseline binary hash and exact exits.
+Native test build77951 finishes0. Regression drivers23926 ordinary and97716
+native remain live. Ordinary static-library rebuild13563 and unchanged drag
+fixture link44407 finish0; original3060step ground-drag runner36500 is live.
+`empty-contact-fix/drag-ordinary/` preserves all input hashes, command, state and
+exact exit. Native static-library build26975 and link21593 finish0; the matching
+ground-drag check is launched with evidence in `empty-contact-fix/drag-native/`.
+Both ground-drag checks36500/90117 now finish1, preserving all3060states and
+original CPU trajectory failures (maxposition0.3899/0.38982m). New geometric
+scan finds18.4908mm peak penetration on both paths at1140/body5, versus44.5985mm
+before; all50release endpoints per path meet original absolute settling limits.
+At the old ordinary failure frame527, contacts now contain four points and
+clearance is+0.0286mm. The remaining peak1140 also has four points, under a
+loaded motor with vertical anchor error-0.68505m; release1141 has+2.835mm
+clearance. Evidence: `empty-contact-fix/clearance-settling.json` and
+`contact-motor-window.json`. These observations close the identified empty-cache
+mechanism, not overall dragging acceptance or the loaded-compliance question.
+Native focused regression also passes within native/ccd.log. Ordinary CCD
+selector finishes0; both complete regression drivers23926/97716 now finish0,
+with28CCD,6recycling and3restitution passes independently per path.
+
+The superseded pre-paired Rain first captures now have exact child0/launcher0
+receipts on both paths. Their batch drivers were stopped only after those
+receipts and absence of physics children were verified; driver exits143 are
+retained (63604/15392), with `rain-v22-five/*/superseded-batch-stop.json` explaining
+the intentional stop of further obsolete repeats. Dedicated finalizers1879/
+79885 use the existing runner validation/compression routine on the completed
+600step raw captures. No child/launcher receipt is changed and no physics is
+rerun. Finalization is pending; these remain older-candidate single captures,
+not current-candidate or five-repeat qualification.
+Their health scans83827/77017 finish0:600frames each, zeroNaN/exploded/capacity
+loss, with identical selected residual summaries. Peak cone1.26105142rad at
+516/endpoints5003–5004 and longest >.05rad lower-twist episode62awakeframes
+355–416/endpoints1684–1693 reproduce the prior baseline. Full selections remain
+in `rain-v22-five/{ordinary,native}/health-summary.json`; these absolute screens
+do not establish physical acceptance.
+
+Saved independent CPU drag geometry provides a further loaded-contact control:
+all15300bodyframes were scanned; peak penetration22.358mm occurs at526. At
+the patched GPU's worst loaded release1140, CPU penetration is18.207mm versus
+GPU18.491mm; both return to positive clearance1141. Source hash and selected
+measurements are in `empty-contact-fix/cpu-clearance-reference.json`. This
+narrows the remaining question toward motor/contact compliance, but CPU
+reproduction alone does not prove acceptance or replace failed original checks.
+The patched drag state-health scans75281/39234 finish0 at3060steps per path,
+with no captured capacity loss, invalid-state flag or completion mismatch;
+per-path `state-health.json` explicitly excludes physical/full-state acceptance.
+`empty-contact-fix/manifest.json` freezes both libraries, test executables and
+drag fixtures plus99Rust/WGSL hashes. Relative to the previous paired candidate,
+only the world.rs regression and collide.wgsl empty-manifold veto changed.
+No persistent field was added: captured contact count drives the new eligibility
+branch, and existing v22 contact geometry/history/order coverage remains needed.
+No new normalization is authorized. Old fresh-repeat results do not qualify
+the changed trajectories; samples and running Rain still use earlier binaries.
+Subsequent sample links49616/36282 finish0, verified against the frozen library
+and source hashes, and both new executables are added to the cache-fix manifest.
+Fresh600step health-only checks77061ordinary/10251native now run under
+`rain-empty-contact-health/`; their fixture hashes match the frozen samples.
+The older paired health checks continue as comparison evidence. Neither batch
+is a full-state five-repeat qualification or controlled performance result.
+
+A bounded test-only loaded-contact experiment now checks the compliance model
+under known force: `constant_load_contact_compliance_matches_softness` applies
+100 and1000m/s² downward acceleration to a rotation-locked unit cube on a floor,
+with unchanged contact defaults and600steps/load. Four coplanar points each
+have effective normal mass m. The stationary soft-constraint equation predicts
+total stiffness4*m*omega² and penetration(applied_acceleration-gravity_y)/(4*omega²),
+using the existing static-contact frequency clamp. Before evaluating the test,
+the tail120steps must remain within0.1mm of that prediction and below1mm/s.
+Ordinary build51224 finishes0 and run60306 passes both600step loads with all
+tail120steps within the predeclared0.1mm/1mm/s limits. The executable and SHA256
+are frozen as `empty-contact-fix/compliance-ordinary-fixture`; output is in
+`compliance-ordinary.log`. Native test build14390 finishes0; run92484 finishes0
+with the native runtime environment, and its binary/SHA256 are frozen as
+`compliance-native-fixture`. Both loads pass the original limits on each path;
+`compliance-results.json` records exact exits and executable/log hashes. This
+is a discriminating model check, not relaxed acceptance for the moving,
+off-center drag scenario. No production defaults or solver code change.
+
+All completed Rain captures are now accounted for: older full-state finalizers
+1879/79885 finish0 with verified600step compressed state; paired health26826/
+77334 and cache-fixed health77061/10251 finish0. Absolute scanners19415/80097/
+11118/51068 finish0. Cache-fixed peak cone error1.05444145rad at179/endpoints33–34
+is lower than paired1.29449368rad at520/4961–4962, but a new persistent episode
+lasts454–591 (138awakeframes), joint3942/endpoints3935–3943, peak0.360523075rad
+and final0.20179686rad. Both paths have identical residual summaries.
+Unchanged CPU-relative scans47659/54383 both fail1 with1194anchor,4449angular,
+15871cone,1656lower-twist and1172upper-twist failures across1948800matched joint
+observations. Reports are in `rain-empty-contact-health/*/cpu-relative.json`.
+No physical Rain pass is claimed.
+
+The next bounded diagnosis targets that persistent episode. Capture89833 uses
+the frozen ordinary cache-fix sample for600steps, saving core state only440..600
+and full health under `rain-empty-contact-cone/`. Existing hooks and exact exit
+receipts are retained; this is not full-run repeat qualification. Selector31512
+validates health449..591/cellbase3907/target3943 under `rain-empty-contact-episode/`.
+The fresh capture must reproduce the selected lifetime/trajectory before its
+contact and joint caches are used to explain the persistent error.
+Selector31512 finishes0 and validates all42bodies over143frames. The target is
+the third Human's pelvis→right-thigh joint (bone indices0→8), verified against
+`box3d/shared/human.h` and the right-thigh setup in human.c. Its upstream cone
+limit is10degrees, twist[-30,60]degrees, and unchanged default base tuning is
+60Hz/damping2. `rain-empty-contact-episode/target-motion.json` retains metrics
+for each selected frame: at480 speeds0.137/0.183m/s and angular1.82/12.62rad/s;
+at591 speeds0.217/0.299m/s and angular1.30/6.77rad/s, anchorerror1.956mm and
+coneexcess0.2018rad. Both bodies remain awake throughout the138frame episode.
+This excludes a sleeping-stall explanation but does not establish acceptable
+load compliance. The bounded core capture remains live for contact/joint-cache
+analysis; no further solver change is made from health data alone.
+Independent swing reconstruction composes captured body rotations with the
+normalized upstream right-thigh local frames. The initial libm atan2 comparison
+fails1e-5 tolerance by a maximum1.8493e-5, preserved in
+`rain-empty-contact-episode/angle-reconstruction.json`. Inspection shows
+b3GetSwingAngle uses b3Atan2's deterministic minimax polynomial in
+box3d/src/math_functions.c. Evaluating that polynomial on the independently
+reconstructed angle agrees within3.40054e-7 across all143frames at the unchanged
+tolerance; evidence is `angle-reconstruction-native-polynomial.json`.
+This confirms the geometric violation and accounts for the initial comparison
+failure without changing a solver parameter or acceptance threshold.
+The diagnostic extractor now indexes by the recorded core frame rather than
+line number, allowing this window to start at core440. It still rejects gaps,
+duplicates, incomplete requested windows, stale generations and pose mismatches.
+Synthetic full/prefix-trimmed inputs produce byte-identical excerpts; all five
+negative controls reject as expected. Evidence is
+`desktop-baseline/rain-extractor-window-check/results.json`. This is extractor
+validation only; actual Rain trajectory matching awaits the live capture.
+The existing compliance analyzer also reports swing effective mass, stationary
+cached-impulse residual and start/end swing-axis alignment. A17frame historical
+excerpt runs successfully; an analytical isotropic-tensor input recovers unit
+effective mass and0.02rad residual (within1e-8). Outputs are in the same evidence
+directory. Cone excess uses libm atan2 and is labeled approximate; these values
+neither reproduce a complete substep torque balance nor establish acceptance.
+The live cache-fixed capture has now reached the selected episode. Core450..460
+matches all42cell bodies' float32 rotations and linear/angular velocities plus
+slot/generation identities against the earlier completed health report. Target
+core IDs are4035→4043, joint3942. The11frame excerpt and manifest are
+`rain-empty-contact-episode/ordinary-impact-prefix.*`; the preceding5frame
+onset excerpt is also retained. `impact-compliance.json` reports at core455
+approximate cone excess0.360505rad, stationary cached-impulse residual0.117275rad
+and step-start/end swing-axis dot0.319209. At460 those values are
+0.169271/0.017178/0.617481. This confirms the captured impact trajectory but does
+not establish a full torque balance or justify the previously rejected
+updated-axis-only change. The later persistent portion and complete run remain
+pending; the capture process continues unchanged.
+The subsequent21frames core461..481 also match the earlier health exactly for
+all42cell bodies (extractor24796 exit0). Evidence is
+`rain-empty-contact-episode/ordinary-persistent-prefix.jsonl` and its manifest,
+with `persistent-prefix-compliance.json`. Cone excess spans0.102552..0.204187rad,
+cached stationary estimates0.005131..0.050761rad and swing-axis dot products
+0.553345..0.956748. The discrepancy therefore persists after impact, but cached
+end-step values are still insufficient to establish substep load balance.
+The historical rejected relinearization already refreshed axis AND effective
+mass; repeat that experiment only if a genuinely different mechanism is tested.
+An independent unit-impulse calculation with captured inertia and joint levers
+finds the hip point constraint removes9.14..23.98% of cone-rate correction at
+start geometry,7.33..24.87% with end levers, over core450..481. Analytical
+zero-lever and isotropic-unit-lever controls give0 and0.5; point residuals remain
+below1e-9. `rain-empty-contact-episode/point-cone-coupling.json` and its generator
+retain the results and limitations: this is a hard projection diagnostic, not
+the actual soft solve or a complete contact/joint interaction model.
+The existing isolated Rain fixture is now testing collision dependence from
+health480, cellrow3/column9, base3907,target3943. The120step CPU/ordinary arms
+repeat original collision filters or disable all Human collisions, retaining
+upstream joints and using fresh history. `rain-hip-load-replay/protocol.json`
+predeclares interpretation and exclusions; fixtures/manifests link the frozen
+cache-fixed GPU library. Build93488 exits0; run17223 has successful CPU exits
+for both arms and GPU arms pending. Full Rain capture continues independently.
+All four replay arms subsequently finish0 (17223). The analyzer verifies42exact
+float32 initial getter states,5040finite body records and3240spherical records
+per arm. With collisions, CPU/GPU target cone final=.14410454/.183344901rad,
+tail60max=.147624344/.210057288. Without collisions, both give final
+.000124052167rad and tail60max.000211909413. This supports contact dependence
+in the isolated fresh-history replay, not physical acceptance of the loaded
+error. Full stats and hashes are in `rain-hip-load-replay/summary.json`.
+The full-scene excerpt further shows the target's only active contact partner
+at core470..481 is core4042 (Human3942), its own left calf. Earlier461..468 also
+contact4014/4016;469 still contacts4014. `target-contact-partners.json` preserves
+all21frames. Upstream calf filters use group0 whereas the thigh uses the
+negative Human group, so this contact is allowed by upstream. A selective
+diagnostic is needed to separate this pair from wider contact loading.
+The selective diagnostic is now complete under `rain-hip-pair-replay/`.
+An artifact-only fixture creates the same force-free filter joint in both
+arms, with collideConnected true versus false for3942↔3943. All four CPU/GPU
+runs exit0, pass initial/body/joint completeness checks, and report120pair
+contact points in each sham versus zero throughout each disabled arm. Tail60
+cone maxima CPU/GPU are .213215/.222990(sham), .138892/.154004(disabled);
+finals .161817/.189009 versus .124223/.148645. Removing the pair does not
+resolve the error. Sham traces differ from the no-added-joint originals, so
+the added topology is not claimed to preserve ordering; this limitation and
+exact contact audits are retained in pair-validation.json.
+A separate artifact-only temporal-resolution check (`rain-hip-substep-replay/`)
+runs CPU/ordinary x4/8/16substeps for120worldsteps from the same initial state.
+All six exit0 and validate all records;4substep body traces exactly match the
+earlier originals. Tail60cone maxima CPU=.147624/.197574/.220051 and GPU
+=.210057/.194023/.219055. Refinement does not remove persistence. Full metrics,
+hashes and default-control.json are retained. Neither experiment changes
+production scene parameters, solver defaults or physical acceptance criteria.
+The material decomposition (`rain-hip-material-replay/`) completes eight120step
+CPU/ordinary arms: unchanged materials, zero sliding friction, zero rolling
+resistance and zero both. Build25250/run32689 exit0; all initial/body/joint
+records and42material getters per arm validate. Unchanged-material body traces
+match earlier originals exactly. With both resistances zero and normal contacts
+retained, tail60cone max CPU/GPU=.00355715/.00345930rad, final
+.00262496/.00326228. Zero rolling alone remains .180940/.209618tailmax; zero
+sliding friction alone yields .130270CPU/0GPU. This supports frictional loading
+as sustaining the isolated persistent violation, without establishing physical
+acceptance under original materials. No production material change is retained.
+The original-sham mechanical energy maxima926.000CPU/913.371GPU are below
+initial945.864J, finals803.848/802.153J; these omit elastic/contact storage and
+motor work and cannot stand alone as an energy proof. Complete metrics, hashes,
+controls and material checks remain in summary.json/material-validation.json.
+An end-step cached-impulse invariant check covers1082active contact patches in
+core450..481. Sliding<=friction*sum(normal), rolling<=rolling*sum(normal), and
+twist<=friction*sum(lever*normal) all hold within the predeclared numerical
+allowance1e-5*max(1,cap). It uses each rb.w normal cache, not the accumulated
+total_normal_impulse field. At481, the target thigh/calf contact is saturated
+in both sliding(.63329344Ns vs.63329339cap) and rolling(.018998799Nms vs
+.018998802cap), with normal1.055489Ns. Evidence is
+`rain-empty-contact-episode/friction-bound-check.json` and its generator.
+This excludes an end-cache cap violation in those excerpts, not all substep
+work defects or the open physical acceptance question.
+The bounded Rain capture is complete:89833 exit0, child0/launcher0,4779.95s;
+600health frames/1252800spherical observations structurally validate.
+Extractor85989 validates all143selected frames core450..592 against the earlier
+health report, including all42cell identities and exact float32 q/v/w fields.
+`ordinary-full-episode.jsonl` and its manifest retain this evidence. The separate
+core health checker62226 validates all161captured steps440..600 with no sticky
+loss, invalid-state flag or completion mismatch; raw SHA256 is recorded in
+`rain-empty-contact-cone/ordinary/state-health.json`. None of these checks is a
+five-repeat or physical acceptance claim.
+The full friction scan covers6681active patches and preserves22strict ideal-cap
+failures, all rolling impulses on awake contacts. Every squared impulse excess
+is <=1.182890e-7, below the existing FLT_EPSILON1.192093e-7 rolling-clamp deadband
+in both WGSL and upstream scalar/SIMD CPU solvers. The failed strict screen
+remains in friction-bound-check.json; rolling-deadband-explanation.json records
+the source-consistent explanation. The initial pass is retained separately as
+prefix-friction-bound-check.json. The target4042↔4043pair has142observations and
+no strict cap failures. This does not establish all substep work or acceptance.
+Full-compliance.json also shows the stationary estimate can closely match at
+health500(.081915rad vs.087609measured), but fails as a general model for the
+moving episode: at591 estimate.010188 vs.201786measured, axisdot.591090 and
+endpoint speeds1.30/6.77rad/s. Original-material physical acceptance remains open.
+The stationary formula itself is now independently tested with the retained
+`c_abi/spherical_compliance_reference.cpp`. A unit-inertia dynamic body with a
+static spherical anchor, coincident COM anchors and no contacts receives
+constant world-X torque. Default60Hz/damping2 and four substeps imply
+K=I*(2*pi*min(60,0.25/h))^2. Torques1421.2229/14212.2295Nm predict .01/.1rad
+cone excess. Before evaluation, both600step loads require the final120steps
+to have absolute prediction error<1e-4rad and angular speed<1e-3rad/s.
+CPU, ordinary GPU and native cached GPU all pass with maximum errors
+1.74226e-6/5.09452e-6rad and zero tail angular speed. All1200records per path
+validate; build30657/run41403 exit0. `loaded-cone-reference/` freezes the
+protocol, source, library/binary hashes, commands, raw traces and results.json.
+This validates isolated stationary compliance, not the moving friction-loaded
+Rain episode, and does not substitute for final five-repeat qualification.
+
+Same-bridge pre-paired v22control52534 also fails (maxposition0.245738m, held
+position0.152442m, heldvelocity3.08363m/s). CPU-compatible scalar-order control
+52806 gives identical maxima. Its both-engine trace first diverges in position
+at frame227/body0 by0.016072364m while velocity agrees. A diagnostic copy of the
+C fixture with only enableContinuous=false, run87008, passes original limits:
+maxposition0.00602796m/chord0.00597248, heldposition0.00288055m,
+heldvelocity0.047432m/s and peakvelocitydifference0.230405m/s. This isolates CCD
+involvement, not an acceptable default change or a substitute pass. Production
+source and original failures remain untouched. Direct cutoff discrimination and
+first-step collision analysis are next; preserve both drag and restitution gates.
+Evidence: `desktop-baseline/drag-paired-candidate/control-summary.json`,
+`drag-prepaired-control/`, `drag-scalar-order-control/`, `drag-no-ccd-control/`.
+
+A copied-source host-cutoff discriminator now restores only the old
+0.5*minimum_extent activation test (production sources unchanged). Library21984
+and drag link19131 finish0. Scalar/order1 run44253 passes with continuous collision
+enabled and the same0.00602796m maximum error as the no-CCD control, directly
+isolating the new cutoff's effect. Paired/order0 run61690 instead aborts at
+frame2460 on the unchanged settling assertion: body4 angular speed0.13578371rad/s
+exceeds0.1; linear speed0.09601665m/s, center height0.70661068m. Other cubes sleep.
+This is not an acceptable rollback or a production result. Original screens and
+defaults remain unchanged. `desktop-baseline/ccd-cutoff-control/` contains copied
+sources, library/fixture hashes, exact exits and `paired/settling-failure.json`.
+
+At the first scalar divergence227, oriented unit-cube support computed from the
+actual p/q gives CPU minY=-0.010831614m versus GPU+0.005000102m (both+0.033612905m
+one frame earlier). This establishes an earlier clamp with reduced penetration;
+it does not establish that the later strict comparison failure is instability,
+nor does it close dragging acceptance. Evidence:
+`drag-scalar-order-control/ordinary/first-impact-clearance.json`.
+
+The original contact-free ten-grab fixture passes on both paired backends
+(3296/77700 exit0):1320steps with exactly0 position/quaternion/velocity difference.
+Evidence: `desktop-baseline/drag-isolated-paired/`. This is a single-run isolation
+of picking/joint behavior, not a replacement for failed ground-contact gates.
+
+Rigid-body mechanical-energy reconstruction for the old-cutoff paired case finds
+a2.541764J/kg increase just after release2341, then decreasing energy and slow
+near-edge toppling toward the settling failure. The reconstruction omits stored
+contact/joint energy and is not a complete work balance. A scalar control shows
+the same4.01211330J/kg release increase on CPU and GPU (8.66516597 to12.67727927),
+so attributing this observation to paired solving would be unsupported. Evidence:
+`ccd-cutoff-control/paired/release-energy.json` and
+`drag-paired-candidate/release-energy-{comparison,cpu-control}.json`.
+
+The user was asked to clarify strict trajectory agreement versus independently
+justified physical acceptance for ground dragging; no answer yet. Existing
+failed screens remain preserved and required pending clarification.
+
+All ten paired ragdoll child runs now finish0 and pass original physical screens.
+Raw aggregate16267/36170 exit1 on frame1 occupied append order. Existing audited
+comparisons1908/38749 both finish0/pass for all600steps/five runs per path with
+exact physical slots/counters and solver order. Raw append-order failures remain
+preserved. Representative completed-state/policy validation1571 finishes0; these
+fields remain exact in each audited comparison, closing selected paired ragdoll
+physical/repeat gates under the documented completed-boundary capture scope.
+The historical57mesh input poses are
+unavailable on this desktop (probe/comparator source exists, exact45grid/12torus
+dataset does not). Their old passes cannot establish current-build validation.
+
 | Capability | Required evidence | Current status |
 |---|---|---|
-| Falling Ragdolls repeatability | Five complete-state fresh runs per configuration, 600 steps | Five frozen-v19 runs complete on each path: physical outputs identical, but raw allocation/history comparisons fail; all other captured groups match over 600 steps. Later frozen five-run batches complete on both paths; standalone slot-permutation diagnostics pass all600steps, but raw qualification and final state coverage remain open. Binaries predate recycling-default correction |
-| Falling Ragdolls stability | Existing separation, angular-speed and settling limits; finite complete state | All five frozen-v19 runs on each path pass unchanged physical limits over 600 steps; later frozen five-run batches also pass; wider physical coverage pending |
+| Falling Ragdolls repeatability | Five complete-state fresh runs per configuration, 600 steps | Current desktop child-compaction candidate passes five600step audited comparisons per path, preserving exact physical slots/counters and solver order. Only occupied/history memberships normalized; raw append-order failures retained. Final schema coverage audit remains open. |
+| Falling Ragdolls stability | Existing separation, angular-speed and settling limits; finite complete state | All ten current desktop child-compaction600step runs pass unchanged original physical screens; wider physical coverage remains open. |
 | Rain recycling | Persistent logical body/joint correspondence across creation/deletion/reuse; complete state and health checks | Creation mapping passes all 600 steps, 8,400 bodies and 1,948,800 joint observations across 4,200 reused slots; residual screening still fails |
 | Rain joint correctness | Explain excessive residuals and qualify appropriate constraint behavior | Full 600-step spherical capture validates identities but fails residual screening: first cone discrepancy at frame130, before first anchor discrepancy at170. Matched-state replays reproduce severe cone and persistent twist behavior in both engines; sleep ablation does not eliminate isolated twist residual. Full-scene history/load diagnosis remains open |
 | Collision response and penetration | Analytical isolated contacts plus persistent support/penetration checks in stacks and mesh scenes | Flat-edge admission corrected; 57 frozen-pose cases pass ordinary/native cached. Analytical three-cube support/energy fixture passes five600-step fresh repeats on each path with corrected defaults; every raw captured field matches independently. Wider behavior coverage pending |
-| Friction and restitution | Existing analytical/reference fixtures with unchanged coefficients and tolerances | Analytical sliding/frictionless fixture passes five240-step fresh repeats per path, all raw captured fields equal; selected reference tests also pass. Vertical restitution passes rebound/energy/settling assertions on both paths but fails the unchanged30mm penetration screen (49.31mm peak, reproduced by CPU); wider material behavior remains pending |
+| Friction and restitution | Existing analytical/reference fixtures with unchanged coefficients and tolerances | Analytical sliding/frictionless fixture passes five240-step fresh repeats per path historically. Desktop CCD-coverage candidate passes all unchanged restitution gates in five240-step fresh runs per path, with exact raw captured state; baseline49.31mm penetration failures retained. Current single-run friction regression passes each path; wider/final-candidate qualification remains open. |
 | Mass and inertia | Existing lifecycle and analytical fixtures, including multiple shapes and center overrides | Selected ordinary/native GPU-order fixtures pass; wider qualification pending |
 | Motors and limits | Isolated mechanisms, constraint errors and scripted responses | Existing Prismatic/twist fixtures pass prior qualification; wider matrix pending |
 | CCD | Sweep/reference fixtures and fast-body scenes with no missed barriers | Selected ordinary/native GPU-order fixtures pass; five fresh five-step CCD mutation repeats match every raw v19 field per path; wider qualification pending |
@@ -57,23 +473,64 @@ set a unique `GPU_PHYSICS_TEST_TRACE` for each process and compare every capture
 | Rain | `Benchmark/Rain`, `scripts/check-sample-state-repeats.py`,600steps | Full creation identity/recycling correspondence; existing+0.05m/+0.05rad CPU-relative screens retained and currently failed. Physically justified residual classification must close before pass |
 | Support/energy | `trace_stack_support_and_energy`,600steps | Overlap/lateral drift<0.025m, tilt quaternion-vector norm<0.01, energy gain<0.1J/kg; final120steps height within0.025m, speed<0.05m/s/angular<0.1rad/s |
 | Friction | `trace_sliding_friction_matches_analytical_motion`,240steps | Stop distance0.4±0.04m, speed<0.05 after36steps; frictionless position/speed errors<0.005; height/lateral error<0.01m; retain all rotation assertions |
-| Restitution | `trace_restitution_matches_analytical_rebound`,240steps | Rebound apices1.0/2.5±0.05m, penetration<0.03m, energy<25.2J/kg, settling assertions unchanged. Penetration screen remains failed, including CPU reproduction |
+| Restitution | `trace_restitution_matches_analytical_rebound`,240steps | Rebound apices1.0/2.5±0.05m, penetration<0.03m, energy<25.2J/kg, settling assertions unchanged. CCD-coverage candidate passes five fresh runs per path with exact raw captured state; baseline49.31mm failures retained. Wider candidate qualification remains open. |
 | Motors/limits | `trace_prismatic_motor_reversal_respects_both_limits`,120steps | Reverse at46; limits±0.5 with0.01m allowance, transverse drift<1e-5; stops reached/settled per source. Spherical/revolute behavior also covered by28 numerical fixtures and Rain; persistent Rain errors stay open |
-| Mass/inertia | `capsule_mass_data_matches_compute_helper`, `capsule_compound_inertia_applies_parallel_axis_once`, `capsule_angular_impulse_uses_axial_inertia`, `mass_queries_preserve_shape_and_explicit_mass`, `replacement_reuses_storage_and_preserves_body_mass_and_metadata` | Preserve all existing analytical/source assertions; integration of mutation checks with per-step repeat traces remains a coverage gap |
+| Mass/inertia | `capsule_mass_data_matches_compute_helper`, `capsule_compound_inertia_applies_parallel_axis_once`, `capsule_angular_impulse_uses_axial_inertia`, `mass_queries_preserve_shape_and_explicit_mass`, `replacement_reuses_storage_and_preserves_body_mass_and_metadata`; `trace_mass_mutations_preserve_analytical_impulse_response`,18steps | Preserve all existing analytical/source assertions. Mutation trace covers six stages (shape mass, doubled density, explicit mass/center/inertia, kinematic, dynamic, shape removal), three free steps each. Exact public mass; unit linear/angular impulse response within1e-5m/s and1e-4rad/s respectively; nonzero impulses must give zero response in the kinematic and massless/shapeless stages. Five fresh repeats per path pass with exact raw state equality; full-state audit and final-candidate applicability remain open. |
 | Sleep/wake | `high_resistance_sleeper_wakes_on_velocity`,400settle+1wake; `trace_joint_island_wake_propagation`,73steps | Require actual sleep before input. Three unit-mass cubes linked by distance joints must remain asleep for wake=false, then all wake on the first step after wake=true while the separate cube stays asleep. Axial impulse1N·s: momentum error<1e-4kg·m/s, energy≤0.5001J, spin<1e-6rad/s, length error<0.01m. Five fresh73step per-step repeats pass each path with exact raw captured state; contact-island coverage remains to assess |
 | CCD | `convex_gpu_ccd_corrects_live_steps_and_rebuilds_after_mutation`, plus existing sweep/rotating-offset/exclusion fixtures | Keep source assertions and five-step mutation repeat evidence; validate barrier coverage against explicit fast-body requirement before closing |
-| Lifecycle/events/query | Existing child/root joint-history16step, child-query8step, callback12step fixtures and generation controls | Retain reference/identity assertions and full-step five-repeat evidence; see existing manifests for exact test selectors. No new general lifecycle suite unless an uncovered requirement is identified |
+| Lifecycle/events/query | Existing child/root joint-history16step, child-query8step, callback12step fixtures and generation controls; `unread_root_handle_retires_after_mesh_scratch_reuse` | Retain reference/identity assertions and full-step five-repeat evidence; see existing manifests for exact test selectors. Mesh scratch reuse must not resurrect an unread retired handle; confirmed pre-fix failure on both paths; corrected regression passes five fresh processes per path |
 | Native replay | `trace_covers_native_full_replay_and_reentry`,48steps | Require42 actual replay hits, mutation/reentry behavior and every-frame state equality |
 | Dragging | Existing ground drag3060step fixture and its frozen manifests | Retain original physical gates and five-process state comparison; final-build applicability must be recorded |
-| Numerical/mesh regressions | `native_precision::` (28tests), existing57frozen mesh contact poses | All unchanged assertions must pass; these do not substitute for full-scene behavior |
-| Performance | Falling Ragdolls + Large Pyramid;5runs/path/order,60warmup+180timed | Use `performance-measurement-plan.json`: no tracing/health instrumentation, completed-step timing, no competing GPU work. Default-mode performance acceptance decision still needs definition before evaluating results |
+| Numerical/mesh regressions | `native_precision::` (28tests), `scripts/check-frozen-mesh-reference.py` (45grid/12torus poses) | All unchanged numerical assertions and1e-5manifold comparisons must pass. Local inputs are now tracked in `c_abi/fixtures/frozen-mesh`; historical pose bytes remain unavailable. These do not substitute for full-scene behavior |
+| Performance | Falling Ragdolls + Large Pyramid;5runs/path/order,60warmup+180timed | No tracing/health instrumentation, completed-step timing, no competing GPU work. Use the controlled-performance protocol and default decision below; measurements remain open. |
 | Delivery | Scene snapshots/CPU column, coverage and default documentation | Record after final candidate qualification; do not switch default with required gates open |
 
 The fixture selection now identifies what to run and the known acceptance gaps.
 It does not close the fixed-contract gate while Rain/restitution, island-wake,
-persistent-state coverage and performance decision criteria remain unresolved.
+persistent-state coverage remain unresolved. The performance decision is specified
+below before this machine's measurements; its evidence remains outstanding.
+
+The portable mesh runner accepts CPU and GPU executables compiled from
+`c_abi/rain_frozen_contact.cpp`, linking the same upstream Human/utility objects
+and CPU/GPU sample bridge archives as the Rain-cell fixture. It freezes the
+executables, verifies committed input hashes, preserves exact child receipts,
+and compares contact/point counts, normal vectors and separation multisets at
+the original1e-5tolerance. Every grid pose must produce contacts with upward
+normals. Use an unused output directory:
+
+```sh
+python3 scripts/check-frozen-mesh-reference.py \
+  --cpu-binary /path/to/cpu-rain-frozen-contact \
+  --gpu-binary /path/to/gpu-rain-frozen-contact \
+  --configuration ordinary --out artifacts/frozen-mesh-ordinary
+# For a separately linked native-cache executable, use --configuration native-cached.
+```
+
+The committed45grid inputs sample x/z=-1,0,1 and five yaw orientations at5mm
+speculative clearance. The12torus inputs are right-calf poses from CPU and paired
+ordinary Rain-cell frames166–171; case3 retains the exposed triangle412 contact
+from the original defect. Construction, source-pose hashes and input hashes are
+in the fixture manifest. These are explicitly a new local baseline, not claimed
+copies of missing historical inputs. Both paired paths pass (portable runner
+49135/16371 exit0): grid max component error1.0245e-8, torus1.387e-7. Detailed
+evidence/build commands are in `desktop-baseline/mesh-local-baseline/`. The
+tracked exact critical triangle inputs and covered-seam/fully-flat rejection
+controls also pass in the28numerical tests. No solver change was needed.
 
 ## Acceptance rules
+
+Desktop mass-mutation evidence is under
+`desktop-baseline/mass-mutations-nonzero-five/{ordinary,native}`. Each directory
+freezes its executable, source/runner hashes, runtime configuration and command,
+and retains five successful receipts with exactly one selected test and18frames.
+All trace bytes are identical within each path; the comparator also validates
+every frame's schema/state groups. The initial `mass-mutations-five` batch used
+zero inputs in zero-mass stages and was insufficient to detect stale inverse
+mass. It remains preserved but is superseded by the nonzero-input batch, whose
+physical outputs match. This fixture adds analytical mutation and trace coverage;
+it does not claim complete persistent-state coverage or replace the separate
+capsule, compound-inertia and geometry-replacement assertions. No production
+solver behavior or upstream sample parameters changed.
 
 Preserve upstream physical defaults and existing isolated/analytical tolerances.
 Use each existing fixture's checked-in limits as its initial acceptance contract;
@@ -952,11 +1409,37 @@ source-audit findings, not a blanket proof that every scratch region is safe.
 | Component counters and offsets | `component_reset`, count, offsets, color offsets and scatter precede component solving. `component_offsets` writes query words 256–260, including all three large-component dispatch dimensions; the host/native builder copies words 257–259 immediately before indirect dispatch. |
 | Component collection order | Small-component contacts sort by color and graph-local rank before solving. Large components use independent color waves and the established graph list for serial overflow. Body collection order only selects independent per-body integration work. Correct coloring remains a separate invariant. |
 | Joint component lists | `prepare_joint_components` runs heads reset before compaction for nonserial joint worlds. Heads/count/list-valid are reset, then bounded component lists are rebuilt. |
-| Graph construction metadata | Both ordinary and cached graph builders run color reset and per-body metadata clear before classification on the non-rebuild path. Persistent memo state is separately captured; other graph branches still require their own contracts. |
+| Graph construction metadata | For selected configurations with `DIAG_REBUILD_GRAPH` unset, both ordinary and cached builders reset all24color counts, per-body masks/degrees and fused flags/slots before classification. Paired histogram/bases/scatter overwrite current prefixes and bounded lists, including zero counts. Static degree finalization writes sort bounds/dispatches; degree-one and sorted higher-degree paths populate current color lists. Dynamic greedy/shared/batched paths consume those initialized masks and bounded lists, then overwrite final counts/dispatch arguments. Persistent memo inputs remain captured under their separate validity contract. Source hashes/dataflow: `desktop-baseline/graph-workspace-state-audit.json`. This does not classify diagnostic rebuild/proof modes or unrelated scratch regions. |
+| Pair candidate/radix/allocation workspace | Ordinary and selected native=2/contact-cache=1 builders order reset/collection, candidate append, digit histogram/bases/prefix/scatter, unique compaction, existing-slot lookup, missing list and free-slot scan before consumers. Producers write current prefixes and consumers use clamped live counts; empty-input radix emits one zero histogram group and unique compaction scans zero groups. Missing-pair scatter completes before free scan reuses bases. Persistent contacts/hash/generations/occupied/event/fat-bound inputs remain separately captured. Source contracts and hashes: `desktop-baseline/pair-workspace-state-audit.json`. Full-width pair radix and poisoned-workspace compaction checks pass on both backend builds; these direct-dispatch checks do not by themselves validate native recorded sequence execution. The existing80step matrix/grid mutation check also passes on both paths: exact pairs/schedules and finite body p/q/v/w within1e-5 through filtering, replacement and capacity growth. The discovered static-list overflow omission is now reproduced/fixed and boundary-tested below. |
 | Pair-matrix scratch | The matrix path (at most 704 shapes, no mesh triangles) writes every live matrix word, merges valid previous pairs, writes every row count and prefix, then scatters bounded pairs. Ordinary and cached command sequences preserve this order; bases overwrite collision/prepare/radix indirect counts. Matrix scratch is not carried as physical history; the previous-contact inputs are captured separately. |
 | Shared graph memo | `graph_assign_dynamic_memo` checks layout tag, body/edge counts, initial body masks and color counts, then ordered slot/endpoints/pair identities before reusing output. Rebuild restores initial inputs before the greedy walk; partial reuse reconstructs mask union and count maxima. Captured memo records retain all these inputs/outputs and stale entries; the omitted hit counter is not a solver input. |
 | Batched graph memo | `graph_assign_dynamic_batched` clears every cached batch count on layout change, resets per-batch keys/counts, validates count/endpoints/initial masks, and reapplies relative local indices to current color starts. Capture includes each batch count and all six record words. Hit/miss counters are diagnostic only. |
 | Active-body count | Query word 72 is explicitly cleared before counting on eligible steps; `idle_count_valid_step` is invalidated at step entry and set only for a produced count. Persistent idle proof metadata is captured. |
+| Pass uniform lookup | `upload_pass_lut` writes every bias/color row from captured `SimParams`, replacing `color_select` and `use_bias` with the row coordinates. Both normal stepping and a native full-replay hit upload it before execution. Prior lookup bytes are not a future-step input. |
+| Indirect argument staging | `indirect` is a copy destination, not a shader-persistent store. Broadphase writes insertion/occupied counts before copying scratch words8–15; radix and allocation stages write their counts before copying words40–43 and48–51. Pair-matrix bases provide the corresponding initial collision/prepare/radix arguments. Graph finalization writes solve/prepare/island arguments before copying words8–11,40–47 and all color records from64 onward; static-degree finalization writes words59–62 before static sorting. The large-component path copies query257–259 immediately after component offsets. `write_group_indirect` writes all three dimensions plus padding, including zero-work branches. Jacobi does not consume the unproduced per-color arguments. |
+| Native indirect copies | Cached broadphase/contact/graph command lists retain the same producer → `CopyArgs` → indirect consumer sequence. `RadixCache::record` barriers cover shader writes → transfer reads and transfer writes → indirect reads, and retain referenced buffers. Full-step replay re-executes the recorded producers/copies; it does not freeze old argument values. This classifies the indirect destination bytes, not every scratch producer's input. |
+| Jacobi velocity accumulation | Each `dispatch_wave` in solver mode1 dispatches `jacobi_clear` for every current body and all six integer velocity/angular-velocity lanes, then `solve_jacobi`, then `apply_jacobi`. No accumulated lane from the previous wave is consumed. This region aliases graph workspace, whose separate initialization contract still applies before graph consumers. The source contract applies to this alternate solver path; it does not qualify its numerical behavior. |
+| Per-step body deltas | `reset_deltas` writes zero translation and identity rotation for every current body before broadphase/preparation/substeps. Native reset commands contain the same dispatch; a full replay records and executes it. Idle steps omit physics under the separately captured idle proof. Deltas are also captured in body state; this overwrite does not justify omitting other body fields. |
+| Query request/result workspace | Each ray request overwrites all32words (inputs, sentinels and zero result/overflow lanes), executes ordered reduce/pick/commit passes, then waits/maps its result. Contact retirement now overwrites separate command words32–34 before dispatch; completed-state capture waits for submission and rejects undrained status. These request/result bytes do not persist as future-step inputs. Sticky reason word66 is separate; host status masks are captured after explicit refresh. Retirement, shape remapping and hash republication mark status dirty; a fresh copy/map clears it, while an older pending harvest does not. Explicit finish refreshes dirty status even at an already-seen physics step; capture rejects pending or dirty status. The actual same-step retirement regression passes with empty and older pending slots on both paths. Metrics67onward, high-water and graph/component regions have their own contracts. Source hashes: `desktop-baseline/query-workspace-state-audit.json`. |
+| Atomic header and spatial-hash workspace | `clear_broadphase` resets header words0–5/7 before all candidate paths, including matrix replay; occupied collection resets6 and allocation preparation resets15 before its free-list ticket consumer. Sticky words8–13 are copied/drained into captured failure causes/first-step/invalid state. Word14 has no reader/writer beyond declaration. Spatial hash buckets are cleared across max(HASH_BUCKETS,pair_capacity/4); the max(contact,hash,pair) dispatch covers that span. This is separate from the persistent contact-key hash, which remains captured. Source hashes/contracts: `desktop-baseline/atomic-header-state-audit.json`. |
+| Joint device records | All43JointGpu fields are mapped:36direct exact fields,2body identity references, motor-only _pad2 lanes captured through motor_spring_angular_impulse, and4padding fields without consumers. read_joints copies the actual joint_count prefix. Constructors append initialized records; destruction replaces records with JOINT_NONE and marks scene dirty. Solver/filter/graph consumers skip none records; captured count and live slot identities retain holes. Active motor-state and legacy-lane checks pass both paths on current frozen v20 tests. Evidence: desktop-baseline/joint-record-state-audit.json. Host metadata/graph contracts remain separate. |
+| Separate convex CCD buffers | Actual five device input buffers and start states are read. Config counts, all meaningful point/body/shape fields, indices and start pos/rot/origin/valid are captured; shader consumers use no omitted vector/padding/start-body lanes. Normal stepping captures the start prefix before reset/integration and corrects after integration; full replay records the same copy and dispatch. Replacing CCD buffers invalidates native replay. Device-only geometry and bad-reference controls pass both paths. Evidence: desktop-baseline/convex-ccd-state-audit.json. This is data coverage, not physical CCD qualification. |
+| Retired contacts and chain allocation | Retirement resets hot/prepared/persistent records while preserving each physical generation; mesh scratch follows the same rule. This reset also matters because root publication reads previous.color. Capture retains holes/counters, topology through semantic ordinals and chain lengths, root ownership, hash/history and schedules. High-water/free-prefix and valid/malformed retirement/solver-chain checks pass four tests per backend on frozen v20 binaries. Evidence: desktop-baseline/contact-storage-state-audit.json and contact-storage-audit/. Initial zero-test selection was rejected and preserved separately. These direct-dispatch checks do not prove native recorded execution or complete child-slot permutation equivalence. |
+| Live contact fields | All47assembled Contact fields mapped to exact capture or explicit count/reset contracts in desktop-baseline/live-contact-record-state-audit.json. Matching/recycling/solver accesses to old anchors and impulses are count-bounded; all-lane feature/triangle mode inputs are captured in v20. Temporary mesh pair.zw links are cleared before publication. This field mapping does not justify child placement normalization. |
+| General readback and output transport | General staging is MAP_READ/COPY_DST only; each readback copies every decoded prefix/packed region and waits/maps/unmaps before return. Stale capacity tails are not decoded. At accepted completed-world capture, the retained submission index selects only an already-completed wait; logical completion state remains captured. Separate pose-export and private render-copy destinations receive body/cold copies and never feed the solver; their handles/semaphores govern output transport/timing. Source contracts: `desktop-baseline/readback-output-state-audit.json`. This does not prove renderer correctness or arbitrary standalone/mid-flight APIs. |
+| Pose readback staging | Completed world capture first refreshes/supersedes staged poses and rejects pending != consumed. lock_pose_snapshot cannot read old staging or slot metadata afterward; the next kick overwrites the full required body prefix, current step and logical epoch before making a slot readable. Slot parity only selects a buffer; policy switches discard pending copies. Simulator pose_epoch/pose_step, world automatic policy and per-body host edit epochs remain captured. Maps/kicks are readback diagnostics with no physics consumer; capacity only controls allocation/wait. Boundary rejection and policy-switch regressions pass on both paths. Source hashes/contracts: `desktop-baseline/pose-readback-state-audit.json`. This excludes staging only at this boundary, not arbitrary mid-flight snapshots or other render state. |
+| GPU timing ring and measured durations | Step timestamps add query writes/resolves and staging copies; readiness chooses a timing staging slot and the latest profiling result only. No physics dispatch policy consumes measured values or ring readiness. Harvesting invokes sticky-status harvesting unconditionally before its timing branch; completed-state capture separately drains that status. Exclude timing payloads, associated measurement-step metadata and mirror timings under the explicit timestamp exclusion. Active timing-window counters remain captured because they suppress full replay. Desktop source hashes/consumer summary: `timestamp-state-audit.json`. |
+| Terminal simulator failure | For world-boundary captures, every simulator invalidation propagates to captured `host_state.physics_invalid` under the world lock before return. Callback-disable and fat-transform errors mark/propagate both states; material-mix failure marks both; simulation recreation inherits world failure. The world flag is absorbing and blocks further physics submission. Thus the simulator's duplicate invalid flag is not independent future state for this capture API. This argument does not cover standalone `GpuSim` snapshots. Source hashes/call sites: `desktop-baseline/terminal-failure-state-audit.json`. |
+
+The pass/indirect, delta, timing and terminal-failure rows were re-audited on the desktop continuation at `2f96608`.
+The existing `tiled_dispatch_direct_indirect_and_cached_cover_each_element_once`
+test passes independently on both paths at0,1,65,535,65,536 and65,537workgroups,
+with exact once-only writes and untouched padding; native also exercises the
+cached direct/indirect command implementation. Logs are in
+`desktop-baseline/indirect-dispatch-{ordinary,native}.log`. This validates grid
+mapping and copy/barrier execution, not the whole physics reset audit. The
+source argument above covers destination overwrite; remaining scratch/atomic
+regions, semantic slot equivalence and complete-state qualification stay open.
 
 The graph-memo source audit and source hashes are recorded in
 `graph-memo-state-audit.json`. The existing batched-cache input-change and
@@ -1977,6 +2460,50 @@ failures invalidate a measurement. Run only after competing GPU qualification
 jobs drain; these are planned measurements, not performance evidence
 (`performance-measurement-plan.json`).
 
+The source-machine plan file is unavailable on this desktop. The following
+protocol is the recoverable measurement contract, fixed before measurements:
+use five paired fresh-process runs of each ordering for each named scene and
+each compiled path. Alternate which ordering runs first in each pair. Freeze
+binary hashes, native runtime settings, adapter/driver/backend, upstream scene
+defaults, timestep/substeps and rendering settings. Use60warmup and180timed
+completed steps, and retain every timing row, exit status and configuration.
+Run no competing GPU job. Prewarm pipeline compilation identically outside the
+measured runs; record that procedure and cache identity. State, lifetime, health,
+phase capture and optional profiling windows must be disabled. A measurement
+with incorrect completed-step sequencing, capacity loss, fallback ordering,
+process failure or environmental interference is invalid, retained with its
+reason, and replaced as a whole paired block. Slowness alone is not a reason
+to discard a run. Verify the harness's completed-step timing boundary before
+using its timing field; host enqueue time is insufficient.
+
+Source inspection establishes the current harness boundary:
+`scripts/inject-sokol-bench.py` marks `physics` immediately before
+`b3World_Step`, invokes `b3World_Wait` when `--completed-step` is set, then
+records world counters before the `profile` mark ends that interval.
+`src/c_abi.rs::gpu_b3_world_wait` waits and synchronizes completed poses into
+host getters; `GpuSim::wait_completion` waits on the submitted queue index.
+Thus `physics_ms` in this mode measures completed application physics latency,
+including pose synchronization and bounded counter collection, not pure shader
+time. Health/body/joint traversal is skipped without `--health-scan`.
+Require `--completed-step --unpaced`, record this cost boundary, and keep it
+identical for both orderings. The report's completed-step labels alone are not
+proof of completion: the actual wait call is the source evidence.
+
+The default decision requires correctness and repeatability gates first.
+For performance, calculate the arithmetic mean completed-step latency within
+each run, then each paired log ratio `log(GPU-order / CPU-compatible-order)`.
+Report all five ratios, their mean, sample standard deviation and the one-sided
+95% Student-t upper confidence bound (`mean + 2.131847 * sd / sqrt(5)`, df4).
+Require this upper bound below zero independently in all four scene/path cells
+before claiming a demonstrated performance reason to switch the default.
+This is a per-cell small-sample screen, not a simultaneous confidence guarantee
+or a promised speedup. Also report every run's p95 and maximum latency; a
+regressing tail requires investigation before a switch, even if means pass.
+An inconclusive or failing screen leaves GPU ordering opt-in and must appear
+explicitly in the default decision. Do not pool paths/scenes or add repeats
+selectively until a significance threshold passes. Measurement evidence and
+the decision are still open.
+
 An analytical sliding-friction fixture is specified before execution: two
 unit cubes on a level floor, both launched at2m/s with zero restitution and
 damping. Floor friction0.5 combines with cube friction0.5 or0 to give effective
@@ -2096,6 +2623,47 @@ failed-step height within1.73e-8m. The restitution1 sphere exceeds30mm only at
 steps115 and192, each for one step (`restitution-reference/contact-cadence-analysis.json`).
 This explains a shared discrete-contact limitation; it does not pass or relax
 the original screen.
+
+The desktop CCD-coverage candidate closes that gap without changing the scene,
+material coefficients, timestep, speculative distance or physical assertions.
+It caps the former half-minimum-extent activation threshold at the existing
+20mm speculative range. Smaller bodies retain their smaller cutoff. Host CCD,
+the GPU motion classifier, convex device CCD and fast/proxy flags use the same
+bound. This changes when the solver performs continuous collision work; it
+does not change geometry or increase the allowed penetration. Static, sleeping,
+disabled, kinematic and bullet routing/exclusion rules remain in place.
+
+Five fresh240step runs independently pass on ordinary and native cached paths,
+with byte-identical captured state within each path. All ten runs report
+peak penetration0.004999995m, rebound apices0.99096805m/2.488538m and peak
+energy25.017302J/kg; every original settling/finite/lateral assertion passes.
+Evidence: `desktop-baseline/restitution-ccd-five/{ordinary,native}` and
+`summary.json`, with frozen binaries, exact commands/configuration, source diff,
+hashes, receipts and complete traces. Original failed baseline traces remain
+under `desktop-baseline/{ordinary,native}`. Neither CPU reproduction nor a
+relaxed tolerance was used to pass this screen.
+
+The classifier regression retains endpoint ordering, rotation, flags and the
+65-body workgroup boundary, and now tests the20mm cutoff, just beyond it, the
+former extent-only gap and the smaller-body threshold. Both paths independently
+pass27CCD tests,28numerical tests,600step support/energy,240step friction and
+18step mass mutation (58checks each). Logs and receipts are in
+`desktop-baseline/restitution-ccd-coverage/{ordinary,native}-regressions`.
+This is a
+provisional production correction: full Rain/ragdoll behavior, remaining
+persistent-state qualification and controlled performance must still be checked.
+The ongoing frozen Rain baselines predate this candidate and are diagnostic
+history for the prior behavior, not final-candidate qualification.
+
+The candidate also completes the full upstream600step Falling Ragdolls case
+once on each path and passes `check-ragdoll-health.py` unchanged against a fresh
+independent CPU fixture. Both paths report peak separation0.213310137m,
+final-window separation0.00138041785m, zero final-window linear/angular speeds
+and peak angular speed103.3440986rad/s within the1.2×CPU screen. Build inputs,
+library/source hashes, CPU/GPU pose files, complete state, receipts and physical
+reports are in `desktop-baseline/ragdoll-ccd-candidate/`. Fresh five-process
+batches are running in `desktop-baseline/ragdoll-ccd-five/`; these single-run
+results do not close repeatability or the persistent-state audit.
 
 The first spherical warm-start source audit finds matching cache signs, base-axis
 preparation and per-substep application. GPU retains base body rotations until
@@ -2535,6 +3103,18 @@ reflection-equivalent numerical trajectory rather than a GPU-only wake failure;
 it does not erase those failed screens or silently substitute a new acceptance
 gate. Evidence: `contact-island-full-v2-five/{analysis.json,ordinary/result.json,native/result.json}`.
 
+A bounded desktop ordering experiment reversed contact-point traversal during
+the relaxation pass only in GPU-native ordering, retaining the forward biased
+pass and the same iteration count. Both paths completed73frames and failed the
+unchanged symmetry screens more severely: peak spin0.028980222rad/s and
+transverse drift0.0015639528m, versus baseline0.019269153/0.001521538.
+Wake, isolation, momentum, energy and penetration assertions still passed.
+The candidate was rejected and the original shader restored byte-for-byte;
+both test builds were rebuilt after restoration. Artifacts, frozen binaries,
+full traces, failed receipts, candidate patch and rejection decision remain in
+`desktop-baseline/contact-symmetric-sweep/`. This rules out this simple sweep
+change as the fix; it does not relax the original screens or qualify the case.
+
 
 Persistent-state audit correction: timing windows affect native replay eligibility
 through MetricsRes.steps/submitted. These counters are now captured as optional
@@ -2581,6 +3161,55 @@ pass. Cone still peaks1.26105142rad and anchorerror0.0698773041m, recovering to
 
 ## 2026-09-28 portable checkpoint
 
+Desktop continuation at checkpoint `2f96608`: the sample repeat runner now
+records the sample's exact subprocess status inside the Xvfb session before
+launcher cleanup. The launcher status remains separately recorded. Both must
+be zero, and the child receipt must exist, before finalization; a cleanup failure
+with successful sample completion remains a failed attempt with explicit cause.
+No historical failed receipt is changed. Completion manifests include the child
+receipt hash. `python3 scripts/test-sample-state-repeats.py` passes nine tests,
+including bounded real subprocess cases for cleanup failure, sample failure,
+missing child execution with zero/nonzero launcher exits, failed-attempt resume
+preservation, and child-receipt integrity. These tests require no GPU/display and
+do not count as solver qualification. Historical raw artifacts are unavailable
+on the new desktop; new hardware evidence must be generated independently.
+
+Local baseline is now recorded under `desktop-baseline/`: both diagnostic
+builds succeed, with28/28 numerical precision tests and the body-growth filter
+regression passing independently. Selected adapter evidence confirms RTX4070
+SUPER/Vulkan/NVIDIA610.57.04. One complete contact-island and restitution run
+per path reproduce the unchanged failed screens, with exit101 preserved.
+Spin/transverse drift are0.019269153rad/s and0.001521538m; restitution penetration
+is0.049310952m. All73 contact-island frames are retained; measured momentum error
+is5.971459e-8kg·m/s, total angular momentum1.364062e-6kg·m²/s and peak energy
+0.167829651J. New independent CPU runs reproduce all292 contact-island body rows
+exactly after Y reflection; the720 restitution rows differ by at most9.536743e-7.
+`baseline-summary.json`, `cpu-comparison.json`, per-process receipts and frozen
+binary manifests retain the evidence. These are single-run baseline diagnostics,
+not accepted failed screens or five-repeat/full-state qualification. The CPU
+fixtures use the complete original CPU library, not the portable GPU fallback
+archive (an initial link against that incomplete archive failed before running).
+
+The next consumer audit closes one additional capture omission: `contact_metrics`
+was absent even though its step controls `finish_contact_status` refresh and its
+counts/revisions are public API output. `gpu_policy.contact_metrics` now retains
+all nine fields (or null before a snapshot exists). Both paths pass a focused
+test that compares the export with the public snapshot, mutates only a cached
+candidate count, observes the public change, and requires the capture to retain
+exactly that change. Initial native current=1 expectation was removed because
+the API explicitly permits stale revisions; the test retains the actual
+revision and freshness inputs rather than asserting a scheduling assumption.
+This is diagnostic-only code. Earlier captures lack this state and cannot close
+its coverage gate; fresh candidates must include it. Full persistence/reset and
+semantic-storage audits remain open. Evidence: `desktop-baseline/contact-metrics-
+{ordinary,native}-final.log`; initial compile/test failure logs are preserved.
+Both broader `trace_captures_` selections also pass5tests each. All32Python
+helper tests pass (9runner,15identity,3storage,5spherical health). A local,
+signature-verified Xvfb package runs without sudo; the actual launcher completes
+five synthetic fixed-frame processes with zero child and launcher statuses and
+matching full traces (`desktop-baseline/runner-xvfb-control`). This qualifies
+the bounded runner integration, not five fresh physics runs.
+
 User requested commit/push and a new-machine handoff. The active goal remains
 incomplete. Process inspection found no surviving qualification jobs. Ordinary
 Rain run1 has a completion receipt; run2 is partial. Native run1 retains the
@@ -2608,3 +3237,996 @@ paired clips while Vulkan ran GPU physics. These are bounded visual evidence,
 not controlled solver performance or final physical/repeatability passes.
 Clip hashes, exact binary identities, reports and metrics are preserved in
 the tracked checkpoint JSON; videos themselves remain ignored/local.
+
+
+### Desktop CCD candidate: ragdoll repeats and lifetime checks
+
+`desktop-baseline/ragdoll-ccd-five/physical-summary.json` records all ten
+600step physical passes (five fresh processes per path) with the unchanged
+CPU-relative limits. All children exit0; the aggregate runners exit1 because
+raw state comparisons fail. The standalone slot-record permutation audits
+also fail at frame139: ordinary runs2/4 and native run5 assign generations6/1
+to roots [[48,62],0]/[[50,55],0] oppositely from their respective run1. Free
+generation histograms match at that frame. No comparator was relaxed.
+
+`compare_groups.py` compares each top-level group exactly through every600frame
+trace, requiring sequential frame indices and no trailing content. The prior
+slot audits validate every original trace with the existing schema checker.
+Per-path `group-differences.json` shows differences only in contact_allocation
+and event_history; all other captured groups match across five processes.
+Allocation differs in520–542ordinary and537–575native frames per comparison;
+event history differs in2–5frames. This localizes the mismatch; it does not
+close complete semantic-state repeatability or establish future equivalence.
+
+On the current candidate, all six contact_api::determinism_tests pass on each
+path, including unread root reuse, retired-generation perturbation and event
+ordering. Logs `contact-lifetime-{ordinary,native}-selected.log` retain the
+actual six-test counts and process exits0. The earlier wrong-selector logs
+ran zero tests and are excluded. Source consumers compare root slot/generation
+identity in public registry continuity and solver history validity; mere numeric
+renaming needs those relationships preserved. Next audit must address these
+root lifetime relationships, not simply sort slot records or discard generations.
+
+
+### Confirmed mesh scratch contact lifetime defect
+
+The desktop lifetime audit finds six reused same-pair/slot/generation tokens
+after retirement in every600step ragdoll run, despite matching lifetime episode
+patterns. `ragdoll-ccd-five/{ordinary,native}/lifetime-relations.json` retains
+all1544episodes/136334root observations per run; first-reused-owner-window.json
+shows the earliest token returning at166 after its slot counter was cleared.
+
+A new `unread_root_handle_retires_after_mesh_scratch_reuse` regression reproduces
+public-handle aliasing on both paths without counter injection: create/read a
+box contact, move it away without harvesting contacts, stage a separate three-plane
+mesh collision through the freed slot, then reunite the original pair. The slot's
+generation changes from1 to0 during scratch use; re-entry produces1 and the old
+ContactId incorrectly survives. Both pre-fix tests exit101 on the stale-handle
+assertion. An initial child-storage assumption failed earlier and is preserved
+as a fixture-development failure, not substituted for the actual reproduction.
+
+The candidate fix adds a mesh-only store helper preserving the physical slot's
+root generation through temporary writes and discards. Published children also
+retain that slot counter instead of copying the parent's. Existing root birth
+increment and lifetime consumers remain unchanged. Every shader generation
+consumer uses roots; child slots must preserve their prior root history for
+future reuse. The diagnostic permutation validator correspondingly removes its
+obsolete child-counter-equals-parent assumption, while retaining counters exactly.
+Controls verify counter mutations still compare unequal and negative counters
+reject (`mesh-generation-fix/slot-counter-controls.json`). This is a production
+lifetime fix under verification, not permission to omit allocation state.
+
+The candidate passes all seven contact regressions on both paths, including
+the formerly failing public-handle test. Actual scratch readback preserves
+generation1, then the replacement contact gets a distinct handle and the old
+handle remains invalid. Both suites exit0; `mesh-generation-fix/manifest.json`
+records before/after binary and shader hashes, test count and exits. Five-process
+contact/joint-history checks remain running. Two repeat processes were briefly
+suspended during memory-intensive shader compilation and resumed unchanged
+after the contact suites finished; no attempt was replaced or counted complete.
+
+Both follow-ups now pass: five fresh unread scratch-reuse tests per path
+(`mesh-generation-fix/lifetime-five-{ordinary,native}`) and five fresh16step
+child/joint-history traces per path (`mesh-generation-history-five`). All five
+raw trace hashes match within each path. The unread tests deliberately avoid
+intermediate contact harvesting, so they establish public lifetime behavior,
+not per-step full-state equality. The16step fixture supplies the separate
+contact/motor-history capture comparison. Full-scene applicability, the complete
+persistence audit and remaining physical gates are still open. All these test
+processes are terminal with successful receipts; no suspended child remains.
+
+
+The rebuilt independent Falling Ragdolls fixtures complete600steps on each path
+after the generation fix. Both unchanged physical checkers pass; poses, velocities
+and joint separation outputs are byte-identical to their CCD-only predecessors.
+The same full-trace lifetime checker rejects the pre-fix controls with six reused
+root tokens and377slot counter decreases on each path, then passes the post-fix
+captures with zero of either. Every frame also passes captured-status checks.
+Evidence: `desktop-baseline/mesh-generation-fix/{before,after}-scene-lifetimes-
+{ordinary,native}.json`, `full-scene-physical.json`; source/binary/library hashes
+are in `ragdoll-generation-candidate`. These are one fresh full-scene run per
+path, not five-run qualification. Five-run batches are now in progress under
+`ragdoll-generation-five`, using these exact frozen executables.
+
+All five post-generation-fix600step ragdoll processes now finish successfully
+on each path, and every physical screen passes (`ragdoll-generation-five/
+physical-summary.json`). Aggregate runners retain exit1 for raw frame1
+occupied_order differences; no raw-repeatability pass is claimed. The existing
+slot-permutation diagnostic is evaluating all five traces per path and keeps
+every generation counter, physical group and public-state field. Its outcome
+remains separate from complete-state coverage and semantic qualification.
+
+
+The post-fix native slot-record permutation diagnostic passes all five600step
+traces. Ordinary fails at141 on child [[32,89],1], which occupies slot158 with
+counter1 versus156 with counter2. At that frame the entire physical-slot counter
+vector and all root owners match, as do every other audited group. A child no
+longer owns or inherits that counter after the lifetime correction, so sorting
+combined child/counter records is not the right equivalence for this case.
+
+The separate fixed-counter diagnostic retains all physical counters in their
+original index order and every root slot exactly, and compares child placement
+as membership. It changes no qualification comparator. On real frame141 data,
+controls permit a child move between unequal-counter slots while rejecting any
+counter change, root move, public-state change or missing child. Source and
+controls are under ragdoll-generation-five; five-run/full600step checks are running.
+
+The test-only relocation helper was aligned with production counter preservation.
+Actual16step relocation probes pass on both paths and compare with frozen
+unperturbed controls: only child positions at2–3 and previous-touching storage
+at4 differ. All counters, root owners, physical/public state and motor/contact
+history remain equal (`mesh-generation-fix/relocation-counter-comparison.json`).
+This is bounded causal evidence for child placement, not complete allocator or
+persistence qualification. Both probes/builds are terminal successful.
+
+The fixed-counter diagnostic completes all600steps across all five runs on each
+path with equivalent=true. Entire per-physical-slot counter vectors and root
+owner positions remain exact, with only child placement and the previously
+audited membership arrays normalized. Results: ragdoll-generation-five/
+{ordinary,native}/fixed-counter-audit.json. This resolves the observed post-fix
+storage discrepancy under that bounded view; complete persistent-state coverage
+and the final semantic comparison gate remain open. No raw failure is erased.
+
+A CPU-only native sample build is being established on the desktop because the
+local reference inventory contained ragdoll CPU poses but no full CPU Rain health.
+CMake uses GPU_SAMPLES=OFF/BOTH_SAMPLES=OFF and the existing disconnected dependency
+cache. The planned capture uses the same original Benchmark/Rain scene,0warmup,
+600timed steps and spherical health instrumentation, with separate child/launcher
+receipts and source/binary provenance. It is a physical reference, not a GPU
+repeatability run. Configure/build logs: desktop-baseline/rain-cpu-*.log.
+
+
+### Desktop Rain baseline completion and current-candidate check
+
+The independent original CPU600step Rain run now completes with child/launcher0,
+all600sequential health frames and spherical measurements validated. The frozen
+pre-CCD/pre-generation GPU baselines also complete all600steps with exact child
+and launcher0; trace finalization/compression remains in progress. Health scans
+confirm8400body creations and1948800joint observations per report, with no NaN,
+exploded or capacity-loss frames in the CPU/ordinary reports. These are diagnostic
+baselines and the CPU physical reference, not final-candidate repeat qualification.
+
+Ordinary creation-matched comparison validates4200reused slots and all joint
+identities, but the original +.05m/+.05rad screens fail:557anchor,3004angular,
+5150cone,1086lower-twist and371upper-twist observations. Peak cone is1.26105142rad
+at health516 for endpoint5004. The longest absolute >.05rad twist episode spans
+369–463 (95frames), endpoint2379: peak.104365408rad, last.0544822812rad,
+38frames with both endpoints asleep, last awake425. Source hashes and episode
+records are under desktop-baseline/rain-full; neither CPU agreement nor successful
+run completion clears these physical failures.
+
+The existing Rain health selector accepts explicit source/output/window arguments;
+new sources require explicit windows to prevent accidental reuse of historical
+identities. It validates the full source before publishing excerpts. The actual
+ordinary report selects twist368–463/base2353/target2379 and cone514–530/base4999/
+target5004. State extraction uses the existing public-slot/generation and float32
+physical correspondence checks. Two single current-candidate health-only runs
+are also underway under rain-candidate-health to determine whether the CCD and
+mesh-lifetime corrections change these residuals before analyzing older load
+histories further. No new full-state qualification batch or performance claim.
+
+
+Native baseline comparison now also finishes with the exact same identity/screen
+report, peaks and absolute episodes as ordinary. All600steps map correctly; the
+residual screen remains failed on both paths. Both ordinary state extractions
+complete with verified health/core correspondence. Selector controls accept a
+complete synthetic report and reject a missing cell body, truncation, missing
+explicit windows and a broken frame sequence (rain-episodes/selector-controls.json).
+
+Local twist reconstruction reproduces the earlier correlation: core426's measured
+lower-limit violation.0544815634rad versus.0544807131rad from cached impulse and
+soft stiffness. Both endpoints sleep at427. This is still a cached-final-impulse
+estimate, not independent full-substep torque balance or physical acceptance.
+Extending the selected severe-cone health window to599 finds recurrence after
+initial recovery: .005660rad at525 rises to.159410rad at531, before reaching
+.003718rad at599. Thus the early recovery must not be described as sustained.
+Detailed rows: rain-episodes/ordinary-cone-followthrough.json; excerpt and source
+hashes, lifetime mappings and compliance rows remain alongside it. Candidate
+health checks continue with confirmed live processes; no new acceptance is claimed.
+
+
+### Desktop loaded-twist independent static balance
+
+The selected last-awake twist episode now has a second reconstruction using all
+incident contact and joint cached impulses on both endpoints, excluding the
+target twist-limit cache from the inferred load. It includes normal/friction,
+rolling/twist contact terms, point-joint lever torques, other spherical/revolute
+constraints, springs/motors and gravity. Projection through the prepared endpoint
+inverse inertias and twist Jacobian gives the balancing target impulse.
+
+At core426 it predicts0.4860739147N·m·s versus cached0.4860729575N·m·s,
+relative difference1.97e-6. Its corresponding static soft-limit error is
+.0544808204rad versus measured.0544815634rad. Across awake410–426, maximum
+relative inferred/cache impulse difference is7.36e-5. This supports the loaded
+soft-equilibrium explanation independently of substituting the target's own
+cache into its softness equation. It uses final cached substep impulses and
+end-rotation lever approximations; it is not a full dynamic substep ledger or
+blanket Rain acceptance. Original screens remain failed.
+
+Controls zero the target twist cache without changing the inferred load, and
+remove self-contact[[2569,2579],0], changing the required impulse to.4165008126.
+The reconstruction follows solve.wgsl's actual prepared twist Jacobian rather
+than the public reaction-torque getter's different axis. Source, per-load vectors,
+residual body impulses and controls are in desktop-baseline/rain-episodes/
+{reconstruct_load.py,ordinary-twist-load-balance.json,load-balance-controls.json}.
+
+The graph workspace source audit also now covers static compaction/sorting and
+canonical dynamic graph construction for the selected no-rebuild configurations.
+All relevant counts, masks, degree metadata, prefixes and bounded list outputs
+are produced before consumption, with ordinary/native command order checked.
+Memo persistent records remain captured; unrelated scratch and child-storage
+semantics stay open. This changes no solver code or comparison acceptance.
+
+
+### Contact-retirement command/status alias
+
+The query-workspace audit found an actual state corruption: retire_contacts wrote
+[a,b,mode] at query64–66, while query66 also held sticky contact-drop reasons.
+Normal shape retirement replaced clean status with reason bit0; both shape and
+body-pair retirement overwrote existing reason bits before they were harvested.
+The ordinary before-fix regression reproduces exactly[(shape,0,1),(pair,0,0),
+(shape,512,1),(pair,512,0)], exit101. It separately verifies that shape retirement
+removes only the selected root and body-pair retirement then removes the other.
+Thus this failure is status corruption, not a failure of its fixture selection.
+
+The candidate moves the three command words to32–34, outside ray state0–31,
+sticky status66 and counters67onward. Both host and shader use named matching
+constants; word66 remains exclusively the contact-failure reason accumulator.
+Before native and after-fix verification are in progress. Frozen before binaries,
+source hashes and logs are in desktop-baseline/retirement-status-fix. Current
+Rain health captures predate this correction and remain diagnostic baselines;
+no ongoing process or receipt was replaced.
+
+
+Native before-fix regression also finishes101 with the same four corruptions.
+Both corrected binaries build successfully; the five retirement-related checks
+are running per path. These include state capture through slot reuse, sticky
+reason preservation, full-width hash retirement/reuse, child ownership and
+occupied-list publication. Baseline Rain finalizers now also finish0: both
+complete.json receipts verify all600frames, original/compressed trace hashes,
+health and child/launcher receipts. Raw traces were replaced by verified gzip.
+These baseline binaries predate the current retirement/status correction.
+
+
+The correction now passes all five related retirement tests on both paths,
+ordinary104.64s/native101.31s. The before-fix failures and binary/source hashes
+remain preserved; manifest.json records exact exits and corrected binary hashes.
+This is focused regression validation, not five fresh full-state qualification.
+Production sample/library builds still predate this correction.
+
+The same-step status follow-up reproduced another actual failure on both paths.
+The regression seeds a broken contact chain, submits real body-pair retirement
+and first verifies failure directly on the GPU. Completed wait incorrectly reused
+clean metrics from the same physics step. Both frozen before executables exit101.
+
+The correction marks status dirty on retirement, shape remapping and contact-hash
+republication. A fresh status copy/map clears the flag; draining an older pending
+slot does not. Explicit completion refreshes dirty status regardless of cached
+metrics step. Diagnostic capture rejects pending or dirty status, and GPU policy
+includes the flag. Both after builds finish0; six retirement tests plus the
+undrained capture and metrics identity checks pass on each path. The new regression
+covers both an empty status slot and an older pending clean copy. Evidence, source
+and binary hashes, and exact exits are in desktop-baseline/same-step-status-fix.
+These eight focused checks per path are not five-process qualification. Production
+libraries/sample executables and running Rain fixtures predate both status fixes.
+The query audit records this contract; explicit clear/reset is covered by the follow-up below, while simulator recreation
+transitions still require review before whole-state coverage is claimed.
+
+
+### Clearing unread contact failure (desktop continuation, 2026-09-29)
+
+The status-transition audit found that clearing counters could hide a failure
+before its first host harvest. The new regression submits real broken-chain
+retirement, calls clear with no intervening status readback, then requires
+terminal invalidity while sticky diagnostics stay cleared. Both frozen before
+executables fail with physics incorrectly valid (exit101). It tests both an
+empty status slot and an older pending clean copy.
+
+The candidate drains completed status before clearing host/device sticky fields,
+marks the clear dirty for a subsequent status refresh, and immediately propagates
+simulator invalidity to the world. Existing capacity-loss retention and stopped-
+submission tests pass on both paths (two tests each). First after suites reached
+the terminal-invalid and cleared-host assertions, then failed an overbroad test
+assertion requiring last-step counters to clear too. The API only clears sticky
+counters; the corrected test checks sticky loss, first-failure step and reason
+bits. Those original after logs/binaries remain preserved. Corrected suites now pass on both paths: seven retirement checks (ordinary
+105.72s/native109.26s) and one capture-boundary check, in addition to the two
+capacity-loss checks with identical production code. Evidence and hashes live in
+`desktop-baseline/clear-status-fix`. This is focused correctness evidence, not
+final candidate qualification. Production samples and live Rain captures still
+predate these status corrections.
+
+
+### Failure reasons across simulator growth (desktop continuation, 2026-09-29)
+
+A concrete persistence omission remained in allocation transfer: atomic sticky
+failure counters and their first-step word were copied, but query word66 containing
+contact failure reasons was not. The new regression emits a real GPU contact drop
+without harvesting host status, then grows the simulator. Both before binaries
+exit101: the counters survive while reason0x40 becomes0 at body count257.
+
+The correction copies word66 with the other contact state and records the transfer
+as a contact mutation requiring fresh status. The regression passes for body
+counts257 and8193, covering unchanged and increased pair capacity; it verifies
+device/host reason bits, counters, first-failure step and terminal invalidity.
+Both paths pass eleven focused checks: the new regression, existing contact-growth
+check, seven retirement checks and two capacity-loss checks. Evidence, exact exits,
+and before/after source/binary hashes: desktop-baseline/growth-status-fix.
+Component-query-only growth already copies the entire old query buffer. These
+results close this transfer omission, not full persistent-state qualification.
+Production sample/library binaries and live Rain fixtures predate all status fixes.
+
+
+### Large-static list overflow (desktop continuation, 2026-09-29)
+
+The pair-workspace audit found that collect_fat_statics incremented its count past
+pair capacity but silently discarded excess descriptors. These large statics bypass
+the spatial hash, so omission could lose candidate collisions without a failure.
+The regression seeds the already-filled prefix count and dispatches one real large
+static proxy. It verifies the last valid slot is accepted, a guard beyond the list
+is unchanged, and the next insertion records sticky loss. Both before executables
+fail101 at prior65536 with capacity_loss=false. This is an exact boundary fixture,
+not a full many-static scene stress run. An initial compile error referred to the
+WGSL-only SCR_STATIC_N constant; corrected builds and original logs are retained.
+
+The candidate records the discarded descriptor as broadphase insertion loss using
+the existing per-step/sticky counters. Both paths pass the boundary test,80step
+matrix-versus-grid mutation test and two existing capacity-loss tests. The mutation
+check preserves exact candidate pairs/contact schedules and p/q/v/w within1e-5.
+Evidence, before/after hashes and exact exits: desktop-baseline/static-list-overflow-fix.
+Release libraries and sample executables now rebuild successfully with this and
+the status corrections (drivers17836/74740 exit0). Source patch, library/sample
+and build-log hashes are in static-list-overflow-fix/production-builds.json. Two-step
+Rain sample smoke checks now finish0 on both paths with child/launcher0, two valid
+health frames and540spherical observations each, no NaN/exploded frames and empty
+GPU failure. Frozen fixture hashes match rebuilt samples; evidence is in
+desktop-baseline/status-overflow-smoke/summary.json. Live600step Rain fixtures
+retain their original frozen builds. These focused checks do not establish final
+full-state or physical qualification.
+
+
+The desktop continuation regenerates the unavailable historical GpuSim inventory
+from current source:210named fields, including101pipeline declarations. The
+source-hashed artifact is desktop-baseline/gpu-sim-field-inventory.json. Its routing
+categories deliberately distinguish exporter references (54fields) from semantic
+coverage proof, and twelve device-data owners still require final consolidation
+of existing field/region contracts. Pose/readback/output contracts narrow the
+remaining review; they do not establish whole-state qualification.
+
+
+### Device body-center capture omission (desktop continuation, 2026-09-29)
+
+The parameter audit verifies all63meaningful SimParams fields against Rust and
+WGSL declaration order, unique export keys and finite bit-preserving float/exact
+integer encoding. The64thRust word is zero-initialized padding with no shader
+field. Evidence: desktop-baseline/sim-parameters-state-audit.json.
+
+BodyColdGpu.local_center is consumed by collision geometry/origin calculations,
+but decode_body_gpu drops it. The trace previously recorded only host.local_center
+without validating device bytes. A device-only finite mutation is invisible to
+capture on both paths: the new regression fails101 with capture incorrectly
+successful. Before builds66561/47201 finish0; native test13809 finishes101.
+Frozen sources/binaries/logs are in desktop-baseline/body-center-capture-fix.
+The candidate reads device centers with the existing extras readback and rejects
+any bit mismatch with captured host values before appending a frame. Its test
+also covers NaN, unchanged output on rejection and restored-value success.
+After builds42383/94491 finish0; drivers75179/48283 finish0. Four checks pass on
+each path: finite/NaN corruption with unchanged-output rejection and restored-value
+success,18step mass/center mutation, external force clear and body-slot reuse.
+Manifest records binary/source/log hashes and exact exits. The live body field
+mapping is recorded in desktop-baseline/body-record-state-audit.json; inactive
+slots and island membership are outside this bounded audit. Existing traces
+cannot establish this device/host invariant retroactively. No physical solver
+change, no replacement of frozen live Rain fixtures and no full audit claim.
+
+
+### Inactive contact identity lanes (desktop continuation, 2026-09-29)
+
+The contact record audit found that match_previous_points checks every lane of
+point_triangles and all four feature IDs to select mesh/feature matching mode.
+pack_point_features also checks all feature lanes before generating IDs. Trace
+v19 saved active points only, so inactive identities were missing future inputs.
+Schema v20 now records feature_id_words and point_triangle_words as full four-word
+arrays in addition to active point fields. Comparator checks exact u32 values,
+array sizes and active-point consistency. Legacy v19 remains readable but has
+weaker coverage and does not compare equal to v20. Health/repeat/episode readers
+accept both; new qualification requires a newly frozen v20 candidate.
+
+Both builds72698/54574 finish0. Actual device-only mutations change feature lane2
+and triangle lane3 on a one-point sphere contact; both GPU paths capture the
+changes while active points stay exact. The old contact projection is unchanged,
+but the host test helper also increments idle epoch, so this is not an assertion
+that every old group stays equal. Both3frame contact retirement/reuse captures
+also pass and validate as v20. All42Python helper tests pass, including missing,
+malformed, inactive-change, active-consistency and legacy-schema controls. Initial
+unittest discovery found no hyphenated modules and exited5; explicit script runs
+are the evidence. Artifacts, hashes and exact exits:
+desktop-baseline/contact-identity-capture-fix/manifest.json. Solver arithmetic is
+unchanged. Release samples remain pre-v20; full persistent-state coverage is open.
+
+
+### Completed CCD/generation Rain health comparison (desktop, 2026-09-29)
+
+Both frozen health-only600step captures complete0 (7043/59391), with child and
+launcher0: ordinary5326.86s/native5321.51s. Each validates600frames and1252800
+spherical observations. Full scans count8400body creations,1948800joint
+observations and noNaN/exploded/capacity-loss frames. These fixtures predate the
+later status/overflow/capture fixes and are single runs, not final qualification
+or performance measurements.
+
+CPU-relative screens32306/98170 finish1 with identical reports:501anchor,
+2444angular,5158cone,966lower-twist and327upper-twist observations exceed the
+original budgets. Identity/recycling passes. Absolute scans92515/28460 finish0.
+The baseline95frame sleeping-twist episode ending at creation2379 does not
+appear among candidate episodes lasting at least5frames; none of the retained
+candidate episodes includes sleep. The longest is62awakeframes355–416 at
+endpoint1693, peak0.0555674881rad. This does not assert that every shorter
+sleeping violation is absent, nor that the original residual screen passes.
+
+The severe cone peak is unchanged:1.26105142rad at health516,endpoint5004. The
+515–522episode matches the baseline report; recurrence529–534 now peaks
+0.15914005rad rather than0.159410328. Severe-cone physical acceptance remains
+the priority. Prior loaded sleeping-twist reconstruction is historical and must
+not be assumed to explain the changed candidate trajectory. Evidence:
+desktop-baseline/rain-candidate-health/comparison-summary.json and each mode's
+validation, CPU screen and residual episode reports. All these jobs are terminal.
+
+
+### Severe-cone geometry discriminator (desktop, 2026-09-29)
+
+The current ordinary health selector87465 completes0 with whole-document
+validation. Every selected42body position, quaternion, velocity, angular velocity
+and awake flag is decimal-output identical to baseline over health514–525; the
+target joint health also matches. Both diverge at526. This bounds reuse of the
+baseline excerpt for the initial transient, without assuming hidden contact
+history equality. Evidence: rain-candidate-health/cone-health-equivalence.json.
+
+A float64 reconstruction from the existing captured float32 rotations measures
+72.4946degrees between the step-start and end cone axes at onset515. Endpoint
+angular speeds reach105.254/41.095rad/s. Final outward cone-rate projections are
+38.286rad/s on the frozen axis and129.342 on the actual end axis. At520 the axes
+have dot product-.33146: frozen projection-59.248rad/s suggests closure while
+end-axis projection+21.618 suggests opening. Cached swing impulse is0 there.
+GPU and upstream CPU both prepare axis/mass from step-start orientation while
+using updated orientations for the angle. This is a concrete shared fixed-axis
+approximation hypothesis; it is not yet a causal demonstration or acceptance.
+
+Two central-difference controls independently validate rate/sign calculations
+within7e-11. Reconstructed angle differs from the health implementation by at
+most about5.24e-5rad; calculations are diagnostic, not exact shader replay.
+Source hashes and all17rows: rain-episodes/ordinary-cone-geometry.json, generated
+by analyze_cone.py. Final velocities/cached impulses do not recover all substep
+work. Next discriminating experiment is a bounded isolated replay with a
+consistent updated-axis/mass treatment, preserving baseline/defaults and checking
+anchor/twist/energy as well as cone error. No solver change made in this follow-up.
+
+
+### Bounded cone-axis experiment (desktop, 2026-09-29)
+
+Frozen120step replays use the42body cell state from health514 (base4999,row9,
+column1), original defaults and fresh contact/joint history. The candidate
+recomputes the cone gradient and effective mass from current delta-rotated joint
+frames, retaining the prepared inertia tensor and scalar impulse accumulation.
+It is an approximate relinearization experiment, not a full nonlinear solve.
+
+Corrected CPU, ordinary/native baselines and ordinary/native candidates all exit0.
+Each validates exact initial float32 getter agreement,5040finite body records and
+3240spherical observations. Both GPU modes give identical metrics. Baseline
+cone/lower-twist peaks1.26054549/.356199682rad become.983743727/.0900032818rad,
+but target anchor error increases from.0697196573 to.0835709944m and upper twist
+from.00343292952 to.00924003124rad. Maximum mechanical energy is23318.405J
+baseline vs23022.228J candidate, below common initial24744.718J. These energy
+numbers omit motor work/elastic storage and use captured immutable mass/inertia;
+they are not a complete energy-acceptance argument. The severe violation remains,
+so the candidate is not retained. No threshold/default is changed. The outcome
+supports a contribution from frozen-axis linearization, not a complete causal
+explanation or full Rain acceptance. Do not repeat this same axis refresh.
+
+Initial GPU fixtures reached the end of the physics loop but all crashed in
+cleanup (signal11); stdout retained a partial buffered tail. Gdb on the preserved
+baseline core shows DestroyHuman calling CPU b3DestroyJointInternal with GPU
+handles because this ad-hoc fixture omitted libgpu_samples_api.a. Corrected
+whole-archive GPU API linkage fixes all reruns. Initial CPU linkage separately
+needed DNDEBUG to match its Release archive. Failed outputs remain intact and
+are excluded from successful evidence. Corrected candidate/baseline links and
+runs74090/4438/44387/9293/86809/89211 finish0. The temporary pause of initial
+candidate children for compilation memory was undone; all jobs are terminal.
+
+Original solve.wgsl is restored byte-for-byte and ordinary/native release
+libraries rebuilt successfully (48326/78456) from restored source, now including
+v20 capture/body-center validation. Sample executables are unchanged. Frozen
+sources, executable/library hashes, commands, configurations, failures, complete
+summary and restoration proof: desktop-baseline/cone-axis-experiment. No commit.
+
+## Child placement affects future allocation (desktop continuation)
+
+The new direct-dispatch `child_placement_changes_next_root_free_slot` passes on
+both configured backend builds. With identical physical counters10–14, root slot0,
+logical root/child chain and high-water5, placing the child at1 yields next free
+root slot2; placing it at4 yields slot1. `alloc_prepare_keys` and `alloc_bind_slots`
+consume that same free-list prefix. This is a counterexample to treating arbitrary
+child placement as irrelevant merely because roots/counters/membership match.
+It is an allocator fixture, not a full-step physical scene test. Both initial
+checks failed because `patch` is a reserved WGSL name; those logs remain preserved.
+Renaming it to `piece` and rebuilding produced one passing test per path.
+Evidence: desktop-baseline/contact-storage-audit/placement-result.json.
+
+The separate historical600step occupancy scan is recorded in
+desktop-baseline/contact-storage-audit/occupancy-result.json. Ordinary runs first
+differ at frame137/run2, slots120/122; native first differs at139/run4, slots154/156.
+Both scans verify all600frames of all five runs and hash the complete inputs
+(driver7031 exits0). Thus the fixed-counter diagnostic omitted
+an input that actually differs in the captured batch. Its previous equivalent=true
+result remains historical diagnostic evidence; it is not eligible for promotion
+to full semantic qualification. Full raw qualification was never changed.
+
+## Isolated GPU child-compaction candidate
+
+A test-only candidate (`src/contact_compaction.rs`,
+`shaders/contact_compaction.wgsl`) stages complete contact records, scans root
+child counts and non-root destinations, maps root/chain order, then publishes
+children without moving roots or physical generation counters. No production
+stepping path calls it. Predeclared gates and hashes are in
+desktop-baseline/child-compaction-candidate/{acceptance.md,result.json}.
+
+Both configured backends pass one test containing spans8/513/65537, two
+placements and malformed ownership at each span, with two applications per case.
+Expected full hot/persistent/prepared words match, counter vectors remain fixed,
+outputs are idempotent, and malformed ownership leaves all contact buffers
+unchanged while setting the chain-reason bit. The largest case has257groups,
+covering multiple group summaries per scan lane. This is an isolated transform
+check, not fresh-process scene qualification or native cached execution.
+
+Before production integration the error path must also update atom per-step/
+sticky contact loss and first-step to match record_contact_drop; query reason
+alone does not set the host physics-invalid state. Empty/high-water/cyclic/orphan
+inputs, lifecycle integration, complete ragdoll repeats and overhead measurement
+remain open. Mesh-free paths should not execute or allocate this pass.
+
+## Integrated child-compaction status and lifecycle checks
+
+The candidate is now called after graph cleanup/retirement and before islands
+and constraint preparation, including the native graph-cache exit and callback
+completion. This placement keeps old graph cleanup ahead of child relocation.
+Mesh-free scenes allocate and execute no compaction pass. Temporary buffer/reset
+contracts and memory cost are recorded in
+`desktop-baseline/child-compaction-candidate/integrated-source-audit.json`;
+GpuSim inventory now has211fields, including the transient compaction owner.
+
+Failure now records per-step/sticky contact loss, query reason and the first
+failing step using current GPU parameters. Both backends pass empty, oversized
+high-water, live-above-high, orphan, cyclic and truncated chain controls, with
+unchanged input buffers and verified terminal host invalidity. The full-payload
+and prefix-boundary checks also remain green.
+
+Integration driver27743 finishes0:11checks per path (two isolation tests, seven
+contact lifetime/order tests, one16step mesh/joint trace and one convex callback
+order/reuse control). Both actual16step traces have canonical child placement
+in every frame. This is not mesh-specific callback coverage or full repeat
+qualification. Release libraries/sample executables have not been rebuilt yet.
+
+The initial ordinary integration fixture47874 fails101 because its old setup
+required a retired root slot stay empty. Compaction correctly occupies it with
+a child. The preserved replacement fixture requires non-root occupancy and the
+exact original physical generation; its original unread-handle validity and
+retirement checks remain intact. Old fixture and failed log are preserved under
+child-compaction-candidate/. No physical threshold or scene default was changed.
+
+The selected16step mesh/joint fixture additionally passes five fresh processes
+per backend with exact raw v20 state equality (driver75841 exits0). Frozen test
+binaries, configuration/source manifests, all child exits and traces are in
+`desktop-baseline/child-compaction-history-five/`. This does not close the full
+ragdoll or broader persistence gate.
+
+Both release libraries and sample executables are rebuilt/relinked; hashes are
+in child-compaction-candidate/release-manifest.json. Standalone ragdoll fixtures
+are frozen under ragdoll-child-compaction-candidate/ including the new source
+files omitted by ordinary git diff for untracked files. Five600step batches are
+running under ragdoll-child-compaction-five/ (ordinary30729/native32797); no
+full-scene comparison or physical pass is yet claimed. Preserve raw failures and
+check exact slots/counters in any audited membership comparison.
+
+## Full ragdoll child-compaction results
+
+All ten fresh600step children finish0 and pass every original ragdoll physical
+screen. Aggregate runners30729/32797 retain exit1 for raw occupied append order
+at frame1/run2 (50 vs20 at occupied_order[124][0][0]). Separate audited comparators
+71893/15489 finish0: five600step v20 runs per path match after only the existing
+occupied-root/previous-touching membership normalization. Physical slots, physical
+generation counters, solver order and all remaining captured fields stay exact.
+This resolves the selected scene's child-placement repeat gap. It does not promote
+the historical arbitrary-child-membership comparison or close incomplete schema
+coverage. Reports, hashed physical inputs and preserved failures:
+`desktop-baseline/ragdoll-child-compaction-five/`.
+
+Existing mesh callback regression also passes on both current binaries (61900):
+all patches vetoed with no events/motion, then two patches re-enabled as one public
+pair with begin event, exact contact normals, and query-in-callback completion.
+Evidence: `desktop-baseline/child-compaction-candidate/mesh-callback-result.json`.
+This is one integration check per path, not a five-process callback qualification.
+
+## Scene geometry and material capture audit
+
+`desktop-baseline/scene-geometry-state-audit.json` maps all31ShapeGpu fields and
+all9SurfaceMaterialGpu fields to capture or explicit non-physics consumers. Actual
+device geometry is captured: xyz for points/directions/vertices, xyzw planes,
+integer topology/triangles, bounds plus raw BVH metadata, and physical mixing-table
+slots including occupied tags. Material slots resolve to ordered values; GPU code
+only reads them and host scene updates replace the packed scene. Public shape
+construction guarantees at least one material; mesh material count rejects zero.
+Thus the shader's max(count,1) fallback exposes no omitted normal-path material.
+Reserved ordering lanes, padding and visual color have no physics consumer.
+
+Three existing tests pass on each current backend (driver32543 exit0): uploaded
+mesh-child corruption, convex geometry/span validation, and body-slot reuse with
+material callback mixing and device-only geometry mutation. Binary/log hashes and
+exact test counts are in `desktop-baseline/scene-geometry-audit/result.json`.
+No production or schema change was needed. Scope is completed public World API
+capture; arbitrary malformed low-level GpuSim inputs and other policy/workspace
+regions are not established by this audit.
+
+## Cached command and idle policy audit
+
+`desktop-baseline/command-policy-state-audit.json` records source hashes and
+producer/consumer contracts for18GpuSim fields: radix/contact/graph/tail/full-step
+command caches and their toggles, plus idle proof/chain/context/epoch and logical
+step state. Cache keys and current-binding validity are captured. Cached Vulkan
+commands retain every buffer/pipeline owner and read current buffer data; they do
+not carry a separate uncaptured physics payload. Direct dispatch selection follows
+the recorded keys and fixed build/device policy; indirect contents have separate
+producer/reset contracts. Idle proof uses exact captured epochs/contexts and
+completed status, while capture rejects outstanding or dirty status.
+
+Driver23306 finishes0. All five existing idle regressions pass per backend:
+unchanged idle state/submissions, wake/contact history, delayed proof with mutations,
+growth, and mutation recovery. Native owner/queue lifetime and reset dispatch
+span2/130/65/2 checks also pass. Five fresh current-native48step full-replay runs
+compare raw-identically; each has42actual replay hits with substep and transform
+reentry. Frozen binary/source/input hashes and receipts are in
+`desktop-baseline/command-policy-audit/`. The inventory now leaves36reference-only
+policy entries and12device-region owners for consolidation. No production/schema
+edit; remaining shared-state and physical acceptance gates stay open.
+
+## Host policy consolidation and component workspace
+
+`desktop-baseline/host-policy-state-audit.json` maps the remaining36host policy
+fields to exact capture/derived-allocation contracts and source consumers.
+GpuSim inventory now has no reference-only host entries. This classification does
+not close the12device-region owners or the full persistence gate. Graph memo
+allocation presence is distinguished by null versus an invalid-layout object;
+its immutable offset derives from the actual capacity encoded by captured
+shape_base_u32 and contact slots.
+
+`desktop-baseline/component-workspace-state-audit.json` records initialization
+and count-bounded consumption of island label/wake/ready lanes and component
+metadata, starts, lists and indirect/invalid header. Each active step regenerates
+these values before use on ordinary, cached-tail and full-replay paths. Persistent
+graph memo storage sits beyond the capacity-sized component region and remains
+captured separately. This does not classify joint schedules/history, fat bounds,
+remapping or previous-touching storage as transient.
+
+Driver95338 exits0; three existing tests pass per path. The90step merge/split
+comparison exercises both sleep settings, actual large-to-small transitions and
+return to sleep. The two120step overflow comparisons exercise actual nonempty
+small/large overflow and retain1e-5 physical comparisons on every observed step.
+Logs and hashes: `desktop-baseline/component-workspace-audit/result.json`.
+No new production code, schema or acceptance-limit change. These are source and
+bounded regression checks, not five-process qualification of all component states.
+
+## Persistent history lookup capture correction
+
+`ordered_contact_transitions` consumes the independently persistent physical
+slot-to-logical-rank lookup before allocating IDs and assigning colors. Previous
+v20 export omitted it and reduced saved generations to a match/mismatch boolean.
+The new real-device mutation regression fails101 on both old exporters: zeroing
+one live lookup leaves captured history identical, as do two different saved
+generations that both mismatch the current contact. Restoring device words restores
+the original history. Frozen before binaries, source and failures are preserved in
+`desktop-baseline/history-capture-fix/`.
+
+Schema v21 exports slot_to_rank for the entire current contact capacity and each
+occupied record's physical_slot and saved_generation. Comparator validation rejects
+missing/malformed new fields and retains v19/v20 as separate historical coverage.
+Both corrected mutation tests pass. Five fresh16step joint/contact-history runs
+per backend compare raw-identically under v21 (`desktop-baseline/history-capture-five/`).
+All four test builds finish0; runner80092 finishes0. Ten Python storage checks and
+nine launcher checks pass, including omission/corruption and version-separation
+controls. The initial synthetic fixture lost required GPU policy keys; correcting
+that test setup resolved its two errors. Manifest includes source/binary/log hashes.
+
+This changes capture only. Existing v20 ragdoll/replay passes retain their stated
+scope but cannot prove equality of newly included history fields. Release/sample
+binaries still require a v21 rebuild after the remaining workspace audit; no
+full-scene rerun or complete-state qualification is claimed here.
+
+## Joint schedule and remap region review
+
+`desktop-baseline/joint-schedule-remap-state-audit.json` records current source
+contracts. Joint heads/counts/offsets/list prefixes are regenerated before their
+solver consumers, and the actual ordered schedule is captured. Joint color flags
+and contact history remain persistent captured inputs. Shape-remap mapping is
+written completely before a tracked clear/remap/prepare/publish submission;
+completed capture observes the resulting contact pairs/hash and protected previous-
+touching state, rather than an unexecuted mapping command.
+
+Three existing checks pass per path on current v21 tests (driver11933 exit0):
+24exclusive ordered joints,80component fused-vs-general color waves, and preserving
+contact color when the first joint is added. Logs/binary hashes are under
+`desktop-baseline/joint-schedule-audit/`. No solver or capture edit this review.
+
+An explicit remaining gap is the between-step retirement consumer:
+retire_body_pair_contacts reads SCR_UNIQUE_N and scr_active_contact. A next-step
+reset alone cannot exclude these values from persistent-state coverage. Current
+capture has neither their exact contents nor a derivation check against captured
+roots. Resolve that with a mutation/retirement discriminator before completing
+the scratch audit; device fat-transform command consumption also remains open.
+
+## Between-step retirement candidate capture correction
+
+The active-contact list is a future input even after a physics step completes:
+retire_body_pair_contacts reads SCR_UNIQUE_N and scr_active_contact before the
+next broadphase reset. A real-device test now removes the sole candidate, verifies
+selected retirement is prevented, restores it and verifies retirement succeeds.
+The original v21 exporter reports identical contact allocation across that
+mutation. Both before tests fail101 at the expected final capture assertion;
+those failures, source and binaries remain under `desktop-baseline/retirement-capture-fix/`.
+
+Schema v22 records candidate_unique_count, candidate_contact_count and the exact
+physical candidate_slots prefix through the larger count, bounded by pair capacity.
+EMPTY entries remain explicit. Comparator checks counts/length/u32 values and does
+not normalize this list. Both corrected GPU tests pass. Five fresh16step history
+runs per path compare raw-identically with v22 (`retirement-capture-five/`, driver96477
+exit0). Thirteen Python storage and nine launcher controls pass, including missing,
+malformed and version-separation controls. All four test builds finish0. Full hashes,
+commands and receipts: `retirement-capture-fix/manifest.json`.
+
+No solver equations or scene defaults changed. Older v20 full-scene and v21
+history results remain limited to their recorded schemas. Device fat-transform
+consumption and final region consolidation still precede new full-scene qualification.
+
+## Transform command consumption and preparation failure boundary
+
+`desktop-baseline/fat-transform-state-audit.json` records the current source
+contract. At successful public steps, ensure_sim always reaches write_params,
+which disables the old batch. A new upload writes the entire body head table
+and command payload before publishing its count and checked-increment epoch.
+The sole shader reader is update_fat_bounds. At the completed, callback-closed
+capture boundary, previous command bytes therefore cannot affect the next
+successful step. This does not depend on assuming every prior shape was dispatched.
+Pending host command lists and six raw bound words remain captured. Initialized
+and applied equality flags suffice for reachable epochs: the bounds epoch is
+constant and the command epoch cannot wrap. Public zero-duration steps preserve
+pending host commands. Existing native replay/reentry evidence includes transform
+changes but remains v20 evidence, not a new v22 qualification run.
+
+Reviewing early returns found a separate unclosed boundary: rejected allocation
+validation, failed GpuSim construction and failed scene packing set gpu_fail but
+do not mark the world/simulator physics_invalid. Construction failure restores
+the previous simulator; step_gpu_inner subsequently checks physics_invalid,
+not gpu_fail. Thus a failed preparation can continue toward physics submission.
+The successful-path command proof is not a blanket failure-path guarantee.
+The bounded rejected-preparation regression now fails on both original paths
+at the missing-invalidity assertion (exit101), before any large device allocation.
+The correction marks the world and any retained simulator invalid in all three
+error returns. Both corrected regressions pass: clearing the error, reducing
+the hint and preparing a simulator cannot rehabilitate physics; after another
+step request and wait, physics_step remains0 and both invalid flags are set.
+This directly exercises host heap rejection. Construction and packing error
+returns have source-reviewed matching handling, without independent injected
+failures. No solver equations or physical defaults changed.
+
+Initial-joint allocation with CPU-compatible order=1 and joint-filter body
+growth with GPU-native order=0 also pass on each backend. The first related
+driver incorrectly selected order=0 for the order-storage test; its assertion
+failure is preserved, and the corrected configuration passes. This is no claim
+that order-storage exists in GPU-native mode. All four builds completed0;
+source/binary/log hashes and exact receipts are preserved in
+`desktop-baseline/preparation-failure-fix/manifest.json`. The twelve device-buffer
+regions still require final consolidation; existing full-scene v20 evidence
+does not cover the latest v22 fields or this failure correction.
+
+## Consolidated device-region coverage for the selected candidate
+
+`desktop-baseline/device-region-state-audit.json` consolidates all twelve device
+owners and ten scratch partitions, with current source hashes and links to the
+individual consumer audits. The current GpuSim declaration still has exactly
+211 inventoried fields; none were added or lost during consolidation. This is
+source-contract closure for completed public World boundaries with GPU-native
+order_enabled=0 and the selected ordinary/native flags (0/131072). It does not
+establish coverage for CPU-compatible tree state, arbitrary intermediate GpuSim
+calls, or additional diagnostic solver modes.
+
+| Device owner | Persistent representation / exclusion contract |
+| --- | --- |
+| pass_lut | Captured parameters regenerate every color/bias row before submission |
+| bodies | Live hot state captured; deltas reset; dead slots disabled and rewritten before reuse |
+| body_cold | Cold fields, inertia, loads, bounds, colliders, materials and referenced geometry captured; device centers validated |
+| convex_ccd | Device config, geometry, indices and consumed start-state lanes captured |
+| contacts | Assembled hot fields plus exact physical allocation and generations |
+| contact_persistent | Persistent fields including all identity lanes; unused point data only omitted under bounded consumers |
+| contact_prepared | Valid prepared lanes captured; transient vectors reset before preparation |
+| joints | Live fields/colors/history captured; deleted/padded records cannot enter the solver |
+| scratch | Captured history, candidates, allocation, schedules and bounds; filter table validated; remaining regions reset or output-only |
+| atom | Contact hash and sticky state captured; spatial, Jacobi, island and graph workspace reset under the selected schedule |
+| query | Requests overwritten; status/hints/high-water captured; component workspace rebuilt; persistent memo captured separately |
+| indirect | Every selected argument has an ordered current producer before copy/dispatch, including native replay |
+
+The consolidation explicitly incorporates v21 reverse history lookup and saved
+generations, v22 retirement candidates, exact child placement after compaction,
+and terminal preparation failure. It retains only the independently audited
+occupied-root and previous-touching membership normalizations. The phase
+diagnostic region has no physics consumer; joint-filter storage is validated
+against captured device joints rather than assumed correct. Body holes are
+packed as disabled/static/sleep records on topology upload; reuse overwrites the
+slot before stepping.
+
+Final fresh-process qualification is still open. Existing full-scene v20 captures
+cannot prove v21/v22 fields. Rebuild and freeze the current candidate, enforce the
+above configuration scope for qualification, and preserve all original physical
+failures. Rain/contact-island acceptance, performance and recordings remain open.
+
+Both current release libraries and sample executables now build/link successfully.
+Frozen libraries, samples and test binaries plus complete Rust/WGSL source and
+qualification-script hashes are in `desktop-baseline/v22-candidate/manifest.json`.
+A bounded Rain startup check completes five fresh two-step processes per path
+with all child/launcher receipts0. Both audited comparisons pass; raw comparison
+fails occupied-root append order at frame1 on both paths and aggregate exit1 is
+preserved. Outputs are in `v22-startup-five/{ordinary,native}`. These checks verify
+the new candidate's capture startup and selected configuration, not600step Rain
+repeatability, recycling or physical acceptance. No long qualification run is
+in flight.
+
+## Frozen v22 Rain campaign and contact-island discriminator
+
+The full Rain campaign now runs from verified frozen v22 sample binaries:
+five fresh600step processes independently per path, under
+`desktop-baseline/rain-v22-five/{ordinary,native}`. Runner sessions63604/15392
+were launched with separate outputs and exact child/launcher receipts. They
+are correctness captures, not controlled performance measurements. Partial
+frames do not establish completed runs or physical acceptance.
+
+An offline contact-island discriminator uses the desktop resting frame65
+four-point contact geometry and unit-body mass/inertia. At zero separation and
+zero initial contact cache, it applies a centered unit impulse and compares one
+normal-only sequential sweep with two opposite-point blocks. The two-variable
+complementarity solve checks all four active sets; controls cover no contact,
+either single active point and both points. Pair selection uses greatest point
+distance, with source-order tie breaking.
+
+Sequential spin is0.14811899rad/s with captured biased mass scaling and
+0.16758220rad/s in relaxation. Both block sweeps yield zero spin; energies are
+0.25003547/0.25J versus initial0.5J, and linear momentum stays1kg·m/s. This
+float64 calculation does not reproduce a timestep: it omits friction, integration,
+the third cube, nonzero-cache transport and GPU rounding. It supports a concrete
+alternative to point-order reversal, not acceptance. Source/script hashes and
+results are in `desktop-baseline/contact-block-discriminator/`. The next bounded
+experiment must retain the complete73step fixture's original spin/drift and
+conservation limits and validate cached impulses/degenerate pairs; a smaller
+one-sweep torque alone cannot justify keeping a solver change.
+
+## Paired normal-contact GPU experiment
+
+The temporary shader candidate solves pairs of accumulated normal impulses as
+a two-variable complementarity system. It retains each point's speculative/
+biased softness terms, includes nonzero old impulses in the right-hand side,
+enumerates unilateral active sets and leaves state untouched for scalar fallback
+when the block is poorly conditioned. Four-point manifolds pair the first point
+with its farthest point, followed by the remaining pair. No material, timestep,
+substep count or acceptance limit changes. This experiment currently affects all
+ordering modes and is not yet retained as the production candidate.
+
+The ordinary full73step contact-island fixture passes every original assertion:
+peak spin7.45058e-9rad/s, transverse drift2.71538e-10m, energy0.167527016J,
+momentum error5.96046e-8kg·m/s, angular momentum6.32216e-10kg·m²/s and axial
+overlap4.87566e-5m. Baseline spin0.019269153rad/s and drift0.001521538m remain
+recorded failures. The candidate run exits0 with exactly1passing test; complete
+v22state and metric reconstruction are preserved in
+`desktop-baseline/contact-block-experiment/ordinary/`. These are single-run
+results, not repeat qualification. Native runtime verification now also passes
+exactly1test/73frames with identical physical metrics. The unchanged240step
+sliding/frictionless and600step support/energy fixtures each pass once on both
+paths (`contact-block-experiment/related-result.json`, driver30466 exit0).
+Active-set/cache/degeneracy controls, CPU-compatible preservation and fresh
+repeats remain required before retention. Both candidate builds completed0.
+Frozen v22 Rain batches use their unchanged binaries and continue independently;
+they do not test this new block candidate.
+
+The ungated paired-contact candidate now also passes five fresh73step processes
+per path, including every unchanged physical assertion and exact raw v22state
+comparison (`desktop-baseline/contact-block-five/`, driver97634 exit0).
+Direct GPU controls independently verify all four unilateral active sets,
+nonzero warm caches, softened accumulation, speculative impulse release,
+fixed-point reentry, coincident-point rejection and zero effective mass. Rejected
+blocks must not partially modify velocities or cached impulses. Both backends
+pass the9case test; source builds33350/73535 and tests96786/50825 finish0.
+
+The subsequent gated candidate selects paired solving only for explicit
+GPU_PHYSICS_LIVE_CONTACT_ORDER=0. Its creation-time policy uses captured bit18
+in params.diagnostic_flags; diagnostic overrides preserve that bit. Unset/default
+and CPU-compatible1 keep scalar point order/solving. New selected flag values
+are262144ordinary/393216native, so prior flags0/131072 and ungated repeat evidence
+remain separately labelled. Gated builds65728/83592 both finish0. Verification
+compares entire73step default/CPU-compatible traces against the frozen pre-block
+v22candidate, preserving their expected original symmetry failures, then checks
+the opt-in fixture and direct controls. This verification must pass before
+claiming default-path preservation.
+
+Gating verification4998 now finishes0. On both backends, all73default and
+CPU-compatible frames are byte-identical to the pre-block v22binary; their
+original symmetry failures are preserved. Both opt-in runs and direct GPU
+controls pass. Frozen gated binaries, hashes, exact exits and comparison results
+are in `contact-block-experiment/gating/`. Five gated repeats per backend of
+contact-island73steps, friction240steps and support600steps are now running
+under driver99006. The earlier ungated five-repeat pass is not substituted for
+these final mode/configuration checks.
+
+Driver99006 now completes0: all30fresh processes pass exactly1selected test and
+every original physical assertion. All six five-run raw v22comparisons pass at
+their full73/240/600step durations. Evidence is under
+`contact-block-gated-{island,friction,support}-five/`; gated binary hashes and
+test/source manifests are retained. This closes the selected contact-island
+physical and repeat case on the gated candidate, with original baseline failures
+preserved. Keep paired solving in the GPU-native opt-in candidate for broader
+qualification. It does not close Rain, the other final matrix fixtures,
+performance or recordings. Existing release/sample binaries and the running
+Rain v22campaign predate paired solving and cannot be reported as its results.
+
+
+### Persistent hip phase replay (desktop, 2026-09-29)
+
+Existing24-phase velocity capture is exposed through an artifact-only Rust/C
+bridge in desktop-baseline/rain-hip-phase-replay. Build22500/replay37693 exit0.
+Capture off/on and original frozen baseline have identical120step body output
+SHA2564d49e563a8b21a8ad1389560e6ca85ec2558c0b74e8d266a9d3a1de65f730a2d.
+All43slots validate against final public velocities (max5e-8 decimal rounding);
+independent double quaternion integration reconstructs hip endpoint rotations
+within1.20e-7/component. Reports retain all480substep observations.
+
+Tail60steps show mean biased cone rates along current axes of -6.442,-3.495,
++.235,+3.418rad/s across the four substeps, while projections onto the prepared
+axis stay near-6rad/s.54/60fourth substeps have inward prepared but outward actual
+projection. Mean first-substep swing reduction.021289rad is nearly undone by
+last-substep increase.020620rad. This supports an outdated angular Jacobian
+under rotating load; it neither proves individual-constraint work nor clears
+physical acceptance. No production change retained by this diagnostic.
+
+A separately frozen bounded candidate is being built under
+rain-angular-frame-experiment: refresh cone AND twist frames/Jacobians/masses
+together, unlike the earlier rejected cone-only refresh. Prepared inertia and
+scalar accumulation remain. Predeclared comparison covers original-material
+health480persistent and health514severe120step replays and preserves anchor/twist
+failure checks. It is not yet evaluated or accepted.
+
+
+Angular-frame experiment build23608 and four ordinary replay arms61749 now
+finish0. All arms have exact42initial getters,5040finite body rows and3240joint
+observations. Hip baseline is byte-identical to its existing empty-contact-fix
+control. Candidate hip tail60cone peak.210057→.117623rad, final.183345→.089383;
+target anchor separation peak5.908→9.391mm. Severe cone peak1.254127→.766228rad,
+target anchor67.881→73.209mm; all-joint upper-twist peak.032335→.061229rad.
+The candidate is REJECTED: angular improvement trades for larger other errors.
+No native/five-repeat/full-Rain acceptance inferred. Both source variants,
+original/candidate archives, manifests, exact exits and summary.json are retained
+under rain-angular-frame-experiment. Original solve.wgsl restored byte-exact.
+Baseline release rebuild36986 still pending; do not confuse its earlier
+candidate target/release artifacts with the restored source.
+
+Baseline release rebuild36986 finishes0 from restored original source;
+baseline-rebuild-exit.json records its archive hash and restoration check.
+All experiment processes are terminal. No production change retained.
+
+
+### Paused checkpoint recordings and commit checks (2026-09-29)
+
+See benchmarks/2026-09-29-paused-solver-checkpoint.json under the engine for
+portable hashes, settings, completion receipts and the partial-run limitation.
+The19standard scenes complete300step CPU/GPU recordings. Native Shape
+Replacement/Offset Kinematic complete120steps each on CPU/GPU; Falling Ragdolls
+completes600each; CPU Rain completes600. Additional GPU Rain video is a bounded
+partial snapshot: intentionally stopped with SIGTERM after at least138observed
+steps, FFmpeg finishes0, sample exit-15 and wrapper exit1 preserved. It is NOT
+a600step physical/repeat pass. All46clips contain valid video streams; CPU
+comparison column is first. Actual clips remain local/ignored. Concurrent
+rendering/encoding and single-run standard metrics are not performance evidence.
+Release/native sample builds,9repeat-runner tests,13state-storage tests and
+diff checks pass. This is an incomplete checkpoint, with goal still paused.

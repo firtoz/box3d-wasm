@@ -39,7 +39,8 @@ fn ccd_correct(@builtin(global_invocation_id) id:vec3<u32>) {
     if ((flags & (1u|4u|16u|32u|128u))!=0u) { return; }
     let begin=ccd_start[body]; let body_info=ccd_bodies[body];
     let motion=distance(begin.p.xyz,end.p.xyz)+2.0*acos(clamp(abs(dot(begin.q,end.q)),0.0,1.0))*body_info.max_extent;
-    if (motion<=0.5*body_info.min_extent) { return; }
+    // Motion beyond the speculative shell needs a sweep even for large bodies.
+    if (motion<=min(0.5*body_info.min_extent,0.02)) { return; }
     let b0=ccd_origin(begin,body_info.center.xyz); let b1=ccd_origin(end,body_info.center.xyz);
     var fraction=1.0;
     for (var own=0u;own<body_info.count;own++) {

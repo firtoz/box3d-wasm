@@ -84,15 +84,21 @@ mod tests {
             label: Some("motion-test"), contents: bytemuck::cast_slice(&initial),
             usage: wgpu::BufferUsages::STORAGE | wgpu::BufferUsages::COPY_DST | wgpu::BufferUsages::COPY_SRC,
         });
-        let motion = CcdMotion::new(device, &bodies, &vec![[1.0, 2.0]; 65]);
+        let mut extents=vec![[1.0,2.0];65];
+        extents[9]=[0.01,0.02];extents[10]=[0.01,0.02];
+        let motion = CcdMotion::new(device, &bodies, &extents);
         let mut finish = initial.clone();
-        finish[0].pos[0] = 0.5; // Strict boundary: not fast.
+        finish[0].pos[0] = crate::types::SPECULATIVE_DISTANCE; // Strict shell boundary.
         finish[1].pos[0] = 0.6;
         finish[2].rot = glam::Quat::from_rotation_y(0.4).to_array(); // Rotation alone.
         finish[3].pos[0] = 5.0; finish[3].flags = FLAG_SLEEP;
         finish[4].pos[0] = 5.0; finish[4].flags = FLAG_STATIC;
         finish[5].pos[0] = 5.0; finish[5].flags = FLAG_KINEMATIC;
         finish[6].pos[0] = 5.0; finish[6].flags = FLAG_DISABLED;
+        finish[7].pos[0] = crate::types::SPECULATIVE_DISTANCE + 0.0001;
+        finish[8].pos[0] = 0.5; // Old extent boundary now needs CCD.
+        finish[9].pos[0] = 0.006; // Smaller extent cutoff remains effective.
+        finish[10].pos[0] = 0.005; // Strict smaller-body boundary.
         finish[64].pos[0] = 0.6; finish[64].flags = FLAG_BULLET;
         let readback = device.create_buffer(&wgpu::BufferDescriptor {
             label: Some("motion-test-results"), size: 260,
@@ -116,7 +122,10 @@ mod tests {
             let data = readback.slice(..).get_mapped_range();
             let actual: &[u32] = bytemuck::cast_slice(&data);
             let mut expected = vec![0u32; 65];
-            if round == 0 { expected[1] = 1; expected[2] = 1; expected[64] = 2; }
+            if round == 0 {
+                for i in [1,2,7,8,9] {expected[i]=1;}
+                expected[64]=2;
+            }
             assert_eq!(actual, expected, "round {round}: second capture must use latest GPU state");
             drop(data);
             readback.unmap();

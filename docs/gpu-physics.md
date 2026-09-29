@@ -11,6 +11,19 @@ The [GPU solver qualification](gpu-solver-qualification.md) tracks correctness,
 stability and same-device repeatability with efficient GPU ordering. It separates
 physical behavior from exact CPU trajectory agreement and lists unverified areas.
 
+The current desktop candidate enables paired normal-contact solving only with
+`GPU_PHYSICS_LIVE_CONTACT_ORDER=0`. It passes the original contact-island,
+support, friction and restitution checks in five fresh processes per backend;
+default and CPU-compatible contact solving remain unchanged. Rain, the remaining
+capability checks, performance and recordings still prevent qualification or a
+default-mode change. See the qualification report for frozen builds and scope.
+
+Frozen mesh-contact regression inputs are kept in
+`experiments/gpu-physics/c_abi/fixtures/frozen-mesh`. The
+`scripts/check-frozen-mesh-reference.py` runner compares prebuilt CPU and GPU
+probes at identical poses and records hashes and exits; see the qualification
+report for its command and the distinction from full-scene physics checks.
+
 | Area | Status |
 |---|---|
 | Linux NVIDIA GeForce RTX 4070 Laptop GPU | Native CPU/GPU/combined builds and normal/strict retained-history drag checks pass |
@@ -39,6 +52,41 @@ opaque identities, not numbers promised to match across worlds or runs. Contact
 end events also use stable logical pair/child ordering. Host-deferred and
 GPU-derived ends for the same transition are deduplicated within each step;
 refiltering can still produce a new begin after collisions are restored.
+GPU slots keep their root-generation counters when temporarily used for mesh
+patch staging or child manifolds. This prevents a retired handle from becoming
+valid again when the original shape pair returns after unread intermediate
+steps. The scratch-reuse regression exercises this through real mesh collision
+processing; generation counters are not reset or inherited from a parent patch.
+The current qualification candidate canonicalizes mesh children on the GPU after
+graph cleanup and retirement, before constraint preparation. Roots and their
+counters remain fixed; children follow root/chain order in the lowest non-root
+slots. This removes child-placement variation from the next free-slot allocation.
+It adds temporary snapshot and scan storage for mesh scenes; convex-only scenes
+skip it. Lifecycle, full repeat and overhead qualification are tracked in
+[gpu-solver-qualification.md](gpu-solver-qualification.md).
+The current GPU-native qualification candidate also solves normal contact points
+in pairs, using opposite points for four-point manifolds. Coupled unilateral
+impulses retain the existing softness and material parameters; ill-conditioned
+pairs fall back to scalar updates. The original contact-island spin/drift checks
+pass on both backends, including five fresh captured runs of the initial
+candidate. The new solve is selected only by explicit
+`GPU_PHYSICS_LIVE_CONTACT_ORDER=0`; default and CPU-compatible ordering keep the
+scalar point solve. Its mode bit is included in captured parameters. Broader
+physical and performance qualification remains open.
+Contact-retirement commands use storage separate from sticky contact-failure
+reasons. Removing a shape or disabling a body pair must neither manufacture a
+failure reason nor clear an earlier one; retirement still selects the same roots.
+Explicit completion also refreshes status after contact mutations within the same
+physics step, so cached clean metrics cannot hide a newly recorded GPU failure.
+Clearing capacity diagnostics first observes unread failures and preserves terminal
+invalidity; clearing counters cannot make a failed simulation usable again.
+Scene-preparation errors (rejected capacity, simulator construction or scene
+packing) likewise invalidate the world and any retained simulator. Clearing
+the diagnostic and retrying preparation does not resume a failed simulation.
+Simulator growth preserves failure reasons with their counters, including failures
+that have not yet reached the host status readback.
+Overflow of the large-static broadphase list reports insertion loss instead of
+silently dropping collision candidates.
 
 The earlier connected-scene scheduling follow-up compares against `c46b81e2` on the same
 RTX 4070 Laptop. The repeated physics sweep measures about 2%, 15% and 20% lower
@@ -156,6 +204,17 @@ The main fixture uses unit density and a per-component gate of
 `1e-5 * max(1, abs(cpu), abs(gpu))`; its result is not general solver parity.
 Existing GPU parameter setters wake bodies differently from native, so the
 retained-history case explicitly puts both worlds back to sleep.
+
+`c_abi/spherical_compliance_reference.cpp` independently checks steady cone-limit
+compliance under constant torque. With unit isotropic inertia, coincident COM
+anchors and unchanged constraint tuning (60 Hz, damping ratio 2), the predicted
+deflection is torque divided by `I * (2*pi*effectiveHertz)^2`. Each of two loads
+runs 600 steps at four substeps; the last 120 must agree within `1e-4` radians
+and remain below `1e-3` rad/s. Link it as an independent CPU fixture or through
+the GPU sample API bridge, using the same library configuration as the other
+C-ABI reference fixtures. The qualification report records frozen build commands
+and results for ordinary and native cached paths. This isolated check excludes
+contacts and does not establish acceptance of friction-loaded Rain joints.
 
 All four Linux Vulkan runs (AMD/NVIDIA, native sample caching on/off) pass
 **2,856 scalar comparisons each**. Both GPUs also pass the normal and strict
@@ -437,6 +496,21 @@ Unsupported geometry, callbacks or other excluded world features retain the
 ordinary path. Sleep dispatch elision requires a valid zero-active proof across
 an unchanged eligible submission chain. Command replay must retain resources
 through completion and invalidate on relevant parameter/resource changes.
+
+CCD activation now caps the half-minimum-extent motion threshold at the existing
+20 mm speculative-contact range. This prevents larger bodies from crossing that
+range without either discrete contact response or a continuous sweep. Host and
+device CCD use the same bound, with existing exclusions and smaller-body limits
+preserved. The unchanged restitution fixture passes on both paths; broader
+qualification and the cost of the additional sweeps remain under evaluation in
+[the solver qualification report](gpu-solver-qualification.md).
+
+Empty contact manifolds are recomputed rather than recycled: they contain no
+separation bound proving that motion stayed outside the speculative range.
+This matters after CCD stops a body near a surface, where the following step
+must create discrete support contacts. Nonempty contact recycling remains
+available. Both GPU paths pass the focused landing regression and existing
+CCD, recycling and restitution checks; full solver qualification remains open.
 
 With the native command-cache build and `GPU_PHYSICS_FULL_REPLAY=1`, command
 replay covers eligible global color schedules as well as component schedules.

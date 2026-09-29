@@ -3381,7 +3381,10 @@ fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyG
         let translation =
             glam::Vec3::from_array(end.pos).distance(glam::Vec3::from_array(start.pos));
         let rotation = quat_angle(start.rot, end.rot) * cpu.max_extent;
-        if translation + rotation > 0.5 * cpu.min_extent {
+        // Discrete contacts only cover the speculative shell. The extent-only
+        // cutoff could skip an entire shell and penetrate before either path
+        // handled impact. Keep the smaller-body cutoff and cap it by that shell.
+        if translation + rotation > (0.5 * cpu.min_extent).min(crate::types::SPECULATIVE_DISTANCE) {
             fast.push((end.flags & FLAG_BULLET != 0, dense, source));
         }
     }
@@ -3949,6 +3952,7 @@ pub fn b3_world_clear_capacity_status(id: WorldId) {
     with_world_mut_no_sync(id, |w| {
         if let Some(sim) = w.sim.as_mut() {
             sim.clear_sticky_loss();
+            w.physics_invalid |= sim.physics_invalid();
         }
         w.gpu_fail = None;
     });
@@ -5203,6 +5207,8 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
             if let Err(err) = caps.validate_allocation(w.query_state as u32) {
                 eprintln!("\n*** GPU PHYSICS FAILED ***\n{err}\n");
                 w.gpu_fail = std::ffi::CString::new(err).ok();
+                w.physics_invalid = true;
+                if let Some(sim) = w.sim.as_mut() { sim.mark_physics_invalid(); }
                 return;
             }
             let old = w.sim.take();
@@ -5237,6 +5243,8 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
                     eprintln!("\n*** GPU PHYSICS FAILED ***\n{err}\n");
                     w.gpu_fail = std::ffi::CString::new(err).ok();
                     w.sim = old;
+                    w.physics_invalid = true;
+                    if let Some(sim) = w.sim.as_mut() { sim.mark_physics_invalid(); }
                     return;
                 }
             };
@@ -5281,6 +5289,8 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
                 Err(err) => {
                     eprintln!("\n*** GPU PHYSICS FAILED ***\n{err}\n");
                     w.gpu_fail = std::ffi::CString::new(err).ok();
+                    w.physics_invalid = true;
+                    sim.mark_physics_invalid();
                     return;
                 }
             };
@@ -10772,6 +10782,78 @@ mod convex_ccd_integration_tests {
     use crate::api::*;
 
     #[test]
+    fn constant_load_contact_compliance_matches_softness() {
+        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+        for acceleration in [100.0f32, 1000.0] {
+            let mut wd = b3_default_world_def();
+            wd.enable_sleep = false;
+            let h = (1.0f32 / 60.0) / 4.0;
+            let omega = 2.0 * std::f32::consts::PI * 2.0 * wd.contact_hertz.min(0.125 / h);
+            // Four coplanar points, rotation locked: each normal effective mass
+            // equals the body's mass. At rest the soft constraint has stiffness
+            // normal_mass * omega^2, so total stiffness is 4*m*omega^2.
+            let expected_depth = (acceleration - wd.gravity[1]) / (4.0 * omega * omega);
+            let world = b3_create_world(gpu.clone(), &wd);
+            let mut bd = b3_default_body_def();
+            bd.position = [0.0, -0.5, 0.0];
+            let ground = b3_create_body(world, &bd);
+            let sd = b3_default_shape_def();
+            b3_create_hull_shape(ground, &sd, &b3_make_box_hull(20.0, 0.5, 20.0));
+            bd.body_type = BodyType::Dynamic;
+            bd.position = [0.0, 0.5, 0.0];
+            bd.motion_locks.angular_x = true;
+            bd.motion_locks.angular_y = true;
+            bd.motion_locks.angular_z = true;
+            let body = b3_create_body(world, &bd);
+            b3_create_hull_shape(body, &sd, &b3_make_box_hull(0.5, 0.5, 0.5));
+            let mass = b3_body_get_mass(body);
+            let mut max_error = 0.0f32;
+            let mut max_speed = 0.0f32;
+            for step in 0..600 {
+                b3_body_apply_force_to_center(body, [0.0, -mass * acceleration, 0.0], true);
+                b3_world_step(world, 1.0 / 60.0, 4);
+                if step >= 480 {
+                    let depth = 0.5 - b3_body_get_position(body)[1];
+                    max_error = max_error.max((depth - expected_depth).abs());
+                    max_speed = max_speed.max(b3_body_get_linear_velocity(body)[1].abs());
+                }
+            }
+            b3_destroy_world(world);
+            assert!(max_error < 1e-4, "load {acceleration}: expected depth {expected_depth}, error {max_error}");
+            assert!(max_speed < 1e-3, "load {acceleration}: unsettled speed {max_speed}");
+        }
+    }
+
+    #[test]
+    fn ccd_landing_refreshes_empty_contact_inside_speculative_shell() {
+        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+        let mut wd = b3_default_world_def();
+        wd.gravity = [0.0; 3];
+        wd.enable_sleep = false;
+        let world = b3_create_world(gpu, &wd);
+        with_world_mut_no_sync(world, |w| w.gpu_ccd_requested = false);
+        let mut bd = b3_default_body_def();
+        bd.position = [0.0, -0.5, 0.0];
+        let ground = b3_create_body(world, &bd);
+        let sd = b3_default_shape_def();
+        b3_create_hull_shape(ground, &sd, &b3_make_box_hull(20.0, 0.5, 20.0));
+        bd.body_type = BodyType::Dynamic;
+        bd.position = [0.0, 0.522, 0.0];
+        let body = b3_create_body(world, &bd);
+        b3_create_hull_shape(body, &sd, &b3_make_box_hull(0.5, 0.5, 0.5));
+        b3_body_set_linear_velocity(body, [0.0, -2.66667, 0.0]);
+        b3_world_step(world, 1.0 / 60.0, 4);
+        let landing = b3_body_get_position(body)[1];
+        assert!((landing - 0.505).abs() < 0.001, "CCD landing: {landing}");
+        b3_world_step(world, 1.0 / 60.0, 4);
+        let next = b3_body_get_position(body)[1];
+        b3_destroy_world(world);
+        // With no downward load or restitution, speculative support should
+        // arrest descent at the floor, within the engine's linear slop.
+        assert!(next >= 0.495, "empty cached manifold missed CCD landing: {next}");
+    }
+
+    #[test]
     fn accumulated_forces_survive_uploads_and_zero_steps() {
         let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
         let mut wd=b3_default_world_def(); wd.gravity=[0.0;3];
@@ -12317,6 +12399,39 @@ pub fn b3_body_enable_hit_events(id: BodyId, enable: bool) {
 mod api_completion_tests {
     use super::*;
     use crate::api::*;
+
+    #[test]
+    fn rejected_scene_preparation_is_terminal() {
+        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+        let mut wd = b3_default_world_def();
+        // Rejected by the host heap limit, before any large GPU allocation.
+        wd.capacity.dynamic_body_count = i32::MAX;
+        let world = b3_create_world(gpu, &wd);
+        let mut bd = b3_default_body_def();
+        bd.body_type = BodyType::Dynamic;
+        bd.linear_velocity = [1.0, 0.0, 0.0];
+        let body = b3_create_body(world, &bd);
+        b3_create_sphere_shape(body, &b3_default_shape_def(),
+            &Sphere { center: [0.0; 3], radius: 0.5 });
+        b3_world_step_gpu(world, 1.0/60.0, 4);
+        assert!(!b3_world_gpu_fail(world).is_null(), "expected heap rejection");
+        assert_eq!(b3_world_physics_step(world), 0);
+        assert!(b3_world_physics_invalid(world), "rejected preparation must invalidate physics");
+        with_world_mut_no_sync(world, |w| {
+            assert!(w.sim.is_none(), "rejection must precede device allocation");
+            w.def.capacity = b3_default_world_def().capacity;
+        });
+        b3_world_clear_capacity_status(world);
+        b3_world_ensure_gpu(world);
+        b3_world_step_gpu(world, 1.0/60.0, 4);
+        b3_world_gpu_wait(world);
+        assert!(b3_world_physics_invalid(world));
+        assert_eq!(b3_world_physics_step(world), 0, "clear/retry must not resume invalid physics");
+        with_world_no_sync(world, |w| {
+            assert!(w.sim.as_ref().unwrap().physics_invalid());
+        });
+        b3_destroy_world(world);
+    }
 
     #[test]
     fn body_settings_affect_own_gpu_state_and_survive_rebuilds() {
