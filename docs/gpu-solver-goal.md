@@ -5,6 +5,42 @@ Workspace: `/home/firtoz/work/2026/box3d-wasm`.
 Absolute scratchpad: `/home/firtoz/work/2026/box3d-wasm/docs/gpu-solver-goal.md`.
 Engine working directory: `experiments/gpu-physics` relative to that workspace.
 
+## Bounded execution ended: friction, support and small-scene performance (2026-09-29)
+
+User authorized all three candidates on commit d19a93d1a4b3fe51aa1de26222cf14b7560ded3f:
+1. Existing sliding-friction240step fixture: five fresh runs per ordinary/native
+   path, original physical assertions and exact raw v22captured-state equality.
+2. Existing stack-support/energy600step fixture: same five fresh runs per path,
+   original assertions and exact state equality.
+3. Falling Ragdolls performance: five paired fresh runs per GPU path comparing
+   CPU-compatible1/GPU-native0 ordering, fixed scene/config,60warmup+180timed,
+   completed-step unpaced timing, no health/state capture or competing GPU work.
+   Prewarm both orders equally, alternate order within pairs; report all run
+   means/p95/max, paired ratios and log-ratio confidence bound. No default switch.
+
+Stop each task on first failure, preserve/report it, continue independent tasks.
+No fixes, solver edits, extra repeats, commit or push. Broader goal stays paused.
+Evidence: experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/three-checks-d19a93d/.
+Friction and support both PASS:20fresh processes, four exact raw comparisons,
+240/600frames respectively. Physical driver77733 terminal0. Friction stopping
+position0.39576817m; support overlap0.0009977221m, energy gain0, tail speed0.
+Performance builds51274/2114 terminal0, feature-disabled capture libraries linked.
+Performance driver97283 terminal1: stopped at first validation failure during
+prewarm-ordinary-order1 (sample process exit0). At completed/submitted step87,
+contact metrics current=false; snapshot_state88 versus current_state89. Metrics
+are known, snapshot_step87 and capacity_loss=false. No root cause inferred.
+No measured pairs ran; performance acceptance remains OPEN with no speed claim.
+No fixes or reruns. Fixed protocol and original report/log retained under
+performance/. Portable receipt:
+experiments/gpu-physics/benchmarks/2026-09-29-friction-support-performance-d19a93d.json.
+
+Acceptance: friction PASS (10/10); support PASS (10/10); performance STOPPED at
+its first validation failure (0/10 measured pairs). The bounded execution and
+reporting task has ended under its stop-on-failure rule; this is not a performance
+qualification pass. No solver edits, commit or push. Broader goal remains paused.
+Next action requires a new user request: resolve the stale-metrics validation
+failure before attempting performance qualification. Do not automatically retry.
+
 ## Completed bounded goal: restitution requalification (2026-09-29)
 
 User selected restitution only on commit `b45e86b4fa08f7edb73240bcc13e36d2ad6dcf7d`.

@@ -4266,3 +4266,41 @@ error<0.05m), peak penetration0.004999995m (<0.03m), and peak energy25.017302J/k
 portable receipt benchmarks/2026-09-29-restitution-b45e86b.json under the engine.
 This closes the selected restitution gate on the committed solver only; no solver
 changes or broader investigation. Full solver goal remains paused.
+
+
+### Friction, support and stopped performance attempt on d19a93d (2026-09-29)
+
+The bounded sliding-friction and stack-support/energy tasks both PASS on
+`d19a93d1a4b3fe51aa1de26222cf14b7560ded3f`. Each fixture passes five fresh
+processes per ordinary/native cached GPU path, retaining its original physical
+assertions. All four raw v22 captured-state comparisons pass without
+normalization: 240 steps per friction run and 600 per support run, 20 processes
+and 8,400 captured steps overall. Source/build identity, frozen executable and
+trace hashes, frame sequence, ordering and native policy were verified.
+
+Friction stopping distance is 0.39576817 m (target 0.4 m, tolerance 0.04 m);
+peak frictionless-control position error is 0.000006198883 m. Stack peak overlap
+is 0.0009977221 m, measured peak energy gain is 0 J/kg and tail speed is 0 m/s.
+All other original finite-state, drift, orientation and settling checks pass.
+Physical driver77733 exits0; both feature-enabled builds exit0.
+
+Performance builds51274/2114 exit0 with diagnostic capture disabled. The fixed
+Falling Ragdolls protocol intended five pairs per path, alternating order1/0,
+60 warmup plus 180 timed completed steps, 60 Hz/four substeps, sleep enabled,
+eight workers and 320x240 llvmpipe rendering. Timing includes GPU completion,
+pose synchronization and bounded counters. Mode0 also enables paired normals;
+this would compare current modes, not isolated ordering cost.
+
+Performance STOPPED at its first validation failure during the first ordinary
+order1 prewarm. The sample exits0, but driver97283 exits1: at submitted/completed
+step87, contact metrics are known but current=false (snapshot_state88 versus
+current_state89). Snapshot step and topology match; capacity_loss=false. This
+records the failed predicate only, without a root-cause claim. No measured pairs
+started, so there is no valid timing ratio or performance conclusion. No fixes,
+weakened checks or reruns were performed. Performance acceptance remains open;
+the broader solver goal remains paused.
+
+Local evidence: `experiments/gpu-physics/artifacts/gpu-solver-qualification/desktop-baseline/three-checks-d19a93d/`.
+Portable receipt: `experiments/gpu-physics/benchmarks/2026-09-29-friction-support-performance-d19a93d.json`.
+The bounded execution/reporting task ended under its first-failure stop rule;
+only the two correctness gates passed. No solver changes, commit or push.
