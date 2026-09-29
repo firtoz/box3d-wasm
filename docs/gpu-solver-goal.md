@@ -5,6 +5,23 @@ Workspace: `/home/firtoz/work/2026/box3d-wasm`.
 Absolute scratchpad: `/home/firtoz/work/2026/box3d-wasm/docs/gpu-solver-goal.md`.
 Engine working directory: `experiments/gpu-physics` relative to that workspace.
 
+## Current follow-up: full global-solver cube chart (2026-09-29)
+
+Completed: all 108 successful trials cover 100, 1k, 5k, 10k, 25k, 50k, 100k,
+150k and 200k cubes, four CPU/GPU physics/render paths, three trials each. Global
+scheduling, 90 warmup/240 timed steps, eight workers, actual 1280x720 unpaced.
+The original 50k records are unchanged; executable hashes match across batches.
+The remaining-count sweep exited0 and no benchmark process is running.
+
+Portable data, raw bundle, PNG/SVG chart and CSV are under
+`experiments/gpu-physics/benchmarks/machines/`; existing machine ID retains `50k`
+for continuity but now covers all nine counts. Physics crossover lies between the
+sampled5k/10k points. At200k CPU/GPU=4.19/18.84 steps/s and3.84/18.61FPS.
+The publisher supports adding count batches under identical conditions while
+retaining original manifests/raw evidence. Other-machine prompt requests the
+full sweep. This was benchmark-only work; no solver changes or Rain work.
+User authorized commit/push on `fix/gpu-cube-performance-regression`.
+
 ## Current bounded task: 50k cube performance investigation (2026-09-29)
 
 User redirected the multi-machine 200k sweep to a new branch and a 50k-only

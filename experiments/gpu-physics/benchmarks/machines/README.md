@@ -59,8 +59,8 @@ The historical fast cube charts used global-color scheduling; selecting componen
 TGS for that comparison was a measurement-configuration error. The collection
 helper now selects global explicitly, without changing any engine defaults.
 
-Use `CUBE_COUNTS=50000` for the requested bounded comparison, or omit it for the
-full sweep through 200k. Different count lists can share a chart when their
+The user has now requested the full global-solver sweep through 200k. Omit
+`CUBE_COUNTS` for that sweep; `CUBE_COUNTS=50000` remains available for a bounded check. Different count lists can share a chart when their
 measurement conditions match; unmeasured points are never inferred.
 
 ### Portable chart generation
@@ -85,5 +85,24 @@ python3 experiments/gpu-physics/scripts/publish-cube-machine.py \
   --machine-id my-cpu-my-gpu-2026-09-29 --label 'My CPU / My GPU'
 ```
 
-Existing trials must be identical; a different rerun needs a new ID. Keep CPU,
+Additional count batches extend the dataset’s count list while preserving the original
+batch manifests and raw samples. Existing trials must be identical; a different rerun needs a new ID. Keep CPU,
 GPU and rendering batches on the same machine, source build and settings.
+
+## Completed desktop sweep
+
+The i9-9900K / RTX 4070 SUPER dataset contains all 108 successful trials:
+nine counts from 100 to 200k, four paths, three trials each. Global scheduling
+was used throughout. The saved 50k records were retained unchanged, and all
+executable hashes match across both collection batches. No sweep is running.
+
+GPU physics overtakes CPU between the sampled 5k and 10k points. At 200k,
+CPU/GPU throughput is 4.19/18.84 completed steps/s; CPU/GPU rendering is
+3.84/18.61 FPS. See [the chart and full table](charts/README.md).
+The chart uses logarithmic axes to show the full range. Bands retain all trial
+ranges; measurements were taken under normal desktop conditions, not fixed clocks.
+
+The dataset identifier retains `50k` for continuity with the original batch;
+its count list and chart cover the full sweep. Each additional computer should
+use its own unique identifier and the collection command above. Rerendering
+requires only the checked-in files, Python and matplotlib, with no GPU required.

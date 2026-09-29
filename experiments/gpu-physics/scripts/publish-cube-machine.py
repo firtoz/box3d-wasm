@@ -7,7 +7,7 @@ import gzip
 import json
 from pathlib import Path
 import re
-from cube_machine_data import ROOT, MODES, digest, protocol, read_dataset, validate, summaries
+from cube_machine_data import ROOT, MODES, digest, protocol, extend_protocol, read_dataset, validate, summaries
 
 p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('inputs', type=Path, nargs='+')
@@ -27,7 +27,7 @@ else:
 for folder in a.inputs:
     manifest=json.loads((folder/'manifest.json').read_text())
     proto=protocol(manifest)
-    if 'protocol' in data:assert data['protocol']==proto, 'protocol changed; use a new machine/run ID'
+    if 'protocol' in data:data['protocol']=extend_protocol(data['protocol'],proto)
     else:data['protocol']=proto
     # Keep portable build/configuration evidence; omit absolute binary paths and GPU UUIDs.
     batch={k:manifest[k] for k in ['workload','platform','cpu','git','diff_sha256','environment']}

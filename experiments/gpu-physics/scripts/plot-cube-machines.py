@@ -74,7 +74,7 @@ def main():
                 ax.set_ylim(bottom=0,top=ax.get_ylim()[1]*1.12)
             else:ax.set_xticks(ticks,[f'{n/1000:g}k' if n>=1000 else str(n) for n in ticks],rotation=35)
             ax.xaxis.set_minor_formatter(NullFormatter())
-            ax.set_xlabel(f'{ticks[0]:,} dynamic cubes (+ one static floor)' if single_count else 'Dynamic cubes (+ one static floor)')
+            ax.set_xlabel(f'{ticks[0]:,} dynamic cubes (+ one static floor)' if single_count else 'Dynamic cubes (+ one static floor; log scale)')
             if not ax.lines and not ax.patches:ax.text(.5,.5,'No valid measurements yet',transform=ax.transAxes,ha='center',fontsize=14)
         axes[0,col].set_title(title);axes[0,col].set_ylabel(unit+' (higher is better)')
         axes[1,col].set_title('Completed step p95' if prefix=='physics' else 'Frame cadence p95')

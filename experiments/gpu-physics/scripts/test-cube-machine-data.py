@@ -3,7 +3,7 @@
 import copy
 import json
 import unittest
-from cube_machine_data import digest, protocol, validate, summaries
+from cube_machine_data import digest, protocol, extend_protocol, validate, summaries
 
 class DataTests(unittest.TestCase):
     def fixture(self):
@@ -20,6 +20,21 @@ class DataTests(unittest.TestCase):
     def test_valid_raw_and_rate(self):
         d,b=self.fixture();validate(d,b)
         self.assertEqual(summaries(d)[0]['rate'],500.)
+    def test_extend_count_coverage_preserves_existing_trials(self):
+        d,b=self.fixture()
+        incoming={**d['protocol'],'counts':[1000]}
+        d['protocol']=extend_protocol(d['protocol'],incoming)
+        self.assertEqual(d['protocol']['counts'],[100,1000])
+        validate(d,b)
+        self.assertEqual(len(summaries(d)),1)
+    def test_extension_rejects_solver_change(self):
+        d,b=self.fixture()
+        with self.assertRaises(AssertionError):
+            extend_protocol(d['protocol'],{**d['protocol'],'gpu_solver':'global'})
+    def test_count_must_exist_in_original_batch(self):
+        d,b=self.fixture();d['protocol']={**d['protocol'],'counts':[100,1000]}
+        d['trials'][0]['count']=1000
+        with self.assertRaises(AssertionError):validate(d,b)
     def test_rejects_tampered_summary(self):
         d,b=self.fixture();d['trials'][0]['mean_ms']=1.
         with self.assertRaises(AssertionError):validate(d,b)

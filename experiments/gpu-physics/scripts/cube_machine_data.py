@@ -26,6 +26,13 @@ def protocol(manifest):
     return {'workload': manifest['workload'], 'substeps': 4, 'sleep': False,
             **{k: a.get(k, DEFAULTS.get(k)) for k in FIELDS}}
 
+def measurement_conditions(proto):
+    return {k: v for k, v in proto.items() if k != 'counts'}
+
+def extend_protocol(existing, incoming):
+    assert measurement_conditions(existing) == measurement_conditions(incoming), 'protocol changed; use a new machine/run ID'
+    return {**existing, 'counts': sorted(set(existing['counts']) | set(incoming['counts']))}
+
 def read_dataset(path):
     data = json.loads(path.read_text())
     assert data['schema'] == 'cube-machine-v1'
@@ -49,7 +56,10 @@ def validate(data, bundle):
             assert identity not in identities, 'duplicate trial'
             identities.add(identity)
             batch = data['batches'][row['batch']]
-            assert protocol(batch) == data['protocol'], 'incompatible measurement protocols'
+            batch_protocol = protocol(batch)
+            assert measurement_conditions(batch_protocol) == measurement_conditions(data['protocol']), 'incompatible measurement protocols'
+            assert set(batch_protocol['counts']) <= set(data['protocol']['counts'])
+            assert row['count'] in batch_protocol['counts']
             assert row['count'] in data['protocol']['counts']
             assert 1 <= row['trial'] <= data['protocol']['trials']
             assert row['mode'] in MODES and row['mode'] in batch['arguments']['modes']
