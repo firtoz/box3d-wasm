@@ -5,7 +5,34 @@ Workspace: `/home/firtoz/work/2026/box3d-wasm`.
 Absolute scratchpad: `/home/firtoz/work/2026/box3d-wasm/docs/gpu-solver-goal.md`.
 Engine working directory: `experiments/gpu-physics` relative to that workspace.
 
-## Current work and recovery (2026-09-29)
+## Current bounded task: 50k cube performance investigation (2026-09-29)
+
+User redirected the multi-machine 200k sweep to a new branch and a 50k-only
+historical regression investigation. Branch: `fix/gpu-cube-performance-regression`,
+starting at `d98f2f3`. The larger sweep is stopped; completed raw trials remain
+under `artifacts/machine-scaling/`. Do not resume Rain or the full goal implicitly.
+
+Completed bounded result: the new collector omitted `--gpu-solver global`.
+Historical fast charts used global color scheduling; the new sweep used component
+TGS. On this desktop at 50k, three-run current-global/old-global/CPU rates are
+69.26/57.71/19.87 steps/s. Direct current GPU/CPU FPS is 68.92/18.54. Current
+component is 7.82 steps/s; one old component diagnostic is 8.28. The small
+component difference remains unlocalized; no large global-solver regression or
+valid good/bad bisection endpoints were found. No production code was changed or
+reverted. The collector now selects global explicitly and fixes actual window
+resolution. Full data, charts, validation and limitations:
+`experiments/gpu-physics/benchmarks/cube-regression/README.md`.
+
+Existing native `falling_cube_solver_schedules_match_through_impact` passes with
+zero state-channel differences through step330 (15k-cube fixture), exact global
+repeat, island checks and no capacity loss. Benchmark sessions are terminal;
+no sweep is running. Historical detached worktree remains at
+`/tmp/box3d-gpu-regression-history`, revision `49b024f`, with its matching pinned
+Box3D submodule. CPU-only and interrupted component results are archived;
+do not resume the 200k sweep or Rain without user direction. User authorized
+commit/push; delivery is on the new investigation branch.
+
+## Earlier full-goal work and recovery (2026-09-29)
 
 The full goal is resumed. This section owns current process state; older pause,
 bounded-task and live-job notes below are historical. Full objective and acceptance

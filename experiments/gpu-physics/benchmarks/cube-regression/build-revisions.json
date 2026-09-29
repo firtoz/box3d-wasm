@@ -1,0 +1,17 @@
+{
+  "note": "Historical --bench git fields describe execution cwd, not the compiled binary. Its source_sha256 is not a compiled-source attestation (native-workspace source directories are symlinks). These independent checkout/build revision and executable hashes identify tested code; raw output is retained unchanged.",
+  "builds": {
+    "d98f2f3": {
+      "revision": "d98f2f3654297c085d18d70e16a8e4aee936e0b9",
+      "binary_sha256": "0b0cc4b690385af129d7f8cdd5d4902c4786ef0efa7361c2bf3d4c29ea66c773",
+      "engine_diff": "",
+      "build_command": "scripts/build-native-cache.sh build --release --bin gpu-physics"
+    },
+    "49b024f": {
+      "revision": "49b024f500d5d3e003d85664a089ffa721dbd840",
+      "binary_sha256": "6ef697c6163a2a615cab8da0c7977b85b96016a5f080047eedfa3a314749f79a",
+      "engine_diff": "",
+      "build_command": "scripts/build-native-cache.sh build --release --bin gpu-physics"
+    }
+  }
+}

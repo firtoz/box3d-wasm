@@ -165,6 +165,13 @@ count for `dominoes`. The default Dominoes fixture has 30 rings.
 
 ## Falling-cube scaling benchmark
 
+For new measurements on this or another computer, use the
+[shared machine datasets and reproduction workflow](benchmarks/machines/README.md).
+It stores raw samples in Git and rerenders CPU/GPU steps/s, rendered FPS and
+p95 latency through 200,000 cubes. Historical results below retain their original
+hardware and protocol labels. The [50k historical investigation](benchmarks/cube-regression/README.md)
+explains why large-cube comparisons must explicitly select the global-color solver.
+
 **RTX 4070 Laptop (8,188 MiB), Ryzen 9 8945HS, NVIDIA 610.57.04; 2026-09-24.**
 The tiled implementation removes the previous 150,000-cube dispatch failure and
 reduces large-world graph construction time without changing solver settings.

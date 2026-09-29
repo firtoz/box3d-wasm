@@ -1,0 +1,67 @@
+[
+  {
+    "label": "CPU Box3D",
+    "dataset": "desktop-i9-9900k-rtx4070-super-global-50k-2026-09-29.json",
+    "trials": 3,
+    "mode": "physics-cpu",
+    "count": 50000,
+    "rate": 19.86506669998259,
+    "rate_low": 19.80039812660513,
+    "rate_high": 19.981051303014308,
+    "mean_ms": 50.33962458333333,
+    "p50_ms": 50.0174,
+    "p95_ms": 54.5528
+  },
+  {
+    "label": "49b024f / component",
+    "dataset": "history/historical-49b024f-component-50k.json",
+    "trials": 1,
+    "mode": "physics-gpu",
+    "count": 50000,
+    "rate": 8.275352478467033,
+    "rate_low": 8.275352478467033,
+    "rate_high": 8.275352478467033,
+    "mean_ms": 120.84077416666666,
+    "p50_ms": 121.6511,
+    "p95_ms": 125.1282
+  },
+  {
+    "label": "d98f2f3 / component",
+    "dataset": "component-baseline/desktop-i9-9900k-rtx4070-super-2026-09-29.json",
+    "trials": 3,
+    "mode": "physics-gpu",
+    "count": 50000,
+    "rate": 7.823159487724261,
+    "rate_low": 7.75059314643467,
+    "rate_high": 7.837504931872439,
+    "mean_ms": 127.82559291666666,
+    "p50_ms": 135.7739,
+    "p95_ms": 139.0312
+  },
+  {
+    "label": "49b024f / global",
+    "dataset": "history/historical-49b024f-global-50k.json",
+    "trials": 3,
+    "mode": "physics-gpu",
+    "count": 50000,
+    "rate": 57.70512211341547,
+    "rate_low": 57.44889286648001,
+    "rate_high": 57.93114555074802,
+    "mean_ms": 17.329484166666667,
+    "p50_ms": 16.0719,
+    "p95_ms": 22.3417
+  },
+  {
+    "label": "d98f2f3 / global",
+    "dataset": "desktop-i9-9900k-rtx4070-super-global-50k-2026-09-29.json",
+    "trials": 3,
+    "mode": "physics-gpu",
+    "count": 50000,
+    "rate": 69.26023946266059,
+    "rate_low": 69.2266129714289,
+    "rate_high": 69.72194423824824,
+    "mean_ms": 14.438298333333334,
+    "p50_ms": 14.2684,
+    "p95_ms": 17.917
+  }
+]

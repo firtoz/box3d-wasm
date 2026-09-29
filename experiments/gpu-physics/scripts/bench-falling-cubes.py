@@ -125,6 +125,9 @@ def main():
     p.add_argument('output',type=Path)
     p.add_argument('--counts',type=int,nargs='+',default=COUNTS)
     p.add_argument('--modes',nargs='+',choices=MODES,default=MODES)
+    p.add_argument('--selected-binaries-only',action='store_true',help='Require/hash only binaries needed by selected modes')
+    p.add_argument('--min-rate',type=float,default=10,help='Stop a path at this steps/s or FPS; 0 tests every requested count')
+    p.add_argument('--backend',choices=['native','ordinary'],default='native')
     p.add_argument('--trials',type=int,default=3)
     p.add_argument('--warmup',type=int,default=90)
     p.add_argument('--timed',type=int,default=240)
@@ -146,6 +149,7 @@ def main():
     a=p.parse_args()
     if not(0<a.trials and 0<a.warmup and 0<a.timed<=4096 and 0<a.workers<=64 and a.counts==sorted(set(a.counts)) and min(a.counts)>0 and max(a.counts)<=1000000):
         p.error('positive trials/window/workers, increasing unique counts <=1000000 required')
+    if not math.isfinite(a.min_rate) or a.min_rate < 0: p.error('--min-rate must be finite and nonnegative')
     if a.profile_broadphase and (a.modes!=['physics-gpu'] or min(a.counts)<1000):
         p.error('--profile-broadphase requires physics-gpu only and counts >=1000')
     if a.scene=='mixed-stacks' and (any(not m.startswith('physics-') for m in a.modes) or min(a.counts)<2):
@@ -162,13 +166,19 @@ def main():
     if a.sokol_gpu_binary is not None: binaries['sokol_gpu']=a.sokol_gpu_binary.resolve()
     env={k:v for k,v in os.environ.items() if not k.startswith(('GPU_PHYSICS_','GPU_SOKOL_','GPU_BENCH_'))}
     env.pop('WAYLAND_DISPLAY',None)
-    env.update(NATIVE, GPU_PHYSICS_ADAPTER=a.adapter,GPU_PHYSICS_CPU_WORKERS=str(a.workers),
+    env.update(NATIVE if a.backend=='native' else {}, WINIT_X11_SCALE_FACTOR='1', GPU_PHYSICS_ADAPTER=a.adapter,GPU_PHYSICS_CPU_WORKERS=str(a.workers),
         GPU_PHYSICS_DEMAND_POSES='1',GPU_PHYSICS_PRESENT_MODE='immediate',
         GPU_PHYSICS_PIPELINE_CACHE_DIR=str(Path.home()/'.cache/box3d-gpu-physics/pipelines'),
         GPU_BENCH_WIDTH=str(a.width),GPU_BENCH_HEIGHT=str(a.height))
+    env['GPU_PHYSICS_COMPONENT_TGS']='1' if a.gpu_solver=='component' else '0'
     if a.gpu_solver=='global': env.update(GPU_PHYSICS_COMPONENT_TGS='0',GPU_PHYSICS_COLOR_PREFIX=a.gpu_color_prefix)
     if a.global_replay is not None: env['GPU_PHYSICS_GLOBAL_REPLAY']=a.global_replay
     if a.profile_broadphase: env['GPU_PHYSICS_PROFILE_BROADPHASE']='1'
+    needed=set()
+    for mode in a.modes:
+        needed.update({'physics-cpu':['cpu'],'physics-gpu':['gpu'],'sokol-cpu':['sokol_cpu'],'sokol-gpu':['sokol_gpu'],'direct-cpu':['gpu','cpu_bridge'],'direct-gpu':['gpu']}[mode])
+    if a.selected_binaries_only:
+        binaries={k:v for k,v in binaries.items() if k in needed}
     manifest=dict(workload=a.scene+'-v1',arguments=vars(a)|dict(output=str(out),gpu_binary=str(a.gpu_binary) if a.gpu_binary else None,sokol_gpu_binary=str(a.sokol_gpu_binary) if a.sokol_gpu_binary else None),platform=platform.platform(),
         cpu=command_output(['lscpu']),gpu=command_output(['nvidia-smi','--query-gpu=name,uuid,memory.total,driver_version,power.limit,clocks.max.sm,clocks.max.memory','--format=csv']),
         vulkan=command_output(['vulkaninfo','--summary']),
@@ -179,8 +189,8 @@ def main():
     manifest['sokol_draw_distance_m']=1000
     if a.resume:
         old=json.loads((out/'manifest.json').read_text())
-        for key in ['counts','modes','trials','warmup','timed','workers','adapter','width','height','scene','gpu_color_prefix','global_replay']:
-            if old['arguments'].get(key,{'scene':'falling-cubes','gpu_color_prefix':'20'}.get(key))!=manifest['arguments'].get(key): p.error('resume setting changed: '+key)
+        for key in ['counts','modes','trials','warmup','timed','workers','adapter','width','height','scene','gpu_color_prefix','global_replay','gpu_solver','backend','min_rate']:
+            if old['arguments'].get(key,{'scene':'falling-cubes','gpu_color_prefix':'20','gpu_solver':'component','backend':'native','min_rate':10}.get(key))!=manifest['arguments'].get(key): p.error('resume setting changed: '+key)
         if old['binaries']!=manifest['binaries'] or old['environment']!=manifest['environment']:
             p.error('resume requires unchanged binaries and environment; start a new dataset')
         history=json.loads((out/'resume-history.json').read_text()) if (out/'resume-history.json').exists() else []
@@ -255,10 +265,11 @@ def main():
                         assert record['sokol_settings_after']['drawDistance']==1000, 'benchmark draw distance changed'
                     record.update(metrics(data,mode,path,a,count),status='ok')
                     if 'framebuffer' in record:
+                        assert record['framebuffer']==[a.width,a.height], 'actual framebuffer differs from requested dimensions'
                         if framebuffer is None: framebuffer=record['framebuffer']
                         assert framebuffer==record['framebuffer'],(framebuffer,record['framebuffer'])
                     grouped[mode].append(record)
-                    print(f"  {1000/record['mean_ms']:.1f} FPS; p50/p95 {record['p50_ms']:.2f}/{record['p95_ms']:.2f} ms",flush=True)
+                    print(f"  {1000/record['mean_ms']:.1f} {'steps/s' if mode.startswith('physics-') else 'FPS'}; p50/p95 {record['p50_ms']:.2f}/{record['p95_ms']:.2f} ms",flush=True)
                 except (subprocess.SubprocessError,AssertionError,KeyError,ValueError) as e:
                     record.update(status='invalid',error=str(e)[-1500:]);stopped[mode]=dict(count=count,reason='invalid; inspect raw log',error=record['error'])
                     print('  invalid:',str(e)[-300:],flush=True)
@@ -266,8 +277,8 @@ def main():
                 write_json(out/'trials.json',rows)
                 write_json(out/'stopped.json',stopped)
         for mode,records in grouped.items():
-            if mode not in stopped and records and statistics.median(r['mean_ms'] for r in records)>=100:
-                stopped[mode]=dict(count=count,reason='10 FPS threshold')
+            if a.min_rate > 0 and mode not in stopped and records and statistics.median(r['mean_ms'] for r in records)>=1000/a.min_rate:
+                stopped[mode]=dict(count=count,reason=f'{a.min_rate:g}/s threshold')
         write_json(out/'stopped.json',stopped)
     print('Done:',out,flush=True)
 

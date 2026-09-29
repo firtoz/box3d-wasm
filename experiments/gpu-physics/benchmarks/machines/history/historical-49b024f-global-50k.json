@@ -1,0 +1,233 @@
+{
+  "schema": "cube-machine-v1",
+  "machine_id": "historical-49b024f-global-50k",
+  "label": "RTX 4070 SUPER / 49b024f global",
+  "batches": {
+    "9030c50a69026b1b": {
+      "workload": "falling-cubes-v1",
+      "platform": "Linux-6.18.49-1-MANJARO-x86_64-with-glibc2.44",
+      "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           39 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  16\nOn-line CPU(s) list:                     0-15\nVendor ID:                               GenuineIntel\nModel name:                              Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz\nCPU family:                              6\nModel:                                   158\nThread(s) per core:                      2\nCore(s) per socket:                      8\nSocket(s):                               1\nStepping:                                13\nMicrocode version:                       0x104\nCPU(s) scaling MHz:                      69%\nCPU max MHz:                             5000.0000\nCPU min MHz:                             800.0000\nBogoMIPS:                                7200.00\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp vnmi md_clear flush_l1d arch_capabilities\nVirtualization:                          VT-x\nL1d cache:                               256 KiB (8 instances)\nL1i cache:                               256 KiB (8 instances)\nL2 cache:                                2 MiB (8 instances)\nL3 cache:                                16 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-15\nVulnerability Gather data sampling:      Mitigation; Microcode\nVulnerability Ghostwrite:                Not affected\nVulnerability Indirect target selection: Mitigation; Aligned branch/return thunks\nVulnerability Itlb multihit:             KVM: Mitigation: Split huge pages\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Mitigation; Clear CPU buffers; SMT vulnerable\nVulnerability Old microcode:             Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Mitigation; Enhanced IBRS\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI SW loop, KVM SW loop\nVulnerability Srbds:                     Mitigation; Microcode\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Mitigation; TSX disabled\nVulnerability Vmscape:                   Mitigation; IBPB before exit to userspace",
+      "git": "d98f2f3654297c085d18d70e16a8e4aee936e0b9",
+      "diff_sha256": "9255673ecf1f1eb67eb71e347286b7dac26f55ca9c213f5b9042c054afeb3f3a",
+      "environment": {
+        "DISPLAY": ":0",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "0",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_CPU_WORKERS": "8",
+        "GPU_PHYSICS_DEMAND_POSES": "1",
+        "GPU_PHYSICS_PRESENT_MODE": "immediate",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_BENCH_WIDTH": "1280",
+        "GPU_BENCH_HEIGHT": "720",
+        "GPU_PHYSICS_COLOR_PREFIX": "20"
+      },
+      "gpu_hardware": [
+        {
+          "name": "NVIDIA GeForce RTX 4070 SUPER",
+          "memory.total [MiB]": "12282 MiB",
+          "driver_version": "610.57.04",
+          "power.limit [W]": "220.00 W",
+          "clocks.max.sm [MHz]": "3105 MHz",
+          "clocks.max.memory [MHz]": "10501 MHz"
+        }
+      ],
+      "arguments": {
+        "counts": [
+          50000
+        ],
+        "modes": [
+          "physics-gpu"
+        ],
+        "selected_binaries_only": true,
+        "min_rate": 0.0,
+        "backend": "native",
+        "trials": 3,
+        "warmup": 90,
+        "timed": 240,
+        "workers": 8,
+        "adapter": "nvidia",
+        "scene": "falling-cubes",
+        "gpu_color_prefix": "20",
+        "global_replay": null,
+        "gpu_solver": "global",
+        "width": 1280,
+        "height": 720,
+        "timeout": 1200,
+        "profile_broadphase": false
+      },
+      "binaries": {
+        "gpu": {
+          "name": "gpu-physics",
+          "sha256": "6ef697c6163a2a615cab8da0c7977b85b96016a5f080047eedfa3a314749f79a"
+        }
+      }
+    }
+  },
+  "trials": [
+    {
+      "count": 50000,
+      "mode": "physics-gpu",
+      "trial": 1,
+      "status": "ok",
+      "mean_ms": 17.261871666666668,
+      "p50_ms": 16.0588,
+      "p95_ms": 22.2032,
+      "adapter": "NVIDIA GeForce RTX 4070 SUPER",
+      "contacts": 101173,
+      "batch": "9030c50a69026b1b",
+      "system_samples": {
+        "before": {
+          "time": 1790712088.6060963,
+          "load": [
+            6.5224609375,
+            5.3642578125,
+            4.68310546875
+          ],
+          "ac": {},
+          "gpu": "name, temperature.gpu, power.draw [W], clocks.current.sm [MHz], clocks.current.memory [MHz], utilization.gpu [%]\nNVIDIA GeForce RTX 4070 SUPER, 49, 69.94 W, 2790 MHz, 10501 MHz, 7 %",
+          "gpu_power_limits": "==============NVSMI LOG==============\n\nTimestamp                                              : Tue Sep 29 21:01:28 2026\nDriver Version                                         : 610.57.04 [Deprecated; will be removed in CUDA 14.0. Use KMD Version instead]\nCUDA Version                                           : 13.3 [Deprecated; will be removed in CUDA 14.0. Use CUDA UMD Version instead]\nKMD Version                                            : 610.57.04\nCUDA UMD Version                                       : 13.3\n\nAttached GPUs                                          : 1\nGPU 00000000:01:00.0\n    Performance State                                  : P0\n    Clocks Event Reasons\n        Idle                                           : Not Active\n        Applications Clocks Setting                    : Not Active\n        SW Power Cap                                   : Not Active\n        HW Slowdown                                    : Not Active\n            HW Thermal Slowdown                        : Not Active\n            HW Power Brake Slowdown                    : Not Active\n        Sync Boost                                     : Not Active\n        SW Thermal Slowdown                            : Not Active\n        Display Clock Setting                          : Not Active\n    Clocks Event Reasons Counters\n        SW Power Capping                               : 0 us\n        Sync Boost                                     : 0 us\n        SW Thermal Slowdown                            : 0 us\n        HW Thermal Slowdown                            : 0 us\n        HW Power Braking                               : 0 us\n    Sparse Operation Mode                              : N/A\n    GPU Power Readings\n        Average Power Draw                             : 69.94 W\n        Instantaneous Power Draw                       : 55.71 W\n        GPU Ceiling Power Limit\n            Current Power Limit                        : 220.00 W\n            Requested Power Limit                      : 220.00 W\n            Default Power Limit                        : 220.00 W\n        GPU Base Power\n            Current Base Power                         : N/A\n            Requested Base Power                       : N/A\n            Default Base Power                         : N/A\n        Min Power Limit                                : 100.00 W\n        Max Power Limit                                : 220.00 W\n    Power Samples\n        Duration                                       : 2.36 sec\n        Number of Samples                              : 119\n        Max                                            : 122.98 W\n        Min                                            : 48.27 W\n        Avg                                            : 90.88 W\n    GPU Memory Power Readings \n        Average Power Draw                             : N/A\n        Instantaneous Power Draw                       : N/A\n    Module Power Readings\n        Average Power Draw                             : N/A\n        Instantaneous Power Draw                       : N/A\n        Current Power Limit                            : N/A\n        Requested Power Limit                          : N/A\n        Default Power Limit                            : N/A\n        Min Power Limit                                : N/A\n        Max Power Limit                                : N/A\n    EDPp Multiplier                                    : N/A"
+        },
+        "after": {
+          "time": 1790712110.6030264,
+          "load": [
+            4.6943359375,
+            5.02783203125,
+            4.58935546875
+          ],
+          "ac": {},
+          "gpu": "name, temperature.gpu, power.draw [W], clocks.current.sm [MHz], clocks.current.memory [MHz], utilization.gpu [%]\nNVIDIA GeForce RTX 4070 SUPER, 51, 88.50 W, 2790 MHz, 10501 MHz, 51 %",
+          "gpu_power_limits": "==============NVSMI LOG==============\n\nTimestamp                                              : Tue Sep 29 21:01:50 2026\nDriver Version                                         : 610.57.04 [Deprecated; will be removed in CUDA 14.0. Use KMD Version instead]\nCUDA Version                                           : 13.3 [Deprecated; will be removed in CUDA 14.0. Use CUDA UMD Version instead]\nKMD Version                                            : 610.57.04\nCUDA UMD Version                                       : 13.3\n\nAttached GPUs                                          : 1\nGPU 00000000:01:00.0\n    Performance State                                  : P0\n    Clocks Event Reasons\n        Idle                                           : Not Active\n        Applications Clocks Setting                    : Not Active\n        SW Power Cap                                   : Not Active\n        HW Slowdown                                    : Not Active\n            HW Thermal Slowdown                        : Not Active\n            HW Power Brake Slowdown                    : Not Active\n        Sync Boost                                     : Not Active\n        SW Thermal Slowdown                            : Not Active\n        Display Clock Setting                          : Not Active\n    Clocks Event Reasons Counters\n        SW Power Capping                               : 0 us\n        Sync Boost                                     : 0 us\n        SW Thermal Slowdown                            : 0 us\n        HW Thermal Slowdown                            : 0 us\n        HW Power Braking                               : 0 us\n    Sparse Operation Mode                              : N/A\n    GPU Power Readings\n        Average Power Draw                             : 88.50 W\n        Instantaneous Power Draw                       : 53.88 W\n        GPU Ceiling Power Limit\n            Current Power Limit                        : 220.00 W\n            Requested Power Limit                      : 220.00 W\n            Default Power Limit                        : 220.00 W\n        GPU Base Power\n            Current Base Power                         : N/A\n            Requested Base Power                       : N/A\n            Default Base Power                         : N/A\n        Min Power Limit                                : 100.00 W\n        Max Power Limit                                : 220.00 W\n    Power Samples\n        Duration                                       : 2.36 sec\n        Number of Samples                              : 119\n        Max                                            : 99.54 W\n        Min                                            : 47.26 W\n        Avg                                            : 90.10 W\n    GPU Memory Power Readings \n        Average Power Draw                             : N/A\n        Instantaneous Power Draw                       : N/A\n    Module Power Readings\n        Average Power Draw                             : N/A\n        Instantaneous Power Draw                       : N/A\n        Current Power Limit                            : N/A\n        Requested Power Limit                          : N/A\n        Default Power Limit                            : N/A\n        Min Power Limit                                : N/A\n        Max Power Limit                                : N/A\n    EDPp Multiplier                                    : N/A"
+        },
+        "idle": null,
+        "load_gate_enabled": false
+      },
+      "raw_file": "50000-physics-gpu-1.json",
+      "raw_sha256": "66f9c55857aa4cb5c1f56f999e37c94ad51d650bb5e84447cce362533d658b78"
+    },
+    {
+      "count": 50000,
+      "mode": "physics-gpu",
+      "trial": 2,
+      "status": "ok",
+      "mean_ms": 17.329484166666667,
+      "p50_ms": 16.0968,
+      "p95_ms": 22.3417,
+      "adapter": "NVIDIA GeForce RTX 4070 SUPER",
+      "contacts": 101173,
+      "batch": "9030c50a69026b1b",
+      "system_samples": {
+        "before": {
+          "time": 1790712110.6415877,
+          "load": [
+            4.6943359375,
+            5.02783203125,
+            4.58935546875
+          ],
+          "ac": {},
+          "gpu": "name, temperature.gpu, power.draw [W], clocks.current.sm [MHz], clocks.current.memory [MHz], utilization.gpu [%]\nNVIDIA GeForce RTX 4070 SUPER, 51, 88.50 W, 2790 MHz, 10501 MHz, 51 %",
+          "gpu_power_limits": "==============NVSMI LOG==============\n\nTimestamp                                              : Tue Sep 29 21:01:50 2026\nDriver Version                                         : 610.57.04 [Deprecated; will be removed in CUDA 14.0. Use KMD Version instead]\nCUDA Version                                           : 13.3 [Deprecated; will be removed in CUDA 14.0. Use CUDA UMD Version instead]\nKMD Version                                            : 610.57.04\nCUDA UMD Version                                       : 13.3\n\nAttached GPUs                                          : 1\nGPU 00000000:01:00.0\n    Performance State                                  : P0\n    Clocks Event Reasons\n        Idle                                           : Not Active\n        Applications Clocks Setting                    : Not Active\n        SW Power Cap                                   : Not Active\n        HW Slowdown                                    : Not Active\n            HW Thermal Slowdown                        : Not Active\n            HW Power Brake Slowdown                    : Not Active\n        Sync Boost                                     : Not Active\n        SW Thermal Slowdown                            : Not Active\n        Display Clock Setting                          : Not Active\n    Clocks Event Reasons Counters\n        SW Power Capping                               : 0 us\n        Sync Boost                                     : 0 us\n        SW Thermal Slowdown                            : 0 us\n        HW Thermal Slowdown                            : 0 us\n        HW Power Braking                               : 0 us\n    Sparse Operation Mode                              : N/A\n    GPU Power Readings\n        Average Power Draw                             : 84.65 W\n        Instantaneous Power Draw                       : 51.59 W\n        GPU Ceiling Power Limit\n            Current Power Limit                        : 220.00 W\n            Requested Power Limit                      : 220.00 W\n            Default Power Limit                        : 220.00 W\n        GPU Base Power\n            Current Base Power                         : N/A\n            Requested Base Power                       : N/A\n            Default Base Power                         : N/A\n        Min Power Limit                                : 100.00 W\n        Max Power Limit                                : 220.00 W\n    Power Samples\n        Duration                                       : 2.36 sec\n        Number of Samples                              : 119\n        Max                                            : 99.54 W\n        Min                                            : 47.26 W\n        Avg                                            : 89.40 W\n    GPU Memory Power Readings \n        Average Power Draw                             : N/A\n        Instantaneous Power Draw                       : N/A\n    Module Power Readings\n        Average Power Draw                             : N/A\n        Instantaneous Power Draw                       : N/A\n        Current Power Limit                            : N/A\n        Requested Power Limit                          : N/A\n        Default Power Limit                            : N/A\n        Min Power Limit                                : N/A\n        Max Power Limit                                : N/A\n    EDPp Multiplier                                    : N/A"
+        },
+        "after": {
+          "time": 1790712132.637095,
+          "load": [
+            4.24462890625,
+            4.91064453125,
+            4.56005859375
+          ],
+          "ac": {},
+          "gpu": "name, temperature.gpu, power.draw [W], clocks.current.sm [MHz], clocks.current.memory [MHz], utilization.gpu [%]\nNVIDIA GeForce RTX 4070 SUPER, 53, 90.45 W, 2790 MHz, 10501 MHz, 68 %",
+          "gpu_power_limits": "==============NVSMI LOG==============\n\nTimestamp                                              : Tue Sep 29 21:02:12 2026\nDriver Version                                         : 610.57.04 [Deprecated; will be removed in CUDA 14.0. Use KMD Version instead]\nCUDA Version                                           : 13.3 [Deprecated; will be removed in CUDA 14.0. Use CUDA UMD Version instead]\nKMD Version                                            : 610.57.04\nCUDA UMD Version                                       : 13.3\n\nAttached GPUs                                          : 1\nGPU 00000000:01:00.0\n    Performance State                                  : P0\n    Clocks Event Reasons\n        Idle                                           : Not Active\n        Applications Clocks Setting                    : Not Active\n        SW Power Cap                                   : Not Active\n        HW Slowdown                                    : Not Active\n            HW Thermal Slowdown                        : Not Active\n            HW Power Brake Slowdown                    : Not Active\n        Sync Boost                                     : Not Active\n        SW Thermal Slowdown                            : Not Active\n        Display Clock Setting                          : Not Active\n    Clocks Event Reasons Counters\n        SW Power Capping                               : 0 us\n        Sync Boost                                     : 0 us\n        SW Thermal Slowdown                            : 0 us\n        HW Thermal Slowdown                            : 0 us\n        HW Power Braking                               : 0 us\n    Sparse Operation Mode                              : N/A\n    GPU Power Readings\n        Average Power Draw                             : 87.17 W\n        Instantaneous Power Draw                       : 56.27 W\n        GPU Ceiling Power Limit\n            Current Power Limit                        : 220.00 W\n            Requested Power Limit                      : 220.00 W\n            Default Power Limit                        : 220.00 W\n        GPU Base Power\n            Current Base Power                         : N/A\n            Requested Base Power                       : N/A\n            Default Base Power                         : N/A\n        Min Power Limit                                : 100.00 W\n        Max Power Limit                                : 220.00 W\n    Power Samples\n        Duration                                       : 2.36 sec\n        Number of Samples                              : 119\n        Max                                            : 100.11 W\n        Min                                            : 47.78 W\n        Avg                                            : 90.68 W\n    GPU Memory Power Readings \n        Average Power Draw                             : N/A\n        Instantaneous Power Draw                       : N/A\n    Module Power Readings\n        Average Power Draw                             : N/A\n        Instantaneous Power Draw                       : N/A\n        Current Power Limit                            : N/A\n        Requested Power Limit                          : N/A\n        Default Power Limit                            : N/A\n        Min Power Limit                                : N/A\n        Max Power Limit                                : N/A\n    EDPp Multiplier                                    : N/A"
+        },
+        "idle": null,
+        "load_gate_enabled": false
+      },
+      "raw_file": "50000-physics-gpu-2.json",
+      "raw_sha256": "504554da85140c6229169068e5c52e39d948730fe9013e6c732b562bf9299a90"
+    },
+    {
+      "count": 50000,
+      "mode": "physics-gpu",
+      "trial": 3,
+      "status": "ok",
+      "mean_ms": 17.406775833333334,
+      "p50_ms": 16.0719,
+      "p95_ms": 22.3966,
+      "adapter": "NVIDIA GeForce RTX 4070 SUPER",
+      "contacts": 101173,
+      "batch": "9030c50a69026b1b",
+      "system_samples": {
+        "before": {
+          "time": 1790712132.67507,
+          "load": [
+            4.24462890625,
+            4.91064453125,
+            4.56005859375
+          ],
+          "ac": {},
+          "gpu": "name, temperature.gpu, power.draw [W], clocks.current.sm [MHz], clocks.current.memory [MHz], utilization.gpu [%]\nNVIDIA GeForce RTX 4070 SUPER, 53, 87.17 W, 2790 MHz, 10501 MHz, 68 %",
+          "gpu_power_limits": "==============NVSMI LOG==============\n\nTimestamp                                              : Tue Sep 29 21:02:12 2026\nDriver Version                                         : 610.57.04 [Deprecated; will be removed in CUDA 14.0. Use KMD Version instead]\nCUDA Version                                           : 13.3 [Deprecated; will be removed in CUDA 14.0. Use CUDA UMD Version instead]\nKMD Version                                            : 610.57.04\nCUDA UMD Version                                       : 13.3\n\nAttached GPUs                                          : 1\nGPU 00000000:01:00.0\n    Performance State                                  : P0\n    Clocks Event Reasons\n        Idle                                           : Not Active\n        Applications Clocks Setting                    : Not Active\n        SW Power Cap                                   : Not Active\n        HW Slowdown                                    : Not Active\n            HW Thermal Slowdown                        : Not Active\n            HW Power Brake Slowdown                    : Not Active\n        Sync Boost                                     : Not Active\n        SW Thermal Slowdown                            : Not Active\n        Display Clock Setting                          : Not Active\n    Clocks Event Reasons Counters\n        SW Power Capping                               : 0 us\n        Sync Boost                                     : 0 us\n        SW Thermal Slowdown                            : 0 us\n        HW Thermal Slowdown                            : 0 us\n        HW Power Braking                               : 0 us\n    Sparse Operation Mode                              : N/A\n    GPU Power Readings\n        Average Power Draw                             : 87.17 W\n        Instantaneous Power Draw                       : 56.27 W\n        GPU Ceiling Power Limit\n            Current Power Limit                        : 220.00 W\n            Requested Power Limit                      : 220.00 W\n            Default Power Limit                        : 220.00 W\n        GPU Base Power\n            Current Base Power                         : N/A\n            Requested Base Power                       : N/A\n            Default Base Power                         : N/A\n        Min Power Limit                                : 100.00 W\n        Max Power Limit                                : 220.00 W\n    Power Samples\n        Duration                                       : 2.36 sec\n        Number of Samples                              : 119\n        Max                                            : 100.11 W\n        Min                                            : 47.78 W\n        Avg                                            : 90.02 W\n    GPU Memory Power Readings \n        Average Power Draw                             : N/A\n        Instantaneous Power Draw                       : N/A\n    Module Power Readings\n        Average Power Draw                             : N/A\n        Instantaneous Power Draw                       : N/A\n        Current Power Limit                            : N/A\n        Requested Power Limit                          : N/A\n        Default Power Limit                            : N/A\n        Min Power Limit                                : N/A\n        Max Power Limit                                : N/A\n    EDPp Multiplier                                    : N/A"
+        },
+        "after": {
+          "time": 1790712154.4219666,
+          "load": [
+            3.322265625,
+            4.65673828125,
+            4.4833984375
+          ],
+          "ac": {},
+          "gpu": "name, temperature.gpu, power.draw [W], clocks.current.sm [MHz], clocks.current.memory [MHz], utilization.gpu [%]\nNVIDIA GeForce RTX 4070 SUPER, 56, 91.21 W, 2790 MHz, 10501 MHz, 74 %",
+          "gpu_power_limits": "==============NVSMI LOG==============\n\nTimestamp                                              : Tue Sep 29 21:02:34 2026\nDriver Version                                         : 610.57.04 [Deprecated; will be removed in CUDA 14.0. Use KMD Version instead]\nCUDA Version                                           : 13.3 [Deprecated; will be removed in CUDA 14.0. Use CUDA UMD Version instead]\nKMD Version                                            : 610.57.04\nCUDA UMD Version                                       : 13.3\n\nAttached GPUs                                          : 1\nGPU 00000000:01:00.0\n    Performance State                                  : P0\n    Clocks Event Reasons\n        Idle                                           : Not Active\n        Applications Clocks Setting                    : Not Active\n        SW Power Cap                                   : Not Active\n        HW Slowdown                                    : Not Active\n            HW Thermal Slowdown                        : Not Active\n            HW Power Brake Slowdown                    : Not Active\n        Sync Boost                                     : Not Active\n        SW Thermal Slowdown                            : Not Active\n        Display Clock Setting                          : Not Active\n    Clocks Event Reasons Counters\n        SW Power Capping                               : 0 us\n        Sync Boost                                     : 0 us\n        SW Thermal Slowdown                            : 0 us\n        HW Thermal Slowdown                            : 0 us\n        HW Power Braking                               : 0 us\n    Sparse Operation Mode                              : N/A\n    GPU Power Readings\n        Average Power Draw                             : 88.13 W\n        Instantaneous Power Draw                       : 58.34 W\n        GPU Ceiling Power Limit\n            Current Power Limit                        : 220.00 W\n            Requested Power Limit                      : 220.00 W\n            Default Power Limit                        : 220.00 W\n        GPU Base Power\n            Current Base Power                         : N/A\n            Requested Base Power                       : N/A\n            Default Base Power                         : N/A\n        Min Power Limit                                : 100.00 W\n        Max Power Limit                                : 220.00 W\n    Power Samples\n        Duration                                       : 2.36 sec\n        Number of Samples                              : 119\n        Max                                            : 101.22 W\n        Min                                            : 51.82 W\n        Avg                                            : 91.86 W\n    GPU Memory Power Readings \n        Average Power Draw                             : N/A\n        Instantaneous Power Draw                       : N/A\n    Module Power Readings\n        Average Power Draw                             : N/A\n        Instantaneous Power Draw                       : N/A\n        Current Power Limit                            : N/A\n        Requested Power Limit                          : N/A\n        Default Power Limit                            : N/A\n        Min Power Limit                                : N/A\n        Max Power Limit                                : N/A\n    EDPp Multiplier                                    : N/A"
+        },
+        "idle": null,
+        "load_gate_enabled": false
+      },
+      "raw_file": "50000-physics-gpu-3.json",
+      "raw_sha256": "4c0d608f68f2fe67ccfc7135714ccc4573d8da8bbaf86719486436e5dcb88e52"
+    }
+  ],
+  "stopped": {},
+  "protocol": {
+    "workload": "falling-cubes-v1",
+    "substeps": 4,
+    "sleep": false,
+    "counts": [
+      50000
+    ],
+    "trials": 3,
+    "warmup": 90,
+    "timed": 240,
+    "workers": 8,
+    "width": 1280,
+    "height": 720,
+    "scene": "falling-cubes",
+    "gpu_solver": "global",
+    "gpu_color_prefix": "20",
+    "global_replay": null,
+    "backend": "native",
+    "min_rate": 0.0
+  },
+  "updated_utc": "2026-09-29T20:02:41.849025+00:00",
+  "status": "partial",
+  "raw_bundle": {
+    "file": "historical-49b024f-global-50k.5650426c7ae9.raw.json.gz",
+    "sha256": "5650426c7ae985e418da3acdec956d6bf4f39aaafe646eb5ca0872413dc90551",
+    "bytes": 20908
+  }
+}
