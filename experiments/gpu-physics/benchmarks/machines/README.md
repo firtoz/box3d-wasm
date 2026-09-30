@@ -89,7 +89,7 @@ Additional count batches extend the dataset’s count list while preserving the 
 batch manifests and raw samples. Existing trials must be identical; a different rerun needs a new ID. Keep CPU,
 GPU and rendering batches on the same machine, source build and settings.
 
-## Completed desktop sweep
+## Completed sweeps
 
 The i9-9900K / RTX 4070 SUPER dataset contains all 108 successful trials:
 nine counts from 100 to 200k, four paths, three trials each. Global scheduling
@@ -106,3 +106,19 @@ The dataset identifier retains `50k` for continuity with the original batch;
 its count list and chart cover the full sweep. Each additional computer should
 use its own unique identifier and the collection command above. Rerendering
 requires only the checked-in files, Python and matplotlib, with no GPU required.
+
+The `laptop-ryzen9-8945hs-rtx4070-2026-09-30` dataset adds all 108 successful
+trials for a Ryzen 9 8945HS (8 cores / 16 threads) and NVIDIA GeForce RTX 4070
+Laptop GPU (8 GB), using NVIDIA driver 610.57.04 and native Vulkan. The desktop
+session used KDE Wayland with a 2880×1800, 120 Hz internal display; the collector
+used its existing X11 path on `DISPLAY=:1` for the required 1280×720 unpaced
+renderer. AC power was connected throughout the measurements, and the file
+indexer was suspended for the sweep and restored afterward. Initial attempts
+stopped at the AC-power check before any trials; collection then resumed with
+unchanged binaries and settings. No measured paths are missing or invalid.
+
+On this laptop, GPU physics overtakes CPU between the sampled 10k and 25k
+points. At 50k, CPU/GPU throughput is 25.94/44.80 completed steps/s and rendering
+is 22.45/46.98 FPS; at 100k these are 10.72/22.97 steps/s and 9.65/21.84 FPS;
+at 200k they are 4.84/12.02 steps/s and 4.37/11.61 FPS. The combined charts
+retain the desktop dataset and both machines' full trial ranges.
