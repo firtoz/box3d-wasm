@@ -1,4 +1,4 @@
-Pull the latest `fix/gpu-cube-performance-regression` branch without overwriting local work, and initialize the pinned submodules. Read `AGENTS.md` and `experiments/gpu-physics/benchmarks/machines/README.md`.
+Pull the latest `feat/gpu` branch without overwriting local work, and initialize the pinned submodules. Read `AGENTS.md` and `experiments/gpu-physics/benchmarks/machines/README.md`.
 
 Add this computer's CPU and GPU measurements to the shared cube-scaling charts. Identify the actual CPU, GPU, driver and display. Use a unique machine/run ID and an accurate CPU/GPU label; retain every existing machine's files.
 
@@ -6,6 +6,6 @@ Run `experiments/gpu-physics/scripts/collect-cube-machine.sh <unique-id> '<CPU /
 
 Do not change the physics engine or tune settings to improve this machine's score. Do not substitute a software GPU, extrapolate missing points, call physics throughput FPS, or silently change the backend. If driver/display/backend access is unavailable, preserve the failure and report it. Resume an interrupted run only with unchanged binaries and settings.
 
-Publish this machine's JSON and compressed raw bundle, validate all machines with `plot-cube-machines.py --validate-only`, and rerender with `plot-cube-machines.py`. Inspect the chart. Commit the new data, raw bundle and regenerated chart/table files, then push `fix/gpu-cube-performance-regression`. If the remote gained another machine meanwhile, preserve both datasets and rerender after integrating them. Report the commit, hardware, CPU/GPU physics steps/s and rendered FPS at 50k, 100k and 200k, and any missing or invalid paths.
+Publish this machine's JSON and compressed raw bundle, validate all machines with `plot-cube-machines.py --validate-only`, and rerender with `plot-cube-machines.py`. Inspect the chart. Commit the new data, raw bundle and regenerated chart/table files, then push `feat/gpu`. If the remote gained another machine meanwhile, preserve both datasets and rerender after integrating them. Report the commit, hardware, CPU/GPU physics steps/s and rendered FPS at 50k, 100k and 200k, and any missing or invalid paths.
 
 The collector defaults to the full 100-through-200k sweep when CUBE_COUNTS is omitted. Run the full sweep. Keep all existing desktop measurements; datasets can be extended with additional counts under unchanged measurement conditions. Historical component-TGS results are archived separately and must not be presented as global-solver measurements.

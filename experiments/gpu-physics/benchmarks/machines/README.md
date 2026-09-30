@@ -29,7 +29,7 @@ matplotlib for plotting, Vulkan driver and a working desktop display). Driver an
 Git access must be available to the agent. Never substitute software rendering
 or report physics throughput as FPS when the display is unavailable.
 
-From the repository root, after pulling `fix/gpu-cube-performance-regression` and initializing submodules:
+From the repository root, after pulling `feat/gpu` and initializing submodules:
 
 ```sh
 CUBE_ADAPTER=nvidia experiments/gpu-physics/scripts/collect-cube-machine.sh \
