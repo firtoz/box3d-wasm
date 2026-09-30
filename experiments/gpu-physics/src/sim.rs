@@ -4451,6 +4451,14 @@ impl GpuSim {
     #[cfg(test)]
     pub(crate) fn last_step_was_idle(&self)->bool {self.last_step_idle}
 
+    // Dynamic-dynamic root density is published with ordinary asynchronous
+    // status. Static contacts do not connect independent groups. Reuse the
+    // graph's hysteretic hint; no additional readback or synchronization.
+    // A delayed hint selects a slower valid schedule, never omits constraints.
+    pub(crate) fn set_component_schedule(&mut self, eligible: bool, automatic: bool) {
+        self.set_component_tgs(eligible && (!automatic || !self.graph_dense_hint));
+    }
+
     pub(crate) fn set_component_tgs(&mut self, enabled: bool) {
         if enabled {
             let capacity = self.caps.bodies.max(self.count).max(1);

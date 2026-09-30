@@ -371,6 +371,7 @@ struct WorldInner {
     last_query_profile: super::QueryProfile,
     diagnostic_flags_override: Option<u32>,
     component_tgs_requested: bool,
+    component_tgs_automatic: bool,
     gpu_ccd_requested: bool,
     gpu_resident_requested: bool,
     automatic_pose_snapshots: bool,
@@ -474,7 +475,8 @@ pub fn b3_create_world(gpu: GpuDevice, def: &WorldDef) -> WorldId {
         query_index: None,
         last_query_profile: super::QueryProfile::default(),
         diagnostic_flags_override: None,
-        component_tgs_requested: std::env::var("GPU_PHYSICS_COMPONENT_TGS").as_deref()==Ok("1"),
+        component_tgs_requested: std::env::var("GPU_PHYSICS_COMPONENT_TGS").is_ok_and(|v| v=="1" || v=="auto"),
+        component_tgs_automatic: std::env::var("GPU_PHYSICS_COMPONENT_TGS").as_deref()==Ok("auto"),
         gpu_ccd_requested: std::env::var("GPU_PHYSICS_GPU_CCD").is_ok_and(|value| value=="1"),
         gpu_resident_requested: std::env::var("GPU_PHYSICS_RESIDENT").is_ok_and(|value| value=="0")==false,
         automatic_pose_snapshots: true,
@@ -5377,10 +5379,10 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
         sim.set_contact_recycle_distance(w.contact_recycle_distance);
         // Component-local substeps cannot independently advance a shared
         // kinematic/zero-mass endpoint. Keep those worlds on global phases.
-        sim.set_component_tgs(w.component_tgs_requested
+        sim.set_component_schedule(w.component_tgs_requested
             && !w.jacobi && w.custom_filter_callback.is_none() && w.pre_solve_callback.is_none()
             && !w.joints.iter().any(|j| j.kind != JOINT_NONE)
-            && capabilities.component_bodies);
+            && capabilities.component_bodies, w.component_tgs_automatic);
 
         // Stepping uploads the final table after assigning its step ID in
         // world_step / begin_callback_step. Queries and explicit setup need
@@ -11366,7 +11368,7 @@ mod complete_component_tests {
         // Exercise the measured dense workload beyond the 8,168-body shared
         // graph limit, including the complete benchmark collision window.
         let checkpoints = [1, 65, 78, 79, 90, 150, 330];
-        let run = |component, batched| {
+        let run = |component, batched, automatic| {
             let cfg = crate::types::DemoConfig {
                 scene: crate::types::DemoScene::FallingCubes,
                 body_count: 15000,
@@ -11375,7 +11377,10 @@ mod complete_component_tests {
                 jacobi: false,
             };
             let world = crate::scenes::build_demo_world(gpu.clone(), &cfg);
-            with_world_mut_no_sync(world, |w| w.component_tgs_requested = component);
+            with_world_mut_no_sync(world, |w| {
+                w.component_tgs_requested = component;
+                w.component_tgs_automatic = automatic;
+            });
             b3_world_enable_sleeping(world, false);
             b3_world_ensure_gpu(world);
             with_world_mut_no_sync(world, |w| {
@@ -11417,7 +11422,7 @@ mod complete_component_tests {
                     assert!(!stats.capacity_loss(), "component={component}, step={step}");
                 }
             }
-            if component {
+            if component && !automatic {
                 assert_eq!(b3_world_last_solver_dispatches(world), 2);
             } else {
                 assert!(b3_world_last_solver_dispatches(world) > 2);
@@ -11425,8 +11430,8 @@ mod complete_component_tests {
             b3_destroy_world(world);
             snapshots
         };
-        let global = run(false, false);
-        let repeat = run(false, false);
+        let global = run(false, false, false);
+        let repeat = run(false, false, false);
         for (step, (a, b)) in global.iter().zip(&repeat).enumerate() {
             let err = a
                 .iter()
@@ -11445,8 +11450,10 @@ mod complete_component_tests {
         }
 
         for (variant, component) in [
-            ("component", run(true, false)),
-            ("batched-graph", run(false, true)),
+            ("component", run(true, false, false)),
+            ("batched-graph", run(false, true, false)),
+            ("automatic", run(true, false, true)),
+            ("automatic-repeat", run(true, false, true)),
         ] {
             let mut maximum_error = 0.0f32;
             for (checkpoint, (actual, expected)) in component.iter().zip(&global).enumerate() {
@@ -12857,3 +12864,6 @@ mod full_replay_dominoes_probe {
   if let Some(e)=pollster::block_on(gpu.device.pop_error_scope()){panic!("{e}");}
  }
 }
+
+#[cfg(all(test, not(target_arch = "wasm32")))]
+mod scheduling_tests;

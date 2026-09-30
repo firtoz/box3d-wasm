@@ -136,8 +136,8 @@ def main():
     p.add_argument('--scene',choices=['falling-cubes','mixed-stacks'],default='falling-cubes',help='Mixed stacks: independent two-box groups, physics modes only')
     p.add_argument('--gpu-color-prefix',choices=['auto',*[str(i) for i in range(24)]],default='20')
     p.add_argument('--global-replay',choices=['0','1'],default=None,help='Override global replay; omission preserves binary default')
-    p.add_argument('--gpu-solver',choices=['component','global'],default='component',
-        help='Select comparable component or global-color scheduling; recorded in the manifest')
+    p.add_argument('--gpu-solver',choices=['component','global','auto'],default='component',
+        help='Select component, global-color, or automatic scheduling; recorded in the manifest')
     p.add_argument('--gpu-binary',type=Path,help='Use a preserved GPU executable for physics/direct modes')
     p.add_argument('--sokol-gpu-binary',type=Path,help='Use a preserved GPU executable for Sokol mode')
     p.add_argument('--width',type=int,default=1280)
@@ -170,7 +170,8 @@ def main():
         GPU_PHYSICS_DEMAND_POSES='1',GPU_PHYSICS_PRESENT_MODE='immediate',
         GPU_PHYSICS_PIPELINE_CACHE_DIR=str(Path.home()/'.cache/box3d-gpu-physics/pipelines'),
         GPU_BENCH_WIDTH=str(a.width),GPU_BENCH_HEIGHT=str(a.height))
-    env['GPU_PHYSICS_COMPONENT_TGS']='1' if a.gpu_solver=='component' else '0'
+    env['GPU_PHYSICS_COMPONENT_TGS']={'component':'1','global':'0','auto':'auto'}[a.gpu_solver]
+    env['GPU_PHYSICS_COLOR_PREFIX']=a.gpu_color_prefix
     if a.gpu_solver=='global': env.update(GPU_PHYSICS_COMPONENT_TGS='0',GPU_PHYSICS_COLOR_PREFIX=a.gpu_color_prefix)
     if a.global_replay is not None: env['GPU_PHYSICS_GLOBAL_REPLAY']=a.global_replay
     if a.profile_broadphase: env['GPU_PHYSICS_PROFILE_BROADPHASE']='1'

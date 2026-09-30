@@ -172,6 +172,20 @@ p95 latency through 200,000 cubes. Historical results below retain their origina
 hardware and protocol labels. The [50k historical investigation](benchmarks/cube-regression/README.md)
 explains why large-cube comparisons must explicitly select the global-color solver.
 
+The [bounded scheduling qualification](benchmarks/scheduling-2026-09-30/README.md)
+adds `GPU_PHYSICS_COMPONENT_TGS=auto`: the existing dynamic-contact density hint
+chooses global for dense graphs and component solving for sparse groups. On the
+i9-9900K / RTX 4070 SUPER, automatic matches explicit global at 50k cubes
+(72.05/72.02 steps/s) and reduces independent-group step time 57.18% against
+global at 4,096 bodies. Against component, cube time falls 89.08%; independent
+mean/p95 changes remain within 5%. This is an opt-in, two-fixture result;
+laptop validation remains pending. Explicit `0`/`1` overrides and current defaults
+remain available. Native launchers preserve the requested override:
+
+```sh
+GPU_PHYSICS_COMPONENT_TGS=auto bun run samples:gpu
+```
+
 **RTX 4070 Laptop (8,188 MiB), Ryzen 9 8945HS, NVIDIA 610.57.04; 2026-09-24.**
 The tiled implementation removes the previous 150,000-cube dispatch failure and
 reduces large-world graph construction time without changing solver settings.

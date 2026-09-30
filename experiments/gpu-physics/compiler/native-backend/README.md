@@ -43,7 +43,10 @@ hybrid machines. This policy is not automatic performance tuning.
 The Linux sample cache configuration enables eligible full replay, graph
 memoization, pair/reset caches, component scheduling and GPU CCD. Small component
 workgroups default to 16; this is a measured starting point, not a per-device
-optimum. Resource and world eligibility checks still apply. Automatic pose
+optimum. `GPU_PHYSICS_COMPONENT_TGS=auto` opts into the measured density-based
+schedule choice; `0` forces global and `1` forces component. Launchers preserve
+these overrides. See the [bounded desktop qualification](../../benchmarks/scheduling-2026-09-30/README.md);
+second-machine qualification is pending. Resource and world eligibility checks still apply. Automatic pose
 staging stays enabled; `GPU_PHYSICS_SAMPLES_DEMAND_POSES=1` is an experimental
 option without a demonstrated application benefit. Normal launch retains sleep
 and pacing.

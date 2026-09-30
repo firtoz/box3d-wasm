@@ -34,7 +34,7 @@ report for its command and the distinction from full-scene physics checks.
 | Box3D WASM package | Separate implementation; unchanged by the experiment |
 | Native API parity | Incomplete; linkable symbols include placeholders and CPU-only comparison passthroughs |
 | Falling Ragdolls precision | Independent 600-step, 112-body runs pass every-frame targets on ordinary and native cached NVIDIA paths: worst position RMS/max 2.39/14.92 mm; orientation RMS/max 0.764/4.342 degrees. Collision-free, joint stability, Offset, Prismatic and strict dragging checks pass. Synchronized recordings are complete. Rain passes 600-step health/recycling checks but fails CPU-relative joint-error screening; see the validation details below. The warm ragdoll fixture costs 32.2% more wall time than its recorded earlier baseline. |
-| Performance | RTX 4070 Laptop solver-writeback follow-up versus `0bbf5f63`: median completed-step time falls 7.7% at 2k cubes and 1.5% at 5k, below the 20% target. The 100k and 200k cases improve 10.7% and 7.9%, with every paired large-scene trial faster. In the matched sweep, the first sampled GPU/CPU physics crossover moves from 20k to 15k cubes. Small-scene timings remain variable; this is not a universal speedup or crossover threshold. See the experiment README for dated charts, renderer measurements, raw evidence and earlier benchmark history. |
+| Performance | New bounded desktop scheduling: opt-in automatic matches global at 50k cubes and reduces independent-group mean step time 57.18% against global, with p95 limits passing on both fixtures. Laptop validation of this policy is pending. Earlier RTX 4070 Laptop solver-writeback follow-up versus `0bbf5f63`: median completed-step time falls 7.7% at 2k cubes and 1.5% at 5k, below the 20% target. The 100k and 200k cases improve 10.7% and 7.9%, with every paired large-scene trial faster. In the matched sweep, the first sampled GPU/CPU physics crossover moves from 20k to 15k cubes. Small-scene timings remain variable; this is not a universal speedup or crossover threshold. See the experiment README for dated charts, renderer measurements, raw evidence and earlier benchmark history. |
 
 The solver-writeback change stores only contact impulses during solving; it
 preserves geometry, prepared coefficients, arithmetic and scheduling. A controlled
@@ -95,6 +95,13 @@ reached, and the 1k result is noisy. Dense small worlds now choose batched graph
 memoization using an asynchronous contact-density hint; sparse worlds keep the
 shared path. The initial 100k slowdown was investigated with balanced three-way
 repeats and did not consistently reproduce; the report retains both rounds.
+The [bounded desktop scheduling qualification](../experiments/gpu-physics/benchmarks/scheduling-2026-09-30/README.md)
+adds an opt-in automatic choice using the existing dynamic-contact density hint.
+At 50k cubes it matches explicit global scheduling; for 2,048 independent two-box
+groups it reduces mean completed-step time 57.18% against global. Explicit modes
+and existing defaults remain available. This result covers those two fixtures on
+the i9-9900K / RTX 4070 SUPER; laptop and broader solver qualification remain open.
+
 See the [experiment benchmark history](../experiments/gpu-physics/README.md#falling-cube-scaling-benchmark)
 for the final charts, exact configurations, variability and evidence.
 
