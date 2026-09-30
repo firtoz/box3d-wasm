@@ -23,6 +23,7 @@ const SAMPLES = [
   "high-resistance",
   "mixed-stacks",
   "falling-cubes",
+  "mixed-topology",
   "anchored-mechanisms",
   "joint-chain",
   // Native viewer captures; the Rust demo recorder does not host these samples.

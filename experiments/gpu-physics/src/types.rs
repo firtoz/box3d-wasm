@@ -936,10 +936,11 @@ pub enum DemoScene {
     HighResistance,
     MixedStacks,
     FallingCubes,
+    MixedTopology,
 }
 
 impl DemoScene {
-    pub const ALL: [DemoScene; 18] = [
+    pub const ALL: [DemoScene; 19] = [
         DemoScene::SingleBox,
         DemoScene::BoxStack,
         DemoScene::SphereStack,
@@ -947,6 +948,7 @@ impl DemoScene {
         DemoScene::HighResistance,
         DemoScene::MixedStacks,
         DemoScene::FallingCubes,
+        DemoScene::MixedTopology,
         DemoScene::Revolute,
         DemoScene::Weld,
         DemoScene::AnchoredMechanisms,
@@ -981,6 +983,7 @@ impl DemoScene {
             DemoScene::HighResistance => "high-resistance",
             DemoScene::MixedStacks => "mixed-stacks",
             DemoScene::FallingCubes => "falling-cubes",
+            DemoScene::MixedTopology => "mixed-topology",
         }
     }
 
@@ -1009,6 +1012,7 @@ pub struct DemoConfig {
 }
 
 pub fn scene_scale_count(scene: DemoScene, body_count: u32, explicit: bool) -> u32 {
+    if scene == DemoScene::MixedTopology { return 12288; }
     if explicit {
         return match scene {
             DemoScene::MixedStacks => body_count.max(2),

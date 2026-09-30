@@ -26,4 +26,10 @@ d=dict(recording_started_utc=datetime.now(timezone.utc).isoformat(),frames=a.fra
        environment={k:v for k,v in os.environ.items() if k.startswith(('GPU_','WGPU_','VK_','__NV','__GLX','DISPLAY'))},
        note='Records requested capture settings and binary identity. Completion requires clips and metrics; checkout HEAD alone does not identify a dirty or externally supplied build.')
 a.output.mkdir(parents=True,exist_ok=True)
-(a.output/'recording-manifest.json').write_text(json.dumps(d,indent=2)+'\n')
+scenes=os.environ.get('RECORD_SCENES','').split()
+d['scenes']=scenes or 'all'
+# A scoped capture must not relabel older clips with the new binary identity.
+names=[f'{scene}-recording-manifest.json' for scene in scenes] if scenes else ['recording-manifest.json']
+for name in names:
+    if Path(name).name != name: p.error('scene names must not contain path separators')
+    (a.output/name).write_text(json.dumps(d,indent=2)+'\n')

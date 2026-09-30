@@ -29,9 +29,15 @@ SCENES=(
   high-resistance
   mixed-stacks
   falling-cubes
+  mixed-topology
   anchored-mechanisms
   joint-chain
 )
+
+# Limit a fixture-only change without rewriting unrelated clips.
+if [[ -n "${RECORD_SCENES:-}" ]]; then
+  read -r -a SCENES <<<"${RECORD_SCENES}"
+fi
 
 export __NV_PRIME_RENDER_OFFLOAD="${__NV_PRIME_RENDER_OFFLOAD:-1}"
 export __GLX_VENDOR_LIBRARY_NAME="${__GLX_VENDOR_LIBRARY_NAME:-nvidia}"
@@ -56,7 +62,13 @@ fi
 python3 "${ROOT}/scripts/recording-manifest.py" "${OUT}" "${BIN}" --oracle "${ORACLE}" --frames "${FRAMES}"
 
 echo "=== Box3D CPU metrics + dumps ==="
-"${ORACLE}" --frames "${FRAMES}" --dump-dir "${DUMP}" --metrics "${OUT}/metrics.json"
+if [[ -n "${RECORD_SCENES:-}" ]]; then
+  for scene in "${SCENES[@]}"; do
+    "${ORACLE}" --scene "${scene}" --frames "${FRAMES}" --dump-dir "${DUMP}" --metrics "${OUT}/metrics-${scene}.json"
+  done
+else
+  "${ORACLE}" --frames "${FRAMES}" --dump-dir "${DUMP}" --metrics "${OUT}/metrics.json"
+fi
 
 if [[ "${SKIP_MP4:-}" != "1" ]]; then
   for scene in "${SCENES[@]}"; do

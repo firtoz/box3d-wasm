@@ -294,6 +294,7 @@ fn parse_scene(name: &str) -> DemoScene {
         "high-resistance" => DemoScene::HighResistance,
         "mixed-stacks" => DemoScene::MixedStacks,
         "falling-cubes" => DemoScene::FallingCubes,
+        "mixed-topology" => DemoScene::MixedTopology,
         other => {
             eprintln!("unknown scene {other}");
             std::process::exit(2);

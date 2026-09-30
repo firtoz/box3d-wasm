@@ -1051,6 +1051,8 @@ pub async fn write_completed_step_bench(
     body_count_explicit: bool,
 ) -> Result<(), String> {
     let host_timing = std::env::var("GPU_PHYSICS_PROFILE_HOST").as_deref() == Ok("1");
+    let completed_only = std::env::var("GPU_PHYSICS_BENCH_COMPLETED_ONLY").as_deref() == Ok("1");
+    let topology_samples = std::env::var("GPU_PHYSICS_TOPOLOGY_SAMPLES").as_deref() == Ok("1");
     let timed = timed_steps.max(1);
     let runs = run_count.max(1);
     let fingerprint = build_fingerprint();
@@ -1072,7 +1074,7 @@ pub async fn write_completed_step_bench(
     let mut cpu_trials = Vec::new();
     let scale = crate::types::scene_scale_count(scene, body_count, body_count_explicit);
     for run in 0..runs {
-        if run % 2 == 0 {
+        if !completed_only && run % 2 == 0 {
             cpu_trials.push(maybe_cpu_oracle(scene, scale, warmup, timed, sleep));
         }
         let gpu = GpuDevice::new(None).await?;
@@ -1104,6 +1106,7 @@ pub async fn write_completed_step_bench(
         } else {
             "early-sleep-enabled"
         };
+        let mut schedule_samples = Vec::new();
         let mut step_ms = Vec::new();
         let mut step_call_ms = Vec::new();
         let mut completion_wait_ms = Vec::new();
@@ -1116,7 +1119,7 @@ pub async fn write_completed_step_bench(
         let mut run_prepare = Vec::new();
         let mut run_device = Vec::new();
         let mut run_encode = Vec::new();
-        for _ in 0..timed {
+        for timed_index in 0..timed {
             let t0 = Instant::now();
             b3_world_step_gpu(world, FIXED_DT, DEFAULT_SUB_STEPS);
             // Diagnostic wall times overlap GPU execution. Waiting includes
@@ -1125,6 +1128,26 @@ pub async fn write_completed_step_bench(
             b3_world_gpu_wait(world);
             let completed_at = Instant::now();
             step_ms.push(completed_at.duration_since(t0).as_secs_f64() * 1000.0);
+            schedule_samples.push(crate::api::b3_world_last_solver_dispatches(world));
+            if topology_samples && (timed_index % 20 == 0 || timed_index + 1 == timed) {
+                let states = b3_world_sync_from_gpu(world).await;
+                let mut roots = std::collections::BTreeMap::new();
+                for (i,b) in states.iter().enumerate().filter(|(_,b)| b.inv_mass > 0.0) {
+                    let mut root = i;
+                    while states[root].island_id as usize != root { root = states[root].island_id as usize; }
+                    roots.entry(root).or_insert(Vec::new()).push(i);
+                }
+                let mut sizes = std::collections::BTreeMap::new();
+                let mut crossing = 0;
+                for members in roots.values() {
+                    *sizes.entry(members.len()).or_insert(0u32) += 1;
+                    if scene == DemoScene::MixedTopology && members.iter().any(|&i| i < 4098)
+                        && members.iter().any(|&i| i >= 4098) { crossing += 1; }
+                }
+                eprintln!("scheduling-topology step={} dispatches={} islands={} crossing={} sizes={:?}",
+                    warmup + timed_index + 1, schedule_samples.last().unwrap(), roots.len(), crossing, sizes);
+            }
+
             if let Some(submitted_at) = submitted_at {
                 step_call_ms.push(submitted_at.duration_since(t0).as_secs_f64() * 1000.0);
                 completion_wait_ms.push(completed_at.duration_since(submitted_at).as_secs_f64() * 1000.0);
@@ -1160,7 +1183,7 @@ pub async fn write_completed_step_bench(
             .count() as u32;
         unique_peak = unique_peak.max(live);
         let bodies_now = b3_world_sync_from_gpu(world).await;
-        if scene == DemoScene::FallingCubes {
+        if matches!(scene, DemoScene::FallingCubes | DemoScene::MixedTopology) {
             if live == 0 || bodies_now.iter().any(|b| !b.pos.iter().all(|v| v.is_finite()) || b.pos[1] < -1.01) {
                 b3_destroy_world(world);
                 return Err("falling-cubes validation failed: no contacts, nonfinite or escaped body".into());
@@ -1199,8 +1222,9 @@ pub async fn write_completed_step_bench(
             format!("{{\"step_call_ms\":[{}],\"completion_wait_ms\":[{}]}}",
                 fmt_f64(&step_call_ms), fmt_f64(&completion_wait_ms))
         } else { "null".to_string() };
+        let schedule_json = format!("{:?}", schedule_samples);
         raw_runs.push_str(&format!(
-            "{{\"run\":{},\"allocations\":{allocation_json},\"broadphase_profile\":{bp_profile_json},\"host_profile\":{host_profile_json},\"physics_step\":{},\"solver_dispatches\":{},\"static_sort_dispatches\":{},\"joint_dispatches\":{},\"encode_commands\":{},\"completed_step_ms\":[{}],\"encode_ms\":[{}],\"broadphase_ms\":[{}],\"narrowphase_ms\":[{}],\"graph_ms\":[{}],\"prepare_ms\":[{}],\"collide_ms\":[{}],\"solve_ms\":[{}],\"device_ms\":[{}],\"live_contacts\":{live},\"awake_dynamic\":{awake},\"awake_after_warmup\":{awake_w},\"settled\":{settled},\"settle_wait_steps\":{settle_wait},\"sleep_window\":\"{sleep_window}\"}}",
+            "{{\"run\":{},\"solver_dispatches_samples\":{schedule_json},\"allocations\":{allocation_json},\"broadphase_profile\":{bp_profile_json},\"host_profile\":{host_profile_json},\"physics_step\":{},\"solver_dispatches\":{},\"static_sort_dispatches\":{},\"joint_dispatches\":{},\"encode_commands\":{},\"completed_step_ms\":[{}],\"encode_ms\":[{}],\"broadphase_ms\":[{}],\"narrowphase_ms\":[{}],\"graph_ms\":[{}],\"prepare_ms\":[{}],\"collide_ms\":[{}],\"solve_ms\":[{}],\"device_ms\":[{}],\"live_contacts\":{live},\"awake_dynamic\":{awake},\"awake_after_warmup\":{awake_w},\"settled\":{settled},\"settle_wait_steps\":{settle_wait},\"sleep_window\":\"{sleep_window}\"}}",
             run + 1,
             crate::api::b3_world_physics_step(world),
             crate::api::b3_world_last_solver_dispatches(world),
@@ -1232,13 +1256,13 @@ pub async fn write_completed_step_bench(
             percentile(&run_graph, 0.50),
         );
         b3_destroy_world(world);
-        if run % 2 == 1 {
+        if !completed_only && run % 2 == 1 {
             cpu_trials.push(maybe_cpu_oracle(scene, scale, warmup, timed, sleep));
         }
     }
     let mut mirror_ms = Vec::new();
     let mut getter_ms = Vec::new();
-    {
+    if !completed_only {
         let gpu = GpuDevice::new(None).await?;
         let world = build_demo_world(
             gpu,

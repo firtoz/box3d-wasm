@@ -206,3 +206,8 @@ Current size: ~272KB gzipped (656KB raw).
 ## Active GPU solver goal scratchpad
 
 When working on GPU solver correctness, stability, determinism or qualification, read `docs/gpu-solver-goal.md` before substantive work, including after compaction or restart. It contains the full goal, acceptance gates and current recovery context. Maintain it after meaningful changes/results and before handoff; verify recorded process/build state against current evidence. Detailed evidence remains in `docs/gpu-solver-qualification.md`. This pointer applies to that goal, not unrelated sample ports.
+
+For the bounded desktop mixed-topology scheduling task, read and maintain
+`docs/gpu-mixed-scheduling-goal.md` at continuation and after compaction. Its fixed
+budget and scope take precedence over older Rain next actions. Do not resume the
+older solver goal implicitly.

@@ -159,6 +159,7 @@ Esc quits, `[` / `]` change scenes and `R` restarts. `--no-sleep` keeps bodies
 active; normal interactive use allows sleep. `--mp4 output.mp4 --frames 300`
 records a clip using FFmpeg. Run `cargo run --release -- --help` for scene options.
 
+`mixed-topology` is the fixed 12,288-body scheduling fixture; it ignores `--bodies`.
 `--bodies` means dynamic box count for `mixed-stacks` and `falling-cubes`, sphere count for `spheres`,
 pendulum count for `anchored-mechanisms`, link count for `joint-chain`, and ring
 count for `dominoes`. The default Dominoes fixture has 30 rings.
@@ -180,7 +181,12 @@ i9-9900K / RTX 4070 SUPER, automatic matches explicit global at 50k cubes
 global at 4,096 bodies. Against component, cube time falls 89.08%; independent
 mean/p95 changes remain within 5%. This is an opt-in, two-fixture result;
 laptop validation remains pending. Explicit `0`/`1` overrides and current defaults
-remain available. Native launchers preserve the requested override:
+remain available. The subsequent [three-fixture mixed-topology experiment](benchmarks/mixed-scheduling-2026-09-30/README.md)
+found no qualifying per-island split: the best candidate was 6.34% slower on the
+mixed scene and regressed cube mean time 5.25%. Both candidates were restored;
+`auto` and the existing defaults remain unchanged. Its fixed `mixed-topology`
+fixture has 8,192 pile bodies plus 4,096 independent-group bodies and a real CPU
+oracle counterpart. Native launchers preserve the requested override:
 
 ```sh
 GPU_PHYSICS_COMPONENT_TGS=auto bun run samples:gpu
@@ -1144,6 +1150,12 @@ binary hashes, requested frame counts, and GPU environment settings. Use the
 same solver environment as the run being illustrated, and record outside timing
 runs so capture and encoding do not affect benchmark results.
 
+For a fixture-only change, `RECORD_SCENES="mixed-topology"` limits either recording
+script to that scene; `SKIP_METRICS=1` skips the separate GPU metrics batch.
+`GPU_RECORD_VIEW="eyeX,eyeY,eyeZ,targetX,targetY,targetZ"` frames a widely separated
+fixture identically in GPU recording and CPU dump replay. The CPU
+script writes scoped metrics without replacing the existing whole-column metrics.
+Scoped captures also write per-scene manifests, preserving older clip identities.
 The grid places the real Box3D CPU reference first, followed by GPU snapshots.
 Reports and recordings are ignored local outputs under `artifacts/` and
 `recordings/`; fresh clones must regenerate them. They are not distributed via

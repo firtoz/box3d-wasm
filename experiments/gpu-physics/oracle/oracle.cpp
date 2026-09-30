@@ -119,6 +119,7 @@ static const char* kScenes[] = {
 	"high-resistance",
 	"mixed-stacks",
 	"falling-cubes",
+	"mixed-topology",
 };
 
 static bool is_scene(const char* name)
@@ -277,6 +278,25 @@ static SceneState build_scene(const char* name, uint32_t sphere_count, int worke
         b3BoxHull cube = b3MakeCubeHull(0.5f);
         for (uint32_t i = 0; i < count; ++i) {
             body.position = fallingPosition(count, i);
+            b3BodyId id = b3CreateBody(st.world, &body);
+            b3CreateHullShape(id, &shape, &cube.base);
+            push_box(id, 0.5f, 0.5f, 0.5f, 0);
+        }
+    }
+    else if (std::strcmp(name, "mixed-topology") == 0)
+    {
+        // Frozen counterpart of scenes::mixed_topology_position, default shapes.
+        st.bodies.push_back(add_ground(st.world, 309.0f));
+        st.bodies.push_back(add_ground(st.world, 309.0f));
+        b3BodyDef body = b3DefaultBodyDef(); body.type = b3_dynamicBody;
+        b3ShapeDef shape = b3DefaultShapeDef();
+        b3BoxHull cube = b3MakeCubeHull(0.5f);
+        for (uint32_t i = 0; i < 12288; ++i) {
+            if (i < 4096) {
+                uint32_t j = i % 2048;
+                body.position = {150.0f + 3.0f * (float)(j % 20),
+                                 0.5f + (float)(i >= 2048), 3.0f * (float)(j / 20)};
+            } else { body.position = fallingPosition(8192, i - 4096); }
             b3BodyId id = b3CreateBody(st.world, &body);
             b3CreateHullShape(id, &shape, &cube.base);
             push_box(id, 0.5f, 0.5f, 0.5f, 0);

@@ -22,6 +22,21 @@ pub const RECORD_WIDTH: u32 = 1280;
 pub const RECORD_HEIGHT: u32 = 720;
 pub const RECORD_FPS: u32 = 30;
 
+/// Optional eye/target for widely separated fixtures, shared by CPU replay and
+/// GPU recording. Ordinary recordings keep the established camera unchanged.
+fn recording_camera(aspect: f32) -> glam::Mat4 {
+    let Ok(view) = std::env::var("GPU_RECORD_VIEW") else { return camera_matrix(aspect); };
+    let values: Vec<f32> = view.split(',').map(|v| v.trim().parse().expect("GPU_RECORD_VIEW requires six floats: eye,target")).collect();
+    assert!(values.len() == 6 && values.iter().all(|v| v.is_finite()), "GPU_RECORD_VIEW requires six finite floats: eye,target");
+    let eye = glam::Vec3::from_slice(&values[..3]);
+    let target = glam::Vec3::from_slice(&values[3..]);
+    let direction = target - eye;
+    assert!(direction.length_squared() > 0.0 && direction.cross(glam::Vec3::Y).length_squared() > 0.0, "GPU_RECORD_VIEW requires a nonvertical view direction");
+    let far = 160.0_f32.max(4.0 * direction.length());
+    glam::Mat4::perspective_rh(45_f32.to_radians(), aspect.max(0.01), 0.1, far)
+        * glam::Mat4::look_at_rh(eye, target, glam::Vec3::Y)
+}
+
 const COPY_ALIGN: u32 = 256;
 
 #[repr(C)]
@@ -368,7 +383,7 @@ impl OffscreenScene {
         let depth_view = depth.create_view(&wgpu::TextureViewDescriptor::default());
 
         let vp = CameraUniform {
-            view_proj: camera_matrix(width as f32 / height as f32).to_cols_array_2d(),
+            view_proj: recording_camera(width as f32 / height as f32).to_cols_array_2d(),
             _pad: [0; 48],
         };
         debug_assert_eq!(std::mem::size_of::<CameraUniform>(), 256);

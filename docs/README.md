@@ -22,6 +22,7 @@ Project docs are split by audience and purpose. Prefer updating an existing doc 
 - [`washer-performance-plan.md`](./washer-performance-plan.md) - performance notes for high-body-count sample rendering.
 - [`gpu-physics.md`](./gpu-physics.md) - experimental GPU engine: support status, missing native APIs, architecture and merge requirements.
 - [`goals/gpu-warm-start.md`](./goals/gpu-warm-start.md) - bounded GPU warm-start controls goal and verification evidence.
+- [`gpu-mixed-scheduling-goal.md`](./gpu-mixed-scheduling-goal.md) - bounded desktop mixed-topology scheduling diagnosis, fixed experiment budget and recovery; performance target unmet, rejected changes restored.
 - [`gpu-solver-goal.md`](./gpu-solver-goal.md) - full active GPU solver goal, acceptance gates and compaction/restart scratchpad.
 - [`gpu-solver-qualification.md`](./gpu-solver-qualification.md) - GPU-order correctness, stability and same-device repeatability requirements, coverage matrix and outstanding evidence.
 

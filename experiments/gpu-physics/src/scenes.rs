@@ -88,6 +88,7 @@ pub fn build_demo_world(gpu: GpuDevice, cfg: &DemoConfig) -> WorldId {
             create_high_resistance(world);
         }
         DemoScene::FallingCubes => create_falling_cubes(world, cfg.body_count.max(1)),
+        DemoScene::MixedTopology => create_mixed_topology(world),
         DemoScene::MixedStacks => {
             let stacks = crate::types::scene_scale_count(
                 cfg.scene,
@@ -520,6 +521,41 @@ pub fn create_falling_cubes(world: WorldId, count: u32) {
         body.position = [1.25 * (column % width) as f32 - center + offset,
                          6.0 + 1.25 * layer as f32,
                          1.25 * (column / width) as f32 - center - offset];
+        b3_create_hull_shape(b3_create_body(world, &body), &shape, &cube);
+    }
+}
+
+/// Frozen desktop scheduling fixture, with the original two static grounds.
+pub const MIXED_PILE_BODIES: u32 = 8192;
+pub const MIXED_GROUP_BODIES: u32 = 4096;
+
+pub fn mixed_topology_position(index: u32) -> [f32; 3] {
+    if index < MIXED_GROUP_BODIES {
+        let mut p = mixed_stacks_position(MIXED_GROUP_BODIES, index);
+        p[0] += 150.0;
+        return p;
+    }
+    let i = index - MIXED_GROUP_BODIES;
+    let columns = MIXED_PILE_BODIES.div_ceil(10);
+    let mut width = 1;
+    while width * width < columns { width += 1; }
+    let layer = i / columns;
+    let column = i % columns;
+    let offset = if layer % 2 == 1 { 0.125 } else { -0.125 };
+    let center = 0.625 * (width - 1) as f32;
+    [1.25 * (column % width) as f32 - center + offset,
+     6.0 + 1.25 * layer as f32,
+     1.25 * (column / width) as f32 - center - offset]
+}
+
+pub fn create_mixed_topology(world: WorldId) {
+    let shape = b3_default_shape_def();
+    for _ in 0..2 { create_ground(world, mixed_stacks_ground_half_extent(MIXED_GROUP_BODIES)); }
+    let cube = b3_make_cube_hull(0.5);
+    let mut body = b3_default_body_def();
+    body.body_type = BodyType::Dynamic;
+    for i in 0..MIXED_GROUP_BODIES + MIXED_PILE_BODIES {
+        body.position = mixed_topology_position(i);
         b3_create_hull_shape(b3_create_body(world, &body), &shape, &cube);
     }
 }
