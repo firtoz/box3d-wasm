@@ -1,6 +1,7 @@
 # Bounded GPU scheduling goal and recovery
 
-Updated: 2026-09-30. Implementation and acceptance complete; commit/push pending.
+Updated: 2026-09-30. Bounded goal complete. Implementation/evidence commit `91485a9`
+was pushed to `origin/feat/gpu`; working tree and remote were verified synchronized.
 Read `/home/firtoz/work/2026/box3d-wasm/docs/gpu-scheduling-goal.md` on continuation
 and after compaction. Maintain it. This bounded goal takes precedence over older
 Rain next actions; the older full solver goal remains unfinished.
@@ -79,7 +80,7 @@ copied existing data; it did not rerun measurements.
 | Behavior | Existing equivalence/repeatability/island/capacity +independent/new-policy fixtures; unchanged tolerance | PASS —36 selected test executions; sampled dense and independent state differences 0; explicit override/topology-hint reentry test |
 | Visuals | Affected scenes before commit, real CPU first | PASS —19 GPU+19 CPU fresh 300 frame clips; all streams and final-frame pairs reviewed; recordings.json |
 | Portable delivery | Raw/receipts/charts with CPU/GPU colors, second-machine commands | PASS — benchmarks/scheduling-2026-09-30; hash validation and diagnostic-free compatible recipe pass. Laptop validation pending, no claim made |
-| Docs/commit/push | Relevant docs, recovery, clean delivery feat/gpu | Docs complete; commit/push pending |
+| Docs/commit/push | Relevant docs, recovery, clean delivery feat/gpu | PASS — implementation/evidence `91485a9` pushed; this follow-up records final recovery |
 
 ## Implementation and evidence
 
@@ -140,8 +141,14 @@ finalbuild 82877; formatting/data-only validation may have just completed as 124
 Verify actual process state rather than trusting handles. No additional GPU runs
 are required. Release/CPU hashes and recordings are already verified.
 
-1. Static hash/portable checks pass, including both existing machine datasets and diagnostic-free compatible format. Inspect staged diff.
-2. Commit/push authorized work on feat/gpu, then record actual delivery here.
-3. Stop this bounded goal. Do not resume the older Rain goal implicitly.
+All static hash/portable checks pass, including both existing machine datasets
+and the diagnostic-free compatible format. Implementation/evidence `91485a9` was
+pushed successfully. This documentation follow-up closes recovery state; no further
+work is required for this bounded goal. Confirm the current delivery with
+`git status --short --branch` and `git rev-list --left-right --count HEAD...origin/feat/gpu`.
+
+Stop this bounded goal. Laptop validation is a provided follow-up, not claimed
+complete or a requirement of this desktop goal. Do not resume the older Rain goal
+implicitly.
 
 Older full solver recovery: [gpu-solver-goal.md](gpu-solver-goal.md).

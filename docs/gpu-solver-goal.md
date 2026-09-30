@@ -1,6 +1,6 @@
 # GPU solver goal and recovery scratchpad
 
-Current authorized task (2026-09-30): read [bounded scheduling goal](gpu-scheduling-goal.md), absolute path `/home/firtoz/work/2026/box3d-wasm/docs/gpu-scheduling-goal.md`. Its two-fixture scheduling objective and budget take precedence over older Rain next actions below. Older full solver work remains unfinished.
+Completed bounded task (2026-09-30): read [bounded scheduling goal](gpu-scheduling-goal.md), absolute path `/home/firtoz/work/2026/box3d-wasm/docs/gpu-scheduling-goal.md`. Its desktop scheduling result and delivery are complete; implementation/evidence `91485a9` is pushed to `feat/gpu`. Older full solver work remains unfinished and is not resumed by this completed task.
 
 Updated: 2026-09-29. Status: resumed by explicit goal continuation, incomplete.
 Workspace: `/home/firtoz/work/2026/box3d-wasm`.
