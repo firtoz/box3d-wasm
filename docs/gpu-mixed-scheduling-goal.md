@@ -58,11 +58,12 @@ under `experiments/gpu-physics/artifacts/mixed-scheduling-2026-09-30/` and
 | Record affected scenes before commit; real Box3D CPU first | PASS | 300-frame CPU and restored-auto GPU mixed clips; shared wide recording view; recording receipts/hashes and visual review; old clips preserved |
 | Portable data/charts/docs; existing datasets; Box3D/WASM unchanged | PASS | All 55 attempts retained; charts visually reviewed; delivery-validation.json records hash/settings/order/budget checks, prior dataset checks and unchanged protected paths |
 | Restore rejected production changes if target fails | PASS | Byte-exact production restoration receipt; rebuilt executable matches measured baseline; final recording build differs only by optional MP4 camera |
-| Commit and push completed fallback to feat/gpu | OPEN | User explicitly authorized commit/push; delivery verification pending |
+| Commit and push completed fallback to feat/gpu | PASS | Delivery commit 0f99c8ac2644fc7b5990d5d8e058179096f2352c pushed to origin/feat/gpu; clean worktree and 0/0 synchronization verified |
 
 The requested performance target remains UNMET. The user explicitly provided the
 fallback: reject/restore production changes and deliver diagnosis and evidence.
 Completing that bounded fallback must not be represented as meeting performance.
+The bounded fallback is complete. No further performance work is active here.
 Rain, complex joints, laptop validation, scaling sweeps and changing the default
 policy are excluded. No new measurements or candidates are permitted.
 
@@ -73,6 +74,9 @@ Workspace `/home/firtoz/work/2026/box3d-wasm`, branch `feat/gpu`, initial revisi
 identical. Latest pre-delivery fetch is still identical (0/0). NVIDIA driver
 610.57.04, adapter RTX 4070 SUPER. No active benchmark/build/recording jobs found
 on the final process inspection. Do not trust a historical job handle as live.
+Delivery `0f99c8ac2644fc7b5990d5d8e058179096f2352c` is committed and pushed;
+portable validation passes from the committed dataset. This final recovery update
+is a documentation-only follow-up. Resolve its current head with `git log -1`.
 
 Budget fully consumed: **27 baseline + 6 diagnostic + 4 pilot + 18 confirmation =
 55 fresh processes**. Every timing attempt completed and is retained; no discarded
@@ -136,12 +140,10 @@ performed. Protected Git paths and clean Box3D are the unchanged evidence.
 
 1. Read this file and inspect Git/process state before continuing. Do not resume
    old Rain or rerun timing: this experiment's budget is exhausted.
-2. Static delivery checks and final publication pass. Commit and push the completed
-   diagnosis/evidence to `feat/gpu`, then record
-   actual delivery identity and verify clean/synchronized state. No permission
-   question is needed; the user explicitly authorized this.
-3. Mark the bounded fallback goal complete only after delivery. Report target
-   unmet, regressions, restored policy, checks, desktop limits and commit.
+2. No experiment work remains. Preserve the committed data, patches and failed
+   results. Any alternate scheduler requires a separately authorized goal/budget.
+3. At handoff report target unmet, regressions, restored policy, checks, desktop
+   limits and the delivery commit. Do not resume timing from this scratchpad.
 
 Commands from `experiments/gpu-physics`:
 
