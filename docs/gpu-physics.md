@@ -254,9 +254,13 @@ The [population campaign](../experiments/gpu-physics/benchmarks/production-readi
 passes the CPU reference and standalone ordinary/native sensor, compound and
 three-plane mesh diagnostic checks. It then exposes a real **combined-adapter
 compound defect**: private GPU child creation uses dual-world constructors,
-adding CPU child colliders before the full CPU compound. Combined compound
-comparison topology is therefore incorrect; native combined is unlaunched at
-the stop rule. This is a required fix, not an API exclusion. Both earlier CPU
+adding CPU child colliders before the full CPU compound. That historical combined
+comparison has incorrect topology; native combined was unlaunched at its stop
+rule. The [new ownership candidate](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-ownership-after-bounds-2026-10-01/README.md) on the independently qualified AABB prerequisite passes14 first processes
+with original assertions. Its12 precommit recordings pass300-step health and all six comparisons are reviewed;
+Village retains an existing shared-renderer capacity failure underPR09. The
+qualified ownership fix preserves public mirroring and removes orphan CPU
+colliders; these focused checks do not complete PR02 or visual qualification. Both earlier CPU
 fixture-assumption failures remain retained. The separate host receiver verifies
 held mouse/key delivery; actual viewer controls remain unqualified until a fixed
 adapter/build is frozen and exercised.
@@ -341,8 +345,13 @@ passes all twelve CPU-first captures at300 completed steps each; all six scene
 comparisons are reviewed. The repair is retained for the verified milestone.
 These focused results do not qualify every compound API or final physical release.
 The [combined ownership candidate](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-fix-2026-10-01/README.md)
-was rejected separately; duplicate CPU primitive compound children remain a
-known combined-adapter defect. Source/link coverage cannot excuse that failure.
+was rejected separately and is preserved. The [new ownership fix](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-ownership-after-bounds-2026-10-01/README.md)
+on accepted bounds passes14 original topology/lifetime/regression processes.
+Compound scalar/material getters and actual viewer controls remain open.
+The [combined precommit review](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-ownership-captures-2026-10-01/README.md)
+retains Village's missing GPU ground/buildings: the unchanged shared65536-slot
+renderer pool cannot register both52500-child compounds. This visual failure
+belongs toPR09; no visual-parity or performance pass is inferred.
 
 Full-state schema v24 includes host peak occupancy, the harvested GPU contact
 peak and its persistent device query word. Readers retain earlier schemas and

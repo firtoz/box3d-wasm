@@ -1,0 +1,133 @@
+--- a/experiments/gpu-physics/c_abi/both_dual.c
++++ b/experiments/gpu-physics/c_abi/both_dual.c
+@@ -1310,7 +1310,8 @@
+ 	gpu_b3_destroy_shape(shapeId, updateBodyMass);
+ }
+ 
+-B3_API b3ShapeId b3CreateSphereShape(b3BodyId bodyId, const b3ShapeDef* def, const b3Sphere* sphere)
++static b3ShapeId both_create_sphere_shape(b3BodyId bodyId, const b3ShapeDef* def, const b3Sphere* sphere,
++											 bool mirrorCpu)
+ {
+ 	float density, friction, restitution, rolling;
+ 	materials(def, &density, &friction, &restitution, &rolling);
+@@ -1320,14 +1321,20 @@
+ 										 rolling, def == NULL || def->updateBodyMass);
+ 	configure_gpu_shape(gpu, def);
+ 	gpu_samples_on_shape_created(gpu, bodyId, b3_sphereShape, sphere, NULL, NULL);
+-	if (both_has_cpu_body(bodyId))
++	if (mirrorCpu && both_has_cpu_body(bodyId))
+ 	{
+ 		both_map_shape(gpu, cpu_b3CreateSphereShape(both_cpu_body(bodyId), def, sphere));
+ 	}
+ 	return gpu;
+ }
+ 
+-B3_API b3ShapeId b3CreateHullShape(b3BodyId bodyId, const b3ShapeDef* def, const b3HullData* hull)
++B3_API b3ShapeId b3CreateSphereShape(b3BodyId bodyId, const b3ShapeDef* def, const b3Sphere* sphere)
++{
++	return both_create_sphere_shape(bodyId, def, sphere, true);
++}
++
++static b3ShapeId both_create_hull_shape(b3BodyId bodyId, const b3ShapeDef* def, const b3HullData* hull,
++											 bool mirrorCpu)
+ {
+ 	float density, friction, restitution, rolling;
+ 	materials(def, &density, &friction, &restitution, &rolling);
+@@ -1369,27 +1376,39 @@
+ 	configure_gpu_shape(gpu, def);
+ 	gpu_shape_mirror_hull(gpu, hull);
+ 	gpu_samples_on_shape_created(gpu, bodyId, b3_hullShape, NULL, NULL, hull);
+-	if (both_has_cpu_body(bodyId))
++	if (mirrorCpu && both_has_cpu_body(bodyId))
+ 	{
+ 		both_map_shape(gpu, cpu_b3CreateHullShape(both_cpu_body(bodyId), def, hull));
+ 	}
+ 	return gpu;
++}
++
++B3_API b3ShapeId b3CreateHullShape(b3BodyId bodyId, const b3ShapeDef* def, const b3HullData* hull)
++{
++	return both_create_hull_shape(bodyId, def, hull, true);
++}
++
++static b3ShapeId both_create_transformed_hull_shape(b3BodyId bodyId, const b3ShapeDef* def,
++												 const b3HullData* hull, b3Transform transform, b3Vec3 scale, bool mirrorCpu)
++{
++	b3HullData* transformed = b3CloneAndTransformHull(hull, transform, scale);
++	if (transformed == NULL)
++	{
++		return (b3ShapeId){0};
++	}
++	b3ShapeId shape = both_create_hull_shape(bodyId, def, transformed, mirrorCpu);
++	b3DestroyHull(transformed);
++	return shape;
+ }
+ 
+ B3_API b3ShapeId b3CreateTransformedHullShape(b3BodyId bodyId, const b3ShapeDef* def, const b3HullData* hull,
+ 											  b3Transform transform, b3Vec3 scale)
+ {
+-	b3HullData* transformed = b3CloneAndTransformHull(hull, transform, scale);
+-	if (transformed == NULL)
+-	{
+-		return (b3ShapeId){0};
+-	}
+-	b3ShapeId shape = b3CreateHullShape(bodyId, def, transformed);
+-	b3DestroyHull(transformed);
+-	return shape;
+-}
+-
+-B3_API b3ShapeId b3CreateCapsuleShape(b3BodyId bodyId, const b3ShapeDef* def, const b3Capsule* capsule)
++	return both_create_transformed_hull_shape(bodyId, def, hull, transform, scale, true);
++}
++
++static b3ShapeId both_create_capsule_shape(b3BodyId bodyId, const b3ShapeDef* def, const b3Capsule* capsule,
++											 bool mirrorCpu)
+ {
+ 	float density, friction, restitution, rolling;
+ 	materials(def, &density, &friction, &restitution, &rolling);
+@@ -1406,11 +1425,16 @@
+ 										 restitution, rolling, def == NULL || def->updateBodyMass);
+ 	configure_gpu_shape(gpu, def);
+ 	gpu_samples_on_shape_created(gpu, bodyId, b3_capsuleShape, NULL, capsule, NULL);
+-	if (both_has_cpu_body(bodyId))
++	if (mirrorCpu && both_has_cpu_body(bodyId))
+ 	{
+ 		both_map_shape(gpu, cpu_b3CreateCapsuleShape(both_cpu_body(bodyId), def, capsule));
+ 	}
+ 	return gpu;
++}
++
++B3_API b3ShapeId b3CreateCapsuleShape(b3BodyId bodyId, const b3ShapeDef* def, const b3Capsule* capsule)
++{
++	return both_create_capsule_shape(bodyId, def, capsule, true);
+ }
+ 
+ B3_API b3ShapeId b3CreateMeshShape(b3BodyId bodyId, const b3ShapeDef* def, const b3MeshData* mesh, b3Vec3 scale)
+@@ -1507,6 +1531,8 @@
+         return (b3ShapeId){0};
+     }
+ 
++	/* CPU compound children belong to the single CPU parent created below.
++	   Private GPU children must never invoke the public dual constructors. */
+ 	for (int i = 0; i < childCount; ++i)
+ 	{
+ 		b3ChildShape child = b3GetCompoundChild(compound, i);
+@@ -1521,15 +1547,15 @@
+ 		b3ShapeId childId = {0};
+ 		if (child.type == b3_sphereShape)
+ 		{
+-			childId = b3CreateSphereShape(bodyId, &childDef, &child.sphere);
++			childId = both_create_sphere_shape(bodyId, &childDef, &child.sphere, false);
+ 		}
+ 		else if (child.type == b3_capsuleShape)
+ 		{
+-			childId = b3CreateCapsuleShape(bodyId, &childDef, &child.capsule);
++			childId = both_create_capsule_shape(bodyId, &childDef, &child.capsule, false);
+ 		}
+ 		else if (child.type == b3_hullShape && child.hull != NULL)
+ 		{
+-			childId = b3CreateTransformedHullShape(bodyId, &childDef, child.hull, child.transform, b3Vec3_one);
++			childId = both_create_transformed_hull_shape(bodyId, &childDef, child.hull, child.transform, b3Vec3_one, false);
+ 		}
+ 		else if (child.type == b3_meshShape && child.mesh.data != NULL)
+ 		{

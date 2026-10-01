@@ -81,7 +81,7 @@ def main():
             assert code == 0 and ff.returncode == 0, row
             assert stream['width'] == 1280 and stream['height'] == 720 and stream['r_frame_rate'] == '30/1' and int(stream['nb_frames']) >= 300
             health = json.loads((result / 'health.json').read_text())
-            assert health['status'] == 'ok' and health['mode'] == a.kind and health['frames_observed'] == health['measured'] == 300
+            assert health['status'] == 'ok' and health['mode'] == viewer.get('health_mode', a.kind) and health['frames_observed'] == health['measured'] == 300
             assert health['enable_sleep'] and health['completed_step_mode'] and not health['unpaced']
             assert health['last_submitted_step'] == health['last_completed_step'] == health['last_rendered_pose'] == 300 and health['in_flight'] == 0 and not health['gpu_fail']
             assert not health['village_drop'], 'Preserve upstream setup'

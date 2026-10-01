@@ -1,0 +1,8 @@
+{
+  "protocol_sha256": "455bc93f52eb4d653f89aed28d5e62f6d46179fce7c3781c65ee5c96f9658b98",
+  "candidate_source_sha256": "0b0ed1f953620b60735d66eca215728727d25872647906d8a3b47a9ef811d086",
+  "patch_sha256": "55044c68a03d8cd35b6cf0fd239650088af5888e193c3a2e605fa17c3d84dd70",
+  "baseline_source_sha256": "4a6a7d427d6fe835a8929b650f87993a66e9eb6099c92b83670d0b6f1eb25628",
+  "fixture_sha256": "bb75e0d3313746d92695a0c53500e4ac6f0bdbfc5df1f628de92ee6fb7e10277",
+  "unchanged_source_bounds_import": true
+}

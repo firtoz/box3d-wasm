@@ -1,0 +1,47 @@
+{
+  "scope": "PR02 private compound CPU ownership after separately qualified AABB prerequisite; C combined-adapter-only candidate",
+  "changed_prerequisite": "AABB source/API/capture milestone776577937bce5e9a265264f327c524f4f1e4cc4f is delivered. Old ownership campaign remains rejected/closed. This validates previously unqualified ownership/lifetime coverage against correct bounds; no old result replaced.",
+  "hypothesis": "Private sphere/capsule/hull compound children bypass CPU dual mirroring through explicit helper arguments; public constructors mirror exactly once; no global/thread-local creation mode; mesh and source-bounds import unchanged",
+  "budget": {
+    "production_candidates": 1,
+    "baseline_processes": 0,
+    "ownership_processes": 4,
+    "regression_processes": 10,
+    "Rust_builds_or_trials": 0,
+    "timing_runs": 0,
+    "retries": 0
+  },
+  "order": "Build fresh ordinary/native combined adapters and all12 fixtures before any trial. Ownership ordinary/native/native/ordinary; then each listed regression ordinary/native. Serial fresh processes.",
+  "stop_rule": "First build/input/contract/timeout failure stops; preserve all results and unlaunched cases, restore production file from baseline. No reruns, lowered tolerances or selective extensions.",
+  "watchdog_seconds_per_process": 600,
+  "production_path": "c_abi/both_dual.c",
+  "baseline_source_sha256": "4a6a7d427d6fe835a8929b650f87993a66e9eb6099c92b83670d0b6f1eb25628",
+  "ownership_fixture_sha256": "bb75e0d3313746d92695a0c53500e4ac6f0bdbfc5df1f628de92ee6fb7e10277",
+  "regressions": {
+    "native_diagnostic_populations": "e62ceaa557141be1df5bee16eefbad44f1c71ddb88e7c5c97908e365b41341b0",
+    "api_settings_test": "7136f0867e081c1863cb86f1021de1745ad787abd2b7591e71dc2bd6edf6ba40",
+    "both_shape_replacement_test": "d1df31a6ab0c1fb364ecb9a553e047ccc362e293915df73d966fdd73933bedb3",
+    "both_substep_forces_test": "6bb1577b2a7131a69f764a8b21ffb5405c421698074622935f99eafb005cdbe6",
+    "compound_aabb_contract": "e770260bc0c9d733f0a2c5d736b2b93760bcb1e8ab73a5885c8849a470e81a93"
+  },
+  "ownership_acceptance": "Unchanged independent mapped CPU/GPU exact counts: four child kinds, three lifetime cycles, public individual constructors mirror once, stale parent handles; native parent bounds at original absolute1e-5. Baseline flag not invoked.",
+  "regression_acceptance": "Existing populations/settings/replacement/substep-force/AABB fixtures pass with unchanged assertions/selectors/tolerances/markers; no final-release credit inferred",
+  "settings": "Default fixture world/material/geometry unchanged; NVIDIA Vulkan, CPU-compatible order1; native shared cache environment. No default-policy/timestep changes; incidental clocks are not performance measurements.",
+  "engine_proof": {
+    "ordinary": {
+      "library": "artifacts/production-readiness/pr02-compound-aabb-compile/candidate-complete-inputs/ordinary-frozen.a",
+      "library_sha256": "096d9a9bfad7ba87677723ba37f3b6ee413f7ed266682b53927b7ebe3cc897a0",
+      "receipt": "artifacts/production-readiness/pr02-compound-aabb-compile/candidate-complete-inputs/ordinary-build.json",
+      "receipt_sha256": "b296be9d4d5e44e81a66aa2488de4aa6e39dc9121bf8ff52d9364d316f3aec1e"
+    },
+    "native": {
+      "library": "artifacts/production-readiness/pr02-compound-aabb-compile/candidate-complete-inputs/native-frozen.a",
+      "library_sha256": "f5d3c3856536d53b8f8bfef51655cd062aed414adfeb68e6be80905be1d6d366",
+      "receipt": "artifacts/production-readiness/pr02-compound-aabb-compile/candidate-complete-inputs/native-build.json",
+      "receipt_sha256": "275a9449d26b689b8d5f831eb6c954052de0a513f8639303659ccf19a570679f"
+    }
+  },
+  "runtime_env_source_sha256": "55560aec256c6e71c0b4a44d4a6452ce4c2a39858668bee9ca0f2f048c176b94",
+  "checkout_context": "c3dd6d13a4f5e577fd06d2805028f13b72fb85a8",
+  "recordings": "Separate finite precommit combined-viewer campaign after validation. CPU first, five affected Compound scenes and Mesh Tile control, defaults preserved. Earlier standalone clips do not prove combined ownership."
+}

@@ -1,0 +1,5 @@
+samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+GPU recording is not implemented; no recording file was saved.

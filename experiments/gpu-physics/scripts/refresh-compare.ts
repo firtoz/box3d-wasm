@@ -38,6 +38,13 @@ const SAMPLES = [
   "compound-tile-floor",
   "compound-village",
   "compound-mesh-tile",
+  // Fresh ownership captures: independent CPU, then synchronized CPU/GPU viewer.
+  "compound-ownership-simple",
+  "compound-ownership-spheres",
+  "compound-ownership-hulls",
+  "compound-ownership-tile-floor",
+  "compound-ownership-village",
+  "compound-ownership-mesh-tile",
 ] as const;
 
 type Metrics = {

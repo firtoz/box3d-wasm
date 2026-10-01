@@ -1,0 +1,14 @@
+{
+  "kind": "source applicability and retained visual observation; no extra build/GPU trial",
+  "scene": "Compound/Village",
+  "source_sha256": "115e2d93f67cdd05ad45952c1b10a6e7cb6056f62d18f286b13524eba00bcfe7",
+  "same_bytes_as_pre_candidate_checkout": true,
+  "capacity_receipt": "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+  "geometry_children_per_compound": 52500,
+  "minimum_CPU_plus_GPU_compound_debug_slots": 105002,
+  "default_shared_capacity": 65536,
+  "first_CPU_draw_then_GPU_draw": true,
+  "source_cause": "Shared fixed DebugShape pool defaults to65536 unless cube-count/explicit reservation is provided. Both CPU and GPU compound parents flatten52500children. AllocDebugShape returns-1 at capacity; CreateCompoundChild failures are silently skipped. CPU first consumes52501, leaving fewer than required slots for GPU. Candidate only removes CPU dual child mirroring; GPU creation/render callbacks and renderer sources unchanged, so it cannot introduce an increased GPU/CPU allocation requirement.",
+  "observation": "Completed-window sheets show nearby building/ground on CPU left and absent on GPU right; no geometry-parity pass.",
+  "scope": "PR09 floor/render visibility, as requested after core qualification; preserve physics defaults. No production renderer repair or budget extension here."
+}

@@ -1,0 +1,35 @@
+{
+  "purpose": "Post-build archived link-input audit; original viewer receipts remain unchanged. Not a fresh clean build or complete historical dependency-header proof.",
+  "viewers": {
+    "cpu": {
+      "binary_sha256": "9d879afb242a73049e62c5a1ac85c2b701e3c7b070148605cb62b6e8339a28a0",
+      "linked_archive_sha256": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-captures/cpu-viewer/cmake/box3d_gfx/libgfx.a": "06dbd98de0631e7f330f1a3281df653efac4abb4570283006ab73e4a0284c5e3",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-captures/cpu-viewer/cmake/box3d_shared/libshared.a": "01feba6aae85b7fbe2027cd704ab78b30ae4aed2e69cfbfb48a9bbd41524e86e",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-captures/cpu-viewer/cmake/libimgui.a": "a28c2f2fc60aadbc2ef4d50006706d34cc7a6af0df07e63ce15ba711efa97e56",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-captures/cpu-viewer/cmake/libimplot.a": "08d971b5fb3af3985f58f1f9ccc9e65b74056292f31fbbf627c4e2d7bdbb97d6",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-build/src/libnfd.a": "2fd5d8880a5fe7240b5e6c565a40e3866b5c8ac52e1c406e4617938177c926b0",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-captures/cpu-viewer/cmake/box3d_src/libbox3d.a": "b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c"
+      },
+      "cached_NFD_object_matches_linked_archive": true,
+      "NFD_source_sha256": "5116e572bf850ff310e70683b47cb8998a8691354c218fbb3604ffb2b3c01f62"
+    },
+    "gpu": {
+      "binary_sha256": "b61d01e3fc71105173b3d22fc6d9830ecb0813122331edd4a31bfad2aa52f3b5",
+      "linked_archive_sha256": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-ownership-after-bounds/native-viewer/cmake/box3d_gfx/libgfx.a": "744423df72b5b758c11cd4696ae3a5ec33e04d2d3f2e9f0d665acb196224bd4f",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-ownership-after-bounds/native-viewer/cmake/box3d_shared/libshared.a": "01feba6aae85b7fbe2027cd704ab78b30ae4aed2e69cfbfb48a9bbd41524e86e",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-ownership-after-bounds/native-viewer/cmake/libimgui.a": "a28c2f2fc60aadbc2ef4d50006706d34cc7a6af0df07e63ce15ba711efa97e56",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-ownership-after-bounds/native-viewer/cmake/libimplot.a": "08d971b5fb3af3985f58f1f9ccc9e65b74056292f31fbbf627c4e2d7bdbb97d6",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-build/src/libnfd.a": "2fd5d8880a5fe7240b5e6c565a40e3866b5c8ac52e1c406e4617938177c926b0",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-ownership-after-bounds/native-viewer/cmake/libgpu_both_api.a": "364ddcf178063c5fccaa7eac9e8d417127d10e2a9f4ce2fc4d53a7ec8f097cb6",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-ownership-after-bounds/native-viewer/cmake/libgpu_samples_api.a": "427cc59a6d0f5585cdbb815b997c08e1b40daba625277dd28280cea87a479276",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-compile/candidate-complete-inputs/native-frozen.a": "f5d3c3856536d53b8f8bfef51655cd062aed414adfeb68e6be80905be1d6d366",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-ownership-after-bounds/native-viewer/cmake/libbox3d_cpu.a": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-ownership-after-bounds/native-viewer/cmake/box3d_src/libbox3d.a": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7"
+      },
+      "cached_NFD_object_matches_linked_archive": true,
+      "NFD_source_sha256": "5116e572bf850ff310e70683b47cb8998a8691354c218fbb3604ffb2b3c01f62"
+    }
+  }
+}
