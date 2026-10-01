@@ -36,9 +36,9 @@ source or WASM changes. The selected checks do not qualify every concurrent
 operation, every C capacity boundary, full semantic repeatability or all supported
 physical scenes. PR05 must reconcile the raw Rust world-index range with native
 metadata/viewer caps. PR07 must account for the new child epoch in future-relevant
-allocation state. Mapped-CPU cleanup after deliberately losing only the GPU
-object needs a direct case; guards preserve that route by construction but the
-original root fixture does not execute that particular loss sequence.
+allocation state. The later [direct mapped-CPU case](../pr02-world-lifetime-mapped-cleanup-2026-10-01/README.md)
+passes42 observations after deliberately retiring only the GPU object. This is
+adapter cleanup evidence; it does not qualify actual device loss.
 
 ## Outcomes, including failures
 
@@ -106,8 +106,7 @@ python3 experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifet
 
 Do not rerun archived campaign drivers. Local frozen artifacts are under
 `artifacts/production-readiness/pr02-world-lifetime-*`; exact paths and hashes
-are in the receipts. Next: a direct combined GPU-loss cleanup case, fresh viewer
-build receipts, remaining actual GPU controls, and applicable CPU-first recordings
+are in the receipts. Next: fresh viewer build receipts, remaining actual GPU controls, and applicable CPU-first recordings
 before committing the production repair. Floor visibility, sample-wide widgets,
 raycast comparisons and fresh desktop-only CPU/GPU charts remain PR09–PR12,
 after the core gates. Laptop results remain deferred.

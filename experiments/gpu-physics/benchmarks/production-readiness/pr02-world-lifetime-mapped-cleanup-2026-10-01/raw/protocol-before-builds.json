@@ -1,0 +1,19 @@
+{
+  "objective": "First direct ordinary/native combined cleanup test when only the GPU root object is deliberately destroyed. Verify matching real CPU world/mapping and owned geometry survive until public cleanup, then are released; recreate and validate identities/ownership. This is not device-loss qualification.",
+  "budget": {
+    "C_fixture_links": 2,
+    "first_combined_processes": 2,
+    "Rust_C_adapter_rebuilds": 0,
+    "production_candidates": 0,
+    "timing": 0,
+    "retries": 0
+  },
+  "compiled_prerequisite_receipt_sha256": "d84cc7330c31fb999f6280960b22b6a16d0bfcc964b9b006d05a09dba9f30bed",
+  "order": [
+    "ordinary-both",
+    "native-both"
+  ],
+  "settings": "Native Vulkan NVIDIA, ordinary/native policies same as preceding API campaign; physics defaults untouched and no timed steps.",
+  "stop_rule": "Build both fixtures before execution, stop/retain and restore local production candidate on any build/input/acceptance failure. Never rerun closed campaigns.",
+  "watchdog_seconds": 600
+}

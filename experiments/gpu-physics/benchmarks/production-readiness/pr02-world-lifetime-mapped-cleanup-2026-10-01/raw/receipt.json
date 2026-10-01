@@ -1,0 +1,151 @@
+{
+  "status": "passed",
+  "protocol_sha256": "329d6875eab445684101dce372da9689ac0e5cfdedbe3169d03e3b0789008133",
+  "fixture": {
+    "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/world_mapped_cleanup_contract.cpp",
+    "sha256": "cb417ffebbf234d0ccc90aec0a33cbbe750c9d1fd9a44f8fa04ef7fff439746f"
+  },
+  "prerequisite_receipt_sha256": "d84cc7330c31fb999f6280960b22b6a16d0bfcc964b9b006d05a09dba9f30bed",
+  "builds": [
+    {
+      "configuration": "ordinary-both",
+      "command": [
+        "g++",
+        "-O2",
+        "-std=c++17",
+        "-ffp-contract=off",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/world_mapped_cleanup_contract.cpp",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+        "-DGPU_MAPPED_CLEANUP_CONTRACT",
+        "-Wl,--whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-C-applicability/ordinary-both/libgpu_both_api.a",
+        "-Wl,--no-whole-archive",
+        "-Wl,--whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-C-applicability/ordinary-both/libgpu_samples_api.a",
+        "-Wl,--no-whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-fix/ordinary-frozen.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/ordinary-both/cmake/libbox3d_cpu.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/ordinary-both/cmake/box3d_src/libbox3d.a",
+        "-ldl",
+        "-lGL",
+        "-lgcc_s",
+        "-lpthread",
+        "-lm",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-mapped-cleanup/ordinary-both/fixture-executable"
+      ],
+      "exit": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linked_inputs": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-C-applicability/ordinary-both/libgpu_both_api.a": "91cd58af59d7229c099f515a6472a8329485fd980f1ce976733e778c0321004d",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-C-applicability/ordinary-both/libgpu_samples_api.a": "427cc59a6d0f5585cdbb815b997c08e1b40daba625277dd28280cea87a479276",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-fix/ordinary-frozen.a": "aba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/ordinary-both/cmake/libbox3d_cpu.a": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/ordinary-both/cmake/box3d_src/libbox3d.a": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7"
+      },
+      "binary_sha256": "330e9ef20d869694754b570ee90b367c13b26b1d9e0763551ca7a24bb8511010"
+    },
+    {
+      "configuration": "native-both",
+      "command": [
+        "g++",
+        "-O2",
+        "-std=c++17",
+        "-ffp-contract=off",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/world_mapped_cleanup_contract.cpp",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+        "-DGPU_MAPPED_CLEANUP_CONTRACT",
+        "-Wl,--whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-C-applicability/native-both/libgpu_both_api.a",
+        "-Wl,--no-whole-archive",
+        "-Wl,--whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-C-applicability/native-both/libgpu_samples_api.a",
+        "-Wl,--no-whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-artifact-repair/native-frozen.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/native-both/cmake/libbox3d_cpu.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/native-both/cmake/box3d_src/libbox3d.a",
+        "-ldl",
+        "-lGL",
+        "-lgcc_s",
+        "-lpthread",
+        "-lm",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-mapped-cleanup/native-both/fixture-executable"
+      ],
+      "exit": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linked_inputs": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-C-applicability/native-both/libgpu_both_api.a": "91cd58af59d7229c099f515a6472a8329485fd980f1ce976733e778c0321004d",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-C-applicability/native-both/libgpu_samples_api.a": "427cc59a6d0f5585cdbb815b997c08e1b40daba625277dd28280cea87a479276",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-artifact-repair/native-frozen.a": "c8a16154cb576c49e7bd7fd8e030319601192b466d9ddb19305bd043aa6a7267",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/native-both/cmake/libbox3d_cpu.a": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/native-both/cmake/box3d_src/libbox3d.a": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7"
+      },
+      "binary_sha256": "73ace776599e319db336e4d72a900adeaa4fd69770368e5ad3f546c6e1ecde52"
+    }
+  ],
+  "runs": [
+    {
+      "configuration": "ordinary-both",
+      "exit": 0,
+      "binary_sha256": "330e9ef20d869694754b570ee90b367c13b26b1d9e0763551ca7a24bb8511010",
+      "stdout_sha256": "bc667ba3e854fedbb9b6726ec458b07e91b9ee8164b15207b7947e012ea2e775",
+      "stderr_sha256": "00f2919bde7fdadc9043cc6bfc4c325217cd524ba71396aacedb1e0a2720a9f7",
+      "environment": {
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "WGPU_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-mapped-cleanup/pipelines"
+      },
+      "summary": {
+        "summary": true,
+        "observations": 21,
+        "mismatches": 0
+      }
+    },
+    {
+      "configuration": "native-both",
+      "exit": 0,
+      "binary_sha256": "73ace776599e319db336e4d72a900adeaa4fd69770368e5ad3f546c6e1ecde52",
+      "stdout_sha256": "bc667ba3e854fedbb9b6726ec458b07e91b9ee8164b15207b7947e012ea2e775",
+      "stderr_sha256": "00f2919bde7fdadc9043cc6bfc4c325217cd524ba71396aacedb1e0a2720a9f7",
+      "environment": {
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-mapped-cleanup/pipelines"
+      },
+      "summary": {
+        "summary": true,
+        "observations": 21,
+        "mismatches": 0
+      }
+    }
+  ],
+  "started": 1790894732.2505217,
+  "adapter": "name, uuid, driver_version\nNVIDIA GeForce RTX 4070 SUPER, GPU-7847813f-14d1-cb57-4c9d-3030b33c6d8a, 610.57.04\n",
+  "finished": 1790894736.206593
+}

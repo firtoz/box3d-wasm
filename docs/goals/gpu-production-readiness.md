@@ -6,7 +6,7 @@ whole objective, maintain this file, and use the goal-scratchpad skill. This is
 the authoritative production-readiness queue for `feat/gpu`.
 
 Updated: 2026-10-01. Status: active; full roadmap and verified milestone commit/push authorized by the submitted goal.
-Next item: **PR01/PR02 — qualify the local world-lifetime repair in combined GPU-loss cleanup and actual GPU viewers, then record affected scenes before committing production**.
+Next item: **PR01/PR02 — qualify the local world-lifetime repair in actual GPU viewers, then record affected scenes before committing production**.
 
 ## Objective and release boundary
 
@@ -395,13 +395,19 @@ and first native test/library), `...-rust-validation` (terminal18/72),
 `...-cleanup` (first standalone C archives), `...-C-applicability` (all9 fixture
 binaries, failed CPU1/10) and `...-CPU-contract` (terminalGPU8/120, offline source/
 CPU proof and compiler audits). No live build/test/viewer/capture process; final
-run53265 exits0, Rust18520 exits0, native build52361 exits0. Failed build12744,
+subset run53265 exits0, Rust18520 exits0, native build52361 exits0. Failed build12744,
 Cpreflight21547 and CPUcontrol64720 remain terminal with their failures retained.
 Do not treat current `target/` outputs or checkout metadata as the frozen binaries.
 
-Next discriminator: before production commit, freeze a finite direct combined
-GPU-loss cleanup case (ordinary/native); original root fixture does not directly
-lose only its GPU object. Then build/refreeze four diagnostic GPU/combined viewers
+The [direct mapped-CPU cleanup check](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-mapped-cleanup-2026-10-01/README.md)
+now passes two first combined processes/42 observations, reusing the exact C/Rust
+archives with no compiler/test repeats or production change. Only the GPU root
+is deliberately retired; real CPU/mapping/owned geometry remain until public
+cleanup, then release correctly. Recreated roots/children remain safe. This does
+not simulate device loss. Driver13293 exits0; no live process. Two fixture links,
+two first processes, zero timing/retries; original protocols stay closed.
+
+Next discriminator: before production commit, build/refreeze four diagnostic GPU/combined viewers
 from these exact sources, reuse the applicable successful CPU controls, and
 complete their first actual mouse/keyboard controls using the held-input and
 event-window harness. Include restart with distinct root ID and live child reads,
@@ -417,6 +423,14 @@ alias stale child IDs across world recreation; its source stays unchanged and
 invalid CPU mutators remain forbidden. PR09–PR12 retain the user's requested
 floor/UI/raycast sequence and fresh desktop-only CPU/GPU charts at final delivery;
 laptop data/qualification stay deferred.
+
+Evidence checkpoint `8a2307a5f1f3da6349c7a0a3382d9457ba7c6e98` records the105-file portable repair report and
+new diagnostic fixture. It contains no production engine/solver/visual changes;
+the seven-file repair candidate remains local and uncommitted. The source base
+for compiled candidate evidence remains88d8d53 plus archived exact changes.
+All protocols are terminal; no current run/build/capture job exists. Authored
+source/docs diff checks and raw hashes pass; original compiler/test whitespace
+is retained byte-exact. Remote was fetched at0/0 before this evidence commit.
 
 ### Evidence to resume from
 
