@@ -157,7 +157,7 @@ report. Its [failure receipt](raw/handoff/sbox-baseline-attribution/timeout.json
 logs, original sources and invalid unfinalized capture are retained. **No
 qualification credit or selective retry follows.** The timed-out viewer provides no attribution result. The offline source review
 below explains the initial landing; full physical release qualification remains
-open. The current production candidate is pending the milestone commit.
+open. The focused control milestone is delivered in `695c93ada50220089018009230209e5050ed9252` on `feat/gpu`.
 
 ## Standard recordings and portable delivery
 

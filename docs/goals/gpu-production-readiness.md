@@ -63,8 +63,8 @@ queue and recovery record. No separate competing production backlog.
   receipts. The added all-window floor screen remains failed; source analysis
   explains its discrete landing scope without raising a tolerance. The archived
   baseline startup diagnostic remains incomplete and never counts as a pass.
-  Final physical/runtime qualification remains under PR03–PR07. Milestone
-  commit/push is being finalized.
+  Final physical/runtime qualification remains under PR03–PR07. Functional
+  milestone `695c93ada50220089018009230209e5050ed9252` is committed and pushed to `feat/gpu`.
 
 - [ ] **PR02 — Close the native API contract and remaining truthful-control gaps.**
   Audit current linked symbols, Rust/C implementations and combined wrappers;
@@ -246,9 +246,9 @@ rely on conversation history as the sole record of a pending experiment.
 
 | Field | Verified value |
 | --- | --- |
-| Workspace / branch / HEAD | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu`, `bd4f7966151028542297be81a330e80e83687531`; remote comparison0/0 |
+| Workspace / branch / delivered milestone | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu`; solver milestone `695c93ada50220089018009230209e5050ed9252` pushed and remote comparison0/0 verified. This recovery edit follows it; resolve current HEAD on continuation |
 | Goal / authorization | Active full roadmap; implementation and verified milestone commit/push explicitly authorized |
-| Current item | PR01 functional acceptance verified; milestone commit/push pending. PR02 next. PR03–PR10 remain open |
+| Current item | PR01 functional acceptance delivered and pushed. PR02 next. PR03–PR10 remain open |
 | Candidate | Third candidate keeps6.25mm support only after an actual solid CCD hit (FAST set,CCD_NO_HIT clear); fast tangent/no-hit gaps remain disabled. Default-on unchanged |
 | Focused verified checks |20/20 C confirmations,4/4 stricter guards,CPU tangent reference,10/10 fresh110step raw-v23 repeats with every-step health,126/126 frozen regressions,14storage/comparator controls |
 | Linked API audit | Both backends:415required stateful symbols,0additional missing/duplicates,35stubs,8known placeholders,10CPU-only wrappers to review; setter implemented/mapped. Remaining gaps belong to PR02 |
@@ -259,9 +259,9 @@ rely on conversation history as the sole record of a pending experiment.
 | Recordings |40standard CPU/GPU clips complete:300frames,1280×720,30fps. Plus native s&box pair. Real CPU first,latest GPU next;shared wide mixed camera. Portable full clips/manifests/hashes and first/last review sheets included;old CPU column archived locally |
 | Processes | All build/check/capture batches terminal;no GPU jobs running. Publication also terminal. Initial shared SDK-cache viewer build failure retained;serial fully disconnected rebuild passes |
 | Portable evidence | `experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md`;raw index,source overlays,charts,all results and42valid clips. Invalid baseline capture remains local with portable failure/hash receipts |
-| Next discriminating work | Finalize PR01 commit/push and verify remote; then PR02 review of every remaining placeholder/CPU-only wrapper, counters/contact-count/profile/capacity semantics and truthful unsupported operations. Freeze a finite C/Rust/viewer verification protocol before new runs |
+| Next discriminating work | PR02 review of every remaining placeholder/CPU-only wrapper, counters/contact-count/profile/capacity semantics and truthful unsupported operations. Freeze a finite C/Rust/viewer verification protocol before new runs |
 | Scope / known remaining failures | Rain physical acceptance and final whole-matrix/API/runtime/build/performance gates remain OPEN. Closed mixed scheduling budget55runs remains closed;no timing/Rain campaign resumed |
-| Last verification |2026-10-01:PR01 requirement/source-applicability audit passes;all4library/test input receipts remain byte-exact;checks/recordings complete;Git whitespace clean;Box3D/WASM unchanged. Delivery pending |
+| Last verification |2026-10-01:PR01 requirement/source-applicability audit passes;all4library/test input receipts remain byte-exact;checks/recordings complete;Git whitespace clean;Box3D/WASM unchanged. Milestone committed/pushed; remaining roadmap open |
 
 PR01 discovery: pinned CPU `b3World_EnableSpeculative` only stores/serializes a
 flag; collision code never reads it. Its shape switch covers hull/triangle only,
