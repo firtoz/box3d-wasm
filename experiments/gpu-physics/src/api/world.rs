@@ -1749,6 +1749,25 @@ pub fn b3_create_compound_parent(body: BodyId, def: &ShapeDef) -> ShapeId {
     .unwrap_or_else(b3_null_shape_id)
 }
 
+// Native imports retain the exact local tree box before baking child hulls.
+// Public-proxy GPU bounds are still generated independently from colliders in
+// ensure_sim; these host query bounds never feed broadphase or solving.
+pub fn b3_shape_set_compound_local_bounds(id: ShapeId, bounds: crate::api::Aabb) -> bool {
+    if !(0..3).all(|axis| bounds.lower_bound[axis].is_finite()
+        && bounds.upper_bound[axis].is_finite()
+        && bounds.lower_bound[axis] <= bounds.upper_bound[axis]) { return false; }
+    with_world_mut(WorldId { index1: id.world0, generation: 1 }, |w| {
+        let Some(index) = id.index1.checked_sub(1).map(|i| i as usize) else { return false; };
+        let Some(shape) = w.shapes.get_mut(index).and_then(Option::as_mut) else { return false; };
+        if shape.generation != id.generation || shape.public_kind != PUBLIC_KIND_COMPOUND { return false; }
+        for axis in 0..3 {
+            shape.geometry_center[axis] = 0.5 * (bounds.lower_bound[axis] + bounds.upper_bound[axis]);
+            shape.half[axis] = 0.5 * (bounds.upper_bound[axis] - bounds.lower_bound[axis]);
+        }
+        true
+    }).unwrap_or(false)
+}
+
 pub fn b3_shape_attach_compound_child(parent: ShapeId, child: ShapeId) -> bool {
     attach_compound_child(parent, child, None, [0; 4])
 }
@@ -7362,6 +7381,12 @@ fn host_shape_direct(w: &WorldInner, world0: u16, index: usize, shape: &CpuShape
         },
         child_index: if shape.compound_parent != 0 { shape.compound_child_index } else { -1 },
         compound_material_indices: shape.compound_material_indices,
+        compound_local_bounds: (shape.compound_parent != 0
+            && (public_shape.half != [0.0; 3] || public_shape.geometry_center != [0.0; 3]))
+            .then(|| crate::api::Aabb {
+                lower_bound: std::array::from_fn(|axis| public_shape.geometry_center[axis] - public_shape.half[axis]),
+                upper_bound: std::array::from_fn(|axis| public_shape.geometry_center[axis] + public_shape.half[axis]),
+            }),
         id: ShapeId {
             index1: index as i32 + 1,
             world0,

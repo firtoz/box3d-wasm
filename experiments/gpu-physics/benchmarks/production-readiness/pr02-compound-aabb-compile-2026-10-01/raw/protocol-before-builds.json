@@ -1,0 +1,32 @@
+{
+  "scope": "Compile-only repair of observed E0282 after API candidate build rejection; no GPU processes or acceptance experiments",
+  "budget": {
+    "source_repairs": 1,
+    "ordinary_and_native_library_test_builds": 4,
+    "GPU_processes": 0,
+    "timing_runs": 0
+  },
+  "hypothesis": "Explicit HashMap<ShapeId,usize> removes Index type ambiguity without changing query/bounds arithmetic or physics behavior. This is a compilation requirement, not a replacement validation trial.",
+  "order": "Ordinary library then ordinary test compile, then native library/native test compile; one serialized driver stops at first failing subprocess.",
+  "acceptance": "All four cargo commands exit0 with stable compiled source snapshots and exact library/test hashes. Compiles give no API, physics, repeatability or performance acceptance. Original12 validation cases remain unlaunched under closed rejected protocol.",
+  "stop_rule": "Stop first failing command, retain all logs and restore production. No compile retry or physics execution.",
+  "baseline_production": {
+    "src/api/query.rs": "1dec7707d5e08a53f08b1a01110e7118dc09709edf8bc2dba46202576720d6b9",
+    "src/api/world/native_diagnostics.rs": "96ab8afe5a79052fadbcf0d2c53a479016bbaa625806abe3a8e420b617a9f693",
+    "c_abi/native_diagnostics.h": "3538a6face5fca8c95dfa121b7b1fa31149dc0a0132c27a99612292027d8a5b9",
+    "src/api/world.rs": "d49f8fed0a1504235a3e478ce5fe2a127d39fef0c7780514bee9626978092fcb",
+    "src/c_abi.rs": "4a951630f49886896873549c107e87b7a0e7956db882e5710bbc0c420fde0c27",
+    "c_abi/shim.c": "6795b38655827532d6dd486ce6a1eff049e29b002205b0bed5674bedd2c32568",
+    "c_abi/both_dual.c": "0a3ea0a76a8e84484a2d256e48c65d5c8e3003e74468a08f488e6a52d770412c"
+  },
+  "candidate_production": {
+    "src/api/query.rs": "6d1a75e5f05855bbea9e8ffe06a46c230224ecadba5042be7f1a58b171d24582",
+    "src/api/world/native_diagnostics.rs": "3cb55258b1c8587f2b26cceb04813ba743186934b8a239d64a7a7c491fe52059",
+    "c_abi/native_diagnostics.h": "140b6f6430e5de3037151a4d2054a5f2bfa92c3d14acf0e44538739005e88d82",
+    "src/api/world.rs": "d2d741536b5ced92ebb0394ba33308c5c5edbaf80e045c824d38fbef157b45cb",
+    "src/c_abi.rs": "39dc7809ffeddc60a3017247057be551d2a8df2e78410d25e2a72c1a3cc87a65",
+    "c_abi/shim.c": "a2456c1c4296467bbe39f7d2e9083f52b552cb1a77043be8654d65c3ef870e40",
+    "c_abi/both_dual.c": "4a6a7d427d6fe835a8929b650f87993a66e9eb6099c92b83670d0b6f1eb25628"
+  },
+  "prior_rejected_protocol_sha256": "64b1f8b9b0aa4b75fd927e4c7fc59bf834ce4c5436dcccefa781be9ca347c86a"
+}

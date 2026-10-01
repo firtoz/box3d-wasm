@@ -1,0 +1,182 @@
+[  1%] Built target shaders
+[  1%] Building CXX object CMakeFiles/imgui.dir/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src/imgui.cpp.o
+[  1%] Building C object box3d_src/CMakeFiles/box3d.dir/aabb.c.o
+[  1%] Building CXX object CMakeFiles/imgui.dir/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src/imgui_draw.cpp.o
+[  2%] Linking CXX static library libnfd.a
+[  2%] Built target nfd
+[  3%] Building CXX object CMakeFiles/imgui.dir/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src/imgui_tables.cpp.o
+[  4%] Building C object box3d_src/CMakeFiles/box3d.dir/arena_allocator.c.o
+[  5%] Building C object box3d_src/CMakeFiles/box3d.dir/bitset.c.o
+[  6%] Building C object box3d_src/CMakeFiles/box3d.dir/block_allocator.c.o
+[  6%] Building C object box3d_src/CMakeFiles/box3d.dir/body.c.o
+[  7%] Building C object box3d_src/CMakeFiles/box3d.dir/broad_phase.c.o
+[  8%] Building C object box3d_src/CMakeFiles/box3d.dir/capsule.c.o
+[  9%] Building C object box3d_src/CMakeFiles/box3d.dir/compound.c.o
+[ 10%] Building C object box3d_src/CMakeFiles/box3d.dir/constraint_graph.c.o
+[ 10%] Building C object box3d_src/CMakeFiles/box3d.dir/contact.c.o
+[ 11%] Building CXX object CMakeFiles/imgui.dir/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src/imgui_widgets.cpp.o
+[ 12%] Building C object box3d_src/CMakeFiles/box3d.dir/contact_solver.c.o
+[ 13%] Building C object box3d_src/CMakeFiles/box3d.dir/convex_manifold.c.o
+[ 14%] Building C object box3d_src/CMakeFiles/box3d.dir/core.c.o
+[ 15%] Building C object box3d_src/CMakeFiles/box3d.dir/distance.c.o
+[ 16%] Building CXX object CMakeFiles/imgui.dir/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src/imgui_demo.cpp.o
+[ 16%] Building C object box3d_src/CMakeFiles/box3d.dir/distance_joint.c.o
+[ 17%] Building C object box3d_src/CMakeFiles/box3d.dir/dynamic_tree.c.o
+[ 18%] Building C object box3d_src/CMakeFiles/box3d.dir/height_field.c.o
+[ 19%] Building C object box3d_src/CMakeFiles/box3d.dir/hull.c.o
+[ 19%] Building C object box3d_src/CMakeFiles/box3d.dir/id_pool.c.o
+[ 20%] Building C object box3d_src/CMakeFiles/box3d.dir/island.c.o
+[ 21%] Building C object box3d_src/CMakeFiles/box3d.dir/joint.c.o
+[ 22%] Building C object box3d_src/CMakeFiles/box3d.dir/manifold.c.o
+[ 23%] Building C object box3d_src/CMakeFiles/box3d.dir/math_functions.c.o
+[ 23%] Building C object box3d_src/CMakeFiles/box3d.dir/mesh.c.o
+[ 24%] Building C object box3d_src/CMakeFiles/box3d.dir/mesh_contact.c.o
+[ 25%] Building C object box3d_src/CMakeFiles/box3d.dir/motor_joint.c.o
+[ 25%] Linking CXX static library libimgui.a
+[ 25%] Built target imgui
+[ 26%] Building CXX object CMakeFiles/implot.dir/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot.cpp.o
+[ 27%] Building C object box3d_src/CMakeFiles/box3d.dir/mover.c.o
+[ 28%] Building C object box3d_src/CMakeFiles/box3d.dir/name_cache.c.o
+[ 28%] Building C object box3d_src/CMakeFiles/box3d.dir/parallel_for.c.o
+[ 29%] Building C object box3d_src/CMakeFiles/box3d.dir/parallel_joint.c.o
+[ 30%] Building C object box3d_src/CMakeFiles/box3d.dir/physics_world.c.o
+[ 31%] Building C object box3d_src/CMakeFiles/box3d.dir/prismatic_joint.c.o
+[ 31%] Building C object box3d_src/CMakeFiles/box3d.dir/recording.c.o
+/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot.cpp: In function ‘bool ImPlot::UpdateInput(ImPlotPlot&)’:
+/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot.cpp:1839:46: warning: bitwise operation between different enumeration types ‘ImGuiButtonFlags_’ and ‘ImGuiButtonFlagsPrivate_’ is deprecated [-Wdeprecated-enum-enum-conversion]
+ 1838 |     const ImGuiButtonFlags plot_button_flags = ImGuiButtonFlags_AllowOverlap
+      |                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 1839 |                                              | ImGuiButtonFlags_PressedOnClick
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot.cpp: In function ‘void ImPlot::EndPlot()’:
+/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot.cpp:3053:53: warning: bitwise operation between different enumeration types ‘ImGuiButtonFlags_’ and ‘ImGuiButtonFlagsPrivate_’ is deprecated [-Wdeprecated-enum-enum-conversion]
+ 3052 |         const ImGuiButtonFlags legend_button_flags = ImGuiButtonFlags_AllowOverlap
+      |                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 3053 |                                                     | ImGuiButtonFlags_PressedOnClick
+      |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot.cpp: In function ‘void ImPlot::EndSubplots()’:
+/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot.cpp:3576:53: warning: bitwise operation between different enumeration types ‘ImGuiButtonFlags_’ and ‘ImGuiButtonFlagsPrivate_’ is deprecated [-Wdeprecated-enum-enum-conversion]
+ 3575 |         const ImGuiButtonFlags legend_button_flags = ImGuiButtonFlags_AllowOverlap
+      |                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 3576 |                                                     | ImGuiButtonFlags_PressedOnClick
+      |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ 32%] Building C object box3d_src/CMakeFiles/box3d.dir/recording_replay.c.o
+In file included from /home/firtoz/work/2026/box3d-wasm/box3d/src/recording.h:10,
+                 from /home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.h:6,
+                 from /home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c:8:
+In function ‘b3MakeAABB’,
+    inlined from ‘b3RecComputeQueryBounds’ at /home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c:1881:12:
+/home/firtoz/work/2026/box3d-wasm/box3d/src/../include/box3d/math_functions.h:956:16: warning: ‘world’ may be used uninitialized [-Wmaybe-uninitialized]
+  956 |         b3AABB a = { points[0], points[0] };
+      |                ^
+/home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c: In function ‘b3RecComputeQueryBounds’:
+/home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c:1874:16: note: ‘world’ declared here
+ 1874 |         b3Vec3 world[2 * B3_MAX_SHAPE_CAST_POINTS];
+      |                ^~~~~
+In function ‘b3MakeAABB’,
+    inlined from ‘b3RecComputeQueryBounds’ at /home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c:1881:12:
+/home/firtoz/work/2026/box3d-wasm/box3d/src/../include/box3d/math_functions.h:956:16: warning: ‘world’ may be used uninitialized [-Wmaybe-uninitialized]
+  956 |         b3AABB a = { points[0], points[0] };
+      |                ^
+/home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c: In function ‘b3RecComputeQueryBounds’:
+/home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c:1874:16: note: ‘world’ declared here
+ 1874 |         b3Vec3 world[2 * B3_MAX_SHAPE_CAST_POINTS];
+      |                ^~~~~
+[ 33%] Building C object box3d_src/CMakeFiles/box3d.dir/world_snapshot.c.o
+In function ‘b3DesTree’,
+    inlined from ‘b3DeserializeIntoShell’ at /home/firtoz/work/2026/box3d-wasm/box3d/src/world_snapshot.c:1308:4:
+/home/firtoz/work/2026/box3d-wasm/box3d/src/world_snapshot.c:329:23: warning: ‘version’ may be used uninitialized [-Wmaybe-uninitialized]
+  329 |         tree->version = version;
+      |         ~~~~~~~~~~~~~~^~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/box3d/src/world_snapshot.c: In function ‘b3DeserializeIntoShell’:
+/home/firtoz/work/2026/box3d-wasm/box3d/src/world_snapshot.c:297:18: note: ‘version’ was declared here
+  297 |         uint64_t version;
+      |                  ^~~~~~~
+[ 34%] Building C object box3d_src/CMakeFiles/box3d.dir/revolute_joint.c.o
+[ 35%] Building C object box3d_src/CMakeFiles/box3d.dir/scheduler.c.o
+[ 35%] Building C object box3d_src/CMakeFiles/box3d.dir/sensor.c.o
+[ 36%] Building C object box3d_src/CMakeFiles/box3d.dir/shape.c.o
+[ 37%] Building C object box3d_src/CMakeFiles/box3d.dir/simd.c.o
+[ 38%] Building C object box3d_src/CMakeFiles/box3d.dir/solver.c.o
+[ 39%] Building C object box3d_src/CMakeFiles/box3d.dir/solver_set.c.o
+[ 39%] Building C object box3d_src/CMakeFiles/box3d.dir/sphere.c.o
+[ 40%] Building C object box3d_src/CMakeFiles/box3d.dir/spherical_joint.c.o
+[ 41%] Building C object box3d_src/CMakeFiles/box3d.dir/table.c.o
+[ 42%] Building C object box3d_src/CMakeFiles/box3d.dir/timer.c.o
+[ 43%] Building CXX object CMakeFiles/implot.dir/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot_items.cpp.o
+[ 44%] Building CXX object CMakeFiles/implot.dir/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot_demo.cpp.o
+[ 45%] Building C object box3d_src/CMakeFiles/box3d.dir/triangle_manifold.c.o
+[ 45%] Building C object box3d_src/CMakeFiles/box3d.dir/types.c.o
+[ 46%] Building C object box3d_src/CMakeFiles/box3d.dir/weld_joint.c.o
+[ 47%] Building C object box3d_src/CMakeFiles/box3d.dir/wheel_joint.c.o
+[ 48%] Linking C static library libbox3d.a
+[ 48%] Built target box3d
+[ 48%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/arena.c.o
+[ 49%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/debug_adapter.c.o
+[ 50%] Building C object box3d_shared/CMakeFiles/shared.dir/benchmarks.c.o
+[ 51%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/debug_shapes.c.o
+[ 52%] Building C object box3d_shared/CMakeFiles/shared.dir/determinism.c.o
+[ 52%] Building C object box3d_shared/CMakeFiles/shared.dir/overflow_color.c.o
+[ 53%] Building C object box3d_shared/CMakeFiles/shared.dir/stability.c.o
+[ 54%] Building C object box3d_shared/CMakeFiles/shared.dir/utils.c.o
+[ 55%] Building C object box3d_shared/CMakeFiles/shared.dir/__/diagnostic-human.c.o
+[ 56%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/draw.c.o
+[ 57%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/edges.c.o
+[ 58%] Linking C static library libshared.a
+[ 58%] Built target shared
+[ 58%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/fonts.c.o
+[ 59%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/geometry_registry.c.o
+[ 60%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/gtao.c.o
+[ 61%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/highlight_mask.c.o
+[ 62%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/highlight_outline.c.o
+[ 62%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/highlight_target.c.o
+[ 63%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/ibl.c.o
+[ 64%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/overlay.c.o
+[ 65%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/renderer.c.o
+[ 65%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/scene_target.c.o
+[ 66%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/shadow.c.o
+[ 67%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/sky.c.o
+[ 68%] Building C object box3d_gfx/CMakeFiles/gfx.dir/sokol_impl.c.o
+[ 69%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/text.c.o
+[ 69%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/tone_map.c.o
+[ 70%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/world_text.c.o
+[ 71%] Building C object box3d_gfx/CMakeFiles/gfx.dir/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/sokol_capacity.c.o
+[ 72%] Linking C static library libgfx.a
+[ 72%] Built target gfx
+[ 73%] Linking CXX static library libimplot.a
+[ 73%] Built target implot
+[ 74%] Generating main_bench.cpp, sample_bench.cpp, sample_continuous_bench.cpp, sample_joint_bench.cpp, sample_character_loading.cpp
+[ 76%] Building CXX object CMakeFiles/samples_cpu.dir/sokol_bench_hooks.cpp.o
+[ 76%] Building CXX object CMakeFiles/samples_cpu.dir/main_bench.cpp.o
+[ 76%] Building CXX object CMakeFiles/samples_cpu.dir/sokol_loading.cpp.o
+[ 77%] Building CXX object CMakeFiles/samples_cpu.dir/sample_gpu_bench.cpp.o
+[ 78%] Building CXX object CMakeFiles/samples_cpu.dir/sample_shape_replacement.cpp.o
+[ 79%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/host/camera.cpp.o
+[ 80%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/host/gui.cpp.o
+[ 80%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/host/imgui_impl.cpp.o
+[ 81%] Building C object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/host/sokol_app_impl.c.o
+[ 82%] Building CXX object CMakeFiles/samples_cpu.dir/sample_bench.cpp.o
+[ 83%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/mesh_loader.cpp.o
+[ 83%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/mover.cpp.o
+[ 84%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_benchmark.cpp.o
+[ 85%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_bodies.cpp.o
+[ 86%] Building CXX object CMakeFiles/samples_cpu.dir/sample_character_loading.cpp.o
+[ 87%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o
+[ 87%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_compound.cpp.o
+[ 88%] Building CXX object CMakeFiles/samples_cpu.dir/sample_continuous_bench.cpp.o
+[ 89%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_determinism.cpp.o
+[ 90%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_events.cpp.o
+[ 91%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_geometry.cpp.o
+[ 91%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_issues.cpp.o
+[ 92%] Building CXX object CMakeFiles/samples_cpu.dir/sample_joint_bench.cpp.o
+[ 93%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_manifold.cpp.o
+[ 94%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_mesh.cpp.o
+[ 94%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_ragdoll.cpp.o
+[ 95%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_replay.cpp.o
+[ 96%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_robustness.cpp.o
+[ 97%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_shapes.cpp.o
+[ 98%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_stacking.cpp.o
+[ 98%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_tree.cpp.o
+[ 99%] Building CXX object CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_world.cpp.o
+[100%] Linking CXX executable bin/samples_cpu
+[100%] Built target samples_cpu

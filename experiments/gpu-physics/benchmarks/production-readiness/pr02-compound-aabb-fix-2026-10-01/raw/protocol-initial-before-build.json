@@ -1,0 +1,38 @@
+{
+  "scope": "PR02 Box3D-compatible public/native/body compound AABBs; no ownership/solver/broadphase scheduling change",
+  "hypothesis": "Resolve public children, union their tight local AABBs, transform parent enclosing box once, then pad; use same result for public/body/native snapshots. Noncompound bounds retain existing semantics.",
+  "baseline_evidence": "../pr02-compound-bounds-2026-10-01/README.md",
+  "budget": {
+    "new_baseline_processes": 0,
+    "production_candidates": 1,
+    "candidate_C_contract_processes": 4,
+    "candidate_C_regression_processes": 4,
+    "candidate_Rust_suite_processes": 4,
+    "timing_runs": 0
+  },
+  "order": "Build and freeze ordinary/native libraries and tests; build all C fixtures. Contract ordinary/native/native/ordinary (two fresh each), C regressions settings ordinary/native then replacement ordinary/native, Rust query suite ordinary/native then native diagnostic suite ordinary/native. Serial, no competing GPU work.",
+  "settings": "Same NVIDIA Vulkan/order1/native cache settings as completed bounds diagnosis. C contract uses unchanged defaults/static compound, all four child kinds, unrotated/rotated bodies, two generations, creation/body transform/disable/enable, parent stale IDs. Construction/query only; no solver step added. Existing regression settings unchanged.",
+  "acceptance": "Public shape, native owned parent bounds and body AABB match independent b3ComputeCompoundAABB plus original speculative padding and mapped CPU shape/body at absolute1e-5 in all cases. No zero substitute, no weaker containment criterion. Stale parent public bounds zero and CPU/GPU parent handles invalid. Existing query and diagnostics assertions remain unchanged. Known duplicate CPU children are not qualified by this bounds-only campaign.",
+  "stop_rule": "Stop first build/contract/regression failure; retain completed/unlaunched results, restore three production files if rejected. No rerun/replacement/tolerance/budget extension. Record affected scenes separately before committing any retained solver/visual change.",
+  "fixture_sha256": "e770260bc0c9d733f0a2c5d736b2b93760bcb1e8ab73a5885c8849a470e81a93",
+  "C_regressions": {
+    "api_settings_test": "7136f0867e081c1863cb86f1021de1745ad787abd2b7591e71dc2bd6edf6ba40",
+    "both_shape_replacement_test": "d1df31a6ab0c1fb364ecb9a553e047ccc362e293915df73d966fdd73933bedb3"
+  },
+  "Rust_suites": [
+    "api::query::tests::",
+    "api::world::native_diagnostics::tests::native_diagnostics_contract"
+  ],
+  "baseline_production": {
+    "src/api/query.rs": "1dec7707d5e08a53f08b1a01110e7118dc09709edf8bc2dba46202576720d6b9",
+    "src/api/world/native_diagnostics.rs": "96ab8afe5a79052fadbcf0d2c53a479016bbaa625806abe3a8e420b617a9f693",
+    "c_abi/native_diagnostics.h": "3538a6face5fca8c95dfa121b7b1fa31149dc0a0132c27a99612292027d8a5b9"
+  },
+  "candidate_production": {
+    "src/api/query.rs": "a210e43aa550b405bbeede6c47b09c6e698c3307d2b16cb4fa2d356ad6b1eede",
+    "src/api/world/native_diagnostics.rs": "924762d0227678e9ea668dda35fe5c5bab986ef9c1daa455c39f5bf0788752f9",
+    "c_abi/native_diagnostics.h": "140b6f6430e5de3037151a4d2054a5f2bfa92c3d14acf0e44538739005e88d82"
+  },
+  "unchanged_adapter_sha256": "0a3ea0a76a8e84484a2d256e48c65d5c8e3003e74468a08f488e6a52d770412c",
+  "separate_recordings": "AABB API/diagnostics do not feed solver/broadphase. Audit render/caller scope before commit; preserve CPU-first grid and freeze a finite native recording protocol if affected views require captures."
+}

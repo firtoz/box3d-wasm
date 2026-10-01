@@ -51,7 +51,8 @@ void gpu_b3_world_native_profile(b3WorldId world, GpuNativeProfile* profile);
 uint32_t gpu_b3_world_native_max_capacity(b3WorldId world, b3Capacity* capacity);
 void gpu_b3_world_native_allocation(b3WorldId world, GpuNativeAllocation* allocation);
 // One synchronized ownership snapshot; visitor executes after unlocking. Bounds
-// include speculative padding and merge compound children under their public ID.
+// include speculative padding. Compound parents use the transformed local
+// enclosing child box, matching the public Box3D-compatible AABB semantics.
 uint32_t gpu_b3_world_native_visit_shape_bounds(b3WorldId world, uint32_t body_type,
                                               GpuNativeBoundsVisitor* visitor, void* context);
 // Cheap live public topology; no GPU wait or contact/body download.

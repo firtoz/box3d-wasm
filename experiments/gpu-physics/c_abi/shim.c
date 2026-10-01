@@ -1931,6 +1931,8 @@ B3_API b3ChildShape b3GetCompoundChild(const b3CompoundData* compound, int child
 #include "compound_mesh_instances.h"
 extern void gpu_b3_world_set_fail(b3WorldId id, const char* message);
 
+extern bool gpu_b3_shape_set_compound_local_bounds(GpuShapeId parent, b3AABB bounds);
+
 B3_API b3ShapeId b3CreateBakedCompoundShape(b3BodyId bodyId, b3ShapeDef* def, const b3CompoundData* compound)
 {
 	int childCount = 0;
@@ -2024,6 +2026,13 @@ B3_API b3ShapeId b3CreateBakedCompoundShape(b3BodyId bodyId, b3ShapeDef* def, co
 		}
 	}
 	gpu_mesh_cache_free(&meshCache);
+    /* Preserve the source compound tree box before transformed hull baking. */
+    if (!gpu_b3_shape_set_compound_local_bounds(parent, b3ComputeCompoundAABB(compound, b3Transform_identity)))
+    {
+        gpu_b3_world_set_fail((b3WorldId){bodyId.world0, 1}, "compound bounds import failed");
+        return (b3ShapeId){0};
+    }
+
 	if (gpu_samples_on_compound_shape_created)
 	{
 		gpu_samples_on_compound_shape_created(parent, bodyId, compound);

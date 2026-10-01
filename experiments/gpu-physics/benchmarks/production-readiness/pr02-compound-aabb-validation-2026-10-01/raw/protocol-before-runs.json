@@ -1,0 +1,54 @@
+{
+  "scope": "First API validation of compiled compound AABB repair; original build-rejected validation remains closed/unlaunched",
+  "budget": {
+    "compiled_candidate_variants": 1,
+    "C_contract_processes": 4,
+    "C_regression_processes": 4,
+    "Rust_suite_processes": 4,
+    "new_baseline_processes": 0,
+    "timing_runs": 0
+  },
+  "hypothesis": "Exact native source local compound box retained in traced parent center/half, transformed/padded for public/body/native snapshots; shader collider bounds unchanged. Explicit map annotation repairs compilation only.",
+  "order": "Build both fresh combined C adapters and all six C fixtures before serial validation. Contract ordinary/native/native/ordinary; settings ordinary/native, replacement ordinary/native; Rust query suite ordinary/native, native diagnostic suite ordinary/native. Stop first failure.",
+  "settings": "Same NVIDIA Vulkan/order1/native cache settings as completed bounds diagnosis. C contract uses unchanged defaults/static compound, all four child kinds, unrotated/rotated bodies, two generations, creation/body transform/disable/enable, parent stale IDs. Construction/query only; no solver step added. Existing regression settings unchanged.",
+  "acceptance": "Public shape, native owned parent bounds and body AABB match independent b3ComputeCompoundAABB plus original speculative padding and mapped CPU shape/body at absolute1e-5 in all cases. No zero substitute, no weaker containment criterion. Stale parent public bounds zero and CPU/GPU parent handles invalid. Existing query and diagnostics assertions remain unchanged. Known duplicate CPU children are not qualified by this bounds-only campaign.",
+  "stop_rule": "Stop first build/API/regression failure, retain all completed and unlaunched data, restore all seven production files if rejected. No alternate implementation, retry, replacement, tolerance or budget extension. Compile-only evidence is not API acceptance. Captures/builds remain separate from timing.",
+  "fixture_sha256": "e770260bc0c9d733f0a2c5d736b2b93760bcb1e8ab73a5885c8849a470e81a93",
+  "C_regressions": {
+    "api_settings_test": "7136f0867e081c1863cb86f1021de1745ad787abd2b7591e71dc2bd6edf6ba40",
+    "both_shape_replacement_test": "d1df31a6ab0c1fb364ecb9a553e047ccc362e293915df73d966fdd73933bedb3"
+  },
+  "Rust_suites": [
+    "api::query::tests::",
+    "api::world::native_diagnostics::tests::native_diagnostics_contract"
+  ],
+  "production_sources": {
+    "src/api/query.rs": "6d1a75e5f05855bbea9e8ffe06a46c230224ecadba5042be7f1a58b171d24582",
+    "src/api/world/native_diagnostics.rs": "3cb55258b1c8587f2b26cceb04813ba743186934b8a239d64a7a7c491fe52059",
+    "c_abi/native_diagnostics.h": "140b6f6430e5de3037151a4d2054a5f2bfa92c3d14acf0e44538739005e88d82",
+    "src/api/world.rs": "d2d741536b5ced92ebb0394ba33308c5c5edbaf80e045c824d38fbef157b45cb",
+    "src/c_abi.rs": "39dc7809ffeddc60a3017247057be551d2a8df2e78410d25e2a72c1a3cc87a65",
+    "c_abi/shim.c": "a2456c1c4296467bbe39f7d2e9083f52b552cb1a77043be8654d65c3ef870e40",
+    "c_abi/both_dual.c": "4a6a7d427d6fe835a8929b650f87993a66e9eb6099c92b83670d0b6f1eb25628"
+  },
+  "engine_proof": {
+    "ordinary": {
+      "receipt_sha256": "b296be9d4d5e44e81a66aa2488de4aa6e39dc9121bf8ff52d9364d316f3aec1e",
+      "receipt_portable": "../pr02-compound-aabb-compile-2026-10-01/raw/candidate-complete-inputs/ordinary-build.json",
+      "library_sha256": "096d9a9bfad7ba87677723ba37f3b6ee413f7ed266682b53927b7ebe3cc897a0",
+      "test_sha256": "8f2b164cd88edd81efaffd0705e75db279d70aa678cf72a4139ad560205a4763"
+    },
+    "native": {
+      "receipt_sha256": "275a9449d26b689b8d5f831eb6c954052de0a513f8639303659ccf19a570679f",
+      "receipt_portable": "../pr02-compound-aabb-compile-2026-10-01/raw/candidate-complete-inputs/native-build.json",
+      "library_sha256": "f5d3c3856536d53b8f8bfef51655cd062aed414adfeb68e6be80905be1d6d366",
+      "test_sha256": "00642a2e11e4ea879b0291bbf053e37f5f31aa656be88eb165c646c5e913eb30"
+    }
+  },
+  "source_context_revision": "1be163f75f6aebac75faeb205ff85e7b615176ea",
+  "prior_protocols": {
+    "rejected_build_sha256": "64b1f8b9b0aa4b75fd927e4c7fc59bf834ce4c5436dcccefa781be9ca347c86a",
+    "compile_repair_sha256": "9822a583064f65939308bf9691887cdb605c092017cb8f6f4487695239f36dde"
+  },
+  "limitations": "Known duplicate CPU compound primitive children remain unchanged; this bounds campaign cannot qualify ownership or final physics/repeatability/performance. API scene/caller applicability and required recordings precede retained production commit."
+}

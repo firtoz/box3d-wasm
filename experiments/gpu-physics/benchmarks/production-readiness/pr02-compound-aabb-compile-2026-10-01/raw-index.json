@@ -1,0 +1,74 @@
+{
+  "entries": [
+    {
+      "path": "raw/baseline-production-inputs.tar.gz",
+      "sha256": "73d2c1198417937959a12fe4b54ede4020d605a102fa720c426b0bc5632d1028",
+      "bytes": 186447
+    },
+    {
+      "path": "raw/candidate-complete-inputs/native-build-1.log",
+      "sha256": "1bc5353d3b3905799122cad13e882f34567fc3cefe62cf3158ff0161851a41ea",
+      "bytes": 31759
+    },
+    {
+      "path": "raw/candidate-complete-inputs/native-build-2.log",
+      "sha256": "6bcfd0cc30b290db112bf642ad98c512a16005092de166feb33d4f7a8f0b3677",
+      "bytes": 30868
+    },
+    {
+      "path": "raw/candidate-complete-inputs/native-build.json",
+      "sha256": "275a9449d26b689b8d5f831eb6c954052de0a513f8639303659ccf19a570679f",
+      "bytes": 45209
+    },
+    {
+      "path": "raw/candidate-complete-inputs/native-compiled-sources.tar.gz",
+      "sha256": "fbf3c3207951b94e7484608a7a31ea959a4df8b01308a026b385efa4805cb127",
+      "bytes": 1458529
+    },
+    {
+      "path": "raw/candidate-complete-inputs/ordinary-build-1.log",
+      "sha256": "ba951a82568ad84ddaa6d708d4dc3282f12d777b031005599832f0eb22648667",
+      "bytes": 2125
+    },
+    {
+      "path": "raw/candidate-complete-inputs/ordinary-build-2.log",
+      "sha256": "ed0009b4dac3a35ee08071af6e8eda7fce4f28f880bc3733622f31eaa23b60d1",
+      "bytes": 2699
+    },
+    {
+      "path": "raw/candidate-complete-inputs/ordinary-build.json",
+      "sha256": "b296be9d4d5e44e81a66aa2488de4aa6e39dc9121bf8ff52d9364d316f3aec1e",
+      "bytes": 45084
+    },
+    {
+      "path": "raw/candidate-complete-inputs/ordinary-compiled-sources.tar.gz",
+      "sha256": "0b49f7222d35c3ba1fc634883a319f05ce8fc191650bd0d26d01f9bfbc504379",
+      "bytes": 1458531
+    },
+    {
+      "path": "raw/candidate-production-inputs.tar.gz",
+      "sha256": "3b8ef81540277c0cc713640f8a42d98bb1451e61ca3a4689d9bcfd15bcfad95c",
+      "bytes": 187489
+    },
+    {
+      "path": "raw/driver-receipt.json",
+      "sha256": "07c1038270cd3d5f8a9e0602d0738fdaed7ff635c0684bedb6d53c7919bbb6e5",
+      "bytes": 447
+    },
+    {
+      "path": "raw/driver.py",
+      "sha256": "00a7c92282853c2661929a9a6f494f5da8f7562e54a0720a778af41b36514481",
+      "bytes": 607
+    },
+    {
+      "path": "raw/freeze.py",
+      "sha256": "04b5462b2f7e85f332005659d7205f0f7ef3a2dcc6bb9d228ad2a05827778121",
+      "bytes": 3377
+    },
+    {
+      "path": "raw/protocol-before-builds.json",
+      "sha256": "9822a583064f65939308bf9691887cdb605c092017cb8f6f4487695239f36dde",
+      "bytes": 2536
+    }
+  ]
+}

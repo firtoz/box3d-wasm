@@ -1337,6 +1337,11 @@ pub extern "C" fn gpu_b3_create_compound_parent(
 }
 
 #[no_mangle]
+pub extern "C" fn gpu_b3_shape_set_compound_local_bounds(parent: ShapeId, bounds: crate::api::Aabb) -> bool {
+    crate::api::b3_shape_set_compound_local_bounds(parent, bounds)
+}
+
+#[no_mangle]
 pub extern "C" fn gpu_b3_shape_attach_compound_child(parent: ShapeId, child: ShapeId, index: i32) -> bool {
     b3_shape_attach_compound_child_indexed(parent, child, index)
 }

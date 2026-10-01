@@ -3,6 +3,11 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+# A frozen native-viewer campaign has its own finite budget and built executables.
+if [[ -n "${NATIVE_CAPTURE_PROTOCOL:-}" ]]; then
+  exec python3 "${ROOT}/scripts/record-native-scenes.py" --protocol "${NATIVE_CAPTURE_PROTOCOL}" --kind cpu
+fi
 LABEL="${1:-000-box3d-cpu}"
 FRAMES="${FRAMES:-300}"
 BIN="${GPU_RECORD_BIN:-${ROOT}/target/release/gpu-physics}"

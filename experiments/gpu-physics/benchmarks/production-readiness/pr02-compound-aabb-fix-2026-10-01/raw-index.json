@@ -1,0 +1,74 @@
+{
+  "entries": [
+    {
+      "path": "raw/baseline-production-inputs.tar.gz",
+      "sha256": "30c87cd5240f565120312cf0ce2db08fe50d32e28dd901438c12e5fe8957ffdc",
+      "bytes": 186447
+    },
+    {
+      "path": "raw/candidate-complete-inputs/native-build-1.log",
+      "sha256": "59bf52d8d2c3b9c14992ac4245611337834cf3251fcf66c0046cdfbc0170d9cf",
+      "bytes": 30677
+    },
+    {
+      "path": "raw/candidate-complete-inputs/native-build.json",
+      "sha256": "7d94be802aaddaf3f34b344282f7e81dd0b0bed007e87cf18b388ed4f0f32d06",
+      "bytes": 22681
+    },
+    {
+      "path": "raw/candidate-complete-inputs/native-compiled-sources.tar.gz",
+      "sha256": "80c10008a9f7f7dbcb763c079c1e9ecfd4176c7b33ae45b748733f872fd51e1d",
+      "bytes": 1458519
+    },
+    {
+      "path": "raw/candidate-complete-inputs/ordinary-build-1.log",
+      "sha256": "8c538fe97a135e4db292ccb1c6c512320ddc3898a5775c51b3b944385d7ca5eb",
+      "bytes": 1599
+    },
+    {
+      "path": "raw/candidate-complete-inputs/ordinary-build.json",
+      "sha256": "b996377c0885e546c787e8206629cf92c309bc7645207158c30b93eb71546ef2",
+      "bytes": 22693
+    },
+    {
+      "path": "raw/candidate-complete-inputs/ordinary-compiled-sources.tar.gz",
+      "sha256": "b1c1849edd53a99ce70b25d407804ed989883b83b2609a9073cb99e17b5eff80",
+      "bytes": 1458521
+    },
+    {
+      "path": "raw/freeze-guard-added-too-late.py",
+      "sha256": "435a561a84ac19877eaa05af2e1035171cce459ded9b64af4b8d9aaf52778d2d",
+      "bytes": 3379
+    },
+    {
+      "path": "raw/freeze-initial-template-reconstruction.py",
+      "sha256": "1db9a670704abfe5691fcc824fe44223f07590d91f21cf7c9a38fff52007af57",
+      "bytes": 3241
+    },
+    {
+      "path": "raw/freeze.py",
+      "sha256": "435a561a84ac19877eaa05af2e1035171cce459ded9b64af4b8d9aaf52778d2d",
+      "bytes": 3379
+    },
+    {
+      "path": "raw/protocol-before-runs.json",
+      "sha256": "64b1f8b9b0aa4b75fd927e4c7fc59bf834ce4c5436dcccefa781be9ca347c86a",
+      "bytes": 5072
+    },
+    {
+      "path": "raw/protocol-initial-before-build.json",
+      "sha256": "d412fa32442ca1bc32128ac0b022d3aaf5ce9d12a883252e49ea4a4113922b44",
+      "bytes": 3506
+    },
+    {
+      "path": "raw/rejected-production-inputs.tar.gz",
+      "sha256": "a4f34c36e5662d35b4436789f8786dafa17b2ff7382cf99d6e717c5eeac12408",
+      "bytes": 187606
+    },
+    {
+      "path": "raw/stop.json",
+      "sha256": "f4169c462536a4e0c13b88377752e3ef99cd9dc01f92a37721789cbf74f68415",
+      "bytes": 1356
+    }
+  ]
+}

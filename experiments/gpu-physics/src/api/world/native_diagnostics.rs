@@ -214,7 +214,7 @@ pub struct NativeShapeBounds {
 }
 
 /// Collect owned data under one lock, then allow C to print/visit it after unlock.
-/// Include disabled shapes, and merge compound child bounds under the public ID.
+/// Include disabled shapes, with Box3D-compatible compound parent bounds.
 #[cfg(not(target_arch = "wasm32"))]
 pub fn b3_world_native_shape_bounds(id: WorldId, body_type: u32) -> Result<Vec<NativeShapeBounds>, u32> {
     if body_type > 2 { return Err(NATIVE_DIAGNOSTIC_INVALID); }
@@ -224,25 +224,26 @@ pub fn b3_world_native_shape_bounds(id: WorldId, body_type: u32) -> Result<Vec<N
         if w.physics_invalid { return Err(NATIVE_DIAGNOSTIC_FAILED); }
         sync_world_mirror_parts(w, id, false, false, false);
         let mut result: Vec<NativeShapeBounds> = Vec::new();
-        let mut public_indices = std::collections::HashMap::new();
+        let mut public_indices: std::collections::HashMap<ShapeId, usize> = std::collections::HashMap::new();
+        let mut parts: Vec<Vec<crate::api::query::HostShape>> = Vec::new();
         for (index, shape) in w.shapes.iter().enumerate().filter_map(|(i, s)| s.as_ref().map(|s| (i, s))) {
             let Some(body) = w.bodies.get(shape.body_index.saturating_sub(1) as usize).and_then(Option::as_ref) else { continue; };
             let kind = if body.gpu.flags & FLAG_STATIC != 0 { 0 }
                 else if body.gpu.flags & FLAG_KINEMATIC != 0 { 1 } else { 2 };
             if kind != body_type { continue; }
             let Some(host) = host_shape_direct(w, id.index1, index, shape) else { continue; };
-            let bounds = crate::api::query::public_shape_aabb(&host);
             if let Some(&destination) = public_indices.get(&host.public_id) {
-                let old: &mut NativeShapeBounds = &mut result[destination];
-                for axis in 0..3 {
-                    old.bounds.lower_bound[axis] = old.bounds.lower_bound[axis].min(bounds.lower_bound[axis]);
-                    old.bounds.upper_bound[axis] = old.bounds.upper_bound[axis].max(bounds.upper_bound[axis]);
-                }
+                parts[destination].push(host);
             } else {
                 public_indices.insert(host.public_id, result.len());
                 result.push(NativeShapeBounds { shape: host.public_id, body: BodyId {
-                    index1: shape.body_index, world0: id.index1, generation: body.generation }, bounds });
+                    index1: shape.body_index, world0: id.index1, generation: body.generation },
+                    bounds: crate::api::Aabb::default() });
+                parts.push(vec![host]);
             }
+        }
+        for (record, children) in result.iter_mut().zip(parts.iter()) {
+            record.bounds = crate::api::query::public_shape_parts_aabb(children.iter());
         }
         Ok(result)
     })?

@@ -48,6 +48,7 @@ pub(super) struct HostShape {
     pub public_id: ShapeId,
     pub child_index: i32,
     pub compound_material_indices: [i32; 4],
+    pub compound_local_bounds: Option<Aabb>,
     pub kind: u32,
     pub body_origin: [f32; 3],
     pub body_rotation: [f32; 4],
@@ -428,6 +429,7 @@ pub(super) fn rigid_mesh_time_of_impacts(
             public_id: mesh.public_id,
             child_index: mesh.child_index,
             compound_material_indices: mesh.compound_material_indices,
+            compound_local_bounds: None,
             kind: mesh.kind,
             body_origin: [0.0; 3],
             body_rotation: identity.q,
@@ -1839,30 +1841,48 @@ pub(super) fn public_shape_aabb(shape: &HostShape) -> Aabb {
     aabb
 }
 
+// A compound's public AABB is the transformed local enclosing box, not the
+// union of world-space child boxes. Box3D uses that parent tree box as well.
+// All parts belong to one public shape and share their body transform.
+pub(super) fn public_shape_parts_aabb<'a>(mut parts: impl Iterator<Item = &'a HostShape>) -> Aabb {
+    let Some(first) = parts.next() else { return Aabb::default(); };
+    if first.child_index < 0 {
+        return public_shape_aabb(first);
+    }
+    let local = first.compound_local_bounds.unwrap_or_else(|| {
+        // Programmatically attached Rust children have no native source box.
+        let identity = WorldTransform { p: [0.0; 3], q: [0.0, 0.0, 0.0, 1.0] };
+        let mut bounds = aabb_for_proxy(&shape_proxy(first, Some(identity)));
+        for child in parts {
+            bounds = union_aabb(bounds, aabb_for_proxy(&shape_proxy(child, Some(identity))));
+        }
+        bounds
+    });
+    let center = 0.5 * (v(local.lower_bound) + v(local.upper_bound));
+    let extent = 0.5 * (v(local.upper_bound) - v(local.lower_bound));
+    let rotation = q(first.body_rotation);
+    let center = v(first.body_origin) + rotation * center;
+    let extent = glam::Mat3::from_quat(rotation).abs() * extent;
+    let padding = V3::splat(crate::types::SPECULATIVE_DISTANCE);
+    Aabb { lower_bound: (center - extent - padding).to_array(),
+        upper_bound: (center + extent + padding).to_array() }
+}
+
 pub fn b3_shape_get_aabb(id: ShapeId) -> Aabb {
-    super::world::query_shape(id)
-        .map(|shape| public_shape_aabb(&shape))
-        .unwrap_or_default()
+    public_shape_parts_aabb(super::world::query_shape_parts(id).iter())
 }
 
 pub fn b3_body_compute_aabb(id: BodyId) -> Aabb {
     let Some(body) = super::world::query_body(id) else {
         return Aabb::default();
     };
-    if body.shapes.is_empty() {
-        return Aabb {
-            lower_bound: body.origin,
-            upper_bound: body.origin,
-        };
-    }
-    let mut result = b3_shape_get_aabb(body.shapes[0].id);
-    for shape in body.shapes.iter().skip(1) {
-        let aabb = public_shape_aabb(shape);
-        for axis in 0..3 {
-            result.lower_bound[axis] = result.lower_bound[axis].min(aabb.lower_bound[axis]);
-            result.upper_bound[axis] = result.upper_bound[axis].max(aabb.upper_bound[axis]);
-        }
-    }
+    let mut groups = public_shape_groups(&body.shapes, 0..body.shapes.len()).into_iter();
+    let Some(first) = groups.next() else {
+        return Aabb { lower_bound: body.origin, upper_bound: body.origin };
+    };
+    let bounds = |group: &[usize]| public_shape_parts_aabb(group.iter().map(|&index| &body.shapes[index]));
+    let mut result = bounds(&first);
+    for group in groups { result = union_aabb(result, bounds(&group)); }
     result
 }
 
@@ -2662,6 +2682,7 @@ mod tests {
             public_id: ShapeId::default(),
             child_index: -1,
             compound_material_indices: [0; 4],
+            compound_local_bounds: None,
             kind,
             body_origin: [0.0; 3],
             body_rotation: [0.0, 0.0, 0.0, 1.0],

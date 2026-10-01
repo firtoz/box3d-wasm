@@ -1,0 +1,151 @@
+{
+  "purpose": "precommit visual/health evidence, not performance",
+  "budget": {
+    "cpu": 6,
+    "gpu": 6,
+    "timing": 0,
+    "retries": 0
+  },
+  "order": "six real Box3D CPU processes, then six native Vulkan GPU processes; scenes in listed order",
+  "stop_rule": "first launch/health/capture/source failure stops campaign; retain all completed/failed/incomplete artifacts and unlaunched cases, no retries",
+  "watchdog_seconds_per_scene": 600,
+  "artifact_directory": "artifacts/production-readiness/pr02-compound-aabb-captures",
+  "viewers": {
+    "cpu": {
+      "binary": "artifacts/production-readiness/pr02-compound-aabb-captures/cpu-viewer/cmake/bin/samples_cpu",
+      "binary_sha256": "9d879afb242a73049e62c5a1ac85c2b701e3c7b070148605cb62b6e8339a28a0",
+      "receipt": "artifacts/production-readiness/pr02-compound-aabb-captures/cpu-viewer/receipt.json",
+      "receipt_sha256": "03ad651b1df90bf09e76e912da228721d59d6a5097c2ae0b246a9bd59fe7785b",
+      "label": "000-box3d-cpu"
+    },
+    "gpu": {
+      "binary": "artifacts/production-readiness/pr02-compound-aabb-validation/native-viewer/cmake/bin/samples_gpu",
+      "binary_sha256": "164b03b5f55cfc8f02b7d49f1d7d1155ff7557057047cb39377e251588f98a61",
+      "receipt": "artifacts/production-readiness/pr02-compound-aabb-validation/native-viewer/receipt.json",
+      "receipt_sha256": "2f93f2c3c8879bce52d249cfe215e202dcefe668fed2f4482b89a6afbedd0b47",
+      "label": "2026-10-01-compound-aabb"
+    }
+  },
+  "recorder_sha256": "381037e16b45e418569c371b1eb2565e39f90f8b1e0743752fbfa61595c97156",
+  "source_files": {
+    "scripts/record-native-scenes.py": "381037e16b45e418569c371b1eb2565e39f90f8b1e0743752fbfa61595c97156",
+    "scripts/record-box3d-oracle.sh": "e405b93bc8b74d6c99f951c5b909c7fa2fb6afbbc3adbc664d6acd81e81747ca",
+    "scripts/record-snapshot.sh": "9109e1e53c0257bc32715f29adbe2b7c220aec6adbc1f6cda1c7b0966c5c61a6",
+    "scripts/refresh-compare.ts": "c0167697fa15bbcb9338a2deba418841189ba33a055ed5ed51c656eba28c3b5c",
+    "scripts/native-samples-cache-env.sh": "55560aec256c6e71c0b4a44d4a6452ce4c2a39858668bee9ca0f2f048c176b94"
+  },
+  "build_applicability_exclusions": [
+    "scripts/record-box3d-oracle.sh",
+    "scripts/record-snapshot.sh"
+  ],
+  "applicability_note": "Only recording shell wrappers changed after viewer builds; neither is compiled into a viewer. All other recorded build source inputs and every actual compiled unit/object must match. New native recorder is separately frozen. No engine/viewer production input changed.",
+  "scenes": [
+    {
+      "id": "compound-simple",
+      "name": "Compound/Simple",
+      "scope": "affected compound scene"
+    },
+    {
+      "id": "compound-spheres",
+      "name": "Compound/Spheres",
+      "scope": "affected compound scene"
+    },
+    {
+      "id": "compound-hulls",
+      "name": "Compound/Hulls",
+      "scope": "affected compound scene"
+    },
+    {
+      "id": "compound-tile-floor",
+      "name": "Compound/Tile Floor",
+      "scope": "affected compound scene"
+    },
+    {
+      "id": "compound-village",
+      "name": "Compound/Village",
+      "scope": "affected compound scene"
+    },
+    {
+      "id": "compound-mesh-tile",
+      "name": "Compound/Mesh Tile",
+      "scope": "unaffected control"
+    }
+  ],
+  "assets": {
+    "../../box3d/data/meshes/building.obj": "92ae7f26051f79893d1ca1b651f5da3a0e4ae8010a9510b4282c8e849e72fe06",
+    "../../box3d/data/meshes/collision_mesh_01.obj": "0cdce7388bd9d029a969dbe3e5cfc8e49121eeb2380589c605e4af0be43f5faf",
+    "../../box3d/data/meshes/conveyor.obj": "edef794d26b8da3180350261653d3d8e73022ec22fa84f76537676d3e1991886",
+    "../../box3d/data/meshes/single_triangle.obj": "74e866b59cf7acaf282a466bc9ba03e0ccf5bbfb1700858b71786b8ecd6092ac",
+    "../../box3d/data/meshes/stairs.obj": "89dcfb7099798f435fe43889d54ee0d61cf6ea4a53f667eb709fad43ee6611fd",
+    "../../box3d/data/meshes/test_map01.obj": "f15942615474aafdee66d71f6edcada85fd6a3eece120b17ee3dbbd87c93f32d",
+    "../../box3d/data/meshes/voxel_mesh_01.obj": "d2fec531866e6ba58c74af0091fd089a94725426c7933f4d6097ba6fb5ced4ed",
+    "../../box3d/data/meshes/voxel_mesh_02.obj": "73a2fd20829a5c66cc8e8247be88d700c5a6b5932b4d34846a31bbe8197a9f9f",
+    "../../box3d/data/meshes/voxel_mesh_03.obj": "04fbb6a96bb3cbbf39dc83bdadd80326160d88327a41cbc414cb3f29006b8dd1",
+    "../../box3d/data/meshes/voxel_mesh_04.obj": "c9e2683ab6d246d6de54d621882e263322992941104bb52ab226f4472ee7817d",
+    "../../box3d/data/trees/bounds01.txt": "f732b6420c1c3b576a6f1a2989054cb77cf37a7c7aabcd09897b3e0b3e868003",
+    "../../box3d/data/trees/bounds02.txt": "b8749c2f4aed1cdda9f69403264ea94b8a532401de6f9f7367daf4045bbc356d",
+    "../../box3d/data/trees/bounds03.txt": "07bd5f9a1d56d2373039ea384a9aa1c1b94e1fb5697d0cfc1bc8b473ff4c3e6a"
+  },
+  "xvfb": "artifacts/production-readiness/pr01-speculative/handoff/xvfb/usr/bin/Xvfb",
+  "environments": {
+    "cpu": {
+      "DISPLAY": ":97",
+      "GPU_BENCH_WIDTH": "1280",
+      "GPU_BENCH_HEIGHT": "720",
+      "__NV_PRIME_RENDER_OFFLOAD": "0",
+      "__GLX_VENDOR_LIBRARY_NAME": "mesa",
+      "LIBGL_ALWAYS_SOFTWARE": "1"
+    },
+    "gpu": {
+      "GPU_PHYSICS_GPU_CCD": "1",
+      "GPU_PHYSICS_AB": "bounded-static-sort",
+      "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+      "GPU_PHYSICS_FULL_REPLAY": "1",
+      "GPU_PHYSICS_GRAPH_SHARED": "1",
+      "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+      "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+      "GPU_PHYSICS_PAIR_MATRIX": "1",
+      "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+      "GPU_PHYSICS_RESIDENT": "1",
+      "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+      "GPU_PHYSICS_GRAPH_MEMO": "1",
+      "GPU_PHYSICS_COMPONENT_TGS": "1",
+      "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+      "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+      "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+      "WGPU_BACKEND": "vulkan",
+      "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+      "DISPLAY": ":97",
+      "GPU_BENCH_WIDTH": "1280",
+      "GPU_BENCH_HEIGHT": "720",
+      "__NV_PRIME_RENDER_OFFLOAD": "0",
+      "__GLX_VENDOR_LIBRARY_NAME": "mesa",
+      "LIBGL_ALWAYS_SOFTWARE": "1",
+      "GPU_PHYSICS_ADAPTER": "nvidia",
+      "GPU_PHYSICS_BACKEND": "vulkan",
+      "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+      "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+      "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-captures/pipelines"
+    }
+  },
+  "settings": {
+    "dt": "1/60",
+    "substeps": 4,
+    "sleep": true,
+    "warm_start": true,
+    "continuous": true,
+    "scene_defaults": "unchanged upstream geometry/materials/gravity",
+    "steps": 300,
+    "warmup": 0,
+    "display": [
+      1280,
+      720
+    ],
+    "encode_fps": 30,
+    "ui": "hide only UI; fresh {} settings suppress first-run help/replay redirect",
+    "renderer": "Mesa software OpenGL on isolated Xvfb; physics GPU uses actual NVIDIA Vulkan",
+    "cpu_workers": "viewer automatic clamp(logical cores/2,1,8)",
+    "incidental_clocks": "correctness/recording diagnostics; excluded from performance claims"
+  },
+  "git_checkout_context_only": "1be163f75f6aebac75faeb205ff85e7b615176ea"
+}

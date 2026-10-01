@@ -32,6 +32,12 @@ const SAMPLES = [
   "falling-ragdolls",
   "ragdoll-rain",
   "sbox-ghost-collisions",
+  "compound-simple",
+  "compound-spheres",
+  "compound-hulls",
+  "compound-tile-floor",
+  "compound-village",
+  "compound-mesh-tile",
 ] as const;
 
 type Metrics = {
@@ -66,6 +72,20 @@ function versionTuple(metrics: Metrics | null): number[] {
     }
   }
   return [999];
+}
+
+// Persisted capture timestamps survive checkout/copy, unlike filesystem times.
+// A scoped recording can have its own manifest without relabelling older clips.
+function recordingTime(name: string): number {
+  const dir = join(snapRoot, name);
+  let latest = Number.NaN;
+  for (const file of readdirSync(dir)) {
+    if (!file.endsWith("recording-manifest.json")) continue;
+    const manifest = JSON.parse(readFileSync(join(dir, file), "utf8"));
+    const time = Date.parse(manifest.recording_started_utc);
+    if (Number.isFinite(time) && (!Number.isFinite(latest) || time > latest)) latest = time;
+  }
+  return Number.isFinite(latest) ? latest : Date.parse(name.slice(0, 10));
 }
 
 function isCpu(name: string, metrics: Metrics | null): boolean {
@@ -110,6 +130,10 @@ const dirs = (() => {
         const cpuDelta = Number(isCpu(b, mb)) - Number(isCpu(a, ma));
         if (cpuDelta !== 0) {
           return cpuDelta;
+        }
+        const recorded = recordingTime(a) - recordingTime(b);
+        if (Number.isFinite(recorded) && recorded !== 0) {
+          return recorded;
         }
         const v = cmpTuples(versionTuple(ma), versionTuple(mb));
         if (v !== 0) {

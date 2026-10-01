@@ -1,0 +1,22 @@
+{
+  "status": "rejected-at-build",
+  "protocol_sha256": "64b1f8b9b0aa4b75fd927e4c7fc59bf834ce4c5436dcccefa781be9ca347c86a",
+  "cause": "Rust E0282: public_indices value type ambiguous at parts[destination].push(host)",
+  "builds_attempted": [
+    "ordinary-lib",
+    "native-lib"
+  ],
+  "validation_processes": 0,
+  "timing_runs": 0,
+  "production_restored": {
+    "src/api/query.rs": "1dec7707d5e08a53f08b1a01110e7118dc09709edf8bc2dba46202576720d6b9",
+    "src/api/world/native_diagnostics.rs": "96ab8afe5a79052fadbcf0d2c53a479016bbaa625806abe3a8e420b617a9f693",
+    "c_abi/native_diagnostics.h": "3538a6face5fca8c95dfa121b7b1fa31149dc0a0132c27a99612292027d8a5b9",
+    "src/api/world.rs": "d49f8fed0a1504235a3e478ce5fe2a127d39fef0c7780514bee9626978092fcb",
+    "src/c_abi.rs": "4a951630f49886896873549c107e87b7a0e7956db882e5710bbc0c420fde0c27",
+    "c_abi/shim.c": "6795b38655827532d6dd486ce6a1eff049e29b002205b0bed5674bedd2c32568",
+    "c_abi/both_dual.c": "0a3ea0a76a8e84484a2d256e48c65d5c8e3003e74468a08f488e6a52d770412c"
+  },
+  "unlaunched": "all4 C contracts,4 C regressions,4 Rust suites; library test builds also unlaunched",
+  "sequencing_deviation": "Shell command proceeded to native after ordinary failure before a guard was installed; both exit101/logs retained. No physics process executed; fix future orchestration to stop synchronously."
+}

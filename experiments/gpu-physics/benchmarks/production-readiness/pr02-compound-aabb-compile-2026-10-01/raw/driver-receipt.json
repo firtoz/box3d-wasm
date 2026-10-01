@@ -1,0 +1,23 @@
+{
+  "status": "compiled",
+  "builds": [
+    {
+      "backend": "ordinary",
+      "command": [
+        "python3",
+        "artifacts/production-readiness/pr02-compound-aabb-compile/freeze.py",
+        "ordinary"
+      ],
+      "exit": 0
+    },
+    {
+      "backend": "native",
+      "command": [
+        "python3",
+        "artifacts/production-readiness/pr02-compound-aabb-compile/freeze.py",
+        "native"
+      ],
+      "exit": 0
+    }
+  ]
+}

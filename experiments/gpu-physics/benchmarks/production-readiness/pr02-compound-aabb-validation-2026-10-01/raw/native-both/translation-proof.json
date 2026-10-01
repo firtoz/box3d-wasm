@@ -1,0 +1,967 @@
+{
+  "scope": "actual built C translation units and generated source/header snapshot; no rebuild or new run",
+  "compiled_units": [
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/samples_api.c",
+      "source_sha256": "15cddbcf7f666cbe70b8fcb389a6f6b222f12f2511d60a506b34014a142aa738",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/gpu_samples_api.dir/api-sources/samples_api.c.o",
+      "object_sha256": "6c2de979a60bf6ef1c33c12e7c60a5701076f1db1bb5dd15752a1dbdd754a9d4",
+      "command": "/usr/bin/cc -DBOTH_SAMPLES=1 -I/home/firtoz/work/2026/box3d-wasm/box3d/include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi -O3 -DNDEBUG -std=gnu17 -w -o CMakeFiles/gpu_samples_api.dir/api-sources/samples_api.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/samples_api.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/samples_stubs.c",
+      "source_sha256": "8d4382789ce321cbe9b5485814fc4cf260e3d2a93d1308a2b5e566101b42b7d0",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/gpu_samples_api.dir/api-sources/samples_stubs.c.o",
+      "object_sha256": "1ee513ea9a66907e8064ed928cbd2e5fa0d77797a38569a60b04b1ca6e725245",
+      "command": "/usr/bin/cc -DBOTH_SAMPLES=1 -I/home/firtoz/work/2026/box3d-wasm/box3d/include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi -O3 -DNDEBUG -std=gnu17 -w -o CMakeFiles/gpu_samples_api.dir/api-sources/samples_stubs.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/samples_stubs.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/shim.c",
+      "source_sha256": "ece3417042872c4905bb3549b11fd9842b7257bd475fcf65344b928617ffff73",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/gpu_samples_api.dir/api-sources/shim.c.o",
+      "object_sha256": "b93e7f3124097039a284ac4f8914b2b98f73288a2e3c7218aaf4f5049d93ce49",
+      "command": "/usr/bin/cc -DBOTH_SAMPLES=1 -I/home/firtoz/work/2026/box3d-wasm/box3d/include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi -O3 -DNDEBUG -std=gnu17 -w -o CMakeFiles/gpu_samples_api.dir/api-sources/shim.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/shim.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/gpu_gl_poses.c",
+      "source_sha256": "1167c8f1591e84dd08b7af5e8430779171c9b6bced919d4bf03efddf9e718f3b",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/gpu_samples_api.dir/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/gpu_gl_poses.c.o",
+      "object_sha256": "5acbe7a3d58898c29e8ce43d29e5188bde0f84244241b8696027cc0b7a825e69",
+      "command": "/usr/bin/cc -DBOTH_SAMPLES=1 -I/home/firtoz/work/2026/box3d-wasm/box3d/include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi -O3 -DNDEBUG -std=gnu17 -w -o CMakeFiles/gpu_samples_api.dir/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/gpu_gl_poses.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/gpu_gl_poses.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/aabb.c",
+      "source_sha256": "755891eef413119f13649415e4fc4ffc860d8954bb93569f34885f04ce984dc6",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/aabb.c.o",
+      "object_sha256": "fe5d5cf680806171faaad0c9cdebe340877c3f7e374d5fd560c278de9d0a7504",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/aabb.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/aabb.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/arena_allocator.c",
+      "source_sha256": "970c9436b31ec137787a8595be9291729d19607e8043cd8b30b4794de2c2faf5",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/arena_allocator.c.o",
+      "object_sha256": "0ac145a446bb78e9384a0667881ec87e8784b61dde84a820df5df1f426b30903",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/arena_allocator.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/arena_allocator.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/bitset.c",
+      "source_sha256": "b0c4ad60ac23992e20df5a1a16931fc453d5559ed8238296d5c5da3e60625d18",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/bitset.c.o",
+      "object_sha256": "6c828e6c76a7d0aef614a8e65dac75c336fef97d9177ec348927c34e507c7e37",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/bitset.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/bitset.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/block_allocator.c",
+      "source_sha256": "1e7bc681f2125567f3a2e73cfc48e507d98c64c4f52a7c4461d721c4f1f3b2f9",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/block_allocator.c.o",
+      "object_sha256": "92850be2fa7f36f9275f3753a4c8585d29ed89fef20b29c60fe2d8bfaec4a7ee",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/block_allocator.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/block_allocator.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/body.c",
+      "source_sha256": "269178119c6a895ae4be3204c8d8151cfc5120541458e4b13992e97ffcbfd050",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/body.c.o",
+      "object_sha256": "1a1b2c9188c83f59e1bf1897a15189db7ec5ab7a0f141c6906855ca0a1aaf798",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/body.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/body.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/broad_phase.c",
+      "source_sha256": "3171e243be540b63579133e37170fb95da111ff626a77c4eaea98359721c2a3d",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/broad_phase.c.o",
+      "object_sha256": "a3f3117b1abe91656a23369e7ab6bba8bf100d69fed365f0acbe0edc17fbf9c9",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/broad_phase.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/broad_phase.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/capsule.c",
+      "source_sha256": "641cc1ad1e07d6134e407d693edfbef489c14eb40e8ed82a324e0a1189c85e5b",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/capsule.c.o",
+      "object_sha256": "f9c33863edac8d1fe4a4feb6d7a5435a16683d1a6bb80724e8b8d8132b15cb0a",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/capsule.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/capsule.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/compound.c",
+      "source_sha256": "328e75c2a3f4417723439210099be431bf49bb8a59ad7bb0bda687ee6ea0dfa4",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/compound.c.o",
+      "object_sha256": "143a2d1eaa11b87e57d2c2b7337bea8131c1cb5d7f7c3264400e2360208d8e8e",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/compound.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/compound.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/constraint_graph.c",
+      "source_sha256": "4b41229621feb1fcdf5d563a8e14ccc65a2040859d23664f607dfb64ba286dbf",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/constraint_graph.c.o",
+      "object_sha256": "e44cb60d6b20fd1f96b1d9191a51c97f9d6502ee4ab9bd468a2379bc5178ae08",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/constraint_graph.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/constraint_graph.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/contact.c",
+      "source_sha256": "79a8ac03d71fbb312de358a1a856178f17a70b1954ac3967b45e33132e4de68d",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/contact.c.o",
+      "object_sha256": "b97e062e3819ad1c0854f1928acd68df165bdcffba8846a3c2ac6f06bb58b89c",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/contact.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/contact.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/contact_solver.c",
+      "source_sha256": "1e33e2b713c7ed62ed89f0fafb9c260b523b0f9d2f191133aee7263cf152b694",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/contact_solver.c.o",
+      "object_sha256": "8ef221e3cd71855c87e0e2b295f98bd978725343e9bb3276eb565230b996ed83",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/contact_solver.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/contact_solver.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/convex_manifold.c",
+      "source_sha256": "e70eacbe8a49150d93182d6dd4518db42979b93fc80ad3a69f8d96a312d1c3c4",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/convex_manifold.c.o",
+      "object_sha256": "1bd286e83ea031468f52e81c496a4b1df6b7180af1dcea311b4caf9e89787882",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/convex_manifold.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/convex_manifold.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/core.c",
+      "source_sha256": "888bc33068688bbf259ba9a82270c2f5bf6a0bc1a9ac80d15671a91d7bd909da",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/core.c.o",
+      "object_sha256": "915da60655c250942794f867d3ac239630410fe5c430640a8552d28a45869920",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/core.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/core.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/distance.c",
+      "source_sha256": "f7d0f16624150e125c739d3b71bf9bfb18525ebfc95a25bede09e9866f5111d2",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/distance.c.o",
+      "object_sha256": "cfa99352876f19968c4432cf73317ad3ce9614442d96f76fc54613d39199fb0f",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/distance.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/distance.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/distance_joint.c",
+      "source_sha256": "416cb32cd3b84d924ccd2c8cecb5b569424f705b4c5f979575cd9f4f2318f3f9",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/distance_joint.c.o",
+      "object_sha256": "ad8b49ca75c3fc34460371dcfe83e2b99af8be57fa032b4ec931e543c9e9eaa4",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/distance_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/distance_joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/dynamic_tree.c",
+      "source_sha256": "7330b99f829f0de24acd43483a9ecf24e857832cc594b07c8cb23c455f38ef4f",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/dynamic_tree.c.o",
+      "object_sha256": "1ce3656cd53a9ba957d91dfdd62377eeba448453b367b9d5742e85f2e315f6e0",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/dynamic_tree.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/dynamic_tree.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/height_field.c",
+      "source_sha256": "b2ad737cf3d4fc95f98ba6ab8a8fb11bba0a76d67da42cbd12a83310bbe16b98",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/height_field.c.o",
+      "object_sha256": "af4eeb90cc1777f2f27e567011a5395ed955a605b6e15b4a3981744e85c3dbe2",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/height_field.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/height_field.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/hull.c",
+      "source_sha256": "4ba4620e395724c8a2120ac29c32fd4a7df5271b53adbfe67d8d2cd6e1131023",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/hull.c.o",
+      "object_sha256": "be96b753beff3788c161328d23e474a343f0155635dbcaa53dbfb7161f9bb9aa",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/hull.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/hull.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/id_pool.c",
+      "source_sha256": "f6702465f07520ef4b74d7ca970409bc60bbec4ea4afd31f51257b361ad5c4f0",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/id_pool.c.o",
+      "object_sha256": "cf891b72efdf758801be156911a5fcbe6d422ce58c41edab45c8df734ebe6209",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/id_pool.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/id_pool.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/island.c",
+      "source_sha256": "25005a467f0567dd223472bff5d81e42c1048e50d342b64ed826a261fd1ce1c7",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/island.c.o",
+      "object_sha256": "e2453c69767f611032947da377216e0139a891f61b40ea3a5959afa8146e6ef6",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/island.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/island.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/joint.c",
+      "source_sha256": "f96af87e44f60dd3fd65e91225f7b2a92d4e8be8d09b7aefccf4ec14dda12439",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/joint.c.o",
+      "object_sha256": "b6deef8271bc15fbde086e395c7235232cf173c8dfc6aa89301a9b6c7acc6944",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/manifold.c",
+      "source_sha256": "e7fda02419fe48c194ef72effcc481e2dfb6953f95fa30eac67351f268bdb1a4",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/manifold.c.o",
+      "object_sha256": "296340efea5131e12c7cf6a2242deac38f417eb25fa5d6349be8cb28eddb8b6b",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/manifold.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/manifold.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/math_functions.c",
+      "source_sha256": "082ffb9210244ee40390fcba9ce098a7846648f40a0db7dee5d360b97a693975",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/math_functions.c.o",
+      "object_sha256": "f7259c707361b4be5d0466e11e7dbde0f2e54b15296776c73c7c0409f8e3d94e",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/math_functions.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/math_functions.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/mesh.c",
+      "source_sha256": "065b9f21b08686312067392565150527e4cfd34193640235e8e9960f113d6960",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/mesh.c.o",
+      "object_sha256": "fab46fa66527f7ec3c5c3ee9ae3e73e9c3c7503e2272ee0d91b8aacef2c31422",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/mesh.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/mesh.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/mesh_contact.c",
+      "source_sha256": "4f075047d15ca045a5cdc0e1ec892a975071ff9d32647d699838b871fbff6d08",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/mesh_contact.c.o",
+      "object_sha256": "d6bc7767114ee18611086515a670f27fa154bdccb2861b22c5ddd807ec23d72e",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/mesh_contact.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/mesh_contact.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/motor_joint.c",
+      "source_sha256": "b7e8af4619c51e4bcf33f6fc7a54079f6feea4fa77952ce9364d9110c5cd3f18",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/motor_joint.c.o",
+      "object_sha256": "49b45602cb5b32842fc6adf8b7372093ca218b75d24aa5b9ca04c2d1000a478a",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/motor_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/motor_joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/mover.c",
+      "source_sha256": "665d322ba6271997b76802361cbbc3d5433e91b9ffa030cc9b03c2a9d0b0b70e",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/mover.c.o",
+      "object_sha256": "8cac7637803217f291eaf9dd6d6c62ddff477649b41f9020243378d7077d5968",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/mover.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/mover.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/name_cache.c",
+      "source_sha256": "99eda2fc72f21d401defa56f4889280bb0c2d349b1ff241c0f48b4bd42acd9fd",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/name_cache.c.o",
+      "object_sha256": "c8f5b67496767abb272618aee9a36c7c1bd8989740383195b7dc4b7305a1ee0f",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/name_cache.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/name_cache.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/parallel_for.c",
+      "source_sha256": "f7775047ca95e38083416289deee42b6cbd1ce3a12756a06b846551b77e0ec58",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/parallel_for.c.o",
+      "object_sha256": "9d4a7f74ec89c465d20d7ec408b5386467d8873940086fb70a0fb7fabf2b9296",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/parallel_for.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/parallel_for.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/parallel_joint.c",
+      "source_sha256": "d50ed0139cf8fd62a4f2e20d6982a623408ae2e38b83554b60ed2c76d072faca",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/parallel_joint.c.o",
+      "object_sha256": "df0c6c31c628e816840b2b70d40a7d7369910e0ee75ef7f4c61d8705fd43a563",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/parallel_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/parallel_joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/physics_world.c",
+      "source_sha256": "42de8d9b1c6743f9a8af3ceec334d615735d604319a1d5759fd4104ad744f032",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/physics_world.c.o",
+      "object_sha256": "c54c57d9102c18e2e7112bc406937b9c981fd75a43f605ba434d7dedecb5b42c",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/physics_world.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/physics_world.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/prismatic_joint.c",
+      "source_sha256": "6f36772625730794cab6877b3018499a4870527e150ebc6d4455923e98c57c23",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/prismatic_joint.c.o",
+      "object_sha256": "e8b952b5ed5bf2b15d3458b9c876aa60a1b4c1c30d3dc03db8db1628d601ceed",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/prismatic_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/prismatic_joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/recording.c",
+      "source_sha256": "71d8c41592f9658116bbd18deb7a11cbaaef798e0928906eb76ca19f97f1d87e",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/recording.c.o",
+      "object_sha256": "853d095d25022a7177a361083880c5481e4ddddb938c26c03c6576ab7c8bf808",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/recording.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/recording.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c",
+      "source_sha256": "950d837ec6192a30743767e3eff8ac88de950f10d1bdc673f776114ec05c1ed2",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c.o",
+      "object_sha256": "9a1818c1e3aaaf12dbf535c1dae46ca190d53bf93cd7ee93b0b2dde1a9fcd51f",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/world_snapshot.c",
+      "source_sha256": "387c53738e202f9fff02c43dfac5dc236158df534320d1ea548331972b3d5456",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/world_snapshot.c.o",
+      "object_sha256": "5a6be082d25d5bf8019b7878f8d5198484956004f7bd26ff07a16816fcd6792e",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/world_snapshot.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/world_snapshot.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/revolute_joint.c",
+      "source_sha256": "c313673faa6d1f14e88da4a1c9106ab617d5bde70fed4b1a4ef136aacda42a24",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/revolute_joint.c.o",
+      "object_sha256": "2cccaee97e97c98c8d12c60889e69fdccb86038cb25fcf97edc9e63f9ddc6065",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/revolute_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/revolute_joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/scheduler.c",
+      "source_sha256": "063c0e8d72d4a574cb9abc0178c86466af4e491692d63dad2cf3d0e15d62cdec",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/scheduler.c.o",
+      "object_sha256": "0e0802646cbc1b96324d94c053b4acb95bcce820ed97ffedca1f3d5f6178791f",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/scheduler.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/scheduler.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/sensor.c",
+      "source_sha256": "324d4385d1ef1f1c83036c62808463eb93e4165ce2b2c358642c4f52421bce76",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/sensor.c.o",
+      "object_sha256": "7b86d402ffdf07c469d1402057cd6ea4772ca0f8a15accc9705f4a3f51c560e8",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/sensor.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/sensor.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/shape.c",
+      "source_sha256": "d2ba06bc042e08142a872bdcc0e5fca5074e3140ea15d420d8b1dd7ff2cb83b3",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/shape.c.o",
+      "object_sha256": "cdd4595537add817bcef448eee09041f4623f6513ccbe146e27606f85762ea8c",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/shape.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/shape.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/simd.c",
+      "source_sha256": "58c8bcb6200575cc96e7b80964fd4d393048e425ea95d5cb66e988b0faa2f9e6",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/simd.c.o",
+      "object_sha256": "f3acaf7feb6bac1a71b121a45c6fd64059eb54f8658a0a0b2d53c93fe72ad19b",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/simd.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/simd.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/solver.c",
+      "source_sha256": "25e0f58f9d7d803be88ce0d2d3a424b902d41ff3bd3e01310a1ca7820f76d926",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/solver.c.o",
+      "object_sha256": "1b1987d49826a02654a1ca67a77d2b50fe78469d6f1dcbbc419af9001337b57a",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/solver.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/solver.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/solver_set.c",
+      "source_sha256": "5bc5a4989e6dd1df8419ac98cd78c473d47c2f5c2232f3f7024c1e59e431da32",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/solver_set.c.o",
+      "object_sha256": "709aa6efb54b510c8a4b6b7942cc9cad93ff205a032bfd161d62d8a46726eaba",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/solver_set.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/solver_set.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/sphere.c",
+      "source_sha256": "2ffd6d37d8c05f079425366aee983c1397a614341a5f0e0f3f6f56a1f352d3d6",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/sphere.c.o",
+      "object_sha256": "e2a33ea65172d2ea20d846a4dc82316c151621529193f5c0a7113b2730d8deda",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/sphere.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/sphere.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/spherical_joint.c",
+      "source_sha256": "4c23e6854541db16d33d4cab3bae331ff919e623a683575691cd0dc2025d8b60",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/spherical_joint.c.o",
+      "object_sha256": "84b133eee3c7ceb6c3bd346ac87a0a0cf9389a35c521eee80ddaef239c73dbfb",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/spherical_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/spherical_joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/table.c",
+      "source_sha256": "019652d001913c063dda7ae6515161f5b58900bd99fb7d0da2c75c55a3c01158",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/table.c.o",
+      "object_sha256": "c63d746e00713d7d6a8f74ba594808407945e6e02bfa54f55b19b920db583aac",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/table.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/table.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/timer.c",
+      "source_sha256": "61c5e86efad816d329564fe6c9d8de36563d87c90d6fe54bb846499df1f33821",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/timer.c.o",
+      "object_sha256": "722a6673bbbaf9f0e4d3d44e4ec378db1f7f39dfd8e99b7553a813da21ea44fa",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/timer.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/timer.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/triangle_manifold.c",
+      "source_sha256": "dd2e473bad4a75ca0435ae8b1ec540cd4b6f260b55fa078844d4e622b0db7d55",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/triangle_manifold.c.o",
+      "object_sha256": "213944c1d257199148a451a4fe26b52dcf875cc5bf2e8e4cbee4cef3017e8fe9",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/triangle_manifold.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/triangle_manifold.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/types.c",
+      "source_sha256": "d272b2b3bf59bbe48e0def2be7ce44402880323fbb0a212963122e5a01fea120",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/types.c.o",
+      "object_sha256": "daef3ddb5d940eb65ce17d8dabefe45092c677003baf739e3ff6abcab8b4857e",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/types.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/types.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/weld_joint.c",
+      "source_sha256": "0143555d880e18ac4e6c43fe5c3fbd1dc25213efe20d4c94472bf3c4ba274604",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/weld_joint.c.o",
+      "object_sha256": "ce6f4f674a0dbb97223ca2c08f921d7d65cb6fb5cf748030cf9735f17a5b8f52",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/weld_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/weld_joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/src/wheel_joint.c",
+      "source_sha256": "9f22019768fbc24fd28b1d5ddc1afa76b284f86d9f73a170200fab39aee0fe38",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/wheel_joint.c.o",
+      "object_sha256": "65f384a16aeae24fe9b7e8149a383aca1a05bf2621a4b9b16cc9bb5bb04c5d72",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src -I/home/firtoz/work/2026/box3d-wasm/box3d/include -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/wheel_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/wheel_joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_map.c",
+      "source_sha256": "580358cf28028624c0928835751b24597811074d818b62938451f1f3d92dd9a2",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/gpu_both_api.dir/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_map.c.o",
+      "object_sha256": "11134ac1e61577d686efff306085a4881aa15ff7fc84e7b7fa1b66e5526dd2c3",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi -O3 -DNDEBUG -std=gnu17 -w -o CMakeFiles/gpu_both_api.dir/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_map.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_map.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_dual.c",
+      "source_sha256": "4a6a7d427d6fe835a8929b650f87993a66e9eb6099c92b83670d0b6f1eb25628",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/gpu_both_api.dir/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_dual.c.o",
+      "object_sha256": "9a38ba043f81ca1cde5f333301ca38523c5246e8b7037df3fd2975ff84628088",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi -O3 -DNDEBUG -std=gnu17 -w -o CMakeFiles/gpu_both_api.dir/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_dual.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_dual.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/both_passthrough.c",
+      "source_sha256": "787c71db7b34c3b2e0780d388f161ba85a368218f2287a4dfe097d5520966222",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/CMakeFiles/gpu_both_api.dir/both_passthrough.c.o",
+      "object_sha256": "7e5455d53e7c5275a9c3cc9cdebe0b4b7c84850c1f7c000a18c6e09d60a7d79a",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi -O3 -DNDEBUG -std=gnu17 -w -o CMakeFiles/gpu_both_api.dir/both_passthrough.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/both_passthrough.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/aabb.c",
+      "source_sha256": "755891eef413119f13649415e4fc4ffc860d8954bb93569f34885f04ce984dc6",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/aabb.c.o",
+      "object_sha256": "e6db1e1ee0b692666a1a538084d14d8e47d481a39126266ed0680be04a2267d6",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/aabb.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/aabb.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/arena_allocator.c",
+      "source_sha256": "970c9436b31ec137787a8595be9291729d19607e8043cd8b30b4794de2c2faf5",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/arena_allocator.c.o",
+      "object_sha256": "53502621ed657a22e7c6e933418beffe59126057de2b815377d2b6cce656fdec",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/arena_allocator.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/arena_allocator.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/bitset.c",
+      "source_sha256": "b0c4ad60ac23992e20df5a1a16931fc453d5559ed8238296d5c5da3e60625d18",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/bitset.c.o",
+      "object_sha256": "4d2c8af9f58cab2ea727fa47c38c564094b94f5671fa069f4efd09bf8123c4bf",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/bitset.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/bitset.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/block_allocator.c",
+      "source_sha256": "1e7bc681f2125567f3a2e73cfc48e507d98c64c4f52a7c4461d721c4f1f3b2f9",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/block_allocator.c.o",
+      "object_sha256": "f7fd26aae0e397127968a00195a6453a29634517f9f5a7a87651f11253acc50c",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/block_allocator.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/block_allocator.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/body.c",
+      "source_sha256": "cb812d4bd9323585146aae8bf614b0388cffd181cf400ea2f0c8d67a8075cb89",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/body.c.o",
+      "object_sha256": "966c0bc60a3fa0381ef0b05f902cf2fb9051ca920a0888dedd1e839407621b4a",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/body.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/body.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/broad_phase.c",
+      "source_sha256": "3171e243be540b63579133e37170fb95da111ff626a77c4eaea98359721c2a3d",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/broad_phase.c.o",
+      "object_sha256": "312f63672276884263316a5ee2a6b1c708659ef6ec622f494b3ba4797cfc3172",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/broad_phase.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/broad_phase.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/capsule.c",
+      "source_sha256": "8618ee0a89a0536040078f8742cc963791fa042709a8f96a324ccb9f580b2e1f",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/capsule.c.o",
+      "object_sha256": "ac6cdfde724ec31ae8ae05626048bd277de9e265c1b7c067dc710b3455586348",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/capsule.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/capsule.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/compound.c",
+      "source_sha256": "247c3f30421b92376ec5888cf2e72a0efbdab93bc0df7a8d58b2ac4ae2ef0d56",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/compound.c.o",
+      "object_sha256": "2bef17ae54f0d6776929bf7c3640db29943ebebe6e7822d4d5a2b86915f21995",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/compound.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/compound.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/constraint_graph.c",
+      "source_sha256": "02cf49ab69aaa74813d7d73ab6e49c1c37245a0df7d15617393e7e88ce1607fc",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/constraint_graph.c.o",
+      "object_sha256": "03850970790325f693466ed97d2fb879a8324b65ebf2a8ca9abcba8f59ba1619",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/constraint_graph.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/constraint_graph.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/contact.c",
+      "source_sha256": "486def83becf7e38d05e6035a6842f36721102955d5d6e33e97fc14f3df1e069",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/contact.c.o",
+      "object_sha256": "039ae60f2c2a8b85520cdb100d39bb7e392a8b4761910fa299633f8fbaf3b7b8",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/contact.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/contact.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/contact_solver.c",
+      "source_sha256": "1e33e2b713c7ed62ed89f0fafb9c260b523b0f9d2f191133aee7263cf152b694",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/contact_solver.c.o",
+      "object_sha256": "1ab3d7f0453101d4f7c0921576f3dfd6eb7b2f994841a7f7a7a8bd5eb5c4fbfd",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/contact_solver.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/contact_solver.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/convex_manifold.c",
+      "source_sha256": "55d00254358e51e5164a50e9d42a9983046cbb27aa8402feadb997f74a4079a5",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/convex_manifold.c.o",
+      "object_sha256": "222747fb633e2c3b99eb481dc772a7ff0bb1479ab3ce8e5cc534ad1fc952df71",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/convex_manifold.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/convex_manifold.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/core.c",
+      "source_sha256": "703b8a0b254ea3df3f3104ed5c889ce3f16f275b3c86404504cb5106c51dd1fc",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/core.c.o",
+      "object_sha256": "71733f1934f3657670b412cfdee0ad32e7b56431a26092ee33d3c1b5a4e2bde1",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/core.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/core.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/distance.c",
+      "source_sha256": "2f065913ae2bfe162fb6d757718870162aaec6bddb336ff1d391c49d59aed501",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/distance.c.o",
+      "object_sha256": "afe36295744ac1b67b2281e3e8e16aaa399ece065233ebc5a51791af0969ad59",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/distance.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/distance.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/distance_joint.c",
+      "source_sha256": "42c979abe648584b8acff0cc1aea8d21be426594a62f31f0ddc165e43ef4d636",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/distance_joint.c.o",
+      "object_sha256": "ad23868a12ddd6bc742d61915188cf03d656dee6b6f8e1418359da566e2b76e7",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/distance_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/distance_joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/dynamic_tree.c",
+      "source_sha256": "0e7727b064d89d1546e96f3894099230362121b094270a46d63f876cd4153be6",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/dynamic_tree.c.o",
+      "object_sha256": "dd776ea5e2d6802a77c08dfe6a28aa770706396fb1dedad88cd2a60cd219f8d3",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/dynamic_tree.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/dynamic_tree.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/height_field.c",
+      "source_sha256": "c3dfceb7eba862938f6ba003fac518a2a8bc1d34526afa08937270e741deb278",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/height_field.c.o",
+      "object_sha256": "9f5ac1e04c48982f0241627a1e4151b66b98b1a6b1f2d28b55a5b0f488e9f7e8",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/height_field.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/height_field.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/hull.c",
+      "source_sha256": "d66631b275ccc6647fd819b51d17dbf4c838bdbb41fac8648fdfd16d9375325c",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/hull.c.o",
+      "object_sha256": "4828ba2915bd2980f16ef0358356512e30a23c9ce5914503af3b66f97bea56e0",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/hull.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/hull.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/id_pool.c",
+      "source_sha256": "f6702465f07520ef4b74d7ca970409bc60bbec4ea4afd31f51257b361ad5c4f0",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/id_pool.c.o",
+      "object_sha256": "c31c2fcda0640c26f047869f3a215edf8f506f525ea7065f4f4b6e90b6edf97a",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/id_pool.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/id_pool.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/island.c",
+      "source_sha256": "25005a467f0567dd223472bff5d81e42c1048e50d342b64ed826a261fd1ce1c7",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/island.c.o",
+      "object_sha256": "70508acd528ab0ea880fc557699c4ad3cbbfc0ba8dda0f1d944f56c0d1c7ed62",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/island.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/island.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/joint.c",
+      "source_sha256": "dc9337b40063fa5212ded6181057612c978995022e6d95684d487b1b684f22ee",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/joint.c.o",
+      "object_sha256": "66b417f21881a0b3d98df901e21453a0576d998459e45d212a0d641700f6f3a8",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/joint.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/manifold.c",
+      "source_sha256": "e7fda02419fe48c194ef72effcc481e2dfb6953f95fa30eac67351f268bdb1a4",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/manifold.c.o",
+      "object_sha256": "8f1b8a912216be7f89d9f9404d6d890b82736118d42731e1c17f06e21863100f",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/manifold.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/manifold.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/math_functions.c",
+      "source_sha256": "ebb854ecd744578c342c93b93576b0a7d73b14af1a1a1ba2b7c6e054c42754bf",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/math_functions.c.o",
+      "object_sha256": "810317eb7555c50e87d32b2adf5ce1f902ffd68163d4a7b9c8363551a1ece86f",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/math_functions.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/math_functions.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/mesh.c",
+      "source_sha256": "f204bb669f59823c2742cc298eb4dbe769c77f93a803c04643901ab50dc2774f",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/mesh.c.o",
+      "object_sha256": "740eaa18bcd3778d4ecc72f050003f49cd7612eaf0fa3580315a77a1ac223d7a",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/mesh.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/mesh.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/mesh_contact.c",
+      "source_sha256": "4f075047d15ca045a5cdc0e1ec892a975071ff9d32647d699838b871fbff6d08",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/mesh_contact.c.o",
+      "object_sha256": "de2b04dba9f0f06f26e8c0ca89d40e419a382ca426746f4e3e1f1ee7318448da",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/mesh_contact.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/mesh_contact.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/motor_joint.c",
+      "source_sha256": "ac472e8e7845c18c4a63eec6a8019df99e5943081abe4cf09d7e80aa54a35d57",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/motor_joint.c.o",
+      "object_sha256": "831d5f92007e08df576466e164db43bb2b0bd15677a43d290c76deb2fe8d9373",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/motor_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/motor_joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/mover.c",
+      "source_sha256": "f7df28d3a40de4975e9c335ca358cadbe9d4b064f752fc1630a02968ea5863c6",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/mover.c.o",
+      "object_sha256": "85d4fbebf7b0f8557b54e4622294023a55867611286378288ecacac5e2ea06f5",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/mover.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/mover.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/name_cache.c",
+      "source_sha256": "99eda2fc72f21d401defa56f4889280bb0c2d349b1ff241c0f48b4bd42acd9fd",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/name_cache.c.o",
+      "object_sha256": "ac5423c2ab27faddb2148a5e5e7837051023a54c27ed7cf42b62c8aef8535d02",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/name_cache.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/name_cache.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/parallel_for.c",
+      "source_sha256": "f7775047ca95e38083416289deee42b6cbd1ce3a12756a06b846551b77e0ec58",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/parallel_for.c.o",
+      "object_sha256": "c20ecc0e5a3fe9581bb35b2103dce2a4607dafb977f9677ed8f47ff7095a7c4c",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/parallel_for.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/parallel_for.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/parallel_joint.c",
+      "source_sha256": "3b2176239b5249d655db775b9055d319a4b7e103a25a8de45ce12b61bd099843",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/parallel_joint.c.o",
+      "object_sha256": "d8d34fa968a55edec4424daa492067c6aece5b21ad3115cc0a62bb21994e16e4",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/parallel_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/parallel_joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/physics_world.c",
+      "source_sha256": "fc9c8147cbd047b98e01dee08c70b1dd8a4abfc4f71d689e0f344656a19f641a",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/physics_world.c.o",
+      "object_sha256": "141ef3235387df031b58a59945bbbd07a407a483aa18caec2ade0b6a8579a24a",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/physics_world.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/physics_world.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/prismatic_joint.c",
+      "source_sha256": "2a6cbf5fa67f9092e566f3379a8b097a06d3e3384700957bcdba3b1e2e921d55",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/prismatic_joint.c.o",
+      "object_sha256": "f641b8835085321f3d24043a62bfa839f113b4ae16246b59dbcc935087b9f59c",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/prismatic_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/prismatic_joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/recording.c",
+      "source_sha256": "ad907c6cb029914ae44580ae643eab73addd31fb9a248f3839fe34b17140638a",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/recording.c.o",
+      "object_sha256": "4bb8e03b7f9099d87f1dca143c73040f04b78b62e1b0e38c7c043f9107e3aefb",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/recording.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/recording.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/recording_replay.c",
+      "source_sha256": "bc25a946c69c872c33e3e81dc975424d99065c5562bf5121f32545346cae33f2",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/recording_replay.c.o",
+      "object_sha256": "5fc787d1fa10c384cdf978a84fc80a97f198747831611db75a29d6bc6feeee72",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/recording_replay.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/recording_replay.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/revolute_joint.c",
+      "source_sha256": "69e18bc7a7ee3c18d44e299d5f8c57be67e4de13dc8e3f6aec2555ba28edb17a",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/revolute_joint.c.o",
+      "object_sha256": "e8dd65a2bd64b7406b8ed7c904d8e633b031e2f3fab8444fed13135e91270db9",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/revolute_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/revolute_joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/scheduler.c",
+      "source_sha256": "063c0e8d72d4a574cb9abc0178c86466af4e491692d63dad2cf3d0e15d62cdec",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/scheduler.c.o",
+      "object_sha256": "db329e26464a8101e3d0d118feb20b1e9aec820cf377024d8433a502dbc467f7",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/scheduler.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/scheduler.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/sensor.c",
+      "source_sha256": "324d4385d1ef1f1c83036c62808463eb93e4165ce2b2c358642c4f52421bce76",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/sensor.c.o",
+      "object_sha256": "438f2fb6262ad24f77268ef0ac88b17d78ea9ea2afde9e8445bd201b89fbe50f",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/sensor.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/sensor.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/shape.c",
+      "source_sha256": "ef80bebe1ac29023e91aed6d2357ff6fdf627e61f29e954f19503227703380c7",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/shape.c.o",
+      "object_sha256": "9cf4bcc267b884e4a6981a8a2fe65c8793e2bf4a12a416ada53f5658f3f0d168",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/shape.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/shape.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/simd.c",
+      "source_sha256": "58c8bcb6200575cc96e7b80964fd4d393048e425ea95d5cb66e988b0faa2f9e6",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/simd.c.o",
+      "object_sha256": "e4e8830d7a1538b097e5a3b5bcde2d42a784c7c0295c1bb4164ace943b9774d9",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/simd.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/simd.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/solver.c",
+      "source_sha256": "25e0f58f9d7d803be88ce0d2d3a424b902d41ff3bd3e01310a1ca7820f76d926",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/solver.c.o",
+      "object_sha256": "d3623a15f1e2a3c8fef821b08ce9700a38634cb34fcc50d8dc63d4e99a074625",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/solver.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/solver.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/solver_set.c",
+      "source_sha256": "5bc5a4989e6dd1df8419ac98cd78c473d47c2f5c2232f3f7024c1e59e431da32",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/solver_set.c.o",
+      "object_sha256": "b04769c78c1425cb443dc557ca77ccf732b191acb69647b1589d81dead2210f6",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/solver_set.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/solver_set.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/sphere.c",
+      "source_sha256": "f0a301b3249569ddf44c29ae3278bc206e4d4217611d808b1fd2bbe5664bf24a",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/sphere.c.o",
+      "object_sha256": "65a4f8f4635c0d118cb082660e3cc8dd9dc001d1c5d8cd56d192135f160b5ef2",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/sphere.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/sphere.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/spherical_joint.c",
+      "source_sha256": "81e2de24a4c6b814318286a6c165d8fb23fdede858a463a66b1290f9bab7c723",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/spherical_joint.c.o",
+      "object_sha256": "54a5d538aa049c99568d66f10d625a81edc26ac8df27e4727276e042859b4cc5",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/spherical_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/spherical_joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/table.c",
+      "source_sha256": "019652d001913c063dda7ae6515161f5b58900bd99fb7d0da2c75c55a3c01158",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/table.c.o",
+      "object_sha256": "f05bf493c1471e3b5fbef2d27cf26f843f46c975e069abc7ee81f06fb7310f25",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/table.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/table.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/timer.c",
+      "source_sha256": "61c5e86efad816d329564fe6c9d8de36563d87c90d6fe54bb846499df1f33821",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/timer.c.o",
+      "object_sha256": "c1c728323f72d20dfc25d88a144c3efa7adda6c5a8f957af55c03536ec9821bd",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/timer.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/timer.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/triangle_manifold.c",
+      "source_sha256": "ce80d9748786ade58b7b9fe5ba25af2a1c6e13013c9441633e6fb892a2ad23ac",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/triangle_manifold.c.o",
+      "object_sha256": "629ff3d34f41cbad76c51f67bcbcb10f85fc462c7f47a92f6cddff60efbff721",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/triangle_manifold.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/triangle_manifold.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/types.c",
+      "source_sha256": "c0f4e3242bbf3ef9904d44a195f0e2c7e987c3a5fc91c2ed1c3531dd936bc6bf",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/types.c.o",
+      "object_sha256": "25b210277d617d84dbab46cba73f6606e6e68df1b660362ecb9b10b306019a20",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/types.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/types.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/weld_joint.c",
+      "source_sha256": "46a5213127613fb950c661273c0a9b4483cc3e11fc04d61ca17169ef290e5866",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/weld_joint.c.o",
+      "object_sha256": "be31ee2dbd2e5377fa3f28d4404f7563887a13fd4f4f289d9a15a7d18cde30d3",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/weld_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/weld_joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/wheel_joint.c",
+      "source_sha256": "ad15464d3fe39437400117febacaef720c3aa065f861f9fefd0f1b721bd1e6a9",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/wheel_joint.c.o",
+      "object_sha256": "ef9bc09d64fa2f0f62a99ee5750f1a45fb0b0e1ac2d625b03bce62092eeb7874",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/wheel_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/wheel_joint.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/world_snapshot.c",
+      "source_sha256": "387c53738e202f9fff02c43dfac5dc236158df534320d1ea548331972b3d5456",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src/CMakeFiles/box3d.dir/__/api-sources/world_snapshot.c.o",
+      "object_sha256": "2a335d8a628209abada3e2ebf26e7b86a1013aba4e3b94afb2e09c170d211e20",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fvisibility=hidden -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/__/api-sources/world_snapshot.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/api-sources/world_snapshot.c",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-aabb-validation/native-both/cmake/box3d_src"
+    },
+    {
+      "source": "/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-src/src/nfd_gtk.cpp",
+      "source_sha256": "5116e572bf850ff310e70683b47cb8998a8691354c218fbb3604ffb2b3c01f62",
+      "object": "/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-build/src/CMakeFiles/nfd.dir/nfd_gtk.cpp.o",
+      "object_sha256": "dcd684925b7563f75a5969e2aa3d71a6420567fb8fbad6e9f71f7aaa639ca3c4",
+      "command": "/usr/bin/c++  -I/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-src/src/include -I/usr/include/gtk-3.0 -I/usr/include/pango-1.0 -I/usr/include/cloudproviders -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/glycin-2 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/atk-1.0 -I/usr/include/dbus-1.0 -I/usr/lib/dbus-1.0/include -I/usr/include/fribidi -I/usr/include/pixman-1 -I/usr/include/harfbuzz -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/sysprof-6 -O3 -DNDEBUG -std=gnu++20 -nostdlib -fno-exceptions -fno-rtti -o CMakeFiles/nfd.dir/nfd_gtk.cpp.o -c /home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-src/src/nfd_gtk.cpp",
+      "directory": "/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-build/src"
+    }
+  ],
+  "generated_sources": {
+    "diagnostic-human.c": "c171cca5f7192ebac8ce6e0cfcdf470d5526d74a5275f9b7b3d370b201922422",
+    "both_passthrough.c": "787c71db7b34c3b2e0780d388f161ba85a368218f2287a4dfe097d5520966222",
+    "capacity-gfx/arena.c": "07cfd790418924b49710dbf2b8846f110e01f12abac0684c89ce67476a05dc29",
+    "capacity-gfx/debug_adapter.c": "260f5be1dfad9a44bbbf0e8ab4fdbf8fc8a320c67d1273eff0bb9118d03b601a",
+    "capacity-gfx/debug_shapes.c": "0f798a541b269f37c77549d3127c8516d89e652eb7cf0f1c2db11a9e3ba168f7",
+    "capacity-gfx/draw.c": "7c9f9e4fb60c1591def11ce05aa6f1aad72d5f1317bf2451f1956fc43afebd08",
+    "capacity-gfx/edges.c": "10af209c220820602c23af3c5a6e6ff4d96bde52cc5917346faacd9e122b9d46",
+    "capacity-gfx/fonts.c": "c421052024d5cacf65bea8bcd2fdf0e567df1dcb97f8fbe07c9be2c3820e20c4",
+    "capacity-gfx/geometry_registry.c": "4e425109a5c3261d4ab18483f0385794083a3c6ab9972d72585661eb20ac20a2",
+    "capacity-gfx/gtao.c": "970e052001d055889607c792086aeb66ff2c44d6feec9e2dcbf1e9a84938155c",
+    "capacity-gfx/highlight_mask.c": "e0064c1a171979d727dd13c33b342b2d1fc07c9d68e32776353aa4133d494228",
+    "capacity-gfx/highlight_outline.c": "7212bbf53a7acb9e4fe44aa77baa195ad4bfc986e5671b3a32df2060ec5a2f58",
+    "capacity-gfx/highlight_target.c": "22330c9f1d52bbcace2f44694560e1a990178505460a6570947c807fb3e085f7",
+    "capacity-gfx/ibl.c": "34446bc54c7346e64d61841bd7734dafc65cdc71e71e833dda6bb52406c5adaf",
+    "capacity-gfx/overlay.c": "84ecb09b62257bd952e32233de427caa612825d6ba44584b817d0acb50c5254f",
+    "capacity-gfx/renderer.c": "04cdbeda405b6bcb3457491f868ebaa1c5ee0a652dfb8859c4cbb6491f2f4915",
+    "capacity-gfx/scene_target.c": "717761359dbe1c1e3c48f0b4bd6d147459b62ceda363fb3d420c8b096690d912",
+    "capacity-gfx/shadow.c": "51aea17fbe9c57106a805fc4a3803db7a217bbde4242e0b460f43b861890c8ab",
+    "capacity-gfx/sky.c": "b7d93bf1b977c13f2d134cf3b6b2da2073c379fc52ed83cc511a982ec8e1e072",
+    "capacity-gfx/text.c": "02b89ca00f4dc6b3a74f1d15e2112b93b13571a4704aba5561e18dc07686e6f5",
+    "capacity-gfx/tone_map.c": "8ec28ed1d150147ff11359bb2ac69839a213916ae58f7304af884ee4ca0fe2cb",
+    "capacity-gfx/world_text.c": "54e37bfc495fc38826e1036f73bb10cd24ba2d9f66f9f3c35fdad8993916158a",
+    "split-gfx/arena.c": "bb29a7880f4235774f9b363951d1376781548b456ab885e155a6f94db422bd52",
+    "split-gfx/debug_adapter.c": "a923aa4cac1c69692e9aca78682bdf1ae28dba1ca0d6313e8f8207ceaa81b213",
+    "split-gfx/debug_shapes.c": "cd5d492b7e5110e1d4b7b833af49cb2c9c96abfabd1e1f630095694f2bd79048",
+    "split-gfx/draw.c": "e1fc79a55e06d27a73c5f03920967cf78d12b3bc37ec6c9fa9b459b0c126ada1",
+    "split-gfx/edges.c": "529ea8e273c808bbb9b03349529529aa874da9e79aad08ce8f1882e6a44f9558",
+    "split-gfx/fonts.c": "7869e1065fbca81b372e1f6a530af93c82efcc828df3abac7b7a500ce0aec703",
+    "split-gfx/geometry_registry.c": "159cfaaae79df84d5c72da27d6a499436539af451b4fbcbf4e3b0394abd7e900",
+    "split-gfx/gtao.c": "68503cb1dbcd1db9a24cd6e0846bb0ea64090c555b1712abef6ffaf590e66fff",
+    "split-gfx/highlight_mask.c": "3badcfd88c2796cde6a5a5b5dba9e46919d14659077b2aabc023e42d0480c799",
+    "split-gfx/highlight_outline.c": "c583cd1ba1f57dea3b96c641ddaed481e2f47f1b18c1ec74fe449c44d2c79027",
+    "split-gfx/highlight_target.c": "ccbb2e2c3294383314e352f41f628df8644792bb7e380a4664e2dd1d09724861",
+    "split-gfx/ibl.c": "4159f149c4172d90ab663dcb84ba6af606b8c153332dc91b4734b3c14b7f8912",
+    "split-gfx/overlay.c": "3ecce3cac1e3136cbd99f4125d0d9601583526ba163c3474112a6492bccde492",
+    "split-gfx/renderer.c": "63e227e0cd5efdc5d77b64362342c350e373c50218f925f25ad59c0ffbe26b9c",
+    "split-gfx/scene_target.c": "a6682916f4cea96839ceea689c474d1bb161db115f324077bea1ff7fe2b586d6",
+    "split-gfx/shadow.c": "389f3dcae78bd48fd2f897a84bc7f2a7c4093c3a7eb34c63c79d971d02e927bf",
+    "split-gfx/sky.c": "0927b00d69d7d9832ee5727ee5fb5ee2f46bffc77070e43289674145cd6948d9",
+    "split-gfx/text.c": "25443b8853e4f837481770994c6922ebe2449b6c92d350ff0c826b1e3dcac7de",
+    "split-gfx/tone_map.c": "301295382a601b05aec4207dbf05956237ab34b03cc29e83403e933ce8386198",
+    "split-gfx/world_text.c": "164f491f1e1885a6eb3e2040fd37c82d198b6e885785b2e9eab8fb5ad7ae9262",
+    "api-sources/samples_api.c": "15cddbcf7f666cbe70b8fcb389a6f6b222f12f2511d60a506b34014a142aa738",
+    "api-sources/shim.c": "ece3417042872c4905bb3549b11fd9842b7257bd475fcf65344b928617ffff73",
+    "api-sources/samples_stubs.c": "8d4382789ce321cbe9b5485814fc4cf260e3d2a93d1308a2b5e566101b42b7d0",
+    "api-sources/aabb.c": "755891eef413119f13649415e4fc4ffc860d8954bb93569f34885f04ce984dc6",
+    "api-sources/arena_allocator.c": "970c9436b31ec137787a8595be9291729d19607e8043cd8b30b4794de2c2faf5",
+    "api-sources/bitset.c": "b0c4ad60ac23992e20df5a1a16931fc453d5559ed8238296d5c5da3e60625d18",
+    "api-sources/block_allocator.c": "1e7bc681f2125567f3a2e73cfc48e507d98c64c4f52a7c4461d721c4f1f3b2f9",
+    "api-sources/body.c": "cb812d4bd9323585146aae8bf614b0388cffd181cf400ea2f0c8d67a8075cb89",
+    "api-sources/broad_phase.c": "3171e243be540b63579133e37170fb95da111ff626a77c4eaea98359721c2a3d",
+    "api-sources/capsule.c": "8618ee0a89a0536040078f8742cc963791fa042709a8f96a324ccb9f580b2e1f",
+    "api-sources/compound.c": "247c3f30421b92376ec5888cf2e72a0efbdab93bc0df7a8d58b2ac4ae2ef0d56",
+    "api-sources/constraint_graph.c": "02cf49ab69aaa74813d7d73ab6e49c1c37245a0df7d15617393e7e88ce1607fc",
+    "api-sources/contact.c": "486def83becf7e38d05e6035a6842f36721102955d5d6e33e97fc14f3df1e069",
+    "api-sources/contact_solver.c": "1e33e2b713c7ed62ed89f0fafb9c260b523b0f9d2f191133aee7263cf152b694",
+    "api-sources/convex_manifold.c": "55d00254358e51e5164a50e9d42a9983046cbb27aa8402feadb997f74a4079a5",
+    "api-sources/core.c": "703b8a0b254ea3df3f3104ed5c889ce3f16f275b3c86404504cb5106c51dd1fc",
+    "api-sources/distance.c": "2f065913ae2bfe162fb6d757718870162aaec6bddb336ff1d391c49d59aed501",
+    "api-sources/distance_joint.c": "42c979abe648584b8acff0cc1aea8d21be426594a62f31f0ddc165e43ef4d636",
+    "api-sources/dynamic_tree.c": "0e7727b064d89d1546e96f3894099230362121b094270a46d63f876cd4153be6",
+    "api-sources/height_field.c": "c3dfceb7eba862938f6ba003fac518a2a8bc1d34526afa08937270e741deb278",
+    "api-sources/hull.c": "d66631b275ccc6647fd819b51d17dbf4c838bdbb41fac8648fdfd16d9375325c",
+    "api-sources/id_pool.c": "f6702465f07520ef4b74d7ca970409bc60bbec4ea4afd31f51257b361ad5c4f0",
+    "api-sources/island.c": "25005a467f0567dd223472bff5d81e42c1048e50d342b64ed826a261fd1ce1c7",
+    "api-sources/joint.c": "dc9337b40063fa5212ded6181057612c978995022e6d95684d487b1b684f22ee",
+    "api-sources/manifold.c": "e7fda02419fe48c194ef72effcc481e2dfb6953f95fa30eac67351f268bdb1a4",
+    "api-sources/math_functions.c": "ebb854ecd744578c342c93b93576b0a7d73b14af1a1a1ba2b7c6e054c42754bf",
+    "api-sources/mesh.c": "f204bb669f59823c2742cc298eb4dbe769c77f93a803c04643901ab50dc2774f",
+    "api-sources/mesh_contact.c": "4f075047d15ca045a5cdc0e1ec892a975071ff9d32647d699838b871fbff6d08",
+    "api-sources/motor_joint.c": "ac472e8e7845c18c4a63eec6a8019df99e5943081abe4cf09d7e80aa54a35d57",
+    "api-sources/mover.c": "f7df28d3a40de4975e9c335ca358cadbe9d4b064f752fc1630a02968ea5863c6",
+    "api-sources/name_cache.c": "99eda2fc72f21d401defa56f4889280bb0c2d349b1ff241c0f48b4bd42acd9fd",
+    "api-sources/parallel_for.c": "f7775047ca95e38083416289deee42b6cbd1ce3a12756a06b846551b77e0ec58",
+    "api-sources/parallel_joint.c": "3b2176239b5249d655db775b9055d319a4b7e103a25a8de45ce12b61bd099843",
+    "api-sources/physics_world.c": "fc9c8147cbd047b98e01dee08c70b1dd8a4abfc4f71d689e0f344656a19f641a",
+    "api-sources/prismatic_joint.c": "2a6cbf5fa67f9092e566f3379a8b097a06d3e3384700957bcdba3b1e2e921d55",
+    "api-sources/recording.c": "ad907c6cb029914ae44580ae643eab73addd31fb9a248f3839fe34b17140638a",
+    "api-sources/recording_replay.c": "bc25a946c69c872c33e3e81dc975424d99065c5562bf5121f32545346cae33f2",
+    "api-sources/revolute_joint.c": "69e18bc7a7ee3c18d44e299d5f8c57be67e4de13dc8e3f6aec2555ba28edb17a",
+    "api-sources/scheduler.c": "063c0e8d72d4a574cb9abc0178c86466af4e491692d63dad2cf3d0e15d62cdec",
+    "api-sources/sensor.c": "324d4385d1ef1f1c83036c62808463eb93e4165ce2b2c358642c4f52421bce76",
+    "api-sources/shape.c": "ef80bebe1ac29023e91aed6d2357ff6fdf627e61f29e954f19503227703380c7",
+    "api-sources/simd.c": "58c8bcb6200575cc96e7b80964fd4d393048e425ea95d5cb66e988b0faa2f9e6",
+    "api-sources/solver.c": "25e0f58f9d7d803be88ce0d2d3a424b902d41ff3bd3e01310a1ca7820f76d926",
+    "api-sources/solver_set.c": "5bc5a4989e6dd1df8419ac98cd78c473d47c2f5c2232f3f7024c1e59e431da32",
+    "api-sources/sphere.c": "f0a301b3249569ddf44c29ae3278bc206e4d4217611d808b1fd2bbe5664bf24a",
+    "api-sources/spherical_joint.c": "81e2de24a4c6b814318286a6c165d8fb23fdede858a463a66b1290f9bab7c723",
+    "api-sources/table.c": "019652d001913c063dda7ae6515161f5b58900bd99fb7d0da2c75c55a3c01158",
+    "api-sources/timer.c": "61c5e86efad816d329564fe6c9d8de36563d87c90d6fe54bb846499df1f33821",
+    "api-sources/triangle_manifold.c": "ce80d9748786ade58b7b9fe5ba25af2a1c6e13013c9441633e6fb892a2ad23ac",
+    "api-sources/types.c": "c0f4e3242bbf3ef9904d44a195f0e2c7e987c3a5fc91c2ed1c3531dd936bc6bf",
+    "api-sources/weld_joint.c": "46a5213127613fb950c661273c0a9b4483cc3e11fc04d61ca17169ef290e5866",
+    "api-sources/wheel_joint.c": "ad15464d3fe39437400117febacaef720c3aa065f861f9fefd0f1b721bd1e6a9",
+    "api-sources/world_snapshot.c": "387c53738e202f9fff02c43dfac5dc236158df534320d1ea548331972b3d5456"
+  },
+  "archive_sha256": "9bfb5e780d93e2803cfa565b1cc5770bc65aa38a4c7fdeba35ebeff515b52a7d"
+}
