@@ -6,7 +6,7 @@ whole objective, maintain this file, and use the goal-scratchpad skill. This is
 the authoritative production-readiness queue for `feat/gpu`.
 
 Updated: 2026-10-01. Status: active; full roadmap and verified milestone commit/push authorized by the submitted goal.
-Next item: **PR02 — finish supported API behavior and actual viewer-control qualification**.
+Next item: **PR02 — fix duplicate CPU compound children in the combined adapter, then qualify viewer controls**.
 
 ## Objective and release boundary
 
@@ -81,7 +81,7 @@ queue and recovery record. No separate competing production backlog.
   All 415 stateful symbols are inventoried; 39 exclusions report explicit errors.
   The [diagnostics campaign](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-diagnostics-2026-10-01/README.md)
   passes 8 C processes, 4 Rust processes, 16 preserved regressions, 16 host controls
-  and four viewer builds. Shared routing is corrected. The 40 CPU-first standard clips are validated/reviewed. A two-app viewer campaign stops on a retained mouse-stimulus harness failure. The [supported-contract campaign](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-supported-2026-10-01/README.md) passes 16 linked C processes and 20 Rust checks on exactly matching compiled inputs. Sensor/compound/mesh diagnostic populations and actual viewer controls remain OPEN.
+  and four viewer builds. Shared routing is corrected. The 40 CPU-first standard clips are validated/reviewed. A two-app viewer campaign stops on a retained mouse-stimulus harness failure. The [supported-contract campaign](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-supported-2026-10-01/README.md) passes 16 linked C processes and 20 Rust checks on exactly matching compiled inputs. The [corner populations campaign](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-corner-populations-2026-10-01/README.md) passes the independent CPU and standalone ordinary/native checks, then exposes duplicate CPU child colliders in the combined compound constructor. Native combined is unlaunched at the stop rule. The held-input host proof passes; all actual viewer controls remain OPEN.
 
 - [ ] **PR03 — Freeze the release qualification contract and baseline.** Reconcile
   the existing fixed fixture matrix and evidence with current sources. Record
@@ -253,17 +253,19 @@ rely on conversation history as the sole record of a pending experiment.
 | Workspace / branch | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu` |
 | Goal / authorization | Active full roadmap; implementation and verified milestone commit/push authorized by the submitted goal |
 | Delivered source | PR01 `695c93ada50220089018009230209e5050ed9252`; exclusions `806e634c9b0f5fe58fdd8a9a0dac171e862890d4`; truthful diagnostics `d4e91bca235ce3565b66d5ee031565c857806ede`; supported API/evidence milestone `2c9d832564e497242b661c692fb22d0ac15dc575` is committed/pushed with remote 0/0 and a clean tree verified. Later recovery-only commits do not change compiled inputs; verify actual HEAD/remote on continuation |
-| Current item | PR02: exclusions, focused diagnostics and supported control/force/replacement/joint queries pass their scoped contracts. Sensor/compound/mesh diagnostic populations and actual viewer controls remain open. PR03–PR10 remain unchecked |
+| Current item | PR02: standalone sensor/compound/three-plane mesh diagnostics now pass on ordinary/native. Combined compound creation is defective: public dual child constructors add CPU colliders before the full CPU compound. Fix this first; viewer controls remain open. PR03–PR10 unchecked |
 | Current source/build proof | Current engine/C adapter inputs match frozen diagnostic receipts exactly. Ordinary library SHA-256 `edbdb251e06e9c9bc5955045191e4ca2932bfacae6265581a0acfe3be16a6050`, native `a736a81fae6b45751fadd0f57dcf795a0e44f7c21d1e54996c668b754cc393e9`; exact tests, archives, generated adapters and linked CPU inputs are identified in the reports below |
 | Linked inventory | 415 stateful symbols, 39 explicit exclusions; no remaining detected stub/placeholder/missing/duplicate symbol or CPU-only combined passthrough. Source/link coverage does not qualify all implemented behavior |
 | Supported API campaign | Runner 81222 exits 0: 16/16 C processes and 20/20 Rust checks (18 GPU, 2 host), unchanged assertions/tolerances; all completed results retained. Portable validator passes 73 raw files. No production changes, candidates or timing runs |
 | Diagnostic campaign | Exhausted: 2/2 baseline reproductions, 8/8 candidate C, 4/4 Rust, 16/16 preserved regressions and one 16-control host suite. One candidate, no timing. Baseline reproductions get no acceptance credit; do not repeat/extend |
 | Actual UI campaign | Stopped after CPU + ordinary GPU, both exit 0. GPU Profile shows measured intervals/step IDs; attempted Counters/Frame Time screenshots still show Profile. Immediate synthetic mouse down/up did not select tabs. Three apps unlaunched, no interaction pass or rerun |
+| Required-control stimulus | New protocol stops before all five apps after compound defect discovery. Pure host receiver proves mouse hold251ms/key100ms; four portable files preserve observed events/source/log/protocol. Never change old app hashes to represent a fix; after rebuilding freeze a new finite viewer protocol and reuse directly applicable successful host proof |
 | Recordings | Diagnostic milestone has 40 validated/reviewed CPU-first standard clips, 300 frames at 1280×720/30fps. Latest local GPU column `2026-10-01-truthful-native-diagnostics`; old columns/datasets preserved. Full clips, manifests, source/binary receipts and review sheets are portable |
-| Processes | All recorded builders/tests/recorders/viewers, including 81222, are terminal. Fresh process inspection finds no active matching jobs. Verify before launching; a recorded PID/handle alone is not proof |
+| Population campaigns | Two CPU harness failures retained separately (wrong compound ID count; coplanar grid cannot produce multiple patches), each CPU1/GPU0. Corner campaign stops after CPU0/ordinary-GPU0/native-GPU0/ordinary-both-6; native-both unlaunched. All 41 portable files validate; neither previous failure is replaced. Original physical limits unchanged |
+| Processes | Runners 67384/51553/86394 are terminal, each stops with retained failure. Host X11 receiver exits 0, server terminated; no viewer apps launched. Prior supported/diagnostic/recording jobs terminal. Inspect actual state before resuming; never duplicate an observed live process |
 | Remaining known physics/performance limits | Rain residuals and distance-joint first-step discrepancy remain unresolved. PR01 additional all-window 5mm floor screen fails CPU and GPU at step 6; discrete-landing analysis is retained, original isolated CCD limits unchanged. Native baseline startup diagnostic times out at 180s, no pass. Diagnostic host occupancy scans/device peak atomics add unmeasured work; PR08 must assess cost |
-| Next action | Finish PR02's uncovered populations and actual viewer controls. Read fixtures/source before defining a distinct finite contract/budget. Verify synthetic input delivery in a nonphysics receiver before another required-control campaign; never restart the stopped tab-only experiment under a new label |
-| Last verification | 2026-10-01, supported campaign and milestone delivery complete; runner 81222 and push runner 76216 exit 0. Engine and linked archive hashes match frozen receipts; portable validator passes. Protected Box3D/WASM sources untouched. No final qualification or speedup claim |
+| Next action | Read `c_abi/both_dual.c` compound/individual constructors. Add private GPU-only creation helpers so compound child creation does not invoke dual CPU mirroring; keep public constructors, transforms/materials/mass/ownership intact. Freeze a targeted baseline/candidate budget for this real defect, verify compound kinds and deletion/recreation, record affected native scenes before committing. Then refreeze viewer inputs and qualify required controls using observed held-input proof |
+| Last verification | 2026-10-01: corner raw validator passes all 41 population files plus held-input proof. Engine/frozen adapter inputs unchanged; only new C regression fixture/docs/evidence pending commit. No final readiness/timing claim; protected Box3D/WASM unchanged |
 
 ### Evidence to resume from
 
@@ -271,6 +273,9 @@ rely on conversation history as the sole record of a pending experiment.
 - [PR02 exclusions report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/README.md): 39 ENOTSUP operations, NULL recording creation, sticky thread-local operation names and combined routing. Closed eight-process host budget has seven passes and a retained errno-after-libc harness failure. Separately frozen closed-stderr case passes; no failed trial replaced.
 - [PR02 diagnostic report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-diagnostics-2026-10-01/README.md): 269 portable files, exact build/input receipts, all 40 clips, CPU-first galleries and stopped UI protocol. Counter reads synchronize public non-sensor contacts; seven profile aliases use NaN/mask/timestamp availability; occupancy peaks differ from reservation sizes. Simple box fixtures do not qualify all public populations.
 - [PR02 supported-contract report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-supported-2026-10-01/README.md): immutable protocol, all 16 C / 20 Rust results, 73 raw files, compiled fixture archive and source applicability. Independent CPU comparisons cover named forces/replacement/joint contracts at original 1e-5 tolerances. Warm-start incidental clocks are not performance data. Wheel angular separation remains unavailable upstream.
+
+- [PR02 population report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-corner-populations-2026-10-01/README.md): original two CPU harness failures, successful CPU/standalone ordinary/native corner controls, failed combined topology and linked-source cause. Ordinary combined raw assertion does not print actual CPU numbers; duplicate shapes are explained by source, not invented numeric observations. Three CPU and three GPU processes consumed across three closed campaigns, no candidates/timing.
+- [PR02 held-input report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-viewer-controls-2026-10-01/README.md): one pure host pass, zero viewer apps. This supersedes the immediate-click hypothesis with received events, but does not prove actual control interactions.
 
 Local frozen engine/test inputs are under
 `experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/`.
@@ -302,3 +307,21 @@ Their old jobs/next actions do not override this record. The
 unmet and all 55 runs retained; the earlier scheduling budget is also exhausted.
 Do not reuse either budget. Rain is required by this roadmap later, but no Rain
 or performance campaign has resumed during PR02.
+
+Current population artifacts and terminal receipts are under
+`experiments/gpu-physics/artifacts/production-readiness/pr02-populations/`,
+`.../pr02-population-identities/` and `.../pr02-corner-populations/`.
+The first two archived fixtures preserve their incorrect assumptions. The current
+`c_abi/native_diagnostic_populations.cpp` is a correct source-audited regression
+reproducer: standalone passes, combined fails. Do not weaken its CPU topology
+assertion to match duplicate shapes. The compound mesh path already creates GPU
+children directly; sphere/capsule/hull paths invoke public dual constructors.
+Source inspection identifies five affected native registrations in
+`box3d/samples/sample_compound.cpp`: Compound/Simple, Spheres, Hulls, Tile Floor
+and Village. Compound/Mesh Tile uses direct GPU mesh children and is a required
+unaffected control. Preserve their defaults and record every affected scene
+before a relevant production commit.
+The new viewer-control protocol/receiver lives under `.../pr02-viewer-controls/`;
+all app budgets are unlaunched and the protocol is stopped because adapter inputs
+must change. Reuse received-event proof only after auditing stimulus/source
+applicability. No live jobs, production edit or new solver candidate yet.

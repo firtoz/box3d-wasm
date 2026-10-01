@@ -1,0 +1,11 @@
+{
+  "status": "stopped before viewer apps: real combined compound defect requires adapter change and refrozen viewer inputs",
+  "host_input_receiver_processes": 1,
+  "host_result": "pass",
+  "mouse_held_ms": 251,
+  "key_held_ms": 100,
+  "viewer_apps": 0,
+  "timing_runs": 0,
+  "production_candidates": 0,
+  "remaining": "all five apps unlaunched; none gets a pass. Preserve immutable old protocol, do not change its binary hashes or launch it after rebuilding. Corrected app qualification uses a new finite protocol after build/source applicability, reusing directly applicable successful host input proof."
+}

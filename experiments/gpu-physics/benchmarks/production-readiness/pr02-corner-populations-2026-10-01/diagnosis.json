@@ -1,0 +1,34 @@
+{
+  "status": "real combined compound-creation defect; standalone diagnostic contracts pass",
+  "CPU_processes": 1,
+  "GPU_processes": 3,
+  "GPU_budget": 4,
+  "runs": [
+    {
+      "configuration": "cpu",
+      "exit": 0
+    },
+    {
+      "configuration": "ordinary-gpu",
+      "exit": 0
+    },
+    {
+      "configuration": "native-gpu",
+      "exit": 0
+    },
+    {
+      "configuration": "ordinary-both",
+      "exit": -6
+    }
+  ],
+  "remaining": "native-both unlaunched at first failed combined assertion; no replacement or extension",
+  "source_evidence": {
+    "file": "c_abi/both_dual.c",
+    "sha256": "0a3ea0a76a8e84484a2d256e48c65d5c8e3003e74468a08f488e6a52d770412c",
+    "compound": "b3CreateBakedCompoundShape child loop calls b3CreateSphereShape/b3CreateCapsuleShape/b3CreateTransformedHullShape before making the CPU parent compound",
+    "children": "those public constructors each mirror a CPU child and map its hidden GPU child ID",
+    "parent": "then cpu_b3CreateBakedCompoundShape adds the entire compound to the same CPU body",
+    "inference": "CPU gets duplicate child colliders; destroys/queries must also account for the unwanted children. Failed raw assertion proves mapped CPU topology differs; exact numeric CPU counters were not printed and are not claimed as observed."
+  },
+  "next": "Create GPU compound children without dual-world mirroring, keeping public individual constructors unchanged. Freeze baseline/candidate evidence and original-limit coverage across sphere/capsule/hull/mesh compounds and deletion/recreation. Record all affected native compound scenes before committing visual/solver changes. No Box3D/WASM edits."
+}

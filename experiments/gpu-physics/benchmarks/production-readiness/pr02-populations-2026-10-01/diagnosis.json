@@ -1,0 +1,21 @@
+{
+  "result": "harness contract rejected, not GPU defect/pass",
+  "CPU_processes": 1,
+  "GPU_processes": 0,
+  "builds": 5,
+  "runner": 67384,
+  "exit": 1,
+  "compound_observed": {
+    "bodies": 2,
+    "public_shapes": 2,
+    "contacts": 2,
+    "one_manifold_contact_bucket": 2
+  },
+  "rejected_assumption": "One public compound contact with two child manifolds",
+  "independent_source_evidence": [
+    "box3d/src/contact.c:b3CreateContact stores childIndex and b3ShapePairKey(shapeIdA,shapeIdB,childIndex)",
+    "experiments/gpu-physics/src/api/world/contact_api.rs:update_registry explicitly keeps native compound children distinct; mesh manifold pieces share one ID",
+    "experiments/gpu-physics/src/api/world.rs:keyed_contact includes compound child ordinal"
+  ],
+  "decision": "The wrong expected contact topology is disproved independently by CPU output and both implementations. Correct the fixture identity contract, preserving source/raw failure and all physics settings/tolerances. Subsequent coverage gets its own finite protocol; this stopped campaign is never resumed or receives a pass."
+}

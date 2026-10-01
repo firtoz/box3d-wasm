@@ -1,0 +1,52 @@
+{
+  "entries": [
+    {
+      "path": "raw/cpu/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/cpu/stderr.log",
+      "sha256": "16de993a8b454358bfd1dcdf407509cd3c7404895fbf77b90185223c6f3e441d"
+    },
+    {
+      "path": "raw/cpu/stdout.log",
+      "sha256": "04673868010c6c5681fa56bedd3448f9cbc1c27400c613d3e9da055a23f2d9f7"
+    },
+    {
+      "path": "raw/fixture-inputs.tar.gz",
+      "sha256": "5afe172f0ea3e0669dac6a3380a449c6ff15ed7a311200ddccc666f6521a14bd"
+    },
+    {
+      "path": "raw/native-both/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/native-gpu/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/ordinary-both/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/ordinary-gpu/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/protocol-before-runs.json",
+      "sha256": "9d7639da968c4957ef00b0e999b1e26fc4d9dcca89eca50e07bd280feddd561c"
+    },
+    {
+      "path": "raw/receipt.json",
+      "sha256": "ccf41b320fbe93af4e482a1f1208ec5824384a7c8025c41b5d775c199d608e3c"
+    },
+    {
+      "path": "raw/rejected-fixture.cpp",
+      "sha256": "c832125b2b4a00345459740cf9341b44fbe7368686f6a6e57faa024e59e1638a"
+    },
+    {
+      "path": "raw/run.py",
+      "sha256": "60b6ecf6ba8855919affa91919902bf2af2ccd68b6d6d9541ec33d0696544382"
+    }
+  ]
+}

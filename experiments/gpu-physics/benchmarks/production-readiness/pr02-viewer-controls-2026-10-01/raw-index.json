@@ -1,0 +1,20 @@
+{
+  "entries": [
+    {
+      "path": "raw/input-receiver/receipt.json",
+      "sha256": "204d99522296f020f0e1ee20802e79cf4ba76cad3d908a6c55bfc2fa028250ad"
+    },
+    {
+      "path": "raw/input-receiver/xvfb.log",
+      "sha256": "12dcabf0449b9ff85d589b86d110c814777977daca56e7ba8ec300c5334fe397"
+    },
+    {
+      "path": "raw/protocol-before-runs.json",
+      "sha256": "a8411223d965db1deeec67e27dd366a8a74641412bdc416865c33bea736e5a75"
+    },
+    {
+      "path": "raw/validate-input.py",
+      "sha256": "b04e9045c2b6eb7d8cb272ec0e16325f5ce3d7cb0c26be7038b19dbd5ceea0ac"
+    }
+  ]
+}

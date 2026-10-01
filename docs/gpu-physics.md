@@ -250,6 +250,17 @@ They do not qualify every inventoried operation or replace the remaining
 population/viewer and final-build physical/runtime/performance gates. The
 preserved warm-start clocks are incidental correctness output, not benchmarks.
 
+The [population campaign](../experiments/gpu-physics/benchmarks/production-readiness/pr02-corner-populations-2026-10-01/README.md)
+passes the CPU reference and standalone ordinary/native sensor, compound and
+three-plane mesh diagnostic checks. It then exposes a real **combined-adapter
+compound defect**: private GPU child creation uses dual-world constructors,
+adding CPU child colliders before the full CPU compound. Combined compound
+comparison topology is therefore incorrect; native combined is unlaunched at
+the stop rule. This is a required fix, not an API exclusion. Both earlier CPU
+fixture-assumption failures remain retained. The separate host receiver verifies
+held mouse/key delivery; actual viewer controls remain unqualified until a fixed
+adapter/build is frozen and exercised.
+
 ### Native GPU diagnostic contract (focused checks pass; broader PR02 open)
 
 The current implementation replaces zero diagnostic placeholders. The

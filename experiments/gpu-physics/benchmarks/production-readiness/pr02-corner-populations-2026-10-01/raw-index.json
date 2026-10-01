@@ -1,0 +1,72 @@
+{
+  "entries": [
+    {
+      "path": "raw/cpu/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/cpu/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/cpu/stdout.log",
+      "sha256": "2b298a828f900ffc9aaedd1455f2cccbe8e2f87192808f8ebf01e046ea8a84a3"
+    },
+    {
+      "path": "raw/fixture-inputs.tar.gz",
+      "sha256": "8319801f14262e123d2e0fdedc7e421bf5139a067d3d979e246fcc393f7d2e69"
+    },
+    {
+      "path": "raw/native-both/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/native-gpu/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/native-gpu/stderr.log",
+      "sha256": "ef7386c344f2bf22e2eadeaac9f31f47564fa7e7ee98149ca2831ba45491e0fa"
+    },
+    {
+      "path": "raw/native-gpu/stdout.log",
+      "sha256": "2b298a828f900ffc9aaedd1455f2cccbe8e2f87192808f8ebf01e046ea8a84a3"
+    },
+    {
+      "path": "raw/ordinary-both/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/ordinary-both/stderr.log",
+      "sha256": "ce70ac9f096b96c0861b46bb5dc2820252d5df60c1a613ac60d9a72a2427aec3"
+    },
+    {
+      "path": "raw/ordinary-both/stdout.log",
+      "sha256": "04673868010c6c5681fa56bedd3448f9cbc1c27400c613d3e9da055a23f2d9f7"
+    },
+    {
+      "path": "raw/ordinary-gpu/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/ordinary-gpu/stderr.log",
+      "sha256": "139299937f29ea0d425412f6d7a0469e33c4b736aaa7478a3e2d9b55ad14c07c"
+    },
+    {
+      "path": "raw/ordinary-gpu/stdout.log",
+      "sha256": "2b298a828f900ffc9aaedd1455f2cccbe8e2f87192808f8ebf01e046ea8a84a3"
+    },
+    {
+      "path": "raw/protocol-before-runs.json",
+      "sha256": "94fe1ef47deca37e15caa6320874702b8fcacce1e0907622ba885105c02d517d"
+    },
+    {
+      "path": "raw/receipt.json",
+      "sha256": "7055009f2f9b95d7acf8ab9fbad5b5708cc3d7b315fe8b9f3e95a8f2d3c741f6"
+    },
+    {
+      "path": "raw/run.py",
+      "sha256": "8c78d65a25407a20d5510d2bdf1312663f182e4258a5eaa51b8d5d9fda6d7460"
+    }
+  ]
+}

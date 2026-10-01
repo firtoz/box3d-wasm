@@ -1,0 +1,240 @@
+{
+  "status": "failed",
+  "protocol_sha256": "9d7639da968c4957ef00b0e999b1e26fc4d9dcca89eca50e07bd280feddd561c",
+  "budget": {
+    "CPU_reference_processes": 1,
+    "GPU_processes": 4,
+    "timing_runs": 0,
+    "production_candidates": 0
+  },
+  "builds": [
+    {
+      "configuration": "cpu",
+      "command": [
+        "g++",
+        "-O2",
+        "-std=c++17",
+        "-ffp-contract=off",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/native_diagnostic_populations.cpp",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/cpu-cmake/box3d_src/libbox3d.a",
+        "-ldl",
+        "-lpthread",
+        "-lm",
+        "-lgcc_s",
+        "-lGL",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-populations/cpu/fixture"
+      ],
+      "linked_inputs": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/cpu-cmake/box3d_src/libbox3d.a": "b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c"
+      },
+      "exit": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "binary_sha256": "58a39e0d47047a3cddadff03d270990ed6f1346ce057278af0c1e5029822f9b7"
+    },
+    {
+      "configuration": "ordinary-gpu",
+      "command": [
+        "g++",
+        "-O2",
+        "-std=c++17",
+        "-ffp-contract=off",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/native_diagnostic_populations.cpp",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+        "-DGPU_POPULATIONS",
+        "-Wl,--whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-gpu/cmake/libgpu_samples_api.a",
+        "-Wl,--no-whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/ordinary-frozen.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-gpu/cmake/box3d_src/libbox3d.a",
+        "-ldl",
+        "-lpthread",
+        "-lm",
+        "-lgcc_s",
+        "-lGL",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-populations/ordinary-gpu/fixture"
+      ],
+      "linked_inputs": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-gpu/cmake/libgpu_samples_api.a": "a40e1396b632b4eeafb5480309a1201d4794b9f6c27eb3f88102700248a73a02",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/ordinary-frozen.a": "edbdb251e06e9c9bc5955045191e4ca2932bfacae6265581a0acfe3be16a6050",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-gpu/cmake/box3d_src/libbox3d.a": "89a9885175a093466e480e39be39451b843bc7b40e86ca8f9259ee2faa9c1f1c"
+      },
+      "exit": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "binary_sha256": "777709c6eccc0b7e8a5fced0ed850d9c99c5ca03661e1789d9d60f51460e67be"
+    },
+    {
+      "configuration": "native-gpu",
+      "command": [
+        "g++",
+        "-O2",
+        "-std=c++17",
+        "-ffp-contract=off",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/native_diagnostic_populations.cpp",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+        "-DGPU_POPULATIONS",
+        "-Wl,--whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-gpu/cmake/libgpu_samples_api.a",
+        "-Wl,--no-whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/native-frozen.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-gpu/cmake/box3d_src/libbox3d.a",
+        "-ldl",
+        "-lpthread",
+        "-lm",
+        "-lgcc_s",
+        "-lGL",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-populations/native-gpu/fixture"
+      ],
+      "linked_inputs": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-gpu/cmake/libgpu_samples_api.a": "a40e1396b632b4eeafb5480309a1201d4794b9f6c27eb3f88102700248a73a02",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/native-frozen.a": "a736a81fae6b45751fadd0f57dcf795a0e44f7c21d1e54996c668b754cc393e9",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-gpu/cmake/box3d_src/libbox3d.a": "89a9885175a093466e480e39be39451b843bc7b40e86ca8f9259ee2faa9c1f1c"
+      },
+      "exit": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "binary_sha256": "491d24452de0113470e7187db37547d93952a0bd739a8289da2b05946c5bcae2"
+    },
+    {
+      "configuration": "ordinary-both",
+      "command": [
+        "g++",
+        "-O2",
+        "-std=c++17",
+        "-ffp-contract=off",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/native_diagnostic_populations.cpp",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+        "-DGPU_POPULATIONS",
+        "-DGPU_API_DUAL",
+        "-Wl,--whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-both/cmake/libgpu_both_api.a",
+        "-Wl,--no-whole-archive",
+        "-Wl,--whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-both/cmake/libgpu_samples_api.a",
+        "-Wl,--no-whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/ordinary-frozen.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-both/cmake/libbox3d_cpu.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-both/cmake/box3d_src/libbox3d.a",
+        "-ldl",
+        "-lpthread",
+        "-lm",
+        "-lgcc_s",
+        "-lGL",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-populations/ordinary-both/fixture"
+      ],
+      "linked_inputs": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-both/cmake/libgpu_samples_api.a": "427cc59a6d0f5585cdbb815b997c08e1b40daba625277dd28280cea87a479276",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/ordinary-frozen.a": "edbdb251e06e9c9bc5955045191e4ca2932bfacae6265581a0acfe3be16a6050",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-both/cmake/box3d_src/libbox3d.a": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-both/cmake/libgpu_both_api.a": "9179b4b31422e5084a3785d9ec29222702b21a6454d95107310e425dec4416b7",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-both/cmake/libbox3d_cpu.a": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d"
+      },
+      "exit": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "binary_sha256": "8a9ab1a5bced3512fc8d7c28fb359364c032848e4cd0c0d6be8af078469c7537"
+    },
+    {
+      "configuration": "native-both",
+      "command": [
+        "g++",
+        "-O2",
+        "-std=c++17",
+        "-ffp-contract=off",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/native_diagnostic_populations.cpp",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+        "-DGPU_POPULATIONS",
+        "-DGPU_API_DUAL",
+        "-Wl,--whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-both/cmake/libgpu_both_api.a",
+        "-Wl,--no-whole-archive",
+        "-Wl,--whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-both/cmake/libgpu_samples_api.a",
+        "-Wl,--no-whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/native-frozen.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-both/cmake/libbox3d_cpu.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-both/cmake/box3d_src/libbox3d.a",
+        "-ldl",
+        "-lpthread",
+        "-lm",
+        "-lgcc_s",
+        "-lGL",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-populations/native-both/fixture"
+      ],
+      "linked_inputs": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-both/cmake/libgpu_samples_api.a": "427cc59a6d0f5585cdbb815b997c08e1b40daba625277dd28280cea87a479276",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/native-frozen.a": "a736a81fae6b45751fadd0f57dcf795a0e44f7c21d1e54996c668b754cc393e9",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-both/cmake/box3d_src/libbox3d.a": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-both/cmake/libgpu_both_api.a": "9179b4b31422e5084a3785d9ec29222702b21a6454d95107310e425dec4416b7",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-both/cmake/libbox3d_cpu.a": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d"
+      },
+      "exit": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "binary_sha256": "10d88d4b85d18583a137f56f298cd09c6c606c3d039c5ff39e2efa746a1f8093"
+    }
+  ],
+  "runs": [
+    {
+      "configuration": "cpu",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-populations/cpu/fixture"
+      ],
+      "exit": -6,
+      "binary_sha256": "58a39e0d47047a3cddadff03d270990ed6f1346ce057278af0c1e5029822f9b7",
+      "stdout_sha256": "04673868010c6c5681fa56bedd3448f9cbc1c27400c613d3e9da055a23f2d9f7",
+      "stderr_sha256": "16de993a8b454358bfd1dcdf407509cd3c7404895fbf77b90185223c6f3e441d",
+      "environment": {
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    }
+  ],
+  "runner_pid": 3059990,
+  "toolchain": "g++ (GCC) 16.2.1 20260810\nCopyright (C) 2026 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+  "inputs_before": {
+    "c_abi/native_diagnostic_populations.cpp": "c832125b2b4a00345459740cf9341b44fbe7368686f6a6e57faa024e59e1638a",
+    "c_abi/native_diagnostics.h": "3538a6face5fca8c95dfa121b7b1fa31149dc0a0132c27a99612292027d8a5b9",
+    "../../box3d/include/box3d/base.h": "f3e137ec8930a3ecfa2ebb969f8f8419b1f04498fdb907b92fca569e295d69ef",
+    "../../box3d/include/box3d/box3d.h": "7b9f94783a34cc46d2f9fb4fbc27180ba122b3bd0c5ca9f2d6ae8f4925e30b6d",
+    "../../box3d/include/box3d/collision.h": "7757eedf8c3587deea0ee7d19022929c7058725e889a712427965edddee24668",
+    "../../box3d/include/box3d/config.h": "3435ee19866d5b52bc93a9410a870cc2a193cd74f69e6bde1c0ea2b14bc34105",
+    "../../box3d/include/box3d/constants.h": "781bda6496a2e68beca01a1f730a980e77828ff0586d12056ffff6eb490897bd",
+    "../../box3d/include/box3d/id.h": "b7064764f63390b0ed50f7079d8777fd87a51c5777216861536c24e8b8d88bab",
+    "../../box3d/include/box3d/math_functions.h": "d9a0d6e1248f35f56d474aa1c4f616a279172f6a9cad53fa18da53dab89d0005",
+    "../../box3d/include/box3d/types.h": "d39bd492bb6599b1ba8c308f8f3d901e19b190d2db65fff2e7b833a3511bc5b7"
+  },
+  "inputs_after": {
+    "c_abi/native_diagnostic_populations.cpp": "c832125b2b4a00345459740cf9341b44fbe7368686f6a6e57faa024e59e1638a",
+    "c_abi/native_diagnostics.h": "3538a6face5fca8c95dfa121b7b1fa31149dc0a0132c27a99612292027d8a5b9",
+    "../../box3d/include/box3d/base.h": "f3e137ec8930a3ecfa2ebb969f8f8419b1f04498fdb907b92fca569e295d69ef",
+    "../../box3d/include/box3d/box3d.h": "7b9f94783a34cc46d2f9fb4fbc27180ba122b3bd0c5ca9f2d6ae8f4925e30b6d",
+    "../../box3d/include/box3d/collision.h": "7757eedf8c3587deea0ee7d19022929c7058725e889a712427965edddee24668",
+    "../../box3d/include/box3d/config.h": "3435ee19866d5b52bc93a9410a870cc2a193cd74f69e6bde1c0ea2b14bc34105",
+    "../../box3d/include/box3d/constants.h": "781bda6496a2e68beca01a1f730a980e77828ff0586d12056ffff6eb490897bd",
+    "../../box3d/include/box3d/id.h": "b7064764f63390b0ed50f7079d8777fd87a51c5777216861536c24e8b8d88bab",
+    "../../box3d/include/box3d/math_functions.h": "d9a0d6e1248f35f56d474aa1c4f616a279172f6a9cad53fa18da53dab89d0005",
+    "../../box3d/include/box3d/types.h": "d39bd492bb6599b1ba8c308f8f3d901e19b190d2db65fff2e7b833a3511bc5b7"
+  },
+  "failure": "Contract failure retained; remaining cases unlaunched: cpu"
+}

@@ -1,0 +1,56 @@
+{
+  "scope": "pure host X11 event receiver; no physics or viewer process",
+  "pid": 3091161,
+  "server_pid": 3091195,
+  "status": "pass",
+  "events": [
+    {
+      "type": 4,
+      "window": 2097153,
+      "time": 251869994,
+      "x": 400,
+      "y": 400,
+      "x_root": 400,
+      "y_root": 400,
+      "key_or_button": 1,
+      "same_screen": 1
+    },
+    {
+      "type": 5,
+      "window": 2097153,
+      "time": 251870245,
+      "x": 400,
+      "y": 400,
+      "x_root": 400,
+      "y_root": 400,
+      "key_or_button": 1,
+      "same_screen": 1
+    },
+    {
+      "type": 2,
+      "window": 2097153,
+      "time": 251870295,
+      "x": 400,
+      "y": 400,
+      "x_root": 400,
+      "y_root": 400,
+      "key_or_button": 33,
+      "same_screen": 1
+    },
+    {
+      "type": 3,
+      "window": 2097153,
+      "time": 251870395,
+      "x": 400,
+      "y": 400,
+      "x_root": 400,
+      "y_root": 400,
+      "key_or_button": 33,
+      "same_screen": 1
+    }
+  ],
+  "mouse_held_ms": 251,
+  "key_held_ms": 100,
+  "server_exit": 0,
+  "protocol_sha256": "a8411223d965db1deeec67e27dd366a8a74641412bdc416865c33bea736e5a75"
+}

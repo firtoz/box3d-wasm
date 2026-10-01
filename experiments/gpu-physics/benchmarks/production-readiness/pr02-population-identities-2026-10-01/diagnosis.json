@@ -1,0 +1,18 @@
+{
+  "result": "mesh stimulus topology invalid; no GPU qualification",
+  "CPU_processes": 1,
+  "GPU_processes": 0,
+  "builds": 5,
+  "runner": 51553,
+  "exit": 1,
+  "passed_CPU_populations": [
+    "sensor",
+    "compound distinct child contact identities"
+  ],
+  "mesh_observed": {
+    "public_contacts": 1,
+    "one_manifold_contact_bucket": 1
+  },
+  "source_evidence": "box3d/src/mesh_contact.c clusters by contact AND triangle normals at threshold0.996; coplanar grid triangles belong to one patch",
+  "decision": "Retain source and original assertion failure; do not relax multi-patch criterion. Replace flat stimulus with existing state_trace.rs:run_child_manifold_relocation three-plane geometry for the uncovered manifold-chain requirement, with its own frozen finite budget. No production candidate or GPU result has been evaluated."
+}

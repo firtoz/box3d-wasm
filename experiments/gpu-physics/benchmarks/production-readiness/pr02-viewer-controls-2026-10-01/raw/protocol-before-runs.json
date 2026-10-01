@@ -1,0 +1,63 @@
+{
+  "scope": "PR02 actual control/lifecycle/diagnostic UI qualification after independent held-input validation; broader required controls than stopped tab-only campaign",
+  "source_revision": "a7a57d9ef40ccc85fde773f89c4f9df5170861bc",
+  "budget": {
+    "host_input_receiver_processes": 1,
+    "viewer_app_processes": 5,
+    "maximum_actions_per_app": 40,
+    "maximum_screenshots_per_app": 20,
+    "timing_runs": 0,
+    "production_candidates": 0
+  },
+  "order": "Pure X11 nonphysics input receiver first. If held mouse/key delivery fails, stop before apps. Then real CPU reference, ordinary GPU, native GPU, ordinary combined, native combined serially. Stop at first app/stimulus/contract failure; retain all results, no repeats or extension.",
+  "inputs": "XTest mouse press held >=250ms then release; keyboard held >=100ms, explicit window focus. Verify observed event timestamps/positions/button/key in receiver. Immediate mouse down/up from old failed campaign is not used. Bounded action queues may adapt coordinates from actual screenshots; no new physics scene or extra application process.",
+  "settings": "1280x720 Xvfb/software OpenGL rendering, actual NVIDIA Vulkan physics for GPU cells, CPU-compatible order1, native shared cache env. Existing Single Box scene/settings; no --benchmark, metrics/timing flag, performance claim, solver candidate, or historical campaign resumption. Watchdog240s per app.",
+  "required_controls": [
+    "PAUSED status and unchanged visible step across separated screenshots",
+    "one period single-step advances visible step exactly1 while paused",
+    "warm-start checkbox off/on, sleep off/on, compiled Step routing and existing C API evidence applicability",
+    "restart destroys/recreates sample and resets visible step; selected setting persists",
+    "Profile actual labelled GPU timestamp availability; Counters actual selected tab/public values and unsupported labels; Frame Time chart actual selected",
+    "clean Ctrl+Q shutdown, captured full actions/screenshots/video/logs; CPU first comparison"
+  ],
+  "acceptance": "Actual visible state changes assessed against named source routing and current frozen API-contract evidence; screenshots named for desired tabs do not count unless contents show selection. Do not infer broad physical/performance acceptance. Failed/stale/unobserved controls stay open.",
+  "apps": [
+    {
+      "configuration": "cpu",
+      "binary": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/cpu-cmake/bin/samples_cpu",
+      "sha256": "b0a0551c4a45bd900b12c5b2c390a4c6f09b1b76cb71934a259440b80b459014",
+      "receipt_sha256": "90bf33e1e2bfee84a2c26b64bdfc1afb2094e20936995f029bc4ed1d08dc8823",
+      "receipt_portable": "../pr01-speculative-2026-10-01/raw/handoff/native-scene-cpu/build.json"
+    },
+    {
+      "configuration": "ordinary-gpu",
+      "binary": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-gpu/cmake/bin/samples_gpu",
+      "sha256": "57a6bd5dcf4e698dae5cd2aaae4c9e03793e02571b1f4bcf208b3e447d7bbe99",
+      "receipt_sha256": "3fb7bbb70e46bc100f34fa3c940fbe38159f5026f5dceae05302c15766c8bcf1",
+      "receipt_portable": "../pr02-diagnostics-2026-10-01/raw/viewers/ordinary-gpu/receipt.json"
+    },
+    {
+      "configuration": "native-gpu",
+      "binary": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-gpu/cmake/bin/samples_gpu",
+      "sha256": "1b22461b2790ddb9147673ae9e90496848836470dac13751796820bab065be2b",
+      "receipt_sha256": "0b457b5620eba776a1c729102e388725858f3c5a28b06f55b8a89359cf8de55b",
+      "receipt_portable": "../pr02-diagnostics-2026-10-01/raw/viewers/native-gpu/receipt.json"
+    },
+    {
+      "configuration": "ordinary-both",
+      "binary": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-both/cmake/bin/samples_both",
+      "sha256": "7101849da87c64f563c7338b9ed5bd16f486d4fcfee331e58e368dd4de4b7ed3",
+      "receipt_sha256": "a0f62856e289dd2f3068aa6e4b6c5206e17dcd780f12cddb01933549e8858541",
+      "receipt_portable": "../pr02-diagnostics-2026-10-01/raw/viewers/ordinary-both/receipt.json"
+    },
+    {
+      "configuration": "native-both",
+      "binary": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-both/cmake/bin/samples_both",
+      "sha256": "0ef988450cf1d18130cbafd451803a88903282c544c536185ba0e562ebfc86e7",
+      "receipt_sha256": "fb0c83592f988038e874992f3eac729796b04c117dbdad6b13151ed1cbd186f6",
+      "receipt_portable": "../pr02-diagnostics-2026-10-01/raw/viewers/native-both/receipt.json"
+    }
+  ],
+  "prior_failure": "Stopped old tab-only campaign retains two apps and mouse delivery failure; three unlaunched cells remain unqualified, never rerun that protocol. This campaign addresses named broader required controls with an independently verified stimulus.",
+  "separate_campaigns": "No timing; sensor/compound/mesh population campaign is separate and may run alongside pure host receiver, but all physics/viewer processes remain serial."
+}
