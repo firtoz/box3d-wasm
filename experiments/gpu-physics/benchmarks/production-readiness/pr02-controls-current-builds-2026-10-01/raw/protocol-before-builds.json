@@ -1,0 +1,10 @@
+{
+  "id": "pr02-controls-current-builds-2026-10-01",
+  "purpose": "Fresh current-source viewer proof for previously unlaunched required actual native controls after compound property repair",
+  "prerequisite_revision": "8bde502",
+  "budget": {"rust_library_builds": 2, "viewer_configurations": 5, "cmake_configure_commands": 5, "cmake_build_commands": 5, "physics_processes": 0, "timing_runs": 0, "production_candidates": 0, "retries": 0},
+  "order": ["ordinary-library", "native-library", "cpu-viewer", "ordinary-gpu-viewer", "native-gpu-viewer", "ordinary-both-viewer", "native-both-viewer"],
+  "stop_rule": "Stop first command, input or instrumentation mismatch; retain logs and all completed work. No app processes under this build protocol.",
+  "instrumentation": "Only generated main_bench.cpp gains observer include and one post-Step call. Observer reads flags, body events, counters and completed-step IDs; writes JSONL, no context/physics setters. Production sources, defaults and event handling unchanged. Diagnostic cadence not performance.",
+  "provenance": "Archive/hash source and dependency inputs before and after, actual compiled units/object hashes, generated original and instrumented main, link commands/archives and final executables. Cached shared NFD object explicitly disclosed; not PR06 clean release-build acceptance."
+}

@@ -1,0 +1,16 @@
+{
+  "status": "source-audited-reuse",
+  "receiver_receipt_sha256": "204d99522296f020f0e1ee20802e79cf4ba76cad3d908a6c55bfc2fa028250ad",
+  "portable_receipt": "../../pr02-viewer-controls-2026-10-01/raw/input-receiver/receipt.json",
+  "received_types": [
+    4,
+    5,
+    2,
+    3
+  ],
+  "mouse_held_ms": 251,
+  "key_held_ms": 100,
+  "current_driver": "../pr02-controls-current-builds/viewer-interact.py",
+  "current_driver_sha256": "e71879dc1e651842e7375dccda84531fb2626de7dc2ddcb0e4924d4d05f54313",
+  "audit": "Same libX11/libXtst XTestFakeMotion/Button/Key and flush calls; current driver holds mouse270ms (prior received251ms), key120ms (prior100ms), explicit focus selected actual Box3D window. Current source suppresses UI input only during benchmark-active mode, omitted here. No --frames avoids disabled normal frame limiter. Fresh settings.ini {} suppresses first-run help; default physics values untouched. Receiver pass proves held host stimulus only; actual five-app interactions still require new evidence."
+}

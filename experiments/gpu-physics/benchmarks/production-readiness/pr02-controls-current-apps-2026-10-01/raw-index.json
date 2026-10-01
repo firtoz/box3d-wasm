@@ -1,0 +1,78 @@
+{
+  "raw/adapter.txt": {
+    "sha256": "a53f6ea1169d7a042aba041785c7c7a9c86acaf743258ad76b95f7a1d0414505",
+    "bytes": 110
+  },
+  "raw/cpu/action-01.json": {
+    "sha256": "df8d1b6f28487e26fd40aee61b638143e2cbe7fc5c5eaeda2adaa82f849edcb9",
+    "bytes": 48
+  },
+  "raw/cpu/action-02.json": {
+    "sha256": "d37c6a880ba12ee56c69663486c3d81ec20a1ee5d104f681ffa0a04fbf951037",
+    "bytes": 40
+  },
+  "raw/cpu/clip.mp4": {
+    "sha256": "fb9154de12301bb4ce9810af2ddb33c023129c4d423aa228f687f4519ab43ded",
+    "bytes": 103980
+  },
+  "raw/cpu/ffmpeg.log": {
+    "sha256": "c4fd9b755111beda7de8b48d4a97fb86d906bd3d98269640614e32ab268ed794",
+    "bytes": 109
+  },
+  "raw/cpu/imgui.ini": {
+    "sha256": "7dcd11ec6f1bf79b3abce5148c2fe1826d30aedc8207cc124e2574d6b23f7bae",
+    "bytes": 90
+  },
+  "raw/cpu/observer.jsonl": {
+    "sha256": "776609b7a906d18724c15a2c99c858fc119da90a9a8692e8b2bd925c2d915633",
+    "bytes": 24883
+  },
+  "raw/cpu/receipt.json": {
+    "sha256": "37df1b491c7609ed2152eaa680ddd860b8c7a631abcd3b7b2df043250d4bcc2f",
+    "bytes": 2082
+  },
+  "raw/cpu/settings.ini": {
+    "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "bytes": 3
+  },
+  "raw/cpu/stderr.log": {
+    "sha256": "75507829d2849a938a38dbdad4baf761e6fd2087a142bc818d60ea7fc1c7a9ee",
+    "bytes": 154
+  },
+  "raw/cpu/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/cpu/xvfb.log": {
+    "sha256": "12dcabf0449b9ff85d589b86d110c814777977daca56e7ba8ec300c5334fe397",
+    "bytes": 817
+  },
+  "raw/focus-helper-finding.json": {
+    "sha256": "37e5356651b0303cf2105f9f24ab3c75b24ffb0743b3a0f0a560501ebcd67bf9",
+    "bytes": 502
+  },
+  "raw/protocol-before-runs.json": {
+    "sha256": "4473251bee8c7903f45e7ea621b1005fc6994c95a5e48065862a5be5b1c14ec0",
+    "bytes": 3608
+  },
+  "raw/protocol-initial-before-source-audit.json": {
+    "sha256": "2fb4bce30c8f36be8401ba9c51c7d0b4db07645b8af87abb6286e3f6d36582f1",
+    "bytes": 2784
+  },
+  "raw/stimulus-source-audit.json": {
+    "sha256": "1d14f1afd9b09ddfc92a325084f44e83108a6be8b6e08cb2472cb12e64b2c46e",
+    "bytes": 1021
+  },
+  "raw/terminal.json": {
+    "sha256": "da10b48ec96af2c3b5ea440b8c8105154cc3429e8b3e1ed98478cec2ddfc8590",
+    "bytes": 2284
+  },
+  "raw/validate-app.py": {
+    "sha256": "9d402eb5b7657bda6471635de61d2ba4318c37e720c40c5ddc669f27212eada3",
+    "bytes": 4174
+  },
+  "raw/viewer-interact.py": {
+    "sha256": "e71879dc1e651842e7375dccda84531fb2626de7dc2ddcb0e4924d4d05f54313",
+    "bytes": 6736
+  }
+}

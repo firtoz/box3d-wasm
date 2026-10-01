@@ -1,0 +1,16 @@
+{
+  "id": "pr02-controls-current-apps-2026-10-01",
+  "requirement": "Previously unlaunched PR02 actual truthful native viewer world controls after retained property repair",
+  "prerequisite": "All five current-source diagnostic viewers built under pr02-controls-current-builds; each actual executable and build-receipt hash checked before launch",
+  "budget": {"fresh_viewer_processes": 5, "host_receiver_processes": 0, "production_candidates": 0, "timing_runs": 0, "retries": 0},
+  "order": ["cpu", "ordinary-gpu", "native-gpu", "ordinary-both", "native-both"],
+  "watchdog_seconds": 600,
+  "max_actions_per_app": 40,
+  "max_screenshots_per_app": 20,
+  "configuration": {"sample": "Single Box", "arguments": ["--sample-name", "Single Box"], "settings_initial": {}, "hertz": 60, "substeps": 4, "sleep": true, "warm_start": true, "continuous": true, "ordinary_backend": "wgpu Vulkan NVIDIA", "native_backend": "native cached Vulkan NVIDIA", "rendering": "Mesa software/Xvfb1280x720", "trace": "read-only post-Step world flags/events/counters/completion; not benchmark mode; cadence is diagnostic only"},
+  "controls": ["P pause and stable completed step", "period advances exactly one step while paused", "Sleep/Warm Starting/Continuous checkboxes off then on and exact public world getters", "combined mapped CPU flags agree with context and GPU flags", "restart new world lifetime while paused with controls preserved", "actual Profile/Counters/Frame Time tabs and truthful backend labels", "M metrics toggle", "Ctrl+Q clean quit and saved control settings"],
+  "input": "Reuse already retained pure host held-input proof after source audit. Explicitly focus actual Box3D viewer window; hold mouse270ms after motion120ms; key120ms. Choose coordinates only from actual current screenshots. Adaptive action order allowed within fixed actions/screenshots; no retries/replacements.",
+  "acceptance": "Each app passes all named behaviors with numeric observer evidence and reviewed actual visible controls/tab content. World getters match displayed/context flags once input is consumed; paused step stable, single-step delta exactly1, restart lifetime changes. Original physical tolerances unchanged; this is limited control-contract acceptance, not full dynamics, sample-wide UI/raycast or performance qualification.",
+  "stop_rule": "Stop first infrastructure, stimulus, source/provenance or control-contract failure or watchdog. Retain failed and passing evidence, leave remaining apps unlaunched. Do not rerun older closed campaigns.",
+  "publication": "Portable commands/environments, action/state JSON, observer raw data, screenshots, build proof and capture hashes. Full diagnostic clips retained locally; screenshots cover accepted interactions. No headline performance claim."
+}

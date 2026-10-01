@@ -1,0 +1,11 @@
+{
+  "status": "harness-failure",
+  "unavailable_command": "xwininfo",
+  "which_result": null,
+  "failure_before_input": true,
+  "viewer_processes": 1,
+  "control_actions_sent": 0,
+  "source_location": "viewer-interact.py focus() invokes subprocess.check_output([xwininfo, ...]) before XSetInputFocus or XTestFakeKeyEvent",
+  "observation_unix": 1790889479.2951663,
+  "next_hypothesis": "Direct libX11 XQueryTree/XFetchName removes external command dependency, with unchanged viewers and held input."
+}
