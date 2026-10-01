@@ -327,6 +327,19 @@ copies, pipelines, renderer and driver allocations. Memory output states that
 scope. Bounds output snapshots public shape/body ownership and speculative
 AABBs, merging compound children, and invokes visitors after unlocking.
 
+Compound bounds are not yet API-qualified. The
+[public/extended bounds diagnosis](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-bounds-2026-10-01/README.md)
+records two NVIDIA Vulkan processes on unchanged production inputs: public
+`b3Shape_GetAABB` returns six zeros for all eight tested compound cases on each
+backend. Native diagnostics union child world bounds, which differ from Box3D's
+transformed local enclosing box for rotated sphere/capsule/hull compounds. The
+independent CPU geometry matches mapped CPU stored bounds at the original1e-5
+limit. This required public API gap remains open. The separate
+[combined ownership candidate](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-fix-2026-10-01/README.md)
+was rejected at its bounds check and production source restored; duplicate CPU
+primitive compound children remain a known combined-adapter defect. Neither
+source/link coverage nor passing simple-box diagnostics qualify these cases.
+
 Full-state schema v24 includes host peak occupancy, the harvested GPU contact
 peak and its persistent device query word. Readers retain earlier schemas and
 reject missing or invalid new fields; historical captures do not prove coverage

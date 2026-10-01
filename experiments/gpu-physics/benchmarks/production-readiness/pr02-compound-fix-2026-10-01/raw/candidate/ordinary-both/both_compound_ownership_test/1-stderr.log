@@ -1,0 +1,6 @@
+samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+compound bounds lane=0 GPU=-1.57911253 CPU=-1.6875484
+fixture: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_compound_ownership_test.cpp:39: void compare_bounds(b3WorldId, b3ShapeId): Assertion `false' failed.

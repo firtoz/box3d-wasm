@@ -1,0 +1,54 @@
+{
+  "entries": [
+    {
+      "path": "raw/check.py",
+      "sha256": "a2f4c20dda112f9fa0c9c0a384dd319f4413ffefb8475d33cfa75ae176db8f27",
+      "bytes": 3065
+    },
+    {
+      "path": "raw/fixture-inputs.tar.gz",
+      "sha256": "d9508b805f913e7e4e8faa562322f6bbe14bb02fd241426d60abb64d60331c4d",
+      "bytes": 223680
+    },
+    {
+      "path": "raw/native-both/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "raw/native-both/stderr.log",
+      "sha256": "00f2919bde7fdadc9043cc6bfc4c325217cd524ba71396aacedb1e0a2720a9f7",
+      "bytes": 263
+    },
+    {
+      "path": "raw/native-both/stdout.log",
+      "sha256": "121942c44f765a89956ea00cce431fcd6d5cc91d1a1148bea366d7ea6c24f7fd",
+      "bytes": 6900
+    },
+    {
+      "path": "raw/ordinary-both/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "raw/ordinary-both/stderr.log",
+      "sha256": "00f2919bde7fdadc9043cc6bfc4c325217cd524ba71396aacedb1e0a2720a9f7",
+      "bytes": 263
+    },
+    {
+      "path": "raw/ordinary-both/stdout.log",
+      "sha256": "121942c44f765a89956ea00cce431fcd6d5cc91d1a1148bea366d7ea6c24f7fd",
+      "bytes": 6900
+    },
+    {
+      "path": "raw/protocol-before-runs.json",
+      "sha256": "d3d2b0dd9e77dc56bd717a5aa948dad0d7e66fe845bfaaa8970cba8e7c5482b6",
+      "bytes": 5338
+    },
+    {
+      "path": "raw/receipt.json",
+      "sha256": "b55b0845cfc6c820bb0aabe871d0f380dbe75ffd369763bd7da319200d6c8e1c",
+      "bytes": 29587
+    }
+  ]
+}

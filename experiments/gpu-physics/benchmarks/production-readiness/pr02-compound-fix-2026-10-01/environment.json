@@ -1,0 +1,6 @@
+{
+  "purpose": "read-only host provenance; no physics trial",
+  "uname": "Linux firtina-manjarodesk 6.18.49-1-MANJARO #1 SMP PREEMPT_DYNAMIC Thu, 03 Sep 2026 23:21:05 +0000 x86_64 GNU/Linux\n",
+  "adapter_driver": "NVIDIA GeForce RTX 4070 SUPER, 610.57.04, 00000000:01:00.0\n",
+  "compiler": "cc (GCC) 16.2.1 20260810\nCopyright (C) 2026 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+}

@@ -1,0 +1,64 @@
+{
+  "scope": "PR02 fix independently demonstrated duplicate CPU compound child creation in combined adapter; no Rust/WGSL solver change",
+  "hypothesis": "Private sphere/capsule/hull compound creation must bypass dual CPU mirroring; public constructors still mirror once. Mesh-only path is unchanged. No mutable global/thread-local guard.",
+  "revision_context": "f3ba3ef16fde9b1f769da591a87e28ca92f9c907",
+  "budget": {
+    "baseline_C_processes": 2,
+    "production_candidates": 1,
+    "candidate_ownership_C_processes": 4,
+    "candidate_regression_C_processes": 8,
+    "timing_runs": 0
+  },
+  "order": "Build both baseline fixtures; run ordinary-both then native-both with --baseline. Freeze one refactored candidate and build all fixtures before trials. Ownership ordinary/native then native/ordinary (two fresh each), followed by each regression ordinary/native. Serial, no competing physics.",
+  "settings": "NVIDIA Vulkan, CPU-compatible order1; native shared cache env. Ownership keeps default world/material/shape settings, static rotated body, four compound child kinds and three create/delete cycles per kind; no timestep changes or stress/timing flags. Existing regression settings unchanged.",
+  "ownership_acceptance": "GPU public shape counts exact; mapped CPU equals GPU for candidate, baseline reproduces two extra primitive CPU children per compound and accumulates them across parent deletion, mesh unaffected. Candidate extended merged bounds within original absolute1e-5 of real mapped CPU. Public individual sphere/capsule/hull constructors still each mirror exactly one. Parent and mapped CPU handle invalid after deletion; recreation counts remain correct. Baseline pass marker is reproduction only, no acceptance credit.",
+  "regressions": [
+    "native_diagnostic_populations",
+    "api_settings_test",
+    "both_shape_replacement_test",
+    "both_substep_forces_test"
+  ],
+  "regression_acceptance": "Zero exits with existing named pass markers and unchanged assertions/tolerances; no earlier stopped campaign or final physical qualification credit inferred.",
+  "stop_rule": "Stop first build/unexpected baseline/candidate/regression failure; retain all results and unlaunched cases. No failed result replaced, selective rerun, tolerance change or budget extension. Restore rejected production edits if candidate fails.",
+  "fixture_sha256": "bb75e0d3313746d92695a0c53500e4ac6f0bdbfc5df1f628de92ee6fb7e10277",
+  "regression_source_hashes": {
+    "c_abi/native_diagnostic_populations.cpp": "e62ceaa557141be1df5bee16eefbad44f1c71ddb88e7c5c97908e365b41341b0",
+    "c_abi/api_settings_test.cpp": "7136f0867e081c1863cb86f1021de1745ad787abd2b7591e71dc2bd6edf6ba40",
+    "c_abi/both_shape_replacement_test.cpp": "d1df31a6ab0c1fb364ecb9a553e047ccc362e293915df73d966fdd73933bedb3",
+    "c_abi/both_substep_forces_test.cpp": "6bb1577b2a7131a69f764a8b21ffb5405c421698074622935f99eafb005cdbe6"
+  },
+  "baseline_dual_source_sha256": "0a3ea0a76a8e84484a2d256e48c65d5c8e3003e74468a08f488e6a52d770412c",
+  "source_proof": {
+    "ordinary-both": {
+      "engine_receipt_sha256": "f166a0ef8ff9bfca382616db0d30fb0a805100b77f589e46762d93494fe3eae2",
+      "engine_receipt_portable": "../pr02-diagnostics-2026-10-01/raw/candidate-complete-inputs/ordinary-build.json",
+      "adapter_receipt_sha256": "4a79f99769f45a875178531fa7408a9f0a413ffb3295beaaecfbd5c1c7222d11",
+      "adapter_receipt_portable": "../pr02-diagnostics-2026-10-01/raw/c/ordinary-both/receipt.json",
+      "linked_inputs": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/native_diagnostics_fixture.cpp": "670a52f4dd3367be8fb0a3f67247a5bb58a286d1980d4c67df23c056dee5e4d3",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/ordinary-frozen.a": "edbdb251e06e9c9bc5955045191e4ca2932bfacae6265581a0acfe3be16a6050",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-both/cmake/libgpu_samples_api.a": "427cc59a6d0f5585cdbb815b997c08e1b40daba625277dd28280cea87a479276",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-both/cmake/box3d_src/libbox3d.a": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-both/cmake/libgpu_both_api.a": "9179b4b31422e5084a3785d9ec29222702b21a6454d95107310e425dec4416b7",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-both/cmake/libbox3d_cpu.a": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d"
+      },
+      "baseline_archive_sha256": "9179b4b31422e5084a3785d9ec29222702b21a6454d95107310e425dec4416b7"
+    },
+    "native-both": {
+      "engine_receipt_sha256": "e9d522b53141e1ec9db55c9c6dd58c5257cc4bcc412a0b4a55e4bd232d410c42",
+      "engine_receipt_portable": "../pr02-diagnostics-2026-10-01/raw/candidate-complete-inputs/native-build.json",
+      "adapter_receipt_sha256": "689d28e9e4c6268166b1f55ebb7f3637229c491210bdb3890ed47df29d6633ca",
+      "adapter_receipt_portable": "../pr02-diagnostics-2026-10-01/raw/c/native-both/receipt.json",
+      "linked_inputs": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/native_diagnostics_fixture.cpp": "670a52f4dd3367be8fb0a3f67247a5bb58a286d1980d4c67df23c056dee5e4d3",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/native-frozen.a": "a736a81fae6b45751fadd0f57dcf795a0e44f7c21d1e54996c668b754cc393e9",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-both/cmake/libgpu_samples_api.a": "427cc59a6d0f5585cdbb815b997c08e1b40daba625277dd28280cea87a479276",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-both/cmake/box3d_src/libbox3d.a": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-both/cmake/libgpu_both_api.a": "9179b4b31422e5084a3785d9ec29222702b21a6454d95107310e425dec4416b7",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/native-both/cmake/libbox3d_cpu.a": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d"
+      },
+      "baseline_archive_sha256": "9179b4b31422e5084a3785d9ec29222702b21a6454d95107310e425dec4416b7"
+    }
+  },
+  "separate_recordings": "Builds and snapshots are separate from correctness budget; freeze their protocol after candidate binary receipts. Record affected five Compound scenes with real CPU first, Mesh Tile unaffected control. Standard recorder shader inputs are unchanged; preserve existing clips/datasets."
+}
