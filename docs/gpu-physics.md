@@ -215,9 +215,36 @@ retains rejected variants, exact build/source receipts, five-process control
 repeats on both backends and relevant regressions. This focused evidence does
 not complete the production roadmap's final physics or repeatability matrix.
 
+## Native API availability
+
+The initial Linux/NVIDIA GPU release excludes native recording/player APIs and
+CPU worker/static-tree controls. The 39 operations listed in
+[`native_unavailable.inc`](../experiments/gpu-physics/c_abi/native_unavailable.inc)
+report `ENOTSUP` and a sticky thread-local operation name through
+[`native_api_status.h`](../experiments/gpu-physics/c_abi/native_api_status.h).
+Recording creation returns NULL and saving returns false. Combined adapters use
+the same unavailable GPU implementations. This prevents successful CPU-only
+recordings or worker settings from masquerading as GPU support.
+
+Read `gpu_b3_native_api_last_error()` after an unavailable call; its static name
+persists until another unavailable call or `gpu_b3_native_api_clear_error()`.
+Check errno immediately, before unrelated library calls. Clear affects only this
+thread's API diagnostic and errno, never sticky world/capacity failure state.
+The exclusion lookup is an exact named list; an unknown name returning false
+is not a support claim. Other failure return values require consulting the
+availability/error contract rather than interpreting zero as valid data.
+
+The [PR02 partial report](../experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/README.md)
+publishes all 415 stateful API entries, linked-source audits and host-only checks.
+Seven complete trials pass; one harness failure and all build failures remain.
+A separate closed-stderr check preserves immediate ENOTSUP after an output error.
+These checks do not initialize a GPU or qualify supported physics. Required
+core diagnostics, combined routes, viewer controls and full API behavior remain
+open under the production roadmap.
+
 ## Missing features and known failures
 
-The PR01 linked-build audit on 2026-10-01 identifies **35 stub definitions and 8
+The historical PR01 linked-build audit on 2026-10-01 identified **35 stub definitions and 8
 additional placeholders**, with 10 CPU-only comparison wrappers requiring semantic
 review and no additional missing linked symbols in either selected backend. The
 speculative setter is implemented and routed to both mapped worlds. Full native
@@ -230,7 +257,7 @@ compatibility must not be inferred from scene checks. See the
 | Falling-cube GPU capacity | The archived sweep hit the old 65,536 spatial-insertion limit at 20,000 cubes. Insertion buffers now scale with reserved shape capacity; the static-contact sort also no longer packs body/index into 16-bit halves. Pair/contact buffers and their prefix scans now scale with reserved body capacity. Pair/history storage and callbacks/events now use full-width endpoints; canonical cell ownership removes online packed-key deduplication. High-index collision, event, remap, and reuse regressions pass. Native sample C metadata now uses per-world growable chunks and passes high-index ownership/callback regressions; Sokol debug/opaque renderer reservations now follow benchmark size, and both engines must upload every cube and the floor. The sample fixes a saved draw-distance culling issue. Updated full-scene app measurements replace the earlier unvalidated Sokol curve. Collision-heavy physics and direct rendering are qualified through 200,000 cubes across three 330-step trials each; Sokol stops below 10 FPS at 150,000. The former tiled-dispatch boundary is resolved. The 200,000-cube physics buffers occupy 3.42 GiB, excluding renderer/driver resources; this is not a measured memory ceiling. |
 | World controls | Speculative switching now controls experimental hull–mesh positive-gap contacts per world, subject to endpoint flags and the documented CCD handoff shell. Warm-start switching controls contact and joint caches per world. Worker-count APIs are placeholders rather than GPU scheduling controls. |
 | World diagnostics | Profile/max-capacity APIs return placeholders; memory/bounds dump and static-tree rebuild helpers are incomplete. Public `contactCount` is not implemented by the GPU world counter. |
-| Recording/replay | Native recording creation, storage, file I/O, playback, seeking and query-history APIs are placeholders. Diagnostic state replay is not an implementation of these APIs. |
+| Recording/replay | Native recording creation, storage, file I/O, playback, seeking and query-history APIs are explicitly unavailable, with ENOTSUP and a thread-local operation name. Diagnostic state replay does not implement these APIs. |
 | Combined viewer coverage | Some generated wrappers call only CPU APIs. Audit each remaining wrapper before claiming that controls or diagnostics affect/report both worlds. |
 | AMD convex sweeps | A rotating capsule reports a GPU hit where the CPU conservative-advancement reference reports no hit. Cause undiagnosed; investigation is deferred. |
 | AMD secondary queues | The experimental backend requires two graphics/compute queues in family zero; this AMD device exposes one. Its compute-only queues in another family are unsupported by this path; broader queue-family support is deferred. |

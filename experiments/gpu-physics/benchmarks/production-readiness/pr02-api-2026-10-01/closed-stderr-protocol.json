@@ -1,0 +1,15 @@
+{
+  "scope": "Concrete PR02 C API error contract under closed stderr; distinct host-only I/O case, no GPU or timing",
+  "reason": "b3SaveRecordingToFile reports ENOTSUP before fprintf, but an output failure can overwrite errno before return. Must preserve documented immediate ENOTSUP even when stderr is unavailable.",
+  "budget": {
+    "fresh_host_processes": 1,
+    "gpu_processes": 0,
+    "timing_runs": 0
+  },
+  "acceptance": [
+    "Public C save returns false, no file, last operation exact, errnoENOTSUP immediately after return when stderrfd2 is closed.",
+    "Whole production samples_api.c/samples_stubs.c compile unchanged apart from moving error publication after stderr output; all other functions are link-eliminated, not rewritten."
+  ],
+  "stop_rule": "One host process. Retain its result and all prior trials; never substitute it for the exhausted eight-trial campaign. PR02 stays open for full API qualification.",
+  "revision_before_edit": "399afc5d0bf2791b07c037a143bd5ea2dcb2591f"
+}

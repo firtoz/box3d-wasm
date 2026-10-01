@@ -45,6 +45,14 @@ def main():
     generator_spec = importlib.util.spec_from_file_location("both_generator", ROOT / 'scripts/gen-both-cpu.py')
     generator = importlib.util.module_from_spec(generator_spec)
     generator_spec.loader.exec_module(generator)
+    unavailable = generator.UNAVAILABLE
+    remaining_stubs = stubs - unavailable
+    extra = sorted(set(extra) - unavailable)
+    error_sources = '\n'.join((ROOT / ('c_abi/' + name)).read_text()
+                              for name in ['samples_stubs.c', 'samples_api.c'])
+    missing_error_hooks = sorted(name for name in unavailable if not re.search(
+        r'B3_API\s+[^;{]*?\b' + re.escape(name) +
+        r'\([^;]*?\)\s*\{\s*gpu_native_api_unavailable\(__func__\);', error_sources, re.S))
     headers = generator.parse_headers(ROOT.parents[1] / 'box3d/include')
     required = {n for n, (_, args_text) in headers.items()
                 if re.search(r'\bb3(?:World|Body|Shape|Joint)Id\b', args_text)
@@ -81,30 +89,53 @@ def main():
                        and n not in dual and n not in generator.DUAL)
                 if passthrough_path.is_file() else None)
     providers = set()
+    linked_symbols = set()
     libraries = ([library] if library and library.is_file() else []) + (archives if len(archives) == 1 else [])
     for archive in libraries:
         symbols = subprocess.run([args.nm, '-A', '-g', '--defined-only', str(archive)],
                                  capture_output=True, text=True, check=True).stdout
         for line in symbols.splitlines():
+            if re.search(r' [TW] ', line):
+                linked_symbols.add(line.split()[-1].removeprefix('_'))
             if 'samples_stubs.c.' not in line and re.search(r' [TW] _?b3', line):
                 providers.add(line.split()[-1].removeprefix('_'))
     # Missing artifacts are unknown coverage, never an empty/successful result.
     missing = sorted(required - providers - set(stubs) - set(extra)) if not missing_inputs else None
+    required_placeholders = (set(stubs) | set(extra)) - unavailable
+    # Counter topology fields are implemented, but contact/island and other
+    # diagnostic fields require PR02 review. Symbol presence is not coverage.
+    required_diagnostics = required_placeholders | {'b3World_GetCounters'}
+    contract = []
+    for name in sorted(required):
+        category = ('declared-unavailable' if name in unavailable else
+                    'required-diagnostic-gap' if name in required_diagnostics else
+                    'cpu-only-routing-review' if name in (stateful or []) else
+                    'missing-or-unverified-link' if missing_inputs or name not in linked_symbols else
+                    'implemented-behavior-unqualified')
+        contract.append({'symbol': name, 'classification': category,
+                         'linked_in_gpu_inputs': name in linked_symbols if not missing_inputs else None})
     result = {
-        'status': 'incomplete' if stubs or extra or stateful or missing or missing_inputs else 'complete',
+        'status': 'incomplete' if remaining_stubs or extra or stateful or missing or missing_inputs or missing_error_hooks else 'complete',
         'build_artifacts_verified': not missing_inputs,
         'missing_build_inputs': missing_inputs,
         'gpu_build_dir': str(gpu_build), 'both_build_dir': str(both_build),
         'libraries': [str(p) for p in libraries],
         'required_stateful_header_symbols': len(required),
         'additional_missing_stateful_symbols': missing,
-        'remaining_stub_definitions': sorted(stubs),
+        'remaining_stub_definitions': sorted(remaining_stubs),
         'additional_known_placeholders': extra,
         'duplicate_stub_definitions': sorted(set(stubs) & (set(shim) | set(samples))),
         'cpu_only_comparison_passthrough': stateful,
+        'declared_unavailable_symbols': sorted(unavailable),
+        'unavailable_source_error_hooks_missing': missing_error_hooks,
+        'unavailable_error_interface_linked': (all(name in linked_symbols for name in
+            ['gpu_b3_native_api_last_error', 'gpu_b3_native_api_clear_error',
+             'gpu_b3_native_api_is_unavailable']) if not missing_inputs else None),
+        'required_stub_or_placeholder_definitions': sorted(required_placeholders),
+        'initial_release_stateful_inventory': contract,
         'note': 'Source inventory. CPU-only passthrough requires review; linked symbols and semantic behavior need separate tests.',
     }
-    print(f'Remaining stubs: {len(stubs)}; additional known placeholders: {len(extra)}; '
+    print(f'Declared unavailable: {len(unavailable)}; remaining stubs: {len(remaining_stubs)}; additional known placeholders: {len(extra)}; '
           f'CPU-only comparison APIs to review: {len(stateful) if stateful is not None else "unknown"}; '
           f'other missing symbols: {len(missing) if missing is not None else "unknown"}')
     for category in ['additional_missing_stateful_symbols', 'remaining_stub_definitions', 'additional_known_placeholders', 'cpu_only_comparison_passthrough']:

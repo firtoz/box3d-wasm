@@ -7,6 +7,9 @@ import re
 import subprocess
 from pathlib import Path
 
+UNAVAILABLE = set(re.findall(r"GPU_UNAVAILABLE_API\((b3\w+)\)",
+    (Path(__file__).resolve().parents[1] / "c_abi/native_unavailable.inc").read_text()))
+
 DUAL = {
     "b3World_EnableSpeculative",
     "b3World_EnableWarmStarting",
@@ -399,7 +402,7 @@ def write_passthrough(path: Path, sigs: dict[str, tuple[str, str]], defined: set
         lines.append(f"extern {ret} cpu_{name}({args});")
     lines.append("")
     for name in names:
-        if name in DUAL or name in explicit:
+        if name in DUAL or name in UNAVAILABLE or name in explicit:
             continue
         ret, args = sigs[name]
         an = arg_names(args)

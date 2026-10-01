@@ -1,0 +1,100 @@
+{
+  "item": "PR02 partial: explicit unavailable operations",
+  "revision_before_edits": "399afc5d0bf2791b07c037a143bd5ea2dcb2591f",
+  "scope": "Native recording/player API and CPU-specific worker/static-tree API are excluded by roadmap; direct and combined calls must explicitly report ENOTSUP and operation name. No solver changes or timing. PR02 overall remains open.",
+  "excluded_symbols": [
+    "b3CreatePlayer",
+    "b3CreateRecording",
+    "b3DestroyPlayer",
+    "b3DestroyRecording",
+    "b3LoadRecordingFromFile",
+    "b3RecPlayer_DrawFrameQueries",
+    "b3RecPlayer_GetBodyCount",
+    "b3RecPlayer_GetBodyId",
+    "b3RecPlayer_GetDivergeFrame",
+    "b3RecPlayer_GetFrame",
+    "b3RecPlayer_GetFrameCount",
+    "b3RecPlayer_GetFrameQuery",
+    "b3RecPlayer_GetFrameQueryCount",
+    "b3RecPlayer_GetFrameQueryHit",
+    "b3RecPlayer_GetInfo",
+    "b3RecPlayer_GetKeyframeBudget",
+    "b3RecPlayer_GetKeyframeBytes",
+    "b3RecPlayer_GetKeyframeInterval",
+    "b3RecPlayer_GetKeyframeMinInterval",
+    "b3RecPlayer_GetWorldId",
+    "b3RecPlayer_HasDiverged",
+    "b3RecPlayer_IsAtEnd",
+    "b3RecPlayer_IsAtPreStep",
+    "b3RecPlayer_Restart",
+    "b3RecPlayer_SeekFrame",
+    "b3RecPlayer_SetDebugShapeCallbacks",
+    "b3RecPlayer_SetKeyframePolicy",
+    "b3RecPlayer_SetWorkerCount",
+    "b3RecPlayer_StepFrame",
+    "b3RecPlayer_SubStepFrame",
+    "b3Recording_GetData",
+    "b3Recording_GetSize",
+    "b3SaveRecordingToFile",
+    "b3ValidateReplay",
+    "b3World_GetWorkerCount",
+    "b3World_RebuildStaticTree",
+    "b3World_SetWorkerCount",
+    "b3World_StartRecording",
+    "b3World_StopRecording"
+  ],
+  "budget": {
+    "baseline_host_processes": 2,
+    "candidate_configurations": [
+      "ordinary-gpu",
+      "ordinary-both",
+      "native-gpu",
+      "native-both"
+    ],
+    "fresh_host_processes_per_configuration": 2,
+    "total_candidate_processes": 7,
+    "gpu_processes": 0,
+    "timing_runs": 0,
+    "trial_numbers": {
+      "ordinary-gpu": [
+        2
+      ],
+      "ordinary-both": [
+        1,
+        2
+      ],
+      "native-gpu": [
+        1,
+        2
+      ],
+      "native-both": [
+        1,
+        2
+      ]
+    }
+  },
+  "acceptance": [
+    "All 39 operations set errno=ENOTSUP and sticky thread-local operation name.",
+    "Recording creation returns NULL and save returns false without creating a file.",
+    "Failure persists until explicit clear; independent threads do not overwrite it.",
+    "Both generated CPU passthrough and portable API selection retain the same GPU error implementations.",
+    "Frozen Rust library hashes and compiled engine inputs remain identical; C adapter compiled inputs/binary hashes are recorded."
+  ],
+  "stop_rule": "Retain all results and stop on first failed candidate assertion. Do not selectively extend this protocol. Builds and source inventory are separate.",
+  "known_open_gaps": [
+    "GPU counters contactCount=0",
+    "GPU profile/capacity/memory stats placeholders",
+    "combined counters/profile/capacity and shape-type CPU-only routing",
+    "shape-bounds dump placeholder",
+    "remaining required core API behavior review and viewer control availability"
+  ],
+  "amendment": {
+    "reason": "First trial passed every immediate API error assertion, then incorrectly asserted errno after unrelated filesystem/thread-library calls. Only the operation-name diagnostic is sticky. Preserve failed run and its compiled fixture. Production adapter unchanged; fix harness, consume remaining seven trials only.",
+    "original_candidate_processes_consumed": 1,
+    "original_trial_exit": -6,
+    "original_trial_path": "unavailable-candidate/ordinary-gpu/trial-1.stderr",
+    "source_hash_before": "3bb38c0bd21bf731a6c6aa26fe6da90e6377900650c306fefcc2cf2d67f37a58",
+    "source_hash_after": "34f571b8b0c208f402965367c904372d40fd7db6685edf798cabbea4fe012954",
+    "qualification_limit": "Only seven complete passing host trials can result; report one harness failure. PR02 overall remains open."
+  }
+}

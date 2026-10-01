@@ -1,0 +1,66 @@
+{
+  "commands": [
+    [
+      "gcc",
+      "-std=gnu17",
+      "-O2",
+      "-w",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-I",
+      "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+      "-I",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+      "-c",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/samples_api.c",
+      "-o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-api/closed-stderr/samples_api.o"
+    ],
+    [
+      "gcc",
+      "-std=gnu17",
+      "-O2",
+      "-w",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-I",
+      "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+      "-I",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+      "-c",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/samples_stubs.c",
+      "-o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-api/closed-stderr/samples_stubs.o"
+    ],
+    [
+      "g++",
+      "-O2",
+      "-std=c++17",
+      "-I",
+      "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+      "-I",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-api/closed-stderr/fixture.cpp",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-api/closed-stderr/samples_api.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-api/closed-stderr/samples_stubs.o",
+      "-Wl,--gc-sections",
+      "-o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-api/closed-stderr/fixture"
+    ]
+  ],
+  "compiled_inputs_before_and_after": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/samples_api.c": "84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/samples_stubs.c": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/native_api_status.h": "01b29f811479268c4a62a3a0294b844306aecb9a2fcfd8c90caa02a66f2798db",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/native_unavailable.inc": "dff1fd7d9897f4691f54a663712c07eda2c1231cac9ca930634159fff7bcbcef",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/native_clock.h": "bb3ef7efab0c2c9de60b8c001dd4681de00717d45abd4ab7676b12d9d4e6401c",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-api/closed-stderr/fixture.cpp": "b0e353fbe87984570b13826a9396ec4f405b9cec920279641d2f3dfb75007cd3"
+  },
+  "executable_sha256": "d37d5bb4343668d101b3870c15ebe24c7aca96300a4f3a4376d1ac96bb5df095",
+  "exit": 0,
+  "stdout_sha256": "5c1d785eb73b585bf9d6545a6fdeab40535cf75f5bbe9382d16e6ce9725683ec",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "result": "pass",
+  "scope": "One fresh host process, whole C production sources; no Rust library or GPU initialized",
+  "retained_build_failure": "samples_api-build.log: strictC17 lacks POSIX clock feature macro; corrected compiler dialect to same gnu17 as CMake"
+}

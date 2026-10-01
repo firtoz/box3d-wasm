@@ -1,0 +1,488 @@
+[
+  {
+    "artifact_path": "api-audit-native.json",
+    "portable_path": "raw/api-audit-native.json",
+    "sha256": "1c5f1ee5c2170396773985194dea8c666155ae9d35a698cdff458774a952b170",
+    "bytes": 66025
+  },
+  {
+    "artifact_path": "api-audit-native.log",
+    "portable_path": "raw/api-audit-native.log",
+    "sha256": "f3d0ac90525d430c5d8447a6bf19f6dbaa8fb3317722118e1a6ded87d8eaba8d",
+    "bytes": 483
+  },
+  {
+    "artifact_path": "api-audit-ordinary.json",
+    "portable_path": "raw/api-audit-ordinary.json",
+    "sha256": "36b7e8232f19b8fd33cb3a254c57dd38003ad75204d9ddbbde55eb6bd0630f9d",
+    "bytes": 66037
+  },
+  {
+    "artifact_path": "api-audit-ordinary.log",
+    "portable_path": "raw/api-audit-ordinary.log",
+    "sha256": "f3d0ac90525d430c5d8447a6bf19f6dbaa8fb3317722118e1a6ded87d8eaba8d",
+    "bytes": 483
+  },
+  {
+    "artifact_path": "baseline/both-link-fixed.log",
+    "portable_path": "raw/baseline/both-link-fixed.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "artifact_path": "baseline/both-link.log",
+    "portable_path": "raw/baseline/both-link.log",
+    "sha256": "6b2fc2ccc19da4e8a341f39f066c10b2cc5ef9caa91b29b31a81b2f313e9b5f9",
+    "bytes": 1172
+  },
+  {
+    "artifact_path": "baseline/both.stderr",
+    "portable_path": "raw/baseline/both.stderr",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "artifact_path": "baseline/both.stdout",
+    "portable_path": "raw/baseline/both.stdout",
+    "sha256": "cb2f467fe86f3ae94818cd2978e1b0890c230c9bda63235afde308e3ca43428a",
+    "bytes": 48
+  },
+  {
+    "artifact_path": "baseline/gpu-link.log",
+    "portable_path": "raw/baseline/gpu-link.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "artifact_path": "baseline/gpu.stderr",
+    "portable_path": "raw/baseline/gpu.stderr",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "artifact_path": "baseline/gpu.stdout",
+    "portable_path": "raw/baseline/gpu.stdout",
+    "sha256": "cb2f467fe86f3ae94818cd2978e1b0890c230c9bda63235afde308e3ca43428a",
+    "bytes": 48
+  },
+  {
+    "artifact_path": "baseline/receipt.json",
+    "portable_path": "raw/baseline/receipt.json",
+    "sha256": "0a7afa8998241bddcefd9d2874ee40436f2ed3470b3d46d29ad7177de478e6d1",
+    "bytes": 3819
+  },
+  {
+    "artifact_path": "baseline/ui-hooks.cpp",
+    "portable_path": "raw/baseline/ui-hooks.cpp",
+    "sha256": "fbfb5303d167d479de6d34fe648c3ab5a998521f76f781a44af7f264c3b040af",
+    "bytes": 123
+  },
+  {
+    "artifact_path": "baseline/unavailable-baseline.cpp",
+    "portable_path": "raw/baseline/unavailable-baseline.cpp",
+    "sha256": "f2671a0cacb0cc438549b2354b66c7b510f63785f8296dbfa3ef1871b690e586",
+    "bytes": 266
+  },
+  {
+    "artifact_path": "closed-stderr/fixture.cpp",
+    "portable_path": "raw/closed-stderr/fixture.cpp",
+    "sha256": "b0e353fbe87984570b13826a9396ec4f405b9cec920279641d2f3dfb75007cd3",
+    "bytes": 429
+  },
+  {
+    "artifact_path": "closed-stderr/link.log",
+    "portable_path": "raw/closed-stderr/link.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "artifact_path": "closed-stderr/receipt.json",
+    "portable_path": "raw/closed-stderr/receipt.json",
+    "sha256": "83a4f4b0f7ddd375f98c8dfdbd3d21a9e4c5a06d31866898ecfc75290a8b6926",
+    "bytes": 3432
+  },
+  {
+    "artifact_path": "closed-stderr/samples_api-build.log",
+    "portable_path": "raw/closed-stderr/samples_api-build.log",
+    "sha256": "e12c05462e01dd05310b0129d842b374e20dc19cda90a16718cd60a355dffe1c",
+    "bytes": 895
+  },
+  {
+    "artifact_path": "closed-stderr/samples_api-gnu-build.log",
+    "portable_path": "raw/closed-stderr/samples_api-gnu-build.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "artifact_path": "closed-stderr/samples_stubs-gnu-build.log",
+    "portable_path": "raw/closed-stderr/samples_stubs-gnu-build.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "artifact_path": "closed-stderr/trial.stderr",
+    "portable_path": "raw/closed-stderr/trial.stderr",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "artifact_path": "closed-stderr/trial.stdout",
+    "portable_path": "raw/closed-stderr/trial.stdout",
+    "sha256": "5c1d785eb73b585bf9d6545a6fdeab40535cf75f5bbe9382d16e6ce9725683ec",
+    "bytes": 61
+  },
+  {
+    "artifact_path": "unavailable-candidate/ordinary-gpu/build.log",
+    "portable_path": "raw/unavailable-candidate/ordinary-gpu/build.log",
+    "sha256": "dd836a598ad0045b2f6f23306cd332c6922a85bccf179c1b9768158afc9192c5",
+    "bytes": 30228
+  },
+  {
+    "artifact_path": "unavailable-candidate/ordinary-gpu/build.receipt.json",
+    "portable_path": "raw/unavailable-candidate/ordinary-gpu/build.receipt.json",
+    "sha256": "dbe5fa66f2f2a1b28635e338d05e64aed1608e1405dc0c2405852ff69fb97a84",
+    "bytes": 356
+  },
+  {
+    "artifact_path": "unavailable-candidate/ordinary-gpu/compiled-fixture.cpp",
+    "portable_path": "raw/unavailable-candidate/ordinary-gpu/compiled-fixture.cpp",
+    "sha256": "3bb38c0bd21bf731a6c6aa26fe6da90e6377900650c306fefcc2cf2d67f37a58",
+    "bytes": 5835
+  },
+  {
+    "artifact_path": "unavailable-candidate/ordinary-gpu/configure.log",
+    "portable_path": "raw/unavailable-candidate/ordinary-gpu/configure.log",
+    "sha256": "98853f194057ed40544c5f652b362341d52655aa895126fd380c6d9aba50bc91",
+    "bytes": 1749
+  },
+  {
+    "artifact_path": "unavailable-candidate/ordinary-gpu/configure.receipt.json",
+    "portable_path": "raw/unavailable-candidate/ordinary-gpu/configure.receipt.json",
+    "sha256": "00fb6e22fa28073090805a895abbafdc8a031d6e1f0bbf3b160cb2f50a2c78e4",
+    "bytes": 692
+  },
+  {
+    "artifact_path": "unavailable-candidate/ordinary-gpu/link.log",
+    "portable_path": "raw/unavailable-candidate/ordinary-gpu/link.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "artifact_path": "unavailable-candidate/ordinary-gpu/link.receipt.json",
+    "portable_path": "raw/unavailable-candidate/ordinary-gpu/link.receipt.json",
+    "sha256": "854fb473eddcf43ba00326cc795eb85e22cb8e8db277a0d8deda0707931bdd36",
+    "bytes": 1162
+  },
+  {
+    "artifact_path": "unavailable-candidate/ordinary-gpu/receipt.json",
+    "portable_path": "raw/unavailable-candidate/ordinary-gpu/receipt.json",
+    "sha256": "8019620f4a1acf885baf195035db15876c54e5d4087dfa59a6d284d83bfb4eb3",
+    "bytes": 231590
+  },
+  {
+    "artifact_path": "unavailable-candidate/ordinary-gpu/trial-1.stderr",
+    "portable_path": "raw/unavailable-candidate/ordinary-gpu/trial-1.stderr",
+    "sha256": "3dc381cc2f48f9c745ffa0c5d4f66c3001f7e015b1858c85b08b7a2f2809c22c",
+    "bytes": 292
+  },
+  {
+    "artifact_path": "unavailable-candidate/ordinary-gpu/trial-1.stdout",
+    "portable_path": "raw/unavailable-candidate/ordinary-gpu/trial-1.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "artifact_path": "unavailable-remaining/ordinary-both/build.log",
+    "portable_path": "raw/unavailable-remaining/ordinary-both/build.log",
+    "sha256": "2f3b4cf644805b22cc212b8cae15dbb85bbdb0fb0caf824bd87d99de58830e91",
+    "bytes": 53074
+  },
+  {
+    "artifact_path": "unavailable-remaining/ordinary-both/build.receipt.json",
+    "portable_path": "raw/unavailable-remaining/ordinary-both/build.receipt.json",
+    "sha256": "0f166a3f3486234469386ad3b6214f5ebb70b544e3bb661425b5b2573514b453",
+    "bytes": 377
+  },
+  {
+    "artifact_path": "unavailable-remaining/ordinary-both/configure.log",
+    "portable_path": "raw/unavailable-remaining/ordinary-both/configure.log",
+    "sha256": "78e2c539c4bc919bf4cc10a215059a7819dd4a7af0f1c3dae408ad786a4300d5",
+    "bytes": 1750
+  },
+  {
+    "artifact_path": "unavailable-remaining/ordinary-both/configure.receipt.json",
+    "portable_path": "raw/unavailable-remaining/ordinary-both/configure.receipt.json",
+    "sha256": "54562621102fb211f57513e01926ad01007d1b0cf1cab03976deca0637a2c2b5",
+    "bytes": 693
+  },
+  {
+    "artifact_path": "unavailable-remaining/ordinary-both/link.log",
+    "portable_path": "raw/unavailable-remaining/ordinary-both/link.log",
+    "sha256": "da5705f31697058fa469c929efd56a9c2718deeb07f306562a087e9f0196a93b",
+    "bytes": 6227
+  },
+  {
+    "artifact_path": "unavailable-remaining/ordinary-both/link.receipt.json",
+    "portable_path": "raw/unavailable-remaining/ordinary-both/link.receipt.json",
+    "sha256": "418368d088b98bd20bfb82d4865e104ae144ec37d83b4cbb9f36fe1f55f99dc8",
+    "bytes": 1571
+  },
+  {
+    "artifact_path": "unavailable-remaining/ordinary-both/receipt.json",
+    "portable_path": "raw/unavailable-remaining/ordinary-both/receipt.json",
+    "sha256": "6089be60b5f04029fc62ca7139e8672fbf6f8c522f83ed96fd46cb6e75a56cd1",
+    "bytes": 41909
+  },
+  {
+    "artifact_path": "unavailable-remaining/ordinary-gpu/build.log",
+    "portable_path": "raw/unavailable-remaining/ordinary-gpu/build.log",
+    "sha256": "326ce7c6904275841b21d09cc70c8d2109fd3259c66656e2b5b43258bb8ad3b9",
+    "bytes": 30228
+  },
+  {
+    "artifact_path": "unavailable-remaining/ordinary-gpu/build.receipt.json",
+    "portable_path": "raw/unavailable-remaining/ordinary-gpu/build.receipt.json",
+    "sha256": "48a4c13a5a56fb76027c3fb9fb4aa052c5b6155ffb8ec6cee8d79f3a1a27e09c",
+    "bytes": 356
+  },
+  {
+    "artifact_path": "unavailable-remaining/ordinary-gpu/configure.log",
+    "portable_path": "raw/unavailable-remaining/ordinary-gpu/configure.log",
+    "sha256": "6c8b493c7b9f76d55e60fbc897b6e1465f9981884cc02e7e9a40576d59b0646c",
+    "bytes": 1749
+  },
+  {
+    "artifact_path": "unavailable-remaining/ordinary-gpu/configure.receipt.json",
+    "portable_path": "raw/unavailable-remaining/ordinary-gpu/configure.receipt.json",
+    "sha256": "7d8dc271ffa57dffe860b65c08ceec3984f9e9fc14ef65401b6834d33ebaf9a5",
+    "bytes": 692
+  },
+  {
+    "artifact_path": "unavailable-remaining/ordinary-gpu/link.log",
+    "portable_path": "raw/unavailable-remaining/ordinary-gpu/link.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "artifact_path": "unavailable-remaining/ordinary-gpu/link.receipt.json",
+    "portable_path": "raw/unavailable-remaining/ordinary-gpu/link.receipt.json",
+    "sha256": "221382845f63321eced7e7a8ef496580b13708534a32eec1877fa36f905fdb23",
+    "bytes": 1162
+  },
+  {
+    "artifact_path": "unavailable-remaining/ordinary-gpu/receipt.json",
+    "portable_path": "raw/unavailable-remaining/ordinary-gpu/receipt.json",
+    "sha256": "1aaca52e1a9e4089b9cb302848e994c676710ed83f1e57fc8a444db427d0eb53",
+    "bytes": 231609
+  },
+  {
+    "artifact_path": "unavailable-remaining/ordinary-gpu/trial-2.stderr",
+    "portable_path": "raw/unavailable-remaining/ordinary-gpu/trial-2.stderr",
+    "sha256": "2d5dea9c3dd1b10c02a1532df27339f4e48a8d0ce6efb5ae72c3de01b5e330d0",
+    "bytes": 126
+  },
+  {
+    "artifact_path": "unavailable-remaining/ordinary-gpu/trial-2.stdout",
+    "portable_path": "raw/unavailable-remaining/ordinary-gpu/trial-2.stdout",
+    "sha256": "b54d2a2cf0ce6068defc865576551d89f08f2602fe763d2cb290490aa2339443",
+    "bytes": 1980
+  },
+  {
+    "artifact_path": "unavailable-routing/native-both/build.log",
+    "portable_path": "raw/unavailable-routing/native-both/build.log",
+    "sha256": "921d8d6c7a5111f72f79955346930a76d45bc94edbeb1db8d6ca7e2055bc7979",
+    "bytes": 52634
+  },
+  {
+    "artifact_path": "unavailable-routing/native-both/build.receipt.json",
+    "portable_path": "raw/unavailable-routing/native-both/build.receipt.json",
+    "sha256": "46dfa40f54575bd1dbe981d72fe83409a84db3de7fe2f53b99e7210afe68d116",
+    "bytes": 373
+  },
+  {
+    "artifact_path": "unavailable-routing/native-both/configure.log",
+    "portable_path": "raw/unavailable-routing/native-both/configure.log",
+    "sha256": "083c2f1abadf06db0bc225e40fcb4bb09bf444c1b9d33bdf52ba03bcf330c3fd",
+    "bytes": 1746
+  },
+  {
+    "artifact_path": "unavailable-routing/native-both/configure.receipt.json",
+    "portable_path": "raw/unavailable-routing/native-both/configure.receipt.json",
+    "sha256": "669df5aec430c0e3236d5e4327e01480e8caa6e115e3f6990d2364900c6f5d31",
+    "bytes": 687
+  },
+  {
+    "artifact_path": "unavailable-routing/native-both/link.log",
+    "portable_path": "raw/unavailable-routing/native-both/link.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "artifact_path": "unavailable-routing/native-both/link.receipt.json",
+    "portable_path": "raw/unavailable-routing/native-both/link.receipt.json",
+    "sha256": "efc6c207aa60ec318f594e0368b4ebba32c2fcd04f2e5632d5240f09a32f5245",
+    "bytes": 1549
+  },
+  {
+    "artifact_path": "unavailable-routing/native-both/receipt.json",
+    "portable_path": "raw/unavailable-routing/native-both/receipt.json",
+    "sha256": "9a30bcb6deb7d2965166711ebdad4f86b2b4034bb5fb41558013902723c372a2",
+    "bytes": 268547
+  },
+  {
+    "artifact_path": "unavailable-routing/native-both/trial-1.stderr",
+    "portable_path": "raw/unavailable-routing/native-both/trial-1.stderr",
+    "sha256": "2d5dea9c3dd1b10c02a1532df27339f4e48a8d0ce6efb5ae72c3de01b5e330d0",
+    "bytes": 126
+  },
+  {
+    "artifact_path": "unavailable-routing/native-both/trial-1.stdout",
+    "portable_path": "raw/unavailable-routing/native-both/trial-1.stdout",
+    "sha256": "b54d2a2cf0ce6068defc865576551d89f08f2602fe763d2cb290490aa2339443",
+    "bytes": 1980
+  },
+  {
+    "artifact_path": "unavailable-routing/native-both/trial-2.stderr",
+    "portable_path": "raw/unavailable-routing/native-both/trial-2.stderr",
+    "sha256": "2d5dea9c3dd1b10c02a1532df27339f4e48a8d0ce6efb5ae72c3de01b5e330d0",
+    "bytes": 126
+  },
+  {
+    "artifact_path": "unavailable-routing/native-both/trial-2.stdout",
+    "portable_path": "raw/unavailable-routing/native-both/trial-2.stdout",
+    "sha256": "b54d2a2cf0ce6068defc865576551d89f08f2602fe763d2cb290490aa2339443",
+    "bytes": 1980
+  },
+  {
+    "artifact_path": "unavailable-routing/native-gpu/build.log",
+    "portable_path": "raw/unavailable-routing/native-gpu/build.log",
+    "sha256": "ef022fa62b3ebd9a815a3cc941cbdda6469ae5e08d39a68e36242dcac632e4d6",
+    "bytes": 29952
+  },
+  {
+    "artifact_path": "unavailable-routing/native-gpu/build.receipt.json",
+    "portable_path": "raw/unavailable-routing/native-gpu/build.receipt.json",
+    "sha256": "3c37407fb1b806863b80c4aa926f1641d8b9526df0039c5490e6d2a785815b9a",
+    "bytes": 352
+  },
+  {
+    "artifact_path": "unavailable-routing/native-gpu/configure.log",
+    "portable_path": "raw/unavailable-routing/native-gpu/configure.log",
+    "sha256": "a63fb5bbea5465d677d4ae76a3c8822676029151ef86bcc0d0225472b0650664",
+    "bytes": 1745
+  },
+  {
+    "artifact_path": "unavailable-routing/native-gpu/configure.receipt.json",
+    "portable_path": "raw/unavailable-routing/native-gpu/configure.receipt.json",
+    "sha256": "912efbfd01de0addf5b27e942765e37c4321b7587921348eadb80756fda36592",
+    "bytes": 686
+  },
+  {
+    "artifact_path": "unavailable-routing/native-gpu/link.log",
+    "portable_path": "raw/unavailable-routing/native-gpu/link.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "artifact_path": "unavailable-routing/native-gpu/link.receipt.json",
+    "portable_path": "raw/unavailable-routing/native-gpu/link.receipt.json",
+    "sha256": "41f4ad175468f8c86148083ed399d4d983babccf30e31789a22b5f2b95743546",
+    "bytes": 1148
+  },
+  {
+    "artifact_path": "unavailable-routing/native-gpu/receipt.json",
+    "portable_path": "raw/unavailable-routing/native-gpu/receipt.json",
+    "sha256": "145c8ee5943aaa07b77d0c5d559dfe62ab1003e5805635921a31391ae975e3d8",
+    "bytes": 230256
+  },
+  {
+    "artifact_path": "unavailable-routing/native-gpu/trial-1.stderr",
+    "portable_path": "raw/unavailable-routing/native-gpu/trial-1.stderr",
+    "sha256": "2d5dea9c3dd1b10c02a1532df27339f4e48a8d0ce6efb5ae72c3de01b5e330d0",
+    "bytes": 126
+  },
+  {
+    "artifact_path": "unavailable-routing/native-gpu/trial-1.stdout",
+    "portable_path": "raw/unavailable-routing/native-gpu/trial-1.stdout",
+    "sha256": "b54d2a2cf0ce6068defc865576551d89f08f2602fe763d2cb290490aa2339443",
+    "bytes": 1980
+  },
+  {
+    "artifact_path": "unavailable-routing/native-gpu/trial-2.stderr",
+    "portable_path": "raw/unavailable-routing/native-gpu/trial-2.stderr",
+    "sha256": "2d5dea9c3dd1b10c02a1532df27339f4e48a8d0ce6efb5ae72c3de01b5e330d0",
+    "bytes": 126
+  },
+  {
+    "artifact_path": "unavailable-routing/native-gpu/trial-2.stdout",
+    "portable_path": "raw/unavailable-routing/native-gpu/trial-2.stdout",
+    "sha256": "b54d2a2cf0ce6068defc865576551d89f08f2602fe763d2cb290490aa2339443",
+    "bytes": 1980
+  },
+  {
+    "artifact_path": "unavailable-routing/ordinary-both/build.log",
+    "portable_path": "raw/unavailable-routing/ordinary-both/build.log",
+    "sha256": "91f9a38a4bf12fcab69a72263c772a3a9a82bc43b8b0885c62aa74cbac8e3138",
+    "bytes": 52854
+  },
+  {
+    "artifact_path": "unavailable-routing/ordinary-both/build.receipt.json",
+    "portable_path": "raw/unavailable-routing/ordinary-both/build.receipt.json",
+    "sha256": "cfcc06350824a75751acb84f866c74022b79cb7233f36716829ef6587cb937b0",
+    "bytes": 375
+  },
+  {
+    "artifact_path": "unavailable-routing/ordinary-both/configure.log",
+    "portable_path": "raw/unavailable-routing/ordinary-both/configure.log",
+    "sha256": "e41967949268e0a0eb7fadd9a1425f4b7af4c878a28b040bd8ace9cdcf2b806b",
+    "bytes": 1748
+  },
+  {
+    "artifact_path": "unavailable-routing/ordinary-both/configure.receipt.json",
+    "portable_path": "raw/unavailable-routing/ordinary-both/configure.receipt.json",
+    "sha256": "8512d658c7945e66a2af30880a2ca334b214068646050aa636acb6a6500bb0e6",
+    "bytes": 691
+  },
+  {
+    "artifact_path": "unavailable-routing/ordinary-both/link.log",
+    "portable_path": "raw/unavailable-routing/ordinary-both/link.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "artifact_path": "unavailable-routing/ordinary-both/link.receipt.json",
+    "portable_path": "raw/unavailable-routing/ordinary-both/link.receipt.json",
+    "sha256": "fad853c1e24e65d6409c45ff8113924c702e848b80790f50656a154ae7125e93",
+    "bytes": 1561
+  },
+  {
+    "artifact_path": "unavailable-routing/ordinary-both/receipt.json",
+    "portable_path": "raw/unavailable-routing/ordinary-both/receipt.json",
+    "sha256": "3e38cb6a53777c3eb252c949d9733cd73242d7cf8c5ef2d77724be3c7dd52d25",
+    "bytes": 269459
+  },
+  {
+    "artifact_path": "unavailable-routing/ordinary-both/trial-1.stderr",
+    "portable_path": "raw/unavailable-routing/ordinary-both/trial-1.stderr",
+    "sha256": "2d5dea9c3dd1b10c02a1532df27339f4e48a8d0ce6efb5ae72c3de01b5e330d0",
+    "bytes": 126
+  },
+  {
+    "artifact_path": "unavailable-routing/ordinary-both/trial-1.stdout",
+    "portable_path": "raw/unavailable-routing/ordinary-both/trial-1.stdout",
+    "sha256": "b54d2a2cf0ce6068defc865576551d89f08f2602fe763d2cb290490aa2339443",
+    "bytes": 1980
+  },
+  {
+    "artifact_path": "unavailable-routing/ordinary-both/trial-2.stderr",
+    "portable_path": "raw/unavailable-routing/ordinary-both/trial-2.stderr",
+    "sha256": "2d5dea9c3dd1b10c02a1532df27339f4e48a8d0ce6efb5ae72c3de01b5e330d0",
+    "bytes": 126
+  },
+  {
+    "artifact_path": "unavailable-routing/ordinary-both/trial-2.stdout",
+    "portable_path": "raw/unavailable-routing/ordinary-both/trial-2.stdout",
+    "sha256": "b54d2a2cf0ce6068defc865576551d89f08f2602fe763d2cb290490aa2339443",
+    "bytes": 1980
+  }
+]

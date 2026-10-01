@@ -1,0 +1,3 @@
+# Keep preserved compiler/test output and compiled sources byte exact.
+raw/** -text -whitespace
+compiled-sources/** -text -whitespace

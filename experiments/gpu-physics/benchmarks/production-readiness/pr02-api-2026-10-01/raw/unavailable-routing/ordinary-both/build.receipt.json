@@ -1,0 +1,14 @@
+{
+  "command": [
+    "cmake",
+    "--build",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-api/unavailable-routing/ordinary-both/cmake",
+    "--target",
+    "gpu_both_api",
+    "gpu_samples_api",
+    "box3d",
+    "-j4"
+  ],
+  "exit": 0,
+  "log_sha256": "91f9a38a4bf12fcab69a72263c772a3a9a82bc43b8b0885c62aa74cbac8e3138"
+}

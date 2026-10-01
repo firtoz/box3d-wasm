@@ -74,7 +74,9 @@ def main():
         # Passthroughs delegate the remaining public APIs to the CPU oracle.
         sigs = both.parse_headers(args.box3d/'include')
         explicit = {n for n, _, _ in definitions(dual)}
-        passthrough = set(sigs) - both.DUAL - explicit
+        # Unavailable GPU operations live in the shared C adapter. Keep them
+        # out of CPU passthroughs without claiming they are dual wrappers.
+        passthrough = set(sigs) - both.DUAL - both.UNAVAILABLE - explicit
         # The guarded compound factory remains authoritative.
         passthrough.discard('b3CreateCompound')
         occupied.update(passthrough)

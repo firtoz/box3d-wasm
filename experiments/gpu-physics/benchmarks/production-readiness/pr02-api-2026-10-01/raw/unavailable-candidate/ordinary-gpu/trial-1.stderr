@@ -1,0 +1,3 @@
+GPU recording is not implemented; no recording file was saved.
+GPU recording is not implemented; no recording file was saved.
+fixture: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/native_unavailable_fixture.cpp:83: int main(int, char**): Assertion `errno==ENOTSUP' failed.

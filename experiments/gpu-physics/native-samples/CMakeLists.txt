@@ -278,7 +278,8 @@ if(GPU_SAMPLES OR BOTH_SAMPLES)
       "${GPU_PHYSICS_LIB}" "${GPU_PHYSICS_DIR}/scripts/prepare-samples-link.py"
       "${GPU_PHYSICS_DIR}/scripts/gen-both-cpu.py"
       "${GPU_PHYSICS_DIR}/c_abi/shim.c" "${GPU_PHYSICS_DIR}/c_abi/samples_api.c"
-      "${GPU_PHYSICS_DIR}/c_abi/samples_stubs.c" "${GPU_PHYSICS_DIR}/c_abi/both_dual.c" ${BASE_C_SOURCES})
+      "${GPU_PHYSICS_DIR}/c_abi/samples_stubs.c" "${GPU_PHYSICS_DIR}/c_abi/both_dual.c"
+      "${GPU_PHYSICS_DIR}/c_abi/native_unavailable.inc" "${GPU_PHYSICS_DIR}/c_abi/native_api_status.h" ${BASE_C_SOURCES})
     set(SHIM_SOURCE "${LINK_SOURCES}/shim.c")
     set(CPU_ORACLE_TARGET box3d_cpu_original)
     list(APPEND PASSTHROUGH_EXTRA --exclude-archive "${GPU_PHYSICS_LIB}")
@@ -330,6 +331,7 @@ if(GPU_SAMPLES OR BOTH_SAMPLES)
         --include-dir "${BOX3D_DIR}/include"
         --objcopy "${BOTH_OBJCOPY}" --nm "${SAMPLES_NM}" ${PASSTHROUGH_EXTRA}
       DEPENDS ${CPU_ORACLE_TARGET} "${GPU_PHYSICS_DIR}/scripts/gen-both-cpu.py" "${GPU_PHYSICS_DIR}/c_abi/both_dual.c"
+        "${GPU_PHYSICS_DIR}/c_abi/native_unavailable.inc"
       COMMENT "Prefixing Box3D symbols with cpu_ for samples_both"
     )
     add_custom_target(gen_box3d_cpu DEPENDS "${BOTH_CPU_LIB}" "${BOTH_PASSTHROUGH}")
