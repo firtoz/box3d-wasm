@@ -253,7 +253,7 @@ rely on conversation history as the sole record of a pending experiment.
 | Workspace / branch / delivered milestone | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu`; solver milestone `695c93ada50220089018009230209e5050ed9252`; partial API milestone `806e634c9b0f5fe58fdd8a9a0dac171e862890d4`; recovery delivery `90efcc44b910233436519f0bee84dff9a38dcacb`. Resolve current HEAD and remote synchronization on continuation |
 | Goal / authorization | Active full roadmap; implementation and verified milestone commit/push explicitly authorized |
 | Current item | PR02 in progress: unavailable operations and focused diagnostic APIs are implemented/verified. Broader supported API behavior and actual counter/tab interactions remain open. PR01 delivered; PR03–PR10 open |
-| Uncommitted implementation | Diagnostic C/Rust/header APIs, shared combined routing, UI labels and schema v24 are verified by the focused campaign. Forty required CPU-first clips are validated/reviewed. Preparing a partial milestone commit; no broader API/viewer/performance acceptance claimed |
+| Current implementation | Diagnostic C/Rust/header APIs, shared combined routing, UI labels and schema v24 are verified by the focused campaign. Forty required CPU-first clips are validated/reviewed. Partial diagnostic milestone `d4e91bca235ce3565b66d5ee031565c857806ede` is committed/pushed. No broader API/viewer/performance acceptance claimed |
 | PR01 delivered candidate | Third candidate keeps6.25mm support only after an actual solid CCD hit (FAST set,CCD_NO_HIT clear); fast tangent/no-hit gaps remain disabled. Default-on unchanged |
 | PR01 closed focused checks |20/20 C confirmations,4/4 stricter guards,CPU tangent reference,10/10 fresh110step raw-v23 repeats with every-step health,126/126 frozen regressions,14storage/comparator controls |
 | Linked API audit | Both current linked builds inventory 415 stateful symbols: 39 explicit exclusions, 0 remaining stubs/placeholders, 0 missing/duplicate symbols and 0 CPU-only comparison passthroughs. Implemented behavior remains unqualified outside the recorded focused cases |
@@ -267,7 +267,7 @@ rely on conversation history as the sole record of a pending experiment.
 | Next discriminating work | Audit directly applicable existing warm-start/speculative/force/replacement/joint-query evidence against current sources; freeze a distinct finite budget only for uncovered required behavior. Actual viewer-control qualification must validate synthetic stimulus delivery before testing controls; do not rerun or extend the stopped tab-only campaign |
 | New frozen diagnostics budget | [Protocol](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-diagnostics-2026-10-01/protocol.json) exhausted: 2/2 baseline GPU, 8/8 candidate C, 4/4 Rust, 16/16 preserved regression processes, storage suite once (16 controls). One candidate; 0 timing runs. All GPU processes pass their stated contract; baseline reproductions do not receive acceptance credit. Do not reuse or extend this campaign |
 | Scope / known remaining failures | Rain physical acceptance and final whole-matrix/API/runtime/build/performance gates remain OPEN. Closed mixed scheduling budget55runs remains closed;no timing/Rain campaign resumed |
-| Last verification | 2026-10-01: HEAD 5c92b57; remote fetch was 0/0. Compiled diagnostic engine inputs still match current sources exactly. Validator passes all 269 files, receipts/budget and 40 clip hashes/formats. Actual GPU Profile observed; Counters/Frame Time screenshots remain Profile and receive no pass. Protected Box3D/WASM paths unchanged; no timing/performance claim |
+| Last verification | 2026-10-01: HEAD `d4e91bca235ce3565b66d5ee031565c857806ede`; milestone push succeeded, remote synchronization verified below. Compiled diagnostic engine inputs still match current sources exactly. Validator passes all 269 files, receipts/budget and 40 clip hashes/formats. Actual GPU Profile observed; Counters/Frame Time screenshots remain Profile and receive no pass. Protected Box3D/WASM paths unchanged; no timing/performance claim |
 
 PR02 partial evidence is under
 `experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/`.
@@ -318,7 +318,7 @@ CMake's viewer include path and shared-generator dependency were completed after
 the C campaign. Four viewer builds verify byte-identical generated adapter sources
 from the campaign, plus separate before/after UI sources, compile commands and
 binary hashes. Their CMake directories are under `.../pr02-diagnostics/c/<backend>-<gpu|both>/cmake`.
-Four viewer builds do not claim actual tab interaction coverage. New required snapshots are now complete; source is still dirty pending milestone commit. Use
+Four viewer builds do not claim actual tab interaction coverage. New required snapshots are now complete; diagnostic source is committed/pushed as `d4e91bca235ce3565b66d5ee031565c857806ede`. Use
 `SKIP_METRICS=1` for GPU recording to avoid starting an unbudgeted timing campaign.
 Preserve the old CPU clips before refreshing the real CPU-first comparison column.
 Freeze recording-app/oracle build inputs and hashes separately; prior PR01 app
@@ -419,3 +419,13 @@ with no rerun or budget extension. Future uncovered-control work must validate
 stimulus delivery first. PR02 stays open. Native diagnostic host occupancy scans
 run once per positive step and GPU peak atomics add unmeasured work; PR08 must
 assess performance rather than assuming no regression. No GPU/build jobs remain.
+
+Partial diagnostic milestone `d4e91bca235ce3565b66d5ee031565c857806ede` is committed and pushed to `feat/gpu`.
+The source matches the frozen diagnostic/recording inputs; the working tree was
+clean after that source commit. PR02 remains unchecked. All stopped/exhausted
+budgets remain closed. Next: supported-API evidence applicability audit and a
+distinct bounded campaign only for uncovered required contracts. Exact existing
+selectors include `accumulated_forces_survive_uploads_and_zero_steps`,
+`replacement_reuses_storage_and_preserves_body_mass_and_metadata`, and
+`reaction_impulses_use_solver_accumulators_for_every_joint_kind`; read their
+assertions before deciding what is still uncovered. No new campaign launched.

@@ -135,3 +135,5 @@ and shape slots once per positive step; device contact peaks add diagnostic atom
 Their cost remains unmeasured and must be assessed under PR08's frozen final-build
 performance protocol. Broader sensor/compound/mesh diagnostic populations and all
 remaining force/replacement/joint/control behavior remain open.
+
+Diagnostic source/evidence milestone: `d4e91bca235ce3565b66d5ee031565c857806ede`, committed and pushed to `feat/gpu`. Subsequent recovery-only documentation changes do not alter compiled inputs. PR02 remains open.
