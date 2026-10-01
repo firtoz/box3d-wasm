@@ -93,3 +93,6 @@ ground/buildings are absent. It is recorded underPR09, not counted as visual
 parity or silently discarded. Renderer sources and private GPU callbacks are
 unchanged by this ownership delta. PR02 remains open for compound getters and
 actual viewer controls; final release qualification is still required.
+
+Source/evidence milestone `6a37c6978069f1f5eca06c9613ed4b1def4c8b5e` is committed and pushed to `feat/gpu`.
+The subsequent recovery-only commit does not change compiled inputs.

@@ -105,3 +105,6 @@ records, exact clip hashes and codec properties without launching physics.
 [Raw index](raw-index.json) identifies every retained file. Review sheets sample
 five fractions of each completed scene window; their times are approximate
 presentation fractions, not synchronized physics-frame comparisons.
+
+Source/evidence milestone `6a37c6978069f1f5eca06c9613ed4b1def4c8b5e` is committed and pushed to `feat/gpu`.
+The subsequent recovery-only commit does not change compiled inputs.
