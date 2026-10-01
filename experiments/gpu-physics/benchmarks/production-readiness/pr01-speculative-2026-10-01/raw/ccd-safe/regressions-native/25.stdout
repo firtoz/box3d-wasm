@@ -1,0 +1,6 @@
+
+running 1 test
+test api::world::mesh_instance_tests::raw_mesh_instances_share_gpu_ranges_and_preserve_affine_support ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 410 filtered out; finished in 0.95s
+

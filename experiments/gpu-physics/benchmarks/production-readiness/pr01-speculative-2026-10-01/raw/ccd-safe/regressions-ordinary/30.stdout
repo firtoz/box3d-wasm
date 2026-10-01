@@ -1,0 +1,6 @@
+
+running 1 test
+test api::world::state_trace::tests::trace_captures_timing_window_replay_policy ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 396 filtered out; finished in 0.75s
+

@@ -1,0 +1,46 @@
+{
+  "link_command": [
+    "g++",
+    "-O2",
+    "-std=c++17",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/speculative_ccd_guard_fixture.cpp",
+    "-I",
+    "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+    "-DGPU_API_DUAL",
+    "-Wl,--wrap=cpu_b3World_EnableSpeculative",
+    "-Wl,--whole-archive",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-both/cmake/libgpu_both_api.a",
+    "-Wl,--no-whole-archive",
+    "-Wl,--whole-archive",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-both/cmake/libgpu_samples_api.a",
+    "-Wl,--no-whole-archive",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-both/libgpu_physics.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-both/cmake/libbox3d_cpu.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-both/cmake/box3d_src/libbox3d.a",
+    "-ldl",
+    "-lpthread",
+    "-lm",
+    "-lgcc_s",
+    "-lGL",
+    "-o",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-both/ccd-guard-fixture"
+  ],
+  "executable_sha256": "0052e32590b145393c0ac3bfefb92ee78cd5e7241d4878ee5c336e0cd10b962d",
+  "source_sha256": "5c81da5e59edeae14712e1414d9f3614ac236f12b8440c994a1751c394d57a93",
+  "included_source_sha256": "5632fbc8eacce7712604705c3b633303137c5dd74f66162fc04faa01b2b0ce24",
+  "linked_inputs": {
+    "c_abi/speculative_fixture.cpp": "5632fbc8eacce7712604705c3b633303137c5dd74f66162fc04faa01b2b0ce24",
+    "artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-both/cmake/box3d_src/libbox3d.a": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7",
+    "artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-both/cmake/libgpu_samples_api.a": "be0f1b7ff8a7f4a2333562eb5fdfe61ce6cfe75ef20aaaab3e36532d55dd224d",
+    "artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-both/libgpu_physics.a": "642b10948cc3f0b3d35554cdce867241fd096be5efb8ef08ce1a9f161c29a4e0",
+    "artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-both/cmake/libbox3d_cpu.a": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d"
+  },
+  "environment": {
+    "GPU_PHYSICS_ADAPTER": "nvidia",
+    "GPU_PHYSICS_BACKEND": "vulkan",
+    "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/pipelines",
+    "WGPU_BACKEND": "vulkan"
+  },
+  "exit": 0,
+  "elapsed_seconds": 1.161784316005651
+}

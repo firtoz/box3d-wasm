@@ -172,4 +172,22 @@ class RetirementCandidateTests(unittest.TestCase):
             del other['contact_allocation'][key]
         self.assertEqual(self.compare_frames(other)['status'],'fail')
 
+class SpeculativePolicyTests(unittest.TestCase):
+    compare_frames = ContactIdentityTests.compare_frames
+
+    def setUp(self):
+        RetirementCandidateTests.setUp(self)
+        self.frame['schema']='gpu-core-state-v23'
+        self.frame['host_state'].update(enable_speculative=True,speculative_changed=False,enable_warm_starting=True)
+
+    def test_policy_flags_are_required_and_exact(self):
+        self.assertEqual(self.compare_frames(self.frame)['status'],'pass')
+        for key in ['enable_speculative','speculative_changed','enable_warm_starting']:
+            other=copy.deepcopy(self.frame);other['host_state'][key]=not other['host_state'][key]
+            self.assertEqual(self.compare_frames(other)['status'],'fail')
+            other=copy.deepcopy(self.frame);del other['host_state'][key]
+            with self.assertRaises(ValueError):self.compare_frames(other)
+            other=copy.deepcopy(self.frame);other['host_state'][key]=1
+            with self.assertRaises(ValueError):self.compare_frames(other)
+
 if __name__ == '__main__': unittest.main()

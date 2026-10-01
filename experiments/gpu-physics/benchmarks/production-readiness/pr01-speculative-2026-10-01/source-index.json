@@ -1,0 +1,144 @@
+[
+  {
+    "receipt": "baseline-native-build.json",
+    "base_revision": "bd4f7966151028542297be81a330e80e83687531",
+    "base_path": "experiments/gpu-physics",
+    "overlays": {},
+    "unresolved": []
+  },
+  {
+    "receipt": "baseline-ordinary-build.json",
+    "base_revision": "bd4f7966151028542297be81a330e80e83687531",
+    "base_path": "experiments/gpu-physics",
+    "overlays": {},
+    "unresolved": []
+  },
+  {
+    "receipt": "ccd-safe/build-native.json",
+    "base_revision": "bd4f7966151028542297be81a330e80e83687531",
+    "base_path": "experiments/gpu-physics",
+    "overlays": {
+      "src/api/world/host_state_trace.rs": "source-overlays/ea01be83c45aaffd/src/api/world/host_state_trace.rs",
+      "src/api/world/state_trace.rs": "source-overlays/77261336d215af5d/src/api/world/state_trace.rs",
+      "src/api/world.rs": "source-overlays/ee2e9c3eac6f8eb2/src/api/world.rs",
+      "src/c_abi.rs": "source-overlays/902e5891b5cbafd0/src/c_abi.rs",
+      "src/sim.rs": "source-overlays/0bbdc7c54671b308/src/sim.rs",
+      "src/types.rs": "source-overlays/446a35e8f05fdd56/src/types.rs",
+      "shaders/physics/collide.wgsl": "source-overlays/2dfc17d67103c580/shaders/physics/collide.wgsl",
+      "shaders/physics/types.wgsl": "source-overlays/04fd58b01519872e/shaders/physics/types.wgsl"
+    },
+    "unresolved": []
+  },
+  {
+    "receipt": "ccd-safe/build-ordinary.json",
+    "base_revision": "bd4f7966151028542297be81a330e80e83687531",
+    "base_path": "experiments/gpu-physics",
+    "overlays": {
+      "src/api/world/host_state_trace.rs": "source-overlays/ea01be83c45aaffd/src/api/world/host_state_trace.rs",
+      "src/api/world/state_trace.rs": "source-overlays/77261336d215af5d/src/api/world/state_trace.rs",
+      "src/api/world.rs": "source-overlays/ee2e9c3eac6f8eb2/src/api/world.rs",
+      "src/c_abi.rs": "source-overlays/902e5891b5cbafd0/src/c_abi.rs",
+      "src/sim.rs": "source-overlays/0bbdc7c54671b308/src/sim.rs",
+      "src/types.rs": "source-overlays/446a35e8f05fdd56/src/types.rs",
+      "shaders/physics/collide.wgsl": "source-overlays/2dfc17d67103c580/shaders/physics/collide.wgsl",
+      "shaders/physics/types.wgsl": "source-overlays/04fd58b01519872e/shaders/physics/types.wgsl"
+    },
+    "unresolved": []
+  },
+  {
+    "receipt": "ccd-safe/test-build-native.json",
+    "base_revision": "bd4f7966151028542297be81a330e80e83687531",
+    "base_path": "experiments/gpu-physics",
+    "overlays": {
+      "src/api/world/host_state_trace.rs": "source-overlays/ea01be83c45aaffd/src/api/world/host_state_trace.rs",
+      "src/api/world/state_trace.rs": "source-overlays/77261336d215af5d/src/api/world/state_trace.rs",
+      "src/api/world.rs": "source-overlays/1664f4a6c0b7d33a/src/api/world.rs",
+      "src/c_abi.rs": "source-overlays/902e5891b5cbafd0/src/c_abi.rs",
+      "src/sim.rs": "source-overlays/0bbdc7c54671b308/src/sim.rs",
+      "src/types.rs": "source-overlays/446a35e8f05fdd56/src/types.rs",
+      "shaders/physics/collide.wgsl": "source-overlays/2dfc17d67103c580/shaders/physics/collide.wgsl",
+      "shaders/physics/types.wgsl": "source-overlays/04fd58b01519872e/shaders/physics/types.wgsl"
+    },
+    "unresolved": []
+  },
+  {
+    "receipt": "ccd-safe/test-build-ordinary.json",
+    "base_revision": "bd4f7966151028542297be81a330e80e83687531",
+    "base_path": "experiments/gpu-physics",
+    "overlays": {
+      "src/api/world/host_state_trace.rs": "source-overlays/ea01be83c45aaffd/src/api/world/host_state_trace.rs",
+      "src/api/world/state_trace.rs": "source-overlays/77261336d215af5d/src/api/world/state_trace.rs",
+      "src/api/world.rs": "source-overlays/1664f4a6c0b7d33a/src/api/world.rs",
+      "src/c_abi.rs": "source-overlays/902e5891b5cbafd0/src/c_abi.rs",
+      "src/sim.rs": "source-overlays/0bbdc7c54671b308/src/sim.rs",
+      "src/types.rs": "source-overlays/446a35e8f05fdd56/src/types.rs",
+      "shaders/physics/collide.wgsl": "source-overlays/2dfc17d67103c580/shaders/physics/collide.wgsl",
+      "shaders/physics/types.wgsl": "source-overlays/04fd58b01519872e/shaders/physics/types.wgsl"
+    },
+    "unresolved": []
+  },
+  {
+    "receipt": "handoff/build-native.json",
+    "base_revision": "bd4f7966151028542297be81a330e80e83687531",
+    "base_path": "experiments/gpu-physics",
+    "overlays": {
+      "src/api/world/host_state_trace.rs": "source-overlays/ea01be83c45aaffd/src/api/world/host_state_trace.rs",
+      "src/api/world/state_trace.rs": "source-overlays/77261336d215af5d/src/api/world/state_trace.rs",
+      "src/api/world.rs": "source-overlays/1664f4a6c0b7d33a/src/api/world.rs",
+      "src/c_abi.rs": "source-overlays/902e5891b5cbafd0/src/c_abi.rs",
+      "src/sim.rs": "source-overlays/0bbdc7c54671b308/src/sim.rs",
+      "src/types.rs": "source-overlays/446a35e8f05fdd56/src/types.rs",
+      "shaders/physics/collide.wgsl": "source-overlays/9a18212e31eed653/shaders/physics/collide.wgsl",
+      "shaders/physics/types.wgsl": "source-overlays/04fd58b01519872e/shaders/physics/types.wgsl"
+    },
+    "unresolved": []
+  },
+  {
+    "receipt": "handoff/build-ordinary.json",
+    "base_revision": "bd4f7966151028542297be81a330e80e83687531",
+    "base_path": "experiments/gpu-physics",
+    "overlays": {
+      "src/api/world/host_state_trace.rs": "source-overlays/ea01be83c45aaffd/src/api/world/host_state_trace.rs",
+      "src/api/world/state_trace.rs": "source-overlays/77261336d215af5d/src/api/world/state_trace.rs",
+      "src/api/world.rs": "source-overlays/1664f4a6c0b7d33a/src/api/world.rs",
+      "src/c_abi.rs": "source-overlays/902e5891b5cbafd0/src/c_abi.rs",
+      "src/sim.rs": "source-overlays/0bbdc7c54671b308/src/sim.rs",
+      "src/types.rs": "source-overlays/446a35e8f05fdd56/src/types.rs",
+      "shaders/physics/collide.wgsl": "source-overlays/9a18212e31eed653/shaders/physics/collide.wgsl",
+      "shaders/physics/types.wgsl": "source-overlays/04fd58b01519872e/shaders/physics/types.wgsl"
+    },
+    "unresolved": []
+  },
+  {
+    "receipt": "handoff/test-build-native.json",
+    "base_revision": "bd4f7966151028542297be81a330e80e83687531",
+    "base_path": "experiments/gpu-physics",
+    "overlays": {
+      "src/api/world/host_state_trace.rs": "source-overlays/ea01be83c45aaffd/src/api/world/host_state_trace.rs",
+      "src/api/world/state_trace.rs": "source-overlays/77261336d215af5d/src/api/world/state_trace.rs",
+      "src/api/world.rs": "source-overlays/1664f4a6c0b7d33a/src/api/world.rs",
+      "src/c_abi.rs": "source-overlays/902e5891b5cbafd0/src/c_abi.rs",
+      "src/sim.rs": "source-overlays/0bbdc7c54671b308/src/sim.rs",
+      "src/types.rs": "source-overlays/446a35e8f05fdd56/src/types.rs",
+      "shaders/physics/collide.wgsl": "source-overlays/9a18212e31eed653/shaders/physics/collide.wgsl",
+      "shaders/physics/types.wgsl": "source-overlays/04fd58b01519872e/shaders/physics/types.wgsl"
+    },
+    "unresolved": []
+  },
+  {
+    "receipt": "handoff/test-build-ordinary.json",
+    "base_revision": "bd4f7966151028542297be81a330e80e83687531",
+    "base_path": "experiments/gpu-physics",
+    "overlays": {
+      "src/api/world/host_state_trace.rs": "source-overlays/ea01be83c45aaffd/src/api/world/host_state_trace.rs",
+      "src/api/world/state_trace.rs": "source-overlays/77261336d215af5d/src/api/world/state_trace.rs",
+      "src/api/world.rs": "source-overlays/1664f4a6c0b7d33a/src/api/world.rs",
+      "src/c_abi.rs": "source-overlays/902e5891b5cbafd0/src/c_abi.rs",
+      "src/sim.rs": "source-overlays/0bbdc7c54671b308/src/sim.rs",
+      "src/types.rs": "source-overlays/446a35e8f05fdd56/src/types.rs",
+      "shaders/physics/collide.wgsl": "source-overlays/9a18212e31eed653/shaders/physics/collide.wgsl",
+      "shaders/physics/types.wgsl": "source-overlays/04fd58b01519872e/shaders/physics/types.wgsl"
+    },
+    "unresolved": []
+  }
+]

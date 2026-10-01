@@ -1,0 +1,39 @@
+{
+  "link_command": [
+    "g++",
+    "-O2",
+    "-std=c++17",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/speculative_ccd_guard_fixture.cpp",
+    "-I",
+    "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+    "-Wl,--whole-archive",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-gpu/cmake/libgpu_samples_api.a",
+    "-Wl,--no-whole-archive",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-gpu/libgpu_physics.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-gpu/cmake/box3d_src/libbox3d.a",
+    "-ldl",
+    "-lpthread",
+    "-lm",
+    "-lgcc_s",
+    "-lGL",
+    "-o",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-gpu/ccd-guard-fixture"
+  ],
+  "executable_sha256": "56a35905e0adddb73a795ba177fb5ef7698aab8e40f87a55846fdaca557c2bde",
+  "source_sha256": "5c81da5e59edeae14712e1414d9f3614ac236f12b8440c994a1751c394d57a93",
+  "included_source_sha256": "5632fbc8eacce7712604705c3b633303137c5dd74f66162fc04faa01b2b0ce24",
+  "linked_inputs": {
+    "c_abi/speculative_fixture.cpp": "5632fbc8eacce7712604705c3b633303137c5dd74f66162fc04faa01b2b0ce24",
+    "artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-gpu/cmake/box3d_src/libbox3d.a": "89a9885175a093466e480e39be39451b843bc7b40e86ca8f9259ee2faa9c1f1c",
+    "artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-gpu/cmake/libgpu_samples_api.a": "e4c8e49a0a8b6ed351f5d31828f0bc620a350dcaeb8b44832f38b5cefd96f138",
+    "artifacts/production-readiness/pr01-speculative/ccd-safe/ordinary-gpu/libgpu_physics.a": "642b10948cc3f0b3d35554cdce867241fd096be5efb8ef08ce1a9f161c29a4e0"
+  },
+  "environment": {
+    "GPU_PHYSICS_ADAPTER": "nvidia",
+    "GPU_PHYSICS_BACKEND": "vulkan",
+    "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/pipelines",
+    "WGPU_BACKEND": "vulkan"
+  },
+  "exit": 0,
+  "elapsed_seconds": 1.7909309239767026
+}

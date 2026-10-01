@@ -1,0 +1,4 @@
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+SIMD inertia against captured scalar mesh oracle: 8 / 16 differ

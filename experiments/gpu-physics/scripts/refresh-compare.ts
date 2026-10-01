@@ -31,6 +31,7 @@ const SAMPLES = [
   "offset-kinematic",
   "falling-ragdolls",
   "ragdoll-rain",
+  "sbox-ghost-collisions",
 ] as const;
 
 type Metrics = {

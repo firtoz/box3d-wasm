@@ -1,0 +1,89 @@
+{
+  "configuration": "native",
+  "frames": 110,
+  "fresh_process_budget": 5,
+  "selector": "api::world::speculative_policy_tests::speculative_mesh_controls_capture_complete_step_state",
+  "binary_sha256": "1bfba4e089b1dbb525a0b4f7aadccad707e2cbf47bdc2077490726ec14152a13",
+  "environment": {
+    "GPU_PHYSICS_AB": "bounded-static-sort",
+    "GPU_PHYSICS_ADAPTER": "nvidia",
+    "GPU_PHYSICS_BACKEND": "vulkan",
+    "GPU_PHYSICS_COMPONENT_TGS": "1",
+    "GPU_PHYSICS_FULL_REPLAY": "1",
+    "GPU_PHYSICS_GPU_CCD": "1",
+    "GPU_PHYSICS_GRAPH_MEMO": "1",
+    "GPU_PHYSICS_GRAPH_SHARED": "1",
+    "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+    "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+    "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+    "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+    "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+    "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+    "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+    "GPU_PHYSICS_PAIR_MATRIX": "1",
+    "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/pipelines",
+    "GPU_PHYSICS_RESIDENT": "1",
+    "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+    "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+    "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+    "WGPU_BACKEND": "vulkan"
+  },
+  "scope": "Exact v23 captured semantic state for this control fixture only; final release whole-matrix PR07 remains open",
+  "runs": [
+    {
+      "trial": 1,
+      "exit": 0,
+      "health": {
+        "status": "pass",
+        "frames": 110,
+        "input": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/state-native/trial-1.jsonl",
+        "scope": "No captured capacity loss, invalid-state flag or completion mismatch; not physical or full-state qualification"
+      },
+      "trace_sha256": "4f187488d6bc73c9299b7f21e2d90ade2ea6139ca425f4da92cd4bfbfdb43195"
+    },
+    {
+      "trial": 2,
+      "exit": 0,
+      "health": {
+        "status": "pass",
+        "frames": 110,
+        "input": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/state-native/trial-2.jsonl",
+        "scope": "No captured capacity loss, invalid-state flag or completion mismatch; not physical or full-state qualification"
+      },
+      "trace_sha256": "4f187488d6bc73c9299b7f21e2d90ade2ea6139ca425f4da92cd4bfbfdb43195"
+    },
+    {
+      "trial": 3,
+      "exit": 0,
+      "health": {
+        "status": "pass",
+        "frames": 110,
+        "input": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/state-native/trial-3.jsonl",
+        "scope": "No captured capacity loss, invalid-state flag or completion mismatch; not physical or full-state qualification"
+      },
+      "trace_sha256": "4f187488d6bc73c9299b7f21e2d90ade2ea6139ca425f4da92cd4bfbfdb43195"
+    },
+    {
+      "trial": 4,
+      "exit": 0,
+      "health": {
+        "status": "pass",
+        "frames": 110,
+        "input": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/state-native/trial-4.jsonl",
+        "scope": "No captured capacity loss, invalid-state flag or completion mismatch; not physical or full-state qualification"
+      },
+      "trace_sha256": "4f187488d6bc73c9299b7f21e2d90ade2ea6139ca425f4da92cd4bfbfdb43195"
+    },
+    {
+      "trial": 5,
+      "exit": 0,
+      "health": {
+        "status": "pass",
+        "frames": 110,
+        "input": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/state-native/trial-5.jsonl",
+        "scope": "No captured capacity loss, invalid-state flag or completion mismatch; not physical or full-state qualification"
+      },
+      "trace_sha256": "4f187488d6bc73c9299b7f21e2d90ade2ea6139ca425f4da92cd4bfbfdb43195"
+    }
+  ]
+}

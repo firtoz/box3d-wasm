@@ -1,0 +1,9 @@
+guard continuous=0 moving=0 height=0.504999995 contacts=0 y=0.504999995
+guard continuous=0 moving=0 height=0.50999999 contacts=0 y=0.50999999
+guard continuous=0 moving=1 height=0.504999995 contacts=0 y=0.504999995
+guard continuous=0 moving=1 height=0.50999999 contacts=0 y=0.50999999
+guard continuous=1 moving=0 height=0.504999995 contacts=0 y=0.504999995
+guard continuous=1 moving=0 height=0.50999999 contacts=0 y=0.50999999
+guard continuous=1 moving=1 height=0.504999995 contacts=0 y=0.504999995
+guard continuous=1 moving=1 height=0.50999999 contacts=0 y=0.50999999
+speculative-ccd-guard=pass

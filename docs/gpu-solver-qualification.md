@@ -5895,3 +5895,44 @@ prepared then cast. Next address outer-state/residual precision, preserving the
 strict reference checks and separately tracking the existing runtime wave
 stopping criterion. No GPU/physical/repeat/performance claim; full objective and
 all remaining gates intact. No production edit or live job.
+
+### PR01 speculative world controls: functional acceptance, release gates remain open (2026-10-01)
+
+The production-readiness roadmap now owns the continuation queue. Its first
+control implementation gates experimental hull–mesh speculative contacts per
+world, preserves endpoint flags and default behavior, and routes the combined
+setter to both mapped worlds. An actual preceding solid CCD hit retains the
+existing 6.25 mm landing support shell. Fast tangent/no-hit gaps remain disabled.
+The pinned CPU world flag has no collision consumer; CPU shape flags provide the
+independent isolated control. No CPU world-toggle parity is claimed.
+
+The [portable PR01 report](../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md)
+retains exact compiled-source/build/library/executable receipts, all fixed
+protocols, failures, raw v23 captures and charts. The zero-shell variant tunnels
+and is rejected. The broader fast-body guard passes its CCD checks but adds
+positive-gap contacts without a hit and is rejected on semantic scope. The
+current handoff candidate passes 20 fresh C confirmations, four stricter guards,
+ten 110-step raw-state repeats with every-step health, and 63 frozen regressions
+per backend. Fourteen storage/comparison controls pass. Schema v23 adds required
+world/pending-policy booleans; old schemas remain readable. This is control
+fixture evidence, not the final whole-matrix qualification.
+
+Real CPU and native GPU viewers each complete 300 steps of s&box Ghost Collisions
+with no ghost launches or unhealthy completion. Both fail an additional 5 mm
+floor screen at the same initial landing height, 0.908670902 m on step 6 versus
+0.9094 m. Maximum CPU/GPU height difference over the recording is 0.00143975 m;
+agreement does not erase the failed screen. The separately frozen one-run
+pre-PR01 baseline diagnostic times out during startup after 180 seconds and
+receives no qualification credit or selective retry. Offline float32 integration
+independently matches both engines’ first six heights and vertical velocities
+exactly; the unchanged native/GPU mesh glancing filter leaves this discrete
+landing. The added all-window5mm bound is not the separate150m/s normal-impact
+fixture’s assertion applied to equivalent motion. Its failure remains retained;
+no bound is raised and the original0.495m isolated CCD check remains passing.
+The source applicability review closes PR01’s original functional contract,
+without introducing a final physical tolerance for this scene. PR03/PR04/PR07
+retain complete physical qualification and PR05 owns current runtime/startup
+checks. All20standard pre-commit scene pairs are delivered as40portable clips
+with compiled-source receipts/hashes; first/last visual review is complete.
+No timing, Rain acceptance, default-policy change or production-readiness claim
+follows this control milestone.

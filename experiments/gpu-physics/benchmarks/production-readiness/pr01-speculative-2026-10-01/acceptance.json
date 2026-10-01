@@ -1,0 +1,98 @@
+{
+  "item": "PR01",
+  "status": "pass after source applicability review",
+  "requirements": [
+    {
+      "requirement": "Per-world policy/default and exclusions",
+      "evidence": [
+        "raw/handoff/ordinary-gpu/receipt.json"
+      ],
+      "status": "pass"
+    },
+    {
+      "requirement": "Mapped combined routing",
+      "evidence": [
+        "raw/handoff/ordinary-both/receipt.json"
+      ],
+      "status": "pass"
+    },
+    {
+      "requirement": "Native GPU/combined paths",
+      "evidence": [
+        "raw/handoff/native-gpu/receipt.json",
+        "raw/handoff/native-both/receipt.json"
+      ],
+      "status": "pass"
+    },
+    {
+      "requirement": "Endpoint/world transitions,zero steps,world lifetimes",
+      "evidence": [
+        "../../../c_abi/speculative_fixture.cpp",
+        "raw/handoff/regressions-ordinary/receipt.json",
+        "raw/handoff/regressions-native/receipt.json"
+      ],
+      "status": "pass"
+    },
+    {
+      "requirement": "Original CCD safety and no-hit gap semantics",
+      "evidence": [
+        "raw/handoff/ordinary-gpu/ccd-guard.json",
+        "raw/handoff/native-gpu/ccd-guard.json",
+        "raw/handoff/cpu-tangent.json"
+      ],
+      "status": "pass"
+    },
+    {
+      "requirement": "Five fresh control repeats/full captured state per backend",
+      "evidence": [
+        "raw/handoff/state-ordinary/comparison.json",
+        "raw/handoff/state-native/comparison.json"
+      ],
+      "status": "pass"
+    },
+    {
+      "requirement": "Relevant existing regressions and schema checks",
+      "evidence": [
+        "raw/handoff/regression-selectors.json",
+        "raw/state-storage-checks.log"
+      ],
+      "status": "pass"
+    },
+    {
+      "requirement": "Compiled source/binary provenance and actual adapter",
+      "evidence": [
+        "source-index.json",
+        "raw/handoff/build-ordinary.json",
+        "raw/handoff/build-native.json"
+      ],
+      "status": "pass"
+    },
+    {
+      "requirement": "Linked API/docs",
+      "evidence": [
+        "raw/handoff/api-audit-ordinary.json",
+        "raw/handoff/api-audit-native.json",
+        "../../../../../docs/gpu-physics.md"
+      ],
+      "status": "pass"
+    },
+    {
+      "requirement": "Required CPU-first recordings and review",
+      "evidence": [
+        "recordings.json",
+        "comparison-grid.json",
+        "native-review.png",
+        "recording-review/group-1.png",
+        "recording-review/group-2.png",
+        "recording-review/group-3.png",
+        "recording-review/group-4.png"
+      ],
+      "status": "pass"
+    }
+  ],
+  "source_applicability_review": "source-review.json",
+  "failed_additional_screen_retained": "raw/handoff/native-scene-{cpu,gpu}/review.json;5mm all-window screen remainsFAIL;zero raised tolerance/replacement pass",
+  "basis": "The original PR01 control protocols pass every assertion. Independent source/float32 analysis explains the extra scene landing through discrete integration and unchanged mesh CCD filtering. That added all-window bound belongs to a different normal-impact fixture; it is not evidence that this control changes early landing or breaks its original acceptance. Full physical contract/qualification remains open underPR03/PR04/PR07.",
+  "baseline_attribution": "Incomplete180s startup diagnostic retained,never counted as a pass or a baseline comparison",
+  "release_scope": "Focused control implementation milestone only;PR02\u2013PR10 remain open"
+}

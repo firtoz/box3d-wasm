@@ -1,0 +1,28 @@
+{
+  "goal": "PR01",
+  "hypothesis": "Use the captured existing FLAG_FAST and FLAG_CCD_NO_HIT handoff state: retain the 6.25mm landing shell only when an endpoint actually had a solid CCD correction on the preceding step, rather than for every fast body. Preserve world/shape false semantics for fast non-hit/tangent gaps.",
+  "distinct_defect": "Previous candidate adds a positive-gap manifold for fast tangent motion with no CCD hit; documented native shape false semantics discard positive-gap hull/mesh points. This is a semantic-scope fix, not an extension of timing trials.",
+  "candidate_budget": 1,
+  "public_confirmation_runs": 20,
+  "configurations": [
+    "ordinary-gpu",
+    "ordinary-both",
+    "native-gpu",
+    "native-both"
+  ],
+  "fresh_runs_per_configuration": 5,
+  "guard_checks": 4,
+  "full_state_fresh_runs": 10,
+  "full_state_frames": 110,
+  "cpu_tangent_reference_checks": 1,
+  "regressions": "Same63 frozen selectors once/backend; no tolerances relaxed",
+  "timing_runs": 0,
+  "acceptance": "All original contact/CCD/transition/lifecycle assertions plus zero contacts for fast non-hit/tangent positive gaps. Exact public and raw v23 control repeats on each backend.",
+  "stop": "Stop/retain on first failure; no retry or additional candidate within this protocol. Previous budgets remain closed and every result is retained.",
+  "public_confirmation_consumed": 20,
+  "guard_checks_consumed": 4,
+  "full_state_fresh_consumed": 10,
+  "cpu_tangent_reference_consumed": 1,
+  "results": "20 C confirmations,4 guard controls,CPU tangent reference,ten110frame raw v23 repeats with every-step health,and126 regressions pass. No timing runs. Required recordings/publication pending.",
+  "regression_checks_consumed": 126
+}

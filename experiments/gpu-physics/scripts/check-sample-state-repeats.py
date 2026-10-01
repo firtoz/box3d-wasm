@@ -63,7 +63,7 @@ def validate_trace(path, steps):
         for count, line in enumerate(f, 1):
             h.update(line)
             frame = json.loads(line)
-            if frame.get('schema') not in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22') or frame.get('frame') != count:
+            if frame.get('schema') not in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23') or frame.get('frame') != count:
                 raise ValueError(f'{path}: invalid frame/schema at {count}')
             if any(not isinstance(frame.get(k), list) for k in ['bodies', 'joints', 'contacts']):
                 raise ValueError(f'{path}: missing physical state at {count}')

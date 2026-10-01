@@ -1,0 +1,72 @@
+{
+  "configuration": "ordinary",
+  "frames": 110,
+  "fresh_process_budget": 5,
+  "selector": "api::world::speculative_policy_tests::speculative_mesh_controls_capture_complete_step_state",
+  "binary_sha256": "5eab1f6d4629a3f8131f562f44de9c4543f132f0d8262d85f5a1b52c0c5cc387",
+  "environment": {
+    "GPU_PHYSICS_ADAPTER": "nvidia",
+    "GPU_PHYSICS_BACKEND": "vulkan",
+    "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+    "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/pipelines",
+    "WGPU_BACKEND": "vulkan"
+  },
+  "scope": "Exact v23 captured semantic state for this control fixture only; final release whole-matrix PR07 remains open",
+  "runs": [
+    {
+      "trial": 1,
+      "exit": 0,
+      "health": {
+        "status": "pass",
+        "frames": 110,
+        "input": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/state-ordinary/trial-1.jsonl",
+        "scope": "No captured capacity loss, invalid-state flag or completion mismatch; not physical or full-state qualification"
+      },
+      "trace_sha256": "a7430701f3a80be6e4b9f4b2c0d5634679ee5badf37035bfd4b2bd7ba68370c4"
+    },
+    {
+      "trial": 2,
+      "exit": 0,
+      "health": {
+        "status": "pass",
+        "frames": 110,
+        "input": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/state-ordinary/trial-2.jsonl",
+        "scope": "No captured capacity loss, invalid-state flag or completion mismatch; not physical or full-state qualification"
+      },
+      "trace_sha256": "a7430701f3a80be6e4b9f4b2c0d5634679ee5badf37035bfd4b2bd7ba68370c4"
+    },
+    {
+      "trial": 3,
+      "exit": 0,
+      "health": {
+        "status": "pass",
+        "frames": 110,
+        "input": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/state-ordinary/trial-3.jsonl",
+        "scope": "No captured capacity loss, invalid-state flag or completion mismatch; not physical or full-state qualification"
+      },
+      "trace_sha256": "a7430701f3a80be6e4b9f4b2c0d5634679ee5badf37035bfd4b2bd7ba68370c4"
+    },
+    {
+      "trial": 4,
+      "exit": 0,
+      "health": {
+        "status": "pass",
+        "frames": 110,
+        "input": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/state-ordinary/trial-4.jsonl",
+        "scope": "No captured capacity loss, invalid-state flag or completion mismatch; not physical or full-state qualification"
+      },
+      "trace_sha256": "a7430701f3a80be6e4b9f4b2c0d5634679ee5badf37035bfd4b2bd7ba68370c4"
+    },
+    {
+      "trial": 5,
+      "exit": 0,
+      "health": {
+        "status": "pass",
+        "frames": 110,
+        "input": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/state-ordinary/trial-5.jsonl",
+        "scope": "No captured capacity loss, invalid-state flag or completion mismatch; not physical or full-state qualification"
+      },
+      "trace_sha256": "a7430701f3a80be6e4b9f4b2c0d5634679ee5badf37035bfd4b2bd7ba68370c4"
+    }
+  ]
+}

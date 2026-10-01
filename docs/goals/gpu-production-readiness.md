@@ -6,7 +6,7 @@ whole objective, maintain this file, and use the goal-scratchpad skill. This is
 the authoritative production-readiness queue for `feat/gpu`.
 
 Updated: 2026-10-01. Status: active; full roadmap and verified milestone commit/push authorized by the submitted goal.
-Next item: **PR01 — working world-level speculative-contact control**.
+Next item: **PR02 — native API contract and truthful controls/diagnostics**.
 
 ## Objective and release boundary
 
@@ -49,7 +49,7 @@ when closing it. Keep detailed physical results in
 status in [`../gpu-physics.md`](../gpu-physics.md), and this file as the concise
 queue and recovery record. No separate competing production backlog.
 
-- [ ] **PR01 — Implement speculative-contact world controls.** Replace the
+- [x] **PR01 — Implement speculative-contact world controls.** Replace the
   no-op `b3World_EnableSpeculative` with real per-world behavior and correct
   combined-viewer routing. Preserve the default and upstream semantics, including
   interaction with per-shape flags, creation and runtime off/on transitions,
@@ -57,7 +57,14 @@ queue and recovery record. No separate competing production backlog.
   interaction with CCD on both backends using independent CPU/GPU fixtures.
   Relevant default-behavior, lifecycle and repeatability checks must pass.
   Update API audit/docs and record affected scenes before a solver commit.
-  **Evidence:** OPEN.
+  **Evidence:** [requirement audit](../../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/acceptance.json),
+  [portable report/receipts/raw state/recordings](../../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md).
+  Compiled ordinary/native inputs and library/test hashes are exact in those
+  receipts. The added all-window floor screen remains failed; source analysis
+  explains its discrete landing scope without raising a tolerance. The archived
+  baseline startup diagnostic remains incomplete and never counts as a pass.
+  Final physical/runtime qualification remains under PR03–PR07. Milestone
+  commit/push is being finalized.
 
 - [ ] **PR02 — Close the native API contract and remaining truthful-control gaps.**
   Audit current linked symbols, Rust/C implementations and combined wrappers;
@@ -239,27 +246,68 @@ rely on conversation history as the sole record of a pending experiment.
 
 | Field | Verified value |
 | --- | --- |
-| Workspace / branch | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu` |
-| Starting revision | `d9d77230abb59414ae781281261b0e2055797008` |
-| Goal status / authorization | Active full-roadmap goal; user explicitly authorizes implementation and commit/push of verified milestones |
-| Current item / next action | PR01: upstream world flag has no collision consumer; clarify world-gate scope, freeze focused fixtures, implement and verify both backends |
-| New candidate / build identity | None; no production-ready candidate claimed |
-| Jobs / completed runs / remaining budget | No jobs launched for this roadmap; no campaign budget yet frozen |
-| Known blockers | World speculative control is a no-op; Rain physical acceptance and final-build whole-matrix/repeat/performance gates remain open |
-| Completed prerequisites | Warm-start controls and bounded scheduling work have existing evidence; audit applicability before relying on them |
-| Rejected work to preserve | Mixed split scheduler failed; production changes restored. All 55 trials retained; original budget exhausted |
-| Commit/push / worktree | Saving the roadmap activation milestone; branch and fetched origin start synchronized; Box3D unchanged |
-| Last verification | 2026-10-01: source references for enableSpeculative audited; no GPU jobs running; implementation not yet edited |
+| Workspace / branch / HEAD | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu`, `bd4f7966151028542297be81a330e80e83687531`; remote comparison0/0 |
+| Goal / authorization | Active full roadmap; implementation and verified milestone commit/push explicitly authorized |
+| Current item | PR01 functional acceptance verified; milestone commit/push pending. PR02 next. PR03–PR10 remain open |
+| Candidate | Third candidate keeps6.25mm support only after an actual solid CCD hit (FAST set,CCD_NO_HIT clear); fast tangent/no-hit gaps remain disabled. Default-on unchanged |
+| Focused verified checks |20/20 C confirmations,4/4 stricter guards,CPU tangent reference,10/10 fresh110step raw-v23 repeats with every-step health,126/126 frozen regressions,14storage/comparator controls |
+| Linked API audit | Both backends:415required stateful symbols,0additional missing/duplicates,35stubs,8known placeholders,10CPU-only wrappers to review; setter implemented/mapped. Remaining gaps belong to PR02 |
+| Build/source proof | Frozen ordinary/native library and test receipts;10engine input sets resolved byte-exactly from base Git plus source overlays. Renderer/oracle and serial native-viewer compiled inputs/binaries recorded separately |
+| Native scene finding | Zero ghost launches/healthy300step CPU/GPU runs. Both FAIL additional5mm all-window screen on step6. Offline source calculation independently matches both engines’ first6heights/vertical velocities exactly asfloat32; unchanged mesh glancing filter leaves discrete landing. Original isolated0.495m CCD bound/tolerances remain passing and unchanged; failed extra screen retained |
+| Attribution budget | One separately frozen pre-PR01 native baseline diagnostic consumed; startup times out180s,0completed results. Retained logs/invalid capture;no qualification credit or selective retry |
+| Original rejected budget | Zero-shell:baseline1,CPUreference1,CPUdiagnostic1,GPUtrial1/20,GPUdiagnostic1;CCD fails,remaining19cancelled. Broad guard:20C/4guard/10state/126regressions pass but semantic no-hit gap defect rejects it. Neither budget reused |
+| Recordings |40standard CPU/GPU clips complete:300frames,1280×720,30fps. Plus native s&box pair. Real CPU first,latest GPU next;shared wide mixed camera. Portable full clips/manifests/hashes and first/last review sheets included;old CPU column archived locally |
+| Processes | All build/check/capture batches terminal;no GPU jobs running. Publication also terminal. Initial shared SDK-cache viewer build failure retained;serial fully disconnected rebuild passes |
+| Portable evidence | `experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md`;raw index,source overlays,charts,all results and42valid clips. Invalid baseline capture remains local with portable failure/hash receipts |
+| Next discriminating work | Finalize PR01 commit/push and verify remote; then PR02 review of every remaining placeholder/CPU-only wrapper, counters/contact-count/profile/capacity semantics and truthful unsupported operations. Freeze a finite C/Rust/viewer verification protocol before new runs |
+| Scope / known remaining failures | Rain physical acceptance and final whole-matrix/API/runtime/build/performance gates remain OPEN. Closed mixed scheduling budget55runs remains closed;no timing/Rain campaign resumed |
+| Last verification |2026-10-01:PR01 requirement/source-applicability audit passes;all4library/test input receipts remain byte-exact;checks/recordings complete;Git whitespace clean;Box3D/WASM unchanged. Delivery pending |
 
-PR01 discovery: the pinned CPU world toggle only assigns `world->enableSpeculative`
-and serializes it; no collision code reads it. The per-shape switch explicitly
-covers hull/triangle contacts only, while sphere/capsule and convex speculation
-remain enabled. A preference question is pending about gating this existing
-supported feature versus a broader all-pairs GPU contract. Proposed scope is the
-existing hull/mesh gate, with the upstream shape switches as the independent CPU
-reference. Do not claim CPU world-toggle parity for behavior it does not implement.
+PR01 discovery: pinned CPU `b3World_EnableSpeculative` only stores/serializes a
+flag; collision code never reads it. Its shape switch covers hull/triangle only,
+with sphere/capsule and convex speculation retained. After allowing time for an
+optional preference question, use this existing hull/mesh scope. The CPU shape
+flags are an independent reference for isolated controls; do not claim CPU world
+toggle parity or promote the unsafe CPU shape-off CCD result to a pass.
+
+The first zero-shell implementation reproduced CPU shape-off CCD tunnelling.
+The second guard preserved floor safety and repeated exactly, but its recorded
+5mm fast tangent gap has contacts=1 despite no CCD impact. This conflicts with
+the documented shape-off positive-gap behavior and can revive ghost witnesses;
+the native s&box Ghost Collisions scene specifically disables hull speculation.
+Reject that broader guard instead of closing PR01 on narrower passing checks.
+
+The third distinct hypothesis uses existing captured body flags to distinguish
+an actual solid CCD handoff (FAST set, CCD_NO_HIT clear) from mere fast motion.
+Only the actual handoff retains `LINEAR_SLOP + 0.25*LINEAR_SLOP`. All original
+limits remain unchanged, and independent CPU fast/tangent gap controls pass
+with no contacts. Budgets/stop rules are separately frozen; prior campaigns and
+unfavorable trials remain closed/retained. No timing campaign is running.
+
+Core-state capture advances to v23 for the future-relevant world policy and
+pending refresh flag. Readers retain old schemas and require valid Boolean
+policy fields in v23. Native full replay already keys every SimParams byte;
+meshes are ineligible for full replay. Both five-process control captures and
+all63 selected checks/backend have also been freshly requalified on the
+handoff candidate; prior rejected results were not carried forward.
+
+Required20standard scenes are now recorded through the scripts with real CPU
+first, latest GPU next; all40clips have300frames at1280×720/30fps. Both regions
+are visible in mixed-topology's shared wide camera. Old CPU clips remain in a
+local archive and older datasets are untouched. Portable clips, manifests,
+compiled-input receipts and four first/last review sheets are in the PR01 report.
+The native s&box pair is also recorded/reviewed. Initial/end geometry and motion
+are plausible; visual comparisons do not close analytical physics gates. The extra floor-screen failure is retained. Independent source/float32 analysis
+explains this glancing/discrete landing; it does not raise a limit or claim full
+scene physics qualification. The0.495m isolated normal-impact CCD bound and all
+existing checks remain unchanged/passing. The180s baseline diagnostic cannot
+distinguish slow first-time collision compilation from a hang; it is incomplete,
+not a baseline pass. PR01 functional gates close after this applicability review;
+final physical/runtime gates remain open. No live jobs.
 
 Evidence and recovery sources:
+
+- [PR01 report and retained raw data](../../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md): control/repeat/regression passes, rejected variants, native floor failure and incomplete attribution. Source/float32 review explains the initial discrete landing; failed screen and incomplete startup diagnostic remain visible. Final physical/runtime qualification remains open.
 
 - [`gpu-warm-start.md`](gpu-warm-start.md): completed control implementation;
   old narrower exclusions apply to that completed task.
@@ -272,7 +320,9 @@ Evidence and recovery sources:
 
 When activated, use `experiments/gpu-physics/artifacts/production-readiness/`
 for local captures and `experiments/gpu-physics/benchmarks/production-readiness/`
-for portable reports/receipts. They have not been created by this documentation
-task. Record each actual path, command, exit, source revision, build/input hashes,
+for portable reports/receipts. PR01 local baseline/candidate build logs, frozen libraries and source receipts
+are under artifacts/production-readiness/pr01-speculative; portable evidence and current recordings are in the linked PR01 report.
+Its source-applicability review closes the original functional contract while
+retaining the extra failed screen and incomplete startup diagnostic. Record each actual path, command, exit, source revision, build/input hashes,
 adapter/driver, budget consumption, result and next discriminating action here
 or in its linked item report. Mark PR10 complete only after a final evidence audit.

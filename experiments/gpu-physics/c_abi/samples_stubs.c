@@ -24,11 +24,6 @@ B3_API void b3World_RebuildStaticTree(b3WorldId worldId)
 	(void)sizeof(char);
 }
 
-B3_API void b3World_EnableSpeculative(b3WorldId worldId, bool flag)
-{
-	(void)sizeof(char);
-}
-
 B3_API const uint8_t* b3Recording_GetData(const b3Recording* recording)
 {
 	(void)sizeof(char);

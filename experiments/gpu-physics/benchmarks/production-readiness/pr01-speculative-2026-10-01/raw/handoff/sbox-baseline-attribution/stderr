@@ -1,0 +1,11 @@
+sokol(level warn) (no message)
+[gfx/info] GPU: llvmpipe (LLVM 22.1.8, 256 bits) (Mesa)
+sokol-capacity: 65536 debug shapes and opaque instances per stream
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=2082 mesh_triangles=3592 mesh_nodes=1022 materials=256 joints=16 scene_heap_bytes=356960 max=536870912
+physics-pipeline-cache: loaded 13574233 bytes
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=2082 mesh_triangles=3592 mesh_nodes=1022 materials=256 joints=16 scene_heap_bytes=356960 max=536870912
+gpu-scene-input shapes=3 mesh_vertices=2082 mesh_triangles=3592 scene_heap_bytes=356960
+GPU pose export: Vulkan opaque FD 37 (28672 bytes)

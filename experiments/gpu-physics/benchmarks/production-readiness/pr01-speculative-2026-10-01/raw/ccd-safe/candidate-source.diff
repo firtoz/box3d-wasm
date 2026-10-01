@@ -1,0 +1,597 @@
+diff --git a/experiments/gpu-physics/c_abi/both_dual.c b/experiments/gpu-physics/c_abi/both_dual.c
+index c72b324..4c961e3 100644
+--- a/experiments/gpu-physics/c_abi/both_dual.c
++++ b/experiments/gpu-physics/c_abi/both_dual.c
+@@ -3510,6 +3510,14 @@ extern void gpu_b3_joint_get_constraint_torque(b3JointId, float*);
+ B3_API b3Vec3 b3Joint_GetConstraintTorque(b3JointId id) { b3Vec3 v; gpu_b3_joint_get_constraint_torque(id, &v.x); return v; }
+ 
+ extern void gpu_b3_world_enable_warm_starting(b3WorldId id, bool enable);
++extern void gpu_b3_world_enable_speculative(b3WorldId id, bool enable);
++extern void cpu_b3World_EnableSpeculative(b3WorldId id, bool enable);
++
++B3_API void b3World_EnableSpeculative(b3WorldId id, bool enable)
++{
++    gpu_b3_world_enable_speculative(id, enable);
++    if (both_has_cpu_world(id)) { cpu_b3World_EnableSpeculative(both_cpu_world(id), enable); }
++}
+ extern bool gpu_b3_world_is_warm_starting_enabled(b3WorldId id);
+ extern void cpu_b3World_EnableWarmStarting(b3WorldId id, bool enable);
+ B3_API void b3World_EnableWarmStarting(b3WorldId id, bool enable)
+diff --git a/experiments/gpu-physics/c_abi/samples_stubs.c b/experiments/gpu-physics/c_abi/samples_stubs.c
+index 9dc01fd..c0a1674 100644
+--- a/experiments/gpu-physics/c_abi/samples_stubs.c
++++ b/experiments/gpu-physics/c_abi/samples_stubs.c
+@@ -24,11 +24,6 @@ B3_API void b3World_RebuildStaticTree(b3WorldId worldId)
+ 	(void)sizeof(char);
+ }
+ 
+-B3_API void b3World_EnableSpeculative(b3WorldId worldId, bool flag)
+-{
+-	(void)sizeof(char);
+-}
+-
+ B3_API const uint8_t* b3Recording_GetData(const b3Recording* recording)
+ {
+ 	(void)sizeof(char);
+diff --git a/experiments/gpu-physics/c_abi/shim.c b/experiments/gpu-physics/c_abi/shim.c
+index a6368af..984df0a 100644
+--- a/experiments/gpu-physics/c_abi/shim.c
++++ b/experiments/gpu-physics/c_abi/shim.c
+@@ -3222,6 +3222,12 @@ extern void gpu_b3_joint_get_constraint_torque(b3JointId, float*);
+ B3_API b3Vec3 b3Joint_GetConstraintTorque(b3JointId id) { b3Vec3 v; gpu_b3_joint_get_constraint_torque(id, &v.x); return v; }
+ 
+ extern void gpu_b3_world_enable_warm_starting(b3WorldId id, bool enable);
++extern void gpu_b3_world_enable_speculative(b3WorldId id, bool enable);
++
++B3_API void b3World_EnableSpeculative(b3WorldId id, bool enable)
++{
++    gpu_b3_world_enable_speculative(id, enable);
++}
+ extern bool gpu_b3_world_is_warm_starting_enabled(b3WorldId id);
+ #ifndef BOTH_SAMPLES
+ B3_API void b3World_EnableWarmStarting(b3WorldId id, bool enable)
+diff --git a/experiments/gpu-physics/scripts/check-core-state-health.py b/experiments/gpu-physics/scripts/check-core-state-health.py
+index 4f66133..67c9bfb 100644
+--- a/experiments/gpu-physics/scripts/check-core-state-health.py
++++ b/experiments/gpu-physics/scripts/check-core-state-health.py
+@@ -7,7 +7,7 @@ from pathlib import Path
+ 
+ 
+ def check_frame(frame, number):
+-    if frame.get('schema') not in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22') or frame.get('frame') != number:
++    if frame.get('schema') not in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23') or frame.get('frame') != number:
+         raise ValueError(f'frame {number}: unsupported schema or nonsequential frame')
+     policy, idle = frame['gpu_policy'], frame['idle_state']
+     expected = {
+diff --git a/experiments/gpu-physics/scripts/check-sample-state-repeats.py b/experiments/gpu-physics/scripts/check-sample-state-repeats.py
+index 3f8bcb0..0b8773f 100644
+--- a/experiments/gpu-physics/scripts/check-sample-state-repeats.py
++++ b/experiments/gpu-physics/scripts/check-sample-state-repeats.py
+@@ -63,7 +63,7 @@ def validate_trace(path, steps):
+         for count, line in enumerate(f, 1):
+             h.update(line)
+             frame = json.loads(line)
+-            if frame.get('schema') not in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22') or frame.get('frame') != count:
++            if frame.get('schema') not in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23') or frame.get('frame') != count:
+                 raise ValueError(f'{path}: invalid frame/schema at {count}')
+             if any(not isinstance(frame.get(k), list) for k in ['bodies', 'joints', 'contacts']):
+                 raise ValueError(f'{path}: missing physical state at {count}')
+diff --git a/experiments/gpu-physics/scripts/compare-core-state.py b/experiments/gpu-physics/scripts/compare-core-state.py
+index 3b278eb..987ceac 100644
+--- a/experiments/gpu-physics/scripts/compare-core-state.py
++++ b/experiments/gpu-physics/scripts/compare-core-state.py
+@@ -29,8 +29,8 @@ def audited_storage_view(frame):
+     hash placement, solver order, public arrays and physical state stay exact.
+     See docs/gpu-solver-qualification.md and the perturbation regressions.
+     """
+-    if frame.get('schema') not in ('gpu-core-state-v19', 'gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'):
+-        raise ValueError('audited storage comparison requires schema v19 through v22')
++    if frame.get('schema') not in ('gpu-core-state-v19', 'gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23'):
++        raise ValueError('audited storage comparison requires schema v19 through v23')
+     key = lambda value: json.dumps(value, sort_keys=True, separators=(',', ':'))
+     allocation = frame.get('contact_allocation')
+     history = frame.get('event_history')
+@@ -70,77 +70,77 @@ def compare(paths,frames,*,audited_storage=False):
+             if any(line is None for line in lines):raise ValueError(f'frame {count}: truncated trace')
+             docs=[json.loads(line) for line in lines]
+             for d in docs:
+-                if d.get('schema') not in ['gpu-core-state-v1','gpu-core-state-v2','gpu-core-state-v3','gpu-core-state-v4','gpu-core-state-v5','gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'] or d.get('frame')!=count:
++                if d.get('schema') not in ['gpu-core-state-v1','gpu-core-state-v2','gpu-core-state-v3','gpu-core-state-v4','gpu-core-state-v5','gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23'] or d.get('frame')!=count:
+                     raise ValueError(f'frame {count}: schema or step mismatch')
+                 for key in ['bodies','joints','contacts']:
+                     if not isinstance(d.get(key),list):raise ValueError(f'frame {count}: missing {key}')
+-                if d['schema'] in ['gpu-core-state-v2','gpu-core-state-v3','gpu-core-state-v4','gpu-core-state-v5','gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:
++                if d['schema'] in ['gpu-core-state-v2','gpu-core-state-v3','gpu-core-state-v4','gpu-core-state-v5','gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23']:
+                     for key,kind in [('contact_history',dict),('contact_color_order',list),
+                                      ('fat_bounds',list),('pending_transforms',list),('host_flags',dict)]:
+                         if not isinstance(d.get(key),kind):
+                             raise ValueError(f'frame {count}: missing or invalid {key}')
+-                if d['schema'] in ['gpu-core-state-v3','gpu-core-state-v4','gpu-core-state-v5','gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:
++                if d['schema'] in ['gpu-core-state-v3','gpu-core-state-v4','gpu-core-state-v5','gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23']:
+                     for body in d['bodies']:
+                         if not isinstance(body.get('gpu_motion'),dict):
+                             raise ValueError(f'frame {count}: missing GPU body motion state')
+-                if d['schema'] in ['gpu-core-state-v4','gpu-core-state-v5','gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'] and not isinstance(d.get('body_storage_order'),list):
++                if d['schema'] in ['gpu-core-state-v4','gpu-core-state-v5','gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23'] and not isinstance(d.get('body_storage_order'),list):
+                     raise ValueError(f'frame {count}: missing body processing order')
+-                if d['schema'] in ['gpu-core-state-v5','gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:
++                if d['schema'] in ['gpu-core-state-v5','gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23']:
+                     for key,kind in [('shapes',list),('geometries',list),('shape_storage_order',list),('body_allocation',dict)]:
+                         if not isinstance(d.get(key),kind):raise ValueError(f'frame {count}: missing {key}')
+                     for shape in d['shapes']:
+                         index=shape.get('geometry')
+                         if type(index) is not int or not 0<=index<len(d['geometries']):
+                             raise ValueError(f'frame {count}: invalid shape geometry reference')
+-                if d['schema'] in ['gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'] and not isinstance(d.get('gpu_colliders'),list):
++                if d['schema'] in ['gpu-core-state-v6','gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23'] and not isinstance(d.get('gpu_colliders'),list):
+                     raise ValueError(f'frame {count}: missing GPU collider state')
+-                if d['schema'] in ['gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:
++                if d['schema'] in ['gpu-core-state-v7','gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23']:
+                     geometry=d.get('gpu_geometry')
+                     if not isinstance(geometry,dict):raise ValueError(f'frame {count}: missing GPU geometry')
+                     for key in ['hull_points','hull_planes','hull_edges','hull_topology','mesh_vertices','mesh_triangles','mesh_nodes','mix_table']:
+                         if not isinstance(geometry.get(key),list):raise ValueError(f'frame {count}: missing GPU {key}')
+-                if d['schema'] in ['gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:
++                if d['schema'] in ['gpu-core-state-v8','gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23']:
+                     for collider in d['gpu_colliders']:
+                         for key in ['bounds_shape','query_shape']:
+                             if type(collider.get(key)) is not int:raise ValueError(f'frame {count}: missing GPU {key} reference')
+-                if d['schema'] in ['gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'] and not isinstance(d.get('idle_state'),dict):
++                if d['schema'] in ['gpu-core-state-v9','gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23'] and not isinstance(d.get('idle_state'),dict):
+                     raise ValueError(f'frame {count}: missing idle proof state')
+-                if d['schema'] in ['gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'] and not isinstance(d.get('graph_cache'),dict):
++                if d['schema'] in ['gpu-core-state-v10','gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23'] and not isinstance(d.get('graph_cache'),dict):
+                     raise ValueError(f'frame {count}: missing graph cache state')
+-                if d['schema'] in ['gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'] and not isinstance(d.get('contact_allocation'),dict):
++                if d['schema'] in ['gpu-core-state-v11','gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23'] and not isinstance(d.get('contact_allocation'),dict):
+                     raise ValueError(f'frame {count}: missing contact allocation state')
+-                if d['schema'] in ['gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:
++                if d['schema'] in ['gpu-core-state-v12','gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23']:
+                     for key in ['contact_hash','event_history']:
+                         if not isinstance(d.get(key),dict):raise ValueError(f'frame {count}: missing {key}')
+-                if d['schema'] in ['gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:
++                if d['schema'] in ['gpu-core-state-v13','gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23']:
+                     events=d.get('contact_end_state')
+                     if not isinstance(events,dict):raise ValueError(f'frame {count}: missing contact end state')
+                     for key in ['published','deferred','ended_keys']:
+                         if not isinstance(events.get(key),list):raise ValueError(f'frame {count}: missing contact end {key}')
+-                if d['schema'] in ['gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:
++                if d['schema'] in ['gpu-core-state-v14','gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23']:
+                     contacts=d.get('host_contacts')
+                     if not isinstance(contacts,dict):raise ValueError(f'frame {count}: missing host contacts')
+                     for key in ['registry','live','by_body','by_shape','by_id','begins','ends','hits','deferred_ends']:
+                         if not isinstance(contacts.get(key),list):raise ValueError(f'frame {count}: missing host contacts {key}')
+-                if d['schema'] in ['gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:
++                if d['schema'] in ['gpu-core-state-v15','gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23']:
+                     events=d.get('host_events')
+                     if not isinstance(events,dict):raise ValueError(f'frame {count}: missing host events')
+                     for key in ['sensor_overlaps','sensor_begins','sensor_ends','deferred_sensor_ends','continuous_sensor_hits','body_moves','joint_events']:
+                         if not isinstance(events.get(key),list):raise ValueError(f'frame {count}: missing host events {key}')
+-                if d['schema'] in ['gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:
++                if d['schema'] in ['gpu-core-state-v16','gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23']:
+                     host=d.get('host_state')
+                     if not isinstance(host,dict):raise ValueError(f'frame {count}: missing host state')
+                     for key,kind in [('definition',dict),('step_start_bodies',list),('body_mirrors',list),('callbacks_present',dict)]:
+                         if not isinstance(host.get(key),kind):raise ValueError(f'frame {count}: missing host {key}')
+                     for key in ['cached_topology','scene_capabilities','query_index','gpu_ccd_cache_key']:
+                         if key not in host:raise ValueError(f'frame {count}: missing host {key}')
+-                if d['schema'] in ['gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:
++                if d['schema'] in ['gpu-core-state-v17','gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23']:
+                     policy=d.get('gpu_policy')
+                     if not isinstance(policy,dict):raise ValueError(f'frame {count}: missing GPU policy')
+                     for key,kind in [('parameters',dict),('capacities',dict),('body_sleep_thresholds',list),('fat_geometry',list)]:
+                         if not isinstance(policy.get(key),kind):raise ValueError(f'frame {count}: missing GPU policy {key}')
+                     if 'native' not in policy:raise ValueError(f'frame {count}: missing native GPU cache state')
+-                if d['schema'] in ['gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22']:
++                if d['schema'] in ['gpu-core-state-v18','gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23']:
+                     if not isinstance(d.get('adapter'),dict):raise ValueError(f'frame {count}: missing selected adapter')
+                     if 'convex_ccd' not in d:raise ValueError(f'frame {count}: missing convex CCD state')
+                     ccd=d['convex_ccd']
+@@ -148,14 +148,14 @@ def compare(paths,frames,*,audited_storage=False):
+                         if not isinstance(ccd,dict):raise ValueError(f'frame {count}: invalid convex CCD state')
+                         for key in ['config','points','bodies','shapes','indices','start']:
+                             if not isinstance(ccd.get(key),list):raise ValueError(f'frame {count}: missing CCD {key}')
+-                if d['schema'] in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'):
++                if d['schema'] in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23'):
+                     if not isinstance(d['body_allocation'].get('generations'),list):raise ValueError(f'frame {count}: missing body generations')
+                     for contact in d['contacts']:
+                         if not isinstance(contact.get('sat_cache_words'),list) or len(contact['sat_cache_words'])!=2:
+                             raise ValueError(f'frame {count}: missing contact SAT cache')
+                     for joint in d['joints']:
+                         if 'motor_spring_angular_impulse' not in joint:raise ValueError(f'frame {count}: missing motor spring state')
+-                if d['schema'] in ('gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22'):
++                if d['schema'] in ('gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23'):
+                     for contact in d['contacts']:
+                         for key, point_key in [('feature_id_words','feature_id'), ('point_triangle_words','triangle')]:
+                             words=contact.get(key)
+@@ -166,7 +166,7 @@ def compare(paths,frames,*,audited_storage=False):
+                                 raise ValueError(f'frame {count}: invalid contact points')
+                             if any(point.get(point_key)!=words[i] for i,point in enumerate(points)):
+                                 raise ValueError(f'frame {count}: inconsistent contact {key}')
+-                if d['schema'] in ('gpu-core-state-v21','gpu-core-state-v22'):
++                if d['schema'] in ('gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23'):
+                     history=d['contact_history']
+                     lookup=history.get('slot_to_rank')
+                     capacity=d.get('gpu_policy',{}).get('parameters',{}).get('contact_capacity')
+@@ -180,7 +180,7 @@ def compare(paths,frames,*,audited_storage=False):
+                             raise ValueError(f'frame {count}: invalid saved history identity')
+                         if record['physical_slot']>=capacity:
+                             raise ValueError(f'frame {count}: history slot out of range')
+-                if d['schema']=='gpu-core-state-v22':
++                if d['schema'] in ('gpu-core-state-v22','gpu-core-state-v23',):
+                     allocation=d['contact_allocation']
+                     counts=[allocation.get(k) for k in ('candidate_unique_count','candidate_contact_count')]
+                     slots=allocation.get('candidate_slots')
+@@ -189,6 +189,10 @@ def compare(paths,frames,*,audited_storage=False):
+                         raise ValueError(f'frame {count}: invalid candidate counts')
+                     if not isinstance(slots,list) or len(slots)!=min(max(counts),capacity) or any(type(v) is not int or not 0<=v<=0xffffffff for v in slots):
+                         raise ValueError(f'frame {count}: invalid candidate slots')
++                if d['schema']=='gpu-core-state-v23':
++                    for key in ['enable_speculative','speculative_changed','enable_warm_starting']:
++                        if type(d['host_state'].get(key)) is not bool:
++                            raise ValueError(f'frame {count}: missing or invalid host {key}')
+             if audited_storage:
+                 docs = [audited_storage_view(d) for d in docs]
+             for path,d in zip(paths[1:],docs[1:]):
+diff --git a/experiments/gpu-physics/scripts/gen-both-cpu.py b/experiments/gpu-physics/scripts/gen-both-cpu.py
+index 980cf5c..c7e879f 100644
+--- a/experiments/gpu-physics/scripts/gen-both-cpu.py
++++ b/experiments/gpu-physics/scripts/gen-both-cpu.py
+@@ -8,6 +8,7 @@ import subprocess
+ from pathlib import Path
+ 
+ DUAL = {
++    "b3World_EnableSpeculative",
+     "b3World_EnableWarmStarting",
+     "b3World_IsWarmStartingEnabled",
+     "b3Shape_SetSphere",
+diff --git a/experiments/gpu-physics/scripts/rain-episode-diagnostics/extract.py b/experiments/gpu-physics/scripts/rain-episode-diagnostics/extract.py
+index 661f3c7..b7562b2 100644
+--- a/experiments/gpu-physics/scripts/rain-episode-diagnostics/extract.py
++++ b/experiments/gpu-physics/scripts/rain-episode-diagnostics/extract.py
+@@ -31,7 +31,7 @@ with opener(a.trace,'rb') as stream, partial.open('w') as output:
+  previous_frame=None
+  for line in stream:
+   d=json.loads(line);number=d.get('frame')
+-  if d.get('schema') not in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22') or type(number) is not int or number<1:raise ValueError('schema/frame mismatch')
++  if d.get('schema') not in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23') or type(number) is not int or number<1:raise ValueError('schema/frame mismatch')
+   if previous_frame is not None and number!=previous_frame+1:raise ValueError('noncontiguous trace frames')
+   previous_frame=number
+   if number<a.first+1:continue
+diff --git a/experiments/gpu-physics/scripts/test-core-state-storage.py b/experiments/gpu-physics/scripts/test-core-state-storage.py
+index 46c7ad3..ce49f3e 100644
+--- a/experiments/gpu-physics/scripts/test-core-state-storage.py
++++ b/experiments/gpu-physics/scripts/test-core-state-storage.py
+@@ -172,4 +172,22 @@ class RetirementCandidateTests(unittest.TestCase):
+             del other['contact_allocation'][key]
+         self.assertEqual(self.compare_frames(other)['status'],'fail')
+ 
++class SpeculativePolicyTests(unittest.TestCase):
++    compare_frames = ContactIdentityTests.compare_frames
++
++    def setUp(self):
++        RetirementCandidateTests.setUp(self)
++        self.frame['schema']='gpu-core-state-v23'
++        self.frame['host_state'].update(enable_speculative=True,speculative_changed=False,enable_warm_starting=True)
++
++    def test_policy_flags_are_required_and_exact(self):
++        self.assertEqual(self.compare_frames(self.frame)['status'],'pass')
++        for key in ['enable_speculative','speculative_changed','enable_warm_starting']:
++            other=copy.deepcopy(self.frame);other['host_state'][key]=not other['host_state'][key]
++            self.assertEqual(self.compare_frames(other)['status'],'fail')
++            other=copy.deepcopy(self.frame);del other['host_state'][key]
++            with self.assertRaises(ValueError):self.compare_frames(other)
++            other=copy.deepcopy(self.frame);other['host_state'][key]=1
++            with self.assertRaises(ValueError):self.compare_frames(other)
++
+ if __name__ == '__main__': unittest.main()
+diff --git a/experiments/gpu-physics/shaders/physics/collide.wgsl b/experiments/gpu-physics/shaders/physics/collide.wgsl
+index b2558c1..b400360 100644
+--- a/experiments/gpu-physics/shaders/physics/collide.wgsl
++++ b/experiments/gpu-physics/shaders/physics/collide.wgsl
+@@ -2179,8 +2179,21 @@ fn mesh_speculative_keep(convex: Shape, mesh: Shape) -> f32 {
+     // Native's experimental switch applies only to hull/triangle contacts,
+     // and either endpoint may disable it. Sphere/capsule speculation is retained.
+     let hull = convex.kind == KIND_BOX || convex.kind == KIND_CONVEX_HULL;
+-    let disabled = ((convex.event_flags | mesh.event_flags) & SHAPE_DISABLE_SPECULATIVE) != 0u;
+-    return select(SPECULATIVE, 0.0, hull && disabled);
++    let disabled = ((convex.event_flags | mesh.event_flags) & SHAPE_DISABLE_SPECULATIVE) != 0u
++        || (params.diagnostic_flags & SOLVER_DISABLE_SPECULATIVE) != 0u;
++    if (hull && disabled) {
++        // TOI lands at LINEAR_SLOP with a quarter-slop acceptance tolerance.
++        // Its initial-contact fallback relies on a discrete support manifold;
++        // removing that narrow shell lets the next fast step tunnel to the
++        // centroid fallback. Retain CCD support, independent of the wider
++        // experimental speculative range. Resting gap controls still use zero.
++        let fast = (load_body(convex.body_index).flags | load_body(mesh.body_index).flags) & FLAG_FAST;
++        if (params.enable_continuous != 0u && fast != 0u) {
++            return 1.25 * LINEAR_SLOP;
++        }
++        return 0.0;
++    }
++    return SPECULATIVE;
+ }
+ 
+ fn mesh_push_child(
+@@ -4058,7 +4071,10 @@ fn collide_pairs(
+     let fast_mesh = params.enable_continuous != 0u
+         && (shape_a.kind == KIND_MESH || shape_b.kind == KIND_MESH)
+         && ((body_a.flags | body_b.flags) & FLAG_FAST) != 0u;
+-    if (!sensor_pair && prev_order_ok && !fast_mesh && contact_chain_structure_valid(slot)) {
++    let refresh_speculative = (params.diagnostic_flags & SOLVER_REFRESH_SPECULATIVE) != 0u
++        && ((shape_a.kind == KIND_MESH && (shape_b.kind == KIND_BOX || shape_b.kind == KIND_CONVEX_HULL))
++            || (shape_b.kind == KIND_MESH && (shape_a.kind == KIND_BOX || shape_a.kind == KIND_CONVEX_HULL)));
++    if (!sensor_pair && prev_order_ok && !fast_mesh && !refresh_speculative && contact_chain_structure_valid(slot)) {
+         let recycle_a = load_body(previous.a);
+         let recycle_b = load_body(previous.b);
+         let count = max(previous.manifold_link.z, 1u);
+diff --git a/experiments/gpu-physics/shaders/physics/types.wgsl b/experiments/gpu-physics/shaders/physics/types.wgsl
+index 6d89ce2..fd3ef76 100644
+--- a/experiments/gpu-physics/shaders/physics/types.wgsl
++++ b/experiments/gpu-physics/shaders/physics/types.wgsl
+@@ -408,6 +408,8 @@ const DIAG_SERIAL_JOINTS: u32 = 8192u;
+ const DIAG_PARALLEL_JOINTS: u32 = 16384u;
+ const DIAG_MESH_CANDIDATES: u32 = 32768u;
+ const SOLVER_PAIRED_NORMALS: u32 = 262144u;
++const SOLVER_DISABLE_SPECULATIVE: u32 = 524288u;
++const SOLVER_REFRESH_SPECULATIVE: u32 = 1048576u;
+ const MESH_TRACE_WORDS: u32 = 32769u;
+ const JOINT_FILTER_CAP: u32 = 4096u;
+ const JOINT_FILTER_PROBE: u32 = 32u;
+diff --git a/experiments/gpu-physics/src/api/world.rs b/experiments/gpu-physics/src/api/world.rs
+index 7543585..925cc0f 100644
+--- a/experiments/gpu-physics/src/api/world.rs
++++ b/experiments/gpu-physics/src/api/world.rs
+@@ -297,6 +297,8 @@ struct WorldInner {
+     def: WorldDef,
+     enable_contacts: bool,
+     enable_warm_starting: bool,
++    enable_speculative: bool,
++    speculative_changed: bool,
+     custom_filter_callback: Option<CustomFilterCallback>,
+     custom_filter_context: usize,
+     pre_solve_callback: Option<PreSolveCallback>,
+@@ -403,6 +405,8 @@ pub fn b3_create_world(gpu: GpuDevice, def: &WorldDef) -> WorldId {
+         def: *def,
+         enable_contacts: true,
+         enable_warm_starting: true,
++        enable_speculative: true,
++        speculative_changed: false,
+         custom_filter_callback: None,
+         custom_filter_context: 0,
+         pre_solve_callback: None,
+@@ -570,6 +574,21 @@ pub fn b3_world_is_warm_starting_enabled(id: WorldId) -> bool {
+     with_world(id, |w| w.enable_warm_starting).unwrap_or(false)
+ }
+ 
++/// Gate the experimental hull/mesh speculative feature. The pinned upstream
++/// world flag has no collision consumer; shape-level semantics define the scope.
++pub fn b3_world_enable_speculative(id: WorldId, enable: bool) {
++    with_world_mut(id, |w| {
++        if w.enable_speculative != enable {
++            w.enable_speculative = enable;
++            w.speculative_changed = true;
++        }
++    });
++}
++
++pub fn b3_world_is_speculative_enabled(id: WorldId) -> bool {
++    with_world_no_sync(id, |w| w.enable_speculative).unwrap_or(false)
++}
++
+ pub fn b3_world_enable_sleeping(id: WorldId, enable: bool) {
+     with_world_mut(id, |w| {
+         w.def.enable_sleep = enable;
+@@ -3002,6 +3021,7 @@ fn step_gpu_inner(id: WorldId, dt: f32, sub_step_count: i32) {
+                 let encode_start = std::time::Instant::now();
+                 sim.set_contact_metrics_context(w.query_topology,w.query_state.saturating_add(1));
+                 sim.callback_finish_submit(sub);
++                w.speculative_changed = false;
+                 w.physics_step = sim.physics_step();
+                 if let Some(msg) = sim.sticky_fail_message() {
+                     w.gpu_fail = std::ffi::CString::new(msg).ok();
+@@ -3023,6 +3043,7 @@ fn step_gpu_inner(id: WorldId, dt: f32, sub_step_count: i32) {
+             #[cfg(not(target_arch = "wasm32"))]
+             sim.set_contact_metrics_context(w.query_topology,w.query_state.saturating_add(1));
+             sim.step_submit(sub);
++            w.speculative_changed = false;
+             w.physics_step = sim.physics_step();
+             #[cfg(not(target_arch = "wasm32"))]
+             {
+@@ -5375,6 +5396,7 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
+         sim.set_solver_mode(w.jacobi);
+         sim.set_sleep_enabled(w.def.enable_sleep);
+         sim.set_warm_starting_enabled(w.enable_warm_starting);
++        sim.set_speculative_enabled(w.enable_speculative, w.speculative_changed);
+         sim.set_continuous_enabled(w.def.enable_continuous);
+         sim.set_contact_recycle_distance(w.contact_recycle_distance);
+         // Component-local substeps cannot independently advance a shared
+@@ -7936,6 +7958,9 @@ fn set_shape_event_flag(id: ShapeId, flag: u32, enable: bool) {
+         else {
+             return;
+         };
++        if flag == SHAPE_DISABLE_SPECULATIVE && (shape.event_flags & flag != 0) != enable {
++            w.speculative_changed = true;
++        }
+         if enable {
+             shape.event_flags |= flag;
+         } else {
+@@ -12867,3 +12892,68 @@ mod full_replay_dominoes_probe {
+ 
+ #[cfg(all(test, not(target_arch = "wasm32")))]
+ mod scheduling_tests;
++
++#[cfg(test)]
++mod speculative_policy_tests {
++    use super::*;
++    use crate::api::*;
++    use crate::types::{SOLVER_DISABLE_SPECULATIVE, SOLVER_REFRESH_SPECULATIVE};
++
++    #[test]
++    fn speculative_world_policy_survives_zero_steps_diagnostics_and_lifetimes() {
++        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
++        let mut wd = b3_default_world_def();
++        wd.gravity = [0.0; 3];
++        wd.enable_sleep = false;
++        let world = b3_create_world(gpu.clone(), &wd);
++        let other = b3_create_world(gpu.clone(), &wd);
++        assert!(b3_world_is_speculative_enabled(world));
++        b3_world_enable_speculative(world, false);
++        assert!(!b3_world_is_speculative_enabled(world));
++        assert!(b3_world_is_speculative_enabled(other));
++        let mut bd = b3_default_body_def();
++        bd.body_type = BodyType::Dynamic;
++        let body = b3_create_body(world, &bd);
++        let shape = b3_create_hull_shape(body, &b3_default_shape_def(), &b3_make_box_hull(0.5, 0.5, 0.5));
++        for enabled in [false, true, false, true] {
++            b3_world_enable_speculative(world, enabled);
++            b3_world_step_gpu(world, 0.0, 4);
++            with_world_no_sync(world, |w| assert!(w.speculative_changed));
++            b3_world_ensure_gpu(world);
++            with_world_mut_no_sync(world, |w| {
++                let sim = w.sim.as_mut().unwrap();
++                let flags = sim.params().diagnostic_flags;
++                assert_eq!(flags & SOLVER_DISABLE_SPECULATIVE != 0, !enabled);
++                assert_ne!(flags & SOLVER_REFRESH_SPECULATIVE, 0);
++                sim.set_diagnostic_flags(0);
++                assert_eq!(sim.params().diagnostic_flags & (SOLVER_DISABLE_SPECULATIVE | SOLVER_REFRESH_SPECULATIVE),
++                           flags & (SOLVER_DISABLE_SPECULATIVE | SOLVER_REFRESH_SPECULATIVE));
++            });
++            b3_world_step_gpu(world, 1.0 / 60.0, 4);
++            b3_world_gpu_wait_with_mirror(world);
++            with_world_no_sync(world, |w| assert!(!w.speculative_changed));
++            b3_world_step_gpu(world, 1.0 / 60.0, 4);
++            b3_world_gpu_wait_with_mirror(world);
++            with_world_no_sync(world, |w| {
++                let flags = w.sim.as_ref().unwrap().params().diagnostic_flags;
++                assert_eq!(flags & SOLVER_REFRESH_SPECULATIVE, 0);
++                assert_eq!(flags & SOLVER_DISABLE_SPECULATIVE != 0, !enabled);
++            });
++        }
++        b3_shape_enable_speculative_contact(shape, false);
++        with_world_no_sync(world, |w| assert!(w.speculative_changed));
++        b3_world_step_gpu(world, 1.0 / 60.0, 4);
++        b3_world_gpu_wait_with_mirror(world);
++        with_world_no_sync(world, |w| assert!(!w.speculative_changed));
++        b3_shape_enable_speculative_contact(shape, false);
++        with_world_no_sync(world, |w| assert!(!w.speculative_changed));
++        b3_destroy_world(world);
++        assert!(!b3_world_is_speculative_enabled(world));
++        b3_world_enable_speculative(world, false); // Stale ID cannot affect a later world.
++        let recreated = b3_create_world(gpu, &wd);
++        assert!(b3_world_is_speculative_enabled(recreated));
++        assert!(b3_world_is_speculative_enabled(other));
++        b3_destroy_world(recreated);
++        b3_destroy_world(other);
++    }
++}
+diff --git a/experiments/gpu-physics/src/api/world/host_state_trace.rs b/experiments/gpu-physics/src/api/world/host_state_trace.rs
+index 40161e9..eb35211 100644
+--- a/experiments/gpu-physics/src/api/world/host_state_trace.rs
++++ b/experiments/gpu-physics/src/api/world/host_state_trace.rs
+@@ -48,7 +48,7 @@ pub(super) fn capture(w:&WorldInner, world0:u16) -> Result<Value,String> {
+     } else {Value::Null};
+     Ok(json!({"body_mirrors":mirrors,"snapshot_epoch":snapshot_epoch(w),"definition":definition,"step_start_bodies":starts,"cached_topology":topology,"scene_capabilities":capabilities,"query_index":query,
+         "last_substep_h":w.last_substep_h.trace()?,"reaction_inv_h":w.reaction_inv_h.trace()?,"contact_recycle_distance":w.contact_recycle_distance.trace()?,
+-        "enable_contacts":w.enable_contacts,"enable_warm_starting":w.enable_warm_starting,"jacobi":w.jacobi,"pose_export_live":w.pose_export_live,"physics_invalid":w.physics_invalid,
++        "enable_contacts":w.enable_contacts,"enable_warm_starting":w.enable_warm_starting,"enable_speculative":w.enable_speculative,"speculative_changed":w.speculative_changed,"jacobi":w.jacobi,"pose_export_live":w.pose_export_live,"physics_invalid":w.physics_invalid,
+         "gpu_failure":w.gpu_fail.as_ref().map(|s|s.to_string_lossy().into_owned()),"gpu_mirror_stale":w.gpu_mirror_stale,
+         "diagnostic_flags_override":w.diagnostic_flags_override,"component_tgs_requested":w.component_tgs_requested,"component_tgs_automatic":w.component_tgs_automatic,"gpu_ccd_requested":w.gpu_ccd_requested,
+         "gpu_resident_requested":w.gpu_resident_requested,"automatic_pose_snapshots":w.automatic_pose_snapshots,"gpu_idle_requested":w.gpu_idle_requested,
+@@ -83,6 +83,13 @@ mod tests {
+             assert_eq!(baseline["query_index"]["shapes"].as_array().unwrap().len(),1);
+             assert!(!baseline["query_index"]["nodes"].as_array().unwrap().is_empty());
+             assert!(!baseline["query_index"]["geometries"][0]["points"].as_array().unwrap().is_empty());
++            assert_eq!(baseline["enable_speculative"],true);
++            assert_eq!(baseline["speculative_changed"],false);
++            w.enable_speculative=false;w.speculative_changed=true;
++            let changed=capture(w,world.index1).unwrap();
++            assert_eq!(changed["enable_speculative"],false);
++            assert_eq!(changed["speculative_changed"],true);
++            w.enable_speculative=true;w.speculative_changed=false;
+             let velocity=w.bodies[0].as_ref().unwrap().gpu.vel;
+             w.bodies[0].as_mut().unwrap().gpu.vel[0]+=0.5;
+             assert_ne!(baseline["body_mirrors"],capture(w,world.index1).unwrap()["body_mirrors"]);
+diff --git a/experiments/gpu-physics/src/api/world/state_trace.rs b/experiments/gpu-physics/src/api/world/state_trace.rs
+index 3fff04f..645af35 100644
+--- a/experiments/gpu-physics/src/api/world/state_trace.rs
++++ b/experiments/gpu-physics/src/api/world/state_trace.rs
+@@ -662,7 +662,7 @@ pub fn b3_world_write_core_state(id: WorldId, path: &std::path::Path, frame: u32
+             physics_step, enable_continuous, contact_recycle_distance, maximum_linear_speed,
+             restitution_threshold, order_enabled, disable_warm_starting);
+         let host_contacts=host_contact_state(w,id.index1)?;
+-        json!({"schema":"gpu-core-state-v22", "frame":frame,"idle_state":idle_state,"graph_cache":graph_cache,
++        json!({"schema":"gpu-core-state-v23", "frame":frame,"idle_state":idle_state,"graph_cache":graph_cache,
+             "adapter":adapter,"convex_ccd":convex_ccd,"gpu_policy":gpu_policy,"host_state":host_state_trace::capture(w,id.index1)?,"host_events":host_events_trace::capture(w,id.index1)?,"host_contacts":host_contacts,"contact_hash":contact_hash,"event_history":event_history,"contact_end_state":contact_end_state(w),
+             "contact_allocation":{"high_water":contact_high_water,"slots":contact_slots,"occupied_order":occupied_order,
+                 "candidate_unique_count":candidate_unique_count,"candidate_contact_count":candidate_contact_count,
+@@ -1421,7 +1421,7 @@ mod tests {
+         }).unwrap();
+         b3_world_write_core_state(world,&path,2).unwrap();
+         let frames:Vec<Value>=std::fs::read_to_string(&path).unwrap().lines().map(|s|serde_json::from_str(s).unwrap()).collect();
+-        assert_eq!(frames[0]["schema"],"gpu-core-state-v22");
++        assert_eq!(frames[0]["schema"],"gpu-core-state-v23");
+         let first=&frames[0]["contacts"][0];let second=&frames[1]["contacts"][0];
+         assert_eq!(first["count"],1);
+         assert_eq!(first["points"],second["points"],"active point unchanged");
+diff --git a/experiments/gpu-physics/src/c_abi.rs b/experiments/gpu-physics/src/c_abi.rs
+index dae7b7b..f547e99 100644
+--- a/experiments/gpu-physics/src/c_abi.rs
++++ b/experiments/gpu-physics/src/c_abi.rs
+@@ -704,6 +704,11 @@ pub extern "C" fn gpu_b3_world_is_warm_starting_enabled(id: WorldId) -> bool {
+     crate::api::b3_world_is_warm_starting_enabled(id)
+ }
+ 
++#[no_mangle]
++pub extern "C" fn gpu_b3_world_enable_speculative(id: WorldId, enable: bool) {
++    crate::api::b3_world_enable_speculative(id, enable);
++}
++
+ #[no_mangle]
+ pub extern "C" fn gpu_b3_world_enable_sleeping(id: WorldId, enable: bool) {
+     b3_world_enable_sleeping(id, enable);
+diff --git a/experiments/gpu-physics/src/sim.rs b/experiments/gpu-physics/src/sim.rs
+index ec53f82..63a6428 100644
+--- a/experiments/gpu-physics/src/sim.rs
++++ b/experiments/gpu-physics/src/sim.rs
+@@ -3719,8 +3719,9 @@ impl GpuSim {
+         self.invalidate_idle_proof();
+         // Diagnostic overrides must not silently change the solver chosen at
+         // world creation. This policy shares the captured parameter bitfield.
+-        let flags = (flags & !crate::types::SOLVER_PAIRED_NORMALS)
+-            | (self.params.diagnostic_flags & crate::types::SOLVER_PAIRED_NORMALS);
++        let policy = crate::types::SOLVER_PAIRED_NORMALS | crate::types::SOLVER_DISABLE_SPECULATIVE
++            | crate::types::SOLVER_REFRESH_SPECULATIVE;
++        let flags = (flags & !policy) | (self.params.diagnostic_flags & policy);
+         assert_eq!(flags & crate::types::DIAG_MESH_CANDIDATES,
+             self.params.diagnostic_flags & crate::types::DIAG_MESH_CANDIDATES,
+             "mesh-candidates allocation must be selected at world creation");
+@@ -4502,6 +4503,13 @@ impl GpuSim {
+         self.params.disable_warm_starting = u32::from(!enabled);
+     }
+ 
++    pub fn set_speculative_enabled(&mut self, enabled: bool, refresh: bool) {
++        let mask = crate::types::SOLVER_DISABLE_SPECULATIVE | crate::types::SOLVER_REFRESH_SPECULATIVE;
++        self.params.diagnostic_flags = (self.params.diagnostic_flags & !mask)
++            | if enabled { 0 } else { crate::types::SOLVER_DISABLE_SPECULATIVE }
++            | if refresh { crate::types::SOLVER_REFRESH_SPECULATIVE } else { 0 };
++    }
++
+     pub fn set_sleep_enabled(&mut self, enabled: bool) {
+         self.params.enable_sleep =
+             u32::from(enabled && self.params.diagnostic_flags & DIAG_DISABLE_SLEEP == 0);
+diff --git a/experiments/gpu-physics/src/types.rs b/experiments/gpu-physics/src/types.rs
+index bdaee76..726c5c8 100644
+--- a/experiments/gpu-physics/src/types.rs
++++ b/experiments/gpu-physics/src/types.rs
+@@ -527,6 +527,10 @@ pub const DIAG_STATIC_DEGREE_TWO_PROOF: u32 = 1 << 16;
+ pub const DIAG_BOUNDED_STATIC_SORT: u32 = 1 << 17;
+ /// Captured solver policy, selected only by the explicit GPU-native opt-in.
+ pub const SOLVER_PAIRED_NORMALS: u32 = 1 << 18;
++/// World policy for the experimental hull/mesh speculative-contact feature.
++pub const SOLVER_DISABLE_SPECULATIVE: u32 = 1 << 19;
++/// Refresh cached hull/mesh manifolds once after a world or shape policy change.
++pub const SOLVER_REFRESH_SPECULATIVE: u32 = 1 << 20;
+ pub const MESH_TRACE_WORDS: u32 = 1 + 2048 * 16;
+ /// Experimental static-only fused TGS. Off until differential tests pass.
+ /// Last attempt: local pass mode was ignored because `solve_manifold` read

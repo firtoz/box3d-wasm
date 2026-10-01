@@ -1,0 +1,139 @@
+{
+  "status": "complete",
+  "runs": [
+    {
+      "engine": "cpu",
+      "scenes": [
+        "single-box",
+        "box-stack",
+        "sphere-stack",
+        "capsule-stack",
+        "revolute",
+        "weld",
+        "stack",
+        "pyramid",
+        "bounce",
+        "mixed",
+        "spinner",
+        "ramp",
+        "spheres",
+        "dominoes",
+        "high-resistance",
+        "mixed-stacks",
+        "falling-cubes",
+        "anchored-mechanisms",
+        "joint-chain"
+      ],
+      "frames": 300,
+      "view": null,
+      "command": [
+        "bash",
+        "scripts/record-box3d-oracle.sh",
+        "000-box3d-cpu"
+      ],
+      "exit": 0,
+      "environment": {
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/pipelines",
+        "GPU_RECORD_BIN": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/release/gpu-physics",
+        "GPU_RECORD_ORACLE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/oracle-build/box3d_oracle"
+      },
+      "log_sha256": "7e49b913fdf517ff2d4ce41c0c25e72444fe96b293ffc35b129ca70da5833713"
+    },
+    {
+      "engine": "cpu",
+      "scenes": [
+        "mixed-topology"
+      ],
+      "frames": 300,
+      "view": "-220,290,-300,95,8,145",
+      "command": [
+        "bash",
+        "scripts/record-box3d-oracle.sh",
+        "000-box3d-cpu"
+      ],
+      "exit": 0,
+      "environment": {
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/pipelines",
+        "GPU_RECORD_BIN": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/release/gpu-physics",
+        "GPU_RECORD_ORACLE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/oracle-build/box3d_oracle",
+        "GPU_RECORD_VIEW": "-220,290,-300,95,8,145"
+      },
+      "log_sha256": "d0f612537f46831b5d7f80cd60f83499ca699cc12d947966cf67de54a80e4628"
+    },
+    {
+      "engine": "gpu",
+      "scenes": [
+        "single-box",
+        "box-stack",
+        "sphere-stack",
+        "capsule-stack",
+        "revolute",
+        "weld",
+        "stack",
+        "pyramid",
+        "bounce",
+        "mixed",
+        "spinner",
+        "ramp",
+        "spheres",
+        "dominoes",
+        "high-resistance",
+        "mixed-stacks",
+        "falling-cubes",
+        "anchored-mechanisms",
+        "joint-chain"
+      ],
+      "frames": 300,
+      "view": null,
+      "command": [
+        "bash",
+        "scripts/record-snapshot.sh",
+        "2026-10-01-speculative-handoff"
+      ],
+      "exit": 0,
+      "environment": {
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/pipelines",
+        "GPU_RECORD_BIN": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/release/gpu-physics",
+        "GPU_RECORD_ORACLE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/oracle-build/box3d_oracle"
+      },
+      "log_sha256": "4dbd6cdbfca59b5f5d296ab3b07c935029de59d96656bfcb546155397237c062"
+    },
+    {
+      "engine": "gpu",
+      "scenes": [
+        "mixed-topology"
+      ],
+      "frames": 300,
+      "view": "-220,290,-300,95,8,145",
+      "command": [
+        "bash",
+        "scripts/record-snapshot.sh",
+        "2026-10-01-speculative-handoff"
+      ],
+      "exit": 0,
+      "environment": {
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/pipelines",
+        "GPU_RECORD_BIN": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/release/gpu-physics",
+        "GPU_RECORD_ORACLE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/oracle-build/box3d_oracle",
+        "GPU_RECORD_VIEW": "-220,290,-300,95,8,145"
+      },
+      "log_sha256": "d1717c648fedc7276bb7198fc058de7f74708959d89ff4164ef2f65fccd63ea5"
+    }
+  ]
+}

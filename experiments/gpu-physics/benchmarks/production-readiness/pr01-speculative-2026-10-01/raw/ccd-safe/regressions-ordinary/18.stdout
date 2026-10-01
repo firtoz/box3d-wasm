@@ -1,0 +1,6 @@
+
+running 1 test
+test api::query::tests::sphere_ray_hit_miss_and_initial_overlap ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 396 filtered out; finished in 0.00s
+

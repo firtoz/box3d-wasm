@@ -1,0 +1,11 @@
+{
+  "hypothesis": "The new 5mm screen fails during initial landing in CPU and candidate at exactly the same height. Determine whether frozen pre-PR01 GPU sources reproduce this existing discrete landing rather than treating an unchanged event as a speculative-control regression.",
+  "budget": {
+    "candidate_runs": 0,
+    "baseline_diagnostic_runs": 1,
+    "steps": 300
+  },
+  "settings": "Same native cache/ordering,NVIDIA/Vulkan,scene defaults,dt1/60,4substeps,completed health,no-sleep,paced",
+  "required": "Retain original screen failure. Baseline must complete all300steps. Report comparison and any new/worse excursion; no performance or final physical qualification follows.",
+  "stop": "One baseline diagnostic; retain result; no selective retry/physics edits within this protocol."
+}

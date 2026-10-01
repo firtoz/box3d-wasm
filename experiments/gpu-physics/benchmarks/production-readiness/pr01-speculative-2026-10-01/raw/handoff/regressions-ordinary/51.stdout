@@ -1,0 +1,6 @@
+
+running 1 test
+test gpu_invariants::pre_solve_veto_disables_all_mesh_patches_and_can_reenable_at_rest ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 396 filtered out; finished in 0.80s
+

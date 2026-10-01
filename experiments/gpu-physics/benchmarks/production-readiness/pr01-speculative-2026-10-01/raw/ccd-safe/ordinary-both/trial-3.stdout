@@ -1,0 +1,203 @@
+case sub=1 kind=0
+default-on contacts=1 y=0.50999999 vy=0
+transition-off contacts=0 y=0.50999999 vy=0
+transition-off contacts=0 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+transition-off contacts=0 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+case sub=1 kind=1
+default-on contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+case sub=1 kind=2
+default-on contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+case sub=1 kind=3
+default-on contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+flags sub=1 kind=0 convex=0 mesh=0
+shape-flags contacts=0 y=0.50999999 vy=0
+flags sub=1 kind=0 convex=0 mesh=1
+shape-flags contacts=0 y=0.50999999 vy=0
+flags sub=1 kind=0 convex=1 mesh=0
+shape-flags contacts=0 y=0.50999999 vy=0
+flags sub=1 kind=0 convex=1 mesh=1
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=1 kind=1 convex=0 mesh=0
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=1 kind=1 convex=0 mesh=1
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=1 kind=1 convex=1 mesh=0
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=1 kind=1 convex=1 mesh=1
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=1 kind=2 convex=0 mesh=0
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=1 kind=2 convex=0 mesh=1
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=1 kind=2 convex=1 mesh=0
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=1 kind=2 convex=1 mesh=1
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=1 kind=3 convex=0 mesh=0
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=1 kind=3 convex=0 mesh=1
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=1 kind=3 convex=1 mesh=0
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=1 kind=3 convex=1 mesh=1
+shape-flags contacts=1 y=0.50999999 vy=0
+case sub=4 kind=0
+default-on contacts=1 y=0.50999999 vy=0
+transition-off contacts=0 y=0.50999999 vy=0
+transition-off contacts=0 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+transition-off contacts=0 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+case sub=4 kind=1
+default-on contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+case sub=4 kind=2
+default-on contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+case sub=4 kind=3
+default-on contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+transition-off contacts=1 y=0.50999999 vy=0
+transition-on contacts=1 y=0.50999999 vy=0
+flags sub=4 kind=0 convex=0 mesh=0
+shape-flags contacts=0 y=0.50999999 vy=0
+flags sub=4 kind=0 convex=0 mesh=1
+shape-flags contacts=0 y=0.50999999 vy=0
+flags sub=4 kind=0 convex=1 mesh=0
+shape-flags contacts=0 y=0.50999999 vy=0
+flags sub=4 kind=0 convex=1 mesh=1
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=4 kind=1 convex=0 mesh=0
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=4 kind=1 convex=0 mesh=1
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=4 kind=1 convex=1 mesh=0
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=4 kind=1 convex=1 mesh=1
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=4 kind=2 convex=0 mesh=0
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=4 kind=2 convex=0 mesh=1
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=4 kind=2 convex=1 mesh=0
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=4 kind=2 convex=1 mesh=1
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=4 kind=3 convex=0 mesh=0
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=4 kind=3 convex=0 mesh=1
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=4 kind=3 convex=1 mesh=0
+shape-flags contacts=1 y=0.50999999 vy=0
+flags sub=4 kind=3 convex=1 mesh=1
+shape-flags contacts=1 y=0.50999999 vy=0
+shape-transition-off contacts=0 y=0.50999999 vy=0
+shape-transition-on contacts=1 y=0.50999999 vy=0
+shape-transition-off contacts=0 y=0.50999999 vy=0
+shape-transition-on contacts=1 y=0.50999999 vy=0
+shape-transition-off contacts=0 y=0.50999999 vy=0
+shape-transition-on contacts=1 y=0.50999999 vy=0
+shape-transition-off contacts=0 y=0.50999999 vy=0
+shape-transition-on contacts=1 y=0.50999999 vy=0
+before-creation-off contacts=0 y=0.50999999 vy=0
+independent-off contacts=0 y=0.50999999 vy=0
+independent-on contacts=1 y=0.50999999 vy=0
+recreated-default contacts=1 y=0.50999999 vy=0
+surviving-world contacts=1 y=0.50999999 vy=0
+world-equivalent-shape-off contacts=0 y=0.50999999 vy=0
+ccd enabled=0 frame=0 y=0.504999995 vy=-150.166687
+ccd enabled=0 frame=1 y=0.503131807 vy=2.80711341
+ccd enabled=0 frame=2 y=0.567719817 vy=3.83606076
+ccd enabled=0 frame=3 y=0.629918039 vy=3.66939378
+ccd enabled=0 frame=4 y=0.689338505 vy=3.50272679
+ccd enabled=0 frame=5 y=0.745981157 vy=3.33605981
+ccd enabled=0 frame=6 y=0.799846053 vy=3.16939282
+ccd enabled=0 frame=7 y=0.850933135 vy=3.00272584
+ccd enabled=0 frame=8 y=0.899242461 vy=2.83605886
+ccd enabled=0 frame=9 y=0.944773972 vy=2.66939187
+ccd enabled=0 frame=10 y=0.987527728 vy=2.50272489
+ccd enabled=0 frame=11 y=1.02750373 vy=2.3360579
+ccd enabled=0 frame=12 y=1.06470191 vy=2.16939092
+ccd enabled=0 frame=13 y=1.09912229 vy=2.00272393
+ccd enabled=0 frame=14 y=1.13076496 vy=1.83605742
+ccd enabled=0 frame=15 y=1.15962982 vy=1.66939092
+ccd enabled=0 frame=16 y=1.18571687 vy=1.50272441
+ccd enabled=0 frame=17 y=1.20902622 vy=1.3360579
+ccd enabled=0 frame=18 y=1.22955775 vy=1.16939139
+ccd enabled=0 frame=19 y=1.24731147 vy=1.00272489
+ccd enabled=0 frame=20 y=1.2622875 vy=0.83605814
+ccd enabled=0 frame=21 y=1.27448571 vy=0.669391394
+ccd enabled=0 frame=22 y=1.2839061 vy=0.502724648
+ccd enabled=0 frame=23 y=1.29054868 vy=0.336058021
+ccd enabled=0 frame=24 y=1.29441357 vy=0.169391364
+ccd enabled=0 frame=25 y=1.29550064 vy=0.00272468477
+ccd enabled=0 frame=26 y=1.29380989 vy=-0.163941994
+ccd enabled=0 frame=27 y=1.28934145 vy=-0.330608666
+ccd enabled=0 frame=28 y=1.28209519 vy=-0.497275293
+ccd enabled=0 frame=29 y=1.27207112 vy=-0.663942039
+ccd enabled=1 frame=0 y=0.504999995 vy=-150.166687
+ccd enabled=1 frame=1 y=0.503131807 vy=2.80711341
+ccd enabled=1 frame=2 y=0.567719817 vy=3.83606076
+ccd enabled=1 frame=3 y=0.629918039 vy=3.66939378
+ccd enabled=1 frame=4 y=0.689338505 vy=3.50272679
+ccd enabled=1 frame=5 y=0.745981157 vy=3.33605981
+ccd enabled=1 frame=6 y=0.799846053 vy=3.16939282
+ccd enabled=1 frame=7 y=0.850933135 vy=3.00272584
+ccd enabled=1 frame=8 y=0.899242461 vy=2.83605886
+ccd enabled=1 frame=9 y=0.944773972 vy=2.66939187
+ccd enabled=1 frame=10 y=0.987527728 vy=2.50272489
+ccd enabled=1 frame=11 y=1.02750373 vy=2.3360579
+ccd enabled=1 frame=12 y=1.06470191 vy=2.16939092
+ccd enabled=1 frame=13 y=1.09912229 vy=2.00272393
+ccd enabled=1 frame=14 y=1.13076496 vy=1.83605742
+ccd enabled=1 frame=15 y=1.15962982 vy=1.66939092
+ccd enabled=1 frame=16 y=1.18571687 vy=1.50272441
+ccd enabled=1 frame=17 y=1.20902622 vy=1.3360579
+ccd enabled=1 frame=18 y=1.22955775 vy=1.16939139
+ccd enabled=1 frame=19 y=1.24731147 vy=1.00272489
+ccd enabled=1 frame=20 y=1.2622875 vy=0.83605814
+ccd enabled=1 frame=21 y=1.27448571 vy=0.669391394
+ccd enabled=1 frame=22 y=1.2839061 vy=0.502724648
+ccd enabled=1 frame=23 y=1.29054868 vy=0.336058021
+ccd enabled=1 frame=24 y=1.29441357 vy=0.169391364
+ccd enabled=1 frame=25 y=1.29550064 vy=0.00272468477
+ccd enabled=1 frame=26 y=1.29380989 vy=-0.163941994
+ccd enabled=1 frame=27 y=1.28934145 vy=-0.330608666
+ccd enabled=1 frame=28 y=1.28209519 vy=-0.497275293
+ccd enabled=1 frame=29 y=1.27207112 vy=-0.663942039
+speculative-controls=pass

@@ -1,0 +1,13 @@
+{
+  "status": "incomplete-startup-timeout",
+  "timeout_seconds": 180,
+  "baseline_run_consumed": 1,
+  "completed_results": 0,
+  "qualification_credit": false,
+  "production_changes": false,
+  "receipt": "build.json",
+  "stderr_sha256": "90539c13c0d959074d106e56abf3b490abaa26a89df6a2494fd048c13b9368cf",
+  "video_sha256": "57ed72d4c443f020fc079bb0c2dc242f8768cf1e50d9027c200f633195ddd764",
+  "source_library_verified": true,
+  "standard_recording_dependency": "Queued driver exited1 before any recording runs because baseline had no completed terminal receipt. Its scene budget is unconsumed."
+}

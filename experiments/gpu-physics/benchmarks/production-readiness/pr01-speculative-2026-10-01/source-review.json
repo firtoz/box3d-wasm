@@ -1,0 +1,145 @@
+{
+  "kind": "source/retained-data applicability review",
+  "new_gpu_runs": 0,
+  "new_candidates": 0,
+  "original_floor_screen": "FAIL retained at0.9094m; no raised threshold or replacement passing screen",
+  "isolated_ccd_floor_bound": "0.495m unchanged; original focused confirmations and guards retain all assertions",
+  "free_fall_rows": [
+    {
+      "step": 1,
+      "computed_height": 1.0108757019042969,
+      "computed_vertical_velocity": -0.3383333683013916,
+      "start_height": 1.0144000053405762,
+      "bottom_height": 0.09647572040557861,
+      "floor_plane_glancing_predicate": true,
+      "data": {
+        "cpu": {
+          "height": 1.0108757,
+          "vertical_velocity": -0.338333368,
+          "matches_free_fall_float32": true
+        },
+        "gpu": {
+          "height": 1.0108757,
+          "vertical_velocity": -0.338333368,
+          "matches_free_fall_float32": true
+        }
+      }
+    },
+    {
+      "step": 2,
+      "computed_height": 1.0017125606536865,
+      "computed_vertical_velocity": -0.6766667366027832,
+      "start_height": 1.0108757019042969,
+      "bottom_height": 0.08731257915496826,
+      "floor_plane_glancing_predicate": true,
+      "data": {
+        "cpu": {
+          "height": 1.00171256,
+          "vertical_velocity": -0.676666737,
+          "matches_free_fall_float32": true
+        },
+        "gpu": {
+          "height": 1.00171256,
+          "vertical_velocity": -0.676666737,
+          "matches_free_fall_float32": true
+        }
+      }
+    },
+    {
+      "step": 3,
+      "computed_height": 0.9869104623794556,
+      "computed_vertical_velocity": -1.0150001049041748,
+      "start_height": 1.0017125606536865,
+      "bottom_height": 0.0725104808807373,
+      "floor_plane_glancing_predicate": true,
+      "data": {
+        "cpu": {
+          "height": 0.986910462,
+          "vertical_velocity": -1.0150001,
+          "matches_free_fall_float32": true
+        },
+        "gpu": {
+          "height": 0.986910462,
+          "vertical_velocity": -1.0150001,
+          "matches_free_fall_float32": true
+        }
+      }
+    },
+    {
+      "step": 4,
+      "computed_height": 0.9664694666862488,
+      "computed_vertical_velocity": -1.3533332347869873,
+      "start_height": 0.9869104623794556,
+      "bottom_height": 0.05206948518753052,
+      "floor_plane_glancing_predicate": true,
+      "data": {
+        "cpu": {
+          "height": 0.966469467,
+          "vertical_velocity": -1.35333323,
+          "matches_free_fall_float32": true
+        },
+        "gpu": {
+          "height": 0.966469467,
+          "vertical_velocity": -1.35333323,
+          "matches_free_fall_float32": true
+        }
+      }
+    },
+    {
+      "step": 5,
+      "computed_height": 0.9403896331787109,
+      "computed_vertical_velocity": -1.6916663646697998,
+      "start_height": 0.9664694666862488,
+      "bottom_height": 0.025989651679992676,
+      "floor_plane_glancing_predicate": true,
+      "data": {
+        "cpu": {
+          "height": 0.940389633,
+          "vertical_velocity": -1.69166636,
+          "matches_free_fall_float32": true
+        },
+        "gpu": {
+          "height": 0.940389633,
+          "vertical_velocity": -1.69166636,
+          "matches_free_fall_float32": true
+        }
+      }
+    },
+    {
+      "step": 6,
+      "computed_height": 0.9086709022521973,
+      "computed_vertical_velocity": -2.0299994945526123,
+      "start_height": 0.9403896331787109,
+      "bottom_height": -0.005729079246520996,
+      "floor_plane_glancing_predicate": true,
+      "data": {
+        "cpu": {
+          "height": 0.908670902,
+          "vertical_velocity": -2.02999949,
+          "matches_free_fall_float32": true
+        },
+        "gpu": {
+          "height": 0.908670902,
+          "vertical_velocity": -2.02999949,
+          "matches_free_fall_float32": true
+        }
+      }
+    }
+  ],
+  "body_half_height": 0.9143999814987183,
+  "body_half_width": 0.40639999508857727,
+  "mesh_fallback_radius": 0.20319999754428864,
+  "source_sha256": {
+    "src/api/query.rs": "41a94592a70c00ece2d0a4c3721ab8ab6699cace4d603dc93dd23e488ec1e87b",
+    "shaders/physics/integrate.wgsl": "913d5a77a5e99d15869b6e24b52165694c67aa5ce8c1bbcc863edf011949d5f8",
+    "shaders/physics/collide.wgsl": "9a18212e31eed653ba670858cf5d6c0425412e4a3ba6463962f4188e49bbc8dc",
+    "/home/firtoz/work/2026/box3d-wasm/box3d/src/solver.c": "25e0f58f9d7d803be88ce0d2d3a424b902d41ff3bd3e01310a1ca7820f76d926",
+    "/home/firtoz/work/2026/box3d-wasm/box3d/src/shape.c": "d2ba06bc042e08142a872bdcc0e5fca5074e3140ea15d420d8b1dd7ff2cb83b3",
+    "/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_issues.cpp": "4c51d0240449d50734a5bea203beed1b6631794020676e13d96409ee6d97250a",
+    "native-samples/sokol_loading.cpp": "9380b1e409ac5044b07e7ba1236228313d52710723735d751b42d8d15b0f448a",
+    "src/sim.rs": "0bbdc7c54671b3085d4aadaceb094104cfe9631ac7fd06cc3dcfef7df8f14da7"
+  },
+  "box3d_revision": "30c67b5e6d0a3a66f0f506c69ce9e9e0587e3b7c",
+  "interpretation": "Both engines reach the failed screen through exact discrete free flight before contact response. Native CPU fast classification uses half extent; GPU activates sooner but deliberately preserves the native mesh glancing-plane filter. Floor-plane CCD is skipped here. The added all-window5mm bound was copied from the distinct150m/s normal-impact control; it is not a valid assertion of that control\u2019s scope in this glancing/discrete scene. No additional accepted physical tolerance is inferred. Original upstream ghost-launch screen passes; physical whole-matrix qualification remains forPR03/PR04/PR07.",
+  "baseline_timeout": "No completed attribution result/qualification credit. Last log is before collision preparation cache-save/ready; source permits first-time compilation to take minutes. A180s timeout cannot distinguish slow compilation from a hang. No retry or fabricated baseline result."
+}

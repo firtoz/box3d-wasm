@@ -1,0 +1,7 @@
+{
+  "status": "pass",
+  "frames": 110,
+  "runs": 5,
+  "comparison_mode": "raw",
+  "scope": "diagnostic state only; coverage depends on schema and documented omissions remain unqualified"
+}

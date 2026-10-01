@@ -1,0 +1,328 @@
+{
+  "backend": "ordinary",
+  "binary_sha256": "5eab1f6d4629a3f8131f562f44de9c4543f132f0d8262d85f5a1b52c0c5cc387",
+  "environment": {
+    "GPU_PHYSICS_ADAPTER": "nvidia",
+    "GPU_PHYSICS_BACKEND": "vulkan",
+    "WGPU_BACKEND": "vulkan",
+    "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+    "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/pipelines"
+  },
+  "tests": [
+    {
+      "test": "api::query::tests::ccd_targets_separation_instead_of_outer_tolerance_shell",
+      "index": 1,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::convex_overlap_and_cast",
+      "index": 2,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::direct_compound_ray_rejects_stale_parent",
+      "index": 3,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::exhausted_toi_keeps_the_last_safe_advance",
+      "index": 4,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::gpu_convex_sweeps_match_cpu_conservative_advancement",
+      "index": 5,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::mesh_ccd_glancing_rotation_uses_centroid_plane_filter_except_for_sensors",
+      "index": 6,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::mesh_ccd_initial_tip_contact_still_stops_centroid_crossing",
+      "index": 7,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::mesh_ccd_keeps_positive_toi_with_degenerate_witness_normal",
+      "index": 8,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::mesh_ccd_rotating_capsule_matches_native_root_tolerance",
+      "index": 9,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::mover_deep_overlap_primitives_and_hull",
+      "index": 10,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::native_toi_mesh_preserves_clipped_interval_and_traversal_order",
+      "index": 11,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::native_toi_sweeps_match_impact_captures",
+      "index": 12,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::near_shell_parallel_ccd_sweep_is_not_truncated",
+      "index": 13,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::plane_solver_and_clipping_match_box3d",
+      "index": 14,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::query_filter_ignores_groups",
+      "index": 15,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::ray_snapshot_prunes_and_retains_owned_compound_candidates",
+      "index": 16,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::spatial_snapshot_preserves_hits_and_child_order_after_refit",
+      "index": 17,
+      "exit": 0
+    },
+    {
+      "test": "api::query::tests::sphere_ray_hit_miss_and_initial_overlap",
+      "index": 18,
+      "exit": 0
+    },
+    {
+      "test": "api::world::ccd_pose_precision_tests::ccd_origin_interpolation_matches_native_captures",
+      "index": 19,
+      "exit": 0
+    },
+    {
+      "test": "api::world::ccd_pose_precision_tests::ccd_pose_interpolation_matches_native_captures",
+      "index": 20,
+      "exit": 0
+    },
+    {
+      "test": "api::world::ccd_pose_precision_tests::retained_ccd_origin_survives_mass_changes_and_is_replaced_by_teleport",
+      "index": 21,
+      "exit": 0
+    },
+    {
+      "test": "api::world::ccd_pose_precision_tests::transform_setter_preserves_rain_origin_with_offset_mass_center",
+      "index": 22,
+      "exit": 0
+    },
+    {
+      "test": "api::world::contact_api::determinism_tests::unread_root_handle_retires_after_mesh_scratch_reuse",
+      "index": 23,
+      "exit": 0
+    },
+    {
+      "test": "api::world::convex_ccd_integration_tests::ccd_landing_refreshes_empty_contact_inside_speculative_shell",
+      "index": 24,
+      "exit": 0
+    },
+    {
+      "test": "api::world::mesh_instance_tests::raw_mesh_instances_share_gpu_ranges_and_preserve_affine_support",
+      "index": 25,
+      "exit": 0
+    },
+    {
+      "test": "api::world::mesh_shared_snapshot_tests::mesh_snapshots_share_storage_and_survive_replacement_and_destruction",
+      "index": 26,
+      "exit": 0
+    },
+    {
+      "test": "api::world::speculative_policy_tests::speculative_mesh_controls_capture_complete_step_state",
+      "index": 27,
+      "exit": 0
+    },
+    {
+      "test": "api::world::speculative_policy_tests::speculative_world_policy_survives_zero_steps_diagnostics_and_lifetimes",
+      "index": 28,
+      "exit": 0
+    },
+    {
+      "test": "api::world::state_trace::host_state_trace::tests::trace_captures_host_configuration_query_cache_and_ccd_history",
+      "index": 29,
+      "exit": 0
+    },
+    {
+      "test": "api::world::state_trace::tests::trace_captures_timing_window_replay_policy",
+      "index": 30,
+      "exit": 0
+    },
+    {
+      "test": "api::world::state_trace::tests::trace_validates_uploaded_mesh_tree_relationships",
+      "index": 31,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::box_mesh_support_inside_face_without_corner_hits",
+      "index": 32,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::capsule_mesh_contact_uses_capsule_local_frame",
+      "index": 33,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::capsule_mesh_friction_uses_cpu_scalar_order",
+      "index": 34,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::capsule_mesh_keeps_face_admitted_by_closest_distance",
+      "index": 35,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::capsule_mesh_preserves_distinct_seam_witnesses",
+      "index": 36,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::capsule_mesh_reduces_complete_cluster",
+      "index": 37,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::capsule_mesh_solves_face_patch_before_tentative_edge",
+      "index": 38,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::collision_pipeline_tracks_mesh_add_remove",
+      "index": 39,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::fast_mesh_refresh_preserves_slow_and_nonmesh_recycling",
+      "index": 40,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::flat_mesh_does_not_create_pairs_above_native_fat_bounds",
+      "index": 41,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::gpu_closest_ray_mesh_height_and_oracle_primitives",
+      "index": 42,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::kinematic_mesh_supports_dynamic_box",
+      "index": 43,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::later_mesh_bvh_offsets_are_nodes_not_packed_vectors",
+      "index": 44,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::locked_hull_rests_on_triangle_mesh",
+      "index": 45,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::mesh_contacts_use_all_hull_vertices_not_first_eight",
+      "index": 46,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::mesh_drop_thin_box_contact_at_captured_pose",
+      "index": 47,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::mesh_face_retains_separated_points_for_rotating_impact",
+      "index": 48,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::mesh_ground_does_not_skip_general_static_sort",
+      "index": 49,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::mesh_hull_backside_uses_cpu_linear_slop",
+      "index": 50,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::pre_solve_veto_disables_all_mesh_patches_and_can_reenable_at_rest",
+      "index": 51,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::rejected_mesh_wall_cannot_replace_floor_manifold_normal",
+      "index": 52,
+      "exit": 0
+    },
+    {
+      "test": "gpu_invariants::tentative_mesh_edge_cannot_hide_confirmed_floor",
+      "index": 53,
+      "exit": 0
+    },
+    {
+      "test": "native_precision::tests::native_mesh_base_separation_matches_cpu",
+      "index": 54,
+      "exit": 0
+    },
+    {
+      "test": "native_precision::tests::native_mesh_inertia_matches_cpu",
+      "index": 55,
+      "exit": 0
+    },
+    {
+      "test": "native_precision::tests::native_mesh_rolling_matches_cpu",
+      "index": 56,
+      "exit": 0
+    },
+    {
+      "test": "sim::manifold_chain_tests::gear_mesh_reduction_keeps_both_native_penetrating_witnesses",
+      "index": 57,
+      "exit": 0
+    },
+    {
+      "test": "sim::manifold_chain_tests::generated_mesh_list_publishes_root_and_children",
+      "index": 58,
+      "exit": 0
+    },
+    {
+      "test": "sim::manifold_chain_tests::manifold_pool_is_available_for_mesh_patch_growth_without_new_pairs",
+      "index": 59,
+      "exit": 0
+    },
+    {
+      "test": "sim::manifold_chain_tests::mesh_clipping_preserves_incoming_and_outgoing_feature_edges",
+      "index": 60,
+      "exit": 0
+    },
+    {
+      "test": "sim::manifold_chain_tests::mesh_point_history_requires_full_triangle_and_feature_identity",
+      "index": 61,
+      "exit": 0
+    },
+    {
+      "test": "sim::manifold_chain_tests::mesh_point_reduction_carries_triangle_and_feature_with_retained_witness",
+      "index": 62,
+      "exit": 0
+    },
+    {
+      "test": "sim::manifold_chain_tests::root_free_scan_preserves_lowest_slots_and_mesh_pool",
+      "index": 63,
+      "exit": 0
+    }
+  ]
+}

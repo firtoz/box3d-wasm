@@ -1,0 +1,41 @@
+{
+  "scope": "Pre-commit visual evidence, no performance claims",
+  "scenes": [
+    "single-box",
+    "box-stack",
+    "sphere-stack",
+    "capsule-stack",
+    "revolute",
+    "weld",
+    "stack",
+    "pyramid",
+    "bounce",
+    "mixed",
+    "spinner",
+    "ramp",
+    "spheres",
+    "dominoes",
+    "high-resistance",
+    "mixed-stacks",
+    "falling-cubes",
+    "mixed-topology",
+    "anchored-mechanisms",
+    "joint-chain"
+  ],
+  "standard_frames": 300,
+  "native_scene": "Issues/s&box Ghost Collisions",
+  "native_steps": 300,
+  "native_repetitions": {
+    "cpu": 1,
+    "gpu-native": 1
+  },
+  "order": "real CPU first, then GPU; no competing GPU jobs",
+  "settings": "scene defaults, dt1/60,4substeps,1280x720. GPU ordering explicitly enabled. Native clip paced,health scan separate from timing.",
+  "capture_repair": "Only failed capture may be replaced; retain failures. A physics failure stops acceptance.",
+  "native_checks": {
+    "floor_center_min": 0.9094,
+    "ghost_launch": "upward speed >0.5m/s while center <36*.0254+.01+4*.0254 (upstream scene threshold)",
+    "health": "300 completed/submitted steps,finite state,no Sokol errors or capacity loss"
+  },
+  "capture_decision": "Native original floor screen retained as failed. Baseline attribution timed out and receives no qualification credit; no retry. Resume only the still-unconsumed standard20scene visual captures from the exact frozen renderer/oracle. No solver acceptance or PR01 closure follows recordings alone."
+}

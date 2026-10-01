@@ -1,0 +1,12 @@
+{
+  "floor_screen_status": "fail",
+  "floor_screen_bound": 0.9094,
+  "floor_screen_failures": [
+    {
+      "step": 6,
+      "height": 0.908670902
+    }
+  ],
+  "ghost_launch_frames": [],
+  "healthy_completion": true
+}

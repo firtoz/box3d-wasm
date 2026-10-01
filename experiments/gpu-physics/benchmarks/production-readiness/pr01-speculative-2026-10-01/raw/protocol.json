@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-01",
+  "goal": "PR01",
+  "scope": "world gate for experimental hull-mesh speculation, sphere/capsule/convex unchanged",
+  "upstream_world_toggle": "flag stored but no consumer; CPU reference uses per-shape flags",
+  "fixtures": [
+    "static convex gap",
+    "static hull-mesh gap with both endpoint shape flags",
+    "sphere/capsule mesh exclusions",
+    "on/off/on cached manifold transitions",
+    "pre-creation settings and independent/recreated worlds",
+    "fast hull-mesh CCD on/off"
+  ],
+  "dt": "1/60",
+  "substeps": [
+    1,
+    4
+  ],
+  "gravity": "0 for isolated gap controls; upstream -10 for CCD/drop cases",
+  "sleep": false,
+  "physics_tolerance": 1e-05,
+  "baseline_reproducer_runs": 1,
+  "cpu_reference_runs": 1,
+  "candidate_fresh_runs_per_backend_and_linkage": 5,
+  "candidate_backends": [
+    "ordinary",
+    "native-cached"
+  ],
+  "candidate_linkage": [
+    "gpu",
+    "both"
+  ],
+  "timing_runs": 0,
+  "stop_rule": "Keep failed artifacts; fix only demonstrated defects, no physics tolerance relaxation or conversion of upstream no-op into claimed reference parity.",
+  "ccd_minimum_center_y": 0.495,
+  "ccd_bound_basis": "Existing unit-cube floor linear slop: bottom >= -0.005; no tolerance relaxation",
+  "candidate_attempts_consumed": 1,
+  "baseline_reproducer_consumed": 1,
+  "cpu_reference_consumed": 1,
+  "cpu_diagnostic_budget": 1,
+  "cpu_diagnostic_hypothesis": "Determine whether the strict floor-slop failure is first impact or later gravity-loaded soft-contact equilibrium; unchanged executable, line-buffer output only, cannot count as passing reference",
+  "cpu_diagnostic_consumed": 1,
+  "candidate_remaining_unspent": 19,
+  "candidate_status": "First ordinary/GPU candidate rejected: static controls passed, CCD safety failed. No other configurations launched.",
+  "gpu_diagnostic_budget": 1,
+  "gpu_diagnostic_hypothesis": "Line-buffer the exact rejected binary to identify the first CCD failure, without changing settings or acceptance",
+  "gpu_diagnostic_consumed": 1
+}

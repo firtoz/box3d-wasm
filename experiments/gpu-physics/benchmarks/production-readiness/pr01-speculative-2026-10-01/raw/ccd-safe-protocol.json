@@ -1,0 +1,81 @@
+{
+  "goal": "PR01",
+  "candidate": "CCD-safe speculative gate",
+  "hypothesis": "Without positive-separation hull-mesh points, both GPU and CPU shape-off paths catch the initial 5mm CCD landing then fall back to the centroid at 0.25m. Retain only the existing CCD landing shell (linear slop plus TOI tolerance) for prior-step fast hull/mesh bodies with continuous collision enabled. The wider 20mm speculative range remains disabled; default-on behavior is unchanged.",
+  "acceptance": "Original gap controls, flag transitions, independent worlds and .495m CCD floor bound remain unchanged. Explicitly document the CCD safety exception and upstream CPU experimental failure.",
+  "candidate_budget": 1,
+  "fresh_runs_per_backend_and_linkage": 5,
+  "backends": [
+    "ordinary",
+    "native"
+  ],
+  "linkage": [
+    "gpu",
+    "both"
+  ],
+  "pilot_runs": 0,
+  "timing_runs": 0,
+  "cpu_oracle_runs": 1,
+  "cpu_scope": "Previously recorded static/shape matrix retained. New reference runs default speculative-on CCD only; shape-off failure retained and must not be relabelled pass.",
+  "rust_focused_and_regression_checks": "Separate correctness checks, freeze selectors before launching.",
+  "stop_rule": "Stop at first physical failure, preserve all results, reject the candidate without extending this budget.",
+  "previous_campaign": "protocol.json: baseline 1/1; CPU reference 1/1 failed, CPU diagnostic 1/1, first candidate 1/20 failed, GPU diagnostic 1/1. Remaining 19 first-candidate trials are cancelled, not reallocated.",
+  "candidate_runs_consumed": 20,
+  "results": {
+    "ordinary-gpu": "Five successful fresh runs, stdout hashes identical; public results only, not full-state qualification",
+    "ordinary-both": "Five successful fresh runs, stdout hashes identical; mapped CPU setter forwarding verified with linker instrumentation",
+    "native-gpu": "Five successful fresh runs with exact public-result output",
+    "native-both": "Five successful fresh runs with exact public-result output and correct CPU setter routing"
+  },
+  "next_configuration": "C confirmations complete; additional guard checks then Rust controls/full-state/relevant regressions",
+  "regression_selectors": [
+    "speculative_policy_tests::",
+    "trace_captures_host_configuration_query_cache_and_ccd_history",
+    "api::query::tests::",
+    "mesh",
+    "ccd_pose_precision_tests::",
+    "ccd_landing_refreshes_empty_contact_inside_speculative_shell",
+    "trace_captures_timing_window_replay_policy"
+  ],
+  "regression_backend_scope": "Each selector on ordinary and native compiled test executable; mesh substring includes existing invariants, shape/capacity/mesh/CCD callbacks and lifetime coverage. No physics tolerances changed.",
+  "additional_coverage_protocol": {
+    "reason": "Frozen C confirmation covered world-off CCD; explicit shape-off CCD and guard exclusions are uncovered requirements, not extra repeats of a failed candidate. Production source remains unchanged.",
+    "fixture": "c_abi/speculative_ccd_guard_fixture.cpp",
+    "acceptance": "5mm floor slop unchanged; moving 10mm gaps stay empty, 5mm CCD shell only present for fast bodies with continuous collision on, static gaps stay empty; all three independent off switches retain safe CCD",
+    "fresh_checks": 4,
+    "configurations": [
+      "ordinary/gpu",
+      "ordinary/both",
+      "native/gpu",
+      "native/both"
+    ],
+    "timing_runs": 0,
+    "stop": "Stop at first failed assertion, retain evidence; no retry or candidate extension."
+  },
+  "full_state_control_protocol": {
+    "selector": "speculative_mesh_controls_capture_complete_step_state",
+    "fresh_processes": 5,
+    "backends": [
+      "ordinary",
+      "native"
+    ],
+    "frames": 110,
+    "settings": "Isolated 10mm gap controls at substeps1/4, world and both endpoint switches; then 30step fast CCD for each off switch, gravity -10, dt1/60, sleepfalse, other defaults unchanged",
+    "acceptance": "Unchanged contact counts, exact gap pose and 5mm CCD floor limit, every-step health checks and exact raw v23 repeat equality",
+    "source_applicability": "Only cfg(test) module appended after all production code; production implementation unchanged from frozen candidate. Rebuild libraries and audit applicability before commit.",
+    "stop": "Retain all failures; stop repeats at first physical or full-state mismatch; no selective budget extension"
+  },
+  "additional_coverage_consumed": 4,
+  "additional_coverage_result": "All four configurations pass all three off-switch CCD cases and limited-guard exclusions",
+  "full_state_control_consumed": {
+    "ordinary": 5,
+    "native": 5
+  },
+  "full_state_control_results": {
+    "ordinary": "Five fresh110frame captures pass original physical assertions, every-step health, exact raw v23 comparison",
+    "native": "Five fresh110frame captures pass original physical assertions, every-step health, exact raw v23 comparison"
+  },
+  "status": "Rejected on semantic audit despite passing physical/repeat checks",
+  "regression_result": "All63 selected checks pass on each backend (126 total).",
+  "rejection_evidence": "ccd-safe/*/ccd-guard.stdout: continuous=1 moving=1 height=0.505 contacts=1, although tangent motion produced no CCD impact. The per-shape false scope should discard positive-gap points; retaining a shell for every fast body is broader than necessary and can reintroduce ghost witnesses. Existing upstream s&box Ghost Collisions explicitly disables hull speculation to avoid such witnesses."
+}

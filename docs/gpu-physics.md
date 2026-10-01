@@ -145,7 +145,7 @@ activate implementation on its own.
    remain. These results do not establish general GPU parity.
 2. **Next: non-recording native APIs.** Shape replacement, joint separation and reaction
    queries and substep force/torque integration are implemented with the precision
-   limits below. Warm-start controls are implemented; next implement speculative-contact controls, then
+   limits below. Warm-start and speculative-contact controls are implemented; finish their readiness acceptance and then
    world diagnostics and review the remaining worker-count/static-tree API semantics.
    Review CPU-only comparison wrappers alongside each API. Each completed API needs a sample or focused fixture
    exercising independent CPU and GPU behavior, including mutation and lifetime
@@ -189,18 +189,46 @@ contain results; [the warm-start goal](goals/gpu-warm-start.md) records recovery
 A distance-joint prototype differs from CPU on its first step before toggling;
 that minimal discrepancy is recorded separately and was not investigated here.
 
+## Speculative-contact world control
+
+`b3World_EnableSpeculative(world, enable)` now controls the GPU experimental
+hull–mesh feature; worlds default to enabled. Rust callers use
+`b3_world_enable_speculative` and can read `b3_world_is_speculative_enabled`.
+Either shape endpoint can disable the feature. Convex–convex, sphere–mesh and
+capsule–mesh contacts retain their existing behavior. Combined comparison
+adapters forward the setter to both correctly mapped worlds. The upstream viewer
+currently has no speculative checkbox; C/Rust calls exercise this control.
+
+Off/on changes force a hull–mesh manifold refresh on the next positive step,
+including after zero-duration steps. Independent worlds and recreated worlds
+keep separate policy state. An actual preceding solid CCD hit retains the existing
+6.25 mm TOI landing support shell even with speculation disabled; fast tangent
+motion without a hit does not. Removing that support shell tunnels in both the
+GPU reproducer and the independent CPU shape-off control. The pinned CPU world
+setter only stores its flag, so CPU shape controls provide the independent
+collision reference rather than a claim of CPU world-toggle parity.
+
+Captured semantic state advances to v23 for world policy and pending refresh.
+Older datasets remain readable. The
+[PR01 report](../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md)
+retains rejected variants, exact build/source receipts, five-process control
+repeats on both backends and relevant regressions. This focused evidence does
+not complete the production roadmap's final physics or repeatability matrix.
+
 ## Missing features and known failures
 
-The portable-build audit on 2026-09-29 identifies **36 stub definitions and 8
-additional placeholders**; **36 concern recording/replay**. It also lists 11
-CPU-only comparison wrappers for semantic review, with no additional missing
-linked symbols in the selected build. Full native compatibility must not be inferred from scene checks.
+The PR01 linked-build audit on 2026-10-01 identifies **35 stub definitions and 8
+additional placeholders**, with 10 CPU-only comparison wrappers requiring semantic
+review and no additional missing linked symbols in either selected backend. The
+speculative setter is implemented and routed to both mapped worlds. Full native
+compatibility must not be inferred from scene checks. See the
+[portable control report](../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md); the production roadmap keeps PR02 API contract work open.
 
 | Gap | User-visible consequence / remaining work |
 |---|---|
 | Joint query limits | Wheel angular separation is unimplemented upstream; its release fallback is zero. Reaction precision limits are described below. |
 | Falling-cube GPU capacity | The archived sweep hit the old 65,536 spatial-insertion limit at 20,000 cubes. Insertion buffers now scale with reserved shape capacity; the static-contact sort also no longer packs body/index into 16-bit halves. Pair/contact buffers and their prefix scans now scale with reserved body capacity. Pair/history storage and callbacks/events now use full-width endpoints; canonical cell ownership removes online packed-key deduplication. High-index collision, event, remap, and reuse regressions pass. Native sample C metadata now uses per-world growable chunks and passes high-index ownership/callback regressions; Sokol debug/opaque renderer reservations now follow benchmark size, and both engines must upload every cube and the floor. The sample fixes a saved draw-distance culling issue. Updated full-scene app measurements replace the earlier unvalidated Sokol curve. Collision-heavy physics and direct rendering are qualified through 200,000 cubes across three 330-step trials each; Sokol stops below 10 FPS at 150,000. The former tiled-dispatch boundary is resolved. The 200,000-cube physics buffers occupy 3.42 GiB, excluding renderer/driver resources; this is not a measured memory ceiling. |
-| World controls | The speculative-contact toggle does not control GPU behavior. Warm-start switching now controls contact and joint caches per world. Worker-count APIs are placeholders rather than GPU scheduling controls. |
+| World controls | Speculative switching now controls experimental hull–mesh positive-gap contacts per world, subject to endpoint flags and the documented CCD handoff shell. Warm-start switching controls contact and joint caches per world. Worker-count APIs are placeholders rather than GPU scheduling controls. |
 | World diagnostics | Profile/max-capacity APIs return placeholders; memory/bounds dump and static-tree rebuild helpers are incomplete. Public `contactCount` is not implemented by the GPU world counter. |
 | Recording/replay | Native recording creation, storage, file I/O, playback, seeking and query-history APIs are placeholders. Diagnostic state replay is not an implementation of these APIs. |
 | Combined viewer coverage | Some generated wrappers call only CPU APIs. Audit each remaining wrapper before claiming that controls or diagnostics affect/report both worlds. |

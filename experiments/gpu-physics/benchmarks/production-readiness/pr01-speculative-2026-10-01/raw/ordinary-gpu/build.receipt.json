@@ -1,0 +1,13 @@
+{
+  "command": [
+    "cmake",
+    "--build",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ordinary-gpu/cmake",
+    "--target",
+    "gpu_samples_api",
+    "box3d",
+    "-j4"
+  ],
+  "exit": 0,
+  "log_sha256": "39ec7ae210937cb8fa43085ad23a360b3c3e130bafd0f63729146f32586c0ccb"
+}

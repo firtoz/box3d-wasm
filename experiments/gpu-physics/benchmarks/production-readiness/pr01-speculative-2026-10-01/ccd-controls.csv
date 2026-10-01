@@ -1,0 +1,125 @@
+series,frame,height_m,vertical_velocity_m_s,source
+CPU default on,0,0.504999995,-150.166687,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,1,0.5353176,4.35691261,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,2,0.606196702,4.19024658,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,3,0.674298048,4.02358055,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,4,0.739621639,3.85691357,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,5,0.802167416,3.69024658,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,6,0.861935437,3.5235796,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,7,0.918925643,3.35691261,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,8,0.973138094,3.19024563,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,9,1.02457273,3.02357864,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,10,1.07322955,2.85691166,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,11,1.11910868,2.69024467,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,12,1.16220999,2.52357769,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,13,1.20253348,2.35691071,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,14,1.24007916,2.19024372,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,15,1.27484715,2.02357674,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,16,1.30683732,1.85691023,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,17,1.33604968,1.69024372,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,18,1.36248434,1.52357721,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,19,1.38614118,1.35691071,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,20,1.40702021,1.1902442,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,21,1.42512155,1.02357769,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,22,1.44044507,0.856910944,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,23,1.45299077,0.690244198,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,24,1.46275878,0.523577452,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,25,1.46974897,0.356910825,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,26,1.47396135,0.190244168,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,27,1.47539604,0.0235774852,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,28,1.47405291,-0.14308919,raw/ccd-safe/cpu/trial-1.stdout
+CPU default on,29,1.46993196,-0.309755862,raw/ccd-safe/cpu/trial-1.stdout
+CPU shape off (failed),0,0.504999995,-150.166687,raw/cpu-diagnostic.stdout
+CPU shape off (failed),1,0.25,-150.333374,raw/cpu-diagnostic.stdout
+GPU zero-shell off (rejected),0,0.504999995,-150.166687,raw/gpu-diagnostic.stdout
+GPU zero-shell off (rejected),1,0.25,-150.333374,raw/gpu-diagnostic.stdout
+GPU broad guard off (rejected),0,0.504999995,-150.166687,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),1,0.503131807,2.80711341,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),2,0.567719817,3.83606076,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),3,0.629918039,3.66939378,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),4,0.689338505,3.50272679,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),5,0.745981157,3.33605981,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),6,0.799846053,3.16939282,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),7,0.850933135,3.00272584,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),8,0.899242461,2.83605886,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),9,0.944773972,2.66939187,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),10,0.987527728,2.50272489,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),11,1.02750373,2.3360579,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),12,1.06470191,2.16939092,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),13,1.09912229,2.00272393,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),14,1.13076496,1.83605742,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),15,1.15962982,1.66939092,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),16,1.18571687,1.50272441,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),17,1.20902622,1.3360579,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),18,1.22955775,1.16939139,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),19,1.24731147,1.00272489,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),20,1.2622875,0.83605814,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),21,1.27448571,0.669391394,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),22,1.2839061,0.502724648,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),23,1.29054868,0.336058021,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),24,1.29441357,0.169391364,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),25,1.29550064,0.00272468477,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),26,1.29380989,-0.163941994,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),27,1.28934145,-0.330608666,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),28,1.28209519,-0.497275293,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU broad guard off (rejected),29,1.27207112,-0.663942039,raw/ccd-safe/ordinary-gpu/trial-1.stdout
+GPU handoff off,0,0.504999995,-150.166687,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,1,0.503131807,2.80711341,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,2,0.548180938,2.64044642,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,3,0.607698679,3.36720419,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,4,0.662896156,3.2005372,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,5,0.714502335,3.03387022,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,6,0.763330698,2.86720324,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,7,0.809381306,2.70053625,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,8,0.852654159,2.53386927,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,9,0.893149197,2.36720228,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,10,0.93086648,2.2005353,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,11,0.965805948,2.03386831,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,12,0.99796766,1.86720181,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,13,1.02735162,1.7005353,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,14,1.05395782,1.53386879,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,15,1.07778621,1.36720228,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,16,1.09883678,1.20053577,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,17,1.11710966,1.03386927,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,18,1.13260472,0.86720252,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,19,1.14532197,0.700535774,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,20,1.1552614,0.533869028,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,21,1.16242313,0.367202401,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,22,1.16680706,0.200535744,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,23,1.16841316,0.0338690616,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,24,1.16724157,-0.132797614,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,25,1.16329217,-0.299464285,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,26,1.15656495,-0.466130912,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,27,1.14706004,-0.632797658,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,28,1.13477731,-0.799464405,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU handoff off,29,1.11971676,-0.966131151,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,0,0.504999995,-150.166687,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,1,0.503131807,2.80711341,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,2,0.567719817,3.83606076,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,3,0.629918039,3.66939378,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,4,0.689338505,3.50272679,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,5,0.745981157,3.33605981,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,6,0.799846053,3.16939282,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,7,0.850933135,3.00272584,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,8,0.899242461,2.83605886,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,9,0.944773972,2.66939187,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,10,0.987527728,2.50272489,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,11,1.02750373,2.3360579,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,12,1.06470191,2.16939092,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,13,1.09912229,2.00272393,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,14,1.13076496,1.83605742,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,15,1.15962982,1.66939092,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,16,1.18571687,1.50272441,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,17,1.20902622,1.3360579,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,18,1.22955775,1.16939139,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,19,1.24731147,1.00272489,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,20,1.2622875,0.83605814,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,21,1.27448571,0.669391394,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,22,1.2839061,0.502724648,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,23,1.29054868,0.336058021,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,24,1.29441357,0.169391364,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,25,1.29550064,0.00272468477,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,26,1.29380989,-0.163941994,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,27,1.28934145,-0.330608666,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,28,1.28209519,-0.497275293,raw/handoff/ordinary-gpu/trial-1.stdout
+GPU default on,29,1.27207112,-0.663942039,raw/handoff/ordinary-gpu/trial-1.stdout

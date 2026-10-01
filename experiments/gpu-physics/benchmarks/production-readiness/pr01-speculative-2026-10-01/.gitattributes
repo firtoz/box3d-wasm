@@ -1,0 +1,5 @@
+# Preserve byte-exact raw receipts and compiled source snapshots.
+raw/** -text -whitespace
+source-overlays/** -text -whitespace
+# Matplotlib emits whitespace inside SVG path data.
+ccd-controls.svg -whitespace

@@ -1,0 +1,16 @@
+{
+  "command": [
+    "cmake",
+    "-S",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples",
+    "-B",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/native-gpu/cmake",
+    "-DGPU_PHYSICS_LIB=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/ccd-safe/native-gpu/libgpu_physics.a",
+    "-DGPU_PORTABLE_API=ON",
+    "-DGPU_SAMPLES=ON",
+    "-DBOTH_SAMPLES=OFF",
+    "-DCMAKE_BUILD_TYPE=Release"
+  ],
+  "exit": 0,
+  "log_sha256": "f4b5c65653b9890982a383d189e4c3cea55acc1e40c2a11a64a986d2e3690c5e"
+}

@@ -1,0 +1,6 @@
+
+running 1 test
+test sim::manifold_chain_tests::mesh_point_reduction_carries_triangle_and_feature_with_retained_witness ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 410 filtered out; finished in 0.96s
+

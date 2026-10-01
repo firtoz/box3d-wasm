@@ -31,7 +31,7 @@ with opener(a.trace,'rb') as stream, partial.open('w') as output:
  previous_frame=None
  for line in stream:
   d=json.loads(line);number=d.get('frame')
-  if d.get('schema') not in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22') or type(number) is not int or number<1:raise ValueError('schema/frame mismatch')
+  if d.get('schema') not in ('gpu-core-state-v19','gpu-core-state-v20','gpu-core-state-v21','gpu-core-state-v22','gpu-core-state-v23') or type(number) is not int or number<1:raise ValueError('schema/frame mismatch')
   if previous_frame is not None and number!=previous_frame+1:raise ValueError('noncontiguous trace frames')
   previous_frame=number
   if number<a.first+1:continue
