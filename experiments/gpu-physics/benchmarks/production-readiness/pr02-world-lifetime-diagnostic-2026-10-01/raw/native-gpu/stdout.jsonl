@@ -1,0 +1,15 @@
+{"phase":"destroy","field":"old-invalid","got":0,"expected":0,"match":true}
+{"phase":"destroy","field":"other-valid","got":1,"expected":1,"match":true}
+{"ids":true,"old":[1,1],"fresh":[1,1],"other":[2,1]}
+{"phase":"recreate","field":"distinct-world-id","got":0,"expected":1,"match":false}
+{"phase":"recreate","field":"old-stays-invalid","got":1,"expected":0,"match":false}
+{"phase":"recreate","field":"fresh-valid","got":1,"expected":1,"match":true}
+{"phase":"recreate","field":"fresh-user-data","got":22,"expected":22,"match":true}
+{"phase":"stale-read","field":"old-cannot-read-fresh-user-data","got":22,"expected":0,"match":false}
+{"phase":"stale-write","field":"fresh-warm-start-preserved","got":0,"expected":1,"match":false}
+{"phase":"stale-destroy","field":"fresh-stays-valid","got":0,"expected":1,"match":false}
+{"phase":"stale-destroy","field":"other-stays-valid","got":1,"expected":1,"match":true}
+{"phase":"stale-destroy","field":"other-user-data-preserved","got":33,"expected":33,"match":true}
+{"phase":"wrong-generation","field":"forged-invalid","got":0,"expected":0,"match":true}
+{"phase":"wrong-generation","field":"live-stays-valid","got":0,"expected":1,"match":false}
+{"summary":true,"observations":13,"mismatches":6}

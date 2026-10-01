@@ -44,7 +44,7 @@ additional completed-step gains and remain rejected experiments. The native-cach
 suite passes 276 tests, plus nine cache-disabled checks; the timing probe passes
 separately. Box3D and the WASM package are unchanged.
 
-GPU contact-query snapshots allocate new handles in stable public shape-pair
+Within one world lifetime, GPU contact-query snapshots allocate new handles in stable public shape-pair
 and compound-child order. Existing handles retain their lifetimes and query
 enumeration positions. This removes randomized hash-map iteration from public
 contact ordering; it does not change GPU constraint ordering. Handles remain
@@ -216,6 +216,15 @@ repeats on both backends and relevant regressions. This focused evidence does
 not complete the production roadmap's final physics or repeatability matrix.
 
 ## Native API availability
+
+Current native world lifetime safety **fails** on both backends and combined
+routing. [Independent C diagnosis](../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-diagnostic-2026-10-01/README.md)
+passes the real CPU control and demonstrates six failures in every GPU cell:
+world recreation reuses the same ID; stale handles can read/change/destroy the
+replacement, and forged-generation destruction removes a live world. PR01
+per-world acceptance is reopened; PR02/PR05 remain open. Prior physics passes
+do not qualify this lifetime behavior. Registry generations, destruction checks
+and child-to-world routing require repair before release qualification.
 
 The initial Linux/NVIDIA GPU release excludes native recording/player APIs and
 CPU worker/static-tree controls. The 39 operations listed in

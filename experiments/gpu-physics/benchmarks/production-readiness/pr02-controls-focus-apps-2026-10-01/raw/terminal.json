@@ -1,0 +1,13 @@
+{
+  "status": "stopped-verifier-sampling-failure",
+  "fresh_apps": 1,
+  "control_actions": 25,
+  "gpu_apps": 0,
+  "timing": 0,
+  "retries": 0,
+  "failure": "validate-app.py samples final delayed state_after move_count instead of actual completed single-step record; AssertionError: actual moved body required after new lifetime single-step",
+  "old_validator_sha256": "9d402eb5b7657bda6471635de61d2ba4318c37e720c40c5ddc669f27212eada3",
+  "cpu_receipt_sha256": "df82ef736a3331ff17ada3e59b4eaac0de8c27c12f42a577e4385d993b5bc158",
+  "known_cleanup": "driver session5893 exits0, CPU app/capture exit0; subsequent GPU launch prerequisite rejects missing CPU acceptance before any new app/server creates",
+  "next": "Distinct offline event-window fixture correction; no CPU trial rerun. Four GPU cells still unlaunched."
+}

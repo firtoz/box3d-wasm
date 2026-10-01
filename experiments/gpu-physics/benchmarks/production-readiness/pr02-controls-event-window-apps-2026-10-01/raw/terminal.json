@@ -1,0 +1,75 @@
+{
+  "status": "stopped-world-lifetime-failure",
+  "offline_cpu_validations": 1,
+  "fresh_cpu_apps": 0,
+  "first_gpu_apps": 1,
+  "gpu_unlaunched": [
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "timing_runs": 0,
+  "production_candidates": 0,
+  "failure": "Restart resets sample/completed steps to0 but opaque GPU WorldId remains [1,1]; original distinct-lifetime requirement fails. Source b3_create_world initializes/reuses generation1 and b3_destroy_world does not check generation.",
+  "before_restart": {
+    "frame": 1390,
+    "world": [
+      1,
+      1
+    ],
+    "sample_step": 146,
+    "submitted": 146,
+    "completed": 146,
+    "completed_known": 1,
+    "pause": 1,
+    "single_remaining": 0,
+    "context_flags": [
+      0,
+      0,
+      0
+    ],
+    "world_flags": [
+      0,
+      0,
+      0
+    ],
+    "hertz": 60,
+    "substeps": 4,
+    "show_metrics": 0,
+    "body_count": 2,
+    "shape_count": 2,
+    "move_count": 0
+  },
+  "after_restart": {
+    "frame": 1399,
+    "world": [
+      1,
+      1
+    ],
+    "sample_step": 0,
+    "submitted": 0,
+    "completed": 0,
+    "completed_known": 1,
+    "pause": 1,
+    "single_remaining": 0,
+    "context_flags": [
+      0,
+      0,
+      0
+    ],
+    "world_flags": [
+      0,
+      0,
+      0
+    ],
+    "hertz": 60,
+    "substeps": 4,
+    "show_metrics": 0,
+    "body_count": 2,
+    "shape_count": 2,
+    "move_count": 0
+  },
+  "app_cleanup": "12 actions including deliberate Ctrl+Q after observed failure; app/capture/driver exit0, session8634 terminal",
+  "accepted_gpu_apps": 0,
+  "next": "Independent frozen five-cell public C root-world stale getter/setter/destroy and forged generation diagnosis; existing default/reference limits unchanged."
+}

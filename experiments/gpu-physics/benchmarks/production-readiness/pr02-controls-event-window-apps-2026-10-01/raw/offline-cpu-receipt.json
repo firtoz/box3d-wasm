@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "protocol_sha256": "a6551aae00989ca06fdf14f14e857ef260e41ce9819a2b44818f0a84e890beb4",
+  "validator_sha256": "f576997c204de8482112d520f4f9372edb7e975c221c0e7ba211e0d5834fe62c",
+  "existing_cpu_acceptance_sha256": "be78c71a1de6bfb88015b15098a4b311791a6642573f3bef000558282acdabd1",
+  "existing_cpu_receipt_sha256": "df82ef736a3331ff17ada3e59b4eaac0de8c27c12f42a577e4385d993b5bc158",
+  "existing_cpu_observer_sha256": "96e6ccaf39eb803f880d463b85ccc03087de6898ead5e70fd18338690e70b7d0",
+  "fresh_cpu_processes": 0,
+  "offline_validations": 1,
+  "all_other_assertions_unchanged": true,
+  "event_semantics": "Actual move event required during completed single-step action window; later zero-time paused steps may clear events. No accepted requirement dropped."
+}

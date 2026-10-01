@@ -1,0 +1,2 @@
+name, uuid, driver_version
+NVIDIA GeForce RTX 4070 SUPER, GPU-7847813f-14d1-cb57-4c9d-3030b33c6d8a, 610.57.04

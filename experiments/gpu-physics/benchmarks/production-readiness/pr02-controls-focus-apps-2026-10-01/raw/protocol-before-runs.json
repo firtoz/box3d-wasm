@@ -1,0 +1,65 @@
+{
+  "id": "pr02-controls-focus-apps-2026-10-01",
+  "requirement": "Previously unlaunched PR02 actual truthful native viewer world controls after retained property repair",
+  "prerequisite": "All five current-source diagnostic viewers built under pr02-controls-current-builds; each actual executable and build-receipt hash checked before launch",
+  "budget": {
+    "fresh_viewer_processes": 5,
+    "host_receiver_processes": 0,
+    "production_candidates": 0,
+    "timing_runs": 0,
+    "retries": 0,
+    "harness_source_corrections": 1
+  },
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "watchdog_seconds": 600,
+  "max_actions_per_app": 40,
+  "max_screenshots_per_app": 20,
+  "configuration": {
+    "sample": "Single Box",
+    "arguments": [
+      "--sample-name",
+      "Single Box"
+    ],
+    "settings_initial": {},
+    "hertz": 60,
+    "substeps": 4,
+    "sleep": true,
+    "warm_start": true,
+    "continuous": true,
+    "ordinary_backend": "wgpu Vulkan NVIDIA",
+    "native_backend": "native cached Vulkan NVIDIA",
+    "rendering": "Mesa software/Xvfb1280x720",
+    "trace": "read-only post-Step world flags/events/counters/completion; not benchmark mode; cadence is diagnostic only"
+  },
+  "controls": [
+    "P pause and stable completed step",
+    "period advances exactly one step while paused",
+    "Sleep/Warm Starting/Continuous checkboxes off then on and exact public world getters",
+    "combined mapped CPU flags agree with context and GPU flags",
+    "restart new world lifetime while paused with controls preserved",
+    "actual Profile/Counters/Frame Time tabs and truthful backend labels",
+    "M metrics toggle",
+    "Ctrl+Q clean quit and upstream-supported saved rendering settings"
+  ],
+  "input": "Reuse already retained pure host held-input proof after source audit. Direct libX11 focus with observed XGetInputFocus equality for actual Box3D viewer window; hold mouse270ms after motion120ms; key120ms. Choose coordinates only from actual current screenshots. Adaptive action order allowed within fixed actions/screenshots; no retries/replacements. Bounded wheel scrolling (at most5 detents/action) allowed to reach clipped Info panel controls; coordinates/content selected from actual screenshots.",
+  "acceptance": "Each app passes all named behaviors with numeric observer evidence and reviewed actual visible controls/tab content. Upstream Save excludes physics controls; no unsupported persistence requirement. World getters match displayed/context flags once input is consumed; paused step stable, single-step delta exactly1, restart lifetime changes. Original physical tolerances unchanged; this is limited control-contract acceptance, not full dynamics, sample-wide UI/raycast or performance qualification.",
+  "stop_rule": "Stop first infrastructure, stimulus, source/provenance or control-contract failure or watchdog. Retain failed and passing evidence, leave remaining apps unlaunched. Do not rerun older closed campaigns.",
+  "publication": "Portable commands/environments, action/state JSON, observer raw data, screenshots, build proof and capture hashes. Full diagnostic clips retained locally; screenshots cover accepted interactions. No headline performance claim.",
+  "changed_hypothesis": "Prior first CPU trial failed before input because xwininfo absent. This distinct driver enumerates root children/names with existing libX11 XQueryTree/XFetchName, sets focus then verifies actual XGetInputFocus. Same frozen viewers/settings/held primary-button and key stimulus; no engine changes, no performance repeats. Prior failed campaign remains closed.",
+  "driver_sha256": "c74f9b4734717c7404e338acabfabae5c855f9dbc657b4952819b4fdea7ae3b5",
+  "validator_sha256": "9d402eb5b7657bda6471635de61d2ba4318c37e720c40c5ddc669f27212eada3",
+  "frozen_viewers": {
+    "cpu": "6c65fabab6fbd048a321061c8f9b2bb061afdcfa450d57b1bbc5ff96d5e6d14e",
+    "ordinary-gpu": "dec18cb9126eea41a07d8e819bca5688061d2a43acfdd555b39341295d6fbecd",
+    "native-gpu": "b5f0f1103f4bb883d9bd9b3881024318632dfe516684a1ae75ebc7f6202f8fcd",
+    "ordinary-both": "fdc596ce03ff0c808bfab194bd34cdeca741814b55a64c0356d5bf4eb49a13ca",
+    "native-both": "f93c1ccf46766dffd811ad951f425f199a04b13797e0d3775a422a8d1a9faeec"
+  },
+  "frozen_unix": 1790889699.7065542
+}

@@ -1,0 +1,82 @@
+{
+  "id": "pr02-controls-event-window-apps-2026-10-01",
+  "requirement": "Previously unlaunched PR02 actual truthful native viewer world controls after retained property repair",
+  "prerequisite": "All five current-source diagnostic viewers built under pr02-controls-current-builds; each actual executable and build-receipt hash checked before launch",
+  "budget": {
+    "fresh_cpu_apps": 0,
+    "first_previously_unlaunched_gpu_apps": 4,
+    "host_receiver_processes": 0,
+    "offline_validator_corrections": 1,
+    "offline_cpu_validations": 1,
+    "production_candidates": 0,
+    "timing_runs": 0,
+    "retries": 0
+  },
+  "order": [
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "watchdog_seconds": 600,
+  "max_actions_per_app": 40,
+  "max_screenshots_per_app": 20,
+  "configuration": {
+    "sample": "Single Box",
+    "arguments": [
+      "--sample-name",
+      "Single Box"
+    ],
+    "settings_initial": {},
+    "hertz": 60,
+    "substeps": 4,
+    "sleep": true,
+    "warm_start": true,
+    "continuous": true,
+    "ordinary_backend": "wgpu Vulkan NVIDIA",
+    "native_backend": "native cached Vulkan NVIDIA",
+    "rendering": "Mesa software/Xvfb1280x720",
+    "trace": "read-only post-Step world flags/events/counters/completion; not benchmark mode; cadence is diagnostic only"
+  },
+  "controls": [
+    "P pause and stable completed step",
+    "period advances exactly one step while paused",
+    "Sleep/Warm Starting/Continuous checkboxes off then on and exact public world getters",
+    "combined mapped CPU flags agree with context and GPU flags",
+    "restart new world lifetime while paused with controls preserved",
+    "actual Profile/Counters/Frame Time tabs and truthful backend labels",
+    "M metrics toggle",
+    "Ctrl+Q clean quit and upstream-supported saved rendering settings"
+  ],
+  "input": "Reuse already retained pure host held-input proof after source audit. Direct libX11 focus with observed XGetInputFocus equality for actual Box3D viewer window; hold mouse270ms after motion120ms; key120ms. Choose coordinates only from actual current screenshots. Adaptive action order allowed within fixed actions/screenshots; no retries/replacements. Bounded wheel scrolling (at most5 detents/action) allowed to reach clipped Info panel controls; coordinates/content selected from actual screenshots.",
+  "acceptance": "Each app passes all named behaviors with numeric observer evidence and reviewed actual visible controls/tab content. Upstream Save excludes physics controls; no unsupported persistence requirement. World getters match displayed/context flags once input is consumed; paused step stable, single-step delta exactly1, restart lifetime changes. Original physical tolerances unchanged; this is limited control-contract acceptance, not full dynamics, sample-wide UI/raycast or performance qualification.",
+  "stop_rule": "Stop first infrastructure, stimulus, source/provenance or control-contract failure or watchdog. Retain failed and passing evidence, leave remaining apps unlaunched. Do not rerun older closed campaigns.",
+  "publication": "Portable commands/environments, action/state JSON, observer raw data, screenshots, build proof and capture hashes. Full diagnostic clips retained locally; screenshots cover accepted interactions. No headline performance claim.",
+  "changed_hypothesis": "Actual CPU move event is captured at frame711 within single-after action710..717. Upstream Sample sets m_stepWhilePaused=true and calls b3World_Step(dt0) on later paused frames, clearing bodyMoveEvents before zero-time return. Original verifier samples delayed terminal state_after instead of event frame. Correct only event sampling to full action/completed-step window, retaining actual moved body requirement and all other assertions. CPU process is reused, not rerun; original verifier failure retained. Four GPU apps were never launched.",
+  "driver_sha256": "e131ef125c7b065dbbe66f5118a24805e4105ea29b711b9c8cecdef56cbc0b53",
+  "validator_sha256": "9d402eb5b7657bda6471635de61d2ba4318c37e720c40c5ddc669f27212eada3",
+  "frozen_viewers": {
+    "cpu": "6c65fabab6fbd048a321061c8f9b2bb061afdcfa450d57b1bbc5ff96d5e6d14e",
+    "ordinary-gpu": "dec18cb9126eea41a07d8e819bca5688061d2a43acfdd555b39341295d6fbecd",
+    "native-gpu": "b5f0f1103f4bb883d9bd9b3881024318632dfe516684a1ae75ebc7f6202f8fcd",
+    "ordinary-both": "fdc596ce03ff0c808bfab194bd34cdeca741814b55a64c0356d5bf4eb49a13ca",
+    "native-both": "f93c1ccf46766dffd811ad951f425f199a04b13797e0d3775a422a8d1a9faeec"
+  },
+  "frozen_unix": 1790889978.1675854,
+  "offline_cpu_prerequisite": {
+    "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-focus-apps/cpu",
+    "receipt_sha256": "df82ef736a3331ff17ada3e59b4eaac0de8c27c12f42a577e4385d993b5bc158",
+    "observer_sha256": "96e6ccaf39eb803f880d463b85ccc03087de6898ead5e70fd18338690e70b7d0",
+    "visual_review_sha256": "13a325e768813109268bb654ce99f24e16a3d85addfff025232389ae0de36cae",
+    "binary_sha256": "6c65fabab6fbd048a321061c8f9b2bb061afdcfa450d57b1bbc5ff96d5e6d14e",
+    "acceptance_file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-focus-apps/cpu/acceptance.json"
+  },
+  "validator_before_sha256": "9d402eb5b7657bda6471635de61d2ba4318c37e720c40c5ddc669f27212eada3",
+  "validator_after_sha256": "f576997c204de8482112d520f4f9372edb7e975c221c0e7ba211e0d5834fe62c",
+  "source_evidence": {
+    "sample_constructor": "box3d/samples/sample.cpp:314 m_stepWhilePaused=true",
+    "sample_step": "box3d/samples/sample.cpp:446 zero-time paused Step when true",
+    "events_clear": "box3d/src/physics_world.c:1059 b3Array_Clear(bodyMoveEvents) before zero-time return",
+    "example_record_frame": 711
+  }
+}

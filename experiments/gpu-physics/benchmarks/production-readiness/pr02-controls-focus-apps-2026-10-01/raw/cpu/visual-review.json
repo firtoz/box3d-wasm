@@ -1,0 +1,26 @@
+{
+  "status": "pass",
+  "reviewer": "agent visual inspection of original current-process PNGs",
+  "screenshots": {
+    "paused.png": "6d97b41d301e84beb98848a773ed018b5b08bbde9e9b715b77f6313402c57ec1",
+    "flags-off.png": "7e0086fd371f4d170b8e75040f633f446f42e427f57456dad9f64170697eaabd",
+    "restart-off.png": "e29deb984f7ecf74da03eb7cd61913bdc0e5901e78998131823cf25ae5abaff6",
+    "flags-on.png": "9b0d9f5007b713ff3b38585cd9ec46e126f9fcf18ec58dad31c2fdf9a960b41b",
+    "metrics-initial.png": "4193fe6c1a753ab9853b35e752a6a8168ffc9081a250963a0ad40d3f3f236f72",
+    "profile.png": "5c7644b0c0e7a4e85b8931f5efbf605cd87f5ecff3512f7e25630961a5b42328",
+    "counters.png": "bf86b6924b988e29ea90f6110e44dd8563e974f3f0f1db97e905514ee94e57a6",
+    "frame-time.png": "115aa17676cac5ac211655ecd66e294f56e0cdb8d479f3fdb28a0d74d5252a82",
+    "metrics-off.png": "a84676d8bf8edb0aaccc7463e3c782331d56108e7c43ac738ace0f1ab0b19c12"
+  },
+  "observed": {
+    "paused": "PAUSED label and step215; Sleep/Warm Starting/Continuous all checked, four substeps/60Hz.",
+    "flags-off": "All three checkboxes empty at paused step216; visible supported Workers8 and Recording controls.",
+    "restart-off": "All three remain empty; paused step0 with cube reset to initial position.",
+    "flags-on": "All three checked, paused step1 after exactly one new lifetime step.",
+    "profile": "Profile tab selected; CPU flame bar and section/now/avg/max table, step0.04ms diagnostic only.",
+    "counters": "Counters tab selected; bodies/shapes/contacts/joints2/2/1/0, recycled1/1, islands/tasks1/1, CPU tree/allocator data.",
+    "frame-time": "Frame Time tab selected; original CPU ms plot axes/legend step/collide/solve, paused single-step sparse series; not benchmark data.",
+    "policy-exclusions": "CPU Workers slider and real native Recording controls visible. GPU exclusions do not apply to real CPU."
+  },
+  "limits": "Only Single Box core viewer controls; no sample-wide widgets, query visuals, or timing acceptance."
+}

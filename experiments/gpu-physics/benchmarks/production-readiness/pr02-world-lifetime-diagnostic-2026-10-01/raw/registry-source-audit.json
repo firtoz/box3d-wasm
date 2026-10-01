@@ -1,0 +1,19 @@
+{
+  "status": "source-audit-not-a-fix",
+  "scope": "Root lifetime repair planning; child routing and generation exhaustion need qualification.",
+  "inputs": {
+    "src/api/world.rs": "707343eba8122ffe44853b6ffc06d76033b2aa167480028c8053e3cc715c988b",
+    "src/api/world/contact_api.rs": "fc1661380ea49d704669e7f1d428b0ead87424b0081456e5224b4d269df83044",
+    "src/api/query.rs": "2c30c1bbb5759b0a856e0b5a48cb5ba58f7841dfd8a071f5da3e98af95806ad3",
+    "c_abi/both_dual.c": "ec5b948273c21d0a082c887a4fe0b7162c3fd58bf8c60c087c8b27f339f79d19"
+  },
+  "facts": [
+    "WORLDS drops WorldInner in None slots and loses root generation; creation assigns generation1, destroy ignores generation.",
+    "with_world/with_world_no_sync/slot_mut validate generation, but reused root generation revives old handles.",
+    "Child-to-world routes often construct WorldId generation1. Simply incrementing root generation breaks valid operations after restart.",
+    "Body slot generation increments within one world; recreation starts body/shape/joint metadata again. Cross-world stale child identities must be audited independently.",
+    "Public contact identities use GPU/root history and host contact registry; verify validity across replacement, not only within-world retirement.",
+    "Combined maps use full root IDs; generation repair changes route/cache applicability and requires fresh proof."
+  ],
+  "next": "Freeze one explicit registry/ID candidate after auditing current-world routes, persistent child counters, generation exhaustion and linked C routing. Preserve ABI/physics/defaults/order; original root fixture plus relevant world-controls/ownership/query/repeatability/capacity regressions. Refreeze viewers before remaining actual control apps. No timing or historical Rain campaign."
+}

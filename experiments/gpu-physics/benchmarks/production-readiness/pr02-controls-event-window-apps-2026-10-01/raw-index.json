@@ -1,0 +1,134 @@
+{
+  "raw/adapter.txt": {
+    "sha256": "a53f6ea1169d7a042aba041785c7c7a9c86acaf743258ad76b95f7a1d0414505",
+    "bytes": 110
+  },
+  "raw/offline-cpu-receipt.json": {
+    "sha256": "52edff50598843f571d206df9f54504db8890c2d9ac4d73cf1b83e311406e41a",
+    "bytes": 782
+  },
+  "raw/offline-cpu-validation.log": {
+    "sha256": "87a8eb271e0ce670a00dcf7c4e5146221418e2864fbef552c63cc1a59f921a55",
+    "bytes": 31
+  },
+  "raw/ordinary-gpu/action-01.json": {
+    "sha256": "df8d1b6f28487e26fd40aee61b638143e2cbe7fc5c5eaeda2adaa82f849edcb9",
+    "bytes": 48
+  },
+  "raw/ordinary-gpu/action-02.json": {
+    "sha256": "d37c6a880ba12ee56c69663486c3d81ec20a1ee5d104f681ffa0a04fbf951037",
+    "bytes": 40
+  },
+  "raw/ordinary-gpu/action-03.json": {
+    "sha256": "99f6121e2211615f149d2eeb46b1b06793d3eafed1048ad44dbeecfcb234fb93",
+    "bytes": 55
+  },
+  "raw/ordinary-gpu/action-04.json": {
+    "sha256": "78c95f662a6d5b5a57db7b6fabfadfbd3ecb516ed87796cecf7459f13427a0f7",
+    "bytes": 51
+  },
+  "raw/ordinary-gpu/action-05.json": {
+    "sha256": "278c23c675df5cda948b29753b9cc3105b07152974d6702fe31a55be7cecb889",
+    "bytes": 42
+  },
+  "raw/ordinary-gpu/action-06.json": {
+    "sha256": "4faedaa5ea4261fdbc812869d3535353c38c9bf5d2fc13495f1191b55d922bb4",
+    "bytes": 60
+  },
+  "raw/ordinary-gpu/action-07.json": {
+    "sha256": "44987fd6e8f5fa6a8537f9b69fd19f92b7b1986bac595b78932e5c2c09592dc5",
+    "bytes": 59
+  },
+  "raw/ordinary-gpu/action-08.json": {
+    "sha256": "5ddc119083898e99ebfeec1dacb1c04c450a51c593c4679ac0a3a6d7a27b64e4",
+    "bytes": 65
+  },
+  "raw/ordinary-gpu/action-09.json": {
+    "sha256": "a9b4cdb29c0520896bba3aacbba2c04d8c42716c2605e7db14098e3309dc0f8f",
+    "bytes": 43
+  },
+  "raw/ordinary-gpu/action-10.json": {
+    "sha256": "eb0d292163dc333a15134dbc50bbc34420a8ff51e8ebaf16fec08c9f6cb6a367",
+    "bytes": 62
+  },
+  "raw/ordinary-gpu/action-11.json": {
+    "sha256": "e73b69b051757e21103d2049b6185b548e90395b13b71fd8f9173224f88e0770",
+    "bytes": 45
+  },
+  "raw/ordinary-gpu/action-12.json": {
+    "sha256": "b05b613a3d21f555ffa33f787dcb21e9f42d5edffc29c7c1fd260d11d13addf2",
+    "bytes": 56
+  },
+  "raw/ordinary-gpu/clip.mp4": {
+    "sha256": "4f1cdbcf4250cf8e40f624b7d9dfd37598ba074d7e75c0598d009861c48a32bc",
+    "bytes": 1941487
+  },
+  "raw/ordinary-gpu/controls.png": {
+    "sha256": "fd021accc889d550d49178afe98fa13a7f12091b05e800a989bb024e9e2c1f21",
+    "bytes": 159940
+  },
+  "raw/ordinary-gpu/ffmpeg.log": {
+    "sha256": "25db85b90f484b8dc3b4b95e288825695b3cbe4f0e487e6bd1b116e17dd5b6a5",
+    "bytes": 109
+  },
+  "raw/ordinary-gpu/flags-off.png": {
+    "sha256": "4cd36eb3044db1c835491ba0beb66d3e04decc12465e7da229e34ac00ee3ca8e",
+    "bytes": 159514
+  },
+  "raw/ordinary-gpu/imgui.ini": {
+    "sha256": "3f5dbf3329919d9d994875e87733757dd1ee2f16187a68dd2379b8f6f5c5bbb4",
+    "bytes": 147
+  },
+  "raw/ordinary-gpu/observer.jsonl": {
+    "sha256": "1087fad7e0885e7708cc1f0a27d3fff9ef07c8d3250d5e9f899e0707f6de2cc5",
+    "bytes": 490773
+  },
+  "raw/ordinary-gpu/paused.png": {
+    "sha256": "52e6ae5dd6068046fa844eba1a8b3ea2f277e9a90d1d124dd1f73df48b3d76d7",
+    "bytes": 158985
+  },
+  "raw/ordinary-gpu/receipt.json": {
+    "sha256": "7fcca13a6ec23989599ef95fe775b035f08ca5ff6d38bf1e0becc54dabab1a28",
+    "bytes": 18624
+  },
+  "raw/ordinary-gpu/restart-off.png": {
+    "sha256": "177a1c0a3daa0f2f406e108def6e723c360a300341b2843b56ef4d8ecca4ecd1",
+    "bytes": 157100
+  },
+  "raw/ordinary-gpu/settings.ini": {
+    "sha256": "d2e712291ce94b0360c171331cb053d455b5f911306543951590e56befad5177",
+    "bytes": 369
+  },
+  "raw/ordinary-gpu/stderr.log": {
+    "sha256": "aed5bf66a2547a6c77a2560cdd6d8c25311eec3798ff2f35dad2cc6679d18ef0",
+    "bytes": 2087
+  },
+  "raw/ordinary-gpu/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/ordinary-gpu/xvfb.log": {
+    "sha256": "12dcabf0449b9ff85d589b86d110c814777977daca56e7ba8ec300c5334fe397",
+    "bytes": 817
+  },
+  "raw/protocol-before-runs.json": {
+    "sha256": "a6551aae00989ca06fdf14f14e857ef260e41ce9819a2b44818f0a84e890beb4",
+    "bytes": 5806
+  },
+  "raw/terminal.json": {
+    "sha256": "a3b9a968cb21e857ebaca52f9c93b57191f20300aaa3341177e330bd36127c59",
+    "bytes": 1730
+  },
+  "raw/validate-app.py": {
+    "sha256": "f576997c204de8482112d520f4f9372edb7e975c221c0e7ba211e0d5834fe62c",
+    "bytes": 4420
+  },
+  "raw/validator-before-correction.py": {
+    "sha256": "9d402eb5b7657bda6471635de61d2ba4318c37e720c40c5ddc669f27212eada3",
+    "bytes": 4174
+  },
+  "raw/viewer-interact.py": {
+    "sha256": "e131ef125c7b065dbbe66f5118a24805e4105ea29b711b9c8cecdef56cbc0b53",
+    "bytes": 8207
+  }
+}

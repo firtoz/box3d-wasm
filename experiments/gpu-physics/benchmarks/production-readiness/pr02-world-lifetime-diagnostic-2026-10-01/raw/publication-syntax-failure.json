@@ -1,0 +1,6 @@
+{
+  "status": "offline-validator-syntax-failure",
+  "reason": "Dense Python conditional tokens else13 and else6 require whitespace; fix only token separation, unchanged checks/fields/source/raw results. No engine process rerun.",
+  "failed_validator_sha256": "61a55093606174dd76e68ac929a17db7dc3045c91fe6bb6ac7c218ab28df8f56",
+  "corrected_validator_sha256": "6e34fce05a24c2ed0c31d32a023e13037b24301136a71ea8c21104cd4aee2de3"
+}
