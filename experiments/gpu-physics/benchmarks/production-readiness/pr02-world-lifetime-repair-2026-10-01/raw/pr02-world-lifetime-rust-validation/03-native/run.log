@@ -1,0 +1,29 @@
+
+running 18 tests
+test api::query::tests::ccd_targets_separation_instead_of_outer_tolerance_shell ... ok
+test api::query::tests::convex_overlap_and_cast ... ok
+test api::query::tests::direct_compound_ray_rejects_stale_parent ... GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+ok
+test api::query::tests::exhausted_toi_keeps_the_last_safe_advance ... ok
+test api::query::tests::gpu_convex_sweeps_match_cpu_conservative_advancement ... GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+ok
+test api::query::tests::mesh_ccd_glancing_rotation_uses_centroid_plane_filter_except_for_sensors ... ok
+test api::query::tests::mesh_ccd_initial_tip_contact_still_stops_centroid_crossing ... ok
+test api::query::tests::mesh_ccd_keeps_positive_toi_with_degenerate_witness_normal ... ok
+test api::query::tests::mesh_ccd_rotating_capsule_matches_native_root_tolerance ... ok
+test api::query::tests::mover_deep_overlap_primitives_and_hull ... ok
+test api::query::tests::native_toi_mesh_preserves_clipped_interval_and_traversal_order ... ok
+test api::query::tests::native_toi_sweeps_match_impact_captures ... ok
+test api::query::tests::near_shell_parallel_ccd_sweep_is_not_truncated ... ok
+test api::query::tests::plane_solver_and_clipping_match_box3d ... ok
+test api::query::tests::query_filter_ignores_groups ... ok
+test api::query::tests::ray_snapshot_prunes_and_retains_owned_compound_candidates ... ok
+test api::query::tests::spatial_snapshot_preserves_hits_and_child_order_after_refit ... ok
+test api::query::tests::sphere_ray_hit_miss_and_initial_overlap ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 399 filtered out; finished in 1.37s
+

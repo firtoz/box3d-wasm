@@ -1,0 +1,1 @@
+First setup command ran from experiments/gpu-physics with an extra experiments/gpu-physics prefix. FileNotFoundError before directory/protocol/source changes; native build driver did not exist and no build ran. Correct setup runs from repository root.

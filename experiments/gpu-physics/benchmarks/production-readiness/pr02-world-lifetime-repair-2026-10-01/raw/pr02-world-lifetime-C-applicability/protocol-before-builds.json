@@ -1,0 +1,22 @@
+{
+  "objective": "Compile the generated combined shim from exact new bytes instead of reusing its original object: two inserted blank lines survived removal of overridden functions. Reuse the two already compiled standalone changed units/archives; no Rust build/test or standalone compiler rerun. Then run all nine first C validations still unlaunched by the stopped cleanup campaign.",
+  "prior_receipt_sha256": "9dd72e7ab92136d7e2ae474477c6ad21556ea511552cb0074f44b08386a79cbe",
+  "prior_protocol_sha256": "d5c13ecd8c1231557354d4a15213040d9f2a4676277d843583b3dfe59d7d9a69",
+  "budget": {
+    "new_generators": 1,
+    "reused_ordinary_both_generation": 1,
+    "standalone_compiler_repeats": 0,
+    "first_combined_C_unit_compiles": 4,
+    "combined_archive_member_replacements": 4,
+    "first_fixture_links": 9,
+    "CPU_control_processes": 1,
+    "GPU_cleanup_processes": 4,
+    "GPU_root_processes": 4,
+    "Rust_repeats": 0,
+    "timing": 0,
+    "retries": 0
+  },
+  "source_behavior": "No Rust/C candidate source or validation assertion changes; restore archived candidate bytes. Exact generation/compile proof is required even for blank-line differences. All failed raw source/proof/logs retained.",
+  "stop_rule": "All C fixture builds before CPU-first nine processes; stop, retain and restore all production edits on first build/input/control/acceptance failure. Every root and cleanup process requires nonzero observations and zero mismatches. No old driver rerun.",
+  "watchdog_seconds": 600
+}

@@ -1,0 +1,50 @@
+{
+  "objective": "First Rust lifetime validation on both exact compiled candidate backends, including all nine joint child routes and unchanged selected query/contact/control regressions. Does not qualify stale C geometry/viewer cleanup or actual viewer controls.",
+  "build_receipt_sha256": "28661adc1967ef397fb79f8b1041b2bc8b0be4fb3226caf614e26d0ab72804be",
+  "recovered_receipt_sha256": "5d17adf1740a0ae47309b2a9c5eef186267c87e5fac0da1f396ea5ab4eb5bd5b",
+  "inputs_sha256": "918f0aa2ffc2acca3a956f244fc2e8b9bf0c7454db5322c56cbb54d9f2b34861",
+  "budget": {
+    "new_lifetime_processes": 2,
+    "existing_regression_processes": 16,
+    "C_builds_or_runs": 0,
+    "timing": 0,
+    "retries": 0
+  },
+  "tests": {
+    "ordinary": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-artifact-repair/ordinary-test-executable",
+      "sha256": "597b893bcbbb401866721e1b1b45cb03c58263ae8bee76cbe8af00cdfaef23b9"
+    },
+    "native": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-artifact-repair/native-test-executable",
+      "sha256": "34ede43142323516f585d4d236755b8ef46dc6d9e61b6ba51354f379c85aa4a3",
+      "features": [
+        "external-c-shim",
+        "native-command-cache",
+        "replay-diagnostics"
+      ]
+    }
+  },
+  "filters": [
+    "world_lifetime_tests",
+    "joint_metadata_tests",
+    "compound_property_contract",
+    "query::tests",
+    "shape_geometry::tests",
+    "contact_api::determinism_tests",
+    "contact_api::query_order_tests",
+    "speculative_policy_tests",
+    "native_diagnostics::tests"
+  ],
+  "order": "Each filter ordinary then native, fresh process, one test thread. Stop first failure, require nonzero passed test count. Restore production on failure, preserve exact candidate/source/binaries/logs.",
+  "watchdog_seconds": 600,
+  "settings": {
+    "adapter": "nvidia",
+    "backend": "vulkan",
+    "dt": "1/60",
+    "substeps": 4,
+    "defaults": "untouched",
+    "live_contact_order": "1"
+  },
+  "limitations": "Uncovered C wrapper destruction callback/geometry cleanup needs separate qualification and repair before any production commit. No physics/release/performance acceptance inferred beyond selected tests."
+}

@@ -1,0 +1,5 @@
+{
+  "generators": 4,
+  "purpose": "Regenerate API selection from the exact new Rust libraries and candidate C sources before compiling exactly four changed C units. All remaining generated C must be byte-exact to previously compiled inputs. Four archive member replacements and nine fixture links follow original frozen cleanup budget. No old archive or build directory is mutated.",
+  "rust_validation_receipt_sha256": "a83d58db5cc03d98497f5a42282b1505b0950e0cb13463d92bee43aa78ba0ba7"
+}

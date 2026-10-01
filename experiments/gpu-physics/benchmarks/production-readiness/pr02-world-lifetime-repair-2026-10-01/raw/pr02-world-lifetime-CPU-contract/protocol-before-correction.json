@@ -1,0 +1,21 @@
+{
+  "objective": "Correct the CPU-only stale-child expectation from inspected native Box3D source, retaining its observed alias and failed original test. Reuse offline CPU observations and validate GPU-preprocessed fixture identity before first execution of eight still-unlaunched GPU programs. GPU stale-child rejection stays false; no physical tolerance or GPU assertion changes.",
+  "prior_receipt_sha256": "d84cc7330c31fb999f6280960b22b6a16d0bfcc964b9b006d05a09dba9f30bed",
+  "budget": {
+    "CPU_offline_control_validations": 1,
+    "CPU_process_repeats": 0,
+    "GPU_fixture_preprocessing_proofs": 2,
+    "build_or_Rust_test_repeats": 0,
+    "GPU_first_cleanup_processes": 4,
+    "GPU_first_root_processes": 4,
+    "timing": 0,
+    "retries": 0
+  },
+  "stop_rule": "Restore exact archived candidate sources only after CPU observation and GPU source applicability proof. Stop/retain and restore every production edit on first source/input/process/acceptance failure. Do not rerun closed drivers.",
+  "watchdog_seconds": 600,
+  "CPU_source_criteria": {
+    "shape.c": "initial shape generation increments from freshly initialized per-world storage",
+    "physics_world.c": "b3Shape_IsValid checks live world slot/shape generation but no root world generation in child ID",
+    "native_scope": "Historical CPU child may alias; invalid CPU mutators/destructors remain forbidden. GPU requires stale children invalid across world recreation."
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "objective": "Repair the build receipt destination collision, reuse the two successfully compiled ordinary artifacts, and build the previously unlaunched native library/tests from identical Rust inputs. Never rerun stopped original build driver. Audit uncovered stale C cleanup separately before public/API qualification.",
+  "prior_protocol": "5b2bb7d34d566930b26a1accfa2e9c95e60cd317edd2872a305ce1313a7386d5",
+  "prior_receipt": "e8266a52a3e866b81be428bf4411b02a0bc443e81ef63312ffe459936628ce05",
+  "budget": {
+    "ordinary_builds": 0,
+    "ordinary_artifact_recovery": 1,
+    "native_first_builds": 2,
+    "GPU_test_processes": 0,
+    "C_builds": 0,
+    "timing": 0,
+    "retries": 0
+  },
+  "candidate_inputs_sha256": "918f0aa2ffc2acca3a956f244fc2e8b9bf0c7454db5322c56cbb54d9f2b34861",
+  "stop_rule": "Retain and restore first build/input/receipt failure. Artifact correction changes paths only, no candidate Rust/test changes."
+}

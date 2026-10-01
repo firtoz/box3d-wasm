@@ -1,0 +1,53 @@
+{
+  "objective": "Repair demonstrated stale/forged root-world destruction/revival and keep valid child API operations working across recreation; prevent child ABA and generation wrap without changing ABI/physics defaults.",
+  "source_revision": "88d8d532e02a2559b665bb0f73aaabd88b7553d7",
+  "baseline": {
+    "src/api/world.rs": "707343eba8122ffe44853b6ffc06d76033b2aa167480028c8053e3cc715c988b",
+    "src/api/world/shape_geometry.rs": "b066727e336df229b12fba9df1e2927bd91871792cd2a39cfea57bffe9c2b101",
+    "src/api/world/joint_reaction.rs": "c286c2cd989d6bd2e92e8aff792555024435801f9b4c47e8c23985183a5e747c",
+    "src/api/world/joint_separation.rs": "d288d6276336cc0fbadf77c879bf67aa18dd92b84ff778a7f85db35c5f4ecf3f"
+  },
+  "budget": {
+    "candidates": 1,
+    "rust_builds": 4,
+    "new_lifetime_processes": 2,
+    "existing_regression_processes": 16,
+    "root_C_compiles": 4,
+    "root_C_processes": 4,
+    "timing": 0,
+    "retries": 0
+  },
+  "build_order": [
+    "ordinary-lib",
+    "ordinary-tests",
+    "native-lib",
+    "native-tests"
+  ],
+  "regression_filters": [
+    "joint_metadata_tests",
+    "compound_property_tests",
+    "query::tests",
+    "shape_geometry::tests",
+    "contact_api::determinism_tests",
+    "contact_api::query_order_tests",
+    "speculative_policy_tests",
+    "native_diagnostics::tests"
+  ],
+  "new_filter": "world_lifetime_tests",
+  "C_order": [
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "acceptance": "Every selected test must execute a nonzero test count and pass; all four exact unchanged C root diagnostics must have zero mismatches, not merely exit zero. Existing tolerances/fixtures unchanged. Correct ID routing, stale child mutation/destruction isolation, within-world recycled body generations and exhaustion retirement need direct tests. Preserve original failing diagnosis.",
+  "settings": {
+    "adapter": "NVIDIA RTX 4070 SUPER",
+    "backend": "Vulkan",
+    "live_contact_order": "1",
+    "physics_defaults": "unchanged; meaningful steps dt=1/60, four substeps"
+  },
+  "stop_rule": "Stop on first build/test/infrastructure/acceptance failure; retain all artifacts and candidate sources and restore baseline production files. Unlaunched cases stay unlaunched. No repeat of older closed drivers.",
+  "watchdog_seconds": 600,
+  "captures": "Separate finite CPU-first precommit campaign after passing API/regression checks; no production commit before applicable scene and UI checks/refreeze."
+}

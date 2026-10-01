@@ -1,0 +1,22 @@
+{
+  "objective": "Guard stale world and shape destruction before geometry/visual callback cleanup. Preserve mapped CPU cleanup when a genuine combined world has lost its GPU object. Use exact qualified Rust candidate, unchanged root diagnostic and a new geometry-ownership fixture.",
+  "budget": {
+    "C_candidate": 1,
+    "C_unit_compiles": 4,
+    "adapter_archive_replacements": 4,
+    "fixture_links": 9,
+    "CPU_cleanup_control": 1,
+    "GPU_cleanup_processes": 4,
+    "GPU_root_processes": 4,
+    "Rust_builds": 0,
+    "timing": 0,
+    "retries": 0
+  },
+  "baseline_C": {
+    "c_abi/shim.c": "3a5c2e8af73b80b19012c27181a96ff5db735615a4fd0c8194316ac95f443d2e",
+    "c_abi/both_dual.c": "ec5b948273c21d0a082c887a4fe0b7162c3fd58bf8c60c087c8b27f339f79d19"
+  },
+  "stop_rule": "Wait for all first Rust validation cases to pass before any C process. Build all C fixtures before runs. CPU control first, then ordinary-gpu/native-gpu/ordinary-both/native-both cleanup, then same four root diagnostics. Require exit0 and exact zero mismatches. Stop/retain and restore all Rust/C production changes on first failure; never rerun previous drivers.",
+  "watchdog_seconds": 600,
+  "comparison_scope": "Public valid identities/owned hull mirrors and CPU-map cleanup; callbacks/visible scenes/actual GPU viewer controls remain open for precommit qualification. No timing or solver-mode/default change."
+}

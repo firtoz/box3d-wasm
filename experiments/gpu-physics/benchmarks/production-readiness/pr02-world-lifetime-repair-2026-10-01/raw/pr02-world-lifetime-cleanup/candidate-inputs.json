@@ -1,0 +1,6 @@
+{
+  "c_abi/shim.c": "3d1e9e4ef229c23d6ee4323726bc93d0548a36f1d3331a66023af80505bb3e4b",
+  "c_abi/both_dual.c": "4b4e64e22aa4636a926eea2549b8a29a84225ac04496f38211851bea55dd994a",
+  "c_abi/world_cleanup_contract.cpp": "d84ddc704d1641b0b85a4eb305bdf02cf6feea0f948b0e5e3eb9ab5ab15a9133",
+  "c_abi/world_lifetime_diagnostic.cpp": "d4d86bdb9460c956582b763677747fa8825ba8923d829e294e678f547caf0295"
+}

@@ -1,0 +1,53 @@
+{
+  "log_sha256": "de2efe5170039ccf51bcdd17964b0e5ce6328602eb393ee903092d1c014b9f3a",
+  "compiler_artifact": {
+    "reason": "compiler-artifact",
+    "package_id": "path+file:///home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics#0.1.0",
+    "manifest_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/Cargo.toml",
+    "target": {
+      "kind": [
+        "cdylib",
+        "rlib",
+        "staticlib"
+      ],
+      "crate_types": [
+        "cdylib",
+        "rlib",
+        "staticlib"
+      ],
+      "name": "gpu_physics",
+      "src_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/src/lib.rs",
+      "edition": "2021",
+      "doc": true,
+      "doctest": true,
+      "test": true
+    },
+    "profile": {
+      "opt_level": "3",
+      "debuginfo": 0,
+      "debug_assertions": false,
+      "overflow_checks": false,
+      "test": true
+    },
+    "features": [
+      "external-c-shim",
+      "replay-diagnostics"
+    ],
+    "filenames": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/deps/gpu_physics-3d41ead5d77a28bb"
+    ],
+    "executable": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/deps/gpu_physics-3d41ead5d77a28bb",
+    "fresh": false
+  },
+  "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-artifact-repair/ordinary-test-executable",
+  "sha256": "597b893bcbbb401866721e1b1b45cb03c58263ae8bee76cbe8af00cdfaef23b9",
+  "existing_library": {
+    "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-fix/ordinary-frozen.a",
+    "sha256": "aba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6",
+    "features": [
+      "external-c-shim",
+      "replay-diagnostics"
+    ]
+  },
+  "note": "Recovered byte-exact existing artifacts; zero compiler/process repeats."
+}

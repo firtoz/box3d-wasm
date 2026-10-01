@@ -1,0 +1,34 @@
+{
+  "command": [
+    "g++",
+    "-E",
+    "-P",
+    "-x",
+    "c++",
+    "-std=c++17",
+    "-DGPU_CLEANUP_CONTRACT",
+    "-I",
+    "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+    "-"
+  ],
+  "fixture_before_sha256": "d84ddc704d1641b0b85a4eb305bdf02cf6feea0f948b0e5e3eb9ab5ab15a9133",
+  "fixture_after_sha256": "73ac2de59ea41a7e65a6ebc9347ea22c44bfdc493c6421c3321a6604bafb197f",
+  "CPU_raw_sha256": "55512c0d62858a9e6083a9157da52ffb27b4544f705db7e3afb55100f4bad7b5",
+  "CPU_original_observation": {
+    "phase": "recreate",
+    "field": "stale-shape-invalid",
+    "got": 1,
+    "expected": 0,
+    "match": false
+  },
+  "CPU_corrected_control": "Native alias=1 is observed and matches inspected native implementation; other nine control observations match. Original result remains failed, no CPU rerun.",
+  "before": {
+    "exit": 0,
+    "output_sha256": "7bdc0a344f3daf06333df707e76c9db15c9e62b85ebaed90c4c392ce4f04ce06"
+  },
+  "after": {
+    "exit": 0,
+    "output_sha256": "7bdc0a344f3daf06333df707e76c9db15c9e62b85ebaed90c4c392ce4f04ce06"
+  },
+  "GPU_behavior_identical": true
+}

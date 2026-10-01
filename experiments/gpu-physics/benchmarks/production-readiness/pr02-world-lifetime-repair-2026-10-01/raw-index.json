@@ -1,0 +1,422 @@
+{
+  "raw/pr02-world-lifetime-C-applicability/cpu/cleanup.build.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/cpu/cleanup.stderr.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/cpu/cleanup.stdout.jsonl": {
+    "bytes": 914,
+    "sha256": "55512c0d62858a9e6083a9157da52ffb27b4544f705db7e3afb55100f4bad7b5"
+  },
+  "raw/pr02-world-lifetime-C-applicability/native-both/both_dual.c.archive.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/native-both/both_dual.c.build.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/native-both/cleanup.build.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/native-both/generator.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/native-both/root.build.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/native-both/shim.c.archive.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/native-both/shim.c.build.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/native-gpu/cleanup.build.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/native-gpu/root.build.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/ordinary-both/both_dual.c.archive.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/ordinary-both/both_dual.c.build.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/ordinary-both/cleanup.build.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/ordinary-both/root.build.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/ordinary-both/shim.c.archive.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/ordinary-both/shim.c.build.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/ordinary-gpu/cleanup.build.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/ordinary-gpu/root.build.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-C-applicability/protocol-before-builds.json": {
+    "bytes": 1503,
+    "sha256": "8b052d90090544d07d9b57e733bd4b089c3b34ae877b0d0dfadbf21141e31ca5"
+  },
+  "raw/pr02-world-lifetime-C-applicability/receipt.json": {
+    "bytes": 77524,
+    "sha256": "d84cc7330c31fb999f6280960b22b6a16d0bfcc964b9b006d05a09dba9f30bed"
+  },
+  "raw/pr02-world-lifetime-C-applicability/run.py": {
+    "bytes": 9169,
+    "sha256": "186ea193628f8e0e33738566dad6e055a49f486cf0cdacd6490bf5fca628ef22"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/after.preprocess.stderr.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/after.preprocessed.cpp": {
+    "bytes": 693441,
+    "sha256": "7bdc0a344f3daf06333df707e76c9db15c9e62b85ebaed90c4c392ce4f04ce06"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/applicability-proof.json": {
+    "bytes": 1087,
+    "sha256": "7e226aab6910c8c2c5427bcaf040d74d8566d6095d35a8590515001c3b410f77"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/before.preprocess.stderr.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/before.preprocessed.cpp": {
+    "bytes": 693441,
+    "sha256": "7bdc0a344f3daf06333df707e76c9db15c9e62b85ebaed90c4c392ce4f04ce06"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/compiler-artifact-audit.json": {
+    "bytes": 427165,
+    "sha256": "f197369c887fb13c86a391a56a6d47fbecba1419f8ca46e1439bc90ef70831ad"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/fixture-after.cpp": {
+    "bytes": 3895,
+    "sha256": "73ac2de59ea41a7e65a6ebc9347ea22c44bfdc493c6421c3321a6604bafb197f"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/fixture-before.cpp": {
+    "bytes": 3776,
+    "sha256": "d84ddc704d1641b0b85a4eb305bdf02cf6feea0f948b0e5e3eb9ab5ab15a9133"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/native-both/cleanup.stderr.log": {
+    "bytes": 263,
+    "sha256": "00f2919bde7fdadc9043cc6bfc4c325217cd524ba71396aacedb1e0a2720a9f7"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/native-both/cleanup.stdout.jsonl": {
+    "bytes": 1563,
+    "sha256": "57cee9952017fe98b9cdbf08c6c780ede35fe008856a8fc063b3f7fa50cc7316"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/native-both/root.stderr.log": {
+    "bytes": 263,
+    "sha256": "00f2919bde7fdadc9043cc6bfc4c325217cd524ba71396aacedb1e0a2720a9f7"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/native-both/root.stdout.jsonl": {
+    "bytes": 1227,
+    "sha256": "7b021c6a3eab88ad911c9248f27ae6ea1ac83ab3f687270a08707257d8a4db31"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/native-cargo-config.toml": {
+    "bytes": 456,
+    "sha256": "ec983db7c0da957b7d6392d38f6d228d72481008f8fa71407603599e22fcf0a2"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/native-gpu/cleanup.stderr.log": {
+    "bytes": 163,
+    "sha256": "c8d81d095ffb97de3c34f7d1a4540babf39578243d3cf3b693d4c68c529c7386"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/native-gpu/cleanup.stdout.jsonl": {
+    "bytes": 1563,
+    "sha256": "57cee9952017fe98b9cdbf08c6c780ede35fe008856a8fc063b3f7fa50cc7316"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/native-gpu/root.stderr.log": {
+    "bytes": 163,
+    "sha256": "c8d81d095ffb97de3c34f7d1a4540babf39578243d3cf3b693d4c68c529c7386"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/native-gpu/root.stdout.jsonl": {
+    "bytes": 1227,
+    "sha256": "7b021c6a3eab88ad911c9248f27ae6ea1ac83ab3f687270a08707257d8a4db31"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/native.lib.d": {
+    "bytes": 39337,
+    "sha256": "8d9f04d3e129bb06de85d9b2b42d71aaecc31b0187b89ba6335008a6607aac49"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/ordinary-both/cleanup.stderr.log": {
+    "bytes": 263,
+    "sha256": "00f2919bde7fdadc9043cc6bfc4c325217cd524ba71396aacedb1e0a2720a9f7"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/ordinary-both/cleanup.stdout.jsonl": {
+    "bytes": 1563,
+    "sha256": "57cee9952017fe98b9cdbf08c6c780ede35fe008856a8fc063b3f7fa50cc7316"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/ordinary-both/root.stderr.log": {
+    "bytes": 263,
+    "sha256": "00f2919bde7fdadc9043cc6bfc4c325217cd524ba71396aacedb1e0a2720a9f7"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/ordinary-both/root.stdout.jsonl": {
+    "bytes": 1227,
+    "sha256": "7b021c6a3eab88ad911c9248f27ae6ea1ac83ab3f687270a08707257d8a4db31"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/ordinary-gpu/cleanup.stderr.log": {
+    "bytes": 163,
+    "sha256": "c8d81d095ffb97de3c34f7d1a4540babf39578243d3cf3b693d4c68c529c7386"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/ordinary-gpu/cleanup.stdout.jsonl": {
+    "bytes": 1563,
+    "sha256": "57cee9952017fe98b9cdbf08c6c780ede35fe008856a8fc063b3f7fa50cc7316"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/ordinary-gpu/root.stderr.log": {
+    "bytes": 163,
+    "sha256": "c8d81d095ffb97de3c34f7d1a4540babf39578243d3cf3b693d4c68c529c7386"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/ordinary-gpu/root.stdout.jsonl": {
+    "bytes": 1227,
+    "sha256": "7b021c6a3eab88ad911c9248f27ae6ea1ac83ab3f687270a08707257d8a4db31"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/ordinary.lib.d": {
+    "bytes": 6366,
+    "sha256": "0ed46c215bc99bba1e5ff842fec854fa993096fdb9c32bbff688b3309963b8ae"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/protocol-before-correction.json": {
+    "bytes": 1449,
+    "sha256": "c4b94b6b484ec58973da25f4b26c407d9ad18c75d54e8f876fdeeb83a5009060"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/publish.py": {
+    "bytes": 2020,
+    "sha256": "3a43a446b6a13cbb660fc01b53e056293478844a81a20f71bd66c9c00603694b"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/receipt.json": {
+    "bytes": 10838,
+    "sha256": "77b7a01c9df874a68ecf9e9c4d9767ef3b4c308cce804fe5b959a0f1126669b5"
+  },
+  "raw/pr02-world-lifetime-CPU-contract/run.py": {
+    "bytes": 4122,
+    "sha256": "f7e3afdd5c995b3db6eaf3f000bbc3dc125aeddce081c42c1b708f6926da8956"
+  },
+  "raw/pr02-world-lifetime-artifact-repair/build-receipt.json": {
+    "bytes": 23782,
+    "sha256": "28661adc1967ef397fb79f8b1041b2bc8b0be4fb3226caf614e26d0ab72804be"
+  },
+  "raw/pr02-world-lifetime-artifact-repair/build.py": {
+    "bytes": 3319,
+    "sha256": "788811ad3907d36c63686e0f6688a5ffe0e731ecda576a5139e70272a4a518b4"
+  },
+  "raw/pr02-world-lifetime-artifact-repair/native-lib/build.log": {
+    "bytes": 303813,
+    "sha256": "e6649be046550b2c220daf12382346985bc23295797a2a5b7c75c3231c63e704"
+  },
+  "raw/pr02-world-lifetime-artifact-repair/native-tests/build.log": {
+    "bytes": 297387,
+    "sha256": "643f2ef6bee7e785e61c25089ba714fd895baf23d0c4b17c1047577c4020a4a1"
+  },
+  "raw/pr02-world-lifetime-artifact-repair/ordinary-recovered.json": {
+    "bytes": 1931,
+    "sha256": "5d17adf1740a0ae47309b2a9c5eef186267c87e5fac0da1f396ea5ab4eb5bd5b"
+  },
+  "raw/pr02-world-lifetime-artifact-repair/protocol-before-repair.json": {
+    "bytes": 939,
+    "sha256": "db902f76590f16fd0930a3e19845015931fb12b7781459e51b2fef905a06539a"
+  },
+  "raw/pr02-world-lifetime-artifact-repair/setup-failure.txt": {
+    "bytes": 252,
+    "sha256": "4ccd646b856fab7b614098ac498b8b7970751a7a0c65ef7e8e401993ada3b35a"
+  },
+  "raw/pr02-world-lifetime-cleanup/candidate-inputs.json": {
+    "bytes": 395,
+    "sha256": "d26d8eb0b9a51690e480d07dc8a745db17c82fb61f89c8f7202a32a3f754ee66"
+  },
+  "raw/pr02-world-lifetime-cleanup/execution-plan-before-builds.json": {
+    "bytes": 489,
+    "sha256": "4d21cf9f4fc00823aca70776940866ceb4544ba1285d2dee1d04793037444e0f"
+  },
+  "raw/pr02-world-lifetime-cleanup/fixture-draft-before-source-type-audit.cpp": {
+    "bytes": 3728,
+    "sha256": "6acda261794c42c96379bdb0c75e9ba3fb5a2dd4e5299fd8331ec92b766394b3"
+  },
+  "raw/pr02-world-lifetime-cleanup/native-gpu/generator.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-cleanup/native-gpu/shim.c.archive.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-cleanup/native-gpu/shim.c.build.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-cleanup/ordinary-both/generator.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-cleanup/ordinary-gpu/generator.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-cleanup/ordinary-gpu/shim.c.archive.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-cleanup/ordinary-gpu/shim.c.build.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/pr02-world-lifetime-cleanup/protocol-before-change.json": {
+    "bytes": 1397,
+    "sha256": "d5c13ecd8c1231557354d4a15213040d9f2a4676277d843583b3dfe59d7d9a69"
+  },
+  "raw/pr02-world-lifetime-cleanup/receipt.json": {
+    "bytes": 29618,
+    "sha256": "9dd72e7ab92136d7e2ae474477c6ad21556ea511552cb0074f44b08386a79cbe"
+  },
+  "raw/pr02-world-lifetime-cleanup/run.py": {
+    "bytes": 8553,
+    "sha256": "fd281f3bab6620067d37f68de1cc7be0e09110e3c40876d4995cb42f06688ee4"
+  },
+  "raw/pr02-world-lifetime-fix/build-receipt.json": {
+    "bytes": 12615,
+    "sha256": "e8266a52a3e866b81be428bf4411b02a0bc443e81ef63312ffe459936628ce05"
+  },
+  "raw/pr02-world-lifetime-fix/build.py": {
+    "bytes": 3197,
+    "sha256": "41125ce49022b74466f84cbccf9589688aebd2432ad62dff9543588dd6cfb3d2"
+  },
+  "raw/pr02-world-lifetime-fix/candidate-inputs.json": {
+    "bytes": 10614,
+    "sha256": "918f0aa2ffc2acca3a956f244fc2e8b9bf0c7454db5322c56cbb54d9f2b34861"
+  },
+  "raw/pr02-world-lifetime-fix/candidate.patch": {
+    "bytes": 47588,
+    "sha256": "16f2b0ec1584a8463415b931dfff27da30df7fe30250bac5ce5921161efdc886"
+  },
+  "raw/pr02-world-lifetime-fix/ordinary-lib/build.log": {
+    "bytes": 174968,
+    "sha256": "834a3d38ab0327576deb1e7f302b3430c9e07a5a78e900643196485882b18626"
+  },
+  "raw/pr02-world-lifetime-fix/ordinary-tests/build.log": {
+    "bytes": 176976,
+    "sha256": "de2efe5170039ccf51bcdd17964b0e5ce6328602eb393ee903092d1c014b9f3a"
+  },
+  "raw/pr02-world-lifetime-fix/protocol-before-change.json": {
+    "bytes": 2489,
+    "sha256": "5b2bb7d34d566930b26a1accfa2e9c95e60cd317edd2872a305ce1313a7386d5"
+  },
+  "raw/pr02-world-lifetime-fix/protocol-draft-before-filter-audit.json": {
+    "bytes": 2486,
+    "sha256": "842d28cd52c8527d6df2af987c7b2d15872926d4af5727ecb45a38b6ae0f041b"
+  },
+  "raw/pr02-world-lifetime-fix/routing-audit.json": {
+    "bytes": 5264,
+    "sha256": "c74041e6f96e852652d6a520cd5106a53d11f32ef829ac9451812d53f157fe91"
+  },
+  "raw/pr02-world-lifetime-rust-validation/00-native/run.log": {
+    "bytes": 1502,
+    "sha256": "7ac2d8e00328940a2dce2e16d96dd1203b574bc1f88c6b46e9a4432e6ce1653f"
+  },
+  "raw/pr02-world-lifetime-rust-validation/00-ordinary/run.log": {
+    "bytes": 1496,
+    "sha256": "8d69c5217a00cd44208ba00191a64902919bc064be680a44b9bb85768d3daa5a"
+  },
+  "raw/pr02-world-lifetime-rust-validation/01-native/run.log": {
+    "bytes": 1053,
+    "sha256": "83522a1d1bb23bd8056754e7b7103bf046388b180968d904af5655fdfbffb352"
+  },
+  "raw/pr02-world-lifetime-rust-validation/01-ordinary/run.log": {
+    "bytes": 1053,
+    "sha256": "9c3818be8f1b088c1099ef96081f95eae93ff7062453094701c4e820ff83f383"
+  },
+  "raw/pr02-world-lifetime-rust-validation/02-native/run.log": {
+    "bytes": 388,
+    "sha256": "fd1727d51aade0548072d728bd44c535ca27aaa2dd1646652884d9d8b157de9f"
+  },
+  "raw/pr02-world-lifetime-rust-validation/02-ordinary/run.log": {
+    "bytes": 388,
+    "sha256": "8b0ab98166030ebac394bfe6c6d25f3bb0c863ea05e5ae0d759f4094307f339c"
+  },
+  "raw/pr02-world-lifetime-rust-validation/03-native/run.log": {
+    "bytes": 1877,
+    "sha256": "14745c9d923c3d213aa9f2b372f5ad61c636787d6ff3c08a12d215cfb3f3e41d"
+  },
+  "raw/pr02-world-lifetime-rust-validation/03-ordinary/run.log": {
+    "bytes": 1877,
+    "sha256": "89829f8632e43a9cea737f98682eab0e684414917cf86e4a3a3fb441b4be534c"
+  },
+  "raw/pr02-world-lifetime-rust-validation/04-native/run.log": {
+    "bytes": 1071,
+    "sha256": "477f8a9286f622eda3de66ffbc7038416150be3b937a39ccec93dc58a1a73757"
+  },
+  "raw/pr02-world-lifetime-rust-validation/04-ordinary/run.log": {
+    "bytes": 1071,
+    "sha256": "3ee71964233903e29d6b47d00a2af643e7a53090254f5539e8bc4fe205c1c1ac"
+  },
+  "raw/pr02-world-lifetime-rust-validation/05-native/run.log": {
+    "bytes": 31589,
+    "sha256": "23ef0ee8fcb1686d97452426cef1cd3019e242cb8b6376bf5e2c49a2e4d182c0"
+  },
+  "raw/pr02-world-lifetime-rust-validation/05-ordinary/run.log": {
+    "bytes": 31589,
+    "sha256": "77c03397989fdf847f9c50c70ec254889dc11222ccb4fc2501545253950aad45"
+  },
+  "raw/pr02-world-lifetime-rust-validation/06-native/run.log": {
+    "bytes": 214,
+    "sha256": "fc670c5fc113051e0159abfed7396eb4aaab2ba3edc1cf27a95affc57e7464f7"
+  },
+  "raw/pr02-world-lifetime-rust-validation/06-ordinary/run.log": {
+    "bytes": 214,
+    "sha256": "d9e30036fd7ad45a40b18386f50f03817bda218121d50c318238fa8b2a0e086e"
+  },
+  "raw/pr02-world-lifetime-rust-validation/07-native/run.log": {
+    "bytes": 9047,
+    "sha256": "08accb1854cd599b211c966ef0e7a65f729db5aba89c0d86db74553a207c5c68"
+  },
+  "raw/pr02-world-lifetime-rust-validation/07-ordinary/run.log": {
+    "bytes": 9047,
+    "sha256": "045b8349dfc26226777e43a81ccd1ef9dc5c63831e546565b5bdd919f9a9baa5"
+  },
+  "raw/pr02-world-lifetime-rust-validation/08-native/run.log": {
+    "bytes": 2746,
+    "sha256": "d67deeb4a018471dadba2cbb36350de6254839c77e3a9eea1728a08dc57d9ae8"
+  },
+  "raw/pr02-world-lifetime-rust-validation/08-ordinary/run.log": {
+    "bytes": 2746,
+    "sha256": "de0cb608b43076f76c6f207f16b1e4be9acb11bfb1f639213cd2fabd658f7930"
+  },
+  "raw/pr02-world-lifetime-rust-validation/protocol-before-runs.json": {
+    "bytes": 2308,
+    "sha256": "1c9e1d1ea367b0d275e0137c1fe651801a468eb75f068775d3b76d545ca997d6"
+  },
+  "raw/pr02-world-lifetime-rust-validation/receipt.json": {
+    "bytes": 25829,
+    "sha256": "a83d58db5cc03d98497f5a42282b1505b0950e0cb13463d92bee43aa78ba0ba7"
+  },
+  "raw/pr02-world-lifetime-rust-validation/run.py": {
+    "bytes": 3247,
+    "sha256": "2a21be1d89ee9f446c9fe4ad23376b4bd80deb9c300e603749cd382b146535be"
+  },
+  "raw/source-inputs.tar.gz": {
+    "bytes": 2492321,
+    "sha256": "296fbfa9058f6f457bbd0b575d23476d265d2a0d35c78f0dba572529eefc1ae8"
+  }
+}

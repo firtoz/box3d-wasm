@@ -5,6 +5,15 @@ in Rust/WGSL and exposes part of Box3D's native C API. It does not replace the
 Box3D WASM package or modify the upstream engine. Native samples can run either
 engine or show two independent worlds side by side.
 
+World-lifetime repair remains a local candidate awaiting actual viewer controls
+and CPU-first precommit recordings. Its [portable API subset evidence](../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-repair-2026-10-01/README.md)
+passes72 selected Rust checks and120 first GPU C observations across ordinary/
+native and standalone/combined paths. Root/child generations survive recreation;
+stale C destruction preserves owned replacement geometry. Retained receipt/source
+and CPU-fixture failures, source/binary proofs and current limitations are linked.
+This does not establish full lifecycle, final-build, performance or release
+acceptance. Production readiness continues through the authoritative roadmap.
+
 ## Support status
 
 The [GPU solver qualification](gpu-solver-qualification.md) tracks correctness,
