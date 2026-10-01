@@ -1,0 +1,43 @@
+{
+  "id": "pr02-world-lifetime-viewer-builds-2026-10-02",
+  "prerequisite_revision": "786e2f80e975892f31883ab56329debb6c7a9199",
+  "purpose": "First actual viewers linked with independently passing root/child lifetime repair, diagnostic only",
+  "budget": {
+    "rust_builds": 0,
+    "viewer_configurations": 4,
+    "cmake_configures": 4,
+    "generations": 4,
+    "cmake_builds": 4,
+    "app_processes": 0,
+    "timing_runs": 0,
+    "retries": 0
+  },
+  "order": [
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "libraries": {
+    "ordinary": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-fix/ordinary-frozen.a",
+      "sha256": "aba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6",
+      "features": [
+        "external-c-shim",
+        "replay-diagnostics"
+      ]
+    },
+    "native": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-artifact-repair/native-frozen.a",
+      "sha256": "c8a16154cb576c49e7bd7fd8e030319601192b466d9ddb19305bd043aa6a7267",
+      "features": [
+        "external-c-shim",
+        "native-command-cache",
+        "replay-diagnostics"
+      ]
+    }
+  },
+  "cpu_reuse": "6c65fabab6fbd048a321061c8f9b2bb061afdcfa450d57b1bbc5ff96d5e6d14e",
+  "stop_rule": "Stop first build/source/provenance failure; retain all outputs, no command repeats. Production source not committed before actual controls and CPU-first scene recordings.",
+  "limits": "Shared cached FetchContent NFD explicitly inventoried; not PR06 clean release evidence."
+}

@@ -1,0 +1,98 @@
+{
+  "status": "passed-limited-PR02-controls",
+  "first_apps": 4,
+  "accepted_apps": 4,
+  "results": [
+    {
+      "configuration": "ordinary-gpu",
+      "status": "pass",
+      "actions": 29,
+      "screenshots": 11,
+      "observer_records": 1991,
+      "root_before": [
+        1,
+        1
+      ],
+      "root_after": [
+        1,
+        2
+      ],
+      "cpu_before": null,
+      "cpu_after": null,
+      "acceptance_sha256": "1cecdadd9677555a71911733ccd603559163ef30494cfb66325b0ecc1b057352"
+    },
+    {
+      "configuration": "native-gpu",
+      "status": "pass",
+      "actions": 29,
+      "screenshots": 11,
+      "observer_records": 1623,
+      "root_before": [
+        1,
+        1
+      ],
+      "root_after": [
+        1,
+        2
+      ],
+      "cpu_before": null,
+      "cpu_after": null,
+      "acceptance_sha256": "600e7170000ad348c0ad5110f51eb3d9780019182bdc7a4d25644c0a45a4ea7a"
+    },
+    {
+      "configuration": "ordinary-both",
+      "status": "pass",
+      "actions": 29,
+      "screenshots": 11,
+      "observer_records": 1226,
+      "root_before": [
+        1,
+        1
+      ],
+      "root_after": [
+        1,
+        2
+      ],
+      "cpu_before": [
+        1,
+        0
+      ],
+      "cpu_after": [
+        1,
+        1
+      ],
+      "acceptance_sha256": "802761274a671781dd6d8ec42d47c8044048496dfa09ceb99e776fdb1c03cb72"
+    },
+    {
+      "configuration": "native-both",
+      "status": "pass",
+      "actions": 29,
+      "screenshots": 11,
+      "observer_records": 1569,
+      "root_before": [
+        1,
+        1
+      ],
+      "root_after": [
+        1,
+        2
+      ],
+      "cpu_before": [
+        1,
+        0
+      ],
+      "cpu_after": [
+        1,
+        1
+      ],
+      "acceptance_sha256": "c02d4a9e71d57d1cd2464ec48d95ea2005d250e0b4479cdb8dd6bb8977e3316d"
+    }
+  ],
+  "total_actions": 116,
+  "total_screenshots": 44,
+  "observer_records": 6409,
+  "fresh_cpu_apps": 0,
+  "timing_runs": 0,
+  "production_changes_committed": false,
+  "limits": "No full physical/runtime/sample-wide UI/device-loss/raycast/performance/readiness claim. CPU-first applicable scenes still required before production commit. Earlier failed campaigns remain closed and retained."
+}

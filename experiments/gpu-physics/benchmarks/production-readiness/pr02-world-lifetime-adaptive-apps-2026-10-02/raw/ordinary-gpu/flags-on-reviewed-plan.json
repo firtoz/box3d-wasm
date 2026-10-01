@@ -1,0 +1,38 @@
+{
+  "screen": "controls-after.png",
+  "screen_sha256": "235246c5b549ea3f91e7e1a0f6b9ea3ab6c1727ed5dd0affe03e2a4909ba0482",
+  "review": "Actual post-restart/current single-step PNG after scroll: Sleep587/Warm616/Continuous645, all unchecked; GPU contacts known and panel scrolled to bottom.",
+  "actions": [
+    {
+      "type": "click",
+      "x": 1034,
+      "y": 587,
+      "label": "sleep-on"
+    },
+    {
+      "type": "click",
+      "x": 1034,
+      "y": 616,
+      "label": "warm-on"
+    },
+    {
+      "type": "click",
+      "x": 1034,
+      "y": 645,
+      "label": "continuous-on"
+    },
+    {
+      "type": "screenshot",
+      "name": "flags-on"
+    },
+    {
+      "type": "key",
+      "symbol": 109,
+      "label": "metrics-on"
+    },
+    {
+      "type": "screenshot",
+      "name": "metrics-initial"
+    }
+  ]
+}

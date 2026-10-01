@@ -1,0 +1,6 @@
+{
+  "original_local_archive_sha256": "2a9daaf58012e737522933bdd232c79554cebc21486c6827d222dd16c7cba5d3",
+  "portable_source_archive_sha256": "d108e6a260fd05449b8daeb4943c844c52721892795f01b8ffd0141b7108a89b",
+  "omitted_uncompiled_historical_build_inputs": [],
+  "reason": "Over-broad input snapshot included old native-samples build directories. Their hashes remain preserved in original receipt; no omitted file is compiled into the five new viewers. Actual compiled units use original source/dependency files or individually archived generated sources. No old binary staged."
+}

@@ -1,0 +1,29 @@
+{
+  "screen": "controls.png",
+  "screen_sha256": "7b19b6c12155025df6124d1f7e4adfcdb6e1452302b99c0cfb6956d2cd1a104a",
+  "review": "Agent inspected this actual current PNG before selecting displayed widget/tab positions; coordinates in actions. No stale coordinates across lifetime/layout transition.",
+  "actions": [
+    {
+      "type": "click",
+      "x": 1034,
+      "y": 587,
+      "label": "sleep-off"
+    },
+    {
+      "type": "click",
+      "x": 1034,
+      "y": 616,
+      "label": "warm-off"
+    },
+    {
+      "type": "click",
+      "x": 1034,
+      "y": 645,
+      "label": "continuous-off"
+    },
+    {
+      "type": "screenshot",
+      "name": "flags-off"
+    }
+  ]
+}

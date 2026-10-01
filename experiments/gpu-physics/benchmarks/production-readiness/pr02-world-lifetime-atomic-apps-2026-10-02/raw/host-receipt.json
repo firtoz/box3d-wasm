@@ -1,0 +1,9 @@
+{
+  "status": "pass",
+  "atomic_writes": 501,
+  "concurrent_reads": 1747,
+  "errors": [],
+  "protocol_sha256": "79e8bb1bd1889b87ec7fff5cd528b121310f57996f286d6ec94d3e1353e93bbe",
+  "helper_sha256": "e95859ed1c9f84838f8553d6bbd4625a33add83bd939826e597552ab22e384ca",
+  "scope": "Filesystem JSON publication only; no viewer/GPU/physics/timing test"
+}

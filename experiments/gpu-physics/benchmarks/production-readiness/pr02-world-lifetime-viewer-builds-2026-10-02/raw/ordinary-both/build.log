@@ -1,0 +1,545 @@
+[  0%] Built target shaders
+[  1%] Building CXX object CMakeFiles/imgui.dir/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src/imgui.cpp.o
+[  1%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/aabb.c.o
+[  1%] Linking CXX static library libnfd.a
+[  2%] Building C object CMakeFiles/gpu_samples_api.dir/api-sources/samples_api.c.o
+[  3%] Built target nfd
+[  4%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/arena_allocator.c.o
+[  5%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/aabb.c.o
+[  5%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/bitset.c.o
+[  5%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/arena_allocator.c.o
+[  6%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/block_allocator.c.o
+[  7%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/bitset.c.o
+[  7%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/body.c.o
+[  7%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/block_allocator.c.o
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/body.c:137:13: warning: ‘b3DestroyBodyContacts’ defined but not used [-Wunused-function]
+  137 | static void b3DestroyBodyContacts( b3World* world, b3Body* body, bool wakeBodies )
+      |             ^~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/body.c:100:13: warning: ‘b3RemoveBodyFromIsland’ defined but not used [-Wunused-function]
+  100 | static void b3RemoveBodyFromIsland( b3World* world, b3Body* body )
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/body.c:87:13: warning: ‘b3CreateIslandForBody’ defined but not used [-Wunused-function]
+   87 | static void b3CreateIslandForBody( b3World* world, int setIndex, b3Body* body )
+      |             ^~~~~~~~~~~~~~~~~~~~~
+[  8%] Building C object CMakeFiles/gpu_samples_api.dir/api-sources/samples_stubs.c.o
+[  9%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/body.c.o
+[  9%] Building C object CMakeFiles/gpu_samples_api.dir/api-sources/shim.c.o
+[ 10%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/broad_phase.c.o
+[ 11%] Building C object CMakeFiles/gpu_samples_api.dir/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/gpu_gl_poses.c.o
+[ 11%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/capsule.c.o
+[ 11%] Linking C static library libgpu_samples_api.a
+[ 12%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/compound.c.o
+[ 12%] Built target gpu_samples_api
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/compound.c:260:17: warning: no previous prototype for ‘__real_b3CreateCompound’ [-Wmissing-prototypes]
+  260 | b3CompoundData* __real_b3CreateCompound( const b3CompoundDef* def )
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~
+[ 12%] Building CXX object CMakeFiles/imgui.dir/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src/imgui_draw.cpp.o
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/compound.c:945:13: warning: ‘TreeQueryCallbackFcn’ defined but not used [-Wunused-function]
+  945 | static bool TreeQueryCallbackFcn( int proxyId, uint64_t userData, void* treeContext )
+      |             ^~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/compound.c:841:14: warning: ‘b3CompoundShapeCastCallback’ defined but not used [-Wunused-function]
+  841 | static float b3CompoundShapeCastCallback( const b3BoxCastInput* input, int proxyId, uint64_t userData, void* context )
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/compound.c:769:14: warning: ‘b3CompoundRayCastCallback’ defined but not used [-Wunused-function]
+  769 | static float b3CompoundRayCastCallback( const b3RayCastInput* input, int proxyId, uint64_t userData, void* context )
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/compound.c:691:13: warning: ‘b3CompoundOverlapCallback’ defined but not used [-Wunused-function]
+  691 | static bool b3CompoundOverlapCallback( int proxyId, uint64_t userData, void* context )
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+[ 13%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/broad_phase.c.o
+[ 13%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/capsule.c.o
+[ 13%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/constraint_graph.c.o
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/constraint_graph.c:26:25: warning: ‘b3_graphColors’ defined but not used [-Wunused-const-variable=]
+   26 | static const b3HexColor b3_graphColors[B3_GRAPH_COLOR_COUNT] = {
+      |                         ^~~~~~~~~~~~~~
+[ 14%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/compound.c.o
+[ 15%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/contact.c.o
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/contact.c:54:19: warning: ‘b3GetContactFullId’ defined but not used [-Wunused-function]
+   54 | static b3Contact* b3GetContactFullId( b3World* world, b3ContactId contactId )
+      |                   ^~~~~~~~~~~~~~~~~~
+[ 15%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/contact_solver.c.o
+[ 15%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/constraint_graph.c.o
+[ 16%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/contact.c.o
+[ 17%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/convex_manifold.c.o
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/convex_manifold.c:1130:13: warning: ‘b3BuildEdgeContact’ defined but not used [-Wunused-function]
+ 1130 | static bool b3BuildEdgeContact( b3LocalManifold* manifold, const b3HullData* hullA, const b3HullData* hullB,
+      |             ^~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/convex_manifold.c:1087:13: warning: ‘b3BuildFaceBContact’ defined but not used [-Wunused-function]
+ 1087 | static bool b3BuildFaceBContact( b3LocalManifold* manifold, int capacity, const b3HullData* hullA, const b3HullData* hullB,
+      |             ^~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/convex_manifold.c:761:13: warning: ‘b3BuildHullAndCapsuleEdgeContact’ defined but not used [-Wunused-function]
+  761 | static bool b3BuildHullAndCapsuleEdgeContact( b3LocalManifold* manifold, int capacity, const b3HullData* hullA,
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/convex_manifold.c:707:13: warning: ‘b3BuildHullFaceAndCapsuleContact’ defined but not used [-Wunused-function]
+  707 | static bool b3BuildHullFaceAndCapsuleContact( b3LocalManifold* manifold, const b3HullData* hullA, const b3Capsule* capsuleB,
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/convex_manifold.c:121:25: warning: ‘b3QueryEdgeDirectionHullAndCapsule’ defined but not used [-Wunused-function]
+  121 | static b3SeparatingAxis b3QueryEdgeDirectionHullAndCapsule( const b3HullData* hull, const b3Capsule* capsule,
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/convex_manifold.c:85:25: warning: ‘b3QueryFaceDirectionHullAndCapsule’ defined but not used [-Wunused-function]
+   85 | static b3SeparatingAxis b3QueryFaceDirectionHullAndCapsule( const b3HullData* hull, const b3Capsule* capsule,
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ 17%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/contact_solver.c.o
+[ 17%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/core.c.o
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/core.c:132:19: warning: ‘b3_freeFcn’ defined but not used [-Wunused-variable]
+  132 | static b3FreeFcn* b3_freeFcn = NULL;
+      |                   ^~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/core.c:131:20: warning: ‘b3_allocFcn’ defined but not used [-Wunused-variable]
+  131 | static b3AllocFcn* b3_allocFcn = NULL;
+      |                    ^~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/core.c:53:14: warning: ‘b3_stallThreshold’ defined but not used [-Wunused-variable]
+   53 | static float b3_stallThreshold = FLT_MAX;
+      |              ^~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/core.c:40:14: warning: ‘b3_lengthUnitsPerMeter’ defined but not used [-Wunused-variable]
+   40 | static float b3_lengthUnitsPerMeter = 1.0f;
+      |              ^~~~~~~~~~~~~~~~~~~~~~
+[ 18%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/distance.c.o
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/distance.c:1622:13: warning: ‘b3ForceFixedAxis’ defined but not used [-Wunused-function]
+ 1622 | static void b3ForceFixedAxis( b3SeparationFunction* fcn, float beta )
+      |             ^~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/distance.c:1564:14: warning: ‘b3EvaluateSeparation’ defined but not used [-Wunused-function]
+ 1564 | static float b3EvaluateSeparation( b3SeparationFunction* fcn, int index1, int index2, float beta )
+      |              ^~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/distance.c:1483:14: warning: ‘b3FindMinSeparation’ defined but not used [-Wunused-function]
+ 1483 | static float b3FindMinSeparation( b3SeparationFunction* fcn, int* indexA, int* indexB, float t )
+      |              ^~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/distance.c:1249:29: warning: ‘b3MakeSeparationFunction’ defined but not used [-Wunused-function]
+ 1249 | static b3SeparationFunction b3MakeSeparationFunction( const b3SimplexCache cache, const b3ShapeProxy* proxyA,
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/distance.c:674:13: warning: ‘b3ComputeWitnessPoints’ defined but not used [-Wunused-function]
+  674 | static void b3ComputeWitnessPoints( const b3Simplex* simplex, b3Vec3* vertexA, b3Vec3* vertexB )
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/distance.c:361:13: warning: ‘b3SolveSimplex4’ defined but not used [-Wunused-function]
+  361 | static bool b3SolveSimplex4( b3Simplex* simplex )
+      |             ^~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/distance.c:230:13: warning: ‘b3SolveSimplex3’ defined but not used [-Wunused-function]
+  230 | static bool b3SolveSimplex3( b3Simplex* simplex )
+      |             ^~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/distance.c:176:13: warning: ‘b3SolveSimplex2’ defined but not used [-Wunused-function]
+  176 | static bool b3SolveSimplex2( b3Simplex* simplex )
+      |             ^~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/distance.c:164:13: warning: ‘b3WriteCache’ defined but not used [-Wunused-function]
+  164 | static void b3WriteCache( b3SimplexCache* cache, const b3Simplex* simplex )
+      |             ^~~~~~~~~~~~
+[ 18%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/distance_joint.c.o
+[ 19%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/dynamic_tree.c.o
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/dynamic_tree.c:2076:14: warning: ‘b3OpenTreeFile’ defined but not used [-Wunused-function]
+ 2076 | static FILE* b3OpenTreeFile( const char* fileName, const char* mode )
+      |              ^~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/dynamic_tree.c:1804:12: warning: ‘b3BuildTree’ defined but not used [-Wunused-function]
+ 1804 | static int b3BuildTree( b3DynamicTree* tree, int leafCount )
+      |            ^~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/dynamic_tree.c:689:13: warning: ‘b3RemoveLeaf’ defined but not used [-Wunused-function]
+  689 | static void b3RemoveLeaf( b3DynamicTree* tree, int leaf )
+      |             ^~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/dynamic_tree.c:613:13: warning: ‘b3InsertLeaf’ defined but not used [-Wunused-function]
+  613 | static void b3InsertLeaf( b3DynamicTree* tree, int leaf, bool shouldRotate )
+      |             ^~~~~~~~~~~~
+[ 19%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/height_field.c.o
+[ 20%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/hull.c.o
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/hull.c:2726:24: warning: ‘s_boxHull’ defined but not used [-Wunused-const-variable=]
+ 2726 | static const b3BoxHull s_boxHull = {
+      |                        ^~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/hull.c:1916:13: warning: ‘b3UpdateHullBulkProperties’ defined but not used [-Wunused-function]
+ 1916 | static bool b3UpdateHullBulkProperties( b3HullData* hull )
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/hull.c:1895:13: warning: ‘b3UpdateHullBounds’ defined but not used [-Wunused-function]
+ 1895 | static void b3UpdateHullBounds( b3HullData* hull )
+      |             ^~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/hull.c:1621:15: warning: ‘b3GetHullSoaNormalsWrite’ defined but not used [-Wunused-function]
+ 1621 | static float* b3GetHullSoaNormalsWrite( b3HullData* hull )
+      |               ^~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/hull.c:1612:15: warning: ‘b3GetHullSoaVerticesWrite’ defined but not used [-Wunused-function]
+ 1612 | static float* b3GetHullSoaVerticesWrite( b3HullData* hull )
+      |               ^~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/hull.c:1603:24: warning: ‘b3GetHullEdgesWrite’ defined but not used [-Wunused-function]
+ 1603 | static b3HullHalfEdge* b3GetHullEdgesWrite( b3HullData* hull )
+      |                        ^~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/hull.c:1594:22: warning: ‘b3GetHullVerticesWrite’ defined but not used [-Wunused-function]
+ 1594 | static b3HullVertex* b3GetHullVerticesWrite( b3HullData* hull )
+      |                      ^~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/hull.c:1585:17: warning: ‘b3GetHullPlanesWrite’ defined but not used [-Wunused-function]
+ 1585 | static b3Plane* b3GetHullPlanesWrite( b3HullData* hull )
+      |                 ^~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/hull.c:1576:16: warning: ‘b3GetHullPointsWrite’ defined but not used [-Wunused-function]
+ 1576 | static b3Vec3* b3GetHullPointsWrite( b3HullData* hull )
+      |                ^~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/hull.c:1547:13: warning: ‘b3HullBuilder_Init’ defined but not used [-Wunused-function]
+ 1547 | static void b3HullBuilder_Init( b3HullBuilder* b, char* mem, const b3HullWorkSizes* s )
+      |             ^~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/hull.c:1493:24: warning: ‘b3ComputeHullWorkSizes’ defined but not used [-Wunused-function]
+ 1493 | static b3HullWorkSizes b3ComputeHullWorkSizes( int pointCount, int clampedMaxCount )
+      |                        ^~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/hull.c:1429:13: warning: ‘b3HullBuilder_Construct’ defined but not used [-Wunused-function]
+ 1429 | static bool b3HullBuilder_Construct( b3HullBuilder* b, const b3Vec3* points, int pointCount, int maxVertexCount, b3Vec3 origin,
+      |             ^~~~~~~~~~~~~~~~~~~~~~~
+[ 21%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/id_pool.c.o
+[ 21%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/island.c.o
+[ 22%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/convex_manifold.c.o
+[ 23%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/joint.c.o
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/joint.c:336:13: warning: ‘b3DestroyContactsBetweenBodies’ defined but not used [-Wunused-function]
+  336 | static void b3DestroyContactsBetweenBodies( b3World* world, b3Body* bodyA, b3Body* bodyB )
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/joint.c:158:20: warning: ‘b3CreateJoint’ defined but not used [-Wunused-function]
+  158 | static b3JointPair b3CreateJoint( b3World* world, const b3JointDef* def, b3JointType type )
+      |                    ^~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/joint.c:23:19: warning: ‘b3DefaultJointDef’ defined but not used [-Wunused-function]
+   23 | static b3JointDef b3DefaultJointDef( void )
+      |                   ^~~~~~~~~~~~~~~~~
+[ 23%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/manifold.c.o
+[ 24%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/math_functions.c.o
+[ 24%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/mesh.c.o
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/mesh.c:1055:13: warning: ‘b3IdentifyEdges’ defined but not used [-Wunused-function]
+ 1055 | static void b3IdentifyEdges( b3MeshData* mesh )
+      |             ^~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/mesh.c:952:13: warning: ‘b3SortMeshTriangles’ defined but not used [-Wunused-function]
+  952 | static bool b3SortMeshTriangles( b3MeshData* mesh )
+      |             ^~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/mesh.c:873:12: warning: ‘b3BuildRecursive’ defined but not used [-Wunused-function]
+  873 | static int b3BuildRecursive( b3Array( b3MeshNode ) * nodes, int count, b3Primitive* primitives, b3Primitive* base,
+      |            ^~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/mesh.c:486:12: warning: ‘b3WeldVertices’ defined but not used [-Wunused-function]
+  486 | static int b3WeldVertices( b3WeldData* data, float tolerance )
+      |            ^~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/mesh.c:131:12: warning: ‘b3GetNodeHeight’ defined but not used [-Wunused-function]
+  131 | static int b3GetNodeHeight( const b3MeshNode* node )
+      |            ^~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/mesh.c:94:16: warning: ‘b3GetMeshVerticesWrite’ defined but not used [-Wunused-function]
+   94 | static b3Vec3* b3GetMeshVerticesWrite( b3MeshData* mesh )
+      |                ^~~~~~~~~~~~~~~~~~~~~~
+[ 25%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/mesh_contact.c.o
+[ 25%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/core.c.o
+[ 26%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/distance.c.o
+[ 26%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/motor_joint.c.o
+[ 27%] Building CXX object CMakeFiles/imgui.dir/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src/imgui_tables.cpp.o
+[ 27%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/distance_joint.c.o
+[ 28%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/mover.c.o
+[ 28%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/name_cache.c.o
+[ 29%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/dynamic_tree.c.o
+[ 30%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/parallel_for.c.o
+[ 30%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/parallel_joint.c.o
+[ 31%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/physics_world.c.o
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/physics_world.c:3346:13: warning: ‘ExplosionCallback’ defined but not used [-Wunused-function]
+ 3346 | static bool ExplosionCallback( int proxyId, uint64_t userData, void* context )
+      |             ^~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/physics_world.c:3182:14: warning: ‘MoverCastCallback’ defined but not used [-Wunused-function]
+ 3182 | static float MoverCastCallback( const b3BoxCastInput* input, int proxyId, uint64_t userData, void* context )
+      |              ^~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/physics_world.c:3047:14: warning: ‘b3ShapeCastCallback’ defined but not used [-Wunused-function]
+ 3047 | static float b3ShapeCastCallback( const b3BoxCastInput* input, int proxyId, uint64_t userData, void* context )
+      |              ^~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/physics_world.c:2958:14: warning: ‘b3RayCastClosestFcn’ defined but not used [-Wunused-function]
+ 2958 | static float b3RayCastClosestFcn( b3ShapeId shapeId, b3Pos point, b3Vec3 normal, float fraction, uint64_t userMaterialId,
+      |              ^~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/physics_world.c:2847:14: warning: ‘RayCastCallback’ defined but not used [-Wunused-function]
+ 2847 | static float RayCastCallback( const b3RayCastInput* input, int proxyId, uint64_t userData, void* context )
+      |              ^~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/physics_world.c:2750:13: warning: ‘TreeCollideCallback’ defined but not used [-Wunused-function]
+ 2750 | static bool TreeCollideCallback( int proxyId, uint64_t userData, void* context )
+      |             ^~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/physics_world.c:2655:13: warning: ‘b3TreeOverlapCallback’ defined but not used [-Wunused-function]
+ 2655 | static bool b3TreeOverlapCallback( int proxyId, uint64_t userData, void* context )
+      |             ^~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/physics_world.c:2576:13: warning: ‘TreeQueryCallback’ defined but not used [-Wunused-function]
+ 2576 | static bool TreeQueryCallback( int proxyId, uint64_t userData, void* context )
+      |             ^~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/physics_world.c:1215:13: warning: ‘DrawQueryCallback’ defined but not used [-Wunused-function]
+ 1215 | static bool DrawQueryCallback( int proxyId, uint64_t userData, void* context )
+      |             ^~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/physics_world.c:820:13: warning: ‘b3Collide’ defined but not used [-Wunused-function]
+  820 | static void b3Collide( b3StepContext* context )
+      |             ^~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/physics_world.c:190:13: warning: ‘b3DestroyWorkerContexts’ defined but not used [-Wunused-function]
+  190 | static void b3DestroyWorkerContexts( b3World* world )
+      |             ^~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/physics_world.c:166:13: warning: ‘b3CreateWorkerContexts’ defined but not used [-Wunused-function]
+  166 | static void b3CreateWorkerContexts( b3World* world )
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/physics_world.c:160:14: warning: ‘b3DefaultRestitutionCallback’ defined but not used [-Wunused-function]
+  160 | static float b3DefaultRestitutionCallback( float restitutionA, uint64_t materialA, float restitutionB, uint64_t materialB )
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/physics_world.c:154:14: warning: ‘b3DefaultFrictionCallback’ defined but not used [-Wunused-function]
+  154 | static float b3DefaultFrictionCallback( float frictionA, uint64_t materialA, float frictionB, uint64_t materialB )
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/physics_world.c:148:13: warning: ‘b3DefaultFinishTaskFcn’ defined but not used [-Wunused-function]
+  148 | static void b3DefaultFinishTaskFcn( void* userTask, void* userContext )
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/physics_world.c:141:14: warning: ‘b3DefaultAddTaskFcn’ defined but not used [-Wunused-function]
+  141 | static void* b3DefaultAddTaskFcn( b3TaskCallback* task, void* taskContext, void* userContext, const char* name )
+      |              ^~~~~~~~~~~~~~~~~~~
+[ 31%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/prismatic_joint.c.o
+[ 31%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/height_field.c.o
+[ 32%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/recording.c.o
+[ 33%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/hull.c.o
+[ 33%] Building CXX object CMakeFiles/imgui.dir/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src/imgui_widgets.cpp.o
+[ 34%] Building CXX object CMakeFiles/imgui.dir/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src/imgui_demo.cpp.o
+[ 34%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/id_pool.c.o
+[ 34%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/recording_replay.c.o
+[ 35%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/island.c.o
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/recording_replay.c:3351:13: warning: ‘b3RecDrawProxy’ defined but not used [-Wunused-function]
+ 3351 | static void b3RecDrawProxy( b3DebugDraw* draw, b3Pos basePos, const b3RecDrawQuery* q, b3HexColor color )
+      |             ^~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/recording_replay.c:3331:13: warning: ‘b3RecDrawHitBounds’ defined but not used [-Wunused-function]
+ 3331 | static void b3RecDrawHitBounds( const b3RecPlayer* player, const b3RecDrawQuery* q, b3DebugDraw* draw, b3HexColor color )
+      |             ^~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/recording_replay.c:3324:19: warning: ‘b3RecQuerySelColor’ defined but not used [-Wunused-function]
+ 3324 | static b3HexColor b3RecQuerySelColor( bool selected, b3HexColor base )
+      |                   ^~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/recording_replay.c:2714:18: warning: ‘b3RecPlayerCreateWorld’ defined but not used [-Wunused-function]
+ 2714 | static b3WorldId b3RecPlayerCreateWorld( const b3RecPlayer* player )
+      |                  ^~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/recording_replay.c:2687:13: warning: ‘b3RecPlayerRestoreKeyframe’ defined but not used [-Wunused-function]
+ 2687 | static void b3RecPlayerRestoreKeyframe( b3RecPlayer* player, const b3RecKeyframe* kf )
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/recording_replay.c:2612:13: warning: ‘b3RecCaptureKeyframe’ defined but not used [-Wunused-function]
+ 2612 | static void b3RecCaptureKeyframe( b3RecPlayer* player )
+      |             ^~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/recording_replay.c:2589:13: warning: ‘b3RecSeedKeyframeRegistry’ defined but not used [-Wunused-function]
+ 2589 | static void b3RecSeedKeyframeRegistry( b3RecPlayer* player )
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/recording_replay.c:2529:13: warning: ‘b3RecScanFile’ defined but not used [-Wunused-function]
+ 2529 | static void b3RecScanFile( b3RecPlayer* player )
+      |             ^~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/recording_replay.c:2499:13: warning: ‘b3RecFreeSlots’ defined but not used [-Wunused-function]
+ 2499 | static void b3RecFreeSlots( b3RegistrySlot* slots, int slotCount )
+      |             ^~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/recording_replay.c:2403:13: warning: ‘b3RecLoadSlots’ defined but not used [-Wunused-function]
+ 2403 | static bool b3RecLoadSlots( b3RecReader* rdr, const void* data, int size, uint64_t registryOffset, uint64_t registryByteCount )
+      |             ^~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/recording_replay.c:2307:13: warning: ‘b3RecSeedFrame0BodyIds’ defined but not used [-Wunused-function]
+ 2307 | static void b3RecSeedFrame0BodyIds( b3RecPlayer* player )
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/recording_replay.c:2125:12: warning: ‘b3RecDispatchOne’ defined but not used [-Wunused-function]
+ 2125 | static int b3RecDispatchOne( b3RecReader* rdr )
+      |            ^~~~~~~~~~~~~~~~
+[ 35%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/joint.c.o
+[ 36%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/manifold.c.o
+[ 37%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/math_functions.c.o
+[ 37%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/revolute_joint.c.o
+[ 38%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/mesh.c.o
+[ 38%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/scheduler.c.o
+[ 39%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/sensor.c.o
+[ 40%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/shape.c.o
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/shape.c:1354:13: warning: ‘b3ResetProxy’ defined but not used [-Wunused-function]
+ 1354 | static void b3ResetProxy( b3World* world, b3Shape* shape, bool wakeBodies, bool destroyProxy )
+      |             ^~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/shape.c:480:13: warning: ‘b3DestroyShapeInternal’ defined but not used [-Wunused-function]
+  480 | static void b3DestroyShapeInternal( b3World* world, b3Shape* shape, b3Body* body, bool wakeBodies )
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/shape.c:255:18: warning: ‘b3CreateShape’ defined but not used [-Wunused-function]
+  255 | static b3ShapeId b3CreateShape( b3BodyId bodyId, const b3ShapeDef* def, const void* geometry, b3ShapeType shapeType,
+      |                  ^~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/shape.c:19:17: warning: ‘b3GetShape’ defined but not used [-Wunused-function]
+   19 | static b3Shape* b3GetShape( b3World* world, b3ShapeId shapeId )
+      |                 ^~~~~~~~~~
+[ 40%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/simd.c.o
+[ 41%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/solver.c.o
+[ 42%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/mesh_contact.c.o
+[ 42%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/solver_set.c.o
+[ 43%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/sphere.c.o
+[ 43%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/motor_joint.c.o
+[ 43%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/spherical_joint.c.o
+[ 44%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/mover.c.o
+[ 44%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/name_cache.c.o
+[ 45%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/table.c.o
+[ 45%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/timer.c.o
+[ 46%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/triangle_manifold.c.o
+[ 46%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/types.c.o
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/types.c:123:13: warning: ‘b3EmptyDrawString’ defined but not used [-Wunused-function]
+  123 | static void b3EmptyDrawString( b3Pos p, const char* s, b3HexColor color, void* context )
+      |             ^~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/types.c:118:13: warning: ‘b3EmptyDrawBox’ defined but not used [-Wunused-function]
+  118 | static void b3EmptyDrawBox( b3Vec3 extents, b3WorldTransform transform, b3HexColor color, void* context )
+      |             ^~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/types.c:113:13: warning: ‘b3EmptyDrawBounds’ defined but not used [-Wunused-function]
+  113 | static void b3EmptyDrawBounds( b3AABB aabb, b3HexColor color, void* context )
+      |             ^~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/types.c:108:13: warning: ‘b3EmptyDrawCapsule’ defined but not used [-Wunused-function]
+  108 | static void b3EmptyDrawCapsule( b3Pos p1, b3Pos p2, float radius, b3HexColor color, float alpha, void* context )
+      |             ^~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/types.c:103:13: warning: ‘b3EmptyDrawSphere’ defined but not used [-Wunused-function]
+  103 | static void b3EmptyDrawSphere( b3Pos p, float radius, b3HexColor color, float alpha, void* context )
+      |             ^~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/types.c:98:13: warning: ‘b3EmptyDrawPoint’ defined but not used [-Wunused-function]
+   98 | static void b3EmptyDrawPoint( b3Pos p, float size, b3HexColor color, void* context )
+      |             ^~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/types.c:93:13: warning: ‘b3EmptyDrawTransform’ defined but not used [-Wunused-function]
+   93 | static void b3EmptyDrawTransform( b3WorldTransform transform, void* context )
+      |             ^~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/types.c:88:13: warning: ‘b3EmptyDrawSegment’ defined but not used [-Wunused-function]
+   88 | static void b3EmptyDrawSegment( b3Pos p1, b3Pos p2, b3HexColor color, void* context )
+      |             ^~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/types.c:83:13: warning: ‘b3EmptyDrawShape’ defined but not used [-Wunused-function]
+   83 | static void b3EmptyDrawShape( void* userShape, b3WorldTransform transform, b3HexColor color, void* context )
+      |             ^~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/triangle_manifold.c:904:13: warning: ‘b3CollideTriangleAndHullEdges’ defined but not used [-Wunused-function]
+  904 | static void b3CollideTriangleAndHullEdges( b3LocalManifold* manifold, int capacity, b3Vec3 trianglePoint, b3Vec3 triangleEdge,
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/triangle_manifold.c:788:14: warning: ‘b3CollideTriangleFace’ defined but not used [-Wunused-function]
+  788 | static float b3CollideTriangleFace( b3LocalManifold* manifold, int pointCapacity, const b3TriangleData* triangle,
+      |              ^~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/triangle_manifold.c:673:14: warning: ‘b3CollideHullFace’ defined but not used [-Wunused-function]
+  673 | static float b3CollideHullFace( b3LocalManifold* manifold, int pointCapacity, const b3TriangleData* triangle,
+      |              ^~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/triangle_manifold.c:588:25: warning: ‘b3QueryTriangleAndHullEdges’ defined but not used [-Wunused-function]
+  588 | static b3SeparatingAxis b3QueryTriangleAndHullEdges( const b3TriangleData* triangle, const b3HullData* hull )
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/triangle_manifold.c:549:25: warning: ‘b3QueryHullFace’ defined but not used [-Wunused-function]
+  549 | static b3SeparatingAxis b3QueryHullFace( const b3TriangleData* triangle, const b3HullData* hull )
+      |                         ^~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/triangle_manifold.c:531:25: warning: ‘b3QueryTriangleFace’ defined but not used [-Wunused-function]
+  531 | static b3SeparatingAxis b3QueryTriangleFace( const b3TriangleData* triangle, const b3HullData* hull )
+      |                         ^~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/triangle_manifold.c:311:13: warning: ‘b3BuildTriangleAndCapsuleEdgeContact’ defined but not used [-Wunused-function]
+  311 | static void b3BuildTriangleAndCapsuleEdgeContact( b3LocalManifold* manifold, const b3Vec3* triangle, b3Plane plane,
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/triangle_manifold.c:263:13: warning: ‘b3BuildTriangleAndCapsuleFaceContact’ defined but not used [-Wunused-function]
+  263 | static void b3BuildTriangleAndCapsuleFaceContact( b3LocalManifold* manifold, const b3Vec3* triangle, b3Plane plane,
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/triangle_manifold.c:187:25: warning: ‘b3QueryTriangleAndCapsuleEdges’ defined but not used [-Wunused-function]
+  187 | static b3SeparatingAxis b3QueryTriangleAndCapsuleEdges( const b3Vec3* vertices, b3Plane plane, const b3Capsule* capsule )
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/triangle_manifold.c:164:25: warning: ‘b3QueryTriangleFaceAndCapsule’ defined but not used [-Wunused-function]
+  164 | static b3SeparatingAxis b3QueryTriangleFaceAndCapsule( b3Plane plane, const b3Capsule* capsule )
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/triangle_manifold.c:37:26: warning: ‘b3GetTriangleFeature’ defined but not used [-Wunused-function]
+   37 | static b3TriangleFeature b3GetTriangleFeature( const b3SimplexCache* cache )
+      |                          ^~~~~~~~~~~~~~~~~~~~
+[ 47%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/weld_joint.c.o
+[ 47%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/wheel_joint.c.o
+[ 48%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/parallel_for.c.o
+[ 48%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/parallel_joint.c.o
+[ 49%] Building C object box3d_src/CMakeFiles/box3d.dir/__/api-sources/world_snapshot.c.o
+[ 50%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/physics_world.c.o
+[ 50%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/prismatic_joint.c.o
+In function ‘b3DesTree’,
+    inlined from ‘b3DeserializeIntoShell’ at /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/world_snapshot.c:1308:4:
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/world_snapshot.c:329:23: warning: ‘version’ may be used uninitialized [-Wmaybe-uninitialized]
+  329 |         tree->version = version;
+      |         ~~~~~~~~~~~~~~^~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/world_snapshot.c: In function ‘b3DeserializeIntoShell’:
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/world_snapshot.c:297:18: note: ‘version’ was declared here
+  297 |         uint64_t version;
+      |                  ^~~~~~~
+[ 51%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/recording.c.o
+[ 51%] Linking C static library libbox3d.a
+[ 51%] Built target box3d
+[ 51%] Building C object box3d_shared/CMakeFiles/shared.dir/benchmarks.c.o
+[ 52%] Building C object box3d_shared/CMakeFiles/shared.dir/determinism.c.o
+[ 52%] Linking CXX static library libimgui.a
+[ 52%] Built target imgui
+[ 52%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/arena.c.o
+[ 52%] Building C object box3d_shared/CMakeFiles/shared.dir/overflow_color.c.o
+[ 53%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/debug_adapter.c.o
+[ 54%] Building C object box3d_shared/CMakeFiles/shared.dir/stability.c.o
+[ 54%] Building C object box3d_shared/CMakeFiles/shared.dir/utils.c.o
+[ 54%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c.o
+[ 55%] Building C object box3d_shared/CMakeFiles/shared.dir/__/diagnostic-human.c.o
+[ 56%] Linking C static library libshared.a
+[ 56%] Built target shared
+[ 57%] Building CXX object CMakeFiles/implot.dir/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot.cpp.o
+[ 57%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/debug_shapes.c.o
+[ 58%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/draw.c.o
+/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot.cpp: In function ‘bool ImPlot::UpdateInput(ImPlotPlot&)’:
+/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot.cpp:1839:46: warning: bitwise operation between different enumeration types ‘ImGuiButtonFlags_’ and ‘ImGuiButtonFlagsPrivate_’ is deprecated [-Wdeprecated-enum-enum-conversion]
+ 1838 |     const ImGuiButtonFlags plot_button_flags = ImGuiButtonFlags_AllowOverlap
+      |                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 1839 |                                              | ImGuiButtonFlags_PressedOnClick
+      |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ 58%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/edges.c.o
+/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot.cpp: In function ‘void ImPlot::EndPlot()’:
+/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot.cpp:3053:53: warning: bitwise operation between different enumeration types ‘ImGuiButtonFlags_’ and ‘ImGuiButtonFlagsPrivate_’ is deprecated [-Wdeprecated-enum-enum-conversion]
+ 3052 |         const ImGuiButtonFlags legend_button_flags = ImGuiButtonFlags_AllowOverlap
+      |                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 3053 |                                                     | ImGuiButtonFlags_PressedOnClick
+      |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot.cpp: In function ‘void ImPlot::EndSubplots()’:
+/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot.cpp:3576:53: warning: bitwise operation between different enumeration types ‘ImGuiButtonFlags_’ and ‘ImGuiButtonFlagsPrivate_’ is deprecated [-Wdeprecated-enum-enum-conversion]
+ 3575 |         const ImGuiButtonFlags legend_button_flags = ImGuiButtonFlags_AllowOverlap
+      |                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 3576 |                                                     | ImGuiButtonFlags_PressedOnClick
+      |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ 59%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/fonts.c.o
+[ 60%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/world_snapshot.c.o
+[ 60%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/geometry_registry.c.o
+[ 61%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/gtao.c.o
+[ 61%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/highlight_mask.c.o
+[ 61%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/revolute_joint.c.o
+[ 62%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/highlight_outline.c.o
+[ 63%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/highlight_target.c.o
+[ 64%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/scheduler.c.o
+[ 64%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/ibl.c.o
+[ 64%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/sensor.c.o
+[ 65%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/shape.c.o
+[ 65%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/simd.c.o
+[ 65%] Building CXX object CMakeFiles/implot.dir/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot_items.cpp.o
+[ 66%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/overlay.c.o
+[ 66%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/renderer.c.o
+[ 67%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/solver.c.o
+[ 68%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/scene_target.c.o
+[ 68%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/shadow.c.o
+[ 68%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/solver_set.c.o
+[ 69%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/sky.c.o
+[ 69%] Building C object box3d_gfx/CMakeFiles/gfx.dir/sokol_impl.c.o
+[ 70%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/sphere.c.o
+[ 71%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/spherical_joint.c.o
+[ 71%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/table.c.o
+[ 72%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/timer.c.o
+[ 72%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/triangle_manifold.c.o
+[ 73%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/types.c.o
+[ 73%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/weld_joint.c.o
+[ 74%] Building C object CMakeFiles/box3d_cpu_original.dir/home/firtoz/work/2026/box3d-wasm/box3d/src/wheel_joint.c.o
+[ 75%] Building CXX object CMakeFiles/implot.dir/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src/implot_demo.cpp.o
+[ 76%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/text.c.o
+[ 76%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/tone_map.c.o
+[ 76%] Linking C static library libbox3d_cpu_original.a
+[ 77%] Building C object box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/world_text.c.o
+[ 77%] Built target box3d_cpu_original
+[ 78%] Prefixing Box3D symbols with cpu_ for samples_both
+[ 78%] Built target gen_box3d_cpu
+[ 79%] Building C object CMakeFiles/gpu_both_api.dir/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_map.c.o
+[ 79%] Building C object CMakeFiles/gpu_both_api.dir/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_dual.c.o
+[ 80%] Building C object CMakeFiles/gpu_both_api.dir/both_passthrough.c.o
+[ 80%] Linking C static library libgpu_both_api.a
+[ 80%] Built target gpu_both_api
+[ 80%] Building C object box3d_gfx/CMakeFiles/gfx.dir/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/sokol_capacity.c.o
+[ 81%] Building C object box3d_gfx/CMakeFiles/gfx.dir/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/sokol_split_stream.c.o
+[ 81%] Linking C static library libgfx.a
+[ 81%] Built target gfx
+[ 81%] Linking CXX static library libimplot.a
+[ 81%] Built target implot
+[ 81%] Building CXX object CMakeFiles/samples_both.dir/main_bench.cpp.o
+[ 83%] Building CXX object CMakeFiles/samples_both.dir/sokol_bench_hooks.cpp.o
+[ 83%] Building CXX object CMakeFiles/samples_both.dir/sokol_loading.cpp.o
+[ 83%] Building CXX object CMakeFiles/samples_both.dir/sample_gpu_bench.cpp.o
+[ 84%] Building CXX object CMakeFiles/samples_both.dir/sample_shape_replacement.cpp.o
+[ 84%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/host/camera.cpp.o
+[ 85%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/host/gui.cpp.o
+[ 85%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/host/imgui_impl.cpp.o
+[ 86%] Building C object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/host/sokol_app_impl.c.o
+[ 86%] Building CXX object CMakeFiles/samples_both.dir/sample_bench.cpp.o
+[ 87%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/mesh_loader.cpp.o
+[ 87%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/mover.cpp.o
+[ 88%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_benchmark.cpp.o
+[ 88%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_bodies.cpp.o
+[ 89%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o
+[ 89%] Building CXX object CMakeFiles/samples_both.dir/sample_character_loading.cpp.o
+[ 90%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_compound.cpp.o
+[ 90%] Building CXX object CMakeFiles/samples_both.dir/sample_continuous_bench.cpp.o
+[ 91%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_determinism.cpp.o
+[ 91%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_events.cpp.o
+[ 92%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_geometry.cpp.o
+[ 93%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_issues.cpp.o
+[ 93%] Building CXX object CMakeFiles/samples_both.dir/sample_joint_bench.cpp.o
+[ 94%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_manifold.cpp.o
+[ 94%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_mesh.cpp.o
+[ 95%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_ragdoll.cpp.o
+[ 95%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_replay.cpp.o
+[ 96%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_robustness.cpp.o
+[ 96%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_shapes.cpp.o
+[ 97%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_stacking.cpp.o
+[ 97%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_tree.cpp.o
+[ 98%] Building CXX object CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_world.cpp.o
+[ 98%] Building CXX object CMakeFiles/samples_both.dir/sample_stats.cpp.o
+[ 99%] Linking CXX executable bin/samples_both
+[100%] Built target samples_both

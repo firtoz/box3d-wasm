@@ -1,0 +1,50 @@
+{
+  "screen": "metrics-initial.png",
+  "screen_sha256": "b8af70fe88c97de049aaf13166b54cce16d451919308d28647b5abf18c22d7f1",
+  "review": "Agent inspected this actual current PNG before selecting displayed widget/tab positions; coordinates in actions. No stale coordinates across lifetime/layout transition.",
+  "actions": [
+    {
+      "type": "click",
+      "x": 48,
+      "y": 525,
+      "label": "profile"
+    },
+    {
+      "type": "screenshot",
+      "name": "profile"
+    },
+    {
+      "type": "click",
+      "x": 123,
+      "y": 525,
+      "label": "counters"
+    },
+    {
+      "type": "screenshot",
+      "name": "counters"
+    },
+    {
+      "type": "click",
+      "x": 293,
+      "y": 525,
+      "label": "frame-time"
+    },
+    {
+      "type": "screenshot",
+      "name": "frame-time"
+    },
+    {
+      "type": "key",
+      "symbol": 109,
+      "label": "metrics-off"
+    },
+    {
+      "type": "screenshot",
+      "name": "metrics-off"
+    },
+    {
+      "type": "quit",
+      "label": "quit"
+    }
+  ]
+}

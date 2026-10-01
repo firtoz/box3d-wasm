@@ -1,0 +1,29 @@
+{
+  "screen": "controls.png",
+  "screen_sha256": "1a3c658855945e65d61ba803ba6ed9093cf34b3d530f4f2426c07e279150c6f8",
+  "review": "Actual PNG: Sleep587, Warm616, Continuous645; no lifetime change during this checkbox batch.",
+  "actions": [
+    {
+      "type": "click",
+      "x": 1034,
+      "y": 587,
+      "label": "sleep-off"
+    },
+    {
+      "type": "click",
+      "x": 1034,
+      "y": 616,
+      "label": "warm-off"
+    },
+    {
+      "type": "click",
+      "x": 1034,
+      "y": 645,
+      "label": "continuous-off"
+    },
+    {
+      "type": "screenshot",
+      "name": "flags-off"
+    }
+  ]
+}

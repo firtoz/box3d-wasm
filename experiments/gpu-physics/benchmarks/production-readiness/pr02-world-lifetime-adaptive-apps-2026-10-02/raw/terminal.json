@@ -1,0 +1,21 @@
+{
+  "status": "stopped-action-publication-race",
+  "first_apps": 1,
+  "accepted_apps": 0,
+  "gpu_unlaunched": [
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "failure": "JSONDecodeError('Expecting value: line 1 column 1 (char 0)')",
+  "actions_completed": 19,
+  "last_action": {
+    "type": "key",
+    "symbol": 109,
+    "label": "metrics-on"
+  },
+  "observed": "Root changes1,1->1,2, single-step completes1, all flags restore111 after post-restart current screenshot; no complete viewer acceptance. Driver reads action20 after write_text has opened/truncated it but before JSON bytes finish. Raw pending file is valid once writer completes; original app is killed in driver exception cleanup, not a clean quit.",
+  "required_harness_change": "Publish coordinator action files and driver receipts via same-directory temp file then atomic os.replace; keep all input/evaluation behavior unchanged.",
+  "timing_runs": 0,
+  "source_changes": 0
+}

@@ -1,0 +1,74 @@
+{
+  "id": "pr02-world-lifetime-adaptive-apps-2026-10-02",
+  "requirement": "Previously unlaunched PR02 actual truthful native viewer world controls after retained property repair",
+  "prerequisite": "Four first diagnostic viewers from exact passing world/child repair libraries plus freshly compiled C guards; build proof completed before app processes",
+  "budget": {
+    "fresh_cpu_apps": 0,
+    "ordinary_after_failed_coordinate_harness": 1,
+    "previously_unlaunched_gpu_apps": 3,
+    "host_receiver_processes": 0,
+    "production_candidates": 0,
+    "timing_runs": 0,
+    "retries": 0
+  },
+  "order": [
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "watchdog_seconds": 600,
+  "max_actions_per_app": 40,
+  "max_screenshots_per_app": 20,
+  "configuration": {
+    "sample": "Single Box",
+    "arguments": [
+      "--sample-name",
+      "Single Box"
+    ],
+    "settings_initial": {},
+    "hertz": 60,
+    "substeps": 4,
+    "sleep": true,
+    "warm_start": true,
+    "continuous": true,
+    "ordinary_backend": "wgpu Vulkan NVIDIA",
+    "native_backend": "native cached Vulkan NVIDIA",
+    "rendering": "Mesa software/Xvfb1280x720",
+    "trace": "read-only post-Step world flags/events/counters/completion; not benchmark mode; cadence is diagnostic only"
+  },
+  "controls": [
+    "P pause and stable completed step",
+    "period advances exactly one step while paused",
+    "Sleep/Warm Starting/Continuous checkboxes off then on and exact public world getters",
+    "combined mapped CPU flags agree with context and GPU flags",
+    "restart new world lifetime while paused with controls preserved",
+    "actual Profile/Counters/Frame Time tabs and truthful backend labels",
+    "M metrics toggle",
+    "Ctrl+Q clean quit and upstream-supported saved rendering settings"
+  ],
+  "input": "Direct libX11 focus, mouse270ms/key120ms unchanged. Coordinates chosen from actual current screenshot before each checkbox/restart/tab batch; explicit reviewed plan/hash required. Scroll at most5 detents/action. Screenshot after new lifetime first single-step before restoring flags. No automatic stale coordinates or checkbox retries.",
+  "acceptance": "Each app passes all named behaviors with numeric observer evidence and reviewed actual visible controls/tab content. Upstream Save excludes physics controls; no unsupported persistence requirement. World getters match displayed/context flags once input is consumed; paused step stable, single-step delta exactly1, restart lifetime changes. Original physical tolerances unchanged; this is limited control-contract acceptance, not full dynamics, sample-wide UI/raycast or performance qualification.",
+  "stop_rule": "Stop first infrastructure/stimulus/provenance/control failure; screenshot failed state then quit safely. Retain all successes/failures/unlaunched cells. Old failed campaign stays closed; no production or assertion changes.",
+  "publication": "Portable commands/environments, action/state JSON, observer raw data, screenshots, build proof and capture hashes. Full diagnostic clips retained locally; screenshots cover accepted interactions. No headline performance claim.",
+  "changed_hypothesis": "Failed app shows exact repaired root change[1,1]->[1,2] and single-step1, but first Sleep-on click y587 misses actual checkbox627 after conditional contact diagnostic rows change panel height. sample_stats.cpp:55-62 conditionally adds two rows. Preserve first failed15 actions/six screenshots. New coordinator requires current screenshot/hash and reviewed coordinates before checkbox/restart/tab batches, with extra post-restart scroll/screenshot; same held-input/event-window assertions, binaries and sources. Four fresh diagnostic apps only, no selective performance or physics repeats.",
+  "driver_sha256": "0b31fb6555af7535bac1e4029d785283ab65d44a94734ee7873a63cea2165dec",
+  "validator_sha256": "f576997c204de8482112d520f4f9372edb7e975c221c0e7ba211e0d5834fe62c",
+  "frozen_viewers": {
+    "ordinary-gpu": "5f62cad9c9a0b1cfee92cc569cefa7728f8e14d03807d4943a438b4e65229bea",
+    "native-gpu": "f71d11955ac90c3cadc06b1939f8d65dc0c80339da8dd6cefd153c3d4a40e666",
+    "ordinary-both": "32cca25f8853b9ff225be895382eafb2db95d38a909d572b7ce483553f02de94",
+    "native-both": "c497cd8f5f9b93bb83bbdbf87541c57a80fb93d86e23773ccd7a36063ba4d109"
+  },
+  "frozen_unix": 1790896463.4217029,
+  "offline_cpu_prerequisite": {
+    "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-focus-apps/cpu",
+    "receipt_sha256": "df82ef736a3331ff17ada3e59b4eaac0de8c27c12f42a577e4385d993b5bc158",
+    "observer_sha256": "96e6ccaf39eb803f880d463b85ccc03087de6898ead5e70fd18338690e70b7d0",
+    "visual_review_sha256": "13a325e768813109268bb654ce99f24e16a3d85addfff025232389ae0de36cae",
+    "binary_sha256": "6c65fabab6fbd048a321061c8f9b2bb061afdcfa450d57b1bbc5ff96d5e6d14e",
+    "acceptance_file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-focus-apps/cpu/acceptance.json"
+  },
+  "build_receipt_sha256": "9b8e2f4e05257ba1b3b39bdb0f3f9694a9192cac085ccec3e35cf7ad8a620c05",
+  "action_coordinator_sha256": "07b1311a64b3995663a842683a624ed0ae739d896d1ff7f6ed019b9628f0fd38"
+}

@@ -1,0 +1,1366 @@
+{
+  "configuration": "ordinary-gpu",
+  "purpose": "actual native controls, read-only observer, diagnostic only; no timing or sample-wide qualification",
+  "binary_sha256": "5f62cad9c9a0b1cfee92cc569cefa7728f8e14d03807d4943a438b4e65229bea",
+  "build_receipt_sha256": "09e4a2157a2ec24ce28802a847151c221ae8ff3f6eb76430c0c4dc54252cf590",
+  "protocol_sha256": "3b18c495e2c4a62a2d83af561d49d9de89e29f811fcd615bfdc81d8a00e753f3",
+  "actions": [
+    {
+      "file": "action-01.json",
+      "action": {
+        "type": "key",
+        "symbol": 112,
+        "label": "pause"
+      },
+      "at_seconds": 3.0066980210249312,
+      "state_before": {
+        "frame": 1,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 2,
+        "submitted": 2,
+        "completed": 2,
+        "completed_known": 1,
+        "pause": 0,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -4.78150287e-06,
+          0.499953181,
+          -4.88508704e-07
+        ],
+        "fell_asleep": 0
+      },
+      "state_after": {
+        "frame": 7,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 2,
+        "submitted": 2,
+        "completed": 2,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -4.78150287e-06,
+          0.499953181,
+          -4.88508704e-07
+        ],
+        "fell_asleep": 0
+      }
+    },
+    {
+      "file": "action-02.json",
+      "action": {
+        "type": "screenshot",
+        "name": "paused"
+      },
+      "at_seconds": 3.8344915360212326,
+      "state_before": {
+        "frame": 8,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 2,
+        "submitted": 2,
+        "completed": 2,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -4.78150287e-06,
+          0.499953181,
+          -4.88508704e-07
+        ],
+        "fell_asleep": 0
+      },
+      "state_after": {
+        "frame": 16,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 2,
+        "submitted": 2,
+        "completed": 2,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -4.78150287e-06,
+          0.499953181,
+          -4.88508704e-07
+        ],
+        "fell_asleep": 0
+      }
+    },
+    {
+      "file": "action-03.json",
+      "action": {
+        "type": "key",
+        "symbol": 46,
+        "label": "single-before"
+      },
+      "at_seconds": 4.753104778006673,
+      "state_before": {
+        "frame": 17,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 2,
+        "submitted": 2,
+        "completed": 2,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -4.78150287e-06,
+          0.499953181,
+          -4.88508704e-07
+        ],
+        "fell_asleep": 0
+      },
+      "state_after": {
+        "frame": 24,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 3,
+        "submitted": 3,
+        "completed": 3,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -5.9771578e-06,
+          0.499944001,
+          -1.86653892e-07
+        ],
+        "fell_asleep": 0
+      }
+    },
+    {
+      "file": "action-04.json",
+      "action": {
+        "type": "scroll",
+        "x": 1203,
+        "y": 620,
+        "steps": 5
+      },
+      "at_seconds": 5.578056215017568,
+      "state_before": {
+        "frame": 25,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 3,
+        "submitted": 3,
+        "completed": 3,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -5.9771578e-06,
+          0.499944001,
+          -1.86653892e-07
+        ],
+        "fell_asleep": 0
+      },
+      "state_after": {
+        "frame": 38,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 3,
+        "submitted": 3,
+        "completed": 3,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -5.9771578e-06,
+          0.499944001,
+          -1.86653892e-07
+        ],
+        "fell_asleep": 0
+      }
+    },
+    {
+      "file": "action-05.json",
+      "action": {
+        "type": "screenshot",
+        "name": "controls"
+      },
+      "at_seconds": 7.005176698032301,
+      "state_before": {
+        "frame": 39,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 3,
+        "submitted": 3,
+        "completed": 3,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -5.9771578e-06,
+          0.499944001,
+          -1.86653892e-07
+        ],
+        "fell_asleep": 0
+      },
+      "state_after": {
+        "frame": 47,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 3,
+        "submitted": 3,
+        "completed": 3,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -5.9771578e-06,
+          0.499944001,
+          -1.86653892e-07
+        ],
+        "fell_asleep": 0
+      }
+    },
+    {
+      "file": "action-06.json",
+      "action": {
+        "type": "click",
+        "x": 1034,
+        "y": 587,
+        "label": "sleep-off"
+      },
+      "at_seconds": 30.127795706037432,
+      "state_before": {
+        "frame": 264,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 3,
+        "submitted": 3,
+        "completed": 3,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -5.9771578e-06,
+          0.499944001,
+          -1.86653892e-07
+        ],
+        "fell_asleep": 0
+      },
+      "state_after": {
+        "frame": 273,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 3,
+        "submitted": 3,
+        "completed": 3,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          1,
+          1
+        ],
+        "world_flags": [
+          0,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -5.9771578e-06,
+          0.499944001,
+          -1.86653892e-07
+        ],
+        "fell_asleep": 0
+      }
+    },
+    {
+      "file": "action-07.json",
+      "action": {
+        "type": "click",
+        "x": 1034,
+        "y": 616,
+        "label": "warm-off"
+      },
+      "at_seconds": 31.32027939899126,
+      "state_before": {
+        "frame": 275,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 3,
+        "submitted": 3,
+        "completed": 3,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          1,
+          1
+        ],
+        "world_flags": [
+          0,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -5.9771578e-06,
+          0.499944001,
+          -1.86653892e-07
+        ],
+        "fell_asleep": 0
+      },
+      "state_after": {
+        "frame": 285,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 3,
+        "submitted": 3,
+        "completed": 3,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          1
+        ],
+        "world_flags": [
+          0,
+          0,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -5.9771578e-06,
+          0.499944001,
+          -1.86653892e-07
+        ],
+        "fell_asleep": 0
+      }
+    },
+    {
+      "file": "action-08.json",
+      "action": {
+        "type": "click",
+        "x": 1034,
+        "y": 645,
+        "label": "continuous-off"
+      },
+      "at_seconds": 32.41625266103074,
+      "state_before": {
+        "frame": 286,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 3,
+        "submitted": 3,
+        "completed": 3,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          1
+        ],
+        "world_flags": [
+          0,
+          0,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -5.9771578e-06,
+          0.499944001,
+          -1.86653892e-07
+        ],
+        "fell_asleep": 0
+      },
+      "state_after": {
+        "frame": 296,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 3,
+        "submitted": 3,
+        "completed": 3,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          0
+        ],
+        "world_flags": [
+          0,
+          0,
+          0
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -5.9771578e-06,
+          0.499944001,
+          -1.86653892e-07
+        ],
+        "fell_asleep": 0
+      }
+    },
+    {
+      "file": "action-09.json",
+      "action": {
+        "type": "screenshot",
+        "name": "flags-off"
+      },
+      "at_seconds": 33.61433042300632,
+      "state_before": {
+        "frame": 298,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 3,
+        "submitted": 3,
+        "completed": 3,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          0
+        ],
+        "world_flags": [
+          0,
+          0,
+          0
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -5.9771578e-06,
+          0.499944001,
+          -1.86653892e-07
+        ],
+        "fell_asleep": 0
+      },
+      "state_after": {
+        "frame": 306,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 3,
+        "submitted": 3,
+        "completed": 3,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          0
+        ],
+        "world_flags": [
+          0,
+          0,
+          0
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -5.9771578e-06,
+          0.499944001,
+          -1.86653892e-07
+        ],
+        "fell_asleep": 0
+      }
+    },
+    {
+      "file": "action-10.json",
+      "action": {
+        "type": "click",
+        "x": 1052,
+        "y": 672,
+        "label": "restart-off"
+      },
+      "at_seconds": 34.53851956204744,
+      "state_before": {
+        "frame": 307,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 3,
+        "submitted": 3,
+        "completed": 3,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          0
+        ],
+        "world_flags": [
+          0,
+          0,
+          0
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          1
+        ],
+        "first_position": [
+          -5.9771578e-06,
+          0.499944001,
+          -1.86653892e-07
+        ],
+        "fell_asleep": 0
+      },
+      "state_after": {
+        "frame": 316,
+        "world": [
+          1,
+          2
+        ],
+        "sample_step": 0,
+        "submitted": 0,
+        "completed": 0,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          0
+        ],
+        "world_flags": [
+          0,
+          0,
+          0
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 0
+      }
+    },
+    {
+      "file": "action-11.json",
+      "action": {
+        "type": "screenshot",
+        "name": "restart-off"
+      },
+      "at_seconds": 35.63129235000815,
+      "state_before": {
+        "frame": 317,
+        "world": [
+          1,
+          2
+        ],
+        "sample_step": 0,
+        "submitted": 0,
+        "completed": 0,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          0
+        ],
+        "world_flags": [
+          0,
+          0,
+          0
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 0
+      },
+      "state_after": {
+        "frame": 325,
+        "world": [
+          1,
+          2
+        ],
+        "sample_step": 0,
+        "submitted": 0,
+        "completed": 0,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          0
+        ],
+        "world_flags": [
+          0,
+          0,
+          0
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 0
+      }
+    },
+    {
+      "file": "action-12.json",
+      "action": {
+        "type": "key",
+        "symbol": 46,
+        "label": "single-after"
+      },
+      "at_seconds": 36.53749235201394,
+      "state_before": {
+        "frame": 326,
+        "world": [
+          1,
+          2
+        ],
+        "sample_step": 0,
+        "submitted": 0,
+        "completed": 0,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          0
+        ],
+        "world_flags": [
+          0,
+          0,
+          0
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 0
+      },
+      "state_after": {
+        "frame": 332,
+        "world": [
+          1,
+          2
+        ],
+        "sample_step": 1,
+        "submitted": 1,
+        "completed": 1,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          0
+        ],
+        "world_flags": [
+          0,
+          0,
+          0
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          2
+        ],
+        "first_position": [
+          -1.53013825e-05,
+          0.49996832,
+          8.51445384e-06
+        ],
+        "fell_asleep": 0
+      }
+    },
+    {
+      "file": "action-13.json",
+      "action": {
+        "type": "click",
+        "x": 1034,
+        "y": 587,
+        "label": "sleep-on"
+      },
+      "at_seconds": 37.46092545101419,
+      "state_before": {
+        "frame": 334,
+        "world": [
+          1,
+          2
+        ],
+        "sample_step": 1,
+        "submitted": 1,
+        "completed": 1,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          0
+        ],
+        "world_flags": [
+          0,
+          0,
+          0
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          2
+        ],
+        "first_position": [
+          -1.53013825e-05,
+          0.49996832,
+          8.51445384e-06
+        ],
+        "fell_asleep": 0
+      },
+      "state_after": {
+        "frame": 344,
+        "world": [
+          1,
+          2
+        ],
+        "sample_step": 1,
+        "submitted": 1,
+        "completed": 1,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          0
+        ],
+        "world_flags": [
+          0,
+          0,
+          0
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          2
+        ],
+        "first_position": [
+          -1.53013825e-05,
+          0.49996832,
+          8.51445384e-06
+        ],
+        "fell_asleep": 0
+      }
+    },
+    {
+      "file": "action-14.json",
+      "action": {
+        "type": "screenshot",
+        "name": "failed-sleep-on"
+      },
+      "at_seconds": 92.41283113200916,
+      "state_before": {
+        "frame": 871,
+        "world": [
+          1,
+          2
+        ],
+        "sample_step": 1,
+        "submitted": 1,
+        "completed": 1,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          0
+        ],
+        "world_flags": [
+          0,
+          0,
+          0
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          2
+        ],
+        "first_position": [
+          -1.53013825e-05,
+          0.49996832,
+          8.51445384e-06
+        ],
+        "fell_asleep": 0
+      },
+      "state_after": {
+        "frame": 878,
+        "world": [
+          1,
+          2
+        ],
+        "sample_step": 1,
+        "submitted": 1,
+        "completed": 1,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          0
+        ],
+        "world_flags": [
+          0,
+          0,
+          0
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          2
+        ],
+        "first_position": [
+          -1.53013825e-05,
+          0.49996832,
+          8.51445384e-06
+        ],
+        "fell_asleep": 0
+      }
+    },
+    {
+      "file": "action-15.json",
+      "action": {
+        "type": "quit",
+        "label": "quit-after-stimulus-failure"
+      },
+      "at_seconds": 93.24525060603628,
+      "state_before": {
+        "frame": 878,
+        "world": [
+          1,
+          2
+        ],
+        "sample_step": 1,
+        "submitted": 1,
+        "completed": 1,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          0
+        ],
+        "world_flags": [
+          0,
+          0,
+          0
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          2
+        ],
+        "first_position": [
+          -1.53013825e-05,
+          0.49996832,
+          8.51445384e-06
+        ],
+        "fell_asleep": 0
+      },
+      "state_after": {
+        "frame": 879,
+        "world": [
+          1,
+          2
+        ],
+        "sample_step": 1,
+        "submitted": 1,
+        "completed": 1,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          0
+        ],
+        "world_flags": [
+          0,
+          0,
+          0
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          1,
+          2
+        ],
+        "first_position": [
+          -1.53013825e-05,
+          0.49996832,
+          8.51445384e-06
+        ],
+        "fell_asleep": 0
+      }
+    }
+  ],
+  "environment": {
+    "DISPLAY": ":97",
+    "GPU_BENCH_WIDTH": "1280",
+    "GPU_BENCH_HEIGHT": "720",
+    "GPU_PHYSICS_ADAPTER": "nvidia",
+    "GPU_PHYSICS_BACKEND": "vulkan",
+    "WGPU_BACKEND": "vulkan",
+    "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+    "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+    "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-apps/pipelines",
+    "__NV_PRIME_RENDER_OFFLOAD": "0",
+    "__GLX_VENDOR_LIBRARY_NAME": "mesa",
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "GPU_VIEWER_CONTROL_OBSERVER": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-apps/ordinary-gpu/observer.jsonl"
+  },
+  "status": "complete",
+  "screenshots": {
+    "paused.png": "27a16629f5d5fecdf15358b7dbacbd1a6957e129de0ca7d97dba612eba512010",
+    "controls.png": "cddb9fce0eaf43ce497bbda3dea8388ec31f43fe7682baf8fc6da41ab625fcb6",
+    "flags-off.png": "bfaea762420378002120825cad071b0ba5eb144cf17037eb0a4edfa97378d18d",
+    "restart-off.png": "88fd969083497d6dc0ec7a0851d44e9e849ca650176500050f90f561998592d8",
+    "failed-sleep-on.png": "23dbeff1b20df00b5812ed4e28b38f62034d53085845f94d71d9da465f6b4254"
+  },
+  "app_pid": 104714,
+  "command": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/bin/samples_gpu",
+    "--sample-name",
+    "Single Box"
+  ],
+  "capture_command": [
+    "ffmpeg",
+    "-hide_banner",
+    "-loglevel",
+    "warning",
+    "-f",
+    "x11grab",
+    "-draw_mouse",
+    "0",
+    "-framerate",
+    "30",
+    "-video_size",
+    "1280x720",
+    "-i",
+    ":97",
+    "-c:v",
+    "libx264",
+    "-preset",
+    "veryfast",
+    "-crf",
+    "20",
+    "-pix_fmt",
+    "yuv420p",
+    "-movflags",
+    "+faststart",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-apps/ordinary-gpu/clip.mp4"
+  ],
+  "focused_window": [
+    4194322,
+    "Box3D 0.2.0 - single precision"
+  ],
+  "focus_observed": 4194322,
+  "exit": 0,
+  "capture_exit": 0,
+  "video_sha256": "cf906412d3b8f7ad355e0bf0dfab2b8fdca2503b74b4d44d045b50c16331d997",
+  "observer_sha256": "a3246ecd2994e21a35a0b21f257bc172335fd62b46d742730c0d590e62edce3f",
+  "settings_after_sha256": "d2e712291ce94b0360c171331cb053d455b5f911306543951590e56befad5177"
+}

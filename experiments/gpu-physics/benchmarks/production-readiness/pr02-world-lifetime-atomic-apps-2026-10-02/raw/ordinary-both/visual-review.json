@@ -1,0 +1,32 @@
+{
+  "status": "pass",
+  "reviewer": "agent inspected original current-process PNGs and labeled crops of the same originals; not inferred from clicks/names",
+  "screenshots": {
+    "paused.png": "87db1265fe5ca0e7690a65221ce7c10ec6ffcee1f93a1cca7ed350560f073164",
+    "controls.png": "d67751f035f4741e1a73e8a3026294be30c05d91c501126f544619f489979807",
+    "flags-off.png": "167a6c2808d9b29314795474d1678e0210bce918e3354b75f7a51f847a0128a5",
+    "restart-off.png": "d38b150c42522d90335fe5b537dcdb75968390e3335a16a23d9c6990fd0fc8d9",
+    "controls-after.png": "38c5ac621b2c1585a9c0cf6e586ab060a77a1b89443900765e74f4394a607efb",
+    "flags-on.png": "457bb515bbc40a6682f27135117822dd7a80ae371b458a355fef338abd5c9099",
+    "metrics-initial.png": "b8af70fe88c97de049aaf13166b54cce16d451919308d28647b5abf18c22d7f1",
+    "profile.png": "913a83db01f5a35f81a3a32f9d8867a88757b66b0a0032b4e26a0ac0d9adc504",
+    "counters.png": "2ff1b55e4a3e9a2ae43d777eaee48c1473942bc7c9b5670e37a40fe9dad639c9",
+    "frame-time.png": "b982ef29db75b8421f0429d2a726f82144824d5bf797d123e92d4251fd6dd949",
+    "metrics-off.png": "5a483530aaf9ba00227eddf4b2ab5bb61eeb1161d3bd8a049707025fe25c6993"
+  },
+  "observed": {
+    "paused": "PAUSED and step2 visible in initial Info panel; same Single Box geometry and four-substep/60Hz controls.",
+    "flags-off": "Sleep/Warm Starting/Continuous unchecked together; four substeps and60Hz retained.",
+    "restart-off": "All three remain unchecked, reset cube, contact metrics pending before first new single-step; numeric world root changes1,1->1,2 and step0.",
+    "flags-on": "All three checked again after exactly one new-lifetime step; new post-transition scroll/current screenshot grounds click coordinates.",
+    "profile": "Profile tab selected; GPU device timestamps explicitly labeled step1/physics1, named device/broadphase/narrowphase+graph/aggregate phases. No CPU flame-bar or benchmark claim.",
+    "counters": "Counters tab selected; public bodies/shapes/contacts/joints2/2/1/0 and completed-step islands1; explicit synchronization noted and touching contact manifold populations shown.",
+    "frame-time": "Frame Time selected; GPU device timestamp phase panel at step1/physics1, same typed aggregate timings as Profile, diagnostic only.",
+    "policy-exclusions": "CPU Workers8 explicitly labeled in combined Solver panel; applies to real CPU side. Recording unavailable with GPU physics visible. CPU left/GPU right checked split view and corresponding two boxes/grounds visible. Narrow Info text remains clipped underPR10."
+  },
+  "derived_sheets": {
+    "review-controls.png": "dc98634f5d23261b5cde0403025870bc22937cea33d4c2739c7a49d5805f82b6",
+    "review-metrics.png": "8d7bc5888433a09288a8f6d3376a85c0268253edb347d0286b66bdf37cd0957e"
+  },
+  "limits": "Limited PR02 Single Box controls and actual visible diagnostics; numeric evaluator independently verifies events/completion/flags/mapped CPU where applicable. Not sample-wide UI/layout, dynamics, device-loss, concurrency, repeatability, raycast, floor inventory, rendering FPS or timing qualification. Full original screenshots retained."
+}

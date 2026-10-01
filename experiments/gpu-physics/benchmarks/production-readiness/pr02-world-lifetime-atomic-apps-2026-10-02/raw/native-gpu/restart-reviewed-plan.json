@@ -1,0 +1,22 @@
+{
+  "screen": "flags-off.png",
+  "screen_sha256": "1c10d2c2fd28943c0e5db29d961dcf5410cbf2797c2472f4a5bb0a417a39a8e4",
+  "review": "Agent inspected this actual current PNG before selecting displayed widget/tab positions; coordinates in actions. No stale coordinates across lifetime/layout transition.",
+  "actions": [
+    {
+      "type": "click",
+      "x": 1052,
+      "y": 672,
+      "label": "restart-off"
+    },
+    {
+      "type": "screenshot",
+      "name": "restart-off"
+    },
+    {
+      "type": "key",
+      "symbol": 46,
+      "label": "single-after"
+    }
+  ]
+}

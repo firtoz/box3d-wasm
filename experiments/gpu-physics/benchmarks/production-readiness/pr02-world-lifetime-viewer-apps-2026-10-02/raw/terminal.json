@@ -1,0 +1,105 @@
+{
+  "status": "stopped-stimulus-coordinate-failure",
+  "first_apps": 1,
+  "accepted_apps": 0,
+  "gpu_unlaunched": [
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "failed_action": {
+    "file": "action-13.json",
+    "action": {
+      "type": "click",
+      "x": 1034,
+      "y": 587,
+      "label": "sleep-on"
+    },
+    "at_seconds": 37.46092545101419,
+    "state_before": {
+      "frame": 334,
+      "world": [
+        1,
+        2
+      ],
+      "sample_step": 1,
+      "submitted": 1,
+      "completed": 1,
+      "completed_known": 1,
+      "pause": 1,
+      "single_remaining": 0,
+      "context_flags": [
+        0,
+        0,
+        0
+      ],
+      "world_flags": [
+        0,
+        0,
+        0
+      ],
+      "hertz": 60,
+      "substeps": 4,
+      "show_metrics": 0,
+      "body_count": 2,
+      "shape_count": 2,
+      "move_count": 1,
+      "first_body": [
+        2,
+        1,
+        2
+      ],
+      "first_position": [
+        -1.53013825e-05,
+        0.49996832,
+        8.51445384e-06
+      ],
+      "fell_asleep": 0
+    },
+    "state_after": {
+      "frame": 344,
+      "world": [
+        1,
+        2
+      ],
+      "sample_step": 1,
+      "submitted": 1,
+      "completed": 1,
+      "completed_known": 1,
+      "pause": 1,
+      "single_remaining": 0,
+      "context_flags": [
+        0,
+        0,
+        0
+      ],
+      "world_flags": [
+        0,
+        0,
+        0
+      ],
+      "hertz": 60,
+      "substeps": 4,
+      "show_metrics": 0,
+      "body_count": 2,
+      "shape_count": 2,
+      "move_count": 1,
+      "first_body": [
+        2,
+        1,
+        2
+      ],
+      "first_position": [
+        -1.53013825e-05,
+        0.49996832,
+        8.51445384e-06
+      ],
+      "fell_asleep": 0
+    }
+  },
+  "diagnosis": "Coordinator reuses pre-restart checkbox y587 after first step in new lifetime. New contact diagnostic rows increase content height by40px; failed screenshot shows Sleep at627, Warm655, Continuous684. Click hits non-checkbox area. No production rejection or control pass inferred; freeze adaptive post-transition screenshots/scroll before any further apps.",
+  "source_changes": 0,
+  "timing_runs": 0,
+  "retention": "Original failed app remains complete exit0 but control acceptance failed; all15 actions/six screenshots retained; no closed driver rerun.",
+  "failed_screenshot_sha256": "23dbeff1b20df00b5812ed4e28b38f62034d53085845f94d71d9da465f6b4254"
+}

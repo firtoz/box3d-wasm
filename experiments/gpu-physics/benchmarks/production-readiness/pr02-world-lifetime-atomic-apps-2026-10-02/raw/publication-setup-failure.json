@@ -1,0 +1,5 @@
+{
+  "stage": "terminal publication setup only after all four app validators pass",
+  "error": "ModuleNotFoundError atomic_io from an unrelated stdin snippet without artifact directory on sys.path",
+  "effect": "No terminal bytes written by failed snippet; no app/test/source/timing repeated. Standard-library-only publication completed afterward."
+}

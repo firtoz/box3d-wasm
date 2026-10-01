@@ -1,0 +1,21 @@
+{
+  "status": "pass",
+  "configuration": "ordinary-both",
+  "observer_records": 1226,
+  "receipt_sha256": "d338596bcf9fc7675fa8bc2a42fb3d45911d1714712d945f46ca6d851c2ebf6c",
+  "observer_sha256": "9bce930bf64ceb197bd718321719e0863771675c5106cd20a0ce9006b750177e",
+  "visual_review_sha256": "acafa4c4eeecb1fc158ff0ed5b804f74765767260ca037421b7e6f12d0507e79",
+  "verified": [
+    "default settings preserved",
+    "actual checkbox flags off/on",
+    "combined CPU mapping when applicable",
+    "paused stable completed step",
+    "exact single-step twice across lifetime",
+    "restart with flags preserved",
+    "actual moved-body event",
+    "reviewed actual metrics tab content and policy/exclusions",
+    "metrics toggle",
+    "clean quit and upstream-supported persisted rendering settings"
+  ],
+  "limits": "Limited PR02 viewer controls, diagnostic observer reads may synchronize/cost time. Not full lifecycle/physical/repeatability/sample-wide UI/raycast/render FPS or performance acceptance."
+}

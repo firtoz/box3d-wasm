@@ -1,0 +1,21 @@
+{
+  "status": "pass",
+  "configuration": "ordinary-gpu",
+  "observer_records": 1991,
+  "receipt_sha256": "cbfabef2d3d159a3c2acaacc8bc43a984e30ddf398bbfbb9f885af5297df9ad2",
+  "observer_sha256": "14730634fb71ab047d2d63ea3a944af56cf9ee991b9ea523add8f4d5f51435ec",
+  "visual_review_sha256": "86c1ac6f7b3067ae7c6f8b8849771d590b8520a49a30b0103921a96ee8e25b8b",
+  "verified": [
+    "default settings preserved",
+    "actual checkbox flags off/on",
+    "combined CPU mapping when applicable",
+    "paused stable completed step",
+    "exact single-step twice across lifetime",
+    "restart with flags preserved",
+    "actual moved-body event",
+    "reviewed actual metrics tab content and policy/exclusions",
+    "metrics toggle",
+    "clean quit and upstream-supported persisted rendering settings"
+  ],
+  "limits": "Limited PR02 viewer controls, diagnostic observer reads may synchronize/cost time. Not full lifecycle/physical/repeatability/sample-wide UI/raycast/render FPS or performance acceptance."
+}

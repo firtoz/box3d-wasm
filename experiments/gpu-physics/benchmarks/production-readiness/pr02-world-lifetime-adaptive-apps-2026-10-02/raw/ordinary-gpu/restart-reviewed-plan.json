@@ -1,0 +1,22 @@
+{
+  "screen": "flags-off.png",
+  "screen_sha256": "493fa1d082b65d15f96804f9e18888cbf811268701e5c65e75b42c0d10d2b4ec",
+  "review": "Actual flags-off PNG shows Restart1052,672; only restart click and single-step, no post-transition checkbox coordinate reused.",
+  "actions": [
+    {
+      "type": "click",
+      "x": 1052,
+      "y": 672,
+      "label": "restart-off"
+    },
+    {
+      "type": "screenshot",
+      "name": "restart-off"
+    },
+    {
+      "type": "key",
+      "symbol": 46,
+      "label": "single-after"
+    }
+  ]
+}
