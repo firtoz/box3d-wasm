@@ -1,0 +1,60 @@
+   Compiling gpu-physics v0.1.0 (/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics)
+warning: variable does not need to be mutable
+    --> src/headless.rs:1116:13
+     |
+1116 |         let mut run_bp_stages: Vec<String> = Vec::new();
+     |             ----^^^^^^^^^^^^^
+     |             |
+     |             help: remove this `mut`
+     |
+     = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+error[E0061]: this function takes 2 arguments but 1 argument was supplied
+     --> src/api/world.rs:13086:21
+      |
+13086 |         let world = b3_create_world(&crate::api::b3_default_world_def());
+      |                     ^^^^^^^^^^^^^^^ ----------------------------------- argument #1 of type `sim::GpuDevice` is missing
+      |
+note: function defined here
+     --> src/api/world.rs:401:8
+      |
+  401 | pub fn b3_create_world(gpu: GpuDevice, def: &WorldDef) -> WorldId {
+      |        ^^^^^^^^^^^^^^^ --------------
+help: provide the argument
+      |
+13086 |         let world = b3_create_world(/* sim::GpuDevice */, &crate::api::b3_default_world_def());
+      |                                     +++++++++++++++++++++
+
+warning: unused variable: `can_replay`
+    --> src/sim.rs:3167:13
+     |
+3167 |         let can_replay=false;
+     |             ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_can_replay`
+     |
+     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+  --> src/dispatch_gpu_tests.rs:86:9
+   |
+86 |     let mut modes = vec!["direct", "indirect"];
+   |         ----^^^^^
+   |         |
+   |         help: remove this `mut`
+
+warning: unused variable: `b`
+    --> src/headless.rs:1135:24
+     |
+1135 |                 for (i,b) in states.iter().enumerate().filter(|(_,b)| b.inv_mass > 0.0) {
+     |                        ^ help: if this is intentional, prefix it with an underscore: `_b`
+
+warning: variable does not need to be mutable
+  --> src/app.rs:36:9
+   |
+36 |     let mut render = gpu.clone();
+   |         ----^^^^^^
+   |         |
+   |         help: remove this `mut`
+
+For more information about this error, try `rustc --explain E0061`.
+warning: `gpu-physics` (lib test) generated 5 warnings
+error: could not compile `gpu-physics` (lib test) due to 1 previous error; 5 warnings emitted

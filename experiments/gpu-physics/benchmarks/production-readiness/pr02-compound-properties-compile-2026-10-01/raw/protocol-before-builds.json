@@ -1,0 +1,29 @@
+{
+  "purpose": "Compile-only correction of observed Rust E0061 in the new property test; rejected budget remains closed, no API acceptance",
+  "budget": {
+    "source_repairs": 1,
+    "ordinary_and_native_library_test_builds": 4,
+    "GPU_processes": 0,
+    "timing_runs": 0,
+    "retries": 0
+  },
+  "hypothesis": "Explicitly construct GpuDevice and supply it to internal b3_create_world in the test. Test contract and production behavior otherwise byteexact rejected candidate.",
+  "baseline_production": {
+    "src/api/world.rs": "d2d741536b5ced92ebb0394ba33308c5c5edbaf80e045c824d38fbef157b45cb",
+    "src/api/query.rs": "6d1a75e5f05855bbea9e8ffe06a46c230224ecadba5042be7f1a58b171d24582",
+    "src/c_abi.rs": "39dc7809ffeddc60a3017247057be551d2a8df2e78410d25e2a72c1a3cc87a65",
+    "c_abi/shim.c": "a2456c1c4296467bbe39f7d2e9083f52b552cb1a77043be8654d65c3ef870e40",
+    "c_abi/both_dual.c": "0b0ed1f953620b60735d66eca215728727d25872647906d8a3b47a9ef811d086"
+  },
+  "rejected_candidate": {
+    "src/api/world.rs": "378d50bc196764600d3c638328be5e2dd82ca19c11a3811e26a9836a68d49231",
+    "src/api/query.rs": "2c30c1bbb5759b0a856e0b5a48cb5ba58f7841dfd8a071f5da3e98af95806ad3",
+    "src/c_abi.rs": "4a3584acae6d79eb35393a6526d1a6ec15f6da24a37082240504d3e6bd9580a7",
+    "c_abi/shim.c": "3a5c2e8af73b80b19012c27181a96ff5db735615a4fd0c8194316ac95f443d2e",
+    "c_abi/both_dual.c": "ec5b948273c21d0a082c887a4fe0b7162c3fd58bf8c60c087c8b27f339f79d19"
+  },
+  "prior_rejected_protocol_sha256": "4020c79177ee163a9cbc6eb4a37fc1a2188e90575779422b1c8a414851750bb7",
+  "order": "ordinary lib/test compile then native lib/test compile, stop at first failure",
+  "stop_rule": "Stop first build/input failure, preserve all logs and restore baseline production if still exact repair. No retry or validation processes.",
+  "acceptance": "Four build commands exit0; stable before/after source and library/test hashes. No API or physics acceptance inferred."
+}

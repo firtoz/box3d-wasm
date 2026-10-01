@@ -1,0 +1,592 @@
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/cargo-config.toml
+warning: unnecessary parentheses around closure body
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/proc/namer.rs:204:31
+    |
+204 |                 .map(|string| (AsciiUniCase(*string))),
+    |                               ^                     ^
+    |
+    = note: `#[warn(unused_parens)]` (part of `#[warn(unused)]`) on by default
+help: remove these parentheses
+    |
+204 -                 .map(|string| (AsciiUniCase(*string))),
+204 +                 .map(|string| AsciiUniCase(*string)),
+    |
+
+warning: a method with this name may be added to the standard library in the future
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/back/spv/layout.rs:73:45
+   |
+73 |             capabilities: self.capabilities.recycle(),
+   |                                             ^^^^^^^
+   |
+   = help: call with fully qualified syntax `Recyclable::recycle(...)` to keep using the current method
+   = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+   = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+   = note: `#[warn(unstable_name_collisions)]` (part of `#[warn(future_incompatible)]`) on by default
+
+warning: a method with this name may be added to the standard library in the future
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/back/spv/layout.rs:74:41
+   |
+74 |             extensions: self.extensions.recycle(),
+   |                                         ^^^^^^^
+   |
+   = help: call with fully qualified syntax `Recyclable::recycle(...)` to keep using the current method
+   = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+   = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: a method with this name may be added to the standard library in the future
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/back/spv/layout.rs:75:53
+   |
+75 |             ext_inst_imports: self.ext_inst_imports.recycle(),
+   |                                                     ^^^^^^^
+   |
+   = help: call with fully qualified syntax `Recyclable::recycle(...)` to keep using the current method
+   = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+   = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: a method with this name may be added to the standard library in the future
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/back/spv/layout.rs:76:45
+   |
+76 |             memory_model: self.memory_model.recycle(),
+   |                                             ^^^^^^^
+   |
+   = help: call with fully qualified syntax `Recyclable::recycle(...)` to keep using the current method
+   = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+   = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: a method with this name may be added to the standard library in the future
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/back/spv/layout.rs:77:45
+   |
+77 |             entry_points: self.entry_points.recycle(),
+   |                                             ^^^^^^^
+   |
+   = help: call with fully qualified syntax `Recyclable::recycle(...)` to keep using the current method
+   = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+   = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: a method with this name may be added to the standard library in the future
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/back/spv/layout.rs:78:51
+   |
+78 |             execution_modes: self.execution_modes.recycle(),
+   |                                                   ^^^^^^^
+   |
+   = help: call with fully qualified syntax `Recyclable::recycle(...)` to keep using the current method
+   = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+   = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: a method with this name may be added to the standard library in the future
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/back/spv/layout.rs:79:33
+   |
+79 |             debugs: self.debugs.recycle(),
+   |                                 ^^^^^^^
+   |
+   = help: call with fully qualified syntax `Recyclable::recycle(...)` to keep using the current method
+   = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+   = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: a method with this name may be added to the standard library in the future
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/back/spv/layout.rs:80:43
+   |
+80 |             annotations: self.annotations.recycle(),
+   |                                           ^^^^^^^
+   |
+   = help: call with fully qualified syntax `Recyclable::recycle(...)` to keep using the current method
+   = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+   = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: a method with this name may be added to the standard library in the future
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/back/spv/layout.rs:81:45
+   |
+81 |             declarations: self.declarations.recycle(),
+   |                                             ^^^^^^^
+   |
+   = help: call with fully qualified syntax `Recyclable::recycle(...)` to keep using the current method
+   = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+   = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: a method with this name may be added to the standard library in the future
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/back/spv/layout.rs:82:63
+   |
+82 |             function_declarations: self.function_declarations.recycle(),
+   |                                                               ^^^^^^^
+   |
+   = help: call with fully qualified syntax `Recyclable::recycle(...)` to keep using the current method
+   = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+   = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: a method with this name may be added to the standard library in the future
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/back/spv/layout.rs:83:61
+   |
+83 |             function_definitions: self.function_definitions.recycle(),
+   |                                                             ^^^^^^^
+   |
+   = help: call with fully qualified syntax `Recyclable::recycle(...)` to keep using the current method
+   = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+   = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: a method with this name may be added to the standard library in the future
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/back/spv/writer.rs:141:44
+    |
+141 |             debugs: take(&mut self.debugs).recycle(),
+    |                                            ^^^^^^^
+    |
+    = help: call with fully qualified syntax `Recyclable::recycle(...)` to keep using the current method
+    = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+    = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: a method with this name may be added to the standard library in the future
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/back/spv/writer.rs:142:54
+    |
+142 |             annotations: take(&mut self.annotations).recycle(),
+    |                                                      ^^^^^^^
+    |
+    = help: call with fully qualified syntax `Recyclable::recycle(...)` to keep using the current method
+    = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+    = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: a method with this name may be added to the standard library in the future
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/back/spv/writer.rs:151:50
+    |
+151 |             temp_list: take(&mut self.temp_list).recycle(),
+    |                                                  ^^^^^^^
+    |
+    = help: call with fully qualified syntax `Recyclable::recycle(...)` to keep using the current method
+    = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+    = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: trait `U8Internal` is never used
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/back/spv/helpers.rs:125:7
+    |
+125 | trait U8Internal {
+    |       ^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: trait `StrUnstable` is never used
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/back/spv/helpers.rs:136:7
+    |
+136 | trait StrUnstable {
+    |       ^^^^^^^^^^^
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/arena/unique_arena.rs:75:29
+   |
+75 |     pub(crate) fn drain_all(&mut self) -> UniqueArenaDrain<T> {
+   |                             ^^^^^^^^^     ^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+   |                             |
+   |                             the lifetime is elided here
+   |
+   = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+   = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+   |
+75 |     pub(crate) fn drain_all(&mut self) -> UniqueArenaDrain<'_, T> {
+   |                                                            +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/compact/mod.rs:463:16
+    |
+463 |     fn as_type(&mut self) -> types::TypeTracer {
+    |                ^^^^^^^^^     ^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                |
+    |                the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+463 |     fn as_type(&mut self) -> types::TypeTracer<'_> {
+    |                                               ++++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/compact/mod.rs:472:28
+    |
+472 |     fn as_const_expression(&mut self) -> expressions::ExpressionTracer {
+    |                            ^^^^^^^^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                            |
+    |                            the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+472 |     fn as_const_expression(&mut self) -> expressions::ExpressionTracer<'_> {
+    |                                                                       ++++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/compact/functions.rs:59:22
+   |
+59 |     fn as_expression(&mut self) -> super::expressions::ExpressionTracer {
+   |                      ^^^^^^^^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+   |                      |
+   |                      the lifetime is elided here
+   |
+   = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+   |
+59 |     fn as_expression(&mut self) -> super::expressions::ExpressionTracer<'_> {
+   |                                                                        ++++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/front/wgsl/lower/mod.rs:469:27
+    |
+469 |     fn as_const_evaluator(&mut self) -> proc::ConstantEvaluator {
+    |                           ^^^^^^^^^     ^^^^^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                           |
+    |                           the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+469 |     fn as_const_evaluator(&mut self) -> proc::ConstantEvaluator<'_> {
+    |                                                                ++++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/front/wgsl/lower/mod.rs:514:9
+    |
+514 |         &self,
+    |         ^^^^^ the lifetime is elided here
+515 |         value: T,
+516 |     ) -> crate::common::DiagnosticDisplay<(T, proc::GlobalCtx)> {
+    |                                               ^^^^^^^^^^^^^^^ the same lifetime is hidden here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+516 |     ) -> crate::common::DiagnosticDisplay<(T, proc::GlobalCtx<'_>)> {
+    |                                                              ++++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/front/wgsl/lower/mod.rs:985:31
+    |
+985 |     fn single_component(name: &str, name_span: Span) -> Result<u32> {
+    |                               ^^^^                      ^^^^^^^^^^^ the same lifetime is hidden here
+    |                               |
+    |                               the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+985 |     fn single_component(name: &str, name_span: Span) -> Result<'_, u32> {
+    |                                                                +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/front/wgsl/lower/mod.rs:996:18
+    |
+996 |     fn new(name: &str, name_span: Span) -> Result<Self> {
+    |                  ^^^^                      ^^^^^^^^^^^^ the same lifetime is hidden here
+    |                  |
+    |                  the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+996 |     fn new(name: &str, name_span: Span) -> Result<'_, Self> {
+    |                                                   +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/front/wgsl/parse/directive/enable_extension.rs:76:36
+   |
+76 |     pub(crate) fn from_ident(word: &str, span: Span) -> Result<Self> {
+   |                                    ^^^^                 ^^^^^^^^^^^^ the same lifetime is hidden here
+   |                                    |
+   |                                    the lifetime is elided here
+   |
+   = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+   |
+76 |     pub(crate) fn from_ident(word: &str, span: Span) -> Result<'_, Self> {
+   |                                                                +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/naga/src/proc/constant_evaluator.rs:706:19
+    |
+706 |     pub fn to_ctx(&self) -> crate::proc::GlobalCtx {
+    |                   ^^^^^     ^^^^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                   |
+    |                   the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+706 |     pub fn to_ctx(&self) -> crate::proc::GlobalCtx<'_> {
+    |                                                   ++++
+
+warning: `naga` (lib) generated 27 warnings (run `cargo fix --lib -p naga` to apply 11 suggestions)
+warning: unnecessary qualification
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu-hal/src/vulkan/command.rs:162:56
+    |
+162 |         Ok(super::CommandBuffer { raw, cache_segments: core::mem::take(&mut self.cache_segments) })
+    |                                                        ^^^^^^^^^^^^^^^
+    |
+note: the lint level is defined here
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu-hal/src/lib.rs:238:5
+    |
+238 |     unused_qualifications
+    |     ^^^^^^^^^^^^^^^^^^^^^
+help: remove the unnecessary path segments
+    |
+162 -         Ok(super::CommandBuffer { raw, cache_segments: core::mem::take(&mut self.cache_segments) })
+162 +         Ok(super::CommandBuffer { raw, cache_segments: mem::take(&mut self.cache_segments) })
+    |
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu-hal/src/gles/egl.rs:422:40
+    |
+422 |     pub unsafe fn get_without_egl_lock(&self) -> MappedMutexGuard<glow::Context> {
+    |                                        ^^^^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                                        |
+    |                                        the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+    = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+    |
+422 |     pub unsafe fn get_without_egl_lock(&self) -> MappedMutexGuard<'_, glow::Context> {
+    |                                                                   +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu-hal/src/vulkan/device.rs:236:9
+    |
+236 |         &self,
+    |         ^^^^^ the lifetime is elided here
+...
+239 |     ) -> Option<impl 'a + Iterator<Item = vk::MappedMemoryRange>> {
+    |                                           ^^^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+239 |     ) -> Option<impl 'a + Iterator<Item = vk::MappedMemoryRange<'_>>> {
+    |                                                                ++++
+
+warning: `wgpu-hal` (lib) generated 3 warnings (run `cargo fix --lib -p wgpu-hal` to apply 3 suggestions)
+warning: hiding a lifetime that's elided elsewhere is confusing
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu-core/src/command/memory_init.rs:43:38
+   |
+43 |     pub(crate) fn drain_init_actions(&mut self) -> Drain<TextureInitTrackerAction> {
+   |                                      ^^^^^^^^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+   |                                      |
+   |                                      the lifetime is elided here
+   |
+   = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+   = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+   |
+43 |     pub(crate) fn drain_init_actions(&mut self) -> Drain<'_, TextureInitTrackerAction> {
+   |                                                          +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu-core/src/init_tracker/mod.rs:224:33
+    |
+224 |     pub(crate) fn uninitialized(&mut self, drain_range: Range<Idx>) -> UninitializedIter<Idx> {
+    |                                 ^^^^^^^^^ the lifetime is elided here  ^^^^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+224 |     pub(crate) fn uninitialized(&mut self, drain_range: Range<Idx>) -> UninitializedIter<'_, Idx> {
+    |                                                                                          +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu-core/src/init_tracker/mod.rs:236:25
+    |
+236 |     pub(crate) fn drain(&mut self, drain_range: Range<Idx>) -> InitTrackerDrain<Idx> {
+    |                         ^^^^^^^^^ the lifetime is elided here  ^^^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+236 |     pub(crate) fn drain(&mut self, drain_range: Range<Idx>) -> InitTrackerDrain<'_, Idx> {
+    |                                                                                 +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu-core/src/lock/ranked.rs:188:17
+    |
+188 |     pub fn lock(&self) -> MutexGuard<T> {
+    |                 ^^^^^     ^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                 |
+    |                 the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+188 |     pub fn lock(&self) -> MutexGuard<'_, T> {
+    |                                      +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu-core/src/lock/ranked.rs:259:17
+    |
+259 |     pub fn read(&self) -> RwLockReadGuard<T> {
+    |                 ^^^^^     ^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                 |
+    |                 the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+259 |     pub fn read(&self) -> RwLockReadGuard<'_, T> {
+    |                                           +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu-core/src/lock/ranked.rs:268:18
+    |
+268 |     pub fn write(&self) -> RwLockWriteGuard<T> {
+    |                  ^^^^^     ^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                  |
+    |                  the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+268 |     pub fn write(&self) -> RwLockWriteGuard<'_, T> {
+    |                                             +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu-core/src/lock/vanilla.rs:34:17
+   |
+34 |     pub fn lock(&self) -> MutexGuard<T> {
+   |                 ^^^^^     ^^^^^^^^^^^^^ the same lifetime is hidden here
+   |                 |
+   |                 the lifetime is elided here
+   |
+   = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+   |
+34 |     pub fn lock(&self) -> MutexGuard<'_, T> {
+   |                                      +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu-core/src/lock/vanilla.rs:90:17
+   |
+90 |     pub fn read(&self) -> RwLockReadGuard<T> {
+   |                 ^^^^^     ^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+   |                 |
+   |                 the lifetime is elided here
+   |
+   = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+   |
+90 |     pub fn read(&self) -> RwLockReadGuard<'_, T> {
+   |                                           +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu-core/src/lock/vanilla.rs:94:18
+   |
+94 |     pub fn write(&self) -> RwLockWriteGuard<T> {
+   |                  ^^^^^     ^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+   |                  |
+   |                  the lifetime is elided here
+   |
+   = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+   |
+94 |     pub fn write(&self) -> RwLockWriteGuard<'_, T> {
+   |                                             +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu-core/src/registry.rs:73:27
+   |
+73 |     pub(crate) fn prepare(&self, id_in: Option<Id<T::Marker>>) -> FutureId<T> {
+   |                           ^^^^^ the lifetime is elided here       ^^^^^^^^^^^ the same lifetime is hidden here
+   |
+   = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+   |
+73 |     pub(crate) fn prepare(&self, id_in: Option<Id<T::Marker>>) -> FutureId<'_, T> {
+   |                                                                            +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu-core/src/snatch.rs:146:17
+    |
+146 |     pub fn read(&self) -> SnatchGuard {
+    |                 ^^^^^     ^^^^^^^^^^^ the same lifetime is hidden here
+    |                 |
+    |                 the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+146 |     pub fn read(&self) -> SnatchGuard<'_> {
+    |                                      ++++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu-core/src/snatch.rs:157:18
+    |
+157 |     pub fn write(&self) -> ExclusiveSnatchGuard {
+    |                  ^^^^^     ^^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                  |
+    |                  the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+157 |     pub fn write(&self) -> ExclusiveSnatchGuard<'_> {
+    |                                                ++++
+
+warning: `wgpu-core` (lib) generated 12 warnings (run `cargo fix --lib -p wgpu-core` to apply 12 suggestions)
+   Compiling gpu-physics v0.1.0 (/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-workspace/experiments/gpu-physics)
+warning: missing documentation for a struct
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu/src/api/command_buffer.rs:26:1
+   |
+26 | pub struct NativePhysicsReplay(pub(crate) std::sync::Arc<wgc::command::NativePhysicsReplay>);
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+note: the lint level is defined here
+  --> /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/wgpu/src/lib.rs:25:5
+   |
+25 |     missing_docs,
+   |     ^^^^^^^^^^^^
+
+warning: `wgpu` (lib) generated 1 warning
+warning: unused variable: `b`
+    --> src/headless.rs:1135:24
+     |
+1135 |                 for (i,b) in states.iter().enumerate().filter(|(_,b)| b.inv_mass > 0.0) {
+     |                        ^ help: if this is intentional, prefix it with an underscore: `_b`
+     |
+     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `enlarge`, `partition`, `build`, and `rebuild` are never used
+   --> src/broadphase_order.rs:53:8
+    |
+ 41 | impl Tree {
+    | --------- methods in this implementation
+...
+ 53 |     fn enlarge(&mut self, leaf: usize, bounds: Bounds) {
+    |        ^^^^^^^
+...
+ 78 |     fn partition(&self, leaves: &mut [usize]) -> usize {
+    |        ^^^^^^^^^
+...
+122 |     fn build(&mut self, leaves: &mut [usize]) -> usize {
+    |        ^^^^^
+...
+144 |     fn rebuild(&mut self, full: bool) {
+    |        ^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: field `device` is never read
+  --> src/native_command_cache.rs:22:5
+   |
+19 | pub(crate) struct RadixCacheData {
+   |                   -------------- field in this struct
+...
+22 |     device: wgpu::Device,
+   |     ^^^^^^
+
+warning: method `submit` is never used
+  --> src/native_async.rs:17:26
+   |
+14 | impl SecondaryQueue {
+   | ------------------- method in this implementation
+...
+17 |     pub(crate) unsafe fn submit(&self, submits: &[vk::SubmitInfo<'_>], fence: vk::Fence) -> Result<(), vk::Result> {
+   |                          ^^^^^^
+
+warning: function `time_of_impact` is never used
+   --> src/api/query_toi.rs:178:15
+    |
+178 | pub(super) fn time_of_impact(
+    |               ^^^^^^^^^^^^^^
+
+warning: `gpu-physics` (lib) generated 5 warnings (run `cargo fix --lib -p gpu-physics` to apply 1 suggestion)
+    Finished `release` profile [optimized] target(s) in 19.69s

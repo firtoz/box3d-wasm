@@ -1,0 +1,43 @@
+{
+  "status": "reviewed",
+  "scope": "six completed scene windows; geometry visibility and source applicability, not physics/UI/performance parity",
+  "scenes": [
+    {
+      "scene": "Compound/Simple",
+      "sheet": "review/compound-properties-simple.png",
+      "status": "geometry reviewed",
+      "note": "Expected static geometry visible; existing tint/trajectory differences are not physical equivalence"
+    },
+    {
+      "scene": "Compound/Spheres",
+      "sheet": "review/compound-properties-spheres.png",
+      "status": "geometry reviewed",
+      "note": "Expected static geometry visible; existing tint/trajectory differences are not physical equivalence"
+    },
+    {
+      "scene": "Compound/Hulls",
+      "sheet": "review/compound-properties-hulls.png",
+      "status": "geometry reviewed",
+      "note": "Expected static geometry visible; existing tint/trajectory differences are not physical equivalence"
+    },
+    {
+      "scene": "Compound/Tile Floor",
+      "sheet": "review/compound-properties-tile-floor.png",
+      "status": "geometry reviewed",
+      "note": "Expected static geometry visible; existing tint/trajectory differences are not physical equivalence"
+    },
+    {
+      "scene": "Compound/Village",
+      "sheet": "review/compound-properties-village.png",
+      "status": "retained existing visual failure",
+      "note": "Missing nearby GPU ground/buildings; remains PR09, not a new getter regression"
+    },
+    {
+      "scene": "Compound/Mesh Tile",
+      "sheet": "review/compound-properties-mesh-tile.png",
+      "status": "geometry reviewed",
+      "note": "Expected static geometry visible; existing tint/trajectory differences are not physical equivalence"
+    }
+  ],
+  "village_previous_finding": "../pr02-compound-ownership-captures-2026-10-01/raw/village-renderer-finding.json"
+}

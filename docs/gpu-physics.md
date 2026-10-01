@@ -347,7 +347,21 @@ These focused results do not qualify every compound API or final physical releas
 The [combined ownership candidate](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-fix-2026-10-01/README.md)
 was rejected separately and is preserved. The [new ownership fix](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-ownership-after-bounds-2026-10-01/README.md)
 on accepted bounds passes14 original topology/lifetime/regression processes.
-Compound scalar/material getters and actual viewer controls remain open.
+The [compound property diagnosis](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-properties-diagnostic-2026-10-01/README.md)
+retains wrong parent scalar/table metadata on both GPU backends. The
+[targeted property contract](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-properties-lifetime-2026-10-01/README.md)
+passes nine CPU/GPU property processes plus two corrected Rust handle tests and
+22 original-limit mesh/support/query/regression processes. Geometry-owned
+compound material tables are copied into parent storage; getters use live
+metadata with generation validation independently of spatial queries. Child
+collider fields and parent proxy scalar fields stay unchanged, but parent GPU
+material upload layout changes; final physics/performance qualification remains
+required. The initial build failure and false immediate-slot-reuse test failure
+stay preserved. The allocator appends shape slots; direct wrong-generation tests
+do not prove public allocator ABA/reuse coverage. The [precommit scene review](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-properties-captures-2026-10-01/README.md)
+passes all12 captures/300-step health checks; six comparisons reviewed, Village
+retains its existing PR09 rendering failure. Actual viewer controls and broader
+PR02/final-release gates remain open.
 The [combined precommit review](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-ownership-captures-2026-10-01/README.md)
 retains Village's missing GPU ground/buildings: the unchanged shared65536-slot
 renderer pool cannot register both52500-child compounds. This visual failure

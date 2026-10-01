@@ -1,0 +1,24 @@
+{
+  "status": "stopped",
+  "protocol_sha256": "4020c79177ee163a9cbc6eb4a37fc1a2188e90575779422b1c8a414851750bb7",
+  "candidate_inputs_sha256": "6f3afd54bdf87570df91ab3d1900faa18c5c9e5f49d250a4af559e57cd2d45b3",
+  "builds": [
+    {
+      "backend": "ordinary",
+      "command": [
+        "python3",
+        "artifacts/production-readiness/pr02-compound-properties-fix/freeze.py",
+        "ordinary"
+      ],
+      "exit": 1
+    }
+  ],
+  "error": "('build failed', 'ordinary', 1)",
+  "restoration": {
+    "src/api/world.rs": "d2d741536b5ced92ebb0394ba33308c5c5edbaf80e045c824d38fbef157b45cb",
+    "src/api/query.rs": "6d1a75e5f05855bbea9e8ffe06a46c230224ecadba5042be7f1a58b171d24582",
+    "src/c_abi.rs": "39dc7809ffeddc60a3017247057be551d2a8df2e78410d25e2a72c1a3cc87a65",
+    "c_abi/shim.c": "a2456c1c4296467bbe39f7d2e9083f52b552cb1a77043be8654d65c3ef870e40",
+    "c_abi/both_dual.c": "0b0ed1f953620b60735d66eca215728727d25872647906d8a3b47a9ef811d086"
+  }
+}

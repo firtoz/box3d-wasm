@@ -1,0 +1,40 @@
+{
+  "purpose": "PR02 targeted compound property contract repair on independently observed failures",
+  "diagnosis_protocol_sha256": "a192e989ef6894dfdae2894812eedd4996480d536efefa45371b065d5ec9937e",
+  "hypothesis": "Read shape scalar metadata independently of spatial HostShape; copy geometry-owned compound surface materials into existing parent material storage, preserve child collider fields and parent proxy scalar fields; route C count/indexed getters truthfully to Rust and validate live generation. No WGSL/default changes.",
+  "production_files_before": {
+    "src/api/world.rs": "d2d741536b5ced92ebb0394ba33308c5c5edbaf80e045c824d38fbef157b45cb",
+    "src/api/query.rs": "6d1a75e5f05855bbea9e8ffe06a46c230224ecadba5042be7f1a58b171d24582",
+    "src/c_abi.rs": "39dc7809ffeddc60a3017247057be551d2a8df2e78410d25e2a72c1a3cc87a65",
+    "c_abi/shim.c": "a2456c1c4296467bbe39f7d2e9083f52b552cb1a77043be8654d65c3ef870e40",
+    "c_abi/both_dual.c": "0b0ed1f953620b60735d66eca215728727d25872647906d8a3b47a9ef811d086"
+  },
+  "budget": {
+    "production_candidates": 1,
+    "Rust_build_commands": 4,
+    "CPU_property_control": 1,
+    "GPU_property_processes": 8,
+    "Rust_property_suite_processes": 2,
+    "CPU_compound_mesh_controls": 2,
+    "GPU_compound_mesh_processes": 8,
+    "existing_C_regressions": 12,
+    "timing_runs": 0,
+    "retries": 0
+  },
+  "order": "Build ordinary/native libraries/tests, four fresh C adapter configurations and all fixtures first. CPU property control; properties ordinary-gpu/native-gpu/ordinary-both/native-both then reverse (two fresh each); Rust suite ordinary/native; CPU mesh modes0/1, each mode ordinary-gpu/native-gpu/ordinary-both/native-both; population and APIsettings all four configs; ownership and AABB both ordinary/native. Serial fresh processes.",
+  "stop_rule": "First build/input/assertion/mismatch/original physical-limit failure or600s process timeout stops. Preserve all results/unlaunched cases; restore production files byteexact baseline if still candidate hashes. No retries/tolerance changes/selective extension.",
+  "watchdog_seconds": 600,
+  "fixture": "c_abi/compound_property_diagnostic.cpp",
+  "fixture_sha256": "587a8adfae26058b7102d1ef5b13cbf4e0426fb0cc1fc19d35789acd2714a6c4",
+  "acceptance": "All original diagnostic observations match independent CPU at unchanged absolute1e-5 floats/exact tags; never count code0 with mismatches as pass. Rust direct parent generation reuse/null/wrong generation, metadata copy ownership and noncompound controls. Existing compound mesh mode0/1 physical/query limits unchanged from check-compound-mesh-reference.sh; all listed C regressions unchanged.",
+  "regressions": {
+    "native_diagnostic_populations": "e62ceaa557141be1df5bee16eefbad44f1c71ddb88e7c5c97908e365b41341b0",
+    "api_settings_test": "7136f0867e081c1863cb86f1021de1745ad787abd2b7591e71dc2bd6edf6ba40",
+    "both_compound_ownership_test": "bb75e0d3313746d92695a0c53500e4ac6f0bdbfc5df1f628de92ee6fb7e10277",
+    "compound_aabb_contract": "e770260bc0c9d733f0a2c5d736b2b93760bcb1e8ab73a5885c8849a470e81a93"
+  },
+  "mesh_fixture_sha256": "d57d6e26b2899d7fbc40c245c0e493a86a8634fd0e883f5381ac8b4bb7ed05f9",
+  "mesh_validator_source_sha256": "768cd628a2616d4643e1d5d32e7b7a658ddb41d8cdbaad0aa0ff3c9f9e30a40f",
+  "settings": "NVIDIA Vulkan/order1, native shared cache; original fixture defaults and physical tolerances; no timing or final readiness credit. Any relevant final-build evidence must be refrozen underPR06-PR08.",
+  "recordings": "Review applicability before committing. If production change affects rendering/solver, freeze separate affected-scene recordings, CPU first; existing Village rendering capacity gap staysPR09. No recording trial is included in this correctness budget."
+}

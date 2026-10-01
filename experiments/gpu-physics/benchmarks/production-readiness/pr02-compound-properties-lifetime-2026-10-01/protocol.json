@@ -1,0 +1,186 @@
+{
+  "purpose": "Correct source-incompatible test fixture after retained slot-reuse failure; validate distinct wrong-generation contract and still-unlaunched original physical/regression cases. No property reruns or production refinement.",
+  "budget": {
+    "test_fixture_corrections": 1,
+    "Rust_test_compile_commands": 2,
+    "Rust_contract_processes": 2,
+    "remaining_CPU_mesh_controls": 2,
+    "remaining_GPU_mesh_processes": 8,
+    "remaining_C_regressions": 12,
+    "GPU_property_processes": 0,
+    "production_candidates": 0,
+    "timing_runs": 0,
+    "retries": 0
+  },
+  "prior_validation_protocol_sha256": "e7ae36974977a91c0572d9b381c90961a2bd1c20af333e1b57494eb554ffba4a",
+  "prior_validation_receipt_sha256": "48fcac5bb7383f9ae86f0a8f3b1be7c8ebaa43c969885d9f50fd997682bd65d9",
+  "hypothesis": "Existing push_shape appends with generation1; immediate allocator slot reuse was a false fixture assumption. Retain owned-copy/deleted-handle/null/noncompound checks and directly construct a wrong-generation handle for the live replacement. Do not claim public allocator ABA/reuse qualification; that remains PR05. All production code and C fixtures remain exact prior candidate.",
+  "baseline_production": {
+    "src/api/world.rs": "d2d741536b5ced92ebb0394ba33308c5c5edbaf80e045c824d38fbef157b45cb",
+    "src/api/query.rs": "6d1a75e5f05855bbea9e8ffe06a46c230224ecadba5042be7f1a58b171d24582",
+    "src/c_abi.rs": "39dc7809ffeddc60a3017247057be551d2a8df2e78410d25e2a72c1a3cc87a65",
+    "c_abi/shim.c": "a2456c1c4296467bbe39f7d2e9083f52b552cb1a77043be8654d65c3ef870e40",
+    "c_abi/both_dual.c": "0b0ed1f953620b60735d66eca215728727d25872647906d8a3b47a9ef811d086"
+  },
+  "production_candidate_before_test_correction": {
+    "src/api/world.rs": "e91af8c884f57a6e97c0c5f50c1183713faa2f952bbacef99ce1eb4d81fb61eb",
+    "src/api/query.rs": "2c30c1bbb5759b0a856e0b5a48cb5ba58f7841dfd8a071f5da3e98af95806ad3",
+    "src/c_abi.rs": "4a3584acae6d79eb35393a6526d1a6ec15f6da24a37082240504d3e6bd9580a7",
+    "c_abi/shim.c": "3a5c2e8af73b80b19012c27181a96ff5db735615a4fd0c8194316ac95f443d2e",
+    "c_abi/both_dual.c": "ec5b948273c21d0a082c887a4fe0b7162c3fd58bf8c60c087c8b27f339f79d19"
+  },
+  "engine_proof": {
+    "ordinary": {
+      "receipt": "artifacts/production-readiness/pr02-compound-properties-compile/candidate-complete-inputs/ordinary-build.json",
+      "receipt_sha256": "83db858a34a0061007220816d4ee4b21ed824c77e1e282a88bdf797de80edbe6",
+      "library": "artifacts/production-readiness/pr02-compound-properties-compile/candidate-complete-inputs/ordinary-frozen.a",
+      "library_sha256": "138c6c9bb3996e524644b46422e790f343b5a7b5a069878a1c7d4a0db09ad588",
+      "tests": "artifacts/production-readiness/pr02-compound-properties-compile/candidate-complete-inputs/ordinary-tests",
+      "tests_sha256": "b3f045e8da0e152b7336482142bfe19ee6691d09cd80fcb14ee77ddc8ea5506a"
+    },
+    "native": {
+      "receipt": "artifacts/production-readiness/pr02-compound-properties-compile/candidate-complete-inputs/native-build.json",
+      "receipt_sha256": "d754ffaa6d4c953c07cf1854c748e1fe8dfbc8868b3dd647ce7fbc7ab3615dc2",
+      "library": "artifacts/production-readiness/pr02-compound-properties-compile/candidate-complete-inputs/native-frozen.a",
+      "library_sha256": "d46937cc66f913896627cb1a8f1c49ad1669851c8bd41389ead92b96b3c65ef8",
+      "tests": "artifacts/production-readiness/pr02-compound-properties-compile/candidate-complete-inputs/native-tests",
+      "tests_sha256": "f018600ca65c885a92f480f57c10646331fe77f7949b08239c66c4bb2050f6eb"
+    }
+  },
+  "remaining_C_cases": [
+    {
+      "configuration": "CPU",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "0"
+      ]
+    },
+    {
+      "configuration": "CPU",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "1"
+      ]
+    },
+    {
+      "configuration": "ordinary-gpu",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "0"
+      ]
+    },
+    {
+      "configuration": "native-gpu",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "0"
+      ]
+    },
+    {
+      "configuration": "ordinary-both",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "0"
+      ]
+    },
+    {
+      "configuration": "native-both",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "0"
+      ]
+    },
+    {
+      "configuration": "ordinary-gpu",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "1"
+      ]
+    },
+    {
+      "configuration": "native-gpu",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "1"
+      ]
+    },
+    {
+      "configuration": "ordinary-both",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "1"
+      ]
+    },
+    {
+      "configuration": "native-both",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "1"
+      ]
+    },
+    {
+      "configuration": "ordinary-gpu",
+      "fixture": "native_diagnostic_populations",
+      "arguments": []
+    },
+    {
+      "configuration": "native-gpu",
+      "fixture": "native_diagnostic_populations",
+      "arguments": []
+    },
+    {
+      "configuration": "ordinary-both",
+      "fixture": "native_diagnostic_populations",
+      "arguments": []
+    },
+    {
+      "configuration": "native-both",
+      "fixture": "native_diagnostic_populations",
+      "arguments": []
+    },
+    {
+      "configuration": "ordinary-gpu",
+      "fixture": "api_settings_test",
+      "arguments": []
+    },
+    {
+      "configuration": "native-gpu",
+      "fixture": "api_settings_test",
+      "arguments": []
+    },
+    {
+      "configuration": "ordinary-both",
+      "fixture": "api_settings_test",
+      "arguments": []
+    },
+    {
+      "configuration": "native-both",
+      "fixture": "api_settings_test",
+      "arguments": []
+    },
+    {
+      "configuration": "ordinary-both",
+      "fixture": "both_compound_ownership_test",
+      "arguments": []
+    },
+    {
+      "configuration": "native-both",
+      "fixture": "both_compound_ownership_test",
+      "arguments": []
+    },
+    {
+      "configuration": "ordinary-both",
+      "fixture": "compound_aabb_contract",
+      "arguments": []
+    },
+    {
+      "configuration": "native-both",
+      "fixture": "compound_aabb_contract",
+      "arguments": []
+    }
+  ],
+  "order": "Compile ordinary/native test executables only; run corrected Rust ordinary/native, then22 formerly unlaunched C cases in original order, with exact frozen first-validation fixture binaries.",
+  "stop_rule": "First compile/input/assertion/physical-limit failure or600s process timeout stops; retain all results/unlaunched cases and restore five baseline production files if exact corrected source. No retry, property rerun or tolerance change.",
+  "watchdog_seconds": 600,
+  "scope_limit": "No immediate compound parent slot reuse exists in current allocator; no ABA proof claimed. Existing deleted-handle and direct generation validation cover getters only. PR05 lifecycle qualification remains OPEN. Nine earlier passing CPU/GPU property processes are applicable only to the exact unchanged production libraries and C adapters."
+}

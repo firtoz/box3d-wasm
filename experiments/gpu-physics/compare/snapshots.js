@@ -37,7 +37,13 @@ window.GPU_COMPARE = {
     "compound-ownership-hulls",
     "compound-ownership-tile-floor",
     "compound-ownership-village",
-    "compound-ownership-mesh-tile"
+    "compound-ownership-mesh-tile",
+    "compound-properties-simple",
+    "compound-properties-spheres",
+    "compound-properties-hulls",
+    "compound-properties-tile-floor",
+    "compound-properties-village",
+    "compound-properties-mesh-tile"
   ],
   "snapshots": [
     {
@@ -76,7 +82,13 @@ window.GPU_COMPARE = {
         "compound-ownership-hulls": "../recordings/snapshots/000-box3d-cpu/compound-ownership-hulls.mp4",
         "compound-ownership-tile-floor": "../recordings/snapshots/000-box3d-cpu/compound-ownership-tile-floor.mp4",
         "compound-ownership-village": "../recordings/snapshots/000-box3d-cpu/compound-ownership-village.mp4",
-        "compound-ownership-mesh-tile": "../recordings/snapshots/000-box3d-cpu/compound-ownership-mesh-tile.mp4"
+        "compound-ownership-mesh-tile": "../recordings/snapshots/000-box3d-cpu/compound-ownership-mesh-tile.mp4",
+        "compound-properties-simple": "../recordings/snapshots/000-box3d-cpu/compound-properties-simple.mp4",
+        "compound-properties-spheres": "../recordings/snapshots/000-box3d-cpu/compound-properties-spheres.mp4",
+        "compound-properties-hulls": "../recordings/snapshots/000-box3d-cpu/compound-properties-hulls.mp4",
+        "compound-properties-tile-floor": "../recordings/snapshots/000-box3d-cpu/compound-properties-tile-floor.mp4",
+        "compound-properties-village": "../recordings/snapshots/000-box3d-cpu/compound-properties-village.mp4",
+        "compound-properties-mesh-tile": "../recordings/snapshots/000-box3d-cpu/compound-properties-mesh-tile.mp4"
       },
       "metrics": null
     },
@@ -7262,6 +7274,19 @@ window.GPU_COMPARE = {
         "compound-ownership-tile-floor": "../recordings/snapshots/2026-10-01-compound-ownership/compound-ownership-tile-floor.mp4",
         "compound-ownership-village": "../recordings/snapshots/2026-10-01-compound-ownership/compound-ownership-village.mp4",
         "compound-ownership-mesh-tile": "../recordings/snapshots/2026-10-01-compound-ownership/compound-ownership-mesh-tile.mp4"
+      },
+      "metrics": null
+    },
+    {
+      "id": "2026-10-01-compound-properties",
+      "label": "v0.9",
+      "videos": {
+        "compound-properties-simple": "../recordings/snapshots/2026-10-01-compound-properties/compound-properties-simple.mp4",
+        "compound-properties-spheres": "../recordings/snapshots/2026-10-01-compound-properties/compound-properties-spheres.mp4",
+        "compound-properties-hulls": "../recordings/snapshots/2026-10-01-compound-properties/compound-properties-hulls.mp4",
+        "compound-properties-tile-floor": "../recordings/snapshots/2026-10-01-compound-properties/compound-properties-tile-floor.mp4",
+        "compound-properties-village": "../recordings/snapshots/2026-10-01-compound-properties/compound-properties-village.mp4",
+        "compound-properties-mesh-tile": "../recordings/snapshots/2026-10-01-compound-properties/compound-properties-mesh-tile.mp4"
       },
       "metrics": null
     }

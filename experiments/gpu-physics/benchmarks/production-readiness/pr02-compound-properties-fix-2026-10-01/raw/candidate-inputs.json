@@ -1,0 +1,11 @@
+{
+  "protocol_sha256": "4020c79177ee163a9cbc6eb4a37fc1a2188e90575779422b1c8a414851750bb7",
+  "production_candidate_sha256": {
+    "src/api/world.rs": "378d50bc196764600d3c638328be5e2dd82ca19c11a3811e26a9836a68d49231",
+    "src/api/query.rs": "2c30c1bbb5759b0a856e0b5a48cb5ba58f7841dfd8a071f5da3e98af95806ad3",
+    "src/c_abi.rs": "4a3584acae6d79eb35393a6526d1a6ec15f6da24a37082240504d3e6bd9580a7",
+    "c_abi/shim.c": "3a5c2e8af73b80b19012c27181a96ff5db735615a4fd0c8194316ac95f443d2e",
+    "c_abi/both_dual.c": "ec5b948273c21d0a082c887a4fe0b7162c3fd58bf8c60c087c8b27f339f79d19"
+  },
+  "fixture_sha256": "587a8adfae26058b7102d1ef5b13cbf4e0426fb0cc1fc19d35789acd2714a6c4"
+}

@@ -1,0 +1,138 @@
+{
+  "status": "captured",
+  "results": [
+    {
+      "kind": "cpu",
+      "scene": "compound-properties-simple",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "c2f5a901f0c5b681e9e33d1981dde5675808558ab8ab08b24c44cf78623e466a",
+      "encoded_frames": 887,
+      "duration_seconds": 29.566667,
+      "health_sha256": "13400f47410f00a55d21331082cc40a2ac2698bcd8bdee4f3932289bafb4993f"
+    },
+    {
+      "kind": "cpu",
+      "scene": "compound-properties-spheres",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "2b1e67f365e1f0445eefbd0deed3db3c8df3ce14db075f0b1b2e94fbbb0ecfb5",
+      "encoded_frames": 872,
+      "duration_seconds": 29.066667,
+      "health_sha256": "8ac943c57dc22f90c79f692d208399fb9cef497040bebf9260092cc27459cef3"
+    },
+    {
+      "kind": "cpu",
+      "scene": "compound-properties-hulls",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "754bf068ccb45122058172b063543265738b9b03ee61bc330e7282800032672d",
+      "encoded_frames": 888,
+      "duration_seconds": 29.6,
+      "health_sha256": "384ee9c4156f6e67ade968487c2e002e17302f38f99cc230ad60acc579e6973b"
+    },
+    {
+      "kind": "cpu",
+      "scene": "compound-properties-tile-floor",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "8e9c7cb9bd5ca6285e8205be3b8a5b5e19d6e7d90443ac459c8f37377d58cebf",
+      "encoded_frames": 1458,
+      "duration_seconds": 48.6,
+      "health_sha256": "eef1a4ca6e32fee2ca1aeba058b822a1c42168413a71aa98eecf55132b18c875"
+    },
+    {
+      "kind": "cpu",
+      "scene": "compound-properties-village",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "111ced796fbe286de9b39aebfe38e0f26466c35a373565bb1905537389fd7b93",
+      "encoded_frames": 6069,
+      "duration_seconds": 202.3,
+      "health_sha256": "a48f747e3c7f5a5b01e779733cafeac77de840581e4dde517193946025d53edf"
+    },
+    {
+      "kind": "cpu",
+      "scene": "compound-properties-mesh-tile",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "fa571c6755c96b62b1a1e009533b04bf0c74ec2fbda9760de7e9b4092271fa34",
+      "encoded_frames": 902,
+      "duration_seconds": 30.066667,
+      "health_sha256": "cd12df2f5bde5444b1fabf762a4b26393217f96515bf91f728b437dcb18c3775"
+    },
+    {
+      "kind": "gpu",
+      "scene": "compound-properties-simple",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "a29b742b05c1988328f9ea295e87a7c0b049305b2d6a584627b0fc9c321e5f8f",
+      "encoded_frames": 1173,
+      "duration_seconds": 39.1,
+      "health_sha256": "9524b5f43ebe66f312b0cec413c915ed5f5c7e0605b981fc0f393a12d7340ddc"
+    },
+    {
+      "kind": "gpu",
+      "scene": "compound-properties-spheres",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "232f4ab65fad258d9e888c78304e998aacfebd628831880aa941f26db46af948",
+      "encoded_frames": 1143,
+      "duration_seconds": 38.1,
+      "health_sha256": "e25aa40fc7bf2df34dac9b2c7032303add284867f0ec21d75d4b02499219d929"
+    },
+    {
+      "kind": "gpu",
+      "scene": "compound-properties-hulls",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "596a1c8e9e08f3f7e8203e32ca4ec3dafda065dccda23d1f0820631110a734a8",
+      "encoded_frames": 1173,
+      "duration_seconds": 39.1,
+      "health_sha256": "28fe5ccce871952ca7ec17522ad2f3d60b27d96882620ce6e54716f7010b7229"
+    },
+    {
+      "kind": "gpu",
+      "scene": "compound-properties-tile-floor",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "39c5aee15cb2402b843c0c96bd587426ce9cc54140f9228667eb99128e77b896",
+      "encoded_frames": 1953,
+      "duration_seconds": 65.1,
+      "health_sha256": "170f117eec12a368550faa2bee04a7d1c6b74a226acfa5fb7d3e5b9a4cc41d92"
+    },
+    {
+      "kind": "gpu",
+      "scene": "compound-properties-village",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "338106202955c5910bec6e25182d1b259b19f555667eba7972c57d494a20e4f6",
+      "encoded_frames": 6486,
+      "duration_seconds": 216.2,
+      "health_sha256": "75c9b70deb9dba8fde0104f88a14a39eb75c5b010bf924e141d72c859047f1ee"
+    },
+    {
+      "kind": "gpu",
+      "scene": "compound-properties-mesh-tile",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "e539c239e4be9933106dbf298ef51de469d8ce9df57a81adafe946048f76744a",
+      "encoded_frames": 1188,
+      "duration_seconds": 39.6,
+      "health_sha256": "f67fa75ff1687cd00844dc03d02b093ba6100299cc99c9899d5785355395702f"
+    }
+  ],
+  "protocol_sha256": "0fb2a82e95e184659d6aa434e03d8a7262de66f240ec6b03e8a14f8652f94f01"
+}

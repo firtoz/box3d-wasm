@@ -1,0 +1,61 @@
+   Compiling gpu-physics v0.1.0 (/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics)
+warning: variable does not need to be mutable
+    --> src/headless.rs:1116:13
+     |
+1116 |         let mut run_bp_stages: Vec<String> = Vec::new();
+     |             ----^^^^^^^^^^^^^
+     |             |
+     |             help: remove this `mut`
+     |
+     = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `can_replay`
+    --> src/sim.rs:3167:13
+     |
+3167 |         let can_replay=false;
+     |             ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_can_replay`
+     |
+     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `b`
+    --> src/headless.rs:1135:24
+     |
+1135 |                 for (i,b) in states.iter().enumerate().filter(|(_,b)| b.inv_mass > 0.0) {
+     |                        ^ help: if this is intentional, prefix it with an underscore: `_b`
+
+warning: variable does not need to be mutable
+  --> src/app.rs:36:9
+   |
+36 |     let mut render = gpu.clone();
+   |         ----^^^^^^
+   |         |
+   |         help: remove this `mut`
+
+warning: methods `enlarge`, `partition`, `build`, and `rebuild` are never used
+   --> src/broadphase_order.rs:53:8
+    |
+ 41 | impl Tree {
+    | --------- methods in this implementation
+...
+ 53 |     fn enlarge(&mut self, leaf: usize, bounds: Bounds) {
+    |        ^^^^^^^
+...
+ 78 |     fn partition(&self, leaves: &mut [usize]) -> usize {
+    |        ^^^^^^^^^
+...
+122 |     fn build(&mut self, leaves: &mut [usize]) -> usize {
+    |        ^^^^^
+...
+144 |     fn rebuild(&mut self, full: bool) {
+    |        ^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `time_of_impact` is never used
+   --> src/api/query_toi.rs:178:15
+    |
+178 | pub(super) fn time_of_impact(
+    |               ^^^^^^^^^^^^^^
+
+warning: `gpu-physics` (lib) generated 6 warnings (run `cargo fix --lib -p gpu-physics` to apply 4 suggestions)
+    Finished `release` profile [optimized] target(s) in 18.90s

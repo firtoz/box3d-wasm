@@ -1,0 +1,64 @@
+{
+  "purpose": "viewer link/source applicability; no new engine process",
+  "native_viewer_receipt_sha256": "fcdb80225b96c7a5fad6dfb022c33feac5400806a562ded3201d60331ddbecc9",
+  "compiled_units": 178,
+  "actual_linked_archives": [
+    {
+      "path": "artifacts/production-readiness/pr02-compound-properties-viewer/build/cmake/box3d_gfx/libgfx.a",
+      "sha256": "744423df72b5b758c11cd4696ae3a5ec33e04d2d3f2e9f0d665acb196224bd4f"
+    },
+    {
+      "path": "artifacts/production-readiness/pr02-compound-properties-viewer/build/cmake/box3d_shared/libshared.a",
+      "sha256": "01feba6aae85b7fbe2027cd704ab78b30ae4aed2e69cfbfb48a9bbd41524e86e"
+    },
+    {
+      "path": "artifacts/production-readiness/pr02-compound-properties-viewer/build/cmake/libimgui.a",
+      "sha256": "a28c2f2fc60aadbc2ef4d50006706d34cc7a6af0df07e63ce15ba711efa97e56"
+    },
+    {
+      "path": "artifacts/production-readiness/pr02-compound-properties-viewer/build/cmake/libimplot.a",
+      "sha256": "08d971b5fb3af3985f58f1f9ccc9e65b74056292f31fbbf627c4e2d7bdbb97d6"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-build/src/libnfd.a",
+      "sha256": "2fd5d8880a5fe7240b5e6c565a40e3866b5c8ac52e1c406e4617938177c926b0"
+    },
+    {
+      "path": "artifacts/production-readiness/pr02-compound-properties-viewer/build/cmake/libgpu_both_api.a",
+      "sha256": "0203b51a0dc292305f3a8d56a762ed3a2f78834db476d23f46bec73df37277b0"
+    },
+    {
+      "path": "artifacts/production-readiness/pr02-compound-properties-viewer/build/cmake/libgpu_samples_api.a",
+      "sha256": "427cc59a6d0f5585cdbb815b997c08e1b40daba625277dd28280cea87a479276"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-compound-properties-compile/candidate-complete-inputs/native-frozen.a",
+      "sha256": "d46937cc66f913896627cb1a8f1c49ad1669851c8bd41389ead92b96b3c65ef8"
+    },
+    {
+      "path": "artifacts/production-readiness/pr02-compound-properties-viewer/build/cmake/libbox3d_cpu.a",
+      "sha256": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d"
+    },
+    {
+      "path": "artifacts/production-readiness/pr02-compound-properties-viewer/build/cmake/box3d_src/libbox3d.a",
+      "sha256": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7"
+    },
+    {
+      "path": "artifacts/production-readiness/pr02-compound-properties-viewer/build/cmake/libimgui.a",
+      "sha256": "a28c2f2fc60aadbc2ef4d50006706d34cc7a6af0df07e63ce15ba711efa97e56"
+    }
+  ],
+  "external_cached_units": [
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-build/src",
+      "command": "/usr/bin/c++  -I/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-src/src/include -I/usr/include/gtk-3.0 -I/usr/include/pango-1.0 -I/usr/include/cloudproviders -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/glycin-2 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/atk-1.0 -I/usr/include/dbus-1.0 -I/usr/lib/dbus-1.0/include -I/usr/include/fribidi -I/usr/include/pixman-1 -I/usr/include/harfbuzz -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/sysprof-6 -O3 -DNDEBUG -std=gnu++20 -nostdlib -fno-exceptions -fno-rtti -o CMakeFiles/nfd.dir/nfd_gtk.cpp.o -c /home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-src/src/nfd_gtk.cpp",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-src/src/nfd_gtk.cpp",
+      "output": "/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-build/src/CMakeFiles/nfd.dir/nfd_gtk.cpp.o",
+      "source_sha256": "5116e572bf850ff310e70683b47cb8998a8691354c218fbb3604ffb2b3c01f62",
+      "object": "/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-build/src/CMakeFiles/nfd.dir/nfd_gtk.cpp.o",
+      "object_sha256": "dcd684925b7563f75a5969e2aa3d71a6420567fb8fbad6e9f71f7aaa639ca3c4"
+    }
+  ],
+  "external_cache_scope": "Inherited NFD object source/object hash checked, not clean final release proof. Every viewer unit source byte is archived.",
+  "Rust_applicability": "Exact production property library compiled before cfg(test) correction. Full source archive/old test bytes preserved; runtime prefix byteexact, independent lifetime validator passes. Final PR06 clean builds required."
+}

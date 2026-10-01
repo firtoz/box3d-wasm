@@ -1,0 +1,11 @@
+
+running 1 test
+test api::world::compound_property_contract::owned_table_and_generation_reuse_preserve_public_properties ... FAILED
+
+failures:
+
+failures:
+    api::world::compound_property_contract::owned_table_and_generation_reuse_preserve_public_properties
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 399 filtered out; finished in 0.11s
+

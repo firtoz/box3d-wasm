@@ -1,0 +1,268 @@
+{
+  "purpose": "First API/physical validation after distinct test-only E0061 compile repair. No replacement or retry of rejected build campaign. All original cases were unlaunched.",
+  "prior_rejected_protocol_sha256": "4020c79177ee163a9cbc6eb4a37fc1a2188e90575779422b1c8a414851750bb7",
+  "compile_protocol_sha256": "601e27f96fe2e6740039f4816e342b052172af35dbea349fd07ddf26f2e5c4bb",
+  "compile_candidate_inputs_sha256": "cf9b1b809b229f7dd52435499f273167fac7b1fbae5dee8a8cc0b80f37cbfb74",
+  "production_candidate_sha256": {
+    "src/api/world.rs": "e91af8c884f57a6e97c0c5f50c1183713faa2f952bbacef99ce1eb4d81fb61eb",
+    "src/api/query.rs": "2c30c1bbb5759b0a856e0b5a48cb5ba58f7841dfd8a071f5da3e98af95806ad3",
+    "src/c_abi.rs": "4a3584acae6d79eb35393a6526d1a6ec15f6da24a37082240504d3e6bd9580a7",
+    "c_abi/shim.c": "3a5c2e8af73b80b19012c27181a96ff5db735615a4fd0c8194316ac95f443d2e",
+    "c_abi/both_dual.c": "ec5b948273c21d0a082c887a4fe0b7162c3fd58bf8c60c087c8b27f339f79d19"
+  },
+  "baseline_production": {
+    "src/api/world.rs": "d2d741536b5ced92ebb0394ba33308c5c5edbaf80e045c824d38fbef157b45cb",
+    "src/api/query.rs": "6d1a75e5f05855bbea9e8ffe06a46c230224ecadba5042be7f1a58b171d24582",
+    "src/c_abi.rs": "39dc7809ffeddc60a3017247057be551d2a8df2e78410d25e2a72c1a3cc87a65",
+    "c_abi/shim.c": "a2456c1c4296467bbe39f7d2e9083f52b552cb1a77043be8654d65c3ef870e40",
+    "c_abi/both_dual.c": "0b0ed1f953620b60735d66eca215728727d25872647906d8a3b47a9ef811d086"
+  },
+  "budget": {
+    "Rust_build_commands": 0,
+    "fresh_C_adapter_configurations": 4,
+    "CPU_property_control": 1,
+    "GPU_property_processes": 8,
+    "Rust_property_suite_processes": 2,
+    "CPU_compound_mesh_controls": 2,
+    "GPU_compound_mesh_processes": 8,
+    "existing_C_regressions": 12,
+    "timing_runs": 0,
+    "retries": 0
+  },
+  "configurations": [
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "cases": [
+    {
+      "configuration": "CPU",
+      "fixture": "compound_property_diagnostic",
+      "arguments": []
+    },
+    {
+      "configuration": "ordinary-gpu",
+      "fixture": "compound_property_diagnostic",
+      "arguments": []
+    },
+    {
+      "configuration": "native-gpu",
+      "fixture": "compound_property_diagnostic",
+      "arguments": []
+    },
+    {
+      "configuration": "ordinary-both",
+      "fixture": "compound_property_diagnostic",
+      "arguments": []
+    },
+    {
+      "configuration": "native-both",
+      "fixture": "compound_property_diagnostic",
+      "arguments": []
+    },
+    {
+      "configuration": "native-both",
+      "fixture": "compound_property_diagnostic",
+      "arguments": []
+    },
+    {
+      "configuration": "ordinary-both",
+      "fixture": "compound_property_diagnostic",
+      "arguments": []
+    },
+    {
+      "configuration": "native-gpu",
+      "fixture": "compound_property_diagnostic",
+      "arguments": []
+    },
+    {
+      "configuration": "ordinary-gpu",
+      "fixture": "compound_property_diagnostic",
+      "arguments": []
+    },
+    {
+      "configuration": "ordinary-rust",
+      "fixture": "compound_property_contract",
+      "arguments": [
+        "compound_property_contract",
+        "--test-threads=1",
+        "--nocapture"
+      ]
+    },
+    {
+      "configuration": "native-rust",
+      "fixture": "compound_property_contract",
+      "arguments": [
+        "compound_property_contract",
+        "--test-threads=1",
+        "--nocapture"
+      ]
+    },
+    {
+      "configuration": "CPU",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "0"
+      ]
+    },
+    {
+      "configuration": "CPU",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "1"
+      ]
+    },
+    {
+      "configuration": "ordinary-gpu",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "0"
+      ]
+    },
+    {
+      "configuration": "native-gpu",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "0"
+      ]
+    },
+    {
+      "configuration": "ordinary-both",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "0"
+      ]
+    },
+    {
+      "configuration": "native-both",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "0"
+      ]
+    },
+    {
+      "configuration": "ordinary-gpu",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "1"
+      ]
+    },
+    {
+      "configuration": "native-gpu",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "1"
+      ]
+    },
+    {
+      "configuration": "ordinary-both",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "1"
+      ]
+    },
+    {
+      "configuration": "native-both",
+      "fixture": "compound_mesh_reference",
+      "arguments": [
+        "1"
+      ]
+    },
+    {
+      "configuration": "ordinary-gpu",
+      "fixture": "native_diagnostic_populations",
+      "arguments": []
+    },
+    {
+      "configuration": "native-gpu",
+      "fixture": "native_diagnostic_populations",
+      "arguments": []
+    },
+    {
+      "configuration": "ordinary-both",
+      "fixture": "native_diagnostic_populations",
+      "arguments": []
+    },
+    {
+      "configuration": "native-both",
+      "fixture": "native_diagnostic_populations",
+      "arguments": []
+    },
+    {
+      "configuration": "ordinary-gpu",
+      "fixture": "api_settings_test",
+      "arguments": []
+    },
+    {
+      "configuration": "native-gpu",
+      "fixture": "api_settings_test",
+      "arguments": []
+    },
+    {
+      "configuration": "ordinary-both",
+      "fixture": "api_settings_test",
+      "arguments": []
+    },
+    {
+      "configuration": "native-both",
+      "fixture": "api_settings_test",
+      "arguments": []
+    },
+    {
+      "configuration": "ordinary-both",
+      "fixture": "both_compound_ownership_test",
+      "arguments": []
+    },
+    {
+      "configuration": "native-both",
+      "fixture": "both_compound_ownership_test",
+      "arguments": []
+    },
+    {
+      "configuration": "ordinary-both",
+      "fixture": "compound_aabb_contract",
+      "arguments": []
+    },
+    {
+      "configuration": "native-both",
+      "fixture": "compound_aabb_contract",
+      "arguments": []
+    }
+  ],
+  "engine_proof": {
+    "ordinary": {
+      "receipt": "artifacts/production-readiness/pr02-compound-properties-compile/candidate-complete-inputs/ordinary-build.json",
+      "receipt_sha256": "83db858a34a0061007220816d4ee4b21ed824c77e1e282a88bdf797de80edbe6",
+      "library": "artifacts/production-readiness/pr02-compound-properties-compile/candidate-complete-inputs/ordinary-frozen.a",
+      "library_sha256": "138c6c9bb3996e524644b46422e790f343b5a7b5a069878a1c7d4a0db09ad588",
+      "tests": "artifacts/production-readiness/pr02-compound-properties-compile/candidate-complete-inputs/ordinary-tests",
+      "tests_sha256": "b3f045e8da0e152b7336482142bfe19ee6691d09cd80fcb14ee77ddc8ea5506a"
+    },
+    "native": {
+      "receipt": "artifacts/production-readiness/pr02-compound-properties-compile/candidate-complete-inputs/native-build.json",
+      "receipt_sha256": "d754ffaa6d4c953c07cf1854c748e1fe8dfbc8868b3dd647ce7fbc7ab3615dc2",
+      "library": "artifacts/production-readiness/pr02-compound-properties-compile/candidate-complete-inputs/native-frozen.a",
+      "library_sha256": "d46937cc66f913896627cb1a8f1c49ad1669851c8bd41389ead92b96b3c65ef8",
+      "tests": "artifacts/production-readiness/pr02-compound-properties-compile/candidate-complete-inputs/native-tests",
+      "tests_sha256": "f018600ca65c885a92f480f57c10646331fe77f7949b08239c66c4bb2050f6eb"
+    }
+  },
+  "fixture_sha256": {
+    "c_abi/compound_property_diagnostic.cpp": "587a8adfae26058b7102d1ef5b13cbf4e0426fb0cc1fc19d35789acd2714a6c4",
+    "c_abi/compound_mesh_reference.cpp": "d57d6e26b2899d7fbc40c245c0e493a86a8634fd0e883f5381ac8b4bb7ed05f9",
+    "c_abi/native_diagnostic_populations.cpp": "e62ceaa557141be1df5bee16eefbad44f1c71ddb88e7c5c97908e365b41341b0",
+    "c_abi/api_settings_test.cpp": "7136f0867e081c1863cb86f1021de1745ad787abd2b7591e71dc2bd6edf6ba40",
+    "c_abi/both_compound_ownership_test.cpp": "bb75e0d3313746d92695a0c53500e4ac6f0bdbfc5df1f628de92ee6fb7e10277",
+    "c_abi/compound_aabb_contract.cpp": "e770260bc0c9d733f0a2c5d736b2b93760bcb1e8ab73a5885c8849a470e81a93"
+  },
+  "physical_validator": "scripts/check-compound-mesh-reference.sh",
+  "physical_validator_sha256": "768cd628a2616d4643e1d5d32e7b7a658ddb41d8cdbaad0aa0ff3c9f9e30a40f",
+  "runtime_environment_source_sha256": "55560aec256c6e71c0b4a44d4a6452ce4c2a39858668bee9ca0f2f048c176b94",
+  "watchdog_seconds": 600,
+  "stop_rule": "First build/input/assertion/mismatch/original physical-limit failure or600s process timeout stops. Preserve all results/unlaunched cases; restore production files byteexact baseline if still candidate hashes. No retries/tolerance changes/selective extension.",
+  "acceptance": "All original diagnostic observations match independent CPU at unchanged absolute1e-5 floats/exact tags; never count code0 with mismatches as pass. Rust direct parent generation reuse/null/wrong generation, metadata copy ownership and noncompound controls. Existing compound mesh mode0/1 physical/query limits unchanged from check-compound-mesh-reference.sh; all listed C regressions unchanged.",
+  "settings": "NVIDIA Vulkan/order1, native shared cache; original fixture defaults and physical tolerances; no timing or final readiness credit. Any relevant final-build evidence must be refrozen underPR06-PR08.",
+  "build_order": "All four fresh C adapters and all22 distinct C fixtures built and source/hash proven before any validation process. Serial cases in the explicit list; two property trials/config in forward/reverse order. No assertion relaxation.",
+  "scope_limits": "Static property checks do not prove physical equivalence; mesh checks cover only their original8cases/mode. Final PR03-PR08 and viewer controls remain OPEN."
+}

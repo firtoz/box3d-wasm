@@ -1,0 +1,19 @@
+{
+  "purpose": "One fresh native combined viewer build for six affected compound precommit scenes; no physics/timing process",
+  "budget": {
+    "viewer_build_configurations": 1,
+    "cmake_commands": 2,
+    "physics_processes": 0,
+    "timing_runs": 0,
+    "retries": 0
+  },
+  "prerequisite": "All24 corrected-handle/remaining physical regressions must pass in lifetime receipt before launch. Earlier9 property passes apply to exact unchanged production library/C adapters.",
+  "lifetime_protocol_sha256": "fe5d7f7b2782b85604a397b494034ba6cede11966a2347ecdfad971d925903d7",
+  "candidate_inputs_sha256": "1efb63ebc726e3ade4ba0967df60f5a54ea9235b92db3f2d1c0e5004902bee91",
+  "native_library": "artifacts/production-readiness/pr02-compound-properties-compile/candidate-complete-inputs/native-frozen.a",
+  "native_library_sha256": "d46937cc66f913896627cb1a8f1c49ad1669851c8bd41389ead92b96b3c65ef8",
+  "engine_receipt": "artifacts/production-readiness/pr02-compound-properties-compile/candidate-complete-inputs/native-build.json",
+  "engine_receipt_sha256": "d754ffaa6d4c953c07cf1854c748e1fe8dfbc8868b3dd647ce7fbc7ab3615dc2",
+  "stop_rule": "First command/source/proof failure stops; retain every log, no retry or recording process",
+  "scope_limit": "Rust production runtime bytes are unchanged from library proof; only cfg(test) module corrected under independent contract. Existing shared cached NFD object must be disclosed/proven; this is not a clean final release build."
+}

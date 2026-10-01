@@ -45,6 +45,13 @@ const SAMPLES = [
   "compound-ownership-tile-floor",
   "compound-ownership-village",
   "compound-ownership-mesh-tile",
+  // Fresh public-property captures: independent CPU, then native combined.
+  "compound-properties-simple",
+  "compound-properties-spheres",
+  "compound-properties-hulls",
+  "compound-properties-tile-floor",
+  "compound-properties-village",
+  "compound-properties-mesh-tile",
 ] as const;
 
 type Metrics = {

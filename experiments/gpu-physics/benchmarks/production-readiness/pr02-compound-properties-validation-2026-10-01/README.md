@@ -1,0 +1,9 @@
+# First compound property validation — stopped, 2026-10-01
+
+All nine property processes passed: real CPU control928 observations and two fresh trials in each ordinary/native GPU/combined configuration1,016 observations, all zero mismatches. The tenth process, the ordinary Rust test, failed because it expected immediate parent-slot reuse (replacement index2 versus deleted index1). Source inspection shows `push_shape` appends slots with generation1. This was a fixture assumption incompatible with the allocator; it remains a retained failure, not a lifetime pass.
+
+The first-failure rule stopped native Rust and all22 CPU/GPU mesh/support/query and C regression cases. All five production files were restored byteexact to the accepted baseline. Four fresh C adapter configurations and all22 distinct fixture binaries had built before trials; their compiled sources/objects, linked-input and binary hashes are recorded. No timing ran. The [protocol](protocol.json), [receipt](raw/receipt.json), every process log and source archive are portable. Exact Rust production library provenance is in the [compile-only report](../pr02-compound-properties-compile-2026-10-01/README.md); invocation checkout metadata is contextual only.
+
+A separately frozen test correction directly verifies wrong-generation handles, deleted/null handles, owned material copies and noncompound controls. It does not claim public allocator ABA/reuse qualification. That remains under PR05. The still-uncovered physical/regression cases use the exact same production libraries and C binaries; no property trials are repeated or failed trials replaced. No complete API/physical acceptance is inferred from the nine partial passes.
+
+Use `python3 validate.py` for an offline audit. The raw runner records a closed campaign and must not be relaunched.

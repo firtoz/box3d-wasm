@@ -1,0 +1,7 @@
+# Compound property test compile-only correction — 2026-10-01
+
+All four frozen build commands passed: ordinary library/test compile, then native cached library/test compile. The only correction from the rejected candidate explicitly creates a `GpuDevice` and supplies it to the test's internal world constructor. Production property getters/import behavior and every assertion remain unchanged. Compilation alone establishes no API, physical, repeatability or performance acceptance; no GPU process or timing trial ran here.
+
+The [protocol](raw/protocol-before-builds.json), [source identities](raw/candidate-inputs.json), [driver receipt](raw/rust-driver-receipt.json), compiler logs and ordinary/native compiled-source archives are portable. Ordinary library SHA256 is `138c6c9bb3996e524644b46422e790f343b5a7b5a069878a1c7d4a0db09ad588`; native library is `d46937cc66f913896627cb1a8f1c49ad1669851c8bd41389ead92b96b3c65ef8`. Exact test executable identities and source-before/source-after maps are in the per-backend build receipts. Local libraries and executables are omitted from portable data.
+
+This is a separate compiler requirement after the [retained E0061 build failure](../pr02-compound-properties-fix-2026-10-01/README.md). The original validation cases never launched; first validation is separately frozen. Run `python3 validate.py` for an offline source/hash audit; it starts no engine process. Never rerun the closed build driver.

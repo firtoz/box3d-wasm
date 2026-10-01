@@ -1,0 +1,9 @@
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+
+thread 'api::world::compound_property_contract::owned_table_and_generation_reuse_preserve_public_properties' (3836228) panicked at src/api/world.rs:13108:9:
+assertion `left == right` failed: require actual slot reuse
+  left: 2
+ right: 1
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

@@ -1,0 +1,25 @@
+{
+  "status": "compiled",
+  "protocol_sha256": "601e27f96fe2e6740039f4816e342b052172af35dbea349fd07ddf26f2e5c4bb",
+  "candidate_inputs_sha256": "cf9b1b809b229f7dd52435499f273167fac7b1fbae5dee8a8cc0b80f37cbfb74",
+  "builds": [
+    {
+      "backend": "ordinary",
+      "command": [
+        "python3",
+        "artifacts/production-readiness/pr02-compound-properties-compile/freeze.py",
+        "ordinary"
+      ],
+      "exit": 0
+    },
+    {
+      "backend": "native",
+      "command": [
+        "python3",
+        "artifacts/production-readiness/pr02-compound-properties-compile/freeze.py",
+        "native"
+      ],
+      "exit": 0
+    }
+  ]
+}

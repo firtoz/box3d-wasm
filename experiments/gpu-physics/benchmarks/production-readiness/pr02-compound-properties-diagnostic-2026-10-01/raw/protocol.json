@@ -1,0 +1,52 @@
+{
+  "purpose": "Independent compound scalar/material/lifetime diagnostic; preserve all mismatches, not an API acceptance pass",
+  "budget": {
+    "CPU_controls": 1,
+    "GPU_diagnostics": 4,
+    "production_candidates": 0,
+    "timing_runs": 0,
+    "retries": 0
+  },
+  "order": [
+    "CPU",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "stop_rule": "First infrastructure/build/input/control failure or600s process timeout stops; property mismatches are expected diagnostic observations and do not suppress later fields/configurations. Retain every result/unlaunched case; no reruns or production changes.",
+  "watchdog_seconds": 600,
+  "fixture": "c_abi/compound_property_diagnostic.cpp",
+  "fixture_sha256": "587a8adfae26058b7102d1ef5b13cbf4e0426fb0cc1fc19d35789acd2714a6c4",
+  "scope": "sphere/capsule/hull/mesh compounds with two distinct geometry-owned materials vs deliberately different shapeDef baseMaterial; two create/delete generations, parent userdata/density valid mutation, completed default1/60four-substep static-world step, second-world isolation; GPU stale-property observations after reuse, never query invalid CPU handles. No compound material setters, which CPU rejects.",
+  "criteria": "CPU oracle/control exact identities/counts and absolute1e-5 finite float comparisons; all GPU mismatches logged. Padding and pointer addresses excluded; opaque integer userdata tags compared exactly. No physics tolerance/default change.",
+  "engine_proof": {
+    "ordinary": {
+      "library": "artifacts/production-readiness/pr02-compound-aabb-compile/candidate-complete-inputs/ordinary-frozen.a",
+      "library_sha256": "096d9a9bfad7ba87677723ba37f3b6ee413f7ed266682b53927b7ebe3cc897a0",
+      "receipt": "artifacts/production-readiness/pr02-compound-aabb-compile/candidate-complete-inputs/ordinary-build.json",
+      "receipt_sha256": "b296be9d4d5e44e81a66aa2488de4aa6e39dc9121bf8ff52d9364d316f3aec1e"
+    },
+    "native": {
+      "library": "artifacts/production-readiness/pr02-compound-aabb-compile/candidate-complete-inputs/native-frozen.a",
+      "library_sha256": "f5d3c3856536d53b8f8bfef51655cd062aed414adfeb68e6be80905be1d6d366",
+      "receipt": "artifacts/production-readiness/pr02-compound-aabb-compile/candidate-complete-inputs/native-build.json",
+      "receipt_sha256": "275a9449d26b689b8d5f831eb6c954052de0a513f8639303659ccf19a570679f"
+    }
+  },
+  "combined_proof": {
+    "ordinary": {
+      "directory": "artifacts/production-readiness/pr02-compound-ownership-after-bounds/ordinary-both/cmake",
+      "receipt": "artifacts/production-readiness/pr02-compound-ownership-after-bounds/ordinary-both/adapter-receipt.json",
+      "receipt_sha256": "c51ca7c4325bb5d77f6db598fc87f68f48fee27a1e9f5226aad1721e02cb978a"
+    },
+    "native": {
+      "directory": "artifacts/production-readiness/pr02-compound-ownership-after-bounds/native-both/cmake",
+      "receipt": "artifacts/production-readiness/pr02-compound-ownership-after-bounds/native-both/adapter-receipt.json",
+      "receipt_sha256": "158723814c1ef3d62f772774a50f2a7383238102e4460aed9287e3545a927e52"
+    }
+  },
+  "checkout_context_only": "ec8915cbb7454d20b76030dca1b70e7ec2d78189",
+  "settings": "actual NVIDIA Vulkan; CPU-compatible order1; default world/sleep/gravity and timestep1/60four substeps; static compound fixtures use explicitly differentiated API metadata; native shared cache, no timing",
+  "runtime_environment_source_sha256": "55560aec256c6e71c0b4a44d4a6452ce4c2a39858668bee9ca0f2f048c176b94"
+}
