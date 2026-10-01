@@ -8,6 +8,8 @@ upstream `box3d/` sources remain unchanged.
 other Linux distributions, macOS and Windows remain unverified. See the
 [tested hardware](#tested-platforms-and-hardware) and
 [status, work priorities and missing features](../../docs/gpu-physics.md).
+For `feat/gpu` next actions and durable goal recovery, use the
+[production-readiness checklist](../../docs/goals/gpu-production-readiness.md).
 
 ## Tested platforms and hardware
 

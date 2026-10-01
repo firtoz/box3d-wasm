@@ -55,6 +55,14 @@ The user often runs short agent sessions: ask what's next → do one unit of wor
 
 ### When the user asks "what's next"
 
+On `feat/gpu`, or for an explicitly GPU-focused request, read
+`docs/goals/gpu-production-readiness.md` and recommend its first unfinished,
+unblocked item with its acceptance criteria. Finish relevant local work first.
+"Let's do it" means one roadmap item; an explicitly activated full-readiness
+goal continues across items. Maintain the roadmap after meaningful progress and
+read it after compaction. This routing applies to GPU work; the following queue
+and session loop apply to upstream WASM sample ports.
+
 1. Check `git status` for unfinished local work. If the tree is dirty, prefer finishing/committing that before starting a new sample (say so clearly).
 2. Read `docs/SAMPLES.md` → **Easy next ports** (top of that section is the queue).
 3. Recommend **one** primary next item (plus at most 1–2 alternates). Prefer:
@@ -64,7 +72,7 @@ The user often runs short agent sessions: ask what's next → do one unit of wor
    Before recommending, skim the upstream C++ sample class (do not trust a `🔧` note alone). Confirm it creates bodies in `m_worldId` and is dumpable. Manifold collide demos, geometry editors, and similar no-body tools are not generic-host ports — see the Manifold section note in `docs/SAMPLES.md`.
 4. Answer briefly: what to do, why it's next, and what "done" means (sample + `SAMPLES.md` + dump compare when applicable).
 
-Do **not** invent a parallel todo list outside `docs/SAMPLES.md`. The Easy next ports list and status tables are the backlog.
+For upstream sample ports, do **not** invent a parallel todo list outside `docs/SAMPLES.md`. The Easy next ports list and status tables are the backlog. GPU production-readiness work uses its separate roadmap above.
 
 ### When the user says "ok let's do it" (or similar)
 
@@ -211,3 +219,9 @@ For the bounded desktop mixed-topology scheduling task, read and maintain
 `docs/gpu-mixed-scheduling-goal.md` at continuation and after compaction. Its fixed
 budget and scope take precedence over older Rain next actions. Do not resume the
 older solver goal implicitly.
+
+For GPU production readiness, `docs/goals/gpu-production-readiness.md` is the
+authoritative ordered checklist and current recovery record. Read it before
+continuation and after compaction, and mark items complete only with applicable
+acceptance evidence. Read older solver notes for criteria/rejected experiments;
+do not resume historical next actions or exhausted scheduling budgets implicitly.

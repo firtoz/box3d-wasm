@@ -1,5 +1,12 @@
 # GPU solver goal and recovery scratchpad
 
+Current production-readiness queue and recovery:
+[`goals/gpu-production-readiness.md`](goals/gpu-production-readiness.md).
+Read it for `feat/gpu` next actions and after compaction. This file preserves the
+full solver acceptance contract and historical investigations; its older next
+actions, job handles and task-specific authorizations must be revalidated before
+use. Preparing the roadmap does not resume the older solver goal.
+
 Completed bounded task (2026-09-30): read [bounded scheduling goal](gpu-scheduling-goal.md), absolute path `/home/firtoz/work/2026/box3d-wasm/docs/gpu-scheduling-goal.md`. Its desktop scheduling result and delivery are complete; implementation/evidence `91485a9` is pushed to `feat/gpu`. Older full solver work remains unfinished and is not resumed by this completed task.
 
 Updated: 2026-09-29. Status: resumed by explicit goal continuation, incomplete.

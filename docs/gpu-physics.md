@@ -131,6 +131,14 @@ same scene settings, recording exact hardware and frame-time distributions.
 
 ## Work priorities
 
+The [production-readiness roadmap](goals/gpu-production-readiness.md) is now the
+authoritative ordered queue for `feat/gpu` and GPU-focused "What's next?" requests.
+Its acceptance-backed checkboxes and current recovery block support long goals
+across compaction. The first release scope is Linux/NVIDIA native; required Rain
+correctness and complete final-build qualification remain open. The summary
+below describes API/platform sequencing; it does not override the roadmap or
+activate implementation on its own.
+
 1. **Completed: ground-drag agreement.** Both tested GPUs pass the independent
    ten-drag sequence at unchanged normal and strict thresholds. Solver/contact
    regressions pass; the separate AMD sweep and secondary-queue failures below
