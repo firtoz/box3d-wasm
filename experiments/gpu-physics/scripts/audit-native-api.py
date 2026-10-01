@@ -38,8 +38,7 @@ def main():
     # real implementations replace them; absence from samples_stubs is not coverage.
     placeholders = [
         'b3CreateRecording', 'b3DestroyRecording', 'b3World_StartRecording',
-        'b3World_StopRecording', 'b3SaveRecordingToFile', 'b3World_GetProfile',
-        'b3World_GetMaxCapacity', 'b3World_DumpMemoryStats',
+        'b3World_StopRecording', 'b3SaveRecordingToFile',
     ]
     extra = sorted(n for n in placeholders if n in samples and n not in shim)
     generator_spec = importlib.util.spec_from_file_location("both_generator", ROOT / 'scripts/gen-both-cpu.py')
@@ -102,9 +101,9 @@ def main():
     # Missing artifacts are unknown coverage, never an empty/successful result.
     missing = sorted(required - providers - set(stubs) - set(extra)) if not missing_inputs else None
     required_placeholders = (set(stubs) | set(extra)) - unavailable
-    # Counter topology fields are implemented, but contact/island and other
-    # diagnostic fields require PR02 review. Symbol presence is not coverage.
-    required_diagnostics = required_placeholders | {'b3World_GetCounters'}
+    # Real diagnostic implementations remain behavior-unqualified until their
+    # finite C/Rust campaign passes. This inventory verifies source/link only.
+    required_diagnostics = required_placeholders
     contract = []
     for name in sorted(required):
         category = ('declared-unavailable' if name in unavailable else
@@ -132,6 +131,8 @@ def main():
             ['gpu_b3_native_api_last_error', 'gpu_b3_native_api_clear_error',
              'gpu_b3_native_api_is_unavailable']) if not missing_inputs else None),
         'required_stub_or_placeholder_definitions': sorted(required_placeholders),
+        'gpu_authoritative_shared_api': sorted(generator.SHARED_GPU_API),
+        'native_diagnostic_unavailable_counter_fields': ['stackUsed','arenaCapacity','staticTreeHeight','treeHeight','satCallCount','satCacheHitCount','taskCount','colorCounts','awakeContactCount','recycledContactCount','distanceIterations','pushBackIterations','rootIterations'],
         'initial_release_stateful_inventory': contract,
         'note': 'Source inventory. CPU-only passthrough requires review; linked symbols and semantic behavior need separate tests.',
     }

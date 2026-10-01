@@ -1,0 +1,62 @@
+{
+  "purpose": "Required pre-commit visual snapshots; no performance acceptance or timing campaign",
+  "scenes": [
+    "single-box",
+    "box-stack",
+    "sphere-stack",
+    "capsule-stack",
+    "revolute",
+    "weld",
+    "stack",
+    "pyramid",
+    "bounce",
+    "mixed",
+    "spinner",
+    "ramp",
+    "spheres",
+    "dominoes",
+    "high-resistance",
+    "mixed-stacks",
+    "falling-cubes",
+    "mixed-topology",
+    "anchored-mechanisms",
+    "joint-chain"
+  ],
+  "budget": {
+    "cpu_clips": 20,
+    "gpu_clips": 20,
+    "frames_per_clip": 300,
+    "timing_runs": 0
+  },
+  "order": [
+    "cpu regular",
+    "cpu mixed-topology",
+    "gpu regular",
+    "gpu mixed-topology"
+  ],
+  "view": {
+    "mixed-topology": "-220,290,-300,95,8,145",
+    "others": "existing scene defaults"
+  },
+  "settings": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "gpu_backend": "ordinary Vulkan",
+    "adapter": "NVIDIA RTX 4070 SUPER",
+    "live_contact_order": 1,
+    "SKIP_METRICS": 1,
+    "METRIC_RUNS": 1
+  },
+  "binaries": {
+    "recording-build/gpu-physics-frozen": "9311af7b0a6f47c0ba2c8b011c028904460baefdae99d3f99ef0eb8f52f06368",
+    "recording-build/box3d-oracle-frozen": "848477c467c448fcbbd938127f411ba32ad0b87ab7343579c65efff9a3238250"
+  },
+  "build_receipts": [
+    "recording-build/receipt.json",
+    "recording-build/oracle-receipt.json"
+  ],
+  "stop_rule": "Stop at first failed group; retain every completed/failed artifact. Only incomplete captures may be resumed with the same frozen inputs. No completed clip is overwritten.",
+  "cpu_metrics": "Oracle generates incidental reference metrics alongside dumps; not headline timing or performance evidence",
+  "comparison": "Real Box3D CPU first; new GPU 2026-10-01-native-diagnostics next. Previous CPU column is archived before refresh; older portable datasets remain unchanged."
+}

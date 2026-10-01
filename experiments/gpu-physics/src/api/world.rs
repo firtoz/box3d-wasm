@@ -11,6 +11,8 @@ pub use joint_reaction::*;
 mod joint_separation;
 pub use joint_separation::*;
 mod contact_api;
+mod native_diagnostics;
+pub use native_diagnostics::*;
 mod shape_geometry;
 pub use shape_geometry::*;
 pub use contact_api::*;
@@ -322,6 +324,7 @@ struct WorldInner {
     contact_recycle_distance: f32,
     #[cfg(feature = "replay-diagnostics")]
     diagnostic_contact_ids: HashMap<(i32, u16, u32), u64>,
+    maximum_capacity: NativeCapacity,
     contact_registry: HashMap<ContactKey, contact_api::ContactEntry>,
     contact_by_id: HashMap<(i32, u32), ContactKey>,
     contact_by_body: HashMap<i32, Vec<ContactKey>>,
@@ -430,6 +433,7 @@ pub fn b3_create_world(gpu: GpuDevice, def: &WorldDef) -> WorldId {
         contact_recycle_distance: crate::types::CONTACT_RECYCLE_DISTANCE,
         #[cfg(feature = "replay-diagnostics")]
         diagnostic_contact_ids: HashMap::new(),
+        maximum_capacity: NativeCapacity::default(),
         contact_registry: HashMap::new(),
         contact_by_id: HashMap::new(),
         contact_by_body: HashMap::new(),
@@ -2848,6 +2852,9 @@ fn step_gpu_inner(id: WorldId, dt: f32, sub_step_count: i32) {
     }
     if !dt.is_finite() || dt<=0.0 {return;}
     with_world_mut_no_sync(id, |w| {
+        let mut maximum = w.maximum_capacity;
+        maximum.observe(w);
+        w.maximum_capacity = maximum;
         let resident=can_submit_resident(w);
         #[cfg(not(target_arch = "wasm32"))]
         if !resident && (w.post_ccd_pending || w.gpu_mirror_stale) {
@@ -3145,7 +3152,10 @@ pub fn b3_world_gpu_wait(id: WorldId) {
             }
         }
         #[cfg(not(target_arch = "wasm32"))]
-        copy_gpu_clocks(w);
+        {
+            native_diagnostics::harvest_native_diagnostics(w);
+            copy_gpu_clocks(w);
+        }
     });
 }
 
@@ -5249,6 +5259,9 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
                 if let Some(sim) = w.sim.as_mut() { sim.mark_physics_invalid(); }
                 return;
             }
+            if let Some(old) = w.sim.as_mut() { old.wait_completion(); }
+            #[cfg(not(target_arch = "wasm32"))]
+            native_diagnostics::harvest_native_diagnostics(w);
             let old = w.sim.take();
             let mut sim = match GpuSim::new(
                 &w.gpu,

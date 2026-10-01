@@ -1,0 +1,120 @@
+{
+  "configuration": "ordinary-gpu",
+  "purpose": "Actual UI interaction/recording, not performance or broader physics qualification",
+  "binary_sha256": "57a6bd5dcf4e698dae5cd2aaae4c9e03793e02571b1f4bcf208b3e447d7bbe99",
+  "actions": [
+    {
+      "type": "key",
+      "symbol": 65307
+    },
+    {
+      "type": "key",
+      "symbol": 109
+    },
+    {
+      "type": "screenshot",
+      "name": "profile"
+    },
+    {
+      "type": "screenshot",
+      "name": "profile-settled"
+    },
+    {
+      "type": "click",
+      "x": 125,
+      "y": 526
+    },
+    {
+      "type": "screenshot",
+      "name": "counters-top"
+    },
+    {
+      "type": "click",
+      "x": 700,
+      "y": 670,
+      "button": 5
+    },
+    {
+      "type": "click",
+      "x": 700,
+      "y": 670,
+      "button": 5
+    },
+    {
+      "type": "click",
+      "x": 700,
+      "y": 670,
+      "button": 5
+    },
+    {
+      "type": "screenshot",
+      "name": "counters-bottom"
+    },
+    {
+      "type": "click",
+      "x": 295,
+      "y": 526
+    },
+    {
+      "type": "screenshot",
+      "name": "frame-time"
+    },
+    {
+      "type": "quit"
+    }
+  ],
+  "environment": {
+    "DISPLAY": ":97",
+    "GPU_BENCH_WIDTH": "1280",
+    "GPU_BENCH_HEIGHT": "720",
+    "GPU_PHYSICS_ADAPTER": "nvidia",
+    "GPU_PHYSICS_BACKEND": "vulkan",
+    "WGPU_BACKEND": "vulkan",
+    "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+    "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+    "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines",
+    "__NV_PRIME_RENDER_OFFLOAD": "0",
+    "__GLX_VENDOR_LIBRARY_NAME": "mesa",
+    "LIBGL_ALWAYS_SOFTWARE": "1"
+  },
+  "pid": 2955656,
+  "status": "complete",
+  "app_pid": 2955686,
+  "command": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-gpu/cmake/bin/samples_gpu",
+    "--sample-name",
+    "Single Box",
+    "--frames",
+    "7200"
+  ],
+  "capture_command": [
+    "ffmpeg",
+    "-hide_banner",
+    "-loglevel",
+    "warning",
+    "-f",
+    "x11grab",
+    "-draw_mouse",
+    "0",
+    "-framerate",
+    "30",
+    "-video_size",
+    "1280x720",
+    "-i",
+    ":97",
+    "-c:v",
+    "libx264",
+    "-preset",
+    "veryfast",
+    "-crf",
+    "20",
+    "-pix_fmt",
+    "yuv420p",
+    "-movflags",
+    "+faststart",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/viewer-interactions/ordinary-gpu/clip.mp4"
+  ],
+  "exit": 0,
+  "capture_exit": 0,
+  "video_sha256": "231d61ec1cc42bcd810d4d7dc3e6612362452d22a67430816798c52ccf67c601"
+}

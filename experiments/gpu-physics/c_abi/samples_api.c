@@ -11,6 +11,10 @@
 #include "native_clock.h"
 #include "growable_slots.h"
 #include "native_api_status.h"
+#include "native_diagnostics.h"
+#include <errno.h>
+#include <inttypes.h>
+#include <math.h>
 
 #define GPU_SAMPLES_WORLD_CAP GPU_METADATA_WORLDS
 
@@ -494,23 +498,46 @@ B3_API b3AABB b3World_GetBounds(b3WorldId worldId)
 }
 #endif
 
+_Static_assert(sizeof(b3Profile) == 23 * sizeof(float), "native profile layout");
+_Static_assert(sizeof(b3Counters) == 200, "native counter layout");
+_Static_assert(offsetof(b3Counters, colorCounts) == 52, "native color layout");
+_Static_assert(offsetof(b3Counters, manifoldCounts) == 148, "native manifold layout");
+_Static_assert(sizeof(b3Capacity) == 20, "native capacity layout");
+_Static_assert(sizeof(GpuNativeProfile) == 120, "native extended profile layout");
+_Static_assert(sizeof(GpuNativeAllocation) == 32, "native allocation layout");
+_Static_assert(sizeof(GpuNativeShapeBounds) == 40, "native bounds layout");
+
+static void native_diagnostic_error(const char* operation, uint32_t status)
+{
+    if (status != GPU_DIAGNOSTIC_OK)
+        gpu_native_api_error(operation, status == GPU_DIAGNOSTIC_BUSY ? EBUSY :
+            status == GPU_DIAGNOSTIC_FAILED ? EIO : EINVAL);
+}
+
 B3_API b3Profile b3World_GetProfile(b3WorldId worldId)
 {
-	(void)worldId;
-	return (b3Profile){0};
+    GpuNativeProfile profile;
+    gpu_b3_world_native_profile(worldId, &profile);
+    b3Profile result;
+    memcpy(&result, profile.values, sizeof result);
+    native_diagnostic_error(__func__, profile.valid);
+    return result;
 }
 
 B3_API b3Counters b3World_GetCounters(b3WorldId worldId)
 {
-	b3Counters c = {0};
-	gpu_b3_world_counts(worldId, &c.bodyCount, &c.shapeCount, &c.jointCount);
-	return c;
+    b3Counters result;
+    const uint32_t status = gpu_b3_world_native_counters(worldId, &result);
+    native_diagnostic_error(__func__, status);
+    return result;
 }
 
 B3_API b3Capacity b3World_GetMaxCapacity(b3WorldId worldId)
 {
-	(void)worldId;
-	return (b3Capacity){0};
+    b3Capacity result;
+    const uint32_t status = gpu_b3_world_native_max_capacity(worldId, &result);
+    native_diagnostic_error(__func__, status);
+    return result;
 }
 
 B3_API void b3World_EnableSleeping(b3WorldId worldId, bool flag)
@@ -535,7 +562,34 @@ B3_API b3Vec3 b3World_GetGravity(b3WorldId worldId)
 
 B3_API void b3World_DumpMemoryStats(b3WorldId worldId)
 {
-	(void)worldId;
+    GpuNativeAllocation allocation;
+    gpu_b3_world_native_allocation(worldId, &allocation);
+    if (allocation.valid != GPU_DIAGNOSTIC_OK) {
+        native_diagnostic_error(__func__, allocation.valid);
+        return;
+    }
+    printf("GPU primary owned physics buffer bytes: %" PRIu64 "\n", allocation.primary_buffer_bytes);
+    printf("reserved slots bodies/shapes/joints/contacts: %u/%u/%u/%u\n",
+        allocation.body_capacity, allocation.shape_capacity, allocation.joint_capacity,
+        allocation.contact_capacity);
+    printf("excludes staging, cache copies, pipelines, renderer and driver allocations\n");
+}
+
+static void native_print_shape_bounds(const GpuNativeShapeBounds* record, void* context)
+{
+    (void)context;
+    printf("GPU shape %d:%u:%u body %d:%u:%u bounds [%g,%g,%g] [%g,%g,%g]\n",
+        record->shape.index1, record->shape.world0, record->shape.generation,
+        record->body.index1, record->body.world0, record->body.generation,
+        record->bounds.lowerBound.x, record->bounds.lowerBound.y, record->bounds.lowerBound.z,
+        record->bounds.upperBound.x, record->bounds.upperBound.y, record->bounds.upperBound.z);
+}
+
+B3_API void b3World_DumpShapeBounds(b3WorldId worldId, b3BodyType type)
+{
+    const uint32_t status = gpu_b3_world_native_visit_shape_bounds(worldId, (uint32_t)type,
+        native_print_shape_bounds, NULL);
+    native_diagnostic_error(__func__, status);
 }
 
 B3_API bool b3Body_IsValid(b3BodyId id)

@@ -1829,7 +1829,7 @@ pub fn b3_shape_get_user_data(id: ShapeId) -> usize {
     super::world::query_shape(id).map_or(0, |shape| shape.user_data)
 }
 
-fn public_shape_aabb(shape: &HostShape) -> Aabb {
+pub(super) fn public_shape_aabb(shape: &HostShape) -> Aabb {
     let mut aabb = aabb_for_proxy(&shape_proxy(shape, None));
     // Box3D exposes the speculative AABB, not the tight geometry bounds.
     for axis in 0..3 {

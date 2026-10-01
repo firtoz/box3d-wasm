@@ -47,6 +47,7 @@ pub(super) fn capture(w:&WorldInner, world0:u16) -> Result<Value,String> {
         json!({"topology":index.topology,"state":index.state,"shapes":shapes,"geometries":geometries,"groups":index.groups.as_ref(),"nodes":nodes})
     } else {Value::Null};
     Ok(json!({"body_mirrors":mirrors,"snapshot_epoch":snapshot_epoch(w),"definition":definition,"step_start_bodies":starts,"cached_topology":topology,"scene_capabilities":capabilities,"query_index":query,
+        "maximum_capacity":[w.maximum_capacity.static_shape_count,w.maximum_capacity.dynamic_shape_count,w.maximum_capacity.static_body_count,w.maximum_capacity.dynamic_body_count,w.maximum_capacity.contact_count],
         "last_substep_h":w.last_substep_h.trace()?,"reaction_inv_h":w.reaction_inv_h.trace()?,"contact_recycle_distance":w.contact_recycle_distance.trace()?,
         "enable_contacts":w.enable_contacts,"enable_warm_starting":w.enable_warm_starting,"enable_speculative":w.enable_speculative,"speculative_changed":w.speculative_changed,"jacobi":w.jacobi,"pose_export_live":w.pose_export_live,"physics_invalid":w.physics_invalid,
         "gpu_failure":w.gpu_fail.as_ref().map(|s|s.to_string_lossy().into_owned()),"gpu_mirror_stale":w.gpu_mirror_stale,

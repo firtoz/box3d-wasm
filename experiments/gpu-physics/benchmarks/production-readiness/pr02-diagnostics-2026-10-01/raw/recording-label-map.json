@@ -1,0 +1,5 @@
+{
+  "original_label": "2026-10-01-native-diagnostics",
+  "final_label": "2026-10-01-truthful-native-diagnostics",
+  "reason": "Existing grid orders columns lexically when metric timing is absent; final descriptive label sorts after older speculative handoff. Commands/manifests retain original capture label; clip content unchanged."
+}

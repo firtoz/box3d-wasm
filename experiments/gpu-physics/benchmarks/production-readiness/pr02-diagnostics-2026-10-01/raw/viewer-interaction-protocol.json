@@ -1,0 +1,20 @@
+{
+  "scope": "Review actual diagnostic tab labels and values; not broad API or physics acceptance",
+  "budget": {
+    "apps": 5,
+    "max_actions_per_app": 16,
+    "max_seconds_per_app": 180,
+    "timing_runs": 0
+  },
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "ordinary-both",
+    "native-gpu",
+    "native-both"
+  ],
+  "scene": "Single Box with upstream defaults",
+  "actions": "Open metrics with M; capture Profile, Counters top/bottom, Frame Time; close with Ctrl+Q. Adapt coordinates only from observed screenshot. Include loading if present.",
+  "build_identity": "Four current viewer receipts; preserved real Box3D CPU executable matches PR01 compiled-source receipt (reference only).",
+  "stop_rule": "Retain failures and stop; no rerun or selective extension. No benchmark mode or metric timing."
+}

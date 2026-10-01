@@ -1,0 +1,384 @@
+=== Box3D CPU metrics + dumps ===
+oracle single-box
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/single-box.bin
+  bodies=2 wall=0.1 ms (0.000 ms/step, profile 0.000)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-single-box.json
+oracle box-stack
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/box-stack.bin
+  bodies=41 wall=15.6 ms (0.052 ms/step, profile 0.052)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-box-stack.json
+oracle sphere-stack
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/sphere-stack.bin
+  bodies=31 wall=3.7 ms (0.012 ms/step, profile 0.012)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-sphere-stack.json
+oracle capsule-stack
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/capsule-stack.bin
+  bodies=21 wall=1.2 ms (0.004 ms/step, profile 0.004)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-capsule-stack.json
+oracle revolute
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/revolute.bin
+  bodies=3 wall=0.1 ms (0.000 ms/step, profile 0.000)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-revolute.json
+oracle weld
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/weld.bin
+  bodies=3 wall=0.1 ms (0.000 ms/step, profile 0.000)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-weld.json
+oracle stack
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/stack.bin
+  bodies=7 wall=0.1 ms (0.000 ms/step, profile 0.000)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-stack.json
+oracle pyramid
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/pyramid.bin
+  bodies=56 wall=0.1 ms (0.000 ms/step, profile 0.000)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-pyramid.json
+oracle bounce
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/bounce.bin
+  bodies=2 wall=0.7 ms (0.002 ms/step, profile 0.002)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-bounce.json
+oracle mixed
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/mixed.bin
+  bodies=4 wall=0.2 ms (0.001 ms/step, profile 0.001)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-mixed.json
+oracle spinner
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/spinner.bin
+  bodies=2 wall=0.7 ms (0.002 ms/step, profile 0.002)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-spinner.json
+oracle ramp
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/ramp.bin
+  bodies=3 wall=0.2 ms (0.001 ms/step, profile 0.001)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-ramp.json
+oracle spheres
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/spheres.bin
+  bodies=257 wall=4.9 ms (0.016 ms/step, profile 0.016)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-spheres.json
+oracle dominoes
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/dominoes.bin
+  bodies=5431 wall=502.4 ms (1.675 ms/step, profile 1.674)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-dominoes.json
+oracle high-resistance
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/high-resistance.bin
+  bodies=11 wall=0.5 ms (0.002 ms/step, profile 0.002)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-high-resistance.json
+oracle mixed-stacks
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/mixed-stacks.bin
+  bodies=602 wall=0.1 ms (0.000 ms/step, profile 0.000)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-mixed-stacks.json
+oracle falling-cubes
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/falling-cubes.bin
+  bodies=257 wall=154.1 ms (0.514 ms/step, profile 0.513)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-falling-cubes.json
+oracle anchored-mechanisms
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/anchored-mechanisms.bin
+  bodies=257 wall=0.1 ms (0.000 ms/step, profile 0.000)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-anchored-mechanisms.json
+oracle joint-chain
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/joint-chain.bin
+  bodies=257 wall=323.7 ms (1.079 ms/step, profile 1.079)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-joint-chain.json
+=== replay single-box → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/single-box.mp4 ===
+[2026-10-01T13:55:00Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/single-box.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/single-box.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/single-box.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/single-box.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/single-box.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/single-box.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/single-box.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/single-box.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/single-box.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/single-box.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/single-box.mp4 (300 frames @ 30 fps)
+=== replay box-stack → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4 ===
+[2026-10-01T13:55:01Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4 (300 frames @ 30 fps)
+=== replay sphere-stack → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/sphere-stack.mp4 ===
+[2026-10-01T13:55:03Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/sphere-stack.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/sphere-stack.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/sphere-stack.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/sphere-stack.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/sphere-stack.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/sphere-stack.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/sphere-stack.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/sphere-stack.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/sphere-stack.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/sphere-stack.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/sphere-stack.mp4 (300 frames @ 30 fps)
+=== replay capsule-stack → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/capsule-stack.mp4 ===
+[2026-10-01T13:55:04Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/capsule-stack.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/capsule-stack.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/capsule-stack.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/capsule-stack.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/capsule-stack.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/capsule-stack.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/capsule-stack.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/capsule-stack.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/capsule-stack.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/capsule-stack.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/capsule-stack.mp4 (300 frames @ 30 fps)
+=== replay revolute → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/revolute.mp4 ===
+[2026-10-01T13:55:05Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/revolute.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/revolute.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/revolute.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/revolute.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/revolute.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/revolute.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/revolute.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/revolute.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/revolute.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/revolute.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/revolute.mp4 (300 frames @ 30 fps)
+=== replay weld → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/weld.mp4 ===
+[2026-10-01T13:55:07Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/weld.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/weld.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/weld.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/weld.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/weld.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/weld.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/weld.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/weld.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/weld.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/weld.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/weld.mp4 (300 frames @ 30 fps)
+=== replay stack → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/stack.mp4 ===
+[2026-10-01T13:55:08Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/stack.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/stack.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/stack.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/stack.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/stack.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/stack.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/stack.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/stack.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/stack.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/stack.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/stack.mp4 (300 frames @ 30 fps)
+=== replay pyramid → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/pyramid.mp4 ===
+[2026-10-01T13:55:09Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/pyramid.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/pyramid.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/pyramid.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/pyramid.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/pyramid.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/pyramid.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/pyramid.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/pyramid.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/pyramid.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/pyramid.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/pyramid.mp4 (300 frames @ 30 fps)
+=== replay bounce → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/bounce.mp4 ===
+[2026-10-01T13:55:11Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/bounce.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/bounce.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/bounce.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/bounce.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/bounce.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/bounce.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/bounce.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/bounce.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/bounce.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/bounce.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/bounce.mp4 (300 frames @ 30 fps)
+=== replay mixed → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed.mp4 ===
+[2026-10-01T13:55:12Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed.mp4 (300 frames @ 30 fps)
+=== replay spinner → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spinner.mp4 ===
+[2026-10-01T13:55:13Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spinner.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spinner.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spinner.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spinner.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spinner.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spinner.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spinner.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spinner.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spinner.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spinner.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spinner.mp4 (300 frames @ 30 fps)
+=== replay ramp → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/ramp.mp4 ===
+[2026-10-01T13:55:15Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/ramp.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/ramp.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/ramp.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/ramp.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/ramp.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/ramp.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/ramp.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/ramp.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/ramp.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/ramp.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/ramp.mp4 (300 frames @ 30 fps)
+=== replay spheres → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spheres.mp4 ===
+[2026-10-01T13:55:16Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spheres.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spheres.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spheres.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spheres.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spheres.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spheres.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spheres.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spheres.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spheres.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spheres.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/spheres.mp4 (300 frames @ 30 fps)
+=== replay dominoes → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/dominoes.mp4 ===
+[2026-10-01T13:55:17Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/dominoes.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/dominoes.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/dominoes.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/dominoes.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/dominoes.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/dominoes.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/dominoes.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/dominoes.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/dominoes.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/dominoes.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/dominoes.mp4 (300 frames @ 30 fps)
+=== replay high-resistance → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/high-resistance.mp4 ===
+[2026-10-01T13:55:19Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/high-resistance.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/high-resistance.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/high-resistance.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/high-resistance.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/high-resistance.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/high-resistance.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/high-resistance.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/high-resistance.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/high-resistance.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/high-resistance.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/high-resistance.mp4 (300 frames @ 30 fps)
+=== replay mixed-stacks → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed-stacks.mp4 ===
+[2026-10-01T13:55:20Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed-stacks.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed-stacks.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed-stacks.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed-stacks.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed-stacks.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed-stacks.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed-stacks.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed-stacks.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed-stacks.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed-stacks.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/mixed-stacks.mp4 (300 frames @ 30 fps)
+=== replay falling-cubes → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/falling-cubes.mp4 ===
+[2026-10-01T13:55:21Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/falling-cubes.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/falling-cubes.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/falling-cubes.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/falling-cubes.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/falling-cubes.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/falling-cubes.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/falling-cubes.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/falling-cubes.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/falling-cubes.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/falling-cubes.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/falling-cubes.mp4 (300 frames @ 30 fps)
+=== replay anchored-mechanisms → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/anchored-mechanisms.mp4 ===
+[2026-10-01T13:55:23Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/anchored-mechanisms.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/anchored-mechanisms.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/anchored-mechanisms.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/anchored-mechanisms.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/anchored-mechanisms.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/anchored-mechanisms.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/anchored-mechanisms.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/anchored-mechanisms.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/anchored-mechanisms.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/anchored-mechanisms.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/anchored-mechanisms.mp4 (300 frames @ 30 fps)
+=== replay joint-chain → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/joint-chain.mp4 ===
+[2026-10-01T13:55:24Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/joint-chain.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/joint-chain.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/joint-chain.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/joint-chain.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/joint-chain.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/joint-chain.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/joint-chain.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/joint-chain.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/joint-chain.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/joint-chain.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/joint-chain.mp4 (300 frames @ 30 fps)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/compare/snapshots.js (6 snapshot(s))
+viewer: bun run compare  # http://127.0.0.1:8766/
+clips:  /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu

@@ -507,6 +507,9 @@ pub const SPECULATIVE_DISTANCE: f32 = 0.02;
 /// Three retirement-command words, separate from ray results and sticky status.
 /// Must match QUERY_RETIRE_COMMAND in physics/types.wgsl.
 pub const QUERY_RETIRE_COMMAND: u32 = 32;
+/// Persistent diagnostic peak of supported non-sensor roots at occupied-list
+/// collection. Not a physics input; must survive simulator/query-buffer growth.
+pub const QUERY_NATIVE_CONTACT_PEAK: u32 = 74;
 pub const DIAG_DISABLE_RECYCLING: u32 = 1 << 0;
 pub const DIAG_DISABLE_SAT_CACHE: u32 = 1 << 1;
 pub const DIAG_DISABLE_ROLLING: u32 = 1 << 2;

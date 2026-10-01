@@ -1206,7 +1206,10 @@ fn retire_stale_contacts(@builtin(global_invocation_id) dispatch_gid: vec3<u32>)
         if (contacts[slot].count > 0u && (contact_persistent[slot].lifecycle.y & CONTACT_TOUCHING) != 0u) {
             atomicAdd(&query[68u], 1u);
         }
-        if (native_countable_root(slot)) { atomicAdd(&query[69u], 1u); }
+        if (native_countable_root(slot)) {
+            let count = atomicAdd(&query[69u], 1u) + 1u;
+            atomicMax(&query[QUERY_NATIVE_CONTACT_PEAK], count); // lifetime contact occupancy peak
+        }
         let out = atomicAdd(&atom[ATOM_OCCUPIED_N], 1u);
         if (out < params.contact_capacity) {
             scratch[scr_next_occupied() + out] = slot;
@@ -1266,7 +1269,9 @@ fn collect_occupied_contacts(@builtin(global_invocation_id) dispatch_gid: vec3<u
     if (lid == 0u) {
         atomicAdd(&query[67u], atomicLoad(&metric_patch_sum));
         atomicAdd(&query[68u], atomicLoad(&metric_touching_sum));
-        atomicAdd(&query[69u], atomicLoad(&metric_non_sensor_sum));
+        let count = atomicAdd(&query[69u], atomicLoad(&metric_non_sensor_sum))
+            + atomicLoad(&metric_non_sensor_sum);
+        atomicMax(&query[QUERY_NATIVE_CONTACT_PEAK], count); // diagnostics only; never a solver input
     }
 }
 

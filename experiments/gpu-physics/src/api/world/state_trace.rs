@@ -234,6 +234,7 @@ pub fn b3_world_write_core_state(id: WorldId, path: &std::path::Path, frame: u32
             "driver_info":sim.report.driver_info,"vendor":sim.report.vendor,"device":sim.report.device});
         let graph_cache = sim.read_diagnostic_graph_cache()?;
         let contact_high_water = sim.read_diagnostic_contact_high_water();
+        let native_contact_peak_device = sim.read_diagnostic_native_contact_peak();
         let contact_hash_words = sim.read_diagnostic_contact_hash();
         let words = |base: u32, count: u32, stride: usize| -> Result<&[u32], String> {
             let start = base.checked_sub(params.hull_base_u32).ok_or("invalid geometry base")? as usize;
@@ -662,9 +663,9 @@ pub fn b3_world_write_core_state(id: WorldId, path: &std::path::Path, frame: u32
             physics_step, enable_continuous, contact_recycle_distance, maximum_linear_speed,
             restitution_threshold, order_enabled, disable_warm_starting);
         let host_contacts=host_contact_state(w,id.index1)?;
-        json!({"schema":"gpu-core-state-v23", "frame":frame,"idle_state":idle_state,"graph_cache":graph_cache,
+        json!({"schema":"gpu-core-state-v24", "frame":frame,"idle_state":idle_state,"graph_cache":graph_cache,
             "adapter":adapter,"convex_ccd":convex_ccd,"gpu_policy":gpu_policy,"host_state":host_state_trace::capture(w,id.index1)?,"host_events":host_events_trace::capture(w,id.index1)?,"host_contacts":host_contacts,"contact_hash":contact_hash,"event_history":event_history,"contact_end_state":contact_end_state(w),
-            "contact_allocation":{"high_water":contact_high_water,"slots":contact_slots,"occupied_order":occupied_order,
+            "contact_allocation":{"native_contact_peak_device":native_contact_peak_device,"high_water":contact_high_water,"slots":contact_slots,"occupied_order":occupied_order,
                 "candidate_unique_count":candidate_unique_count,"candidate_contact_count":candidate_contact_count,
                 "candidate_slots":candidate_slots},
             "gpu_geometry":gpu_geometry,
@@ -1421,7 +1422,7 @@ mod tests {
         }).unwrap();
         b3_world_write_core_state(world,&path,2).unwrap();
         let frames:Vec<Value>=std::fs::read_to_string(&path).unwrap().lines().map(|s|serde_json::from_str(s).unwrap()).collect();
-        assert_eq!(frames[0]["schema"],"gpu-core-state-v23");
+        assert_eq!(frames[0]["schema"],"gpu-core-state-v24");
         let first=&frames[0]["contacts"][0];let second=&frames[1]["contacts"][0];
         assert_eq!(first["count"],1);
         assert_eq!(first["points"],second["points"],"active point unchanged");

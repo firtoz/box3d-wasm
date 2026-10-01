@@ -1,0 +1,140 @@
+{
+  "status": "complete",
+  "purpose": "Required pre-commit visual snapshots; no performance acceptance or timing campaign",
+  "runs": [
+    {
+      "engine": "cpu",
+      "scenes": [
+        "single-box",
+        "box-stack",
+        "sphere-stack",
+        "capsule-stack",
+        "revolute",
+        "weld",
+        "stack",
+        "pyramid",
+        "bounce",
+        "mixed",
+        "spinner",
+        "ramp",
+        "spheres",
+        "dominoes",
+        "high-resistance",
+        "mixed-stacks",
+        "falling-cubes",
+        "anchored-mechanisms",
+        "joint-chain"
+      ],
+      "frames": 300,
+      "view": null,
+      "command": [
+        "bash",
+        "scripts/record-box3d-oracle.sh",
+        "000-box3d-cpu"
+      ],
+      "exit": 0,
+      "environment": {
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines",
+        "GPU_RECORD_BIN": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/gpu-physics-frozen",
+        "GPU_RECORD_ORACLE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/box3d-oracle-frozen"
+      },
+      "log_sha256": "7e5aea869c12618c8c9b0b17f2c30f3eed20a822906a442668aca59d7cf4585a"
+    },
+    {
+      "engine": "cpu",
+      "scenes": [
+        "mixed-topology"
+      ],
+      "frames": 300,
+      "view": "-220,290,-300,95,8,145",
+      "command": [
+        "bash",
+        "scripts/record-box3d-oracle.sh",
+        "000-box3d-cpu"
+      ],
+      "exit": 0,
+      "environment": {
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines",
+        "GPU_RECORD_BIN": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/gpu-physics-frozen",
+        "GPU_RECORD_ORACLE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/box3d-oracle-frozen",
+        "GPU_RECORD_VIEW": "-220,290,-300,95,8,145"
+      },
+      "log_sha256": "d7577712840de037cab698e70285868310c08522253cdedf62c5bb9bf732f71b"
+    },
+    {
+      "engine": "gpu",
+      "scenes": [
+        "single-box",
+        "box-stack",
+        "sphere-stack",
+        "capsule-stack",
+        "revolute",
+        "weld",
+        "stack",
+        "pyramid",
+        "bounce",
+        "mixed",
+        "spinner",
+        "ramp",
+        "spheres",
+        "dominoes",
+        "high-resistance",
+        "mixed-stacks",
+        "falling-cubes",
+        "anchored-mechanisms",
+        "joint-chain"
+      ],
+      "frames": 300,
+      "view": null,
+      "command": [
+        "bash",
+        "scripts/record-snapshot.sh",
+        "2026-10-01-native-diagnostics"
+      ],
+      "exit": 0,
+      "environment": {
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines",
+        "GPU_RECORD_BIN": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/gpu-physics-frozen",
+        "GPU_RECORD_ORACLE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/box3d-oracle-frozen"
+      },
+      "log_sha256": "f489c4a3aeccee25081f96ed0dce51bae524582bf3c5345e96a4657a12ca4527"
+    },
+    {
+      "engine": "gpu",
+      "scenes": [
+        "mixed-topology"
+      ],
+      "frames": 300,
+      "view": "-220,290,-300,95,8,145",
+      "command": [
+        "bash",
+        "scripts/record-snapshot.sh",
+        "2026-10-01-native-diagnostics"
+      ],
+      "exit": 0,
+      "environment": {
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines",
+        "GPU_RECORD_BIN": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/gpu-physics-frozen",
+        "GPU_RECORD_ORACLE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/box3d-oracle-frozen",
+        "GPU_RECORD_VIEW": "-220,290,-300,95,8,145"
+      },
+      "log_sha256": "28e09e7fbbbdf7aa315ccdf4f1f28e49f377937f13c0c6ab6f64e89f10a4716a"
+    }
+  ]
+}

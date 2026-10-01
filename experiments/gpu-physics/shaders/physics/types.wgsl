@@ -420,6 +420,8 @@ fn contact_hash_cap() -> u32 { return 2u * pair_cap(); }
 const QUERY_RETIRE_COMMAND: u32 = 32u;
 // Monotonic exclusive slot bound; survives retirement and scene-buffer growth.
 const QUERY_CONTACT_HIGH_WATER: u32 = 73u;
+// Diagnostic occupancy peak; not consumed by scheduling or constraint solving.
+const QUERY_NATIVE_CONTACT_PEAK: u32 = 74u;
 const SCR_PAIR_N: u32 = 0u;
 const SCR_INSERT_N: u32 = 1u;
 const SCR_UNIQUE_N: u32 = 2u;

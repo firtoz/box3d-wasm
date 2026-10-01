@@ -1,0 +1,34 @@
+{
+  "baseline_gpu_processes": 2,
+  "candidate_C_processes": 8,
+  "candidate_Rust_processes": 4,
+  "selected_regression_invocations": 16,
+  "storage_suite": 1,
+  "storage_controls_passed": 16,
+  "timing_runs": 0,
+  "status": "focused diagnostics pass; 40 standard clips validated/reviewed; viewer campaign stopped on tab-selection harness failure; broader PR02 open",
+  "gpu_campaign_failure_count": 0,
+  "before_campaign_build_repairs": [
+    "Two source-edit/build command cwd errors; no GPU trial launched. One C syntax screen rejected mistaken b3Hull fixture type; repaired to b3BoxHull.base before compilation/trials. Preliminary Rust build receipt omitted Box3D C/header inputs; kept locally and superseded with complete before/after input archives before GPU trials."
+  ],
+  "source_applicability": "CMake include path for viewer diagnostics and native_shared.inc generator dependency were added after the C campaign. They affect viewer build/dependency discovery; C/Rust implementation and generated adapter sources tested in the campaign are unchanged. Verify compiled viewer inputs separately.",
+  "viewer_builds": {
+    "ordinary-gpu": "built",
+    "ordinary-both": "built",
+    "native-gpu": "built",
+    "native-both": "built"
+  },
+  "recordings": {
+    "cpu": 20,
+    "gpu": 20,
+    "validated_frames": 300,
+    "reviewed": true,
+    "timing_runs": 0
+  },
+  "viewer_interaction": {
+    "consumed_apps": 2,
+    "budget_apps": 5,
+    "status": "stopped-harness-failure",
+    "qualified": "ordinary GPU Profile observed; Counters/Frame Time not qualified"
+  }
+}

@@ -1,0 +1,554 @@
+{
+  "status": "built",
+  "inputs_before": {
+    "../../box3d/CMakeLists.txt": "d182d5af0e6674cb6dcc11ae012bc5016534832ff2d9107b985d6df7303e4c9e",
+    "../../box3d/include/box3d/base.h": "f3e137ec8930a3ecfa2ebb969f8f8419b1f04498fdb907b92fca569e295d69ef",
+    "../../box3d/include/box3d/box3d.h": "7b9f94783a34cc46d2f9fb4fbc27180ba122b3bd0c5ca9f2d6ae8f4925e30b6d",
+    "../../box3d/include/box3d/collision.h": "7757eedf8c3587deea0ee7d19022929c7058725e889a712427965edddee24668",
+    "../../box3d/include/box3d/config.h": "3435ee19866d5b52bc93a9410a870cc2a193cd74f69e6bde1c0ea2b14bc34105",
+    "../../box3d/include/box3d/constants.h": "781bda6496a2e68beca01a1f730a980e77828ff0586d12056ffff6eb490897bd",
+    "../../box3d/include/box3d/id.h": "b7064764f63390b0ed50f7079d8777fd87a51c5777216861536c24e8b8d88bab",
+    "../../box3d/include/box3d/math_functions.h": "d9a0d6e1248f35f56d474aa1c4f616a279172f6a9cad53fa18da53dab89d0005",
+    "../../box3d/include/box3d/types.h": "d39bd492bb6599b1ba8c308f8f3d901e19b190d2db65fff2e7b833a3511bc5b7",
+    "../../box3d/src/CMakeLists.txt": "f40a81e4aba70a5ef433e6cdac16378480156c67b100bdae9cd7f082f72824c0",
+    "../../box3d/src/aabb.c": "755891eef413119f13649415e4fc4ffc860d8954bb93569f34885f04ce984dc6",
+    "../../box3d/src/aabb.h": "e26554dde0738614c58e75aa6b8e3c0c842516d42da02e651532a106dbf29f68",
+    "../../box3d/src/algorithm.h": "5aa5fc1c58df27cf74e302ecad39372896d87f40b6524a71f177a177e0d6112c",
+    "../../box3d/src/arena_allocator.c": "970c9436b31ec137787a8595be9291729d19607e8043cd8b30b4794de2c2faf5",
+    "../../box3d/src/arena_allocator.h": "189df60d7e2325e68db1fca5fc05640ff7726f75f1748b4e102b41dc1c3672bd",
+    "../../box3d/src/bitset.c": "b0c4ad60ac23992e20df5a1a16931fc453d5559ed8238296d5c5da3e60625d18",
+    "../../box3d/src/bitset.h": "4f004fa43f34b505aae3e3461c52945d57624483896754e90a77b553504a4e22",
+    "../../box3d/src/block_allocator.c": "1e7bc681f2125567f3a2e73cfc48e507d98c64c4f52a7c4461d721c4f1f3b2f9",
+    "../../box3d/src/block_allocator.h": "2cd56523651f0fec692b8e3bf4a9a53565e625f5614d90fe080eba914c27fda6",
+    "../../box3d/src/body.c": "269178119c6a895ae4be3204c8d8151cfc5120541458e4b13992e97ffcbfd050",
+    "../../box3d/src/body.h": "1b815f853ee4f62e31235e262c4e1f77e223c9dde10035cf8464547032ebc674",
+    "../../box3d/src/broad_phase.c": "3171e243be540b63579133e37170fb95da111ff626a77c4eaea98359721c2a3d",
+    "../../box3d/src/broad_phase.h": "03173cceecbbbb6d721393027dc7d939eb32d6d51610d1aa614955a4126e3325",
+    "../../box3d/src/capsule.c": "641cc1ad1e07d6134e407d693edfbef489c14eb40e8ed82a324e0a1189c85e5b",
+    "../../box3d/src/compound.c": "328e75c2a3f4417723439210099be431bf49bb8a59ad7bb0bda687ee6ea0dfa4",
+    "../../box3d/src/compound.h": "9f6ef9132628c0a1e9ee9db58a2738557983bb7127ed74e85bb33a3dcca17819",
+    "../../box3d/src/constraint_graph.c": "4b41229621feb1fcdf5d563a8e14ccc65a2040859d23664f607dfb64ba286dbf",
+    "../../box3d/src/constraint_graph.h": "811a238bc13f4cf85296008dac0b400a6d201e0337c4e17dfa5766dd0de60f57",
+    "../../box3d/src/contact.c": "79a8ac03d71fbb312de358a1a856178f17a70b1954ac3967b45e33132e4de68d",
+    "../../box3d/src/contact.h": "049c275eed4001a569f5c0bbbac03e802644900f7dff47c99ffa65fb42428677",
+    "../../box3d/src/contact_solver.c": "1e33e2b713c7ed62ed89f0fafb9c260b523b0f9d2f191133aee7263cf152b694",
+    "../../box3d/src/contact_solver.h": "4bcc3e8e0f24e29247b0aa4a083a62b354edb984ba47b7ce919e01830f0abf35",
+    "../../box3d/src/container.h": "1cd32480c56f5dc7b3c773e756ed0dd097594f825bee2e564ddfadbee0d9814d",
+    "../../box3d/src/convex_manifold.c": "e70eacbe8a49150d93182d6dd4518db42979b93fc80ad3a69f8d96a312d1c3c4",
+    "../../box3d/src/core.c": "888bc33068688bbf259ba9a82270c2f5bf6a0bc1a9ac80d15671a91d7bd909da",
+    "../../box3d/src/core.h": "b154094bc5ced78f0e26be84fbc5ba95e50584a792d3d3a66f967768ed18a1e6",
+    "../../box3d/src/ctz.h": "052af89db1c951b40119a58d0407f9b6d2032f98452b110b2f6b055481882e0a",
+    "../../box3d/src/distance.c": "f7d0f16624150e125c739d3b71bf9bfb18525ebfc95a25bede09e9866f5111d2",
+    "../../box3d/src/distance_joint.c": "416cb32cd3b84d924ccd2c8cecb5b569424f705b4c5f979575cd9f4f2318f3f9",
+    "../../box3d/src/dynamic_tree.c": "7330b99f829f0de24acd43483a9ecf24e857832cc594b07c8cb23c455f38ef4f",
+    "../../box3d/src/height_field.c": "b2ad737cf3d4fc95f98ba6ab8a8fb11bba0a76d67da42cbd12a83310bbe16b98",
+    "../../box3d/src/hull.c": "4ba4620e395724c8a2120ac29c32fd4a7df5271b53adbfe67d8d2cd6e1131023",
+    "../../box3d/src/hull.h": "33ae5f8a9b07d000dacbaef116c691c9d01da58898160a8c9dc8d052427a0427",
+    "../../box3d/src/id_pool.c": "f6702465f07520ef4b74d7ca970409bc60bbec4ea4afd31f51257b361ad5c4f0",
+    "../../box3d/src/id_pool.h": "6f550f715337d37c987f95c4ff93ef25bd8c8883379d044109dbb2261c4487bf",
+    "../../box3d/src/island.c": "25005a467f0567dd223472bff5d81e42c1048e50d342b64ed826a261fd1ce1c7",
+    "../../box3d/src/island.h": "e1ab0b3dad9826160783a38a35bff6b03b4018360c705eb16e5cd23eed1bd00c",
+    "../../box3d/src/joint.c": "f96af87e44f60dd3fd65e91225f7b2a92d4e8be8d09b7aefccf4ec14dda12439",
+    "../../box3d/src/joint.h": "9a2e325d3e3ad2d1504bb9826d9489f30dbaa98503d2fd14eb59b5734f1d5cc8",
+    "../../box3d/src/manifold.c": "e7fda02419fe48c194ef72effcc481e2dfb6953f95fa30eac67351f268bdb1a4",
+    "../../box3d/src/manifold.h": "1b9881860901cf559fa111f701ed5512511cac02dafc6a6558c7db0aa4870ec0",
+    "../../box3d/src/math_functions.c": "082ffb9210244ee40390fcba9ce098a7846648f40a0db7dee5d360b97a693975",
+    "../../box3d/src/math_internal.h": "2a4bd5ad253ae78d8b56416daad0e8aba6704fe7d8d290b2a857d929a36676c2",
+    "../../box3d/src/mesh.c": "065b9f21b08686312067392565150527e4cfd34193640235e8e9960f113d6960",
+    "../../box3d/src/mesh_contact.c": "4f075047d15ca045a5cdc0e1ec892a975071ff9d32647d699838b871fbff6d08",
+    "../../box3d/src/motor_joint.c": "b7e8af4619c51e4bcf33f6fc7a54079f6feea4fa77952ce9364d9110c5cd3f18",
+    "../../box3d/src/mover.c": "665d322ba6271997b76802361cbbc3d5433e91b9ffa030cc9b03c2a9d0b0b70e",
+    "../../box3d/src/name_cache.c": "99eda2fc72f21d401defa56f4889280bb0c2d349b1ff241c0f48b4bd42acd9fd",
+    "../../box3d/src/name_cache.h": "556b86c019be94919256a0f5b6d3f9a1882dbaff45e34a9abc244a05bc3216ff",
+    "../../box3d/src/parallel_for.c": "f7775047ca95e38083416289deee42b6cbd1ce3a12756a06b846551b77e0ec58",
+    "../../box3d/src/parallel_for.h": "4afdf17d45eb45ffbfb5c9fed655eafb16ebd88bc040419cc58f618aa7c5f0a9",
+    "../../box3d/src/parallel_joint.c": "d50ed0139cf8fd62a4f2e20d6982a623408ae2e38b83554b60ed2c76d072faca",
+    "../../box3d/src/physics_world.c": "42de8d9b1c6743f9a8af3ceec334d615735d604319a1d5759fd4104ad744f032",
+    "../../box3d/src/physics_world.h": "942c04adff72feba57c4afa670029e01ad6fbc6aaf7b31d83373e4d564717fed",
+    "../../box3d/src/platform.h": "5b55b50595065bfdb763586d40595877f8da67313b1f02e7ad2e55f09e529ab9",
+    "../../box3d/src/prismatic_joint.c": "6f36772625730794cab6877b3018499a4870527e150ebc6d4455923e98c57c23",
+    "../../box3d/src/qsort.h": "24ed4997b78ddfd913cc45eb965f310074ab6ff0983645c68fdd92221a061d63",
+    "../../box3d/src/rapidhash.h": "337258afbe3e6254ef684f1fcf1df87b2e7d957351794f5d06da7d242dd6e2d8",
+    "../../box3d/src/recording.c": "71d8c41592f9658116bbd18deb7a11cbaaef798e0928906eb76ca19f97f1d87e",
+    "../../box3d/src/recording.h": "1b50c0e1421b833119721507c996b9ff1d612d833d5a2282146054bba3bc2638",
+    "../../box3d/src/recording_replay.c": "950d837ec6192a30743767e3eff8ac88de950f10d1bdc673f776114ec05c1ed2",
+    "../../box3d/src/recording_replay.h": "845ccadab93cbc810d0d040b5bbe7e3191718be7f4a62dbf40b115ad32184358",
+    "../../box3d/src/revolute_joint.c": "c313673faa6d1f14e88da4a1c9106ab617d5bde70fed4b1a4ef136aacda42a24",
+    "../../box3d/src/scheduler.c": "063c0e8d72d4a574cb9abc0178c86466af4e491692d63dad2cf3d0e15d62cdec",
+    "../../box3d/src/scheduler.h": "24411bca36ed788872d80c9814b7b1ed62efada2116658a5ade9dafff0218e8a",
+    "../../box3d/src/sensor.c": "324d4385d1ef1f1c83036c62808463eb93e4165ce2b2c358642c4f52421bce76",
+    "../../box3d/src/sensor.h": "aaa3e44438ddc41070470609666044e28394ca74a2d9bdecc652b44a91a79dd2",
+    "../../box3d/src/shape.c": "d2ba06bc042e08142a872bdcc0e5fca5074e3140ea15d420d8b1dd7ff2cb83b3",
+    "../../box3d/src/shape.h": "8cf5499ee61e2d70dcc8c3971a051631b78291b0587450faf6022f463b749e9f",
+    "../../box3d/src/simd.c": "58c8bcb6200575cc96e7b80964fd4d393048e425ea95d5cb66e988b0faa2f9e6",
+    "../../box3d/src/simd.h": "f1005bacbbeeac722e5b432efc735b63bd3c0df2b1abb7ed3d837087cf688a40",
+    "../../box3d/src/solver.c": "25e0f58f9d7d803be88ce0d2d3a424b902d41ff3bd3e01310a1ca7820f76d926",
+    "../../box3d/src/solver.h": "51cb80d7b55060f9e6c74da5760d91ed99c81050126a6a6318371e2457325bee",
+    "../../box3d/src/solver_set.c": "5bc5a4989e6dd1df8419ac98cd78c473d47c2f5c2232f3f7024c1e59e431da32",
+    "../../box3d/src/solver_set.h": "1c1a3004a4a55c0bc7b30aebdbfd84983e2bfcf6c72a623939f053e9223a094b",
+    "../../box3d/src/sphere.c": "2ffd6d37d8c05f079425366aee983c1397a614341a5f0e0f3f6f56a1f352d3d6",
+    "../../box3d/src/spherical_joint.c": "4c23e6854541db16d33d4cab3bae331ff919e623a683575691cd0dc2025d8b60",
+    "../../box3d/src/table.c": "019652d001913c063dda7ae6515161f5b58900bd99fb7d0da2c75c55a3c01158",
+    "../../box3d/src/table.h": "9a6000699f4619c99436dd0cea9c78093e16bbb6ae7fbee648c0bf36101b0177",
+    "../../box3d/src/timer.c": "61c5e86efad816d329564fe6c9d8de36563d87c90d6fe54bb846499df1f33821",
+    "../../box3d/src/triangle_manifold.c": "dd2e473bad4a75ca0435ae8b1ec540cd4b6f260b55fa078844d4e622b0db7d55",
+    "../../box3d/src/types.c": "d272b2b3bf59bbe48e0def2be7ce44402880323fbb0a212963122e5a01fea120",
+    "../../box3d/src/verstable.h": "f1db172f4755365af79b1f7ad261669846a8331d273619e39ae4eff50e53d762",
+    "../../box3d/src/weld_joint.c": "0143555d880e18ac4e6c43fe5c3fbd1dc25213efe20d4c94472bf3c4ba274604",
+    "../../box3d/src/wheel_joint.c": "9f22019768fbc24fd28b1d5ddc1afa76b284f86d9f73a170200fab39aee0fe38",
+    "../../box3d/src/world_snapshot.c": "387c53738e202f9fff02c43dfac5dc236158df534320d1ea548331972b3d5456",
+    "../../box3d/src/world_snapshot.h": "a1ae501b8afb39c4e790dcc36e62a449e8c2f291563d2b707d3f960ec3133627",
+    "oracle/CMakeLists.txt": "8a44539dc3131c69b0324aa61a18200d88deaa51e4581b6f8ce7465969585050",
+    "oracle/build-viewer/CMakeFiles/4.4.3/CompilerIdC/CMakeCCompilerId.c": "6ccdb729a0b1d02ba3d9b57e617d311fbac288d9c0d32416c048ef044157f041",
+    "oracle/build-viewer/CMakeFiles/4.4.3/CompilerIdCXX/CMakeCXXCompilerId.cpp": "5b0cbdb2a0d0a5b91a89026321eb0202fdecb22328eb5c668566ce5cb17e3cd2",
+    "oracle/oracle.cpp": "c885c465e24a02f079f6c80510b9363b568e51244b56e1406b007c969fbae36f",
+    "oracle/viewer_bridge.cpp": "57370223b94a4df878cc1ad2f365487b0bcecfbb30a9afb10269066007b58201"
+  },
+  "commands": [
+    {
+      "command": [
+        "cmake",
+        "-S",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/oracle",
+        "-B",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+      ],
+      "exit": 0,
+      "log_sha256": "7822a70409829dede43b03b8c37268cbde1ad7cd7047caab1128af9c8103e2c5"
+    },
+    {
+      "command": [
+        "cmake",
+        "--build",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake",
+        "--target",
+        "box3d_oracle",
+        "-j4"
+      ],
+      "exit": 0,
+      "log_sha256": "5a9c995831caabb9452ea82b2982758d45705f8a51ea00b711e2b3d5555bfa55"
+    }
+  ],
+  "inputs_after": {
+    "../../box3d/CMakeLists.txt": "d182d5af0e6674cb6dcc11ae012bc5016534832ff2d9107b985d6df7303e4c9e",
+    "../../box3d/include/box3d/base.h": "f3e137ec8930a3ecfa2ebb969f8f8419b1f04498fdb907b92fca569e295d69ef",
+    "../../box3d/include/box3d/box3d.h": "7b9f94783a34cc46d2f9fb4fbc27180ba122b3bd0c5ca9f2d6ae8f4925e30b6d",
+    "../../box3d/include/box3d/collision.h": "7757eedf8c3587deea0ee7d19022929c7058725e889a712427965edddee24668",
+    "../../box3d/include/box3d/config.h": "3435ee19866d5b52bc93a9410a870cc2a193cd74f69e6bde1c0ea2b14bc34105",
+    "../../box3d/include/box3d/constants.h": "781bda6496a2e68beca01a1f730a980e77828ff0586d12056ffff6eb490897bd",
+    "../../box3d/include/box3d/id.h": "b7064764f63390b0ed50f7079d8777fd87a51c5777216861536c24e8b8d88bab",
+    "../../box3d/include/box3d/math_functions.h": "d9a0d6e1248f35f56d474aa1c4f616a279172f6a9cad53fa18da53dab89d0005",
+    "../../box3d/include/box3d/types.h": "d39bd492bb6599b1ba8c308f8f3d901e19b190d2db65fff2e7b833a3511bc5b7",
+    "../../box3d/src/CMakeLists.txt": "f40a81e4aba70a5ef433e6cdac16378480156c67b100bdae9cd7f082f72824c0",
+    "../../box3d/src/aabb.c": "755891eef413119f13649415e4fc4ffc860d8954bb93569f34885f04ce984dc6",
+    "../../box3d/src/aabb.h": "e26554dde0738614c58e75aa6b8e3c0c842516d42da02e651532a106dbf29f68",
+    "../../box3d/src/algorithm.h": "5aa5fc1c58df27cf74e302ecad39372896d87f40b6524a71f177a177e0d6112c",
+    "../../box3d/src/arena_allocator.c": "970c9436b31ec137787a8595be9291729d19607e8043cd8b30b4794de2c2faf5",
+    "../../box3d/src/arena_allocator.h": "189df60d7e2325e68db1fca5fc05640ff7726f75f1748b4e102b41dc1c3672bd",
+    "../../box3d/src/bitset.c": "b0c4ad60ac23992e20df5a1a16931fc453d5559ed8238296d5c5da3e60625d18",
+    "../../box3d/src/bitset.h": "4f004fa43f34b505aae3e3461c52945d57624483896754e90a77b553504a4e22",
+    "../../box3d/src/block_allocator.c": "1e7bc681f2125567f3a2e73cfc48e507d98c64c4f52a7c4461d721c4f1f3b2f9",
+    "../../box3d/src/block_allocator.h": "2cd56523651f0fec692b8e3bf4a9a53565e625f5614d90fe080eba914c27fda6",
+    "../../box3d/src/body.c": "269178119c6a895ae4be3204c8d8151cfc5120541458e4b13992e97ffcbfd050",
+    "../../box3d/src/body.h": "1b815f853ee4f62e31235e262c4e1f77e223c9dde10035cf8464547032ebc674",
+    "../../box3d/src/broad_phase.c": "3171e243be540b63579133e37170fb95da111ff626a77c4eaea98359721c2a3d",
+    "../../box3d/src/broad_phase.h": "03173cceecbbbb6d721393027dc7d939eb32d6d51610d1aa614955a4126e3325",
+    "../../box3d/src/capsule.c": "641cc1ad1e07d6134e407d693edfbef489c14eb40e8ed82a324e0a1189c85e5b",
+    "../../box3d/src/compound.c": "328e75c2a3f4417723439210099be431bf49bb8a59ad7bb0bda687ee6ea0dfa4",
+    "../../box3d/src/compound.h": "9f6ef9132628c0a1e9ee9db58a2738557983bb7127ed74e85bb33a3dcca17819",
+    "../../box3d/src/constraint_graph.c": "4b41229621feb1fcdf5d563a8e14ccc65a2040859d23664f607dfb64ba286dbf",
+    "../../box3d/src/constraint_graph.h": "811a238bc13f4cf85296008dac0b400a6d201e0337c4e17dfa5766dd0de60f57",
+    "../../box3d/src/contact.c": "79a8ac03d71fbb312de358a1a856178f17a70b1954ac3967b45e33132e4de68d",
+    "../../box3d/src/contact.h": "049c275eed4001a569f5c0bbbac03e802644900f7dff47c99ffa65fb42428677",
+    "../../box3d/src/contact_solver.c": "1e33e2b713c7ed62ed89f0fafb9c260b523b0f9d2f191133aee7263cf152b694",
+    "../../box3d/src/contact_solver.h": "4bcc3e8e0f24e29247b0aa4a083a62b354edb984ba47b7ce919e01830f0abf35",
+    "../../box3d/src/container.h": "1cd32480c56f5dc7b3c773e756ed0dd097594f825bee2e564ddfadbee0d9814d",
+    "../../box3d/src/convex_manifold.c": "e70eacbe8a49150d93182d6dd4518db42979b93fc80ad3a69f8d96a312d1c3c4",
+    "../../box3d/src/core.c": "888bc33068688bbf259ba9a82270c2f5bf6a0bc1a9ac80d15671a91d7bd909da",
+    "../../box3d/src/core.h": "b154094bc5ced78f0e26be84fbc5ba95e50584a792d3d3a66f967768ed18a1e6",
+    "../../box3d/src/ctz.h": "052af89db1c951b40119a58d0407f9b6d2032f98452b110b2f6b055481882e0a",
+    "../../box3d/src/distance.c": "f7d0f16624150e125c739d3b71bf9bfb18525ebfc95a25bede09e9866f5111d2",
+    "../../box3d/src/distance_joint.c": "416cb32cd3b84d924ccd2c8cecb5b569424f705b4c5f979575cd9f4f2318f3f9",
+    "../../box3d/src/dynamic_tree.c": "7330b99f829f0de24acd43483a9ecf24e857832cc594b07c8cb23c455f38ef4f",
+    "../../box3d/src/height_field.c": "b2ad737cf3d4fc95f98ba6ab8a8fb11bba0a76d67da42cbd12a83310bbe16b98",
+    "../../box3d/src/hull.c": "4ba4620e395724c8a2120ac29c32fd4a7df5271b53adbfe67d8d2cd6e1131023",
+    "../../box3d/src/hull.h": "33ae5f8a9b07d000dacbaef116c691c9d01da58898160a8c9dc8d052427a0427",
+    "../../box3d/src/id_pool.c": "f6702465f07520ef4b74d7ca970409bc60bbec4ea4afd31f51257b361ad5c4f0",
+    "../../box3d/src/id_pool.h": "6f550f715337d37c987f95c4ff93ef25bd8c8883379d044109dbb2261c4487bf",
+    "../../box3d/src/island.c": "25005a467f0567dd223472bff5d81e42c1048e50d342b64ed826a261fd1ce1c7",
+    "../../box3d/src/island.h": "e1ab0b3dad9826160783a38a35bff6b03b4018360c705eb16e5cd23eed1bd00c",
+    "../../box3d/src/joint.c": "f96af87e44f60dd3fd65e91225f7b2a92d4e8be8d09b7aefccf4ec14dda12439",
+    "../../box3d/src/joint.h": "9a2e325d3e3ad2d1504bb9826d9489f30dbaa98503d2fd14eb59b5734f1d5cc8",
+    "../../box3d/src/manifold.c": "e7fda02419fe48c194ef72effcc481e2dfb6953f95fa30eac67351f268bdb1a4",
+    "../../box3d/src/manifold.h": "1b9881860901cf559fa111f701ed5512511cac02dafc6a6558c7db0aa4870ec0",
+    "../../box3d/src/math_functions.c": "082ffb9210244ee40390fcba9ce098a7846648f40a0db7dee5d360b97a693975",
+    "../../box3d/src/math_internal.h": "2a4bd5ad253ae78d8b56416daad0e8aba6704fe7d8d290b2a857d929a36676c2",
+    "../../box3d/src/mesh.c": "065b9f21b08686312067392565150527e4cfd34193640235e8e9960f113d6960",
+    "../../box3d/src/mesh_contact.c": "4f075047d15ca045a5cdc0e1ec892a975071ff9d32647d699838b871fbff6d08",
+    "../../box3d/src/motor_joint.c": "b7e8af4619c51e4bcf33f6fc7a54079f6feea4fa77952ce9364d9110c5cd3f18",
+    "../../box3d/src/mover.c": "665d322ba6271997b76802361cbbc3d5433e91b9ffa030cc9b03c2a9d0b0b70e",
+    "../../box3d/src/name_cache.c": "99eda2fc72f21d401defa56f4889280bb0c2d349b1ff241c0f48b4bd42acd9fd",
+    "../../box3d/src/name_cache.h": "556b86c019be94919256a0f5b6d3f9a1882dbaff45e34a9abc244a05bc3216ff",
+    "../../box3d/src/parallel_for.c": "f7775047ca95e38083416289deee42b6cbd1ce3a12756a06b846551b77e0ec58",
+    "../../box3d/src/parallel_for.h": "4afdf17d45eb45ffbfb5c9fed655eafb16ebd88bc040419cc58f618aa7c5f0a9",
+    "../../box3d/src/parallel_joint.c": "d50ed0139cf8fd62a4f2e20d6982a623408ae2e38b83554b60ed2c76d072faca",
+    "../../box3d/src/physics_world.c": "42de8d9b1c6743f9a8af3ceec334d615735d604319a1d5759fd4104ad744f032",
+    "../../box3d/src/physics_world.h": "942c04adff72feba57c4afa670029e01ad6fbc6aaf7b31d83373e4d564717fed",
+    "../../box3d/src/platform.h": "5b55b50595065bfdb763586d40595877f8da67313b1f02e7ad2e55f09e529ab9",
+    "../../box3d/src/prismatic_joint.c": "6f36772625730794cab6877b3018499a4870527e150ebc6d4455923e98c57c23",
+    "../../box3d/src/qsort.h": "24ed4997b78ddfd913cc45eb965f310074ab6ff0983645c68fdd92221a061d63",
+    "../../box3d/src/rapidhash.h": "337258afbe3e6254ef684f1fcf1df87b2e7d957351794f5d06da7d242dd6e2d8",
+    "../../box3d/src/recording.c": "71d8c41592f9658116bbd18deb7a11cbaaef798e0928906eb76ca19f97f1d87e",
+    "../../box3d/src/recording.h": "1b50c0e1421b833119721507c996b9ff1d612d833d5a2282146054bba3bc2638",
+    "../../box3d/src/recording_replay.c": "950d837ec6192a30743767e3eff8ac88de950f10d1bdc673f776114ec05c1ed2",
+    "../../box3d/src/recording_replay.h": "845ccadab93cbc810d0d040b5bbe7e3191718be7f4a62dbf40b115ad32184358",
+    "../../box3d/src/revolute_joint.c": "c313673faa6d1f14e88da4a1c9106ab617d5bde70fed4b1a4ef136aacda42a24",
+    "../../box3d/src/scheduler.c": "063c0e8d72d4a574cb9abc0178c86466af4e491692d63dad2cf3d0e15d62cdec",
+    "../../box3d/src/scheduler.h": "24411bca36ed788872d80c9814b7b1ed62efada2116658a5ade9dafff0218e8a",
+    "../../box3d/src/sensor.c": "324d4385d1ef1f1c83036c62808463eb93e4165ce2b2c358642c4f52421bce76",
+    "../../box3d/src/sensor.h": "aaa3e44438ddc41070470609666044e28394ca74a2d9bdecc652b44a91a79dd2",
+    "../../box3d/src/shape.c": "d2ba06bc042e08142a872bdcc0e5fca5074e3140ea15d420d8b1dd7ff2cb83b3",
+    "../../box3d/src/shape.h": "8cf5499ee61e2d70dcc8c3971a051631b78291b0587450faf6022f463b749e9f",
+    "../../box3d/src/simd.c": "58c8bcb6200575cc96e7b80964fd4d393048e425ea95d5cb66e988b0faa2f9e6",
+    "../../box3d/src/simd.h": "f1005bacbbeeac722e5b432efc735b63bd3c0df2b1abb7ed3d837087cf688a40",
+    "../../box3d/src/solver.c": "25e0f58f9d7d803be88ce0d2d3a424b902d41ff3bd3e01310a1ca7820f76d926",
+    "../../box3d/src/solver.h": "51cb80d7b55060f9e6c74da5760d91ed99c81050126a6a6318371e2457325bee",
+    "../../box3d/src/solver_set.c": "5bc5a4989e6dd1df8419ac98cd78c473d47c2f5c2232f3f7024c1e59e431da32",
+    "../../box3d/src/solver_set.h": "1c1a3004a4a55c0bc7b30aebdbfd84983e2bfcf6c72a623939f053e9223a094b",
+    "../../box3d/src/sphere.c": "2ffd6d37d8c05f079425366aee983c1397a614341a5f0e0f3f6f56a1f352d3d6",
+    "../../box3d/src/spherical_joint.c": "4c23e6854541db16d33d4cab3bae331ff919e623a683575691cd0dc2025d8b60",
+    "../../box3d/src/table.c": "019652d001913c063dda7ae6515161f5b58900bd99fb7d0da2c75c55a3c01158",
+    "../../box3d/src/table.h": "9a6000699f4619c99436dd0cea9c78093e16bbb6ae7fbee648c0bf36101b0177",
+    "../../box3d/src/timer.c": "61c5e86efad816d329564fe6c9d8de36563d87c90d6fe54bb846499df1f33821",
+    "../../box3d/src/triangle_manifold.c": "dd2e473bad4a75ca0435ae8b1ec540cd4b6f260b55fa078844d4e622b0db7d55",
+    "../../box3d/src/types.c": "d272b2b3bf59bbe48e0def2be7ce44402880323fbb0a212963122e5a01fea120",
+    "../../box3d/src/verstable.h": "f1db172f4755365af79b1f7ad261669846a8331d273619e39ae4eff50e53d762",
+    "../../box3d/src/weld_joint.c": "0143555d880e18ac4e6c43fe5c3fbd1dc25213efe20d4c94472bf3c4ba274604",
+    "../../box3d/src/wheel_joint.c": "9f22019768fbc24fd28b1d5ddc1afa76b284f86d9f73a170200fab39aee0fe38",
+    "../../box3d/src/world_snapshot.c": "387c53738e202f9fff02c43dfac5dc236158df534320d1ea548331972b3d5456",
+    "../../box3d/src/world_snapshot.h": "a1ae501b8afb39c4e790dcc36e62a449e8c2f291563d2b707d3f960ec3133627",
+    "oracle/CMakeLists.txt": "8a44539dc3131c69b0324aa61a18200d88deaa51e4581b6f8ce7465969585050",
+    "oracle/build-viewer/CMakeFiles/4.4.3/CompilerIdC/CMakeCCompilerId.c": "6ccdb729a0b1d02ba3d9b57e617d311fbac288d9c0d32416c048ef044157f041",
+    "oracle/build-viewer/CMakeFiles/4.4.3/CompilerIdCXX/CMakeCXXCompilerId.cpp": "5b0cbdb2a0d0a5b91a89026321eb0202fdecb22328eb5c668566ce5cb17e3cd2",
+    "oracle/oracle.cpp": "c885c465e24a02f079f6c80510b9363b568e51244b56e1406b007c969fbae36f",
+    "oracle/viewer_bridge.cpp": "57370223b94a4df878cc1ad2f365487b0bcecfbb30a9afb10269066007b58201"
+  },
+  "binary_sha256": "848477c467c448fcbbd938127f411ba32ad0b87ab7343579c65efff9a3238250",
+  "binary": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/box3d-oracle-frozen",
+  "compile_commands": [
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake",
+      "command": "/usr/bin/c++  -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/oracle/../../../box3d/include -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -O3 -DNDEBUG -std=c++20 -fPIE -ffp-contract=off -o CMakeFiles/box3d_oracle.dir/oracle.cpp.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/oracle/oracle.cpp",
+      "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/oracle/oracle.cpp",
+      "output": "CMakeFiles/box3d_oracle.dir/oracle.cpp.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake",
+      "command": "/usr/bin/c++ -Dbox3d_viewer_cpu_EXPORTS -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/oracle/../../../box3d/include -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -O3 -DNDEBUG -std=gnu++20 -fPIC -ffp-contract=off -o CMakeFiles/box3d_viewer_cpu.dir/viewer_bridge.cpp.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/oracle/viewer_bridge.cpp",
+      "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/oracle/viewer_bridge.cpp",
+      "output": "CMakeFiles/box3d_viewer_cpu.dir/viewer_bridge.cpp.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/aabb.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/aabb.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/aabb.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/aabb.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/arena_allocator.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/arena_allocator.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/arena_allocator.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/arena_allocator.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/bitset.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/bitset.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/bitset.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/bitset.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/block_allocator.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/block_allocator.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/block_allocator.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/block_allocator.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/body.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/body.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/body.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/body.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/broad_phase.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/broad_phase.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/broad_phase.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/broad_phase.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/capsule.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/capsule.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/capsule.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/capsule.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/compound.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/compound.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/compound.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/compound.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/constraint_graph.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/constraint_graph.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/constraint_graph.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/constraint_graph.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/contact.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/contact.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/contact.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/contact.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/contact_solver.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/contact_solver.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/contact_solver.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/contact_solver.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/convex_manifold.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/convex_manifold.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/convex_manifold.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/convex_manifold.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/core.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/core.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/core.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/core.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/distance.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/distance.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/distance.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/distance.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/distance_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/distance_joint.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/distance_joint.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/distance_joint.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/dynamic_tree.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/dynamic_tree.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/dynamic_tree.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/dynamic_tree.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/height_field.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/height_field.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/height_field.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/height_field.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/hull.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/hull.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/hull.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/hull.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/id_pool.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/id_pool.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/id_pool.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/id_pool.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/island.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/island.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/island.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/island.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/joint.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/joint.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/joint.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/manifold.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/manifold.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/manifold.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/manifold.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/math_functions.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/math_functions.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/math_functions.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/math_functions.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/mesh.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/mesh.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/mesh.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/mesh.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/mesh_contact.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/mesh_contact.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/mesh_contact.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/mesh_contact.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/motor_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/motor_joint.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/motor_joint.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/motor_joint.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/mover.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/mover.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/mover.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/mover.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/name_cache.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/name_cache.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/name_cache.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/name_cache.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/parallel_for.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/parallel_for.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/parallel_for.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/parallel_for.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/parallel_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/parallel_joint.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/parallel_joint.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/parallel_joint.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/physics_world.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/physics_world.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/physics_world.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/physics_world.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/prismatic_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/prismatic_joint.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/prismatic_joint.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/prismatic_joint.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/recording.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/recording.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/recording.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/recording.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/recording_replay.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/recording_replay.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/world_snapshot.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/world_snapshot.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/world_snapshot.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/world_snapshot.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/revolute_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/revolute_joint.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/revolute_joint.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/revolute_joint.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/scheduler.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/scheduler.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/scheduler.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/scheduler.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/sensor.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/sensor.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/sensor.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/sensor.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/shape.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/shape.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/shape.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/shape.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/simd.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/simd.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/simd.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/simd.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/solver.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/solver.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/solver.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/solver.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/solver_set.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/solver_set.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/solver_set.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/solver_set.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/sphere.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/sphere.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/sphere.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/sphere.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/spherical_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/spherical_joint.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/spherical_joint.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/spherical_joint.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/table.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/table.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/table.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/table.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/timer.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/timer.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/timer.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/timer.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/triangle_manifold.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/triangle_manifold.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/triangle_manifold.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/triangle_manifold.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/types.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/types.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/types.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/types.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/weld_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/weld_joint.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/weld_joint.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/weld_joint.c.o"
+    },
+    {
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src",
+      "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake/box3d-build/src -I/home/firtoz/work/2026/box3d-wasm/box3d/src -O3 -DNDEBUG -std=gnu17 -fPIC -fvisibility=hidden -ffp-contract=off -Wmissing-prototypes -Wall -Wextra -pedantic -Wno-unused-value -o CMakeFiles/box3d.dir/wheel_joint.c.o -c /home/firtoz/work/2026/box3d-wasm/box3d/src/wheel_joint.c",
+      "file": "/home/firtoz/work/2026/box3d-wasm/box3d/src/wheel_joint.c",
+      "output": "box3d-build/src/CMakeFiles/box3d.dir/wheel_joint.c.o"
+    }
+  ]
+}

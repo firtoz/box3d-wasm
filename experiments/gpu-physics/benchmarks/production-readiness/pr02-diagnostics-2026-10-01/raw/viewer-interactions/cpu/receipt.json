@@ -1,0 +1,80 @@
+{
+  "configuration": "cpu",
+  "purpose": "Actual UI interaction/recording, not performance or broader physics qualification",
+  "binary_sha256": "b0a0551c4a45bd900b12c5b2c390a4c6f09b1b76cb71934a259440b80b459014",
+  "actions": [
+    {
+      "type": "key",
+      "symbol": 109
+    },
+    {
+      "type": "screenshot",
+      "name": "profile"
+    },
+    {
+      "type": "key",
+      "symbol": 65307
+    },
+    {
+      "type": "screenshot",
+      "name": "cpu-reference"
+    },
+    {
+      "type": "quit"
+    }
+  ],
+  "environment": {
+    "DISPLAY": ":97",
+    "GPU_BENCH_WIDTH": "1280",
+    "GPU_BENCH_HEIGHT": "720",
+    "GPU_PHYSICS_ADAPTER": "nvidia",
+    "GPU_PHYSICS_BACKEND": "vulkan",
+    "WGPU_BACKEND": "vulkan",
+    "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+    "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+    "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines",
+    "__NV_PRIME_RENDER_OFFLOAD": "0",
+    "__GLX_VENDOR_LIBRARY_NAME": "mesa",
+    "LIBGL_ALWAYS_SOFTWARE": "1"
+  },
+  "pid": 2952227,
+  "status": "complete",
+  "app_pid": 2952250,
+  "command": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/cpu-cmake/bin/samples_cpu",
+    "--sample-name",
+    "Single Box",
+    "--frames",
+    "7200"
+  ],
+  "capture_command": [
+    "ffmpeg",
+    "-hide_banner",
+    "-loglevel",
+    "warning",
+    "-f",
+    "x11grab",
+    "-draw_mouse",
+    "0",
+    "-framerate",
+    "30",
+    "-video_size",
+    "1280x720",
+    "-i",
+    ":97",
+    "-c:v",
+    "libx264",
+    "-preset",
+    "veryfast",
+    "-crf",
+    "20",
+    "-pix_fmt",
+    "yuv420p",
+    "-movflags",
+    "+faststart",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/viewer-interactions/cpu/clip.mp4"
+  ],
+  "exit": 0,
+  "capture_exit": 0,
+  "video_sha256": "6322aa312294404362ad027cb9e8ee49a0ee8b92ac1b6dceb970bcfcf58690fa"
+}

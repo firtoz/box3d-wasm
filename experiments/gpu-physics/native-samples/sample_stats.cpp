@@ -1,7 +1,9 @@
 #include "box3d/box3d.h"
 
 #include <stdint.h>
+#include <cmath>
 #include "contact_metrics.h"
+#include "native_diagnostics.h"
 
 #ifdef BOTH_SAMPLES
 extern "C" void gpu_samples_get_cpu_stats(b3WorldId worldId, b3Profile* profile, b3Counters* counters);
@@ -27,7 +29,8 @@ extern "C" float gpu_samples_last_import_ms(void);
 
 extern "C" void gpu_samples_draw_sidebar(b3WorldId worldId)
 {
-	b3Counters gpu = b3World_GetCounters(worldId);
+	b3Counters gpu = {};
+	gpu_b3_world_counts(worldId, &gpu.bodyCount, &gpu.shapeCount, &gpu.jointCount);
 
 	ImGui::SeparatorText("Physics");
 #ifdef BOTH_SAMPLES
@@ -90,4 +93,74 @@ extern "C" void gpu_samples_draw_sidebar(b3WorldId worldId)
 		ImGui::TextDisabled("poses: cpu snapshot; setters win over stale copy");
 	}
 	ImGui::TextDisabled("bodies %d  shapes %d  joints %d", gpu.bodyCount, gpu.shapeCount, gpu.jointCount);
+}
+
+extern "C" void gpu_samples_draw_native_profile(b3WorldId worldId)
+{
+    GpuNativeProfile profile = {};
+    gpu_b3_world_native_profile(worldId, &profile);
+    ImGui::Text("GPU device timestamps (ms), step %llu / physics %llu",
+        (unsigned long long)profile.timestamp_step, (unsigned long long)profile.physics_step);
+    if (profile.valid != GPU_DIAGNOSTIC_OK) {
+        ImGui::TextDisabled("GPU profile unavailable (status %u)", profile.valid);
+        return;
+    }
+    if (!profile.measured_fields) {
+        ImGui::TextDisabled("GPU timestamps pending or unavailable on this adapter");
+        return;
+    }
+    const unsigned fields[] = {0,1,2,3,4,9,10};
+    const char* names[] = {"device start..sleep", "broadphase", "narrowphase + graph",
+        "prepare + solve + integrate", "island preparation", "constraint solve aggregate",
+        "integration aggregate"};
+    for (unsigned row = 0; row < sizeof fields / sizeof *fields; ++row) {
+        const unsigned field = fields[row];
+        if ((profile.measured_fields & (1u << field)) && std::isfinite(profile.values[field]))
+            ImGui::Text("%s: %.3f ms", names[row], profile.values[field]);
+        else ImGui::TextDisabled("%s: unavailable", names[row]);
+    }
+    ImGui::TextDisabled("Aggregate rows overlap; do not add them.");
+    ImGui::TextDisabled("CPU substage timings are unavailable for GPU physics.");
+    if (profile.timestamp_step != profile.physics_step)
+        ImGui::TextDisabled("Latest timestamp is from an older physics step.");
+}
+
+extern "C" void gpu_samples_draw_native_counters(b3WorldId worldId)
+{
+    b3Counters counters = {};
+    const unsigned status = gpu_b3_world_native_counters(worldId, &counters);
+    if (status != GPU_DIAGNOSTIC_OK) {
+        ImGui::TextDisabled("GPU counters unavailable (status %u)", status);
+        return;
+    }
+    ImGui::Text("public bodies / shapes / contacts / joints: %d / %d / %d / %d",
+        counters.bodyCount, counters.shapeCount, counters.contactCount, counters.jointCount);
+    if (counters.islandCount >= 0) ImGui::Text("completed-step islands: %d", counters.islandCount);
+    else ImGui::TextDisabled("Island labels unavailable after topology mutation or before a step.");
+    ImGui::TextDisabled("Explicit counters synchronize contact records.");
+    int touching = 0;
+    for (int bucket = 0; bucket < B3_CONTACT_MANIFOLD_COUNT_BUCKETS; ++bucket) {
+        if (counters.manifoldCounts[bucket] < 0) continue;
+        touching += counters.manifoldCounts[bucket];
+        ImGui::Text("touching contacts with %d%s manifolds: %d", bucket + 1,
+            bucket + 1 == B3_CONTACT_MANIFOLD_COUNT_BUCKETS ? "+" : "", counters.manifoldCounts[bucket]);
+    }
+    ImGui::Text("touching public contacts: %d", touching);
+    ImGui::TextDisabled("CPU worker/tree/allocator/SAT/TOI and color/recycling counters unavailable.");
+    b3Capacity peak = {};
+    const unsigned peak_status = gpu_b3_world_native_max_capacity(worldId, &peak);
+    if (peak_status == GPU_DIAGNOSTIC_OK) {
+        ImGui::Text("peak live static shapes / bodies: %d / %d", peak.staticShapeCount, peak.staticBodyCount);
+        ImGui::Text("peak live dynamic + kinematic shapes / bodies: %d / %d", peak.dynamicShapeCount, peak.dynamicBodyCount);
+        ImGui::Text("peak pre-CCD non-sensor contact roots: %d", peak.contactCount);
+    } else ImGui::TextDisabled("Peak occupancy unavailable (status %u)", peak_status);
+    GpuNativeAllocation allocation = {};
+    gpu_b3_world_native_allocation(worldId, &allocation);
+    if (allocation.valid == GPU_DIAGNOSTIC_OK) {
+        ImGui::Text("primary owned GPU physics buffers: %llu bytes",
+            (unsigned long long)allocation.primary_buffer_bytes);
+        ImGui::Text("reserved body / shape / joint / contact slots: %u / %u / %u / %u",
+            allocation.body_capacity, allocation.shape_capacity, allocation.joint_capacity, allocation.contact_capacity);
+        ImGui::TextDisabled("Excludes staging, cache copies, pipelines, renderer and driver allocations.");
+    }
 }

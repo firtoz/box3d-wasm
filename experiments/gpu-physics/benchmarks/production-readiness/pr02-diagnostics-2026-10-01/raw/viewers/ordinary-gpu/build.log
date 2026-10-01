@@ -1,0 +1,9 @@
+[  0%] Built target shaders
+[  4%] Built target gpu_samples_api
+[ 37%] Built target imgui
+[ 46%] Built target box3d
+[ 48%] Built target nfd
+[ 54%] Built target shared
+[ 57%] Built target implot
+[ 74%] Built target gfx
+[100%] Built target samples_gpu

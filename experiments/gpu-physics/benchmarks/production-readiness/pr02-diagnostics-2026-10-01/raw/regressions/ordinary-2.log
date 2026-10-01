@@ -1,0 +1,31 @@
+
+running 1 test
+test api::world::world_counter_tests::contact_order_survives_body_capacity_growth_and_invalidates_proxy_changes ... GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+physics-pipeline-cache: loaded 21681305 bytes
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=1 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+GPU pose export: Vulkan opaque FD 23 (28672 bytes)
+gpu-alloc scene generation=2 bodies=512 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=274432 max=536870912
+gpu-alloc scene generation=0 bodies=512 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=274432 max=536870912
+gpu-scene-input shapes=1 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=274432
+GPU pose export: Vulkan opaque FD 24 (57344 bytes)
+gpu-alloc scene generation=0 bodies=512 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=274432 max=536870912
+gpu-scene-input shapes=0 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=274432
+live contact ordering disabled: proxy topology changed
+physics-pipeline-cache: save 21724645 bytes, success=true
+gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=1 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+GPU pose export: Vulkan opaque FD 23 (28672 bytes)
+gpu-alloc scene generation=2 bodies=512 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=274432 max=536870912
+gpu-alloc scene generation=0 bodies=512 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=274432 max=536870912
+gpu-scene-input shapes=1 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=274432
+GPU pose export: Vulkan opaque FD 24 (57344 bytes)
+live contact ordering disabled: explicit proxy movement
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 398 filtered out; finished in 1.00s
+

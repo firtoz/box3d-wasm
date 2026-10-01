@@ -882,6 +882,8 @@ pub struct GpuSim {
     #[cfg(not(target_arch = "wasm32"))]
     contact_metrics: Option<ContactMetrics>,
     #[cfg(not(target_arch = "wasm32"))]
+    native_contact_peak: u32,
+    #[cfg(not(target_arch = "wasm32"))]
     sticky_first_step: u32,
     #[cfg(not(target_arch = "wasm32"))]
     sticky_causes: [u32; 5],
@@ -1796,7 +1798,7 @@ impl GpuSim {
             #[cfg(not(target_arch = "wasm32"))]
             sticky_staging: device.create_buffer(&wgpu::BufferDescriptor {
                 label: Some("physics-sticky-status"),
-                size: 60,
+                size: 64,
                 usage: wgpu::BufferUsages::MAP_READ | wgpu::BufferUsages::COPY_DST,
                 mapped_at_creation: false,
             }),
@@ -1812,6 +1814,8 @@ impl GpuSim {
             sticky_pending_context: [0;2],
             #[cfg(not(target_arch = "wasm32"))]
             contact_metrics: None,
+            #[cfg(not(target_arch = "wasm32"))]
+            native_contact_peak: 0,
             contact_status_dirty: false,
             #[cfg(not(target_arch = "wasm32"))]
             sticky_first_step: 0,
@@ -3504,6 +3508,20 @@ impl GpuSim {
         self.ts_ring.as_ref().map(|ring| ring.last_step).unwrap_or(0)
     }
 
+    /// Actual sizes of the primary owned physics buffers. Excludes transient
+    /// staging, cache copies, pipelines, renderer and driver allocations.
+    pub fn primary_buffer_bytes(&self) -> u64 {
+        [&self.pass_lut, &self.bodies, &self.body_cold, &self.contacts,
+            &self.contact_persistent, &self.contact_prepared, &self.joints,
+            &self.scratch, &self.atom, &self.query, &self.indirect]
+            .into_iter().map(|buffer| buffer.size()).sum()
+    }
+
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn native_contact_peak(&self) -> u32 { self.native_contact_peak }
+
+    pub fn reserved_contact_capacity(&self) -> u32 { self.params.contact_capacity }
+
     pub fn physics_step(&self) -> u64 {
         self.physics_step
     }
@@ -3839,13 +3857,14 @@ impl GpuSim {
             enc.copy_buffer_to_buffer(&self.scratch, 2 * 4, &self.sticky_staging, 28, 4);
             enc.copy_buffer_to_buffer(&self.scratch, 5 * 4, &self.sticky_staging, 32, 4);
             enc.copy_buffer_to_buffer(&self.query, 67 * 4, &self.sticky_staging, 36, 24);
+            enc.copy_buffer_to_buffer(&self.query, u64::from(crate::types::QUERY_NATIVE_CONTACT_PEAK) * 4, &self.sticky_staging, 60, 4);
         }
     }
 
     #[cfg(not(target_arch = "wasm32"))]
     fn map_contact_status(&mut self) {
         if self.sticky_pending.is_none() {
-            let slice = self.sticky_staging.slice(..60);
+            let slice = self.sticky_staging.slice(..64);
             let (tx, rx) = oneshot();
             slice.map_async(wgpu::MapMode::Read, move |r| {
                 let _ = tx.send(r);
@@ -3889,7 +3908,7 @@ impl GpuSim {
         if !ready {
             return;
         }
-        let slice = self.sticky_staging.slice(..60);
+        let slice = self.sticky_staging.slice(..64);
         let data = slice.get_mapped_range();
         let words: &[u32] = bytemuck::cast_slice(&data);
         let pair = words.first().copied().unwrap_or(0);
@@ -3920,6 +3939,7 @@ impl GpuSim {
                 } else {None};
             }
         }
+        self.native_contact_peak = self.native_contact_peak.max(words[15]);
         self.contact_metrics = Some(ContactMetrics {
             step: self.sticky_pending_step,
             topology_revision: self.sticky_pending_context[0],
@@ -4926,7 +4946,7 @@ impl GpuSim {
             "native_reset_requested":self.native_reset_requested,"convex_ccd_present":self.convex_ccd.is_some(),"native":native,
             "sticky_loss":self.sticky_loss,"sticky_first_step":self.sticky_first_step,"sticky_causes":self.sticky_causes,
             "sticky_contact_reasons":self.sticky_contact_reasons,"metrics_context":self.metrics_context,
-            "sticky_pending_context":self.sticky_pending_context});
+            "sticky_pending_context":self.sticky_pending_context,"native_contact_peak":self.native_contact_peak});
         // The step decides whether finish_contact_status refreshes the
         // scheduling hints. Counts/revisions also remain observable through
         // the public metrics API; they are not disposable timing data.
@@ -5042,6 +5062,12 @@ impl GpuSim {
     pub(crate) fn read_diagnostic_contact_high_water(&mut self) -> u32 {
         let source=self.query.clone();
         self.read_diagnostic_records::<u32>(&source,73,1)[0]
+    }
+
+    #[cfg(all(feature = "replay-diagnostics", not(target_arch = "wasm32")))]
+    pub(crate) fn read_diagnostic_native_contact_peak(&mut self) -> u32 {
+        let source = self.query.clone();
+        self.read_diagnostic_records::<u32>(&source,crate::types::QUERY_NATIVE_CONTACT_PEAK,1)[0]
     }
 
     #[cfg(all(test, feature = "replay-diagnostics", not(target_arch = "wasm32")))]
@@ -5348,6 +5374,11 @@ impl GpuSim {
         encoder.copy_buffer_to_buffer(&old.query, 66 * 4, &self.query, 66 * 4, 4);
         // query word 73 is the monotonic dirty-contact bound (WGSL constant).
         encoder.copy_buffer_to_buffer(&old.query, 73 * 4, &self.query, 73 * 4, 4);
+        encoder.copy_buffer_to_buffer(&old.query,
+            u64::from(crate::types::QUERY_NATIVE_CONTACT_PEAK) * 4, &self.query,
+            u64::from(crate::types::QUERY_NATIVE_CONTACT_PEAK) * 4, 4);
+        #[cfg(not(target_arch = "wasm32"))]
+        { self.native_contact_peak = self.native_contact_peak.max(old.native_contact_peak); }
         copy(&mut encoder, &old.contacts, &self.contacts);
         copy(&mut encoder, &old.contact_persistent, &self.contact_persistent);
         copy(&mut encoder, &old.contact_prepared, &self.contact_prepared);

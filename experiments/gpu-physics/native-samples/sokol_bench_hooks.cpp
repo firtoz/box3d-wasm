@@ -1,5 +1,8 @@
 #include "sokol_bench_hooks.h"
 #include "contact_metrics.h"
+#if defined(GPU_PHYSICS_SAMPLES) || defined(BOTH_SAMPLES)
+#include "native_diagnostics.h"
+#endif
 #include "sokol_capacity.h"
 #include "../c_abi/spherical_limit_health.h"
 
@@ -779,12 +782,17 @@ void gpu_sokol_bench_note_world(b3WorldId world)
 	snprintf(g_acc.sample, sizeof g_acc.sample, "%s", g_sample);
 	// Native Bounce House deliberately launches at sqrt(120^2 + 120^2) m/s.
 	const float speed_limit = strcmp(g_sample, "Continuous/Bounce House") == 0 ? 180.0f : 120.0f;
-	b3Counters counters = b3World_GetCounters(world);
+	b3Counters counters = {};
+#if defined(GPU_PHYSICS_SAMPLES) || defined(BOTH_SAMPLES)
+    gpu_b3_world_counts(world, &counters.bodyCount, &counters.shapeCount, &counters.jointCount);
+#else
+    counters = b3World_GetCounters(world);
+#endif
 	g_acc.body_count = counters.bodyCount;
 	g_acc.joint_count = counters.jointCount;
     g_acc.contact_count = counters.contactCount;
 #if defined(GPU_PHYSICS_SAMPLES) || defined(BOTH_SAMPLES)
-    g_acc.contact_count_known = false; // Native public contact IDs are not implemented.
+    g_acc.contact_count_known = false; // Headline accounting does not synchronize public contact records.
     gpu_b3_world_contact_metrics(world, &g_acc.gpu_contacts);
 #else
     g_acc.contact_count_known = true;

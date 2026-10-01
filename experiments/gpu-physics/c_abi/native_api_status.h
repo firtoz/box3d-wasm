@@ -10,7 +10,8 @@ extern "C" {
 bool gpu_b3_native_api_is_unavailable(const char* operation);
 
 // An unavailable operation sets errno=ENOTSUP and a sticky, thread-local name.
-// NULL means no unavailable call since this thread's last explicit clear.
+// Invalid/busy/failed diagnostic queries set EINVAL/EBUSY/EIO respectively.
+// NULL means no API error since this thread's last explicit clear.
 // The returned string is static and must not be freed. This diagnostic does not
 // clear or replace the engine's sticky world/capacity failure status.
 const char* gpu_b3_native_api_last_error(void);
@@ -18,6 +19,7 @@ void gpu_b3_native_api_clear_error(void);
 
 // Internal adapter hook. Call only with a static operation-name string.
 void gpu_native_api_unavailable(const char* operation);
+void gpu_native_api_error(const char* operation, int error_code);
 
 #ifdef __cplusplus
 }

@@ -1,0 +1,48 @@
+{
+  "scope": "retained diagnostic baseline, no acceptance credit",
+  "compiled_adapter_receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-api/unavailable-routing/native-gpu/receipt.json",
+  "compiled_adapter_receipt_sha256": "145c8ee5943aaa07b77d0c5d559dfe62ab1003e5805635921a31391ae975e3d8",
+  "engine_build_receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/build-native.json",
+  "engine_build_receipt_sha256": "566c115b7afb803e28a0dc2b545b624c6c87319ca7743cbaec1a15fc162184b2",
+  "linked_inputs": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/native_diagnostics_fixture.cpp": "670a52f4dd3367be8fb0a3f67247a5bb58a286d1980d4c67df23c056dee5e4d3",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/native-frozen.a": "21bae1e5adc616e444d8d4dec603c233d294a215874a735eb1e6bda01bf11c13",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-api/unavailable-routing/native-gpu/cmake/libgpu_samples_api.a": "4bf448f20e8e304645bb0c8f6714753428800659c285cbe2546e539146ee2a56",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-api/unavailable-routing/native-gpu/cmake/box3d_src/libbox3d.a": "89a9885175a093466e480e39be39451b843bc7b40e86ca8f9259ee2faa9c1f1c"
+  },
+  "protocol_sha256": "d5dedc1153a22cdd4083f184358f665c2c97a17431bb8c69d8ba556936954e6c",
+  "binary_sha256": "f25410a2e79e5db0986210cbbe39f25a945f8d84487699147991e9ecfa3578f5",
+  "environment": {
+    "GPU_PHYSICS_GPU_CCD": "1",
+    "GPU_PHYSICS_AB": "bounded-static-sort",
+    "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+    "GPU_PHYSICS_FULL_REPLAY": "1",
+    "GPU_PHYSICS_GRAPH_SHARED": "1",
+    "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+    "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+    "GPU_PHYSICS_PAIR_MATRIX": "1",
+    "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+    "GPU_PHYSICS_RESIDENT": "1",
+    "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+    "GPU_PHYSICS_GRAPH_MEMO": "1",
+    "GPU_PHYSICS_COMPONENT_TGS": "1",
+    "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+    "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+    "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+    "WGPU_BACKEND": "vulkan",
+    "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+    "GPU_PHYSICS_BACKEND": "vulkan",
+    "GPU_PHYSICS_ADAPTER": "nvidia",
+    "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+    "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+  },
+  "runs": [
+    {
+      "trial": 1,
+      "exit": 0,
+      "stdout_sha256": "75b7bb08d9a895676b41dba0fb39767ee1d59403972711e817a23a8e92e1a0e9",
+      "stderr_sha256": "41d690ac262f78563e162e5f215738a788a052102577d56f02ea4fe3c01803c7"
+    }
+  ],
+  "status": "pass"
+}

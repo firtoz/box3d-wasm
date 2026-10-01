@@ -1,0 +1,480 @@
+{
+  "budget": 16,
+  "scope": "eight preserved diagnostic/island/capacity/lifetime regressions on both backends; not final physical matrix",
+  "protocol_sha256": "d5dedc1153a22cdd4083f184358f665c2c97a17431bb8c69d8ba556936954e6c",
+  "runs": [
+    {
+      "configuration": "ordinary",
+      "selector": "api::world::joint_event_tests::spawn_within_capacity_preserves_contact_buffers",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/ordinary-tests",
+        "api::world::joint_event_tests::spawn_within_capacity_preserves_contact_buffers",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit": 0,
+      "log_sha256": "407af702a260785daa6555b3e8765f208c0d1a5975e5dbd32aec1d806739e509",
+      "binary_sha256": "11b2c3cd5aab45ca755bf15f8138fb4f1b0d29a724a3b1686786cece59b1eafd",
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    },
+    {
+      "configuration": "ordinary",
+      "selector": "api::world::world_counter_tests::contact_order_survives_body_capacity_growth_and_invalidates_proxy_changes",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/ordinary-tests",
+        "api::world::world_counter_tests::contact_order_survives_body_capacity_growth_and_invalidates_proxy_changes",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit": 0,
+      "log_sha256": "757c83f98d4e15c2745809e65c93e3723a4e164e87cf0820dc673f3985e5f2a8",
+      "binary_sha256": "11b2c3cd5aab45ca755bf15f8138fb4f1b0d29a724a3b1686786cece59b1eafd",
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    },
+    {
+      "configuration": "ordinary",
+      "selector": "api::world::contact_metrics_tests::world_contact_metrics_track_mutations_callbacks_and_world_reuse",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/ordinary-tests",
+        "api::world::contact_metrics_tests::world_contact_metrics_track_mutations_callbacks_and_world_reuse",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit": 0,
+      "log_sha256": "337ed2132fb5c590c3748fedf1c1fd88d1cc15556c76c52d55da015012d09a2f",
+      "binary_sha256": "11b2c3cd5aab45ca755bf15f8138fb4f1b0d29a724a3b1686786cece59b1eafd",
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    },
+    {
+      "configuration": "ordinary",
+      "selector": "api::world::complete_component_tests::completed_wait_refreshes_stale_capacity_status",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/ordinary-tests",
+        "api::world::complete_component_tests::completed_wait_refreshes_stale_capacity_status",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit": 0,
+      "log_sha256": "98a2d07e257f9cf0587bf6fb98da46c3085708c3a20e4a5fbbce75818bd2878e",
+      "binary_sha256": "11b2c3cd5aab45ca755bf15f8138fb4f1b0d29a724a3b1686786cece59b1eafd",
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    },
+    {
+      "configuration": "ordinary",
+      "selector": "api::world::complete_component_tests::complete_components_merge_and_split_match_global_phases",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/ordinary-tests",
+        "api::world::complete_component_tests::complete_components_merge_and_split_match_global_phases",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit": 0,
+      "log_sha256": "44f7eaf12d9b6879c339c661ac873baa3fa771f875c89774aa370c604ab1ad54",
+      "binary_sha256": "11b2c3cd5aab45ca755bf15f8138fb4f1b0d29a724a3b1686786cece59b1eafd",
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    },
+    {
+      "configuration": "ordinary",
+      "selector": "api::world::state_trace::tests::trace_captures_contact_metrics_refresh_state",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/ordinary-tests",
+        "api::world::state_trace::tests::trace_captures_contact_metrics_refresh_state",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit": 0,
+      "log_sha256": "3f3576cce346e5777131507671b91383674d3e6c8ee4b9ae9379cc7a82272e8e",
+      "binary_sha256": "11b2c3cd5aab45ca755bf15f8138fb4f1b0d29a724a3b1686786cece59b1eafd",
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    },
+    {
+      "configuration": "ordinary",
+      "selector": "api::world::state_trace::tests::trace_rejects_undrained_contact_status",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/ordinary-tests",
+        "api::world::state_trace::tests::trace_rejects_undrained_contact_status",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit": 0,
+      "log_sha256": "4b2d8e3542f1ed0d7f459ed72c5197c5a32af06990b386ad2661f9255d0e7f7f",
+      "binary_sha256": "11b2c3cd5aab45ca755bf15f8138fb4f1b0d29a724a3b1686786cece59b1eafd",
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    },
+    {
+      "configuration": "ordinary",
+      "selector": "api::world::speculative_policy_tests::speculative_world_policy_survives_zero_steps_diagnostics_and_lifetimes",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/ordinary-tests",
+        "api::world::speculative_policy_tests::speculative_world_policy_survives_zero_steps_diagnostics_and_lifetimes",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit": 0,
+      "log_sha256": "625de4031092e26d260fa25389739bb79bae57c50f20cc749f453c2de098b7c8",
+      "binary_sha256": "11b2c3cd5aab45ca755bf15f8138fb4f1b0d29a724a3b1686786cece59b1eafd",
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    },
+    {
+      "configuration": "native",
+      "selector": "api::world::joint_event_tests::spawn_within_capacity_preserves_contact_buffers",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/native-tests",
+        "api::world::joint_event_tests::spawn_within_capacity_preserves_contact_buffers",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit": 0,
+      "log_sha256": "983f6fcef205f9341d274f03937a76f43b9e88511e7cebab874c47785a49d66f",
+      "binary_sha256": "3c35fbc9f6cfcef85294e624afb8ad7a311f4f2bba3c2941e6bf3245db6a8def",
+      "environment": {
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    },
+    {
+      "configuration": "native",
+      "selector": "api::world::world_counter_tests::contact_order_survives_body_capacity_growth_and_invalidates_proxy_changes",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/native-tests",
+        "api::world::world_counter_tests::contact_order_survives_body_capacity_growth_and_invalidates_proxy_changes",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit": 0,
+      "log_sha256": "31577d5f3ccb12d2c29794f67dcf96e01c03c24e11bb432ead7840dddc66873b",
+      "binary_sha256": "3c35fbc9f6cfcef85294e624afb8ad7a311f4f2bba3c2941e6bf3245db6a8def",
+      "environment": {
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    },
+    {
+      "configuration": "native",
+      "selector": "api::world::contact_metrics_tests::world_contact_metrics_track_mutations_callbacks_and_world_reuse",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/native-tests",
+        "api::world::contact_metrics_tests::world_contact_metrics_track_mutations_callbacks_and_world_reuse",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit": 0,
+      "log_sha256": "5a2789028c7b46058c216ae697c878dce857833bd04ff2372c96db90215fde37",
+      "binary_sha256": "3c35fbc9f6cfcef85294e624afb8ad7a311f4f2bba3c2941e6bf3245db6a8def",
+      "environment": {
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    },
+    {
+      "configuration": "native",
+      "selector": "api::world::complete_component_tests::completed_wait_refreshes_stale_capacity_status",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/native-tests",
+        "api::world::complete_component_tests::completed_wait_refreshes_stale_capacity_status",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit": 0,
+      "log_sha256": "4926436d9d82cb522d2504ad54efb2cf445e04beb35fd5e617125b0292fefb65",
+      "binary_sha256": "3c35fbc9f6cfcef85294e624afb8ad7a311f4f2bba3c2941e6bf3245db6a8def",
+      "environment": {
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    },
+    {
+      "configuration": "native",
+      "selector": "api::world::complete_component_tests::complete_components_merge_and_split_match_global_phases",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/native-tests",
+        "api::world::complete_component_tests::complete_components_merge_and_split_match_global_phases",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit": 0,
+      "log_sha256": "ce57bec8ee8f864f06887d76a197d589bdb9ce2b46f89dc2dd7f933136a5eeaf",
+      "binary_sha256": "3c35fbc9f6cfcef85294e624afb8ad7a311f4f2bba3c2941e6bf3245db6a8def",
+      "environment": {
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    },
+    {
+      "configuration": "native",
+      "selector": "api::world::state_trace::tests::trace_captures_contact_metrics_refresh_state",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/native-tests",
+        "api::world::state_trace::tests::trace_captures_contact_metrics_refresh_state",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit": 0,
+      "log_sha256": "cb8499483c650bbe6cfa99b25bc8a90b421e41f2ac312c47329e53902eac6844",
+      "binary_sha256": "3c35fbc9f6cfcef85294e624afb8ad7a311f4f2bba3c2941e6bf3245db6a8def",
+      "environment": {
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    },
+    {
+      "configuration": "native",
+      "selector": "api::world::state_trace::tests::trace_rejects_undrained_contact_status",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/native-tests",
+        "api::world::state_trace::tests::trace_rejects_undrained_contact_status",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit": 0,
+      "log_sha256": "b0b7cd0b3724a87e17ac3685dd3dc1fc6076c569e3d1d9dc3c4e3794fb5e1653",
+      "binary_sha256": "3c35fbc9f6cfcef85294e624afb8ad7a311f4f2bba3c2941e6bf3245db6a8def",
+      "environment": {
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    },
+    {
+      "configuration": "native",
+      "selector": "api::world::speculative_policy_tests::speculative_world_policy_survives_zero_steps_diagnostics_and_lifetimes",
+      "command": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/native-tests",
+        "api::world::speculative_policy_tests::speculative_world_policy_survives_zero_steps_diagnostics_and_lifetimes",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exit": 0,
+      "log_sha256": "d65773bd85f7e9592404f0fbc375ce83b7710c3e506b7db524b2e8b9d49b0738",
+      "binary_sha256": "3c35fbc9f6cfcef85294e624afb8ad7a311f4f2bba3c2941e6bf3245db6a8def",
+      "environment": {
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+      }
+    }
+  ],
+  "status": "pass"
+}

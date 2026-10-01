@@ -3836,3 +3836,45 @@ pub unsafe extern "C" fn reference_set_revolute_cache(id: JointId, values: *cons
         Err(e)=>{eprintln!("revolute-cache-transplant: {e}");false}
     }
 }
+
+// Native diagnostic extension: out parameters avoid aggregate-return ABI
+// differences; C wrappers retain the pinned Box3D layout.
+#[no_mangle]
+pub unsafe extern "C" fn gpu_b3_world_native_profile(id: WorldId, out: *mut crate::api::NativeProfile) {
+    if let Some(out) = out.as_mut() { *out = crate::api::b3_world_native_profile(id); }
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn gpu_b3_world_native_counters(id: WorldId, out: *mut crate::api::NativeCounters) -> u32 {
+    let Some(out) = out.as_mut() else { return crate::api::NATIVE_DIAGNOSTIC_INVALID; };
+    let (status, counters) = crate::api::b3_world_native_counters(id);
+    *out = counters;
+    status
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn gpu_b3_world_native_max_capacity(id: WorldId, out: *mut crate::api::NativeCapacity) -> u32 {
+    let Some(out) = out.as_mut() else { return crate::api::NATIVE_DIAGNOSTIC_INVALID; };
+    let (status, capacity) = crate::api::b3_world_native_max_capacity(id);
+    *out = capacity;
+    status
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn gpu_b3_world_native_allocation(id: WorldId, out: *mut crate::api::NativeAllocation) {
+    if let Some(out) = out.as_mut() { *out = crate::api::b3_world_native_allocation(id); }
+}
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_world_native_visit_shape_bounds(id: WorldId, body_type: u32,
+    visitor: Option<unsafe extern "C" fn(*const crate::api::NativeShapeBounds, *mut std::ffi::c_void)>,
+    context: *mut std::ffi::c_void) -> u32 {
+    let Some(visitor) = visitor else { return crate::api::NATIVE_DIAGNOSTIC_INVALID; };
+    match crate::api::b3_world_native_shape_bounds(id, body_type) {
+        Ok(bounds) => {
+            for record in &bounds { unsafe { visitor(record, context); } }
+            crate::api::NATIVE_DIAGNOSTIC_OK
+        }
+        Err(status) => status,
+    }
+}

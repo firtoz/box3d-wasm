@@ -226,8 +226,8 @@ Recording creation returns NULL and saving returns false. Combined adapters use
 the same unavailable GPU implementations. This prevents successful CPU-only
 recordings or worker settings from masquerading as GPU support.
 
-Read `gpu_b3_native_api_last_error()` after an unavailable call; its static name
-persists until another unavailable call or `gpu_b3_native_api_clear_error()`.
+Read `gpu_b3_native_api_last_error()` after an API error; its static name
+persists until another error or `gpu_b3_native_api_clear_error()`.
 Check errno immediately, before unrelated library calls. Clear affects only this
 thread's API diagnostic and errno, never sticky world/capacity failure state.
 The exclusion lookup is an exact named list; an unknown name returning false
@@ -238,15 +238,92 @@ The [PR02 partial report](../experiments/gpu-physics/benchmarks/production-readi
 publishes all 415 stateful API entries, linked-source audits and host-only checks.
 Seven complete trials pass; one harness failure and all build failures remain.
 A separate closed-stderr check preserves immediate ENOTSUP after an output error.
-These checks do not initialize a GPU or qualify supported physics. Required
-core diagnostics, combined routes, viewer controls and full API behavior remain
-open under the production roadmap.
+These checks do not initialize a GPU or qualify supported physics. The later diagnostic milestone adds focused GPU/API verification below. Broader
+viewer controls and full API behavior remain open under the production roadmap.
+
+### Native GPU diagnostic contract (focused checks pass; broader PR02 open)
+
+The current implementation replaces zero diagnostic placeholders. The
+[focused report](../experiments/gpu-physics/benchmarks/production-readiness/pr02-diagnostics-2026-10-01/README.md)
+records passing C/Rust/regression/storage checks, four viewer builds and 40
+CPU-first scene clips. Actual counter/tab interactions remain open after a
+retained mouse-stimulus harness failure. The
+[frozen protocol](../experiments/gpu-physics/benchmarks/production-readiness/pr02-diagnostics-2026-10-01/protocol.json)
+records the process budget, exact selectors, settings and stop rule.
+
+[`native_diagnostics.h`](../experiments/gpu-physics/c_abi/native_diagnostics.h)
+publishes extended status, timestamp and allocation information. Status is
+`0` for invalid/stale arguments, `1` for valid data, `2` for busy/reentrant world
+access, and `3` for sticky physics failure. The compatible `b3World_*` diagnostic
+wrappers publish `EINVAL`, `EBUSY` or `EIO` and a sticky operation name for those
+errors. A successful call does not clear an earlier API error. Error clearing
+never heals a failed world. Extension callers must inspect status themselves.
+
+`b3World_GetCounters` explicitly waits for completion and synchronizes native
+contact records. Body/shape/joint counts are live public topology; private
+compound collider slots are not extra public shapes. `contactCount` counts
+public contact IDs, excluding sensors; touching contacts contribute to the
+manifold buckets, with the last bucket including eight or more manifolds.
+Island counts use completed GPU body labels, exclude static/kinematic/disabled
+bodies, and are unavailable before a step or after topology/body mutation.
+An empty world has zero islands. Unsupported CPU worker/tree/allocator/SAT/TOI,
+color and awake/recycled-contact diagnostics return `-1`, rather than a false
+zero. `byteCount` is primary owned GPU physics buffer bytes when representable
+as a signed 32-bit value, otherwise `-1`. The 64-bit extension remains available.
+Routine viewer/sidebar/benchmark metadata uses cheap public topology and
+separate scheduling metrics; it does not implicitly download contact records.
+
+GPU profile fields are aggregate aliases, not CPU profiler parity. The extension
+provides an availability mask and the timestamp's physics step. Reads poll
+without waiting; an older timestamp is labelled as such and an absent timestamp
+has step zero and mask zero. Unmeasured fields are NaN.
+
+| Compatible profile field | Measured GPU interval (milliseconds) |
+| --- | --- |
+| `step` | Device start through sleep |
+| `pairs` | Broadphase |
+| `collide` | Narrowphase plus graph |
+| `solve` | Preparation plus solve plus integration |
+| `solverSetup` | Island preparation |
+| `solveImpulses` | Entire constraint solve aggregate |
+| `integratePositions` | Integration aggregate |
+
+These aggregates overlap; adding rows double-counts time. Other CPU/substage
+fields are unavailable. The GPU metrics tabs show measured phase names and
+availability instead of feeding NaNs into CPU flame bars or reporting zero.
+The explicit combined-viewer CPU stats helper continues to return mapped CPU
+measurements, while shared public diagnostic functions return GPU data.
+
+`b3World_GetMaxCapacity` reports occupancy peaks, separate from allocation:
+public bodies and enabled public shape proxies are sampled at positive step
+boundaries; dynamic counts include kinematic bodies. Disabled bodies still count
+as bodies. Contact peaks count supported non-sensor roots during occupied-list
+collection before CCD correction. They persist across unread steps, retirement
+and buffer growth. This phase/population must not be confused with synchronized
+public contact records or reservation hints. Zero-duration steps do not sample
+new peaks. `GpuNativeAllocation` reports current reserved internal slot counts
+and actual primary buffer sizes in 64 bits, excluding staging, command-cache
+copies, pipelines, renderer and driver allocations. Memory output states that
+scope. Bounds output snapshots public shape/body ownership and speculative
+AABBs, merging compound children, and invokes visitors after unlocking.
+
+Full-state schema v24 includes host peak occupancy, the harvested GPU contact
+peak and its persistent device query word. Readers retain earlier schemas and
+reject missing or invalid new fields; historical captures do not prove coverage
+of these new fields. Sixteen storage/comparator controls and the focused GPU/API checks pass. Broader
+public sensor/compound/mesh populations, actual viewer controls and final-build
+physical qualification remain pending. Host occupancy scans run once per positive
+step; device contact peaks add diagnostic atomics. Their cost is unmeasured and
+must pass PR08 performance qualification; no no-regression claim is made.
 
 ## Missing features and known failures
 
 The historical PR01 linked-build audit on 2026-10-01 identified **35 stub definitions and 8
 additional placeholders**, with 10 CPU-only comparison wrappers requiring semantic
-review and no additional missing linked symbols in either selected backend. The
+review and no additional missing linked symbols in either selected backend.
+The current diagnostics inventory has 415 symbols, 39 explicit exclusions and
+zero remaining stub/placeholder/missing/duplicate/CPU-only passthrough entries.
+This proves source/link coverage, not broad behavior qualification. The
 speculative setter is implemented and routed to both mapped worlds. Full native
 compatibility must not be inferred from scene checks. See the
 [portable control report](../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md); the production roadmap keeps PR02 API contract work open.
@@ -255,10 +332,10 @@ compatibility must not be inferred from scene checks. See the
 |---|---|
 | Joint query limits | Wheel angular separation is unimplemented upstream; its release fallback is zero. Reaction precision limits are described below. |
 | Falling-cube GPU capacity | The archived sweep hit the old 65,536 spatial-insertion limit at 20,000 cubes. Insertion buffers now scale with reserved shape capacity; the static-contact sort also no longer packs body/index into 16-bit halves. Pair/contact buffers and their prefix scans now scale with reserved body capacity. Pair/history storage and callbacks/events now use full-width endpoints; canonical cell ownership removes online packed-key deduplication. High-index collision, event, remap, and reuse regressions pass. Native sample C metadata now uses per-world growable chunks and passes high-index ownership/callback regressions; Sokol debug/opaque renderer reservations now follow benchmark size, and both engines must upload every cube and the floor. The sample fixes a saved draw-distance culling issue. Updated full-scene app measurements replace the earlier unvalidated Sokol curve. Collision-heavy physics and direct rendering are qualified through 200,000 cubes across three 330-step trials each; Sokol stops below 10 FPS at 150,000. The former tiled-dispatch boundary is resolved. The 200,000-cube physics buffers occupy 3.42 GiB, excluding renderer/driver resources; this is not a measured memory ceiling. |
-| World controls | Speculative switching now controls experimental hull–mesh positive-gap contacts per world, subject to endpoint flags and the documented CCD handoff shell. Warm-start switching controls contact and joint caches per world. Worker-count APIs are placeholders rather than GPU scheduling controls. |
-| World diagnostics | Profile/max-capacity APIs return placeholders; memory/bounds dump and static-tree rebuild helpers are incomplete. Public `contactCount` is not implemented by the GPU world counter. |
+| World controls | Speculative switching controls experimental hull–mesh positive-gap contacts per world, subject to endpoint flags and the documented CCD handoff shell. Warm-start switching controls contact and joint caches per world. CPU worker/static-tree APIs explicitly report ENOTSUP. |
+| World diagnostics | New public counters, partial GPU profiles, occupancy/allocation and bounds/memory diagnostics are implemented with explicit availability; Focused C/Rust checks and required recordings pass; actual counter/tab interactions and broader behavior remain open. See the native diagnostic contract above. |
 | Recording/replay | Native recording creation, storage, file I/O, playback, seeking and query-history APIs are explicitly unavailable, with ENOTSUP and a thread-local operation name. Diagnostic state replay does not implement these APIs. |
-| Combined viewer coverage | Some generated wrappers call only CPU APIs. Audit each remaining wrapper before claiming that controls or diagnostics affect/report both worlds. |
+| Combined viewer coverage | Current shared diagnostics report GPU data and explicit CPU helpers return CPU data; excluded operations preserve errors. No remaining CPU-only passthrough is found in the linked inventory. Other implemented API behavior still requires contract qualification. |
 | AMD convex sweeps | A rotating capsule reports a GPU hit where the CPU conservative-advancement reference reports no hit. Cause undiagnosed; investigation is deferred. |
 | AMD secondary queues | The experimental backend requires two graphics/compute queues in family zero; this AMD device exposes one. Its compute-only queues in another family are unsupported by this path; broader queue-family support is deferred. |
 | Browser target | Fix native-only transport/pose dependencies, pointer-size ABI assertions and global world storage before advertising WebGPU support. |

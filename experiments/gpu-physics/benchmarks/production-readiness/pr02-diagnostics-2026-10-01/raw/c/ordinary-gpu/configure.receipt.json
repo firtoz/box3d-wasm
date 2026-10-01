@@ -1,0 +1,17 @@
+{
+  "command": [
+    "cmake",
+    "-S",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples",
+    "-B",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/c/ordinary-gpu/cmake",
+    "-DGPU_PHYSICS_LIB=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/ordinary-frozen.a",
+    "-DGPU_PORTABLE_API=ON",
+    "-DGPU_SAMPLES=ON",
+    "-DBOTH_SAMPLES=OFF",
+    "-DFETCHCONTENT_FULLY_DISCONNECTED=ON",
+    "-DCMAKE_BUILD_TYPE=Release"
+  ],
+  "exit": 0,
+  "log_sha256": "902aa4abedd98017827580984593d73a0607f8bf8a3f2e0b3553717081fb766c"
+}

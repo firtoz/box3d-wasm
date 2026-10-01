@@ -1,0 +1,14 @@
+{
+  "status": "stopped: tab-selection harness failure",
+  "consumed_apps": 2,
+  "budget_apps": 5,
+  "unlaunched_apps": [
+    "ordinary-both",
+    "native-gpu",
+    "native-both"
+  ],
+  "observed": "CPU reference opens and exits cleanly; ordinary GPU Profile shows measured aggregate rows and step IDs. Immediate synthetic mouse press/release does not select Counters or Frame Time; those screenshots still show Profile.",
+  "qualification": "No Counters/Frame Time interaction pass; broader actual viewer controls remain OPEN. No new physics failure observed; not a broad physical acceptance run.",
+  "likely_harness_cause": "Press/release delivered without spanning a UI frame; future distinct uncovered-control campaign must validate stimulus delivery, not rerun this exhausted/stopped campaign.",
+  "stop_rule": "Stopped and retained both full clips/logs/actions; no rerun or budget extension."
+}

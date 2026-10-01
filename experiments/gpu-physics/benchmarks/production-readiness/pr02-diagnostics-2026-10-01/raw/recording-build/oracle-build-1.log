@@ -1,0 +1,20 @@
+-- The C compiler identification is GNU 16.2.1
+-- The CXX compiler identification is GNU 16.2.1
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- CMake C compiler: GNU
+-- CMake C++ compiler: GNU
+-- CMake system name: Linux
+-- CMake host system processor: x86_64
+-- Box3D using Unix
+-- Configuring done (0.4s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/oracle-cmake

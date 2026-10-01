@@ -1,4 +1,4 @@
-// Explicit unavailable native operations, plus a pending bounds diagnostic.
+// Explicit unavailable native operations.
 // Supported engine implementations belong in shim.c.
 // Do not add duplicate fallback definitions for implemented APIs.
 #include "box3d/box3d.h"
@@ -9,10 +9,15 @@
 
 static _Thread_local const char* g_unavailable_operation;
 
-void gpu_native_api_unavailable(const char* operation)
+void gpu_native_api_error(const char* operation, int error_code)
 {
 	g_unavailable_operation = operation;
-	errno = ENOTSUP;
+	errno = error_code;
+}
+
+void gpu_native_api_unavailable(const char* operation)
+{
+	gpu_native_api_error(operation, ENOTSUP);
 }
 
 const char* gpu_b3_native_api_last_error(void)
@@ -44,11 +49,6 @@ B3_API int b3World_GetWorkerCount(b3WorldId worldId)
 {
 	gpu_native_api_unavailable(__func__);
 	return 0;
-}
-
-B3_API void b3World_DumpShapeBounds(b3WorldId worldId, b3BodyType type)
-{
-	(void)sizeof(char);
 }
 
 B3_API void b3World_RebuildStaticTree(b3WorldId worldId)

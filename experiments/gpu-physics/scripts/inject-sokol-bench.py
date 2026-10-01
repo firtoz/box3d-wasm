@@ -390,6 +390,24 @@ def inject_sample(text: str) -> str:
     return text
 
 
+def inject_native_diagnostics(text: str) -> str:
+    # Replace only GPU/combined metrics tabs in the generated copy. CPU keeps
+    # its original profiler; partial GPU phases must not feed CPU flame bars.
+    for tab, call in [('Profile', 'gpu_samples_draw_native_profile'),
+                      ('Counters', 'gpu_samples_draw_native_counters'),
+                      ('Frame Time', 'gpu_samples_draw_native_profile')]:
+        anchor = 'if ( ImGui::BeginTabItem( "' + tab + '" ) )'
+        require(text, anchor, 'native diagnostic ' + tab)
+        opening = text.index('{', text.index(anchor) + len(anchor))
+        closing = text.index('ImGui::EndTabItem();', opening)
+        original = text[opening + 1:closing]
+        text = text[:opening + 1] + ('\n#if defined(GPU_PHYSICS_SAMPLES) || defined(BOTH_SAMPLES)\n'
+            '\t\t' + call + '(m_worldId);\n#else\n' + original + '\n#endif\n\t\t') + text[closing:]
+    return ('#include "box3d/box3d.h"\n'
+            'extern "C" void gpu_samples_draw_native_profile(b3WorldId);\n'
+            'extern "C" void gpu_samples_draw_native_counters(b3WorldId);\n' + text)
+
+
 def inject_gpu_limitations(text: str) -> str:
     warm = 'ImGui::Checkbox( "Warm Starting##Solver", &context->enableWarmStarting );'
     require(text, warm, 'warm-start control')
@@ -465,7 +483,7 @@ def main() -> int:
             raise SystemExit("sokol-bench inject: --sample-dst required with --sample-src")
         sample_text = inject_sample(Path(args.sample_src).read_text())
         if args.gpu_sidebar:
-            sample_text = inject_gpu_limitations(sample_text)
+            sample_text = inject_native_diagnostics(inject_gpu_limitations(sample_text))
             needle = (
                 'ImGui::TextColored( HexColor( b3_colorSeaGreen ), "step %d", context->sample->m_stepCount );\n'
                 "\tImGui::Separator();"

@@ -1,0 +1,31 @@
+{
+  "scope": "retained diagnostic baseline, no acceptance credit",
+  "compiled_adapter_receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-api/unavailable-candidate/ordinary-gpu/receipt.json",
+  "compiled_adapter_receipt_sha256": "8019620f4a1acf885baf195035db15876c54e5d4087dfa59a6d284d83bfb4eb3",
+  "engine_build_receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/build-ordinary.json",
+  "engine_build_receipt_sha256": "3e7a6138dd35077044d359b14c212fc7fc8cf03c0e712f14dbf8c0e81f836a54",
+  "linked_inputs": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/native_diagnostics_fixture.cpp": "670a52f4dd3367be8fb0a3f67247a5bb58a286d1980d4c67df23c056dee5e4d3",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/ordinary-frozen.a": "032d5c40a034547b180085fbf9bd89aa0a2d7b5c719228b653ae69b2b4f57c01",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-api/unavailable-candidate/ordinary-gpu/cmake/libgpu_samples_api.a": "4bf448f20e8e304645bb0c8f6714753428800659c285cbe2546e539146ee2a56",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-api/unavailable-candidate/ordinary-gpu/cmake/box3d_src/libbox3d.a": "89a9885175a093466e480e39be39451b843bc7b40e86ca8f9259ee2faa9c1f1c"
+  },
+  "protocol_sha256": "d5dedc1153a22cdd4083f184358f665c2c97a17431bb8c69d8ba556936954e6c",
+  "binary_sha256": "db40df3bc33e5a39acbac344a84b8639433900894754bb3ddbbb4dcdb6b2fbab",
+  "environment": {
+    "WGPU_BACKEND": "vulkan",
+    "GPU_PHYSICS_BACKEND": "vulkan",
+    "GPU_PHYSICS_ADAPTER": "nvidia",
+    "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+    "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines"
+  },
+  "runs": [
+    {
+      "trial": 1,
+      "exit": 0,
+      "stdout_sha256": "75b7bb08d9a895676b41dba0fb39767ee1d59403972711e817a23a8e92e1a0e9",
+      "stderr_sha256": "0dc1f351b1f59210dffa71cd35d7b409c528eb22dc4fbe92b2a20712d8deec42"
+    }
+  ],
+  "status": "pass"
+}

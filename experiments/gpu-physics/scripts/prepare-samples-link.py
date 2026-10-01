@@ -76,7 +76,7 @@ def main():
         explicit = {n for n, _, _ in definitions(dual)}
         # Unavailable GPU operations live in the shared C adapter. Keep them
         # out of CPU passthroughs without claiming they are dual wrappers.
-        passthrough = set(sigs) - both.DUAL - both.UNAVAILABLE - explicit
+        passthrough = set(sigs) - both.DUAL - both.UNAVAILABLE - both.SHARED_GPU_API - explicit
         # The guarded compound factory remains authoritative.
         passthrough.discard('b3CreateCompound')
         occupied.update(passthrough)

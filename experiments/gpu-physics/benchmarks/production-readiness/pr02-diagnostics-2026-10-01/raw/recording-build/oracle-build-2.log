@@ -1,0 +1,87 @@
+[  3%] Building C object box3d-build/src/CMakeFiles/box3d.dir/aabb.c.o
+[  3%] Building C object box3d-build/src/CMakeFiles/box3d.dir/arena_allocator.c.o
+[  5%] Building C object box3d-build/src/CMakeFiles/box3d.dir/bitset.c.o
+[  7%] Building C object box3d-build/src/CMakeFiles/box3d.dir/block_allocator.c.o
+[  9%] Building C object box3d-build/src/CMakeFiles/box3d.dir/broad_phase.c.o
+[ 11%] Building C object box3d-build/src/CMakeFiles/box3d.dir/body.c.o
+[ 13%] Building C object box3d-build/src/CMakeFiles/box3d.dir/capsule.c.o
+[ 15%] Building C object box3d-build/src/CMakeFiles/box3d.dir/compound.c.o
+[ 16%] Building C object box3d-build/src/CMakeFiles/box3d.dir/constraint_graph.c.o
+[ 18%] Building C object box3d-build/src/CMakeFiles/box3d.dir/contact.c.o
+[ 20%] Building C object box3d-build/src/CMakeFiles/box3d.dir/contact_solver.c.o
+[ 22%] Building C object box3d-build/src/CMakeFiles/box3d.dir/convex_manifold.c.o
+[ 24%] Building C object box3d-build/src/CMakeFiles/box3d.dir/core.c.o
+[ 26%] Building C object box3d-build/src/CMakeFiles/box3d.dir/distance.c.o
+[ 28%] Building C object box3d-build/src/CMakeFiles/box3d.dir/distance_joint.c.o
+[ 30%] Building C object box3d-build/src/CMakeFiles/box3d.dir/dynamic_tree.c.o
+[ 32%] Building C object box3d-build/src/CMakeFiles/box3d.dir/height_field.c.o
+[ 33%] Building C object box3d-build/src/CMakeFiles/box3d.dir/hull.c.o
+[ 35%] Building C object box3d-build/src/CMakeFiles/box3d.dir/id_pool.c.o
+[ 37%] Building C object box3d-build/src/CMakeFiles/box3d.dir/island.c.o
+[ 39%] Building C object box3d-build/src/CMakeFiles/box3d.dir/joint.c.o
+[ 41%] Building C object box3d-build/src/CMakeFiles/box3d.dir/manifold.c.o
+[ 43%] Building C object box3d-build/src/CMakeFiles/box3d.dir/math_functions.c.o
+[ 45%] Building C object box3d-build/src/CMakeFiles/box3d.dir/mesh.c.o
+[ 47%] Building C object box3d-build/src/CMakeFiles/box3d.dir/mesh_contact.c.o
+[ 49%] Building C object box3d-build/src/CMakeFiles/box3d.dir/motor_joint.c.o
+[ 50%] Building C object box3d-build/src/CMakeFiles/box3d.dir/mover.c.o
+[ 52%] Building C object box3d-build/src/CMakeFiles/box3d.dir/name_cache.c.o
+[ 54%] Building C object box3d-build/src/CMakeFiles/box3d.dir/parallel_for.c.o
+[ 56%] Building C object box3d-build/src/CMakeFiles/box3d.dir/parallel_joint.c.o
+[ 58%] Building C object box3d-build/src/CMakeFiles/box3d.dir/physics_world.c.o
+[ 60%] Building C object box3d-build/src/CMakeFiles/box3d.dir/prismatic_joint.c.o
+[ 62%] Building C object box3d-build/src/CMakeFiles/box3d.dir/recording.c.o
+[ 64%] Building C object box3d-build/src/CMakeFiles/box3d.dir/recording_replay.c.o
+[ 66%] Building C object box3d-build/src/CMakeFiles/box3d.dir/world_snapshot.c.o
+In file included from /home/firtoz/work/2026/box3d-wasm/box3d/src/recording.h:10,
+                 from /home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.h:6,
+                 from /home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c:8:
+In function ‘b3MakeAABB’,
+    inlined from ‘b3RecComputeQueryBounds’ at /home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c:1881:12:
+/home/firtoz/work/2026/box3d-wasm/box3d/src/../include/box3d/math_functions.h:956:16: warning: ‘world’ may be used uninitialized [-Wmaybe-uninitialized]
+  956 |         b3AABB a = { points[0], points[0] };
+      |                ^
+/home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c: In function ‘b3RecComputeQueryBounds’:
+/home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c:1874:16: note: ‘world’ declared here
+ 1874 |         b3Vec3 world[2 * B3_MAX_SHAPE_CAST_POINTS];
+      |                ^~~~~
+In function ‘b3MakeAABB’,
+    inlined from ‘b3RecComputeQueryBounds’ at /home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c:1881:12:
+/home/firtoz/work/2026/box3d-wasm/box3d/src/../include/box3d/math_functions.h:956:16: warning: ‘world’ may be used uninitialized [-Wmaybe-uninitialized]
+  956 |         b3AABB a = { points[0], points[0] };
+      |                ^
+/home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c: In function ‘b3RecComputeQueryBounds’:
+/home/firtoz/work/2026/box3d-wasm/box3d/src/recording_replay.c:1874:16: note: ‘world’ declared here
+ 1874 |         b3Vec3 world[2 * B3_MAX_SHAPE_CAST_POINTS];
+      |                ^~~~~
+In function ‘b3DesTree’,
+    inlined from ‘b3DeserializeIntoShell’ at /home/firtoz/work/2026/box3d-wasm/box3d/src/world_snapshot.c:1308:4:
+/home/firtoz/work/2026/box3d-wasm/box3d/src/world_snapshot.c:329:23: warning: ‘version’ may be used uninitialized [-Wmaybe-uninitialized]
+  329 |         tree->version = version;
+      |         ~~~~~~~~~~~~~~^~~~~~~~~
+/home/firtoz/work/2026/box3d-wasm/box3d/src/world_snapshot.c: In function ‘b3DeserializeIntoShell’:
+/home/firtoz/work/2026/box3d-wasm/box3d/src/world_snapshot.c:297:18: note: ‘version’ was declared here
+  297 |         uint64_t version;
+      |                  ^~~~~~~
+[ 67%] Building C object box3d-build/src/CMakeFiles/box3d.dir/revolute_joint.c.o
+[ 69%] Building C object box3d-build/src/CMakeFiles/box3d.dir/scheduler.c.o
+[ 71%] Building C object box3d-build/src/CMakeFiles/box3d.dir/sensor.c.o
+[ 73%] Building C object box3d-build/src/CMakeFiles/box3d.dir/shape.c.o
+[ 75%] Building C object box3d-build/src/CMakeFiles/box3d.dir/simd.c.o
+[ 77%] Building C object box3d-build/src/CMakeFiles/box3d.dir/solver.c.o
+[ 79%] Building C object box3d-build/src/CMakeFiles/box3d.dir/solver_set.c.o
+[ 81%] Building C object box3d-build/src/CMakeFiles/box3d.dir/sphere.c.o
+[ 83%] Building C object box3d-build/src/CMakeFiles/box3d.dir/spherical_joint.c.o
+[ 84%] Building C object box3d-build/src/CMakeFiles/box3d.dir/table.c.o
+[ 86%] Building C object box3d-build/src/CMakeFiles/box3d.dir/timer.c.o
+[ 88%] Building C object box3d-build/src/CMakeFiles/box3d.dir/triangle_manifold.c.o
+[ 90%] Building C object box3d-build/src/CMakeFiles/box3d.dir/types.c.o
+[ 92%] Building C object box3d-build/src/CMakeFiles/box3d.dir/weld_joint.c.o
+[ 94%] Building C object box3d-build/src/CMakeFiles/box3d.dir/wheel_joint.c.o
+[ 96%] Linking C static library libbox3d.a
+/usr/bin/ar qc libbox3d.a CMakeFiles/box3d.dir/aabb.c.o CMakeFiles/box3d.dir/arena_allocator.c.o CMakeFiles/box3d.dir/bitset.c.o CMakeFiles/box3d.dir/block_allocator.c.o CMakeFiles/box3d.dir/body.c.o CMakeFiles/box3d.dir/broad_phase.c.o CMakeFiles/box3d.dir/capsule.c.o CMakeFiles/box3d.dir/compound.c.o CMakeFiles/box3d.dir/constraint_graph.c.o CMakeFiles/box3d.dir/contact.c.o CMakeFiles/box3d.dir/contact_solver.c.o CMakeFiles/box3d.dir/convex_manifold.c.o CMakeFiles/box3d.dir/core.c.o CMakeFiles/box3d.dir/distance.c.o CMakeFiles/box3d.dir/distance_joint.c.o CMakeFiles/box3d.dir/dynamic_tree.c.o CMakeFiles/box3d.dir/height_field.c.o CMakeFiles/box3d.dir/hull.c.o CMakeFiles/box3d.dir/id_pool.c.o CMakeFiles/box3d.dir/island.c.o CMakeFiles/box3d.dir/joint.c.o CMakeFiles/box3d.dir/manifold.c.o CMakeFiles/box3d.dir/math_functions.c.o CMakeFiles/box3d.dir/mesh.c.o CMakeFiles/box3d.dir/mesh_contact.c.o CMakeFiles/box3d.dir/motor_joint.c.o CMakeFiles/box3d.dir/mover.c.o CMakeFiles/box3d.dir/name_cache.c.o CMakeFiles/box3d.dir/parallel_for.c.o CMakeFiles/box3d.dir/parallel_joint.c.o CMakeFiles/box3d.dir/physics_world.c.o CMakeFiles/box3d.dir/prismatic_joint.c.o CMakeFiles/box3d.dir/recording.c.o CMakeFiles/box3d.dir/recording_replay.c.o CMakeFiles/box3d.dir/world_snapshot.c.o CMakeFiles/box3d.dir/revolute_joint.c.o CMakeFiles/box3d.dir/scheduler.c.o CMakeFiles/box3d.dir/sensor.c.o CMakeFiles/box3d.dir/shape.c.o CMakeFiles/box3d.dir/simd.c.o CMakeFiles/box3d.dir/solver.c.o CMakeFiles/box3d.dir/solver_set.c.o CMakeFiles/box3d.dir/sphere.c.o CMakeFiles/box3d.dir/spherical_joint.c.o CMakeFiles/box3d.dir/table.c.o CMakeFiles/box3d.dir/timer.c.o CMakeFiles/box3d.dir/triangle_manifold.c.o CMakeFiles/box3d.dir/types.c.o CMakeFiles/box3d.dir/weld_joint.c.o CMakeFiles/box3d.dir/wheel_joint.c.o
+/usr/bin/ranlib libbox3d.a
+[ 96%] Built target box3d
+[ 98%] Building CXX object CMakeFiles/box3d_oracle.dir/oracle.cpp.o
+[100%] Linking CXX executable box3d_oracle
+[100%] Built target box3d_oracle

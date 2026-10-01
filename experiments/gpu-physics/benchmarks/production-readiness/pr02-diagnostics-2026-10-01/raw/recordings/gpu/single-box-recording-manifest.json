@@ -1,0 +1,46 @@
+{
+  "recording_started_utc": "2026-10-01T13:55:44.836689+00:00",
+  "frames": 300,
+  "metric_runs": 1,
+  "viewer": {
+    "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/gpu-physics-frozen",
+    "sha256": "9311af7b0a6f47c0ba2c8b011c028904460baefdae99d3f99ef0eb8f52f06368"
+  },
+  "oracle": null,
+  "checkout_head": "5c92b575ccdf6f59cc4a641a4a4e195cdd08122f",
+  "environment": {
+    "GPU_RECORD_BIN": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/gpu-physics-frozen",
+    "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+    "GPU_PHYSICS_BACKEND": "vulkan",
+    "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+    "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/pipelines",
+    "DISPLAY": ":0",
+    "GPU_PHYSICS_ADAPTER": "nvidia",
+    "GPU_RECORD_ORACLE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/box3d-oracle-frozen",
+    "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
+    "WGPU_BACKEND": "vulkan",
+    "__NV_PRIME_RENDER_OFFLOAD": "1"
+  },
+  "note": "Records requested capture settings and binary identity. Completion requires clips and metrics; checkout HEAD alone does not identify a dirty or externally supplied build.",
+  "scenes": [
+    "single-box",
+    "box-stack",
+    "sphere-stack",
+    "capsule-stack",
+    "revolute",
+    "weld",
+    "stack",
+    "pyramid",
+    "bounce",
+    "mixed",
+    "spinner",
+    "ramp",
+    "spheres",
+    "dominoes",
+    "high-resistance",
+    "mixed-stacks",
+    "falling-cubes",
+    "anchored-mechanisms",
+    "joint-chain"
+  ]
+}
