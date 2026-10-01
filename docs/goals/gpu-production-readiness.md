@@ -432,6 +432,17 @@ All protocols are terminal; no current run/build/capture job exists. Authored
 source/docs diff checks and raw hashes pass; original compiler/test whitespace
 is retained byte-exact. Remote was fetched at0/0 before this evidence commit.
 
+Latest recovery verification: evidence/fixture milestones `8a2307a` and
+`bcbb0a4e6ac4a1dd8971b5d63368086040701c7c` are pushed to feat/gpu, remote0/0.
+Portable validators pass105 subset raw files and12 direct-cleanup raw files.
+72 selected Rust checks +120 first root/geometry GPU C observations +42 direct
+mapped-cleanup observations pass; every earlier failure remains retained. Only
+the seven production candidate files are dirty/untracked; no production repair
+has been committed or pushed. Box3D/WASM untouched. No live owned build/test/
+viewer/capture job verified. Next: frozen four-viewer build/refreeze and actual
+controls, then required CPU-first recordings/review before production commit.
+PR01–PR13 stay open; no readiness or performance claim.
+
 ### Evidence to resume from
 
 - [PR01 report](../../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md): completed world controls, rejected variants, original-limit repeat/regression checks, recordings, additional failed floor screen and incomplete baseline attribution. Retain those failures. Third candidate preserves 6.25mm support only after a solid CCD hit (FAST set, CCD_NO_HIT clear), not a fast tangent gap. CPU's world toggle only stores the flag; the pinned hull/mesh shape scope is the independent reference. Final physical qualification is still PR03–PR07.
