@@ -252,7 +252,7 @@ rely on conversation history as the sole record of a pending experiment.
 | --- | --- |
 | Workspace / branch | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu` |
 | Goal / authorization | Active full roadmap; implementation and verified milestone commit/push authorized by the submitted goal |
-| Delivered source | PR01 `695c93ada50220089018009230209e5050ed9252`; exclusions `806e634c9b0f5fe58fdd8a9a0dac171e862890d4`; truthful diagnostics `d4e91bca235ce3565b66d5ee031565c857806ede`; latest delivered recovery `7f302ef671a7c1fbb06829a0a5d7036a7a421d7c`. Verify actual HEAD/remote on continuation |
+| Delivered source | PR01 `695c93ada50220089018009230209e5050ed9252`; exclusions `806e634c9b0f5fe58fdd8a9a0dac171e862890d4`; truthful diagnostics `d4e91bca235ce3565b66d5ee031565c857806ede`; supported API/evidence milestone `2c9d832564e497242b661c692fb22d0ac15dc575` is committed/pushed with remote 0/0 and a clean tree verified. Later recovery-only commits do not change compiled inputs; verify actual HEAD/remote on continuation |
 | Current item | PR02: exclusions, focused diagnostics and supported control/force/replacement/joint queries pass their scoped contracts. Sensor/compound/mesh diagnostic populations and actual viewer controls remain open. PR03–PR10 remain unchecked |
 | Current source/build proof | Current engine/C adapter inputs match frozen diagnostic receipts exactly. Ordinary library SHA-256 `edbdb251e06e9c9bc5955045191e4ca2932bfacae6265581a0acfe3be16a6050`, native `a736a81fae6b45751fadd0f57dcf795a0e44f7c21d1e54996c668b754cc393e9`; exact tests, archives, generated adapters and linked CPU inputs are identified in the reports below |
 | Linked inventory | 415 stateful symbols, 39 explicit exclusions; no remaining detected stub/placeholder/missing/duplicate symbol or CPU-only combined passthrough. Source/link coverage does not qualify all implemented behavior |
@@ -263,7 +263,7 @@ rely on conversation history as the sole record of a pending experiment.
 | Processes | All recorded builders/tests/recorders/viewers, including 81222, are terminal. Fresh process inspection finds no active matching jobs. Verify before launching; a recorded PID/handle alone is not proof |
 | Remaining known physics/performance limits | Rain residuals and distance-joint first-step discrepancy remain unresolved. PR01 additional all-window 5mm floor screen fails CPU and GPU at step 6; discrete-landing analysis is retained, original isolated CCD limits unchanged. Native baseline startup diagnostic times out at 180s, no pass. Diagnostic host occupancy scans/device peak atomics add unmeasured work; PR08 must assess cost |
 | Next action | Finish PR02's uncovered populations and actual viewer controls. Read fixtures/source before defining a distinct finite contract/budget. Verify synthetic input delivery in a nonphysics receiver before another required-control campaign; never restart the stopped tab-only experiment under a new label |
-| Last verification | 2026-10-01, supported campaign ends successfully. Engine and linked archive hashes match frozen receipts; portable validator passes. Protected Box3D/WASM sources untouched. No final qualification or speedup claim |
+| Last verification | 2026-10-01, supported campaign and milestone delivery complete; runner 81222 and push runner 76216 exit 0. Engine and linked archive hashes match frozen receipts; portable validator passes. Protected Box3D/WASM sources untouched. No final qualification or speedup claim |
 
 ### Evidence to resume from
 
