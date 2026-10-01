@@ -1,0 +1,39 @@
+{
+  "item": "PR02 required native diagnostics",
+  "revision_before_edits": "90efcc44b910233436519f0bee84dff9a38dcacb",
+  "hypothesis": "Publish real native GPU contact/counter/profile/occupancy diagnostics with correct shared combined routing; separate public contact records from scheduling snapshots and allocated buffers.",
+  "scope": "Diagnostic host/API plus persistent contact-peak output; no solver policy/physics changes, no Rain or headline timing.",
+  "contract": [
+    "b3Counters body/shape/joint counts are live public topology; contactCount is synchronized native contact-registry entries, excludes sensors/private proxies.",
+    "GPU component count uses completed body island labels and reports unavailable after topology mutation; published availability/freshness distinguishes current topology and completed solver state.",
+    "Public counters are explicit potentially blocking diagnostics. Existing per-frame metadata/sidebar/benchmark accounting uses cheap topology and existing scheduling metrics, avoiding implicit full contact downloads.",
+    "b3Profile maps only measured GPU stages, milliseconds, with timestamp step. Unmeasured CPU/substage fields are NaN with a published availability mask, never fabricated zero.",
+    "b3World_GetMaxCapacity reports peak live public occupancy observed at positive step boundaries, not reserved buffer capacity. Contact peak persists across unobserved steps and capacity growth using a dedicated diagnostic device word plus host carry.",
+    "Memory output reports actual owned primary GPU buffer byte sizes in 64bits, explicitly excludes shared pipeline/driver/renderer memory.",
+    "Bounds dump outputs actual public shape AABBs and ownership. Invalid/stale/locked worlds report explicit invalid/busy status; querying diagnostics never clears sticky world failure.",
+    "Combined public functions report GPU values; explicit CPU stats helper still reports correctly mapped CPU values.",
+    "New future-observable diagnostic peaks are captured/validated with old schema compatibility; no physics tolerance relaxations."
+  ],
+  "budget": {
+    "baseline_gpu_processes": 2,
+    "candidate_C_configurations": [
+      "ordinary-gpu",
+      "ordinary-both",
+      "native-gpu",
+      "native-both"
+    ],
+    "fresh_C_processes_per_configuration": 2,
+    "candidate_C_total": 8,
+    "fresh_Rust_diagnostic_processes_per_backend": 2,
+    "candidate_Rust_total": 4,
+    "selected_regression_invocations_per_backend": 8,
+    "selected_regression_total": 16,
+    "storage_comparator_controls": "existing suite once; corruption controls for diagnostic peaks",
+    "headline_timing_runs": 0,
+    "diagnostic_timing_runs": 0,
+    "candidate_implementations": 1
+  },
+  "stop_rule": "Retain every trial and build failure. Stop a campaign on first assertion failure. Diagnose exact cause and record any harness/protocol corrections before remaining budget; never replace failed completed trials or selectively extend it. Final PR02 remains open until all requirements are verified.",
+  "recordings": "Build/correctness/required CPU-first precommit captures are separate from run budget; record affected scenes before committing shader/visual changes.",
+  "next_before_runs": "Implement fixture/selectors, record exact commands/settings, compile before/after input receipts and frozen hashes, then run serially on actual NVIDIA Vulkan."
+}
