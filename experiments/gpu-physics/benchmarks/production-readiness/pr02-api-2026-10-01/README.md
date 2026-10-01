@@ -1,7 +1,7 @@
 # PR02 native API audit and explicit unavailable operations
 
-PR02 remains **OPEN**. This is a partial API milestone, not production
-qualification. The [roadmap](../../../../../docs/goals/gpu-production-readiness.md)
+PR02 remains **OPEN**. Partial API milestone `806e634c9b0f5fe58fdd8a9a0dac171e862890d4`
+is committed and pushed on `feat/gpu`; it is not production qualification. The [roadmap](../../../../../docs/goals/gpu-production-readiness.md)
 still requires real diagnostics, the complete supported API behavior review and
 viewer controls before closing PR02. No physics, shader, Box3D or WASM change,
 GPU initialization, timing or Rain campaign occurred here.

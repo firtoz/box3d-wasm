@@ -249,7 +249,7 @@ rely on conversation history as the sole record of a pending experiment.
 
 | Field | Verified value |
 | --- | --- |
-| Workspace / branch / delivered milestone | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu`; solver milestone `695c93ada50220089018009230209e5050ed9252` pushed and remote comparison0/0 verified. This recovery edit follows it; resolve current HEAD on continuation |
+| Workspace / branch / delivered milestone | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu`; solver milestone `695c93ada50220089018009230209e5050ed9252`; partial API milestone `806e634c9b0f5fe58fdd8a9a0dac171e862890d4`. This recovery edit follows them; resolve current HEAD and remote synchronization on continuation |
 | Goal / authorization | Active full roadmap; implementation and verified milestone commit/push explicitly authorized |
 | Current item | PR02 in progress: truthful unavailable native operations; counters/profile/capacity and full supported-API behavior remain open. PR01 delivered; PR03–PR10 open |
 | Candidate | Third candidate keeps6.25mm support only after an actual solid CCD hit (FAST set,CCD_NO_HIT clear); fast tangent/no-hit gaps remain disabled. Default-on unchanged |
@@ -264,7 +264,7 @@ rely on conversation history as the sole record of a pending experiment.
 | Portable evidence | `experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md`;raw index,source overlays,charts,all results and42valid clips. Invalid baseline capture remains local with portable failure/hash receipts |
 | Next discriminating work | Eight-trial error campaign is closed:7complete passes,1retained harness failure; separate closed-stderr case passes. Next implement required counters/contact-count/profile/capacity/bounds implementation and correct combined routing, followed by the remaining supported API and viewer controls audit |
 | Scope / known remaining failures | Rain physical acceptance and final whole-matrix/API/runtime/build/performance gates remain OPEN. Closed mixed scheduling budget55runs remains closed;no timing/Rain campaign resumed |
-| Last verification |2026-10-01: remote399afc5 synced0/0 before PR02 edits. Baseline direct/combined recording creation returns nonnull/no error. First PR02 host trial passes all immediate API assertions then aborts on invalid errno-after-libc harness assertion. All8candidate processes consumed:7pass,1harness failure. Combined selector/link defect fixed before any process; all6remaining trials pass. One separately frozen closed-stderr host test passes after idempotent errno publication. Portable81raw files/6compiled source sets verified;C adapter edits pending milestone commit. Engine sources/Box3D/WASM unchanged |
+| Last verification |2026-10-01: remote399afc5 synced0/0 before PR02 edits. Baseline direct/combined recording creation returns nonnull/no error. First PR02 host trial passes all immediate API assertions then aborts on invalid errno-after-libc harness assertion. All8candidate processes consumed:7pass,1harness failure. Combined selector/link defect fixed before any process; all6remaining trials pass. One separately frozen closed-stderr host test passes after idempotent errno publication. Portable81raw files/6compiled source sets verified;C adapter milestone806e634 committed/pushed with remote0/0 verified; recovery edit follows. Engine sources/Box3D/WASM unchanged |
 
 PR02 partial evidence is under
 `experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/`.
@@ -281,8 +281,7 @@ Thirty-nine excluded recording/player/CPU-worker/static-tree operations now
 report ENOTSUP and a sticky thread-local operation name; recording creation
 returns NULL. Combined generation retains these errors rather than successful
 CPU-only passthroughs. The 81 portable raw files and six exact compiled-source
-sets include all failures and build/source receipts. These edits are being
-prepared for a verified partial milestone, not PR02 completion.
+sets include all failures and build/source receipts. Partial API milestone `806e634c9b0f5fe58fdd8a9a0dac171e862890d4` is committed and pushed; remote0/0 verified. PR02 remains open.
 
 Next: define and implement real counters, profile, capacity and bounds/memory
 diagnostics, correct the five remaining CPU-only routes, then verify supported
