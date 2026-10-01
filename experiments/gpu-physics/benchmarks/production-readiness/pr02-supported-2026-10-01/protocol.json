@@ -1,0 +1,138 @@
+{
+  "scope": "PR02 uncovered current-build native control/force/replacement/joint-query behavior; not final release qualification",
+  "hypothesis": "Existing implemented APIs satisfy their documented semantics and unchanged analytical/CPU-reference assertions through mutation, lifetime and backend policy changes.",
+  "source_revision": "7f302ef671a7c1fbb06829a0a5d7036a7a421d7c",
+  "authorization": "Active full production readiness roadmap; bounded verification for explicit PR02 gaps",
+  "source_proof": {
+    "ordinary": {
+      "build_receipt": "../pr02-diagnostics-2026-10-01/raw/candidate-complete-inputs/ordinary-build.json",
+      "receipt_sha256": "f166a0ef8ff9bfca382616db0d30fb0a805100b77f589e46762d93494fe3eae2",
+      "library_sha256": "edbdb251e06e9c9bc5955045191e4ca2932bfacae6265581a0acfe3be16a6050",
+      "test_sha256": "11b2c3cd5aab45ca755bf15f8138fb4f1b0d29a724a3b1686786cece59b1eafd"
+    },
+    "native": {
+      "build_receipt": "../pr02-diagnostics-2026-10-01/raw/candidate-complete-inputs/native-build.json",
+      "receipt_sha256": "e9d522b53141e1ec9db55c9c6dd58c5257cc4bcc412a0b4a55e4bd232d410c42",
+      "library_sha256": "a736a81fae6b45751fadd0f57dcf795a0e44f7c21d1e54996c668b754cc393e9",
+      "test_sha256": "3c35fbc9f6cfcef85294e624afb8ad7a311f4f2bba3c2941e6bf3245db6a8def"
+    }
+  },
+  "fixture_hashes": {
+    "c_abi/api_settings_test.cpp": "7136f0867e081c1863cb86f1021de1745ad787abd2b7591e71dc2bd6edf6ba40",
+    "c_abi/warm_start_fixture.cpp": "ed7b0ea5f9eb3e630dd40b1565b8c39d63b00f9274b8ca9ae6b7fd2fd9ae7957",
+    "c_abi/both_substep_forces_test.cpp": "6bb1577b2a7131a69f764a8b21ffb5405c421698074622935f99eafb005cdbe6",
+    "c_abi/both_shape_replacement_test.cpp": "d1df31a6ab0c1fb364ecb9a553e047ccc362e293915df73d966fdd73933bedb3",
+    "c_abi/both_joint_reaction_test.cpp": "5f942482a0c75cdeb694d37c7f0c05ac8230f1011825eacc22a5098971e4517a",
+    "c_abi/both_joint_separation_test.cpp": "3a3bd08a56be95beb1070237d5f381f53127ff58866e4ed0eedbb69d770ec8fa"
+  },
+  "C_cases": [
+    {
+      "fixture": "api_settings_test",
+      "configuration": "ordinary-gpu",
+      "fresh_processes": 1
+    },
+    {
+      "fixture": "api_settings_test",
+      "configuration": "native-gpu",
+      "fresh_processes": 1
+    },
+    {
+      "fixture": "api_settings_test",
+      "configuration": "ordinary-both",
+      "fresh_processes": 1
+    },
+    {
+      "fixture": "api_settings_test",
+      "configuration": "native-both",
+      "fresh_processes": 1
+    },
+    {
+      "fixture": "warm_start_fixture",
+      "configuration": "ordinary-gpu",
+      "fresh_processes": 1
+    },
+    {
+      "fixture": "warm_start_fixture",
+      "configuration": "native-gpu",
+      "fresh_processes": 1
+    },
+    {
+      "fixture": "warm_start_fixture",
+      "configuration": "ordinary-both",
+      "fresh_processes": 1
+    },
+    {
+      "fixture": "warm_start_fixture",
+      "configuration": "native-both",
+      "fresh_processes": 1
+    },
+    {
+      "fixture": "both_substep_forces_test",
+      "configuration": "ordinary-both",
+      "fresh_processes": 1
+    },
+    {
+      "fixture": "both_substep_forces_test",
+      "configuration": "native-both",
+      "fresh_processes": 1
+    },
+    {
+      "fixture": "both_shape_replacement_test",
+      "configuration": "ordinary-both",
+      "fresh_processes": 1
+    },
+    {
+      "fixture": "both_shape_replacement_test",
+      "configuration": "native-both",
+      "fresh_processes": 1
+    },
+    {
+      "fixture": "both_joint_reaction_test",
+      "configuration": "ordinary-both",
+      "fresh_processes": 1
+    },
+    {
+      "fixture": "both_joint_reaction_test",
+      "configuration": "native-both",
+      "fresh_processes": 1
+    },
+    {
+      "fixture": "both_joint_separation_test",
+      "configuration": "ordinary-both",
+      "fresh_processes": 1
+    },
+    {
+      "fixture": "both_joint_separation_test",
+      "configuration": "native-both",
+      "fresh_processes": 1
+    }
+  ],
+  "Rust_selectors": [
+    "sim::manifold_chain_tests::warm_start_control_prepares_contact_chains_and_joint_caches",
+    "sim::manifold_chain_tests::manifold_chain_warm_start_and_restitution_visit_children_once",
+    "sim::manifold_chain_tests::invalid_joint_list_warm_start_has_one_global_writer",
+    "gpu_invariants::revolute_substep_warm_start_matches_cpu",
+    "api::world::convex_ccd_integration_tests::accumulated_forces_survive_uploads_and_zero_steps",
+    "api::world::resident_force_cache_probe::resident_force_cache_tracks_consumption_and_flushes",
+    "api::world::api_completion_tests::body_settings_affect_own_gpu_state_and_survive_rebuilds",
+    "api::world::shape_geometry::tests::replacement_reuses_storage_and_preserves_body_mass_and_metadata",
+    "gpu_invariants::mass_queries_preserve_shape_and_explicit_mass",
+    "api::world::joint_event_tests::reaction_impulses_use_solver_accumulators_for_every_joint_kind"
+  ],
+  "budget": {
+    "C_fresh_processes": 16,
+    "Rust_test_invocations": 20,
+    "Rust_GPU_processes": 18,
+    "Rust_host_only_processes": 2,
+    "timing_runs": 0,
+    "production_candidates": 0,
+    "preflight_test_lists": 2
+  },
+  "order": "Build/link all C fixtures first without GPU work; then C cases in listed order, then each exact Rust selector ordinary/native. All serial.",
+  "settings": "NVIDIA Vulkan; CPU-compatible ordering1; ordinary defaults and native shared cache env. Each existing fixture retains its original source defaults, timesteps, substeps, durations and all assertions. No diagnostic force/torque stress flags or timing-only arguments.",
+  "acceptance": "Zero exit plus named fixture success marker; exact one selected Rust test. Retain 1e-5 CPU-reference tolerances, all direct-cache equality assertions and analytical tests. Settings checks must show independent worlds and GPU-backed combined getters. No broader physical/repeatability acceptance inferred.",
+  "incidental_clocks": "warm_start_fixture emits incidental mean values even in correctness mode; these are not benchmark/timing evidence",
+  "stop_rule": "Stop on the first failed build or trial; retain logs, exact inputs and all completed results. Do not rerun or replace failures, extend the budget, or change tolerances. Unlaunched cases remain unqualified.",
+  "prior_evidence": "PR01 control evidence and completed PR02 diagnostic campaign apply only where frozen sources/contracts match. Historical warm-start receipt is context, not current binary proof. Stopped tab-only UI campaign and exhausted diagnostic campaign are not resumed.",
+  "remaining_gaps": "New sensor/compound/mesh diagnostic populations and actual viewer controls remain open; no UI apps or additional diagnostic trials authorized by this protocol."
+}

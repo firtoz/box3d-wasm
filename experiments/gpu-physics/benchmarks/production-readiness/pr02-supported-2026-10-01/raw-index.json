@@ -1,0 +1,442 @@
+{
+  "entries": [
+    {
+      "path": "raw/C/native-both/api_settings_test/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/api_settings_test/build.log",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/C/native-both/api_settings_test/stderr.log",
+      "sha256": "9f3068b587dbf36e262b30e97b27808b90cc2ea3ccf54a2a9eb3e08e9800882c",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/api_settings_test/stderr.log",
+      "original_sha256": "9f3068b587dbf36e262b30e97b27808b90cc2ea3ccf54a2a9eb3e08e9800882c"
+    },
+    {
+      "path": "raw/C/native-both/api_settings_test/stdout.log",
+      "sha256": "fc5b901a15d2cc851cfca07ec0201509fdf1d72ba721e9fb8c800c646efa7009",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/api_settings_test/stdout.log",
+      "original_sha256": "fc5b901a15d2cc851cfca07ec0201509fdf1d72ba721e9fb8c800c646efa7009"
+    },
+    {
+      "path": "raw/C/native-both/both_joint_reaction_test/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/both_joint_reaction_test/build.log",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/C/native-both/both_joint_reaction_test/stderr.log",
+      "sha256": "0e73efcc5ccfc5462b2d202bb7bec10354973965b0c1c782aeeabd340a249cac",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/both_joint_reaction_test/stderr.log",
+      "original_sha256": "0e73efcc5ccfc5462b2d202bb7bec10354973965b0c1c782aeeabd340a249cac"
+    },
+    {
+      "path": "raw/C/native-both/both_joint_reaction_test/stdout.log",
+      "sha256": "33e92a06584d529d772815c1b6f3432a3cabf2c544cbd0ec569b13575dcb61d9",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/both_joint_reaction_test/stdout.log",
+      "original_sha256": "33e92a06584d529d772815c1b6f3432a3cabf2c544cbd0ec569b13575dcb61d9"
+    },
+    {
+      "path": "raw/C/native-both/both_joint_separation_test/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/both_joint_separation_test/build.log",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/C/native-both/both_joint_separation_test/stderr.log",
+      "sha256": "93f39cd4b98caf1c505e4e5ff53f57efcbc7cb180b92ea8aee3cf93bb7426e26",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/both_joint_separation_test/stderr.log",
+      "original_sha256": "93f39cd4b98caf1c505e4e5ff53f57efcbc7cb180b92ea8aee3cf93bb7426e26"
+    },
+    {
+      "path": "raw/C/native-both/both_joint_separation_test/stdout.log",
+      "sha256": "64d73666edff94b7f4a2e30316561e01b0fc9551ad12298e09c9b842f0e14ae5",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/both_joint_separation_test/stdout.log",
+      "original_sha256": "64d73666edff94b7f4a2e30316561e01b0fc9551ad12298e09c9b842f0e14ae5"
+    },
+    {
+      "path": "raw/C/native-both/both_shape_replacement_test/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/both_shape_replacement_test/build.log",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/C/native-both/both_shape_replacement_test/stderr.log",
+      "sha256": "c9da4f2353e454e673f85b2ac3a5df1da79b76bf16a1deed133276f5d9471e08",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/both_shape_replacement_test/stderr.log",
+      "original_sha256": "c9da4f2353e454e673f85b2ac3a5df1da79b76bf16a1deed133276f5d9471e08"
+    },
+    {
+      "path": "raw/C/native-both/both_shape_replacement_test/stdout.log",
+      "sha256": "3f23d8f60e8f02a2cd92eff2fd261d9230292702dddb3aa466868365cb05b6a7",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/both_shape_replacement_test/stdout.log",
+      "original_sha256": "3f23d8f60e8f02a2cd92eff2fd261d9230292702dddb3aa466868365cb05b6a7"
+    },
+    {
+      "path": "raw/C/native-both/both_substep_forces_test/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/both_substep_forces_test/build.log",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/C/native-both/both_substep_forces_test/stderr.log",
+      "sha256": "2af4df7f7f3a813ce164333db277621d15c1acb9a9d1223d1481609511e824d5",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/both_substep_forces_test/stderr.log",
+      "original_sha256": "2af4df7f7f3a813ce164333db277621d15c1acb9a9d1223d1481609511e824d5"
+    },
+    {
+      "path": "raw/C/native-both/both_substep_forces_test/stdout.log",
+      "sha256": "b38060ab80bcc90d0d78a4faa0a72d2d12a514cff2d8f819caad1602266e50b7",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/both_substep_forces_test/stdout.log",
+      "original_sha256": "b38060ab80bcc90d0d78a4faa0a72d2d12a514cff2d8f819caad1602266e50b7"
+    },
+    {
+      "path": "raw/C/native-both/warm_start_fixture/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/warm_start_fixture/build.log",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/C/native-both/warm_start_fixture/stderr.log",
+      "sha256": "e73c864e7573356d94431907d46fd91d2525f49460db7c34f1209d756d123112",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/warm_start_fixture/stderr.log",
+      "original_sha256": "e73c864e7573356d94431907d46fd91d2525f49460db7c34f1209d756d123112"
+    },
+    {
+      "path": "raw/C/native-both/warm_start_fixture/stdout.log",
+      "sha256": "fed060c355bebf99befb97eeb9c91ff9cd0d7589a57f116f03fc2e1fd8e5486c",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-both/warm_start_fixture/stdout.log",
+      "original_sha256": "fed060c355bebf99befb97eeb9c91ff9cd0d7589a57f116f03fc2e1fd8e5486c"
+    },
+    {
+      "path": "raw/C/native-gpu/api_settings_test/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-gpu/api_settings_test/build.log",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/C/native-gpu/api_settings_test/stderr.log",
+      "sha256": "0e934da66a1c7dd32cf47d52eb527109b409b9f498112de5ce0095e0313bd938",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-gpu/api_settings_test/stderr.log",
+      "original_sha256": "0e934da66a1c7dd32cf47d52eb527109b409b9f498112de5ce0095e0313bd938"
+    },
+    {
+      "path": "raw/C/native-gpu/api_settings_test/stdout.log",
+      "sha256": "fc5b901a15d2cc851cfca07ec0201509fdf1d72ba721e9fb8c800c646efa7009",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-gpu/api_settings_test/stdout.log",
+      "original_sha256": "fc5b901a15d2cc851cfca07ec0201509fdf1d72ba721e9fb8c800c646efa7009"
+    },
+    {
+      "path": "raw/C/native-gpu/warm_start_fixture/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-gpu/warm_start_fixture/build.log",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/C/native-gpu/warm_start_fixture/stderr.log",
+      "sha256": "425872036fa61da3dc74e90b0a043481ef2905c60338215850ec92834e15d40d",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-gpu/warm_start_fixture/stderr.log",
+      "original_sha256": "425872036fa61da3dc74e90b0a043481ef2905c60338215850ec92834e15d40d"
+    },
+    {
+      "path": "raw/C/native-gpu/warm_start_fixture/stdout.log",
+      "sha256": "b941a30605a45f0d53cc3403f3afc20b69bcee1d823f65f164b387463f7d2dbc",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/native-gpu/warm_start_fixture/stdout.log",
+      "original_sha256": "b941a30605a45f0d53cc3403f3afc20b69bcee1d823f65f164b387463f7d2dbc"
+    },
+    {
+      "path": "raw/C/ordinary-both/api_settings_test/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/api_settings_test/build.log",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/C/ordinary-both/api_settings_test/stderr.log",
+      "sha256": "9f3068b587dbf36e262b30e97b27808b90cc2ea3ccf54a2a9eb3e08e9800882c",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/api_settings_test/stderr.log",
+      "original_sha256": "9f3068b587dbf36e262b30e97b27808b90cc2ea3ccf54a2a9eb3e08e9800882c"
+    },
+    {
+      "path": "raw/C/ordinary-both/api_settings_test/stdout.log",
+      "sha256": "fc5b901a15d2cc851cfca07ec0201509fdf1d72ba721e9fb8c800c646efa7009",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/api_settings_test/stdout.log",
+      "original_sha256": "fc5b901a15d2cc851cfca07ec0201509fdf1d72ba721e9fb8c800c646efa7009"
+    },
+    {
+      "path": "raw/C/ordinary-both/both_joint_reaction_test/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/both_joint_reaction_test/build.log",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/C/ordinary-both/both_joint_reaction_test/stderr.log",
+      "sha256": "0e73efcc5ccfc5462b2d202bb7bec10354973965b0c1c782aeeabd340a249cac",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/both_joint_reaction_test/stderr.log",
+      "original_sha256": "0e73efcc5ccfc5462b2d202bb7bec10354973965b0c1c782aeeabd340a249cac"
+    },
+    {
+      "path": "raw/C/ordinary-both/both_joint_reaction_test/stdout.log",
+      "sha256": "33e92a06584d529d772815c1b6f3432a3cabf2c544cbd0ec569b13575dcb61d9",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/both_joint_reaction_test/stdout.log",
+      "original_sha256": "33e92a06584d529d772815c1b6f3432a3cabf2c544cbd0ec569b13575dcb61d9"
+    },
+    {
+      "path": "raw/C/ordinary-both/both_joint_separation_test/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/both_joint_separation_test/build.log",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/C/ordinary-both/both_joint_separation_test/stderr.log",
+      "sha256": "93f39cd4b98caf1c505e4e5ff53f57efcbc7cb180b92ea8aee3cf93bb7426e26",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/both_joint_separation_test/stderr.log",
+      "original_sha256": "93f39cd4b98caf1c505e4e5ff53f57efcbc7cb180b92ea8aee3cf93bb7426e26"
+    },
+    {
+      "path": "raw/C/ordinary-both/both_joint_separation_test/stdout.log",
+      "sha256": "64d73666edff94b7f4a2e30316561e01b0fc9551ad12298e09c9b842f0e14ae5",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/both_joint_separation_test/stdout.log",
+      "original_sha256": "64d73666edff94b7f4a2e30316561e01b0fc9551ad12298e09c9b842f0e14ae5"
+    },
+    {
+      "path": "raw/C/ordinary-both/both_shape_replacement_test/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/both_shape_replacement_test/build.log",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/C/ordinary-both/both_shape_replacement_test/stderr.log",
+      "sha256": "c9da4f2353e454e673f85b2ac3a5df1da79b76bf16a1deed133276f5d9471e08",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/both_shape_replacement_test/stderr.log",
+      "original_sha256": "c9da4f2353e454e673f85b2ac3a5df1da79b76bf16a1deed133276f5d9471e08"
+    },
+    {
+      "path": "raw/C/ordinary-both/both_shape_replacement_test/stdout.log",
+      "sha256": "3f23d8f60e8f02a2cd92eff2fd261d9230292702dddb3aa466868365cb05b6a7",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/both_shape_replacement_test/stdout.log",
+      "original_sha256": "3f23d8f60e8f02a2cd92eff2fd261d9230292702dddb3aa466868365cb05b6a7"
+    },
+    {
+      "path": "raw/C/ordinary-both/both_substep_forces_test/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/both_substep_forces_test/build.log",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/C/ordinary-both/both_substep_forces_test/stderr.log",
+      "sha256": "2af4df7f7f3a813ce164333db277621d15c1acb9a9d1223d1481609511e824d5",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/both_substep_forces_test/stderr.log",
+      "original_sha256": "2af4df7f7f3a813ce164333db277621d15c1acb9a9d1223d1481609511e824d5"
+    },
+    {
+      "path": "raw/C/ordinary-both/both_substep_forces_test/stdout.log",
+      "sha256": "b38060ab80bcc90d0d78a4faa0a72d2d12a514cff2d8f819caad1602266e50b7",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/both_substep_forces_test/stdout.log",
+      "original_sha256": "b38060ab80bcc90d0d78a4faa0a72d2d12a514cff2d8f819caad1602266e50b7"
+    },
+    {
+      "path": "raw/C/ordinary-both/warm_start_fixture/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/warm_start_fixture/build.log",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/C/ordinary-both/warm_start_fixture/stderr.log",
+      "sha256": "e73c864e7573356d94431907d46fd91d2525f49460db7c34f1209d756d123112",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/warm_start_fixture/stderr.log",
+      "original_sha256": "e73c864e7573356d94431907d46fd91d2525f49460db7c34f1209d756d123112"
+    },
+    {
+      "path": "raw/C/ordinary-both/warm_start_fixture/stdout.log",
+      "sha256": "f76e5c5f72e40df885b6e0dda8e66f5fdc621a657325107f37ac7568bf60913f",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-both/warm_start_fixture/stdout.log",
+      "original_sha256": "f76e5c5f72e40df885b6e0dda8e66f5fdc621a657325107f37ac7568bf60913f"
+    },
+    {
+      "path": "raw/C/ordinary-gpu/api_settings_test/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-gpu/api_settings_test/build.log",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/C/ordinary-gpu/api_settings_test/stderr.log",
+      "sha256": "0e934da66a1c7dd32cf47d52eb527109b409b9f498112de5ce0095e0313bd938",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-gpu/api_settings_test/stderr.log",
+      "original_sha256": "0e934da66a1c7dd32cf47d52eb527109b409b9f498112de5ce0095e0313bd938"
+    },
+    {
+      "path": "raw/C/ordinary-gpu/api_settings_test/stdout.log",
+      "sha256": "fc5b901a15d2cc851cfca07ec0201509fdf1d72ba721e9fb8c800c646efa7009",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-gpu/api_settings_test/stdout.log",
+      "original_sha256": "fc5b901a15d2cc851cfca07ec0201509fdf1d72ba721e9fb8c800c646efa7009"
+    },
+    {
+      "path": "raw/C/ordinary-gpu/warm_start_fixture/build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-gpu/warm_start_fixture/build.log",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/C/ordinary-gpu/warm_start_fixture/stderr.log",
+      "sha256": "425872036fa61da3dc74e90b0a043481ef2905c60338215850ec92834e15d40d",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-gpu/warm_start_fixture/stderr.log",
+      "original_sha256": "425872036fa61da3dc74e90b0a043481ef2905c60338215850ec92834e15d40d"
+    },
+    {
+      "path": "raw/C/ordinary-gpu/warm_start_fixture/stdout.log",
+      "sha256": "ac5ec86146de1f20e8e418f5570f9916e37ddb35224aa7ded209f945a3ce0fdc",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/C/ordinary-gpu/warm_start_fixture/stdout.log",
+      "original_sha256": "ac5ec86146de1f20e8e418f5570f9916e37ddb35224aa7ded209f945a3ce0fdc"
+    },
+    {
+      "path": "raw/compiled-fixture-inputs.tar.gz",
+      "sha256": "02b9ec1aab2af115c3a344d4719055a31725798fe6f56faafd3aafb98235deb9",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/compiled-fixture-inputs.tar.gz",
+      "original_sha256": "02b9ec1aab2af115c3a344d4719055a31725798fe6f56faafd3aafb98235deb9"
+    },
+    {
+      "path": "raw/native-Rust-1.log",
+      "sha256": "107ebf95792c2dc79250da436abe8d169830e44c1f783f805599d50ce8e04944",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/native-Rust-1.log",
+      "original_sha256": "107ebf95792c2dc79250da436abe8d169830e44c1f783f805599d50ce8e04944"
+    },
+    {
+      "path": "raw/native-Rust-10.log",
+      "sha256": "fa09832fcad540970f51eff960c3d3ca6d754760e1f47e924b90757623598472",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/native-Rust-10.log",
+      "original_sha256": "fa09832fcad540970f51eff960c3d3ca6d754760e1f47e924b90757623598472"
+    },
+    {
+      "path": "raw/native-Rust-2.log",
+      "sha256": "5c51680b187ddd0ce79f862845e96d0b8e6484a53b0e495bce65fd9e47ee73ac",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/native-Rust-2.log",
+      "original_sha256": "5c51680b187ddd0ce79f862845e96d0b8e6484a53b0e495bce65fd9e47ee73ac"
+    },
+    {
+      "path": "raw/native-Rust-3.log",
+      "sha256": "367de00a087e66e926d8becf5c50dc9ddecf024b6216b998868117f0890ff870",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/native-Rust-3.log",
+      "original_sha256": "367de00a087e66e926d8becf5c50dc9ddecf024b6216b998868117f0890ff870"
+    },
+    {
+      "path": "raw/native-Rust-4.log",
+      "sha256": "f6842757904c21f9616c2abfde7081301bc3867b6bf8f5a1a965cb923aa1e72d",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/native-Rust-4.log",
+      "original_sha256": "f6842757904c21f9616c2abfde7081301bc3867b6bf8f5a1a965cb923aa1e72d"
+    },
+    {
+      "path": "raw/native-Rust-5.log",
+      "sha256": "8a7cf7eae638dedb54a758be1222e9d9dc89c2c412d0347c8c43bae0477e83ec",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/native-Rust-5.log",
+      "original_sha256": "8a7cf7eae638dedb54a758be1222e9d9dc89c2c412d0347c8c43bae0477e83ec"
+    },
+    {
+      "path": "raw/native-Rust-6.log",
+      "sha256": "68fd6e1c73bf4c8d19a62f5dbce88311afdea3b6548841cef0689ec3bce83206",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/native-Rust-6.log",
+      "original_sha256": "68fd6e1c73bf4c8d19a62f5dbce88311afdea3b6548841cef0689ec3bce83206"
+    },
+    {
+      "path": "raw/native-Rust-7.log",
+      "sha256": "37039609e988afad8753c2b090f716908646b6c478d840f4468da2ba4145dd76",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/native-Rust-7.log",
+      "original_sha256": "37039609e988afad8753c2b090f716908646b6c478d840f4468da2ba4145dd76"
+    },
+    {
+      "path": "raw/native-Rust-8.log",
+      "sha256": "b8c72ad20b243634a9cb8b735198e5f91c481a6e3f4471be33272eddc0b6bfbf",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/native-Rust-8.log",
+      "original_sha256": "b8c72ad20b243634a9cb8b735198e5f91c481a6e3f4471be33272eddc0b6bfbf"
+    },
+    {
+      "path": "raw/native-Rust-9.log",
+      "sha256": "6c4020493a241b30aefaaa75593a85aa264954b6c052b96e3786e1f607e933f5",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/native-Rust-9.log",
+      "original_sha256": "6c4020493a241b30aefaaa75593a85aa264954b6c052b96e3786e1f607e933f5"
+    },
+    {
+      "path": "raw/ordinary-Rust-1.log",
+      "sha256": "3aa4c2617448c831f2b101205ca071737cc5ee331e751beb808744c3164d588e",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/ordinary-Rust-1.log",
+      "original_sha256": "3aa4c2617448c831f2b101205ca071737cc5ee331e751beb808744c3164d588e"
+    },
+    {
+      "path": "raw/ordinary-Rust-10.log",
+      "sha256": "249f25ce5ed77ef452829abc994dd98e3d056a25ba0f2377bf69ec4a30ea26a6",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/ordinary-Rust-10.log",
+      "original_sha256": "249f25ce5ed77ef452829abc994dd98e3d056a25ba0f2377bf69ec4a30ea26a6"
+    },
+    {
+      "path": "raw/ordinary-Rust-2.log",
+      "sha256": "80965aaf130d4841cf04cc929c2691506e63ddd1bac0334c8607096b3b002e01",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/ordinary-Rust-2.log",
+      "original_sha256": "80965aaf130d4841cf04cc929c2691506e63ddd1bac0334c8607096b3b002e01"
+    },
+    {
+      "path": "raw/ordinary-Rust-3.log",
+      "sha256": "33865bcd3a1b25b8f1364ae523a3ede0f11445ce885e028c3571029c199be321",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/ordinary-Rust-3.log",
+      "original_sha256": "33865bcd3a1b25b8f1364ae523a3ede0f11445ce885e028c3571029c199be321"
+    },
+    {
+      "path": "raw/ordinary-Rust-4.log",
+      "sha256": "ffa3d5fac9acb5ac21d37d37f9ae577e8f2d309fe497309b730b6e73fc40d1e2",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/ordinary-Rust-4.log",
+      "original_sha256": "ffa3d5fac9acb5ac21d37d37f9ae577e8f2d309fe497309b730b6e73fc40d1e2"
+    },
+    {
+      "path": "raw/ordinary-Rust-5.log",
+      "sha256": "1caf2582420de2e785b351df3ab44fbbd3994922005e9bd4d63d6c563c60d4e9",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/ordinary-Rust-5.log",
+      "original_sha256": "1caf2582420de2e785b351df3ab44fbbd3994922005e9bd4d63d6c563c60d4e9"
+    },
+    {
+      "path": "raw/ordinary-Rust-6.log",
+      "sha256": "5f0786d292b81ce505ad5557da944070ea48664886166958ca2b35627d97ca5c",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/ordinary-Rust-6.log",
+      "original_sha256": "5f0786d292b81ce505ad5557da944070ea48664886166958ca2b35627d97ca5c"
+    },
+    {
+      "path": "raw/ordinary-Rust-7.log",
+      "sha256": "c6f559e0131825d3fe5b0d936edf4583e5c5d7fa84dea30002b4c4b1d8b622da",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/ordinary-Rust-7.log",
+      "original_sha256": "c6f559e0131825d3fe5b0d936edf4583e5c5d7fa84dea30002b4c4b1d8b622da"
+    },
+    {
+      "path": "raw/ordinary-Rust-8.log",
+      "sha256": "c6b9cfc3f01ea41edd6f502f3df4fc3e2e45360c03ac0c1e1b9dd646eab501fc",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/ordinary-Rust-8.log",
+      "original_sha256": "c6b9cfc3f01ea41edd6f502f3df4fc3e2e45360c03ac0c1e1b9dd646eab501fc"
+    },
+    {
+      "path": "raw/ordinary-Rust-9.log",
+      "sha256": "52edeb7cfbfd104cd8ea3d6f5f3ff3b25eba0b4eeae626a7661b6572ba0cd30e",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/ordinary-Rust-9.log",
+      "original_sha256": "52edeb7cfbfd104cd8ea3d6f5f3ff3b25eba0b4eeae626a7661b6572ba0cd30e"
+    },
+    {
+      "path": "raw/package.py",
+      "sha256": "edcc3f176d6b71ac8c1aac55d96aa5ec72ebbec5ebb4f91385e7b86fdc0ee77e",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/package.py",
+      "original_sha256": "edcc3f176d6b71ac8c1aac55d96aa5ec72ebbec5ebb4f91385e7b86fdc0ee77e"
+    },
+    {
+      "path": "raw/protocol-before-runs.json",
+      "sha256": "402b8781c006378f11f884a85d380330540323edf41878aa03c3b6e330921c7a",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/protocol-before-runs.json",
+      "original_sha256": "402b8781c006378f11f884a85d380330540323edf41878aa03c3b6e330921c7a"
+    },
+    {
+      "path": "raw/receipt.json",
+      "sha256": "09083a01d6eafd9c6ff55522a7d83fd28b1b36ccd8bd212b847414436688ae60",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/receipt.json",
+      "original_sha256": "09083a01d6eafd9c6ff55522a7d83fd28b1b36ccd8bd212b847414436688ae60"
+    },
+    {
+      "path": "raw/run.py",
+      "sha256": "f3af752e1aca5f578254130bafa41afcc00fbd13716c905cc5d39b4048943cf9",
+      "original_path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-supported/run.py",
+      "original_sha256": "f3af752e1aca5f578254130bafa41afcc00fbd13716c905cc5d39b4048943cf9"
+    }
+  ]
+}

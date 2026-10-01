@@ -81,7 +81,7 @@ queue and recovery record. No separate competing production backlog.
   All 415 stateful symbols are inventoried; 39 exclusions report explicit errors.
   The [diagnostics campaign](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-diagnostics-2026-10-01/README.md)
   passes 8 C processes, 4 Rust processes, 16 preserved regressions, 16 host controls
-  and four viewer builds. Shared routing is corrected. The 40 CPU-first standard clips are validated/reviewed. A two-app viewer campaign stops on a retained mouse-stimulus harness failure; actual counter/tab interactions and broader supported API behavior remain OPEN.
+  and four viewer builds. Shared routing is corrected. The 40 CPU-first standard clips are validated/reviewed. A two-app viewer campaign stops on a retained mouse-stimulus harness failure. The [supported-contract campaign](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-supported-2026-10-01/README.md) passes 16 linked C processes and 20 Rust checks on exactly matching compiled inputs. Sensor/compound/mesh diagnostic populations and actual viewer controls remain OPEN.
 
 - [ ] **PR03 — Freeze the release qualification contract and baseline.** Reconcile
   the existing fixed fixture matrix and evidence with current sources. Record
@@ -250,182 +250,55 @@ rely on conversation history as the sole record of a pending experiment.
 
 | Field | Verified value |
 | --- | --- |
-| Workspace / branch / delivered milestone | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu`; solver milestone `695c93ada50220089018009230209e5050ed9252`; partial API milestone `806e634c9b0f5fe58fdd8a9a0dac171e862890d4`; recovery delivery `90efcc44b910233436519f0bee84dff9a38dcacb`. Resolve current HEAD and remote synchronization on continuation |
-| Goal / authorization | Active full roadmap; implementation and verified milestone commit/push explicitly authorized |
-| Current item | PR02 in progress: unavailable operations and focused diagnostic APIs are implemented/verified. Broader supported API behavior and actual counter/tab interactions remain open. PR01 delivered; PR03–PR10 open |
-| Current implementation | Diagnostic C/Rust/header APIs, shared combined routing, UI labels and schema v24 are verified by the focused campaign. Forty required CPU-first clips are validated/reviewed. Partial diagnostic milestone `d4e91bca235ce3565b66d5ee031565c857806ede` is committed/pushed. No broader API/viewer/performance acceptance claimed |
-| PR01 delivered candidate | Third candidate keeps6.25mm support only after an actual solid CCD hit (FAST set,CCD_NO_HIT clear); fast tangent/no-hit gaps remain disabled. Default-on unchanged |
-| PR01 closed focused checks |20/20 C confirmations,4/4 stricter guards,CPU tangent reference,10/10 fresh110step raw-v23 repeats with every-step health,126/126 frozen regressions,14storage/comparator controls |
-| Linked API audit | Both current linked builds inventory 415 stateful symbols: 39 explicit exclusions, 0 remaining stubs/placeholders, 0 missing/duplicate symbols and 0 CPU-only comparison passthroughs. Implemented behavior remains unqualified outside the recorded focused cases |
-| Build/source proof | Frozen ordinary/native library and test receipts;10engine input sets resolved byte-exactly from base Git plus source overlays. Renderer/oracle and serial native-viewer compiled inputs/binaries recorded separately |
-| Native scene finding | Zero ghost launches/healthy300step CPU/GPU runs. Both FAIL additional5mm all-window screen on step6. Offline source calculation independently matches both engines’ first6heights/vertical velocities exactly asfloat32; unchanged mesh glancing filter leaves discrete landing. Original isolated0.495m CCD bound/tolerances remain passing and unchanged; failed extra screen retained |
-| Attribution budget | One separately frozen pre-PR01 native baseline diagnostic consumed; startup times out180s,0completed results. Retained logs/invalid capture;no qualification credit or selective retry |
-| Original rejected budget | Zero-shell:baseline1,CPUreference1,CPUdiagnostic1,GPUtrial1/20,GPUdiagnostic1;CCD fails,remaining19cancelled. Broad guard:20C/4guard/10state/126regressions pass but semantic no-hit gap defect rejects it. Neither budget reused |
-| Recordings | PR01 clips preserved. New diagnostic milestone: 40 standard CPU/GPU clips,300frames,1280×720,30fps; real CPU first/latest GPU next, wide mixed camera. Portable full clips/manifests/hashes/review sheets included. Previous CPU column archived; older native CPU reference restored for its existing row |
-| Processes | All builds/tests/recordings are terminal. Standard runner 85415 and sheet runner 80429 exit 0; CPU viewer 45878 and ordinary-GPU viewer 57613 exit 0. Viewer campaign stopped on missing tab selection, three other apps unlaunched. Fresh inspection finds no physics/build/recording jobs; verify before resuming |
-| Portable evidence | PR01/partial PR02 datasets preserved. PR02 diagnostics report contains 269 raw files (~73 MiB): focused results, compiled input archives/receipts, full 40 clips/manifests/review sheets, two actual viewer clips/actions and retained harness failure. Both CPU-first HTML galleries are portable |
-| Next discriminating work | Audit directly applicable existing warm-start/speculative/force/replacement/joint-query evidence against current sources; freeze a distinct finite budget only for uncovered required behavior. Actual viewer-control qualification must validate synthetic stimulus delivery before testing controls; do not rerun or extend the stopped tab-only campaign |
-| New frozen diagnostics budget | [Protocol](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-diagnostics-2026-10-01/protocol.json) exhausted: 2/2 baseline GPU, 8/8 candidate C, 4/4 Rust, 16/16 preserved regression processes, storage suite once (16 controls). One candidate; 0 timing runs. All GPU processes pass their stated contract; baseline reproductions do not receive acceptance credit. Do not reuse or extend this campaign |
-| Scope / known remaining failures | Rain physical acceptance and final whole-matrix/API/runtime/build/performance gates remain OPEN. Closed mixed scheduling budget55runs remains closed;no timing/Rain campaign resumed |
-| Last verification | 2026-10-01: HEAD `d4e91bca235ce3565b66d5ee031565c857806ede`; milestone push succeeded, remote synchronization verified below. Compiled diagnostic engine inputs still match current sources exactly. Validator passes all 269 files, receipts/budget and 40 clip hashes/formats. Actual GPU Profile observed; Counters/Frame Time screenshots remain Profile and receive no pass. Protected Box3D/WASM paths unchanged; no timing/performance claim |
+| Workspace / branch | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu` |
+| Goal / authorization | Active full roadmap; implementation and verified milestone commit/push authorized by the submitted goal |
+| Delivered source | PR01 `695c93ada50220089018009230209e5050ed9252`; exclusions `806e634c9b0f5fe58fdd8a9a0dac171e862890d4`; truthful diagnostics `d4e91bca235ce3565b66d5ee031565c857806ede`; latest delivered recovery `7f302ef671a7c1fbb06829a0a5d7036a7a421d7c`. Verify actual HEAD/remote on continuation |
+| Current item | PR02: exclusions, focused diagnostics and supported control/force/replacement/joint queries pass their scoped contracts. Sensor/compound/mesh diagnostic populations and actual viewer controls remain open. PR03–PR10 remain unchecked |
+| Current source/build proof | Current engine/C adapter inputs match frozen diagnostic receipts exactly. Ordinary library SHA-256 `edbdb251e06e9c9bc5955045191e4ca2932bfacae6265581a0acfe3be16a6050`, native `a736a81fae6b45751fadd0f57dcf795a0e44f7c21d1e54996c668b754cc393e9`; exact tests, archives, generated adapters and linked CPU inputs are identified in the reports below |
+| Linked inventory | 415 stateful symbols, 39 explicit exclusions; no remaining detected stub/placeholder/missing/duplicate symbol or CPU-only combined passthrough. Source/link coverage does not qualify all implemented behavior |
+| Supported API campaign | Runner 81222 exits 0: 16/16 C processes and 20/20 Rust checks (18 GPU, 2 host), unchanged assertions/tolerances; all completed results retained. Portable validator passes 73 raw files. No production changes, candidates or timing runs |
+| Diagnostic campaign | Exhausted: 2/2 baseline reproductions, 8/8 candidate C, 4/4 Rust, 16/16 preserved regressions and one 16-control host suite. One candidate, no timing. Baseline reproductions get no acceptance credit; do not repeat/extend |
+| Actual UI campaign | Stopped after CPU + ordinary GPU, both exit 0. GPU Profile shows measured intervals/step IDs; attempted Counters/Frame Time screenshots still show Profile. Immediate synthetic mouse down/up did not select tabs. Three apps unlaunched, no interaction pass or rerun |
+| Recordings | Diagnostic milestone has 40 validated/reviewed CPU-first standard clips, 300 frames at 1280×720/30fps. Latest local GPU column `2026-10-01-truthful-native-diagnostics`; old columns/datasets preserved. Full clips, manifests, source/binary receipts and review sheets are portable |
+| Processes | All recorded builders/tests/recorders/viewers, including 81222, are terminal. Fresh process inspection finds no active matching jobs. Verify before launching; a recorded PID/handle alone is not proof |
+| Remaining known physics/performance limits | Rain residuals and distance-joint first-step discrepancy remain unresolved. PR01 additional all-window 5mm floor screen fails CPU and GPU at step 6; discrete-landing analysis is retained, original isolated CCD limits unchanged. Native baseline startup diagnostic times out at 180s, no pass. Diagnostic host occupancy scans/device peak atomics add unmeasured work; PR08 must assess cost |
+| Next action | Finish PR02's uncovered populations and actual viewer controls. Read fixtures/source before defining a distinct finite contract/budget. Verify synthetic input delivery in a nonphysics receiver before another required-control campaign; never restart the stopped tab-only experiment under a new label |
+| Last verification | 2026-10-01, supported campaign ends successfully. Engine and linked archive hashes match frozen receipts; portable validator passes. Protected Box3D/WASM sources untouched. No final qualification or speedup claim |
 
-PR02 partial evidence is under
-`experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/`.
-Both baseline host processes reproduce nonnull recording creation without an
-error. The eight candidate-process budget is closed: seven complete passes and
-one retained harness failure. That failure occurs after all immediate API error
-assertions, on an incorrect errno-after-libc assumption; its old fixture is
-preserved. A combined link failure exposes a real generator-selection defect,
-fixed before spending any combined trials. A separately frozen one-process
-closed-stderr case passes after publishing ENOTSUP again after failed output.
-No failed trial is replaced and no campaign budget is extended.
+### Evidence to resume from
 
-Thirty-nine excluded recording/player/CPU-worker/static-tree operations now
-report ENOTSUP and a sticky thread-local operation name; recording creation
-returns NULL. Combined generation retains these errors rather than successful
-CPU-only passthroughs. The 81 portable raw files and six exact compiled-source
-sets include all failures and build/source receipts. Partial API milestone `806e634c9b0f5fe58fdd8a9a0dac171e862890d4` is committed and pushed; remote0/0 verified. PR02 remains open.
+- [PR01 report](../../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md): completed world controls, rejected variants, original-limit repeat/regression checks, recordings, additional failed floor screen and incomplete baseline attribution. Retain those failures. Third candidate preserves 6.25mm support only after a solid CCD hit (FAST set, CCD_NO_HIT clear), not a fast tangent gap. CPU's world toggle only stores the flag; the pinned hull/mesh shape scope is the independent reference. Final physical qualification is still PR03–PR07.
+- [PR02 exclusions report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/README.md): 39 ENOTSUP operations, NULL recording creation, sticky thread-local operation names and combined routing. Closed eight-process host budget has seven passes and a retained errno-after-libc harness failure. Separately frozen closed-stderr case passes; no failed trial replaced.
+- [PR02 diagnostic report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-diagnostics-2026-10-01/README.md): 269 portable files, exact build/input receipts, all 40 clips, CPU-first galleries and stopped UI protocol. Counter reads synchronize public non-sensor contacts; seven profile aliases use NaN/mask/timestamp availability; occupancy peaks differ from reservation sizes. Simple box fixtures do not qualify all public populations.
+- [PR02 supported-contract report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-supported-2026-10-01/README.md): immutable protocol, all 16 C / 20 Rust results, 73 raw files, compiled fixture archive and source applicability. Independent CPU comparisons cover named forces/replacement/joint contracts at original 1e-5 tolerances. Warm-start incidental clocks are not performance data. Wheel angular separation remains unavailable upstream.
 
-The diagnostic implementation and its focused campaign now pass; PR02 as a
-whole remains open. Read the linked report and `progress.json` for the exhausted
-budget. Public contact counters synchronize the native registry; routine sidebar
-and benchmark accounting retains cheap public topology and labelled scheduling
-metrics. Profiles publish seven measured aggregate aliases with NaN/mask/step for
-availability; tests validate the returned mask, not complete CPU-profiler parity.
-CPU-specific/color/recycling fields remain explicitly unavailable. Occupancy peaks
-and 64-bit primary-buffer reservations have separate documented meanings.
+Local frozen engine/test inputs are under
+`experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/`.
+Four C/viewer build directories are under `.../pr02-diagnostics/c/<ordinary|native>-<gpu|both>/cmake`.
+Supported runner, executables and terminal receipt are under
+`.../pr02-supported/`; exact commands/environments are also portable in its report.
+Do not run those closed runners again. Use a new protocol only for an explicit
+uncovered requirement or a distinct evidence-supported hypothesis.
 
-The new diagnostic device word 74 is independent of ray words 0–31, retirement
-commands 32–34, sticky status 66, phase/hint words 67–72, allocation high-water 73,
-and component/memo workspaces at 256+. It is never read by scheduling/solving,
-never cleared per step, and is copied across query/simulator growth. Host/device
-peaks are captured in v24; old readers remain supported. Two fresh peak fixtures
-prove unread-step/retirement/growth preservation. Busy reads fail without recursion,
-and capacity-loss queries/clear never heal a failed world.
+Schema v24 adds host/device occupancy peaks. Device query word 74 is independent
+of ray/status/phase/allocation workspaces, never feeds solving, and persists
+across unread steps, retirement and growth. Earlier schemas remain supported.
+Routine viewer accounting stays cheap; explicit public diagnostic reads may wait.
+Profile polling does not guarantee a timestamp is available on the first read.
+Busy/reentrant diagnostic calls return status; clearing errors never heals a failed world.
 
-Frozen current diagnostic libraries are under
-`experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/`:
-ordinary `edbdb251e06e9c9bc5955045191e4ca2932bfacae6265581a0acfe3be16a6050`,
-native `a736a81fae6b45751fadd0f57dcf795a0e44f7c21d1e54996c668b754cc393e9`.
-Receipts include actual Rust/WGSL/Box3D C/header inputs before/after compilation,
-not only invocation HEAD. A preliminary incomplete input receipt remains local;
-complete receipts supersede it before GPU trials. Pre-launch cwd/syntax failures
-are recorded; no GPU trial is discarded, replaced or extended. Native runtime
-uses `scripts/native-samples-cache-env.sh` plus explicit NVIDIA/Vulkan and
-CPU-compatible live ordering. Exact settings/selectors are in the protocol.
+The ordinary recorder (`9311af7b0a6f47c0ba2c8b011c028904460baefdae99d3f99ef0eb8f52f06368`)
+and real CPU oracle (`848477c467c448fcbbd938127f411ba32ad0b87ab7343579c65efff9a3238250`)
+have separate receipts. Native viewers likewise have separate compiled-input proof.
+Use `SKIP_METRICS=1` for GPU snapshot work. Record every affected scene before
+solver/visual commits, real Box3D CPU first, without creating an unbudgeted timing campaign.
 
-CMake's viewer include path and shared-generator dependency were completed after
-the C campaign. Four viewer builds verify byte-identical generated adapter sources
-from the campaign, plus separate before/after UI sources, compile commands and
-binary hashes. Their CMake directories are under `.../pr02-diagnostics/c/<backend>-<gpu|both>/cmake`.
-Four viewer builds do not claim actual tab interaction coverage. New required snapshots are now complete; diagnostic source is committed/pushed as `d4e91bca235ce3565b66d5ee031565c857806ede`. Use
-`SKIP_METRICS=1` for GPU recording to avoid starting an unbudgeted timing campaign.
-Preserve the old CPU clips before refreshing the real CPU-first comparison column.
-Freeze recording-app/oracle build inputs and hashes separately; prior PR01 app
-binaries do not represent the changed diagnostic shader.
-
-Next, close the recording/viewer portion of this milestone, then the remaining
-supported force/replacement/joint/control behavior. Source/link inventories alone
-cannot close them. Reuse directly applicable existing evidence only after a
-source/contract audit; freeze a distinct finite budget for uncovered requirements,
-not a selective rerun of this exhausted diagnostic campaign. Sensor/compound/mesh
-public diagnostic populations and special profile/capacity freshness cases are
-not broadly qualified by the simple box fixture. No Rain or timing campaign has
-been resumed. All PR03–PR10 release gates remain open.
-
-PR01 discovery: pinned CPU `b3World_EnableSpeculative` only stores/serializes a
-flag; collision code never reads it. Its shape switch covers hull/triangle only,
-with sphere/capsule and convex speculation retained. After allowing time for an
-optional preference question, use this existing hull/mesh scope. The CPU shape
-flags are an independent reference for isolated controls; do not claim CPU world
-toggle parity or promote the unsafe CPU shape-off CCD result to a pass.
-
-The first zero-shell implementation reproduced CPU shape-off CCD tunnelling.
-The second guard preserved floor safety and repeated exactly, but its recorded
-5mm fast tangent gap has contacts=1 despite no CCD impact. This conflicts with
-the documented shape-off positive-gap behavior and can revive ghost witnesses;
-the native s&box Ghost Collisions scene specifically disables hull speculation.
-Reject that broader guard instead of closing PR01 on narrower passing checks.
-
-The third distinct hypothesis uses existing captured body flags to distinguish
-an actual solid CCD handoff (FAST set, CCD_NO_HIT clear) from mere fast motion.
-Only the actual handoff retains `LINEAR_SLOP + 0.25*LINEAR_SLOP`. All original
-limits remain unchanged, and independent CPU fast/tangent gap controls pass
-with no contacts. Budgets/stop rules are separately frozen; prior campaigns and
-unfavorable trials remain closed/retained. No timing campaign is running.
-
-Core-state capture advances to v23 for the future-relevant world policy and
-pending refresh flag. Readers retain old schemas and require valid Boolean
-policy fields in v23. Native full replay already keys every SimParams byte;
-meshes are ineligible for full replay. Both five-process control captures and
-all63 selected checks/backend have also been freshly requalified on the
-handoff candidate; prior rejected results were not carried forward.
-
-Required20standard scenes are now recorded through the scripts with real CPU
-first, latest GPU next; all40clips have300frames at1280×720/30fps. Both regions
-are visible in mixed-topology's shared wide camera. Old CPU clips remain in a
-local archive and older datasets are untouched. Portable clips, manifests,
-compiled-input receipts and four first/last review sheets are in the PR01 report.
-The native s&box pair is also recorded/reviewed. Initial/end geometry and motion
-are plausible; visual comparisons do not close analytical physics gates. The extra floor-screen failure is retained. Independent source/float32 analysis
-explains this glancing/discrete landing; it does not raise a limit or claim full
-scene physics qualification. The0.495m isolated normal-impact CCD bound and all
-existing checks remain unchanged/passing. The180s baseline diagnostic cannot
-distinguish slow first-time collision compilation from a hang; it is incomplete,
-not a baseline pass. PR01 functional gates close after this applicability review;
-final physical/runtime gates remain open. No live jobs.
-
-Evidence and recovery sources:
-
-- [PR01 report and retained raw data](../../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md): control/repeat/regression passes, rejected variants, native floor failure and incomplete attribution. Source/float32 review explains the initial discrete landing; failed screen and incomplete startup diagnostic remain visible. Final physical/runtime qualification remains open.
-
-- [`gpu-warm-start.md`](gpu-warm-start.md): completed control implementation;
-  old narrower exclusions apply to that completed task.
-- [`../gpu-mixed-scheduling-goal.md`](../gpu-mixed-scheduling-goal.md): closed
-  experiment, target unmet, rejection/restoration and exhausted budget.
-- [`../gpu-scheduling-goal.md`](../gpu-scheduling-goal.md): completed opt-in
-  desktop policy; broader/laptop qualification is not implied.
-- [`../../experiments/gpu-physics/benchmarks/mixed-scheduling-2026-09-30/README.md`](../../experiments/gpu-physics/benchmarks/mixed-scheduling-2026-09-30/README.md):
-  portable mixed evidence and rejection details.
-
-When activated, use `experiments/gpu-physics/artifacts/production-readiness/`
-for local captures and `experiments/gpu-physics/benchmarks/production-readiness/`
-for portable reports/receipts. PR01 local baseline/candidate build logs, frozen libraries and source receipts
-are under artifacts/production-readiness/pr01-speculative; portable evidence and current recordings are in the linked PR01 report.
-Its source-applicability review closes the original functional contract while
-retaining the extra failed screen and incomplete startup diagnostic. Record each actual path, command, exit, source revision, build/input hashes,
-adapter/driver, budget consumption, result and next discriminating action here
-or in its linked item report. Mark PR10 complete only after a final evidence audit.
-
-PR02 recording builds are complete: standalone ordinary recorder SHA-256
-`9311af7b0a6f47c0ba2c8b011c028904460baefdae99d3f99ef0eb8f52f06368`;
-real Box3D oracle `848477c467c448fcbbd938127f411ba32ad0b87ab7343579c65efff9a3238250`.
-Before/after compiled input archives and receipts are under
-`artifacts/production-readiness/pr02-diagnostics/recording-build/`.
-Both build runners are terminal (8280/34938 exit 0); process inspection finds
-no active physics/build jobs. A separate recording protocol is frozen at
-`.../pr02-diagnostics/recording-protocol.json`: 20 CPU then 20 GPU clips,
-300 frames, shared mixed camera, no GPU metric runs. Older CPU clips are
-archived before refresh; recordings have not yet received acceptance credit.
-
-PR02 diagnostics recording milestone is now complete: all40 new standard clips
-validate and first/last sheets are reviewed. See the portable report's CPU-first
-gallery. The separate five-app actual-UI protocol stops after two apps because
-immediate synthetic mouse press/release does not switch tabs. Real CPU and
-ordinary GPU launch/quit cleanly; GPU Profile rows/step IDs are observed. Captures
-named Counters/Frame Time still show Profile: they receive no interaction pass.
-All full clips/actions/logs are retained; three other configurations are unlaunched,
-with no rerun or budget extension. Future uncovered-control work must validate
-stimulus delivery first. PR02 stays open. Native diagnostic host occupancy scans
-run once per positive step and GPU peak atomics add unmeasured work; PR08 must
-assess performance rather than assuming no regression. No GPU/build jobs remain.
-
-Partial diagnostic milestone `d4e91bca235ce3565b66d5ee031565c857806ede` is committed and pushed to `feat/gpu`.
-The source matches the frozen diagnostic/recording inputs; the working tree was
-clean after that source commit. PR02 remains unchecked. All stopped/exhausted
-budgets remain closed. Next: supported-API evidence applicability audit and a
-distinct bounded campaign only for uncovered required contracts. Exact existing
-selectors include `accumulated_forces_survive_uploads_and_zero_steps`,
-`replacement_reuses_storage_and_preserves_body_mass_and_metadata`, and
-`reaction_impulses_use_solver_accumulators_for_every_joint_kind`; read their
-assertions before deciding what is still uncovered. No new campaign launched.
+Historical sources remain useful for criteria and rejected approaches:
+[`gpu-warm-start.md`](gpu-warm-start.md),
+[`../gpu-solver-goal.md`](../gpu-solver-goal.md),
+[`../gpu-solver-qualification.md`](../gpu-solver-qualification.md).
+Their old jobs/next actions do not override this record. The
+[mixed scheduling goal](../gpu-mixed-scheduling-goal.md) is closed with its target
+unmet and all 55 runs retained; the earlier scheduling budget is also exhausted.
+Do not reuse either budget. Rain is required by this roadmap later, but no Rain
+or performance campaign has resumed during PR02.

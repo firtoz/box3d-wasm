@@ -241,6 +241,15 @@ A separate closed-stderr check preserves immediate ENOTSUP after an output error
 These checks do not initialize a GPU or qualify supported physics. The later diagnostic milestone adds focused GPU/API verification below. Broader
 viewer controls and full API behavior remain open under the production roadmap.
 
+The [current supported-contract checks](../experiments/gpu-physics/benchmarks/production-readiness/pr02-supported-2026-10-01/README.md)
+pass 16 linked C processes and 20 exact Rust checks on ordinary/native builds
+whose compiled inputs match the current sources. These cover named warm-start,
+body/world controls, external forces, shape replacement, mass and joint-query
+contracts at unchanged tolerances; combined fixtures use independent CPU state.
+They do not qualify every inventoried operation or replace the remaining
+population/viewer and final-build physical/runtime/performance gates. The
+preserved warm-start clocks are incidental correctness output, not benchmarks.
+
 ### Native GPU diagnostic contract (focused checks pass; broader PR02 open)
 
 The current implementation replaces zero diagnostic placeholders. The
