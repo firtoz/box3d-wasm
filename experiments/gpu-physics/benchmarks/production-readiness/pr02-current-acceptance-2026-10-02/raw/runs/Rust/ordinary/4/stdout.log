@@ -1,0 +1,6 @@
+
+running 1 test
+test gpu_invariants::revolute_substep_warm_start_matches_cpu ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 402 filtered out; finished in 0.76s
+

@@ -1,0 +1,6 @@
+GPU primary owned physics buffer bytes: 10078576
+reserved slots bodies/shapes/joints/contacts: 256/256/16/4096
+excludes staging, cache copies, pipelines, renderer and driver allocations
+GPU shape 2:1:1 body 2:1:1 bounds [-0.521129,0.47852,-0.520944] [0.519301,1.51926,0.519368]
+GPU shape 3:1:1 body 3:1:1 bounds [4.48,1.48,-0.52] [5.52,2.52,0.52]
+native diagnostics C contract passed: counters/profile/peak/bytes/bounds/type/ownership/stale IDs

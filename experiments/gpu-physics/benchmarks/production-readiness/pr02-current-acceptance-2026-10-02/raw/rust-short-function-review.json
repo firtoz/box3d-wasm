@@ -1,0 +1,1377 @@
+{
+  "scope": "Review aid: public b3_ API functions shorter than90 comment-stripped characters; length alone is not implementation or semantic proof",
+  "functions": [
+    {
+      "source": "src/api/ids.rs",
+      "source_sha256": "654897f5ce5891fb206a84f329d4767de4c3dadbbc74e1cee0243bc8d90e6c8b",
+      "line": 34,
+      "function": "b3_null_world_id",
+      "body": "WorldId::default()"
+    },
+    {
+      "source": "src/api/ids.rs",
+      "source_sha256": "654897f5ce5891fb206a84f329d4767de4c3dadbbc74e1cee0243bc8d90e6c8b",
+      "line": 38,
+      "function": "b3_null_body_id",
+      "body": "BodyId::default()"
+    },
+    {
+      "source": "src/api/ids.rs",
+      "source_sha256": "654897f5ce5891fb206a84f329d4767de4c3dadbbc74e1cee0243bc8d90e6c8b",
+      "line": 42,
+      "function": "b3_null_shape_id",
+      "body": "ShapeId::default()"
+    },
+    {
+      "source": "src/api/ids.rs",
+      "source_sha256": "654897f5ce5891fb206a84f329d4767de4c3dadbbc74e1cee0243bc8d90e6c8b",
+      "line": 46,
+      "function": "b3_null_joint_id",
+      "body": "JointId::default()"
+    },
+    {
+      "source": "src/api/ids.rs",
+      "source_sha256": "654897f5ce5891fb206a84f329d4767de4c3dadbbc74e1cee0243bc8d90e6c8b",
+      "line": 50,
+      "function": "b3_world_id_is_valid",
+      "body": "id.index1 != 0"
+    },
+    {
+      "source": "src/api/ids.rs",
+      "source_sha256": "654897f5ce5891fb206a84f329d4767de4c3dadbbc74e1cee0243bc8d90e6c8b",
+      "line": 54,
+      "function": "b3_body_id_is_valid",
+      "body": "id.index1 != 0"
+    },
+    {
+      "source": "src/api/ids.rs",
+      "source_sha256": "654897f5ce5891fb206a84f329d4767de4c3dadbbc74e1cee0243bc8d90e6c8b",
+      "line": 58,
+      "function": "b3_shape_id_is_valid",
+      "body": "id.index1 != 0"
+    },
+    {
+      "source": "src/api/ids.rs",
+      "source_sha256": "654897f5ce5891fb206a84f329d4767de4c3dadbbc74e1cee0243bc8d90e6c8b",
+      "line": 62,
+      "function": "b3_joint_id_is_valid",
+      "body": "id.index1 != 0"
+    },
+    {
+      "source": "src/api/query.rs",
+      "source_sha256": "2c30c1bbb5759b0a856e0b5a48cb5ba58f7841dfd8a071f5da3e98af95806ad3",
+      "line": 1822,
+      "function": "b3_shape_get_friction",
+      "body": "super::world::shape_surface_material(id).map_or(0.0, |material| material.friction)"
+    },
+    {
+      "source": "src/api/query.rs",
+      "source_sha256": "2c30c1bbb5759b0a856e0b5a48cb5ba58f7841dfd8a071f5da3e98af95806ad3",
+      "line": 1826,
+      "function": "b3_shape_get_restitution",
+      "body": "super::world::shape_surface_material(id).map_or(0.0, |material| material.restitution)"
+    },
+    {
+      "source": "src/api/query.rs",
+      "source_sha256": "2c30c1bbb5759b0a856e0b5a48cb5ba58f7841dfd8a071f5da3e98af95806ad3",
+      "line": 1830,
+      "function": "b3_shape_get_user_data",
+      "body": "super::world::shape_property_user_data(id).unwrap_or(0)"
+    },
+    {
+      "source": "src/api/query.rs",
+      "source_sha256": "2c30c1bbb5759b0a856e0b5a48cb5ba58f7841dfd8a071f5da3e98af95806ad3",
+      "line": 1871,
+      "function": "b3_shape_get_aabb",
+      "body": "public_shape_parts_aabb(super::world::query_shape_parts(id).iter())"
+    },
+    {
+      "source": "src/api/types_api.rs",
+      "source_sha256": "9f344adb0747976711a3fe8c74585eebedaf45685608d321cbec370e011d842b",
+      "line": 803,
+      "function": "b3_default_surface_material",
+      "body": "SurfaceMaterial {\n        friction: 0.6,\n        ..SurfaceMaterial::default()\n    }"
+    },
+    {
+      "source": "src/api/types_api.rs",
+      "source_sha256": "9f344adb0747976711a3fe8c74585eebedaf45685608d321cbec370e011d842b",
+      "line": 820,
+      "function": "b3_default_query_filter",
+      "body": "QueryFilter::default()"
+    },
+    {
+      "source": "src/api/types_api.rs",
+      "source_sha256": "9f344adb0747976711a3fe8c74585eebedaf45685608d321cbec370e011d842b",
+      "line": 842,
+      "function": "b3_make_box_hull",
+      "body": "BoxHull {\n        half_extents: [hx, hy, hz],\n        center: [0.0; 3],\n    }"
+    },
+    {
+      "source": "src/api/types_api.rs",
+      "source_sha256": "9f344adb0747976711a3fe8c74585eebedaf45685608d321cbec370e011d842b",
+      "line": 849,
+      "function": "b3_make_cube_hull",
+      "body": "b3_make_box_hull(half, half, half)"
+    },
+    {
+      "source": "src/api/world/joint_reaction.rs",
+      "source_sha256": "7aad2d3a6900ece923e67a2cc0c3f100c61f476009a1d3a7061dfac134eb48d7",
+      "line": 204,
+      "function": "b3_joint_get_constraint_force",
+      "body": "reaction(id, false)"
+    },
+    {
+      "source": "src/api/world/joint_reaction.rs",
+      "source_sha256": "7aad2d3a6900ece923e67a2cc0c3f100c61f476009a1d3a7061dfac134eb48d7",
+      "line": 207,
+      "function": "b3_joint_get_constraint_torque",
+      "body": "reaction(id, true)"
+    },
+    {
+      "source": "src/api/world/joint_separation.rs",
+      "source_sha256": "f3b9c2533991f038c56425ee88f26bcce71f9c2b74161673b1d80fbee8eb2e18",
+      "line": 163,
+      "function": "b3_joint_get_linear_separation",
+      "body": "separation(id, false)"
+    },
+    {
+      "source": "src/api/world/joint_separation.rs",
+      "source_sha256": "f3b9c2533991f038c56425ee88f26bcce71f9c2b74161673b1d80fbee8eb2e18",
+      "line": 166,
+      "function": "b3_joint_get_angular_separation",
+      "body": "separation(id, true)"
+    },
+    {
+      "source": "src/api/world/shape_geometry.rs",
+      "source_sha256": "6e3d9aa0b283f2cf572ded5563848a4c336981109be1f65e8ed3a357c24625c4",
+      "line": 206,
+      "function": "b3_shape_set_hull",
+      "body": "set_box_hull_geometry(id, hull, false)"
+    },
+    {
+      "source": "src/api/world/shape_geometry.rs",
+      "source_sha256": "6e3d9aa0b283f2cf572ded5563848a4c336981109be1f65e8ed3a357c24625c4",
+      "line": 237,
+      "function": "b3_shape_set_convex_hull",
+      "body": "set_convex_hull_geometry(id, hull, false)"
+    },
+    {
+      "source": "src/api/world/state_trace.rs",
+      "source_sha256": "73a4b1799911c01a9697db43cb268e869437b9b08610096c89fe165cb1344564",
+      "line": 138,
+      "function": "b3_world_diagnostic_contact_impulses",
+      "body": "diagnostic_impulses(id,first,count,clear,false)"
+    },
+    {
+      "source": "src/api/world/state_trace.rs",
+      "source_sha256": "73a4b1799911c01a9697db43cb268e869437b9b08610096c89fe165cb1344564",
+      "line": 142,
+      "function": "b3_world_diagnostic_spherical_impulses",
+      "body": "diagnostic_impulses(id,first,count,clear,true)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 532,
+      "function": "b3_world_set_contacts",
+      "body": "with_world_mut(id, |w| w.enable_contacts = enable);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 567,
+      "function": "b3_world_is_warm_starting_enabled",
+      "body": "with_world(id, |w| w.enable_warm_starting).unwrap_or(false)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 582,
+      "function": "b3_world_is_speculative_enabled",
+      "body": "with_world_no_sync(id, |w| w.enable_speculative).unwrap_or(false)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 595,
+      "function": "b3_world_is_sleeping_enabled",
+      "body": "with_world(id, |w| w.def.enable_sleep).unwrap_or(false)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 599,
+      "function": "b3_world_set_gravity",
+      "body": "with_world_mut(id, |w| {\n        w.def.gravity = gravity;\n    });"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 605,
+      "function": "b3_world_get_gravity",
+      "body": "with_world(id, |w| w.def.gravity).unwrap_or([0.0, -10.0, 0.0])"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 609,
+      "function": "b3_world_enable_continuous",
+      "body": "with_world_mut(id, |w| w.def.enable_continuous = enable);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 613,
+      "function": "b3_world_is_continuous_enabled",
+      "body": "with_world(id, |w| w.def.enable_continuous).unwrap_or(false)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 1764,
+      "function": "b3_shape_attach_compound_child",
+      "body": "attach_compound_child(parent, child, None, [0; 4])"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 2799,
+      "function": "b3_body_get_position",
+      "body": "b3_body_get_transform(body).0"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 2803,
+      "function": "b3_body_get_rotation",
+      "body": "b3_body_get_transform(body).1"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3180,
+      "function": "b3_world_step_gpu",
+      "body": "step_gpu_inner(id, dt, sub_step_count);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3211,
+      "function": "b3_world_gpu_wait_with_mirror",
+      "body": "b3_world_gpu_wait(id);\n    with_world_mut(id, |_| {});"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3240,
+      "function": "b3_world_gpu_allocations",
+      "body": "with_world(id, |w| w.sim.as_ref().map(|sim| sim.allocation_stats())).flatten()"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3885,
+      "function": "b3_world_last_encode_ms",
+      "body": "with_world_no_sync(id, |w| w.last_gpu_encode_ms).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3889,
+      "function": "b3_world_last_fetch_ms",
+      "body": "with_world_no_sync(id, |w| w.last_gpu_fetch_ms).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3893,
+      "function": "b3_world_last_collide_ms",
+      "body": "with_world_no_sync(id, |w| w.last_gpu_collide_ms).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3897,
+      "function": "b3_world_last_solve_ms",
+      "body": "with_world_no_sync(id, |w| w.last_gpu_solve_ms).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3901,
+      "function": "b3_world_last_integrate_ms",
+      "body": "with_world_no_sync(id, |w| w.last_gpu_integrate_ms).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3907,
+      "function": "b3_world_completed_broadphase_profile_ms",
+      "body": "with_world_no_sync(id,|w|w.sim.as_ref()?.completed_broadphase_profile_ms()).flatten()"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3911,
+      "function": "b3_world_last_broadphase_ms",
+      "body": "with_world_no_sync(id, |w| w.last_gpu_broadphase_ms).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3915,
+      "function": "b3_world_last_narrowphase_ms",
+      "body": "with_world_no_sync(id, |w| w.last_gpu_narrowphase_ms).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3919,
+      "function": "b3_world_last_graph_ms",
+      "body": "with_world_no_sync(id, |w| w.last_gpu_graph_ms).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3923,
+      "function": "b3_world_last_prepare_ms",
+      "body": "with_world_no_sync(id, |w| w.last_gpu_prepare_ms).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3927,
+      "function": "b3_world_last_device_ms",
+      "body": "with_world_no_sync(id, |w| w.last_gpu_device_ms).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3950,
+      "function": "b3_world_last_timestamp_step",
+      "body": "with_world_no_sync(id, |w| w.last_timestamp_step).unwrap_or(0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3954,
+      "function": "b3_world_physics_step",
+      "body": "with_world_no_sync(id, |w| w.physics_step).unwrap_or(0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3971,
+      "function": "b3_world_completed_known",
+      "body": "b3_world_completed_step(id).is_some()"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 3982,
+      "function": "b3_world_last_query_profile",
+      "body": "with_world_no_sync(id, |w| w.last_query_profile).unwrap_or_default()"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 4010,
+      "function": "b3_world_physics_invalid",
+      "body": "with_world_no_sync(id, |w| w.physics_invalid).unwrap_or(false)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 4064,
+      "function": "b3_world_pose_snapshot_copies",
+      "body": "b3_world_pose_snapshot_maps(id)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 4075,
+      "function": "b3_world_pose_snapshot_epoch",
+      "body": "with_world_no_sync(id, |w| snapshot_epoch(w)).unwrap_or(0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 4127,
+      "function": "b3_world_pose_export_live",
+      "body": "with_world_no_sync(id, |w| w.pose_export_live).unwrap_or(false)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 4741,
+      "function": "b3_world_step_encoder",
+      "body": "step_gpu_inner(id, dt, sub_step_count);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 4841,
+      "function": "b3_world_gpu_report_name",
+      "body": "with_world_no_sync(id, |w| w.gpu.report.name.clone()).unwrap_or_default()"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 4845,
+      "function": "b3_world_contacts_enabled",
+      "body": "with_world(id, |w| w.enable_contacts).unwrap_or(true)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 4849,
+      "function": "b3_world_contact_epoch",
+      "body": "with_world(id, |w| w.sim.as_ref().map(|sim| sim.contact_epoch).unwrap_or(0)).unwrap_or(0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 5778,
+      "function": "b3_live_world_count",
+      "body": "let worlds = lock_worlds();\n    worlds.iter().filter(|w| w.is_some()).count() as i32"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 5846,
+      "function": "b3_joint_is_valid",
+      "body": "with_joint_metadata(id, |_, _| true).unwrap_or(false)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 5925,
+      "function": "b3_joint_get_constraint_tuning",
+      "body": "with_joint(id, |joint| [joint.hertz, joint.damping]).unwrap_or([0.0; 2])"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 5975,
+      "function": "b3_joint_get_force_threshold",
+      "body": "with_joint_meta(id, |joint| joint.force_threshold).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 5985,
+      "function": "b3_joint_get_torque_threshold",
+      "body": "with_joint_meta(id, |joint| joint.torque_threshold).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 5989,
+      "function": "b3_joint_set_user_data",
+      "body": "with_joint_meta_mut(id, |joint| joint.user_data = user_data);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 5993,
+      "function": "b3_joint_get_user_data",
+      "body": "with_joint_meta(id, |joint| joint.user_data).unwrap_or(0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6013,
+      "function": "b3_weld_joint_set_linear_hertz",
+      "body": "with_weld_joint_mut(id, |joint| joint.weld_linear_hertz = hertz.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6017,
+      "function": "b3_weld_joint_get_linear_hertz",
+      "body": "with_weld_joint(id, |joint| joint.weld_linear_hertz).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6021,
+      "function": "b3_weld_joint_set_linear_damping_ratio",
+      "body": "with_weld_joint_mut(id, |joint| joint.weld_linear_damping = damping.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6025,
+      "function": "b3_weld_joint_get_linear_damping_ratio",
+      "body": "with_weld_joint(id, |joint| joint.weld_linear_damping).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6029,
+      "function": "b3_weld_joint_set_angular_hertz",
+      "body": "with_weld_joint_mut(id, |joint| joint.weld_angular_hertz = hertz.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6033,
+      "function": "b3_weld_joint_get_angular_hertz",
+      "body": "with_weld_joint(id, |joint| joint.weld_angular_hertz).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6037,
+      "function": "b3_weld_joint_set_angular_damping_ratio",
+      "body": "with_weld_joint_mut(id, |joint| joint.weld_angular_damping = damping.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6041,
+      "function": "b3_weld_joint_get_angular_damping_ratio",
+      "body": "with_weld_joint(id, |joint| joint.weld_angular_damping).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6063,
+      "function": "b3_revolute_joint_set_spring_hertz",
+      "body": "with_revolute_joint_mut(id, |joint| joint.spring_hertz = hertz.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6067,
+      "function": "b3_revolute_joint_get_spring_hertz",
+      "body": "with_revolute_joint(id, |joint| joint.spring_hertz).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6071,
+      "function": "b3_revolute_joint_set_spring_damping",
+      "body": "with_revolute_joint_mut(id, |joint| joint.spring_damping = damping.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6075,
+      "function": "b3_revolute_joint_get_spring_damping",
+      "body": "with_revolute_joint(id, |joint| joint.spring_damping).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6079,
+      "function": "b3_revolute_joint_set_target_angle",
+      "body": "with_revolute_joint_mut(id, |joint| joint.target_translation = angle);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6083,
+      "function": "b3_revolute_joint_get_target_angle",
+      "body": "with_revolute_joint(id, |joint| joint.target_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6141,
+      "function": "b3_revolute_joint_get_lower_limit",
+      "body": "with_revolute_joint(id, |joint| joint.lower_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6145,
+      "function": "b3_revolute_joint_get_upper_limit",
+      "body": "with_revolute_joint(id, |joint| joint.upper_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6178,
+      "function": "b3_revolute_joint_set_motor_speed",
+      "body": "with_revolute_joint_mut(id, |joint| joint.motor_speed = speed);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6182,
+      "function": "b3_revolute_joint_get_motor_speed",
+      "body": "with_revolute_joint(id, |joint| joint.motor_speed).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6186,
+      "function": "b3_revolute_joint_set_max_motor_torque",
+      "body": "with_revolute_joint_mut(id, |joint| joint.max_motor_force = torque.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6190,
+      "function": "b3_revolute_joint_get_max_motor_torque",
+      "body": "with_revolute_joint(id, |joint| joint.max_motor_force).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6235,
+      "function": "b3_wheel_joint_is_suspension_enabled",
+      "body": "with_wheel_joint(id, |j| j.flags & WHEEL_ENABLE_SUSPENSION_SPRING != 0).unwrap_or(false)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6239,
+      "function": "b3_wheel_joint_set_suspension_hertz",
+      "body": "with_wheel_joint_mut(id, |j| j.spring_hertz = value);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6243,
+      "function": "b3_wheel_joint_get_suspension_hertz",
+      "body": "with_wheel_joint(id, |j| j.spring_hertz).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6247,
+      "function": "b3_wheel_joint_set_suspension_damping_ratio",
+      "body": "with_wheel_joint_mut(id, |j| j.spring_damping = value);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6251,
+      "function": "b3_wheel_joint_get_suspension_damping_ratio",
+      "body": "with_wheel_joint(id, |j| j.spring_damping).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6265,
+      "function": "b3_wheel_joint_is_suspension_limit_enabled",
+      "body": "with_wheel_joint(id, |j| j.flags & WHEEL_ENABLE_SUSPENSION_LIMIT != 0).unwrap_or(false)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6269,
+      "function": "b3_wheel_joint_get_lower_suspension_limit",
+      "body": "with_wheel_joint(id, |j| j.lower_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6273,
+      "function": "b3_wheel_joint_get_upper_suspension_limit",
+      "body": "with_wheel_joint(id, |j| j.upper_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6297,
+      "function": "b3_wheel_joint_is_spin_motor_enabled",
+      "body": "with_wheel_joint(id, |j| j.flags & WHEEL_ENABLE_SPIN_MOTOR != 0).unwrap_or(false)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6301,
+      "function": "b3_wheel_joint_set_spin_motor_speed",
+      "body": "with_wheel_joint_mut(id, |j| j.motor_speed = value);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6305,
+      "function": "b3_wheel_joint_get_spin_motor_speed",
+      "body": "with_wheel_joint(id, |j| j.motor_speed).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6309,
+      "function": "b3_wheel_joint_set_max_spin_torque",
+      "body": "with_wheel_joint_mut(id, |j| j.max_motor_force = value);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6313,
+      "function": "b3_wheel_joint_get_max_spin_torque",
+      "body": "with_wheel_joint(id, |j| j.max_motor_force).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6326,
+      "function": "b3_wheel_joint_is_steering_enabled",
+      "body": "with_wheel_joint(id, |j| j.flags & WHEEL_ENABLE_STEERING != 0).unwrap_or(false)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6330,
+      "function": "b3_wheel_joint_set_steering_hertz",
+      "body": "with_wheel_joint_mut(id, |j| j.weld_linear_hertz = value);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6334,
+      "function": "b3_wheel_joint_get_steering_hertz",
+      "body": "with_wheel_joint(id, |j| j.weld_linear_hertz).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6338,
+      "function": "b3_wheel_joint_set_steering_damping_ratio",
+      "body": "with_wheel_joint_mut(id, |j| j.weld_linear_damping = value);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6342,
+      "function": "b3_wheel_joint_get_steering_damping_ratio",
+      "body": "with_wheel_joint(id, |j| j.weld_linear_damping).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6346,
+      "function": "b3_wheel_joint_set_max_steering_torque",
+      "body": "with_wheel_joint_mut(id, |j| j.target_rotation[1] = value);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6350,
+      "function": "b3_wheel_joint_get_max_steering_torque",
+      "body": "with_wheel_joint(id, |j| j.target_rotation[1]).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6364,
+      "function": "b3_wheel_joint_is_steering_limit_enabled",
+      "body": "with_wheel_joint(id, |j| j.flags & WHEEL_ENABLE_STEERING_LIMIT != 0).unwrap_or(false)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6368,
+      "function": "b3_wheel_joint_get_lower_steering_limit",
+      "body": "with_wheel_joint(id, |j| j.target_rotation[2]).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6372,
+      "function": "b3_wheel_joint_get_upper_steering_limit",
+      "body": "with_wheel_joint(id, |j| j.target_rotation[3]).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6383,
+      "function": "b3_wheel_joint_set_target_steering_angle",
+      "body": "with_wheel_joint_mut(id, |j| j.target_rotation[0] = value);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6387,
+      "function": "b3_wheel_joint_get_target_steering_angle",
+      "body": "with_wheel_joint(id, |j| j.target_rotation[0]).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6502,
+      "function": "b3_spherical_joint_is_cone_limit_enabled",
+      "body": "with_spherical_joint(id, |j| j.flags & SPHERICAL_ENABLE_CONE_LIMIT != 0).unwrap_or(false)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6506,
+      "function": "b3_spherical_joint_get_cone_limit",
+      "body": "with_spherical_joint(id, |j| j.target_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6542,
+      "function": "b3_spherical_joint_get_lower_twist_limit",
+      "body": "with_spherical_joint(id, |j| j.lower_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6546,
+      "function": "b3_spherical_joint_get_upper_twist_limit",
+      "body": "with_spherical_joint(id, |j| j.upper_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6584,
+      "function": "b3_spherical_joint_is_spring_enabled",
+      "body": "with_spherical_joint(id, |j| j.flags & SPHERICAL_ENABLE_SPRING != 0).unwrap_or(false)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6588,
+      "function": "b3_spherical_joint_set_spring_hertz",
+      "body": "with_spherical_joint_mut(id, |j| j.spring_hertz = hertz.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6592,
+      "function": "b3_spherical_joint_get_spring_hertz",
+      "body": "with_spherical_joint(id, |j| j.spring_hertz).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6596,
+      "function": "b3_spherical_joint_set_spring_damping",
+      "body": "with_spherical_joint_mut(id, |j| j.spring_damping = damping.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6600,
+      "function": "b3_spherical_joint_get_spring_damping",
+      "body": "with_spherical_joint(id, |j| j.spring_damping).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6604,
+      "function": "b3_spherical_joint_set_target_rotation",
+      "body": "with_spherical_joint_mut(id, |j| j.target_rotation = rotation);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6608,
+      "function": "b3_spherical_joint_get_target_rotation",
+      "body": "with_spherical_joint(id, |j| j.target_rotation).unwrap_or([0.0, 0.0, 0.0, 1.0])"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6625,
+      "function": "b3_spherical_joint_is_motor_enabled",
+      "body": "with_spherical_joint(id, |j| j.flags & SPHERICAL_ENABLE_MOTOR != 0).unwrap_or(false)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6629,
+      "function": "b3_spherical_joint_set_motor_velocity",
+      "body": "with_spherical_joint_mut(id, |j| j.motor_angular_velocity = velocity);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6633,
+      "function": "b3_spherical_joint_get_motor_velocity",
+      "body": "with_spherical_joint(id, |j| j.motor_angular_velocity).unwrap_or([0.0; 3])"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6637,
+      "function": "b3_spherical_joint_set_max_motor_torque",
+      "body": "with_spherical_joint_mut(id, |j| j.max_motor_force = torque.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6641,
+      "function": "b3_spherical_joint_get_max_motor_torque",
+      "body": "with_spherical_joint(id, |j| j.max_motor_force).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6750,
+      "function": "b3_distance_joint_get_length",
+      "body": "with_distance_joint(id, |joint| joint.target_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6779,
+      "function": "b3_distance_joint_get_spring_force_range",
+      "body": "with_distance_joint(id, |joint| joint.perp_impulse).unwrap_or([0.0; 2])"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6783,
+      "function": "b3_distance_joint_set_spring_hertz",
+      "body": "with_distance_joint_mut(id, |joint| joint.spring_hertz = hertz.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6787,
+      "function": "b3_distance_joint_get_spring_hertz",
+      "body": "with_distance_joint(id, |joint| joint.spring_hertz).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6791,
+      "function": "b3_distance_joint_set_spring_damping",
+      "body": "with_distance_joint_mut(id, |joint| joint.spring_damping = damping.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6795,
+      "function": "b3_distance_joint_get_spring_damping",
+      "body": "with_distance_joint(id, |joint| joint.spring_damping).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6828,
+      "function": "b3_distance_joint_get_min_length",
+      "body": "with_distance_joint(id, |joint| joint.lower_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6832,
+      "function": "b3_distance_joint_get_max_length",
+      "body": "with_distance_joint(id, |joint| joint.upper_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6879,
+      "function": "b3_distance_joint_set_motor_speed",
+      "body": "with_distance_joint_mut(id, |joint| joint.motor_speed = speed);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6883,
+      "function": "b3_distance_joint_get_motor_speed",
+      "body": "with_distance_joint(id, |joint| joint.motor_speed).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6887,
+      "function": "b3_distance_joint_set_max_motor_force",
+      "body": "with_distance_joint_mut(id, |joint| joint.max_motor_force = force.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6891,
+      "function": "b3_distance_joint_get_max_motor_force",
+      "body": "with_distance_joint(id, |joint| joint.max_motor_force).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6895,
+      "function": "b3_distance_joint_get_motor_force",
+      "body": "with_distance_joint(id, |joint| joint.motor_impulse / FIXED_DT).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6936,
+      "function": "b3_parallel_joint_set_spring_hertz",
+      "body": "with_parallel_joint_mut(id, |joint| joint.spring_hertz = hertz.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6940,
+      "function": "b3_parallel_joint_get_spring_hertz",
+      "body": "with_parallel_joint(id, |joint| joint.spring_hertz).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6944,
+      "function": "b3_parallel_joint_set_spring_damping",
+      "body": "with_parallel_joint_mut(id, |joint| joint.spring_damping = damping.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6948,
+      "function": "b3_parallel_joint_get_spring_damping",
+      "body": "with_parallel_joint(id, |joint| joint.spring_damping).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6952,
+      "function": "b3_parallel_joint_set_max_torque",
+      "body": "with_parallel_joint_mut(id, |joint| joint.max_motor_force = torque.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6956,
+      "function": "b3_parallel_joint_get_max_torque",
+      "body": "with_parallel_joint(id, |joint| joint.max_motor_force).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6988,
+      "function": "b3_motor_joint_set_linear_velocity",
+      "body": "with_motor_joint_mut(id, |joint| joint.axis = velocity);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6992,
+      "function": "b3_motor_joint_get_linear_velocity",
+      "body": "with_motor_joint(id, |joint| joint.axis).unwrap_or([0.0; 3])"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 6996,
+      "function": "b3_motor_joint_set_angular_velocity",
+      "body": "with_motor_joint_mut(id, |joint| joint.motor_angular_velocity = velocity);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7000,
+      "function": "b3_motor_joint_get_angular_velocity",
+      "body": "with_motor_joint(id, |joint| joint.motor_angular_velocity).unwrap_or([0.0; 3])"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7004,
+      "function": "b3_motor_joint_set_max_velocity_force",
+      "body": "with_motor_joint_mut(id, |joint| joint.target_translation = force);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7008,
+      "function": "b3_motor_joint_get_max_velocity_force",
+      "body": "with_motor_joint(id, |joint| joint.target_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7012,
+      "function": "b3_motor_joint_set_max_velocity_torque",
+      "body": "with_motor_joint_mut(id, |joint| joint.lower_translation = torque);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7016,
+      "function": "b3_motor_joint_get_max_velocity_torque",
+      "body": "with_motor_joint(id, |joint| joint.lower_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7020,
+      "function": "b3_motor_joint_set_linear_hertz",
+      "body": "with_motor_joint_mut(id, |joint| joint.hertz = hertz);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7024,
+      "function": "b3_motor_joint_get_linear_hertz",
+      "body": "with_motor_joint(id, |joint| joint.hertz).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7028,
+      "function": "b3_motor_joint_set_linear_damping",
+      "body": "with_motor_joint_mut(id, |joint| joint.damping = damping);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7032,
+      "function": "b3_motor_joint_get_linear_damping",
+      "body": "with_motor_joint(id, |joint| joint.damping).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7036,
+      "function": "b3_motor_joint_set_angular_hertz",
+      "body": "with_motor_joint_mut(id, |joint| joint.spring_hertz = hertz);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7040,
+      "function": "b3_motor_joint_get_angular_hertz",
+      "body": "with_motor_joint(id, |joint| joint.spring_hertz).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7044,
+      "function": "b3_motor_joint_set_angular_damping",
+      "body": "with_motor_joint_mut(id, |joint| joint.spring_damping = damping);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7048,
+      "function": "b3_motor_joint_get_angular_damping",
+      "body": "with_motor_joint(id, |joint| joint.spring_damping).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7052,
+      "function": "b3_motor_joint_set_max_spring_force",
+      "body": "with_motor_joint_mut(id, |joint| joint.upper_translation = force.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7056,
+      "function": "b3_motor_joint_get_max_spring_force",
+      "body": "with_motor_joint(id, |joint| joint.upper_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7060,
+      "function": "b3_motor_joint_set_max_spring_torque",
+      "body": "with_motor_joint_mut(id, |joint| joint.max_motor_force = torque.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7064,
+      "function": "b3_motor_joint_get_max_spring_torque",
+      "body": "with_motor_joint(id, |joint| joint.max_motor_force).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7086,
+      "function": "b3_prismatic_joint_set_spring_hertz",
+      "body": "with_prismatic_joint_mut(id, |joint| joint.spring_hertz = hertz.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7090,
+      "function": "b3_prismatic_joint_get_spring_hertz",
+      "body": "with_prismatic_joint(id, |joint| joint.spring_hertz).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7094,
+      "function": "b3_prismatic_joint_set_spring_damping",
+      "body": "with_prismatic_joint_mut(id, |joint| joint.spring_damping = damping.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7098,
+      "function": "b3_prismatic_joint_get_spring_damping",
+      "body": "with_prismatic_joint(id, |joint| joint.spring_damping).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7109,
+      "function": "b3_prismatic_joint_get_target_translation",
+      "body": "with_prismatic_joint(id, |joint| joint.target_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7132,
+      "function": "b3_prismatic_joint_get_lower_limit",
+      "body": "with_prismatic_joint(id, |joint| joint.lower_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7136,
+      "function": "b3_prismatic_joint_get_upper_limit",
+      "body": "with_prismatic_joint(id, |joint| joint.upper_translation).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7167,
+      "function": "b3_prismatic_joint_set_motor_speed",
+      "body": "with_prismatic_joint_mut(id, |joint| joint.motor_speed = speed);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7171,
+      "function": "b3_prismatic_joint_get_motor_speed",
+      "body": "with_prismatic_joint(id, |joint| joint.motor_speed).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7175,
+      "function": "b3_prismatic_joint_set_max_motor_force",
+      "body": "with_prismatic_joint_mut(id, |joint| joint.max_motor_force = force.max(0.0));"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7179,
+      "function": "b3_prismatic_joint_get_max_motor_force",
+      "body": "with_prismatic_joint(id, |joint| joint.max_motor_force).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7183,
+      "function": "b3_prismatic_joint_get_motor_force",
+      "body": "with_prismatic_joint(id, |joint| joint.motor_impulse / FIXED_DT).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7946,
+      "function": "b3_shape_enable_custom_filtering",
+      "body": "set_shape_event_flag(id, SHAPE_ENABLE_CUSTOM_FILTERING, enable);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7950,
+      "function": "b3_shape_is_custom_filtering_enabled",
+      "body": "shape_event_flag(id, SHAPE_ENABLE_CUSTOM_FILTERING)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7954,
+      "function": "b3_shape_enable_pre_solve_events",
+      "body": "set_shape_event_flag(id, SHAPE_ENABLE_PRE_SOLVE_EVENTS, enable);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7958,
+      "function": "b3_shape_enable_speculative_contact",
+      "body": "set_shape_event_flag(id, SHAPE_DISABLE_SPECULATIVE, !enable);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 7962,
+      "function": "b3_shape_are_pre_solve_events_enabled",
+      "body": "shape_event_flag(id, SHAPE_ENABLE_PRE_SOLVE_EVENTS)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 8086,
+      "function": "b3_shape_get_surface_material",
+      "body": "shape_surface_material(id).unwrap_or_else(crate::api::b3_default_surface_material)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 8677,
+      "function": "b3_world_get_hit_event_threshold",
+      "body": "with_world(id, |w| w.def.hit_event_threshold).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 9086,
+      "function": "b3_body_get_local_rotational_inertia",
+      "body": "b3_body_get_mass_data(id).inertia"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 9895,
+      "function": "b3_world_get_contact_recycle_distance",
+      "body": "with_world_no_sync(id, |w| w.contact_recycle_distance).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 9985,
+      "function": "b3_joint_get_kind",
+      "body": "with_joint_metadata(id, |_, joint| joint.kind).unwrap_or(JOINT_NONE)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 9998,
+      "function": "b3_joint_get_world",
+      "body": "with_joint_metadata(id, |_, _| world_id_from_joint(id)).unwrap_or_default()"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 10065,
+      "function": "b3_world_get_maximum_linear_speed",
+      "body": "with_world_no_sync(id, |w| w.def.maximum_linear_speed).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 10069,
+      "function": "b3_joint_get_collide_connected",
+      "body": "with_joint_metadata(id, |_, j| j.flags & JOINT_COLLIDE_CONNECTED != 0).unwrap_or(false)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 10114,
+      "function": "b3_world_get_restitution_threshold",
+      "body": "with_world_no_sync(id, |w| w.def.restitution_threshold).unwrap_or(0.0)"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 12333,
+      "function": "b3_world_set_user_data",
+      "body": "with_world_mut_no_sync(id, |w| w.user_data = value);"
+    },
+    {
+      "source": "src/api/world.rs",
+      "source_sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+      "line": 12336,
+      "function": "b3_world_get_user_data",
+      "body": "with_world_no_sync(id, |w| w.user_data).unwrap_or(0)"
+    }
+  ]
+}

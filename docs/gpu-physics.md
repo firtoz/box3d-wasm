@@ -403,8 +403,8 @@ required. The initial build failure and false immediate-slot-reuse test failure
 stay preserved. The allocator appends shape slots; direct wrong-generation tests
 do not prove public allocator ABA/reuse coverage. The [precommit scene review](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-properties-captures-2026-10-01/README.md)
 passes all12 captures/300-step health checks; six comparisons reviewed, Village
-retains its existing PR09 rendering failure. Actual viewer controls and broader
-PR02/final-release gates remain open.
+retains its existing PR09 rendering failure. These earlier property checks did not yet qualify actual viewer controls. The
+current API acceptance below reconciles them; final release gates remain open.
 The [combined precommit review](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-ownership-captures-2026-10-01/README.md)
 retains Village's missing GPU ground/buildings: the unchanged shared65536-slot
 renderer pool cannot register both52500-child compounds. This visual failure
@@ -413,9 +413,9 @@ belongs toPR09; no visual-parity or performance pass is inferred.
 Full-state schema v24 includes host peak occupancy, the harvested GPU contact
 peak and its persistent device query word. Readers retain earlier schemas and
 reject missing or invalid new fields; historical captures do not prove coverage
-of these new fields. Sixteen storage/comparator controls and the focused GPU/API checks pass. Broader
-public sensor/compound/mesh populations, actual viewer controls and final-build
-physical qualification remain pending. Host occupancy scans run once per positive
+of these new fields. Sixteen storage/comparator controls and the focused GPU/API checks pass. Current sensor/compound/mesh population and actual viewer-control contracts
+pass in the current API acceptance below. Final-build physical qualification
+remains pending. Host occupancy scans run once per positive
 step; device contact peaks add diagnostic atomics. Their cost is unmeasured and
 must pass PR08 performance qualification; no no-regression claim is made.
 
@@ -429,16 +429,33 @@ zero remaining stub/placeholder/missing/duplicate/CPU-only passthrough entries.
 This proves source/link coverage, not broad behavior qualification. The
 speculative setter is implemented and routed to both mapped worlds. Full native
 compatibility must not be inferred from scene checks. See the
-[portable control report](../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md); the production roadmap keeps PR02 API contract work open.
+[portable control report](../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md); the production roadmap records PR01/PR02 functional gates and later release checks.
+
+The [current native API acceptance](../experiments/gpu-physics/benchmarks/production-readiness/pr02-current-acceptance-2026-10-02/README.md)
+closes PR02's named functional contracts on retained source `abc0a54`:32 C world
+tests and20 Rust selectors pass unchanged (16 GPU, four host calculations).
+Exact [ordinary](../experiments/gpu-physics/benchmarks/production-readiness/pr02-current-acceptance-2026-10-02/api-inventory-ordinary.json)
+and [native inventories](../experiments/gpu-physics/benchmarks/production-readiness/pr02-current-acceptance-2026-10-02/api-inventory-native.json)
+identify each of415 stateful symbols per linkage:376 implemented candidate
+operations and39 explicitly unavailable operations. Current error definitions
+match applicable successful compiled error tests; all four actual GPU viewers'
+required controls and ownership/lifetime contracts pass. The original harness
+stop caused by expecting a GPU banner from a host-only selector remains in the
+portable evidence; no completed test was rerun. This is not376 independent
+physical/runtime passes, full Box3D compatibility or production readiness.
+PR03–PR08 still require the full physics/lifecycle/final-build/repeat/performance
+matrix. Floor visibility, sample-wide widgets and raycast appearance remain
+PR09–PR11; fresh desktop-only CPU/GPU charts remain PR12. There is no new timing
+or no-regression claim, and the exhausted mixed-scheduling target remains unmet.
 
 | Gap | User-visible consequence / remaining work |
 |---|---|
 | Joint query limits | Wheel angular separation is unimplemented upstream; its release fallback is zero. Reaction precision limits are described below. |
 | Falling-cube GPU capacity | The archived sweep hit the old 65,536 spatial-insertion limit at 20,000 cubes. Insertion buffers now scale with reserved shape capacity; the static-contact sort also no longer packs body/index into 16-bit halves. Pair/contact buffers and their prefix scans now scale with reserved body capacity. Pair/history storage and callbacks/events now use full-width endpoints; canonical cell ownership removes online packed-key deduplication. High-index collision, event, remap, and reuse regressions pass. Native sample C metadata now uses per-world growable chunks and passes high-index ownership/callback regressions; Sokol debug/opaque renderer reservations now follow benchmark size, and both engines must upload every cube and the floor. The sample fixes a saved draw-distance culling issue. Updated full-scene app measurements replace the earlier unvalidated Sokol curve. Collision-heavy physics and direct rendering are qualified through 200,000 cubes across three 330-step trials each; Sokol stops below 10 FPS at 150,000. The former tiled-dispatch boundary is resolved. The 200,000-cube physics buffers occupy 3.42 GiB, excluding renderer/driver resources; this is not a measured memory ceiling. |
 | World controls | Speculative switching controls experimental hull–mesh positive-gap contacts per world, subject to endpoint flags and the documented CCD handoff shell. Warm-start switching controls contact and joint caches per world. CPU worker/static-tree APIs explicitly report ENOTSUP. |
-| World diagnostics | New public counters, partial GPU profiles, occupancy/allocation and bounds/memory diagnostics are implemented with explicit availability; Focused C/Rust checks and required recordings pass; actual counter/tab interactions and broader behavior remain open. See the native diagnostic contract above. |
+| World diagnostics | New public counters, partial GPU profiles, occupancy/allocation and bounds/memory diagnostics are implemented with explicit availability; Current C/Rust contracts, required recordings and actual counter/tab interactions pass; final-build physical/runtime behavior remains open. See the native diagnostic contract above. |
 | Recording/replay | Native recording creation, storage, file I/O, playback, seeking and query-history APIs are explicitly unavailable, with ENOTSUP and a thread-local operation name. Diagnostic state replay does not implement these APIs. |
-| Combined viewer coverage | Current shared diagnostics report GPU data and explicit CPU helpers return CPU data; excluded operations preserve errors. No remaining CPU-only passthrough is found in the linked inventory. Other implemented API behavior still requires contract qualification. |
+| Combined viewer coverage | Current shared diagnostics report GPU data and explicit CPU helpers return CPU data; excluded operations preserve errors. No remaining CPU-only passthrough is found in the linked inventory. Current named API contracts pass; remaining full physical/runtime qualification is tracked under PR03–PR08. |
 | AMD convex sweeps | A rotating capsule reports a GPU hit where the CPU conservative-advancement reference reports no hit. Cause undiagnosed; investigation is deferred. |
 | AMD secondary queues | The experimental backend requires two graphics/compute queues in family zero; this AMD device exposes one. Its compute-only queues in another family are unsupported by this path; broader queue-family support is deferred. |
 | Browser target | Fix native-only transport/pose dependencies, pointer-size ABI assertions and global world storage before advertising WebGPU support. |

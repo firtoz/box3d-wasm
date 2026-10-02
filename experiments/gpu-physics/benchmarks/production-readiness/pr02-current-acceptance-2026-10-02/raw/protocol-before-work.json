@@ -1,0 +1,335 @@
+{
+  "purpose": "PR02 current-source required native contract acceptance after lifetime/compound repairs; not full physical/runtime/release qualification",
+  "budget": {
+    "C_links": 32,
+    "C_fresh_processes": 32,
+    "Rust_fresh_processes": 20,
+    "Rust_GPU_processes": 18,
+    "Rust_host_processes": 2,
+    "new_test_list_processes": 0,
+    "engine_or_viewer_builds": 0,
+    "timing": 0,
+    "candidates": 0,
+    "retries": 0
+  },
+  "cases": [
+    {
+      "fixture": "api_settings_test",
+      "cell": "ordinary-gpu",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "api_settings_test",
+      "cell": "native-gpu",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "api_settings_test",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "api_settings_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "warm_start_fixture",
+      "cell": "ordinary-gpu",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "warm_start_fixture",
+      "cell": "native-gpu",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "warm_start_fixture",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "warm_start_fixture",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostics_fixture",
+      "cell": "ordinary-gpu",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostics_fixture",
+      "cell": "native-gpu",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostics_fixture",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostics_fixture",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostic_populations",
+      "cell": "ordinary-gpu",
+      "flags": [
+        "-DGPU_POPULATIONS"
+      ],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostic_populations",
+      "cell": "native-gpu",
+      "flags": [
+        "-DGPU_POPULATIONS"
+      ],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostic_populations",
+      "cell": "ordinary-both",
+      "flags": [
+        "-DGPU_POPULATIONS"
+      ],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostic_populations",
+      "cell": "native-both",
+      "flags": [
+        "-DGPU_POPULATIONS"
+      ],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "compound_property_diagnostic",
+      "cell": "ordinary-gpu",
+      "flags": [
+        "-DGPU_PROPERTY_DIAGNOSTIC"
+      ],
+      "independent_prefixed_CPU": true
+    },
+    {
+      "fixture": "compound_property_diagnostic",
+      "cell": "native-gpu",
+      "flags": [
+        "-DGPU_PROPERTY_DIAGNOSTIC"
+      ],
+      "independent_prefixed_CPU": true
+    },
+    {
+      "fixture": "compound_property_diagnostic",
+      "cell": "ordinary-both",
+      "flags": [
+        "-DGPU_PROPERTY_DIAGNOSTIC"
+      ],
+      "independent_prefixed_CPU": true
+    },
+    {
+      "fixture": "compound_property_diagnostic",
+      "cell": "native-both",
+      "flags": [
+        "-DGPU_PROPERTY_DIAGNOSTIC"
+      ],
+      "independent_prefixed_CPU": true
+    },
+    {
+      "fixture": "both_substep_forces_test",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_substep_forces_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_shape_replacement_test",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_shape_replacement_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_joint_reaction_test",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_joint_reaction_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_joint_separation_test",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_joint_separation_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_compound_ownership_test",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_compound_ownership_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "compound_aabb_contract",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "compound_aabb_contract",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    }
+  ],
+  "Rust_selectors": [
+    "sim::manifold_chain_tests::warm_start_control_prepares_contact_chains_and_joint_caches",
+    "sim::manifold_chain_tests::manifold_chain_warm_start_and_restitution_visit_children_once",
+    "sim::manifold_chain_tests::invalid_joint_list_warm_start_has_one_global_writer",
+    "gpu_invariants::revolute_substep_warm_start_matches_cpu",
+    "api::world::convex_ccd_integration_tests::accumulated_forces_survive_uploads_and_zero_steps",
+    "api::world::resident_force_cache_probe::resident_force_cache_tracks_consumption_and_flushes",
+    "api::world::api_completion_tests::body_settings_affect_own_gpu_state_and_survive_rebuilds",
+    "api::world::shape_geometry::tests::replacement_reuses_storage_and_preserves_body_mass_and_metadata",
+    "gpu_invariants::mass_queries_preserve_shape_and_explicit_mass",
+    "api::world::joint_event_tests::reaction_impulses_use_solver_accumulators_for_every_joint_kind"
+  ],
+  "host_only_selector": "sim::manifold_chain_tests::warm_start_control_prepares_contact_chains_and_joint_caches",
+  "reuse_current_host_lists": {
+    "ordinary": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-current-acceptance/host-list/ordinary/stdout.log",
+      "sha256": "f725e4e7e570c239510e4793d3ffeea6e357536fb659bddc38b89fc336658ec9"
+    },
+    "native": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-current-acceptance/host-list/native/stdout.log",
+      "sha256": "f568381b0059c714f421c81f931649c6d4c2cfe0823606b0f00c84e97108fdcc"
+    }
+  },
+  "order": "Build all32 current links; run fixed cases in listed order; each Rust selector ordinary then native, exact/single thread. Stop first source/compile/process/assertion failure; retain every result and unlaunched case.",
+  "inputs": {
+    "../../box3d/include/box3d/base.h": "f3e137ec8930a3ecfa2ebb969f8f8419b1f04498fdb907b92fca569e295d69ef",
+    "../../box3d/include/box3d/box3d.h": "7b9f94783a34cc46d2f9fb4fbc27180ba122b3bd0c5ca9f2d6ae8f4925e30b6d",
+    "../../box3d/include/box3d/collision.h": "7757eedf8c3587deea0ee7d19022929c7058725e889a712427965edddee24668",
+    "../../box3d/include/box3d/config.h": "3435ee19866d5b52bc93a9410a870cc2a193cd74f69e6bde1c0ea2b14bc34105",
+    "../../box3d/include/box3d/constants.h": "781bda6496a2e68beca01a1f730a980e77828ff0586d12056ffff6eb490897bd",
+    "../../box3d/include/box3d/id.h": "b7064764f63390b0ed50f7079d8777fd87a51c5777216861536c24e8b8d88bab",
+    "../../box3d/include/box3d/math_functions.h": "d9a0d6e1248f35f56d474aa1c4f616a279172f6a9cad53fa18da53dab89d0005",
+    "../../box3d/include/box3d/types.h": "d39bd492bb6599b1ba8c308f8f3d901e19b190d2db65fff2e7b833a3511bc5b7",
+    "c_abi/api_settings_test.cpp": "7136f0867e081c1863cb86f1021de1745ad787abd2b7591e71dc2bd6edf6ba40",
+    "c_abi/both_compound_ownership_test.cpp": "bb75e0d3313746d92695a0c53500e4ac6f0bdbfc5df1f628de92ee6fb7e10277",
+    "c_abi/both_joint_reaction_test.cpp": "5f942482a0c75cdeb694d37c7f0c05ac8230f1011825eacc22a5098971e4517a",
+    "c_abi/both_joint_separation_test.cpp": "3a3bd08a56be95beb1070237d5f381f53127ff58866e4ed0eedbb69d770ec8fa",
+    "c_abi/both_shape_replacement_test.cpp": "d1df31a6ab0c1fb364ecb9a553e047ccc362e293915df73d966fdd73933bedb3",
+    "c_abi/both_substep_forces_test.cpp": "6bb1577b2a7131a69f764a8b21ffb5405c421698074622935f99eafb005cdbe6",
+    "c_abi/compound_aabb_contract.cpp": "e770260bc0c9d733f0a2c5d736b2b93760bcb1e8ab73a5885c8849a470e81a93",
+    "c_abi/compound_property_diagnostic.cpp": "587a8adfae26058b7102d1ef5b13cbf4e0426fb0cc1fc19d35789acd2714a6c4",
+    "c_abi/native_api_status.h": "62e64fd3cb4ca2e804d48cc23a7260be47ce7a9228323ab31edab0140bf33cb9",
+    "c_abi/native_diagnostic_populations.cpp": "e62ceaa557141be1df5bee16eefbad44f1c71ddb88e7c5c97908e365b41341b0",
+    "c_abi/native_diagnostics.h": "140b6f6430e5de3037151a4d2054a5f2bfa92c3d14acf0e44538739005e88d82",
+    "c_abi/native_diagnostics_fixture.cpp": "670a52f4dd3367be8fb0a3f67247a5bb58a286d1980d4c67df23c056dee5e4d3",
+    "c_abi/warm_start_fixture.cpp": "ed7b0ea5f9eb3e630dd40b1565b8c39d63b00f9274b8ca9ae6b7fd2fd9ae7957",
+    "scripts/native-samples-cache-env.sh": "55560aec256c6e71c0b4a44d4a6452ce4c2a39858668bee9ca0f2f048c176b94"
+  },
+  "engine_build_receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-artifact-repair/build-receipt.json",
+  "engine_build_receipt_sha256": "28661adc1967ef397fb79f8b1041b2bc8b0be4fb3226caf614e26d0ab72804be",
+  "cells": {
+    "ordinary-gpu": {
+      "build": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake",
+      "receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/receipt.json",
+      "receipt_sha256": "09e4a2157a2ec24ce28802a847151c221ae8ff3f6eb76430c0c4dc54252cf590",
+      "library": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-fix/ordinary-frozen.a",
+      "library_sha256": "aba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6"
+    },
+    "ordinary-both": {
+      "build": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake",
+      "receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/receipt.json",
+      "receipt_sha256": "3666a044433a97f03eaaca6d49b5a03e58ee191a43f102146a759b56656e6e1d",
+      "library": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-fix/ordinary-frozen.a",
+      "library_sha256": "aba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6"
+    },
+    "native-gpu": {
+      "build": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake",
+      "receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/receipt.json",
+      "receipt_sha256": "fd2ac3809d3fe6989131d84d7dc824964029680f60065d29b0e0dd8499e3719f",
+      "library": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-artifact-repair/native-frozen.a",
+      "library_sha256": "c8a16154cb576c49e7bd7fd8e030319601192b466d9ddb19305bd043aa6a7267"
+    },
+    "native-both": {
+      "build": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake",
+      "receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/receipt.json",
+      "receipt_sha256": "2b9e63201558881ce367da09526eb3c496e0b6d9fb1266dfad6d077e98100f8b",
+      "library": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-artifact-repair/native-frozen.a",
+      "library_sha256": "c8a16154cb576c49e7bd7fd8e030319601192b466d9ddb19305bd043aa6a7267"
+    }
+  },
+  "tests": {
+    "ordinary": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-artifact-repair/ordinary-test-executable",
+      "sha256": "597b893bcbbb401866721e1b1b45cb03c58263ae8bee76cbe8af00cdfaef23b9"
+    },
+    "native": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-artifact-repair/native-test-executable",
+      "sha256": "34ede43142323516f585d4d236755b8ef46dc6d9e61b6ba51354f379c85aa4a3"
+    }
+  },
+  "settings": {
+    "adapter": "RTX4070SUPER",
+    "driver": "610.57.04",
+    "backend": "NVIDIA Vulkan",
+    "dt": "1/60",
+    "substeps": "Existing fixture1/2/4/8, no defaults/geometry/assertions modified",
+    "live_contact_order": "1",
+    "absolute_CPU_reference_epsilon": 1e-05,
+    "native_policy": "unchanged shared native-samples-cache-env.sh",
+    "incidental_warm_start_clocks": "Retain verbatim; not headline timing, no chart inputs"
+  },
+  "watchdog_seconds": 1200,
+  "invocation_revision_context_only": "c2fd69f6e4719f80f994f899d9f07520510fdd00",
+  "limitations": [
+    "Full physical correctness/Rain, complete future-state repeatability, long lifecycle/capacity/reentrancy and final release/performance remainPR03\u2013PR08",
+    "Wheel angular separation follows documented upstream zero fallback; no angular constraint physics qualification",
+    "Existing floor/widgets/raycast appearance and final desktop charts remainPR09\u2013PR12",
+    "Original excluded39 API error contracts and current415-symbol linked inventories retain exact source applicability; no silent expansion of their support claims",
+    "Actual repaired four-viewer controls and52precommit scenes sourceabc0a54 already qualified separately; no viewer rerun"
+  ]
+}

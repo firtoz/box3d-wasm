@@ -1,0 +1,1297 @@
+{
+  "scope": "Current-source PR02 named contract reconciliation, not full physics/release qualification",
+  "compiled_source_milestone": "abc0a54a3ce3b285c9984f2c7c6b5baefff00d1b",
+  "excluded_methods": [
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3CreatePlayer",
+      "current_definition_sha256": "b5fd7a7fd7ef3fe6523cd03b429bd7fc839c788be64fe542ae1631380ec6b3ae",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3CreateRecording",
+      "current_definition_sha256": "bba84e29e8e794f9b59c7e363e8b67d93a9229034d979704e25dffbcc4f0943f",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada/samples_api.c",
+      "historical_source_sha256": "84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3DestroyPlayer",
+      "current_definition_sha256": "dfda7fe6c24b7bdd5f2f1cc1e214ba3c58f828725f6edf0bcdd3492c2c8e84d2",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3DestroyRecording",
+      "current_definition_sha256": "a41c6209749528d26c9785d9926f9d9377fb9a96038ca4d1825d38ec6591df62",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada/samples_api.c",
+      "historical_source_sha256": "84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3LoadRecordingFromFile",
+      "current_definition_sha256": "70aea5320c1ae37fe6a73d27dafec6d411d75c9b833facc76af80c474e038aa8",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_DrawFrameQueries",
+      "current_definition_sha256": "0584d248e01ba46f6dbec77c555a49c8335c96b33fa00fcead69249fe28697c3",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_GetBodyCount",
+      "current_definition_sha256": "e030a425a829b85d9f246adc695cd78a6d0d1d54103c9fd0525a5a0afae779a0",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_GetBodyId",
+      "current_definition_sha256": "d5de69c1b992b2c91ef24bb30ab0a75a396667aa48cfb2b983929800052d9efd",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_GetDivergeFrame",
+      "current_definition_sha256": "16392f7887b8ecee795fda984db304893a1c8c85774d97fc29df7bfee7289d79",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_GetFrame",
+      "current_definition_sha256": "49746dbf5a8b776cc542e9fd6cfd74608544760bf254f7b42217eed0ce076643",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_GetFrameCount",
+      "current_definition_sha256": "e09a412ff350824d9b54d98ba0c05723d8beebb56518c5f22824c5ecae2b8cc5",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_GetFrameQuery",
+      "current_definition_sha256": "74ac6f8a2fd4dc18a8b38b927ab9f8ad52b063af63438286a5a3738197573820",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_GetFrameQueryCount",
+      "current_definition_sha256": "c3e223133991088105cdd9dbd467ecbe6148d99585e83aae4e6c8bb38a7f8b22",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_GetFrameQueryHit",
+      "current_definition_sha256": "56392b0da778625796a754a4374db4c2c05b021bdf2ba54aabe29e9bfaeba82b",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_GetInfo",
+      "current_definition_sha256": "7cfbeee51911f363fbf3c24f4b304752a89e5d353ae805093b411f4c0150c941",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_GetKeyframeBudget",
+      "current_definition_sha256": "dbacdbfe0433bceeba9f1c607c2598979bc64481af8db4e02c95a28bde6e809d",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_GetKeyframeBytes",
+      "current_definition_sha256": "1dd1235778f42158e7ae6401c2982e549b0ed0059a972572653b461844b52d44",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_GetKeyframeInterval",
+      "current_definition_sha256": "0fcebc9347616fb122a213fb6fe75ba7554d8b921529b187054708fe72567b89",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_GetKeyframeMinInterval",
+      "current_definition_sha256": "79e6fd09844fc70a2207574a1a8028a8ba2fd6fe2666bd4661d7336839ace40a",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_GetWorldId",
+      "current_definition_sha256": "2fd76e8afa92c3e39d0da65b1f8621e96eeb039aa8a136078c68ed5308b363a5",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_HasDiverged",
+      "current_definition_sha256": "3a062f5b6cf10d26683cf21e88fd3c4050521b42eabb1b4bcfb9621db24d92b4",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_IsAtEnd",
+      "current_definition_sha256": "b33a54eb044ce3b357f5654db94307d2d7565f18d6f116960b2c56db544715aa",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_IsAtPreStep",
+      "current_definition_sha256": "8f011455dae8e7f19c948057e3926bc29fb3993ae866915289717bd1176a273a",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_Restart",
+      "current_definition_sha256": "77c00d285c6461b64c38100c3711339d8beeec00a48c926b6ef7990cbada644c",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_SeekFrame",
+      "current_definition_sha256": "fbda8374916240e68e0251bddb626aa749cd4830563515200676c447936fc9df",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_SetDebugShapeCallbacks",
+      "current_definition_sha256": "bdff1fe35d82bfa74571c93b7502fb6771adfa836cda05d2200ce3074be4a6b0",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_SetKeyframePolicy",
+      "current_definition_sha256": "3cdf78665dd7adfaa2d4859769d604902a8a2e3f1a0a7c43e8c4fc2bd030208f",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_SetWorkerCount",
+      "current_definition_sha256": "f9b33d7322ec9a6194ad2cdab6be65a875cfb73f1d6660b39ae0ee03b4ea272d",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_StepFrame",
+      "current_definition_sha256": "765b7a879eb074c9f9a86ab9f2f7dc4cf2cb3819dfa9001d1907d7dc5d543e27",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3RecPlayer_SubStepFrame",
+      "current_definition_sha256": "863b2ee1aaddf8c8cb651319d4f817f50f7dc4741e08cdcf80a0af43ac1fbbd2",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3Recording_GetData",
+      "current_definition_sha256": "be5baf8fde890036de21922e495f549610954b71b96a573f7cadaa1c7e24181b",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3Recording_GetSize",
+      "current_definition_sha256": "c01239ac3985511f79716f6a6f040a9ae98493161b7c8bb94375a46dd5d9079b",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3SaveRecordingToFile",
+      "current_definition_sha256": "fc184902830e3f0694dd616bc2e326348504e7cfbca3815f63ed4f28050ca336",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada/samples_api.c",
+      "historical_source_sha256": "84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3ValidateReplay",
+      "current_definition_sha256": "620b242fa406eddbe6925a9d9935d0ee26138c7af3a2311d8475a1f81534afda",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3World_GetWorkerCount",
+      "current_definition_sha256": "ce05dcc5ec87dd3e9b0a27b123ce55536cf84aedfe49093150e3eab1f6eff25c",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3World_RebuildStaticTree",
+      "current_definition_sha256": "ccd7a8e6478aef6a0ef9ab79bfff23094795b07fef73a11aacf5a68e615485d6",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3World_SetWorkerCount",
+      "current_definition_sha256": "a8d04d85edc28ed26dada594c004803e9bb2d6907a81794c346f32ef64467a81",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3World_StartRecording",
+      "current_definition_sha256": "4967e3c4317bdeb38955eb71e67978af85c2260253910786bc6bd89bc48eb099",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada/samples_api.c",
+      "historical_source_sha256": "84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3World_StopRecording",
+      "current_definition_sha256": "9b2f663177e4e9133f70bb46e6413a9792d92ae03432f151d8edadab958e96e4",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada/samples_api.c",
+      "historical_source_sha256": "84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3CreatePlayer",
+      "current_definition_sha256": "b5fd7a7fd7ef3fe6523cd03b429bd7fc839c788be64fe542ae1631380ec6b3ae",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3CreateRecording",
+      "current_definition_sha256": "bba84e29e8e794f9b59c7e363e8b67d93a9229034d979704e25dffbcc4f0943f",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/121c1f9ed8e92674a3ae3e4fa138d6ed825da731eaa7cd18f3b3fdd04088c742/samples_api.c",
+      "historical_source_sha256": "121c1f9ed8e92674a3ae3e4fa138d6ed825da731eaa7cd18f3b3fdd04088c742",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3DestroyPlayer",
+      "current_definition_sha256": "dfda7fe6c24b7bdd5f2f1cc1e214ba3c58f828725f6edf0bcdd3492c2c8e84d2",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3DestroyRecording",
+      "current_definition_sha256": "a41c6209749528d26c9785d9926f9d9377fb9a96038ca4d1825d38ec6591df62",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/121c1f9ed8e92674a3ae3e4fa138d6ed825da731eaa7cd18f3b3fdd04088c742/samples_api.c",
+      "historical_source_sha256": "121c1f9ed8e92674a3ae3e4fa138d6ed825da731eaa7cd18f3b3fdd04088c742",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3LoadRecordingFromFile",
+      "current_definition_sha256": "70aea5320c1ae37fe6a73d27dafec6d411d75c9b833facc76af80c474e038aa8",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_DrawFrameQueries",
+      "current_definition_sha256": "0584d248e01ba46f6dbec77c555a49c8335c96b33fa00fcead69249fe28697c3",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_GetBodyCount",
+      "current_definition_sha256": "e030a425a829b85d9f246adc695cd78a6d0d1d54103c9fd0525a5a0afae779a0",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_GetBodyId",
+      "current_definition_sha256": "d5de69c1b992b2c91ef24bb30ab0a75a396667aa48cfb2b983929800052d9efd",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_GetDivergeFrame",
+      "current_definition_sha256": "16392f7887b8ecee795fda984db304893a1c8c85774d97fc29df7bfee7289d79",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_GetFrame",
+      "current_definition_sha256": "49746dbf5a8b776cc542e9fd6cfd74608544760bf254f7b42217eed0ce076643",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_GetFrameCount",
+      "current_definition_sha256": "e09a412ff350824d9b54d98ba0c05723d8beebb56518c5f22824c5ecae2b8cc5",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_GetFrameQuery",
+      "current_definition_sha256": "74ac6f8a2fd4dc18a8b38b927ab9f8ad52b063af63438286a5a3738197573820",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_GetFrameQueryCount",
+      "current_definition_sha256": "c3e223133991088105cdd9dbd467ecbe6148d99585e83aae4e6c8bb38a7f8b22",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_GetFrameQueryHit",
+      "current_definition_sha256": "56392b0da778625796a754a4374db4c2c05b021bdf2ba54aabe29e9bfaeba82b",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_GetInfo",
+      "current_definition_sha256": "7cfbeee51911f363fbf3c24f4b304752a89e5d353ae805093b411f4c0150c941",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_GetKeyframeBudget",
+      "current_definition_sha256": "dbacdbfe0433bceeba9f1c607c2598979bc64481af8db4e02c95a28bde6e809d",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_GetKeyframeBytes",
+      "current_definition_sha256": "1dd1235778f42158e7ae6401c2982e549b0ed0059a972572653b461844b52d44",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_GetKeyframeInterval",
+      "current_definition_sha256": "0fcebc9347616fb122a213fb6fe75ba7554d8b921529b187054708fe72567b89",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_GetKeyframeMinInterval",
+      "current_definition_sha256": "79e6fd09844fc70a2207574a1a8028a8ba2fd6fe2666bd4661d7336839ace40a",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_GetWorldId",
+      "current_definition_sha256": "2fd76e8afa92c3e39d0da65b1f8621e96eeb039aa8a136078c68ed5308b363a5",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_HasDiverged",
+      "current_definition_sha256": "3a062f5b6cf10d26683cf21e88fd3c4050521b42eabb1b4bcfb9621db24d92b4",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_IsAtEnd",
+      "current_definition_sha256": "b33a54eb044ce3b357f5654db94307d2d7565f18d6f116960b2c56db544715aa",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_IsAtPreStep",
+      "current_definition_sha256": "8f011455dae8e7f19c948057e3926bc29fb3993ae866915289717bd1176a273a",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_Restart",
+      "current_definition_sha256": "77c00d285c6461b64c38100c3711339d8beeec00a48c926b6ef7990cbada644c",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_SeekFrame",
+      "current_definition_sha256": "fbda8374916240e68e0251bddb626aa749cd4830563515200676c447936fc9df",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_SetDebugShapeCallbacks",
+      "current_definition_sha256": "bdff1fe35d82bfa74571c93b7502fb6771adfa836cda05d2200ce3074be4a6b0",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_SetKeyframePolicy",
+      "current_definition_sha256": "3cdf78665dd7adfaa2d4859769d604902a8a2e3f1a0a7c43e8c4fc2bd030208f",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_SetWorkerCount",
+      "current_definition_sha256": "f9b33d7322ec9a6194ad2cdab6be65a875cfb73f1d6660b39ae0ee03b4ea272d",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_StepFrame",
+      "current_definition_sha256": "765b7a879eb074c9f9a86ab9f2f7dc4cf2cb3819dfa9001d1907d7dc5d543e27",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3RecPlayer_SubStepFrame",
+      "current_definition_sha256": "863b2ee1aaddf8c8cb651319d4f817f50f7dc4741e08cdcf80a0af43ac1fbbd2",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3Recording_GetData",
+      "current_definition_sha256": "be5baf8fde890036de21922e495f549610954b71b96a573f7cadaa1c7e24181b",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3Recording_GetSize",
+      "current_definition_sha256": "c01239ac3985511f79716f6a6f040a9ae98493161b7c8bb94375a46dd5d9079b",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3SaveRecordingToFile",
+      "current_definition_sha256": "fc184902830e3f0694dd616bc2e326348504e7cfbca3815f63ed4f28050ca336",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada/samples_api.c",
+      "historical_source_sha256": "84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3ValidateReplay",
+      "current_definition_sha256": "620b242fa406eddbe6925a9d9935d0ee26138c7af3a2311d8475a1f81534afda",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3World_GetWorkerCount",
+      "current_definition_sha256": "ce05dcc5ec87dd3e9b0a27b123ce55536cf84aedfe49093150e3eab1f6eff25c",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3World_RebuildStaticTree",
+      "current_definition_sha256": "ccd7a8e6478aef6a0ef9ab79bfff23094795b07fef73a11aacf5a68e615485d6",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3World_SetWorkerCount",
+      "current_definition_sha256": "a8d04d85edc28ed26dada594c004803e9bb2d6907a81794c346f32ef64467a81",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3World_StartRecording",
+      "current_definition_sha256": "4967e3c4317bdeb38955eb71e67978af85c2260253910786bc6bd89bc48eb099",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/121c1f9ed8e92674a3ae3e4fa138d6ed825da731eaa7cd18f3b3fdd04088c742/samples_api.c",
+      "historical_source_sha256": "121c1f9ed8e92674a3ae3e4fa138d6ed825da731eaa7cd18f3b3fdd04088c742",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3World_StopRecording",
+      "current_definition_sha256": "9b2f663177e4e9133f70bb46e6413a9792d92ae03432f151d8edadab958e96e4",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/121c1f9ed8e92674a3ae3e4fa138d6ed825da731eaa7cd18f3b3fdd04088c742/samples_api.c",
+      "historical_source_sha256": "121c1f9ed8e92674a3ae3e4fa138d6ed825da731eaa7cd18f3b3fdd04088c742",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3CreatePlayer",
+      "current_definition_sha256": "b5fd7a7fd7ef3fe6523cd03b429bd7fc839c788be64fe542ae1631380ec6b3ae",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3CreateRecording",
+      "current_definition_sha256": "bba84e29e8e794f9b59c7e363e8b67d93a9229034d979704e25dffbcc4f0943f",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada/samples_api.c",
+      "historical_source_sha256": "84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3DestroyPlayer",
+      "current_definition_sha256": "dfda7fe6c24b7bdd5f2f1cc1e214ba3c58f828725f6edf0bcdd3492c2c8e84d2",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3DestroyRecording",
+      "current_definition_sha256": "a41c6209749528d26c9785d9926f9d9377fb9a96038ca4d1825d38ec6591df62",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada/samples_api.c",
+      "historical_source_sha256": "84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3LoadRecordingFromFile",
+      "current_definition_sha256": "70aea5320c1ae37fe6a73d27dafec6d411d75c9b833facc76af80c474e038aa8",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_DrawFrameQueries",
+      "current_definition_sha256": "0584d248e01ba46f6dbec77c555a49c8335c96b33fa00fcead69249fe28697c3",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_GetBodyCount",
+      "current_definition_sha256": "e030a425a829b85d9f246adc695cd78a6d0d1d54103c9fd0525a5a0afae779a0",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_GetBodyId",
+      "current_definition_sha256": "d5de69c1b992b2c91ef24bb30ab0a75a396667aa48cfb2b983929800052d9efd",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_GetDivergeFrame",
+      "current_definition_sha256": "16392f7887b8ecee795fda984db304893a1c8c85774d97fc29df7bfee7289d79",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_GetFrame",
+      "current_definition_sha256": "49746dbf5a8b776cc542e9fd6cfd74608544760bf254f7b42217eed0ce076643",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_GetFrameCount",
+      "current_definition_sha256": "e09a412ff350824d9b54d98ba0c05723d8beebb56518c5f22824c5ecae2b8cc5",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_GetFrameQuery",
+      "current_definition_sha256": "74ac6f8a2fd4dc18a8b38b927ab9f8ad52b063af63438286a5a3738197573820",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_GetFrameQueryCount",
+      "current_definition_sha256": "c3e223133991088105cdd9dbd467ecbe6148d99585e83aae4e6c8bb38a7f8b22",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_GetFrameQueryHit",
+      "current_definition_sha256": "56392b0da778625796a754a4374db4c2c05b021bdf2ba54aabe29e9bfaeba82b",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_GetInfo",
+      "current_definition_sha256": "7cfbeee51911f363fbf3c24f4b304752a89e5d353ae805093b411f4c0150c941",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_GetKeyframeBudget",
+      "current_definition_sha256": "dbacdbfe0433bceeba9f1c607c2598979bc64481af8db4e02c95a28bde6e809d",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_GetKeyframeBytes",
+      "current_definition_sha256": "1dd1235778f42158e7ae6401c2982e549b0ed0059a972572653b461844b52d44",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_GetKeyframeInterval",
+      "current_definition_sha256": "0fcebc9347616fb122a213fb6fe75ba7554d8b921529b187054708fe72567b89",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_GetKeyframeMinInterval",
+      "current_definition_sha256": "79e6fd09844fc70a2207574a1a8028a8ba2fd6fe2666bd4661d7336839ace40a",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_GetWorldId",
+      "current_definition_sha256": "2fd76e8afa92c3e39d0da65b1f8621e96eeb039aa8a136078c68ed5308b363a5",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_HasDiverged",
+      "current_definition_sha256": "3a062f5b6cf10d26683cf21e88fd3c4050521b42eabb1b4bcfb9621db24d92b4",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_IsAtEnd",
+      "current_definition_sha256": "b33a54eb044ce3b357f5654db94307d2d7565f18d6f116960b2c56db544715aa",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_IsAtPreStep",
+      "current_definition_sha256": "8f011455dae8e7f19c948057e3926bc29fb3993ae866915289717bd1176a273a",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_Restart",
+      "current_definition_sha256": "77c00d285c6461b64c38100c3711339d8beeec00a48c926b6ef7990cbada644c",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_SeekFrame",
+      "current_definition_sha256": "fbda8374916240e68e0251bddb626aa749cd4830563515200676c447936fc9df",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_SetDebugShapeCallbacks",
+      "current_definition_sha256": "bdff1fe35d82bfa74571c93b7502fb6771adfa836cda05d2200ce3074be4a6b0",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_SetKeyframePolicy",
+      "current_definition_sha256": "3cdf78665dd7adfaa2d4859769d604902a8a2e3f1a0a7c43e8c4fc2bd030208f",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_SetWorkerCount",
+      "current_definition_sha256": "f9b33d7322ec9a6194ad2cdab6be65a875cfb73f1d6660b39ae0ee03b4ea272d",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_StepFrame",
+      "current_definition_sha256": "765b7a879eb074c9f9a86ab9f2f7dc4cf2cb3819dfa9001d1907d7dc5d543e27",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3RecPlayer_SubStepFrame",
+      "current_definition_sha256": "863b2ee1aaddf8c8cb651319d4f817f50f7dc4741e08cdcf80a0af43ac1fbbd2",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3Recording_GetData",
+      "current_definition_sha256": "be5baf8fde890036de21922e495f549610954b71b96a573f7cadaa1c7e24181b",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3Recording_GetSize",
+      "current_definition_sha256": "c01239ac3985511f79716f6a6f040a9ae98493161b7c8bb94375a46dd5d9079b",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3SaveRecordingToFile",
+      "current_definition_sha256": "fc184902830e3f0694dd616bc2e326348504e7cfbca3815f63ed4f28050ca336",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada/samples_api.c",
+      "historical_source_sha256": "84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3ValidateReplay",
+      "current_definition_sha256": "620b242fa406eddbe6925a9d9935d0ee26138c7af3a2311d8475a1f81534afda",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3World_GetWorkerCount",
+      "current_definition_sha256": "ce05dcc5ec87dd3e9b0a27b123ce55536cf84aedfe49093150e3eab1f6eff25c",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3World_RebuildStaticTree",
+      "current_definition_sha256": "ccd7a8e6478aef6a0ef9ab79bfff23094795b07fef73a11aacf5a68e615485d6",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3World_SetWorkerCount",
+      "current_definition_sha256": "a8d04d85edc28ed26dada594c004803e9bb2d6907a81794c346f32ef64467a81",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615/samples_stubs.c",
+      "historical_source_sha256": "fe6b4fed5bdc44a3dd09da8d2d391ccb8fab3aa4b4fa984678705fb4c971c615",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3World_StartRecording",
+      "current_definition_sha256": "4967e3c4317bdeb38955eb71e67978af85c2260253910786bc6bd89bc48eb099",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada/samples_api.c",
+      "historical_source_sha256": "84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-gpu",
+      "symbol": "b3World_StopRecording",
+      "current_definition_sha256": "9b2f663177e4e9133f70bb46e6413a9792d92ae03432f151d8edadab958e96e4",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada/samples_api.c",
+      "historical_source_sha256": "84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3CreatePlayer",
+      "current_definition_sha256": "b5fd7a7fd7ef3fe6523cd03b429bd7fc839c788be64fe542ae1631380ec6b3ae",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3CreateRecording",
+      "current_definition_sha256": "bba84e29e8e794f9b59c7e363e8b67d93a9229034d979704e25dffbcc4f0943f",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/121c1f9ed8e92674a3ae3e4fa138d6ed825da731eaa7cd18f3b3fdd04088c742/samples_api.c",
+      "historical_source_sha256": "121c1f9ed8e92674a3ae3e4fa138d6ed825da731eaa7cd18f3b3fdd04088c742",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3DestroyPlayer",
+      "current_definition_sha256": "dfda7fe6c24b7bdd5f2f1cc1e214ba3c58f828725f6edf0bcdd3492c2c8e84d2",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3DestroyRecording",
+      "current_definition_sha256": "a41c6209749528d26c9785d9926f9d9377fb9a96038ca4d1825d38ec6591df62",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/121c1f9ed8e92674a3ae3e4fa138d6ed825da731eaa7cd18f3b3fdd04088c742/samples_api.c",
+      "historical_source_sha256": "121c1f9ed8e92674a3ae3e4fa138d6ed825da731eaa7cd18f3b3fdd04088c742",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3LoadRecordingFromFile",
+      "current_definition_sha256": "70aea5320c1ae37fe6a73d27dafec6d411d75c9b833facc76af80c474e038aa8",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_DrawFrameQueries",
+      "current_definition_sha256": "0584d248e01ba46f6dbec77c555a49c8335c96b33fa00fcead69249fe28697c3",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_GetBodyCount",
+      "current_definition_sha256": "e030a425a829b85d9f246adc695cd78a6d0d1d54103c9fd0525a5a0afae779a0",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_GetBodyId",
+      "current_definition_sha256": "d5de69c1b992b2c91ef24bb30ab0a75a396667aa48cfb2b983929800052d9efd",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_GetDivergeFrame",
+      "current_definition_sha256": "16392f7887b8ecee795fda984db304893a1c8c85774d97fc29df7bfee7289d79",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_GetFrame",
+      "current_definition_sha256": "49746dbf5a8b776cc542e9fd6cfd74608544760bf254f7b42217eed0ce076643",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_GetFrameCount",
+      "current_definition_sha256": "e09a412ff350824d9b54d98ba0c05723d8beebb56518c5f22824c5ecae2b8cc5",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_GetFrameQuery",
+      "current_definition_sha256": "74ac6f8a2fd4dc18a8b38b927ab9f8ad52b063af63438286a5a3738197573820",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_GetFrameQueryCount",
+      "current_definition_sha256": "c3e223133991088105cdd9dbd467ecbe6148d99585e83aae4e6c8bb38a7f8b22",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_GetFrameQueryHit",
+      "current_definition_sha256": "56392b0da778625796a754a4374db4c2c05b021bdf2ba54aabe29e9bfaeba82b",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_GetInfo",
+      "current_definition_sha256": "7cfbeee51911f363fbf3c24f4b304752a89e5d353ae805093b411f4c0150c941",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_GetKeyframeBudget",
+      "current_definition_sha256": "dbacdbfe0433bceeba9f1c607c2598979bc64481af8db4e02c95a28bde6e809d",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_GetKeyframeBytes",
+      "current_definition_sha256": "1dd1235778f42158e7ae6401c2982e549b0ed0059a972572653b461844b52d44",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_GetKeyframeInterval",
+      "current_definition_sha256": "0fcebc9347616fb122a213fb6fe75ba7554d8b921529b187054708fe72567b89",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_GetKeyframeMinInterval",
+      "current_definition_sha256": "79e6fd09844fc70a2207574a1a8028a8ba2fd6fe2666bd4661d7336839ace40a",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_GetWorldId",
+      "current_definition_sha256": "2fd76e8afa92c3e39d0da65b1f8621e96eeb039aa8a136078c68ed5308b363a5",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_HasDiverged",
+      "current_definition_sha256": "3a062f5b6cf10d26683cf21e88fd3c4050521b42eabb1b4bcfb9621db24d92b4",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_IsAtEnd",
+      "current_definition_sha256": "b33a54eb044ce3b357f5654db94307d2d7565f18d6f116960b2c56db544715aa",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_IsAtPreStep",
+      "current_definition_sha256": "8f011455dae8e7f19c948057e3926bc29fb3993ae866915289717bd1176a273a",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_Restart",
+      "current_definition_sha256": "77c00d285c6461b64c38100c3711339d8beeec00a48c926b6ef7990cbada644c",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_SeekFrame",
+      "current_definition_sha256": "fbda8374916240e68e0251bddb626aa749cd4830563515200676c447936fc9df",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_SetDebugShapeCallbacks",
+      "current_definition_sha256": "bdff1fe35d82bfa74571c93b7502fb6771adfa836cda05d2200ce3074be4a6b0",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_SetKeyframePolicy",
+      "current_definition_sha256": "3cdf78665dd7adfaa2d4859769d604902a8a2e3f1a0a7c43e8c4fc2bd030208f",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_SetWorkerCount",
+      "current_definition_sha256": "f9b33d7322ec9a6194ad2cdab6be65a875cfb73f1d6660b39ae0ee03b4ea272d",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_StepFrame",
+      "current_definition_sha256": "765b7a879eb074c9f9a86ab9f2f7dc4cf2cb3819dfa9001d1907d7dc5d543e27",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3RecPlayer_SubStepFrame",
+      "current_definition_sha256": "863b2ee1aaddf8c8cb651319d4f817f50f7dc4741e08cdcf80a0af43ac1fbbd2",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3Recording_GetData",
+      "current_definition_sha256": "be5baf8fde890036de21922e495f549610954b71b96a573f7cadaa1c7e24181b",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3Recording_GetSize",
+      "current_definition_sha256": "c01239ac3985511f79716f6a6f040a9ae98493161b7c8bb94375a46dd5d9079b",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3SaveRecordingToFile",
+      "current_definition_sha256": "fc184902830e3f0694dd616bc2e326348504e7cfbca3815f63ed4f28050ca336",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada/samples_api.c",
+      "historical_source_sha256": "84d803848e80165607ee1946cfca826aa3b36fa32e3537aa40aff72a68439ada",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3ValidateReplay",
+      "current_definition_sha256": "620b242fa406eddbe6925a9d9935d0ee26138c7af3a2311d8475a1f81534afda",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3World_GetWorkerCount",
+      "current_definition_sha256": "ce05dcc5ec87dd3e9b0a27b123ce55536cf84aedfe49093150e3eab1f6eff25c",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3World_RebuildStaticTree",
+      "current_definition_sha256": "ccd7a8e6478aef6a0ef9ab79bfff23094795b07fef73a11aacf5a68e615485d6",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3World_SetWorkerCount",
+      "current_definition_sha256": "a8d04d85edc28ed26dada594c004803e9bb2d6907a81794c346f32ef64467a81",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13/samples_stubs.c",
+      "historical_source_sha256": "2ed55f1f6930022f4333e8ca9065c4895dbff8a966bca9e7fd4d993ce6b8da13",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3World_StartRecording",
+      "current_definition_sha256": "4967e3c4317bdeb38955eb71e67978af85c2260253910786bc6bd89bc48eb099",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/121c1f9ed8e92674a3ae3e4fa138d6ed825da731eaa7cd18f3b3fdd04088c742/samples_api.c",
+      "historical_source_sha256": "121c1f9ed8e92674a3ae3e4fa138d6ed825da731eaa7cd18f3b3fdd04088c742",
+      "exact_definition_match": true
+    },
+    {
+      "cell": "native-both",
+      "symbol": "b3World_StopRecording",
+      "current_definition_sha256": "9b2f663177e4e9133f70bb46e6413a9792d92ae03432f151d8edadab958e96e4",
+      "historical_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/compiled-sources/121c1f9ed8e92674a3ae3e4fa138d6ed825da731eaa7cd18f3b3fdd04088c742/samples_api.c",
+      "historical_source_sha256": "121c1f9ed8e92674a3ae3e4fa138d6ed825da731eaa7cd18f3b3fdd04088c742",
+      "exact_definition_match": true
+    }
+  ],
+  "support_counts": {
+    "ordinary": {
+      "stateful_header_symbols": 415,
+      "implemented": 376,
+      "declared_unavailable": 39,
+      "final_release_qualified": false
+    },
+    "native": {
+      "stateful_header_symbols": 415,
+      "implemented": 376,
+      "declared_unavailable": 39,
+      "final_release_qualified": false
+    }
+  },
+  "sources": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/api-sources/samples_api.c": "1dc8ddb014b7629ae9c508309faafdc0bb4eaeb4f3b011200c2f24c1a1a4ada0",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/api-sources/samples_stubs.c": "8d4382789ce321cbe9b5485814fc4cf260e3d2a93d1308a2b5e566101b42b7d0",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/api-sources/shim.c": "b32d5dd53c3f0219b9a0f3764f632469805b98e10769edcdfac136a3401357f9",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/src/c_abi.rs": "4a3584acae6d79eb35393a6526d1a6ec15f6da24a37082240504d3e6bd9580a7",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/samples_api.c": "15cddbcf7f666cbe70b8fcb389a6f6b222f12f2511d60a506b34014a142aa738",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/samples_stubs.c": "8d4382789ce321cbe9b5485814fc4cf260e3d2a93d1308a2b5e566101b42b7d0",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/api-sources/shim.c": "0c950bf687d138e1070fec2f3cb9a45d67601ce806d5f24a6e6351440c9fe8e9",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_dual.c": "4b4e64e22aa4636a926eea2549b8a29a84225ac04496f38211851bea55dd994a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/both_passthrough.c": "787c71db7b34c3b2e0780d388f161ba85a368218f2287a4dfe097d5520966222",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake/api-sources/samples_api.c": "1dc8ddb014b7629ae9c508309faafdc0bb4eaeb4f3b011200c2f24c1a1a4ada0",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake/api-sources/samples_stubs.c": "8d4382789ce321cbe9b5485814fc4cf260e3d2a93d1308a2b5e566101b42b7d0",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake/api-sources/shim.c": "b32d5dd53c3f0219b9a0f3764f632469805b98e10769edcdfac136a3401357f9",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake/api-sources/samples_api.c": "15cddbcf7f666cbe70b8fcb389a6f6b222f12f2511d60a506b34014a142aa738",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake/api-sources/samples_stubs.c": "8d4382789ce321cbe9b5485814fc4cf260e3d2a93d1308a2b5e566101b42b7d0",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake/api-sources/shim.c": "0c950bf687d138e1070fec2f3cb9a45d67601ce806d5f24a6e6351440c9fe8e9",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake/both_passthrough.c": "787c71db7b34c3b2e0780d388f161ba85a368218f2287a4dfe097d5520966222"
+  },
+  "manual_findings": [
+    "Macro-generated BOTH_* definitions are indexed after a finite textual token-paste expansion; source line is capped at original EOF for these expansions. Source SHA and definition hash identify the source and generated body, not an independent compiler invocation.",
+    "Current portable b3Body_GetType comes from shim/gpu_b3_body_get_type; legacy samples_api two-class fallback is removed by generation, not the linked implementation.",
+    "b3GetCompoundMaterials NULL branch is only invalid/no-table input; live compound material pointer follows native offsets and property oracle passes1016 observations per cell.",
+    "Rust ids.rs *_id_is_valid helpers only test non-null representation; actual public C IsValid routes live generation/world checks in world.rs. No public lifetime claim is based on non-null helpers.",
+    "No TODO/unimplemented/todo/stub marker found in current src/api; short-function review is a lexical aid, not behavior proof. Short getter/setter delegations read/mutate live world fields or geometry/query implementations.",
+    "b3GetMaxWorldCount32 is the advertised C world limit, not an allocated-world counter. Long-running retirement/capacity/concurrency validation remains PR05.",
+    "Wheel angular-separation zero follows documented upstream fallback; no angular physical qualification inferred.",
+    "Unavailability source definitions match successful historical compiled implementations, including additional idempotent save error publication; combined error routing/current link inventories independently unchanged.",
+    "376 implemented symbols retain behavior-unqualified classification except explicitly named tested contracts; no universal Box3D API or production claim."
+  ]
+}

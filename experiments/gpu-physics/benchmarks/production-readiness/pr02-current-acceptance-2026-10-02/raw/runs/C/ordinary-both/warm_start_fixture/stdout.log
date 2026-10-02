@@ -1,0 +1,4 @@
+{"scene":"sphere-ground","substeps":1,"steps":180,"mean_ms":1.071173022,"timing_only":false}
+{"scene":"sphere-ground","substeps":4,"steps":180,"mean_ms":1.207424311,"timing_only":false}
+{"scene":"spherical-joint","substeps":1,"steps":180,"mean_ms":1.250455456,"timing_only":false}
+{"scene":"spherical-joint","substeps":4,"steps":180,"mean_ms":1.785254089,"timing_only":false}

@@ -1,0 +1,100 @@
+    fn reaction_impulses_use_solver_accumulators_for_every_joint_kind() {
+        let no_bodies = [];
+
+        let mut joint = JointGpu {
+            kind: JOINT_PARALLEL,
+            perp_impulse: [3.0, 4.0],
+            ..JointGpu::default()
+        };
+        assert_eq!(joint_reaction_impulses(&no_bodies, &joint), (0.0, 5.0));
+
+        joint = JointGpu {
+            kind: JOINT_DISTANCE,
+            impulse: 2.0,
+            lower_impulse: 3.0,
+            upper_impulse: 1.0,
+            motor_impulse: 2.0,
+            ..JointGpu::default()
+        };
+        assert_eq!(joint_reaction_impulses(&no_bodies, &joint), (6.0, 0.0));
+
+        joint = JointGpu {
+            kind: JOINT_MOTOR,
+            impulse: 1.0,
+            perp_impulse: [2.0, 3.0],
+            spring_impulse: 4.0,
+            lower_impulse: 5.0,
+            upper_impulse: 6.0,
+            angular_impulse: [1.0, 2.0, 3.0],
+            motor_impulse: 4.0,
+            _pad2: [5.0, 6.0],
+            ..JointGpu::default()
+        };
+        let (force, torque) = joint_reaction_impulses(&no_bodies, &joint);
+        close(force, (155.0f32).sqrt());
+        close(torque, (155.0f32).sqrt());
+
+        joint = JointGpu {
+            kind: JOINT_PRISMATIC,
+            motor_impulse: 2.0,
+            lower_impulse: 3.0,
+            upper_impulse: 1.0,
+            perp_impulse: [4.0, 8.0],
+            angular_impulse: [0.0, 3.0, 4.0],
+            ..JointGpu::default()
+        };
+        let (force, torque) = joint_reaction_impulses(&no_bodies, &joint);
+        close(force, (96.0f32).sqrt());
+        close(torque, 5.0);
+
+        joint = JointGpu {
+            kind: JOINT_REVOLUTE,
+            angular_impulse: [0.0, 3.0, 4.0],
+            perp_impulse: [3.0, 4.0],
+            motor_impulse: 2.0,
+            lower_impulse: 3.0,
+            upper_impulse: 1.0,
+            ..JointGpu::default()
+        };
+        let (force, torque) = joint_reaction_impulses(&no_bodies, &joint);
+        close(force, 5.0);
+        close(torque, (41.0f32).sqrt());
+
+        joint = JointGpu {
+            kind: JOINT_SPHERICAL,
+            angular_impulse: [0.0, 3.0, 4.0],
+            spring_angular_impulse: [1.0, 2.0, 3.0],
+            motor_angular_impulse: [4.0, 5.0, 6.0],
+            lower_impulse: 4.0,
+            upper_impulse: 1.0,
+            swing_impulse: 9.0,
+            ..JointGpu::default()
+        };
+        let (force, torque) = joint_reaction_impulses(&no_bodies, &joint);
+        close(force, 5.0);
+        close(torque, (218.0f32).sqrt());
+
+        joint = JointGpu {
+            kind: JOINT_WELD,
+            weld_linear_impulse: [0.0, 3.0, 4.0],
+            weld_angular_impulse: [0.0, 5.0, 12.0],
+            ..JointGpu::default()
+        };
+        assert_eq!(joint_reaction_impulses(&no_bodies, &joint), (5.0, 13.0));
+
+        joint = JointGpu {
+            kind: JOINT_WHEEL,
+            perp_impulse: [3.0, 4.0],
+            spring_impulse: 5.0,
+            lower_impulse: 2.0,
+            upper_impulse: 1.0,
+            motor_impulse: -7.0,
+            ..JointGpu::default()
+        };
+        let (force, torque) = joint_reaction_impulses(&no_bodies, &joint);
+        close(force, (61.0f32).sqrt());
+        close(torque, 7.0);
+
+        joint.kind = JOINT_FILTER;
+        assert_eq!(joint_reaction_impulses(&no_bodies, &joint), (0.0, 0.0));
+    }

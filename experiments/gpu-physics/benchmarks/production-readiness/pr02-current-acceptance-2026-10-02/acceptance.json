@@ -1,0 +1,83 @@
+{
+  "item": "PR02",
+  "status": "pass for named native API and truthful-control contract",
+  "compiled_source_milestone": "abc0a54a3ce3b285c9984f2c7c6b5baefff00d1b",
+  "protocol_sha256": "9818861d65f6d92efc18979df58a61e6d1ca5300808fbcdd05d057dca46c95ad",
+  "requirements": [
+    {
+      "requirement": "Current linked API and source audit",
+      "evidence": "raw/applicable-inventory/*.json; api-inventory-{ordinary,native}.json; raw/source-contract-review.json; exact415 symbols/backend,376 implementations/39 exclusions,0 missing/stub/placeholder/CPU-only passthrough",
+      "scope": "source/link contract; not415 independent behavior passes",
+      "status": "pass"
+    },
+    {
+      "requirement": "Counters/contact populations, profile, capacity and memory/bounds",
+      "evidence": "native_diagnostics_fixture and native_diagnostic_populations all4cells; exact sensor/non-sensor/mesh/compound populations, unavailable fields explicit, owned bounds and unlocked visitors",
+      "scope": "32 current C processes include8 diagnostic cells; unmeasured profile fields remainNaN/availability bits; no timing acceptance",
+      "status": "pass"
+    },
+    {
+      "requirement": "Warm start, speculative and world/body settings",
+      "evidence": "api_settings_test/warm_start_fixture all4cells; currentPR01 acceptance20 C controls/2CCD/126regressions plus source-applicable actual viewer controls",
+      "scope": "Original per-world/cache/combined-state effects and default/lifecycle assertions pass; physical release gates separate",
+      "status": "pass"
+    },
+    {
+      "requirement": "Forces and mass",
+      "evidence": "both_substep_forces_test bothbackends; accumulated-force/resident-cache/mass/body-settings Rust selectors bothbackends",
+      "scope": "Original3744 scalar comparisons/cell,1/2/4/8substeps; preserve fixture-specific original tolerances",
+      "status": "pass"
+    },
+    {
+      "requirement": "Geometry replacement and parent properties",
+      "evidence": "both_shape_replacement_test bothbackends; Rust replacement; compound_property_diagnostic all4cells",
+      "scope": "1016 property observations/cell,mismatches0 plus identity/mass/metadata/event/query original checks",
+      "status": "pass"
+    },
+    {
+      "requirement": "Joint queries and independent CPU routing",
+      "evidence": "both_joint_reaction_test and both_joint_separation_test bothbackends; revolute warm-start GPU tests; reaction accumulator host arithmetic bothbackend binaries",
+      "scope": "2856 reaction comparisons/cell,2686 separation comparisons/cell across9types; wheel angular upstreamzero fallback disclosed,notangularphysicsqualification",
+      "status": "pass"
+    },
+    {
+      "requirement": "Per-world ownership, mutation and C/Rust lifetime",
+      "evidence": "both_compound_ownership_test/compound_aabb_contract bothbackends; separately current72 Rust lifetime checks/120 C root&geometry/42 mappedcleanup observations",
+      "scope": "Original ownership/ABA failures repaired; exhaustion/concurrency/reentrancy/future-state coverage remainsPR05/PR07",
+      "status": "pass"
+    },
+    {
+      "requirement": "Explicit excluded-operation errors",
+      "evidence": "raw/source-contract-review.json reconciles all156 current generatedC definitions to successful compiled39-operation error contracts; currentlink/TLS helpers verified",
+      "scope": "Seven historical normal-stderr passes plus whole-source closed-stderr pass, exactapplicablemethods; originalerrno-harness failure retained; no new host campaign/recording support",
+      "status": "pass"
+    },
+    {
+      "requirement": "Actual viewer controls and precommit affected scenes",
+      "evidence": "../pr02-world-lifetime-atomic-apps-2026-10-02/README.md; ../pr02-world-lifetime-scene-captures-2026-10-02/README.md; sourceabc0a54/currentreceipts",
+      "scope": "AllfourGPUviewer116 real actions/44screens/typedstepcontrols pass;52CPU-first clips/26reviewedpairs; priorharnessfailures/Village omission retainedPR09/PR10",
+      "status": "pass"
+    }
+  ],
+  "campaign_result": {
+    "first_links": 32,
+    "C_world_processes": 32,
+    "Rust_processes": 20,
+    "Rust_GPU_processes": 16,
+    "Rust_host_processes": 4,
+    "new_builds": 0,
+    "timing": 0,
+    "retries": 0,
+    "production_changes": 0
+  },
+  "retained_harness_failure": "Originalrunner stops after19th Rustprocess returns0/1passed because frozen reactionselector incorrectly classifiedGPU expectsadaptermessage. Source provespurehostarithmetic; ordinaryresult retained/notrerun. Separately frozen remaining-host protocol consumes onlyone previouslyunlaunched nativehost process. Originalstoppedreceipt/driver/protocol unchanged. Actual20totalRust processes are16GPU+4host; no performance/physics evidence substitution.",
+  "release_ready": false,
+  "limitations": [
+    "Full physical Rain/ragdolls/dragging/joints/CCD/energy/sleep/query/runtime release qualification remainsPR03\u2013PR08",
+    "Current source415-symbol inventory is not415 fullyphysically qualified behaviors",
+    "Exclusion/error-contract evidence reused onlyafter exactmethod/source applicability; finalcleanbuilds stillPR06",
+    "UI sample-wide layout/widgets/floors/raycast appearance remainPR09\u2013PR11; finaldesktopchartsPR12",
+    "No timing/no-regression claim; original bounded mixedscheduling target remainsunmet; defaultpolicyunchanged",
+    "Whole-source clean dependency/toolchain builds and resource/concurrency/retirement review remainPR05/PR06"
+  ]
+}

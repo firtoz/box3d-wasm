@@ -1,0 +1,6 @@
+
+running 1 test
+test sim::manifold_chain_tests::manifold_chain_warm_start_and_restitution_visit_children_once ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 402 filtered out; finished in 0.78s
+
