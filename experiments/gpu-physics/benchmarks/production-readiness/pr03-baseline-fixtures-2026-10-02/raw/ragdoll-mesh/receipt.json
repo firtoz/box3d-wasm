@@ -1,0 +1,201 @@
+{
+  "status": "completed-baseline",
+  "protocol_sha256": "d3a4df17941d4d916e6814e1480716dc0d3439326eb03e57217389457ed8b0b9",
+  "driver_sha256": "6eb2203663d4119f9cdb81219ad4490b5fc510035a0b51f1bd6d9c23dbde78a3",
+  "started_unix": 1790905451.9256992,
+  "results": [
+    {
+      "name": "cpu/twist",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.003980875015258789,
+      "actual_NVIDIA_Vulkan": null,
+      "stdout_sha256": "27d91cfed9089f1cb58214c4a690d925b4739cea3cc08fb7b3ad2d091707157a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cpu/twist-negative",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.0038619041442871094,
+      "actual_NVIDIA_Vulkan": null,
+      "stdout_sha256": "ff12b820c3d1d2811cfe7e24c021dc1b9d3487c3f0932a5388159eb8987f288a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cpu/tilted",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.003937482833862305,
+      "actual_NVIDIA_Vulkan": null,
+      "stdout_sha256": "6d2b89b37b8fd1751af75c092a02a1572dbbf2d5b62c3fd6e53ea1cebdd01ce1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cpu/tilted-negative",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.0038979053497314453,
+      "actual_NVIDIA_Vulkan": null,
+      "stdout_sha256": "e36bf1842fedcd96b4dc2adb7f7c52aaae26dd9755867f307f13430db9aef02d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cpu/ragdolls-no-contacts",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.06439852714538574,
+      "actual_NVIDIA_Vulkan": null,
+      "stdout_sha256": "97918c4961cf2f90b2b1103c0419cc0509c7de05f8f5b46105dbdca72f8ff21e",
+      "stderr_sha256": "c2101d2e7a08c90b1b0fc6c668f6554a899ce2258229fa3e0767eaf89710a91c"
+    },
+    {
+      "name": "cpu/ragdolls",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.36478090286254883,
+      "actual_NVIDIA_Vulkan": null,
+      "stdout_sha256": "8f33316b91c31d8e967c37ffdad0121bcb627c0bf82db32b4cd32fc1e8345f60",
+      "stderr_sha256": "1a77f0407a396d361fa17404e6a9a8b47e50e22d05b1737e27ac0c38df6b0f86"
+    },
+    {
+      "name": "cpu/mesh-grid",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.003834247589111328,
+      "actual_NVIDIA_Vulkan": null,
+      "stdout_sha256": "55816ebf0b65a63f1f0f6170e74db80469f0f1f86067e1c2bceb80490ae928bf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cpu/mesh-torus",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.0038220882415771484,
+      "actual_NVIDIA_Vulkan": null,
+      "stdout_sha256": "9d44eaae9e6f5f3a21e037ac7a9302491b6c810d949f97d528ce384b8a46d711",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "ordinary/twist",
+      "exit": 0,
+      "elapsed_seconds_incidental": 1.0664191246032715,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "27d91cfed9089f1cb58214c4a690d925b4739cea3cc08fb7b3ad2d091707157a",
+      "stderr_sha256": "4709b7cf5ca05a6196364001765fbbed32792c818109d6ff6584e46944d9f3b9"
+    },
+    {
+      "name": "ordinary/twist-negative",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.916151762008667,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "ff12b820c3d1d2811cfe7e24c021dc1b9d3487c3f0932a5388159eb8987f288a",
+      "stderr_sha256": "4709b7cf5ca05a6196364001765fbbed32792c818109d6ff6584e46944d9f3b9"
+    },
+    {
+      "name": "ordinary/tilted",
+      "exit": 0,
+      "elapsed_seconds_incidental": 1.016221284866333,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "6d2b89b37b8fd1751af75c092a02a1572dbbf2d5b62c3fd6e53ea1cebdd01ce1",
+      "stderr_sha256": "4709b7cf5ca05a6196364001765fbbed32792c818109d6ff6584e46944d9f3b9"
+    },
+    {
+      "name": "ordinary/tilted-negative",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.9661698341369629,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "e36bf1842fedcd96b4dc2adb7f7c52aaae26dd9755867f307f13430db9aef02d",
+      "stderr_sha256": "4709b7cf5ca05a6196364001765fbbed32792c818109d6ff6584e46944d9f3b9"
+    },
+    {
+      "name": "ordinary/ragdolls-no-contacts",
+      "exit": 0,
+      "elapsed_seconds_incidental": 1.3170058727264404,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "d6d26def33b9aee3fcd44757f6c10634a720282980ac0cfc6e237ef09af041a6",
+      "stderr_sha256": "23a6534ff9b54ad3ed574f1e3d04937db889b0800d1264f33629d5a2bbd67be4"
+    },
+    {
+      "name": "ordinary/ragdolls",
+      "exit": 0,
+      "elapsed_seconds_incidental": 5.725924730300903,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "49b4889422bdb5fbf2d25d7850985d573c1032e41aee24ad7747806b097065ce",
+      "stderr_sha256": "ca7ffa34129729c193f0ddad2418a49aab9800bd04ddf39eb63d0afcf2c85a23"
+    },
+    {
+      "name": "ordinary/mesh-grid",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.9163081645965576,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "610b63e106edff665789211830a9b3a30fd49dc7e44d09589a98f1faddd23b6b",
+      "stderr_sha256": "64e425e18662d0d044d537e7c3ef4f249523457c4f9a657ab890fa04ef83dea4"
+    },
+    {
+      "name": "ordinary/mesh-torus",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.816047191619873,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "9dd6841d32824f5d79622e77906ffe4de350d57f12449b3774af073595d10dac",
+      "stderr_sha256": "02a9e1a0cbda7d5fd4a5c0136454fa8965b9d7f05e991b97cb5739c40c14a44b"
+    },
+    {
+      "name": "native/twist",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.9664351940155029,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "27d91cfed9089f1cb58214c4a690d925b4739cea3cc08fb7b3ad2d091707157a",
+      "stderr_sha256": "4709b7cf5ca05a6196364001765fbbed32792c818109d6ff6584e46944d9f3b9"
+    },
+    {
+      "name": "native/twist-negative",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.9669537544250488,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "ff12b820c3d1d2811cfe7e24c021dc1b9d3487c3f0932a5388159eb8987f288a",
+      "stderr_sha256": "4709b7cf5ca05a6196364001765fbbed32792c818109d6ff6584e46944d9f3b9"
+    },
+    {
+      "name": "native/tilted",
+      "exit": 0,
+      "elapsed_seconds_incidental": 1.0163953304290771,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "6d2b89b37b8fd1751af75c092a02a1572dbbf2d5b62c3fd6e53ea1cebdd01ce1",
+      "stderr_sha256": "4709b7cf5ca05a6196364001765fbbed32792c818109d6ff6584e46944d9f3b9"
+    },
+    {
+      "name": "native/tilted-negative",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.9660968780517578,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "e36bf1842fedcd96b4dc2adb7f7c52aaae26dd9755867f307f13430db9aef02d",
+      "stderr_sha256": "4709b7cf5ca05a6196364001765fbbed32792c818109d6ff6584e46944d9f3b9"
+    },
+    {
+      "name": "native/ragdolls-no-contacts",
+      "exit": 0,
+      "elapsed_seconds_incidental": 1.3171653747558594,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "d6d26def33b9aee3fcd44757f6c10634a720282980ac0cfc6e237ef09af041a6",
+      "stderr_sha256": "23a6534ff9b54ad3ed574f1e3d04937db889b0800d1264f33629d5a2bbd67be4"
+    },
+    {
+      "name": "native/ragdolls",
+      "exit": 0,
+      "elapsed_seconds_incidental": 5.276348114013672,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "49b4889422bdb5fbf2d25d7850985d573c1032e41aee24ad7747806b097065ce",
+      "stderr_sha256": "ca7ffa34129729c193f0ddad2418a49aab9800bd04ddf39eb63d0afcf2c85a23"
+    },
+    {
+      "name": "native/mesh-grid",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.9162125587463379,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "610b63e106edff665789211830a9b3a30fd49dc7e44d09589a98f1faddd23b6b",
+      "stderr_sha256": "64e425e18662d0d044d537e7c3ef4f249523457c4f9a657ab890fa04ef83dea4"
+    },
+    {
+      "name": "native/mesh-torus",
+      "exit": 0,
+      "elapsed_seconds_incidental": 0.8662459850311279,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "9dd6841d32824f5d79622e77906ffe4de350d57f12449b3774af073595d10dac",
+      "stderr_sha256": "02a9e1a0cbda7d5fd4a5c0136454fa8965b9d7f05e991b97cb5739c40c14a44b"
+    }
+  ],
+  "finished_unix": 1790905486.243431
+}

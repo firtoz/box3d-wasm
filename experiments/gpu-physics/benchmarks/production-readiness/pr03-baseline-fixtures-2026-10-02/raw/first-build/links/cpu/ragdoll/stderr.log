@@ -1,0 +1,647 @@
+/usr/bin/ld: /tmp/ccwn8hJ6.o: in function `dump(int, int, b3BodyId, b3JointId)':
+ragdoll_reference.cpp:(.text._ZL4dumpii8b3BodyId9b3JointId+0x50): undefined reference to `b3Body_GetPosition'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZL4dumpii8b3BodyId9b3JointId+0x64): undefined reference to `b3Body_GetRotation'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZL4dumpii8b3BodyId9b3JointId+0x78): undefined reference to `b3Body_GetLinearVelocity'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZL4dumpii8b3BodyId9b3JointId+0x8c): undefined reference to `b3Body_GetAngularVelocity'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZL4dumpii8b3BodyId9b3JointId+0x1f4): undefined reference to `b3Body_GetContactCapacity'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZL4dumpii8b3BodyId9b3JointId+0x2f0): undefined reference to `b3Body_GetContactData'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZL4dumpii8b3BodyId9b3JointId+0x30c): undefined reference to `b3Joint_GetLinearSeparation'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZL4dumpii8b3BodyId9b3JointId+0x31d): undefined reference to `b3Body_GetContactData'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZL4dumpii8b3BodyId9b3JointId+0x491): undefined reference to `b3Body_GetContactData'
+/usr/bin/ld: /tmp/ccwn8hJ6.o: in function `dumpHumanJointSetup(std::vector<Human const*, std::allocator<Human const*> > const&)::{lambda(int, b3JointId)#1}::operator()(int, b3JointId) const':
+ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x7b): undefined reference to `b3Joint_GetType'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x8a): undefined reference to `b3Joint_GetBodyB'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0xef): undefined reference to `b3Joint_GetBodyA'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x182): undefined reference to `b3Joint_GetCollideConnected'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x1d1): undefined reference to `b3Joint_GetLocalFrameA'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x1de): undefined reference to `b3Joint_GetLocalFrameB'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x362): undefined reference to `b3Joint_GetConstraintTuning'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x3bc): undefined reference to `b3Joint_GetForceThreshold'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x3e7): undefined reference to `b3Joint_GetTorqueThreshold'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x45e): undefined reference to `b3RevoluteJoint_IsSpringEnabled'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x490): undefined reference to `b3RevoluteJoint_GetSpringHertz'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x4bb): undefined reference to `b3RevoluteJoint_GetSpringDampingRatio'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x4e6): undefined reference to `b3RevoluteJoint_GetTargetAngle'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x511): undefined reference to `b3RevoluteJoint_IsLimitEnabled'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x543): undefined reference to `b3RevoluteJoint_GetLowerLimit'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x56e): undefined reference to `b3RevoluteJoint_GetUpperLimit'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x599): undefined reference to `b3RevoluteJoint_IsMotorEnabled'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x5cb): undefined reference to `b3RevoluteJoint_GetMotorSpeed'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x5f6): undefined reference to `b3RevoluteJoint_GetMaxMotorTorque'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x626): undefined reference to `b3SphericalJoint_IsSpringEnabled'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x658): undefined reference to `b3SphericalJoint_GetSpringHertz'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x683): undefined reference to `b3SphericalJoint_GetSpringDampingRatio'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x6ae): undefined reference to `b3SphericalJoint_GetTargetRotation'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x766): undefined reference to `b3SphericalJoint_IsConeLimitEnabled'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x798): undefined reference to `b3SphericalJoint_GetConeLimit'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x7c3): undefined reference to `b3SphericalJoint_IsTwistLimitEnabled'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x7f5): undefined reference to `b3SphericalJoint_GetLowerTwistLimit'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x820): undefined reference to `b3SphericalJoint_GetUpperTwistLimit'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x84b): undefined reference to `b3SphericalJoint_IsMotorEnabled'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x87d): undefined reference to `b3SphericalJoint_GetMotorVelocity'
+/usr/bin/ld: ragdoll_reference.cpp:(.text._ZZL19dumpHumanJointSetupRKSt6vectorIPK5HumanSaIS2_EEENKUli9b3JointIdE_clEiS7_+0x90c): undefined reference to `b3SphericalJoint_GetMaxMotorTorque'
+/usr/bin/ld: /tmp/ccwn8hJ6.o: in function `main':
+ragdoll_reference.cpp:(.text.startup.main+0x7a): undefined reference to `b3DefaultWorldDef'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x9a): undefined reference to `b3CreateWorld'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0xc0): undefined reference to `b3DefaultBodyDef'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0xca): undefined reference to `b3CreateBody'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0xf0): undefined reference to `b3CreateBody'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x105): undefined reference to `b3DefaultShapeDef'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x120): undefined reference to `b3MakeBoxHull'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x138): undefined reference to `b3CreateHullShape'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x145): undefined reference to `b3DefaultSphericalJointDef'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x17e): undefined reference to `b3CreateSphericalJoint'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x1b1): undefined reference to `b3Body_SetAngularVelocity'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x204): undefined reference to `b3World_Step'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x281): undefined reference to `b3DefaultWorldDef'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x326): undefined reference to `b3DestroyWorld'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x36f): undefined reference to `b3DefaultWorldDef'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x38e): undefined reference to `b3CreateWorld'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x6fc): undefined reference to `b3Body_GetJointCount'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x7c2): undefined reference to `b3Body_GetShapes'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x7f6): undefined reference to `b3Shape_GetFilter'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x83a): undefined reference to `b3Shape_SetFilter'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x8c6): undefined reference to `b3DefaultWorldDef'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x8f9): undefined reference to `b3DefaultWorldDef'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x91b): undefined reference to `b3CreateWorld'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x941): undefined reference to `b3DefaultBodyDef'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x94b): undefined reference to `b3CreateBody'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x97b): undefined reference to `b3ComputeCosSin'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x9b1): undefined reference to `b3CreateBody'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x9c6): undefined reference to `b3DefaultShapeDef'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x9e1): undefined reference to `b3MakeBoxHull'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0x9f9): undefined reference to `b3CreateHullShape'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0xa06): undefined reference to `b3DefaultSphericalJointDef'
+/usr/bin/ld: ragdoll_reference.cpp:(.text.startup.main+0xa3f): undefined reference to `b3CreateSphericalJoint'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-baseline-builds/shared/human/object.o: in function `CreateHuman':
+human.c:(.text.CreateHuman+0x116): undefined reference to `b3DefaultBodyDef'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x136): undefined reference to `b3DefaultShapeDef'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x235): undefined reference to `b3CreateBody'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x2a6): undefined reference to `b3CreateCapsuleShape'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x34e): undefined reference to `b3CreateBody'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x3c5): undefined reference to `b3CreateCapsuleShape'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x49c): undefined reference to `b3CreateBody'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x4f9): undefined reference to `b3CreateCapsuleShape'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x5e5): undefined reference to `b3CreateBody'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x642): undefined reference to `b3CreateCapsuleShape'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x72e): undefined reference to `b3CreateBody'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x85c): undefined reference to `b3CreateCapsuleShape'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x93e): undefined reference to `b3CreateBody'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x99c): undefined reference to `b3CreateCapsuleShape'
+/usr/bin/ld: human.c:(.text.CreateHuman+0xa7c): undefined reference to `b3CreateBody'
+/usr/bin/ld: human.c:(.text.CreateHuman+0xacd): undefined reference to `b3CreateCapsuleShape'
+/usr/bin/ld: human.c:(.text.CreateHuman+0xbb1): undefined reference to `b3CreateBody'
+/usr/bin/ld: human.c:(.text.CreateHuman+0xc0f): undefined reference to `b3CreateCapsuleShape'
+/usr/bin/ld: human.c:(.text.CreateHuman+0xce7): undefined reference to `b3CreateBody'
+/usr/bin/ld: human.c:(.text.CreateHuman+0xd42): undefined reference to `b3CreateCapsuleShape'
+/usr/bin/ld: human.c:(.text.CreateHuman+0xe2d): undefined reference to `b3CreateBody'
+/usr/bin/ld: human.c:(.text.CreateHuman+0xe95): undefined reference to `b3CreateCapsuleShape'
+/usr/bin/ld: human.c:(.text.CreateHuman+0xf73): undefined reference to `b3CreateBody'
+/usr/bin/ld: human.c:(.text.CreateHuman+0xfd0): undefined reference to `b3CreateCapsuleShape'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x10b1): undefined reference to `b3CreateBody'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x1105): undefined reference to `b3CreateCapsuleShape'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x11e5): undefined reference to `b3CreateBody'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x1249): undefined reference to `b3CreateCapsuleShape'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x1320): undefined reference to `b3CreateBody'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x1374): undefined reference to `b3CreateCapsuleShape'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x150e): undefined reference to `b3DefaultRevoluteJointDef'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x15d1): undefined reference to `b3CreateRevoluteJoint'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x15fd): undefined reference to `b3DefaultFilterJointDef'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x162c): undefined reference to `b3CreateFilterJoint'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x16a6): undefined reference to `b3DefaultSphericalJointDef'
+/usr/bin/ld: human.c:(.text.CreateHuman+0x177b): undefined reference to `b3CreateSphericalJoint'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-baseline-builds/shared/determinism/object.o: in function `CreateFallingRagdolls':
+determinism.c:(.text.CreateFallingRagdolls+0x92): undefined reference to `b3DefaultBodyDef'
+/usr/bin/ld: determinism.c:(.text.CreateFallingRagdolls+0x9f): undefined reference to `b3DefaultShapeDef'
+/usr/bin/ld: determinism.c:(.text.CreateFallingRagdolls+0xf3): undefined reference to `b3CreateBody'
+/usr/bin/ld: determinism.c:(.text.CreateFallingRagdolls+0x11e): undefined reference to `b3CreateMeshShape'
+/usr/bin/ld: determinism.c:(.text.CreateFallingRagdolls+0x14a): undefined reference to `b3CreateMeshShape'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(height_field.c.o): in function `b3CreateHeightField':
+height_field.c:(.text+0x87): undefined reference to `b3Alloc'
+/usr/bin/ld: height_field.c:(.text+0xf7): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: height_field.c:(.text+0x1dd): undefined reference to `b3Alloc'
+/usr/bin/ld: height_field.c:(.text+0x13bb): undefined reference to `b3Free'
+/usr/bin/ld: height_field.c:(.text+0x13ce): undefined reference to `b3Hash64NonZero'
+/usr/bin/ld: height_field.c:(.text+0x297f): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(height_field.c.o): in function `b3ShapeCastHeightField':
+height_field.c:(.text+0x33c2): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: height_field.c:(.text+0x33d9): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: height_field.c:(.text+0x33f0): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: height_field.c:(.text+0x47c8): undefined reference to `b3ShapeCast'
+/usr/bin/ld: height_field.c:(.text+0x49ed): undefined reference to `b3ShapeCast'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(height_field.c.o): in function `b3OverlapHeightField':
+height_field.c:(.text+0x528a): undefined reference to `b3ShapeDistance'
+/usr/bin/ld: height_field.c:(.text+0x528f): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: height_field.c:(.text+0x5408): undefined reference to `b3ShapeDistance'
+/usr/bin/ld: height_field.c:(.text+0x540d): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(height_field.c.o): in function `b3CollideMoverAndHeightField':
+height_field.c:(.text+0x5fd5): undefined reference to `b3ShapeDistance'
+/usr/bin/ld: height_field.c:(.text+0x61fd): undefined reference to `b3ShapeDistance'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(height_field.c.o): in function `b3CreateGrid':
+height_field.c:(.text+0x63c2): undefined reference to `b3Alloc'
+/usr/bin/ld: height_field.c:(.text+0x6439): undefined reference to `b3Alloc'
+/usr/bin/ld: height_field.c:(.text+0x694e): undefined reference to `b3Free'
+/usr/bin/ld: height_field.c:(.text+0x695b): undefined reference to `b3Free'
+/usr/bin/ld: height_field.c:(.text+0x6a71): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(height_field.c.o): in function `b3CreateWave':
+height_field.c:(.text+0x6b06): undefined reference to `b3Alloc'
+/usr/bin/ld: height_field.c:(.text+0x6b90): undefined reference to `b3ComputeCosSin'
+/usr/bin/ld: height_field.c:(.text+0x6bbf): undefined reference to `b3ComputeCosSin'
+/usr/bin/ld: height_field.c:(.text+0x6bfb): undefined reference to `b3Alloc'
+/usr/bin/ld: height_field.c:(.text+0x7113): undefined reference to `b3Free'
+/usr/bin/ld: height_field.c:(.text+0x7120): undefined reference to `b3Free'
+/usr/bin/ld: height_field.c:(.text+0x7226): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(height_field.c.o): in function `b3LoadHeightField':
+height_field.c:(.text+0x74db): undefined reference to `b3Alloc'
+/usr/bin/ld: height_field.c:(.text+0x7528): undefined reference to `b3Free'
+/usr/bin/ld: height_field.c:(.text+0x7595): undefined reference to `b3Alloc'
+/usr/bin/ld: height_field.c:(.text+0x75e9): undefined reference to `b3Free'
+/usr/bin/ld: height_field.c:(.text+0x75f6): undefined reference to `b3Free'
+/usr/bin/ld: height_field.c:(.text+0x763e): undefined reference to `b3Free'
+/usr/bin/ld: height_field.c:(.text+0x764b): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(height_field.c.o): in function `b3DestroyHeightField':
+height_field.c:(.text+0x7255): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3SortMeshTriangles':
+mesh.c:(.text+0x169): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x1c2): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x29e): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x2aa): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x2f4): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x310): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3BuildRecursive':
+mesh.c:(.text+0x55f): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x952): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: mesh.c:(.text+0xde0): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x1f16): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3VertexMap_rehash':
+mesh.c:(.text+0x26a5): undefined reference to `b3Alloc'
+/usr/bin/ld: mesh.c:(.text+0x2bae): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x2bc7): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3SpatialHash_FindDuplicate':
+mesh.c:(.text+0x2ff2): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x32b5): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3EdgeMap_rehash':
+mesh.c:(.text+0x3565): undefined reference to `b3Alloc'
+/usr/bin/ld: mesh.c:(.text+0x3a6e): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x3a87): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3IdentifyEdges':
+mesh.c:(.text+0x43ce): undefined reference to `b3Alloc'
+/usr/bin/ld: mesh.c:(.text+0x43e9): undefined reference to `b3Alloc'
+/usr/bin/ld: mesh.c:(.text+0x4d67): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x4fcd): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x52bd): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3CreateMesh.constprop.0':
+mesh.c:(.text+0x56e6): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x56f7): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x57dd): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x57ef): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: mesh.c:(.text+0x580a): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: mesh.c:(.text+0x5ac2): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x5d8e): undefined reference to `b3IsSaneAABB'
+/usr/bin/ld: mesh.c:(.text+0x5e8d): undefined reference to `b3Alloc'
+/usr/bin/ld: mesh.c:(.text+0x604e): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x6075): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x6082): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x608f): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x60a3): undefined reference to `b3Hash64NonZero'
+/usr/bin/ld: mesh.c:(.text+0x613e): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x61d0): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x62e8): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x62f5): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x6310): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x6355): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x637f): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x63c5): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x63ec): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3CreateMesh':
+mesh.c:(.text+0x6cdb): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x6ced): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x6d82): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x6d8b): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: mesh.c:(.text+0x6da6): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: mesh.c:(.text+0x7064): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x7389): undefined reference to `b3IsSaneAABB'
+/usr/bin/ld: mesh.c:(.text+0x73ce): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x7494): undefined reference to `b3Alloc'
+/usr/bin/ld: mesh.c:(.text+0x7655): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x767b): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x768e): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x76a6): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x76ba): undefined reference to `b3Hash64NonZero'
+/usr/bin/ld: mesh.c:(.text+0x7729): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x774f): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x77ba): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x78bb): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x79f8): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x7a19): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x7a31): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3CreateGridMesh':
+mesh.c:(.text+0x7afd): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x7ce7): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x7cf5): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x7d02): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x7d4e): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x7d60): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3CreateWaveMesh':
+mesh.c:(.text+0x80cb): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x8190): undefined reference to `b3ComputeCosSin'
+/usr/bin/ld: mesh.c:(.text+0x81ea): undefined reference to `b3ComputeCosSin'
+/usr/bin/ld: mesh.c:(.text+0x853c): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x8549): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x85b6): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3CreateTorusMesh':
+mesh.c:(.text+0x86e8): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x873a): undefined reference to `b3ComputeCosSin'
+/usr/bin/ld: mesh.c:(.text+0x8748): undefined reference to `b3ComputeCosSin'
+/usr/bin/ld: mesh.c:(.text+0x8759): undefined reference to `b3ComputeCosSin'
+/usr/bin/ld: mesh.c:(.text+0x8784): undefined reference to `b3ComputeCosSin'
+/usr/bin/ld: mesh.c:(.text+0x87b0): undefined reference to `b3ComputeCosSin'
+/usr/bin/ld: mesh.c:(.text+0x894f): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x8993): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x89c0): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x89ed): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh.c:(.text+0x8a19): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o):mesh.c:(.text+0x8a48): more undefined references to `b3GrowAlloc' follow
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3CreateTorusMesh':
+mesh.c:(.text+0x8b22): undefined reference to `b3Free'
+/usr/bin/ld: mesh.c:(.text+0x8b2d): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3OverlapMesh':
+mesh.c:(.text+0x8fb0): undefined reference to `b3ShapeDistance'
+/usr/bin/ld: mesh.c:(.text+0x8fb5): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3ShapeCastMesh':
+mesh.c:(.text+0xaa98): undefined reference to `b3ShapeCast'
+/usr/bin/ld: mesh.c:(.text+0xaf89): undefined reference to `b3ShapeCast'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3CollideMoverAndMesh':
+mesh.c:(.text+0xb74f): undefined reference to `b3ShapeDistance'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3IdentifyEdges':
+mesh.c:(.text+0x5002): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh.c.o): in function `b3DestroyMesh':
+mesh.c:(.text+0x8b95): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(shape.c.o): in function `b3MeshTimeOfImpactFcn':
+shape.c:(.text+0x1fb): undefined reference to `b3TimeOfImpact'
+/usr/bin/ld: shape.c:(.text+0x2f5): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: shape.c:(.text+0x338): undefined reference to `b3TimeOfImpact'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(shape.c.o): in function `b3CompoundTimeOfImpactFcn':
+shape.c:(.text+0x47d): undefined reference to `b3GetCompoundChild'
+/usr/bin/ld: shape.c:(.text+0x55a): undefined reference to `b3TimeOfImpact'
+/usr/bin/ld: shape.c:(.text+0x5a5): undefined reference to `b3TimeOfImpact'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(shape.c.o): in function `b3ComputeShapeAABB':
+shape.c:(.text+0x17b4): undefined reference to `b3ComputeHullAABB'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(shape.c.o): in function `b3ComputeFatShapeAABB':
+shape.c:(.text+0x19e1): undefined reference to `b3ComputeHullAABB'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(shape.c.o): in function `b3ComputeSweptShapeAABB':
+shape.c:(.text+0x1b4e): undefined reference to `b3GetSweepTransform'
+/usr/bin/ld: shape.c:(.text+0x1c9d): undefined reference to `b3ComputeSweptHullAABB'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(shape.c.o): in function `b3ComputeShapeMass':
+shape.c:(.text+0x2142): undefined reference to `b3ComputeHullMass'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(shape.c.o): in function `b3ComputeShapeExtent':
+shape.c:(.text+0x246c): undefined reference to `b3ComputeHullExtent'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(shape.c.o): in function `b3RayCastShape':
+shape.c:(.text+0x2b98): undefined reference to `b3RayCastHull'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(shape.c.o): in function `b3ShapeCastShape':
+shape.c:(.text+0x3748): undefined reference to `b3ShapeCastHull'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(shape.c.o): in function `b3CollideMover':
+shape.c:(.text+0x4615): undefined reference to `b3CollideMoverAndHull'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(shape.c.o): in function `b3CreateShapeProxy':
+shape.c:(.text+0x4672): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: shape.c:(.text+0x48e1): undefined reference to `b3ComputeHullAABB'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(shape.c.o): in function `b3DestroyShapeAllocations':
+shape.c:(.text+0x499e): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(shape.c.o): in function `b3ShapeTimeOfImpact':
+shape.c:(.text+0x5d93): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: shape.c:(.text+0x6374): undefined reference to `b3GetStallThreshold'
+/usr/bin/ld: shape.c:(.text+0x652e): undefined reference to `b3TimeOfImpact'
+/usr/bin/ld: shape.c:(.text+0x675c): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: shape.c:(.text+0x6e41): undefined reference to `b3Log'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(shape.c.o): in function `b3GetShapeUserMaterialId':
+shape.c:(.text+0x6fe8): undefined reference to `b3GetCompoundChild'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(shape.c.o): in function `b3GetShapeProjectedArea':
+shape.c:(.text+0x20a8): undefined reference to `b3ComputeHullProjectedArea'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(shape.c.o): in function `b3OverlapShape':
+shape.c:(.text+0x3a08): undefined reference to `b3OverlapHull'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(sphere.c.o): in function `b3OverlapSphere':
+sphere.c:(.text+0x63f): undefined reference to `b3ShapeDistance'
+/usr/bin/ld: sphere.c:(.text+0x650): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(sphere.c.o): in function `b3RayCastSphere':
+sphere.c:(.text+0x9cb): undefined reference to `b3Log'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(sphere.c.o): in function `b3ShapeCastSphere':
+sphere.c:(.text+0xdf3): undefined reference to `b3ShapeCast'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(sphere.c.o): in function `b3CollideMoverAndSphere':
+sphere.c:(.text+0xe7e): undefined reference to `b3PointToSegmentDistance'
+/usr/bin/ld: sphere.c:(.text+0xf21): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(timer.c.o): in function `b3CreateMutex':
+timer.c:(.text+0x267): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(timer.c.o): in function `b3CreateSemaphore':
+timer.c:(.text+0x2ee): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(timer.c.o): in function `b3CreateThread':
+timer.c:(.text+0x379): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(timer.c.o): in function `b3DestroyMutex':
+timer.c:(.text+0x2b0): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(timer.c.o): in function `b3DestroySemaphore':
+timer.c:(.text+0x338): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(timer.c.o): in function `b3JoinThread':
+timer.c:(.text+0x40b): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(broad_phase.c.o): in function `b3CreateBroadPhase':
+broad_phase.c:(.text+0xd3e): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(broad_phase.c.o): in function `b3DestroyBroadPhase':
+broad_phase.c:(.text+0xdb5): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(broad_phase.c.o): in function `b3BroadPhase_CreateProxy':
+broad_phase.c:(.text+0xed2): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(broad_phase.c.o): in function `b3BroadPhase_MoveProxy':
+broad_phase.c:(.text+0x10ab): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(broad_phase.c.o): in function `b3BroadPhase_EnlargeProxy':
+broad_phase.c:(.text+0x11cb): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(broad_phase.c.o): in function `b3UpdateBroadPhasePairs':
+broad_phase.c:(.text+0x13b7): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(capsule.c.o): in function `b3ComputeCapsuleMass':
+capsule.c:(.text+0x112): undefined reference to `b3SphereInertia'
+/usr/bin/ld: capsule.c:(.text+0x131): undefined reference to `b3CylinderInertia'
+/usr/bin/ld: capsule.c:(.text+0x29f): undefined reference to `b3ComputeQuatBetweenUnitVectors'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(capsule.c.o): in function `b3OverlapCapsule':
+capsule.c:(.text+0x10cf): undefined reference to `b3ShapeDistance'
+/usr/bin/ld: capsule.c:(.text+0x10e0): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(capsule.c.o): in function `b3RayCastCapsule':
+capsule.c:(.text+0x11ac): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(capsule.c.o): in function `b3ShapeCastCapsule':
+capsule.c:(.text+0x1aa3): undefined reference to `b3ShapeCast'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(capsule.c.o): in function `b3CollideMoverAndCapsule':
+capsule.c:(.text+0x1b46): undefined reference to `b3SegmentDistance'
+/usr/bin/ld: capsule.c:(.text+0x1bf9): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(compound.c.o): in function `b3CompoundMoverCallback':
+compound.c:(.text+0x3c): undefined reference to `b3GetCompoundChild'
+/usr/bin/ld: compound.c:(.text+0x29d): undefined reference to `b3CollideMoverAndHull'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(compound.c.o): in function `b3CompoundOverlapCallback':
+compound.c:(.text+0xc51): undefined reference to `b3GetCompoundChild'
+/usr/bin/ld: compound.c:(.text+0xe91): undefined reference to `b3OverlapHull'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(compound.c.o): in function `b3MaterialMap_rehash':
+compound.c:(.text+0xfc1): undefined reference to `b3Alloc'
+/usr/bin/ld: compound.c:(.text+0x15b6): undefined reference to `b3Free'
+/usr/bin/ld: compound.c:(.text+0x15d2): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(compound.c.o): in function `b3CompoundRayCastCallback':
+compound.c:(.text+0x163e): undefined reference to `b3GetCompoundChild'
+/usr/bin/ld: compound.c:(.text+0x18a3): undefined reference to `b3RayCastHull'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(compound.c.o): in function `b3MeshMap_rehash':
+compound.c:(.text+0x1c44): undefined reference to `b3Alloc'
+/usr/bin/ld: compound.c:(.text+0x231e): undefined reference to `b3Free'
+/usr/bin/ld: compound.c:(.text+0x233a): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(compound.c.o): in function `b3CompoundShapeCastCallback':
+compound.c:(.text+0x2687): undefined reference to `b3GetCompoundChild'
+/usr/bin/ld: compound.c:(.text+0x2e97): undefined reference to `b3ShapeCastHull'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(compound.c.o): in function `__real_b3CreateCompound':
+compound.c:(.text+0x34a4): undefined reference to `b3AllocZeroed'
+/usr/bin/ld: compound.c:(.text+0x34d4): undefined reference to `b3AllocZeroed'
+/usr/bin/ld: compound.c:(.text+0x3503): undefined reference to `b3AllocZeroed'
+/usr/bin/ld: compound.c:(.text+0x352e): undefined reference to `b3AllocZeroed'
+/usr/bin/ld: compound.c:(.text+0x3769): undefined reference to `b3Alloc'
+/usr/bin/ld: compound.c:(.text+0x3a7a): undefined reference to `b3Free'
+/usr/bin/ld: compound.c:(.text+0x3a8f): undefined reference to `b3Free'
+/usr/bin/ld: compound.c:(.text+0x3aa4): undefined reference to `b3Free'
+/usr/bin/ld: compound.c:(.text+0x3ab9): undefined reference to `b3Free'
+/usr/bin/ld: compound.c:(.text+0x3ace): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(compound.c.o):compound.c:(.text+0x3ae3): more undefined references to `b3Free' follow
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(compound.c.o): in function `__real_b3CreateCompound':
+compound.c:(.text+0x3b9d): undefined reference to `b3AllocZeroed'
+/usr/bin/ld: compound.c:(.text+0x4215): undefined reference to `b3AllocZeroed'
+/usr/bin/ld: compound.c:(.text+0x4255): undefined reference to `b3AllocZeroed'
+/usr/bin/ld: compound.c:(.text+0x5694): undefined reference to `b3Free'
+/usr/bin/ld: compound.c:(.text+0x5886): undefined reference to `b3ComputeHullAABB'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(compound.c.o): in function `b3DestroyCompound':
+compound.c:(.text+0x6b95): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(contact.c.o): in function `b3UpdateConvexContact':
+contact.c:(.text+0x442): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(contact.c.o): in function `b3CreateContact':
+contact.c:(.text+0x15c3): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: contact.c:(.text+0x16f5): undefined reference to `b3GetCompoundChild'
+/usr/bin/ld: contact.c:(.text+0x17bf): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(contact.c.o): in function `b3DestroyContact':
+contact.c:(.text+0x1ce1): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: contact.c:(.text+0x1ddc): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(contact.c.o): in function `b3UpdateContact':
+contact.c:(.text+0x22b0): undefined reference to `b3GetCompoundChild'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(convex_manifold.c.o): in function `b3BuildFaceAContact.isra.0':
+convex_manifold.c:(.text+0xca7): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: convex_manifold.c:(.text+0xde2): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(convex_manifold.c.o): in function `b3BuildEdgeContact.isra.0':
+convex_manifold.c:(.text+0x1e60): undefined reference to `b3LineDistance'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(convex_manifold.c.o): in function `b3CollideCapsuleAndSphere':
+convex_manifold.c:(.text+0x23ef): undefined reference to `b3PointToSegmentDistance'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(convex_manifold.c.o): in function `b3CollideHullAndSphere':
+convex_manifold.c:(.text+0x272c): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: convex_manifold.c:(.text+0x27cd): undefined reference to `b3ShapeDistance'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(convex_manifold.c.o): in function `b3CollideCapsules':
+convex_manifold.c:(.text+0x2e60): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: convex_manifold.c:(.text+0x2ef2): undefined reference to `b3SegmentDistance'
+/usr/bin/ld: convex_manifold.c:(.text+0x2f77): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: convex_manifold.c:(.text+0x3088): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: convex_manifold.c:(.text+0x3141): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: convex_manifold.c:(.text+0x33a2): undefined reference to `b3PointToSegmentDistance'
+/usr/bin/ld: convex_manifold.c:(.text+0x33ef): undefined reference to `b3PointToSegmentDistance'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(convex_manifold.c.o): in function `b3CollideHullAndCapsule':
+convex_manifold.c:(.text+0x3ae5): undefined reference to `b3ShapeDistance'
+/usr/bin/ld: convex_manifold.c:(.text+0x3af2): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: convex_manifold.c:(.text+0x3b96): undefined reference to `b3FindHullSupportFace'
+/usr/bin/ld: convex_manifold.c:(.text+0x448c): undefined reference to `b3GetPointSupport'
+/usr/bin/ld: convex_manifold.c:(.text+0x4c7c): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: convex_manifold.c:(.text+0x4efd): undefined reference to `b3LineDistance'
+/usr/bin/ld: convex_manifold.c:(.text+0x52c5): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(convex_manifold.c.o): in function `b3ComputeSeparatingAxis':
+convex_manifold.c:(.text+0x55ee): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: convex_manifold.c:(.text+0x58fb): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: convex_manifold.c:(.text+0x5df2): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(convex_manifold.c.o): in function `b3CollideHulls':
+convex_manifold.c:(.text+0x7a8a): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(convex_manifold.c.o):convex_manifold.c:(.text+0x7aa5): more undefined references to `b3GetLengthUnitsPerMeter' follow
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(convex_manifold.c.o): in function `b3CollideHulls':
+convex_manifold.c:(.text+0x8458): undefined reference to `b3FindHullSupportVertex'
+/usr/bin/ld: convex_manifold.c:(.text+0x873b): undefined reference to `b3FindHullSupportVertex'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(dynamic_tree.c.o): in function `b3AllocateNode':
+dynamic_tree.c:(.text+0x253): undefined reference to `b3Alloc'
+/usr/bin/ld: dynamic_tree.c:(.text+0x2ad): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(dynamic_tree.c.o): in function `b3DynamicTree_Create':
+dynamic_tree.c:(.text+0x1d45): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(dynamic_tree.c.o): in function `b3DynamicTree_Destroy':
+dynamic_tree.c:(.text+0x1e25): undefined reference to `b3Free'
+/usr/bin/ld: dynamic_tree.c:(.text+0x1e36): undefined reference to `b3Free'
+/usr/bin/ld: dynamic_tree.c:(.text+0x1e4b): undefined reference to `b3Free'
+/usr/bin/ld: dynamic_tree.c:(.text+0x1e60): undefined reference to `b3Free'
+/usr/bin/ld: dynamic_tree.c:(.text+0x1e71): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(dynamic_tree.c.o): in function `b3DynamicTree_CreateProxy':
+dynamic_tree.c:(.text+0x1f67): undefined reference to `b3Alloc'
+/usr/bin/ld: dynamic_tree.c:(.text+0x1fbf): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(dynamic_tree.c.o): in function `b3DynamicTree_Rebuild':
+dynamic_tree.c:(.text+0x44ab): undefined reference to `b3Free'
+/usr/bin/ld: dynamic_tree.c:(.text+0x44c3): undefined reference to `b3Alloc'
+/usr/bin/ld: dynamic_tree.c:(.text+0x44dc): undefined reference to `b3Free'
+/usr/bin/ld: dynamic_tree.c:(.text+0x44ea): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(dynamic_tree.c.o): in function `b3DynamicTree_Load':
+dynamic_tree.c:(.text+0x4cfd): undefined reference to `b3Alloc'
+/usr/bin/ld: dynamic_tree.c:(.text+0x4dfe): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(hull.c.o): in function `b3HullMap_rehash':
+hull.c:(.text+0x32): undefined reference to `b3Alloc'
+/usr/bin/ld: hull.c:(.text+0xdb): undefined reference to `b3HashHullData'
+/usr/bin/ld: hull.c:(.text+0x16a): undefined reference to `b3HashHullData'
+/usr/bin/ld: hull.c:(.text+0x4f1): undefined reference to `b3Free'
+/usr/bin/ld: hull.c:(.text+0x514): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(hull.c.o): in function `b3HullMap_init_clone':
+hull.c:(.text+0x5b2): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(hull.c.o): in function `b3HullMap_insert':
+hull.c:(.text+0x64f): undefined reference to `b3HashHullData'
+/usr/bin/ld: hull.c:(.text+0x6fd): undefined reference to `b3CompareHullData'
+/usr/bin/ld: hull.c:(.text+0x7d0): undefined reference to `b3HashHullData'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(hull.c.o): in function `b3HullMap_get_or_insert':
+hull.c:(.text+0xc2f): undefined reference to `b3HashHullData'
+/usr/bin/ld: hull.c:(.text+0xcdd): undefined reference to `b3CompareHullData'
+/usr/bin/ld: hull.c:(.text+0xda0): undefined reference to `b3HashHullData'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(hull.c.o): in function `b3HullMap_get':
+hull.c:(.text+0x11fa): undefined reference to `b3HashHullData'
+/usr/bin/ld: hull.c:(.text+0x127f): undefined reference to `b3CompareHullData'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(hull.c.o): in function `b3HullMap_erase_itr_raw':
+hull.c:(.text+0x14a8): undefined reference to `b3HashHullData'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(hull.c.o): in function `b3HullMap_erase':
+hull.c:(.text+0x1502): undefined reference to `b3HashHullData'
+/usr/bin/ld: hull.c:(.text+0x1592): undefined reference to `b3CompareHullData'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(hull.c.o): in function `b3HullMap_shrink':
+hull.c:(.text+0x189e): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(hull.c.o): in function `b3HullMap_cleanup':
+hull.c:(.text+0x19cd): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(id_pool.c.o): in function `b3CreateIdPool':
+id_pool.c:(.text+0xe): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(id_pool.c.o): in function `b3DestroyIdPool':
+id_pool.c:(.text+0x40): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(id_pool.c.o): in function `b3FreeId':
+id_pool.c:(.text+0xcd): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(island.c.o): in function `b3CreateIsland':
+island.c:(.text+0xbb): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: island.c:(.text+0x125): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(island.c.o): in function `b3DestroyIsland':
+island.c:(.text+0x21d): undefined reference to `b3Free'
+/usr/bin/ld: island.c:(.text+0x242): undefined reference to `b3Free'
+/usr/bin/ld: island.c:(.text+0x267): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(island.c.o): in function `b3MergeIslands.part.0':
+island.c:(.text+0x321): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: island.c:(.text+0x3d0): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: island.c:(.text+0x472): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: island.c:(.text+0x4e0): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: island.c:(.text+0x582): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(island.c.o):island.c:(.text+0x5db): more undefined references to `b3GrowAlloc' follow
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(island.c.o): in function `b3SplitIsland':
+island.c:(.text+0x170d): undefined reference to `b3Free'
+/usr/bin/ld: island.c:(.text+0x1727): undefined reference to `b3Free'
+/usr/bin/ld: island.c:(.text+0x1741): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(mesh_contact.c.o): in function `b3ComputeMeshManifolds':
+mesh_contact.c:(.text+0x2ae): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: mesh_contact.c:(.text+0x2b9): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: mesh_contact.c:(.text+0xbf1): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: mesh_contact.c:(.text+0xc04): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: mesh_contact.c:(.text+0x1812): undefined reference to `b3Log'
+/usr/bin/ld: mesh_contact.c:(.text+0x18d4): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: mesh_contact.c:(.text+0x2d75): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: mesh_contact.c:(.text+0x2d98): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: mesh_contact.c:(.text+0x33c8): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(physics_world.c.o): in function `b3AddHullToDatabase':
+physics_world.c:(.text+0x84): undefined reference to `b3CloneHull'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(physics_world.c.o): in function `b3AddOwnedHullToDatabase':
+physics_world.c:(.text+0x14a): undefined reference to `b3DestroyHull'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(physics_world.c.o): in function `b3RemoveHullFromDatabase':
+physics_world.c:(.text+0x226): undefined reference to `b3DestroyHull'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(solver_set.c.o): in function `b3DestroySolverSet':
+solver_set.c:(.text+0x27): undefined reference to `b3Free'
+/usr/bin/ld: solver_set.c:(.text+0x47): undefined reference to `b3Free'
+/usr/bin/ld: solver_set.c:(.text+0x68): undefined reference to `b3Free'
+/usr/bin/ld: solver_set.c:(.text+0x8c): undefined reference to `b3Free'
+/usr/bin/ld: solver_set.c:(.text+0xad): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(solver_set.c.o): in function `b3WakeSolverSet':
+solver_set.c:(.text+0x1c1): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: solver_set.c:(.text+0x2c8): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: solver_set.c:(.text+0x395): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: solver_set.c:(.text+0x50b): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(solver_set.c.o): in function `b3TrySleepIsland':
+solver_set.c:(.text+0x791): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(solver_set.c.o):solver_set.c:(.text+0xa9b): more undefined references to `b3GrowAlloc' follow
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(table.c.o): in function `b3CreateSet':
+table.c:(.text+0x26): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(table.c.o): in function `b3DestroySet':
+table.c:(.text+0x6f): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(table.c.o): in function `b3AddKey':
+table.c:(.text+0x230): undefined reference to `b3Alloc'
+/usr/bin/ld: table.c:(.text+0x307): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(triangle_manifold.c.o): in function `b3CollideTriangleAndHullEdges':
+triangle_manifold.c:(.text+0xd9a): undefined reference to `b3LineDistance'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(triangle_manifold.c.o): in function `b3CollideTriangleFace.isra.0':
+triangle_manifold.c:(.text+0x1432): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(triangle_manifold.c.o): in function `b3CollideHullFace.isra.0':
+triangle_manifold.c:(.text+0x1b0f): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(triangle_manifold.c.o): in function `b3CollideTriangleAndSphere':
+triangle_manifold.c:(.text+0x1f47): undefined reference to `b3ClosestPointOnTriangle'
+/usr/bin/ld: triangle_manifold.c:(.text+0x1fcb): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(triangle_manifold.c.o): in function `b3CollideTriangleAndCapsule':
+triangle_manifold.c:(.text+0x23ee): undefined reference to `b3ShapeDistance'
+/usr/bin/ld: triangle_manifold.c:(.text+0x2402): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: triangle_manifold.c:(.text+0x31c4): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: triangle_manifold.c:(.text+0x3389): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: triangle_manifold.c:(.text+0x35f1): undefined reference to `b3LineDistance'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(triangle_manifold.c.o): in function `b3CollideTriangleAndHull':
+triangle_manifold.c:(.text+0x4143): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: triangle_manifold.c:(.text+0x4439): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: triangle_manifold.c:(.text+0x464b): undefined reference to `b3FindHullSupportVertex'
+/usr/bin/ld: triangle_manifold.c:(.text+0x4791): undefined reference to `b3FindHullSupportVertex'
+/usr/bin/ld: triangle_manifold.c:(.text+0x4af6): undefined reference to `b3FindHullSupportVertex'
+/usr/bin/ld: triangle_manifold.c:(.text+0x4eeb): undefined reference to `b3ShapeDistance'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(arena_allocator.c.o): in function `b3CreateStack':
+arena_allocator.c:(.text+0x32): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(arena_allocator.c.o): in function `b3StackAlloc':
+arena_allocator.c:(.text+0x11a): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(arena_allocator.c.o): in function `b3StackFree':
+arena_allocator.c:(.text+0x196): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(arena_allocator.c.o): in function `b3GrowStack':
+arena_allocator.c:(.text+0x1d8): undefined reference to `b3Free'
+/usr/bin/ld: arena_allocator.c:(.text+0x1f1): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(arena_allocator.c.o): in function `b3CreateArena':
+arena_allocator.c:(.text+0x249): undefined reference to `b3Alloc'
+/usr/bin/ld: arena_allocator.c:(.text+0x25e): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(arena_allocator.c.o): in function `b3DestroyArena':
+arena_allocator.c:(.text+0x2c7): undefined reference to `b3Free'
+/usr/bin/ld: arena_allocator.c:(.text+0x2e1): undefined reference to `b3Free'
+/usr/bin/ld: arena_allocator.c:(.text+0x2fe): undefined reference to `b3Free'
+/usr/bin/ld: arena_allocator.c:(.text+0x30c): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(arena_allocator.c.o): in function `b3ArenaOverflowAlloc':
+arena_allocator.c:(.text+0x350): undefined reference to `b3Alloc'
+/usr/bin/ld: arena_allocator.c:(.text+0x382): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(arena_allocator.c.o): in function `b3ArenaSync':
+arena_allocator.c:(.text+0x407): undefined reference to `b3Free'
+/usr/bin/ld: arena_allocator.c:(.text+0x44d): undefined reference to `b3Free'
+/usr/bin/ld: arena_allocator.c:(.text+0x460): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(arena_allocator.c.o): in function `b3DestroyStack':
+arena_allocator.c:(.text+0x88): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(bitset.c.o): in function `b3CreateBitSet':
+bitset.c:(.text+0x1f): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(bitset.c.o): in function `b3DestroyBitSet':
+bitset.c:(.text+0x4f): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(bitset.c.o): in function `b3SetBitCountAndClear':
+bitset.c:(.text+0xbe): undefined reference to `b3Free'
+/usr/bin/ld: bitset.c:(.text+0xfb): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(bitset.c.o): in function `b3GrowBitSet':
+bitset.c:(.text+0x172): undefined reference to `b3Alloc'
+/usr/bin/ld: bitset.c:(.text+0x1ab): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(block_allocator.c.o): in function `b3CreateBlockAllocator':
+block_allocator.c:(.text+0xa0): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: block_allocator.c:(.text+0xc8): undefined reference to `b3Alloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(block_allocator.c.o): in function `b3DestroyBlockAllocator':
+block_allocator.c:(.text+0x126): undefined reference to `b3Free'
+/usr/bin/ld: block_allocator.c:(.text+0x141): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(block_allocator.c.o): in function `b3AllocateElement':
+block_allocator.c:(.text+0x231): undefined reference to `b3Alloc'
+/usr/bin/ld: block_allocator.c:(.text+0x26b): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(body.c.o): in function `b3UpdateBodyMassData':
+body.c:(.text+0x30b): undefined reference to `b3GetLengthUnitsPerMeter'
+/usr/bin/ld: body.c:(.text+0x643): undefined reference to `b3Steiner'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(constraint_graph.c.o): in function `b3DestroyGraph':
+constraint_graph.c:(.text+0x99): undefined reference to `b3Free'
+/usr/bin/ld: constraint_graph.c:(.text+0xbe): undefined reference to `b3Free'
+/usr/bin/ld: constraint_graph.c:(.text+0xe2): undefined reference to `b3Free'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(constraint_graph.c.o): in function `b3AddContactToGraph':
+constraint_graph.c:(.text+0x25b): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: constraint_graph.c:(.text+0x411): undefined reference to `b3GrowAlloc'
+/usr/bin/ld: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src/libbox3d.a(constraint_graph.c.o): in function `b3CreateJointInGraph':
+constraint_graph.c:(.text+0x8d9): undefined reference to `b3GrowAlloc'
+collect2: error: ld returned 1 exit status

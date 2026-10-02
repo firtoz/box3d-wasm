@@ -1,0 +1,486 @@
+{
+  "raw/dependency-repair/freeze.py": {
+    "sha256": "a0a49584b4a7960ee0c3d31368cf71fc1e4c87d831f5913c1a8d730366058d88",
+    "bytes": 2840
+  },
+  "raw/dependency-repair/links/cpu/frozen-mesh/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/cpu/frozen-mesh/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/cpu/ragdoll/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/cpu/ragdoll/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/native-both/distance-original/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/native-both/distance-original/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/native-both/drag/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/native-both/drag/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/native-gpu/frozen-mesh/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/native-gpu/frozen-mesh/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/native-gpu/ragdoll/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/native-gpu/ragdoll/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/ordinary-both/distance-original/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/ordinary-both/distance-original/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/ordinary-both/drag/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/ordinary-both/drag/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/ordinary-gpu/frozen-mesh/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/ordinary-gpu/frozen-mesh/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/ordinary-gpu/ragdoll/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/links/ordinary-gpu/ragdoll/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/dependency-repair/protocol-before-builds.json": {
+    "sha256": "0b745a9f2eb856641bd42cbeba0f2142b0af0bc225697e0870a0fb0ff5390359",
+    "bytes": 27571
+  },
+  "raw/dependency-repair/receipt.json": {
+    "sha256": "86b2eef258e2ef01527e8ecb21db7ed9db760dc7659adb2b786e9f7af028e828",
+    "bytes": 54740
+  },
+  "raw/dependency-repair/run.py": {
+    "sha256": "6c4449b7035b91b8cd8ef7c934df03d6528482d5d1fcc72b4ef960c917d87f12",
+    "bytes": 4209
+  },
+  "raw/distance/freeze.py": {
+    "sha256": "5c7c4f590b52d9a3929bf26c570d5d9ed10187101fd4ecc7f9c748ffc7f75cf3",
+    "bytes": 3144
+  },
+  "raw/distance/native/stderr.log": {
+    "sha256": "ce9d445693e094444a927a8138cf1786f676db5839e72ba9145d4e5a7ec1f0ae",
+    "bytes": 2061
+  },
+  "raw/distance/native/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/distance/ordinary/stderr.log": {
+    "sha256": "ce9d445693e094444a927a8138cf1786f676db5839e72ba9145d4e5a7ec1f0ae",
+    "bytes": 2061
+  },
+  "raw/distance/ordinary/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/distance/protocol.json": {
+    "sha256": "37a6d7907f92a2e3f8ad19cd49183fa4e1aea2393a2816e27725be75911e57d7",
+    "bytes": 19410
+  },
+  "raw/distance/receipt.json": {
+    "sha256": "9d1fa49e2a512afb6c0accce23bca48f0373095157e7e8726815f937de3478b9",
+    "bytes": 1303
+  },
+  "raw/distance/run.py": {
+    "sha256": "1646346a388a7b655b8c34418544c0660c0949a287c1c4bbeedf6f5332b56fbe",
+    "bytes": 2083
+  },
+  "raw/evaluators/check-ragdoll-health.py": {
+    "sha256": "66718477102199060cf87893857ad9280128ad81c826cc95741025c9b5c9a395",
+    "bytes": 3195
+  },
+  "raw/evaluators/compare-frozen-contacts.py": {
+    "sha256": "6f516a8b697df41a9a3aeb69f08f8d6e2b724e53e8dcc7c5298fb7ba948abe0c",
+    "bytes": 3489
+  },
+  "raw/evaluators/validate-ragdoll-reference.py": {
+    "sha256": "c861d3c85ac870d93ca5f472deadc2fe193802172ec10f1e63a9a7fff45dff05",
+    "bytes": 9305
+  },
+  "raw/first-build/distance-original.cpp": {
+    "sha256": "ea130e39f909bf87f460565e69e0877822cfd1eb67ae0614c34a69f7f5d82ce7",
+    "bytes": 3790
+  },
+  "raw/first-build/fixture-source-inputs.tar.gz": {
+    "sha256": "a8935b511ec8f79a21bbe19e50b33f7ade25f9bc05573a21a8b747b937c45df3",
+    "bytes": 691577
+  },
+  "raw/first-build/freeze.py": {
+    "sha256": "99ca885cd7c5c3a00e0bf06762f053d4d9f60fabe37c44e3de469876e36e1698",
+    "bytes": 4128
+  },
+  "raw/first-build/links/cpu/ragdoll/stderr.log": {
+    "sha256": "6ed82b19c35d1e5e91e23cbba3998da4167f45d0da71f105c3123bfc56d3a1d1",
+    "bytes": 76131
+  },
+  "raw/first-build/links/cpu/ragdoll/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/first-build/protocol-before-builds.json": {
+    "sha256": "b84f32659d9df2a0e9c974c7f288669fa5dbeb89ffee8400eb7328c51f2af85c",
+    "bytes": 25189
+  },
+  "raw/first-build/receipt.json": {
+    "sha256": "2d2e92bc98bdb4ea809964b420d69a874fcd1abe3883c2930699a46309dfd7bf",
+    "bytes": 7652
+  },
+  "raw/first-build/run.py": {
+    "sha256": "538fb209f463729018aa8a0f506e32ca8ae62109462b1948fc4fd9a4d22afe9d",
+    "bytes": 4098
+  },
+  "raw/first-build/shared/determinism/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/first-build/shared/determinism/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/first-build/shared/human/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/first-build/shared/human/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/first-build/shared/utils/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/first-build/shared/utils/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/frozen-mesh-inputs/grid.txt": {
+    "sha256": "7bbaf3de4da381e3ea7cbdcdcc01ba3365c4b495d23c7ba967a26840e366a08b",
+    "bytes": 1937
+  },
+  "raw/frozen-mesh-inputs/manifest.json": {
+    "sha256": "7a8226e76cd085e70c94c0768b0c58db9a430c4d06d405354291086f65b616eb",
+    "bytes": 3265
+  },
+  "raw/frozen-mesh-inputs/torus.txt": {
+    "sha256": "3abbc0149a870f436d462144ace0489a3ffdc173e4b9018a0992569b16f60b66",
+    "bytes": 1054
+  },
+  "raw/producers/cpu-applicability.json": {
+    "sha256": "6403ce0e6cdfedf71c8996448df029a2a0702f1db92511bb981c9494047383b0",
+    "bytes": 1006519
+  },
+  "raw/producers/cpu-origin_parent_receipt.json": {
+    "sha256": "5f4bc2201b08b6d91d74a1af11b1907105c56400a49a5ade2a66ffbc5ef279cd",
+    "bytes": 851669
+  },
+  "raw/producers/cpu-origin_viewer_receipt.json": {
+    "sha256": "716a51749322400c52ea69fed2aa59d5b08502c926a6d261c71e32f7ea6a349a",
+    "bytes": 173173
+  },
+  "raw/producers/engine-build.json": {
+    "sha256": "28661adc1967ef397fb79f8b1041b2bc8b0be4fb3226caf614e26d0ab72804be",
+    "bytes": 23782
+  },
+  "raw/producers/native-both.json": {
+    "sha256": "2b9e63201558881ce367da09526eb3c496e0b6d9fb1266dfad6d077e98100f8b",
+    "bytes": 263766
+  },
+  "raw/producers/native-gpu.json": {
+    "sha256": "fd2ac3809d3fe6989131d84d7dc824964029680f60065d29b0e0dd8499e3719f",
+    "bytes": 201198
+  },
+  "raw/producers/ordinary-both.json": {
+    "sha256": "3666a044433a97f03eaaca6d49b5a03e58ee191a43f102146a759b56656e6e1d",
+    "bytes": 265030
+  },
+  "raw/producers/ordinary-gpu.json": {
+    "sha256": "09e4a2157a2ec24ce28802a847151c221ae8ff3f6eb76430c0c4dc54252cf590",
+    "bytes": 202232
+  },
+  "raw/producers/viewer-parent.json": {
+    "sha256": "9b8e2f4e05257ba1b3b39bdb0f3f9694a9192cac085ccec3e35cf7ad8a620c05",
+    "bytes": 180776
+  },
+  "raw/ragdoll-mesh/cpu/mesh-grid/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/ragdoll-mesh/cpu/mesh-grid/stdout.txt": {
+    "sha256": "55816ebf0b65a63f1f0f6170e74db80469f0f1f86067e1c2bceb80490ae928bf",
+    "bytes": 5080
+  },
+  "raw/ragdoll-mesh/cpu/mesh-torus/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/ragdoll-mesh/cpu/mesh-torus/stdout.txt": {
+    "sha256": "9d44eaae9e6f5f3a21e037ac7a9302491b6c810d949f97d528ce384b8a46d711",
+    "bytes": 772
+  },
+  "raw/ragdoll-mesh/cpu/ragdolls/stderr.log": {
+    "sha256": "1a77f0407a396d361fa17404e6a9a8b47e50e22d05b1737e27ac0c38df6b0f86",
+    "bytes": 55522
+  },
+  "raw/ragdoll-mesh/cpu/ragdolls/stdout.txt": {
+    "sha256": "8f33316b91c31d8e967c37ffdad0121bcb627c0bf82db32b4cd32fc1e8345f60",
+    "bytes": 9955424
+  },
+  "raw/ragdoll-mesh/cpu/ragdolls-no-contacts/stderr.log": {
+    "sha256": "c2101d2e7a08c90b1b0fc6c668f6554a899ce2258229fa3e0767eaf89710a91c",
+    "bytes": 55335
+  },
+  "raw/ragdoll-mesh/cpu/ragdolls-no-contacts/stdout.txt": {
+    "sha256": "97918c4961cf2f90b2b1103c0419cc0509c7de05f8f5b46105dbdca72f8ff21e",
+    "bytes": 1297074
+  },
+  "raw/ragdoll-mesh/cpu/tilted/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/ragdoll-mesh/cpu/tilted/stdout.txt": {
+    "sha256": "6d2b89b37b8fd1751af75c092a02a1572dbbf2d5b62c3fd6e53ea1cebdd01ce1",
+    "bytes": 12495
+  },
+  "raw/ragdoll-mesh/cpu/tilted-negative/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/ragdoll-mesh/cpu/tilted-negative/stdout.txt": {
+    "sha256": "e36bf1842fedcd96b4dc2adb7f7c52aaae26dd9755867f307f13430db9aef02d",
+    "bytes": 12975
+  },
+  "raw/ragdoll-mesh/cpu/twist/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/ragdoll-mesh/cpu/twist/stdout.txt": {
+    "sha256": "27d91cfed9089f1cb58214c4a690d925b4739cea3cc08fb7b3ad2d091707157a",
+    "bytes": 6524
+  },
+  "raw/ragdoll-mesh/cpu/twist-negative/stderr.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/ragdoll-mesh/cpu/twist-negative/stdout.txt": {
+    "sha256": "ff12b820c3d1d2811cfe7e24c021dc1b9d3487c3f0932a5388159eb8987f288a",
+    "bytes": 6647
+  },
+  "raw/ragdoll-mesh/evaluate.py": {
+    "sha256": "d6b350d90bcc2ddaf6b5358315527d2b3c0699a4bd052657cd0d223d9d295905",
+    "bytes": 3442
+  },
+  "raw/ragdoll-mesh/evaluation.json": {
+    "sha256": "b775ec863725f2663b649e3df10421949f3536e42e50fc5e93d2dd7b82013784",
+    "bytes": 7049
+  },
+  "raw/ragdoll-mesh/freeze.py": {
+    "sha256": "1549f1722c78c6ee33b81ab6065b1b14aa79d7f3843f16987eab6aa95bf08b01",
+    "bytes": 3842
+  },
+  "raw/ragdoll-mesh/legacy-evaluation/native/stderr.log": {
+    "sha256": "74500f2841c7a5e73e3f67114fdd570b8ed23a9cc28f72cb41e6a7d305d14f9a",
+    "bytes": 310
+  },
+  "raw/ragdoll-mesh/legacy-evaluation/native/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/ragdoll-mesh/legacy-evaluation/ordinary/stderr.log": {
+    "sha256": "74500f2841c7a5e73e3f67114fdd570b8ed23a9cc28f72cb41e6a7d305d14f9a",
+    "bytes": 310
+  },
+  "raw/ragdoll-mesh/legacy-evaluation/ordinary/stdout.log": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "raw/ragdoll-mesh/native/mesh-grid/stderr.log": {
+    "sha256": "64e425e18662d0d044d537e7c3ef4f249523457c4f9a657ab890fa04ef83dea4",
+    "bytes": 14162
+  },
+  "raw/ragdoll-mesh/native/mesh-grid/stdout.txt": {
+    "sha256": "610b63e106edff665789211830a9b3a30fd49dc7e44d09589a98f1faddd23b6b",
+    "bytes": 4494
+  },
+  "raw/ragdoll-mesh/native/mesh-torus/stderr.log": {
+    "sha256": "02a9e1a0cbda7d5fd4a5c0136454fa8965b9d7f05e991b97cb5739c40c14a44b",
+    "bytes": 4184
+  },
+  "raw/ragdoll-mesh/native/mesh-torus/stdout.txt": {
+    "sha256": "9dd6841d32824f5d79622e77906ffe4de350d57f12449b3774af073595d10dac",
+    "bytes": 774
+  },
+  "raw/ragdoll-mesh/native/ragdolls/stderr.log": {
+    "sha256": "ca7ffa34129729c193f0ddad2418a49aab9800bd04ddf39eb63d0afcf2c85a23",
+    "bytes": 56286
+  },
+  "raw/ragdoll-mesh/native/ragdolls/stdout.txt": {
+    "sha256": "49b4889422bdb5fbf2d25d7850985d573c1032e41aee24ad7747806b097065ce",
+    "bytes": 9864632
+  },
+  "raw/ragdoll-mesh/native/ragdolls-no-contacts/stderr.log": {
+    "sha256": "23a6534ff9b54ad3ed574f1e3d04937db889b0800d1264f33629d5a2bbd67be4",
+    "bytes": 56099
+  },
+  "raw/ragdoll-mesh/native/ragdolls-no-contacts/stdout.txt": {
+    "sha256": "d6d26def33b9aee3fcd44757f6c10634a720282980ac0cfc6e237ef09af041a6",
+    "bytes": 1297066
+  },
+  "raw/ragdoll-mesh/native/tilted/stderr.log": {
+    "sha256": "4709b7cf5ca05a6196364001765fbbed32792c818109d6ff6584e46944d9f3b9",
+    "bytes": 742
+  },
+  "raw/ragdoll-mesh/native/tilted/stdout.txt": {
+    "sha256": "6d2b89b37b8fd1751af75c092a02a1572dbbf2d5b62c3fd6e53ea1cebdd01ce1",
+    "bytes": 12495
+  },
+  "raw/ragdoll-mesh/native/tilted-negative/stderr.log": {
+    "sha256": "4709b7cf5ca05a6196364001765fbbed32792c818109d6ff6584e46944d9f3b9",
+    "bytes": 742
+  },
+  "raw/ragdoll-mesh/native/tilted-negative/stdout.txt": {
+    "sha256": "e36bf1842fedcd96b4dc2adb7f7c52aaae26dd9755867f307f13430db9aef02d",
+    "bytes": 12975
+  },
+  "raw/ragdoll-mesh/native/twist/stderr.log": {
+    "sha256": "4709b7cf5ca05a6196364001765fbbed32792c818109d6ff6584e46944d9f3b9",
+    "bytes": 742
+  },
+  "raw/ragdoll-mesh/native/twist/stdout.txt": {
+    "sha256": "27d91cfed9089f1cb58214c4a690d925b4739cea3cc08fb7b3ad2d091707157a",
+    "bytes": 6524
+  },
+  "raw/ragdoll-mesh/native/twist-negative/stderr.log": {
+    "sha256": "4709b7cf5ca05a6196364001765fbbed32792c818109d6ff6584e46944d9f3b9",
+    "bytes": 742
+  },
+  "raw/ragdoll-mesh/native/twist-negative/stdout.txt": {
+    "sha256": "ff12b820c3d1d2811cfe7e24c021dc1b9d3487c3f0932a5388159eb8987f288a",
+    "bytes": 6647
+  },
+  "raw/ragdoll-mesh/ordinary/mesh-grid/stderr.log": {
+    "sha256": "64e425e18662d0d044d537e7c3ef4f249523457c4f9a657ab890fa04ef83dea4",
+    "bytes": 14162
+  },
+  "raw/ragdoll-mesh/ordinary/mesh-grid/stdout.txt": {
+    "sha256": "610b63e106edff665789211830a9b3a30fd49dc7e44d09589a98f1faddd23b6b",
+    "bytes": 4494
+  },
+  "raw/ragdoll-mesh/ordinary/mesh-torus/stderr.log": {
+    "sha256": "02a9e1a0cbda7d5fd4a5c0136454fa8965b9d7f05e991b97cb5739c40c14a44b",
+    "bytes": 4184
+  },
+  "raw/ragdoll-mesh/ordinary/mesh-torus/stdout.txt": {
+    "sha256": "9dd6841d32824f5d79622e77906ffe4de350d57f12449b3774af073595d10dac",
+    "bytes": 774
+  },
+  "raw/ragdoll-mesh/ordinary/ragdolls/stderr.log": {
+    "sha256": "ca7ffa34129729c193f0ddad2418a49aab9800bd04ddf39eb63d0afcf2c85a23",
+    "bytes": 56286
+  },
+  "raw/ragdoll-mesh/ordinary/ragdolls/stdout.txt": {
+    "sha256": "49b4889422bdb5fbf2d25d7850985d573c1032e41aee24ad7747806b097065ce",
+    "bytes": 9864632
+  },
+  "raw/ragdoll-mesh/ordinary/ragdolls-no-contacts/stderr.log": {
+    "sha256": "23a6534ff9b54ad3ed574f1e3d04937db889b0800d1264f33629d5a2bbd67be4",
+    "bytes": 56099
+  },
+  "raw/ragdoll-mesh/ordinary/ragdolls-no-contacts/stdout.txt": {
+    "sha256": "d6d26def33b9aee3fcd44757f6c10634a720282980ac0cfc6e237ef09af041a6",
+    "bytes": 1297066
+  },
+  "raw/ragdoll-mesh/ordinary/tilted/stderr.log": {
+    "sha256": "4709b7cf5ca05a6196364001765fbbed32792c818109d6ff6584e46944d9f3b9",
+    "bytes": 742
+  },
+  "raw/ragdoll-mesh/ordinary/tilted/stdout.txt": {
+    "sha256": "6d2b89b37b8fd1751af75c092a02a1572dbbf2d5b62c3fd6e53ea1cebdd01ce1",
+    "bytes": 12495
+  },
+  "raw/ragdoll-mesh/ordinary/tilted-negative/stderr.log": {
+    "sha256": "4709b7cf5ca05a6196364001765fbbed32792c818109d6ff6584e46944d9f3b9",
+    "bytes": 742
+  },
+  "raw/ragdoll-mesh/ordinary/tilted-negative/stdout.txt": {
+    "sha256": "e36bf1842fedcd96b4dc2adb7f7c52aaae26dd9755867f307f13430db9aef02d",
+    "bytes": 12975
+  },
+  "raw/ragdoll-mesh/ordinary/twist/stderr.log": {
+    "sha256": "4709b7cf5ca05a6196364001765fbbed32792c818109d6ff6584e46944d9f3b9",
+    "bytes": 742
+  },
+  "raw/ragdoll-mesh/ordinary/twist/stdout.txt": {
+    "sha256": "27d91cfed9089f1cb58214c4a690d925b4739cea3cc08fb7b3ad2d091707157a",
+    "bytes": 6524
+  },
+  "raw/ragdoll-mesh/ordinary/twist-negative/stderr.log": {
+    "sha256": "4709b7cf5ca05a6196364001765fbbed32792c818109d6ff6584e46944d9f3b9",
+    "bytes": 742
+  },
+  "raw/ragdoll-mesh/ordinary/twist-negative/stdout.txt": {
+    "sha256": "ff12b820c3d1d2811cfe7e24c021dc1b9d3487c3f0932a5388159eb8987f288a",
+    "bytes": 6647
+  },
+  "raw/ragdoll-mesh/post-source-applicability.json": {
+    "sha256": "49a98be5c5100241ba81fb76785f815d9894fdcbd8877a039592171a8d1bb5f2",
+    "bytes": 581
+  },
+  "raw/ragdoll-mesh/protocol.json": {
+    "sha256": "d3a4df17941d4d916e6814e1480716dc0d3439326eb03e57217389457ed8b0b9",
+    "bytes": 207164
+  },
+  "raw/ragdoll-mesh/publish.py": {
+    "sha256": "09edbae81b2a0f5f33c7471508ba9a920583f121161f001248af36ebb9f4a5f3",
+    "bytes": 2758
+  },
+  "raw/ragdoll-mesh/receipt.json": {
+    "sha256": "724941e220862ef3bbb7d88cd32256960e1e7f19813a799a8fad4ba58f23789e",
+    "bytes": 8445
+  },
+  "raw/ragdoll-mesh/run.py": {
+    "sha256": "6eb2203663d4119f9cdb81219ad4490b5fc510035a0b51f1bd6d9c23dbde78a3",
+    "bytes": 2218
+  }
+}

@@ -1,0 +1,29 @@
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=256 mesh_triangles=512 mesh_nodes=127 materials=256 joints=16 scene_heap_bytes=249824 max=536870912
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=256 mesh_triangles=512 mesh_nodes=127 materials=256 joints=16 scene_heap_bytes=249824 max=536870912
+gpu-scene-input shapes=2 mesh_vertices=256 mesh_triangles=512 scene_heap_bytes=249824
+GPU pose export: Vulkan opaque FD 23 (28672 bytes)
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=256 mesh_triangles=512 mesh_nodes=127 materials=256 joints=16 scene_heap_bytes=249824 max=536870912
+gpu-scene-input shapes=2 mesh_vertices=256 mesh_triangles=512 scene_heap_bytes=249824
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=256 mesh_triangles=512 mesh_nodes=127 materials=256 joints=16 scene_heap_bytes=249824 max=536870912
+gpu-scene-input shapes=2 mesh_vertices=256 mesh_triangles=512 scene_heap_bytes=249824
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=256 mesh_triangles=512 mesh_nodes=127 materials=256 joints=16 scene_heap_bytes=249824 max=536870912
+gpu-scene-input shapes=2 mesh_vertices=256 mesh_triangles=512 scene_heap_bytes=249824
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=256 mesh_triangles=512 mesh_nodes=127 materials=256 joints=16 scene_heap_bytes=249824 max=536870912
+gpu-scene-input shapes=2 mesh_vertices=256 mesh_triangles=512 scene_heap_bytes=249824
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=256 mesh_triangles=512 mesh_nodes=127 materials=256 joints=16 scene_heap_bytes=249824 max=536870912
+gpu-scene-input shapes=2 mesh_vertices=256 mesh_triangles=512 scene_heap_bytes=249824
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=256 mesh_triangles=512 mesh_nodes=127 materials=256 joints=16 scene_heap_bytes=249824 max=536870912
+gpu-scene-input shapes=2 mesh_vertices=256 mesh_triangles=512 scene_heap_bytes=249824
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=256 mesh_triangles=512 mesh_nodes=127 materials=256 joints=16 scene_heap_bytes=249824 max=536870912
+gpu-scene-input shapes=2 mesh_vertices=256 mesh_triangles=512 scene_heap_bytes=249824
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=256 mesh_triangles=512 mesh_nodes=127 materials=256 joints=16 scene_heap_bytes=249824 max=536870912
+gpu-scene-input shapes=2 mesh_vertices=256 mesh_triangles=512 scene_heap_bytes=249824
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=256 mesh_triangles=512 mesh_nodes=127 materials=256 joints=16 scene_heap_bytes=249824 max=536870912
+gpu-scene-input shapes=2 mesh_vertices=256 mesh_triangles=512 scene_heap_bytes=249824
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=256 mesh_triangles=512 mesh_nodes=127 materials=256 joints=16 scene_heap_bytes=249824 max=536870912
+gpu-scene-input shapes=2 mesh_vertices=256 mesh_triangles=512 scene_heap_bytes=249824
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=256 mesh_triangles=512 mesh_nodes=127 materials=256 joints=16 scene_heap_bytes=249824 max=536870912
+gpu-scene-input shapes=2 mesh_vertices=256 mesh_triangles=512 scene_heap_bytes=249824

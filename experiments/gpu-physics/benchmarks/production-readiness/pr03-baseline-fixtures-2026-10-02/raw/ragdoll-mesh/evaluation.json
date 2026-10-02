@@ -1,0 +1,246 @@
+{
+  "ordinary": {
+    "scope": "One baseline run per selected case;not five-repeat/full-state/final-build qualification",
+    "physical": {
+      "status": "pass",
+      "failures": [],
+      "limits": {
+        "peak_joint_separation": 0.25,
+        "tail_joint_separation": 0.005,
+        "tail_linear_speed": 0.05,
+        "tail_angular_speed": 0.1
+      },
+      "peak_angular_speed_cpu_multiplier": 1.2,
+      "cpu": {
+        "peak_joint_separation": {
+          "value": 0.213310137,
+          "frame": 88,
+          "body": 23
+        },
+        "tail_joint_separation": {
+          "value": 0.00139051978,
+          "frame": 480,
+          "body": 1
+        },
+        "tail_linear_speed": {
+          "value": 0.0,
+          "frame": 480,
+          "body": 0
+        },
+        "tail_angular_speed": {
+          "value": 0.0,
+          "frame": 480,
+          "body": 0
+        },
+        "peak_angular_speed": {
+          "value": 101.96400514017317,
+          "frame": 163,
+          "body": 32
+        }
+      },
+      "gpu": {
+        "peak_joint_separation": {
+          "value": 0.116392836,
+          "frame": 161,
+          "body": 103
+        },
+        "tail_joint_separation": {
+          "value": 0.00298925536,
+          "frame": 480,
+          "body": 11
+        },
+        "tail_linear_speed": {
+          "value": 0.0,
+          "frame": 480,
+          "body": 0
+        },
+        "tail_angular_speed": {
+          "value": 0.0,
+          "frame": 480,
+          "body": 0
+        },
+        "peak_angular_speed": {
+          "value": 74.41479353952438,
+          "frame": 175,
+          "body": 60
+        }
+      },
+      "scope": "Physical screen only; not complete-state repeatability or full collision/joint correctness"
+    },
+    "isolated": {
+      "twist": {
+        "max_component_error": 0.0,
+        "limit": 1e-05,
+        "status": "pass"
+      },
+      "twist-negative": {
+        "max_component_error": 0.0,
+        "limit": 1e-05,
+        "status": "pass"
+      },
+      "tilted": {
+        "max_component_error": 0.0,
+        "limit": 1e-05,
+        "status": "pass"
+      },
+      "tilted-negative": {
+        "max_component_error": 0.0,
+        "limit": 1e-05,
+        "status": "pass"
+      },
+      "ragdolls-no-contacts": {
+        "max_position_error": 8.999999998593466e-07,
+        "limit": 5e-05,
+        "status": "pass"
+      }
+    },
+    "mesh": {
+      "grid": {
+        "status": "pass",
+        "cases": 45,
+        "epsilon": 1e-05,
+        "max_matched_component_error": 1.0244999999991632e-08,
+        "failures": [],
+        "cpu_all_grid_poses_contact": true,
+        "cpu_upnormal_error": 0.0,
+        "gpu_all_grid_poses_contact": true,
+        "gpu_upnormal_error": 0.0
+      },
+      "torus": {
+        "status": "pass",
+        "cases": 12,
+        "epsilon": 1e-05,
+        "max_matched_component_error": 1.3870000000089366e-07,
+        "failures": []
+      }
+    },
+    "original_full_reference_validator": {
+      "exit": 1,
+      "status": "fail",
+      "stderr": "Traceback (most recent call last):\n  File \"/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/validate-ragdoll-reference.py\", line 117, in <module>\n    assert airborne_position_error <= .006, airborne_position_error\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0.06358576716417953\n",
+      "scope": "Original strict visual trajectory/contact/setup/physical screen retained unchanged; a physical-only pass never implies this screen passed."
+    }
+  },
+  "native": {
+    "scope": "One baseline run per selected case;not five-repeat/full-state/final-build qualification",
+    "physical": {
+      "status": "pass",
+      "failures": [],
+      "limits": {
+        "peak_joint_separation": 0.25,
+        "tail_joint_separation": 0.005,
+        "tail_linear_speed": 0.05,
+        "tail_angular_speed": 0.1
+      },
+      "peak_angular_speed_cpu_multiplier": 1.2,
+      "cpu": {
+        "peak_joint_separation": {
+          "value": 0.213310137,
+          "frame": 88,
+          "body": 23
+        },
+        "tail_joint_separation": {
+          "value": 0.00139051978,
+          "frame": 480,
+          "body": 1
+        },
+        "tail_linear_speed": {
+          "value": 0.0,
+          "frame": 480,
+          "body": 0
+        },
+        "tail_angular_speed": {
+          "value": 0.0,
+          "frame": 480,
+          "body": 0
+        },
+        "peak_angular_speed": {
+          "value": 101.96400514017317,
+          "frame": 163,
+          "body": 32
+        }
+      },
+      "gpu": {
+        "peak_joint_separation": {
+          "value": 0.116392836,
+          "frame": 161,
+          "body": 103
+        },
+        "tail_joint_separation": {
+          "value": 0.00298925536,
+          "frame": 480,
+          "body": 11
+        },
+        "tail_linear_speed": {
+          "value": 0.0,
+          "frame": 480,
+          "body": 0
+        },
+        "tail_angular_speed": {
+          "value": 0.0,
+          "frame": 480,
+          "body": 0
+        },
+        "peak_angular_speed": {
+          "value": 74.41479353952438,
+          "frame": 175,
+          "body": 60
+        }
+      },
+      "scope": "Physical screen only; not complete-state repeatability or full collision/joint correctness"
+    },
+    "isolated": {
+      "twist": {
+        "max_component_error": 0.0,
+        "limit": 1e-05,
+        "status": "pass"
+      },
+      "twist-negative": {
+        "max_component_error": 0.0,
+        "limit": 1e-05,
+        "status": "pass"
+      },
+      "tilted": {
+        "max_component_error": 0.0,
+        "limit": 1e-05,
+        "status": "pass"
+      },
+      "tilted-negative": {
+        "max_component_error": 0.0,
+        "limit": 1e-05,
+        "status": "pass"
+      },
+      "ragdolls-no-contacts": {
+        "max_position_error": 8.999999998593466e-07,
+        "limit": 5e-05,
+        "status": "pass"
+      }
+    },
+    "mesh": {
+      "grid": {
+        "status": "pass",
+        "cases": 45,
+        "epsilon": 1e-05,
+        "max_matched_component_error": 1.0244999999991632e-08,
+        "failures": [],
+        "cpu_all_grid_poses_contact": true,
+        "cpu_upnormal_error": 0.0,
+        "gpu_all_grid_poses_contact": true,
+        "gpu_upnormal_error": 0.0
+      },
+      "torus": {
+        "status": "pass",
+        "cases": 12,
+        "epsilon": 1e-05,
+        "max_matched_component_error": 1.3870000000089366e-07,
+        "failures": []
+      }
+    },
+    "original_full_reference_validator": {
+      "exit": 1,
+      "status": "fail",
+      "stderr": "Traceback (most recent call last):\n  File \"/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/validate-ragdoll-reference.py\", line 117, in <module>\n    assert airborne_position_error <= .006, airborne_position_error\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0.06358576716417953\n",
+      "scope": "Original strict visual trajectory/contact/setup/physical screen retained unchanged; a physical-only pass never implies this screen passed."
+    }
+  }
+}

@@ -1,5 +1,7 @@
 # GPU solver correctness and repeatability qualification
 
+Current2026-10-02 PR03 [fixture baseline](../experiments/gpu-physics/benchmarks/production-readiness/pr03-baseline-fixtures-2026-10-02/README.md): both current backends retain the original distance first-step discrepancy; unchanged600step ragdoll physical/isolated/57posemesh screens pass. Original strict ragdoll trajectory screen remains failed (0.063585767m versus0.006m), retained separately.26first-process observations are not final five-repeat/full-state/build qualification; no timing/source/default/tolerance change. Full current matrix/baseline remains open in the production roadmap.
+
 This qualification uses efficient GPU ordering (`GPU_PHYSICS_LIVE_CONTACT_ORDER=0`).
 CPU-compatible ordering remains available for reference work. The default must
 not switch until the GPU-order qualification below passes. CPU trajectory
