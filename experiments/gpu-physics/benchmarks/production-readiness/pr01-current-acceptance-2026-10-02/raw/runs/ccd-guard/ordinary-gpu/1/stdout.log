@@ -1,0 +1,99 @@
+guard continuous=0 moving=0 height=0.504999995 contacts=0 y=0.504999995
+guard continuous=0 moving=0 height=0.50999999 contacts=0 y=0.50999999
+guard continuous=0 moving=1 height=0.504999995 contacts=0 y=0.504999995
+guard continuous=0 moving=1 height=0.50999999 contacts=0 y=0.50999999
+guard continuous=1 moving=0 height=0.504999995 contacts=0 y=0.504999995
+guard continuous=1 moving=0 height=0.50999999 contacts=0 y=0.50999999
+guard continuous=1 moving=1 height=0.504999995 contacts=0 y=0.504999995
+guard continuous=1 moving=1 height=0.50999999 contacts=0 y=0.50999999
+guard-ccd disabled=0 frame=0 y=0.504999995 vy=-150.166687
+guard-ccd disabled=0 frame=1 y=0.503131807 vy=2.80711341
+guard-ccd disabled=0 frame=2 y=0.548180938 vy=2.64044642
+guard-ccd disabled=0 frame=3 y=0.607698679 vy=3.36720419
+guard-ccd disabled=0 frame=4 y=0.662896156 vy=3.2005372
+guard-ccd disabled=0 frame=5 y=0.714502335 vy=3.03387022
+guard-ccd disabled=0 frame=6 y=0.763330698 vy=2.86720324
+guard-ccd disabled=0 frame=7 y=0.809381306 vy=2.70053625
+guard-ccd disabled=0 frame=8 y=0.852654159 vy=2.53386927
+guard-ccd disabled=0 frame=9 y=0.893149197 vy=2.36720228
+guard-ccd disabled=0 frame=10 y=0.93086648 vy=2.2005353
+guard-ccd disabled=0 frame=11 y=0.965805948 vy=2.03386831
+guard-ccd disabled=0 frame=12 y=0.99796766 vy=1.86720181
+guard-ccd disabled=0 frame=13 y=1.02735162 vy=1.7005353
+guard-ccd disabled=0 frame=14 y=1.05395782 vy=1.53386879
+guard-ccd disabled=0 frame=15 y=1.07778621 vy=1.36720228
+guard-ccd disabled=0 frame=16 y=1.09883678 vy=1.20053577
+guard-ccd disabled=0 frame=17 y=1.11710966 vy=1.03386927
+guard-ccd disabled=0 frame=18 y=1.13260472 vy=0.86720252
+guard-ccd disabled=0 frame=19 y=1.14532197 vy=0.700535774
+guard-ccd disabled=0 frame=20 y=1.1552614 vy=0.533869028
+guard-ccd disabled=0 frame=21 y=1.16242313 vy=0.367202401
+guard-ccd disabled=0 frame=22 y=1.16680706 vy=0.200535744
+guard-ccd disabled=0 frame=23 y=1.16841316 vy=0.0338690616
+guard-ccd disabled=0 frame=24 y=1.16724157 vy=-0.132797614
+guard-ccd disabled=0 frame=25 y=1.16329217 vy=-0.299464285
+guard-ccd disabled=0 frame=26 y=1.15656495 vy=-0.466130912
+guard-ccd disabled=0 frame=27 y=1.14706004 vy=-0.632797658
+guard-ccd disabled=0 frame=28 y=1.13477731 vy=-0.799464405
+guard-ccd disabled=0 frame=29 y=1.11971676 vy=-0.966131151
+guard-ccd disabled=1 frame=0 y=0.504999995 vy=-150.166687
+guard-ccd disabled=1 frame=1 y=0.503131807 vy=2.80711341
+guard-ccd disabled=1 frame=2 y=0.548180938 vy=2.64044642
+guard-ccd disabled=1 frame=3 y=0.607698679 vy=3.36720419
+guard-ccd disabled=1 frame=4 y=0.662896156 vy=3.2005372
+guard-ccd disabled=1 frame=5 y=0.714502335 vy=3.03387022
+guard-ccd disabled=1 frame=6 y=0.763330698 vy=2.86720324
+guard-ccd disabled=1 frame=7 y=0.809381306 vy=2.70053625
+guard-ccd disabled=1 frame=8 y=0.852654159 vy=2.53386927
+guard-ccd disabled=1 frame=9 y=0.893149197 vy=2.36720228
+guard-ccd disabled=1 frame=10 y=0.93086648 vy=2.2005353
+guard-ccd disabled=1 frame=11 y=0.965805948 vy=2.03386831
+guard-ccd disabled=1 frame=12 y=0.99796766 vy=1.86720181
+guard-ccd disabled=1 frame=13 y=1.02735162 vy=1.7005353
+guard-ccd disabled=1 frame=14 y=1.05395782 vy=1.53386879
+guard-ccd disabled=1 frame=15 y=1.07778621 vy=1.36720228
+guard-ccd disabled=1 frame=16 y=1.09883678 vy=1.20053577
+guard-ccd disabled=1 frame=17 y=1.11710966 vy=1.03386927
+guard-ccd disabled=1 frame=18 y=1.13260472 vy=0.86720252
+guard-ccd disabled=1 frame=19 y=1.14532197 vy=0.700535774
+guard-ccd disabled=1 frame=20 y=1.1552614 vy=0.533869028
+guard-ccd disabled=1 frame=21 y=1.16242313 vy=0.367202401
+guard-ccd disabled=1 frame=22 y=1.16680706 vy=0.200535744
+guard-ccd disabled=1 frame=23 y=1.16841316 vy=0.0338690616
+guard-ccd disabled=1 frame=24 y=1.16724157 vy=-0.132797614
+guard-ccd disabled=1 frame=25 y=1.16329217 vy=-0.299464285
+guard-ccd disabled=1 frame=26 y=1.15656495 vy=-0.466130912
+guard-ccd disabled=1 frame=27 y=1.14706004 vy=-0.632797658
+guard-ccd disabled=1 frame=28 y=1.13477731 vy=-0.799464405
+guard-ccd disabled=1 frame=29 y=1.11971676 vy=-0.966131151
+guard-ccd disabled=2 frame=0 y=0.504999995 vy=-150.166687
+guard-ccd disabled=2 frame=1 y=0.503131807 vy=2.80711341
+guard-ccd disabled=2 frame=2 y=0.548180938 vy=2.64044642
+guard-ccd disabled=2 frame=3 y=0.607698679 vy=3.36720419
+guard-ccd disabled=2 frame=4 y=0.662896156 vy=3.2005372
+guard-ccd disabled=2 frame=5 y=0.714502335 vy=3.03387022
+guard-ccd disabled=2 frame=6 y=0.763330698 vy=2.86720324
+guard-ccd disabled=2 frame=7 y=0.809381306 vy=2.70053625
+guard-ccd disabled=2 frame=8 y=0.852654159 vy=2.53386927
+guard-ccd disabled=2 frame=9 y=0.893149197 vy=2.36720228
+guard-ccd disabled=2 frame=10 y=0.93086648 vy=2.2005353
+guard-ccd disabled=2 frame=11 y=0.965805948 vy=2.03386831
+guard-ccd disabled=2 frame=12 y=0.99796766 vy=1.86720181
+guard-ccd disabled=2 frame=13 y=1.02735162 vy=1.7005353
+guard-ccd disabled=2 frame=14 y=1.05395782 vy=1.53386879
+guard-ccd disabled=2 frame=15 y=1.07778621 vy=1.36720228
+guard-ccd disabled=2 frame=16 y=1.09883678 vy=1.20053577
+guard-ccd disabled=2 frame=17 y=1.11710966 vy=1.03386927
+guard-ccd disabled=2 frame=18 y=1.13260472 vy=0.86720252
+guard-ccd disabled=2 frame=19 y=1.14532197 vy=0.700535774
+guard-ccd disabled=2 frame=20 y=1.1552614 vy=0.533869028
+guard-ccd disabled=2 frame=21 y=1.16242313 vy=0.367202401
+guard-ccd disabled=2 frame=22 y=1.16680706 vy=0.200535744
+guard-ccd disabled=2 frame=23 y=1.16841316 vy=0.0338690616
+guard-ccd disabled=2 frame=24 y=1.16724157 vy=-0.132797614
+guard-ccd disabled=2 frame=25 y=1.16329217 vy=-0.299464285
+guard-ccd disabled=2 frame=26 y=1.15656495 vy=-0.466130912
+guard-ccd disabled=2 frame=27 y=1.14706004 vy=-0.632797658
+guard-ccd disabled=2 frame=28 y=1.13477731 vy=-0.799464405
+guard-ccd disabled=2 frame=29 y=1.11971676 vy=-0.966131151
+speculative-ccd-guard=pass

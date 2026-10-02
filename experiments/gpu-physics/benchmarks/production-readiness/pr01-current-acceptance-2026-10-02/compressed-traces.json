@@ -1,0 +1,52 @@
+{
+  "raw/runs/state-capture/native/1/state.jsonl.gz": {
+    "decompressed_sha256": "0f56eb44b99d3088805f686f2e69ecb3b163f6c4073320d157e9d1a86377d4df",
+    "decompressed_bytes": 5520592,
+    "compression": "gzip,mtime0,lossless; original trace fields/order unchanged"
+  },
+  "raw/runs/state-capture/native/2/state.jsonl.gz": {
+    "decompressed_sha256": "0f56eb44b99d3088805f686f2e69ecb3b163f6c4073320d157e9d1a86377d4df",
+    "decompressed_bytes": 5520592,
+    "compression": "gzip,mtime0,lossless; original trace fields/order unchanged"
+  },
+  "raw/runs/state-capture/native/3/state.jsonl.gz": {
+    "decompressed_sha256": "0f56eb44b99d3088805f686f2e69ecb3b163f6c4073320d157e9d1a86377d4df",
+    "decompressed_bytes": 5520592,
+    "compression": "gzip,mtime0,lossless; original trace fields/order unchanged"
+  },
+  "raw/runs/state-capture/native/4/state.jsonl.gz": {
+    "decompressed_sha256": "0f56eb44b99d3088805f686f2e69ecb3b163f6c4073320d157e9d1a86377d4df",
+    "decompressed_bytes": 5520592,
+    "compression": "gzip,mtime0,lossless; original trace fields/order unchanged"
+  },
+  "raw/runs/state-capture/native/5/state.jsonl.gz": {
+    "decompressed_sha256": "0f56eb44b99d3088805f686f2e69ecb3b163f6c4073320d157e9d1a86377d4df",
+    "decompressed_bytes": 5520592,
+    "compression": "gzip,mtime0,lossless; original trace fields/order unchanged"
+  },
+  "raw/runs/state-capture/ordinary/1/state.jsonl.gz": {
+    "decompressed_sha256": "1de151c9b3298435809527d3cda7898b74ecd46294a2ddb92ed3ec0fc7f19141",
+    "decompressed_bytes": 5475302,
+    "compression": "gzip,mtime0,lossless; original trace fields/order unchanged"
+  },
+  "raw/runs/state-capture/ordinary/2/state.jsonl.gz": {
+    "decompressed_sha256": "1de151c9b3298435809527d3cda7898b74ecd46294a2ddb92ed3ec0fc7f19141",
+    "decompressed_bytes": 5475302,
+    "compression": "gzip,mtime0,lossless; original trace fields/order unchanged"
+  },
+  "raw/runs/state-capture/ordinary/3/state.jsonl.gz": {
+    "decompressed_sha256": "1de151c9b3298435809527d3cda7898b74ecd46294a2ddb92ed3ec0fc7f19141",
+    "decompressed_bytes": 5475302,
+    "compression": "gzip,mtime0,lossless; original trace fields/order unchanged"
+  },
+  "raw/runs/state-capture/ordinary/4/state.jsonl.gz": {
+    "decompressed_sha256": "1de151c9b3298435809527d3cda7898b74ecd46294a2ddb92ed3ec0fc7f19141",
+    "decompressed_bytes": 5475302,
+    "compression": "gzip,mtime0,lossless; original trace fields/order unchanged"
+  },
+  "raw/runs/state-capture/ordinary/5/state.jsonl.gz": {
+    "decompressed_sha256": "1de151c9b3298435809527d3cda7898b74ecd46294a2ddb92ed3ec0fc7f19141",
+    "decompressed_bytes": 5475302,
+    "compression": "gzip,mtime0,lossless; original trace fields/order unchanged"
+  }
+}

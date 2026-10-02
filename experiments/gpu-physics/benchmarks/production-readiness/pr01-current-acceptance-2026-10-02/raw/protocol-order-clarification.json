@@ -1,0 +1,24 @@
+{
+  "kind": "Non-timing protocol prose/order discrepancy retained",
+  "frozen_order_prose": [
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "frozen_case_dictionary_order": [
+    "ordinary-gpu",
+    "ordinary-both",
+    "native-gpu",
+    "native-both"
+  ],
+  "actual_driver_order": [
+    "ordinary-gpu",
+    "ordinary-both",
+    "native-gpu",
+    "native-both"
+  ],
+  "cause": "Driver iterates the ordered frozen cells dictionary. Its order differs from the prose parenthesis; both immutable sources retained.",
+  "impact": "Identical four configurations/five fresh processes each, unchanged budgets/settings/assertions; no timing comparison is made. State/CCD/regression stage order unchanged. No physics process is repeated or outcome replaced.",
+  "no_headline_timing": true
+}

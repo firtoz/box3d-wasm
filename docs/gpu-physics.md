@@ -249,9 +249,16 @@ observations and42 separate mapped-cleanup observations. Four actual repaired
 viewer control contracts pass with retained source/binary receipts and full
 captures. All 52 required first scene captures and current linked-source inventories pass
 their stated checks, and the CPU-first comparisons are reviewed with recorded
-limitations. PR01/PR02 acceptance reconciliation and broad PR05 lifecycle
+limitations. PR02 acceptance reconciliation and broad PR05 lifecycle
 acceptance remain open; concurrency/reentrancy, C adapter world limits and full
 release matrix still require their own qualification.
+
+The [current PR01 control acceptance](../experiments/gpu-physics/benchmarks/production-readiness/pr01-current-acceptance-2026-10-02/README.md)
+passes twenty public trials, two original-limit CCD guards, ten 110-frame raw
+state repeats and all 63 existing regressions per backend on the retained repair.
+This restores the functional speculative-control gate; it does not qualify the
+full physics/runtime/repeatability release matrix. The earlier extra floor screen
+and incomplete baseline startup attribution remain recorded without promotion.
 
 The initial Linux/NVIDIA GPU release excludes native recording/player APIs and
 CPU worker/static-tree controls. The 39 operations listed in

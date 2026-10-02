@@ -1,0 +1,65 @@
+{
+  "item": "PR01",
+  "status": "pass for original functional control contract on retained current sources",
+  "compiled_source_milestone": "abc0a54a3ce3b285c9984f2c7c6b5baefff00d1b",
+  "protocol_sha256": "c1c6e16dae37d18a31b8002dff2473cb634f3358e9230f1bf58107aba219743f",
+  "requirements": [
+    {
+      "requirement": "Per-world defaults, endpoint/world runtime switches, exclusions, zero duration and independent worlds",
+      "evidence": "20 exact C public-control runs plus current63-regression selector set",
+      "status": "pass"
+    },
+    {
+      "requirement": "Ordinary/native standalone and combined mapped CPU forwarding",
+      "evidence": "Five fresh C trials/cell; CPU setter wrap assertions preserved",
+      "status": "pass"
+    },
+    {
+      "requirement": "Original CCD safety and no-hit gap semantics",
+      "evidence": "Two current guards;0.495m floor,rest/fast tangent at5/10mm,1e-5 position limit unchanged",
+      "status": "pass"
+    },
+    {
+      "requirement": "World/child lifetime and stale destruction safety",
+      "evidence": "Current C controls plus independently retained72 Rust checks/120 root/geometry C observations/42 mapped-cleanup observations on exact sources",
+      "status": "pass"
+    },
+    {
+      "requirement": "Relevant default,mesh/CCD/query regressions",
+      "evidence": "63 original selectors/backend,126 checks; exact test listing and skip selection,one serial process/backend",
+      "status": "pass"
+    },
+    {
+      "requirement": "Focused five fresh captured-state repeats per backend",
+      "evidence": "10 schema24 traces/110 frames each; health+raw comparison pass with no field filter",
+      "status": "pass"
+    },
+    {
+      "requirement": "Compiled inputs, binaries and actual adapter",
+      "evidence": "Frozen libraries/test executables/currentC build receipts,source/object/archives and NVIDIA Vulkan logs",
+      "status": "pass"
+    },
+    {
+      "requirement": "Current linked API/docs",
+      "evidence": "415-symbol ordinary/native inventories/39 explicit exclusions in current scene report; docs updated",
+      "status": "pass"
+    },
+    {
+      "requirement": "Required precommit CPU-first affected scenes",
+      "evidence": "52 first captures/26 reviewed pairs in source milestoneabc0a54; Village render omission retainedPR09",
+      "status": "pass"
+    }
+  ],
+  "historical_reports": [
+    "../pr01-speculative-2026-10-01/README.md",
+    "../pr02-world-lifetime-repair-2026-10-01/README.md",
+    "../pr02-world-lifetime-mapped-cleanup-2026-10-01/README.md",
+    "../pr02-world-lifetime-atomic-apps-2026-10-02/README.md",
+    "../pr02-world-lifetime-scene-captures-2026-10-02/README.md"
+  ],
+  "failure_scope": "Original extra s&box all-window5mm screen remainsFAIL in both engines; independent source/integration analysis explains discrete landing and unchangedCCD filter; no tolerance raised. Archived baseline180s startup diagnostic incomplete,never counted as pass. Original PR01 control/CCD assertions pass unchanged. Final physical/startup/repeat contract remainsPR03\u2013PR07.",
+  "protocol_order_discrepancy": "Frozen cells dictionary and actual driver order agree (ordinaryGPU,ordinaryBoth,nativeGPU,nativeBoth); prose parenthesis lists a different order. Functional cases,budgets,settings/assertions unchanged, no timing claim and no rerun; original protocol and clarification retained.",
+  "repeat_scope": "Exact captured diagnostic state for this110-step control fixture,not complete future-state lifecycle/full matrixPR07 proof",
+  "release_ready": false,
+  "production_changes_this_campaign": 0
+}

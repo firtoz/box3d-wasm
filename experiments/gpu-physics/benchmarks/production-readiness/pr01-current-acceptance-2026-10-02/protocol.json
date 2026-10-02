@@ -1,0 +1,179 @@
+{
+  "purpose": "PR01 current-source functional/control/default/CCD/repeatability acceptance after root/child lifetime repair; not PR07 final release repeatability",
+  "invocation_revision_context_only": "cd91fa75389f22de8dd36981d7b611e566e2fd69",
+  "budget": {
+    "C_link_builds": 6,
+    "public_control_fresh_processes": 20,
+    "ccd_guard_fresh_processes": 2,
+    "state_capture_fresh_processes": 10,
+    "regression_serial_processes": 2,
+    "regression_test_executions": 126,
+    "host_test_list_processes": 2,
+    "Rust_or_viewer_builds": 0,
+    "headline_timing": 0,
+    "retries": 0
+  },
+  "order": "Link all six C fixtures, verify both exact test lists, execute each control cell five fresh processes (ordinaryGPU,nativeGPU,ordinaryBoth,nativeBoth), ordinary/native CCD guard, ordinary/native five-state captures, ordinary/native63-regression serial harness once each. Stop first failed process/source/health/comparison, retain completed/failed/unlaunched cases.",
+  "settings": {
+    "adapter": "NVIDIA GeForce RTX4070 SUPER",
+    "driver": "610.57.04",
+    "backend": "Vulkan",
+    "dt": "1/60",
+    "substeps": [
+      1,
+      4
+    ],
+    "live_contact_order": "1",
+    "defaults": "Existing fixture-specific gravity/sleep/geometry/endpoint/CCD controls unchanged; no extra stress flags or tolerance change",
+    "ccd_minimum_height_m": 0.495,
+    "tangent_gap_height_m": [
+      0.505,
+      0.51
+    ],
+    "tangent_motion_tolerance": 1e-05,
+    "state_capture_frames": 110,
+    "repeat_comparison": "raw schema24 bytes/fields via unchanged comparison tool; preserves ordering; no filtered state field or relaxed limit",
+    "regression_lifetime_context": "63 unchanged selectors executed once in one serial test process/backend, giving additional across-test root/child reuse context; original case set/tolerances preserved, not a claim of complete PR05 lifecycle qualification"
+  },
+  "sources": {
+    "c_abi/speculative_fixture.cpp": "5632fbc8eacce7712604705c3b633303137c5dd74f66162fc04faa01b2b0ce24",
+    "c_abi/speculative_ccd_guard_fixture.cpp": "8a8355dec312483c031833b7e14e53f24928e3652772df561207ddb62c25bb59",
+    "scripts/check-speculative-state.py": "e40672b47774d10d6097f09440a31e5f30a06eec1777497f2d6d18d9a0bead4f",
+    "scripts/check-core-state-health.py": "cbaf295145d787f17fe141dc064472070a76faf70b3d0ffede0fff86aac45709",
+    "scripts/compare-core-state.py": "2b0fae8a6894ec89bf02513b6097633d14a7b9609d41d2fe3c3b08b55d57f04e",
+    "scripts/native-samples-cache-env.sh": "55560aec256c6e71c0b4a44d4a6452ce4c2a39858668bee9ca0f2f048c176b94",
+    "../../box3d/include/box3d/base.h": "f3e137ec8930a3ecfa2ebb969f8f8419b1f04498fdb907b92fca569e295d69ef",
+    "../../box3d/include/box3d/box3d.h": "7b9f94783a34cc46d2f9fb4fbc27180ba122b3bd0c5ca9f2d6ae8f4925e30b6d",
+    "../../box3d/include/box3d/collision.h": "7757eedf8c3587deea0ee7d19022929c7058725e889a712427965edddee24668",
+    "../../box3d/include/box3d/config.h": "3435ee19866d5b52bc93a9410a870cc2a193cd74f69e6bde1c0ea2b14bc34105",
+    "../../box3d/include/box3d/constants.h": "781bda6496a2e68beca01a1f730a980e77828ff0586d12056ffff6eb490897bd",
+    "../../box3d/include/box3d/id.h": "b7064764f63390b0ed50f7079d8777fd87a51c5777216861536c24e8b8d88bab",
+    "../../box3d/include/box3d/math_functions.h": "d9a0d6e1248f35f56d474aa1c4f616a279172f6a9cad53fa18da53dab89d0005",
+    "../../box3d/include/box3d/types.h": "d39bd492bb6599b1ba8c308f8f3d901e19b190d2db65fff2e7b833a3511bc5b7"
+  },
+  "engine_build_receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-artifact-repair/build-receipt.json",
+  "engine_build_receipt_sha256": "28661adc1967ef397fb79f8b1041b2bc8b0be4fb3226caf614e26d0ab72804be",
+  "viewer_parent_receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/receipt.json",
+  "viewer_parent_receipt_sha256": "9b8e2f4e05257ba1b3b39bdb0f3f9694a9192cac085ccec3e35cf7ad8a620c05",
+  "cells": {
+    "ordinary-gpu": {
+      "build": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake",
+      "receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/receipt.json",
+      "receipt_sha256": "09e4a2157a2ec24ce28802a847151c221ae8ff3f6eb76430c0c4dc54252cf590",
+      "library": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-fix/ordinary-frozen.a",
+      "library_sha256": "aba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6"
+    },
+    "ordinary-both": {
+      "build": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake",
+      "receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/receipt.json",
+      "receipt_sha256": "3666a044433a97f03eaaca6d49b5a03e58ee191a43f102146a759b56656e6e1d",
+      "library": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-fix/ordinary-frozen.a",
+      "library_sha256": "aba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6"
+    },
+    "native-gpu": {
+      "build": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake",
+      "receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/receipt.json",
+      "receipt_sha256": "fd2ac3809d3fe6989131d84d7dc824964029680f60065d29b0e0dd8499e3719f",
+      "library": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-artifact-repair/native-frozen.a",
+      "library_sha256": "c8a16154cb576c49e7bd7fd8e030319601192b466d9ddb19305bd043aa6a7267"
+    },
+    "native-both": {
+      "build": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake",
+      "receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/receipt.json",
+      "receipt_sha256": "2b9e63201558881ce367da09526eb3c496e0b6d9fb1266dfad6d077e98100f8b",
+      "library": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-artifact-repair/native-frozen.a",
+      "library_sha256": "c8a16154cb576c49e7bd7fd8e030319601192b466d9ddb19305bd043aa6a7267"
+    }
+  },
+  "tests": {
+    "ordinary": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-artifact-repair/ordinary-test-executable",
+      "sha256": "597b893bcbbb401866721e1b1b45cb03c58263ae8bee76cbe8af00cdfaef23b9"
+    },
+    "native": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-artifact-repair/native-test-executable",
+      "sha256": "34ede43142323516f585d4d236755b8ef46dc6d9e61b6ba51354f379c85aa4a3"
+    }
+  },
+  "regressions": [
+    "api::query::tests::ccd_targets_separation_instead_of_outer_tolerance_shell",
+    "api::query::tests::convex_overlap_and_cast",
+    "api::query::tests::direct_compound_ray_rejects_stale_parent",
+    "api::query::tests::exhausted_toi_keeps_the_last_safe_advance",
+    "api::query::tests::gpu_convex_sweeps_match_cpu_conservative_advancement",
+    "api::query::tests::mesh_ccd_glancing_rotation_uses_centroid_plane_filter_except_for_sensors",
+    "api::query::tests::mesh_ccd_initial_tip_contact_still_stops_centroid_crossing",
+    "api::query::tests::mesh_ccd_keeps_positive_toi_with_degenerate_witness_normal",
+    "api::query::tests::mesh_ccd_rotating_capsule_matches_native_root_tolerance",
+    "api::query::tests::mover_deep_overlap_primitives_and_hull",
+    "api::query::tests::native_toi_mesh_preserves_clipped_interval_and_traversal_order",
+    "api::query::tests::native_toi_sweeps_match_impact_captures",
+    "api::query::tests::near_shell_parallel_ccd_sweep_is_not_truncated",
+    "api::query::tests::plane_solver_and_clipping_match_box3d",
+    "api::query::tests::query_filter_ignores_groups",
+    "api::query::tests::ray_snapshot_prunes_and_retains_owned_compound_candidates",
+    "api::query::tests::spatial_snapshot_preserves_hits_and_child_order_after_refit",
+    "api::query::tests::sphere_ray_hit_miss_and_initial_overlap",
+    "api::world::ccd_pose_precision_tests::ccd_origin_interpolation_matches_native_captures",
+    "api::world::ccd_pose_precision_tests::ccd_pose_interpolation_matches_native_captures",
+    "api::world::ccd_pose_precision_tests::retained_ccd_origin_survives_mass_changes_and_is_replaced_by_teleport",
+    "api::world::ccd_pose_precision_tests::transform_setter_preserves_rain_origin_with_offset_mass_center",
+    "api::world::contact_api::determinism_tests::unread_root_handle_retires_after_mesh_scratch_reuse",
+    "api::world::convex_ccd_integration_tests::ccd_landing_refreshes_empty_contact_inside_speculative_shell",
+    "api::world::mesh_instance_tests::raw_mesh_instances_share_gpu_ranges_and_preserve_affine_support",
+    "api::world::mesh_shared_snapshot_tests::mesh_snapshots_share_storage_and_survive_replacement_and_destruction",
+    "api::world::speculative_policy_tests::speculative_mesh_controls_capture_complete_step_state",
+    "api::world::speculative_policy_tests::speculative_world_policy_survives_zero_steps_diagnostics_and_lifetimes",
+    "api::world::state_trace::host_state_trace::tests::trace_captures_host_configuration_query_cache_and_ccd_history",
+    "api::world::state_trace::tests::trace_captures_timing_window_replay_policy",
+    "api::world::state_trace::tests::trace_validates_uploaded_mesh_tree_relationships",
+    "gpu_invariants::box_mesh_support_inside_face_without_corner_hits",
+    "gpu_invariants::capsule_mesh_contact_uses_capsule_local_frame",
+    "gpu_invariants::capsule_mesh_friction_uses_cpu_scalar_order",
+    "gpu_invariants::capsule_mesh_keeps_face_admitted_by_closest_distance",
+    "gpu_invariants::capsule_mesh_preserves_distinct_seam_witnesses",
+    "gpu_invariants::capsule_mesh_reduces_complete_cluster",
+    "gpu_invariants::capsule_mesh_solves_face_patch_before_tentative_edge",
+    "gpu_invariants::collision_pipeline_tracks_mesh_add_remove",
+    "gpu_invariants::fast_mesh_refresh_preserves_slow_and_nonmesh_recycling",
+    "gpu_invariants::flat_mesh_does_not_create_pairs_above_native_fat_bounds",
+    "gpu_invariants::gpu_closest_ray_mesh_height_and_oracle_primitives",
+    "gpu_invariants::kinematic_mesh_supports_dynamic_box",
+    "gpu_invariants::later_mesh_bvh_offsets_are_nodes_not_packed_vectors",
+    "gpu_invariants::locked_hull_rests_on_triangle_mesh",
+    "gpu_invariants::mesh_contacts_use_all_hull_vertices_not_first_eight",
+    "gpu_invariants::mesh_drop_thin_box_contact_at_captured_pose",
+    "gpu_invariants::mesh_face_retains_separated_points_for_rotating_impact",
+    "gpu_invariants::mesh_ground_does_not_skip_general_static_sort",
+    "gpu_invariants::mesh_hull_backside_uses_cpu_linear_slop",
+    "gpu_invariants::pre_solve_veto_disables_all_mesh_patches_and_can_reenable_at_rest",
+    "gpu_invariants::rejected_mesh_wall_cannot_replace_floor_manifold_normal",
+    "gpu_invariants::tentative_mesh_edge_cannot_hide_confirmed_floor",
+    "native_precision::tests::native_mesh_base_separation_matches_cpu",
+    "native_precision::tests::native_mesh_inertia_matches_cpu",
+    "native_precision::tests::native_mesh_rolling_matches_cpu",
+    "sim::manifold_chain_tests::gear_mesh_reduction_keeps_both_native_penetrating_witnesses",
+    "sim::manifold_chain_tests::generated_mesh_list_publishes_root_and_children",
+    "sim::manifold_chain_tests::manifold_pool_is_available_for_mesh_patch_growth_without_new_pairs",
+    "sim::manifold_chain_tests::mesh_clipping_preserves_incoming_and_outgoing_feature_edges",
+    "sim::manifold_chain_tests::mesh_point_history_requires_full_triangle_and_feature_identity",
+    "sim::manifold_chain_tests::mesh_point_reduction_carries_triangle_and_feature_with_retained_witness",
+    "sim::manifold_chain_tests::root_free_scan_preserves_lowest_slots_and_mesh_pool"
+  ],
+  "watchdog_seconds_per_process": 1200,
+  "known_failed_or_incomplete_evidence_retained": [
+    "Original s&box5mm all-window screen fails in both engines; independent integration/source analysis explains first discrete landing, no raised physical bound",
+    "Archived baseline180s startup attribution incomplete; no qualification credit",
+    "All prior controls/UI/source/harness failures retained; closed budgets never rerun"
+  ],
+  "required_current_C_fixtures": [
+    "speculative_fixture",
+    "speculative_ccd_guard_fixture"
+  ],
+  "limitations": [
+    "No performance/default-scheduling policy change",
+    "No final Rain/ragdoll/dragging/release/runtime or full future-state PR07 acceptance",
+    "Current world/child registry lifetime evidence linked separately in repaired API reports",
+    "Snapshot/scene review52clips completed before source milestoneabc0a54"
+  ]
+}
