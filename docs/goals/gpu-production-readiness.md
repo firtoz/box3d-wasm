@@ -336,7 +336,7 @@ Their old next actions and job handles do not authorize a new campaign.
 | --- | --- |
 | Workspace / branch | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu` |
 | Authorization | Active full roadmap; implementation and verified milestone commit/push authorized by the submitted goal |
-| Latest evidence milestone | `cfe81bb6f0cd03bef6db8393d005ad9c545119bf` pushed; complete CPU Rain44rawfile report and ordinaryGPU timeout portable. Rustbaseline d4b073b100rawfiles/195pass4fail; no production solver change |
+| Latest evidence milestone | `77b75e0e6cf0361798ba02c1483ed1ba2c1a66f6` pushed. Current drag/order/native-timeout and generation-safe sleeper reports retain73indexed rawfiles; four focused wake checks pass, original physical failures/timeouts retained. Earlier evidence d4b073b/cfe81bb is pushed. No production solver/default/scene change |
 | Retained production source | `abc0a54a3ce3b285c9984f2c7c6b5baefff00d1b`, pushed. PR01 refresh `c2fd69f`, PR02 acceptance `1304839`, PR03 metadata `5a40f05` are pushed. Invocation revisions are context, not compiled source identity |
 | Current item | **PR03 remains open.** Baselines and failures are preserved. The generation-safe sleeper passes all four backend/order checks; both order1 storage controls pass. Loaded dragging, distance and strict trajectory screens still fail. Both GPU Rain attempts are incomplete. Full matrix/configuration and future-state capture requirements remain open |
 | Current jobs | All owned jobs are terminal; no live GPU, build or capture process. Rust baseline8018 exited0; Rain drivers70354/82980 exited1 at their 900-second watchdogs. Sleeper driver99621 exited1 after two successful builds, before any test launch; permission repair79134 exited0 with four passes. Never restart these closed drivers |
@@ -388,13 +388,10 @@ not repeat completed cells or extend these closed budgets.
 
 ### Next discriminating work
 
-1. Complete the current evidence/fixture milestone commit and push. The new
-   drag/order/native-timeout and sleeper reports pass offline validation. Only
-   the test module `src/gpu_invariants.rs` changed: it now uses public valid IDs
-   after explicit world reuse and checks stale setters. All original 400 settling
-   steps, one wake step and physics assertions remain. All four backend/order
-   checks pass; original baseline failures remain recorded. Prior production
-   controls/API and scene evidence remain applicable to unchanged production code.
+1. Diagnose incomplete GPU Rain capture as described below, then finish PR03's
+   configuration/matrix/capture contract. Current milestone77b75e0 is committed
+   and pushed; all owned jobs are terminal. Do not rerun closed test/capture
+   drivers. The corrected sleeper and seven-cell reports validate offline.
 2. Diagnose incomplete GPU Rain capture before another engine trial. Both
    original 600-step GPU attempts reached the 900-second watchdog without a
    health record; CPU completed all600 steps. Existing hooks store physics,
