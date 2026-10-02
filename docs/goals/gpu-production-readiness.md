@@ -347,7 +347,7 @@ Their former next actions/job handles do not authorize another campaign.
 | --- | --- |
 | Workspace / branch | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu` |
 | Authorization | Active full roadmap; verified milestone commit/push authorized by the submitted goal |
-| Latest published milestone | `c1fb15faaaec3c827c4381c6694e9041bbebd076` distance-clamp repair and viewer/capture retention evidence committed and pushed; verified origin 0/0 and clean tree. All 28 viewer/207 capture indexed raw files matched staged hashes, and 15 grid clips match portable bytes. No final release claim |
+| Latest published milestone | `437fd1c522eb3213caf2cb978c65f6ebef28bb93` focused distance regression and current loaded-drag impact evidence committed/pushed; verified origin 0/0 and clean tree. All 22 focused-test/10 impact indexed raw files matched staged bytes. Earlier retained solver repair `c1fb15f` and its CPU-first recordings remain pushed. No final release claim |
 | Retained production source | `c1fb15faaaec3c827c4381c6694e9041bbebd076` rigid-distance repair, shader SHA `22fe506b97b97c24f724a09b2dad2efcd52db6b71b95d892bc3bc31c4726ea31`. Production sources unchanged. Only cfg(test) `src/gpu_invariants.rs` now adds the focused CPU-reference regression; explicit 107-input applicability against prior producer is in its report. HEAD is context only |
 | Current item | **PR04**: distance repair and focused one-step regression pass; 4 candidate physical comparisons/242 applicable regressions/15 CPU-first clips retained. Strict ragdoll, loaded dragging and Rain remain unresolved. New current-trace impact window supports CCD involvement, with exact pre/post classification/correction still unobserved. No acceptance limit changed |
 | Current jobs | Focused one-substep regression driver **27540 terminal exit 0**: protocol SHA `ffdf136068a06c89eb4500b4f169d4a070d3d802c651a4231b79ad4449126821`, all 2 test builds/4 fresh single-selector processes pass once; zero new solver candidates/separate library builds/retries/timing. No live job. All older campaigns closed. Offline 2-trace first-impact diagnosis complete; no new engine process |
@@ -417,10 +417,10 @@ bounded applicability. Include this selector alongside the original PR03 matrix
 at PR07. The host preparation path failure remains archived, zero engine/build
 consumption. All portable raw hashes validate.
 
-1. Commit/push the focused regression and current-trace CCD diagnosis after
-   verifying indexed staged bytes. Keep PR04 unchecked; no production shader,
-   API, viewer, scene or physics-default change follows from this turn.
-2. Use the [current loaded-drag first-impact diagnosis](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-drag-first-impact-2026-10-02/README.md)
+The focused regression and current-trace diagnosis are pushed as `437fd1c`.
+PR04 stays unchecked; production shader/API/viewer/scene/defaults are unchanged.
+
+1. Use the [current loaded-drag first-impact diagnosis](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-drag-first-impact-2026-10-02/README.md)
    to prepare a finite read-only boundary experiment at the earliest faithful
    impact, frame 227/body 0 (zero based). At frame 227 both archived backends
    have +5 mm lowest corner versus CPU -10.832 mm and ~17.165 mm position
@@ -435,7 +435,7 @@ consumption. All portable raw hashes validate.
    the original trace prefix. No result here authorizes a blanket cutoff rollback
    or disabling CCD: those earlier controls remain rejected/inadequate; preserve
    empty-manifold recycling, settling/restitution and all original drag limits.
-3. Resolve remaining strict ragdoll and Rain failures with smallest faithful
+2. Resolve remaining strict ragdoll and Rain failures with smallest faithful
    reproducers and distinct evidence-supported finite budgets. Read historical
    criteria/rejected experiments first. For Rain separate actual GPU wait from
    mirror/deferred host CCD/collector costs; no closed 30/30/180 cell or old
