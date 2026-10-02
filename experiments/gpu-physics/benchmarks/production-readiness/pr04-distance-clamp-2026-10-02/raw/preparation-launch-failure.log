@@ -1,0 +1,1 @@
+Original host-only preparation call exited 2 before loading prepare.py: path was created under experiments/gpu-physics/experiments/gpu-physics rather than the engine artifacts directory. No build, device, candidate or physics process ran. Moved the same prepared script to the intended artifact directory; no source edit was applied.

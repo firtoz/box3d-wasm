@@ -1,0 +1,19 @@
+{
+  "scope": "host float32 reconstruction of recorded first biased-pass displacement; not GPU/full physical acceptance",
+  "cases": [
+    {
+      "hertz": 60.0,
+      "h": 0.01666666753590107,
+      "bias_mass_scale": 0.984758734703064,
+      "impulse_scale": 0.015241308137774467,
+      "predicted_initial_y": -1.0000423192977905
+    },
+    {
+      "hertz": 15.0,
+      "h": 0.01666666753590107,
+      "bias_mass_scale": 0.897442102432251,
+      "impulse_scale": 0.10255793482065201,
+      "predicted_initial_y": -1.0002849102020264
+    }
+  ]
+}

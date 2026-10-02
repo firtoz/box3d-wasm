@@ -1,0 +1,46 @@
+{
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr03-contract-reconciliation-2026-10-02/qualification-contract.json": {
+    "portable": "raw/provenance/00-qualification-contract.json",
+    "sha256": "023fe1477320fd5e12b09c71cac95789203c725fda7d0d94ea54ad2311e9580c"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-distance-baseline/protocol.json": {
+    "portable": "raw/provenance/01-protocol.json",
+    "sha256": "37a6d7907f92a2e3f8ad19cd49183fa4e1aea2393a2816e27725be75911e57d7"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-distance-baseline/receipt.json": {
+    "portable": "raw/provenance/02-receipt.json",
+    "sha256": "9d1fa49e2a512afb6c0accce23bca48f0373095157e7e8726815f937de3478b9"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-baseline-cpu-link-repair/receipt.json": {
+    "portable": "raw/provenance/03-receipt.json",
+    "sha256": "86b2eef258e2ef01527e8ecb21db7ed9db760dc7659adb2b786e9f7af028e828"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/build-native-cache.sh": {
+    "portable": "raw/provenance/04-build-native-cache.sh",
+    "sha256": "1f1d7087cbeb7215f6518b6c5b0787154947557d1a4f5ef25545b06c0035a09b"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/prepare-native-backend.py": {
+    "portable": "raw/provenance/05-prepare-native-backend.py",
+    "sha256": "a09f47da922fd358312773dcceef3a489cc4fef6da55e7049ea791c133782788"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/box3d/src/joint.c": {
+    "portable": "raw/provenance/06-joint.c",
+    "sha256": "f96af87e44f60dd3fd65e91225f7b2a92d4e8be8d09b7aefccf4ec14dda12439"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/box3d/src/distance_joint.c": {
+    "portable": "raw/provenance/07-distance_joint.c",
+    "sha256": "416cb32cd3b84d924ccd2c8cecb5b569424f705b4c5f979575cd9f4f2318f3f9"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/box3d/src/solver.h": {
+    "portable": "raw/provenance/08-solver.h",
+    "sha256": "51cb80d7b55060f9e6c74da5760d91ed99c81050126a6a6318371e2457325bee"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr04-distance-clamp/algebra.json": {
+    "portable": "raw/provenance/09-algebra.json",
+    "sha256": "4b916b8d5e462285e5678a1c7da95f0526fe3adedad1e5463c1b284f81355de6"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-baseline-cpu-link-repair/protocol-before-builds.json": {
+    "portable": "raw/provenance/fixture-input-protocol.json",
+    "sha256": "0b745a9f2eb856641bd42cbeba0f2142b0af0bc225697e0870a0fb0ff5390359"
+  }
+}

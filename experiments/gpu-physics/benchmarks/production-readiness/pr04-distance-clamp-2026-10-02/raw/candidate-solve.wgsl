@@ -1,0 +1,2867 @@
+// TGS contact GS, friction/rolling, overflow, joints.
+
+// Native convex contacts prepare an inverse, pack its lower triangle, then
+// multiply with the SIMD solver's right-associated symmetric expression.
+fn convex_rolling_mass_mul(ia: mat3x3<f32>, ib: mat3x3<f32>, v: vec3<f32>) -> vec3<f32> {
+    let sum = ia + ib;
+    let det = gyro_dot3(sum[0], gyro_cross(sum[1], sum[2]));
+    if (abs(det) <= 1.17549435e-35) { return vec3<f32>(0.0); }
+    let inv = gyro_recip(det);
+    let m = transpose(mat3x3<f32>(
+        inv * gyro_cross(sum[1], sum[2]),
+        inv * gyro_cross(sum[2], sum[0]),
+        inv * gyro_cross(sum[0], sum[1]),
+    ));
+    return vec3<f32>(
+        m[0].x*v.x + (m[0].y*v.y + m[0].z*v.z),
+        m[0].y*v.x + (m[1].y*v.y + m[1].z*v.z),
+        m[0].z*v.x + (m[1].z*v.y + m[2].z*v.z),
+    );
+}
+
+fn convex_rolling_clamp(v: vec3<f32>, maximum: f32) -> vec3<f32> {
+    let squared = gyro_dot3(v, v);
+    if (squared > maximum * maximum + 1.1920929e-7) {
+        return v * gyro_divide(maximum, gyro_sqrt(squared) + 1.1920929e-7);
+    }
+    return v;
+}
+
+fn mesh_rolling_mass_mul(ia: mat3x3<f32>, ib: mat3x3<f32>, v: vec3<f32>) -> vec3<f32> {
+    // Scalar mesh/overflow preparation stores the full inverse before solving.
+    let sum = ia + ib;
+    let det = gyro_dot3(sum[0], gyro_cross(sum[1], sum[2]));
+    if (abs(det) <= 1.17549435e-35) { return vec3<f32>(0.0); }
+    let inv = gyro_recip(det);
+    let m = transpose(mat3x3<f32>(
+        inv * gyro_cross(sum[1], sum[2]),
+        inv * gyro_cross(sum[2], sum[0]),
+        inv * gyro_cross(sum[0], sum[1]),
+    ));
+    return native_mul_mv(m, v);
+}
+
+fn mesh_rolling_clamp(v: vec3<f32>, maximum: f32) -> vec3<f32> {
+    let squared = gyro_dot3(v, v);
+    if (squared > maximum * maximum + 1.1920929e-7) {
+        // Unlike SIMD convex contacts, scalar mesh contacts add no denominator epsilon.
+        return v * gyro_divide(maximum, gyro_sqrt(squared));
+    }
+    return v;
+}
+
+fn rolling_mass_mul(ba: Body, bb: Body, v: vec3<f32>, convex_friction: bool) -> vec3<f32> {
+    if (convex_friction) {
+        return convex_rolling_mass_mul(world_inv_inertia_matrix(ba), world_inv_inertia_matrix(bb), v);
+    }
+    return mesh_rolling_mass_mul(world_inv_inertia_matrix(ba), world_inv_inertia_matrix(bb), v);
+}
+
+fn motor_linear_mass_mul(ba: Body, bb: Body, rA: vec3<f32>, rB: vec3<f32>, v: vec3<f32>) -> vec3<f32> {
+    let m = body_inv_mass(ba) + body_inv_mass(bb);
+    let e0 = vec3<f32>(1.0, 0.0, 0.0);
+    let e1 = vec3<f32>(0.0, 1.0, 0.0);
+    let e2 = vec3<f32>(0.0, 0.0, 1.0);
+    var c0 = -(gyro_cross(rA, world_inv_inertia(ba, gyro_cross(rA, e0)))
+        + gyro_cross(rB, world_inv_inertia(bb, gyro_cross(rB, e0))));
+    var c1 = -(gyro_cross(rA, world_inv_inertia(ba, gyro_cross(rA, e1)))
+        + gyro_cross(rB, world_inv_inertia(bb, gyro_cross(rB, e1))));
+    var c2 = -(gyro_cross(rA, world_inv_inertia(ba, gyro_cross(rA, e2)))
+        + gyro_cross(rB, world_inv_inertia(bb, gyro_cross(rB, e2))));
+    c0.x = c0.x + m; c1.y = c1.y + m; c2.z = c2.z + m;
+    return solve3(c0, c1, c2, v);
+}
+
+fn motor_angular_mass_mul(ba: Body, bb: Body, v: vec3<f32>) -> vec3<f32> {
+    let c0 = world_inv_inertia(ba,vec3<f32>(1.0,0.0,0.0))+world_inv_inertia(bb,vec3<f32>(1.0,0.0,0.0));
+    let c1 = world_inv_inertia(ba,vec3<f32>(0.0,1.0,0.0))+world_inv_inertia(bb,vec3<f32>(0.0,1.0,0.0));
+    let c2 = world_inv_inertia(ba,vec3<f32>(0.0,0.0,1.0))+world_inv_inertia(bb,vec3<f32>(0.0,0.0,1.0));
+    let det = gyro_dot3(c0,gyro_cross(c1,c2));
+    if (abs(det)<=1.17549435e-35) { return vec3<f32>(0.0); }
+    let inv = gyro_recip(det);
+    let m = transpose(mat3x3<f32>(inv*gyro_cross(c1,c2),inv*gyro_cross(c2,c0),inv*gyro_cross(c0,c1)));
+    return native_mul_mv(m,v);
+}
+
+// Native motor constraints normalize first, then multiply by the limit.
+fn motor_clamp_vector_length(v: vec3<f32>, max_length: f32) -> vec3<f32> {
+    let squared = gyro_dot3(v,v);
+    if (squared > max_length * max_length) {
+        if (squared <= 1.17549435e-35) { return vec3<f32>(0.0); }
+        let length = gyro_sqrt(squared);
+        let normalized = gyro_recip(length) * v;
+        return max_length * normalized;
+    }
+    return v;
+}
+
+// Spherical motors compare the rounded length, then scale by max / length.
+fn spherical_clamp_vector_length(v: vec3<f32>, max_length: f32) -> vec3<f32> {
+    let length = gyro_sqrt(gyro_dot3(v, v));
+    let limited = length > max_length;
+    // Keep the division outside a nested branch in the full joint shader.
+    let scale = gyro_divide(max_length, select(1.0, length, limited));
+    return select(v, scale * v, limited);
+}
+
+fn clamp_vector_length(v: vec3<f32>, max_length: f32) -> vec3<f32> {
+    let length_squared = dot(v, v);
+    if (length_squared > max_length * max_length) {
+        return v * (max_length / sqrt(length_squared));
+    }
+    return v;
+}
+
+// Stored joint anchors are body-origin. Live lever arms subtract COM.
+fn joint_anchor_com(body_index: u32, origin_anchor: vec3<f32>) -> vec3<f32> {
+    return origin_anchor - load_body_cold(body_index).local_center;
+}
+
+fn joint_lever(body_index: u32, q: vec4<f32>, origin_anchor: vec3<f32>) -> vec3<f32> {
+    return quat_rotate(q, joint_anchor_com(body_index, origin_anchor));
+}
+
+fn joint_softness(hertz: f32, damping: f32) -> vec3<f32> {
+    let h = params.dt;
+    let clamped_hertz = min(max(hertz, 0.0), gyro_divide(0.25, max(h, 1e-8)));
+    let omega = 6.28318530718 * clamped_hertz;
+    let a1 = 2.0 * max(damping, 0.0) + h * omega;
+    let a2 = h * omega * a1;
+    let a3 = gyro_recip(1.0 + a2);
+    return vec3<f32>(
+        select(0.0, gyro_divide(omega, a1), a1 > 0.0),
+        a2 * a3,
+        a3,
+    );
+}
+
+fn spring_softness(hertz: f32, damping: f32) -> vec3<f32> {
+    let h = params.dt;
+    let omega = 6.28318530718 * max(hertz, 0.0);
+    let a1 = 2.0 * max(damping, 0.0) + h * omega;
+    let a2 = h * omega * a1;
+    let a3 = gyro_recip(1.0 + a2);
+    return vec3<f32>(
+        select(0.0, gyro_divide(omega, a1), a1 > 0.0),
+        a2 * a3,
+        a3,
+    );
+}
+
+fn twist_angle(q: vec4<f32>) -> f32 {
+    if (q.w < 0.0) {
+        return 2.0 * gyro_atan2(-q.z, -q.w);
+    }
+    return 2.0 * gyro_atan2(q.z, q.w);
+}
+
+fn swing_angle(q: vec4<f32>) -> f32 {
+    // b3GetSwingAngle uses scalar sqrtf; vector length may round differently.
+    let x = gyro_sqrt(q.z * q.z + q.w * q.w);
+    let y = gyro_sqrt(q.x * q.x + q.y * q.y);
+    return 2.0 * gyro_atan2(y, x);
+}
+
+fn spherical_cone_velocity(wa: vec3<f32>, wb: vec3<f32>, axis: vec3<f32>) -> f32 {
+    return gyro_dot3(wa - wb, axis);
+}
+
+fn normalize_or_zero(v: vec3<f32>) -> vec3<f32> {
+    let length_squared = dot(v, v);
+    return select(vec3<f32>(0.0), v * inverseSqrt(length_squared), length_squared > 0.0);
+}
+
+fn delta_quat_to_rotation(q: vec4<f32>, desired: vec4<f32>) -> vec3<f32> {
+    let s = select(q, -q, dot(q, desired) < 0.0);
+    let diff = desired - s;
+    return 2.0 * quat_mul(diff, quat_inv(s)).xyz;
+}
+
+// Preserve b3Dot's scalar accumulation order for the hinge alignment RHS.
+fn revolute_alignment_velocity(wrel: vec3<f32>, axis_x: vec3<f32>, axis_y: vec3<f32>) -> vec2<f32> {
+    return vec2<f32>(gyro_dot3(wrel, axis_x), gyro_dot3(wrel, axis_y));
+}
+
+fn revolute_axes(frame_a: vec4<f32>, rel: vec4<f32>) -> mat2x3<f32> {
+    let axis_x = 0.5 * quat_rotate(
+        frame_a,
+        rel.w * vec3<f32>(1.0, 0.0, 0.0)
+            + cross(rel.xyz, vec3<f32>(1.0, 0.0, 0.0)),
+    );
+    let axis_y = 0.5 * quat_rotate(
+        frame_a,
+        rel.w * vec3<f32>(0.0, 1.0, 0.0)
+            + cross(rel.xyz, vec3<f32>(0.0, 1.0, 0.0)),
+    );
+    // WGSL matrices store columns. Keep each Jacobian axis in one column.
+    return mat2x3<f32>(axis_x, axis_y);
+}
+
+fn revolute_axis_x(axes: mat2x3<f32>) -> vec3<f32> {
+    return axes[0];
+}
+
+fn revolute_axis_y(axes: mat2x3<f32>) -> vec3<f32> {
+    return axes[1];
+}
+
+fn perp(n: vec3<f32>) -> vec3<f32> {
+    // Box3D `b3Perp`: branch on |x| > 0.5 (not 1/sqrt(3)).
+    if (n.x < -0.5 || n.x > 0.5) {
+        return gyro_norm3(vec3<f32>(n.y, -n.x, 0.0));
+    }
+    return gyro_norm3(vec3<f32>(0.0, n.z, -n.y));
+}
+
+fn normal_mass(a: Body, b: Body, rA: vec3<f32>, rB: vec3<f32>, n: vec3<f32>) -> f32 {
+    let rnA = gyro_cross(rA, n);
+    let rnB = gyro_cross(rB, n);
+    let k = body_inv_mass(a) + body_inv_mass(b) + gyro_dot3(rnA, world_inv_inertia(a, rnA)) + gyro_dot3(rnB, world_inv_inertia(b, rnB));
+    if (k > 0.0) {
+        return gyro_recip(k);
+    }
+    return 0.0;
+}
+
+fn current_sep(a: Body, b: Body, rA: vec3<f32>, rB: vec3<f32>, n: vec3<f32>, base: f32) -> f32 {
+    let rsA = quat_rotate(a.dq, rA);
+    let rsB = quat_rotate(b.dq, rB);
+    let ds = (b.dp - a.dp) + (rsB - rsA);
+    return base + gyro_dot3(n, ds);
+}
+
+// Validate the complete ownership chain before any impulse is applied. This
+// also makes malformed/cyclic lists fail closed instead of double-solving.
+fn contact_chain_valid(root: u32) -> bool {
+    // The common single-manifold case needs no ownership traversal. Preserve
+    // the structural/content failure categories and every general-path check.
+    if (root >= params.contact_capacity) {
+        record_contact_drop(0u); return false;
+    }
+    let head = contacts[root];
+    if (head.manifold_link.z <= 1u) {
+        if (head.manifold_link.y != 0u || head.manifold_link.x != 0u) {
+            record_contact_drop(1u); return false;
+        }
+        let valid = head.a < params.body_count && head.b < params.body_count
+            && head.a != head.b && head.count > 0u && head.count <= 4u;
+        if (!valid) { record_contact_drop(5u); }
+        return valid;
+    }
+    if (!contact_chain_structure_valid(root)) { return false; }
+    let first = contacts[root];
+    var valid = first.a < params.body_count && first.b < params.body_count && first.a != first.b;
+    var slot = root;
+    for (var i = 0u; i < max(first.manifold_link.z, 1u); i++) {
+        let c = contacts[slot];
+        valid = valid && c.count > 0u && c.count <= 4u;
+        if (c.manifold_link.x != 0u) { slot = c.manifold_link.x - 1u; }
+    }
+    if (!valid) { record_contact_drop(5u); }
+    return valid;
+}
+
+fn prepare_contact_slot(k: u32) {
+    var c = load_solve_contact(k);
+    if (c.a == EMPTY || c.count == 0u) {
+        return;
+    }
+    let a = load_body(c.a);
+    let b = load_body(c.b);
+    if (params.disable_warm_starting != 0u && !(is_immovable(a) && is_immovable(b))) {
+        c.rb0.w = 0.0; c.rb1.w = 0.0; c.rb2.w = 0.0; c.rb3.w = 0.0;
+        c.friction_impulse = vec2<f32>(0.0);
+        c.twist_impulse = 0.0;
+        c.rolling_impulse = vec3<f32>(0.0);
+    }
+    c.prepared_normal_mass = vec4<f32>(0.0);
+    c.prepared_lever_arm = vec4<f32>(0.0);
+    c.total_normal_impulse = vec4<f32>(0.0);
+    var relative_velocity = vec4<f32>(0.0);
+    // Collision detection computes centers from manifold separation before
+    // packing solver base separation. Reconstructing it here loses precision.
+    for (var i = 0u; i < c.count; i++) {
+        let rA = ra_at(c, i).xyz;
+        let rB = rb_at(c, i).xyz;
+        c.prepared_normal_mass[i] = normal_mass(a, b, rA, rB, c.n);
+        relative_velocity[i] = gyro_dot3((b.vel + gyro_cross(b.omega, rB)) - (a.vel + gyro_cross(a.omega, rA)), c.n);
+    }
+    for (var i = 0u; i < c.count; i++) {
+        let lever = ra_at(c, i).xyz - c.center_a;
+        c.prepared_lever_arm[i] = gyro_sqrt(gyro_dot3(lever, lever));
+    }
+    c._tail0 = vec4<u32>(
+        bitcast<u32>(relative_velocity.x),
+        bitcast<u32>(relative_velocity.y),
+        bitcast<u32>(relative_velocity.z),
+        bitcast<u32>(relative_velocity.w),
+    );
+    let t1 = perp(c.n);
+    let t2 = gyro_cross(t1, c.n);
+    let rt1a = gyro_cross(c.center_a, t1);
+    let rt1b = gyro_cross(c.center_b, t1);
+    let rt2a = gyro_cross(c.center_a, t2);
+    let rt2b = gyro_cross(c.center_b, t2);
+    let msum = body_inv_mass(a) + body_inv_mass(b);
+    let k11 = msum + gyro_dot3(rt1a, world_inv_inertia(a, rt1a)) + gyro_dot3(rt1b, world_inv_inertia(b, rt1b));
+    let k22 = msum + gyro_dot3(rt2a, world_inv_inertia(a, rt2a)) + gyro_dot3(rt2b, world_inv_inertia(b, rt2b));
+    let k12 = gyro_dot3(rt1a, world_inv_inertia(a, rt2a)) + gyro_dot3(rt1b, world_inv_inertia(b, rt2b));
+    let det = k11 * k22 - k12 * k12;
+    if (abs(det) > 1e-8) {
+        let inv_det = gyro_recip(det);
+        c.prepared_tangent_inv = vec4<f32>(k22 * inv_det, -k12 * inv_det, -k12 * inv_det, k11 * inv_det);
+    } else {
+        c.prepared_tangent_inv = vec4<f32>(
+            select(0.0, 1.0 / k11, k11 > 1e-8),
+            0.0,
+            0.0,
+            select(0.0, 1.0 / k22, k22 > 1e-8),
+        );
+    }
+    let soft = contact_softness(is_non_dynamic(a) || is_non_dynamic(b));
+    let shape_pair = contact_persistent[k].pair.xy;
+    c.prepared_softness = vec4<f32>(
+        soft.x,
+        soft.y,
+        soft.z,
+        // Cache the solver family: the hot solve load omits persistent shape IDs.
+        select(0.0, 1.0, load_shape(shape_pair.x).kind != KIND_MESH
+            && load_shape(shape_pair.y).kind != KIND_MESH),
+    );
+    if ((params.diagnostic_flags & DIAG_MESH_CANDIDATES) != 0u) {
+        trace_solver_values(20u,c.a,c.b,c.prepared_normal_mass,
+            vec4<f32>(soft,c.friction),vec4<f32>(c.center_b,c.rolling));
+        trace_solver_values(21u,c.a,c.b,
+            vec4<f32>(world_inv_inertia(b,vec3<f32>(1.0,0.0,0.0)),0.0),
+            vec4<f32>(world_inv_inertia(b,vec3<f32>(0.0,1.0,0.0)),0.0),
+            vec4<f32>(world_inv_inertia(b,vec3<f32>(0.0,0.0,1.0)),0.0));
+    }
+    store_solve_contact(k, c);
+}
+
+@compute @workgroup_size(64)
+fn prepare_contacts(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
+    let i = gid.x;
+    if (i >= min(scratch[SCR_NCONTACTS], pair_cap())) { return; }
+    let root = scratch[scr_active_contact() + i];
+    if (root >= params.contact_capacity || contacts[root].a == EMPTY || contacts[root].count == 0u) { return; }
+    if (!contact_chain_valid(root)) { return; }
+    let count = max(contacts[root].manifold_link.z, 1u);
+    var slot = root;
+    for (var j = 0u; j < count; j++) {
+        prepare_contact_slot(slot);
+        if (j + 1u < count) { slot = contacts[slot].manifold_link.x - 1u; }
+    }
+}
+
+fn solve_manifold(c: ptr<function, Contact>, ba: ptr<function, Body>, bb: ptr<function, Body>, do_friction: bool) {
+    solve_manifold_bias(c, ba, bb, do_friction, params.use_bias);
+}
+
+fn solve_rolling_friction(
+    c: ptr<function, Contact>, ba: ptr<function, Body>, bb: ptr<function, Body>,
+    total_jn: f32, convex_friction: bool,
+) {
+    if ((*c).rolling > 0.0) {
+        // Box3D: deltaImpulse = -inv(iA+iB) * (wB - wA), clamp to rolling * Σjn.
+        let dw = (*ba).omega - (*bb).omega;
+        var jr = (*c).rolling_impulse + rolling_mass_mul(*ba, *bb, dw, convex_friction);
+        let max_r = (*c).rolling * total_jn;
+        if (convex_friction) {
+            jr = convex_rolling_clamp(jr, max_r);
+        } else {
+            jr = mesh_rolling_clamp(jr, max_r);
+        }
+        let djr = jr - (*c).rolling_impulse;
+        (*c).rolling_impulse = jr;
+        if (!is_immovable(*ba)) {
+            (*ba).omega = (*ba).omega - contact_inv_inertia(*ba, djr, convex_friction);
+        }
+        if (!is_immovable(*bb)) {
+            (*bb).omega = (*bb).omega + contact_inv_inertia(*bb, djr, convex_friction);
+        }
+    }
+}
+
+// Two-point normal block. A rejected/ill-conditioned block leaves
+// state untouched so the existing scalar update can handle that point.
+fn solve_normal_pair(c: ptr<function, Contact>, ba: ptr<function, Body>, bb: ptr<function, Body>,
+    i: u32, j: u32, bias_rate: f32, mass_scale: f32, impulse_scale: f32) -> bool {
+    let n = (*c).n;
+    let ai = ra_at(*c, i); let bi = rb_at(*c, i);
+    let aj = ra_at(*c, j); let bj = rb_at(*c, j);
+    let ni = (*c).prepared_normal_mass[i]; let nj = (*c).prepared_normal_mass[j];
+    if (ni <= 0.0 || nj <= 0.0) { return false; }
+    let si = current_sep(*ba, *bb, ai.xyz, bi.xyz, n, ai.w);
+    let sj = current_sep(*ba, *bb, aj.xyz, bj.xyz, n, aj.w);
+    let inv_h = 1.0 / max(params.dt, 1e-8);
+    let pi = select(mass_scale, 1.0, si > 0.0);
+    let pj = select(mass_scale, 1.0, sj > 0.0);
+    if (pi <= 0.0 || pj <= 0.0) { return false; }
+    let zi = select(impulse_scale, 0.0, si > 0.0);
+    let zj = select(impulse_scale, 0.0, sj > 0.0);
+    let bias_i = select(max(bias_rate * si, -params.contact_speed), si * inv_h, si > 0.0);
+    let bias_j = select(max(bias_rate * sj, -params.contact_speed), sj * inv_h, sj > 0.0);
+    let vi = gyro_dot3(((*bb).vel + gyro_cross((*bb).omega, bi.xyz))
+        - ((*ba).vel + gyro_cross((*ba).omega, ai.xyz)), n);
+    let vj = gyro_dot3(((*bb).vel + gyro_cross((*bb).omega, bj.xyz))
+        - ((*ba).vel + gyro_cross((*ba).omega, aj.xyz)), n);
+    let k12 = body_inv_mass(*ba) + body_inv_mass(*bb)
+        + gyro_dot3(gyro_cross(ai.xyz, n), world_inv_inertia(*ba, gyro_cross(aj.xyz, n)))
+        + gyro_dot3(gyro_cross(bi.xyz, n), world_inv_inertia(*bb, gyro_cross(bj.xyz, n)));
+    let d1 = 1.0 / (ni * pi); let d2 = 1.0 / (nj * pj);
+    let det = d1 * d2 - k12 * k12;
+    if (det <= 1e-5 * d1 * d2) { return false; }
+    // Solve for accumulated impulses, including the old impulses' softness.
+    let r1 = -vi - bias_i / pi + d1 * (1.0 - zi) * bi.w + k12 * bj.w;
+    let r2 = -vj - bias_j / pj + d2 * (1.0 - zj) * bj.w + k12 * bi.w;
+    var x = vec2<f32>((d2*r1-k12*r2)/det, (d1*r2-k12*r1)/det);
+    if (x.x < 0.0 || x.y < 0.0) {
+        let only_i = max(r1/d1, 0.0);
+        let only_j = max(r2/d2, 0.0);
+        if (k12*only_i >= r2) { x = vec2<f32>(only_i, 0.0); }
+        else if (k12*only_j >= r1) { x = vec2<f32>(0.0, only_j); }
+        else if (r1 <= 0.0 && r2 <= 0.0) { x = vec2<f32>(0.0); }
+        else { return false; }
+    }
+    let convex = contact_uses_simd(*c);
+    let p1 = n * (x.x-bi.w); let p2 = n * (x.y-bj.w);
+    apply_contact_P(ba, ai.xyz, p1, -1.0, convex);
+    apply_contact_P(bb, bi.xyz, p1, 1.0, convex);
+    apply_contact_P(ba, aj.xyz, p2, -1.0, convex);
+    apply_contact_P(bb, bj.xyz, p2, 1.0, convex);
+    (*c).total_normal_impulse[i] += x.x;
+    (*c).total_normal_impulse[j] += x.y;
+    set_point(c, i, ai, vec4<f32>(bi.xyz, x.x));
+    set_point(c, j, aj, vec4<f32>(bj.xyz, x.y));
+    return true;
+}
+
+fn solve_manifold_bias(
+    c: ptr<function, Contact>,
+    ba: ptr<function, Body>,
+    bb: ptr<function, Body>,
+    do_friction: bool,
+    use_bias: u32,
+) {
+    if ((params.diagnostic_flags & DIAG_MESH_CANDIDATES) != 0u) {
+        trace_solver_values(30u+use_bias,(*c).a,(*c).b,
+            vec4<f32>((*bb).vel,0.0),vec4<f32>((*bb).omega,0.0),vec4<f32>((*bb).dp,0.0));
+    }
+    let convex_friction = contact_uses_simd(*c);
+    let n = (*c).n;
+    let soft = (*c).prepared_softness.xyz;
+    var bias_rate = 0.0;
+    var mass_scale = 1.0;
+    var impulse_scale = 0.0;
+    if (use_bias == 1u) {
+        bias_rate = soft.y * soft.x;
+        mass_scale = soft.y;
+        impulse_scale = soft.z;
+    }
+    let inv_h = 1.0 / max(params.dt, 1e-8);
+    let contact_speed = -params.contact_speed;
+    var total_jn = 0.0;
+    var total_twist = 0.0;
+    let paired_normals = (params.diagnostic_flags & SOLVER_PAIRED_NORMALS) != 0u;
+    var point_order = vec4<u32>(0u, 1u, 2u, 3u);
+    if (paired_normals && (*c).count == 4u) {
+        var opposite = 1u;
+        var farthest = -1.0;
+        for (var p = 1u; p < 4u; p++) {
+            let delta = ra_at(*c, p).xyz - ra_at(*c, 0u).xyz;
+            let distance = dot(delta, delta);
+            if (distance > farthest) { farthest = distance; opposite = p; }
+        }
+        point_order.y = opposite;
+        var next = 2u;
+        for (var p = 1u; p < 4u; p++) {
+            if (p != opposite) { point_order[next] = p; next++; }
+        }
+    }
+    for (var index = 0u; index < (*c).count; index++) {
+        let i = point_order[index];
+        if (paired_normals && index % 2u == 0u && index + 1u < (*c).count) {
+            let j = point_order[index+1u];
+            if (solve_normal_pair(c, ba, bb, i, j, bias_rate, mass_scale, impulse_scale)) {
+                let ji = rb_at(*c, i).w; let jj = rb_at(*c, j).w;
+                total_jn += ji + jj;
+                total_twist += (*c).prepared_lever_arm[i]*ji + (*c).prepared_lever_arm[j]*jj;
+                index++;
+                continue;
+            }
+        }
+        let ra = ra_at(*c, i);
+        let rb = rb_at(*c, i);
+        let rA = ra.xyz;
+        let rB = rb.xyz;
+        let s = current_sep(*ba, *bb, rA, rB, n, ra.w);
+        var bias: f32;
+        var pms = mass_scale;
+        var pis = impulse_scale;
+        if (s > 0.0) {
+            bias = s * inv_h;
+            pms = 1.0;
+            pis = 0.0;
+        } else {
+            bias = max(bias_rate * s, contact_speed);
+        }
+        let vA = (*ba).vel + gyro_cross((*ba).omega, rA);
+        let vB = (*bb).vel + gyro_cross((*bb).omega, rB);
+        let vn = gyro_dot3(vB - vA, n);
+        let nm = (*c).prepared_normal_mass[i];
+        let j_old = rb.w;
+        let neg_imp = nm * (pms * vn + bias) + pis * j_old;
+        var j = max(j_old - neg_imp, 0.0);
+        let dj = j - j_old;
+
+        (*c).total_normal_impulse[i] = (*c).total_normal_impulse[i] + j;
+        let P = n * dj;
+        apply_contact_P(ba, rA, P, -1.0, convex_friction);
+        apply_contact_P(bb, rB, P, 1.0, convex_friction);
+        total_jn = total_jn + j;
+        let lever = (*c).prepared_lever_arm[i];
+        total_twist = total_twist + lever * j;
+        set_point(c, i, ra, vec4<f32>(rB, j));
+    }
+
+    // Box3D's SIMD convex path omits friction during the biased pass.
+    if (do_friction && use_bias == 0u) {
+        let t1 = perp(n);
+        let t2 = gyro_cross(t1, n);
+        let rA = (*c).center_a;
+        let rB = (*c).center_b;
+        // Convex: rolling then twist; mesh/overflow: twist then rolling.
+        if (convex_friction) { solve_rolling_friction(c, ba, bb, total_jn, true); }
+        {
+            let twist_speed = gyro_dot3(n, (*bb).omega - (*ba).omega);
+            let max_l = (*c).friction * total_twist;
+            var k_tw = gyro_dot3(n, world_inv_inertia(*ba, n) + world_inv_inertia(*bb, n));
+            var tm = 0.0;
+            if (k_tw > 1e-8) { tm = gyro_recip(k_tw); }
+            var dtw = -tm * twist_speed;
+            var tw = clamp((*c).twist_impulse + dtw, -max_l, max_l);
+            dtw = tw - (*c).twist_impulse;
+            (*c).twist_impulse = tw;
+            let L = n * dtw;
+            if (!is_immovable(*ba)) {
+                (*ba).omega = (*ba).omega - contact_inv_inertia(*ba, L, convex_friction);
+            }
+            if (!is_immovable(*bb)) {
+                (*bb).omega = (*bb).omega + contact_inv_inertia(*bb, L, convex_friction);
+            }
+        }
+        if (!convex_friction) { solve_rolling_friction(c, ba, bb, total_jn, false); }
+        let vA = (*ba).vel + gyro_cross((*ba).omega, rA);
+        let vB = (*bb).vel + gyro_cross((*bb).omega, rB);
+        let vr = vB - vA;
+        let relative_tangent_velocity = vr - (*c).tangent_velocity;
+        let vt = vec2<f32>(
+            gyro_dot3(relative_tangent_velocity, t1),
+            gyro_dot3(relative_tangent_velocity, t2),
+        );
+        var jn = (*c).friction_impulse;
+        let mt = (*c).prepared_tangent_inv;
+        jn = jn - vec2<f32>(mt.x * vt.x + mt.y * vt.y, mt.z * vt.x + mt.w * vt.y);
+        let max_j = (*c).friction * total_jn;
+        let mag2 = jn.x * jn.x + jn.y * jn.y;
+        if (mag2 > max_j * max_j) {
+            // Native SIMD contact friction includes epsilon in the denominator.
+            jn = jn * gyro_divide(max_j, gyro_sqrt(mag2) + 1.1920929e-7);
+        }
+        let djt = jn - (*c).friction_impulse;
+        (*c).friction_impulse = jn;
+        let P = t1 * djt.x + t2 * djt.y;
+
+        apply_contact_P(ba, rA, P, -1.0, convex_friction);
+        apply_contact_P(bb, rB, P, 1.0, convex_friction);
+    }
+    if ((params.diagnostic_flags & DIAG_MESH_CANDIDATES) != 0u) {
+        trace_solver_values(40u+use_bias,(*c).a,(*c).b,
+            vec4<f32>((*bb).vel,0.0),vec4<f32>((*bb).omega,0.0),vec4<f32>((*bb).dp,0.0));
+    }
+
+}
+
+fn apply_restitution(c: ptr<function, Contact>, ba: ptr<function, Body>, bb: ptr<function, Body>) {
+    let rest = (*c)._pad_end;
+    if (rest <= 0.0) {
+        return;
+    }
+    let convex_friction = contact_uses_simd(*c);
+    let n = (*c).n;
+    let threshold = params.restitution_threshold;
+    let rel = vec4<f32>(
+        bitcast<f32>((*c)._tail0.x),
+        bitcast<f32>((*c)._tail0.y),
+        bitcast<f32>((*c)._tail0.z),
+        bitcast<f32>((*c)._tail0.w),
+    );
+    for (var i = 0u; i < (*c).count; i++) {
+        var rv = rel.x;
+        if (i == 1u) { rv = rel.y; }
+        if (i == 2u) { rv = rel.z; }
+        if (i == 3u) { rv = rel.w; }
+        if (rv + threshold > 0.0) {
+            continue;
+        }
+        let ra = ra_at(*c, i);
+        let rb = rb_at(*c, i);
+        if ((*c).total_normal_impulse[i] == 0.0) {
+            continue;
+        }
+        let nm = (*c).prepared_normal_mass[i];
+        let vA = (*ba).vel + gyro_cross((*ba).omega, ra.xyz);
+        let vB = (*bb).vel + gyro_cross((*bb).omega, rb.xyz);
+        let vn = gyro_dot3(vB - vA, n);
+        let neg_imp = nm * (vn + rest * rv);
+        var j = max(rb.w - neg_imp, 0.0);
+        let dj = j - rb.w;
+        (*c).total_normal_impulse[i] = (*c).total_normal_impulse[i] + dj;
+        apply_contact_P(ba, ra.xyz, n * dj, -1.0, convex_friction);
+        apply_contact_P(bb, rb.xyz, n * dj, 1.0, convex_friction);
+        set_point(c, i, ra, vec4<f32>(rb.xyz, j));
+    }
+}
+
+fn warm_manifold(c: Contact, ba: ptr<function, Body>, bb: ptr<function, Body>) {
+    let convex_friction = contact_uses_simd(c);
+    let n = c.n;
+    for (var i = 0u; i < c.count; i++) {
+        let rA = ra_at(c, i).xyz;
+        let rB = rb_at(c, i).xyz;
+        let P = n * rb_at(c, i).w;
+        apply_contact_P(ba, rA, P, -1.0, convex_friction);
+        apply_contact_P(bb, rB, P, 1.0, convex_friction);
+    }
+    let t1 = perp(n);
+    let t2 = gyro_cross(t1, n);
+    let Pf = t1 * c.friction_impulse.x + t2 * c.friction_impulse.y;
+    apply_contact_P(ba, c.center_a, Pf, -1.0, convex_friction);
+    apply_contact_P(bb, c.center_b, Pf, 1.0, convex_friction);
+    if (abs(c.twist_impulse) > 0.0) {
+        let L = c.n * c.twist_impulse;
+        if (!is_immovable(*ba)) {
+            (*ba).omega = (*ba).omega - contact_inv_inertia(*ba, L, convex_friction);
+        }
+        if (!is_immovable(*bb)) {
+            (*bb).omega = (*bb).omega + contact_inv_inertia(*bb, L, convex_friction);
+        }
+    }
+    if (length(c.rolling_impulse) > 0.0) {
+        if (!is_immovable(*ba)) {
+            (*ba).omega = (*ba).omega - contact_inv_inertia(*ba, c.rolling_impulse, convex_friction);
+        }
+        if (!is_immovable(*bb)) {
+            (*bb).omega = (*bb).omega + contact_inv_inertia(*bb, c.rolling_impulse, convex_friction);
+        }
+    }
+}
+
+@compute @workgroup_size(64)
+fn warm_start(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
+    let k = gid.x;
+    let maxc = params.contact_capacity;
+    if (k >= maxc) {
+        return;
+    }
+    let c = load_solve_contact(k);
+    if (c.a == EMPTY || c.count == 0u || c.manifold_link.y != 0u || c.color != params.color_select) {
+        return;
+    }
+    var ba = load_body(c.a);
+    var bb = load_body(c.b);
+    solve_contact_chain(k, &ba, &bb, 2u);
+    store_body(c.a, ba);
+    store_body(c.b, bb);
+}
+
+@compute @workgroup_size(64)
+fn solve_contacts(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
+    let k = gid.x;
+    let maxc = params.contact_capacity;
+    if (k >= maxc) {
+        return;
+    }
+    var c = load_solve_contact(k);
+    if (c.a == EMPTY || c.count == 0u || c.manifold_link.y != 0u || c.color != params.color_select) {
+        return;
+    }
+    var ba = load_body(c.a);
+    var bb = load_body(c.b);
+    solve_contact_chain(k, &ba, &bb, params.use_bias);
+    store_body(c.a, ba);
+    store_body(c.b, bb);
+}
+
+fn listed_index(col: u32, i: u32) -> u32 {
+    return scratch[color_contact_base() + col * params.contact_capacity + i];
+}
+
+fn solve_contact_chain(root: u32, ba: ptr<function, Body>, bb: ptr<function, Body>, mode: u32) {
+    if (!contact_chain_valid(root)) { return; }
+    solve_validated_contact_chain(root, ba, bb, mode);
+}
+
+// Caller owns an immutable, validated chain for this dispatch only.
+// Solve phases change impulses only; preparation owns the remaining fields.
+fn solve_validated_contact_chain(root: u32, ba: ptr<function, Body>, bb: ptr<function, Body>, mode: u32) {
+    solve_validated_contact_chain_store(root, ba, bb, mode, true);
+}
+
+fn solve_validated_contact_chain_store(root: u32, ba: ptr<function, Body>, bb: ptr<function, Body>, mode: u32, impulses_only: bool) {
+    // Sleeping contacts retain their warm-start history, as in Box3D's sleeping
+    // solver sets. Solving two immovable endpoints otherwise decays that cache.
+    if (is_immovable(*ba) && is_immovable(*bb)) {return;}
+    let count = max(contacts[root].manifold_link.z, 1u);
+    var slot = root;
+    for (var i = 0u; i < count; i++) {
+        var c = load_solve_contact(slot);
+        if (c.count > 0u) {
+            if (mode == 2u) { warm_manifold(c, ba, bb); }
+            else if (mode == 3u) {
+                apply_restitution(&c, ba, bb);
+                if (impulses_only) { store_contact_impulses(slot, c); }
+                else { store_solve_contact(slot, c); }
+            } else {
+                solve_manifold_bias(&c, ba, bb, true, mode);
+                if (impulses_only) { store_contact_impulses(slot, c); }
+                else { store_solve_contact(slot, c); }
+            }
+        }
+        if (i + 1u < count) { slot = c.manifold_link.x - 1u; }
+    }
+}
+
+fn run_contact(k: u32) {
+    var c = load_solve_contact(k);
+    if (c.a == EMPTY || c.count == 0u) {
+        return;
+    }
+    var ba = load_body(c.a);
+    var bb = load_body(c.b);
+    solve_contact_chain(k, &ba, &bb, params.use_bias);
+    if (!is_immovable(ba)) {
+        store_body(c.a, ba);
+    }
+    if (!is_immovable(bb)) {
+        store_body(c.b, bb);
+    }
+}
+
+@compute @workgroup_size(64)
+fn solve_color(
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
+) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
+    let col = params.color_select;
+    let n = scratch[SCR_COLOR + col];
+    if (col == OVERFLOW_COLOR) {
+        if (gid.x == 0u) {
+            for (var i = 0u; i < n; i++) {
+                run_contact(listed_index(col, i));
+            }
+        }
+        return;
+    }
+    let i = gid.x;
+    if (i >= n) {
+        return;
+    }
+    // Coloring grants exclusive writable endpoints across the entire color.
+    // Each lane owns its bodies; no cross-lane staging or barrier is needed.
+    let k = listed_index(col, i);
+    var c = load_solve_contact(k);
+    var ba = load_body(c.a);
+    var bb = load_body(c.b);
+    solve_contact_chain(k, &ba, &bb, params.use_bias);
+    if (!is_immovable(ba)) {
+        store_body(c.a, ba);
+    }
+    if (!is_immovable(bb)) {
+        store_body(c.b, bb);
+    }
+}
+
+// Low-occupancy fast path. Graph compaction enables this dispatch only when
+// every non-overflow color has at most one workgroup of contacts. The barriers
+// retain overflow-first, then ascending-color Gauss-Seidel ordering while
+// replacing 24 separate active dispatches with one workgroup.
+@compute @workgroup_size(64)
+fn solve_color_wave_one_group(@builtin(local_invocation_index) lid: u32) {
+    if (lid == 0u) {
+        let overflow_n = scratch[SCR_COLOR + OVERFLOW_COLOR];
+        for (var i = 0u; i < overflow_n; i++) {
+            run_contact(listed_index(OVERFLOW_COLOR, i));
+        }
+    }
+    storageBarrier();
+    workgroupBarrier();
+
+    solve_color_range_one_group(lid, 0u, OVERFLOW_COLOR);
+}
+
+// The serial-joint diagnostic inserts anchors between dynamic/static contacts.
+@compute @workgroup_size(64)
+fn solve_color_partition_one_group(@builtin(local_invocation_index) lid: u32) {
+    if (params.color_select == 0u) {
+        if (lid == 0u) {
+            let n = scratch[SCR_COLOR + OVERFLOW_COLOR];
+            for (var i = 0u; i < n; i++) { run_contact(listed_index(OVERFLOW_COLOR, i)); }
+        }
+        storageBarrier();
+        workgroupBarrier();
+        solve_color_range_one_group(lid, 0u, DYNAMIC_COLOR_COUNT);
+    } else {
+        solve_color_range_one_group(lid, DYNAMIC_COLOR_COUNT, OVERFLOW_COLOR);
+    }
+}
+
+// The prefix handled overflow and dynamic colors below color_select. Static
+// colors are dispatched in parallel after this dynamic-color tail.
+// When the existing whole-wave shortcut ran, skip this tail to avoid solving twice.
+@compute @workgroup_size(64)
+fn solve_color_tail_one_group(@builtin(local_invocation_index) lid: u32) {
+    if (scratch[SCR_INDIRECT_COLLIDE] != 0u) { return; }
+    solve_color_range_one_group(lid, params.color_select, DYNAMIC_COLOR_COUNT);
+}
+
+fn solve_color_range_one_group(lid: u32, first_color: u32, end_color: u32) {
+    for (var col = first_color; col < end_color; col++) {
+        let n = scratch[SCR_COLOR + col];
+        if (n == 0u) {
+            continue;
+        }
+        var base = 0u;
+        loop {
+            if (base >= n) {
+                break;
+            }
+            let i = base + lid;
+            if (i < n) {
+                let k = listed_index(col, i);
+                var c = load_solve_contact(k);
+                var ba = load_body(c.a);
+                var bb = load_body(c.b);
+                solve_contact_chain(k, &ba, &bb, params.use_bias);
+                if (!is_immovable(ba)) {
+                    store_body(c.a, ba);
+                }
+                if (!is_immovable(bb)) {
+                    store_body(c.b, bb);
+                }
+            }
+            base = base + 64u;
+        }
+        // A color grants exclusive writable endpoints across all of its
+        // contacts, including separate lane batches. Keep bodies in registers
+        // and synchronize storage only before advancing to the next color.
+        storageBarrier();
+    }
+}
+
+fn jac_slot(body: u32, comp: u32) -> u32 {
+    return atom_jacobi() + body * 6u + comp;
+}
+
+fn jac_add(body: u32, dv: vec3<f32>, dw: vec3<f32>) {
+    if (is_immovable(load_body(body))) {
+        return;
+    }
+    atomicAdd(&atom[jac_slot(body, 0u)], bitcast<u32>(i32(round(dv.x * 1000.0))));
+    atomicAdd(&atom[jac_slot(body, 1u)], bitcast<u32>(i32(round(dv.y * 1000.0))));
+    atomicAdd(&atom[jac_slot(body, 2u)], bitcast<u32>(i32(round(dv.z * 1000.0))));
+    atomicAdd(&atom[jac_slot(body, 3u)], bitcast<u32>(i32(round(dw.x * 1000.0))));
+    atomicAdd(&atom[jac_slot(body, 4u)], bitcast<u32>(i32(round(dw.y * 1000.0))));
+    atomicAdd(&atom[jac_slot(body, 5u)], bitcast<u32>(i32(round(dw.z * 1000.0))));
+}
+
+@compute @workgroup_size(64)
+fn jacobi_clear(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
+    let i = gid.x;
+    if (i >= params.body_count) {
+        return;
+    }
+    for (var c = 0u; c < 6u; c++) {
+        atomicStore(&atom[jac_slot(i, c)], 0u);
+    }
+}
+
+@compute @workgroup_size(64)
+fn solve_jacobi(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
+    let i = gid.x;
+    let np = min(scratch[SCR_NCONTACTS], pair_cap());
+    if (i >= np) {
+        return;
+    }
+    let k = scratch[scr_active_contact() + i];
+    var c = load_solve_contact(k);
+    if (c.a == EMPTY || c.count == 0u) {
+        return;
+    }
+    var ba = load_body(c.a);
+    var bb = load_body(c.b);
+    let va0 = ba.vel;
+    let wa0 = ba.omega;
+    let vb0 = bb.vel;
+    let wb0 = bb.omega;
+    solve_contact_chain(k, &ba, &bb, params.use_bias);
+    jac_add(c.a, ba.vel - va0, ba.omega - wa0);
+    jac_add(c.b, bb.vel - vb0, bb.omega - wb0);
+}
+
+@compute @workgroup_size(64)
+fn apply_jacobi(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
+    let i = gid.x;
+    if (i >= params.body_count) {
+        return;
+    }
+    var b = load_body(i);
+    if (is_immovable(b)) {
+        return;
+    }
+    let s = 0.001;
+    b.vel.x = b.vel.x + f32(bitcast<i32>(atomicLoad(&atom[jac_slot(i, 0u)]))) * s;
+    b.vel.y = b.vel.y + f32(bitcast<i32>(atomicLoad(&atom[jac_slot(i, 1u)]))) * s;
+    b.vel.z = b.vel.z + f32(bitcast<i32>(atomicLoad(&atom[jac_slot(i, 2u)]))) * s;
+    b.omega.x = b.omega.x + f32(bitcast<i32>(atomicLoad(&atom[jac_slot(i, 3u)]))) * s;
+    b.omega.y = b.omega.y + f32(bitcast<i32>(atomicLoad(&atom[jac_slot(i, 4u)]))) * s;
+    b.omega.z = b.omega.z + f32(bitcast<i32>(atomicLoad(&atom[jac_slot(i, 5u)]))) * s;
+    store_body(i, b);
+}
+
+@compute @workgroup_size(1)
+fn solve_overflow(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 1u), 0u, 0u);
+    if (gid.x != 0u) {
+        return;
+    }
+    let maxc = params.contact_capacity;
+    for (var k = 0u; k < maxc; k++) {
+        var c = load_solve_contact(k);
+        if (c.a == EMPTY || c.count == 0u || c.manifold_link.y != 0u || c.color != OVERFLOW_COLOR) {
+            continue;
+        }
+        var ba = load_body(c.a);
+        var bb = load_body(c.b);
+        solve_contact_chain(k, &ba, &bb, params.use_bias);
+        store_body(c.a, ba);
+        store_body(c.b, bb);
+    }
+}
+
+// Match native b3AddMM + b3Solve2 operation order for hinge alignment.
+fn revolute_perp_mass_solve(
+    ia: mat3x3<f32>, ib: mat3x3<f32>,
+    axis_x: vec3<f32>, axis_y: vec3<f32>, rhs: vec2<f32>,
+) -> vec2<f32> {
+    let inertia_sum = mat3x3<f32>(ia[0] + ib[0], ia[1] + ib[1], ia[2] + ib[2]);
+    let kxx = gyro_dot3(axis_x, native_mul_mv(inertia_sum, axis_x));
+    let kyy = gyro_dot3(axis_y, native_mul_mv(inertia_sum, axis_y));
+    let kxy = gyro_dot3(axis_x, native_mul_mv(inertia_sum, axis_y));
+    let det = kxx * kyy - kxy * kxy;
+    if (det > 1.17549435e-35) { // 1000 * FLT_MIN, as in b3Solve2
+        let inv_det = gyro_recip(det);
+        return vec2<f32>(
+            inv_det * kyy * rhs.x - inv_det * kxy * rhs.y,
+            -inv_det * kxy * rhs.x + inv_det * kxx * rhs.y,
+        );
+    }
+    return vec2<f32>(0.0);
+}
+
+// Match Box3D preparation: add matrices before applying the hinge axis.
+fn revolute_axial_mass(ia: mat3x3<f32>, ib: mat3x3<f32>, axis: vec3<f32>) -> f32 {
+    let k = gyro_dot3(axis, native_mul_mv(ia + ib, axis));
+    if (k > 0.0) { return gyro_recip(k); }
+    return 0.0;
+}
+
+fn revolute_axial_velocity(wa: vec3<f32>, wb: vec3<f32>, axis: vec3<f32>) -> f32 {
+    return gyro_dot3(wb - wa, axis);
+}
+
+fn solve_revolute(
+    jn: ptr<function, Joint>,
+    ba: ptr<function, Body>,
+    bb: ptr<function, Body>,
+) {
+    let base_frame_a = quat_mul((*ba).rot, (*jn).frame_a_rotation);
+    var base_frame_b = quat_mul((*bb).rot, (*jn).frame_b_rotation);
+    if (dot(base_frame_a, base_frame_b) < 0.0) {
+        base_frame_b = -base_frame_b;
+    }
+    let base_rel = quat_mul(quat_inv(base_frame_a), base_frame_b);
+    let base_axes = revolute_axes(base_frame_a, base_rel);
+    // Box3D prepares these once per frame, then each solve updates them for
+    // the next substep's warm start. These slots are otherwise unused by hinges.
+    if ((*jn).revolute_axes_step != params.physics_step) {
+        (*jn).weld_linear_impulse = revolute_axis_x(base_axes);
+        (*jn).weld_angular_impulse = revolute_axis_y(base_axes);
+        (*jn).revolute_axes_step = params.physics_step;
+    }
+    let base_axis_x = (*jn).weld_linear_impulse;
+    let base_axis_y = (*jn).weld_angular_impulse;
+    let rotation_axis = quat_rotate(base_frame_a, vec3<f32>(0.0, 0.0, 1.0));
+
+    let rA = quat_rotate((*ba).dq, joint_lever((*jn).a, (*ba).rot, (*jn).anchor_a));
+    let rB = quat_rotate((*bb).dq, joint_lever((*jn).b, (*bb).rot, (*jn).anchor_b));
+
+    if (params.use_bias == 2u) {
+        let axial_impulse =
+            (*jn).spring_impulse + (*jn).motor_impulse
+            + (*jn).lower_impulse - (*jn).upper_impulse;
+        let angular_impulse =
+            (*jn).perp_impulse.x * base_axis_x
+            + (*jn).perp_impulse.y * base_axis_y
+            + axial_impulse * rotation_axis;
+        if (joint_endpoint_writable(*ba)) {
+            (*ba).vel = (*ba).vel - (*ba).inv_mass * (*jn).angular_impulse;
+            (*ba).omega = (*ba).omega - world_inv_inertia(
+                *ba, gyro_cross(rA, (*jn).angular_impulse) + angular_impulse);
+        }
+        if (joint_endpoint_writable(*bb)) {
+            (*bb).vel = (*bb).vel + (*bb).inv_mass * (*jn).angular_impulse;
+            (*bb).omega = (*bb).omega + world_inv_inertia(
+                *bb, gyro_cross(rB, (*jn).angular_impulse) + angular_impulse);
+        }
+        return;
+    }
+
+    let i0 = world_inv_inertia(*ba, vec3<f32>(1.0, 0.0, 0.0))
+        + world_inv_inertia(*bb, vec3<f32>(1.0, 0.0, 0.0));
+    let i1 = world_inv_inertia(*ba, vec3<f32>(0.0, 1.0, 0.0))
+        + world_inv_inertia(*bb, vec3<f32>(0.0, 1.0, 0.0));
+    let i2 = world_inv_inertia(*ba, vec3<f32>(0.0, 0.0, 1.0))
+        + world_inv_inertia(*bb, vec3<f32>(0.0, 0.0, 1.0));
+    let fixed_rotation = abs(dot(i0, cross(i1, i2))) < 1e-30;
+    let axial_mass = revolute_axial_mass(
+        world_inv_inertia_matrix(*ba), world_inv_inertia_matrix(*bb), rotation_axis,
+    );
+
+    let frame_a = quat_mul((*ba).dq, base_frame_a);
+    var frame_b = quat_mul((*bb).dq, base_frame_b);
+    if (dot(frame_a, frame_b) < 0.0) {
+        frame_b = -frame_b;
+    }
+    let rel = quat_mul(quat_inv(frame_a), frame_b);
+
+    // Box3D order: spring, motor, lower/upper limits, collinearity, point-to-point.
+    if (((*jn).flags & REVOLUTE_ENABLE_SPRING) != 0u && !fixed_rotation) {
+        let soft = spring_softness((*jn).spring_hertz, (*jn).spring_damping);
+        let c = twist_angle(rel) - (*jn).target_translation;
+        let cdot = revolute_axial_velocity((*ba).omega, (*bb).omega, rotation_axis);
+        let delta_impulse =
+            -soft.y * axial_mass * (cdot + soft.x * c)
+            - soft.z * (*jn).spring_impulse;
+        (*jn).spring_impulse = (*jn).spring_impulse + delta_impulse;
+        (*ba).omega =
+            (*ba).omega - delta_impulse * world_inv_inertia(*ba, rotation_axis);
+        (*bb).omega =
+            (*bb).omega + delta_impulse * world_inv_inertia(*bb, rotation_axis);
+    }
+
+    if (((*jn).flags & REVOLUTE_ENABLE_MOTOR) != 0u && !fixed_rotation) {
+        let cdot =
+            revolute_axial_velocity((*ba).omega, (*bb).omega, rotation_axis) - (*jn).motor_speed;
+        let old_impulse = (*jn).motor_impulse;
+        let max_impulse = (*jn).max_motor_force * params.dt;
+        (*jn).motor_impulse = clamp(
+            old_impulse - axial_mass * cdot,
+            -max_impulse,
+            max_impulse,
+        );
+        let delta_impulse = (*jn).motor_impulse - old_impulse;
+        (*ba).omega =
+            (*ba).omega - delta_impulse * world_inv_inertia(*ba, rotation_axis);
+        (*bb).omega =
+            (*bb).omega + delta_impulse * world_inv_inertia(*bb, rotation_axis);
+    }
+
+    if (((*jn).flags & REVOLUTE_ENABLE_LIMIT) != 0u && !fixed_rotation) {
+        let angle = twist_angle(rel);
+        let soft = joint_softness((*jn).hertz, (*jn).damping);
+        let inv_h = 1.0 / max(params.dt, 1e-8);
+
+        let lower_c = angle - (*jn).lower_translation;
+        var lower_bias = 0.0;
+        var lower_mass_scale = 1.0;
+        var lower_impulse_scale = 0.0;
+        if (lower_c > 0.0) {
+            lower_bias = lower_c * inv_h;
+        } else if (params.use_bias == 1u) {
+            lower_bias = soft.x * lower_c;
+            lower_mass_scale = soft.y;
+            lower_impulse_scale = soft.z;
+        }
+        let lower_cdot = revolute_axial_velocity((*ba).omega, (*bb).omega, rotation_axis);
+        let old_lower = (*jn).lower_impulse;
+        let lower_delta =
+            -lower_mass_scale * axial_mass * (lower_cdot + lower_bias)
+            - lower_impulse_scale * old_lower;
+        (*jn).lower_impulse = max(old_lower + lower_delta, 0.0);
+        let applied_lower = (*jn).lower_impulse - old_lower;
+        (*ba).omega =
+            (*ba).omega - applied_lower * world_inv_inertia(*ba, rotation_axis);
+        (*bb).omega =
+            (*bb).omega + applied_lower * world_inv_inertia(*bb, rotation_axis);
+
+        let upper_c = (*jn).upper_translation - angle;
+        var upper_bias = 0.0;
+        var upper_mass_scale = 1.0;
+        var upper_impulse_scale = 0.0;
+        if (upper_c > 0.0) {
+            upper_bias = upper_c * inv_h;
+        } else if (params.use_bias == 1u) {
+            upper_bias = soft.x * upper_c;
+            upper_mass_scale = soft.y;
+            upper_impulse_scale = soft.z;
+        }
+        let upper_cdot = revolute_axial_velocity((*bb).omega, (*ba).omega, rotation_axis);
+        let old_upper = (*jn).upper_impulse;
+        let upper_delta =
+            -upper_mass_scale * axial_mass * (upper_cdot + upper_bias)
+            - upper_impulse_scale * old_upper;
+        (*jn).upper_impulse = max(old_upper + upper_delta, 0.0);
+        let applied_upper = (*jn).upper_impulse - old_upper;
+        (*ba).omega =
+            (*ba).omega + applied_upper * world_inv_inertia(*ba, rotation_axis);
+        (*bb).omega =
+            (*bb).omega - applied_upper * world_inv_inertia(*bb, rotation_axis);
+    }
+
+    if (!fixed_rotation) {
+        let axes = revolute_axes(frame_a, rel);
+        let axis_x = revolute_axis_x(axes);
+        let axis_y = revolute_axis_y(axes);
+        (*jn).weld_linear_impulse = axis_x;
+        (*jn).weld_angular_impulse = axis_y;
+        var bias = vec2<f32>(0.0);
+        var mass_scale = 1.0;
+        var impulse_scale = 0.0;
+        if (params.use_bias == 1u) {
+            let soft = joint_softness((*jn).hertz, (*jn).damping);
+            bias = soft.x * rel.xy;
+            mass_scale = soft.y;
+            impulse_scale = soft.z;
+        }
+        let wrel = (*bb).omega - (*ba).omega;
+        let rhs = revolute_alignment_velocity(wrel, axis_x, axis_y) + bias;
+        let solution = revolute_perp_mass_solve(
+            world_inv_inertia_matrix(*ba), world_inv_inertia_matrix(*bb), axis_x, axis_y, rhs,
+        );
+        let delta_impulse =
+            -mass_scale * solution - impulse_scale * (*jn).perp_impulse;
+        (*jn).perp_impulse = (*jn).perp_impulse + delta_impulse;
+        let angular_impulse = delta_impulse.x * axis_x + delta_impulse.y * axis_y;
+        (*ba).omega = (*ba).omega - world_inv_inertia(*ba, angular_impulse);
+        (*bb).omega = (*bb).omega + world_inv_inertia(*bb, angular_impulse);
+    }
+
+    let cdot = joint_point_velocity(
+        (*ba).vel, (*ba).omega, (*bb).vel, (*bb).omega, rA, rB,
+    );
+    var bias = vec3<f32>(0.0);
+    var mass_scale = 1.0;
+    var impulse_scale = 0.0;
+    if (params.use_bias == 1u) {
+        let soft = joint_softness((*jn).hertz, (*jn).damping);
+        let separation =
+            (((*bb).dp - (*ba).dp) + (rB - rA)) + ((*bb).pos - (*ba).pos);
+        bias = soft.x * separation;
+        mass_scale = soft.y;
+        impulse_scale = soft.z;
+    }
+    let solution = motor_linear_mass_mul(*ba, *bb, rA, rB, cdot + bias);
+    let impulse =
+        -mass_scale * solution - impulse_scale * (*jn).angular_impulse;
+    (*jn).angular_impulse = (*jn).angular_impulse + impulse;
+    apply_P(ba, rA, impulse, -1.0);
+    apply_P(bb, rB, impulse, 1.0);
+}
+
+fn solve_prismatic(
+    jn: ptr<function, Joint>,
+    ba: ptr<function, Body>,
+    bb: ptr<function, Body>,
+) {
+    let qa = normalize(quat_mul((*ba).dq, (*ba).rot));
+    let qb = normalize(quat_mul((*bb).dq, (*bb).rot));
+    let rA = joint_lever((*jn).a, qa, (*jn).anchor_a);
+    let rB = joint_lever((*jn).b, qb, (*jn).anchor_b);
+    var frame_a = normalize(quat_mul(qa, (*jn).frame_a_rotation));
+    var frame_b = normalize(quat_mul(qb, (*jn).frame_b_rotation));
+    if (dot(frame_a, frame_b) < 0.0) {
+        frame_b = -frame_b;
+    }
+    // The Rust API also accepts an explicit local axis; native frames agree
+    // with it. Project frame Y to retain the native basis in that usual case.
+    let ax = normalize(quat_rotate(qa, (*jn).axis));
+    let frame_y = quat_rotate(frame_a, vec3<f32>(0.0, 1.0, 0.0));
+    var ay = frame_y - dot(frame_y, ax) * ax;
+    if (dot(ay, ay) < 1e-12) {
+        let frame_z = quat_rotate(frame_a, vec3<f32>(0.0, 0.0, 1.0));
+        ay = frame_z - dot(frame_z, ax) * ax;
+    }
+    ay = normalize(ay);
+    let az = cross(ax, ay);
+    let d = ((*bb).pos + (*bb).dp + rB) - ((*ba).pos + (*ba).dp + rA);
+    let sAx = cross(d + rA, ax);
+    let sBx = cross(rB, ax);
+    let sAy = cross(d + rA, ay);
+    let sBy = cross(rB, ay);
+    let sAz = cross(d + rA, az);
+    let sBz = cross(rB, az);
+    let translation = dot(ax, d);
+
+    let i0 = world_inv_inertia(*ba, vec3<f32>(1.0, 0.0, 0.0))
+        + world_inv_inertia(*bb, vec3<f32>(1.0, 0.0, 0.0));
+    let i1 = world_inv_inertia(*ba, vec3<f32>(0.0, 1.0, 0.0))
+        + world_inv_inertia(*bb, vec3<f32>(0.0, 1.0, 0.0));
+    let i2 = world_inv_inertia(*ba, vec3<f32>(0.0, 0.0, 1.0))
+        + world_inv_inertia(*bb, vec3<f32>(0.0, 0.0, 1.0));
+    let fixed_rotation = abs(dot(i0, cross(i1, i2))) < 1.1754944e-35;
+    if (params.use_bias == 2u) {
+        let axial = (*jn).spring_impulse + (*jn).motor_impulse
+            + (*jn).lower_impulse - (*jn).upper_impulse;
+        let p = axial * ax + (*jn).perp_impulse.x * ay + (*jn).perp_impulse.y * az;
+        let la = axial * sAx + (*jn).perp_impulse.x * sAy
+            + (*jn).perp_impulse.y * sAz + (*jn).angular_impulse;
+        let lb = axial * sBx + (*jn).perp_impulse.x * sBy
+            + (*jn).perp_impulse.y * sBz + (*jn).angular_impulse;
+        (*ba).vel -= (*ba).inv_mass * p;
+        (*ba).omega -= world_inv_inertia(*ba, la);
+        (*bb).vel += (*bb).inv_mass * p;
+        (*bb).omega += world_inv_inertia(*bb, lb);
+        return;
+    }
+    let k = (*ba).inv_mass + (*bb).inv_mass
+        + dot(sAx, world_inv_inertia(*ba, sAx)) + dot(sBx, world_inv_inertia(*bb, sBx));
+    let axial_mass = select(0.0, 1.0 / k, k > 0.0);
+    // Match b3SolvePrismaticJoint: spring, motor, limits, rotation, point-to-line.
+    if (((*jn).flags & PRISMATIC_ENABLE_SPRING) != 0u && !fixed_rotation) {
+        let soft = spring_softness((*jn).spring_hertz, (*jn).spring_damping);
+        let cdot = dot(ax, (*bb).vel - (*ba).vel)
+            + dot(sBx, (*bb).omega) - dot(sAx, (*ba).omega);
+        let delta = -soft.y * axial_mass
+            * (cdot + soft.x * (translation - (*jn).target_translation))
+            - soft.z * (*jn).spring_impulse;
+        (*jn).spring_impulse += delta;
+        apply_P(ba, rA + d, delta * ax, -1.0);
+        apply_P(bb, rB, delta * ax, 1.0);
+    }
+    if (((*jn).flags & PRISMATIC_ENABLE_MOTOR) != 0u && !fixed_rotation) {
+        let cdot = dot(ax, (*bb).vel - (*ba).vel)
+            + dot(sBx, (*bb).omega) - dot(sAx, (*ba).omega) - (*jn).motor_speed;
+        let old = (*jn).motor_impulse;
+        let bound = params.dt * (*jn).max_motor_force;
+        (*jn).motor_impulse = clamp(old - axial_mass * cdot, -bound, bound);
+        let p = ((*jn).motor_impulse - old) * ax;
+        apply_P(ba, rA + d, p, -1.0);
+        apply_P(bb, rB, p, 1.0);
+    }
+    if (((*jn).flags & PRISMATIC_ENABLE_LIMIT) != 0u && !fixed_rotation) {
+        let spec = 0.25 * ((*jn).upper_translation - (*jn).lower_translation);
+        let soft = joint_softness((*jn).hertz, (*jn).damping);
+        for (var side = 0u; side < 2u; side++) {
+            let c = select(translation - (*jn).lower_translation,
+                (*jn).upper_translation - translation, side == 1u);
+            let old = select((*jn).lower_impulse, (*jn).upper_impulse, side == 1u);
+            var accumulated = 0.0;
+            if (c < spec) {
+                var bias = 0.0;
+                var ms = 1.0;
+                var ips = 0.0;
+                if (c > 0.0) { bias = c / params.dt; }
+                else if (params.use_bias == 1u) { bias = soft.x * c; ms = soft.y; ips = soft.z; }
+                let sign = select(1.0, -1.0, side == 1u);
+                let cdot = sign * (dot(ax, (*bb).vel - (*ba).vel)
+                    + dot(sBx, (*bb).omega) - dot(sAx, (*ba).omega));
+                accumulated = max(0.0, old - ms * axial_mass * (cdot + bias) - ips * old);
+                let p = sign * (accumulated - old) * ax;
+                apply_P(ba, rA + d, p, -1.0);
+                apply_P(bb, rB, p, 1.0);
+            }
+            if (side == 0u) { (*jn).lower_impulse = accumulated; }
+            else { (*jn).upper_impulse = accumulated; }
+        }
+    }
+    if (!fixed_rotation) {
+        let rel = quat_mul(quat_inv(frame_a), frame_b);
+        let soft = joint_softness((*jn).hertz, (*jn).damping);
+        let c = -quat_rotate(frame_a,
+            delta_quat_to_rotation(rel, vec4<f32>(0.0, 0.0, 0.0, 1.0)));
+        let bias = select(vec3<f32>(0.0), soft.x * c, params.use_bias == 1u);
+        let ms = select(1.0, soft.y, params.use_bias == 1u);
+        let ips = select(0.0, soft.z, params.use_bias == 1u);
+        let delta = -ms * solve3(i0, i1, i2, (*bb).omega - (*ba).omega + bias)
+            - ips * (*jn).angular_impulse;
+        (*jn).angular_impulse += delta;
+        (*ba).omega -= world_inv_inertia(*ba, delta);
+        (*bb).omega += world_inv_inertia(*bb, delta);
+    }
+
+    var bias = vec2<f32>(0.0);
+    var mass_scale = 1.0;
+    var impulse_scale = 0.0;
+    if (params.use_bias == 1u) {
+        let soft = joint_softness((*jn).hertz, (*jn).damping);
+        bias = soft.x * vec2<f32>(dot(ay, d), dot(az, d));
+        mass_scale = soft.y;
+        impulse_scale = soft.z;
+    }
+    let vrel = ((*bb).vel + cross((*bb).omega, rB))
+        - (*ba).vel - cross((*ba).omega, rA + d);
+    let rhs = vec2<f32>(dot(ay, vrel), dot(az, vrel)) + bias;
+    let kyy = (*ba).inv_mass + (*bb).inv_mass
+        + dot(sAy, world_inv_inertia(*ba, sAy)) + dot(sBy, world_inv_inertia(*bb, sBy));
+    let kyz = dot(sAy, world_inv_inertia(*ba, sAz)) + dot(sBy, world_inv_inertia(*bb, sBz));
+    let kzz = (*ba).inv_mass + (*bb).inv_mass
+        + dot(sAz, world_inv_inertia(*ba, sAz)) + dot(sBz, world_inv_inertia(*bb, sBz));
+    let det = kyy * kzz - kyz * kyz;
+    var solution = vec2<f32>(0.0);
+    if (det > 1e-30) {
+        solution = vec2<f32>(
+            (kzz * rhs.x - kyz * rhs.y) / det,
+            (kyy * rhs.y - kyz * rhs.x) / det,
+        );
+    }
+    let delta = -mass_scale * solution - impulse_scale * (*jn).perp_impulse;
+    (*jn).perp_impulse = (*jn).perp_impulse + delta;
+    let p = delta.x * ay + delta.y * az;
+    (*ba).vel = (*ba).vel - (*ba).inv_mass * p;
+    (*ba).omega = (*ba).omega - world_inv_inertia(*ba, delta.x * sAy + delta.y * sAz);
+    (*bb).vel = (*bb).vel + (*bb).inv_mass * p;
+    (*bb).omega = (*bb).omega + world_inv_inertia(*bb, delta.x * sBy + delta.y * sBz);
+}
+
+fn solve_wheel(
+    jn: ptr<function, Joint>,
+    ba: ptr<function, Body>,
+    bb: ptr<function, Body>,
+) {
+    let qa = normalize(quat_mul((*ba).dq, (*ba).rot));
+    let qb = normalize(quat_mul((*bb).dq, (*bb).rot));
+    let rA = joint_lever((*jn).a, qa, (*jn).anchor_a);
+    let rB = joint_lever((*jn).b, qb, (*jn).anchor_b);
+    var frame_a = normalize(quat_mul(qa, (*jn).frame_a_rotation));
+    var frame_b = normalize(quat_mul(qb, (*jn).frame_b_rotation));
+    if (dot(frame_a, frame_b) < 0.0) {
+        frame_b = -frame_b;
+    }
+    let ax = quat_rotate(frame_a, vec3<f32>(1.0, 0.0, 0.0));
+    let ay = quat_rotate(frame_a, vec3<f32>(0.0, 1.0, 0.0));
+    let az = quat_rotate(frame_a, vec3<f32>(0.0, 0.0, 1.0));
+    let bz = quat_rotate(frame_b, vec3<f32>(0.0, 0.0, 1.0));
+    let d = ((*bb).pos + (*bb).dp + rB) - ((*ba).pos + (*ba).dp + rA);
+    let sAx = cross(d + rA, ax);
+    let sBx = cross(rB, ax);
+    let sAy = cross(d + rA, ay);
+    let sBy = cross(rB, ay);
+    let sAz = cross(d + rA, az);
+    let sBz = cross(rB, az);
+    let translation = dot(ax, d);
+
+    let cs = dot(bz, az);
+    let ss = -dot(bz, ay);
+    let steering_den = cs * cs + ss * ss;
+    let steering_axis = select(
+        vec3<f32>(0.0),
+        cross(bz, -cs * ay - ss * az) / steering_den,
+        steering_den > 0.0,
+    );
+    let inv_i_x = world_inv_inertia(*ba, vec3<f32>(1.0, 0.0, 0.0))
+        + world_inv_inertia(*bb, vec3<f32>(1.0, 0.0, 0.0));
+    let inv_i_y = world_inv_inertia(*ba, vec3<f32>(0.0, 1.0, 0.0))
+        + world_inv_inertia(*bb, vec3<f32>(0.0, 1.0, 0.0));
+    let inv_i_z = world_inv_inertia(*ba, vec3<f32>(0.0, 0.0, 1.0))
+        + world_inv_inertia(*bb, vec3<f32>(0.0, 0.0, 1.0));
+    let fixed_rotation =
+        abs(dot(inv_i_x, cross(inv_i_y, inv_i_z))) < 1.1754944e-35;
+    // Prepared once-per-step quantities use the base transforms (before dq),
+    // matching b3PrepareWheelJoint while current Jacobians above follow TGS.
+    let prepared_frame_a = normalize(quat_mul((*ba).rot, (*jn).frame_a_rotation));
+    let prepared_frame_b = normalize(quat_mul((*bb).rot, (*jn).frame_b_rotation));
+    let prepared_ax = quat_rotate(prepared_frame_a, vec3<f32>(1.0, 0.0, 0.0));
+    let prepared_ay = quat_rotate(prepared_frame_a, vec3<f32>(0.0, 1.0, 0.0));
+    let prepared_az = quat_rotate(prepared_frame_a, vec3<f32>(0.0, 0.0, 1.0));
+    let prepared_bz = quat_rotate(prepared_frame_b, vec3<f32>(0.0, 0.0, 1.0));
+    let prepared_rA = joint_lever((*jn).a, (*ba).rot, (*jn).anchor_a);
+    let prepared_rB = joint_lever((*jn).b, (*bb).rot, (*jn).anchor_b);
+    let prepared_sAx = cross(prepared_rA, prepared_ax);
+    let prepared_sBx = cross(prepared_rB, prepared_ax);
+    let suspension_k = (*ba).inv_mass + (*bb).inv_mass
+        + dot(prepared_sAx, world_inv_inertia(*ba, prepared_sAx))
+        + dot(prepared_sBx, world_inv_inertia(*bb, prepared_sBx));
+    let suspension_mass = select(0.0, 1.0 / suspension_k, suspension_k > 0.0);
+    let spin_k = dot(
+        prepared_bz,
+        world_inv_inertia(*ba, prepared_bz) + world_inv_inertia(*bb, prepared_bz),
+    );
+    let spin_mass = select(0.0, 1.0 / spin_k, spin_k > 0.0);
+    let prepared_cs = dot(prepared_bz, prepared_az);
+    let prepared_ss = -dot(prepared_bz, prepared_ay);
+    let prepared_den = prepared_cs * prepared_cs + prepared_ss * prepared_ss;
+    let prepared_steering_axis = select(
+        vec3<f32>(0.0),
+        cross(
+            prepared_bz,
+            -prepared_cs * prepared_ay - prepared_ss * prepared_az,
+        ) / prepared_den,
+        prepared_den > 0.0,
+    );
+    let steering_k = dot(
+        prepared_steering_axis,
+        world_inv_inertia(*ba, prepared_steering_axis)
+            + world_inv_inertia(*bb, prepared_steering_axis),
+    );
+    let steering_mass = select(0.0, 1.0 / steering_k, steering_k > 0.0);
+
+    if (params.use_bias == 2u) {
+        let suspension_impulse = (*jn).spring_impulse + (*jn).lower_impulse - (*jn).upper_impulse;
+        let linear_impulse =
+            suspension_impulse * ax + (*jn).perp_impulse.x * ay + (*jn).perp_impulse.y * az;
+        let angular_a =
+            suspension_impulse * sAx + (*jn).perp_impulse.x * sAy + (*jn).perp_impulse.y * sAz;
+        let angular_b =
+            suspension_impulse * sBx + (*jn).perp_impulse.x * sBy + (*jn).perp_impulse.y * sBz;
+        var angular_impulse = vec3<f32>(0.0);
+        if (((*jn).flags & WHEEL_ENABLE_STEERING) != 0u) {
+            let perpendicular_axis = cross(bz, ax);
+            let steering_impulse =
+                (*jn).weld_angular_impulse.x + (*jn).weld_angular_impulse.y - (*jn).weld_angular_impulse.z;
+            angular_impulse =
+                (*jn).angular_impulse.x * perpendicular_axis
+                + (*jn).motor_impulse * bz
+                + steering_impulse * steering_axis;
+        } else {
+            let rel = quat_mul(quat_inv(frame_a), frame_b);
+            let perp_x = 0.5 * quat_rotate(
+                frame_a,
+                rel.w * vec3<f32>(1.0, 0.0, 0.0) + cross(rel.xyz, vec3<f32>(1.0, 0.0, 0.0)),
+            );
+            let perp_y = 0.5 * quat_rotate(
+                frame_a,
+                rel.w * vec3<f32>(0.0, 1.0, 0.0) + cross(rel.xyz, vec3<f32>(0.0, 1.0, 0.0)),
+            );
+            // Native non-steering warm start includes both A and B spin-axis terms.
+            angular_impulse = (*jn).motor_impulse * az + (
+                (*jn).angular_impulse.x * perp_x
+                + (*jn).angular_impulse.y * perp_y
+                + (*jn).motor_impulse * bz);
+        }
+        (*ba).vel = (*ba).vel - (*ba).inv_mass * linear_impulse;
+        (*ba).omega = (*ba).omega - world_inv_inertia(*ba, angular_a + angular_impulse);
+        (*bb).vel = (*bb).vel + (*bb).inv_mass * linear_impulse;
+        (*bb).omega = (*bb).omega + world_inv_inertia(*bb, angular_b + angular_impulse);
+        return;
+    }
+
+    // Upstream order: spin, suspension spring, steering spring/limits,
+    // suspension limits, collinearity, point-to-line.
+    if (((*jn).flags & WHEEL_ENABLE_SPIN_MOTOR) != 0u && !fixed_rotation) {
+        let old = (*jn).motor_impulse;
+        let max_impulse = params.dt * (*jn).max_motor_force;
+        let cdot = dot((*bb).omega - (*ba).omega, bz) - (*jn).motor_speed;
+        (*jn).motor_impulse = clamp(old - spin_mass * cdot, -max_impulse, max_impulse);
+        let impulse = (*jn).motor_impulse - old;
+        (*ba).omega = (*ba).omega - impulse * world_inv_inertia(*ba, bz);
+        (*bb).omega = (*bb).omega + impulse * world_inv_inertia(*bb, bz);
+    }
+
+    if (((*jn).flags & WHEEL_ENABLE_SUSPENSION_SPRING) != 0u) {
+        let soft = spring_softness((*jn).spring_hertz, (*jn).spring_damping);
+        let cdot = dot(ax, (*bb).vel - (*ba).vel) + dot(sBx, (*bb).omega) - dot(sAx, (*ba).omega);
+        let impulse =
+            -soft.y * suspension_mass * (cdot + soft.x * translation)
+            - soft.z * (*jn).spring_impulse;
+        (*jn).spring_impulse = (*jn).spring_impulse + impulse;
+        let p = impulse * ax;
+        (*ba).vel = (*ba).vel - (*ba).inv_mass * p;
+        (*ba).omega = (*ba).omega - impulse * world_inv_inertia(*ba, sAx);
+        (*bb).vel = (*bb).vel + (*bb).inv_mass * p;
+        (*bb).omega = (*bb).omega + impulse * world_inv_inertia(*bb, sBx);
+    }
+
+    if (((*jn).flags & WHEEL_ENABLE_STEERING) != 0u && !fixed_rotation) {
+        let steering_angle = gyro_atan2(ss, cs);
+        let steering_soft = spring_softness((*jn).weld_linear_hertz, (*jn).weld_linear_damping);
+        let old = (*jn).weld_angular_impulse.x;
+        let cdot = dot(steering_axis, (*bb).omega - (*ba).omega);
+        let max_impulse = params.dt * (*jn).target_rotation.y;
+        (*jn).weld_angular_impulse.x = clamp(
+            old - steering_soft.y * steering_mass
+                * (cdot + steering_soft.x * (steering_angle - (*jn).target_rotation.x))
+                - steering_soft.z * old,
+            -max_impulse,
+            max_impulse,
+        );
+        let steering_delta = (*jn).weld_angular_impulse.x - old;
+        (*ba).omega = (*ba).omega - steering_delta * world_inv_inertia(*ba, steering_axis);
+        (*bb).omega = (*bb).omega + steering_delta * world_inv_inertia(*bb, steering_axis);
+
+        if (((*jn).flags & WHEEL_ENABLE_STEERING_LIMIT) != 0u) {
+            let soft = joint_softness((*jn).hertz, (*jn).damping);
+            let inv_h = 1.0 / max(params.dt, 1e-8);
+            let lower_c = steering_angle - (*jn).target_rotation.z;
+            var bias = select(0.0, lower_c * inv_h, lower_c > 0.0);
+            var mass_scale = 1.0;
+            var impulse_scale = 0.0;
+            if (lower_c <= 0.0 && params.use_bias == 1u) {
+                bias = soft.x * lower_c;
+                mass_scale = soft.y;
+                impulse_scale = soft.z;
+            }
+            let lower_old = (*jn).weld_angular_impulse.y;
+            let lower_delta = -mass_scale * steering_mass
+                * (dot(steering_axis, (*bb).omega - (*ba).omega) + bias)
+                - impulse_scale * lower_old;
+            (*jn).weld_angular_impulse.y = max(lower_old + lower_delta, 0.0);
+            let lower_applied = (*jn).weld_angular_impulse.y - lower_old;
+            (*ba).omega = (*ba).omega - lower_applied * world_inv_inertia(*ba, steering_axis);
+            (*bb).omega = (*bb).omega + lower_applied * world_inv_inertia(*bb, steering_axis);
+
+            let upper_c = (*jn).target_rotation.w - steering_angle;
+            bias = select(0.0, upper_c * inv_h, upper_c > 0.0);
+            mass_scale = 1.0;
+            impulse_scale = 0.0;
+            if (upper_c <= 0.0 && params.use_bias == 1u) {
+                bias = soft.x * upper_c;
+                mass_scale = soft.y;
+                impulse_scale = soft.z;
+            }
+            let upper_old = (*jn).weld_angular_impulse.z;
+            let upper_delta = -mass_scale * steering_mass
+                * (dot(steering_axis, (*ba).omega - (*bb).omega) + bias)
+                - impulse_scale * upper_old;
+            (*jn).weld_angular_impulse.z = max(upper_old + upper_delta, 0.0);
+            let upper_applied = (*jn).weld_angular_impulse.z - upper_old;
+            (*ba).omega = (*ba).omega + upper_applied * world_inv_inertia(*ba, steering_axis);
+            (*bb).omega = (*bb).omega - upper_applied * world_inv_inertia(*bb, steering_axis);
+        }
+    }
+
+    if (((*jn).flags & WHEEL_ENABLE_SUSPENSION_LIMIT) != 0u) {
+        let soft = joint_softness((*jn).hertz, (*jn).damping);
+        let inv_h = 1.0 / max(params.dt, 1e-8);
+        let lower_c = translation - (*jn).lower_translation;
+        var bias = select(0.0, lower_c * inv_h, lower_c > 0.0);
+        var mass_scale = 1.0;
+        var impulse_scale = 0.0;
+        if (lower_c <= 0.0 && params.use_bias == 1u) {
+            bias = soft.x * lower_c;
+            mass_scale = soft.y;
+            impulse_scale = soft.z;
+        }
+        let lower_old = (*jn).lower_impulse;
+        let lower_cdot =
+            dot(ax, (*bb).vel - (*ba).vel) + dot(sBx, (*bb).omega) - dot(sAx, (*ba).omega);
+        let lower_delta =
+            -mass_scale * suspension_mass * (lower_cdot + bias) - impulse_scale * lower_old;
+        (*jn).lower_impulse = max(lower_old + lower_delta, 0.0);
+        let lower_applied = (*jn).lower_impulse - lower_old;
+        (*ba).vel = (*ba).vel - (*ba).inv_mass * lower_applied * ax;
+        (*ba).omega = (*ba).omega - lower_applied * world_inv_inertia(*ba, sAx);
+        (*bb).vel = (*bb).vel + (*bb).inv_mass * lower_applied * ax;
+        (*bb).omega = (*bb).omega + lower_applied * world_inv_inertia(*bb, sBx);
+
+        let upper_c = (*jn).upper_translation - translation;
+        bias = select(0.0, upper_c * inv_h, upper_c > 0.0);
+        mass_scale = 1.0;
+        impulse_scale = 0.0;
+        if (upper_c <= 0.0 && params.use_bias == 1u) {
+            bias = soft.x * upper_c;
+            mass_scale = soft.y;
+            impulse_scale = soft.z;
+        }
+        let upper_old = (*jn).upper_impulse;
+        let upper_cdot =
+            dot(ax, (*ba).vel - (*bb).vel) + dot(sAx, (*ba).omega) - dot(sBx, (*bb).omega);
+        let upper_delta =
+            -mass_scale * suspension_mass * (upper_cdot + bias) - impulse_scale * upper_old;
+        (*jn).upper_impulse = max(upper_old + upper_delta, 0.0);
+        let upper_applied = (*jn).upper_impulse - upper_old;
+        (*ba).vel = (*ba).vel + (*ba).inv_mass * upper_applied * ax;
+        (*ba).omega = (*ba).omega + upper_applied * world_inv_inertia(*ba, sAx);
+        (*bb).vel = (*bb).vel - (*bb).inv_mass * upper_applied * ax;
+        (*bb).omega = (*bb).omega - upper_applied * world_inv_inertia(*bb, sBx);
+    }
+
+    if (!fixed_rotation) {
+        let soft = joint_softness((*jn).hertz, (*jn).damping);
+        if (((*jn).flags & WHEEL_ENABLE_STEERING) != 0u) {
+            let u = cross(bz, ax);
+            let k = dot(u, world_inv_inertia(*ba, u) + world_inv_inertia(*bb, u));
+            let mass = select(0.0, 1.0 / k, k > 0.0);
+            let c = dot(ax, bz);
+            let bias = select(0.0, soft.x * c, params.use_bias == 1u);
+            let mass_scale = select(1.0, soft.y, params.use_bias == 1u);
+            let impulse_scale = select(0.0, soft.z, params.use_bias == 1u);
+            let delta = -mass_scale * mass * (dot((*bb).omega - (*ba).omega, u) + bias)
+                - impulse_scale * (*jn).angular_impulse.x;
+            (*jn).angular_impulse.x = (*jn).angular_impulse.x + delta;
+            (*ba).omega = (*ba).omega - delta * world_inv_inertia(*ba, u);
+            (*bb).omega = (*bb).omega + delta * world_inv_inertia(*bb, u);
+        } else {
+            let rel = quat_mul(quat_inv(frame_a), frame_b);
+            let px = 0.5 * quat_rotate(
+                frame_a,
+                rel.w * vec3<f32>(1.0, 0.0, 0.0) + cross(rel.xyz, vec3<f32>(1.0, 0.0, 0.0)),
+            );
+            let py = 0.5 * quat_rotate(
+                frame_a,
+                rel.w * vec3<f32>(0.0, 1.0, 0.0) + cross(rel.xyz, vec3<f32>(0.0, 1.0, 0.0)),
+            );
+            let kxx = dot(px, world_inv_inertia(*ba, px) + world_inv_inertia(*bb, px));
+            let kyy = dot(py, world_inv_inertia(*ba, py) + world_inv_inertia(*bb, py));
+            let kxy = dot(px, world_inv_inertia(*ba, py) + world_inv_inertia(*bb, py));
+            let det = kxx * kyy - kxy * kxy;
+            var bias = vec2<f32>(0.0);
+            var mass_scale = 1.0;
+            var impulse_scale = 0.0;
+            if (params.use_bias == 1u) {
+                bias = soft.x * rel.xy;
+                mass_scale = soft.y;
+                impulse_scale = soft.z;
+            }
+            let wrel = (*bb).omega - (*ba).omega;
+            let rhs = vec2<f32>(dot(wrel, px), dot(wrel, py)) + bias;
+            var solution = vec2<f32>(0.0);
+            if (det > 1e-30) {
+                solution = vec2<f32>(
+                    (kyy * rhs.x - kxy * rhs.y) / det,
+                    (kxx * rhs.y - kxy * rhs.x) / det,
+                );
+            }
+            let old = (*jn).angular_impulse.xy;
+            let delta = -mass_scale * solution - impulse_scale * old;
+            (*jn).angular_impulse.x = old.x + delta.x;
+            (*jn).angular_impulse.y = old.y + delta.y;
+            let impulse = delta.x * px + delta.y * py;
+            (*ba).omega = (*ba).omega - world_inv_inertia(*ba, impulse);
+            (*bb).omega = (*bb).omega + world_inv_inertia(*bb, impulse);
+        }
+    }
+
+    var bias = vec2<f32>(0.0);
+    var mass_scale = 1.0;
+    var impulse_scale = 0.0;
+    if (params.use_bias == 1u) {
+        let soft = joint_softness((*jn).hertz, (*jn).damping);
+        bias = soft.x * vec2<f32>(dot(ay, d), dot(az, d));
+        mass_scale = soft.y;
+        impulse_scale = soft.z;
+    }
+    let vrel = ((*bb).vel + cross((*bb).omega, rB))
+        - (*ba).vel - cross((*ba).omega, rA + d);
+    let rhs = vec2<f32>(dot(ay, vrel), dot(az, vrel)) + bias;
+    let kyy = (*ba).inv_mass + (*bb).inv_mass
+        + dot(sAy, world_inv_inertia(*ba, sAy)) + dot(sBy, world_inv_inertia(*bb, sBy));
+    let kyz = dot(sAy, world_inv_inertia(*ba, sAz)) + dot(sBy, world_inv_inertia(*bb, sBz));
+    let kzz = (*ba).inv_mass + (*bb).inv_mass
+        + dot(sAz, world_inv_inertia(*ba, sAz)) + dot(sBz, world_inv_inertia(*bb, sBz));
+    let det = kyy * kzz - kyz * kyz;
+    var solution = vec2<f32>(0.0);
+    if (det > 1e-30) {
+        solution = vec2<f32>(
+            (kzz * rhs.x - kyz * rhs.y) / det,
+            (kyy * rhs.y - kyz * rhs.x) / det,
+        );
+    }
+    let delta = -mass_scale * solution - impulse_scale * (*jn).perp_impulse;
+    (*jn).perp_impulse = (*jn).perp_impulse + delta;
+    let p = delta.x * ay + delta.y * az;
+    (*ba).vel = (*ba).vel - (*ba).inv_mass * p;
+    (*ba).omega = (*ba).omega - world_inv_inertia(*ba, delta.x * sAy + delta.y * sAz);
+    (*bb).vel = (*bb).vel + (*bb).inv_mass * p;
+    (*bb).omega = (*bb).omega + world_inv_inertia(*bb, delta.x * sBy + delta.y * sBz);
+}
+
+// Explicit scalar cross products prevent contraction inside the builtin cross.
+fn spherical_warm_torque(inverse_inertia: mat3x3<f32>, lever: vec3<f32>,
+    linear_impulse: vec3<f32>, angular_impulse: vec3<f32>) -> vec3<f32> {
+    return native_mul_mv(inverse_inertia, gyro_cross(lever, linear_impulse) + angular_impulse);
+}
+
+// Preserve native cross-product rounding in the point constraint's relative velocity.
+fn joint_point_velocity(
+    va: vec3<f32>, wa: vec3<f32>, vb: vec3<f32>, wb: vec3<f32>,
+    ra: vec3<f32>, rb: vec3<f32>,
+) -> vec3<f32> {
+    return ((vb + gyro_cross(wb, rb)) - va) - gyro_cross(wa, ra);
+}
+
+fn solve_spherical(
+    jn: ptr<function, Joint>,
+    ba: ptr<function, Body>,
+    bb: ptr<function, Body>,
+) {
+    let base_frame_a = quat_mul((*ba).rot, (*jn).frame_a_rotation);
+    let base_frame_b = quat_mul((*bb).rot, (*jn).frame_b_rotation);
+    let cone_axis = quat_rotate(base_frame_a, vec3<f32>(0.0, 0.0, 1.0));
+    let twist_axis = quat_rotate(base_frame_b, vec3<f32>(0.0, 0.0, 1.0));
+    let swing_axis = gyro_norm3(gyro_cross(cone_axis, twist_axis));
+    let base_rel = quat_mul(quat_inv(base_frame_a), base_frame_b);
+    let tangent_denominator = base_rel.z * base_rel.z + base_rel.w * base_rel.w;
+    let tan_half_swing = select(
+        0.0,
+        gyro_sqrt(gyro_divide(base_rel.x * base_rel.x + base_rel.y * base_rel.y, tangent_denominator)),
+        tangent_denominator > 0.0,
+    );
+    let twist_jacobian =
+        cone_axis + tan_half_swing * gyro_cross(swing_axis, cone_axis);
+
+    // Native prepares the summed tensor before multiplying by either axis.
+    let inertia_sum = world_inv_inertia_matrix(*ba) + world_inv_inertia_matrix(*bb);
+    let swing_k = gyro_dot3(swing_axis, native_mul_mv(inertia_sum, swing_axis));
+    let swing_mass = select(0.0, gyro_recip(swing_k), swing_k > 0.0);
+    let twist_k = gyro_dot3(twist_jacobian, native_mul_mv(inertia_sum, twist_jacobian));
+    let twist_mass = select(0.0, gyro_recip(twist_k), twist_k > 0.0);
+
+    let i0 = world_inv_inertia(*ba, vec3<f32>(1.0, 0.0, 0.0))
+        + world_inv_inertia(*bb, vec3<f32>(1.0, 0.0, 0.0));
+    let i1 = world_inv_inertia(*ba, vec3<f32>(0.0, 1.0, 0.0))
+        + world_inv_inertia(*bb, vec3<f32>(0.0, 1.0, 0.0));
+    let i2 = world_inv_inertia(*ba, vec3<f32>(0.0, 0.0, 1.0))
+        + world_inv_inertia(*bb, vec3<f32>(0.0, 0.0, 1.0));
+    let fixed_rotation = abs(dot(i0, cross(i1, i2))) < 1e-30;
+
+    // Match CPU preparation followed by the substep delta rotation.
+    let rA = quat_rotate((*ba).dq, joint_lever((*jn).a, (*ba).rot, (*jn).anchor_a));
+    let rB = quat_rotate((*bb).dq, joint_lever((*jn).b, (*bb).rot, (*jn).anchor_b));
+
+    if (params.use_bias == 2u) {
+        var angular_impulse =
+            (*jn).spring_angular_impulse + (*jn).motor_angular_impulse;
+        angular_impulse = angular_impulse
+            - (*jn).swing_impulse * swing_axis
+            + ((*jn).lower_impulse - (*jn).upper_impulse) * twist_jacobian;
+        if (joint_endpoint_writable(*ba)) {
+            (*ba).vel = (*ba).vel - (*ba).inv_mass * (*jn).angular_impulse;
+            (*ba).omega = (*ba).omega - spherical_warm_torque(
+                world_inv_inertia_matrix(*ba), rA, (*jn).angular_impulse, angular_impulse);
+        }
+        if (joint_endpoint_writable(*bb)) {
+            (*bb).vel = (*bb).vel + (*bb).inv_mass * (*jn).angular_impulse;
+            (*bb).omega = (*bb).omega + spherical_warm_torque(
+                world_inv_inertia_matrix(*bb), rB, (*jn).angular_impulse, angular_impulse);
+        }
+        return;
+    }
+
+    let frame_a = quat_mul((*ba).dq, base_frame_a);
+    let frame_b = quat_mul((*bb).dq, base_frame_b);
+    let rel = quat_mul(quat_inv(frame_a), frame_b);
+
+    // Box3D order: spring, motor, lower/upper twist, cone, point-to-point.
+    // Spring/motor multiply by the prepared inverse; a direct solve rounds differently.
+    if (((*jn).flags & SPHERICAL_ENABLE_SPRING) != 0u && !fixed_rotation) {
+        let soft = spring_softness((*jn).spring_hertz, (*jn).spring_damping);
+        let local_error = delta_quat_to_rotation(rel, (*jn).target_rotation);
+        let c = -quat_rotate(frame_a, local_error);
+        let cdot = (*bb).omega - (*ba).omega;
+        let delta_impulse =
+            -soft.y * motor_angular_mass_mul(*ba, *bb, cdot + soft.x * c)
+            - soft.z * (*jn).spring_angular_impulse;
+        (*jn).spring_angular_impulse =
+            (*jn).spring_angular_impulse + delta_impulse;
+        (*ba).omega = (*ba).omega - world_inv_inertia(*ba, delta_impulse);
+        (*bb).omega = (*bb).omega + world_inv_inertia(*bb, delta_impulse);
+    }
+
+    if (((*jn).flags & SPHERICAL_ENABLE_MOTOR) != 0u && !fixed_rotation) {
+        let cdot =
+            ((*bb).omega - (*ba).omega) - (*jn).motor_angular_velocity;
+        let delta = -motor_angular_mass_mul(*ba, *bb, cdot);
+        let old_impulse = (*jn).motor_angular_impulse;
+        (*jn).motor_angular_impulse = spherical_clamp_vector_length(
+            old_impulse + delta,
+            (*jn).max_motor_force * params.dt,
+        );
+        let applied = (*jn).motor_angular_impulse - old_impulse;
+        (*ba).omega = (*ba).omega - world_inv_inertia(*ba, applied);
+        (*bb).omega = (*bb).omega + world_inv_inertia(*bb, applied);
+    }
+
+    if (((*jn).flags & SPHERICAL_ENABLE_TWIST_LIMIT) != 0u && !fixed_rotation) {
+        let angle = twist_angle(rel);
+        let soft = joint_softness((*jn).hertz, (*jn).damping);
+        let inv_h = 1.0 / max(params.dt, 1e-8);
+
+        let lower_c = angle - (*jn).lower_translation;
+        var lower_bias = 0.0;
+        var lower_mass_scale = 1.0;
+        var lower_impulse_scale = 0.0;
+        if (lower_c > 0.0) {
+            lower_bias = lower_c * inv_h;
+        } else if (params.use_bias == 1u) {
+            lower_bias = soft.x * lower_c;
+            lower_mass_scale = soft.y;
+            lower_impulse_scale = soft.z;
+        }
+        let lower_cdot =
+            gyro_dot3((*bb).omega - (*ba).omega, twist_jacobian);
+        let old_lower = (*jn).lower_impulse;
+        let lower_delta =
+            -lower_mass_scale * twist_mass * (lower_cdot + lower_bias)
+            - lower_impulse_scale * old_lower;
+        (*jn).lower_impulse = max(old_lower + lower_delta, 0.0);
+        let applied_lower = (*jn).lower_impulse - old_lower;
+        (*ba).omega = (*ba).omega
+            - applied_lower * world_inv_inertia(*ba, twist_jacobian);
+        (*bb).omega = (*bb).omega
+            + applied_lower * world_inv_inertia(*bb, twist_jacobian);
+
+        let upper_c = (*jn).upper_translation - angle;
+        var upper_bias = 0.0;
+        var upper_mass_scale = 1.0;
+        var upper_impulse_scale = 0.0;
+        if (upper_c > 0.0) {
+            upper_bias = upper_c * inv_h;
+        } else if (params.use_bias == 1u) {
+            upper_bias = soft.x * upper_c;
+            upper_mass_scale = soft.y;
+            upper_impulse_scale = soft.z;
+        }
+        let upper_cdot =
+            gyro_dot3((*ba).omega - (*bb).omega, twist_jacobian);
+        let old_upper = (*jn).upper_impulse;
+        let upper_delta =
+            -upper_mass_scale * twist_mass * (upper_cdot + upper_bias)
+            - upper_impulse_scale * old_upper;
+        (*jn).upper_impulse = max(old_upper + upper_delta, 0.0);
+        let applied_upper = (*jn).upper_impulse - old_upper;
+        (*ba).omega = (*ba).omega
+            + applied_upper * world_inv_inertia(*ba, twist_jacobian);
+        (*bb).omega = (*bb).omega
+            - applied_upper * world_inv_inertia(*bb, twist_jacobian);
+    }
+
+    if (((*jn).flags & SPHERICAL_ENABLE_CONE_LIMIT) != 0u && !fixed_rotation) {
+        let c = (*jn).target_translation - swing_angle(rel);
+        let soft = joint_softness((*jn).hertz, (*jn).damping);
+        var bias = 0.0;
+        var mass_scale = 1.0;
+        var impulse_scale = 0.0;
+        if (c > 0.0) {
+            bias = c / max(params.dt, 1e-8);
+        } else if (params.use_bias == 1u) {
+            bias = soft.x * c;
+            mass_scale = soft.y;
+            impulse_scale = soft.z;
+        }
+        let cdot = spherical_cone_velocity((*ba).omega, (*bb).omega, swing_axis);
+        let old_impulse = (*jn).swing_impulse;
+        let delta =
+            -mass_scale * swing_mass * (cdot + bias)
+            - impulse_scale * old_impulse;
+        (*jn).swing_impulse = max(old_impulse + delta, 0.0);
+        let applied = (*jn).swing_impulse - old_impulse;
+        (*ba).omega =
+            (*ba).omega + applied * world_inv_inertia(*ba, swing_axis);
+        (*bb).omega =
+            (*bb).omega - applied * world_inv_inertia(*bb, swing_axis);
+    }
+
+    let cdot = joint_point_velocity(
+        (*ba).vel, (*ba).omega, (*bb).vel, (*bb).omega, rA, rB,
+    );
+    var bias = vec3<f32>(0.0);
+    var mass_scale = 1.0;
+    var impulse_scale = 0.0;
+    if (params.use_bias == 1u) {
+        let soft = joint_softness((*jn).hertz, (*jn).damping);
+        let separation =
+            (((*bb).dp - (*ba).dp) + (rB - rA))
+            + ((*bb).pos - (*ba).pos);
+        bias = soft.x * separation;
+        mass_scale = soft.y;
+        impulse_scale = soft.z;
+    }
+    let solution = motor_linear_mass_mul(*ba, *bb, rA, rB, cdot + bias);
+    let impulse =
+        -mass_scale * solution - impulse_scale * (*jn).angular_impulse;
+    (*jn).angular_impulse = (*jn).angular_impulse + impulse;
+    apply_P(ba, rA, impulse, -1.0);
+    apply_P(bb, rB, impulse, 1.0);
+}
+
+fn solve_weld(
+    jn: ptr<function, Joint>,
+    ba: ptr<function, Body>,
+    bb: ptr<function, Body>,
+) {
+    let qa = normalize(quat_mul((*ba).dq, (*ba).rot));
+    let qb = normalize(quat_mul((*bb).dq, (*bb).rot));
+    let rA = joint_lever((*jn).a, qa, (*jn).anchor_a);
+    let rB = joint_lever((*jn).b, qb, (*jn).anchor_b);
+
+    if (params.use_bias == 2u) {
+        apply_P(ba, rA, (*jn).weld_linear_impulse, -1.0);
+        apply_P(bb, rB, (*jn).weld_linear_impulse, 1.0);
+        (*ba).omega = (*ba).omega
+            - world_inv_inertia(*ba, (*jn).weld_angular_impulse);
+        (*bb).omega = (*bb).omega
+            + world_inv_inertia(*bb, (*jn).weld_angular_impulse);
+        return;
+    }
+
+    let i0 = world_inv_inertia(*ba, vec3<f32>(1.0, 0.0, 0.0))
+        + world_inv_inertia(*bb, vec3<f32>(1.0, 0.0, 0.0));
+    let i1 = world_inv_inertia(*ba, vec3<f32>(0.0, 1.0, 0.0))
+        + world_inv_inertia(*bb, vec3<f32>(0.0, 1.0, 0.0));
+    let i2 = world_inv_inertia(*ba, vec3<f32>(0.0, 0.0, 1.0))
+        + world_inv_inertia(*bb, vec3<f32>(0.0, 0.0, 1.0));
+    let fixed_rotation = abs(dot(i0, cross(i1, i2))) < 1e-30;
+
+    // Box3D weld order: angular constraint, then point-to-point constraint.
+    if (!fixed_rotation) {
+        let frame_a = normalize(quat_mul(qa, (*jn).frame_a_rotation));
+        var frame_b = normalize(quat_mul(qb, (*jn).frame_b_rotation));
+        if (dot(frame_a, frame_b) < 0.0) {
+            frame_b = -frame_b;
+        }
+        let rel = quat_mul(quat_inv(frame_a), frame_b);
+        let soft = select(
+            joint_softness((*jn).hertz, (*jn).damping),
+            spring_softness(
+                (*jn).weld_angular_hertz,
+                (*jn).weld_angular_damping,
+            ),
+            (*jn).weld_angular_hertz > 0.0,
+        );
+        var bias = vec3<f32>(0.0);
+        var mass_scale = 1.0;
+        var impulse_scale = 0.0;
+        if (params.use_bias == 1u || (*jn).weld_angular_hertz > 0.0) {
+            let local_error =
+                delta_quat_to_rotation(rel, vec4<f32>(0.0, 0.0, 0.0, 1.0));
+            bias = soft.x * -quat_rotate(frame_a, local_error);
+            mass_scale = soft.y;
+            impulse_scale = soft.z;
+        }
+        let cdot = (*bb).omega - (*ba).omega;
+        let impulse =
+            -mass_scale * solve3(i0, i1, i2, cdot + bias)
+            - impulse_scale * (*jn).weld_angular_impulse;
+        (*jn).weld_angular_impulse =
+            (*jn).weld_angular_impulse + impulse;
+        (*ba).omega = (*ba).omega - world_inv_inertia(*ba, impulse);
+        (*bb).omega = (*bb).omega + world_inv_inertia(*bb, impulse);
+    }
+
+    let cdot =
+        ((*bb).vel + cross((*bb).omega, rB))
+        - ((*ba).vel + cross((*ba).omega, rA));
+    let soft = select(
+        joint_softness((*jn).hertz, (*jn).damping),
+        spring_softness((*jn).weld_linear_hertz, (*jn).weld_linear_damping),
+        (*jn).weld_linear_hertz > 0.0,
+    );
+    var bias = vec3<f32>(0.0);
+    var mass_scale = 1.0;
+    var impulse_scale = 0.0;
+    if (params.use_bias == 1u || (*jn).weld_linear_hertz > 0.0) {
+        let separation =
+            ((*bb).pos + (*bb).dp + rB) - ((*ba).pos + (*ba).dp + rA);
+        bias = soft.x * separation;
+        mass_scale = soft.y;
+        impulse_scale = soft.z;
+    }
+    let solution = motor_linear_mass_mul(*ba, *bb, rA, rB, cdot + bias);
+    let impulse =
+        -mass_scale * solution - impulse_scale * (*jn).weld_linear_impulse;
+    (*jn).weld_linear_impulse = (*jn).weld_linear_impulse + impulse;
+    apply_P(ba, rA, impulse, -1.0);
+    apply_P(bb, rB, impulse, 1.0);
+}
+
+fn joint_writable_root(jn: Joint) -> u32 {
+    var ra = EMPTY;
+    var rb = EMPTY;
+    let ba = load_body(jn.a);
+    let bb = load_body(jn.b);
+    if (joint_endpoint_writable(ba)) {
+        ra = island_root(jn.a);
+        if (ra == EMPTY) {
+            ra = jn.a;
+        }
+    }
+    if (joint_endpoint_writable(bb)) {
+        rb = island_root(jn.b);
+        if (rb == EMPTY) {
+            rb = jn.b;
+        }
+    }
+    if (ra == EMPTY) {
+        return rb;
+    }
+    if (rb == EMPTY || ra == rb) {
+        return ra;
+    }
+    return min(ra, rb);
+}
+
+fn joint_solver_serial() -> bool {
+    return (params.diagnostic_flags & DIAG_SERIAL_JOINTS) != 0u;
+}
+
+@compute @workgroup_size(64)
+fn solve_joints(
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
+    @builtin(local_invocation_index) lid: u32,
+) {
+    solve_joint_components(dispatch_gid, lid, false, params.color_select);
+}
+
+@compute @workgroup_size(64)
+fn solve_joint_color(
+    @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
+    @builtin(local_invocation_index) lid: u32,
+) {
+    solve_joint_components(dispatch_gid, lid, true, params.color_select);
+}
+
+// Small jointed worlds share one workgroup for the complete color wave.
+// Non-overflow colors have disjoint writable endpoints across joints AND
+// contacts. Barriers retain Gauss-Seidel priority between colors.
+@compute @workgroup_size(64)
+fn solve_jointed_wave(@builtin(local_invocation_index) lid: u32) {
+    let ncomp = scratch[SCR_JOINT_COMP_N];
+    for (var order = 0u; order <= OVERFLOW_COLOR; order++) {
+        let color = select(order - 1u, OVERFLOW_COLOR, order == 0u);
+        if (params.use_bias != 3u) {
+            if (scratch[SCR_JOINT_LIST_OK] == 1u) {
+                for (var c = lid; c < ncomp; c += 64u) {
+                    solve_joint_components(vec3<u32>(c, 0u, 0u), lid, true, color);
+                }
+            } else {
+                // A failed list may have no components. Still visit every joint
+                // through the same single-writer fallback as general dispatch.
+                solve_joint_components(vec3<u32>(lid, 0u, 0u), lid, true, color);
+            }
+        }
+        // Overflow contacts may share bodies with any overflow joint.
+        storageBarrier();
+        workgroupBarrier();
+        let n = scratch[SCR_COLOR + color];
+        if (color == OVERFLOW_COLOR) {
+            if (lid == 0u) {
+                for (var i = 0u; i < n; i++) {
+                    run_contact(listed_index(color, i));
+                }
+            }
+        } else {
+            for (var i = lid; i < n; i += 64u) {
+                run_contact(listed_index(color, i));
+            }
+        }
+        storageBarrier();
+        workgroupBarrier();
+    }
+}
+
+fn solve_joint_components(dispatch_gid: vec3<u32>, lid: u32, by_color: bool, color_select: u32) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
+    let serial = joint_solver_serial();
+    let list_ok = scratch[SCR_JOINT_LIST_OK] == 1u;
+    if (serial && gid.x != 0u) {
+        return;
+    }
+    let ncomp = scratch[SCR_JOINT_COMP_N];
+    var use_list = !serial && list_ok;
+    var n = params.joint_count;
+    var list_off = 0u;
+    if (use_list) {
+        if (gid.x >= ncomp) {
+            return;
+        }
+        list_off = scratch[joint_list_off_base() + gid.x];
+        n = scratch[joint_list_count_base() + gid.x];
+    } else if (!serial) {
+        // Select one invocation for the entire dispatch, not one per workgroup.
+        // Multiple fallback writers would race on every joint and body.
+        if (gid.x != 0u) {
+            return;
+        }
+    }
+    let h = params.dt;
+    for (var k = 0u; k < n; k++) {
+        var i = k;
+        if (use_list) {
+            i = scratch[joint_list_base() + list_off + k];
+        }
+        var jn = joints[i];
+        if (jn.kind == JOINT_NONE || jn.kind == JOINT_FILTER) {
+            continue;
+        }
+        if (params.use_bias == 2u
+            && jn.kind != JOINT_REVOLUTE
+            && jn.kind != JOINT_SPHERICAL
+            && jn.kind != JOINT_WELD
+            && jn.kind != JOINT_WHEEL
+            && jn.kind != JOINT_PRISMATIC
+            && jn.kind != JOINT_DISTANCE
+            && jn.kind != JOINT_PARALLEL
+            && jn.kind != JOINT_MOTOR) {
+            continue;
+        }
+        var ba = load_body(jn.a);
+        var bb = load_body(jn.b);
+        // Sleeping solver sets retain impulses until an endpoint wakes.
+        if (is_immovable(ba) && is_immovable(bb)) {
+            continue;
+        }
+        // 0: complete diagnostic walk, 1: dynamic joints, 2: anchored joints.
+        // Keep sleep out of the classification: it must not change priority.
+        let anchored = is_non_dynamic(ba) || is_non_dynamic(bb);
+        if ((by_color && jn.solver_color != color_select)
+            || (!by_color && ((color_select == 1u && anchored)
+                || (color_select == 2u && !anchored)))) {
+            continue;
+        }
+        let qa = normalize(quat_mul(ba.dq, ba.rot));
+        let qb = normalize(quat_mul(bb.dq, bb.rot));
+        var rA = joint_lever(jn.a, qa, jn.anchor_a);
+        var rB = joint_lever(jn.b, qb, jn.anchor_b);
+        let pa = ba.pos + ba.dp + rA;
+        let pb = bb.pos + bb.dp + rB;
+        var err = pb - pa;
+        if (jn.kind == JOINT_MOTOR) {
+            rA = quat_rotate(ba.dq, joint_lever(jn.a, ba.rot, jn.anchor_a));
+            rB = quat_rotate(bb.dq, joint_lever(jn.b, bb.rot, jn.anchor_b));
+            err = ((bb.dp - ba.dp) + (rB - rA)) + (bb.pos - ba.pos);
+        }
+        if (jn.kind == JOINT_REVOLUTE) {
+            solve_revolute(&jn, &ba, &bb);
+            err = vec3<f32>(0.0);
+        } else if (jn.kind == JOINT_WHEEL) {
+            solve_wheel(&jn, &ba, &bb);
+            err = vec3<f32>(0.0);
+        } else if (jn.kind == JOINT_WELD) {
+            solve_weld(&jn, &ba, &bb);
+            err = vec3<f32>(0.0);
+        } else if (jn.kind == JOINT_SPHERICAL) {
+            solve_spherical(&jn, &ba, &bb);
+            err = vec3<f32>(0.0);
+        } else if (jn.kind == JOINT_MOTOR) {
+            // The warm-start wave reapplies the cached impulse to this substep's
+            // velocities. Solving a new delta here loses sustained support force.
+            if (params.use_bias == 2u) {
+                let linear = vec3<f32>(jn.impulse, jn.perp_impulse)
+                    + vec3<f32>(jn.spring_impulse, jn.lower_impulse, jn.upper_impulse);
+                let angular = jn.angular_impulse
+                    + vec3<f32>(jn.motor_impulse, jn._pad2);
+                // Native combines both cached torques before multiplying by
+                // inverse inertia, then adds the angular velocity delta once.
+                if (joint_endpoint_writable(ba)) {
+                    ba.vel = ba.vel - body_inv_mass(ba) * linear;
+                    ba.omega = ba.omega - world_inv_inertia(ba, gyro_cross(rA,linear) + angular);
+                }
+                if (joint_endpoint_writable(bb)) {
+                    bb.vel = bb.vel + body_inv_mass(bb) * linear;
+                    bb.omega = bb.omega + world_inv_inertia(bb, gyro_cross(rB,linear) + angular);
+                }
+                if (joint_endpoint_writable(ba)) { store_body(jn.a, ba); }
+                if (joint_endpoint_writable(bb)) { store_body(jn.b, bb); }
+                continue;
+            }
+            let frame_a = normalize(quat_mul(qa, jn.frame_a_rotation));
+            var frame_b = normalize(quat_mul(qb, jn.frame_b_rotation));
+            if (dot(frame_a, frame_b) < 0.0) {
+                frame_b = -frame_b;
+            }
+            let rel = quat_mul(quat_inv(frame_a), frame_b);
+            var angular_spring_impulse =
+                vec3<f32>(jn.motor_impulse, jn._pad2.x, jn._pad2.y);
+            if (jn.max_motor_force > 0.0 && jn.spring_hertz > 0.0) {
+                let omega = 6.2831853 * jn.spring_hertz;
+                let a1 = 2.0 * jn.spring_damping + h * omega;
+                let a2 = h * omega * a1;
+                let a3 = 1.0 / (1.0 + a2);
+                let bias_rate = omega / max(a1, 1e-8);
+                let mass_scale = a2 * a3;
+                let impulse_scale = a3;
+                let rotation_error = 2.0 * quat_rotate(frame_a, rel.xyz);
+                let cdot = bb.omega - ba.omega;
+                let old = angular_spring_impulse;
+                let delta = -mass_scale
+                    * motor_angular_mass_mul(ba, bb, cdot + bias_rate * rotation_error)
+                    - impulse_scale * old;
+                angular_spring_impulse =
+                    motor_clamp_vector_length(old + delta, h * jn.max_motor_force);
+                let impulse = angular_spring_impulse - old;
+                apply_joint_torque(&ba, -impulse);
+                apply_joint_torque(&bb, impulse);
+            }
+
+            if (jn.lower_translation > 0.0) {
+                let cdot = bb.omega - ba.omega - jn.motor_angular_velocity;
+                let old = jn.angular_impulse;
+                jn.angular_impulse = motor_clamp_vector_length(
+                    old - motor_angular_mass_mul(ba, bb, cdot),
+                    h * jn.lower_translation,
+                );
+                let impulse = jn.angular_impulse - old;
+                apply_joint_torque(&ba, -impulse);
+                apply_joint_torque(&bb, impulse);
+            }
+
+            var linear_spring_impulse =
+                vec3<f32>(jn.spring_impulse, jn.lower_impulse, jn.upper_impulse);
+            if (jn.upper_translation > 0.0 && jn.hertz > 0.0) {
+                let omega = 6.2831853 * jn.hertz;
+                let a1 = 2.0 * jn.damping + h * omega;
+                let a2 = h * omega * a1;
+                let a3 = 1.0 / (1.0 + a2);
+                let bias_rate = omega / max(a1, 1e-8);
+                let mass_scale = a2 * a3;
+                let impulse_scale = a3;
+                let cdot =
+                    (bb.vel + gyro_cross(bb.omega, rB)) - (ba.vel + gyro_cross(ba.omega, rA));
+                let old = linear_spring_impulse;
+                let delta = -mass_scale
+                    * motor_linear_mass_mul(ba, bb, rA, rB, cdot + bias_rate * err)
+                    - impulse_scale * old;
+                linear_spring_impulse =
+                    motor_clamp_vector_length(old + delta, h * jn.upper_translation);
+                let impulse = linear_spring_impulse - old;
+                apply_P(&ba, rA, impulse, -1.0);
+                apply_P(&bb, rB, impulse, 1.0);
+            }
+
+            var linear_velocity_impulse =
+                vec3<f32>(jn.impulse, jn.perp_impulse.x, jn.perp_impulse.y);
+            if (jn.target_translation > 0.0) {
+                let cdot =
+                    (bb.vel + cross(bb.omega, rB)) - (ba.vel + cross(ba.omega, rA))
+                    - jn.axis;
+                let old = linear_velocity_impulse;
+                linear_velocity_impulse = clamp_vector_length(
+                    old - motor_linear_mass_mul(ba, bb, rA, rB, cdot),
+                    h * jn.target_translation,
+                );
+                let impulse = linear_velocity_impulse - old;
+                apply_P(&ba, rA, impulse, -1.0);
+                apply_P(&bb, rB, impulse, 1.0);
+            }
+
+            jn.impulse = linear_velocity_impulse.x;
+            jn.perp_impulse = linear_velocity_impulse.yz;
+            jn.spring_impulse = linear_spring_impulse.x;
+            jn.lower_impulse = linear_spring_impulse.y;
+            jn.upper_impulse = linear_spring_impulse.z;
+            jn.motor_impulse = angular_spring_impulse.x;
+            jn._pad2 = angular_spring_impulse.yz;
+            err = vec3<f32>(0.0);
+        } else if (jn.kind == JOINT_PARALLEL) {
+            let frame_a = normalize(quat_mul(qa, jn.frame_a_rotation));
+            var frame_b = normalize(quat_mul(qb, jn.frame_b_rotation));
+            if (dot(frame_a, frame_b) < 0.0) {
+                frame_b = -frame_b;
+            }
+            let rel = quat_mul(quat_inv(frame_a), frame_b);
+            let axis_x = 0.5 * quat_rotate(
+                frame_a,
+                rel.w * vec3<f32>(1.0, 0.0, 0.0)
+                    + cross(rel.xyz, vec3<f32>(1.0, 0.0, 0.0)),
+            );
+            let axis_y = 0.5 * quat_rotate(
+                frame_a,
+                rel.w * vec3<f32>(0.0, 1.0, 0.0)
+                    + cross(rel.xyz, vec3<f32>(0.0, 1.0, 0.0)),
+            );
+            if (params.use_bias == 2u) {
+                let impulse = jn.perp_impulse.x * axis_x + jn.perp_impulse.y * axis_y;
+                apply_joint_torque(&ba, -impulse);
+                apply_joint_torque(&bb, impulse);
+            } else if (jn.max_motor_force > 0.0) {
+                let kxx =
+                    dot(axis_x, world_inv_inertia(ba, axis_x) + world_inv_inertia(bb, axis_x));
+                let kyy =
+                    dot(axis_y, world_inv_inertia(ba, axis_y) + world_inv_inertia(bb, axis_y));
+                let kxy =
+                    dot(axis_x, world_inv_inertia(ba, axis_y) + world_inv_inertia(bb, axis_y));
+                let det = kxx * kyy - kxy * kxy;
+                if (abs(det) > 1e-12) {
+                    let omega = 6.2831853 * jn.spring_hertz;
+                    let a1 = 2.0 * jn.spring_damping + h * omega;
+                    let a2 = h * omega * a1;
+                    let a3 = 1.0 / (1.0 + a2);
+                    let bias_rate = select(0.0, omega / max(a1, 1e-8), jn.spring_hertz > 0.0);
+                    let mass_scale = a2 * a3;
+                    let impulse_scale = select(0.0, a3, jn.spring_hertz > 0.0);
+                    let wrel = bb.omega - ba.omega;
+                    let rhs = vec2<f32>(
+                        dot(wrel, axis_x) + bias_rate * rel.x,
+                        dot(wrel, axis_y) + bias_rate * rel.y,
+                    );
+                    let solution = vec2<f32>(
+                        (kyy * rhs.x - kxy * rhs.y) / det,
+                        (kxx * rhs.y - kxy * rhs.x) / det,
+                    );
+                    let old = jn.perp_impulse;
+                    jn.perp_impulse =
+                        old - mass_scale * solution - impulse_scale * old;
+                    let max_impulse = h * jn.max_motor_force;
+                    let impulse_length = length(jn.perp_impulse);
+                    if (impulse_length > max_impulse) {
+                        jn.perp_impulse = jn.perp_impulse * (max_impulse / impulse_length);
+                    }
+                    let delta = jn.perp_impulse - old;
+                    let angular_impulse = delta.x * axis_x + delta.y * axis_y;
+                    apply_joint_torque(&ba, -angular_impulse);
+                    apply_joint_torque(&bb, angular_impulse);
+                }
+            }
+            err = vec3<f32>(0.0);
+        } else if (jn.kind == JOINT_DISTANCE) {
+            let distance = length(err);
+            var axis = vec3<f32>(1.0, 0.0, 0.0);
+            if (distance > 1e-8) {
+                axis = err / distance;
+            }
+            let axial_mass = normal_mass(ba, bb, rA, rB, axis);
+            let enable_spring = (jn.flags & DISTANCE_ENABLE_SPRING) != 0u;
+            let enable_limit = (jn.flags & DISTANCE_ENABLE_LIMIT) != 0u;
+            let soft_distance =
+                enable_spring && (jn.lower_translation < jn.upper_translation || !enable_limit);
+            if (soft_distance) {
+                if (jn.spring_hertz > 0.0) {
+                    let omega = 6.2831853 * jn.spring_hertz;
+                    let a1 = 2.0 * max(jn.spring_damping, 0.0) + h * omega;
+                    let a2 = h * omega * a1;
+                    let a3 = 1.0 / (1.0 + a2);
+                    let bias_rate = omega / max(a1, 1e-8);
+                    let mass_scale = select(1.0, a2 * a3, params.use_bias == 1u);
+                    let impulse_scale = select(0.0, a3, params.use_bias == 1u);
+                    let vrel =
+                        (bb.vel + cross(bb.omega, rB)) - (ba.vel + cross(ba.omega, rA));
+                    let cdot = dot(vrel, axis);
+                    let bias = select(
+                        0.0,
+                        bias_rate * (distance - jn.target_translation),
+                        params.use_bias == 1u,
+                    );
+                    let dj =
+                        -mass_scale * axial_mass * (cdot + bias)
+                        - impulse_scale * jn.spring_impulse;
+                    let old = jn.spring_impulse;
+                    jn.spring_impulse = clamp(
+                        old + dj,
+                        h * jn.perp_impulse.x,
+                        h * jn.perp_impulse.y,
+                    );
+                    let P = axis * (jn.spring_impulse - old);
+                    apply_P(&ba, rA, P, -1.0);
+                    apply_P(&bb, rB, P, 1.0);
+                }
+                if (enable_limit) {
+                    let inv_h = 1.0 / max(h, 1e-8);
+                    let softness = contact_softness(is_immovable(ba) || is_immovable(bb));
+                    let vrel =
+                        (bb.vel + cross(bb.omega, rB)) - (ba.vel + cross(ba.omega, rA));
+
+                    let lower_c = distance - jn.lower_translation;
+                    let lower_bias = select(
+                        lower_c * inv_h,
+                        softness.x * lower_c,
+                        lower_c <= 0.0 && params.use_bias == 1u,
+                    );
+                    let old_lower = jn.lower_impulse;
+                    let lower_dj = -axial_mass * (dot(vrel, axis) + lower_bias);
+                    jn.lower_impulse = max(old_lower + lower_dj, 0.0);
+                    let lower_p = axis * (jn.lower_impulse - old_lower);
+                    apply_P(&ba, rA, lower_p, -1.0);
+                    apply_P(&bb, rB, lower_p, 1.0);
+
+                    let upper_c = jn.upper_translation - distance;
+                    let upper_bias = select(
+                        upper_c * inv_h,
+                        softness.x * upper_c,
+                        upper_c <= 0.0 && params.use_bias == 1u,
+                    );
+                    let old_upper = jn.upper_impulse;
+                    let upper_dj = -axial_mass * (-dot(vrel, axis) + upper_bias);
+                    jn.upper_impulse = max(old_upper + upper_dj, 0.0);
+                    let upper_p = -axis * (jn.upper_impulse - old_upper);
+                    apply_P(&ba, rA, upper_p, -1.0);
+                    apply_P(&bb, rB, upper_p, 1.0);
+                }
+                if ((jn.flags & DISTANCE_ENABLE_MOTOR) != 0u && jn.max_motor_force > 0.0) {
+                    let vrel =
+                        (bb.vel + cross(bb.omega, rB)) - (ba.vel + cross(ba.omega, rA));
+                    let dj = axial_mass * (jn.motor_speed - dot(vrel, axis));
+                    let old = jn.motor_impulse;
+                    let max_impulse = h * jn.max_motor_force;
+                    jn.motor_impulse = clamp(old + dj, -max_impulse, max_impulse);
+                    let P = axis * (jn.motor_impulse - old);
+                    apply_P(&ba, rA, P, -1.0);
+                    apply_P(&bb, rB, P, 1.0);
+                }
+            } else {
+                // Match the prepared rigid constraint's timestep hertz clamp.
+                let omega = 6.2831853 * min(max(jn.hertz, 1.0), 0.25 / max(h, 1e-8));
+                let a1 = 2.0 * max(jn.damping, 0.25) + h * omega;
+                let a2 = h * omega * a1;
+                let a3 = 1.0 / (1.0 + a2);
+                let mass_scale = select(1.0, a2 * a3, params.use_bias == 1u);
+                let impulse_scale = select(0.0, a3, params.use_bias == 1u);
+                let bias = select(
+                    0.0,
+                    omega / max(a1, 1e-8) * (distance - jn.target_translation),
+                    params.use_bias == 1u,
+                );
+                let vrel =
+                    (bb.vel + cross(bb.omega, rB)) - (ba.vel + cross(ba.omega, rA));
+                let dj =
+                    -mass_scale * axial_mass * (dot(vrel, axis) + bias)
+                    - impulse_scale * jn.impulse;
+                jn.impulse = jn.impulse + dj;
+                let P = axis * dj;
+                apply_P(&ba, rA, P, -1.0);
+                apply_P(&bb, rB, P, 1.0);
+            }
+            if (params.use_bias == 0u) {
+                // Distance-only diagnostic snapshot; these fields are unused by its solver.
+                jn.weld_linear_impulse = vec3<f32>(jn.impulse + jn.spring_impulse, jn.lower_impulse, jn.upper_impulse);
+                jn.weld_angular_impulse = vec3<f32>(jn.motor_impulse, 0.0, 0.0);
+                jn.impulse = 0.0;
+                jn.spring_impulse = 0.0;
+                jn.lower_impulse = 0.0;
+                jn.upper_impulse = 0.0;
+                jn.motor_impulse = 0.0;
+            }
+            err = vec3<f32>(0.0);
+        } else if (jn.kind == JOINT_PRISMATIC) {
+            solve_prismatic(&jn, &ba, &bb);
+            err = vec3<f32>(0.0);
+        }
+        let nlen = length(err);
+        if (nlen > 1e-8) {
+            let n = err / nlen;
+            let kmass = max(body_inv_mass(ba) + body_inv_mass(bb), 1e-8);
+            let soft = contact_softness(is_immovable(ba) || is_immovable(bb));
+            let hertz = max(jn.hertz, 1.0);
+            let omega = 6.2831853 * hertz;
+            let zeta = max(jn.damping, 0.25);
+            let a1 = 2.0 * zeta + h * omega;
+            let a2 = h * omega * a1;
+            let a3 = 1.0 / (1.0 + a2);
+            let bias_rate = omega / a1;
+            var mass_scale = a2 * a3;
+            var impulse_scale = a3;
+            if (params.use_bias == 0u) {
+                mass_scale = 1.0;
+                impulse_scale = 0.0;
+            }
+            let vn = dot((bb.vel + cross(bb.omega, rB)) - (ba.vel + cross(ba.omega, rA)), n);
+            let c = nlen;
+            let bias = select(0.0, bias_rate * c, params.use_bias == 1u);
+            let nm = 1.0 / kmass;
+            let dj = -mass_scale * nm * (vn + bias) - impulse_scale * jn.impulse;
+            jn.impulse = jn.impulse + dj;
+            let P = n * dj;
+            apply_P(&ba, rA, P, -1.0);
+            apply_P(&bb, rB, P, 1.0);
+            if (params.use_bias == 1u) {
+                let corr = n * c * 0.2;
+                if (!is_immovable(ba)) {
+                    ba.dp = ba.dp + corr * (body_inv_mass(ba) / kmass);
+                }
+                if (!is_immovable(bb)) {
+                    bb.dp = bb.dp - corr * (body_inv_mass(bb) / kmass);
+                }
+            }
+        }
+        if (joint_endpoint_writable(ba)) {
+            store_body(jn.a, ba);
+        }
+        if (joint_endpoint_writable(bb)) {
+            store_body(jn.b, bb);
+        }
+        joints[i] = jn;
+    }
+}
+
+@compute @workgroup_size(64)
+fn compact_joint_heads(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
+    let i = gid.x;
+    if (i < params.body_count) {
+        scratch[joint_head_base() + i] = EMPTY;
+    }
+    if (gid.x == 0u) {
+        scratch[SCR_JOINT_COMP_N] = 0u;
+        scratch[SCR_JOINT_LIST_OK] = 0u;
+    }
+}
+
+// Proxy creation order, followed by reversed dynamic-tree query order.
+// Box3D prepends each query's accepted pairs to its creation list.
+fn initial_contact_less(left: u32, right: u32) -> bool {
+    if (left == EMPTY) { return false; }
+    if (right == EMPTY) { return true; }
+    let a = contact_persistent[left].pair.xy;
+    let b = contact_persistent[right].pair.xy;
+    if (params.order_enabled != 0u) {
+        let ak = order_pair_priority(live_order_proxy(a.x), live_order_proxy(a.y));
+        let bk = order_pair_priority(live_order_proxy(b.x), live_order_proxy(b.y));
+        if (ak.x != bk.x) { return ak.x < bk.x; }
+        if (ak.y != bk.y) { return ak.y < bk.y; }
+        if (ak.z != bk.z) { return ak.z < bk.z; }
+    }
+    if (a.x != b.x) { return a.x < b.x; }
+    if (load_shape(a.x).initial_order.x != EMPTY) {
+        let ar = load_shape(a.y).initial_order.x;
+        let br = load_shape(b.y).initial_order.x;
+        if ((ar == EMPTY) != (br == EMPTY)) { return ar != EMPTY; }
+        if (ar != EMPTY && ar != br) { return ar < br; }
+    }
+    return a.y < b.y;
+}
+
+fn initial_contact_sift(base: u32, root_in: u32, count: u32) {
+    var root = root_in;
+    loop {
+        var child = 2u * root + 1u;
+        if (child >= count) { break; }
+        if (child + 1u < count && initial_contact_less(scratch[base + child], scratch[base + child + 1u])) { child += 1u; }
+        if (!initial_contact_less(scratch[base + root], scratch[base + child])) { break; }
+        let value = scratch[base + root];
+        scratch[base + root] = scratch[base + child];
+        scratch[base + child] = value;
+        root = child;
+    }
+}
+
+fn initial_contact_order(count: u32) {
+    // Radix output is dead after graph construction. Keep active-pair indices
+    // untouched and use O(n log n) sorting for large jointed scenes.
+    let base = scr_radix_out();
+    for (var i = 0u; i < count; i++) { scratch[base + i] = scratch[scr_active_contact() + i]; }
+    for (var i = count / 2u; i > 0u; i--) { initial_contact_sift(base, i - 1u, count); }
+    for (var end = count; end > 1u; end--) {
+        let value = scratch[base];
+        scratch[base] = scratch[base + end - 1u];
+        scratch[base + end - 1u] = value;
+        initial_contact_sift(base, 0u, end - 1u);
+    }
+}
+
+// Internal graph-lifetime marker; public joint option bits occupy the low
+// bits and bit 31 (collide-connected). Carried through GPU joint readback.
+const JOINT_COLOR_ASSIGNED: u32 = 1u << 30u;
+fn assign_new_joint_colors(mask_base: u32) {
+    for (var i = 0u; i < params.joint_count; i++) {
+        let jn = joints[i];
+        if (jn.kind == JOINT_NONE || (jn.flags & JOINT_COLOR_ASSIGNED) != 0u) {
+            continue;
+        }
+        let da = !is_non_dynamic(load_body(jn.a));
+        let db = !is_non_dynamic(load_body(jn.b));
+        let mask = select(0u, scratch[mask_base + jn.a], da)
+            | select(0u, scratch[mask_base + jn.b], db);
+        var color = OVERFLOW_COLOR;
+        if (da && db) {
+            for (var c = 0u; c < DYNAMIC_COLOR_COUNT; c++) {
+                if ((mask & (1u << c)) == 0u) {
+                    color = c;
+                    break;
+                }
+            }
+        } else if (da || db) {
+            for (var c = i32(OVERFLOW_COLOR) - 1; c >= 1; c--) {
+                if ((mask & (1u << u32(c))) == 0u) {
+                    color = u32(c);
+                    break;
+                }
+            }
+        }
+        joints[i].solver_color = color;
+        joints[i].flags |= JOINT_COLOR_ASSIGNED;
+        if (color != OVERFLOW_COLOR) {
+            if (da) { scratch[mask_base + jn.a] |= 1u << color; }
+            if (db) { scratch[mask_base + jn.b] |= 1u << color; }
+        }
+    }
+}
+
+fn history_body_mask(base: u32, body: u32) -> u32 {
+    if (body >= params.body_count || is_non_dynamic(load_body(body))) { return 0u; }
+    return scratch[base + body];
+}
+fn history_color_mask(base: u32, a: u32, b: u32, color: u32, reserve: bool) {
+    if (color >= OVERFLOW_COLOR) { return; }
+    let bit = 1u << color;
+    for (var i = 0u; i < 2u; i++) {
+        let body = select(a, b, i == 1u);
+        if (body >= params.body_count || is_non_dynamic(load_body(body))) { continue; }
+        if (reserve) { scratch[base + body] |= bit; }
+        else { scratch[base + body] &= ~bit; }
+    }
+}
+fn ordered_contact_transitions(mask_base: u32) {
+    let header = scr_contact_history();
+    var high = scratch[header];
+    var free_count = scratch[header + 1u];
+    let np = min(scratch[SCR_NCONTACTS], pair_cap());
+    let initial = params.physics_step == 1u || params.order_enabled != 0u;
+    if (initial) { initial_contact_order(np); }
+    let order = select(scr_active_contact(), scr_radix_out(), initial);
+    // Allocate before retiring this step's disjoint pairs, as native broadphase
+    // creation runs before narrowphase lifetime transitions.
+    for (var i = 0u; i < np; i++) {
+        let slot = scratch[order + i];
+        if (slot == EMPTY) { continue; }
+        let c = load_contact(slot);
+        if (c.a == EMPTY || c.manifold_link.y != 0u) { continue; }
+        let mapped = scratch[contact_history_slots() + slot];
+        var id = mapped - 1u;
+        var valid = mapped != 0u && id < high;
+        if (valid) {
+            let record = contact_history_record(id);
+            valid = scratch[record] == slot + 1u && scratch[record + 1u] == c.lifecycle.x;
+        }
+        if (!valid) {
+            if (free_count > 0u) {
+                free_count -= 1u;
+                id = scratch[contact_history_free() + free_count];
+            } else {
+                id = high;
+                high += 1u;
+            }
+            if (id >= pair_cap()) { record_contact_drop(8u); continue; }
+            let record = contact_history_record(id);
+            scratch[record] = slot + 1u;
+            scratch[record + 1u] = c.lifecycle.x;
+            scratch[record + 4u] = 0u;
+            scratch[contact_history_slots() + slot] = id + 1u;
+        }
+        let record = contact_history_record(id);
+        // Jointless steps use the parallel contact graph. Import its surviving
+        // colors when this serial joint/contact graph is first entered or resumes.
+        // In particular, a newly created drag joint cannot steal a floor contact's
+        // existing color merely because no history table was needed previously.
+        if (!valid || scratch[record + 5u] + 1u != params.physics_step) {
+            let surviving = (c.lifecycle.y & CONTACT_TOUCHING) != 0u
+                && (c.lifecycle.y & CONTACT_START_TOUCHING) == 0u
+                && !contact_has_sensor(c) && params.physics_step > 1u;
+            let stopping = (c.lifecycle.y & CONTACT_STOP_TOUCHING) != 0u;
+            scratch[record + 4u] = 0u;
+            if (surviving) { scratch[record + 4u] = c.lifecycle.w + 1u; }
+            if (stopping) { scratch[record + 4u] = c.color + 1u; }
+        }
+        scratch[record + 2u] = c.a;
+        scratch[record + 3u] = c.b;
+        scratch[record + 5u] = params.physics_step;
+    }
+    // Keep stopped/disjoint edges occupied until their ID is processed. Removing
+    // every stopped edge up front lets an earlier start steal a later stop's color.
+    for (var id = 0u; id < high; id++) {
+        let record = contact_history_record(id);
+        if (scratch[record] == 0u || scratch[record + 4u] == 0u) { continue; }
+        history_color_mask(mask_base, scratch[record + 2u], scratch[record + 3u], scratch[record + 4u] - 1u, true);
+    }
+    assign_new_joint_colors(mask_base);
+    for (var color = 0u; color <= OVERFLOW_COLOR; color++) { scratch[SCR_COLOR + color] = 0u; }
+    for (var id = 0u; id < high; id++) {
+        let record = contact_history_record(id);
+        if (scratch[record] == 0u) { continue; }
+        let slot = scratch[record] - 1u;
+        let alive = scratch[record + 5u] == params.physics_step;
+        var c = load_contact(slot);
+        let touching = alive && c.count > 0u && !contact_has_sensor(c)
+            && (c.lifecycle.y & CONTACT_TOUCHING) != 0u;
+        let a = scratch[record + 2u];
+        let b = scratch[record + 3u];
+        let prior = scratch[record + 4u];
+        if (prior != 0u && !touching) {
+            history_color_mask(mask_base, a, b, prior - 1u, false);
+            scratch[record + 4u] = 0u;
+        }
+        if (touching) {
+            var color = prior - 1u;
+            if (prior == 0u) {
+                color = OVERFLOW_COLOR;
+                let da = !is_non_dynamic(load_body(a));
+                let db = !is_non_dynamic(load_body(b));
+                let mask = history_body_mask(mask_base, a) | history_body_mask(mask_base, b);
+                if (da && db) {
+                    for (var col = 0u; col < DYNAMIC_COLOR_COUNT; col++) {
+                        if ((mask & (1u << col)) == 0u) { color = col; break; }
+                    }
+                } else if (da || db) {
+                    for (var col = i32(OVERFLOW_COLOR) - 1; col >= 1; col--) {
+                        if ((mask & (1u << u32(col))) == 0u) { color = u32(col); break; }
+                    }
+                }
+                history_color_mask(mask_base, a, b, color, true);
+                scratch[record + 4u] = color + 1u;
+            }
+            c.color = color;
+            let count = scratch[SCR_COLOR + color];
+            scratch[color_contact_base() + color * params.contact_capacity + count] = slot;
+            scratch[SCR_COLOR + color] = count + 1u;
+            c.lifecycle.z = count;
+            store_contact(slot, c);
+        } else if (alive) {
+            c.lifecycle.z = EMPTY;
+            store_contact(slot, c);
+        }
+        if (!alive) {
+            if (scratch[contact_history_slots() + slot] == id + 1u) {
+                scratch[contact_history_slots() + slot] = 0u;
+            }
+            scratch[record] = 0u;
+            scratch[contact_history_free() + free_count] = id;
+            free_count += 1u;
+        }
+    }
+    scratch[header] = high;
+    scratch[header + 1u] = free_count;
+    for (var b = 0u; b < params.body_count; b++) {
+        scratch[color_body_base() + b] = scratch[mask_base + b];
+    }
+}
+
+@compute @workgroup_size(64)
+fn compact_joint_components(@builtin(local_invocation_index) lid: u32) {
+    if (lid != 0u) {
+        return;
+    }
+    var ncomp = 0u;
+    let head = joint_head_base();
+    let unique = joint_comp_base();
+    let offb = joint_list_off_base();
+    let cntb = joint_list_count_base();
+    let listb = joint_list_base();
+    for (var i = 0u; i < params.joint_count; i++) {
+        let jn = joints[i];
+        if (jn.kind == JOINT_NONE || jn.kind == JOINT_FILTER) {
+            continue;
+        }
+        let root = joint_writable_root(jn);
+        if (root == EMPTY || root >= params.body_count) {
+            continue;
+        }
+        if (scratch[head + root] == EMPTY) {
+            scratch[unique + ncomp] = root;
+            scratch[head + root] = ncomp;
+            ncomp = ncomp + 1u;
+        }
+    }
+    scratch[SCR_JOINT_COMP_N] = ncomp;
+    for (var c = 0u; c < ncomp; c++) {
+        scratch[cntb + c] = 0u;
+    }
+    for (var i = 0u; i < params.joint_count; i++) {
+        let jn = joints[i];
+        if (jn.kind == JOINT_NONE || jn.kind == JOINT_FILTER) {
+            continue;
+        }
+        let root = joint_writable_root(jn);
+        if (root == EMPTY || root >= params.body_count) {
+            continue;
+        }
+        let c = scratch[head + root];
+        scratch[cntb + c] = scratch[cntb + c] + 1u;
+    }
+    var acc = 0u;
+    for (var c = 0u; c < ncomp; c++) {
+        scratch[offb + c] = acc;
+        acc = acc + scratch[cntb + c];
+        scratch[cntb + c] = 0u;
+    }
+    // Match b3AssignJointColor's priority within each writable component.
+    // Creation order alone couples consecutive bones differently, even with
+    // contacts disabled. Filter joints reserve colors in the CPU graph too.
+    // Borrow the unique-root array for body masks, then restore it for readback.
+    for (var b = 0u; b < params.body_count; b++) {
+        scratch[unique + b] = 0u;
+    }
+    // Preserve existing joint colors before admitting new edges. New joints
+    // must not steal a surviving contact's color (e.g. a drag on a resting box).
+    for (var i = 0u; i < params.joint_count; i++) {
+        let jn = joints[i];
+        if (jn.kind == JOINT_NONE || (jn.flags & JOINT_COLOR_ASSIGNED) == 0u) { continue; }
+        let da = !is_non_dynamic(load_body(jn.a));
+        let db = !is_non_dynamic(load_body(jn.b));
+        let mask = select(0u, scratch[unique + jn.a], da)
+            | select(0u, scratch[unique + jn.b], db);
+        let color = jn.solver_color;
+        let valid = color < OVERFLOW_COLOR
+            && ((da && db && color < DYNAMIC_COLOR_COUNT) || ((da != db) && color > 0u))
+            && (mask & (1u << color)) == 0u;
+        if (valid) {
+            if (da) { scratch[unique + jn.a] |= 1u << color; }
+            if (db) { scratch[unique + jn.b] |= 1u << color; }
+        } else if (color != OVERFLOW_COLOR) {
+            joints[i].flags &= ~JOINT_COLOR_ASSIGNED;
+        }
+    }
+    if (params.solver_mode != SOLVER_TGS) { assign_new_joint_colors(unique); }
+    if (params.solver_mode == SOLVER_TGS) {
+        ordered_contact_transitions(unique);
+    }
+    // Native solves overflow first, then colors in ascending order. Retain
+    // creation order within a color.
+    for (var order = 0u; order <= OVERFLOW_COLOR; order++) {
+        let color = select(order - 1u, OVERFLOW_COLOR, order == 0u);
+        for (var i = 0u; i < params.joint_count; i++) {
+            let jn = joints[i];
+            if (jn.solver_color != color || jn.kind == JOINT_NONE || jn.kind == JOINT_FILTER) {
+                continue;
+            }
+            let root = joint_writable_root(jn);
+            if (root == EMPTY || root >= params.body_count) {
+                continue;
+            }
+            let c = scratch[head + root];
+            let w = scratch[offb + c] + scratch[cntb + c];
+            scratch[listb + w] = i;
+            scratch[cntb + c] = scratch[cntb + c] + 1u;
+        }
+    }
+    for (var root = 0u; root < params.body_count; root++) {
+        let c = scratch[head + root];
+        if (c != EMPTY) {
+            scratch[unique + c] = root;
+        }
+    }
+    scratch[SCR_JOINT_LIST_OK] = 1u;
+}
+
+// Preparation happens once after island wake, never between solver substeps.
+@compute @workgroup_size(64)
+fn prepare_joints(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
+    let i = linear_invocation_id(dispatch_gid, 64u);
+    if (i >= params.joint_count || params.disable_warm_starting == 0u) { return; }
+    var j = joints[i];
+    if (j.kind == JOINT_NONE || j.kind == JOINT_FILTER) { return; }
+    if (is_immovable(load_body(j.a)) && is_immovable(load_body(j.b))) { return; }
+    j.impulse = 0.0;
+    j.perp_impulse = vec2<f32>(0.0);
+    j.angular_impulse = vec3<f32>(0.0);
+    j.spring_impulse = 0.0;
+    j.motor_impulse = 0.0;
+    j.lower_impulse = 0.0;
+    j.upper_impulse = 0.0;
+    j.spring_angular_impulse = vec3<f32>(0.0);
+    j.swing_impulse = 0.0;
+    j.motor_angular_impulse = vec3<f32>(0.0);
+    // Motor joints pack angular spring impulses into these lanes.
+    j._pad2 = vec2<f32>(0.0);
+    // Revolute joints use these vectors as prepared axes, not impulses.
+    if (j.kind != JOINT_REVOLUTE) {
+        j.weld_linear_impulse = vec3<f32>(0.0);
+        j.weld_angular_impulse = vec3<f32>(0.0);
+    }
+    joints[i] = j;
+}

@@ -1,0 +1,5 @@
+{
+  "adapter_and_driver_readonly": "NVIDIA GeForce RTX 4070 SUPER, 610.57.04",
+  "CPU": "Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz",
+  "scope": "read-only hardware identity; no benchmark or competing GPU workload"
+}

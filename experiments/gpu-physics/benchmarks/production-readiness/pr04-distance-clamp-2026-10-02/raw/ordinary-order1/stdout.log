@@ -1,0 +1,4 @@
+{"scene":"sphere-ground","substeps":1,"steps":180,"mean_ms":1.068145156,"timing_only":false}
+{"scene":"sphere-ground","substeps":4,"steps":180,"mean_ms":1.168008894,"timing_only":false}
+{"scene":"distance-joint","substeps":1,"steps":180,"mean_ms":1.219219978,"timing_only":false}
+{"scene":"distance-joint","substeps":4,"steps":180,"mean_ms":1.723355217,"timing_only":false}

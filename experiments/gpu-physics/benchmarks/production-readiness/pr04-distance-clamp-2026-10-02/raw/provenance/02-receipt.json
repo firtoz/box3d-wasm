@@ -1,0 +1,41 @@
+{
+  "status": "completed-baseline",
+  "protocol_sha256": "37a6d7907f92a2e3f8ad19cd49183fa4e1aea2393a2816e27725be75911e57d7",
+  "driver_sha256": "1646346a388a7b655b8c34418544c0660c0949a287c1c4bbeedf6f5332b56fbe",
+  "started_unix": 1790905315.3802526,
+  "results": [
+    {
+      "name": "ordinary",
+      "exit": -6,
+      "elapsed_seconds_incidental": 1.5171871185302734,
+      "actual_NVIDIA_Vulkan": true,
+      "first_discrepancy": [
+        "distance-joint",
+        "0",
+        "1",
+        "-1.00004232",
+        "-1.00028491"
+      ],
+      "completed_fixture": false,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "ce9d445693e094444a927a8138cf1786f676db5839e72ba9145d4e5a7ec1f0ae"
+    },
+    {
+      "name": "native",
+      "exit": -6,
+      "elapsed_seconds_incidental": 1.166388988494873,
+      "actual_NVIDIA_Vulkan": true,
+      "first_discrepancy": [
+        "distance-joint",
+        "0",
+        "1",
+        "-1.00004232",
+        "-1.00028491"
+      ],
+      "completed_fixture": false,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "ce9d445693e094444a927a8138cf1786f676db5839e72ba9145d4e5a7ec1f0ae"
+    }
+  ],
+  "finished_unix": 1790905319.166338
+}

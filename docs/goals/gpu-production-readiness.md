@@ -343,10 +343,10 @@ Their former next actions/job handles do not authorize another campaign.
 | --- | --- |
 | Workspace / branch | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu` |
 | Authorization | Active full roadmap; verified milestone commit/push authorized by the submitted goal |
-| Latest published milestone | `d1208e32fcb0f03fa1699801d78c38f0d108319f` and recovery `c9839fd` pushed; initial fetch this turn finds origin synchronized. PR03 reconciliation is prepared locally for commit/push |
+| Latest published milestone | `da44722` contract/baseline milestone is committed and pushed; all six new indexed raw files matched staged bytes. Origin was synchronized after push |
 | Retained production source | `abc0a54a3ce3b285c9984f2c7c6b5baefff00d1b`, pushed. Invocation HEAD is context only; actual 107 source inputs and producer receipts identify baseline binaries |
 | Current item | **PR03 contract/baseline is complete; PR04 physical correctness is next.** No failing screen reclassified as a pass. Distance first step, strict ragdoll trajectory, loaded dragging and Rain remain unresolved |
-| Current jobs | All owned engine/build/diagnostic jobs terminal. Reconciliation offline verification passed; it ran no engine/build. Do not restart closed campaigns |
+| Current jobs | Clamp driver **72839** terminal 0: two builds/two links/four original fixture passes. Relevant regression driver **7832** launched; poll this exact handle. Protocol SHA `9bc5a3268462bf0138062ff1bf2eb5d8e391c87b5740d4902d185e2ac3669e1f`; local `experiments/gpu-physics/artifacts/production-readiness/pr04-distance-regressions/`. Two test builds/four fresh processes/61 existing selectors each; zero new candidates/retries/timing. Shader temporarily staged for test builds, restored before tests in finally. All earlier campaigns are terminal |
 | Current libraries | Ordinary SHA `aba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6`; native SHA `c8a16154cb576c49e7bd7fd8e030319601192b466d9ddb19305bd043aa6a7267`. Current sole source difference is cfg(test) `src/gpu_invariants.rs`; no production API/shader/viewer change |
 | Independent CPU | Full archive SHA `b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c`, 119 actual source/object pairs; combined fixtures use separate prefixed CPU archive |
 | Hardware / policy | i9-9900K / NVIDIA RTX 4070 SUPER, driver 610.57.04, NVIDIA Vulkan. Ordinary/native and ordering 0/1 remain separate; scheduling/default policies unchanged |
@@ -392,21 +392,37 @@ No unchanged retries or extension of prior watchdogs are authorized by this reco
 
 ### Next discriminating work
 
-1. Under PR04, resolve the distance first-step defect using the unchanged tiny
-   combined CPU/GPU fixture. Source audit identifies the rigid-distance row's
-   missing timestep hertz clamp: upstream `b3PrepareJoint` clamps 60 Hz to 15 Hz
-   at dt 1/60, while the GPU branch currently uses 60 Hz directly. Its shared
-   `joint_softness` helper already implements the upstream clamp. Freeze a
-   bounded correction/verification protocol before build or device work; retain
-   all original limits and failures. No candidate has been built or run yet.
-2. If a candidate passes original full distance and relevant regression checks
-   on both backends, record every affected supported scene with real CPU first
-   before any solver commit. Restore rejected production changes and preserve
-   unfavorable evidence. PR04 remains open until all required failures close.
-3. Then address strict ragdoll/loaded dragging/Rain with smallest faithful
-   reproducers and finite distinct budgets. For Rain, separate producer GPU wait
-   from mirror/deferred host CCD/collector cost before another full run; never
-   rerun the closed 30/30/180 cells or extend old 900-second attempts.
+1. Poll regression driver **7832** and inspect its durable receipt. The
+   [one-clamp candidate report](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-distance-clamp-2026-10-02/README.md)
+   validates offline: all four ordinary/native × ordering 0/1 original fixture
+   comparisons pass, 3,840 steps/49,920 finite lane comparisons at original 1e-5.
+   Two library builds/two links/one candidate/four processes consumed the frozen
+   `c037ce00…` budget. Original source was restored before all engine execution.
+   Source algebra predicts both recorded first-step displacements. The candidate
+   changes only the rigid-distance timestep clamp; no other row/caches/defaults
+   or policy changed. This is a fixture pass, not a retained solver milestone.
+2. Relevant regression budget is separately frozen: two test builds/four fresh
+   process configurations/244 unchanged selected checks. These retain all 28
+   numerical/23 scheduling-capacity selectors, existing slot-32768 and selected
+   joint/COM/lifetime checks. No old trace/cache file is written. Preserve all
+   results; no repeat or timeout extension. Both builds must match the exact
+   candidate source inputs. Physical failures stay failures; full-state final
+   qualification remains PR07. The copied 23-selector group also includes the
+   known mode-1-only contact-order storage fixture in mode 0. This is a selection
+   mistake, identified while the first process is still running. Do not edit the
+   frozen protocol or rerun cells: retain those original failures and assess
+   applicability only against the pre-candidate PR03 contract (mode 1 required),
+   never count mode-0 storage assertions as passes or waive another failure.
+3. If regressions pass, freeze builds/recordings for affected native distance
+   scenes (`Joints/Distance Joint`, `Joints/Motion Locks`, `Events/Joint`) and
+   audit Rust/oracle scenes for distance creation. Record real CPU first, then
+   ordinary/native GPU and applicable combined views, using both recording
+   scripts under a finite protocol. Review before any solver commit; current
+   production shader remains unchanged. Reject/restore a failing candidate.
+4. PR04 remains open for strict ragdoll/loaded dragging/Rain. Use smallest
+   faithful reproducers and distinct finite budgets. For Rain, separate GPU wait
+   from mirror/deferred host CCD/collector costs; never restart closed 30/30/180
+   cells or extend old 900-second attempts.
 
 PR09–PR12 preserve the user's later requests: floor visibility (Village's shared
 65,536 renderer slots cannot flatten both 52,500-child compounds), sample-wide
@@ -459,3 +475,5 @@ PR01/PR02 campaigns or either exhausted scheduling campaign.
 
 - [Current Rust baseline and fixed release contract](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rust-baseline-2026-10-02/README.md): protocol SHAa30762d9a3803bcfca730218b421607a7faf408ba967ef4417b1c9020746a2ca, driver8018terminal0. All33processes/199checks retained,195pass/4fail;100portable rawfiles exclude local driver pipeline-cache blobs. No source/tolerance/default change.
 - Original Rain/drag protocol SHA9ab2100327945b5d29cb37a8709ac037310deb1d22a23afb4683855ca82984bb: driver33069terminal1 beforeanyengineprocess, missingxvfb-run. Displayrepair SHAa86ba2c824bbc09a10e0ddd613d24aea058077df1c59734ea24e7b45948a636e uses pinned previouslyproven bundledXvfb. Driver70354terminal1: CPU600complete, ordinaryGPU900second timeout/nohealth. Sevenremainingcells were neverlaunched; distinctremainingprotocolabove preserves these failures and does not repeat them. All clocks incidental, no performance claim.
+
+PR04 preparation path error is retained in `pr04-distance-clamp/preparation-launch-failure.log`: host script was initially placed under an accidental nested engine path; zero builds/engine launches occurred. The same script was moved before protocol freezing; no physics result replaced. Float32 source reconstruction predicts exactly the recorded initial Y values for 60/15 Hz; this is attribution evidence, not a GPU acceptance pass.
