@@ -1,0 +1,33 @@
+
+running 23 tests
+test api::world::complete_component_tests::complete_components_match_global_color_phases ... ok
+test api::world::complete_component_tests::complete_components_merge_and_split_match_global_phases ... ok
+test api::world::complete_component_tests::complete_components_preserve_nonempty_overflow_order ... ok
+test api::world::complete_component_tests::completed_wait_refreshes_stale_capacity_status ... ok
+test api::world::complete_component_tests::falling_cube_solver_schedules_match_through_impact ... ok
+test api::world::complete_component_tests::falling_cubes_exceed_old_spatial_insertion_limit ... ok
+test api::world::complete_component_tests::pair_matrix_threshold_and_capacity_are_bounded ... ok
+test api::world::joint_event_tests::spawn_within_capacity_preserves_contact_buffers ... ok
+test api::world::scheduling_tests::automatic_dense_schedule_repeats_exactly ... ok
+test api::world::scheduling_tests::automatic_schedule_preserves_independent_groups ... ok
+test api::world::scheduling_tests::automatic_schedule_rechecks_topology_and_explicit_overrides ... ok
+test api::world::scheduling_tests::mixed_topology_schedule_transitions_preserve_constraints ... ok
+test api::world::scheduling_tests::mixed_topology_schedules_match_through_impact ... ok
+test api::world::state_trace::tests::joint_filter_survives_body_growth_within_capacity ... ok
+test api::world::world_counter_tests::contact_order_survives_body_capacity_growth_and_invalidates_proxy_changes ... FAILED
+test gpu_invariants::capacity_loss_stops_later_physics_submissions ... ok
+test gpu_invariants::material_callback_capacity_invalidates_existing_world ... ok
+test gpu_invariants::sticky_capacity_loss_survives_later_clean_steps ... ok
+test sim::manifold_chain_tests::body_extra_reads_use_capacity_when_live_slot_span_changes ... ok
+test sim::manifold_chain_tests::fat_static_list_overflow_records_capacity_loss ... ok
+test sim::manifold_chain_tests::larger_pair_capacity_compacts_and_preserves_contacts_on_growth ... ok
+test types::tests::contact_capacity_scales_with_world_demand ... ok
+test types::tests::radix_layout_covers_full_pair_capacity ... ok
+
+failures:
+
+failures:
+    api::world::world_counter_tests::contact_order_survives_body_capacity_growth_and_invalidates_proxy_changes
+
+test result: FAILED. 22 passed; 1 failed; 0 ignored; 0 measured; 394 filtered out; finished in 79.89s
+

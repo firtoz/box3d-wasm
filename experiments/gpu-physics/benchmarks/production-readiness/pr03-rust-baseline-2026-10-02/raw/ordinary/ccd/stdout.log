@@ -1,0 +1,33 @@
+
+running 28 tests
+test api::query::tests::ccd_targets_separation_instead_of_outer_tolerance_shell ... ok
+test api::query::tests::mesh_ccd_glancing_rotation_uses_centroid_plane_filter_except_for_sensors ... ok
+test api::query::tests::mesh_ccd_initial_tip_contact_still_stops_centroid_crossing ... ok
+test api::query::tests::mesh_ccd_keeps_positive_toi_with_degenerate_witness_normal ... ok
+test api::query::tests::mesh_ccd_rotating_capsule_matches_native_root_tolerance ... ok
+test api::query::tests::near_shell_parallel_ccd_sweep_is_not_truncated ... ok
+test api::world::ccd_pose_precision_tests::ccd_origin_interpolation_matches_native_captures ... ok
+test api::world::ccd_pose_precision_tests::ccd_pose_interpolation_matches_native_captures ... ok
+test api::world::ccd_pose_precision_tests::retained_ccd_origin_survives_mass_changes_and_is_replaced_by_teleport ... ok
+test api::world::ccd_pose_precision_tests::transform_setter_preserves_rain_origin_with_offset_mass_center ... ok
+test api::world::contact_metrics_tests::ccd_correction_invalidates_the_scheduling_snapshot_state ... ok
+test api::world::convex_ccd_integration_tests::accumulated_forces_survive_uploads_and_zero_steps ... ok
+test api::world::convex_ccd_integration_tests::ccd_landing_refreshes_empty_contact_inside_speculative_shell ... ok
+test api::world::convex_ccd_integration_tests::constant_load_contact_compliance_matches_softness ... ok
+test api::world::convex_ccd_integration_tests::convex_ccd_rotating_offset_capsule_matches_centered_geometry ... ok
+test api::world::convex_ccd_integration_tests::convex_gpu_ccd_matches_large_scene_cpu_ccd_checkpoints ... ok
+test api::world::convex_ccd_integration_tests::convex_gpu_ccd_preserves_kinematic_filters_and_joint_exclusions ... ok
+test api::world::convex_ccd_integration_tests::resident_steps_and_render_metadata_do_not_download_body_state ... ok
+test api::world::convex_ccd_integration_tests::scene_capability_cache_tracks_public_mutations ... ok
+test api::world::demand_pose_staging_tests::demand_pose_staging_preserves_completed_ccd_mirrors ... ok
+test api::world::state_trace::ccd_state_trace::tests::ccd_capture_rejects_invalid_geometry_relationships ... ok
+test api::world::state_trace::ccd_state_trace::tests::trace_observes_device_only_convex_ccd_geometry ... ok
+test api::world::state_trace::host_state_trace::tests::trace_captures_host_configuration_query_cache_and_ccd_history ... ok
+test ccd::tests::gpu_ccd_motion_uses_ordered_endpoints_and_slot_flags ... ok
+test gpu_invariants::ccd_proxy_padding_tracks_no_hit_and_impact ... ok
+test gpu_invariants::completed_ccd_correction_survives_staged_pose_reads ... ok
+test gpu_invariants::gpu_closest_ray_ccd_and_events_independent_of_picks ... ok
+test sim::manifold_chain_tests::retained_ccd_origin_survives_state_io_and_sleep_but_expires_on_motion ... ok
+
+test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 375 filtered out; finished in 8.85s
+

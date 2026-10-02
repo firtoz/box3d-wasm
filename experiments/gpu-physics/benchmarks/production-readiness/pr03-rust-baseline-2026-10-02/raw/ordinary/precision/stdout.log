@@ -1,0 +1,33 @@
+
+running 28 tests
+test native_precision::tests::integer_only_entry_needs_no_float_decorations ... ok
+test native_precision::tests::native_capsule_projection_matches_cpu ... ok
+test native_precision::tests::native_capsule_proxy_bounds_matches_cpu ... ok
+test native_precision::tests::native_capsule_segment_matches_cpu ... ok
+test native_precision::tests::native_capsule_terrain_edge_is_retained ... ok
+test native_precision::tests::native_contact_friction_reproject_matches_cpu ... ok
+test native_precision::tests::native_contact_order_tree_matches_rebuild_history ... ok
+test native_precision::tests::native_contact_pair_priority_matches_creation_history ... ok
+test native_precision::tests::native_contact_softness_matches_cpu ... ok
+test native_precision::tests::native_convex_rolling_matches_cpu ... ok
+test native_precision::tests::native_mesh_base_separation_matches_cpu ... ok
+test native_precision::tests::native_mesh_inertia_matches_cpu ... ok
+test native_precision::tests::native_mesh_rolling_matches_cpu ... ok
+test native_precision::tests::native_revolute_alignment_velocity_matches_cpu ... ok
+test native_precision::tests::native_revolute_axial_matches_cpu ... ok
+test native_precision::tests::native_revolute_perp_mass_matches_cpu ... ok
+test native_precision::tests::native_revolute_point_velocity_matches_cpu ... ok
+test native_precision::tests::native_scalar_residual_corrections_match_cpu ... ok
+test native_precision::tests::native_speed_cap_matches_cpu ... ok
+test native_precision::tests::native_spherical_cone_matches_cpu ... ok
+test native_precision::tests::native_spherical_motor_clamp_matches_cpu ... ok
+test native_precision::tests::native_spherical_motor_mass_matches_cpu ... ok
+test native_precision::tests::native_spherical_point_velocity_matches_cpu ... ok
+test native_precision::tests::native_spherical_preparation_matches_cpu ... ok
+test native_precision::tests::native_spherical_twist_velocity_matches_cpu ... ok
+test native_precision::tests::native_spherical_warm_torque_matches_cpu ... ok
+test native_precision::tests::precision_covers_arithmetic_and_explicit_fma ... ok
+test native_precision::tests::source_reuse_keeps_entry_points_and_overrides_independent ... ok
+
+test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 375 filtered out; finished in 4.06s
+

@@ -1,0 +1,18 @@
+
+running 8 tests
+test api::world::contact_api::determinism_tests::unread_root_handle_retires_after_mesh_scratch_reuse ... ok
+test api::world::shape_geometry::tests::replacement_reuses_storage_and_preserves_body_mass_and_metadata ... ok
+test api::world::state_trace::tests::trace_creation_identity_survives_body_slot_reuse ... ok
+test gpu_invariants::capsule_angular_impulse_uses_axial_inertia ... ok
+test gpu_invariants::capsule_compound_inertia_applies_parallel_axis_once ... ok
+test gpu_invariants::capsule_mass_data_matches_compute_helper ... ok
+test gpu_invariants::high_resistance_sleeper_wakes_on_velocity ... FAILED
+test gpu_invariants::mass_queries_preserve_shape_and_explicit_mass ... ok
+
+failures:
+
+failures:
+    gpu_invariants::high_resistance_sleeper_wakes_on_velocity
+
+test result: FAILED. 7 passed; 1 failed; 0 ignored; 0 measured; 409 filtered out; finished in 2.63s
+

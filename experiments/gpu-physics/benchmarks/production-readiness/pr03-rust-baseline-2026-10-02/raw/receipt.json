@@ -1,0 +1,689 @@
+{
+  "status": "completed-baseline",
+  "protocol_sha256": "a30762d9a3803bcfca730218b421607a7faf408ba967ef4417b1c9020746a2ca",
+  "driver_sha256": "21d9fa3ca69865e7847ca98d6d0309b343c16d301bbf3e0bbf3ba8edeedd18d5",
+  "started_unix": 1790906497.4723008,
+  "results": [
+    {
+      "name": "ordinary/trace-trace_stack_support_and_energy",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 4.874060869216919,
+      "stdout_sha256": "8293ffe80da6401dddbb6b008f11a068b8760dfb599b02e264f30d2736422283",
+      "stderr_sha256": "e1f388b2b78c2ac76e64370ad1332a5ea555662709a3c74e1eb9c0a6852ad57b",
+      "valid": true,
+      "raw_trace_sha256": "000355118a0f069dc4e2d97e5ef480ee3b1986b286d6275ba0c34897ee7660b7",
+      "raw_trace_bytes": 38810357,
+      "trace_frames": 600,
+      "trace_gzip_sha256": "19f5660429815fb32f51eae04be7522acbf92f31c7a1e7b06296e47b1d7659f9"
+    },
+    {
+      "name": "ordinary/trace-trace_sliding_friction_matches_analytical_motion",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 2.1685924530029297,
+      "stdout_sha256": "3c2a4966d8aea11a884bd24b0d2a71ad86a167617ddb6b0d650ce61786d40812",
+      "stderr_sha256": "4176ecdcc301d6bf6292ad4a3b77d73d74f585a25e8a69ef6edff9b4b96d0583",
+      "valid": true,
+      "raw_trace_sha256": "770ef03c2c4380bde313856dfa67bd8d7cdf1c730b94cb6a209e4acb99618cb9",
+      "raw_trace_bytes": 13691186,
+      "trace_frames": 240,
+      "trace_gzip_sha256": "3b53f1775a20dbe1173dce2db4652499850fda1ad832c71f1ffe84632f5453c3"
+    },
+    {
+      "name": "ordinary/trace-trace_restitution_matches_analytical_rebound",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 2.1190407276153564,
+      "stdout_sha256": "0e6c0ad2a4b7cab483671ad90dd05359af769465f0f7c646f67aee9976a3c66f",
+      "stderr_sha256": "d88c6ced6e2f1981f57bb01dbab495a83149319db7033a9f371bc807e18e5167",
+      "valid": true,
+      "raw_trace_sha256": "031dab34aae473993c390ac98a7ac1cd7bb1d9bbdb9150a24f2b87cd96810fbf",
+      "raw_trace_bytes": 14224054,
+      "trace_frames": 240,
+      "trace_gzip_sha256": "61de3de31266816b996d93cdc856e5b6405fbac6f7648a4da5a96b8c73de806c"
+    },
+    {
+      "name": "ordinary/trace-trace_prismatic_motor_reversal_respects_both_limits",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 1.467416763305664,
+      "stdout_sha256": "95c90cb50e592723d05d6efc1a1a18dadbb8e9e05796ccc7be6302e960e4a714",
+      "stderr_sha256": "197ff15403cdcebc60f8da9a9da47e1a78a97c0757a54a1892afd68aa4cc782e",
+      "valid": true,
+      "raw_trace_sha256": "6c6f3831ac3f53b509c5368d71b7e8ee91c6fe73f2ed0f8a162e9ff2a70f08e3",
+      "raw_trace_bytes": 5434945,
+      "trace_frames": 120,
+      "trace_gzip_sha256": "fc491a60ddfaf403cef31f7e2fa86995f91eff1dee4b81f75cf22625ffd1fe9e"
+    },
+    {
+      "name": "ordinary/trace-trace_mass_mutations_preserve_analytical_impulse_response",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 0.8661055564880371,
+      "stdout_sha256": "e4aa3a2a90b5f7e346d6f36c26c370e915a0224d5ba4c3ea665ff5344863c43e",
+      "stderr_sha256": "d513b507d8289fc4702a5727018fb100afac7ce667c368ed92ac59586123e641",
+      "valid": true,
+      "raw_trace_sha256": "f1d214922bb686232774fe3eba1d3593c8381f562dacaa1ee736afe462dc9e71",
+      "raw_trace_bytes": 733840,
+      "trace_frames": 18,
+      "trace_gzip_sha256": "a9472b3807e99432d6897d070896cd1f17ffba7227f859b6c8da57f57b2fcf0d"
+    },
+    {
+      "name": "ordinary/trace-trace_joint_island_wake_propagation",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 1.2676596641540527,
+      "stdout_sha256": "38da47e690ee81090fb13f08d7a7c9c9e83d1a720226ddbc435d16de3abad28f",
+      "stderr_sha256": "787d31d5041ebc30b799eb9b5d48eb6c0d2d6faa7f983c86da81ed1701b5d967",
+      "valid": true,
+      "raw_trace_sha256": "32dca1f4ecd4937125a53ae5d769a38d8d3028ff2f2cd59249a1b464bb42f9c8",
+      "raw_trace_bytes": 4371720,
+      "trace_frames": 73,
+      "trace_gzip_sha256": "033405887e8601fe3f052997bcad460818e4e5ac6b3a5e020160a4967465a2eb"
+    },
+    {
+      "name": "ordinary/trace-trace_contact_island_wake_propagation",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 1.2168850898742676,
+      "stdout_sha256": "a94bc0315c21ee4ad734245afeec14a354a0816c2650b86cfce7a40ca0e7989e",
+      "stderr_sha256": "787d31d5041ebc30b799eb9b5d48eb6c0d2d6faa7f983c86da81ed1701b5d967",
+      "valid": true,
+      "raw_trace_sha256": "5e9434e05f09d8fd21d5a5fa478f55a24b186bb4888320e077c4a83e2e1a9aa7",
+      "raw_trace_bytes": 4540662,
+      "trace_frames": 73,
+      "trace_gzip_sha256": "d56474c88eab24950decbad979539cecb365cd54718125d07e8d37b01772570f"
+    },
+    {
+      "name": "ordinary/trace-trace_order_sensitive_callbacks_with_body_reuse",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 0.9163885116577148,
+      "stdout_sha256": "4097839e42073b7d0833f2e0799f84d86364b45b81cf2b558f2f4938d35deb99",
+      "stderr_sha256": "f795ca57a59262e0aa4ba951be898fe20b52ab1dabd228cf52dfd699e8377da4",
+      "valid": true,
+      "raw_trace_sha256": "f253924f46a2c3b0b8f720ea873fb6dc8b89cd50231c6ccf224a9af48c06341b",
+      "raw_trace_bytes": 1454213,
+      "trace_frames": 12,
+      "trace_gzip_sha256": "61f08b56127d8ad16cfbca3b7008acf8553f3ca80d3a7469473beeb281c36a54"
+    },
+    {
+      "name": "ordinary/trace-trace_tracks_contact_retirement_and_slot_reuse",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 0.816009521484375,
+      "stdout_sha256": "d52338c494d7b29ee1412e60e9b795ef1d42eb18033a96b9553071d8cd23e707",
+      "stderr_sha256": "a06c91be22cdd80013913bc5cce556650e1f70e475db2fea8407a6738e9c0138",
+      "valid": true,
+      "raw_trace_sha256": "13aa96444715f9119c30cbcc8627218cba3190b38c027f796dadb2873db69a26",
+      "raw_trace_bytes": 144229,
+      "trace_frames": 3,
+      "trace_gzip_sha256": "06cc42a64f9d507ee6adee3a1472cd10d39a47bec0ef49951039f0d393e3cb31"
+    },
+    {
+      "name": "ordinary/trace-child_relocation_joint_history_fixture",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 1.016629695892334,
+      "stdout_sha256": "f9cb6c871f46f51927daad18697e04d5316a8c35a103fd1d7fa785efacbc6e27",
+      "stderr_sha256": "5e7573557059599fcbd661d4d40158e372d34eb4d31b864e4860f32b5b3463fb",
+      "valid": true,
+      "raw_trace_sha256": "aeee69588a8f6337250fa79a65efaae16c4c3a9a723aa9002a5ca56ff32f6b48",
+      "raw_trace_bytes": 1190967,
+      "trace_frames": 16,
+      "trace_gzip_sha256": "dd214787903a8e1bee3e781f0c3a7cf86d55f21a4ecb64f74dd3af2c8c766266"
+    },
+    {
+      "name": "ordinary/trace-child_manifold_relocation_fixture",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 0.8663623332977295,
+      "stdout_sha256": "8649af5e4b7d5ff8fb209e49776b09f04aff366a024aef4f51756058bfa4e38c",
+      "stderr_sha256": "03a0cba4149735ae3f364f4fe34c8075884b3068a16e8865f57cb4261a7f9585",
+      "valid": true,
+      "raw_trace_sha256": "ff0302c54d922c7108061c22e713306b2102cf236ff6cb35213b708eaac50a6d",
+      "raw_trace_bytes": 532820,
+      "trace_frames": 8,
+      "trace_gzip_sha256": "b66cec3bba608b03eb8b64f683d51e9258ab606842acfb4aebd7d96e2591776f"
+    },
+    {
+      "name": "ordinary/trace-convex_gpu_ccd_corrects_live_steps_and_rebuilds_after_mutation",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 0.8662950992584229,
+      "stdout_sha256": "5866c3104621a63b17344853149afd8e84daa53b39ac1a7314e88db1c439ff37",
+      "stderr_sha256": "26db59ba0e708fcd06da7dd23c8d27ce3e0eb1cf444c846c4e7c0d26c0568fe2",
+      "valid": true,
+      "raw_trace_sha256": "140dd8ed7904b6be74b72aa9dbf1fc422088ee7364605d2cc5005bd7f478b8cc",
+      "raw_trace_bytes": 321231,
+      "trace_frames": 5,
+      "trace_gzip_sha256": "a42ccff72b2ccb16df583bbbe4699f988fd607a05fb7d73af663d94415eab2c7"
+    },
+    {
+      "name": "ordinary/precision",
+      "exit": 0,
+      "selected_count": 28,
+      "harness_result": [
+        "ok",
+        "28",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 4.072314977645874,
+      "stdout_sha256": "04f9073cd4c39dea58a1251136dcbdd90e043fdee0e77986a5a9268489069df0",
+      "stderr_sha256": "1b81a5e85a0031b54b4c1449834044461c6b78f8fee09c2b87307124e5b15ae8",
+      "valid": true
+    },
+    {
+      "name": "ordinary/ccd",
+      "exit": 0,
+      "selected_count": 28,
+      "harness_result": [
+        "ok",
+        "28",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 8.88223671913147,
+      "stdout_sha256": "4b9a280782f147eed3749297e658d08001b218cf2b66442d21987b4f4bbc385c",
+      "stderr_sha256": "b9c39459a18428b85ddeec15fc310d59bf82fcdd297b3260d82c5de9cb03ba30",
+      "valid": true
+    },
+    {
+      "name": "ordinary/schedule-capacity",
+      "exit": 101,
+      "selected_count": 23,
+      "harness_result": [
+        "FAILED",
+        "22",
+        "1",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 140.7624900341034,
+      "stdout_sha256": "3f6ce0ef74120a92e53875835264614dd5422cb226e15623d5e13ff0ce9189bc",
+      "stderr_sha256": "a6821a84e1e428d02882dab311780741dc7bad5458d9a1da5a8936b6b0dfc7d8",
+      "valid": false
+    },
+    {
+      "name": "ordinary/analytical-lifecycle",
+      "exit": 101,
+      "selected_count": 8,
+      "harness_result": [
+        "FAILED",
+        "7",
+        "1",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 2.820025682449341,
+      "stdout_sha256": "09f44cdb23f251f2341bd04e513986998045346f431bd7613fc74aae894d868d",
+      "stderr_sha256": "2f7dd92f4d3a9132ab3d126e82dca382c7cb4cb9a79366bc88bf0f8f59d5d1c0",
+      "valid": false
+    },
+    {
+      "name": "native/trace-trace_stack_support_and_energy",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 4.774664402008057,
+      "stdout_sha256": "8b3560f5807cf7f524e76f151a1b24b63fc37b945560234e022ca91539c2aedf",
+      "stderr_sha256": "4fa44dd100c6854738dc91607bc28da06b4b5a8480f7ff85be3661f4bc33819f",
+      "valid": true,
+      "raw_trace_sha256": "014edc0547d25360867d388db8f8607084f4eb6e77bdad4693203c35c44ec520",
+      "raw_trace_bytes": 41324335,
+      "trace_frames": 600,
+      "trace_gzip_sha256": "782d6baff7d0388744004bafeb7ec7359faf2bb8134bac9d49ce7a5e129027e2"
+    },
+    {
+      "name": "native/trace-trace_sliding_friction_matches_analytical_motion",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 2.2189877033233643,
+      "stdout_sha256": "c63c5a965dc92d867570f1aeb2db9a79f1350e4914f9be637a2f2adff0639d45",
+      "stderr_sha256": "ecb82ab78b718a07b09c97c10e169ead9e6e137dd20e14fe4ab6f1a46f1dcfba",
+      "valid": true,
+      "raw_trace_sha256": "98212bcd1217c209c308d60dd0c6f9f19df36fe590c4ffbc4b22c2af42366536",
+      "raw_trace_bytes": 14522204,
+      "trace_frames": 240,
+      "trace_gzip_sha256": "d368c4f70dcc5f24569fe49200d782c8c48687c82862a3a3a6c0f64c1f52b25d"
+    },
+    {
+      "name": "native/trace-trace_restitution_matches_analytical_rebound",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 2.168328285217285,
+      "stdout_sha256": "4a8c8f4534c983c985d28d968943af52d5cbaf02f76a3700425e5b140d921ed0",
+      "stderr_sha256": "bea1dd89bd3f5377cbfc6eab55e48bfe32038fc3fbddeb56d7915737fbfa14fa",
+      "valid": true,
+      "raw_trace_sha256": "4e59b193d773c37a92b495e7588191564d55e25b26ba9ff3e3b36e5f73cff13c",
+      "raw_trace_bytes": 15043514,
+      "trace_frames": 240,
+      "trace_gzip_sha256": "4346584bce02f6aaa9ac416f8e7518968b3e6546fa8681a70557ea47c2e99451"
+    },
+    {
+      "name": "native/trace-trace_prismatic_motor_reversal_respects_both_limits",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 1.5678644180297852,
+      "stdout_sha256": "c159fd2036894e84b6d41e4430f5517fd624885434bbb3534936c5f6ae33e59a",
+      "stderr_sha256": "dbfe91c238fcdbe56fd3737c133620878f99b184f901049558847d9c426f105d",
+      "valid": true,
+      "raw_trace_sha256": "b437785b22d890fd4fc38ce567ef0e8e60865f302d5c20f411b0f62f61c99a32",
+      "raw_trace_bytes": 5603623,
+      "trace_frames": 120,
+      "trace_gzip_sha256": "dac2a6c7de687e47bc37a67fa2e71329b09a22bad89d3bdc8c701dd3dced5917"
+    },
+    {
+      "name": "native/trace-trace_mass_mutations_preserve_analytical_impulse_response",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 0.9664738178253174,
+      "stdout_sha256": "531e4ad8d1d99d4acf02766a17896f79b15c5afb6e5193165b4f54cab1bf9c48",
+      "stderr_sha256": "cf87b93ff65862df3d2e5333fc2fbb497a3d7ffb2353ce961792afa568ecdceb",
+      "valid": true,
+      "raw_trace_sha256": "22fcbff29f1658ddcbe5e0e188ced53dcbf70330c400492c9ac88f097d8120e3",
+      "raw_trace_bytes": 769104,
+      "trace_frames": 18,
+      "trace_gzip_sha256": "25d2fd66fc1727b636153d2d32dd901451a9d0b210a62ea028fdde5667550784"
+    },
+    {
+      "name": "native/trace-trace_joint_island_wake_propagation",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 1.3168907165527344,
+      "stdout_sha256": "9c66fa2115f28fb13c7207dd79c61e1170f15789bc3370a55d37b803c346d7e7",
+      "stderr_sha256": "b1c3bddddcad7b8994c4b74895b51a12aba7e04dd66b62838d6f11a8931e5333",
+      "valid": true,
+      "raw_trace_sha256": "8a08a4212f95a9c7a933f04e8b3f4ee194db85f148ffa7719d16bf9d477ba799",
+      "raw_trace_bytes": 4605487,
+      "trace_frames": 73,
+      "trace_gzip_sha256": "9d8a0807094ba606ef8ac61cb30cf031214e78c05fa0d0295f2cf96bff627426"
+    },
+    {
+      "name": "native/trace-trace_contact_island_wake_propagation",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 1.317122220993042,
+      "stdout_sha256": "74d3960ce93fe4be6bbb3910c211f22e28765b54df2fbf1ab299976eff9d5015",
+      "stderr_sha256": "b1c3bddddcad7b8994c4b74895b51a12aba7e04dd66b62838d6f11a8931e5333",
+      "valid": true,
+      "raw_trace_sha256": "6d9c973ceac2016cff1637a836e14850b8e95ff37ceb57cdc384d948acff389d",
+      "raw_trace_bytes": 4844330,
+      "trace_frames": 73,
+      "trace_gzip_sha256": "8d200c6734952d0c9f6314dbe4fe0851c18c78ea0a71ac19044194259181e5b5"
+    },
+    {
+      "name": "native/trace-trace_order_sensitive_callbacks_with_body_reuse",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 1.1167359352111816,
+      "stdout_sha256": "72d77d58f6dfb6e8e987708359a77b4c1e76e096a73066edf80681e9b4bad259",
+      "stderr_sha256": "63c342095bb408389818faf33449550af094d62763740b74533d16ec08b5c06a",
+      "valid": true,
+      "raw_trace_sha256": "5128313d7af4d120c9da0d446ed38b36cfba8c4f4f0da8f923af5cf30cbe6172",
+      "raw_trace_bytes": 1461293,
+      "trace_frames": 12,
+      "trace_gzip_sha256": "f8ac89b2897d3b00f0eb7ad3b9697fce3ad3704f20210b2e96e2e8f401757f59"
+    },
+    {
+      "name": "native/trace-trace_tracks_contact_retirement_and_slot_reuse",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 0.9664609432220459,
+      "stdout_sha256": "0dfbfdd47a758e28d5a3b5e34fb247ba51d8cceb759ad8fa20496fb60285262e",
+      "stderr_sha256": "79af81426756f15831b177784ad2ac5a7c1f6ef8fdc0b306b8588b26f563c9c1",
+      "valid": true,
+      "raw_trace_sha256": "cd6cd79f5f552360867206961aaf050661ebcbb286cf8cd57f2882dee0311555",
+      "raw_trace_bytes": 152002,
+      "trace_frames": 3,
+      "trace_gzip_sha256": "6b2a508a1225c723eb4954c790821c1e674fb80fd1a81cb85e12b0dad3c9646f"
+    },
+    {
+      "name": "native/trace-child_relocation_joint_history_fixture",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 1.1169955730438232,
+      "stdout_sha256": "7323ab498d1e6381e80d51ee7bf49a49c72aed08079c71bd0579945a9aa66b18",
+      "stderr_sha256": "b2eb8c8dc8dc89fc8ccb881e0968e758004116d47478f92e4661a0c6730d5f3a",
+      "valid": true,
+      "raw_trace_sha256": "fc4686bccdb13468e537ceb34f5628ad9ef90008921de43efa0dec87efbeb5fe",
+      "raw_trace_bytes": 1197519,
+      "trace_frames": 16,
+      "trace_gzip_sha256": "67039c24ae1f4d2a068c35bfd45a65994dd8731eee0a91b9d4fcdfd31b750fe9"
+    },
+    {
+      "name": "native/trace-child_manifold_relocation_fixture",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 0.9164602756500244,
+      "stdout_sha256": "41f2296a242b1185e1899562da67273efc3aad3da106b9bd0504a62fe22d6c45",
+      "stderr_sha256": "b6320dbac58afc7f83b3a7008844d117aaf5698655e79b5bf18e4e129b8b53b1",
+      "valid": true,
+      "raw_trace_sha256": "947fdba2035160deca36f48cc404169b083f26164e2628df03c17bdf77d93a31",
+      "raw_trace_bytes": 536092,
+      "trace_frames": 8,
+      "trace_gzip_sha256": "3572ae0d5d79ebc4deb738b19eb249a10124019d41b394a9b618598a80d2cfe5"
+    },
+    {
+      "name": "native/trace-convex_gpu_ccd_corrects_live_steps_and_rebuilds_after_mutation",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 0.9664797782897949,
+      "stdout_sha256": "6a2bfcd4bca07c247485a0112cdad1ed0a796f2d83882631f4a453ca336c1a92",
+      "stderr_sha256": "7871a861db1107c6e399aa980c9555612b0802c83028856b206b7014f037b458",
+      "valid": true,
+      "raw_trace_sha256": "d2d48330a77e9e48944e13ee237ab7057e7691a85d559621ad37400380e073b8",
+      "raw_trace_bytes": 327829,
+      "trace_frames": 5,
+      "trace_gzip_sha256": "d6dc29c753beaf20f856336f48ab2ba45952e5ddb9f25abdab4aa322c6eea6ba"
+    },
+    {
+      "name": "native/trace-trace_covers_native_full_replay_and_reentry",
+      "exit": 0,
+      "selected_count": 1,
+      "harness_result": [
+        "ok",
+        "1",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 1.2169671058654785,
+      "stdout_sha256": "4774051c3a0472ed697ae826a218199eb77da1dbf6927c3604b31988ccb7a8ce",
+      "stderr_sha256": "8495c97a83aa344825810a693a29bd3cdb4dacc30474c9a811872bee040971ff",
+      "valid": true,
+      "raw_trace_sha256": "fcf8e3178d8db982ba4c4ac4f0edd5dd060b8305edaa548136b31269436832a2",
+      "raw_trace_bytes": 3286165,
+      "trace_frames": 48,
+      "trace_gzip_sha256": "444842f71c5f99597131fdba7bb814e309ea68c95ff663fcbef003fd997c1956",
+      "replay_hits": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        17,
+        18,
+        19,
+        20,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        27,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42
+      ]
+    },
+    {
+      "name": "native/precision",
+      "exit": 0,
+      "selected_count": 28,
+      "harness_result": [
+        "ok",
+        "28",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 4.072391986846924,
+      "stdout_sha256": "4392935dc6b685a956b1dccacaaec21ec4d640c071d0b771dc795dbaf90fb667",
+      "stderr_sha256": "1b81a5e85a0031b54b4c1449834044461c6b78f8fee09c2b87307124e5b15ae8",
+      "valid": true
+    },
+    {
+      "name": "native/ccd",
+      "exit": 0,
+      "selected_count": 28,
+      "harness_result": [
+        "ok",
+        "28",
+        "0",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 8.731611013412476,
+      "stdout_sha256": "b25a634384130d0caeeee311b09aa515bbfe8ee149049220917abcebc20ceda9",
+      "stderr_sha256": "f101d1db93f7a74d5cef0a1ac04a985b9079e0151285a20d717d38b5ada82f19",
+      "valid": true
+    },
+    {
+      "name": "native/schedule-capacity",
+      "exit": 101,
+      "selected_count": 23,
+      "harness_result": [
+        "FAILED",
+        "22",
+        "1",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 79.9278666973114,
+      "stdout_sha256": "71a4770fcf6d48363aebd794a4b006a631519e644c96e5ce4f981816d14de4da",
+      "stderr_sha256": "815749cb4d4230f8be96690daaeea50c47e5ea81c6bf36fb83ef9e84ea715cd4",
+      "valid": false
+    },
+    {
+      "name": "native/analytical-lifecycle",
+      "exit": 101,
+      "selected_count": 8,
+      "harness_result": [
+        "FAILED",
+        "7",
+        "1",
+        "0"
+      ],
+      "actual_NVIDIA_Vulkan": true,
+      "elapsed_seconds_incidental": 2.7203128337860107,
+      "stdout_sha256": "e86db861850fc5cc84dd711bc48128b67ba94b45db80b92f8a55c45f098328f9",
+      "stderr_sha256": "98202e078fb74958cbf0ca42c29568e2480be1b648617c08d228f54554b4dedb",
+      "valid": false
+    }
+  ],
+  "finished_unix": 1790906798.381593,
+  "all_assertions_pass": false,
+  "selected_checks": 199
+}

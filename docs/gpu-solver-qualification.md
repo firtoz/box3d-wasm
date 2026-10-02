@@ -1,5 +1,7 @@
 # GPU solver correctness and repeatability qualification
 
+Current2026-10-02 PR03 [Rust baseline and fixed contract](../experiments/gpu-physics/benchmarks/production-readiness/pr03-rust-baseline-2026-10-02/README.md):33processes/199exactselectedchecks,195pass/4retainedfailures;25lossless traces/2864frames/native42replayhits. Both failures are retained with mode/identity source hypotheses, not waived. Complete future-state/registry/ABI capture and requiredconfiguration qualification stay open. Rain/drag retains CPU600 completion and ordinaryGPU900second timeout; seven previouslyunlaunched cells run under a separate frozen protocol; no source/default/tolerance/headline timing change.
+
 Current2026-10-02 PR03 [fixture baseline](../experiments/gpu-physics/benchmarks/production-readiness/pr03-baseline-fixtures-2026-10-02/README.md): both current backends retain the original distance first-step discrepancy; unchanged600step ragdoll physical/isolated/57posemesh screens pass. Original strict ragdoll trajectory screen remains failed (0.063585767m versus0.006m), retained separately.26first-process observations are not final five-repeat/full-state/build qualification; no timing/source/default/tolerance change. Full current matrix/baseline remains open in the production roadmap.
 
 This qualification uses efficient GPU ordering (`GPU_PHYSICS_LIVE_CONTACT_ORDER=0`).
@@ -20,8 +22,8 @@ source `abc0a54`, with [current API evidence](../experiments/gpu-physics/benchma
 [PR03 contract preparation](../experiments/gpu-physics/benchmarks/production-readiness/pr03-contract-baseline-2026-10-02/README.md)
 records exact current selectors/source identities and unresolved original
 physics/state/performance criteria; PR03 stays open pending a concrete executable
-baseline and frozen evaluation budget. No new baseline simulation or timing has
-run. The following older candidate/job notes are historical evidence, not current
+baseline/configuration applicability. The current baseline reports above retain
+new simulations and failures; no headline timing has run. The following older candidate/job notes are historical evidence, not current
 process state or final-build qualification. Rain and loaded-dragging failures,
 the distance first-step discrepancy and complete future-state gates remain open.
 

@@ -1,0 +1,6 @@
+
+running 1 test
+test api::world::state_trace::tests::child_manifold_relocation_fixture ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 416 filtered out; finished in 0.91s
+

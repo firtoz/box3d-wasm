@@ -1,0 +1,19 @@
+{
+  "source_review_only_not_behavior_pass": true,
+  "cache_storage_failure": {
+    "expected_mode": "CPU-compatible LIVE_CONTACT_ORDER!=0",
+    "efficient0": "src/sim.rs disables live_order/order_node_capacity; src/api/world.rs omits order seed; snapshot_test returns params.order_enabled!=0. Original test unconditionallyasserts before.0",
+    "lines": [
+      "src/api/world.rs:5273",
+      "src/sim.rs:1133",
+      "src/sim.rs:5177",
+      "src/api/world.rs:10325"
+    ]
+  },
+  "sleeper_failure": {
+    "cause_hypothesis": "Fixture hardcodes BodyIdgeneration1 after previous serial tests create/destroy/reuse rootworld. WorldRegistry seeds childgeneration above retiredceiling; real capsuleID can differ. Initial !awake can hold forinvalidhandle, setter rejects stalehandle, wakeassert fails. Confirm with generation-safe fixture before classifying wake behavior.",
+    "unchanged_source": "src/gpu_invariants.rs:1386",
+    "actual_public_enumerator": "b3_world_dynamic_body_ids returns actual body.generation (src/api/world.rs:4260)",
+    "source_bytes": "All cited source bytes archived in raw/compiled-source-inputs.tar.gz. No test/production source changed in this baseline."
+  }
+}

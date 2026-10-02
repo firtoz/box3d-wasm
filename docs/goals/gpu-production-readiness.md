@@ -106,6 +106,7 @@ queue and recovery record. No separate competing production backlog.
   gets a finite recorded budget and stop/retain rule before execution.
   **Evidence:** [metadata preparation](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-contract-baseline-2026-10-02/README.md);332 source inputs,18 exact Rust fixture selectors/28 numerical selectors/native replay selector. No device/build/timing runs. Full commands/criteria/CPU-oracle/executable baseline and finite evaluation budget remain open; this does not close PR03.
   [Current fixture baseline](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-baseline-fixtures-2026-10-02/README.md) preserves121rawfiles:10fixturelinks,26first-process observations, original failedCPUlink and separate dependency repair. BothGPU distance probes retain the original first-step1e-5failure; ragdoll physical/isolated/57posemesh screens pass, original strict0.006m trajectory screen fails0.063585767m. No source/default/tolerance/timing change; fullmatrix/currentRain/loadeddrag/Rust baseline and future-state contract remain open.
+  [Current Rust baseline and reconciled contract](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rust-baseline-2026-10-02/README.md):33processes/199checks,195pass/4retainedfailures;25lossless traces/2864frames and native42replayhits. [Fixed release contract](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rust-baseline-2026-10-02/release-contract.md) preserves original limits/fullfuture-state obligations and explicitly open configuration/fixture applicability, including32768slot finalregression and newregistry/ABI capture audit. Rain/drag baseline retains CPU600 completion and an ordinaryGPU900second timeout; seven previouslyunlaunched cells now run separately. PR03 remainsopen.
 
 - [ ] **PR04 — Resolve required physical correctness failures.** Work from the
   earliest demonstrated defect and smallest faithful reproducer. Close Rain's
@@ -334,8 +335,8 @@ Their old next actions and job handles do not authorize a new campaign.
 | Authorization | Active full roadmap; implementation and verified milestone commit/push authorized by the submitted goal |
 | Latest evidence milestone | `e801b3135f1c2fe7f10e2a692cd623934a7b8a83` pushed; remote0/0 and clean tree verified after push. New121rawfiles preserve current PR03 fixture builds and26baseline processes; no production change |
 | Retained production source | `abc0a54a3ce3b285c9984f2c7c6b5baefff00d1b`, pushed. PR01 refresh `c2fd69f`, PR02 acceptance `1304839`, PR03 metadata `5a40f05` are pushed. Invocation revisions are context, not compiled source identity |
-| Current item | **PR03 open**. Current ragdoll/mesh/distance fixture baseline is portable; remaining fixed matrix, Rain, loaded dragging, exact Rust selectors and future-state contract/current baseline remain next |
-| Current jobs | All owned fixture build/baseline/publication processes terminal; no live owned GPU/build/capture job. Old sessions46787/84255/80345/31931 are terminal; never restart their closed drivers |
+| Current item | **PR03 open**. Ragdoll/mesh/distance portable baseline pushed; current Rust report100rawfiles/33processes/199checks and reconciled release contract prepared. Rain runner70354 stopped afterCPU600complete and ordinaryGPU900second timeout. Seven-cell remaining runner82980: isolateddrag and requiredorder1controls pass bothbackends, grounddrag fails bothoriginalscreens; nativeRain live; generation-safe sleeper fixture and remaining1mode/currentfullmatrix evidence remain open |
+| Current jobs | PR03 Rust runner8018 terminalexit0;33processes/199checks complete,195pass/4failed. Rain/drag/order1 runner33069 terminalexit1 beforeanyenginecell, missingxvfb-run. Bundled-display repair runner70354 terminalexit1 after ordinaryGPU900second timeout, CPU600complete. Remaining runner82980 has sixcompleted cells (fourpasses/twogrounddragfailures); nativeRain live, verifyactualreceipt/handle. ClosedRustdriver must not restart. Old sessions46787/84255/80345/31931 terminal; never restart closed drivers |
 | Current compiled libraries | Ordinary SHA`aba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6`; native SHA`c8a16154cb576c49e7bd7fd8e030319601192b466d9ddb19305bd043aa6a7267`. Exact107Rust/723viewer inputs still match their producer receipts/source archive |
 | Independent CPU | Full archive SHA`b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c`,119actual source/object pairs match CPU applicability/origin receipts. Combined fixtures use separate prefixed CPU archive. Older parent Rust receipts do not identify current GPU code |
 | Hardware / policy | i9-9900K / NVIDIA GeForce RTX4070SUPER, driver610.57.04, actual NVIDIA Vulkan. Ordinary/native qualified separately. Current PR03 cells use efficient ordering0; scheduling/default policies unchanged |
@@ -377,31 +378,65 @@ not repeat completed cells or extend these closed budgets.
 
 ### Next discriminating work
 
-1. Finish PR03's fixed current contract and executable baseline. Freeze exact
-   current Rust analytical/CCD/island/history/query/replay/capacity/schedule
-   selectors, original durations/assertions and finite evaluation budget before
-   launch. The existing metadata draft identifies18fixture/28numerical selectors
-   and native replay, but is not a device pass. Current CCD filter count must be
-   derived from current host lists rather than copied from the old27-test total.
-2. Include original600step `Benchmark/Rain` and3060step loaded dragging criteria,
-   actual current CPU/ordinary/native viewer/binary commands, creation/lifetime
-   correspondence and required capture fields. Current source-linked fixtures
-   are built; no fresh Rain or drag process has yet consumed a PR03 budget.
-3. Preserve the original distance first-step and strict ragdoll trajectory
-   failures in PR04's required failure register. Read historical rejected
-   experiments/criteria before selecting a new hypothesis. A numerical root,
-   CPU reproduction or physical-only pass cannot silently close another screen.
+1. Poll **82980** for the frozen seven previously unlaunched cells. Prior driver
+   70354 is terminalexit1: CPU Rain600 complete, ordinaryGPU Rain900second
+   watchdog timeout with no health file. Preserve this incomplete outcome; do
+   not repeat either cell or extend the watchdog. Remaining protocol SHA
+   `1a9d1e4f0b8bcbff988e78f8018bb614748cf380054d0fd7bdc240f26925c11b`
+   runs fourdrag/twoorder1 cells first and untouchednative Rain600 last, same
+   source/binaries/settings/900secondstoprule. Seven processes/oneXserver,
+   zero builds/candidates/retries/headline timing. Six cells now complete: isolateddrag1320 and order1control pass bothbackends;
+   loadeddrag3060 fails both, heldposition≈.14745m versus.005m. NativeRain
+   is live. Evaluate completed windows; no incomplete/historical run closes
+   current or final Rain acceptance.
+2. Confirm the generation-safe HighResistance fixture before qualifying that
+   sleep/wake assertion. Originalsource hardcodesgeneration1 in a serial suite
+   withworldreuse; `b3_world_dynamic_body_ids` returns actualpublicgenerations.
+   Retain both failedobservations and use a separately frozen, justified fixture
+   correction/check. Preserve400settle+1wake andallphysical limits; adjacent
+   wakepasses are not thisfixture's acceptance. The ordercache test's storage
+   prerequisite is CPU-compatible1; the declared1controls do not replace0fails.
+3. Finish PR03's matrix/configuration/capture contract and current executable
+   baseline, then address the earliest requiredphysical failure under PR04.
+   Required0/1configs that lack applicable completed evidence remain open. Read
+   historical rejectedexperiments before selecting a newcandidate hypothesis;
+   distance firststep/strict ragdolltrajectory/Rain/loadeddrag failures must not
+   disappear behind adjacentpasses or a newphysicalcriterion.
 
-Local immutable campaign directories:
+Current Rust campaign is terminal: driver8018 exit0,33processes/199checks,
+195pass/4retainedfailures;25complete lossless traces/2864frames and42native
+replayhits. Exact99ordinary/100native selectors include29currentCCD perbackend
+and28precision, originalmixed/dense/independent/transition/capacity checks.
+No builds/candidates/retries/headline timing. The current report's100rawfiles
+validate without ignored binaries or aGPU. Newfixed releasecontract records
+original limits andfullfuture-state obligations; PR03 remainsopen.
+
+Rain/drag originallauncher attempt33069 terminalexit1 beforeanyengineprocess:
+`xvfb-run` is unavailable. Originalprotocol/driver/failure preserved; no CPU/GPU
+case consumed. Separately frozen display-repair uses the previously successful
+bundledXvfb SHA`5bfd315a8c7bc626d0b183d176e130c34f910a4a1279d9d53ea45769f62a3351`,
+nine unchangedenginecases/threeisolatedservers/zero builds/candidates/retries/
+headline timing. Repairprotocol SHA
+`a86ba2c824bbc09a10e0ddd613d24aea058077df1c59734ea24e7b45948a636e`.
+CPUhealth1203549772bytes SHA
+`48918163f059dcbca3c5f8c067191442581eb9cb8510170c9ea3171a25879cf6`.
+Lossless gzip1 is251743429bytes in six ≤48MiBparts; exactstreamed
+decompression SHA/1203549772bytes verified by cpu-health-roundtrip.json.
+Keep originalraw andeverypart/hash. These are diagnostichealth/lifetime observations, notFPS/timing.
+
+Local immutable firstfixture directories remain
 `experiments/gpu-physics/artifacts/production-readiness/pr03-baseline-builds/`,
 `.../pr03-baseline-cpu-link-repair/`, `.../pr03-distance-baseline/`,
-`.../pr03-ragdoll-mesh-baseline/`. Exact frozen commands/settings and artifacts
-are also portable in the current report; ignored local paths alone are not
-acceptance evidence. The accepted Rust test executables remain under
-`.../pr02-world-lifetime-artifact-repair/`: ordinary SHA
-`597b893bcbbb401866721e1b1b45cb03c58263ae8bee76cbe8af00cdfaef23b9`,
-native SHA`34ede43142323516f585d4d236755b8ef46dc6d9e61b6ba51354f379c85aa4a3`.
-Verify actual source/artifact hashes before reuse.
+`.../pr03-ragdoll-mesh-baseline/`. Newcampaigns:
+`.../pr03-rust-baseline/`, `.../pr03-rain-drag-baseline/`(stopped),
+`.../pr03-rain-drag-display-repair/`(stopped aftertimeout),
+`.../pr03-rain-drag-remaining/`(runner82980live). Exactcommands/settings/results are
+also portable in the linkedreports whenpublished. Neverrerun closed drivers.
+Current Rusttestexecutables under `.../pr02-world-lifetime-artifact-repair/`:
+ordinarySHA`597b893bcbbb401866721e1b1b45cb03c58263ae8bee76cbe8af00cdfaef23b9`,
+nativeSHA`34ede43142323516f585d4d236755b8ef46dc6d9e61b6ba51354f379c85aa4a3`.
+Verify actual source/artifact hashes before reuse. Source/epoch capture andPR06
+cleanbuild exceptions remain explicit below.
 
 ### Remaining applicability and release boundaries
 
@@ -482,3 +517,6 @@ PR01/PR02 campaigns or either exhausted scheduling campaign.
 - [portable current report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-current-acceptance-2026-10-02/README.md)
 - [report](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-contract-baseline-2026-10-02/README.md)
 - [portable fixture report](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-baseline-fixtures-2026-10-02/README.md)
+
+- [Current Rust baseline and fixed release contract](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rust-baseline-2026-10-02/README.md): protocol SHAa30762d9a3803bcfca730218b421607a7faf408ba967ef4417b1c9020746a2ca, driver8018terminal0. All33processes/199checks retained,195pass/4fail;100portable rawfiles exclude local driver pipeline-cache blobs. No source/tolerance/default change.
+- Original Rain/drag protocol SHA9ab2100327945b5d29cb37a8709ac037310deb1d22a23afb4683855ca82984bb: driver33069terminal1 beforeanyengineprocess, missingxvfb-run. Displayrepair SHAa86ba2c824bbc09a10e0ddd613d24aea058077df1c59734ea24e7b45948a636e uses pinned previouslyproven bundledXvfb. Driver70354terminal1: CPU600complete, ordinaryGPU900second timeout/nohealth. Sevenremainingcells were neverlaunched; distinctremainingprotocolabove preserves these failures and does not repeat them. All clocks incidental, no performance claim.

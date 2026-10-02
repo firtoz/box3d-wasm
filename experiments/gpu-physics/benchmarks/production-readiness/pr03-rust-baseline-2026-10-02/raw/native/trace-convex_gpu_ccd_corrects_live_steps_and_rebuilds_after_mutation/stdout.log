@@ -1,0 +1,6 @@
+
+running 1 test
+test api::world::convex_ccd_integration_tests::convex_gpu_ccd_corrects_live_steps_and_rebuilds_after_mutation ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 416 filtered out; finished in 0.92s
+
