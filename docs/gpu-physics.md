@@ -48,7 +48,7 @@ report for its command and the distinction from full-scene physics checks.
 | Intel / Apple hardware | Adapter selection permits capable devices; hardware correctness and performance are unverified |
 | Experimental browser target | Does not currently compile; native transport, ABI layout and world-storage assumptions need work |
 | Box3D WASM package | Separate implementation; unchanged by the experiment |
-| Native API parity | Incomplete; linkable symbols include placeholders and CPU-only comparison passthroughs |
+| Native API parity | Incomplete; current linked inventory has 39 explicit exclusions, while implemented behavior has scoped qualifications |
 | Falling Ragdolls precision | Independent 600-step, 112-body runs pass every-frame targets on ordinary and native cached NVIDIA paths: worst position RMS/max 2.39/14.92 mm; orientation RMS/max 0.764/4.342 degrees. Collision-free, joint stability, Offset, Prismatic and strict dragging checks pass. Synchronized recordings are complete. Rain passes 600-step health/recycling checks but fails CPU-relative joint-error screening; see the validation details below. The warm ragdoll fixture costs 32.2% more wall time than its recorded earlier baseline. |
 | Performance | New bounded desktop scheduling: opt-in automatic matches global at 50k cubes and reduces independent-group mean step time 57.18% against global, with p95 limits passing on both fixtures. Laptop validation of this policy is pending. Earlier RTX 4070 Laptop solver-writeback follow-up versus `0bbf5f63`: median completed-step time falls 7.7% at 2k cubes and 1.5% at 5k, below the 20% target. The 100k and 200k cases improve 10.7% and 7.9%, with every paired large-scene trial faster. In the matched sweep, the first sampled GPU/CPU physics crossover moves from 20k to 15k cubes. Small-scene timings remain variable; this is not a universal speedup or crossover threshold. See the experiment README for dated charts, renderer measurements, raw evidence and earlier benchmark history. |
 
@@ -233,7 +233,7 @@ not complete the production roadmap's final physics or repeatability matrix.
 
 ## Native API availability
 
-The earlier [independent root-world lifetime defect](../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-diagnostic-2026-10-01/README.md):
+The earlier [independent root-world lifetime diagnosis](../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-diagnostic-2026-10-01/README.md)
 showed recreation reusing the same ID and stale controls/destruction affecting a
 replacement. The retained repair keeps root and child epochs across destruction. Child
 seeds advance past every previously issued body generation, including deleted
