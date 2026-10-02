@@ -1,0 +1,157 @@
+samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+physics-pipeline-cache: loaded 0 bytes
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+GPU pose export: Vulkan opaque FD 24 (28672 bytes)
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-ccd-trace step=62 body=2 start=[-6.0, 0.4999297, 3.8878626e-11] end=[-5.997811, 0.51201564, -0.00049961003] fraction=1
+gpu-ccd-trace step=63 body=2 start=[-5.997811, 0.51201564, -0.00049961003] end=[-5.9933214, 0.533151, -1.2239179e-5] fraction=1
+gpu-ccd-trace step=64 body=2 start=[-5.9933214, 0.533151, -1.2239179e-5] end=[-5.987889, 0.5564546, 0.0019079902] fraction=1
+gpu-ccd-trace step=65 body=2 start=[-5.987889, 0.5564546, 0.0019079902] end=[-5.9821367, 0.5796486, 0.00538241] fraction=1
+gpu-ccd-trace step=66 body=2 start=[-5.9821367, 0.5796486, 0.00538241] end=[-5.9762173, 0.60249877, 0.010078471] fraction=1
+gpu-ccd-trace step=67 body=2 start=[-5.9762173, 0.60249877, 0.010078471] end=[-5.9702334, 0.6244062, 0.016252995] fraction=1
+gpu-ccd-trace step=68 body=2 start=[-5.9702334, 0.6244062, 0.016252995] end=[-5.964208, 0.6454636, 0.023842027] fraction=1
+gpu-ccd-trace step=69 body=2 start=[-5.964208, 0.6454636, 0.023842027] end=[-5.95812, 0.6658579, 0.032918066] fraction=1
+gpu-ccd-trace step=70 body=2 start=[-5.95812, 0.6658579, 0.032918066] end=[-5.951942, 0.6857936, 0.043572523] fraction=1
+gpu-ccd-trace step=71 body=2 start=[-5.951942, 0.6857936, 0.043572523] end=[-5.94565, 0.7054764, 0.05589436] fraction=1
+gpu-ccd-trace step=72 body=2 start=[-5.94565, 0.7054764, 0.05589436] end=[-5.939224, 0.725113, 0.06995938] fraction=1
+gpu-ccd-trace step=73 body=2 start=[-5.939224, 0.725113, 0.06995938] end=[-5.932646, 0.74491245, 0.08582388] fraction=1
+gpu-ccd-trace step=74 body=2 start=[-5.932646, 0.74491245, 0.08582388] end=[-5.925902, 0.7650876, 0.103520386] fraction=1
+gpu-ccd-trace step=75 body=2 start=[-5.925902, 0.7650876, 0.103520386] end=[-5.918979, 0.78585434, 0.12305467] fraction=1
+gpu-ccd-trace step=76 body=2 start=[-5.918979, 0.78585434, 0.12305467] end=[-5.9118676, 0.80742955, 0.14440353] fraction=1
+gpu-ccd-trace step=77 body=2 start=[-5.9118676, 0.80742955, 0.14440353] end=[-5.904558, 0.83002806, 0.16751343] fraction=1
+gpu-ccd-trace step=78 body=2 start=[-5.904558, 0.83002806, 0.16751343] end=[-5.897044, 0.8538586, 0.19229975] fraction=1
+gpu-ccd-trace step=79 body=2 start=[-5.897044, 0.8538586, 0.19229975] end=[-5.8893213, 0.87911934, 0.21864706] fraction=1
+gpu-ccd-trace step=80 body=2 start=[-5.8893213, 0.87911934, 0.21864706] end=[-5.881387, 0.905993, 0.24641018] fraction=1
+gpu-ccd-trace step=81 body=2 start=[-5.881387, 0.905993, 0.24641018] end=[-5.8732424, 0.934642, 0.27541617] fraction=1
+gpu-ccd-trace step=82 body=2 start=[-5.8732424, 0.934642, 0.27541617] end=[-5.86489, 0.96520394, 0.30546737] fraction=1
+gpu-ccd-trace step=83 body=2 start=[-5.86489, 0.96520394, 0.30546737] end=[-5.856336, 0.99778724, 0.33634523] fraction=1
+gpu-ccd-trace step=84 body=2 start=[-5.856336, 0.99778724, 0.33634523] end=[-5.8475885, 1.0324682, 0.36781505] fraction=1
+gpu-ccd-trace step=85 body=2 start=[-5.8475885, 1.0324682, 0.36781505] end=[-5.8386583, 1.069288, 0.39963117] fraction=1
+gpu-ccd-trace step=86 body=2 start=[-5.8386583, 1.069288, 0.39963117] end=[-5.829559, 1.1082518, 0.4315427] fraction=1
+gpu-ccd-trace step=87 body=2 start=[-5.829559, 1.1082518, 0.4315427] end=[-5.8203053, 1.149328, 0.46329924] fraction=1
+gpu-ccd-trace step=88 body=2 start=[-5.8203053, 1.149328, 0.46329924] end=[-5.8109155, 1.1924492, 0.49465683] fraction=1
+gpu-ccd-trace step=89 body=2 start=[-5.8109155, 1.1924492, 0.49465683] end=[-5.801407, 1.2375146, 0.52538306] fraction=1
+gpu-ccd-trace step=90 body=2 start=[-5.801407, 1.2375146, 0.52538306] end=[-5.791799, 1.2843922, 0.5552621] fraction=1
+gpu-ccd-trace step=91 body=2 start=[-5.791799, 1.2843922, 0.5552621] end=[-5.782112, 1.3329233, 0.5840986] fraction=1
+gpu-ccd-trace step=92 body=2 start=[-5.782112, 1.3329233, 0.5840986] end=[-5.7723656, 1.3829261, 0.61172086] fraction=1
+gpu-ccd-trace step=93 body=2 start=[-5.7723656, 1.3829261, 0.61172086] end=[-5.762579, 1.4342012, 0.6379831] fraction=1
+gpu-ccd-trace step=94 body=2 start=[-5.762579, 1.4342012, 0.6379831] end=[-5.7527714, 1.4865365, 0.66276634] fraction=1
+gpu-ccd-trace step=95 body=2 start=[-5.7527714, 1.4865365, 0.66276634] end=[-5.742961, 1.5397121, 0.6859788] fraction=1
+gpu-ccd-trace step=96 body=2 start=[-5.742961, 1.5397121, 0.6859788] end=[-5.7331643, 1.5935053, 0.70755476] fraction=1
+gpu-ccd-trace step=97 body=2 start=[-5.7331643, 1.5935053, 0.70755476] end=[-5.723397, 1.6476948, 0.7274534] fraction=1
+gpu-ccd-trace step=98 body=2 start=[-5.723397, 1.6476948, 0.7274534] end=[-5.713673, 1.7020651, 0.745656] fraction=1
+gpu-ccd-trace step=99 body=2 start=[-5.713673, 1.7020651, 0.745656] end=[-5.7040057, 1.7564095, 0.76216346] fraction=1
+gpu-ccd-trace step=100 body=2 start=[-5.7040057, 1.7564095, 0.76216346] end=[-5.6944065, 1.8105334, 0.776993] fraction=1
+gpu-ccd-trace step=101 body=2 start=[-5.6944065, 1.8105334, 0.776993] end=[-5.6848855, 1.864256, 0.79017466] fraction=1
+gpu-ccd-trace step=102 body=2 start=[-5.6848855, 1.864256, 0.79017466] end=[-5.6754527, 1.9174128, 0.8017481] fraction=1
+gpu-ccd-trace step=103 body=2 start=[-5.6754527, 1.9174128, 0.8017481] end=[-5.666117, 1.9698559, 0.811759] fraction=1
+gpu-ccd-trace step=104 body=2 start=[-5.666117, 1.9698559, 0.811759] end=[-5.656888, 2.0214555, 0.8202558] fraction=1
+gpu-ccd-trace step=105 body=2 start=[-5.656888, 2.0214555, 0.8202558] end=[-5.647774, 2.0721, 0.8272871] fraction=1
+gpu-ccd-trace step=106 body=2 start=[-5.647774, 2.0721, 0.8272871] end=[-5.6387863, 2.121696, 0.83289856] fraction=1
+gpu-ccd-trace step=107 body=2 start=[-5.6387863, 2.121696, 0.83289856] end=[-5.631553, 2.1505928, 0.84502614] fraction=1
+gpu-ccd-trace step=108 body=2 start=[-5.631553, 2.1505928, 0.84502614] end=[-5.6256, 2.1655228, 0.86083484] fraction=1
+gpu-ccd-trace step=109 body=2 start=[-5.6256, 2.1655228, 0.86083484] end=[-5.6201296, 2.1772277, 0.87570846] fraction=1
+gpu-ccd-trace step=110 body=2 start=[-5.6201296, 2.1772277, 0.87570846] end=[-5.6149554, 2.1884327, 0.88842744] fraction=1
+gpu-ccd-trace step=111 body=2 start=[-5.6149554, 2.1884327, 0.88842744] end=[-5.6100574, 2.1994197, 0.89891124] fraction=1
+gpu-ccd-trace step=112 body=2 start=[-5.6100574, 2.1994197, 0.89891124] end=[-5.605452, 2.2098641, 0.9073924] fraction=1
+gpu-ccd-trace step=113 body=2 start=[-5.605452, 2.2098641, 0.9073924] end=[-5.6011615, 2.219385, 0.9141404] fraction=1
+gpu-ccd-trace step=114 body=2 start=[-5.6011615, 2.219385, 0.9141404] end=[-5.5972066, 2.2276788, 0.9193859] fraction=1
+gpu-ccd-trace step=115 body=2 start=[-5.5972066, 2.2276788, 0.9193859] end=[-5.5936117, 2.2345314, 0.92331004] fraction=1
+gpu-ccd-trace step=129 body=2 start=[-5.5851836, 2.2129834, 0.9076725] end=[-5.5858674, 2.2066011, 0.9033317] fraction=1
+gpu-ccd-trace step=130 body=2 start=[-5.5858674, 2.2066011, 0.9033317] end=[-5.5866256, 2.1997392, 0.89849937] fraction=1
+gpu-ccd-trace step=131 body=2 start=[-5.5866256, 2.1997392, 0.89849937] end=[-5.5874624, 2.1924303, 0.8931573] fraction=1
+gpu-ccd-trace step=132 body=2 start=[-5.5874624, 2.1924303, 0.8931573] end=[-5.588382, 2.184711, 0.8872884] fraction=1
+gpu-ccd-trace step=133 body=2 start=[-5.588382, 2.184711, 0.8872884] end=[-5.5893865, 2.176622, 0.88087684] fraction=1
+gpu-ccd-trace step=134 body=2 start=[-5.5893865, 2.176622, 0.88087684] end=[-5.59048, 2.1682072, 0.87390864] fraction=1
+gpu-ccd-trace step=135 body=2 start=[-5.59048, 2.1682072, 0.87390864] end=[-5.591664, 2.1595137, 0.866372] fraction=1
+gpu-ccd-trace step=136 body=2 start=[-5.591664, 2.1595137, 0.866372] end=[-5.59294, 2.1505914, 0.85825765] fraction=1
+gpu-ccd-trace step=137 body=2 start=[-5.59294, 2.1505914, 0.85825765] end=[-5.5943093, 2.1414926, 0.84955955] fraction=1
+gpu-ccd-trace step=138 body=2 start=[-5.5943093, 2.1414926, 0.84955955] end=[-5.5957727, 2.1322718, 0.84027517] fraction=1
+gpu-ccd-trace step=139 body=2 start=[-5.5957727, 2.1322718, 0.84027517] end=[-5.59733, 2.1229846, 0.8304061] fraction=1
+gpu-ccd-trace step=140 body=2 start=[-5.59733, 2.1229846, 0.8304061] end=[-5.5989804, 2.1136882, 0.8199584] fraction=1
+gpu-ccd-trace step=141 body=2 start=[-5.5989804, 2.1136882, 0.8199584] end=[-5.600722, 2.1044405, 0.8089429] fraction=1
+gpu-ccd-trace step=142 body=2 start=[-5.600722, 2.1044405, 0.8089429] end=[-5.602552, 2.0952985, 0.79737574] fraction=1
+gpu-ccd-trace step=143 body=2 start=[-5.602552, 2.0952985, 0.79737574] end=[-5.6044674, 2.0863192, 0.7852783] fraction=1
+gpu-ccd-trace step=144 body=2 start=[-5.6044674, 2.0863192, 0.7852783] end=[-5.6064634, 2.0775578, 0.77267766] fraction=1
+gpu-ccd-trace step=145 body=2 start=[-5.6064634, 2.0775578, 0.77267766] end=[-5.6085353, 2.0690675, 0.7596063] fraction=1
+gpu-ccd-trace step=146 body=2 start=[-5.6085353, 2.0690675, 0.7596063] end=[-5.6106772, 2.0608985, 0.74610233] fraction=1
+gpu-ccd-trace step=147 body=2 start=[-5.6106772, 2.0608985, 0.74610233] end=[-5.612882, 2.0530975, 0.73220915] fraction=1
+gpu-ccd-trace step=148 body=2 start=[-5.612882, 2.0530975, 0.73220915] end=[-5.615142, 2.0457067, 0.71797526] fraction=1
+gpu-ccd-trace step=149 body=2 start=[-5.615142, 2.0457067, 0.71797526] end=[-5.6174483, 2.0387635, 0.7034538] fraction=1
+gpu-ccd-trace step=150 body=2 start=[-5.6174483, 2.0387635, 0.7034538] end=[-5.6197925, 2.0323, 0.68870217] fraction=1
+gpu-ccd-trace step=151 body=2 start=[-5.6197925, 2.0323, 0.68870217] end=[-5.6221642, 2.0263417, 0.67378145] fraction=1
+gpu-ccd-trace step=152 body=2 start=[-5.6221642, 2.0263417, 0.67378145] end=[-5.6245537, 2.0209084, 0.65875566] fraction=1
+gpu-ccd-trace step=153 body=2 start=[-5.6245537, 2.0209084, 0.65875566] end=[-5.62695, 2.0160127, 0.6436912] fraction=1
+gpu-ccd-trace step=154 body=2 start=[-5.62695, 2.0160127, 0.6436912] end=[-5.629342, 2.0116606, 0.62865597] fraction=1
+gpu-ccd-trace step=155 body=2 start=[-5.629342, 2.0116606, 0.62865597] end=[-5.6317196, 2.0078514, 0.61371875] fraction=1
+gpu-ccd-trace step=156 body=2 start=[-5.6317196, 2.0078514, 0.61371875] end=[-5.6340714, 2.0045772, 0.5989483] fraction=1
+gpu-ccd-trace step=157 body=2 start=[-5.6340714, 2.0045772, 0.5989483] end=[-5.636387, 2.001824, 0.58441275] fraction=1
+gpu-ccd-trace step=158 body=2 start=[-5.636387, 2.001824, 0.58441275] end=[-5.6386547, 1.999571, 0.5701788] fraction=1
+gpu-ccd-trace step=159 body=2 start=[-5.6386547, 1.999571, 0.5701788] end=[-5.640865, 1.9977925, 0.5563111] fraction=1
+gpu-ccd-trace step=160 body=2 start=[-5.640865, 1.9977925, 0.5563111] end=[-5.6430073, 1.9964572, 0.54287153] fraction=1
+gpu-ccd-trace step=161 body=2 start=[-5.6430073, 1.9964572, 0.54287153] end=[-5.645073, 1.9955294, 0.529919] fraction=1
+gpu-ccd-trace step=162 body=2 start=[-5.645073, 1.9955294, 0.529919] end=[-5.647053, 1.9949695, 0.51750886] fraction=1
+gpu-ccd-trace step=163 body=2 start=[-5.647053, 1.9949695, 0.51750886] end=[-5.6489387, 1.9947351, 0.50569236] fraction=1
+gpu-ccd-trace step=164 body=2 start=[-5.6489387, 1.9947351, 0.50569236] end=[-5.6507225, 1.9947816, 0.49451688] fraction=1
+gpu-ccd-trace step=165 body=2 start=[-5.6507225, 1.9947816, 0.49451688] end=[-5.652398, 1.9950631, 0.48402545] fraction=1
+gpu-ccd-trace step=166 body=2 start=[-5.652398, 1.9950631, 0.48402545] end=[-5.653959, 1.9955331, 0.47425684] fraction=1
+gpu-ccd-trace step=167 body=2 start=[-5.653959, 1.9955331, 0.47425684] end=[-5.655399, 1.9961456, 0.4652456] fraction=1
+gpu-ccd-trace step=168 body=2 start=[-5.655399, 1.9961456, 0.4652456] end=[-5.6567135, 1.9968557, 0.4570222] fraction=1
+gpu-ccd-trace step=169 body=2 start=[-5.6567135, 1.9968557, 0.4570222] end=[-5.6578984, 1.9976206, 0.44961306] fraction=1
+gpu-ccd-trace step=197 body=2 start=[-5.6617813, 2.0011594, 0.42541838] end=[-5.66417, 1.9746155, 0.42319882] fraction=1
+gpu-ccd-trace step=198 body=2 start=[-5.66417, 1.9746155, 0.42319882] end=[-5.668512, 1.929897, 0.4199437] fraction=1
+gpu-ccd-trace step=199 body=2 start=[-5.668512, 1.929897, 0.4199437] end=[-5.6736946, 1.8814193, 0.41709644] fraction=1
+gpu-ccd-trace step=200 body=2 start=[-5.6736946, 1.8814193, 0.41709644] end=[-5.6794305, 1.8331878, 0.4150376] fraction=1
+gpu-ccd-trace step=201 body=2 start=[-5.6794305, 1.8331878, 0.4150376] end=[-5.6856833, 1.7859637, 0.41379824] fraction=1
+gpu-ccd-trace step=202 body=2 start=[-5.6856833, 1.7859637, 0.41379824] end=[-5.69249, 1.7396262, 0.4132965] fraction=1
+gpu-ccd-trace step=203 body=2 start=[-5.69249, 1.7396262, 0.4132965] end=[-5.69991, 1.6939079, 0.413389] fraction=1
+gpu-ccd-trace step=204 body=2 start=[-5.69991, 1.6939079, 0.413389] end=[-5.707914, 1.6486028, 0.4138288] fraction=1
+gpu-ccd-trace step=205 body=2 start=[-5.707914, 1.6486028, 0.4138288] end=[-5.716212, 1.603581, 0.41436446] fraction=1
+gpu-ccd-trace step=206 body=2 start=[-5.716212, 1.603581, 0.41436446] end=[-5.7245746, 1.558754, 0.41485357] fraction=1
+gpu-ccd-trace step=207 body=2 start=[-5.7245746, 1.558754, 0.41485357] end=[-5.7328744, 1.5140612, 0.41523394] fraction=1
+gpu-ccd-trace step=208 body=2 start=[-5.7328744, 1.5140612, 0.41523394] end=[-5.7410564, 1.4694605, 0.4154935] fraction=1
+gpu-ccd-trace step=209 body=2 start=[-5.7410564, 1.4694605, 0.4154935] end=[-5.749112, 1.4249216, 0.415647] fraction=1
+gpu-ccd-trace step=210 body=2 start=[-5.749112, 1.4249216, 0.415647] end=[-5.7570577, 1.3804233, 0.4157201] fraction=1
+gpu-ccd-trace step=211 body=2 start=[-5.7570577, 1.3804233, 0.4157201] end=[-5.7649198, 1.3359505, 0.41573954] fraction=1
+gpu-ccd-trace step=212 body=2 start=[-5.7649198, 1.3359505, 0.41573954] end=[-5.772725, 1.2914929, 0.41572797] fraction=1
+gpu-ccd-trace step=213 body=2 start=[-5.772725, 1.2914929, 0.41572797] end=[-5.780497, 1.2470438, 0.41570225] fraction=1
+gpu-ccd-trace step=214 body=2 start=[-5.780497, 1.2470438, 0.41570225] end=[-5.788253, 1.2025989, 0.41567335] fraction=1
+gpu-ccd-trace step=215 body=2 start=[-5.788253, 1.2025989, 0.41567335] end=[-5.796004, 1.1581557, 0.41564748] fraction=1
+gpu-ccd-trace step=216 body=2 start=[-5.796004, 1.1581557, 0.41564748] end=[-5.803757, 1.1137128, 0.41562733] fraction=1
+gpu-ccd-trace step=217 body=2 start=[-5.803757, 1.1137128, 0.41562733] end=[-5.811516, 1.0692697, 0.41561335] fraction=1
+gpu-ccd-trace step=218 body=2 start=[-5.811516, 1.0692697, 0.41561335] end=[-5.81928, 1.024826, 0.4156048] fraction=1
+gpu-ccd-trace step=219 body=2 start=[-5.81928, 1.024826, 0.4156048] end=[-5.8270493, 0.98038185, 0.41560042] fraction=1
+gpu-ccd-trace step=220 body=2 start=[-5.8270493, 0.98038185, 0.41560042] end=[-5.8348227, 0.93593735, 0.41559887] fraction=1
+CPUclass frame=220 body=1 motion=0.045119945 delta=0.045119945 velocity_dt=0.0451199226 threshold=0.25 fast=0 p=-5.84241295,0.891318321,0.416624427 q=-0.642777622,0.0484224446,0.060613554,0.762114406 v=-0.466605365,-2.66667867,3.43069005e-05 w=-2.30727846e-06,1.48634767e-08,-1.42869851e-07
+gpu-ccd-trace step=221 body=2 start=[-5.8348227, 0.93593735, 0.41559887] end=[-5.8425984, 0.8914927, 0.41559902] fraction=1
+CPUclass frame=221 body=1 motion=0.0451202914 delta=0.0451202504 velocity_dt=0.0451202914 threshold=0.25 fast=0 p=-5.85019064,0.846873641,0.41662541 q=-0.642777622,0.0484224893,0.060613513,0.762114406 v=-0.466703743,-2.66668296,6.83847684e-05 w=-2.79990149e-06,3.01444629e-07,-1.82638951e-06
+gpu-ccd-trace step=222 body=2 start=[-5.8425984, 0.8914927, 0.41559902] end=[-5.850376, 0.847048, 0.4156] fraction=1
+CPUclass frame=222 body=1 motion=0.0451204143 delta=0.0451204143 velocity_dt=0.045120392 threshold=0.25 fast=0 p=-5.85796928,0.802428901,0.416626662 q=-0.642777622,0.048422534,0.0606134757,0.762114406 v=-0.466737956,-2.66668272,7.42055636e-05 w=-2.63366178e-06,5.01517093e-07,-2.98924169e-06
+gpu-ccd-trace step=223 body=2 start=[-5.850376, 0.847048, 0.4156] end=[-5.858155, 0.80260324, 0.41560125] fraction=1
+CPUclass frame=223 body=1 motion=0.0451203585 delta=0.045120351 velocity_dt=0.0451203585 threshold=0.25 fast=0 p=-5.86574841,0.757984221,0.416627824 q=-0.642777622,0.0484225415,0.0606134683,0.762114406 v=-0.466744423,-2.66667986,6.47570487e-05 w=-2.02105548e-06,4.73796547e-07,-2.81264715e-06
+gpu-ccd-trace step=224 body=2 start=[-5.858155, 0.80260324, 0.41560125] end=[-5.865934, 0.75815856, 0.41560245] fraction=1
+CPUclass frame=224 body=1 motion=0.0451202765 delta=0.0451202765 velocity_dt=0.0451202616 threshold=0.25 fast=0 p=-5.87352753,0.7135396,0.416628748 q=-0.642777622,0.0484225415,0.0606134683,0.762114406 v=-0.466733754,-2.66667652,4.9597551e-05 w=-1.42074339e-06,3.75511036e-07,-2.22479525e-06
+gpu-ccd-trace step=225 body=2 start=[-5.865934, 0.75815856, 0.41560245] end=[-5.873713, 0.71371394, 0.4156034] fraction=1
+CPUclass frame=225 body=1 motion=0.0451201871 delta=0.0451201871 velocity_dt=0.0451201424 threshold=0.25 fast=0 p=-5.88130617,0.669095039,0.416629404 q=-0.642777622,0.048422534,0.0606134757,0.762114406 v=-0.466715217,-2.66667342,3.39191101e-05 w=-9.51130232e-07,2.53902215e-07,-1.5040531e-06
+gpu-ccd-trace step=226 body=2 start=[-5.873713, 0.71371394, 0.4156034] end=[-5.8814917, 0.6692694, 0.41560408] fraction=1
+CPUclass frame=226 body=1 motion=0.045120094 delta=0.045120094 velocity_dt=0.0451200455 threshold=0.25 fast=0 p=-5.88908482,0.624650478,0.416629821 q=-0.642777622,0.0484225266,0.0606134869,0.762114406 v=-0.466697544,-2.66667104,2.02621814e-05 w=-5.17172111e-07,1.57398901e-07,-9.30614988e-07
+gpu-ccd-trace step=227 body=2 start=[-5.8814917, 0.6692694, 0.41560408] end=[-5.88927, 0.6248249, 0.4156045] fraction=1
+CPUclass frame=227 body=1 motion=0.0451200381 delta=0.0451200381 velocity_dt=0.0451199859 threshold=0.25 fast=0 p=-5.89686298,0.580205977,0.416630059 q=-0.642777622,0.0484225079,0.0606134981,0.762114406 v=-0.466695875,-2.66666842,1.01629839e-05 w=-2.23176897e-07,2.82570056e-08,-1.70245471e-07
+gpu-ccd-trace step=228 body=2 start=[-5.88927, 0.6248249, 0.4156045] end=[-5.897048, 0.5803804, 0.41560474] fraction=0.6233841
+CPUclass frame=228 body=1 motion=0.052223742 delta=0.052223742 velocity_dt=0.0505182929 threshold=0.25 fast=0 p=-5.89561319,0.561235428,0.404049337 q=-0.652973354,0.0563666485,0.0547251143,0.753295302 v=0.293135345,-0.55562228,-1.15749419 w=-1.94965887,-0.383256674,-0.240269035
+gpu-ccd-trace step=229 body=2 start=[-5.894119, 0.59711885, 0.41560465] end=[-5.8929186, 0.5710118, 0.40558934] fraction=1
+CPUclass frame=229 body=1 motion=0.0460880324 delta=0.0460880324 velocity_dt=0.0432727262 threshold=0.25 fast=0 p=-5.89389563,0.548788548,0.386434376 q=-0.664954901,0.0550233535,0.0536501408,0.742919326 v=-0.14404501,-0.837535799,-0.997034132 w=-1.77127612,0.0130689144,0.24595952
+gpu-ccd-trace step=230 body=2 start=[-5.8929186, 0.5710118, 0.40558934] end=[-5.887885, 0.5547207, 0.3868515] fraction=1
+CPUclass frame=230 body=1 motion=0.0453104749 delta=0.0453104749 velocity_dt=0.044724483 threshold=0.25 fast=0 p=-5.89832878,0.535324335,0.369854271 q=-0.67660886,0.0551563241,0.0550911538,0.732204378 v=-0.236725748,-0.828541577,-1.0070864 w=-1.79795253,0.0828799009,0.35862118
+gpu-ccd-trace step=231 body=2 start=[-5.887885, 0.5547207, 0.3868515] end=[-5.892296, 0.5391872, 0.36912507] fraction=1
+CPUclass frame=231 body=1 motion=0.0483199768 delta=0.0479262434 velocity_dt=0.0483199768 threshold=0.25 fast=0 p=-5.90128183,0.519032121,0.352985859 q=-0.688851535,0.0546234846,0.0562537313,0.720649242 v=-0.149175346,-0.991122782,-1.06498122 w=-1.98594546,0.00567681389,0.273271412
+gpu-ccd-trace step=232 body=2 start=[-5.892296, 0.5391872, 0.36912507] end=[-5.896227, 0.52321297, 0.351156] fraction=1
+CPUclass frame=232 body=1 motion=0.0495616123 delta=0.0495616123 velocity_dt=0.0434562452 threshold=0.25 fast=0 p=-5.90381145,0.502393067,0.335036337 q=-0.701334178,0.0533986278,0.0573185086,0.708515108 v=-0.0876395628,-0.550065756,-0.987112105 w=-1.8615346,0.168111637,0.02854608
+gpu-ccd-trace step=233 body=2 start=[-5.896227, 0.52321297, 0.351156] end=[-5.8987117, 0.5043896, 0.3332868] fraction=1
+physics-pipeline-cache: save 5809469 bytes, success=true

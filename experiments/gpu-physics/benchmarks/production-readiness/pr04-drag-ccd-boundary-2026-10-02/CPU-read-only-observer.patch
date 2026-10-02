@@ -1,0 +1,44 @@
+--- original-solver.c
++++ solver.c
+@@ -24,6 +24,12 @@
+ #include <stddef.h>
+ #include <stdio.h>
+ 
++
++extern int drag_trace_frame;
++static bool drag_boundary_selected(int bodyId) {
++    return bodyId == 1 && drag_trace_frame >= 220 && drag_trace_frame <= 232;
++}
++
+ _Static_assert( B3_RESTITUTION_ITERATIONS >= 1, "must be 1 or more" );
+ 
+ // these are useful for solver testing
+@@ -551,6 +557,13 @@
+ 
+ 	const float speculativeScalar = B3_SPECULATIVE_DISTANCE;
+ 
++
++    if (drag_boundary_selected(fastBodySim->bodyId)) {
++        fprintf(stderr,"CPUtoi frame=%d body=%d fraction=%.9g start=%.9g,%.9g,%.9g end=%.9g,%.9g,%.9g\n",
++            drag_trace_frame,fastBodySim->bodyId,context.fraction,
++            fastBodySim->center0.x,fastBodySim->center0.y,fastBodySim->center0.z,
++            fastBodySim->center.x,fastBodySim->center.y,fastBodySim->center.z);
++    }
+ 	if ( context.fraction < 1.0f )
+ 	{
+ 		// Handle time of impact event. The sweep is relative to the base, so re-add the base
+@@ -758,6 +771,14 @@
+ 
+ 			const float safetyFactor = 0.5f;
+ 			float maxMotion = b3MaxFloat( maxDeltaPosition, maxVelocity * timeStep );
++            if (drag_boundary_selected(sim->bodyId)) {
++                fprintf(stderr,"CPUclass frame=%d body=%d motion=%.9g delta=%.9g velocity_dt=%.9g threshold=%.9g fast=%d p=%.9g,%.9g,%.9g q=%.9g,%.9g,%.9g,%.9g v=%.9g,%.9g,%.9g w=%.9g,%.9g,%.9g\n",
++                    drag_trace_frame,sim->bodyId,maxMotion,maxDeltaPosition,maxVelocity*timeStep,safetyFactor*sim->minExtent,
++                    body->type==b3_dynamicBody && enableContinuous && maxMotion>safetyFactor*sim->minExtent,
++                    sim->transform.p.x,sim->transform.p.y,sim->transform.p.z,sim->transform.q.v.x,sim->transform.q.v.y,sim->transform.q.v.z,sim->transform.q.s,
++                    v.x,v.y,v.z,w.x,w.y,w.z);
++            }
++
+ 			if ( body->type == b3_dynamicBody && enableContinuous && maxMotion > safetyFactor * sim->minExtent )
+ 			{
+ 				// This flag is only retained for debug draw

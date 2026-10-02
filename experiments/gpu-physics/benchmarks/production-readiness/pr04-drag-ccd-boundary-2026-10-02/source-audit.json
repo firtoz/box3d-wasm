@@ -1,0 +1,32 @@
+{
+  "budget": {
+    "engine_processes": 0,
+    "builds": 0,
+    "candidates": 0,
+    "timing": 0
+  },
+  "inputs": {
+    "src/api/world.rs": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+    "src/api/world/state_trace.rs": "73a4b1799911c01a9697db43cb268e869437b9b08610096c89fe165cb1344564",
+    "src/api/world/ccd_state_trace.rs": "51129e29627bb225d301d9b9ba5a500cb885c7d3f443d44a453dfb0f2d4d7f1e",
+    "src/sim.rs": "5efd59ddd79f565015c73801b44d1e3c54ae68b7102948c26d5d674889076034",
+    "src/ccd.rs": "a692df199042703d034f80cb0828327395900236df616036a8645e444b863e7e",
+    "shaders/physics/ccd_motion.wgsl": "b169f0d4bb60342ec45a06a1bd35e6c9fde33eec80e23b9470da62b4e702a1f5",
+    "shaders/physics/ccd_world.wgsl": "078dd38a47e71be725bc7c5c300a81e08b78a6bb9ed1b5f2c2d3a84f6e72db1c",
+    "shaders/physics/ccd_convex.wgsl": "ae43bad111513600cef687fca8242259a8dda2db4da4bbf21c08e675f42b4c54"
+  },
+  "scope": "Static audit of exact compiled source bytes. Eligibility/request/route facts are not runtime proof of a particular run's native CCD execution or fraction.",
+  "observations": {
+    "host_observer": "GPU_PHYSICS_TRACE_BODY prints only in run_continuous_collision; native convex correction has no equivalent print.",
+    "convex_setup": "Requested CCD additionally requires continuous enabled, no custom/pre-solve callbacks, no bullet and supported CCD shapes. The captured environment alone cannot prove actual eligibility.",
+    "pending_route": "uses_convex_ccd makes post_ccd_pending false; host continuous solving is gated by post_ccd_pending. A configured convex pass therefore bypasses the host print.",
+    "GPU_program": "ConvexCcd combines ccd_convex.wgsl + ccd_world.wgsl and dispatches ccd_correct. The production correction classifies motion inline; standalone ccd_motion.wgsl is not the classifier called by this ConvexCcd path.",
+    "GPU_classification": "ccd_world uses endpoint translation + quaternion angle * max_extent versus min(half min_extent,0.02). Fraction is a local shader variable; it is not retained in an output buffer.",
+    "dispatch": "The non-idle encoded sequence copies start before solver work, then dispatches convex correction after solver/sleep work. Full native replay additionally requires zero joints; original loaded dragging has a live motor during the selected impact.",
+    "existing_capture": "read_diagnostic_ccd_scene captures separate geometry/config/start buffers. It does not preserve the pre-correction endpoint or local TOI fraction. Completed body records contain the post-correction endpoint.",
+    "phase_capture": "Changing the selected AB policy to phase-capture changes diagnostic flags and replay eligibility. It must not be treated as the original native run without a separate applicability/neutrality check."
+  },
+  "next_experiment": "A separate finite artifact-only native observer could retain motion/cutoff/start/pre-end/fraction in a dedicated non-physics GPU buffer inside ccd_correct, then read it after normal completion. Also record actual convex presence/eligibility. Preserve original mode/cache requests and require exact original B/F/M/P prefix equality before attribution. Freeze source/build/binary inputs and budgets before build/launch; do not extend this closed campaign.",
+  "runtime_internal_native_TOI_observed": false,
+  "production_candidate_selected": false
+}

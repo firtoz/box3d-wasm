@@ -1,0 +1,9 @@
+{
+  "purpose": "Read-only host inventory after captures; per-process banner identifies actual compute adapter.",
+  "command": [
+    "nvidia-smi",
+    "--query-gpu=name,driver_version,pci.bus_id",
+    "--format=csv,noheader"
+  ],
+  "stdout": "NVIDIA GeForce RTX 4070 SUPER, 610.57.04, 00000000:01:00.0\n"
+}

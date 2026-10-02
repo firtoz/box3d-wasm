@@ -1,0 +1,32 @@
+--- original-drag.cpp
++++ drag-prefix.cpp
+@@ -13,6 +13,7 @@
+ void SetSelectedBody(b3BodyId) {}
+ void SetComparisonSelectedBody(b3BodyId) {}
+ }
++extern "C" { int drag_trace_frame = 0; }
+ #include <algorithm>
+ #include <cassert>
+ #include <cmath>
+@@ -119,6 +120,7 @@
+     }
+   };
+   auto step = [&]() {
++    drag_trace_frame = frame;
+     b3World_Step(w, 1.f / 60, 4);
+     gpu_b3_world_wait(w);
+     for (auto body : bodies)
+@@ -136,6 +138,13 @@
+ #endif
+     }
+     frame++;
++    if (frame == 240) {
++      if (trace) { std::fclose(trace); trace = nullptr; }
++      b3DestroyWorld(w);
++      std::printf("DIAGNOSTIC completed 240-step original drag prefix; not full dragging acceptance\n");
++      std::exit(0);
++    }
++
+   };
+   if (ground)
+     for (int t = 0; t < 60; t++)

@@ -1,0 +1,46 @@
+{
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr04-distance-clamp/receipt.json": {
+    "portable": "raw/reference/Rust-producer.json",
+    "sha256": "b2723afb34b8c639f41c3ec4f92b7f1583d07bf64ecde0a7f5a086b6cd594813"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr04-distance-viewers/ordinary-both/receipt.json": {
+    "portable": "raw/reference/C-consumer.json",
+    "sha256": "7d8b12d79e6f2ef17873221092e3dfd410de8e4efac466b9e53abadf96c87d4e"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr04-distance-viewers/protocol.json": {
+    "portable": "raw/reference/C-consumer-protocol.json",
+    "sha256": "a6ccb0988a1f4af8f9f994808c6a9516debf0a64fef97d5cca96432531c699e3"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-distance-viewers-2026-10-02/raw/consumer-inputs.tar.gz": {
+    "portable": "raw/reference/C-consumer-source-inputs.tar.gz",
+    "sha256": "48f589a17c72b322653ce655ba232dd0f5fda2446e76037c7bd05f8f309b13b2"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-distance-clamp-2026-10-02/raw/candidate-source-inputs.tar.gz": {
+    "portable": "raw/reference/Rust-source-inputs.tar.gz",
+    "sha256": "a9704df1785ed745c53060231629f4c1bbf9ae6b11e8820dadc062cd1de4ef3c"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/box3d/src/solver.c": {
+    "portable": "raw/reference/original-solver.c",
+    "sha256": "25e0f58f9d7d803be88ce0d2d3a424b902d41ff3bd3e01310a1ca7820f76d926"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_drag_test.cpp": {
+    "portable": "raw/reference/original-drag.cpp",
+    "sha256": "8016764fe0fa57623f03e0e94c7358163d85071562f70b9aa5ba2603b6b00dbd"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/libbox3d_cpu.syms": {
+    "portable": "raw/reference/CPU-prefix-symbol-map.txt",
+    "sha256": "1d2297fd905766b5e4c63b3f5632a9c04cb25faa9928e94d3e7cae618b0efc40"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr03-drag-order-native-timeout-2026-10-02/raw/ordinary-drag-ground/comparison.txt.gz": {
+    "portable": "raw/reference/ordinary-baseline.txt.gz",
+    "sha256": "3c8b9c5347967d6a2c73cd1be5287badc43ca1bf4cf655f2a078ea4f7d73ec4e"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr03-drag-order-native-timeout-2026-10-02/raw/native-drag-ground/comparison.txt.gz": {
+    "portable": "raw/reference/native-baseline.txt.gz",
+    "sha256": "54ca024566d3f4ef031dbfb4263aae10d5335d293ea5fcc0dc2d3befd22adf62"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-distance-viewers-2026-10-02/raw/ordinary-both/original-generated-inputs.tar.gz": {
+    "portable": "raw/reference/C-consumer-generated-inputs.tar.gz",
+    "sha256": "804b18804f1cf9276ad9f56b1f98eb05781ba6d49c97caa9507168662c21a73b"
+  }
+}

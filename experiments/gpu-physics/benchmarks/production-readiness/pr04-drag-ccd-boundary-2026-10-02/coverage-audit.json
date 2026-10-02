@@ -1,0 +1,25 @@
+{
+  "scope": "Receipt pass means adapter/completed240step/prefix equality only; boundary coverage is separately audited here.",
+  "backends": {
+    "ordinary": {
+      "CPU_classification_frames": 13,
+      "CPU_TOI_records": 0,
+      "GPU_host_TOI_records": 132,
+      "direct_GPU_TOI_observed": true,
+      "native_internal_GPU_TOI_observed": false,
+      "original_full_dragging_acceptance": false
+    },
+    "native": {
+      "CPU_classification_frames": 13,
+      "CPU_TOI_records": 0,
+      "GPU_host_TOI_records": 0,
+      "direct_GPU_TOI_observed": false,
+      "native_internal_GPU_TOI_observed": false,
+      "original_full_dragging_acceptance": false
+    }
+  },
+  "complete_both_backend_boundary_coverage": false,
+  "production_candidate": false,
+  "headline_performance": false,
+  "PR04_complete": false
+}
