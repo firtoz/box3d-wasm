@@ -1,0 +1,29 @@
+{
+  "purpose": "Correct tuple/list harness classification; validate and reuse completed control30, then consume only two previously unlaunched diagnostic cells. Original failure retained.",
+  "budget": {
+    "builds": 0,
+    "remaining_GPU_processes": 2,
+    "repeated_processes": 0,
+    "candidates": 0,
+    "headline_timing": 0
+  },
+  "original_protocol": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-rain-phase-diagnostic/protocol.json",
+  "original_protocol_sha256": "f5bec82c1a0f693cea44243c169d824910aa7a3e70cd3caa8842fb2162044aaf",
+  "original_driver_sha256": "4ca5fd93939275b6ef7acae008f3ada488b3184486eac09188914219e7e83c39",
+  "original_receipt_sha256": "a663de5dce06a87cc594fe237bb739f773987e32c0789642ef56f0e2b77ff580",
+  "observer_executable_sha256": "bfaaecd3be07942d8858bd152fe7b8bab017568e09b76c345e693c9f07df0244",
+  "observer_object_sha256": "deef95d8d46e305a9470ce3cab2f8013c3b98c3623e5953259e60c04d663dd1b",
+  "watchdog_seconds_per_process": 900,
+  "remaining_cases": [
+    "observer30",
+    "phase180"
+  ],
+  "stop_rule": "Stop/retain build,input,adapter,timeout,invalidcapture or observersemanticdifference. No repeatedprocess/build/extension. Longphaseprobe runs only after30step pairedcapture equality. Clock/drawmetadata excluded only from this observercontrol subset check; full future-state qualification remainsopen.",
+  "completed_control": {
+    "stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr.log": "f94b08bce5b09d20b30928d7e012a8c9de34e973bf065187710b93a3bc0e4147",
+    "health.json": "66b4f644fba9f12dec63247c65824efde05524a4dda89da69b16989ff281a983",
+    "child-exit.json": "5bc232b82de377a5655a39a2af9d7ae0fc868de5b9df957e18905cb914606c88",
+    "display-exit.json": "f72e0083d947e6e4be4c010aebafaefd807acdd91cff69c9c62e10007634ed09"
+  }
+}

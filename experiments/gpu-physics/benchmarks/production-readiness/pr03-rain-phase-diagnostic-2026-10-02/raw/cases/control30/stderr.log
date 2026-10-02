@@ -1,0 +1,26 @@
+sokol(level warn) (no message)
+[gfx/info] GPU: llvmpipe (LLVM 22.1.8, 256 bits) (Mesa)
+sokol-capacity: 65536 debug shapes and opaque instances per stream
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=256 shapes=264 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=264 joints=16 scene_heap_bytes=2304192 max=536870912
+physics-pipeline-cache: loaded 0 bytes
+gpu-alloc scene generation=0 bodies=256 shapes=264 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=264 joints=16 scene_heap_bytes=2304192 max=536870912
+gpu-scene-input shapes=200 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=2304192
+GPU pose export: Vulkan opaque FD 37 (28672 bytes)
+physics-pipeline-cache: save 6383773 bytes, success=true
+gpu-loading: ready after 216.148 s, 12670 loading frames, world 1:2 (no physics steps)
+sokol-renderer: Mesa / llvmpipe (LLVM 22.1.8, 256 bits); framebuffer=640x360
+gpu-alloc scene generation=1 bodies=520 shapes=620 hull_points=840 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=620 joints=420 scene_heap_bytes=2440064 max=536870912
+gpu-alloc scene generation=0 bodies=520 shapes=620 hull_points=840 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=620 joints=420 scene_heap_bytes=2440064 max=536870912
+gpu-scene-input shapes=620 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=2440064
+GPU pose export: Vulkan opaque FD 38 (58368 bytes)
+GPU pose import skipped: different or unknown GPU UUID; using current CPU pose mirrors
+startup: scene=27.208 ms gpu=214596.218 ms first-scene-frame=216894.877 ms loading-frames=12670
+gpu-alloc scene generation=17 bodies=1040 shapes=1240 hull_points=1680 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=1240 joints=840 scene_heap_bytes=2677184 max=536870912
+gpu-alloc scene generation=0 bodies=1040 shapes=1240 hull_points=1680 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=1240 joints=840 scene_heap_bytes=2677184 max=536870912
+gpu-scene-input shapes=1040 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=2677184
+GPU pose export: Vulkan opaque FD 37 (116480 bytes)
+physics-pipeline-cache: save 6461406 bytes, success=true
+samples: 30 frames, 0 sokol errors

@@ -1,0 +1,62 @@
+{
+  "../pr02-world-lifetime-viewer-builds-2026-10-02/raw/receipt.json": {
+    "sha256": "9b8e2f4e05257ba1b3b39bdb0f3f9694a9192cac085ccec3e35cf7ad8a620c05",
+    "bytes": 180776
+  },
+  "../pr02-world-lifetime-viewer-builds-2026-10-02/raw/ordinary-gpu/receipt.json": {
+    "sha256": "09e4a2157a2ec24ce28802a847151c221ae8ff3f6eb76430c0c4dc54252cf590",
+    "bytes": 202232
+  },
+  "../pr02-world-lifetime-viewer-builds-2026-10-02/raw/compiled-source-inputs.tar.gz": {
+    "sha256": "d108e6a260fd05449b8daeb4943c844c52721892795f01b8ffd0141b7108a89b",
+    "bytes": 4527495
+  },
+  "../pr02-world-lifetime-viewer-builds-2026-10-02/raw/ordinary-gpu/generated-inputs.tar.gz": {
+    "sha256": "64e392310bfb56ed37bf77d2884e44edc5c0eade59ff34b2d06e4d968074e06c",
+    "bytes": 446814
+  },
+  "../pr03-sleeper-fixture-2026-10-02/raw/fixture-builds/candidate-gpu_invariants.rs": {
+    "sha256": "fd4ee09cf703d01553a910173db4f69ae2bc42eb36b8d58afb9904b96b9064d9",
+    "bytes": 243832
+  },
+  "../pr03-rain-launch-timeout-2026-10-02/raw/display-repair/protocol.json": {
+    "sha256": "a86ba2c824bbc09a10e0ddd613d24aea058077df1c59734ea24e7b45948a636e",
+    "bytes": 82013
+  },
+  "../pr03-drag-order-native-timeout-2026-10-02/raw/protocol.json": {
+    "sha256": "1a9d1e4f0b8bcbff988e78f8018bb614748cf380054d0fd7bdc240f26925c11b",
+    "bytes": 66737
+  },
+  "../pr03-rust-baseline-2026-10-02/raw/producers/engine-build.json": {
+    "sha256": "28661adc1967ef397fb79f8b1041b2bc8b0be4fb3226caf614e26d0ab72804be",
+    "bytes": 23782
+  },
+  "../pr03-rain-launch-timeout-2026-10-02/raw/display-repair/portable-health/cpu-rain/health.json.gz.part000": {
+    "sha256": "a42d6928a457c80599c5504f4f0b4ab6fbd91d71a74ec5f13eba6ca3a1fe2d9b",
+    "bytes": 50331648
+  },
+  "../pr03-rain-launch-timeout-2026-10-02/raw/display-repair/portable-health/cpu-rain/health.json.gz.part001": {
+    "sha256": "91457112c9c386227ff14aede7a00e80290ab3a4407adbc277e1244f6d26fe7e",
+    "bytes": 50331648
+  },
+  "../pr03-rain-launch-timeout-2026-10-02/raw/display-repair/portable-health/cpu-rain/health.json.gz.part002": {
+    "sha256": "e3cd59686f7c061ffcd83c74b5a8ef60af41816b6985fc50d7454786c69596b1",
+    "bytes": 50331648
+  },
+  "../pr03-rain-launch-timeout-2026-10-02/raw/display-repair/portable-health/cpu-rain/health.json.gz.part003": {
+    "sha256": "d962969d13cf550fe7ddf33576ae3e76391b3ec6e4c3fc1c7bbc3fd16fe85d7b",
+    "bytes": 50331648
+  },
+  "../pr03-rain-launch-timeout-2026-10-02/raw/display-repair/portable-health/cpu-rain/health.json.gz.part004": {
+    "sha256": "b85e59d4fa8f42d49c0b8630ca0604da341da0111e40142ad74118e8ff49b3b0",
+    "bytes": 50331648
+  },
+  "../pr03-rain-launch-timeout-2026-10-02/raw/display-repair/portable-health/cpu-rain/health.json.gz.part005": {
+    "sha256": "759a299da37f6ab8b4ab2a43a23266da6ad27da18eb6b93760982f80f26fde40",
+    "bytes": 85189
+  },
+  "../pr03-rain-launch-timeout-2026-10-02/raw/display-repair/portable-health/cpu-rain/manifest.json": {
+    "sha256": "653bb26f982ce0a45b08a022813e343b75e67d5f032ebfa006366347cb61b11a",
+    "bytes": 1226
+  }
+}

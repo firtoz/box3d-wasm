@@ -1,0 +1,293 @@
+{
+  "frames": 180,
+  "matched_joint_observations": 272160,
+  "anchor_failures": 48,
+  "angular_failures": 117,
+  "first_failures": [
+    {
+      "field": "angular",
+      "frame": 106,
+      "gpu": 0.164449975,
+      "cpu": 0.111362636,
+      "type": 5,
+      "endpoints": [
+        11,
+        12
+      ]
+    },
+    {
+      "field": "anchor",
+      "frame": 106,
+      "gpu": 0.290407062,
+      "cpu": 0.118746519,
+      "type": 5,
+      "endpoints": [
+        63,
+        64
+      ]
+    },
+    {
+      "field": "anchor",
+      "frame": 106,
+      "gpu": 0.290407062,
+      "cpu": 0.118746519,
+      "type": 5,
+      "endpoints": [
+        105,
+        106
+      ]
+    },
+    {
+      "field": "anchor",
+      "frame": 106,
+      "gpu": 0.290435523,
+      "cpu": 0.118744612,
+      "type": 5,
+      "endpoints": [
+        147,
+        148
+      ]
+    },
+    {
+      "field": "anchor",
+      "frame": 106,
+      "gpu": 0.290409565,
+      "cpu": 0.118735895,
+      "type": 5,
+      "endpoints": [
+        189,
+        190
+      ]
+    },
+    {
+      "field": "anchor",
+      "frame": 106,
+      "gpu": 0.290409565,
+      "cpu": 0.118735895,
+      "type": 5,
+      "endpoints": [
+        231,
+        232
+      ]
+    },
+    {
+      "field": "anchor",
+      "frame": 106,
+      "gpu": 0.290435523,
+      "cpu": 0.118744612,
+      "type": 5,
+      "endpoints": [
+        273,
+        274
+      ]
+    },
+    {
+      "field": "anchor",
+      "frame": 106,
+      "gpu": 0.290407062,
+      "cpu": 0.118746519,
+      "type": 5,
+      "endpoints": [
+        315,
+        316
+      ]
+    },
+    {
+      "field": "anchor",
+      "frame": 106,
+      "gpu": 0.290407062,
+      "cpu": 0.118746519,
+      "type": 5,
+      "endpoints": [
+        357,
+        358
+      ]
+    },
+    {
+      "field": "anchor",
+      "frame": 106,
+      "gpu": 0.290445358,
+      "cpu": 0.118661895,
+      "type": 5,
+      "endpoints": [
+        399,
+        400
+      ]
+    },
+    {
+      "field": "cone_excess",
+      "frame": 106,
+      "gpu": 0.395093113,
+      "cpu": 0.266776294,
+      "type": 6,
+      "endpoints": [
+        43,
+        44
+      ]
+    },
+    {
+      "field": "cone_excess",
+      "frame": 106,
+      "gpu": 0.279135108,
+      "cpu": 0.19684571,
+      "type": 6,
+      "endpoints": [
+        45,
+        46
+      ]
+    },
+    {
+      "field": "cone_excess",
+      "frame": 106,
+      "gpu": 0.143725425,
+      "cpu": 0.0473757982,
+      "type": 6,
+      "endpoints": [
+        57,
+        58
+      ]
+    },
+    {
+      "field": "cone_excess",
+      "frame": 106,
+      "gpu": 0.395093113,
+      "cpu": 0.266776294,
+      "type": 6,
+      "endpoints": [
+        85,
+        86
+      ]
+    },
+    {
+      "field": "cone_excess",
+      "frame": 106,
+      "gpu": 0.279135108,
+      "cpu": 0.19684571,
+      "type": 6,
+      "endpoints": [
+        87,
+        88
+      ]
+    },
+    {
+      "field": "cone_excess",
+      "frame": 106,
+      "gpu": 0.143725425,
+      "cpu": 0.0473757982,
+      "type": 6,
+      "endpoints": [
+        99,
+        100
+      ]
+    },
+    {
+      "field": "cone_excess",
+      "frame": 106,
+      "gpu": 0.394966274,
+      "cpu": 0.266697198,
+      "type": 6,
+      "endpoints": [
+        127,
+        128
+      ]
+    },
+    {
+      "field": "cone_excess",
+      "frame": 106,
+      "gpu": 0.279133141,
+      "cpu": 0.19690302,
+      "type": 6,
+      "endpoints": [
+        129,
+        130
+      ]
+    },
+    {
+      "field": "cone_excess",
+      "frame": 106,
+      "gpu": 0.143709034,
+      "cpu": 0.047434628,
+      "type": 6,
+      "endpoints": [
+        141,
+        142
+      ]
+    },
+    {
+      "field": "cone_excess",
+      "frame": 106,
+      "gpu": 0.395007938,
+      "cpu": 0.266922027,
+      "type": 6,
+      "endpoints": [
+        169,
+        170
+      ]
+    }
+  ],
+  "peak_anchor": {
+    "frame": 106,
+    "gpu": 0.326666325,
+    "cpu": 0.325546563,
+    "type": 5,
+    "endpoints": [
+      23,
+      24
+    ]
+  },
+  "peak_angular": {
+    "frame": 122,
+    "gpu": 0.263252586,
+    "cpu": 0.237596259,
+    "type": 5,
+    "endpoints": [
+      727,
+      728
+    ]
+  },
+  "scope": "Creation-matched Rain residual screening; not full-state determinism",
+  "spherical_observations": 174960,
+  "cone_excess_failures": 919,
+  "lower_twist_excess_failures": 2,
+  "upper_twist_excess_failures": 1,
+  "peak_cone_excess": {
+    "frame": 179,
+    "gpu": 1.05444145,
+    "cpu": 0.660036623,
+    "type": 6,
+    "endpoints": [
+      33,
+      34
+    ]
+  },
+  "peak_lower_twist_excess": {
+    "frame": 109,
+    "gpu": 0.0637325048,
+    "cpu": 0.0611971021,
+    "type": 6,
+    "endpoints": [
+      29,
+      37
+    ]
+  },
+  "peak_upper_twist_excess": {
+    "frame": 179,
+    "gpu": 0.160478294,
+    "cpu": 0.00670570135,
+    "type": 6,
+    "endpoints": [
+      33,
+      34
+    ]
+  },
+  "reused_body_slots": {
+    "cpu": 0,
+    "gpu": 0
+  },
+  "created_bodies": {
+    "cpu": 2520,
+    "gpu": 2520
+  },
+  "identity_status": "pass",
+  "residual_screen_status": "fail"
+}

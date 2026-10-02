@@ -1,0 +1,205 @@
+{
+  "status": "completed-diagnostic",
+  "protocol_sha256": "14b59dee27fc5a43a5a31840c6c334f6ff846a82093988e7b94858caea731f3a",
+  "original_protocol_sha256": "f5bec82c1a0f693cea44243c169d824910aa7a3e70cd3caa8842fb2162044aaf",
+  "driver_sha256": "78af53659383b1dd188b6c4ebeb81a28cdd3e756662bfe85b4f84310033b500a",
+  "started_unix": 1790912719.7040422,
+  "builds": [],
+  "results": [
+    {
+      "exit": 0,
+      "command": [
+        "/usr/bin/python3",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-rain-drag-display-repair/display-child.py",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/xvfb/usr/bin/Xvfb",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-rain-phase-diagnostic/observer30/child-exit.json",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-rain-phase-diagnostic/samples_gpu_observed",
+        "--sample-name",
+        "Benchmark/Rain",
+        "--unpaced",
+        "--health-scan",
+        "--hide-ui",
+        "--sleep",
+        "--workers",
+        "8",
+        "--warmup",
+        "0",
+        "--timed",
+        "30",
+        "--bench-json",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-rain-phase-diagnostic/observer30/health.json"
+      ],
+      "elapsed_seconds_incidental": 16.140976905822754,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "8ddb1c3954db1d04bf8c845f652a405c41009521262bdd41d5665a5e0968a288",
+      "name": "observer30",
+      "actual_NVIDIA_Vulkan": true,
+      "child_exit": 0,
+      "health_exists": true,
+      "sokol_errors": [
+        [
+          "30",
+          "0"
+        ]
+      ],
+      "phase_rows": 390,
+      "phase_frames": 30,
+      "last_phase_row": {
+        "kind": "frame",
+        "phase": "end",
+        "frame": 30,
+        "submitted": 30,
+        "completed": 30,
+        "bodies": 940,
+        "joints": 840,
+        "physics_ns": 380216378,
+        "draw_ns": 164659,
+        "render_ns": 259672764,
+        "ui_ns": 90545,
+        "commit_ns": 15889,
+        "profile_ns": 14498,
+        "health_ns": 377964315,
+        "query_wait_ms": 7.79999973e-05,
+        "query_map_ms": 0.0030619998,
+        "query_encode_ms": 0.0759299994,
+        "query_copied_bytes": 64
+      },
+      "health_sha256": "d54db57d8f5826a765d07d69080838a38e36a043d50d53ce2a7d881ae725e88e",
+      "health_bytes": 11436954,
+      "record_validation": {
+        "frames": 30,
+        "body_observations": 18480,
+        "joint_observations": 18480,
+        "status": "originalcomplete-record/sphericalchecks;no600stepclaim"
+      }
+    },
+    {
+      "exit": 0,
+      "command": [
+        "/usr/bin/python3",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-rain-drag-display-repair/display-child.py",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/xvfb/usr/bin/Xvfb",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-rain-phase-diagnostic/phase180/child-exit.json",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-rain-phase-diagnostic/samples_gpu_observed",
+        "--sample-name",
+        "Benchmark/Rain",
+        "--unpaced",
+        "--health-scan",
+        "--hide-ui",
+        "--sleep",
+        "--workers",
+        "8",
+        "--warmup",
+        "0",
+        "--timed",
+        "180",
+        "--bench-json",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-rain-phase-diagnostic/phase180/health.json"
+      ],
+      "elapsed_seconds_incidental": 389.84224820137024,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "8750c5a1ea7a322c3b2ef055606beabbcbd075f15f8c0ea860af225a03c7dc55",
+      "name": "phase180",
+      "actual_NVIDIA_Vulkan": true,
+      "child_exit": 0,
+      "health_exists": true,
+      "sokol_errors": [
+        [
+          "180",
+          "0"
+        ]
+      ],
+      "phase_rows": 2340,
+      "phase_frames": 180,
+      "last_phase_row": {
+        "kind": "frame",
+        "phase": "end",
+        "frame": 180,
+        "submitted": 180,
+        "completed": 180,
+        "bodies": 2620,
+        "joints": 2520,
+        "physics_ns": 4455233741,
+        "draw_ns": 406407,
+        "render_ns": 238526818,
+        "ui_ns": 104882,
+        "commit_ns": 16215,
+        "profile_ns": 8535,
+        "health_ns": 4452793399,
+        "query_wait_ms": 5.99999985e-05,
+        "query_map_ms": 0.00310499989,
+        "query_encode_ms": 0.0687879995,
+        "query_copied_bytes": 64
+      },
+      "health_sha256": "3856ea849415d186b5faeb19eef30259d749e76674d32c1a52172262d85e46aa",
+      "health_bytes": 167902875,
+      "record_validation": {
+        "frames": 180,
+        "body_observations": 272160,
+        "joint_observations": 272160,
+        "status": "originalcomplete-record/sphericalchecks;no600stepclaim"
+      }
+    }
+  ],
+  "observer_executable_sha256": "bfaaecd3be07942d8858bd152fe7b8bab017568e09b76c345e693c9f07df0244",
+  "observer_object_sha256": "deef95d8d46e305a9470ce3cab2f8013c3b98c3623e5953259e60c04d663dd1b",
+  "evaluator_hashes": {
+    "compare-rain-lifetimes.py": "da5212d3f71cd6667bf1e9dd189ddcc4c395e2f65ff5edb19a1c85a2215090fa",
+    "health_identity.py": "606ea1df5fb7065e82d21d4dd25b6c494a522b045b23eb897a3091f7c687998c",
+    "native_scene_validate.py": "2d7eda48339c930d40d96de92997d00b0f53c38b637c230036dbf707b3b6ca9f"
+  },
+  "retained_control": {
+    "exit": 0,
+    "command": [
+      "/usr/bin/python3",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-rain-drag-display-repair/display-child.py",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/xvfb/usr/bin/Xvfb",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-rain-phase-diagnostic/control30/child-exit.json",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-rain-phase-diagnostic/samples_gpu_observed",
+      "--sample-name",
+      "Benchmark/Rain",
+      "--unpaced",
+      "--health-scan",
+      "--hide-ui",
+      "--sleep",
+      "--workers",
+      "8",
+      "--warmup",
+      "0",
+      "--timed",
+      "30",
+      "--bench-json",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr03-rain-phase-diagnostic/control30/health.json"
+    ],
+    "elapsed_seconds_incidental": 230.54798030853271,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "f94b08bce5b09d20b30928d7e012a8c9de34e973bf065187710b93a3bc0e4147",
+    "name": "control30",
+    "actual_NVIDIA_Vulkan": true,
+    "child_exit": 0,
+    "health_exists": true,
+    "sokol_errors": [
+      [
+        "30",
+        "0"
+      ]
+    ],
+    "phase_rows": 0,
+    "phase_frames": 0,
+    "last_phase_row": null,
+    "health_sha256": "66b4f644fba9f12dec63247c65824efde05524a4dda89da69b16989ff281a983",
+    "health_bytes": 11436956,
+    "record_validation": {
+      "frames": 30,
+      "body_observations": 18480,
+      "joint_observations": 18480,
+      "status": "originalcomplete-record/sphericalchecks;no600stepclaim"
+    }
+  },
+  "observer_equivalence": {
+    "frames": 30,
+    "ordered_body_joint_semantic_fields_exact": true,
+    "scope": "capturedpublicphysics/identity/residual subset;notfullfuture-state"
+  },
+  "finished_unix": 1790913133.2503643
+}

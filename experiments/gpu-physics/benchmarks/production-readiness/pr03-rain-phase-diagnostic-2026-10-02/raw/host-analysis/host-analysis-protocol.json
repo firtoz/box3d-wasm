@@ -1,0 +1,24 @@
+{
+  "purpose": "Single host-only comparison of complete180 GPU diagnostic window against first180 frames of previously completed CPU600. This is a projected CPU record, not a new engine run. Original residual screens/evaluator unchanged; partialdiagnosis never600/recycling/fullstate/performance qualification.",
+  "budget": {
+    "host_comparisons": 1,
+    "builds": 0,
+    "CPU_GPU_processes": 0,
+    "solver_candidates": 0,
+    "retries": 0,
+    "headline_timing": 0
+  },
+  "CPU_source_sha256": "48918163f059dcbca3c5f8c067191442581eb9cb8510170c9ea3171a25879cf6",
+  "CPU_source_bytes": 1203549772,
+  "GPU_source_sha256": "3856ea849415d186b5faeb19eef30259d749e76674d32c1a52172262d85e46aa",
+  "GPU_source_bytes": 167902875,
+  "phase_receipt_sha256": "f14397f16e0169ea9c47ff1a26112cc49f498520bab41bbe1e137fe104cedd2f",
+  "evaluator_sha256": "da5212d3f71cd6667bf1e9dd189ddcc4c395e2f65ff5edb19a1c85a2215090fa",
+  "CPU_window_header_changes": {
+    "frames_observed": 180,
+    "timed": 180,
+    "measured": 180
+  },
+  "frames": 180,
+  "scope": "exactmeaningfulorderedfirst180 CPUframes;originalfull600 retained in priorreport"
+}

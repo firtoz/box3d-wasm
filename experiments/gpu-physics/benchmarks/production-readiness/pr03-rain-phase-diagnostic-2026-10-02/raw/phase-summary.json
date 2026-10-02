@@ -1,0 +1,126 @@
+{
+  "control30": {
+    "phase_rows": 0,
+    "completed_frame_rows": 0,
+    "last_phase_row": null
+  },
+  "observer30": {
+    "phase_rows": 390,
+    "completed_frame_rows": 30,
+    "last_phase_row": {
+      "kind": "frame",
+      "phase": "end",
+      "frame": 30,
+      "submitted": 30,
+      "completed": 30,
+      "bodies": 940,
+      "joints": 840,
+      "physics_ns": 380216378,
+      "draw_ns": 164659,
+      "render_ns": 259672764,
+      "ui_ns": 90545,
+      "commit_ns": 15889,
+      "profile_ns": 14498,
+      "health_ns": 377964315,
+      "query_wait_ms": 7.79999973e-05,
+      "query_map_ms": 0.0030619998,
+      "query_encode_ms": 0.0759299994,
+      "query_copied_bytes": 64
+    },
+    "clocks_ms": {
+      "physics_ns": {
+        "sum": 5530.392749,
+        "median": 160.1100575,
+        "min": 27.065342,
+        "max": 380.216378
+      },
+      "health_ns": {
+        "sum": 5406.59377,
+        "median": 157.9147155,
+        "min": 24.714515,
+        "max": 377.964315
+      },
+      "draw_ns": {
+        "sum": 4.596137,
+        "median": 0.148578,
+        "min": 0.105946,
+        "max": 0.438701
+      },
+      "render_ns": {
+        "sum": 7502.167948,
+        "median": 249.127977,
+        "min": 233.837008,
+        "max": 309.895115
+      },
+      "profile_ns": {
+        "sum": 0.300555,
+        "median": 0.0082245,
+        "min": 0.008022,
+        "max": 0.027805
+      }
+    },
+    "health_fraction_of_physics_sum": 0.9776147943521036
+  },
+  "phase180": {
+    "phase_rows": 2340,
+    "completed_frame_rows": 180,
+    "last_phase_row": {
+      "kind": "frame",
+      "phase": "end",
+      "frame": 180,
+      "submitted": 180,
+      "completed": 180,
+      "bodies": 2620,
+      "joints": 2520,
+      "physics_ns": 4455233741,
+      "draw_ns": 406407,
+      "render_ns": 238526818,
+      "ui_ns": 104882,
+      "commit_ns": 16215,
+      "profile_ns": 8535,
+      "health_ns": 4452793399,
+      "query_wait_ms": 5.99999985e-05,
+      "query_map_ms": 0.00310499989,
+      "query_encode_ms": 0.0687879995,
+      "query_copied_bytes": 64
+    },
+    "clocks_ms": {
+      "physics_ns": {
+        "sum": 338608.087845,
+        "median": 1815.97381,
+        "min": 26.057022,
+        "max": 5500.537908
+      },
+      "health_ns": {
+        "sum": 337923.196418,
+        "median": 1813.589767,
+        "min": 23.638937,
+        "max": 5498.100734
+      },
+      "draw_ns": {
+        "sum": 49.323374,
+        "median": 0.289372,
+        "min": 0.105863,
+        "max": 0.494323
+      },
+      "render_ns": {
+        "sum": 46308.504271,
+        "median": 256.3489845,
+        "min": 231.59521,
+        "max": 310.37253
+      },
+      "profile_ns": {
+        "sum": 1.786298,
+        "median": 0.008461,
+        "min": 0.006152,
+        "max": 0.030827
+      }
+    },
+    "health_fraction_of_physics_sum": 0.9979773329356695
+  },
+  "cpu600-prefix180": {
+    "phase_rows": 0,
+    "completed_frame_rows": 0,
+    "last_phase_row": null
+  }
+}
