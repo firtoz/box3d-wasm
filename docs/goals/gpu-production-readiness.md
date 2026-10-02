@@ -347,7 +347,7 @@ Their former next actions/job handles do not authorize another campaign.
 | --- | --- |
 | Workspace / branch | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu` |
 | Authorization | Active full roadmap; verified milestone commit/push authorized by the submitted goal |
-| Latest published milestone | `437fd1c522eb3213caf2cb978c65f6ebef28bb93` focused distance regression and current loaded-drag impact evidence committed/pushed; verified origin 0/0 and clean tree. All 22 focused-test/10 impact indexed raw files matched staged bytes. Earlier retained solver repair `c1fb15f` and its CPU-first recordings remain pushed. No final release claim |
+| Latest published milestone | `58eb04caa53e901ef25986410edeade21b992940` CCD boundary diagnosis/static native observation audit committed/pushed; verified origin 0/0 and clean tree. All 49 staged files, including 36 indexed raw files, matched worktree bytes; offline validator passes. No production solver/default/policy/Box3D/WASM change. Prior focused regression `437fd1c` and retained repair `c1fb15f`/CPU-first recordings remain pushed. No final release claim |
 | Retained production source | `c1fb15faaaec3c827c4381c6694e9041bbebd076` rigid-distance repair, shader SHA `22fe506b97b97c24f724a09b2dad2efcd52db6b71b95d892bc3bc31c4726ea31`. Production sources unchanged. Only cfg(test) `src/gpu_invariants.rs` now adds the focused CPU-reference regression; explicit 107-input applicability against prior producer is in its report. HEAD is context only |
 | Current item | **PR04**: distance repair and focused one-step regression pass; 4 candidate physical comparisons/242 applicable regressions/15 CPU-first clips retained. Strict ragdoll, loaded dragging and Rain remain unresolved. Ordinary CCD boundary directly attributes the first held-position jump; native internal TOI remains unobserved. Static native route/capture audit complete. No acceptance limit changed |
 | Current jobs | All campaigns terminal. Boundary diagnostic driver **11553 exited 0**, protocol SHA `71465056aa2da1b96f060bea28f7cd1d6b1af5738b4278521a9647968748dbe3`. Two 240-step ordinary/native prefixes match every archived B/F/M/P line (28,040 total); all 13 CPU classifications per backend are below threshold. Ordinary GPU fraction 0.6233841 directly explains ~17 mm correction; **native internal GPU TOI remains unobserved** (zero host trace records). Budget closed: 1 CPU unit/2 C++ links/2 processes; zero Rust builds/candidates/retries/timing. [Portable report](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-drag-ccd-boundary-2026-10-02/README.md); full dragging and PR04 remain open. Do not restart |
@@ -417,8 +417,11 @@ bounded applicability. Include this selector alongside the original PR03 matrix
 at PR07. The host preparation path failure remains archived, zero engine/build
 consumption. All portable raw hashes validate.
 
-The focused regression and current-trace diagnosis are pushed as `437fd1c`.
-PR04 stays unchecked; production shader/API/viewer/scene/defaults are unchanged.
+The focused regression/current-impact diagnosis (`437fd1c`) and CCD boundary
+report/static native observation audit (`58eb04c`) are pushed. PR04 stays
+unchecked; production shader/API/viewer/scene/defaults are unchanged. The boundary
+validator passes; all 49 staged files matched their worktree bytes. Fetch found
+no remote divergence; push verified origin 0/0 and a clean worktree. No live job.
 
 1. The [completed CCD boundary diagnosis](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-drag-ccd-boundary-2026-10-02/README.md)
    directly attributes the ordinary frame-227 position jump: CPU motion 45.120 mm
