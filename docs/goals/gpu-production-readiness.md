@@ -6,7 +6,7 @@ whole objective, maintain this file, and use the goal-scratchpad skill. This is
 the authoritative production-readiness queue for `feat/gpu`.
 
 Updated: 2026-10-02. Status: active; full roadmap and verified milestone commit/push authorized by the submitted goal.
-Next item: **PR04 — resolve the earliest physical failure: the distance-joint first-step discrepancy, then required ragdoll/drag/Rain failures**.
+Next item: **PR04 — record/review the distance-clamp candidate before retention, then resolve required ragdoll/drag/Rain failures**.
 
 ## Objective and release boundary
 
@@ -343,10 +343,10 @@ Their former next actions/job handles do not authorize another campaign.
 | --- | --- |
 | Workspace / branch | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu` |
 | Authorization | Active full roadmap; verified milestone commit/push authorized by the submitted goal |
-| Latest published milestone | `da44722` contract/baseline milestone is committed and pushed; all six new indexed raw files matched staged bytes. Origin was synchronized after push |
+| Latest published milestone | `da44722` contract/baseline and `4d08e1d` clamp evidence milestones are committed and pushed. All six reconciliation/38 clamp indexed raw files matched staged bytes; no production shader committed. Origin synchronized after push |
 | Retained production source | `abc0a54a3ce3b285c9984f2c7c6b5baefff00d1b`, pushed. Invocation HEAD is context only; actual 107 source inputs and producer receipts identify baseline binaries |
 | Current item | **PR03 contract/baseline is complete; PR04 physical correctness is next.** No failing screen reclassified as a pass. Distance first step, strict ragdoll trajectory, loaded dragging and Rain remain unresolved |
-| Current jobs | Clamp driver **72839** terminal 0: two builds/two links/four original fixture passes. Relevant regression driver **7832** launched; poll this exact handle. Protocol SHA `9bc5a3268462bf0138062ff1bf2eb5d8e391c87b5740d4902d185e2ac3669e1f`; local `experiments/gpu-physics/artifacts/production-readiness/pr04-distance-regressions/`. Two test builds/four fresh processes/61 existing selectors each; zero new candidates/retries/timing. Shader temporarily staged for test builds, restored before tests in finally. All earlier campaigns are terminal |
+| Current jobs | All owned jobs terminal. Clamp 72839 completed 0 (four full original passes). Regression 7832 completed 0; original test children are 101/101/0/0, with 242 applicable passes/two retained mode-0 storage failures. Two successful test builds/four processes consume the `9bc5a326…` budget. Source restored and all original input hashes verified. Offline validators pass. Never rerun either closed campaign |
 | Current libraries | Ordinary SHA `aba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6`; native SHA `c8a16154cb576c49e7bd7fd8e030319601192b466d9ddb19305bd043aa6a7267`. Current sole source difference is cfg(test) `src/gpu_invariants.rs`; no production API/shader/viewer change |
 | Independent CPU | Full archive SHA `b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c`, 119 actual source/object pairs; combined fixtures use separate prefixed CPU archive |
 | Hardware / policy | i9-9900K / NVIDIA RTX 4070 SUPER, driver 610.57.04, NVIDIA Vulkan. Ordinary/native and ordering 0/1 remain separate; scheduling/default policies unchanged |
@@ -392,34 +392,35 @@ No unchanged retries or extension of prior watchdogs are authorized by this reco
 
 ### Next discriminating work
 
-1. Poll regression driver **7832** and inspect its durable receipt. The
-   [one-clamp candidate report](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-distance-clamp-2026-10-02/README.md)
-   validates offline: all four ordinary/native × ordering 0/1 original fixture
-   comparisons pass, 3,840 steps/49,920 finite lane comparisons at original 1e-5.
-   Two library builds/two links/one candidate/four processes consumed the frozen
-   `c037ce00…` budget. Original source was restored before all engine execution.
-   Source algebra predicts both recorded first-step displacements. The candidate
-   changes only the rigid-distance timestep clamp; no other row/caches/defaults
-   or policy changed. This is a fixture pass, not a retained solver milestone.
-2. Relevant regression budget is separately frozen: two test builds/four fresh
-   process configurations/244 unchanged selected checks. These retain all 28
-   numerical/23 scheduling-capacity selectors, existing slot-32768 and selected
-   joint/COM/lifetime checks. No old trace/cache file is written. Preserve all
-   results; no repeat or timeout extension. Both builds must match the exact
-   candidate source inputs. Physical failures stay failures; full-state final
-   qualification remains PR07. The copied 23-selector group also includes the
-   known mode-1-only contact-order storage fixture in mode 0. This is a selection
-   mistake, identified while the first process is still running. Do not edit the
-   frozen protocol or rerun cells: retain those original failures and assess
-   applicability only against the pre-candidate PR03 contract (mode 1 required),
-   never count mode-0 storage assertions as passes or waive another failure.
-3. If regressions pass, freeze builds/recordings for affected native distance
-   scenes (`Joints/Distance Joint`, `Joints/Motion Locks`, `Events/Joint`) and
-   audit Rust/oracle scenes for distance creation. Record real CPU first, then
-   ordinary/native GPU and applicable combined views, using both recording
-   scripts under a finite protocol. Review before any solver commit; current
-   production shader remains unchanged. Reject/restore a failing candidate.
-4. PR04 remains open for strict ragdoll/loaded dragging/Rain. Use smallest
+1. Prepare a finite **precommit viewer build/recording protocol** for the
+   artifact candidate that passed its original physical comparison and applicable
+   selected regressions. No production solver change is retained yet. Verify the
+   actual candidate libraries under
+   `experiments/gpu-physics/artifacts/production-readiness/pr04-distance-clamp/`
+   against their receipt; never infer candidate/baseline identity from current
+   `target/` files or invocation HEAD. The source shader is restored to original
+   SHA `5a98ffe5eb0dde4b4fb2fd900b41b5038120194123e06e31a744f563deb98a63`.
+2. Audit every affected scene and record with real CPU first using both snapshot
+   scripts. Upstream creation sites identify `Joints/Distance Joint`,
+   `Joints/Motion Locks`, `Events/Joint`; `src/scenes.rs` and `oracle/` have no
+   distance-joint creation matches. Qualify ordinary/native GPU and applicable
+   combined views. Preserve defaults, review clips and retain provenance before
+   any solver commit. The native recorder currently assumes six scenes; adapt
+   its frozen protocol support coherently if needed, without redundant trials.
+   Current diagnostic graphics use Mesa/Xvfb, so clips cannot establish desktop FPS.
+3. [Clamp comparison evidence](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-distance-clamp-2026-10-02/README.md)
+   passes all four configurations, 3,840 steps/49,920 finite lane comparisons at
+   original 1e-5. One candidate/two library builds/two links/four processes;
+   `c037ce00…` budget closed. [Relevant regression evidence](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-distance-regressions-2026-10-02/README.md)
+   retains all 244 results: 242 applicable pass, two known mode-0 storage failures.
+   Both mode-1 groups pass all 61 selected tests. Copied-group selection error
+   was recorded while first process ran; applicability comes only from the
+   unchanged pre-candidate PR03 contract, not an altered result or tolerance.
+   No original cell repeated or old trace/cache path written. These reports are
+   fixture/selected-regression evidence, not final five-run/full-state acceptance.
+4. After affected-scene review, retain only the narrow clamp if all applicable
+   checks pass, update provenance/applicability and commit/push that milestone.
+   PR04 remains open for strict ragdoll/loaded dragging/Rain. Use smallest
    faithful reproducers and distinct finite budgets. For Rain, separate GPU wait
    from mirror/deferred host CCD/collector costs; never restart closed 30/30/180
    cells or extend old 900-second attempts.

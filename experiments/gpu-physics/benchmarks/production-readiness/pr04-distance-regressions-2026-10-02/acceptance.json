@@ -1,0 +1,27 @@
+{
+  "scope": "Applicable selected regressions of artifact clamp candidate; not whole release or final repeats",
+  "applicable_selected_checks": 242,
+  "applicable_status": "PASS",
+  "total_original_selected_checks": 244,
+  "original_campaign_all_assertions_pass": false,
+  "retained_failed_observations": [
+    {
+      "configuration": "ordinary-order0",
+      "selector": "api::world::world_counter_tests::contact_order_survives_body_capacity_growth_and_invalidates_proxy_changes",
+      "actual_result": "FAILED",
+      "applicable": false,
+      "reason": "Required ordering1 in pre-candidate PR03 contract; copied group selected mode0 by mistake"
+    },
+    {
+      "configuration": "native-order0",
+      "selector": "api::world::world_counter_tests::contact_order_survives_body_capacity_growth_and_invalidates_proxy_changes",
+      "actual_result": "FAILED",
+      "applicable": false,
+      "reason": "Required ordering1 in pre-candidate PR03 contract; copied group selected mode0 by mistake"
+    }
+  ],
+  "pre_candidate_contract_sha256": "023fe1477320fd5e12b09c71cac95789203c725fda7d0d94ea54ad2311e9580c",
+  "production_shader_retained": false,
+  "recording_and_remaining_PR04_release_gates": "OPEN",
+  "interpretation": "Original mode0 failures remain failures. Applicability is derived from the unchanged contract frozen before the candidate; no tolerance/source/assertion/protocol/result changed and no cell repeated."
+}
