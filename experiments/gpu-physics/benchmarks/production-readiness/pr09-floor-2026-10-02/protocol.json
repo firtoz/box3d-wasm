@@ -1,0 +1,29 @@
+{
+  "objective": "One incremental PR09 inventory and demonstrated missing-floor renderer repair; stop after verified commit/push. Full PR09 remains open.",
+  "budget": {
+    "viewer_builds": 5,
+    "focused_test_builds": 2,
+    "focused_checks": 12,
+    "captures": 45,
+    "steps_per_capture": 60,
+    "watchdog_seconds_per_build": 180,
+    "watchdog_seconds_per_capture": 300,
+    "retries": 0,
+    "performance_runs": 0,
+    "Rust_builds": 0
+  },
+  "scenes": [
+    "Compound/Village",
+    "Compound/Tile Floor",
+    "Compound/Mesh Tile",
+    "Stacking/Single Box",
+    "Mesh/Grid"
+  ],
+  "capture_matrix": "Before: real CPU then ordinary/native GPU and ordinary/native combined (25); after: ordinary/native GPU and ordinary/native combined (20). All five scenes exercise shared adapter; this is a focused floor review, not full-sample equivalence.",
+  "stop_retain": "Stop dependent execution on failed build/check/capture; retain failed and unlaunched cells. No budget extension, unchanged retry, old campaign or solver work.",
+  "scope": "Stable-address adapter allocation, body/shape IDs, picking and mapping; unchanged physics geometry/defaults, Box3D/WASM/Rust. Diagnostic Xvfb/Mesa graphics and real NVIDIA Vulkan compute; no FPS claim.",
+  "starting_head": "fdc2222cd75494f84d9ad439290aa30503cb7617",
+  "preexisting_documentation_diff_sha256": "0a0cd2e71589a1eb0665a890e47be9cef7f9f975a60a6cd2edc4b6af89b3f41f",
+  "remote_ahead_behind": "0/0 after fetch",
+  "prelaunch_correction": "Static source audit corrected category Shapes\u2192Stacking for Single Box; same finite cells/budget, before any launch."
+}

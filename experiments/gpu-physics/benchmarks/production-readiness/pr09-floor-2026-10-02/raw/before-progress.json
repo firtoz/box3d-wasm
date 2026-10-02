@@ -1,0 +1,76 @@
+{
+  "status": "running",
+  "results": [
+    {
+      "kind": "cpu",
+      "viewer": "cpu",
+      "scene": "pr09-floor-village",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "ccf9fee2654bc49e8fbd14a72ec2fc8e3c4fc1e2565a7e7c59f438ec068651e1",
+      "encoded_frames": 1248,
+      "duration_seconds": 41.6,
+      "health_sha256": "ab12b751d10be1514bbdb98325c5c46aa5ed75e23ce773736d5f0456c54787cb"
+    },
+    {
+      "kind": "cpu",
+      "viewer": "cpu",
+      "scene": "pr09-floor-tile-floor",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "77ba995ed45ce77af6851044dca662857ab4426946f46c55da9bae56c2dc8503",
+      "encoded_frames": 332,
+      "duration_seconds": 11.066667,
+      "health_sha256": "b95bf402c61ef0dc7e6051e3a76b8fd94ca63949d8838182b87d910562a08489"
+    },
+    {
+      "kind": "cpu",
+      "viewer": "cpu",
+      "scene": "pr09-floor-mesh-tile",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "16332f8aff8f6e55119dc7115335bc287efea98a632c1eafc5f25e49bad9274d",
+      "encoded_frames": 242,
+      "duration_seconds": 8.066667,
+      "health_sha256": "3cd86dd5dbf7c91c84ffb20805f16cf36e56a22c3b6ce62c49510c169f32e7e5"
+    },
+    {
+      "kind": "cpu",
+      "viewer": "cpu",
+      "scene": "pr09-floor-single-box",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "b4b8f757178c2e6673784fc81765e41b6de4141128498947a41e83955d136d28",
+      "encoded_frames": 257,
+      "duration_seconds": 8.566667,
+      "health_sha256": "40e8477b3aa9ee85c1f00ed8f3bc0ded220f6f12063d45527900491b5fcbbc28"
+    },
+    {
+      "kind": "cpu",
+      "viewer": "cpu",
+      "scene": "pr09-floor-mesh-grid",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "a946ca656806ffb40561db69f8eb275454df0bb0c0e740b9146fd3fa64ea73fe",
+      "encoded_frames": 272,
+      "duration_seconds": 9.066667,
+      "health_sha256": "5bcd7eea74fcde1356c733fdc83185572c241ab7b538d505b38fc05e22b1d996"
+    },
+    {
+      "kind": "gpu",
+      "viewer": "ordinary-gpu",
+      "scene": "pr09-floor-village",
+      "status": "running"
+    }
+  ],
+  "protocol_sha256": "9f066fe350aea29cfbfd115ef6719661b83ba88e9ed7d96ec89f21ecf6868927",
+  "running_scene": "pr09-floor-village",
+  "running_kind": "gpu",
+  "running_viewer": "ordinary-gpu",
+  "driver_pid": 1152528
+}

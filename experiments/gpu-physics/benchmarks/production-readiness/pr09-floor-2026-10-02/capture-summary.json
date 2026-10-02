@@ -1,0 +1,1217 @@
+[
+  {
+    "scene": "Compound/Village",
+    "viewer": "cpu",
+    "phase": "before",
+    "steps": 60,
+    "mode": "cpu",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        0,
+        0
+      ],
+      "renderer_instances": [
+        1553,
+        1553
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Village",
+    "viewer": "ordinary-gpu",
+    "phase": "before",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        1,
+        1
+      ],
+      "renderer_instances": [
+        1553,
+        1553
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Village",
+    "viewer": "ordinary-gpu",
+    "phase": "after",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        1,
+        1
+      ],
+      "renderer_instances": [
+        1553,
+        1553
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Village",
+    "viewer": "native-gpu",
+    "phase": "before",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        1,
+        1
+      ],
+      "renderer_instances": [
+        1553,
+        1553
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Village",
+    "viewer": "native-gpu",
+    "phase": "after",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        1,
+        1
+      ],
+      "renderer_instances": [
+        1553,
+        1553
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Village",
+    "viewer": "ordinary-both",
+    "phase": "before",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        1,
+        1
+      ],
+      "renderer_instances": [
+        143,
+        143
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Village",
+    "viewer": "ordinary-both",
+    "phase": "after",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        1,
+        1
+      ],
+      "renderer_instances": [
+        1551,
+        1551
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Village",
+    "viewer": "native-both",
+    "phase": "before",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        1,
+        1
+      ],
+      "renderer_instances": [
+        143,
+        143
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Village",
+    "viewer": "native-both",
+    "phase": "after",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        1,
+        1
+      ],
+      "renderer_instances": [
+        1551,
+        1551
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Tile Floor",
+    "viewer": "cpu",
+    "phase": "before",
+    "steps": 60,
+    "mode": "cpu",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        0,
+        0
+      ],
+      "renderer_instances": [
+        677,
+        677
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Tile Floor",
+    "viewer": "ordinary-gpu",
+    "phase": "before",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        677,
+        677
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Tile Floor",
+    "viewer": "ordinary-gpu",
+    "phase": "after",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        677,
+        677
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Tile Floor",
+    "viewer": "native-gpu",
+    "phase": "before",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        677,
+        677
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Tile Floor",
+    "viewer": "native-gpu",
+    "phase": "after",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        677,
+        677
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Tile Floor",
+    "viewer": "ordinary-both",
+    "phase": "before",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        677,
+        677
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Tile Floor",
+    "viewer": "ordinary-both",
+    "phase": "after",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        677,
+        677
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Tile Floor",
+    "viewer": "native-both",
+    "phase": "before",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        677,
+        677
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Tile Floor",
+    "viewer": "native-both",
+    "phase": "after",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        677,
+        677
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Mesh Tile",
+    "viewer": "cpu",
+    "phase": "before",
+    "steps": 60,
+    "mode": "cpu",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        0,
+        0
+      ],
+      "renderer_instances": [
+        4,
+        4
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Mesh Tile",
+    "viewer": "ordinary-gpu",
+    "phase": "before",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        1,
+        1
+      ],
+      "renderer_instances": [
+        4,
+        4
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Mesh Tile",
+    "viewer": "ordinary-gpu",
+    "phase": "after",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        1,
+        1
+      ],
+      "renderer_instances": [
+        4,
+        4
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Mesh Tile",
+    "viewer": "native-gpu",
+    "phase": "before",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        1,
+        1
+      ],
+      "renderer_instances": [
+        4,
+        4
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Mesh Tile",
+    "viewer": "native-gpu",
+    "phase": "after",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        1,
+        1
+      ],
+      "renderer_instances": [
+        4,
+        4
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Mesh Tile",
+    "viewer": "ordinary-both",
+    "phase": "before",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        1,
+        1
+      ],
+      "renderer_instances": [
+        4,
+        4
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Mesh Tile",
+    "viewer": "ordinary-both",
+    "phase": "after",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        1,
+        1
+      ],
+      "renderer_instances": [
+        4,
+        4
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Mesh Tile",
+    "viewer": "native-both",
+    "phase": "before",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        1,
+        1
+      ],
+      "renderer_instances": [
+        4,
+        4
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Compound/Mesh Tile",
+    "viewer": "native-both",
+    "phase": "after",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        1,
+        1
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        1,
+        1
+      ],
+      "renderer_instances": [
+        4,
+        4
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Stacking/Single Box",
+    "viewer": "cpu",
+    "phase": "before",
+    "steps": 60,
+    "mode": "cpu",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        0,
+        0
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Stacking/Single Box",
+    "viewer": "ordinary-gpu",
+    "phase": "before",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Stacking/Single Box",
+    "viewer": "ordinary-gpu",
+    "phase": "after",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Stacking/Single Box",
+    "viewer": "native-gpu",
+    "phase": "before",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Stacking/Single Box",
+    "viewer": "native-gpu",
+    "phase": "after",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Stacking/Single Box",
+    "viewer": "ordinary-both",
+    "phase": "before",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Stacking/Single Box",
+    "viewer": "ordinary-both",
+    "phase": "after",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Stacking/Single Box",
+    "viewer": "native-both",
+    "phase": "before",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Stacking/Single Box",
+    "viewer": "native-both",
+    "phase": "after",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Mesh/Grid",
+    "viewer": "cpu",
+    "phase": "before",
+    "steps": 60,
+    "mode": "cpu",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        0,
+        0
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Mesh/Grid",
+    "viewer": "ordinary-gpu",
+    "phase": "before",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Mesh/Grid",
+    "viewer": "ordinary-gpu",
+    "phase": "after",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Mesh/Grid",
+    "viewer": "native-gpu",
+    "phase": "before",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Mesh/Grid",
+    "viewer": "native-gpu",
+    "phase": "after",
+    "steps": 60,
+    "mode": "gpu",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Mesh/Grid",
+    "viewer": "ordinary-both",
+    "phase": "before",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Mesh/Grid",
+    "viewer": "ordinary-both",
+    "phase": "after",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Mesh/Grid",
+    "viewer": "native-both",
+    "phase": "before",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  },
+  {
+    "scene": "Mesh/Grid",
+    "viewer": "native-both",
+    "phase": "after",
+    "steps": 60,
+    "mode": "both",
+    "counts": {
+      "body_count": [
+        2,
+        2
+      ],
+      "joint_count": [
+        0,
+        0
+      ],
+      "gpu_draw_shapes": [
+        2,
+        2
+      ],
+      "renderer_instances": [
+        2,
+        2
+      ]
+    },
+    "nan_count": 0,
+    "capacity_loss": false
+  }
+]

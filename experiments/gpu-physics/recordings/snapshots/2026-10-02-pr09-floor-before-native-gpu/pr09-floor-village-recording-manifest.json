@@ -1,0 +1,13 @@
+{
+  "engine": "gpu-physics",
+  "viewer": "native-gpu",
+  "recording_started_utc": "2026-10-02T09:13:28.501904+00:00",
+  "started_timestamp_disclosure": "Derived from original launch-file mtime at retention, approximate recorder start; phase order is fixed by protocols.",
+  "scene": "pr09-floor-village",
+  "phase": "before",
+  "clip_sha256": "14e65e6b2b0ddfcf2b3ab49dd4cdef41c8181d2e47d47f54cefb3e52964bcb7a",
+  "binary_sha256": "642fbc8bfab0de4cc4d055fc6b87add6acf22540a67b0b4ef340752a424e522b",
+  "protocol_sha256": "9f066fe350aea29cfbfd115ef6719661b83ba88e9ed7d96ec89f21ecf6868927",
+  "steps": 60,
+  "purpose": "diagnostic capture, no performance claim"
+}

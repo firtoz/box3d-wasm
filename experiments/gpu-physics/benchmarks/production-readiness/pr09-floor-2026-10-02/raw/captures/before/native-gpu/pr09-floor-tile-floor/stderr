@@ -1,0 +1,18 @@
+sokol(level warn) (no message)
+[gfx/info] GPU: llvmpipe (LLVM 22.1.8, 256 bits) (Mesa)
+sokol-capacity: 65536 debug shapes and opaque instances per stream
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=256 shapes=2758 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=2758 joints=16 scene_heap_bytes=838048 max=536870912
+physics-pipeline-cache: loaded 7320296 bytes
+gpu-alloc scene generation=0 bodies=256 shapes=2758 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=2758 joints=16 scene_heap_bytes=838048 max=536870912
+gpu-scene-input shapes=2502 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=838048
+GPU pose export: Vulkan opaque FD 37 (28672 bytes)
+physics-pipeline-cache: save 7320296 bytes, success=true
+gpu-loading: ready after 2.153 s, 49 loading frames, world 1:1 (no physics steps)
+sokol-renderer: Mesa / llvmpipe (LLVM 22.1.8, 256 bits); framebuffer=1280x720
+GPU pose import skipped: different or unknown GPU UUID; using current CPU pose mirrors
+startup: scene=6.091 ms gpu=649.889 ms first-scene-frame=2590.937 ms loading-frames=49
+physics-pipeline-cache: save 7371476 bytes, success=true
+samples: 60 frames, 0 sokol errors

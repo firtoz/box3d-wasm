@@ -21,7 +21,7 @@ Project docs are split by audience and purpose. Prefer updating an existing doc 
 - [`OTHER_PROJECTS.md`](./OTHER_PROJECTS.md) - comparison with other Box3D WASM projects, including API style, sample coverage, threading, and WASM size.
 - [`washer-performance-plan.md`](./washer-performance-plan.md) - performance notes for high-body-count sample rendering.
 - [`gpu-physics.md`](./gpu-physics.md) - experimental GPU engine: support status, missing native APIs, architecture and merge requirements.
-- [`goals/gpu-production-readiness.md`](./goals/gpu-production-readiness.md) - authoritative `feat/gpu` readiness queue, evidence-backed checkboxes and compaction/restart recovery; first release scope is Linux/NVIDIA native.
+- [`goals/gpu-production-readiness.md`](./goals/gpu-production-readiness.md) - authoritative `feat/gpu` readiness queue, evidence-backed checkboxes and compaction/restart recovery; first release scope is Linux/NVIDIA native. Its linked [PR09 sample inventory](../experiments/gpu-physics/benchmarks/production-readiness/pr09-floor-2026-10-02/inventory.md) includes native, browser and CPU oracle catalogs with explicit review gaps.
 - [`goals/gpu-warm-start.md`](./goals/gpu-warm-start.md) - bounded GPU warm-start controls goal and verification evidence.
 - [`gpu-mixed-scheduling-goal.md`](./gpu-mixed-scheduling-goal.md) - bounded desktop mixed-topology scheduling diagnosis, fixed experiment budget and recovery; performance target unmet, rejected changes restored.
 - [`gpu-solver-goal.md`](./gpu-solver-goal.md) - existing full solver criteria, historical recovery and rejected experiments; current production next actions live in the readiness roadmap.

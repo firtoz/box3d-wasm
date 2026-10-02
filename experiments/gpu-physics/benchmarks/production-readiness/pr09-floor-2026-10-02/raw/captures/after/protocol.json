@@ -1,0 +1,192 @@
+{
+  "purpose": "precommit visual/health evidence, not performance",
+  "budget": {
+    "cpu": 5,
+    "gpu": 20,
+    "timing": 0,
+    "retries": 0
+  },
+  "artifact_directory": "artifacts/production-readiness/pr09-floor/after",
+  "recorder_sha256": "c84af75a252c0f45e6b3749bce2d6a78b663125c7dff771c5b1aef6b105502fa",
+  "source_files": {
+    "native-samples/CMakeLists.txt": "6148223c06ebd38ccfe3c1ae6b08252169458c5c5ea40407f381dc34885c3701",
+    "scripts/inject-sokol-capacity.py": "546d9d919dcd9cd874197be677c9bf12906216af8e0510b5d17394560a0dcdaf",
+    "native-samples/sokol_capacity.c": "115e2d93f67cdd05ad45952c1b10a6e7cb6056f62d18f286b13524eba00bcfe7",
+    "../../box3d/samples/gfx/debug_adapter.c": "87389d84c35dc854ed163ac38e38fd007d57249a1d83775e97e795e9911258c7",
+    "../../box3d/samples/sample_compound.cpp": "de7be1c759a8245bd766ce09aee159bba90f56f3b2004dc755bfd15eac5716ff",
+    "../../box3d/samples/sample_mesh.cpp": "17e9da4c8e1cadf4a958f7b8c1b729bee9f98de0520fcf7d0162652f8221b473",
+    "../../box3d/samples/sample_stacking.cpp": "24b3fb49019bd5e8c0bbd66801af4b334fcabc66be2028e5068118c674bbbc23",
+    "c_abi/growable_slots.h": "37308e1139e2409171de6e41a194135b9a68a9ea45daf246de5cee0371432f05",
+    "scripts/record-native-scenes.py": "c84af75a252c0f45e6b3749bce2d6a78b663125c7dff771c5b1aef6b105502fa"
+  },
+  "assets": {
+    "artifacts/production-readiness/pr01-speculative/handoff/xvfb/usr/bin/Xvfb": "5bfd315a8c7bc626d0b183d176e130c34f910a4a1279d9d53ea45769f62a3351"
+  },
+  "viewers": {
+    "cpu": {
+      "binary": "artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/bin/samples_cpu",
+      "binary_sha256": "6c65fabab6fbd048a321061c8f9b2bb061afdcfa450d57b1bbc5ff96d5e6d14e",
+      "receipt": "artifacts/production-readiness/pr04-distance-captures/cpu-applicability.json",
+      "receipt_sha256": "bfc84ed3b4c29bd059c4bde1e45b79e4a9a056569f3efe763d331e4e3f3998d6",
+      "label": "000-box3d-cpu"
+    }
+  },
+  "gpu_viewers": {
+    "ordinary-gpu": {
+      "binary": "artifacts/production-readiness/pr09-floor/build/ordinary-gpu/viewer",
+      "binary_sha256": "0219c9cb35afb9db553b9f209e5851862940e1220e202538eff627a5ba6097bc",
+      "receipt": "artifacts/production-readiness/pr09-floor/build/ordinary-gpu/receipt.json",
+      "receipt_sha256": "25f4467eea01150c13b45dc963a775a53c7f291739c0c0f77954b5061cd730a9",
+      "label": "2026-10-02-pr09-floor-after-ordinary-gpu",
+      "health_mode": "gpu",
+      "environment_overrides": {
+        "RUST_LOG": "warn",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "WGPU_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr04-distance-captures/ordinary-pipelines"
+      }
+    },
+    "native-gpu": {
+      "binary": "artifacts/production-readiness/pr09-floor/build/native-gpu/viewer",
+      "binary_sha256": "531ff7f188f1ca003dd376aa6909d87032035ef564c6b0490e5205d2774701df",
+      "receipt": "artifacts/production-readiness/pr09-floor/build/native-gpu/receipt.json",
+      "receipt_sha256": "8c01d3cb0ae1b11a17e0ffeb8ac1e5cc9a05ba4779dae2952611bc56937ae7bc",
+      "label": "2026-10-02-pr09-floor-after-native-gpu",
+      "health_mode": "gpu",
+      "environment_overrides": {
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "WGPU_BACKEND": "vulkan",
+        "RUST_LOG": "warn",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr04-distance-captures/native-pipelines"
+      }
+    },
+    "ordinary-both": {
+      "binary": "artifacts/production-readiness/pr09-floor/build/ordinary-both/viewer",
+      "binary_sha256": "1d563c98f94e73891f9d2727ad54fc26e277e6a88d86e250d6daba2963da673e",
+      "receipt": "artifacts/production-readiness/pr09-floor/build/ordinary-both/receipt.json",
+      "receipt_sha256": "294262313073a90d931c29b9bbe5c9477e708c3bb5f08f9851e2e258143f337e",
+      "label": "2026-10-02-pr09-floor-after-ordinary-both",
+      "health_mode": "both",
+      "environment_overrides": {
+        "RUST_LOG": "warn",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "WGPU_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr04-distance-captures/ordinary-pipelines"
+      }
+    },
+    "native-both": {
+      "binary": "artifacts/production-readiness/pr09-floor/build/native-both/viewer",
+      "binary_sha256": "3cdf9f3be79d1ff3a3755459d72b298a9c70a6a968290e6f24222d3c2be8d6e8",
+      "receipt": "artifacts/production-readiness/pr09-floor/build/native-both/receipt.json",
+      "receipt_sha256": "7246d37bb9f7854263cc82ac8504f15917fb889bc8f33a523934635f4dc6a8db",
+      "label": "2026-10-02-pr09-floor-after-native-both",
+      "health_mode": "both",
+      "environment_overrides": {
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "WGPU_BACKEND": "vulkan",
+        "RUST_LOG": "warn",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr04-distance-captures/native-pipelines"
+      }
+    }
+  },
+  "environments": {
+    "cpu": {
+      "DISPLAY": ":84",
+      "GPU_BENCH_WIDTH": "1280",
+      "GPU_BENCH_HEIGHT": "720",
+      "__NV_PRIME_RENDER_OFFLOAD": "0",
+      "__GLX_VENDOR_LIBRARY_NAME": "mesa",
+      "LIBGL_ALWAYS_SOFTWARE": "1"
+    },
+    "gpu": {
+      "DISPLAY": ":84",
+      "GPU_BENCH_WIDTH": "1280",
+      "GPU_BENCH_HEIGHT": "720",
+      "__NV_PRIME_RENDER_OFFLOAD": "0",
+      "__GLX_VENDOR_LIBRARY_NAME": "mesa",
+      "LIBGL_ALWAYS_SOFTWARE": "1"
+    }
+  },
+  "xvfb": "artifacts/production-readiness/pr01-speculative/handoff/xvfb/usr/bin/Xvfb",
+  "build_applicability_exclusions": [
+    "shaders/physics/solve.wgsl",
+    "scripts/record-native-scenes.py"
+  ],
+  "scenes": [
+    {
+      "id": "pr09-floor-village",
+      "name": "Compound/Village"
+    },
+    {
+      "id": "pr09-floor-tile-floor",
+      "name": "Compound/Tile Floor"
+    },
+    {
+      "id": "pr09-floor-mesh-tile",
+      "name": "Compound/Mesh Tile"
+    },
+    {
+      "id": "pr09-floor-single-box",
+      "name": "Stacking/Single Box"
+    },
+    {
+      "id": "pr09-floor-mesh-grid",
+      "name": "Mesh/Grid"
+    }
+  ],
+  "watchdog_seconds_per_scene": 300,
+  "freeze_context_revision_only": "d28cc7959fbe287c42cfdfdc138c57f191df6547",
+  "settings": "Original upstream scene defaults, dt1/60/four substeps; 60 paced completed/rendered steps, zero warmup; diagnostic Mesa/Xvfb graphics plus NVIDIA Vulkan compute. No Village drop. No trajectory/pixel/performance qualification.",
+  "stop_retain": "Frozen PR09 budget: CPU first then four GPU variants; stop on failure, zero retries, no overwrite.",
+  "viewer_relink_receipt_sha256": "8af971ca2dd870f091f27ab1b4513fe9678042203917332712716c0188f8c6c8",
+  "scene_audit": "Allthree distance creation sites in upstream sample_joint.cpp/sample_events.cpp; no distance creation in Rust scenes/oracle. Includes spring-capable DistanceJoint and mixedjoint MotionLocks/Events layouts without altering defaults.",
+  "steps_per_capture": 60,
+  "prelaunch_amendment": "record-snapshot wrapper rejected campaign-local recorder hash before any after engine launch. Canonical recorder now supports the same finite protocol steps (default remains300); its metadata-only source is excluded from old consumer snapshots, all actual compiled units are unchanged. No budget extension/retry process.",
+  "cpu_reference": "Reuse the five exact CPU-first before clips: real Box3D physics/geometry/scene/default objects unchanged. Newly rebuilt CPU adapter viewer has a build receipt but is not run; no second CPU capture consumption."
+}

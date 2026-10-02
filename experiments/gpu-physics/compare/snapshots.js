@@ -38,6 +38,11 @@ window.GPU_COMPARE = {
     "compound-ownership-tile-floor",
     "compound-ownership-village",
     "compound-ownership-mesh-tile",
+    "pr09-floor-village",
+    "pr09-floor-tile-floor",
+    "pr09-floor-mesh-tile",
+    "pr09-floor-single-box",
+    "pr09-floor-mesh-grid",
     "distance-clamp-joint",
     "distance-clamp-motion-locks",
     "distance-clamp-joint-events",
@@ -86,6 +91,11 @@ window.GPU_COMPARE = {
         "compound-ownership-tile-floor": "../recordings/snapshots/000-box3d-cpu/compound-ownership-tile-floor.mp4",
         "compound-ownership-village": "../recordings/snapshots/000-box3d-cpu/compound-ownership-village.mp4",
         "compound-ownership-mesh-tile": "../recordings/snapshots/000-box3d-cpu/compound-ownership-mesh-tile.mp4",
+        "pr09-floor-village": "../recordings/snapshots/000-box3d-cpu/pr09-floor-village.mp4",
+        "pr09-floor-tile-floor": "../recordings/snapshots/000-box3d-cpu/pr09-floor-tile-floor.mp4",
+        "pr09-floor-mesh-tile": "../recordings/snapshots/000-box3d-cpu/pr09-floor-mesh-tile.mp4",
+        "pr09-floor-single-box": "../recordings/snapshots/000-box3d-cpu/pr09-floor-single-box.mp4",
+        "pr09-floor-mesh-grid": "../recordings/snapshots/000-box3d-cpu/pr09-floor-mesh-grid.mp4",
         "distance-clamp-joint": "../recordings/snapshots/000-box3d-cpu/distance-clamp-joint.mp4",
         "distance-clamp-motion-locks": "../recordings/snapshots/000-box3d-cpu/distance-clamp-motion-locks.mp4",
         "distance-clamp-joint-events": "../recordings/snapshots/000-box3d-cpu/distance-clamp-joint-events.mp4",
@@ -7366,6 +7376,102 @@ window.GPU_COMPARE = {
         "distance-clamp-joint": "../recordings/snapshots/2026-10-02-distance-clamp-ordinary-gpu/distance-clamp-joint.mp4",
         "distance-clamp-motion-locks": "../recordings/snapshots/2026-10-02-distance-clamp-ordinary-gpu/distance-clamp-motion-locks.mp4",
         "distance-clamp-joint-events": "../recordings/snapshots/2026-10-02-distance-clamp-ordinary-gpu/distance-clamp-joint-events.mp4"
+      },
+      "metrics": null
+    },
+    {
+      "id": "2026-10-02-pr09-floor-before-ordinary-gpu",
+      "label": "v0.15",
+      "videos": {
+        "pr09-floor-village": "../recordings/snapshots/2026-10-02-pr09-floor-before-ordinary-gpu/pr09-floor-village.mp4",
+        "pr09-floor-tile-floor": "../recordings/snapshots/2026-10-02-pr09-floor-before-ordinary-gpu/pr09-floor-tile-floor.mp4",
+        "pr09-floor-mesh-tile": "../recordings/snapshots/2026-10-02-pr09-floor-before-ordinary-gpu/pr09-floor-mesh-tile.mp4",
+        "pr09-floor-single-box": "../recordings/snapshots/2026-10-02-pr09-floor-before-ordinary-gpu/pr09-floor-single-box.mp4",
+        "pr09-floor-mesh-grid": "../recordings/snapshots/2026-10-02-pr09-floor-before-ordinary-gpu/pr09-floor-mesh-grid.mp4"
+      },
+      "metrics": null
+    },
+    {
+      "id": "2026-10-02-pr09-floor-before-native-gpu",
+      "label": "v0.16",
+      "videos": {
+        "pr09-floor-village": "../recordings/snapshots/2026-10-02-pr09-floor-before-native-gpu/pr09-floor-village.mp4",
+        "pr09-floor-tile-floor": "../recordings/snapshots/2026-10-02-pr09-floor-before-native-gpu/pr09-floor-tile-floor.mp4",
+        "pr09-floor-mesh-tile": "../recordings/snapshots/2026-10-02-pr09-floor-before-native-gpu/pr09-floor-mesh-tile.mp4",
+        "pr09-floor-single-box": "../recordings/snapshots/2026-10-02-pr09-floor-before-native-gpu/pr09-floor-single-box.mp4",
+        "pr09-floor-mesh-grid": "../recordings/snapshots/2026-10-02-pr09-floor-before-native-gpu/pr09-floor-mesh-grid.mp4"
+      },
+      "metrics": null
+    },
+    {
+      "id": "2026-10-02-pr09-floor-before-ordinary-both",
+      "label": "v0.17",
+      "videos": {
+        "pr09-floor-village": "../recordings/snapshots/2026-10-02-pr09-floor-before-ordinary-both/pr09-floor-village.mp4",
+        "pr09-floor-tile-floor": "../recordings/snapshots/2026-10-02-pr09-floor-before-ordinary-both/pr09-floor-tile-floor.mp4",
+        "pr09-floor-mesh-tile": "../recordings/snapshots/2026-10-02-pr09-floor-before-ordinary-both/pr09-floor-mesh-tile.mp4",
+        "pr09-floor-single-box": "../recordings/snapshots/2026-10-02-pr09-floor-before-ordinary-both/pr09-floor-single-box.mp4",
+        "pr09-floor-mesh-grid": "../recordings/snapshots/2026-10-02-pr09-floor-before-ordinary-both/pr09-floor-mesh-grid.mp4"
+      },
+      "metrics": null
+    },
+    {
+      "id": "2026-10-02-pr09-floor-before-native-both",
+      "label": "v0.18",
+      "videos": {
+        "pr09-floor-village": "../recordings/snapshots/2026-10-02-pr09-floor-before-native-both/pr09-floor-village.mp4",
+        "pr09-floor-tile-floor": "../recordings/snapshots/2026-10-02-pr09-floor-before-native-both/pr09-floor-tile-floor.mp4",
+        "pr09-floor-mesh-tile": "../recordings/snapshots/2026-10-02-pr09-floor-before-native-both/pr09-floor-mesh-tile.mp4",
+        "pr09-floor-single-box": "../recordings/snapshots/2026-10-02-pr09-floor-before-native-both/pr09-floor-single-box.mp4",
+        "pr09-floor-mesh-grid": "../recordings/snapshots/2026-10-02-pr09-floor-before-native-both/pr09-floor-mesh-grid.mp4"
+      },
+      "metrics": null
+    },
+    {
+      "id": "2026-10-02-pr09-floor-after-ordinary-gpu",
+      "label": "v0.19",
+      "videos": {
+        "pr09-floor-village": "../recordings/snapshots/2026-10-02-pr09-floor-after-ordinary-gpu/pr09-floor-village.mp4",
+        "pr09-floor-tile-floor": "../recordings/snapshots/2026-10-02-pr09-floor-after-ordinary-gpu/pr09-floor-tile-floor.mp4",
+        "pr09-floor-mesh-tile": "../recordings/snapshots/2026-10-02-pr09-floor-after-ordinary-gpu/pr09-floor-mesh-tile.mp4",
+        "pr09-floor-single-box": "../recordings/snapshots/2026-10-02-pr09-floor-after-ordinary-gpu/pr09-floor-single-box.mp4",
+        "pr09-floor-mesh-grid": "../recordings/snapshots/2026-10-02-pr09-floor-after-ordinary-gpu/pr09-floor-mesh-grid.mp4"
+      },
+      "metrics": null
+    },
+    {
+      "id": "2026-10-02-pr09-floor-after-native-gpu",
+      "label": "v0.20",
+      "videos": {
+        "pr09-floor-village": "../recordings/snapshots/2026-10-02-pr09-floor-after-native-gpu/pr09-floor-village.mp4",
+        "pr09-floor-tile-floor": "../recordings/snapshots/2026-10-02-pr09-floor-after-native-gpu/pr09-floor-tile-floor.mp4",
+        "pr09-floor-mesh-tile": "../recordings/snapshots/2026-10-02-pr09-floor-after-native-gpu/pr09-floor-mesh-tile.mp4",
+        "pr09-floor-single-box": "../recordings/snapshots/2026-10-02-pr09-floor-after-native-gpu/pr09-floor-single-box.mp4",
+        "pr09-floor-mesh-grid": "../recordings/snapshots/2026-10-02-pr09-floor-after-native-gpu/pr09-floor-mesh-grid.mp4"
+      },
+      "metrics": null
+    },
+    {
+      "id": "2026-10-02-pr09-floor-after-ordinary-both",
+      "label": "v0.21",
+      "videos": {
+        "pr09-floor-village": "../recordings/snapshots/2026-10-02-pr09-floor-after-ordinary-both/pr09-floor-village.mp4",
+        "pr09-floor-tile-floor": "../recordings/snapshots/2026-10-02-pr09-floor-after-ordinary-both/pr09-floor-tile-floor.mp4",
+        "pr09-floor-mesh-tile": "../recordings/snapshots/2026-10-02-pr09-floor-after-ordinary-both/pr09-floor-mesh-tile.mp4",
+        "pr09-floor-single-box": "../recordings/snapshots/2026-10-02-pr09-floor-after-ordinary-both/pr09-floor-single-box.mp4",
+        "pr09-floor-mesh-grid": "../recordings/snapshots/2026-10-02-pr09-floor-after-ordinary-both/pr09-floor-mesh-grid.mp4#t=0,11.257637739181519"
+      },
+      "metrics": null
+    },
+    {
+      "id": "2026-10-02-pr09-floor-after-native-both",
+      "label": "v0.22",
+      "videos": {
+        "pr09-floor-village": "../recordings/snapshots/2026-10-02-pr09-floor-after-native-both/pr09-floor-village.mp4",
+        "pr09-floor-tile-floor": "../recordings/snapshots/2026-10-02-pr09-floor-after-native-both/pr09-floor-tile-floor.mp4",
+        "pr09-floor-mesh-tile": "../recordings/snapshots/2026-10-02-pr09-floor-after-native-both/pr09-floor-mesh-tile.mp4",
+        "pr09-floor-single-box": "../recordings/snapshots/2026-10-02-pr09-floor-after-native-both/pr09-floor-single-box.mp4",
+        "pr09-floor-mesh-grid": "../recordings/snapshots/2026-10-02-pr09-floor-after-native-both/pr09-floor-mesh-grid.mp4"
       },
       "metrics": null
     }

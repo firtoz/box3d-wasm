@@ -127,7 +127,14 @@ bodies. With global color solving, the 15,000-cube completed step is about 11.9 
 in repeated diagnostic runs. Runtime insertion/pair/contact reservations now
 allow the larger runs above. Full-width shape identities and growable native
 metadata are implemented, and the Sokol opaque renderer reservation scales with
-the benchmark count. Production direct, indirect and native cached dispatch now
+the benchmark count. Retained debug-shape metadata now grows in stable-address
+chunks independently of the per-frame upload reservation; combined Village's
+missing ground/buildings are fixed in the bounded
+[PR09 floor milestone](../experiments/gpu-physics/benchmarks/production-readiness/pr09-floor-2026-10-02/README.md).
+The actual generated adapter regression covers child mapping, identity/highlight,
+reset/stale destruction, reuse and release/reinitialization. Per-frame opaque and
+transparent upload limits remain finite; this is not a full-sample rendering or
+picking qualification. Production direct, indirect and native cached dispatch now
 share tiled indexing beyond the one-dimensional workgroup limit. Boundary and
 lifecycle tests pass with native caches enabled and disabled. Dirty contact-range
 clearing and stable body-range graph-color reuse reduce work without changing
@@ -306,7 +313,8 @@ adding CPU child colliders before the full CPU compound. That historical combine
 comparison has incorrect topology; native combined was unlaunched at its stop
 rule. The [new ownership candidate](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-ownership-after-bounds-2026-10-01/README.md) on the independently qualified AABB prerequisite passes14 first processes
 with original assertions. Its12 precommit recordings pass300-step health and all six comparisons are reviewed;
-Village retains an existing shared-renderer capacity failure underPR09. The
+Village retained a shared-renderer capacity failure in those historical clips,
+now repaired and sampled in the linked PR09 floor milestone below. The
 qualified ownership fix preserves public mirroring and removes orphan CPU
 colliders; these focused checks do not complete PR02 or visual qualification. Both earlier CPU
 fixture-assumption failures remain retained. The separate host receiver verifies
@@ -408,12 +416,23 @@ required. The initial build failure and false immediate-slot-reuse test failure
 stay preserved. The allocator appends shape slots; direct wrong-generation tests
 do not prove public allocator ABA/reuse coverage. The [precommit scene review](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-properties-captures-2026-10-01/README.md)
 passes all12 captures/300-step health checks; six comparisons reviewed, Village
-retains its existing PR09 rendering failure. These earlier property checks did not yet qualify actual viewer controls. The
+retained its PR09 rendering failure at that time, now repaired in the bounded
+floor milestone. These earlier property checks did not yet qualify actual viewer controls. The
 current API acceptance below reconciles them; final release gates remain open.
 The [combined precommit review](../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-ownership-captures-2026-10-01/README.md)
 retains Village's missing GPU ground/buildings: the unchanged shared65536-slot
-renderer pool cannot register both52500-child compounds. This visual failure
-belongs toPR09; no visual-parity or performance pass is inferred.
+renderer pool could not register both52500-child compounds. The
+[PR09 inventory and floor repair](../experiments/gpu-physics/benchmarks/production-readiness/pr09-floor-2026-10-02/README.md)
+now retains before/after CPU-first evidence for Village, Tile Floor, Mesh Tile,
+Single Box and Grid on ordinary/native standalone and combined viewers. Its
+[factual inventory](../experiments/gpu-physics/benchmarks/production-readiness/pr09-floor-2026-10-02/inventory.md)
+covers165 active native registrations,174 browser entries and20 CPU oracle
+fixtures; unreviewed samples and unavailable counterparts are explicit. The
+12 calculation checks and45 healthy60-step captures qualify this allocation
+repair only. One completed engine capture has recovered media and unavailable
+exit observations after driver interruption. PR09 remains open, including the
+separate Single Box combined grid decoration finding; no exact pixel/trajectory,
+interaction, performance or general physical qualification is inferred.
 
 Full-state schema v24 includes host peak occupancy, the harvested GPU contact
 peak and its persistent device query word. Readers retain earlier schemas and

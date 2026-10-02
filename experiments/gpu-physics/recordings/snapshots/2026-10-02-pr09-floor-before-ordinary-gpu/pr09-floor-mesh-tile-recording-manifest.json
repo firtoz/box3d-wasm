@@ -1,0 +1,13 @@
+{
+  "engine": "gpu-physics",
+  "viewer": "ordinary-gpu",
+  "recording_started_utc": "2026-10-02T09:12:59.117536+00:00",
+  "started_timestamp_disclosure": "Derived from original launch-file mtime at retention, approximate recorder start; phase order is fixed by protocols.",
+  "scene": "pr09-floor-mesh-tile",
+  "phase": "before",
+  "clip_sha256": "82b274b2d00403e7465f2de986b43053bf85a58ac46fa79e22bbb5d50640b948",
+  "binary_sha256": "01d533ceca27d8f6edf6dea4e0b5e65fc89ab148a0b4df1f709b7277fc184adf",
+  "protocol_sha256": "9f066fe350aea29cfbfd115ef6719661b83ba88e9ed7d96ec89f21ecf6868927",
+  "steps": 60,
+  "purpose": "diagnostic capture, no performance claim"
+}

@@ -5,8 +5,8 @@ at the start of every continuation and after compaction or restart. Pursue the
 whole objective, maintain this file, and use the goal-scratchpad skill. This is
 the authoritative production-readiness queue for `feat/gpu`.
 
-Updated: 2026-10-02. Status: active; full roadmap and verified milestone commit/push authorized by the submitted goal.
-Next item: **PR04 — resolve required ragdoll/drag/Rain failures; narrow distance clamp retained with applicable checks and CPU-first recordings**.
+Updated: 2026-10-02. Status: incremental PR09 repair verified; commit/push in progress. Full roadmap remains paused. Stop after this milestone.
+Next item on resumption: **PR09 — compare every existing CPU sample with GPU and fix obvious differences, including missing floors**, followed by PR10 UI/widgets and PR11 raycasts. Exact pixel and CPU/GPU scene position/angular matching are deferred to a separate goal; physical correctness remains required.
 
 ## Objective and release boundary
 
@@ -29,8 +29,9 @@ Required physics includes contacts and meshes, support, friction/restitution,
 mass/inertia, joints and mechanisms, motors/limits, CCD, sleep/wake, dragging,
 queries/events and runtime creation/deletion/replacement. **Rain articulated-body
 correctness is required**; it cannot be removed to obtain a production label.
-Preserve upstream scene geometry, defaults and existing analytical/physical
-tolerances. CPU/GPU chaotic trajectories may differ, but unexplained residuals,
+Preserve upstream scene geometry, defaults and analytical/physical tolerances.
+The comparison-scope amendment below supersedes cross-engine scene-trajectory
+matching requirements only. CPU/GPU chaotic trajectories may differ, but unexplained residuals,
 penetration, energy gain, missed collisions or stale identities are defects.
 
 Browser/WASM/WebGPU, Windows/macOS, AMD/Intel/Apple and laptop qualification,
@@ -40,6 +41,66 @@ where appropriate. Diagnostic captures and cached command replay are not native
 recording/player API implementations. Keep Box3D and the existing WASM package
 unchanged. Their existing workflows must still pass compatibility checks.
 
+## Sample comparison scope and debugging method
+
+User amendment, 2026-10-02: compare **every existing CPU sample**, including
+samples outside the short solver/benchmark fixture list. Derive an exhaustive
+inventory from the actual CPU sample registrations available to the native
+viewer; reconcile other existing CPU demo/catalog entries so unavailable ports
+are explicit gaps rather than silent omissions. Record each sample's CPU identity,
+GPU availability, ordinary/native/combined review status, scene settings,
+interactions, visual/behavioral findings, obvious performance differences and
+evidence. A missing GPU counterpart or unsupported feature must have a named
+status/reason and disposition; do not call an unreviewed sample equivalent.
+
+The present goal requires practical comparisons: visible floor/static/compound/
+mesh geometry, body and shape counts, dimensions, materials/camera where they
+hide geometry, collisions/support, mechanisms, motors/limits, spawning/recycling,
+queries and available interactions. Look for grossly different falling, bouncing,
+exploding, drifting, failing to move, falling through geometry, broken mechanisms,
+freezes or severe slowdowns. Match setup, defaults and scripted inputs, and record
+what was reviewed. Establish a finite review duration and run budget before the
+sweep; do not claim long-window equivalence from a short inspection. Investigate
+performance outliers with small bounded measurements under matched conditions;
+keep these triage timings separate from PR08/PR12 final performance claims.
+
+**Exact pixel matching and CPU/GPU scene positional/angular trajectory matching
+are a separate future goal.** Do not chase a ragdoll's final resting pose or fail
+this goal merely because corresponding bodies follow different trajectories.
+Historical trajectory failures remain archived and are marked deferred, not
+passed. This scope change does not waive physical bounds (penetration, constraint
+residuals, support, CCD, energy), truthful API/query semantics, focused calculation
+accuracy, schedule-equivalence or same-build/device/configuration repeatability.
+A joint anchor error is a physical constraint error; a ray hit point is a query
+result. Neither is merely a scene-trajectory mismatch. Audit frozen PR03 selectors
+before PR07 and record which assertions are trajectory-only and deferred; retain
+all independent physical/function checks without increasing their tolerances.
+
+For each demonstrated discrepancy, use **calculation-first debugging**:
+
+1. Use the scene to identify the first relevant operation or state transition,
+   then capture the inputs at that boundary. Verify geometry, defaults, units,
+   coordinate frames, body/shape identity, ordering and precision first.
+2. Feed identical frozen inputs to the relevant CPU/reference and GPU calculation.
+   Compare `f(x)` with the expected `y`, using existing numerical tolerances and
+   explicit invariants. For intentionally different algorithms compare the
+   specified mathematical/physical result, not incidental implementation details.
+   Do not compare two already-diverged scene states as if
+   their input `x` were equal. Execute the actual implementation where practical;
+   a rewritten formula alone cannot verify its shader/ABI/data-layout behavior.
+3. If outputs differ, split `f` into its constituent operations and compare their
+   intermediate values. Recurse to the first differing primitive, branch, lookup,
+   transform, Jacobian, effective mass, bias, impulse, clamp or state write. For
+   rendering, similarly trace shape enumeration, allocation, index mapping,
+   transform and draw submission. Record input/output values and the first cause.
+4. Fix that cause and add/reuse the smallest meaningful regression. Include
+   applicable boundary/transition cases and verify both GPU backends when affected.
+   Use a finite build/process budget; retain failed hypotheses and original data.
+5. Once focused checks pass, rerun the affected scene/interaction and relevant
+   regressions, then final qualification at the appropriate gate. Full scenes are
+   confirmation and release checks, not the inner loop for every hypothesis.
+   Record CPU-first before/after clips before visual or solver commits.
+
 ## Ordered checklist and acceptance contract
 
 Work on one unfinished item at a time. Its evidence cell is initially `OPEN`.
@@ -48,6 +109,18 @@ when closing it. Keep detailed physical results in
 [`../gpu-solver-qualification.md`](../gpu-solver-qualification.md), API/support
 status in [`../gpu-physics.md`](../gpu-physics.md), and this file as the concise
 queue and recovery record. No separate competing production backlog.
+
+Priority updated by the user on 2026-10-02: address visible functionality gaps
+before continuing the deeper physical-correctness investigation. Execution order
+is **PR09 → PR10 → PR11 → PR04 → PR05 → PR06 → PR07 → PR08 → PR12 → PR13**;
+PR01–PR03 are already complete. Stable item IDs are preserved. The user
+explicitly defers exact visual/scene-trajectory parity as described above; other
+acceptance criteria remain required. Floors, widgets and query behavior can be
+checked independently of remaining solver failures. Relevant safety/correctness checks still accompany
+each fix; a concrete dependency may require a focused prerequisite repair. Do
+not mark an entire gate passed from that repair alone. Final-build qualification
+and fresh charts follow the functionality changes to avoid qualifying a binary
+that will immediately change. Physics failures remain release blockers.
 
 - [x] **PR01 — Implement speculative-contact world controls.** Replace the
   no-op `b3World_EnableSpeculative` with real per-world behavior and correct
@@ -119,9 +192,53 @@ queue and recovery record. No separate competing production backlog.
   This closes contract/baseline preparation, not physical or release readiness.
   No new build, engine, candidate, diagnostic, retry or timing run.
 
+- [ ] **PR09 — Compare all existing CPU samples and fix obvious GPU differences.**
+  Next after PR01–PR03, complete the exhaustive inventory and bounded comparison
+  sweep described above, including samples outside the short fixture list.
+  Reproduce invisible floors, identify every affected sample and fix the
+  demonstrated rendering cause. Check static, compound and mesh ground
+  representations where used, camera framing and
+  occlusion against the real Box3D CPU view. Preserve scene geometry and physics
+  defaults; a rendering repair must not change collision/support behavior.
+  Record and review all affected scenes before committing, CPU first in the
+  comparison grid, and retain before/after evidence. The new [combined Village capture](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-ownership-captures-2026-10-01/README.md) reproduces missing nearby GPU compound ground/buildings while CPU geometry is visible. Unchanged shared65536-slot renderer pool cannot flatten both52500-child compounds; source audit and exact clip are retained. Village is one known case, not the inventory boundary. Fix/qualify every demonstrated floor omission and obvious visual/behavioral defect; triage severe performance differences. Route controls to PR10, queries to PR11 and concrete solver defects to calculation-first PR04 work without losing their sample inventory entries. PR09 closes only after every inventory entry is reviewed or has an explicit unavailable-gap disposition, required floor/render fixes pass, and other findings are linked to named open gates. Routing a solver/control/query/performance finding preserves it as an overall release blocker; it must not force completion of later gates before the sweep can advance. No finding is silently marked passed.
+  **Evidence:** [incremental inventory/floor repair](../../experiments/gpu-physics/benchmarks/production-readiness/pr09-floor-2026-10-02/README.md):
+  165 active native/174 browser/20 oracle entries; five native floor-only reviews,
+  original/repaired calculation evidence, ordinary/native/combined CPU-first
+  captures and explicit remaining gaps. Shared metadata exhaustion is repaired;
+  full sweep is OPEN, including separate Single Box grid decoration. One capture
+  retains transport-recovery exit limitations.
+
+- [ ] **PR10 — Qualify sample UI and widgets end to end.** After PR09, inventory
+  the controls and widgets for the full PR09 inventory, including samples outside
+  the short list, then
+  exercise actual mouse/keyboard interactions on ordinary/native GPU and
+  combined viewers with a real CPU comparison. Cover sample selection, sliders,
+  buttons, toggles, dragging/picking, overlays, pause/single-step/restart and
+  resize/layout where available. Verify displayed state and the intended
+  physics effect, including scene changes and destruction/recreation; a widget
+  that accepts input but leaves stale state does not pass. Retain interaction
+  evidence and record affected scenes before committing fixes. PR02's required
+  truthful-control checks still belong in PR02; this is the sample-wide
+  usability check requested by the user, now prioritized before PR04.
+  **Evidence:** OPEN.
+
+- [ ] **PR11 — Qualify raycast behavior and appearance.** After PR10, reproduce
+  the user's reported CPU/GPU difference in the supported raycast samples and
+  picking paths. Compare hit/miss, closest-hit selection, public shape/body
+  identity, fraction, point, normal, filtering and transformed geometry with
+  independent fixtures and the real CPU reference at existing tolerances.
+  Check the displayed ray, hit marker and normal against returned query values
+  and camera coordinates, including misses and scene changes. Fix demonstrated
+  discrepancies and document intentional conventions. Record affected scenes
+  CPU first before committing; retain numeric and visual evidence. The user
+  observation does not yet establish a query or rendering defect.
+  **Evidence:** OPEN.
+
 - [ ] **PR04 — Resolve required physical correctness failures.** Work from the
-  earliest demonstrated defect and smallest faithful reproducer. Close Rain's
-  persistent/severe joint residuals and applicable dragging, joint, contact,
+  earliest demonstrated defect and smallest calculation-level reproducer, using
+  the method above. Do not use final ragdoll location as the debugging target.
+  Close Rain's persistent/severe joint residuals and applicable dragging, joint, contact,
   CCD and energy/support failures from PR03. Read the old solver recovery and
   rejected experiments before choosing a new hypothesis. Numerical reference
   roots, partial captures and CPU reproduction are diagnosis, not GPU physical
@@ -129,7 +246,7 @@ queue and recovery record. No separate competing production backlog.
   backends and relevant regressions; restore rejected production edits and
   preserve unfavorable evidence. Rain recycling must retain correct lifetime
   correspondence and healthy constraints throughout the full 600 steps.
-  **Evidence:** Partial [retained rigid-distance repair](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-distance-captures-2026-10-02/README.md): four original comparisons/49,920 lanes at unchanged 1e-5, 242 applicable regressions and 15 CPU-first scene recordings pass. Exact 107 candidate inputs match retained source; two known mode-0 selection failures remain recorded. This closes that defect only. Strict ragdoll, loaded dragging and Rain remain failed/incomplete; PR04 stays open.
+  **Evidence:** Partial [retained rigid-distance repair](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-distance-captures-2026-10-02/README.md): four original comparisons/49,920 lanes at unchanged 1e-5, 242 applicable regressions and 15 CPU-first scene recordings pass. Exact 107 candidate inputs match retained source; two known mode-0 selection failures remain recorded. This closes that defect only. Strict CPU/GPU ragdoll trajectory matching is now deferred by user instruction, with its failed evidence preserved. Loaded dragging/CCD and Rain physical defects remain unresolved; PR04 stays open.
 
 - [ ] **PR05 — Qualify runtime safety and lifecycle behavior.** Review and test
   buffer bounds/dispatch coverage, reservation growth/overflow, C/Rust layouts,
@@ -155,7 +272,10 @@ queue and recovery record. No separate competing production backlog.
   **Evidence:** OPEN.
 
 - [ ] **PR07 — Complete final-build physical and full-state repeat qualification.**
-  Run the PR03 matrix against PR06 binaries. Require at least five fresh processes
+  Run the PR03 matrix against PR06 binaries with the documented 2026-10-02
+  scope amendment: enumerate trajectory-only assertions deferred to the separate
+  parity goal, retaining physical/function assertions and archived outcomes.
+  Require at least five fresh processes
   per selected configuration on each backend, with complete required durations:
   Rain/ragdolls 600 steps, dragging 3,060, and existing fixture-specific durations
   for other capabilities. Compare future-relevant semantic state every step,
@@ -189,44 +309,10 @@ queue and recovery record. No separate competing production backlog.
   existing default stays. Do not reuse either exhausted scheduling budget.
   **Evidence:** OPEN.
 
-- [ ] **PR09 — Fix and qualify GPU floor visibility.** After PR01–PR08 pass,
-  reproduce the user's report of invisible floors, identify every affected
-  supported GPU sample and fix the demonstrated rendering cause. Check static,
-  compound and mesh ground representations where used, camera framing and
-  occlusion against the real Box3D CPU view. Preserve scene geometry and physics
-  defaults; a rendering repair must not change collision/support behavior.
-  Record and review all affected scenes before committing, CPU first in the
-  comparison grid, and retain before/after evidence. The new [combined Village capture](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-ownership-captures-2026-10-01/README.md) reproduces missing nearby GPU compound ground/buildings while CPU geometry is visible. Unchanged shared65536-slot renderer pool cannot flatten both52500-child compounds; source audit and exact clip are retained. Fix/qualify this and inventory the other supported samples; document unresolved cases.
-  **Evidence:** OPEN.
-
-- [ ] **PR10 — Qualify sample UI and widgets end to end.** After PR09, inventory
-  the controls and widgets exposed by supported GPU viewers and samples, then
-  exercise actual mouse/keyboard interactions on ordinary/native GPU and
-  combined viewers with a real CPU comparison. Cover sample selection, sliders,
-  buttons, toggles, dragging/picking, overlays, pause/single-step/restart and
-  resize/layout where available. Verify displayed state and the intended
-  physics effect, including scene changes and destruction/recreation; a widget
-  that accepts input but leaves stale state does not pass. Retain interaction
-  evidence and record affected scenes before committing fixes. PR02's required
-  truthful-control checks still belong in PR02; this is the later sample-wide
-  usability check requested by the user.
-  **Evidence:** OPEN.
-
-- [ ] **PR11 — Qualify raycast behavior and appearance.** After PR10, reproduce
-  the user's reported CPU/GPU difference in the supported raycast samples and
-  picking paths. Compare hit/miss, closest-hit selection, public shape/body
-  identity, fraction, point, normal, filtering and transformed geometry with
-  independent fixtures and the real CPU reference at existing tolerances.
-  Check the displayed ray, hit marker and normal against returned query values
-  and camera coordinates, including misses and scene changes. Fix demonstrated
-  discrepancies and document intentional conventions. Record affected scenes
-  CPU first before committing; retain numeric and visual evidence. The user
-  observation does not yet establish a query or rendering defect.
-  **Evidence:** OPEN.
-
 - [ ] **PR12 — Publish the supported release and fresh desktop comparison.**
-  After PR09–PR11, review their changes for evidence applicability and reopen/
-  refreeze affected PR06–PR08 gates before final delivery. Create a new dated
+  After PR04–PR11 pass in the documented execution order, review changes for
+  evidence applicability and reopen/refreeze any affected PR06–PR08 gates before
+  final delivery. Create a new dated
   CPU/GPU chart set from fresh desktop measurements of the exact delivery
   binaries, using PR08 trials only when their sources/settings remain applicable.
   Freeze any additional run budget/settings/order before measuring; preserve all
@@ -346,10 +432,11 @@ Their former next actions/job handles do not authorize another campaign.
 | Field | Verified value |
 | --- | --- |
 | Workspace / branch | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu` |
-| Authorization | Active full roadmap; verified milestone commit/push authorized by the submitted goal |
+| Authorization | Full-roadmap goal currently paused in the app; verified milestone commit/push authorization retained. This priority/documentation update does not resume builds, experiments or implementation |
 | Latest published milestone | `2df60fa4037189288fdfb5a381c597da7a25b626` direct native GPU CCD boundary/fast-flag acceptance audit committed and pushed. All 43 staged files, including 32 indexed raw files, matched bytes; offline and relocated verification passes. Verified origin 0/0 and clean tree. Native coverage gap resolved; full dragging/PR04 remains open. No production/default/policy/Box3D/WASM change. Earlier ordinary boundary `58eb04c`, focused regression `437fd1c` and retained repair `c1fb15f`/CPU-first recordings remain pushed |
 | Retained production source | `c1fb15faaaec3c827c4381c6694e9041bbebd076` rigid-distance repair, shader SHA `22fe506b97b97c24f724a09b2dad2efcd52db6b71b95d892bc3bc31c4726ea31`. Production sources unchanged. Only cfg(test) `src/gpu_invariants.rs` now adds the focused CPU-reference regression; explicit 107-input applicability against prior producer is in its report. HEAD is context only |
-| Current item | **PR04**: distance repair and focused one-step regression pass; 4 candidate physical comparisons/242 applicable regressions/15 CPU-first clips retained. Strict ragdoll, loaded dragging and Rain remain unresolved. Both ordinary and native CCD boundaries directly attribute the first held-position jump. Native GPU coverage gap resolved; fast-flag handoff and low-speed landing acceptance interaction remain to resolve before a candidate. No acceptance limit changed |
+| Current item on resumption | **PR09** exhaustive comparison of every existing CPU sample against GPU, including those outside the short fixture list: floors/geometry, obvious behavior and severe performance differences. Then PR10 UI/widgets and PR11 raycasts. User priority/scope amendment2026-10-02 defers exact pixels and cross-engine scene position/angular matching to a separate goal; physical/function limits remain. Calculation-first debugging required. Only documentation changed; no build/process launched |
+| Deferred physical investigation | **PR04**: distance repair and focused one-step regression pass; 4 candidate physical comparisons/242 applicable regressions/15 CPU-first clips retained. Strict ragdoll trajectory-only screen deferred (not passed); loaded dragging/CCD and Rain physical defects remain unresolved. Both ordinary and native CCD boundaries directly attribute the first held-position jump. Native GPU coverage gap resolved; fast-flag handoff and low-speed landing acceptance interaction remain to resolve before a candidate. Physical/function limits retained; scene-trajectory parity deferred by user instruction |
 | Current jobs | All campaigns terminal. Native observer driver **92458 exited 0**, frozen SHA `267a0e661267832ef81807e63e3dd5431721f626fd2b094d7b58c30b105cf1ee`: one native library build (4 actual hull C units), one fixture compile/link, one fresh native 240-step process; no candidates/retries/timing. All 14,020 archived printed lines match; 39 identical-duplicate observations cover 13 selected GPU boundaries. Actual convex CCD fraction 0.623385488986969 and 16.992787 mm correction directly observed. [32-file portable report](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-native-ccd-boundary-2026-10-02/README.md) validates offline/relocated; full dragging and PR04 remain open. Budget closed; do not restart |
 | Current libraries | Candidate ordinary SHA `5bb8a5d7988eea83e5f6bdbfc0831872f59e06389d69c4a1b9919e7bf7f8e3f1`, native SHA `53819158e2321f1f270fa3d885664ce6519770f6448163d4894de1041b19bc3e`; exact source/build identities in clamp and viewer receipts. Shared `target/native-cache-build/release/libgpu_physics.a` now contains the artifact diagnostic observer SHA `652bc603cc8ded7bc854c4ad7cfc2a2f2a790dadcc54402b166e455ac5f3fdec`; do not use it as a production provider. Retained named libraries remain unchanged; use those receipts or a new budgeted production build |
 | Independent CPU | Full archive SHA `b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c`, 119 actual source/object pairs; combined fixtures use separate prefixed CPU archive |
@@ -363,17 +450,25 @@ is the compact baseline/criterion index. It verifies all 700 original indexed ra
 files without a GPU and retains 127 original processes, unchanged commands and
 results. Physical/state/build/performance/presentation acceptance remains open.
 The [original fixed criterion table](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rust-baseline-2026-10-02/release-contract.md)
-and frozen solver criteria preserve limits and historical rejected hypotheses.
+and frozen solver criteria preserve original limits and historical rejected hypotheses.
+The user's 2026-10-02 scope amendment above overrides trajectory-only acceptance
+for this goal; it does not alter historical reports or convert failures to passes.
 
 - Distance historical baseline: both backends abort at original step 0/lane 1,
   GPU Y=-1.00004232, CPU Y=-1.00028491, absolute 1e-5. The retained clamp now
   passes all four complete original comparisons without raising that limit.
   Historical failures remain archived; general spring/cache equivalence is open.
 - Ragdolls: 600-step physical and isolated/mesh checks pass; original strict
-  first-60 trajectory screen fails 0.063585767 m versus 0.006 m.
+  first-60 trajectory screen fails 0.063585767 m versus 0.006 m. That
+  cross-engine trajectory screen is deferred to the separate parity goal, not
+  passed. Investigate any demonstrated physical defect using calculation-level
+  values; do not chase the final pose.
 - Loaded dragging: original 3,060-step screens fail both backends; first held
   position exceedance frame 227/body 0, peak about 0.14745 m versus 0.005 m.
-  Isolated/released-endpoint passes do not replace the failed screens.
+  Isolated/released-endpoint passes do not replace physical qualification.
+  Retain the original failed trace; separate CPU/GPU trajectory-only assertions
+  (now deferred) from actual held-anchor, support, collision and energy bounds.
+  Diagnose the demonstrated CCD boundary from identical calculation inputs.
 - Rain: CPU 600 complete (1,948,800 body/joint observations); ordinary/native
   900-second attempts time out without health files. Separately bounded
   ordinary 30/30/180 diagnostics complete; observer subset matches exactly.
@@ -396,7 +491,79 @@ Local artifacts are reusable only after checking actual binary/input hashes;
 ignored executables are not required for offline evidence verification.
 No unchanged retries or extension of prior watchdogs are authorized by this record.
 
-### Next discriminating work
+### Incremental PR09 milestone recovery (2026-10-02)
+
+Read this roadmap and AGENTS.md after compaction/restart. The active bounded
+objective is to inventory every existing CPU sample and its GPU counterpart,
+explicitly mark unreviewed entries, reproduce/fix one confirmed missing-floor
+rendering cause and related cases, verify actual Box3D CPU versus ordinary/native
+and combined GPU while preserving geometry/defaults/identity/picking, retain
+CPU-first before/after evidence, then commit/push to feat/gpu and stop. Exact
+pixels and scene trajectories are deferred. Box3D/WASM/solver remain unchanged;
+closed historical budgets remain closed. PR09 is unchecked until its full sweep
+criteria pass; this milestone does not resume the whole roadmap.
+
+Frozen [protocol](../../experiments/gpu-physics/benchmarks/production-readiness/pr09-floor-2026-10-02/protocol.json):
+five viewer builds, two focused-test builds/12 checks, 45 captures (five scenes,
+25 before/20 after), 60 paced steps each, 180s build/300s capture watchdogs,
+zero retries/Rust builds/performance runs. Stop/retain on failure; no implicit
+extension. Before any build/engine launch, original local roadmap diff is archived
+with its hash; fetch found HEAD/origin feat/gpu 0/0. No other starting local work.
+Current state: repair and verification complete; commit/push pending. All25 before
+captures passed. Both combined Village viewers reproduced missing GPU ground/
+buildings; the common stable-address debug metadata allocator now grows beyond
+65536 without dropping children. Original105004-child input registered65535,
+first missing65535; repair registers105004/no missing with131072 stable slots.
+Two focused builds/12 checks and five viewer builds are complete and closed.
+
+All45 planned captures have60 completed/rendered healthy steps. Both repaired
+combined Village views restore ground/buildings; visible GPU instances143→1551,
+body/joint/draw-shape counts unchanged. Allfive scenes reviewed at two sampled
+stages; other four floor representations stay visible. Actual NVIDIA Vulkan
+compute; Mesa/Xvfb diagnostic graphics, no desktop FPS/performance claim.
+One after driver terminated143 after ordinary combined Grid completed its engine
+steps. Existing ffmpeg finalized via SIGINT, original exit observations absent;
+full media/health/shutdown log/black tail retained. Only five never-launched native
+combined cells continued, all normal exits. No engine retry or budget extension.
+[Portable evidence/inventory/recovery](../../experiments/gpu-physics/benchmarks/production-readiness/pr09-floor-2026-10-02/README.md)
+retains original interrupted and merged receipts, actual source/build hashes,
+45 clips,100 sampled frames, and the frozen budget. Offline validator passes:537 indexed hashes, complete catalog counts,12 actual
+calculation cases,5 viewer builds,45 healthy captures and explicit exit limitation.
+
+No live job remains (sessions93883/30444 terminal0;54585 interrupted143).
+Old objects/libraries/viewers/clips and preexisting local roadmap documentation
+are preserved. Only renderer generation, capture step support, regression/tools/
+inventory/docs/grid changed; no Rust/WGSL/Box3D/WASM/scene/default/picking API change.
+Inventory:165 active native registrations,174 browser entries,20 CPU oracle
+fixtures; five native floor-only reviews,160 other native entries and browser/
+oracle catalogs unreviewed,13 browser native-counterpart gaps, Replay recording
+unavailable. Single Box CPU grid decoration in combined view remains a separate
+PR09 finding; late body color differs, not an independently qualified sleep defect.
+PR09 remains unchecked; broader physical/widget/query/performance gates open.
+
+Offline evidence/source/status checks pass, the CPU-first grid has all45 clips,
+and final fetch still found HEAD/origin feat/gpu0/0. Next: commit/push this verified
+milestone to feat/gpu, then stop. Full roadmap remains paused; do
+not begin another sweep, solver repair or old campaign without new authorization.
+
+
+### Next work on resumption
+
+Start PR09: inventory every existing CPU sample and its GPU counterpart, including
+those outside the short list. Inspect the retained Village evidence and current
+renderer allocation/compound mapping, review all floor representations and obvious
+visual/behavioral/performance differences, and fix demonstrated defects while preserving physics
+geometry, body identity and picking. Freeze a finite build/check/capture protocol
+before execution. Record every affected scene with real Box3D CPU first, retain
+before/after evidence, and check both ordinary/native viewers and combined routing.
+Then complete PR10 actual UI/widgets and PR11 numeric/visual raycast comparisons.
+No performance campaign or closed solver experiment is restarted by this change.
+The app goal remains paused until the user resumes it or authorizes one item.
+
+### Deferred PR04 recovery
+
+Retain the following diagnosis for continuation after PR09–PR11. Its historical
+next experiment is not the current queue head.
 
 The [retained clamp report](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-distance-captures-2026-10-02/README.md)
 links the completed four-case physical checks, applicable regressions, four
@@ -444,19 +611,25 @@ no remote divergence; push verified origin 0/0 and a clean worktree. No live job
    before selecting a physically supported candidate. Freeze a distinct finite
    protocol before any build/process; keep all existing limits. No consistent
    cutoff-only change is assumed to pass. Do not repeat old host-only controls,
-   disable CCD, blanket rollback, or waive frame 2460 settling/restitution/empty
-   recycling/original full 3060 dragging checks.
-2. Resolve remaining strict ragdoll and Rain failures with smallest faithful
-   reproducers and distinct evidence-supported finite budgets. Read historical
+   disable CCD or blanket rollback. Preserve settling/restitution/empty recycling
+   and original full-duration dragging physical checks; explicitly defer only
+   cross-engine scene-trajectory assertions under the user scope amendment.
+2. Resolve demonstrated ragdoll physical defects and Rain failures using
+   identical-input calculation comparisons and distinct evidence-supported
+   finite budgets. Strict cross-engine ragdoll trajectory matching is deferred;
+   it is not the next solver target. Read historical
    criteria/rejected experiments first. For Rain separate actual GPU wait from
    mirror/deferred host CCD/collector costs; no closed 30/30/180 cell or old
    900-second attempt may be restarted unchanged. Final full-state/repeat/build/
    performance qualification remains PR05–PR08.
 
-PR09–PR12 preserve the user's later requests: floor visibility (Village's shared
+PR09–PR11 are now the user's first unfinished priorities: every existing CPU
+sample compared with GPU for obvious differences, including floor visibility
+(Village's shared
 65,536 renderer slots cannot flatten both 52,500-child compounds), sample-wide
-UI/widgets, raycast numeric/visual parity, then fresh desktop-only real CPU versus
-ordinary/native GPU charts. Measure rendering FPS separately from completed-step
+UI/widgets and raycast numeric/visual parity. PR12 remains after core release
+qualification and supplies fresh desktop-only real CPU versus ordinary/native GPU
+charts. Measure rendering FPS separately from completed-step
 ms/throughput/p95 with matched binaries/settings and distinct consistent colors.
 Diagnostic Mesa/Xvfb graphics with NVIDIA compute cannot establish desktop FPS.
 Laptop validation/data remain deferred. Use `SKIP_METRICS=1` for diagnostic GPU

@@ -45,6 +45,12 @@ const SAMPLES = [
   "compound-ownership-tile-floor",
   "compound-ownership-village",
   "compound-ownership-mesh-tile",
+  // PR09 floor allocation milestone: real CPU, before and repaired GPU viewers.
+  "pr09-floor-village",
+  "pr09-floor-tile-floor",
+  "pr09-floor-mesh-tile",
+  "pr09-floor-single-box",
+  "pr09-floor-mesh-grid",
   // Distance-clamp precommit captures; independent CPU is pinned first.
   "distance-clamp-joint",
   "distance-clamp-motion-locks",
@@ -173,7 +179,17 @@ const snapshots = dirs.map((name) => {
     try {
       const st = statSync(p);
       if (st.isFile() && st.size > 0) {
-        videos[s] = `../recordings/snapshots/${name}/${s}.mp4`;
+        let fragment = "";
+        try {
+          const manifest = JSON.parse(readFileSync(join(dir, `${s}-recording-manifest.json`), "utf8"));
+          const end = manifest.review_end_seconds;
+          if (typeof end === "number" && Number.isFinite(end) && end > 0) {
+            fragment = `#t=0,${end}`;
+          }
+        } catch {
+          // Full original clips remain available when no review window is declared.
+        }
+        videos[s] = `../recordings/snapshots/${name}/${s}.mp4${fragment}`;
       }
     } catch {
       // missing clip

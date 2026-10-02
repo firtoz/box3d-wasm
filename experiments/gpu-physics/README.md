@@ -10,6 +10,7 @@ other Linux distributions, macOS and Windows remain unverified. See the
 [status, work priorities and missing features](../../docs/gpu-physics.md).
 For `feat/gpu` next actions and durable goal recovery, use the
 [production-readiness checklist](../../docs/goals/gpu-production-readiness.md).
+The [PR09 full sample inventory and floor repair](benchmarks/production-readiness/pr09-floor-2026-10-02/README.md) records the bounded CPU-first rendering milestone and remaining unreviewed samples.
 
 ## Tested platforms and hardware
 
