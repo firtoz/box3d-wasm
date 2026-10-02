@@ -1,0 +1,28 @@
+--- original/src/ccd.rs
++++ observer/src/ccd.rs
+@@ -231,6 +231,7 @@
+     #[cfg(feature="replay-diagnostics")]
+     pub diagnostic:DiagnosticCcdBuffers,
+     pub(crate) start:wgpu::Buffer, binding:wgpu::BindGroup, pipeline:wgpu::ComputePipeline, count:u32,
++    pub(crate) boundary:wgpu::Buffer,
+ }
+ impl ConvexCcd {
+     pub fn new(device:&wgpu::Device,bodies:&wgpu::Buffer,scene:&ConvexScene) -> Self {
+@@ -253,10 +254,15 @@
+         let source=format!("{}\n{}",include_str!("../shaders/physics/ccd_convex.wgsl"),include_str!("../shaders/physics/ccd_world.wgsl"));
+         let shader=device.create_shader_module(wgpu::ShaderModuleDescriptor{label:Some("world-convex-ccd"),source:wgpu::ShaderSource::Wgsl(source.into())});
+         let pipeline=device.create_compute_pipeline(&wgpu::ComputePipelineDescriptor{label:Some("world-convex-ccd"),layout:None,module:&shader,entry_point:Some("ccd_correct"),compilation_options:Default::default(),cache:None});
+-        let buffers=[&start,bodies,&points,&shapes,&metadata,&indices,&config];
++        let boundary=device.create_buffer(&wgpu::BufferDescriptor {
++            label:Some("artifact-native-ccd-boundary"),size:u64::from(count)*128,
++            usage:wgpu::BufferUsages::STORAGE|wgpu::BufferUsages::COPY_SRC,
++            mapped_at_creation:false,
++        });
++        let buffers=[&start,bodies,&points,&shapes,&metadata,&indices,&config,&boundary];
+         let entries:Vec<_>=buffers.iter().enumerate().map(|(i,b)|wgpu::BindGroupEntry{binding:i as u32,resource:b.as_entire_binding()}).collect();
+         let binding=device.create_bind_group(&wgpu::BindGroupDescriptor{label:Some("world-convex-ccd"),layout:&pipeline.get_bind_group_layout(0),entries:&entries});
+-        Self{start,binding,pipeline,count,
++        Self{start,binding,pipeline,count,boundary,
+             #[cfg(feature="replay-diagnostics")]
+             diagnostic:DiagnosticCcdBuffers{buffers:[points,shapes,metadata,indices,config],
+                 counts:[scene.points.len() as u32,scene.shapes.len() as u32,scene.bodies.len() as u32,scene.indices.len() as u32]}}

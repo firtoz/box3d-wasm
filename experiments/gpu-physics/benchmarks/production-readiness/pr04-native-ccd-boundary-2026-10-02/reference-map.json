@@ -1,0 +1,34 @@
+{
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr04-drag-ccd-boundary/protocol.json": {
+    "portable": "raw/reference/parent-protocol.json",
+    "sha256": "71465056aa2da1b96f060bea28f7cd1d6b1af5738b4278521a9647968748dbe3"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr04-drag-ccd-boundary/receipt.json": {
+    "portable": "raw/reference/parent-receipt.json",
+    "sha256": "fa1dc041d26d0ddfbc318569146e1fe3e4d30f1ea9885f554fe2548cb21523f9"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr04-drag-ccd-boundary/drag-prefix.cpp": {
+    "portable": "raw/reference/parent-drag-prefix.cpp",
+    "sha256": "0549d4b405f7a508058ad726fdf05d766480c58cedad029a49657ced3e4940f4"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr03-drag-order-native-timeout-2026-10-02/raw/native-drag-ground/comparison.txt.gz": {
+    "portable": "raw/reference/native-baseline.txt.gz",
+    "sha256": "54ca024566d3f4ef031dbfb4263aae10d5335d293ea5fcc0dc2d3befd22adf62"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/build/gpu-physics-d3f27d64e9de5d68/out/adedc232f232490c-hull.o.observer.d": {
+    "portable": "raw/C-dependencies/adedc232f232490c-hull.d",
+    "sha256": "409f2f92f533263c0998859dc1da61adc595fac04aaebf7bf18721425e469cfd"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/build/gpu-physics-d3f27d64e9de5d68/out/adedc232f232490c-core.o.observer.d": {
+    "portable": "raw/C-dependencies/adedc232f232490c-core.d",
+    "sha256": "093c1d7ce1aa2e707085b8ea198d56990f0b2b0341b19a9ec2b15f4e261b4ea2"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/build/gpu-physics-d3f27d64e9de5d68/out/adedc232f232490c-math_functions.o.observer.d": {
+    "portable": "raw/C-dependencies/adedc232f232490c-math_functions.d",
+    "sha256": "f77e76bf038d0067392199d93c31a31a87d6163a65d640fda85622599b23d89c"
+  },
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/build/gpu-physics-d3f27d64e9de5d68/out/adedc232f232490c-distance.o.observer.d": {
+    "portable": "raw/C-dependencies/adedc232f232490c-distance.d",
+    "sha256": "92bb3300c5266e42b812d185c3acdbad5d329867dbe9bd2c2ff5c7e72b4da35e"
+  }
+}

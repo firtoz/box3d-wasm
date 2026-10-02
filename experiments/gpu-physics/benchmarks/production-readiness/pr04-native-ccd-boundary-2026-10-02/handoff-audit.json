@@ -1,0 +1,32 @@
+{
+  "budget": {
+    "builds": 0,
+    "engine_processes": 0,
+    "candidates": 0,
+    "timing": 0
+  },
+  "inputs": {
+    "shaders/physics/integrate.wgsl": "913d5a77a5e99d15869b6e24b52165694c67aa5ce8c1bbcc863edf011949d5f8",
+    "shaders/physics/broadphase.wgsl": "35a2832ba4b942dd307898d995b71e9a64bb7fc9bdb628e462aca595a51a0ebb",
+    "shaders/physics/collide.wgsl": "9a18212e31eed653ba670858cf5d6c0425412e4a3ba6463962f4188e49bbc8dc",
+    "src/api/world.rs": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+    "src/types.rs": "127463deebde7656cacaf320e83857df7fb1a780fd2ecf37947c4d3eb26c735b",
+    "parent/raw/reference/original-solver.c": "25e0f58f9d7d803be88ce0d2d3a424b902d41ff3bd3e01310a1ca7820f76d926"
+  },
+  "observed_native_frame227_flags": 98312,
+  "decoded_flags": [
+    "SLEEP_ENABLED=8",
+    "FAST=32768",
+    "CCD_NO_HIT=65536"
+  ],
+  "source_facts": {
+    "existing_motion_metric": "apply_deltas already calculates CPU-style local vector-extent angular motion, maximum velocity and maximum position correction, but applies the speculative-shell cap to its fast classification.",
+    "flags_are_consumed": "FAST/CCD_NO_HIT affect next-step speculative proxy padding, mesh refresh and handoff. The old host-only cutoff rollback leaves the shader classification/flags unchanged.",
+    "existing_acceptance": "ccd_landing_refreshes_empty_contact_inside_speculative_shell uses a unit cube atY.522 with velocityY-2.66667, dt1/60/four substeps, requires firstY.505\u00b1.001 and secondY>=.495. Those original requirements remain required.",
+    "CPU_gate": "CPU uses half-minimum-extent threshold with maximum position/velocity motion and only classifies an awake/nonquiet dynamic body. This selected trace body remains below that gate."
+  },
+  "limits": "Static flags/consumers audit identifies an incomplete rollback and a concrete acceptance constraint. It does not prove why the historical paired control topples late, or prove a proposed repair.",
+  "next_action": "Resolve the low-speed CCD landing versus loaded-joint/contact acceptance interaction with the smallest independent CPU/GPU reproducer before selecting a new candidate. Any candidate must keep classification, proxy flags and both CCD paths consistent, preserve empty-manifold recycling and all original landing/drag/settling/restitution limits. Do not repeat the old host-only cutoff control or assume a consistent cutoff change alone passes.",
+  "production_candidate_selected": false,
+  "PR04_complete": false
+}

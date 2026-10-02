@@ -349,9 +349,9 @@ Their former next actions/job handles do not authorize another campaign.
 | Authorization | Active full roadmap; verified milestone commit/push authorized by the submitted goal |
 | Latest published milestone | `58eb04caa53e901ef25986410edeade21b992940` CCD boundary diagnosis/static native observation audit committed/pushed; verified origin 0/0 and clean tree. All 49 staged files, including 36 indexed raw files, matched worktree bytes; offline validator passes. No production solver/default/policy/Box3D/WASM change. Prior focused regression `437fd1c` and retained repair `c1fb15f`/CPU-first recordings remain pushed. No final release claim |
 | Retained production source | `c1fb15faaaec3c827c4381c6694e9041bbebd076` rigid-distance repair, shader SHA `22fe506b97b97c24f724a09b2dad2efcd52db6b71b95d892bc3bc31c4726ea31`. Production sources unchanged. Only cfg(test) `src/gpu_invariants.rs` now adds the focused CPU-reference regression; explicit 107-input applicability against prior producer is in its report. HEAD is context only |
-| Current item | **PR04**: distance repair and focused one-step regression pass; 4 candidate physical comparisons/242 applicable regressions/15 CPU-first clips retained. Strict ragdoll, loaded dragging and Rain remain unresolved. Ordinary CCD boundary directly attributes the first held-position jump; native internal TOI remains unobserved. Static native route/capture audit complete. No acceptance limit changed |
-| Current jobs | All campaigns terminal. Boundary diagnostic driver **11553 exited 0**, protocol SHA `71465056aa2da1b96f060bea28f7cd1d6b1af5738b4278521a9647968748dbe3`. Two 240-step ordinary/native prefixes match every archived B/F/M/P line (28,040 total); all 13 CPU classifications per backend are below threshold. Ordinary GPU fraction 0.6233841 directly explains ~17 mm correction; **native internal GPU TOI remains unobserved** (zero host trace records). Budget closed: 1 CPU unit/2 C++ links/2 processes; zero Rust builds/candidates/retries/timing. [Portable report](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-drag-ccd-boundary-2026-10-02/README.md); full dragging and PR04 remain open. Do not restart |
-| Current libraries | Candidate ordinary SHA `5bb8a5d7988eea83e5f6bdbfc0831872f59e06389d69c4a1b9919e7bf7f8e3f1`, native SHA `53819158e2321f1f270fa3d885664ce6519770f6448163d4894de1041b19bc3e`; exact source/build identities in clamp and viewer receipts. Current target timestamps alone are insufficient provenance |
+| Current item | **PR04**: distance repair and focused one-step regression pass; 4 candidate physical comparisons/242 applicable regressions/15 CPU-first clips retained. Strict ragdoll, loaded dragging and Rain remain unresolved. Both ordinary and native CCD boundaries directly attribute the first held-position jump. Native GPU coverage gap resolved; fast-flag handoff and low-speed landing acceptance interaction remain to resolve before a candidate. No acceptance limit changed |
+| Current jobs | All campaigns terminal. Native observer driver **92458 exited 0**, frozen SHA `267a0e661267832ef81807e63e3dd5431721f626fd2b094d7b58c30b105cf1ee`: one native library build (4 actual hull C units), one fixture compile/link, one fresh native240step process; no candidates/retries/timing. All14,020 archived printed lines match; 39 identical-duplicate observations cover13 selected GPU boundaries. Actual convex CCD fraction0.623385488986969 and16.992787mm correction directly observed. [32-file portable report](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-native-ccd-boundary-2026-10-02/README.md) validates offline/relocated; full dragging and PR04 remain open. Budget closed; do not restart |
+| Current libraries | Candidate ordinary SHA `5bb8a5d7988eea83e5f6bdbfc0831872f59e06389d69c4a1b9919e7bf7f8e3f1`, native SHA `53819158e2321f1f270fa3d885664ce6519770f6448163d4894de1041b19bc3e`; exact source/build identities in clamp and viewer receipts. Shared `target/native-cache-build/release/libgpu_physics.a` now contains the artifact diagnostic observer SHA `652bc603cc8ded7bc854c4ad7cfc2a2f2a790dadcc54402b166e455ac5f3fdec`; do not use it as a production provider. Retained named libraries remain unchanged; use those receipts or a new budgeted production build |
 | Independent CPU | Full archive SHA `b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c`, 119 actual source/object pairs; combined fixtures use separate prefixed CPU archive |
 | Hardware / policy | i9-9900K / NVIDIA RTX 4070 SUPER, driver 610.57.04, NVIDIA Vulkan. Ordinary/native and ordering 0/1 remain separate; scheduling/default policies unchanged |
 | Scope | Box3D/WASM unchanged. Mixed scheduling target **unmet**, all 55 trials retained; both old scheduling budgets exhausted. New Rain work is required under this roadmap, not a resumption of historical jobs |
@@ -423,26 +423,27 @@ unchecked; production shader/API/viewer/scene/defaults are unchanged. The bounda
 validator passes; all 49 staged files matched their worktree bytes. Fetch found
 no remote divergence; push verified origin 0/0 and a clean worktree. No live job.
 
-1. The [completed CCD boundary diagnosis](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-drag-ccd-boundary-2026-10-02/README.md)
-   directly attributes the ordinary frame-227 position jump: CPU motion 45.120 mm
-   is below 250 mm fast threshold; GPU pre-CCD endpoint differs 1.056 mm, fraction
-   .6233841 shifts it 16.993 mm and post difference is 17.165 mm. Both observed
-   prefixes match original B/F/M/P records exactly; printed neutrality is not
-   full future-state equality. **Native internal GPU TOI is unobserved**, despite
-   matching prefix and CPU observations. All 36 portable raw files validate;
-   no production/default/tolerance change. Campaign budget is closed.
-   The [frozen native source audit](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-drag-ccd-boundary-2026-10-02/source-audit.json)
-   verifies eight compiled files: a configured convex GPU pass bypasses the host
-   observer, and its inline classifier/fraction are not retained by existing
-   geometry/start-state capture. Next prepare a distinct finite artifact-only
-   native observer with a dedicated non-physics GPU output for actual presence,
-   motion/cutoff/start/pre-end/fraction. Preserve selected mode/cache settings;
-   freeze source/build/binary identity before launch and require exact archived
-   printed prefix equality before attribution. This is diagnosis, not a candidate.
-   Do not infer a native fraction from environment requests or matching post
-   states. Do not blanket rollback the cutoff or disable CCD: historical paired
-   cutoff fails frame 2460 settling. Preserve empty-manifold recycling,
-   restitution/CCD/support and all original full 3060-step dragging limits.
+1. The [ordinary/CPU boundary diagnosis](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-drag-ccd-boundary-2026-10-02/README.md)
+   and new [direct native GPU capture](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-native-ccd-boundary-2026-10-02/README.md)
+   attribute frame 227's first held-position jump: CPU motion 45.120 mm is below
+   its 250 mm fast threshold. Native motion 45.119993 mm exceeds 20 mm cutoff;
+   fraction 0.623385489 shifts the endpoint 16.992787 mm. Pre-CCD difference 1.056 mm,
+   post difference 17.165 mm; velocity still agrees within 2e-6 m/s. Both diagnostic
+   prefixes exactly match their original printed records; native post pose lanes
+   match direct GPU words at float32 precision. Native observation gap is closed.
+   Both budgets are exhausted, no new candidate/production/default change.
+   The [fast-flag/acceptance audit](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-native-ccd-boundary-2026-10-02/handoff-audit.json)
+   finds shader `apply_deltas` already computes CPU-style motion, but sets
+   `FAST`/`CCD_NO_HIT` with the shell cap. These flags affect proxy padding,
+   mesh refresh and handoff; historical host-only rollback left them inconsistent.
+   That concern does not prove the cause of its late toppling. Existing low-speed
+   CCD landing still requires first Y0.505±0.001/nextY≥0.495. Next use the smallest
+   independent CPU/GPU reproducer to resolve that landing/loaded-joint interaction
+   before selecting a physically supported candidate. Freeze a distinct finite
+   protocol before any build/process; keep all existing limits. No consistent
+   cutoff-only change is assumed to pass. Do not repeat old host-only controls,
+   disable CCD, blanket rollback, or waive frame 2460 settling/restitution/empty
+   recycling/original full 3060 dragging checks.
 2. Resolve remaining strict ragdoll and Rain failures with smallest faithful
    reproducers and distinct evidence-supported finite budgets. Read historical
    criteria/rejected experiments first. For Rain separate actual GPU wait from

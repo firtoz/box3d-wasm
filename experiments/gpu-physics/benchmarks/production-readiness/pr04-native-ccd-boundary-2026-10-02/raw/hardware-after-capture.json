@@ -1,0 +1,10 @@
+{
+  "command": [
+    "nvidia-smi",
+    "--query-gpu=name,driver_version,pci.bus_id",
+    "--format=csv,noheader"
+  ],
+  "output": "NVIDIA GeForce RTX 4070 SUPER, 610.57.04, 00000000:01:00.0\n",
+  "rustc_verbose": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: x86_64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+  "scope": "Read-only after capture; actual per-process Vulkan banner is primary adapter evidence."
+}

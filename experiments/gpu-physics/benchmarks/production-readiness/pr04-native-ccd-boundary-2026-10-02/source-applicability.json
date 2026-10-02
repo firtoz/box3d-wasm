@@ -1,0 +1,19 @@
+{
+  "scope": "Read-only post-capture current-source/input/output verification; invocation revision is context only, compile/protocol/receipt identities are authoritative. No production source edit.",
+  "revision_context_only": "379fe7f1e7076730629e6bf15e42f6bf0c60ad60",
+  "original_Rust_inputs_match": true,
+  "original_Rust_input_count": 107,
+  "frozen_native_backend_inputs_match": true,
+  "frozen_C_engine_inputs_match": true,
+  "reused_reference_and_link_input_hashes_match": true,
+  "captured_binary_hash_matches": true,
+  "artifact_observer_library_hash_matches": true,
+  "shared_native_target_output": {
+    "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/libgpu_physics.a",
+    "sha256": "652bc603cc8ded7bc854c4ad7cfc2a2f2a790dadcc54402b166e455ac5f3fdec",
+    "diagnostic_observer_only": true,
+    "guidance": "Do not treat shared target/native-cache-build output as a production library. Retained provider artifact native-candidate.a remains53819158... unchanged; use frozen libraries/receipts or a new budgeted production build."
+  },
+  "production_solver_policy_defaults_Box3D_WASM_unchanged": true,
+  "PR04_complete": false
+}

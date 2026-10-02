@@ -1,0 +1,25 @@
+--- original/src/sim.rs
++++ observer/src/sim.rs
+@@ -3554,6 +3554,22 @@
+         }
+         self.completed_step = self.physics_step;
+         self.completed_known = true;
++        #[cfg(all(feature="replay-diagnostics",not(target_arch="wasm32")))]
++        if (221..=233).contains(&self.physics_step)
++            && std::env::var("GPU_PHYSICS_NATIVE_CCD_BOUNDARY").as_deref()==Ok("1") {
++            let body=1u32;
++            let buffer=self.convex_ccd.as_ref().map(|ccd|ccd.boundary.clone());
++            if let Some(buffer)=buffer {
++                let records=self.read_diagnostic_records::<[u32;32]>(&buffer,body*32,1);
++                eprintln!("gpu-native-ccd-boundary {}",serde_json::json!({
++                    "step":self.physics_step,"body_slot":body,"convex_ccd_present":true,
++                    "joint_count":self.params.joint_count,"diagnostic_flags":self.params.diagnostic_flags,
++                    "solver_mode":self.params.solver_mode,"words":records[0]}));
++            } else {
++                eprintln!("gpu-native-ccd-boundary {}",serde_json::json!({
++                    "step":self.physics_step,"body_slot":body,"convex_ccd_present":false}));
++            }
++        }
+     }
+ 
+     pub fn poll_completion(&mut self) {
