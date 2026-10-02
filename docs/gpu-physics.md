@@ -5,13 +5,20 @@ in Rust/WGSL and exposes part of Box3D's native C API. It does not replace the
 Box3D WASM package or modify the upstream engine. Native samples can run either
 engine or show two independent worlds side by side.
 
-World-lifetime repair remains a local candidate awaiting actual viewer controls
-and CPU-first precommit recordings. Its [portable API subset evidence](../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-repair-2026-10-01/README.md)
-passes72 selected Rust checks and120 first GPU C observations across ordinary/
+The retained world-lifetime repair passes its named API/cleanup and actual viewer
+control contracts on exact ordinary/native standalone/combined builds. Its
+[CPU-first affected-scene report](../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-scene-captures-2026-10-02/README.md)
+retains all 52 first clips, 26 reviewed scene pairs, current linked inventories and
+compiler/source/binary receipts. Village’s existing rendering omission remains
+open; visual review does not qualify the full physics or runtime contract. Its [portable API subset evidence](../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-repair-2026-10-01/README.md)
+passes72 selected Rust checks and162 first GPU C observations across ordinary/
 native and standalone/combined paths. Root/child generations survive recreation;
 stale C destruction preserves owned replacement geometry. Retained receipt/source
 and CPU-fixture failures, source/binary proofs and current limitations are linked.
-This does not establish full lifecycle, final-build, performance or release
+The [current viewer evidence](../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-atomic-apps-2026-10-02/README.md)
+includes restart into a different root ID, paused single stepping, flags, typed
+diagnostics and clean exit. Earlier failed UI attempts remain recorded. These
+results do not establish full lifecycle, final-build, performance or release
 acceptance. Production readiness continues through the authoritative roadmap.
 
 ## Support status
@@ -226,14 +233,25 @@ not complete the production roadmap's final physics or repeatability matrix.
 
 ## Native API availability
 
-Current native world lifetime safety **fails** on both backends and combined
-routing. [Independent C diagnosis](../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-diagnostic-2026-10-01/README.md)
-passes the real CPU control and demonstrates six failures in every GPU cell:
-world recreation reuses the same ID; stale handles can read/change/destroy the
-replacement, and forged-generation destruction removes a live world. PR01
-per-world acceptance is reopened; PR02/PR05 remain open. Prior physics passes
-do not qualify this lifetime behavior. Registry generations, destruction checks
-and child-to-world routing require repair before release qualification.
+The earlier [independent root-world lifetime defect](../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-diagnostic-2026-10-01/README.md):
+showed recreation reusing the same ID and stale controls/destruction affecting a
+replacement. The retained repair keeps root and child epochs across destruction. Child
+seeds advance past every previously issued body generation, including deleted
+bodies; body slots and world slots retire at the public u16 generation boundary
+instead of wrapping. Shape/joint handles use the fixed child epoch within a
+world and validate their live owner. Joint creation rejects stale or foreign
+endpoints. Destruction validates the exact root before touching geometry, and
+combined cleanup still releases its mapped CPU world if the GPU root has already
+been retired. This is not a device-loss recovery claim.
+
+The linked repair passes72 selected Rust checks,120 first root/geometry C
+observations and42 separate mapped-cleanup observations. Four actual repaired
+viewer control contracts pass with retained source/binary receipts and full
+captures. All 52 required first scene captures and current linked-source inventories pass
+their stated checks, and the CPU-first comparisons are reviewed with recorded
+limitations. PR01/PR02 acceptance reconciliation and broad PR05 lifecycle
+acceptance remain open; concurrency/reentrancy, C adapter world limits and full
+release matrix still require their own qualification.
 
 The initial Linux/NVIDIA GPU release excludes native recording/player APIs and
 CPU worker/static-tree controls. The 39 operations listed in

@@ -11,10 +11,7 @@ fn replace(id: ShapeId, edit: impl FnOnce(&mut CpuShape) -> bool) -> bool {
     if id.index1 <= 0 {
         return false;
     }
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     // Upstream refuses geometry edits from locked callbacks.
     let mut worlds = match WORLDS.try_lock() {
         Ok(worlds) => worlds,

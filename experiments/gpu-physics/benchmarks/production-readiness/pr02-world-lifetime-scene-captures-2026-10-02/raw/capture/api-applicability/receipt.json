@@ -1,0 +1,50 @@
+{
+  "status": "complete",
+  "protocol_sha256": "589ee1effa5e50ff6a376dc3484d0f89dc87440fd4e407c137b80bf565520b74",
+  "results": [
+    {
+      "cell": "ordinary",
+      "command": [
+        "python3",
+        "scripts/audit-native-api.py",
+        "--require-complete",
+        "--require-built",
+        "--gpu-build-dir",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake",
+        "--both-build-dir",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake",
+        "--json",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-scene-captures/api-applicability/ordinary.json"
+      ],
+      "exit": 0,
+      "stdout_sha256": "8173e536efd778938ff887a3eb140340a66cc56f4c8e22ce9755936d85fcfddb"
+    },
+    {
+      "cell": "native",
+      "command": [
+        "python3",
+        "scripts/audit-native-api.py",
+        "--require-complete",
+        "--require-built",
+        "--gpu-build-dir",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake",
+        "--both-build-dir",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake",
+        "--json",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-scene-captures/api-applicability/native.json"
+      ],
+      "exit": 0,
+      "stdout_sha256": "8173e536efd778938ff887a3eb140340a66cc56f4c8e22ce9755936d85fcfddb"
+    }
+  ],
+  "inputs_after": {
+    "scripts/audit-native-api.py": "c1508d3266c6d2e088ebfde92826222040e5a0661dee1dabaec0f04eff7ed011",
+    "scripts/gen-both-cpu.py": "32cb386f6f01fefceffa3fda8f706311565abf680bbf199f0a74254a95f8764d",
+    "scripts/run-native-samples.py": "705ab3544f2b762f637c907273eee8f2e0cec8a5a5049630cf4fb23b1061108b",
+    "c_abi/samples_stubs.c": "8d4382789ce321cbe9b5485814fc4cf260e3d2a93d1308a2b5e566101b42b7d0",
+    "c_abi/shim.c": "3d1e9e4ef229c23d6ee4323726bc93d0548a36f1d3331a66023af80505bb3e4b",
+    "c_abi/samples_api.c": "6d65d38d40ed0ff50a0ea4b1f5fabffbf3ff4b9de631f2fdc260ab3965da2c6f",
+    "c_abi/both_dual.c": "4b4e64e22aa4636a926eea2549b8a29a84225ac04496f38211851bea55dd994a",
+    "c_abi/native_unavailable.inc": "dff1fd7d9897f4691f54a663712c07eda2c1231cac9ca930634159fff7bcbcef"
+  }
+}

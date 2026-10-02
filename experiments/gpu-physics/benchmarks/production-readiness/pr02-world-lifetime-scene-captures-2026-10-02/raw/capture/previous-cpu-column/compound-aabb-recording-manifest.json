@@ -1,0 +1,101 @@
+{
+  "purpose": "precommit visual/health evidence, not performance",
+  "protocol_sha256": "25e7885e67e3c9681ea3f205d9466d09fc2e76655e305e54c3141121cf367ecb",
+  "viewer": {
+    "binary": "artifacts/production-readiness/pr02-compound-aabb-captures/cpu-viewer/cmake/bin/samples_cpu",
+    "binary_sha256": "9d879afb242a73049e62c5a1ac85c2b701e3c7b070148605cb62b6e8339a28a0",
+    "receipt": "artifacts/production-readiness/pr02-compound-aabb-captures/cpu-viewer/receipt.json",
+    "receipt_sha256": "03ad651b1df90bf09e76e912da228721d59d6a5097c2ae0b246a9bd59fe7785b",
+    "label": "000-box3d-cpu"
+  },
+  "settings": {
+    "dt": "1/60",
+    "substeps": 4,
+    "sleep": true,
+    "warm_start": true,
+    "continuous": true,
+    "scene_defaults": "unchanged upstream geometry/materials/gravity",
+    "steps": 300,
+    "warmup": 0,
+    "display": [
+      1280,
+      720
+    ],
+    "encode_fps": 30,
+    "ui": "hide only UI; fresh {} settings suppress first-run help/replay redirect",
+    "renderer": "Mesa software OpenGL on isolated Xvfb; physics GPU uses actual NVIDIA Vulkan",
+    "cpu_workers": "viewer automatic clamp(logical cores/2,1,8)",
+    "incidental_clocks": "correctness/recording diagnostics; excluded from performance claims"
+  },
+  "clips": [
+    {
+      "kind": "cpu",
+      "scene": "compound-simple",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "dfc38b5c659e17fcb3ed89a95e8e8361c8b2942aa9531c493f1613af67405fe5",
+      "encoded_frames": 873,
+      "duration_seconds": 29.1,
+      "health_sha256": "9c2c813afcc5e986d82534103735386588345ee6b40b1f08c9e02bf25b003401"
+    },
+    {
+      "kind": "cpu",
+      "scene": "compound-spheres",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "c3a57f75b464a0567830a52e1f902ab7db3bcd3a57ddc38dcaef6908cbdd2ba9",
+      "encoded_frames": 858,
+      "duration_seconds": 28.6,
+      "health_sha256": "94d01057acc288ad9b388775cb0daa7bafb0fd610facd56b5f130861eded2d9d"
+    },
+    {
+      "kind": "cpu",
+      "scene": "compound-hulls",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "d8567f6364e4dcb616ad987e3223bde4303f3394e557d09a76df143d464042ce",
+      "encoded_frames": 888,
+      "duration_seconds": 29.6,
+      "health_sha256": "d5ce86a495179500f244bbac0c917b04c95957f38ec381f81f6e6bccb85cced4"
+    },
+    {
+      "kind": "cpu",
+      "scene": "compound-tile-floor",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "3846cc8bfbed483fae844390cc5e1088d3612ad67db5b03d59e03c8748d8aa6f",
+      "encoded_frames": 1413,
+      "duration_seconds": 47.133333,
+      "health_sha256": "0a0446c2eef2b527254994de747a895a40dc6f10404b5def5177942124192d34"
+    },
+    {
+      "kind": "cpu",
+      "scene": "compound-village",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "5b43699da81017ccd22e782d6467855ae8aa355c2877b1301d59ba75c4d65332",
+      "encoded_frames": 5992,
+      "duration_seconds": 199.766667,
+      "health_sha256": "e6c53b1db47199e3076157b890ba8c63c6ccff98476c9ca10d9396e86d03bc5b"
+    },
+    {
+      "kind": "cpu",
+      "scene": "compound-mesh-tile",
+      "status": "pass",
+      "exit": 0,
+      "ffmpeg_exit": 0,
+      "video_sha256": "d0386cb4a75d0d8730cc80ad3243bb3872dec15201cea8e95262cc8ef0ab3e04",
+      "encoded_frames": 888,
+      "duration_seconds": 29.6,
+      "health_sha256": "d708f9eeec0572f855df08ee73174436905fd6aed035c79d5d56aa944e549870"
+    }
+  ],
+  "coverage": "scene recording/finite health only; no physical or timing acceptance",
+  "recording_started_utc": "2026-10-01T17:59:31.136191+00:00",
+  "timestamp_source": "original first launch receipt filesystem timestamp, persisted after capture; not used as binary provenance"
+}

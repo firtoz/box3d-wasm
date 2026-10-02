@@ -1,0 +1,44 @@
+{
+  "status": "compiled-inputs-unchanged",
+  "source_files": {
+    "src/api/world.rs": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+    "src/api/world/world_lifetime.rs": "393d87dc351655fb9d1a3d2b3719956254a57bf05be2078f8494e739555fab68",
+    "src/api/world/shape_geometry.rs": "6e3d9aa0b283f2cf572ded5563848a4c336981109be1f65e8ed3a357c24625c4",
+    "src/api/world/joint_reaction.rs": "7aad2d3a6900ece923e67a2cc0c3f100c61f476009a1d3a7061dfac134eb48d7",
+    "src/api/world/joint_separation.rs": "f3b9c2533991f038c56425ee88f26bcce71f9c2b74161673b1d80fbee8eb2e18",
+    "c_abi/shim.c": "3d1e9e4ef229c23d6ee4323726bc93d0548a36f1d3331a66023af80505bb3e4b",
+    "c_abi/both_dual.c": "4b4e64e22aa4636a926eea2549b8a29a84225ac04496f38211851bea55dd994a"
+  },
+  "capture_binary_sha256": "5e95abcc9e168804ff5ab370a09e838399f688aceb1d3bd96e613f541b2c3f47",
+  "build_receipt_sha256": "cd3e8965a76f3983bf8e469e501032434283545b2f66d6dd7c8ac614104be1f8",
+  "ordinary_library_sha256": "aba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6",
+  "native_library_sha256": "c8a16154cb576c49e7bd7fd8e030319601192b466d9ddb19305bd043aa6a7267",
+  "Rust_validation": {
+    "receipt_sha256": "a83d58db5cc03d98497f5a42282b1505b0950e0cb13463d92bee43aa78ba0ba7",
+    "status": "passed",
+    "processes": 18,
+    "checks": 72
+  },
+  "first_root_geometry_C": {
+    "receipt_sha256": "77b7a01c9df874a68ecf9e9c4d9767ef3b4c308cce804fe5b959a0f1126669b5",
+    "status": "passed",
+    "processes": 8,
+    "observations": 120
+  },
+  "direct_mapped_cleanup_C": {
+    "receipt_sha256": "b510fbb7bf16578bc018c446be94519f88a33a6b9f4fa92ebe0fe6839d2e29b7",
+    "status": "passed",
+    "processes": 2,
+    "observations": 42
+  },
+  "source_scope": "Root/child registry epochs, generation-checked accessors, child-owner routing, all9 joint creator endpoint validation, stale C geometry cleanup guards and combined mapped CPU retirement. Numerical solver, WGSL, defaults, scheduling policy, Box3D and WASM unchanged.",
+  "limitations": [
+    "PR01/PR02 restoration/closure still requires roadmap acceptance audit",
+    "PR03\u2013PR07 full physical/runtime/release/capture evidence unqualified",
+    "CPU child handles may alias across native world reuse; GPU now rejects stale children explicitly",
+    "C metadata64/public world32 limits and concurrency/reentrancy remainPR05",
+    "No actual GPU device-loss proof",
+    "Village renderer65536-slot geometry omission remainsPR09",
+    "No fresh headline performance or rendering FPS data; final desktop charts remainPR12"
+  ]
+}

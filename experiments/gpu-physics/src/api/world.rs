@@ -14,6 +14,8 @@ mod contact_api;
 mod native_diagnostics;
 pub use native_diagnostics::*;
 mod shape_geometry;
+mod world_lifetime;
+use world_lifetime::{WorldRegistry, current_world_id, world_id_from_shape, world_id_from_joint};
 pub use shape_geometry::*;
 pub use contact_api::*;
 use std::{collections::HashMap, sync::Arc, sync::Mutex};
@@ -269,11 +271,11 @@ struct CpuJoint {
 }
 
 impl CpuJoint {
-    fn new(force_threshold: f32, torque_threshold: f32, user_data: usize) -> Self {
+    fn new(generation: u16, force_threshold: f32, torque_threshold: f32, user_data: usize) -> Self {
         Self {
             reaction_frames: [[0.0; 4]; 2],
             pending_reaction_frames: None,
-            generation: 1,
+            generation,
             force_threshold,
             torque_threshold,
             user_data,
@@ -297,6 +299,7 @@ struct WorldInner {
     user_data: usize,
     generation: u16,
     def: WorldDef,
+    child_generation: u16,
     enable_contacts: bool,
     enable_warm_starting: bool,
     enable_speculative: bool,
@@ -392,19 +395,24 @@ fn mark_scene_dirty(w: &mut WorldInner) {
     w.query_topology = w.query_topology.saturating_add(1);
 }
 
-static WORLDS: Mutex<Vec<Option<WorldInner>>> = Mutex::new(Vec::new());
+static WORLDS: Mutex<WorldRegistry> = Mutex::new(WorldRegistry::new());
 
-fn lock_worlds() -> std::sync::MutexGuard<'static, Vec<Option<WorldInner>>> {
+fn lock_worlds() -> std::sync::MutexGuard<'static, WorldRegistry> {
     WORLDS.lock().unwrap_or_else(|e| e.into_inner())
 }
 
 pub fn b3_create_world(gpu: GpuDevice, def: &WorldDef) -> WorldId {
     let mut worlds = lock_worlds();
+    let Some((index, generation, child_generation)) = worlds.reserve_slot() else {
+        eprintln!("GPU physics: world handle space exhausted");
+        return b3_null_world_id();
+    };
     let inner = WorldInner {
         #[cfg(feature = "replay-diagnostics")]
         body_creation_ordinal: 0,
         user_data: 0,
-        generation: 1,
+        generation,
+        child_generation,
         def: *def,
         enable_contacts: true,
         enable_warm_starting: true,
@@ -493,21 +501,7 @@ pub fn b3_create_world(gpu: GpuDevice, def: &WorldDef) -> WorldId {
         post_ccd_pending: false,
         events_pending: false,
     };
-    for (i, slot) in worlds.iter_mut().enumerate() {
-        if slot.is_none() {
-            let gen = 1u16;
-            *slot = Some(inner);
-            return WorldId {
-                index1: (i + 1) as u16,
-                generation: gen,
-            };
-        }
-    }
-    worlds.push(Some(inner));
-    WorldId {
-        index1: worlds.len() as u16,
-        generation: 1,
-    }
+    worlds.publish(index, inner)
 }
 
 pub fn b3_destroy_world(id: WorldId) {
@@ -515,16 +509,12 @@ pub fn b3_destroy_world(id: WorldId) {
         return;
     }
     let mut worlds = lock_worlds();
-    let i = id.index1 as usize - 1;
-    if i < worlds.len() {
-        if let Some(w) = worlds[i].as_mut() {
-            if let Some(sim) = w.sim.as_ref() {
-                poll_until_idle(&sim.device);
-                sim.save_pipeline_cache();
-            }
-        }
-        worlds[i] = None;
+    let Some(w) = slot_mut(&mut worlds, id) else { return; };
+    if let Some(sim) = w.sim.as_ref() {
+        poll_until_idle(&sim.device);
+        sim.save_pipeline_cache();
     }
+    worlds.retire(id);
 }
 
 pub fn b3_world_is_valid(id: WorldId) -> bool {
@@ -788,7 +778,7 @@ pub fn b3_create_body(world: WorldId, def: &BodyDef) -> BodyId {
             creation_ordinal: w.body_creation_ordinal,
             name: None,
             sleep_threshold: 0.05,
-            generation: 1,
+            generation: w.child_generation,
             user_data: def.user_data,
             gpu,
             mass: 0.0,
@@ -803,7 +793,7 @@ pub fn b3_create_body(world: WorldId, def: &BodyDef) -> BodyId {
             torque: [0.0; 3],
             host_epoch: epoch.saturating_add(1),
         };
-        if let Some(i) = w.free_bodies.pop() {
+        while let Some(i) = w.free_bodies.pop() {
             if i >= crate::types::MAX_BODY_SLOTS as usize {
                 w.free_bodies.push(i);
                 w.gpu_fail = std::ffi::CString::new(
@@ -813,7 +803,10 @@ pub fn b3_create_body(world: WorldId, def: &BodyDef) -> BodyId {
                 return b3_null_body_id();
             }
             if let Some(slot) = w.bodies.get_mut(i) {
-                let generation = w.body_generations[i].wrapping_add(1);
+                let Some(generation) = w.body_generations[i].checked_add(1) else {
+                    // Exhausted slots stay vacant; wrapping would revive a stale handle.
+                    continue;
+                };
                 w.body_generations[i] = generation;
                 cpu.generation = generation;
                 *slot = Some(cpu);
@@ -833,12 +826,12 @@ pub fn b3_create_body(world: WorldId, def: &BodyDef) -> BodyId {
             return b3_null_body_id();
         }
         w.bodies.push(Some(cpu));
-        w.body_generations.push(1);
+        w.body_generations.push(w.child_generation);
         mark_scene_dirty(w);
         BodyId {
             index1: w.bodies.len() as i32,
             world0: world.index1,
-            generation: 1,
+            generation: w.child_generation,
         }
     })
     .unwrap_or_else(b3_null_body_id)
@@ -1756,7 +1749,7 @@ pub fn b3_shape_set_compound_local_bounds(id: ShapeId, bounds: crate::api::Aabb)
     if !(0..3).all(|axis| bounds.lower_bound[axis].is_finite()
         && bounds.upper_bound[axis].is_finite()
         && bounds.lower_bound[axis] <= bounds.upper_bound[axis]) { return false; }
-    with_world_mut(WorldId { index1: id.world0, generation: 1 }, |w| {
+    with_world_mut(world_id_from_shape(id), |w| {
         let Some(index) = id.index1.checked_sub(1).map(|i| i as usize) else { return false; };
         let Some(shape) = w.shapes.get_mut(index).and_then(Option::as_mut) else { return false; };
         if shape.generation != id.generation || shape.public_kind != PUBLIC_KIND_COMPOUND { return false; }
@@ -1802,10 +1795,7 @@ fn attach_compound_child(
     {
         return false;
     }
-    let world = WorldId {
-        index1: parent.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(parent);
     with_world_mut(world, |w| {
         let filter;
         let event_flags;
@@ -2188,10 +2178,7 @@ pub fn b3_replace_height_field_shape(
     triangle_flags: &[u8],
     clockwise: bool,
 ) -> bool {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     let Some((body, def)) = with_world(world, |w| {
         let shape = w.shapes.get(id.index1.checked_sub(1)? as usize)?.as_ref()?;
         if shape.generation != id.generation || shape.public_kind != PUBLIC_KIND_HEIGHT_FIELD {
@@ -2280,10 +2267,7 @@ pub fn b3_replace_mesh_shape(
     nodes: &[MeshNode],
     scale: [f32; 3],
 ) -> bool {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     let Some((body, mut def)) = with_world(world, |w| {
         let shape = w.shapes.get(id.index1.checked_sub(1)? as usize)?.as_ref()?;
         if shape.generation != id.generation || shape.kind != KIND_MESH {
@@ -2386,6 +2370,10 @@ fn joint_r(body: &CpuBody, origin_anchor: [f32; 3]) -> [f32; 3] {
 
 pub fn b3_create_revolute_joint(world: WorldId, def: &RevoluteJointDef) -> JointId {
     with_world_mut(world, |w| {
+        if def.body_a.world0 != world.index1 || def.body_b.world0 != world.index1
+            || body_ref(w, def.body_a).is_none() || body_ref(w, def.body_b).is_none() {
+            return b3_null_joint_id();
+        }
         let anchor_a = stored_origin_anchor(def.local_anchor_a);
         let anchor_b = stored_origin_anchor(def.local_anchor_b);
         w.joints.push(JointGpu {
@@ -2419,6 +2407,7 @@ pub fn b3_create_revolute_joint(world: WorldId, def: &RevoluteJointDef) -> Joint
             ..JointGpu::default()
         });
         w.joint_meta.push(Some(CpuJoint::new(
+            w.child_generation,
             def.force_threshold,
             def.torque_threshold,
             def.user_data,
@@ -2427,7 +2416,7 @@ pub fn b3_create_revolute_joint(world: WorldId, def: &RevoluteJointDef) -> Joint
         JointId {
             index1: w.joints.len() as i32,
             world0: world.index1,
-            generation: 1,
+            generation: w.child_generation,
         }
     })
     .unwrap_or_else(b3_null_joint_id)
@@ -2435,6 +2424,10 @@ pub fn b3_create_revolute_joint(world: WorldId, def: &RevoluteJointDef) -> Joint
 
 pub fn b3_create_spherical_joint(world: WorldId, def: &SphericalJointDef) -> JointId {
     with_world_mut(world, |w| {
+        if def.body_a.world0 != world.index1 || def.body_b.world0 != world.index1
+            || body_ref(w, def.body_a).is_none() || body_ref(w, def.body_b).is_none() {
+            return b3_null_joint_id();
+        }
         let anchor_a = stored_origin_anchor(def.local_anchor_a);
         let anchor_b = stored_origin_anchor(def.local_anchor_b);
         w.joints.push(JointGpu {
@@ -2470,6 +2463,7 @@ pub fn b3_create_spherical_joint(world: WorldId, def: &SphericalJointDef) -> Joi
             ..JointGpu::default()
         });
         w.joint_meta.push(Some(CpuJoint::new(
+            w.child_generation,
             def.force_threshold,
             def.torque_threshold,
             def.user_data,
@@ -2478,7 +2472,7 @@ pub fn b3_create_spherical_joint(world: WorldId, def: &SphericalJointDef) -> Joi
         JointId {
             index1: w.joints.len() as i32,
             world0: world.index1,
-            generation: 1,
+            generation: w.child_generation,
         }
     })
     .unwrap_or_else(b3_null_joint_id)
@@ -2486,6 +2480,10 @@ pub fn b3_create_spherical_joint(world: WorldId, def: &SphericalJointDef) -> Joi
 
 pub fn b3_create_prismatic_joint(world: WorldId, def: &PrismaticJointDef) -> JointId {
     with_world_mut(world, |w| {
+        if def.body_a.world0 != world.index1 || def.body_b.world0 != world.index1
+            || body_ref(w, def.body_a).is_none() || body_ref(w, def.body_b).is_none() {
+            return b3_null_joint_id();
+        }
         let anchor_a = stored_origin_anchor(def.local_anchor_a);
         let anchor_b = stored_origin_anchor(def.local_anchor_b);
         w.joints.push(JointGpu {
@@ -2515,6 +2513,7 @@ pub fn b3_create_prismatic_joint(world: WorldId, def: &PrismaticJointDef) -> Joi
             ..JointGpu::default()
         });
         w.joint_meta.push(Some(CpuJoint::new(
+            w.child_generation,
             def.force_threshold,
             def.torque_threshold,
             def.user_data,
@@ -2523,7 +2522,7 @@ pub fn b3_create_prismatic_joint(world: WorldId, def: &PrismaticJointDef) -> Joi
         JointId {
             index1: w.joints.len() as i32,
             world0: world.index1,
-            generation: 1,
+            generation: w.child_generation,
         }
     })
     .unwrap_or_else(b3_null_joint_id)
@@ -2531,6 +2530,10 @@ pub fn b3_create_prismatic_joint(world: WorldId, def: &PrismaticJointDef) -> Joi
 
 pub fn b3_create_distance_joint(world: WorldId, def: &DistanceJointDef) -> JointId {
     with_world_mut(world, |w| {
+        if def.body_a.world0 != world.index1 || def.body_b.world0 != world.index1
+            || body_ref(w, def.body_a).is_none() || body_ref(w, def.body_b).is_none() {
+            return b3_null_joint_id();
+        }
         let min_length = def.min_length.max(LINEAR_SLOP);
         let anchor_a = stored_origin_anchor(def.local_anchor_a);
         let anchor_b = stored_origin_anchor(def.local_anchor_b);
@@ -2557,6 +2560,7 @@ pub fn b3_create_distance_joint(world: WorldId, def: &DistanceJointDef) -> Joint
             ..JointGpu::default()
         });
         w.joint_meta.push(Some(CpuJoint::new(
+            w.child_generation,
             def.force_threshold,
             def.torque_threshold,
             def.user_data,
@@ -2565,7 +2569,7 @@ pub fn b3_create_distance_joint(world: WorldId, def: &DistanceJointDef) -> Joint
         JointId {
             index1: w.joints.len() as i32,
             world0: world.index1,
-            generation: 1,
+            generation: w.child_generation,
         }
     })
     .unwrap_or_else(b3_null_joint_id)
@@ -2573,6 +2577,10 @@ pub fn b3_create_distance_joint(world: WorldId, def: &DistanceJointDef) -> Joint
 
 pub fn b3_create_parallel_joint(world: WorldId, def: &ParallelJointDef) -> JointId {
     with_world_mut(world, |w| {
+        if def.body_a.world0 != world.index1 || def.body_b.world0 != world.index1
+            || body_ref(w, def.body_a).is_none() || body_ref(w, def.body_b).is_none() {
+            return b3_null_joint_id();
+        }
         w.joints.push(JointGpu {
             a: gpu_index(def.body_a),
             b: gpu_index(def.body_b),
@@ -2586,6 +2594,7 @@ pub fn b3_create_parallel_joint(world: WorldId, def: &ParallelJointDef) -> Joint
             ..JointGpu::default()
         });
         w.joint_meta.push(Some(CpuJoint::new(
+            w.child_generation,
             def.force_threshold,
             def.torque_threshold,
             def.user_data,
@@ -2594,7 +2603,7 @@ pub fn b3_create_parallel_joint(world: WorldId, def: &ParallelJointDef) -> Joint
         JointId {
             index1: w.joints.len() as i32,
             world0: world.index1,
-            generation: 1,
+            generation: w.child_generation,
         }
     })
     .unwrap_or_else(b3_null_joint_id)
@@ -2602,6 +2611,10 @@ pub fn b3_create_parallel_joint(world: WorldId, def: &ParallelJointDef) -> Joint
 
 pub fn b3_create_filter_joint(world: WorldId, def: &FilterJointDef) -> JointId {
     with_world_mut(world, |w| {
+        if def.body_a.world0 != world.index1 || def.body_b.world0 != world.index1
+            || body_ref(w, def.body_a).is_none() || body_ref(w, def.body_b).is_none() {
+            return b3_null_joint_id();
+        }
         w.joints.push(JointGpu {
             a: gpu_index(def.body_a),
             b: gpu_index(def.body_b),
@@ -2614,6 +2627,7 @@ pub fn b3_create_filter_joint(world: WorldId, def: &FilterJointDef) -> JointId {
             ..JointGpu::default()
         });
         w.joint_meta.push(Some(CpuJoint::new(
+            w.child_generation,
             def.force_threshold,
             def.torque_threshold,
             def.user_data,
@@ -2622,7 +2636,7 @@ pub fn b3_create_filter_joint(world: WorldId, def: &FilterJointDef) -> JointId {
         JointId {
             index1: w.joints.len() as i32,
             world0: world.index1,
-            generation: 1,
+            generation: w.child_generation,
         }
     })
     .unwrap_or_else(b3_null_joint_id)
@@ -2630,6 +2644,10 @@ pub fn b3_create_filter_joint(world: WorldId, def: &FilterJointDef) -> JointId {
 
 pub fn b3_create_motor_joint(world: WorldId, def: &MotorJointDef) -> JointId {
     with_world_mut(world, |w| {
+        if def.body_a.world0 != world.index1 || def.body_b.world0 != world.index1
+            || body_ref(w, def.body_a).is_none() || body_ref(w, def.body_b).is_none() {
+            return b3_null_joint_id();
+        }
         let anchor_a = stored_origin_anchor(def.local_anchor_a);
         let anchor_b = stored_origin_anchor(def.local_anchor_b);
         w.joints.push(JointGpu {
@@ -2654,6 +2672,7 @@ pub fn b3_create_motor_joint(world: WorldId, def: &MotorJointDef) -> JointId {
             ..JointGpu::default()
         });
         w.joint_meta.push(Some(CpuJoint::new(
+            w.child_generation,
             def.force_threshold,
             def.torque_threshold,
             def.user_data,
@@ -2662,7 +2681,7 @@ pub fn b3_create_motor_joint(world: WorldId, def: &MotorJointDef) -> JointId {
         JointId {
             index1: w.joints.len() as i32,
             world0: world.index1,
-            generation: 1,
+            generation: w.child_generation,
         }
     })
     .unwrap_or_else(b3_null_joint_id)
@@ -2670,6 +2689,10 @@ pub fn b3_create_motor_joint(world: WorldId, def: &MotorJointDef) -> JointId {
 
 pub fn b3_create_weld_joint(world: WorldId, def: &WeldJointDef) -> JointId {
     with_world_mut(world, |w| {
+        if def.body_a.world0 != world.index1 || def.body_b.world0 != world.index1
+            || body_ref(w, def.body_a).is_none() || body_ref(w, def.body_b).is_none() {
+            return b3_null_joint_id();
+        }
         let anchor_a = stored_origin_anchor(def.local_anchor_a);
         let anchor_b = stored_origin_anchor(def.local_anchor_b);
         w.joints.push(JointGpu {
@@ -2691,6 +2714,7 @@ pub fn b3_create_weld_joint(world: WorldId, def: &WeldJointDef) -> JointId {
             ..JointGpu::default()
         });
         w.joint_meta.push(Some(CpuJoint::new(
+            w.child_generation,
             def.force_threshold,
             def.torque_threshold,
             def.user_data,
@@ -2699,7 +2723,7 @@ pub fn b3_create_weld_joint(world: WorldId, def: &WeldJointDef) -> JointId {
         JointId {
             index1: w.joints.len() as i32,
             world0: world.index1,
-            generation: 1,
+            generation: w.child_generation,
         }
     })
     .unwrap_or_else(b3_null_joint_id)
@@ -2707,6 +2731,10 @@ pub fn b3_create_weld_joint(world: WorldId, def: &WeldJointDef) -> JointId {
 
 pub fn b3_create_wheel_joint(world: WorldId, def: &WheelJointDef) -> JointId {
     with_world_mut(world, |w| {
+        if def.body_a.world0 != world.index1 || def.body_b.world0 != world.index1
+            || body_ref(w, def.body_a).is_none() || body_ref(w, def.body_b).is_none() {
+            return b3_null_joint_id();
+        }
         let anchor_a = stored_origin_anchor(def.local_anchor_a);
         let anchor_b = stored_origin_anchor(def.local_anchor_b);
         w.joints.push(JointGpu {
@@ -2743,6 +2771,7 @@ pub fn b3_create_wheel_joint(world: WorldId, def: &WheelJointDef) -> JointId {
             ..JointGpu::default()
         });
         w.joint_meta.push(Some(CpuJoint::new(
+            w.child_generation,
             def.force_threshold,
             def.torque_threshold,
             def.user_data,
@@ -2751,7 +2780,7 @@ pub fn b3_create_wheel_joint(world: WorldId, def: &WheelJointDef) -> JointId {
         JointId {
             index1: w.joints.len() as i32,
             world0: world.index1,
-            generation: 1,
+            generation: w.child_generation,
         }
     })
     .unwrap_or_else(b3_null_joint_id)
@@ -5449,10 +5478,7 @@ fn world_id_from_body(body: BodyId) -> WorldId {
     if body.index1 == 0 || body.world0 == 0 {
         return b3_null_world_id();
     }
-    WorldId {
-        index1: body.world0,
-        generation: 1,
-    }
+    current_world_id(body.world0)
 }
 
 fn push_shape(
@@ -5497,7 +5523,7 @@ fn push_shape(
         _ => (0.0, [0.0; 9]),
     };
     let shape = CpuShape {
-        generation: 1,
+        generation: w.child_generation,
         body_index: body.index1,
         kind,
         public_kind: kind,
@@ -5559,7 +5585,7 @@ fn push_shape(
     ShapeId {
         index1: w.shapes.len() as i32,
         world0: world.index1,
-        generation: 1,
+        generation: w.child_generation,
     }
 }
 
@@ -5763,10 +5789,7 @@ pub fn b3_shape_is_valid(id: ShapeId) -> bool {
     if id.index1 == 0 {
         return false;
     }
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world_no_sync(world, |w| {
         w.shapes
             .get(id.index1 as usize - 1)
@@ -5828,10 +5851,7 @@ pub fn b3_destroy_joint(id: JointId, wake_attached: bool) {
     if id.index1 <= 0 {
         return;
     }
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_joint(id);
     with_world_mut(world, |w| {
         let Some(joint) = w.joints.get_mut(id.index1 as usize - 1) else {
             return;
@@ -5860,10 +5880,7 @@ fn with_joint_mut<R>(id: JointId, f: impl FnOnce(&mut JointGpu) -> R) -> Option<
     if id.index1 <= 0 {
         return None;
     }
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_joint(id);
     with_world_mut(world, |w| {
         let (result, a, b) = {
             let joint = w.joints.get_mut(id.index1 as usize - 1)?;
@@ -5889,10 +5906,7 @@ fn with_joint<R>(id: JointId, f: impl FnOnce(&JointGpu) -> R) -> Option<R> {
         return None;
     }
     with_world(
-        WorldId {
-            index1: id.world0,
-            generation: 1,
-        },
+        world_id_from_joint(id),
         |w| {
             let joint = w.joints.get(id.index1 as usize - 1)?;
             (joint.kind != JOINT_NONE).then(|| f(joint))
@@ -5917,10 +5931,7 @@ fn with_joint_meta_mut<R>(id: JointId, f: impl FnOnce(&mut CpuJoint) -> R) -> Op
         return None;
     }
     with_world_mut(
-        WorldId {
-            index1: id.world0,
-            generation: 1,
-        },
+        world_id_from_joint(id),
         |w| {
             let index = id.index1 as usize - 1;
             if w.joints
@@ -5940,10 +5951,7 @@ fn with_joint_meta<R>(id: JointId, f: impl FnOnce(&CpuJoint) -> R) -> Option<R> 
         return None;
     }
     with_world(
-        WorldId {
-            index1: id.world0,
-            generation: 1,
-        },
+        world_id_from_joint(id),
         |w| {
             let index = id.index1 as usize - 1;
             if w.joints
@@ -6099,10 +6107,7 @@ pub fn b3_revolute_joint_get_angle(id: JointId) -> f32 {
         return 0.0;
     }
     with_world(
-        WorldId {
-            index1: id.world0,
-            generation: 1,
-        },
+        world_id_from_joint(id),
         |w| {
             let joint = w.joints.get(id.index1 as usize - 1)?;
             (joint.kind == JOINT_REVOLUTE)
@@ -6191,10 +6196,7 @@ pub fn b3_revolute_joint_get_motor_torque(id: JointId) -> f32 {
         return 0.0;
     }
     with_world(
-        WorldId {
-            index1: id.world0,
-            generation: 1,
-        },
+        world_id_from_joint(id),
         |w| {
             let joint = w.joints.get(id.index1 as usize - 1)?;
             (joint.kind == JOINT_REVOLUTE)
@@ -6391,10 +6393,7 @@ fn wheel_live_value(id: JointId, f: impl FnOnce(&JointGpu, &WorldInner) -> Optio
         return 0.0;
     }
     with_world(
-        WorldId {
-            index1: id.world0,
-            generation: 1,
-        },
+        world_id_from_joint(id),
         |w| {
             let joint = w.joints.get(id.index1 as usize - 1)?;
             (joint.kind == JOINT_WHEEL).then(|| f(joint, w)).flatten()
@@ -6475,10 +6474,7 @@ fn spherical_live_angle(id: JointId, angle: impl FnOnce([f32; 4]) -> f32) -> f32
         return 0.0;
     }
     with_world(
-        WorldId {
-            index1: id.world0,
-            generation: 1,
-        },
+        world_id_from_joint(id),
         |w| {
             let joint = w.joints.get(id.index1 as usize - 1)?;
             (joint.kind == JOINT_SPHERICAL)
@@ -6651,10 +6647,7 @@ pub fn b3_spherical_joint_get_motor_torque(id: JointId) -> [f32; 3] {
         return [0.0; 3];
     }
     with_world(
-        WorldId {
-            index1: id.world0,
-            generation: 1,
-        },
+        world_id_from_joint(id),
         |w| {
             let joint = w.joints.get(id.index1 as usize - 1)?;
             (joint.kind == JOINT_SPHERICAL).then(|| {
@@ -6675,10 +6668,7 @@ fn with_prismatic_joint_mut<R>(id: JointId, f: impl FnOnce(&mut JointGpu) -> R) 
     if id.index1 <= 0 {
         return None;
     }
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_joint(id);
     with_world_mut(world, |w| {
         let (result, a, b) = {
             let joint = w.joints.get_mut(id.index1 as usize - 1)?;
@@ -6703,10 +6693,7 @@ fn with_prismatic_joint<R>(id: JointId, f: impl FnOnce(&JointGpu) -> R) -> Optio
     if id.index1 <= 0 {
         return None;
     }
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_joint(id);
     with_world(world, |w| {
         let joint = w.joints.get(id.index1 as usize - 1)?;
         (joint.kind == JOINT_PRISMATIC).then(|| f(joint))
@@ -6718,10 +6705,7 @@ fn with_distance_joint_mut<R>(id: JointId, f: impl FnOnce(&mut JointGpu) -> R) -
     if id.index1 <= 0 {
         return None;
     }
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_joint(id);
     with_world_mut(world, |w| {
         let (result, a, b) = {
             let joint = w.joints.get_mut(id.index1 as usize - 1)?;
@@ -6746,10 +6730,7 @@ fn with_distance_joint<R>(id: JointId, f: impl FnOnce(&JointGpu) -> R) -> Option
     if id.index1 <= 0 {
         return None;
     }
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_joint(id);
     with_world(world, |w| {
         let joint = w.joints.get(id.index1 as usize - 1)?;
         (joint.kind == JOINT_DISTANCE).then(|| f(joint))
@@ -6853,10 +6834,7 @@ pub fn b3_distance_joint_get_max_length(id: JointId) -> f32 {
 }
 
 pub fn b3_distance_joint_get_current_length(id: JointId) -> f32 {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_joint(id);
     with_world(world, |w| {
         let joint = w.joints.get(id.index1.checked_sub(1)? as usize)?;
         if joint.kind != JOINT_DISTANCE {
@@ -6922,10 +6900,7 @@ fn with_parallel_joint_mut<R>(id: JointId, f: impl FnOnce(&mut JointGpu) -> R) -
     if id.index1 <= 0 {
         return None;
     }
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_joint(id);
     with_world_mut(world, |w| {
         let (result, a, b) = {
             let joint = w.joints.get_mut(id.index1 as usize - 1)?;
@@ -6950,10 +6925,7 @@ fn with_parallel_joint<R>(id: JointId, f: impl FnOnce(&JointGpu) -> R) -> Option
     if id.index1 <= 0 {
         return None;
     }
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_joint(id);
     with_world(world, |w| {
         let joint = w.joints.get(id.index1 as usize - 1)?;
         (joint.kind == JOINT_PARALLEL).then(|| f(joint))
@@ -6990,10 +6962,7 @@ fn with_motor_joint_mut<R>(id: JointId, f: impl FnOnce(&mut JointGpu) -> R) -> O
         return None;
     }
     with_world_mut(
-        WorldId {
-            index1: id.world0,
-            generation: 1,
-        },
+        world_id_from_joint(id),
         |world| {
             let joint = world.joints.get_mut((id.index1 - 1) as usize)?;
             (joint.kind == JOINT_MOTOR).then(|| f(joint))
@@ -7007,10 +6976,7 @@ fn with_motor_joint<R>(id: JointId, f: impl FnOnce(&JointGpu) -> R) -> Option<R>
         return None;
     }
     with_world(
-        WorldId {
-            index1: id.world0,
-            generation: 1,
-        },
+        world_id_from_joint(id),
         |world| {
             let joint = world.joints.get((id.index1 - 1) as usize)?;
             (joint.kind == JOINT_MOTOR).then(|| f(joint))
@@ -7219,10 +7185,7 @@ pub fn b3_prismatic_joint_get_motor_force(id: JointId) -> f32 {
 }
 
 pub fn b3_prismatic_joint_get_translation(id: JointId) -> f32 {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_joint(id);
     with_world(world, |w| {
         let joint = w.joints.get(id.index1.checked_sub(1)? as usize)?;
         if joint.kind != JOINT_PRISMATIC {
@@ -7250,10 +7213,7 @@ pub fn b3_prismatic_joint_get_translation(id: JointId) -> f32 {
 }
 
 pub fn b3_prismatic_joint_get_speed(id: JointId) -> f32 {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_joint(id);
     with_world(world, |w| {
         let joint = w.joints.get(id.index1.checked_sub(1)? as usize)?;
         if joint.kind != JOINT_PRISMATIC {
@@ -7276,10 +7236,7 @@ pub fn b3_shape_body(id: ShapeId) -> BodyId {
     if id.index1 == 0 {
         return b3_null_body_id();
     }
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world_no_sync(world, |w| {
         w.shapes
             .get(id.index1 as usize - 1)
@@ -7295,10 +7252,7 @@ pub fn b3_shape_kind(id: ShapeId) -> i32 {
     if id.index1 == 0 {
         return -1;
     }
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world(world, |w| {
         w.shapes
             .get(id.index1 as usize - 1)
@@ -7310,10 +7264,7 @@ pub fn b3_shape_kind(id: ShapeId) -> i32 {
 }
 
 pub fn b3_shape_get_filter(id: ShapeId) -> Filter {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world(world, |w| {
         w.shapes
             .get(id.index1.saturating_sub(1) as usize)
@@ -7639,7 +7590,7 @@ fn shape_property_ref(w: &WorldInner, id: ShapeId) -> Option<&CpuShape> {
 }
 
 pub(super) fn shape_surface_material(id: ShapeId) -> Option<SurfaceMaterial> {
-    with_world_no_sync(WorldId { index1: id.world0, generation: 1 }, |w| {
+    with_world_no_sync(world_id_from_shape(id), |w| {
         let shape = shape_property_ref(w, id)?;
         if shape.public_kind == PUBLIC_KIND_COMPOUND {
             return shape.mesh_materials.first().copied();
@@ -7653,13 +7604,13 @@ pub(super) fn shape_surface_material(id: ShapeId) -> Option<SurfaceMaterial> {
 }
 
 pub(super) fn shape_property_user_data(id: ShapeId) -> Option<usize> {
-    with_world_no_sync(WorldId { index1: id.world0, generation: 1 }, |w| {
+    with_world_no_sync(world_id_from_shape(id), |w| {
         shape_property_ref(w, id).map(|shape| shape.user_data)
     }).flatten()
 }
 
 pub fn b3_shape_get_material_count(id: ShapeId) -> usize {
-    with_world_no_sync(WorldId { index1: id.world0, generation: 1 }, |w| {
+    with_world_no_sync(world_id_from_shape(id), |w| {
         shape_property_ref(w, id).map(|shape| shape.mesh_materials.len())
     }).flatten().unwrap_or(0)
 }
@@ -7675,7 +7626,7 @@ pub fn b3_shape_set_compound_materials(id: ShapeId, materials: &[SurfaceMaterial
     let mut copy = Vec::new();
     if copy.try_reserve_exact(materials.len()).is_err() { return false; }
     copy.extend_from_slice(materials);
-    with_world_mut(WorldId { index1: id.world0, generation: 1 }, |w| {
+    with_world_mut(world_id_from_shape(id), |w| {
         let Some(index) = id.index1.checked_sub(1).map(|i| i as usize) else { return false; };
         let Some(shape) = w.shapes.get_mut(index).and_then(Option::as_mut) else { return false; };
         if shape.generation != id.generation || shape.public_kind != PUBLIC_KIND_COMPOUND { return false; }
@@ -7689,10 +7640,7 @@ pub fn b3_shape_get_density(id: ShapeId) -> f32 {
     // Density belongs to the public shape, including compound parents, and
     // never requires a pose/contact download.
     with_world_no_sync(
-        WorldId {
-            index1: id.world0,
-            generation: 1,
-        },
+        world_id_from_shape(id),
         |w| {
             let index = id.index1.checked_sub(1)? as usize;
             w.shapes
@@ -7707,10 +7655,7 @@ pub fn b3_shape_get_density(id: ShapeId) -> f32 {
 }
 
 pub(super) fn query_shape(id: ShapeId) -> Option<HostShape> {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world(world, |w| {
         let index = id.index1.checked_sub(1)? as usize;
         let shape = w.shapes.get(index)?.as_ref()?;
@@ -7725,10 +7670,7 @@ pub(super) fn query_shape(id: ShapeId) -> Option<HostShape> {
 // Resolve a public compound after one synchronization. Geometry stays shared
 // through HostShape's Arcs; do not rebuild the world query index for this lookup.
 pub(super) fn query_shape_parts(id: ShapeId) -> Vec<HostShape> {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world(world, |w| {
         let Some(index) = id.index1.checked_sub(1).map(|i| i as usize) else {
             return Vec::new();
@@ -7893,10 +7835,7 @@ pub fn b3_world_explode(id: WorldId, def: &ExplosionDef) {
 }
 
 pub fn b3_shape_set_explosion_scale(id: ShapeId, scale: f32) {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world_mut(world, |w| {
         if let Some(shape) = w
             .shapes
@@ -7910,10 +7849,7 @@ pub fn b3_shape_set_explosion_scale(id: ShapeId, scale: f32) {
 }
 
 pub fn b3_shape_set_user_data(id: ShapeId, user_data: usize) {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world_mut(world, |w| {
         if let Some(shape) = w
             .shapes
@@ -7927,10 +7863,7 @@ pub fn b3_shape_set_user_data(id: ShapeId, user_data: usize) {
 }
 
 pub fn b3_shape_set_filter(id: ShapeId, filter: Filter, invoke_contacts: bool) {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world_mut(world, |w| {
         let propagate;
         {
@@ -7981,10 +7914,7 @@ pub fn b3_shape_set_filter(id: ShapeId, filter: Filter, invoke_contacts: bool) {
 }
 
 pub fn b3_shape_enable_contact_events(id: ShapeId, enable: bool) {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world_mut(world, |w| {
         let Some(shape) = w
             .shapes
@@ -8003,10 +7933,7 @@ pub fn b3_shape_enable_contact_events(id: ShapeId, enable: bool) {
 }
 
 pub fn b3_shape_are_contact_events_enabled(id: ShapeId) -> bool {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world(world, |w| {
         w.shapes
             .get(id.index1.saturating_sub(1) as usize)
@@ -8037,10 +7964,7 @@ pub fn b3_shape_are_pre_solve_events_enabled(id: ShapeId) -> bool {
 }
 
 fn set_shape_event_flag(id: ShapeId, flag: u32, enable: bool) {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world_mut(world, |w| {
         let Some(shape) = w
             .shapes
@@ -8063,10 +7987,7 @@ fn set_shape_event_flag(id: ShapeId, flag: u32, enable: bool) {
 }
 
 fn shape_event_flag(id: ShapeId, flag: u32) -> bool {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world(world, |w| {
         w.shapes
             .get(id.index1.saturating_sub(1) as usize)
@@ -8078,10 +7999,7 @@ fn shape_event_flag(id: ShapeId, flag: u32) -> bool {
 }
 
 pub fn b3_shape_enable_hit_events(id: ShapeId, enable: bool) {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world_mut(world, |w| {
         let Some(shape) = w
             .shapes
@@ -8100,10 +8018,7 @@ pub fn b3_shape_enable_hit_events(id: ShapeId, enable: bool) {
 }
 
 pub fn b3_shape_are_hit_events_enabled(id: ShapeId) -> bool {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world(world, |w| {
         w.shapes
             .get(id.index1.saturating_sub(1) as usize)
@@ -8114,10 +8029,7 @@ pub fn b3_shape_are_hit_events_enabled(id: ShapeId) -> bool {
 }
 
 pub fn b3_shape_set_user_material_id(id: ShapeId, user_material_id: u64) {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world_mut(world, |w| {
         if let Some(shape) = w
             .shapes
@@ -8147,10 +8059,7 @@ pub fn b3_shape_set_surface_material(id: ShapeId, material: SurfaceMaterial) {
     {
         return;
     }
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world_mut(world, |w| {
         let Some(shape) = w
             .shapes
@@ -8217,10 +8126,7 @@ pub fn b3_shape_apply_wind(
     max_speed: f32,
     wake: bool,
 ) {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world_mut(world, |w| {
         let Some(shape) = w
             .shapes
@@ -8509,10 +8415,7 @@ pub fn b3_shape_apply_wind(
 }
 
 pub fn b3_shape_set_mesh_material(id: ShapeId, index: usize, material: SurfaceMaterial) {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world_mut(world, |w| {
         let Some(shape) = w
             .shapes
@@ -8538,16 +8441,13 @@ pub fn b3_shape_set_mesh_material(id: ShapeId, index: usize, material: SurfaceMa
 }
 
 pub fn b3_shape_get_mesh_material(id: ShapeId, index: usize) -> SurfaceMaterial {
-    with_world_no_sync(WorldId { index1: id.world0, generation: 1 }, |w| {
+    with_world_no_sync(world_id_from_shape(id), |w| {
         shape_property_ref(w, id)?.mesh_materials.get(index).copied()
     }).flatten().unwrap_or_else(crate::api::b3_default_surface_material)
 }
 
 pub fn b3_shape_set_mesh_material_count(id: ShapeId, count: usize) {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world_mut(world, |w| {
         let Some(shape) = w
             .shapes
@@ -8570,10 +8470,7 @@ pub fn b3_shape_set_mesh_material_count(id: ShapeId, count: usize) {
 }
 
 pub fn b3_shape_is_sensor(id: ShapeId) -> bool {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world(world, |w| {
         w.shapes
             .get(id.index1.saturating_sub(1) as usize)
@@ -8584,10 +8481,7 @@ pub fn b3_shape_is_sensor(id: ShapeId) -> bool {
 }
 
 pub fn b3_shape_set_sensor(id: ShapeId, is_sensor: bool) {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world_mut(world, |w| {
         let Some(shape) = w
             .shapes
@@ -8606,10 +8500,7 @@ pub fn b3_shape_set_sensor(id: ShapeId, is_sensor: bool) {
 }
 
 pub fn b3_shape_enable_sensor_events(id: ShapeId, enable: bool) {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world_mut(world, |w| {
         let Some(shape) = w
             .shapes
@@ -8628,10 +8519,7 @@ pub fn b3_shape_enable_sensor_events(id: ShapeId, enable: bool) {
 }
 
 pub fn b3_shape_are_sensor_events_enabled(id: ShapeId) -> bool {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world(world, |w| {
         w.shapes
             .get(id.index1.saturating_sub(1) as usize)
@@ -8645,10 +8533,7 @@ pub fn b3_shape_get_sensor_capacity(id: ShapeId) -> i32 {
     if !b3_shape_is_sensor(id) {
         return 0;
     }
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world(world, |w| {
         w.sensor_overlaps
             .get(&id.index1)
@@ -8661,10 +8546,7 @@ pub fn b3_shape_get_sensor_data(id: ShapeId, output: &mut [ShapeId]) -> usize {
     if !b3_shape_is_sensor(id) {
         return 0;
     }
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world(world, |w| {
         let Some(overlaps) = w.sensor_overlaps.get(&id.index1) else {
             return 0;
@@ -8677,10 +8559,7 @@ pub fn b3_shape_get_sensor_data(id: ShapeId, output: &mut [ShapeId]) -> usize {
 }
 
 pub fn b3_destroy_shape(id: ShapeId, update_body_mass: bool) {
-    let world = WorldId {
-        index1: id.world0,
-        generation: 1,
-    };
+    let world = world_id_from_shape(id);
     with_world_mut(world, |w| destroy_shape_inner(w, id, update_body_mass));
 }
 
@@ -9533,7 +9412,7 @@ pub fn b3_body_get_joints(id: BodyId, output: &mut [JointId]) -> usize {
             output[count] = JointId {
                 index1: index as i32 + 1,
                 world0: id.world0,
-                generation: 1,
+                generation: w.child_generation,
             };
             count += 1;
         }
@@ -10056,7 +9935,7 @@ mod mesh_shared_snapshot_tests {
 
 pub fn b3_shape_set_density(id: ShapeId, density: f32, update_body_mass: bool) {
     if !density.is_finite() || density < 0.0 { return; }
-    let world = WorldId { index1: id.world0, generation: 1 };
+    let world = world_id_from_shape(id);
     with_world_mut(world, |w| {
         let Some(index) = id.index1.checked_sub(1).map(|v| v as usize) else { return; };
         let Some(shape) = w.shapes.get_mut(index).and_then(Option::as_mut) else { return; };
@@ -10085,7 +9964,7 @@ pub fn b3_body_get_world(id: BodyId) -> WorldId {
 }
 
 pub fn b3_shape_get_world(id: ShapeId) -> WorldId {
-    let world = WorldId { index1: id.world0, generation: 1 };
+    let world = world_id_from_shape(id);
     with_world_no_sync(world, |w| {
         let shape = w.shapes.get(id.index1.checked_sub(1)? as usize)?.as_ref()?;
         (shape.generation == id.generation).then_some(world)
@@ -10093,9 +9972,12 @@ pub fn b3_shape_get_world(id: ShapeId) -> WorldId {
 }
 
 fn with_joint_metadata<T>(id: JointId, f: impl FnOnce(&WorldInner, &JointGpu) -> T) -> Option<T> {
-    if id.generation != 1 { return None; }
-    with_world_no_sync(WorldId { index1: id.world0, generation: 1 }, |w| {
-        let joint = w.joints.get(id.index1.checked_sub(1)? as usize)?;
+    if id.index1 <= 0 { return None; }
+    with_world_no_sync(world_id_from_joint(id), |w| {
+        let index = id.index1.checked_sub(1)? as usize;
+        let meta = w.joint_meta.get(index)?.as_ref()?;
+        if meta.generation != id.generation { return None; }
+        let joint = w.joints.get(index)?;
         (joint.kind != JOINT_NONE).then(|| f(w, joint))
     }).flatten()
 }
@@ -10114,7 +9996,7 @@ pub fn b3_joint_get_body(id: JointId, second: bool) -> BodyId {
 }
 
 pub fn b3_joint_get_world(id: JointId) -> WorldId {
-    with_joint_metadata(id, |_, _| WorldId { index1: id.world0, generation: 1 }).unwrap_or_default()
+    with_joint_metadata(id, |_, _| world_id_from_joint(id)).unwrap_or_default()
 }
 
 #[cfg(test)]
@@ -10189,8 +10071,8 @@ pub fn b3_joint_get_collide_connected(id: JointId) -> bool {
 }
 
 pub fn b3_joint_set_collide_connected(id: JointId, enable: bool) {
-    if id.index1 <= 0 || id.generation != 1 { return; }
-    let world = WorldId { index1: id.world0, generation: 1 };
+    if id.index1 <= 0 { return; }
+    let world = world_id_from_joint(id);
     // Harvest pending contact events before retiring their pair, so an unread
     // begin is preserved and the end is published on the next native step.
     with_world_mut_no_sync(world, |w| {
@@ -12595,7 +12477,7 @@ mod api_completion_tests {
 pub fn b3_joint_set_local_frame(id: JointId, second: bool, position: [f32; 3], rotation: [f32; 4]) {
     if position.iter().chain(rotation.iter()).any(|v| !v.is_finite())
         || (rotation.iter().map(|v| v*v).sum::<f32>() - 1.0).abs() > 0.001 { return; }
-    with_world_mut(WorldId { index1: id.world0, generation: 1 }, |w| {
+    with_world_mut(world_id_from_joint(id), |w| {
         let Some(index) = id.index1.checked_sub(1).map(|v| v as usize) else { return; };
         let Some(meta) = w.joint_meta.get(index).and_then(Option::as_ref) else { return; };
         if meta.generation != id.generation { return; }
@@ -12620,7 +12502,7 @@ pub fn b3_joint_wake_bodies(id: JointId) {
 }
 
 pub fn b3_shape_compute_mass_data(id: ShapeId) -> MassData {
-    with_world_no_sync(WorldId { index1: id.world0, generation: 1 }, |w| {
+    with_world_no_sync(world_id_from_shape(id), |w| {
         let shape = w.shapes.get(id.index1.checked_sub(1)? as usize)?.as_ref()?;
         if shape.generation != id.generation || !matches!(shape.public_kind, KIND_SPHERE | KIND_CAPSULE | KIND_BOX | KIND_CONVEX_HULL) {
             return None;

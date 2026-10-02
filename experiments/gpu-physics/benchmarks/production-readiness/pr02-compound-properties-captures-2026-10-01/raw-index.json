@@ -97,5 +97,11 @@
   "raw/native-viewer/receipt.json": "fcdb80225b96c7a5fad6dfb022c33feac5400806a562ded3201d60331ddbecc9",
   "raw/protocol.json": "0fb2a82e95e184659d6aa434e03d8a7262de66f240ec6b03e8a14f8652f94f01",
   "raw/publish-captures.py": "93a8021d4e3acee962fc51c4ae2fe56500195dd60ee4a94a100bc8d6ad0cbc54",
-  "raw/receipt.json": "df425753d8dee85e7353b48fdce69d99c45f0127ee40f46dfef1b7d3472ef6a9"
+  "raw/receipt.json": "df425753d8dee85e7353b48fdce69d99c45f0127ee40f46dfef1b7d3472ef6a9",
+  "raw/recordings/cpu/compound-properties-simple.mp4": "c2f5a901f0c5b681e9e33d1981dde5675808558ab8ab08b24c44cf78623e466a",
+  "raw/recordings/cpu/compound-properties-spheres.mp4": "2b1e67f365e1f0445eefbd0deed3db3c8df3ce14db075f0b1b2e94fbbb0ecfb5",
+  "raw/recordings/cpu/compound-properties-hulls.mp4": "754bf068ccb45122058172b063543265738b9b03ee61bc330e7282800032672d",
+  "raw/recordings/cpu/compound-properties-tile-floor.mp4": "8e9c7cb9bd5ca6285e8205be3b8a5b5e19d6e7d90443ac459c8f37377d58cebf",
+  "raw/recordings/cpu/compound-properties-village.mp4": "111ced796fbe286de9b39aebfe38e0f26466c35a373565bb1905537389fd7b93",
+  "raw/recordings/cpu/compound-properties-mesh-tile.mp4": "fa571c6755c96b62b1a1e009533b04bf0c74ec2fbda9760de7e9b4092271fa34"
 }

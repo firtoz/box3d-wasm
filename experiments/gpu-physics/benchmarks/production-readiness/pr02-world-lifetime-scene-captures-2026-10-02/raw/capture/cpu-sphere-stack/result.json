@@ -1,0 +1,32 @@
+{
+  "kind": "cpu",
+  "scene": "sphere-stack",
+  "status": "pass",
+  "command": [
+    "bash",
+    "scripts/record-box3d-oracle.sh",
+    "000-box3d-cpu"
+  ],
+  "environment": {
+    "GPU_PHYSICS_ADAPTER": "nvidia",
+    "GPU_PHYSICS_BACKEND": "vulkan",
+    "WGPU_BACKEND": "vulkan",
+    "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+    "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-scene-captures/standard-pipelines",
+    "GPU_RECORD_BIN": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-capture-build/gpu-physics-frozen",
+    "GPU_RECORD_ORACLE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/recording-build/box3d-oracle-frozen",
+    "FRAMES": "300",
+    "SKIP_METRICS": "1",
+    "METRIC_RUNS": "1",
+    "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+    "RECORD_SCENES": "sphere-stack"
+  },
+  "started_unix": 1790899923.8528929,
+  "wrapper_pid": 212234,
+  "exit": 0,
+  "finished_unix": 1790899925.3212788,
+  "log_sha256": "a9ac87133bc30afc9d2c7bf8999536634f6921c88a30e7b0656e45dc6886faeb",
+  "clip_sha256": "f0b2fb55caa464cf9e1076ee60df5bebbe44339502a813ba394a411f49a42657",
+  "frames": 300,
+  "incidental_cpu_metrics_sha256": "35640c5f6120eade63826ca48e8337677d868dd79e20b80f150297e3e1510a27"
+}

@@ -1,0 +1,31 @@
+{
+  "status": "pass",
+  "cargo_build_script_event": {
+    "reason": "build-script-executed",
+    "package_id": "path+file:///home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics#0.1.0",
+    "linked_libs": [
+      "static=gpu_box3d_c_abi",
+      "static=gpu_box3d_hull_cook"
+    ],
+    "linked_paths": [
+      "native=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/build/gpu-physics-756e9d2a778b4817/out",
+      "native=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/build/gpu-physics-756e9d2a778b4817/out"
+    ],
+    "cfgs": [],
+    "env": [],
+    "out_dir": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/build/gpu-physics-756e9d2a778b4817/out"
+  },
+  "linked_C_archives": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/build/gpu-physics-756e9d2a778b4817/out/libgpu_box3d_c_abi.a": "66468f023fd1f5c8b6eeb1665cd279e5d04993db400cde68392402a10f0fd477",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/build/gpu-physics-756e9d2a778b4817/out/libgpu_box3d_hull_cook.a": "370f0fcec3c49fd4d0032cdbb17faa03201e52f6a4e64ed7254fe222da9f77b5"
+  },
+  "objects": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/build/gpu-physics-756e9d2a778b4817/out/017c8b9618f050b4-shim.o": "0004788629ea7ed24952a436da8654e0fcc6981af47d1c99e191b9029fb057bd",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/build/gpu-physics-756e9d2a778b4817/out/adedc232f232490c-hull.o": "f71548ca76e707302e0932628d308839bcddd55150e7870fc09c637cde897f25",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/build/gpu-physics-756e9d2a778b4817/out/adedc232f232490c-core.o": "7b0703d8d2a7617e0b9e60b8b102be821412bebe5b4082e024f847cabcb1c174",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/build/gpu-physics-756e9d2a778b4817/out/adedc232f232490c-math_functions.o": "6f6a7433554707de696d4e3c61527e429d44e7c71ce015948edea0cb75086803",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/build/gpu-physics-756e9d2a778b4817/out/adedc232f232490c-distance.o": "51bf66e7f6748d14b2dfb63b69074dd0f70f392751c288e8a740e295cbcc8581"
+  },
+  "exact_compile_commands": "build.log contains CC_ENABLE_DEBUG_OUTPUT for actual shim and four hull-cooker C units",
+  "limits": "Other feature-fingerprint objects in build receipt are not asserted linked; dependencies remain cached, not PR06 clean qualification."
+}

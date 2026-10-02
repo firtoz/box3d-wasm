@@ -1,0 +1,2162 @@
+{
+  "status": "complete",
+  "build_artifacts_verified": true,
+  "missing_build_inputs": [],
+  "gpu_build_dir": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake",
+  "both_build_dir": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake",
+  "libraries": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-fix/ordinary-frozen.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/libgpu_samples_api.a"
+  ],
+  "required_stateful_header_symbols": 415,
+  "additional_missing_stateful_symbols": [],
+  "remaining_stub_definitions": [],
+  "additional_known_placeholders": [],
+  "duplicate_stub_definitions": [],
+  "cpu_only_comparison_passthrough": [],
+  "declared_unavailable_symbols": [
+    "b3CreatePlayer",
+    "b3CreateRecording",
+    "b3DestroyPlayer",
+    "b3DestroyRecording",
+    "b3LoadRecordingFromFile",
+    "b3RecPlayer_DrawFrameQueries",
+    "b3RecPlayer_GetBodyCount",
+    "b3RecPlayer_GetBodyId",
+    "b3RecPlayer_GetDivergeFrame",
+    "b3RecPlayer_GetFrame",
+    "b3RecPlayer_GetFrameCount",
+    "b3RecPlayer_GetFrameQuery",
+    "b3RecPlayer_GetFrameQueryCount",
+    "b3RecPlayer_GetFrameQueryHit",
+    "b3RecPlayer_GetInfo",
+    "b3RecPlayer_GetKeyframeBudget",
+    "b3RecPlayer_GetKeyframeBytes",
+    "b3RecPlayer_GetKeyframeInterval",
+    "b3RecPlayer_GetKeyframeMinInterval",
+    "b3RecPlayer_GetWorldId",
+    "b3RecPlayer_HasDiverged",
+    "b3RecPlayer_IsAtEnd",
+    "b3RecPlayer_IsAtPreStep",
+    "b3RecPlayer_Restart",
+    "b3RecPlayer_SeekFrame",
+    "b3RecPlayer_SetDebugShapeCallbacks",
+    "b3RecPlayer_SetKeyframePolicy",
+    "b3RecPlayer_SetWorkerCount",
+    "b3RecPlayer_StepFrame",
+    "b3RecPlayer_SubStepFrame",
+    "b3Recording_GetData",
+    "b3Recording_GetSize",
+    "b3SaveRecordingToFile",
+    "b3ValidateReplay",
+    "b3World_GetWorkerCount",
+    "b3World_RebuildStaticTree",
+    "b3World_SetWorkerCount",
+    "b3World_StartRecording",
+    "b3World_StopRecording"
+  ],
+  "unavailable_source_error_hooks_missing": [],
+  "unavailable_error_interface_linked": true,
+  "required_stub_or_placeholder_definitions": [],
+  "gpu_authoritative_shared_api": [
+    "b3Shape_GetType",
+    "b3World_DumpMemoryStats",
+    "b3World_DumpShapeBounds",
+    "b3World_GetCounters",
+    "b3World_GetMaxCapacity",
+    "b3World_GetProfile"
+  ],
+  "native_diagnostic_unavailable_counter_fields": [
+    "stackUsed",
+    "arenaCapacity",
+    "staticTreeHeight",
+    "treeHeight",
+    "satCallCount",
+    "satCacheHitCount",
+    "taskCount",
+    "colorCounts",
+    "awakeContactCount",
+    "recycledContactCount",
+    "distanceIterations",
+    "pushBackIterations",
+    "rootIterations"
+  ],
+  "initial_release_stateful_inventory": [
+    {
+      "symbol": "b3Body_AllowFastRotation",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_ApplyAngularImpulse",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_ApplyForce",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_ApplyForceToCenter",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_ApplyLinearImpulse",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_ApplyLinearImpulseToCenter",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_ApplyMassFromShapes",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_ApplyTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_CastRay",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_CastShape",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_CollideMover",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_ComputeAABB",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_Disable",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_Enable",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_EnableContactRecycling",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_EnableHitEvents",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_EnableSleep",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetAngularDamping",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetAngularVelocity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetClosestPoint",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetContactCapacity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetContactData",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetGravityScale",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetInverseMass",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetJointCount",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetJoints",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetLinearDamping",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetLinearVelocity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetLocalCenter",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetLocalPoint",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetLocalPointVelocity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetLocalRotationalInertia",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetLocalVector",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetMass",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetMassData",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetMotionLocks",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetName",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetPosition",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetRotation",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetShapeCount",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetShapes",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetSleepThreshold",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetTransform",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetType",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetUserData",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetWorld",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetWorldCenter",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetWorldInverseRotationalInertia",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetWorldPoint",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetWorldPointVelocity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_GetWorldVector",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_IsAwake",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_IsBullet",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_IsContactRecyclingEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_IsEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_IsFastRotationAllowed",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_IsSleepEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_IsValid",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_OverlapShape",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_SetAngularDamping",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_SetAngularVelocity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_SetAwake",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_SetBullet",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_SetGravityScale",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_SetLinearDamping",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_SetLinearVelocity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_SetMassData",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_SetMotionLocks",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_SetName",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_SetSleepThreshold",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_SetTargetTransform",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_SetTransform",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_SetType",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Body_SetUserData",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateBakedCompoundShape",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateBody",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateCapsuleShape",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateDistanceJoint",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateFilterJoint",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateHeightFieldShape",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateHullShape",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateMeshShape",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateMotorJoint",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateParallelJoint",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreatePlayer",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreatePrismaticJoint",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateRecording",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateRevoluteJoint",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateSphereShape",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateSphericalJoint",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateTransformedHullShape",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateWeldJoint",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateWheelJoint",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3CreateWorld",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DestroyBody",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DestroyJoint",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DestroyPlayer",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DestroyRecording",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DestroyShape",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DestroyWorld",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_EnableLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_EnableMotor",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_EnableSpring",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_GetCurrentLength",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_GetLength",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_GetMaxLength",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_GetMaxMotorForce",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_GetMinLength",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_GetMotorForce",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_GetMotorSpeed",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_GetSpringDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_GetSpringForceRange",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_GetSpringHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_IsLimitEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_IsMotorEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_IsSpringEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_SetLength",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_SetLengthRange",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_SetMaxMotorForce",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_SetMotorSpeed",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_SetSpringDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_SetSpringForceRange",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3DistanceJoint_SetSpringHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_GetAngularSeparation",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_GetBodyA",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_GetBodyB",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_GetCollideConnected",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_GetConstraintForce",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_GetConstraintTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_GetConstraintTuning",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_GetForceThreshold",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_GetLinearSeparation",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_GetLocalFrameA",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_GetLocalFrameB",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_GetTorqueThreshold",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_GetType",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_GetUserData",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_GetWorld",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_IsValid",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_SetCollideConnected",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_SetConstraintTuning",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_SetForceThreshold",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_SetLocalFrameA",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_SetLocalFrameB",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_SetTorqueThreshold",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_SetUserData",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Joint_WakeBodies",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3LoadRecordingFromFile",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_GetAngularDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_GetAngularHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_GetAngularVelocity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_GetLinearDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_GetLinearHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_GetLinearVelocity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_GetMaxSpringForce",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_GetMaxSpringTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_GetMaxVelocityForce",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_GetMaxVelocityTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_SetAngularDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_SetAngularHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_SetAngularVelocity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_SetLinearDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_SetLinearHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_SetLinearVelocity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_SetMaxSpringForce",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_SetMaxSpringTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_SetMaxVelocityForce",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3MotorJoint_SetMaxVelocityTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3ParallelJoint_GetMaxTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3ParallelJoint_GetSpringDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3ParallelJoint_GetSpringHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3ParallelJoint_SetMaxTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3ParallelJoint_SetSpringDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3ParallelJoint_SetSpringHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_EnableLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_EnableMotor",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_EnableSpring",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_GetLowerLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_GetMaxMotorForce",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_GetMotorForce",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_GetMotorSpeed",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_GetSpeed",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_GetSpringDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_GetSpringHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_GetTargetTranslation",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_GetTranslation",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_GetUpperLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_IsLimitEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_IsMotorEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_IsSpringEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_SetLimits",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_SetMaxMotorForce",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_SetMotorSpeed",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_SetSpringDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_SetSpringHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3PrismaticJoint_SetTargetTranslation",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_DrawFrameQueries",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_GetBodyCount",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_GetBodyId",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_GetDivergeFrame",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_GetFrame",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_GetFrameCount",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_GetFrameQuery",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_GetFrameQueryCount",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_GetFrameQueryHit",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_GetInfo",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_GetKeyframeBudget",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_GetKeyframeBytes",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_GetKeyframeInterval",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_GetKeyframeMinInterval",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_GetWorldId",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_HasDiverged",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_IsAtEnd",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_IsAtPreStep",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_Restart",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_SeekFrame",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_SetDebugShapeCallbacks",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_SetKeyframePolicy",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_SetWorkerCount",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_StepFrame",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RecPlayer_SubStepFrame",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Recording_GetData",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Recording_GetSize",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_EnableLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_EnableMotor",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_EnableSpring",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_GetAngle",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_GetLowerLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_GetMaxMotorTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_GetMotorSpeed",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_GetMotorTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_GetSpringDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_GetSpringHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_GetTargetAngle",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_GetUpperLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_IsLimitEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_IsMotorEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_IsSpringEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_SetLimits",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_SetMaxMotorTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_SetMotorSpeed",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_SetSpringDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_SetSpringHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3RevoluteJoint_SetTargetAngle",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SaveRecordingToFile",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_ApplyWind",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_AreContactEventsEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_AreHitEventsEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_ArePreSolveEventsEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_AreSensorEventsEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_ComputeMassData",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_EnableContactEvents",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_EnableHitEvents",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_EnablePreSolveEvents",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_EnableSensorEvents",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetAABB",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetBody",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetCapsule",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetClosestPoint",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetContactCapacity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetContactData",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetDensity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetFilter",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetFriction",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetHeightField",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetHull",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetMesh",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetMeshMaterialCount",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetMeshSurfaceMaterial",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetName",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetRestitution",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetSensorCapacity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetSensorData",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetSphere",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetSurfaceMaterial",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetType",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetUserData",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_GetWorld",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_IsSensor",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_IsValid",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_RayCast",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_SetCapsule",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_SetDensity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_SetFilter",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_SetFriction",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_SetHull",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_SetMesh",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_SetMeshMaterial",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_SetName",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_SetRestitution",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_SetSphere",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_SetSurfaceMaterial",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3Shape_SetUserData",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_EnableConeLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_EnableMotor",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_EnableSpring",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_EnableTwistLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_GetConeAngle",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_GetConeLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_GetLowerTwistLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_GetMaxMotorTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_GetMotorTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_GetMotorVelocity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_GetSpringDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_GetSpringHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_GetTargetRotation",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_GetTwistAngle",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_GetUpperTwistLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_IsConeLimitEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_IsMotorEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_IsSpringEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_IsTwistLimitEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_SetConeLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_SetMaxMotorTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_SetMotorVelocity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_SetSpringDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_SetSpringHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_SetTargetRotation",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3SphericalJoint_SetTwistLimits",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3ValidateReplay",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WeldJoint_GetAngularDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WeldJoint_GetAngularHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WeldJoint_GetLinearDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WeldJoint_GetLinearHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WeldJoint_SetAngularDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WeldJoint_SetAngularHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WeldJoint_SetLinearDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WeldJoint_SetLinearHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_EnableSpinMotor",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_EnableSteering",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_EnableSteeringLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_EnableSuspension",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_EnableSuspensionLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_GetLowerSteeringLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_GetLowerSuspensionLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_GetMaxSpinTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_GetMaxSteeringTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_GetSpinMotorSpeed",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_GetSpinSpeed",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_GetSpinTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_GetSteeringAngle",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_GetSteeringDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_GetSteeringHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_GetSteeringTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_GetSuspensionDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_GetSuspensionHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_GetTargetSteeringAngle",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_GetUpperSteeringLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_GetUpperSuspensionLimit",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_IsSpinMotorEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_IsSteeringEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_IsSteeringLimitEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_IsSuspensionEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_IsSuspensionLimitEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_SetMaxSpinTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_SetMaxSteeringTorque",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_SetSpinMotorSpeed",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_SetSteeringDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_SetSteeringHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_SetSteeringLimits",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_SetSuspensionDampingRatio",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_SetSuspensionHertz",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_SetSuspensionLimits",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3WheelJoint_SetTargetSteeringAngle",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_CastMover",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_CastRay",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_CastRayClosest",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_CastShape",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_CollideMover",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_Draw",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_DumpMemoryStats",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_DumpShapeBounds",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_EnableContinuous",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_EnableSleeping",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_EnableSpeculative",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_EnableWarmStarting",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_Explode",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_GetAwakeBodyCount",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_GetBodyEvents",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_GetBounds",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_GetContactEvents",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_GetContactRecycleDistance",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_GetCounters",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_GetGravity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_GetHitEventThreshold",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_GetJointEvents",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_GetMaxCapacity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_GetMaximumLinearSpeed",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_GetProfile",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_GetRestitutionThreshold",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_GetSensorEvents",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_GetUserData",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_GetWorkerCount",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_IsContinuousEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_IsSleepingEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_IsValid",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_IsWarmStartingEnabled",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_OverlapAABB",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_OverlapShape",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_RebuildStaticTree",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_SetContactRecycleDistance",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_SetContactTuning",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_SetCustomFilterCallback",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_SetFrictionCallback",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_SetGravity",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_SetHitEventThreshold",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_SetMaximumLinearSpeed",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_SetPreSolveCallback",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_SetRestitutionCallback",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_SetRestitutionThreshold",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_SetUserData",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_SetWorkerCount",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_StartRecording",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_Step",
+      "classification": "implemented-behavior-unqualified",
+      "linked_in_gpu_inputs": true
+    },
+    {
+      "symbol": "b3World_StopRecording",
+      "classification": "declared-unavailable",
+      "linked_in_gpu_inputs": true
+    }
+  ],
+  "note": "Source inventory. CPU-only passthrough requires review; linked symbols and semantic behavior need separate tests."
+}

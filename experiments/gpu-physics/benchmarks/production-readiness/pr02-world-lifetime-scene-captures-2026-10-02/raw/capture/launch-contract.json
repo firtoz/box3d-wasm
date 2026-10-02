@@ -1,0 +1,28 @@
+{
+  "capture_protocol_sha256": "c0cb6b1ce76d812948dad820a3cb55501d211791984ad86dca2e976f812ef2ed",
+  "native_protocol_sha256": "3689b19425b71d90f7b572e25e70ff22a55e7af90a48baea953f8d850a5d4744",
+  "prepare_sha256": "17ba0af39af63631f968499f6bc713bf8b559b970e70ab7f55a7a010187d0b8f",
+  "no_apps_launched": true,
+  "frozen_binaries": {
+    "binary": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-capture-build/gpu-physics-frozen",
+    "sha256": "5e95abcc9e168804ff5ab370a09e838399f688aceb1d3bd96e613f541b2c3f47"
+  },
+  "cpu_and_native_applicability_receipts": {
+    "cpu": {
+      "binary": "artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/bin/samples_cpu",
+      "binary_sha256": "6c65fabab6fbd048a321061c8f9b2bb061afdcfa450d57b1bbc5ff96d5e6d14e",
+      "receipt": "artifacts/production-readiness/pr02-world-lifetime-scene-captures/native/cpu-applicability-receipt.json",
+      "receipt_sha256": "6403ce0e6cdfedf71c8996448df029a2a0702f1db92511bb981c9494047383b0",
+      "label": "000-box3d-cpu"
+    },
+    "gpu": {
+      "binary": "artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake/bin/samples_both",
+      "binary_sha256": "c497cd8f5f9b93bb83bbdbf87541c57a80fb93d86e23773ccd7a36063ba4d109",
+      "receipt": "artifacts/production-readiness/pr02-world-lifetime-scene-captures/native/gpu-applicability-receipt.json",
+      "receipt_sha256": "134868fdad1e8dc3c61538de6716250518972f89a6c5181d7de46be906fc6d73",
+      "label": "2026-10-02-world-lifetime",
+      "health_mode": "both"
+    }
+  },
+  "driver_sha256": "9c096648b1e6716b721f53b386651aa894fd1773051c230a0bbc3d8c75cee6cb"
+}

@@ -98,14 +98,11 @@ fn prepared_torque(frames: [[f32; 4]; 2], perp: [f32; 2]) -> V3 {
     add(scale(perp[0], x), scale(perp[1], y))
 }
 fn reaction(id: JointId, torque: bool) -> V3 {
-    if id.index1 <= 0 || id.generation != 1 {
+    if id.index1 <= 0 {
         return [0.0; 3];
     }
     with_world(
-        WorldId {
-            index1: id.world0,
-            generation: 1,
-        },
+        world_id_from_joint(id),
         |w| {
             let index = id.index1 as usize - 1;
             let j = w.joints.get(index)?;

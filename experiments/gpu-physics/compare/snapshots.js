@@ -7289,6 +7289,39 @@ window.GPU_COMPARE = {
         "compound-properties-mesh-tile": "../recordings/snapshots/2026-10-01-compound-properties/compound-properties-mesh-tile.mp4"
       },
       "metrics": null
+    },
+    {
+      "id": "2026-10-02-world-lifetime",
+      "label": "v0.10",
+      "videos": {
+        "single-box": "../recordings/snapshots/2026-10-02-world-lifetime/single-box.mp4",
+        "box-stack": "../recordings/snapshots/2026-10-02-world-lifetime/box-stack.mp4",
+        "sphere-stack": "../recordings/snapshots/2026-10-02-world-lifetime/sphere-stack.mp4",
+        "capsule-stack": "../recordings/snapshots/2026-10-02-world-lifetime/capsule-stack.mp4",
+        "revolute": "../recordings/snapshots/2026-10-02-world-lifetime/revolute.mp4",
+        "weld": "../recordings/snapshots/2026-10-02-world-lifetime/weld.mp4",
+        "stack": "../recordings/snapshots/2026-10-02-world-lifetime/stack.mp4",
+        "pyramid": "../recordings/snapshots/2026-10-02-world-lifetime/pyramid.mp4",
+        "bounce": "../recordings/snapshots/2026-10-02-world-lifetime/bounce.mp4",
+        "mixed": "../recordings/snapshots/2026-10-02-world-lifetime/mixed.mp4",
+        "spinner": "../recordings/snapshots/2026-10-02-world-lifetime/spinner.mp4",
+        "ramp": "../recordings/snapshots/2026-10-02-world-lifetime/ramp.mp4",
+        "spheres": "../recordings/snapshots/2026-10-02-world-lifetime/spheres.mp4",
+        "dominoes": "../recordings/snapshots/2026-10-02-world-lifetime/dominoes.mp4",
+        "high-resistance": "../recordings/snapshots/2026-10-02-world-lifetime/high-resistance.mp4",
+        "mixed-stacks": "../recordings/snapshots/2026-10-02-world-lifetime/mixed-stacks.mp4",
+        "falling-cubes": "../recordings/snapshots/2026-10-02-world-lifetime/falling-cubes.mp4",
+        "mixed-topology": "../recordings/snapshots/2026-10-02-world-lifetime/mixed-topology.mp4",
+        "anchored-mechanisms": "../recordings/snapshots/2026-10-02-world-lifetime/anchored-mechanisms.mp4",
+        "joint-chain": "../recordings/snapshots/2026-10-02-world-lifetime/joint-chain.mp4",
+        "compound-properties-simple": "../recordings/snapshots/2026-10-02-world-lifetime/compound-properties-simple.mp4",
+        "compound-properties-spheres": "../recordings/snapshots/2026-10-02-world-lifetime/compound-properties-spheres.mp4",
+        "compound-properties-hulls": "../recordings/snapshots/2026-10-02-world-lifetime/compound-properties-hulls.mp4",
+        "compound-properties-tile-floor": "../recordings/snapshots/2026-10-02-world-lifetime/compound-properties-tile-floor.mp4",
+        "compound-properties-village": "../recordings/snapshots/2026-10-02-world-lifetime/compound-properties-village.mp4",
+        "compound-properties-mesh-tile": "../recordings/snapshots/2026-10-02-world-lifetime/compound-properties-mesh-tile.mp4"
+      },
+      "metrics": null
     }
   ]
 };

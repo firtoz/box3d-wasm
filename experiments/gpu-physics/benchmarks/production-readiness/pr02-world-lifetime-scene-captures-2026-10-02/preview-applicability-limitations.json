@@ -1,0 +1,38 @@
+{
+  "status": "full-resolution prior/current initial layouts agree; derived sheet overlap corrected",
+  "body_counts": {
+    "cpu_total": 602,
+    "gpu_total": 602,
+    "dynamic_bodies": 600
+  },
+  "falling_cubes_preview_dynamic_bodies": 256,
+  "frozen_performance_falling_cubes_dynamic_bodies": 50000,
+  "relevant_unchanged_scene_types_video_sources": {
+    "src/scenes.rs": "04a752c0dab6f904f6472c96738a7ceb8737640ccdbf371af05730bd6177a7e5",
+    "src/types.rs": "127463deebde7656cacaf320e83857df7fb1a780fd2ecf37947c4d3eb26c735b",
+    "src/video.rs": "bcba2b3d4f2d46db345b0857e06bb38dab4b6bed83973811d74b96e8ecbb2f35"
+  },
+  "prior_clips_verified_against_original_recording_checks": [
+    {
+      "epoch": "prior",
+      "engine": "cpu",
+      "clip_sha256": "6733b8e43b12c4885f81552acc7ba6aad8b4bc31c222cad0241fbb0f8de8b8e4"
+    },
+    {
+      "epoch": "prior",
+      "engine": "gpu",
+      "clip_sha256": "649d017d6926d1b8b00c504c13488135fae842d7a6997ecf1038622a3f25e07a"
+    },
+    {
+      "epoch": "current",
+      "engine": "cpu",
+      "clip_sha256": "6733b8e43b12c4885f81552acc7ba6aad8b4bc31c222cad0241fbb0f8de8b8e4"
+    },
+    {
+      "epoch": "current",
+      "engine": "gpu",
+      "clip_sha256": "649d017d6926d1b8b00c504c13488135fae842d7a6997ecf1038622a3f25e07a"
+    }
+  ],
+  "note": "Raw CPU metrics and GPU upload logs both show602 total bodies,600 dynamic. Prior/current original frame0 layouts agree. Draft sheets used120px row offset for158px thumbnails, overlapping37px and creating a false visual difference. Corrected sheets use170px offsets and370px scene rows. Preserve original derived sheets separately; no simulation/replay/capture process repeated. Falling Cubes preview uses256 dynamic bodies and does not qualify the frozen50000-body performance fixture."
+}

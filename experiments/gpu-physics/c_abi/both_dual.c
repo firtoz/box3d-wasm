@@ -875,6 +875,9 @@ B3_API b3WorldId b3CreateWorld(const b3WorldDef* def)
 
 B3_API void b3DestroyWorld(b3WorldId worldId)
 {
+    // A stale generation must not clear the replacement's visual/geometry state.
+    // Retain cleanup of the matching CPU mapping after a GPU world is lost.
+    if (!gpu_b3_world_is_valid(worldId) && !both_has_cpu_world(worldId)) { return; }
     if (g_drag.world.index1 == worldId.index1) {
         both_pointer_up(); memset(&g_drag, 0, sizeof(g_drag));
     }
@@ -1301,6 +1304,7 @@ B3_API int b3Shape_GetSensorData(b3ShapeId shapeId, b3ShapeId* visitorIds, int c
 
 B3_API void b3DestroyShape(b3ShapeId shapeId, bool updateBodyMass)
 {
+    if (!gpu_b3_shape_is_valid(shapeId) && !both_has_cpu_shape(shapeId)) { return; }
     gpu_shape_clear_geometry(shapeId);
 	if (both_has_cpu_shape(shapeId))
 	{
@@ -1514,7 +1518,7 @@ B3_API b3ShapeId b3CreateBakedCompoundShape(b3BodyId bodyId, b3ShapeDef* def, co
 	if (compound == NULL || compound->version != B3_COMPOUND_VERSION || b3Body_GetType(bodyId) != b3_staticBody ||
 		(def != NULL && def->isSensor))
 	{
-		gpu_b3_world_set_fail((b3WorldId){bodyId.world0, 1}, "unsupported or rejected compound data");
+		gpu_b3_world_set_fail(b3Body_GetWorld(bodyId), "unsupported or rejected compound data");
 		return (b3ShapeId){0};
 	}
 	float density, friction, restitution, rolling;
@@ -1523,7 +1527,7 @@ B3_API b3ShapeId b3CreateBakedCompoundShape(b3BodyId bodyId, b3ShapeDef* def, co
 													   def != NULL && def->isSensor);
 	if (parent.index1 <= 0)
 	{
-		gpu_b3_world_set_fail((b3WorldId){bodyId.world0, 1}, "compound parent allocation failed");
+		gpu_b3_world_set_fail(b3Body_GetWorld(bodyId), "compound parent allocation failed");
 		return (b3ShapeId){0};
 	}
 	configure_gpu_shape(parent, def);
@@ -1532,7 +1536,7 @@ B3_API b3ShapeId b3CreateBakedCompoundShape(b3BodyId bodyId, b3ShapeDef* def, co
 		compound->capsuleCount + compound->hullCount + compound->meshCount + compound->sphereCount;
     GpuMeshCache meshCache;
     if (!gpu_mesh_cache_init(&meshCache, compound->meshCount)) {
-        gpu_b3_world_set_fail((b3WorldId){bodyId.world0, 1}, "compound mesh cache allocation failed");
+        gpu_b3_world_set_fail(b3Body_GetWorld(bodyId), "compound mesh cache allocation failed");
         return (b3ShapeId){0};
     }
 
@@ -1579,7 +1583,7 @@ B3_API b3ShapeId b3CreateBakedCompoundShape(b3BodyId bodyId, b3ShapeDef* def, co
 			!gpu_b3_shape_attach_compound_child_materials(parent, childId, i, child.materialIndices))
 		{
 			gpu_mesh_cache_free(&meshCache);
-			gpu_b3_world_set_fail((b3WorldId){bodyId.world0, 1}, "compound child creation or attachment failed");
+			gpu_b3_world_set_fail(b3Body_GetWorld(bodyId), "compound child creation or attachment failed");
 			return (b3ShapeId){0};
 		}
 		gpu_shape_mirror_parent(childId, parent);
@@ -1590,13 +1594,13 @@ B3_API b3ShapeId b3CreateBakedCompoundShape(b3BodyId bodyId, b3ShapeDef* def, co
 	gpu_mesh_cache_free(&meshCache);
     if (!gpu_b3_shape_set_compound_materials(parent, b3GetCompoundMaterials(compound), compound->materialCount))
     {
-        gpu_b3_world_set_fail((b3WorldId){bodyId.world0, 1}, "compound material import failed");
+        gpu_b3_world_set_fail(b3Body_GetWorld(bodyId), "compound material import failed");
         return (b3ShapeId){0};
     }
     /* Preserve the source compound tree box before transformed hull baking. */
     if (!gpu_b3_shape_set_compound_local_bounds(parent, b3ComputeCompoundAABB(compound, b3Transform_identity)))
     {
-        gpu_b3_world_set_fail((b3WorldId){bodyId.world0, 1}, "compound bounds import failed");
+        gpu_b3_world_set_fail(b3Body_GetWorld(bodyId), "compound bounds import failed");
         return (b3ShapeId){0};
     }
 

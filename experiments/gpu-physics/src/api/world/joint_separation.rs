@@ -44,14 +44,11 @@ fn dot(a: [f32; 3], b: [f32; 3]) -> f32 {
 }
 
 fn separation(id: JointId, angular: bool) -> f32 {
-    if id.index1 <= 0 || id.generation != 1 {
+    if id.index1 <= 0 {
         return 0.0;
     }
     with_world(
-        WorldId {
-            index1: id.world0,
-            generation: 1,
-        },
+        world_id_from_joint(id),
         |w| {
             let j = w.joints.get(id.index1 as usize - 1)?;
             if j.kind == JOINT_NONE {

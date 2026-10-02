@@ -1,0 +1,16 @@
+{
+  "purpose": "Derived image layout repair only; no physics/capture retry",
+  "original_thumbnail_size": [
+    280,
+    158
+  ],
+  "original_y_offset": 120,
+  "original_scene_row": 270,
+  "corrected_y_offset": 170,
+  "corrected_scene_row": 370,
+  "originals_retained": "raw/capture/standard-review",
+  "full_resolution_discriminator": "mixed-stacks-prior-current.png",
+  "source_original_sha256": "c4d77295349c5eddc9b713a08e6197dac67a28ce9d2cc846ffb635b581d2464d",
+  "source_corrected_sha256": "db5ebc03e0d775516e383da5114601081cc08cf67dcc97979600510903ca85be",
+  "no_additional_physics_or_timing_processes": true
+}

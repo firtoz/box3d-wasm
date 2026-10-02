@@ -1,0 +1,6 @@
+gpu compound-properties-simple capture/health pass
+gpu compound-properties-spheres capture/health pass
+gpu compound-properties-hulls capture/health pass
+gpu compound-properties-tile-floor capture/health pass
+gpu compound-properties-village capture/health pass
+gpu compound-properties-mesh-tile capture/health pass

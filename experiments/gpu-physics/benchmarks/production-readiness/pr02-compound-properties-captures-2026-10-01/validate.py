@@ -43,7 +43,8 @@ for row in state['results']:
   assert f['nan_count']==0 and not f['gpu_contact_metrics']['capacity_loss']
  stderr=(folder/'stderr').read_text();assert 'samples: 300 frames, 0 sokol errors'in stderr
  if row['kind']=='gpu':assert 'NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan'in stderr
- video=engine/'recordings/snapshots'/p['viewers'][row['kind']]['label']/(row['scene']+'.mp4')
+ # CPU clips are immutable in this report; the live grid can receive new CPU captures.
+ video=(BASE/'raw/recordings/cpu' if row['kind']=='cpu' else engine/'recordings/snapshots'/p['viewers'][row['kind']]['label'])/(row['scene']+'.mp4')
  assert sha(video)==row['video_sha256']
  probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-of','json',str(video)],text=True))
  stream=next(s for s in probe['streams']if s['codec_type']=='video')

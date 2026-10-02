@@ -1,0 +1,257 @@
+{
+  "status": "reviewed-with-recorded-limitations",
+  "date_utc": "2026-10-02T00:34:14.374875+00:00",
+  "method": "Original clip hashes/probes and corrected initial/middle/final standard sheets; five completed-window native sheets; full-resolution prior/current Mixed Stacks discriminator. Full MP4s retained.",
+  "reviews": [
+    {
+      "scene": "single-box",
+      "sources": [
+        "raw/clips/cpu/single-box.mp4",
+        "raw/clips/gpu/single-box.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Support cube and checker floor visible on both sides."
+    },
+    {
+      "scene": "box-stack",
+      "sources": [
+        "raw/clips/cpu/box-stack.mp4",
+        "raw/clips/gpu/box-stack.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Upright stack remains visible on both sides."
+    },
+    {
+      "scene": "sphere-stack",
+      "sources": [
+        "raw/clips/cpu/sphere-stack.mp4",
+        "raw/clips/gpu/sphere-stack.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Same initial vertical sphere arrangement remains visible."
+    },
+    {
+      "scene": "capsule-stack",
+      "sources": [
+        "raw/clips/cpu/capsule-stack.mp4",
+        "raw/clips/gpu/capsule-stack.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Same initial capsule arrangement remains visible."
+    },
+    {
+      "scene": "revolute",
+      "sources": [
+        "raw/clips/cpu/revolute.mp4",
+        "raw/clips/gpu/revolute.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Mechanism/ground visible; thumbnail review is not a constraint residual check."
+    },
+    {
+      "scene": "weld",
+      "sources": [
+        "raw/clips/cpu/weld.mp4",
+        "raw/clips/gpu/weld.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Mechanism/ground visible; no numerical joint acceptance inferred."
+    },
+    {
+      "scene": "stack",
+      "sources": [
+        "raw/clips/cpu/stack.mp4",
+        "raw/clips/gpu/stack.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Stack visible in the shared default view."
+    },
+    {
+      "scene": "pyramid",
+      "sources": [
+        "raw/clips/cpu/pyramid.mp4",
+        "raw/clips/gpu/pyramid.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Pyramid visible with same initial layout."
+    },
+    {
+      "scene": "bounce",
+      "sources": [
+        "raw/clips/cpu/bounce.mp4",
+        "raw/clips/gpu/bounce.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Shared floor visible; small moving bodies require full clip for detail, not quantitative restitution proof."
+    },
+    {
+      "scene": "mixed",
+      "sources": [
+        "raw/clips/cpu/mixed.mp4",
+        "raw/clips/gpu/mixed.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Colored box/sphere/capsule group and floor visible."
+    },
+    {
+      "scene": "spinner",
+      "sources": [
+        "raw/clips/cpu/spinner.mp4",
+        "raw/clips/gpu/spinner.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Bar changes orientation through the sampled window on both sides."
+    },
+    {
+      "scene": "ramp",
+      "sources": [
+        "raw/clips/cpu/ramp.mp4",
+        "raw/clips/gpu/ramp.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Slope geometry visible; no collision/CCD qualification from images."
+    },
+    {
+      "scene": "spheres",
+      "sources": [
+        "raw/clips/cpu/spheres.mp4",
+        "raw/clips/gpu/spheres.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Cluster visible on both sides, low contrast at thumbnail resolution."
+    },
+    {
+      "scene": "dominoes",
+      "sources": [
+        "raw/clips/cpu/dominoes.mp4",
+        "raw/clips/gpu/dominoes.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Same initial spiral; later CPU/GPU trajectories differ, no trajectory parity claim."
+    },
+    {
+      "scene": "high-resistance",
+      "sources": [
+        "raw/clips/cpu/high-resistance.mp4",
+        "raw/clips/gpu/high-resistance.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Capsule row visible on both sides; numeric rolling-friction qualification remains separate."
+    },
+    {
+      "scene": "mixed-stacks",
+      "sources": [
+        "raw/clips/cpu/mixed-stacks.mp4",
+        "raw/clips/gpu/mixed-stacks.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "602 total bodies/600 dynamic on both sides. Full-resolution prior/current frame0 layouts agree. Draft-sheet overlap caused apparent count/layout mismatch, corrected and retained."
+    },
+    {
+      "scene": "falling-cubes",
+      "sources": [
+        "raw/clips/cpu/falling-cubes.mp4",
+        "raw/clips/gpu/falling-cubes.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "256-body preview preserves same initial layout; later pile/spill trajectories differ. This clip is not the50000-body performance fixture."
+    },
+    {
+      "scene": "mixed-topology",
+      "sources": [
+        "raw/clips/cpu/mixed-topology.mp4",
+        "raw/clips/gpu/mixed-topology.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Wide camera includes separated connected pile and independent-group area; existing12288 dynamic-body fixture. Numerical topology qualification remains separate."
+    },
+    {
+      "scene": "anchored-mechanisms",
+      "sources": [
+        "raw/clips/cpu/anchored-mechanisms.mp4",
+        "raw/clips/gpu/anchored-mechanisms.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Mechanism row visible across sampled window."
+    },
+    {
+      "scene": "joint-chain",
+      "sources": [
+        "raw/clips/cpu/joint-chain.mp4",
+        "raw/clips/gpu/joint-chain.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Initially hanging chain descends/folds; later chain trajectories differ. Images do not qualify joint residuals."
+    },
+    {
+      "scene": "compound-properties-simple",
+      "sources": [
+        "raw/clips/cpu/compound-properties-simple.mp4",
+        "raw/clips/gpu/compound-properties-simple.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Matching small compound geometry visible; combined GPU uses its normal purple tint."
+    },
+    {
+      "scene": "compound-properties-spheres",
+      "sources": [
+        "raw/clips/cpu/compound-properties-spheres.mp4",
+        "raw/clips/gpu/compound-properties-spheres.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Sphere compound population visible on CPU and combined GPU; no child-count or query parity inferred from thumbnails."
+    },
+    {
+      "scene": "compound-properties-hulls",
+      "sources": [
+        "raw/clips/cpu/compound-properties-hulls.mp4",
+        "raw/clips/gpu/compound-properties-hulls.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Hull compound population visible on CPU and combined GPU; numerical AABB/property checks are separate."
+    },
+    {
+      "scene": "compound-properties-tile-floor",
+      "sources": [
+        "raw/clips/cpu/compound-properties-tile-floor.mp4",
+        "raw/clips/gpu/compound-properties-tile-floor.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Tiled floor visibly present in both combined viewports, colors differ by engine."
+    },
+    {
+      "scene": "compound-properties-village",
+      "sources": [
+        "raw/clips/cpu/compound-properties-village.mp4",
+        "raw/clips/gpu/compound-properties-village.mp4"
+      ],
+      "review": "recorded visual failure",
+      "observations": "Existing failure reproduced: CPU nearby ground/buildings visible, combined GPU nearby geometry absent/truncated. Shared65536 rendering pool limitation retainedPR09; no visual parity claim."
+    },
+    {
+      "scene": "compound-properties-mesh-tile",
+      "sources": [
+        "raw/clips/cpu/compound-properties-mesh-tile.mp4",
+        "raw/clips/gpu/compound-properties-mesh-tile.mp4"
+      ],
+      "review": "completed visual review with stated scope",
+      "observations": "Control mesh tile is visible on both sides; colors differ by engine."
+    }
+  ],
+  "no_full_physics_or_performance_acceptance": true,
+  "known_failure": "Village renderer,PR09",
+  "no_source_or_physics_change_for_layout_correction": true,
+  "review_sheets": {
+    "review/standard-1.png": "7c7123d965c46f9367cca5a25e7abfbd001528f9912a23f69ede861dd8ac5274",
+    "review/standard-2.png": "4d384371fee869865131b4882dd3ab9c599072e97263f12d7bb2e34288e1055d",
+    "review/standard-3.png": "4128649778fadfd15a73f0b656c4428d953a2bc20b04a30f769301631123ab61",
+    "review/standard-4.png": "63261a6eaec59bbe2c14443a677d981bcf9ab5469d754e2caa66989511c50a3c",
+    "review/compound-properties-simple.png": "856c8e19261a7d45488626752ca6ccd8f8c3e9fb6194a6769a35d42921404acb",
+    "review/compound-properties-spheres.png": "9a7ab703ee2b3e0d54809b52cf5983db02a708ea7081dbd2df83ae6a15b2d977",
+    "review/compound-properties-hulls.png": "03df1d00548bf66a812df00617538194b09bf7737e9f39b9736fe5459f298684",
+    "review/compound-properties-tile-floor.png": "11172998a82479601881dd0dd084c306768bc37501ccd7d3a543270ff0633c39",
+    "review/compound-properties-village.png": "45108fad50e221cf16de6a3221ec9f785f057a8e4484abb4da899bd339b5d65a",
+    "review/compound-properties-mesh-tile.png": "ddf4303c8fa69f08228956a1b0c3fa6268d8573b320a9ae56bd573aced8617b7",
+    "review/mixed-stacks-prior-current.png": "d41c6a6f66ddf20c3e372121e44c25c975d98274de519075aecc775606fe6bbd"
+  }
+}

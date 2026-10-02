@@ -9,3 +9,5 @@ All MP4s are appended under `recordings/snapshots/000-box3d-cpu/compound-propert
 Physics uses actual NVIDIA RTX4070SUPER Vulkan/driver610.57.04; OpenGL drawing is Mesa software on isolated Xvfb with host pose-mirror fallback. These recordings, health scans and incidental clocks do not qualify physical trajectory equivalence, actual widget input, raycasts, performance or final readiness. Fresh desktop-only FPS/step-time charts remain PR12; laptop validation is deferred.
 
 Run `python3 validate.py` offline to verify99 raw files, all12 health results and exact clip/source hashes. No physics is launched. Review hashes are in `review-index.json`; review conclusions are in `visual-review.json`. Never rerun the closed capture budget.
+
+CPU clip preservation (2026-10-02): the six original CPU MP4s are now retained byte-for-byte under `raw/recordings/cpu/`, with their original receipt hashes. The offline validator reads these immutable originals while the live comparison grid receives fresh CPU captures. No original result, clip byte, health limit or protocol was changed.

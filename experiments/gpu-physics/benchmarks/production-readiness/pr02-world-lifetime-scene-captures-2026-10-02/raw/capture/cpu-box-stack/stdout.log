@@ -1,0 +1,24 @@
+=== Box3D CPU metrics + dumps ===
+oracle box-stack
+  dump /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/.dumps/box-stack.bin
+  bodies=41 wall=11.7 ms (0.039 ms/step, profile 0.039)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/metrics-box-stack.json
+=== replay box-stack → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4 ===
+[2026-10-02T00:12:02Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+replay frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+replay frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu/box-stack.mp4 (300 frames @ 30 fps)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/compare/snapshots.js (10 snapshot(s))
+viewer: bun run compare  # http://127.0.0.1:8766/
+clips:  /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/000-box3d-cpu

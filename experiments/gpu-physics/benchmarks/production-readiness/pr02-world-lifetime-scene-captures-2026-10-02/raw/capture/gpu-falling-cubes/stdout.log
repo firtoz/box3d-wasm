@@ -1,0 +1,25 @@
+=== falling-cubes → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/2026-10-02-world-lifetime/falling-cubes.mp4 (300 frames) ===
+[2026-10-02T00:19:28Z WARN  wgpu_hal::vulkan::instance] Unable to find extension: VK_EXT_physical_device_drm
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=321 shapes=321 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=321 joints=16 scene_heap_bytes=262528 max=536870912
+physics-pipeline-cache: loaded 5852788 bytes
+gpu-alloc scene generation=0 bodies=321 shapes=321 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=321 joints=16 scene_heap_bytes=262528 max=536870912
+gpu-scene-input shapes=257 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=262528
+GPU pose export: Vulkan opaque FD 23 (36096 bytes)
+record frame 0/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/2026-10-02-world-lifetime/falling-cubes.mp4
+record frame 30/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/2026-10-02-world-lifetime/falling-cubes.mp4
+record frame 60/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/2026-10-02-world-lifetime/falling-cubes.mp4
+record frame 90/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/2026-10-02-world-lifetime/falling-cubes.mp4
+record frame 120/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/2026-10-02-world-lifetime/falling-cubes.mp4
+record frame 150/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/2026-10-02-world-lifetime/falling-cubes.mp4
+record frame 180/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/2026-10-02-world-lifetime/falling-cubes.mp4
+record frame 210/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/2026-10-02-world-lifetime/falling-cubes.mp4
+record frame 240/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/2026-10-02-world-lifetime/falling-cubes.mp4
+record frame 270/300 → /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/2026-10-02-world-lifetime/falling-cubes.mp4
+physics-pipeline-cache: save 5852788 bytes, success=true
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/2026-10-02-world-lifetime/falling-cubes.mp4 (300 frames @ 30 fps)
+wrote /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/compare/snapshots.js (11 snapshot(s))
+viewer: bun run compare  # http://127.0.0.1:8766/
+clips:  /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/recordings/snapshots/2026-10-02-world-lifetime

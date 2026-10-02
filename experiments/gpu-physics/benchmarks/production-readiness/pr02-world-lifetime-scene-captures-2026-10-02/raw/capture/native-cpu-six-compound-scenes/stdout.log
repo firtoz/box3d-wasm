@@ -1,0 +1,6 @@
+cpu compound-properties-simple capture/health pass
+cpu compound-properties-spheres capture/health pass
+cpu compound-properties-hulls capture/health pass
+cpu compound-properties-tile-floor capture/health pass
+cpu compound-properties-village capture/health pass
+cpu compound-properties-mesh-tile capture/health pass
