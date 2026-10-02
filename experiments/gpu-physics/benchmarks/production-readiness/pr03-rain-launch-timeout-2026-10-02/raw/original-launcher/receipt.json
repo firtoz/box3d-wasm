@@ -1,0 +1,20 @@
+{
+  "status": "stopped",
+  "protocol_sha256": "9ab2100327945b5d29cb37a8709ac037310deb1d22a23afb4683855ca82984bb",
+  "driver_sha256": "d5450679b25279bd47e3845605ec54f46eef3a8a2ed999f149c98bf5dd88253a",
+  "started_unix": 1790907056.9814167,
+  "results": [],
+  "error": "FileNotFoundError(2, 'No such file or directory')",
+  "finished_unix": 1790907058.4095116,
+  "unlaunched": [
+    "cpu-rain",
+    "ordinary-rain",
+    "native-rain",
+    "ordinary-drag-isolated",
+    "native-drag-isolated",
+    "ordinary-drag-ground",
+    "native-drag-ground",
+    "ordinary-cpu-order-cache",
+    "native-cpu-order-cache"
+  ]
+}

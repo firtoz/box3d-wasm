@@ -1,0 +1,178 @@
+{
+  "raw/display-repair/compress-health.py": {
+    "bytes": 1844,
+    "sha256": "045bb865818c8a411b85c063b7c8779d1174e2a243eaed1015d54dcf6e4aca99"
+  },
+  "raw/display-repair/cpu-health-roundtrip.json": {
+    "bytes": 1143,
+    "sha256": "e5a65e9bcf3c939ee49dd693c39c5ece4444e2682d3218da9d18a4789939c094"
+  },
+  "raw/display-repair/cpu-health-summary.json": {
+    "bytes": 605,
+    "sha256": "eab4a3e40b69e0760f7e82796de8e4d7142e47cc4d5c785ad886107c8360927f"
+  },
+  "raw/display-repair/cpu-rain/child-exit.json": {
+    "bytes": 12,
+    "sha256": "5bc232b82de377a5655a39a2af9d7ae0fc868de5b9df957e18905cb914606c88"
+  },
+  "raw/display-repair/cpu-rain/display-exit.json": {
+    "bytes": 314,
+    "sha256": "bd3b3faa0fc9320b0f86f375f0818ffdc08c8b71cc084bc48c9604e4f5fafe14"
+  },
+  "raw/display-repair/cpu-rain/stderr.log": {
+    "bytes": 267,
+    "sha256": "65f5c248e0bc96948a2084e34a74b5bde5db3eee7e9c46eac56ed169d4171d24"
+  },
+  "raw/display-repair/cpu-rain/stdout.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/display-repair/cpu-rain/viewer-cwd/imgui.ini": {
+    "bytes": 49,
+    "sha256": "57804ee85f5dbb4f57bd3f0d846b119ac58717cf02c172e9277fb3a640e351ed"
+  },
+  "raw/display-repair/cpu-rain/viewer-cwd/settings.ini": {
+    "bytes": 368,
+    "sha256": "ebda4c37fd7516b3b364345b9f3536543675bad3a862125f4d14a15de6835a6a"
+  },
+  "raw/display-repair/cpu-rain/xvfb.log": {
+    "bytes": 1634,
+    "sha256": "ee3c08f7e6b04799eb02a81297e0de66e99fee84c3dd27c9b7625972ac4a687f"
+  },
+  "raw/display-repair/display-child.py": {
+    "bytes": 1368,
+    "sha256": "f4cb735831684c121d081e47dc9b99509e01538b4039e971bf5e076ff29c01a5"
+  },
+  "raw/display-repair/freeze.py": {
+    "bytes": 2788,
+    "sha256": "0299487304db336a27dfb2dd01240de5e0d1b272dd18811af8b32dfde6c4b216"
+  },
+  "raw/display-repair/ordinary-rain/stderr.log": {
+    "bytes": 5492,
+    "sha256": "dc8f16bbcad636a5c1dfdce1b2522d876703dd9c3427af26585bd40e45ff1415"
+  },
+  "raw/display-repair/ordinary-rain/stdout.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/display-repair/ordinary-rain/viewer-cwd/imgui.ini": {
+    "bytes": 104,
+    "sha256": "4864ab106f0a7bfafb7bffce3ddf550a5919b1891dfbca40025b41b4609198e2"
+  },
+  "raw/display-repair/ordinary-rain/viewer-cwd/settings.ini": {
+    "bytes": 3,
+    "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+  },
+  "raw/display-repair/ordinary-rain/xvfb.log": {
+    "bytes": 817,
+    "sha256": "12dcabf0449b9ff85d589b86d110c814777977daca56e7ba8ec300c5334fe397"
+  },
+  "raw/display-repair/portable-health/cpu-rain/health.json.gz.part000": {
+    "bytes": 50331648,
+    "sha256": "a42d6928a457c80599c5504f4f0b4ab6fbd91d71a74ec5f13eba6ca3a1fe2d9b"
+  },
+  "raw/display-repair/portable-health/cpu-rain/health.json.gz.part001": {
+    "bytes": 50331648,
+    "sha256": "91457112c9c386227ff14aede7a00e80290ab3a4407adbc277e1244f6d26fe7e"
+  },
+  "raw/display-repair/portable-health/cpu-rain/health.json.gz.part002": {
+    "bytes": 50331648,
+    "sha256": "e3cd59686f7c061ffcd83c74b5a8ef60af41816b6985fc50d7454786c69596b1"
+  },
+  "raw/display-repair/portable-health/cpu-rain/health.json.gz.part003": {
+    "bytes": 50331648,
+    "sha256": "d962969d13cf550fe7ddf33576ae3e76391b3ec6e4c3fc1c7bbc3fd16fe85d7b"
+  },
+  "raw/display-repair/portable-health/cpu-rain/health.json.gz.part004": {
+    "bytes": 50331648,
+    "sha256": "b85e59d4fa8f42d49c0b8630ca0604da341da0111e40142ad74118e8ff49b3b0"
+  },
+  "raw/display-repair/portable-health/cpu-rain/health.json.gz.part005": {
+    "bytes": 85189,
+    "sha256": "759a299da37f6ab8b4ab2a43a23266da6ad27da18eb6b93760982f80f26fde40"
+  },
+  "raw/display-repair/portable-health/cpu-rain/manifest.json": {
+    "bytes": 1226,
+    "sha256": "653bb26f982ce0a45b08a022813e343b75e67d5f032ebfa006366347cb61b11a"
+  },
+  "raw/display-repair/protocol.json": {
+    "bytes": 82013,
+    "sha256": "a86ba2c824bbc09a10e0ddd613d24aea058077df1c59734ea24e7b45948a636e"
+  },
+  "raw/display-repair/receipt.json": {
+    "bytes": 1997,
+    "sha256": "01df7b7c8f7942b36435880c11b12ef3032bd20d035f5c753e3581b886f82a12"
+  },
+  "raw/display-repair/run.py": {
+    "bytes": 4306,
+    "sha256": "c24b478b9e3716dbef691626ee5f82ab9ca00359d99a8ad6cced342c41d9577d"
+  },
+  "raw/display-repair/verify-compressed-health.py": {
+    "bytes": 1667,
+    "sha256": "5776f65d1fdbc07343ee2e2ce5faa3f29f5e0fb4bfb18a110cbf47c65a87a576"
+  },
+  "raw/original-launcher/cpu-rain/stderr.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/original-launcher/cpu-rain/stdout.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/original-launcher/cpu-rain/viewer-cwd/settings.ini": {
+    "bytes": 3,
+    "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+  },
+  "raw/original-launcher/evaluator-source/c_abi/both_drag_test.cpp": {
+    "bytes": 10254,
+    "sha256": "8016764fe0fa57623f03e0e94c7358163d85071562f70b9aa5ba2603b6b00dbd"
+  },
+  "raw/original-launcher/evaluator-source/c_abi/both_view.h": {
+    "bytes": 713,
+    "sha256": "d64c484e8cbe72fc1494b94032011924ce21bf0424267ce1a9f1ff9aca26615a"
+  },
+  "raw/original-launcher/evaluator-source/scripts/compare-rain-lifetimes.py": {
+    "bytes": 8016,
+    "sha256": "da5212d3f71cd6667bf1e9dd189ddcc4c395e2f65ff5edb19a1c85a2215090fa"
+  },
+  "raw/original-launcher/evaluator-source/scripts/health_identity.py": {
+    "bytes": 5318,
+    "sha256": "606ea1df5fb7065e82d21d4dd25b6c494a522b045b23eb897a3091f7c687998c"
+  },
+  "raw/original-launcher/evaluator-source/scripts/native-samples-cache-env.sh": {
+    "bytes": 1035,
+    "sha256": "55560aec256c6e71c0b4a44d4a6452ce4c2a39858668bee9ca0f2f048c176b94"
+  },
+  "raw/original-launcher/evaluator-source/scripts/native_scene_validate.py": {
+    "bytes": 25475,
+    "sha256": "2d7eda48339c930d40d96de92997d00b0f53c38b637c230036dbf707b3b6ca9f"
+  },
+  "raw/original-launcher/evaluator-source/scripts/summarize-rain-residual-events.py": {
+    "bytes": 3677,
+    "sha256": "519f6f7d8637ef183edc51addbece11014ba0ec8deeb093729f81a2b4a4bf5c9"
+  },
+  "raw/original-launcher/freeze.py": {
+    "bytes": 6954,
+    "sha256": "97eb3cf655fd2a06b0d08b986db8c57fe4d3f845ff612d44ae1632855a2cdae7"
+  },
+  "raw/original-launcher/protocol.json": {
+    "bytes": 80610,
+    "sha256": "9ab2100327945b5d29cb37a8709ac037310deb1d22a23afb4683855ca82984bb"
+  },
+  "raw/original-launcher/receipt.json": {
+    "bytes": 612,
+    "sha256": "e3d8c98024c6917b7ba3df534a71942aad79dc8c31de4b379134a7ad1f1bff77"
+  },
+  "raw/original-launcher/run.py": {
+    "bytes": 4023,
+    "sha256": "d5450679b25279bd47e3845605ec54f46eef3a8a2ed999f149c98bf5dd88253a"
+  },
+  "raw/portable-references.json": {
+    "bytes": 2356,
+    "sha256": "0a33059c68be913659ed35d02a6e9f00adc62c79f30af08e6830115fa093f841"
+  },
+  "raw/referenced/pr02-world-lifetime-scene-captures/native/protocol.json": {
+    "bytes": 6958,
+    "sha256": "3689b19425b71d90f7b572e25e70ff22a55e7af90a48baea953f8d850a5d4744"
+  }
+}

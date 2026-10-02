@@ -1,0 +1,5 @@
+sokol(level warn) (no message)
+[gfx/info] GPU: llvmpipe (LLVM 22.1.8, 256 bits) (Mesa)
+sokol-capacity: 65536 debug shapes and opaque instances per stream
+sokol-renderer: Mesa / llvmpipe (LLVM 22.1.8, 256 bits); framebuffer=640x360
+samples: 600 frames, 0 sokol errors

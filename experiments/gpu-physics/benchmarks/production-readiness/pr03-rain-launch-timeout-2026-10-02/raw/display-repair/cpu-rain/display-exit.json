@@ -1,0 +1,15 @@
+{
+  "display": ":310",
+  "command": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr01-speculative/handoff/xvfb/usr/bin/Xvfb",
+    ":310",
+    "-screen",
+    "0",
+    "640x360x24",
+    "-nolisten",
+    "tcp",
+    "-ac"
+  ],
+  "child_exit": 0,
+  "server_exit": 0
+}

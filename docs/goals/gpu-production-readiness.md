@@ -107,6 +107,7 @@ queue and recovery record. No separate competing production backlog.
   **Evidence:** [metadata preparation](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-contract-baseline-2026-10-02/README.md);332 source inputs,18 exact Rust fixture selectors/28 numerical selectors/native replay selector. No device/build/timing runs. Full commands/criteria/CPU-oracle/executable baseline and finite evaluation budget remain open; this does not close PR03.
   [Current fixture baseline](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-baseline-fixtures-2026-10-02/README.md) preserves121rawfiles:10fixturelinks,26first-process observations, original failedCPUlink and separate dependency repair. BothGPU distance probes retain the original first-step1e-5failure; ragdoll physical/isolated/57posemesh screens pass, original strict0.006m trajectory screen fails0.063585767m. No source/default/tolerance/timing change; fullmatrix/currentRain/loadeddrag/Rust baseline and future-state contract remain open.
   [Current Rust baseline and reconciled contract](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rust-baseline-2026-10-02/README.md):33processes/199checks,195pass/4retainedfailures;25lossless traces/2864frames and native42replayhits. [Fixed release contract](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rust-baseline-2026-10-02/release-contract.md) preserves original limits/fullfuture-state obligations and explicitly open configuration/fixture applicability, including32768slot finalregression and newregistry/ABI capture audit. Rain/drag baseline retains CPU600 completion and an ordinaryGPU900second timeout; seven previouslyunlaunched cells now run separately. PR03 remainsopen.
+  [Current Rain launch/timeout report](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rain-launch-timeout-2026-10-02/README.md) preserves44rawfiles including complete losslessCPU600/1,948,800body-joint observations, missinglauncher failure and ordinaryGPU900second timeout. NoGPUphysical/performance pass; nativeRain and remainingcontrols are separate.
 
 - [ ] **PR04 — Resolve required physical correctness failures.** Work from the
   earliest demonstrated defect and smallest faithful reproducer. Close Rain's
@@ -333,7 +334,7 @@ Their old next actions and job handles do not authorize a new campaign.
 | --- | --- |
 | Workspace / branch | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu` |
 | Authorization | Active full roadmap; implementation and verified milestone commit/push authorized by the submitted goal |
-| Latest evidence milestone | `e801b3135f1c2fe7f10e2a692cd623934a7b8a83` pushed; remote0/0 and clean tree verified after push. New121rawfiles preserve current PR03 fixture builds and26baseline processes; no production change |
+| Latest evidence milestone | `d4b073bdd7335e3cc478f2f61fda7e07afbb128f` pushed; remote0/0 verified. Current Rust baseline100rawfiles/33processes/199checks and fixed release contract published;195pass/4retainedfailures, no production change |
 | Retained production source | `abc0a54a3ce3b285c9984f2c7c6b5baefff00d1b`, pushed. PR01 refresh `c2fd69f`, PR02 acceptance `1304839`, PR03 metadata `5a40f05` are pushed. Invocation revisions are context, not compiled source identity |
 | Current item | **PR03 open**. Ragdoll/mesh/distance portable baseline pushed; current Rust report100rawfiles/33processes/199checks and reconciled release contract prepared. Rain runner70354 stopped afterCPU600complete and ordinaryGPU900second timeout. Seven-cell remaining runner82980: isolateddrag and requiredorder1controls pass bothbackends, grounddrag fails bothoriginalscreens; nativeRain live; generation-safe sleeper fixture and remaining1mode/currentfullmatrix evidence remain open |
 | Current jobs | PR03 Rust runner8018 terminalexit0;33processes/199checks complete,195pass/4failed. Rain/drag/order1 runner33069 terminalexit1 beforeanyenginecell, missingxvfb-run. Bundled-display repair runner70354 terminalexit1 after ordinaryGPU900second timeout, CPU600complete. Remaining runner82980 has sixcompleted cells (fourpasses/twogrounddragfailures); nativeRain live, verifyactualreceipt/handle. ClosedRustdriver must not restart. Old sessions46787/84255/80345/31931 terminal; never restart closed drivers |
@@ -343,6 +344,13 @@ Their old next actions and job handles do not authorize a new campaign.
 | Scope protection | Box3D/WASM unchanged. Mixed scheduling target remains **unmet**, all55trials preserved; both historical scheduling budgets exhausted. Do not resume older Rain/scaling/benchmark next actions. New Rain work is required under this roadmap's separately frozen PR03–PR04 protocols |
 
 ### Latest closed budgets and observations
+
+[CPU Rain / ordinary GPU timeout](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rain-launch-timeout-2026-10-02/README.md)
+retains44indexedrawfiles/252007450bytes. Offlinevalidation restores/checks exact
+CPU600originalhealth, all1948800body/joint observations and source-linked
+evaluators/producerreceipts. The ordinaryGPU900second timeout has nohealthfile
+and remainsincomplete. No repeated trial or performanceclaim.
+
 
 [Current PR03 portable report](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-baseline-fixtures-2026-10-02/README.md)
 contains121indexed rawfiles, original sources/protocols, actual link receipts,
@@ -393,7 +401,12 @@ not repeat completed cells or extend these closed budgets.
    sleep/wake assertion. Originalsource hardcodesgeneration1 in a serial suite
    withworldreuse; `b3_world_dynamic_body_ids` returns actualpublicgenerations.
    Retain both failedobservations and use a separately frozen, justified fixture
-   correction/check. Preserve400settle+1wake andallphysical limits; adjacent
+   correction/check. Planned test-only protocol `pr03-sleeper-fixture/protocol.json`,
+   SHA`8d488983557c8513cf6c654cc52b2b4e2b5e52cc681319c893658a5c3715ee64`,
+   freezes2testbuilds/fourfresh backend×order0/1 processes, zero production
+   library builds/solvercandidates/retries/headline timing. It requires runner
+   82980 terminal before source change. Candidate/originalfixture bytes retained;
+   no sourceedit/build/test has run yet. Preserve400settle+1wake andallphysical limits; adjacent
    wakepasses are not thisfixture's acceptance. The ordercache test's storage
    prerequisite is CPU-compatible1; the declared1controls do not replace0fails.
 3. Finish PR03's matrix/configuration/capture contract and current executable

@@ -1,0 +1,37 @@
+{
+  "complete": true,
+  "manifest_sha256": "653bb26f982ce0a45b08a022813e343b75e67d5f032ebfa006366347cb61b11a",
+  "verification_recipe_sha256": "5776f65d1fdbc07343ee2e2ce5faa3f29f5e0fb4bfb18a110cbf47c65a87a576",
+  "restored_sha256": "48918163f059dcbca3c5f8c067191442581eb9cb8510170c9ea3171a25879cf6",
+  "restored_bytes": 1203549772,
+  "parts_verified": 6,
+  "CPU_observations": {
+    "status": "complete600-frame original-record checks",
+    "sample": "Benchmark/Rain",
+    "settings": {
+      "warmup": 0,
+      "timed": 600,
+      "measured": 600,
+      "worker_count": 8,
+      "enable_sleep": true,
+      "unpaced": true,
+      "completed_step_mode": false,
+      "gpu_fail": ""
+    },
+    "frames": 600,
+    "first": {
+      "step": 1,
+      "bodies": 420,
+      "joints": 420
+    },
+    "last": {
+      "step": 600,
+      "bodies": 4200,
+      "joints": 4200
+    },
+    "body_observations": 1948800,
+    "joint_observations": 1948800,
+    "scope": "CPU baseline health/spherical capture validation;notGPUphysical orrepeatpass"
+  },
+  "claim": "Lossless decompression and original receipt identity; no GPU or performance qualification."
+}

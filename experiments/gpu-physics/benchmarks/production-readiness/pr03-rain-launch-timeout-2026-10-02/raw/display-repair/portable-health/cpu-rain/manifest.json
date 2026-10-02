@@ -1,0 +1,37 @@
+{
+  "raw_bytes": 1203549772,
+  "raw_sha256": "48918163f059dcbca3c5f8c067191442581eb9cb8510170c9ea3171a25879cf6",
+  "format": "Concatenate parts in order, decompress single gzip stream; exact original health.json bytes.48MiB maximum part size.",
+  "parts": [
+    {
+      "name": "health.json.gz.part000",
+      "bytes": 50331648,
+      "sha256": "a42d6928a457c80599c5504f4f0b4ab6fbd91d71a74ec5f13eba6ca3a1fe2d9b"
+    },
+    {
+      "name": "health.json.gz.part001",
+      "bytes": 50331648,
+      "sha256": "91457112c9c386227ff14aede7a00e80290ab3a4407adbc277e1244f6d26fe7e"
+    },
+    {
+      "name": "health.json.gz.part002",
+      "bytes": 50331648,
+      "sha256": "e3cd59686f7c061ffcd83c74b5a8ef60af41816b6985fc50d7454786c69596b1"
+    },
+    {
+      "name": "health.json.gz.part003",
+      "bytes": 50331648,
+      "sha256": "d962969d13cf550fe7ddf33576ae3e76391b3ec6e4c3fc1c7bbc3fd16fe85d7b"
+    },
+    {
+      "name": "health.json.gz.part004",
+      "bytes": 50331648,
+      "sha256": "b85e59d4fa8f42d49c0b8630ca0604da341da0111e40142ad74118e8ff49b3b0"
+    },
+    {
+      "name": "health.json.gz.part005",
+      "bytes": 85189,
+      "sha256": "759a299da37f6ab8b4ab2a43a23266da6ad27da18eb6b93760982f80f26fde40"
+    }
+  ]
+}

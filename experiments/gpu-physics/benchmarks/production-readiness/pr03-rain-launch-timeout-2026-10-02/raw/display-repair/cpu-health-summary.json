@@ -1,0 +1,28 @@
+{
+  "status": "complete600-frame original-record checks",
+  "sample": "Benchmark/Rain",
+  "settings": {
+    "warmup": 0,
+    "timed": 600,
+    "measured": 600,
+    "worker_count": 8,
+    "enable_sleep": true,
+    "unpaced": true,
+    "completed_step_mode": false,
+    "gpu_fail": ""
+  },
+  "frames": 600,
+  "first": {
+    "step": 1,
+    "bodies": 420,
+    "joints": 420
+  },
+  "last": {
+    "step": 600,
+    "bodies": 4200,
+    "joints": 4200
+  },
+  "body_observations": 1948800,
+  "joint_observations": 1948800,
+  "scope": "CPU baseline health/spherical capture validation;notGPUphysical orrepeatpass"
+}
