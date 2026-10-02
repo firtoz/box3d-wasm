@@ -202,8 +202,13 @@ fixtures, without demonstrating a speedup. The
 [verification receipt](../experiments/gpu-physics/benchmarks/2026-09-29-warm-start-verification.json)
 and [timing receipt](../experiments/gpu-physics/benchmarks/2026-09-29-warm-start-timings.json)
 contain results; [the warm-start goal](goals/gpu-warm-start.md) records recovery context.
-A distance-joint prototype differs from CPU on its first step before toggling;
-that minimal discrepancy is recorded separately and was not investigated here.
+The originally recorded distance-joint first-step discrepancy is now repaired by
+matching Box3D's timestep frequency clamp in the rigid-distance branch. The
+[retained clamp evidence](../experiments/gpu-physics/benchmarks/production-readiness/pr04-distance-captures-2026-10-02/README.md)
+links all four original one/four-substep CPU comparisons at unchanged absolute
+1e-5, applicable candidate regressions and CPU-first scene recordings. This does
+not establish general spring/zero-frequency/cache equivalence or release readiness;
+required Rain, loaded dragging and strict ragdoll qualification remain open.
 
 ## Speculative-contact world control
 

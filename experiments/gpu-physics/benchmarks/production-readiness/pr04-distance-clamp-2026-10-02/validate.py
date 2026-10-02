@@ -54,4 +54,4 @@ for v,y in zip(read('raw/algebra.json')['cases'],[-1.00004232,-1.00028491],stric
 # Independent unchanged original baseline receipt and fixture constraints.
 baseline=next(json.loads((B/v['portable']).read_text()) for n,v in refs.items() if n.endswith('pr03-distance-baseline/receipt.json'))
 assert all(v['exit']==-6 and v['first_discrepancy']==['distance-joint','0','1','-1.00004232','-1.00028491'] for v in baseline['results'])
-print(f'PASS: {len(idx)} raw files; exact one-clamp shader change; two builds/links; four NVIDIA Vulkan original-limit fixture passes (3,840 completed steps/49,920 finite lane comparisons). Production source restored; broader regression/scene/release qualification remains OPEN. No performance claim.')
+print(f'PASS: {len(idx)} raw files; exact one-clamp shader change; two builds/links; four NVIDIA Vulkan original-limit fixture passes (3,840 completed steps/49,920 finite lane comparisons). Original campaign restored source; see retention follow-up for applicable regressions/scene review. Full release qualification remains OPEN. No performance claim.')

@@ -2406,7 +2406,8 @@ fn solve_joint_components(dispatch_gid: vec3<u32>, lid: u32, by_color: bool, col
                     apply_P(&bb, rB, P, 1.0);
                 }
             } else {
-                let omega = 6.2831853 * max(jn.hertz, 1.0);
+                // Match the prepared rigid constraint's timestep hertz clamp.
+                let omega = 6.2831853 * min(max(jn.hertz, 1.0), 0.25 / max(h, 1e-8));
                 let a1 = 2.0 * max(jn.damping, 0.25) + h * omega;
                 let a2 = h * omega * a1;
                 let a3 = 1.0 / (1.0 + a2);

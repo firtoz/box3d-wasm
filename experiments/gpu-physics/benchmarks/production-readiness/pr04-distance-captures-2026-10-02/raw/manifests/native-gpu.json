@@ -1,0 +1,23 @@
+{
+  "purpose": "precommit visual/health evidence, not performance",
+  "recording_started_utc": "2026-10-02T05:19:04.428112+00:00",
+  "scope": [
+    {
+      "id": "distance-clamp-joint",
+      "name": "Joints/Distance Joint"
+    },
+    {
+      "id": "distance-clamp-motion-locks",
+      "name": "Joints/Motion Locks"
+    },
+    {
+      "id": "distance-clamp-joint-events",
+      "name": "Events/Joint"
+    }
+  ],
+  "binary_sha256": "642fbc8bfab0de4cc4d055fc6b87add6acf22540a67b0b4ef340752a424e522b",
+  "viewer_receipt_sha256": "1cfaadf16102801901d7b3bff1ccf9a2d220002d7886f259171bbf56b7f04989",
+  "protocol_sha256": "01020053c79e3a7296c2e0a1b8e66baa51467eb02e68e65244bdfc8663184344",
+  "performance_claim": false,
+  "source_provenance": "ActualCPP objects/Rust provider recorded separately; invocation checkout context is not binary provenance"
+}

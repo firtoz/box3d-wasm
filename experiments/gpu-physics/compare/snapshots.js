@@ -38,6 +38,9 @@ window.GPU_COMPARE = {
     "compound-ownership-tile-floor",
     "compound-ownership-village",
     "compound-ownership-mesh-tile",
+    "distance-clamp-joint",
+    "distance-clamp-motion-locks",
+    "distance-clamp-joint-events",
     "compound-properties-simple",
     "compound-properties-spheres",
     "compound-properties-hulls",
@@ -83,6 +86,9 @@ window.GPU_COMPARE = {
         "compound-ownership-tile-floor": "../recordings/snapshots/000-box3d-cpu/compound-ownership-tile-floor.mp4",
         "compound-ownership-village": "../recordings/snapshots/000-box3d-cpu/compound-ownership-village.mp4",
         "compound-ownership-mesh-tile": "../recordings/snapshots/000-box3d-cpu/compound-ownership-mesh-tile.mp4",
+        "distance-clamp-joint": "../recordings/snapshots/000-box3d-cpu/distance-clamp-joint.mp4",
+        "distance-clamp-motion-locks": "../recordings/snapshots/000-box3d-cpu/distance-clamp-motion-locks.mp4",
+        "distance-clamp-joint-events": "../recordings/snapshots/000-box3d-cpu/distance-clamp-joint-events.mp4",
         "compound-properties-simple": "../recordings/snapshots/000-box3d-cpu/compound-properties-simple.mp4",
         "compound-properties-spheres": "../recordings/snapshots/000-box3d-cpu/compound-properties-spheres.mp4",
         "compound-properties-hulls": "../recordings/snapshots/000-box3d-cpu/compound-properties-hulls.mp4",
@@ -7320,6 +7326,46 @@ window.GPU_COMPARE = {
         "compound-properties-tile-floor": "../recordings/snapshots/2026-10-02-world-lifetime/compound-properties-tile-floor.mp4",
         "compound-properties-village": "../recordings/snapshots/2026-10-02-world-lifetime/compound-properties-village.mp4",
         "compound-properties-mesh-tile": "../recordings/snapshots/2026-10-02-world-lifetime/compound-properties-mesh-tile.mp4"
+      },
+      "metrics": null
+    },
+    {
+      "id": "2026-10-02-distance-clamp-native-both",
+      "label": "v0.11",
+      "videos": {
+        "distance-clamp-joint": "../recordings/snapshots/2026-10-02-distance-clamp-native-both/distance-clamp-joint.mp4",
+        "distance-clamp-motion-locks": "../recordings/snapshots/2026-10-02-distance-clamp-native-both/distance-clamp-motion-locks.mp4",
+        "distance-clamp-joint-events": "../recordings/snapshots/2026-10-02-distance-clamp-native-both/distance-clamp-joint-events.mp4"
+      },
+      "metrics": null
+    },
+    {
+      "id": "2026-10-02-distance-clamp-native-gpu",
+      "label": "v0.12",
+      "videos": {
+        "distance-clamp-joint": "../recordings/snapshots/2026-10-02-distance-clamp-native-gpu/distance-clamp-joint.mp4",
+        "distance-clamp-motion-locks": "../recordings/snapshots/2026-10-02-distance-clamp-native-gpu/distance-clamp-motion-locks.mp4",
+        "distance-clamp-joint-events": "../recordings/snapshots/2026-10-02-distance-clamp-native-gpu/distance-clamp-joint-events.mp4"
+      },
+      "metrics": null
+    },
+    {
+      "id": "2026-10-02-distance-clamp-ordinary-both",
+      "label": "v0.13",
+      "videos": {
+        "distance-clamp-joint": "../recordings/snapshots/2026-10-02-distance-clamp-ordinary-both/distance-clamp-joint.mp4",
+        "distance-clamp-motion-locks": "../recordings/snapshots/2026-10-02-distance-clamp-ordinary-both/distance-clamp-motion-locks.mp4",
+        "distance-clamp-joint-events": "../recordings/snapshots/2026-10-02-distance-clamp-ordinary-both/distance-clamp-joint-events.mp4"
+      },
+      "metrics": null
+    },
+    {
+      "id": "2026-10-02-distance-clamp-ordinary-gpu",
+      "label": "v0.14",
+      "videos": {
+        "distance-clamp-joint": "../recordings/snapshots/2026-10-02-distance-clamp-ordinary-gpu/distance-clamp-joint.mp4",
+        "distance-clamp-motion-locks": "../recordings/snapshots/2026-10-02-distance-clamp-ordinary-gpu/distance-clamp-motion-locks.mp4",
+        "distance-clamp-joint-events": "../recordings/snapshots/2026-10-02-distance-clamp-ordinary-gpu/distance-clamp-joint-events.mp4"
       },
       "metrics": null
     }

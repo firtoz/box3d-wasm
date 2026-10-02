@@ -2,9 +2,9 @@
 
 The missing rigid-distance frequency clamp explains the recorded first-step
 mismatch. One artifact candidate passes the complete original comparison on
-ordinary/native NVIDIA Vulkan, each with ordering 0 and 1. **The production
-shader is restored; the candidate is not committed as a solver change.** Relevant
-regressions and CPU-first recordings must pass before retention. PR04's other
+ordinary/native NVIDIA Vulkan, each with ordering 0 and 1. At the time of this campaign the production
+shader was restored before execution. The exact candidate is now retained after
+[applicable regressions and CPU-first scene review](../pr04-distance-captures-2026-10-02/README.md). PR04's other
 physical failures and the release qualification gates remain open.
 
 ## Cause and bounded change
@@ -67,8 +67,8 @@ benchmark datasets are unchanged. Verify offline without a GPU or executable:
 python3 /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-distance-clamp-2026-10-02/validate.py
 ```
 
-Next: freeze relevant unchanged regression selectors for the same candidate
-sources, verify both backends/modes, then record all affected supported scenes
-with real CPU first. Restore a rejected candidate and keep every unfavorable
-result. Rain, loaded dragging, strict ragdoll trajectory, future-state capture,
-clean builds, final repeats and performance stay separate required gates.
+Retention follow-up: the same 107 candidate inputs now match the retained source;
+242 applicable selected regressions and all 15 CPU-first affected-scene recordings
+complete. Original failures, source restoration and budget in this campaign remain
+historical facts. Rain, loaded dragging, strict ragdoll trajectory, future-state
+capture, clean builds, final repeats and performance remain required gates.

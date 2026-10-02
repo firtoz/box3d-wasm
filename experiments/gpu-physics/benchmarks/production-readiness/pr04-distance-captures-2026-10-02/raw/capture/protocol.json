@@ -1,0 +1,175 @@
+{
+  "purpose": "precommit visual/health evidence, not performance",
+  "budget": {
+    "cpu": 3,
+    "gpu": 12,
+    "timing": 0,
+    "retries": 0
+  },
+  "artifact_directory": "artifacts/production-readiness/pr04-distance-captures",
+  "recorder_sha256": "b7a797e717ec363d738593fbc5d0211d1b4afb4201b1ad64504d129c4f92564f",
+  "source_files": {
+    "scripts/record-native-scenes.py": "b7a797e717ec363d738593fbc5d0211d1b4afb4201b1ad64504d129c4f92564f",
+    "scripts/record-snapshot.sh": "9109e1e53c0257bc32715f29adbe2b7c220aec6adbc1f6cda1c7b0966c5c61a6",
+    "scripts/record-box3d-oracle.sh": "e405b93bc8b74d6c99f951c5b909c7fa2fb6afbbc3adbc664d6acd81e81747ca",
+    "scripts/refresh-compare.ts": "51f9d6773ec0a4b2505ec6dd2197d8afa7fc9635fc2e07e4dd0e27e4ac5a5737",
+    "../..//box3d/samples/sample_joint.cpp": "6c8ac1603b4418b785e4055415d51ed31f09c759cfbc8c865a24d6353a78d592",
+    "../../box3d/samples/sample_events.cpp": "a78eb5960278cf750114ef8b6ee0c21cd21c216c4c95ee7c0e673b1a1ff040c9"
+  },
+  "assets": {
+    "artifacts/production-readiness/pr01-speculative/handoff/xvfb/usr/bin/Xvfb": "5bfd315a8c7bc626d0b183d176e130c34f910a4a1279d9d53ea45769f62a3351"
+  },
+  "viewers": {
+    "cpu": {
+      "binary": "artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/bin/samples_cpu",
+      "binary_sha256": "6c65fabab6fbd048a321061c8f9b2bb061afdcfa450d57b1bbc5ff96d5e6d14e",
+      "receipt": "artifacts/production-readiness/pr04-distance-captures/cpu-applicability.json",
+      "receipt_sha256": "bfc84ed3b4c29bd059c4bde1e45b79e4a9a056569f3efe763d331e4e3f3998d6",
+      "label": "000-box3d-cpu"
+    }
+  },
+  "gpu_viewers": {
+    "ordinary-gpu": {
+      "binary": "artifacts/production-readiness/pr04-distance-viewers/ordinary-gpu/viewer",
+      "binary_sha256": "01d533ceca27d8f6edf6dea4e0b5e65fc89ab148a0b4df1f709b7277fc184adf",
+      "receipt": "artifacts/production-readiness/pr04-distance-viewers/ordinary-gpu/receipt.json",
+      "receipt_sha256": "90aa26834f96293641b319bb016cca68c28cd27c022a2eec6fe92ce897a11be7",
+      "label": "2026-10-02-distance-clamp-ordinary-gpu",
+      "health_mode": "gpu",
+      "environment_overrides": {
+        "RUST_LOG": "warn",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "WGPU_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr04-distance-captures/ordinary-pipelines"
+      }
+    },
+    "native-gpu": {
+      "binary": "artifacts/production-readiness/pr04-distance-viewers/native-gpu/viewer",
+      "binary_sha256": "642fbc8bfab0de4cc4d055fc6b87add6acf22540a67b0b4ef340752a424e522b",
+      "receipt": "artifacts/production-readiness/pr04-distance-viewers/native-gpu/receipt.json",
+      "receipt_sha256": "1cfaadf16102801901d7b3bff1ccf9a2d220002d7886f259171bbf56b7f04989",
+      "label": "2026-10-02-distance-clamp-native-gpu",
+      "health_mode": "gpu",
+      "environment_overrides": {
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "WGPU_BACKEND": "vulkan",
+        "RUST_LOG": "warn",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr04-distance-captures/native-pipelines"
+      }
+    },
+    "ordinary-both": {
+      "binary": "artifacts/production-readiness/pr04-distance-viewers/ordinary-both/viewer",
+      "binary_sha256": "f3a44499957f6a29b3bc2360600823a6bef77ca4ce32d3bba6d853b7f3b32324",
+      "receipt": "artifacts/production-readiness/pr04-distance-viewers/ordinary-both/receipt.json",
+      "receipt_sha256": "7d8b12d79e6f2ef17873221092e3dfd410de8e4efac466b9e53abadf96c87d4e",
+      "label": "2026-10-02-distance-clamp-ordinary-both",
+      "health_mode": "both",
+      "environment_overrides": {
+        "RUST_LOG": "warn",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "WGPU_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr04-distance-captures/ordinary-pipelines"
+      }
+    },
+    "native-both": {
+      "binary": "artifacts/production-readiness/pr04-distance-viewers/native-both/viewer",
+      "binary_sha256": "893a7466897e50b96452b2eb4c9d72503d145dd9da465dfafcc1f7c30e59522a",
+      "receipt": "artifacts/production-readiness/pr04-distance-viewers/native-both/receipt.json",
+      "receipt_sha256": "95cfa0bd573825e1de36ffeb6fe4071b7cf0724b8c0e04c3cda66086a8bde6e9",
+      "label": "2026-10-02-distance-clamp-native-both",
+      "health_mode": "both",
+      "environment_overrides": {
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "WGPU_BACKEND": "vulkan",
+        "RUST_LOG": "warn",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr04-distance-captures/native-pipelines"
+      }
+    }
+  },
+  "environments": {
+    "cpu": {
+      "DISPLAY": ":83",
+      "GPU_BENCH_WIDTH": "1280",
+      "GPU_BENCH_HEIGHT": "720",
+      "__NV_PRIME_RENDER_OFFLOAD": "0",
+      "__GLX_VENDOR_LIBRARY_NAME": "mesa",
+      "LIBGL_ALWAYS_SOFTWARE": "1"
+    },
+    "gpu": {
+      "DISPLAY": ":83",
+      "GPU_BENCH_WIDTH": "1280",
+      "GPU_BENCH_HEIGHT": "720",
+      "__NV_PRIME_RENDER_OFFLOAD": "0",
+      "__GLX_VENDOR_LIBRARY_NAME": "mesa",
+      "LIBGL_ALWAYS_SOFTWARE": "1"
+    }
+  },
+  "xvfb": "artifacts/production-readiness/pr01-speculative/handoff/xvfb/usr/bin/Xvfb",
+  "build_applicability_exclusions": [],
+  "scenes": [
+    {
+      "id": "distance-clamp-joint",
+      "name": "Joints/Distance Joint"
+    },
+    {
+      "id": "distance-clamp-motion-locks",
+      "name": "Joints/Motion Locks"
+    },
+    {
+      "id": "distance-clamp-joint-events",
+      "name": "Events/Joint"
+    }
+  ],
+  "watchdog_seconds_per_scene": 300,
+  "freeze_context_revision_only": "d28cc7959fbe287c42cfdfdc138c57f191df6547",
+  "settings": "Unmodified upstream scene geometry/material/world defaults, dt1/60 and4substeps from archived native benchmark entrypoint; sleepenabled, zero warmup/300paced completed/renderedsteps,1280x720,healthscan/UIhidden. Mesa/Xvfb graphics and actualNVIDIA Vulkan compute; diagnostic only, no FPS/performance inference.",
+  "stop_retain": "CPU threeclips first; stop on infrastructure/health/capture failure, retain failed file and unlaunchedcells; never repeat completed/failedclips or overwrite older datasets. Review all15clips and compareCPUfirst grid before any solvercommit.",
+  "viewer_relink_receipt_sha256": "8af971ca2dd870f091f27ab1b4513fe9678042203917332712716c0188f8c6c8",
+  "scene_audit": "Allthree distance creation sites in upstream sample_joint.cpp/sample_events.cpp; no distance creation in Rust scenes/oracle. Includes spring-capable DistanceJoint and mixedjoint MotionLocks/Events layouts without altering defaults."
+}

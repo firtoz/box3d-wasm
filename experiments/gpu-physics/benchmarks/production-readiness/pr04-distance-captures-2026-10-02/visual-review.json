@@ -1,0 +1,117 @@
+{
+  "status": "reviewed-with-recorded-limitations",
+  "reviews": [
+    {
+      "scene": "distance-clamp-joint",
+      "viewer": "cpu",
+      "status": "reviewed-with-limitations",
+      "observation": "Ground and suspended sphere visible; swing remains above ground; small sphere appears equally tiny with original framing.",
+      "combined_note": "Single-viewer camera unchanged."
+    },
+    {
+      "scene": "distance-clamp-joint",
+      "viewer": "ordinary-gpu",
+      "status": "reviewed-with-limitations",
+      "observation": "Ground and suspended sphere visible; swing remains above ground; small sphere appears equally tiny with original framing.",
+      "combined_note": "Single-viewer camera unchanged."
+    },
+    {
+      "scene": "distance-clamp-joint",
+      "viewer": "native-gpu",
+      "status": "reviewed-with-limitations",
+      "observation": "Ground and suspended sphere visible; swing remains above ground; small sphere appears equally tiny with original framing.",
+      "combined_note": "Single-viewer camera unchanged."
+    },
+    {
+      "scene": "distance-clamp-joint",
+      "viewer": "ordinary-both",
+      "status": "reviewed-with-limitations",
+      "observation": "Ground and suspended sphere visible; swing remains above ground; small sphere appears equally tiny with original framing.",
+      "combined_note": "Combined CPU left/GPU right, intentional tan/blue bodies and GPU purple floor; camera/view projection differs from single viewer."
+    },
+    {
+      "scene": "distance-clamp-joint",
+      "viewer": "native-both",
+      "status": "reviewed-with-limitations",
+      "observation": "Ground and suspended sphere visible; swing remains above ground; small sphere appears equally tiny with original framing.",
+      "combined_note": "Combined CPU left/GPU right, intentional tan/blue bodies and GPU purple floor; camera/view projection differs from single viewer."
+    },
+    {
+      "scene": "distance-clamp-motion-locks",
+      "viewer": "cpu",
+      "status": "reviewed-with-limitations",
+      "observation": "Floor, four boxes and shadows visible; motion-lock poses remain bounded across sampled animation stages.",
+      "combined_note": "Single-viewer camera unchanged."
+    },
+    {
+      "scene": "distance-clamp-motion-locks",
+      "viewer": "ordinary-gpu",
+      "status": "reviewed-with-limitations",
+      "observation": "Floor, four boxes and shadows visible; motion-lock poses remain bounded across sampled animation stages.",
+      "combined_note": "Single-viewer camera unchanged."
+    },
+    {
+      "scene": "distance-clamp-motion-locks",
+      "viewer": "native-gpu",
+      "status": "reviewed-with-limitations",
+      "observation": "Floor, four boxes and shadows visible; motion-lock poses remain bounded across sampled animation stages.",
+      "combined_note": "Single-viewer camera unchanged."
+    },
+    {
+      "scene": "distance-clamp-motion-locks",
+      "viewer": "ordinary-both",
+      "status": "reviewed-with-limitations",
+      "observation": "Floor, four boxes and shadows visible; motion-lock poses remain bounded across sampled animation stages.",
+      "combined_note": "Combined CPU left/GPU right, intentional tan/blue bodies and GPU purple floor; camera/view projection differs from single viewer."
+    },
+    {
+      "scene": "distance-clamp-motion-locks",
+      "viewer": "native-both",
+      "status": "reviewed-with-limitations",
+      "observation": "Floor, four boxes and shadows visible; motion-lock poses remain bounded across sampled animation stages.",
+      "combined_note": "Combined CPU left/GPU right, intentional tan/blue bodies and GPU purple floor; camera/view projection differs from single viewer."
+    },
+    {
+      "scene": "distance-clamp-joint-events",
+      "viewer": "cpu",
+      "status": "reviewed-with-limitations",
+      "observation": "Floor, three visible boxes and shadows persist. Leftmost free-joint body position differs between CPU and GPU; this clip does not qualify that unrelated joint or event callback parity.",
+      "combined_note": "Single-viewer camera unchanged."
+    },
+    {
+      "scene": "distance-clamp-joint-events",
+      "viewer": "ordinary-gpu",
+      "status": "reviewed-with-limitations",
+      "observation": "Floor, three visible boxes and shadows persist. Leftmost free-joint body position differs between CPU and GPU; this clip does not qualify that unrelated joint or event callback parity.",
+      "combined_note": "Single-viewer camera unchanged."
+    },
+    {
+      "scene": "distance-clamp-joint-events",
+      "viewer": "native-gpu",
+      "status": "reviewed-with-limitations",
+      "observation": "Floor, three visible boxes and shadows persist. Leftmost free-joint body position differs between CPU and GPU; this clip does not qualify that unrelated joint or event callback parity.",
+      "combined_note": "Single-viewer camera unchanged."
+    },
+    {
+      "scene": "distance-clamp-joint-events",
+      "viewer": "ordinary-both",
+      "status": "reviewed-with-limitations",
+      "observation": "Floor, three visible boxes and shadows persist. Leftmost free-joint body position differs between CPU and GPU; this clip does not qualify that unrelated joint or event callback parity.",
+      "combined_note": "Combined CPU left/GPU right, intentional tan/blue bodies and GPU purple floor; camera/view projection differs from single viewer."
+    },
+    {
+      "scene": "distance-clamp-joint-events",
+      "viewer": "native-both",
+      "status": "reviewed-with-limitations",
+      "observation": "Floor, three visible boxes and shadows persist. Leftmost free-joint body position differs between CPU and GPU; this clip does not qualify that unrelated joint or event callback parity.",
+      "combined_note": "Combined CPU left/GPU right, intentional tan/blue bodies and GPU purple floor; camera/view projection differs from single viewer."
+    }
+  ],
+  "method": "Viewed four sampled animation stages from every clip, CPU first in each sheet. Approximate callback-cadence timestamps, not exact matched-step numerical comparison. Complete original 300-step clips retained. Initial shutdown-black 299 samples remain in raw; corrected late-window 275 samples were reviewed.",
+  "no_full_physics_or_performance_acceptance": true,
+  "sheets": {
+    "distance-clamp-joint-review.png": "20e4b233fbca3be27c2ac9eb28394512f0c21f62d6e42dc2cd07da776a33a810",
+    "distance-clamp-motion-locks-review.png": "0fd034a4f50d42cec231ec369585ca1f2ff00cc3de8b594acf5e90b5a86b1413",
+    "distance-clamp-joint-events-review.png": "f6bce655e737c1f152059de3ea54fb36b90cabf905617f7adf68d8542dd89b92"
+  }
+}

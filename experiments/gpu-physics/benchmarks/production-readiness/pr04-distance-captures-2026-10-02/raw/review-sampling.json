@@ -1,0 +1,485 @@
+{
+  "method": "End-aligned callback-cadence estimate, not exact video/physics synchronization",
+  "samples": [
+    {
+      "viewer": "cpu",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 25,
+      "video_seconds": 3.8946220999999994,
+      "path": "raw/review-frames/cpu/distance-clamp-joint/025.png",
+      "sha256": "9bc7ac2001768734e0bb5432de1326d7b1459abb544e32fe9123f236d587c0a8"
+    },
+    {
+      "viewer": "cpu",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 100,
+      "video_seconds": 10.5941428,
+      "path": "raw/review-frames/cpu/distance-clamp-joint/100.png",
+      "sha256": "6968862b08d769f4b936dce54573bc5612b4e2a292f0589544a28dd83327da62"
+    },
+    {
+      "viewer": "cpu",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 200,
+      "video_seconds": 19.487198999999997,
+      "path": "raw/review-frames/cpu/distance-clamp-joint/200.png",
+      "sha256": "9f0eb759386ac6d5ed232f862eff495dd08285653f51eb085bbe9fc5eada29ab"
+    },
+    {
+      "viewer": "cpu",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 275,
+      "video_seconds": 26.266324299999997,
+      "path": "raw/review-frames/cpu/distance-clamp-joint/275.png",
+      "sha256": "bb66f8a7a067836fb01ffe9fcd03fe1d6a0b81f192783f853b555f25b70d2804"
+    },
+    {
+      "viewer": "cpu",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 25,
+      "video_seconds": 4.198993899999998,
+      "path": "raw/review-frames/cpu/distance-clamp-motion-locks/025.png",
+      "sha256": "7d4f9fa4a3585a510b8f5b2e2c100fa6e4a6eab2bd5b5e312f4502e63909b9de"
+    },
+    {
+      "viewer": "cpu",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 100,
+      "video_seconds": 11.239753799999995,
+      "path": "raw/review-frames/cpu/distance-clamp-motion-locks/100.png",
+      "sha256": "d4819c3f6cdca6a6be05fdac1106cbef5847cfa915d37577453e3d26f4c234c6"
+    },
+    {
+      "viewer": "cpu",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 200,
+      "video_seconds": 20.8159549,
+      "path": "raw/review-frames/cpu/distance-clamp-motion-locks/200.png",
+      "sha256": "786fe5f66fd06e9e616f214090442ed870c059da449a087cb0044b617bcfc04e"
+    },
+    {
+      "viewer": "cpu",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 275,
+      "video_seconds": 28.1686731,
+      "path": "raw/review-frames/cpu/distance-clamp-motion-locks/275.png",
+      "sha256": "28911a1e195769d22b7e299a5524d3617ca03392bc373c813ee9027c0a8f759f"
+    },
+    {
+      "viewer": "cpu",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 25,
+      "video_seconds": 4.114074500000001,
+      "path": "raw/review-frames/cpu/distance-clamp-joint-events/025.png",
+      "sha256": "b4f2a9dd181f158f68e27b9420be9e5f6b2fc2a9bf5b9b6fc6197bfb72a372b1"
+    },
+    {
+      "viewer": "cpu",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 100,
+      "video_seconds": 11.151982199999999,
+      "path": "raw/review-frames/cpu/distance-clamp-joint-events/100.png",
+      "sha256": "64b45f56aa5424a92a5747af86e61c1c3fdbed7609e9f41942fed2a6334510d7"
+    },
+    {
+      "viewer": "cpu",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 200,
+      "video_seconds": 20.311956300000002,
+      "path": "raw/review-frames/cpu/distance-clamp-joint-events/200.png",
+      "sha256": "5be30e3e3f72eaf9da978665a948759d6b4ecdc9e34db926b8cd217c88e91c63"
+    },
+    {
+      "viewer": "cpu",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 275,
+      "video_seconds": 27.185951600000003,
+      "path": "raw/review-frames/cpu/distance-clamp-joint-events/275.png",
+      "sha256": "a8bafa08fa8f0c667758a3d3e11db9d54049019ea5cdde9959642a3d2f1dd0fe"
+    },
+    {
+      "viewer": "ordinary-gpu",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 25,
+      "video_seconds": 119.110548,
+      "path": "raw/review-frames/ordinary-gpu/distance-clamp-joint/025.png",
+      "sha256": "d5cfb767bc2edf5f700cf0262070402cb40f104ae22d3050c86594bb0ec94dd8"
+    },
+    {
+      "viewer": "ordinary-gpu",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 100,
+      "video_seconds": 126.33784929999999,
+      "path": "raw/review-frames/ordinary-gpu/distance-clamp-joint/100.png",
+      "sha256": "2215e870725373969848b12f52752911c8114e65d6d53a497dd09e20e903357a"
+    },
+    {
+      "viewer": "ordinary-gpu",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 200,
+      "video_seconds": 136.07960119999998,
+      "path": "raw/review-frames/ordinary-gpu/distance-clamp-joint/200.png",
+      "sha256": "7de681268461cfde9f3322184f147c3b90861d70b81b92465b327370f0292932"
+    },
+    {
+      "viewer": "ordinary-gpu",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 275,
+      "video_seconds": 143.5842315,
+      "path": "raw/review-frames/ordinary-gpu/distance-clamp-joint/275.png",
+      "sha256": "20106fb782d45fdacf58f3de294abe2877516d64c7327480d21059fc7e45dae5"
+    },
+    {
+      "viewer": "ordinary-gpu",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 25,
+      "video_seconds": 4.9280562,
+      "path": "raw/review-frames/ordinary-gpu/distance-clamp-motion-locks/025.png",
+      "sha256": "caab4b0cec413ec3db3e66e84b410de95fc91d4a00b1e6b2db9ede81c3dffc9b"
+    },
+    {
+      "viewer": "ordinary-gpu",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 100,
+      "video_seconds": 12.725904900000003,
+      "path": "raw/review-frames/ordinary-gpu/distance-clamp-motion-locks/100.png",
+      "sha256": "f186f13a0198dbd3356e76fc940eb6f6f0237135d776be583e2a1425af0e2a7f"
+    },
+    {
+      "viewer": "ordinary-gpu",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 200,
+      "video_seconds": 23.309443100000003,
+      "path": "raw/review-frames/ordinary-gpu/distance-clamp-motion-locks/200.png",
+      "sha256": "ad8e6644a9ae44d8cf2543bb17b0d8c341c3fedc9a1570ba118ab10d8e97ba45"
+    },
+    {
+      "viewer": "ordinary-gpu",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 275,
+      "video_seconds": 30.9283439,
+      "path": "raw/review-frames/ordinary-gpu/distance-clamp-motion-locks/275.png",
+      "sha256": "f34eefa4de442ecc33d3d4e7ffb2693d634ab77a30f7e7eaea249f08a770a5a6"
+    },
+    {
+      "viewer": "ordinary-gpu",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 25,
+      "video_seconds": 4.670701900000001,
+      "path": "raw/review-frames/ordinary-gpu/distance-clamp-joint-events/025.png",
+      "sha256": "d7e52fb0b0aa9beb7dd3cc1b11d71642c1a15441844e65b48f97ec31b7065662"
+    },
+    {
+      "viewer": "ordinary-gpu",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 100,
+      "video_seconds": 12.188619800000001,
+      "path": "raw/review-frames/ordinary-gpu/distance-clamp-joint-events/100.png",
+      "sha256": "74c2f37fa6ba8962d86f2a85348e4876a709a2206cd49f4e5776722aebe888dc"
+    },
+    {
+      "viewer": "ordinary-gpu",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 200,
+      "video_seconds": 22.274491800000003,
+      "path": "raw/review-frames/ordinary-gpu/distance-clamp-joint-events/200.png",
+      "sha256": "7fd668a55f4fb640d7456689f12154fdd0337598ddbe2df47baaf1914d8a9aa7"
+    },
+    {
+      "viewer": "ordinary-gpu",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 275,
+      "video_seconds": 29.930894900000002,
+      "path": "raw/review-frames/ordinary-gpu/distance-clamp-joint-events/275.png",
+      "sha256": "e6da96b83de01b09c2ed34e598c78265f9c1fd1812fdcc5546dab3b55ab05c3c"
+    },
+    {
+      "viewer": "native-gpu",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 25,
+      "video_seconds": 104.4415866,
+      "path": "raw/review-frames/native-gpu/distance-clamp-joint/025.png",
+      "sha256": "53a96c95ba57b21ebc46606e277718c8e2f0ea20855983f5ef3fef0f2363527d"
+    },
+    {
+      "viewer": "native-gpu",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 100,
+      "video_seconds": 111.76466959999999,
+      "path": "raw/review-frames/native-gpu/distance-clamp-joint/100.png",
+      "sha256": "617469dcd482c644eefd1cc7d6f9e3d485c15e97a55dc1ee1b8c33775b76b023"
+    },
+    {
+      "viewer": "native-gpu",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 200,
+      "video_seconds": 121.59869219999999,
+      "path": "raw/review-frames/native-gpu/distance-clamp-joint/200.png",
+      "sha256": "ce19fb8bd5fb7e7bc95ef42e4744eb6bfed7e4f45ba24e908bb1fd77742fc82e"
+    },
+    {
+      "viewer": "native-gpu",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 275,
+      "video_seconds": 128.90340319999999,
+      "path": "raw/review-frames/native-gpu/distance-clamp-joint/275.png",
+      "sha256": "18ec2068483808a634fff17c31c2baecd60fda41f9308337658490b79ea5816d"
+    },
+    {
+      "viewer": "native-gpu",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 25,
+      "video_seconds": 5.109963999999998,
+      "path": "raw/review-frames/native-gpu/distance-clamp-motion-locks/025.png",
+      "sha256": "41568985e466b57fce1c189adc0f5660cb68aafd856c8adaa3bce4ca0fae37f2"
+    },
+    {
+      "viewer": "native-gpu",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 100,
+      "video_seconds": 12.6962069,
+      "path": "raw/review-frames/native-gpu/distance-clamp-motion-locks/100.png",
+      "sha256": "4d5a4a6b474e44e64c54851100cf6bf5aa361ff16e33ae9bf38ba9ed115af227"
+    },
+    {
+      "viewer": "native-gpu",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 200,
+      "video_seconds": 22.817598200000003,
+      "path": "raw/review-frames/native-gpu/distance-clamp-motion-locks/200.png",
+      "sha256": "617c377f194a6a47311f5a027a45d51a33d2f7aec005c45d937706fd859bd86b"
+    },
+    {
+      "viewer": "native-gpu",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 275,
+      "video_seconds": 30.438288300000004,
+      "path": "raw/review-frames/native-gpu/distance-clamp-motion-locks/275.png",
+      "sha256": "f15f03ec593470a85e87f152d5ae0fb83f82b4804da2e64a6c524ddb7224fd51"
+    },
+    {
+      "viewer": "native-gpu",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 25,
+      "video_seconds": 4.8222328999999995,
+      "path": "raw/review-frames/native-gpu/distance-clamp-joint-events/025.png",
+      "sha256": "fde157920675ef693dcdae37fe4e0446563bd3505c108c94eda9f1aef3f26887"
+    },
+    {
+      "viewer": "native-gpu",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 100,
+      "video_seconds": 12.310547800000002,
+      "path": "raw/review-frames/native-gpu/distance-clamp-joint-events/100.png",
+      "sha256": "52086d90585386ebc8290368df92fb30e71fa2533fbac16613f3c5d670856c54"
+    },
+    {
+      "viewer": "native-gpu",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 200,
+      "video_seconds": 22.819490700000003,
+      "path": "raw/review-frames/native-gpu/distance-clamp-joint-events/200.png",
+      "sha256": "d5aa026d8ad618a917237e559a8c390dd05b4ac3b65d2711a815d7f2050506b5"
+    },
+    {
+      "viewer": "native-gpu",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 275,
+      "video_seconds": 30.427075800000004,
+      "path": "raw/review-frames/native-gpu/distance-clamp-joint-events/275.png",
+      "sha256": "94389cf2d1ec766442ee91c53b2b3c62bf063db1862c2bd6199bb38855aaeb1a"
+    },
+    {
+      "viewer": "ordinary-both",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 25,
+      "video_seconds": 5.543095700000002,
+      "path": "raw/review-frames/ordinary-both/distance-clamp-joint/025.png",
+      "sha256": "03deed4f0fb12852b99973c0c2dcbe683fb95bc1364be9acfc71e6658c149c76"
+    },
+    {
+      "viewer": "ordinary-both",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 100,
+      "video_seconds": 14.924380100000004,
+      "path": "raw/review-frames/ordinary-both/distance-clamp-joint/100.png",
+      "sha256": "c26cb0d4b1efe20b5138d3501d822fecd7bb3f235b5c971e8c22f7cc2c0d7361"
+    },
+    {
+      "viewer": "ordinary-both",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 200,
+      "video_seconds": 27.805041199999998,
+      "path": "raw/review-frames/ordinary-both/distance-clamp-joint/200.png",
+      "sha256": "c4688955f46f0d32e2d3bb929478e2ff3f3f07c887ebb9ca0e0c7de71cbeb6a0"
+    },
+    {
+      "viewer": "ordinary-both",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 275,
+      "video_seconds": 37.3616617,
+      "path": "raw/review-frames/ordinary-both/distance-clamp-joint/275.png",
+      "sha256": "59e2f9f9fe14374daed21a7c647eb9b7f449a26fb68ed565db275cd4e480354b"
+    },
+    {
+      "viewer": "ordinary-both",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 25,
+      "video_seconds": 5.904152100000005,
+      "path": "raw/review-frames/ordinary-both/distance-clamp-motion-locks/025.png",
+      "sha256": "06fbf6804760bb08fda5c538354cef2cbfcfcdaf5f2d4ad5c367746318d75502"
+    },
+    {
+      "viewer": "ordinary-both",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 100,
+      "video_seconds": 15.811445700000004,
+      "path": "raw/review-frames/ordinary-both/distance-clamp-motion-locks/100.png",
+      "sha256": "648fa2d856e587d87f74a57c5697c453e761745fe7ba96bb38b8e31ddf57becb"
+    },
+    {
+      "viewer": "ordinary-both",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 200,
+      "video_seconds": 29.1965615,
+      "path": "raw/review-frames/ordinary-both/distance-clamp-motion-locks/200.png",
+      "sha256": "e8734ccc712510dc0c6ddfbde43586733531e89825749569046899bcd1479fd2"
+    },
+    {
+      "viewer": "ordinary-both",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 275,
+      "video_seconds": 39.1043216,
+      "path": "raw/review-frames/ordinary-both/distance-clamp-motion-locks/275.png",
+      "sha256": "37e561cba2e3b580fac5414d7b0d4e44a0a5064b009eb9938b013b8e6a7df3f7"
+    },
+    {
+      "viewer": "ordinary-both",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 25,
+      "video_seconds": 5.348708700000003,
+      "path": "raw/review-frames/ordinary-both/distance-clamp-joint-events/025.png",
+      "sha256": "94600d2e111537be903b14ce7a0f46fd464b760c57f5f023c096136f7a9f5f76"
+    },
+    {
+      "viewer": "ordinary-both",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 100,
+      "video_seconds": 15.3405691,
+      "path": "raw/review-frames/ordinary-both/distance-clamp-joint-events/100.png",
+      "sha256": "05b0b2aae8b14f5a28f314ac169ac69ca694226311e47a6af1c4e45ba1d3d625"
+    },
+    {
+      "viewer": "ordinary-both",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 200,
+      "video_seconds": 29.1613092,
+      "path": "raw/review-frames/ordinary-both/distance-clamp-joint-events/200.png",
+      "sha256": "9f90f03117a03a6263574fccf84916da5f554aaf69812a822ba0caf65952baa6"
+    },
+    {
+      "viewer": "ordinary-both",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 275,
+      "video_seconds": 39.1148881,
+      "path": "raw/review-frames/ordinary-both/distance-clamp-joint-events/275.png",
+      "sha256": "f398bffc1457d0332695ad4175b570535faaee4a4ef5fe39d2c05d54b0153c52"
+    },
+    {
+      "viewer": "native-both",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 25,
+      "video_seconds": 5.6017003000000045,
+      "path": "raw/review-frames/native-both/distance-clamp-joint/025.png",
+      "sha256": "cad8b0a11d7d13ac2d2e49ae14505e489b81bc60e0a3b24a71087e781a9f08a3"
+    },
+    {
+      "viewer": "native-both",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 100,
+      "video_seconds": 14.898820899999997,
+      "path": "raw/review-frames/native-both/distance-clamp-joint/100.png",
+      "sha256": "08b4a7e05921be71f1bd1e0a36b0f677b1956a24fe3a6e9348ef96ed17437731"
+    },
+    {
+      "viewer": "native-both",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 200,
+      "video_seconds": 27.556650500000003,
+      "path": "raw/review-frames/native-both/distance-clamp-joint/200.png",
+      "sha256": "96da5543900d49fe0777a59c81b9787b090ddc9f197bca38ee0337c61d6619b8"
+    },
+    {
+      "viewer": "native-both",
+      "scene": "distance-clamp-joint",
+      "approximate_step": 275,
+      "video_seconds": 37.246548600000004,
+      "path": "raw/review-frames/native-both/distance-clamp-joint/275.png",
+      "sha256": "8405760e0e4baec03a396749e76968d1954043fb5a4e672f1905b1d1e3080f18"
+    },
+    {
+      "viewer": "native-both",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 25,
+      "video_seconds": 5.612864999999992,
+      "path": "raw/review-frames/native-both/distance-clamp-motion-locks/025.png",
+      "sha256": "9aa11cb4616375721f484f26a7f22a3feed474deb978f57058e2da1f86597f1a"
+    },
+    {
+      "viewer": "native-both",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 100,
+      "video_seconds": 15.405325900000001,
+      "path": "raw/review-frames/native-both/distance-clamp-motion-locks/100.png",
+      "sha256": "3f70d2dca5b8a79ca3b798610e9d2b5a8a15f79e5d0dc825b859bed7d0f202a4"
+    },
+    {
+      "viewer": "native-both",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 200,
+      "video_seconds": 28.7476695,
+      "path": "raw/review-frames/native-both/distance-clamp-motion-locks/200.png",
+      "sha256": "ad3ac266d4f87eea6ce7d38b72b8c7155c04d67a1565f60fd15c4ea5382010a1"
+    },
+    {
+      "viewer": "native-both",
+      "scene": "distance-clamp-motion-locks",
+      "approximate_step": 275,
+      "video_seconds": 38.665152400000004,
+      "path": "raw/review-frames/native-both/distance-clamp-motion-locks/275.png",
+      "sha256": "b689be558fdec80d78af31e1f63179f266e72502fe401914417b1aec34aecdad"
+    },
+    {
+      "viewer": "native-both",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 25,
+      "video_seconds": 5.941842199999996,
+      "path": "raw/review-frames/native-both/distance-clamp-joint-events/025.png",
+      "sha256": "2534edc02e119fcf4f92291d00e3e8e2c4017a5e4f965f2162a98faeb4cad6da"
+    },
+    {
+      "viewer": "native-both",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 100,
+      "video_seconds": 16.134072800000002,
+      "path": "raw/review-frames/native-both/distance-clamp-joint-events/100.png",
+      "sha256": "5e31cd93019205becc831b168850fd96bd42ec0255e084d0102cec0987e72896"
+    },
+    {
+      "viewer": "native-both",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 200,
+      "video_seconds": 29.361278,
+      "path": "raw/review-frames/native-both/distance-clamp-joint-events/200.png",
+      "sha256": "958fb0d5fa625f0289b10b54e77451784b5b679894549180aef46c125ad6eb36"
+    },
+    {
+      "viewer": "native-both",
+      "scene": "distance-clamp-joint-events",
+      "approximate_step": 275,
+      "video_seconds": 39.2113302,
+      "path": "raw/review-frames/native-both/distance-clamp-joint-events/275.png",
+      "sha256": "1aa6cdcfc9ab1f7620c73e5d5f66cac8fbb31c4a398b61dacda9256e10801d4c"
+    }
+  ]
+}

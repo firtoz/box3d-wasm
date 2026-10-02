@@ -38,4 +38,4 @@ for row,c in zip(r['results'],p['cases'],strict=True):
   else:assert result=='ok';applicable+=1
 assert len(r['results'])==4 and applicable==a['applicable_selected_checks']==242 and failed==len(a['retained_failed_observations'])==2
 assert a['original_campaign_all_assertions_pass'] is False and a['production_shader_retained'] is False and a['pre_candidate_contract_sha256']==sha(B/'raw/pre-candidate-contract.json')
-print('PASS evidence audit: 21 indexed raw files; 244 original checks retained,242 applicable passes/two known inapplicable mode0 failures. No assertion/protocol/result modified or repeated. Shader restored; scene review/full release gates OPEN.')
+print('PASS evidence audit: 21 indexed raw files; 244 original checks retained,242 applicable passes/two known inapplicable mode0 failures. No assertion/protocol/result modified or repeated. Original campaign restored shader; see later retention/scene report. Full release gates OPEN.')

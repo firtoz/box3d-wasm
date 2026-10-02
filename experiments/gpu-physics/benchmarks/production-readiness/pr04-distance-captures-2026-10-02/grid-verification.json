@@ -1,0 +1,113 @@
+{
+  "cpu_first": true,
+  "columns": [
+    "000-box3d-cpu",
+    "2026-09-29-paused-solver",
+    "2026-09-29-warm-start",
+    "2026-09-30-automatic-scheduling",
+    "2026-10-01-mixed-scheduling-diagnosis",
+    "2026-10-01-speculative-handoff",
+    "2026-10-01-truthful-native-diagnostics",
+    "2026-10-01-compound-aabb",
+    "2026-10-01-compound-ownership",
+    "2026-10-01-compound-properties",
+    "2026-10-02-world-lifetime",
+    "2026-10-02-distance-clamp-native-both",
+    "2026-10-02-distance-clamp-native-gpu",
+    "2026-10-02-distance-clamp-ordinary-both",
+    "2026-10-02-distance-clamp-ordinary-gpu"
+  ],
+  "clips": [
+    {
+      "viewer": "000-box3d-cpu",
+      "scene": "distance-clamp-joint",
+      "grid_path": "../recordings/snapshots/000-box3d-cpu/distance-clamp-joint.mp4",
+      "sha256": "bbd8b950eb8b321239f63900e94ac36fb06b2c968adbe8ae5164ec3e4753360e"
+    },
+    {
+      "viewer": "000-box3d-cpu",
+      "scene": "distance-clamp-motion-locks",
+      "grid_path": "../recordings/snapshots/000-box3d-cpu/distance-clamp-motion-locks.mp4",
+      "sha256": "83e5c3727028f352523b2fc296a6cb0a64d67efc3e0bad879941b17d2b129ce8"
+    },
+    {
+      "viewer": "000-box3d-cpu",
+      "scene": "distance-clamp-joint-events",
+      "grid_path": "../recordings/snapshots/000-box3d-cpu/distance-clamp-joint-events.mp4",
+      "sha256": "55df24c8c31dc5422ff6aab6d7a6ecc3f661454d2015ab5413a6f7f2facc304e"
+    },
+    {
+      "viewer": "2026-10-02-distance-clamp-ordinary-gpu",
+      "scene": "distance-clamp-joint",
+      "grid_path": "../recordings/snapshots/2026-10-02-distance-clamp-ordinary-gpu/distance-clamp-joint.mp4",
+      "sha256": "8fe79685ef35c56a6d65983f83088a497a6639b4128f364eb7ea89d8d591b6d9"
+    },
+    {
+      "viewer": "2026-10-02-distance-clamp-ordinary-gpu",
+      "scene": "distance-clamp-motion-locks",
+      "grid_path": "../recordings/snapshots/2026-10-02-distance-clamp-ordinary-gpu/distance-clamp-motion-locks.mp4",
+      "sha256": "e5d5be64421073b25e49ec3569506cccf64f8cfe891f5755d2a478a197a62810"
+    },
+    {
+      "viewer": "2026-10-02-distance-clamp-ordinary-gpu",
+      "scene": "distance-clamp-joint-events",
+      "grid_path": "../recordings/snapshots/2026-10-02-distance-clamp-ordinary-gpu/distance-clamp-joint-events.mp4",
+      "sha256": "b22ee8f3e60e08f89e44b75e5d9d1775de7fa40fe6acd3af866afb6b0d1173a7"
+    },
+    {
+      "viewer": "2026-10-02-distance-clamp-native-gpu",
+      "scene": "distance-clamp-joint",
+      "grid_path": "../recordings/snapshots/2026-10-02-distance-clamp-native-gpu/distance-clamp-joint.mp4",
+      "sha256": "bd3525c7634119b69df0546b4c6bc987ba7c0ae652bddda4ec97dfc7047772fa"
+    },
+    {
+      "viewer": "2026-10-02-distance-clamp-native-gpu",
+      "scene": "distance-clamp-motion-locks",
+      "grid_path": "../recordings/snapshots/2026-10-02-distance-clamp-native-gpu/distance-clamp-motion-locks.mp4",
+      "sha256": "f4c44a2690c7bcafa53c7fa68a83684dbcf40cba51751a6f5e54af6e371cacff"
+    },
+    {
+      "viewer": "2026-10-02-distance-clamp-native-gpu",
+      "scene": "distance-clamp-joint-events",
+      "grid_path": "../recordings/snapshots/2026-10-02-distance-clamp-native-gpu/distance-clamp-joint-events.mp4",
+      "sha256": "e6b930308c65362217a0aa6a150babf16b38cdb20896faf8adaf24fb37b660a4"
+    },
+    {
+      "viewer": "2026-10-02-distance-clamp-ordinary-both",
+      "scene": "distance-clamp-joint",
+      "grid_path": "../recordings/snapshots/2026-10-02-distance-clamp-ordinary-both/distance-clamp-joint.mp4",
+      "sha256": "772e5af1578b2c63fe44300abf2fab7140cf771885103be1ec2ded1f3ac2ec2b"
+    },
+    {
+      "viewer": "2026-10-02-distance-clamp-ordinary-both",
+      "scene": "distance-clamp-motion-locks",
+      "grid_path": "../recordings/snapshots/2026-10-02-distance-clamp-ordinary-both/distance-clamp-motion-locks.mp4",
+      "sha256": "12261c62b59cd022402ecc06a5ecb08890b3e315b384cd8a4879cf707ed54747"
+    },
+    {
+      "viewer": "2026-10-02-distance-clamp-ordinary-both",
+      "scene": "distance-clamp-joint-events",
+      "grid_path": "../recordings/snapshots/2026-10-02-distance-clamp-ordinary-both/distance-clamp-joint-events.mp4",
+      "sha256": "a646cc433db4dc32d05d5c043b679a7568c67e7bf00726eb0e8836659468ae27"
+    },
+    {
+      "viewer": "2026-10-02-distance-clamp-native-both",
+      "scene": "distance-clamp-joint",
+      "grid_path": "../recordings/snapshots/2026-10-02-distance-clamp-native-both/distance-clamp-joint.mp4",
+      "sha256": "10de59d2d670bbb1339e8912c7819e110be56e0b1890a607d147660b7cc0c3a6"
+    },
+    {
+      "viewer": "2026-10-02-distance-clamp-native-both",
+      "scene": "distance-clamp-motion-locks",
+      "grid_path": "../recordings/snapshots/2026-10-02-distance-clamp-native-both/distance-clamp-motion-locks.mp4",
+      "sha256": "8b6c2006eaf08f65f04ee05f0c33bf3b92e6f7760d21f6534ce47257f24df610"
+    },
+    {
+      "viewer": "2026-10-02-distance-clamp-native-both",
+      "scene": "distance-clamp-joint-events",
+      "grid_path": "../recordings/snapshots/2026-10-02-distance-clamp-native-both/distance-clamp-joint-events.mp4",
+      "sha256": "817c26069e0d44d6a9f11ed802e509633d66e22542fc7fcf6a0bd1440ea1b3ad"
+    }
+  ],
+  "staged_grid_and_portable_clips_identical": true
+}
