@@ -12,6 +12,17 @@ are qualified separately. Cross-device, cross-driver and cross-build agreement
 is not promised. Byte-identical pose traces alone do not establish full-state
 repeatability.
 
+Current production queue: [readiness roadmap](goals/gpu-production-readiness.md).
+On2026-10-02 the named PR01/PR02 functional controls/API contracts pass on retained
+source `abc0a54`, with [current API evidence](../experiments/gpu-physics/benchmarks/production-readiness/pr02-current-acceptance-2026-10-02/README.md).
+[PR03 contract preparation](../experiments/gpu-physics/benchmarks/production-readiness/pr03-contract-baseline-2026-10-02/README.md)
+records exact current selectors/source identities and unresolved original
+physics/state/performance criteria; PR03 stays open pending a concrete executable
+baseline and frozen evaluation budget. No new baseline simulation or timing has
+run. The following older candidate/job notes are historical evidence, not current
+process state or final-build qualification. Rain and loaded-dragging failures,
+the distance first-step discrepancy and complete future-state gates remain open.
+
 ## Coverage and current evidence
 
 Latest desktop candidate: `desktop-baseline/paired-v22-candidate/manifest.json`
