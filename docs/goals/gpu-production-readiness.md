@@ -324,243 +324,161 @@ rely on conversation history as the sole record of a pending experiment.
 
 ## Current recovery record
 
+Read this section before continuation; the checklist above remains authoritative.
+Historical reports preserve their original failures, budgets and source snapshots.
+Their old next actions and job handles do not authorize a new campaign.
+
 | Field | Verified value |
 | --- | --- |
 | Workspace / branch | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu` |
-| Goal / authorization | Active full roadmap; implementation and verified milestone commit/push authorized by the submitted goal |
-| Delivered source | PR01 `695c93ada50220089018009230209e5050ed9252`; exclusions `806e634c9b0f5fe58fdd8a9a0dac171e862890d4`; truthful diagnostics `d4e91bca235ce3565b66d5ee031565c857806ede`; supported API/evidence milestone `2c9d832564e497242b661c692fb22d0ac15dc575`; population regression/diagnosis milestone `30b2972b520f4df76d8275e92b385656183f9007` is committed/pushed with remote 0/0 and a clean tree verified. Compound ownership rejection/bounds diagnosis milestone `6cb0cca3470c79dfb02888d9083dc786dc0de940` is committed/pushed. Retained AABB source/API/capture/evidence milestone `776577937bce5e9a265264f327c524f4f1e4cc4f` is committed/pushed; remote0/0 and clean tree verified after push. Ownership source/evidence milestone `6a37c6978069f1f5eca06c9613ed4b1def4c8b5e` and property source/evidence milestone `6b61dce95c90332ec849d00926f761d10d544dab` are committed/pushed; remote0/0 and a clean tree verified after push. Later recovery-only commits do not change compiled inputs; verify actual HEAD/remote on continuation |
-| Current item | PR01 andPR02 named functional gates pass on retained sourceabc0a54; PR01 refreshc2fd69f is pushed. PR02 current acceptance/evidence1304839 is committed/pushed with remote0/0 and clean tree verified. PR03 metadata preparation332sourceinputs/18exactselectors/28numerical selectors/native replay is pushed5a40f05. Current fixture baseline121rawfiles/10links/26engineprocesses is prepared for evidence commit; original distance/stricttrajectory failures retained. Full current matrix/contract remains open. No owned live GPU/build job; verify actual Git/evidence state. |
-| PR03 current baseline fixture builds | Original build-only protocol b84f3265 is terminal: runner46787 exit1 after three successful shared C objects and first CPU ragdoll link failed. Harness wrongly selected the GPU geometry-only archive; no physics process launched. Original protocol/receipt/logs preserved. Separate dependency repair protocol `artifacts/production-readiness/pr03-baseline-cpu-link-repair/protocol-before-builds.json` SHA0b745a9f2eb856641bd42cbeba0f2142b0af0bc225697e0870a0fb0ff5390359 freezes10links/12translationunits, reuses3successfulCobjects,0Rust/viewerbuilds/engine/timing/candidates/retries. Full independent CPU archive b35f71d0 and119 actual source/object pairs verify against CPU applicability receipt. Repair runner84255 terminalexit0: all10fixturesbuilt and source/archive assertions pass; no physics trial yet. |
-| Current source/build proof | Retained source milestoneabc0a54a3ce3b285c9984f2c7c6b5baefff00d1b (pushed) built from base88d8d532e02a2559b665bb0f73aaabd88b7553d7 plus exact archived seven-file changes; build invocation HEAD786e2f8 is not binary identity. Ordinary Rust library SHAaba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6; native SHAc8a16154cb576c49e7bd7fd8e030319601192b466d9ddb19305bd043aa6a7267. Exact four new viewer/source/unit/link hashes in the2026-10-02 portable build report.107 Rust/two C repair inputs match passing API evidence. Cached dependencies/NFD are not PR06 clean-build acceptance. |
-| PR02 current-source contract acceptance | Terminal32 C links/32 C worlds/20 Rust processes;16GPU+4host,0 new engine/viewer builds/timing/retries. Original classification-harness stop retained, one remaining native host selector passes under a separate frozen remaining-budget protocol. Portable197rawfiles/criterion matrix/415symbol inventories published; offline validator passes. Runtime source/artifact applicability verified107Rust/723viewer inputs. PR02 functional gate closed and pushed1304839, remote0/0/clean verified; fullreadiness notclaimed. |
-| Linked inventory | 415 stateful symbols, 39 explicit exclusions; no remaining detected stub/placeholder/missing/duplicate symbol or CPU-only combined passthrough. Source/link coverage does not qualify all implemented behavior |
-| Supported API campaign | Runner 81222 exits 0: 16/16 C processes and 20/20 Rust checks (18 GPU, 2 host), unchanged assertions/tolerances; all completed results retained. Portable validator passes 73 raw files. No production changes, candidates or timing runs |
-| Diagnostic campaign | Exhausted: 2/2 baseline reproductions, 8/8 candidate C, 4/4 Rust, 16/16 preserved regressions and one 16-control host suite. One candidate, no timing. Baseline reproductions get no acceptance credit; do not repeat/extend |
-| Historical first UI campaign | Stopped after CPU + ordinary GPU, both exit 0. GPU Profile shows measured intervals/step IDs; attempted Counters/Frame Time screenshots still show Profile. Immediate synthetic mouse down/up did not select tabs. Three apps unlaunched, no interaction pass or rerun |
-| Historical required-control stimulus | New protocol stops before all five apps after compound defect discovery. Pure host receiver proves mouse hold251ms/key100ms; four portable files preserve observed events/source/log/protocol. Never change old app hashes to represent a fix; after rebuilding freeze a new finite viewer protocol and reuse directly applicable successful host proof |
-| Previous AABB recordings | Prior40 standard diagnostic clips preserved. New12 CPU-first Compound captures all complete300 steps, finite health/capacity,0 Sokol errors,1280×720/30fps; six comparisons reviewed. GPU column `2026-10-01-compound-aabb` follows CPU through persisted manifest chronology. Portable103 raw files plus clips, manifests, review sheets and browser screenshot validate; actual Play/Pause loads both Village media without errors. This is scene/health evidence, not native control/physical/performance qualification |
-| Population campaigns | Two CPU harness failures retained separately (wrong compound ID count; coplanar grid cannot produce multiple patches), each CPU1/GPU0. Corner campaign stops after CPU0/ordinary-GPU0/native-GPU0/ordinary-both-6; native-both unlaunched. All 41 portable files validate; neither previous failure is replaced. Original physical limits unchanged |
-| Compound-fix campaign | Closed at first failure: baseline2/2, one candidate, ownership1/4, existing C regressions0/8, timing0. Candidate first sphere count GPU1/CPU1, then unchanged bounds1e-5 check fails GPU-1.57911253/CPU-1.6875484. All10 candidate fixtures built,11 processes unlaunched. Production adapter restored to exact baseline SHA; 32 portable raw files validate in the linked report |
-| Compound-bounds diagnosis | New distinct public/extended AABB requirement: source proves GPU public parent uses zero-sized placeholder, while native diagnostics union child world bounds and CPU transforms the local enclosing box. Frozen diagnostic2, candidates0, timing0; all six lanes for sphere/capsule/hull/mesh, rotated/unrotated, independent CPU geometry. Runner exec81152 exits0, both processes complete; mapped CPU matches independent CPU in all8 cases per backend at original1e-5, public GPU bounds zero for all cases. All96 lane observations/10 raw files validate; diagnosis only, no API/physics acceptance |
-| Compound AABB candidate | Original protocol `pr02-compound-aabb-fix-2026-10-01/protocol.json` is rejected at build: Rust E0282 map-index inference failure; ordinary/native libraries both exit101. Shell incorrectly proceeded to native after ordinary failure; both logs retained, no validation/GPU/timing process ran, all12 validation cases unlaunched. Seven production files restored to baseline before repair. Source refinement/initial protocol/rejected source are retained; no API acceptance |
-| Compile-only repair | New distinct compiler requirement protocol `pr02-compound-aabb-compile-2026-10-01/protocol.json`: one explicit HashMap<ShapeId,usize> annotation, ordinary/native library+test builds4, GPU0/timing0; stop/restore first failure. Same bounds arithmetic/import behavior, no CPU ownership change or original-budget rerun. Driver82382 exits0: all four library/test compile commands pass with exact before/after source snapshots and library/test hashes. No GPU process or acceptance credit. These four compile commands alone supply no API acceptance; later first API validation is recorded in the next row |
-| AABB API validation | Fresh first-validation protocol `pr02-compound-aabb-validation-2026-10-01/protocol.json` pins compiled repair receipts/hashes, one variant, Ccontract4/Cregression4/Rustsuite4, baseline0/timing0; original build-rejected budget remains closed. Runner12492 exits0: all12 processes pass; four Ccontract processes validate1280 six-lane bounds results against independent CPU at unchanged1e-5, four unchanged C regressions and four Rust suites (18query+1diagnostic per backend) pass. Fresh C adapters and actual108 built C units/backend have source/object/linked archive proof. Portable validator passes74 core raw files across failed build/compile repair/validation; five subsequent native-viewer build proof files are added for precommit captures. All12 later precommit captures pass/review in the separate campaign; milestone `776577937bce5e9a265264f327c524f4f1e4cc4f` is committed/pushed. No ownership or final physics qualification |
-| Processes | AABB compile/build/validation/viewer/capture runners81218,82382,12492,94269,39314,33642,90304 and publication99474 are terminal. CPU6/GPU6 captures complete; Ownership correctness runner86797 and native viewer build38194 are terminal, all14 processes/build pass. CPU capture94874 is terminal,6/6 pass; combined capture7205 and publication79861 are terminal,6/6 combined health pass,99 portable capture rawfiles validated; Village has retained renderer visual failure underPR09. No timing jobs. Local comparison HTTP server10795 remains available at127.0.0.1:8766; browser gallery is a handoff view. Verify actual state before reuse |
-| Remaining known physics/performance limits | Rain residuals and distance-joint first-step discrepancy remain unresolved. PR01 additional all-window 5mm floor screen fails CPU and GPU at step 6; discrete-landing analysis is retained, original isolated CCD limits unchanged. Native baseline startup diagnostic times out at 180s, no pass. Diagnostic host occupancy scans/device peak atomics add unmeasured work; PR08 must assess cost |
-| Late-stage user requirements | Added 2026-10-01: finish core PR01–PR08 first, then floor visibility PR09, sample UI/widgets PR10 and raycast behavior/appearance PR11. Village missing nearby GPU ground/buildings is now reproduced in the combined precommit clips and traced to unchanged shared renderer capacity; retain it forPR09. Other floor/UI/raycast cases remain unchecked user requirements; no late-stage fix is completed. PR12 delivers a fresh desktop-only CPU/GPU FPS, completed-step ms, throughput and p95 chart set; laptop work remains deferred. Final publication/audit moved from PR09/PR10 to PR12/PR13; earlier gate IDs and current PR02 priority are unchanged |
-| Next action | Continue PR03: reconcile existing named fixture matrix, exact durations/limits/backend/policy/capture fields with current sources; record Rain/ragdolls/dragging/CCD/joint/numerical failures separately. Freeze release contract/baseline and finite execution budget before new device runs. Do not resume older historical next actions or exhausted scheduling campaigns. |
-| Ownership after bounds | Protocol `artifacts/production-readiness/pr02-compound-ownership-after-bounds/protocol.json` SHA455bc93f52eb4d653f89aed28d5e62f6d46179fce7c3781c65ee5c96f9658b98 freezes candidate1/baseline0/ownership4/regression10/Rust0/timing0/retries0, stop/restore first failure,600s/process. Changed prerequisite is independently delivered AABB semantics, not a rerun/replacement of old failed ownership results. One C-only helper candidate SHA0b0ed1f953620b60735d66eca215728727d25872647906d8a3b47a9ef811d086 preserves bounds import and public mirroring. Runner86797 exits0: all14 first processes pass, ownership4/regression10, unchanged assertions and1e-5 bounds. PID3640986 is terminal; no live trial. Exact existing Rust library source/hash proof reused; fresh ordinary/native C adapters and12 fixtures built before trials, compiled unit/object/archive identities retained. Ownership candidate is qualified by14 first processes and audited portable evidence, milestone `6a37c6978069f1f5eca06c9613ed4b1def4c8b5e` is committed/pushed, remote0/0 and clean tree verified. All12 CPU/combined captures pass300-step health; six sheets reviewed, Village retains an existing renderer-capacity visual failure underPR09. Viewer build38194 exits0, native combined binarySHAb61d01e3fc71105173b3d22fc6d9830ecb0813122331edd4a31bfad2aa52f3b5,178 inventoried units and before/after source/dependency proof. Capture protocol06083a3cc76f56948cfae3d02b2e145c6dda29a911d6ed034b76c6f57d56874a freezesCPU6/combined6,300 completed steps/defaults,600s watchdog,timing0/retries0. CPU-first recorder94874 and combined7205 exit0; all12 clips/300-step health pass. Publication79861 exits0,99 portable capture rawfiles validate, six sheets reviewed. No live physics/recording/timing process. Correctness portable validator passes61 rawfiles/14 processes; one offline inventory filter failure retained (cached NFD object is outside all five C fixture linked archives),107 applicable compiled units/backend; do not rerun this or older closed campaigns |
-| Compound property diagnostic | New protocol `artifacts/production-readiness/pr02-compound-properties-diagnostic/protocol.json` SHAa192e989ef6894dfdae2894812eedd4996480d536efefa45371b065d5ec9937e freezes CPUcontrol1/GPUdiagnostic4/candidate0/timing0/retries0. All original1e-5 finite float and exact ID/tag checks retained; sphere/capsule/hull/mesh geometry table differs intentionally from shapeDef base material. Valid parent userdata/density mutation, two lifetime cycles, default1/60four-substep static step and world isolation; stale GPU properties logged without invalid CPU queries. Stop first infrastructure/input/build/control failure or600s process timeout; GPU property mismatches are diagnostic data, not passes. Runner15416 exits0, terminal: CPU928 observations/0mismatches, each ordinary/native standalone1016/864mismatches, each combined1016/832mismatches. All five first processes complete; no live process or candidate. Density/stale observations pass; getter zeros and absent geometry-owned material table are demonstrated identically across backends. Exact accepted Rust/combined-adapter proof reused; new standalone C adapters and all five fixture binaries built before trials. No production edit or older-budget rerun |
-| Compound property candidate | Protocol `artifacts/production-readiness/pr02-compound-properties-fix/protocol-before-change.json` SHA4020c79177ee163a9cbc6eb4a37fc1a2188e90575779422b1c8a414851750bb7 freezes candidate1/Rustbuild4/CPUproperty1/GPUproperty8/Rustsuite2/CPUmesh2/GPUmesh8/Cregression12/timing0/retries0, stop/restore first failure,600s/process. Five production files change: metadata getters use live slot/generation independent of geometry; constructors copy geometry material table into existing parent storage, leaving child collider and proxy scalar fields unchanged; C count/indexed getters route to Rust. Parent material upload layout changes; relevant compound physics/query checks and final-build applicability are required, no no-regression claim. Candidate source snapshots/hashes in candidate-inputs.json. Rust build driver6352 exits1: ordinary library builds, but test compilation fails E0061 because the test called internal b3_create_world without its GPU argument. First-failure stop honored; native builds, all C builds and all validation processes remain unlaunched. Five production files restored byteexact; failure logs/source are retained. The separate compile-only correction below is complete; this failed campaign remains closed with no API acceptance. All earlier diagnostic results preserved, no repeat |
-| Compound property compile-only repair | New protocol `artifacts/production-readiness/pr02-compound-properties-compile/protocol-before-builds.json` freezes source repair1/library-test builds4/GPU0/timing0/retries0. Only the new test explicitly creates GpuDevice and supplies it to internal b3_create_world; production behavior and test assertions otherwise unchanged. Driver25728 exits0: all four builds pass, exact ordinary/native library/test/source proof frozen. No acceptance from compilation. First validation launches only under the separate protocol below |
-| Compound property first validation | Protocol `artifacts/production-readiness/pr02-compound-properties-validation/protocol.json` SHAe7ae36974977a91c0572d9b381c90961a2bd1c20af333e1b57494eb554ffba4a freezes freshCconfigs4/CPUproperty1/GPUproperty8/Rustsuite2/CPUmesh2/GPUmesh8/regressions12/timing0/retries0. All31 C+2 Rust cases explicitly ordered; original failed-build cases were unlaunched, no retry/replacement. Driver83532 exits1, terminal: all four adapters/22 binaries build; CPU property1/GPU property8 pass original928/1016 observations with zero mismatches. The ordinary Rust test fails its immediate parent-slot-reuse assumption (new index2 vs old1); source push_shape appends every shape with generation1, so this is a fixture requirement incompatible with the current allocator, not a getter failure. First-failure stop restores all five production files byteexact. Native Rust and all22 physical/regression C cases remain unlaunched. Preserve this failed test, correct the fixture under a new frozen contract, and validate the still-uncovered cases without repeating the9 passing property processes. No final API/physics acceptance yet |
-| Compound handle fixture correction and remaining validation | Protocol `artifacts/production-readiness/pr02-compound-properties-lifetime/protocol-before-correction.json` SHAfe5d7f7b2782b85604a397b494034ba6cede11966a2347ecdfad971d925903d7 freezes testfixture1/testcompiles2/Rustcontract2/previously-unlaunchedC22/propertyGPU0/productioncandidate0/timing0/retries0. Existing allocator appends every shape with generation1; only cfg(test) corrects the false immediate-reuse assumption, retaining copy ownership, deleted/null/noncompound checks and adding direct wrong-generation validation of a live parent. No allocator ABA/reuse proof claimed; PR05 remains open. Same frozen production libraries and all C fixture binaries/limits are unchanged; previous9 property passes remain exact-binary applicable. Driver67915 exits0, terminal: both corrected Rust tests and all22 first CPU/GPU mesh/regression processes pass, exact frozen libraries/C binaries and original physical limits. Portable report/validator is published under pr02-compound-properties-lifetime-2026-10-01. No property reruns or allocator ABA claim; no timing/final-release acceptance. Precommit captures/source review complete; property milestone `6b61dce95c90332ec849d00926f761d10d544dab` committed/pushed, remote0/0 and clean tree verified |
-| Compound property precommit viewer build | Protocol `artifacts/production-readiness/pr02-compound-properties-viewer/protocol-before-build.json` SHA026ae7c78d624b94e93d7163cec922c35bd02fd5859a636cf4cf41efe26d8080 freezes one fresh native combined viewer/two CMake commands/physics0/timing0/retries0. First C/Rust validation prerequisite passes; exact existing native property library reused, only cfg(test) module corrected afterward. Viewer driver36085 exits0, terminal: native combined SHA6127ebcdbec7a11426f434803ab6df12e02d33d146118c23dae82e939a71a38e, source/unit/object/archive proof in build/receipt.json. Shared cached NFD object inventoried; no clean final-release proof. Six compound scenes require separate CPU-first captures and review before commit |
-| Compound property precommit captures | Protocol `artifacts/production-readiness/pr02-compound-properties-captures/protocol.json` SHA0fb2a82e95e184659d6aa434e03d8a7262de66f240ec6b03e8a14f8652f94f01 freezesCPU6/combined6/timing0/retries0,300 completed steps/defaults/600s watchdog. CPU viewer exact prior SHA9d879a… unchanged; shim.c/both_dual.c excluded only as uncompiled CPU snapshot inputs, every actual source/object still checked. Fresh native combined property viewer SHA6127eb…; all six affected upstream registrations covered. CPU-first recorder10135 exits0, terminal: all six scenes pass300-step health. Combined recorder25950 exits0, terminal: all six scenes pass300-step health; all12 CPU/combined captures complete. Publication and all six comparison reviews complete; no live physics/recording/timing process. five retain expected geometry, Village existing renderer failure remainsPR09. Portable validator99 rawfiles/12 passes; no physics/performance/UI/raycast acceptance from clips |
-| Previous property viewer builds | Protocol `artifacts/production-readiness/pr02-controls-current-builds/protocol-before-builds.json` SHAbe6a27c53bdd24383df27dd912f818318c9cb5c6fd9e9d9ba8c5269f95ac91a5 freezes2 Rust libraries/5 viewer configurations/5 CMake configure-build pairs/physics0/timing0/candidates0/retries0. Generated main copies alone gain a read-only post-Step observer; no production/Box3D edits or simulated benchmark input. Stop first build/input/instrumentation failure. Driver setup initially used wrong relative path before any build launched; exact error retained in setup-failure.json, path corrected with no budget extension. Driver session76473 exits0: both current-source libraries and all5 viewers built; portable validator passes45 raw files and119/124/124/178/178 compiled units. Libraries ordinary3ea914…/nativec718a1…, exact hashes in receipts. One setup path failure retained before any build launched. NFD reused object explicitly disclosed; not clean PR06 proof. No build process remains; receipts/source archives under that directory. [Portable build report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-controls-current-builds-2026-10-01/README.md) verifies45 raw files; completed app protocol below is separately frozen and closed after harness failure. Do not rerun either closed driver. Reuse pure held-input proof only after source audit, never rerun older closed campaigns. PR02 stays open; PR09–PR12 remain after core gates, final charts desktop-only |
-| Previous property app contract | Separate protocol `artifacts/production-readiness/pr02-controls-current-apps/protocol-before-runs.json` SHA4473251bee8c7903f45e7ea621b1005fc6994c95a5e48065862a5be5b1c14ec0 freezes CPU-first5 apps/40 actions and20 screenshots per app/600s watchdog/host0/timing0/candidates0/retries0. Prerequisite all5 fresh viewer builds; CPU first app stops before any input: focus helper depends on absent xwininfo. Driver session13037 exits1; app/driver process cleanup verified. GPU apps remain unlaunched and campaign is closed; no actual control acceptance. Actual ordinary UI mode, no benchmark/frames limit, default60Hz/four substeps/sleep/warm/CCD; only empty settings file suppresses first-run help. Existing pure held-input proof source-audited without rerun; explicit viewer focus and held mouse/key stimulus. Numeric pause/single-step/off-on world flags/combined CPU mapping/restart-lifetime plus reviewed Profile/Counters/Frame Time, exclusion labels and clean quit/upstream-supported rendering settings required. Source audit before any app corrected an invented physics-control persistence requirement; original protocol retained unchanged, no physical tolerances weakened or trial repeated. Stop first failure and retain all evidence. [Portable failure report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-controls-current-apps-2026-10-01/README.md) validates19 raw files/85 initial CPU records; no input sent or control pass. Next distinct protocol must replace focus helper with direct libX11 XQueryTree/XFetchName, reuse exact five binaries after hash checks, keep this failure. This is PR02 limited truthful controls; sample-wide widgets/raycast/floors and fresh desktop charts stay PR09–PR12 |
-| Direct-libX11 focus correction | New protocol `artifacts/production-readiness/pr02-controls-focus-apps/protocol-before-runs.json` SHA1257531c5b61f96298afcc44893e465814baa96d137a71a60364384f37fa0395 freezes harness correction1/CPU-first5 apps/40 actions and20 screenshots per app/600s watchdog/timing0/candidates0/retries0. Existing exact five current-source viewers reused; driver replaces absent xwininfo with XQueryTree/XFetchName and verifies XGetInputFocus after setting focus. Bounded wheel scrolling permits clipped Info controls, no defaults/input benchmark mode changed. CPU driver5893 exits0;25 actual actions complete, visible controls/tabs reviewed, clean CPU/capture exit. Original validator fails late move-event sampling: exact event exists at frame711, while later paused zero-time steps clear it. Campaign closed;4 GPU apps unlaunched, no retry. Portable validator50 rawfiles passes; corrected CPU evaluation is attributed only to the later contract. Original assertion failure/source retained; separate offline sampling correction below preserves all required behavior. Its validator33 rawfiles verifies unchanged other assertions and exact failed GPU restart ID, no GPU acceptance. Prior failed focus campaign stays closed/preserved. Acceptance still requires actual toggles, completed-step pause/single-step, restart lifetime, mapped CPU flags, reviewed actual tabs/exclusion labels and clean quit/upstream-supported settings |
-| Move-event sampling correction and remaining GPU apps | New protocol `artifacts/production-readiness/pr02-controls-event-window-apps/protocol-before-runs.json` SHAa6551aae00989ca06fdf14f14e857ef260e41ce9819a2b44818f0a84e890beb4 freezes offline validator correction1/CPU revalidation1/freshCPU0/previously-unlaunchedGPU4/timing0/candidates0/retries0. Upstream Sample sets m_stepWhilePaused=true; later dt0 Step clears body events. Correct only final delayed event sample to actual completed-single-step window, retaining a real moved body and all other assertions. [CPU record/correction evidence](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-controls-focus-apps-2026-10-01/README.md) passes1275 records/25 actions, all9 screenshots reviewed; original failure remains. Same exact five viewer binaries/settings/held stimulus, libX11 focus. Ordinary GPU app8634 exits0 after stop/clean quit: restart resets sample/completed step to0 but reuses opaque WorldId[1,1]. [Portable event-window/GPU failure report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-controls-event-window-apps-2026-10-01/README.md) closes campaign on actual lifetime failure,12 actions; native GPU/ordinary both/native both unlaunched. Stop honored, no GPU acceptance. Independent root-world diagnosis below tests consequences, no production candidate yet. Original physical limits unchanged |
-| Root world lifetime diagnosis | Protocol `artifacts/production-readiness/pr02-world-lifetime-diagnostic/protocol-before-runs.json` SHAaae1c703428997c5dc6b634703b984085ba315ecdbaa9b7df2d280342bdabfef freezes five C fixture compiles/CPU1/GPU diagnostic4/candidates0/timing0/retries0. Exact current-source libraries and relevant C archive/object/source proof reused; new public C fixture isolates world reuse, stale IsValid/read/set/destroy and forged-generation destroy, independent second world. Never invoke invalid CPU mutators/getters. Default world values, no physics step needed for registry diagnosis. Build all five before processes; stop first build/provenance/infrastructure/CPU failure, GPU mismatches are diagnosis. Runner27827 exits0: all5 fixture compiles pass, real CPU12 observations/0 mismatches; each ordinary/native standalone/combined GPU13/6 mismatches. All six failed fields identical: reused root ID, stale IsValid/read/mutate/destroy, forged-generation destroy. Independent other world remains valid/tag33. Portable validator22 rawfiles passes; one offline syntax-token failure/source retained and corrected without a process rerun. No live diagnosis process. [Portable root-world report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-diagnostic-2026-10-01/README.md) links exact library/C archive/unit proof. PR01 per-world control/lifetime gate reopened; prior toggle implementation/physical results retained. Next source repair must retain generations, validate destruction and audit child-to-world generation1 routes plus stale child IDs/exhaustion, not merely alter viewer evidence. No production edit accepted; lifecycle qualification remains open |
-| Previous root-lifetime checkpoint | 2026-10-01: previous turn classified progress (delivered builds/retained pre-input failure); this turn fixes focus harness, qualifies existing CPU controls via preserved event-window correction, exposes actual GPU restart/root-ID failure and completes independent five-cell C diagnosis. Milestone `575ce5aa7fbe7b840ce59331616c1777aa0142e3` committed/pushed; remote0/0 and clean tree verified after push. Validators50/33/22 rawfiles pass; CPU control12/0, every GPU diagnostic13/6. CPU UI5893 exits0, ordinary GPU UI8634 exits0 after failure/quit, C diagnosis27827 exits0; no live build/viewer/capture/test process verified. Push71194 exits0. Two raw ImGui ini blank-EOF warnings retained byteexact; documentation/source diff checks pass. No production engine/Box3D/WASM/WGSL/default/scheduling edits, no timing. PR01 reopened on demonstrated per-world lifetime failure; PR02 and later gates still open. Next: source registry repair under a fresh finite candidate/check budget; changing root generation alone breaks hardcoded generation1 child routes. Audit body/shape/joint/contact counters across recreation and exhaustion, then exact root fixture/original controls and relevant regressions; refreeze viewers before remaining actual UI checks. Preserve all prior failed campaigns and exhausted timing budgets |
-| Previous delivered checkpoint | 2026-10-01: source/evidence milestone `06f46c39344fff98e2c83fd191ed3adbc9d18a5b` committed/pushed to feat/gpu, remote0/0 and clean tree verified after push. Both current-source libraries/all5 diagnostic viewers built, portable validators45 build files/19 app files pass; actual app qualification remains0. CPU first app stopped before input on missing xwininfo; four GPU apps unlaunched, original draft/source correction and failure retained. Build session76473 exits0, publication79352 exits0, app13037 exits1, push22231 exits0; no live build/viewer/capture process verified. One raw imgui.ini blank-EOF warning retained byteexact. No production/Box3D/WASM/physics/default/policy edits or timing. PR09–PR12 still follow core readiness; final render FPS explicitly requires actual desktop graphics adapter, separate from step throughput/latency, laptop deferred. Next distinct focus-harness source repair uses XQueryTree/XFetchName and unchanged exact viewers, then new bounded CPU-first app contract; never rerun closed drivers |
-| Previous milestone verification | 2026-10-01: property diagnostic validator29 rawfiles/5 processes; rejected-build20 files/E0061 preserved/restored; compile-only23 files/four builds; stopped first-validation70 files/9 property passes +failed immediate-slot-reuse assertion; corrected-lifetime validator68 files/2 Rust +22 first C passes; capture validator99 rawfiles/12 health passes +all six scene reviews. Native viewer SHA6127eb…,178 compiled units including1 disclosed cached NFD object; real CPU SHA9d879a… reused exactly. No live test/capture/timing/build process. Source/evidence milestone `6b61dce95c90332ec849d00926f761d10d544dab` committed/pushed; remote0/0 and clean tree verified after push. Source5-file property/getter repair retained, PR02 still open. Source/gallery/docs diff check passes; three unmodified raw Rust logs retain blank-EOF whitespace warnings, as required by exact raw-data hashes. Remote fetched, feat/gpu0/0; Box3D/WASM tree unchanged. No Box3D/WASM, WGSL, scheduling/default changes; no performance/final readiness claim. Village known rendering defect remainsPR09 |
+| Authorization | Active full roadmap; implementation and verified milestone commit/push authorized by the submitted goal |
+| Latest evidence milestone | `e801b3135f1c2fe7f10e2a692cd623934a7b8a83` pushed; remote0/0 and clean tree verified after push. New121rawfiles preserve current PR03 fixture builds and26baseline processes; no production change |
+| Retained production source | `abc0a54a3ce3b285c9984f2c7c6b5baefff00d1b`, pushed. PR01 refresh `c2fd69f`, PR02 acceptance `1304839`, PR03 metadata `5a40f05` are pushed. Invocation revisions are context, not compiled source identity |
+| Current item | **PR03 open**. Current ragdoll/mesh/distance fixture baseline is portable; remaining fixed matrix, Rain, loaded dragging, exact Rust selectors and future-state contract/current baseline remain next |
+| Current jobs | All owned fixture build/baseline/publication processes terminal; no live owned GPU/build/capture job. Old sessions46787/84255/80345/31931 are terminal; never restart their closed drivers |
+| Current compiled libraries | Ordinary SHA`aba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6`; native SHA`c8a16154cb576c49e7bd7fd8e030319601192b466d9ddb19305bd043aa6a7267`. Exact107Rust/723viewer inputs still match their producer receipts/source archive |
+| Independent CPU | Full archive SHA`b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c`,119actual source/object pairs match CPU applicability/origin receipts. Combined fixtures use separate prefixed CPU archive. Older parent Rust receipts do not identify current GPU code |
+| Hardware / policy | i9-9900K / NVIDIA GeForce RTX4070SUPER, driver610.57.04, actual NVIDIA Vulkan. Ordinary/native qualified separately. Current PR03 cells use efficient ordering0; scheduling/default policies unchanged |
+| Scope protection | Box3D/WASM unchanged. Mixed scheduling target remains **unmet**, all55trials preserved; both historical scheduling budgets exhausted. Do not resume older Rain/scaling/benchmark next actions. New Rain work is required under this roadmap's separately frozen PR03–PR04 protocols |
 
+### Latest closed budgets and observations
 
+[Current PR03 portable report](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-baseline-fixtures-2026-10-02/README.md)
+contains121indexed rawfiles, original sources/protocols, actual link receipts,
+producer receipts, all outputs and unchanged evaluators. Offline validator
+passes and every indexed byte was verified in Git staging. Derived evaluator
+imports suppress bytecode so repeated offline checks preserve the raw index.
 
-### Current world-lifetime repair recovery
+- Original build protocol `b84f3265…`: three sharedC commands pass, firstCPU
+  ragdoll link fails because the harness chose the GPU geometry-only archive;
+  nine links remain unlaunched. Runner46787 terminalexit1. Preserve original
+  receipt/log; no engine ran.
+- Separate dependency repair protocol `0b745a9f…`: reuse three successfulC
+  objects, full independent CPU archive, ten links/twelve translation units;
+  allten binaries link, assertions active. Runner84255 terminalexit0. No
+  Rust/viewer build or engine execution in either build budget.
+- Distance baseline protocol `37a6d790…`: two first processes, ordinary/native
+  combined. Both abort signal6 at distance step0/lane1, GPUY=-1.00004232 versus
+  CPUY=-1.00028491, outside original1e-5. Driver80345 terminalexit0 after both
+  planned cells; child failures remain failures. No240step distance completion
+  or later four-substep distance case is inferred.
+- Ragdoll/mesh protocol `d3a4df17…`:24first processes,8CPU+8ordinary+8native,
+  allcomplete; driver31931 terminalexit0. Both backends pass unchanged600step
+  ragdoll physical limits, four120step isolated cases,60step collision-free
+  ragdolls and45grid/12torus mesh poses. Original full ragdoll reference screen
+  fails first60step position error0.063585767m versus0.006m on both. Its later
+  strict visual checks are unexecuted. Retain this independently of physical
+  passes; no tolerance changed, cause unproven.
 
-The [portable repair subset report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-repair-2026-10-01/README.md)
-validates105 raw files. Both exact current-source libraries/test executables
-compile;18 first Rust processes/72 checks and8 first GPU C processes/120
-observations pass on NVIDIA Vulkan610.57.04. The original root-world diagnostic
-now has0 mismatches in each ordinary/native GPU/combined cell, versus6 previously.
-All test tolerances/GPU assertions remain unchanged; no timing run or default/
-WGSL/scheduling/Box3D/WASM edit. Production candidate remains **uncommitted and
-local**, not the pushed implementation. PR01/PR02 remain unchecked.
+Allfour new protocols freeze zero candidates/retries/headline timing. Total26
+engine processes are first baseline observations, not final five-run/full-state
+release qualification. Incidental clocks never enter performance charts. Do
+not repeat completed cells or extend these closed budgets.
 
-Retained failures: ordinary artifact destination collides with its log directory
-after both compiles pass; a setup prefix error occurs before any build; strict
-combined shim source check detects two added blank lines; first CPU cleanup
-fixture incorrectly demands stale native child rejection across world reuse.
-Each campaign stopped/restored production. Ordinary artifacts and two standalone
-C units were reused without repeating compilers. Exact generated combined shim
-was compiled. CPU-only correction validates the existing native alias offline
-(no CPU rerun); identical GPU-preprocessed fixture output preserves every GPU
-assertion. All eight GPU C executions were previously unlaunched. Closed drivers
-must never be rerun. Detailed immutable budgets/receipts/source/hashes are linked
-in the report; all original unfavorable outcomes remain raw.
+### Next discriminating work
 
-Current candidate files: `src/api/world.rs`, new
-`src/api/world/world_lifetime.rs`, `world/{shape_geometry,joint_reaction,joint_separation}.rs`,
-`c_abi/{shim,both_dual}.c`; new fixture `c_abi/world_cleanup_contract.cpp`.
-Paths are relative to `experiments/gpu-physics`. Root epochs survive destruction;
-replacement child epochs exceed all previously issued body generations. Exhausted
-slots retire without wrapping.65 child root literals plus3 helper modules route
-through the captured current root; all9 joint constructors validate endpoints.
-C destruction guards precede geometry/visual cleanup and compound errors use
-`Body_GetWorld`. Existing process-wide contact allocator is retained.
+1. Finish PR03's fixed current contract and executable baseline. Freeze exact
+   current Rust analytical/CCD/island/history/query/replay/capacity/schedule
+   selectors, original durations/assertions and finite evaluation budget before
+   launch. The existing metadata draft identifies18fixture/28numerical selectors
+   and native replay, but is not a device pass. Current CCD filter count must be
+   derived from current host lists rather than copied from the old27-test total.
+2. Include original600step `Benchmark/Rain` and3060step loaded dragging criteria,
+   actual current CPU/ordinary/native viewer/binary commands, creation/lifetime
+   correspondence and required capture fields. Current source-linked fixtures
+   are built; no fresh Rain or drag process has yet consumed a PR03 budget.
+3. Preserve the original distance first-step and strict ragdoll trajectory
+   failures in PR04's required failure register. Read historical rejected
+   experiments/criteria before selecting a new hypothesis. A numerical root,
+   CPU reproduction or physical-only pass cannot silently close another screen.
 
-Local exact artifacts: `artifacts/production-readiness/pr02-world-lifetime-fix`
-(ordinary library/source snapshots), `...-artifact-repair` (recovered ordinary
-and first native test/library), `...-rust-validation` (terminal18/72),
-`...-cleanup` (first standalone C archives), `...-C-applicability` (all9 fixture
-binaries, failed CPU1/10) and `...-CPU-contract` (terminalGPU8/120, offline source/
-CPU proof and compiler audits). No live build/test/viewer/capture process; final
-subset run53265 exits0, Rust18520 exits0, native build52361 exits0. Failed build12744,
-Cpreflight21547 and CPUcontrol64720 remain terminal with their failures retained.
-Do not treat current `target/` outputs or checkout metadata as the frozen binaries.
+Local immutable campaign directories:
+`experiments/gpu-physics/artifacts/production-readiness/pr03-baseline-builds/`,
+`.../pr03-baseline-cpu-link-repair/`, `.../pr03-distance-baseline/`,
+`.../pr03-ragdoll-mesh-baseline/`. Exact frozen commands/settings and artifacts
+are also portable in the current report; ignored local paths alone are not
+acceptance evidence. The accepted Rust test executables remain under
+`.../pr02-world-lifetime-artifact-repair/`: ordinary SHA
+`597b893bcbbb401866721e1b1b45cb03c58263ae8bee76cbe8af00cdfaef23b9`,
+native SHA`34ede43142323516f585d4d236755b8ef46dc6d9e61b6ba51354f379c85aa4a3`.
+Verify actual source/artifact hashes before reuse.
 
-The [direct mapped-CPU cleanup check](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-mapped-cleanup-2026-10-01/README.md)
-now passes two first combined processes/42 observations, reusing the exact C/Rust
-archives with no compiler/test repeats or production change. Only the GPU root
-is deliberately retired; real CPU/mapping/owned geometry remain until public
-cleanup, then release correctly. Recreated roots/children remain safe. This does
-not simulate device loss. Driver13293 exits0; no live process. Two fixture links,
-two first processes, zero timing/retries; original protocols stay closed.
+### Remaining applicability and release boundaries
 
-2026-10-02 viewer checkpoint: [four fresh builds](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-viewer-builds-2026-10-02/README.md) pass all12 configure/generate/build commands,124 units per standalone/178 per combined;34 portable raw files validate, exact existing Rust libraries/fresh C guards/source/object/link/executable proof. Shared cached NFD remains disclosed, not PR06. Two failed actual campaigns remain closed: [stale coordinate](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-viewer-apps-2026-10-02/README.md)15actions/5screens,39 raw files including original MP4; [publication race](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-adaptive-apps-2026-10-02/README.md)19completedactions/6screens,46 raw files/MP4, driver exit1/killed app. Both show corrected root change; neither becomes a complete pass.
+PR01/PR02 named functional gates are closed, with exact current acceptance
+reports linked in their checklist cells. PR01's additional all-window floor
+screen and archived startup timeout remain failed/incomplete. PR02's32C+20Rust
+processes pass under original assertions: actual16GPU+4host classification;
+the original false GPU-banner harness stop is retained, and onlyone previously
+unlaunched native host case uses the separate remaining budget. Current inventory
+415stateful symbols/376implemented candidates/39explicit exclusions does not
+prove376 independent physical behaviors. Source/archive/link proof is distinct
+from semantic qualification.
 
-[Atomic/current-screen campaign](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-atomic-apps-2026-10-02/README.md) SHA79e8bb1b… completes its finite host1/apps4 budget. Host501 writes/1747 concurrent reads/zero errors; all four original control validators/manual visual reviews pass29actions/11screens each,6409 total observer records. GPU restart[1,1]->[1,2], combined CPU[1,0]->[1,1]; stable pause/exact single-step twice/live event window/all flags off-on/mapped CPU/typed metrics/clean quit/persisted rendering verified.243 portable files include all116 actions/44 originals/four full MP4s, source proof confirms only atomic JSON publication changes and original evaluator unchanged. No CPU rerun/timing/production change. Terminal-publication-only missing-import error retained, no app repeated. Build25075/publication68163 and final app34061/93941/83097/15613 all exit0. No owned viewer/build/test/capture process remains; verify before continuation. Seven production files remain local and uncommitted; all readiness checkboxes open pending scene recordings/final applicability.
+Retained lifetime repair uses persistent root/child epochs, generation-safe
+routing/destruction, matching CPU-map cleanup and stale/foreign joint endpoint
+checks. Its72selected Rust checks,120first root/geometry C observations and42
+mapped-cleanup observations remain distinct from broad lifecycle qualification.
+PR05 must reconcile raw Rust world-index range with C metadata/viewer caps and
+exercise concurrency/reentrancy/loss boundaries. PR07 must audit new registry
+root/child epochs and ABI allocation state: schema24 does not yet prove capture
+of every future-relevant field. No promise of complete-state determinism follows
+from pose records or selected110step repeats.
 
-Current2026-10-02 PR01 acceptance: [portable current-source report](../../experiments/gpu-physics/benchmarks/production-readiness/pr01-current-acceptance-2026-10-02/README.md) retains111 indexed raw files/ten lossless traces. Fixed protocol SHAc1c6e16d… is terminal: six first C links,two host lists,20 fresh public controls,two CCD guards,ten110-frame state trials andtwo serial63-regression harnesses (126 unchanged checks), all pass. Both raw five-state comparisons pass, ordering/fields unfiltered; source inputs and actual frozen binaries match repairabc0a54. No production change/rebuild/headline timing/retry. Session78347/publication76122/offline47724 terminal exit0. Configuration prose parenthesis differs from frozen ordered cells dictionary; actual driver follows dictionary, all four/five-trial budgets/assertions unchanged, discrepancy retained with no timing claim or rerun. Original extra s&box screen remainsFAIL and baseline timeout incomplete; both retain prior explanation/limits. PR01 checkbox is restored only for its original functional contract. PR02 is subsequently closed by the current acceptance below; PR03–PR13 remain open.
+The current four viewer controls pass116actions/44screenshots;52CPU-first clips
+and26reviewed pairs preceded sourceabc0a54. Twelve native300step health cases
+pass. These are functional/scene checks, not complete physics or performance.
+Falling Cubes previews256bodies, not the50000body timing fixture; Mixed Stacks
+has600dynamic/602total bodies. Native graphics used Mesa/Xvfb diagnostically,
+while GPU physics used NVIDIA Vulkan. Such captures cannot establish desktopFPS.
+Use `SKIP_METRICS=1` for new GPU snapshot work. Cached dependencies/NFD and
+post-build dependency audits do not close PR06 clean-build acceptance.
 
-Current2026-10-02 world-lifetime source milestone: the named repair subset is retained in pushed commitabc0a54a3ce3b285c9984f2c7c6b5baefff00d1b after exact API/source qualification and precommit scene review. Remote0/0 and clean tree verified after push; no owned job. Seven production files retain root/child epochs, generation-safe routing/destruction and matching CPU-map cleanup. No numerical/WGSL/default/scheduling-policy/Box3D/WASM change.72 selected Rust checks,120 first root/geometry C observations,42 separate mapped-cleanup observations and four actual repaired viewer controls remain separately proven. Full PR01/PR02 acceptance reconciliation is still next; allPR01–PR13 stay open until their full criteria are audited.
+PR09 retains reproduced Village missing GPU compound ground/buildings: unchanged
+shared65536-slot renderer pool cannot flatten both52500-child compounds. Other
+floor samples still need inventory. PR10/PR11 retain sample-wide widgets/raycast
+numeric and visual checks. PR12 must show fresh desktop-only realCPU versus
+ordinary/native GPU charts, with distinct consistent colors, matched exact
+binaries/settings and separately measured renderingFPS/completed-stepms/
+throughput/p95. Laptop validation/data remain deferred. Record every affected
+scene CPU first before solver/visual commits; preserve old clips/datasets.
 
-The new [portable scene report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-scene-captures-2026-10-02/README.md) validates514 raw files,52 first clips and12 native300-step health cases;26 CPU-first scene pairs are reviewed. Capture session87045 and derived publication39076 are terminal exit0. The one fresh ordinary Rust recorder build30963 is terminal exit0: protocol SHA6d6858ad…, binary5e95abcc9e168804ff5ab370a09e838399f688aceb1d3bd96e613f541b2c3f47,107 exact Rust inputs, actual depfile, two linked C archives/five objects/compiler commands. Oracle848477… still matches102 unchanged source inputs. Native combined viewerc497cd… has178 compiled units; CPU6c65… has119 unchanged units/no Rust or GPU shim link. Composite receipts retain parents and explicit six uncompiled CPU exclusions. Cached dependencies are disclosed, notPR06 acceptance.
+### Historical evidence ledger
 
-Capture budget is closed:20 standard CPU oracle +20 CPU replay renderers +20 ordinary Vulkan GPU captures +native CPU6/combined GPU6 =52 clips/72 top-level simulation/replay processes, retries0/headline timing0. Existing CPU oracle60-warmup/300 clock pass is incidental; all20 metrics/logs retained and excluded from performance/chart acceptance. Whole previous CPU column is preserved with original hashes, unrelated clips copied unchanged, aggregate metrics not relabeled. The older property report now retains its six original CPU clips internally, validator105 raw files passes. New grid label `2026-10-02-world-lifetime` follows real CPU. Standard Falling Cubes uses the script’s256-body preview default, not the frozen50000-body performance fixture; Mixed Stacks has600 dynamic/602 total bodies on both sides. Draft sheets overlapped thumbnails, creating a false apparent layout/count mismatch; full-resolution prior/current layouts agree, corrected sheets and originals/scripts are retained. No physics/capture process repeated for that derived-image repair. Village nearby GPU ground/buildings remain absent under the known65536-slot renderer limit, retainedPR09. Native graphics are Mesa/Xvfb diagnostic only; Vulkan physics usesRTX4070SUPER610.57.04. No desktop FPS/performance or full physics acceptance inferred.
+This ledger preserves detailed receipts, failures and decisions without exposing
+obsolete job instructions as the current handoff. Earlier recovery prose remains
+available in commit `e801b3135f1c2fe7f10e2a692cd623934a7b8a83`. Do not rerun closed
+PR01/PR02 campaigns or either exhausted scheduling campaign.
 
-Current linked API audit runs ordinary/native twice total under a separate fixed host-only protocol (GPU0/timing0/retries0):415 stateful symbols,39 explicit exclusions, no remaining stubs/placeholders/missing symbols or CPU-only routing gaps. Inventory remains distinct from semantic qualification. `current-source-review.json` pins all seven source hashes and separate API checks; all recorder compiled inputs still match. No owned build/test/viewer/capture/publication process remains. Before continuation verify HEAD/remote/status, then reconcilePR01/PR02 criteria against these exact sources and the previous reports; do not rerun any closed budget or infer full lifecycle/release acceptance. Floor/widgets/raycast/fresh desktop-only chart requests remainPR09–PR12; laptop deferred.
-
-Cached dependencies and hull-cooker C units have a post-build audit, not PR06 clean
-build qualification. PR05 must reconcile raw Rust world-index range with C
-metadata/viewer caps and qualify concurrent/public lifetime boundaries. PR07 must
-include the new child epoch in future-relevant allocation state. Native Box3D can
-alias stale child IDs across world recreation; its source stays unchanged and
-invalid CPU mutators remain forbidden. PR09–PR12 retain the user's requested
-floor/UI/raycast sequence and fresh desktop-only CPU/GPU charts at final delivery;
-laptop data/qualification stay deferred.
-
-Evidence checkpoint `8a2307a5f1f3da6349c7a0a3382d9457ba7c6e98` records the105-file portable repair report and
-new diagnostic fixture. It contains no production engine/solver/visual changes;
-the seven-file repair candidate remains local and uncommitted. The source base
-for compiled candidate evidence remains88d8d53 plus archived exact changes.
-All protocols are terminal; no current run/build/capture job exists. Authored
-source/docs diff checks and raw hashes pass; original compiler/test whitespace
-is retained byte-exact. Remote was fetched at0/0 before this evidence commit.
-
-Latest recovery verification: evidence/fixture milestones `8a2307a` and
-`bcbb0a4e6ac4a1dd8971b5d63368086040701c7c` are pushed to feat/gpu, remote0/0.
-Portable validators pass105 subset raw files and12 direct-cleanup raw files.
-72 selected Rust checks +120 first root/geometry GPU C observations +42 direct
-mapped-cleanup observations pass; every earlier failure remains retained. Only
-the seven production candidate files are dirty/untracked; no production repair
-has been committed or pushed. Box3D/WASM untouched. No live owned build/test/
-viewer/capture job verified. Next: required CPU-first recordings/review and evidence applicability before production commit; four exact-source viewer builds/control cases now pass.
-PR01–PR13 stay open; no readiness or performance claim.
-
-Delivered2026-10-02 evidence milestone `6358eab31d6f68851065a2c7622fc69cee1a36c3` is committed/pushed to feat/gpu, remote0/0 verified. It includes375 files:362 portable indexed raw files across four reports, their readable documentation/validators, all six passing/failed UI MP4s, and this recovery update. No production repair/source file is included in that commit. All raw index bytes match Git staging; authored docs/validator/source diff checks pass, original raw whitespace retained. Only the original seven production candidate files remain dirty/untracked; Box3D/WASM untouched, no owned live process. Current-source controls are accepted only for named PR02 Single Box contracts. Next work is finite affected-scene capture/build/applicability qualification before production commit; PR01–PR13 remain unchecked and the goal stays active. This turn made progress (four exact viewer builds and four complete control passes), not a repeated blocking turn.
-
-### Evidence to resume from
-
-- [Repaired viewer builds](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-viewer-builds-2026-10-02/README.md):34 raw files, four builds/source proof; no clean-release acceptance.
-- [First coordinate failure](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-viewer-apps-2026-10-02/README.md) and [publication race](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-adaptive-apps-2026-10-02/README.md):39/46 raw files, both actual failed captures preserved; no complete control pass inferred.
-- [Four actual repaired control passes](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-atomic-apps-2026-10-02/README.md):243 portable files,116 actions/44 screenshots/6409 records/four MP4s, unchanged evaluator; next affected-scene recordings before production commit.
-
-- [PR01 report](../../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md): completed world controls, rejected variants, original-limit repeat/regression checks, recordings, additional failed floor screen and incomplete baseline attribution. Retain those failures. Third candidate preserves 6.25mm support only after a solid CCD hit (FAST set, CCD_NO_HIT clear), not a fast tangent gap. CPU's world toggle only stores the flag; the pinned hull/mesh shape scope is the independent reference. Final physical qualification is still PR03–PR07.
-- [PR02 exclusions report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/README.md): 39 ENOTSUP operations, NULL recording creation, sticky thread-local operation names and combined routing. Closed eight-process host budget has seven passes and a retained errno-after-libc harness failure. Separately frozen closed-stderr case passes; no failed trial replaced.
-- [PR02 diagnostic report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-diagnostics-2026-10-01/README.md): 269 portable files, exact build/input receipts, all 40 clips, CPU-first galleries and stopped UI protocol. Counter reads synchronize public non-sensor contacts; seven profile aliases use NaN/mask/timestamp availability; occupancy peaks differ from reservation sizes. Simple box fixtures do not qualify all public populations.
-- [PR02 supported-contract report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-supported-2026-10-01/README.md): immutable protocol, all 16 C / 20 Rust results, 73 raw files, compiled fixture archive and source applicability. Independent CPU comparisons cover named forces/replacement/joint contracts at original 1e-5 tolerances. Warm-start incidental clocks are not performance data. Wheel angular separation remains unavailable upstream.
-
-- [PR02 population report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-corner-populations-2026-10-01/README.md): original two CPU harness failures, successful CPU/standalone ordinary/native corner controls, failed combined topology and linked-source cause. Ordinary combined raw assertion does not print actual CPU numbers; duplicate shapes are explained by source, not invented numeric observations. Three CPU and three GPU processes consumed across three closed campaigns, no candidates/timing.
-- [PR02 held-input report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-viewer-controls-2026-10-01/README.md): one pure host pass, zero viewer apps. This supersedes the immediate-click hypothesis with received events, but does not prove actual control interactions.
-
-Local frozen engine/test inputs are under
-`experiments/gpu-physics/artifacts/production-readiness/pr02-diagnostics/candidate-complete-inputs/`.
-Four C/viewer build directories are under `.../pr02-diagnostics/c/<ordinary|native>-<gpu|both>/cmake`.
-Supported runner, executables and terminal receipt are under
-`.../pr02-supported/`; exact commands/environments are also portable in its report.
-Do not run those closed runners again. Use a new protocol only for an explicit
-uncovered requirement or a distinct evidence-supported hypothesis.
-
-Schema v24 adds host/device occupancy peaks. Device query word 74 is independent
-of ray/status/phase/allocation workspaces, never feeds solving, and persists
-across unread steps, retirement and growth. Earlier schemas remain supported.
-Routine viewer accounting stays cheap; explicit public diagnostic reads may wait.
-Profile polling does not guarantee a timestamp is available on the first read.
-Busy/reentrant diagnostic calls return status; clearing errors never heals a failed world.
-
-The ordinary recorder (`9311af7b0a6f47c0ba2c8b011c028904460baefdae99d3f99ef0eb8f52f06368`)
-and real CPU oracle (`848477c467c448fcbbd938127f411ba32ad0b87ab7343579c65efff9a3238250`)
-have separate receipts. Native viewers likewise have separate compiled-input proof.
-Use `SKIP_METRICS=1` for GPU snapshot work. Record every affected scene before
-solver/visual commits, real Box3D CPU first, without creating an unbudgeted timing campaign.
-
-Historical sources remain useful for criteria and rejected approaches:
-[`gpu-warm-start.md`](gpu-warm-start.md),
-[`../gpu-solver-goal.md`](../gpu-solver-goal.md),
-[`../gpu-solver-qualification.md`](../gpu-solver-qualification.md).
-Their old jobs/next actions do not override this record. The
-[mixed scheduling goal](../gpu-mixed-scheduling-goal.md) is closed with its target
-unmet and all 55 runs retained; the earlier scheduling budget is also exhausted.
-Do not reuse either budget. Rain is required by this roadmap later, but no Rain
-or performance campaign has resumed during PR02.
-
-Current population artifacts and terminal receipts are under
-`experiments/gpu-physics/artifacts/production-readiness/pr02-populations/`,
-`.../pr02-population-identities/` and `.../pr02-corner-populations/`.
-The first two archived fixtures preserve their incorrect assumptions. The current
-`c_abi/native_diagnostic_populations.cpp` is a correct source-audited regression
-reproducer: standalone passes, combined fails. Do not weaken its CPU topology
-assertion to match duplicate shapes. The compound mesh path already creates GPU
-children directly; sphere/capsule/hull paths invoke public dual constructors.
-Source inspection identifies five affected native registrations in
-`box3d/samples/sample_compound.cpp`: Compound/Simple, Spheres, Hulls, Tile Floor
-and Village. Compound/Mesh Tile uses direct GPU mesh children and is a required
-unaffected control. Preserve their defaults and record every affected scene
-before a relevant production commit.
-The new viewer-control protocol/receiver lives under `.../pr02-viewer-controls/`;
-all app budgets are unlaunched and the protocol is stopped because adapter inputs
-must change. Reuse received-event proof only after auditing stimulus/source
-applicability. All older population/ownership jobs are terminal and their rejected edits restored. The later bounds repair is retained as recorded above. Closed compound campaigns and their remaining required API/ownership work are summarized above.
-
-The [rejected compound-fix report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-fix-2026-10-01/README.md) retains two numeric baseline reproductions, exact candidate build proof and the failed bounds check. Production adapter is restored, not accepted from its first matching count. The separately frozen [bounds diagnostic protocol](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-bounds-2026-10-01/protocol.json) addresses a distinct required API gap; no ownership or final physics acceptance is inferred from diagnostic completion.
-
-The [AABB validation report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-aabb-validation-2026-10-01/README.md) links the retained compiler failure, annotation repair, exact new libraries/tests/C adapters and all12 successful first validation processes. The source/caller and separate CPU-first scene review now complete; AABB milestone `776577937bce5e9a265264f327c524f4f1e4cc4f` is committed/pushed; do not present an unchecked later ownership candidate as covered by these bounds results.
-
-The independent [compound property diagnosis](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-properties-diagnostic-2026-10-01/README.md)
-confirms zeros/incorrect geometry-owned material tables on both standalone and
-combined backends. The [property subset repair](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-properties-lifetime-2026-10-01/README.md)
-now passes nine property processes, two corrected handle tests and22 first
-physical/query/regression processes. Preserve both the E0061 build rejection
-and false immediate-slot-reuse test failure. `push_shape` appends slots with
-generation1; wrong-generation checks do not prove public allocator ABA/reuse.
-Only cfg(test) differs from compiled production library sources; exact runtime
-prefix and other sources/binaries are unchanged with an explicit applicability
-audit. Final PR06 clean builds must remove that source exception. All12 precommit CPU/combined captures pass health and all six
-affected comparisons are reviewed; Village existing rendering failure remainsPR09.
-Property milestone `6b61dce95c90332ec849d00926f761d10d544dab` committed/pushed after source/evidence audit; remote0/0 and clean tree verified. Actual viewer controls remain the next PR02
-requirement after this verified subset is delivered. Fresh current-source builds
-and the stopped pre-input CPU focus-harness campaign are recorded above. Reuse
-those exact diagnostic viewers only for applicable evidence after checking hashes.
-The direct libX11 helper now works; CPU controls pass under the separately recorded
-event-window correction, while ordinary GPU restart and all four independent C
-GPU cells fail root-world lifetime safety. Repair registry generations/destruction
-and audit child routing before refreezing new viewers; never rerun closed drivers.
-
-Precommit captures are complete in the [portable capture report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-aabb-captures-2026-10-01/README.md). Frozen protocol SHA25e7885e67e3c9681ea3f205d9466d09fc2e76655e305e54c3141121cf367ecb consumes CPU6/GPU6, timing0/retries0, all12 pass within600s/scene watchdog. Fresh CPU viewer SHA9d879afb242a73049e62c5a1ac85c2b701e3c7b070148605cb62b6e8339a28a0 and native GPU viewer SHA164b03b5f55cfc8f02b7d49f1d7d1155ff7557057047cb39377e251588f98a61 have exact compiled-unit/object/archive proof. Compound/Simple, Spheres, Hulls, Tile Floor, Village and Mesh Tile control preserve upstream defaults/assets, sleep/warm-start/CCD and60Hz/four substeps. All six scene comparisons/callers are reviewed; clips include startup, while review sheets sample completed scene windows. Native viewer interactions and capsule trajectory equivalence are not inferred from passive captures. Third-party compiled sources match build hashes; dependency headers are a post-build audit, so PR06 must freeze complete final-build dependencies. The comparison generator's postcapture chronology correction puts this GPU column next to CPU using persisted recording manifests; no compiled viewer input or older clip/data is changed. All budgets are closed; do not rerun.
-
-Latest verified milestone: `abc0a54a3ce3b285c9984f2c7c6b5baefff00d1b` is committed/pushed to feat/gpu.644 files include the seven production source files,514 new portable indexed raw files,52 complete first clips,26 reviewed scene pairs, current source/build/API receipts, live CPU-first grid and immutable originals. Every indexed staged byte matches its SHA; authored source/docs checks pass, raw whitespace retained. New capture validator514 files and old property validator105 files pass; all jobs terminal. Fetch verified no incoming changes, push0/0 and clean tree. This recovery-only follow-up changes no compiled input. Next is PR01/PR02 acceptance reconciliation, not another capture/build/run. This turn made progress and delivered the qualified source subset; full goal remains active, allPR01–PR13 still open.
-
-Current2026-10-02 PR02 acceptance: [portable current report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-current-acceptance-2026-10-02/README.md) closes the named functional API gate with197 indexed raw files. Session88347 terminalexit1 is the preserved false GPU-marker requirement on a passing purehost selector; its ordinary process was not rerun. One unlaunched native counterpart passed under the separately frozen remaining-host protocol. Total52 actual engine/test processes remain inside32C+20Rust budget; actualRust16GPU+4host. Currentcompiled107Rust/723viewer inputs still match, no production change or timing. Sourceinventory376implemented/39excluded does not qualify all behavior;PR03–PR13 remainopen.
-
-Current2026-10-02 PR03 preparation: [report](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-contract-baseline-2026-10-02/README.md) records332current source hashes,18exact fixture selectors,28numerical selectors and native replay on the reused current host lists. Metadata-only budget0GPU/builds/timing/candidates; no physics pass or new device run. Fulloriginalmatrix/capturecriteria/CPUbaseline/currentexecutable links and finite evaluation budget remain next. PR03 checkbox staysopen. No owned live job.
-
-Current PR03 distance baseline protocol `artifacts/production-readiness/pr03-distance-baseline/protocol.json`, SHA37a6d7907f92a2e3f8ad19cd49183fa4e1aea2393a2816e27725be75911e57d7 freezes two first-process ordinary/native combined cells, original13-lane1e-5 warm-start prototype. Budget2engine processes,0builds/candidates/retries/headline timing; known mismatch aborts retained, no240-step distance completion inferred. Driver80345 terminalexit0, both physicschildrenabort-6atdistance-jointstep0/lane1: GPU-1.00004232 CPU-1.00028491. NVIDIA Vulkan verified. Original1e-5 discrepancy remains requiredPR04failure; no distance240step completion.
-
-PR03 ragdoll/frozenmesh baseline protocol `artifacts/production-readiness/pr03-ragdoll-mesh-baseline/protocol.json`, SHAd3a4df17941d4d916e6814e1480716dc0d3439326eb03e57217389457ed8b0b9 freezes24firstprocesses (8CPU+8ordinary+8native),originalsix ragdoll cases and45grid/12torusposes;0builds/candidates/retries/headline timing. Originalphysical/strictcomparison evaluators are pinned, no tolerances changed; not final five-run/full-state acceptance. Driver31931 terminalexit0, all24processes complete. Both600step physical/isolated/57pose mesh screens pass unchanged; original full-reference validator fails first60step position0.063585767m versus0.006m on both. Preserve this trajectory failure separately; no tolerance change/repeat/full-state/release claim. Current107Rust/723viewer producer inputs verify unchanged post-run. No owned live job.
-
-PR03 evidence handoff2026-10-02: [portable fixture report](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-baseline-fixtures-2026-10-02/README.md),121indexedrawfiles/offlinevalidator. All new build/engine jobs terminal; no owned live process. OriginalfailedCPUlink retained; correctfullCPUarchive10links pass. Distance firststep failure remains on both, physicalragdoll/isolated/57posemesh pass, originalstricttrajectory screen fails0.063585767m/0.006m. No physics tolerances/defaults changed and no performance/repeat/fullrelease claim. NextPR03: freeze named current Rust analytical/CCD/island/history/query/replay/capacity/schedule selectors and baseline budget; include originalRain600/drag3060 criteria and actualcurrentCPU/GPUviewer commands/binaries. Do not repeat the26completed engine cells, eitherbuildcampaign, anyPR01/PR02acceptance/capture/control budgets or older exhausted scheduling budget. PR09–PR12 userfloor/widgets/raycast/desktop-only freshcharts sequence unchanged.
-
-Publication verification: new121rawfile validator passes including repeated offline invocation; imported evaluators now suppress derived bytecode so raw index remains stable. Fetch verified remote0/0 before evidence staging. No production solver/visual/default/Box3D/WASM changes and no owned live GPU/build process. Evidence milestone commit/push remains authorized; PR03–PR13 remain unchecked.
+- [Portable build report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-controls-current-builds-2026-10-01/README.md)
+- [Portable failure report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-controls-current-apps-2026-10-01/README.md)
+- [CPU record/correction evidence](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-controls-focus-apps-2026-10-01/README.md)
+- [Portable event-window/GPU failure report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-controls-event-window-apps-2026-10-01/README.md)
+- [Portable root-world report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-diagnostic-2026-10-01/README.md)
+- [portable repair subset report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-repair-2026-10-01/README.md)
+- [direct mapped-CPU cleanup check](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-mapped-cleanup-2026-10-01/README.md)
+- [four fresh builds](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-viewer-builds-2026-10-02/README.md)
+- [stale coordinate](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-viewer-apps-2026-10-02/README.md)
+- [publication race](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-adaptive-apps-2026-10-02/README.md)
+- [Atomic/current-screen campaign](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-atomic-apps-2026-10-02/README.md)
+- [portable current-source report](../../experiments/gpu-physics/benchmarks/production-readiness/pr01-current-acceptance-2026-10-02/README.md)
+- [portable scene report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-scene-captures-2026-10-02/README.md)
+- [PR01 report](../../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md)
+- [PR02 exclusions report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-api-2026-10-01/README.md)
+- [PR02 diagnostic report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-diagnostics-2026-10-01/README.md)
+- [PR02 supported-contract report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-supported-2026-10-01/README.md)
+- [PR02 population report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-corner-populations-2026-10-01/README.md)
+- [PR02 held-input report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-viewer-controls-2026-10-01/README.md)
+- [`gpu-warm-start.md`](gpu-warm-start.md)
+- [`../gpu-solver-goal.md`](../gpu-solver-goal.md)
+- [`../gpu-solver-qualification.md`](../gpu-solver-qualification.md)
+- [mixed scheduling goal](../gpu-mixed-scheduling-goal.md)
+- [rejected compound-fix report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-fix-2026-10-01/README.md)
+- [bounds diagnostic protocol](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-bounds-2026-10-01/protocol.json)
+- [AABB validation report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-aabb-validation-2026-10-01/README.md)
+- [compound property diagnosis](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-properties-diagnostic-2026-10-01/README.md)
+- [property subset repair](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-properties-lifetime-2026-10-01/README.md)
+- [portable capture report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-aabb-captures-2026-10-01/README.md)
+- [portable current report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-current-acceptance-2026-10-02/README.md)
+- [report](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-contract-baseline-2026-10-02/README.md)
+- [portable fixture report](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-baseline-fixtures-2026-10-02/README.md)
