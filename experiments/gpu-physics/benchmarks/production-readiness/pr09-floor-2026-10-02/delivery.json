@@ -9,5 +9,8 @@
   "new_physics_processes_for_handoff": 0,
   "PR09_complete": false,
   "full_roadmap": "paused; stop after milestone",
-  "offline_evidence_validation": "537 hashes pass; final index tracking/archive audit required"
+  "offline_evidence_validation": "PASS: all537 indexed files and45 clips validate from staged Git archive; no ignored host artifacts needed",
+  "evidence_checkpoint_commit": "edcdab2e167c8b1930ecd428bcc3bd1f2799560e",
+  "evidence_checkpoint_origin_observed": "edcdab2e167c8b1930ecd428bcc3bd1f2799560e",
+  "status": "complete; stop"
 }

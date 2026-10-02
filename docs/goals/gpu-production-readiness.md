@@ -5,7 +5,7 @@ at the start of every continuation and after compaction or restart. Pursue the
 whole objective, maintain this file, and use the goal-scratchpad skill. This is
 the authoritative production-readiness queue for `feat/gpu`.
 
-Updated: 2026-10-02. Status: incremental PR09 milestone complete and pushed (`1660c66`); evidence-retention/recovery checkpoint follows. Full roadmap remains paused. Stop here.
+Updated: 2026-10-02. Status: incremental PR09 milestone complete and pushed (`1660c66`, evidence checkpoint `edcdab2`). Full roadmap remains paused. Stop here.
 Next item on resumption: **PR09 — compare every existing CPU sample with GPU and fix obvious differences, including missing floors**, followed by PR10 UI/widgets and PR11 raycasts. Exact pixel and CPU/GPU scene position/angular matching are deferred to a separate goal; physical correctness remains required.
 
 ## Objective and release boundary
@@ -509,8 +509,8 @@ five viewer builds, two focused-test builds/12 checks, 45 captures (five scenes,
 zero retries/Rust builds/performance runs. Stop/retain on failure; no implicit
 extension. Before any build/engine launch, original local roadmap diff is archived
 with its hash; fetch found HEAD/origin feat/gpu 0/0. No other starting local work.
-Current state: repair verified and pushed as `1660c66` to feat/gpu; final
-portable evidence/recovery checkpoint in progress. All25 before
+Current state: repair1660c66 and portable evidence checkpointedcdab2 are pushed
+to feat/gpu; both origin0/0 and clean worktree verified. Milestone complete. All25 before
 captures passed. Both combined Village viewers reproduced missing GPU ground/
 buildings; the common stable-address debug metadata allocator now grows beyond
 65536 without dropping children. Original105004-child input registered65535,
@@ -546,9 +546,10 @@ Offline evidence/source/status checks pass; CPU-first grid has all45 clips.
 Repair1660c66 is pushed and HEAD/origin feat/gpu0/0 is verified. The final tracked
 portability audit identified91 indexed logs excluded by Git's log ignore rule;
 their exact existing bytes are included in the documentation-only checkpoint.
-No code/build/engine/test changes or new physics process. Final archive verification
-must include every indexed file. This milestone is complete; after checkpoint
-push verification, stop. No further item is authorized. Full roadmap remains paused; do
+No code/build/engine/test changes or new physics process. All537 indexed files
+and45 clips passed validation from the staged Git archive, without ignored host
+artifacts. No live capture/viewer/display job remains. This milestone is complete;
+stop. No further item is authorized. Full roadmap remains paused; do
 not begin another sweep, solver repair or old campaign without new authorization.
 
 
