@@ -1,0 +1,50 @@
+{
+  "status": "stopped",
+  "protocol_sha256": "a86ba2c824bbc09a10e0ddd613d24aea058077df1c59734ea24e7b45948a636e",
+  "driver_sha256": "c24b478b9e3716dbef691626ee5f82ab9ca00359d99a8ad6cced342c41d9577d",
+  "started_unix": 1790907254.8883264,
+  "results": [
+    {
+      "name": "cpu-rain",
+      "kind": "rain",
+      "wrapper_exit": 0,
+      "elapsed_seconds_incidental": 189.5923924446106,
+      "actual_NVIDIA_Vulkan": null,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "65f5c248e0bc96948a2084e34a74b5bde5db3eee7e9c46eac56ed169d4171d24",
+      "child_exit": 0,
+      "health_exists": true,
+      "health_sha256": "48918163f059dcbca3c5f8c067191442581eb9cb8510170c9ea3171a25879cf6",
+      "health_bytes": 1203549772,
+      "sokol_errors": [
+        [
+          "600",
+          "0"
+        ]
+      ]
+    },
+    {
+      "name": "ordinary-rain",
+      "kind": "rain",
+      "wrapper_exit": "timeout",
+      "elapsed_seconds_incidental": 900.0018718242645,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "dc8f16bbcad636a5c1dfdce1b2522d876703dd9c3427af26585bd40e45ff1415",
+      "child_exit": null,
+      "health_exists": false,
+      "sokol_errors": []
+    }
+  ],
+  "error": "AssertionError({'name': 'ordinary-rain', 'kind': 'rain', 'wrapper_exit': 'timeout', 'elapsed_seconds_incidental': 900.0018718242645, 'actual_NVIDIA_Vulkan': True, 'stdout_sha256': 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'stderr_sha256': 'dc8f16bbcad636a5c1dfdce1b2522d876703dd9c3427af26585bd40e45ff1415', 'child_exit': None, 'health_exists': False, 'sokol_errors': []})",
+  "finished_unix": 1790908352.1706057,
+  "unlaunched": [
+    "native-rain",
+    "ordinary-drag-isolated",
+    "native-drag-isolated",
+    "ordinary-drag-ground",
+    "native-drag-ground",
+    "ordinary-cpu-order-cache",
+    "native-cpu-order-cache"
+  ]
+}

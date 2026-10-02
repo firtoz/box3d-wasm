@@ -108,6 +108,8 @@ queue and recovery record. No separate competing production backlog.
   [Current fixture baseline](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-baseline-fixtures-2026-10-02/README.md) preserves121rawfiles:10fixturelinks,26first-process observations, original failedCPUlink and separate dependency repair. BothGPU distance probes retain the original first-step1e-5failure; ragdoll physical/isolated/57posemesh screens pass, original strict0.006m trajectory screen fails0.063585767m. No source/default/tolerance/timing change; fullmatrix/currentRain/loadeddrag/Rust baseline and future-state contract remain open.
   [Current Rust baseline and reconciled contract](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rust-baseline-2026-10-02/README.md):33processes/199checks,195pass/4retainedfailures;25lossless traces/2864frames and native42replayhits. [Fixed release contract](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rust-baseline-2026-10-02/release-contract.md) preserves original limits/fullfuture-state obligations and explicitly open configuration/fixture applicability, including32768slot finalregression and newregistry/ABI capture audit. Rain/drag baseline retains CPU600 completion and an ordinaryGPU900second timeout; seven previouslyunlaunched cells now run separately. PR03 remainsopen.
   [Current Rain launch/timeout report](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rain-launch-timeout-2026-10-02/README.md) preserves44rawfiles including complete losslessCPU600/1,948,800body-joint observations, missinglauncher failure and ordinaryGPU900second timeout. NoGPUphysical/performance pass; nativeRain and remainingcontrols are separate.
+  [Remaining drag/order/nativeRain baseline](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-drag-order-native-timeout-2026-10-02/README.md): allseven cells consumed; isolateddrag/order1 pass, loadeddrag fails bothoriginalscreens, nativeRain900second timeout. Thirtyrawfiles include43,800paired-body observations with lossless traces and firstexceedances.
+  [Generation-safe sleeper fixture](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-sleeper-fixture-2026-10-02/README.md): original400+1 check passes allfour backend×order0/1 cells after correcting onlycfg(test)publichandle lookup and adding stale/live validity controls. Fortythreerawfiles retain twosuccessful builds/originalcopypermissionfailure/zerofirstlaunches/unchangedbinary permissionrepair; no production/default/scene change. Originalbaseline failures remain preserved. PR03 remainsopen.
 
 - [ ] **PR04 — Resolve required physical correctness failures.** Work from the
   earliest demonstrated defect and smallest faithful reproducer. Close Rain's
@@ -334,11 +336,11 @@ Their old next actions and job handles do not authorize a new campaign.
 | --- | --- |
 | Workspace / branch | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu` |
 | Authorization | Active full roadmap; implementation and verified milestone commit/push authorized by the submitted goal |
-| Latest evidence milestone | `d4b073bdd7335e3cc478f2f61fda7e07afbb128f` pushed; remote0/0 verified. Current Rust baseline100rawfiles/33processes/199checks and fixed release contract published;195pass/4retainedfailures, no production change |
+| Latest evidence milestone | `cfe81bb6f0cd03bef6db8393d005ad9c545119bf` pushed; complete CPU Rain44rawfile report and ordinaryGPU timeout portable. Rustbaseline d4b073b100rawfiles/195pass4fail; no production solver change |
 | Retained production source | `abc0a54a3ce3b285c9984f2c7c6b5baefff00d1b`, pushed. PR01 refresh `c2fd69f`, PR02 acceptance `1304839`, PR03 metadata `5a40f05` are pushed. Invocation revisions are context, not compiled source identity |
-| Current item | **PR03 open**. Ragdoll/mesh/distance portable baseline pushed; current Rust report100rawfiles/33processes/199checks and reconciled release contract prepared. Rain runner70354 stopped afterCPU600complete and ordinaryGPU900second timeout. Seven-cell remaining runner82980: isolateddrag and requiredorder1controls pass bothbackends, grounddrag fails bothoriginalscreens; nativeRain live; generation-safe sleeper fixture and remaining1mode/currentfullmatrix evidence remain open |
-| Current jobs | PR03 Rust runner8018 terminalexit0;33processes/199checks complete,195pass/4failed. Rain/drag/order1 runner33069 terminalexit1 beforeanyenginecell, missingxvfb-run. Bundled-display repair runner70354 terminalexit1 after ordinaryGPU900second timeout, CPU600complete. Remaining runner82980 has sixcompleted cells (fourpasses/twogrounddragfailures); nativeRain live, verifyactualreceipt/handle. ClosedRustdriver must not restart. Old sessions46787/84255/80345/31931 terminal; never restart closed drivers |
-| Current compiled libraries | Ordinary SHA`aba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6`; native SHA`c8a16154cb576c49e7bd7fd8e030319601192b466d9ddb19305bd043aa6a7267`. Exact107Rust/723viewer inputs still match their producer receipts/source archive |
+| Current item | **PR03 remains open.** Baselines and failures are preserved. The generation-safe sleeper passes all four backend/order checks; both order1 storage controls pass. Loaded dragging, distance and strict trajectory screens still fail. Both GPU Rain attempts are incomplete. Full matrix/configuration and future-state capture requirements remain open |
+| Current jobs | All owned jobs are terminal; no live GPU, build or capture process. Rust baseline8018 exited0; Rain drivers70354/82980 exited1 at their 900-second watchdogs. Sleeper driver99621 exited1 after two successful builds, before any test launch; permission repair79134 exited0 with four passes. Never restart these closed drivers |
+| Current compiled libraries | Ordinary SHA`aba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6`; native SHA`c8a16154cb576c49e7bd7fd8e030319601192b466d9ddb19305bd043aa6a7267`. Production inputs remain as their producer receipts/source archive. Only cfg(test)src/gpu_invariants.rs is now changed by the separately frozen fixture correction; oldcurrentbaseline archived exact107inputs remain applicable to original binaries. No production API/shader or viewer source changed |
 | Independent CPU | Full archive SHA`b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c`,119actual source/object pairs match CPU applicability/origin receipts. Combined fixtures use separate prefixed CPU archive. Older parent Rust receipts do not identify current GPU code |
 | Hardware / policy | i9-9900K / NVIDIA GeForce RTX4070SUPER, driver610.57.04, actual NVIDIA Vulkan. Ordinary/native qualified separately. Current PR03 cells use efficient ordering0; scheduling/default policies unchanged |
 | Scope protection | Box3D/WASM unchanged. Mixed scheduling target remains **unmet**, all55trials preserved; both historical scheduling budgets exhausted. Do not resume older Rain/scaling/benchmark next actions. New Rain work is required under this roadmap's separately frozen PR03–PR04 protocols |
@@ -386,29 +388,23 @@ not repeat completed cells or extend these closed budgets.
 
 ### Next discriminating work
 
-1. Poll **82980** for the frozen seven previously unlaunched cells. Prior driver
-   70354 is terminalexit1: CPU Rain600 complete, ordinaryGPU Rain900second
-   watchdog timeout with no health file. Preserve this incomplete outcome; do
-   not repeat either cell or extend the watchdog. Remaining protocol SHA
-   `1a9d1e4f0b8bcbff988e78f8018bb614748cf380054d0fd7bdc240f26925c11b`
-   runs fourdrag/twoorder1 cells first and untouchednative Rain600 last, same
-   source/binaries/settings/900secondstoprule. Seven processes/oneXserver,
-   zero builds/candidates/retries/headline timing. Six cells now complete: isolateddrag1320 and order1control pass bothbackends;
-   loadeddrag3060 fails both, heldposition≈.14745m versus.005m. NativeRain
-   is live. Evaluate completed windows; no incomplete/historical run closes
-   current or final Rain acceptance.
-2. Confirm the generation-safe HighResistance fixture before qualifying that
-   sleep/wake assertion. Originalsource hardcodesgeneration1 in a serial suite
-   withworldreuse; `b3_world_dynamic_body_ids` returns actualpublicgenerations.
-   Retain both failedobservations and use a separately frozen, justified fixture
-   correction/check. Planned test-only protocol `pr03-sleeper-fixture/protocol.json`,
-   SHA`8d488983557c8513cf6c654cc52b2b4e2b5e52cc681319c893658a5c3715ee64`,
-   freezes2testbuilds/fourfresh backend×order0/1 processes, zero production
-   library builds/solvercandidates/retries/headline timing. It requires runner
-   82980 terminal before source change. Candidate/originalfixture bytes retained;
-   no sourceedit/build/test has run yet. Preserve400settle+1wake andallphysical limits; adjacent
-   wakepasses are not thisfixture's acceptance. The ordercache test's storage
-   prerequisite is CPU-compatible1; the declared1controls do not replace0fails.
+1. Complete the current evidence/fixture milestone commit and push. The new
+   drag/order/native-timeout and sleeper reports pass offline validation. Only
+   the test module `src/gpu_invariants.rs` changed: it now uses public valid IDs
+   after explicit world reuse and checks stale setters. All original 400 settling
+   steps, one wake step and physics assertions remain. All four backend/order
+   checks pass; original baseline failures remain recorded. Prior production
+   controls/API and scene evidence remain applicable to unchanged production code.
+2. Diagnose incomplete GPU Rain capture before another engine trial. Both
+   original 600-step GPU attempts reached the 900-second watchdog without a
+   health record; CPU completed all600 steps. Existing hooks store physics,
+   drawing and health clocks but write JSON only at exit, so the failed runs
+   do not locate the slow phase. Audit capture/getter/render/runtime paths and
+   freeze a distinct instrumentation/control/build/run budget before executing.
+   Preserve scene/settings, original physical limits and every failed attempt.
+   Do not repeat an unchanged trial or extend its watchdog to obtain completion.
+   Loaded dragging first exceeds held-position limits at frame227/body0 on both
+   backends; retain that concrete impact window for PR04 diagnosis.
 3. Finish PR03's matrix/configuration/capture contract and current executable
    baseline, then address the earliest requiredphysical failure under PR04.
    Required0/1configs that lack applicable completed evidence remain open. Read
@@ -443,7 +439,9 @@ Local immutable firstfixture directories remain
 `.../pr03-ragdoll-mesh-baseline/`. Newcampaigns:
 `.../pr03-rust-baseline/`, `.../pr03-rain-drag-baseline/`(stopped),
 `.../pr03-rain-drag-display-repair/`(stopped aftertimeout),
-`.../pr03-rain-drag-remaining/`(runner82980live). Exactcommands/settings/results are
+`.../pr03-rain-drag-remaining/`(terminal82980),
+`.../pr03-sleeper-fixture/`(terminal99621),
+`.../pr03-sleeper-launch-repair/`(terminal79134/fourpasses). Exactcommands/settings/results are
 also portable in the linkedreports whenpublished. Neverrerun closed drivers.
 Current Rusttestexecutables under `.../pr02-world-lifetime-artifact-repair/`:
 ordinarySHA`597b893bcbbb401866721e1b1b45cb03c58263ae8bee76cbe8af00cdfaef23b9`,

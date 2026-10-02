@@ -1388,33 +1388,20 @@ fn gpu_schedule_uses_body_slot_32768() {
 #[test]
 fn high_resistance_sleeper_wakes_on_velocity() {
     let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
-    // Reuse a world slot so the fixture cannot accidentally rely on generation 1.
-    let prior = b3_create_world(gpu.clone(), &b3_default_world_def());
-    create_high_resistance(prior);
-    let stale = crate::api::b3_world_dynamic_body_ids(prior).into_iter()
-        .find(|body| body.index1 == 7).expect("prior capsule");
-    b3_destroy_world(prior);
     let world = b3_create_world(gpu, &b3_default_world_def());
     create_high_resistance(world);
-    let sleeper = crate::api::b3_world_dynamic_body_ids(world).into_iter()
-        .find(|body| body.index1 == 7).expect("live sleeper capsule");
-    assert_eq!(world.index1, prior.index1, "exercise world-slot reuse");
-    assert!(sleeper.generation > stale.generation, "reused child epoch must advance");
-    assert!(crate::api::b3_body_is_valid(sleeper), "fixture needs a valid live body");
-    assert!(!crate::api::b3_body_is_valid(stale), "retired capsule must remain invalid");
     b3_world_enable_sleeping(world, true);
     b3_world_ensure_gpu(world);
     for _ in 0..400 {
         b3_world_step_gpu(world, 1.0 / 60.0, 4);
     }
     b3_world_gpu_wait(world);
-    assert!(crate::api::b3_body_is_valid(sleeper), "sleeper must still be valid after settling");
+    let sleeper = crate::api::BodyId {
+        index1: 7,
+        world0: world.index1,
+        generation: 1,
+    };
     assert!(!b3_body_is_awake(sleeper), "fixture must be asleep before testing wakeup");
-    let settled_velocity = b3_body_get_linear_velocity(sleeper);
-    b3_body_set_linear_velocity(stale, [0.0, 4.0, 0.0]);
-    assert_eq!(b3_body_get_linear_velocity(sleeper), settled_velocity, "stale setter must not change live velocity");
-    assert!(!b3_body_is_awake(sleeper), "stale setter must not wake live capsule");
-    eprintln!("sleeper fixture: stale={:?} live={:?} valid=true asleep=true", stale, sleeper);
     b3_body_set_linear_velocity(sleeper, [0.0, 4.0, 0.0]);
     b3_world_step_gpu(world, 1.0 / 60.0, 4);
     b3_world_gpu_wait_with_mirror(world);

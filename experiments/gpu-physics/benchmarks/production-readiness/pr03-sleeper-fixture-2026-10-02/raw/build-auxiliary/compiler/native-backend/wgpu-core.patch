@@ -1,0 +1,25 @@
+--- a/src/as_hal.rs
++++ b/src/as_hal.rs
+@@ -223,6 +223,22 @@
+ unsafe impl<Fence> Sync for FenceGuard<Fence> where Fence: Sync {}
+ 
+ impl Global {
++    /// Borrowed native handle; caller owns synchronization and must not destroy it.
++    pub unsafe fn compute_pipeline_as_hal<A: HalApi>(&self, id: crate::id::ComputePipelineId) -> Option<impl Deref<Target=A::ComputePipeline>> {
++        let value=self.hub.compute_pipelines.get(id).get().ok()?;
++        SimpleResourceGuard::new(value, |v| v.raw().as_any().downcast_ref())
++    }
++    /// Borrowed native handle; caller owns synchronization and must not destroy it.
++    pub unsafe fn pipeline_layout_as_hal<A: HalApi>(&self, id: crate::id::PipelineLayoutId) -> Option<impl Deref<Target=A::PipelineLayout>> {
++        let value=self.hub.pipeline_layouts.get(id).get().ok()?;
++        SimpleResourceGuard::new(value, |v| v.raw().as_any().downcast_ref())
++    }
++    /// Callback holds the resource's snatch lock; do not reenter wgpu inside it.
++    pub unsafe fn bind_group_as_hal<A: HalApi, F:FnOnce(Option<&A::BindGroup>)->R,R>(&self,id:crate::id::BindGroupId,callback:F)->R {
++        let Ok(value)=self.hub.bind_groups.get(id).get() else {return callback(None);};
++        let guard=value.device.snatchable_lock.read();
++        callback(value.try_raw(&guard).ok().and_then(|v|v.as_any().downcast_ref()))
++    }
+     /// # Safety
+     ///
+     /// - The raw buffer handle must not be manually destroyed

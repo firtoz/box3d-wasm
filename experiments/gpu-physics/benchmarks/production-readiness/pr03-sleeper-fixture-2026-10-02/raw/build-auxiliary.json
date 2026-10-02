@@ -1,0 +1,70 @@
+{
+  "scripts/build-native-cache.sh": {
+    "sha256": "1f1d7087cbeb7215f6518b6c5b0787154947557d1a4f5ef25545b06c0035a09b",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  },
+  "scripts/prepare-native-backend.py": {
+    "sha256": "a09f47da922fd358312773dcceef3a489cc4fef6da55e7049ea791c133782788",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  },
+  "target/native-backend/cargo-config.toml": {
+    "sha256": "ec983db7c0da957b7d6392d38f6d228d72481008f8fa71407603599e22fcf0a2",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  },
+  "target/native-workspace/experiments/gpu-physics/Cargo.toml": {
+    "sha256": "f2873ba7910e93c5847ecd8e2f3bd0ca32c090a1203c82d54da9d766fff00901",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  },
+  "target/native-workspace/experiments/gpu-physics/Cargo.lock": {
+    "sha256": "0efa84fe3f11ef7c436fb831d3c7c9ab52387b6803a67f49b1c6e4e7f243489f",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  },
+  "compiler/native-backend/README.md": {
+    "sha256": "a6ba93464fbb2ad28b042a03e96437c5b4135260bc6fa45f1e8b64a834e82cb2",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  },
+  "compiler/native-backend/backend-hook.json": {
+    "sha256": "bc2f2eacc2f53b4df5675487a18d76e8ff40ff8bd20f2041ace150402f7b8019",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  },
+  "compiler/native-backend/backend-hook.patch": {
+    "sha256": "bd18b749e693ae7a32dae94f2808dca9ad71fd747baf9e0471a7979fb127b6b5",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  },
+  "compiler/native-backend/manifest.json": {
+    "sha256": "51a6c2f8ecbc698eeeafce5e66f81c4fe9c868a9990697a53445b11c4c36915a",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  },
+  "compiler/native-backend/naga.patch": {
+    "sha256": "9cc560ec2499c5edd0498008e7af65f0a4cca5ad8254046607ba80e1bb7ef3ca",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  },
+  "compiler/native-backend/physics-replay.json": {
+    "sha256": "15f62a82e27d9bfad831001812f451e741693e5ee751d73b41a3df4efa71af2a",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  },
+  "compiler/native-backend/physics-replay.patch": {
+    "sha256": "8d3059cd36143c4b9403301f086caa08498a520292c7a55a96187d00ed113190",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  },
+  "compiler/native-backend/queue-hooks.json": {
+    "sha256": "8e4b8f3fdbc076086b8a3be4d6a5e76f1c1c532ee6723cb3e4615b9b6e3ae2ee",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  },
+  "compiler/native-backend/queue-hooks.patch": {
+    "sha256": "c6783fe521f8cbc82e6771810f8e42351b096f8c63555e68f4f9539320c0d39c",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  },
+  "compiler/native-backend/wgpu-core.patch": {
+    "sha256": "4de34957137654d57f549b972394585a3d173dbd2a802769d673149f94abb61a",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  },
+  "compiler/native-backend/wgpu-hal.patch": {
+    "sha256": "5e2fea7648bbf906140ab22541ffc346cb639b6a229279249d12b4bc243aa66f",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  },
+  "compiler/native-backend/wgpu.patch": {
+    "sha256": "dba0c0f7cc8c648956c37ee8089316ea0e2966c6391ce118e0fe1e079017080f",
+    "scope": "postbuild source/config receipt; wrapper command and locked crate fingerprints independently retained in successful build logs; not clean-build qualification"
+  }
+}

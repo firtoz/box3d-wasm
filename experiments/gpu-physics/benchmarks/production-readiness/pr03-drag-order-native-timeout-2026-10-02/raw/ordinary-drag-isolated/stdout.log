@@ -1,0 +1,11 @@
+round=0 cube=0 hit_fraction=0.47499999/0.47499999 held_pos=0 held_quat=0 held_vel=0 released_pos=0 released_quat=0 released_vel=0
+round=0 cube=1 hit_fraction=0.47499999/0.47499999 held_pos=0 held_quat=0 held_vel=0 released_pos=0 released_quat=0 released_vel=0
+round=0 cube=2 hit_fraction=0.47499999/0.47499999 held_pos=0 held_quat=0 held_vel=0 released_pos=0 released_quat=0 released_vel=0
+round=0 cube=3 hit_fraction=0.47499999/0.47499999 held_pos=0 held_quat=0 held_vel=0 released_pos=0 released_quat=0 released_vel=0
+round=0 cube=4 hit_fraction=0.47499999/0.47499999 held_pos=0 held_quat=0 held_vel=0 released_pos=0 released_quat=0 released_vel=0
+round=1 cube=0 hit_fraction=0.47499999/0.47499999 held_pos=0 held_quat=0 held_vel=0 released_pos=0 released_quat=0 released_vel=0
+round=1 cube=1 hit_fraction=0.47499999/0.47499999 held_pos=0 held_quat=0 held_vel=0 released_pos=0 released_quat=0 released_vel=0
+round=1 cube=2 hit_fraction=0.47499999/0.47499999 held_pos=0 held_quat=0 held_vel=0 released_pos=0 released_quat=0 released_vel=0
+round=1 cube=3 hit_fraction=0.47499999/0.47499999 held_pos=0 held_quat=0 held_vel=0 released_pos=0 released_quat=0 released_vel=0
+round=1 cube=4 hit_fraction=0.47499999/0.47499999 held_pos=0 held_quat=0 held_vel=0 released_pos=0 released_quat=0 released_vel=0
+PASS isolated drag comparison: ten drags; max position=0 m quaternion_chord=0 velocity=0 m/s

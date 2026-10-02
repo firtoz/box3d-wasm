@@ -1,0 +1,109 @@
+{
+  "status": "stopped",
+  "protocol_sha256": "1a9d1e4f0b8bcbff988e78f8018bb614748cf380054d0fd7bdc240f26925c11b",
+  "driver_sha256": "8760e303d59df3cccf53aab39bf12117d03a03918f65daf3a2fbdd74b30b5f92",
+  "started_unix": 1790908678.6852643,
+  "results": [
+    {
+      "name": "ordinary-drag-isolated",
+      "kind": "drag",
+      "wrapper_exit": 0,
+      "elapsed_seconds_incidental": 4.624634504318237,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "309f9b21971818ca16bed30c7d6460553d67ca8b2dbae85fa5b805dd367f148e",
+      "stderr_sha256": "2cc8f042b1fcca9824726ad06a6ee3a3b1c9e9dc0857b69097554432fcd5d52e",
+      "paired_trace_sha256": "a72fd5db79ff2a5c326e894816bf74bf81205bc07da0fb606bb76fe318ec77e0",
+      "trace_last_frame": 1319,
+      "summary_lines": [
+        "PASS isolated drag comparison: ten drags; max position=0 m quaternion_chord=0 velocity=0 m/s"
+      ]
+    },
+    {
+      "name": "native-drag-isolated",
+      "kind": "drag",
+      "wrapper_exit": 0,
+      "elapsed_seconds_incidental": 4.023324966430664,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "309f9b21971818ca16bed30c7d6460553d67ca8b2dbae85fa5b805dd367f148e",
+      "stderr_sha256": "26a16c709360d44901d6b6ab1cddd00a7258973d4d6d0c709a25f75c66ea7a5e",
+      "paired_trace_sha256": "a72fd5db79ff2a5c326e894816bf74bf81205bc07da0fb606bb76fe318ec77e0",
+      "trace_last_frame": 1319,
+      "summary_lines": [
+        "PASS isolated drag comparison: ten drags; max position=0 m quaternion_chord=0 velocity=0 m/s"
+      ]
+    },
+    {
+      "name": "ordinary-drag-ground",
+      "kind": "drag",
+      "wrapper_exit": 1,
+      "elapsed_seconds_incidental": 8.683302879333496,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "29c0f74c7aa6bfdd061482f7b1d856441c4afe5ca9990e2841907c62f6facf2f",
+      "stderr_sha256": "af86e4dc8d42fa222c0828421f07c0c2c7eb9046bd25cc25ba209f136c573ff6",
+      "paired_trace_sha256": "8e185622f2aeec1f178f08c819522b20d578033e5d29b9ca6f1a64ebd241dba8",
+      "trace_last_frame": 3059,
+      "summary_lines": [
+        "ground motion: held_position=0.147446 held_quaternion=0.100751 held_velocity=2.57782 settled_velocity=0 strict_peak_velocity=FAIL",
+        "FAIL ground-contact comparison: ten drags; max position=0.3899 m quaternion_chord=0.351633 velocity=2.57782 m/s"
+      ]
+    },
+    {
+      "name": "native-drag-ground",
+      "kind": "drag",
+      "wrapper_exit": 1,
+      "elapsed_seconds_incidental": 6.678893804550171,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "653c074c9f8f229a1cd8b5043b08c71b91ae99a536d2d6923469e031f9795c87",
+      "stderr_sha256": "e43de2e9cac25f1bf5be7e9dc4605fc977fa5ec5557f0956afeaf750efd9655c",
+      "paired_trace_sha256": "ddc901eb080a99bb42b3f16d11ce158e87679a530e3df8c5fb44b6a3e6fb5fac",
+      "trace_last_frame": 3059,
+      "summary_lines": [
+        "ground motion: held_position=0.147451 held_quaternion=0.100703 held_velocity=2.57775 settled_velocity=0 strict_peak_velocity=FAIL",
+        "FAIL ground-contact comparison: ten drags; max position=0.38982 m quaternion_chord=0.351611 velocity=2.57775 m/s"
+      ]
+    },
+    {
+      "name": "ordinary-cpu-order-cache",
+      "kind": "order-cache",
+      "wrapper_exit": 0,
+      "elapsed_seconds_incidental": 1.166642427444458,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "14d808813137454a8207e3e3cf5ac469a61e0f46b1b31fa1d7bb37857c7baf5b",
+      "stderr_sha256": "5024709f2658cb229087a468bac14f420457477f566fe0f13c4fbdf9337c45bb",
+      "harness_result": [
+        "ok",
+        "1",
+        "0"
+      ]
+    },
+    {
+      "name": "native-cpu-order-cache",
+      "kind": "order-cache",
+      "wrapper_exit": 0,
+      "elapsed_seconds_incidental": 1.266995906829834,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "6749cdbe0275386b35b8d72aecac3257666486514520019012f1f65d68271560",
+      "stderr_sha256": "cde9b96924104ad7c5ab17926f4271cd66955076bf92bdda61608cf38f0d4a30",
+      "harness_result": [
+        "ok",
+        "1",
+        "0"
+      ]
+    },
+    {
+      "name": "native-rain",
+      "kind": "rain",
+      "wrapper_exit": "timeout",
+      "elapsed_seconds_incidental": 900.0020265579224,
+      "actual_NVIDIA_Vulkan": true,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "4fd36a217d085fc2569de5c756a1f83e8e0fbb5181de4baafda794f34bdd708f",
+      "child_exit": null,
+      "health_exists": false,
+      "sokol_errors": []
+    }
+  ],
+  "error": "AssertionError({'name': 'native-rain', 'kind': 'rain', 'wrapper_exit': 'timeout', 'elapsed_seconds_incidental': 900.0020265579224, 'actual_NVIDIA_Vulkan': True, 'stdout_sha256': 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'stderr_sha256': '4fd36a217d085fc2569de5c756a1f83e8e0fbb5181de4baafda794f34bdd708f', 'child_exit': None, 'health_exists': False, 'sokol_errors': []})",
+  "finished_unix": 1790909615.9199686,
+  "unlaunched": []
+}

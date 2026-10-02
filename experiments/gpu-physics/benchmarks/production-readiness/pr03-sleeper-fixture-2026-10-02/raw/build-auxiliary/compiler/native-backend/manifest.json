@@ -1,0 +1,70 @@
+[
+  {
+    "name": "naga",
+    "version": "26.0.0",
+    "files": {
+      "src/back/spv/helpers.rs": {
+        "before": "37ef7388b1e97edb2682b93f1f0eceb71039ecd54923d91346d974b29322077c",
+        "after": "b9c2bb319e195da63a660f27e2ddcb827819b478d34f5be325b4a2fdd693e754"
+      }
+    },
+    "patch": "naga.patch"
+  },
+  {
+    "name": "wgpu-hal",
+    "version": "26.0.6",
+    "files": {
+      "src/vulkan/adapter.rs": {
+        "before": "349e235522b091e303fc347e7818eea77c8d48dda2a0284d3ad998d672b84cf8",
+        "after": "9fa3c6f1d1bd66d34d3f5ec98015c91a298ecfe58680732e00cb75fb806c1f7d"
+      },
+      "src/vulkan/command.rs": {
+        "before": "35ff15838e42cf3d7471c40b28140f68884aedbedf12c57178b0376a5b90b313",
+        "after": "d39ac9b6a4f30294c75bf1704efd2bac548b31dfc84d7c0571d351e04395e1f9"
+      },
+      "src/vulkan/conv.rs": {
+        "before": "f416df65d0abceff8518c5ac86c1f88102b66e64403494d795691b56328374da",
+        "after": "0d906f28d557b15660f4441614875bb7afab527fe5813800b8465a2d828547ca"
+      },
+      "src/vulkan/mod.rs": {
+        "before": "e6cbb5e08b54dd202f68c34617705ddce9b005a5afc0244db0916d193fdded35",
+        "after": "ece4c092843532d6a1f8e3601d54530d3f2b44fcba18e5176943e5fd25d614d7"
+      }
+    },
+    "patch": "wgpu-hal.patch"
+  },
+  {
+    "name": "wgpu-core",
+    "version": "26.0.1",
+    "files": {
+      "src/as_hal.rs": {
+        "before": "c3fa229dc0c65b1480951c53994afba580a595d13ecdad04095a83081ff4fe57",
+        "after": "cb91151c871b9b3fe86e0e5cecf6206f4cc65a6acc1c5bf81d089522e7c9edc1"
+      }
+    },
+    "patch": "wgpu-core.patch"
+  },
+  {
+    "name": "wgpu",
+    "version": "26.0.1",
+    "files": {
+      "src/api/bind_group.rs": {
+        "before": "eae0c67e6eb481c2a0e10df8fd38e39b2384b42348e7a6f841afc2452eb0fe7b",
+        "after": "771a1ddd725c442857e298a8da34c9b9257c26f4b088772f3c1ad959067f24d9"
+      },
+      "src/api/compute_pipeline.rs": {
+        "before": "8edbc8d749519041c184af70450a89d4ca284fba230a2276218c23af38cd3348",
+        "after": "706cd1423d4ae2ab91ca6509acfec98b8a09e672d20bbe2870808d6d66aecead"
+      },
+      "src/api/pipeline_layout.rs": {
+        "before": "df3751c3c98e6d3b3766b40cbe555c6b3a2d8a2b0096aa385a4443fd52dbd82a",
+        "after": "6336075a18446b2171959b5f0b67852e0eb35af3ce5d8d9e7bfd30b29a8e28a5"
+      },
+      "src/backend/wgpu_core.rs": {
+        "before": "b6596ce9bcd1c1af8f33230a766380cc6c5108cc52a0700b01d7761c1273a92f",
+        "after": "9af465f9e668553ec6e6cd2f9047f49cf4b7df8d78db548c44b93474d8f7848e"
+      }
+    },
+    "patch": "wgpu.patch"
+  }
+]

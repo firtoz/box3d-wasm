@@ -1,0 +1,5 @@
+{
+  "file": "wgpu-hal/src/vulkan/device.rs",
+  "before_sha256": "7b1a74529046264afce538c43c359258599bd0fcd6d552d8d6c53fdc06cccecd",
+  "after_sha256": "6f9db5d38e35a975e95adce5704dfdc529d20fbb954eab50e60fc5682acc7f54"
+}

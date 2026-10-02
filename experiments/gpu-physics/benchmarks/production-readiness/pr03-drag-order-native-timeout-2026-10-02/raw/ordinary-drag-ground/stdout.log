@@ -1,0 +1,12 @@
+round=0 cube=0 hit_fraction=0.47500014/0.47499999 held_pos=0.0171647 held_quat=0.00474274 held_vel=0.73063 released_pos=0.0123724 released_quat=0.00257725 released_vel=0.152737
+round=0 cube=1 hit_fraction=0.47500014/0.47499999 held_pos=0.0277678 held_quat=0.00661827 held_vel=0.169165 released_pos=0.0951321 released_quat=0.0522495 released_vel=2.45818
+round=0 cube=2 hit_fraction=0.47500014/0.47499999 held_pos=0.0280166 held_quat=0.0150491 held_vel=0.92487 released_pos=0.205286 released_quat=0.0843544 released_vel=1.05309
+round=0 cube=3 hit_fraction=0.47500014/0.47499999 held_pos=0.0244502 held_quat=0.0176646 held_vel=0.926785 released_pos=0.250265 released_quat=0.165795 released_vel=1.36748
+round=0 cube=4 hit_fraction=0.47500014/0.47499999 held_pos=0.0141488 held_quat=0.00755968 held_vel=0.436515 released_pos=0.0198718 released_quat=0.0111761 released_vel=1.20369
+round=1 cube=0 hit_fraction=0.45855829/0.45888239 held_pos=0.0259146 held_quat=0.0194364 held_vel=1.90264 released_pos=0.0279345 released_quat=0.0108043 released_vel=0.316894
+round=1 cube=1 hit_fraction=0.5319221/0.53185916 held_pos=0.00905255 held_quat=0.010294 held_vel=0.197471 released_pos=0.0674109 released_quat=0.0454295 released_vel=2.01817
+round=1 cube=2 hit_fraction=0.46470621/0.45873913 held_pos=0.147446 held_quat=0.0787968 held_vel=2.57782 released_pos=0.3899 released_quat=0.351633 released_vel=1.8497
+round=1 cube=3 hit_fraction=0.48798424/0.48196933 held_pos=0.142301 held_quat=0.100751 held_vel=2.01293 released_pos=0.170784 released_quat=0.0544205 released_vel=0.514776
+round=1 cube=4 hit_fraction=0.47123921/0.47172523 held_pos=0.0219456 held_quat=0.0138469 held_vel=0.290963 released_pos=0.0237599 released_quat=0.018713 released_vel=0.810657
+ground motion: held_position=0.147446 held_quaternion=0.100751 held_velocity=2.57782 settled_velocity=0 strict_peak_velocity=FAIL
+FAIL ground-contact comparison: ten drags; max position=0.3899 m quaternion_chord=0.351633 velocity=2.57782 m/s

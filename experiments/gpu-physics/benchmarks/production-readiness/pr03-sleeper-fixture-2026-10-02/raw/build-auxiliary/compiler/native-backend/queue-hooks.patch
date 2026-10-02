@@ -1,0 +1,50 @@
+--- a/src/vulkan/mod.rs
++++ b/src/vulkan/mod.rs
+@@ -848,6 +848,7 @@
+     family_index: u32,
+     relay_semaphores: Mutex<RelaySemaphores>,
+     signal_semaphores: Mutex<SemaphoreList>,
++    external_binary_waits: Mutex<Vec<(vk::Semaphore, vk::PipelineStageFlags)>>,
+ }
+ 
+ impl Queue {
+@@ -1442,6 +1443,10 @@
+         let mut wait_stage_masks = Vec::new();
+         let mut wait_semaphores = Vec::new();
+         let mut signal_semaphores = SemaphoreList::default();
++        for (semaphore, stages) in self.external_binary_waits.lock().drain(..) {
++            wait_semaphores.push(semaphore);
++            wait_stage_masks.push(stages);
++        }
+ 
+         // Double check that the same swapchain image isn't being given to us multiple times,
+         // as that will deadlock when we try to lock them all.
+@@ -1635,6 +1640,18 @@
+         &self.device.raw
+     }
+ 
++    /// Attach a binary wait to the next submission. Per-queue relay ordering
++    /// remains intact. Caller must serialize registration with submission.
++    ///
++    /// # Safety
++    /// The semaphore belongs to this VkDevice, is signalled exactly once before
++    /// this wait completes, and remains alive through completion. The stages
++    /// cover every use of externally shared resources in that submission.
++    pub unsafe fn add_wait_binary_semaphore(&self, semaphore: vk::Semaphore, stages: vk::PipelineStageFlags) {
++        assert!(!stages.is_empty());
++        self.external_binary_waits.lock().push((semaphore, stages));
++    }
++
+     pub fn add_signal_semaphore(&self, semaphore: vk::Semaphore, semaphore_value: Option<u64>) {
+         let mut guard = self.signal_semaphores.lock();
+         if let Some(value) = semaphore_value {
+--- a/src/vulkan/adapter.rs
++++ b/src/vulkan/adapter.rs
+@@ -2184,6 +2184,7 @@
+             family_index,
+             relay_semaphores: Mutex::new(relay_semaphores),
+             signal_semaphores: Default::default(),
++            external_binary_waits: Default::default(),
+         };
+ 
+         let mem_allocator = {

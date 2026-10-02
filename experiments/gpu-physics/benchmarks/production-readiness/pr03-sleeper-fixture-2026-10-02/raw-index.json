@@ -1,0 +1,174 @@
+{
+  "raw/build-auxiliary/compiler/native-backend/README.md": {
+    "bytes": 11059,
+    "sha256": "a6ba93464fbb2ad28b042a03e96437c5b4135260bc6fa45f1e8b64a834e82cb2"
+  },
+  "raw/build-auxiliary/compiler/native-backend/backend-hook.json": {
+    "bytes": 219,
+    "sha256": "bc2f2eacc2f53b4df5675487a18d76e8ff40ff8bd20f2041ace150402f7b8019"
+  },
+  "raw/build-auxiliary/compiler/native-backend/backend-hook.patch": {
+    "bytes": 1486,
+    "sha256": "bd18b749e693ae7a32dae94f2808dca9ad71fd747baf9e0471a7979fb127b6b5"
+  },
+  "raw/build-auxiliary/compiler/native-backend/manifest.json": {
+    "bytes": 2546,
+    "sha256": "51a6c2f8ecbc698eeeafce5e66f81c4fe9c868a9990697a53445b11c4c36915a"
+  },
+  "raw/build-auxiliary/compiler/native-backend/naga.patch": {
+    "bytes": 864,
+    "sha256": "9cc560ec2499c5edd0498008e7af65f0a4cca5ad8254046607ba80e1bb7ef3ca"
+  },
+  "raw/build-auxiliary/compiler/native-backend/physics-replay.json": {
+    "bytes": 1431,
+    "sha256": "15f62a82e27d9bfad831001812f451e741693e5ee751d73b41a3df4efa71af2a"
+  },
+  "raw/build-auxiliary/compiler/native-backend/physics-replay.patch": {
+    "bytes": 9998,
+    "sha256": "8d3059cd36143c4b9403301f086caa08498a520292c7a55a96187d00ed113190"
+  },
+  "raw/build-auxiliary/compiler/native-backend/queue-hooks.json": {
+    "bytes": 409,
+    "sha256": "8e4b8f3fdbc076086b8a3be4d6a5e76f1c1c532ee6723cb3e4615b9b6e3ae2ee"
+  },
+  "raw/build-auxiliary/compiler/native-backend/queue-hooks.patch": {
+    "bytes": 2038,
+    "sha256": "c6783fe521f8cbc82e6771810f8e42351b096f8c63555e68f4f9539320c0d39c"
+  },
+  "raw/build-auxiliary/compiler/native-backend/wgpu-core.patch": {
+    "bytes": 1456,
+    "sha256": "4de34957137654d57f549b972394585a3d173dbd2a802769d673149f94abb61a"
+  },
+  "raw/build-auxiliary/compiler/native-backend/wgpu-hal.patch": {
+    "bytes": 6310,
+    "sha256": "5e2fea7648bbf906140ab22541ffc346cb639b6a229279249d12b4bc243aa66f"
+  },
+  "raw/build-auxiliary/compiler/native-backend/wgpu.patch": {
+    "bytes": 3117,
+    "sha256": "dba0c0f7cc8c648956c37ee8089316ea0e2966c6391ce118e0fe1e079017080f"
+  },
+  "raw/build-auxiliary/scripts/build-native-cache.sh": {
+    "bytes": 1536,
+    "sha256": "1f1d7087cbeb7215f6518b6c5b0787154947557d1a4f5ef25545b06c0035a09b"
+  },
+  "raw/build-auxiliary/scripts/prepare-native-backend.py": {
+    "bytes": 4165,
+    "sha256": "a09f47da922fd358312773dcceef3a489cc4fef6da55e7049ea791c133782788"
+  },
+  "raw/build-auxiliary/target/native-backend/cargo-config.toml": {
+    "bytes": 456,
+    "sha256": "ec983db7c0da957b7d6392d38f6d228d72481008f8fa71407603599e22fcf0a2"
+  },
+  "raw/build-auxiliary/target/native-workspace/experiments/gpu-physics/Cargo.lock": {
+    "bytes": 68645,
+    "sha256": "0efa84fe3f11ef7c436fb831d3c7c9ab52387b6803a67f49b1c6e4e7f243489f"
+  },
+  "raw/build-auxiliary/target/native-workspace/experiments/gpu-physics/Cargo.toml": {
+    "bytes": 1431,
+    "sha256": "f2873ba7910e93c5847ecd8e2f3bd0ca32c090a1203c82d54da9d766fff00901"
+  },
+  "raw/build-auxiliary.json": {
+    "bytes": 5242,
+    "sha256": "ac6201c74ca2dd93de23182815219feee92d5b1570f2892aba2d23e35386159c"
+  },
+  "raw/fixture-builds/candidate-gpu_invariants.rs": {
+    "bytes": 243832,
+    "sha256": "fd4ee09cf703d01553a910173db4f69ae2bc42eb36b8d58afb9904b96b9064d9"
+  },
+  "raw/fixture-builds/candidate-source-inputs.tar.gz": {
+    "bytes": 1017971,
+    "sha256": "ceb0f165e68fa0b952758c7cf2597cfaace7746e6726c967d9db717f49360fe0"
+  },
+  "raw/fixture-builds/freeze.py": {
+    "bytes": 5891,
+    "sha256": "5616150d389ad6b7112eb3288f472a690dbbd51d950da474dd9d69dd0e68e0b2"
+  },
+  "raw/fixture-builds/native-build/stderr.log": {
+    "bytes": 203,
+    "sha256": "231f530982e6e99ada611fa8eedc31de5f2c456ab0fc58232dab58ae2f169c41"
+  },
+  "raw/fixture-builds/native-build/stdout.log": {
+    "bytes": 297184,
+    "sha256": "8586f4f8a2697d18f5079242ab138371c311589b58647fd2ef0a05118748fd36"
+  },
+  "raw/fixture-builds/ordinary-build/stderr.log": {
+    "bytes": 155,
+    "sha256": "2462196711d0ddaab2d4f1fd86890a53dc629086512d122b1bc7855871546915"
+  },
+  "raw/fixture-builds/ordinary-build/stdout.log": {
+    "bytes": 176821,
+    "sha256": "45489987649eea2bc7184380b7dfa1e659790749aadd7c51531f92e9b4cde3b2"
+  },
+  "raw/fixture-builds/ordinary-order0/stderr.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/fixture-builds/ordinary-order0/stdout.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw/fixture-builds/original-gpu_invariants.rs": {
+    "bytes": 242595,
+    "sha256": "ec350f08159e724e1a57d06fe26bd355b65ddf6091174004d9e4370ba716eff8"
+  },
+  "raw/fixture-builds/protocol.json": {
+    "bytes": 52528,
+    "sha256": "8d488983557c8513cf6c654cc52b2b4e2b5e52cc681319c893658a5c3715ee64"
+  },
+  "raw/fixture-builds/receipt.json": {
+    "bytes": 27008,
+    "sha256": "c599b7ad61dc0675444a0fa61bcf2446622c445d90e5396ef88cefac097681f4"
+  },
+  "raw/fixture-builds/run.py": {
+    "bytes": 4799,
+    "sha256": "e41520a8653d71791079df1334944764070bc8a482324b648df938d47c83f220"
+  },
+  "raw/permission-repair/freeze.py": {
+    "bytes": 1958,
+    "sha256": "3cbded602df282e647d052df694f74e92c70b1e55089dfacee59cd0a0f2e5677"
+  },
+  "raw/permission-repair/native-order0/stderr.log": {
+    "bytes": 984,
+    "sha256": "a47187cc4972a100242a46b42534099d70578453e56badc7c4dd13df0eac4a89"
+  },
+  "raw/permission-repair/native-order0/stdout.log": {
+    "bytes": 184,
+    "sha256": "f3828544d1d9a5e945cec6cd6f7e5a113d0f09e3f779c51c2ab8905bcd217bde"
+  },
+  "raw/permission-repair/native-order1/stderr.log": {
+    "bytes": 990,
+    "sha256": "7a4f23f1e2314f0586ad0a6f76edd3c6239ceebb1fe6c957518e4f7b68a3e772"
+  },
+  "raw/permission-repair/native-order1/stdout.log": {
+    "bytes": 184,
+    "sha256": "ec0b53eb8f807a504be354cb8d68682737fd318df3ed226ca8fd658768f5fa68"
+  },
+  "raw/permission-repair/ordinary-order0/stderr.log": {
+    "bytes": 984,
+    "sha256": "ab293969c7f88a2f971a02e7d0a360fc0655977ad2f4a52ae1d9acfaebb94afa"
+  },
+  "raw/permission-repair/ordinary-order0/stdout.log": {
+    "bytes": 184,
+    "sha256": "01f3786c5049fc1f759df8ec7a93ef1e8c99f723b38cdddc92823c3a58656b33"
+  },
+  "raw/permission-repair/ordinary-order1/stderr.log": {
+    "bytes": 990,
+    "sha256": "47b5200538faf79e34ecebf828f58853ff2be268c2b8acc6d5e985377a8af60c"
+  },
+  "raw/permission-repair/ordinary-order1/stdout.log": {
+    "bytes": 184,
+    "sha256": "d8669a9ad2d6c2ab1fbf9672481477546c15204d779bc192cd341230aa7ed464"
+  },
+  "raw/permission-repair/protocol.json": {
+    "bytes": 41972,
+    "sha256": "d6e3db8d316828c7be10896eff21ca32f615ae720b7ed87ac05617710b1e629d"
+  },
+  "raw/permission-repair/receipt.json": {
+    "bytes": 4819,
+    "sha256": "cf7b32a013a202542eac6d8305aa80b6f78bd5482f28dee75a6cc2eed059b1de"
+  },
+  "raw/permission-repair/run.py": {
+    "bytes": 2876,
+    "sha256": "1f8e38cac84b6d14bb635743675f6fbe75883e62fe6f0d914cd44073ee62fd08"
+  }
+}

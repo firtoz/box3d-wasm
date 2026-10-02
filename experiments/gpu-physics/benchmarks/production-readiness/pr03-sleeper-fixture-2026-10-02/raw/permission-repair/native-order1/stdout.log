@@ -1,0 +1,6 @@
+
+running 1 test
+test gpu_invariants::high_resistance_sleeper_wakes_on_velocity ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 416 filtered out; finished in 0.96s
+

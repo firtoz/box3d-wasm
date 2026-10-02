@@ -1,0 +1,22 @@
+{
+  "ordinary-drag-isolated": {
+    "raw_sha256": "a72fd5db79ff2a5c326e894816bf74bf81205bc07da0fb606bb76fe318ec77e0",
+    "raw_bytes": 1163250,
+    "gzip_sha256": "92d3cecac12237dde1639327ce299fd52579af17f8d96d5ab4843a08ced3deec"
+  },
+  "native-drag-isolated": {
+    "raw_sha256": "a72fd5db79ff2a5c326e894816bf74bf81205bc07da0fb606bb76fe318ec77e0",
+    "raw_bytes": 1163250,
+    "gzip_sha256": "92d3cecac12237dde1639327ce299fd52579af17f8d96d5ab4843a08ced3deec"
+  },
+  "ordinary-drag-ground": {
+    "raw_sha256": "8e185622f2aeec1f178f08c819522b20d578033e5d29b9ca6f1a64ebd241dba8",
+    "raw_bytes": 18246672,
+    "gzip_sha256": "3c8b9c5347967d6a2c73cd1be5287badc43ca1bf4cf655f2a078ea4f7d73ec4e"
+  },
+  "native-drag-ground": {
+    "raw_sha256": "ddc901eb080a99bb42b3f16d11ce158e87679a530e3df8c5fb44b6a3e6fb5fac",
+    "raw_bytes": 18246977,
+    "gzip_sha256": "54ca024566d3f4ef031dbfb4263aae10d5335d293ea5fcc0dc2d3befd22adf62"
+  }
+}
