@@ -1,0 +1,3 @@
+calculation inputs reservation=8 children=27; registered=7 firstMissing=7
+actual adapter case 3: allocation contract, stable addresses, identity/highlight, cleanup pass
+sokol-capacity: 8 debug shapes and opaque instances per stream

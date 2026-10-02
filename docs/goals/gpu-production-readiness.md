@@ -5,7 +5,7 @@ at the start of every continuation and after compaction or restart. Pursue the
 whole objective, maintain this file, and use the goal-scratchpad skill. This is
 the authoritative production-readiness queue for `feat/gpu`.
 
-Updated: 2026-10-02. Status: incremental PR09 repair verified; commit/push in progress. Full roadmap remains paused. Stop after this milestone.
+Updated: 2026-10-02. Status: incremental PR09 milestone complete and pushed (`1660c66`); evidence-retention/recovery checkpoint follows. Full roadmap remains paused. Stop here.
 Next item on resumption: **PR09 — compare every existing CPU sample with GPU and fix obvious differences, including missing floors**, followed by PR10 UI/widgets and PR11 raycasts. Exact pixel and CPU/GPU scene position/angular matching are deferred to a separate goal; physical correctness remains required.
 
 ## Objective and release boundary
@@ -509,7 +509,8 @@ five viewer builds, two focused-test builds/12 checks, 45 captures (five scenes,
 zero retries/Rust builds/performance runs. Stop/retain on failure; no implicit
 extension. Before any build/engine launch, original local roadmap diff is archived
 with its hash; fetch found HEAD/origin feat/gpu 0/0. No other starting local work.
-Current state: repair and verification complete; commit/push pending. All25 before
+Current state: repair verified and pushed as `1660c66` to feat/gpu; final
+portable evidence/recovery checkpoint in progress. All25 before
 captures passed. Both combined Village viewers reproduced missing GPU ground/
 buildings; the common stable-address debug metadata allocator now grows beyond
 65536 without dropping children. Original105004-child input registered65535,
@@ -541,9 +542,13 @@ unavailable. Single Box CPU grid decoration in combined view remains a separate
 PR09 finding; late body color differs, not an independently qualified sleep defect.
 PR09 remains unchecked; broader physical/widget/query/performance gates open.
 
-Offline evidence/source/status checks pass, the CPU-first grid has all45 clips,
-and final fetch still found HEAD/origin feat/gpu0/0. Next: commit/push this verified
-milestone to feat/gpu, then stop. Full roadmap remains paused; do
+Offline evidence/source/status checks pass; CPU-first grid has all45 clips.
+Repair1660c66 is pushed and HEAD/origin feat/gpu0/0 is verified. The final tracked
+portability audit identified91 indexed logs excluded by Git's log ignore rule;
+their exact existing bytes are included in the documentation-only checkpoint.
+No code/build/engine/test changes or new physics process. Final archive verification
+must include every indexed file. This milestone is complete; after checkpoint
+push verification, stop. No further item is authorized. Full roadmap remains paused; do
 not begin another sweep, solver repair or old campaign without new authorization.
 
 

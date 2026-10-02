@@ -1,0 +1,5 @@
+calculation inputs reservation=65536 children=105004; registered=105004 firstMissing=-1
+actual adapter case 0: allocation contract, stable addresses, identity/highlight, cleanup pass
+sokol-capacity: 65536 debug shapes and opaque instances per stream
+sokol-debug-pool: 65536 stable slots (was 0)
+sokol-debug-pool: 131072 stable slots (was 65536)

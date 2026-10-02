@@ -1,0 +1,13 @@
+{
+  "milestone_commit": "1660c664661f130db53a5de88e3262fe4081d3fa",
+  "origin_feat_gpu_observed": "1660c664661f130db53a5de88e3262fe4081d3fa",
+  "ahead_behind": "0/0",
+  "preserved_preexisting_diff_sha256": "0a0cd2e71589a1eb0665a890e47be9cef7f9f975a60a6cd2edc4b6af89b3f41f",
+  "final_log_retention_count": 91,
+  "code_checks_closed": true,
+  "physics_processes": 45,
+  "new_physics_processes_for_handoff": 0,
+  "PR09_complete": false,
+  "full_roadmap": "paused; stop after milestone",
+  "offline_evidence_validation": "537 hashes pass; final index tracking/archive audit required"
+}

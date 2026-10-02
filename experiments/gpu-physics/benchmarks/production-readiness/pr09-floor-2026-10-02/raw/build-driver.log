@@ -1,0 +1,7 @@
+before six actual-adapter cases pass
+after six actual-adapter cases pass
+cpu adapter compiled/relinked
+ordinary-gpu adapter compiled/relinked
+native-gpu adapter compiled/relinked
+ordinary-both adapter compiled/relinked
+native-both adapter compiled/relinked
