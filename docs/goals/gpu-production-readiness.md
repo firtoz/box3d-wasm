@@ -343,8 +343,8 @@ Their former next actions/job handles do not authorize another campaign.
 | --- | --- |
 | Workspace / branch | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu` |
 | Authorization | Active full roadmap; verified milestone commit/push authorized by the submitted goal |
-| Latest published milestone | `d28cc79` recovery and prior contract/clamp/regression evidence are pushed. Current distance clamp/viewer/capture retention milestone is prepared; verify Git HEAD and origin after committing/pushing. No final release claim |
-| Retained production source | Narrow rigid-distance clamp now retained, shader SHA `22fe506b97b97c24f724a09b2dad2efcd52db6b71b95d892bc3bc31c4726ea31`; all 107 actual compiled candidate inputs match current source. Baseline `abc0a54` is historical. See linked source applicability/producer receipts; HEAD is context only |
+| Latest published milestone | `c1fb15faaaec3c827c4381c6694e9041bbebd076` distance-clamp repair and viewer/capture retention evidence committed and pushed; verified origin 0/0 and clean tree. All 28 viewer/207 capture indexed raw files matched staged hashes, and 15 grid clips match portable bytes. No final release claim |
+| Retained production source | `c1fb15faaaec3c827c4381c6694e9041bbebd076`: narrow rigid-distance clamp retained, shader SHA `22fe506b97b97c24f724a09b2dad2efcd52db6b71b95d892bc3bc31c4726ea31`; all 107 actual compiled candidate inputs match current source. Baseline `abc0a54` is historical. See linked source applicability/producer receipts; HEAD is context only |
 | Current item | **PR04**: distance clamp passes original four comparisons and 242 applicable regressions; 15 CPU-first scene clips/4,500 health steps pass and sampled review complete. Strict ragdoll trajectory, loaded dragging and Rain remain unresolved. PR01/PR02 named functional contracts retain bounded applicability; final qualification remains open |
 | Current jobs | Relink 53307, CPU recording 95833 and GPU recording 38632 all terminal exit 0. Capture protocol SHA `01020053c79e3a7296c2e0a1b8e66baa51467eb02e68e65244bdfc8663184344`, budget 3 CPU/12 GPU clips consumed once, zero retries/timing. No live engine job. Portable viewer/capture validators pass; offline host packaging/review only |
 | Current libraries | Candidate ordinary SHA `5bb8a5d7988eea83e5f6bdbfc0831872f59e06389d69c4a1b9919e7bf7f8e3f1`, native SHA `53819158e2321f1f270fa3d885664ce6519770f6448163d4894de1041b19bc3e`; exact source/build identities in clamp and viewer receipts. Current target timestamps alone are insufficient provenance |
@@ -402,16 +402,16 @@ scenes are reviewed; Joint Events retains an unrelated free-joint position
 difference. Review is sampled and timestamps approximate, not a full numerical
 scene qualification. No default, tolerance, Box3D or WASM change.
 
-1. Commit/push this verified distance milestone after checking all indexed staged
-   bytes and existing datasets. Keep PR04 unchecked. Original clamp/regression/
-   viewer/capture budgets are closed; do not repeat them or mutate raw receipts.
-2. Add a durable focused one-substep rigid-distance regression only under a new
+The distance milestone is pushed; original clamp/regression/viewer/capture budgets
+are closed. Do not repeat them or mutate raw receipts. Keep PR04 unchecked.
+
+1. Add a durable focused one-substep rigid-distance regression only under a new
    finite test-build/test-process protocol if needed: use the independent recorded
    CPU first-step Y=-1.00028491 and unchanged absolute 1e-5, rather than duplicating
    the shader formula. Existing four-substep loose-bounds test misses this defect.
    No new solver candidate is required for that test; qualify ordinary/native and
    ordering 0/1, preserving every outcome and producer source identity.
-3. Resolve the required strict ragdoll/loaded dragging/Rain failures with smallest
+2. Resolve the required strict ragdoll/loaded dragging/Rain failures with smallest
    faithful reproducers and distinct evidence-supported finite budgets. Read
    prior solver criteria/rejected experiments before choosing the hypothesis.
    For Rain, separate actual GPU wait from mirror/deferred host CCD/collector
