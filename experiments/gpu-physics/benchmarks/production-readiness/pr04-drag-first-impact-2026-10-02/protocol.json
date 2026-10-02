@@ -1,0 +1,13 @@
+{
+  "purpose": "Offline first loaded-drag impact attribution using unchanged completed baseline traces and current CCD source; no new physical acceptance or solver candidate.",
+  "budget": {
+    "archived_traces": 2,
+    "selected_window": "220\u2013232/body0",
+    "engine_processes": 0,
+    "builds": 0,
+    "candidates": 0,
+    "timing": 0
+  },
+  "source_applicability": "Only retained production diff since baseline is rigid distance branch; dragged joint is motor. CCD/contact/motor/routing source unchanged. Test-only focused distance regression does not affect these production traces.",
+  "stop_retain": "Read complete archived traces once, preserve raw bytes/failed original results and report both paths. No tolerance/default change, GPU launch or historical driver restart."
+}

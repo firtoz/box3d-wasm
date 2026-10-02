@@ -1,0 +1,42 @@
+{
+  "raw/baseline-protocol.json": {
+    "sha256": "1a9d1e4f0b8bcbff988e78f8018bb614748cf380054d0fd7bdc240f26925c11b",
+    "bytes": 66737
+  },
+  "raw/baseline-receipt.json": {
+    "sha256": "62f32cf4183dc5a944bd7fde6df9ea3cff5a95d0588e1e6c72b9d5e1dddf0407",
+    "bytes": 4952
+  },
+  "raw/baseline-trace-analysis.json": {
+    "sha256": "9cb49c6e94290d376bd7589e9f34bc59287c151fe5ab004ca0780e5007712c72",
+    "bytes": 5620
+  },
+  "raw/both_drag_test.cpp": {
+    "sha256": "8016764fe0fa57623f03e0e94c7358163d85071562f70b9aa5ba2603b6b00dbd",
+    "bytes": 10254
+  },
+  "raw/both_dual.c": {
+    "sha256": "4b4e64e22aa4636a926eea2549b8a29a84225ac04496f38211851bea55dd994a",
+    "bytes": 151588
+  },
+  "raw/cpu-solver.c": {
+    "sha256": "25e0f58f9d7d803be88ce0d2d3a424b902d41ff3bd3e01310a1ca7820f76d926",
+    "bytes": 80046
+  },
+  "raw/gpu-solve.wgsl": {
+    "sha256": "22fe506b97b97c24f724a09b2dad2efcd52db6b71b95d892bc3bc31c4726ea31",
+    "bytes": 123553
+  },
+  "raw/gpu-world.rs": {
+    "sha256": "ae82a7eac41addb26326f5c3ef648d45e087d3efc8fcf66ff7c5a148af07ea2f",
+    "bytes": 539843
+  },
+  "raw/native-comparison.txt.gz": {
+    "sha256": "54ca024566d3f4ef031dbfb4263aae10d5335d293ea5fcc0dc2d3befd22adf62",
+    "bytes": 2025924
+  },
+  "raw/ordinary-comparison.txt.gz": {
+    "sha256": "3c8b9c5347967d6a2c73cd1be5287badc43ca1bf4cf655f2a078ea4f7d73ec4e",
+    "bytes": 2026392
+  }
+}

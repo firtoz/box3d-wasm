@@ -1,0 +1,1 @@
+Preparation command used a repository-relative experiments/gpu-physics path while cwd was already the engine directory. mkdir and script creation failed before protocol freezing; attempted driver path missing. Zero builds or engine processes ran. Corrected by preparing from repository root.

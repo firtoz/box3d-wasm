@@ -1,0 +1,22 @@
+{
+  "purpose": "Read-only host inventory after four completed tests; per-process NVIDIA Vulkan banner remains actual compute proof.",
+  "cpu": "Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz",
+  "observations": [
+    {
+      "command": [
+        "nvidia-smi",
+        "--query-gpu=name,driver_version,pci.bus_id",
+        "--format=csv,noheader"
+      ],
+      "stdout": "NVIDIA GeForce RTX 4070 SUPER, 610.57.04, 00000000:01:00.0\n"
+    },
+    {
+      "command": [
+        "uname",
+        "-a"
+      ],
+      "stdout": "Linux firtina-manjarodesk 6.18.49-1-MANJARO #1 SMP PREEMPT_DYNAMIC Thu, 03 Sep 2026 23:21:05 +0000 x86_64 GNU/Linux\n"
+    }
+  ],
+  "os_release": "NAME=\"Manjaro Linux\"\nPRETTY_NAME=\"Manjaro Linux\"\nID=manjaro\nID_LIKE=arch\nBUILD_ID=rolling\nANSI_COLOR=\"32;1;24;144;200\"\nHOME_URL=\"https://manjaro.org/\"\nDOCUMENTATION_URL=\"https://wiki.manjaro.org/\"\nSUPPORT_URL=\"https://forum.manjaro.org/\"\nBUG_REPORT_URL=\"https://manjaro.org/help/\"\nPRIVACY_POLICY_URL=\"https://manjaro.org/privacy-policy/\"\nLOGO=manjarolinux\n"
+}

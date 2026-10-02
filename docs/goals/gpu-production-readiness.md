@@ -110,8 +110,9 @@ queue and recovery record. No separate competing production backlog.
   raw files, 107 original compiled inputs, 101 required Rust selectors,
   13 trace/14 C recipes and four final backend/ordering configurations.
   Original distance, loaded-drag, strict trajectory and Rain failures/timeouts
-  remain explicit PR04 inputs. The only current source difference from the
-  original baseline is the independently qualified cfg(test) sleeper correction.
+  remain explicit PR04 inputs. At reconciliation the only source difference from the
+  original baseline was the independently qualified cfg(test) sleeper correction.
+  Subsequent retained repairs/tests have separate linked applicability records.
   Order-storage applies to mode 1; existing slot-32768 coverage remains mandatory
   in all four final configurations. Complete registry/ABI capture obligations
   and known omissions are frozen; implementation/qualification stays PR05–PR07.
@@ -163,7 +164,10 @@ queue and recovery record. No separate competing production backlog.
   audited incidental fields. Validate compact/lossless capture against full
   records and corruption controls. Report first discrepancies. No pose-only,
   interrupted, skipped or historical run counts as a final pass. Preserve all
-  analytical, precision, island, schedule-equivalence and capacity checks.
+  analytical, precision, island, schedule-equivalence and capacity checks. Include
+  the added `gpu_invariants::distance_joint_one_substep_matches_cpu_reference`
+  regression with its original absolute 1e-5 independent CPU value; this extends
+  the original frozen matrix for the concrete repaired defect.
   **Evidence:** OPEN.
 
 - [ ] **PR08 — Qualify performance and make the documented mode decision.**
@@ -344,9 +348,9 @@ Their former next actions/job handles do not authorize another campaign.
 | Workspace / branch | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu` |
 | Authorization | Active full roadmap; verified milestone commit/push authorized by the submitted goal |
 | Latest published milestone | `c1fb15faaaec3c827c4381c6694e9041bbebd076` distance-clamp repair and viewer/capture retention evidence committed and pushed; verified origin 0/0 and clean tree. All 28 viewer/207 capture indexed raw files matched staged hashes, and 15 grid clips match portable bytes. No final release claim |
-| Retained production source | `c1fb15faaaec3c827c4381c6694e9041bbebd076`: narrow rigid-distance clamp retained, shader SHA `22fe506b97b97c24f724a09b2dad2efcd52db6b71b95d892bc3bc31c4726ea31`; all 107 actual compiled candidate inputs match current source. Baseline `abc0a54` is historical. See linked source applicability/producer receipts; HEAD is context only |
-| Current item | **PR04**: distance clamp passes original four comparisons and 242 applicable regressions; 15 CPU-first scene clips/4,500 health steps pass and sampled review complete. Strict ragdoll trajectory, loaded dragging and Rain remain unresolved. PR01/PR02 named functional contracts retain bounded applicability; final qualification remains open |
-| Current jobs | Relink 53307, CPU recording 95833 and GPU recording 38632 all terminal exit 0. Capture protocol SHA `01020053c79e3a7296c2e0a1b8e66baa51467eb02e68e65244bdfc8663184344`, budget 3 CPU/12 GPU clips consumed once, zero retries/timing. No live engine job. Portable viewer/capture validators pass; offline host packaging/review only |
+| Retained production source | `c1fb15faaaec3c827c4381c6694e9041bbebd076` rigid-distance repair, shader SHA `22fe506b97b97c24f724a09b2dad2efcd52db6b71b95d892bc3bc31c4726ea31`. Production sources unchanged. Only cfg(test) `src/gpu_invariants.rs` now adds the focused CPU-reference regression; explicit 107-input applicability against prior producer is in its report. HEAD is context only |
+| Current item | **PR04**: distance repair and focused one-step regression pass; 4 candidate physical comparisons/242 applicable regressions/15 CPU-first clips retained. Strict ragdoll, loaded dragging and Rain remain unresolved. New current-trace impact window supports CCD involvement, with exact pre/post classification/correction still unobserved. No acceptance limit changed |
+| Current jobs | Focused one-substep regression driver **27540 terminal exit 0**: protocol SHA `ffdf136068a06c89eb4500b4f169d4a070d3d802c651a4231b79ad4449126821`, all 2 test builds/4 fresh single-selector processes pass once; zero new solver candidates/separate library builds/retries/timing. No live job. All older campaigns closed. Offline 2-trace first-impact diagnosis complete; no new engine process |
 | Current libraries | Candidate ordinary SHA `5bb8a5d7988eea83e5f6bdbfc0831872f59e06389d69c4a1b9919e7bf7f8e3f1`, native SHA `53819158e2321f1f270fa3d885664ce6519770f6448163d4894de1041b19bc3e`; exact source/build identities in clamp and viewer receipts. Current target timestamps alone are insufficient provenance |
 | Independent CPU | Full archive SHA `b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c`, 119 actual source/object pairs; combined fixtures use separate prefixed CPU archive |
 | Hardware / policy | i9-9900K / NVIDIA RTX 4070 SUPER, driver 610.57.04, NVIDIA Vulkan. Ordinary/native and ordering 0/1 remain separate; scheduling/default policies unchanged |
@@ -405,18 +409,38 @@ scene qualification. No default, tolerance, Box3D or WASM change.
 The distance milestone is pushed; original clamp/regression/viewer/capture budgets
 are closed. Do not repeat them or mutate raw receipts. Keep PR04 unchecked.
 
-1. Add a durable focused one-substep rigid-distance regression only under a new
-   finite test-build/test-process protocol if needed: use the independent recorded
-   CPU first-step Y=-1.00028491 and unchanged absolute 1e-5, rather than duplicating
-   the shader formula. Existing four-substep loose-bounds test misses this defect.
-   No new solver candidate is required for that test; qualify ordinary/native and
-   ordering 0/1, preserving every outcome and producer source identity.
-2. Resolve the required strict ragdoll/loaded dragging/Rain failures with smallest
-   faithful reproducers and distinct evidence-supported finite budgets. Read
-   prior solver criteria/rejected experiments before choosing the hypothesis.
-   For Rain, separate actual GPU wait from mirror/deferred host CCD/collector
-   costs; never restart closed 30/30/180 cells or extend old 900-second attempts.
-   Five-run/full-state/clean-release/performance qualification stays PR05–PR08.
+The [focused one-substep regression](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-distance-focused-test-2026-10-02/README.md)
+now passes all four ordinary/native × ordering 0/1 cells, reporting GPU and
+independent CPU Y=-1.000284910, original absolute 1e-5. Its two-build/four-process
+budget is closed. Only cfg(test) changes; previous production evidence retains
+bounded applicability. Include this selector alongside the original PR03 matrix
+at PR07. The host preparation path failure remains archived, zero engine/build
+consumption. All portable raw hashes validate.
+
+1. Commit/push the focused regression and current-trace CCD diagnosis after
+   verifying indexed staged bytes. Keep PR04 unchecked; no production shader,
+   API, viewer, scene or physics-default change follows from this turn.
+2. Use the [current loaded-drag first-impact diagnosis](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-drag-first-impact-2026-10-02/README.md)
+   to prepare a finite read-only boundary experiment at the earliest faithful
+   impact, frame 227/body 0 (zero based). At frame 227 both archived backends
+   have +5 mm lowest corner versus CPU -10.832 mm and ~17.165 mm position
+   difference while velocity agrees within 2e-6 m/s; next frame velocity differs
+   ~0.73063 m/s. Current CPU/GPU CCD activation metrics/thresholds differ.
+   Existing post-CCD traces do not prove exact pre-CCD state/TOI correction.
+   The production GPU `GPU_PHYSICS_TRACE_BODY=2` observer already prints CCD
+   start/end/fraction for the first dynamic cube; a diagnostic CPU source copy
+   can add read-only finalize/CCD boundary observations without editing Box3D.
+   Freeze actual source/object/archive/binary inputs and a finite build/process
+   budget before launching. Require an observer-neutrality comparison against
+   the original trace prefix. No result here authorizes a blanket cutoff rollback
+   or disabling CCD: those earlier controls remain rejected/inadequate; preserve
+   empty-manifold recycling, settling/restitution and all original drag limits.
+3. Resolve remaining strict ragdoll and Rain failures with smallest faithful
+   reproducers and distinct evidence-supported finite budgets. Read historical
+   criteria/rejected experiments first. For Rain separate actual GPU wait from
+   mirror/deferred host CCD/collector costs; no closed 30/30/180 cell or old
+   900-second attempt may be restarted unchanged. Final full-state/repeat/build/
+   performance qualification remains PR05–PR08.
 
 PR09–PR12 preserve the user's later requests: floor visibility (Village's shared
 65,536 renderer slots cannot flatten both 52,500-child compounds), sample-wide
@@ -471,3 +495,5 @@ PR01/PR02 campaigns or either exhausted scheduling campaign.
 - Original Rain/drag protocol SHA9ab2100327945b5d29cb37a8709ac037310deb1d22a23afb4683855ca82984bb: driver33069terminal1 beforeanyengineprocess, missingxvfb-run. Displayrepair SHAa86ba2c824bbc09a10e0ddd613d24aea058077df1c59734ea24e7b45948a636e uses pinned previouslyproven bundledXvfb. Driver70354terminal1: CPU600complete, ordinaryGPU900second timeout/nohealth. Sevenremainingcells were neverlaunched; distinctremainingprotocolabove preserves these failures and does not repeat them. All clocks incidental, no performance claim.
 
 PR04 preparation path error is retained in `pr04-distance-clamp/preparation-launch-failure.log`: host script was initially placed under an accidental nested engine path; zero builds/engine launches occurred. The same script was moved before protocol freezing; no physics result replaced. Float32 source reconstruction predicts exactly the recorded initial Y values for 60/15 Hz; this is attribution evidence, not a GPU acceptance pass.
+
+Focused-test preparation path error (repository-relative path used inside engine cwd) failed before protocol/build/engine launch; retained `preparation-failure.txt`, zero budget consumption. Corrected host path before freezing. Only cfg(test) invariant source changed; production solver remains the exact retained clamp.

@@ -3458,6 +3458,53 @@ fn parallel_joint_holds_chassis_upright() {
 }
 
 #[test]
+fn distance_joint_one_substep_matches_cpu_reference() {
+    // Mirror the first step of the independent Box3D distance-original.cpp
+    // fixture. Its recorded CPU Y is -1.00028491; the missing timestep hertz
+    // clamp produced -1.00004232, outside the unchanged absolute 1e-5 limit.
+    // Keep this reference independent of the shader's softness formula.
+    let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
+    let mut def = b3_default_world_def();
+    def.enable_sleep = false;
+    def.enable_continuous = false;
+    let world = b3_create_world(gpu, &def);
+    let ground = b3_create_body(world, &b3_default_body_def());
+    let mut body_def = b3_default_body_def();
+    body_def.body_type = BodyType::Dynamic;
+    body_def.position = [0.0, -1.0, 0.0];
+    body_def.linear_damping = 0.0;
+    body_def.angular_damping = 0.0;
+    let body = b3_create_body(world, &body_def);
+    assert_ne!(b3_create_sphere_shape(
+        body, &b3_default_shape_def(), &Sphere { center: [0.0; 3], radius: 0.5 }
+    ).index1, 0);
+    let mut joint = b3_default_distance_joint_def();
+    joint.body_a = ground;
+    joint.body_b = body;
+    joint.length = 1.0;
+    assert_ne!(b3_create_distance_joint(world, &joint).index1, 0);
+    b3_world_step(world, 1.0 / 60.0, 1);
+    let position = b3_body_get_position(body);
+    let rotation = b3_body_get_rotation(body);
+    let velocity = b3_body_get_linear_velocity(body);
+    let angular_velocity = b3_body_get_angular_velocity(body);
+    assert!(position.iter().chain(&rotation).chain(&velocity).chain(&angular_velocity)
+        .all(|v| v.is_finite()), "nonfinite distance state");
+    assert!(!b3_world_physics_invalid(world));
+    assert!(b3_world_gpu_fail(world).is_null());
+    let stats = pollster::block_on(b3_world_live_step_stats(world)).expect("step stats");
+    assert!(!stats.capacity_loss(), "{}", stats.sticky.loss_detail());
+    const CPU_REFERENCE_Y: f32 = -1.00028491;
+    const ABSOLUTE_TOLERANCE: f32 = 1e-5;
+    let error = (position[1] - CPU_REFERENCE_Y).abs();
+    println!("distance first step: GPU Y={:.9}, CPU Y={:.9}, abs_error={:.9}",
+        position[1], CPU_REFERENCE_Y, error);
+    assert!(error <= ABSOLUTE_TOLERANCE,
+        "one-substep rigid distance differs from independent CPU: {position:?}");
+    b3_destroy_world(world);
+}
+
+#[test]
 fn distance_joint_box_stays_bounded() {
     let gpu = pollster::block_on(GpuDevice::new(None)).expect("gpu");
     let mut def = b3_default_world_def();

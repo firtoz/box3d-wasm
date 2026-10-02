@@ -1,0 +1,232 @@
+{
+  "ordinary-drag-isolated": {
+    "frames": 1320,
+    "paired_body_observations": 6600,
+    "source_assertion_result": "PASS",
+    "derived_first_screen_exceedances": {},
+    "derived_peaks": {
+      "position": {
+        "value": 0,
+        "frame": 0,
+        "body": 0
+      },
+      "quaternion_chord": {
+        "value": 0,
+        "frame": 0,
+        "body": 0
+      },
+      "velocity": {
+        "value": 0,
+        "frame": 0,
+        "body": 0
+      },
+      "held_position": {
+        "value": 0,
+        "frame": 0,
+        "body": 0
+      },
+      "held_quaternion_chord": {
+        "value": 0,
+        "frame": 0,
+        "body": 0
+      },
+      "held_velocity": {
+        "value": 0,
+        "frame": 0,
+        "body": 0
+      }
+    },
+    "scope": "Trace diagnosis uses printed9significant-digit values; original executable assertions/exit remain authoritative. No changed physical tolerance or full-state claim."
+  },
+  "native-drag-isolated": {
+    "frames": 1320,
+    "paired_body_observations": 6600,
+    "source_assertion_result": "PASS",
+    "derived_first_screen_exceedances": {},
+    "derived_peaks": {
+      "position": {
+        "value": 0,
+        "frame": 0,
+        "body": 0
+      },
+      "quaternion_chord": {
+        "value": 0,
+        "frame": 0,
+        "body": 0
+      },
+      "velocity": {
+        "value": 0,
+        "frame": 0,
+        "body": 0
+      },
+      "held_position": {
+        "value": 0,
+        "frame": 0,
+        "body": 0
+      },
+      "held_quaternion_chord": {
+        "value": 0,
+        "frame": 0,
+        "body": 0
+      },
+      "held_velocity": {
+        "value": 0,
+        "frame": 0,
+        "body": 0
+      }
+    },
+    "scope": "Trace diagnosis uses printed9significant-digit values; original executable assertions/exit remain authoritative. No changed physical tolerance or full-state claim."
+  },
+  "ordinary-drag-ground": {
+    "frames": 3060,
+    "paired_body_observations": 15300,
+    "source_assertion_result": "FAIL",
+    "derived_first_screen_exceedances": {
+      "held_position": {
+        "frame": 227,
+        "body": 0,
+        "value": 0.017164716209872057,
+        "limit": 0.005
+      },
+      "velocity": {
+        "frame": 228,
+        "body": 0,
+        "value": 0.7306303332674985,
+        "limit": 0.5
+      },
+      "held_velocity": {
+        "frame": 228,
+        "body": 0,
+        "value": 0.7306303332674985,
+        "limit": 0.1
+      },
+      "position": {
+        "frame": 525,
+        "body": 1,
+        "value": 0.02776779586250669,
+        "limit": 0.025
+      },
+      "quaternion_chord": {
+        "frame": 566,
+        "body": 1,
+        "value": 0.026224159134552484,
+        "limit": 0.025
+      },
+      "held_quaternion_chord": {
+        "frame": 838,
+        "body": 2,
+        "value": 0.011417709987148075,
+        "limit": 0.01
+      }
+    },
+    "derived_peaks": {
+      "position": {
+        "value": 0.38989985294520013,
+        "frame": 2380,
+        "body": 2
+      },
+      "quaternion_chord": {
+        "value": 0.351633476587121,
+        "frame": 2378,
+        "body": 2
+      },
+      "velocity": {
+        "value": 2.5778170064798016,
+        "frame": 2325,
+        "body": 2
+      },
+      "held_position": {
+        "value": 0.1474461181834756,
+        "frame": 2160,
+        "body": 2
+      },
+      "held_quaternion_chord": {
+        "value": 0.10075118987886626,
+        "frame": 2524,
+        "body": 3
+      },
+      "held_velocity": {
+        "value": 2.5778170064798016,
+        "frame": 2325,
+        "body": 2
+      }
+    },
+    "scope": "Trace diagnosis uses printed9significant-digit values; original executable assertions/exit remain authoritative. No changed physical tolerance or full-state claim."
+  },
+  "native-drag-ground": {
+    "frames": 3060,
+    "paired_body_observations": 15300,
+    "source_assertion_result": "FAIL",
+    "derived_first_screen_exceedances": {
+      "held_position": {
+        "frame": 227,
+        "body": 0,
+        "value": 0.017164657090186382,
+        "limit": 0.005
+      },
+      "velocity": {
+        "frame": 228,
+        "body": 0,
+        "value": 0.7306270492722513,
+        "limit": 0.5
+      },
+      "held_velocity": {
+        "frame": 228,
+        "body": 0,
+        "value": 0.7306270492722513,
+        "limit": 0.1
+      },
+      "position": {
+        "frame": 525,
+        "body": 1,
+        "value": 0.027767737751095006,
+        "limit": 0.025
+      },
+      "quaternion_chord": {
+        "frame": 566,
+        "body": 1,
+        "value": 0.0262398283885026,
+        "limit": 0.025
+      },
+      "held_quaternion_chord": {
+        "frame": 838,
+        "body": 2,
+        "value": 0.011417715956776209,
+        "limit": 0.01
+      }
+    },
+    "derived_peaks": {
+      "position": {
+        "value": 0.38982050664880835,
+        "frame": 2380,
+        "body": 2
+      },
+      "quaternion_chord": {
+        "value": 0.35161109937359863,
+        "frame": 2378,
+        "body": 2
+      },
+      "velocity": {
+        "value": 2.577753711737821,
+        "frame": 2325,
+        "body": 2
+      },
+      "held_position": {
+        "value": 0.14745147366795988,
+        "frame": 2160,
+        "body": 2
+      },
+      "held_quaternion_chord": {
+        "value": 0.1007030380715185,
+        "frame": 2524,
+        "body": 3
+      },
+      "held_velocity": {
+        "value": 2.577753711737821,
+        "frame": 2325,
+        "body": 2
+      }
+    },
+    "scope": "Trace diagnosis uses printed9significant-digit values; original executable assertions/exit remain authoritative. No changed physical tolerance or full-state claim."
+  }
+}

@@ -1,0 +1,7 @@
+
+running 1 test
+test gpu_invariants::distance_joint_one_substep_matches_cpu_reference ... distance first step: GPU Y=-1.000284910, CPU Y=-1.000284910, abs_error=0.000000000
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 403 filtered out; finished in 0.73s
+
