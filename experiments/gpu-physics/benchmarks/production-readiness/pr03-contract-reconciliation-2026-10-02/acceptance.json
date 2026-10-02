@@ -1,0 +1,73 @@
+{
+  "scope": "PR03 contract and executable known-failure baseline only",
+  "status": "PASS",
+  "engine_release_status": "OPEN",
+  "new_process_budget": {
+    "new_engine_processes": 0,
+    "new_builds": 0,
+    "new_GPU_diagnostics": 0,
+    "new_candidates": 0,
+    "retries": 0,
+    "headline_timing": 0
+  },
+  "requirements": [
+    {
+      "requirement": "Named executable commands/selectors, geometry/defaults, durations and unchanged limits for all required capabilities",
+      "status": "PASS",
+      "evidence": [
+        "qualification-contract.json",
+        "../pr03-rust-baseline-2026-10-02/release-contract.md",
+        "hash-linked original source fixtures/protocols/evaluators"
+      ]
+    },
+    {
+      "requirement": "Known failures separated from historical/current/final passes",
+      "status": "PASS",
+      "evidence": [
+        "qualification-contract.json:baseline_cases,known_failures",
+        "README.md:Preserved baseline"
+      ],
+      "final_build_physical_passes": 0
+    },
+    {
+      "requirement": "Four required backend/ordering configurations and complete capture contract",
+      "status": "PASS",
+      "evidence": [
+        "qualification-contract.json:required_configurations,selector_applicability,capture_obligations"
+      ],
+      "implementation_qualification": "OPEN in PR05\u2013PR07"
+    },
+    {
+      "requirement": "Actual source inputs, CPU oracle, binary hashes, producer/build/link receipts, toolchains, adapter/driver",
+      "status": "PASS",
+      "evidence": [
+        "qualification-contract.json:references,compiled_inputs,baseline_cases",
+        "unchanged original archived receipts"
+      ]
+    },
+    {
+      "requirement": "Future finite budgets and stop/retain rules",
+      "status": "PASS",
+      "evidence": [
+        "qualification-contract.json:future_experiment_rule",
+        "README.md:Offline verification and experiment rules"
+      ]
+    }
+  ],
+  "limitations": [
+    "Both original distance firststep/lane1 absolute1e-5 failure beforewarmstart toggles; later branchnotrun",
+    "Both original strict ragdoll first60frame0.006m trajectory screen fails0.063585767m; physical600screen passes separately",
+    "Both loadeddrag3060 originalheldposition/totalpose/velocity screens fail,firstheldpositionframe227/body0;releaseendpoints pass separately",
+    "Ordinary/native600Rain900second watchdogs/nohealthfile remain incomplete",
+    "Current ordinary180Rain residualscreens failfirststep107; no recycling or finalpass",
+    "Original order0contactorder-storage assertion fails; sourceapplies toorder1 and unchangedorder1controls pass",
+    "Original hardcodedgeneration1sleeper suite failures retained; correctedcfg(test)fixture passesfour backend\u00d7order checks",
+    "Both exhausted scheduling campaigns remain closed; mixedtarget unmet",
+    "Required order1fullscene/fiveprocess/fullstate/cleanbuild/performance/presentation qualification notperformed",
+    "Current core capture does not serialize WorldRegistry.epochs/root/child epoch arrays",
+    "No full C metadata serializer in Rust world capture",
+    "Diagnostic spherical/revolute cache setters use generation1 after metadata validation; recreated worlds unqualified",
+    "Rust world indices extend to65535 while C metadata accepts1..63; range/failure reconciliation remainsPR05",
+    "Compact/lossless fullsemantic coverage and corruption/negative controls stillPR07"
+  ]
+}

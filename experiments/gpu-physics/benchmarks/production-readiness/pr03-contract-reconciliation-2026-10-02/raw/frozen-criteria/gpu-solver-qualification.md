@@ -21,15 +21,15 @@ is not promised. Byte-identical pose traces alone do not establish full-state
 repeatability.
 
 Current production queue: [readiness roadmap](goals/gpu-production-readiness.md).
-On 2026-10-02 the named PR01/PR02 functional controls/API gates pass on retained
-source `abc0a54`. The [PR03 contract reconciliation](../experiments/gpu-physics/benchmarks/production-readiness/pr03-contract-reconciliation-2026-10-02/README.md)
-closes contract/baseline preparation with 127 original processes, 700 verified
-upstream raw files, unchanged limits, four final configurations and explicit
-future-state omissions. It does not certify physical or release readiness.
-Rain, loaded dragging, the distance first-step discrepancy and strict ragdoll
-trajectory screens remain failed/incomplete. PR04 is next. No new engine/build/
-headline timing run occurred in reconciliation. Older candidate/job notes below
-are historical evidence, not current process state or final-build qualification.
+On2026-10-02 the named PR01/PR02 functional controls/API contracts pass on retained
+source `abc0a54`, with [current API evidence](../experiments/gpu-physics/benchmarks/production-readiness/pr02-current-acceptance-2026-10-02/README.md).
+[PR03 contract preparation](../experiments/gpu-physics/benchmarks/production-readiness/pr03-contract-baseline-2026-10-02/README.md)
+records exact current selectors/source identities and unresolved original
+physics/state/performance criteria; PR03 stays open pending a concrete executable
+baseline/configuration applicability. The current baseline reports above retain
+new simulations and failures; no headline timing has run. The following older candidate/job notes are historical evidence, not current
+process state or final-build qualification. Rain and loaded-dragging failures,
+the distance first-step discrepancy and complete future-state gates remain open.
 
 ## Coverage and current evidence
 

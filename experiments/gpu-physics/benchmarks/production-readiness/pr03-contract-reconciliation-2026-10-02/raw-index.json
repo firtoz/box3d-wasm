@@ -1,0 +1,26 @@
+{
+  "raw/finalize.py": {
+    "sha256": "cd838cace0d0ef001d256dc8184b6bbf635489551777e52092b1a4be07296758",
+    "bytes": 4255
+  },
+  "raw/freeze.py": {
+    "sha256": "8f7709905b505a80ebd5c81cfe9643cc137541f26d4d3a713f1952af03cde37d",
+    "bytes": 14234
+  },
+  "raw/frozen-criteria/gpu-solver-goal.md": {
+    "sha256": "57e9c5760d682b45bdfaec338d01a32015e415373adf82958965e944f027b80f",
+    "bytes": 218056
+  },
+  "raw/frozen-criteria/gpu-solver-qualification.md": {
+    "sha256": "d8172ee0947779bed48fd1355abfb224c373884b2e8c0deb584bf496c7f11a5d",
+    "bytes": 416134
+  },
+  "raw/initial-draft-contract.json": {
+    "sha256": "52f367668609210ad0bcfa3cb8681d3efe42aff625410d0fbaaf97758c22f7e3",
+    "bytes": 548176
+  },
+  "raw/metadata-repairs.md": {
+    "sha256": "2f72b2064905cd75dfc0464c3631a12a0cbf70bb5ef6c046a70e1da42481cf28",
+    "bytes": 954
+  }
+}

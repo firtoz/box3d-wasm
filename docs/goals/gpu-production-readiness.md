@@ -6,7 +6,7 @@ whole objective, maintain this file, and use the goal-scratchpad skill. This is
 the authoritative production-readiness queue for `feat/gpu`.
 
 Updated: 2026-10-02. Status: active; full roadmap and verified milestone commit/push authorized by the submitted goal.
-Next item: **PR03 — freeze the release qualification contract and baseline, starting with current fixture/criterion applicability and known failures**.
+Next item: **PR04 — resolve the earliest physical failure: the distance-joint first-step discrepancy, then required ragdoll/drag/Rain failures**.
 
 ## Objective and release boundary
 
@@ -93,7 +93,7 @@ queue and recovery record. No separate competing production backlog.
   Rain/physical/runtime/full-state/clean-build/performance remainsPR03–PR08;
   Village omission and sample-wide widgets/query appearance remainPR09–PR11.
 
-- [ ] **PR03 — Freeze the release qualification contract and baseline.** Reconcile
+- [x] **PR03 — Freeze the release qualification contract and baseline.** Reconcile
   the existing fixed fixture matrix and evidence with current sources. Record
   named commands/selectors, geometry/defaults, durations, physical limits,
   capture fields and backend/policy combinations for every required capability.
@@ -104,13 +104,19 @@ queue and recovery record. No separate competing production backlog.
   distance-joint first-step discrepancy. Freeze source inputs, CPU oracle,
   binaries, build receipts, toolchain and adapter/driver. Every later experiment
   gets a finite recorded budget and stop/retain rule before execution.
-  **Evidence:** [metadata preparation](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-contract-baseline-2026-10-02/README.md);332 source inputs,18 exact Rust fixture selectors/28 numerical selectors/native replay selector. No device/build/timing runs. Full commands/criteria/CPU-oracle/executable baseline and finite evaluation budget remain open; this does not close PR03.
-  [Current fixture baseline](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-baseline-fixtures-2026-10-02/README.md) preserves121rawfiles:10fixturelinks,26first-process observations, original failedCPUlink and separate dependency repair. BothGPU distance probes retain the original first-step1e-5failure; ragdoll physical/isolated/57posemesh screens pass, original strict0.006m trajectory screen fails0.063585767m. No source/default/tolerance/timing change; fullmatrix/currentRain/loadeddrag/Rust baseline and future-state contract remain open.
-  [Current Rust baseline and reconciled contract](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rust-baseline-2026-10-02/README.md):33processes/199checks,195pass/4retainedfailures;25lossless traces/2864frames and native42replayhits. [Fixed release contract](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rust-baseline-2026-10-02/release-contract.md) preserves original limits/fullfuture-state obligations and explicitly open configuration/fixture applicability, including32768slot finalregression and newregistry/ABI capture audit. Rain/drag baseline retains CPU600 completion and an ordinaryGPU900second timeout; seven previouslyunlaunched cells now run separately. PR03 remainsopen.
-  [Current Rain launch/timeout report](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rain-launch-timeout-2026-10-02/README.md) preserves44rawfiles including complete losslessCPU600/1,948,800body-joint observations, missinglauncher failure and ordinaryGPU900second timeout. NoGPUphysical/performance pass; nativeRain and remainingcontrols are separate.
-  [Remaining drag/order/nativeRain baseline](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-drag-order-native-timeout-2026-10-02/README.md): allseven cells consumed; isolateddrag/order1 pass, loadeddrag fails bothoriginalscreens, nativeRain900second timeout. Thirtyrawfiles include43,800paired-body observations with lossless traces and firstexceedances.
-  [Generation-safe sleeper fixture](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-sleeper-fixture-2026-10-02/README.md): original400+1 check passes allfour backend×order0/1 cells after correcting onlycfg(test)publichandle lookup and adding stale/live validity controls. Fortythreerawfiles retain twosuccessful builds/originalcopypermissionfailure/zerofirstlaunches/unchangedbinary permissionrepair; no production/default/scene change. Originalbaseline failures remain preserved. PR03 remainsopen.
-  [Rain phase/prefix diagnosis](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rain-phase-diagnostic-2026-10-02/README.md): three bounded ordinary30/30/180 diagnostics complete, exact30frame observer subset equality;54rawfiles preserve lossless records and original harness failure.180frame CPU-relative residual screens fail firststep107 with272160matched joint observations; health accounts for99.798% of broadphysics clocks, internalattribution stillopen. No production/default/tolerance change,600step/recycling/finalrepeat/performance pass.
+  **Evidence:** [requirement audit](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-contract-reconciliation-2026-10-02/acceptance.json),
+  [frozen contract and baseline](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-contract-reconciliation-2026-10-02/README.md).
+  Offline verification checks 127 original process observations, 700 upstream
+  raw files, 107 original compiled inputs, 101 required Rust selectors,
+  13 trace/14 C recipes and four final backend/ordering configurations.
+  Original distance, loaded-drag, strict trajectory and Rain failures/timeouts
+  remain explicit PR04 inputs. The only current source difference from the
+  original baseline is the independently qualified cfg(test) sleeper correction.
+  Order-storage applies to mode 1; existing slot-32768 coverage remains mandatory
+  in all four final configurations. Complete registry/ABI capture obligations
+  and known omissions are frozen; implementation/qualification stays PR05–PR07.
+  This closes contract/baseline preparation, not physical or release readiness.
+  No new build, engine, candidate, diagnostic, retry or timing run.
 
 - [ ] **PR04 — Resolve required physical correctness failures.** Work from the
   earliest demonstrated defect and smallest faithful reproducer. Close Rain's
@@ -329,178 +335,87 @@ rely on conversation history as the sole record of a pending experiment.
 
 ## Current recovery record
 
-Read this section before continuation; the checklist above remains authoritative.
-Historical reports preserve their original failures, budgets and source snapshots.
-Their old next actions and job handles do not authorize a new campaign.
+Read this section before continuation; the ordered checklist is authoritative.
+Older reports preserve all original failures, budgets and source snapshots.
+Their former next actions/job handles do not authorize another campaign.
 
 | Field | Verified value |
 | --- | --- |
 | Workspace / branch | `/home/firtoz/work/2026/box3d-wasm`, `feat/gpu` |
-| Authorization | Active full roadmap; implementation and verified milestone commit/push authorized by the submitted goal |
-| Latest evidence milestone | `d1208e32fcb0f03fa1699801d78c38f0d108319f` is pushed and remote-synchronized. Rain phase/prefix report retains54indexed rawfiles/68,998,785bytes. Three bounded ordinary diagnostics complete;30frame observer semantics match exactly,180frame residual screens fail first at step107. Production/default/scene sources unchanged. Previous milestone77b75e0 and recoverya90705c are pushed. All54indexed rawfiles verified byte-for-byte in Git staging; no production/source change |
-| Retained production source | `abc0a54a3ce3b285c9984f2c7c6b5baefff00d1b`, pushed. PR01 refresh `c2fd69f`, PR02 acceptance `1304839`, PR03 metadata `5a40f05` are pushed. Invocation revisions are context, not compiled source identity |
-| Current item | **PR03 remains open.** Baselines and failures are preserved. The generation-safe sleeper passes all four backend/order checks; both order1 storage controls pass. Loaded dragging, distance and strict trajectory screens still fail. Both600-step GPU Rain attempts are incomplete. Current ordinary180-step partial record is complete, with original residual screens failing first at step107. Full matrix/configuration and future-state capture requirements remain open |
-| Current jobs | All owned jobs terminal. Original phase runner84941 stopped1 after successful compile/link/control30 on tuple/list harness bug; retained unchanged. Remaining-cell driver51549 completed0 with observer30/phase180, no builds/repeats. Host-prefix analysis22530 completed0 while original evaluator correctly returns1 for failed residual screens. Offline verifiers36396/74714 completed0. Never restart these closed budgets |
-| Current compiled libraries | Ordinary SHA`aba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6`; native SHA`c8a16154cb576c49e7bd7fd8e030319601192b466d9ddb19305bd043aa6a7267`. Production inputs remain as their producer receipts/source archive. Only cfg(test)src/gpu_invariants.rs is now changed by the separately frozen fixture correction; oldcurrentbaseline archived exact107inputs remain applicable to original binaries. No production API/shader or viewer source changed |
-| Independent CPU | Full archive SHA`b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c`,119actual source/object pairs match CPU applicability/origin receipts. Combined fixtures use separate prefixed CPU archive. Older parent Rust receipts do not identify current GPU code |
-| Hardware / policy | i9-9900K / NVIDIA GeForce RTX4070SUPER, driver610.57.04, actual NVIDIA Vulkan. Ordinary/native qualified separately. Current PR03 cells use efficient ordering0; scheduling/default policies unchanged |
-| Scope protection | Box3D/WASM unchanged. Mixed scheduling target remains **unmet**, all55trials preserved; both historical scheduling budgets exhausted. Do not resume older Rain/scaling/benchmark next actions. New Rain work is required under this roadmap's separately frozen PR03–PR04 protocols |
+| Authorization | Active full roadmap; verified milestone commit/push authorized by the submitted goal |
+| Latest published milestone | `d1208e32fcb0f03fa1699801d78c38f0d108319f` and recovery `c9839fd` pushed; initial fetch this turn finds origin synchronized. PR03 reconciliation is prepared locally for commit/push |
+| Retained production source | `abc0a54a3ce3b285c9984f2c7c6b5baefff00d1b`, pushed. Invocation HEAD is context only; actual 107 source inputs and producer receipts identify baseline binaries |
+| Current item | **PR03 contract/baseline is complete; PR04 physical correctness is next.** No failing screen reclassified as a pass. Distance first step, strict ragdoll trajectory, loaded dragging and Rain remain unresolved |
+| Current jobs | All owned engine/build/diagnostic jobs terminal. Reconciliation offline verification passed; it ran no engine/build. Do not restart closed campaigns |
+| Current libraries | Ordinary SHA `aba7a834443ba7174d92bcf39217929ce9af83adc28ea9c244943b5e72eb6ec6`; native SHA `c8a16154cb576c49e7bd7fd8e030319601192b466d9ddb19305bd043aa6a7267`. Current sole source difference is cfg(test) `src/gpu_invariants.rs`; no production API/shader/viewer change |
+| Independent CPU | Full archive SHA `b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c`, 119 actual source/object pairs; combined fixtures use separate prefixed CPU archive |
+| Hardware / policy | i9-9900K / NVIDIA RTX 4070 SUPER, driver 610.57.04, NVIDIA Vulkan. Ordinary/native and ordering 0/1 remain separate; scheduling/default policies unchanged |
+| Scope | Box3D/WASM unchanged. Mixed scheduling target **unmet**, all 55 trials retained; both old scheduling budgets exhausted. New Rain work is required under this roadmap, not a resumption of historical jobs |
 
-### Latest closed budgets and observations
+### Frozen evidence and remaining failures
 
-[Rain phase/prefix diagnosis](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rain-phase-diagnostic-2026-10-02/README.md)
-retains54indexedrawfiles/68,998,785bytes with exactlossless30/30/180 GPU records
-and a disclosed180frame CPU600 prefix. Original protocolSHA
-`f5bec82c1a0f693cea44243c169d824910aa7a3e70cd3caa8842fb2162044aaf`
-consumes1C++compile/1link/3ordinarydiagnostic processes,0candidates/retries/timing.
-Original tuple/list harness rejection after passing control is retained; separate
-remaining protocolSHA`14b59dee27fc5a43a5a31840c6c334f6ff846a82093988e7b94858caea731f3a`
-uses0builds/only2unlaunched cells. Ordered30frame observer semantics match exactly;
-180frames validate272160body/joint observations each. Original residual screens
-fail after exactCPUcreation/typedparameter matching; firstfailurestep107.
-Health dominates broadphysics interval but internal cost attribution remainsopen.
-Alljobs terminal; no repeated trial, productionchange or headlineperformanceclaim.
+The [PR03 reconciliation](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-contract-reconciliation-2026-10-02/README.md)
+is the compact baseline/criterion index. It verifies all 700 original indexed raw
+files without a GPU and retains 127 original processes, unchanged commands and
+results. Physical/state/build/performance/presentation acceptance remains open.
+The [original fixed criterion table](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rust-baseline-2026-10-02/release-contract.md)
+and frozen solver criteria preserve limits and historical rejected hypotheses.
 
+- Distance: both backends abort at original step 0/lane 1, GPU Y=-1.00004232,
+  CPU Y=-1.00028491, absolute 1e-5. Later distance cases are unexecuted.
+- Ragdolls: 600-step physical and isolated/mesh checks pass; original strict
+  first-60 trajectory screen fails 0.063585767 m versus 0.006 m.
+- Loaded dragging: original 3,060-step screens fail both backends; first held
+  position exceedance frame 227/body 0, peak about 0.14745 m versus 0.005 m.
+  Isolated/released-endpoint passes do not replace the failed screens.
+- Rain: CPU 600 complete (1,948,800 body/joint observations); ordinary/native
+  900-second attempts time out without health files. Separately bounded
+  ordinary 30/30/180 diagnostics complete; observer subset matches exactly.
+  Original residual screens first fail at frame 106/completed step 107, with
+  272,160 matched joint observations over 180 frames and no recycling.
+  Health is 99.798% of broad physics diagnostic clocks; internal wait/CCD/collector
+  attribution is open. These clocks are not headline performance.
+- Rust: 33 processes/199 checks, 195 pass/four original failures retained.
+  Corrected generation-safe sleeper passes four backend×ordering cells at
+  original 400+1 duration. Order-storage requires mode 1 and unchanged controls
+  pass there. Slot 32768 was not baselined and remains mandatory at final release.
+- Capture/runtime: schema24 does not prove registry epoch/root/child arrays or
+  full C metadata. Generation-1 diagnostic cache setters and Rust/C world-index
+  range mismatch remain concrete PR05/PR07 audit inputs. PR06 clean-build and
+  final five-fresh-process qualification are still required.
 
-[CPU Rain / ordinary GPU timeout](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rain-launch-timeout-2026-10-02/README.md)
-retains44indexedrawfiles/252007450bytes. Offlinevalidation restores/checks exact
-CPU600originalhealth, all1948800body/joint observations and source-linked
-evaluators/producerreceipts. The ordinaryGPU900second timeout has nohealthfile
-and remainsincomplete. No repeated trial or performanceclaim.
-
-
-[Current PR03 portable report](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-baseline-fixtures-2026-10-02/README.md)
-contains121indexed rawfiles, original sources/protocols, actual link receipts,
-producer receipts, all outputs and unchanged evaluators. Offline validator
-passes and every indexed byte was verified in Git staging. Derived evaluator
-imports suppress bytecode so repeated offline checks preserve the raw index.
-
-- Original build protocol `b84f3265…`: three sharedC commands pass, firstCPU
-  ragdoll link fails because the harness chose the GPU geometry-only archive;
-  nine links remain unlaunched. Runner46787 terminalexit1. Preserve original
-  receipt/log; no engine ran.
-- Separate dependency repair protocol `0b745a9f…`: reuse three successfulC
-  objects, full independent CPU archive, ten links/twelve translation units;
-  allten binaries link, assertions active. Runner84255 terminalexit0. No
-  Rust/viewer build or engine execution in either build budget.
-- Distance baseline protocol `37a6d790…`: two first processes, ordinary/native
-  combined. Both abort signal6 at distance step0/lane1, GPUY=-1.00004232 versus
-  CPUY=-1.00028491, outside original1e-5. Driver80345 terminalexit0 after both
-  planned cells; child failures remain failures. No240step distance completion
-  or later four-substep distance case is inferred.
-- Ragdoll/mesh protocol `d3a4df17…`:24first processes,8CPU+8ordinary+8native,
-  allcomplete; driver31931 terminalexit0. Both backends pass unchanged600step
-  ragdoll physical limits, four120step isolated cases,60step collision-free
-  ragdolls and45grid/12torus mesh poses. Original full ragdoll reference screen
-  fails first60step position error0.063585767m versus0.006m on both. Its later
-  strict visual checks are unexecuted. Retain this independently of physical
-  passes; no tolerance changed, cause unproven.
-
-Allfour new protocols freeze zero candidates/retries/headline timing. Total26
-engine processes are first baseline observations, not final five-run/full-state
-release qualification. Incidental clocks never enter performance charts. Do
-not repeat completed cells or extend these closed budgets.
+All original campaign budgets are closed. Detailed protocols, receipts, hashes,
+failures, raw indexes and validators remain in their linked portable reports.
+Local artifacts are reusable only after checking actual binary/input hashes;
+ignored executables are not required for offline evidence verification.
+No unchanged retries or extension of prior watchdogs are authorized by this record.
 
 ### Next discriminating work
 
-1. Finish PR03's remaining configuration/fixture/capture applicability record.
-   The new [Rain phase/prefix report](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rain-phase-diagnostic-2026-10-02/README.md)
-   validates offline; all three diagnostic cells and the single host-prefix
-   analysis are complete. Preserve required0/1 configurations without current
-   completed evidence as open. Current partial180-step Rain has no slot recycling
-   and cannot substitute for600-step/five-run/future-state qualification.
-2. Before another Rain engine run, audit the producer/consumer distinction and
-   freeze a distinct attribution hypothesis with finite budget. The nested health
-   interval accounts for99.798% of broad physics clocks in the180-step diagnostic.
-   It includes possible GPU wait/mirror/deferred CCD/collector work; later pick
-   query clocks cannot distinguish those costs. The [source-clock audit](../../experiments/gpu-physics/benchmarks/production-readiness/pr03-rain-phase-diagnostic-2026-10-02/source-clock-audit.md)
-   lists the actual paths. No solver/CCD/collector cause or headline gain is yet
-   proved. Never rerun the closed30/30/180 cases or extend old900second watchdogs.
-3. After PR03, address the earliest required physical failure under PR04, reading
-   historical rejected experiments first. Current distance firststep and strict
-   ragdoll trajectory failures remain; loaded dragging first exceeds held position
-   at frame227/body0. Rain's unchanged residual screens now first fail at
-   frame106/step107 with matched identities/parameters,48anchor/117angular/
-   919cone/2lower/1uppertwist failed observations over180steps. Preserve all failed
-   screens, including earlier600-step timeouts. Diagnostic generation1 cache
-   setters and new registry/ABI future-state coverage remain PR05/PR07 audit work.
+1. Under PR04, resolve the distance first-step defect using the unchanged tiny
+   combined CPU/GPU fixture. Source audit identifies the rigid-distance row's
+   missing timestep hertz clamp: upstream `b3PrepareJoint` clamps 60 Hz to 15 Hz
+   at dt 1/60, while the GPU branch currently uses 60 Hz directly. Its shared
+   `joint_softness` helper already implements the upstream clamp. Freeze a
+   bounded correction/verification protocol before build or device work; retain
+   all original limits and failures. No candidate has been built or run yet.
+2. If a candidate passes original full distance and relevant regression checks
+   on both backends, record every affected supported scene with real CPU first
+   before any solver commit. Restore rejected production changes and preserve
+   unfavorable evidence. PR04 remains open until all required failures close.
+3. Then address strict ragdoll/loaded dragging/Rain with smallest faithful
+   reproducers and finite distinct budgets. For Rain, separate producer GPU wait
+   from mirror/deferred host CCD/collector cost before another full run; never
+   rerun the closed 30/30/180 cells or extend old 900-second attempts.
 
-Current Rust campaign is terminal: driver8018 exit0,33processes/199checks,
-195pass/4retainedfailures;25complete lossless traces/2864frames and42native
-replayhits. Exact99ordinary/100native selectors include29currentCCD perbackend
-and28precision, originalmixed/dense/independent/transition/capacity checks.
-No builds/candidates/retries/headline timing. The current report's100rawfiles
-validate without ignored binaries or aGPU. Newfixed releasecontract records
-original limits andfullfuture-state obligations; PR03 remainsopen.
-
-Rain/drag originallauncher attempt33069 terminalexit1 beforeanyengineprocess:
-`xvfb-run` is unavailable. Originalprotocol/driver/failure preserved; no CPU/GPU
-case consumed. Separately frozen display-repair uses the previously successful
-bundledXvfb SHA`5bfd315a8c7bc626d0b183d176e130c34f910a4a1279d9d53ea45769f62a3351`,
-nine unchangedenginecases/threeisolatedservers/zero builds/candidates/retries/
-headline timing. Repairprotocol SHA
-`a86ba2c824bbc09a10e0ddd613d24aea058077df1c59734ea24e7b45948a636e`.
-CPUhealth1203549772bytes SHA
-`48918163f059dcbca3c5f8c067191442581eb9cb8510170c9ea3171a25879cf6`.
-Lossless gzip1 is251743429bytes in six ≤48MiBparts; exactstreamed
-decompression SHA/1203549772bytes verified by cpu-health-roundtrip.json.
-Keep originalraw andeverypart/hash. These are diagnostichealth/lifetime observations, notFPS/timing.
-
-Local immutable firstfixture directories remain
-`experiments/gpu-physics/artifacts/production-readiness/pr03-baseline-builds/`,
-`.../pr03-baseline-cpu-link-repair/`, `.../pr03-distance-baseline/`,
-`.../pr03-ragdoll-mesh-baseline/`. Newcampaigns:
-`.../pr03-rust-baseline/`, `.../pr03-rain-drag-baseline/`(stopped),
-`.../pr03-rain-drag-display-repair/`(stopped aftertimeout),
-`.../pr03-rain-drag-remaining/`(terminal82980),
-`.../pr03-sleeper-fixture/`(terminal99621),
-`.../pr03-sleeper-launch-repair/`(terminal79134/fourpasses). Exactcommands/settings/results are
-also portable in the linkedreports whenpublished. Neverrerun closed drivers.
-Current Rusttestexecutables under `.../pr02-world-lifetime-artifact-repair/`:
-ordinarySHA`597b893bcbbb401866721e1b1b45cb03c58263ae8bee76cbe8af00cdfaef23b9`,
-nativeSHA`34ede43142323516f585d4d236755b8ef46dc6d9e61b6ba51354f379c85aa4a3`.
-Verify actual source/artifact hashes before reuse. Source/epoch capture andPR06
-cleanbuild exceptions remain explicit below.
-
-### Remaining applicability and release boundaries
-
-PR01/PR02 named functional gates are closed, with exact current acceptance
-reports linked in their checklist cells. PR01's additional all-window floor
-screen and archived startup timeout remain failed/incomplete. PR02's32C+20Rust
-processes pass under original assertions: actual16GPU+4host classification;
-the original false GPU-banner harness stop is retained, and onlyone previously
-unlaunched native host case uses the separate remaining budget. Current inventory
-415stateful symbols/376implemented candidates/39explicit exclusions does not
-prove376 independent physical behaviors. Source/archive/link proof is distinct
-from semantic qualification.
-
-Retained lifetime repair uses persistent root/child epochs, generation-safe
-routing/destruction, matching CPU-map cleanup and stale/foreign joint endpoint
-checks. Its72selected Rust checks,120first root/geometry C observations and42
-mapped-cleanup observations remain distinct from broad lifecycle qualification.
-PR05 must reconcile raw Rust world-index range with C metadata/viewer caps and
-exercise concurrency/reentrancy/loss boundaries. PR07 must audit new registry
-root/child epochs and ABI allocation state: schema24 does not yet prove capture
-of every future-relevant field. No promise of complete-state determinism follows
-from pose records or selected110step repeats.
-
-The current four viewer controls pass116actions/44screenshots;52CPU-first clips
-and26reviewed pairs preceded sourceabc0a54. Twelve native300step health cases
-pass. These are functional/scene checks, not complete physics or performance.
-Falling Cubes previews256bodies, not the50000body timing fixture; Mixed Stacks
-has600dynamic/602total bodies. Native graphics used Mesa/Xvfb diagnostically,
-while GPU physics used NVIDIA Vulkan. Such captures cannot establish desktopFPS.
-Use `SKIP_METRICS=1` for new GPU snapshot work. Cached dependencies/NFD and
-post-build dependency audits do not close PR06 clean-build acceptance.
-
-PR09 retains reproduced Village missing GPU compound ground/buildings: unchanged
-shared65536-slot renderer pool cannot flatten both52500-child compounds. Other
-floor samples still need inventory. PR10/PR11 retain sample-wide widgets/raycast
-numeric and visual checks. PR12 must show fresh desktop-only realCPU versus
-ordinary/native GPU charts, with distinct consistent colors, matched exact
-binaries/settings and separately measured renderingFPS/completed-stepms/
-throughput/p95. Laptop validation/data remain deferred. Record every affected
-scene CPU first before solver/visual commits; preserve old clips/datasets.
+PR09–PR12 preserve the user's later requests: floor visibility (Village's shared
+65,536 renderer slots cannot flatten both 52,500-child compounds), sample-wide
+UI/widgets, raycast numeric/visual parity, then fresh desktop-only real CPU versus
+ordinary/native GPU charts. Measure rendering FPS separately from completed-step
+ms/throughput/p95 with matched binaries/settings and distinct consistent colors.
+Diagnostic Mesa/Xvfb graphics with NVIDIA compute cannot establish desktop FPS.
+Laptop validation/data remain deferred. Use `SKIP_METRICS=1` for diagnostic GPU
+snapshots; preserve all existing scenes, clips and datasets.
 
 ### Historical evidence ledger
 
