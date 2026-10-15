@@ -1,0 +1,284 @@
+[
+  {
+    "frame": 1,
+    "kind": 0,
+    "distance": 1000,
+    "phase": 0.0349065848,
+    "origin": [
+      -6.85612535,
+      998.572876,
+      88.4808807
+    ],
+    "translation": [
+      -3.15959406,
+      -1001.05322,
+      -88.9232864
+    ],
+    "CPU_callback": {
+      "hit": true,
+      "shape": [
+        1,
+        0,
+        1
+      ],
+      "fraction": 0.996532321,
+      "point": [
+        -10.0047626,
+        0.990966797,
+        -0.134040833
+      ],
+      "normal": [
+        -0.00476258341,
+        0.990964532,
+        -0.134039894
+      ],
+      "material": 0,
+      "triangle": 0,
+      "child": 0
+    },
+    "GPU_callback": {
+      "hit": false,
+      "shape": [
+        0,
+        0,
+        0
+      ],
+      "fraction": 0,
+      "point": [
+        0,
+        0,
+        0
+      ],
+      "normal": [
+        0,
+        0,
+        0
+      ],
+      "material": 0,
+      "triangle": 0,
+      "child": 0
+    },
+    "CPU_direct": {
+      "hit": true,
+      "fraction": 0.996532321,
+      "point": [
+        -10.0047626,
+        0.990966797,
+        -0.134040833
+      ],
+      "normal": [
+        -0.00476258341,
+        0.990964532,
+        -0.134039894
+      ],
+      "iterations": 0,
+      "triangle": 0,
+      "child": 0
+    },
+    "GPU_direct": {
+      "hit": true,
+      "fraction": 0.996532381,
+      "point": [
+        -10.0047626,
+        0.990905762,
+        -0.134056091
+      ],
+      "normal": [
+        -0.0047633932,
+        0.990961254,
+        -0.134063601
+      ],
+      "iterations": 0,
+      "triangle": 0,
+      "child": 0
+    }
+  },
+  {
+    "frame": 1,
+    "kind": 1,
+    "distance": 50,
+    "phase": 0.0349065848,
+    "origin": [
+      -4.84280634,
+      52.3036461,
+      4.42404413
+    ],
+    "translation": [
+      -0.172913104,
+      -54.784008,
+      -4.8664484
+    ],
+    "CPU_callback": {
+      "hit": true,
+      "shape": [
+        2,
+        0,
+        1
+      ],
+      "fraction": 0.942292392,
+      "point": [
+        -5.00574112,
+        0.681095123,
+        -0.16157341
+      ],
+      "normal": [
+        0,
+        0.972996473,
+        -0.23081997
+      ],
+      "material": 0,
+      "triangle": 0,
+      "child": 0
+    },
+    "GPU_callback": {
+      "hit": false,
+      "shape": [
+        0,
+        0,
+        0
+      ],
+      "fraction": 0,
+      "point": [
+        0,
+        0,
+        0
+      ],
+      "normal": [
+        0,
+        0,
+        0
+      ],
+      "material": 0,
+      "triangle": 0,
+      "child": 0
+    },
+    "CPU_direct": {
+      "hit": true,
+      "fraction": 0.942292392,
+      "point": [
+        -5.00574112,
+        0.681095123,
+        -0.16157341
+      ],
+      "normal": [
+        0,
+        0.972996473,
+        -0.23081997
+      ],
+      "iterations": 0,
+      "triangle": 0,
+      "child": 0
+    },
+    "GPU_direct": {
+      "hit": false,
+      "fraction": 0,
+      "point": [
+        0,
+        0,
+        0
+      ],
+      "normal": [
+        0,
+        0,
+        0
+      ],
+      "iterations": 0,
+      "triangle": 0,
+      "child": 0
+    }
+  },
+  {
+    "frame": 5,
+    "kind": 1,
+    "distance": 1000,
+    "phase": 0.17453292,
+    "origin": [
+      10.578598,
+      998.572876,
+      87.155365
+    ],
+    "translation": [
+      -15.6564903,
+      -1001.05322,
+      -87.5911407
+    ],
+    "CPU_callback": {
+      "hit": true,
+      "shape": [
+        2,
+        0,
+        1
+      ],
+      "fraction": 0.996841252,
+      "point": [
+        -5.02843666,
+        0.681762695,
+        -0.159088135
+      ],
+      "normal": [
+        0,
+        0.973837972,
+        -0.227243394
+      ],
+      "material": 0,
+      "triangle": 0,
+      "child": 0
+    },
+    "GPU_callback": {
+      "hit": false,
+      "shape": [
+        0,
+        0,
+        0
+      ],
+      "fraction": 0,
+      "point": [
+        0,
+        0,
+        0
+      ],
+      "normal": [
+        0,
+        0,
+        0
+      ],
+      "material": 0,
+      "triangle": 0,
+      "child": 0
+    },
+    "CPU_direct": {
+      "hit": true,
+      "fraction": 0.996841252,
+      "point": [
+        -5.02843666,
+        0.681762695,
+        -0.159088135
+      ],
+      "normal": [
+        0,
+        0.973837972,
+        -0.227243394
+      ],
+      "iterations": 0,
+      "triangle": 0,
+      "child": 0
+    },
+    "GPU_direct": {
+      "hit": false,
+      "fraction": 0,
+      "point": [
+        0,
+        0,
+        0
+      ],
+      "normal": [
+        0,
+        0,
+        0
+      ],
+      "iterations": 0,
+      "triangle": 0,
+      "child": 0
+    }
+  }
+]

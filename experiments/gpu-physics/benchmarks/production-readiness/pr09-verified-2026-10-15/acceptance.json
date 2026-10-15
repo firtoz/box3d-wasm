@@ -1,0 +1,89 @@
+{
+  "status": "PASS_PR09_NATIVE_VISUAL_GATE_WITH_EXPLICIT_OPEN_RELEASE_GATES",
+  "date": "2026-10-15",
+  "requirements": [
+    {
+      "requirement": "Inventory every existing CPU catalog, including outside short benchmarks",
+      "status": "PASS_DISPOSITIONS_EXPLICIT",
+      "evidence": [
+        "data/inventory.json",
+        "native-review.md"
+      ],
+      "native": 165,
+      "browser": 174,
+      "oracle": 20,
+      "limits": "174browser variants are mapped/dispositioned; browser runtime is not qualified.13native-counterpart gaps explicit;20nonvisualCPUoracle entries routed toPR04."
+    },
+    {
+      "requirement": "Inspect all native CPU/GPU samples individually",
+      "status": "PASS_BOUNDED_REVIEW",
+      "evidence": "native-review.md",
+      "reviewed": 165,
+      "left": 0,
+      "limits": "Original short default windows, explicit runtime/unavailable dispositions; no blanket final-source or interaction claim."
+    },
+    {
+      "requirement": "Fix all demonstrated floor/render defects and triage performance",
+      "status": "PASS_21_FIXES_1_RESOLUTION",
+      "evidence": "reports/",
+      "heightfield_scenes": [
+        8,
+        39,
+        41,
+        65,
+        91,
+        96,
+        121
+      ],
+      "limits": "Per-item direct calculations, scoped affected reviews and prior source applicability; nativeFPS not inferred from captures."
+    },
+    {
+      "requirement": "CPU-first precommit comparison and before/after evidence",
+      "status": "PASS_EXISTING_VERIFIED_RECORDINGS",
+      "evidence": [
+        "reports/",
+        "compare/index.html"
+      ],
+      "new_capture_runs": 0,
+      "limits": "Only selected byte-identical media published. Full affected-scene captures/protocols remain local; screenshots are approximate stages."
+    },
+    {
+      "requirement": "Preserve rendering repair geometry/defaults/body identity/picking and unrelated local work",
+      "status": "PASS_SCOPED_NATIVE_CHECKS",
+      "evidence": [
+        "reports/VIS03.md",
+        "reports/VIS02.md",
+        "reports/BEH03.md",
+        "reports/PERF04.md"
+      ],
+      "limits": "See each repair; manual/dynamic interaction and full physical qualification remain explicit open gates."
+    },
+    {
+      "requirement": "Route remaining findings to named gates without waiving them",
+      "status": "PASS_ROUTED_NOT_PASSED",
+      "evidence": "README.md#open-release-gates"
+    }
+  ],
+  "repair_counts": {
+    "fixed": 21,
+    "resolved_without_repair": 1,
+    "open_original_groups": 0
+  },
+  "current_source_scope": {
+    "fresh_visual_reviews": 23,
+    "previously_held_defaults_covered": 21,
+    "previously_held_remaining": 0,
+    "prior_applicability_preserved": true,
+    "not_freshly_recaptured": 142,
+    "not_a_new_backlog": true
+  },
+  "open_release_gates": {
+    "PR04": "Rain original120:18anchor/27angular/249cone,0/0twist FAIL; older326physical failures/loadeddragging/CCD/energy/support, FarPyramid evolvedcollapseunconfirmed.",
+    "PR10": "Sample widgets/input/pause/restart/resize/manualdragging/picking and original camera/panel occlusion limits.",
+    "PR11": "Full independent raycast/query matrix, transformed geometry, other existing numeric watches; QRY01 repair is not whole-gate certification.",
+    "PR05_PR07": "Full lifecycle/complete-state/repeatability qualification beyond scoped preserved checks.",
+    "PR08_PR12": "Release native performance, otherdevices/coldstart claims. Browser/recording/player remain outside initial native qualification."
+  },
+  "new_engine_builds_GPU_scene_capture_runs": 0,
+  "full_raw_archives_published": false
+}

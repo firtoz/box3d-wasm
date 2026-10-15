@@ -1,0 +1,32 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "PR09 final acceptance/disposition audit and publish already verified source/docs/selected evidence onfeat/gpu. User Yes go for it authorizes commit/push; PR10notstarted.",
+  "new_engine_builds_GPU_scenes_captures": 0,
+  "offline_checks": {
+    "source_diff_include_graph": 60,
+    "publication_and_acceptance": 60,
+    "portable_link_manifest": 30,
+    "post_stage_preservation": 30
+  },
+  "python_syntax_checks": 1,
+  "git_diff_check": 1,
+  "remote_fetches": 1,
+  "fetch_seconds": 25,
+  "commits": 1,
+  "commit_seconds": 45,
+  "pushes": 1,
+  "push_seconds": 120,
+  "implicit_retries": 0,
+  "temporary_bytes": 268435456,
+  "permanent_selected_evidence_bytes": 67108864,
+  "media_bytes": 50331648,
+  "diagnostic_retained_bytes": 1048576,
+  "git_growth_budget_bytes": 134217728,
+  "free_bytes_before": 1709684277248,
+  "outputs": {
+    "published evidence": "Full inventory/review dispositions+22portable repair summaries, selected CPU-first beforeafter media, compact authentic result excerpts/source hashes. <=64MiB, required permanent review/reproduction record. No rawfullhealth/binaries/cachecopied.",
+    "scratch receipt/source backups": "Ignoredexistingrunroot; <=1MiB diagnostics and task source-before backups only for publication link edits; delete redundant backups after verifiedcommit, keep small receipt.",
+    "Gitobjects": "Source/docs/selectedevidence only; <=128MiBnewobjects; no entiregeneratedtree staged"
+  },
+  "cleanup": "Do not create builds/cachecopies/fullhealth. Reuse retained media, hardlink selected exact bytes where possible. Remove task transient manifest/list files afterstage/commit. Preserve userlocalwork and physical failure inputs. StopafterPR09publication."
+}

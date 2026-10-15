@@ -616,6 +616,9 @@ void gpu_samples_on_shape_created(b3ShapeId shapeId, b3BodyId bodyId, b3ShapeTyp
 								  const b3Capsule* capsule, const b3HullData* hull) __attribute__((weak));
 void gpu_samples_on_mesh_shape_created(b3ShapeId shapeId, b3BodyId bodyId, const b3MeshData* mesh,
 									 b3Vec3 scale) __attribute__((weak));
+void gpu_samples_on_height_field_shape_created(b3ShapeId, b3BodyId, const b3HeightFieldData*) __attribute__((weak));
+void gpu_samples_on_height_field_shape_replaced(b3ShapeId, b3BodyId, const b3HeightFieldData*) __attribute__((weak));
+extern b3BodyId gpu_b3_shape_get_body(b3ShapeId);
 void gpu_samples_on_compound_shape_created(b3ShapeId shapeId, b3BodyId bodyId, const b3CompoundData* compound)
 	__attribute__((weak));
 void gpu_samples_on_shape_destroyed(b3ShapeId shapeId) __attribute__((weak));
@@ -1307,12 +1310,15 @@ B3_API int b3Body_CollideMover(b3BodyId bodyId, b3BodyPlaneResult* bodyPlanes, i
 	return gpu_b3_body_collide_mover(bodyId, bodyPlanes, planeCapacity, origin, mover, filter, bodyTransform);
 }
 
+extern void gpu_b3_shape_set_invoke_contact_creation(GpuShapeId id, bool invoke);
+
 static void configure_shape(GpuShapeId id, const b3ShapeDef* def)
 {
 	if (def == NULL)
 	{
 		return;
 	}
+	gpu_b3_shape_set_invoke_contact_creation(id, def->invokeContactCreation);
 	gpu_b3_shape_set_filter(id, def->filter.categoryBits, def->filter.maskBits, def->filter.groupIndex, false);
 	gpu_b3_shape_set_sensor(id, def->isSensor);
 	gpu_b3_shape_enable_sensor_events(id, def->enableSensorEvents);
@@ -1440,6 +1446,10 @@ B3_API void b3Shape_SetHeightField(b3ShapeId shapeId, const b3HeightFieldData* h
 		if (mirror != NULL)
 		{
 			mirror->data = heightField;
+		}
+		if (gpu_samples_on_height_field_shape_replaced)
+		{
+			gpu_samples_on_height_field_shape_replaced(shapeId, gpu_b3_shape_get_body(shapeId), heightField);
 		}
 	}
 }
@@ -1764,9 +1774,9 @@ B3_API b3ShapeId b3CreateHeightFieldShape(b3BodyId bodyId, const b3ShapeDef* def
 			}
 		}
 	}
-	if (gpu_samples_on_shape_created)
+	if (gpu_samples_on_height_field_shape_created)
 	{
-		gpu_samples_on_shape_created(id, bodyId, b3_heightShape, NULL, NULL, NULL);
+		gpu_samples_on_height_field_shape_created(id, bodyId, heightField);
 	}
 	return id;
 }

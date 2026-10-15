@@ -6,6 +6,21 @@
 #[path = "query_toi.rs"]
 mod toi;
 
+#[path = "query_mesh_sweep.rs"]
+mod mesh_sweep;
+use mesh_sweep::mesh_convex_sweep_bounds;
+
+// Expose the existing conservative calculation to sibling API modules without
+// widening the implementation module or changing its arithmetic.
+pub(super) fn convex_sweep_bounds(
+    shape: &HostShape, start: WorldTransform, end: WorldTransform, com: [f32; 3],
+) -> Option<Aabb> {
+    mesh_convex_sweep_bounds(shape, start, end, com)
+}
+
+#[path = "query_mesh_cast.rs"]
+mod mesh_cast_sweep;
+
 use core::ffi::{c_char, c_void};
 use std::sync::Arc;
 
@@ -79,6 +94,13 @@ pub(super) struct HostBody {
 pub(super) struct HostWorld {
     pub shapes: Vec<HostShape>,
     pub groups: Arc<Vec<Vec<usize>>>,
+}
+
+// Public filter visits retain their full-shape broad-phase bounds and order,
+// while immutable child geometry is owned only for the swept BVH candidates.
+pub(super) struct MoverCastGroup {
+    pub shape: HostShape,
+    pub children: Vec<HostShape>,
 }
 
 #[derive(Clone)]
@@ -368,10 +390,15 @@ pub(super) fn rigid_mesh_time_of_impacts(
         .fold(convex.radius,f32::max);
     let start = v(convex_start.p);
     let end = v(convex_end.p);
-    let bounds = Aabb {
-        lower_bound: (start.min(end) - V3::splat(radius)).to_array(),
-        upper_bound: (start.max(end) + V3::splat(radius)).to_array(),
-    };
+    // A compound part can be far from the body COM. A COM-centered sphere
+    // then admits thousands of unrelated triangles. Enclose the actual rigid
+    // sweep, including rotation and the centroid retry, without changing TOI.
+    // Retain the old conservative path for unsupported/invalid bound inputs.
+    let bounds = mesh_convex_sweep_bounds(convex, convex_start, convex_end, convex_local_center)
+        .unwrap_or(Aabb {
+            lower_bound: (start.min(end) - V3::splat(radius)).to_array(),
+            upper_bound: (start.max(end) + V3::splat(radius)).to_array(),
+        });
     // Preserve the native BVH leaf order: each earlier hit tightens the next
     // root interval, and sorting triangles changes the accepted TOI rounding.
     let candidates = mesh_candidates(mesh, mesh_transform, bounds);
@@ -1043,6 +1070,11 @@ fn shape_cast(
     output
 }
 
+#[cfg(test)]
+std::thread_local! {
+    static QRY01_RAY_TRACE: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
+}
+
 fn ray_cast(target: &Proxy, origin: V3, translation: V3, max_fraction: f32) -> CastOutput {
     let ray = Proxy {
         points: vec![origin],
@@ -1059,6 +1091,12 @@ fn ray_cast(target: &Proxy, origin: V3, translation: V3, max_fraction: f32) -> C
     for iteration in 0..MAX_GJK_ITERS {
         output.iterations += 1;
         let result = distance(target, &shifted, true);
+        #[cfg(test)]
+        if QRY01_RAY_TRACE.with(|trace| trace.get()) {
+            eprintln!("QRY01_ITER iteration={iteration} alpha={alpha:.9e} alpha_bits={} shifted={:?} distance={:.9e} distance_bits={} normal={:?} point_a={:?} point_b={:?}",
+                (alpha as f32).to_bits(), shifted.points[0].to_array(), result.distance, result.distance.to_bits(),
+                result.normal.to_array(), result.point_a.to_array(), result.point_b.to_array());
+        }
         if result.distance <= 4.0 * f32::EPSILON {
             output.hit = true;
             output.fraction = alpha;
@@ -1082,6 +1120,10 @@ fn ray_cast(target: &Proxy, origin: V3, translation: V3, max_fraction: f32) -> C
             return output;
         }
         shifted.points[0] = origin + alpha * translation;
+        #[cfg(test)]
+        if QRY01_RAY_TRACE.with(|trace| trace.get()) {
+            eprintln!("QRY01_ADVANCE denominator={denominator:.9e} alpha={alpha:.9e} alpha_bits={} shifted={:?}", (alpha as f32).to_bits(), shifted.points[0].to_array());
+        }
     }
     output
 }
@@ -1289,6 +1331,7 @@ pub(super) struct QueryIndex {
     pub shapes: Vec<HostShape>,
     pub groups: Arc<Vec<Vec<usize>>>,
     nodes: Vec<BvhNode>,
+    group_bounds: Vec<Aabb>,
 }
 
 #[cfg(feature="replay-diagnostics")]
@@ -1340,10 +1383,15 @@ impl QueryIndex {
             let n = order.len();
             build_bvh(&bounds, &mut order, 0, n, &mut nodes);
         }
+        let groups = Arc::new(public_shape_groups(&shapes, 0..shapes.len()));
+        let group_bounds = groups.iter().map(|group| {
+            group[1..].iter().fold(bounds[group[0]], |a, &i| union_aabb(a, bounds[i]))
+        }).collect();
         Self {
             topology: 0,
             state: 0,
-            groups: Arc::new(public_shape_groups(&shapes, 0..shapes.len())),
+            groups,
+            group_bounds,
             shapes,
             nodes,
         }
@@ -1359,6 +1407,22 @@ impl QueryIndex {
             .map(|shape| aabb_for_proxy(&shape_proxy(shape, None)))
             .collect();
         refit_bvh(&mut self.nodes, 0, &bounds);
+        self.group_bounds = self.groups.iter().map(|group| {
+            group[1..].iter().fold(bounds[group[0]], |a, &i| union_aabb(a, bounds[i]))
+        }).collect();
+    }
+
+    pub(super) fn snapshot_mover(&self, coarse: Aabb, candidates: Aabb) -> Vec<MoverCastGroup> {
+        let (indices, _) = self.aabb_candidates(candidates);
+        self.groups.iter().zip(&self.group_bounds).filter_map(|(group, &bounds)| {
+            if !aabb_overlaps(coarse, bounds) { return None; }
+            // Keep the public filter callback even when no child is a candidate.
+            Some(MoverCastGroup {
+                shape: self.shapes[group[0]].clone(),
+                children: group.iter().filter(|i| indices.binary_search(i).is_ok())
+                    .map(|&i| self.shapes[i].clone()).collect(),
+            })
+        }).collect()
     }
 
     pub fn ray_candidates(&self, origin: V3, translation: V3, max_fraction: f32) -> (Vec<usize>, u32) {
@@ -1573,6 +1637,9 @@ fn mesh_triangle(shape: &HostShape, transform: WorldTransform, index: usize) -> 
 }
 
 fn mesh_candidates(shape: &HostShape, transform: WorldTransform, world_bounds: Aabb) -> Vec<usize> {
+    mesh_candidates_filtered(shape, transform, world_bounds, |_| true)
+}
+fn mesh_candidates_filtered(shape: &HostShape, transform: WorldTransform, world_bounds: Aabb, accept: impl Fn(&super::world::MeshNode)->bool) -> Vec<usize> {
     if shape.mesh_nodes.is_empty() {
         return (0..shape.mesh_triangles.len()).collect();
     }
@@ -1601,6 +1668,7 @@ fn mesh_candidates(shape: &HostShape, transform: WorldTransform, world_bounds: A
         {
             continue;
         }
+        if !accept(node) {continue;}
         if node.data & 3 == 3 {
             let count = node.data >> 2;
             for triangle in node.triangle_offset..node.triangle_offset.saturating_add(count) {
@@ -1690,33 +1758,25 @@ fn mesh_ray_cast(
     output.fraction = max_fraction;
     output.triangle_index = -1;
     output.child_index = -1;
+    let local_origin = ray_inverse_rotate(transform.q, origin - v(transform.p));
+    let local_translation = ray_inverse_rotate(transform.q, translation);
     for index in mesh_candidates(shape, transform, bounds) {
-        let Some([a, b, c]) = mesh_triangle(shape, transform, index) else {
-            continue;
-        };
-        let normal = (b - a).cross(c - a).normalize_or_zero();
-        let denominator = normal.dot(translation);
-        if denominator >= -f32::EPSILON {
-            continue;
-        }
-        let fraction = normal.dot(a - origin) / denominator;
-        if fraction < 0.0 || fraction > output.fraction {
-            continue;
-        }
-        let point = origin + fraction * translation;
-        let closest = closest_on_triangle(point, a, b, c);
-        if closest.distance_squared(point) <= 1.0e-8 {
-            output.hit = true;
-            output.fraction = fraction;
-            output.point = point.to_array();
-            output.normal = normal.to_array();
-            output.triangle_index = shape
-                .mesh_triangle_ids
-                .get(index)
-                .copied()
-                .unwrap_or(index as i32);
-            output.material_index = (shape.mesh_triangles[index][3] >> 8) as i32;
-        }
+        let Some([a, b, c]) = mesh_triangle(shape, WorldTransform {p: [0.0; 3], q: [0.0, 0.0, 0.0, 1.0]}, index) else { continue; };
+        let volumes = [(c - b).cross(0.5 * (b + c) - local_origin).dot(local_translation),
+            (a - c).cross(0.5 * (c + a) - local_origin).dot(local_translation),
+            (b - a).cross(0.5 * (a + b) - local_origin).dot(local_translation)];
+        if volumes.iter().any(|&volume| volume < 0.0) { continue; }
+        let normal = (b - a).cross(c - a);
+        let denominator = normal.dot(local_translation);
+        if denominator >= 0.0 { continue; }
+        let fraction = normal.dot(a - local_origin) / denominator;
+        if fraction <= 0.0 || fraction >= output.fraction { continue; }
+        output.hit = true;
+        output.fraction = fraction;
+        output.point = ray_world_point(transform, origin, local_origin + fraction * local_translation).to_array();
+        output.normal = ray_rotate(transform.q, normal.normalize_or_zero()).to_array();
+        output.triangle_index = shape.mesh_triangle_ids.get(index).copied().unwrap_or(index as i32);
+        output.material_index = (shape.mesh_triangles[index][3] >> 8) as i32;
     }
     output
 }
@@ -1743,28 +1803,28 @@ fn mesh_overlap_proxy(shape: &HostShape, transform: WorldTransform, proxy: &Prox
 }
 
 fn mesh_shape_cast(
+    shape: &HostShape, transform: WorldTransform, moving: &Proxy,
+    translation: V3, max_fraction: f32, can_encroach: bool,
+) -> CastOutput {
+    let candidates = mesh_cast_sweep::mesh_cast_candidates(shape, transform, moving, translation, max_fraction);
+    mesh_shape_cast_indices(shape, transform, moving, translation, max_fraction, can_encroach, candidates)
+}
+
+fn mesh_shape_cast_indices(
     shape: &HostShape,
     transform: WorldTransform,
     moving: &Proxy,
     translation: V3,
     max_fraction: f32,
     can_encroach: bool,
+    indices: impl IntoIterator<Item=usize>,
 ) -> CastOutput {
-    let start = aabb_for_proxy(moving);
-    let end = Aabb {
-        lower_bound: (v(start.lower_bound) + max_fraction * translation).to_array(),
-        upper_bound: (v(start.upper_bound) + max_fraction * translation).to_array(),
-    };
-    let swept = Aabb {
-        lower_bound: v(start.lower_bound).min(v(end.lower_bound)).to_array(),
-        upper_bound: v(start.upper_bound).max(v(end.upper_bound)).to_array(),
-    };
     let center = moving.points.iter().copied().sum::<V3>() / moving.points.len().max(1) as f32;
     let mut best = CastOutput::default();
     best.fraction = max_fraction;
     best.triangle_index = -1;
     best.child_index = -1;
-    for index in mesh_candidates(shape, transform, swept) {
+    for index in indices {
         let Some([a, b, c]) = mesh_triangle(shape, transform, index) else {
             continue;
         };
@@ -1950,7 +2010,7 @@ fn direct_sphere_ray(
         }
         return result;
     }
-    let direction = translation / length;
+    let direction = translation * (1.0 / length);
     let t = -offset.dot(direction);
     let closest = offset + t * direction;
     if closest.length_squared() > radius2 {
@@ -1967,46 +2027,134 @@ fn direct_sphere_ray(
     let relative_hit = offset + distance * direction;
     result.hit = true;
     result.fraction = distance / length;
-    result.point = (center + relative_hit).to_array();
+    result.fraction = result.fraction.min(max_fraction);
     result.normal = relative_hit.normalize_or_zero().to_array();
+    result.point = (center + radius * v(result.normal)).to_array();
     result
+}
+
+// Keep the accepted Box3D quaternion and operation order at the query boundary.
+// Equivalent quaternion formulas can move a tangent ray across its surface.
+fn ray_rotate(rotation: [f32; 4], point: V3) -> V3 {
+    let imaginary = V3::new(rotation[0], rotation[1], rotation[2]);
+    point + 2.0 * imaginary.cross(imaginary.cross(point) + rotation[3] * point)
+}
+fn ray_inverse_rotate(rotation: [f32; 4], point: V3) -> V3 {
+    let imaginary = V3::new(rotation[0], rotation[1], rotation[2]);
+    point + 2.0 * imaginary.cross(imaginary.cross(point) - rotation[3] * point)
+}
+
+// Native world, body and direct-shape rays lift a ray-relative float result.
+// Adding the absolute body position first changes long-ray output rounding.
+fn ray_world_point(transform: WorldTransform, origin: V3, local_point: V3) -> V3 {
+    origin + ((v(transform.p) - origin) + ray_rotate(transform.q, local_point))
+}
+
+// Evaluate rays from geometry instead of advancing a float32 GJK fraction.
+// The latter can stop changing before reaching its distance tolerance on long rays.
+fn capsule_ray(a: V3, b: V3, radius: f32, origin: V3, translation: V3, max_fraction: f32) -> CastOutput {
+    let mut out = CastOutput::default();
+    let delta = b - a;
+    let length2 = delta.length_squared();
+    let tolerance = 0.01 * LINEAR_SLOP;
+    if length2 < tolerance * tolerance {
+        return direct_sphere_ray(0.5 * (a + b), radius, origin, translation, max_fraction);
+    }
+    let length = length2.sqrt();
+    let axis = delta * (1.0 / length);
+    let s = origin - a;
+    let u = s.dot(axis);
+    let sc = s - u * axis;
+    let rr = radius * radius;
+    if sc.length_squared() < rr {
+        let cp = u.clamp(0.0, length) * axis;
+        if (s - cp).length_squared() < rr {
+            out.hit = true; out.point = origin.to_array(); return out;
+        }
+        return direct_sphere_ray(a + cp, radius, origin, translation, max_fraction);
+    }
+    let ray_length = translation.length();
+    if ray_length == 0.0 { return out; }
+    let ray_axis = translation * (1.0 / ray_length);
+    let end = u + max_fraction * translation.dot(axis);
+    if (u < -radius && end < -radius) || (length + radius < u && length + radius < end) { return out; }
+    let alignment = axis.dot(ray_axis);
+    let determinant = 1.0 - alignment * alignment;
+    let tr = if determinant < f32::EPSILON {
+        let perpendicular = ray_axis - alignment * axis;
+        let beta = sc.dot(perpendicular);
+        let gamma = sc.length_squared() - rr;
+        let discriminant = beta * beta - perpendicular.length_squared() * gamma;
+        if beta >= 0.0 || discriminant < 0.0 { return out; }
+        gamma / (-beta + discriminant.sqrt())
+    } else {
+        let inv = 1.0 / determinant;
+        let sa2 = s.dot(ray_axis);
+        let t1 = (u - alignment * sa2) * inv;
+        let t2 = (alignment * u - sa2) * inv;
+        let gap = s + t2 * ray_axis - t1 * axis;
+        let gap2 = gap.length_squared();
+        if gap2 > rr { return out; }
+        t2 - ((rr - gap2) * inv).sqrt()
+    };
+    if tr < 0.0 || tr > max_fraction * ray_length { return out; }
+    let tc = u + tr * alignment;
+    if tc < 0.0 { return direct_sphere_ray(a, radius, origin, translation, max_fraction); }
+    if tc > length { return direct_sphere_ray(b, radius, origin, translation, max_fraction); }
+    let point = s + tr * ray_axis;
+    out.hit = true;
+    out.point = (a + point).to_array();
+    out.normal = (point - tc * axis).normalize_or_zero().to_array();
+    out.fraction = (tr / ray_length).clamp(0.0, max_fraction);
+    out
+}
+
+fn host_ray_cast(shape: &HostShape, transform: WorldTransform, origin: V3, translation: V3, max_fraction: f32) -> CastOutput {
+    if shape.kind == KIND_MESH { return mesh_ray_cast(shape, transform, origin, translation, max_fraction); }
+    let local_origin = ray_inverse_rotate(transform.q, origin - v(transform.p));
+    let local_translation = ray_inverse_rotate(transform.q, translation);
+    let mut out = if shape.kind == KIND_SPHERE {
+        direct_sphere_ray(v(shape.local_points[0]), shape.radius, local_origin, local_translation, max_fraction)
+    } else if shape.kind == KIND_CAPSULE {
+        capsule_ray(v(shape.local_points[0]), v(shape.local_points[1]), shape.radius, local_origin, local_translation, max_fraction)
+    } else if !shape.hull_planes.is_empty() {
+        let mut result = CastOutput::default();
+        let mut lower = 0.0_f32; let mut upper = max_fraction; let mut best = None;
+        for plane in shape.hull_planes.iter() {
+            let normal = V3::new(plane[0], plane[1], plane[2]);
+            let distance = plane[3] - normal.dot(local_origin);
+            let denominator = normal.dot(local_translation);
+            if denominator == 0.0 {
+                if distance < 0.0 { return result; }
+            } else {
+                let fraction = distance / denominator;
+                if denominator < 0.0 {
+                    if fraction > lower { lower = fraction; best = Some(normal); }
+                } else { upper = upper.min(fraction); }
+                if upper < lower { return result; }
+            }
+        }
+        result.hit = true;
+        if let Some(normal) = best {
+            result.fraction = lower; result.point = (local_origin + lower * local_translation).to_array();
+            result.normal = normal.to_array();
+        } else { result.point = local_origin.to_array(); }
+        result
+    } else {
+        return ray_cast(&shape_proxy(shape, Some(transform)), origin, translation, max_fraction);
+    };
+    if out.hit {
+        out.point = ray_world_point(transform, origin, v(out.point)).to_array();
+        out.normal = ray_rotate(transform.q, v(out.normal)).to_array();
+    }
+    out
 }
 
 pub fn b3_shape_ray_cast(id: ShapeId, origin: [f32; 3], translation: [f32; 3]) -> CastOutput {
     let mut best = CastOutput::default();
     let mut fraction = 1.0;
     for shape in super::world::query_shape_parts(id) {
-        let mut output = if shape.kind == KIND_MESH {
-            mesh_ray_cast(
-                &shape,
-                WorldTransform {
-                    p: shape.body_origin,
-                    q: shape.body_rotation,
-                },
-                v(origin),
-                v(translation),
-                fraction,
-            )
-        } else if shape.kind == KIND_SPHERE {
-            direct_sphere_ray(
-                transform_point(
-                    shape.body_origin,
-                    shape.body_rotation,
-                    shape.local_points[0],
-                ),
-                shape.radius,
-                v(origin),
-                v(translation),
-                fraction,
-            )
-        } else {
-            ray_cast(
-                &shape_proxy(&shape, None),
-                v(origin),
-                v(translation),
-                fraction,
-            )
-        };
+        let mut output = host_ray_cast(&shape, WorldTransform {p: shape.body_origin, q: shape.body_rotation}, v(origin), v(translation), fraction);
         if !output.hit || output.fraction < 0.0 || output.fraction > fraction {
             continue;
         }
@@ -2045,16 +2193,7 @@ pub fn b3_body_cast_ray(
         if !should_query(shape.filter, filter) {
             continue;
         }
-        let output = if shape.kind == KIND_MESH {
-            mesh_ray_cast(shape, body_transform, v(origin), v(translation), fraction)
-        } else {
-            ray_cast(
-                &shape_proxy(shape, Some(body_transform)),
-                v(origin),
-                v(translation),
-                fraction,
-            )
-        };
+        let output = host_ray_cast(shape, body_transform, v(origin), v(translation), fraction);
         if output.hit && output.fraction <= fraction {
             fraction = output.fraction;
             result = BodyCastResult {
@@ -2339,25 +2478,7 @@ pub unsafe fn b3_world_cast_ray(
             }
             stats.leaf_visits += 1;
             exact += 1;
-            let output = if shape.kind == KIND_MESH {
-                mesh_ray_cast(
-                    shape,
-                    WorldTransform {
-                        p: shape.body_origin,
-                        q: shape.body_rotation,
-                    },
-                    v(origin),
-                    v(translation),
-                    child_fraction,
-                )
-            } else {
-                ray_cast(
-                    &shape_proxy(shape, None),
-                    v(origin),
-                    v(translation),
-                    child_fraction,
-                )
-            };
+            let output = host_ray_cast(shape, WorldTransform {p: shape.body_origin, q: shape.body_rotation}, v(origin), v(translation), child_fraction);
             if !output.hit {
                 continue;
             }
@@ -2378,7 +2499,7 @@ pub unsafe fn b3_world_cast_ray(
                 output.fraction,
                 shape.user_material_id,
                 output.triangle_index,
-                shape.child_index,
+                shape.child_index.max(0),
                 context,
             )
         });
@@ -2450,9 +2571,6 @@ pub unsafe fn b3_world_cast_mover(
     callback: Option<MoverFilterFcn>,
     context: *mut c_void,
 ) -> f32 {
-    let Some(world) = super::world::query_world(id) else {
-        return 1.0;
-    };
     let moving = mover_proxy(origin, mover);
     let start_aabb = aabb_for_proxy(&moving);
     let mut end = moving.clone();
@@ -2468,20 +2586,20 @@ pub unsafe fn b3_world_cast_mover(
             .max(v(end_aabb.upper_bound))
             .to_array(),
     };
+    let candidates = union_aabb(query_candidate_bounds(&moving), query_candidate_bounds(&end));
+    let Some(groups) = super::world::query_mover_snapshot(id, swept_aabb, candidates) else {
+        return 1.0;
+    };
     let mut fraction = 1.0;
-    for group in world.groups.iter() {
-        let shape = &world.shapes[group[0]];
+    for group in &groups {
+        let shape = &group.shape;
         if !should_query(shape.filter, filter) {
-            continue;
-        }
-        if !aabb_overlaps(swept_aabb, group_bounds(&world.shapes, group)) {
             continue;
         }
         if callback.is_some_and(|f| !f(shape.public_id, context)) {
             continue;
         }
-        for &index in group {
-            let shape = &world.shapes[index];
+        for shape in &group.children {
             let output = if shape.kind == KIND_MESH {
                 mesh_shape_cast(
                     shape,
@@ -2615,6 +2733,39 @@ pub fn query_filter_name(_filter: QueryFilter) -> *const c_char {
 
 #[cfg(test)]
 mod tests {
+    include!("../fixtures/mesh_casts.rs");
+    #[test]
+    fn mesh_ccd_sweep_bound_encloses_rotation_and_com_offsets() {
+    // Exercise the actual nlerp/rotation with antipodal endpoints, nearly zero
+    // rotation, near-pi rotation, norm roundoff and large/off-axis COM values.
+    let mut cases=0usize;
+    for axis in [V3::X,V3::Y,V3::Z] {for angle in [0.0,0.000001,0.01,1.2,std::f32::consts::PI] {for sign in [-1.0,1.0] {for com in [[0.0;3],[3.0,18.0,-2.0],[10000.0,-20000.0,30000.0]] {
+        let endq=(Quat::from_axis_angle(axis,angle)*sign).to_array().map(|v|v*1.000001);
+        let start=WorldTransform {p:[10.0,-5.0,100.0],q:[0.0,0.0,0.0,0.999999]};
+        let end=WorldTransform {p:[-10.0,4.0,90.0],q:endq};
+        let shape=test_shape(KIND_CAPSULE,vec![[0.0,-1.0,0.0],[1.0,20.0,-2.0]],0.1);
+        let bounds=mesh_convex_sweep_bounds(&shape,start,end,com).unwrap();
+        for ti in 0..=256 {let t=ti as f32/256.0;let rot=toi::nlerp_rotation(start.q,end.q,t);let origin=(1.0-t)*v(start.p)+t*v(end.p)-toi::rotate_q(rot,v(com));for &p in shape.local_points.iter(){let point=origin+toi::rotate_q(rot,v(p));for i in 0..3 {assert!(point[i]-shape.radius>=bounds.lower_bound[i] && point[i]+shape.radius<=bounds.upper_bound[i]);}}}
+        cases+=1;
+    }}}}
+    // A real BVH leaf must retain the positive native centroid retry and a
+    // sensor crossing; the existing no-BVH positive controls alone can't prove pruning.
+    let mut mesh=test_shape(KIND_MESH,vec![[-2.0,0.0,-2.0],[0.0,0.0,2.0],[2.0,0.0,-2.0]],0.0);
+    mesh.mesh_triangles=arc_vec(vec![[0,1,2,0]]);
+    mesh.mesh_nodes=arc_vec(vec![super::super::world::MeshNode {lower:[-2.0,0.0,-2.0],upper:[2.0,0.0,2.0],data:7,triangle_offset:0}]);
+    let identity=WorldTransform {p:[0.0;3],q:[0.0,0.0,0.0,1.0]};
+    let mut points=Vec::new();for x in [-0.02,0.02] {for y in [-0.2,0.2] {for z in [-0.04,0.04] {points.push([x,y,z]);}}}
+    let mut thin=test_shape(crate::types::KIND_BOX,points,0.0);thin.half_extents=[0.02,0.2,0.04];
+    let start=WorldTransform {p:[0.0,0.2,0.0],..identity};let end=WorldTransform {p:[0.0,-0.2,0.0],..identity};
+    let hit=rigid_mesh_time_of_impacts(&mesh,identity,&thin,start,end,[0.0;3],1.0,false,false);
+    assert_eq!(hit.len(),1);assert!(hit[0].hit.fraction>0.4&&hit[0].hit.fraction<0.5);
+        assert_eq!(cases, 90);
+        let invalid = WorldTransform {q:[0.0;4],..identity};
+        assert!(mesh_convex_sweep_bounds(&thin,invalid,end,[0.0;3]).is_none());
+        let empty=test_shape(crate::types::KIND_BOX,Vec::new(),0.0);
+        assert!(mesh_convex_sweep_bounds(&empty,start,end,[0.0;3]).is_none());
+    }
+
     include!("../fixtures/toi_sweeps.rs");
     use super::*;
 
@@ -2623,6 +2774,28 @@ mod tests {
             points: points.iter().copied().map(v).collect(),
             radius,
         }
+    }
+
+    #[test]
+    fn qry01_recorded_generic_ray_trace() {
+        let cases: serde_json::Value = serde_json::from_str(include_str!("../../benchmarks/production-readiness/pr09-repairs-2026-10-02/QRY01/trace/inputs.json")).unwrap();
+        QRY01_RAY_TRACE.with(|trace| trace.set(true));
+        for case in cases.as_array().unwrap() {
+            let target = if case["kind"] == 0 {
+                proxy(&[[-10.0, 0.0, 0.0]], 1.0)
+            } else {
+                proxy(&[[-6.0, 0.0, 0.0], [-4.0, 0.0, 0.0]], 0.7)
+            };
+            let vector = |key: &str| V3::from_array(std::array::from_fn(|axis| case[key][axis].as_f64().unwrap() as f32));
+            let origin = vector("origin");
+            let translation = vector("translation");
+            eprintln!("QRY01_INPUT {case}");
+            let actual = ray_cast(&target, origin, translation, 1.0);
+            eprintln!("QRY01_RESULT hit={} iterations={} fraction={:.9e} point={:?} normal={:?}", actual.hit, actual.iterations, actual.fraction, actual.point, actual.normal);
+            assert!(case["CPU_callback"]["hit"].as_bool().unwrap());
+            assert!(!actual.hit, "Trace must reproduce the saved API failure before any candidate");
+        }
+        QRY01_RAY_TRACE.with(|trace| trace.set(false));
     }
 
     #[test]
@@ -3111,5 +3284,21 @@ mod tests {
         assert!(!cast(parent).hit);
         b3_destroy_world(world);
     }
+
+
+    #[test]
+    fn long_rotated_sphere_ray_uses_native_world_point_order() {
+        // Frozen actual Box3D C query at 1km; local hit/normal agree before
+        // the ray-relative world transform. Keep the original 1e-5m limit.
+        let shape = test_shape(KIND_SPHERE, vec![[0.0; 3]], 1.0);
+        let transform = WorldTransform {p: [-10.0, 0.0, 0.0], q: [f32::from_bits(1031142743u32),f32::from_bits(1039531351u32),f32::from_bits(1043889665u32),f32::from_bits(1064924154u32)]};
+        let out = host_ray_cast(&shape, transform, v([f32::from_bits(3282917594u32),f32::from_bits(1147664227u32),f32::from_bits(1126191668u32)]), v([f32::from_bits(1135161430u32),f32::from_bits(3295223886u32),f32::from_bits(3273727850u32)]), 1.0);
+        assert!(out.hit);
+        assert_eq!(out.fraction.to_bits(), 1065253053u32);
+        assert_eq!(out.point.map(f32::to_bits), [f32::from_bits(3240452896u32),f32::from_bits(1064142848u32),f32::from_bits(1042560000u32)].map(f32::to_bits));
+    }
+    include!("../fixtures/perf05_ccd_bounds.rs");
+
+    include!("../fixtures/perf06_mover_snapshot.rs");
 
 }

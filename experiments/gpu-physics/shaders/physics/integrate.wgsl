@@ -132,6 +132,7 @@ fn reset_deltas(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
     var b = body_states[i];
     b.dp = vec3<f32>(0.0);
     b.dq = vec4<f32>(0.0, 0.0, 0.0, 1.0);
+    b.flags = b.flags & (~FLAG_SPEED_CAPPED_PENDING);
     body_states[i] = b;
 }
 
@@ -145,6 +146,12 @@ fn apply_deltas(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
     var b = body_states[i];
     b.flags = b.flags & (~(FLAG_FAST | FLAG_CCD_NO_HIT));
     if ((b.flags & (FLAG_STATIC | FLAG_DISABLED | FLAG_SLEEP)) == 0u) {
+        // Publish the completed awake step; sleeping/idle bodies retain their
+        // last awake diagnostics, as Box3D's body draw flags do.
+        b.flags = b.flags & (~(FLAG_SPEED_CAPPED | FLAG_HAD_TOI));
+        if ((b.flags & FLAG_SPEED_CAPPED_PENDING) != 0u) {
+            b.flags = b.flags | FLAG_SPEED_CAPPED;
+        }
         // Always apply TGS pose. Skipping `dp` while "quiet" left stacks nested
         // inside each other until a later step woke them and popped them apart.
         let base_rotation = b.rot;
@@ -181,6 +188,7 @@ fn apply_deltas(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
     }
     b.dp = vec3<f32>(0.0);
     b.dq = vec4<f32>(0.0, 0.0, 0.0, 1.0);
+    b.flags = b.flags & (~FLAG_SPEED_CAPPED_PENDING);
     body_states[i] = b;
 }
 
@@ -230,8 +238,14 @@ fn physics_max_angular_speed(step_dt: f32) -> f32 {
 }
 
 fn physics_clamp_speed(v: vec3<f32>, max_speed: f32) -> vec3<f32> {
+    var ignored = false;
+    return physics_clamp_speed_recorded(v, max_speed, &ignored);
+}
+
+fn physics_clamp_speed_recorded(v: vec3<f32>, max_speed: f32, capped: ptr<function, bool>) -> vec3<f32> {
     let speed2 = gyro_dot3(v, v);
     if (speed2 > max_speed * max_speed) {
+        *capped = true;
         return v * gyro_divide(max_speed, gyro_sqrt(speed2));
     }
     return v;
@@ -248,9 +262,13 @@ fn integrate_pos_one(i: u32) {
         if ((b.flags & 2048u) != 0u) { b.omega.x = 0.0; }
         if ((b.flags & 4096u) != 0u) { b.omega.y = 0.0; }
         if ((b.flags & 8192u) != 0u) { b.omega.z = 0.0; }
-        b.vel = physics_clamp_speed(b.vel, params.maximum_linear_speed);
+        var capped = false;
+        b.vel = physics_clamp_speed_recorded(b.vel, params.maximum_linear_speed, &capped);
         if ((b.flags & FLAG_ALLOW_FAST_ROTATION) == 0u) {
-            b.omega = physics_clamp_speed(b.omega, physics_max_angular_speed(params.step_dt));
+            b.omega = physics_clamp_speed_recorded(b.omega, physics_max_angular_speed(params.step_dt), &capped);
+        }
+        if (capped) {
+            b.flags = b.flags | FLAG_SPEED_CAPPED_PENDING;
         }
         let h = params.dt;
         b.dp = b.dp + b.vel * h;

@@ -2,8 +2,13 @@
 use super::*;
 
 pub(super) fn capture(w:&WorldInner, world0:u16) -> Result<Value,String> {
+    // Nonzero coordinate frame changes the interpretation of internal poses.
+    // Omit the canonical zero value to retain ordinary-world capture identity.
+    let coordinate_frame = if w.coordinate_origin == [0.0; 3] { None }
+        else { Some(w.coordinate_origin.trace()?) };
     let def=&w.def;
     let mut definition=fields!(def;gravity,hit_event_threshold,contact_hertz,contact_damping_ratio,contact_speed,maximum_linear_speed,restitution_threshold);
+    if let Some(frame) = coordinate_frame { definition.insert("coordinate_origin".into(), frame); }
     definition.insert("enable_sleep".into(),json!(def.enable_sleep));
     definition.insert("enable_continuous".into(),json!(def.enable_continuous));
     definition.insert("capacity".into(),json!(fields!(&def.capacity;static_shape_count,dynamic_shape_count,static_body_count,dynamic_body_count,contact_count)));

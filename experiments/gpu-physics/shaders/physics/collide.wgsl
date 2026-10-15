@@ -1,4 +1,7 @@
+override COLLISION_BOX_SCENE: bool = false;
+override COLLISION_POLYTOPE_SCENE: bool = false;
 override COLLISION_MESH_ENABLED: bool = true;
+override COLLISION_CAPSULE_SCENE: bool = false;
 
 // Box–box follows Box3D `b3CollideHulls`: SAT face cache, then OBB SAT (clip-before-edge).
 
@@ -219,6 +222,13 @@ fn finish_manifold_from_previous(c: ptr<function, Contact>, a: Body, b: Body, ia
     (*c).center_a = center_a * inv;
     (*c).center_b = center_b * inv;
     (*c)._pad_end = mixed_restitution_of(a, b);
+    if (a.kind != KIND_MESH && b.kind != KIND_MESH) {
+        // Surface material vectors use the native body frame. Capsule colliders
+        // add a geometry-axis rotation that must not rotate material velocity.
+        (*c).tangent_velocity =
+            quat_rotate(com_a.rot, load_shape(a._pad_island.x).tangent_velocity)
+            - quat_rotate(com_b.rot, load_shape(b._pad_island.x).tangent_velocity);
+    }
     // Box3D contact.c: max(material) * max(shape radius).
     (*c).rolling = select(
         0.0,
@@ -226,7 +236,8 @@ fn finish_manifold_from_previous(c: ptr<function, Contact>, a: Body, b: Body, ia
         (params.diagnostic_flags & DIAG_DISABLE_ROLLING) == 0u,
     );
     (*c)._tail0 = vec4<u32>(bitcast<u32>(rel.x), bitcast<u32>(rel.y), bitcast<u32>(rel.z), bitcast<u32>(rel.w));
-    let exact_features = a.kind == KIND_CAPSULE && b.kind == KIND_CAPSULE;
+    let exact_features = (a.kind == KIND_CAPSULE && b.kind == KIND_CAPSULE)
+        || a.kind == KIND_MESH || b.kind == KIND_MESH;
     if (!exact_features) { pack_point_features(c); }
     let matched = match_previous_points(*c, p, exact_features);
     let jn = matched.impulses;
@@ -2178,7 +2189,7 @@ fn mesh_node_overlaps(mesh_shape: Shape, mesh: Body, convex: Body, node_index: u
 fn mesh_speculative_keep(convex: Shape, mesh: Shape) -> f32 {
     // Native's experimental switch applies only to hull/triangle contacts,
     // and either endpoint may disable it. Sphere/capsule speculation is retained.
-    let hull = convex.kind == KIND_BOX || convex.kind == KIND_CONVEX_HULL;
+    let hull = (!COLLISION_CAPSULE_SCENE && (COLLISION_BOX_SCENE || convex.kind == KIND_BOX)) || (!COLLISION_CAPSULE_SCENE && (!COLLISION_BOX_SCENE && convex.kind == KIND_CONVEX_HULL));
     let disabled = ((convex.event_flags | mesh.event_flags) & SHAPE_DISABLE_SPECULATIVE) != 0u
         || (params.diagnostic_flags & SOLVER_DISABLE_SPECULATIVE) != 0u;
     if (hull && disabled) {
@@ -2408,7 +2419,7 @@ fn consider_mesh_manifold_point(
     var point = input_point;
     var r_a = point - mesh.pos;
     var r_b = point - convex.pos;
-    if (convex.kind == KIND_CAPSULE) {
+    if ((COLLISION_CAPSULE_SCENE || (!COLLISION_POLYTOPE_SCENE && convex.kind == KIND_CAPSULE))) {
         // Capsule witnesses arrive rotated but relative to the body origin.
         // Native mesh_contact.c constructs anchors before adding world position.
         let body_a = load_body((*result).a);
@@ -2428,7 +2439,7 @@ fn consider_mesh_manifold_point(
     // Capsule admission already used closest distance, as in native
     // triangle_manifold.c. Its clipped face can have every point farther than
     // speculative distance: applying a second face cutoff loses that manifold.
-    let reject_separation = convex.kind != KIND_CAPSULE &&
+    let reject_separation = (!COLLISION_CAPSULE_SCENE && (COLLISION_POLYTOPE_SCENE || convex.kind != KIND_CAPSULE)) &&
         (patch_separation > mesh_speculative_keep(convex_shape, mesh_shape)
         || (mesh_speculative_keep(convex_shape, mesh_shape) == 0.0 && separation > 0.0));
     if (reject_separation || dot(contact_normal, triangle_normal) < -0.05) {
@@ -2459,7 +2470,7 @@ fn consider_mesh_manifold_point(
     if (!aligned) {
         return;
     }
-    if (convex.kind != KIND_CAPSULE) {
+    if ((!COLLISION_CAPSULE_SCENE && (COLLISION_POLYTOPE_SCENE || convex.kind != KIND_CAPSULE))) {
         for (var old = 0u; old < (*result).count; old++) {
             let d = ra_at(*result, old).xyz - r_a;
             if (dot(d, d) < 1e-8) { return; }
@@ -2606,7 +2617,7 @@ fn clip_hull_face_to_triangle(
     var polygon: ClipPolygon;
     polygon.count = 0u;
     var reference_normal = triangle_normal;
-    if (convex.kind == KIND_BOX) {
+    if ((!COLLISION_CAPSULE_SCENE && (COLLISION_BOX_SCENE || convex.kind == KIND_BOX))) {
         let face = box_triangle_face_axis(convex, p1, p2, p3, triangle_normal);
         if (face.w > mesh_speculative_keep(convex_shape, mesh_shape)) { return; }
         reference_normal = face.xyz;
@@ -3015,7 +3026,7 @@ fn order_capsule_mesh_patches(input: MeshPatchList) -> MeshPatchList {
 
 fn finalize_mesh_patch_list(input: MeshPatchList, root: u32, mesh: Body, convex: Body, ia: u32, ib: u32) -> Contact {
     var list = input;
-    if (convex.kind == KIND_CAPSULE) { list = order_capsule_mesh_patches(input); }
+    if ((COLLISION_CAPSULE_SCENE || (!COLLISION_POLYTOPE_SCENE && convex.kind == KIND_CAPSULE))) { list = order_capsule_mesh_patches(input); }
     if (!contact_chain_structure_valid(root)) {
         discard_mesh_patch_list(list);
         return load_contact(root);
@@ -3024,7 +3035,7 @@ fn finalize_mesh_patch_list(input: MeshPatchList, root: u32, mesh: Body, convex:
     var slot = list.head;
     for (var i = 0u; i < list.count; i++) {
         var piece = load_contact(slot);
-        if (convex.kind == KIND_CAPSULE) {
+        if ((COLLISION_CAPSULE_SCENE || (!COLLISION_POLYTOPE_SCENE && convex.kind == KIND_CAPSULE))) {
             piece = reduce_capsule_mesh_cluster(slot);
             discard_mesh_raw_points(slot);
             piece.pair.z = 0u;
@@ -3419,20 +3430,20 @@ fn collide_mesh_triangle(mesh_shape: Shape, convex_shape: Shape, mesh: Body, con
     // Hulls retain shallow backside overlap, as triangle_manifold.c.
     // Sphere/capsule routines use a strict zero-side test instead.
     let backside_limit = select(0.0, -LINEAR_SLOP,
-        convex.kind == KIND_BOX || convex.kind == KIND_CONVEX_HULL);
-    if (convex.kind != KIND_CAPSULE && dot(convex.pos - p1, normal) < backside_limit) { return empty_contact(); }
+        (!COLLISION_CAPSULE_SCENE && (COLLISION_BOX_SCENE || convex.kind == KIND_BOX)) || (!COLLISION_CAPSULE_SCENE && (!COLLISION_BOX_SCENE && convex.kind == KIND_CONVEX_HULL)));
+    if ((!COLLISION_CAPSULE_SCENE && (COLLISION_POLYTOPE_SCENE || convex.kind != KIND_CAPSULE)) && dot(convex.pos - p1, normal) < backside_limit) { return empty_contact(); }
     let material_index = triangle.w >> 8u;
     let flags = triangle.w & 0xffu;
     var radius = 0.0;
     var capsule_face = false;
-    if (convex.kind == KIND_SPHERE) {
+    if ((!COLLISION_CAPSULE_SCENE && (!COLLISION_POLYTOPE_SCENE && convex.kind == KIND_SPHERE))) {
         add_mesh_sample_contact(
             &result, mesh, convex, convex_shape, mesh_shape, convex.pos, convex.half.x,
             p1, p2, p3, normal, flags, material_index, &best_separation, &best_normal,
             &material_samples, &mixed_friction, &mixed_restitution, &mesh_tangent_velocity,
             &dominant_material, 0u,
         );
-    } else if (convex.kind == KIND_CAPSULE) {
+    } else if ((COLLISION_CAPSULE_SCENE || (!COLLISION_POLYTOPE_SCENE && convex.kind == KIND_CAPSULE))) {
         // Native mesh_contact.c transforms the triangle into the capsule's
         // body frame. Preserve the original endpoints and avoid rounding a
         // rotated proxy axis or subtracting large world-space coordinates.
@@ -3471,7 +3482,7 @@ fn collide_mesh_triangle(mesh_shape: Shape, convex_shape: Shape, mesh: Body, con
             }
             result.cached_rotation_a = vec4<f32>(local_normal, 0.0);
         }
-    } else if (convex.kind == KIND_CONVEX_HULL) {
+    } else if ((!COLLISION_CAPSULE_SCENE && (!COLLISION_BOX_SCENE && convex.kind == KIND_CONVEX_HULL))) {
         let query=hull_triangle_manifold(convex_shape,convex,p1,p2,p3,normal,mesh_speculative_keep(convex_shape,mesh_shape));
         if(query.separated) { return empty_contact(); }
         let raw=query.contact;
@@ -3512,7 +3523,7 @@ fn collide_mesh_triangle(mesh_shape: Shape, convex_shape: Shape, mesh: Body, con
             &mixed_friction, &mixed_restitution, &mesh_tangent_velocity, &dominant_material,
         );
         }
-    } else if (convex.kind == KIND_BOX) {
+    } else if ((!COLLISION_CAPSULE_SCENE && (COLLISION_BOX_SCENE || convex.kind == KIND_BOX))) {
         clip_hull_face_to_triangle(
             &result, mesh, convex, convex_shape, mesh_shape, p1, p2, p3, normal,
             material_index, &best_separation, &best_normal, &material_samples,
@@ -3635,7 +3646,7 @@ fn collide_mesh_convex(
     var stack: array<u32, 64>;
     var stack_count = 1u;
     stack[0] = 0u;
-    for (var visit = 0u; visit < 2048u && stack_count > 0u; visit++) {
+    for (var visit = 0u; visit < max(mesh_shape.topology_counts, 1u) && stack_count > 0u; visit++) {
         stack_count = stack_count - 1u;
         let node_index = stack[stack_count];
         if (node_index >= mesh_shape.topology_counts
@@ -3661,7 +3672,7 @@ fn collide_mesh_convex(
                 mesh_body_index, convex_body_index, triangle_index);
             if (candidate.count > 0u) {
                 var appended: bool;
-                if (convex.kind == KIND_CAPSULE) {
+                if ((COLLISION_CAPSULE_SCENE || (!COLLISION_POLYTOPE_SCENE && convex.kind == KIND_CAPSULE))) {
                     appended = stage_capsule_mesh_patch(&list, root_slot, candidate);
                 } else {
                     appended = append_mesh_patch(&list, root_slot, candidate, mesh_shape, mesh);
@@ -3676,7 +3687,7 @@ fn collide_mesh_convex(
     if (stack_count > 0u) {
         record_capacity_drop_n(ATOM_CONTACT_DROPPED, ATOM_STICKY_CONTACT_DROPPED, stack_count);
     }
-    if (convex.kind == KIND_CAPSULE) {
+    if ((COLLISION_CAPSULE_SCENE || (!COLLISION_POLYTOPE_SCENE && convex.kind == KIND_CAPSULE))) {
         if (!filter_capsule_mesh_patches(&list,root_slot,mesh_shape,mesh)) {
             return load_contact(root_slot);
         }
@@ -3685,6 +3696,16 @@ fn collide_mesh_convex(
 }
 
 fn collide_pair(a_in: Body, b_in: Body, ia_in: u32, ib_in: u32, root_slot: u32) -> Contact {
+    if (COLLISION_BOX_SCENE && (!COLLISION_POLYTOPE_SCENE || COLLISION_CAPSULE_SCENE ||
+        (a_in.kind != KIND_MESH && a_in.kind != KIND_BOX) ||
+        (b_in.kind != KIND_MESH && b_in.kind != KIND_BOX))) {
+        record_contact_drop(14u); return empty_contact();
+    }
+    if (COLLISION_POLYTOPE_SCENE && (COLLISION_CAPSULE_SCENE ||
+        (a_in.kind != KIND_MESH && a_in.kind != KIND_BOX && a_in.kind != KIND_CONVEX_HULL) ||
+        (b_in.kind != KIND_MESH && b_in.kind != KIND_BOX && b_in.kind != KIND_CONVEX_HULL))) {
+        record_contact_drop(14u); return empty_contact();
+    }
     if (a_in.kind == KIND_MESH || b_in.kind == KIND_MESH) {
         if (!COLLISION_MESH_ENABLED) {
             // Empty mesh geometry has no triangles. A nonempty mesh reaching
@@ -3692,29 +3713,50 @@ fn collide_pair(a_in: Body, b_in: Body, ia_in: u32, ib_in: u32, root_slot: u32) 
             if (params.mesh_triangle_count != 0u) { record_contact_drop(14u); }
             return empty_contact();
         }
-        if (a_in.kind == KIND_MESH && b_in.kind != KIND_MESH) {
+        if (a_in.kind != b_in.kind) {
+            var mesh = a_in;
+            var convex = b_in;
+            var mesh_body_index = ia_in;
+            var convex_body_index = ib_in;
+            if (b_in.kind == KIND_MESH) {
+                mesh = b_in;
+                convex = a_in;
+                mesh_body_index = ib_in;
+                convex_body_index = ia_in;
+            }
+            if (COLLISION_CAPSULE_SCENE && convex.kind != KIND_CAPSULE) {
+                record_contact_drop(14u); return empty_contact();
+            }
             return collide_mesh_convex(
-                load_shape(a_in._pad_island.x),
-                load_shape(b_in._pad_island.x),
-                a_in,
-                b_in,
-                ia_in,
-                ib_in, root_slot,
-            );
-        }
-        if (b_in.kind == KIND_MESH && a_in.kind != KIND_MESH) {
-            return collide_mesh_convex(
-                load_shape(b_in._pad_island.x),
-                load_shape(a_in._pad_island.x),
-                b_in,
-                a_in,
-                ib_in,
-                ia_in, root_slot,
+                load_shape(mesh._pad_island.x),
+                load_shape(convex._pad_island.x),
+                mesh,
+                convex,
+                mesh_body_index,
+                convex_body_index, root_slot,
             );
         }
         return empty_contact();
     }
-    if (a_in.kind == KIND_CONVEX_HULL || b_in.kind == KIND_CONVEX_HULL) {
+    if (COLLISION_POLYTOPE_SCENE) {
+        if (!COLLISION_BOX_SCENE && (a_in.kind == KIND_CONVEX_HULL || b_in.kind == KIND_CONVEX_HULL)) {
+            return collide_convex_pair(a_in, b_in, ia_in, ib_in);
+        }
+        return collide_boxes(a_in, b_in, ia_in, ib_in);
+    }
+    if (COLLISION_CAPSULE_SCENE) {
+        if (a_in.kind != KIND_CAPSULE || b_in.kind != KIND_CAPSULE) { record_contact_drop(14u); return empty_contact(); }
+
+        // A dynamic proxy queries the static/kinematic tree: the queried
+        // shape becomes A. Between initially moving dynamic proxies, the
+        // later proxy becomes A. Clipping nearly parallel capsules depends
+        // on this choice of reference segment, not just the normal's sign.
+        if (capsule_reference_reversed(a_in.flags, b_in.flags, a_in._pad_island.x, b_in._pad_island.x)) {
+            return collide_capsules(b_in, a_in, ib_in, ia_in);
+        }
+        return collide_capsules(a_in, b_in, ia_in, ib_in);
+        } else {
+    if (!COLLISION_BOX_SCENE && (a_in.kind == KIND_CONVEX_HULL || b_in.kind == KIND_CONVEX_HULL)) {
         return collide_convex_pair(a_in, b_in, ia_in, ib_in);
     }
     var a = a_in;
@@ -3806,6 +3848,7 @@ fn collide_pair(a_in: Body, b_in: Body, ia_in: u32, ib_in: u32, root_slot: u32) 
         c.a = EMPTY;
     }
     return c;
+    }
 }
 
 fn pair_already(ia: u32, ib: u32, filled: u32) -> bool {
@@ -4063,7 +4106,8 @@ fn collide_pairs(
     let shape_b = load_shape(ib);
     let body_a = load_body(shape_a.body_index);
     let body_b = load_body(shape_b.body_index);
-    let sensor_pair = ((shape_a.event_flags | shape_b.event_flags) & SHAPE_IS_SENSOR) != 0u;
+    let sensor_pair = !COLLISION_CAPSULE_SCENE && !COLLISION_POLYTOPE_SCENE && ((shape_a.event_flags | shape_b.event_flags) & SHAPE_IS_SENSOR) != 0u;
+    if ((COLLISION_CAPSULE_SCENE || COLLISION_POLYTOPE_SCENE) && ((shape_a.event_flags | shape_b.event_flags) & SHAPE_IS_SENSOR) != 0u) { record_contact_drop(14u); return; }
     let slot = scratch[scr_active_contact() + k];
     if (slot == EMPTY) {
         return;

@@ -438,7 +438,9 @@ pub fn b3_world_write_core_state(id: WorldId, path: &std::path::Path, frame: u32
             let start = params.fat_bounds_base as usize + 8*shape;
             bounds.push(json!({"shape":shape_key(shape as u32)?,
                 "lower_bits":&scratch[start..start+3],"upper_bits":&scratch[start+4..start+7],
-                "initialized":scratch[start+3]==params.fat_bounds_epoch,
+                "initialized":(scratch[start+3] & crate::types::FAT_PROXY_EPOCH_MASK)==params.fat_bounds_epoch,
+                "proxy_moved":scratch[start+3] & crate::types::FAT_PROXY_MOVED != 0,
+                "proxy_force_move":scratch[start+3] & crate::types::FAT_PROXY_FORCE_MOVE != 0,
                 "commands_applied":scratch[start+7]==params.fat_commands_epoch}));
         }
         let mut body_records = Vec::new();
@@ -552,6 +554,8 @@ pub fn b3_world_write_core_state(id: WorldId, path: &std::path::Path, frame: u32
             Ok(json!({"body":body.creation_ordinal,"commands":commands.iter().map(TraceValue::trace).collect::<Result<Vec<_>,_>>()?}))
         }).collect::<Result<Vec<Value>,String>>()?;
         pending_transforms.sort_by_cached_key(Value::to_string);
+        let mut pending_proxy_moves = w.pending_proxy_moves.clone();
+        pending_proxy_moves.sort_unstable();
         let body_storage_order: Vec<_> = body_records.iter().map(|r|r["identity"].clone()).collect();
         body_records.sort_by_key(|r|r["identity"].as_u64().unwrap());
         let mut geometries = Vec::new();
@@ -675,7 +679,7 @@ pub fn b3_world_write_core_state(id: WorldId, path: &std::path::Path, frame: u32
             "body_storage_order":body_storage_order,"settings":settings,"joint_order":{"valid":list_ok,"components":joint_order},
             "scope":"core plus contact history/order, GPU body motion data and pending host loads; remaining engine state requires audit",
             "contact_history":{"records":history,"free_stack":free,"slot_to_rank":slot_to_rank}, "contact_color_order":color_order,
-            "fat_bounds":bounds,"pending_transforms":pending_transforms,
+            "fat_bounds":bounds,"pending_transforms":pending_transforms,"pending_proxy_moves":pending_proxy_moves,
             "host_flags":{"scene_dirty":w.scene_dirty,"bodies_dirty":w.bodies_dirty,"topology_dirty":w.topology_dirty,
                 "post_ccd_pending":w.post_ccd_pending,"events_pending":w.events_pending},
             "bodies":body_records,"joints":joint_records,"contacts":contact_records})

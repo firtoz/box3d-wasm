@@ -68,8 +68,9 @@ pub(crate) fn module(
     }
     drop(cache);
     // SAFETY: source is our validated WGSL, compiled by Naga for this entry point.
-    // The only binary transformation adds valid NoContraction decorations to
-    // floating-point arithmetic results; types, bindings and control flow are unchanged.
+    // Transformations preserve floating-point order, correct Relaxed atomic operands,
+    // and remove explicit layout only from types exclusive to workgroup storage.
+    // Interface layouts, bindings, arithmetic and control flow stay unchanged.
     Some(unsafe {
         device.create_shader_module_passthrough(wgpu::ShaderModuleDescriptorPassthrough::SpirV(
             wgpu::ShaderModuleDescriptorSpirV {
@@ -130,7 +131,7 @@ fn compile_parsed(parsed: &naga::Module, info: &naga::valid::ModuleInfo,
         }),
     )
     .expect("physics SPIR-V");
-    let decorated = decorate(&words);
+    let decorated = remove_workgroup_only_layout(normalize_relaxed_atomics(decorate(&words)));
     if std::env::var_os("GPU_PHYSICS_TRACE_PIPELINES").is_some() {
         eprintln!("gpu-frontend {entry} parse_ms={:.3} validate_ms={:.3} overrides_ms={:.3} emit_ms={:.3}",
             0.0,
@@ -544,6 +545,45 @@ fn ordinary_fused(a:f32,b:f32,c:f32)->f32{return fma(a,b,c);}
     }
 
     include!("fixtures/speed_cap.rs");
+    #[test]
+    fn vis02_metadata_recorded_clamp() {
+        let gpu = pollster::block_on(crate::sim::GpuDevice::new(None)).expect("GPU");
+        let rotation = include_str!("../shaders/physics/rotation.wgsl");
+        let scalar = &rotation[rotation.find("fn gyro_norm3(").unwrap()..rotation.find("fn gyro_integrate_rotation(").unwrap()];
+        let integrate = include_str!("../shaders/physics/integrate.wgsl");
+        let clamp = &integrate[integrate.find("fn physics_max_angular_speed(").unwrap()..integrate.find("fn integrate_pos_one(").unwrap()];
+        let source = format!("{scalar}\n{clamp}\n{}", r#"
+@group(0) @binding(0) var<storage,read_write> values:array<vec4<f32>>;
+@compute @workgroup_size(1) fn main(@builtin(global_invocation_id) id:vec3<u32>) {
+    let k=id.x*2u; let v=values[k]; var capped=false;
+    let result=physics_clamp_speed_recorded(v.xyz,physics_max_angular_speed(v.w),&capped);
+    values[k+1u]=vec4<f32>(result,select(0.0,1.0,capped));
+}
+"#);
+        let data: Vec<_> = SPEED_CAP_CASES.iter().flatten().copied().collect();
+        let actual = run_float_shader(&gpu, &source, &data, SPEED_CAP_CASES.len() as u32);
+        for (i, (out, expected)) in actual.chunks_exact(2).zip(SPEED_CAP_CASES).enumerate() {
+            assert_eq!(out[1][..3].iter().map(|v|v.to_bits()).collect::<Vec<_>>(),
+                expected[1][..3].iter().map(|v|v.to_bits()).collect::<Vec<_>>(), "CPU clamp {i}");
+            assert_eq!(out[1][3], 1.0, "actual captured CPU inputs exceed the angular cap");
+            eprintln!("VIS02_METADATA CPU-clamp case={i} input={:?} output={:?}",out[0],out[1]);
+        }
+        let source = source.replace("physics_max_angular_speed(v.w)", "v.w");
+        let edges = [
+            [0.0,0.0,0.0,2.0], [2.0,0.0,0.0,2.0],
+            [f32::from_bits(2.0f32.to_bits()-1),0.0,0.0,2.0],
+            [f32::from_bits(2.0f32.to_bits()+1),0.0,0.0,2.0],
+            [-3.0,0.0,0.0,2.0], [1.0,1.0,1.0,2.0],
+        ];
+        let data:Vec<_>=edges.iter().flat_map(|&v|[v,[0.0;4]]).collect();
+        let out=run_float_shader(&gpu,&source,&data,edges.len() as u32);
+        for (i,row) in out.chunks_exact(2).enumerate() {
+            assert_eq!(row[1][3],if i==3 || i==4 {1.0} else {0.0},"strict cap edge{i}");
+            if i!=3 && i!=4 {assert_eq!(row[1][..3],edges[i][..3]);}
+            eprintln!("VIS02_METADATA edge={i} input={:?} output={:?}",row[0],row[1]);
+        }
+    }
+
     #[test]
     fn native_speed_cap_matches_cpu() {
         let gpu = pollster::block_on(crate::sim::GpuDevice::new(None)).expect("GPU");
@@ -1100,4 +1140,28 @@ const LINEAR_SLOP:f32=0.005;
         assert_eq!(result[4],167);
         assert_eq!(result[16+5],0,"tree allocation capacity");
     }
+}
+
+// Naga emits memory-class flags for WGSL Relaxed atomics. Normalize only those
+// semantics operands; scopes, barriers, storage access and arithmetic stay unchanged.
+fn normalize_relaxed_atomics(mut words:Vec<u32>)->Vec<u32>{
+ let mut constants=HashMap::<u32,(u32,u32)>::new();let mut int_types=HashSet::new();let mut pos=5;
+ while pos<words.len(){let count=(words[pos]>>16)as usize;let op=words[pos]&65535;assert!(count>0&&pos+count<=words.len());
+  if op==21&&count==4&&words[pos+2]==32{int_types.insert(words[pos+1]);}
+  if op==43&&count==4{constants.insert(words[pos+2],(words[pos+1],words[pos+3]));}pos+=count;
+ }
+ pos=5;while pos<words.len(){let count=(words[pos]>>16)as usize;let op=words[pos]&65535;
+  let offsets:&[usize]=match op{228|319=>&[3],230|231=>&[5,6],227|229|232..=242|318=>&[5],_=>&[]};
+  for offset in offsets{assert!(*offset<count);let(ty,value)=constants[&words[pos+offset]];assert!(int_types.contains(&ty));
+   if value!=0{assert!(value==64||value==256,"unexpected WGSL atomic semantics {value}");let zero=constants.iter().filter_map(|(&id,&(t,v))|if t==ty&&v==0{Some(id)}else{None}).min().expect("existing matching integer zero");words[pos+offset]=zero;}
+  }pos+=count;
+ }words
+}
+fn reachable_types(types:&HashMap<u32,Vec<u32>>,roots:Vec<u32>)->HashSet<u32>{let mut out=HashSet::new();let mut stack=roots;while let Some(id)=stack.pop(){if out.insert(id){if let Some(children)=types.get(&id){stack.extend_from_slice(children);}}}out}
+fn remove_workgroup_only_layout(words:Vec<u32>)->Vec<u32>{let mut types=HashMap::new();let mut wg_roots=Vec::new();let mut iface_roots=Vec::new();let mut pos=5;
+ while pos<words.len(){let n=(words[pos]>>16)as usize;let op=words[pos]&65535;let v=&words[pos..pos+n];
+ match op{23|24|27|28|29=>{types.insert(v[1],vec![v[2]]);},30=>{types.insert(v[1],v[2..].to_vec());},32=>{types.insert(v[1],vec![v[3]]);},59=>{if v[3]==4{wg_roots.push(v[1]);}else if [0,1,2,3,9,12].contains(&v[3]){iface_roots.push(v[1]);}},_=>{}}pos+=n;
+ }let wg=reachable_types(&types,wg_roots);let iface=reachable_types(&types,iface_roots);let mut out=words[..5].to_vec();pos=5;
+ while pos<words.len(){let n=(words[pos]>>16)as usize;let op=words[pos]&65535;let v=&words[pos..pos+n];let decoration=if op==71{Some(v[2])}else if op==72{Some(v[3])}else{None};let remove=decoration.map_or(false,|d|[2,3,4,5,6,7,35].contains(&d)&&wg.contains(&v[1]));if remove{assert!(!iface.contains(&v[1]),"shared workgroup/interface explicit layout");}else{out.extend_from_slice(v);}pos+=n;
+ }out
 }

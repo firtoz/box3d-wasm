@@ -1,10 +1,25 @@
+import sokol_split_step_injection
 """Native split comparison hooks, applied after the timing/loading hooks."""
 def replace_once(text, old, new):
     if text.count(old) != 1:
         raise RuntimeError(f'split hook drift: {old!r}')
     return text.replace(old, new)
 
-INCLUDE = '\n#if defined(BOTH_SAMPLES)\n#include "../c_abi/both_view.h"\n#include "sokol_split_stream.h"\n#include "sokol_split_input.h"\n#include "sokol_split_text.h"\n#endif\n'
+INCLUDE = '\n#if defined(BOTH_SAMPLES)\n#include "../c_abi/both_view.h"\n#include "sokol_split_stream.h"\n#include "sokol_split_step.h"\n#include "sokol_split_input.h"\n#include "sokol_split_text.h"\n#endif\n'
+
+def render_text_cursor(text):
+    # Render runs once per pane. Start both at the cursor left by Step, then
+    # retain the first pane's end cursor for late controls/UI submissions.
+    text = replace_once(text, '\ts_context.sample->Render();', '''#if defined(BOTH_SAMPLES)
+    const int splitRenderTextStart = s_context.sample->m_textLine;
+#endif
+\ts_context.sample->Render();
+#if defined(BOTH_SAMPLES)
+    const int splitRenderTextEnd = s_context.sample->m_textLine;
+#endif''')
+    return replace_once(text, '        s_context.sample->Render();', '''        s_context.sample->m_textLine = splitRenderTextStart;
+        s_context.sample->Render();
+        s_context.sample->m_textLine = splitRenderTextEnd;''')
 
 def main(text):
     text = INCLUDE + '#if defined(BOTH_SAMPLES)\n#include \"imgui.h\"\n#endif\n' + text
@@ -107,7 +122,7 @@ def main(text):
 #if defined(BOTH_SAMPLES)
     s_context.camera.m_width = paneWidth;
 #endif''')
-    return text
+    return sokol_split_step_injection.main_hooks(render_text_cursor(text))
 
 def sample(text):
     text = INCLUDE + text
@@ -131,7 +146,7 @@ def sample(text):
     if ( B3_IS_NON_NULL( m_mouseJointId ) )
     {
         m_mousePoint''')
-    return text
+    return sokol_split_step_injection.world_hooks(text)
 
 def joint(text):
     # Door's Ctrl-click is an impulse tool rather than the base mouse joint.

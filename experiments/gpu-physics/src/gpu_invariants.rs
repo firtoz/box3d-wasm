@@ -71,6 +71,7 @@ fn dummy_sim(gpu: &GpuDevice) -> GpuSim {
         &[],
         &[],
         caps,
+        0,
         true,
         1.0 / 60.0,
         [0.0, -10.0, 0.0],

@@ -125,7 +125,8 @@ if(BOTH_SAMPLES)
   set(LOCAL_GFX_DIR "${CMAKE_CURRENT_BINARY_DIR}/split-gfx")
   execute_process(COMMAND "${Python3_EXECUTABLE}" "${GPU_PHYSICS_DIR}/scripts/inject-sokol-split.py"
     "${CAPACITY_GFX_DIR}" "${LOCAL_GFX_DIR}" COMMAND_ERROR_IS_FATAL ANY)
-  set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${GPU_PHYSICS_DIR}/scripts/inject-sokol-split.py")
+  set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${GPU_PHYSICS_DIR}/scripts/inject-sokol-split.py"
+    "${GPU_PHYSICS_DIR}/scripts/sokol_split_step_injection.py")
   target_compile_definitions(gfx PRIVATE BOTH_SAMPLES)
 endif()
 get_target_property(GFX_SOURCES gfx SOURCES)
@@ -139,7 +140,8 @@ foreach(SOURCE IN LISTS GFX_SOURCES)
 endforeach()
 set_property(TARGET gfx PROPERTY SOURCES ${LOCAL_GFX_SOURCES} "${CMAKE_CURRENT_SOURCE_DIR}/sokol_capacity.c")
 if(BOTH_SAMPLES)
-  target_sources(gfx PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/sokol_split_stream.c")
+  target_sources(gfx PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/sokol_split_stream.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/sokol_split_step.c")
 endif()
 target_include_directories(gfx PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 
@@ -168,6 +170,7 @@ add_custom_command(
     ${INJECT_EXTRA}
   DEPENDS
     "${GPU_PHYSICS_DIR}/scripts/sokol_split_injection.py"
+    "${GPU_PHYSICS_DIR}/scripts/sokol_split_step_injection.py"
     "${BOX3D_DIR}/samples/main.cpp"
     "${BOX3D_DIR}/samples/sample.cpp"
     "${BOX3D_DIR}/samples/sample_continuous.cpp"

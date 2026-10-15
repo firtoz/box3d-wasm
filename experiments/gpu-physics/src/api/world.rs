@@ -15,6 +15,7 @@ mod native_diagnostics;
 pub use native_diagnostics::*;
 mod shape_geometry;
 mod world_lifetime;
+mod callback_shape_reads;
 use world_lifetime::{WorldRegistry, current_world_id, world_id_from_shape, world_id_from_joint};
 pub use shape_geometry::*;
 pub use contact_api::*;
@@ -23,7 +24,7 @@ use std::{collections::HashMap, sync::Arc, sync::Mutex};
 use bytemuck::Zeroable;
 
 use super::query::{
-    explosion_geometry, rigid_mesh_time_of_impacts, rigid_time_of_impact, HostBody, HostShape,
+    explosion_geometry, convex_sweep_bounds, rigid_mesh_time_of_impacts, rigid_time_of_impact, HostBody, HostShape,
     HostWorld, QueryIndex, MeshInstance,
 };
 use crate::api::{
@@ -47,7 +48,7 @@ use crate::types::{
     KIND_CONVEX_HULL, KIND_MESH, KIND_SPHERE, LINEAR_SLOP, REVOLUTE_ENABLE_LIMIT,
     REVOLUTE_ENABLE_MOTOR, REVOLUTE_ENABLE_SPRING, SHAPE_ENABLE_CONTACT_EVENTS,
     SHAPE_ENABLE_CUSTOM_FILTERING, SHAPE_ENABLE_HIT_EVENTS, SHAPE_ENABLE_PRE_SOLVE_EVENTS,
-    SHAPE_PUBLIC_PROXY, SHAPE_COMPOUND_CHILD, SHAPE_DISABLE_SPECULATIVE, SHAPE_ENABLE_SENSOR_EVENTS, SHAPE_IS_SENSOR, SPHERICAL_ENABLE_CONE_LIMIT,
+    SHAPE_PUBLIC_PROXY, SHAPE_COMPOUND_CHILD, SHAPE_PASSIVE_CREATION, SHAPE_DISABLE_SPECULATIVE, SHAPE_ENABLE_SENSOR_EVENTS, SHAPE_IS_SENSOR, SPHERICAL_ENABLE_CONE_LIMIT,
     SPHERICAL_ENABLE_MOTOR, SPHERICAL_ENABLE_SPRING, SPHERICAL_ENABLE_TWIST_LIMIT,
     WHEEL_ENABLE_SPIN_MOTOR, WHEEL_ENABLE_STEERING, WHEEL_ENABLE_STEERING_LIMIT,
     WHEEL_ENABLE_SUSPENSION_LIMIT, WHEEL_ENABLE_SUSPENSION_SPRING,
@@ -310,6 +311,7 @@ struct WorldInner {
     pre_solve_context: usize,
     friction_callback: Option<FrictionCallback>,
     restitution_callback: Option<RestitutionCallback>,
+    coordinate_origin: [f32; 3],
     bodies: Vec<Option<CpuBody>>,
     free_bodies: Vec<usize>,
     body_generations: Vec<u16>,
@@ -319,8 +321,11 @@ struct WorldInner {
     sim: Option<GpuSim>,
     gpu: GpuDevice,
     scene_dirty: bool,
+    // Geometry/capacity edits require loading preparation; joint values do not.
+    preparation_dirty: bool,
     bodies_dirty: bool,
     pending_fat_transforms: HashMap<(i32, u16), Vec<[f32; 8]>>,
+    pending_proxy_moves: Vec<(i32, u16)>,
     jacobi: bool,
     last_substep_h: f32,
     reaction_inv_h: f32,
@@ -391,8 +396,19 @@ struct WorldInner {
 
 fn mark_scene_dirty(w: &mut WorldInner) {
     w.scene_dirty = true;
+    w.preparation_dirty = true;
     w.topology_dirty = true;
     w.query_topology = w.query_topology.saturating_add(1);
+}
+
+
+// Fixed-size joint edits still upload the complete scene, rebuild topology and
+// invalidate queries. They cannot change collision geometry or buffer capacity.
+// Preserve an earlier geometry edit rather than clearing pending preparation.
+fn mark_joint_parameters_dirty(w: &mut WorldInner) {
+    let preparation_dirty = w.preparation_dirty;
+    mark_scene_dirty(w);
+    w.preparation_dirty = preparation_dirty;
 }
 
 static WORLDS: Mutex<WorldRegistry> = Mutex::new(WorldRegistry::new());
@@ -424,6 +440,7 @@ pub fn b3_create_world(gpu: GpuDevice, def: &WorldDef) -> WorldId {
         pre_solve_context: 0,
         friction_callback: None,
         restitution_callback: None,
+        coordinate_origin: [0.0; 3],
         bodies: Vec::new(),
         free_bodies: Vec::new(),
         body_generations: Vec::new(),
@@ -433,8 +450,10 @@ pub fn b3_create_world(gpu: GpuDevice, def: &WorldDef) -> WorldId {
         sim: None,
         gpu,
         scene_dirty: true,
+        preparation_dirty: true,
         bodies_dirty: false,
         pending_fat_transforms: HashMap::new(),
+        pending_proxy_moves: Vec::new(),
         jacobi: false,
         last_substep_h: FIXED_DT / DEFAULT_SUB_STEPS as f32,
         reaction_inv_h: 0.0,
@@ -725,8 +744,17 @@ pub fn b3_create_body(world: WorldId, def: &BodyDef) -> BodyId {
     with_world_mut(world, |w| {
         let static_body = def.body_type == BodyType::Static;
         let kinematic_body = def.body_type == BodyType::Kinematic;
+        // Pick one fixed frame for a world born beyond float32's contact slop.
+        // Never rebase on deletion/reuse: all internal caches share this frame.
+        if w.bodies.is_empty() {
+            w.coordinate_origin = def.position.map(|value| {
+                let magnitude = value.abs();
+                let ulp = f32::from_bits(magnitude.to_bits().saturating_add(1)) - magnitude;
+                if value.is_finite() && ulp > LINEAR_SLOP { value } else { 0.0 }
+            });
+        }
         let gpu = BodyGpu {
-            pos: def.position,
+            pos: local_point(w, def.position),
             origin: [0.0; 3],
             origin_valid: 0,
             inv_mass: 0.0,
@@ -1072,6 +1100,29 @@ fn initial_proxy_bounds(body: &CpuBody, shape: &CpuShape) -> crate::broadphase_o
     crate::broadphase_order::Bounds { lower, upper }
 }
 
+// Public points are global; body storage, COM, CCD and contact caches are local.
+// Bypass zero components so ordinary worlds keep their exact previous arithmetic.
+fn shift_point(point: [f32; 3], origin: [f32; 3], subtract: bool) -> [f32; 3] {
+    std::array::from_fn(|i| {
+        if origin[i] == 0.0 { point[i] }
+        else if subtract { point[i] - origin[i] }
+        else { point[i] + origin[i] }
+    })
+}
+
+fn global_point(w: &WorldInner, point: [f32; 3]) -> [f32; 3] {
+    shift_point(point, w.coordinate_origin, false)
+}
+
+fn local_point(w: &WorldInner, point: [f32; 3]) -> [f32; 3] {
+    shift_point(point, w.coordinate_origin, true)
+}
+
+fn global_host_shape(w: &WorldInner, mut shape: HostShape) -> HostShape {
+    shape.body_origin = global_point(w, shape.body_origin);
+    shape
+}
+
 fn body_origin(cpu: &CpuBody) -> [f32; 3] {
     if cpu.gpu.origin_valid != 0 { return cpu.gpu.origin; }
     let offset = quat_rotate(cpu.gpu.rot, cpu.local_center);
@@ -1084,6 +1135,14 @@ fn body_origin(cpu: &CpuBody) -> [f32; 3] {
 
 fn snapshot_epoch(w: &WorldInner) -> u64 {
     w.sim.as_ref().map(|sim| sim.pose_snapshot_epoch()).unwrap_or(0)
+}
+
+// pack_scene_bytes already writes the diagonal and the first off-diagonal
+// triangle, duplicating that triangle into the second one. Preserve the old
+// nine-lane patch whenever a single bit differs, including signed zero.
+fn inverse_inertia_already_packed(body: &BodyGpu, inverse: [f32; 9]) -> bool {
+    inverse[..3].iter().zip(body.inv_inertia).all(|(a,b)| a.to_bits()==b.to_bits())
+        && inverse[3..6].iter().zip(&inverse[6..9]).all(|(a,b)| a.to_bits()==b.to_bits())
 }
 
 fn apply_body_mass_from_shapes_inner(w: &mut WorldInner, body: BodyId) {
@@ -1735,6 +1794,8 @@ pub fn b3_create_compound_parent(body: BodyId, def: &ShapeDef) -> ShapeId {
             .and_then(Option::as_mut)
         {
             shape.public_kind = PUBLIC_KIND_COMPOUND;
+            // Native compound proxies are never buffered solely by creation.
+            shape.event_flags |= SHAPE_PASSIVE_CREATION;
             shape.mass = 0.0;
         }
         id
@@ -2187,6 +2248,7 @@ pub fn b3_replace_height_field_shape(
         Some((
             live_body_id(w, id.world0, shape.body_index),
             ShapeDef {
+                invoke_contact_creation: shape.event_flags & SHAPE_PASSIVE_CREATION == 0,
                 density: shape.density,
                 friction: shape.friction,
                 restitution: shape.restitution,
@@ -2284,6 +2346,7 @@ pub fn b3_replace_mesh_shape(
                     .generation,
             },
             ShapeDef {
+                invoke_contact_creation: shape.event_flags & SHAPE_PASSIVE_CREATION == 0,
                 density: shape.density,
                 friction: shape.friction,
                 restitution: shape.restitution,
@@ -2808,7 +2871,7 @@ pub fn b3_body_get_transform(body: BodyId) -> ([f32; 3], [f32; 4]) {
     let world = world_id_from_body(body);
     with_world(world, |w| {
         body_ref(w, body)
-            .map(|b| (body_origin(b), b.gpu.rot))
+            .map(|b| (global_point(w, body_origin(b)), b.gpu.rot))
             .unwrap_or(([0.0; 3], [0.0, 0.0, 0.0, 1.0]))
     })
     .unwrap_or(([0.0; 3], [0.0, 0.0, 0.0, 1.0]))
@@ -2834,7 +2897,7 @@ pub fn b3_world_prepare_pose_snapshot(id: WorldId) {
 pub fn b3_body_get_world_center(body: BodyId) -> [f32; 3] {
     let world = world_id_from_body(body);
     with_world(world, |w| {
-        body_ref(w, body).map(|b| b.gpu.pos).unwrap_or([0.0; 3])
+        body_ref(w, body).map(|b| global_point(w, b.gpu.pos)).unwrap_or([0.0; 3])
     })
     .unwrap_or([0.0; 3])
 }
@@ -2848,12 +2911,14 @@ pub fn b3_world_ensure_gpu(id: WorldId) {
         let n = bodies.len() as u32;
         let h = FIXED_DT / DEFAULT_SUB_STEPS.max(1) as f32;
         ensure_sim(w, &bodies, n, h, FIXED_DT, true);
+        // Loading must observe edits even when the existing buffers are reused.
+        apply_solver_topology(w);
     });
 }
 
 pub fn b3_world_loading_needed(id: WorldId) -> bool {
     with_world_no_sync(id, |w| !w.bodies.is_empty() &&
-        w.sim.as_ref().is_none_or(|sim| !sim.collision_pipeline_ready()))
+        (w.preparation_dirty || w.sim.as_ref().is_none_or(|sim| !sim.collision_pipeline_ready())))
         .unwrap_or(false)
 }
 
@@ -2899,7 +2964,7 @@ fn step_gpu_inner(id: WorldId, dt: f32, sub_step_count: i32) {
         return;
     }
     if !dt.is_finite() || dt<=0.0 {return;}
-    with_world_mut_no_sync(id, |w| {
+    with_world_callback_reads(id, |w| {
         let mut maximum = w.maximum_capacity;
         maximum.observe(w);
         w.maximum_capacity = maximum;
@@ -2951,6 +3016,11 @@ fn step_gpu_inner(id: WorldId, dt: f32, sub_step_count: i32) {
         }
         // A zero-duration step submits no bound update, so retain host history.
         if dt > 0.0 {
+            let proxy_moves: Vec<_> = std::mem::take(&mut w.pending_proxy_moves).into_iter()
+                .filter(|(index, generation)| w.shapes.get(index.saturating_sub(1) as usize)
+                    .and_then(Option::as_ref).is_some_and(|shape| shape.generation == *generation))
+                .map(|(index, generation)| (index as u32 - 1, generation)).collect();
+            if let Some(sim) = w.sim.as_mut() { sim.buffer_proxy_moves(&proxy_moves); }
             let edits: Vec<_> = std::mem::take(&mut w.pending_fat_transforms).into_iter()
                 .filter(|((index, generation), _)| w.bodies.get(index.saturating_sub(1) as usize)
                     .and_then(Option::as_ref).is_some_and(|body| body.generation == *generation))
@@ -3049,11 +3119,11 @@ fn step_gpu_inner(id: WorldId, dt: f32, sub_step_count: i32) {
                                 let Some(body_a) = bodies.get(contact.a as usize) else {
                                     continue;
                                 };
-                                let point = Vec3::from([
+                                let point = Vec3::from(shift_point([
                                     body_a.pos[0] + contact.ra0[0],
                                     body_a.pos[1] + contact.ra0[1],
                                     body_a.pos[2] + contact.ra0[2],
-                                ]);
+                                ], w.coordinate_origin, false));
                                 let normal = Vec3::from([contact.nx, contact.ny, contact.nz]);
                                 let pair = keyed_contact(((shape_id_a.index1.max(shape_id_b.index1) as u64 - 1) << 32)
                                 | (shape_id_a.index1.min(shape_id_b.index1) as u64 - 1), key, &w.contact_child_ordinals);
@@ -3264,7 +3334,7 @@ fn body_transform(body: &BodyGpu, local_center: [f32; 3]) -> WorldTransform {
 }
 
 #[cfg(not(target_arch = "wasm32"))]
-fn sweep_bounds(
+pub(super) fn sweep_bounds(
     shape: &HostShape,
     start: WorldTransform,
     end: WorldTransform,
@@ -3286,6 +3356,20 @@ fn sweep_bounds(
 }
 
 #[cfg(not(target_arch = "wasm32"))]
+fn box_ccd_sweep_radius(center: [f32;3], half: [f32;3], com: [f32;3]) -> Option<f32> {
+    if !center.into_iter().chain(half).chain(com).all(f32::is_finite) { return None; }
+    // Exactly the same rounded endpoints as host_shape_direct followed by
+    // convex_ccd_com_shape. One of the eight corners has these three maximal
+    // magnitudes; positive rounded square/add/sqrt operations are monotone.
+    let extent: [f32;3] = std::array::from_fn(|axis| {
+        ((center[axis] + -half[axis]) - com[axis]).abs()
+            .max(((center[axis] + half[axis]) - com[axis]).abs())
+    });
+    let radius=(extent[0]*extent[0]+extent[1]*extent[1]+extent[2]*extent[2]).sqrt()+0.0;
+    radius.is_finite().then_some(radius)
+}
+
+#[cfg(not(target_arch = "wasm32"))]
 fn bounds_overlap(a: ([f32; 3], [f32; 3]), b: ([f32; 3], [f32; 3])) -> bool {
     (0..3).all(|axis| a.0[axis] <= b.1[axis] && b.0[axis] <= a.1[axis])
 }
@@ -3295,6 +3379,12 @@ fn shapes_collide(a: Filter, b: Filter) -> bool {
         return a.group_index > 0;
     }
     (a.mask_bits & b.category_bits) != 0 && (a.category_bits & b.mask_bits) != 0
+}
+
+// Filter masks/groups are pure metadata. Reject them before searching every
+// joint for a disabled body pair; callbacks remain after both predicates.
+fn ccd_pair_filters_allow(a: Filter, b: Filter, body_pair_allowed: impl FnOnce() -> bool) -> bool {
+    shapes_collide(a, b) && body_pair_allowed()
 }
 
 #[cfg(not(target_arch = "wasm32"))]
@@ -3439,6 +3529,17 @@ mod ccd_pose_precision_tests {
     }
 }
 
+fn ccd_body_pair_key(a: usize, b: usize) -> (usize, usize) {
+    (a.min(b), a.max(b))
+}
+
+fn ccd_noncolliding_body_pairs(joints: &[JointGpu]) -> std::collections::HashSet<(usize, usize)> {
+    joints.iter()
+        .filter(|joint| joint.kind != JOINT_NONE && joint.flags & JOINT_COLLIDE_CONNECTED == 0)
+        .map(|joint| ccd_body_pair_key(joint.a as usize, joint.b as usize))
+        .collect()
+}
+
 fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyGpu]) -> bool {
     if !w.def.enable_continuous || w.step_start_bodies.len() != bodies.len() {
         return false;
@@ -3450,14 +3551,6 @@ fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyG
         dense_to_source.push(source);
     }
 
-    let body_pair_allowed = |dense_a: usize, dense_b: usize| {
-        !w.joints.iter().any(|joint| {
-            joint.kind != JOINT_NONE
-                && joint.flags & JOINT_COLLIDE_CONNECTED == 0
-                && ((joint.a as usize == dense_a && joint.b as usize == dense_b)
-                    || (joint.a as usize == dense_b && joint.b as usize == dense_a))
-        })
-    };
     let quat_angle = |a: [f32; 4], b: [f32; 4]| {
         let dot = (a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3])
             .abs()
@@ -3486,6 +3579,12 @@ fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyG
     }
     fast.sort_by_key(|&(bullet, dense, _)| (bullet, dense));
     if fast.is_empty() { return false; }
+    // Topology is fixed during this CCD call. Rebuild from the same joint
+    // records once, preserving any disabling joint and both endpoint orders.
+    // No cache survives edits, retirement, slot reuse or the next CCD call.
+    let noncolliding_pairs = ccd_noncolliding_body_pairs(&w.joints);
+    let body_pair_allowed = |a: usize, b: usize|
+        !noncolliding_pairs.contains(&ccd_body_pair_key(a, b));
 
     // Preserve shape-slot order while avoiding a whole-world ownership and
     // target classification scan for every fast body. CCD changes poses and
@@ -3511,6 +3610,18 @@ fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyG
             bullet_targets.push(index);
         }
     }
+
+    // Static/kinematic targets cannot be corrected by this CCD loop. Their
+    // geometry and start/end transforms are fixed for this call, so retain the
+    // exact sweep bound instead of rescanning a mesh for every compound part.
+    // Dynamic bullet targets still recompute after earlier CCD corrections.
+    // The cache expires here: edits/kinematic motion in later steps cannot reuse it.
+    // Allocate only for visited targets, not every shape slot in large worlds.
+    let mut static_sweep_bounds = std::collections::HashMap::new();
+    // Additional conservative convex bounds enclose the actual interpolated
+    // part, rather than an origin-centered sphere. Targets in this cache cannot
+    // be corrected by CCD; discard it after this call for edits/kinematic motion.
+    let mut static_convex_sweep_bounds = std::collections::HashMap::new();
 
     let mut corrected = false;
     let trace_body = std::env::var("GPU_PHYSICS_TRACE_BODY").ok().and_then(|s| s.parse::<usize>().ok());
@@ -3555,10 +3666,28 @@ fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyG
                 if bullet && target_end_body.flags & FLAG_BULLET != 0 {
                     continue;
                 }
-                if !body_pair_allowed(dense_fast, dense_target)
-                    || !shapes_collide(fast_shape.filter, target_cpu.filter)
+                if !ccd_pair_filters_allow(fast_shape.filter, target_cpu.filter,
+                    || body_pair_allowed(dense_fast, dense_target))
                 {
                     continue;
+                }
+                // Avoid building eight corners/planes and COM-shifted Arc
+                // allocations for distant boxes. This is the same bounding
+                // sphere test performed below, before geometry construction.
+                // Preserve custom-filter callback visits/ordering exactly.
+                if target_static && target_cpu.kind == KIND_BOX
+                    && !(w.custom_filter_callback.is_some()
+                        && (target_cpu.event_flags | fast_flags) & SHAPE_ENABLE_CUSTOM_FILTERING != 0)
+                {
+                    if let Some(cpu_target)=w.bodies[source_target].as_ref() {
+                        if let Some(radius)=box_ccd_sweep_radius(target_cpu.geometry_center,target_cpu.half,cpu_target.local_center) {
+                            let start=w.step_start_bodies[dense_target].pos;
+                            let end=target_end_body.pos;
+                            let lower=std::array::from_fn(|axis|start[axis].min(end[axis])-radius);
+                            let upper=std::array::from_fn(|axis|start[axis].max(end[axis])+radius);
+                            if !bounds_overlap(fast_bounds,(lower,upper)) {continue;}
+                        }
+                    }
                 }
                 let Some(mut target_shape) = host_shape(w, world0, target_index, target_cpu) else {
                     continue;
@@ -3589,11 +3718,27 @@ fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyG
                     (WorldTransform { p: target_start_body.pos, q: target_start_body.rot },
                      WorldTransform { p: target_end_body.pos, q: target_end_body.rot })
                 };
-                if !bounds_overlap(
-                    fast_bounds,
-                    sweep_bounds(&target_shape, start_target, end_target),
-                ) {
+                let target_bounds = if target_static {
+                    *static_sweep_bounds.entry(target_index).or_insert_with(||
+                        sweep_bounds(&target_shape, start_target, end_target))
+                } else {
+                    sweep_bounds(&target_shape, start_target, end_target)
+                };
+                if !bounds_overlap(fast_bounds, target_bounds) {
                     continue;
+                }
+                if target_static && target_shape.kind != KIND_MESH {
+                    // COM was already subtracted from the convex proxy above.
+                    // Keep earlier filter/callback visits and the original TOI
+                    // untouched. Invalid bounds retain the old conservative path.
+                    let bound = static_convex_sweep_bounds.entry(target_index)
+                        .or_insert_with(|| convex_sweep_bounds(
+                            &target_shape, start_target, end_target, [0.0; 3]));
+                    if let Some(bound) = bound {
+                        if !bounds_overlap(fast_bounds, (bound.lower_bound, bound.upper_bound)) {
+                            continue;
+                        }
+                    }
                 }
                 let is_sensor = target_cpu.event_flags & SHAPE_IS_SENSOR != 0;
                 if is_sensor
@@ -3642,7 +3787,7 @@ fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyG
                                 callback(
                                     target_shape.id,
                                     fast_shape.id,
-                                    Vec3::from(hit.point),
+                                    Vec3::from(global_point(w, hit.point)),
                                     Vec3::from(hit.normal),
                                     w.pre_solve_context as *mut std::ffi::c_void,
                                 )
@@ -3680,6 +3825,7 @@ fn run_continuous_collision(w: &mut WorldInner, world0: u16, bodies: &mut [BodyG
                 corrected_pose.q, cpu_fast.local_center, solid_fraction);
             end_fast_body.origin_valid = 1;
             end_fast_body.flags &= !crate::types::FLAG_CCD_NO_HIT;
+            end_fast_body.flags |= crate::types::FLAG_HAD_TOI;
             end_fast_body.pos = corrected_pose.p;
             end_fast_body.rot = corrected_pose.q;
             end_fast_body.flags &= !FLAG_SLEEP;
@@ -3820,7 +3966,7 @@ fn sync_world_mirror_parts(
                         w.body_move_events.push(BodyMoveEvent {
                             user_data: cpu.user_data,
                             transform: WorldTransform {
-                                p: origin,
+                                p: shift_point(origin, w.coordinate_origin, false),
                                 q: cpu.gpu.rot,
                             },
                             body_id: BodyId {
@@ -4308,7 +4454,7 @@ pub fn b3_world_health_scan(id: WorldId) -> WorldHealthScan {
                 continue;
             }
             // Match native b3Body_GetPosition: GPU storage is COM, not origin.
-            let p = body_origin(body);
+            let p = global_point(w, body_origin(body));
             let v = body.gpu.vel;
             let q = body.gpu.rot;
             let wvel = body.gpu.omega;
@@ -4622,7 +4768,7 @@ fn update_contact_events(w: &mut WorldInner, world0: u16, contacts: &[crate::typ
                     shape_id_a: live.shape_id_a,
                     shape_id_b: live.shape_id_b,
                     contact_id: live.contact_id,
-                    point,
+                    point: global_point(w, point),
                     normal: if shape_id_a == live.shape_id_a { [contact.nx, contact.ny, contact.nz] }
                         else { [-contact.nx, -contact.ny, -contact.nz] },
                     approach_speed,
@@ -4814,7 +4960,7 @@ pub fn b3_world_render_framing_bounds(id: WorldId) -> Option<([f32; 3], [f32; 3]
             let extent = glam::Vec3::splat(body.max_extent.max(0.5));
             lower = lower.min(p - extent); upper = upper.max(p + extent);
         }
-        (lower.is_finite() && upper.is_finite()).then_some((lower.to_array(), upper.to_array()))
+        (lower.is_finite() && upper.is_finite()).then_some((global_point(w, lower.to_array()), global_point(w, upper.to_array())))
     }).flatten()
 }
 
@@ -4822,7 +4968,7 @@ pub fn b3_world_render_framing_bounds(id: WorldId) -> Option<([f32; 3], [f32; 3]
 /// Callers needing CPU CCD finalization must request it explicitly first.
 pub fn b3_world_render_buffers(id: WorldId) -> Option<(wgpu::Buffer, wgpu::Buffer, u32)> {
     with_world_no_sync(id, |w| w.sim.as_ref().map(|sim| (
-        sim.current_bodies_buffer().clone(), sim.body_cold_buffer().clone(), sim.count,
+        sim.render_bodies_buffer().clone(), sim.body_cold_buffer().clone(), sim.count,
     ))).flatten()
 }
 
@@ -4830,7 +4976,7 @@ pub fn b3_world_current_buffers(id: WorldId) -> Option<(wgpu::Buffer, wgpu::Buff
     with_world_no_sync(id, |w| {
         w.sim.as_ref().map(|s| {
             (
-                s.current_bodies_buffer().clone(),
+                s.render_bodies_buffer().clone(),
                 s.body_cold_buffer().clone(),
             )
         })
@@ -4876,6 +5022,7 @@ fn scan_topology_bounds(w: &WorldInner) -> TopologyBounds {
     let mut shape_count = 0u32;
     let mut mesh_shapes = 0u32;
     let mut non_dynamic_shapes = 0u32;
+    let mut all_static_colliders = true;
     let mut writable_shapes: Vec<u32> = vec![0; w.bodies.len()];
     for shape in w.shapes.iter().flatten() {
         shape_count += 1;
@@ -4887,6 +5034,7 @@ fn scan_topology_bounds(w: &WorldInner) -> TopologyBounds {
             non_dynamic_shapes = non_dynamic_shapes.saturating_add(1);
             continue;
         };
+        all_static_colliders &= body.gpu.flags & FLAG_STATIC != 0;
         if gpu_is_non_dynamic(body.gpu.flags) {
             non_dynamic_shapes = non_dynamic_shapes.saturating_add(1);
         } else if let Some(slot) = writable_shapes.get_mut(body_i) {
@@ -4910,6 +5058,7 @@ fn scan_topology_bounds(w: &WorldInner) -> TopologyBounds {
         // leave holes; a live count would exclude later slots after a re-grab.
         joints: w.joints.len() as u32,
         non_dynamic_shapes,
+        all_static_colliders,
         skip_general_static_sort,
         static_degree_two_proof: mesh_shapes==0 && writable_shapes.iter().all(|&d| u64::from(d)*u64::from(n)<=2),
         one_group_pair_ok: pair_bound <= 64,
@@ -5030,7 +5179,10 @@ fn world_capacity_hints(w: &WorldInner) -> (u32, u32) {
 }
 
 fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f32, upload_params: bool) {
-    let need_scene = w.sim.is_none() || w.scene_dirty;
+    let contact_hint = w.def.capacity.contact_count.max(0) as u32;
+    let contact_growth = w.sim.as_ref().is_some_and(|sim|
+        sim.requires_contact_growth(bodies, contact_hint));
+    let need_scene = w.sim.is_none() || w.scene_dirty || contact_growth;
     // Refresh before uploads consume the dirty bits. Read paths use the scan
     // while dirty, so an edit cannot expose a previously cached eligibility.
     if need_scene || w.bodies_dirty || w.scene_capabilities.is_none() {
@@ -5293,7 +5445,7 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
             (index, w.shapes[index as usize].as_ref().unwrap().generation)
         }).collect();
         let (body_hint, shape_hint) = world_capacity_hints(w);
-        let must_alloc = w.sim.as_ref().is_none_or(|sim| !sim.caps.fits(live)
+        let must_alloc = contact_growth || w.sim.as_ref().is_none_or(|sim| !sim.caps.fits(live)
             || (order_seed.is_some() && !sim.has_contact_order_storage()));
         if must_alloc {
             let caps = w.sim.as_ref().map_or_else(
@@ -5328,6 +5480,7 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
                 &mix_pairs,
                 &joints,
                 caps,
+                contact_hint.max(old.as_ref().map_or(0, GpuSim::reserved_contact_capacity)),
                 w.enable_contacts,
                 h,
                 w.def.gravity,
@@ -5348,6 +5501,7 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
                 }
             };
 
+            sim.set_coordinate_origin(w.coordinate_origin, bodies);
             if let Some(flags)=w.diagnostic_flags_override {sim.set_diagnostic_flags(flags);}
             sim.shape_identities = identities.clone();
             sim.restore_physics_step(w.physics_step);
@@ -5415,11 +5569,16 @@ fn ensure_sim(w: &mut WorldInner, bodies: &[BodyGpu], n: u32, h: f32, step_dt: f
         if let Some(sim) = w.sim.as_ref() {
             for (slot, body) in w.bodies.iter().enumerate() {
                 if let Some(body) = body {
-                    sim.set_body_inverse_inertia(slot as u32, unpack_inertia(invert_inertia(body.local_inertia)));
+                    let inverse = invert_inertia(body.local_inertia);
+                    if bodies.get(slot).is_some_and(|packed| inverse_inertia_already_packed(packed, inverse)) {
+                        continue;
+                    }
+                    sim.set_body_inverse_inertia(slot as u32, unpack_inertia(inverse));
                 }
             }
         }
         w.scene_dirty = false;
+        w.preparation_dirty = false;
         w.bodies_dirty = false;
         for cpu in w.bodies.iter_mut().flatten() {
             cpu.host_epoch = 0;
@@ -5546,7 +5705,8 @@ fn push_shape(
             | u32::from(def.enable_custom_filtering) * SHAPE_ENABLE_CUSTOM_FILTERING
             | u32::from(def.enable_pre_solve_events) * SHAPE_ENABLE_PRE_SOLVE_EVENTS
             | u32::from(!def.enable_speculative_contact) * SHAPE_DISABLE_SPECULATIVE
-            | u32::from(def.is_sensor) * SHAPE_IS_SENSOR,
+            | u32::from(def.is_sensor) * SHAPE_IS_SENSOR
+            | u32::from(!def.invoke_contact_creation) * SHAPE_PASSIVE_CREATION,
         user_material_id: def.user_material_id,
         custom_color: 0,
         mesh_materials: vec![SurfaceMaterial {
@@ -5637,6 +5797,7 @@ fn with_world_no_sync<T>(id: WorldId, f: impl FnOnce(&WorldInner) -> T) -> Optio
 
 fn with_world<T>(id: WorldId, f: impl FnOnce(&WorldInner) -> T) -> Option<T> {
     let mut worlds = lock_worlds();
+    let _reads = callback_shape_reads::pending(&worlds,id,false).map(callback_shape_reads::enter);
     slot_mut(&mut worlds, id).map(|w| {
         ensure_cpu_mirror_world(w, id);
         f(w)
@@ -5645,6 +5806,7 @@ fn with_world<T>(id: WorldId, f: impl FnOnce(&WorldInner) -> T) -> Option<T> {
 
 fn with_world_mut<T>(id: WorldId, f: impl FnOnce(&mut WorldInner) -> T) -> Option<T> {
     let mut worlds = lock_worlds();
+    let _reads = callback_shape_reads::pending(&worlds,id,false).map(callback_shape_reads::enter);
     slot_mut(&mut worlds, id).map(|w| {
         ensure_cpu_mirror_world(w, id);
         if let Some(sim)=w.sim.as_ref() {sim.invalidate_idle_proof();}
@@ -5652,8 +5814,15 @@ fn with_world_mut<T>(id: WorldId, f: impl FnOnce(&mut WorldInner) -> T) -> Optio
     })
 }
 
+fn with_world_callback_reads<T>(id: WorldId, f: impl FnOnce(&mut WorldInner) -> T) -> Option<T> {
+    let mut worlds = lock_worlds();
+    let _reads = callback_shape_reads::pending(&worlds,id,true).map(callback_shape_reads::enter);
+    slot_mut(&mut worlds,id).map(f)
+}
+
 fn with_world_mut_no_sync<T>(id: WorldId, f: impl FnOnce(&mut WorldInner) -> T) -> Option<T> {
     let mut worlds = lock_worlds();
+    let _reads = callback_shape_reads::pending(&worlds,id,false).map(callback_shape_reads::enter);
     slot_mut(&mut worlds, id).map(f)
 }
 
@@ -5678,7 +5847,7 @@ pub fn b3_world_draw_items(id: WorldId, out: &mut [DrawItemC]) -> i32 {
             }
             if (n as usize) < out.len() {
                 out[n as usize] = DrawItemC {
-                    pos: cpu.gpu.pos,
+                    pos: global_point(w, cpu.gpu.pos),
                     kind: cpu.gpu.kind,
                     rot: cpu.gpu.rot,
                     half: cpu.gpu.half,
@@ -5710,6 +5879,8 @@ pub fn b3_world_aabb(id: WorldId) -> [f32; 6] {
         if !any {
             return [-1.0, -1.0, -1.0, 1.0, 1.0, 1.0];
         }
+        let lo = global_point(w, lo);
+        let hi = global_point(w, hi);
         [lo[0], lo[1], lo[2], hi[0], hi[1], hi[2]]
     })
     .unwrap_or([-1.0, -1.0, -1.0, 1.0, 1.0, 1.0])
@@ -5786,6 +5957,7 @@ pub fn b3_body_is_valid(id: BodyId) -> bool {
 }
 
 pub fn b3_shape_is_valid(id: ShapeId) -> bool {
+    if let Some(shape) = callback_shape_reads::read(id) { return shape.is_some(); }
     if id.index1 == 0 {
         return false;
     }
@@ -5895,7 +6067,7 @@ fn with_joint_mut<R>(id: JointId, f: impl FnOnce(&mut JointGpu) -> R) -> Option<
                 body.gpu.sleep_time = 0.0;
             }
         }
-        mark_scene_dirty(w);
+        mark_joint_parameters_dirty(w);
         Some(result)
     })
     .flatten()
@@ -6683,7 +6855,7 @@ fn with_prismatic_joint_mut<R>(id: JointId, f: impl FnOnce(&mut JointGpu) -> R) 
                 body.gpu.sleep_time = 0.0;
             }
         }
-        mark_scene_dirty(w);
+        mark_joint_parameters_dirty(w);
         Some(result)
     })
     .flatten()
@@ -6720,7 +6892,7 @@ fn with_distance_joint_mut<R>(id: JointId, f: impl FnOnce(&mut JointGpu) -> R) -
                 body.gpu.sleep_time = 0.0;
             }
         }
-        mark_scene_dirty(w);
+        mark_joint_parameters_dirty(w);
         Some(result)
     })
     .flatten()
@@ -6915,7 +7087,7 @@ fn with_parallel_joint_mut<R>(id: JointId, f: impl FnOnce(&mut JointGpu) -> R) -
                 body.gpu.sleep_time = 0.0;
             }
         }
-        mark_scene_dirty(w);
+        mark_joint_parameters_dirty(w);
         Some(result)
     })
     .flatten()
@@ -7393,6 +7565,7 @@ fn refresh_query_index(w: &mut WorldInner, world0: u16) {
             .iter()
             .enumerate()
             .filter_map(|(index, shape)| host_shape(w, world0, index, shape.as_ref()?))
+            .map(|shape| global_host_shape(w, shape))
             .collect();
         let construct_ms = construct_start.elapsed().as_secs_f32() * 1e3;
         let index_start = std::time::Instant::now();
@@ -7404,6 +7577,7 @@ fn refresh_query_index(w: &mut WorldInner, world0: u16) {
         w.query_index = Some(index);
         return;
     }
+    let coordinate_origin = w.coordinate_origin;
     let Some(index) = w.query_index.as_mut() else {
         return;
     };
@@ -7423,7 +7597,7 @@ fn refresh_query_index(w: &mut WorldInner, world0: u16) {
         else {
             continue;
         };
-        let origin = body_origin(body);
+        let origin = shift_point(body_origin(body), coordinate_origin, false);
         moved |= shape.body_origin != origin || shape.body_rotation != body.gpu.rot;
         shape.body_origin = origin;
         shape.body_rotation = body.gpu.rot;
@@ -7483,6 +7657,12 @@ pub(super) fn query_world_aabb(id: WorldId, bounds: super::Aabb) -> Option<HostW
     with_query_index(id, |index, _| index.snapshot_aabb(bounds))
 }
 
+pub(super) fn query_mover_snapshot(
+    id: WorldId, coarse: super::Aabb, candidates: super::Aabb,
+) -> Option<Vec<super::query::MoverCastGroup>> {
+    with_query_index(id, |index, _| index.snapshot_mover(coarse, candidates))
+}
+
 pub(super) fn query_world(id: WorldId) -> Option<HostWorld> {
     with_query_index(id, |index, _| HostWorld {
         shapes: index.shapes.clone(),
@@ -7524,11 +7704,13 @@ pub(super) fn gpu_cast_ray_closest(
             }
         }
         w.last_query_profile.ccd_ms = 0.0;
+        let coordinate_origin = w.coordinate_origin;
         let Some(sim) = w.sim.as_mut() else {
             w.last_query_profile.wait_ms = wait_ms;
             return RayResult::default();
         };
-        let gpu = sim.cast_ray_closest_gpu(
+        let gpu = sim.cast_ray_closest_gpu_in_public_frame(
+            coordinate_origin,
             origin,
             translation,
             filter.category_bits,
@@ -7560,7 +7742,7 @@ pub(super) fn gpu_cast_ray_closest(
             };
             (parent_index, parent, shape.compound_child_index)
         } else {
-            (cpu_index, shape, -1)
+            (cpu_index, shape, 0)
         };
         RayResult {
             shape_id: ShapeId {
@@ -7572,7 +7754,9 @@ pub(super) fn gpu_cast_ray_closest(
             normal: gpu.normal,
             user_material_id: gpu.material,
             fraction: gpu.fraction,
-            triangle_index: gpu.triangle,
+            triangle_index: if shape.kind == KIND_MESH {
+                shape.mesh_triangle_ids.get(gpu.triangle as usize).copied().unwrap_or(gpu.triangle)
+            } else { 0 },
             child_index,
             node_visits: 0,
             leaf_visits: 1,
@@ -7604,6 +7788,7 @@ pub(super) fn shape_surface_material(id: ShapeId) -> Option<SurfaceMaterial> {
 }
 
 pub(super) fn shape_property_user_data(id: ShapeId) -> Option<usize> {
+    if let Some(shape) = callback_shape_reads::read(id) { return shape.map(|s| s.user_data); }
     with_world_no_sync(world_id_from_shape(id), |w| {
         shape_property_ref(w, id).map(|shape| shape.user_data)
     }).flatten()
@@ -7662,7 +7847,7 @@ pub(super) fn query_shape(id: ShapeId) -> Option<HostShape> {
         if shape.generation != id.generation {
             return None;
         }
-        host_shape_direct(w, id.world0, index, shape)
+        host_shape_direct(w, id.world0, index, shape).map(|shape| global_host_shape(w, shape))
     })
     .flatten()
 }
@@ -7682,7 +7867,7 @@ pub(super) fn query_shape_parts(id: ShapeId) -> Vec<HostShape> {
             return Vec::new();
         }
         if shape.public_kind != PUBLIC_KIND_COMPOUND {
-            return host_shape_direct(w, id.world0, index, shape)
+            return host_shape_direct(w, id.world0, index, shape).map(|shape| global_host_shape(w, shape))
                 .into_iter()
                 .collect();
         }
@@ -7692,7 +7877,7 @@ pub(super) fn query_shape_parts(id: ShapeId) -> Vec<HostShape> {
             .filter_map(|(index, slot)| {
                 let child = slot.as_ref()?;
                 (child.compound_parent == id.index1)
-                    .then(|| host_shape_direct(w, id.world0, index, child))
+                    .then(|| host_shape_direct(w, id.world0, index, child).map(|shape| global_host_shape(w, shape)))
                     .flatten()
             })
             .collect()
@@ -7705,7 +7890,7 @@ pub(super) fn query_body(id: BodyId) -> Option<HostBody> {
     with_world(world, |w| {
         let body = body_ref(w, id)?;
         Some(HostBody {
-            origin: body_origin(body),
+            origin: global_point(w, body_origin(body)),
             shapes: w
                 .shapes
                 .iter()
@@ -7713,7 +7898,7 @@ pub(super) fn query_body(id: BodyId) -> Option<HostBody> {
                 .filter_map(|(index, shape)| {
                     let shape = shape.as_ref()?;
                     (shape.body_index == id.index1)
-                        .then(|| host_shape_direct(w, id.world0, index, shape))
+                        .then(|| host_shape_direct(w, id.world0, index, shape).map(|shape| global_host_shape(w, shape)))
                         .flatten()
                 })
                 .collect(),
@@ -7733,6 +7918,8 @@ pub fn b3_world_explode(id: WorldId, def: &ExplosionDef) {
         return;
     }
     with_world_mut(id, |w| {
+        let mut def = *def;
+        def.position = local_point(w, def.position);
         struct Contribution {
             body_index: usize,
             impulse: [f32; 3],
@@ -7894,6 +8081,14 @@ pub fn b3_shape_set_filter(id: ShapeId, filter: Filter, invoke_contacts: bool) {
         if !invoke_contacts {
             return;
         }
+        // Native ResetProxy retires contacts and buffers the public proxy even
+        // when geometry/pose did not escape its previous fat bounds.
+        if !w.pending_proxy_moves.contains(&(id.index1, id.generation)) {
+            w.pending_proxy_moves.push((id.index1, id.generation));
+        }
+        if let Some(sim) = w.sim.as_mut() {
+            sim.retire_shape_contacts(id.index1 as u32 - 1, id.generation);
+        }
 
         let mut retained = HashMap::with_capacity(w.live_contacts.len());
         for (key, contact) in w.live_contacts.drain() {
@@ -7963,6 +8158,15 @@ pub fn b3_shape_are_pre_solve_events_enabled(id: ShapeId) -> bool {
     shape_event_flag(id, SHAPE_ENABLE_PRE_SOLVE_EVENTS)
 }
 
+/// Creation-time C bridge policy. This does not disable the shape or change its filter.
+pub fn b3_shape_set_invoke_contact_creation(id: ShapeId, invoke: bool) {
+    let compound = with_world_no_sync(world_id_from_shape(id), |w| {
+        w.shapes.get(id.index1.saturating_sub(1) as usize).and_then(Option::as_ref)
+            .is_some_and(|shape| shape.generation == id.generation && shape.public_kind == PUBLIC_KIND_COMPOUND)
+    }).unwrap_or(false);
+    set_shape_event_flag(id, SHAPE_PASSIVE_CREATION, !invoke || compound);
+}
+
 fn set_shape_event_flag(id: ShapeId, flag: u32, enable: bool) {
     let world = world_id_from_shape(id);
     with_world_mut(world, |w| {
@@ -7987,6 +8191,7 @@ fn set_shape_event_flag(id: ShapeId, flag: u32, enable: bool) {
 }
 
 fn shape_event_flag(id: ShapeId, flag: u32) -> bool {
+    if let Some(shape) = callback_shape_reads::read(id) { return shape.is_some_and(|s| s.event_flags & flag != 0); }
     let world = world_id_from_shape(id);
     with_world(world, |w| {
         w.shapes
@@ -8470,14 +8675,7 @@ pub fn b3_shape_set_mesh_material_count(id: ShapeId, count: usize) {
 }
 
 pub fn b3_shape_is_sensor(id: ShapeId) -> bool {
-    let world = world_id_from_shape(id);
-    with_world(world, |w| {
-        w.shapes
-            .get(id.index1.saturating_sub(1) as usize)
-            .and_then(|shape| shape.as_ref())
-            .is_some_and(|shape| (shape.event_flags & SHAPE_IS_SENSOR) != 0)
-    })
-    .unwrap_or(false)
+    shape_event_flag(id, SHAPE_IS_SENSOR)
 }
 
 pub fn b3_shape_set_sensor(id: ShapeId, is_sensor: bool) {
@@ -8815,6 +9013,7 @@ pub fn b3_destroy_body(id: BodyId) {
 pub fn b3_body_set_transform(id: BodyId, pos: [f32; 3], rot: [f32; 4]) {
     let world = world_id_from_body(id);
     with_world_mut(world, |w| {
+        let pos = local_point(w, pos);
         let epoch = snapshot_epoch(w);
         if let Some(cpu) = body_mut(w, id) {
             let previous = body_origin(cpu);
@@ -9006,6 +9205,7 @@ fn apply_world_angular_impulse(body: &mut CpuBody, impulse: [f32; 3]) {
 pub fn b3_body_apply_force(id: BodyId, force: [f32; 3], point: [f32; 3], wake: bool) {
     let world = world_id_from_body(id);
     with_world_mut(world, |w| {
+        let coordinate_origin = w.coordinate_origin;
         let epoch = snapshot_epoch(w);
         if let Some(body) = body_mut(w, id) {
             if (body.gpu.flags & (FLAG_STATIC | FLAG_KINEMATIC | FLAG_DISABLED)) != 0 {
@@ -9019,10 +9219,11 @@ pub fn b3_body_apply_force(id: BodyId, force: [f32; 3], point: [f32; 3], wake: b
             for (sum, value) in body.force.iter_mut().zip(force) {
                 *sum += value;
             }
+            let center = shift_point(body.gpu.pos, coordinate_origin, false);
             let r = [
-                point[0] - body.gpu.pos[0],
-                point[1] - body.gpu.pos[1],
-                point[2] - body.gpu.pos[2],
+                point[0] - center[0],
+                point[1] - center[1],
+                point[2] - center[2],
             ];
             body.torque[0] += r[1] * force[2] - r[2] * force[1];
             body.torque[1] += r[2] * force[0] - r[0] * force[2];
@@ -9167,7 +9368,7 @@ pub fn b3_body_get_world_point(id: BodyId, local: [f32; 3]) -> [f32; 3] {
     with_world(world, |w| {
         body_ref(w, id).map(|body| {
             let rotated = quat_rotate(body.gpu.rot, local);
-            let origin = body_origin(body);
+            let origin = global_point(w, body_origin(body));
             [
                 origin[0] + rotated[0],
                 origin[1] + rotated[1],
@@ -9183,7 +9384,7 @@ pub fn b3_body_get_local_point(id: BodyId, world_point: [f32; 3]) -> [f32; 3] {
     let world = world_id_from_body(id);
     with_world(world, |w| {
         body_ref(w, id).map(|body| {
-            let origin = body_origin(body);
+            let origin = global_point(w, body_origin(body));
             let delta = [
                 world_point[0] - origin[0],
                 world_point[1] - origin[1],
@@ -9236,10 +9437,11 @@ pub fn b3_body_get_world_point_velocity(id: BodyId, world_point: [f32; 3]) -> [f
     let world = world_id_from_body(id);
     with_world(world, |w| {
         body_ref(w, id).map(|body| {
+            let center = global_point(w, body.gpu.pos);
             let r = [
-                world_point[0] - body.gpu.pos[0],
-                world_point[1] - body.gpu.pos[1],
-                world_point[2] - body.gpu.pos[2],
+                world_point[0] - center[0],
+                world_point[1] - center[1],
+                world_point[2] - center[2],
             ];
             let w = body.gpu.omega;
             [
@@ -9254,8 +9456,29 @@ pub fn b3_body_get_world_point_velocity(id: BodyId, world_point: [f32; 3]) -> [f
 }
 
 pub fn b3_body_get_local_point_velocity(id: BodyId, local: [f32; 3]) -> [f32; 3] {
+    let frame = with_world_no_sync(world_id_from_body(id), |w| w.coordinate_origin).unwrap_or([0.0; 3]);
+    if frame != [0.0; 3] {
+        return with_world(world_id_from_body(id), |w| {
+            body_ref(w, id).map(|body| {
+                let r = quat_rotate(body.gpu.rot, std::array::from_fn(|i| local[i] - body.local_center[i]));
+                let omega = body.gpu.omega;
+                [body.gpu.vel[0] + omega[1] * r[2] - omega[2] * r[1],
+                 body.gpu.vel[1] + omega[2] * r[0] - omega[0] * r[2],
+                 body.gpu.vel[2] + omega[0] * r[1] - omega[1] * r[0]]
+            })
+        }).flatten().unwrap_or([0.0; 3]);
+    }
     let world_point = b3_body_get_world_point(id, local);
     b3_body_get_world_point_velocity(id, world_point)
+}
+
+/// Read the existing current body flags for sample debug rendering.
+/// Uses the same synchronized mirror as body transforms; never modifies state.
+pub fn b3_body_get_debug_flags(id: BodyId) -> u32 {
+    with_world(world_id_from_body(id), |w| {
+        body_ref(w, id).map_or(0, |body| body.gpu.flags)
+    })
+    .unwrap_or(0)
 }
 
 pub fn b3_body_is_awake(id: BodyId) -> bool {
@@ -9424,6 +9647,7 @@ pub fn b3_body_get_joints(id: BodyId, output: &mut [JointId]) -> usize {
 pub fn b3_body_apply_linear_impulse(id: BodyId, impulse: [f32; 3], point: [f32; 3], wake: bool) {
     let world = world_id_from_body(id);
     with_world_mut(world, |w| {
+        let coordinate_origin = w.coordinate_origin;
         let epoch = snapshot_epoch(w);
         if let Some(body) = body_mut(w, id) {
             if (body.gpu.flags & (FLAG_STATIC | FLAG_KINEMATIC | FLAG_DISABLED)) != 0
@@ -9434,10 +9658,11 @@ pub fn b3_body_apply_linear_impulse(id: BodyId, impulse: [f32; 3], point: [f32; 
             for (velocity, value) in body.gpu.vel.iter_mut().zip(impulse) {
                 *velocity += body.gpu.inv_mass * value;
             }
+            let center = shift_point(body.gpu.pos, coordinate_origin, false);
             let r = [
-                point[0] - body.gpu.pos[0],
-                point[1] - body.gpu.pos[1],
-                point[2] - body.gpu.pos[2],
+                point[0] - center[0],
+                point[1] - center[1],
+                point[2] - center[2],
             ];
             apply_world_angular_impulse(
                 body,
@@ -9566,6 +9791,7 @@ pub fn b3_body_set_target_transform(
     }
     let world = world_id_from_body(id);
     with_world_mut(world, |w| {
+        let position = local_point(w, position);
         let epoch = snapshot_epoch(w);
         if let Some(body) = body_mut(w, id) {
             let target_offset = quat_rotate(rotation, body.local_center);
@@ -10103,7 +10329,7 @@ pub fn b3_joint_set_collide_connected(id: JointId, enable: bool) {
             contact_api::retire_body_pair(w, a as i32 + 1, b as i32 + 1);
         }
         // Rebuild the pair veto table and broadphase inputs, without waking bodies.
-        mark_scene_dirty(w);
+        mark_joint_parameters_dirty(w);
     });
 }
 
@@ -12487,7 +12713,7 @@ pub fn b3_joint_set_local_frame(id: JointId, second: bool, position: [f32; 3], r
             joint.anchor_a = position; joint.frame_a_rotation = rotation;
             if joint.kind == JOINT_PRISMATIC { joint.axis = quat_rotate(rotation, [1.0, 0.0, 0.0]); }
         }
-        mark_scene_dirty(w);
+        mark_joint_parameters_dirty(w);
     });
 }
 pub fn b3_joint_get_local_frame(id: JointId, second: bool) -> ([f32; 3], [f32; 4]) {
@@ -13018,5 +13244,368 @@ mod compound_property_contract {
         assert_eq!(crate::api::b3_shape_get_friction(sphere), def.friction);
         assert_eq!(crate::api::b3_shape_get_user_data(sphere), def.user_data);
         b3_destroy_world(world);
+    }
+}
+
+
+#[cfg(all(test, not(target_arch = "wasm32")))]
+mod vis02_metadata_tests {
+    use super::*;
+    use crate::api::{b3_default_world_def,b3_default_body_def,b3_default_shape_def,b3_make_box_hull};
+    use crate::types::{FLAG_SPEED_CAPPED,FLAG_HAD_TOI,FLAG_SPEED_CAPPED_PENDING};
+    fn free_body(gpu:GpuDevice,sleep:bool)->(WorldId,BodyId,ShapeId) {
+        let mut wd=b3_default_world_def();wd.gravity=[0.0;3];wd.enable_sleep=sleep;
+        let world=b3_create_world(gpu,&wd);
+        let mut bd=b3_default_body_def();bd.body_type=BodyType::Dynamic;
+        let body=b3_create_body(world,&bd);
+        let shape=b3_create_sphere_shape(body,&b3_default_shape_def(),&Sphere{center:[0.0;3],radius:0.5});
+        (world,body,shape)
+    }
+    fn step(world:WorldId,body:BodyId)->u32 {
+        b3_world_step_gpu(world,1.0/60.0,4);b3_world_gpu_wait(world);
+        let flags=b3_body_get_debug_flags(body);
+        assert_eq!(flags & FLAG_SPEED_CAPPED_PENDING,0,"pending accumulator must not escape a completed step");
+        assert!(b3_body_is_valid(body));
+        eprintln!("VIS02_METADATA world={} body={:?} step={} flags={flags:08x} position={:?} velocity={:?}",
+            world.index1,body,b3_world_physics_step(world),b3_body_get_position(body),b3_body_get_linear_velocity(body));
+        flags
+    }
+    #[test]
+    fn vis02_metadata_speed_cap_lifetime() {
+        let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+        let (world,body,shape)=free_body(gpu,false);
+        b3_world_set_maximum_linear_speed(world,2.0);
+        b3_body_set_linear_velocity(body,[6.0,0.0,0.0]);
+        assert_ne!(step(world,body)&FLAG_SPEED_CAPPED,0,"first-substep cap must survive three uncapped substeps");
+        assert_eq!(b3_body_get_linear_velocity(body).map(f32::to_bits),[2.0f32,0.0,0.0].map(f32::to_bits));
+        b3_body_set_linear_velocity(body,[1.0,0.0,0.0]);
+        assert_eq!(step(world,body)&(FLAG_SPEED_CAPPED|FLAG_HAD_TOI),0);
+        b3_body_set_angular_velocity(body,[100.0,0.0,0.0]);
+        assert_ne!(step(world,body)&FLAG_SPEED_CAPPED,0);
+        assert!(b3_body_get_angular_velocity(body)[0]<47.124);
+        b3_body_allow_fast_rotation(body,true);
+        b3_body_set_angular_velocity(body,[100.0,0.0,0.0]);
+        assert_eq!(step(world,body)&FLAG_SPEED_CAPPED,0);
+        b3_body_set_angular_velocity(body,[0.0;3]);
+        b3_body_set_motion_locks(body,MotionLocks{linear_x:true,..MotionLocks::default()});
+        b3_body_set_linear_velocity(body,[6.0,0.0,0.0]);
+        assert_eq!(step(world,body)&FLAG_SPEED_CAPPED,0,"locked velocity is removed before the cap");
+        assert!(b3_shape_is_valid(shape));assert_eq!(b3_shape_body(shape),body);
+        b3_destroy_body(body);assert!(!b3_body_is_valid(body));
+        let mut bd=b3_default_body_def();bd.body_type=BodyType::Dynamic;
+        let replacement=b3_create_body(world,&bd);
+        assert_eq!(replacement.index1,body.index1);assert_ne!(replacement.generation,body.generation);
+        assert_eq!(b3_body_get_debug_flags(replacement)&(FLAG_SPEED_CAPPED|FLAG_HAD_TOI|FLAG_SPEED_CAPPED_PENDING),0);
+        b3_destroy_world(world);
+    }
+    unsafe extern "C" fn reject(_:ShapeId,_:ShapeId,_:Vec3,_:Vec3,_:*mut std::ffi::c_void)->bool {false}
+    fn crossing(gpu:GpuDevice,device:bool,kind:u32)->(WorldId,BodyId) {
+        let mut wd=b3_default_world_def();wd.gravity=[0.0;3];wd.enable_sleep=false;
+        let world=b3_create_world(gpu,&wd);
+        with_world_mut_no_sync(world,|w|{w.gpu_ccd_requested=device;w.gpu_resident_requested=false;});
+        let bd=b3_default_body_def();let ground=b3_create_body(world,&bd);
+        let mut sd=b3_default_shape_def();sd.is_sensor=kind==4;sd.enable_sensor_events=true;
+        sd.enable_pre_solve_events=kind==3;if kind==2 {sd.filter.mask_bits=0;}
+        b3_create_hull_shape(ground,&sd,&b3_make_box_hull(2.0,0.05,2.0));
+        let mut bd=b3_default_body_def();bd.body_type=BodyType::Dynamic;
+        bd.position=[if kind==1 {10.0} else {0.0},2.0,0.0];
+        let body=b3_create_body(world,&bd);
+        sd=b3_default_shape_def();sd.enable_sensor_events=true;
+        b3_create_sphere_shape(body,&sd,&Sphere{center:[0.0;3],radius:0.5});
+        if kind==3 {b3_world_set_pre_solve_callback(world,Some(reject),std::ptr::null_mut());}
+        (world,body)
+    }
+    #[test]
+    fn vis02_metadata_host_ccd_acceptance() {
+        let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+        for kind in 0..5 {
+            let (world,body)=crossing(gpu.clone(),false,kind);
+            with_world_mut_no_sync(world,|w| {
+                let start=pack_gpu_slots(w).0;w.step_start_bodies=start.clone();
+                let mut end=start.clone();let i=body.index1 as usize-1;
+                end[i].pos[1]=-1.0;end[i].origin_valid=0;end[i].flags|=crate::types::FLAG_CCD_NO_HIT;
+                let before=end.clone();let corrected=run_continuous_collision(w,world.index1,&mut end);
+                assert_eq!(corrected,kind==0,"host CCD case{kind}");
+                assert_eq!(end[i].flags & FLAG_HAD_TOI !=0,kind==0);
+                if kind==0 {assert!(end[i].pos[1]>0.54 && end[i].pos[1]<0.57);}
+                else {assert_eq!(bytemuck::bytes_of(&end[i]),bytemuck::bytes_of(&before[i]));}
+                assert_eq!(end[i].vel,before[i].vel);assert_eq!(end[0].pos,before[0].pos);
+                if kind==4 {assert!(!w.continuous_sensor_hits.is_empty(),"sensor crossing is observed without a solid TOI flag");}
+                eprintln!("VIS02_METADATA host-CCD case={kind} corrected={corrected} flags={:08x} position={:?}",end[i].flags,end[i].pos);
+            });
+            assert!(b3_body_is_valid(body));b3_destroy_world(world);
+        }
+    }
+    #[test]
+    fn vis02_metadata_device_ccd_acceptance() {
+        let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+        for kind in 0..3 {
+            let (world,body)=crossing(gpu.clone(),true,kind);
+            b3_body_set_linear_velocity(body,[0.0,-180.0,0.0]);
+            let flags=step(world,body);
+            with_world_no_sync(world,|w| {
+                assert!(w.sim.as_ref().unwrap().uses_convex_ccd(),"device correction path must actually execute");
+                assert!(!w.post_ccd_pending,"no host correction may supply this event");
+            });
+            assert_eq!(flags & FLAG_HAD_TOI !=0,kind==0,"device case{kind}");
+            if kind==0 {assert!(b3_body_get_position(body)[1]>0.54 && b3_body_get_position(body)[1]<0.57);}
+            else {assert!((b3_body_get_position(body)[1]+1.0).abs()<1e-5);}
+            assert_eq!(b3_body_get_linear_velocity(body),[0.0,-180.0,0.0]);
+            b3_body_set_transform(body,[10.0,2.0,0.0],[0.0,0.0,0.0,1.0]);
+            assert_eq!(step(world,body)&FLAG_HAD_TOI,0,"next awake miss clears the old accepted hit");
+            b3_destroy_world(world);
+        }
+    }
+    #[test]
+    fn vis02_metadata_idle_callback_lifetime() {
+        let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+        let (world,body,_)=free_body(gpu,true);
+        b3_body_set_awake(body,false);
+        with_world_mut_no_sync(world,|w| {
+            w.gpu_ccd_requested=true;w.gpu_resident_requested=true;w.gpu_idle_requested=true;
+            body_mut(w,body).unwrap().gpu.flags|=FLAG_SPEED_CAPPED|FLAG_HAD_TOI;
+        });
+        let mut saw_idle=false;
+        for _ in 0..16 {
+            let flags=step(world,body);
+            assert_eq!(flags&(FLAG_SPEED_CAPPED|FLAG_HAD_TOI),FLAG_SPEED_CAPPED|FLAG_HAD_TOI,"sleep/idle retains last awake draw diagnostics");
+            saw_idle|=with_world_no_sync(world,|w|w.sim.as_ref().unwrap().last_step_was_idle()).unwrap();
+        }
+        assert!(saw_idle,"fixture must exercise confirmed-idle, not merely a sleeping integration");
+        with_world_mut_no_sync(world,|w|{w.gpu_idle_requested=false;w.gpu_resident_requested=false;});
+        b3_world_set_pre_solve_callback(world,Some(reject),std::ptr::null_mut());
+        b3_world_set_maximum_linear_speed(world,2.0);
+        b3_body_set_linear_velocity(body,[6.0,0.0,0.0]);
+        let flags=step(world,body);
+        assert_ne!(flags&FLAG_SPEED_CAPPED,0);assert_eq!(flags&FLAG_HAD_TOI,0);
+        b3_body_set_linear_velocity(body,[1.0,0.0,0.0]);
+        assert_eq!(step(world,body)&(FLAG_SPEED_CAPPED|FLAG_HAD_TOI),0);
+        b3_destroy_world(world);
+    }
+}
+
+#[cfg(all(test, not(target_arch = "wasm32")))]
+mod static_startup_tests {
+    use super::*;
+    use crate::api::*;
+
+    #[test]
+    fn static_loading_skips_collision_and_type_changes_restore_it() {
+        let gpu = pollster::block_on(GpuDevice::new(None)).unwrap();
+        let mut wd = b3_default_world_def(); wd.gravity = [0.0;3];
+        let world = b3_create_world(gpu, &wd);
+        let mut bd = b3_default_body_def();
+        let first = b3_create_body(world, &bd);
+        let sd = b3_default_shape_def();
+        let sphere = Sphere {center:[0.0;3],radius:0.5};
+        let first_shape = b3_create_sphere_shape(first,&sd,&sphere);
+        bd.position = [0.75,0.0,0.0];
+        let second = b3_create_body(world,&bd);
+        b3_create_sphere_shape(second,&sd,&sphere);
+        b3_world_ensure_gpu(world);
+        b3_world_prepare_collision(world);
+        assert!(!b3_world_loading_needed(world));
+        for _ in 0..3 { b3_world_step_gpu(world,1.0/60.0,4); }
+        b3_world_gpu_wait(world);
+        with_world_no_sync(world,|w| {
+            let sim=w.sim.as_ref().unwrap();
+            assert!(!sim.collision_pipeline_needed());
+            assert!(!sim.collision_pipeline_compiled_test());
+        });
+        assert_eq!(b3_body_get_position(first),[0.0;3]);
+        assert!(b3_shape_is_valid(first_shape));
+        b3_body_set_type(second,BodyType::Dynamic);
+        b3_world_ensure_gpu(world);
+        assert!(b3_world_loading_needed(world));
+        b3_world_prepare_collision(world);
+        assert!(!b3_world_loading_needed(world));
+        b3_world_step_gpu(world,1.0/60.0,4);
+        b3_world_gpu_wait(world);
+        assert!(pollster::block_on(b3_world_sync_contacts(world)).iter().any(|c|c.a!=u32::MAX && c.count>0));
+        b3_body_set_type(second,BodyType::Static);
+        b3_world_step_gpu(world,1.0/60.0,4);
+        b3_world_gpu_wait(world);
+        with_world_no_sync(world,|w| assert!(!w.sim.as_ref().unwrap().collision_pipeline_needed()));
+        assert!(!pollster::block_on(b3_world_sync_contacts(world)).iter().any(|c|c.a!=u32::MAX && c.count>0));
+        b3_body_set_type(second,BodyType::Kinematic);
+        b3_world_ensure_gpu(world);
+        with_world_no_sync(world,|w| assert!(w.sim.as_ref().unwrap().collision_pipeline_needed()));
+        b3_destroy_body(second);
+        b3_world_ensure_gpu(world);
+        with_world_no_sync(world,|w| assert!(!w.sim.as_ref().unwrap().collision_pipeline_needed()));
+        bd.body_type=BodyType::Dynamic;
+        b3_create_sphere_shape(b3_create_body(world,&bd),&sd,&sphere);
+        b3_world_ensure_gpu(world);
+        with_world_no_sync(world,|w| assert!(w.sim.as_ref().unwrap().collision_pipeline_needed()));
+        b3_destroy_world(world);
+    }
+}
+
+#[cfg(all(test, not(target_arch = "wasm32")))]
+#[path = "coordinate_frame_tests.rs"]
+mod coordinate_frame_tests;
+
+#[cfg(test)]
+mod cap01_packed_inertia_checks {
+    use super::*;
+    #[test]
+    fn cap01_redundant_inertia_guard_matches_actual_scene_bytes() {
+        use crate::types::{GpuSceneCaps,BodyGpu};
+        let cases=[
+            ([0.0;9],[0.0;3],true),
+            ([2.0,3.0,4.0,0.125,0.25,0.5,0.125,0.25,0.5],[2.0,3.0,4.0],true),
+            ([2.0,3.0,4.0,0.125,0.25,0.5,0.375,0.75,1.0],[2.0,3.0,4.0],false),
+            ([2.0,3.0,4.0,0.0,0.0,0.0,-0.0,0.0,0.0],[2.0,3.0,4.0],false),
+            ([2.0,3.0,4.0,0.0,0.0,0.0,0.0,0.0,0.0],[f32::from_bits(2.0f32.to_bits()+1),3.0,4.0],false),
+            ([2.0,3.0,4.0,0.0,0.0,0.0,0.0,0.0,0.0],[2.0,3.0,4.0],true),
+        ];
+        let live=GpuSceneCaps::live(1,0,0,0,0,0,0,0,0,0,0);
+        let caps=GpuSceneCaps::allocate(live,0,0);
+        for (case,(inverse,diag,expected)) in cases.into_iter().enumerate() {
+            let mut body=BodyGpu::zeroed();body.inv_inertia=diag;
+            let original=pack_scene_bytes(caps,&[body],&[[0.0;3]],&[[inverse[3],inverse[4],inverse[5]]],&[],&[],&[],&[],&[],&[],&[],&[],&[],&[]).expect("packed scene");
+            let mut patched=original.clone();
+            let m=unpack_inertia(inverse);
+            for (offset,payload) in [(4usize,[m[0][0],m[1][1],m[2][2]]),(16*caps.bodies as usize,[m[0][1],m[0][2],m[1][2]]),(16*caps.bodies as usize+16,[m[1][0],m[2][0],m[2][1]])] {
+                patched[4*offset..4*(offset+3)].copy_from_slice(bytemuck::cast_slice(&payload));
+            }
+            let identical=original==patched;
+            assert_eq!(identical,expected,"case{case}: actual old nine-lane patch");
+            assert_eq!(inverse_inertia_already_packed(&body,inverse),identical,"case{case}");
+        }
+    }
+}
+
+#[cfg(test)]
+mod cap01_box_ccd_checks {
+    use super::*;
+    #[test]
+    fn cap01_box_radius_matches_original_eight_rounded_corners() {
+        let cases=[
+            ([0.0;3],[5.0,0.25,5.0],[0.0;3]),
+            ([1.3,-0.07,2.9],[5.0,0.25,3.0],[0.1,-0.01,2.8]),
+            ([100000000.0,-100000000.0,0.01],[0.3,5.0,0.0001],[100000000.0,-100000000.0,0.0]),
+            ([-0.0,0.0,-0.0],[0.0;3],[0.0,-0.0,0.0]),
+            ([0.0;3],[0.005,0.005,0.005],[0.00001,-0.00002,0.00004]),
+            ([-5000.1,1.5,4999.9],[5.0,0.25,5.0],[-4999.8,1.51,5000.2]),
+        ];
+        for (case,(center,half,com)) in cases.into_iter().enumerate() {
+            let mut points=Vec::with_capacity(8);
+            for x in [-half[0],half[0]] {for y in [-half[1],half[1]] {for z in [-half[2],half[2]] {
+                points.push((glam::Vec3::from_array([center[0]+x,center[1]+y,center[2]+z])-glam::Vec3::from_array(com)).to_array());
+            }}}
+            let old=points.iter().map(|p|(p[0]*p[0]+p[1]*p[1]+p[2]*p[2]).sqrt()+0.0).fold(0.0,f32::max);
+            assert_eq!(box_ccd_sweep_radius(center,half,com).unwrap().to_bits(),old.to_bits(),"case{case}");
+        }
+        assert!(box_ccd_sweep_radius([f32::NAN,0.0,0.0],[1.0;3],[0.0;3]).is_none());
+        assert!(box_ccd_sweep_radius([0.0;3],[f32::MAX;3],[0.0;3]).is_none());
+    }
+}
+
+#[cfg(test)]
+mod ccd_pair_filter_order_tests {
+    use super::*;
+    #[test]
+    fn ccd_pair_filters_skip_masked_joint_lookup_and_preserve_decisions() {
+        use std::cell::Cell;
+        // First case is the actual registered Joint Grid sphere filter; the
+        // remaining cases retain 64-bit masks and signed group precedence.
+        let cases=[
+            (Filter{category_bits:2,mask_bits:u64::from(!2u32),group_index:0},Filter{category_bits:2,mask_bits:u64::from(!2u32),group_index:0},false),
+            (Filter{category_bits:1,mask_bits:u64::MAX,group_index:0},Filter{category_bits:2,mask_bits:u64::MAX,group_index:0},true),
+            (Filter{category_bits:1<<42,mask_bits:1<<53,group_index:0},Filter{category_bits:1<<53,mask_bits:1<<42,group_index:0},true),
+            (Filter{category_bits:1,mask_bits:0,group_index:3},Filter{category_bits:2,mask_bits:0,group_index:3},true),
+            (Filter{category_bits:1,mask_bits:u64::MAX,group_index:-3},Filter{category_bits:2,mask_bits:u64::MAX,group_index:-3},false),
+            (Filter{category_bits:1,mask_bits:0,group_index:3},Filter{category_bits:2,mask_bits:0,group_index:4},false),
+        ];
+        let joints=[
+            JointGpu{a:7,b:9,kind:JOINT_SPHERICAL,..Default::default()},
+            JointGpu{a:5,b:6,kind:JOINT_FILTER,..Default::default()},
+            JointGpu{a:1,b:2,kind:JOINT_SPHERICAL,flags:JOINT_COLLIDE_CONNECTED,..Default::default()},
+            JointGpu{a:3,b:4,kind:JOINT_NONE,..Default::default()},
+        ];
+        let mut checked=0;
+        for (a,b,filter_expected) in cases {
+            assert_eq!(shapes_collide(a,b),filter_expected);
+            for (da,db) in [(7usize,9usize),(9,7),(5,6),(1,2),(3,4),(20,21)] {
+                let lookup=||!joints.iter().any(|j|j.kind!=JOINT_NONE && j.flags & JOINT_COLLIDE_CONNECTED==0 && ((j.a as usize==da&&j.b as usize==db)||(j.a as usize==db&&j.b as usize==da)));
+                let expected=lookup()&&filter_expected;
+                let calls=Cell::new(0);
+                let actual=ccd_pair_filters_allow(a,b,||{calls.set(calls.get()+1);lookup()});
+                assert_eq!(actual,expected,"pair={da},{db} filters={a:?},{b:?}");
+                assert_eq!(calls.get(),usize::from(filter_expected),"masked pair searched joint storage");checked+=1;
+            }
+        }
+        println!("PERF03_CCD_FILTER_CONTROL cases={checked} exact=true masked_joint_lookups=0");
+    }
+}
+
+#[cfg(test)]
+mod ccd_joint_pair_lookup_tests {
+    use super::*;
+
+    // The reference is the original production predicate. The alternative
+    // executes the new production table on the same complete joint inputs.
+    fn linear(joints: &[JointGpu], a: usize, b: usize) -> bool {
+        !joints.iter().any(|joint| {
+            joint.kind != JOINT_NONE
+                && joint.flags & JOINT_COLLIDE_CONNECTED == 0
+                && ((joint.a as usize == a && joint.b as usize == b)
+                    || (joint.a as usize == b && joint.b as usize == a))
+        })
+    }
+
+    #[test]
+    fn ccd_joint_pair_table_preserves_actual_rain_inputs_and_lifetime_edits() {
+        let mut synthetic = Vec::new();
+        for kind in 0..=8 {
+            synthetic.push(JointGpu { kind, a: kind*2, b: kind*2+1,
+                ..Default::default() });
+            synthetic.push(JointGpu { kind, a: kind*2+1, b: kind*2,
+                flags: JOINT_COLLIDE_CONNECTED, ..Default::default() });
+        }
+        synthetic.push(JointGpu {kind: JOINT_FILTER, a:u32::MAX,b:0,
+            ..Default::default()});
+        let mut checked = 0;
+        for edit in 0..6 {
+            match edit {
+                1 => synthetic[2].kind=JOINT_NONE,
+                2 => synthetic[4].flags|=JOINT_COLLIDE_CONNECTED,
+                3 => {synthetic[2].kind=JOINT_SPHERICAL;synthetic[2].a=19;synthetic[2].b=20;},
+                4 => synthetic.push(JointGpu {kind:JOINT_SPHERICAL,a:19,b:20,
+                    flags:JOINT_COLLIDE_CONNECTED,..Default::default()}),
+                5 => synthetic.clear(),
+                _ => (),
+            }
+            let table=ccd_noncolliding_body_pairs(&synthetic);
+            let ids:Vec<usize>=(0..=22).chain([u32::MAX as usize,usize::MAX]).collect();
+            for &a in &ids {for &b in &ids {
+                assert_eq!(!table.contains(&ccd_body_pair_key(a,b)),linear(&synthetic,a,b),
+                    "edit={edit} a={a} b={b}");checked+=1;
+            }}
+        }
+        let text=include_str!("world/ccd_joint_lookup_rain_input.txt");
+        let mut lines=text.lines();
+        assert_eq!(lines.next().unwrap(),"step=82 none=0 collide_connected=2147483648 joints=1680 fast=1260 static_targets=200");
+        let mut rain=Vec::new();
+        for line in lines.by_ref() {
+            if line=="TARGET_BODIES" {break;}
+            let words:Vec<u32>=line.split_whitespace().map(|s|s.parse().unwrap()).collect();assert_eq!(words.len(),4);
+            rain.push(JointGpu{kind:words[0],flags:words[1],a:words[2],b:words[3],..Default::default()});
+        }
+        assert_eq!(rain.len(),1680);
+        let targets:Vec<usize>=lines.map(|line| {
+            let words:Vec<usize>=line.split_whitespace().map(|s|s.parse().unwrap()).collect();assert_eq!(words.len(),2);assert!(words[1]<100);words[1]
+        }).collect();assert_eq!(targets.len(),200);
+        let table=ccd_noncolliding_body_pairs(&rain);let mut rain_checked=0;
+        for a in 0..1780 {for &b in &targets {
+            assert_eq!(!table.contains(&ccd_body_pair_key(a,b)),linear(&rain,a,b),"Rain {a}/{b}");rain_checked+=1;
+        }}
+        // Include every blocked pair in both orientations, beyond the static
+        // candidate subset, so the all-allowed Rain terrain case cannot mask a bug.
+        for j in &rain {for (a,b) in [(j.a as usize,j.b as usize),(j.b as usize,j.a as usize)] {
+            assert_eq!(!table.contains(&ccd_body_pair_key(a,b)),linear(&rain,a,b));rain_checked+=1;
+        }}
+        println!("PERF04_LOOKUP_CONTROL synthetic={checked} rain={rain_checked} table_entries={} exact=true",table.len());
     }
 }

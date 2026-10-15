@@ -1,0 +1,1165 @@
+{
+  "schema": 1,
+  "date": "2026-10-15",
+  "reports": [
+    {
+      "id": "VIS03",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/VIS03/README.md",
+      "source_report_sha256": "d0d8ba8202b74b57a550b357f03ee27ef1b261ce460d488e99c980f4bb50eeb4",
+      "published_report": "reports/VIS03.md",
+      "selected_images": [
+        {
+          "caption": "Wave Pile before: CPU terrain visible, GPU terrain absent",
+          "path": "media/9c1e867dd7b73f1241cad9d6.png",
+          "sha256": "9c1e867dd7b73f1241cad9d69a355f592395b792ff4ae15794e882e357599fc0"
+        },
+        {
+          "caption": "Wave Pile after: terrain visible in CPU and both GPU modes",
+          "path": "media/2cf8a80cd76219617207aeaf.png",
+          "sha256": "2cf8a80cd76219617207aeaff71e38f6ce213df5c8b846ae4816409e055bbb7f"
+        },
+        {
+          "caption": "Combined Wave Pile before",
+          "path": "media/28b0f2aa1448c7b96ea9b49e.png",
+          "sha256": "28b0f2aa1448c7b96ea9b49ee7997eed9f2ffc042e2ff7da7d61afe773fe8842"
+        },
+        {
+          "caption": "Combined Wave Pile after",
+          "path": "media/4541e2f4b94f36330b5781b5.png",
+          "sha256": "4541e2f4b94f36330b5781b5581e9f854e2aa0dff6761c2e2fa5dfd98d532cbb"
+        },
+        {
+          "caption": "Related character terrain: CPU, original GPU, repaired GPU",
+          "path": "media/aa012e07af1e25e7c40b5a93.png",
+          "sha256": "aa012e07af1e25e7c40b5a93f0b53da64b1fec8edc45f4bc35e9905fd89ec535"
+        },
+        {
+          "caption": "Rigid Body terrain: CPU, original GPU, repaired GPU",
+          "path": "media/4d54d405eaadbdc3e6a5d9bf.png",
+          "sha256": "4d54d405eaadbdc3e6a5d9bf4c6b0a3465388f3e449f2c0b1925f64b8557fdab"
+        },
+        {
+          "caption": "Cast World button-created terrain: CPU, original GPU, repaired GPU",
+          "path": "media/56568d706b00fbcb0758a3e4.png",
+          "sha256": "56568d706b00fbcb0758a3e41f26e86ce80517c54d33364d8aca7bc1b1ea9e1e"
+        }
+      ]
+    },
+    {
+      "id": "VIS01",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/VIS01/README.md",
+      "source_report_sha256": "c44f3b010ae3b0d9505921d8e22d10a0ae98b0ae83afd0e292a742659cca6c92",
+      "published_report": "reports/VIS01.md",
+      "selected_images": [
+        {
+          "caption": "Single Box before, real CPU first",
+          "path": "media/7233629e55516b9fa78acf7a.png",
+          "sha256": "7233629e55516b9fa78acf7a6d4a83eff22858f831c32f3c15971154f3a2bfa2"
+        },
+        {
+          "caption": "Single Box after, real CPU first",
+          "path": "media/bd44a2e42bcffc965dc058af.png",
+          "sha256": "bd44a2e42bcffc965dc058af17413585cc100e26cd6edb9635d415c1f8156667"
+        }
+      ]
+    },
+    {
+      "id": "VIS05",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/VIS05/README.md",
+      "source_report_sha256": "9a0f18723dd20a665a5014c9c43d3d0c58108a2338dc8fd4482c2a9b133ce6a7",
+      "published_report": "reports/VIS05.md",
+      "selected_images": [
+        {
+          "caption": "Before: real CPU, ordinary GPU, native GPU",
+          "path": "media/014c9d39dd8876ed76b534dd.png",
+          "sha256": "014c9d39dd8876ed76b534dd8e49e5ffaa6e5cb2a8aa119f148acf57c9f5b912"
+        },
+        {
+          "caption": "After: real CPU, ordinary GPU, native GPU",
+          "path": "media/3f0a04ff82a0a1288d1f9298.png",
+          "sha256": "3f0a04ff82a0a1288d1f92980d8af43deb2fec8277bc6c14f869f5eb3cf52ed1"
+        },
+        {
+          "caption": "Before combined: valid retained stage4",
+          "path": "media/cff6fc9e0686d02269047b59.png",
+          "sha256": "cff6fc9e0686d02269047b59b33290a43fe8e31a24ddbbfd26663f637afb95aa"
+        },
+        {
+          "caption": "After combined: retained stage5",
+          "path": "media/a62177baa0c5f8029f8dd0e3.png",
+          "sha256": "a62177baa0c5f8029f8dd0e377f24899574d8f00cfd8b53ed803c0201f6868b5"
+        }
+      ]
+    },
+    {
+      "id": "VIS06",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/VIS06/README.md",
+      "source_report_sha256": "317f1a0f5363e8c597c81bb0c2ed5c6085cb1f46fcb0487f0d54f13c51bcd920",
+      "published_report": "reports/VIS06.md",
+      "selected_images": [
+        {
+          "caption": "Before standalone: actual CPU, ordinary GPU, native GPU",
+          "path": "media/edc1e991458b19d5e96bc1c6.png",
+          "sha256": "edc1e991458b19d5e96bc1c6e58552905e018489f231cf8d85af0ab9b019a6b8"
+        },
+        {
+          "caption": "After standalone: actual CPU, ordinary GPU, native GPU",
+          "path": "media/fdf853846fb3ed4fe3f79dbd.png",
+          "sha256": "fdf853846fb3ed4fe3f79dbdbf733a9b388df77e52a52113f4796db801290b25"
+        },
+        {
+          "caption": "Before combined: actual CPU first",
+          "path": "media/f3b4123c1bcc64e19a578eb5.png",
+          "sha256": "f3b4123c1bcc64e19a578eb54e654068ef01d7df4f16ea76cea48d03bec109b1"
+        },
+        {
+          "caption": "After combined: actual CPU first",
+          "path": "media/471805fe376ab37a1220e01a.png",
+          "sha256": "471805fe376ab37a1220e01ab1f16c26e0e72a1dcb9d1408ae59bdedd137e982"
+        }
+      ]
+    },
+    {
+      "id": "VIS07",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/VIS07/README.md",
+      "source_report_sha256": "5edd9db520674b19a904d08cc88b05333e1bb87b23ea3d7e0b96fbfb3b5021c9",
+      "published_report": "reports/VIS07.md",
+      "selected_images": [
+        {
+          "caption": "CapsulePlane before, actual Box3D CPU first",
+          "path": "media/e77cec3b56edefe64fee94ff.jpg",
+          "sha256": "e77cec3b56edefe64fee94ff3668a827e8ef1adfe002b278afde65d6dd09a3f4"
+        },
+        {
+          "caption": "CapsulePlane after, actual Box3D CPU first",
+          "path": "media/17ed28ff7d486b1ab0473bd5.jpg",
+          "sha256": "17ed28ff7d486b1ab0473bd5f3d11994ba258685c74cbd7b23fe61726f27c94e"
+        },
+        {
+          "caption": "BodyCast before, actual Box3D CPU first",
+          "path": "media/ad71cd0d737f0aeafb2eec0c.jpg",
+          "sha256": "ad71cd0d737f0aeafb2eec0c6a39b8003fed79082accf499c7c2ae98ff44acf1"
+        },
+        {
+          "caption": "BodyCast after, actual Box3D CPU first",
+          "path": "media/4930b874a0e2cf6714945388.jpg",
+          "sha256": "4930b874a0e2cf67149453885c563125f03912a65fb3555491b748f120b3afaa"
+        },
+        {
+          "caption": "Tree before, actual Box3D CPU first",
+          "path": "media/7033b6616dc402abcac509d5.jpg",
+          "sha256": "7033b6616dc402abcac509d589496f9149c688414a80b351e834aa4be2099124"
+        },
+        {
+          "caption": "Tree after, actual Box3D CPU first",
+          "path": "media/6587f016f96aa15516669a87.jpg",
+          "sha256": "6587f016f96aa15516669a87d855f41bd3f8440f28c8b85637b628264cb50c26"
+        }
+      ]
+    },
+    {
+      "id": "VIS08",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/VIS08/README.md",
+      "source_report_sha256": "9ba394f2bbd4560c4c76e920d5eb5de1fb0288df74b53269d974e06053a572fd",
+      "published_report": "reports/VIS08.md",
+      "selected_images": [
+        {
+          "caption": "CPU-first before Capsule Mass",
+          "path": "media/4632cd3d034e8cafdb1b329d.jpg",
+          "sha256": "4632cd3d034e8cafdb1b329d3e47d0962eab468608ea14988ad1183cfb91ea66"
+        },
+        {
+          "caption": "CPU-first candidate Capsule Mass",
+          "path": "media/cac78a134459cd0fa5a6d2e0.jpg",
+          "sha256": "cac78a134459cd0fa5a6d2e026eedccb88be8250eca89049aa3fcddf84778e39"
+        },
+        {
+          "caption": "CPU-first Hull vs Hull before",
+          "path": "media/a7fa75adf37f1046fa91fd17.jpg",
+          "sha256": "a7fa75adf37f1046fa91fd176be2d92ac3c0e4f926567325d40e46ddbde89ed6"
+        },
+        {
+          "caption": "CPU-first Hull vs Hull after",
+          "path": "media/e357901971a5bef221eab36d.jpg",
+          "sha256": "e357901971a5bef221eab36d5b8c38c90d173a337eda899275dc5feb33a380ad"
+        }
+      ]
+    },
+    {
+      "id": "VIS02",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/VIS02/metadata/README.md",
+      "source_report_sha256": "353906aea4da487a7dad26da109ff827007532ca2c064babf23e5d7c1f91f40e",
+      "published_report": "reports/VIS02.md",
+      "selected_images": [
+        {
+          "caption": "RealCPU first, material before",
+          "path": "media/be57ee0dbbeab4f2fe4ba7b1.jpg",
+          "sha256": "be57ee0dbbeab4f2fe4ba7b1af2dab7e020ff7bbb018e370e81a9316ff326a74"
+        },
+        {
+          "caption": "RealCPU first, material after",
+          "path": "media/75b516280c0bf8ef899bd380.jpg",
+          "sha256": "75b516280c0bf8ef899bd380a63c2036668194573293e4e3c0a9dc1a90b5faa2"
+        },
+        {
+          "caption": "RealCPU first, custom before",
+          "path": "media/75c44dbde1c89410ab5c5be2.jpg",
+          "sha256": "75c44dbde1c89410ab5c5be2fc6dbe3d61b30fb9c94d2693a4d46f2c3620cd35"
+        },
+        {
+          "caption": "RealCPU first, custom after",
+          "path": "media/6b4f18a7ff5fa1a8f39ffc06.jpg",
+          "sha256": "6b4f18a7ff5fa1a8f39ffc06b028968877ba87163a25c2c7de6f025888cec23b"
+        },
+        {
+          "caption": "Is Fast CPU-first before",
+          "path": "media/be57ee0dbbeab4f2fe4ba7b1.jpg",
+          "sha256": "be57ee0dbbeab4f2fe4ba7b1af2dab7e020ff7bbb018e370e81a9316ff326a74"
+        },
+        {
+          "caption": "Is Fast CPU-first after",
+          "path": "media/75b516280c0bf8ef899bd380.jpg",
+          "sha256": "75b516280c0bf8ef899bd380a63c2036668194573293e4e3c0a9dc1a90b5faa2"
+        }
+      ]
+    },
+    {
+      "id": "QRY01",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/QRY01/box-final-report.md",
+      "source_report_sha256": "62dd9fdabb9a9ccdcfad1641d516b7d565b957a4ee3c9436f1b20d7ed39e1286",
+      "published_report": "reports/QRY01.md",
+      "selected_images": [
+        {
+          "caption": "Before QRY01, actual CPU first",
+          "path": "media/d6321b09a22f2d1048e0df68.jpg",
+          "sha256": "d6321b09a22f2d1048e0df68e6d6d1994a293ca9d7157ed338eb276a10cd5ea8"
+        },
+        {
+          "caption": "Final QRY01 repair, actual CPU first",
+          "path": "media/81cc4c7f9923cecc4f104c62.jpg",
+          "sha256": "81cc4c7f9923cecc4f104c621f16e893be957325179a8566bf803c365c023a9d"
+        }
+      ]
+    },
+    {
+      "id": "DIAG01",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/DIAG01/README.md",
+      "source_report_sha256": "0fd15d2714fcbf29448a24bd9d0cad109678697638aa8ed87a18772c0876986b",
+      "published_report": "reports/DIAG01.md",
+      "selected_images": [
+        {
+          "caption": "Convex Pile before, actual CPU first",
+          "path": "media/9e1a8db84a46ed4f122c2550.jpg",
+          "sha256": "9e1a8db84a46ed4f122c25507f66104aa14943c5d8cf39c669cee83d9799d10b"
+        },
+        {
+          "caption": "Convex Pile after, actual CPU first",
+          "path": "media/7c74f65143082516cd16d057.jpg",
+          "sha256": "7c74f65143082516cd16d05742ca312423d979084beea10c49475742f3708029"
+        }
+      ]
+    },
+    {
+      "id": "BEH01",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/BEH01/README.md",
+      "source_report_sha256": "9dda5e3ae1d0729549279eca20007b5aea644476f94da1bd1a281acf2cdd2757",
+      "published_report": "reports/BEH01.md",
+      "selected_images": [
+        {
+          "caption": "Real CPU/ordinary/native before",
+          "path": "media/e1e520bb26d42dc80ebd2b27.png",
+          "sha256": "e1e520bb26d42dc80ebd2b27571968e7b925deb83f21a1230c1b6e44b0bbcfd9"
+        },
+        {
+          "caption": "Real CPU/ordinary/native after",
+          "path": "media/02c723cc5b9f72daa23a0a3d.png",
+          "sha256": "02c723cc5b9f72daa23a0a3de4e51fa2e41f6f69f0ef9423a98f8bf70828a2fb"
+        }
+      ]
+    },
+    {
+      "id": "BEH02",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/BEH02/README.md",
+      "source_report_sha256": "25cfcf23b4f08251ec8b74c742d22c8e0b458a55a4fd3a91fa1669104204b836",
+      "published_report": "reports/BEH02.md",
+      "selected_images": [
+        {
+          "caption": "Before Static Invoke, CPU first, approximate stage4",
+          "path": "media/4221f98e550b6d74e1d3b4da.jpg",
+          "sha256": "4221f98e550b6d74e1d3b4da8a3d4cfa50117f99267a15d2fa4b7bc3d31b9764"
+        },
+        {
+          "caption": "After Static Invoke, CPU first, approximate stage4",
+          "path": "media/cf1c9defe276ad90fa56bd2a.jpg",
+          "sha256": "cf1c9defe276ad90fa56bd2ae701def1aa152efe6c1b13577a35ce6264151771"
+        }
+      ]
+    },
+    {
+      "id": "BEH03",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/BEH03/README.md",
+      "source_report_sha256": "347fd1c2eab072efc75e9ae622209c2afd64c59e9402aa3e9d92cb37496a7639",
+      "published_report": "reports/BEH03.md",
+      "selected_images": [
+        {
+          "caption": "Before: actual CPU, ordinary/native GPU and combined views",
+          "path": "media/d8175848319741003a231d12.jpg",
+          "sha256": "d8175848319741003a231d127eeb9b56cadb23c54371f3fa0ff02dc411d06eba"
+        },
+        {
+          "caption": "After: actual CPU, ordinary/native GPU and combined views",
+          "path": "media/cf5b4ee3b80136da2200b91a.jpg",
+          "sha256": "cf5b4ee3b80136da2200b91ae632a803db5a918456eb9f38afbda61d1bfc8cec"
+        }
+      ]
+    },
+    {
+      "id": "CAP01",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/CAP01/README.md",
+      "source_report_sha256": "771625662c1cb6d011115483b1cf1d07b2522f33491797ce1bdb6cf6a558fe96",
+      "published_report": "reports/CAP01.md",
+      "selected_images": [
+        {
+          "caption": "Real CPU default floor, step 55",
+          "path": "media/af2e3ad9f6b623a4be15383f.png",
+          "sha256": "af2e3ad9f6b623a4be15383fa00fb52330c684bdabfe8a43dbde3a91ea279bbe"
+        },
+        {
+          "caption": "ordinary-gpu original preparation rejection",
+          "path": "media/443ebd3fb033ffadeb792cac.png",
+          "sha256": "443ebd3fb033ffadeb792cacfc854e3f748642869f48a6add76284db370da9f5"
+        },
+        {
+          "caption": "ordinary-gpu repaired default floor, approximately step 54",
+          "path": "media/7dcd2ba22f5abe332664dffa.png",
+          "sha256": "7dcd2ba22f5abe332664dffad0e192b1e6260e622ef459d2a5942c13383b5bd1"
+        },
+        {
+          "caption": "Real CPU default floor, step 55",
+          "path": "media/af2e3ad9f6b623a4be15383f.png",
+          "sha256": "af2e3ad9f6b623a4be15383fa00fb52330c684bdabfe8a43dbde3a91ea279bbe"
+        },
+        {
+          "caption": "native-gpu original preparation rejection",
+          "path": "media/443ebd3fb033ffadeb792cac.png",
+          "sha256": "443ebd3fb033ffadeb792cacfc854e3f748642869f48a6add76284db370da9f5"
+        },
+        {
+          "caption": "native-gpu repaired default floor, approximately step 54",
+          "path": "media/ea380564623ad262d81cee64.png",
+          "sha256": "ea380564623ad262d81cee648b1ce0a31412a97084ac04fd5a960642d149f4b8"
+        }
+      ]
+    },
+    {
+      "id": "RUNTIME01",
+      "status": "Resolved without code repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/RUNTIME01/README.md",
+      "source_report_sha256": "8e5cff8a9340101cc19a3c391dc035be21d80ebdf71eddfa95fe241cd35cf3b7",
+      "published_report": "reports/RUNTIME01.md",
+      "selected_images": [
+        {
+          "caption": "Before: actual CPU first and GPU routes, approximate late clip stages",
+          "path": "media/9787217f981216383aaaf820.jpg",
+          "sha256": "9787217f981216383aaaf8209d8a808a88dbf823109f2be0acebf4c78385d634"
+        },
+        {
+          "caption": "After: actual CPU first and GPU routes, approximate late clip stages",
+          "path": "media/4737ffe570953a0278f88783.jpg",
+          "sha256": "4737ffe570953a0278f88783a18ed155747a46d90e79f24e4ef431d1f37eedf6"
+        }
+      ]
+    },
+    {
+      "id": "RUNTIME02",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/RUNTIME02/README.md",
+      "source_report_sha256": "119299c040cd78cf60b004b9471b96b9d106f81ac4c3e51f3b1e0fc382afe90c",
+      "published_report": "reports/RUNTIME02.md",
+      "selected_images": [
+        {
+          "caption": "Sensor before: real CPU first, GPU frozen at step32",
+          "path": "media/ef9c5fe91eae6825d40f0306.jpg",
+          "sha256": "ef9c5fe91eae6825d40f0306a3c82400ee4eba1e346acceeb3d4b65a480a455b"
+        },
+        {
+          "caption": "Sensor after: real CPU first, both GPU backends and split views advance beyond32",
+          "path": "media/3e6b5857d9361a729cd6a28a.jpg",
+          "sha256": "3e6b5857d9361a729cd6a28a1b7256aeb9ae1296e54ce377f8abaf967e8f9c8e"
+        }
+      ]
+    },
+    {
+      "id": "RUNTIME03",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/RUNTIME03/README.md",
+      "source_report_sha256": "bda3c07c88b0884fad7a15cb2dc850d8816943d9a17e17b1125968798c40225e",
+      "published_report": "reports/RUNTIME03.md",
+      "selected_images": [
+        {
+          "caption": "Before CPU-first standalone comparison",
+          "path": "media/d4a0c013ed5bae3b6f2c2a60.png",
+          "sha256": "d4a0c013ed5bae3b6f2c2a604d1988ab2649510d8451049acc65d36fe620b72b"
+        },
+        {
+          "caption": "After CPU-first standalone comparison",
+          "path": "media/203a180277398dcb043b59e5.png",
+          "sha256": "203a180277398dcb043b59e548e486783eee0edbc43bfd9b28680610cdc0d20e"
+        },
+        {
+          "caption": "Before combined comparison",
+          "path": "media/ef83578669af63b31e556600.png",
+          "sha256": "ef83578669af63b31e5566009cf35dfb6f5348a45ff856d162e8c21d5cf0a546"
+        },
+        {
+          "caption": "After combined comparison",
+          "path": "media/7d2b833f1c97f1f7c8cdf450.png",
+          "sha256": "7d2b833f1c97f1f7c8cdf4506c94bf88f7315e14e928dfb6440999e8075ca698"
+        }
+      ]
+    },
+    {
+      "id": "PERF01",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/PERF01/README.md",
+      "source_report_sha256": "5571428ad74eda65a619c6a5c7716998fdf9db088f775702f6a07bf73368d0a3",
+      "published_report": "reports/PERF01.md",
+      "selected_images": [
+        {
+          "caption": "Before \u2014 real CPU / ordinary GPU / native GPU",
+          "path": "media/6eb92c455c23023d494140e9.png",
+          "sha256": "6eb92c455c23023d494140e9c0d24815425e8c9c96ee9fe125ddcf9ed41d9838"
+        },
+        {
+          "caption": "After \u2014 real CPU / ordinary GPU / native GPU",
+          "path": "media/536b0702bb63d8b6650493fc.png",
+          "sha256": "536b0702bb63d8b6650493fced502f8c01954ee1d78c3133cf623ae153cdcdb5"
+        },
+        {
+          "caption": "Before \u2014 ordinary combined / native combined",
+          "path": "media/5e4817f7cdd5fec7e981540d.png",
+          "sha256": "5e4817f7cdd5fec7e981540d358a6e3fd49f7f14ae95741a63bd08a624f59bda"
+        },
+        {
+          "caption": "After \u2014 ordinary combined / native combined",
+          "path": "media/ab9c1f6b1f30c31bee3ffab5.png",
+          "sha256": "ab9c1f6b1f30c31bee3ffab55805603967bd7cde8441e3114e0d73d7fd85cb8a"
+        }
+      ]
+    },
+    {
+      "id": "PERF02",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/PERF02/README.md",
+      "source_report_sha256": "08da947bf3cdeb06e589421be301b626e6da0b78406777c7bbe1c022d6db3409",
+      "published_report": "reports/PERF02.md",
+      "selected_images": [
+        {
+          "caption": "008 before standalone",
+          "path": "media/6d456c35910dee917b57ecf9.png",
+          "sha256": "6d456c35910dee917b57ecf945f190c04017245db5048313fc617f07fe5a5e97"
+        },
+        {
+          "caption": "008 after standalone",
+          "path": "media/fff3b523e7f07704ecaab8dc.png",
+          "sha256": "fff3b523e7f07704ecaab8dc5d28eaf9cae1c89d49832dbc17fc73059f8e2a3d"
+        },
+        {
+          "caption": "008 before combined",
+          "path": "media/fc685d7acb8a2a74d8cee284.png",
+          "sha256": "fc685d7acb8a2a74d8cee284305ccb95a122fd0380251b8583251bcd053e1eb7"
+        },
+        {
+          "caption": "008 after combined",
+          "path": "media/46eb0778b4eafca3789778fc.png",
+          "sha256": "46eb0778b4eafca3789778fc20f1c9d48e876ea6bd27299fcc6c9d6b0e11a5c4"
+        }
+      ]
+    },
+    {
+      "id": "PERF03",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/PERF03/README.md",
+      "source_report_sha256": "85e9b8ceb748ebbb1c7aedf44a544bb3940029960ba53e7ffea56326b3268bdb",
+      "published_report": "reports/PERF03.md",
+      "selected_images": [
+        {
+          "caption": "CPU-first before 010",
+          "path": "media/4fb09870c90480841220623d.png",
+          "sha256": "4fb09870c90480841220623d904de12cf23cee74ebe58bd21970a774beef0845"
+        },
+        {
+          "caption": "CPU-first after 010",
+          "path": "media/585cedb277a34e43d1c0e0dc.png",
+          "sha256": "585cedb277a34e43d1c0e0dc4944fe03b6e14b564da47d0ba5a01a9f866c8a14"
+        }
+      ]
+    },
+    {
+      "id": "PERF04",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/PERF04/option1-timeout-milestone-2026-10-15/README.md",
+      "source_report_sha256": "f07a2325d449d9c0f694a090ddcd0ea89cfdd0d1c5f3289d0858915781733460",
+      "published_report": "reports/PERF04.md",
+      "selected_images": [
+        {
+          "caption": "CPU first; ordinary/native after and original before",
+          "path": "media/5bae62c4e0c36aede6c69b18.jpg",
+          "sha256": "5bae62c4e0c36aede6c69b18288cc85edc7b21b43890caf225aeaafcd80c94e2"
+        },
+        {
+          "caption": "CPU first; combined after and original combined before",
+          "path": "media/334d0fae9c1fa49ce646c879.jpg",
+          "sha256": "334d0fae9c1fa49ce646c8793074425caa31701e2cb709508fddc7d955a08241"
+        }
+      ]
+    },
+    {
+      "id": "PERF05",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/PERF05/README.md",
+      "source_report_sha256": "62af95c93dbb3d4ba232089d690a6ea5c4c6dbe405e577e3ea137c23aa4f10c0",
+      "published_report": "reports/PERF05.md",
+      "selected_images": [
+        {
+          "caption": "Washer before and after, real Box3D CPU first",
+          "path": "media/2b2a7056ec2a125b6375c39a.jpg",
+          "sha256": "2b2a7056ec2a125b6375c39a8b5f806152c951038e12a21794f273ce3226461a"
+        },
+        {
+          "caption": "CPU stages",
+          "path": "media/a383d02ae3bfc173ab8bdb6d.jpg",
+          "sha256": "a383d02ae3bfc173ab8bdb6d5f8a2a642ba6671730c6a2761d7958bc6aca4820"
+        }
+      ]
+    },
+    {
+      "id": "PERF06",
+      "status": "Verified repair",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/PERF06/README.md",
+      "source_report_sha256": "4c99c46353c4aaf1babe455364c63ec0e0f1f638e1ae6eb8b1795d0f54b54c07",
+      "published_report": "reports/PERF06.md",
+      "selected_images": [
+        {
+          "caption": "032 actual CPU-first before/after",
+          "path": "media/2073400490e6e7322ccc36f4.jpg",
+          "sha256": "2073400490e6e7322ccc36f4809aed3259668a7ad996c91dba12f685af7033c5"
+        },
+        {
+          "caption": "052 actual CPU-first before/after",
+          "path": "media/78c5c859c4edb7ba79a076c0.jpg",
+          "sha256": "78c5c859c4edb7ba79a076c011457977e3fd8dccb6cba5ebc3c21a06a489dad8"
+        }
+      ]
+    },
+    {
+      "id": "FarPyramid",
+      "status": "Separate setup triage; evolved collapse unconfirmed",
+      "source_report": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/far-pyramid-setup-triage-2026-10-13/README.md",
+      "source_report_sha256": "178d47ffa30baa4f67e02574d55662c4ce99791476d616e50864708e76624180",
+      "published_report": "reports/FarPyramid.md",
+      "selected_images": [
+        {
+          "caption": "Archived CPU-first Far Pyramid BEFORE",
+          "path": "media/6aa601083c60c2003b8f615e.jpg",
+          "sha256": "6aa601083c60c2003b8f615e24b0149fe5b58fd4c854c3938ee36076cf32fc94"
+        },
+        {
+          "caption": "Archived CPU-first Far Pyramid AFTER prior coordinate-frame repair",
+          "path": "media/32ccab40e04a40b1ce1925b9.jpg",
+          "sha256": "32ccab40e04a40b1ce1925b9d764cf0cefc58055b3dbe766a3a403b43d2126d4"
+        }
+      ]
+    }
+  ],
+  "media_bytes": 42359275,
+  "source_files": {
+    "experiments/gpu-physics/c_abi/both_dual.c": "809f8a54fb18ff79bb8a31d8cb03d54eb6a02dabd1c32265210a2de619502524",
+    "experiments/gpu-physics/c_abi/samples_api.c": "20aac34949c7ea2d48c9ec495480ff1bc61b725ca2d33eda616ef9e99a043388",
+    "experiments/gpu-physics/c_abi/shim.c": "6e22c583b12d884dbdb643786c3518159d95b68c249915924baf671321d48548",
+    "experiments/gpu-physics/native-samples/CMakeLists.txt": "a51346769d22df9dce127860c1d1f6cd912bf4164ab0768140f8c7453d981bae",
+    "experiments/gpu-physics/native-samples/sokol_bench_hooks.cpp": "3a5a55caa7a5f5b74d8e5655aac2a95d66e84f6468824a4b631d24cb842db0c1",
+    "experiments/gpu-physics/scripts/inject-sokol-split.py": "88656c92cfd40acf79e5ef528db13b74f7c3b44f5247e10477b7bf1d5b4bd522",
+    "experiments/gpu-physics/scripts/native_scene_validate.py": "a87d17d77142945484d192828b5050b95f959768c1185dfb843e4e287a198d93",
+    "experiments/gpu-physics/scripts/sokol_split_injection.py": "5e7a7a4eedf657177168d2f18168118e963221843a40eb33c88e33e2c2b24933",
+    "experiments/gpu-physics/shaders/physics/broadphase.wgsl": "f49df7557960f55ce5b64ac518b57e09249bf33aa2ac91b27fbc4d3ad533d747",
+    "experiments/gpu-physics/shaders/physics/ccd_world.wgsl": "8911c990b92e9640c01a45aad7aa389bf436e1268aeb6486b7f5a4a976a05cb3",
+    "experiments/gpu-physics/shaders/physics/collide.wgsl": "9aa66fc0fd82c5d16e2cc0dc3c9b0a43cd35c5832e482f0c4295b6381cf45e68",
+    "experiments/gpu-physics/shaders/physics/integrate.wgsl": "0b56696db8745e4b76bdf3a4ff43b2013abc16a0922d5039476e0f6addb9c31e",
+    "experiments/gpu-physics/shaders/physics/query.wgsl": "2210d1f17879f62a5fd3006d000f660b2ad96eab1c7b484d24326cb0ee18bb3c",
+    "experiments/gpu-physics/shaders/physics/solve.wgsl": "f00ac9949ad705477a6a8a10a8b90d9fa9e2680d40c3e5ee77cfd2f038e34176",
+    "experiments/gpu-physics/shaders/physics/types.wgsl": "0a863429ddc697fe0789a39e9023ce9fa201503c5e6d87afd2dcacb65fcb15c6",
+    "experiments/gpu-physics/src/api/query.rs": "7fabd4e86dcfe686a64cbfdc4f559cf856defbc9cd4a1f6fd8d88b6cfc7eab03",
+    "experiments/gpu-physics/src/api/query_toi.rs": "a5dfd290ff059b8dfcd3ac25ffd4bfcf9aaefa48d0f3f14dbc07aa964d6f3cc9",
+    "experiments/gpu-physics/src/api/types_api.rs": "57ed6b9fa7aaee402dd8fdbdaf16e9b0558bb0bb51aa9660502e3cf5ee172dfb",
+    "experiments/gpu-physics/src/api/world.rs": "b6d5d7df4303e68ba67c34a0a78b50059ec23d4162fc084254a388d5886da438",
+    "experiments/gpu-physics/src/api/world/host_state_trace.rs": "d6bc079ec30a4f3b3a9a01a2587af0fae6a6c1d17e614c996a777941ae8af9f3",
+    "experiments/gpu-physics/src/api/world/state_trace.rs": "42350783c82172dcd7b7be18c2907492d758db81a95c36a8141e2b750b281e33",
+    "experiments/gpu-physics/src/c_abi.rs": "9ba0dffbbede17f37edaa115e53f63bb00e66af39404486677d42e9de1ad4186",
+    "experiments/gpu-physics/src/gpu_invariants.rs": "0aee046fc451d35968e94ffe298d7885454a3f62e3dadc125e3192080c32981a",
+    "experiments/gpu-physics/src/lib.rs": "2ad0945eeb58dc2c7f39ec3cd4e0f92041ecbf311c7b4a55d2ec296a0c60acdc",
+    "experiments/gpu-physics/src/manifold_chain_tests.rs": "bd4376d92e5acbea6d04eba9b409ce77b2513c7124b7b79ecca4955a99f58e9a",
+    "experiments/gpu-physics/src/native_precision.rs": "3982fe7652ba209dc072de74996b1aaabe496a326e74d50351d4a5fa973389f7",
+    "experiments/gpu-physics/src/pipeline_cache.rs": "d3784ce24d7943dd7d207f23388bbffe945bbdef0f195df4df9f94f6e86a2400",
+    "experiments/gpu-physics/src/sim.rs": "9024b01277b8bde2755f2890c398b7b9ddf74b149e2da82f23819b680fa81d70",
+    "experiments/gpu-physics/src/types.rs": "ed9c7d9e95695aa002c32ecfe85e86f34a517db3fbe524d9fec035baeee614dc",
+    "experiments/gpu-physics/c_abi/both_ground_name_test.c": "030e2fd06aa0ea3f649d6f34ab61e125f0d6a9d4f92f1bd07daec9e083931717",
+    "experiments/gpu-physics/c_abi/draw_bounds_vis_test.c": "c91fd02ade44101ab6a3abe684e7848678f61911a51a3fac6c5d3c5f976ff147",
+    "experiments/gpu-physics/c_abi/draw_color.h": "c7e6f16d250a295c4479f95fa75187dcfd751b1bd17648e5d9ee3124adb74a0d",
+    "experiments/gpu-physics/c_abi/height_field_vis_test.c": "4ae2ceb35f996c65bac0f319d82e8504081b36a57a45ea754888893b5921cdc6",
+    "experiments/gpu-physics/native-samples/scene_health.h": "3a995d4f05307add42b2343d7a5571950071f17b0401122a5a7c645b79c7459b",
+    "experiments/gpu-physics/native-samples/scene_health_contracts.inc": "3f1e26e86f65127ac69be74a9b6d86df0599a160bd3df0aba8c11971d8b496a0",
+    "experiments/gpu-physics/native-samples/sokol_split_step.c": "9189ff8aec643023607455212688750477fa4bca13caef05e80c77e7947372c1",
+    "experiments/gpu-physics/native-samples/sokol_split_step.h": "a8de1f2e77e94291b3d6091e33a3b44064cd02cdd5ee444055fdf959b22943db",
+    "experiments/gpu-physics/scripts/scene_health.py": "5164fb2951a430a085570b74e37abf651adc7ab9c78ffff0c1dfd94838d0c6ab",
+    "experiments/gpu-physics/scripts/sokol_split_step_injection.py": "3c94e634cd91b7cd0542848c5fba4c1c28a96d4862d7e38823308af503cd5200",
+    "experiments/gpu-physics/shaders/world_pose.wgsl": "c142da846aa06f60e3c7c527eb27e1aabee3f852cb410b4c34839dd67e4f0a45",
+    "experiments/gpu-physics/src/allocation.rs": "9db4324ba633626f48343dab6fd9ef6f5e39194eb770eff71251665f27b08e6d",
+    "experiments/gpu-physics/src/api/coordinate_frame_tests.rs": "ca2c1376427222d8aac4ced621876a4ce04932cf9f6697fb158f047907f370f8",
+    "experiments/gpu-physics/src/api/query_mesh_cast.rs": "d7714ae42e6bce1a93ddc5b03c1edd411f6473071b1fd61b5b524d0511691fae",
+    "experiments/gpu-physics/src/api/query_mesh_sweep.rs": "8b0103ea10c474a55a9c5d31a6b91488ee63f3b67d0173d20419e18dbb01a219",
+    "experiments/gpu-physics/src/api/world/callback_shape_reads.rs": "3b0d81e3fc2f12f5360a15eae7d4bf54205884f6c18b9ddfcbcde448f5ee076b",
+    "experiments/gpu-physics/src/api/world/ccd_joint_lookup_rain_input.txt": "852ea93cc0639932cb641d881e2a168e2ebf6329e0874451b9f7cfc44b7939e8",
+    "experiments/gpu-physics/src/fixtures/mesh_casts.rs": "950199095b17f188fc7c2b7573e3d2f15a547235e166f9cba0eecfeb14aa3509",
+    "experiments/gpu-physics/src/fixtures/perf05_ccd_bounds.json": "ffd85076f75fdaadd4cc82452a3efe24671d773f72d55139278ea8ed294076a9",
+    "experiments/gpu-physics/src/fixtures/perf05_ccd_bounds.rs": "226e41033441d3638e8368a931fc80097a8f8f17fce6d6b915f8207af5afd5b1",
+    "experiments/gpu-physics/src/fixtures/perf06_mover_snapshot.rs": "fb47e5abd6f1b90c4b49fb6af3013a3761a62bc8640f5760344b56afaa2bb8d6",
+    "experiments/gpu-physics/src/world_pose.rs": "8cf162b723774a238144e7f4278b9849c6b1074aeee9c3e372e2b2a55859557a"
+  },
+  "capture_provenance": "Original archived media only; no regeneration/resizing/editing. Date/window/graphics/context limits preserved in reports/compare.",
+  "clips": {
+    "before-cpu": {
+      "path": "media/3552d0f3f72cd196ae2d2c21.mp4",
+      "sha256": "3552d0f3f72cd196ae2d2c21b8568b90e57c1b2c36e54f7c39dbca190dffcd82",
+      "bytes": 1896497
+    },
+    "before-native-both": {
+      "path": "media/884e2a0f58a968eb6e8f5a34.mp4",
+      "sha256": "884e2a0f58a968eb6e8f5a34bf4d514bfc821975b376d0dae38ccad7a709166a",
+      "bytes": 2895097
+    },
+    "before-native-gpu": {
+      "path": "media/e00b4db5020ec4fe24f04a8c.mp4",
+      "sha256": "e00b4db5020ec4fe24f04a8c3eb7717b8dbc1e5308ea76c4759d01e5ad1d99f4",
+      "bytes": 3079846
+    },
+    "before-ordinary-both": {
+      "path": "media/a36d4bd310d86e8a208383c1.mp4",
+      "sha256": "a36d4bd310d86e8a208383c14465dbf0c83bf82e033b2548e44edc98160e13a4",
+      "bytes": 2882958
+    },
+    "before-ordinary-gpu": {
+      "path": "media/c9c552a85eb32d7da2f35758.mp4",
+      "sha256": "c9c552a85eb32d7da2f35758bd6a0315b56a21ed2d19d9fa1c87f12f0288ce24",
+      "bytes": 3078949
+    },
+    "after-after-native-both": {
+      "path": "media/db702d81d5b3096d7895b8c6.mp4",
+      "sha256": "db702d81d5b3096d7895b8c66a78e085ce8ce83e4a371bd9606be46a5e928063",
+      "bytes": 257751
+    },
+    "after-after-native-gpu": {
+      "path": "media/031399e94dfabdc74f516a2a.mp4",
+      "sha256": "031399e94dfabdc74f516a2ab07d20b56971419dc1e609d2c3d49495c94e4d55",
+      "bytes": 331827
+    },
+    "after-after-ordinary-both": {
+      "path": "media/c869ff9f9eeaa5dbff3e947c.mp4",
+      "sha256": "c869ff9f9eeaa5dbff3e947c409e6e80b35a91e2dd0f7a8cb402436cb83841e3",
+      "bytes": 258821
+    },
+    "after-after-ordinary-gpu": {
+      "path": "media/b668b34cd97dfffa98a59f84.mp4",
+      "sha256": "b668b34cd97dfffa98a59f8475c6ada553fbeabb3c5a939d0bc91aa1e09cf72d",
+      "bytes": 338230
+    },
+    "after-cpu": {
+      "path": "media/477bea6a080e6690598cd57e.mp4",
+      "sha256": "477bea6a080e6690598cd57e96daa48ccbab749dd13901f38c3cbf51de6ae3b4",
+      "bytes": 191127
+    }
+  },
+  "files": {
+    "README.md": {
+      "bytes": 5367,
+      "sha256": "f87d1a21305bf68b6edb7ebbaaf9fef8010e1b6b86f8ef63a7b0e8f1480279b6"
+    },
+    "acceptance.json": {
+      "bytes": 3615,
+      "sha256": "aae81c41531f632b906bd710d137417b5255cd1d312e30ef663b6ca3824298ac"
+    },
+    "compare/index.html": {
+      "bytes": 2319,
+      "sha256": "9c99a5f72dc4fc1fd47e57744e5d3d67b18e45bf7a3fcc2aeed404b941ec6ad4"
+    },
+    "data/inventory.json": {
+      "bytes": 531845,
+      "sha256": "3bb10526300d071f5925673bc6d48221afc986443cf779828865a4b9d2d387aa"
+    },
+    "data/publication-audit.json": {
+      "bytes": 2227,
+      "sha256": "19daa50b68c249cbdf2bfb22fb9ae0ba02ed9d3dc2d71101b98d78e0eaa38802"
+    },
+    "data/publication-budget.json": {
+      "bytes": 1752,
+      "sha256": "931b0692eec97c9b59db16fe5c0e02032af827e36693c5a9041a11213a4dfac1"
+    },
+    "data/verification-summaries.json": {
+      "bytes": 861877,
+      "sha256": "48fbe8d3e4b36f56f836dcf4be4982e61be6292da9877c98390461e09459c325"
+    },
+    "media/014c9d39dd8876ed76b534dd.png": {
+      "bytes": 530135,
+      "sha256": "014c9d39dd8876ed76b534dd8e49e5ffaa6e5cb2a8aa119f148acf57c9f5b912"
+    },
+    "media/02c723cc5b9f72daa23a0a3d.png": {
+      "bytes": 201744,
+      "sha256": "02c723cc5b9f72daa23a0a3de4e51fa2e41f6f69f0ef9423a98f8bf70828a2fb"
+    },
+    "media/031399e94dfabdc74f516a2a.mp4": {
+      "bytes": 331827,
+      "sha256": "031399e94dfabdc74f516a2ab07d20b56971419dc1e609d2c3d49495c94e4d55"
+    },
+    "media/17ed28ff7d486b1ab0473bd5.jpg": {
+      "bytes": 153443,
+      "sha256": "17ed28ff7d486b1ab0473bd5f3d11994ba258685c74cbd7b23fe61726f27c94e"
+    },
+    "media/203a180277398dcb043b59e5.png": {
+      "bytes": 582203,
+      "sha256": "203a180277398dcb043b59e548e486783eee0edbc43bfd9b28680610cdc0d20e"
+    },
+    "media/2073400490e6e7322ccc36f4.jpg": {
+      "bytes": 148778,
+      "sha256": "2073400490e6e7322ccc36f4809aed3259668a7ad996c91dba12f685af7033c5"
+    },
+    "media/28b0f2aa1448c7b96ea9b49e.png": {
+      "bytes": 239352,
+      "sha256": "28b0f2aa1448c7b96ea9b49ee7997eed9f2ffc042e2ff7da7d61afe773fe8842"
+    },
+    "media/2b2a7056ec2a125b6375c39a.jpg": {
+      "bytes": 360312,
+      "sha256": "2b2a7056ec2a125b6375c39a8b5f806152c951038e12a21794f273ce3226461a"
+    },
+    "media/2cf8a80cd76219617207aeaf.png": {
+      "bytes": 221665,
+      "sha256": "2cf8a80cd76219617207aeaff71e38f6ce213df5c8b846ae4816409e055bbb7f"
+    },
+    "media/32ccab40e04a40b1ce1925b9.jpg": {
+      "bytes": 931236,
+      "sha256": "32ccab40e04a40b1ce1925b9d764cf0cefc58055b3dbe766a3a403b43d2126d4"
+    },
+    "media/334d0fae9c1fa49ce646c879.jpg": {
+      "bytes": 349611,
+      "sha256": "334d0fae9c1fa49ce646c8793074425caa31701e2cb709508fddc7d955a08241"
+    },
+    "media/3552d0f3f72cd196ae2d2c21.mp4": {
+      "bytes": 1896497,
+      "sha256": "3552d0f3f72cd196ae2d2c21b8568b90e57c1b2c36e54f7c39dbca190dffcd82"
+    },
+    "media/3e6b5857d9361a729cd6a28a.jpg": {
+      "bytes": 172390,
+      "sha256": "3e6b5857d9361a729cd6a28a1b7256aeb9ae1296e54ce377f8abaf967e8f9c8e"
+    },
+    "media/3f0a04ff82a0a1288d1f9298.png": {
+      "bytes": 415947,
+      "sha256": "3f0a04ff82a0a1288d1f92980d8af43deb2fec8277bc6c14f869f5eb3cf52ed1"
+    },
+    "media/4221f98e550b6d74e1d3b4da.jpg": {
+      "bytes": 181623,
+      "sha256": "4221f98e550b6d74e1d3b4da8a3d4cfa50117f99267a15d2fa4b7bc3d31b9764"
+    },
+    "media/443ebd3fb033ffadeb792cac.png": {
+      "bytes": 21805,
+      "sha256": "443ebd3fb033ffadeb792cacfc854e3f748642869f48a6add76284db370da9f5"
+    },
+    "media/4541e2f4b94f36330b5781b5.png": {
+      "bytes": 358747,
+      "sha256": "4541e2f4b94f36330b5781b5581e9f854e2aa0dff6761c2e2fa5dfd98d532cbb"
+    },
+    "media/4632cd3d034e8cafdb1b329d.jpg": {
+      "bytes": 511559,
+      "sha256": "4632cd3d034e8cafdb1b329d3e47d0962eab468608ea14988ad1183cfb91ea66"
+    },
+    "media/46eb0778b4eafca3789778fc.png": {
+      "bytes": 183177,
+      "sha256": "46eb0778b4eafca3789778fc20f1c9d48e876ea6bd27299fcc6c9d6b0e11a5c4"
+    },
+    "media/471805fe376ab37a1220e01a.png": {
+      "bytes": 123857,
+      "sha256": "471805fe376ab37a1220e01ab1f16c26e0e72a1dcb9d1408ae59bdedd137e982"
+    },
+    "media/4737ffe570953a0278f88783.jpg": {
+      "bytes": 393285,
+      "sha256": "4737ffe570953a0278f88783a18ed155747a46d90e79f24e4ef431d1f37eedf6"
+    },
+    "media/477bea6a080e6690598cd57e.mp4": {
+      "bytes": 191127,
+      "sha256": "477bea6a080e6690598cd57e96daa48ccbab749dd13901f38c3cbf51de6ae3b4"
+    },
+    "media/4930b874a0e2cf6714945388.jpg": {
+      "bytes": 152307,
+      "sha256": "4930b874a0e2cf67149453885c563125f03912a65fb3555491b748f120b3afaa"
+    },
+    "media/4d54d405eaadbdc3e6a5d9bf.png": {
+      "bytes": 394144,
+      "sha256": "4d54d405eaadbdc3e6a5d9bf4c6b0a3465388f3e449f2c0b1925f64b8557fdab"
+    },
+    "media/4fb09870c90480841220623d.png": {
+      "bytes": 854438,
+      "sha256": "4fb09870c90480841220623d904de12cf23cee74ebe58bd21970a774beef0845"
+    },
+    "media/536b0702bb63d8b6650493fc.png": {
+      "bytes": 447458,
+      "sha256": "536b0702bb63d8b6650493fced502f8c01954ee1d78c3133cf623ae153cdcdb5"
+    },
+    "media/56568d706b00fbcb0758a3e4.png": {
+      "bytes": 305692,
+      "sha256": "56568d706b00fbcb0758a3e41f26e86ce80517c54d33364d8aca7bc1b1ea9e1e"
+    },
+    "media/585cedb277a34e43d1c0e0dc.png": {
+      "bytes": 1364936,
+      "sha256": "585cedb277a34e43d1c0e0dc4944fe03b6e14b564da47d0ba5a01a9f866c8a14"
+    },
+    "media/5bae62c4e0c36aede6c69b18.jpg": {
+      "bytes": 360061,
+      "sha256": "5bae62c4e0c36aede6c69b18288cc85edc7b21b43890caf225aeaafcd80c94e2"
+    },
+    "media/5e4817f7cdd5fec7e981540d.png": {
+      "bytes": 524880,
+      "sha256": "5e4817f7cdd5fec7e981540d358a6e3fd49f7f14ae95741a63bd08a624f59bda"
+    },
+    "media/6587f016f96aa15516669a87.jpg": {
+      "bytes": 243540,
+      "sha256": "6587f016f96aa15516669a87d855f41bd3f8440f28c8b85637b628264cb50c26"
+    },
+    "media/6aa601083c60c2003b8f615e.jpg": {
+      "bytes": 852218,
+      "sha256": "6aa601083c60c2003b8f615e24b0149fe5b58fd4c854c3938ee36076cf32fc94"
+    },
+    "media/6b4f18a7ff5fa1a8f39ffc06.jpg": {
+      "bytes": 560767,
+      "sha256": "6b4f18a7ff5fa1a8f39ffc06b028968877ba87163a25c2c7de6f025888cec23b"
+    },
+    "media/6d456c35910dee917b57ecf9.png": {
+      "bytes": 176677,
+      "sha256": "6d456c35910dee917b57ecf945f190c04017245db5048313fc617f07fe5a5e97"
+    },
+    "media/6eb92c455c23023d494140e9.png": {
+      "bytes": 496459,
+      "sha256": "6eb92c455c23023d494140e9c0d24815425e8c9c96ee9fe125ddcf9ed41d9838"
+    },
+    "media/7033b6616dc402abcac509d5.jpg": {
+      "bytes": 236738,
+      "sha256": "7033b6616dc402abcac509d589496f9149c688414a80b351e834aa4be2099124"
+    },
+    "media/7233629e55516b9fa78acf7a.png": {
+      "bytes": 124961,
+      "sha256": "7233629e55516b9fa78acf7a6d4a83eff22858f831c32f3c15971154f3a2bfa2"
+    },
+    "media/75b516280c0bf8ef899bd380.jpg": {
+      "bytes": 479415,
+      "sha256": "75b516280c0bf8ef899bd380a63c2036668194573293e4e3c0a9dc1a90b5faa2"
+    },
+    "media/75c44dbde1c89410ab5c5be2.jpg": {
+      "bytes": 546812,
+      "sha256": "75c44dbde1c89410ab5c5be2fc6dbe3d61b30fb9c94d2693a4d46f2c3620cd35"
+    },
+    "media/78c5c859c4edb7ba79a076c0.jpg": {
+      "bytes": 282684,
+      "sha256": "78c5c859c4edb7ba79a076c011457977e3fd8dccb6cba5ebc3c21a06a489dad8"
+    },
+    "media/7c74f65143082516cd16d057.jpg": {
+      "bytes": 1014258,
+      "sha256": "7c74f65143082516cd16d05742ca312423d979084beea10c49475742f3708029"
+    },
+    "media/7d2b833f1c97f1f7c8cdf450.png": {
+      "bytes": 557517,
+      "sha256": "7d2b833f1c97f1f7c8cdf4506c94bf88f7315e14e928dfb6440999e8075ca698"
+    },
+    "media/7dcd2ba22f5abe332664dffa.png": {
+      "bytes": 165128,
+      "sha256": "7dcd2ba22f5abe332664dffad0e192b1e6260e622ef459d2a5942c13383b5bd1"
+    },
+    "media/81cc4c7f9923cecc4f104c62.jpg": {
+      "bytes": 476828,
+      "sha256": "81cc4c7f9923cecc4f104c621f16e893be957325179a8566bf803c365c023a9d"
+    },
+    "media/884e2a0f58a968eb6e8f5a34.mp4": {
+      "bytes": 2895097,
+      "sha256": "884e2a0f58a968eb6e8f5a34bf4d514bfc821975b376d0dae38ccad7a709166a"
+    },
+    "media/9787217f981216383aaaf820.jpg": {
+      "bytes": 393791,
+      "sha256": "9787217f981216383aaaf8209d8a808a88dbf823109f2be0acebf4c78385d634"
+    },
+    "media/9c1e867dd7b73f1241cad9d6.png": {
+      "bytes": 144545,
+      "sha256": "9c1e867dd7b73f1241cad9d69a355f592395b792ff4ae15794e882e357599fc0"
+    },
+    "media/9e1a8db84a46ed4f122c2550.jpg": {
+      "bytes": 1014504,
+      "sha256": "9e1a8db84a46ed4f122c25507f66104aa14943c5d8cf39c669cee83d9799d10b"
+    },
+    "media/a36d4bd310d86e8a208383c1.mp4": {
+      "bytes": 2882958,
+      "sha256": "a36d4bd310d86e8a208383c14465dbf0c83bf82e033b2548e44edc98160e13a4"
+    },
+    "media/a383d02ae3bfc173ab8bdb6d.jpg": {
+      "bytes": 318561,
+      "sha256": "a383d02ae3bfc173ab8bdb6d5f8a2a642ba6671730c6a2761d7958bc6aca4820"
+    },
+    "media/a62177baa0c5f8029f8dd0e3.png": {
+      "bytes": 445851,
+      "sha256": "a62177baa0c5f8029f8dd0e377f24899574d8f00cfd8b53ed803c0201f6868b5"
+    },
+    "media/a7fa75adf37f1046fa91fd17.jpg": {
+      "bytes": 275640,
+      "sha256": "a7fa75adf37f1046fa91fd176be2d92ac3c0e4f926567325d40e46ddbde89ed6"
+    },
+    "media/aa012e07af1e25e7c40b5a93.png": {
+      "bytes": 423417,
+      "sha256": "aa012e07af1e25e7c40b5a93f0b53da64b1fec8edc45f4bc35e9905fd89ec535"
+    },
+    "media/ab9c1f6b1f30c31bee3ffab5.png": {
+      "bytes": 433974,
+      "sha256": "ab9c1f6b1f30c31bee3ffab55805603967bd7cde8441e3114e0d73d7fd85cb8a"
+    },
+    "media/ad71cd0d737f0aeafb2eec0c.jpg": {
+      "bytes": 150514,
+      "sha256": "ad71cd0d737f0aeafb2eec0c6a39b8003fed79082accf499c7c2ae98ff44acf1"
+    },
+    "media/af2e3ad9f6b623a4be15383f.png": {
+      "bytes": 127117,
+      "sha256": "af2e3ad9f6b623a4be15383fa00fb52330c684bdabfe8a43dbde3a91ea279bbe"
+    },
+    "media/b668b34cd97dfffa98a59f84.mp4": {
+      "bytes": 338230,
+      "sha256": "b668b34cd97dfffa98a59f8475c6ada553fbeabb3c5a939d0bc91aa1e09cf72d"
+    },
+    "media/bd44a2e42bcffc965dc058af.png": {
+      "bytes": 132651,
+      "sha256": "bd44a2e42bcffc965dc058af17413585cc100e26cd6edb9635d415c1f8156667"
+    },
+    "media/be57ee0dbbeab4f2fe4ba7b1.jpg": {
+      "bytes": 425988,
+      "sha256": "be57ee0dbbeab4f2fe4ba7b1af2dab7e020ff7bbb018e370e81a9316ff326a74"
+    },
+    "media/c869ff9f9eeaa5dbff3e947c.mp4": {
+      "bytes": 258821,
+      "sha256": "c869ff9f9eeaa5dbff3e947c409e6e80b35a91e2dd0f7a8cb402436cb83841e3"
+    },
+    "media/c9c552a85eb32d7da2f35758.mp4": {
+      "bytes": 3078949,
+      "sha256": "c9c552a85eb32d7da2f35758bd6a0315b56a21ed2d19d9fa1c87f12f0288ce24"
+    },
+    "media/cac78a134459cd0fa5a6d2e0.jpg": {
+      "bytes": 511996,
+      "sha256": "cac78a134459cd0fa5a6d2e026eedccb88be8250eca89049aa3fcddf84778e39"
+    },
+    "media/cf1c9defe276ad90fa56bd2a.jpg": {
+      "bytes": 197044,
+      "sha256": "cf1c9defe276ad90fa56bd2ae701def1aa152efe6c1b13577a35ce6264151771"
+    },
+    "media/cf5b4ee3b80136da2200b91a.jpg": {
+      "bytes": 821209,
+      "sha256": "cf5b4ee3b80136da2200b91ae632a803db5a918456eb9f38afbda61d1bfc8cec"
+    },
+    "media/cff6fc9e0686d02269047b59.png": {
+      "bytes": 539380,
+      "sha256": "cff6fc9e0686d02269047b59b33290a43fe8e31a24ddbbfd26663f637afb95aa"
+    },
+    "media/d4a0c013ed5bae3b6f2c2a60.png": {
+      "bytes": 593177,
+      "sha256": "d4a0c013ed5bae3b6f2c2a604d1988ab2649510d8451049acc65d36fe620b72b"
+    },
+    "media/d6321b09a22f2d1048e0df68.jpg": {
+      "bytes": 324725,
+      "sha256": "d6321b09a22f2d1048e0df68e6d6d1994a293ca9d7157ed338eb276a10cd5ea8"
+    },
+    "media/d8175848319741003a231d12.jpg": {
+      "bytes": 831097,
+      "sha256": "d8175848319741003a231d127eeb9b56cadb23c54371f3fa0ff02dc411d06eba"
+    },
+    "media/db702d81d5b3096d7895b8c6.mp4": {
+      "bytes": 257751,
+      "sha256": "db702d81d5b3096d7895b8c66a78e085ce8ce83e4a371bd9606be46a5e928063"
+    },
+    "media/e00b4db5020ec4fe24f04a8c.mp4": {
+      "bytes": 3079846,
+      "sha256": "e00b4db5020ec4fe24f04a8c3eb7717b8dbc1e5308ea76c4759d01e5ad1d99f4"
+    },
+    "media/e1e520bb26d42dc80ebd2b27.png": {
+      "bytes": 255568,
+      "sha256": "e1e520bb26d42dc80ebd2b27571968e7b925deb83f21a1230c1b6e44b0bbcfd9"
+    },
+    "media/e357901971a5bef221eab36d.jpg": {
+      "bytes": 245567,
+      "sha256": "e357901971a5bef221eab36d5b8c38c90d173a337eda899275dc5feb33a380ad"
+    },
+    "media/e77cec3b56edefe64fee94ff.jpg": {
+      "bytes": 153581,
+      "sha256": "e77cec3b56edefe64fee94ff3668a827e8ef1adfe002b278afde65d6dd09a3f4"
+    },
+    "media/ea380564623ad262d81cee64.png": {
+      "bytes": 165492,
+      "sha256": "ea380564623ad262d81cee648b1ce0a31412a97084ac04fd5a960642d149f4b8"
+    },
+    "media/edc1e991458b19d5e96bc1c6.png": {
+      "bytes": 206642,
+      "sha256": "edc1e991458b19d5e96bc1c6e58552905e018489f231cf8d85af0ab9b019a6b8"
+    },
+    "media/ef83578669af63b31e556600.png": {
+      "bytes": 413121,
+      "sha256": "ef83578669af63b31e5566009cf35dfb6f5348a45ff856d162e8c21d5cf0a546"
+    },
+    "media/ef9c5fe91eae6825d40f0306.jpg": {
+      "bytes": 246117,
+      "sha256": "ef9c5fe91eae6825d40f0306a3c82400ee4eba1e346acceeb3d4b65a480a455b"
+    },
+    "media/f3b4123c1bcc64e19a578eb5.png": {
+      "bytes": 178172,
+      "sha256": "f3b4123c1bcc64e19a578eb54e654068ef01d7df4f16ea76cea48d03bec109b1"
+    },
+    "media/fc685d7acb8a2a74d8cee284.png": {
+      "bytes": 137594,
+      "sha256": "fc685d7acb8a2a74d8cee284305ccb95a122fd0380251b8583251bcd053e1eb7"
+    },
+    "media/fdf853846fb3ed4fe3f79dbd.png": {
+      "bytes": 140297,
+      "sha256": "fdf853846fb3ed4fe3f79dbdbf733a9b388df77e52a52113f4796db801290b25"
+    },
+    "media/fff3b523e7f07704ecaab8dc.png": {
+      "bytes": 180248,
+      "sha256": "fff3b523e7f07704ecaab8dc5d28eaf9cae1c89d49832dbc17fc73059f8e2a3d"
+    },
+    "native-review.md": {
+      "bytes": 142538,
+      "sha256": "0ec499986f713d174ae1c1ff93f57b2e40bad372c39a395da4e68d4309d9b445"
+    },
+    "reports/BEH01.md": {
+      "bytes": 7457,
+      "sha256": "2eaff79f1e8b45b673e0eb51acf9539ecd6342e4495f0e332938c8acd584ab77"
+    },
+    "reports/BEH02.md": {
+      "bytes": 9927,
+      "sha256": "765be489e8aaf96beb4690a7f19b662ffeb2435bec2825123c1e17fc284942ee"
+    },
+    "reports/BEH03.md": {
+      "bytes": 9748,
+      "sha256": "6dfb0457e825351544920cac7051338c86ca043830bc5bdf2d61da6ad6aad351"
+    },
+    "reports/CAP01.md": {
+      "bytes": 11379,
+      "sha256": "d18ce2ece1a5aa66f74a437c6146bc13f39adffd380f9d2fbf2882f2bcadae3a"
+    },
+    "reports/DIAG01.md": {
+      "bytes": 14733,
+      "sha256": "7dfa64de98c6cd12818bc611112156335eccacedfd299196d76ea269db2707dc"
+    },
+    "reports/FarPyramid.md": {
+      "bytes": 3944,
+      "sha256": "6acb38d4ad699e05ebf51c88dcc8afec12ab15df5881398b2047af7cedba6c3e"
+    },
+    "reports/PERF01.md": {
+      "bytes": 10162,
+      "sha256": "2df12adea03964b296557042ccb2d90cd54c2f0cfce5a922d6f73ed698627e83"
+    },
+    "reports/PERF02.md": {
+      "bytes": 17117,
+      "sha256": "7a7acc0d6ada3d70dfd1c48a53230158351863ff6de0fb6ccc6f9c2b6d706ea4"
+    },
+    "reports/PERF03.md": {
+      "bytes": 13707,
+      "sha256": "422a9a39eff5ede2e46d86a70240357eb040e0a7de6ab5adcb7872158002c5bb"
+    },
+    "reports/PERF04.md": {
+      "bytes": 5967,
+      "sha256": "aeba942406e4cce517abe0b40fe4f67bd3a2e61a750cfc813da813375df99377"
+    },
+    "reports/PERF05.md": {
+      "bytes": 9423,
+      "sha256": "b498bbe79eaa500b441466a1e74a6365c0f78ae11f1caafec9c50afbeb4571ca"
+    },
+    "reports/PERF06.md": {
+      "bytes": 8995,
+      "sha256": "e87e03b4cc7cd73887317b399af67252d2e54e749297e5e599d6350d5708c2b0"
+    },
+    "reports/QRY01.md": {
+      "bytes": 13867,
+      "sha256": "fea39a10b08e11f47e1f8e78a8190241d7f353764f256c002971eb5da55e3c05"
+    },
+    "reports/RUNTIME01.md": {
+      "bytes": 7025,
+      "sha256": "22761e9689b586f871e71397a5f093365b068a0ac6e44e42b3f31e7523edfd06"
+    },
+    "reports/RUNTIME02.md": {
+      "bytes": 11867,
+      "sha256": "b954e42016ab42e8db62193f7e01a33339c68846bb7a0bfbe011217341ef706d"
+    },
+    "reports/RUNTIME03.md": {
+      "bytes": 11264,
+      "sha256": "95ab6509d26e0f62c6ed4debf7aa0bb8c9a7223d88cf7c95c09c4656c1ffe90d"
+    },
+    "reports/VIS01.md": {
+      "bytes": 9036,
+      "sha256": "fc221282d8290d650911303ca578268db309d0353201b6d7b92b73dc22a8f362"
+    },
+    "reports/VIS02.md": {
+      "bytes": 230597,
+      "sha256": "7fa9238d9f627f341a73232e4574f025632e269026f5891f8efabfbb9dfb4946"
+    },
+    "reports/VIS03.md": {
+      "bytes": 11399,
+      "sha256": "310511abdf13ee257515e9543582dceda10883edb3db4fd11f79709069845e49"
+    },
+    "reports/VIS05.md": {
+      "bytes": 11071,
+      "sha256": "cb01f0ebf3806dc3297271dba2217dfd8d43ff64a5e855417f10a851328885cf"
+    },
+    "reports/VIS06.md": {
+      "bytes": 9870,
+      "sha256": "fc58630f586aa9346b64b298c4d4faea5746704507f9592306209fb390105f83"
+    },
+    "reports/VIS07.md": {
+      "bytes": 8270,
+      "sha256": "d379dace3f584cb47c6185eb2ae0e7ad34ae7fd349b92e8b5a1fce898c288b78"
+    },
+    "reports/VIS08.md": {
+      "bytes": 7608,
+      "sha256": "875a48dfe786250c892d569625bf9cb62b0745d1260d0ec93236cd6da78d21e1"
+    }
+  },
+  "required_regression_fixtures": [
+    {
+      "path": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/QRY01/trace/inputs.json",
+      "bytes": 4503,
+      "sha256": "4cd255b7d99f19b937e4f959e9c65c61bd170e4233a9ebfc52780ed6712612a9",
+      "consumer": "Existing Rust query regression; exact recorded bytes, no regeneration"
+    },
+    {
+      "path": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/PERF02/cast-cost-trace-no-json-dependency/actual-mesh.json",
+      "bytes": 310462,
+      "sha256": "4e7910de7037e49f7f67a55026f083b9fd0be01e0b03c4b4852692e6b02e6e1c",
+      "consumer": "Existing Rust query regression; exact recorded bytes, no regeneration"
+    },
+    {
+      "path": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/PERF02/cast-cost-trace-no-json-dependency/actual-inputs-outputs.json",
+      "bytes": 4158198,
+      "sha256": "5547b054ed39e7593f86f4f2b52429769c1b3dd2234e5a395264a9b0a462f025",
+      "consumer": "Existing Rust query regression; exact recorded bytes, no regeneration"
+    }
+  ]
+}

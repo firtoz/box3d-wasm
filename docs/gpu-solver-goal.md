@@ -7,6 +7,11 @@ full solver acceptance contract and historical investigations; its older next
 actions, job handles and task-specific authorizations must be revalidated before
 use. Preparing the roadmap does not resume the older solver goal.
 
+PR09 publication, 2026-10-15: **165 native samples reviewed, 0 left; 21 fixes, 1 resolved without repair, 0 open original repair groups.** [Portable inventory, reports and before/after evidence](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/README.md) close the PR09 comparison gate. Rain physical failures remain open under PR04; UI/widgets and full query qualification remain PR10/PR11. Earlier dated counts, local audit archives and source-specific limitations below are historical and do not certify the full release.
+
+No historical solver task or exhausted experiment is resumed.
+
+
 Completed bounded task (2026-09-30): read [bounded scheduling goal](gpu-scheduling-goal.md), absolute path `/home/firtoz/work/2026/box3d-wasm/docs/gpu-scheduling-goal.md`. Its desktop scheduling result and delivery are complete; implementation/evidence `91485a9` is pushed to `feat/gpu`. Older full solver work remains unfinished and is not resumed by this completed task.
 
 Updated: 2026-09-29. Status: resumed by explicit goal continuation, incomplete.

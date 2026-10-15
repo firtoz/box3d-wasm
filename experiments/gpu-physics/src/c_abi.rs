@@ -82,6 +82,11 @@ pub extern "C" fn gpu_b3_default_query_filter() -> crate::api::QueryFilter {
 }
 
 #[no_mangle]
+pub extern "C" fn gpu_b3_shape_set_invoke_contact_creation(id: ShapeId, invoke: bool) {
+    crate::api::b3_shape_set_invoke_contact_creation(id, invoke);
+}
+
+#[no_mangle]
 pub extern "C" fn gpu_b3_shape_get_sphere(id: ShapeId) -> Sphere {
     crate::api::b3_shape_get_sphere(id)
 }
@@ -816,6 +821,7 @@ fn shape_def(
     update_body_mass: bool,
 ) -> ShapeDef {
     ShapeDef {
+        invoke_contact_creation: true,
         density,
         friction,
         restitution,
@@ -3076,6 +3082,11 @@ pub extern "C" fn gpu_b3_body_get_transform(body: BodyId, pos: *mut f32, rot: *m
 #[no_mangle]
 pub extern "C" fn gpu_b3_world_prepare_pose_snapshot(id: WorldId) {
     crate::api::b3_world_prepare_pose_snapshot(id);
+}
+
+#[no_mangle]
+pub extern "C" fn gpu_b3_body_get_debug_flags(body: BodyId) -> u32 {
+    crate::api::b3_body_get_debug_flags(body)
 }
 
 #[no_mangle]

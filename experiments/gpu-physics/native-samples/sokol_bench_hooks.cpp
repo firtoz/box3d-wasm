@@ -4,6 +4,7 @@
 #include "native_diagnostics.h"
 #endif
 #include "sokol_capacity.h"
+#include "scene_health.h"
 #include "../c_abi/spherical_limit_health.h"
 
 #include "box3d/box3d.h"
@@ -143,6 +144,9 @@ struct FrameRec
 	float max_y;
 	float max_speed;
 	int exploded;
+	int raw_exploded;
+	NativeSceneHealthLimits health_limits;
+	float world_maximum_linear_speed;
 	uint64_t health_ns;
 	std::vector<BodyHealth> bodies;
 	std::vector<JointHealth> joints;
@@ -159,6 +163,11 @@ struct HealthAcc
 };
 
 static std::vector<uint8_t> g_health_seen;
+#if !defined(GPU_PHYSICS_SAMPLES)
+// Cleared for each world scan, just like the body bitmap. Preserve the first
+// encounter order while avoiding a linear walk through every earlier joint.
+static std::vector<uint8_t> g_joint_health_seen;
+#endif
 
 static void scan_body(HealthAcc* acc, b3BodyId body)
 {
@@ -180,9 +189,10 @@ static void scan_body(HealthAcc* acc, b3BodyId body)
 	int joint_count = b3Body_GetJoints(body, joints.data(), (int)joints.size());
 	for (int j = 0; j < joint_count; ++j) {
 		auto id = joints[j];
-		bool seen = false;
-		for (const auto& old : g_joint_health) { if (old.id == id.index1) { seen = true; break; } }
-		if (seen) { continue; }
+		const unsigned joint_index = (unsigned)id.index1;
+		if (joint_index >= g_joint_health_seen.size()) g_joint_health_seen.resize((size_t)joint_index + 1, 0);
+		if (g_joint_health_seen[joint_index]) { continue; }
+		g_joint_health_seen[joint_index] = 1;
 		auto a = b3Body_GetWorldPoint(b3Joint_GetBodyA(id), b3Joint_GetLocalFrameA(id).p);
 		auto b = b3Body_GetWorldPoint(b3Joint_GetBodyB(id), b3Joint_GetLocalFrameB(id).p);
 		auto type = b3Joint_GetType(id);
@@ -802,12 +812,17 @@ void gpu_sokol_bench_note_world(b3WorldId world)
 		return;
 	}
 	uint64_t t0 = now_ns();
+	g_acc.world_maximum_linear_speed = b3World_GetMaximumLinearSpeed(world);
+	g_acc.health_limits = native_scene_health_limits(g_sample, g_acc.world_maximum_linear_speed);
 	HealthAcc acc = {};
 	acc.min_y = 1.0e9f;
 	acc.max_y = -1.0e9f;
 	std::fill(g_health_seen.begin(), g_health_seen.end(), 0);
 	g_body_health.clear();
 	g_joint_health.clear();
+#if !defined(GPU_PHYSICS_SAMPLES)
+    std::fill(g_joint_health_seen.begin(), g_joint_health_seen.end(), 0);
+#endif
 #if defined(GPU_PHYSICS_SAMPLES)
 	GpuHealthScan scan = gpu_b3_world_health_scan(world);
 	HealthAcc body_scan = {};
@@ -819,7 +834,8 @@ void gpu_sokol_bench_note_world(b3WorldId world)
 	acc.min_y = scan.min_y;
 	acc.max_y = scan.max_y;
 	acc.max_speed = scan.max_speed;
-	g_acc.exploded = scan.nan_count > 0 || scan.max_speed > speed_limit || scan.max_y > 200.0f;
+	g_acc.raw_exploded = scan.nan_count > 0 || scan.max_speed > speed_limit || scan.max_y > 200.0f;
+	g_acc.exploded = native_scene_health_failed(scan.nan_count, scan.max_speed, scan.max_y, g_acc.health_limits);
 	const char* fail = gpu_b3_world_gpu_fail(world);
 	if (fail && fail[0])
 	{
@@ -827,9 +843,11 @@ void gpu_sokol_bench_note_world(b3WorldId world)
 		g_status_ok = 0;
 	}
 #else
-	b3AABB aabb = { { -1.0e5f, -1.0e5f, -1.0e5f }, { 1.0e5f, 1.0e5f, 1.0e5f } };
+	// Diagnostic native samples reach 1e7; include their unchanged far geometry.
+	b3AABB aabb = { { -1.0e8f, -1.0e8f, -1.0e8f }, { 1.0e8f, 1.0e8f, 1.0e8f } };
 	b3World_OverlapAABB(world, aabb, b3DefaultQueryFilter(), health_overlap, &acc);
-	g_acc.exploded = acc.nan_count > 0 || acc.max_speed > speed_limit || acc.max_y > 200.0f;
+	g_acc.raw_exploded = acc.nan_count > 0 || acc.max_speed > speed_limit || acc.max_y > 200.0f;
+	g_acc.exploded = native_scene_health_failed(acc.nan_count, acc.max_speed, acc.max_y, g_acc.health_limits);
 #endif
 	g_acc.nan_count = acc.nan_count;
 	g_acc.bodies = g_body_health;
@@ -1045,7 +1063,10 @@ void gpu_sokol_bench_finish(int frames, int sokol_errors, const char* sample_nam
 		fputs("    {\"sample\":\"", f);
         json_escape(f, r.sample);
         const auto& m = r.gpu_contacts;
-        fprintf(f, "\",\"contact_count_known\":%s,\"gpu_contact_metrics\":{\"phase\":\"contact_scheduling\",\"known\":%s,\"current\":%s,\"capacity_loss\":%s,\"snapshot_step\":%llu,\"submitted_step\":%llu,\"snapshot_topology\":%llu,\"current_topology\":%llu,\"snapshot_state\":%llu,\"current_state\":%llu,\"candidate_pairs\":%u,\"allocated_roots\":%u,\"allocated_manifold_slots\":%u,\"touching_roots\":%u,\"non_sensor_roots\":%u}",
+		fprintf(f, "\",\"health_policy\":\"native-scene-outlier-screen-v1\",\"raw_exploded\":%s,\"health_reference_y\":%.9g,\"health_speed_limit\":%.9g,\"health_max_y_limit\":%.9g,\"world_maximum_linear_speed\":%.9g",
+			r.raw_exploded ? "true" : "false", r.health_limits.reference_y, r.health_limits.speed,
+			r.health_limits.max_y, r.world_maximum_linear_speed);
+        fprintf(f, ",\"contact_count_known\":%s,\"gpu_contact_metrics\":{\"phase\":\"contact_scheduling\",\"known\":%s,\"current\":%s,\"capacity_loss\":%s,\"snapshot_step\":%llu,\"submitted_step\":%llu,\"snapshot_topology\":%llu,\"current_topology\":%llu,\"snapshot_state\":%llu,\"current_state\":%llu,\"candidate_pairs\":%u,\"allocated_roots\":%u,\"allocated_manifold_slots\":%u,\"touching_roots\":%u,\"non_sensor_roots\":%u}",
             r.contact_count_known ? "true" : "false", m.known ? "true" : "false", m.current ? "true" : "false", m.capacity_loss ? "true" : "false",
             (unsigned long long)m.snapshot_step,(unsigned long long)m.submitted_step,
             (unsigned long long)m.snapshot_topology,(unsigned long long)m.current_topology,

@@ -187,6 +187,11 @@ pub const FLAG_DISABLE_CONTACT_RECYCLING: u32 = 1 << 14;
 pub const FLAG_FAST: u32 = 1 << 15;
 /// Fast-step proxy bounds omit speculative padding unless CCD reports a hit.
 pub const FLAG_CCD_NO_HIT: u32 = 1 << 16;
+/// Draw diagnostics from the body's latest completed awake step.
+pub const FLAG_SPEED_CAPPED: u32 = 1 << 17;
+pub const FLAG_HAD_TOI: u32 = 1 << 18;
+/// Internal accumulator: an earlier TGS substep may have capped speed.
+pub const FLAG_SPEED_CAPPED_PENDING: u32 = 1 << 19;
 
 /// Matches WGSL `is_non_dynamic`: body type and disabled state, not mass.
 pub fn gpu_is_non_dynamic(flags: u32) -> bool {
@@ -200,6 +205,8 @@ pub struct TopologyBounds {
     /// Addressable joint slots, including deleted holes, not the live count.
     pub joints: u32,
     pub non_dynamic_shapes: u32,
+    /// Every collider belongs to a static body; no contact or sensor pair is eligible.
+    pub all_static_colliders: bool,
     pub skip_general_static_sort: bool,
     pub static_degree_two_proof: bool,
     pub one_group_pair_ok: bool,
@@ -220,6 +227,12 @@ pub const SHAPE_DISABLE_SPECULATIVE: u32 = 1 << 6;
 // GPU-only metadata: parent bounds are not collision/query geometry.
 pub const SHAPE_PUBLIC_PROXY: u32 = 1 << 7;
 pub const SHAPE_COMPOUND_CHILD: u32 = 1 << 8;
+/// Creation policy; passive static proxies wait for a native-style proxy move.
+pub const SHAPE_PASSIVE_CREATION: u32 = 1 << 9;
+// Fat-bound record word 3 contains the epoch and the two proxy-movement flags.
+pub const FAT_PROXY_MOVED: u32 = 1 << 31;
+pub const FAT_PROXY_FORCE_MOVE: u32 = 1 << 30;
+pub const FAT_PROXY_EPOCH_MASK: u32 = (1 << 30) - 1;
 /// Per-point provenance in the existing lifecycle flags; no layout growth.
 pub const CONTACT_PERSISTED_SHIFT: u32 = 16;
 pub const CONTACT_PERSISTED_MASK: u32 = 0x000f0000;

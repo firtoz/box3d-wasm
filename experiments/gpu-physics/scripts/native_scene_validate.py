@@ -7,6 +7,7 @@ import math
 import re
 import sys
 from pathlib import Path
+from scene_health import checked_limits
 
 
 GENERIC_SPEED = 120.0
@@ -131,6 +132,14 @@ def generic_health(doc: dict) -> tuple[str, str]:
             )
         sample = frame.get("sample", doc.get("sample"))
         speed_limit = 180.0 if sample == "Continuous/Bounce House" else GENERIC_SPEED
+        height_limit = GENERIC_MAX_Y
+        if "health_policy" in frame:
+            try:
+                contextual = checked_limits(frame, sample)
+            except ValueError as error:
+                return "fail", str(error)
+            speed_limit = contextual['health_speed_limit']
+            height_limit = contextual['health_max_y_limit']
         speed = frame.get("max_speed")
         max_y = frame.get("max_y")
         nan_count = frame.get("nan_count") or 0
@@ -138,7 +147,7 @@ def generic_health(doc: dict) -> tuple[str, str]:
             return "fail", f"non-finite pose nan_count={nan_count}"
         if speed is not None and speed > speed_limit:
             return "fail", f"runaway speed {speed}"
-        if max_y is not None and max_y > GENERIC_MAX_Y:
+        if max_y is not None and max_y > height_limit:
             return "fail", f"runaway max_y {max_y}"
         if sample == "Continuous/Bounce House":
             bodies = frame.get("bodies", [])

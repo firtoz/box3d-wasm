@@ -462,6 +462,7 @@ extern void gpu_samples_on_world_destroyed(b3WorldId world);
 extern void gpu_samples_on_shape_created(b3ShapeId shapeId, b3BodyId bodyId, b3ShapeType type, const b3Sphere* sphere,
 										 const b3Capsule* capsule, const b3HullData* hull);
 extern void gpu_samples_on_mesh_shape_created(b3ShapeId shapeId, b3BodyId bodyId, const b3MeshData* mesh, b3Vec3 scale);
+extern void gpu_samples_on_height_field_shape_created(b3ShapeId, b3BodyId, const b3HeightFieldData*);
 extern void gpu_samples_on_compound_shape_created(b3ShapeId shapeId, b3BodyId bodyId, const b3CompoundData* compound);
 extern void gpu_samples_on_shape_destroyed(b3ShapeId shapeId);
 extern void gpu_samples_world_draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskBits);
@@ -697,6 +698,17 @@ static void materials(const b3ShapeDef* def, float* density, float* friction, fl
 
 static float g_draw_dx;
 static b3DebugDraw g_draw_orig;
+// CPU debug callbacks receive raw CPU shape IDs, not public GPU/mapped IDs.
+// Keep their name lookup in that namespace while constructing draw metadata.
+static bool g_cpu_debug_draw;
+
+static void draw_cpu_world(b3WorldId world, b3DebugDraw* draw, uint64_t mask)
+{
+	bool previous = g_cpu_debug_draw;
+	g_cpu_debug_draw = true;
+	cpu_b3World_Draw(world, draw, mask);
+	g_cpu_debug_draw = previous;
+}
 
 static b3Pos shift_pos(b3Pos p)
 {
@@ -1096,7 +1108,7 @@ B3_API void b3World_Draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskBits
         gpu_b3_world_wait(worldId);
         g_split_draw = *draw; g_draw_world = worldId; g_draw_mask = maskBits;
         SetComparisonSelectedBody(g_drag.selected[0]);
-        if (both_has_cpu_world(worldId)) cpu_b3World_Draw(both_cpu_world(worldId), draw, maskBits);
+        if (both_has_cpu_world(worldId)) draw_cpu_world(both_cpu_world(worldId), draw, maskBits);
         SetSelectedBody(g_drag.selected[1]);
         return;
     }
@@ -1104,7 +1116,7 @@ B3_API void b3World_Draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskBits
 	if (both_has_cpu_world(worldId))
 	{
 		b3DebugDraw cpu_draw = offset_draw(draw, -dx);
-		cpu_b3World_Draw(both_cpu_world(worldId), &cpu_draw, maskBits);
+		draw_cpu_world(both_cpu_world(worldId), &cpu_draw, maskBits);
 	}
 	b3DebugDraw gpu_draw = offset_draw(draw, dx);
 	gpu_samples_world_draw(worldId, &gpu_draw, maskBits);
@@ -1196,12 +1208,15 @@ B3_API void b3DestroyBody(b3BodyId bodyId)
 	gpu_samples_destroy_body(bodyId);
 }
 
+extern void gpu_b3_shape_set_invoke_contact_creation(GpuShapeId id, bool invoke);
+
 static void configure_gpu_shape(GpuShapeId id, const b3ShapeDef* def)
 {
 	if (def == NULL)
 	{
 		return;
 	}
+	gpu_b3_shape_set_invoke_contact_creation(id, def->invokeContactCreation);
 	gpu_b3_shape_set_filter(id, def->filter.categoryBits, def->filter.maskBits, def->filter.groupIndex, false);
 	gpu_b3_shape_set_sensor(id, def->isSensor);
 	gpu_b3_shape_enable_sensor_events(id, def->enableSensorEvents);
@@ -1498,7 +1513,7 @@ B3_API b3ShapeId b3CreateHeightFieldShape(b3BodyId bodyId, const b3ShapeDef* def
 																		   : (def != NULL ? def->baseMaterial : b3DefaultSurfaceMaterial());
 		gpu_b3_shape_set_mesh_material(gpu, i, material);
 	}
-	gpu_samples_on_shape_created(gpu, bodyId, b3_heightShape, NULL, NULL, NULL);
+	gpu_samples_on_height_field_shape_created(gpu, bodyId, heightField);
 	if (both_has_cpu_body(bodyId))
 	{
 		both_map_shape(gpu, cpu_b3CreateHeightFieldShape(both_cpu_body(bodyId), def, heightField));
@@ -2913,6 +2928,10 @@ B3_API void b3Shape_SetName(b3ShapeId shapeId, const char* name)
 
 B3_API const char* b3Shape_GetName(b3ShapeId shapeId)
 {
+	if (g_cpu_debug_draw)
+	{
+		return cpu_b3Shape_GetName(shapeId);
+	}
 	const char* n = gpu_samples_shape_get_name(shapeId);
 	if (n != NULL && n[0] != 0)
 	{

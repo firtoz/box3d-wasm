@@ -141,6 +141,25 @@ fn append_pair(packed: vec2<u32>) {
     }
 }
 
+fn public_proxy_index(i: u32) -> u32 {
+    let shape = load_shape(i);
+    return select(i, shape._pad_filter.x, (shape.event_flags & SHAPE_COMPOUND_CHILD) != 0u);
+}
+
+fn passive_pair_creation_allowed(ia: u32, ib: u32) -> bool {
+    let pa = public_proxy_index(ia);
+    let pb = public_proxy_index(ib);
+    let sa = load_shape(pa); let sb = load_shape(pb);
+    // Sensors have their separate discovery contract; retain that path.
+    if (((sa.event_flags | sb.event_flags) & SHAPE_IS_SENSOR) != 0u) { return true; }
+    let a = load_collider(pa); let b = load_collider(pb);
+    let passive_a = is_static(a) && (sa.event_flags & SHAPE_PASSIVE_CREATION) != 0u;
+    let passive_b = is_static(b) && (sb.event_flags & SHAPE_PASSIVE_CREATION) != 0u;
+    if (!passive_a && !passive_b) { return true; }
+    return ((scratch[params.fat_bounds_base + 8u * pa + 3u]
+        | scratch[params.fat_bounds_base + 8u * pb + 3u]) & FAT_PROXY_MOVED) != 0u;
+}
+
 fn append_new_pair(packed: vec2<u32>) {
     // A retained root emits its pair exactly once in emit_prev_pairs. The hash
     // is immutable throughout candidate generation and supports full identities.
@@ -148,6 +167,7 @@ fn append_new_pair(packed: vec2<u32>) {
     if (previous != EMPTY) {
         if (all(previous_pair_key_for_slot(previous) == packed)) { return; }
     }
+    if (!passive_pair_creation_allowed(packed.x, packed.y)) { return; }
     append_pair(packed);
 }
 
@@ -213,7 +233,7 @@ fn update_fat_collider(i: u32, shape: Shape, b: Body,
         hi = bounds[1];
     }
     let base = params.fat_bounds_base + 8u * i;
-    let initialized = scratch[base+3u] == params.fat_bounds_epoch;
+    let initialized = (scratch[base+3u] & FAT_PROXY_EPOCH_MASK) == params.fat_bounds_epoch;
     if (!child && initialized && all(lo >= fat_lower(b)) && all(hi <= fat_upper(b))) { return; }
     var margin = min(MAX_AABB_MARGIN, AABB_MARGIN_FRAC * bound_radius(b));
     if (is_static(b) && !initialized) { margin = SPECULATIVE; }
@@ -222,13 +242,22 @@ fn update_fat_collider(i: u32, shape: Shape, b: Body,
     let upper = bitcast<vec3<u32>>(hi + vec3<f32>(margin));
     scratch[base] = lower.x; scratch[base+1u] = lower.y; scratch[base+2u] = lower.z;
     scratch[base+4u] = upper.x; scratch[base+5u] = upper.y; scratch[base+6u] = upper.z;
-    scratch[base+3u] = params.fat_bounds_epoch;
+    var moved = scratch[base+3u] & FAT_PROXY_MOVED;
+    // A fresh passive static proxy is indexed but not buffered. Existing
+    // proxies that escape their fat bounds, and new nonstatic proxies, move.
+    if (initialized || !is_static(b) || (shape.event_flags & SHAPE_PASSIVE_CREATION) == 0u) {
+        moved = FAT_PROXY_MOVED;
+    }
+    scratch[base+3u] = params.fat_bounds_epoch | moved;
 }
 
 fn update_fat_bounds(i: u32) {
     let shape = load_shape(i);
     let current = load_collider(i);
     let base = params.fat_bounds_base + 8u * i;
+    let old_status = scratch[base+3u];
+    scratch[base+3u] = (old_status & FAT_PROXY_EPOCH_MASK)
+        | select(0u, FAT_PROXY_MOVED, (old_status & FAT_PROXY_FORCE_MOVE) != 0u);
     if (params.fat_commands_count != 0u && scratch[base+7u] != params.fat_commands_epoch) {
         let heads = params.fat_commands_base + 2u * shape.body_index;
         let first = params.fat_commands_base + scratch[heads];
@@ -331,11 +360,20 @@ fn collect_fat_statics(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
     if (i >= params.shape_count) {
         return;
     }
-    if ((load_shape(i).event_flags & SHAPE_PUBLIC_PROXY) != 0u) { return; }
     let b = load_collider(i);
     if (!is_static(b)) {
+        // Include public parents: the original visitor-side operation did too.
+        // Before hash_insert owns this workspace, gather each visitor once.
+        // There is one entry per shape, bounded by the full insertion reserve.
+        let visitor = atomicAdd(&atom[ATOM_INSERT_N], 1u);
+        if (visitor < params.insert_capacity) {
+            scratch[scr_ins_body() + visitor] = i;
+        } else {
+            record_capacity_drop(ATOM_INSERT_DROPPED, ATOM_STICKY_INSERT_DROPPED);
+        }
         return;
     }
+    if ((load_shape(i).event_flags & SHAPE_PUBLIC_PROXY) != 0u) { return; }
     if (shape_insert_count(b) <= MAX_STATIC_HASH_CELLS) {
         return;
     }
@@ -352,6 +390,9 @@ fn collect_fat_statics(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
 @compute @workgroup_size(1)
 fn finish_fat_statics() {
     scratch[SCR_STATIC_N] = atomicLoad(&atom[ATOM_STATIC_N]);
+    // This word is not an indirect argument until write_insert_indirect runs.
+    scratch[SCR_INDIRECT_COLLIDE] = min(atomicLoad(&atom[ATOM_INSERT_N]), params.insert_capacity);
+    atomicStore(&atom[ATOM_INSERT_N], 0u);
 }
 
 @compute @workgroup_size(64)
@@ -463,38 +504,39 @@ fn emit_hash_pairs(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
     }
 }
 
+// Identical pair predicate in both traversal orientations. Sorting still
+// canonicalizes keys before narrowphase; no shape or body identity is changed.
+fn emit_one_static_pair(i: u32, jb: u32) {
+    let a = load_collider(i);
+    let b = load_collider(jb);
+    if (b._pad_island.y == a._pad_island.y) { return; }
+    let shape_a = load_shape(i);
+    let shape_b = load_shape(jb);
+    if (!broadphase_pair_allowed(a, b, shape_a, shape_b)) { return; }
+    if (joint_disables_collision(a._pad_island.y, b._pad_island.y)) { return; }
+    if (!shapes_collide(shape_a, shape_b)) { return; }
+    if (aabb_overlap(a, b)) { append_new_pair(pack_pair(i, jb)); }
+}
+
 @compute @workgroup_size(64)
 fn emit_static_pairs(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
-    let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
-    let i = gid.x;
-    if (i >= params.shape_count) {
-        return;
-    }
-    let a = load_collider(i);
-    if (is_static(a)) {
-        return;
-    }
+    let i = linear_invocation_id(dispatch_gid, 64u);
     let nstatic = min(scratch[SCR_STATIC_N], pair_cap());
+    let nvisitor = scratch[SCR_INDIRECT_COLLIDE];
+    if (nstatic > nvisitor) {
+        // A static-heavy world must not serialize its entire floor in the
+        // handful of visitor lanes. Reuse the existing shape-sized dispatch.
+        if (i >= nstatic) { return; }
+        let jb = scratch[scr_static_list() + i];
+        for (var visitor = 0u; visitor < nvisitor; visitor++) {
+            emit_one_static_pair(scratch[scr_ins_body() + visitor], jb);
+        }
+        return;
+    }
+    if (i >= params.shape_count) { return; }
+    if (is_static(load_collider(i))) { return; }
     for (var j = 0u; j < nstatic; j++) {
-        let jb = scratch[scr_static_list() + j];
-        let b = load_collider(jb);
-        if (b._pad_island.y == a._pad_island.y) {
-            continue;
-        }
-        let shape_a = load_shape(i);
-        let shape_b = load_shape(jb);
-        if (!broadphase_pair_allowed(a, b, shape_a, shape_b)) {
-            continue;
-        }
-        if (joint_disables_collision(a._pad_island.y, b._pad_island.y)) {
-            continue;
-        }
-        if (!shapes_collide(shape_a, shape_b)) {
-            continue;
-        }
-        if (aabb_overlap(a, b)) {
-            append_new_pair(pack_pair(i, jb));
-        }
+        emit_one_static_pair(i, scratch[scr_static_list() + j]);
     }
 }
 
@@ -2388,7 +2430,8 @@ fn pair_matrix_build(@builtin(global_invocation_id) dispatch_gid: vec3<u32>) {
             let lo=base+bit;let b=load_collider(lo);let sb=load_shape(lo);
             if (a._pad_island.y!=b._pad_island.y && broadphase_pair_allowed(a,b,sa,sb)
                 && !joint_disables_collision(a._pad_island.y,b._pad_island.y)
-                && shapes_collide(sa,sb) && aabb_overlap(a,b)) {
+                && shapes_collide(sa,sb) && aabb_overlap(a,b)
+                && passive_pair_creation_allowed(hi,lo)) {
                 rejected &= ~(1u<<bit);
             }
         }

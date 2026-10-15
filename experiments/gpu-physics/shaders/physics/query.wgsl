@@ -22,6 +22,7 @@ const MESH_STACK_CAP: u32 = 64u;
 
 struct RayCand {
     n: vec3<f32>,
+    p: vec3<f32>,
     t: f32,
     tri: u32,
     mat_lo: u32,
@@ -50,7 +51,7 @@ fn winner_key(shape: u32, tri: u32) -> u32 {
 }
 
 fn empty_cand() -> RayCand {
-    return RayCand(vec3<f32>(0.0), 0.0, RAY_TRI_NONE, 0u, 0u, 0u);
+    return RayCand(vec3<f32>(0.0), vec3<f32>(0.0), 0.0, RAY_TRI_NONE, 0u, 0u, 0u);
 }
 
 fn ray_aabb_hit(origin: vec3<f32>, dir: vec3<f32>, t_max: f32, lo: vec3<f32>, hi: vec3<f32>) -> bool {
@@ -80,19 +81,29 @@ fn ray_aabb_hit(origin: vec3<f32>, dir: vec3<f32>, t_max: f32, lo: vec3<f32>, hi
     return true;
 }
 
-fn ray_sphere_entry(origin: vec3<f32>, dir: vec3<f32>, center: vec3<f32>, radius: f32, t_max: f32) -> vec2<f32> {
+// Ray kernels use the original translation and return its fraction. Keeping
+// fraction coordinates avoids normalizing before transforming to body space.
+fn ray_query_inv_rotate(q: vec4<f32>, v: vec3<f32>) -> vec3<f32> {
+    return v + 2.0 * gyro_cross(q.xyz, gyro_cross(q.xyz, v) - q.w * v);
+}
+fn ray_sphere_entry(origin: vec3<f32>, translation: vec3<f32>, center: vec3<f32>, radius: f32, max_fraction: f32) -> RayCand {
     let m = origin - center;
-    let b = dot(m, dir);
-    let c = dot(m, m) - radius * radius;
-    let disc = b * b - c;
-    if (disc < 0.0) {
-        return vec2<f32>(-1.0, 0.0);
-    }
-    let t = -b - sqrt(disc);
-    if (t <= 0.0 || t > t_max) {
-        return vec2<f32>(-1.0, 0.0);
-    }
-    return vec2<f32>(t, 1.0);
+    let ray_length = gyro_sqrt(gyro_dot3(translation, translation));
+    if (ray_length == 0.0) { return empty_cand(); }
+    let dir = gyro_recip(ray_length) * translation;
+    let projection = -gyro_dot3(m, dir);
+    let closest = m + projection * dir;
+    let gap2 = gyro_dot3(closest, closest);
+    let radius2 = radius * radius;
+    if (gap2 > radius2) { return empty_cand(); }
+    let distance = projection - gyro_sqrt(radius2 - gap2);
+    if (distance <= 0.0 || distance > max_fraction * ray_length) { return empty_cand(); }
+    var hit = empty_cand();
+    // Preserve the distance-based local hit before rounding a segment fraction.
+    hit.n = gyro_norm3(m + distance * dir);
+    hit.p = center + radius * hit.n;
+    hit.t = min(gyro_divide(distance, ray_length), max_fraction);
+    return hit;
 }
 
 fn ray_obb(origin: vec3<f32>, dir: vec3<f32>, rot: vec4<f32>, center: vec3<f32>, half: vec3<f32>, t_max: f32) -> vec4<f32> {
@@ -109,9 +120,9 @@ fn ray_obb(origin: vec3<f32>, dir: vec3<f32>, rot: vec4<f32>, center: vec3<f32>,
             }
             continue;
         }
-        let invd = 1.0 / d[a];
-        var t0 = (-half[a] - o[a]) * invd;
-        var t1 = (half[a] - o[a]) * invd;
+        // Native hull queries divide each slab distance directly.
+        var t0 = gyro_divide(-half[a] - o[a], d[a]);
+        var t1 = gyro_divide(half[a] - o[a], d[a]);
         var n0 = -1.0;
         var n1 = 1.0;
         if (t0 > t1) {
@@ -143,72 +154,63 @@ fn ray_obb(origin: vec3<f32>, dir: vec3<f32>, rot: vec4<f32>, center: vec3<f32>,
     return vec4<f32>(wn / len, tmin);
 }
 
-fn ray_capsule(origin: vec3<f32>, dir: vec3<f32>, a: vec3<f32>, b: vec3<f32>, radius: f32, t_max: f32) -> vec4<f32> {
-    let ba = b - a;
-    let oa = origin - a;
-    let baba = dot(ba, ba);
-    let bard = dot(ba, dir);
-    let baoa = dot(ba, oa);
-    let rdoa = dot(dir, oa);
-    let oaoa = dot(oa, oa);
-    let a2 = baba - bard * bard;
-    let b2 = baba * rdoa - baoa * bard;
-    let c2 = baba * oaoa - baoa * baoa - radius * radius * baba;
-    if (abs(a2) < 1e-12 || baba < 1e-12) {
-        let sa = ray_sphere_entry(origin, dir, a, radius, t_max);
-        let sb = ray_sphere_entry(origin, dir, b, radius, t_max);
-        var t = t_max + 1.0;
-        var c = a;
-        var hit = false;
-        if (sa.y > 0.0) {
-            t = sa.x;
-            c = a;
-            hit = true;
-        }
-        if (sb.y > 0.0 && sb.x < t) {
-            t = sb.x;
-            c = b;
-            hit = true;
-        }
-        if (!hit) {
-            return vec4<f32>(0.0);
-        }
-        let p = origin + t * dir;
-        let n = p - c;
-        let ln = length(n);
-        if (ln < 1e-12) {
-            return vec4<f32>(0.0);
-        }
-        return vec4<f32>(n / ln, t);
+fn ray_capsule(origin: vec3<f32>, dir: vec3<f32>, a: vec3<f32>, b: vec3<f32>, radius: f32, t_max: f32) -> RayCand {
+    let ray_length = gyro_sqrt(gyro_dot3(dir, dir));
+    if (ray_length == 0.0) { return empty_cand(); }
+    let ray_axis = gyro_recip(ray_length) * dir;
+    let delta = b - a;
+    let axis_length2 = gyro_dot3(delta, delta);
+    if (axis_length2 < 2.5e-9) {
+        let center = 0.5 * (a + b);
+        return ray_sphere_entry(origin, dir, center, radius, t_max);
     }
-    let disc = b2 * b2 - a2 * c2;
-    if (disc < 0.0) {
-        return vec4<f32>(0.0);
+    let axis_length = gyro_sqrt(axis_length2);
+    let axis = delta * (gyro_recip(axis_length));
+    let relative = origin - a;
+    let u = gyro_dot3(relative, axis);
+    let radial = relative - u * axis;
+    let radius2 = radius * radius;
+    if (gyro_dot3(radial, radial) < radius2) {
+        let center = a + clamp(u, 0.0, axis_length) * axis;
+        return ray_sphere_entry(origin, dir, center, radius, t_max);
     }
-    let t = (-b2 - sqrt(disc)) / a2;
-    let y = baoa + t * bard;
-    if (t > 0.0 && t <= t_max && y > 0.0 && y < baba) {
-        let p = origin + t * dir;
-        let q = a + ba * (y / baba);
-        let n = p - q;
-        let ln = length(n);
-        if (ln < 1e-12) {
-            return vec4<f32>(0.0);
-        }
-        return vec4<f32>(n / ln, t);
+    let alignment = gyro_dot3(axis, ray_axis);
+    let end = u + t_max * gyro_dot3(dir, axis);
+    if ((u < -radius && end < -radius) || (axis_length + radius < u && axis_length + radius < end)) {
+        return empty_cand();
     }
-    let cap = select(b, a, y <= 0.0);
-    let sph = ray_sphere_entry(origin, dir, cap, radius, t_max);
-    if (sph.y <= 0.0) {
-        return vec4<f32>(0.0);
+    let determinant = 1.0 - alignment * alignment;
+    var t = 0.0;
+    if (determinant < 1.1920928955078125e-7) {
+        let perpendicular = ray_axis - alignment * axis;
+        let beta = gyro_dot3(radial, perpendicular);
+        let gamma = gyro_dot3(radial, radial) - radius2;
+        let discriminant = beta * beta - gyro_dot3(perpendicular, perpendicular) * gamma;
+        if (beta >= 0.0 || discriminant < 0.0) { return empty_cand(); }
+        t = gyro_divide(gamma, -beta + gyro_sqrt(discriminant));
+    } else {
+        // Solve near the closest approach of the ray and capsule axes.
+        let inv = gyro_recip(determinant);
+        let projection = gyro_dot3(relative, ray_axis);
+        let axis_distance = (u - alignment * projection) * inv;
+        let ray_distance = (alignment * u - projection) * inv;
+        let gap = relative + ray_distance * ray_axis - axis_distance * axis;
+        let gap2 = gyro_dot3(gap, gap);
+        if (gap2 > radius2) { return empty_cand(); }
+        t = ray_distance - gyro_sqrt((radius2 - gap2) * inv);
     }
-    let p = origin + sph.x * dir;
-    let n = p - cap;
-    let ln = length(n);
-    if (ln < 1e-12) {
-        return vec4<f32>(0.0);
+    if (t <= 0.0 || t > t_max * ray_length) { return empty_cand(); }
+    let on_axis = u + t * alignment;
+    if (on_axis < 0.0 || on_axis > axis_length) {
+        let center = select(b, a, on_axis < 0.0);
+        return ray_sphere_entry(origin, dir, center, radius, t_max);
     }
-    return vec4<f32>(n / ln, sph.x);
+    let point = relative + t * ray_axis;
+    var hit = empty_cand();
+    hit.n = gyro_norm3(point - on_axis * axis);
+    hit.p = a + point;
+    hit.t = min(gyro_divide(t, ray_length), t_max);
+    return hit;
 }
 
 fn ray_hull(origin: vec3<f32>, dir: vec3<f32>, xf_p: vec3<f32>, xf_q: vec4<f32>, shape: Shape, t_max: f32) -> vec4<f32> {
@@ -222,16 +224,16 @@ fn ray_hull(origin: vec3<f32>, dir: vec3<f32>, xf_p: vec3<f32>, xf_q: vec4<f32>,
     for (var i = 0u; i < nplane; i++) {
         let pl = load_hull_plane(shape, i);
         let nw = quat_rotate(xf_q, pl.xyz);
-        let offset = pl.w + dot(nw, xf_p);
-        let denom = dot(nw, dir);
-        let dist = offset - dot(nw, origin);
+        let offset = pl.w + gyro_dot3(nw, xf_p);
+        let denom = gyro_dot3(nw, dir);
+        let dist = offset - gyro_dot3(nw, origin);
         if (abs(denom) < 1e-12) {
             if (dist < 0.0) {
                 return vec4<f32>(0.0);
             }
             continue;
         }
-        let t = dist / denom;
+        let t = gyro_divide(dist, denom);
         if (denom < 0.0) {
             if (t > t_enter) {
                 t_enter = t;
@@ -255,36 +257,19 @@ fn ray_hull(origin: vec3<f32>, dir: vec3<f32>, xf_p: vec3<f32>, xf_q: vec4<f32>,
 }
 
 fn ray_triangle(origin: vec3<f32>, dir: vec3<f32>, a: vec3<f32>, b: vec3<f32>, c: vec3<f32>, t_max: f32) -> vec4<f32> {
-    let ab = b - a;
-    let ac = c - a;
-    let n = cross(ab, ac);
-    let denom = dot(n, dir);
-    if (denom >= -1e-12) {
-        return vec4<f32>(0.0);
-    }
-    let t = dot(n, a - origin) / denom;
-    if (t <= 0.0 || t > t_max) {
-        return vec4<f32>(0.0);
-    }
-    let p = origin + t * dir;
-    let ap = p - a;
-    let d00 = dot(ab, ab);
-    let d01 = dot(ab, ac);
-    let d11 = dot(ac, ac);
-    let d20 = dot(ap, ab);
-    let d21 = dot(ap, ac);
-    let inv = 1.0 / (d00 * d11 - d01 * d01);
-    let v = (d11 * d20 - d01 * d21) * inv;
-    let w = (d00 * d21 - d01 * d20) * inv;
-    let u = 1.0 - v - w;
-    if (u < -1e-5 || v < -1e-5 || w < -1e-5) {
-        return vec4<f32>(0.0);
-    }
-    let ln = length(n);
-    if (ln < 1e-12) {
-        return vec4<f32>(0.0);
-    }
-    return vec4<f32>(n / ln, t);
+    // Test the ray against oriented edges before reconstructing a hit point.
+    // The rounded point can lie off a valid triangle on long rays.
+    let v1 = gyro_dot3(gyro_cross(c - b, 0.5 * (b + c) - origin), dir);
+    let v2 = gyro_dot3(gyro_cross(a - c, 0.5 * (c + a) - origin), dir);
+    let v3 = gyro_dot3(gyro_cross(b - a, 0.5 * (a + b) - origin), dir);
+    if (v1 < 0.0 || v2 < 0.0 || v3 < 0.0) { return vec4<f32>(0.0); }
+    let n = gyro_cross(b - a, c - a);
+    let denominator = gyro_dot3(n, dir);
+    if (denominator >= 0.0) { return vec4<f32>(0.0); }
+    // Native division rounding matters before long-ray point reconstruction.
+    let fraction = gyro_divide(gyro_dot3(n, a - origin), denominator);
+    if (fraction <= 0.0 || fraction >= t_max) { return vec4<f32>(0.0); }
+    return vec4<f32>(gyro_norm3(n), fraction);
 }
 
 fn mesh_world_vertex(shape: Shape, xf_p: vec3<f32>, xf_q: vec4<f32>, index: u32) -> vec3<f32> {
@@ -381,6 +366,32 @@ fn ray_mesh(origin: vec3<f32>, dir: vec3<f32>, xf_p: vec3<f32>, xf_q: vec4<f32>,
     return best;
 }
 
+fn ray_query_contains(shape: Shape, point: vec3<f32>) -> bool {
+    if (shape.kind == KIND_SPHERE) {
+        let d = point - shape.local_center;
+        return gyro_dot3(d, d) < shape.half.x * shape.half.x;
+    }
+    if (shape.kind == KIND_CAPSULE) {
+        let a = capsule_local_point(shape, 0u);
+        let delta = capsule_local_point(shape, 1u) - a;
+        let length2 = gyro_dot3(delta, delta);
+        let along = clamp(gyro_dot3(point - a, delta) / max(length2, 1e-30), 0.0, 1.0);
+        let d = point - (a + along * delta);
+        return gyro_dot3(d, d) < shape.half.x * shape.half.x;
+    }
+    if (shape.kind == KIND_BOX) { return all(abs(point - shape.local_center) <= shape.half); }
+    if (shape.kind == KIND_CONVEX_HULL) {
+        let count = hull_plane_count(shape);
+        if (count == 0u) { return false; }
+        for (var i = 0u; i < count; i++) {
+            let plane = load_hull_plane(shape, i);
+            if (gyro_dot3(plane.xyz, point) > plane.w) { return false; }
+        }
+        return true;
+    }
+    return false;
+}
+
 fn ray_shape_hit(i: u32, origin: vec3<f32>, dir: vec3<f32>, t_max: f32) -> RayCand {
     var out = empty_cand();
     let shape = load_shape(i);
@@ -400,8 +411,13 @@ fn ray_shape_hit(i: u32, origin: vec3<f32>, dir: vec3<f32>, t_max: f32) -> RayCa
     if ((body.flags & FLAG_DISABLED) != 0u) {
         return out;
     }
-    let xf_q = normalize(body.rot);
-    let xf_p = body_origin(body, shape.body_index);
+    let xf_q = body.rot;
+    var xf_p = body_origin(body, shape.body_index);
+    let coordinate_origin = vec3<f32>(q_f32(11u), q_f32(15u), q_f32(31u));
+    // Keep zero axes bit-identical; round nonzero axes exactly as public getters.
+    for (var axis = 0u; axis < 3u; axis++) {
+        if (coordinate_origin[axis] != 0.0) { xf_p[axis] += coordinate_origin[axis]; }
+    }
     let center = xf_p + quat_rotate(xf_q, shape.local_center);
     var lo = vec3<f32>(0.0);
     var hi = vec3<f32>(0.0);
@@ -460,35 +476,53 @@ fn ray_shape_hit(i: u32, origin: vec3<f32>, dir: vec3<f32>, t_max: f32) -> RayCa
     if (!(shape.kind == KIND_MESH && shape.topology_counts == 0u) && !ray_aabb_hit(origin, dir, t_max, lo, hi)) {
         return out;
     }
+    let local_origin = ray_query_inv_rotate(xf_q, origin - xf_p);
+    let local_dir = ray_query_inv_rotate(xf_q, dir);
+    if ((shape.event_flags & SHAPE_COMPOUND_CHILD) != 0u) {
+        let parent_index = shape._pad_filter.x;
+        let parent = load_shape(parent_index);
+        if (all(abs(local_origin - parent.local_center) <= parent.half)) {
+            // CPU closest callbacks ignore the whole parent when its first
+            // child hit is initial overlap, not just the overlapped child.
+            for (var sibling = 0u; sibling < params.shape_count; sibling++) {
+                let candidate = load_shape(sibling);
+                if ((candidate.event_flags & SHAPE_COMPOUND_CHILD) != 0u
+                    && candidate._pad_filter.x == parent_index
+                    && ray_query_contains(candidate, local_origin)) { return out; }
+            }
+        }
+    }
     out.mat_lo = shape.user_material_id.x;
     out.mat_hi = shape.user_material_id.y;
     if (shape.kind == KIND_SPHERE) {
-        let sph = ray_sphere_entry(origin, dir, center, shape.half.x, t_max);
-        if (sph.y > 0.0) {
-            let p = origin + sph.x * dir;
-            let n = p - center;
-            let ln = length(n);
-            if (ln >= 1e-12) {
-                out.n = n / ln;
-                out.t = sph.x;
-            }
-        }
+        let hit = ray_sphere_entry(local_origin, local_dir, shape.local_center, shape.half.x, t_max);
+        out.n = hit.n;
+        out.p = hit.p;
+        out.t = hit.t;
     } else if (shape.kind == KIND_BOX) {
-        let hit = ray_obb(origin, dir, xf_q, center, shape.half, t_max);
+        let hit = ray_obb(local_origin, local_dir, vec4<f32>(0.0, 0.0, 0.0, 1.0), shape.local_center, shape.half, t_max);
         out.n = hit.xyz;
         out.t = hit.w;
     } else if (shape.kind == KIND_CAPSULE) {
-        let a = xf_p + quat_rotate(xf_q, capsule_local_point(shape, 0u));
-        let b = xf_p + quat_rotate(xf_q, capsule_local_point(shape, 1u));
-        let hit = ray_capsule(origin, dir, a, b, shape.half.x, t_max);
-        out.n = hit.xyz;
-        out.t = hit.w;
+        let a = capsule_local_point(shape, 0u);
+        let b = capsule_local_point(shape, 1u);
+        let hit = ray_capsule(local_origin, local_dir, a, b, shape.half.x, t_max);
+        out.n = hit.n;
+        out.p = hit.p;
+        out.t = hit.t;
     } else if (shape.kind == KIND_CONVEX_HULL) {
-        let hit = ray_hull(origin, dir, xf_p, xf_q, shape, t_max);
+        let hit = ray_hull(local_origin, local_dir, vec3<f32>(0.0), vec4<f32>(0.0, 0.0, 0.0, 1.0), shape, t_max);
         out.n = hit.xyz;
         out.t = hit.w;
     } else if (shape.kind == KIND_MESH) {
-        out = ray_mesh(origin, dir, xf_p, xf_q, shape, t_max);
+        out = ray_mesh(local_origin, local_dir, vec3<f32>(0.0), vec4<f32>(0.0, 0.0, 0.0, 1.0), shape, t_max);
+    }
+    if (out.t > 0.0) {
+        var point = local_origin + out.t * local_dir;
+        if (shape.kind == KIND_SPHERE || shape.kind == KIND_CAPSULE) { point = out.p; }
+        // Match the native world query's ray-relative output transform order.
+        out.p = origin + ((xf_p - origin) + quat_rotate(xf_q, point));
+        out.n = quat_rotate(xf_q, out.n);
     }
     return out;
 }
@@ -503,8 +537,8 @@ fn ray_pass(gid: u32, stage: u32) {
     if (t_len < 1e-12) {
         return;
     }
-    let dir = translation / t_len;
-    let t_max = q_f32(Q_MAX) * t_len;
+    let dir = translation;
+    let t_max = q_f32(Q_MAX);
     if (gid >= params.shape_count) {
         return;
     }
@@ -515,7 +549,7 @@ fn ray_pass(gid: u32, stage: u32) {
     if (hit.t <= 0.0) {
         return;
     }
-    let fraction = hit.t / t_len;
+    let fraction = hit.t;
     if (fraction <= 0.0 || fraction > q_f32(Q_MAX) || !(fraction == fraction)) {
         return;
     }
@@ -542,9 +576,9 @@ fn ray_pass(gid: u32, stage: u32) {
     atomicStore(&query[Q_BODY], shape.body_index);
     atomicStore(&query[Q_MAT], hit.mat_lo);
     atomicStore(&query[Q_MAT + 1u], hit.mat_hi);
-    store_q_f32(Q_POINT, origin.x + hit.t * dir.x);
-    store_q_f32(Q_POINT + 1u, origin.y + hit.t * dir.y);
-    store_q_f32(Q_POINT + 2u, origin.z + hit.t * dir.z);
+    store_q_f32(Q_POINT, hit.p.x);
+    store_q_f32(Q_POINT + 1u, hit.p.y);
+    store_q_f32(Q_POINT + 2u, hit.p.z);
     store_q_f32(Q_NORMAL, hit.n.x);
     store_q_f32(Q_NORMAL + 1u, hit.n.y);
     store_q_f32(Q_NORMAL + 2u, hit.n.z);

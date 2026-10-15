@@ -35,6 +35,7 @@ typedef struct ShapeVis
 	b3Capsule capsule;
 	b3HullData* hull;
 	b3Mesh mesh;
+	const b3HeightFieldData* heightField;
 	const b3CompoundData* compound;
 	int is_box;
 	float box_h[3];
@@ -210,6 +211,17 @@ void gpu_samples_on_mesh_shape_created(b3ShapeId shapeId, b3BodyId bodyId, const
 	s->mesh = (b3Mesh){mesh, scale};
 }
 
+void gpu_samples_on_height_field_shape_created(b3ShapeId shapeId, b3BodyId bodyId,
+                                              const b3HeightFieldData* heightField)
+{
+    if (shapeId.index1 <= 0 || heightField == NULL) return;
+    gpu_samples_on_shape_created(shapeId, bodyId, b3_heightShape, NULL, NULL, NULL);
+    ShapeVis* s = shape_vis(shapeId, false);
+    // Geometry is immutable and caller-owned, as for mesh/compound callbacks.
+    // Keep the original compressed heights, holes, winding and scale.
+    if (s != NULL) s->heightField = heightField;
+}
+
 void gpu_samples_on_shape_destroyed(b3ShapeId shapeId)
 {
 	ShapeVis* s = shape_vis(shapeId, false);
@@ -239,6 +251,14 @@ void gpu_samples_on_shape_replaced(b3ShapeId id, b3BodyId body, b3ShapeType type
     memcpy(s->name, name, sizeof(name));
 }
 
+void gpu_samples_on_height_field_shape_replaced(b3ShapeId id, b3BodyId body,
+                                               const b3HeightFieldData* heightField)
+{
+    gpu_samples_on_shape_replaced(id, body, b3_heightShape, NULL, NULL, NULL);
+    ShapeVis* s = shape_vis(id, false);
+    if (s != NULL) s->heightField = heightField;
+}
+
 typedef struct GpuDrawItem
 {
 	float pos[3];
@@ -266,6 +286,12 @@ extern void gpu_b3_destroy_body(b3BodyId body);
 extern b3BodyId gpu_b3_shape_get_body(b3ShapeId shape);
 extern int gpu_b3_shape_kind(b3ShapeId shape);
 extern bool gpu_b3_body_is_static(b3BodyId body);
+extern int gpu_b3_body_get_type(b3BodyId body);
+extern uint32_t gpu_b3_body_get_debug_flags(b3BodyId body);
+extern float gpu_b3_body_get_mass(b3BodyId body);
+extern bool gpu_b3_shape_is_sensor(b3ShapeId shape);
+extern b3SurfaceMaterial gpu_b3_shape_get_surface_material(b3ShapeId shape);
+extern b3SurfaceMaterial gpu_b3_shape_get_mesh_material(b3ShapeId shape, int index);
 extern float gpu_b3_body_inv_mass(b3BodyId body);
 extern void gpu_b3_body_set_transform(b3BodyId body, float px, float py, float pz, float rx, float ry, float rz,
 									  float rw);
@@ -273,6 +299,7 @@ extern void gpu_b3_body_get_position(b3BodyId body, float* out);
 extern void gpu_b3_body_get_rotation(b3BodyId body, float* out);
 extern void gpu_b3_body_get_transform(b3BodyId body, float* pos, float* rot);
 extern void gpu_b3_world_prepare_pose_snapshot(b3WorldId world);
+extern b3AABB gpu_b3_shape_get_aabb(b3ShapeId shape);
 extern void gpu_b3_body_set_awake(b3BodyId body, bool awake);
 
 static void quat_rotate(const float q[4], const float v[3], float out[3])
@@ -344,6 +371,10 @@ static void* ensure_user_shape(b3WorldId worldId, b3ShapeId shapeId, ShapeVis* s
 	{
 		debugShape.compound = s->compound;
 	}
+	else if (s->type == b3_heightShape && s->heightField != NULL)
+	{
+		debugShape.heightField = s->heightField;
+	}
 	else
 	{
 		return NULL;
@@ -405,6 +436,8 @@ extern bool gpu_b3_world_pose_export_uuid(b3WorldId worldId, uint8_t* uuid);
 extern void gpu_gl_import_pose_fd(int fd, uint64_t size, const uint8_t* uuid);
 extern bool gpu_gl_poses_imported(void);
 
+#include "draw_color.h"
+
 void gpu_samples_world_draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskBits)
 {
 	(void)maskBits;
@@ -436,6 +469,13 @@ void gpu_samples_world_draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskB
 			continue;
 		}
 		b3ShapeId shapeId = s->id;
+		// The caller includes the camera's draw distance and shadow caster box.
+		// Keep physics/identity metadata live when a shape leaves that draw set.
+		b3AABB bounds = gpu_b3_shape_get_aabb(shapeId);
+		if (!b3AABB_Overlaps(bounds, draw->drawingBounds))
+		{
+			continue;
+		}
 		void* userShape = ensure_user_shape(worldId, shapeId, s);
 		if (userShape == NULL)
 		{
@@ -452,19 +492,20 @@ void gpu_samples_world_draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskB
 		xf.q.v.y = q[1];
 		xf.q.v.z = q[2];
 		xf.q.s = q[3];
-		b3HexColor rgb = b3_colorTan;
-		b3DebugMaterial mat = b3_debugMaterialSoft;
-		const bool is_static = gpu_b3_body_is_static(s->body);
-		if (is_static)
-		{
-			rgb = b3_colorDarkGray;
-			mat = b3_debugMaterialMatte;
-		}
+		const b3SurfaceMaterial material = s->type == b3_meshShape
+			? gpu_b3_shape_get_mesh_material(shapeId, 0)
+			: gpu_b3_shape_get_surface_material(shapeId);
+		const b3BodyType type = (b3BodyType)gpu_b3_body_get_type(s->body);
+		const uint32_t flags = gpu_b3_body_get_debug_flags(s->body);
+		const float mass = gpu_b3_body_get_mass(s->body);
+		const bool sensor = gpu_b3_shape_is_sensor(shapeId);
 #ifdef BOTH_SAMPLES
-		/* Cool palette distinguishes the GPU ghost from Box3D's warm palette. */
-		rgb = is_static ? b3_colorDarkSlateBlue : b3_colorCornflowerBlue;
+		const bool coolPalette = true;
+#else
+		const bool coolPalette = false;
 #endif
-		draw->DrawShapeFcn(userShape, xf, (b3HexColor)b3MakeDebugColor(rgb, mat), draw->context);
+		const uint32_t color = gpu_samples_draw_color(material.customColor, type, mass, flags, sensor, coolPalette);
+		draw->DrawShapeFcn(userShape, xf, (b3HexColor)color, draw->context);
 		++g_last_draw_shape_count;
 	}
 	g_last_draw_list_ms = duration_ms_from_ns(t_draw, monotonic_ns());

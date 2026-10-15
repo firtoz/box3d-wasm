@@ -335,6 +335,7 @@ fn make_sim_with_joint_capacity(gpu: &GpuDevice, endpoint: u32, count:u32, joint
         &[],
         &[],
         caps,
+        0,
         true,
         1.0 / 60.0,
         [0.0; 3],
@@ -1871,7 +1872,7 @@ fn hull_triangle_incident_face_matches_native_support_edge_choice() {
     let mut shape = crate::types::ShapeGpu::zeroed();shape.kind=body.kind;
     shape.topology_counts=points.len() as u32 | ((planes.len() as u32)<<8) | ((topology.len() as u32)<<24);
     let caps=GpuSceneCaps::allocate(GpuSceneCaps::live(1,1,points.len() as u32,planes.len() as u32,0,topology.len() as u32,0,0,0,0,0),1,1);
-    let mut sim=GpuSim::new(&gpu,&[body],&[[0.0;3]],&[[0.0;3]],&[shape],&points,&planes,&[],&topology,&[],&[],&[],&[],&[],&[],caps,true,1.0/60.0,[0.0;3]).unwrap();
+    let mut sim=GpuSim::new(&gpu,&[body],&[[0.0;3]],&[[0.0;3]],&[shape],&points,&planes,&[],&topology,&[],&[],&[],&[],&[],&[],caps,0,true,1.0/60.0,[0.0;3]).unwrap();
     let shader=format!(r#"
         @compute @workgroup_size(1)
         fn test_incident_face() {{
@@ -2520,7 +2521,7 @@ fn invalid_joint_list_warm_start_has_one_global_writer() {
         // Explicitly force fallback independently of graph construction.
         sim.queue.write_buffer(&sim.scratch, 62 * 4, bytemuck::bytes_of(&0u32));
         let mut enc = sim.device.create_command_encoder(&Default::default());
-        let pipeline = if wave { &sim.solve_jointed_wave } else { &sim.solve_joint_color };
+        let pipeline = if wave { sim.solve_jointed_wave_pipeline() } else { sim.solve_joint_color_pipeline() };
         sim.dispatch_n(&mut enc, pipeline, groups, 0, 2);
         sim.queue.submit(Some(enc.finish()));
         let bodies = pollster::block_on(sim.read_bodies());
@@ -2697,4 +2698,51 @@ fn warm_start_control_prepares_contact_chains_and_joint_caches() {
             }
         }
     }
+}
+
+// PERF03: the old component walk and parallel non-overflow color execute the
+// same shader calculation on identical state. Several groups and holes guard
+// direct indexing; overflow shares endpoints and must stay serial.
+#[test]
+fn joint_color_parallel_matches_component_walk() {
+    let gpu=pollster::block_on(GpuDevice::new(None)).unwrap();
+    let count=514u32; let nj=320u32;
+    let mut sim=make_sim_with_joint_capacity(&gpu,1,count,nj);
+    let mut body=BodyGpu::zeroed();body.rot=[0.0,0.0,0.0,1.0];body.dq=body.rot;
+    body.inv_mass=1.0;body.inv_inertia=[1.0;3];body.half=[0.4;3];
+    let mut bodies=vec![body;count as usize];
+    for (i,b) in bodies.iter_mut().enumerate(){b.pos=[(i%2)as f32,0.0,0.0];b.vel=[0.01*(i%7)as f32,-0.1,0.03];}
+    bodies[0].flags=FLAG_STATIC;bodies[0].inv_mass=0.0;bodies[0].inv_inertia=[0.0;3];
+    let kinds=[crate::types::JOINT_REVOLUTE,crate::types::JOINT_WELD,crate::types::JOINT_SPHERICAL,crate::types::JOINT_PRISMATIC,crate::types::JOINT_DISTANCE,crate::types::JOINT_PARALLEL,crate::types::JOINT_MOTOR,crate::types::JOINT_WHEEL];
+    let mut joints=vec![crate::types::JointGpu::zeroed();nj as usize];
+    for i in 0..256usize {let j=&mut joints[i];j.a=2*i as u32;j.b=j.a+1;j.kind=kinds[i%8];j.solver_color=0;j.frame_a_rotation=body.rot;j.frame_b_rotation=body.rot;j.axis=[1.0,0.0,0.0];j.anchor_a=[0.5,0.0,0.0];j.anchor_b=[-0.5,0.0,0.0];j.angular_impulse=[0.005,-0.003,0.001];j.weld_linear_impulse=[0.001;3];j.impulse=0.002;j.hertz=30.0;j.damping=1.0;j.target_translation=1.0;}
+    for i in 256..260usize {joints[i]=joints[2];joints[i].a=511;joints[i].b=512;joints[i].solver_color=OVERFLOW_COLOR;}
+    // Retired/filter holes must not become solver writes.
+    joints[319].kind=crate::types::JOINT_FILTER;
+    let seed=test_pipeline(&sim,"perf03_seed_joint_list",r#"
+      @compute @workgroup_size(1) fn perf03_seed_joint_list() {
+        scratch[SCR_JOINT_LIST_OK]=1u;scratch[SCR_JOINT_COMP_N]=1u;
+        scratch[joint_list_off_base()]=0u;scratch[joint_list_count_base()]=params.joint_count;
+        for(var i=0u;i<params.joint_count;i++){scratch[joint_list_base()+i]=i;}
+      }
+    "#);
+    let reference=test_pipeline(&sim,"perf03_component_reference",r#"
+      @compute @workgroup_size(64) fn perf03_component_reference(@builtin(global_invocation_id) gid:vec3<u32>,@builtin(local_invocation_index) lid:u32){solve_joint_components(gid,lid,true,params.color_select,false);}
+    "#);
+    for color in [0,OVERFLOW_COLOR] {for bias in [2,1,0] {
+      let mut results=Vec::new();
+      for direct in [false,true] {
+        sim.write_body_states(&bodies);sim.write_joints(&joints);sim.params.joint_count=nj;sim.flush_params();
+        let mut enc=sim.device.create_command_encoder(&Default::default());
+        sim.dispatch_n(&mut enc,&seed,1,0,1);
+        let pipeline=if direct{sim.solve_joint_color_pipeline()}else{&reference};
+        sim.dispatch_n(&mut enc,pipeline,nj.div_ceil(64),color,bias);
+        sim.queue.submit(Some(enc.finish()));
+        let out=pollster::block_on(sim.read_bodies());let js=pollster::block_on(sim.read_joints());
+        for b in &out {assert!(b.vel.iter().chain(b.omega.iter()).all(|x|x.is_finite()));}
+        results.push((bytemuck::cast_slice::<BodyGpu,u8>(&out).to_vec(),bytemuck::cast_slice::<crate::types::JointGpu,u8>(&js).to_vec()));
+      }
+      assert_eq!(results[0],results[1],"color={color} bias={bias}: parallel color altered actual body/joint words");
+      println!("PERF03_COLOR_CONTROL color={color} bias={bias} bodies={count} joints={nj} exact=true");
+    }}
 }

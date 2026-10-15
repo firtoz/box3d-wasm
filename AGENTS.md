@@ -199,6 +199,22 @@ Greenfield Rust/WGSL engine on `feat/gpu`. Do **not** patch `box3d/` or grow `bo
 
 Before committing visual or solver changes, record a snapshot of every affected scene (`./scripts/record-snapshot.sh YYYY-MM-DD-<label>`). Clips are columns in `compare/index.html` (rows = samples; CPU pinned on the left, then latest GPU, older versions further right). Put a real Box3D C column first with `./scripts/record-box3d-oracle.sh`. That is a **pre-commit comparison** grid, not “record every physics tick as its own video.”
 
+GPU experiment storage: follow the storage budget and cleanup rules in
+`docs/goals/gpu-production-readiness.md`. Before a run, name the required outputs,
+their consumers and deletion points; default to at most 1 GiB of new temporary
+data and 64 MiB of retained diagnostic evidence per experiment. Budget any
+necessary exception explicitly before execution. Reuse the current build/cache
+and capture only selected inputs or stream a digest/summary. Account for shared
+GPU driver-cache growth in each GPU batch budget and record before/after sizes;
+preserve shared caches used by other applications. Keep generated
+scratch data outside the worktree or locally ignored so app Git snapshots do not
+stage it. After verification and source/library restoration, delete task-owned
+binaries, backup libraries, copied caches and full health dumps whose required
+results have been extracted. Keep reports, before/after media and the smallest
+reproduction inputs still needed by open issues. Record retained/deleted bytes
+and any remaining consumer in the recovery notes; cleanup is part of completion,
+including failed runs. Never delete user work or live-job inputs. Search generated health/trace JSON by filename first (`rg -l`); use structured extraction for fields. Bound diagnostic text searches with `--max-columns` and `--max-columns-preview` so a monolithic JSON line cannot flood the tool/chat log.
+
 ## WASM binary size
 
 The release WASM binary is at `demo/public/wasm/box3d-web.wasm`. When making changes that affect the compiled WASM output (adding new C API bindings, changing compile flags, etc.), rebuild and check the gzipped size:

@@ -4,7 +4,7 @@
 // target instead of accepting the native tolerance changes impact poses.
 use super::*;
 
-fn nlerp_rotation(a: [f32; 4], b: [f32; 4], t: f32) -> [f32; 4] {
+pub(super) fn nlerp_rotation(a: [f32; 4], b: [f32; 4], t: f32) -> [f32; 4] {
     let mut qa = a;
     let dot = ((a[0] * b[0] + a[1] * b[1]) + a[2] * b[2]) + a[3] * b[3];
     if dot < 0.0 {

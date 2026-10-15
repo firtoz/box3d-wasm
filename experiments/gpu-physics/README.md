@@ -10,7 +10,8 @@ other Linux distributions, macOS and Windows remain unverified. See the
 [status, work priorities and missing features](../../docs/gpu-physics.md).
 For `feat/gpu` next actions and durable goal recovery, use the
 [production-readiness checklist](../../docs/goals/gpu-production-readiness.md).
-The [PR09 full sample inventory and floor repair](benchmarks/production-readiness/pr09-floor-2026-10-02/README.md) records the bounded CPU-first rendering milestone and remaining unreviewed samples.
+PR09 publication, 2026-10-15: **165 native samples reviewed, 0 left; 21 fixes, 1 resolved without repair, 0 open original repair groups.** [Portable inventory, reports and before/after evidence](benchmarks/production-readiness/pr09-verified-2026-10-15/README.md) close the PR09 comparison gate. Rain physical failures remain open under PR04; UI/widgets and full query qualification remain PR10/PR11. Earlier dated counts, local audit archives and source-specific limitations below are historical and do not certify the full release.
+
 
 ## Tested platforms and hardware
 
@@ -121,6 +122,14 @@ event/query logic is not two
 independent application instances. Unsupported APIs can affect sample behavior;
 consult the [limitations](../../docs/gpu-physics.md#missing-features-and-known-failures).
 
+GPU shape creation now honors `b3ShapeDef.invokeContactCreation` (defaulttrue).
+Passive static insertion waits for relevant proxy movement; explicit filter
+invocation and compound creation follow native policy. [The Static Invoke
+repair](benchmarks/production-readiness/pr09-verified-2026-10-15/reports/BEH02.md)
+records the focused checks, CPU-first comparisons and remaining limits.
+
+Far-coordinate worlds use a fixed local physics frame selected from the first body when float32 world spacing exceeds the existing linear slop. Public positions, points, events, queries and renderer buffers retain global coordinates and body identity; public float32 geometry remains quantized. The frame stays fixed for the world lifetime. Six default scenes and four native Far Stack offsets were checked; arbitrary worlds spanning huge coordinates and far bodies added after a near first body remain unqualified. [The Far Mesh Drop repair and CPU-first evidence](benchmarks/production-readiness/pr09-verified-2026-10-15/reports/BEH03.md) records the checks and remaining Far Pyramid limitation.
+
 **GPU API / Shape Replacement** cycles one live shape through sphere, capsule,
 box and cylinder geometry. IDs and metadata stay stable; alternating replacements
 explicitly recompute body mass. The [replacement fixture and semantics](../../docs/gpu-physics.md#native-shape-replacement)
@@ -138,6 +147,17 @@ the direct viewer also uses this path when restarting or switching scenes. World
 do not step during loading. Sokol continues drawing its closing status if it must
 wait for an in-flight driver operation before safe worker teardown. Pipeline caching can be disabled with
 `GPU_PHYSICS_PIPELINE_CACHE=0` or relocated with `GPU_PHYSICS_PIPELINE_CACHE_DIR`.
+Vulkan cache files include the active device's pipeline-cache UUID. Compatible
+older files are imported and migrated on save; incompatible files remain intact
+and produce an explicit cold-start message. Submitted cache bytes do not prove
+that any particular pipeline is cached. On NVIDIA610.57.04, a missing X display
+selects a different driver implementation/UUID from a live display, so headless
+checks must verify their display before interpreting startup timings. See the
+[Falling Trees repair and cache diagnosis](benchmarks/production-readiness/pr09-verified-2026-10-15/reports/PERF01.md);
+its default scene progression, physical checks and CPU-first visual verification
+passed; presets, manual controls and native performance remain unqualified.
+The [Height Field query repair](benchmarks/production-readiness/pr09-verified-2026-10-15/reports/PERF02.md) conservatively filters mesh BVH nodes against the actual translating proxy sweep, preserving leaf order and unchanged narrowphase outputs. Original14,278 casts/frame now complete120 actual render/step frames on ordinary/native GPU; frozen outputs, transformed controls, floor picking/identity and ten CPU-first default visual guards pass. Related30 display records are short guards; some query demos do not advance physics. Independent CPU/GPU triangle/normal differences, manual controls, long-window behavior, other155 final defaults and Village performance remain unqualified. See the report for the final audit and preserved failures.
+
 Native precision shaders now parse and validate their shared source once per
 process, then specialize individual entry points. Previously 110 entry points
 reparsed the same source on each launch even with a warm driver cache. Two local
@@ -147,7 +167,12 @@ preparation timings. `GPU_PHYSICS_VERIFY_SHADER_REUSE=1` recompiles independentl
 and checks byte-identical SPIR-V; use it for validation, not timing. All 110
 startup entry points matched, and the four precision tests passed on NVIDIA and
 AMD. Generated SPIR-V is still cached in memory; the disk cache holds driver
-pipelines.
+pipelines. Worlds with only static colliders now skip preparation and dispatch of
+an impossible collision pair; topology edits re-enable the lazy pipeline before
+it is needed. This removes an unnecessary132-second NVIDIA mesh pipeline compile
+from Long Ray Cast. Necessary first mesh-contact compilation and unused-constant
+cache invalidation remain open; the scoped checks and CPU-first captures are in
+the static startup report (local audit archive).
 
 ## Direct Rust viewer
 
@@ -1001,8 +1026,16 @@ capacity (16 entries per reserved shape, rounded to a power of two, at least
 1,024, also covering graph-prefix workspace). The three insertion arrays sit after the scene's fat bounds; their
 runtime offsets avoid shader recompilation on growth. Oversized workloads still
 report sticky capacity loss rather than silently dropping entries. Contact pools
-now reserve 16 slots per reserved body, rounded to a power of two (minimum 256),
-and pair capacity follows that reservation with a 65,536-entry floor. Runtime
+normally reserve 16 slots per reserved body, rounded to a power of two (minimum 256),
+and pair capacity follows that reservation with a 65,536-entry floor. Typed buffer
+sizes are checked before allocation or physics pipeline preparation. If that
+original layout exceeds the device limit, a static-heavy fallback reserves at
+least every allocated shape, 16 slots per nonstatic reserved body, the native
+contact hint and the previous contact reservation. It retains the complete wide
+static list and spatial insertion workspace; it is not a maximum density guarantee.
+Previously supported layouts keep their original reservation. See the
+[Large World repair evidence and limits](benchmarks/production-readiness/pr09-verified-2026-10-15/reports/CAP01.md).
+Runtime
 scratch/hash offsets and chunked prefix scans replace the old fixed ceiling.
 Growth preserves contact state and history, relocates occupied lists, and rebuilds
 the hash index without compiling new shader variants. Capacity loss still
@@ -1109,6 +1142,8 @@ same portable build directories as the launcher; `--gpu-build-dir` and
 `--both-build-dir` select explicit builds. Use `--require-built` to reject missing
 artifacts without requiring full API parity. Missing artifacts are reported as
 unknown coverage. Symbol coverage does not certify semantics.
+The native viewer preserves the old absolute Y=200/speed heuristic as `raw_exploded`. Its contextual `exploded` result uses [audited native scene inputs](native-samples/scene_health_contracts.inc), including translated terrain and deliberate fast launches. Limits and the actual world speed cap are recorded per frame; the validator independently checks them against the shared table and rejects inflated or missing limits. Legacy recordings keep their original classification. The public GPU `WorldHealthScan.exploded` field remains the coarse legacy heuristic, without scene context. These are diagnostic screens; contact support, energy, CCD, joint constraints, runtime progression and capacity remain separate required checks. [DIAG01 verification](benchmarks/production-readiness/pr09-verified-2026-10-15/reports/DIAG01.md) covers six affected profiles and three guards with actual CPU-first comparisons; the original Sensor and Stall failures remain preserved, while their scoped120-step runtime repairs now pass ([Sensor](benchmarks/production-readiness/pr09-verified-2026-10-15/reports/RUNTIME02.md), [Stall](benchmarks/production-readiness/pr09-verified-2026-10-15/reports/RUNTIME03.md)). Full lifecycle/CCD and cold-start performance qualification remains open.
+
 Several diagnostic scripts retain Linux/NVIDIA assumptions. Required checks
 reported as skipped or unsupported do not count as passes.
 
@@ -1178,3 +1213,7 @@ Git LFS. Historical investigations are retained in Git history and local archive
 
 Architecture and current limitations: [GPU physics notes](../../docs/gpu-physics.md).
 Measured performance and reproduction: [native backend guide](compiler/native-backend/README.md).
+
+VIS07 drawing repair is verified: the combined viewer preserves accepted direct Step append inputs across the pane reset, excludes world geometry from replay and mirrors late pane-local control labels. Physics Step and queries still run once; geometry, defaults, identity and picking are preserved. Shared diagnostics keep their existing provenance. [Report with CPU-first before/after screenshots](benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS07.md) and all55 comparison rows (local audit archive);55/55 individually reviewed,0left,110candidate captures and4518-file portable check PASS. VIS08 text placement is also verified: [before/after report](benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS08.md) and all33 CPU-first comparison rows (local audit archive);33 done,0 left,66 after cells and2,815-file portable check PASS. The [VIS02 material/state repair](benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS02.md) is also verified:165 individual CPU-first before/after comparisons,725 source/object records and29245-file portable verification; actual custom/type/awake/FAST/cap/acceptedCCD selector checks pass. Overall7 issue groups fixed,15 open. Physics/runtime/query/picking/performance findings and individual availability/pixel limits remain open.
+
+The verified Village milestone preserves all120 moverinputs/results andpublicbody/jointrecords perroute, withCPU-first before/after media forbothVillage andCharacter/Mover. MatchedhardwareVillage falls~29→~7.8s; publicpositive/veto/gapcallback/picking/edit-reuse guards pass. Other163 defaults/presets onthismoverrevision remainunreviewed; PR09/Rainphysicalgate stayopen.

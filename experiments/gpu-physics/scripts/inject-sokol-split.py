@@ -2,6 +2,7 @@
 """Generate local multi-view renderer sources; leave the Box3D submodule clean."""
 import pathlib
 import sys
+import sokol_split_step_injection
 src, dst = map(pathlib.Path, sys.argv[1:])
 dst.mkdir(parents=True, exist_ok=True)
 for path in src.glob('*.c'):
@@ -24,4 +25,5 @@ for path in src.glob('*.c'):
         body = body.replace(anchor, anchor + '\n\tsg_apply_viewport(split_x, 0, viewWidth, swapChain->height, true);\n\tsg_apply_scissor_rect(split_x, 0, viewWidth, swapChain->height, true);')
         text = text[:begin] + 'static int split_x, split_width;\nvoid split_render_viewport(int x, int width) { split_x=x; split_width=width; }\n' + body + text[end:]
     text = '#define SPLIT_STREAM_REMAP\n#include "sokol_split_stream.h"\n' + text
+    text = sokol_split_step_injection.gfx_hooks(text, path.name)
     (dst / path.name).write_text(text)

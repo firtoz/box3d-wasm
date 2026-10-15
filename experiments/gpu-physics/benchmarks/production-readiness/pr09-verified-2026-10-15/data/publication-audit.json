@@ -1,0 +1,44 @@
+{
+  "status": "PASS_OFFLINE_PUBLICATION_AUDIT",
+  "date": "2026-10-15",
+  "new_builds_GPU_scene_capture_runs": 0,
+  "native_reviewed": 165,
+  "native_left": 0,
+  "fixed": 21,
+  "resolved_without_repair": 1,
+  "open_original_groups": 0,
+  "Rust_literal_includes": 115,
+  "missing_selected_includes": [],
+  "runtime_test_fixtures": [
+    {
+      "path": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/QRY01/trace/inputs.json",
+      "bytes": 4503,
+      "sha256": "4cd255b7d99f19b937e4f959e9c65c61bd170e4233a9ebfc52780ed6712612a9",
+      "consumer": "Existing Rust query regression; exact recorded bytes, no regeneration"
+    },
+    {
+      "path": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/PERF02/cast-cost-trace-no-json-dependency/actual-mesh.json",
+      "bytes": 310462,
+      "sha256": "4e7910de7037e49f7f67a55026f083b9fd0be01e0b03c4b4852692e6b02e6e1c",
+      "consumer": "Existing Rust query regression; exact recorded bytes, no regeneration"
+    },
+    {
+      "path": "experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/PERF02/cast-cost-trace-no-json-dependency/actual-inputs-outputs.json",
+      "bytes": 4158198,
+      "sha256": "5547b054ed39e7593f86f4f2b52429769c1b3dd2234e5a395264a9b0a462f025",
+      "consumer": "Existing Rust query regression; exact recorded bytes, no regeneration"
+    }
+  ],
+  "portable_local_links": 159,
+  "missing_links": [],
+  "original_media_hashes_verified": true,
+  "non_document_local_source_hashes_preserved": true,
+  "Python_AST": "5 files passed earlier; no Python source changed after that check",
+  "initial_audit_corrections": [
+    "Missing ignored QRY01 include explicitly selected",
+    "Two runtime PERF02 fixture dependencies explicitly selected",
+    "Byte-identical distinct source image paths share a content-addressed media file; initial packaging collision retained in local budget receipt"
+  ],
+  "limitations": "No new compile/test/visual run. Existing exact-source normal static archive and individual check evidence are reused. Rain physical failures remain PR04; native FPS/manual controls/fullstate/browser remain unqualified.",
+  "seconds": 0.42752029199618846
+}

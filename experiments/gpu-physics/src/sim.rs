@@ -630,6 +630,9 @@ impl Drop for PhysicsResources {
     fn drop(&mut self) { self.save(); }
 }
 
+#[path = "world_pose.rs"]
+mod world_pose;
+
 pub struct GpuSim {
     body_sleep_thresholds: Vec<f32>,
     #[cfg(feature = "native-command-cache")]
@@ -661,6 +664,7 @@ pub struct GpuSim {
     color_hint_min_step: u64,
     graph_dense_hint: bool,
     one_group_pair_ok: bool,
+    all_static_colliders: bool,
     skip_general_static_sort: bool,
     solver_dispatches: Cell<u32>,
     joint_dispatches: Cell<u32>,
@@ -671,6 +675,7 @@ pub struct GpuSim {
     contact_status_dirty: bool,
     pass_lut: Buffer,
     bodies: Buffer,
+    world_pose: Option<world_pose::WorldPose>,
     body_cold: Buffer,
     step_force_slots: Vec<u32>,
     convex_ccd: Option<crate::ccd::ConvexCcd>,
@@ -754,6 +759,11 @@ pub struct GpuSim {
     alloc_bind_slots: ComputePipeline,
     collide_pairs_no_mesh: std::sync::OnceLock<ComputePipeline>,
     collide_pairs_mesh: std::sync::OnceLock<ComputePipeline>,
+    collide_pairs_capsule_no_mesh: std::sync::OnceLock<ComputePipeline>,
+    collide_pairs_capsule_mesh: std::sync::OnceLock<ComputePipeline>,
+    capsule_collision_scene: bool,
+    box_mesh_collision_scene: bool,
+    collide_pairs_box_mesh: std::sync::OnceLock<ComputePipeline>,
     child_compaction: std::sync::OnceLock<crate::contact_compaction::ContactCompaction>,
     collision_shader: ShaderModule,
     collision_layout: wgpu::PipelineLayout,
@@ -821,9 +831,9 @@ pub struct GpuSim {
     solve_color_tail_one_group: ComputePipeline,
     #[allow(dead_code)]
     solve_overflow: ComputePipeline,
-    solve_joints: ComputePipeline,
-    solve_joint_color: ComputePipeline,
-    solve_jointed_wave: ComputePipeline,
+    solve_joints: std::sync::OnceLock<ComputePipeline>,
+    solve_joint_color: std::sync::OnceLock<ComputePipeline>,
+    solve_jointed_wave: std::sync::OnceLock<ComputePipeline>,
     compact_joint_heads: ComputePipeline,
     compact_joint_components: ComputePipeline,
     ray_closest: ComputePipeline,
@@ -1061,12 +1071,33 @@ impl GpuSim {
         mix_pairs: &[MixPairGpu],
         joints: &[JointGpu],
         caps: GpuSceneCaps,
+        contact_floor: u32,
         enable_contacts: bool,
         dt: f32,
         gravity: [f32; 3],
     ) -> Result<Self, String> {
         let device = gpu.device.clone();
         let queue = gpu.queue.clone();
+        let count = bodies.len() as u32;
+        let capacity = caps.bodies.max(count).max(1);
+        if capacity != caps.bodies {
+            return Err("GPU body reservation is smaller than live bodies".into());
+        }
+        let live_order = !joints.is_empty()
+            && std::env::var("GPU_PHYSICS_LIVE_CONTACT_ORDER").as_deref() != Ok("0");
+        let diagnostic_flags = diagnostic_flags_from_env();
+        let trace_words = if diagnostic_flags & crate::types::DIAG_MESH_CANDIDATES != 0 {
+            crate::types::MESH_TRACE_WORDS
+        } else { 0 };
+        let storage_limit = u64::from(device.limits().max_storage_buffer_binding_size)
+            .min(device.limits().max_buffer_size);
+        let plan = crate::allocation::AllocationPlan::select(
+            caps, crate::allocation::moving_reservation(capacity, bodies), contact_floor,
+            live_order, trace_words, storage_limit)?;
+        if plan.fallback {
+            eprintln!("gpu-alloc static-heavy contacts={} pairs={} scratch_bytes={} contact_floor={}",
+                plan.contacts, plan.pairs, plan.scratch_bytes, contact_floor);
+        }
         let resources = gpu.physics_resources.get_or_init(|| std::sync::Arc::new(PhysicsResources::new(gpu))).clone();
         let make_compute = |device: &Device, layout: &wgpu::PipelineLayout, shader: &ShaderModule, entry: &str| {
             resources.pipeline(entry, &[], || make_compute_cached(device, layout, shader, entry, resources.startup.cache.as_ref()))
@@ -1074,8 +1105,6 @@ impl GpuSim {
         let make_compute_with_constant = |device: &Device, layout: &wgpu::PipelineLayout, shader: &ShaderModule, entry: &str, name: &str, value: f64| {
             resources.pipeline(entry, &[(name, value)], || make_compute_constant_cached(device, layout, shader, entry, name, value, resources.startup.cache.as_ref()))
         };
-        let count = bodies.len() as u32;
-        let capacity = caps.bodies.max(count).max(1);
         let mut params = SimParams::new(count, enable_contacts, dt, gravity);
         params.joint_count = joints.len() as u32;
         params.shape_count = shapes.len() as u32;
@@ -1110,7 +1139,7 @@ impl GpuSim {
         params.mix_pair_base_u32 = params.surface_material_base_u32
             + caps.materials * (mem::size_of::<SurfaceMaterialGpu>() / mem::size_of::<u32>()) as u32;
         params.mix_pair_count = u32::from(mix_pairs.iter().any(|pair| pair.occupied != 0));
-        params.diagnostic_flags = diagnostic_flags_from_env();
+        params.diagnostic_flags = diagnostic_flags;
         if params.diagnostic_flags & DIAG_DISABLE_SLEEP != 0 {
             params.enable_sleep = 0;
         }
@@ -1120,32 +1149,19 @@ impl GpuSim {
         };
         let fat_geometry = shapes.iter().map(|s| FatGeometryKey::new(s, bodies)).collect();
         let body_state_bytes = mem::size_of::<BodyStateGpu>() * capacity as usize;
-        let contact_slots = crate::types::contact_capacity(capacity);
-        params.contact_capacity = contact_slots;
-        params.pair_capacity = crate::types::pair_capacity(contact_slots);
+        let contact_slots = plan.contacts;
+        params.contact_capacity = plan.contacts;
+        params.pair_capacity = plan.pairs;
         let joint_bytes = mem::size_of::<JointGpu>() * joints.len().max(1);
-        params.fat_bounds_base = crate::types::scratch_u32_count_with_joints(
-            capacity, caps.joints.max(capacity)) as u32;
-        params.order_base = params.fat_bounds_base + 8 * caps.shapes;
-        // Live ordering uses three persistent body-type trees and
-        // one four-word metadata record per shape. Keep host transform uploads
-        // after insertion workspace, so scratch growth preserves this region.
-        let live_order = !joints.is_empty()
-            && std::env::var("GPU_PHYSICS_LIVE_CONTACT_ORDER").as_deref() != Ok("0");
-        params.order_node_capacity = if live_order { 2 * caps.shapes } else { 0 };
-        let order_words = if live_order { 3 * (8 + 19 * params.order_node_capacity) + 4 * caps.shapes } else { 0 };
-        params.insert_base = params.order_base + order_words;
-        params.insert_capacity = crate::types::insertion_capacity(caps.shapes)
-            .max(2 * params.pair_capacity / crate::types::RADIX_GROUP_SIZE);
-        let scratch_bytes = (params.insert_base as usize + 3 * params.insert_capacity as usize) * 4;
-        let storage_limit = u64::from(device.limits().max_storage_buffer_binding_size)
-            .min(device.limits().max_buffer_size);
-        if scratch_bytes as u64 > storage_limit {
-            return Err(format!("GPU scratch needs {scratch_bytes} bytes, device permits {storage_limit}"));
-        }
+        params.fat_bounds_base = plan.fat_bounds_base;
+        params.order_base = plan.order_base;
+        params.order_node_capacity = plan.order_nodes;
+        params.insert_base = plan.insert_base;
+        params.insert_capacity = plan.insert_capacity;
+        let scratch_bytes = plan.scratch_bytes;
         let atom_contact_start = 16 + crate::types::HASH_BUCKETS + params.pair_capacity;
         let atom_contact_identity_start = atom_contact_start + (2 * params.pair_capacity);
-        let atom_count = atom_contact_identity_start + (2 * params.pair_capacity) + 9 * capacity + 25;
+        let atom_count = plan.atom_words - trace_words;
 
         let pass_lut = device.create_buffer(&wgpu::BufferDescriptor {
             label: Some("pass-lut"),
@@ -1244,7 +1260,6 @@ impl GpuSim {
                 | wgpu::BufferUsages::COPY_SRC,
             mapped_at_creation: false,
         });
-        let trace_words = if params.diagnostic_flags & crate::types::DIAG_MESH_CANDIDATES != 0 { crate::types::MESH_TRACE_WORDS } else { 0 };
         let mut atom_init = vec![0u32; (atom_count + trace_words) as usize];
         atom_init[atom_contact_start as usize
             ..(atom_contact_start + (2 * params.pair_capacity)) as usize]
@@ -1421,6 +1436,7 @@ impl GpuSim {
             color_hint_min_step: 0,
             graph_dense_hint: false,
             one_group_pair_ok: false,
+            all_static_colliders: false,
             skip_general_static_sort: false,
             solver_dispatches: Cell::new(0),
             joint_dispatches: Cell::new(0),
@@ -1430,6 +1446,7 @@ impl GpuSim {
             callback_open: false,
             pass_lut,
             bodies,
+            world_pose: None,
             body_cold,
             step_force_slots: Vec::new(),
             convex_ccd: None,
@@ -1600,6 +1617,11 @@ impl GpuSim {
             alloc_bind_slots: make_compute(&device, &pipeline_layout, &shader, "alloc_bind_slots"),
             collide_pairs_no_mesh: std::sync::OnceLock::new(),
             collide_pairs_mesh: std::sync::OnceLock::new(),
+            collide_pairs_capsule_no_mesh: std::sync::OnceLock::new(),
+            collide_pairs_capsule_mesh: std::sync::OnceLock::new(),
+            capsule_collision_scene: capsule_collision_scene(shapes),
+            box_mesh_collision_scene: box_mesh_collision_scene(shapes),
+            collide_pairs_box_mesh: std::sync::OnceLock::new(),
             child_compaction: std::sync::OnceLock::new(),
             collision_shader: shader.clone(),
             collision_layout: pipeline_layout.clone(),
@@ -1740,9 +1762,9 @@ impl GpuSim {
             ),
             solve_overflow: make_compute(&device, &pipeline_layout, &shader, "solve_overflow"),
             solve_color_tail_one_group: make_compute(&device, &pipeline_layout, &shader, "solve_color_tail_one_group"),
-            solve_joints: make_compute(&device, &pipeline_layout, &shader, "solve_joints"),
-            solve_joint_color: make_compute(&device, &pipeline_layout, &shader, "solve_joint_color"),
-            solve_jointed_wave: make_compute(&device, &pipeline_layout, &shader, "solve_jointed_wave"),
+            solve_joints: std::sync::OnceLock::new(),
+            solve_joint_color: std::sync::OnceLock::new(),
+            solve_jointed_wave: std::sync::OnceLock::new(),
             compact_joint_heads: make_compute(
                 &device,
                 &pipeline_layout,
@@ -1872,6 +1894,19 @@ impl GpuSim {
         }
     }
 
+    pub(crate) fn set_coordinate_origin(&mut self, origin: [f32; 3], bodies: &[BodyGpu]) {
+        assert!(self.world_pose.is_none());
+        if origin != [0.0; 3] {
+            let poses = world_pose::WorldPose::new(&self.device, &self.bodies, origin);
+            poses.write_all(&self.queue, bodies);
+            self.world_pose = Some(poses);
+        }
+    }
+
+    pub(crate) fn render_bodies_buffer(&self) -> &Buffer {
+        self.world_pose.as_ref().map_or(&self.bodies, |poses| &poses.buffer)
+    }
+
     pub fn current_bodies_buffer(&self) -> &Buffer {
         &self.bodies
     }
@@ -1920,7 +1955,7 @@ impl GpuSim {
     fn emit_wave<'a>(&'a self, pass: &mut wgpu::ComputePass<'a>, use_bias: u32) {
         if self.params.joint_count > 0 && !self.joint_serial() && self.params.solver_mode == 0 {
             if self.count <= 256 && self.params.diagnostic_flags & DIAG_GENERAL_SOLVER == 0 {
-                self.emit_n(pass, &self.solve_jointed_wave, 1, 0, use_bias);
+                self.emit_n(pass, self.solve_jointed_wave_pipeline(), 1, 0, use_bias);
                 self.solver_dispatches.set(self.solver_dispatches.get().saturating_add(1));
                 if use_bias != 3 {
                     self.joint_dispatches.set(self.joint_dispatches.get().saturating_add(1));
@@ -1929,7 +1964,7 @@ impl GpuSim {
             }
             for col in std::iter::once(crate::types::OVERFLOW_COLOR).chain(0..crate::types::OVERFLOW_COLOR) {
                 if use_bias != 3 {
-                    self.emit_n(pass, &self.solve_joint_color, self.joint_solve_groups(), col, use_bias);
+                    self.emit_n(pass, self.solve_joint_color_pipeline(), self.joint_solve_groups(), col, use_bias);
                     self.joint_dispatches.set(self.joint_dispatches.get().saturating_add(1));
                 }
                 self.emit_n(pass, &self.solve_color, self.contact_groups(), col, use_bias);
@@ -1996,7 +2031,7 @@ impl GpuSim {
     }
 
     fn emit_anchored_and_static_one_group<'a>(&'a self, pass: &mut wgpu::ComputePass<'a>, use_bias: u32) {
-        self.emit_n(pass, &self.solve_joints, self.joint_solve_groups(), 2, use_bias);
+        self.emit_n(pass, self.solve_joints_pipeline(), self.joint_solve_groups(), 2, use_bias);
         self.joint_dispatches.set(self.joint_dispatches.get().saturating_add(1));
         pass.set_bind_group(0, self.live_bg(), &[Self::pass_lut_offset(1, use_bias) as u32]);
         pass.set_pipeline(&self.solve_color_partition_one_group);
@@ -2608,7 +2643,7 @@ impl GpuSim {
         #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
         if std::env::var("GPU_PHYSICS_NATIVE_CONTACT_CACHE").as_deref() == Ok("1") {
             use crate::native_command_cache::Command::{DispatchLinear as Dispatch,Indirect,CopyArgs};
-            let key=[3,u32::from(self.shape_count>=2),u32::from(self.params.mesh_triangle_count!=0)];
+            let key=[3,u32::from(self.collision_pipeline_needed()),u32::from(self.params.mesh_triangle_count!=0) | (u32::from(self.capsule_collision_scene)<<1) | (u32::from(self.box_mesh_collision_scene)<<2)];
             if self.contact_cache.as_ref().is_none_or(|c|c.group!=self.bind_group || c.key!=key) {
                 // Private writers: unique/missing <= PAIR_CAP, free slots <= contact_capacity.
                 // Same writer kernels and ordered allocation as the wgpu path below.
@@ -2635,7 +2670,7 @@ impl GpuSim {
                     Indirect(&self.alloc_bind_slots,prepare),
                     CopyArgs{source:8*4,destination:0,bytes:16},
                 ];
-                if self.shape_count>=2 {commands.push(Indirect(self.collision_pipeline(),0));}
+                if self.collision_pipeline_needed() {commands.push(Indirect(self.collision_pipeline(),0));}
                 self.contact_cache=Some(crate::native_command_cache::RadixCache::record(
                     &self.device,&self.bind_group,&self.collision_layout,&self.indirect,
                     Some(&self.scratch),off,key,&commands));
@@ -2711,9 +2746,9 @@ impl GpuSim {
             pass.dispatch_workgroups_indirect(&self.indirect, Self::indirect_prepare_offset());
         }
         enc.copy_buffer_to_buffer(&self.scratch, 8 * 4, &self.indirect, 0, 16);
-        // No pair can exist with fewer than two live collider slots. Allocation
+        // No pair exists with fewer than two colliders or only static bodies. Allocation
         // and retirement still run, so removing the last shape clears history.
-        if self.shape_count >= 2 {
+        if self.collision_pipeline_needed() {
             let mut pass = enc.begin_compute_pass(&wgpu::ComputePassDescriptor {
                 label: Some("physics-narrowphase"),
                 timestamp_writes: None,
@@ -2747,27 +2782,69 @@ impl GpuSim {
 
     pub(crate) fn save_pipeline_cache(&self) { self.resources.save(); }
 
+    pub(crate) fn collision_pipeline_needed(&self) -> bool {
+        self.shape_count >= 2 && !self.all_static_colliders
+    }
+
+    #[cfg(test)]
+    pub(crate) fn collision_pipeline_compiled_test(&self) -> bool {
+        [&self.collide_pairs_mesh, &self.collide_pairs_no_mesh, &self.collide_pairs_capsule_mesh, &self.collide_pairs_capsule_no_mesh, &self.collide_pairs_box_mesh].iter().any(|p| p.get().is_some())
+    }
+
     pub(crate) fn collision_pipeline_ready(&self) -> bool {
-        if self.params.mesh_triangle_count != 0 { self.collide_pairs_mesh.get().is_some() }
-        else { self.collide_pairs_no_mesh.get().is_some() }
+        if !self.collision_pipeline_needed() { return true; }
+        self.collision_pipeline_slot().get().is_some()
     }
 
     /// Prepare the lazy collision variant without dispatching or advancing time.
     pub(crate) fn prepare_collision_pipeline(&self) {
-        let _ = self.collision_pipeline();
+        if self.collision_pipeline_needed() { let _ = self.collision_pipeline(); }
         self.resources.save();
     }
 
+    fn collision_pipeline_slot(&self) -> &std::sync::OnceLock<ComputePipeline> {
+        if self.box_mesh_collision_scene && self.params.mesh_triangle_count != 0 {
+            return &self.collide_pairs_box_mesh;
+        }
+        match (self.params.mesh_triangle_count != 0, self.capsule_collision_scene) {
+            (false, false) => &self.collide_pairs_no_mesh,
+            (true, false) => &self.collide_pairs_mesh,
+            (false, true) => &self.collide_pairs_capsule_no_mesh,
+            (true, true) => &self.collide_pairs_capsule_mesh,
+        }
+    }
+
     fn collision_pipeline(&self) -> &ComputePipeline {
-        // Counts describe live packed geometry, not reserved buffer capacity.
-        // A later mesh upload must select the general variant even when buffers
-        // did not grow; each variant is compiled at most once per simulation.
-        let mesh = self.params.mesh_triangle_count != 0;
-        let cache = if mesh { &self.collide_pairs_mesh } else { &self.collide_pairs_no_mesh };
-        cache.get_or_init(|| self.make_runtime_compute_with_constant(
-            &self.device, &self.collision_layout, &self.collision_shader,
-            "collide_pairs", "COLLISION_MESH_ENABLED", if mesh { 1.0 } else { 0.0 },
-        ))
+        // Reevaluate kinds on every scene upload, including replacement without growth.
+        // Exact overrides also key the device-wide cache shared across growth.
+        let constants = [
+            ("COLLISION_MESH_ENABLED", f64::from(self.params.mesh_triangle_count != 0)),
+            ("COLLISION_CAPSULE_SCENE", f64::from(self.capsule_collision_scene)),
+            ("COLLISION_POLYTOPE_SCENE", f64::from(self.box_mesh_collision_scene)),
+            ("COLLISION_BOX_SCENE", f64::from(self.box_mesh_collision_scene)),
+        ];
+        if std::env::var_os("GPU_PHYSICS_TRACE_PIPELINES").is_some() { eprintln!("BOX_LOADING_SELECTED mesh_triangles={} shape_count={} box_mesh={} capsule={} constants={:?}",self.params.mesh_triangle_count,self.shape_count,self.box_mesh_collision_scene,self.capsule_collision_scene,constants); }
+        self.collision_pipeline_slot().get_or_init(|| self.resources.pipeline(
+            "collide_pairs", &constants, || make_compute_constants_cached(
+                &self.device, &self.collision_layout, &self.collision_shader,
+                "collide_pairs", &constants, self.resources.startup.cache.as_ref())))
+    }
+
+    fn solve_joints_pipeline(&self) -> &ComputePipeline {
+        self.solve_joints.get_or_init(|| self.make_runtime_compute(
+            &self.device, &self.collision_layout, &self.collision_shader, "solve_joints"))
+    }
+    fn solve_joint_color_pipeline(&self) -> &ComputePipeline {
+        self.solve_joint_color.get_or_init(|| self.make_runtime_compute(
+            &self.device, &self.collision_layout, &self.collision_shader, "solve_joint_color"))
+    }
+    fn solve_jointed_wave_pipeline(&self) -> &ComputePipeline {
+        self.solve_jointed_wave.get_or_init(|| self.make_runtime_compute(
+            &self.device, &self.collision_layout, &self.collision_shader, "solve_jointed_wave"))
+    }
+    #[cfg(test)]
+    pub(crate) fn joint_pipeline_creation_test(&self) -> [bool;3] {
+        [self.solve_joints.get().is_some(),self.solve_joint_color.get().is_some(),self.solve_jointed_wave.get().is_some()]
     }
 
     fn collide_detect_pass(&mut self, enc: &mut wgpu::CommandEncoder) {
@@ -3105,6 +3182,26 @@ impl GpuSim {
         std::env::var("GPU_PHYSICS_GLOBAL_REPLAY").as_deref() != Ok("0")
     }
 
+    #[cfg(feature="native-command-cache")]
+    fn physics_replay_key(&self) -> Vec<u8> {
+            let mut params=self.params;params.physics_step=0;
+            let mut key=bytemuck::bytes_of(&params).to_vec();
+            key.extend_from_slice(&self.contact_slots.to_le_bytes());
+            key.extend_from_slice(&self.color_wave_prefix.to_le_bytes());
+            key.extend_from_slice(&[u8::from(self.convex_ccd.is_some()),u8::from(self.graph_shared_requested),
+                u8::from(self.batched_graph_eligible()),u8::from(self.skip_general_static_sort),u8::from(self.one_group_wave_only),u8::from(self.component_tgs),u8::from(self.capsule_collision_scene),u8::from(self.box_mesh_collision_scene)]);key
+            }
+    #[cfg(all(test, feature="native-command-cache"))]
+    pub(crate) fn replay_selection_snapshot(&self) -> (bool, bool, Vec<u8>, u64) {
+        (self.capsule_collision_scene, self.physics_replay.is_some(), self.physics_replay_key(), self.physics_replay_hits)
+    }
+
+    #[cfg(test)]
+    pub(crate) fn box_mesh_selection_test(&self) -> bool { self.box_mesh_collision_scene }
+    #[cfg(all(test, feature="native-command-cache"))]
+    pub(crate) fn box_mesh_replay_snapshot_test(&self) -> (bool,bool,Vec<u8>,u64) {
+        (self.box_mesh_collision_scene,self.physics_replay.is_some(),self.physics_replay_key(),self.physics_replay_hits)
+    }
     pub fn world_step(&mut self, sub_steps: i32) {
         #[cfg(not(target_arch = "wasm32"))]
         self.harvest_gpu_timestamps(false);
@@ -3150,14 +3247,7 @@ impl GpuSim {
             });
         self.params.sub_step_count=sub_steps.max(1) as u32;
         #[cfg(feature="native-command-cache")]
-        let replay_key = {
-            let mut params=self.params;params.physics_step=0;
-            let mut key=bytemuck::bytes_of(&params).to_vec();
-            key.extend_from_slice(&self.contact_slots.to_le_bytes());
-            key.extend_from_slice(&self.color_wave_prefix.to_le_bytes());
-            key.extend_from_slice(&[u8::from(self.convex_ccd.is_some()),u8::from(self.graph_shared_requested),
-                u8::from(self.batched_graph_eligible()),u8::from(self.skip_general_static_sort),u8::from(self.one_group_wave_only),u8::from(self.component_tgs)]);key
-        };
+        let replay_key = self.physics_replay_key();
         #[cfg(feature="native-command-cache")]
         let can_replay=!idle && !eligible && metric_step.is_none() && (self.component_tgs
             || self.global_replay_requested())
@@ -3247,22 +3337,22 @@ impl GpuSim {
             }
             self.solver_dispatches.set(2);
         } else if self.params.solver_mode == 1 {
-            let joints = self.solve_joints.clone();
+            let joints = has_joints.then(|| self.solve_joints_pipeline().clone());
             let int_vel = self.integrate_vel.clone();
             let int_pos = self.integrate_pos.clone();
             for _sub_step in 0..nsub {
                 self.ping_dispatch(&mut enc, &int_vel, bg, 0, 1);
                 if has_joints {
-                    self.copy_then(&mut enc, &joints, self.joint_solve_groups(), 0, 2);
+                    self.copy_then(&mut enc, joints.as_ref().expect("joint dispatch requires joints"), self.joint_solve_groups(), 0, 2);
                 }
                 self.dispatch_colored_solve(&mut enc, 2);
                 if has_joints {
-                    self.copy_then(&mut enc, &joints, self.joint_solve_groups(), 0, 1);
+                    self.copy_then(&mut enc, joints.as_ref().expect("joint dispatch requires joints"), self.joint_solve_groups(), 0, 1);
                 }
                 self.dispatch_colored_solve(&mut enc, 1);
                 self.ping_dispatch(&mut enc, &int_pos, bg, 0, 1);
                 if has_joints {
-                    self.copy_then(&mut enc, &joints, self.joint_solve_groups(), 0, 0);
+                    self.copy_then(&mut enc, joints.as_ref().expect("joint dispatch requires joints"), self.joint_solve_groups(), 0, 0);
                 }
                 self.dispatch_colored_solve(&mut enc, 0);
             }
@@ -3281,7 +3371,7 @@ impl GpuSim {
                         self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 0, 0);
                     }
                     if has_joints && self.joint_serial() {
-                        self.emit_n(&mut pass, &self.solve_joints, self.joint_solve_groups(), 1, 2);
+                        self.emit_n(&mut pass, self.solve_joints_pipeline(), self.joint_solve_groups(), 1, 2);
                         self.joint_dispatches
                             .set(self.joint_dispatches.get().saturating_add(1));
                     }
@@ -3290,7 +3380,7 @@ impl GpuSim {
                         self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 1, 0);
                     }
                     if has_joints && self.joint_serial() {
-                        self.emit_n(&mut pass, &self.solve_joints, self.joint_solve_groups(), 1, 1);
+                        self.emit_n(&mut pass, self.solve_joints_pipeline(), self.joint_solve_groups(), 1, 1);
                         self.joint_dispatches
                             .set(self.joint_dispatches.get().saturating_add(1));
                     }
@@ -3303,7 +3393,7 @@ impl GpuSim {
                         self.emit_n(&mut pass, &self.capture_phase, bg, 2 + 5 * sub as u32 + 3, 0);
                     }
                     if has_joints && self.joint_serial() {
-                        self.emit_n(&mut pass, &self.solve_joints, self.joint_solve_groups(), 1, 0);
+                        self.emit_n(&mut pass, self.solve_joints_pipeline(), self.joint_solve_groups(), 1, 0);
                         self.joint_dispatches
                             .set(self.joint_dispatches.get().saturating_add(1));
                     }
@@ -3406,18 +3496,19 @@ impl GpuSim {
                 ts_ring_slot = Some(slot);
             }
         }
+        if let Some(poses) = &self.world_pose { poses.encode(&mut enc); }
         #[cfg(not(target_arch = "wasm32"))]
         if let Some(export) = &self.pose_export {
-            let copy = export.size.min(self.bodies.size());
+            let copy = export.size.min(self.render_bodies_buffer().size());
             if copy > 0 {
-                enc.copy_buffer_to_buffer(&self.bodies, 0, &export.buffer, 0, copy);
+                enc.copy_buffer_to_buffer(self.render_bodies_buffer(), 0, &export.buffer, 0, copy);
             }
         }
         #[cfg(not(target_arch = "wasm32"))]
         self.encode_contact_status(&mut enc);
         #[cfg(feature = "native-command-cache")]
         if let Some(copy) = self.render_copy.take() {
-            copy.encode(&mut enc, &self.queue, &self.bodies, &self.body_cold);
+            copy.encode(&mut enc, &self.queue, self.render_bodies_buffer(), &self.body_cold);
         }
         let command = enc.finish();
         #[cfg(not(target_arch = "wasm32"))]
@@ -3522,6 +3613,19 @@ impl GpuSim {
 
     pub fn reserved_contact_capacity(&self) -> u32 { self.params.contact_capacity }
 
+    pub(crate) fn requires_contact_growth(&self, bodies: &[BodyGpu], hint: u32) -> bool {
+        // Resident submissions deliberately supply no host bodies. Their dirty
+        // guards exclude topology/type edits; mutations use the complete pack.
+        if bodies.is_empty() || self.params.contact_capacity >= crate::types::contact_capacity(self.caps.bodies) {
+            return false;
+        }
+        crate::allocation::fallback_contacts(self.caps,
+            crate::allocation::moving_reservation(self.caps.bodies, bodies),
+            hint.max(self.params.contact_capacity))
+            .map_or(true, |needed| needed > self.params.contact_capacity)
+    }
+
+
     pub fn physics_step(&self) -> u64 {
         self.physics_step
     }
@@ -3575,6 +3679,18 @@ impl GpuSim {
         self.retire_contacts(a, b, 0);
     }
 
+    /// Explicit native ResetProxy requests. Resolve stable shape identities
+    /// after topology upload, then rebuild bounds and mark each proxy moved.
+    pub fn buffer_proxy_moves(&self, identities: &[(u32, u16)]) {
+        for identity in identities {
+            if let Some(index) = self.shape_identities.iter().position(|id| id == identity) {
+                let word = self.params.fat_bounds_base as u64 + 8 * index as u64 + 3;
+                self.queue.write_buffer(&self.scratch, word * 4,
+                    bytemuck::bytes_of(&crate::types::FAT_PROXY_FORCE_MOVE));
+            }
+        }
+    }
+
     pub fn retire_shape_contacts(&mut self, source: u32, generation: u16) {
         if let Some(index) = self.shape_identities.iter().position(|&id| id == (source, generation)) {
             self.retire_contacts(index as u32, 0, 1);
@@ -3612,8 +3728,22 @@ impl GpuSim {
         mask_bits: u64,
         max_fraction: f32,
     ) -> GpuRayHit {
+        self.cast_ray_closest_gpu_in_public_frame([0.0; 3], origin, translation,
+            category_bits, mask_bits, max_fraction)
+    }
+
+    /// Public queries share the rounded world body origin used by host queries.
+    /// Physics and internal CCD continue reading local body state.
+    pub fn cast_ray_closest_gpu_in_public_frame(
+        &mut self, coordinate_origin: [f32; 3], origin: [f32; 3],
+        translation: [f32; 3], category_bits: u64, mask_bits: u64, max_fraction: f32,
+    ) -> GpuRayHit {
         let encode_start = Instant::now();
         let mut words = [0u32; 32];
+        // These three words were reserved in the existing 32-word ray ABI.
+        words[11] = coordinate_origin[0].to_bits();
+        words[15] = coordinate_origin[1].to_bits();
+        words[31] = coordinate_origin[2].to_bits();
         words[0] = origin[0].to_bits();
         words[1] = origin[1].to_bits();
         words[2] = origin[2].to_bits();
@@ -3763,6 +3893,7 @@ impl GpuSim {
         solver_mode: u32,
     ) {
         self.params.joint_count = bounds.joints;
+        self.all_static_colliders = bounds.all_static_colliders;
         let general = self.params.diagnostic_flags & DIAG_GENERAL_SOLVER != 0
             || solver_mode != 0
             || self.params.solver_mode != 0;
@@ -4368,24 +4499,25 @@ impl GpuSim {
         let island_body_groups = self.island_groups(self.count);
         self.dispatch_islands_and_prepare(&mut enc);
         self.prepare_joint_components(&mut enc);
-        let joints = self.solve_joints.clone();
+
         let int_vel = self.integrate_vel.clone();
         let int_pos = self.integrate_pos.clone();
         let apply = self.apply_deltas.clone();
         let has_joints = self.params.joint_count > 0 && (self.params.solver_mode == 1 || self.joint_serial());
+        let joints = has_joints.then(|| self.solve_joints_pipeline().clone());
         for _ in 0..sub_steps.max(1) {
             self.ping_dispatch(&mut enc, &int_vel, body_groups, 0, 1);
             if has_joints {
-                self.copy_then(&mut enc, &joints, self.joint_solve_groups(), if self.params.solver_mode == 1 { 0 } else { 1 }, 2);
+                self.copy_then(&mut enc, joints.as_ref().expect("joint dispatch requires joints"), self.joint_solve_groups(), if self.params.solver_mode == 1 { 0 } else { 1 }, 2);
             }
             self.dispatch_colored_solve(&mut enc, 2);
             if has_joints {
-                self.copy_then(&mut enc, &joints, self.joint_solve_groups(), if self.params.solver_mode == 1 { 0 } else { 1 }, 1);
+                self.copy_then(&mut enc, joints.as_ref().expect("joint dispatch requires joints"), self.joint_solve_groups(), if self.params.solver_mode == 1 { 0 } else { 1 }, 1);
             }
             self.dispatch_colored_solve(&mut enc, 1);
             self.ping_dispatch(&mut enc, &int_pos, body_groups, 0, 1);
             if has_joints {
-                self.copy_then(&mut enc, &joints, self.joint_solve_groups(), if self.params.solver_mode == 1 { 0 } else { 1 }, 0);
+                self.copy_then(&mut enc, joints.as_ref().expect("joint dispatch requires joints"), self.joint_solve_groups(), if self.params.solver_mode == 1 { 0 } else { 1 }, 0);
             }
             self.dispatch_colored_solve(&mut enc, 0);
         }
@@ -5217,6 +5349,16 @@ impl GpuSim {
     }
 
     pub fn write_scene(&mut self, bytes: &[u8], shapes: &[ShapeGpu], bodies: &[BodyGpu], identities: &[(u32, u16)]) {
+        let capsule_scene = capsule_collision_scene(shapes);
+        let box_mesh_scene = box_mesh_collision_scene(shapes);
+        #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
+        if self.capsule_collision_scene != capsule_scene || self.box_mesh_collision_scene != box_mesh_scene {
+            self.contact_cache = None;
+            // Captured full steps contain the selected collision pipeline too.
+            self.physics_replay = None;
+        }
+        self.capsule_collision_scene = capsule_scene;
+        self.box_mesh_collision_scene = box_mesh_scene;
         self.body_sleep_thresholds = bodies.iter().map(|b| b.sleep_threshold).collect();
         self.pair_matrix_flat=shapes.iter().all(|s|s.kind!=crate::types::KIND_MESH && s.event_flags & (crate::types::SHAPE_PUBLIC_PROXY|crate::types::SHAPE_COMPOUND_CHILD)==0);
         self.invalidate_idle_proof();
@@ -5234,6 +5376,7 @@ impl GpuSim {
             if self.params.order_enabled != 0 { eprintln!("live contact ordering disabled: proxy topology changed"); }
             self.params.order_enabled = 0;
         }
+        assert_eq!(self.params.fat_bounds_epoch & !crate::types::FAT_PROXY_EPOCH_MASK, 0);
         let moved_or_removed = self.shape_identities.iter().enumerate()
             .any(|(i, id)| identities.get(i) != Some(id));
         if moved_or_removed {
@@ -5270,13 +5413,23 @@ impl GpuSim {
                     u64::from(self.params.fat_bounds_base) * 4, geometry.len() as u64 * 32);
             }
             self.queue.submit(Some(encoder.finish()));
+            for (index, id) in identities.iter().enumerate() {
+                if old_slots.get(id).is_some_and(|&src| self.fat_geometry[src] != geometry[index]) {
+                    let word = self.params.fat_bounds_base as u64 + 8 * index as u64 + 3;
+                    self.queue.write_buffer(&self.scratch, word * 4,
+                        bytemuck::bytes_of(&crate::types::FAT_PROXY_FORCE_MOVE));
+                }
+            }
             let old = std::mem::replace(&mut self.shape_identities, identities.to_vec());
             self.remap_physical_contacts(&old);
         } else {
             for (index, key) in geometry.iter().enumerate() {
                 if self.fat_geometry.get(index) != Some(key) {
                     let word = self.params.fat_bounds_base as u64 + 8 * index as u64 + 3;
-                    self.queue.write_buffer(&self.scratch, word * 4, bytemuck::bytes_of(&0u32));
+                    let status = if self.fat_geometry.get(index).is_some() {
+                        crate::types::FAT_PROXY_FORCE_MOVE
+                    } else { 0 };
+                    self.queue.write_buffer(&self.scratch, word * 4, bytemuck::bytes_of(&status));
                 }
             }
         }
@@ -5444,6 +5597,13 @@ impl GpuSim {
         self.params.fat_bounds_epoch = old.params.fat_bounds_epoch;
         self.params.fat_commands_epoch = old.params.fat_commands_epoch;
         self.submit_contact_mutation(encoder.finish());
+        for (index, id) in self.shape_identities.iter().enumerate() {
+            if sources.get(id).is_some_and(|&src| old.fat_geometry[src] != self.fat_geometry[index]) {
+                let word = self.params.fat_bounds_base as u64 + 8 * index as u64 + 3;
+                self.queue.write_buffer(&self.scratch, word * 4,
+                    bytemuck::bytes_of(&crate::types::FAT_PROXY_FORCE_MOVE));
+            }
+        }
         self.contact_epoch = old.contact_epoch;
         self.remap_physical_contacts(&old.shape_identities);
         if pair_capacity_changed {
@@ -5774,6 +5934,7 @@ impl GpuSim {
 
     pub fn write_body_states(&self, bodies: &[BodyGpu]) {
         self.invalidate_idle_proof();
+        if let Some(poses) = &self.world_pose { poses.write_all(&self.queue, bodies); }
         let states: Vec<BodyStateGpu> = bodies.iter().map(BodyStateGpu::from_body).collect();
         if !states.is_empty() {
             self.queue
@@ -5783,6 +5944,7 @@ impl GpuSim {
 
     pub fn write_body_state_at(&self, slot: u32, body: &BodyGpu) {
         self.invalidate_idle_proof();
+        if let Some(poses) = &self.world_pose { poses.write_at(&self.queue, slot, body); }
         let state = BodyStateGpu::from_body(body);
         let off = u64::from(slot) * mem::size_of::<BodyStateGpu>() as u64;
         self.queue
@@ -6628,20 +6790,28 @@ fn make_compute_constant_cached(
     value: f64,
     cache: Option<&wgpu::PipelineCache>,
 ) -> ComputePipeline {
+    make_compute_constants_cached(device, layout, shader, entry, &[(name, value)], cache)
+}
+
+fn make_compute_constants_cached(
+    device: &Device,
+    layout: &wgpu::PipelineLayout,
+    shader: &ShaderModule,
+    entry: &str,
+    constants: &[(&str, f64)],
+    cache: Option<&wgpu::PipelineCache>,
+) -> ComputePipeline {
     crate::loading::set(&format!("Compiling shader: {entry}"));
     let start = std::env::var_os("GPU_PHYSICS_TRACE_PIPELINES").map(|_| {
         eprintln!("gpu-pipeline begin {entry}");
         std::time::Instant::now()
     });
     #[cfg(not(target_arch = "wasm32"))]
-    let precise = crate::native_precision::module(device, PHYSICS_WGSL, entry, &[(name, value)]);
+    let precise = crate::native_precision::module(device, PHYSICS_WGSL, entry, constants);
     #[cfg(not(target_arch = "wasm32"))]
     let shader = precise.as_ref().unwrap_or(shader);
-    let constants = [(name, value)];
     #[cfg(not(target_arch = "wasm32"))]
-    let constants: &[( &str, f64)] = if precise.is_some() { &[] } else { &constants };
-    #[cfg(target_arch = "wasm32")]
-    let constants = &constants;
+    let constants: &[( &str, f64)] = if precise.is_some() { &[] } else { constants };
     let pipeline = device.create_compute_pipeline(&wgpu::ComputePipelineDescriptor {
         label: Some(entry),
         layout: Some(layout),
@@ -6917,4 +7087,61 @@ impl GpuSim {
         self.invalidate_idle_proof();
         Ok(())
     }
+}
+
+fn capsule_collision_scene(shapes: &[ShapeGpu]) -> bool {
+    use crate::types::{KIND_CAPSULE, KIND_MESH, SHAPE_IS_SENSOR, SHAPE_PUBLIC_PROXY, SHAPE_COMPOUND_CHILD};
+    shapes.iter().any(|s| s.kind == KIND_CAPSULE) && shapes.iter().all(|s|
+        matches!(s.kind, KIND_CAPSULE | KIND_MESH) &&
+        s.event_flags & (SHAPE_IS_SENSOR | SHAPE_PUBLIC_PROXY | SHAPE_COMPOUND_CHILD) == 0)
+}
+
+#[cfg(test)]
+mod capsule_scene_selection_tests {
+    use super::*;
+    #[test]
+    fn capsule_scene_selection_handles_replacement_flags_and_empty_uploads() {
+        use crate::types::*;
+        let make = |kind, event_flags| ShapeGpu { kind, event_flags, ..bytemuck::Zeroable::zeroed() };
+        let mut shapes = vec![make(KIND_MESH, 0), make(KIND_CAPSULE, 0)];
+        assert!(capsule_collision_scene(&shapes));
+        for kind in [KIND_BOX, KIND_SPHERE, KIND_CONVEX_HULL, u32::MAX] {
+            shapes[1].kind = kind; assert!(!capsule_collision_scene(&shapes));
+        }
+        shapes[1].kind = KIND_CAPSULE;
+        for flag in [SHAPE_IS_SENSOR, SHAPE_PUBLIC_PROXY, SHAPE_COMPOUND_CHILD] {
+            shapes[0].event_flags = flag; assert!(!capsule_collision_scene(&shapes));
+            shapes[0].event_flags = 0; shapes[1].event_flags = flag;
+            assert!(!capsule_collision_scene(&shapes)); shapes[1].event_flags = 0;
+        }
+        assert!(capsule_collision_scene(&shapes));
+        shapes.remove(0); assert!(capsule_collision_scene(&shapes));
+        shapes.clear(); assert!(!capsule_collision_scene(&shapes));
+        shapes.push(make(KIND_MESH,0)); assert!(!capsule_collision_scene(&shapes));
+    }
+}
+
+// Specialize only a complete uploaded mesh+box domain; any unsupported kind,
+// sensor, public proxy or compound child retains the existing general path.
+fn box_mesh_collision_scene(shapes:&[ShapeGpu])->bool {
+    use crate::types::{KIND_BOX,KIND_MESH,SHAPE_IS_SENSOR,SHAPE_PUBLIC_PROXY,SHAPE_COMPOUND_CHILD};
+    shapes.iter().any(|s|s.kind==KIND_BOX) && shapes.iter().any(|s|s.kind==KIND_MESH) &&
+    shapes.iter().all(|s|matches!(s.kind,KIND_BOX|KIND_MESH) &&
+        s.event_flags & (SHAPE_IS_SENSOR|SHAPE_PUBLIC_PROXY|SHAPE_COMPOUND_CHILD)==0)
+}
+#[cfg(test)]
+mod box_mesh_scene_selection_tests {
+ use super::*;
+ #[test]
+ fn box_mesh_domain_replacement_flags_and_empty_uploads() {
+  use crate::types::*;
+  let make=|kind,event_flags|ShapeGpu{kind,event_flags,..bytemuck::Zeroable::zeroed()};
+  let mut shapes=vec![make(KIND_MESH,0),make(KIND_BOX,0)];
+  assert!(box_mesh_collision_scene(&shapes));assert!(!capsule_collision_scene(&shapes));
+  for kind in [KIND_SPHERE,KIND_CAPSULE,KIND_CONVEX_HULL,u32::MAX]{shapes[1].kind=kind;assert!(!box_mesh_collision_scene(&shapes));}
+  shapes[1].kind=KIND_BOX;
+  for slot in 0..2 {for flag in [SHAPE_IS_SENSOR,SHAPE_PUBLIC_PROXY,SHAPE_COMPOUND_CHILD]{shapes[slot].event_flags=flag;assert!(!box_mesh_collision_scene(&shapes));shapes[slot].event_flags=0;}}
+  shapes.push(make(KIND_SPHERE,0));assert!(!box_mesh_collision_scene(&shapes));shapes.pop();assert!(box_mesh_collision_scene(&shapes));
+  shapes.pop();assert!(!box_mesh_collision_scene(&shapes));shapes.clear();assert!(!box_mesh_collision_scene(&shapes));shapes.push(make(KIND_BOX,0));assert!(!box_mesh_collision_scene(&shapes));
+ }
 }

@@ -214,6 +214,8 @@ const _: () = assert!(core::mem::size_of::<SensorEndTouchEvent>() == 16);
 
 #[derive(Clone, Copy, Debug)]
 pub struct ShapeDef {
+    /// Buffer newly created static proxies for contact discovery (native default true).
+    pub invoke_contact_creation: bool,
     pub density: f32,
     pub friction: f32,
     pub restitution: f32,
@@ -781,6 +783,7 @@ pub fn b3_default_body_def() -> BodyDef {
 
 pub fn b3_default_shape_def() -> ShapeDef {
     ShapeDef {
+        invoke_contact_creation: true,
         density: 1000.0,
         friction: 0.6,
         restitution: 0.0,

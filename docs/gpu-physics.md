@@ -1,5 +1,7 @@
 # GPU physics experiment
 
+PR09 publication, 2026-10-15: **165 native samples reviewed, 0 left; 21 fixes, 1 resolved without repair, 0 open original repair groups.** [Portable inventory, reports and before/after evidence](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/README.md) close the PR09 comparison gate. Rain physical failures remain open under PR04; UI/widgets and full query qualification remain PR10/PR11. Earlier dated counts, local audit archives and source-specific limitations below are historical and do not certify the full release.
+
 The [experiment](../experiments/gpu-physics/README.md) implements rigid-body physics
 in Rust/WGSL and exposes part of Box3D's native C API. It does not replace the
 Box3D WASM package or modify the upstream engine. Native samples can run either
@@ -9,8 +11,7 @@ The retained world-lifetime repair passes its named API/cleanup and actual viewe
 control contracts on exact ordinary/native standalone/combined builds. Its
 [CPU-first affected-scene report](../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-scene-captures-2026-10-02/README.md)
 retains all 52 first clips, 26 reviewed scene pairs, current linked inventories and
-compiler/source/binary receipts. Village’s existing rendering omission remains
-open; visual review does not qualify the full physics or runtime contract. Its [portable API subset evidence](../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-repair-2026-10-01/README.md)
+compiler/source/binary receipts. Village’s rendering omission was repaired in the [bounded PR09 milestone](../experiments/gpu-physics/benchmarks/production-readiness/pr09-floor-2026-10-02/README.md); visual review does not qualify the full physics or runtime contract. Its [portable API subset evidence](../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-repair-2026-10-01/README.md)
 passes72 selected Rust checks and162 first GPU C observations across ordinary/
 native and standalone/combined paths. Root/child generations survive recreation;
 stale C destruction preserves owned replacement geometry. Retained receipt/source
@@ -23,6 +24,8 @@ acceptance. Production readiness continues through the authoritative roadmap.
 
 ## Support status
 
+The native sample renderer has a [verified material/state repair](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS02.md). It preserves packed custom shape/first-mesh-material colours and selects materials from actual body type, sleep/enabled, sensor, bullet and FAST state. Combined ordinary-state blue hues remain intentional. Its read-only `gpu_b3_body_get_debug_flags` export reads the existing pose mirror; metadata records the actual unchanged clamp branch and accepted host/device CCD correction, retaining idle/sleep diagnostic lifetime. Focused ordinary/native checks, all165 individual CPU-first before/after dispositions,725 source/object identities and29245-file portable verification pass. All recorded timeouts/capacity failures, unexercised/occluded pixels and independent physics/runtime/query/picking/performance findings remain explicit; no physicalCCD or full-scene equivalence claim.
+
 The [GPU solver qualification](gpu-solver-qualification.md) tracks correctness,
 stability and same-device repeatability with efficient GPU ordering. It separates
 physical behavior from exact CPU trajectory agreement and lists unverified areas.
@@ -33,6 +36,24 @@ support, friction and restitution checks in five fresh processes per backend;
 default and CPU-compatible contact solving remain unchanged. Rain, the remaining
 capability checks, performance and recordings still prevent qualification or a
 default-mode change. See the qualification report for frozen builds and scope.
+
+The original Continuous/Stall step-4 freeze is repaired by bounding mesh-convex traversal with the shape's actual BVH node count. The unchanged stack capacity and sticky-loss checks still reject real invalid states. [CPU-first before/after evidence](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/RUNTIME03.md) verifies120 completed steps on ordinary/native standalone and combined paths, original geometry/IDs/Launch/API picking, ground support and a bounded energy screen. Other scenes, swept/full-mesh CCD, manual dragging, long-window behavior and cold-start performance remain unqualified; the original failures are retained.
+
+The [Falling Trees repair](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/PERF01.md)
+uses a conservative rotation-aware bound for each compound part's mesh CCD sweep
+and retains each static target's exact bound within one CCD call. Original120
+steps now complete in4.22/4.02s on ordinary/native instead of180s watchdogs;
+600-step geometry/identity/picking/energy and checkpoint terrain-SAT checks pass,
+with CPU-first before/after captures. Diagnostic cold starts were independently
+traced to a missing display selecting an incompatible NVIDIA cache UUID. Cache
+files now validate and namespace the actual UUID while retaining compatible
+legacy data. Submission is not a pipeline-hit claim. Other samples, presets,
+manual controls, swept-substep penetration and native performance remain
+unqualified; stock CPU's transient penetration and original failures are retained.
+
+The [Height Field query repair](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/PERF02.md) conservatively filters mesh BVH nodes against the actual translating proxy sweep, preserving leaf order and unchanged narrowphase outputs. Original14,278 casts/frame now complete120 actual render/step frames on ordinary/native GPU; frozen outputs, transformed controls, floor picking/identity and ten CPU-first default visual guards pass. Related30 display records are short guards; some query demos do not advance physics. Independent CPU/GPU triangle/normal differences, manual controls, long-window behavior, other155 final defaults and Village performance remain unqualified. See the report for the final audit and preserved failures.
+
+The [Joint Grid repair](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/PERF03.md) replaces quadratic CPU joint collection with a per-scan bitmap, visits validated non-overflow joint colors in parallel, and rejects pure CCD masks before joint searches. Overflow/fallback/small-world scheduling and CCD equations/defaults stay unchanged. Full lossless CPU export, ten focused GPU selectors, 120-step ordinary/native factory progression and anchor bounds, picking identity, 35 CPU collector controls and six CPU-first visual guards pass. All five final Grid views complete 120 steps with per-frame CPU maximum anchor errors exactly equal. Other GPU candidate defaults, manual/presets, Rain later residuals/recycling, far-coordinate physical checks, startup and release FPS remain unqualified; original failures and partial files are retained.
 
 Frozen mesh-contact regression inputs are kept in
 `experiments/gpu-physics/c_abi/fixtures/frozen-mesh`. The
@@ -265,6 +286,8 @@ limitations. PR02 acceptance reconciliation and broad PR05 lifecycle
 acceptance remain open; concurrency/reentrancy, C adapter world limits and full
 release matrix still require their own qualification.
 
+The [Sensor callback repair](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/RUNTIME02.md) qualifies read-only shape validity, sensor/event flags and opaque user-data getters during GPU custom-filter/pre-solve callouts, including pending host CCD completion. Owned metadata captured under the registry lock prevents these getters from reacquiring the stepping lock; shape generations and owners remain intact. Both GPU backends pass the original120-step Sensor factory and nine filter/event/deletion/CCD controls against actual Box3D CPU. This evidence does not qualify arbitrary body/query/material API reentry, mutation or callback-created threads; broader reentrancy/concurrency qualification remains open.
+
 The [current PR01 control acceptance](../experiments/gpu-physics/benchmarks/production-readiness/pr01-current-acceptance-2026-10-02/README.md)
 passes twenty public trials, two original-limit CCD guards, ten 110-frame raw
 state repeats and all 63 existing regressions per backend on the retained repair.
@@ -430,9 +453,19 @@ covers165 active native registrations,174 browser entries and20 CPU oracle
 fixtures; unreviewed samples and unavailable counterparts are explicit. The
 12 calculation checks and45 healthy60-step captures qualify this allocation
 repair only. One completed engine capture has recovered media and unavailable
-exit observations after driver interruption. PR09 remains open, including the
-separate Single Box combined grid decoration finding; no exact pixel/trajectory,
+exit observations after driver interruption. PR09 remains open; the
+subsequent VIS01 repair below addresses Single Box combined grid decoration; no exact pixel/trajectory,
 interaction, performance or general physical qualification is inferred.
+
+The subsequent [full165-sample visual review](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/native-review.md)
+is complete with explicit runtime/inspection limits. The first sequential repair,
+[VIS03 heightfield surfaces](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS03.md),
+retains the original immutable geometry in GPU debug metadata and passes it to
+the existing adapter. Seven confirmed surfaces and three related constructor/
+control cases now render on ordinary/native and combined routes, with CPU-first
+before/after evidence and box/mesh guards. Identity/cache/lifetime metadata checks
+pass; no collision, query, picking, performance or full-release qualification is
+inferred. The second repair, [VIS01 combined CPU ground decoration](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS01.md), scopes raw CPU shape-name lookup during CPU draw, restoring the existing grid/axes material without extra geometry or identity changes.12 before/12 after focused cases and97 CPU-first reviews/194 after captures verify shared-path applicability, with explicit occlusion/health limits. The third repair, [VIS05 draw bounds](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS05.md), applies the incoming CPU view/shadow bounds before GPU debug allocation/submission, retaining physical geometry and identity.21before/21after focused cases,165 individual reviews/660after cells and20383-file portable verification pass with all original runtime/availability/health limits retained. The fourth repair, [VIS06 Sensor visibility](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS06.md), verifies the same bounds cause on actual CPU and all four GPU routes without an additional production change:1681 static sensors/IDs/poses/AABBs retained,0 draws;14before/14after cases and279-file portable audit pass. The fifth repair, [VIS07 sample drawings/labels](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS07.md), preserves accepted direct Step submissions across the combined pane reset and mirrors late control labels without repeating physics/queries or changing geometry, defaults or identity. All55 affected/related scenes individually reviewed,110candidate captures,516-input ASAN/UBSAN check and4518-file portable verification pass; shared readout/projection/conditional/panel limits are explicit. The sixth repair, [VIS08 combined text placement](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS08.md), gives both Render calls the same after-Step cursor and preserves the first Render end for late UI. All33 source-related/guard cases (all18 original tags) individually reviewed,66 candidate captures,725-source/object audit and2,815-file portable verification PASS; Step labels and deliberate blank spacing remain intact. The seventh repair, [VIS02 material/state rendering](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS02.md), preserves custom material and actual type/sleep/diagnostic precedence across all samples; focused ordinary/native checks,165 individual dispositions,725 source/object and29245-file portable verification pass with unavailable/pixel/runtime limits retained. The earlier BEH01-stage repair goal had12 issue groups fixed and10 open, including [conveyor surface velocity](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/BEH01.md), verified ray/picking setup and scene health classification; PR09 stays unchecked. A separate preexisting standalone default-filter mismatch (local audit archive) reopens PR02: shimcategory1 versus actualCPU/header/combinedUINT64_MAX, mask-specific behavior unqualified. It does not explain Sensor visibility under ALL draw masks. Sensor step32 runtime remains open.
 
 Full-state schema v24 includes host peak occupancy, the harvested GPU contact
 peak and its persistent device query word. Readers retain earlier schemas and
@@ -627,6 +660,13 @@ contact histories remain intact. Public shape/body AABB queries include the
 native 0.02 m speculative margin. Both comparison engines execute the mutations
 independently, and both renderers rebuild replaced geometry.
 
+Creation policy is also preserved through replacement. GPU shape definitions
+honor `invokeContactCreation` with native defaulttrue; passive static creation
+does not force a pair until a relevant public proxy moves. Explicit changed-filter
+invocation buffers that proxy, while compound creation retains its native
+force-pair exception. [The verified Static Invoke repair and limits](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/BEH02.md)
+cover both backends and combined routing.
+
 Run **GPU API / Shape Replacement** in any native viewer. Its shared input
 schedule cycles through an offset sphere, capsule, box and cylinder every 180
 steps, with explicit mass recomputation on alternate replacements. The focused
@@ -759,7 +799,17 @@ example, a level expecting 4,096 live projectile bodies/shapes in addition to it
 scenery can add 4,096 to `dynamicBodyCount` and `dynamicShapeCount`. Destroy expired
 projectiles to return their generation-checked slots to the pool. The hints are
 advisory; exceeding them grows capacity geometrically, rather than dropping spawns.
-`contactCount` is still not a configurable GPU contact allocation budget.
+`contactCount` remains advisory. It supplies a lower bound for the static-heavy
+fallback used when the original contact reservation exceeds the device's buffer
+limit; it does not replace the ordinary reservation or impose a hard maximum.
+The fallback also covers every allocated shape, nonstatic spawning/type-change
+headroom and the previous reservation. Actual typed buffer sizes are checked
+before allocation and physics pipeline preparation. Previously supported layouts
+retain their original sizes; excess demand still reports capacity loss or an
+explicit allocation failure. The complete wide-static list remains available.
+The [Large World repair report](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/CAP01.md)
+separates the million-tile physical checks from default-camera screenshots and
+performance qualification.
 
 Without larger hints, initial body/shape/material allocations include bounded
 headroom (25% of the live count, clamped to 64–256 spare entries, subject to the
@@ -2923,3 +2973,11 @@ application cadence. Compare equal scenes, CPU worker counts, framebuffer sizes,
 pacing, sleep settings and display delay; retain all interleaved trials. The
 [current measurements](../experiments/gpu-physics/compiler/native-backend/README.md#measurements)
 include their scope and do not establish a general CPU advantage.
+
+The22-group native sample repair milestone is complete as of2026-10-15 under user-selected option1:21verified fixes,1resolved withoutrepair,0open;165native samples reviewed/0left. [Final Rain timeout report and CPU-first screenshots](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/PERF04.md). The six-source timeout patch is retained with exact tested ordinary/native static libraries. Existing Rain joint-physics failures remain open under PR04 at original limits; PR09 is closed by the current portable publication, while full production readiness remains incomplete. Manual/presets/longwindow/fullstate/browser/nativeFPS qualification and13browser-native gaps retain their documented limitations. Earlier milestone-specific counts below are historical.
+
+VIS07 drawing replay, VIS08 text placement and VIS02 material/state rendering are verified. The combined viewer preserves accepted Step submissions, keeps world geometry independent, mirrors late UI labels, and starts each Render at the same after-Step cursor. No extra physics step or body; shared diagnostics keep their existing provenance. [Latest report with CPU-first before/after screenshots](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS02.md);Original165-sample review done,0 left; at that earlier BEH01 stage12 issue groups werefixed and10 open. Latest [conveyor body-frame surface velocity repair](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/BEH01.md) verifies two affected scenes with CPU-first before/after evidence and selected material/physical/lifecycle checks. Coldcompile timeouts and warmcache limits remain explicit; other163 scenes are unreviewed on this final solver shader. [Passive contact creation](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/BEH02.md) and [Far Mesh Drop support](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/BEH03.md) are now verified. Far-coordinate physics uses a fixed local frame; API/query/event/render boundaries keep global coordinates and identities. Public float32 setup geometry is still quantized. Six final default cases and four actual native Far Stack presets were reviewed; other159 final-candidate samples and arbitrary spanning worlds remain unreviewed/unqualified. Far Pyramid physical interpretation remains open. PR09 remains unchecked.
+
+The current [Washer CCD repair](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/PERF05.md) completes its bounded120-step default confirmation with realCPU-first ordinary/native/combined media, originalgeometry/defaults/IDs andpublicpicking/edit-reuse guards. Conservativeper-call static/kinematic convex bounds retain TOI arithmetic; matchedsoftwareordinaryfetch falls25.672→8.366s with exact prior publicrecords. At the Washer milestone the repairgoal had19 fixed,1 resolved withoutrepair,2 open (Rain andVillage); PR09 remainsunchecked. Original165review complete; other164defaults onthisfinalCCD revision/presets/manualdrag/fullmixing/drumSAT/complete-state/releaseFPS remainunreviewed orunqualified. Desktophardware capturesalso differDPI/UI context; fullUI andunobscured geometryclips are separatelylabelled. Allfailureevidence andpriorlocalwork remainpreserved; Box3D/WASM unchanged,no newcommitpush.
+
+The subsequent [Village mover query repair](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/PERF06.md) cachesoriginalpublicshape bounds and ownsconservativeBVHchildren whilepreservingpublicfiltercallbacks/IDs andcastmath. MatchedNVIDIA/default120 Village falls~29→~7.8s acrossordinary/native/combined, realCPU~2.4s unchanged. BothaffecteddefaultsVillage/CharacterMover arevisuallyconfirmed/all100beforeafterstages inspected; all120perbackendpublicstate andmoverresults unchanged, positivepicking/lifetime/editguards pass. Currentrepairgoal20fixed,1resolved,1open(Rain); PR09unchecked. Other163defaultcases andpresets/manual/completegeometrySAT/substeps/energy/longwindow/releaseFPS remainunqualified. Originalfailures andearlierfloor/colour/overlay/CCD work preserved; Box3D/WASM unchanged/no newcommitpush.

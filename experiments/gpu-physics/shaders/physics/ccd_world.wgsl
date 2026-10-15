@@ -61,7 +61,8 @@ fn ccd_correct(@builtin(global_invocation_id) id:vec3<u32>) {
         ccd_finish[body].p=vec4<f32>(corrected.p.xyz,end.p.w);
         ccd_finish[body].q=corrected.q;
         ccd_finish[body].origin_valid=0u;
-        ccd_finish[body].v.w=bitcast<f32>(flags & ~(4u | 65536u));
+        // Accepted solid CCD correction, not a broadphase/proxy candidate.
+        ccd_finish[body].v.w=bitcast<f32>((flags & ~(4u | 65536u)) | 262144u);
         ccd_finish[body].dp.w=0.0;
     }
 }

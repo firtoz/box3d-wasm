@@ -2017,7 +2017,7 @@ fn solve_joints(
     @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
 ) {
-    solve_joint_components(dispatch_gid, lid, false, params.color_select);
+    solve_joint_components(dispatch_gid, lid, false, params.color_select, false);
 }
 
 @compute @workgroup_size(64)
@@ -2025,7 +2025,7 @@ fn solve_joint_color(
     @builtin(global_invocation_id) dispatch_gid: vec3<u32>,
     @builtin(local_invocation_index) lid: u32,
 ) {
-    solve_joint_components(dispatch_gid, lid, true, params.color_select);
+    solve_joint_components(dispatch_gid, lid, true, params.color_select, true);
 }
 
 // Small jointed worlds share one workgroup for the complete color wave.
@@ -2039,12 +2039,12 @@ fn solve_jointed_wave(@builtin(local_invocation_index) lid: u32) {
         if (params.use_bias != 3u) {
             if (scratch[SCR_JOINT_LIST_OK] == 1u) {
                 for (var c = lid; c < ncomp; c += 64u) {
-                    solve_joint_components(vec3<u32>(c, 0u, 0u), lid, true, color);
+                    solve_joint_components(vec3<u32>(c, 0u, 0u), lid, true, color, false);
                 }
             } else {
                 // A failed list may have no components. Still visit every joint
                 // through the same single-writer fallback as general dispatch.
-                solve_joint_components(vec3<u32>(lid, 0u, 0u), lid, true, color);
+                solve_joint_components(vec3<u32>(lid, 0u, 0u), lid, true, color, false);
             }
         }
         // Overflow contacts may share bodies with any overflow joint.
@@ -2067,7 +2067,7 @@ fn solve_jointed_wave(@builtin(local_invocation_index) lid: u32) {
     }
 }
 
-fn solve_joint_components(dispatch_gid: vec3<u32>, lid: u32, by_color: bool, color_select: u32) {
+fn solve_joint_components(dispatch_gid: vec3<u32>, lid: u32, by_color: bool, color_select: u32, parallel_color: bool) {
     let gid = vec3<u32>(linear_invocation_id(dispatch_gid, 64u), 0u, 0u);
     let serial = joint_solver_serial();
     let list_ok = scratch[SCR_JOINT_LIST_OK] == 1u;
@@ -2075,10 +2075,20 @@ fn solve_joint_components(dispatch_gid: vec3<u32>, lid: u32, by_color: bool, col
         return;
     }
     let ncomp = scratch[SCR_JOINT_COMP_N];
-    var use_list = !serial && list_ok;
+    // A validated non-overflow color has exclusive writable endpoints across
+    // joints and contacts. Visit its joints in parallel even when all belong
+    // to one connected component. Overflow and invalid-list fallbacks retain
+    // their single-writer component walk; the small one-group wave also keeps
+    // its component traversal and barriers.
+    let direct_joint = parallel_color && by_color && !serial && list_ok
+        && color_select < OVERFLOW_COLOR;
+    var use_list = !serial && list_ok && !direct_joint;
     var n = params.joint_count;
     var list_off = 0u;
-    if (use_list) {
+    if (direct_joint) {
+        if (gid.x >= params.joint_count) { return; }
+        n = 1u;
+    } else if (use_list) {
         if (gid.x >= ncomp) {
             return;
         }
@@ -2093,7 +2103,7 @@ fn solve_joint_components(dispatch_gid: vec3<u32>, lid: u32, by_color: bool, col
     }
     let h = params.dt;
     for (var k = 0u; k < n; k++) {
-        var i = k;
+        var i = select(k, gid.x, direct_joint);
         if (use_list) {
             i = scratch[joint_list_base() + list_off + k];
         }
