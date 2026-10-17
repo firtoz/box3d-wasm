@@ -1,0 +1,419 @@
+{
+  "phase": "release-native",
+  "status": "PASS",
+  "protocolSha256": "2260acb0dcdadc29ea64442af7d9b0e54ea3a3cd1bc5066e9964c91f02586d37",
+  "inputHashes": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-build-receipt.ts": "7a315f6da2742bc2df6151b8806fc83f451d0d7543eaed5fb24c0d147b55e27a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/release-inputs.json": "e414caad6f8bc13b44a348b346f2e0413c887479195693bc535ca0e14ccb25a1"
+  },
+  "rows": [
+    {
+      "label": "cpu-configure",
+      "argv": [
+        "cmake",
+        "-S",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples",
+        "-B",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/cmake-cpu",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DFETCHCONTENT_FULLY_DISCONNECTED=ON",
+        "-DBOX3D_DIR=/home/firtoz/work/2026/box3d-wasm/box3d",
+        "-DGPU_PHYSICS_DIR=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics",
+        "-DGPU_PORTABLE_API=ON",
+        "-DGPU_SAMPLES=OFF",
+        "-DBOTH_SAMPLES=OFF"
+      ],
+      "environment": {
+        "CCACHE_DISABLE": "1",
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2904847,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 1742,
+      "elapsedMs": 1470,
+      "log": "checks/release-native-cpu-configure.log",
+      "logSha256": "6ceb58d8e08d5e8dd33e624778c778776fa86cf7ace0f22605bc11142e5561f5"
+    },
+    {
+      "label": "cpu-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/cmake-cpu",
+        "--target",
+        "samples_cpu",
+        "-j2"
+      ],
+      "environment": {
+        "CCACHE_DISABLE": "1",
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2905144,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 15766,
+      "elapsedMs": 143305,
+      "log": "checks/release-native-cpu-build.log",
+      "logSha256": "fe418455ec9e79164d1589e40aa3349981252030223c71a94e9b524393523065"
+    },
+    {
+      "label": "cpu-receipt",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-build-receipt.ts",
+        "native",
+        "cpu"
+      ],
+      "environment": {
+        "CCACHE_DISABLE": "1",
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2910761,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 54,
+      "elapsedMs": 827,
+      "log": "checks/release-native-cpu-receipt.log",
+      "logSha256": "c06a46e98dfa53918376b123e2520f52ca9569e76ed5ecee340f57bc30fac5ef"
+    },
+    {
+      "label": "ordinary-gpu-configure",
+      "argv": [
+        "cmake",
+        "-S",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples",
+        "-B",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/cmake-ordinary-gpu",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DFETCHCONTENT_FULLY_DISCONNECTED=ON",
+        "-DBOX3D_DIR=/home/firtoz/work/2026/box3d-wasm/box3d",
+        "-DGPU_PHYSICS_DIR=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics",
+        "-DGPU_PORTABLE_API=ON",
+        "-DGPU_SAMPLES=ON",
+        "-DBOTH_SAMPLES=OFF",
+        "-DGPU_PHYSICS_LIB=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/candidate/ordinary/libgpu_physics.a"
+      ],
+      "environment": {
+        "CCACHE_DISABLE": "1",
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2910786,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 1751,
+      "elapsedMs": 1903,
+      "log": "checks/release-native-ordinary-gpu-configure.log",
+      "logSha256": "9e680bc1c1f8c272851f858ce2674115286ce5aa76592bf05fe430f0acbaf7ab"
+    },
+    {
+      "label": "ordinary-gpu-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/cmake-ordinary-gpu",
+        "--target",
+        "samples_gpu",
+        "-j2"
+      ],
+      "environment": {
+        "CCACHE_DISABLE": "1",
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2911192,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 40327,
+      "elapsedMs": 142981,
+      "log": "checks/release-native-ordinary-gpu-build.log",
+      "logSha256": "98444ff28522c84189b974461533d404fee70e0666e46feaa94a1caa26684c8a"
+    },
+    {
+      "label": "ordinary-gpu-receipt",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-build-receipt.ts",
+        "native",
+        "ordinary-gpu"
+      ],
+      "environment": {
+        "CCACHE_DISABLE": "1",
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2916703,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 63,
+      "elapsedMs": 994,
+      "log": "checks/release-native-ordinary-gpu-receipt.log",
+      "logSha256": "3b5dd2900333937e559286c35937bf68dfd6b3ba2054df302f970303109a82f9"
+    },
+    {
+      "label": "ordinary-both-configure",
+      "argv": [
+        "cmake",
+        "-S",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples",
+        "-B",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/cmake-ordinary-both",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DFETCHCONTENT_FULLY_DISCONNECTED=ON",
+        "-DBOX3D_DIR=/home/firtoz/work/2026/box3d-wasm/box3d",
+        "-DGPU_PHYSICS_DIR=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics",
+        "-DGPU_PORTABLE_API=ON",
+        "-DGPU_SAMPLES=OFF",
+        "-DBOTH_SAMPLES=ON",
+        "-DGPU_PHYSICS_LIB=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/candidate/ordinary/libgpu_physics.a"
+      ],
+      "environment": {
+        "CCACHE_DISABLE": "1",
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2916728,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 1752,
+      "elapsedMs": 1992,
+      "log": "checks/release-native-ordinary-both-configure.log",
+      "logSha256": "209e440e5d9fdc8627b2fd2d90f0ae074bcc20602cbf2d4ce98f2b55b4af4e55"
+    },
+    {
+      "label": "ordinary-both-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/cmake-ordinary-both",
+        "--target",
+        "samples_both",
+        "-j2"
+      ],
+      "environment": {
+        "CCACHE_DISABLE": "1",
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2917190,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 63526,
+      "elapsedMs": 159883,
+      "log": "checks/release-native-ordinary-both-build.log",
+      "logSha256": "d85064bffce045f867b66ab733d3c2473de9f752261645c857dc60718389ba1d"
+    },
+    {
+      "label": "ordinary-both-receipt",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-build-receipt.ts",
+        "native",
+        "ordinary-both"
+      ],
+      "environment": {
+        "CCACHE_DISABLE": "1",
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2923812,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 64,
+      "elapsedMs": 1177,
+      "log": "checks/release-native-ordinary-both-receipt.log",
+      "logSha256": "0c195d1c69be491673cbd1f44e7053aadad36e2ac999855fc1dbb25d14e8b6dd"
+    },
+    {
+      "label": "native-gpu-configure",
+      "argv": [
+        "cmake",
+        "-S",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples",
+        "-B",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/cmake-native-gpu",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DFETCHCONTENT_FULLY_DISCONNECTED=ON",
+        "-DBOX3D_DIR=/home/firtoz/work/2026/box3d-wasm/box3d",
+        "-DGPU_PHYSICS_DIR=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics",
+        "-DGPU_PORTABLE_API=ON",
+        "-DGPU_SAMPLES=ON",
+        "-DBOTH_SAMPLES=OFF",
+        "-DGPU_PHYSICS_LIB=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/candidate/native/libgpu_physics.a"
+      ],
+      "environment": {
+        "CCACHE_DISABLE": "1",
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2923957,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 1749,
+      "elapsedMs": 1945,
+      "log": "checks/release-native-native-gpu-configure.log",
+      "logSha256": "864931936bf580915a572d98202b1378331d1d8daf60b74ec51564e443929c75"
+    },
+    {
+      "label": "native-gpu-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/cmake-native-gpu",
+        "--target",
+        "samples_gpu",
+        "-j2"
+      ],
+      "environment": {
+        "CCACHE_DISABLE": "1",
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2924316,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 40189,
+      "elapsedMs": 144929,
+      "log": "checks/release-native-native-gpu-build.log",
+      "logSha256": "41dd76d6feb9829ce6a195641d9e6c903cdb6cb9743125792b164f3b78e9021a"
+    },
+    {
+      "label": "native-gpu-receipt",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-build-receipt.ts",
+        "native",
+        "native-gpu"
+      ],
+      "environment": {
+        "CCACHE_DISABLE": "1",
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2930517,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 61,
+      "elapsedMs": 999,
+      "log": "checks/release-native-native-gpu-receipt.log",
+      "logSha256": "e02af7d60372f8fc85ef1988a96c67e487ce3d129780ca997c45a3e465fafce5"
+    },
+    {
+      "label": "native-both-configure",
+      "argv": [
+        "cmake",
+        "-S",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples",
+        "-B",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/cmake-native-both",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DFETCHCONTENT_FULLY_DISCONNECTED=ON",
+        "-DBOX3D_DIR=/home/firtoz/work/2026/box3d-wasm/box3d",
+        "-DGPU_PHYSICS_DIR=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics",
+        "-DGPU_PORTABLE_API=ON",
+        "-DGPU_SAMPLES=OFF",
+        "-DBOTH_SAMPLES=ON",
+        "-DGPU_PHYSICS_LIB=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/candidate/native/libgpu_physics.a"
+      ],
+      "environment": {
+        "CCACHE_DISABLE": "1",
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2930548,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 1750,
+      "elapsedMs": 2073,
+      "log": "checks/release-native-native-both-configure.log",
+      "logSha256": "228e38c1629bb76e240cdde819243aaf42b2f5e6d127aa90c03447a250d80e21"
+    },
+    {
+      "label": "native-both-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/cmake-native-both",
+        "--target",
+        "samples_both",
+        "-j2"
+      ],
+      "environment": {
+        "CCACHE_DISABLE": "1",
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2930964,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 63306,
+      "elapsedMs": 158123,
+      "log": "checks/release-native-native-both-build.log",
+      "logSha256": "acbefc01e86b15c041765023cf50cbc090df54c8dbb6de808321235c1114ef1f"
+    },
+    {
+      "label": "native-both-receipt",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-build-receipt.ts",
+        "native",
+        "native-both"
+      ],
+      "environment": {
+        "CCACHE_DISABLE": "1",
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2937425,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 62,
+      "elapsedMs": 1226,
+      "log": "checks/release-native-native-both-receipt.log",
+      "logSha256": "5c8be6cd1d27086bc68de927309c5ef0e284e8e6f5324bb0ae0988fec9a4c32c"
+    },
+    {
+      "label": "verify-frozen-inputs",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-build-receipt.ts",
+        "verify"
+      ],
+      "environment": {
+        "CCACHE_DISABLE": "1",
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2937610,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 45,
+      "elapsedMs": 323,
+      "log": "checks/release-native-verify-frozen-inputs.log",
+      "logSha256": "863c80596de3eb1abe722490f31db304a8fc4b3aa696e0cde8d7ac1da50f995f"
+    }
+  ],
+  "elapsedMs": 764332,
+  "removedBytes": 314493055,
+  "peakRawBytes": 2127978845
+}

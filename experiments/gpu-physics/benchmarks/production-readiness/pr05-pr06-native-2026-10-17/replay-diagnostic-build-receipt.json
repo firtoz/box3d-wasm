@@ -1,0 +1,45 @@
+{
+  "phase": "replay-diagnostic-build",
+  "status": "PASS",
+  "protocolSha256": "3aa39a69942ddd882d34c39ce3c7ff3576828663d25355f5abad390be6be1ba9",
+  "inputHashes": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/src/sim.rs": "1614bc79f321e4c97b090002a3fa28eca1feb22e5d36c0de429c29c225b7fc1d"
+  },
+  "rows": [
+    {
+      "label": "native-tests",
+      "argv": [
+        "cargo",
+        "--config",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/cargo-config.toml",
+        "test",
+        "--offline",
+        "--locked",
+        "--release",
+        "--lib",
+        "--manifest-path",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-workspace/experiments/gpu-physics/Cargo.toml",
+        "--target-dir",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build",
+        "--features",
+        "external-c-shim,native-command-cache,replay-diagnostics",
+        "-j2",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "environment": {},
+      "pid": 2867912,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 302476,
+      "elapsedMs": 50094,
+      "log": "checks/replay-diagnostic-build-native-tests.log",
+      "logSha256": "f86b636885e09a6c5ee57fc44050d40d30be332ccfa41e52453fbe9dc6aa73c8"
+    }
+  ],
+  "elapsedMs": 50098,
+  "removedBytes": 0,
+  "peakRawBytes": 0
+}

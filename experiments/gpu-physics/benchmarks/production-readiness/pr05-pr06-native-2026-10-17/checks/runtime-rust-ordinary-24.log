@@ -1,0 +1,9 @@
+
+running 1 test
+test api::world::world_counter_tests::topology_counts_track_public_shapes_and_live_joint_holes ... GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 441 filtered out; finished in 0.13s
+

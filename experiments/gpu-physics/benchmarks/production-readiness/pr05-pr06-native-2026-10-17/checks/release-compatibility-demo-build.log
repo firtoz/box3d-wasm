@@ -1,0 +1,194 @@
+$ vite build --outDir "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist" --emptyOutDir
+vite v8.1.2 building client environment for production...
+[2Ktransforming...[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `vite:css-post`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `wasm-version-module`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+✓ 383 modules transformed.
+rendering chunks...
+computing gzip size...
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/index.html                                            1.19 kB │ gzip:   0.56 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/box.worker-rfaPVusy.js                       132.89 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/far-stack.worker-Dir-ITFd.js                 132.93 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/cylinder.worker-CUNGxqfB.js                  132.96 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/stack.worker-u3jXuQor.js                     132.97 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/wedge.worker-BEm-mu06.js                     132.99 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/falling-boxes.worker-Cc5d7EX6.js             133.02 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/double-domino.worker-DaQMxxzp.js             133.02 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/stack.worker-CsCyTSqI.js                     133.02 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/offset-kinematic.worker-DSDkuYqh.js          133.06 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/spinning-stick.worker-BMnZxnt6.js            133.08 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/isotropic-friction.worker-m7VLhadN.js        133.08 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/is-fast.worker-Ci84LX7O.js                   133.09 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/spinning-book.worker-Da_rodsC.js             133.10 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/high-resistance.worker-DOsilmNQ.js           133.11 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/wide-pyramid.worker-C_2J0t_x.js              133.11 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/high-mass-ratio-1.worker-Co04Xuc4.js         133.12 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/fixed-rotation.worker-DoyW6dKC.js            133.13 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/hull-crash.worker-ClFh2JVd.js                133.16 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/slide-twist.worker-BEopXryV.js               133.18 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/conveyor-belt.worker-dfEUMCmn.js             133.19 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/restitution-overshoot.worker-Bi1dwsEZ.js     133.20 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/simple.worker-7a37BDBs.js                    133.22 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/gyroscopic-torque.worker-Bdodt5zL.js         133.22 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/tiny-pyramid.worker-DyvUmoMD.js              133.23 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/dominoes.worker-CYLd9vbh.js                  133.24 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/material-dedup.worker-DWzRh-Dd.js            133.24 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/stack.worker-CvE8--AQ.js                     133.25 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/bounce-house.worker-GYz2EuQh.js              133.26 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/joint-grid.worker-DV8egoGq.js                133.26 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/rolling-resistance.worker-3bB58cmP.js        133.26 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/pyramid2d.worker-BjEDPkMq.js                 133.27 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/many-pyramids.worker-60V-o5ns.js             133.27 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/cylinder-stack.worker-DqDUsmm-.js            133.32 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/far-pyramid.worker-CFISLhys.js               133.35 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/kinematic.worker-B_sc-j4r.js                 133.35 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/inclined-plane.worker-C65bL6OG.js            133.36 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/wind-drop.worker-DGPkOx7B.js                 133.44 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/lock-mixing.worker-CrnGchzt.js               133.44 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/persistent-contact.worker-BQbEOeQq.js        133.45 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/overflow-color-pile.worker-eMBrPecO.js       133.49 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/crash.worker-VNaFza8z.js                     133.49 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/slide-twist-off-center.worker-hIEKvgoB.js    133.52 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/multiple-prismatic.worker-lC3lTy_L.js        133.53 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/move.worker-B5KRTXUP.js                      133.56 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/thin-wall.worker-CTgTAhUp.js                 133.56 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/large-pyramid.worker-DBGF_Zca.js             133.58 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/parallel-anchors.worker-CxwMcvKf.js          133.61 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/stack.worker-CWUQVZTw.js                     133.61 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/card-house.worker-BECsweEX.js                133.63 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/edge-crossing.worker-DbDXYFut.js             133.63 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/hollow-box.worker-DLXR_Zb-.js                133.67 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/house-thick.worker-Dt6MAcau.js               133.69 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/box.worker-lNg1MT0g.js                       133.71 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/incline.worker-BnVzjQ5f.js                   133.73 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/falling-ragdolls.worker-D6kODICA.js          133.77 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/forces.worker-Pl_jKArr.js                    133.83 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/pose.worker-u1Fnhg9r.js                      133.83 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/sbox-mover.worker-DFRwa4nF.js                133.84 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/bullet-vs-stack.worker-pS8xfMm1.js           133.87 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/hump-mesh.worker-Ci08Eu9T.js                 133.88 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/capsule-cast-ray.worker-BF0lE8og.js          133.93 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/explosion.worker-E-xqX8RS.js                 133.95 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/static-invoke.worker-BQGTSpc7.js             133.96 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/spheres.worker-C4ynKd5n.js                   134.01 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/needle-mesh.worker-CAIgR4Sh.js               134.13 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/sensor-visit.worker-BSdb-znd.js              134.15 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/hulls.worker-rBt2soPt.js                     134.15 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/one-way.worker-DXTFPbVA.js                   134.18 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/candy-cups.worker-CKXlmAlT.js                134.19 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/tile-floor.worker-DiLQiozO.js                134.20 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/parallel-spring.worker-DAk6T1of.js           134.22 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/weeble.worker-Dvp6vKXC.js                    134.23 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/capsule-plane.worker-tW-by_-h.js             134.27 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/capsule-mesh.worker-CgOGJ1rq.js              134.28 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/hit.worker-B7V-AXCF.js                       134.28 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/pile.worker-Cg8QMkVE.js                      134.29 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/rain.worker-C7PPyvX6.js                      134.31 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/shape-cast-debug.worker-B7U8rCMR.js          134.31 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/cast.worker-DvBmSyqo.js                      134.33 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/gyroscopic-precession.worker-CHRkNuEF.js     134.33 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/convex-pile.worker-BgBwfu-e.js               134.37 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/mesh-tile.worker-D7KMnKMZ.js                 134.39 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/class-ring.worker-BLbOpMiC.js                134.44 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/event-buffer.worker-DbsD7wt5.js              134.44 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/chains.worker-DwaWZnQA.js                    134.52 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/wind-flap.worker-C-UvbP9P.js                 134.55 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/query-spawn.worker-C_GCryZ_.js               134.56 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/mover-overlap.worker-7UUzZfy6.js             134.57 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/stall.worker-Q6mP2Og_.js                     134.57 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/mesh.worker-BVdp1bGd.js                      134.58 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/grid.worker-DQTzyTtv.js                      134.61 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/capsule-vs-capsule.worker-C8CszNq9.js        134.62 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/falling-trees.worker-DifkPfyX.js             134.63 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/capsule-vs-sphere.worker-D_VNt7Lo.js         134.65 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/convex-jitter.worker-DtBhcyPd.js             134.65 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/village.worker-boSCfP4L.js                   134.66 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/triangle-vs-sphere.worker-BM3V1LGn.js        134.66 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/hull-vs-sphere.worker-D6PXGrzq.js            134.66 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/large-world.worker-o4mSxgPg.js               134.66 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/triangle-vs-capsule.worker-DujJN8E9.js       134.66 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/hull-vs-hull.worker-CgHJq9rY.js              134.67 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/world-knobs.worker-0MukYRGs.js               134.68 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/wave-pile.worker-edE_fSK_.js                 134.69 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/hull.worker-DkhDqH01.js                      134.70 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/capsule-vs-hull.worker-ROXVNxDE.js           134.71 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/triangle-vs-hull.worker-CQJl5VSZ.js          134.76 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/ray-curtain.worker-BJ8tE338.js               134.77 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/conveyor-mesh.worker-C1Yhl-_d.js             134.80 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/arch.worker-CG6zijJ-.js                      134.81 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/sphere-vs-sphere.worker-0Q_eszjf.js          134.81 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/sensor-filter.worker-BICwYh2G.js             134.82 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/mesh-drop.worker-DJdNSne6.js                 134.83 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/joint.worker-CpGPjVK0.js                     134.84 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/far-mesh-drop.worker-06CREqfX.js             134.85 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/destruction.worker-D3bSaSt7.js               134.93 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/big-box.worker-BH7zKPBQ.js                   134.95 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/sensor.worker-D3QZNINk.js                    134.99 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/washer.worker-B2lNZgDJ.js                    135.02 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/viewer.worker-Bqim14U1.js                    135.10 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/box.worker-T1juZHMb.js                       135.11 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/voxel.worker-snHM8Wte.js                     135.13 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/overlap-world.worker-DDyGvShW.js             135.23 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/junkyard.worker-QK7EXiWb.js                  135.44 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/reflection.worker-DWKSgOTz.js                135.71 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/far-ragdolls.worker-Cbd-Y7lN.js              135.76 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/wheel.worker-HQZ2vT68.js                     135.85 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/sensor-hits.worker-tADepUq4.js               135.96 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/mesh-drop.worker-bZa_FPUy.js                 136.32 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/sbox-ghost-collisions.worker-BJVET0mX.js     136.56 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/contact.worker-3zsUEL_w.js                   137.25 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/rigid-body.worker-BzI5UwYx.js                137.60 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/cast-world.worker-0LeoRjMb.js                138.36 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/driving.worker-DfVVvIFw.js                   139.24 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/mover.worker-C3HGXV9E.js                     139.29 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/gear-lift.worker-C9mXKwxl.js                 140.03 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/gmod-wheel-stack.worker-B8RLFerh.js          142.27 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/disable.worker-6bQZm2i3.js                   148.94 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/motion-locks.worker-B_1rRNsq.js              150.03 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/body-type.worker-BvQOnpcM.js                 151.51 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/index-BlA8CgrP.css                            18.69 kB │ gzip:   4.16 kB
+../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist/assets/index-BRVHcJml.js                          1,073.68 kB │ gzip: 273.45 kB
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `vite:worker-import-meta-url`. See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 3.70s

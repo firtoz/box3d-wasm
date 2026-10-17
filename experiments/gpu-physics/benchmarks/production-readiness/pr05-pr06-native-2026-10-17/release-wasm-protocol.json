@@ -1,0 +1,117 @@
+{
+  "purpose": "One isolated pinned6.0.2 SDK prerequisite and unchanged-source WASM compatibility build; original source hashes match PR10; official runtime+demo consumer; temporary generated paths restored absent. Within shared6GiB cap after clean Rust object consumption; no persistent WASM/source replacement.",
+  "totalSeconds": 450,
+  "maxRawBytes": 6442450944,
+  "environment": {
+    "EM_CONFIG": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/.emscripten",
+    "EM_CACHE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten/cache"
+  },
+  "inputs": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-wasm-receipt.ts",
+    "/home/firtoz/work/2026/box3d-wasm/tools/emsdk-version"
+  ],
+  "jobs": [
+    {
+      "label": "configure",
+      "argv": [
+        "bash",
+        "-c",
+        "set -e; source \"$1\" >/dev/null; export EM_CONFIG=\"$2\"; shift 2; exec \"$@\"",
+        "wasm-env",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/emsdk_env.sh",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/.emscripten",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten/emcmake",
+        "cmake",
+        "-S",
+        "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake",
+        "-B",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/build",
+        "-DBOX3D_SOURCE_DIR=/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/.box3d-patched",
+        "-DBOX3D_SAMPLES=OFF",
+        "-DBOX3D_BENCHMARKS=OFF",
+        "-DBOX3D_DOCS=OFF",
+        "-DBOX3D_UNIT_TESTS=OFF",
+        "-DBOX3D_VALIDATE=OFF",
+        "-DBOX3D_DISABLE_SIMD=OFF",
+        "-DBOX3D_WASM_PROFILE_NAMES=OFF",
+        "-DBOX3D_WASM_ALLOW_MEMORY_GROWTH=OFF",
+        "-DBOX3D_WASM_INITIAL_MEMORY=268435456",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/out"
+      ],
+      "seconds": 35,
+      "environment": {
+        "EM_CONFIG": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/.emscripten",
+        "EM_CACHE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten/cache"
+      }
+    },
+    {
+      "label": "build",
+      "argv": [
+        "bash",
+        "-c",
+        "set -e; source \"$1\" >/dev/null; export EM_CONFIG=\"$2\"; shift 2; exec \"$@\"",
+        "wasm-env",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/emsdk_env.sh",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/.emscripten",
+        "cmake",
+        "--build",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/build",
+        "--parallel",
+        "2"
+      ],
+      "seconds": 180,
+      "environment": {
+        "EM_CONFIG": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/.emscripten",
+        "EM_CACHE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten/cache"
+      }
+    },
+    {
+      "label": "link-temporary-artifacts",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-wasm-receipt.ts",
+        "publish"
+      ],
+      "seconds": 15
+    },
+    {
+      "label": "wasm-runtime",
+      "argv": [
+        "bun",
+        "scripts/wasm-dump.ts",
+        "Single Box",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/wasm-single-box.json",
+        "--frames",
+        "0,1,2"
+      ],
+      "seconds": 15
+    },
+    {
+      "label": "demo-build-with-wasm",
+      "argv": [
+        "bun",
+        "run",
+        "--cwd",
+        "demo",
+        "build",
+        "--outDir",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-with-wasm",
+        "--emptyOutDir"
+      ],
+      "seconds": 90,
+      "cleanup": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-with-wasm"
+      ]
+    },
+    {
+      "label": "verify-clean",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-wasm-receipt.ts",
+        "finish"
+      ],
+      "seconds": 30
+    }
+  ]
+}

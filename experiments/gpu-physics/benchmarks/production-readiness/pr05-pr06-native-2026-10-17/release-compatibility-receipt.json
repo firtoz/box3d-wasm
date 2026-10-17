@@ -1,0 +1,66 @@
+{
+  "phase": "release-compatibility",
+  "status": "PASS",
+  "protocolSha256": "a6c5f6ae443608f95b03a1f63e0d377022825173aa9791bf21a2be4f52382dda",
+  "inputHashes": {
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/src/index.ts": "cd7ed5368fd39b62e7793514c58283c311221c53f70c9719480ede5fae4a7178"
+  },
+  "rows": [
+    {
+      "label": "typecheck",
+      "argv": [
+        "bun",
+        "run",
+        "typecheck"
+      ],
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1"
+      },
+      "pid": 2953906,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 224,
+      "elapsedMs": 738,
+      "log": "checks/release-compatibility-typecheck.log",
+      "logSha256": "06603ca72e90876ea23143e6f0e6006e39b171303da9aa9f5717b08c6f2f564f"
+    },
+    {
+      "label": "demo-build",
+      "argv": [
+        "bun",
+        "run",
+        "--cwd",
+        "demo",
+        "build",
+        "--outDir",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-dist",
+        "--emptyOutDir"
+      ],
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1"
+      },
+      "pid": 2954063,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 27508,
+      "elapsedMs": 4051,
+      "log": "checks/release-compatibility-demo-build.log",
+      "logSha256": "deaf74b5a62d074a9d454168a1f7bfc457d19346fa902543bb192cb89221e467"
+    }
+  ],
+  "elapsedMs": 4796,
+  "removedBytes": 20825214,
+  "peakRawBytes": 367035504
+}

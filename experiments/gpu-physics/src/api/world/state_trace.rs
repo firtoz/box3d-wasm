@@ -148,7 +148,8 @@ pub fn b3_joint_diagnostic_set_spherical_cache(id: JointId, values: [f32;12]) ->
     let world=with_joint_metadata(id,|_,_|WorldId{index1:id.world0,generation:1}).ok_or("joint missing or stale")?;
     b3_world_ensure_gpu(world);
     b3_world_gpu_wait_with_mirror(world);
-    let mut worlds=lock_worlds();let w=slot_mut(&mut worlds,world).ok_or("world missing")?;
+    let mut worlds=registry_access::lock().ok_or("world registry busy")?;let w=slot_mut(&mut worlds,world).ok_or("world missing")?;
+        if observe_device_failure(w) { return Err("GPU device failed".into()); }
     let slot=id.index1 as usize-1;
     let meta=w.joint_meta.get(slot).and_then(Option::as_ref).ok_or("joint missing")?;
     if meta.generation!=id.generation {return Err("stale joint generation".into());}
@@ -160,7 +161,8 @@ pub fn b3_joint_diagnostic_set_revolute_cache(id: JointId, values: [f32;9]) -> R
     let world=with_joint_metadata(id,|_,_|WorldId{index1:id.world0,generation:1}).ok_or("joint missing or stale")?;
     b3_world_ensure_gpu(world);
     b3_world_gpu_wait_with_mirror(world);
-    let mut worlds=lock_worlds();let w=slot_mut(&mut worlds,world).ok_or("world missing")?;
+    let mut worlds=registry_access::lock().ok_or("world registry busy")?;let w=slot_mut(&mut worlds,world).ok_or("world missing")?;
+        if observe_device_failure(w) { return Err("GPU device failed".into()); }
     let slot=id.index1 as usize-1;
     let meta=w.joint_meta.get(slot).and_then(Option::as_ref).ok_or("joint missing")?;
     if meta.generation!=id.generation {return Err("stale joint generation".into());}
@@ -171,8 +173,9 @@ fn diagnostic_impulses(id: WorldId, first: u64, count: u32, clear: bool, spheric
     if first==0 || count==0 {return Err("empty diagnostic body range".into());}
     let end=first.checked_add(u64::from(count)).ok_or("body range overflow")?;
     b3_world_gpu_wait_with_mirror(id);
-    let mut worlds=lock_worlds();
+    let mut worlds=registry_access::lock().ok_or("world registry busy")?;
     let w=slot_mut(&mut worlds,id).ok_or("world missing")?;
+        if observe_device_failure(w) { return Err("GPU device failed".into()); }
     let slots:Vec<u32>=w.bodies.iter().enumerate().filter_map(|(slot,b)|
         b.as_ref().filter(|b|(first..end).contains(&b.creation_ordinal)).map(|_|slot as u32)).collect();
     if slots.len()!=count as usize {return Err("diagnostic body range is not entirely live".into());}
@@ -185,8 +188,9 @@ fn diagnostic_impulses(id: WorldId, first: u64, count: u32, clear: bool, spheric
 pub fn b3_world_write_core_state(id: WorldId, path: &std::path::Path, frame: u32) -> Result<(), String> {
     b3_world_gpu_wait_with_mirror(id);
     let value = {
-        let mut worlds = lock_worlds();
+        let mut worlds = registry_access::lock().ok_or("world registry busy")?;
         let w = slot_mut(&mut worlds, id).ok_or("world missing")?;
+        if observe_device_failure(w) { return Err("GPU device failed".into()); }
         let sim = w.sim.as_mut().ok_or("simulation missing; capture after a step")?;
         sim.validate_diagnostic_boundary()?;
         if !sim.diagnostic_pose_policy_matches(w.automatic_pose_snapshots) {

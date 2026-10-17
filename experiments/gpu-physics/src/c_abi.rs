@@ -112,6 +112,17 @@ pub extern "C" fn gpu_b3_shape_get_restitution(id: ShapeId) -> f32 {
 }
 
 #[no_mangle]
+pub extern "C" fn gpu_b3_registry_access_allowed() -> bool { crate::api::b3_registry_access_allowed() }
+#[no_mangle]
+pub extern "C" fn gpu_b3_native_api_error_name() -> *const std::ffi::c_char { crate::api::b3_native_api_error_name() }
+#[no_mangle]
+pub extern "C" fn gpu_b3_native_api_reset_error() { crate::api::b3_native_api_clear_error(); }
+#[no_mangle]
+pub extern "C" fn gpu_b3_native_api_record_error(name: *const std::ffi::c_char, code: i32) {
+    crate::api::b3_native_api_record_error(name, code);
+}
+
+#[no_mangle]
 pub extern "C" fn gpu_b3_shape_set_user_data(id: ShapeId, value: usize) {
     crate::api::b3_shape_set_user_data(id, value);
 }

@@ -1,0 +1,9 @@
+{
+  "mainRuntimeSourceChanges": [
+    "experiments/gpu-physics/src/sim.rs",
+    "experiments/gpu-physics/c_abi/pr05_callback_contract.cpp"
+  ],
+  "sim": "Only diagnostic trailer decoder and typed eight-byte flag array changed after main tests; production key byte order/content, parameters, shader and solver unchanged. Targeted native rebuild+48-step replay assertion/capture passes. Both clean release libraries compile final source.",
+  "callbackFixture": "Combined CPU mirror gravity/velocity rejection assertions added after library build, before main C checks. It is not a library input. Four callback fixtures also pass on final release archives.",
+  "limits": "Main runtime tests were built before the diagnostic-only fix; use retained executable hashes, not current in-place test file. PR07 final-build full physical/repeatability qualification remains open."
+}

@@ -82,12 +82,19 @@ pub struct GpuDevice {
     pub report: AdapterReport,
     pub timestamp_queries: bool,
     pub subgroups: bool,
+    failed: std::sync::Arc<std::sync::atomic::AtomicBool>,
     physics_resources: std::sync::Arc<std::sync::OnceLock<std::sync::Arc<PhysicsResources>>>,
     #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
     pub(crate) secondary_queue: Option<std::sync::Arc<crate::native_async::SecondaryQueue>>,
 }
 
+#[cfg(feature = "native-command-cache")]
+const PHYSICS_REPLAY_FLAG_COUNT: usize = 8;
+
 impl GpuDevice {
+    pub(crate) fn device_failed(&self) -> bool {
+        self.failed.load(std::sync::atomic::Ordering::Acquire)
+    }
     pub fn instance_new() -> Instance {
         Instance::new(&InstanceDescriptor {
             backends: native_or_web_backends(),
@@ -203,10 +210,18 @@ impl GpuDevice {
                 device.limits().max_buffer_size as f64 / (1024.0 * 1024.0),
             );
 
-            device.on_uncaptured_error(Box::new(|err| {
+            let failed = std::sync::Arc::new(std::sync::atomic::AtomicBool::new(false));
+            let errors = failed.clone();
+            device.on_uncaptured_error(Box::new(move |err| {
+                errors.store(true, std::sync::atomic::Ordering::Release);
                 log::error!("uncaptured WebGPU error: {err:?}");
                 eprintln!("uncaptured WebGPU error: {err}");
             }));
+            let lost = failed.clone();
+            device.set_device_lost_callback(move |reason, message| {
+                lost.store(true, std::sync::atomic::Ordering::Release);
+                eprintln!("GPU device lost: {reason:?}: {message}");
+            });
 
             return Ok(Self {
                 instance,
@@ -217,6 +232,7 @@ impl GpuDevice {
                 timestamp_queries: features.contains(wgpu::Features::TIMESTAMP_QUERY)
                     && features.contains(wgpu::Features::TIMESTAMP_QUERY_INSIDE_ENCODERS),
                 subgroups: features.contains(wgpu::Features::SUBGROUP),
+                failed,
                 physics_resources: Default::default(),
                 #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
                 secondary_queue,
@@ -239,6 +255,7 @@ impl Clone for GpuDevice {
             report: self.report.clone(),
             timestamp_queries: self.timestamp_queries,
             subgroups: self.subgroups,
+            failed: self.failed.clone(),
             physics_resources: self.physics_resources.clone(),
             #[cfg(all(feature = "native-command-cache", not(target_arch = "wasm32")))]
             secondary_queue: self.secondary_queue.clone(),
@@ -671,6 +688,7 @@ pub struct GpuSim {
     static_sort_dispatches: Cell<u32>,
     encode_commands: Cell<u32>,
     physics_invalid: bool,
+    device_failed: std::sync::Arc<std::sync::atomic::AtomicBool>,
     callback_open: bool,
     contact_status_dirty: bool,
     pass_lut: Buffer,
@@ -1411,6 +1429,7 @@ impl GpuSim {
             #[cfg(feature = "native-command-cache")]
             render_copy: None,
             device: device.clone(),
+            device_failed: gpu.failed.clone(),
             queue,
             report: gpu.report.clone(),
             count,
@@ -3188,8 +3207,9 @@ impl GpuSim {
             let mut key=bytemuck::bytes_of(&params).to_vec();
             key.extend_from_slice(&self.contact_slots.to_le_bytes());
             key.extend_from_slice(&self.color_wave_prefix.to_le_bytes());
-            key.extend_from_slice(&[u8::from(self.convex_ccd.is_some()),u8::from(self.graph_shared_requested),
-                u8::from(self.batched_graph_eligible()),u8::from(self.skip_general_static_sort),u8::from(self.one_group_wave_only),u8::from(self.component_tgs),u8::from(self.capsule_collision_scene),u8::from(self.box_mesh_collision_scene)]);key
+            let flags: [u8; PHYSICS_REPLAY_FLAG_COUNT] = [u8::from(self.convex_ccd.is_some()),u8::from(self.graph_shared_requested),
+                u8::from(self.batched_graph_eligible()),u8::from(self.skip_general_static_sort),u8::from(self.one_group_wave_only),u8::from(self.component_tgs),u8::from(self.capsule_collision_scene),u8::from(self.box_mesh_collision_scene)];
+            key.extend_from_slice(&flags);key
             }
     #[cfg(all(test, feature="native-command-cache"))]
     pub(crate) fn replay_selection_snapshot(&self) -> (bool, bool, Vec<u8>, u64) {
@@ -3646,6 +3666,7 @@ impl GpuSim {
     }
 
     pub fn wait_completion(&mut self) {
+        if self.observe_device_failure() { return; }
         if let Some(index) = self.last_submit.clone() {
             loop {
                 match self.device.poll(wgpu::PollType::wait_for(index.clone())) {
@@ -3661,6 +3682,7 @@ impl GpuSim {
     }
 
     pub fn poll_completion(&mut self) {
+        if self.observe_device_failure() { return; }
         match self.device.poll(wgpu::PollType::Poll) {
             Ok(status) if status.wait_finished() => {
                 self.completed_step = self.physics_step;
@@ -3932,7 +3954,13 @@ impl GpuSim {
     }
 
     pub fn physics_invalid(&self) -> bool {
-        self.physics_invalid
+        self.physics_invalid || self.device_failed.load(std::sync::atomic::Ordering::Acquire)
+    }
+
+    fn observe_device_failure(&mut self) -> bool {
+        if !self.device_failed.load(std::sync::atomic::Ordering::Acquire) { return false; }
+        self.physics_invalid = true;
+        true
     }
 
     pub fn mark_physics_invalid(&mut self) {
@@ -3940,6 +3968,7 @@ impl GpuSim {
     }
 
     pub fn clear_sticky_loss(&mut self) {
+        if self.observe_device_failure() { return; }
         // Observe completed failures before clearing their diagnostics. Otherwise
         // a same-step mutation or unread status slot can hide terminal invalidity.
         #[cfg(not(target_arch = "wasm32"))]
@@ -3963,6 +3992,9 @@ impl GpuSim {
 
     #[cfg(not(target_arch = "wasm32"))]
     pub fn sticky_fail_message(&self) -> Option<String> {
+        if self.device_failed.load(std::sync::atomic::Ordering::Acquire) {
+            return Some("GPU device lost or uncaptured device error; recreate the device".into());
+        }
         if self.sticky_loss {
             Some(format!(
                 "capacity loss first_step={} pairs={} inserts={} contacts={} hash={} proof={} contact_reasons={:#x}",
@@ -4110,6 +4142,7 @@ impl GpuSim {
     /// when the single asynchronous status slot was occupied by an older step.
     #[cfg(not(target_arch = "wasm32"))]
     pub fn finish_contact_status(&mut self) {
+        if self.observe_device_failure() { return; }
         #[cfg(test)]
         if self.hold_idle_status { return; }
         self.harvest_sticky_status(true);
@@ -4140,6 +4173,7 @@ impl GpuSim {
 
     #[cfg(not(target_arch = "wasm32"))]
     pub fn harvest_gpu_timestamps(&mut self, wait: bool) {
+        if self.observe_device_failure() { return; }
         self.harvest_sticky_status(wait);
         if self.ts_ring.as_ref().is_none_or(|ring| ring.pending.iter().all(|p| p.is_none())) {
             return;
@@ -4414,7 +4448,7 @@ impl GpuSim {
     #[cfg(not(target_arch = "wasm32"))]
     fn begin_callback_step(&mut self) -> bool {
         self.harvest_gpu_timestamps(false);
-        if self.physics_invalid || self.params.step_dt <= 0.0 {
+        if self.physics_invalid() || self.params.step_dt <= 0.0 {
             return false;
         }
         if !self.callback_open {
@@ -4482,7 +4516,7 @@ impl GpuSim {
     /// Continue a callback-staged step after host veto writes have been queued.
     #[cfg(not(target_arch = "wasm32"))]
     pub fn callback_finish_submit(&mut self, sub_steps: i32) {
-        if self.physics_invalid || self.params.step_dt <= 0.0 {
+        if self.physics_invalid() || self.params.step_dt <= 0.0 {
             self.callback_open = false;
             return;
         }
@@ -5052,7 +5086,8 @@ impl GpuSim {
                 json!({"key":c.key,"current_bind_group":c.group==self.bind_group}));
             let replay=if let Some((_,group,key,_,_,_))=&self.physics_replay {
                 let size=std::mem::size_of::<SimParams>();
-                if key.len()!=size+14 {return Err("unexpected physics replay key length".into());}
+                let expected = size + 2 * std::mem::size_of::<u32>() + PHYSICS_REPLAY_FLAG_COUNT;
+                if key.len()!=expected {return Err(format!("unexpected physics replay key length: got {}, expected {expected}", key.len()));}
                 // Every SimParams word now has meaning, including warm-start control.
                 json!({"parameters":&key[..size],"schedule":&key[size..],"current_bind_group":group==&self.bind_group})
             } else {Value::Null};

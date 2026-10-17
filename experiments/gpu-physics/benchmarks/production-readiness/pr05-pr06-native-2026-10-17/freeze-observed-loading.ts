@@ -1,0 +1,17 @@
+import{readFileSync,writeFileSync}from"node:fs";import{resolve}from"node:path";import{createHash}from"node:crypto";
+const g=resolve("experiments/gpu-physics"),p=g+"/benchmarks/production-readiness/pr05-pr06-native-2026-10-17",s=g+"/scripts/pr05-loading-close.ts",raw=p+"/raw";
+let old=readFileSync(s,"utf8");
+old=old.replace('const observed=process.argv[3]==="observed",suffix=observed?"-observed":"";\n','');
+old=old.replace(/^const env=observed\?.*\n/m,'').replace('cwd,env,detached:true','cwd,env:process.env,detached:true');
+old=old.replace(/^  const windows=observed\?.*\n  for\(const w of windows\)\{/m,'  const windows=spawnSync("xdotool",["search","--onlyvisible","--pid",String(child.pid)],{encoding:"utf8",timeout:500});\n  for(const w of (windows.stdout??"").trim().split("\\n").filter(Boolean)){');
+old=old.replace('},20);','},50);').replaceAll('+route+suffix+','+route+');
+old=old.replace('identity:observed?"Actual XCreateWindow return value and getpid from forwarding observer":"_NET_WM_PID property search",','');
+const receipt=JSON.parse(readFileSync(p+"/release-loading-close-receipt.json","utf8"));
+const hash=createHash("sha256").update(old).digest("hex");if(hash!==receipt.inputHashes[s])throw Error("Original harness reconstruction mismatch");
+writeFileSync(p+"/loading-close-original.ts",old);
+const previous=JSON.parse(readFileSync(p+"/release-loading-close-protocol.json","utf8"));
+const jobs=[{label:"link-xid-observer",argv:["cc","-shared","-fPIC",p+"/window-observer.c","-ldl","-o",raw+"/window-observer.so"],seconds:15},...previous.jobs.slice(1).map((j:any)=>({...j,argv:[...j.argv,"observed"],cleanup:undefined}))];
+jobs.at(-1)!.cleanup=[raw+"/close-window",raw+"/window-observer.so"];
+writeFileSync(p+"/release-loading-observed-protocol.json",JSON.stringify({purpose:"Correct concrete harness identity defect: Sokol X11 does not set _NET_WM_PID, so the original PID-property search could not work. One forwarding XCreateWindow observer supplies actual child PID/XID. Same final viewer hashes/physics/close operation. Original failure+exact harness preserved; three previously unlaunched cells and one changed-harness ordinary cell; no unchanged retry or product repair.",totalSeconds:430,maxRawBytes:6*1024**3,environment:previous.environment,inputs:[s,p+"/window-observer.c",raw+"/close-window"],jobs},null,2)+"\n");
+const log=p+"/log.md";writeFileSync(log,readFileSync(log,"utf8")+"\nLoading firstattempt CLOSED/FAILURE_RETAINED:xdotool --pid assumes_NET_WM_PID; actualSokolsource createswindowwithoutthatproperty. NoWM_DELETEsent,viewerready0.917s;15sidentityobservationcapreaped it. Originalexactharnessbytes restored/hashmatched toloading-close-original.ts,report/logs retained. Distinctcorrectedidentityprotocol release-loading-observed frozen:1forwardingXCreateWindowsharedobserverbuild15s,4ownedGPUprocesses90s/15swindowcaps;430sphase/samecaps,existingclosehelper reused. Reads actualgetpid+returnedXID andconfirmstitle/workeradaptermessagebeforeWM_DELETE. No engine/viewer/librarychange. Original3unlaunchedcellsnotrun;first4actualclosingcasesafteridentityfix.\n");
+console.log("Frozen corrected actual-window identity checks; original harness hash",hash);

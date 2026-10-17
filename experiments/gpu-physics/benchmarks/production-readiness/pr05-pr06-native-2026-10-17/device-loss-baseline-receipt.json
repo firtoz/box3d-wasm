@@ -1,0 +1,71 @@
+{
+  "phase": "device-loss-baseline",
+  "status": "EXPECTED_DEFECT_REPRODUCED",
+  "protocolSha256": "c3be0bc7dc47bf95473bd309f37d2438364546405562e307e158212e34d0e756",
+  "inputHashes": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/device-loss-probe.rs": "af1b1d041de7f5842d7e17f876296209ff7794e90f52cf1cd0f7b1774a432104",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/libgpu_physics.rlib": "d697f031ce6276038de2ad5f4ecd2bbf33537a4755475dc2bf582f5b4f91be27",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/deps/libpollster-17ad20f61a6070c7.rlib": "ca605b36530c0dcf1e41f99c6a55f52673959c7c91c5eaccdb69fbfef7ffae8b"
+  },
+  "rows": [
+    {
+      "label": "link",
+      "argv": [
+        "rustc",
+        "--edition=2021",
+        "-C",
+        "opt-level=2",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/device-loss-probe.rs",
+        "--extern",
+        "gpu_physics=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/libgpu_physics.rlib",
+        "--extern",
+        "pollster=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/deps/libpollster-17ad20f61a6070c7.rlib",
+        "-L",
+        "dependency=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/deps",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/device-loss-probe"
+      ],
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+      },
+      "pid": 2821731,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 0,
+      "elapsedMs": 582,
+      "log": "checks/device-loss-baseline-link.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "probe",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/device-loss-probe"
+      ],
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+      },
+      "pid": 2821776,
+      "code": 2,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 1021,
+      "elapsedMs": 1326,
+      "log": "checks/device-loss-baseline-probe.log",
+      "logSha256": "de27a38d586bdaa56386e83bf7587604974ef951321a90292f913694415fa6f5"
+    }
+  ],
+  "elapsedMs": 2001,
+  "removedBytes": 14250208,
+  "peakRawBytes": 0
+}

@@ -1,0 +1,13 @@
+{
+  "pass": false,
+  "route": "ordinary-gpu",
+  "pid": 2940346,
+  "window": "",
+  "title": "",
+  "activeWorkerObserved": false,
+  "elapsedMs": 15097,
+  "shutdownMs": null,
+  "code": null,
+  "signal": "SIGKILL",
+  "reason": "15s loading-window observation cap"
+}

@@ -1,0 +1,3 @@
+callback-enter
+callback-enter
+PASS callback identity and rejection; filter=1 presolve=1 denied=0

@@ -1,0 +1,37 @@
+{
+  "pins": {
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/CMakeLists.txt": "4a566ed4375c0005ff99ba5b738b0774419115437a661e03dcca233efd431991",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web.c": "2aba1cb34694ab5c8a0cc933641a1ff24299f8591f04eafd966d9b15a92c9582",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_body.c": "fb384587f88bb0c30c31f7f686b8374935f65f95eed206c2825ba385abb990c5",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_collision.c": "f31adaf37af07d9c3d37e893f539054f80848fb69e6ceb2206b7d446c379a9d4",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_compound.c": "c9588a57facebe5b782289db2c9f0c9df82a7315c5af93c4aba632f80ea7b0fb",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_events.c": "d027839907cd0ae664c40813adaff29e2bc7d813c0725e472f759b31067295ab",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_heightfield.c": "a86d4c0d4f56a665a4a37128b7edff7c6035c181c049f8eb549231d0046af37c",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_hull.c": "b0d3d3ac9665e46d934031c2493b59de943e60bd93dd1ef2cd8455b6b83166a0",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_human.c": "3440067fcbfce5d7292f85b9240957e65e497f7bc62d244381765f429c6df91d",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_joint.c": "4c1ab304a805d4d2e707846785b8007eca5a4b7bc9f09168500017009681fe8e",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_math.c": "1040e15931279de2fa07ce4329179e023dd585d89b8e74fbdba2a97b5424cb62",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_mesh.c": "33d618e8142c33e79b60937b19eee38ca611fbe3d6aa1ae70e211d14ad456107",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_mover.c": "036b3c370328269138848cec7900c0d75a816c8f512719b0acd5634bd231bc88",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_query.c": "cb6e86d16e835dee2272efc17b9ba677b14dfc0fe39e5a4772e3648ebe3dcd0e",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_shape.c": "51bdd3fb8c7741c1ba35e493fac6498a1da6e109439c7ccc25445ea16e9ef389",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_shared.h": "91ab6258dc85722017f2dce5d416d9687a28bd7146890319312e6799801f8758",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_slots.c": "1d1c613279b0fe05cd9ef0a9e42779771f0663d4b187a629417774c4f8e38fd5",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_tree.c": "845a966de9231a649c40d25899227eeaecf299ae38219c35cbdff90b1e9a1fb6",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_world.c": "64f84d0b3ed144578a10d72139a1219b9450252a4e6639c86dd60b039fee61d1",
+    "/home/firtoz/work/2026/box3d-wasm/patches/box3d/0001-profile-levels.patch": "adfd4e420fc0575e30443230e4fc225869a27f84115d2652bd3c74c150762f3c",
+    "/home/firtoz/work/2026/box3d-wasm/patches/box3d/BASE_SHA": "b16490c11e18eccb17fe466282b3b6f0339174d4e8bdf3de36e6cbfab95c822e",
+    "/home/firtoz/work/2026/box3d-wasm/patches/box3d/README.md": "f79bfbcce3370fe6e77dc6e87989e996c1e3f6911f6037e7154e635d0cabc0fe",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/src/index.ts": "cd7ed5368fd39b62e7793514c58283c311221c53f70c9719480ede5fae4a7178",
+    "/home/firtoz/work/2026/box3d-wasm/scripts/wasm-dump.ts": "19e50b0ebb568d0da8a55b2989616d417c212f2fcd84d7ff678e42282c353f4d",
+    "/home/firtoz/work/2026/box3d-wasm/tools/emsdk-version": "8adcc17e039842d2f4d92ca25f72a8963ede072c885ef5f762c0682b87c6d872"
+  },
+  "previousSourceApplicability": true,
+  "initial": {
+    "raw": false,
+    "patched": false,
+    "publicDir": false
+  },
+  "version": "6.0.2",
+  "sourceArchiveSha256": "5cb39d8f6787a236ab4783a5088df73360d5b21f87ca295c95d620369fcde4f5"
+}

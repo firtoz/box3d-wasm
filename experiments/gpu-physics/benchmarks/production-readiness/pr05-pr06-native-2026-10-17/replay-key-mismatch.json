@@ -1,0 +1,22 @@
+{
+  "status": "CONFIRMED_DIAGNOSTIC_DEFECT",
+  "failure": "runtime-cache native trace stopped at first capture with unexpected physics replay key length",
+  "producer": {
+    "contact_slots": 4,
+    "color_wave_prefix": 4,
+    "booleanFlags": 8,
+    "trailerBytes": 16,
+    "flags": [
+      "convex_ccd",
+      "graph_shared",
+      "batched_graph",
+      "skip_static_sort",
+      "one_group_wave",
+      "component_tgs",
+      "capsule_collision_scene",
+      "box_mesh_collision_scene"
+    ]
+  },
+  "oldDecoderTrailerBytes": 14,
+  "repair": "Use one typed flag-count constant in producer and exact decoder length. Preserve all parameter/schedule bytes. No key truncation,simulation/shader/default/tolerance change."
+}

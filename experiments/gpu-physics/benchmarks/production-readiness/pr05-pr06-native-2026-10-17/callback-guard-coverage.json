@@ -1,0 +1,21 @@
+{
+  "mechanism": "Guard public stateful C wrappers before any Rust/C metadata/CPU mirror access. Supported owned snapshot getters exempt. Recursive raw Rust ABI access rejected centrally.",
+  "counts": {
+    "shim.c": 335,
+    "samples_api.c": 22,
+    "both_dual.c": 301
+  },
+  "snapshotGetters": [
+    "b3World_IsValid",
+    "b3Body_IsValid",
+    "b3Shape_IsValid",
+    "b3Shape_GetBody",
+    "b3Shape_GetType",
+    "b3Shape_GetUserData",
+    "b3Shape_IsSensor",
+    "b3Shape_AreSensorEventsEnabled",
+    "b3Shape_AreContactEventsEnabled",
+    "b3Shape_ArePreSolveEventsEnabled",
+    "b3Shape_AreHitEventsEnabled"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "purpose": "Repair actual diagnostic capture key trailer:2u32+8u8=16bytes,previous decoder expected14; producer bytes unchanged,typed flag count shared with decoder",
+  "totalSeconds": 190,
+  "maxRawBytes": 1073741824,
+  "inputs": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/src/sim.rs"
+  ],
+  "jobs": [
+    {
+      "label": "native-tests",
+      "argv": [
+        "cargo",
+        "--config",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/cargo-config.toml",
+        "test",
+        "--offline",
+        "--locked",
+        "--release",
+        "--lib",
+        "--manifest-path",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-workspace/experiments/gpu-physics/Cargo.toml",
+        "--target-dir",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build",
+        "--features",
+        "external-c-shim,native-command-cache,replay-diagnostics",
+        "-j2",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "seconds": 180
+    }
+  ]
+}

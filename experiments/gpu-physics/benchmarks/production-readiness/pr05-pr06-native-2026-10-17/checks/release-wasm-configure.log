@@ -1,0 +1,29 @@
+Setting up EMSDK environment (suppress these messages with EMSDK_QUIET=1)
+Adding directories to PATH:
+PATH += /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk
+PATH += /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten
+
+Setting environment variables:
+PATH = /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk:/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten:/home/firtoz/.bun/bin:/home/firtoz/.codex/tmp/arg0/codex-arg0utckJQ:/home/firtoz/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/home/firtoz/.local/bin:/home/firtoz/Android/Sdk/emulator:/home/firtoz/Android/Sdk/platform-tools:/home/firtoz/Android/Sdk/cmdline-tools/latest/bin:/home/firtoz/.nvm/versions/node/v24.1.0/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/rustup/bin:/home/firtoz/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/usr/lib/chatgpt/resources
+EMSDK = /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk
+EMSDK_NODE = /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/node/22.16.0_64bit/bin/node
+Clearing existing environment variable: EM_CACHE
+Clearing existing environment variable: EM_CONFIG
+emcmake: cmake -S /home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake -B /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/build -DBOX3D_SOURCE_DIR=/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/.box3d-patched -DBOX3D_SAMPLES=OFF -DBOX3D_BENCHMARKS=OFF -DBOX3D_DOCS=OFF -DBOX3D_UNIT_TESTS=OFF -DBOX3D_VALIDATE=OFF -DBOX3D_DISABLE_SIMD=OFF -DBOX3D_WASM_PROFILE_NAMES=OFF -DBOX3D_WASM_ALLOW_MEMORY_GROWTH=OFF -DBOX3D_WASM_INITIAL_MEMORY=268435456 -DCMAKE_BUILD_TYPE=Release -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/out -DCMAKE_TOOLCHAIN_FILE=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DCMAKE_CROSSCOMPILING_EMULATOR=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/node/22.16.0_64bit/bin/node in directory /home/firtoz/work/2026/box3d-wasm
+-- CMake C compiler: Clang
+-- CMake C++ compiler: Clang
+-- CMake system name: Emscripten
+-- CMake host system processor: x86_64
+-- Box3D on Emscripten
+-- Configuring done (0.6s)
+-- Generating done (0.0s)
+CMake Warning (unused-cli):
+  Manually-specified variables were not used by the project:
+
+    BOX3D_BENCHMARKS
+    BOX3D_DOCS
+    BOX3D_SAMPLES
+    BOX3D_UNIT_TESTS
+
+
+-- Build files have been written to: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/build

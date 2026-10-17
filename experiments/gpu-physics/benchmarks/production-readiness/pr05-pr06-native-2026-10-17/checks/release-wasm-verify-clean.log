@@ -1,0 +1,1 @@
+PASS actual WASM workflow; SDK/build/generated artifacts consumed and removed

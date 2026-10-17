@@ -78,12 +78,10 @@ pub const NATIVE_DIAGNOSTIC_FAILED: u32 = 3;
 
 #[cfg(not(target_arch = "wasm32"))]
 fn native_world<T>(id: WorldId, f: impl FnOnce(&mut WorldInner) -> T) -> Result<T, u32> {
-    let mut worlds = match WORLDS.try_lock() {
-        Ok(worlds) => worlds,
-        Err(std::sync::TryLockError::Poisoned(e)) => e.into_inner(),
-        Err(std::sync::TryLockError::WouldBlock) => return Err(NATIVE_DIAGNOSTIC_BUSY),
-    };
+    let mut worlds = registry_access::try_lock().ok_or(NATIVE_DIAGNOSTIC_BUSY)?;
+    let _reads = callback_shape_reads::pending(&worlds, id, false).map(callback_shape_reads::enter);
     let w = slot_mut(&mut worlds, id).ok_or(NATIVE_DIAGNOSTIC_INVALID)?;
+    observe_device_failure(w);
     Ok(f(w))
 }
 
@@ -105,7 +103,7 @@ pub(super) fn harvest_native_diagnostics(w: &mut WorldInner) {
 #[cfg(not(target_arch = "wasm32"))]
 pub fn b3_world_native_profile(id: WorldId) -> NativeProfile {
     native_world(id, |w| {
-        if let Some(sim) = w.sim.as_mut() { sim.harvest_gpu_timestamps(false); }
+        if let Some(sim) = w.sim.as_mut().filter(|_| !w.gpu.device_failed()) { sim.harvest_gpu_timestamps(false); }
         copy_gpu_clocks(w);
         let mut out = NativeProfile { physics_step: w.physics_step, timestamp_step: w.last_timestamp_step,
             valid: if w.physics_invalid { NATIVE_DIAGNOSTIC_FAILED } else { NATIVE_DIAGNOSTIC_OK },

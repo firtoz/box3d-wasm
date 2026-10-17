@@ -1,0 +1,14 @@
+{
+  "pass": true,
+  "route": "ordinary-both",
+  "pid": 2950454,
+  "window": "117440558",
+  "title": "Preparing simulation: creating scene",
+  "identity": "Actual XCreateWindow return value and getpid from forwarding observer",
+  "activeWorkerObserved": true,
+  "elapsedMs": 1169,
+  "shutdownMs": 790,
+  "code": 0,
+  "signal": null,
+  "reason": ""
+}

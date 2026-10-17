@@ -16,6 +16,9 @@ pub use native_diagnostics::*;
 mod shape_geometry;
 mod world_lifetime;
 mod callback_shape_reads;
+mod registry_access;
+#[cfg(test)]
+mod runtime_safety_tests;
 use world_lifetime::{WorldRegistry, current_world_id, world_id_from_shape, world_id_from_joint};
 pub use shape_geometry::*;
 pub use contact_api::*;
@@ -413,12 +416,19 @@ fn mark_joint_parameters_dirty(w: &mut WorldInner) {
 
 static WORLDS: Mutex<WorldRegistry> = Mutex::new(WorldRegistry::new());
 
-fn lock_worlds() -> std::sync::MutexGuard<'static, WorldRegistry> {
-    WORLDS.lock().unwrap_or_else(|e| e.into_inner())
+fn lock_worlds() -> registry_access::Guard {
+    registry_access::lock().expect("internal registry reentry")
+}
+
+pub fn b3_registry_access_allowed() -> bool { registry_access::allowed() }
+pub fn b3_native_api_error_name() -> *const std::ffi::c_char { registry_access::error_name() }
+pub fn b3_native_api_clear_error() { registry_access::clear_error(); }
+pub fn b3_native_api_record_error(name: *const std::ffi::c_char, code: i32) {
+    registry_access::record_error(name, code);
 }
 
 pub fn b3_create_world(gpu: GpuDevice, def: &WorldDef) -> WorldId {
-    let mut worlds = lock_worlds();
+    let Some(mut worlds) = registry_access::lock() else { return b3_null_world_id(); };
     let Some((index, generation, child_generation)) = worlds.reserve_slot() else {
         eprintln!("GPU physics: world handle space exhausted");
         return b3_null_world_id();
@@ -527,9 +537,9 @@ pub fn b3_destroy_world(id: WorldId) {
     if id.index1 == 0 {
         return;
     }
-    let mut worlds = lock_worlds();
+    let Some(mut worlds) = registry_access::lock() else { return; };
     let Some(w) = slot_mut(&mut worlds, id) else { return; };
-    if let Some(sim) = w.sim.as_ref() {
+    if let Some(sim) = w.sim.as_ref().filter(|_| !w.gpu.device_failed()) {
         poll_until_idle(&sim.device);
         sim.save_pipeline_cache();
     }
@@ -537,10 +547,11 @@ pub fn b3_destroy_world(id: WorldId) {
 }
 
 pub fn b3_world_is_valid(id: WorldId) -> bool {
+    if let Some(valid) = callback_shape_reads::world_valid(id) { return valid; }
     if id.index1 == 0 {
         return false;
     }
-    let worlds = lock_worlds();
+    let Some(worlds) = registry_access::lock() else { return false; };
     let i = id.index1 as usize - 1;
     worlds
         .get(i)
@@ -4816,10 +4827,11 @@ fn update_contact_events(w: &mut WorldInner, world0: u16, contacts: &[crate::typ
 
 #[cfg(not(target_arch = "wasm32"))]
 pub async fn b3_world_sync_contacts(id: WorldId) -> Vec<crate::types::ContactGpu> {
-    let mut worlds = lock_worlds();
+    let Some(mut worlds) = registry_access::lock() else { return Vec::new(); };
     let Some(w) = slot_mut(&mut worlds, id) else {
         return Vec::new();
     };
+    if observe_device_failure(w) { return Vec::new(); }
     if let Some(sim) = w.sim.as_mut() {
         sim.read_contacts().await
     } else {
@@ -4829,10 +4841,11 @@ pub async fn b3_world_sync_contacts(id: WorldId) -> Vec<crate::types::ContactGpu
 
 #[cfg(not(target_arch = "wasm32"))]
 pub async fn b3_world_sync_phase_words(id: WorldId) -> Vec<u32> {
-    let mut worlds = lock_worlds();
+    let Some(mut worlds) = registry_access::lock() else { return Vec::new(); };
     let Some(w) = slot_mut(&mut worlds, id) else {
         return Vec::new();
     };
+    if observe_device_failure(w) { return Vec::new(); }
     if let Some(sim) = w.sim.as_mut() {
         sim.read_phase_words().await
     } else {
@@ -4842,10 +4855,11 @@ pub async fn b3_world_sync_phase_words(id: WorldId) -> Vec<u32> {
 
 #[cfg(not(target_arch = "wasm32"))]
 pub async fn b3_world_sync_mesh_candidate_words(id: WorldId) -> Vec<u32> {
-    let mut worlds = lock_worlds();
+    let Some(mut worlds) = registry_access::lock() else { return Vec::new(); };
     let Some(w) = slot_mut(&mut worlds, id) else {
         return Vec::new();
     };
+    if observe_device_failure(w) { return Vec::new(); }
     if let Some(sim) = w.sim.as_mut() {
         sim.read_mesh_candidate_words().await
     } else {
@@ -4856,10 +4870,11 @@ pub async fn b3_world_sync_mesh_candidate_words(id: WorldId) -> Vec<u32> {
 #[cfg(not(target_arch = "wasm32"))]
 #[cfg(not(target_arch = "wasm32"))]
 pub async fn b3_world_live_step_stats(id: WorldId) -> Option<crate::sim::LiveStepStats> {
-    let mut worlds = lock_worlds();
+    let mut worlds = registry_access::lock()?;
     let Some(w) = slot_mut(&mut worlds, id) else {
         return None;
     };
+    if observe_device_failure(w) { return None; }
     if let Some(sim) = w.sim.as_mut() {
         let stats = sim.read_live_step_stats().await;
         if stats.capacity_loss() {
@@ -5783,47 +5798,53 @@ fn slot_mut(worlds: &mut [Option<WorldInner>], id: WorldId) -> Option<&mut World
 }
 
 fn with_world_no_sync<T>(id: WorldId, f: impl FnOnce(&WorldInner) -> T) -> Option<T> {
-    let worlds = lock_worlds();
-    let i = id.index1 as usize;
-    if i == 0 {
-        return None;
-    }
-    worlds
-        .get(i - 1)
-        .and_then(|s| s.as_ref())
-        .filter(|w| w.generation == id.generation)
-        .map(f)
+    let mut worlds = registry_access::lock()?;
+    let w = slot_mut(&mut worlds, id)?;
+    observe_device_failure(w);
+    Some(f(w))
+}
+
+fn observe_device_failure(w: &mut WorldInner) -> bool {
+    if !w.gpu.device_failed() { return false; }
+    w.physics_invalid = true;
+    registry_access::record_error(c"gpu_world_device_failed".as_ptr(), 5); // EIO
+    w.gpu_fail.get_or_insert_with(|| std::ffi::CString::new("GPU device lost or uncaptured device error; recreate the device").unwrap());
+    true
 }
 
 fn with_world<T>(id: WorldId, f: impl FnOnce(&WorldInner) -> T) -> Option<T> {
-    let mut worlds = lock_worlds();
+    let mut worlds = registry_access::lock()?;
     let _reads = callback_shape_reads::pending(&worlds,id,false).map(callback_shape_reads::enter);
     slot_mut(&mut worlds, id).map(|w| {
-        ensure_cpu_mirror_world(w, id);
+        if !observe_device_failure(w) { ensure_cpu_mirror_world(w, id); }
         f(w)
     })
 }
 
 fn with_world_mut<T>(id: WorldId, f: impl FnOnce(&mut WorldInner) -> T) -> Option<T> {
-    let mut worlds = lock_worlds();
+    let mut worlds = registry_access::lock()?;
     let _reads = callback_shape_reads::pending(&worlds,id,false).map(callback_shape_reads::enter);
-    slot_mut(&mut worlds, id).map(|w| {
-        ensure_cpu_mirror_world(w, id);
-        if let Some(sim)=w.sim.as_ref() {sim.invalidate_idle_proof();}
-        f(w)
-    })
+    let w = slot_mut(&mut worlds, id)?;
+    if observe_device_failure(w) { return None; }
+    ensure_cpu_mirror_world(w, id);
+    if let Some(sim)=w.sim.as_ref() {sim.invalidate_idle_proof();}
+    Some(f(w))
 }
 
 fn with_world_callback_reads<T>(id: WorldId, f: impl FnOnce(&mut WorldInner) -> T) -> Option<T> {
-    let mut worlds = lock_worlds();
+    let mut worlds = registry_access::lock()?;
     let _reads = callback_shape_reads::pending(&worlds,id,true).map(callback_shape_reads::enter);
-    slot_mut(&mut worlds,id).map(f)
+    let w = slot_mut(&mut worlds, id)?;
+    if observe_device_failure(w) { return None; }
+    Some(f(w))
 }
 
 fn with_world_mut_no_sync<T>(id: WorldId, f: impl FnOnce(&mut WorldInner) -> T) -> Option<T> {
-    let mut worlds = lock_worlds();
+    let mut worlds = registry_access::lock()?;
     let _reads = callback_shape_reads::pending(&worlds,id,false).map(callback_shape_reads::enter);
-    slot_mut(&mut worlds, id).map(f)
+    let w = slot_mut(&mut worlds, id)?;
+    if observe_device_failure(w) { return None; }
+    Some(f(w))
 }
 
 #[repr(C)]
@@ -5947,11 +5968,12 @@ pub fn b3_world_counts(id: WorldId) -> (i32, i32, i32) {
 }
 
 pub fn b3_live_world_count() -> i32 {
-    let worlds = lock_worlds();
+    let Some(worlds) = registry_access::lock() else { return 0; };
     worlds.iter().filter(|w| w.is_some()).count() as i32
 }
 
 pub fn b3_body_is_valid(id: BodyId) -> bool {
+    if let Some(valid) = callback_shape_reads::body_valid(id) { return valid; }
     let world = world_id_from_body(id);
     with_world_no_sync(world, |w| body_ref(w, id).is_some()).unwrap_or(false)
 }
@@ -7405,6 +7427,7 @@ pub fn b3_prismatic_joint_get_speed(id: JointId) -> f32 {
 }
 
 pub fn b3_shape_body(id: ShapeId) -> BodyId {
+    if let Some(shape) = callback_shape_reads::read(id) { return shape.map_or_else(b3_null_body_id, |s| s.owner); }
     if id.index1 == 0 {
         return b3_null_body_id();
     }
@@ -7421,6 +7444,7 @@ pub fn b3_shape_body(id: ShapeId) -> BodyId {
 }
 
 pub fn b3_shape_kind(id: ShapeId) -> i32 {
+    if let Some(shape) = callback_shape_reads::read(id) { return shape.map_or(-1, |s| s.kind as i32); }
     if id.index1 == 0 {
         return -1;
     }
@@ -8223,14 +8247,7 @@ pub fn b3_shape_enable_hit_events(id: ShapeId, enable: bool) {
 }
 
 pub fn b3_shape_are_hit_events_enabled(id: ShapeId) -> bool {
-    let world = world_id_from_shape(id);
-    with_world(world, |w| {
-        w.shapes
-            .get(id.index1.saturating_sub(1) as usize)
-            .and_then(Option::as_ref)
-            .is_some_and(|shape| shape.event_flags & SHAPE_ENABLE_HIT_EVENTS != 0)
-    })
-    .unwrap_or(false)
+    shape_event_flag(id, SHAPE_ENABLE_HIT_EVENTS)
 }
 
 pub fn b3_shape_set_user_material_id(id: ShapeId, user_material_id: u64) {
@@ -12745,7 +12762,7 @@ pub(crate) fn seed_drag_snapshot(
     s: &crate::drag_replay::Snapshot,
 ) -> Result<(), String> {
     b3_world_gpu_wait_with_mirror(id);
-    let mut worlds = lock_worlds();
+    let mut worlds = registry_access::lock().ok_or("world registry busy")?;
     let w = slot_mut(&mut worlds, id).ok_or("world missing")?;
     let sim = w.sim.as_mut().ok_or("sim missing")?;
     let mut bodies = pollster::block_on(sim.read_bodies());

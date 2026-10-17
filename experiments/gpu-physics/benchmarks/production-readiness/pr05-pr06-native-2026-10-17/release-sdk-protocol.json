@@ -1,0 +1,96 @@
+{
+  "purpose": "Noncompiler SDK/source prerequisites partition of frozen WASM compatibility budget; allowed during native C++ compilation, no additional build",
+  "totalSeconds": 300,
+  "maxRawBytes": 6442450944,
+  "environment": {
+    "EM_CONFIG": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/.emscripten",
+    "EM_CACHE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten/cache"
+  },
+  "inputs": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-wasm-receipt.ts",
+    "/home/firtoz/work/2026/box3d-wasm/tools/emsdk-version"
+  ],
+  "jobs": [
+    {
+      "label": "freeze-wasm",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-wasm-receipt.ts",
+        "freeze"
+      ],
+      "seconds": 15
+    },
+    {
+      "label": "sdk-download",
+      "argv": [
+        "curl",
+        "--fail",
+        "--location",
+        "--max-time",
+        "30",
+        "--max-filesize",
+        "33554432",
+        "--output",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/emsdk.tar.gz",
+        "https://github.com/emscripten-core/emsdk/archive/refs/tags/6.0.2.tar.gz"
+      ],
+      "seconds": 35
+    },
+    {
+      "label": "verify-sdk-source",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-wasm-receipt.ts",
+        "archive"
+      ],
+      "seconds": 10
+    },
+    {
+      "label": "sdk-extract",
+      "argv": [
+        "tar",
+        "-xzf",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/emsdk.tar.gz",
+        "-C",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk",
+        "--strip-components=1"
+      ],
+      "seconds": 10
+    },
+    {
+      "label": "sdk-install",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/emsdk",
+        "install",
+        "6.0.2"
+      ],
+      "seconds": 180,
+      "environment": {
+        "EM_CONFIG": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/.emscripten",
+        "EM_CACHE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten/cache"
+      }
+    },
+    {
+      "label": "sdk-activate",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/emsdk",
+        "activate",
+        "6.0.2",
+        "--embedded"
+      ],
+      "seconds": 15,
+      "environment": {
+        "EM_CONFIG": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/.emscripten",
+        "EM_CACHE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten/cache"
+      }
+    },
+    {
+      "label": "prepare-source",
+      "argv": [
+        "bun",
+        "packages/box3d-wasm/scripts/prepare-box3d.ts"
+      ],
+      "seconds": 15
+    }
+  ]
+}

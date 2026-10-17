@@ -1,0 +1,285 @@
+{
+  "status": "PASS",
+  "pr05": {
+    "closed": 8,
+    "left": 0
+  },
+  "pr06": {
+    "closed": 5,
+    "left": 0
+  },
+  "gates": [
+    {
+      "name": "P1 bounds/layout/reservation",
+      "status": "PASS"
+    },
+    {
+      "name": "P2 identity/ownership/replacement",
+      "status": "PASS"
+    },
+    {
+      "name": "P3 callbacks/events",
+      "status": "PASS"
+    },
+    {
+      "name": "P4 async/replay/failure",
+      "status": "PASS"
+    },
+    {
+      "name": "P5 lifecycle/loading",
+      "status": "PASS"
+    },
+    {
+      "name": "P6 launch/cache matrix",
+      "status": "PASS"
+    },
+    {
+      "name": "P7 resources/concurrency",
+      "status": "PASS"
+    },
+    {
+      "name": "P8 docs/evidence/cleanup",
+      "status": "PASS"
+    },
+    {
+      "name": "B1 CPU clean build",
+      "status": "PASS"
+    },
+    {
+      "name": "B2 ordinary clean targets",
+      "status": "PASS"
+    },
+    {
+      "name": "B3 native clean targets",
+      "status": "PASS"
+    },
+    {
+      "name": "B4 external consumer/compatibility",
+      "status": "PASS"
+    },
+    {
+      "name": "B5 freeze/applicability",
+      "status": "PASS"
+    }
+  ],
+  "views": [
+    {
+      "label": "cpu-cache-on",
+      "status": "ok",
+      "measured": 18,
+      "singleSteps": 10,
+      "idleAdvances": 0,
+      "switchCount": 1
+    },
+    {
+      "label": "ordinary-gpu-cache-on",
+      "status": "ok",
+      "measured": 18,
+      "singleSteps": 10,
+      "idleAdvances": 0,
+      "switchCount": 1
+    },
+    {
+      "label": "ordinary-gpu-cache-off",
+      "status": "ok",
+      "measured": 18,
+      "singleSteps": 10,
+      "idleAdvances": 0,
+      "switchCount": 1
+    },
+    {
+      "label": "ordinary-both-cache-on",
+      "status": "ok",
+      "measured": 18,
+      "singleSteps": 10,
+      "idleAdvances": 0,
+      "switchCount": 1
+    },
+    {
+      "label": "ordinary-both-cache-off",
+      "status": "ok",
+      "measured": 18,
+      "singleSteps": 10,
+      "idleAdvances": 0,
+      "switchCount": 1
+    },
+    {
+      "label": "native-gpu-cache-on",
+      "status": "ok",
+      "measured": 18,
+      "singleSteps": 10,
+      "idleAdvances": 0,
+      "switchCount": 1
+    },
+    {
+      "label": "native-gpu-cache-off",
+      "status": "ok",
+      "measured": 18,
+      "singleSteps": 10,
+      "idleAdvances": 0,
+      "switchCount": 1
+    },
+    {
+      "label": "native-both-cache-on",
+      "status": "ok",
+      "measured": 18,
+      "singleSteps": 10,
+      "idleAdvances": 0,
+      "switchCount": 1
+    },
+    {
+      "label": "native-both-cache-off",
+      "status": "ok",
+      "measured": 18,
+      "singleSteps": 10,
+      "idleAdvances": 0,
+      "switchCount": 1
+    }
+  ],
+  "loading": [
+    {
+      "pass": true,
+      "route": "ordinary-gpu",
+      "pid": 2950303,
+      "window": "117440558",
+      "title": "Preparing simulation: creating scene",
+      "identity": "Actual XCreateWindow return value and getpid from forwarding observer",
+      "activeWorkerObserved": true,
+      "elapsedMs": 1199,
+      "shutdownMs": 836,
+      "code": 0,
+      "signal": null,
+      "reason": ""
+    },
+    {
+      "pass": true,
+      "route": "ordinary-both",
+      "pid": 2950454,
+      "window": "117440558",
+      "title": "Preparing simulation: creating scene",
+      "identity": "Actual XCreateWindow return value and getpid from forwarding observer",
+      "activeWorkerObserved": true,
+      "elapsedMs": 1169,
+      "shutdownMs": 790,
+      "code": 0,
+      "signal": null,
+      "reason": ""
+    },
+    {
+      "pass": true,
+      "route": "native-gpu",
+      "pid": 2950613,
+      "window": "117440558",
+      "title": "Preparing simulation: creating scene",
+      "identity": "Actual XCreateWindow return value and getpid from forwarding observer",
+      "activeWorkerObserved": true,
+      "elapsedMs": 1207,
+      "shutdownMs": 816,
+      "code": 0,
+      "signal": null,
+      "reason": ""
+    },
+    {
+      "pass": true,
+      "route": "native-both",
+      "pid": 2950774,
+      "window": "117440558",
+      "title": "Preparing simulation: creating scene",
+      "identity": "Actual XCreateWindow return value and getpid from forwarding observer",
+      "activeWorkerObserved": true,
+      "elapsedMs": 1063,
+      "shutdownMs": 778,
+      "code": 0,
+      "signal": null,
+      "reason": ""
+    }
+  ],
+  "consumerMaxError": 0,
+  "retainedBytesBeforeThisReceipt": 16542067,
+  "candidateBytes": 367035504,
+  "ownedLeadersAbsent": 259,
+  "peakSampledTaskRawBytes": 2127978845,
+  "scope": "Linux/NVIDIA RTX4070SUPER/Vulkan; explicit owner-thread C contract and callback whitelist; terminal device loss; no automatic device recovery; PR04+PR07/08/12/13 remain open",
+  "phaseReceipts": [
+    {
+      "phase": "runtime-build",
+      "sha256": "ebcccfcd0c63620674611eb90c189d0fe99857628113f0c357e55f7ba8d9cd55",
+      "elapsedMs": 157952
+    },
+    {
+      "phase": "runtime-device-build",
+      "sha256": "22a15fbc659ead4d1b29c248bb36d156bca0274cf4d1e24ecd5801c623761e00",
+      "elapsedMs": 163238
+    },
+    {
+      "phase": "runtime-list",
+      "sha256": "d92d88cd99b882ecfa51b42653899c7d37e587d6e3c3b7695dafa381967e6aa1",
+      "elapsedMs": 228
+    },
+    {
+      "phase": "runtime-rust",
+      "sha256": "ac70a7ad80329cb094e45c0e6546883a916f1e1f6d314c2991415d2d5bac7cc9",
+      "elapsedMs": 56666
+    },
+    {
+      "phase": "runtime-c",
+      "sha256": "bfa5d7478b9fde8772a8ee05432517b3227608587cb03f2c067d3c09a7838dab",
+      "elapsedMs": 77178
+    },
+    {
+      "phase": "runtime-cache-remaining",
+      "sha256": "ac83f83b46b8d20f8f2c47e40b35c2968c86b3f589e4a9f061aa989726a09890",
+      "elapsedMs": 14246
+    },
+    {
+      "phase": "replay-diagnostic-build",
+      "sha256": "8edcb2d77ea3b288f0ab13cfbc3b492064430ec796a9958a97ef071f9135d036",
+      "elapsedMs": 50098
+    },
+    {
+      "phase": "release-rust",
+      "sha256": "089998cb1fb3434c84ab4f04f5b9e4921ef850677812f3ff93ffbef090d3609d",
+      "elapsedMs": 406890
+    },
+    {
+      "phase": "release-native",
+      "sha256": "dce41ff830d8e5d4c0a23b21db0d56f9b13b9075fcf7b8d0a8482eb3dd57639c",
+      "elapsedMs": 764332
+    },
+    {
+      "phase": "release-cpu-viewer",
+      "sha256": "b6b5ca0792e942554c387a3dbc64544be4bfb5f436e4c06f7f98aacb1ec3400b",
+      "elapsedMs": 1920
+    },
+    {
+      "phase": "release-ordinary-viewers",
+      "sha256": "7f1ac507865db5cca521a3cd352662ffd69039abf99d0202735621b2feeefd6b",
+      "elapsedMs": 11177
+    },
+    {
+      "phase": "release-viewers",
+      "sha256": "d6ad94b379f967fbb6ef7dbace607c257673a423d5a966d19ca6960ffe521428",
+      "elapsedMs": 10693
+    },
+    {
+      "phase": "release-consumer",
+      "sha256": "d2650d191316276fd931efd69d6a34c62f7f2a4bda42856def5980dd0bfefb42",
+      "elapsedMs": 23951
+    },
+    {
+      "phase": "release-sdk",
+      "sha256": "72c0d2dabc22cac57d91dcba8457e05369701f637d2401d00e8d8a44cf428272",
+      "elapsedMs": 14854
+    },
+    {
+      "phase": "release-wasm",
+      "sha256": "860b2664cc172e3ec77291298ace29cc02de46532bf13870f7a008c32e109fe7",
+      "elapsedMs": 21216
+    },
+    {
+      "phase": "release-compatibility",
+      "sha256": "259c2fbc934e1b4eba1c0be1710904cb672365ff808b8d55cb1b4dafb1d9b292",
+      "elapsedMs": 4796
+    }
+  ]
+}

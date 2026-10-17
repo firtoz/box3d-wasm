@@ -1,0 +1,16 @@
+{
+  "pass": true,
+  "frames": [
+    0,
+    1,
+    2
+  ],
+  "bodyCount": 2,
+  "sourceHashesUnchanged": true,
+  "previousSourceApplicability": true,
+  "removed": {
+    "sdkAndBuildBytes": 1662990543,
+    "patchedBytes": 12173915
+  },
+  "pathsRestoredAbsent": true
+}

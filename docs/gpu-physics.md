@@ -288,8 +288,30 @@ viewer control contracts pass with retained source/binary receipts and full
 captures. All 52 required first scene captures and current linked-source inventories pass
 their stated checks, and the CPU-first comparisons are reviewed with recorded
 limitations. PR02 functional acceptance is now reconciled by the refresh above.
-Broad PR05 lifecycle acceptance, concurrency/reentrancy, C adapter world limits
-and the full release matrix still require their own qualification.
+PR05 runtime safety and PR06 build/consumer acceptance now close the bounded
+Linux/NVIDIA lifecycle gate below. Broader final physics, complete-state repeats
+and performance qualification remain open.
+
+The [PR05 runtime repairs and PR06 build receipts](../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/README.md)
+extend contact filter/pre-solve snapshot reads to shape owner/type/hit flags and
+body/world validity. Other stateful recursive access returns EBUSY, with a
+zero/default result or no-op and a sticky operation name; C/combined wrappers
+reject it before changing scene metadata or the CPU mirror. Query visitors run
+after unlocking and retain supported nested queries. C scene metadata and
+combined mappings require one exclusive scene-owner thread. Rust registry access
+serializes independent threads; callbacks must not join a thread waiting for
+the same registry. This is not unrestricted concurrent C API support.
+
+Device-loss and uncaptured-error callbacks now publish terminal failure to all
+worlds sharing that device. Diagnostics expose the failure; steps/mutations stop,
+and clearing API/capacity diagnostics cannot heal it. Failed worlds remain
+destroyable. The controlled actual-device-destruction regression leaves a
+separate device healthy; uncontrolled driver reset/recovery is not qualified.
+Rust callers can create a new device. The C adapter's process-wide shared device
+requires a process restart for recovery. Recreating a C world is insufficient.
+The native full-state recorder also accepts the current 16-byte replay-key
+trailer, preserving all key bytes and semantic fields. Final physics/repeatability
+and performance qualification remain separate roadmap gates.
 
 The [Sensor callback repair](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/RUNTIME02.md) qualifies read-only shape validity, sensor/event flags and opaque user-data getters during GPU custom-filter/pre-solve callouts, including pending host CCD completion. Owned metadata captured under the registry lock prevents these getters from reacquiring the stepping lock; shape generations and owners remain intact. Both GPU backends pass the original120-step Sensor factory and nine filter/event/deletion/CCD controls against actual Box3D CPU. This evidence does not qualify arbitrary body/query/material API reentry, mutation or callback-created threads; broader reentrancy/concurrency qualification remains open.
 

@@ -1,0 +1,1 @@
+Device-loss probe preparation initially refused an ambiguous explicit wgpu rlib selection (two cached variants), before protocol creation/compiler/GPU launch. Removed the unnecessary direct wgpu dependency and used the engine poll helper. Zero engine/test budget consumed.

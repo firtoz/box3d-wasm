@@ -1,0 +1,2 @@
+WM_DELETE sent during worker-owned scene loading native-both 117440558 Preparing simulation: creating scene
+PASS loading-worker shutdown native-both

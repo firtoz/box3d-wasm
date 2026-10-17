@@ -1,0 +1,113 @@
+{
+  "status": "PASS",
+  "compiledArtifactCount": 20,
+  "allCompiledArtifactsStillMatchBuildReceipts": true,
+  "rows": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary/libgpu_physics.a",
+      "bytes": 87482212,
+      "sha256": "802497eebbb640f40e7219bcb08089b719a40bd852dc5e06d8e5cdb71e0715d1"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native/libgpu_physics.a",
+      "bytes": 94831618,
+      "sha256": "dc7ac771def098ae244a1632f5e906cc1fdb5ff087fa90d8443227f1306cf648"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/cpu/bin-samples_cpu",
+      "bytes": 7292920,
+      "sha256": "bb66e64bf0b19ce934114297f17b4bf5e4daeb47405de4569d7ace1b5995505c"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/cpu/box3d_src-libbox3d.a",
+      "bytes": 1553070,
+      "sha256": "b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-gpu/bin-samples_gpu",
+      "bytes": 40068352,
+      "sha256": "e092e64a3e2d3d9ba1dbb35017b46d5908a863c3874827423c23799b9366095d"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-gpu/box3d_src-libbox3d.a",
+      "bytes": 1036012,
+      "sha256": "89a9885175a093466e480e39be39451b843bc7b40e86ca8f9259ee2faa9c1f1c"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-gpu/libgpu_samples_api.a",
+      "bytes": 279120,
+      "sha256": "68a72917baae066bd11b2bf8d4c6fb01bca510eded59796dd25d6c39a9d2bebc"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/bin-samples_both",
+      "bytes": 40857280,
+      "sha256": "404a734f54e4d27a44670e084566ce0ab45a26fdf589cce5f06b15b5da8511f2"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/box3d_src-libbox3d.a",
+      "bytes": 820770,
+      "sha256": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_samples_api.a",
+      "bytes": 72746,
+      "sha256": "bd8af0719c227f2284718e95f37fb835643b013070112d271c01e332d6f96c10"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_both_api.a",
+      "bytes": 283512,
+      "sha256": "9b4f557611a082bd6970755d8d76002968ab803001050ccd7349122fe7237273"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libbox3d_cpu.a",
+      "bytes": 1567886,
+      "sha256": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-gpu/bin-samples_gpu",
+      "bytes": 43022560,
+      "sha256": "1e75665a3e9f0d14df14b99d6dd5595cf01f799ccb508840db2dab64a7f4fbfc"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-gpu/box3d_src-libbox3d.a",
+      "bytes": 1036012,
+      "sha256": "89a9885175a093466e480e39be39451b843bc7b40e86ca8f9259ee2faa9c1f1c"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-gpu/libgpu_samples_api.a",
+      "bytes": 279120,
+      "sha256": "68a72917baae066bd11b2bf8d4c6fb01bca510eded59796dd25d6c39a9d2bebc"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/bin-samples_both",
+      "bytes": 43807400,
+      "sha256": "8bf5495aa897b89908921a61e8d56010fbdd5f3eddac1cbdfbf0575cbf0bb421"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/box3d_src-libbox3d.a",
+      "bytes": 820770,
+      "sha256": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_samples_api.a",
+      "bytes": 72746,
+      "sha256": "bd8af0719c227f2284718e95f37fb835643b013070112d271c01e332d6f96c10"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_both_api.a",
+      "bytes": 283512,
+      "sha256": "9b4f557611a082bd6970755d8d76002968ab803001050ccd7349122fe7237273"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libbox3d_cpu.a",
+      "bytes": 1567886,
+      "sha256": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d"
+    }
+  ],
+  "taskRawAbsent": true,
+  "temporaryWasmPathsAbsent": true,
+  "retainedBytes": 16542067,
+  "candidateBytes": 367035504,
+  "peakSampledTaskRawBytes": 2127978845,
+  "ownedLeadersAbsent": 259
+}

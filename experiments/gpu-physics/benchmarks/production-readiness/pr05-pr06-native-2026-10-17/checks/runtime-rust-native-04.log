@@ -1,0 +1,11 @@
+
+running 2 tests
+test dispatch::tests::linear_dispatch_grid_boundaries_and_unique_coverage ... ok
+test dispatch::tests::linear_dispatch_rejects_unrepresentable_grid - should panic ... 
+thread 'dispatch::tests::linear_dispatch_rejects_unrepresentable_grid' (2844873) panicked at src/dispatch.rs:12:9:
+linear dispatch exceeds two-dimensional grid capacity
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 454 filtered out; finished in 0.00s
+

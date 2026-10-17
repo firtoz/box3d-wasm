@@ -1,4 +1,8 @@
-PR02 completed and commit authorized, 2026-10-17: **5 checks done, 0 left.** PR11 is committed as `17e3575a7`; the user authorized the PR02 follow-up commit. Push was not requested. [Current PR02 report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-contract-refresh-2026-10-17/README.md), [acceptance](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-contract-refresh-2026-10-17/acceptance.json) and [recovery log](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-contract-refresh-2026-10-17/log.md). Read that log FIRST on continuation. Current415stateful/376candidate/39excluded+17default-alias inventories pass on all4routes;59headless processes cover original API contracts, exclusions, independent CPU/defaults and supported native launcher policy. Original harness errors and configuration limits remain explicit. No production/Box3D/WASM edits, no live jobs or raw run directory. Stop after PR02; PR04 physics and later release gates remain open. This supersedes historical next-action prose below.
+PR05 and PR06 completed locally, 2026-10-17: **PR05 8/8 gates closed; PR06 5/5, 0 left.** [Verified runtime repairs, clean builds and consumer report](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/README.md), [acceptance](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/acceptance.json), [current recovery log](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/log.md). Read the log FIRST after continuation/compaction. Stop after PR06. User authorized the verified milestone commit on 2026-10-17; push was not requested. PR04 physical failures remain open and are next only on a new user request. Later relevant changes require release applicability review/refreeze. This supersedes older activation/stop prose below.
+
+Queue update, 2026-10-17: the user moved PR04 after PR06. PR05/PR06 are now complete; remaining order: **PR04 → PR07 → PR08 → PR12 → PR13**. All open physics criteria remain unchanged. Do not start PR04 automatically. If its repairs change release inputs, refreeze affected PR06 evidence before PR07.
+
+PR02 completed and committed as `7792af8f7`, 2026-10-17: **5 checks done, 0 left.** PR11 is committed as `17e3575a7`; the user authorized the PR02 follow-up commit. Push was not requested. [Current PR02 report](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-contract-refresh-2026-10-17/README.md), [acceptance](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-contract-refresh-2026-10-17/acceptance.json) and [recovery log](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-contract-refresh-2026-10-17/log.md). Read that log FIRST on continuation. Current415stateful/376candidate/39excluded+17default-alias inventories pass on all4routes;59headless processes cover original API contracts, exclusions, independent CPU/defaults and supported native launcher policy. Original harness errors and configuration limits remain explicit. No production/Box3D/WASM edits, no live jobs or raw run directory. Stop after PR02; PR04 physics and later release gates remain open. This supersedes historical next-action prose below.
 
 # GPU native production readiness
 
@@ -170,7 +174,7 @@ queue and recovery record. No separate competing production backlog.
 
 Priority updated by the user on 2026-10-02: address visible functionality gaps
 before continuing the deeper physical-correctness investigation. Execution order
-is **PR09 → PR10 → PR11 → PR04 → PR05 → PR06 → PR07 → PR08 → PR12 → PR13**;
+is **PR09 → PR10 → PR11 → PR05 → PR06 → PR04 → PR07 → PR08 → PR12 → PR13**;
 PR01/PR02/PR03 are complete at their named functional/preparation scope. The user prioritized PR02 closeout after PR11 on2026-10-17; its filter-default reopening is now resolved by the current receipt below. Stable item IDs are preserved. The user
 explicitly defers exact visual/scene-trajectory parity as described above; other
 acceptance criteria remain required. Floors, widgets and query behavior can be
@@ -296,6 +300,29 @@ PR10 watch disposition: [OBS01's original unconfirmed observation](../../experim
   observation does not yet establish a query or rendering defect.
   **Evidence:** [Verified repairs, original failures and targeted CPU-first visual evidence](../../experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/README.md).601independent records/backend,216additional encroachment/transform cases/backend,14,278frozen Height Field casts/13,340hits,95CPU-selected-facet primitive checks,4nested callback response modes and25Rust query regressions/backend pass at original1e-5. Actual query/draw/camera checks14/combinedroute pass. Cyclic vertex order and near-tied facet selection are explicit conventions, not whole-grid point/normal equivalence. Box3D/WASM unchanged; local verified milestone, not yet committed.
 
+- [x] **PR05 — Qualify runtime safety and lifecycle behavior.** Review and test
+  buffer bounds/dispatch coverage, reservation growth/overflow, C/Rust layouts,
+  ID generation/reuse, shape/body/joint replacement, callbacks/reentrancy,
+  query/event ordering, asynchronous status, replay invalidation and ownership.
+  Sticky loss/invalid state must remain observable; clearing diagnostics must
+  not make a failed world usable. Exercise repeated create/destroy/scene changes,
+  sleep/wake, pause/single-step, shutdown during loading and repeated startup.
+  Verify supported launch paths with caching enabled and disabled. Reuse existing
+  focused checks; add tests only for a concrete failure or uncovered requirement.
+  **Evidence:** [Runtime repair report and retained original failures](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/README.md), [13-gate acceptance](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/acceptance.json).98main Rust tests/34Cfixtures, supplemental dispatch/replay/cache controls,96public lifecyclecycles across cache modes,9viewer pause/single-step/scene-switch cells and4actual worker-loading shutdowns pass. Callback owner deadlock, unobservable terminal device failure and diagnostic16-byte replay-key schema are repaired. Owner-thread C/callback whitelist and controlled device-loss limits remain explicit; original harness/receipt failures are reconciled without concealing them.
+
+- [x] **PR06 — Freeze reproducible release builds and consumer integration.**
+  Clean-build CPU, GPU and combined native targets for both backends, verify
+  correct adapter selection and actual cache/replay behavior, and freeze the
+  release candidate's compiled inputs and executables. A minimal external native
+  consumer must create, step, read and destroy a world using the supported API.
+  Check the original TypeScript/demo workflow remains usable without modifying
+  Box3D/WASM. Record exact commands, dependency/toolchain revisions and build logs;
+  invocation checkout metadata alone cannot identify compiled source. Any later
+  relevant code change invalidates affected release evidence and requires an
+  applicability review/refreeze before final qualification.
+  **Evidence:** [Clean release/consumer receipts](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/README.md), [20artifact final verification](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/final-artifact-verification.json), [input/toolchain snapshot](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/release-inputs.json).Twoempty Rust targets/fiveindependentempty native builds,actualNVIDIA Vulkan/cache controls,5CPUfirst external consumers atoriginal1e-5,maxerror0,workspaceTS/demo andunchanged-sourceWASM runtimepass. Exactcompiledinputs/generatedsource/commands/dependencies/binaries arefrozen;consumedbuilds/SDK/rawremoved,350MiBnamedcandidate keptforPR07/refreeze. Relevant laterPR04changes invalidate affected evidence;fullphysics/repeats/performance remainopen.
+
 - [ ] **PR04 — Resolve required physical correctness failures.** Work from the
   earliest demonstrated defect and smallest calculation-level reproducer, using
   the method above. Do not use final ragdoll location as the debugging target.
@@ -310,29 +337,6 @@ PR10 watch disposition: [OBS01's original unconfirmed observation](../../experim
   **Evidence:** Partial [retained rigid-distance repair](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-distance-captures-2026-10-02/README.md): four original comparisons/49,920 lanes at unchanged 1e-5, 242 applicable regressions and 15 CPU-first scene recordings pass. Exact 107 candidate inputs match retained source; two known mode-0 selection failures remain recorded. This closes that defect only. Strict CPU/GPU ragdoll trajectory matching is now deferred by user instruction, with its failed evidence preserved. Loaded dragging/CCD and Rain physical defects remain unresolved; PR04 stays open.
 
 2026-10-15 scope decision: the user closed PERF04timeout under option1 while retaining all existing Rain physical failures here, at original tolerances. [Timeout closure](../../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/PERF04.md). Exact before/after state preservation establishes no new physical pass. PR04 remains unchecked; no historical solver campaign is resumed by this milestone.
-
-- [ ] **PR05 — Qualify runtime safety and lifecycle behavior.** Review and test
-  buffer bounds/dispatch coverage, reservation growth/overflow, C/Rust layouts,
-  ID generation/reuse, shape/body/joint replacement, callbacks/reentrancy,
-  query/event ordering, asynchronous status, replay invalidation and ownership.
-  Sticky loss/invalid state must remain observable; clearing diagnostics must
-  not make a failed world usable. Exercise repeated create/destroy/scene changes,
-  sleep/wake, pause/single-step, shutdown during loading and repeated startup.
-  Verify supported launch paths with caching enabled and disabled. Reuse existing
-  focused checks; add tests only for a concrete failure or uncovered requirement.
-  **Evidence:** OPEN.
-
-- [ ] **PR06 — Freeze reproducible release builds and consumer integration.**
-  Clean-build CPU, GPU and combined native targets for both backends, verify
-  correct adapter selection and actual cache/replay behavior, and freeze the
-  release candidate's compiled inputs and executables. A minimal external native
-  consumer must create, step, read and destroy a world using the supported API.
-  Check the original TypeScript/demo workflow remains usable without modifying
-  Box3D/WASM. Record exact commands, dependency/toolchain revisions and build logs;
-  invocation checkout metadata alone cannot identify compiled source. Any later
-  relevant code change invalidates affected release evidence and requires an
-  applicability review/refreeze before final qualification.
-  **Evidence:** OPEN.
 
 - [ ] **PR07 — Complete final-build physical and full-state repeat qualification.**
   Run the PR03 matrix against PR06 binaries with the documented 2026-10-02

@@ -1,0 +1,13 @@
+Resolving SDK version '6.0.2' to 'sdk-releases-004876f1984e18a9eb0736c5ca417ac86d386fb8-64bit'
+Installing SDK 'sdk-releases-004876f1984e18a9eb0736c5ca417ac86d386fb8-64bit'..
+Installing tool 'node-22.16.0-64bit'..
+Downloading: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/downloads/node-v22.16.0-linux-x64.tar.xz from https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/node-v22.16.0-linux-x64.tar.xz, 30425588 Bytes
+ [----------------------------------------------------------------------------]
+Unpacking '/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/downloads/node-v22.16.0-linux-x64.tar.xz' to '/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/node/22.16.0_64bit'
+Done installing tool 'node-22.16.0-64bit'.
+Installing tool 'releases-004876f1984e18a9eb0736c5ca417ac86d386fb8-64bit'..
+Downloading: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/downloads/004876f1984e18a9eb0736c5ca417ac86d386fb8-wasm-binaries.tar.xz from https://storage.googleapis.com/webassembly/emscripten-releases-builds/linux/004876f1984e18a9eb0736c5ca417ac86d386fb8/wasm-binaries.tar.xz, 290630564 Bytes
+ [----------------------------------------------------------------------------]
+Unpacking '/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/downloads/004876f1984e18a9eb0736c5ca417ac86d386fb8-wasm-binaries.tar.xz' to '/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream'
+Done installing tool 'releases-004876f1984e18a9eb0736c5ca417ac86d386fb8-64bit'.
+Done installing SDK 'sdk-releases-004876f1984e18a9eb0736c5ca417ac86d386fb8-64bit'.

@@ -426,11 +426,13 @@ const char* gpu_samples_shape_get_name(b3ShapeId shapeId)
 #ifndef BOTH_SAMPLES
 B3_API void b3Shape_SetName(b3ShapeId shapeId, const char* name)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_samples_shape_set_name(shapeId, name);
 }
 
 B3_API const char* b3Shape_GetName(b3ShapeId shapeId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(const char*);
 	return gpu_samples_shape_get_name(shapeId);
 }
 #endif
@@ -535,6 +537,7 @@ void gpu_samples_world_draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskB
 #ifndef BOTH_SAMPLES
 B3_API void b3World_Draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskBits)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_samples_world_draw(worldId, draw, maskBits);
 }
 #endif
@@ -556,6 +559,7 @@ b3AABB gpu_samples_world_bounds(b3WorldId worldId)
 #ifndef BOTH_SAMPLES
 B3_API b3AABB b3World_GetBounds(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3AABB);
 	return gpu_samples_world_bounds(worldId);
 }
 #endif
@@ -578,6 +582,7 @@ static void native_diagnostic_error(const char* operation, uint32_t status)
 
 B3_API b3Profile b3World_GetProfile(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Profile);
     GpuNativeProfile profile;
     gpu_b3_world_native_profile(worldId, &profile);
     b3Profile result;
@@ -588,6 +593,7 @@ B3_API b3Profile b3World_GetProfile(b3WorldId worldId)
 
 B3_API b3Counters b3World_GetCounters(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Counters);
     b3Counters result;
     const uint32_t status = gpu_b3_world_native_counters(worldId, &result);
     native_diagnostic_error(__func__, status);
@@ -596,6 +602,7 @@ B3_API b3Counters b3World_GetCounters(b3WorldId worldId)
 
 B3_API b3Capacity b3World_GetMaxCapacity(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Capacity);
     b3Capacity result;
     const uint32_t status = gpu_b3_world_native_max_capacity(worldId, &result);
     native_diagnostic_error(__func__, status);
@@ -604,11 +611,13 @@ B3_API b3Capacity b3World_GetMaxCapacity(b3WorldId worldId)
 
 B3_API void b3World_EnableSleeping(b3WorldId worldId, bool flag)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_world_enable_sleeping(worldId, flag);
 }
 
 B3_API bool b3World_IsSleepingEnabled(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
 	return gpu_b3_world_is_sleeping_enabled(worldId);
 }
 
@@ -618,12 +627,14 @@ B3_API bool b3World_IsSleepingEnabled(b3WorldId worldId)
 #ifndef BOTH_SAMPLES
 B3_API b3Vec3 b3World_GetGravity(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);
 	return gpu_b3_world_get_gravity(worldId);
 }
 #endif
 
 B3_API void b3World_DumpMemoryStats(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     GpuNativeAllocation allocation;
     gpu_b3_world_native_allocation(worldId, &allocation);
     if (allocation.valid != GPU_DIAGNOSTIC_OK) {
@@ -649,6 +660,7 @@ static void native_print_shape_bounds(const GpuNativeShapeBounds* record, void* 
 
 B3_API void b3World_DumpShapeBounds(b3WorldId worldId, b3BodyType type)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     const uint32_t status = gpu_b3_world_native_visit_shape_bounds(worldId, (uint32_t)type,
         native_print_shape_bounds, NULL);
     native_diagnostic_error(__func__, status);
@@ -661,6 +673,7 @@ B3_API bool b3Body_IsValid(b3BodyId id)
 
 B3_API b3BodyType b3Body_GetType(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3BodyType);
 	return gpu_b3_body_is_static(bodyId) ? b3_staticBody : b3_dynamicBody;
 }
 
@@ -683,6 +696,7 @@ b3WorldTransform gpu_samples_body_transform(b3BodyId bodyId)
 #ifndef BOTH_SAMPLES
 B3_API b3WorldTransform b3Body_GetTransform(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3WorldTransform);
 	return gpu_samples_body_transform(bodyId);
 }
 #endif
@@ -690,6 +704,7 @@ B3_API b3WorldTransform b3Body_GetTransform(b3BodyId bodyId)
 #ifndef BOTH_SAMPLES
 B3_API b3Vec3 b3Body_GetLocalPoint(b3BodyId bodyId, b3Pos worldPoint)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);
 	float p[3] = {0};
 	float q[4] = {0, 0, 0, 1};
 	gpu_b3_body_get_position(bodyId, p);
@@ -704,16 +719,19 @@ B3_API b3Vec3 b3Body_GetLocalPoint(b3BodyId bodyId, b3Pos worldPoint)
 
 B3_API b3MassData b3Body_GetMassData(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3MassData);
 	return gpu_b3_body_get_mass_data(bodyId);
 }
 
 B3_API void b3Body_SetMassData(b3BodyId bodyId, b3MassData data)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_set_mass_data(bodyId, data);
 }
 
 B3_API void b3Body_SetAwake(b3BodyId bodyId, bool awake)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_set_awake(bodyId, awake);
 }
 #endif
@@ -780,12 +798,14 @@ B3_API b3BodyId b3Shape_GetBody(b3ShapeId shapeId)
 
 B3_API bool b3Joint_IsValid(b3JointId id)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
 	return gpu_b3_joint_is_valid(id);
 }
 
 #ifndef BOTH_SAMPLES
 B3_API void b3DestroyJoint(b3JointId jointId, bool wakeAttached)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_destroy_joint(jointId, wakeAttached);
 }
 #endif
@@ -805,6 +825,7 @@ B3_API void b3DestroyRecording(b3Recording* recording)
 
 B3_API void b3World_StartRecording(b3WorldId worldId, b3Recording* recording)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_native_api_unavailable(__func__);
 	(void)worldId;
 	(void)recording;
@@ -812,6 +833,7 @@ B3_API void b3World_StartRecording(b3WorldId worldId, b3Recording* recording)
 
 B3_API void b3World_StopRecording(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_native_api_unavailable(__func__);
 	(void)worldId;
 }

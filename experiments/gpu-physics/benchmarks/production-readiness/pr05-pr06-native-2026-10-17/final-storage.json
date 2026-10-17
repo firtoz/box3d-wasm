@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "retainedEvidenceBytes": 16560120,
+  "candidateBytes": 367035504,
+  "trackedEvidenceCap": 67108864,
+  "candidateCap": 536870912,
+  "temporaryCap": 6442450944,
+  "sampledPeakRawBytes": 2127978845,
+  "rawAbsent": true,
+  "ownedRecordedPidsAbsent": 277,
+  "stopAfterPr06": true
+}

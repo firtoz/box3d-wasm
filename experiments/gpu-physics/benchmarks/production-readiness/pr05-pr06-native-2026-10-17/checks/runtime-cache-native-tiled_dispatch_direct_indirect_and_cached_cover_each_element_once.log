@@ -1,0 +1,29 @@
+
+running 1 test
+test dispatch_gpu_tests::tiled_dispatch_direct_indirect_and_cached_cover_each_element_once ... GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+direct: 0 groups -> [0, 1, 1], 0 elements exactly once
+indirect: 0 groups -> [0, 1, 1], 0 elements exactly once
+cached-direct: 0 groups -> [0, 1, 1], 0 elements exactly once
+cached-indirect: 0 groups -> [0, 1, 1], 0 elements exactly once
+direct: 1 groups -> [1, 1, 1], 17 elements exactly once
+indirect: 1 groups -> [1, 1, 1], 17 elements exactly once
+cached-direct: 1 groups -> [1, 1, 1], 17 elements exactly once
+cached-indirect: 1 groups -> [1, 1, 1], 17 elements exactly once
+direct: 65535 groups -> [65535, 1, 1], 4194193 elements exactly once
+indirect: 65535 groups -> [65535, 1, 1], 4194193 elements exactly once
+cached-direct: 65535 groups -> [65535, 1, 1], 4194193 elements exactly once
+cached-indirect: 65535 groups -> [65535, 1, 1], 4194193 elements exactly once
+direct: 65536 groups -> [256, 256, 1], 4194257 elements exactly once
+indirect: 65536 groups -> [256, 256, 1], 4194257 elements exactly once
+cached-direct: 65536 groups -> [256, 256, 1], 4194257 elements exactly once
+cached-indirect: 65536 groups -> [256, 256, 1], 4194257 elements exactly once
+direct: 65537 groups -> [256, 257, 1], 4194321 elements exactly once
+indirect: 65537 groups -> [256, 257, 1], 4194321 elements exactly once
+cached-direct: 65537 groups -> [256, 257, 1], 4194321 elements exactly once
+cached-indirect: 65537 groups -> [256, 257, 1], 4194321 elements exactly once
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 455 filtered out; finished in 0.23s
+

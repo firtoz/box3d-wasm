@@ -1,0 +1,67 @@
+{
+  "phase": "release-loading-close",
+  "status": "FAILED",
+  "protocolSha256": "8a1127f35cc2acfefd4d9360f8c7fcf32f4cd7d15207a6983013173cfa652239",
+  "inputHashes": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr05-loading-close.ts": "7b099c884c59b3907bedf60b8e555e01c3ebc016ecd2570bf3e392d9b8ee40b0",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/close-window.cpp": "1aae5889f3f4a16ac1d23b40293566e41e9da0bd3a741b642fd0688eb3f8501a"
+  },
+  "rows": [
+    {
+      "label": "link-close-helper",
+      "argv": [
+        "g++",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/close-window.cpp",
+        "-lX11",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/close-window"
+      ],
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1"
+      },
+      "pid": 2940328,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 0,
+      "elapsedMs": 95,
+      "log": "checks/release-loading-close-link-close-helper.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "ordinary-gpu",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr05-loading-close.ts",
+        "ordinary-gpu"
+      ],
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE": "0"
+      },
+      "pid": 2940335,
+      "code": 1,
+      "signal": null,
+      "reason": "Missing required output: PASS loading-worker shutdown",
+      "expectedTimeout": false,
+      "accepted": false,
+      "bytes": 814,
+      "elapsedMs": 15128,
+      "log": "checks/release-loading-close-ordinary-gpu.log",
+      "logSha256": "227be4fa0edaa72595a83e059d504b8ff1f642b4e73b3f977377f6ba6156d5b8"
+    }
+  ],
+  "elapsedMs": 15301,
+  "error": "Error: ordinary-gpu failed; inspect its retained log",
+  "removedBytes": 0,
+  "peakRawBytes": 2021394115
+}

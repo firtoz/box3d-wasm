@@ -1,0 +1,177 @@
+{
+  "phase": "release-wasm",
+  "status": "PASS",
+  "protocolSha256": "beea7becf309642f7e1812313e08c78c64f2959fd17c5c59296bf1d9a5102a6c",
+  "inputHashes": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-wasm-receipt.ts": "7f76c0cb69b1c63d3795047b1be0983ee3b659f1a8bce580dee61c9263ae8a83",
+    "/home/firtoz/work/2026/box3d-wasm/tools/emsdk-version": "8adcc17e039842d2f4d92ca25f72a8963ede072c885ef5f762c0682b87c6d872"
+  },
+  "rows": [
+    {
+      "label": "configure",
+      "argv": [
+        "bash",
+        "-c",
+        "set -e; source \"$1\" >/dev/null; export EM_CONFIG=\"$2\"; shift 2; exec \"$@\"",
+        "wasm-env",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/emsdk_env.sh",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/.emscripten",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten/emcmake",
+        "cmake",
+        "-S",
+        "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake",
+        "-B",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/build",
+        "-DBOX3D_SOURCE_DIR=/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/.box3d-patched",
+        "-DBOX3D_SAMPLES=OFF",
+        "-DBOX3D_BENCHMARKS=OFF",
+        "-DBOX3D_DOCS=OFF",
+        "-DBOX3D_UNIT_TESTS=OFF",
+        "-DBOX3D_VALIDATE=OFF",
+        "-DBOX3D_DISABLE_SIMD=OFF",
+        "-DBOX3D_WASM_PROFILE_NAMES=OFF",
+        "-DBOX3D_WASM_ALLOW_MEMORY_GROWTH=OFF",
+        "-DBOX3D_WASM_INITIAL_MEMORY=268435456",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/out"
+      ],
+      "environment": {
+        "EM_CONFIG": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/.emscripten",
+        "EM_CACHE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten/cache"
+      },
+      "pid": 2951364,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 3449,
+      "elapsedMs": 829,
+      "log": "checks/release-wasm-configure.log",
+      "logSha256": "8fc394e94a4cc60316668b73e63215fd8d2e883cb60f4682e3d3c222e2858401"
+    },
+    {
+      "label": "build",
+      "argv": [
+        "bash",
+        "-c",
+        "set -e; source \"$1\" >/dev/null; export EM_CONFIG=\"$2\"; shift 2; exec \"$@\"",
+        "wasm-env",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/emsdk_env.sh",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/.emscripten",
+        "cmake",
+        "--build",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/build",
+        "--parallel",
+        "2"
+      ],
+      "environment": {
+        "EM_CONFIG": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/.emscripten",
+        "EM_CACHE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten/cache"
+      },
+      "pid": 2951394,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 9619,
+      "elapsedMs": 15507,
+      "log": "checks/release-wasm-build.log",
+      "logSha256": "169e0c3c9ffe628185bd32852a6e28bc1e49c8c8576a2bf3ce27057f25775bfc"
+    },
+    {
+      "label": "link-temporary-artifacts",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-wasm-receipt.ts",
+        "publish"
+      ],
+      "environment": {
+        "EM_CONFIG": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/.emscripten",
+        "EM_CACHE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten/cache"
+      },
+      "pid": 2952433,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 62,
+      "elapsedMs": 27,
+      "log": "checks/release-wasm-link-temporary-artifacts.log",
+      "logSha256": "1651d8fd7a90da0c2286b3c49046a187e29bea4d6778be93b7556bd2f2af3ab0"
+    },
+    {
+      "label": "wasm-runtime",
+      "argv": [
+        "bun",
+        "scripts/wasm-dump.ts",
+        "Single Box",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/wasm-single-box.json",
+        "--frames",
+        "0,1,2"
+      ],
+      "environment": {
+        "EM_CONFIG": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/.emscripten",
+        "EM_CACHE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten/cache"
+      },
+      "pid": 2952443,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 72,
+      "elapsedMs": 272,
+      "log": "checks/release-wasm-wasm-runtime.log",
+      "logSha256": "f5b7731b327196ceb78c83434889b72508494c18edf13ac5ceb6b9031e3b6595"
+    },
+    {
+      "label": "demo-build-with-wasm",
+      "argv": [
+        "bun",
+        "run",
+        "--cwd",
+        "demo",
+        "build",
+        "--outDir",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/demo-with-wasm",
+        "--emptyOutDir"
+      ],
+      "environment": {
+        "EM_CONFIG": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/.emscripten",
+        "EM_CACHE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten/cache"
+      },
+      "pid": 2952511,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 26961,
+      "elapsedMs": 4051,
+      "log": "checks/release-wasm-demo-build-with-wasm.log",
+      "logSha256": "2ad6c4575adedca729ac7897e686882bda65071eb533bf79192a62d710d69ced"
+    },
+    {
+      "label": "verify-clean",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-wasm-receipt.ts",
+        "finish"
+      ],
+      "environment": {
+        "EM_CONFIG": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/.emscripten",
+        "EM_CACHE": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/wasm/sdk/upstream/emscripten/cache"
+      },
+      "pid": 2952715,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 78,
+      "elapsedMs": 454,
+      "log": "checks/release-wasm-verify-clean.log",
+      "logSha256": "8c790fcbd15bfce0b670d6824130739ed87863bd544bab98e31636f381299574"
+    }
+  ],
+  "elapsedMs": 21216,
+  "removedBytes": 21555576,
+  "peakRawBytes": 2030026047
+}

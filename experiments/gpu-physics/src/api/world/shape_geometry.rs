@@ -13,14 +13,11 @@ fn replace(id: ShapeId, edit: impl FnOnce(&mut CpuShape) -> bool) -> bool {
     }
     let world = world_id_from_shape(id);
     // Upstream refuses geometry edits from locked callbacks.
-    let mut worlds = match WORLDS.try_lock() {
-        Ok(worlds) => worlds,
-        Err(std::sync::TryLockError::Poisoned(error)) => error.into_inner(),
-        Err(std::sync::TryLockError::WouldBlock) => return false,
-    };
+    let Some(mut worlds) = registry_access::try_lock() else { return false; };
     let Some(w) = slot_mut(&mut worlds, world) else {
         return false;
     };
+    if observe_device_failure(w) { return false; }
     ensure_cpu_mirror_world(w, world);
     {
         let index = id.index1 as usize - 1;

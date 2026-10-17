@@ -7,11 +7,9 @@
 #include <string.h>
 #include "native_api_status.h"
 
-static _Thread_local const char* g_unavailable_operation;
-
 void gpu_native_api_error(const char* operation, int error_code)
 {
-	g_unavailable_operation = operation;
+	gpu_b3_native_api_record_error(operation, error_code);
 	errno = error_code;
 }
 
@@ -22,12 +20,12 @@ void gpu_native_api_unavailable(const char* operation)
 
 const char* gpu_b3_native_api_last_error(void)
 {
-	return g_unavailable_operation;
+	return gpu_b3_native_api_error_name();
 }
 
 void gpu_b3_native_api_clear_error(void)
 {
-	g_unavailable_operation = NULL;
+	gpu_b3_native_api_reset_error();
 	errno = 0;
 }
 

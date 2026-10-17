@@ -1,0 +1,6 @@
+
+running 1 test
+test api::world::callback_shape_reads::runtime02_callback_reads_tests::owned_metadata_validates_identity_and_other_worlds ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 455 filtered out; finished in 0.00s
+

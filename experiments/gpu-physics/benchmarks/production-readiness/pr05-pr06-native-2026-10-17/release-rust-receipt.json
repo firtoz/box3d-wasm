@@ -1,0 +1,141 @@
+{
+  "phase": "release-rust",
+  "status": "PASS",
+  "protocolSha256": "68ed33eff5bd703e7ed512c30558bb068e791911c5685e3a7d380b6b51c42229",
+  "inputHashes": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-build-receipt.ts": "7a315f6da2742bc2df6151b8806fc83f451d0d7543eaed5fb24c0d147b55e27a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/Cargo.lock": "3af9cc6759c71566152cf99045404728b6793422309be4d05164fbe89fd7b616",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-workspace/experiments/gpu-physics/Cargo.lock": "0efa84fe3f11ef7c436fb831d3c7c9ab52387b6803a67f49b1c6e4e7f243489f"
+  },
+  "rows": [
+    {
+      "label": "freeze-inputs",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-build-receipt.ts",
+        "inputs"
+      ],
+      "environment": {
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2882761,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 60,
+      "elapsedMs": 497,
+      "log": "checks/release-rust-freeze-inputs.log",
+      "logSha256": "773d382cae641f4ebe416c41a940a5046b74a01d75467982baa9bed4c8015cd3"
+    },
+    {
+      "label": "ordinary-clean-library",
+      "argv": [
+        "cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "--release",
+        "--lib",
+        "--manifest-path",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/Cargo.toml",
+        "--target-dir",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/rust-ordinary",
+        "--features",
+        "external-c-shim,replay-diagnostics",
+        "-j2",
+        "--message-format=json"
+      ],
+      "environment": {
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2882823,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 203149,
+      "elapsedMs": 192844,
+      "log": "checks/release-rust-ordinary-clean-library.log",
+      "logSha256": "fb42e9c11c71b46c88bd2990bd317939b95a932e1a422d9ea3579e99e69a51a3"
+    },
+    {
+      "label": "ordinary-receipt",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-build-receipt.ts",
+        "rust",
+        "ordinary"
+      ],
+      "environment": {
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2893291,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 52,
+      "elapsedMs": 843,
+      "log": "checks/release-rust-ordinary-receipt.log",
+      "logSha256": "156b6c61aff9dea5d6196a0beab1eefd3e8f2f6da8ec07e34d76de6fb40a63e4"
+    },
+    {
+      "label": "native-clean-library",
+      "argv": [
+        "cargo",
+        "--config",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-backend/cargo-config.toml",
+        "build",
+        "--offline",
+        "--locked",
+        "--release",
+        "--lib",
+        "--manifest-path",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-workspace/experiments/gpu-physics/Cargo.toml",
+        "--target-dir",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/raw/rust-native",
+        "--features",
+        "external-c-shim,replay-diagnostics,native-command-cache",
+        "-j2",
+        "--message-format=json"
+      ],
+      "environment": {
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2893330,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 328442,
+      "elapsedMs": 211743,
+      "log": "checks/release-rust-native-clean-library.log",
+      "logSha256": "0559244e4714e6532383ea2af96b8d3d01cfbb9da90f3dba24d51f3cadafcb42"
+    },
+    {
+      "label": "native-receipt",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/pr06-build-receipt.ts",
+        "rust",
+        "native"
+      ],
+      "environment": {
+        "CARGO_INCREMENTAL": "0"
+      },
+      "pid": 2904034,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 50,
+      "elapsedMs": 955,
+      "log": "checks/release-rust-native-receipt.log",
+      "logSha256": "b16b894db20d04911f8b53683654f1381b401633e6acc5584b5659371efce28b"
+    }
+  ],
+  "elapsedMs": 406890,
+  "removedBytes": 0,
+  "peakRawBytes": 1782245555
+}

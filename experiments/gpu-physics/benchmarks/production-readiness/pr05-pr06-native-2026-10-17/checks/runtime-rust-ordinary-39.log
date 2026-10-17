@@ -1,0 +1,33 @@
+
+running 1 test
+test api::world::vis02_metadata_tests::vis02_metadata_idle_callback_lifetime ... GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+physics-pipeline-cache: submitted 93542100 compatible bytes from /home/firtoz/.cache/box3d-gpu-physics/pipelines/wgpu_pipeline_cache_vulkan_4318_10115_8630c1e8656103274ce2c594064a4787
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=1 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+GPU pose export: Vulkan opaque FD 23 (28672 bytes)
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=1 flags=0006000c position=[0.0, 0.0, 0.0] velocity=[0.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=2 flags=0006000c position=[0.0, 0.0, 0.0] velocity=[0.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=3 flags=0006000c position=[0.0, 0.0, 0.0] velocity=[0.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=4 flags=0006000c position=[0.0, 0.0, 0.0] velocity=[0.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=5 flags=0006000c position=[0.0, 0.0, 0.0] velocity=[0.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=6 flags=0006000c position=[0.0, 0.0, 0.0] velocity=[0.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=7 flags=0006000c position=[0.0, 0.0, 0.0] velocity=[0.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=8 flags=0006000c position=[0.0, 0.0, 0.0] velocity=[0.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=9 flags=0006000c position=[0.0, 0.0, 0.0] velocity=[0.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=10 flags=0006000c position=[0.0, 0.0, 0.0] velocity=[0.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=11 flags=0006000c position=[0.0, 0.0, 0.0] velocity=[0.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=12 flags=0006000c position=[0.0, 0.0, 0.0] velocity=[0.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=13 flags=0006000c position=[0.0, 0.0, 0.0] velocity=[0.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=14 flags=0006000c position=[0.0, 0.0, 0.0] velocity=[0.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=15 flags=0006000c position=[0.0, 0.0, 0.0] velocity=[0.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=16 flags=0006000c position=[0.0, 0.0, 0.0] velocity=[0.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=17 flags=00038008 position=[0.033333335, 0.0, 0.0] velocity=[2.0, 0.0, 0.0]
+VIS02_METADATA world=1 body=BodyId { index1: 1, world0: 1, generation: 1 } step=18 flags=00000008 position=[0.050000004, 0.0, 0.0] velocity=[1.0, 0.0, 0.0]
+physics-pipeline-cache: save 93542100 bytes, success=true
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 441 filtered out; finished in 1.06s
+

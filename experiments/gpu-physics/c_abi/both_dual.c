@@ -1,4 +1,5 @@
 #include "box3d/box3d.h"
+#include "native_api_status.h"
 #include "height_field_compat.h"
 #include "both_ids.h"
 #include "both_view.h"
@@ -876,6 +877,7 @@ extern void gpu_b3_body_set_name(b3BodyId, const char*);
 extern void gpu_b3_body_set_sleep_threshold(b3BodyId, float);
 B3_API b3WorldId b3CreateWorld(const b3WorldDef* def)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3WorldId);
 	static bool banner_shown;
 	if (!banner_shown) { both_banner(); banner_shown = true; }
 	if (!def)
@@ -900,6 +902,7 @@ B3_API b3WorldId b3CreateWorld(const b3WorldDef* def)
 
 B3_API void b3DestroyWorld(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     // A stale generation must not clear the replacement's visual/geometry state.
     // Retain cleanup of the matching CPU mapping after a GPU world is lost.
     if (!gpu_b3_world_is_valid(worldId) && !both_has_cpu_world(worldId)) { return; }
@@ -924,6 +927,7 @@ B3_API bool b3World_IsValid(b3WorldId id)
 
 B3_API void b3World_SetFrictionCallback(b3WorldId worldId, b3FrictionCallback* callback)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_world_set_friction_callback(worldId, callback);
 	if (both_has_cpu_world(worldId))
 	{
@@ -933,6 +937,7 @@ B3_API void b3World_SetFrictionCallback(b3WorldId worldId, b3FrictionCallback* c
 
 B3_API void b3World_SetRestitutionCallback(b3WorldId worldId, b3RestitutionCallback* callback)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_world_set_restitution_callback(worldId, callback);
 	if (both_has_cpu_world(worldId))
 	{
@@ -942,6 +947,7 @@ B3_API void b3World_SetRestitutionCallback(b3WorldId worldId, b3RestitutionCallb
 
 B3_API void b3World_Step(b3WorldId worldId, float timeStep, int subStepCount)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     both_drag_step(worldId, timeStep);
 	gpu_b3_world_step(worldId, timeStep, subStepCount);
 	gpu_samples_on_world_step(worldId, timeStep);
@@ -954,11 +960,13 @@ B3_API void b3World_Step(b3WorldId worldId, float timeStep, int subStepCount)
 
 B3_API void b3World_Wait(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_world_wait(worldId);
 }
 
 B3_API void b3World_SetCustomFilterCallback(b3WorldId worldId, b3CustomFilterFcn* fcn, void* context)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	/* GPU is the public/event-authoritative path. Installing this on the CPU
 	 * oracle too would duplicate user-visible callback side effects. */
 	gpu_b3_world_set_custom_filter_callback(worldId, fcn, context);
@@ -966,6 +974,7 @@ B3_API void b3World_SetCustomFilterCallback(b3WorldId worldId, b3CustomFilterFcn
 
 B3_API void b3World_SetPreSolveCallback(b3WorldId worldId, b3PreSolveFcn* fcn, void* context)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	/* See custom filtering above: CPU comparison intentionally runs without
 	 * user callbacks when samples_both is selected. */
 	gpu_b3_world_set_pre_solve_callback(worldId, fcn, context);
@@ -973,6 +982,7 @@ B3_API void b3World_SetPreSolveCallback(b3WorldId worldId, b3PreSolveFcn* fcn, v
 
 B3_API void b3World_Explode(b3WorldId worldId, const b3ExplosionDef* def)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	if (def == NULL)
 	{
 		return;
@@ -987,6 +997,7 @@ B3_API void b3World_Explode(b3WorldId worldId, const b3ExplosionDef* def)
 
 B3_API b3ContactEvents b3World_GetContactEvents(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3ContactEvents);
 	b3ContactEvents events = {0};
 	const b3ContactBeginTouchEvent* beginEvents = NULL;
 	const b3ContactEndTouchEvent* endEvents = NULL;
@@ -1001,6 +1012,7 @@ B3_API b3ContactEvents b3World_GetContactEvents(b3WorldId worldId)
 
 B3_API b3BodyEvents b3World_GetBodyEvents(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3BodyEvents);
 	b3BodyEvents events = {0};
 	const b3BodyMoveEvent* moveEvents = NULL;
 	gpu_b3_world_get_body_events(worldId, &moveEvents, &events.moveCount);
@@ -1010,6 +1022,7 @@ B3_API b3BodyEvents b3World_GetBodyEvents(b3WorldId worldId)
 
 B3_API b3JointEvents b3World_GetJointEvents(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3JointEvents);
 	b3JointEvents events = {0};
 	const b3JointEvent* jointEvents = NULL;
 	gpu_b3_world_get_joint_events(worldId, &jointEvents, &events.count);
@@ -1019,6 +1032,7 @@ B3_API b3JointEvents b3World_GetJointEvents(b3WorldId worldId)
 
 B3_API void b3World_SetHitEventThreshold(b3WorldId worldId, float value)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_world_set_hit_event_threshold(worldId, value);
 	if (both_has_cpu_world(worldId))
 	{
@@ -1028,11 +1042,13 @@ B3_API void b3World_SetHitEventThreshold(b3WorldId worldId, float value)
 
 B3_API float b3World_GetHitEventThreshold(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_world_get_hit_event_threshold(worldId);
 }
 
 B3_API b3SensorEvents b3World_GetSensorEvents(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3SensorEvents);
 	b3SensorEvents events = {0};
 	const b3SensorBeginTouchEvent* beginEvents = NULL;
 	const b3SensorEndTouchEvent* endEvents = NULL;
@@ -1069,6 +1085,7 @@ void gpu_samples_get_cpu_stats(b3WorldId worldId, b3Profile* profile, b3Counters
 
 B3_API void b3World_EnableSleeping(b3WorldId worldId, bool flag)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_world_enable_sleeping(worldId, flag);
 	if (both_has_cpu_world(worldId))
 	{
@@ -1078,11 +1095,13 @@ B3_API void b3World_EnableSleeping(b3WorldId worldId, bool flag)
 
 B3_API bool b3World_IsSleepingEnabled(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
 	return gpu_b3_world_is_sleeping_enabled(worldId);
 }
 
 B3_API void b3World_SetGravity(b3WorldId worldId, b3Vec3 gravity)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_world_set_gravity(worldId, gravity.x, gravity.y, gravity.z);
 	if (both_has_cpu_world(worldId))
 	{
@@ -1092,11 +1111,13 @@ B3_API void b3World_SetGravity(b3WorldId worldId, b3Vec3 gravity)
 
 B3_API b3Vec3 b3World_GetGravity(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);
 	return gpu_b3_world_get_gravity(worldId);
 }
 
 B3_API void b3World_EnableContinuous(b3WorldId worldId, bool flag)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_world_enable_continuous(worldId, flag);
 	if (both_has_cpu_world(worldId))
 	{
@@ -1106,11 +1127,13 @@ B3_API void b3World_EnableContinuous(b3WorldId worldId, bool flag)
 
 B3_API bool b3World_IsContinuousEnabled(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
 	return gpu_b3_world_is_continuous_enabled(worldId);
 }
 
 B3_API void b3World_Draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskBits)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	if (draw == NULL)
 	{
 		return;
@@ -1151,6 +1174,7 @@ B3_API void b3World_Draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskBits
 
 B3_API b3AABB b3World_GetBounds(b3WorldId worldId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3AABB);
 	float dx = g_split ? 0.0f : scene_dx(worldId);
 	b3AABB gpu = gpu_samples_world_bounds(worldId);
 	gpu.lowerBound.x += dx;
@@ -1172,6 +1196,7 @@ B3_API bool b3Shape_IsValid(b3ShapeId id) { return gpu_b3_shape_is_valid(id); }
 
 B3_API b3BodyId b3CreateBody(b3WorldId worldId, const b3BodyDef* def)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3BodyId);
 	if (!def)
 	{
 		return (b3BodyId){0};
@@ -1199,6 +1224,7 @@ B3_API b3BodyId b3CreateBody(b3WorldId worldId, const b3BodyDef* def)
 
 B3_API void b3Body_SetUserData(b3BodyId bodyId, void* userData)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_set_user_data(bodyId, (uintptr_t)userData);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -1208,11 +1234,13 @@ B3_API void b3Body_SetUserData(b3BodyId bodyId, void* userData)
 
 B3_API void* b3Body_GetUserData(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(void*);
 	return (void*)gpu_b3_body_get_user_data(bodyId);
 }
 
 B3_API void b3DestroyBody(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     gpu_shape_clear_body_geometry(bodyId);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -1246,6 +1274,7 @@ static void configure_gpu_shape(GpuShapeId id, const b3ShapeDef* def)
 
 B3_API b3Filter b3Shape_GetFilter(b3ShapeId shapeId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Filter);
 	b3Filter filter = {0};
 	gpu_b3_shape_get_filter(shapeId, &filter.categoryBits, &filter.maskBits, &filter.groupIndex);
 	return filter;
@@ -1253,6 +1282,7 @@ B3_API b3Filter b3Shape_GetFilter(b3ShapeId shapeId)
 
 B3_API void b3Shape_SetFilter(b3ShapeId shapeId, b3Filter filter, bool invokeContacts)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_shape_set_filter(shapeId, filter.categoryBits, filter.maskBits, filter.groupIndex, invokeContacts);
 	if (both_has_cpu_shape(shapeId))
 	{
@@ -1262,6 +1292,7 @@ B3_API void b3Shape_SetFilter(b3ShapeId shapeId, b3Filter filter, bool invokeCon
 
 B3_API void b3Shape_EnableContactEvents(b3ShapeId shapeId, bool flag)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_shape_enable_contact_events(shapeId, flag);
 	if (both_has_cpu_shape(shapeId))
 	{
@@ -1276,6 +1307,7 @@ B3_API bool b3Shape_AreContactEventsEnabled(b3ShapeId shapeId)
 
 B3_API void b3Shape_EnablePreSolveEvents(b3ShapeId shapeId, bool flag)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_shape_enable_pre_solve_events(shapeId, flag);
 	if (both_has_cpu_shape(shapeId))
 	{
@@ -1290,6 +1322,7 @@ B3_API bool b3Shape_ArePreSolveEventsEnabled(b3ShapeId shapeId)
 
 B3_API void b3Shape_EnableHitEvents(b3ShapeId shapeId, bool flag)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_shape_enable_hit_events(shapeId, flag);
 	if (both_has_cpu_shape(shapeId))
 	{
@@ -1309,6 +1342,7 @@ B3_API bool b3Shape_IsSensor(b3ShapeId shapeId)
 
 B3_API void b3Shape_EnableSensorEvents(b3ShapeId shapeId, bool flag)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_shape_enable_sensor_events(shapeId, flag);
 	if (both_has_cpu_shape(shapeId))
 	{
@@ -1323,16 +1357,19 @@ B3_API bool b3Shape_AreSensorEventsEnabled(b3ShapeId shapeId)
 
 B3_API int b3Shape_GetSensorCapacity(b3ShapeId shapeId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(int);
 	return gpu_b3_shape_get_sensor_capacity(shapeId);
 }
 
 B3_API int b3Shape_GetSensorData(b3ShapeId shapeId, b3ShapeId* visitorIds, int capacity)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(int);
 	return gpu_b3_shape_get_sensor_data(shapeId, visitorIds, capacity);
 }
 
 B3_API void b3DestroyShape(b3ShapeId shapeId, bool updateBodyMass)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     if (!gpu_b3_shape_is_valid(shapeId) && !both_has_cpu_shape(shapeId)) { return; }
     gpu_shape_clear_geometry(shapeId);
 	if (both_has_cpu_shape(shapeId))
@@ -1364,6 +1401,7 @@ static b3ShapeId both_create_sphere_shape(b3BodyId bodyId, const b3ShapeDef* def
 
 B3_API b3ShapeId b3CreateSphereShape(b3BodyId bodyId, const b3ShapeDef* def, const b3Sphere* sphere)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3ShapeId);
 	return both_create_sphere_shape(bodyId, def, sphere, true);
 }
 
@@ -1419,6 +1457,7 @@ static b3ShapeId both_create_hull_shape(b3BodyId bodyId, const b3ShapeDef* def, 
 
 B3_API b3ShapeId b3CreateHullShape(b3BodyId bodyId, const b3ShapeDef* def, const b3HullData* hull)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3ShapeId);
 	return both_create_hull_shape(bodyId, def, hull, true);
 }
 
@@ -1438,6 +1477,7 @@ static b3ShapeId both_create_transformed_hull_shape(b3BodyId bodyId, const b3Sha
 B3_API b3ShapeId b3CreateTransformedHullShape(b3BodyId bodyId, const b3ShapeDef* def, const b3HullData* hull,
 											  b3Transform transform, b3Vec3 scale)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3ShapeId);
 	return both_create_transformed_hull_shape(bodyId, def, hull, transform, scale, true);
 }
 
@@ -1468,11 +1508,13 @@ static b3ShapeId both_create_capsule_shape(b3BodyId bodyId, const b3ShapeDef* de
 
 B3_API b3ShapeId b3CreateCapsuleShape(b3BodyId bodyId, const b3ShapeDef* def, const b3Capsule* capsule)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3ShapeId);
 	return both_create_capsule_shape(bodyId, def, capsule, true);
 }
 
 B3_API b3ShapeId b3CreateMeshShape(b3BodyId bodyId, const b3ShapeDef* def, const b3MeshData* mesh, b3Vec3 scale)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3ShapeId);
 	if (mesh == NULL || mesh->version != B3_MESH_VERSION)
 	{
 		return (b3ShapeId){0};
@@ -1505,6 +1547,7 @@ B3_API b3ShapeId b3CreateMeshShape(b3BodyId bodyId, const b3ShapeDef* def, const
 B3_API b3ShapeId b3CreateHeightFieldShape(b3BodyId bodyId, const b3ShapeDef* def,
 										  const b3HeightFieldData* heightField)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3ShapeId);
 	if (heightField == NULL || heightField->version != B3_HEIGHT_FIELD_VERSION ||
 		heightField->columnCount < 2 || heightField->rowCount < 2 || b3Body_GetType(bodyId) != b3_staticBody)
 	{
@@ -1545,6 +1588,7 @@ extern int gpu_b3_shape_get_material_count(GpuShapeId id);
 
 B3_API b3ShapeId b3CreateBakedCompoundShape(b3BodyId bodyId, b3ShapeDef* def, const b3CompoundData* compound)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3ShapeId);
 	if (compound == NULL || compound->version != B3_COMPOUND_VERSION || b3Body_GetType(bodyId) != b3_staticBody ||
 		(def != NULL && def->isSensor))
 	{
@@ -1644,21 +1688,25 @@ B3_API b3ShapeId b3CreateBakedCompoundShape(b3BodyId bodyId, b3ShapeDef* def, co
 
 B3_API const b3HeightFieldData* b3Shape_GetHeightField(b3ShapeId shapeId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(const b3HeightFieldData*);
 	return both_has_cpu_shape(shapeId) ? cpu_b3Shape_GetHeightField(both_cpu_shape(shapeId)) : NULL;
 }
 
 B3_API b3Mesh b3Shape_GetMesh(b3ShapeId shapeId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Mesh);
 	return both_has_cpu_shape(shapeId) ? cpu_b3Shape_GetMesh(both_cpu_shape(shapeId)) : (b3Mesh){0};
 }
 
 B3_API int b3Shape_GetMeshMaterialCount(b3ShapeId shapeId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(int);
     return gpu_b3_shape_get_material_count(shapeId);
 }
 
 B3_API void b3Shape_SetMeshMaterial(b3ShapeId shapeId, b3SurfaceMaterial material, int index)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_shape_set_mesh_material(shapeId, index, material);
 	if (both_has_cpu_shape(shapeId))
 	{
@@ -1668,11 +1716,13 @@ B3_API void b3Shape_SetMeshMaterial(b3ShapeId shapeId, b3SurfaceMaterial materia
 
 B3_API b3SurfaceMaterial b3Shape_GetMeshSurfaceMaterial(b3ShapeId shapeId, int index)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3SurfaceMaterial);
 	return gpu_b3_shape_get_mesh_material(shapeId, index);
 }
 
 B3_API void b3Shape_SetSurfaceMaterial(b3ShapeId shapeId, b3SurfaceMaterial material)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_shape_set_surface_material(shapeId, material);
 	if (both_has_cpu_shape(shapeId))
 	{
@@ -1682,11 +1732,13 @@ B3_API void b3Shape_SetSurfaceMaterial(b3ShapeId shapeId, b3SurfaceMaterial mate
 
 B3_API b3SurfaceMaterial b3Shape_GetSurfaceMaterial(b3ShapeId shapeId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3SurfaceMaterial);
 	return gpu_b3_shape_get_surface_material(shapeId);
 }
 
 B3_API void b3Shape_SetMesh(b3ShapeId shapeId, const b3MeshData* mesh, b3Vec3 scale)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	if (mesh == NULL || mesh->version != B3_MESH_VERSION)
 	{
 		return;
@@ -1717,6 +1769,7 @@ static void configure_gpu_joint(GpuJointId joint, const b3JointDef* base)
 
 B3_API b3JointId b3CreateRevoluteJoint(b3WorldId worldId, const b3RevoluteJointDef* def)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3JointId);
 	if (!def)
 	{
 		return (b3JointId){0};
@@ -1743,6 +1796,7 @@ B3_API b3JointId b3CreateRevoluteJoint(b3WorldId worldId, const b3RevoluteJointD
 
 B3_API void b3Joint_SetConstraintTuning(b3JointId jointId, float hertz, float dampingRatio)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_joint_set_constraint_tuning(jointId, hertz, dampingRatio);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -1752,11 +1806,13 @@ B3_API void b3Joint_SetConstraintTuning(b3JointId jointId, float hertz, float da
 
 B3_API void b3Joint_GetConstraintTuning(b3JointId jointId, float* hertz, float* dampingRatio)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_joint_get_constraint_tuning(jointId, hertz, dampingRatio);
 }
 
 B3_API void b3Joint_SetForceThreshold(b3JointId jointId, float threshold)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_joint_set_force_threshold(jointId, threshold);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -1766,11 +1822,13 @@ B3_API void b3Joint_SetForceThreshold(b3JointId jointId, float threshold)
 
 B3_API float b3Joint_GetForceThreshold(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_joint_get_force_threshold(jointId);
 }
 
 B3_API void b3Joint_SetTorqueThreshold(b3JointId jointId, float threshold)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_joint_set_torque_threshold(jointId, threshold);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -1780,11 +1838,13 @@ B3_API void b3Joint_SetTorqueThreshold(b3JointId jointId, float threshold)
 
 B3_API float b3Joint_GetTorqueThreshold(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_joint_get_torque_threshold(jointId);
 }
 
 B3_API void b3Joint_SetUserData(b3JointId jointId, void* userData)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_joint_set_user_data(jointId, (uintptr_t)userData);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -1794,12 +1854,14 @@ B3_API void b3Joint_SetUserData(b3JointId jointId, void* userData)
 
 B3_API void* b3Joint_GetUserData(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(void*);
 	return (void*)gpu_b3_joint_get_user_data(jointId);
 }
 
 #define BOTH_REVOLUTE_BOOL_API(Name, suffix)                                                         \
 	B3_API void b3RevoluteJoint_Enable##Name(b3JointId jointId, bool enable)                          \
 	{                                                                                                 \
+	GPU_NATIVE_ACCESS_OR_RETURN(); \
 		gpu_b3_revolute_enable_##suffix(jointId, enable);                                                \
 		if (both_has_cpu_joint(jointId))                                                                 \
 		{                                                                                               \
@@ -1808,6 +1870,7 @@ B3_API void* b3Joint_GetUserData(b3JointId jointId)
 	}                                                                                                 \
 	B3_API bool b3RevoluteJoint_Is##Name##Enabled(b3JointId jointId)                                  \
 	{                                                                                                 \
+	GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool); \
 		return gpu_b3_revolute_is_##suffix##_enabled(jointId);                                           \
 	}
 
@@ -1820,6 +1883,7 @@ BOTH_REVOLUTE_BOOL_API(Motor, motor)
 #define BOTH_REVOLUTE_SCALAR_API(Name, suffix)                                                       \
 	B3_API void b3RevoluteJoint_Set##Name(b3JointId jointId, float value)                             \
 	{                                                                                                 \
+	GPU_NATIVE_ACCESS_OR_RETURN(); \
 		gpu_b3_revolute_set_##suffix(jointId, value);                                                    \
 		if (both_has_cpu_joint(jointId))                                                                 \
 		{                                                                                               \
@@ -1828,6 +1892,7 @@ BOTH_REVOLUTE_BOOL_API(Motor, motor)
 	}                                                                                                 \
 	B3_API float b3RevoluteJoint_Get##Name(b3JointId jointId)                                        \
 	{                                                                                                 \
+	GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float); \
 		return gpu_b3_revolute_get_##suffix(jointId);                                                    \
 	}
 
@@ -1841,21 +1906,25 @@ BOTH_REVOLUTE_SCALAR_API(MaxMotorTorque, max_motor_torque)
 
 B3_API float b3RevoluteJoint_GetAngle(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_revolute_get_angle(jointId);
 }
 
 B3_API float b3RevoluteJoint_GetLowerLimit(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_revolute_get_lower_limit(jointId);
 }
 
 B3_API float b3RevoluteJoint_GetUpperLimit(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_revolute_get_upper_limit(jointId);
 }
 
 B3_API void b3RevoluteJoint_SetLimits(b3JointId jointId, float lowerLimitRadians, float upperLimitRadians)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_revolute_set_limits(jointId, lowerLimitRadians, upperLimitRadians);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -1865,11 +1934,13 @@ B3_API void b3RevoluteJoint_SetLimits(b3JointId jointId, float lowerLimitRadians
 
 B3_API float b3RevoluteJoint_GetMotorTorque(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_revolute_get_motor_torque(jointId);
 }
 
 B3_API b3JointId b3CreateWheelJoint(b3WorldId worldId, const b3WheelJointDef* def)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3JointId);
 	if (!def) return (b3JointId){0};
 	GpuJointId gpu = gpu_b3_create_wheel(
 		worldId, def->base.bodyIdA, def->base.bodyIdB, def->base.localFrameA.p.x, def->base.localFrameA.p.y,
@@ -1895,10 +1966,11 @@ B3_API b3JointId b3CreateWheelJoint(b3WorldId worldId, const b3WheelJointDef* de
 
 #define BOTH_WHEEL_BOOL(Name, gpu_suffix) \
 	B3_API void b3WheelJoint_Enable##Name(b3JointId id, bool value) { \
+	GPU_NATIVE_ACCESS_OR_RETURN(); \
 		gpu_b3_wheel_enable_##gpu_suffix(id, value); \
 		if (both_has_cpu_joint(id)) cpu_b3WheelJoint_Enable##Name(both_cpu_joint(id), value); \
 	} \
-	B3_API bool b3WheelJoint_Is##Name##Enabled(b3JointId id) { return gpu_b3_wheel_is_##gpu_suffix##_enabled(id); }
+	B3_API bool b3WheelJoint_Is##Name##Enabled(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);  return gpu_b3_wheel_is_##gpu_suffix##_enabled(id); }
 BOTH_WHEEL_BOOL(Suspension, suspension)
 BOTH_WHEEL_BOOL(SuspensionLimit, suspension_limit)
 BOTH_WHEEL_BOOL(SpinMotor, spin_motor)
@@ -1908,10 +1980,11 @@ BOTH_WHEEL_BOOL(SteeringLimit, steering_limit)
 
 #define BOTH_WHEEL_SCALAR(Name, gpu_suffix) \
 	B3_API void b3WheelJoint_Set##Name(b3JointId id, float value) { \
+	GPU_NATIVE_ACCESS_OR_RETURN(); \
 		gpu_b3_wheel_set_##gpu_suffix(id, value); \
 		if (both_has_cpu_joint(id)) cpu_b3WheelJoint_Set##Name(both_cpu_joint(id), value); \
 	} \
-	B3_API float b3WheelJoint_Get##Name(b3JointId id) { return gpu_b3_wheel_get_##gpu_suffix(id); }
+	B3_API float b3WheelJoint_Get##Name(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);  return gpu_b3_wheel_get_##gpu_suffix(id); }
 BOTH_WHEEL_SCALAR(SuspensionHertz, suspension_hertz)
 BOTH_WHEEL_SCALAR(SuspensionDampingRatio, suspension_damping)
 BOTH_WHEEL_SCALAR(MaxSpinTorque, max_spin_torque)
@@ -1921,34 +1994,39 @@ BOTH_WHEEL_SCALAR(MaxSteeringTorque, max_steering_torque)
 #undef BOTH_WHEEL_SCALAR
 
 B3_API void b3WheelJoint_SetSpinMotorSpeed(b3JointId id, float value) {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_wheel_set_spin_speed(id, value);
 	if (both_has_cpu_joint(id)) cpu_b3WheelJoint_SetSpinMotorSpeed(both_cpu_joint(id), value);
 }
-B3_API float b3WheelJoint_GetSpinMotorSpeed(b3JointId id) { return gpu_b3_wheel_get_spin_speed_setting(id); }
+B3_API float b3WheelJoint_GetSpinMotorSpeed(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);  return gpu_b3_wheel_get_spin_speed_setting(id); }
 B3_API void b3WheelJoint_SetTargetSteeringAngle(b3JointId id, float value) {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_wheel_set_target_steering(id, value);
 	if (both_has_cpu_joint(id)) cpu_b3WheelJoint_SetTargetSteeringAngle(both_cpu_joint(id), value);
 }
-B3_API float b3WheelJoint_GetTargetSteeringAngle(b3JointId id) { return gpu_b3_wheel_get_target_steering(id); }
+B3_API float b3WheelJoint_GetTargetSteeringAngle(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);  return gpu_b3_wheel_get_target_steering(id); }
 B3_API void b3WheelJoint_SetSuspensionLimits(b3JointId id, float lower, float upper) {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_wheel_set_suspension_limits(id, lower, upper);
 	if (both_has_cpu_joint(id)) cpu_b3WheelJoint_SetSuspensionLimits(both_cpu_joint(id), lower, upper);
 }
-B3_API float b3WheelJoint_GetLowerSuspensionLimit(b3JointId id) { return gpu_b3_wheel_get_lower_suspension_limit(id); }
-B3_API float b3WheelJoint_GetUpperSuspensionLimit(b3JointId id) { return gpu_b3_wheel_get_upper_suspension_limit(id); }
+B3_API float b3WheelJoint_GetLowerSuspensionLimit(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);  return gpu_b3_wheel_get_lower_suspension_limit(id); }
+B3_API float b3WheelJoint_GetUpperSuspensionLimit(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);  return gpu_b3_wheel_get_upper_suspension_limit(id); }
 B3_API void b3WheelJoint_SetSteeringLimits(b3JointId id, float lower, float upper) {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_wheel_set_steering_limits(id, lower, upper);
 	if (both_has_cpu_joint(id)) cpu_b3WheelJoint_SetSteeringLimits(both_cpu_joint(id), lower, upper);
 }
-B3_API float b3WheelJoint_GetLowerSteeringLimit(b3JointId id) { return gpu_b3_wheel_get_lower_steering_limit(id); }
-B3_API float b3WheelJoint_GetUpperSteeringLimit(b3JointId id) { return gpu_b3_wheel_get_upper_steering_limit(id); }
-B3_API float b3WheelJoint_GetSpinSpeed(b3JointId id) { return gpu_b3_wheel_get_live_spin_speed(id); }
-B3_API float b3WheelJoint_GetSpinTorque(b3JointId id) { return gpu_b3_wheel_get_spin_torque(id); }
-B3_API float b3WheelJoint_GetSteeringAngle(b3JointId id) { return gpu_b3_wheel_get_steering_angle(id); }
-B3_API float b3WheelJoint_GetSteeringTorque(b3JointId id) { return gpu_b3_wheel_get_steering_torque(id); }
+B3_API float b3WheelJoint_GetLowerSteeringLimit(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);  return gpu_b3_wheel_get_lower_steering_limit(id); }
+B3_API float b3WheelJoint_GetUpperSteeringLimit(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);  return gpu_b3_wheel_get_upper_steering_limit(id); }
+B3_API float b3WheelJoint_GetSpinSpeed(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);  return gpu_b3_wheel_get_live_spin_speed(id); }
+B3_API float b3WheelJoint_GetSpinTorque(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);  return gpu_b3_wheel_get_spin_torque(id); }
+B3_API float b3WheelJoint_GetSteeringAngle(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);  return gpu_b3_wheel_get_steering_angle(id); }
+B3_API float b3WheelJoint_GetSteeringTorque(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);  return gpu_b3_wheel_get_steering_torque(id); }
 
 B3_API b3JointId b3CreateSphericalJoint(b3WorldId worldId, const b3SphericalJointDef* def)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3JointId);
 	if (!def)
 	{
 		return (b3JointId){0};
@@ -1982,6 +2060,7 @@ B3_API b3JointId b3CreateSphericalJoint(b3WorldId worldId, const b3SphericalJoin
 #define BOTH_SPHERICAL_BOOL_API(Name, suffix)                                                        \
 	B3_API void b3SphericalJoint_Enable##Name(b3JointId jointId, bool enable)                         \
 	{                                                                                                 \
+	GPU_NATIVE_ACCESS_OR_RETURN(); \
 		gpu_b3_spherical_enable_##suffix(jointId, enable);                                               \
 		if (both_has_cpu_joint(jointId))                                                                 \
 		{                                                                                               \
@@ -1990,6 +2069,7 @@ B3_API b3JointId b3CreateSphericalJoint(b3WorldId worldId, const b3SphericalJoin
 	}                                                                                                 \
 	B3_API bool b3SphericalJoint_Is##Name##Enabled(b3JointId jointId)                                 \
 	{                                                                                                 \
+	GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool); \
 		return gpu_b3_spherical_is_##suffix##_enabled(jointId);                                          \
 	}
 
@@ -2003,6 +2083,7 @@ BOTH_SPHERICAL_BOOL_API(Motor, motor)
 #define BOTH_SPHERICAL_SCALAR_API(Name, suffix)                                                      \
 	B3_API void b3SphericalJoint_Set##Name(b3JointId jointId, float value)                            \
 	{                                                                                                 \
+	GPU_NATIVE_ACCESS_OR_RETURN(); \
 		gpu_b3_spherical_set_##suffix(jointId, value);                                                   \
 		if (both_has_cpu_joint(jointId))                                                                 \
 		{                                                                                               \
@@ -2011,6 +2092,7 @@ BOTH_SPHERICAL_BOOL_API(Motor, motor)
 	}                                                                                                 \
 	B3_API float b3SphericalJoint_Get##Name(b3JointId jointId)                                       \
 	{                                                                                                 \
+	GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float); \
 		return gpu_b3_spherical_get_##suffix(jointId);                                                   \
 	}
 
@@ -2023,21 +2105,25 @@ BOTH_SPHERICAL_SCALAR_API(MaxMotorTorque, max_motor_torque)
 
 B3_API float b3SphericalJoint_GetConeAngle(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_spherical_get_cone_angle(jointId);
 }
 
 B3_API float b3SphericalJoint_GetLowerTwistLimit(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_spherical_get_lower_twist_limit(jointId);
 }
 
 B3_API float b3SphericalJoint_GetUpperTwistLimit(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_spherical_get_upper_twist_limit(jointId);
 }
 
 B3_API void b3SphericalJoint_SetTwistLimits(b3JointId jointId, float lower, float upper)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_spherical_set_twist_limits(jointId, lower, upper);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2047,11 +2133,13 @@ B3_API void b3SphericalJoint_SetTwistLimits(b3JointId jointId, float lower, floa
 
 B3_API float b3SphericalJoint_GetTwistAngle(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_spherical_get_twist_angle(jointId);
 }
 
 B3_API void b3SphericalJoint_SetTargetRotation(b3JointId jointId, b3Quat value)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_spherical_set_target_rotation(jointId, value.v.x, value.v.y, value.v.z, value.s);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2061,6 +2149,7 @@ B3_API void b3SphericalJoint_SetTargetRotation(b3JointId jointId, b3Quat value)
 
 B3_API b3Quat b3SphericalJoint_GetTargetRotation(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Quat);
 	b3Quat value;
 	gpu_b3_spherical_get_target_rotation(jointId, &value.v.x);
 	return value;
@@ -2068,6 +2157,7 @@ B3_API b3Quat b3SphericalJoint_GetTargetRotation(b3JointId jointId)
 
 B3_API void b3SphericalJoint_SetMotorVelocity(b3JointId jointId, b3Vec3 value)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_spherical_set_motor_velocity(jointId, value.x, value.y, value.z);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2077,6 +2167,7 @@ B3_API void b3SphericalJoint_SetMotorVelocity(b3JointId jointId, b3Vec3 value)
 
 B3_API b3Vec3 b3SphericalJoint_GetMotorVelocity(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);
 	b3Vec3 value;
 	gpu_b3_spherical_get_motor_velocity(jointId, &value.x);
 	return value;
@@ -2084,6 +2175,7 @@ B3_API b3Vec3 b3SphericalJoint_GetMotorVelocity(b3JointId jointId)
 
 B3_API b3Vec3 b3SphericalJoint_GetMotorTorque(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);
 	b3Vec3 value;
 	gpu_b3_spherical_get_motor_torque(jointId, &value.x);
 	return value;
@@ -2091,6 +2183,7 @@ B3_API b3Vec3 b3SphericalJoint_GetMotorTorque(b3JointId jointId)
 
 B3_API b3JointId b3CreatePrismaticJoint(b3WorldId worldId, const b3PrismaticJointDef* def)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3JointId);
 	if (!def)
 	{
 		return (b3JointId){0};
@@ -2119,6 +2212,7 @@ B3_API b3JointId b3CreatePrismaticJoint(b3WorldId worldId, const b3PrismaticJoin
 
 B3_API b3JointId b3CreateDistanceJoint(b3WorldId worldId, const b3DistanceJointDef* def)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3JointId);
 	if (!def)
 	{
 		return (b3JointId){0};
@@ -2143,6 +2237,7 @@ B3_API b3JointId b3CreateDistanceJoint(b3WorldId worldId, const b3DistanceJointD
 
 B3_API b3JointId b3CreateParallelJoint(b3WorldId worldId, const b3ParallelJointDef* def)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3JointId);
 	if (!def)
 	{
 		return (b3JointId){0};
@@ -2165,6 +2260,7 @@ B3_API b3JointId b3CreateParallelJoint(b3WorldId worldId, const b3ParallelJointD
 
 B3_API b3JointId b3CreateFilterJoint(b3WorldId worldId, const b3FilterJointDef* def)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3JointId);
 	if (!def)
 	{
 		return (b3JointId){0};
@@ -2188,6 +2284,7 @@ B3_API b3JointId b3CreateFilterJoint(b3WorldId worldId, const b3FilterJointDef* 
 
 B3_API void b3DistanceJoint_SetLength(b3JointId jointId, float length)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_distance_set_length(jointId, length);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2197,6 +2294,7 @@ B3_API void b3DistanceJoint_SetLength(b3JointId jointId, float length)
 
 B3_API void b3DistanceJoint_EnableSpring(b3JointId jointId, bool enableSpring)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_distance_enable_spring(jointId, enableSpring);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2206,6 +2304,7 @@ B3_API void b3DistanceJoint_EnableSpring(b3JointId jointId, bool enableSpring)
 
 B3_API void b3DistanceJoint_SetSpringForceRange(b3JointId jointId, float lowerForce, float upperForce)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_distance_set_spring_force_range(jointId, lowerForce, upperForce);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2215,6 +2314,7 @@ B3_API void b3DistanceJoint_SetSpringForceRange(b3JointId jointId, float lowerFo
 
 B3_API void b3DistanceJoint_SetSpringHertz(b3JointId jointId, float hertz)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_distance_set_spring_hertz(jointId, hertz);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2224,6 +2324,7 @@ B3_API void b3DistanceJoint_SetSpringHertz(b3JointId jointId, float hertz)
 
 B3_API void b3DistanceJoint_SetSpringDampingRatio(b3JointId jointId, float dampingRatio)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_distance_set_spring_damping(jointId, dampingRatio);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2233,6 +2334,7 @@ B3_API void b3DistanceJoint_SetSpringDampingRatio(b3JointId jointId, float dampi
 
 B3_API void b3DistanceJoint_EnableLimit(b3JointId jointId, bool enableLimit)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_distance_enable_limit(jointId, enableLimit);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2242,6 +2344,7 @@ B3_API void b3DistanceJoint_EnableLimit(b3JointId jointId, bool enableLimit)
 
 B3_API void b3DistanceJoint_SetLengthRange(b3JointId jointId, float minLength, float maxLength)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_distance_set_length_range(jointId, minLength, maxLength);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2251,6 +2354,7 @@ B3_API void b3DistanceJoint_SetLengthRange(b3JointId jointId, float minLength, f
 
 B3_API void b3DistanceJoint_EnableMotor(b3JointId jointId, bool enableMotor)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_distance_enable_motor(jointId, enableMotor);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2260,6 +2364,7 @@ B3_API void b3DistanceJoint_EnableMotor(b3JointId jointId, bool enableMotor)
 
 B3_API void b3DistanceJoint_SetMotorSpeed(b3JointId jointId, float motorSpeed)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_distance_set_motor_speed(jointId, motorSpeed);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2269,6 +2374,7 @@ B3_API void b3DistanceJoint_SetMotorSpeed(b3JointId jointId, float motorSpeed)
 
 B3_API void b3DistanceJoint_SetMaxMotorForce(b3JointId jointId, float force)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_distance_set_max_motor_force(jointId, force);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2278,6 +2384,7 @@ B3_API void b3DistanceJoint_SetMaxMotorForce(b3JointId jointId, float force)
 
 B3_API void b3ParallelJoint_SetSpringHertz(b3JointId jointId, float hertz)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_parallel_set_spring_hertz(jointId, hertz);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2287,6 +2394,7 @@ B3_API void b3ParallelJoint_SetSpringHertz(b3JointId jointId, float hertz)
 
 B3_API void b3ParallelJoint_SetSpringDampingRatio(b3JointId jointId, float dampingRatio)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_parallel_set_spring_damping(jointId, dampingRatio);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2296,6 +2404,7 @@ B3_API void b3ParallelJoint_SetSpringDampingRatio(b3JointId jointId, float dampi
 
 B3_API void b3ParallelJoint_SetMaxTorque(b3JointId jointId, float maxTorque)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_parallel_set_max_torque(jointId, maxTorque);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2305,6 +2414,7 @@ B3_API void b3ParallelJoint_SetMaxTorque(b3JointId jointId, float maxTorque)
 
 B3_API void b3PrismaticJoint_EnableSpring(b3JointId jointId, bool enableSpring)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_prismatic_enable_spring(jointId, enableSpring);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2314,6 +2424,7 @@ B3_API void b3PrismaticJoint_EnableSpring(b3JointId jointId, bool enableSpring)
 
 B3_API void b3PrismaticJoint_SetSpringHertz(b3JointId jointId, float hertz)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_prismatic_set_spring_hertz(jointId, hertz);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2323,6 +2434,7 @@ B3_API void b3PrismaticJoint_SetSpringHertz(b3JointId jointId, float hertz)
 
 B3_API void b3PrismaticJoint_SetSpringDampingRatio(b3JointId jointId, float dampingRatio)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_prismatic_set_spring_damping(jointId, dampingRatio);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2332,6 +2444,7 @@ B3_API void b3PrismaticJoint_SetSpringDampingRatio(b3JointId jointId, float damp
 
 B3_API void b3PrismaticJoint_SetTargetTranslation(b3JointId jointId, float targetTranslation)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_prismatic_set_target_translation(jointId, targetTranslation);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2341,6 +2454,7 @@ B3_API void b3PrismaticJoint_SetTargetTranslation(b3JointId jointId, float targe
 
 B3_API void b3PrismaticJoint_EnableLimit(b3JointId jointId, bool enableLimit)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_prismatic_enable_limit(jointId, enableLimit);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2350,6 +2464,7 @@ B3_API void b3PrismaticJoint_EnableLimit(b3JointId jointId, bool enableLimit)
 
 B3_API void b3PrismaticJoint_SetLimits(b3JointId jointId, float lower, float upper)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_prismatic_set_limits(jointId, lower, upper);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2359,6 +2474,7 @@ B3_API void b3PrismaticJoint_SetLimits(b3JointId jointId, float lower, float upp
 
 B3_API void b3PrismaticJoint_EnableMotor(b3JointId jointId, bool enableMotor)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_prismatic_enable_motor(jointId, enableMotor);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2368,6 +2484,7 @@ B3_API void b3PrismaticJoint_EnableMotor(b3JointId jointId, bool enableMotor)
 
 B3_API void b3PrismaticJoint_SetMotorSpeed(b3JointId jointId, float motorSpeed)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_prismatic_set_motor_speed(jointId, motorSpeed);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2377,6 +2494,7 @@ B3_API void b3PrismaticJoint_SetMotorSpeed(b3JointId jointId, float motorSpeed)
 
 B3_API void b3PrismaticJoint_SetMaxMotorForce(b3JointId jointId, float force)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_prismatic_set_max_motor_force(jointId, force);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2386,6 +2504,7 @@ B3_API void b3PrismaticJoint_SetMaxMotorForce(b3JointId jointId, float force)
 
 B3_API b3JointId b3CreateWeldJoint(b3WorldId worldId, const b3WeldJointDef* def)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3JointId);
 	if (!def)
 	{
 		return (b3JointId){0};
@@ -2411,6 +2530,7 @@ B3_API b3JointId b3CreateWeldJoint(b3WorldId worldId, const b3WeldJointDef* def)
 
 B3_API void b3WeldJoint_SetLinearHertz(b3JointId jointId, float hertz)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_weld_set_linear_hertz(jointId, hertz);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2420,11 +2540,13 @@ B3_API void b3WeldJoint_SetLinearHertz(b3JointId jointId, float hertz)
 
 B3_API float b3WeldJoint_GetLinearHertz(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_weld_get_linear_hertz(jointId);
 }
 
 B3_API void b3WeldJoint_SetLinearDampingRatio(b3JointId jointId, float dampingRatio)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_weld_set_linear_damping(jointId, dampingRatio);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2434,11 +2556,13 @@ B3_API void b3WeldJoint_SetLinearDampingRatio(b3JointId jointId, float dampingRa
 
 B3_API float b3WeldJoint_GetLinearDampingRatio(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_weld_get_linear_damping(jointId);
 }
 
 B3_API void b3WeldJoint_SetAngularHertz(b3JointId jointId, float hertz)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_weld_set_angular_hertz(jointId, hertz);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2448,11 +2572,13 @@ B3_API void b3WeldJoint_SetAngularHertz(b3JointId jointId, float hertz)
 
 B3_API float b3WeldJoint_GetAngularHertz(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_weld_get_angular_hertz(jointId);
 }
 
 B3_API void b3WeldJoint_SetAngularDampingRatio(b3JointId jointId, float dampingRatio)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_weld_set_angular_damping(jointId, dampingRatio);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2462,6 +2588,7 @@ B3_API void b3WeldJoint_SetAngularDampingRatio(b3JointId jointId, float dampingR
 
 B3_API float b3WeldJoint_GetAngularDampingRatio(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_weld_get_angular_damping(jointId);
 }
 
@@ -2487,6 +2614,7 @@ static b3JointId create_gpu_motor(b3WorldId worldId, const b3MotorJointDef* def)
 
 B3_API b3JointId b3CreateMotorJoint(b3WorldId worldId, const b3MotorJointDef* def)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3JointId);
     if (!def) return (b3JointId){0};
     b3JointId gpu = create_gpu_motor(worldId, def);
 	if (both_has_cpu_world(worldId))
@@ -2501,6 +2629,7 @@ B3_API b3JointId b3CreateMotorJoint(b3WorldId worldId, const b3MotorJointDef* de
 
 B3_API void b3MotorJoint_SetLinearVelocity(b3JointId jointId, b3Vec3 velocity)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_motor_set_linear_velocity(jointId, velocity.x, velocity.y, velocity.z);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2510,11 +2639,13 @@ B3_API void b3MotorJoint_SetLinearVelocity(b3JointId jointId, b3Vec3 velocity)
 
 B3_API b3Vec3 b3MotorJoint_GetLinearVelocity(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);
 	return gpu_b3_motor_get_linear_velocity(jointId);
 }
 
 B3_API void b3MotorJoint_SetAngularVelocity(b3JointId jointId, b3Vec3 velocity)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_motor_set_angular_velocity(jointId, velocity.x, velocity.y, velocity.z);
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2524,12 +2655,14 @@ B3_API void b3MotorJoint_SetAngularVelocity(b3JointId jointId, b3Vec3 velocity)
 
 B3_API b3Vec3 b3MotorJoint_GetAngularVelocity(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);
 	return gpu_b3_motor_get_angular_velocity(jointId);
 }
 
 #define BOTH_MOTOR_SCALAR_API(Name, suffix)                                                          \
 	B3_API void b3MotorJoint_Set##Name(b3JointId jointId, float value)                                \
 	{                                                                                                 \
+	GPU_NATIVE_ACCESS_OR_RETURN(); \
 		gpu_b3_motor_set_##suffix(jointId, value);                                                       \
 		if (both_has_cpu_joint(jointId))                                                                 \
 		{                                                                                               \
@@ -2538,6 +2671,7 @@ B3_API b3Vec3 b3MotorJoint_GetAngularVelocity(b3JointId jointId)
 	}                                                                                                 \
 	B3_API float b3MotorJoint_Get##Name(b3JointId jointId)                                            \
 	{                                                                                                 \
+	GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float); \
 		return gpu_b3_motor_get_##suffix(jointId);                                                       \
 	}
 
@@ -2554,12 +2688,14 @@ BOTH_MOTOR_SCALAR_API(MaxSpringTorque, max_spring_torque)
 
 B3_API bool b3Joint_IsValid(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
 
 	return both_has_cpu_joint(jointId);
 }
 
 B3_API void b3DestroyJoint(b3JointId jointId, bool wakeAttached)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 
 	if (both_has_cpu_joint(jointId))
 	{
@@ -2571,17 +2707,20 @@ B3_API void b3DestroyJoint(b3JointId jointId, bool wakeAttached)
 
 B3_API b3Pos b3Body_GetPosition(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Pos);
 	b3WorldTransform xf = gpu_samples_body_transform(bodyId);
 	return xf.p;
 }
 
 B3_API b3Quat b3Body_GetRotation(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Quat);
 	return gpu_samples_body_transform(bodyId).q;
 }
 
 B3_API b3WorldTransform b3Body_GetTransform(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3WorldTransform);
 	if (gpu_b3_body_is_valid(bodyId))
 	{
 		return gpu_samples_body_transform(bodyId);
@@ -2591,6 +2730,7 @@ B3_API b3WorldTransform b3Body_GetTransform(b3BodyId bodyId)
 
 B3_API void b3Body_SetTargetTransform(b3BodyId bodyId, b3WorldTransform target, float timeStep, bool wake)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_set_target_transform(bodyId, target.p.x, target.p.y, target.p.z, target.q.v.x, target.q.v.y,
 									target.q.v.z, target.q.s, timeStep, wake);
 	if (both_has_cpu_body(bodyId))
@@ -2601,6 +2741,7 @@ B3_API void b3Body_SetTargetTransform(b3BodyId bodyId, b3WorldTransform target, 
 
 B3_API b3BodyType b3Body_GetType(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3BodyType);
 	// CPU debug callbacks carry raw CPU IDs, as in the shape-name lookup.
 	if (g_cpu_debug_draw)
 	{
@@ -2611,6 +2752,7 @@ B3_API b3BodyType b3Body_GetType(b3BodyId bodyId)
 
 B3_API void b3Body_SetType(b3BodyId bodyId, b3BodyType type)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_set_type(bodyId, (int)type);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2620,6 +2762,7 @@ B3_API void b3Body_SetType(b3BodyId bodyId, b3BodyType type)
 
 B3_API void b3Body_SetTransform(b3BodyId bodyId, b3Pos position, b3Quat rotation)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	b3WorldTransform transform = {position, rotation};
 	gpu_samples_body_set_transform(bodyId, transform);
 	gpu_b3_body_set_transform(bodyId, position.x, position.y, position.z, rotation.v.x, rotation.v.y, rotation.v.z,
@@ -2632,6 +2775,7 @@ B3_API void b3Body_SetTransform(b3BodyId bodyId, b3Pos position, b3Quat rotation
 
 B3_API void b3Body_SetAwake(b3BodyId bodyId, bool awake)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_set_awake(bodyId, awake);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2645,6 +2789,7 @@ extern void cpu_b3Body_EnableContactRecycling(b3BodyId body, bool enable);
 
 B3_API void b3Body_EnableContactRecycling(b3BodyId bodyId, bool enable)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     gpu_b3_body_enable_contact_recycling(bodyId, enable);
     if (both_has_cpu_body(bodyId))
     {
@@ -2654,11 +2799,13 @@ B3_API void b3Body_EnableContactRecycling(b3BodyId bodyId, bool enable)
 
 B3_API bool b3Body_IsContactRecyclingEnabled(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
     return gpu_b3_body_is_contact_recycling_enabled(bodyId);
 }
 
 B3_API void b3Body_SetBullet(b3BodyId bodyId, bool flag)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_set_bullet(bodyId, flag);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2668,11 +2815,13 @@ B3_API void b3Body_SetBullet(b3BodyId bodyId, bool flag)
 
 B3_API bool b3Body_IsBullet(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
 	return gpu_b3_body_is_bullet(bodyId);
 }
 
 B3_API void b3Body_AllowFastRotation(b3BodyId bodyId, bool flag)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_allow_fast_rotation(bodyId, flag);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2682,11 +2831,13 @@ B3_API void b3Body_AllowFastRotation(b3BodyId bodyId, bool flag)
 
 B3_API bool b3Body_IsFastRotationAllowed(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
 	return gpu_b3_body_is_fast_rotation_allowed(bodyId);
 }
 
 B3_API void b3Body_SetLinearDamping(b3BodyId bodyId, float damping)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_set_linear_damping(bodyId, damping);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2696,6 +2847,7 @@ B3_API void b3Body_SetLinearDamping(b3BodyId bodyId, float damping)
 
 B3_API void b3Body_SetAngularDamping(b3BodyId bodyId, float damping)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_set_angular_damping(bodyId, damping);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2705,6 +2857,7 @@ B3_API void b3Body_SetAngularDamping(b3BodyId bodyId, float damping)
 
 B3_API void b3Body_SetGravityScale(b3BodyId bodyId, float scale)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_set_gravity_scale(bodyId, scale);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2714,6 +2867,7 @@ B3_API void b3Body_SetGravityScale(b3BodyId bodyId, float scale)
 
 B3_API void b3Body_SetLinearVelocity(b3BodyId bodyId, b3Vec3 linearVelocity)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_set_linear_velocity(bodyId, linearVelocity.x, linearVelocity.y, linearVelocity.z);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2723,6 +2877,7 @@ B3_API void b3Body_SetLinearVelocity(b3BodyId bodyId, b3Vec3 linearVelocity)
 
 B3_API void b3Body_SetAngularVelocity(b3BodyId bodyId, b3Vec3 angularVelocity)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_set_angular_velocity(bodyId, angularVelocity.x, angularVelocity.y, angularVelocity.z);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2732,16 +2887,19 @@ B3_API void b3Body_SetAngularVelocity(b3BodyId bodyId, b3Vec3 angularVelocity)
 
 B3_API b3Vec3 b3Body_GetLinearVelocity(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);
 	return gpu_b3_body_get_linear_velocity(bodyId);
 }
 
 B3_API b3Vec3 b3Body_GetAngularVelocity(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);
 	return gpu_b3_body_get_angular_velocity(bodyId);
 }
 
 B3_API void b3Body_ApplyLinearImpulse(b3BodyId bodyId, b3Vec3 impulse, b3Pos point, bool wake)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_apply_linear_impulse(bodyId, impulse.x, impulse.y, impulse.z, point.x, point.y, point.z, wake);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2751,6 +2909,7 @@ B3_API void b3Body_ApplyLinearImpulse(b3BodyId bodyId, b3Vec3 impulse, b3Pos poi
 
 B3_API void b3Body_ApplyLinearImpulseToCenter(b3BodyId bodyId, b3Vec3 impulse, bool wake)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_apply_linear_impulse_to_center(bodyId, impulse.x, impulse.y, impulse.z, wake);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2760,6 +2919,7 @@ B3_API void b3Body_ApplyLinearImpulseToCenter(b3BodyId bodyId, b3Vec3 impulse, b
 
 B3_API void b3Body_ApplyAngularImpulse(b3BodyId bodyId, b3Vec3 impulse, bool wake)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_apply_angular_impulse(bodyId, impulse.x, impulse.y, impulse.z, wake);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2769,6 +2929,7 @@ B3_API void b3Body_ApplyAngularImpulse(b3BodyId bodyId, b3Vec3 impulse, bool wak
 
 B3_API void b3Body_ApplyForce(b3BodyId bodyId, b3Vec3 force, b3Pos point, bool wake)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_apply_force(bodyId, force.x, force.y, force.z, (float)point.x, (float)point.y, (float)point.z,
 						   wake);
 	if (both_has_cpu_body(bodyId))
@@ -2779,6 +2940,7 @@ B3_API void b3Body_ApplyForce(b3BodyId bodyId, b3Vec3 force, b3Pos point, bool w
 
 B3_API void b3Body_ApplyForceToCenter(b3BodyId bodyId, b3Vec3 force, bool wake)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_apply_force_to_center(bodyId, force.x, force.y, force.z, wake);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2788,6 +2950,7 @@ B3_API void b3Body_ApplyForceToCenter(b3BodyId bodyId, b3Vec3 force, bool wake)
 
 B3_API void b3Body_ApplyTorque(b3BodyId bodyId, b3Vec3 torque, bool wake)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_apply_torque(bodyId, torque.x, torque.y, torque.z, wake);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2797,21 +2960,25 @@ B3_API void b3Body_ApplyTorque(b3BodyId bodyId, b3Vec3 torque, bool wake)
 
 B3_API float b3Body_GetMass(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_body_get_mass(bodyId);
 }
 
 B3_API float b3Body_GetInverseMass(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_body_inv_mass(bodyId);
 }
 
 B3_API b3MassData b3Body_GetMassData(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3MassData);
 	return gpu_b3_body_get_mass_data(bodyId);
 }
 
 B3_API void b3Body_SetMassData(b3BodyId bodyId, b3MassData massData)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_set_mass_data(bodyId, massData);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2821,11 +2988,13 @@ B3_API void b3Body_SetMassData(b3BodyId bodyId, b3MassData massData)
 
 B3_API b3Vec3 b3Body_GetLocalPoint(b3BodyId bodyId, b3Pos worldPoint)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);
 	return gpu_b3_body_get_local_point(bodyId, (float)worldPoint.x, (float)worldPoint.y, (float)worldPoint.z);
 }
 
 B3_API b3Pos b3Body_GetWorldPoint(b3BodyId bodyId, b3Vec3 localPoint)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Pos);
 	b3Vec3 v = gpu_b3_body_get_world_point(bodyId, localPoint.x, localPoint.y, localPoint.z);
 	b3Pos p = {v.x, v.y, v.z};
 	return p;
@@ -2833,37 +3002,44 @@ B3_API b3Pos b3Body_GetWorldPoint(b3BodyId bodyId, b3Vec3 localPoint)
 
 B3_API b3Vec3 b3Body_GetLocalVector(b3BodyId bodyId, b3Vec3 worldVector)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);
 	return gpu_b3_body_get_local_vector(bodyId, worldVector.x, worldVector.y, worldVector.z);
 }
 
 B3_API b3Vec3 b3Body_GetWorldVector(b3BodyId bodyId, b3Vec3 localVector)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);
 	return gpu_b3_body_get_world_vector(bodyId, localVector.x, localVector.y, localVector.z);
 }
 
 B3_API b3Vec3 b3Body_GetWorldPointVelocity(b3BodyId bodyId, b3Pos worldPoint)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);
 	return gpu_b3_body_get_world_point_velocity(bodyId, (float)worldPoint.x, (float)worldPoint.y,
 											   (float)worldPoint.z);
 }
 
 B3_API b3Vec3 b3Body_GetLocalPointVelocity(b3BodyId bodyId, b3Vec3 localPoint)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);
 	return gpu_b3_body_get_local_point_velocity(bodyId, localPoint.x, localPoint.y, localPoint.z);
 }
 
 B3_API bool b3Body_IsAwake(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
 	return gpu_b3_body_is_awake(bodyId);
 }
 
 B3_API bool b3Body_IsEnabled(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
 	return gpu_b3_body_is_enabled(bodyId);
 }
 
 B3_API void b3Body_Disable(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_set_enabled(bodyId, false);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2873,6 +3049,7 @@ B3_API void b3Body_Disable(b3BodyId bodyId)
 
 B3_API void b3Body_Enable(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_set_enabled(bodyId, true);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2882,6 +3059,7 @@ B3_API void b3Body_Enable(b3BodyId bodyId)
 
 B3_API void b3Body_SetMotionLocks(b3BodyId bodyId, b3MotionLocks locks)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_set_motion_locks(bodyId, locks.linearX, locks.linearY, locks.linearZ, locks.angularX,
 								 locks.angularY, locks.angularZ);
 	if (both_has_cpu_body(bodyId))
@@ -2892,6 +3070,7 @@ B3_API void b3Body_SetMotionLocks(b3BodyId bodyId, b3MotionLocks locks)
 
 B3_API b3MotionLocks b3Body_GetMotionLocks(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3MotionLocks);
 	b3MotionLocks locks = {0};
 	gpu_b3_body_get_motion_locks(bodyId, &locks.linearX, &locks.linearY, &locks.linearZ, &locks.angularX,
 								 &locks.angularY, &locks.angularZ);
@@ -2900,36 +3079,43 @@ B3_API b3MotionLocks b3Body_GetMotionLocks(b3BodyId bodyId)
 
 B3_API b3Vec3 b3Body_GetLocalCenter(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);
 	return gpu_b3_body_get_local_center(bodyId);
 }
 
 B3_API float b3Body_GetLinearDamping(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_body_get_linear_damping(bodyId);
 }
 
 B3_API float b3Body_GetAngularDamping(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_body_get_angular_damping(bodyId);
 }
 
 B3_API float b3Body_GetGravityScale(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_body_get_gravity_scale(bodyId);
 }
 
 B3_API int b3Body_GetJointCount(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(int);
 	return gpu_b3_body_get_joint_count(bodyId);
 }
 
 B3_API int b3Body_GetJoints(b3BodyId bodyId, b3JointId* jointArray, int capacity)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(int);
 	return gpu_b3_body_get_joints(bodyId, jointArray, capacity);
 }
 
 B3_API b3Pos b3Body_GetWorldCenter(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Pos);
 	b3Pos center = {0};
 	gpu_b3_body_get_world_center(bodyId, &center.x);
 	return center;
@@ -2937,6 +3123,7 @@ B3_API b3Pos b3Body_GetWorldCenter(b3BodyId bodyId)
 
 B3_API void b3Body_ApplyMassFromShapes(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_body_apply_mass_from_shapes(bodyId);
 	if (both_has_cpu_body(bodyId))
 	{
@@ -2946,6 +3133,7 @@ B3_API void b3Body_ApplyMassFromShapes(b3BodyId bodyId)
 
 B3_API void b3Shape_SetName(b3ShapeId shapeId, const char* name)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_samples_shape_set_name(shapeId, name);
 	if (both_has_cpu_shape(shapeId))
 	{
@@ -2955,6 +3143,7 @@ B3_API void b3Shape_SetName(b3ShapeId shapeId, const char* name)
 
 B3_API const char* b3Shape_GetName(b3ShapeId shapeId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(const char*);
 	if (g_cpu_debug_draw)
 	{
 		return cpu_b3Shape_GetName(shapeId);
@@ -2973,6 +3162,7 @@ B3_API const char* b3Shape_GetName(b3ShapeId shapeId)
 
 B3_API void b3Shape_SetUserData(b3ShapeId shapeId, void* userData)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_shape_set_user_data(shapeId, (uintptr_t)userData);
 	if (both_has_cpu_shape(shapeId))
 	{
@@ -2987,21 +3177,25 @@ B3_API void* b3Shape_GetUserData(b3ShapeId shapeId)
 
 B3_API float b3Shape_GetDensity(b3ShapeId shapeId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_shape_get_density(shapeId);
 }
 
 B3_API float b3Shape_GetFriction(b3ShapeId shapeId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_shape_get_friction(shapeId);
 }
 
 B3_API float b3Shape_GetRestitution(b3ShapeId shapeId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_shape_get_restitution(shapeId);
 }
 
 B3_API void b3Shape_SetFriction(b3ShapeId shapeId, float friction)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_shape_set_friction(shapeId, friction);
 	if (both_has_cpu_shape(shapeId))
 	{
@@ -3011,6 +3205,7 @@ B3_API void b3Shape_SetFriction(b3ShapeId shapeId, float friction)
 
 B3_API void b3Shape_SetRestitution(b3ShapeId shapeId, float restitution)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_shape_set_restitution(shapeId, restitution);
 	if (both_has_cpu_shape(shapeId))
 	{
@@ -3020,6 +3215,7 @@ B3_API void b3Shape_SetRestitution(b3ShapeId shapeId, float restitution)
 
 B3_API void b3Shape_ApplyWind(b3ShapeId shapeId, b3Vec3 wind, float drag, float lift, float maxSpeed, bool wake)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_shape_apply_wind(shapeId, wind.x, wind.y, wind.z, drag, lift, maxSpeed, wake);
 	if (both_has_cpu_shape(shapeId))
 	{
@@ -3029,42 +3225,50 @@ B3_API void b3Shape_ApplyWind(b3ShapeId shapeId, b3Vec3 wind, float drag, float 
 
 B3_API b3Sphere b3Shape_GetSphere(b3ShapeId shapeId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Sphere);
 	return gpu_b3_shape_get_sphere(shapeId);
 }
 
 B3_API b3Capsule b3Shape_GetCapsule(b3ShapeId shapeId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Capsule);
 	return gpu_b3_shape_get_capsule(shapeId);
 }
 
 B3_API b3AABB b3Shape_GetAABB(b3ShapeId shapeId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3AABB);
 	return gpu_b3_shape_get_aabb(shapeId);
 }
 
 B3_API b3Vec3 b3Shape_GetClosestPoint(b3ShapeId shapeId, b3Vec3 target)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);
 	return gpu_b3_shape_get_closest_point(shapeId, target);
 }
 
 B3_API b3WorldCastOutput b3Shape_RayCast(b3ShapeId shapeId, b3Pos origin, b3Vec3 translation)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3WorldCastOutput);
 	return gpu_b3_shape_ray_cast(shapeId, origin, translation);
 }
 
 B3_API b3AABB b3Body_ComputeAABB(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3AABB);
 	return gpu_b3_body_compute_aabb(bodyId);
 }
 
 B3_API float b3Body_GetClosestPoint(b3BodyId bodyId, b3Vec3* result, b3Vec3 target)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_body_get_closest_point(bodyId, result, target);
 }
 
 B3_API b3BodyCastResult b3Body_CastRay(b3BodyId bodyId, b3Pos origin, b3Vec3 translation,
 									   b3QueryFilter filter, float maxFraction, b3WorldTransform bodyTransform)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3BodyCastResult);
 	return gpu_b3_body_cast_ray(bodyId, origin, translation, filter, maxFraction, bodyTransform);
 }
 
@@ -3072,6 +3276,7 @@ B3_API b3BodyCastResult b3Body_CastShape(b3BodyId bodyId, b3Pos origin, const b3
 										 b3Vec3 translation, b3QueryFilter filter, float maxFraction,
 										 bool canEncroach, b3WorldTransform bodyTransform)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3BodyCastResult);
 	return gpu_b3_body_cast_shape(bodyId, origin, proxy, translation, filter, maxFraction, canEncroach,
 								  bodyTransform);
 }
@@ -3079,54 +3284,63 @@ B3_API b3BodyCastResult b3Body_CastShape(b3BodyId bodyId, b3Pos origin, const b3
 B3_API bool b3Body_OverlapShape(b3BodyId bodyId, b3Pos origin, const b3ShapeProxy* proxy, b3QueryFilter filter,
 								b3WorldTransform bodyTransform)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
 	return gpu_b3_body_overlap_shape(bodyId, origin, proxy, filter, bodyTransform);
 }
 
 B3_API int b3Body_CollideMover(b3BodyId bodyId, b3BodyPlaneResult* bodyPlanes, int planeCapacity, b3Pos origin,
 							   const b3Capsule* mover, b3QueryFilter filter, b3WorldTransform bodyTransform)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(int);
 	return gpu_b3_body_collide_mover(bodyId, bodyPlanes, planeCapacity, origin, mover, filter, bodyTransform);
 }
 
 B3_API b3TreeStats b3World_OverlapAABB(b3WorldId worldId, b3AABB aabb, b3QueryFilter filter,
 										b3OverlapResultFcn* fcn, void* context)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3TreeStats);
 	return gpu_b3_world_overlap_aabb(worldId, aabb, filter, fcn, context);
 }
 
 B3_API b3TreeStats b3World_OverlapShape(b3WorldId worldId, b3Pos origin, const b3ShapeProxy* proxy,
 										b3QueryFilter filter, b3OverlapResultFcn* fcn, void* context)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3TreeStats);
 	return gpu_b3_world_overlap_shape(worldId, origin, proxy, filter, fcn, context);
 }
 
 B3_API b3TreeStats b3World_CastRay(b3WorldId worldId, b3Pos origin, b3Vec3 translation, b3QueryFilter filter,
 									b3CastResultFcn* fcn, void* context)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3TreeStats);
 	return gpu_b3_world_cast_ray(worldId, origin, translation, filter, fcn, context);
 }
 
 B3_API b3RayResult b3World_CastRayClosest(b3WorldId worldId, b3Pos origin, b3Vec3 translation,
 										  b3QueryFilter filter)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3RayResult);
 	return gpu_b3_world_cast_ray_closest(worldId, origin, translation, filter);
 }
 
 B3_API b3TreeStats b3World_CastShape(b3WorldId worldId, b3Pos origin, const b3ShapeProxy* proxy,
 									 b3Vec3 translation, b3QueryFilter filter, b3CastResultFcn* fcn, void* context)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3TreeStats);
 	return gpu_b3_world_cast_shape(worldId, origin, proxy, translation, filter, fcn, context);
 }
 
 B3_API float b3World_CastMover(b3WorldId worldId, b3Pos origin, const b3Capsule* mover, b3Vec3 translation,
 							   b3QueryFilter filter, b3MoverFilterFcn* fcn, void* context)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_world_cast_mover(worldId, origin, mover, translation, filter, fcn, context);
 }
 
 B3_API void b3World_CollideMover(b3WorldId worldId, b3Pos origin, const b3Capsule* mover, b3QueryFilter filter,
 								 b3PlaneResultFcn* fcn, void* context)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_world_collide_mover(worldId, origin, mover, filter, fcn, context);
 }
 
@@ -3134,10 +3348,12 @@ extern void gpu_b3_world_set_contact_recycle_distance(GpuWorldId id, float dista
 extern float gpu_b3_world_get_contact_recycle_distance(GpuWorldId id);
 extern void cpu_b3World_SetContactRecycleDistance(b3WorldId id, float distance);
 B3_API void b3World_SetContactRecycleDistance(b3WorldId id, float distance) {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     gpu_b3_world_set_contact_recycle_distance(id, distance);
     cpu_b3World_SetContactRecycleDistance(both_cpu_world(id), distance);
 }
 B3_API float b3World_GetContactRecycleDistance(b3WorldId id) {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
     return gpu_b3_world_get_contact_recycle_distance(id);
 }
 
@@ -3145,10 +3361,12 @@ extern b3Matrix3 gpu_b3_body_get_local_rotational_inertia(b3BodyId body);
 extern b3Matrix3 gpu_b3_body_get_world_inverse_rotational_inertia(b3BodyId body);
 B3_API b3Matrix3 b3Body_GetLocalRotationalInertia(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Matrix3);
     return gpu_b3_body_get_local_rotational_inertia(bodyId);
 }
 B3_API b3Matrix3 b3Body_GetWorldInverseRotationalInertia(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Matrix3);
     return gpu_b3_body_get_world_inverse_rotational_inertia(bodyId);
 }
 
@@ -3156,6 +3374,7 @@ extern void gpu_b3_shape_set_density(b3ShapeId id, float density, bool updateMas
 extern void cpu_b3Shape_SetDensity(b3ShapeId id, float density, bool updateMass);
 B3_API void b3Shape_SetDensity(b3ShapeId id, float density, bool updateMass)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     gpu_b3_shape_set_density(id, density, updateMass);
     if (both_has_cpu_shape(id)) cpu_b3Shape_SetDensity(both_cpu_shape(id), density, updateMass);
 }
@@ -3165,12 +3384,13 @@ extern b3WorldId gpu_b3_shape_get_world(b3ShapeId id);
 extern b3WorldId gpu_b3_joint_get_world(b3JointId id);
 extern uint32_t gpu_b3_joint_get_kind(b3JointId id);
 extern b3BodyId gpu_b3_joint_get_body(b3JointId id, bool second);
-B3_API b3WorldId b3Body_GetWorld(b3BodyId id) { return gpu_b3_body_get_world(id); }
-B3_API b3WorldId b3Shape_GetWorld(b3ShapeId id) { return gpu_b3_shape_get_world(id); }
-B3_API b3WorldId b3Joint_GetWorld(b3JointId id) { return gpu_b3_joint_get_world(id); }
-B3_API b3BodyId b3Joint_GetBodyA(b3JointId id) { return gpu_b3_joint_get_body(id, false); }
-B3_API b3BodyId b3Joint_GetBodyB(b3JointId id) { return gpu_b3_joint_get_body(id, true); }
+B3_API b3WorldId b3Body_GetWorld(b3BodyId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3WorldId);  return gpu_b3_body_get_world(id); }
+B3_API b3WorldId b3Shape_GetWorld(b3ShapeId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3WorldId);  return gpu_b3_shape_get_world(id); }
+B3_API b3WorldId b3Joint_GetWorld(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3WorldId);  return gpu_b3_joint_get_world(id); }
+B3_API b3BodyId b3Joint_GetBodyA(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3BodyId);  return gpu_b3_joint_get_body(id, false); }
+B3_API b3BodyId b3Joint_GetBodyB(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3BodyId);  return gpu_b3_joint_get_body(id, true); }
 B3_API b3JointType b3Joint_GetType(b3JointId id) {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3JointType);
     switch (gpu_b3_joint_get_kind(id)) {
         case 1: return b3_revoluteJoint; case 2: return b3_weldJoint;
         case 3: return b3_sphericalJoint; case 4: return b3_prismaticJoint;
@@ -3182,25 +3402,29 @@ B3_API b3JointType b3Joint_GetType(b3JointId id) {
 
 extern void cpu_b3World_SetMaximumLinearSpeed(b3WorldId, float);
 B3_API void b3World_SetMaximumLinearSpeed(b3WorldId id, float speed) {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     gpu_b3_world_set_maximum_linear_speed(id, speed);
     if (both_has_cpu_world(id)) cpu_b3World_SetMaximumLinearSpeed(both_cpu_world(id), speed);
 }
 B3_API float b3World_GetMaximumLinearSpeed(b3WorldId id) {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
     return gpu_b3_world_get_maximum_linear_speed(id);
 }
 
 extern void cpu_b3Joint_SetCollideConnected(b3JointId, bool);
 extern void gpu_b3_joint_set_collide_connected(GpuJointId, bool);
 extern bool gpu_b3_joint_get_collide_connected(GpuJointId);
-B3_API bool b3Joint_GetCollideConnected(b3JointId id) { return gpu_b3_joint_get_collide_connected(id); }
+B3_API bool b3Joint_GetCollideConnected(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);  return gpu_b3_joint_get_collide_connected(id); }
 B3_API void b3Joint_SetCollideConnected(b3JointId id, bool enable) {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     gpu_b3_joint_set_collide_connected(id, enable);
     if (both_has_cpu_joint(id)) cpu_b3Joint_SetCollideConnected(both_cpu_joint(id), enable);
 }
 
-B3_API float b3World_GetRestitutionThreshold(b3WorldId id) { return gpu_b3_world_get_restitution_threshold(id); }
+B3_API float b3World_GetRestitutionThreshold(b3WorldId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);  return gpu_b3_world_get_restitution_threshold(id); }
 extern void cpu_b3World_SetRestitutionThreshold(b3WorldId, float);
 B3_API void b3World_SetRestitutionThreshold(b3WorldId id, float value) {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     gpu_b3_world_set_restitution_threshold(id, value);
     if (both_has_cpu_world(id)) cpu_b3World_SetRestitutionThreshold(both_cpu_world(id), value);
 }
@@ -3314,82 +3538,86 @@ void both_pointer_impulse(b3WorldId world, b3Pos origin, b3Vec3 translation, b3V
 
 extern void gpu_b3_world_set_contact_tuning(b3WorldId id, float hertz, float damping, float speed);
 extern void cpu_b3World_SetContactTuning(b3WorldId id, float hertz, float damping, float speed);
-B3_API void b3World_SetContactTuning(b3WorldId id, float hertz, float damping, float speed) { gpu_b3_world_set_contact_tuning(id, hertz, damping, speed);
+B3_API void b3World_SetContactTuning(b3WorldId id, float hertz, float damping, float speed) { GPU_NATIVE_ACCESS_OR_RETURN();  gpu_b3_world_set_contact_tuning(id, hertz, damping, speed);
     if (both_has_cpu_world(id)) cpu_b3World_SetContactTuning(both_cpu_world(id), hertz, damping, speed); }
 
 extern void gpu_b3_world_set_user_data(b3WorldId id, uintptr_t value);
 extern void cpu_b3World_SetUserData(b3WorldId id, void* value);
-B3_API void b3World_SetUserData(b3WorldId id, void* value) { gpu_b3_world_set_user_data(id, (uintptr_t)value);
+B3_API void b3World_SetUserData(b3WorldId id, void* value) { GPU_NATIVE_ACCESS_OR_RETURN();  gpu_b3_world_set_user_data(id, (uintptr_t)value);
     if (both_has_cpu_world(id)) cpu_b3World_SetUserData(both_cpu_world(id), value); }
 
 extern uintptr_t gpu_b3_world_get_user_data(b3WorldId id);
 extern void* cpu_b3World_GetUserData(b3WorldId id);
-B3_API void* b3World_GetUserData(b3WorldId id) { return (void*)gpu_b3_world_get_user_data(id); }
+B3_API void* b3World_GetUserData(b3WorldId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(void*);  return (void*)gpu_b3_world_get_user_data(id); }
 
 extern int gpu_b3_world_get_awake_body_count(b3WorldId id);
 extern int cpu_b3World_GetAwakeBodyCount(b3WorldId id);
-B3_API int b3World_GetAwakeBodyCount(b3WorldId id) { return gpu_b3_world_get_awake_body_count(id); }
+B3_API int b3World_GetAwakeBodyCount(b3WorldId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(int);  return gpu_b3_world_get_awake_body_count(id); }
 
 extern void gpu_b3_body_enable_sleep(b3BodyId id, bool enable);
 extern void cpu_b3Body_EnableSleep(b3BodyId id, bool enable);
-B3_API void b3Body_EnableSleep(b3BodyId id, bool enable) { gpu_b3_body_enable_sleep(id, enable);
+B3_API void b3Body_EnableSleep(b3BodyId id, bool enable) { GPU_NATIVE_ACCESS_OR_RETURN();  gpu_b3_body_enable_sleep(id, enable);
     if (both_has_cpu_body(id)) cpu_b3Body_EnableSleep(both_cpu_body(id), enable); }
 
 extern bool gpu_b3_body_is_sleep_enabled(b3BodyId id);
 extern bool cpu_b3Body_IsSleepEnabled(b3BodyId id);
-B3_API bool b3Body_IsSleepEnabled(b3BodyId id) { return gpu_b3_body_is_sleep_enabled(id); }
+B3_API bool b3Body_IsSleepEnabled(b3BodyId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);  return gpu_b3_body_is_sleep_enabled(id); }
 
 extern void gpu_b3_body_set_sleep_threshold(b3BodyId id, float value);
 extern void cpu_b3Body_SetSleepThreshold(b3BodyId id, float value);
-B3_API void b3Body_SetSleepThreshold(b3BodyId id, float value) { gpu_b3_body_set_sleep_threshold(id, value);
+B3_API void b3Body_SetSleepThreshold(b3BodyId id, float value) { GPU_NATIVE_ACCESS_OR_RETURN();  gpu_b3_body_set_sleep_threshold(id, value);
     if (both_has_cpu_body(id)) cpu_b3Body_SetSleepThreshold(both_cpu_body(id), value); }
 
 extern float gpu_b3_body_get_sleep_threshold(b3BodyId id);
 extern float cpu_b3Body_GetSleepThreshold(b3BodyId id);
-B3_API float b3Body_GetSleepThreshold(b3BodyId id) { return gpu_b3_body_get_sleep_threshold(id); }
+B3_API float b3Body_GetSleepThreshold(b3BodyId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);  return gpu_b3_body_get_sleep_threshold(id); }
 
 extern void gpu_b3_body_enable_hit_events(b3BodyId id, bool enable);
 extern void cpu_b3Body_EnableHitEvents(b3BodyId id, bool enable);
-B3_API void b3Body_EnableHitEvents(b3BodyId id, bool enable) { gpu_b3_body_enable_hit_events(id, enable);
+B3_API void b3Body_EnableHitEvents(b3BodyId id, bool enable) { GPU_NATIVE_ACCESS_OR_RETURN();  gpu_b3_body_enable_hit_events(id, enable);
     if (both_has_cpu_body(id)) cpu_b3Body_EnableHitEvents(both_cpu_body(id), enable); }
 
 extern void gpu_b3_body_set_name(b3BodyId id, const char* name);
 extern void cpu_b3Body_SetName(b3BodyId id, const char* name);
-B3_API void b3Body_SetName(b3BodyId id, const char* name) { gpu_b3_body_set_name(id, name);
+B3_API void b3Body_SetName(b3BodyId id, const char* name) { GPU_NATIVE_ACCESS_OR_RETURN();  gpu_b3_body_set_name(id, name);
     if (both_has_cpu_body(id)) cpu_b3Body_SetName(both_cpu_body(id), name); }
 
 extern const char* gpu_b3_body_get_name(b3BodyId id);
 extern const char* cpu_b3Body_GetName(b3BodyId id);
-B3_API const char* b3Body_GetName(b3BodyId id) { return gpu_b3_body_get_name(id); }
+B3_API const char* b3Body_GetName(b3BodyId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(const char*);  return gpu_b3_body_get_name(id); }
 
 extern void gpu_b3_joint_set_local_frame(b3JointId, bool, float, float, float, float, float, float, float);
 extern void gpu_b3_joint_get_local_frame(b3JointId, bool, float*);
 extern void gpu_b3_joint_wake_bodies(b3JointId);
 extern void cpu_b3Joint_SetLocalFrameA(b3JointId, b3Transform);
 B3_API void b3Joint_SetLocalFrameA(b3JointId id, b3Transform frame) {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     gpu_b3_joint_set_local_frame(id, false, frame.p.x, frame.p.y, frame.p.z, frame.q.v.x, frame.q.v.y, frame.q.v.z, frame.q.s);
     if (both_has_cpu_joint(id)) cpu_b3Joint_SetLocalFrameA(both_cpu_joint(id), frame);
 }
 B3_API b3Transform b3Joint_GetLocalFrameA(b3JointId id) {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Transform);
     float f[7]; gpu_b3_joint_get_local_frame(id, false, f);
     return (b3Transform){{f[0],f[1],f[2]},{{f[3],f[4],f[5]},f[6]}};
 }
 extern void cpu_b3Joint_SetLocalFrameB(b3JointId, b3Transform);
 B3_API void b3Joint_SetLocalFrameB(b3JointId id, b3Transform frame) {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     gpu_b3_joint_set_local_frame(id, true, frame.p.x, frame.p.y, frame.p.z, frame.q.v.x, frame.q.v.y, frame.q.v.z, frame.q.s);
     if (both_has_cpu_joint(id)) cpu_b3Joint_SetLocalFrameB(both_cpu_joint(id), frame);
 }
 B3_API b3Transform b3Joint_GetLocalFrameB(b3JointId id) {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Transform);
     float f[7]; gpu_b3_joint_get_local_frame(id, true, f);
     return (b3Transform){{f[0],f[1],f[2]},{{f[3],f[4],f[5]},f[6]}};
 }
 extern void cpu_b3Joint_WakeBodies(b3JointId);
-B3_API void b3Joint_WakeBodies(b3JointId id) { gpu_b3_joint_wake_bodies(id);
+B3_API void b3Joint_WakeBodies(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN();  gpu_b3_joint_wake_bodies(id);
     if (both_has_cpu_joint(id)) cpu_b3Joint_WakeBodies(both_cpu_joint(id));
 }
 
 extern b3MassData gpu_b3_shape_compute_mass_data(b3ShapeId);
-B3_API b3MassData b3Shape_ComputeMassData(b3ShapeId id) { return gpu_b3_shape_compute_mass_data(id); }
+B3_API b3MassData b3Shape_ComputeMassData(b3ShapeId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3MassData);  return gpu_b3_shape_compute_mass_data(id); }
 
 // Read comparison state from the GPU world; CPU references use explicit cpu_ APIs.
 extern int gpu_b3_body_get_shape_count(GpuBodyId body);
@@ -3426,188 +3654,222 @@ extern float gpu_b3_prismatic_get_speed(GpuJointId id);
 
 B3_API int b3Body_GetShapeCount(b3BodyId bodyId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(int);
 	return gpu_b3_body_get_shape_count(bodyId);
 }
 
 B3_API int b3Body_GetShapes(b3BodyId bodyId, b3ShapeId* shapeArray, int capacity)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(int);
 	return gpu_b3_body_get_shapes(bodyId, shapeArray, capacity);
 }
 
 B3_API float b3DistanceJoint_GetLength(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_distance_get_length(jointId);
 }
 
 B3_API bool b3DistanceJoint_IsSpringEnabled(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
 	return gpu_b3_distance_is_spring_enabled(jointId);
 }
 
 B3_API void b3DistanceJoint_GetSpringForceRange(b3JointId jointId, float* lowerForce, float* upperForce)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
 	gpu_b3_distance_get_spring_force_range(jointId, lowerForce, upperForce);
 }
 
 B3_API float b3DistanceJoint_GetSpringHertz(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_distance_get_spring_hertz(jointId);
 }
 
 B3_API float b3DistanceJoint_GetSpringDampingRatio(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_distance_get_spring_damping(jointId);
 }
 
 B3_API bool b3DistanceJoint_IsLimitEnabled(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
 	return gpu_b3_distance_is_limit_enabled(jointId);
 }
 
 B3_API float b3DistanceJoint_GetMinLength(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_distance_get_min_length(jointId);
 }
 
 B3_API float b3DistanceJoint_GetMaxLength(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_distance_get_max_length(jointId);
 }
 
 B3_API float b3DistanceJoint_GetCurrentLength(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_distance_get_current_length(jointId);
 }
 
 B3_API bool b3DistanceJoint_IsMotorEnabled(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
 	return gpu_b3_distance_is_motor_enabled(jointId);
 }
 
 B3_API float b3DistanceJoint_GetMotorSpeed(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_distance_get_motor_speed(jointId);
 }
 
 B3_API float b3DistanceJoint_GetMaxMotorForce(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_distance_get_max_motor_force(jointId);
 }
 
 B3_API float b3DistanceJoint_GetMotorForce(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_distance_get_motor_force(jointId);
 }
 
 B3_API float b3ParallelJoint_GetSpringHertz(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_parallel_get_spring_hertz(jointId);
 }
 
 B3_API float b3ParallelJoint_GetSpringDampingRatio(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_parallel_get_spring_damping(jointId);
 }
 
 B3_API float b3ParallelJoint_GetMaxTorque(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_parallel_get_max_torque(jointId);
 }
 
 B3_API bool b3PrismaticJoint_IsSpringEnabled(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
 	return gpu_b3_prismatic_is_spring_enabled(jointId);
 }
 
 B3_API float b3PrismaticJoint_GetSpringHertz(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_prismatic_get_spring_hertz(jointId);
 }
 
 B3_API float b3PrismaticJoint_GetSpringDampingRatio(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_prismatic_get_spring_damping(jointId);
 }
 
 B3_API float b3PrismaticJoint_GetTargetTranslation(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_prismatic_get_target_translation(jointId);
 }
 
 B3_API bool b3PrismaticJoint_IsLimitEnabled(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
 	return gpu_b3_prismatic_is_limit_enabled(jointId);
 }
 
 B3_API float b3PrismaticJoint_GetLowerLimit(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_prismatic_get_lower_limit(jointId);
 }
 
 B3_API float b3PrismaticJoint_GetUpperLimit(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_prismatic_get_upper_limit(jointId);
 }
 
 B3_API bool b3PrismaticJoint_IsMotorEnabled(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
 	return gpu_b3_prismatic_is_motor_enabled(jointId);
 }
 
 B3_API float b3PrismaticJoint_GetMotorSpeed(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_prismatic_get_motor_speed(jointId);
 }
 
 B3_API float b3PrismaticJoint_GetMaxMotorForce(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_prismatic_get_max_motor_force(jointId);
 }
 
 B3_API float b3PrismaticJoint_GetMotorForce(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_prismatic_get_motor_force(jointId);
 }
 
 B3_API float b3PrismaticJoint_GetTranslation(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_prismatic_get_translation(jointId);
 }
 
 B3_API float b3PrismaticJoint_GetSpeed(b3JointId jointId)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);
 	return gpu_b3_prismatic_get_speed(jointId);
 }
 
 B3_API void b3Shape_SetSphere(b3ShapeId id, const b3Sphere* sphere)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     if (both_has_cpu_shape(id)) { cpu_b3Shape_SetSphere(both_cpu_shape(id), sphere); }
     gpu_shape_set_sphere(id, sphere);
 }
 B3_API void b3Shape_SetCapsule(b3ShapeId id, const b3Capsule* capsule)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     if (both_has_cpu_shape(id)) { cpu_b3Shape_SetCapsule(both_cpu_shape(id), capsule); }
     gpu_shape_set_capsule(id, capsule);
 }
 B3_API void b3Shape_SetHull(b3ShapeId id, const b3HullData* hull)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     // CPU consumes the immutable geometry input before GPU mirror replacement.
     if (both_has_cpu_shape(id)) { cpu_b3Shape_SetHull(both_cpu_shape(id), hull); }
     gpu_shape_set_hull(id, hull);
 }
-B3_API const b3HullData* b3Shape_GetHull(b3ShapeId id) { return gpu_shape_get_hull(id); }
+B3_API const b3HullData* b3Shape_GetHull(b3ShapeId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(const b3HullData*);  return gpu_shape_get_hull(id); }
 
 extern float gpu_b3_joint_get_linear_separation(b3JointId);
-B3_API float b3Joint_GetLinearSeparation(b3JointId id) { return gpu_b3_joint_get_linear_separation(id); }
+B3_API float b3Joint_GetLinearSeparation(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);  return gpu_b3_joint_get_linear_separation(id); }
 
 extern float gpu_b3_joint_get_angular_separation(b3JointId);
-B3_API float b3Joint_GetAngularSeparation(b3JointId id) { return gpu_b3_joint_get_angular_separation(id); }
+B3_API float b3Joint_GetAngularSeparation(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(float);  return gpu_b3_joint_get_angular_separation(id); }
 
 extern void gpu_b3_joint_get_constraint_force(b3JointId, float*);
-B3_API b3Vec3 b3Joint_GetConstraintForce(b3JointId id) { b3Vec3 v; gpu_b3_joint_get_constraint_force(id, &v.x); return v; }
+B3_API b3Vec3 b3Joint_GetConstraintForce(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);  b3Vec3 v; gpu_b3_joint_get_constraint_force(id, &v.x); return v; }
 
 extern void gpu_b3_joint_get_constraint_torque(b3JointId, float*);
-B3_API b3Vec3 b3Joint_GetConstraintTorque(b3JointId id) { b3Vec3 v; gpu_b3_joint_get_constraint_torque(id, &v.x); return v; }
+B3_API b3Vec3 b3Joint_GetConstraintTorque(b3JointId id) { GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Vec3);  b3Vec3 v; gpu_b3_joint_get_constraint_torque(id, &v.x); return v; }
 
 extern void gpu_b3_world_enable_warm_starting(b3WorldId id, bool enable);
 extern void gpu_b3_world_enable_speculative(b3WorldId id, bool enable);
@@ -3615,6 +3877,7 @@ extern void cpu_b3World_EnableSpeculative(b3WorldId id, bool enable);
 
 B3_API void b3World_EnableSpeculative(b3WorldId id, bool enable)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     gpu_b3_world_enable_speculative(id, enable);
     if (both_has_cpu_world(id)) { cpu_b3World_EnableSpeculative(both_cpu_world(id), enable); }
 }
@@ -3622,6 +3885,7 @@ extern bool gpu_b3_world_is_warm_starting_enabled(b3WorldId id);
 extern void cpu_b3World_EnableWarmStarting(b3WorldId id, bool enable);
 B3_API void b3World_EnableWarmStarting(b3WorldId id, bool enable)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN();
     gpu_b3_world_enable_warm_starting(id, enable);
     if (both_has_cpu_world(id)) {
         cpu_b3World_EnableWarmStarting(both_cpu_world(id), enable);
@@ -3629,5 +3893,6 @@ B3_API void b3World_EnableWarmStarting(b3WorldId id, bool enable)
 }
 B3_API bool b3World_IsWarmStartingEnabled(b3WorldId id)
 {
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(bool);
     return gpu_b3_world_is_warm_starting_enabled(id);
 }
